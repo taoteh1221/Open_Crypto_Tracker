@@ -1,0 +1,150 @@
+
+-------------------------------------------------------------------
+0.9.0:
+Initial version
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+0.9.1:
+Added altcoin / litecoin trading markets calculation feature
+Minor tweaks
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+0.9.2:
+Cached BTC/USD value to session data, for faster load times
+Minor tweaks
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+0.9.3:
+Interface readability enhancements
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+0.9.4:
+Complete overhaul of coin adding / updating system - Every coin is
+now added / updated in config.php, so it is much easier to update
+your coins list quickly.
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+0.9.5:
+Added tabbed navigation for a cleaner GUI, and added feature to
+save coin amounts data to a browser cookie.
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+0.9.6:
+Fixed small bug with bitcoin value
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+0.9.7:
+Added Cryptsy Ripple (XRP) markets support
+Added Bitcoin value information for Cryptsy Litecoin / Ripple
+market trades
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+0.9.8:
+Made GUI more understandable for primary trading
+coins like BTC / LTC / XRP
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+0.9.9:
+Adjustment of fonts / spacing to be slightly more compact
+Added marketplace data in table output
+Added config option to choose where bitcoin value is measured from
+Added table data sorting ability
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.0.0:
+Minor GUI tweaks
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.0.1:
+-Removed a few default underperforming coins
+-Explicitly set Cryptsy API server to NY server, as either the round robin on the main API domain or the secondary Amsterdam server is currently malfunctioning.
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.0.2:
+-Added support for the Poloniex trading site's public API.
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.0.3:
+-Added function to try switching between different Cryptsy API servers if no data was recieved.
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.0.4:
+-Added support for the Bittrex trading site's public API.
+-Added webpage link to coin name, that opens coinmarketcap.com's chart for that coin in a new tab
+-Updated default coins: changed Darkcoin to it's new name Dash
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.0.5:
+-Added USD value of 1 coin column
+-Minor tweaks
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.0.6:
+-Fixed server compatibility bug that may have thrown errors on servers with PHP running in a fairly strict mode.
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.0.7:
+-Suppressed PHP error if remote API files are offline
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.0.8:
+-Added Mining calculators tab
+-Added Ethereum mining calculator
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.0.9:
+-Reformatted main config file format to allow multiple markets per coin (Poloniex/Cryptsy/Etc), ONLY WITH SAME TRADING PAIR VALUE (BTC/LTC/ETC)
+-Created front end GUI for switching between markets per coin defined in new config file format
+-Created help section
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.0.10:
+-Populated all the different markets per coin for the default coin configurations (you can add / update / delete the default coins yourself, following the example in the config file).
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.0.11:
+-A few bug fixes, failsafes, and optimizations
+-Added trade pairing info in each submission form description
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.0.12:
+-Added Kraken API integration
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.1.3:
+-Changed from double-digit versioning (x.x.xx to x.x.x)
+-Poloniex API call efficiency increased
+-Page load time at bottom of page
+-------------------------------------------------------------------
+
+
+
+
+
+
+
+
+

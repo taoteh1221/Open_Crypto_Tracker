@@ -1,0 +1,138 @@
+/*
+ * DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
+ */
+
+body {
+
+margin: 20px;
+
+}
+
+td {
+    margin: 0px;
+}
+
+th {
+    padding-right: 30px;
+}
+
+.border_lt {
+border-top: 2px solid #ccc;
+border-left: 2px solid #ccc;
+}
+.border_lrt {
+border-top: 2px solid #ccc;
+border-left: 2px solid #ccc;
+border-right: 2px solid #ccc;
+}
+.border_lb {
+border-bottom: 2px solid #ccc;
+border-left: 2px solid #ccc;
+}
+.border_lrb {
+border-bottom: 2px solid #ccc;
+border-left: 2px solid #ccc;
+border-right: 2px solid #ccc;
+}
+.border_t {
+border-top: 2px solid #ccc;
+padding-right: 25px;
+}
+.border_b {
+border-bottom: 2px solid #ccc;
+padding-right: 25px;
+}
+
+
+.bold_1 {
+
+font-weight: bold;
+color: green;
+padding: 7px;
+line-height: 23px;
+}
+
+table {
+background: #fff;
+}
+
+td.data, td select {
+background: #fff;
+color: blue;
+font-size: 15px;
+
+}
+
+td.data span {
+
+color: black;
+font-size: 15px;
+
+}
+
+.btc_worth {
+margin: 2px;
+padding: 0px;
+color: green;
+font-size: 13px;
+border: 0px;
+background: none;
+}
+
+form p {
+
+font-size: 14px;
+
+}
+
+form p input {
+
+font-size: 13px;
+
+}
+
+.tabs {
+    padding:0; margin:0;
+}
+
+html {
+	padding:15px 15px 0;
+	font-family:sans-serif;
+	font-size:14px;
+}
+
+p, h3 { 
+	margin-bottom:15px;
+}
+
+div.tabdiv {
+	padding:10px;
+	width:auto;
+	background:#fff;
+                            border: 1px solid #808080;
+}
+
+.tabs li {
+	list-style:none;
+	display:inline;
+}
+
+.tabs a {
+	padding:5px 10px;
+	display:inline-block;
+	background:#808080;
+	color:black;
+	text-decoration:none;
+}
+
+.tabs a.active {
+                            border-top: 1px solid #808080;
+                            border-left: 1px solid #808080;
+                            border-right: 1px solid #808080;
+	background:#fff;
+	color:#000;
+}
+
+.calculators {
+border: 2px solid blue;
+}
