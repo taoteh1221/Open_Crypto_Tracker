@@ -285,7 +285,7 @@ echo 'Total USD Value: $' . $total_usd_worth2 . ' (1 Bitcoin is currently worth 
 
 
 
-<p align='center'>Version <?=$version?> <br /><a href='http://www.dragonfrugal.com/download-bin/DFD_Cryptocoin_Values_<?=$version?>.zip' target='_blank'>Download Source Code Here</a><br /><br />BTC Donations welcome: 1FfWHekHPLH7hQcU4d5MBVQ4WekJiA8Mk2</p>
+<p align='center'><a href='https://github.com/taoteh1221/DFD_Cryptocoin_Values/releases' target='_blank'>Version <?=$version?></a><br /><br />BTC Donations welcome: 1FfWHekHPLH7hQcU4d5MBVQ4WekJiA8Mk2</p>
 <?php
 require("templates/default/footer.php");
 

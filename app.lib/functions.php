@@ -428,7 +428,7 @@ echo $coin_to_trade_worth2 . ' <span>' . $trade_pairing_symbol . '</span>';
 <td class='data border_lrb'><?php
 
   if ( $trade_pairing == 'btc' ) {
-  $coin_usd_worth = ( $markets_ids == 'btc' ? $coin_to_trade_worth2 : ($coin_to_trade_worth * get_btc_usd($btc_in_usd)) );
+  $coin_usd_worth = ( $markets_ids == 'btc' ? $coin_to_trade_worth : ($coin_to_trade_worth * get_btc_usd($btc_in_usd)) );
   }
   else if ( $trade_pairing == 'ltc' ) {
   $coin_usd_worth = ( ($coin_to_trade_worth * $coin_to_btc) * get_btc_usd($btc_in_usd));
