@@ -145,6 +145,13 @@ Minor GUI tweaks
 -Fixed Bitcoin / USD price bug (many thanks to Normand for reporting it)
 -------------------------------------------------------------------
 
+-------------------------------------------------------------------
+1.1.5:
+-Added BTS / NXT markets
+-Added README.txt for usage instructions
+-------------------------------------------------------------------
+
+
 
 
 

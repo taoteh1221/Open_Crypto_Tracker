@@ -10,7 +10,7 @@ require_once("app.lib/functions.php");
 
 require_once("app.lib/filters.php");
 
-$version = '1.1.4';  // 2015/Oct/29th
+$version = '1.1.5';  // 2015/Nov/19th
 
 $btc_in_usd = 'coinbase'; // Get Bitcoin value in USD  ... ONLY COINBASE SUPPORTED AS OF NOW
 
@@ -264,6 +264,38 @@ $coins_array = array(
                                           'cryptsy' => '147'
                                           ),
                         'trade_pair' => 'ltc'
+                        
+                    ),
+                    'BTS' => array(
+                        
+                        'coin_name' => 'BitShares',
+                        'coin_symbol' => 'BTS',
+                        'markets' => array(
+                                          'poloniex',
+                                          'bittrex'
+                                          ),
+                        'markets_ids' => array(
+                                          'poloniex' => 'BTC_BTS',
+                                          'bittrex' => 'BTC-BTS'
+                                          ),
+                        'trade_pair' => 'btc'
+                        
+                    ),
+                    'NXT' => array(
+                        
+                        'coin_name' => 'NXT',
+                        'coin_symbol' => 'NXT',
+                        'markets' => array(
+                                          'poloniex',
+                                          'cryptsy',
+                                          'bittrex'
+                                          ),
+                        'markets_ids' => array(
+                                          'poloniex' => 'BTC_NXT',
+                                          'cryptsy' => '159',
+                                          'bittrex' => 'BTC-NXT'
+                                          ),
+                        'trade_pair' => 'btc'
                         
                     )
                 
