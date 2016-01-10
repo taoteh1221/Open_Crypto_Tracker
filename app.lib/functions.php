@@ -247,7 +247,7 @@ function get_trade_price($markets, $markets_ids) {
 
      if ( !$_SESSION['gatecoin_markets'] ) {
      
-     $json_string = 'https://poloniex.com/public?command=returnTicker';
+     $json_string = 'https://www.gatecoin.com/api/Public/LiveTickers';
      
      $jsondata = @file_get_contents($json_string);
      
@@ -267,14 +267,11 @@ function get_trade_price($markets, $markets_ids) {
   //var_dump($data);
       if (is_array($data) || is_object($data)) {
 	
-	    foreach ($data as $key => $value) {
+	    foreach ( $data['tickers'] as $key => $value ) {
 	      
-	      //print_r(' ' . $markets_ids. ' ');
-	      //print_r(' ' . $key. ' ');
-	      
-	      if ( $key == $markets_ids ) {
+	      if ( $data['tickers'][$key]["currencyPair"] == $markets_ids ) {
 	       
-	      return $data[$key]["highestBid"];
+	      return $data['tickers'][$key]["last"];
 	       
 	       
 	      }
