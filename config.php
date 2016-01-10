@@ -10,7 +10,7 @@ require_once("app.lib/functions.php");
 
 require_once("app.lib/filters.php");
 
-$version = '1.1.5';  // 2015/Nov/19th
+$version = '1.1.6';  // 2016/JAN/10th
 
 $btc_in_usd = 'coinbase'; // Get Bitcoin value in USD  ... ONLY COINBASE SUPPORTED AS OF NOW
 
@@ -63,13 +63,13 @@ $coins_array = array(
                         'coin_symbol' => 'ETH',
                         'markets' => array(
                                           'poloniex',
-                                          'cryptsy',
+                                          'gatecoin',
                                           'bittrex',
                                           'kraken'
                                           ),
                         'markets_ids' => array(
                                           'poloniex' => 'BTC_ETH',
-                                          'cryptsy' => '497',
+                                          'gatecoin' => 'BTC_ETH',
                                           'bittrex' => 'BTC-ETH',
                                           'kraken' => 'XETHXXBT'
                                           ),
@@ -82,12 +82,12 @@ $coins_array = array(
                         'coin_symbol' => 'XRP',
                         'markets' => array(
                                           'poloniex',
-                                          'cryptsy',
+                                          'gatecoin',
                                           'bittrex'
                                           ),
                         'markets_ids' => array(
                                           'poloniex' => 'BTC_XRP',
-                                          'cryptsy' => '454',
+                                          'gatecoin' => 'BTC_XRP',
                                           'bittrex' => 'BTC-XRP'
                                           ),
                         'trade_pair' => 'btc'
@@ -99,12 +99,12 @@ $coins_array = array(
                         'coin_symbol' => 'LTC',
                         'markets' => array(
                                           'poloniex',
-                                          'cryptsy',
+                                          'gatecoin',
                                           'bittrex'
                                           ),
                         'markets_ids' => array(
                                           'poloniex' => 'BTC_LTC',
-                                          'cryptsy' => '3',
+                                          'gatecoin' => 'BTC_LTC',
                                           'bittrex' => 'BTC-LTC'
                                           ),
                         'trade_pair' => 'btc'
@@ -116,12 +116,12 @@ $coins_array = array(
                         'coin_symbol' => 'PPC',
                         'markets' => array(
                                           'poloniex',
-                                          'cryptsy',
+                                          'gatecoin',
                                           'bittrex'
                                           ),
                         'markets_ids' => array(
                                           'poloniex' => 'BTC_PPC',
-                                          'cryptsy' => '28',
+                                          'gatecoin' => 'BTC_PPC',
                                           'bittrex' => 'BTC-PPC'
                                           ),
                         'trade_pair' => 'btc'
@@ -133,10 +133,12 @@ $coins_array = array(
                         'coin_symbol' => 'STR',
                         'markets' => array(
                                           'poloniex',
+                                          'gatecoin',
                                           'bittrex'
                                           ),
                         'markets_ids' => array(
                                           'poloniex' => 'BTC_STR',
+                                          'gatecoin' => 'BTC_STR',
                                           'bittrex' => 'BTC-STR'
                                           ),
                         'trade_pair' => 'btc'
@@ -148,12 +150,12 @@ $coins_array = array(
                         'coin_symbol' => 'DASH',
                         'markets' => array(
                                           'poloniex',
-                                          'cryptsy',
+                                          'gatecoin',
                                           'bittrex'
                                           ),
                         'markets_ids' => array(
                                           'poloniex' => 'BTC_DASH',
-                                          'cryptsy' => '155',
+                                          'gatecoin' => 'BTC_DASH',
                                           'bittrex' => 'BTC-DASH'
                                           ),
                         'trade_pair' => 'btc'
@@ -178,12 +180,12 @@ $coins_array = array(
                         'coin_symbol' => 'DGB',
                         'markets' => array(
                                           'poloniex',
-                                          'cryptsy',
+                                          'gatecoin',
                                           'bittrex'
                                           ),
                         'markets_ids' => array(
                                           'poloniex' => 'BTC_DGB',
-                                          'cryptsy' => '167',
+                                          'gatecoin' => 'BTC_DGB',
                                           'bittrex' => 'BTC-DGB'
                                           ),
                         'trade_pair' => 'btc'
@@ -195,12 +197,12 @@ $coins_array = array(
                         'coin_symbol' => 'DOGE',
                         'markets' => array(
                                           'poloniex',
-                                          'cryptsy',
+                                          'gatecoin',
                                           'bittrex'
                                           ),
                         'markets_ids' => array(
                                           'poloniex' => 'BTC_DOGE',
-                                          'cryptsy' => '132',
+                                          'gatecoin' => 'BTC_DOGE',
                                           'bittrex' => 'BTC-DOGE'
                                           ),
                         'trade_pair' => 'btc'
@@ -212,12 +214,12 @@ $coins_array = array(
                         'coin_symbol' => 'RDD',
                         'markets' => array(
                                           'poloniex',
-                                          'cryptsy',
+                                          'gatecoin',
                                           'bittrex'
                                           ),
                         'markets_ids' => array(
                                           'poloniex' => 'BTC_RDD',
-                                          'cryptsy' => '169',
+                                          'gatecoin' => 'BTC_RDD',
                                           'bittrex' => 'BTC-RDD'
                                           ),
                         'trade_pair' => 'btc'
@@ -229,41 +231,15 @@ $coins_array = array(
                         'coin_symbol' => 'HYP',
                         'markets' => array(
                                           'poloniex',
-                                          'cryptsy',
+                                          'gatecoin',
                                           'bittrex'
                                           ),
                         'markets_ids' => array(
                                           'poloniex' => 'BTC_HYP',
-                                          'cryptsy' => '445',
+                                          'gatecoin' => 'BTC_HYP',
                                           'bittrex' => 'BTC-HYP'
                                           ),
                         'trade_pair' => 'btc'
-                        
-                    ),
-                    'FTC' => array(
-                        
-                        'coin_name' => 'Feathercoin',
-                        'coin_symbol' => 'FTC',
-                        'markets' => array(
-                                          'cryptsy'
-                                          ),
-                        'markets_ids' => array(
-                                          'cryptsy' => '355'
-                                          ),
-                        'trade_pair' => 'xrp'
-                        
-                    ),
-                    'TIPS' => array(
-                        
-                        'coin_name' => 'Fedoracoin',
-                        'coin_symbol' => 'TIPS',
-                        'markets' => array(
-                                          'cryptsy'
-                                          ),
-                        'markets_ids' => array(
-                                          'cryptsy' => '147'
-                                          ),
-                        'trade_pair' => 'ltc'
                         
                     ),
                     'BTS' => array(
@@ -272,10 +248,12 @@ $coins_array = array(
                         'coin_symbol' => 'BTS',
                         'markets' => array(
                                           'poloniex',
+                                          'gatecoin',
                                           'bittrex'
                                           ),
                         'markets_ids' => array(
                                           'poloniex' => 'BTC_BTS',
+                                          'gatecoin' => 'BTC_BTS',
                                           'bittrex' => 'BTC-BTS'
                                           ),
                         'trade_pair' => 'btc'
@@ -287,12 +265,12 @@ $coins_array = array(
                         'coin_symbol' => 'NXT',
                         'markets' => array(
                                           'poloniex',
-                                          'cryptsy',
+                                          'gatecoin',
                                           'bittrex'
                                           ),
                         'markets_ids' => array(
                                           'poloniex' => 'BTC_NXT',
-                                          'cryptsy' => '159',
+                                          'gatecoin' => 'BTC_NXT',
                                           'bittrex' => 'BTC-NXT'
                                           ),
                         'trade_pair' => 'btc'

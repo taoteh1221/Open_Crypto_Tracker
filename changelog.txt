@@ -151,6 +151,12 @@ Minor GUI tweaks
 -Added README.txt for usage instructions
 -------------------------------------------------------------------
 
+-------------------------------------------------------------------
+1.1.6:
+-Removed Cryptsy from default markets (they seem to have gone mt. gox style)
+-Added Gatecoin market capability, and added to default markets
+-------------------------------------------------------------------
+
 
 
 
