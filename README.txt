@@ -2,7 +2,7 @@
 Just upload to your PHP-based web server, and you should be all set. See below for an example on adding your own markets to the coin list in config.php...
 
 /*
- * USAGE (ADDING / UPDATING COINS) ...ONLY CRYPTSY / POLONIEX / BITTREX API SUPPORT AS OF NOW
+ * USAGE (ADDING / UPDATING COINS) ...ONLY GATECOIN / POLONIEX / BITTREX API SUPPORT AS OF NOW
  *
  
  
