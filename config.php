@@ -10,7 +10,7 @@ require_once("app.lib/functions.php");
 
 require_once("app.lib/filters.php");
 
-$version = '1.1.7';  // 2016/JAN/10th
+$version = '1.1.8';  // 2016/JAN/18th
 
 $btc_in_usd = 'coinbase'; // Get Bitcoin value in USD  ... ONLY COINBASE SUPPORTED AS OF NOW
 
@@ -63,15 +63,15 @@ $coins_array = array(
                         'coin_symbol' => 'ETH',
                         'markets' => array(
                                           'poloniex',
+                                          'kraken',
                                           'gatecoin',
-                                          'bittrex',
-                                          'kraken'
+                                          'bittrex'
                                           ),
                         'markets_ids' => array(
                                           'poloniex' => 'BTC_ETH',
+                                          'kraken' => 'XETHXXBT',
                                           'gatecoin' => 'ETHBTC',
-                                          'bittrex' => 'BTC-ETH',
-                                          'kraken' => 'XETHXXBT'
+                                          'bittrex' => 'BTC-ETH'
                                           ),
                         'trade_pair' => 'btc'
                         

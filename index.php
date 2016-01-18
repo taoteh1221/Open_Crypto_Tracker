@@ -16,8 +16,6 @@ require("templates/default/header.php");
 ?>
 
 
-
-
 		<ul class='tabs'>
 			<li><a href='#tab1'>Your Coin Values</a></li>
 			<li><a href='#tab2'>Update Coin Amounts</a></li>
@@ -26,7 +24,14 @@ require("templates/default/header.php");
 			<li><a href='#tab5'>Help</a></li>
 		</ul>
 		<div id='tab1' class='tabdiv'>
-			<h3 style='display: inline;'>Your Coin Values</h3> &nbsp; &nbsp; <a href='javascript:location.reload(true);' style='font-weight: bold;'>Reload Values</a>
+			<h3 style='display: inline;'>Your Coin Values</h3> &nbsp; &nbsp; <a href='javascript:location.reload(true);' style='font-weight: bold;'>Reload Values</a> &nbsp; <select name='select_auto_refresh' id='select_auto_refresh' onchange='auto_reload(this.value);'>
+				<option value=''> Manually </option>
+				<option value='15' <?=( $_COOKIE['coin_reload'] == '15' ? 'selected' : '' )?>> Every 15 Seconds </option>
+				<option value='30' <?=( $_COOKIE['coin_reload'] == '30' ? 'selected' : '' )?>> Every 30 Seconds </option>
+				<option value='60' <?=( $_COOKIE['coin_reload'] == '60' ? 'selected' : '' )?>> Every Minute </option>
+				<option value='120' <?=( $_COOKIE['coin_reload'] == '120' ? 'selected' : '' )?>> Every 2 Minutes </option>
+				<option value='300' <?=( $_COOKIE['coin_reload'] == '300' ? 'selected' : '' )?>> Every 5 Minutes </option>
+			</select> &nbsp; <span id='reload_countdown' style='color: red;'></span>
 			<p>
                             
                             
@@ -160,7 +165,7 @@ echo 'Total USD Value: $' . $total_usd_worth2 . ' (1 Bitcoin is currently worth 
 			<h3>Program Settings</h3>
 			
                         <p>
-                        Save coin values as cookie data <input type='checkbox' name='set_use_cookies' value='1' onchange='
+                        Save coin values as cookie data <input type='checkbox' name='set_use_cookies' id='set_use_cookies' value='1' onchange='
                         if ( this.checked == true ) {
                         document.coin_amounts.use_cookies.value = 1;
                         }
