@@ -34,6 +34,45 @@
  
  
 //////////////////////////////////////////////////////////
+ function etherscan_api($block_info) {
+
+
+  if ( !$_SESSION['etherscan_data'] ) {
+  
+  $json_string = 'http://api.etherscan.io/api?module=proxy&action=eth_blockNumber';
+  $jsondata = @file_get_contents($json_string);
+    
+    $data = json_decode($jsondata, TRUE);
+    
+    $block_number = $data['result'];
+    
+  $json_string = 'http://api.etherscan.io/api?module=proxy&action=eth_getBlockByNumber&tag='.$block_number.'&boolean=true';
+  $jsondata = @file_get_contents($json_string);
+    
+    $data = json_decode($jsondata, TRUE);
+    
+    //var_dump($data);
+    
+    $_SESSION['etherscan_data'] = $data['result'];
+    
+    return $_SESSION['etherscan_data'][$block_info];
+  
+  
+  }
+  else {
+    
+  return $_SESSION['etherscan_data'][$block_info];
+  
+  }
+  
+
+}
+//////////////////////////////////////////////////////////
+ 
+ 
+ 
+ 
+//////////////////////////////////////////////////////////
 function get_btc_usd($btc_in_usd) {
 
   if ( !$_SESSION['btc_usd'] ) {

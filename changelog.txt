@@ -167,6 +167,13 @@ Minor GUI tweaks
 -Added auto-refresh feature
 -------------------------------------------------------------------
 
+-------------------------------------------------------------------
+1.1.9:
+-Added etherscan.io API capability, for retrieving Ethereum network data
+-Added auto-populating Ethereum network difficulty in mining calculator
+-------------------------------------------------------------------
+
+
 
 
 
