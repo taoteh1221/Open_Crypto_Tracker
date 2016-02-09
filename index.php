@@ -26,11 +26,11 @@ require("templates/default/header.php");
 		<div id='tab1' class='tabdiv'>
 			<h3 style='display: inline;'>Your Coin Values</h3> &nbsp; &nbsp; <a href='javascript:location.reload(true);' style='font-weight: bold;'>Reload Values</a> &nbsp; <select name='select_auto_refresh' id='select_auto_refresh' onchange='auto_reload(this.value);'>
 				<option value=''> Manually </option>
-				<option value='15' <?=( $_COOKIE['coin_reload'] == '15' ? 'selected' : '' )?>> Every 15 Seconds </option>
-				<option value='30' <?=( $_COOKIE['coin_reload'] == '30' ? 'selected' : '' )?>> Every 30 Seconds </option>
 				<option value='60' <?=( $_COOKIE['coin_reload'] == '60' ? 'selected' : '' )?>> Every Minute </option>
 				<option value='120' <?=( $_COOKIE['coin_reload'] == '120' ? 'selected' : '' )?>> Every 2 Minutes </option>
 				<option value='300' <?=( $_COOKIE['coin_reload'] == '300' ? 'selected' : '' )?>> Every 5 Minutes </option>
+				<option value='600' <?=( $_COOKIE['coin_reload'] == '600' ? 'selected' : '' )?>> Every 10 Minutes </option>
+				<option value='900' <?=( $_COOKIE['coin_reload'] == '900' ? 'selected' : '' )?>> Every 15 Minutes </option>
 			</select> &nbsp; <span id='reload_countdown' style='color: red;'></span>
 			<p>
                             
@@ -267,7 +267,7 @@ echo 'Total USD Value: $' . $total_usd_worth2 . ' (1 Bitcoin is currently worth 
 				    
 				    <input type='hidden' value='1' name='eth_submitted' />
 				
-				<p>Difficulty: <input type='text' value='<?=( $_POST['eth_difficulty'] ? $_POST['eth_difficulty'] : number_format(hexdec(etherscan_api('difficulty'))) )?>' name='eth_difficulty' /> (uses <a href='https://etherscan.io/apis/' target='_blank'>etherscan.io/apis</a>)</p>
+				<p>Difficulty: <input type='text' value='<?=( $_POST['eth_difficulty'] ? number_format($_POST['eth_difficulty']) : number_format(hexdec(etherscan_api('difficulty'))) )?>' name='eth_difficulty' /> (uses <a href='https://etherscan.io/apis/' target='_blank'>etherscan.io/apis</a>)</p>
 				
 				
 				<p>Your Hashrate: <input type='text' value='<?=$_POST['eth_hashrate']?>' name='eth_hashrate' />
@@ -295,7 +295,15 @@ echo 'Total USD Value: $' . $total_usd_worth2 . ' (1 Bitcoin is currently worth 
 
 
 
-<p align='center'><a href='https://github.com/taoteh1221/DFD_Cryptocoin_Values/releases' target='_blank'>Version <?=$version?></a><br /><br />BTC Donations welcome: 1FfWHekHPLH7hQcU4d5MBVQ4WekJiA8Mk2</p>
+<p align='center'>
+	
+	<a href='https://github.com/taoteh1221/DFD_Cryptocoin_Values/releases' target='_blank'>Version <?=$version?></a>
+	
+	<br /><br />Donations are welcome to support further development...
+	<br /><br />BTC: 1FfWHekHPLH7hQcU4d5MBVQ4WekJiA8Mk2
+	<br /><br />ETH: 0xf3da0858c3cfcc28a75c1232957a7fb190d7e5e9
+
+</p>
 <?php
 require("templates/default/footer.php");
 

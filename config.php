@@ -10,7 +10,7 @@ require_once("app.lib/functions.php");
 
 require_once("app.lib/filters.php");
 
-$version = '1.1.9';  // 2016/FEB/5th
+$version = '1.2.0';  // 2016/FEB/9th
 
 $btc_in_usd = 'coinbase'; // Get Bitcoin value in USD  ... ONLY COINBASE SUPPORTED AS OF NOW
 
