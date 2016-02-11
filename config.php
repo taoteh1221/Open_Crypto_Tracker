@@ -10,12 +10,12 @@ require_once("app.lib/functions.php");
 
 require_once("app.lib/filters.php");
 
-$version = '1.2.0';  // 2016/FEB/9th
+$version = '1.2.1';  // 2016/FEB/11th
 
 $btc_in_usd = 'coinbase'; // Get Bitcoin value in USD  ... ONLY COINBASE SUPPORTED AS OF NOW
 
 /*
- * USAGE (ADDING / UPDATING COINS) ...ONLY CRYPTSY / POLONIEX / BITTREX API SUPPORT AS OF NOW
+ * USAGE (ADDING / UPDATING COINS) ...ONLY GATECOIN / POLONIEX / BITTREX API SUPPORT AS OF NOW
  *
  
  
@@ -121,17 +121,17 @@ $coins_array = array(
                         'trade_pair' => 'btc'
                         
                     ),
-                    'STR' => array(
+                    'XLM' => array(
                         
                         'coin_name' => 'Stellar',
-                        'coin_symbol' => 'STR',
+                        'coin_symbol' => 'XLM',
                         'markets' => array(
                                           'poloniex',
                                           'bittrex'
                                           ),
                         'markets_ids' => array(
                                           'poloniex' => 'BTC_STR',
-                                          'bittrex' => 'BTC-STR'
+                                          'bittrex' => 'BTC-XLM'
                                           ),
                         'trade_pair' => 'btc'
                         
