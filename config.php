@@ -10,7 +10,7 @@ require_once("app.lib/functions.php");
 
 require_once("app.lib/filters.php");
 
-$version = '1.2.1';  // 2016/FEB/11th
+$version = '1.2.2';  // 2016/FEB/29th
 
 $btc_in_usd = 'coinbase'; // Get Bitcoin value in USD  ... ONLY COINBASE SUPPORTED AS OF NOW
 
@@ -91,6 +91,21 @@ $coins_array = array(
                         'trade_pair' => 'btc'
                         
                     ),
+                    'MAID' => array(
+                        
+                        'coin_name' => 'MaidSafecoin',
+                        'coin_symbol' => 'MAID',
+                        'markets' => array(
+                                          'poloniex',
+                                          'bittrex'
+                                          ),
+                        'markets_ids' => array(
+                                          'poloniex' => 'BTC_MAID',
+                                          'bittrex' => 'BTC-MAID'
+                                          ),
+                        'trade_pair' => 'btc'
+                        
+                    ),
                     'LTC' => array(
                         
                         'coin_name' => 'Litecoin',
@@ -151,15 +166,17 @@ $coins_array = array(
                         'trade_pair' => 'btc'
                         
                     ),
-                    'HYPER' => array(
+                    'DOGE' => array(
                         
-                        'coin_name' => 'Hyper',
-                        'coin_symbol' => 'HYPER',
+                        'coin_name' => 'Dogecoin',
+                        'coin_symbol' => 'DOGE',
                         'markets' => array(
+                                          'poloniex',
                                           'bittrex'
                                           ),
                         'markets_ids' => array(
-                                          'bittrex' => 'BTC-HYPER'
+                                          'poloniex' => 'BTC_DOGE',
+                                          'bittrex' => 'BTC-DOGE'
                                           ),
                         'trade_pair' => 'btc'
                         
@@ -179,21 +196,6 @@ $coins_array = array(
                         'trade_pair' => 'btc'
                         
                     ),
-                    'DOGE' => array(
-                        
-                        'coin_name' => 'Dogecoin',
-                        'coin_symbol' => 'DOGE',
-                        'markets' => array(
-                                          'poloniex',
-                                          'bittrex'
-                                          ),
-                        'markets_ids' => array(
-                                          'poloniex' => 'BTC_DOGE',
-                                          'bittrex' => 'BTC-DOGE'
-                                          ),
-                        'trade_pair' => 'btc'
-                        
-                    ),
                     'RDD' => array(
                         
                         'coin_name' => 'Reddcoin',
@@ -205,6 +207,19 @@ $coins_array = array(
                         'markets_ids' => array(
                                           'poloniex' => 'BTC_RDD',
                                           'bittrex' => 'BTC-RDD'
+                                          ),
+                        'trade_pair' => 'btc'
+                        
+                    ),
+                    'HYPER' => array(
+                        
+                        'coin_name' => 'Hyper',
+                        'coin_symbol' => 'HYPER',
+                        'markets' => array(
+                                          'bittrex'
+                                          ),
+                        'markets_ids' => array(
+                                          'bittrex' => 'BTC-HYPER'
                                           ),
                         'trade_pair' => 'btc'
                         
