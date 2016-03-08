@@ -10,7 +10,7 @@ require_once("app.lib/functions.php");
 
 require_once("app.lib/filters.php");
 
-$version = '1.2.2';  // 2016/FEB/29th
+$version = '1.2.3';  // 2016/MARCH/8th
 
 $btc_in_usd = 'coinbase'; // Get Bitcoin value in USD  ... ONLY COINBASE SUPPORTED AS OF NOW
 
@@ -151,6 +151,19 @@ $coins_array = array(
                         'trade_pair' => 'btc'
                         
                     ),
+                    'AMP' => array(
+                        
+                        'coin_name' => 'Synereo',
+                        'coin_symbol' => 'AMP',
+                        'markets' => array(
+                                          'bittrex'
+                                          ),
+                        'markets_ids' => array(
+                                          'bittrex' => 'BTC-AMP'
+                                          ),
+                        'trade_pair' => 'btc'
+                        
+                    ),
                     'DASH' => array(
                         
                         'coin_name' => 'Dash',
@@ -181,17 +194,32 @@ $coins_array = array(
                         'trade_pair' => 'btc'
                         
                     ),
-                    'DGB' => array(
+                    'BTS' => array(
                         
-                        'coin_name' => 'Digibyte',
-                        'coin_symbol' => 'DGB',
+                        'coin_name' => 'BitShares',
+                        'coin_symbol' => 'BTS',
                         'markets' => array(
                                           'poloniex',
                                           'bittrex'
                                           ),
                         'markets_ids' => array(
-                                          'poloniex' => 'BTC_DGB',
-                                          'bittrex' => 'BTC-DGB'
+                                          'poloniex' => 'BTC_BTS',
+                                          'bittrex' => 'BTC-BTS'
+                                          ),
+                        'trade_pair' => 'btc'
+                        
+                    ),
+                    'NXT' => array(
+                        
+                        'coin_name' => 'NXT',
+                        'coin_symbol' => 'NXT',
+                        'markets' => array(
+                                          'poloniex',
+                                          'bittrex'
+                                          ),
+                        'markets_ids' => array(
+                                          'poloniex' => 'BTC_NXT',
+                                          'bittrex' => 'BTC-NXT'
                                           ),
                         'trade_pair' => 'btc'
                         
@@ -207,6 +235,21 @@ $coins_array = array(
                         'markets_ids' => array(
                                           'poloniex' => 'BTC_RDD',
                                           'bittrex' => 'BTC-RDD'
+                                          ),
+                        'trade_pair' => 'btc'
+                        
+                    ),
+                    'DGB' => array(
+                        
+                        'coin_name' => 'Digibyte',
+                        'coin_symbol' => 'DGB',
+                        'markets' => array(
+                                          'poloniex',
+                                          'bittrex'
+                                          ),
+                        'markets_ids' => array(
+                                          'poloniex' => 'BTC_DGB',
+                                          'bittrex' => 'BTC-DGB'
                                           ),
                         'trade_pair' => 'btc'
                         
@@ -235,36 +278,6 @@ $coins_array = array(
                         'markets_ids' => array(
                                           'poloniex' => 'BTC_HYP',
                                           'bittrex' => 'BTC-HYP'
-                                          ),
-                        'trade_pair' => 'btc'
-                        
-                    ),
-                    'BTS' => array(
-                        
-                        'coin_name' => 'BitShares',
-                        'coin_symbol' => 'BTS',
-                        'markets' => array(
-                                          'poloniex',
-                                          'bittrex'
-                                          ),
-                        'markets_ids' => array(
-                                          'poloniex' => 'BTC_BTS',
-                                          'bittrex' => 'BTC-BTS'
-                                          ),
-                        'trade_pair' => 'btc'
-                        
-                    ),
-                    'NXT' => array(
-                        
-                        'coin_name' => 'NXT',
-                        'coin_symbol' => 'NXT',
-                        'markets' => array(
-                                          'poloniex',
-                                          'bittrex'
-                                          ),
-                        'markets_ids' => array(
-                                          'poloniex' => 'BTC_NXT',
-                                          'bittrex' => 'BTC-NXT'
                                           ),
                         'trade_pair' => 'btc'
                         
