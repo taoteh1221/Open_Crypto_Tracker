@@ -10,9 +10,9 @@ require_once("app.lib/functions.php");
 
 require_once("app.lib/filters.php");
 
-$version = '1.2.3';  // 2016/MARCH/8th
+$version = '1.2.4';  // 2016/MARCH/12th
 
-$btc_in_usd = 'coinbase'; // Get Bitcoin value in USD  ... ONLY COINBASE SUPPORTED AS OF NOW
+$btc_in_usd = 'coinbase'; // Default Bitcoin value in USD
 
 /*
  * USAGE (ADDING / UPDATING COINS) ...ONLY GATECOIN / POLONIEX / BITTREX API SUPPORT AS OF NOW
@@ -49,10 +49,16 @@ $coins_array = array(
                         'coin_name' => 'Bitcoin',
                         'coin_symbol' => 'BTC',
                         'markets' => array(
-                                          'coinbase'
+                                          'coinbase',
+                                          'bitfinex',
+                                          'bitstamp',
+                                          'kraken'
                                           ),
                         'markets_ids' => array(
-                                          'coinbase' => 'btc'
+                                          'coinbase' => 'USD',
+                                          'bitfinex' => 'btcusd',
+                                          'bitstamp' => 'USD',
+                                          'kraken' => 'XXBTZUSD'
                                           ),
                         'trade_pair' => 'btc'
                         
@@ -111,10 +117,12 @@ $coins_array = array(
                         'coin_name' => 'Litecoin',
                         'coin_symbol' => 'LTC',
                         'markets' => array(
+                                          'bitfinex',
                                           'poloniex',
                                           'bittrex'
                                           ),
                         'markets_ids' => array(
+                                          'bitfinex' => 'ltcbtc',
                                           'poloniex' => 'BTC_LTC',
                                           'bittrex' => 'BTC-LTC'
                                           ),
@@ -272,12 +280,10 @@ $coins_array = array(
                         'coin_name' => 'Hyperstake',
                         'coin_symbol' => 'HYP',
                         'markets' => array(
-                                          'poloniex',
-                                          'bittrex'
+                                          'poloniex'
                                           ),
                         'markets_ids' => array(
-                                          'poloniex' => 'BTC_HYP',
-                                          'bittrex' => 'BTC-HYP'
+                                          'poloniex' => 'BTC_HYP'
                                           ),
                         'trade_pair' => 'btc'
                         

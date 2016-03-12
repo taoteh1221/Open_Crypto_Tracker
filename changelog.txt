@@ -193,6 +193,14 @@ Minor GUI tweaks
 -Added Synereo AMPs to default coins
 -------------------------------------------------------------------
 
+-------------------------------------------------------------------
+1.2.4:
+-Added ability to set default Bitcoin market
+-Added Bitfinex / Bitstamp / Kraken for Bitcoin markets
+-Added Bitfinex for Litecoin markets
+-------------------------------------------------------------------
+
+
 
 
 

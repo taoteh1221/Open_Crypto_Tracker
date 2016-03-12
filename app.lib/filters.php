@@ -10,13 +10,14 @@ if ( $_POST['submit_check'] == 1 ) {
  
  if (is_array($_POST) || is_object($_POST)) {
   
+  
    foreach ( $_POST as $key => $value ) {
   
       if ( preg_match("/_amount/i", $key) ) {
       
       $_POST[$key] = strip_price_formatting($value);
       
-         if ( $_POST['use_cookies'] == 1 && $_POST[$key] > 0.00000000 ) {
+         if ( $_POST['use_cookies'] == 1 && $_POST[$key] > 0.00000000 || $key == 'btc_amount' ) {
           
           
             $set_coin_values .= $key.'-'. $_POST[$key] . '#';

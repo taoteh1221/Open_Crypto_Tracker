@@ -81,7 +81,7 @@ if (is_array($coins_array) || is_object($coins_array)) {
     // Only support for multiple markets per coin with BTC trade pairing
     if ( sizeof($coin['markets']) > 1 && $coin['trade_pair'] == 'btc' ) {
     ?>
-    <?=strtoupper($coin['trade_pair'])?> Market is <select name='<?=$field_var_market?>'>
+    <?=strtoupper($coin['trade_pair'])?> Market is <select id='<?=$field_var_market?>' name='<?=$field_var_market?>'>
         <?php
         foreach ( $coin['markets'] as $market_key => $market_name ) {
          // Avoid possible null equivelent issue by upping post value +1 in case zero
@@ -96,11 +96,6 @@ if (is_array($coins_array) || is_object($coins_array)) {
     elseif ( $coin['coin_symbol'] == 'BTC' ) { // Coinbase USD market for Bitcoin trading
     ?>
     USD Market is Coinbase, and 
-    <?php
-    }
-    elseif ( $coin['trade_pair'] != 'btc' ) { // Only supporting Cryptsy non-BTC markets at this time
-    ?>
-    <?=strtoupper($coin['trade_pair'])?> Market is Cryptsy, and 
     <?php
     }
     else {
