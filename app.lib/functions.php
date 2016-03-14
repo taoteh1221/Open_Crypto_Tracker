@@ -86,6 +86,25 @@ function get_btc_usd($btc_in_usd) {
     }
   
 
+    elseif ( strtolower($btc_in_usd) == 'okcoin' ) {
+  
+    
+  
+    $json_string = 'https://www.okcoin.com/api/ticker.do?ok=1';
+    
+    $jsondata = @file_get_contents($json_string);
+    
+    $data = json_decode($jsondata, TRUE);
+    
+    $_SESSION['btc_usd'] = number_format( $data['ticker']['last'], 2, '.', '');
+    
+    
+    return $_SESSION['btc_usd'];
+  
+    }
+  
+  
+
     elseif ( strtolower($btc_in_usd) == 'bitstamp' ) {
   
     

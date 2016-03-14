@@ -10,7 +10,7 @@ require_once("app.lib/functions.php");
 
 require_once("app.lib/filters.php");
 
-$version = '1.2.4';  // 2016/MARCH/12th
+$version = '1.2.5';  // 2016/MARCH/14th
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD
 
@@ -49,16 +49,18 @@ $coins_array = array(
                         'coin_name' => 'Bitcoin',
                         'coin_symbol' => 'BTC',
                         'markets' => array(
-                                          'coinbase',
+                                          'okcoin',
                                           'bitfinex',
-                                          'bitstamp',
-                                          'kraken'
+                                          'kraken',
+                                          'coinbase',
+                                          'bitstamp'
                                           ),
                         'markets_ids' => array(
-                                          'coinbase' => 'USD',
+                                          'okcoin' => 'USD',
                                           'bitfinex' => 'btcusd',
-                                          'bitstamp' => 'USD',
-                                          'kraken' => 'XXBTZUSD'
+                                          'kraken' => 'XXBTZUSD',
+                                          'coinbase' => 'USD',
+                                          'bitstamp' => 'USD'
                                           ),
                         'trade_pair' => 'btc'
                         
@@ -69,12 +71,14 @@ $coins_array = array(
                         'coin_symbol' => 'ETH',
                         'markets' => array(
                                           'poloniex',
+                                          'bitfinex',
                                           'kraken',
                                           'gatecoin',
                                           'bittrex'
                                           ),
                         'markets_ids' => array(
                                           'poloniex' => 'BTC_ETH',
+                                          'bitfinex' => 'ethbtc',
                                           'kraken' => 'XETHXXBT',
                                           'gatecoin' => 'ETHBTC',
                                           'bittrex' => 'BTC-ETH'

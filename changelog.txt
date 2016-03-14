@@ -200,6 +200,12 @@ Minor GUI tweaks
 -Added Bitfinex for Litecoin markets
 -------------------------------------------------------------------
 
+-------------------------------------------------------------------
+1.2.5:
+-Added OkCoin for Bitcoin markets
+-Added Bitfinex for Ethereum markets
+-------------------------------------------------------------------
+
 
 
 
