@@ -206,6 +206,13 @@ Minor GUI tweaks
 -Added Bitfinex for Ethereum markets
 -------------------------------------------------------------------
 
+-------------------------------------------------------------------
+1.2.6:
+-Added Cryptofresh API for Bitshares markets
+-Added Makercoin Bitshares market
+-------------------------------------------------------------------
+
+
 
 
 

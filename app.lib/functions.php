@@ -198,6 +198,21 @@ function get_trade_price($markets, $markets_ids) {
   }
 
 
+  if ( strtolower($markets) == 'cryptofresh' ) {
+  
+  $json_string = 'https://cryptofresh.com/api/asset/markets?asset=' . $markets_ids;
+  
+    $jsondata = @file_get_contents($json_string);
+    
+    $data = json_decode($jsondata, TRUE);
+    
+    return number_format( $data['OPEN.BTC']['price'], 8, '.', '');
+    
+  
+  }
+
+
+
   if ( strtolower($markets) == 'bittrex' ) {
   
   $json_string = 'https://bittrex.com/api/v1.1/public/getticker?market=' . $markets_ids;

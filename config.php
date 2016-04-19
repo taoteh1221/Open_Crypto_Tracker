@@ -10,12 +10,12 @@ require_once("app.lib/functions.php");
 
 require_once("app.lib/filters.php");
 
-$version = '1.2.5';  // 2016/MARCH/14th
+$version = '1.2.6';  // 2016/APRIL/19th
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD
 
 /*
- * USAGE (ADDING / UPDATING COINS) ...ONLY GATECOIN / POLONIEX / BITTREX API SUPPORT AS OF NOW
+ * USAGE (ADDING / UPDATING COINS) ...ONLY GATECOIN / POLONIEX / BITTREX / cryptofresh API SUPPORT AS OF NOW
  *
  
  
@@ -71,16 +71,16 @@ $coins_array = array(
                         'coin_symbol' => 'ETH',
                         'markets' => array(
                                           'poloniex',
-                                          'bitfinex',
                                           'kraken',
                                           'gatecoin',
+                                          'bitfinex',
                                           'bittrex'
                                           ),
                         'markets_ids' => array(
                                           'poloniex' => 'BTC_ETH',
-                                          'bitfinex' => 'ethbtc',
                                           'kraken' => 'XETHXXBT',
                                           'gatecoin' => 'ETHBTC',
+                                          'bitfinex' => 'ethbtc',
                                           'bittrex' => 'BTC-ETH'
                                           ),
                         'trade_pair' => 'btc'
@@ -217,6 +217,19 @@ $coins_array = array(
                         'markets_ids' => array(
                                           'poloniex' => 'BTC_BTS',
                                           'bittrex' => 'BTC-BTS'
+                                          ),
+                        'trade_pair' => 'btc'
+                        
+                    ),
+                    'MKR' => array(
+                        
+                        'coin_name' => 'Makercoin',
+                        'coin_symbol' => 'MKR',
+                        'markets' => array(
+                                          'cryptofresh'
+                                          ),
+                        'markets_ids' => array(
+                                          'cryptofresh' => 'MKR'
                                           ),
                         'trade_pair' => 'btc'
                         
