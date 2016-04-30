@@ -10,7 +10,7 @@ require_once("app.lib/functions.php");
 
 require_once("app.lib/filters.php");
 
-$version = '1.2.7';  // 2016/APRIL/27th
+$version = '1.2.8';  // 2016/APRIL/30th
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD
 
@@ -33,7 +33,8 @@ $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD
                                           'MARKETPLACE2' => 'BTC_COINSYMBOLHERE',
                                           'MARKETPLACE3' => 'BTC-COINSYMBOLHERE'
                                           ),
-                        'trade_pair' => 'LOWERCASE_BTC_OR_LTC_TRADING_PAIR'
+                        'trade_pair' => 'LOWERCASE_BTC_OR_LTC_OR_ETH_TRADING_PAIR',
+                        'coinmarketcap' => 'yes' // Is this coin listed on coinmarketcap
                         
                     )
                     
@@ -62,7 +63,8 @@ $coins_array = array(
                                           'coinbase' => 'USD',
                                           'bitstamp' => 'USD'
                                           ),
-                        'trade_pair' => 'btc'
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'yes'
                         
                     ),
                     'ETH' => array(
@@ -83,7 +85,22 @@ $coins_array = array(
                                           'bitfinex' => 'ethbtc',
                                           'bittrex' => 'BTC-ETH'
                                           ),
-                        'trade_pair' => 'btc'
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'yes'
+                        
+                    ),
+                    'DAO' => array(
+                        
+                        'coin_name' => 'TheDAO',
+                        'coin_symbol' => 'DAO',
+                        'markets' => array(
+                                          'ethereum_subtokens'
+                                          ),
+                        'markets_ids' => array(
+                                          'ethereum_subtokens' => 'THEDAO'
+                                          ),
+                        'trade_pair' => 'eth',
+                        'coinmarketcap' => 'no'
                         
                     ),
                     'XRP' => array(
@@ -98,7 +115,8 @@ $coins_array = array(
                                           'poloniex' => 'BTC_XRP',
                                           'bittrex' => 'BTC-XRP'
                                           ),
-                        'trade_pair' => 'btc'
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'yes'
                         
                     ),
                     'MAID' => array(
@@ -113,7 +131,8 @@ $coins_array = array(
                                           'poloniex' => 'BTC_MAID',
                                           'bittrex' => 'BTC-MAID'
                                           ),
-                        'trade_pair' => 'btc'
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'yes'
                         
                     ),
                     'LTC' => array(
@@ -130,7 +149,8 @@ $coins_array = array(
                                           'poloniex' => 'BTC_LTC',
                                           'bittrex' => 'BTC-LTC'
                                           ),
-                        'trade_pair' => 'btc'
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'yes'
                         
                     ),
                     'PPC' => array(
@@ -145,7 +165,8 @@ $coins_array = array(
                                           'poloniex' => 'BTC_PPC',
                                           'bittrex' => 'BTC-PPC'
                                           ),
-                        'trade_pair' => 'btc'
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'yes'
                         
                     ),
                     'XLM' => array(
@@ -160,7 +181,8 @@ $coins_array = array(
                                           'poloniex' => 'BTC_STR',
                                           'bittrex' => 'BTC-XLM'
                                           ),
-                        'trade_pair' => 'btc'
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'yes'
                         
                     ),
                     'AMP' => array(
@@ -173,7 +195,8 @@ $coins_array = array(
                         'markets_ids' => array(
                                           'bittrex' => 'BTC-AMP'
                                           ),
-                        'trade_pair' => 'btc'
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'yes'
                         
                     ),
                     'DASH' => array(
@@ -188,7 +211,8 @@ $coins_array = array(
                                           'poloniex' => 'BTC_DASH',
                                           'bittrex' => 'BTC-DASH'
                                           ),
-                        'trade_pair' => 'btc'
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'yes'
                         
                     ),
                     'DOGE' => array(
@@ -203,7 +227,8 @@ $coins_array = array(
                                           'poloniex' => 'BTC_DOGE',
                                           'bittrex' => 'BTC-DOGE'
                                           ),
-                        'trade_pair' => 'btc'
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'yes'
                         
                     ),
                     'BTS' => array(
@@ -218,7 +243,8 @@ $coins_array = array(
                                           'poloniex' => 'BTC_BTS',
                                           'bittrex' => 'BTC-BTS'
                                           ),
-                        'trade_pair' => 'btc'
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'yes'
                         
                     ),
                     'MKR' => array(
@@ -231,7 +257,8 @@ $coins_array = array(
                         'markets_ids' => array(
                                           'cryptofresh' => 'MKR'
                                           ),
-                        'trade_pair' => 'btc'
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'no'
                         
                     ),
                     'NXT' => array(
@@ -246,7 +273,8 @@ $coins_array = array(
                                           'poloniex' => 'BTC_NXT',
                                           'bittrex' => 'BTC-NXT'
                                           ),
-                        'trade_pair' => 'btc'
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'yes'
                         
                     ),
                     'RDD' => array(
@@ -261,7 +289,8 @@ $coins_array = array(
                                           'poloniex' => 'BTC_RDD',
                                           'bittrex' => 'BTC-RDD'
                                           ),
-                        'trade_pair' => 'btc'
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'yes'
                         
                     ),
                     'DGB' => array(
@@ -276,7 +305,8 @@ $coins_array = array(
                                           'poloniex' => 'BTC_DGB',
                                           'bittrex' => 'BTC-DGB'
                                           ),
-                        'trade_pair' => 'btc'
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'yes'
                         
                     ),
                     'HYPER' => array(
@@ -289,7 +319,8 @@ $coins_array = array(
                         'markets_ids' => array(
                                           'bittrex' => 'BTC-HYPER'
                                           ),
-                        'trade_pair' => 'btc'
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'yes'
                         
                     ),
                     'HYP' => array(
@@ -302,7 +333,8 @@ $coins_array = array(
                         'markets_ids' => array(
                                           'poloniex' => 'BTC_HYP'
                                           ),
-                        'trade_pair' => 'btc'
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'yes'
                         
                     )
                 

@@ -1,6 +1,7 @@
 
 Just upload to your PHP-based web server, and you should be all set. See below for an example on adding your own markets to the coin list in config.php...
 
+
 /*
  * USAGE (ADDING / UPDATING COINS) ...ONLY GATECOIN / POLONIEX / BITTREX / cryptofresh API SUPPORT AS OF NOW
  *
@@ -20,7 +21,8 @@ Just upload to your PHP-based web server, and you should be all set. See below f
                                           'MARKETPLACE2' => 'BTC_COINSYMBOLHERE',
                                           'MARKETPLACE3' => 'BTC-COINSYMBOLHERE'
                                           ),
-                        'trade_pair' => 'LOWERCASE_BTC_OR_LTC_TRADING_PAIR'
+                        'trade_pair' => 'LOWERCASE_BTC_OR_LTC_OR_ETH_TRADING_PAIR',
+                        'coinmarketcap' => 'yes' // Is this coin listed on coinmarketcap
                         
                     )
                     

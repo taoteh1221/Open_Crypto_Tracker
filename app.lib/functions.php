@@ -379,6 +379,19 @@ function get_trade_price($markets, $markets_ids) {
 }
 //////////////////////////////////////////////////////////
  
+//////////////////////////////////////////////////////////
+function get_sub_token_price($markets, $markets_ids) {
+
+ if ( strtolower($markets) == 'ethereum_subtokens' ) {
+
+  if ( $markets_ids == 'THEDAO' ) {
+  return 0.01;
+  }
+ 
+ }
+
+}
+///////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////
 function strip_price_formatting($price) {
@@ -452,13 +465,45 @@ $markets_ids = $markets_ids[$markets];
 	  $coin_to_trade = number_format( get_trade_price($markets, $markets_ids), 8, '.', ',');
 	  $coin_to_trade_worth = ($coin_amount * $coin_to_trade);
 	  $coin_to_trade_worth2 = number_format($coin_to_trade_worth, 8, '.', ',');
-	  $btc_worth = number_format( ($coin_to_trade_worth * $coin_to_btc), 8 );  // Convert ltc value to bitcoin
+	  $btc_worth = number_format( ($coin_to_trade_worth * $coin_to_btc), 8 );  // Convert value to bitcoin
 	  $_SESSION['btc_worth_array'][] = $btc_worth;  
 	  $btc_trade_eq = number_format( ($coin_to_trade * $coin_to_btc), 8);
 	  $trade_pairing_description = 'Litecoin';
 	  $trade_pairing_symbol = 'LTC';
 	  
 	  //echo $ltc_to_btc . ' ' . $coin_to_trade . ' | | | ';
+	  }
+	  else if ( $trade_pairing == 'eth' ) {
+	    
+	  $coin_to_btc = get_trade_price('poloniex', 'BTC_ETH');
+	   
+	   if ( $markets == 'ethereum_subtokens' ) {
+	   
+	   $coin_to_trade = number_format( get_sub_token_price($markets, $markets_ids), 8, '.', ',');
+	   $coin_to_trade_worth = ($coin_amount * $coin_to_trade);
+	   $coin_to_trade_worth2 = number_format($coin_to_trade_worth, 8, '.', ',');
+	   $btc_worth = number_format( ($coin_to_trade_worth * $coin_to_btc), 8 );  // Convert value to bitcoin
+	   $_SESSION['btc_worth_array'][] = $btc_worth;  
+	   $btc_trade_eq = number_format( ($coin_to_trade * $coin_to_btc), 8);
+	   $trade_pairing_description = 'Ethereum';
+	   $trade_pairing_symbol = 'ETH';
+	   
+	   //echo $ltc_to_btc . ' ' . $coin_to_trade . ' | | | ';
+	   }
+	   else {
+	   
+	   $coin_to_trade = number_format( get_trade_price($markets, $markets_ids), 8, '.', ',');
+	   $coin_to_trade_worth = ($coin_amount * $coin_to_trade);
+	   $coin_to_trade_worth2 = number_format($coin_to_trade_worth, 8, '.', ',');
+	   $btc_worth = number_format( ($coin_to_trade_worth * $coin_to_btc), 8 );  // Convert ltc value to bitcoin
+	   $_SESSION['btc_worth_array'][] = $btc_worth;  
+	   $btc_trade_eq = number_format( ($coin_to_trade * $coin_to_btc), 8);
+	   $trade_pairing_description = 'Ethereum';
+	   $trade_pairing_symbol = 'ETH';
+	   
+	   //echo $ltc_to_btc . ' ' . $coin_to_trade . ' | | | ';
+	   }
+
 	  }
 	
 	
@@ -481,7 +526,7 @@ $markets_ids = $markets_ids[$markets];
         foreach ( $all_markets as $market_key => $market_name ) {
          // Avoid possible null equivelent issue by upping post value +1 in case zero
         ?>
-        <option value='<?=($market_key + 1)?>' <?=( $orig_markets == $market_key ? ' selected ' : '' )?>> <?=ucfirst($market_name)?> </option>
+        <option value='<?=($market_key + 1)?>' <?=( $orig_markets == $market_key ? ' selected ' : '' )?>> <?=ucwords(preg_replace("/_/i", " ", $market_name))?> </option>
         <?php
         }
         ?>
@@ -489,14 +534,27 @@ $markets_ids = $markets_ids[$markets];
     <?php
     }
     else {
-    echo ucfirst($markets);
+    echo ucwords(preg_replace("/_/i", " ", $markets));
     }
     
   
 
 ?></td>
 
-<td class='data border_lb' align='right'><a href='http://coinmarketcap.com/currencies/<?php echo strtolower($coin_name); ?>/' target='_blank'><?php echo $coin_name; ?></a></td>
+<td class='data border_lb' align='right'>
+ 
+ <?php
+ if ( $coins_array[$trade_symbol]['coinmarketcap'] == 'yes' ) {
+ ?>
+ <a href='http://coinmarketcap.com/currencies/<?php echo strtolower($coin_name); ?>/' target='_blank'><?php echo $coin_name; ?></a>
+ <?php
+ }
+ else {
+ echo $coin_name;
+ }
+ ?>
+ 
+</td>
 
 <td class='data border_b'><span><?php
 
@@ -544,11 +602,8 @@ echo $coin_to_trade_worth2 . ' <span>' . $trade_pairing_symbol . '</span>';
   if ( $trade_pairing == 'btc' ) {
   $coin_usd_worth = ( $coin_name == 'Bitcoin' ? $coin_to_trade_worth : ($coin_to_trade_worth * get_btc_usd($btc_in_usd)) );
   }
-  else if ( $trade_pairing == 'ltc' ) {
+  else {
   $coin_usd_worth = ( ($coin_to_trade_worth * $coin_to_btc) * get_btc_usd($btc_in_usd));
-  }
-  else if ( $trade_pairing == 'xrp' ) {
-  $coin_usd_worth = ( $markets_ids == 'xrp' ? ( $coin_to_trade_worth * get_btc_usd($btc_in_usd)) : ( ($coin_to_trade_worth * $coin_to_btc) * get_btc_usd($btc_in_usd)) );
   }
 	
 
