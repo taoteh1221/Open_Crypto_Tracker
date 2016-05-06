@@ -86,7 +86,7 @@ if (is_array($coins_array) || is_object($coins_array)) {
         foreach ( $coin['markets'] as $market_key => $market_name ) {
          // Avoid possible null equivelent issue by upping post value +1 in case zero
         ?>
-        <option value='<?=($market_key + 1)?>' <?=( isset($_POST[$field_var_market]) && ($_POST[$field_var_market] - 1) == $market_key || isset($coin_market_id) && ($coin_market_id - 1) == $market_key ? ' selected ' : '' )?>> <?=ucfirst($market_name)?> </option>
+        <option value='<?=($market_key + 1)?>' <?=( isset($_POST[$field_var_market]) && ($_POST[$field_var_market] - 1) == $market_key || isset($coin_market_id) && ($coin_market_id - 1) == $market_key ? ' selected ' : '' )?>> <?=ucwords(preg_replace("/_/i", " ", $market_name))?> </option>
         <?php
         }
         ?>
@@ -100,7 +100,7 @@ if (is_array($coins_array) || is_object($coins_array)) {
     }
     else {
     ?>
-    <?=strtoupper($coin['trade_pair'])?> Market is <?=ucfirst($coin['markets'][0])?>, and 
+    <?=strtoupper($coin['trade_pair'])?> Market is <?=ucwords(preg_replace("/_/i", " ", $coin['markets'][0]))?>, and 
     <?php
     }
     ?>

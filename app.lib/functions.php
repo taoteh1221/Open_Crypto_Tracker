@@ -382,10 +382,12 @@ function get_trade_price($markets, $markets_ids) {
 //////////////////////////////////////////////////////////
 function get_sub_token_price($markets, $markets_ids) {
 
+global $eth_subtokens_values;
+
  if ( strtolower($markets) == 'ethereum_subtokens' ) {
 
   if ( $markets_ids == 'THEDAO' ) {
-  return 0.01;
+  return $eth_subtokens_values[$markets_ids];
   }
  
  }
@@ -454,7 +456,7 @@ $markets_ids = $markets_ids[$markets];
 	  $coin_to_trade_worth = ($coin_amount * $coin_to_trade);
 	  $coin_to_trade_worth2 = number_format($coin_to_trade_worth, ( $coin_name == 'Bitcoin' ? 2 : 8 ), '.', ',');
 	  $btc_worth = number_format( $coin_to_trade_worth, 8 );  
-	  $_SESSION['btc_worth_array'][] = ( $coin_name == 'Bitcoin' ? $coin_amount : $btc_worth );
+	  $_SESSION['btc_worth_array'][] = (string)str_replace(',', '', ( $coin_name == 'Bitcoin' ? $coin_amount : $btc_worth ) );
 	  $trade_pairing_description = ( $coin_name == 'Bitcoin' ? 'US Dollar' : 'Bitcoin' );
 	  $trade_pairing_symbol = ( $coin_name == 'Bitcoin' ? 'USD' : 'BTC' );
 	  }
@@ -466,7 +468,7 @@ $markets_ids = $markets_ids[$markets];
 	  $coin_to_trade_worth = ($coin_amount * $coin_to_trade);
 	  $coin_to_trade_worth2 = number_format($coin_to_trade_worth, 8, '.', ',');
 	  $btc_worth = number_format( ($coin_to_trade_worth * $coin_to_btc), 8 );  // Convert value to bitcoin
-	  $_SESSION['btc_worth_array'][] = $btc_worth;  
+	  $_SESSION['btc_worth_array'][] = (string)str_replace(',', '', $btc_worth);  
 	  $btc_trade_eq = number_format( ($coin_to_trade * $coin_to_btc), 8);
 	  $trade_pairing_description = 'Litecoin';
 	  $trade_pairing_symbol = 'LTC';
@@ -483,7 +485,7 @@ $markets_ids = $markets_ids[$markets];
 	   $coin_to_trade_worth = ($coin_amount * $coin_to_trade);
 	   $coin_to_trade_worth2 = number_format($coin_to_trade_worth, 8, '.', ',');
 	   $btc_worth = number_format( ($coin_to_trade_worth * $coin_to_btc), 8 );  // Convert value to bitcoin
-	   $_SESSION['btc_worth_array'][] = $btc_worth;  
+	   $_SESSION['btc_worth_array'][] = (string)str_replace(',', '', $btc_worth);  
 	   $btc_trade_eq = number_format( ($coin_to_trade * $coin_to_btc), 8);
 	   $trade_pairing_description = 'Ethereum';
 	   $trade_pairing_symbol = 'ETH';
@@ -496,7 +498,7 @@ $markets_ids = $markets_ids[$markets];
 	   $coin_to_trade_worth = ($coin_amount * $coin_to_trade);
 	   $coin_to_trade_worth2 = number_format($coin_to_trade_worth, 8, '.', ',');
 	   $btc_worth = number_format( ($coin_to_trade_worth * $coin_to_btc), 8 );  // Convert ltc value to bitcoin
-	   $_SESSION['btc_worth_array'][] = $btc_worth;  
+	   $_SESSION['btc_worth_array'][] = (string)str_replace(',', '', $btc_worth);  
 	   $btc_trade_eq = number_format( ($coin_to_trade * $coin_to_btc), 8);
 	   $trade_pairing_description = 'Ethereum';
 	   $trade_pairing_symbol = 'ETH';

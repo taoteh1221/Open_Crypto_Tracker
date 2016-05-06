@@ -10,12 +10,18 @@ require_once("app.lib/functions.php");
 
 require_once("app.lib/filters.php");
 
-$version = '1.2.8';  // 2016/APRIL/30th
+$version = '1.2.9';  // 2016/MAY/6th
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD
 
+$eth_subtokens_values = array(
+                        // Values in ETH for subtokens
+                        'THEDAO' => 0.01
+                        );
+
 /*
- * USAGE (ADDING / UPDATING COINS) ...ONLY GATECOIN / POLONIEX / BITTREX / cryptofresh API SUPPORT AS OF NOW
+ * USAGE (ADDING / UPDATING COINS) ...ONLY KRAKEN / GATECOIN / POLONIEX / BITTREX / bitfinex / cryptofresh altcoin / token API SUPPORT AS OF NOW
+ * Ethereum subtoken support has been built in, but values are static as no APIs exist yet
  *
  
  

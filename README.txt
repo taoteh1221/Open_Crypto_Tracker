@@ -3,7 +3,8 @@ Just upload to your PHP-based web server, and you should be all set. See below f
 
 
 /*
- * USAGE (ADDING / UPDATING COINS) ...ONLY GATECOIN / POLONIEX / BITTREX / cryptofresh API SUPPORT AS OF NOW
+ * USAGE (ADDING / UPDATING COINS) ...ONLY KRAKEN / GATECOIN / POLONIEX / BITTREX / bitfinex / cryptofresh altcoin / token API SUPPORT AS OF NOW
+ * Ethereum subtoken support has been built in, but values are static as no APIs exist yet
  *
  
  
