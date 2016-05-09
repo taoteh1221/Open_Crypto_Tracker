@@ -10,7 +10,7 @@ require_once("app.lib/functions.php");
 
 require_once("app.lib/filters.php");
 
-$version = '1.2.9';  // 2016/MAY/6th
+$version = '1.3.0';  // 2016/MAY/9th
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD
 
@@ -20,7 +20,7 @@ $eth_subtokens_values = array(
                         );
 
 /*
- * USAGE (ADDING / UPDATING COINS) ...ONLY KRAKEN / GATECOIN / POLONIEX / BITTREX / bitfinex / cryptofresh altcoin / token API SUPPORT AS OF NOW
+ * USAGE (ADDING / UPDATING COINS) ...ONLY KRAKEN / GATECOIN / POLONIEX / BITTREX / bitfinex / cryptofresh / gemini BTC, altcoin, and token API SUPPORT AS OF NOW
  * Ethereum subtoken support has been built in, but values are static as no APIs exist yet
  *
  
@@ -60,14 +60,16 @@ $coins_array = array(
                                           'bitfinex',
                                           'kraken',
                                           'coinbase',
-                                          'bitstamp'
+                                          'bitstamp',
+                                          'gemini'
                                           ),
                         'markets_ids' => array(
                                           'okcoin' => 'USD',
                                           'bitfinex' => 'btcusd',
                                           'kraken' => 'XXBTZUSD',
                                           'coinbase' => 'USD',
-                                          'bitstamp' => 'USD'
+                                          'bitstamp' => 'USD',
+                                          'gemini' => 'btcusd'
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'yes'
@@ -82,6 +84,7 @@ $coins_array = array(
                                           'kraken',
                                           'gatecoin',
                                           'bitfinex',
+                                          'gemini',
                                           'bittrex'
                                           ),
                         'markets_ids' => array(
@@ -89,6 +92,7 @@ $coins_array = array(
                                           'kraken' => 'XETHXXBT',
                                           'gatecoin' => 'ETHBTC',
                                           'bitfinex' => 'ethbtc',
+                                          'gemini' => 'ethbtc',
                                           'bittrex' => 'BTC-ETH'
                                           ),
                         'trade_pair' => 'btc',

@@ -227,6 +227,12 @@ Minor GUI tweaks
 -Fixed issue totalling very large amounts of Bitcoin values
 -------------------------------------------------------------------
 
+-------------------------------------------------------------------
+1.3.0:
+-Added Gemini.com API support
+-Added Gemini.com ETH and BTC markets
+-------------------------------------------------------------------
+
 
 
 

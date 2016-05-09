@@ -86,6 +86,24 @@ function get_btc_usd($btc_in_usd) {
     }
   
 
+    elseif ( strtolower($btc_in_usd) == 'gemini' ) {
+    
+    $json_string = 'https://api.gemini.com/v1/pubticker/btcusd';
+    
+      $jsondata = @file_get_contents($json_string);
+      
+      $data = json_decode($jsondata, TRUE);
+      
+    
+    $_SESSION['btc_usd'] = number_format( $data['last'], 2, '.', '');
+    
+    
+    return $_SESSION['btc_usd'];
+      
+    
+    }
+
+
     elseif ( strtolower($btc_in_usd) == 'okcoin' ) {
   
     
@@ -196,6 +214,22 @@ function get_trade_price($markets, $markets_ids) {
     
   
   }
+
+
+  if ( strtolower($markets) == 'gemini' ) {
+  
+  $json_string = 'https://api.gemini.com/v1/pubticker/' . $markets_ids;
+  
+    $jsondata = @file_get_contents($json_string);
+    
+    $data = json_decode($jsondata, TRUE);
+    
+    return number_format( $data['last'], 8, '.', '');
+    
+  
+  }
+
+
 
 
   if ( strtolower($markets) == 'cryptofresh' ) {
