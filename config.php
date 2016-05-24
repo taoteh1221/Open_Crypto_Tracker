@@ -10,7 +10,7 @@ require_once("app.lib/functions.php");
 
 require_once("app.lib/filters.php");
 
-$version = '1.3.0';  // 2016/MAY/9th
+$version = '1.3.1';  // 2016/MAY/24th
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD
 
@@ -20,7 +20,7 @@ $eth_subtokens_values = array(
                         );
 
 /*
- * USAGE (ADDING / UPDATING COINS) ...ONLY KRAKEN / GATECOIN / POLONIEX / BITTREX / bitfinex / cryptofresh / gemini BTC, altcoin, and token API SUPPORT AS OF NOW
+ * USAGE (ADDING / UPDATING COINS) ...ONLY KRAKEN / GATECOIN / POLONIEX / COINBASE / BITTREX / bitfinex / cryptofresh / gemini BTC, altcoin, and token API SUPPORT AS OF NOW
  * Ethereum subtoken support has been built in, but values are static as no APIs exist yet
  *
  
@@ -82,6 +82,7 @@ $coins_array = array(
                         'markets' => array(
                                           'poloniex',
                                           'kraken',
+                                          'coinbase',
                                           'gatecoin',
                                           'bitfinex',
                                           'gemini',
@@ -90,6 +91,7 @@ $coins_array = array(
                         'markets_ids' => array(
                                           'poloniex' => 'BTC_ETH',
                                           'kraken' => 'XETHXXBT',
+                                          'coinbase' => 'ETH',
                                           'gatecoin' => 'ETHBTC',
                                           'bitfinex' => 'ethbtc',
                                           'gemini' => 'ethbtc',

@@ -231,6 +231,19 @@ function get_trade_price($markets, $markets_ids) {
 
 
 
+  
+    if ( strtolower($markets) == 'coinbase' ) {
+  
+     $json_string = 'https://api.coinbase.com/v2/exchange-rates?currency=' . $markets_ids;
+     
+     $jsondata = @file_get_contents($json_string);
+     
+     $data = json_decode($jsondata, TRUE);
+     
+     return $data['data']['rates']['BTC'];
+   
+    }
+  
 
   if ( strtolower($markets) == 'cryptofresh' ) {
   
