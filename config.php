@@ -10,13 +10,13 @@ require_once("app.lib/functions.php");
 
 require_once("app.lib/filters.php");
 
-$version = '1.3.1';  // 2016/MAY/24th
+$version = '1.3.2';  // 2016/MAY/28th
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD
 
 $eth_subtokens_values = array(
                         // Values in ETH for subtokens
-                        'THEDAO' => 0.01
+                        'THEDAO' => 0.01 // During crowdsale period
                         );
 
 /*
@@ -106,12 +106,16 @@ $coins_array = array(
                         'coin_name' => 'TheDAO',
                         'coin_symbol' => 'DAO',
                         'markets' => array(
-                                          'ethereum_subtokens'
+                                          'poloniex',
+                                          'kraken',
+                                          'bittrex'
                                           ),
                         'markets_ids' => array(
-                                          'ethereum_subtokens' => 'THEDAO'
+                                          'poloniex' => 'BTC_DAO',
+                                          'kraken' => 'XDAOXXBT',
+                                          'bittrex' => 'BTC-DAO'
                                           ),
-                        'trade_pair' => 'eth',
+                        'trade_pair' => 'btc',
                         'coinmarketcap' => 'no'
                         
                     ),
@@ -142,6 +146,22 @@ $coins_array = array(
                         'markets_ids' => array(
                                           'poloniex' => 'BTC_MAID',
                                           'bittrex' => 'BTC-MAID'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'yes'
+                        
+                    ),
+                    'LSK' => array(
+                        
+                        'coin_name' => 'Lisk',
+                        'coin_symbol' => 'LSK',
+                        'markets' => array(
+                                          'poloniex',
+                                          'bittrex'
+                                          ),
+                        'markets_ids' => array(
+                                          'poloniex' => 'BTC_LSK',
+                                          'bittrex' => 'BTC-LSK'
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'yes'
@@ -181,6 +201,22 @@ $coins_array = array(
                         'coinmarketcap' => 'yes'
                         
                     ),
+                    'AMP' => array(
+                        
+                        'coin_name' => 'Synereo',
+                        'coin_symbol' => 'AMP',
+                        'markets' => array(
+                                          'poloniex',
+                                          'bittrex'
+                                          ),
+                        'markets_ids' => array(
+                                          'poloniex' => 'BTC_AMP',
+                                          'bittrex' => 'BTC-AMP'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'yes'
+                        
+                    ),
                     'XLM' => array(
                         
                         'coin_name' => 'Stellar',
@@ -192,20 +228,6 @@ $coins_array = array(
                         'markets_ids' => array(
                                           'poloniex' => 'BTC_STR',
                                           'bittrex' => 'BTC-XLM'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'yes'
-                        
-                    ),
-                    'AMP' => array(
-                        
-                        'coin_name' => 'Synereo',
-                        'coin_symbol' => 'AMP',
-                        'markets' => array(
-                                          'bittrex'
-                                          ),
-                        'markets_ids' => array(
-                                          'bittrex' => 'BTC-AMP'
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'yes'
