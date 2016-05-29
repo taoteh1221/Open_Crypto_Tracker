@@ -15,15 +15,17 @@ Just upload to your PHP-based web server, and you should be all set. See below f
                         'markets' => array(
                                           'MARKETPLACE1',
                                           'MARKETPLACE2',
-                                          'MARKETPLACE3'
+                                          'MARKETPLACE3',
+                                          'ethereum_subtokens'  // Static values in ETH for Ethereum subtokens, like during crowdsale periods etc
                                           ),
                         'markets_ids' => array(
                                           'MARKETPLACE1' => 'MARKETNUMBERHERE',
                                           'MARKETPLACE2' => 'BTC_COINSYMBOLHERE',
-                                          'MARKETPLACE3' => 'BTC-COINSYMBOLHERE'
+                                          'MARKETPLACE3' => 'BTC-COINSYMBOLHERE',
+                                          'ethereum_subtokens' => 'THEDAO' // Must be defined in $eth_subtokens_values at top of config.php
                                           ),
                         'trade_pair' => 'LOWERCASE_BTC_OR_LTC_OR_ETH_TRADING_PAIR',
-                        'coinmarketcap' => 'yes' // Is this coin listed on coinmarketcap
+                        'coinmarketcap' => 'coin-slug' // Is this coin listed on coinmarketcap, leave blank if not
                         
                     )
                     

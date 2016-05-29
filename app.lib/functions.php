@@ -593,9 +593,9 @@ $markets_ids = $markets_ids[$markets];
 <td class='data border_lb' align='right'>
  
  <?php
- if ( $coins_array[$trade_symbol]['coinmarketcap'] == 'yes' ) {
+ if ( trim($coins_array[$trade_symbol]['coinmarketcap']) != '' ) {
  ?>
- <a href='http://coinmarketcap.com/currencies/<?php echo strtolower($coin_name); ?>/' target='_blank'><?php echo $coin_name; ?></a>
+ <a href='http://coinmarketcap.com/currencies/<?php echo trim(strtolower($coins_array[$trade_symbol]['coinmarketcap'])); ?>/' target='_blank'><?php echo $coin_name; ?></a>
  <?php
  }
  else {
