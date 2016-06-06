@@ -13,14 +13,14 @@
   if ( !$_SESSION['etherscan_data'] ) {
   
   $json_string = 'http://api.etherscan.io/api?module=proxy&action=eth_blockNumber';
-  $jsondata = @file_get_contents($json_string);
+  $jsondata = @get_data($json_string);
     
     $data = json_decode($jsondata, TRUE);
     
     $block_number = $data['result'];
     
   $json_string = 'http://api.etherscan.io/api?module=proxy&action=eth_getBlockByNumber&tag='.$block_number.'&boolean=true';
-  $jsondata = @file_get_contents($json_string);
+  $jsondata = @get_data($json_string);
     
     $data = json_decode($jsondata, TRUE);
     
@@ -57,7 +57,7 @@ function get_btc_usd($btc_in_usd) {
   
     $json_string = 'https://api.coinbase.com/v2/prices/spot?currency=USD';
     
-    $jsondata = @file_get_contents($json_string);
+    $jsondata = @get_data($json_string);
     
     $data = json_decode($jsondata, TRUE);
     
@@ -74,7 +74,7 @@ function get_btc_usd($btc_in_usd) {
   
     $json_string = 'https://api.bitfinex.com/v1/pubticker/btcusd';
     
-    $jsondata = @file_get_contents($json_string);
+    $jsondata = @get_data($json_string);
     
     $data = json_decode($jsondata, TRUE);
     
@@ -90,7 +90,7 @@ function get_btc_usd($btc_in_usd) {
     
     $json_string = 'https://api.gemini.com/v1/pubticker/btcusd';
     
-      $jsondata = @file_get_contents($json_string);
+      $jsondata = @get_data($json_string);
       
       $data = json_decode($jsondata, TRUE);
       
@@ -110,7 +110,7 @@ function get_btc_usd($btc_in_usd) {
   
     $json_string = 'https://www.okcoin.com/api/ticker.do?ok=1';
     
-    $jsondata = @file_get_contents($json_string);
+    $jsondata = @get_data($json_string);
     
     $data = json_decode($jsondata, TRUE);
     
@@ -129,7 +129,7 @@ function get_btc_usd($btc_in_usd) {
   
     $json_string = 'https://www.bitstamp.net/api/ticker/';
     
-    $jsondata = @file_get_contents($json_string);
+    $jsondata = @get_data($json_string);
     
     $data = json_decode($jsondata, TRUE);
     
@@ -145,7 +145,7 @@ function get_btc_usd($btc_in_usd) {
    
    $json_string = 'https://api.kraken.com/0/public/Ticker?pair=XXBTZUSD';
    
-   $jsondata = @file_get_contents($json_string);
+   $jsondata = @get_data($json_string);
    
    $data = json_decode($jsondata, TRUE);
    
@@ -206,7 +206,7 @@ function get_trade_price($markets, $markets_ids) {
   
   $json_string = 'https://api.bitfinex.com/v1/pubticker/' . $markets_ids;
   
-    $jsondata = @file_get_contents($json_string);
+    $jsondata = @get_data($json_string);
     
     $data = json_decode($jsondata, TRUE);
     
@@ -220,7 +220,7 @@ function get_trade_price($markets, $markets_ids) {
   
   $json_string = 'https://api.gemini.com/v1/pubticker/' . $markets_ids;
   
-    $jsondata = @file_get_contents($json_string);
+    $jsondata = @get_data($json_string);
     
     $data = json_decode($jsondata, TRUE);
     
@@ -236,7 +236,7 @@ function get_trade_price($markets, $markets_ids) {
   
      $json_string = 'https://api.coinbase.com/v2/exchange-rates?currency=' . $markets_ids;
      
-     $jsondata = @file_get_contents($json_string);
+     $jsondata = @get_data($json_string);
      
      $data = json_decode($jsondata, TRUE);
      
@@ -249,7 +249,7 @@ function get_trade_price($markets, $markets_ids) {
   
   $json_string = 'https://cryptofresh.com/api/asset/markets?asset=' . $markets_ids;
   
-    $jsondata = @file_get_contents($json_string);
+    $jsondata = @get_data($json_string);
     
     $data = json_decode($jsondata, TRUE);
     
@@ -264,7 +264,7 @@ function get_trade_price($markets, $markets_ids) {
   
   $json_string = 'https://bittrex.com/api/v1.1/public/getticker?market=' . $markets_ids;
   
-  $jsondata = @file_get_contents($json_string);
+  $jsondata = @get_data($json_string);
   
   $data = json_decode($jsondata, TRUE);
   
@@ -296,7 +296,7 @@ function get_trade_price($markets, $markets_ids) {
      
      $json_string = 'https://poloniex.com/public?command=returnTicker';
      
-     $jsondata = @file_get_contents($json_string);
+     $jsondata = @get_data($json_string);
      
      $data = json_decode($jsondata, TRUE);
      
@@ -338,7 +338,7 @@ function get_trade_price($markets, $markets_ids) {
   
   $json_string = 'https://api.kraken.com/0/public/Ticker?pair=' . $markets_ids;
   
-  $jsondata = @file_get_contents($json_string);
+  $jsondata = @get_data($json_string);
   
   $data = json_decode($jsondata, TRUE);
   
@@ -386,7 +386,7 @@ function get_trade_price($markets, $markets_ids) {
      
      $json_string = 'https://www.gatecoin.com/api/Public/LiveTickers';
      
-     $jsondata = @file_get_contents($json_string);
+     $jsondata = @get_data($json_string);
      
      $data = json_decode($jsondata, TRUE);
      
@@ -728,19 +728,18 @@ function eth_difficulty() {
 function get_data($url) {
 
 $ch = curl_init();
-$timeout = 5;
+$timeout = 15;
 
 curl_setopt($ch, CURLOPT_URL, $url);
 curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-curl_setopt($ch, CURLOPT_HEADER, TRUE);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_BINARYTRANSFER, 1);
-curl_setopt($ch, CURLOPT_USERAGENT,         'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.116 Safari/537.36');
+//curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.116 Safari/537.36');
 
 
 curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, 0);
 curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, 0); 
-curl_setopt($ch, CURLOPT_TIMEOUT,        10);
+curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
 
 $data = curl_exec($ch);
 

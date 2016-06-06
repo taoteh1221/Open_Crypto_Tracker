@@ -249,6 +249,11 @@ Minor GUI tweaks
 -Revised coinmarketcap link rendering
 -------------------------------------------------------------------
 
+-------------------------------------------------------------------
+1.3.4:
+-Overhauled feed connection function, so it timeouts if services are unavailable
+-------------------------------------------------------------------
+
 
 
 
