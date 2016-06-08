@@ -21,7 +21,7 @@ require("templates/default/header.php");
 			<li><a href='#tab2'>Update Coin Amounts</a></li>
 			<li><a href='#tab3'>Program Settings</a></li>
 			<li><a href='#tab4'>Mining Calculators</a></li>
-			<li><a href='#tab5'>Help</a></li>
+			<li><a style='color:red;' href='#tab5'>Help</a></li>
 		</ul>
 		<div id='tab1' class='tabdiv'>
 			<h3 style='display: inline;'>Your Coin Values</h3> &nbsp; &nbsp; <a href='javascript:location.reload(true);' style='font-weight: bold;'>Reload Values</a> &nbsp; <select name='select_auto_refresh' id='select_auto_refresh' onchange='auto_reload(this.value);'>
@@ -323,7 +323,7 @@ echo 'Total USD Value: $' . $total_usd_worth2 . ' (1 Bitcoin is currently worth 
 		</div>
 		<div id='tab5' class='tabdiv'>
 			<h3>Help</h3>
-			<p>If you reconfigure the config file settings, reload / refresh the page before updating any coin values, or the submission form may not be configured properly and may not submit data correctly. Also, you may need to uncheck "Save coin values as cookie data" on the Program Settings page temporarily to clear out old cookie data that may conflict with the new configuration...then you can re-enable cookies again afterwards.</p>
+			<p>If the config file settings are re-configured or re-ordered, reload / refresh the page before updating any coin values, or the submission form may not be configured properly and may not submit or display data correctly. Also, you may need to uncheck "Save coin values as cookie data" on the Program Settings page temporarily to clear out old cookie data that may conflict with the new configuration...then you can re-enable cookies again afterwards.</p>
 		</div>
 
 
