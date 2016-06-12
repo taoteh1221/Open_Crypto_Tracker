@@ -259,6 +259,12 @@ Minor GUI tweaks
 -Added Steem markets
 -------------------------------------------------------------------
 
+-------------------------------------------------------------------
+1.3.6:
+-Assets now load sorted from highest total USD value down to least total USD value
+-Switched from using a google-hosted jquery library, over to using a locally hosted jquery library, to minimize 3rd party connections to API-only
+-------------------------------------------------------------------
+
 
 
 

@@ -10,7 +10,7 @@ require_once("app.lib/functions.php");
 
 require_once("app.lib/filters.php");
 
-$version = '1.3.5';  // 2016/JUNE/8th
+$version = '1.3.6';  // 2016/JUNE/11th
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD
 
@@ -88,7 +88,8 @@ $coins_array = array(
                                           'gatecoin',
                                           'bitfinex',
                                           'gemini',
-                                          'bittrex'
+                                          'bittrex',
+                                          'cryptofresh'
                                           ),
                         'markets_ids' => array(
                                           'poloniex' => 'BTC_ETH',
@@ -97,7 +98,8 @@ $coins_array = array(
                                           'gatecoin' => 'ETHBTC',
                                           'bitfinex' => 'ethbtc',
                                           'gemini' => 'ethbtc',
-                                          'bittrex' => 'BTC-ETH'
+                                          'bittrex' => 'BTC-ETH',
+                                          'cryptofresh' => 'OPEN.ETH'
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'ethereum'
