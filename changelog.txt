@@ -265,6 +265,11 @@ Minor GUI tweaks
 -Switched from using a google-hosted jquery library, over to using a locally hosted jquery library, to minimize 3rd party connections to API-only
 -------------------------------------------------------------------
 
+-------------------------------------------------------------------
+1.3.7:
+-Added Expanse and Shift markets
+-------------------------------------------------------------------
+
 
 
 

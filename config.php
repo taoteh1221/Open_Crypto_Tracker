@@ -10,7 +10,7 @@ require_once("app.lib/functions.php");
 
 require_once("app.lib/filters.php");
 
-$version = '1.3.6';  // 2016/JUNE/11th
+$version = '1.3.7';  // 2016/JUNE/19th
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD
 
@@ -235,6 +235,36 @@ $coins_array = array(
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'maidsafecoin'
+                        
+                    ),
+                    'EXP' => array(
+                        
+                        'coin_name' => 'Expanse',
+                        'coin_symbol' => 'EXP',
+                        'markets' => array(
+                                          'poloniex',
+                                          'bittrex'
+                                          ),
+                        'markets_ids' => array(
+                                          'poloniex' => 'BTC_EXP',
+                                          'bittrex' => 'BTC-EXP'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'expanse'
+                        
+                    ),
+                    'SHF' => array(
+                        
+                        'coin_name' => 'Shift',
+                        'coin_symbol' => 'SHF',
+                        'markets' => array(
+                                          'bittrex'
+                                          ),
+                        'markets_ids' => array(
+                                          'bittrex' => 'BTC-SHF'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'shift'
                         
                     ),
                     'BTS' => array(
