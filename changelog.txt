@@ -267,7 +267,7 @@ Minor GUI tweaks
 
 -------------------------------------------------------------------
 1.3.7:
--Added Expanse and Shift markets
+-Added Monero, Expanse, and Shift markets
 -------------------------------------------------------------------
 
 

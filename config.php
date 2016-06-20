@@ -237,6 +237,22 @@ $coins_array = array(
                         'coinmarketcap' => 'maidsafecoin'
                         
                     ),
+                    'XMR' => array(
+                        
+                        'coin_name' => 'Monero',
+                        'coin_symbol' => 'XMR',
+                        'markets' => array(
+                                          'poloniex',
+                                          'bittrex'
+                                          ),
+                        'markets_ids' => array(
+                                          'poloniex' => 'BTC_XMR',
+                                          'bittrex' => 'BTC-XMR'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'monero'
+                        
+                    ),
                     'EXP' => array(
                         
                         'coin_name' => 'Expanse',
