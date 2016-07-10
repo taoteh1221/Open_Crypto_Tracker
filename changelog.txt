@@ -275,6 +275,13 @@ Minor GUI tweaks
 -Cleaned up low volume markets / resorted markets
 -------------------------------------------------------------------
 
+-------------------------------------------------------------------
+1.3.9:
+-Added STEEM Dollar market
+-Added Advanced STEEM Power Interest / Power Down Calculator
+-Tidied up minor things
+-------------------------------------------------------------------
+
 
 
 

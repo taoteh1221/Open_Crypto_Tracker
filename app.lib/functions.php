@@ -752,4 +752,176 @@ return $data;
 }
 //////////////////////////////////////////////////////////
 
+//////////////////////////////////////////////////////////
+
+function trim_array($data) {
+
+        foreach ( $data as $key => $value ) {
+        $data[$key] = trim(remove_formatting($value));
+        }
+        
+return $data;
+
+}
+//////////////////////////////////////////////////////////
+
+function remove_formatting($data) {
+
+$data = preg_replace("/ /i", "", $data); // Space
+$data = preg_replace("/ /i", "", $data); // Tab
+$data = preg_replace("/,/i", "", $data); // Comma
+        
+return $data;
+
+}
+//////////////////////////////////////////////////////////
+
+function powerdown_usd($data) {
+
+global $steam_market, $btc_in_usd;
+
+return ( $data * $steam_market * get_btc_usd($btc_in_usd) );
+
+}
+//////////////////////////////////////////////////////////
+
+
+function steempower_time($speed, $time) {
+    
+global $_POST, $steam_market, $btc_in_usd;
+
+$powertime = NULL;
+$steem_total = NULL;
+$usd_total = NULL;
+
+    if ( $time == 'minute' ) {
+    $powertime = $speed;
+    }
+    elseif ( $time == 'hour' ) {
+    $powertime = ($speed * 60);
+    }
+    elseif ( $time == 'day' ) {
+    $powertime = ($speed * 60 * 24);
+    }
+    elseif ( $time == 'week' ) {
+    $powertime = ($speed * 60 * 24 * 7);
+    }
+    elseif ( $time == 'month' ) {
+    $powertime = ($speed * 60 * 24 * 30);
+    }
+    elseif ( $time == '2month' ) {
+    $powertime = ($speed * 60 * 24 * 60);
+    }
+    elseif ( $time == '3month' ) {
+    $powertime = ($speed * 60 * 24 * 90);
+    }
+    elseif ( $time == '6month' ) {
+    $powertime = ($speed * 60 * 24 * 180);
+    }
+    elseif ( $time == '9month' ) {
+    $powertime = ($speed * 60 * 24 * 270);
+    }
+    elseif ( $time == 'year' ) {
+    $powertime = ($speed * 60 * 24 * 365);
+    }
+    elseif ( $time == '15month' ) {
+    $powertime = ($speed * 60 * 24 * 450);
+    }
+    elseif ( $time == '18month' ) {
+    $powertime = ($speed * 60 * 24 * 540);
+    }
+    
+    $powertime_usd = ( $powertime * $steam_market * get_btc_usd($btc_in_usd) );
+    
+    $steem_total = ( $powertime + $_POST['sp_total'] );
+    $usd_total = ( $steem_total * $steam_market * get_btc_usd($btc_in_usd) );
+    
+    $power_purchased = ( $_POST['sp_purchased'] / $_POST['sp_total'] );
+    $power_earned = ( $_POST['sp_earned'] / $_POST['sp_total'] );
+    $power_interest = 1 - ( $power_purchased + $power_earned );
+    
+    $powerdown_total = ( $steem_total / 104 );
+    $powerdown_purchased = ( $powerdown_total * $power_purchased );
+    $powerdown_earned = ( $powerdown_total * $power_earned );
+    $powerdown_interest = ( $powerdown_total * $power_interest );
+    
+//echo $power_purchased;
+//echo $power_earned;
+//echo $power_interest;
+    ?>
+    
+<div class='result'>
+    <h2> Interest Per <?=ucfirst($time)?> </h2>
+    <ul>
+        
+        <li><b><?=number_format( $powertime, 3, '.', ',')?> STEEM</b> <i>in interest</i>, after a <?=$time?> time period = <b>$<?=number_format( $powertime_usd, 2, '.', ',')?></b></li>
+        
+        <li><b><?=number_format( $steem_total, 3, '.', ',')?> STEEM</b> <i>in total</i>, including original vested amount = <b>$<?=number_format( $usd_total, 2, '.', ',')?></b></li>
+    
+    </ul>
+
+        <table border='1' cellpadding='10' cellspacing='0'>
+  <caption><b>A Power Down Weekly Payout At This Time Would Be (rounded to nearest cent):</b></caption>
+         <thead>
+            <tr>
+        <th class='normal'> Purchased </th>
+        <th class='normal'> Earned </th>
+        <th class='normal'> Interest </th>
+        <th> Total </th>
+            </tr>
+          </thead>
+         <tbody>
+                <tr>
+
+                <td> <?=number_format( $powerdown_purchased, 3, '.', ',')?> STEEM = $<?=number_format( powerdown_usd($powerdown_purchased), 2, '.', ',')?> </td>
+                <td> <?=number_format( $powerdown_earned, 3, '.', ',')?> STEEM = $<?=number_format( powerdown_usd($powerdown_earned), 2, '.', ',')?> </td>
+                <td> <?=number_format( $powerdown_interest, 3, '.', ',')?> STEEM = $<?=number_format( powerdown_usd($powerdown_interest), 2, '.', ',')?> </td>
+                <td> <b><?=number_format( $powerdown_total, 3, '.', ',')?> STEEM</b> = <b>$<?=number_format( powerdown_usd($powerdown_total), 2, '.', ',')?></b> </td>
+
+                </tr>
+           
+        </tbody>
+        </table>     
+        
+</div>
+
+    <?php
+    
+}
+//////////////////////////////////////////////////////////
+
+function steem_market() {
+  
+        if ( $_SESSION['steem_btc'] ) {
+        return $_SESSION['steem_btc'];
+        }
+        else {
+                    
+          $json_string = 'https://bittrex.com/api/v1.1/public/getticker?market=BTC-STEEM';
+          
+          $jsondata = @get_data($json_string);
+          
+          $data = json_decode($jsondata, TRUE);
+          
+              if (is_array($data) || is_object($data)) {
+                
+                    foreach ($data as $key => $value) {
+                      
+                      if ( $key == 'result' ) {
+                       
+                       $_SESSION['steem_btc'] = $data[$key]["Last"];
+                      return $_SESSION['steem_btc'];
+                       
+                       
+                      }
+                    
+            
+                    }
+                    
+              }
+  
+        }
+}
+//////////////////////////////////////////////////////////
+
 ?>

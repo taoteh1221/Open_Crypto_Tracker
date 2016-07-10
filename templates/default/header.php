@@ -6,7 +6,7 @@
 
 <head>
 <meta charset="UTF-8">
-    <title>DFD Cryptocoin Values v<?=$version?></title>
+    <title>DFD Cryptocoin Values</title>
 <link rel="stylesheet" href="templates/default/css/style.css" type="text/css" />
 
 <link rel="stylesheet" href="templates/default/css/theme.default.css" type="text/css" />

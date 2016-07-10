@@ -20,7 +20,7 @@ require("templates/default/header.php");
 			<li><a href='#tab1'>Your Coin Values</a></li>
 			<li><a href='#tab2'>Update Coin Amounts</a></li>
 			<li><a href='#tab3'>Program Settings</a></li>
-			<li><a href='#tab4'>Mining Calculators</a></li>
+			<li><a href='#tab4'>Mining and Interest Calculators</a></li>
 			<li><a style='color:red;' href='#tab5'>Help</a></li>
 		</ul>
 		<div id='tab1' class='tabdiv'>
@@ -213,113 +213,25 @@ echo 'Total USD Value: $' . $total_usd_worth2 . ' (1 Bitcoin is currently worth 
                         
 		</div>
 		<div id='tab4' class='tabdiv'>
-			<h3>Mining Calculators</h3>
+			<h3>Mining and Interest Calculators</h3>
+			
+			<div style='border: 2px dotted red; font-weight: bold; padding: 9px; color: red;'><a href='index.php' style='color: red;'>Click Here To Reset Default Tab / Calculators</a></div>
 			
 			<fieldset class='calculators'>
-				<legend style='color: blue;'> Ethereum Mining Calculator </legend>
+				<legend style='color: blue;'> <b>Ethereum Mining Calculator</b> </legend>
 		    
-				<?php
-				
-				echo '<p>Block height: ' . number_format(hexdec(etherscan_api('number'))) . '</p>';
-				echo '<p>Gas limit: ' . number_format(hexdec(etherscan_api('gasLimit'))) . '</p>';
-				
-				
-				if ( $_POST['eth_submitted'] ) {
-				    
-				$_POST['eth_difficulty'] = str_replace("    ", '', $_POST['eth_difficulty']);
-				$_POST['eth_difficulty'] = str_replace(" ", '', $_POST['eth_difficulty']);
-				$_POST['eth_difficulty'] = str_replace(",", '', $_POST['eth_difficulty']);
-				    
-				$scale = ( trim($_POST['eth_difficulty']) / trim($_POST['eth_measure']) );
-				
-				$time = ( $scale / trim($_POST['eth_hashrate']) );
-				
-				$hours = ( $time / 3600 );
-				
-				$days = ( $hours / 24 );
-				
-				$months = ( $days / 30 );
-				
-				$years = ( $days / 365 );
-				    
-				    //echo '<p>'.$scale;
-				    //echo '<p>'.$time;
-				?>
-				<p style='color: green;'>
-				<?php
-				    if ( $hours < 24 ) {
-				    ?>
-				    Hours until block found: 
-				    <?php
-				    echo round($hours, 2);
-				    }
-				
-				    elseif ( $days < 30 ) {
-				    ?>
-				    Days until block found: 
-				    <?php
-				    echo round($days, 2);
-				    }
-				
-				    elseif ( $days < 365 ) {
-				    ?>
-				    Months until block found: 
-				    <?php
-				    echo round($months, 2);
-				    }
-				    
-				    else {
-				    ?>
-				    Years until block found: 
-				    <?php
-				    echo round($years, 2);
-				    }
-				
-				$caculate_daily = ( 24 / $hours );
-				$daily_average = ( $caculate_daily * ( get_trade_price('poloniex', 'BTC_ETH') * 5 ) );
-				?>
-				<br />
-				<br />
-				Current Ethereum Value Per Coin: 
-				<?php
-				echo round(get_trade_price('poloniex', 'BTC_ETH'), 8) . ' BTC ($' . round(( round(get_trade_price('poloniex', 'BTC_ETH'), 8) * get_btc_usd($btc_in_usd) ), 8) . ' USD)';
-				?>
-				<br />
-				<br />
-				Average ETH Earned Daily (block reward only): 
-				<?php
-				echo round(( round($daily_average, 8) / get_trade_price('poloniex', 'BTC_ETH') ), 8) . ' ETH';
-				?>
-				<br />
-				<br />
-				Average BTC Value Earned Daily: 
-				<?php
-				echo round($daily_average, 8) . ' BTC ($' . round(( round($daily_average, 8) * get_btc_usd($btc_in_usd) ), 2) . ' USD)';
-				}
-				?>
-				</p>
-				<form name='eth' action='index.php#tab4' method='post'>
-				    
-				    <input type='hidden' value='1' name='eth_submitted' />
-				
-				<p>Difficulty: <input type='text' value='<?=( $_POST['eth_difficulty'] ? number_format($_POST['eth_difficulty']) : number_format(hexdec(etherscan_api('difficulty'))) )?>' name='eth_difficulty' /> (uses <a href='https://etherscan.io/apis/' target='_blank'>etherscan.io/apis</a>)</p>
-				
-				
-				<p>Your Hashrate: <input type='text' value='<?=$_POST['eth_hashrate']?>' name='eth_hashrate' />
-				
-				<select name='eth_measure'>
-				<option value='1000000' <?=( $_POST['eth_measure'] == '1000000' ? 'selected' : '' )?>> Mhs </option>
-				<option value='1000' <?=( $_POST['eth_measure'] == '1000' ? 'selected' : '' )?>> Khs </option>
-				</select>
-				</p>
-				
-				<input type='submit' value='Calculate ETH Mining Profit' />
-				
-				</form>
+				<?php require("app.lib/calculators/ethereum-mining-calculator.php"); ?>
 				
 				
 			</fieldset>
 			
+			<fieldset class='calculators'>
+				<legend style='color: blue;'> <b>STEEM Power Interest Rate / Power Down Weekly Payout Calculator</b> </legend>
+				
+				<?php require("app.lib/calculators/steem-power-interest.php"); ?>
+				
+			</fieldset>
+		    
 		</div>
 		<div id='tab5' class='tabdiv'>
 			<h3>Help</h3>

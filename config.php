@@ -10,7 +10,7 @@ require_once("app.lib/functions.php");
 
 require_once("app.lib/filters.php");
 
-$version = '1.3.8';  // 2016/JUNE/23rd
+$version = '1.3.9';  // 2016/JULY/10th
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD
 
@@ -235,6 +235,20 @@ $coins_array = array(
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'steem'
+                        
+                    ),
+                    'SBD' => array(
+                        
+                        'coin_name' => 'SteemDollars',
+                        'coin_symbol' => 'SBD',
+                        'markets' => array(
+                                          'bittrex'
+                                          ),
+                        'markets_ids' => array(
+                                          'bittrex' => 'BTC-SBD'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => ''
                         
                     ),
                     'XMR' => array(
