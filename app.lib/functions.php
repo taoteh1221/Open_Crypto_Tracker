@@ -836,8 +836,8 @@ $usd_total = NULL;
     $steem_total = ( $powertime + $_POST['sp_total'] );
     $usd_total = ( $steem_total * $steam_market * get_btc_usd($btc_in_usd) );
     
-    $power_purchased = ( $_POST['sp_purchased'] / $_POST['sp_total'] );
-    $power_earned = ( $_POST['sp_earned'] / $_POST['sp_total'] );
+    $power_purchased = ( $_POST['sp_purchased'] / $steem_total );
+    $power_earned = ( $_POST['sp_earned'] / $steem_total );
     $power_interest = 1 - ( $power_purchased + $power_earned );
     
     $powerdown_total = ( $steem_total / 104 );

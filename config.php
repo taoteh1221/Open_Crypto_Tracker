@@ -10,7 +10,7 @@ require_once("app.lib/functions.php");
 
 require_once("app.lib/filters.php");
 
-$version = '1.3.9';  // 2016/JULY/10th
+$version = '1.4.0';  // 2016/JULY/10th
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD
 
