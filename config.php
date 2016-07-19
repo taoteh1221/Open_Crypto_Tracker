@@ -10,7 +10,7 @@ require_once("app.lib/functions.php");
 
 require_once("app.lib/filters.php");
 
-$version = '1.4.0';  // 2016/JULY/10th
+$version = '1.4.1';  // 2016/JULY/19th
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD
 
@@ -121,24 +121,6 @@ $coins_array = array(
                         'coinmarketcap' => 'lisk'
                         
                     ),
-                    'DAO' => array(
-                        
-                        'coin_name' => 'TheDAO',
-                        'coin_symbol' => 'DAO',
-                        'markets' => array(
-                                          'poloniex',
-                                          'kraken',
-                                          'bittrex'
-                                          ),
-                        'markets_ids' => array(
-                                          'poloniex' => 'BTC_DAO',
-                                          'kraken' => 'XDAOXXBT',
-                                          'bittrex' => 'BTC-DAO'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'the-dao'
-                        
-                    ),
                     'LTC' => array(
                         
                         'coin_name' => 'Litecoin',
@@ -189,6 +171,40 @@ $coins_array = array(
                         'coinmarketcap' => 'peercoin'
                         
                     ),
+                    'STEEM' => array(
+                        
+                        'coin_name' => 'Steem',
+                        'coin_symbol' => 'STEEM',
+                        'markets' => array(
+                                          'poloniex',
+                                          'bittrex',
+                                          'cryptofresh'
+                                          ),
+                        'markets_ids' => array(
+                                          'poloniex' => 'BTC_STEEM',
+                                          'bittrex' => 'BTC-STEEM',
+                                          'cryptofresh' => 'OPEN.STEEM'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'steem'
+                        
+                    ),
+                    'SBD' => array(
+                        
+                        'coin_name' => 'SteemDollars',
+                        'coin_symbol' => 'SBD',
+                        'markets' => array(
+                                          'poloniex',
+                                          'bittrex'
+                                          ),
+                        'markets_ids' => array(
+                                          'poloniex' => 'BTC_SBD',
+                                          'bittrex' => 'BTC-SBD'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => ''
+                        
+                    ),
                     'AMP' => array(
                         
                         'coin_name' => 'Synereo',
@@ -221,34 +237,22 @@ $coins_array = array(
                         'coinmarketcap' => 'maidsafecoin'
                         
                     ),
-                    'STEEM' => array(
+                    'DAO' => array(
                         
-                        'coin_name' => 'Steem',
-                        'coin_symbol' => 'STEEM',
+                        'coin_name' => 'TheDAO',
+                        'coin_symbol' => 'DAO',
                         'markets' => array(
-                                          'bittrex',
-                                          'cryptofresh'
-                                          ),
-                        'markets_ids' => array(
-                                          'bittrex' => 'BTC-STEEM',
-                                          'cryptofresh' => 'OPEN.STEEM'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'steem'
-                        
-                    ),
-                    'SBD' => array(
-                        
-                        'coin_name' => 'SteemDollars',
-                        'coin_symbol' => 'SBD',
-                        'markets' => array(
+                                          'poloniex',
+                                          'kraken',
                                           'bittrex'
                                           ),
                         'markets_ids' => array(
-                                          'bittrex' => 'BTC-SBD'
+                                          'poloniex' => 'BTC_DAO',
+                                          'kraken' => 'XDAOXXBT',
+                                          'bittrex' => 'BTC-DAO'
                                           ),
                         'trade_pair' => 'btc',
-                        'coinmarketcap' => ''
+                        'coinmarketcap' => 'the-dao'
                         
                     ),
                     'XMR' => array(

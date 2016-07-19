@@ -890,38 +890,5 @@ $usd_total = NULL;
 }
 //////////////////////////////////////////////////////////
 
-function steem_market() {
-  
-        if ( $_SESSION['steem_btc'] ) {
-        return $_SESSION['steem_btc'];
-        }
-        else {
-                    
-          $json_string = 'https://bittrex.com/api/v1.1/public/getticker?market=BTC-STEEM';
-          
-          $jsondata = @get_data($json_string);
-          
-          $data = json_decode($jsondata, TRUE);
-          
-              if (is_array($data) || is_object($data)) {
-                
-                    foreach ($data as $key => $value) {
-                      
-                      if ( $key == 'result' ) {
-                       
-                       $_SESSION['steem_btc'] = $data[$key]["Last"];
-                      return $_SESSION['steem_btc'];
-                       
-                       
-                      }
-                    
-            
-                    }
-                    
-              }
-  
-        }
-}
-//////////////////////////////////////////////////////////
 
 ?>
