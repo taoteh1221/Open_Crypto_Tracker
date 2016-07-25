@@ -10,7 +10,7 @@ require_once("app.lib/functions.php");
 
 require_once("app.lib/filters.php");
 
-$version = '1.4.1';  // 2016/JULY/19th
+$version = '1.4.2';  // 2016/JULY/24th
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD
 
@@ -103,6 +103,20 @@ $coins_array = array(
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'ethereum'
+                        
+                    ),
+                    'ETC' => array(
+                        
+                        'coin_name' => 'Ethereum Classic',
+                        'coin_symbol' => 'ETC',
+                        'markets' => array(
+                                          'poloniex'
+                                          ),
+                        'markets_ids' => array(
+                                          'poloniex' => 'BTC_ETC'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'ethereum-classic'
                         
                     ),
                     'LSK' => array(
