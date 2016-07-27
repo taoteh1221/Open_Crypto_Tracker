@@ -10,7 +10,7 @@ require_once("app.lib/functions.php");
 
 require_once("app.lib/filters.php");
 
-$version = '1.4.2';  // 2016/JULY/24th
+$version = '1.4.3';  // 2016/JULY/26th
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD
 
@@ -110,13 +110,49 @@ $coins_array = array(
                         'coin_name' => 'Ethereum Classic',
                         'coin_symbol' => 'ETC',
                         'markets' => array(
-                                          'poloniex'
+                                          'poloniex',
+                                          'bittrex'
                                           ),
                         'markets_ids' => array(
-                                          'poloniex' => 'BTC_ETC'
+                                          'poloniex' => 'BTC_ETC',
+                                          'bittrex' => 'BTC-ETC'
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'ethereum-classic'
+                        
+                    ),
+                    'STEEM' => array(
+                        
+                        'coin_name' => 'Steem',
+                        'coin_symbol' => 'STEEM',
+                        'markets' => array(
+                                          'poloniex',
+                                          'bittrex',
+                                          'cryptofresh'
+                                          ),
+                        'markets_ids' => array(
+                                          'poloniex' => 'BTC_STEEM',
+                                          'bittrex' => 'BTC-STEEM',
+                                          'cryptofresh' => 'OPEN.STEEM'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'steem'
+                        
+                    ),
+                    'SBD' => array(
+                        
+                        'coin_name' => 'SteemDollars',
+                        'coin_symbol' => 'SBD',
+                        'markets' => array(
+                                          'poloniex',
+                                          'bittrex'
+                                          ),
+                        'markets_ids' => array(
+                                          'poloniex' => 'BTC_SBD',
+                                          'bittrex' => 'BTC-SBD'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => ''
                         
                     ),
                     'LSK' => array(
@@ -183,40 +219,6 @@ $coins_array = array(
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'peercoin'
-                        
-                    ),
-                    'STEEM' => array(
-                        
-                        'coin_name' => 'Steem',
-                        'coin_symbol' => 'STEEM',
-                        'markets' => array(
-                                          'poloniex',
-                                          'bittrex',
-                                          'cryptofresh'
-                                          ),
-                        'markets_ids' => array(
-                                          'poloniex' => 'BTC_STEEM',
-                                          'bittrex' => 'BTC-STEEM',
-                                          'cryptofresh' => 'OPEN.STEEM'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'steem'
-                        
-                    ),
-                    'SBD' => array(
-                        
-                        'coin_name' => 'SteemDollars',
-                        'coin_symbol' => 'SBD',
-                        'markets' => array(
-                                          'poloniex',
-                                          'bittrex'
-                                          ),
-                        'markets_ids' => array(
-                                          'poloniex' => 'BTC_SBD',
-                                          'bittrex' => 'BTC-SBD'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => ''
                         
                     ),
                     'AMP' => array(
