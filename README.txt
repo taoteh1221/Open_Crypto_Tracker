@@ -1,5 +1,10 @@
 
-Just upload to your PHP-based web server, and you should be all set. See below for an example on adding your own markets to the coin list in config.php...
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Developed by Michael Kilday <mike@dragonfrugal.com>, released free / open source under GPL v3
+https://dragonfrugal.com/downloads/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Just upload to your PHP-based web server, and you should be all set. You must have curl modules activated on your HTTP server, most web hosting companies provide this already. Contact your hosting provider if you encounter issues getting prices feeds, and ask if curl is setup already. See below for an example on adding / editing your own markets into the coin list in config.php...it's very quick / easy to do. Currently only BTC-based markets are compatible.
 
 
 /*
@@ -12,13 +17,7 @@ Just upload to your PHP-based web server, and you should be all set. See below f
                         
                         'coin_name' => 'COIN_NAME',
                         'coin_symbol' => 'COIN_SYMBOL',
-                        'markets' => array(
-                                          'MARKETPLACE1',
-                                          'MARKETPLACE2',
-                                          'MARKETPLACE3',
-                                          'ethereum_subtokens'  // Static values in ETH for Ethereum subtokens, like during crowdsale periods etc
-                                          ),
-                        'markets_ids' => array(
+                        'market_ids' => array(
                                           'MARKETPLACE1' => 'MARKETNUMBERHERE',
                                           'MARKETPLACE2' => 'BTC_COINSYMBOLHERE',
                                           'MARKETPLACE3' => 'BTC-COINSYMBOLHERE',

@@ -197,14 +197,14 @@ function get_btc_usd($btc_in_usd) {
 
 
 //////////////////////////////////////////////////////////
-function get_trade_price($markets, $markets_ids) {
+function get_trade_price($markets, $market_ids) {
   
 
 
 
   if ( strtolower($markets) == 'bitfinex' ) {
   
-  $json_string = 'https://api.bitfinex.com/v1/pubticker/' . $markets_ids;
+  $json_string = 'https://api.bitfinex.com/v1/pubticker/' . $market_ids;
   
     $jsondata = @get_data($json_string);
     
@@ -218,7 +218,7 @@ function get_trade_price($markets, $markets_ids) {
 
   if ( strtolower($markets) == 'gemini' ) {
   
-  $json_string = 'https://api.gemini.com/v1/pubticker/' . $markets_ids;
+  $json_string = 'https://api.gemini.com/v1/pubticker/' . $market_ids;
   
     $jsondata = @get_data($json_string);
     
@@ -234,7 +234,7 @@ function get_trade_price($markets, $markets_ids) {
   
     if ( strtolower($markets) == 'coinbase' ) {
   
-     $json_string = 'https://api.coinbase.com/v2/exchange-rates?currency=' . $markets_ids;
+     $json_string = 'https://api.coinbase.com/v2/exchange-rates?currency=' . $market_ids;
      
      $jsondata = @get_data($json_string);
      
@@ -247,7 +247,7 @@ function get_trade_price($markets, $markets_ids) {
 
   if ( strtolower($markets) == 'cryptofresh' ) {
   
-  $json_string = 'https://cryptofresh.com/api/asset/markets?asset=' . $markets_ids;
+  $json_string = 'https://cryptofresh.com/api/asset/markets?asset=' . $market_ids;
   
     $jsondata = @get_data($json_string);
     
@@ -262,7 +262,7 @@ function get_trade_price($markets, $markets_ids) {
 
   if ( strtolower($markets) == 'bittrex' ) {
   
-  $json_string = 'https://bittrex.com/api/v1.1/public/getticker?market=' . $markets_ids;
+  $json_string = 'https://bittrex.com/api/v1.1/public/getticker?market=' . $market_ids;
   
   $jsondata = @get_data($json_string);
   
@@ -318,7 +318,7 @@ function get_trade_price($markets, $markets_ids) {
 	      
 	      //print_r($key);
 	      
-	      if ( $key == $markets_ids ) {
+	      if ( $key == $market_ids ) {
 	       
 	      return $data[$key]["last"];
 	       
@@ -336,7 +336,7 @@ function get_trade_price($markets, $markets_ids) {
 
   if ( strtolower($markets) == 'kraken' ) {
   
-  $json_string = 'https://api.kraken.com/0/public/Ticker?pair=' . $markets_ids;
+  $json_string = 'https://api.kraken.com/0/public/Ticker?pair=' . $market_ids;
   
   $jsondata = @get_data($json_string);
   
@@ -358,7 +358,7 @@ function get_trade_price($markets, $markets_ids) {
 		  
 		  //print_r($data[$key][$key2]);
 		  
-		  if ( $key2 == $markets_ids ) {
+		  if ( $key2 == $market_ids ) {
 		   
 		  return $data[$key][$key2]["c"][0];;
 		   
@@ -406,7 +406,7 @@ function get_trade_price($markets, $markets_ids) {
 	
 	    foreach ( $data['tickers'] as $key => $value ) {
 	      
-	      if ( $data['tickers'][$key]["currencyPair"] == $markets_ids ) {
+	      if ( $data['tickers'][$key]["currencyPair"] == $market_ids ) {
 	       
 	      return $data['tickers'][$key]["last"];
 	       
@@ -427,14 +427,14 @@ function get_trade_price($markets, $markets_ids) {
 //////////////////////////////////////////////////////////
  
 //////////////////////////////////////////////////////////
-function get_sub_token_price($markets, $markets_ids) {
+function get_sub_token_price($markets, $market_ids) {
 
 global $eth_subtokens_values;
 
  if ( strtolower($markets) == 'ethereum_subtokens' ) {
 
-  if ( $markets_ids == 'THEDAO' ) {
-  return $eth_subtokens_values[$markets_ids];
+  if ( $market_ids == 'THEDAO' ) {
+  return $eth_subtokens_values[$market_ids];
   }
  
  }
@@ -459,34 +459,50 @@ return $price;
 
 
 //////////////////////////////////////////////////////////
-function coin_data($coin_name, $trade_symbol, $coin_amount, $markets, $markets_ids, $trade_pairing, $sort_order) {
+function coin_data($coin_name, $trade_symbol, $coin_amount, $markets, $market_ids, $trade_pairing, $sort_order) {
 
 global $_POST, $coins_array, $btc_in_usd;
 
 
+//var_dump($markets);
+
 $orig_markets = $markets;  // Save this for dynamic HTML form
 
-$all_markets = $coins_array[$trade_symbol]['markets'];  // Get all markets for this coin
+$all_markets = $coins_array[$trade_symbol]['market_ids'];  // Get all markets for this coin
 
   // Update, get the selected market name
     // Only support for multiple markets per coin with BTC trade pairing
-  if ( sizeof($all_markets) > 1 && $trade_pairing == 'btc' ) {
-  $markets = $all_markets[$markets];
+  if ( $trade_pairing == 'btc' ) {
+
+  $loop = 0;
+   foreach ( $all_markets as $key => $value ) {
+   
+    if ( $loop == $markets ) {
+    $markets = $key;
+    }
+   
+   $loop = $loop + 1;
+   }
+  $loop = NULL; 
+
   }
   else {
-  $markets = $all_markets[0];
+  //var_dump($all_markets);
   }
 
+
+//var_dump($markets);
 
 if ( $coin_name == 'Bitcoin' ) {
 $btc_in_usd = $markets;
 }
 
 
-$markets_ids = $markets_ids[$markets];
-  
-  //var_dump($markets);
-  //var_dump($markets_ids);
+
+$market_ids = $market_ids[$markets];
+
+//var_dump($market_ids);
+
   
   
 	if ( $coin_amount > 0.00000000 ) {
@@ -499,7 +515,7 @@ $markets_ids = $markets_ids[$markets];
 	  }
 
 	  if ( $trade_pairing == 'btc' ) {
-	  $coin_to_trade = number_format( ( $coin_name == 'Bitcoin' ? get_btc_usd($btc_in_usd) : get_trade_price($markets, $markets_ids) ), ( $coin_name == 'Bitcoin' ? 2 : 8 ), '.', ',');
+	  $coin_to_trade = number_format( ( $coin_name == 'Bitcoin' ? get_btc_usd($btc_in_usd) : get_trade_price($markets, $market_ids) ), ( $coin_name == 'Bitcoin' ? 2 : 8 ), '.', ',');
 	  $coin_to_trade_worth = ($coin_amount * $coin_to_trade);
 	  $coin_to_trade_worth2 = number_format($coin_to_trade_worth, ( $coin_name == 'Bitcoin' ? 2 : 8 ), '.', ',');
 	  $btc_worth = number_format( $coin_to_trade_worth, 8 );  
@@ -511,7 +527,7 @@ $markets_ids = $markets_ids[$markets];
 	    
 	  $coin_to_btc = get_trade_price($markets, 3);
 	  
-	  $coin_to_trade = number_format( get_trade_price($markets, $markets_ids), 8, '.', ',');
+	  $coin_to_trade = number_format( get_trade_price($markets, $market_ids), 8, '.', ',');
 	  $coin_to_trade_worth = ($coin_amount * $coin_to_trade);
 	  $coin_to_trade_worth2 = number_format($coin_to_trade_worth, 8, '.', ',');
 	  $btc_worth = number_format( ($coin_to_trade_worth * $coin_to_btc), 8 );  // Convert value to bitcoin
@@ -528,7 +544,7 @@ $markets_ids = $markets_ids[$markets];
 	   
 	   if ( $markets == 'ethereum_subtokens' ) {
 	   
-	   $coin_to_trade = number_format( get_sub_token_price($markets, $markets_ids), 8, '.', ',');
+	   $coin_to_trade = number_format( get_sub_token_price($markets, $market_ids), 8, '.', ',');
 	   $coin_to_trade_worth = ($coin_amount * $coin_to_trade);
 	   $coin_to_trade_worth2 = number_format($coin_to_trade_worth, 8, '.', ',');
 	   $btc_worth = number_format( ($coin_to_trade_worth * $coin_to_btc), 8 );  // Convert value to bitcoin
@@ -541,7 +557,7 @@ $markets_ids = $markets_ids[$markets];
 	   }
 	   else {
 	   
-	   $coin_to_trade = number_format( get_trade_price($markets, $markets_ids), 8, '.', ',');
+	   $coin_to_trade = number_format( get_trade_price($markets, $market_ids), 8, '.', ',');
 	   $coin_to_trade_worth = ($coin_amount * $coin_to_trade);
 	   $coin_to_trade_worth2 = number_format($coin_to_trade_worth, 8, '.', ',');
 	   $btc_worth = number_format( ($coin_to_trade_worth * $coin_to_btc), 8 );  // Convert ltc value to bitcoin
@@ -566,24 +582,25 @@ $markets_ids = $markets_ids[$markets];
 
     
     // Only support for multiple markets per coin with BTC trade pairing
-    if ( sizeof($all_markets) > 1 && $trade_pairing == 'btc' ) {
+    if ( $trade_pairing == 'btc' ) {
     ?>
     <select name='change_<?=strtolower($trade_symbol)?>_market' onchange='
     document.coin_amounts.<?=strtolower($trade_symbol)?>_market.value = this.value; document.coin_amounts.submit();
     '>
         <?php
         foreach ( $all_markets as $market_key => $market_name ) {
-         // Avoid possible null equivelent issue by upping post value +1 in case zero
+         $loop = $loop + 1;
         ?>
-        <option value='<?=($market_key + 1)?>' <?=( $orig_markets == $market_key ? ' selected ' : '' )?>> <?=ucwords(preg_replace("/_/i", " ", $market_name))?> </option>
+        <option value='<?=($loop)?>' <?=( $orig_markets == ($loop -1) ? ' selected ' : '' )?>> <?=ucwords(preg_replace("/_/i", " ", $market_key))?> </option>
         <?php
         }
+        $loop = NULL;
         ?>
     </select>
     <?php
     }
     else {
-    echo ucwords(preg_replace("/_/i", " ", $markets));
+    //echo ucwords(preg_replace("/_/i", " ", $markets));
     }
     
   

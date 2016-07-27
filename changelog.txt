@@ -302,6 +302,16 @@ Minor GUI tweaks
 -Added Ethereum Classic Bittrex market
 -------------------------------------------------------------------
 
+-------------------------------------------------------------------
+1.4.4:
+-Added Ethereum Classic Kraken market
+-Reduced STEEM Power Interest calculator to 3 month estimate maximum
+-Fixed bugs when toggling the cookies settings on / off
+-Optimized the configuration file format, to reduce uneeded clutter
+-Other minor optimizations
+-------------------------------------------------------------------
+
+
 
 
 

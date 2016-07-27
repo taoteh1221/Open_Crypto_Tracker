@@ -79,23 +79,24 @@ if (is_array($coins_array) || is_object($coins_array)) {
     <?=$coin['coin_name']?> (<?=strtoupper($coin['coin_symbol'])?>) 
     <?php
     // Only support for multiple markets per coin with BTC trade pairing
-    if ( sizeof($coin['markets']) > 1 && $coin['trade_pair'] == 'btc' ) {
+    if ( $coin['trade_pair'] == 'btc' ) {
     ?>
     <?=( $coin['coin_symbol'] != 'BTC' ? strtoupper($coin['trade_pair']) : 'USD' )?> Market is <select id='<?=$field_var_market?>' name='<?=$field_var_market?>'>
         <?php
-        foreach ( $coin['markets'] as $market_key => $market_name ) {
-         // Avoid possible null equivelent issue by upping post value +1 in case zero
+        foreach ( $coin['market_ids'] as $market_key => $market_id ) {
+         $loop = $loop + 1;
         ?>
-        <option value='<?=($market_key + 1)?>' <?=( isset($_POST[$field_var_market]) && ($_POST[$field_var_market] - 1) == $market_key || isset($coin_market_id) && ($coin_market_id - 1) == $market_key ? ' selected ' : '' )?>> <?=ucwords(preg_replace("/_/i", " ", $market_name))?> </option>
+        <option value='<?=$loop?>' <?=( isset($_POST[$field_var_market]) && ($_POST[$field_var_market]) == $loop || isset($coin_market_id) && ($coin_market_id) == $loop ? ' selected ' : '' )?>> <?=ucwords(preg_replace("/_/i", " ", $market_key))?> </option>
         <?php
         }
+        $loop = NULL;
         ?>
     </select>, and 
     <?php
     }
     else {
     ?>
-    <?=( $coin['coin_symbol'] != 'BTC' ? strtoupper($coin['trade_pair']) : 'USD' )?> Market is <?=ucwords(preg_replace("/_/i", " ", $coin['markets'][0]))?>, and 
+    <?=( $coin['coin_symbol'] != 'BTC' ? strtoupper($coin['trade_pair']) : 'USD' )?> Market is <?=ucwords(preg_replace("/_/i", " ", $coin['market_ids'][0]))?>, and 
     <?php
     }
     ?>
@@ -115,7 +116,7 @@ if (is_array($coins_array) || is_object($coins_array)) {
 
 <input type='hidden' id='submit_check' name='submit_check' value='1' />
 
-<input type='hidden' id='submit_check' name='use_cookies' value='<?php echo ( $_COOKIE['coin_amounts'] ? '1' : ''); ?>' />
+<input type='hidden' id='use_cookies' name='use_cookies' value='<?php echo ( $_COOKIE['coin_amounts'] ? '1' : ''); ?>' />
 
 </form>
 

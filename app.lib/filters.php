@@ -3,11 +3,6 @@
 if ( $_POST['submit_check'] == 1 ) {
  
  
- $cookie_domain_info = ereg_replace("www.", "", $SERVER_NAME);
- 
- setcookie ("coin_amounts", "", time()-31536000, "/", $cookie_domain_info, 0);  // Delete cookie
- setcookie ("coin_markets", "", time()-31536000, "/", $cookie_domain_info, 0);  // Delete cookie
- 
  if (is_array($_POST) || is_object($_POST)) {
   
   
@@ -17,7 +12,7 @@ if ( $_POST['submit_check'] == 1 ) {
       
       $_POST[$key] = strip_price_formatting($value);
       
-         if ( $_POST['use_cookies'] == 1 && $_POST[$key] > 0.00000000 || $key == 'btc_amount' ) {
+         if ( $_POST['use_cookies'] == 1 && isset($_POST[$key]) ) {
           
           
             $set_coin_values .= $key.'-'. $_POST[$key] . '#';
@@ -49,14 +44,24 @@ if ( $_POST['submit_check'] == 1 ) {
   
   if ( $_POST['use_cookies'] == 1 ) {
    
-           $cookie_domain_info = ereg_replace("www.", "", $SERVER_NAME);
            // Cookie expires in 1 year (31536000 seconds)
            
-           setcookie ("coin_amounts", $set_coin_values, mktime()+31536000, "/", $cookie_domain_info, 0);
-           setcookie ("coin_markets", $set_market_values, mktime()+31536000, "/", $cookie_domain_info, 0);
+           setcookie("coin_amounts", $set_coin_values, mktime()+31536000);
+           setcookie("coin_markets", $set_market_values, mktime()+31536000);
            
     header("Location: " . $_SERVER['PHP_SELF']);
     exit;
+  }
+  else {
+   
+  unset($_COOKIE['coin_amounts']);  // Delete any existing cookies
+  unset($_COOKIE['coin_markets']);  // Delete any existing cookies
+  unset($_COOKIE['coin_reload']);  // Delete any existing cookies
+  
+  setcookie ("coin_amounts", "", time()-3600);  // Delete any existing cookies
+  setcookie ("coin_markets", "", time()-3600);  // Delete any existing cookies
+  setcookie ("coin_reload", "", time()-3600);  // Delete any existing cookies
+ 
   }
   
   

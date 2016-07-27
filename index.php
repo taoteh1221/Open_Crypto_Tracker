@@ -76,7 +76,7 @@ if ( $_POST['submit_check'] == 1 ) {
 		  			
 
 		// Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
-		  coin_data($coins_array[$coin_symbol]['coin_name'], $coin_symbol, $value, $chosen_market, $coins_array[$coin_symbol]['markets_ids'], $coins_array[$coin_symbol]['trade_pair'], $sort_order);
+		  coin_data($coins_array[$coin_symbol]['coin_name'], $coin_symbol, $value, $chosen_market, $coins_array[$coin_symbol]['market_ids'], $coins_array[$coin_symbol]['trade_pair'], $sort_order);
 		  
 		  
 		  }
@@ -136,7 +136,7 @@ $all_coins_cookie_array = explode("#", $_COOKIE['coin_amounts']);
 	   //var_dump($all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_amount']);
 	   
 		// Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
-	   coin_data($coins_array[$coin_symbol]['coin_name'], $coin_symbol, $all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_amount'], $chosen_market, $coins_array[$coin_symbol]['markets_ids'], $coins_array[$coin_symbol]['trade_pair'], $sort_order);
+	   coin_data($coins_array[$coin_symbol]['coin_name'], $coin_symbol, $all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_amount'], $chosen_market, $coins_array[$coin_symbol]['market_ids'], $coins_array[$coin_symbol]['trade_pair'], $sort_order);
 	   
 	   $sort_order = $sort_order + 1;
 
@@ -159,7 +159,18 @@ $total_usd_worth = ($total_btc_worth * get_btc_usd($btc_in_usd));
 $total_usd_worth2 = number_format($total_usd_worth, 2, '.', ',');
 
 echo '<p class="bold_1">Total Bitcoin Value: ' . $total_btc_worth2 . '<br />';
-echo 'Total USD Value: $' . $total_usd_worth2 . ' (1 Bitcoin is currently worth $' .get_btc_usd($btc_in_usd). ' at '.ucfirst($coins_array['BTC']['markets'][$btc_market]).')</p>';
+
+$coins_array_numbered = array_values($coins_array['BTC']['market_ids']);
+
+foreach ( $coins_array['BTC']['market_ids'] as $key => $value ) {
+$loop = $loop + 1;
+
+	if ( $value == $coins_array_numbered[$btc_market] ) {
+	echo 'Total USD Value: $' . $total_usd_worth2 . ' (1 Bitcoin is currently worth $' .get_btc_usd($btc_in_usd). ' at '.ucfirst($key).')</p>';
+	}
+
+}
+$loop = NULL;
 
 // End outputting results
 }
@@ -185,12 +196,13 @@ echo 'Total USD Value: $' . $total_usd_worth2 . ' (1 Bitcoin is currently worth 
 			    document.getElementById("btc_market").selectedIndex = (this.value - 1);
 			    '>
 				<?php
-				foreach ( $coins_array['BTC']['markets'] as $market_key => $market_name ) {
-				 // Avoid possible null equivelent issue by upping post value +1 in case zero
+				foreach ( $coins_array['BTC']['market_ids'] as $market_key => $market_name ) {
+				$loop = $loop + 1;
 				?>
-				<option value='<?=($market_key + 1)?>' <?=( isset($_POST['btc_market']) && ($_POST['btc_market'] - 1) == $market_key || isset($btc_market) && $coins_array['BTC']['markets'][$btc_market] == $market_name ? ' selected ' : '' )?>> <?=ucfirst($market_name)?> </option>
+				<option value='<?=$loop?>' <?=( isset($_POST['btc_market']) && ($_POST['btc_market']) == $loop || isset($btc_market) && $btc_market == ($loop - 1) ? ' selected ' : '' )?>> <?=ucfirst($market_key)?> </option>
 				<?php
 				}
+				$loop = NULL;
 				?>
 			    </select></p>
 			    <?php
@@ -201,15 +213,18 @@ echo 'Total USD Value: $' . $total_usd_worth2 . ' (1 Bitcoin is currently worth 
 			
                         <p>
                         Save coin values as cookie data <input type='checkbox' name='set_use_cookies' id='set_use_cookies' value='1' onchange='
-                        if ( this.checked == true ) {
-                        document.coin_amounts.use_cookies.value = 1;
+                        if ( this.checked != true ) {
+			delete_cookie("coin_amounts");
+			delete_cookie("coin_markets");
+			delete_cookie("coin_reload");
+			document.getElementById("use_cookies").value = "";
                         }
                         else {
-                        document.coin_amounts.use_cookies.value = "";
+			document.getElementById("use_cookies").value = "1";
                         }
-                        ' <?php echo ( $_COOKIE['coin_amounts'] && $_POST['submit_check'] != 1 || $_POST['use_cookies'] == 1 ? ' checked="checked"' : ''); ?> />
+                        ' <?php echo ( $_COOKIE['coin_amounts'] && $_POST['submit_check'] != 1 || $_POST['use_cookies'] == 1 && $_POST['submit_check'] == 1 ? ' checked="checked"' : ''); ?> />
                         </p>
-                        <input type='button' value='Update Settings' onclick='document.coin_amounts.submit();' />
+                        <input type='button' value='Update Settings' onclick='console.log("use_cookies = " + document.getElementById("use_cookies").value); document.coin_amounts.submit();' />
                         
 		</div>
 		<div id='tab4' class='tabdiv'>

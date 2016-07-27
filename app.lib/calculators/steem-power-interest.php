@@ -22,18 +22,18 @@ $steam_market = get_trade_price('poloniex', 'BTC_STEEM');
     
 
 
-<p>1 STEEM = <?=$steam_market?> BTC ($<?=number_format( ( $steam_market * get_btc_usd($btc_in_usd) ), 8, '.', ',')?>)</p>
+<p style='font-weight: bold; color: green;'>1 STEEM = <?=$steam_market?> BTC ($<?=number_format( ( $steam_market * get_btc_usd($btc_in_usd) ), 8, '.', ',')?>)</p>
 
 <p>
     <form action='index.php#tab4' method='post'>
         
-        <p><input type='text' name='sp_purchased' value='<?=$_POST['sp_purchased']?>' placeholder="STEEM Power Purchased (from Bittrex trading etc)" size='45' /></p>
+        <p><b>STEEM Power Purchased:</b> <input type='text' name='sp_purchased' value='<?=$_POST['sp_purchased']?>' placeholder="(from Bittrex trading etc)" size='45' /></p>
         
-        <p><input type='text' name='sp_earned' value='<?=$_POST['sp_earned']?>' placeholder="STEEM Power Earned (voting and posting)" size='45' /></p>
+        <p><b>STEEM Power Earned:</b> <input type='text' name='sp_earned' value='<?=$_POST['sp_earned']?>' placeholder="(voting and posting)" size='45' /></p>
         
-        <p><input type='text' name='sp_total' value='<?=$_POST['sp_total']?>' placeholder="Current Total STEEM Power (including interest)" size='45' /></p>
+        <p><b>Current Total STEEM Power:</b> <input type='text' name='sp_total' value='<?=$_POST['sp_total']?>' placeholder="(including interest)" size='45' /></p>
         
-        <p><input type='text' name='interest_speed' value='<?=$_POST['interest_speed']?>' placeholder="STEEM Power Interest Per Minute" size='45' /></p>
+        <p><b>STEEM Power Interest:</b> <input type='text' name='interest_speed' value='<?=$_POST['interest_speed']?>' placeholder="(per minute average)" size='45' /></p>
         
         <p><b style='color: red;'>To easily determine your current STEEM Power interest rate:</b>
         
@@ -68,11 +68,6 @@ steempower_time($_POST['interest_speed'], 'week');
 steempower_time($_POST['interest_speed'], 'month');
 steempower_time($_POST['interest_speed'], '2month');
 steempower_time($_POST['interest_speed'], '3month');
-steempower_time($_POST['interest_speed'], '6month');
-steempower_time($_POST['interest_speed'], '9month');
-steempower_time($_POST['interest_speed'], 'year');
-steempower_time($_POST['interest_speed'], '15month');
-steempower_time($_POST['interest_speed'], '18month');
 
 }
 ?>
