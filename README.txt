@@ -6,6 +6,13 @@ https://dragonfrugal.com/downloads/
 
 Just upload to your PHP-based web server, and you should be all set. You must have curl modules activated on your HTTP server, most web hosting companies provide this already. Contact your hosting provider if you encounter issues getting prices feeds, and ask if curl is setup already. See below for an example on adding / editing your own markets into the coin list in config.php...it's very quick / easy to do. Currently only BTC-based markets are compatible.
 
+Donations are welcome to support further development... 
+
+BTC: 1FfWHekHPLH7hQcU4d5MBVQ4WekJiA8Mk2 
+
+ETH: 0xf3da0858c3cfcc28a75c1232957a7fb190d7e5e9
+
+MANY OTHER CRYPTOCURRENCIES AND PAYPAL ACCEPTED HERE: https://dragonfrugal.com/donate/
 
 /*
  * USAGE (ADDING / UPDATING COINS) ...ONLY KRAKEN / GATECOIN / POLONIEX / COINBASE / BITTREX / bitfinex / cryptofresh / gemini BTC, altcoin, and token API SUPPORT AS OF NOW
