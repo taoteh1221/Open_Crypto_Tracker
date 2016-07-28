@@ -313,7 +313,9 @@ Minor GUI tweaks
 
 -------------------------------------------------------------------
 1.4.5:
--Modularized content sections
+-Modularized content sections and libraries
+-Used better semantics for naming modules
+-Cleaned up code nesting / separation
 -------------------------------------------------------------------
 
 

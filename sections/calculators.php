@@ -4,7 +4,7 @@
 			<fieldset class='calculators'>
 				<legend style='color: blue;'> <b>Ethereum Mining Calculator</b> </legend>
 		    
-				<?php require("app.lib/calculators/ethereum-mining-calculator.php"); ?>
+				<?php require("app.lib/php/calculators/ethereum-mining-calculator.php"); ?>
 				
 				
 			</fieldset>
@@ -12,7 +12,7 @@
 			<fieldset class='calculators'>
 				<legend style='color: blue;'> <b>STEEM Power Interest Rate / Power Down Weekly Payout Calculator</b> </legend>
 				
-				<?php require("app.lib/calculators/steem-power-interest.php"); ?>
+				<?php require("app.lib/php/calculators/steem-power-interest-calculator.php"); ?>
 				
 			</fieldset>
 		    

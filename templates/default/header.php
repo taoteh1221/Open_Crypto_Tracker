@@ -11,13 +11,15 @@
 
 <link rel="stylesheet" href="templates/default/css/theme.default.css" type="text/css" />
 
-<script type="text/javascript" src="templates/default/js/jquery1.8.3.min.js"></script>
+<script type="text/javascript" src="app.lib/js/jquery/jquery1.8.3.min.js"></script>
 
-<script type="text/javascript" src="templates/default/js/jquery.tablesorter.min.js"></script>
+<script type="text/javascript" src="app.lib/js/jquery/jquery.tablesorter.min.js"></script>
 
-<script type="text/javascript" src="templates/default/js/jquery.tablesorter.widgets.min.js"></script>
+<script type="text/javascript" src="app.lib/js/jquery/jquery.tablesorter.widgets.min.js"></script>
 
-<script type="text/javascript" src="templates/default/js/main.js"></script>
+<script type="text/javascript" src="app.lib/js/functions.js"></script>
+
+<script type="text/javascript" src="app.lib/js/init.js"></script>
 
 </head>
 <body>

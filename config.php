@@ -6,9 +6,9 @@
 
 session_start();
 
-require_once("app.lib/functions.php");
+require_once("app.lib/php/functions.php");
 
-require_once("app.lib/filters.php");
+require_once("app.lib/php/cookies.php");
 
 $version = '1.4.5 BETA';  // 2016/JULY/27th
 
