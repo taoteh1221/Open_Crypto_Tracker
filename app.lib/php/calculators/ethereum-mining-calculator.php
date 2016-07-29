@@ -1,8 +1,8 @@
 
 				<?php
 				
-				echo '<p>Block height: ' . number_format(hexdec(etherscan_api('number'))) . '</p>';
-				echo '<p>Gas limit: ' . number_format(hexdec(etherscan_api('gasLimit'))) . '</p>';
+				echo '<p><b>Block height:</b> ' . number_format(hexdec(etherscan_api('number'))) . '</p>';
+				echo '<p><b>Gas limit:</b> ' . number_format(hexdec(etherscan_api('gasLimit'))) . '</p>';
 				
 				
 				if ( $_POST['eth_submitted'] ) {
@@ -83,10 +83,10 @@
 				    
 				    <input type='hidden' value='1' name='eth_submitted' />
 				
-				<p>Difficulty: <input type='text' value='<?=( $_POST['eth_difficulty'] ? number_format($_POST['eth_difficulty']) : number_format(hexdec(etherscan_api('difficulty'))) )?>' name='eth_difficulty' /> (uses <a href='https://etherscan.io/apis/' target='_blank'>etherscan.io/apis</a>)</p>
+				<p><b>Difficulty:</b> <input type='text' value='<?=( $_POST['eth_difficulty'] ? number_format($_POST['eth_difficulty']) : number_format(hexdec(etherscan_api('difficulty'))) )?>' name='eth_difficulty' /> (uses <a href='https://etherscan.io/apis/' target='_blank'>etherscan.io/apis</a>)</p>
 				
 				
-				<p>Your Hashrate: <input type='text' value='<?=$_POST['eth_hashrate']?>' name='eth_hashrate' />
+				<p><b>Your Hashrate:</b> <input type='text' value='<?=$_POST['eth_hashrate']?>' name='eth_hashrate' />
 				
 				<select name='eth_measure'>
 				<option value='1000000' <?=( $_POST['eth_measure'] == '1000000' ? 'selected' : '' )?>> Mhs </option>

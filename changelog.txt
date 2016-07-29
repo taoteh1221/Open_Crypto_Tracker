@@ -316,6 +316,7 @@ Minor GUI tweaks
 -Modularized content sections and libraries
 -Used better semantics for naming modules
 -Cleaned up code nesting / separation
+-Added Ethereum Classic Bitfinex market
 -------------------------------------------------------------------
 
 

@@ -10,7 +10,7 @@ require_once("app.lib/php/functions.php");
 
 require_once("app.lib/php/cookies.php");
 
-$version = '1.4.5 BETA';  // 2016/JULY/27th
+$version = '1.4.5';  // 2016/JULY/29th
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD
 
@@ -88,6 +88,7 @@ $coins_array = array(
                         'market_ids' => array(
                                           'poloniex' => 'BTC_ETC',
                                           'kraken' => 'XETCXXBT',
+                                          'bitfinex' => 'etcbtc',
                                           'bittrex' => 'BTC-ETC'
                                           ),
                         'trade_pair' => 'btc',
