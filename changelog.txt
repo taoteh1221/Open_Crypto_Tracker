@@ -319,6 +319,12 @@ Minor GUI tweaks
 -Added Ethereum Classic Bitfinex market
 -------------------------------------------------------------------
 
+-------------------------------------------------------------------
+1.4.6:
+-Cleaned up underperforming markets
+-Added additional Cryptofresh markets
+-------------------------------------------------------------------
+
 
 
 

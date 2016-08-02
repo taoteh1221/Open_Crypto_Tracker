@@ -10,13 +10,13 @@ require_once("app.lib/php/functions.php");
 
 require_once("app.lib/php/cookies.php");
 
-$version = '1.4.5';  // 2016/JULY/29th
+$version = '1.4.6 BETA';  // 2016/AUG/1st
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD
 
 $eth_subtokens_values = array(
                         // Static values in ETH for Ethereum subtokens, like during crowdsale periods etc
-                        'THEDAO' => 0.01 
+                        'ETHSUBTOKENNAME' => 0.15 
                         );
 
 /*
@@ -33,7 +33,7 @@ $eth_subtokens_values = array(
                                           'MARKETPLACE1' => 'MARKETNUMBERHERE',
                                           'MARKETPLACE2' => 'BTC_COINSYMBOLHERE',
                                           'MARKETPLACE3' => 'BTC-COINSYMBOLHERE',
-                                          'ethereum_subtokens' => 'THEDAO' // Must be defined in $eth_subtokens_values at top of config.php
+                                          'ethereum_subtokens' => 'ETHSUBTOKENNAME' // Must be defined in $eth_subtokens_values at top of config.php
                                           ),
                         'trade_pair' => 'LOWERCASE_BTC_OR_LTC_OR_ETH_TRADING_PAIR',
                         'coinmarketcap' => 'coin-slug' // Is this coin listed on coinmarketcap, leave blank if not
@@ -126,7 +126,8 @@ $coins_array = array(
                         'coin_symbol' => 'LSK',
                         'market_ids' => array(
                                           'poloniex' => 'BTC_LSK',
-                                          'bittrex' => 'BTC-LSK'
+                                          'bittrex' => 'BTC-LSK',
+                                          'cryptofresh' => 'OPEN.LISK'
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'lisk'
@@ -139,7 +140,8 @@ $coins_array = array(
                         'market_ids' => array(
                                           'bitfinex' => 'ltcbtc',
                                           'poloniex' => 'BTC_LTC',
-                                          'bittrex' => 'BTC-LTC'
+                                          'bittrex' => 'BTC-LTC',
+                                          'cryptofresh' => 'OPEN.LTC'
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'litecoin'
@@ -193,19 +195,6 @@ $coins_array = array(
                         'coinmarketcap' => 'maidsafecoin'
                         
                     ),
-                    'DAO' => array(
-                        
-                        'coin_name' => 'TheDAO',
-                        'coin_symbol' => 'DAO',
-                        'market_ids' => array(
-                                          'poloniex' => 'BTC_DAO',
-                                          'kraken' => 'XDAOXXBT',
-                                          'bittrex' => 'BTC-DAO'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'the-dao'
-                        
-                    ),
                     'XMR' => array(
                         
                         'coin_name' => 'Monero',
@@ -224,7 +213,8 @@ $coins_array = array(
                         'coin_symbol' => 'BTS',
                         'market_ids' => array(
                                           'poloniex' => 'BTC_BTS',
-                                          'bittrex' => 'BTC-BTS'
+                                          'bittrex' => 'BTC-BTS',
+                                          'cryptofresh' => 'BTS'
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'bitshares'
@@ -264,17 +254,6 @@ $coins_array = array(
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'expanse'
-                        
-                    ),
-                    'SHF' => array(
-                        
-                        'coin_name' => 'Shift',
-                        'coin_symbol' => 'SHF',
-                        'market_ids' => array(
-                                          'bittrex' => 'BTC-SHF'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'shift'
                         
                     ),
                     'RDD' => array(
@@ -323,17 +302,6 @@ $coins_array = array(
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'digibyte'
-                        
-                    ),
-                    'MKR' => array(
-                        
-                        'coin_name' => 'Makercoin',
-                        'coin_symbol' => 'MKR',
-                        'market_ids' => array(
-                                          'cryptofresh' => 'MKR'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => ''
                         
                     )
                 
