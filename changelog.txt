@@ -322,7 +322,9 @@ Minor GUI tweaks
 -------------------------------------------------------------------
 1.4.6:
 -Cleaned up underperforming markets
+-Reorganized markets
 -Added additional Cryptofresh markets
+-Added LBRY (LBC) markets
 -------------------------------------------------------------------
 
 
