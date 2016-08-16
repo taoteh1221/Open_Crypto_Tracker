@@ -94,29 +94,16 @@ $coins_array = array(
                         'coinmarketcap' => 'steem'
                         
                     ),
-                    'SBD' => array(
+                    'XMR' => array(
                         
-                        'coin_name' => 'SteemDollars',
-                        'coin_symbol' => 'SBD',
+                        'coin_name' => 'Monero',
+                        'coin_symbol' => 'XMR',
                         'market_ids' => array(
-                                          'poloniex' => 'BTC_SBD',
-                                          'bittrex' => 'BTC-SBD'
+                                          'poloniex' => 'BTC_XMR',
+                                          'bittrex' => 'BTC-XMR'
                                           ),
                         'trade_pair' => 'btc',
-                        'coinmarketcap' => ''
-                        
-                    ),
-                    'LSK' => array(
-                        
-                        'coin_name' => 'Lisk',
-                        'coin_symbol' => 'LSK',
-                        'market_ids' => array(
-                                          'poloniex' => 'BTC_LSK',
-                                          'bittrex' => 'BTC-LSK',
-                                          'cryptofresh' => 'OPEN.LISK'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'lisk'
+                        'coinmarketcap' => 'monero'
                         
                     ),
                     'DASH' => array(
@@ -131,16 +118,17 @@ $coins_array = array(
                         'coinmarketcap' => 'dash'
                         
                     ),
-                    'XMR' => array(
+                    'LSK' => array(
                         
-                        'coin_name' => 'Monero',
-                        'coin_symbol' => 'XMR',
+                        'coin_name' => 'Lisk',
+                        'coin_symbol' => 'LSK',
                         'market_ids' => array(
-                                          'poloniex' => 'BTC_XMR',
-                                          'bittrex' => 'BTC-XMR'
+                                          'poloniex' => 'BTC_LSK',
+                                          'bittrex' => 'BTC-LSK',
+                                          'cryptofresh' => 'OPEN.LISK'
                                           ),
                         'trade_pair' => 'btc',
-                        'coinmarketcap' => 'monero'
+                        'coinmarketcap' => 'lisk'
                         
                     ),
                     'MAID' => array(
@@ -167,16 +155,16 @@ $coins_array = array(
                         'coinmarketcap' => 'synereo'
                         
                     ),
-                    'LBC' => array(
+                    'SBD' => array(
                         
-                        'coin_name' => 'LBRY',
-                        'coin_symbol' => 'LBC',
+                        'coin_name' => 'SteemDollars',
+                        'coin_symbol' => 'SBD',
                         'market_ids' => array(
-                                          'poloniex' => 'BTC_LBC',
-                                          'bittrex' => 'BTC-LBC'
+                                          'poloniex' => 'BTC_SBD',
+                                          'bittrex' => 'BTC-SBD'
                                           ),
                         'trade_pair' => 'btc',
-                        'coinmarketcap' => 'library-credit'
+                        'coinmarketcap' => ''
                         
                     ),
                     'BTS' => array(
@@ -242,30 +230,6 @@ $coins_array = array(
                         'coinmarketcap' => 'peercoin'
                         
                     ),
-                    'XRP' => array(
-                        
-                        'coin_name' => 'Ripple',
-                        'coin_symbol' => 'XRP',
-                        'market_ids' => array(
-                                          'poloniex' => 'BTC_XRP',
-                                          'bittrex' => 'BTC-XRP'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'ripple'
-                        
-                    ),
-                    'XLM' => array(
-                        
-                        'coin_name' => 'Stellar',
-                        'coin_symbol' => 'XLM',
-                        'market_ids' => array(
-                                          'poloniex' => 'BTC_STR',
-                                          'bittrex' => 'BTC-XLM'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'stellar'
-                        
-                    ),
                     'NXT' => array(
                         
                         'coin_name' => 'NXT',
@@ -276,6 +240,18 @@ $coins_array = array(
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'nxt'
+                        
+                    ),
+                    'LBC' => array(
+                        
+                        'coin_name' => 'LBRY',
+                        'coin_symbol' => 'LBC',
+                        'market_ids' => array(
+                                          'poloniex' => 'BTC_LBC',
+                                          'bittrex' => 'BTC-LBC'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'library-credit'
                         
                     ),
                     'EXP' => array(
@@ -302,6 +278,30 @@ $coins_array = array(
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'ethereum-classic'
+                        
+                    ),
+                    'XRP' => array(
+                        
+                        'coin_name' => 'Ripple',
+                        'coin_symbol' => 'XRP',
+                        'market_ids' => array(
+                                          'poloniex' => 'BTC_XRP',
+                                          'bittrex' => 'BTC-XRP'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'ripple'
+                        
+                    ),
+                    'XLM' => array(
+                        
+                        'coin_name' => 'Stellar',
+                        'coin_symbol' => 'XLM',
+                        'market_ids' => array(
+                                          'poloniex' => 'BTC_STR',
+                                          'bittrex' => 'BTC-XLM'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'stellar'
                         
                     )
                 
