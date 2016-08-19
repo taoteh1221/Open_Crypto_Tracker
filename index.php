@@ -47,7 +47,7 @@ require("templates/default/header.php");
 			<?php require("sections/calculators.php"); ?>
 		</div>
 		<div id='tab5' class='tabdiv'>
-			<h3>Help</h3>
+			<h3 style='color: red;'>Help</h3>
 			<?php require("sections/help.php"); ?>
 		</div>
 

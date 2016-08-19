@@ -330,6 +330,8 @@ Minor GUI tweaks
 -------------------------------------------------------------------
 1.4.7:
 -Reorganized markets
+-Added AEON Market
+-Fixed per-coin BTC value to USD. Was only using coinbase to get USD value, now it uses whichever USD market you chose for BTC for all coin subtotals.
 -------------------------------------------------------------------
 
 

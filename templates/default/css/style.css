@@ -137,3 +137,9 @@ div.tabdiv {
 border: 2px solid blue;
 margin: 25px;
 }
+
+.help_section {
+border: 1px solid #808080;
+margin: 10px;
+padding: 15px;
+}

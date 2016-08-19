@@ -6,6 +6,8 @@
 
 ?>
 
+<p><a href='README.txt' target='_blank'>Editing The Coin List</a></p>
+
 <form name='coin_amounts' action='<?=$_SERVER['PHP_SELF']?>' method='post'>
 
 <?php

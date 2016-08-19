@@ -479,6 +479,11 @@ $all_markets = $coins_array[$trade_symbol]['market_ids'];  // Get all markets fo
    
     if ( $loop == $markets ) {
     $markets = $key;
+     
+     if ( $coin_name == 'Bitcoin' ) {
+     $_SESSION['btc_in_usd'] = $key;
+     }
+     
     }
    
    $loop = $loop + 1;
@@ -493,9 +498,10 @@ $all_markets = $coins_array[$trade_symbol]['market_ids'];  // Get all markets fo
 
 //var_dump($markets);
 
-if ( $coin_name == 'Bitcoin' ) {
-$btc_in_usd = $markets;
+if ( $_SESSION['btc_in_usd'] ) {
+$btc_in_usd = $_SESSION['btc_in_usd'];
 }
+
 
 
 
