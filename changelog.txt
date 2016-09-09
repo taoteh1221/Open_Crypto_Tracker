@@ -334,6 +334,11 @@ Minor GUI tweaks
 -Fixed per-coin BTC value to USD. Was only using coinbase to get USD value, now it uses whichever USD market you chose for BTC for all coin subtotals.
 -------------------------------------------------------------------
 
+-------------------------------------------------------------------
+1.4.8:
+
+-------------------------------------------------------------------
+
 
 
 
