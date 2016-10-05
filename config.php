@@ -10,7 +10,7 @@ require_once("app.lib/php/functions.php");
 
 require_once("app.lib/php/cookies.php");
 
-$version = '1.4.8 BETA';  // 2016/SEPT/8th
+$version = '1.4.8 BETA';  // 2016/OCT/5th
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken
 
@@ -128,6 +128,19 @@ $coins_array = array(
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'dash'
+                        
+                    ),
+                    'REP' => array(
+                        
+                        'coin_name' => 'Augur',
+                        'coin_symbol' => 'REP',
+                        'market_ids' => array(
+                                          'poloniex' => 'BTC_REP',
+                                          'kraken' => 'XREPXXBT',
+                                          'gatecoin' => 'REPBTC',
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'augur'
                         
                     ),
                     'LSK' => array(
