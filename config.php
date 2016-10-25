@@ -10,7 +10,7 @@ require_once("app.lib/php/functions.php");
 
 require_once("app.lib/php/cookies.php");
 
-$version = '1.4.8 BETA';  // 2016/OCT/5th
+$version = '1.4.8';  // 2016/OCT/25th
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken
 
@@ -91,6 +91,18 @@ $coins_array = array(
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'monero'
+                        
+                    ),
+                    'SDC' => array(
+                        
+                        'coin_name' => 'ShadowCash',
+                        'coin_symbol' => 'SDC',
+                        'market_ids' => array(
+                                          'poloniex' => 'BTC_SDC',
+                                          'bittrex' => 'BTC-SDC'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'shadowcoin'
                         
                     ),
                     'AMP' => array(
@@ -269,18 +281,6 @@ $coins_array = array(
                         'coinmarketcap' => 'nxt'
                         
                     ),
-                    'LBC' => array(
-                        
-                        'coin_name' => 'LBRY',
-                        'coin_symbol' => 'LBC',
-                        'market_ids' => array(
-                                          'poloniex' => 'BTC_LBC',
-                                          'bittrex' => 'BTC-LBC'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'library-credit'
-                        
-                    ),
                     'EXP' => array(
                         
                         'coin_name' => 'Expanse',
@@ -291,17 +291,6 @@ $coins_array = array(
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'expanse'
-                        
-                    ),
-                    'AEON' => array(
-                        
-                        'coin_name' => 'Aeon',
-                        'coin_symbol' => 'AEON',
-                        'market_ids' => array(
-                                          'bittrex' => 'BTC-AEON'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'aeon'
                         
                     ),
                     'XRP' => array(

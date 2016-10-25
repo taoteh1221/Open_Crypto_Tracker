@@ -27,13 +27,13 @@ $steam_market = get_trade_price('poloniex', 'BTC_STEEM');
 <p>
     <form action='index.php#tab4' method='post'>
         
-        <p><b>STEEM Power Purchased:</b> <input type='text' name='sp_purchased' value='<?=$_POST['sp_purchased']?>' placeholder="(from Bittrex trading etc)" size='45' /></p>
+        <p><b>Total STEEM Power Purchased:</b> <input type='text' name='sp_purchased' value='<?=$_POST['sp_purchased']?>' placeholder="(from Bittrex trading etc)" size='45' /></p>
         
-        <p><b>STEEM Power Earned:</b> <input type='text' name='sp_earned' value='<?=$_POST['sp_earned']?>' placeholder="(voting and posting)" size='45' /></p>
+        <p><b>Total STEEM Power Earned:</b> <input type='text' name='sp_earned' value='<?=$_POST['sp_earned']?>' placeholder="(voting and posting)" size='45' /></p>
         
-        <p><b>Current Total STEEM Power:</b> <input type='text' name='sp_total' value='<?=$_POST['sp_total']?>' placeholder="(including interest)" size='45' /></p>
+        <p><b>Total of all STEEM Power:</b> <input type='text' name='sp_total' value='<?=$_POST['sp_total']?>' placeholder="(including interest)" size='45' /></p>
         
-        <p><b>STEEM Power Interest:</b> <input type='text' name='interest_speed' value='<?=$_POST['interest_speed']?>' placeholder="(per minute average)" size='45' /></p>
+        <p><b>Your Current STEEM Power Interest Rate:</b> <input type='text' name='interest_speed' value='<?=$_POST['interest_speed']?>' placeholder="(STEEM per minute average)" size='45' /></p>
         
         <p><b style='color: red;'>To easily determine your current STEEM Power interest rate:</b>
         

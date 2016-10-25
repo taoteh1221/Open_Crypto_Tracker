@@ -336,7 +336,11 @@ Minor GUI tweaks
 
 -------------------------------------------------------------------
 1.4.8:
-Added REP Markets
+-Added REP Markets
+-Added Shadowcash Markets
+-Removed LBRY Markets
+-Removed AEON Markets
+-Adjusted STEEM interest calculator to match real-world results closer
 -------------------------------------------------------------------
 
 
