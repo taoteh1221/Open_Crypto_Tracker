@@ -18,9 +18,10 @@ require("templates/default/header.php");
 
 		<ul class='tabs'>
 			<li><a href='#tab1'>Your Coin Values</a></li>
+			<li><a href='#tab6'>Stats and Charts</a></li>
+			<li><a href='#tab4'>Mining and Interest Calculators</a></li>
 			<li><a href='#tab2'>Update Coin Amounts</a></li>
 			<li><a href='#tab3'>Program Settings</a></li>
-			<li><a href='#tab4'>Mining and Interest Calculators</a></li>
 			<li><a style='color:red;' href='#tab5'>Help</a></li>
 		</ul>
 		<div id='tab1' class='tabdiv'>
@@ -34,6 +35,14 @@ require("templates/default/header.php");
 			</select> &nbsp; <span id='reload_countdown' style='color: red;'></span>
 			<p><?php require("sections/coin.values.php"); ?></p>
 		</div>
+		<div id='tab6' class='tabdiv'>
+			<h3>Stats and Charts</h3>
+			<?php require("sections/stats.php"); ?>
+		</div>
+		<div id='tab4' class='tabdiv'>
+			<h3>Mining and Interest Calculators</h3>
+			<?php require("sections/calculators.php"); ?>
+		</div>
 		<div id='tab2' class='tabdiv'>
 			<h3>Update Coin Amounts</h3>
 			<p><?php require("sections/form.php"); ?></p>
@@ -41,10 +50,6 @@ require("templates/default/header.php");
 		<div id='tab3' class='tabdiv'>
 			<h3>Program Settings</h3>
 			<?php require("sections/settings.php"); ?>
-		</div>
-		<div id='tab4' class='tabdiv'>
-			<h3>Mining and Interest Calculators</h3>
-			<?php require("sections/calculators.php"); ?>
 		</div>
 		<div id='tab5' class='tabdiv'>
 			<h3 style='color: red;'>Help</h3>

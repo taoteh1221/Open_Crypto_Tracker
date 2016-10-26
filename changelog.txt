@@ -343,6 +343,11 @@ Minor GUI tweaks
 -Adjusted STEEM interest calculator to match real-world results closer
 -------------------------------------------------------------------
 
+-------------------------------------------------------------------
+1.4.9:
+-Added stats tab, and stat / chart links
+-------------------------------------------------------------------
+
 
 
 

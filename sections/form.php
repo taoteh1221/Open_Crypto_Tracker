@@ -8,7 +8,7 @@
 
 <p style='color: red; font-weight: bold;'>All assets added to the default list DO NOT indicate any endorsement of these assets (and removal indicates no opposition to the removed assets as well). Always do your due diligence investigating whether or not you are engaging in trading within acceptable risk levels for your net worth, and consider consulting a professional if you are unaware of what risks are present.</p>
 
-<p><a href='README.txt' target='_blank'>Editing The Coin List</a></p>
+<p style='font-weight: bold;'><a href='README.txt' target='_blank'>Editing The Coin List</a></p>
 
 <form name='coin_amounts' action='<?=$_SERVER['PHP_SELF']?>' method='post'>
 
