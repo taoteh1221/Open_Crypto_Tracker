@@ -346,6 +346,9 @@ Minor GUI tweaks
 -------------------------------------------------------------------
 1.4.9:
 -Added stats tab, and stat / chart links
+-Added Blackcoin markets
+-Removed ETC and EXP
+-Reorganized markets
 -------------------------------------------------------------------
 
 
