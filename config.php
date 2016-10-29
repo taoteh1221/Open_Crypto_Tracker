@@ -10,7 +10,7 @@ require_once("app.lib/php/functions.php");
 
 require_once("app.lib/php/cookies.php");
 
-$version = '1.4.9';  // 2016/OCT/26th
+$version = '1.5.0';  // 2016/OCT/28th
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken
 
@@ -93,18 +93,6 @@ $coins_array = array(
                         'coinmarketcap' => 'dash'
                         
                     ),
-                    'XMR' => array(
-                        
-                        'coin_name' => 'Monero',
-                        'coin_symbol' => 'XMR',
-                        'market_ids' => array(
-                                          'poloniex' => 'BTC_XMR',
-                                          'bittrex' => 'BTC-XMR'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'monero'
-                        
-                    ),
                     'LTC' => array(
                         
                         'coin_name' => 'Litecoin',
@@ -129,6 +117,41 @@ $coins_array = array(
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'peercoin'
+                        
+                    ),
+                    'XZC' => array(
+                        
+                        'coin_name' => 'Zcoin',
+                        'coin_symbol' => 'XZC',
+                        'market_ids' => array(
+                                          'bittrex' => 'BTC-XZC'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'zcoin'
+                        
+                    ),
+                    'XMR' => array(
+                        
+                        'coin_name' => 'Monero',
+                        'coin_symbol' => 'XMR',
+                        'market_ids' => array(
+                                          'poloniex' => 'BTC_XMR',
+                                          'bittrex' => 'BTC-XMR'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'monero'
+                        
+                    ),
+                    'ZEC' => array(
+                        
+                        'coin_name' => 'Zcash',
+                        'coin_symbol' => 'ZEC',
+                        'market_ids' => array(
+                                          'poloniex' => 'BTC_ZEC',
+                                          'bittrex' => 'BTC-ZEC'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'zcash'
                         
                     ),
                     'STEEM' => array(

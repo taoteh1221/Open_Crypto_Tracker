@@ -351,6 +351,13 @@ Minor GUI tweaks
 -Reorganized markets
 -------------------------------------------------------------------
 
+-------------------------------------------------------------------
+1.5.0:
+-Added Zcash markets
+-Added Zcoin markets
+-Fixed bug in super large BTC trade values per market
+-------------------------------------------------------------------
+
 
 
 
