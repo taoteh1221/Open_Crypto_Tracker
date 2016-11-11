@@ -83,7 +83,7 @@ if (is_array($coins_array) || is_object($coins_array)) {
     <?=$coin['coin_name']?> (<?=strtoupper($coin['coin_symbol'])?>) 
     <?php
     // Only support for multiple markets per coin with BTC trade pairing
-    if ( $coin['trade_pair'] == 'btc' ) {
+    if ( $coin['trade_pair'] == 'btc' || $coin['trade_pair'] == 'eth' ) {
     ?>
     <?=( $coin['coin_symbol'] != 'BTC' ? strtoupper($coin['trade_pair']) : 'USD' )?> Market is <select id='<?=$field_var_market?>' name='<?=$field_var_market?>'>
         <?php

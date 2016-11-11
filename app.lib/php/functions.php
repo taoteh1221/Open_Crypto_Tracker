@@ -433,11 +433,9 @@ global $eth_subtokens_values;
 
  if ( strtolower($markets) == 'ethereum_subtokens' ) {
 
-  if ( $market_ids == 'THEDAO' ) {
   return $eth_subtokens_values[$market_ids];
   }
  
- }
 
 }
 ///////////////////////////////////////////////////////////
@@ -472,12 +470,12 @@ $all_markets = $coins_array[$trade_symbol]['market_ids'];  // Get all markets fo
 
   // Update, get the selected market name
     // Only support for multiple markets per coin with BTC trade pairing
-  if ( $trade_pairing == 'btc' ) {
+  if ( $trade_pairing == 'btc' || $trade_pairing == 'eth' ) {
 
   $loop = 0;
    foreach ( $all_markets as $key => $value ) {
    
-    if ( $loop == $markets ) {
+    if ( $loop == $markets || $key == "ethereum_subtokens" ) {
     $markets = $key;
      
      if ( $coin_name == 'Bitcoin' ) {
@@ -496,14 +494,13 @@ $all_markets = $coins_array[$trade_symbol]['market_ids'];  // Get all markets fo
   }
 
 
-//var_dump($markets);
 
 if ( $_SESSION['btc_in_usd'] ) {
 $btc_in_usd = $_SESSION['btc_in_usd'];
 }
 
 
-
+//var_dump($markets);
 
 $market_ids = $market_ids[$markets];
 
@@ -592,7 +589,7 @@ $market_ids = $market_ids[$markets];
 
     
     // Only support for multiple markets per coin with BTC trade pairing
-    if ( $trade_pairing == 'btc' ) {
+    if ( $trade_pairing == 'btc' || $trade_pairing == 'eth' ) {
     ?>
     <select name='change_<?=strtolower($trade_symbol)?>_market' onchange='
     document.coin_amounts.<?=strtolower($trade_symbol)?>_market.value = this.value; document.coin_amounts.submit();

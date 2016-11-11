@@ -10,13 +10,14 @@ require_once("app.lib/php/functions.php");
 
 require_once("app.lib/php/cookies.php");
 
-$version = '1.5.0';  // 2016/OCT/28th
+$version = '1.5.1 BETA';  // 2016/NOV/11th
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken
 
 $eth_subtokens_values = array(
                         // Static values in ETH for Ethereum subtokens, like during crowdsale periods etc
-                        'ETHSUBTOKENNAME' => 0.15 
+                        'ETHSUBTOKENNAME' => '0.15',
+                        'GOLEM' => '0.001'
                         );
 
 /*
@@ -79,6 +80,31 @@ $coins_array = array(
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'ethereum'
+                        
+                    ),
+                    'STEEM' => array(
+                        
+                        'coin_name' => 'Steem',
+                        'coin_symbol' => 'STEEM',
+                        'market_ids' => array(
+                                          'poloniex' => 'BTC_STEEM',
+                                          'bittrex' => 'BTC-STEEM',
+                                          'cryptofresh' => 'OPEN.STEEM'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'steem'
+                        
+                    ),
+                    'SBD' => array(
+                        
+                        'coin_name' => 'SteemDollars',
+                        'coin_symbol' => 'SBD',
+                        'market_ids' => array(
+                                          'poloniex' => 'BTC_SBD',
+                                          'bittrex' => 'BTC-SBD'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => ''
                         
                     ),
                     'DASH' => array(
@@ -152,31 +178,6 @@ $coins_array = array(
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'zcash'
-                        
-                    ),
-                    'STEEM' => array(
-                        
-                        'coin_name' => 'Steem',
-                        'coin_symbol' => 'STEEM',
-                        'market_ids' => array(
-                                          'poloniex' => 'BTC_STEEM',
-                                          'bittrex' => 'BTC-STEEM',
-                                          'cryptofresh' => 'OPEN.STEEM'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'steem'
-                        
-                    ),
-                    'SBD' => array(
-                        
-                        'coin_name' => 'SteemDollars',
-                        'coin_symbol' => 'SBD',
-                        'market_ids' => array(
-                                          'poloniex' => 'BTC_SBD',
-                                          'bittrex' => 'BTC-SBD'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => ''
                         
                     ),
                     'NXT' => array(
@@ -265,28 +266,15 @@ $coins_array = array(
                         'coinmarketcap' => 'bitshares'
                         
                     ),
-                    'XRP' => array(
+                    'GNT' => array(
                         
-                        'coin_name' => 'Ripple',
-                        'coin_symbol' => 'XRP',
+                        'coin_name' => 'Golem',
+                        'coin_symbol' => 'GNT',
                         'market_ids' => array(
-                                          'poloniex' => 'BTC_XRP',
-                                          'bittrex' => 'BTC-XRP'
+                                          'ethereum_subtokens' => 'GOLEM'
                                           ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'ripple'
-                        
-                    ),
-                    'XLM' => array(
-                        
-                        'coin_name' => 'Stellar',
-                        'coin_symbol' => 'XLM',
-                        'market_ids' => array(
-                                          'poloniex' => 'BTC_STR',
-                                          'bittrex' => 'BTC-XLM'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'stellar'
+                        'trade_pair' => 'eth',
+                        'coinmarketcap' => ''
                         
                     ),
                     'AMP' => array(
@@ -324,6 +312,30 @@ $coins_array = array(
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'maidsafecoin'
+                        
+                    ),
+                    'XRP' => array(
+                        
+                        'coin_name' => 'Ripple',
+                        'coin_symbol' => 'XRP',
+                        'market_ids' => array(
+                                          'poloniex' => 'BTC_XRP',
+                                          'bittrex' => 'BTC-XRP'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'ripple'
+                        
+                    ),
+                    'XLM' => array(
+                        
+                        'coin_name' => 'Stellar',
+                        'coin_symbol' => 'XLM',
+                        'market_ids' => array(
+                                          'poloniex' => 'BTC_STR',
+                                          'bittrex' => 'BTC-XLM'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'stellar'
                         
                     )
                 
