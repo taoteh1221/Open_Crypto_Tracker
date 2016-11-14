@@ -864,7 +864,7 @@ $usd_total = NULL;
     $power_earned = ( $_POST['sp_earned'] / $steem_total );
     $power_interest = 1 - ( $power_purchased + $power_earned );
     
-    $powerdown_total = ( $steem_total / 96 );  // Would think this should be 104, but 96 seems to match exactly when compared to real-world results
+    $powerdown_total = ( $steem_total / 12 );  // Weeks total for power down
     $powerdown_purchased = ( $powerdown_total * $power_purchased );
     $powerdown_earned = ( $powerdown_total * $power_earned );
     $powerdown_interest = ( $powerdown_total * $power_interest );
