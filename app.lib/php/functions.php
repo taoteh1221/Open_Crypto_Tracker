@@ -810,21 +810,17 @@ return ( $data * $steam_market * get_btc_usd($btc_in_usd) );
 //////////////////////////////////////////////////////////
 
 
-function steempower_time($speed, $time) {
+function steempower_time($time) {
     
-global $_POST, $steam_market, $btc_in_usd, $steem_powerdown_time;
+global $_POST, $steam_market, $btc_in_usd, $steem_powerdown_time, $steempower_yearly_interest;
+
+$speed = ($_POST['sp_total'] * $steempower_yearly_interest) / 525600;  // Interest per minute
 
 $powertime = NULL;
 $steem_total = NULL;
 $usd_total = NULL;
 
-    if ( $time == 'minute' ) {
-    $powertime = $speed;
-    }
-    elseif ( $time == 'hour' ) {
-    $powertime = ($speed * 60);
-    }
-    elseif ( $time == 'day' ) {
+    if ( $time == 'day' ) {
     $powertime = ($speed * 60 * 24);
     }
     elseif ( $time == 'week' ) {
@@ -845,7 +841,7 @@ $usd_total = NULL;
     elseif ( $time == '9month' ) {
     $powertime = ($speed * 60 * 24 * 270);
     }
-    elseif ( $time == 'year' ) {
+    elseif ( $time == '12month' ) {
     $powertime = ($speed * 60 * 24 * 365);
     }
     elseif ( $time == '15month' ) {
@@ -885,7 +881,7 @@ $usd_total = NULL;
     </ul>
 
         <table border='1' cellpadding='10' cellspacing='0'>
-  <caption><b>A Power Down Weekly Payout At This Time Would Be (rounded to nearest cent):</b></caption>
+  <caption><b>A Power Down Weekly Payout <i>Started At This Time</i> Would Be (rounded to nearest cent):</b></caption>
          <thead>
             <tr>
         <th class='normal'> Purchased </th>

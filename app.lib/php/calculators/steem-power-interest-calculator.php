@@ -27,26 +27,15 @@ $steam_market = get_trade_price('poloniex', 'BTC_STEEM');
 <p>
     <form action='index.php#tab4' method='post'>
         
-        <p><b>Total Power Down Period:</b> <?=$steem_powerdown_time?> weeks</p>
+        <p><b>Power Down Period:</b> <?=$steem_powerdown_time?> weeks</p>
 	
-        <p><b>Total STEEM Power Purchased:</b> <input type='text' name='sp_purchased' value='<?=$_POST['sp_purchased']?>' placeholder="(from Bittrex trading etc)" size='45' /></p>
+        <p><b>STEEM Power Interest Rate:</b> <?=($steempower_yearly_interest * 100)?> percent annually</p>
+	
+        <p><b>STEEM Power Purchased:</b> <input type='text' name='sp_purchased' value='<?=$_POST['sp_purchased']?>' placeholder="(from Bittrex trading etc)" size='45' /></p>
         
-        <p><b>Total STEEM Power Earned:</b> <input type='text' name='sp_earned' value='<?=$_POST['sp_earned']?>' placeholder="(voting and posting)" size='45' /></p>
+        <p><b>STEEM Power Earned:</b> <input type='text' name='sp_earned' value='<?=$_POST['sp_earned']?>' placeholder="(voting and posting)" size='45' /></p>
         
-        <p><b>Total of all STEEM Power:</b> <input type='text' name='sp_total' value='<?=$_POST['sp_total']?>' placeholder="(including interest)" size='45' /></p>
-        
-        <p><b>Your Current STEEM Power Interest Rate:</b> <input type='text' name='interest_speed' value='<?=$_POST['interest_speed']?>' placeholder="(STEEM per minute average)" size='45' /></p>
-        
-        <p><b style='color: red;'>To easily determine your current STEEM Power interest rate:</b>
-        
-            <ul>
-                <li>Click the refresh / reload button on your browser at your steemit wallet page, and note the STEEM Power amount</li>
-                <li>Wait exactly 5 minutes and refresh / reload again, and note the new STEEM Power amount</li>
-                <li>Delete value #1 from value #2, and divide by 5</li>
-                
-            </ul>
-        
-        </p>
+        <p><b>All STEEM Power:</b> <input type='text' name='sp_total' value='<?=$_POST['sp_total']?>' placeholder="(including interest)" size='45' /></p>
         
         <p><input type='submit' value='Calculate Interest / Power Down Weekly Payout Amounts Over Time' /></p>
         
@@ -59,17 +48,21 @@ $steam_market = get_trade_price('poloniex', 'BTC_STEEM');
 if ( $_POST['steem_submitted'] ) {
 ?>
 
-<p style='color: red; font-weight: bold;'>Your <i>current</i> STEEM Power interest rate results (USD value / STEEM interest rate <i>may change significantly over long periods of time</i>):</p>
+<p style='color: red; font-weight: bold;'>Your <i>current</i> STEEM Power interest rate results (<i>USD values may change significantly over long periods of time</i>):</p>
 
 <?php
 
-steempower_time($_POST['interest_speed'], 'minute');
-steempower_time($_POST['interest_speed'], 'hour');
-steempower_time($_POST['interest_speed'], 'day');
-steempower_time($_POST['interest_speed'], 'week');
-steempower_time($_POST['interest_speed'], 'month');
-steempower_time($_POST['interest_speed'], '2month');
-steempower_time($_POST['interest_speed'], '3month');
+steempower_time('day');
+steempower_time('week');
+steempower_time('month');
+steempower_time('2month');
+steempower_time('3month');
+steempower_time('6month');
+steempower_time('9month');
+steempower_time('12month');
+steempower_time('15month');
+steempower_time('18month');
+
 
 }
 ?>

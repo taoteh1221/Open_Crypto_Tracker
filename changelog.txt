@@ -366,6 +366,12 @@ Minor GUI tweaks
 -Adjusted STEEM Power calculator for upcoming power down rate, added power down time to config file
 -------------------------------------------------------------------
 
+-------------------------------------------------------------------
+1.5.2:
+-Adjusted STEEM Power interest rate settings for hardfork 16
+-------------------------------------------------------------------
+
+
 
 
 

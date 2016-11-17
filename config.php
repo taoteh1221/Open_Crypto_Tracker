@@ -10,11 +10,13 @@ require_once("app.lib/php/functions.php");
 
 require_once("app.lib/php/cookies.php");
 
-$version = '1.5.1';  // 2016/NOV/16th
+$version = '1.5.2';  // 2016/NOV/16th
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken
 
 $steem_powerdown_time = 12;  // Weeks to power down all STEEM Power holdings
+
+$steempower_yearly_interest = 0.01425; // STEEM Power yearly interest rate
 
 $eth_subtokens_values = array(
                         // Static values in ETH for Ethereum subtokens, like during crowdsale periods etc
