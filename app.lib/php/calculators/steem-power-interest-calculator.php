@@ -27,6 +27,8 @@ $steam_market = get_trade_price('poloniex', 'BTC_STEEM');
 <p>
     <form action='index.php#tab4' method='post'>
         
+        <p><b>Total Power Down Period:</b> <?=$steem_powerdown_time?> weeks</p>
+	
         <p><b>Total STEEM Power Purchased:</b> <input type='text' name='sp_purchased' value='<?=$_POST['sp_purchased']?>' placeholder="(from Bittrex trading etc)" size='45' /></p>
         
         <p><b>Total STEEM Power Earned:</b> <input type='text' name='sp_earned' value='<?=$_POST['sp_earned']?>' placeholder="(voting and posting)" size='45' /></p>

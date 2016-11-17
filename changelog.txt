@@ -361,8 +361,9 @@ Minor GUI tweaks
 -------------------------------------------------------------------
 1.5.1:
 -Added Golem static value subtoken market (fixed value, no active exchange trade values yet)
+-Added Arcade City static value subtoken market (fixed value, no active exchange trade values yet)
 -Fixed bug in static value ETH subtoken markets
--Adjusted STEEM Power calculator for upcoming power down rate
+-Adjusted STEEM Power calculator for upcoming power down rate, added power down time to config file
 -------------------------------------------------------------------
 
 

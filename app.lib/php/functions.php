@@ -812,7 +812,7 @@ return ( $data * $steam_market * get_btc_usd($btc_in_usd) );
 
 function steempower_time($speed, $time) {
     
-global $_POST, $steam_market, $btc_in_usd;
+global $_POST, $steam_market, $btc_in_usd, $steem_powerdown_time;
 
 $powertime = NULL;
 $steem_total = NULL;
@@ -864,7 +864,7 @@ $usd_total = NULL;
     $power_earned = ( $_POST['sp_earned'] / $steem_total );
     $power_interest = 1 - ( $power_purchased + $power_earned );
     
-    $powerdown_total = ( $steem_total / 12 );  // Weeks total for power down
+    $powerdown_total = ( $steem_total / $steem_powerdown_time );
     $powerdown_purchased = ( $powerdown_total * $power_purchased );
     $powerdown_earned = ( $powerdown_total * $power_earned );
     $powerdown_interest = ( $powerdown_total * $power_interest );

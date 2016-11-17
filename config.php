@@ -10,14 +10,17 @@ require_once("app.lib/php/functions.php");
 
 require_once("app.lib/php/cookies.php");
 
-$version = '1.5.1 BETA';  // 2016/NOV/14th
+$version = '1.5.1';  // 2016/NOV/16th
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken
+
+$steem_powerdown_time = 12;  // Weeks to power down all STEEM Power holdings
 
 $eth_subtokens_values = array(
                         // Static values in ETH for Ethereum subtokens, like during crowdsale periods etc
                         'ETHSUBTOKENNAME' => '0.15',
-                        'GOLEM' => '0.001'
+                        'GOLEM' => '0.001',
+                        'ARCADECITY' => '0.0120481927710843'
                         );
 
 /*
@@ -272,6 +275,17 @@ $coins_array = array(
                         'coin_symbol' => 'GNT',
                         'market_ids' => array(
                                           'ethereum_subtokens' => 'GOLEM'
+                                          ),
+                        'trade_pair' => 'eth',
+                        'coinmarketcap' => ''
+                        
+                    ),
+                    'ARC' => array(
+                        
+                        'coin_name' => 'Arcade City',
+                        'coin_symbol' => 'ARC',
+                        'market_ids' => array(
+                                          'ethereum_subtokens' => 'ARCADECITY'
                                           ),
                         'trade_pair' => 'eth',
                         'coinmarketcap' => ''
