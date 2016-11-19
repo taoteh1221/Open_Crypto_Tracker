@@ -10,13 +10,16 @@ require_once("app.lib/php/functions.php");
 
 require_once("app.lib/php/cookies.php");
 
-$version = '1.5.2';  // 2016/NOV/16th
+$version = '1.5.3';  // 2016/NOV/18th
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken
 
 $steem_powerdown_time = 12;  // Weeks to power down all STEEM Power holdings
 
-$steempower_yearly_interest = 0.01425; // STEEM Power yearly interest rate
+/*
+ * STEEM Power yearly interest rate START 11/29/2016 (1.425%, decreasing every year by roughly 0.075% until it hits a minimum of 0.075% and stays there)
+ */
+$steempower_yearly_interest = 1.425;  // 1.425 (DON NOT INCLUDE PERCENT SIGN) the first year at 11/29/2016 refactored rates, see above for manual yearly adjustment
 
 $eth_subtokens_values = array(
                         // Static values in ETH for Ethereum subtokens, like during crowdsale periods etc
@@ -150,17 +153,6 @@ $coins_array = array(
                         'coinmarketcap' => 'peercoin'
                         
                     ),
-                    'XZC' => array(
-                        
-                        'coin_name' => 'Zcoin',
-                        'coin_symbol' => 'XZC',
-                        'market_ids' => array(
-                                          'bittrex' => 'BTC-XZC'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'zcoin'
-                        
-                    ),
                     'XMR' => array(
                         
                         'coin_name' => 'Monero',
@@ -173,16 +165,16 @@ $coins_array = array(
                         'coinmarketcap' => 'monero'
                         
                     ),
-                    'ZEC' => array(
+                    'FCT' => array(
                         
-                        'coin_name' => 'Zcash',
-                        'coin_symbol' => 'ZEC',
+                        'coin_name' => 'Factom',
+                        'coin_symbol' => 'FCT',
                         'market_ids' => array(
-                                          'poloniex' => 'BTC_ZEC',
-                                          'bittrex' => 'BTC-ZEC'
+                                          'poloniex' => 'BTC_FCT',
+                                          'bittrex' => 'BTC-FCT'
                                           ),
                         'trade_pair' => 'btc',
-                        'coinmarketcap' => 'zcash'
+                        'coinmarketcap' => 'factom'
                         
                     ),
                     'NXT' => array(
@@ -195,6 +187,64 @@ $coins_array = array(
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'nxt'
+                        
+                    ),
+                    'BTS' => array(
+                        
+                        'coin_name' => 'BitShares',
+                        'coin_symbol' => 'BTS',
+                        'market_ids' => array(
+                                          'poloniex' => 'BTC_BTS',
+                                          'bittrex' => 'BTC-BTS',
+                                          'cryptofresh' => 'BTS'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'bitshares'
+                        
+                    ),
+                    'GNT' => array(
+                        
+                        'coin_name' => 'Golem',
+                        'coin_symbol' => 'GNT',
+                        'market_ids' => array(
+                                          'ethereum_subtokens' => 'GOLEM'
+                                          ),
+                        'trade_pair' => 'eth',
+                        'coinmarketcap' => ''
+                        
+                    ),
+                    'ARC' => array(
+                        
+                        'coin_name' => 'Arcade City',
+                        'coin_symbol' => 'ARC',
+                        'market_ids' => array(
+                                          'ethereum_subtokens' => 'ARCADECITY'
+                                          ),
+                        'trade_pair' => 'eth',
+                        'coinmarketcap' => ''
+                        
+                    ),
+                    'XZC' => array(
+                        
+                        'coin_name' => 'Zcoin',
+                        'coin_symbol' => 'XZC',
+                        'market_ids' => array(
+                                          'bittrex' => 'BTC-XZC'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'zcoin'
+                        
+                    ),
+                    'ZEC' => array(
+                        
+                        'coin_name' => 'Zcash',
+                        'coin_symbol' => 'ZEC',
+                        'market_ids' => array(
+                                          'poloniex' => 'BTC_ZEC',
+                                          'bittrex' => 'BTC-ZEC'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'zcash'
                         
                     ),
                     'REP' => array(
@@ -258,51 +308,28 @@ $coins_array = array(
                         'coinmarketcap' => 'dogecoin'
                         
                     ),
-                    'BTS' => array(
+                    'XRP' => array(
                         
-                        'coin_name' => 'BitShares',
-                        'coin_symbol' => 'BTS',
+                        'coin_name' => 'Ripple',
+                        'coin_symbol' => 'XRP',
                         'market_ids' => array(
-                                          'poloniex' => 'BTC_BTS',
-                                          'bittrex' => 'BTC-BTS',
-                                          'cryptofresh' => 'BTS'
+                                          'poloniex' => 'BTC_XRP',
+                                          'bittrex' => 'BTC-XRP'
                                           ),
                         'trade_pair' => 'btc',
-                        'coinmarketcap' => 'bitshares'
+                        'coinmarketcap' => 'ripple'
                         
                     ),
-                    'GNT' => array(
+                    'XLM' => array(
                         
-                        'coin_name' => 'Golem',
-                        'coin_symbol' => 'GNT',
+                        'coin_name' => 'Stellar',
+                        'coin_symbol' => 'XLM',
                         'market_ids' => array(
-                                          'ethereum_subtokens' => 'GOLEM'
-                                          ),
-                        'trade_pair' => 'eth',
-                        'coinmarketcap' => ''
-                        
-                    ),
-                    'ARC' => array(
-                        
-                        'coin_name' => 'Arcade City',
-                        'coin_symbol' => 'ARC',
-                        'market_ids' => array(
-                                          'ethereum_subtokens' => 'ARCADECITY'
-                                          ),
-                        'trade_pair' => 'eth',
-                        'coinmarketcap' => ''
-                        
-                    ),
-                    'AMP' => array(
-                        
-                        'coin_name' => 'Synereo',
-                        'coin_symbol' => 'AMP',
-                        'market_ids' => array(
-                                          'poloniex' => 'BTC_AMP',
-                                          'bittrex' => 'BTC-AMP'
+                                          'poloniex' => 'BTC_STR',
+                                          'bittrex' => 'BTC-XLM'
                                           ),
                         'trade_pair' => 'btc',
-                        'coinmarketcap' => 'synereo'
+                        'coinmarketcap' => 'stellar'
                         
                     ),
                     'LSK' => array(
@@ -330,28 +357,16 @@ $coins_array = array(
                         'coinmarketcap' => 'maidsafecoin'
                         
                     ),
-                    'XRP' => array(
+                    'AMP' => array(
                         
-                        'coin_name' => 'Ripple',
-                        'coin_symbol' => 'XRP',
+                        'coin_name' => 'Synereo',
+                        'coin_symbol' => 'AMP',
                         'market_ids' => array(
-                                          'poloniex' => 'BTC_XRP',
-                                          'bittrex' => 'BTC-XRP'
+                                          'poloniex' => 'BTC_AMP',
+                                          'bittrex' => 'BTC-AMP'
                                           ),
                         'trade_pair' => 'btc',
-                        'coinmarketcap' => 'ripple'
-                        
-                    ),
-                    'XLM' => array(
-                        
-                        'coin_name' => 'Stellar',
-                        'coin_symbol' => 'XLM',
-                        'market_ids' => array(
-                                          'poloniex' => 'BTC_STR',
-                                          'bittrex' => 'BTC-XLM'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'stellar'
+                        'coinmarketcap' => 'synereo'
                         
                     )
                 

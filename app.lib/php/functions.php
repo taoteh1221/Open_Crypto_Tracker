@@ -814,11 +814,14 @@ function steempower_time($time) {
     
 global $_POST, $steam_market, $btc_in_usd, $steem_powerdown_time, $steempower_yearly_interest;
 
-$speed = ($_POST['sp_total'] * $steempower_yearly_interest) / 525600;  // Interest per minute
-
+$powertime = NULL;
 $powertime = NULL;
 $steem_total = NULL;
 $usd_total = NULL;
+
+$decimal_yearly_interest = $steempower_yearly_interest / 100;  // Convert APR in config to decimal representation
+
+$speed = ($_POST['sp_total'] * $decimal_yearly_interest) / 525600;  // Interest per minute
 
     if ( $time == 'day' ) {
     $powertime = ($speed * 60 * 24);
@@ -843,12 +846,6 @@ $usd_total = NULL;
     }
     elseif ( $time == '12month' ) {
     $powertime = ($speed * 60 * 24 * 365);
-    }
-    elseif ( $time == '15month' ) {
-    $powertime = ($speed * 60 * 24 * 450);
-    }
-    elseif ( $time == '18month' ) {
-    $powertime = ($speed * 60 * 24 * 540);
     }
     
     $powertime_usd = ( $powertime * $steam_market * get_btc_usd($btc_in_usd) );

@@ -371,6 +371,12 @@ Minor GUI tweaks
 -Adjusted STEEM Power interest rate settings for hardfork 16
 -------------------------------------------------------------------
 
+-------------------------------------------------------------------
+1.5.3:
+-Added Factom markets
+-Adjustments / comments on STEEM Power interest calculator's GUI / config setup
+-------------------------------------------------------------------
+
 
 
 
