@@ -10,7 +10,7 @@ require_once("app.lib/php/functions.php");
 
 require_once("app.lib/php/cookies.php");
 
-$version = '1.5.3';  // 2016/NOV/18th
+$version = '1.5.4';  // 2016/NOV/22th
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken
 
@@ -25,7 +25,7 @@ $eth_subtokens_values = array(
                         // Static values in ETH for Ethereum subtokens, like during crowdsale periods etc
                         'ETHSUBTOKENNAME' => '0.15',
                         'GOLEM' => '0.001',
-                        'ARCADECITY' => '0.0120481927710843'
+                        'ARCADECITY' => '0.0133333333333333'
                         );
 
 /*

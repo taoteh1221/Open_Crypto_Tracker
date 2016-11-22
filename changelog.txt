@@ -377,6 +377,11 @@ Minor GUI tweaks
 -Adjustments / comments on STEEM Power interest calculator's GUI / config setup
 -------------------------------------------------------------------
 
+-------------------------------------------------------------------
+1.5.4:
+-Adjusted Arcade City Crowdsale price increase
+-------------------------------------------------------------------
+
 
 
 
