@@ -382,6 +382,12 @@ Minor GUI tweaks
 -Adjusted Arcade City Crowdsale price increase
 -------------------------------------------------------------------
 
+-------------------------------------------------------------------
+1.5.5:
+-Added golem / arcade city coinmarketcap.com link slugs
+-Added Hacker Gold crowdsale token (fixed value for now)
+-------------------------------------------------------------------
+
 
 
 

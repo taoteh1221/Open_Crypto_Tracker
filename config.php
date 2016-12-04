@@ -10,7 +10,7 @@ require_once("app.lib/php/functions.php");
 
 require_once("app.lib/php/cookies.php");
 
-$version = '1.5.4';  // 2016/NOV/22th
+$version = '1.5.5';  // 2016/DEC/3RD
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken
 
@@ -25,7 +25,8 @@ $eth_subtokens_values = array(
                         // Static values in ETH for Ethereum subtokens, like during crowdsale periods etc
                         'ETHSUBTOKENNAME' => '0.15',
                         'GOLEM' => '0.001',
-                        'ARCADECITY' => '0.0133333333333333'
+                        'ARCADECITY' => '0.0133333333333333',
+                        'HACKERGOLD' => '0.0071'
                         );
 
 /*
@@ -210,7 +211,7 @@ $coins_array = array(
                                           'ethereum_subtokens' => 'GOLEM'
                                           ),
                         'trade_pair' => 'eth',
-                        'coinmarketcap' => ''
+                        'coinmarketcap' => 'golem-network-tokens'
                         
                     ),
                     'ARC' => array(
@@ -221,7 +222,7 @@ $coins_array = array(
                                           'ethereum_subtokens' => 'ARCADECITY'
                                           ),
                         'trade_pair' => 'eth',
-                        'coinmarketcap' => ''
+                        'coinmarketcap' => 'arcade-token'
                         
                     ),
                     'XZC' => array(
@@ -258,6 +259,17 @@ $coins_array = array(
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'augur'
+                        
+                    ),
+                    'HKG' => array(
+                        
+                        'coin_name' => 'Hacker Gold',
+                        'coin_symbol' => 'HKG',
+                        'market_ids' => array(
+                                          'ethereum_subtokens' => 'HACKERGOLD'
+                                          ),
+                        'trade_pair' => 'eth',
+                        'coinmarketcap' => ''
                         
                     ),
                     'SDC' => array(
