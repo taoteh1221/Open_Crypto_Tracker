@@ -10,11 +10,11 @@ require_once("app.lib/php/functions.php");
 
 require_once("app.lib/php/cookies.php");
 
-$version = '1.5.5';  // 2016/DEC/3RD
+$version = '1.5.6';  // 2016/DEC/11TH
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken
 
-$steem_powerdown_time = 12;  // Weeks to power down all STEEM Power holdings
+$steem_powerdown_time = 13;  // Weeks to power down all STEEM Power holdings
 
 /*
  * STEEM Power yearly interest rate START 11/29/2016 (1.425%, decreasing every year by roughly 0.075% until it hits a minimum of 0.075% and stays there)
