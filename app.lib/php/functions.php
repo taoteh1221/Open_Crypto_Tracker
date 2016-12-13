@@ -333,6 +333,51 @@ function get_trade_price($markets, $market_ids) {
   
   }
 
+  if ( strtolower($markets) == 'bter' ) {
+
+
+     if ( !$_SESSION['bter_markets'] ) {
+     
+     $json_string = 'http://data.bter.com/api/1/marketlist';
+     
+     $jsondata = @get_data($json_string);
+     
+     $data = json_decode($jsondata, TRUE);
+     $data = $data['data'];
+     
+     $_SESSION['bter_markets'] = $data['data'];
+   
+     }
+     else {
+       
+     $data = $_SESSION['bter_markets'];
+     
+     }
+  
+  
+  
+  //print_r($data);
+      if (is_array($data) || is_object($data)) {
+	
+	    foreach ($data as $key => $value) {
+	      
+	      //var_dump($data);
+	      
+	      if ( $data[$key]['pair'] == $market_ids ) {
+	       
+	      return $data[$key]['rate'];
+	       
+	       
+	      }
+	    
+    
+	    }
+	    
+      }
+  
+  
+  }
+
 
   if ( strtolower($markets) == 'kraken' ) {
   
@@ -519,7 +564,7 @@ $market_ids = $market_ids[$markets];
 
 	  if ( $trade_pairing == 'btc' ) {
 	  $coin_to_trade_raw = ( $coin_name == 'Bitcoin' ? get_btc_usd($btc_in_usd) : get_trade_price($markets, $market_ids) );
-	  $coin_to_trade = number_format( ( $coin_name == 'Bitcoin' ? get_btc_usd($btc_in_usd) : get_trade_price($markets, $market_ids) ), ( $coin_name == 'Bitcoin' ? 2 : 8 ), '.', ',');
+	  $coin_to_trade = number_format( $coin_to_trade_raw, ( $coin_name == 'Bitcoin' ? 2 : 8 ), '.', ',');
 	  $coin_to_trade_worth = ($coin_amount * $coin_to_trade_raw);
 	  $coin_to_trade_worth2 = number_format($coin_to_trade_worth, ( $coin_name == 'Bitcoin' ? 2 : 8 ), '.', ',');
 	  $btc_worth = number_format( $coin_to_trade_worth, 8 );  
@@ -532,7 +577,7 @@ $market_ids = $market_ids[$markets];
 	  $coin_to_btc = get_trade_price($markets, 3);
 	  
 	  $coin_to_trade_raw = get_trade_price($markets, $market_ids);
-	  $coin_to_trade = number_format( get_trade_price($markets, $market_ids), 8, '.', ',');
+	  $coin_to_trade = number_format( $coin_to_trade_raw, 8, '.', ',');
 	  $coin_to_trade_worth = ($coin_amount * $coin_to_trade_raw);
 	  $coin_to_trade_worth2 = number_format($coin_to_trade_worth, 8, '.', ',');
 	  $btc_worth = number_format( ($coin_to_trade_worth * $coin_to_btc), 8 );  // Convert value to bitcoin
@@ -550,7 +595,7 @@ $market_ids = $market_ids[$markets];
 	   if ( $markets == 'ethereum_subtokens' ) {
 	   
 	   $coin_to_trade_raw = get_sub_token_price($markets, $market_ids);
-	   $coin_to_trade = number_format( get_sub_token_price($markets, $market_ids), 8, '.', ',');
+	   $coin_to_trade = number_format( $coin_to_trade_raw, 8, '.', ',');
 	   $coin_to_trade_worth = ($coin_amount * $coin_to_trade_raw);
 	   $coin_to_trade_worth2 = number_format($coin_to_trade_worth, 8, '.', ',');
 	   $btc_worth = number_format( ($coin_to_trade_worth * $coin_to_btc), 8 );  // Convert value to bitcoin
@@ -564,7 +609,7 @@ $market_ids = $market_ids[$markets];
 	   else {
 	   
 	   $coin_to_trade_raw = get_trade_price($markets, $market_ids);
-	   $coin_to_trade = number_format( get_trade_price($markets, $market_ids), 8, '.', ',');
+	   $coin_to_trade = number_format( $coin_to_trade_raw, 8, '.', ',');
 	   $coin_to_trade_worth = ($coin_amount * $coin_to_trade_raw);
 	   $coin_to_trade_worth2 = number_format($coin_to_trade_worth, 8, '.', ',');
 	   $btc_worth = number_format( ($coin_to_trade_worth * $coin_to_btc), 8 );  // Convert ltc value to bitcoin

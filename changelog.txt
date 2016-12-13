@@ -393,6 +393,13 @@ Minor GUI tweaks
 -Corrected STEEM Power Down time period to 13 weeks
 -------------------------------------------------------------------
 
+-------------------------------------------------------------------
+1.5.7:
+-Optimizations
+-Added Bter API support
+-Added Hacker Gold Bter market
+-------------------------------------------------------------------
+
 
 
 

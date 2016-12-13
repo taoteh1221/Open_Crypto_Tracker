@@ -10,7 +10,7 @@ require_once("app.lib/php/functions.php");
 
 require_once("app.lib/php/cookies.php");
 
-$version = '1.5.6';  // 2016/DEC/11TH
+$version = '1.5.7';  // 2016/DEC/13TH
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken
 
@@ -30,7 +30,7 @@ $eth_subtokens_values = array(
                         );
 
 /*
- * USAGE (ADDING / UPDATING COINS) ...ONLY KRAKEN / GATECOIN / POLONIEX / COINBASE / BITTREX / bitfinex / cryptofresh / gemini BTC, altcoin, and token API SUPPORT AS OF NOW
+ * USAGE (ADDING / UPDATING COINS) ...ONLY KRAKEN / GATECOIN / POLONIEX / COINBASE / BITTREX / bitfinex / cryptofresh / bter / gemini BTC, altcoin, and token API SUPPORT AS OF NOW
  * Ethereum subtoken support has been built in, but values are static as no APIs exist yet
  *
  
@@ -85,6 +85,7 @@ $coins_array = array(
                                           'bitfinex' => 'ethbtc',
                                           'gemini' => 'ethbtc',
                                           'bittrex' => 'BTC-ETH',
+                                          'bter' => 'eth_btc',
                                           'cryptofresh' => 'OPEN.ETH'
                                           ),
                         'trade_pair' => 'btc',
@@ -122,7 +123,8 @@ $coins_array = array(
                         'coin_symbol' => 'DASH',
                         'market_ids' => array(
                                           'poloniex' => 'BTC_DASH',
-                                          'bittrex' => 'BTC-DASH'
+                                          'bittrex' => 'BTC-DASH',
+                                          'bter' => 'dash_btc'
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'dash'
@@ -136,6 +138,7 @@ $coins_array = array(
                                           'bitfinex' => 'ltcbtc',
                                           'poloniex' => 'BTC_LTC',
                                           'bittrex' => 'BTC-LTC',
+                                          'bter' => 'ltc_btc',
                                           'cryptofresh' => 'OPEN.LTC'
                                           ),
                         'trade_pair' => 'btc',
@@ -148,7 +151,8 @@ $coins_array = array(
                         'coin_symbol' => 'PPC',
                         'market_ids' => array(
                                           'poloniex' => 'BTC_PPC',
-                                          'bittrex' => 'BTC-PPC'
+                                          'bittrex' => 'BTC-PPC',
+                                          'bter' => 'ppc_btc'
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'peercoin'
@@ -160,7 +164,8 @@ $coins_array = array(
                         'coin_symbol' => 'XMR',
                         'market_ids' => array(
                                           'poloniex' => 'BTC_XMR',
-                                          'bittrex' => 'BTC-XMR'
+                                          'bittrex' => 'BTC-XMR',
+                                          'bter' => 'xmr_btc'
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'monero'
@@ -184,7 +189,8 @@ $coins_array = array(
                         'coin_symbol' => 'NXT',
                         'market_ids' => array(
                                           'poloniex' => 'BTC_NXT',
-                                          'bittrex' => 'BTC-NXT'
+                                          'bittrex' => 'BTC-NXT',
+                                          'bter' => 'nxt_btc'
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'nxt'
@@ -197,6 +203,7 @@ $coins_array = array(
                         'market_ids' => array(
                                           'poloniex' => 'BTC_BTS',
                                           'bittrex' => 'BTC-BTS',
+                                          'bter' => 'bts_btc',
                                           'cryptofresh' => 'BTS'
                                           ),
                         'trade_pair' => 'btc',
@@ -242,7 +249,8 @@ $coins_array = array(
                         'coin_symbol' => 'ZEC',
                         'market_ids' => array(
                                           'poloniex' => 'BTC_ZEC',
-                                          'bittrex' => 'BTC-ZEC'
+                                          'bittrex' => 'BTC-ZEC',
+                                          'bter' => 'zec_btc'
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'zcash'
@@ -256,6 +264,7 @@ $coins_array = array(
                                           'poloniex' => 'BTC_REP',
                                           'kraken' => 'XREPXXBT',
                                           'gatecoin' => 'REPBTC',
+                                          'bter' => 'rep_btc'
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'augur'
@@ -266,10 +275,10 @@ $coins_array = array(
                         'coin_name' => 'Hacker Gold',
                         'coin_symbol' => 'HKG',
                         'market_ids' => array(
-                                          'ethereum_subtokens' => 'HACKERGOLD'
+                                          'bter' => 'hkg_btc'
                                           ),
-                        'trade_pair' => 'eth',
-                        'coinmarketcap' => ''
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'hacker-gold'
                         
                     ),
                     'SDC' => array(
@@ -290,7 +299,8 @@ $coins_array = array(
                         'coin_symbol' => 'BLK',
                         'market_ids' => array(
                                           'poloniex' => 'BTC_BLK',
-                                          'bittrex' => 'BTC-BLK'
+                                          'bittrex' => 'BTC-BLK',
+                                          'bter' => 'blk_btc'
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'blackcoin'
@@ -314,7 +324,8 @@ $coins_array = array(
                         'coin_symbol' => 'DOGE',
                         'market_ids' => array(
                                           'poloniex' => 'BTC_DOGE',
-                                          'bittrex' => 'BTC-DOGE'
+                                          'bittrex' => 'BTC-DOGE',
+                                          'bter' => 'doge_btc'
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'dogecoin'
