@@ -400,6 +400,16 @@ Minor GUI tweaks
 -Added Hacker Gold Bter market
 -------------------------------------------------------------------
 
+-------------------------------------------------------------------
+1.5.8:
+-Added HitBTC API support and markets
+-Added additional XMR markets
+-Removed underperforming assets
+-Minor tweaks
+-------------------------------------------------------------------
+
+
+
 
 
 

@@ -132,7 +132,7 @@ foreach ( $coins_array['BTC']['market_ids'] as $key => $value ) {
 $loop = $loop + 1;
 
 	if ( $value == $coins_array_numbered[$btc_market] ) {
-	echo 'Total USD Value: $' . $total_usd_worth2 . ' (1 Bitcoin is currently worth $' .get_btc_usd($btc_in_usd). ' at '.ucfirst($key).')</p>';
+	echo 'Total USD Value: $' . $total_usd_worth2 . ' (1 Bitcoin is currently worth $' .number_format( get_btc_usd($btc_in_usd), 2, '.', ','). ' at '.ucfirst($key).')</p>';
 	}
 
 }

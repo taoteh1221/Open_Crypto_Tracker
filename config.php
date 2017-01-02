@@ -10,7 +10,7 @@ require_once("app.lib/php/functions.php");
 
 require_once("app.lib/php/cookies.php");
 
-$version = '1.5.7';  // 2016/DEC/13TH
+$version = '1.5.8';  // 2017/JAN/2ND
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken
 
@@ -67,10 +67,26 @@ $coins_array = array(
                                           'kraken' => 'kraken',
                                           'coinbase' => 'coinbase',
                                           'bitstamp' => 'bitstamp',
-                                          'gemini' => 'gemini'
+                                          'gemini' => 'gemini',
+                                          'hitbtc' => 'hitbtc'
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'bitcoin'
+                        
+                    ),
+                    'XMR' => array(
+                        
+                        'coin_name' => 'Monero',
+                        'coin_symbol' => 'XMR',
+                        'market_ids' => array(
+                                          'poloniex' => 'BTC_XMR',
+                                          'hitbtc' => 'XMRBTC',
+                                          'bittrex' => 'BTC-XMR',
+                                          'bitfinex' => 'xmrbtc',
+                                          'bter' => 'xmr_btc'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'monero'
                         
                     ),
                     'ETH' => array(
@@ -81,6 +97,7 @@ $coins_array = array(
                                           'poloniex' => 'BTC_ETH',
                                           'kraken' => 'XETHXXBT',
                                           'coinbase' => 'ETH',
+                                          'hitbtc' => 'ETHBTC',
                                           'gatecoin' => 'ETHBTC',
                                           'bitfinex' => 'ethbtc',
                                           'gemini' => 'ethbtc',
@@ -99,6 +116,7 @@ $coins_array = array(
                         'market_ids' => array(
                                           'poloniex' => 'BTC_STEEM',
                                           'bittrex' => 'BTC-STEEM',
+                                          'hitbtc' => 'STEEMBTC',
                                           'cryptofresh' => 'OPEN.STEEM'
                                           ),
                         'trade_pair' => 'btc',
@@ -111,7 +129,8 @@ $coins_array = array(
                         'coin_symbol' => 'SBD',
                         'market_ids' => array(
                                           'poloniex' => 'BTC_SBD',
-                                          'bittrex' => 'BTC-SBD'
+                                          'bittrex' => 'BTC-SBD',
+                                          'hitbtc' => 'SBDBTC'
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => ''
@@ -124,6 +143,7 @@ $coins_array = array(
                         'market_ids' => array(
                                           'poloniex' => 'BTC_DASH',
                                           'bittrex' => 'BTC-DASH',
+                                          'hitbtc' => 'DASHBTC',
                                           'bter' => 'dash_btc'
                                           ),
                         'trade_pair' => 'btc',
@@ -138,6 +158,7 @@ $coins_array = array(
                                           'bitfinex' => 'ltcbtc',
                                           'poloniex' => 'BTC_LTC',
                                           'bittrex' => 'BTC-LTC',
+                                          'hitbtc' => 'LTCBTC',
                                           'bter' => 'ltc_btc',
                                           'cryptofresh' => 'OPEN.LTC'
                                           ),
@@ -158,31 +179,6 @@ $coins_array = array(
                         'coinmarketcap' => 'peercoin'
                         
                     ),
-                    'XMR' => array(
-                        
-                        'coin_name' => 'Monero',
-                        'coin_symbol' => 'XMR',
-                        'market_ids' => array(
-                                          'poloniex' => 'BTC_XMR',
-                                          'bittrex' => 'BTC-XMR',
-                                          'bter' => 'xmr_btc'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'monero'
-                        
-                    ),
-                    'FCT' => array(
-                        
-                        'coin_name' => 'Factom',
-                        'coin_symbol' => 'FCT',
-                        'market_ids' => array(
-                                          'poloniex' => 'BTC_FCT',
-                                          'bittrex' => 'BTC-FCT'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'factom'
-                        
-                    ),
                     'NXT' => array(
                         
                         'coin_name' => 'NXT',
@@ -190,6 +186,7 @@ $coins_array = array(
                         'market_ids' => array(
                                           'poloniex' => 'BTC_NXT',
                                           'bittrex' => 'BTC-NXT',
+                                          'hitbtc' => 'NXTBTC',
                                           'bter' => 'nxt_btc'
                                           ),
                         'trade_pair' => 'btc',
@@ -210,6 +207,18 @@ $coins_array = array(
                         'coinmarketcap' => 'bitshares'
                         
                     ),
+                    'FCT' => array(
+                        
+                        'coin_name' => 'Factom',
+                        'coin_symbol' => 'FCT',
+                        'market_ids' => array(
+                                          'poloniex' => 'BTC_FCT',
+                                          'bittrex' => 'BTC-FCT'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'factom'
+                        
+                    ),
                     'GNT' => array(
                         
                         'coin_name' => 'Golem',
@@ -221,28 +230,6 @@ $coins_array = array(
                         'coinmarketcap' => 'golem-network-tokens'
                         
                     ),
-                    'ARC' => array(
-                        
-                        'coin_name' => 'Arcade City',
-                        'coin_symbol' => 'ARC',
-                        'market_ids' => array(
-                                          'ethereum_subtokens' => 'ARCADECITY'
-                                          ),
-                        'trade_pair' => 'eth',
-                        'coinmarketcap' => 'arcade-token'
-                        
-                    ),
-                    'XZC' => array(
-                        
-                        'coin_name' => 'Zcoin',
-                        'coin_symbol' => 'XZC',
-                        'market_ids' => array(
-                                          'bittrex' => 'BTC-XZC'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'zcoin'
-                        
-                    ),
                     'ZEC' => array(
                         
                         'coin_name' => 'Zcash',
@@ -250,6 +237,7 @@ $coins_array = array(
                         'market_ids' => array(
                                           'poloniex' => 'BTC_ZEC',
                                           'bittrex' => 'BTC-ZEC',
+                                          'hitbtc' => 'ZECBTC',
                                           'bter' => 'zec_btc'
                                           ),
                         'trade_pair' => 'btc',
@@ -270,27 +258,15 @@ $coins_array = array(
                         'coinmarketcap' => 'augur'
                         
                     ),
-                    'HKG' => array(
+                    'XZC' => array(
                         
-                        'coin_name' => 'Hacker Gold',
-                        'coin_symbol' => 'HKG',
+                        'coin_name' => 'Zcoin',
+                        'coin_symbol' => 'XZC',
                         'market_ids' => array(
-                                          'bter' => 'hkg_btc'
+                                          'bittrex' => 'BTC-XZC'
                                           ),
                         'trade_pair' => 'btc',
-                        'coinmarketcap' => 'hacker-gold'
-                        
-                    ),
-                    'SDC' => array(
-                        
-                        'coin_name' => 'ShadowCash',
-                        'coin_symbol' => 'SDC',
-                        'market_ids' => array(
-                                          'poloniex' => 'BTC_SDC',
-                                          'bittrex' => 'BTC-SDC'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'shadowcoin'
+                        'coinmarketcap' => 'zcoin'
                         
                     ),
                     'BLK' => array(
@@ -304,18 +280,6 @@ $coins_array = array(
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'blackcoin'
-                        
-                    ),
-                    'RDD' => array(
-                        
-                        'coin_name' => 'Reddcoin',
-                        'coin_symbol' => 'RDD',
-                        'market_ids' => array(
-                                          'poloniex' => 'BTC_RDD',
-                                          'bittrex' => 'BTC-RDD'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'reddcoin'
                         
                     ),
                     'DOGE' => array(
@@ -355,6 +319,28 @@ $coins_array = array(
                         'coinmarketcap' => 'stellar'
                         
                     ),
+                    'ARC' => array(
+                        
+                        'coin_name' => 'Arcade City',
+                        'coin_symbol' => 'ARC',
+                        'market_ids' => array(
+                                          'ethereum_subtokens' => 'ARCADECITY'
+                                          ),
+                        'trade_pair' => 'eth',
+                        'coinmarketcap' => 'arcade-token'
+                        
+                    ),
+                    'HKG' => array(
+                        
+                        'coin_name' => 'Hacker Gold',
+                        'coin_symbol' => 'HKG',
+                        'market_ids' => array(
+                                          'bter' => 'hkg_btc'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'hacker-gold'
+                        
+                    ),
                     'LSK' => array(
                         
                         'coin_name' => 'Lisk',
@@ -362,6 +348,7 @@ $coins_array = array(
                         'market_ids' => array(
                                           'poloniex' => 'BTC_LSK',
                                           'bittrex' => 'BTC-LSK',
+                                          'hitbtc' => 'LSKBTC',
                                           'cryptofresh' => 'OPEN.LISK'
                                           ),
                         'trade_pair' => 'btc',

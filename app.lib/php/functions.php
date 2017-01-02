@@ -68,6 +68,23 @@ function get_btc_usd($btc_in_usd) {
   
     }
   
+    elseif ( strtolower($btc_in_usd) == 'hitbtc' ) {
+  
+    
+  
+    $json_string = 'https://api.hitbtc.com/api/1/public/BTCUSD/ticker';
+    
+    $jsondata = @get_data($json_string);
+    
+    $data = json_decode($jsondata, TRUE);
+    
+    $_SESSION['btc_usd'] = number_format( $data['last'], 2, '.', '');
+    
+    
+    return $_SESSION['btc_usd'];
+  
+    }
+  
     elseif ( strtolower($btc_in_usd) == 'bitfinex' ) {
   
     
@@ -167,7 +184,7 @@ function get_btc_usd($btc_in_usd) {
 		   
 		   if ( $key2 == 'XXBTZUSD' ) {
 		    
-		   return $data[$key][$key2]["c"][0];;
+		   return $data[$key][$key2]["c"][0];
 		    
 		    
 		   }
@@ -306,6 +323,50 @@ function get_trade_price($markets, $market_ids) {
      else {
        
      $data = $_SESSION['poloniex_markets'];
+     
+     }
+  
+  
+  
+  //print_r($data);
+      if (is_array($data) || is_object($data)) {
+	
+	    foreach ($data as $key => $value) {
+	      
+	      //print_r($key);
+	      
+	      if ( $key == $market_ids ) {
+	       
+	      return $data[$key]["last"];
+	       
+	       
+	      }
+	    
+    
+	    }
+	    
+      }
+  
+  
+  }
+
+  if ( strtolower($markets) == 'hitbtc' ) {
+
+
+     if ( !$_SESSION['hitbtc_markets'] ) {
+     
+     $json_string = 'https://api.hitbtc.com/api/1/public/ticker';
+     
+     $jsondata = @get_data($json_string);
+     
+     $data = json_decode($jsondata, TRUE);
+     
+     $_SESSION['hitbtc_markets'] = $data;
+   
+     }
+     else {
+       
+     $data = $_SESSION['hitbtc_markets'];
      
      }
   
@@ -683,7 +744,7 @@ $market_ids = $market_ids[$markets];
   echo ' ($'.number_format(( get_btc_usd($btc_in_usd) * $coin_to_trade ), 8, '.', ',').' USD)';
   }
   else {
-  echo ' ($'.get_btc_usd($btc_in_usd).' USD)';
+  echo ' ($'.number_format(get_btc_usd($btc_in_usd), 2, '.', ',').' USD)';
   }
 
 ?></span></td>

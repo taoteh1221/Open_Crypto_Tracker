@@ -66,7 +66,9 @@ require("templates/default/header.php");
 	
 	<br /><br />Donations are welcome to support further development...
 	<br /><br />BTC: 1FfWHekHPLH7hQcU4d5MBVQ4WekJiA8Mk2
+	<br /><br />XMR: 47mWWjuwPFiPD6t2MaWcMEfejtQpMuz9oj5hJq18f7nvagcmoJwxudKHUppaWnTMPaMWshMWUTPAUX623KyEtukbSMdmpqu
 	<br /><br />ETH: 0xf3da0858c3cfcc28a75c1232957a7fb190d7e5e9
+	<br /><br />STEEM: taoteh1221
 
 </p>
 <?php
