@@ -9,3 +9,9 @@
                             <p><b>Installing On Your Website, and Adding Your Own Coins:</b><br />
                                 If you install this application on your own server, you can add / delete / edit the coin list very easily. Instructions can be found in the <a href='README.txt' target='_blank'>README.txt file</a>.</p>
                         </div>
+                        
+                        
+			<div class='help_section'>
+                            <p><b>Feature Requests and Reporting Issues:</b><br />
+                                Have a feature you'd like to see added, or an issue to report? You can do that <a href='https://github.com/taoteh1221/DFD_Cryptocoin_Values/issues' target='_blank'>on github in the issue reporting area</a> for this application.</p>
+                        </div>

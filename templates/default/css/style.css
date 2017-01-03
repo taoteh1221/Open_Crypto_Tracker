@@ -4,7 +4,8 @@
 
 body {
 
-margin: 20px;
+margin: 15px;
+width: auto;
 
 }
 
@@ -96,7 +97,9 @@ font-size: 13px;
 }
 
 html {
-	padding:15px 15px 0;
+	width: auto;
+	margin: auto;
+	padding:0px;
 	font-family:sans-serif;
 	font-size:14px;
 }
@@ -106,8 +109,9 @@ p, h3 {
 }
 
 div.tabdiv {
-	padding:10px;
+	padding:15px;
 	width:auto;
+	display:inline-block;
 	background:#fff;
                             border: 1px solid #808080;
 }
@@ -147,4 +151,10 @@ padding: 15px;
 .chart_links {
 font-weight: bold;
 margin: 20px;
+}
+
+.long_linebreak { 
+    display:block;
+    width:350px;
+    word-wrap:break-word;
 }

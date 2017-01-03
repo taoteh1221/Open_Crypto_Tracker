@@ -408,6 +408,14 @@ Minor GUI tweaks
 -Minor tweaks
 -------------------------------------------------------------------
 
+-------------------------------------------------------------------
+1.5.9:
+-Added Kraken XMR market
+-Tweaks for mobile-sized screens
+-Link to report issues / feature requests.
+-------------------------------------------------------------------
+
+
 
 
 

@@ -10,7 +10,7 @@ require_once("app.lib/php/functions.php");
 
 require_once("app.lib/php/cookies.php");
 
-$version = '1.5.8';  // 2017/JAN/2ND
+$version = '1.5.9';  // 2017/JAN/3RD
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken
 
@@ -83,6 +83,7 @@ $coins_array = array(
                                           'hitbtc' => 'XMRBTC',
                                           'bittrex' => 'BTC-XMR',
                                           'bitfinex' => 'xmrbtc',
+                                          'kraken' => 'XXMRXXBT',
                                           'bter' => 'xmr_btc'
                                           ),
                         'trade_pair' => 'btc',
@@ -258,17 +259,6 @@ $coins_array = array(
                         'coinmarketcap' => 'augur'
                         
                     ),
-                    'XZC' => array(
-                        
-                        'coin_name' => 'Zcoin',
-                        'coin_symbol' => 'XZC',
-                        'market_ids' => array(
-                                          'bittrex' => 'BTC-XZC'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'zcoin'
-                        
-                    ),
                     'BLK' => array(
                         
                         'coin_name' => 'Blackcoin',
@@ -319,28 +309,6 @@ $coins_array = array(
                         'coinmarketcap' => 'stellar'
                         
                     ),
-                    'ARC' => array(
-                        
-                        'coin_name' => 'Arcade City',
-                        'coin_symbol' => 'ARC',
-                        'market_ids' => array(
-                                          'ethereum_subtokens' => 'ARCADECITY'
-                                          ),
-                        'trade_pair' => 'eth',
-                        'coinmarketcap' => 'arcade-token'
-                        
-                    ),
-                    'HKG' => array(
-                        
-                        'coin_name' => 'Hacker Gold',
-                        'coin_symbol' => 'HKG',
-                        'market_ids' => array(
-                                          'bter' => 'hkg_btc'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'hacker-gold'
-                        
-                    ),
                     'LSK' => array(
                         
                         'coin_name' => 'Lisk',
@@ -365,6 +333,28 @@ $coins_array = array(
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'maidsafecoin'
+                        
+                    ),
+                    'ARC' => array(
+                        
+                        'coin_name' => 'Arcade City',
+                        'coin_symbol' => 'ARC',
+                        'market_ids' => array(
+                                          'ethereum_subtokens' => 'ARCADECITY'
+                                          ),
+                        'trade_pair' => 'eth',
+                        'coinmarketcap' => 'arcade-token'
+                        
+                    ),
+                    'HKG' => array(
+                        
+                        'coin_name' => 'Hacker Gold',
+                        'coin_symbol' => 'HKG',
+                        'market_ids' => array(
+                                          'bter' => 'hkg_btc'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'hacker-gold'
                         
                     ),
                     'AMP' => array(
