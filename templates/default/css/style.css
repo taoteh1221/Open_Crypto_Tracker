@@ -71,7 +71,7 @@ font-size: 15px;
 white-space: nowrap;
 }
 
-.btc_worth {
+.btc_worth, .btc_worth span, td.data div.btc_worth span {
 margin: 2px;
 padding: 0px;
 color: green;
