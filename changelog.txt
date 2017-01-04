@@ -415,6 +415,13 @@ Minor GUI tweaks
 -Link to report issues / feature requests.
 -------------------------------------------------------------------
 
+-------------------------------------------------------------------
+1.6.0:
+-Fixed newly-introduced CSS bug related to minimum tab width
+-Prettied up the coin value data table to be more readable
+-Updated gatecoin API URL
+-------------------------------------------------------------------
+
 
 
 

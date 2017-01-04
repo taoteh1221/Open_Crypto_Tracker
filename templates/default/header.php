@@ -21,6 +21,13 @@
 
 <script type="text/javascript" src="app.lib/js/init.js"></script>
 
+<style>
+    
+.tablesorter-default .header, .tablesorter-default .tablesorter-header {
+    white-space: nowrap;
+}
+</style>
+
 </head>
 <body>
  

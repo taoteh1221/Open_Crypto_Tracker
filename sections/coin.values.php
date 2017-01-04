@@ -10,16 +10,16 @@ if ( $_POST['submit_check'] == 1 || $_COOKIE['coin_amounts'] ) {
 <table border='0' cellpadding='10' cellspacing='0' id="coins_table">
  <thead>
     <tr>
-<th class='border_lt'> Sort Order</th>
-<th class='border_lt'> Marketplace</th>
-<th class='border_lt' align='right'> Coin Name</th>
+<th class='border_lt'> Order</th>
+<th class='border_lt'> Exchange</th>
+<th class='border_lt' align='right'> Name</th>
 <th class='border_t'> (USD Value)</th>
-<th class='border_lt' align='right'> Coin Amount</th>
+<th class='border_lt' align='right'> Amount</th>
 <th class='border_t'> Symbol</th>
 <th class='border_lt' align='right'> Trade Value</th>
 <th class='border_t'> (for)</th>
-<th class='border_lt'> Total Trade Value</th>
-<th class='border_lrt'> Total USD Value</th>
+<th class='border_lt'> Total</th>
+<th class='border_lrt'> USD Value</th>
     </tr>
   </thead>
  <tbody>

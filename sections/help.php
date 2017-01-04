@@ -13,5 +13,5 @@
                         
 			<div class='help_section'>
                             <p><b>Feature Requests and Reporting Issues:</b><br />
-                                Have a feature you'd like to see added, or an issue to report? You can do that <a href='https://github.com/taoteh1221/DFD_Cryptocoin_Values/issues' target='_blank'>on github in the issue reporting area</a> for this application.</p>
+                                Have a feature you'd like to see added, or an issue to report? You can do that <a href='https://github.com/taoteh1221/DFD_Cryptocoin_Values/issues' target='_blank'>in the github issue reporting area for this application</a>.</p>
                         </div>

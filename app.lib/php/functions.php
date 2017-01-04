@@ -490,7 +490,7 @@ function get_trade_price($markets, $market_ids) {
 
      if ( !$_SESSION['gatecoin_markets'] ) {
      
-     $json_string = 'https://www.gatecoin.com/api/Public/LiveTickers';
+     $json_string = 'https://api.gatecoin.com/Public/LiveTickers';
      
      $jsondata = @get_data($json_string);
      
@@ -769,9 +769,9 @@ $market_ids = $market_ids[$markets];
 <td class='data border_b'> <span>(<?=$trade_pairing_description?>)</span></span></td>
 
 <td class='data border_lb'><?php
-echo $coin_to_trade_worth2 . ' <span>' . $trade_pairing_symbol . '</span>';
+echo ' <span><span class="data">' . $coin_to_trade_worth2 . '</span> ' . $trade_pairing_symbol . '</span>';
   if ( $trade_pairing != 'btc' ) {
-  echo '<div class="btc_worth">(' . $btc_worth . ' BTC)</div>';
+  echo '<div class="btc_worth"><span>(' . $btc_worth . ' BTC)</span></div>';
   }
 
 ?></td>
