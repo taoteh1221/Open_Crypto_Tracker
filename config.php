@@ -10,7 +10,7 @@ require_once("app.lib/php/functions.php");
 
 require_once("app.lib/php/cookies.php");
 
-$version = '1.6.2';  // 2017/MARCH/3RD
+$version = '1.6.3';  // 2017/MARCH/3RD
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken
 
@@ -21,7 +21,7 @@ $steem_powerdown_time = 13;  // Weeks to power down all STEEM Power holdings
  */
 $steempower_yearly_interest = 1.425;  // 1.425 (DON NOT INCLUDE PERCENT SIGN) the first year at 11/29/2016 refactored rates, see above for manual yearly adjustment
 
-$eth_subtokens_values = array(
+$eth_subtokens_ico_values = array(
                         // Static values in ETH for Ethereum subtokens, like during crowdsale periods etc
                         'ETHSUBTOKENNAME' => '0.15',
                         'GOLEM' => '0.001',
@@ -43,7 +43,7 @@ $eth_subtokens_values = array(
                                           'MARKETPLACE1' => 'MARKETNUMBERHERE',
                                           'MARKETPLACE2' => 'BTC_COINSYMBOLHERE',
                                           'MARKETPLACE3' => 'BTC-COINSYMBOLHERE',
-                                          'ethereum_subtokens' => 'ETHSUBTOKENNAME' // Must be defined in $eth_subtokens_values at top of config.php
+                                          'eth_subtokens_ico' => 'ETHSUBTOKENNAME' // Must be defined in $eth_subtokens_ico_values at top of config.php
                                           ),
                         'trade_pair' => 'LOWERCASE_BTC_OR_LTC_OR_ETH_TRADING_PAIR',
                         'coinmarketcap' => 'coin-slug' // Is this coin listed on coinmarketcap, leave blank if not
@@ -253,7 +253,7 @@ $coins_array = array(
                         'coin_name' => 'Swarm City',
                         'coin_symbol' => 'SWT',
                         'market_ids' => array(
-                                          'ethereum_subtokens' => 'SWARMCITY'
+                                          'eth_subtokens_ico' => 'SWARMCITY'
                                           ),
                         'trade_pair' => 'eth',
                         'coinmarketcap' => 'swarm-city'

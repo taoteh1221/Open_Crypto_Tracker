@@ -38,7 +38,7 @@ MANY OTHER CRYPTOCURRENCIES AND PAYPAL ACCEPTED HERE: https://dragonfrugal.com/d
                                           'MARKETPLACE1' => 'MARKETNUMBERHERE',
                                           'MARKETPLACE2' => 'BTC_COINSYMBOLHERE',
                                           'MARKETPLACE3' => 'BTC-COINSYMBOLHERE',
-                                          'ethereum_subtokens' => 'THEDAO' // Must be defined in $eth_subtokens_values at top of config.php
+                                          'eth_subtokens_ico' => 'THEDAO' // Must be defined in $eth_subtokens_ico_values at top of config.php
                                           ),
                         'trade_pair' => 'LOWERCASE_BTC_OR_LTC_OR_ETH_TRADING_PAIR',
                         'coinmarketcap' => 'coin-slug' // Is this coin listed on coinmarketcap, leave blank if not

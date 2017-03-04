@@ -535,11 +535,11 @@ function get_trade_price($markets, $market_ids) {
 //////////////////////////////////////////////////////////
 function get_sub_token_price($markets, $market_ids) {
 
-global $eth_subtokens_values;
+global $eth_subtokens_ico_values;
 
- if ( strtolower($markets) == 'ethereum_subtokens' ) {
+ if ( strtolower($markets) == 'eth_subtokens_ico' ) {
 
-  return $eth_subtokens_values[$market_ids];
+  return $eth_subtokens_ico_values[$market_ids];
   }
  
 
@@ -581,7 +581,7 @@ $all_markets = $coins_array[$trade_symbol]['market_ids'];  // Get all markets fo
   $loop = 0;
    foreach ( $all_markets as $key => $value ) {
    
-    if ( $loop == $markets || $key == "ethereum_subtokens" ) {
+    if ( $loop == $markets || $key == "eth_subtokens_ico" ) {
     $markets = $key;
      
      if ( $coin_name == 'Bitcoin' ) {
@@ -653,7 +653,7 @@ $market_ids = $market_ids[$markets];
 	    
 	  $coin_to_btc = get_trade_price('poloniex', 'BTC_ETH');
 	   
-	   if ( $markets == 'ethereum_subtokens' ) {
+	   if ( $markets == 'eth_subtokens_ico' ) {
 	   
 	   $coin_to_trade_raw = get_sub_token_price($markets, $market_ids);
 	   $coin_to_trade = number_format( $coin_to_trade_raw, 8, '.', ',');
