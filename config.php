@@ -10,7 +10,7 @@ require_once("app.lib/php/functions.php");
 
 require_once("app.lib/php/cookies.php");
 
-$version = '1.6.0';  // 2017/JAN/3RD
+$version = '1.6.2';  // 2017/MARCH/3RD
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken
 
@@ -25,7 +25,7 @@ $eth_subtokens_values = array(
                         // Static values in ETH for Ethereum subtokens, like during crowdsale periods etc
                         'ETHSUBTOKENNAME' => '0.15',
                         'GOLEM' => '0.001',
-                        'ARCADECITY' => '0.0133333333333333',
+                        'SWARMCITY' => '0.0133333333333333',
                         'HACKERGOLD' => '0.0071'
                         );
 
@@ -110,33 +110,6 @@ $coins_array = array(
                         'coinmarketcap' => 'ethereum'
                         
                     ),
-                    'STEEM' => array(
-                        
-                        'coin_name' => 'Steem',
-                        'coin_symbol' => 'STEEM',
-                        'market_ids' => array(
-                                          'poloniex' => 'BTC_STEEM',
-                                          'bittrex' => 'BTC-STEEM',
-                                          'hitbtc' => 'STEEMBTC',
-                                          'cryptofresh' => 'OPEN.STEEM'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'steem'
-                        
-                    ),
-                    'SBD' => array(
-                        
-                        'coin_name' => 'SteemDollars',
-                        'coin_symbol' => 'SBD',
-                        'market_ids' => array(
-                                          'poloniex' => 'BTC_SBD',
-                                          'bittrex' => 'BTC-SBD',
-                                          'hitbtc' => 'SBDBTC'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => ''
-                        
-                    ),
                     'DASH' => array(
                         
                         'coin_name' => 'Dash',
@@ -194,6 +167,33 @@ $coins_array = array(
                         'coinmarketcap' => 'nxt'
                         
                     ),
+                    'STEEM' => array(
+                        
+                        'coin_name' => 'Steem',
+                        'coin_symbol' => 'STEEM',
+                        'market_ids' => array(
+                                          'poloniex' => 'BTC_STEEM',
+                                          'bittrex' => 'BTC-STEEM',
+                                          'hitbtc' => 'STEEMBTC',
+                                          'cryptofresh' => 'OPEN.STEEM'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'steem'
+                        
+                    ),
+                    'SBD' => array(
+                        
+                        'coin_name' => 'SteemDollars',
+                        'coin_symbol' => 'SBD',
+                        'market_ids' => array(
+                                          'poloniex' => 'BTC_SBD',
+                                          'bittrex' => 'BTC-SBD',
+                                          'hitbtc' => 'SBDBTC'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => ''
+                        
+                    ),
                     'BTS' => array(
                         
                         'coin_name' => 'BitShares',
@@ -218,17 +218,6 @@ $coins_array = array(
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'factom'
-                        
-                    ),
-                    'GNT' => array(
-                        
-                        'coin_name' => 'Golem',
-                        'coin_symbol' => 'GNT',
-                        'market_ids' => array(
-                                          'ethereum_subtokens' => 'GOLEM'
-                                          ),
-                        'trade_pair' => 'eth',
-                        'coinmarketcap' => 'golem-network-tokens'
                         
                     ),
                     'ZEC' => array(
@@ -257,6 +246,28 @@ $coins_array = array(
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'augur'
+                        
+                    ),
+                    'SWT' => array(
+                        
+                        'coin_name' => 'Swarm City',
+                        'coin_symbol' => 'SWT',
+                        'market_ids' => array(
+                                          'ethereum_subtokens' => 'SWARMCITY'
+                                          ),
+                        'trade_pair' => 'eth',
+                        'coinmarketcap' => 'swarm-city'
+                        
+                    ),
+                    'GNT' => array(
+                        
+                        'coin_name' => 'Golem',
+                        'coin_symbol' => 'GNT',
+                        'market_ids' => array(
+                                          'poloniex' => 'BTC_GNT',
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'golem-network-tokens'
                         
                     ),
                     'BLK' => array(
@@ -335,22 +346,12 @@ $coins_array = array(
                         'coinmarketcap' => 'maidsafecoin'
                         
                     ),
-                    'ARC' => array(
-                        
-                        'coin_name' => 'Arcade City',
-                        'coin_symbol' => 'ARC',
-                        'market_ids' => array(
-                                          'ethereum_subtokens' => 'ARCADECITY'
-                                          ),
-                        'trade_pair' => 'eth',
-                        'coinmarketcap' => 'arcade-token'
-                        
-                    ),
                     'HKG' => array(
                         
                         'coin_name' => 'Hacker Gold',
                         'coin_symbol' => 'HKG',
                         'market_ids' => array(
+                                          'bittrex' => 'BTC-HKG',
                                           'bter' => 'hkg_btc'
                                           ),
                         'trade_pair' => 'btc',
@@ -368,7 +369,19 @@ $coins_array = array(
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'synereo'
                         
-                    )
+                    )/*,
+                    'USDT' => array(
+                        
+                        'coin_name' => 'Tether',
+                        'coin_symbol' => 'USDT',
+                        'market_ids' => array(
+                                          'poloniex' => 'USDT_BTC',
+                                          'bittrex' => 'USDT-BTC'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'tether'
+                        
+                    )*/
                 
                 
 );
