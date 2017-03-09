@@ -10,7 +10,7 @@ require_once("app.lib/php/functions.php");
 
 require_once("app.lib/php/cookies.php");
 
-$version = '1.6.3';  // 2017/MARCH/3RD
+$version = '1.6.4';  // 2017/MARCH/8TH
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken
 
@@ -74,22 +74,6 @@ $coins_array = array(
                         'coinmarketcap' => 'bitcoin'
                         
                     ),
-                    'XMR' => array(
-                        
-                        'coin_name' => 'Monero',
-                        'coin_symbol' => 'XMR',
-                        'market_ids' => array(
-                                          'poloniex' => 'BTC_XMR',
-                                          'hitbtc' => 'XMRBTC',
-                                          'bittrex' => 'BTC-XMR',
-                                          'bitfinex' => 'xmrbtc',
-                                          'kraken' => 'XXMRXXBT',
-                                          'bter' => 'xmr_btc'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'monero'
-                        
-                    ),
                     'ETH' => array(
                         
                         'coin_name' => 'Ethereum',
@@ -138,6 +122,22 @@ $coins_array = array(
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'litecoin'
+                        
+                    ),
+                    'XMR' => array(
+                        
+                        'coin_name' => 'Monero',
+                        'coin_symbol' => 'XMR',
+                        'market_ids' => array(
+                                          'poloniex' => 'BTC_XMR',
+                                          'hitbtc' => 'XMRBTC',
+                                          'bittrex' => 'BTC-XMR',
+                                          'bitfinex' => 'xmrbtc',
+                                          'kraken' => 'XXMRXXBT',
+                                          'bter' => 'xmr_btc'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'monero'
                         
                     ),
                     'PPC' => array(
@@ -253,9 +253,9 @@ $coins_array = array(
                         'coin_name' => 'Swarm City',
                         'coin_symbol' => 'SWT',
                         'market_ids' => array(
-                                          'eth_subtokens_ico' => 'SWARMCITY'
+                                          'bittrex' => 'BTC-SWT'
                                           ),
-                        'trade_pair' => 'eth',
+                        'trade_pair' => 'btc',
                         'coinmarketcap' => 'swarm-city'
                         
                     ),
