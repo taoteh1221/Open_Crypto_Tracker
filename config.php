@@ -10,7 +10,7 @@ require_once("app.lib/php/functions.php");
 
 require_once("app.lib/php/cookies.php");
 
-$version = '1.6.4';  // 2017/MARCH/8TH
+$version = '1.6.5';  // 2017/APRIL/15TH
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken
 
@@ -268,6 +268,29 @@ $coins_array = array(
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'golem-network-tokens'
+                        
+                    ),
+                    'DCR' => array(
+                        
+                        'coin_name' => 'Decred',
+                        'coin_symbol' => 'DCR',
+                        'market_ids' => array(
+                                          'poloniex' => 'BTC_DCR',
+                                          'bittrex' => 'BTC-DCR'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'decred'
+                        
+                    ),
+                    'UBQ' => array(
+                        
+                        'coin_name' => 'Ubiq',
+                        'coin_symbol' => 'UBQ',
+                        'market_ids' => array(
+                                          'bittrex' => 'BTC-UBQ'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'ubiq'
                         
                     ),
                     'BLK' => array(
