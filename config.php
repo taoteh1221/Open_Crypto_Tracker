@@ -181,19 +181,6 @@ $coins_array = array(
                         'coinmarketcap' => 'steem'
                         
                     ),
-                    'SBD' => array(
-                        
-                        'coin_name' => 'SteemDollars',
-                        'coin_symbol' => 'SBD',
-                        'market_ids' => array(
-                                          'poloniex' => 'BTC_SBD',
-                                          'bittrex' => 'BTC-SBD',
-                                          'hitbtc' => 'SBDBTC'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => ''
-                        
-                    ),
                     'BTS' => array(
                         
                         'coin_name' => 'BitShares',
@@ -259,17 +246,6 @@ $coins_array = array(
                         'coinmarketcap' => 'swarm-city'
                         
                     ),
-                    'GNT' => array(
-                        
-                        'coin_name' => 'Golem',
-                        'coin_symbol' => 'GNT',
-                        'market_ids' => array(
-                                          'poloniex' => 'BTC_GNT',
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'golem-network-tokens'
-                        
-                    ),
                     'DCR' => array(
                         
                         'coin_name' => 'Decred',
@@ -282,41 +258,37 @@ $coins_array = array(
                         'coinmarketcap' => 'decred'
                         
                     ),
-                    'UBQ' => array(
+                    'PIVX' => array(
                         
-                        'coin_name' => 'Ubiq',
-                        'coin_symbol' => 'UBQ',
+                        'coin_name' => 'PIVX',
+                        'coin_symbol' => 'PIVX',
                         'market_ids' => array(
-                                          'bittrex' => 'BTC-UBQ'
+                                          'bittrex' => 'BTC-PIVX'
                                           ),
                         'trade_pair' => 'btc',
-                        'coinmarketcap' => 'ubiq'
+                        'coinmarketcap' => 'pivx'
                         
                     ),
-                    'BLK' => array(
+                    'GNT' => array(
                         
-                        'coin_name' => 'Blackcoin',
-                        'coin_symbol' => 'BLK',
+                        'coin_name' => 'Golem',
+                        'coin_symbol' => 'GNT',
                         'market_ids' => array(
-                                          'poloniex' => 'BTC_BLK',
-                                          'bittrex' => 'BTC-BLK',
-                                          'bter' => 'blk_btc'
+                                          'poloniex' => 'BTC_GNT',
                                           ),
                         'trade_pair' => 'btc',
-                        'coinmarketcap' => 'blackcoin'
+                        'coinmarketcap' => 'golem-network-tokens'
                         
                     ),
-                    'DOGE' => array(
+                    'TRST' => array(
                         
-                        'coin_name' => 'Dogecoin',
-                        'coin_symbol' => 'DOGE',
+                        'coin_name' => 'WeTrust',
+                        'coin_symbol' => 'TRST',
                         'market_ids' => array(
-                                          'poloniex' => 'BTC_DOGE',
-                                          'bittrex' => 'BTC-DOGE',
-                                          'bter' => 'doge_btc'
+                                          'bittrex' => 'BTC-TRST'
                                           ),
                         'trade_pair' => 'btc',
-                        'coinmarketcap' => 'dogecoin'
+                        'coinmarketcap' => 'trust'
                         
                     ),
                     'XRP' => array(
@@ -392,19 +364,7 @@ $coins_array = array(
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'synereo'
                         
-                    )/*,
-                    'USDT' => array(
-                        
-                        'coin_name' => 'Tether',
-                        'coin_symbol' => 'USDT',
-                        'market_ids' => array(
-                                          'poloniex' => 'USDT_BTC',
-                                          'bittrex' => 'USDT-BTC'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'tether'
-                        
-                    )*/
+                    )
                 
                 
 );

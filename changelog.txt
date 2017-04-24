@@ -445,7 +445,7 @@ Minor GUI tweaks
 
 -------------------------------------------------------------------
 1.6.5:
--Decred / Ubiq markets added
+-Decred / PIVX / WeTrust markets added, cleaned out old markets
 -------------------------------------------------------------------
 
 
