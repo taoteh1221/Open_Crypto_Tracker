@@ -10,7 +10,7 @@ require_once("app.lib/php/functions.php");
 
 require_once("app.lib/php/cookies.php");
 
-$version = '1.6.5';  // 2017/APRIL/15TH
+$version = '1.6.6';  // 2017/MAY/2ND
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken
 
@@ -246,6 +246,52 @@ $coins_array = array(
                         'coinmarketcap' => 'swarm-city'
                         
                     ),
+                    'LUN' => array(
+                        
+                        'coin_name' => 'Lunyr',
+                        'coin_symbol' => 'LUN',
+                        'market_ids' => array(
+                                          'bittrex' => 'BTC-LUN'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'lunyr'
+                        
+                    ),
+                    'GNT' => array(
+                        
+                        'coin_name' => 'Golem',
+                        'coin_symbol' => 'GNT',
+                        'market_ids' => array(
+                                          'poloniex' => 'BTC_GNT'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'golem-network-tokens'
+                        
+                    ),
+                    'TRST' => array(
+                        
+                        'coin_name' => 'WeTrust',
+                        'coin_symbol' => 'TRST',
+                        'market_ids' => array(
+                                          'bittrex' => 'BTC-TRST'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'trust'
+                        
+                    ),
+                    'GNO' => array(
+                        
+                        'coin_name' => 'Gnosis',
+                        'coin_symbol' => 'GNO',
+                        'market_ids' => array(
+                                          'poloniex' => 'BTC_GNO',
+                                          'bittrex' => 'BTC-GNO',
+                                          'kraken' => 'GNOXBT'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'gnosis-gno'
+                        
+                    ),
                     'DCR' => array(
                         
                         'coin_name' => 'Decred',
@@ -267,28 +313,6 @@ $coins_array = array(
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'pivx'
-                        
-                    ),
-                    'GNT' => array(
-                        
-                        'coin_name' => 'Golem',
-                        'coin_symbol' => 'GNT',
-                        'market_ids' => array(
-                                          'poloniex' => 'BTC_GNT',
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'golem-network-tokens'
-                        
-                    ),
-                    'TRST' => array(
-                        
-                        'coin_name' => 'WeTrust',
-                        'coin_symbol' => 'TRST',
-                        'market_ids' => array(
-                                          'bittrex' => 'BTC-TRST'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'trust'
                         
                     ),
                     'XRP' => array(
