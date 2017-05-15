@@ -10,7 +10,7 @@ require_once("app.lib/php/functions.php");
 
 require_once("app.lib/php/cookies.php");
 
-$version = '1.6.6';  // 2017/MAY/9TH
+$version = '1.6.7';  // 2017/MAY/14th
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken
 
@@ -167,6 +167,17 @@ $coins_array = array(
                         'coinmarketcap' => 'steem'
                         
                     ),
+                    'ZCL' => array(
+                        
+                        'coin_name' => 'Zclassic',
+                        'coin_symbol' => 'ZCL',
+                        'market_ids' => array(
+                                          'bittrex' => 'BTC-ZCL'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'zclassic'
+                        
+                    ),
                     'FCT' => array(
                         
                         'coin_name' => 'Factom',
@@ -278,18 +289,6 @@ $coins_array = array(
                         'coinmarketcap' => 'gnosis-gno'
                         
                     ),
-                    'DCR' => array(
-                        
-                        'coin_name' => 'Decred',
-                        'coin_symbol' => 'DCR',
-                        'market_ids' => array(
-                                          'poloniex' => 'BTC_DCR',
-                                          'bittrex' => 'BTC-DCR'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'decred'
-                        
-                    ),
                     'TKN' => array(
                         
                         'coin_name' => 'TokenCard',
@@ -349,30 +348,6 @@ $coins_array = array(
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'maidsafecoin'
-                        
-                    ),
-                    'AMP' => array(
-                        
-                        'coin_name' => 'Synereo',
-                        'coin_symbol' => 'AMP',
-                        'market_ids' => array(
-                                          'poloniex' => 'BTC_AMP',
-                                          'bittrex' => 'BTC-AMP'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'synereo'
-                        
-                    ),
-                    'HKG' => array(
-                        
-                        'coin_name' => 'Hacker Gold',
-                        'coin_symbol' => 'HKG',
-                        'market_ids' => array(
-                                          'bittrex' => 'BTC-HKG',
-                                          'bter' => 'hkg_btc'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'hacker-gold'
                         
                     )
                 
