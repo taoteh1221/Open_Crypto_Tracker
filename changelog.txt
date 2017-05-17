@@ -455,7 +455,7 @@ Minor GUI tweaks
 
 -------------------------------------------------------------------
 1.6.7:
--Zclassic markets added, cleaned up markets
+-Zclassic / Aragon markets added, cleaned up markets
 -------------------------------------------------------------------
 
 

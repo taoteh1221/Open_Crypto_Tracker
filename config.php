@@ -10,7 +10,7 @@ require_once("app.lib/php/functions.php");
 
 require_once("app.lib/php/cookies.php");
 
-$version = '1.6.7';  // 2017/MAY/14th
+$version = '1.6.7';  // 2017/MAY/17th
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken
 
@@ -26,7 +26,8 @@ $eth_subtokens_ico_values = array(
                         'ETHSUBTOKENNAME' => '0.15',
                         'GOLEM' => '0.001',
                         'SWARMCITY' => '0.0133333333333333',
-                        'HACKERGOLD' => '0.0071'
+                        'HACKERGOLD' => '0.0071',
+                        'ARAGON' => '0.01'
                         );
 
 /*
@@ -227,6 +228,17 @@ $coins_array = array(
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'swarm-city'
+                        
+                    ),
+                    'ANT' => array(
+                        
+                        'coin_name' => 'Aragon',
+                        'coin_symbol' => 'ANT',
+                        'market_ids' => array(
+                                          'eth_subtokens_ico' => 'ARAGON'
+                                          ),
+                        'trade_pair' => 'eth',
+                        'coinmarketcap' => ''
                         
                     ),
                     'GNT' => array(
