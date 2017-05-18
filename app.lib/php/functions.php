@@ -350,6 +350,51 @@ function get_trade_price($markets, $market_ids) {
   
   }
 
+  if ( strtolower($markets) == 'cryptopia' ) {
+
+
+     if ( !$_SESSION['cryptopia_markets'] ) {
+     
+     $json_string = 'https://www.cryptopia.co.nz/api/GetMarkets';
+     
+     $jsondata = @get_data($json_string);
+     
+     $data = json_decode($jsondata, TRUE);
+     
+     $_SESSION['cryptopia_markets'] = $data;
+   
+     }
+     else {
+       
+     $data = $_SESSION['cryptopia_markets'];
+     
+     }
+  
+  
+  $data = $data['Data'];
+  
+  //print_r($data);
+      if (is_array($data) || is_object($data)) {
+	
+            foreach ($data as $key => $value) {
+	      
+	      //print_r($key);
+	      
+	      if ( $data[$key]['Label'] == $market_ids ) {
+	       
+	      return $data[$key]["LastPrice"];
+	       
+	       
+	      }
+	    
+    
+	    }
+	    
+      }
+  
+  
+  }
+
   if ( strtolower($markets) == 'hitbtc' ) {
 
 

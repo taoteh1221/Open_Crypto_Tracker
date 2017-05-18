@@ -10,7 +10,7 @@ require_once("app.lib/php/functions.php");
 
 require_once("app.lib/php/cookies.php");
 
-$version = '1.6.7';  // 2017/MAY/17th
+$version = '1.6.7';  // 2017/MAY/18th
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken
 
@@ -85,6 +85,7 @@ $coins_array = array(
                                           'bittrex' => 'BTC-XMR',
                                           'bitfinex' => 'xmrbtc',
                                           'kraken' => 'XXMRXXBT',
+                                          'cryptopia' => 'XMR/BTC',
                                           'bter' => 'xmr_btc'
                                           ),
                         'trade_pair' => 'btc',
@@ -120,6 +121,7 @@ $coins_array = array(
                                           'poloniex' => 'BTC_LTC',
                                           'bittrex' => 'BTC-LTC',
                                           'hitbtc' => 'LTCBTC',
+                                          'cryptopia' => 'LTC/BTC',
                                           'bter' => 'ltc_btc',
                                           'cryptofresh' => 'OPEN.LTC'
                                           ),
@@ -135,6 +137,7 @@ $coins_array = array(
                                           'poloniex' => 'BTC_DASH',
                                           'bittrex' => 'BTC-DASH',
                                           'hitbtc' => 'DASHBTC',
+                                          'cryptopia' => 'DASH/BTC',
                                           'bter' => 'dash_btc'
                                           ),
                         'trade_pair' => 'btc',
@@ -148,6 +151,7 @@ $coins_array = array(
                         'market_ids' => array(
                                           'poloniex' => 'BTC_PPC',
                                           'bittrex' => 'BTC-PPC',
+                                          'cryptopia' => 'PPC/BTC',
                                           'bter' => 'ppc_btc'
                                           ),
                         'trade_pair' => 'btc',
@@ -173,22 +177,11 @@ $coins_array = array(
                         'coin_name' => 'Zclassic',
                         'coin_symbol' => 'ZCL',
                         'market_ids' => array(
-                                          'bittrex' => 'BTC-ZCL'
+                                          'bittrex' => 'BTC-ZCL',
+                                          'cryptopia' => 'ZCL/BTC'
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'zclassic'
-                        
-                    ),
-                    'FCT' => array(
-                        
-                        'coin_name' => 'Factom',
-                        'coin_symbol' => 'FCT',
-                        'market_ids' => array(
-                                          'poloniex' => 'BTC_FCT',
-                                          'bittrex' => 'BTC-FCT'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'factom'
                         
                     ),
                     'NXT' => array(
@@ -203,6 +196,19 @@ $coins_array = array(
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'nxt'
+                        
+                    ),
+                    'FCT' => array(
+                        
+                        'coin_name' => 'Factom',
+                        'coin_symbol' => 'FCT',
+                        'market_ids' => array(
+                                          'poloniex' => 'BTC_FCT',
+                                          'cryptopia' => 'FCT/BTC',
+                                          'bittrex' => 'BTC-FCT'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'factom'
                         
                     ),
                     'BTS' => array(
@@ -235,9 +241,9 @@ $coins_array = array(
                         'coin_name' => 'Aragon',
                         'coin_symbol' => 'ANT',
                         'market_ids' => array(
-                                          'eth_subtokens_ico' => 'ARAGON'
+                                          'bittrex' => 'BTC-ANT'
                                           ),
-                        'trade_pair' => 'eth',
+                        'trade_pair' => 'btc',
                         'coinmarketcap' => ''
                         
                     ),
@@ -356,7 +362,8 @@ $coins_array = array(
                         'coin_symbol' => 'MAID',
                         'market_ids' => array(
                                           'poloniex' => 'BTC_MAID',
-                                          'bittrex' => 'BTC-MAID'
+                                          'bittrex' => 'BTC-MAID',
+                                          'cryptopia' => 'MAID/BTC'
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'maidsafecoin'
