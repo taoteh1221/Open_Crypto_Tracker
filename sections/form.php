@@ -7,7 +7,7 @@
 ?>
 
 <p style='color: red; font-weight: bold;'>All assets added to the default list DO NOT indicate any endorsement of these assets (and removal indicates no opposition to the removed assets as well). Always do your due diligence investigating whether or not you are engaging in trading within acceptable risk levels for your net worth, and consider consulting a professional if you are unaware of what risks are present.</p>
-<p style='color: red; font-weight: bold;'><i>Simplified version of above disclaimer:</i> NEVER invest more than you can afford to lose, ALWAYS research your planned investment beforehand, AND hang on tight until you can't stand holding any longer. :-)</p>
+<p style='color: red; font-weight: bold;'><i>Simplified version of above disclaimer:</i> NEVER invest more than you can afford to lose, ALWAYS research your planned investment beforehand, AVOID <a href='https://twitter.com/hashtag/pumpndump?src=hash' target='_blank'>#pumpndump</a> / <a href='https://twitter.com/hashtag/fomo?src=hash' target='_blank'>#fomo</a> trading, AND hang on tight until you can't stand holding any longer. :-)</p>
 
 <p style='font-weight: bold;'><a href='README.txt' target='_blank'>Editing The Coin List</a></p>
 

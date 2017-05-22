@@ -10,7 +10,7 @@ require_once("app.lib/php/functions.php");
 
 require_once("app.lib/php/cookies.php");
 
-$version = '1.6.7';  // 2017/MAY/18th
+$version = '1.6.8';  // 2017/MAY/22ND
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken
 
@@ -31,7 +31,8 @@ $eth_subtokens_ico_values = array(
                         );
 
 /*
- * USAGE (ADDING / UPDATING COINS) ...ONLY KRAKEN / GATECOIN / POLONIEX / COINBASE / BITTREX / bitfinex / cryptofresh / bter / gemini BTC, altcoin, and token API SUPPORT AS OF NOW
+ * USAGE (ADDING / UPDATING COINS) ...KRAKEN / GATECOIN / POLONIEX / COINBASE / BITTREX / bitfinex / cryptofresh / bter / gemini / HitBTC / liqui / cryptopia BTC, ETH,
+ * and ETH subtoken API SUPPORT AS OF NOW
  * Ethereum subtoken support has been built in, but values are static as no APIs exist yet
  *
  
@@ -69,7 +70,8 @@ $coins_array = array(
                                           'coinbase' => 'coinbase',
                                           'bitstamp' => 'bitstamp',
                                           'gemini' => 'gemini',
-                                          'hitbtc' => 'hitbtc'
+                                          'hitbtc' => 'hitbtc',
+                                          'gatecoin' => 'gatecoin'
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'bitcoin'
@@ -105,6 +107,7 @@ $coins_array = array(
                                           'bitfinex' => 'ethbtc',
                                           'gemini' => 'ethbtc',
                                           'bittrex' => 'BTC-ETH',
+                                          'liqui' => 'eth_btc',
                                           'bter' => 'eth_btc',
                                           'cryptofresh' => 'OPEN.ETH'
                                           ),
@@ -122,6 +125,7 @@ $coins_array = array(
                                           'bittrex' => 'BTC-LTC',
                                           'hitbtc' => 'LTCBTC',
                                           'cryptopia' => 'LTC/BTC',
+                                          'liqui' => 'ltc_btc',
                                           'bter' => 'ltc_btc',
                                           'cryptofresh' => 'OPEN.LTC'
                                           ),
@@ -138,6 +142,7 @@ $coins_array = array(
                                           'bittrex' => 'BTC-DASH',
                                           'hitbtc' => 'DASHBTC',
                                           'cryptopia' => 'DASH/BTC',
+                                          'liqui' => 'dash_btc',
                                           'bter' => 'dash_btc'
                                           ),
                         'trade_pair' => 'btc',
@@ -182,6 +187,17 @@ $coins_array = array(
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'zclassic'
+                        
+                    ),
+                    'ZEN' => array(
+                        
+                        'coin_name' => 'ZenCash',
+                        'coin_symbol' => 'ZEN',
+                        'market_ids' => array(
+                                          'bittrex' => 'BTC-ZEN'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => ''
                         
                     ),
                     'NXT' => array(
@@ -241,10 +257,11 @@ $coins_array = array(
                         'coin_name' => 'Aragon',
                         'coin_symbol' => 'ANT',
                         'market_ids' => array(
-                                          'bittrex' => 'BTC-ANT'
+                                          'bittrex' => 'BTC-ANT',
+                                          'liqui' => 'ant_btc'
                                           ),
                         'trade_pair' => 'btc',
-                        'coinmarketcap' => ''
+                        'coinmarketcap' => 'aragon'
                         
                     ),
                     'GNT' => array(
@@ -252,10 +269,25 @@ $coins_array = array(
                         'coin_name' => 'Golem',
                         'coin_symbol' => 'GNT',
                         'market_ids' => array(
-                                          'poloniex' => 'BTC_GNT'
+                                          'poloniex' => 'BTC_GNT',
+                                          'bittrex' => 'BTC-GNT',
+                                          'liqui' => 'gnt_btc'
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'golem-network-tokens'
+                        
+                    ),
+                    'SNGLS' => array(
+                        
+                        'coin_name' => 'SingularDTV',
+                        'coin_symbol' => 'SNGLS',
+                        'market_ids' => array(
+                                          'bittrex' => 'BTC-SNGLS',
+                                          'hitbtc' => 'SNGLSBTC',
+                                          'gatecoin' => 'SNGBTC'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'singulardtv'
                         
                     ),
                     'LUN' => array(
@@ -263,7 +295,8 @@ $coins_array = array(
                         'coin_name' => 'Lunyr',
                         'coin_symbol' => 'LUN',
                         'market_ids' => array(
-                                          'bittrex' => 'BTC-LUN'
+                                          'bittrex' => 'BTC-LUN',
+                                          'liqui' => 'lun_btc'
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'lunyr'
@@ -274,7 +307,9 @@ $coins_array = array(
                         'coin_name' => 'WeTrust',
                         'coin_symbol' => 'TRST',
                         'market_ids' => array(
-                                          'bittrex' => 'BTC-TRST'
+                                          'bittrex' => 'BTC-TRST',
+                                          'hitbtc' => 'TRSTBTC',
+                                          'liqui' => 'trst_btc'
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'trust'
@@ -288,6 +323,7 @@ $coins_array = array(
                                           'poloniex' => 'BTC_REP',
                                           'kraken' => 'XREPXXBT',
                                           'gatecoin' => 'REPBTC',
+                                          'liqui' => 'rep_btc',
                                           'bter' => 'rep_btc'
                                           ),
                         'trade_pair' => 'btc',
@@ -301,7 +337,9 @@ $coins_array = array(
                         'market_ids' => array(
                                           'poloniex' => 'BTC_GNO',
                                           'bittrex' => 'BTC-GNO',
-                                          'kraken' => 'GNOXBT'
+                                          'kraken' => 'GNOXBT',
+                                          'hitbtc' => 'GNOBTC',
+                                          'liqui' => 'gno_btc'
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'gnosis-gno'
@@ -312,7 +350,8 @@ $coins_array = array(
                         'coin_name' => 'TokenCard',
                         'coin_symbol' => 'TKN',
                         'market_ids' => array(
-                                          'bittrex' => 'BTC-TKN'
+                                          'bittrex' => 'BTC-TKN',
+                                          'liqui' => 'tkn_btc'
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'tokencard'
@@ -363,6 +402,7 @@ $coins_array = array(
                         'market_ids' => array(
                                           'poloniex' => 'BTC_MAID',
                                           'bittrex' => 'BTC-MAID',
+                                          'hitbtc' => 'MAIDBTC',
                                           'cryptopia' => 'MAID/BTC'
                                           ),
                         'trade_pair' => 'btc',

@@ -157,6 +157,48 @@ function get_btc_usd($btc_in_usd) {
   
     }
   
+ 
+   elseif ( strtolower($btc_in_usd) == 'gatecoin' ) {
+ 
+ 
+      if ( !$_SESSION['gatecoin_markets'] ) {
+      
+      $json_string = 'https://api.gatecoin.com/Public/LiveTickers';
+      
+      $jsondata = @get_data($json_string);
+      
+      $data = json_decode($jsondata, TRUE);
+      
+      $_SESSION['gatecoin_markets'] = $data;
+    
+      }
+      else {
+        
+      $data = $_SESSION['gatecoin_markets'];
+      
+      }
+   
+   
+   
+   //var_dump($data);
+       if (is_array($data) || is_object($data)) {
+         
+             foreach ( $data['tickers'] as $key => $value ) {
+               
+               if ( $data['tickers'][$key]["currencyPair"] == 'BTCUSD' ) {
+                
+               return $data['tickers'][$key]["last"];
+                
+                
+               }
+             
+     
+             }
+             
+       }
+   
+   
+   }
 
    elseif ( strtolower($btc_in_usd) == 'kraken' ) {
    
@@ -306,7 +348,36 @@ function get_trade_price($markets, $market_ids) {
   
   }
 
-  if ( strtolower($markets) == 'poloniex' ) {
+  elseif ( strtolower($markets) == 'liqui' ) {
+  
+  $json_string = 'https://api.liqui.io/api/3/ticker/' . $market_ids;
+  
+  $jsondata = @get_data($json_string);
+  
+  $data = json_decode($jsondata, TRUE);
+  
+  //print_r($data);
+      if (is_array($data) || is_object($data)) {
+	
+	    foreach ($data as $key => $value) {
+	      
+	      //print_r($key);
+	      
+	      if ( $key == $market_ids ) {
+	       
+	      return $data[$key]["last"];
+	       
+	       
+	      }
+	    
+    
+	    }
+	    
+      }
+  
+  }
+
+  elseif ( strtolower($markets) == 'poloniex' ) {
 
 
      if ( !$_SESSION['poloniex_markets'] ) {
@@ -350,7 +421,7 @@ function get_trade_price($markets, $market_ids) {
   
   }
 
-  if ( strtolower($markets) == 'cryptopia' ) {
+  elseif ( strtolower($markets) == 'cryptopia' ) {
 
 
      if ( !$_SESSION['cryptopia_markets'] ) {
@@ -395,7 +466,7 @@ function get_trade_price($markets, $market_ids) {
   
   }
 
-  if ( strtolower($markets) == 'hitbtc' ) {
+  elseif ( strtolower($markets) == 'hitbtc' ) {
 
 
      if ( !$_SESSION['hitbtc_markets'] ) {
@@ -439,7 +510,7 @@ function get_trade_price($markets, $market_ids) {
   
   }
 
-  if ( strtolower($markets) == 'bter' ) {
+  elseif ( strtolower($markets) == 'bter' ) {
 
 
      if ( !$_SESSION['bter_markets'] ) {
@@ -485,7 +556,7 @@ function get_trade_price($markets, $market_ids) {
   }
 
 
-  if ( strtolower($markets) == 'kraken' ) {
+  elseif ( strtolower($markets) == 'kraken' ) {
   
   $json_string = 'https://api.kraken.com/0/public/Ticker?pair=' . $market_ids;
   
@@ -530,7 +601,7 @@ function get_trade_price($markets, $market_ids) {
 
 
 
-  if ( strtolower($markets) == 'gatecoin' ) {
+  elseif ( strtolower($markets) == 'gatecoin' ) {
 
 
      if ( !$_SESSION['gatecoin_markets'] ) {

@@ -25,7 +25,7 @@ STEEM: taoteh1221
 MANY OTHER CRYPTOCURRENCIES AND PAYPAL ACCEPTED HERE: https://dragonfrugal.com/donate/
 
 /*
- * USAGE (ADDING / UPDATING COINS) ...ONLY KRAKEN / GATECOIN / POLONIEX / COINBASE / BITTREX / bitfinex / cryptofresh / bter / gemini BTC, altcoin, and token API SUPPORT AS OF NOW
+ * USAGE (ADDING / UPDATING COINS) ...KRAKEN / GATECOIN / POLONIEX / COINBASE / BITTREX / bitfinex / cryptofresh / bter / gemini / HitBTC / liqui / cryptopia BTC, ETH, and ETH subtoken API SUPPORT AS OF NOW
  * Ethereum subtoken support has been built in, but values are static as no APIs exist yet
  *
  

@@ -1,4 +1,11 @@
 
+                        
+                        
+			<div class='help_section'>
+                            <p><b>Monitoring Coins You Don't Hold:</b><br />
+                                In the "Update Coin Amounts" section, for every coin you don't hold <i>but wish to monitor it's real-time value</i>, just set the amount to 0.00000001. This avoids skewing your "Total Bitcoin Value" and "Total USD Value" amounts, but allows you to track these coin value(s).</p>
+                        </div>
+                        
 			<div class='help_section'>
                             <p><b>Messed Up Values After Upgrading:</b><br />
                                 If the config file settings are re-configured or re-ordered, reload / refresh the page before updating any coin values, or the submission form may not be configured properly and may not submit or display data correctly. Also, you may need to uncheck "Save coin values as cookie data" on the Program Settings page temporarily to clear out old cookie data that may conflict with the new configuration...then you can re-enable cookies again afterwards.</p>

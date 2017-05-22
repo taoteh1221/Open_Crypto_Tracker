@@ -459,6 +459,17 @@ Minor GUI tweaks
 -Added cryptopia API support
 -------------------------------------------------------------------
 
+-------------------------------------------------------------------
+1.6.8:
+-ZenCash / SingularDTV markets added
+-Updated gatecoin / HitBTC markets
+-Added liqui API / markets
+-Optimized altcoin markets function statements
+-Revised non-endoresment disclaimer (newby-freindly)
+-Added monitoring-only tip to help section
+-------------------------------------------------------------------
+
+
 
 
 
