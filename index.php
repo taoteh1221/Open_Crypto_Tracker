@@ -18,7 +18,7 @@ require("templates/default/header.php");
 
 		<ul class='tabs'>
 			<li><a href='#tab1'>Your Coin Values</a></li>
-			<li><a href='#tab6'>Stats and Charts</a></li>
+			<li><a href='#tab6'>External Resource Links</a></li>
 			<li><a href='#tab4'>Mining and Interest Calculators</a></li>
 			<li><a href='#tab2'>Update Coin Amounts</a></li>
 			<li><a href='#tab3'>Program Settings</a></li>
@@ -36,8 +36,8 @@ require("templates/default/header.php");
 			<p><?php require("sections/coin.values.php"); ?></p>
 		</div>
 		<div id='tab6' class='tabdiv'>
-			<h3>Stats and Charts</h3>
-			<?php require("sections/stats.php"); ?>
+			<h3>External Resource Links</h3>
+			<?php require("sections/external-resource-links.php"); ?>
 		</div>
 		<div id='tab4' class='tabdiv'>
 			<h3>Mining and Interest Calculators</h3>
@@ -59,30 +59,7 @@ require("templates/default/header.php");
 
 
 
-
-<p align='center'><a href='https://github.com/taoteh1221/DFD_Cryptocoin_Values/releases' target='_blank'>Version <?=$version?></a></p>
-
 <?php
 require("templates/default/footer.php");
-
-// Calculate page load time
-$time = microtime();
-$time = explode(' ', $time);
-$time = $time[1] + $time[0];
-$finish = $time;
-$total_time = round(($finish - $start), 4);
-echo '<p align="center"> Page generated in '.$total_time.' seconds. </p>';
-
 ?>
-
-<p align='center'>Donations support further development...<br /><a id='donate' href='#' onclick='return false;'>(click to show addresses below)</a></p>
-
-	<div style='display: none;' id='donate_div'' align="center">
-	
-	BTC: <br />1FfWHekHPLH7hQcU4d5MBVQ4WekJiA8Mk2
-	<br /><br />XMR: <br /><span class='long_linebreak'>47mWWjuwPFiPD6t2MaWcMEfejtQpMuz9oj5hJq18f7nvagcmoJwxudKHUppaWnTMPaMWshMWUTPAUX623KyEtukbSMdmpqu</span>
-	<br /><br />ETH: <br />0xf3da0858c3cfcc28a75c1232957a7fb190d7e5e9
-	<br /><br />STEEM: <br />taoteh1221
-	
-	</div>
 

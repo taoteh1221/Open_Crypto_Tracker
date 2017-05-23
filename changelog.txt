@@ -469,6 +469,15 @@ Minor GUI tweaks
 -Added monitoring-only tip to help section
 -------------------------------------------------------------------
 
+-------------------------------------------------------------------
+1.6.9:
+-Added livecoin API / markets
+-Updated external links section
+-Minor layout / compatibility improvements
+-Optimized Bittrex market API calls
+-Very minor server compatibility patches
+-------------------------------------------------------------------
+
 
 
 

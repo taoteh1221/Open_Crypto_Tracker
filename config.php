@@ -3,35 +3,15 @@
  * DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
  */
 
-
 session_start();
-
 require_once("app.lib/php/functions.php");
-
 require_once("app.lib/php/cookies.php");
 
-$version = '1.6.8';  // 2017/MAY/22ND
+$version = '1.6.9';  // 2017/MAY/23RD
 
-$btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken
-
-$steem_powerdown_time = 13;  // Weeks to power down all STEEM Power holdings
 
 /*
- * STEEM Power yearly interest rate START 11/29/2016 (1.425%, decreasing every year by roughly 0.075% until it hits a minimum of 0.075% and stays there)
- */
-$steempower_yearly_interest = 1.425;  // 1.425 (DON NOT INCLUDE PERCENT SIGN) the first year at 11/29/2016 refactored rates, see above for manual yearly adjustment
-
-$eth_subtokens_ico_values = array(
-                        // Static values in ETH for Ethereum subtokens, like during crowdsale periods etc
-                        'ETHSUBTOKENNAME' => '0.15',
-                        'GOLEM' => '0.001',
-                        'SWARMCITY' => '0.0133333333333333',
-                        'HACKERGOLD' => '0.0071',
-                        'ARAGON' => '0.01'
-                        );
-
-/*
- * USAGE (ADDING / UPDATING COINS) ...KRAKEN / GATECOIN / POLONIEX / COINBASE / BITTREX / bitfinex / cryptofresh / bter / gemini / HitBTC / liqui / cryptopia BTC, ETH,
+ * USAGE (ADDING / UPDATING COINS) ...KRAKEN / GATECOIN / POLONIEX / COINBASE / BITTREX / bitfinex / cryptofresh / bter / gemini / HitBTC / liqui / cryptopia / livecoin BTC, ETH,
  * and ETH subtoken API SUPPORT AS OF NOW
  * Ethereum subtoken support has been built in, but values are static as no APIs exist yet
  *
@@ -56,6 +36,34 @@ $eth_subtokens_ico_values = array(
                     
  * 
  */
+
+
+/////////////////// GENERAL CONFIG -START- ////////////////////////////////////////////////////
+
+$btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken
+
+$eth_subtokens_ico_values = array(
+                        // Static values in ETH for Ethereum subtokens, like during crowdsale periods etc
+                        'ETHSUBTOKENNAME' => '0.15',
+                        'GOLEM' => '0.001',
+                        'SWARMCITY' => '0.0133333333333333',
+                        'HACKERGOLD' => '0.0071',
+                        'ARAGON' => '0.01'
+                        );
+
+
+/*
+ * STEEM Power yearly interest rate START 11/29/2016 (1.425%, decreasing every year by roughly 0.075% until it hits a minimum of 0.075% and stays there)
+ */
+$steempower_yearly_interest = 1.425;  // 1.425 (DON NOT INCLUDE PERCENT SIGN) the first year at 11/29/2016 refactored rates, see above for manual yearly adjustment
+$steem_powerdown_time = 13;  // Weeks to power down all STEEM Power holdings
+
+/////////////////// GENERAL CONFIG -END- ////////////////////////////////////////////////////
+
+
+
+/////////////////// COIN MARKETS CONFIG -START- ////////////////////////////////////////////////////
+
 $coins_array = array(
                 
                 
@@ -71,7 +79,8 @@ $coins_array = array(
                                           'bitstamp' => 'bitstamp',
                                           'gemini' => 'gemini',
                                           'hitbtc' => 'hitbtc',
-                                          'gatecoin' => 'gatecoin'
+                                          'gatecoin' => 'gatecoin',
+                                          'livecoin' => 'livecoin'
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'bitcoin'
@@ -88,7 +97,8 @@ $coins_array = array(
                                           'bitfinex' => 'xmrbtc',
                                           'kraken' => 'XXMRXXBT',
                                           'cryptopia' => 'XMR/BTC',
-                                          'bter' => 'xmr_btc'
+                                          'bter' => 'xmr_btc',
+                                          'livecoin' => 'XMR/BTC'
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'monero'
@@ -107,6 +117,7 @@ $coins_array = array(
                                           'bitfinex' => 'ethbtc',
                                           'gemini' => 'ethbtc',
                                           'bittrex' => 'BTC-ETH',
+                                          'livecoin' => 'ETH/BTC',
                                           'liqui' => 'eth_btc',
                                           'bter' => 'eth_btc',
                                           'cryptofresh' => 'OPEN.ETH'
@@ -124,6 +135,7 @@ $coins_array = array(
                                           'poloniex' => 'BTC_LTC',
                                           'bittrex' => 'BTC-LTC',
                                           'hitbtc' => 'LTCBTC',
+                                          'livecoin' => 'LTC/BTC',
                                           'cryptopia' => 'LTC/BTC',
                                           'liqui' => 'ltc_btc',
                                           'bter' => 'ltc_btc',
@@ -141,6 +153,7 @@ $coins_array = array(
                                           'poloniex' => 'BTC_DASH',
                                           'bittrex' => 'BTC-DASH',
                                           'hitbtc' => 'DASHBTC',
+                                          'livecoin' => 'DASH/BTC',
                                           'cryptopia' => 'DASH/BTC',
                                           'liqui' => 'dash_btc',
                                           'bter' => 'dash_btc'
@@ -156,6 +169,7 @@ $coins_array = array(
                         'market_ids' => array(
                                           'poloniex' => 'BTC_PPC',
                                           'bittrex' => 'BTC-PPC',
+                                          'livecoin' => 'PPC/BTC',
                                           'cryptopia' => 'PPC/BTC',
                                           'bter' => 'ppc_btc'
                                           ),
@@ -171,6 +185,7 @@ $coins_array = array(
                                           'poloniex' => 'BTC_STEEM',
                                           'bittrex' => 'BTC-STEEM',
                                           'hitbtc' => 'STEEMBTC',
+                                          'livecoin' => 'STEEM/BTC',
                                           'cryptofresh' => 'OPEN.STEEM'
                                           ),
                         'trade_pair' => 'btc',
@@ -208,6 +223,7 @@ $coins_array = array(
                                           'poloniex' => 'BTC_NXT',
                                           'bittrex' => 'BTC-NXT',
                                           'hitbtc' => 'NXTBTC',
+                                          'livecoin' => 'NXT/BTC',
                                           'bter' => 'nxt_btc'
                                           ),
                         'trade_pair' => 'btc',
@@ -234,6 +250,7 @@ $coins_array = array(
                         'market_ids' => array(
                                           'poloniex' => 'BTC_BTS',
                                           'bittrex' => 'BTC-BTS',
+                                          'livecoin' => 'BTS/BTC',
                                           'bter' => 'bts_btc',
                                           'cryptofresh' => 'BTS'
                                           ),
@@ -389,6 +406,7 @@ $coins_array = array(
                                           'poloniex' => 'BTC_LSK',
                                           'bittrex' => 'BTC-LSK',
                                           'hitbtc' => 'LSKBTC',
+                                          'livecoin' => 'LSK/BTC',
                                           'cryptofresh' => 'OPEN.LISK'
                                           ),
                         'trade_pair' => 'btc',
@@ -403,6 +421,7 @@ $coins_array = array(
                                           'poloniex' => 'BTC_MAID',
                                           'bittrex' => 'BTC-MAID',
                                           'hitbtc' => 'MAIDBTC',
+                                          'livecoin' => 'MAID/BTC',
                                           'cryptopia' => 'MAID/BTC'
                                           ),
                         'trade_pair' => 'btc',
@@ -412,5 +431,8 @@ $coins_array = array(
                 
                 
 );
+
+/////////////////// COIN MARKETS CONFIG -END- ////////////////////////////////////////////////////
+
 
 ?>

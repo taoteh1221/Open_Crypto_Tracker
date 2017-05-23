@@ -30,6 +30,9 @@
 
 </head>
 <body>
- 
+    
+    <div align='center' style='width: 100%;'>
+        <div align='left' style='width: 90%; max-width: 90%; min-width: 1175px;'>
+        <!- header END -->
 
 

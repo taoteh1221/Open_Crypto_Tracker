@@ -200,6 +200,48 @@ function get_btc_usd($btc_in_usd) {
    
    }
 
+   elseif ( strtolower($btc_in_usd) == 'livecoin' ) {
+ 
+ 
+      if ( !$_SESSION['livecoin_markets'] ) {
+      
+      $json_string = 'https://api.livecoin.net/exchange/ticker';
+      
+      $jsondata = @get_data($json_string);
+      
+      $data = json_decode($jsondata, TRUE);
+      
+      $_SESSION['livecoin_markets'] = $data;
+    
+      }
+      else {
+        
+      $data = $_SESSION['livecoin_markets'];
+      
+      }
+   
+   
+   
+   //var_dump($data);
+       if (is_array($data) || is_object($data)) {
+         
+             foreach ( $data as $key => $value ) {
+               
+               if ( $data[$key]['symbol'] == 'BTC/USD' ) {
+                
+               return $data[$key]["last"];
+                
+                
+               }
+             
+     
+             }
+             
+       }
+   
+   
+   }
+
    elseif ( strtolower($btc_in_usd) == 'kraken' ) {
    
    $json_string = 'https://api.kraken.com/0/public/Ticker?pair=XXBTZUSD';
@@ -318,15 +360,28 @@ function get_trade_price($markets, $market_ids) {
   }
 
 
+  elseif ( strtolower($markets) == 'bittrex' ) {
 
-  if ( strtolower($markets) == 'bittrex' ) {
+
+     if ( !$_SESSION['bittrex_markets'] ) {
+     
+     $json_string = 'https://bittrex.com/api/v1.1/public/getmarketsummaries';
+     
+     $jsondata = @get_data($json_string);
+     
+     $data = json_decode($jsondata, TRUE);
+     
+     $_SESSION['bittrex_markets'] = $data;
+   
+     }
+     else {
+       
+     $data = $_SESSION['bittrex_markets'];
+     
+     }
   
-  $json_string = 'https://bittrex.com/api/v1.1/public/getticker?market=' . $market_ids;
   
-  $jsondata = @get_data($json_string);
-  
-  $data = json_decode($jsondata, TRUE);
-  
+  $data = $data['result'];
   //print_r($data);
       if (is_array($data) || is_object($data)) {
 	
@@ -334,7 +389,7 @@ function get_trade_price($markets, $market_ids) {
 	      
 	      //print_r($key);
 	      
-	      if ( $key == 'result' ) {
+	      if ( $data[$key]['MarketName'] == $market_ids ) {
 	       
 	      return $data[$key]["Last"];
 	       
@@ -345,6 +400,7 @@ function get_trade_price($markets, $market_ids) {
 	    }
 	    
       }
+  
   
   }
 
@@ -421,6 +477,50 @@ function get_trade_price($markets, $market_ids) {
   
   }
 
+  elseif ( strtolower($markets) == 'livecoin' ) {
+
+
+     if ( !$_SESSION['livecoin_markets'] ) {
+     
+     $json_string = 'https://api.livecoin.net/exchange/ticker';
+     
+     $jsondata = @get_data($json_string);
+     
+     $data = json_decode($jsondata, TRUE);
+     
+     $_SESSION['livecoin_markets'] = $data;
+   
+     }
+     else {
+       
+     $data = $_SESSION['livecoin_markets'];
+     
+     }
+  
+  
+  
+  //print_r($data);
+      if (is_array($data) || is_object($data)) {
+	
+	    foreach ($data as $key => $value) {
+	      
+	      //print_r($key);
+	      
+	      if ( $data[$key]['symbol'] == $market_ids ) {
+	       
+	      return $data[$key]["last"];
+	       
+	       
+	      }
+	    
+    
+	    }
+	    
+      }
+  
+  
+  }
+  
   elseif ( strtolower($markets) == 'cryptopia' ) {
 
 
