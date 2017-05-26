@@ -478,6 +478,15 @@ Minor GUI tweaks
 -Very minor server compatibility patches
 -------------------------------------------------------------------
 
+-------------------------------------------------------------------
+1.7.0:
+-Added HitBTC SWT market
+-Update bitfinex markets
+-Added Coinmarketcap API / market(s) data feature, hovering over info icon(s)
+-------------------------------------------------------------------
+
+
+
 
 
 

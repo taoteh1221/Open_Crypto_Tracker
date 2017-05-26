@@ -17,6 +17,8 @@
 
 <script type="text/javascript" src="app.lib/js/jquery/jquery.tablesorter.widgets.min.js"></script>
 
+<script type="text/javascript" src="app.lib/js/jquery/jquery.balloon.min.js"></script>
+
 <script type="text/javascript" src="app.lib/js/functions.js"></script>
 
 <script type="text/javascript" src="app.lib/js/init.js"></script>

@@ -7,7 +7,7 @@ session_start();
 require_once("app.lib/php/functions.php");
 require_once("app.lib/php/cookies.php");
 
-$version = '1.6.9';  // 2017/MAY/23RD
+$version = '1.7.0';  // 2017/MAY/26TH
 
 
 /*
@@ -134,6 +134,7 @@ $coins_array = array(
                                           'bitfinex' => 'ltcbtc',
                                           'poloniex' => 'BTC_LTC',
                                           'bittrex' => 'BTC-LTC',
+                                          'kraken' => 'XLTCXXBT',
                                           'hitbtc' => 'LTCBTC',
                                           'livecoin' => 'LTC/BTC',
                                           'cryptopia' => 'LTC/BTC',
@@ -152,6 +153,8 @@ $coins_array = array(
                         'market_ids' => array(
                                           'poloniex' => 'BTC_DASH',
                                           'bittrex' => 'BTC-DASH',
+                                          'kraken' => 'DASHXBT',
+                                          'bitfinex' => 'dshbtc',
                                           'hitbtc' => 'DASHBTC',
                                           'livecoin' => 'DASH/BTC',
                                           'cryptopia' => 'DASH/BTC',
@@ -263,7 +266,8 @@ $coins_array = array(
                         'coin_name' => 'Swarm City',
                         'coin_symbol' => 'SWT',
                         'market_ids' => array(
-                                          'bittrex' => 'BTC-SWT'
+                                          'bittrex' => 'BTC-SWT',
+                                          'hitbtc' => 'SWTBTC'
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'swarm-city'
@@ -380,7 +384,8 @@ $coins_array = array(
                         'coin_symbol' => 'XLM',
                         'market_ids' => array(
                                           'poloniex' => 'BTC_STR',
-                                          'bittrex' => 'BTC-XLM'
+                                          'bittrex' => 'BTC-XLM',
+                                          'kraken' => 'XXLMXXBT'
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'stellar'
@@ -392,7 +397,9 @@ $coins_array = array(
                         'coin_symbol' => 'XRP',
                         'market_ids' => array(
                                           'poloniex' => 'BTC_XRP',
-                                          'bittrex' => 'BTC-XRP'
+                                          'bittrex' => 'BTC-XRP',
+                                          'kraken' => 'XXRPXXBT',
+                                          'bitfinex' => 'xrpbtc'
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'ripple'

@@ -774,7 +774,53 @@ return $price;
 }
 //////////////////////////////////////////////////////////
 
+//////////////////////////////////////////////////////////
+function coinmarketcap_api($symbol) {
 
+
+
+     if ( !$_SESSION['coinmarketcap_api'] ) {
+     
+     $json_string = 'https://api.coinmarketcap.com/v1/ticker/';
+     
+     $jsondata = @get_data($json_string);
+     
+     $data = json_decode($jsondata, TRUE);
+     
+     $_SESSION['coinmarketcap_api'] = $data;
+   
+     }
+     else {
+       
+     $data = $_SESSION['coinmarketcap_api'];
+     
+     }
+  
+  
+  //print_r($data);
+      if (is_array($data) || is_object($data)) {
+	
+	    foreach ($data as $key => $value) {
+	      
+	      //print_r($key);
+	      
+	      if ( $data[$key]['symbol'] == strtoupper($symbol) ) {
+	       
+	      return $data[$key];
+	       
+	       
+	      }
+	    
+    
+	    }
+	    
+      }
+  
+  
+
+
+}
+//////////////////////////////////////////////////////////
 
 
 
@@ -936,17 +982,46 @@ $market_ids = $market_ids[$markets];
 
 ?></td>
 
-<td class='data border_lb' align='right'>
+<td class='data border_lb' align='right' style='position: relative; padding-right: 32px;'>
  
  <?php
- if ( trim($coins_array[$trade_symbol]['coinmarketcap']) != '' ) {
+ $cmkcap_render_data = trim($coins_array[$trade_symbol]['coinmarketcap']);
+ 
+ if ( $cmkcap_render_data != '' ) {
  ?>
- <a href='http://coinmarketcap.com/currencies/<?php echo trim(strtolower($coins_array[$trade_symbol]['coinmarketcap'])); ?>/' target='_blank'><?php echo $coin_name; ?></a>
+ <img id='<?=$cmkcap_render_data?>' src='templates/default/images/info.png' border=0' style='position: absolute; top: 4px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <a title='' href='http://coinmarketcap.com/currencies/<?=$cmkcap_render_data?>/' target='_blank'><?php echo $coin_name; ?></a>
+ <script>
+ $('#<?=$cmkcap_render_data?>').balloon({
+  html: true,
+  position: "right",
+  contents: '<h3 class="orange">Coinmarketcap.com Summary For <?=$coin_name?> (<?=$trade_symbol?>):</h3>'
+    +'<p><span class="orange">Marketcap Ranking:</span> #<?=coinmarketcap_api($trade_symbol)['rank']?></p>'
+    +'<p><span class="orange">Marketcap (USD):</span> $<?=number_format(coinmarketcap_api($trade_symbol)['market_cap_usd'],0,".",",")?></p>'
+    +'<p><span class="orange">24 Hour Volume (USD):</span> $<?=number_format(coinmarketcap_api($trade_symbol)['24h_volume_usd'],0,".",",")?></p>'
+    +'<p><span class="orange">1 Hour Change:</span> <?=( stristr(coinmarketcap_api($trade_symbol)['percent_change_1h'], '-') != false ? '<span class="red">'.coinmarketcap_api($trade_symbol)['percent_change_1h'].'%</span>' : '<span class="green">'.coinmarketcap_api($trade_symbol)['percent_change_1h'].'%</span>' )?></p>'
+    +'<p><span class="orange">24 Hour Change:</span> <?=( stristr(coinmarketcap_api($trade_symbol)['percent_change_24h'], '-') != false ? '<span class="red">'.coinmarketcap_api($trade_symbol)['percent_change_24h'].'%</span>' : '<span class="green">'.coinmarketcap_api($trade_symbol)['percent_change_24h'].'%</span>' )?></p>'
+    +'<p><span class="orange">7 Day Change:</span> <?=( stristr(coinmarketcap_api($trade_symbol)['percent_change_7d'], '-') != false ? '<span class="red">'.coinmarketcap_api($trade_symbol)['percent_change_7d'].'%</span>' : '<span class="green">'.coinmarketcap_api($trade_symbol)['percent_change_7d'].'%</span>' )?></p>'
+    +'<p><span class="orange">Last Updated (UTC):</span> <?=gmdate("Y-m-d\ / H:i:s", coinmarketcap_api($trade_symbol)['last_updated'])?></p>'
+});
+ </script>
  <?php
  }
  else {
- echo $coin_name;
+  $rand_id = rand(10000000,100000000);
+  ?>
+  <img id='<?=$rand_id?>' src='templates/default/images/info.png' border=0' style='position: absolute; top: 4px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <?=$coin_name?>
+ <script>
+ $('#<?=$rand_id?>').balloon({
+  html: true,
+  position: "right",
+  contents: '<h3 class="orange">No Coinmarketcap.com data for <?=$coin_name?> (<?=$trade_symbol?>) has been configured yet.</h3>'
+});
+ </script>
+ <?php
  }
+ 
+ $cmkcap_render_data = NULL;
+ $rand_id = NULL;
  ?>
  
 </td>
