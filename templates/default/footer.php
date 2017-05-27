@@ -20,8 +20,8 @@
             <div style='display: none;' id='donate_div'' align="center">
             
             BTC: <br />1FfWHekHPLH7hQcU4d5MBVQ4WekJiA8Mk2
-            <br /><br />XMR: <br /><span class='long_linebreak'>47mWWjuwPFiPD6t2MaWcMEfejtQpMuz9oj5hJq18f7nvagcmoJwxudKHUppaWnTMPaMWshMWUTPAUX623KyEtukbSMdmpqu</span>
             <br /><br />ETH: <br />0xf3da0858c3cfcc28a75c1232957a7fb190d7e5e9
+            <br /><br />XMR: <br /><span class='long_linebreak'>47mWWjuwPFiPD6t2MaWcMEfejtQpMuz9oj5hJq18f7nvagcmoJwxudKHUppaWnTMPaMWshMWUTPAUX623KyEtukbSMdmpqu</span>
             <br /><br />STEEM: <br />taoteh1221
             
             </div>

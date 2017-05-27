@@ -317,7 +317,7 @@ function get_trade_price($markets, $market_ids) {
   }
 
 
-  if ( strtolower($markets) == 'gemini' ) {
+  elseif ( strtolower($markets) == 'gemini' ) {
   
   $json_string = 'https://api.gemini.com/v1/pubticker/' . $market_ids;
   
@@ -333,7 +333,7 @@ function get_trade_price($markets, $market_ids) {
 
 
   
-    if ( strtolower($markets) == 'coinbase' ) {
+    elseif ( strtolower($markets) == 'coinbase' ) {
   
      $json_string = 'https://api.coinbase.com/v2/exchange-rates?currency=' . $market_ids;
      
@@ -346,7 +346,7 @@ function get_trade_price($markets, $market_ids) {
     }
   
 
-  if ( strtolower($markets) == 'cryptofresh' ) {
+  elseif ( strtolower($markets) == 'cryptofresh' ) {
   
   $json_string = 'https://cryptofresh.com/api/asset/markets?asset=' . $market_ids;
   
@@ -1001,7 +1001,7 @@ $market_ids = $market_ids[$markets];
     +'<p><span class="orange">1 Hour Change:</span> <?=( stristr(coinmarketcap_api($trade_symbol)['percent_change_1h'], '-') != false ? '<span class="red">'.coinmarketcap_api($trade_symbol)['percent_change_1h'].'%</span>' : '<span class="green">'.coinmarketcap_api($trade_symbol)['percent_change_1h'].'%</span>' )?></p>'
     +'<p><span class="orange">24 Hour Change:</span> <?=( stristr(coinmarketcap_api($trade_symbol)['percent_change_24h'], '-') != false ? '<span class="red">'.coinmarketcap_api($trade_symbol)['percent_change_24h'].'%</span>' : '<span class="green">'.coinmarketcap_api($trade_symbol)['percent_change_24h'].'%</span>' )?></p>'
     +'<p><span class="orange">7 Day Change:</span> <?=( stristr(coinmarketcap_api($trade_symbol)['percent_change_7d'], '-') != false ? '<span class="red">'.coinmarketcap_api($trade_symbol)['percent_change_7d'].'%</span>' : '<span class="green">'.coinmarketcap_api($trade_symbol)['percent_change_7d'].'%</span>' )?></p>'
-    +'<p><span class="orange">Last Updated (UTC):</span> <?=gmdate("Y-m-d\ / H:i:s", coinmarketcap_api($trade_symbol)['last_updated'])?></p>'
+    +'<p><span class="orange">Last Updated (UTC):</span> <?=gmdate("Y-M-d\ \\a\\t g:ia", coinmarketcap_api($trade_symbol)['last_updated'])?></p>'
 });
  </script>
  <?php

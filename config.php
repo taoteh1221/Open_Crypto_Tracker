@@ -7,7 +7,7 @@ session_start();
 require_once("app.lib/php/functions.php");
 require_once("app.lib/php/cookies.php");
 
-$version = '1.7.0';  // 2017/MAY/26TH
+$version = '1.7.1';  // 2017/MAY/27TH
 
 
 /*
@@ -86,24 +86,6 @@ $coins_array = array(
                         'coinmarketcap' => 'bitcoin'
                         
                     ),
-                    'XMR' => array(
-                        
-                        'coin_name' => 'Monero',
-                        'coin_symbol' => 'XMR',
-                        'market_ids' => array(
-                                          'poloniex' => 'BTC_XMR',
-                                          'hitbtc' => 'XMRBTC',
-                                          'bittrex' => 'BTC-XMR',
-                                          'bitfinex' => 'xmrbtc',
-                                          'kraken' => 'XXMRXXBT',
-                                          'cryptopia' => 'XMR/BTC',
-                                          'bter' => 'xmr_btc',
-                                          'livecoin' => 'XMR/BTC'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'monero'
-                        
-                    ),
                     'ETH' => array(
                         
                         'coin_name' => 'Ethereum',
@@ -124,6 +106,24 @@ $coins_array = array(
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'ethereum'
+                        
+                    ),
+                    'XMR' => array(
+                        
+                        'coin_name' => 'Monero',
+                        'coin_symbol' => 'XMR',
+                        'market_ids' => array(
+                                          'poloniex' => 'BTC_XMR',
+                                          'hitbtc' => 'XMRBTC',
+                                          'bittrex' => 'BTC-XMR',
+                                          'bitfinex' => 'xmrbtc',
+                                          'kraken' => 'XXMRXXBT',
+                                          'cryptopia' => 'XMR/BTC',
+                                          'bter' => 'xmr_btc',
+                                          'livecoin' => 'XMR/BTC'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'monero'
                         
                     ),
                     'LTC' => array(
@@ -195,27 +195,19 @@ $coins_array = array(
                         'coinmarketcap' => 'steem'
                         
                     ),
-                    'ZCL' => array(
+                    'BTS' => array(
                         
-                        'coin_name' => 'Zclassic',
-                        'coin_symbol' => 'ZCL',
+                        'coin_name' => 'BitShares',
+                        'coin_symbol' => 'BTS',
                         'market_ids' => array(
-                                          'bittrex' => 'BTC-ZCL',
-                                          'cryptopia' => 'ZCL/BTC'
+                                          'poloniex' => 'BTC_BTS',
+                                          'bittrex' => 'BTC-BTS',
+                                          'livecoin' => 'BTS/BTC',
+                                          'bter' => 'bts_btc',
+                                          'cryptofresh' => 'BTS'
                                           ),
                         'trade_pair' => 'btc',
-                        'coinmarketcap' => 'zclassic'
-                        
-                    ),
-                    'ZEN' => array(
-                        
-                        'coin_name' => 'ZenCash',
-                        'coin_symbol' => 'ZEN',
-                        'market_ids' => array(
-                                          'bittrex' => 'BTC-ZEN'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => ''
+                        'coinmarketcap' => 'bitshares'
                         
                     ),
                     'NXT' => array(
@@ -244,21 +236,6 @@ $coins_array = array(
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'factom'
-                        
-                    ),
-                    'BTS' => array(
-                        
-                        'coin_name' => 'BitShares',
-                        'coin_symbol' => 'BTS',
-                        'market_ids' => array(
-                                          'poloniex' => 'BTC_BTS',
-                                          'bittrex' => 'BTC-BTS',
-                                          'livecoin' => 'BTS/BTC',
-                                          'bter' => 'bts_btc',
-                                          'cryptofresh' => 'BTS'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'bitshares'
                         
                     ),
                     'SWT' => array(
@@ -296,6 +273,49 @@ $coins_array = array(
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'golem-network-tokens'
+                        
+                    ),
+                    'DGD' => array(
+                        
+                        'coin_name' => 'DigixDAO',
+                        'coin_symbol' => 'DGD',
+                        'market_ids' => array(
+                                          'bittrex' => 'BTC-DGD',
+                                          'hitbtc' => 'DGDBTC',
+                                          'gatecoin' => 'DGDBTC'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'digixdao'
+                        
+                    ),
+                    'REP' => array(
+                        
+                        'coin_name' => 'Augur',
+                        'coin_symbol' => 'REP',
+                        'market_ids' => array(
+                                          'poloniex' => 'BTC_REP',
+                                          'kraken' => 'XREPXXBT',
+                                          'gatecoin' => 'REPBTC',
+                                          'liqui' => 'rep_btc',
+                                          'bter' => 'rep_btc'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'augur'
+                        
+                    ),
+                    'GNO' => array(
+                        
+                        'coin_name' => 'Gnosis',
+                        'coin_symbol' => 'GNO',
+                        'market_ids' => array(
+                                          'poloniex' => 'BTC_GNO',
+                                          'bittrex' => 'BTC-GNO',
+                                          'kraken' => 'GNOXBT',
+                                          'hitbtc' => 'GNOBTC',
+                                          'liqui' => 'gno_btc'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'gnosis-gno'
                         
                     ),
                     'SNGLS' => array(
@@ -336,36 +356,6 @@ $coins_array = array(
                         'coinmarketcap' => 'trust'
                         
                     ),
-                    'REP' => array(
-                        
-                        'coin_name' => 'Augur',
-                        'coin_symbol' => 'REP',
-                        'market_ids' => array(
-                                          'poloniex' => 'BTC_REP',
-                                          'kraken' => 'XREPXXBT',
-                                          'gatecoin' => 'REPBTC',
-                                          'liqui' => 'rep_btc',
-                                          'bter' => 'rep_btc'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'augur'
-                        
-                    ),
-                    'GNO' => array(
-                        
-                        'coin_name' => 'Gnosis',
-                        'coin_symbol' => 'GNO',
-                        'market_ids' => array(
-                                          'poloniex' => 'BTC_GNO',
-                                          'bittrex' => 'BTC-GNO',
-                                          'kraken' => 'GNOXBT',
-                                          'hitbtc' => 'GNOBTC',
-                                          'liqui' => 'gno_btc'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'gnosis-gno'
-                        
-                    ),
                     'TKN' => array(
                         
                         'coin_name' => 'TokenCard',
@@ -376,6 +366,29 @@ $coins_array = array(
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'tokencard'
+                        
+                    ),
+                    'ZCL' => array(
+                        
+                        'coin_name' => 'Zclassic',
+                        'coin_symbol' => 'ZCL',
+                        'market_ids' => array(
+                                          'bittrex' => 'BTC-ZCL',
+                                          'cryptopia' => 'ZCL/BTC'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'zclassic'
+                        
+                    ),
+                    'ZEN' => array(
+                        
+                        'coin_name' => 'ZenCash',
+                        'coin_symbol' => 'ZEN',
+                        'market_ids' => array(
+                                          'bittrex' => 'BTC-ZEN'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => ''
                         
                     ),
                     'XLM' => array(
