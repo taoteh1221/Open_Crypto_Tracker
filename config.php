@@ -161,19 +161,6 @@ $coins_array = array(
                         'coinmarketcap' => 'peercoin'
                         
                     ),
-                    'FCT' => array(
-                        
-                        'coin_name' => 'Factom',
-                        'coin_symbol' => 'FCT',
-                        'market_ids' => array(
-                                          'poloniex' => 'BTC_FCT',
-                                          'cryptopia' => 'FCT/BTC',
-                                          'bittrex' => 'BTC-FCT'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'factom'
-                        
-                    ),
                     'DASH' => array(
                         
                         'coin_name' => 'Dash',
@@ -193,29 +180,6 @@ $coins_array = array(
                         'coinmarketcap' => 'dash'
                         
                     ),
-                    'ZCL' => array(
-                        
-                        'coin_name' => 'Zclassic',
-                        'coin_symbol' => 'ZCL',
-                        'market_ids' => array(
-                                          'bittrex' => 'BTC-ZCL',
-                                          'cryptopia' => 'ZCL/BTC'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'zclassic'
-                        
-                    ),
-                    'ZEN' => array(
-                        
-                        'coin_name' => 'ZenCash',
-                        'coin_symbol' => 'ZEN',
-                        'market_ids' => array(
-                                          'bittrex' => 'BTC-ZEN'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => ''
-                        
-                    ),
                     'STEEM' => array(
                         
                         'coin_name' => 'Steem',
@@ -229,33 +193,6 @@ $coins_array = array(
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'steem'
-                        
-                    ),
-                    'BTS' => array(
-                        
-                        'coin_name' => 'BitShares',
-                        'coin_symbol' => 'BTS',
-                        'market_ids' => array(
-                                          'poloniex' => 'BTC_BTS',
-                                          'bittrex' => 'BTC-BTS',
-                                          'livecoin' => 'BTS/BTC',
-                                          'bter' => 'bts_btc',
-                                          'cryptofresh' => 'BTS'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'bitshares'
-                        
-                    ),
-                    'SWT' => array(
-                        
-                        'coin_name' => 'Swarm City',
-                        'coin_symbol' => 'SWT',
-                        'market_ids' => array(
-                                          'bittrex' => 'BTC-SWT',
-                                          'hitbtc' => 'SWTBTC'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'swarm-city'
                         
                     ),
                     'ANT' => array(
@@ -283,85 +220,16 @@ $coins_array = array(
                         'coinmarketcap' => 'golem-network-tokens'
                         
                     ),
-                    'DGD' => array(
+                    'SWT' => array(
                         
-                        'coin_name' => 'DigixDAO',
-                        'coin_symbol' => 'DGD',
+                        'coin_name' => 'Swarm City',
+                        'coin_symbol' => 'SWT',
                         'market_ids' => array(
-                                          'bittrex' => 'BTC-DGD',
-                                          'hitbtc' => 'DGDBTC',
-                                          'gatecoin' => 'DGDBTC'
+                                          'bittrex' => 'BTC-SWT',
+                                          'hitbtc' => 'SWTBTC'
                                           ),
                         'trade_pair' => 'btc',
-                        'coinmarketcap' => 'digixdao'
-                        
-                    ),
-                    'TRST' => array(
-                        
-                        'coin_name' => 'WeTrust',
-                        'coin_symbol' => 'TRST',
-                        'market_ids' => array(
-                                          'bittrex' => 'BTC-TRST',
-                                          'hitbtc' => 'TRSTBTC',
-                                          'liqui' => 'trst_btc'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'trust'
-                        
-                    ),
-                    'LUN' => array(
-                        
-                        'coin_name' => 'Lunyr',
-                        'coin_symbol' => 'LUN',
-                        'market_ids' => array(
-                                          'bittrex' => 'BTC-LUN',
-                                          'liqui' => 'lun_btc'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'lunyr'
-                        
-                    ),
-                    'XLM' => array(
-                        
-                        'coin_name' => 'Stellar',
-                        'coin_symbol' => 'XLM',
-                        'market_ids' => array(
-                                          'poloniex' => 'BTC_STR',
-                                          'bittrex' => 'BTC-XLM',
-                                          'kraken' => 'XXLMXXBT'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'stellar'
-                        
-                    ),
-                    'LSK' => array(
-                        
-                        'coin_name' => 'Lisk',
-                        'coin_symbol' => 'LSK',
-                        'market_ids' => array(
-                                          'poloniex' => 'BTC_LSK',
-                                          'bittrex' => 'BTC-LSK',
-                                          'hitbtc' => 'LSKBTC',
-                                          'livecoin' => 'LSK/BTC',
-                                          'cryptofresh' => 'OPEN.LISK'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'lisk'
-                        
-                    ),
-                    'MAID' => array(
-                        
-                        'coin_name' => 'MaidSafecoin',
-                        'coin_symbol' => 'MAID',
-                        'market_ids' => array(
-                                          'poloniex' => 'BTC_MAID',
-                                          'bittrex' => 'BTC-MAID',
-                                          'hitbtc' => 'MAIDBTC',
-                                          'livecoin' => 'MAID/BTC',
-                                          'cryptopia' => 'MAID/BTC'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'maidsafecoin'
+                        'coinmarketcap' => 'swarm-city'
                         
                     )
                 
