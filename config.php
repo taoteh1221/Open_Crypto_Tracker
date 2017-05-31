@@ -7,7 +7,7 @@ session_start();
 require_once("app.lib/php/functions.php");
 require_once("app.lib/php/cookies.php");
 
-$version = '1.7.2';  // 2017/MAY/30TH
+$version = '1.7.3';  // 2017/MAY/30TH
 
 
 /*
@@ -40,15 +40,13 @@ $version = '1.7.2';  // 2017/MAY/30TH
 
 /////////////////// GENERAL CONFIG -START- ////////////////////////////////////////////////////
 
-$btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken
+$btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken / hitbtc / gatecion / livecoin
 
 $eth_subtokens_ico_values = array(
                         // Static values in ETH for Ethereum subtokens, like during crowdsale periods etc
                         'ETHSUBTOKENNAME' => '0.15',
                         'GOLEM' => '0.001',
-                        'SWARMCITY' => '0.0133333333333333',
-                        'HACKERGOLD' => '0.0071',
-                        'ARAGON' => '0.01'
+                        'SWARMCITY' => '0.0133333333333333'
                         );
 
 
@@ -193,18 +191,6 @@ $coins_array = array(
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'steem'
-                        
-                    ),
-                    'ANT' => array(
-                        
-                        'coin_name' => 'Aragon',
-                        'coin_symbol' => 'ANT',
-                        'market_ids' => array(
-                                          'bittrex' => 'BTC-ANT',
-                                          'liqui' => 'ant_btc'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'aragon'
                         
                     ),
                     'GNT' => array(
