@@ -7,25 +7,24 @@ session_start();
 require_once("app.lib/php/functions.php");
 require_once("app.lib/php/cookies.php");
 
-$version = '1.7.3';  // 2017/MAY/30TH
+$version = '1.7.4';  // 2017/JUNE/1ST
 
 
 /*
- * USAGE (ADDING / UPDATING COINS) ...KRAKEN / GATECOIN / POLONIEX / COINBASE / BITTREX / bitfinex / cryptofresh / bter / gemini / HitBTC / liqui / cryptopia / livecoin BTC, ETH,
- * and ETH subtoken API SUPPORT AS OF NOW
- * Ethereum subtoken support has been built in, but values are static as no APIs exist yet
+ * USAGE (ADDING / UPDATING COINS) ...kraken / gatecoin / poloniex / coinbase / bittrex / bitfinex / cryptofresh / bter / gemini / hitbtc / liqui / cryptopia / livecoin BTC, ETH, and ETH subtoken SUPPORT AS OF NOW
+ * Ethereum ICO subtoken support has been built in, but values are static ICO values in ETH
  *
+ SEE THE BOTTOM OF THE README.txt FOR FOR AN EXAMPLE SET OF PRE-CONFIGURED ASSETS
  
- 
-                    'COIN_SYMBOL' => array(
+                    'UPPERCASE_COIN_SYMBOL' => array(
                         
                         'coin_name' => 'COIN_NAME',
-                        'coin_symbol' => 'COIN_SYMBOL',
+                        'coin_symbol' => 'UPPERCASE_COIN_SYMBOL',
                         'market_ids' => array(
-                                          'MARKETPLACE1' => 'MARKETNUMBERHERE',
-                                          'MARKETPLACE2' => 'BTC_COINSYMBOLHERE',
-                                          'MARKETPLACE3' => 'BTC-COINSYMBOLHERE',
-                                          'eth_subtokens_ico' => 'ETHSUBTOKENNAME' // Must be defined in $eth_subtokens_ico_values at top of config.php
+                                          'LOWERCASE_MARKETPLACE1' => 'MARKETNUMBERHERE',
+                                          'LOWERCASE_MARKETPLACE2' => 'BTC_COINSYMBOLHERE',
+                                          'LOWERCASE_MARKETPLACE3' => 'BTC-COINSYMBOLHERE',
+                                          'eth_subtokens_ico' => 'THEDAO' // Must be defined in $eth_subtokens_ico_values at top of config.php
                                           ),
                         'trade_pair' => 'LOWERCASE_BTC_OR_LTC_OR_ETH_TRADING_PAIR',
                         'coinmarketcap' => 'coin-slug' // Is this coin listed on coinmarketcap, leave blank if not
@@ -46,7 +45,8 @@ $eth_subtokens_ico_values = array(
                         // Static values in ETH for Ethereum subtokens, like during crowdsale periods etc
                         'ETHSUBTOKENNAME' => '0.15',
                         'GOLEM' => '0.001',
-                        'SWARMCITY' => '0.0133333333333333'
+                        'SWARMCITY' => '0.0133333333333333',
+                        'ARAGON' => '0.01'
                         );
 
 
@@ -84,6 +84,24 @@ $coins_array = array(
                         'coinmarketcap' => 'bitcoin'
                         
                     ),
+                    'XMR' => array(
+                        
+                        'coin_name' => 'Monero',
+                        'coin_symbol' => 'XMR',
+                        'market_ids' => array(
+                                          'poloniex' => 'BTC_XMR',
+                                          'hitbtc' => 'XMRBTC',
+                                          'bittrex' => 'BTC-XMR',
+                                          'bitfinex' => 'xmrbtc',
+                                          'kraken' => 'XXMRXXBT',
+                                          'cryptopia' => 'XMR/BTC',
+                                          'bter' => 'xmr_btc',
+                                          'livecoin' => 'XMR/BTC'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'monero'
+                        
+                    ),
                     'ETH' => array(
                         
                         'coin_name' => 'Ethereum',
@@ -106,24 +124,6 @@ $coins_array = array(
                         'coinmarketcap' => 'ethereum'
                         
                     ),
-                    'XMR' => array(
-                        
-                        'coin_name' => 'Monero',
-                        'coin_symbol' => 'XMR',
-                        'market_ids' => array(
-                                          'poloniex' => 'BTC_XMR',
-                                          'hitbtc' => 'XMRBTC',
-                                          'bittrex' => 'BTC-XMR',
-                                          'bitfinex' => 'xmrbtc',
-                                          'kraken' => 'XXMRXXBT',
-                                          'cryptopia' => 'XMR/BTC',
-                                          'bter' => 'xmr_btc',
-                                          'livecoin' => 'XMR/BTC'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'monero'
-                        
-                    ),
                     'LTC' => array(
                         
                         'coin_name' => 'Litecoin',
@@ -138,7 +138,8 @@ $coins_array = array(
                                           'cryptopia' => 'LTC/BTC',
                                           'liqui' => 'ltc_btc',
                                           'bter' => 'ltc_btc',
-                                          'cryptofresh' => 'OPEN.LTC'
+                                          'cryptofresh' => 'OPEN.LTC',
+                                          'tradesatoshi' => 'LTC_BTC'
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'litecoin'
@@ -172,7 +173,8 @@ $coins_array = array(
                                           'livecoin' => 'DASH/BTC',
                                           'cryptopia' => 'DASH/BTC',
                                           'liqui' => 'dash_btc',
-                                          'bter' => 'dash_btc'
+                                          'bter' => 'dash_btc',
+                                          'tradesatoshi' => 'DASH_BTC'
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'dash'
@@ -193,6 +195,30 @@ $coins_array = array(
                         'coinmarketcap' => 'steem'
                         
                     ),
+                    'SWT' => array(
+                        
+                        'coin_name' => 'Swarm City',
+                        'coin_symbol' => 'SWT',
+                        'market_ids' => array(
+                                          'bittrex' => 'BTC-SWT',
+                                          'hitbtc' => 'SWTBTC'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'swarm-city'
+                        
+                    ),
+                    'ANT' => array(
+                        
+                        'coin_name' => 'Aragon',
+                        'coin_symbol' => 'ANT',
+                        'market_ids' => array(
+                                          'bittrex' => 'BTC-ANT',
+                                          'liqui' => 'ant_btc'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'aragon'
+                        
+                    ),
                     'GNT' => array(
                         
                         'coin_name' => 'Golem',
@@ -204,18 +230,6 @@ $coins_array = array(
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'golem-network-tokens'
-                        
-                    ),
-                    'SWT' => array(
-                        
-                        'coin_name' => 'Swarm City',
-                        'coin_symbol' => 'SWT',
-                        'market_ids' => array(
-                                          'bittrex' => 'BTC-SWT',
-                                          'hitbtc' => 'SWTBTC'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'swarm-city'
                         
                     )
                 

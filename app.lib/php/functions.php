@@ -404,6 +404,50 @@ function get_trade_price($markets, $market_ids) {
   
   }
 
+  elseif ( strtolower($markets) == 'tradesatoshi' ) {
+
+
+     if ( !$_SESSION['tradesatoshi_markets'] ) {
+     
+     $json_string = 'https://tradesatoshi.com/api/public/getmarketsummaries';
+     
+     $jsondata = @get_data($json_string);
+     
+     $data = json_decode($jsondata, TRUE);
+     
+     $_SESSION['tradesatoshi_markets'] = $data;
+   
+     }
+     else {
+       
+     $data = $_SESSION['tradesatoshi_markets'];
+     
+     }
+  
+  
+  $data = $data['result'];
+  //print_r($data);
+      if (is_array($data) || is_object($data)) {
+	
+	    foreach ($data as $key => $value) {
+	      
+	      //print_r($key);
+	      
+	      if ( $data[$key]['market'] == $market_ids ) {
+	       
+	      return $data[$key]["last"];
+	       
+	       
+	      }
+	    
+    
+	    }
+	    
+      }
+  
+  
+  }
+
   elseif ( strtolower($markets) == 'liqui' ) {
   
   $json_string = 'https://api.liqui.io/api/3/ticker/' . $market_ids;
