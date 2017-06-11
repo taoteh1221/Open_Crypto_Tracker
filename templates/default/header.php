@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html>
     <!-- /*
  * DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
@@ -28,11 +28,17 @@
 .tablesorter-default .header, .tablesorter-default .tablesorter-header {
     white-space: nowrap;
 }
+
 </style>
 
 </head>
 <body>
     
+    <audio preload="metadata" id="audio_alert">
+      <source src="templates/default/audio/Smoke-Alarm-SoundBible-1551222038.mp3">
+      <source src="templates/default/audio/Smoke-Alarm-SoundBible-1551222038.ogg">
+    </audio>
+
     <div align='center' style='width: 100%;'>
         <div align='left' style='width: 90%; max-width: 90%; min-width: 1175px;'>
         <!- header END -->

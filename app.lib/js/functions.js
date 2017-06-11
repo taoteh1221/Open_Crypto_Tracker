@@ -86,3 +86,57 @@ function count_down(i, toggle) {
 }
 
 /////////////////////////////////////////////////////////////
+
+function play_alert(tr_id, alert_type, color) {
+
+    
+    $( document ).ready(function() {
+      
+	if ( color == 'yellow' && !window.alert_color ) {
+	window.alert_color = 'yellow';
+	}
+	else if ( color == 'green' && !window.alert_color ) {
+	window.alert_color = '#00B800';
+	}
+      
+      
+      $('.tablesorter tr#' + tr_id).css("background", window.alert_color);
+      $('.tablesorter tr#' + tr_id + ' td').css("background", window.alert_color);
+      $('.tablesorter tr#' + tr_id).css("background-color", window.alert_color);
+      $('.tablesorter tr#' + tr_id + ' td').css("background-color", window.alert_color);
+      
+      // Zebra stripe in yellow or green
+	if ( window.alert_color == 'yellow' ) {
+	window.alert_color = '#E1E100';
+	}
+	else if ( window.alert_color == '#E1E100' ) {
+	window.alert_color = 'yellow';
+	}
+	
+	if ( window.alert_color == '#00B800' ) {
+	window.alert_color = '#009800';
+	}
+	else if ( window.alert_color == '#009800' ) {
+	window.alert_color = '#00B800';
+	}
+      
+	
+	
+	if ( !window.is_alerted && alert_type == 'visual_audio' ) {
+	  
+	  document.getElementById('audio_alert').play();
+	  
+	window.is_alerted = 1;
+	}
+
+	
+    window.is_alerted = 1;
+    //console.log( "percentage alert!" );
+    
+    
+    });
+    
+
+}
+
+/////////////////////////////////////////////////////////////

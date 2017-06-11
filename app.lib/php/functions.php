@@ -871,7 +871,7 @@ function coinmarketcap_api($symbol) {
 //////////////////////////////////////////////////////////
 function coin_data($coin_name, $trade_symbol, $coin_amount, $markets, $market_ids, $trade_pairing, $sort_order) {
 
-global $_POST, $coins_array, $btc_in_usd;
+global $_POST, $coins_array, $btc_in_usd, $alert_percent;
 
 
 //var_dump($markets);
@@ -992,7 +992,7 @@ $market_ids = $market_ids[$markets];
 	
 	
 	?>
-<tr>
+<tr id='<?=strtolower($trade_symbol)?>_row'>
 
 <td class='data border_lb'><span><?php echo $sort_order; ?></span></td>
 
@@ -1035,6 +1035,7 @@ $market_ids = $market_ids[$markets];
  ?>
  <img id='<?=$cmkcap_render_data?>' src='templates/default/images/info.png' border=0' style='position: absolute; top: 4px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <a title='' href='http://coinmarketcap.com/currencies/<?=$cmkcap_render_data?>/' target='_blank'><?php echo $coin_name; ?></a>
  <script>
+  
  $('#<?=$cmkcap_render_data?>').balloon({
   html: true,
   position: "right",
@@ -1047,6 +1048,53 @@ $market_ids = $market_ids[$markets];
     +'<p><span class="orange">7 Day Change:</span> <?=( stristr(coinmarketcap_api($trade_symbol)['percent_change_7d'], '-') != false ? '<span class="red">'.coinmarketcap_api($trade_symbol)['percent_change_7d'].'%</span>' : '<span class="green">'.coinmarketcap_api($trade_symbol)['percent_change_7d'].'%</span>' )?></p>'
     +'<p><span class="orange">Last Updated (UTC):</span> <?=gmdate("Y-M-d\ \\a\\t g:ia", coinmarketcap_api($trade_symbol)['last_updated'])?></p>'
 });
+
+
+<?php
+
+
+if ( sizeof($alert_percent) > 1 ) {
+
+$percent_change_alert = $alert_percent[0];
+
+$percent_alert_type = $alert_percent[2];
+
+ if ( $alert_percent[1] == '1hour' ) {
+ $percent_change = coinmarketcap_api($trade_symbol)['percent_change_1h'];
+ }
+ elseif ( $alert_percent[1] == '24hour' ) {
+ $percent_change = coinmarketcap_api($trade_symbol)['percent_change_24h'];
+ }
+ elseif ( $alert_percent[1] == '7day' ) {
+ $percent_change = coinmarketcap_api($trade_symbol)['percent_change_7d'];
+ }
+ 
+  //echo 'console.log("' . $percent_change_alert . '|' . $percent_change . '");';
+  
+ 
+ if ( stristr($percent_change_alert, '-') != false && $percent_change_alert >= $percent_change ) {
+ ?>
+ 
+ setTimeout(function() {
+    play_alert("<?=strtolower($trade_symbol)?>_row", "<?=$percent_alert_type?>", "yellow");
+ }, 1000);
+ 
+ <?php
+ }
+ elseif ( stristr($percent_change_alert, '-') == false && $percent_change_alert <= $percent_change ) {
+ ?>
+ 
+ setTimeout(function() {
+    play_alert("<?=strtolower($trade_symbol)?>_row", "<?=$percent_alert_type?>", "green");
+ }, 1000);
+ 
+ <?php
+ }
+
+}
+?>
+
+
  </script>
  <?php
  }

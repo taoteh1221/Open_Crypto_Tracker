@@ -3,6 +3,7 @@
 if ( $_POST['submit_check'] == 1 ) {
  
  
+ 
  if (is_array($_POST) || is_object($_POST)) {
   
   
@@ -41,7 +42,24 @@ if ( $_POST['submit_check'] == 1 ) {
    }
    
   }
+
+ 
+ 
+ 
+  if ( $_POST['use_alert_percent'] != '' ) {
   
+           // Cookie expires in 1 year (31536000 seconds)
+           
+           setcookie("alert_percent", $_POST['use_alert_percent'], mktime()+31536000);
+           
+  }
+  else {
+  unset($_COOKIE['alert_percent']);  // Delete any existing cookie
+  setcookie ("alert_percent", "", time()-3600);  // Delete any existing cookie
+  }
+ 
+ 
+ 
   if ( $_POST['use_cookies'] == 1 ) {
    
            // Cookie expires in 1 year (31536000 seconds)
@@ -65,8 +83,10 @@ if ( $_POST['submit_check'] == 1 ) {
   }
   
   
-  //var_dump($set_coin_values);
   
+  //var_dump($set_coin_values);
+
+ 
  
 }
  

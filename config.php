@@ -6,8 +6,9 @@
 session_start();
 require_once("app.lib/php/functions.php");
 require_once("app.lib/php/cookies.php");
+require_once("app.lib/php/init.php");
 
-$version = '1.7.4';  // 2017/JUNE/1ST
+$version = '1.7.5';  // 2017/JUNE/10TH
 
 
 /*
