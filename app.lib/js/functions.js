@@ -93,10 +93,10 @@ function play_alert(tr_id, alert_type, color) {
     $( document ).ready(function() {
       
 	if ( color == 'yellow' && !window.alert_color ) {
-	window.alert_color = 'yellow';
+	window.alert_color = '#efd362';
 	}
 	else if ( color == 'green' && !window.alert_color ) {
-	window.alert_color = '#00B800';
+	window.alert_color = '#81c185';
 	}
       
       
@@ -106,18 +106,18 @@ function play_alert(tr_id, alert_type, color) {
       $('.tablesorter tr#' + tr_id + ' td').css("background-color", window.alert_color);
       
       // Zebra stripe in yellow or green
-	if ( window.alert_color == 'yellow' ) {
-	window.alert_color = '#E1E100';
+	if ( window.alert_color == '#efd362' ) {
+	window.alert_color = '#d3bb5b';
 	}
-	else if ( window.alert_color == '#E1E100' ) {
-	window.alert_color = 'yellow';
+	else if ( window.alert_color == '#d3bb5b' ) {
+	window.alert_color = '#efd362';
 	}
 	
-	if ( window.alert_color == '#00B800' ) {
-	window.alert_color = '#009800';
+	if ( window.alert_color == '#81c185' ) {
+	window.alert_color = '#abfcaf';
 	}
-	else if ( window.alert_color == '#009800' ) {
-	window.alert_color = '#00B800';
+	else if ( window.alert_color == '#abfcaf' ) {
+	window.alert_color = '#81c185';
 	}
       
 	
