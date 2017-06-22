@@ -103,6 +103,19 @@ $coins_array = array(
                         'coinmarketcap' => 'monero'
                         
                     ),
+                    'DCR' => array(
+                        
+                        'coin_name' => 'Decred',
+                        'coin_symbol' => 'DCR',
+                        'market_ids' => array(
+                                          'poloniex' => 'BTC_DCR',
+                                          'bittrex' => 'BTC-DCR',
+                                          'cryptopia' => 'DCR/BTC'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'decred'
+                        
+                    ),
                     'ETH' => array(
                         
                         'coin_name' => 'Ethereum',
@@ -123,6 +136,41 @@ $coins_array = array(
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'ethereum'
+                        
+                    ),
+                    'STEEM' => array(
+                        
+                        'coin_name' => 'Steem',
+                        'coin_symbol' => 'STEEM',
+                        'market_ids' => array(
+                                          'poloniex' => 'BTC_STEEM',
+                                          'bittrex' => 'BTC-STEEM',
+                                          'hitbtc' => 'STEEMBTC',
+                                          'livecoin' => 'STEEM/BTC',
+                                          'cryptofresh' => 'OPEN.STEEM'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'steem'
+                        
+                    ),
+                    'DASH' => array(
+                        
+                        'coin_name' => 'Dash',
+                        'coin_symbol' => 'DASH',
+                        'market_ids' => array(
+                                          'poloniex' => 'BTC_DASH',
+                                          'bittrex' => 'BTC-DASH',
+                                          'kraken' => 'DASHXBT',
+                                          'bitfinex' => 'dshbtc',
+                                          'hitbtc' => 'DASHBTC',
+                                          'livecoin' => 'DASH/BTC',
+                                          'cryptopia' => 'DASH/BTC',
+                                          'liqui' => 'dash_btc',
+                                          'bter' => 'dash_btc',
+                                          'tradesatoshi' => 'DASH_BTC'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'dash'
                         
                     ),
                     'LTC' => array(
@@ -161,39 +209,16 @@ $coins_array = array(
                         'coinmarketcap' => 'peercoin'
                         
                     ),
-                    'DASH' => array(
+                    'ANT' => array(
                         
-                        'coin_name' => 'Dash',
-                        'coin_symbol' => 'DASH',
+                        'coin_name' => 'Aragon',
+                        'coin_symbol' => 'ANT',
                         'market_ids' => array(
-                                          'poloniex' => 'BTC_DASH',
-                                          'bittrex' => 'BTC-DASH',
-                                          'kraken' => 'DASHXBT',
-                                          'bitfinex' => 'dshbtc',
-                                          'hitbtc' => 'DASHBTC',
-                                          'livecoin' => 'DASH/BTC',
-                                          'cryptopia' => 'DASH/BTC',
-                                          'liqui' => 'dash_btc',
-                                          'bter' => 'dash_btc',
-                                          'tradesatoshi' => 'DASH_BTC'
+                                          'bittrex' => 'BTC-ANT',
+                                          'liqui' => 'ant_btc'
                                           ),
                         'trade_pair' => 'btc',
-                        'coinmarketcap' => 'dash'
-                        
-                    ),
-                    'STEEM' => array(
-                        
-                        'coin_name' => 'Steem',
-                        'coin_symbol' => 'STEEM',
-                        'market_ids' => array(
-                                          'poloniex' => 'BTC_STEEM',
-                                          'bittrex' => 'BTC-STEEM',
-                                          'hitbtc' => 'STEEMBTC',
-                                          'livecoin' => 'STEEM/BTC',
-                                          'cryptofresh' => 'OPEN.STEEM'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'steem'
+                        'coinmarketcap' => 'aragon'
                         
                     ),
                     'SWT' => array(
@@ -208,18 +233,6 @@ $coins_array = array(
                         'coinmarketcap' => 'swarm-city'
                         
                     ),
-                    'ANT' => array(
-                        
-                        'coin_name' => 'Aragon',
-                        'coin_symbol' => 'ANT',
-                        'market_ids' => array(
-                                          'bittrex' => 'BTC-ANT',
-                                          'liqui' => 'ant_btc'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'aragon'
-                        
-                    ),
                     'GNT' => array(
                         
                         'coin_name' => 'Golem',
@@ -231,6 +244,34 @@ $coins_array = array(
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'golem-network-tokens'
+                        
+                    ),
+                    'BTS' => array(
+                        
+                        'coin_name' => 'BitShares',
+                        'coin_symbol' => 'BTS',
+                        'market_ids' => array(
+                                          'poloniex' => 'BTC_BTS',
+                                          'bittrex' => 'BTC-BTS',
+                                          'livecoin' => 'BTS/BTC',
+                                          'bter' => 'bts_btc',
+                                          'cryptofresh' => 'BTS'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'bitshares'
+                        
+                    ),
+                    'FCT' => array(
+                        
+                        'coin_name' => 'Factom',
+                        'coin_symbol' => 'FCT',
+                        'market_ids' => array(
+                                          'poloniex' => 'BTC_FCT',
+                                          'bittrex' => 'BTC-FCT',
+                                          'cryptopia' => 'FCT/BTC'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'factom'
                         
                     )
                 
