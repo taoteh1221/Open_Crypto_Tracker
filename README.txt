@@ -201,6 +201,17 @@ $coins_array = array(
                         'coinmarketcap' => 'peercoin'
                         
                     ),
+                    'SNT' => array(
+                        
+                        'coin_name' => 'Status',
+                        'coin_symbol' => 'SNT',
+                        'market_ids' => array(
+                                          'eth_subtokens_ico' => 'STATUS'
+                                          ),
+                        'trade_pair' => 'eth',
+                        'coinmarketcap' => ''
+                        
+                    ),
                     'ANT' => array(
                         
                         'coin_name' => 'Aragon',

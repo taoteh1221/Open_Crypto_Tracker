@@ -47,7 +47,8 @@ $eth_subtokens_ico_values = array(
                         'ETHSUBTOKENNAME' => '0.15',
                         'GOLEM' => '0.001',
                         'SWARMCITY' => '0.0133333333333333',
-                        'ARAGON' => '0.01'
+                        'ARAGON' => '0.01',
+                        'STATUS' => '0.0001'
                         );
 
 
@@ -209,6 +210,17 @@ $coins_array = array(
                         'coinmarketcap' => 'peercoin'
                         
                     ),
+                    'SNT' => array(
+                        
+                        'coin_name' => 'Status',
+                        'coin_symbol' => 'SNT',
+                        'market_ids' => array(
+                                          'eth_subtokens_ico' => 'STATUS'
+                                          ),
+                        'trade_pair' => 'eth',
+                        'coinmarketcap' => ''
+                        
+                    ),
                     'ANT' => array(
                         
                         'coin_name' => 'Aragon',
@@ -219,18 +231,6 @@ $coins_array = array(
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'aragon'
-                        
-                    ),
-                    'SWT' => array(
-                        
-                        'coin_name' => 'Swarm City',
-                        'coin_symbol' => 'SWT',
-                        'market_ids' => array(
-                                          'bittrex' => 'BTC-SWT',
-                                          'hitbtc' => 'SWTBTC'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'swarm-city'
                         
                     ),
                     'GNT' => array(
@@ -244,6 +244,18 @@ $coins_array = array(
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'golem-network-tokens'
+                        
+                    ),
+                    'SWT' => array(
+                        
+                        'coin_name' => 'Swarm City',
+                        'coin_symbol' => 'SWT',
+                        'market_ids' => array(
+                                          'bittrex' => 'BTC-SWT',
+                                          'hitbtc' => 'SWTBTC'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'swarm-city'
                         
                     ),
                     'BTS' => array(
