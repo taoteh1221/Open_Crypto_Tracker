@@ -8,7 +8,7 @@ require_once("app.lib/php/functions.php");
 require_once("app.lib/php/cookies.php");
 require_once("app.lib/php/init.php");
 
-$version = '1.7.6';  // 2017/JUNE/10TH
+$version = '1.7.7';  // 2017/JUNE/28TH
 
 
 /*
@@ -215,22 +215,13 @@ $coins_array = array(
                         'coin_name' => 'Status',
                         'coin_symbol' => 'SNT',
                         'market_ids' => array(
-                                          'eth_subtokens_ico' => 'STATUS'
-                                          ),
-                        'trade_pair' => 'eth',
-                        'coinmarketcap' => ''
-                        
-                    ),
-                    'ANT' => array(
-                        
-                        'coin_name' => 'Aragon',
-                        'coin_symbol' => 'ANT',
-                        'market_ids' => array(
-                                          'bittrex' => 'BTC-ANT',
-                                          'liqui' => 'ant_btc'
+                                          'bter' => 'snt_btc',
+                                          'bittrex' => 'BTC-SNT',
+                                          'gatecoin' => 'SNTBTC',
+                                          'liqui' => 'snt_btc'
                                           ),
                         'trade_pair' => 'btc',
-                        'coinmarketcap' => 'aragon'
+                        'coinmarketcap' => 'status'
                         
                     ),
                     'GNT' => array(
@@ -244,6 +235,30 @@ $coins_array = array(
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'golem-network-tokens'
+                        
+                    ),
+                    'MYST' => array(
+                        
+                        'coin_name' => 'Mysterium',
+                        'coin_symbol' => 'MYST',
+                        'market_ids' => array(
+                                          'bittrex' => 'BTC-MYST',
+                                          'liqui' => 'myst_btc'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'mysterium'
+                        
+                    ),
+                    'ANT' => array(
+                        
+                        'coin_name' => 'Aragon',
+                        'coin_symbol' => 'ANT',
+                        'market_ids' => array(
+                                          'bittrex' => 'BTC-ANT',
+                                          'liqui' => 'ant_btc'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'aragon'
                         
                     ),
                     'SWT' => array(

@@ -517,6 +517,13 @@ Minor GUI tweaks
 -GUI tweaks to percentage alerts
 -------------------------------------------------------------------
 
+-------------------------------------------------------------------
+1.7.7:
+-Tweaks
+-Updated classic / interesting coin examples (default) configuration (see README.TXT for customization)
+-------------------------------------------------------------------
+
+
 
 
 

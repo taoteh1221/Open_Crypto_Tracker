@@ -51,7 +51,8 @@ OTHER CRYPTOCURRENCIES AND PAYPAL ACCEPTED HERE: https://dragonfrugal.com/donate
  * 
  */
  
-BELOW IS AN EXAMPLE SET OF ASSETS FULLY CONFIGURED TO THE LATEST MARKETS AT THE TIME OF THIS WRITING (2017-JUNE-1ST). PLEASE NOTE THIS IS PROVIDED TO ASSIST YOU IN ADDING YOUR PARTICULAR FAVORITE ASSETS TO THE DEFAULT LIST, AND ---IN NO WAY--- INDICATES ENDORSEMENT OF ---ANY-- OF THESE ASSETS:
+BELOW IS AN !---EXAMPLE---! SET OF ASSETS FULLY CONFIGURED TO THE LATEST MARKETS AT THE TIME OF THIS WRITING (2017-JUNE-28TH). PLEASE NOTE THIS IS PROVIDED TO ASSIST YOU IN ADDING YOUR PARTICULAR FAVORITE ASSETS TO THE DEFAULT LIST, AND !---IN NO WAY---! INDICATES ENDORSEMENT OF !---ANY---! OF THESE ASSETS:
+
 
 /////////////////// COIN MARKETS CONFIG -START- ////////////////////////////////////////////////////
 
@@ -206,10 +207,38 @@ $coins_array = array(
                         'coin_name' => 'Status',
                         'coin_symbol' => 'SNT',
                         'market_ids' => array(
-                                          'eth_subtokens_ico' => 'STATUS'
+                                          'bter' => 'snt_btc',
+                                          'bittrex' => 'BTC-SNT',
+                                          'gatecoin' => 'SNTBTC',
+                                          'liqui' => 'snt_btc'
                                           ),
-                        'trade_pair' => 'eth',
-                        'coinmarketcap' => ''
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'status'
+                        
+                    ),
+                    'GNT' => array(
+                        
+                        'coin_name' => 'Golem',
+                        'coin_symbol' => 'GNT',
+                        'market_ids' => array(
+                                          'poloniex' => 'BTC_GNT',
+                                          'bittrex' => 'BTC-GNT',
+                                          'liqui' => 'gnt_btc'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'golem-network-tokens'
+                        
+                    ),
+                    'MYST' => array(
+                        
+                        'coin_name' => 'Mysterium',
+                        'coin_symbol' => 'MYST',
+                        'market_ids' => array(
+                                          'bittrex' => 'BTC-MYST',
+                                          'liqui' => 'myst_btc'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'mysterium'
                         
                     ),
                     'ANT' => array(
@@ -234,19 +263,6 @@ $coins_array = array(
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'swarm-city'
-                        
-                    ),
-                    'GNT' => array(
-                        
-                        'coin_name' => 'Golem',
-                        'coin_symbol' => 'GNT',
-                        'market_ids' => array(
-                                          'poloniex' => 'BTC_GNT',
-                                          'bittrex' => 'BTC-GNT',
-                                          'liqui' => 'gnt_btc'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'golem-network-tokens'
                         
                     ),
                     'BTS' => array(
@@ -336,6 +352,7 @@ $coins_array = array(
                         'coin_symbol' => 'REP',
                         'market_ids' => array(
                                           'poloniex' => 'BTC_REP',
+                                          'bittrex' => 'BTC-REP',
                                           'kraken' => 'XREPXXBT',
                                           'gatecoin' => 'REPBTC',
                                           'liqui' => 'rep_btc',
@@ -398,65 +415,9 @@ $coins_array = array(
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'ripple'
                         
-                    ),
-                    'LSK' => array(
-                        
-                        'coin_name' => 'Lisk',
-                        'coin_symbol' => 'LSK',
-                        'market_ids' => array(
-                                          'poloniex' => 'BTC_LSK',
-                                          'bittrex' => 'BTC-LSK',
-                                          'hitbtc' => 'LSKBTC',
-                                          'livecoin' => 'LSK/BTC',
-                                          'cryptofresh' => 'OPEN.LISK'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'lisk'
-                        
-                    ),
-                    'MAID' => array(
-                        
-                        'coin_name' => 'MaidSafecoin',
-                        'coin_symbol' => 'MAID',
-                        'market_ids' => array(
-                                          'poloniex' => 'BTC_MAID',
-                                          'bittrex' => 'BTC-MAID',
-                                          'hitbtc' => 'MAIDBTC',
-                                          'livecoin' => 'MAID/BTC',
-                                          'cryptopia' => 'MAID/BTC'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'maidsafecoin'
-                        
-                    ),
-                    'ZCL' => array(
-                        
-                        'coin_name' => 'Zclassic',
-                        'coin_symbol' => 'ZCL',
-                        'market_ids' => array(
-                                          'bittrex' => 'BTC-ZCL',
-                                          'cryptopia' => 'ZCL/BTC',
-                                          'tradesatoshi' => 'ZCL_BTC'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'zclassic'
-                        
-                    ),
-                    'ZEN' => array(
-                        
-                        'coin_name' => 'ZenCash',
-                        'coin_symbol' => 'ZEN',
-                        'market_ids' => array(
-                                          'bittrex' => 'BTC-ZEN',
-                                          'tradesatoshi' => 'ZEN_BTC'
-                                          ),
-                        'trade_pair' => 'btc',
-                        'coinmarketcap' => 'zencash'
-                        
                     )
                 
                 
 );
 
 /////////////////// COIN MARKETS CONFIG -END- ////////////////////////////////////////////////////
-

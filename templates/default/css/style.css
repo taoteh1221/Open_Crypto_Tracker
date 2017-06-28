@@ -111,7 +111,7 @@ p, h3 {
 
 div.tabdiv {
 	padding:15px;
-	width:100%;
+	width:auto;
 	min-width: 1165px;
 	min-height: 150px;
 	display:inline-block;

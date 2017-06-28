@@ -1072,7 +1072,7 @@ $percent_alert_type = $alert_percent[2];
   //echo 'console.log("' . $percent_change_alert . '|' . $percent_change . '");';
   
  
- if ( stristr($percent_change_alert, '-') != false && $percent_change_alert >= $percent_change ) {
+ if ( stristr($percent_change_alert, '-') != false && $percent_change_alert >= $percent_change && is_numeric($percent_change) ) {
  ?>
  
  setTimeout(function() {
@@ -1081,7 +1081,7 @@ $percent_alert_type = $alert_percent[2];
  
  <?php
  }
- elseif ( stristr($percent_change_alert, '-') == false && $percent_change_alert <= $percent_change ) {
+ elseif ( stristr($percent_change_alert, '-') == false && $percent_change_alert <= $percent_change && is_numeric($percent_change) ) {
  ?>
  
  setTimeout(function() {

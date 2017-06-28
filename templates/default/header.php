@@ -39,8 +39,8 @@
       <source src="templates/default/audio/Smoke-Alarm-SoundBible-1551222038.ogg">
     </audio>
 
-    <div align='center' style='width: 100%;'>
-        <div align='left' style='width: 90%; max-width: 90%; min-width: 1175px;'>
+    <div align='center' style='width: 98%;'>
+        <div align='left' style='width: 98%; max-width: 98%; min-width: 1175px;'>
         <!- header END -->
 
 
