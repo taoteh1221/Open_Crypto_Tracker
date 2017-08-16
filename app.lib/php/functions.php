@@ -253,33 +253,33 @@ function get_btc_usd($btc_in_usd) {
    //print_r($json_string);print_r($data);
    
        if (is_array($data) || is_object($data)) {
-	 
-	     foreach ($data as $key => $value) {
-	       
-	       //print_r($key);
-	       
-	       if ( $key == 'result' ) {
-		 
-	       //print_r($data[$key]);
-	       
-		 foreach ($data[$key] as $key2 => $value2) {
-		   
-		   //print_r($data[$key][$key2]);
-		   
-		   if ( $key2 == 'XXBTZUSD' ) {
-		    
-		   return $data[$key][$key2]["c"][0];
-		    
-		    
-		   }
-		 
-	 
-		 }
-	     
-	       }
+   
+       foreach ($data as $key => $value) {
+         
+         //print_r($key);
+         
+         if ( $key == 'result' ) {
      
-	     }
-	     
+         //print_r($data[$key]);
+         
+     foreach ($data[$key] as $key2 => $value2) {
+       
+       //print_r($data[$key][$key2]);
+       
+       if ( $key2 == 'XXBTZUSD' ) {
+        
+       return $data[$key][$key2]["c"][0];
+        
+        
+       }
+     
+   
+     }
+       
+         }
+     
+       }
+       
        }
    
    
@@ -384,21 +384,65 @@ function get_trade_price($markets, $market_ids) {
   $data = $data['result'];
   //print_r($data);
       if (is_array($data) || is_object($data)) {
-	
-	    foreach ($data as $key => $value) {
-	      
-	      //print_r($key);
-	      
-	      if ( $data[$key]['MarketName'] == $market_ids ) {
-	       
-	      return $data[$key]["Last"];
-	       
-	       
-	      }
-	    
+  
+      foreach ($data as $key => $value) {
+        
+        //print_r($key);
+        
+        if ( $data[$key]['MarketName'] == $market_ids ) {
+         
+        return $data[$key]["Last"];
+         
+         
+        }
+      
     
-	    }
-	    
+      }
+      
+      }
+  
+  
+  }
+
+  elseif ( strtolower($markets) == 'mercatox' ) {
+
+
+     if ( !$_SESSION['mercatox_markets'] ) {
+     
+     $json_string = 'https://mercatox.com/public/json24';
+     
+     $jsondata = @get_data($json_string);
+     
+     $data = json_decode($jsondata, TRUE);
+     
+     $_SESSION['mercatox_markets'] = $data;
+   
+     }
+     else {
+       
+     $data = $_SESSION['mercatox_markets'];
+     
+     }
+  
+  
+  $data = $data['pairs'];
+  //print_r($data);
+      if (is_array($data) || is_object($data)) {
+  
+        foreach ($data as $key => $value) {
+          
+          //print_r($key);
+          
+           if ( $key == $market_ids ) {
+            
+           return $data[$key]["last"];
+            
+            
+           }
+        
+       
+        }
+      
       }
   
   
@@ -428,21 +472,21 @@ function get_trade_price($markets, $market_ids) {
   $data = $data['result'];
   //print_r($data);
       if (is_array($data) || is_object($data)) {
-	
-	    foreach ($data as $key => $value) {
-	      
-	      //print_r($key);
-	      
-	      if ( $data[$key]['market'] == $market_ids ) {
-	       
-	      return $data[$key]["last"];
-	       
-	       
-	      }
-	    
+  
+      foreach ($data as $key => $value) {
+        
+        //print_r($key);
+        
+        if ( $data[$key]['market'] == $market_ids ) {
+         
+        return $data[$key]["last"];
+         
+         
+        }
+      
     
-	    }
-	    
+      }
+      
       }
   
   
@@ -458,21 +502,21 @@ function get_trade_price($markets, $market_ids) {
   
   //print_r($data);
       if (is_array($data) || is_object($data)) {
-	
-	    foreach ($data as $key => $value) {
-	      
-	      //print_r($key);
-	      
-	      if ( $key == $market_ids ) {
-	       
-	      return $data[$key]["last"];
-	       
-	       
-	      }
-	    
+  
+      foreach ($data as $key => $value) {
+        
+        //print_r($key);
+        
+        if ( $key == $market_ids ) {
+         
+        return $data[$key]["last"];
+         
+         
+        }
+      
     
-	    }
-	    
+      }
+      
       }
   
   }
@@ -501,21 +545,21 @@ function get_trade_price($markets, $market_ids) {
   
   //print_r($data);
       if (is_array($data) || is_object($data)) {
-	
-	    foreach ($data as $key => $value) {
-	      
-	      //print_r($key);
-	      
-	      if ( $key == $market_ids ) {
-	       
-	      return $data[$key]["last"];
-	       
-	       
-	      }
-	    
+  
+      foreach ($data as $key => $value) {
+        
+        //print_r($key);
+        
+        if ( $key == $market_ids ) {
+         
+        return $data[$key]["last"];
+         
+         
+        }
+      
     
-	    }
-	    
+      }
+      
       }
   
   
@@ -545,21 +589,21 @@ function get_trade_price($markets, $market_ids) {
   
   //print_r($data);
       if (is_array($data) || is_object($data)) {
-	
-	    foreach ($data as $key => $value) {
-	      
-	      //print_r($key);
-	      
-	      if ( $data[$key]['symbol'] == $market_ids ) {
-	       
-	      return $data[$key]["last"];
-	       
-	       
-	      }
-	    
+  
+      foreach ($data as $key => $value) {
+        
+        //print_r($key);
+        
+        if ( $data[$key]['symbol'] == $market_ids ) {
+         
+        return $data[$key]["last"];
+         
+         
+        }
+      
     
-	    }
-	    
+      }
+      
       }
   
   
@@ -590,21 +634,21 @@ function get_trade_price($markets, $market_ids) {
   
   //print_r($data);
       if (is_array($data) || is_object($data)) {
-	
+  
             foreach ($data as $key => $value) {
-	      
-	      //print_r($key);
-	      
-	      if ( $data[$key]['Label'] == $market_ids ) {
-	       
-	      return $data[$key]["LastPrice"];
-	       
-	       
-	      }
-	    
+        
+        //print_r($key);
+        
+        if ( $data[$key]['Label'] == $market_ids ) {
+         
+        return $data[$key]["LastPrice"];
+         
+         
+        }
+      
     
-	    }
-	    
+      }
+      
       }
   
   
@@ -634,21 +678,21 @@ function get_trade_price($markets, $market_ids) {
   
   //print_r($data);
       if (is_array($data) || is_object($data)) {
-	
-	    foreach ($data as $key => $value) {
-	      
-	      //print_r($key);
-	      
-	      if ( $key == $market_ids ) {
-	       
-	      return $data[$key]["last"];
-	       
-	       
-	      }
-	    
+  
+      foreach ($data as $key => $value) {
+        
+        //print_r($key);
+        
+        if ( $key == $market_ids ) {
+         
+        return $data[$key]["last"];
+         
+         
+        }
+      
     
-	    }
-	    
+      }
+      
       }
   
   
@@ -679,21 +723,21 @@ function get_trade_price($markets, $market_ids) {
   
   //print_r($data);
       if (is_array($data) || is_object($data)) {
-	
-	    foreach ($data as $key => $value) {
-	      
-	      //var_dump($data);
-	      
-	      if ( $data[$key]['pair'] == $market_ids ) {
-	       
-	      return $data[$key]['rate'];
-	       
-	       
-	      }
-	    
+  
+      foreach ($data as $key => $value) {
+        
+        //var_dump($data);
+        
+        if ( $data[$key]['pair'] == $market_ids ) {
+         
+        return $data[$key]['rate'];
+         
+         
+        }
+      
     
-	    }
-	    
+      }
+      
       }
   
   
@@ -711,33 +755,33 @@ function get_trade_price($markets, $market_ids) {
   //print_r($json_string);print_r($data);
   
       if (is_array($data) || is_object($data)) {
-	
-	    foreach ($data as $key => $value) {
-	      
-	      //print_r($key);
-	      
-	      if ( $key == 'result' ) {
-		
-	      //print_r($data[$key]);
-	      
-		foreach ($data[$key] as $key2 => $value2) {
-		  
-		  //print_r($data[$key][$key2]);
-		  
-		  if ( $key2 == $market_ids ) {
-		   
-		  return $data[$key][$key2]["c"][0];;
-		   
-		   
-		  }
-		
-	
-		}
-	    
-	      }
+  
+      foreach ($data as $key => $value) {
+        
+        //print_r($key);
+        
+        if ( $key == 'result' ) {
     
-	    }
-	    
+        //print_r($data[$key]);
+        
+    foreach ($data[$key] as $key2 => $value2) {
+      
+      //print_r($data[$key][$key2]);
+      
+      if ( $key2 == $market_ids ) {
+       
+      return $data[$key][$key2]["c"][0];;
+       
+       
+      }
+    
+  
+    }
+      
+        }
+    
+      }
+      
       }
   
   
@@ -769,19 +813,19 @@ function get_trade_price($markets, $market_ids) {
   
   //var_dump($data);
       if (is_array($data) || is_object($data)) {
-	
-	    foreach ( $data['tickers'] as $key => $value ) {
-	      
-	      if ( $data['tickers'][$key]["currencyPair"] == $market_ids ) {
-	       
-	      return $data['tickers'][$key]["last"];
-	       
-	       
-	      }
-	    
+  
+      foreach ( $data['tickers'] as $key => $value ) {
+        
+        if ( $data['tickers'][$key]["currencyPair"] == $market_ids ) {
+         
+        return $data['tickers'][$key]["last"];
+         
+         
+        }
+      
     
-	    }
-	    
+      }
+      
       }
   
   
@@ -811,7 +855,7 @@ function strip_price_formatting($price) {
 
 $price = preg_replace("/ /", "", $price); // Space
 $price = preg_replace("/,/", "", $price); // Comma
-$price = preg_replace("/	/", "", $price); // Tab
+$price = preg_replace("/  /", "", $price); // Tab
 
 return $price;
 
@@ -843,21 +887,21 @@ function coinmarketcap_api($symbol) {
   
   //print_r($data);
       if (is_array($data) || is_object($data)) {
-	
-	    foreach ($data as $key => $value) {
-	      
-	      //print_r($key);
-	      
-	      if ( $data[$key]['symbol'] == strtoupper($symbol) ) {
-	       
-	      return $data[$key];
-	       
-	       
-	      }
-	    
+  
+      foreach ($data as $key => $value) {
+        
+        //print_r($key);
+        
+        if ( $data[$key]['symbol'] == strtoupper($symbol) ) {
+         
+        return $data[$key];
+         
+         
+        }
+      
     
-	    }
-	    
+      }
+      
       }
   
   
@@ -920,78 +964,78 @@ $market_ids = $market_ids[$markets];
 
   
   
-	if ( $coin_amount > 0.00000000 ) {
-		
-	  if ( !$_SESSION['td_color'] || $_SESSION['td_color'] == '#e8e8e8' ) {
-	  $_SESSION['td_color'] = 'white';
-	  }
-	  else {
-	  $_SESSION['td_color'] = '#e8e8e8';
-	  }
+  if ( $coin_amount > 0.00000000 ) {
+    
+    if ( !$_SESSION['td_color'] || $_SESSION['td_color'] == '#e8e8e8' ) {
+    $_SESSION['td_color'] = 'white';
+    }
+    else {
+    $_SESSION['td_color'] = '#e8e8e8';
+    }
 
-	  if ( $trade_pairing == 'btc' ) {
-	  $coin_to_trade_raw = ( $coin_name == 'Bitcoin' ? get_btc_usd($btc_in_usd) : get_trade_price($markets, $market_ids) );
-	  $coin_to_trade = number_format( $coin_to_trade_raw, ( $coin_name == 'Bitcoin' ? 2 : 8 ), '.', ',');
-	  $coin_to_trade_worth = ($coin_amount * $coin_to_trade_raw);
-	  $coin_to_trade_worth2 = number_format($coin_to_trade_worth, ( $coin_name == 'Bitcoin' ? 2 : 8 ), '.', ',');
-	  $btc_worth = number_format( $coin_to_trade_worth, 8 );  
-	  $_SESSION['btc_worth_array'][] = (string)str_replace(',', '', ( $coin_name == 'Bitcoin' ? $coin_amount : $btc_worth ) );
-	  $trade_pairing_description = ( $coin_name == 'Bitcoin' ? 'US Dollar' : 'Bitcoin' );
-	  $trade_pairing_symbol = ( $coin_name == 'Bitcoin' ? 'USD' : 'BTC' );
-	  }
-	  else if ( $trade_pairing == 'ltc' ) {
-	    
-	  $coin_to_btc = get_trade_price($markets, 3);
-	  
-	  $coin_to_trade_raw = get_trade_price($markets, $market_ids);
-	  $coin_to_trade = number_format( $coin_to_trade_raw, 8, '.', ',');
-	  $coin_to_trade_worth = ($coin_amount * $coin_to_trade_raw);
-	  $coin_to_trade_worth2 = number_format($coin_to_trade_worth, 8, '.', ',');
-	  $btc_worth = number_format( ($coin_to_trade_worth * $coin_to_btc), 8 );  // Convert value to bitcoin
-	  $_SESSION['btc_worth_array'][] = (string)str_replace(',', '', $btc_worth);  
-	  $btc_trade_eq = number_format( ($coin_to_trade * $coin_to_btc), 8);
-	  $trade_pairing_description = 'Litecoin';
-	  $trade_pairing_symbol = 'LTC';
-	  
-	  //echo $ltc_to_btc . ' ' . $coin_to_trade . ' | | | ';
-	  }
-	  else if ( $trade_pairing == 'eth' ) {
-	    
-	  $coin_to_btc = get_trade_price('poloniex', 'BTC_ETH');
-	   
-	   if ( $markets == 'eth_subtokens_ico' ) {
-	   
-	   $coin_to_trade_raw = get_sub_token_price($markets, $market_ids);
-	   $coin_to_trade = number_format( $coin_to_trade_raw, 8, '.', ',');
-	   $coin_to_trade_worth = ($coin_amount * $coin_to_trade_raw);
-	   $coin_to_trade_worth2 = number_format($coin_to_trade_worth, 8, '.', ',');
-	   $btc_worth = number_format( ($coin_to_trade_worth * $coin_to_btc), 8 );  // Convert value to bitcoin
-	   $_SESSION['btc_worth_array'][] = (string)str_replace(',', '', $btc_worth);  
-	   $btc_trade_eq = number_format( ($coin_to_trade * $coin_to_btc), 8);
-	   $trade_pairing_description = 'Ethereum';
-	   $trade_pairing_symbol = 'ETH';
-	   
-	   //echo $ltc_to_btc . ' ' . $coin_to_trade . ' | | | ';
-	   }
-	   else {
-	   
-	   $coin_to_trade_raw = get_trade_price($markets, $market_ids);
-	   $coin_to_trade = number_format( $coin_to_trade_raw, 8, '.', ',');
-	   $coin_to_trade_worth = ($coin_amount * $coin_to_trade_raw);
-	   $coin_to_trade_worth2 = number_format($coin_to_trade_worth, 8, '.', ',');
-	   $btc_worth = number_format( ($coin_to_trade_worth * $coin_to_btc), 8 );  // Convert ltc value to bitcoin
-	   $_SESSION['btc_worth_array'][] = (string)str_replace(',', '', $btc_worth);  
-	   $btc_trade_eq = number_format( ($coin_to_trade * $coin_to_btc), 8);
-	   $trade_pairing_description = 'Ethereum';
-	   $trade_pairing_symbol = 'ETH';
-	   
-	   //echo $ltc_to_btc . ' ' . $coin_to_trade . ' | | | ';
-	   }
+    if ( $trade_pairing == 'btc' ) {
+    $coin_to_trade_raw = ( $coin_name == 'Bitcoin' ? get_btc_usd($btc_in_usd) : get_trade_price($markets, $market_ids) );
+    $coin_to_trade = number_format( $coin_to_trade_raw, ( $coin_name == 'Bitcoin' ? 2 : 8 ), '.', ',');
+    $coin_to_trade_worth = ($coin_amount * $coin_to_trade_raw);
+    $coin_to_trade_worth2 = number_format($coin_to_trade_worth, ( $coin_name == 'Bitcoin' ? 2 : 8 ), '.', ',');
+    $btc_worth = number_format( $coin_to_trade_worth, 8 );  
+    $_SESSION['btc_worth_array'][] = (string)str_replace(',', '', ( $coin_name == 'Bitcoin' ? $coin_amount : $btc_worth ) );
+    $trade_pairing_description = ( $coin_name == 'Bitcoin' ? 'US Dollar' : 'Bitcoin' );
+    $trade_pairing_symbol = ( $coin_name == 'Bitcoin' ? 'USD' : 'BTC' );
+    }
+    else if ( $trade_pairing == 'ltc' ) {
+      
+    $coin_to_btc = get_trade_price($markets, 3);
+    
+    $coin_to_trade_raw = get_trade_price($markets, $market_ids);
+    $coin_to_trade = number_format( $coin_to_trade_raw, 8, '.', ',');
+    $coin_to_trade_worth = ($coin_amount * $coin_to_trade_raw);
+    $coin_to_trade_worth2 = number_format($coin_to_trade_worth, 8, '.', ',');
+    $btc_worth = number_format( ($coin_to_trade_worth * $coin_to_btc), 8 );  // Convert value to bitcoin
+    $_SESSION['btc_worth_array'][] = (string)str_replace(',', '', $btc_worth);  
+    $btc_trade_eq = number_format( ($coin_to_trade * $coin_to_btc), 8);
+    $trade_pairing_description = 'Litecoin';
+    $trade_pairing_symbol = 'LTC';
+    
+    //echo $ltc_to_btc . ' ' . $coin_to_trade . ' | | | ';
+    }
+    else if ( $trade_pairing == 'eth' ) {
+      
+    $coin_to_btc = get_trade_price('poloniex', 'BTC_ETH');
+     
+     if ( $markets == 'eth_subtokens_ico' ) {
+     
+     $coin_to_trade_raw = get_sub_token_price($markets, $market_ids);
+     $coin_to_trade = number_format( $coin_to_trade_raw, 8, '.', ',');
+     $coin_to_trade_worth = ($coin_amount * $coin_to_trade_raw);
+     $coin_to_trade_worth2 = number_format($coin_to_trade_worth, 8, '.', ',');
+     $btc_worth = number_format( ($coin_to_trade_worth * $coin_to_btc), 8 );  // Convert value to bitcoin
+     $_SESSION['btc_worth_array'][] = (string)str_replace(',', '', $btc_worth);  
+     $btc_trade_eq = number_format( ($coin_to_trade * $coin_to_btc), 8);
+     $trade_pairing_description = 'Ethereum';
+     $trade_pairing_symbol = 'ETH';
+     
+     //echo $ltc_to_btc . ' ' . $coin_to_trade . ' | | | ';
+     }
+     else {
+     
+     $coin_to_trade_raw = get_trade_price($markets, $market_ids);
+     $coin_to_trade = number_format( $coin_to_trade_raw, 8, '.', ',');
+     $coin_to_trade_worth = ($coin_amount * $coin_to_trade_raw);
+     $coin_to_trade_worth2 = number_format($coin_to_trade_worth, 8, '.', ',');
+     $btc_worth = number_format( ($coin_to_trade_worth * $coin_to_btc), 8 );  // Convert ltc value to bitcoin
+     $_SESSION['btc_worth_array'][] = (string)str_replace(',', '', $btc_worth);  
+     $btc_trade_eq = number_format( ($coin_to_trade * $coin_to_btc), 8);
+     $trade_pairing_description = 'Ethereum';
+     $trade_pairing_symbol = 'ETH';
+     
+     //echo $ltc_to_btc . ' ' . $coin_to_trade . ' | | | ';
+     }
 
-	  }
-	
-	
-	?>
+    }
+  
+  
+  ?>
 <tr id='<?=strtolower($trade_symbol)?>_row'>
 
 <td class='data border_lb'><span><?php echo $sort_order; ?></span></td>
@@ -1167,7 +1211,7 @@ echo ' <span><span class="data">' . $coin_to_trade_worth2 . '</span> ' . $trade_
   else {
   $coin_usd_worth = ( ($coin_to_trade_worth * $coin_to_btc) * get_btc_usd($btc_in_usd));
   }
-	
+  
 
 echo '$' . number_format($coin_usd_worth, 2, '.', ',');
 
@@ -1176,7 +1220,7 @@ echo '$' . number_format($coin_usd_worth, 2, '.', ',');
 </tr>
 
 <?php
-	}
+  }
 
 }
 //////////////////////////////////////////////////////////
@@ -1189,12 +1233,12 @@ function bitcoin_total() {
 
     if (is_array($_SESSION['btc_worth_array']) || is_object($_SESSION['btc_worth_array'])) {
       
-	foreach ( $_SESSION['btc_worth_array'] as $coin_value ) {
-	
-	$total_value = ($coin_value + $total_value);
-	
-	}
-	
+  foreach ( $_SESSION['btc_worth_array'] as $coin_value ) {
+  
+  $total_value = ($coin_value + $total_value);
+  
+  }
+  
     }
 
 return $total_value;
@@ -1216,21 +1260,21 @@ function eth_difficulty() {
   var_dump($jsondata);
   
       if (is_array($data) || is_object($data)) {
-	
-	    foreach ($data as $key => $value) {
-	      
-	      //print_r($key);
-	      
-	      if ( $key == 'data' ) {
-	       
-	      return $data[$key]["difficulty"]["difficulty"];
-	       
-	       
-	      }
-	    
+  
+      foreach ($data as $key => $value) {
+        
+        //print_r($key);
+        
+        if ( $key == 'data' ) {
+         
+        return $data[$key]["difficulty"]["difficulty"];
+         
+         
+        }
+      
     
-	    }
-	    
+      }
+      
       }
   
  

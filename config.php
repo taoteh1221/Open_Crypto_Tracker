@@ -3,16 +3,20 @@
  * DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
  */
 
+ 
+//apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
+ 
+ 
 session_start();
 require_once("app.lib/php/functions.php");
 require_once("app.lib/php/cookies.php");
 require_once("app.lib/php/init.php");
 
-$version = '1.7.7';  // 2017/JUNE/28TH
+$version = '1.7.8';  // 2017/AUGUST/16TH
 
 
 /*
- * USAGE (ADDING / UPDATING COINS) ...kraken / gatecoin / poloniex / coinbase / bittrex / bitfinex / cryptofresh / bter / gemini / hitbtc / liqui / cryptopia / livecoin BTC, ETH, and ETH subtoken SUPPORT AS OF NOW
+ * USAGE (ADDING / UPDATING COINS) ...kraken / gatecoin / poloniex / coinbase / bittrex / bitfinex / cryptofresh / bter / gemini / hitbtc / liqui / cryptopia / livecoin / mercatox BTC, ETH, and ETH subtoken SUPPORT AS OF NOW
  * Ethereum ICO subtoken support has been built in, but values are static ICO values in ETH
  *
  SEE THE BOTTOM OF THE README.txt FOR FOR AN EXAMPLE SET OF PRE-CONFIGURED ASSETS
@@ -48,7 +52,9 @@ $eth_subtokens_ico_values = array(
                         'GOLEM' => '0.001',
                         'SWARMCITY' => '0.0133333333333333',
                         'ARAGON' => '0.01',
-                        'STATUS' => '0.0001'
+                        'STATUS' => '0.0001',
+                        'INVESTFEED' => '0.0001',
+                        '0XPROJECT' => '0.00016929425'
                         );
 
 
@@ -133,7 +139,8 @@ $coins_array = array(
                                           'livecoin' => 'ETH/BTC',
                                           'liqui' => 'eth_btc',
                                           'bter' => 'eth_btc',
-                                          'cryptofresh' => 'OPEN.ETH'
+                                          'cryptofresh' => 'OPEN.ETH',
+                                          'mercatox' => 'ETH_BTC'
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'ethereum'
@@ -168,7 +175,8 @@ $coins_array = array(
                                           'cryptopia' => 'DASH/BTC',
                                           'liqui' => 'dash_btc',
                                           'bter' => 'dash_btc',
-                                          'tradesatoshi' => 'DASH_BTC'
+                                          'tradesatoshi' => 'DASH_BTC',
+                                          'mercatox' => 'DASH_BTC'
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'dash'
@@ -189,7 +197,8 @@ $coins_array = array(
                                           'liqui' => 'ltc_btc',
                                           'bter' => 'ltc_btc',
                                           'cryptofresh' => 'OPEN.LTC',
-                                          'tradesatoshi' => 'LTC_BTC'
+                                          'tradesatoshi' => 'LTC_BTC',
+                                          'mercatox' => 'LTC_BTC'
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'litecoin'
@@ -208,6 +217,30 @@ $coins_array = array(
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'peercoin'
+                        
+                    ),
+                    'DNT' => array(
+                        
+                        'coin_name' => 'District0x',
+                        'coin_symbol' => 'DNT',
+                        'market_ids' => array(
+                                          'liqui' => 'dnt_btc',
+                                          'hitbtc' => 'DNTBTC',
+                                          'mercatox' => 'DNT_BTC'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'district0x'
+                        
+                    ),
+                    'ZXR' => array(
+                        
+                        'coin_name' => 'oxProject',
+                        'coin_symbol' => 'ZXR',
+                        'market_ids' => array(
+                                          'mercatox' => 'ZRX_BTC'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => '0x'
                         
                     ),
                     'SNT' => array(
@@ -231,7 +264,8 @@ $coins_array = array(
                         'market_ids' => array(
                                           'poloniex' => 'BTC_GNT',
                                           'bittrex' => 'BTC-GNT',
-                                          'liqui' => 'gnt_btc'
+                                          'liqui' => 'gnt_btc',
+                                          'mercatox' => 'GNT_BTC'
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'golem-network-tokens'

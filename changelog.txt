@@ -523,6 +523,12 @@ Minor GUI tweaks
 -Updated classic / interesting coin examples (default) configuration (see README.TXT for customization)
 -------------------------------------------------------------------
 
+-------------------------------------------------------------------
+1.7.8:
+-Added Mercatox market support
+-Updated example coins lists
+-------------------------------------------------------------------
+
 
 
 

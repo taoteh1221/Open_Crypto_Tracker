@@ -25,7 +25,7 @@ STEEM: taoteh1221
 OTHER CRYPTOCURRENCIES AND PAYPAL ACCEPTED HERE: https://dragonfrugal.com/donate/
 
 /*
- * USAGE (ADDING / UPDATING COINS) ...kraken / gatecoin / poloniex / coinbase / bittrex / bitfinex / cryptofresh / bter / gemini / hitbtc / liqui / cryptopia / livecoin BTC, ETH, and ETH subtoken SUPPORT AS OF NOW
+ * USAGE (ADDING / UPDATING COINS) ...kraken / gatecoin / poloniex / coinbase / bittrex / bitfinex / cryptofresh / bter / gemini / hitbtc / liqui / cryptopia / livecoin / mercatox BTC, ETH, and ETH subtoken SUPPORT AS OF NOW
  * Ethereum ICO subtoken support has been built in, but values are static ICO values in ETH
  *
  SEE THE BOTTOM OF THE README.txt FOR FOR AN EXAMPLE SET OF PRE-CONFIGURED ASSETS
@@ -125,7 +125,8 @@ $coins_array = array(
                                           'livecoin' => 'ETH/BTC',
                                           'liqui' => 'eth_btc',
                                           'bter' => 'eth_btc',
-                                          'cryptofresh' => 'OPEN.ETH'
+                                          'cryptofresh' => 'OPEN.ETH',
+                                          'mercatox' => 'ETH_BTC'
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'ethereum'
@@ -160,7 +161,8 @@ $coins_array = array(
                                           'cryptopia' => 'DASH/BTC',
                                           'liqui' => 'dash_btc',
                                           'bter' => 'dash_btc',
-                                          'tradesatoshi' => 'DASH_BTC'
+                                          'tradesatoshi' => 'DASH_BTC',
+                                          'mercatox' => 'DASH_BTC'
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'dash'
@@ -181,7 +183,8 @@ $coins_array = array(
                                           'liqui' => 'ltc_btc',
                                           'bter' => 'ltc_btc',
                                           'cryptofresh' => 'OPEN.LTC',
-                                          'tradesatoshi' => 'LTC_BTC'
+                                          'tradesatoshi' => 'LTC_BTC',
+                                          'mercatox' => 'LTC_BTC'
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'litecoin'
@@ -200,6 +203,30 @@ $coins_array = array(
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'peercoin'
+                        
+                    ),
+                    'DNT' => array(
+                        
+                        'coin_name' => 'District0x',
+                        'coin_symbol' => 'DNT',
+                        'market_ids' => array(
+                                          'liqui' => 'dnt_btc',
+                                          'hitbtc' => 'DNTBTC',
+                                          'mercatox' => 'DNT_BTC'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'district0x'
+                        
+                    ),
+                    'ZXR' => array(
+                        
+                        'coin_name' => 'oxProject',
+                        'coin_symbol' => 'ZXR',
+                        'market_ids' => array(
+                                          'mercatox' => 'ZRX_BTC'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => '0x'
                         
                     ),
                     'SNT' => array(
@@ -223,7 +250,8 @@ $coins_array = array(
                         'market_ids' => array(
                                           'poloniex' => 'BTC_GNT',
                                           'bittrex' => 'BTC-GNT',
-                                          'liqui' => 'gnt_btc'
+                                          'liqui' => 'gnt_btc',
+                                          'mercatox' => 'GNT_BTC'
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'golem-network-tokens'
@@ -356,7 +384,8 @@ $coins_array = array(
                                           'kraken' => 'XREPXXBT',
                                           'gatecoin' => 'REPBTC',
                                           'liqui' => 'rep_btc',
-                                          'bter' => 'rep_btc'
+                                          'bter' => 'rep_btc',
+                                          'mercatox' => 'REP_BTC'
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'augur'
@@ -371,7 +400,8 @@ $coins_array = array(
                                           'bittrex' => 'BTC-GNO',
                                           'kraken' => 'GNOXBT',
                                           'hitbtc' => 'GNOBTC',
-                                          'liqui' => 'gno_btc'
+                                          'liqui' => 'gno_btc',
+                                          'mercatox' => 'GNO_BTC'
                                           ),
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'gnosis-gno'
@@ -415,9 +445,23 @@ $coins_array = array(
                         'trade_pair' => 'btc',
                         'coinmarketcap' => 'ripple'
                         
+                    ),
+                    'IFT' => array(
+                        
+                        'coin_name' => 'Feed',
+                        'coin_symbol' => 'IFT',
+                        'market_ids' => array(
+                                          'cryptopia' => 'IFT/BTC'
+                                          ),
+                        'trade_pair' => 'btc',
+                        'coinmarketcap' => 'investfeed'
+                        
                     )
                 
                 
 );
 
 /////////////////// COIN MARKETS CONFIG -END- ////////////////////////////////////////////////////
+
+
+
