@@ -54,6 +54,32 @@ OTHER CRYPTOCURRENCIES AND PAYPAL ACCEPTED HERE: https://dragonfrugal.com/donate
 BELOW IS AN !---EXAMPLE---! SET OF ASSETS FULLY CONFIGURED TO THE LATEST MARKETS AT THE TIME OF THIS WRITING (2017-JUNE-28TH). PLEASE NOTE THIS IS PROVIDED TO ASSIST YOU IN ADDING YOUR PARTICULAR FAVORITE ASSETS TO THE DEFAULT LIST, AND !---IN NO WAY---! INDICATES ENDORSEMENT OF !---ANY---! OF THESE ASSETS:
 
 
+/////////////////// GENERAL CONFIG -START- ////////////////////////////////////////////////////
+
+$btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken / hitbtc / gatecion / livecoin
+
+$eth_subtokens_ico_values = array(
+                        // Static values in ETH for Ethereum subtokens, like during crowdsale periods etc
+                        'ETHSUBTOKENNAME' => '0.15',
+                        'GOLEM' => '0.001',
+                        'SWARMCITY' => '0.0133333333333333',
+                        'ARAGON' => '0.01',
+                        'STATUS' => '0.0001',
+                        'INVESTFEED' => '0.0001',
+                        '0XPROJECT' => '0.00016929425'
+                        );
+
+
+/*
+ * STEEM Power yearly interest rate START 11/29/2016 (1.425%, decreasing every year by roughly 0.075% until it hits a minimum of 0.075% and stays there)
+ */
+$steempower_yearly_interest = 1.425;  // 1.425 (DON NOT INCLUDE PERCENT SIGN) the first year at 11/29/2016 refactored rates, see above for manual yearly adjustment
+$steem_powerdown_time = 13;  // Weeks to power down all STEEM Power holdings
+
+/////////////////// GENERAL CONFIG -END- ////////////////////////////////////////////////////
+
+
+
 /////////////////// COIN MARKETS CONFIG -START- ////////////////////////////////////////////////////
 
 $coins_array = array(
@@ -218,11 +244,14 @@ $coins_array = array(
                         'coinmarketcap' => 'district0x'
                         
                     ),
-                    'ZXR' => array(
+                    'ZRX' => array(
                         
                         'coin_name' => 'oxProject',
-                        'coin_symbol' => 'ZXR',
+                        'coin_symbol' => 'ZRX',
                         'market_ids' => array(
+                                          'poloniex' => 'BTC_ZRX',
+                                          'liqui' => 'zrx_btc',
+                                          'hitbtc' => 'ZRXBTC',
                                           'mercatox' => 'ZRX_BTC'
                                           ),
                         'trade_pair' => 'btc',

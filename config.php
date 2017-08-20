@@ -12,7 +12,7 @@ require_once("app.lib/php/functions.php");
 require_once("app.lib/php/cookies.php");
 require_once("app.lib/php/init.php");
 
-$version = '1.7.8';  // 2017/AUGUST/16TH
+$version = '1.7.9';  // 2017/AUGUST/19TH
 
 
 /*
@@ -232,11 +232,14 @@ $coins_array = array(
                         'coinmarketcap' => 'district0x'
                         
                     ),
-                    'ZXR' => array(
+                    'ZRX' => array(
                         
                         'coin_name' => 'oxProject',
-                        'coin_symbol' => 'ZXR',
+                        'coin_symbol' => 'ZRX',
                         'market_ids' => array(
+                                          'poloniex' => 'BTC_ZRX',
+                                          'liqui' => 'zrx_btc',
+                                          'hitbtc' => 'ZRXBTC',
                                           'mercatox' => 'ZRX_BTC'
                                           ),
                         'trade_pair' => 'btc',
