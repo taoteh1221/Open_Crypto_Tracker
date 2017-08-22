@@ -77,7 +77,7 @@ if (is_array($coins_array) || is_object($coins_array)) {
         
         
         }
-    
+    $trade_pairing = $coin['default_pairing'];
     ?>
     
     <p>
@@ -85,11 +85,11 @@ if (is_array($coins_array) || is_object($coins_array)) {
     <?=$coin['coin_name']?> (<?=strtoupper($coin['coin_symbol'])?>) 
     <?php
     // Only support for multiple markets per coin with BTC trade pairing
-    if ( $coin['trade_pair'] == 'btc' || $coin['trade_pair'] == 'eth' ) {
+    if ( $trade_pairing == 'btc' || $trade_pairing == 'eth' ) {
     ?>
-    <?=( $coin['coin_symbol'] != 'BTC' ? strtoupper($coin['trade_pair']) : 'USD' )?> Market is <select id='<?=$field_var_market?>' name='<?=$field_var_market?>'>
+    <?=( $coin['coin_symbol'] != 'BTC' ? strtoupper($trade_pairing) : 'USD' )?> Market is <select id='<?=$field_var_market?>' name='<?=$field_var_market?>'>
         <?php
-        foreach ( $coin['market_ids'] as $market_key => $market_id ) {
+        foreach ( $coin['market_ids'][$trade_pairing] as $market_key => $market_id ) {
          $loop = $loop + 1;
         ?>
         <option value='<?=$loop?>' <?=( isset($_POST[$field_var_market]) && ($_POST[$field_var_market]) == $loop || isset($coin_market_id) && ($coin_market_id) == $loop ? ' selected ' : '' )?>> <?=ucwords(preg_replace("/_/i", " ", $market_key))?> </option>
@@ -102,7 +102,7 @@ if (is_array($coins_array) || is_object($coins_array)) {
     }
     else {
     ?>
-    <?=( $coin['coin_symbol'] != 'BTC' ? strtoupper($coin['trade_pair']) : 'USD' )?> Market is <?=ucwords(preg_replace("/_/i", " ", $coin['market_ids'][0]))?>, and 
+    <?=( $coin['coin_symbol'] != 'BTC' ? strtoupper($trade_pairing) : 'USD' )?> Market is <?=ucwords(preg_replace("/_/i", " ", $coin['market_ids'][0]))?>, and 
     <?php
     }
     ?>

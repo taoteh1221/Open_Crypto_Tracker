@@ -39,10 +39,11 @@ if ( $_POST['submit_check'] == 1 ) {
 		  
 		  $coin_symbol = strtoupper(preg_replace("/_amount/i", "", $key));
 		  $chosen_market = ($_POST[strtolower($coin_symbol).'_market'] - 1);
+		  $trade_pairing = $coins_array[$coin_symbol]['default_pairing'];
 		  			
 
 		// Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
-		  coin_data($coins_array[$coin_symbol]['coin_name'], $coin_symbol, $value, $chosen_market, $coins_array[$coin_symbol]['market_ids'], $coins_array[$coin_symbol]['trade_pair'], $sort_order);
+		  coin_data($coins_array[$coin_symbol]['coin_name'], $coin_symbol, $value, $chosen_market, $coins_array[$coin_symbol]['market_ids'][$trade_pairing], $trade_pairing, $sort_order);
 		  
 		  
 		  }
@@ -88,6 +89,7 @@ $all_coins_cookie_array = explode("#", $_COOKIE['coin_amounts']);
 	   
 	   $coin_symbol = strtoupper(preg_replace("/_amount/i", "", $single_coin_cookie_array[0]));
 	   $chosen_market = ($all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_market'] -1);
+	   $trade_pairing = $coins_array[$coin_symbol]['default_pairing'];
 			
 	     if ( $coin_symbol == 'BTC' && !$btc_market ) {
 	     $btc_market = ($all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_market'] -1);
@@ -102,7 +104,7 @@ $all_coins_cookie_array = explode("#", $_COOKIE['coin_amounts']);
 	   //var_dump($all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_amount']);
 	   
 		// Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
-	   coin_data($coins_array[$coin_symbol]['coin_name'], $coin_symbol, $all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_amount'], $chosen_market, $coins_array[$coin_symbol]['market_ids'], $coins_array[$coin_symbol]['trade_pair'], $sort_order);
+	   coin_data($coins_array[$coin_symbol]['coin_name'], $coin_symbol, $all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_amount'], $chosen_market, $coins_array[$coin_symbol]['market_ids'][$trade_pairing], $trade_pairing, $sort_order);
 	   
 	   $sort_order = $sort_order + 1;
 
@@ -126,9 +128,9 @@ $total_usd_worth2 = number_format($total_usd_worth, 2, '.', ',');
 
 echo '<p class="bold_1">Total Bitcoin Value: ' . $total_btc_worth2 . '<br />';
 
-$coins_array_numbered = array_values($coins_array['BTC']['market_ids']);
+$coins_array_numbered = array_values($coins_array['BTC']['market_ids']['btc']);
 
-foreach ( $coins_array['BTC']['market_ids'] as $key => $value ) {
+foreach ( $coins_array['BTC']['market_ids']['btc'] as $key => $value ) {
 $loop = $loop + 1;
 
 	if ( $value == $coins_array_numbered[$btc_market] ) {

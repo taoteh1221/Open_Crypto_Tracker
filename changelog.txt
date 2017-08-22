@@ -534,6 +534,13 @@ Minor GUI tweaks
 -Minor bug fix / tweak
 -------------------------------------------------------------------
 
+-------------------------------------------------------------------
+1.8.0:
+-Reformatted coin configuration structure to include multiple trading pairs
+-Added Binance API support and markets
+-------------------------------------------------------------------
+
+
 
 
 

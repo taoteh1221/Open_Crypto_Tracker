@@ -331,6 +331,20 @@ function get_trade_price($markets, $market_ids) {
   }
 
 
+  elseif ( strtolower($markets) == 'binance' ) {
+  
+  $json_string = 'https://www.binance.com/api/v1/ticker/24hr?symbol=' . $market_ids;
+  
+    $jsondata = @get_data($json_string);
+    
+    $data = json_decode($jsondata, TRUE);
+    
+    return number_format( $data['lastPrice'], 8, '.', '');
+    
+  
+  }
+
+
 
   
     elseif ( strtolower($markets) == 'coinbase' ) {
@@ -922,7 +936,7 @@ global $_POST, $coins_array, $btc_in_usd, $alert_percent;
 
 $orig_markets = $markets;  // Save this for dynamic HTML form
 
-$all_markets = $coins_array[$trade_symbol]['market_ids'];  // Get all markets for this coin
+$all_markets = $coins_array[$trade_symbol]['market_ids'][$trade_pairing];  // Get all markets for this coin
 
   // Update, get the selected market name
     // Only support for multiple markets per coin with BTC trade pairing
