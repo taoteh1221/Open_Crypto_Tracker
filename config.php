@@ -12,7 +12,7 @@ require_once("app.lib/php/functions.php");
 require_once("app.lib/php/cookies.php");
 require_once("app.lib/php/init.php");
 
-$version = '1.8.0';  // 2017/AUGUST/22ND
+$version = '1.8.1';  // 2017/SEPTEMBER/1ST
 
 
 /*
@@ -151,11 +151,15 @@ $coins_array = array(
                                           'bitfinex' => 'ethbtc',
                                           'gemini' => 'ethbtc',
                                           'bittrex' => 'BTC-ETH',
+                                          'binance' => 'ETHBTC',
                                           'livecoin' => 'ETH/BTC',
                                           'liqui' => 'eth_btc',
                                           'bter' => 'eth_btc',
                                           'cryptofresh' => 'OPEN.ETH',
                                           'mercatox' => 'ETH_BTC'
+                                                    ),
+                                    'ltc' => array(
+                                          'cryptopia' => 'ETH/LTC'
                                                     )
                                         ),
                         'default_pairing' => 'btc'
@@ -240,6 +244,10 @@ $coins_array = array(
                                         'cryptofresh' => 'OPEN.LTC',
                                         'tradesatoshi' => 'LTC_BTC',
                                         'mercatox' => 'LTC_BTC'
+                                                    ),
+                                    'eth' => array(
+                                          'bittrex' => 'ETH-LTC',
+                                          'liqui' => 'ltc_eth'
                                                     )
                                         ),
                         'default_pairing' => 'btc'
@@ -312,6 +320,13 @@ $coins_array = array(
                                           'bittrex' => 'BTC-SNT',
                                           'gatecoin' => 'SNTBTC',
                                           'liqui' => 'snt_btc'
+                                                    ),
+                                    'eth' => array(
+                                          'bittrex' => 'ETH-SNT',
+                                          'gatecoin' => 'SNTETH',
+                                          'hitbtc' => 'SNTETH',
+                                          'binance' => 'SNTETH',
+                                          'liqui' => 'snt_eth'
                                                     )
                                         ),
                         'default_pairing' => 'btc'
@@ -422,6 +437,54 @@ $coins_array = array(
                                           'poloniex' => 'BTC_FCT',
                                           'bittrex' => 'BTC-FCT',
                                           'cryptopia' => 'FCT/BTC'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
+                        
+                    ),
+                    // LUN
+                    'LUN' => array(
+                        
+                        'coin_name' => 'Lunyr',
+                        'coin_symbol' => 'LUN',
+                        'coinmarketcap' => 'lunyr',
+                        'market_ids' => array(
+                                    'btc' => array(
+                                          'bittrex' => 'BTC-LUN',
+                                          'liqui' => 'lun_btc'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
+                        
+                    ),
+                    // XLM
+                    'XLM' => array(
+                        
+                        'coin_name' => 'Stellar',
+                        'coin_symbol' => 'XLM',
+                        'coinmarketcap' => 'stellar',
+                        'market_ids' => array(
+                                    'btc' => array(
+                                          'poloniex' => 'BTC_STR',
+                                          'bittrex' => 'BTC-XLM',
+                                          'kraken' => 'XXLMXXBT'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
+                        
+                    ),
+                    // XRP
+                    'XRP' => array(
+                        
+                        'coin_name' => 'Ripple',
+                        'coin_symbol' => 'XRP',
+                        'coinmarketcap' => 'ripple',
+                        'market_ids' => array(
+                                    'btc' => array(
+                                          'poloniex' => 'BTC_XRP',
+                                          'bittrex' => 'BTC-XRP',
+                                          'kraken' => 'XXRPXXBT',
+                                          'bitfinex' => 'xrpbtc'
                                                     )
                                         ),
                         'default_pairing' => 'btc'

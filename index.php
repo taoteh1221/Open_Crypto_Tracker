@@ -3,14 +3,6 @@
  * DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
  */
 
- // Start measuring page load time
-$time = microtime();
-$time = explode(' ', $time);
-$time = $time[1] + $time[0];
-$start = $time;
-
-require("config.php");
-
 require("templates/default/header.php");
 
 ?>
@@ -62,8 +54,6 @@ require("templates/default/header.php");
 			<h3 style='color: red;'>Help</h3>
 			<?php require("sections/help.php"); ?>
 		</div>
-
-
 
 
 <?php

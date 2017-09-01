@@ -1,4 +1,14 @@
-<!DOCTYPE html>
+<?php
+
+// Start measuring page load time
+$time = microtime();
+$time = explode(' ', $time);
+$time = $time[1] + $time[0];
+$start = $time;
+
+require("config.php");
+
+?><!DOCTYPE html>
 <html>
     <!-- /*
  * DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
@@ -40,7 +50,8 @@
     </audio>
 
     <div align='center' style='width: 98%;'>
-        <div align='left' style='width: 98%; max-width: 98%; min-width: 1175px;'>
+        <div align='center' style='min-width: 1320px;'>
+            <div align='left' style=' width: 1320px; margin: auto;'>
         <!- header END -->
 
 

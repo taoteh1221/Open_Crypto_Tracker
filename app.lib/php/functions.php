@@ -939,9 +939,7 @@ $orig_markets = $markets;  // Save this for dynamic HTML form
 $all_markets = $coins_array[$trade_symbol]['market_ids'][$trade_pairing];  // Get all markets for this coin
 
   // Update, get the selected market name
-    // Only support for multiple markets per coin with BTC trade pairing
-  if ( $trade_pairing == 'btc' || $trade_pairing == 'eth' ) {
-
+  
   $loop = 0;
    foreach ( $all_markets as $key => $value ) {
    
@@ -957,12 +955,6 @@ $all_markets = $coins_array[$trade_symbol]['market_ids'][$trade_pairing];  // Ge
    $loop = $loop + 1;
    }
   $loop = NULL; 
-
-  }
-  else {
-  //var_dump($all_markets);
-  }
-
 
 
 if ( $_SESSION['btc_in_usd'] ) {
@@ -999,7 +991,7 @@ $market_ids = $market_ids[$markets];
     }
     else if ( $trade_pairing == 'ltc' ) {
       
-    $coin_to_btc = get_trade_price($markets, 3);
+    $coin_to_btc = get_trade_price('poloniex', 'BTC_LTC');
     
     $coin_to_trade_raw = get_trade_price($markets, $market_ids);
     $coin_to_trade = number_format( $coin_to_trade_raw, 8, '.', ',');
@@ -1055,12 +1047,7 @@ $market_ids = $market_ids[$markets];
 <td class='data border_lb'><span><?php echo $sort_order; ?></span></td>
 
 <td class='data border_lb'>
-<?php
-
-    
-    // Only support for multiple markets per coin with BTC trade pairing
-    if ( $trade_pairing == 'btc' || $trade_pairing == 'eth' ) {
-    ?>
+ 
     <select name='change_<?=strtolower($trade_symbol)?>_market' onchange='
     document.coin_amounts.<?=strtolower($trade_symbol)?>_market.value = this.value; document.coin_amounts.submit();
     '>
@@ -1074,15 +1061,8 @@ $market_ids = $market_ids[$markets];
         $loop = NULL;
         ?>
     </select>
-    <?php
-    }
-    else {
-    //echo ucwords(preg_replace("/_/i", " ", $markets));
-    }
-    
-  
 
-?></td>
+</td>
 
 <td class='data border_lb' align='right' style='position: relative; padding-right: 32px;'>
  

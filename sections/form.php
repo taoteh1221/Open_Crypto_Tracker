@@ -83,11 +83,8 @@ if (is_array($coins_array) || is_object($coins_array)) {
     <p>
        
     <?=$coin['coin_name']?> (<?=strtoupper($coin['coin_symbol'])?>) 
-    <?php
-    // Only support for multiple markets per coin with BTC trade pairing
-    if ( $trade_pairing == 'btc' || $trade_pairing == 'eth' ) {
-    ?>
-    <?=( $coin['coin_symbol'] != 'BTC' ? strtoupper($trade_pairing) : 'USD' )?> Market is <select id='<?=$field_var_market?>' name='<?=$field_var_market?>'>
+    
+    <?=( $coin['coin_symbol'] != 'BTC' ? strtoupper($trade_pairing) : 'USD' )?> market is <select id='<?=$field_var_market?>' name='<?=$field_var_market?>'>
         <?php
         foreach ( $coin['market_ids'][$trade_pairing] as $market_key => $market_id ) {
          $loop = $loop + 1;
@@ -97,16 +94,7 @@ if (is_array($coins_array) || is_object($coins_array)) {
         }
         $loop = NULL;
         ?>
-    </select>, and 
-    <?php
-    }
-    else {
-    ?>
-    <?=( $coin['coin_symbol'] != 'BTC' ? strtoupper($trade_pairing) : 'USD' )?> Market is <?=ucwords(preg_replace("/_/i", " ", $coin['market_ids'][0]))?>, and 
-    <?php
-    }
-    ?>
-     Amount is <input type='text' size='40' id='<?=$field_var_amount?>' name='<?=$field_var_amount?>' value='<?=$coin_amount_value?>' />
+    </select>, and amount is <input type='text' size='40' id='<?=$field_var_amount?>' name='<?=$field_var_amount?>' value='<?=$coin_amount_value?>' />
     
     </p>
     

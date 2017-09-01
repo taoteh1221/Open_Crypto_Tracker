@@ -540,6 +540,12 @@ Minor GUI tweaks
 -Added Binance API support and markets
 -------------------------------------------------------------------
 
+-------------------------------------------------------------------
+1.8.1:
+-CSS styling to center valus table
+-Bug fix for LTC trading pair support
+-------------------------------------------------------------------
+
 
 
 

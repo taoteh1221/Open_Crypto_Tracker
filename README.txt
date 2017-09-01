@@ -63,7 +63,8 @@ OTHER CRYPTOCURRENCIES AND PAYPAL ACCEPTED HERE: https://dragonfrugal.com/donate
  * 
  */
  
-BELOW IS AN !---EXAMPLE---! SET OF ASSETS FULLY CONFIGURED TO THE LATEST MARKETS AT THE TIME OF THIS WRITING (2017-JUNE-28TH). PLEASE NOTE THIS IS PROVIDED TO ASSIST YOU IN ADDING YOUR PARTICULAR FAVORITE ASSETS TO THE DEFAULT LIST, AND !---IN NO WAY---! INDICATES ENDORSEMENT OF !---ANY---! OF THESE ASSETS:
+BELOW IS AN !---EXAMPLE---! SET OF ASSETS FULLY CONFIGURED TO THE LATEST MARKETS AT THE TIME OF THIS VERSION RELEASE. PLEASE NOTE THIS IS PROVIDED TO ASSIST YOU IN ADDING YOUR PARTICULAR FAVORITE ASSETS TO THE DEFAULT LIST, AND !---IN NO WAY---! INDICATES ENDORSEMENT OF !---ANY---! OF THESE ASSETS:
+
 
 
 /////////////////// GENERAL CONFIG -START- ////////////////////////////////////////////////////
@@ -161,11 +162,15 @@ $coins_array = array(
                                           'bitfinex' => 'ethbtc',
                                           'gemini' => 'ethbtc',
                                           'bittrex' => 'BTC-ETH',
+                                          'binance' => 'ETHBTC',
                                           'livecoin' => 'ETH/BTC',
                                           'liqui' => 'eth_btc',
                                           'bter' => 'eth_btc',
                                           'cryptofresh' => 'OPEN.ETH',
                                           'mercatox' => 'ETH_BTC'
+                                                    ),
+                                    'ltc' => array(
+                                          'cryptopia' => 'ETH/LTC'
                                                     )
                                         ),
                         'default_pairing' => 'btc'
@@ -250,6 +255,10 @@ $coins_array = array(
                                         'cryptofresh' => 'OPEN.LTC',
                                         'tradesatoshi' => 'LTC_BTC',
                                         'mercatox' => 'LTC_BTC'
+                                                    ),
+                                    'eth' => array(
+                                          'bittrex' => 'ETH-LTC',
+                                          'liqui' => 'ltc_eth'
                                                     )
                                         ),
                         'default_pairing' => 'btc'
@@ -322,6 +331,13 @@ $coins_array = array(
                                           'bittrex' => 'BTC-SNT',
                                           'gatecoin' => 'SNTBTC',
                                           'liqui' => 'snt_btc'
+                                                    ),
+                                    'eth' => array(
+                                          'bittrex' => 'ETH-SNT',
+                                          'gatecoin' => 'SNTETH',
+                                          'hitbtc' => 'SNTETH',
+                                          'binance' => 'SNTETH',
+                                          'liqui' => 'snt_eth'
                                                     )
                                         ),
                         'default_pairing' => 'btc'
@@ -452,37 +468,6 @@ $coins_array = array(
                         'default_pairing' => 'btc'
                         
                     ),
-                    // TRST
-                    'TRST' => array(
-                        
-                        'coin_name' => 'WeTrust',
-                        'coin_symbol' => 'TRST',
-                        'coinmarketcap' => 'trust',
-                        'market_ids' => array(
-                                    'btc' => array(
-                                          'bittrex' => 'BTC-TRST',
-                                          'hitbtc' => 'TRSTBTC',
-                                          'liqui' => 'trst_btc'
-                                                    )
-                                        ),
-                        'default_pairing' => 'btc'
-                        
-                    ),
-                    // TKN
-                    'TKN' => array(
-                        
-                        'coin_name' => 'TokenCard',
-                        'coin_symbol' => 'TKN',
-                        'coinmarketcap' => 'tokencard',
-                        'market_ids' => array(
-                                    'btc' => array(
-                                          'bittrex' => 'BTC-TKN',
-                                          'liqui' => 'tkn_btc'
-                                                    )
-                                        ),
-                        'default_pairing' => 'btc'
-                        
-                    ),
                     // XLM
                     'XLM' => array(
                         
@@ -515,25 +500,10 @@ $coins_array = array(
                                         ),
                         'default_pairing' => 'btc'
                         
-                    ),
-                    // IFT
-                    'IFT' => array(
-                        
-                        'coin_name' => 'Feed',
-                        'coin_symbol' => 'IFT',
-                        'coinmarketcap' => 'investfeed',
-                        'market_ids' => array(
-                                    'btc' => array(
-                                          'cryptopia' => 'IFT/BTC'
-                                                    )
-                                        ),
-                        'default_pairing' => 'btc'
-                        
                     )
                 
                 
 );
 
 /////////////////// COIN MARKETS CONFIG -END- ////////////////////////////////////////////////////
-
 
