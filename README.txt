@@ -4,7 +4,7 @@ Developed by Michael Kilday <mike@dragonfrugal.com>, released free / open source
 https://dragonfrugal.com/downloads/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Just upload to your PHP-based web server, and you should be all set. You must have curl modules activated on your HTTP server, most web hosting companies provide this already. Contact your hosting provider if you encounter issues getting the real-time prices feeds from exchanges, and ask if curl is setup already. See below for an example on adding / editing your own markets into the coin list in config.php...it's very quick / easy to do (see bottom of this file for a pre-configured example set of assets / markets). Currently only BTC / ETH based markets are compatible. Contact any supported exchanges help desk if you are unaware of the correct formatting of the trading pair name you are adding in the API configuration file (example: kraken has abitrary Xs inserted everywhere in SOME older pair names).
+Just upload to your PHP-based web server, and you should be all set. You must have curl modules activated on your HTTP server, most web hosting companies provide this already. Contact your hosting provider if you encounter issues getting the real-time prices feeds from exchanges, and ask if curl is setup already. See below for an example on adding / editing your own markets into the coin list in config.php...it's very quick / easy to do (see bottom of this file for a pre-configured example set of assets / markets). Currently BTC / ETH / LTC / USDT based market pairing is compatible. Contact any supported exchanges help desk if you are unaware of the correct formatting of the trading pair name you are adding in the API configuration file (example: kraken has abitrary Xs inserted everywhere in SOME older pair names).
 
 Feature requests and bug reports can be filed at the following URLS:
 
@@ -25,7 +25,7 @@ STEEM: taoteh1221
 OTHER CRYPTOCURRENCIES AND PAYPAL ACCEPTED HERE: https://dragonfrugal.com/donate/
 
 /*
- * USAGE (ADDING / UPDATING COINS) ...kraken / gatecoin / poloniex / coinbase / bittrex / bitfinex / cryptofresh / bter / gemini / hitbtc / liqui / cryptopia / livecoin / mercatox BTC, ETH, and LTC SUPPORT AS OF NOW
+ * USAGE (ADDING / UPDATING COINS) ...API support for: kraken / gatecoin / poloniex / coinbase / bittrex / bitfinex / cryptofresh / bter / gemini / hitbtc / liqui / cryptopia / livecoin / mercatox...BTC, ETH, LTC, AND USDT trading pair support
  * Ethereum ICO subtoken support has been built in, but values are static ICO values in ETH
  *
  SEE THE BOTTOM OF THE README.txt FOR FOR AN EXAMPLE SET OF PRE-CONFIGURED ASSETS
@@ -63,7 +63,7 @@ OTHER CRYPTOCURRENCIES AND PAYPAL ACCEPTED HERE: https://dragonfrugal.com/donate
  * 
  */
  
-BELOW IS AN !---EXAMPLE---! SET OF ASSETS FULLY CONFIGURED TO THE LATEST MARKETS AT THE TIME OF THIS VERSION RELEASE. PLEASE NOTE THIS IS PROVIDED TO ASSIST YOU IN ADDING YOUR PARTICULAR FAVORITE ASSETS TO THE DEFAULT LIST, AND !---IN NO WAY---! INDICATES ENDORSEMENT OF !---ANY---! OF THESE ASSETS:
+BELOW IS AN !---EXAMPLE---! SET OF CONFIGURED ASSETS. PLEASE NOTE THIS IS PROVIDED TO ASSIST YOU IN ADDING YOUR PARTICULAR FAVORITE ASSETS TO THE DEFAULT LIST, AND !---IN NO WAY---! INDICATES ENDORSEMENT OF !---ANY---! OF THESE ASSETS:
 
 
 
@@ -171,6 +171,9 @@ $coins_array = array(
                                                     ),
                                     'ltc' => array(
                                           'cryptopia' => 'ETH/LTC'
+                                                    ),
+                                    'usdt' => array(
+                                          'poloniex' => 'USDT_ETH'
                                                     )
                                         ),
                         'default_pairing' => 'btc'
@@ -291,6 +294,7 @@ $coins_array = array(
                                     'btc' => array(
                                           'liqui' => 'dnt_btc',
                                           'hitbtc' => 'DNTBTC',
+                                          'bter' => 'dnt_btc',
                                           'mercatox' => 'DNT_BTC'
                                                     ),
                                     'eth' => array(
@@ -313,6 +317,8 @@ $coins_array = array(
                                           'poloniex' => 'BTC_ZRX',
                                           'liqui' => 'zrx_btc',
                                           'hitbtc' => 'ZRXBTC',
+                                          'gatecoin' => 'ZRXBTC',
+                                          'bter' => 'zrx_btc',
                                           'mercatox' => 'ZRX_BTC'
                                                     )
                                         ),
@@ -350,11 +356,17 @@ $coins_array = array(
                         'coin_symbol' => 'MANA',
                         'coinmarketcap' => '',
                         'market_ids' => array(
+                                    'btc' => array(
+                                          'gatecoin' => 'MANBTC'
+                                                    ),
                                     'eth' => array(
-                                          'eth_subtokens_ico' => 'DECENTRALAND'
+                                          'gatecoin' => 'MANETH'
+                                                    ),
+                                    'usdt' => array(
+                                          'hitbtc' => 'MANAUSD'
                                                     )
                                         ),
-                        'default_pairing' => 'eth'
+                        'default_pairing' => 'btc'
                         
                     ),
                     // GNT
@@ -448,21 +460,6 @@ $coins_array = array(
                                           'poloniex' => 'BTC_FCT',
                                           'bittrex' => 'BTC-FCT',
                                           'cryptopia' => 'FCT/BTC'
-                                                    )
-                                        ),
-                        'default_pairing' => 'btc'
-                        
-                    ),
-                    // LUN
-                    'LUN' => array(
-                        
-                        'coin_name' => 'Lunyr',
-                        'coin_symbol' => 'LUN',
-                        'coinmarketcap' => 'lunyr',
-                        'market_ids' => array(
-                                    'btc' => array(
-                                          'bittrex' => 'BTC-LUN',
-                                          'liqui' => 'lun_btc'
                                                     )
                                         ),
                         'default_pairing' => 'btc'

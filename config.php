@@ -12,11 +12,11 @@ require_once("app.lib/php/functions.php");
 require_once("app.lib/php/cookies.php");
 require_once("app.lib/php/init.php");
 
-$version = '1.8.1';  // 2017/SEPTEMBER/1ST
+$version = '1.8.2';  // 2017/SEPTEMBER/5TH
 
 
 /*
- * USAGE (ADDING / UPDATING COINS) ...kraken / gatecoin / poloniex / coinbase / bittrex / bitfinex / cryptofresh / bter / gemini / hitbtc / liqui / cryptopia / livecoin / mercatox BTC, ETH, and LTC SUPPORT AS OF NOW
+ * USAGE (ADDING / UPDATING COINS) ...API support for: kraken / gatecoin / poloniex / coinbase / bittrex / bitfinex / cryptofresh / bter / gemini / hitbtc / liqui / cryptopia / livecoin / mercatox...BTC, ETH, LTC, AND USDT trading pair support
  * Ethereum ICO subtoken support has been built in, but values are static ICO values in ETH
  *
  SEE THE BOTTOM OF THE README.txt FOR FOR AN EXAMPLE SET OF PRE-CONFIGURED ASSETS
@@ -160,6 +160,9 @@ $coins_array = array(
                                                     ),
                                     'ltc' => array(
                                           'cryptopia' => 'ETH/LTC'
+                                                    ),
+                                    'usdt' => array(
+                                          'poloniex' => 'USDT_ETH'
                                                     )
                                         ),
                         'default_pairing' => 'btc'
@@ -280,6 +283,7 @@ $coins_array = array(
                                     'btc' => array(
                                           'liqui' => 'dnt_btc',
                                           'hitbtc' => 'DNTBTC',
+                                          'bter' => 'dnt_btc',
                                           'mercatox' => 'DNT_BTC'
                                                     ),
                                     'eth' => array(
@@ -302,6 +306,8 @@ $coins_array = array(
                                           'poloniex' => 'BTC_ZRX',
                                           'liqui' => 'zrx_btc',
                                           'hitbtc' => 'ZRXBTC',
+                                          'gatecoin' => 'ZRXBTC',
+                                          'bter' => 'zrx_btc',
                                           'mercatox' => 'ZRX_BTC'
                                                     )
                                         ),
@@ -339,11 +345,17 @@ $coins_array = array(
                         'coin_symbol' => 'MANA',
                         'coinmarketcap' => '',
                         'market_ids' => array(
+                                    'btc' => array(
+                                          'gatecoin' => 'MANBTC'
+                                                    ),
                                     'eth' => array(
-                                          'eth_subtokens_ico' => 'DECENTRALAND'
+                                          'gatecoin' => 'MANETH'
+                                                    ),
+                                    'usdt' => array(
+                                          'hitbtc' => 'MANAUSD'
                                                     )
                                         ),
-                        'default_pairing' => 'eth'
+                        'default_pairing' => 'btc'
                         
                     ),
                     // GNT
@@ -437,21 +449,6 @@ $coins_array = array(
                                           'poloniex' => 'BTC_FCT',
                                           'bittrex' => 'BTC-FCT',
                                           'cryptopia' => 'FCT/BTC'
-                                                    )
-                                        ),
-                        'default_pairing' => 'btc'
-                        
-                    ),
-                    // LUN
-                    'LUN' => array(
-                        
-                        'coin_name' => 'Lunyr',
-                        'coin_symbol' => 'LUN',
-                        'coinmarketcap' => 'lunyr',
-                        'market_ids' => array(
-                                    'btc' => array(
-                                          'bittrex' => 'BTC-LUN',
-                                          'liqui' => 'lun_btc'
                                                     )
                                         ),
                         'default_pairing' => 'btc'

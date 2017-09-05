@@ -542,9 +542,16 @@ Minor GUI tweaks
 
 -------------------------------------------------------------------
 1.8.1:
--CSS styling to center valus table
+-CSS styling to center values table
 -Bug fix for LTC trading pair support
 -------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.8.2:
+-Support for USDT trading pairs
+-Optimization for trading pairs besides BTC
+-------------------------------------------------------------------
+
 
 
 

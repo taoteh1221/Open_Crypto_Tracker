@@ -934,6 +934,7 @@ global $_POST, $coins_array, $btc_in_usd, $alert_percent;
 
 //var_dump($markets);
 
+
 $orig_markets = $markets;  // Save this for dynamic HTML form
 
 $all_markets = $coins_array[$trade_symbol]['market_ids'][$trade_pairing];  // Get all markets for this coin
@@ -990,8 +991,12 @@ $market_ids = $market_ids[$markets];
     $trade_pairing_symbol = ( $coin_name == 'Bitcoin' ? 'USD' : 'BTC' );
     }
     else if ( $trade_pairing == 'ltc' ) {
-      
-    $coin_to_btc = get_trade_price('poloniex', 'BTC_LTC');
+    
+    	if ( !$_SESSION['ltc_btc'] ) {
+    	$_SESSION['ltc_btc'] = get_trade_price('poloniex', 'BTC_LTC');
+    	}
+    
+    $coin_to_btc = $_SESSION['ltc_btc'];
     
     $coin_to_trade_raw = get_trade_price($markets, $market_ids);
     $coin_to_trade = number_format( $coin_to_trade_raw, 8, '.', ',');
@@ -1003,11 +1008,14 @@ $market_ids = $market_ids[$markets];
     $trade_pairing_description = 'Litecoin';
     $trade_pairing_symbol = 'LTC';
     
-    //echo $ltc_to_btc . ' ' . $coin_to_trade . ' | | | ';
     }
     else if ( $trade_pairing == 'eth' ) {
-      
-    $coin_to_btc = get_trade_price('poloniex', 'BTC_ETH');
+    
+    	if ( !$_SESSION['eth_btc'] ) {
+    	$_SESSION['eth_btc'] = get_trade_price('poloniex', 'BTC_ETH');
+    	}
+    
+    $coin_to_btc = $_SESSION['eth_btc'];
      
      if ( $markets == 'eth_subtokens_ico' ) {
      
@@ -1021,23 +1029,44 @@ $market_ids = $market_ids[$markets];
      $trade_pairing_description = 'Ethereum';
      $trade_pairing_symbol = 'ETH';
      
-     //echo $ltc_to_btc . ' ' . $coin_to_trade . ' | | | ';
      }
      else {
-     
+      
      $coin_to_trade_raw = get_trade_price($markets, $market_ids);
      $coin_to_trade = number_format( $coin_to_trade_raw, 8, '.', ',');
      $coin_to_trade_worth = ($coin_amount * $coin_to_trade_raw);
      $coin_to_trade_worth2 = number_format($coin_to_trade_worth, 8, '.', ',');
-     $btc_worth = number_format( ($coin_to_trade_worth * $coin_to_btc), 8 );  // Convert ltc value to bitcoin
+     $btc_worth = number_format( ($coin_to_trade_worth * $coin_to_btc), 8 );  // Convert value to bitcoin
      $_SESSION['btc_worth_array'][] = (string)str_replace(',', '', $btc_worth);  
      $btc_trade_eq = number_format( ($coin_to_trade * $coin_to_btc), 8);
      $trade_pairing_description = 'Ethereum';
      $trade_pairing_symbol = 'ETH';
      
-     //echo $ltc_to_btc . ' ' . $coin_to_trade . ' | | | ';
      }
 
+    }
+    else if ( $trade_pairing == 'usdt' ) {
+    
+    	if ( !$_SESSION['usdt_btc'] ) {
+    	$_SESSION['usdt_btc'] = number_format( ( 1 / get_trade_price('poloniex', 'USDT_BTC') ), 8, '.', '');
+    	}
+    
+    $coin_to_btc = $_SESSION['usdt_btc'];
+    
+    $coin_to_trade_raw = get_trade_price($markets, $market_ids);
+    
+    // DEBUGGING
+    //echo ' usdt '; var_dump($coin_to_btc); var_dump($markets); var_dump($market_ids); var_dump($coin_to_trade_raw);
+    
+    $coin_to_trade = number_format( $coin_to_trade_raw, 8, '.', ',');
+    $coin_to_trade_worth = ($coin_amount * $coin_to_trade_raw);
+    $coin_to_trade_worth2 = number_format($coin_to_trade_worth, 8, '.', ',');
+    $btc_worth = number_format( ($coin_to_trade_worth * $coin_to_btc), 8 );  // Convert value to bitcoin
+    $_SESSION['btc_worth_array'][] = (string)str_replace(',', '', $btc_worth);  
+    $btc_trade_eq = number_format( ($coin_to_trade * $coin_to_btc), 8);
+    $trade_pairing_description = 'Tether';
+    $trade_pairing_symbol = 'USDT';
+    
     }
   
   
