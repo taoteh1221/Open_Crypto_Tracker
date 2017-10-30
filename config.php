@@ -255,6 +255,36 @@ $coins_array = array(
                                         ),
                         'default_pairing' => 'btc'
                     ),
+                    // VTC
+                    'VTC' => array(
+                        
+                        'coin_name' => 'Vertcoin',
+                        'coin_symbol' => 'VTC',
+                        'coinmarketcap' => 'vertcoin',
+                        'market_ids' => array(
+                                    'btc' => array(
+                                          'poloniex' => 'BTC_VTC',
+                                          'bittrex' => 'BTC-VTC'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
+                        
+                    ),
+                    // XMY
+                    'XMY' => array(
+                        
+                        'coin_name' => 'Myriad',
+                        'coin_symbol' => 'XMY',
+                        'coinmarketcap' => 'myriad',
+                        'market_ids' => array(
+                                    'btc' => array(
+                                          'bittrex' => 'BTC-XMY',
+                                          'cryptopia' => 'XMY/BTC'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
+                        
+                    ),
                     // PPC
                     'PPC' => array(
                         
@@ -273,6 +303,21 @@ $coins_array = array(
                         'default_pairing' => 'btc'
                         
                     ),
+                    // FTC
+                    'FTC' => array(
+                        
+                        'coin_name' => 'Feathercoin',
+                        'coin_symbol' => 'FTC',
+                        'coinmarketcap' => 'feathercoin',
+                        'market_ids' => array(
+                                    'btc' => array(
+                                          'bittrex' => 'BTC-FTC',
+                                          'cryptopia' => 'FTC/BTC'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
+                        
+                    ),
                     // DNT
                     'DNT' => array(
                         
@@ -281,18 +326,20 @@ $coins_array = array(
                         'coinmarketcap' => 'district0x',
                         'market_ids' => array(
                                     'btc' => array(
+                                          'bittrex' => 'BTC-DNT',
                                           'liqui' => 'dnt_btc',
                                           'hitbtc' => 'DNTBTC',
                                           'bter' => 'dnt_btc',
                                           'mercatox' => 'DNT_BTC'
                                                     ),
                                     'eth' => array(
+                                          'bittrex' => 'ETH-DNT',
                                           'binance' => 'DNTETH',
                                           'liqui' => 'dnt_eth',
                                           'mercatox' => 'DNT_ETH'
                                                     )
                                         ),
-                        'default_pairing' => 'eth'
+                        'default_pairing' => 'btc'
                         
                     ),
                     // ZRX
@@ -343,15 +390,22 @@ $coins_array = array(
                         
                         'coin_name' => 'Decentraland',
                         'coin_symbol' => 'MANA',
-                        'coinmarketcap' => '',
+                        'coinmarketcap' => 'decentraland',
                         'market_ids' => array(
                                     'btc' => array(
-                                          'gatecoin' => 'MANBTC'
+                                          'bittrex' => 'BTC-MANA',
+                                          'liqui' => 'mana_btc',
+                                          'gatecoin' => 'MANBTC',
+                                          'mercatox' => 'MANA_BTC'
                                                     ),
                                     'eth' => array(
-                                          'gatecoin' => 'MANETH'
+                                          'bittrex' => 'ETH-MANA',
+                                          'liqui' => 'mana_eth',
+                                          'gatecoin' => 'MANETH',
+                                          'mercatox' => 'MANA_ETH'
                                                     ),
                                     'usdt' => array(
+                                          'liqui' => 'mana_usdt',
                                           'hitbtc' => 'MANAUSD'
                                                     )
                                         ),
@@ -400,6 +454,28 @@ $coins_array = array(
                                     'btc' => array(
                                           'bittrex' => 'BTC-ANT',
                                           'liqui' => 'ant_btc'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
+                        
+                    ),
+                    // BAT
+                    'BAT' => array(
+                        
+                        'coin_name' => 'Basic Attention Token',
+                        'coin_symbol' => 'BAT',
+                        'coinmarketcap' => 'basic-attention-token',
+                        'market_ids' => array(
+                                    'btc' => array(
+                                          'bittrex' => 'BTC-BAT',
+                                          'liqui' => 'bat_btc',
+                                          'bter' => 'bat_btc',
+                                          'mercatox' => 'BAT_BTC'
+                                                    ),
+                                    'eth' => array(
+                                          'bittrex' => 'ETH-BAT',
+                                          'liqui' => 'bat_eth',
+                                          'mercatox' => 'BAT_ETH'
                                                     )
                                         ),
                         'default_pairing' => 'btc'
@@ -482,6 +558,20 @@ $coins_array = array(
                                           'bittrex' => 'BTC-XRP',
                                           'kraken' => 'XXRPXXBT',
                                           'bitfinex' => 'xrpbtc'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
+                        
+                    ),
+                    // PIRL
+                    'PIRL' => array(
+                        
+                        'coin_name' => 'Pirl',
+                        'coin_symbol' => 'PIRL',
+                        'coinmarketcap' => 'pirl',
+                        'market_ids' => array(
+                                    'btc' => array(
+                                          'cryptopia' => 'PIRL/BTC'
                                                     )
                                         ),
                         'default_pairing' => 'btc'
