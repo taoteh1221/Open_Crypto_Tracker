@@ -181,3 +181,7 @@ width: 100%;
 #percent_change_amount, #percent_change_time, #percent_change_alert_type {
 display: none;
 }
+
+#api_error_alert {
+font-weight: bold; color: red;
+}

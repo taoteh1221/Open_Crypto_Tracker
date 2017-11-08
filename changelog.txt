@@ -552,6 +552,11 @@ Minor GUI tweaks
 -Optimization for trading pairs besides BTC
 -------------------------------------------------------------------
 
+-------------------------------------------------------------------
+1.8.3:
+-Compatibility adjustment for recent coinmarketcap.com API upgrades
+-------------------------------------------------------------------
+
 
 
 

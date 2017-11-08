@@ -879,11 +879,11 @@ return $price;
 //////////////////////////////////////////////////////////
 function coinmarketcap_api($symbol) {
 
-
+global $coinmarketcap_ranks_max;
 
      if ( !$_SESSION['coinmarketcap_api'] ) {
      
-     $json_string = 'https://api.coinmarketcap.com/v1/ticker/';
+     $json_string = 'https://api.coinmarketcap.com/v1/ticker/?start=0&limit=' . $coinmarketcap_ranks_max;
      
      $jsondata = @get_data($json_string);
      
@@ -1309,9 +1309,11 @@ function get_data($url) {
 
 $ch = curl_init();
 $timeout = 15;
+$cookie_jar = tempnam('/tmp','cookie');
 
 curl_setopt($ch, CURLOPT_URL, $url);
 curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+curl_setopt($c, CURLOPT_COOKIEJAR, $cookie_jar);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_BINARYTRANSFER, 1);
 //curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/60.0.3112.113 Chrome/60.0.3112.113 Safari/537.36');
@@ -1323,10 +1325,15 @@ curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
 
 $data = curl_exec($ch);
 
+	if ( !$data ) {
+	$_SESSION['get_data_error'] .= ' No data returned from endpoint "' . $url . '". <br /> ';
+	}
 
 //var_dump($data);
 
 curl_close($ch);
+unlink($cookie_jar) or die("Can't unlink $cookie_jar");
+
 return $data;
 
 }

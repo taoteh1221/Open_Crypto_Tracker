@@ -12,7 +12,7 @@ require_once("app.lib/php/functions.php");
 require_once("app.lib/php/cookies.php");
 require_once("app.lib/php/init.php");
 
-$version = '1.8.2';  // 2017/SEPTEMBER/5TH
+$version = '1.8.3';  // 2017/NOVEMBER/8TH
 
 
 /*
@@ -59,6 +59,8 @@ $version = '1.8.2';  // 2017/SEPTEMBER/5TH
 /////////////////// GENERAL CONFIG -START- ////////////////////////////////////////////////////
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken / hitbtc / gatecion / livecoin
+
+$coinmarketcap_ranks_max = '450'; // Maximum number of Coinmarketcap.com rankings to request from their API
 
 $eth_subtokens_ico_values = array(
                         // Static values in ETH for Ethereum subtokens, like during crowdsale periods etc
@@ -318,30 +320,6 @@ $coins_array = array(
                         'default_pairing' => 'btc'
                         
                     ),
-                    // DNT
-                    'DNT' => array(
-                        
-                        'coin_name' => 'District0x',
-                        'coin_symbol' => 'DNT',
-                        'coinmarketcap' => 'district0x',
-                        'market_ids' => array(
-                                    'btc' => array(
-                                          'bittrex' => 'BTC-DNT',
-                                          'liqui' => 'dnt_btc',
-                                          'hitbtc' => 'DNTBTC',
-                                          'bter' => 'dnt_btc',
-                                          'mercatox' => 'DNT_BTC'
-                                                    ),
-                                    'eth' => array(
-                                          'bittrex' => 'ETH-DNT',
-                                          'binance' => 'DNTETH',
-                                          'liqui' => 'dnt_eth',
-                                          'mercatox' => 'DNT_ETH'
-                                                    )
-                                        ),
-                        'default_pairing' => 'btc'
-                        
-                    ),
                     // ZRX
                     'ZRX' => array(
                         
@@ -361,25 +339,40 @@ $coins_array = array(
                         'default_pairing' => 'btc'
                         
                     ),
-                    // SNT
-                    'SNT' => array(
+                    // ANT
+                    'ANT' => array(
                         
-                        'coin_name' => 'Status',
-                        'coin_symbol' => 'SNT',
-                        'coinmarketcap' => 'status',
+                        'coin_name' => 'Aragon',
+                        'coin_symbol' => 'ANT',
+                        'coinmarketcap' => 'aragon',
                         'market_ids' => array(
                                     'btc' => array(
-                                          'bter' => 'snt_btc',
-                                          'bittrex' => 'BTC-SNT',
-                                          'gatecoin' => 'SNTBTC',
-                                          'liqui' => 'snt_btc'
+                                          'bittrex' => 'BTC-ANT',
+                                          'liqui' => 'ant_btc'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
+                        
+                    ),
+                    // DNT
+                    'DNT' => array(
+                        
+                        'coin_name' => 'District0x',
+                        'coin_symbol' => 'DNT',
+                        'coinmarketcap' => 'district0x',
+                        'market_ids' => array(
+                                    'btc' => array(
+                                          'bittrex' => 'BTC-DNT',
+                                          'liqui' => 'dnt_btc',
+                                          'hitbtc' => 'DNTBTC',
+                                          'bter' => 'dnt_btc',
+                                          'mercatox' => 'DNT_BTC'
                                                     ),
                                     'eth' => array(
-                                          'bittrex' => 'ETH-SNT',
-                                          'gatecoin' => 'SNTETH',
-                                          'hitbtc' => 'SNTETH',
-                                          'binance' => 'SNTETH',
-                                          'liqui' => 'snt_eth'
+                                          'bittrex' => 'ETH-DNT',
+                                          'binance' => 'DNTETH',
+                                          'liqui' => 'dnt_eth',
+                                          'mercatox' => 'DNT_ETH'
                                                     )
                                         ),
                         'default_pairing' => 'btc'
@@ -407,6 +400,21 @@ $coins_array = array(
                                     'usdt' => array(
                                           'liqui' => 'mana_usdt',
                                           'hitbtc' => 'MANAUSD'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
+                        
+                    ),
+                    // SWT
+                    'SWT' => array(
+                        
+                        'coin_name' => 'Swarm City',
+                        'coin_symbol' => 'SWT',
+                        'coinmarketcap' => 'swarm-city',
+                        'market_ids' => array(
+                                    'btc' => array(
+                                          'bittrex' => 'BTC-SWT',
+                                          'hitbtc' => 'SWTBTC'
                                                     )
                                         ),
                         'default_pairing' => 'btc'
@@ -444,16 +452,42 @@ $coins_array = array(
                         'default_pairing' => 'btc'
                         
                     ),
-                    // ANT
-                    'ANT' => array(
+                    // SNT
+                    'SNT' => array(
                         
-                        'coin_name' => 'Aragon',
-                        'coin_symbol' => 'ANT',
-                        'coinmarketcap' => 'aragon',
+                        'coin_name' => 'Status',
+                        'coin_symbol' => 'SNT',
+                        'coinmarketcap' => 'status',
                         'market_ids' => array(
                                     'btc' => array(
-                                          'bittrex' => 'BTC-ANT',
-                                          'liqui' => 'ant_btc'
+                                          'bter' => 'snt_btc',
+                                          'bittrex' => 'BTC-SNT',
+                                          'gatecoin' => 'SNTBTC',
+                                          'liqui' => 'snt_btc'
+                                                    ),
+                                    'eth' => array(
+                                          'bittrex' => 'ETH-SNT',
+                                          'gatecoin' => 'SNTETH',
+                                          'hitbtc' => 'SNTETH',
+                                          'binance' => 'SNTETH',
+                                          'liqui' => 'snt_eth'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
+                        
+                    ),
+                    // MCO
+                    'MCO' => array(
+                        
+                        'coin_name' => 'Monaco',
+                        'coin_symbol' => 'MCO',
+                        'coinmarketcap' => 'monaco',
+                        'market_ids' => array(
+                                    'btc' => array(
+                                          'bittrex' => 'BTC-MCO',
+                                          'binance' => 'MCOBTC',
+                                          'liqui' => 'mco_btc',
+                                          'livecoin' => 'MCO/BTC'
                                                     )
                                         ),
                         'default_pairing' => 'btc'
@@ -476,21 +510,6 @@ $coins_array = array(
                                           'bittrex' => 'ETH-BAT',
                                           'liqui' => 'bat_eth',
                                           'mercatox' => 'BAT_ETH'
-                                                    )
-                                        ),
-                        'default_pairing' => 'btc'
-                        
-                    ),
-                    // SWT
-                    'SWT' => array(
-                        
-                        'coin_name' => 'Swarm City',
-                        'coin_symbol' => 'SWT',
-                        'coinmarketcap' => 'swarm-city',
-                        'market_ids' => array(
-                                    'btc' => array(
-                                          'bittrex' => 'BTC-SWT',
-                                          'hitbtc' => 'SWTBTC'
                                                     )
                                         ),
                         'default_pairing' => 'btc'
