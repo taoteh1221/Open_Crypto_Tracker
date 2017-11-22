@@ -15,21 +15,27 @@
   $json_string = 'http://api.etherscan.io/api?module=proxy&action=eth_blockNumber';
   $jsondata = @get_data($json_string);
     
-    $data = json_decode($jsondata, TRUE);
-    
-    $block_number = $data['result'];
-    
-  $json_string = 'http://api.etherscan.io/api?module=proxy&action=eth_getBlockByNumber&tag='.$block_number.'&boolean=true';
-  $jsondata = @get_data($json_string);
-    
-    $data = json_decode($jsondata, TRUE);
-    
-    //var_dump($data);
-    
-    $_SESSION['etherscan_data'] = $data['result'];
-    
-    return $_SESSION['etherscan_data'][$block_info];
+  $data = json_decode($jsondata, TRUE);
   
+  $block_number = $data['result'];
+    
+    	if ( !$block_number ) {
+    	return;
+    	}
+    	else {
+		
+  		$json_string = 'http://api.etherscan.io/api?module=proxy&action=eth_getBlockByNumber&tag='.$block_number.'&boolean=true';
+  		$jsondata = @get_data($json_string);
+    	
+    	$data = json_decode($jsondata, TRUE);
+    	
+    	//var_dump($data);
+    	
+    	$_SESSION['etherscan_data'] = $data['result'];
+    	
+    	return $_SESSION['etherscan_data'][$block_info];
+  
+    	}
   
   }
   else {
@@ -1307,20 +1313,21 @@ function eth_difficulty() {
 //////////////////////////////////////////////////////////
 function get_data($url) {
 
+global $version, $user_agent;
+
 $ch = curl_init();
 $timeout = 15;
 $cookie_jar = tempnam('/tmp','cookie');
 
 curl_setopt($ch, CURLOPT_URL, $url);
-curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
 curl_setopt($c, CURLOPT_COOKIEJAR, $cookie_jar);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_BINARYTRANSFER, 1);
-//curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/60.0.3112.113 Chrome/60.0.3112.113 Safari/537.36');
-
+curl_setopt($ch, CURLOPT_USERAGENT, $user_agent);
 
 curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, 0);
 curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, 0); 
+curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
 curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
 
 $data = curl_exec($ch);
@@ -1328,8 +1335,6 @@ $data = curl_exec($ch);
 	if ( !$data ) {
 	$_SESSION['get_data_error'] .= ' No data returned from endpoint "' . $url . '". <br /> ';
 	}
-
-//var_dump($data);
 
 curl_close($ch);
 unlink($cookie_jar) or die("Can't unlink $cookie_jar");

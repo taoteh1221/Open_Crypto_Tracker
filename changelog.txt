@@ -557,6 +557,15 @@ Minor GUI tweaks
 -Compatibility adjustment for recent coinmarketcap.com API upgrades
 -------------------------------------------------------------------
 
+-------------------------------------------------------------------
+1.8.4:
+-Added user agent string to broadcast server / app versions during
+API endpoint connects (letting API server admins know it's a real
+app doing the data requests, not a malicious bot)
+
+-Optimized Etherscan.io endpoint connects
+-------------------------------------------------------------------
+
 
 
 

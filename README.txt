@@ -89,7 +89,7 @@ $eth_subtokens_ico_values = array(
 /*
  * STEEM Power yearly interest rate START 11/29/2016 (1.425%, decreasing every year by roughly 0.075% until it hits a minimum of 0.075% and stays there)
  */
-$steempower_yearly_interest = 1.425;  // 1.425 (DON NOT INCLUDE PERCENT SIGN) the first year at 11/29/2016 refactored rates, see above for manual yearly adjustment
+$steempower_yearly_interest = 1.425;  // 1.425 (DO NOT INCLUDE PERCENT SIGN) the first year at 11/29/2016 refactored rates, see above for manual yearly adjustment
 $steem_powerdown_time = 13;  // Weeks to power down all STEEM Power holdings
 
 /////////////////// GENERAL CONFIG -END- ////////////////////////////////////////////////////
