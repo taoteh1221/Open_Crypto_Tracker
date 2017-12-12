@@ -566,6 +566,13 @@ app doing the data requests, not a malicious bot)
 -Optimized Etherscan.io endpoint connects
 -------------------------------------------------------------------
 
+-------------------------------------------------------------------
+1.8.5:
+-Optimize API connects to avoid duplicating requests when timeouts occur
+-------------------------------------------------------------------
+
+
+
 
 
 

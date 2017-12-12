@@ -6,7 +6,7 @@
  
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
  
-$version = '1.8.4';  // 2017/NOVEMBER/22ND
+$version = '1.8.5';  // 2017/DECEMBER/12TH
  
 session_start();
 require_once("app.lib/php/functions.php");

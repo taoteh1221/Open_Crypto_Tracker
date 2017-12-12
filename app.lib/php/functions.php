@@ -1315,31 +1315,49 @@ function get_data($url) {
 
 global $version, $user_agent;
 
-$ch = curl_init();
-$timeout = 15;
-$cookie_jar = tempnam('/tmp','cookie');
+// Avoid duplicate requests in current session
+$url_check = md5($url);
 
-curl_setopt($ch, CURLOPT_URL, $url);
-curl_setopt($c, CURLOPT_COOKIEJAR, $cookie_jar);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-curl_setopt($ch, CURLOPT_BINARYTRANSFER, 1);
-curl_setopt($ch, CURLOPT_USERAGENT, $user_agent);
 
-curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, 0);
-curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, 0); 
-curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
-
-$data = curl_exec($ch);
-
-	if ( !$data ) {
-	$_SESSION['get_data_error'] .= ' No data returned from endpoint "' . $url . '". <br /> ';
+	if ( !in_array($url_check, $_SESSION['api_status']) ) {	
+	
+	$ch = curl_init();
+	$timeout = 15;
+	$cookie_jar = tempnam('/tmp','cookie');
+	
+	curl_setopt($ch, CURLOPT_URL, $url);
+	curl_setopt($c, CURLOPT_COOKIEJAR, $cookie_jar);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	curl_setopt($ch, CURLOPT_BINARYTRANSFER, 1);
+	curl_setopt($ch, CURLOPT_USERAGENT, $user_agent);
+	
+	curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, 0);
+	curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, 0); 
+	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+	curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+	
+	$data = curl_exec($ch);
+	$_SESSION['api_status'][] = $url_check;
+	
+		if ( !$data ) {
+		$_SESSION['get_data_error'] .= ' No data returned from endpoint "' . $url . '". <br /> ';
+		}
+	
+	curl_close($ch);
+	unlink($cookie_jar) or die("Can't unlink $cookie_jar");
+	
+	return $data;
+	
+	}
+	else {
+		
+	$_SESSION['get_data_error'] .= ' Duplicate request to endpoint "' . $url . '". <br /> ';
+	
+	return false;
+	
 	}
 
-curl_close($ch);
-unlink($cookie_jar) or die("Can't unlink $cookie_jar");
 
-return $data;
 
 }
 //////////////////////////////////////////////////////////
