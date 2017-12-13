@@ -59,7 +59,7 @@ require_once("app.lib/php/init.php");
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken / hitbtc / gatecion / livecoin
 
-$coinmarketcap_ranks_max = '450'; // Maximum number of Coinmarketcap.com rankings to request from their API
+$coinmarketcap_ranks_max = '300'; // Maximum number of Coinmarketcap.com rankings to request from their API
 
 $eth_subtokens_ico_values = array(
                         // Static values in ETH for Ethereum subtokens, like during crowdsale periods etc
@@ -523,7 +523,6 @@ $coins_array = array(
                         'market_ids' => array(
                                     'btc' => array(
                                           'poloniex' => 'BTC_BTS',
-                                          'bittrex' => 'BTC-BTS',
                                           'livecoin' => 'BTS/BTC',
                                           'bter' => 'bts_btc',
                                           'cryptofresh' => 'BTS'

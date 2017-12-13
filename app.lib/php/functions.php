@@ -8,10 +8,7 @@
  
 //////////////////////////////////////////////////////////
  function etherscan_api($block_info) {
-
-
-  if ( !$_SESSION['etherscan_data'] ) {
-  
+ 	
   $json_string = 'http://api.etherscan.io/api?module=proxy&action=eth_blockNumber';
   $jsondata = @get_data($json_string);
     
@@ -37,14 +34,6 @@
   
     	}
   
-  }
-  else {
-    
-  return $_SESSION['etherscan_data'][$block_info];
-  
-  }
-  
-
 }
 //////////////////////////////////////////////////////////
  
@@ -54,29 +43,21 @@
 //////////////////////////////////////////////////////////
 function get_btc_usd($btc_in_usd) {
 
-  if ( !$_SESSION['btc_usd'] ) {
-
   
     if ( strtolower($btc_in_usd) == 'coinbase' ) {
-  
     
-  
     $json_string = 'https://api.coinbase.com/v2/prices/spot?currency=USD';
     
     $jsondata = @get_data($json_string);
     
     $data = json_decode($jsondata, TRUE);
     
-    $_SESSION['btc_usd'] = number_format( $data['data']['amount'], 2, '.', '');
-    
-    
-    return $_SESSION['btc_usd'];
+    return number_format( $data['data']['amount'], 2, '.', '');
   
     }
   
-    elseif ( strtolower($btc_in_usd) == 'hitbtc' ) {
   
-    
+    elseif ( strtolower($btc_in_usd) == 'hitbtc' ) {
   
     $json_string = 'https://api.hitbtc.com/api/1/public/BTCUSD/ticker';
     
@@ -84,16 +65,12 @@ function get_btc_usd($btc_in_usd) {
     
     $data = json_decode($jsondata, TRUE);
     
-    $_SESSION['btc_usd'] = number_format( $data['last'], 2, '.', '');
-    
-    
-    return $_SESSION['btc_usd'];
+    return number_format( $data['last'], 2, '.', '');
   
     }
   
-    elseif ( strtolower($btc_in_usd) == 'bitfinex' ) {
   
-    
+    elseif ( strtolower($btc_in_usd) == 'bitfinex' ) {
   
     $json_string = 'https://api.bitfinex.com/v1/pubticker/btcusd';
     
@@ -101,10 +78,7 @@ function get_btc_usd($btc_in_usd) {
     
     $data = json_decode($jsondata, TRUE);
     
-    $_SESSION['btc_usd'] = number_format( $data['last_price'], 2, '.', '');
-    
-    
-    return $_SESSION['btc_usd'];
+    return number_format( $data['last_price'], 2, '.', '');
   
     }
   
@@ -117,19 +91,12 @@ function get_btc_usd($btc_in_usd) {
       
       $data = json_decode($jsondata, TRUE);
       
-    
-    $_SESSION['btc_usd'] = number_format( $data['last'], 2, '.', '');
-    
-    
-    return $_SESSION['btc_usd'];
+    return number_format( $data['last'], 2, '.', '');
       
-    
     }
 
 
     elseif ( strtolower($btc_in_usd) == 'okcoin' ) {
-  
-    
   
     $json_string = 'https://www.okcoin.com/api/ticker.do?ok=1';
     
@@ -137,30 +104,22 @@ function get_btc_usd($btc_in_usd) {
     
     $data = json_decode($jsondata, TRUE);
     
-    $_SESSION['btc_usd'] = number_format( $data['ticker']['last'], 2, '.', '');
+    return number_format( $data['ticker']['last'], 2, '.', '');
     
-    
-    return $_SESSION['btc_usd'];
   
     }
   
   
-
     elseif ( strtolower($btc_in_usd) == 'bitstamp' ) {
-  
-    
-  
+ 	
     $json_string = 'https://www.bitstamp.net/api/ticker/';
     
     $jsondata = @get_data($json_string);
     
     $data = json_decode($jsondata, TRUE);
     
-    $_SESSION['btc_usd'] = number_format( $data['last'], 2, '.', '');
+    return number_format( $data['last'], 2, '.', '');
     
-    
-    return $_SESSION['btc_usd'];
-  
     }
   
  
@@ -291,23 +250,15 @@ function get_btc_usd($btc_in_usd) {
    
    }
   
-  }
-  else {
-    
-  return $_SESSION['btc_usd'];
-  
-  }
-  
 
 }
 //////////////////////////////////////////////////////////
 
 
+
 //////////////////////////////////////////////////////////
 function get_trade_price($markets, $market_ids) {
-  
-
-
+ 
 
   if ( strtolower($markets) == 'bitfinex' ) {
   
@@ -351,9 +302,7 @@ function get_trade_price($markets, $market_ids) {
   }
 
 
-
-  
-    elseif ( strtolower($markets) == 'coinbase' ) {
+  elseif ( strtolower($markets) == 'coinbase' ) {
   
      $json_string = 'https://api.coinbase.com/v2/exchange-rates?currency=' . $market_ids;
      
@@ -363,7 +312,7 @@ function get_trade_price($markets, $market_ids) {
      
      return $data['data']['rates']['BTC'];
    
-    }
+  }
   
 
   elseif ( strtolower($markets) == 'cryptofresh' ) {
@@ -381,25 +330,13 @@ function get_trade_price($markets, $market_ids) {
 
 
   elseif ( strtolower($markets) == 'bittrex' ) {
-
-
-     if ( !$_SESSION['bittrex_markets'] ) {
      
      $json_string = 'https://bittrex.com/api/v1.1/public/getmarketsummaries';
      
      $jsondata = @get_data($json_string);
      
      $data = json_decode($jsondata, TRUE);
-     
-     $_SESSION['bittrex_markets'] = $data;
    
-     }
-     else {
-       
-     $data = $_SESSION['bittrex_markets'];
-     
-     }
-  
   
   $data = $data['result'];
   //print_r($data);
@@ -426,23 +363,11 @@ function get_trade_price($markets, $market_ids) {
 
   elseif ( strtolower($markets) == 'mercatox' ) {
 
-
-     if ( !$_SESSION['mercatox_markets'] ) {
-     
      $json_string = 'https://mercatox.com/public/json24';
      
      $jsondata = @get_data($json_string);
      
      $data = json_decode($jsondata, TRUE);
-     
-     $_SESSION['mercatox_markets'] = $data;
-   
-     }
-     else {
-       
-     $data = $_SESSION['mercatox_markets'];
-     
-     }
   
   
   $data = $data['pairs'];
@@ -470,24 +395,11 @@ function get_trade_price($markets, $market_ids) {
 
   elseif ( strtolower($markets) == 'tradesatoshi' ) {
 
-
-     if ( !$_SESSION['tradesatoshi_markets'] ) {
-     
      $json_string = 'https://tradesatoshi.com/api/public/getmarketsummaries';
      
      $jsondata = @get_data($json_string);
      
      $data = json_decode($jsondata, TRUE);
-     
-     $_SESSION['tradesatoshi_markets'] = $data;
-   
-     }
-     else {
-       
-     $data = $_SESSION['tradesatoshi_markets'];
-     
-     }
-  
   
   $data = $data['result'];
   //print_r($data);
@@ -543,25 +455,12 @@ function get_trade_price($markets, $market_ids) {
 
   elseif ( strtolower($markets) == 'poloniex' ) {
 
-
-     if ( !$_SESSION['poloniex_markets'] ) {
-     
      $json_string = 'https://poloniex.com/public?command=returnTicker';
      
      $jsondata = @get_data($json_string);
      
      $data = json_decode($jsondata, TRUE);
-     
-     $_SESSION['poloniex_markets'] = $data;
    
-     }
-     else {
-       
-     $data = $_SESSION['poloniex_markets'];
-     
-     }
-  
-  
   
   //print_r($data);
       if (is_array($data) || is_object($data)) {
@@ -587,26 +486,12 @@ function get_trade_price($markets, $market_ids) {
 
   elseif ( strtolower($markets) == 'livecoin' ) {
 
-
-     if ( !$_SESSION['livecoin_markets'] ) {
-     
      $json_string = 'https://api.livecoin.net/exchange/ticker';
      
      $jsondata = @get_data($json_string);
      
      $data = json_decode($jsondata, TRUE);
      
-     $_SESSION['livecoin_markets'] = $data;
-   
-     }
-     else {
-       
-     $data = $_SESSION['livecoin_markets'];
-     
-     }
-  
-  
-  
   //print_r($data);
       if (is_array($data) || is_object($data)) {
   
@@ -631,24 +516,11 @@ function get_trade_price($markets, $market_ids) {
   
   elseif ( strtolower($markets) == 'cryptopia' ) {
 
-
-     if ( !$_SESSION['cryptopia_markets'] ) {
-     
      $json_string = 'https://www.cryptopia.co.nz/api/GetMarkets';
      
      $jsondata = @get_data($json_string);
      
      $data = json_decode($jsondata, TRUE);
-     
-     $_SESSION['cryptopia_markets'] = $data;
-   
-     }
-     else {
-       
-     $data = $_SESSION['cryptopia_markets'];
-     
-     }
-  
   
   $data = $data['Data'];
   
@@ -676,26 +548,12 @@ function get_trade_price($markets, $market_ids) {
 
   elseif ( strtolower($markets) == 'hitbtc' ) {
 
-
-     if ( !$_SESSION['hitbtc_markets'] ) {
-     
      $json_string = 'https://api.hitbtc.com/api/1/public/ticker';
      
      $jsondata = @get_data($json_string);
      
      $data = json_decode($jsondata, TRUE);
      
-     $_SESSION['hitbtc_markets'] = $data;
-   
-     }
-     else {
-       
-     $data = $_SESSION['hitbtc_markets'];
-     
-     }
-  
-  
-  
   //print_r($data);
       if (is_array($data) || is_object($data)) {
   
@@ -720,27 +578,12 @@ function get_trade_price($markets, $market_ids) {
 
   elseif ( strtolower($markets) == 'bter' ) {
 
-
-     if ( !$_SESSION['bter_markets'] ) {
-     
      $json_string = 'http://data.bter.com/api/1/marketlist';
      
      $jsondata = @get_data($json_string);
      
      $data = json_decode($jsondata, TRUE);
-     $data = $data['data'];
      
-     $_SESSION['bter_markets'] = $data['data'];
-   
-     }
-     else {
-       
-     $data = $_SESSION['bter_markets'];
-     
-     }
-  
-  
-  
   //print_r($data);
       if (is_array($data) || is_object($data)) {
   
@@ -811,25 +654,11 @@ function get_trade_price($markets, $market_ids) {
 
   elseif ( strtolower($markets) == 'gatecoin' ) {
 
-
-     if ( !$_SESSION['gatecoin_markets'] ) {
-     
      $json_string = 'https://api.gatecoin.com/Public/LiveTickers';
      
      $jsondata = @get_data($json_string);
      
      $data = json_decode($jsondata, TRUE);
-     
-     $_SESSION['gatecoin_markets'] = $data;
-   
-     }
-     else {
-       
-     $data = $_SESSION['gatecoin_markets'];
-     
-     }
-  
-  
   
   //var_dump($data);
       if (is_array($data) || is_object($data)) {
@@ -887,24 +716,12 @@ function coinmarketcap_api($symbol) {
 
 global $coinmarketcap_ranks_max;
 
-     if ( !$_SESSION['coinmarketcap_api'] ) {
-     
      $json_string = 'https://api.coinmarketcap.com/v1/ticker/?start=0&limit=' . $coinmarketcap_ranks_max;
      
      $jsondata = @get_data($json_string);
      
      $data = json_decode($jsondata, TRUE);
      
-     $_SESSION['coinmarketcap_api'] = $data;
-   
-     }
-     else {
-       
-     $data = $_SESSION['coinmarketcap_api'];
-     
-     }
-  
-  
   //print_r($data);
       if (is_array($data) || is_object($data)) {
   
@@ -925,8 +742,6 @@ global $coinmarketcap_ranks_max;
       }
   
   
-
-
 }
 //////////////////////////////////////////////////////////
 
@@ -1277,49 +1092,15 @@ return $total_value;
 
 
 //////////////////////////////////////////////////////////
-function eth_difficulty() {
-
-
-  $json_string = 'https://www.etherchain.org/api/basic_stats';
-  
-  $jsondata = @get_data($json_string);
-  
-  $data = json_decode($jsondata, TRUE);
-  
-  var_dump($jsondata);
-  
-      if (is_array($data) || is_object($data)) {
-  
-      foreach ($data as $key => $value) {
-        
-        //print_r($key);
-        
-        if ( $key == 'data' ) {
-         
-        return $data[$key]["difficulty"]["difficulty"];
-         
-         
-        }
-      
-    
-      }
-      
-      }
-  
- 
-}
-//////////////////////////////////////////////////////////
-
-//////////////////////////////////////////////////////////
 function get_data($url) {
 
 global $version, $user_agent;
 
-// Avoid duplicate requests in current session
+// To avoid duplicate requests in current update session, AND cache data
 $url_check = md5($url);
 
 
-	if ( !in_array($url_check, $_SESSION['api_status']) ) {	
+	if ( !$_SESSION['api_cache'][$url_check] ) {	
 	
 	$ch = curl_init();
 	$timeout = 15;
@@ -1337,26 +1118,33 @@ $url_check = md5($url);
 	curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
 	
 	$data = curl_exec($ch);
-	$_SESSION['api_status'][] = $url_check;
 	
 		if ( !$data ) {
+		$data = 'no';
 		$_SESSION['get_data_error'] .= ' No data returned from endpoint "' . $url . '". <br /> ';
 		}
 	
 	curl_close($ch);
 	unlink($cookie_jar) or die("Can't unlink $cookie_jar");
 	
-	return $data;
+	$_SESSION['api_cache'][$url_check] = $data; // Cache API data for this update session
+	
+	// DEBUGGING ONLY
+	//$_SESSION['get_data_error'] .= '##REQUEST## Request to endpoint "' . $url . '". <br /> ';
 	
 	}
 	else {
 		
-	$_SESSION['get_data_error'] .= ' Duplicate request to endpoint "' . $url . '". <br /> ';
+	$data = $_SESSION['api_cache'][$url_check];
 	
-	return false;
+	// DEBUGGING ONLY
+	//$_SESSION['get_data_error'] .= ' ##DUPLICATE## request ignored to endpoint "' . $url . '". <br /> ';
+	
 	
 	}
-
+	
+	
+return $data;
 
 
 }

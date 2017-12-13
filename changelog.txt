@@ -568,7 +568,8 @@ app doing the data requests, not a malicious bot)
 
 -------------------------------------------------------------------
 1.8.5:
--Optimize API connects to avoid duplicating requests when timeouts occur
+-Optimized API connects to avoid duplicating requests when timeouts occur
+-Optimized API connects with automatic data caching per update session
 -------------------------------------------------------------------
 
 

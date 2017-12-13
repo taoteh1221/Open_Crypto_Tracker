@@ -535,7 +535,6 @@ $coins_array = array(
                         'market_ids' => array(
                                     'btc' => array(
                                           'poloniex' => 'BTC_BTS',
-                                          'bittrex' => 'BTC-BTS',
                                           'livecoin' => 'BTS/BTC',
                                           'bter' => 'bts_btc',
                                           'cryptofresh' => 'BTS'
