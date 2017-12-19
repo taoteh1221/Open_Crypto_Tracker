@@ -183,5 +183,5 @@ display: none;
 }
 
 #api_error_alert {
-font-weight: bold; color: red;
+font-weight: bold; color: red; padding: 6px;
 }

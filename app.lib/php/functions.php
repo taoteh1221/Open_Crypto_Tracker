@@ -1094,7 +1094,7 @@ return $total_value;
 //////////////////////////////////////////////////////////
 function get_data($url) {
 
-global $version, $user_agent;
+global $version, $user_agent, $api_timeout;
 
 // To avoid duplicate requests in current update session, AND cache data
 $url_check = md5($url);
@@ -1103,7 +1103,6 @@ $url_check = md5($url);
 	if ( !$_SESSION['api_cache'][$url_check] ) {	
 	
 	$ch = curl_init();
-	$timeout = 15;
 	$cookie_jar = tempnam('/tmp','cookie');
 	
 	curl_setopt($ch, CURLOPT_URL, $url);
@@ -1114,14 +1113,14 @@ $url_check = md5($url);
 	
 	curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, 0);
 	curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, 0); 
-	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-	curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $api_timeout);
+	curl_setopt($ch, CURLOPT_TIMEOUT, $api_timeout);
 	
 	$data = curl_exec($ch);
 	
 		if ( !$data ) {
 		$data = 'no';
-		$_SESSION['get_data_error'] .= ' No data returned from endpoint "' . $url . '". <br /> ';
+		$_SESSION['get_data_error'] .= ' No data returned from endpoint "' . $url . '" (with timeout setting of ' . $api_timeout . ' seconds). <br /> ';
 		}
 	
 	curl_close($ch);

@@ -6,7 +6,7 @@
  
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
  
-$version = '1.8.5';  // 2017/DECEMBER/12TH
+$version = '1.8.6';  // 2017/DECEMBER/19TH
  
 session_start();
 require_once("app.lib/php/functions.php");
@@ -56,6 +56,8 @@ require_once("app.lib/php/init.php");
 
 
 /////////////////// GENERAL CONFIG -START- ////////////////////////////////////////////////////
+
+$api_timeout = 15; // Seconds to wait for response from API endpoint
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken / hitbtc / gatecion / livecoin
 

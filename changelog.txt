@@ -572,6 +572,11 @@ app doing the data requests, not a malicious bot)
 -Optimized API connects with automatic data caching per update session
 -------------------------------------------------------------------
 
+-------------------------------------------------------------------
+1.8.6:
+-Moved the API connect timeout variable to the configuration file.
+-------------------------------------------------------------------
+
 
 
 
