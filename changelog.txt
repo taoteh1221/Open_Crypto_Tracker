@@ -575,6 +575,7 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 1.8.6:
 -Moved the API connect timeout variable to the configuration file.
+-Small tweaks
 -------------------------------------------------------------------
 
 
