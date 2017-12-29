@@ -187,6 +187,24 @@ $coins_array = array(
                         'default_pairing' => 'btc'
                         
                     ),
+                    // ADA
+                    'ADA' => array(
+                        
+                        'coin_name' => 'Cardano',
+                        'coin_symbol' => 'ADA',
+                        'coinmarketcap' => 'cardano',
+                        'market_ids' => array(
+                                    'btc' => array(
+                                        'bittrex' => 'BTC-ADA',
+                                        'binance' => 'ADABTC'
+                                                    ),
+                                    'eth' => array(
+                                          'bittrex' => 'ETH-ADA',
+                                          'binance' => 'ADAETH'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
+                    ),
                     // STEEM
                     'STEEM' => array(
                         
