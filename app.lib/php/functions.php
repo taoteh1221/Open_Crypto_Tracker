@@ -750,7 +750,7 @@ global $coinmarketcap_ranks_max;
 //////////////////////////////////////////////////////////
 function coin_data($coin_name, $trade_symbol, $coin_amount, $markets, $market_ids, $trade_pairing, $sort_order) {
 
-global $_POST, $coins_array, $btc_in_usd, $alert_percent;
+global $_POST, $coins_array, $btc_in_usd, $alert_percent, $coinmarketcap_ranks_max, $api_timeout;
 
 
 //var_dump($markets);
@@ -923,19 +923,36 @@ $market_ids = $market_ids[$markets];
  ?>
  <img id='<?=$cmkcap_render_data?>' src='templates/default/images/info.png' border=0' style='position: absolute; top: 4px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <a title='' href='http://coinmarketcap.com/currencies/<?=$cmkcap_render_data?>/' target='_blank'><?php echo $coin_name; ?></a>
  <script>
-  
- $('#<?=$cmkcap_render_data?>').balloon({
-  html: true,
-  position: "right",
-  contents: '<h3 class="orange">Coinmarketcap.com Summary For <?=$coin_name?> (<?=$trade_symbol?>):</h3>'
+
+	<?php
+	if ( coinmarketcap_api($trade_symbol)['rank'] == '' ) {
+	?>
+
+	var cmc_content = 'The Coinmarketcap API may be offline, or the marketcap range configuration is not set high enough (current range is top <?=$coinmarketcap_ranks_max?> marketcaps), or your API timeout configuration is set too low (current timeout is <?=$api_timeout?> seconds). Configuration adjustments can be made in config.php';
+
+	<?php
+	}
+	else {
+	?> 
+
+	var cmc_content = '<h3 class="orange">Coinmarketcap.com Summary For <?=$coin_name?> (<?=$trade_symbol?>):</h3>'
     +'<p><span class="orange">Marketcap Ranking:</span> #<?=coinmarketcap_api($trade_symbol)['rank']?></p>'
     +'<p><span class="orange">Marketcap (USD):</span> $<?=number_format(coinmarketcap_api($trade_symbol)['market_cap_usd'],0,".",",")?></p>'
     +'<p><span class="orange">24 Hour Volume (USD):</span> $<?=number_format(coinmarketcap_api($trade_symbol)['24h_volume_usd'],0,".",",")?></p>'
     +'<p><span class="orange">1 Hour Change:</span> <?=( stristr(coinmarketcap_api($trade_symbol)['percent_change_1h'], '-') != false ? '<span class="red">'.coinmarketcap_api($trade_symbol)['percent_change_1h'].'%</span>' : '<span class="green">'.coinmarketcap_api($trade_symbol)['percent_change_1h'].'%</span>' )?></p>'
     +'<p><span class="orange">24 Hour Change:</span> <?=( stristr(coinmarketcap_api($trade_symbol)['percent_change_24h'], '-') != false ? '<span class="red">'.coinmarketcap_api($trade_symbol)['percent_change_24h'].'%</span>' : '<span class="green">'.coinmarketcap_api($trade_symbol)['percent_change_24h'].'%</span>' )?></p>'
     +'<p><span class="orange">7 Day Change:</span> <?=( stristr(coinmarketcap_api($trade_symbol)['percent_change_7d'], '-') != false ? '<span class="red">'.coinmarketcap_api($trade_symbol)['percent_change_7d'].'%</span>' : '<span class="green">'.coinmarketcap_api($trade_symbol)['percent_change_7d'].'%</span>' )?></p>'
-    +'<p><span class="orange">Last Updated (UTC):</span> <?=gmdate("Y-M-d\ \\a\\t g:ia", coinmarketcap_api($trade_symbol)['last_updated'])?></p>'
-});
+    +'<p><span class="orange">Last Updated (UTC):</span> <?=gmdate("Y-M-d\ \\a\\t g:ia", coinmarketcap_api($trade_symbol)['last_updated'])?></p>';
+
+	<?php
+	}
+	?>
+
+	$('#<?=$cmkcap_render_data?>').balloon({
+  	html: true,
+  	position: "right",
+  	contents: cmc_content
+	});
 
 
 <?php
@@ -1120,7 +1137,7 @@ $url_check = md5($url);
 	
 		if ( !$data ) {
 		$data = 'no';
-		$_SESSION['get_data_error'] .= ' No data returned from endpoint "' . $url . '" (with timeout setting of ' . $api_timeout . ' seconds). <br /> ';
+		$_SESSION['get_data_error'] .= ' No data returned from endpoint "' . $url . '" (with timeout configuration setting of ' . $api_timeout . ' seconds). <br /> ';
 		}
 	
 	curl_close($ch);

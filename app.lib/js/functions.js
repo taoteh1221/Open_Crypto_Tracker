@@ -73,10 +73,30 @@ function count_down(i, toggle) {
 
 	if ( toggle == 1 ) {
 		
+			
 	    window.reload_countdown = setInterval(function () {
-		document.getElementById("reload_countdown").innerHTML = "(" + i + " seconds remaining)";
+	    	
+				    	
+	    	
+	    	if ( i >= 60 ) {
+	    	
+	    	var round_min = Math.floor(i/60);
+	    	
+	    	var sec = ( i - (round_min*60) );
+	    	
+	    	document.getElementById("reload_countdown").innerHTML = "(" + round_min + " minutes " + sec + " seconds remaining)";
+	    	
+	    	}
+	    	else {
+	    	document.getElementById("reload_countdown").innerHTML = "(" + i + " seconds remaining)";
+	    	}
+
+		
+		
 		i-- || clearInterval(int);  //if i is 0, then stop the interval
 	    }, 1000);
+	    
+	  
 	    
 	}
 	else {

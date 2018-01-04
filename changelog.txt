@@ -578,6 +578,13 @@ app doing the data requests, not a malicious bot)
 -Small tweaks
 -------------------------------------------------------------------
 
+-------------------------------------------------------------------
+1.8.7:
+-Revised auto-reload feature
+-Revised Coinmarketcap API data feature
+-Minor tweaks
+-------------------------------------------------------------------
+
 
 
 

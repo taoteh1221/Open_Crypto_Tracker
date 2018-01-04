@@ -26,7 +26,7 @@
     $time = $time[1] + $time[0];
     $finish = $time;
     $total_time = round(($finish - $start), 4);
-    echo '<p align="center" style="color: red;"> Page generated in '.$total_time.' seconds. </p>';
+    echo '<p align="center" style="color: '.( $total_time <= 10 ? 'green' : 'red' ).';"> Page generated in '.$total_time.' seconds. </p>';
     
     ?>
         

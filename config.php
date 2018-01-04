@@ -6,7 +6,7 @@
  
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
  
-$version = '1.8.6';  // 2017/DECEMBER/19TH
+$version = '1.8.7';  // 2018/JAN/4TH
  
 session_start();
 require_once("app.lib/php/functions.php");
@@ -57,11 +57,11 @@ require_once("app.lib/php/init.php");
 
 /////////////////// GENERAL CONFIG -START- ////////////////////////////////////////////////////
 
-$api_timeout = 15; // Seconds to wait for response from API endpoint
+$api_timeout = 5; // Seconds to wait for response from API endpoint
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken / hitbtc / gatecion / livecoin
 
-$coinmarketcap_ranks_max = '300'; // Maximum number of Coinmarketcap.com rankings to request from their API
+$coinmarketcap_ranks_max = '200'; // Maximum number of Coinmarketcap.com rankings to request from their API
 
 $eth_subtokens_ico_values = array(
                         // Static values in ETH for Ethereum subtokens, like during crowdsale periods etc

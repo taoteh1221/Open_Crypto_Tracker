@@ -69,9 +69,11 @@ BELOW IS AN !---EXAMPLE---! SET OF CONFIGURED ASSETS. PLEASE NOTE THIS IS PROVID
 
 /////////////////// GENERAL CONFIG -START- ////////////////////////////////////////////////////
 
+$api_timeout = 5; // Seconds to wait for response from API endpoint
+
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken / hitbtc / gatecion / livecoin
 
-$coinmarketcap_ranks_max = '450'; // Maximum number of Coinmarketcap.com rankings to request from their API
+$coinmarketcap_ranks_max = '200'; // Maximum number of Coinmarketcap.com rankings to request from their API
 
 $eth_subtokens_ico_values = array(
                         // Static values in ETH for Ethereum subtokens, like during crowdsale periods etc
@@ -196,6 +198,24 @@ $coins_array = array(
                                         ),
                         'default_pairing' => 'btc'
                         
+                    ),
+                    // ADA
+                    'ADA' => array(
+                        
+                        'coin_name' => 'Cardano',
+                        'coin_symbol' => 'ADA',
+                        'coinmarketcap' => 'cardano',
+                        'market_ids' => array(
+                                    'btc' => array(
+                                        'bittrex' => 'BTC-ADA',
+                                        'binance' => 'ADABTC'
+                                                    ),
+                                    'eth' => array(
+                                          'bittrex' => 'ETH-ADA',
+                                          'binance' => 'ADAETH'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
                     ),
                     // STEEM
                     'STEEM' => array(
@@ -611,5 +631,4 @@ $coins_array = array(
 );
 
 /////////////////// COIN MARKETS CONFIG -END- ////////////////////////////////////////////////////
-
 
