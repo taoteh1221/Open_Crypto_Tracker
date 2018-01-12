@@ -43,6 +43,11 @@ require_once("app.lib/php/init.php");
                                           'LOWERCASE_MARKETPLACE1' => 'MARKETNUMBERHERE',
                                           'LOWERCASE_MARKETPLACE2' => 'LTC_COINSYMBOLHERE',
                                           'LOWERCASE_MARKETPLACE3' => 'LTC-COINSYMBOLHERE'
+                                                    ),
+                                    'usdt' => array(
+                                          'LOWERCASE_MARKETPLACE1' => 'MARKETNUMBERHERE',
+                                          'LOWERCASE_MARKETPLACE2' => 'USDT_COINSYMBOLHERE',
+                                          'LOWERCASE_MARKETPLACE3' => 'USDT-COINSYMBOLHERE'
                                                     )
                                           ),
                         'default_pairing' => 'LOWERCASE_BTC_OR_LTC_OR_ETH_TRADING_PAIR'
