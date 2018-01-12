@@ -716,7 +716,7 @@ function coinmarketcap_api($symbol) {
 
 global $coinmarketcap_ranks_max;
 
-     $json_string = 'https://api.coinmarketcap.com/v1/ticker/?start=0&limit=' . $coinmarketcap_ranks_max;
+     $json_string = 'https://api.coinmarketcap.com/v1/ticker/?limit=' . $coinmarketcap_ranks_max;
      
      $jsondata = @get_data($json_string);
      
@@ -928,7 +928,7 @@ $market_ids = $market_ids[$markets];
 	if ( coinmarketcap_api($trade_symbol)['rank'] == '' ) {
 	?>
 
-	var cmc_content = 'The Coinmarketcap API may be offline, or the marketcap range configuration is not set high enough (current range is top <?=$coinmarketcap_ranks_max?> marketcaps), or your API timeout configuration is set too low (current timeout is <?=$api_timeout?> seconds). Configuration adjustments can be made in config.php';
+	var cmc_content = 'Coinmarketcap API may be offline / under heavy load, marketcap range not set high enough (current range is top <?=$coinmarketcap_ranks_max?> marketcaps), or API timeout configuration set too low (current timeout is <?=$api_timeout?> seconds). Configuration adjustments can be made in config.php';
 
 	<?php
 	}
@@ -1137,7 +1137,7 @@ $url_check = md5($url);
 	
 		if ( !$data ) {
 		$data = 'no';
-		$_SESSION['get_data_error'] .= ' No data returned from endpoint "' . $url . '" (with timeout configuration setting of ' . $api_timeout . ' seconds). <br /> ';
+		$_SESSION['get_data_error'] .= ' No data returned from API endpoint "' . $url . '" (with timeout configuration setting of ' . $api_timeout . ' seconds). <br /> ';
 		}
 	
 	curl_close($ch);

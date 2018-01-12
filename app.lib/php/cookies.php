@@ -2,12 +2,12 @@
 
 
 // Removing 1 minute auto-reload option (to reduce request denied server responses)
-if ( $_COOKIE['coin_reload'] > '0' && $_COOKIE['coin_reload'] < '120' ) {
+if ( $_COOKIE['coin_reload'] > '0' && $_COOKIE['coin_reload'] < '300' ) {
 
 unset($_COOKIE['coin_reload']);  // Delete any existing cookie
 setcookie ("coin_reload", "", time()-3600);  // Delete any existing cookie
  
-$_COOKIE['coin_reload'] = '120';
+$_COOKIE['coin_reload'] = '300';
 
 // Cookie expires in 1 year (31536000 seconds)
 setcookie("coin_reload", $_COOKIE['coin_reload'], mktime()+31536000);
