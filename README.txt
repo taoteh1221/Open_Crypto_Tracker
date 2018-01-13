@@ -60,7 +60,7 @@ OTHER CRYPTOCURRENCIES AND PAYPAL ACCEPTED HERE: https://dragonfrugal.com/donate
                                           'LOWERCASE_MARKETPLACE3' => 'USDT-COINSYMBOLHERE'
                                                     )
                                           ),
-                        'default_pairing' => 'LOWERCASE_BTC_OR_LTC_OR_ETH_TRADING_PAIR'
+                        'default_pairing' => 'LOWERCASE_BTC_OR_ETH_OR_LTC_OR_USDT_TRADING_PAIR'
                         
                     ),
                     
@@ -75,11 +75,11 @@ BELOW IS AN !---EXAMPLE---! SET OF CONFIGURED ASSETS. PLEASE NOTE THIS IS PROVID
 
 /////////////////// GENERAL CONFIG -START- ////////////////////////////////////////////////////
 
-$api_timeout = 5; // Seconds to wait for response from API endpoint
+$api_timeout = 12; // Seconds to wait for response from API endpoint
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken / hitbtc / gatecion / livecoin
 
-$coinmarketcap_ranks_max = '200'; // Maximum number of Coinmarketcap.com rankings to request from their API
+$coinmarketcap_ranks_max = '300'; // Maximum number of Coinmarketcap.com rankings to request from their API
 
 $eth_subtokens_ico_values = array(
                         // Static values in ETH for Ethereum subtokens, like during crowdsale periods etc

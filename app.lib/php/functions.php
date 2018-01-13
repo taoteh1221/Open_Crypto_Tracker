@@ -928,7 +928,7 @@ $market_ids = $market_ids[$markets];
 	if ( coinmarketcap_api($trade_symbol)['rank'] == '' ) {
 	?>
 
-	var cmc_content = 'Coinmarketcap API may be offline / under heavy load, marketcap range not set high enough (current range is top <?=$coinmarketcap_ranks_max?> marketcaps), or API timeout configuration set too low (current timeout is <?=$api_timeout?> seconds). Configuration adjustments can be made in config.php';
+	var cmc_content = 'Coinmarketcap API may be offline / under heavy load, marketcap range not set high enough (current range is top <?=$coinmarketcap_ranks_max?> marketcaps), or API timeout set too low (current timeout is <?=$api_timeout?> seconds). Configuration adjustments can be made in config.php.';
 
 	<?php
 	}

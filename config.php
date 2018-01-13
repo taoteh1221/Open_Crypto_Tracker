@@ -6,7 +6,7 @@
  
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
  
-$version = '1.8.8';  // 2018/JAN/12TH
+$version = '1.8.9';  // 2018/JAN/12TH
  
 session_start();
 require_once("app.lib/php/functions.php");
@@ -50,7 +50,7 @@ require_once("app.lib/php/init.php");
                                           'LOWERCASE_MARKETPLACE3' => 'USDT-COINSYMBOLHERE'
                                                     )
                                           ),
-                        'default_pairing' => 'LOWERCASE_BTC_OR_LTC_OR_ETH_TRADING_PAIR'
+                        'default_pairing' => 'LOWERCASE_BTC_OR_ETH_OR_LTC_OR_USDT_TRADING_PAIR'
                         
                     ),
                     

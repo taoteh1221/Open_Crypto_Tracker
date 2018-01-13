@@ -1,7 +1,7 @@
 <?php
 
 
-// Removing 1 minute auto-reload option (to reduce request denied server responses)
+// Removing 1 and 2 minute auto-reload options (to reduce request denied API server responses)
 if ( $_COOKIE['coin_reload'] > '0' && $_COOKIE['coin_reload'] < '300' ) {
 
 unset($_COOKIE['coin_reload']);  // Delete any existing cookie
