@@ -722,7 +722,8 @@ global $coinmarketcap_ranks_max;
      
      $data = json_decode($jsondata, TRUE);
      
-  //print_r($data);
+//  print_r($data);
+
       if (is_array($data) || is_object($data)) {
   
       foreach ($data as $key => $value) {
@@ -1139,6 +1140,11 @@ $url_check = md5($url);
 		$data = 'no';
 		$_SESSION['get_data_error'] .= ' No data returned from API endpoint "' . $url . '" (with timeout configuration setting of ' . $api_timeout . ' seconds). <br /> ';
 		}
+		
+		if ( preg_match("/coinmarketcap/i", $url) && !preg_match("/last_updated/i", $data) ) {
+		$_SESSION['get_data_error'] .= '##REQUEST## data error response from '.$url.': <br /> =================================== <br />' . $data . ' <br /> =================================== <br />';
+		}
+	
 	
 	curl_close($ch);
 	unlink($cookie_jar) or die("Can't unlink $cookie_jar");

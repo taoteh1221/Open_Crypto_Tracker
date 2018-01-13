@@ -6,7 +6,7 @@
  
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
  
-$version = '1.8.9';  // 2018/JAN/12TH
+$version = '1.9.0';  // 2018/JAN/13TH
  
 session_start();
 require_once("app.lib/php/functions.php");
