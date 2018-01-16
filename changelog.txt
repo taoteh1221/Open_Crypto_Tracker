@@ -599,7 +599,13 @@ app doing the data requests, not a malicious bot)
 
 -------------------------------------------------------------------
 1.9.0:
--Added additional coinmarketcap API error warnings.
+-Added additional coinmarketcap API error warnings
+-------------------------------------------------------------------
+
+
+-------------------------------------------------------------------
+1.9.1:
+-Basic security for config.php
 -------------------------------------------------------------------
 
 

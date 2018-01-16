@@ -3,10 +3,17 @@
  * DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
  */
 
- 
+
+// Forbid direct access to config.php
+if ( realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) ) {
+    header('HTTP/1.0 403 Forbidden', TRUE, 403);
+    exit;
+}
+
+
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
  
-$version = '1.9.0';  // 2018/JAN/13TH
+$version = '1.9.1';  // 2018/JAN/16TH
  
 session_start();
 require_once("app.lib/php/functions.php");
@@ -62,11 +69,11 @@ require_once("app.lib/php/init.php");
 
 /////////////////// GENERAL CONFIG -START- ////////////////////////////////////////////////////
 
-$api_timeout = 12; // Seconds to wait for response from API endpoint
+$api_timeout = 10; // Seconds to wait for response from API endpoint
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken / hitbtc / gatecion / livecoin
 
-$coinmarketcap_ranks_max = '300'; // Maximum number of Coinmarketcap.com rankings to request from their API
+$coinmarketcap_ranks_max = '200'; // Maximum number of Coinmarketcap.com rankings to request from their API
 
 $eth_subtokens_ico_values = array(
                         // Static values in ETH for Ethereum subtokens, like during crowdsale periods etc
