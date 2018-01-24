@@ -1141,7 +1141,7 @@ $url_check = md5($url);
 		$_SESSION['get_data_error'] .= ' No data returned from API endpoint "' . $url . '" (with timeout configuration setting of ' . $api_timeout . ' seconds). <br /> ';
 		}
 		
-		if ( preg_match("/coinmarketcap/i", $url) && !preg_match("/last_updated/i", $data) ) {
+		elseif ( preg_match("/coinmarketcap/i", $url) && !preg_match("/last_updated/i", $data) ) {
 		$_SESSION['get_data_error'] .= '##REQUEST## data error response from '.$url.': <br /> =================================== <br />' . $data . ' <br /> =================================== <br />';
 		}
 	

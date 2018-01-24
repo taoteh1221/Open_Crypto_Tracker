@@ -73,7 +73,7 @@ $api_timeout = 10; // Seconds to wait for response from API endpoint
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken / hitbtc / gatecion / livecoin
 
-$coinmarketcap_ranks_max = '200'; // Maximum number of Coinmarketcap.com rankings to request from their API
+$coinmarketcap_ranks_max = '400'; // Maximum number of Coinmarketcap.com rankings to request from their API
 
 $eth_subtokens_ico_values = array(
                         // Static values in ETH for Ethereum subtokens, like during crowdsale periods etc

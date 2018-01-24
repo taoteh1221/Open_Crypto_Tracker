@@ -71,6 +71,8 @@
         
         <li class='chart_links'><a href='https://www.youtube.com/user/BaltimoreHourly/featured' target='_blank'>BitcoinMeister</a></li>
         
+        <li class='chart_links'><a href='https://www.youtube.com/user/BitsBeTrippin' target='_blank'>Bits Be Trippin</a></li>
+        
         <li class='chart_links'><a href='https://www.youtube.com/channel/UCxODjeUwZHk3p-7TU-IsDOA/featured' target='_blank'>Boxmining</a></li>
         
         <li class='chart_links'><a href='https://www.youtube.com/user/CoinDesk/featured' target='_blank'>Coindesk</a></li>
