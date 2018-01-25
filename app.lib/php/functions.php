@@ -258,6 +258,8 @@ function get_btc_usd($btc_in_usd) {
 
 //////////////////////////////////////////////////////////
 function get_trade_price($markets, $market_ids) {
+
+global $coins_array;
  
 
   if ( strtolower($markets) == 'bitfinex' ) {
@@ -668,6 +670,52 @@ function get_trade_price($markets, $market_ids) {
         if ( $data['tickers'][$key]["currencyPair"] == $market_ids ) {
          
         return $data['tickers'][$key]["last"];
+         
+         
+        }
+      
+    
+      }
+      
+      }
+  
+  
+  }
+
+
+
+  elseif ( strtolower($markets) == 'upbit' ) {
+  	
+  	
+  		foreach ( $coins_array as $markets ) {
+  		
+  			foreach ( $markets['market_ids'] as $market_pairings ) {
+  			
+  				if ( $market_pairings['upbit'] != '' ) {
+				
+				$upbit_pairs .= 'CRIX.UPBIT.' . $market_pairings['upbit'] . ',';
+				  				
+  				}
+  			
+  			}
+  			
+  		}
+
+
+     $json_string = 'https://crix-api-endpoint.upbit.com/v1/crix/recent?codes=' . $upbit_pairs;
+     
+     $jsondata = @get_data($json_string);
+     
+     $data = json_decode($jsondata, TRUE);
+  
+  //var_dump($data);
+      if (is_array($data) || is_object($data)) {
+  
+      foreach ( $data as $key => $value ) {
+        
+        if ( $data[$key]["code"] == 'CRIX.UPBIT.' . $market_ids ) {
+         
+        return $data[$key]["tradePrice"];
          
          
         }
