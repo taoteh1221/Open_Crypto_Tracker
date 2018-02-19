@@ -79,7 +79,7 @@
 				}
 				?>
 				</p>
-				<form name='eth' action='index.php#tab4' method='post'>
+				<form name='eth' action='index.php#calculators' method='post'>
 				    
 				    <input type='hidden' value='1' name='eth_submitted' />
 				

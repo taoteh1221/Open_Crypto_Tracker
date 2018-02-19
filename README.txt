@@ -208,44 +208,6 @@ $coins_array = array(
                         'default_pairing' => 'btc'
                         
                     ),
-                    // ADA
-                    'ADA' => array(
-                        
-                        'coin_name' => 'Cardano',
-                        'coin_symbol' => 'ADA',
-                        'coinmarketcap' => 'cardano',
-                        'market_ids' => array(
-                                    'btc' => array(
-                                        'bittrex' => 'BTC-ADA',
-                                        'binance' => 'ADABTC',
-                                        'upbit' => 'BTC-ADA'
-                                                    ),
-                                    'eth' => array(
-                                          'bittrex' => 'ETH-ADA',
-                                          'binance' => 'ADAETH'
-                                                    )
-                                        ),
-                        'default_pairing' => 'btc'
-                    ),
-                    // STEEM
-                    'STEEM' => array(
-                        
-                        'coin_name' => 'Steem',
-                        'coin_symbol' => 'STEEM',
-                        'coinmarketcap' => 'steem',
-                        'market_ids' => array(
-                                    'btc' => array(
-                                          'poloniex' => 'BTC_STEEM',
-                                          'bittrex' => 'BTC-STEEM',
-                                          'hitbtc' => 'STEEMBTC',
-                                          'upbit' => 'BTC-STEEM',
-                                          'livecoin' => 'STEEM/BTC',
-                                          'cryptofresh' => 'OPEN.STEEM'
-                                                    )
-                                        ),
-                        'default_pairing' => 'btc'
-                        
-                    ),
                     // DASH
                     'DASH' => array(
                         
@@ -297,6 +259,44 @@ $coins_array = array(
                                     'eth' => array(
                                           'bittrex' => 'ETH-LTC',
                                           'liqui' => 'ltc_eth'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
+                    ),
+                    // STEEM
+                    'STEEM' => array(
+                        
+                        'coin_name' => 'Steem',
+                        'coin_symbol' => 'STEEM',
+                        'coinmarketcap' => 'steem',
+                        'market_ids' => array(
+                                    'btc' => array(
+                                          'poloniex' => 'BTC_STEEM',
+                                          'bittrex' => 'BTC-STEEM',
+                                          'hitbtc' => 'STEEMBTC',
+                                          'upbit' => 'BTC-STEEM',
+                                          'livecoin' => 'STEEM/BTC',
+                                          'cryptofresh' => 'OPEN.STEEM'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
+                        
+                    ),
+                    // ADA
+                    'ADA' => array(
+                        
+                        'coin_name' => 'Cardano',
+                        'coin_symbol' => 'ADA',
+                        'coinmarketcap' => 'cardano',
+                        'market_ids' => array(
+                                    'btc' => array(
+                                        'bittrex' => 'BTC-ADA',
+                                        'binance' => 'ADABTC',
+                                        'upbit' => 'BTC-ADA'
+                                                    ),
+                                    'eth' => array(
+                                          'bittrex' => 'ETH-ADA',
+                                          'binance' => 'ADAETH'
                                                     )
                                         ),
                         'default_pairing' => 'btc'
@@ -386,20 +386,35 @@ $coins_array = array(
                         'default_pairing' => 'btc'
                         
                     ),
-                    // ZRX
-                    'ZRX' => array(
+                    // FCT
+                    'FCT' => array(
                         
-                        'coin_name' => 'oxProject',
-                        'coin_symbol' => 'ZRX',
-                        'coinmarketcap' => '0x',
+                        'coin_name' => 'Factom',
+                        'coin_symbol' => 'FCT',
+                        'coinmarketcap' => 'factom',
                         'market_ids' => array(
                                     'btc' => array(
-                                          'poloniex' => 'BTC_ZRX',
-                                          'liqui' => 'zrx_btc',
-                                          'hitbtc' => 'ZRXBTC',
-                                          'gatecoin' => 'ZRXBTC',
-                                          'bter' => 'zrx_btc',
-                                          'mercatox' => 'ZRX_BTC'
+                                          'poloniex' => 'BTC_FCT',
+                                          'bittrex' => 'BTC-FCT',
+                                        	'upbit' => 'BTC-FCT',
+                                          'cryptopia' => 'FCT/BTC'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
+                        
+                    ),
+                    // XLM
+                    'XLM' => array(
+                        
+                        'coin_name' => 'Stellar',
+                        'coin_symbol' => 'XLM',
+                        'coinmarketcap' => 'stellar',
+                        'market_ids' => array(
+                                    'btc' => array(
+                                          'poloniex' => 'BTC_STR',
+                                          'bittrex' => 'BTC-XLM',
+                                          'kraken' => 'XXLMXXBT',
+                                          'upbit' => 'BTC-XLM'
                                                     )
                                         ),
                         'default_pairing' => 'btc'
@@ -421,26 +436,45 @@ $coins_array = array(
                         'default_pairing' => 'btc'
                         
                     ),
-                    // DNT
-                    'DNT' => array(
+                    // ZRX
+                    'ZRX' => array(
                         
-                        'coin_name' => 'District0x',
-                        'coin_symbol' => 'DNT',
-                        'coinmarketcap' => 'district0x',
+                        'coin_name' => 'oxProject',
+                        'coin_symbol' => 'ZRX',
+                        'coinmarketcap' => '0x',
                         'market_ids' => array(
                                     'btc' => array(
-                                          'bittrex' => 'BTC-DNT',
-                                        	'upbit' => 'BTC-DNT',
-                                          'liqui' => 'dnt_btc',
-                                          'hitbtc' => 'DNTBTC',
-                                          'bter' => 'dnt_btc',
-                                          'mercatox' => 'DNT_BTC'
+                                          'poloniex' => 'BTC_ZRX',
+                                          'liqui' => 'zrx_btc',
+                                          'hitbtc' => 'ZRXBTC',
+                                          'gatecoin' => 'ZRXBTC',
+                                          'bter' => 'zrx_btc',
+                                          'mercatox' => 'ZRX_BTC'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
+                        
+                    ),
+                    // SNT
+                    'SNT' => array(
+                        
+                        'coin_name' => 'Status',
+                        'coin_symbol' => 'SNT',
+                        'coinmarketcap' => 'status',
+                        'market_ids' => array(
+                                    'btc' => array(
+                                          'bter' => 'snt_btc',
+                                          'bittrex' => 'BTC-SNT',
+                                          'upbit' => 'BTC-SNT',
+                                          'gatecoin' => 'SNTBTC',
+                                          'liqui' => 'snt_btc'
                                                     ),
                                     'eth' => array(
-                                          'bittrex' => 'ETH-DNT',
-                                          'binance' => 'DNTETH',
-                                          'liqui' => 'dnt_eth',
-                                          'mercatox' => 'DNT_ETH'
+                                          'bittrex' => 'ETH-SNT',
+                                          'gatecoin' => 'SNTETH',
+                                          'hitbtc' => 'SNTETH',
+                                          'binance' => 'SNTETH',
+                                          'liqui' => 'snt_eth'
                                                     )
                                         ),
                         'default_pairing' => 'btc'
@@ -474,17 +508,26 @@ $coins_array = array(
                         'default_pairing' => 'btc'
                         
                     ),
-                    // SWT
-                    'SWT' => array(
+                    // DNT
+                    'DNT' => array(
                         
-                        'coin_name' => 'Swarm City',
-                        'coin_symbol' => 'SWT',
-                        'coinmarketcap' => 'swarm-city',
+                        'coin_name' => 'District0x',
+                        'coin_symbol' => 'DNT',
+                        'coinmarketcap' => 'district0x',
                         'market_ids' => array(
                                     'btc' => array(
-                                          'bittrex' => 'BTC-SWT',
-                                          'hitbtc' => 'SWTBTC',
-                                        	'upbit' => 'BTC-SWT'
+                                          'bittrex' => 'BTC-DNT',
+                                        	'upbit' => 'BTC-DNT',
+                                          'liqui' => 'dnt_btc',
+                                          'hitbtc' => 'DNTBTC',
+                                          'bter' => 'dnt_btc',
+                                          'mercatox' => 'DNT_BTC'
+                                                    ),
+                                    'eth' => array(
+                                          'bittrex' => 'ETH-DNT',
+                                          'binance' => 'DNTETH',
+                                          'liqui' => 'dnt_eth',
+                                          'mercatox' => 'DNT_ETH'
                                                     )
                                         ),
                         'default_pairing' => 'btc'
@@ -508,6 +551,22 @@ $coins_array = array(
                         'default_pairing' => 'btc'
                         
                     ),
+                    // SWT
+                    'SWT' => array(
+                        
+                        'coin_name' => 'Swarm City',
+                        'coin_symbol' => 'SWT',
+                        'coinmarketcap' => 'swarm-city',
+                        'market_ids' => array(
+                                    'btc' => array(
+                                          'bittrex' => 'BTC-SWT',
+                                          'hitbtc' => 'SWTBTC',
+                                        	'upbit' => 'BTC-SWT'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
+                        
+                    ),
                     // MYST
                     'MYST' => array(
                         
@@ -515,38 +574,11 @@ $coins_array = array(
                         'coin_symbol' => 'MYST',
                         'coinmarketcap' => 'mysterium',
                         'market_ids' => array(
-                                    'btc' => array(
-                                          'bittrex' => 'BTC-MYST',
-                                        	'upbit' => 'BTC-MYST',
-                                          'liqui' => 'myst_btc'
-                                                    )
-                                        ),
-                        'default_pairing' => 'btc'
-                        
-                    ),
-                    // SNT
-                    'SNT' => array(
-                        
-                        'coin_name' => 'Status',
-                        'coin_symbol' => 'SNT',
-                        'coinmarketcap' => 'status',
-                        'market_ids' => array(
-                                    'btc' => array(
-                                          'bter' => 'snt_btc',
-                                          'bittrex' => 'BTC-SNT',
-                                          'upbit' => 'BTC-SNT',
-                                          'gatecoin' => 'SNTBTC',
-                                          'liqui' => 'snt_btc'
-                                                    ),
                                     'eth' => array(
-                                          'bittrex' => 'ETH-SNT',
-                                          'gatecoin' => 'SNTETH',
-                                          'hitbtc' => 'SNTETH',
-                                          'binance' => 'SNTETH',
-                                          'liqui' => 'snt_eth'
+                                          'liqui' => 'myst_eth'
                                                     )
                                         ),
-                        'default_pairing' => 'btc'
+                        'default_pairing' => 'eth'
                         
                     ),
                     // MCO
@@ -602,40 +634,6 @@ $coins_array = array(
                                           'livecoin' => 'BTS/BTC',
                                           'bter' => 'bts_btc',
                                           'cryptofresh' => 'BTS'
-                                                    )
-                                        ),
-                        'default_pairing' => 'btc'
-                        
-                    ),
-                    // FCT
-                    'FCT' => array(
-                        
-                        'coin_name' => 'Factom',
-                        'coin_symbol' => 'FCT',
-                        'coinmarketcap' => 'factom',
-                        'market_ids' => array(
-                                    'btc' => array(
-                                          'poloniex' => 'BTC_FCT',
-                                          'bittrex' => 'BTC-FCT',
-                                        	'upbit' => 'BTC-FCT',
-                                          'cryptopia' => 'FCT/BTC'
-                                                    )
-                                        ),
-                        'default_pairing' => 'btc'
-                        
-                    ),
-                    // XLM
-                    'XLM' => array(
-                        
-                        'coin_name' => 'Stellar',
-                        'coin_symbol' => 'XLM',
-                        'coinmarketcap' => 'stellar',
-                        'market_ids' => array(
-                                    'btc' => array(
-                                          'poloniex' => 'BTC_STR',
-                                          'bittrex' => 'BTC-XLM',
-                                          'kraken' => 'XXLMXXBT',
-                                          'upbit' => 'BTC-XLM'
                                                     )
                                         ),
                         'default_pairing' => 'btc'

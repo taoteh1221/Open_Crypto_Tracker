@@ -49,8 +49,9 @@ require("config.php");
       <source src="templates/default/audio/Smoke-Alarm-SoundBible-1551222038.ogg">
     </audio>
 
-    <div align='center' style='width: 98%;'>
-        <div align='center' style='min-width: 1320px;'>
+    <div align='center' style='width: 98%; margin: auto;'>
+    <p> &nbsp; </p>
+        <div align='center' style='min-width: 1320px; margin: auto;'>
             <div align='left' style=' width: 1320px; margin: auto;'>
         <!- header END -->
 

@@ -7,7 +7,7 @@ $_POST = trim_array($_POST);
 }
 
 // Get STEEM value
-$steam_market = get_trade_price('poloniex', 'BTC_STEEM');
+$steem_market = get_trade_price('poloniex', 'BTC_STEEM');
 
 ?>
     
@@ -22,10 +22,10 @@ $steam_market = get_trade_price('poloniex', 'BTC_STEEM');
     
 
 
-<p style='font-weight: bold; color: green;'>1 STEEM = <?=$steam_market?> BTC ($<?=number_format( ( $steam_market * get_btc_usd($btc_in_usd) ), 8, '.', ',')?>)</p>
+<p style='font-weight: bold; color: green;'>1 STEEM = <?=$steem_market?> BTC ($<?=number_format( ( $steem_market * get_btc_usd($btc_in_usd) ), 8, '.', ',')?>)</p>
 
 <p>
-    <form action='index.php#tab4' method='post'>
+    <form action='index.php#calculators' method='post'>
         
         <p><b>Power Down Period:</b> <?=$steem_powerdown_time?> weeks</p>
 	

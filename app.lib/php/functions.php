@@ -853,9 +853,9 @@ $market_ids = $market_ids[$markets];
     if ( $trade_pairing == 'btc' ) {
     $coin_to_trade_raw = ( $coin_name == 'Bitcoin' ? get_btc_usd($btc_in_usd) : get_trade_price($markets, $market_ids) );
     $coin_to_trade = number_format( $coin_to_trade_raw, ( $coin_name == 'Bitcoin' ? 2 : 8 ), '.', ',');
-    $coin_to_trade_worth = ($coin_amount * $coin_to_trade_raw);
-    $coin_to_trade_worth2 = number_format($coin_to_trade_worth, ( $coin_name == 'Bitcoin' ? 2 : 8 ), '.', ',');
-    $btc_worth = number_format( $coin_to_trade_worth, 8 );  
+    $coin_to_trade_worth_raw = ($coin_amount * $coin_to_trade_raw);
+    $coin_to_trade_worth = number_format($coin_to_trade_worth_raw, ( $coin_name == 'Bitcoin' ? 2 : 8 ), '.', ',');
+    $btc_worth = number_format( $coin_to_trade_worth_raw, 8 );  
     $_SESSION['btc_worth_array'][] = (string)str_replace(',', '', ( $coin_name == 'Bitcoin' ? $coin_amount : $btc_worth ) );
     $trade_pairing_description = ( $coin_name == 'Bitcoin' ? 'US Dollar' : 'Bitcoin' );
     $trade_pairing_symbol = ( $coin_name == 'Bitcoin' ? 'USD' : 'BTC' );
@@ -870,9 +870,9 @@ $market_ids = $market_ids[$markets];
     
     $coin_to_trade_raw = get_trade_price($markets, $market_ids);
     $coin_to_trade = number_format( $coin_to_trade_raw, 8, '.', ',');
-    $coin_to_trade_worth = ($coin_amount * $coin_to_trade_raw);
-    $coin_to_trade_worth2 = number_format($coin_to_trade_worth, 8, '.', ',');
-    $btc_worth = number_format( ($coin_to_trade_worth * $coin_to_btc), 8 );  // Convert value to bitcoin
+    $coin_to_trade_worth_raw = ($coin_amount * $coin_to_trade_raw);
+    $coin_to_trade_worth = number_format($coin_to_trade_worth_raw, 8, '.', ',');
+    $btc_worth = number_format( ($coin_to_trade_worth_raw * $coin_to_btc), 8 );  // Convert value to bitcoin
     $_SESSION['btc_worth_array'][] = (string)str_replace(',', '', $btc_worth);  
     $btc_trade_eq = number_format( ($coin_to_trade * $coin_to_btc), 8);
     $trade_pairing_description = 'Litecoin';
@@ -891,9 +891,9 @@ $market_ids = $market_ids[$markets];
      
      $coin_to_trade_raw = get_sub_token_price($markets, $market_ids);
      $coin_to_trade = number_format( $coin_to_trade_raw, 8, '.', ',');
-     $coin_to_trade_worth = ($coin_amount * $coin_to_trade_raw);
-     $coin_to_trade_worth2 = number_format($coin_to_trade_worth, 8, '.', ',');
-     $btc_worth = number_format( ($coin_to_trade_worth * $coin_to_btc), 8 );  // Convert value to bitcoin
+     $coin_to_trade_worth_raw = ($coin_amount * $coin_to_trade_raw);
+     $coin_to_trade_worth = number_format($coin_to_trade_worth_raw, 8, '.', ',');
+     $btc_worth = number_format( ($coin_to_trade_worth_raw * $coin_to_btc), 8 );  // Convert value to bitcoin
      $_SESSION['btc_worth_array'][] = (string)str_replace(',', '', $btc_worth);  
      $btc_trade_eq = number_format( ($coin_to_trade * $coin_to_btc), 8);
      $trade_pairing_description = 'Ethereum';
@@ -904,9 +904,9 @@ $market_ids = $market_ids[$markets];
       
      $coin_to_trade_raw = get_trade_price($markets, $market_ids);
      $coin_to_trade = number_format( $coin_to_trade_raw, 8, '.', ',');
-     $coin_to_trade_worth = ($coin_amount * $coin_to_trade_raw);
-     $coin_to_trade_worth2 = number_format($coin_to_trade_worth, 8, '.', ',');
-     $btc_worth = number_format( ($coin_to_trade_worth * $coin_to_btc), 8 );  // Convert value to bitcoin
+     $coin_to_trade_worth_raw = ($coin_amount * $coin_to_trade_raw);
+     $coin_to_trade_worth = number_format($coin_to_trade_worth_raw, 8, '.', ',');
+     $btc_worth = number_format( ($coin_to_trade_worth_raw * $coin_to_btc), 8 );  // Convert value to bitcoin
      $_SESSION['btc_worth_array'][] = (string)str_replace(',', '', $btc_worth);  
      $btc_trade_eq = number_format( ($coin_to_trade * $coin_to_btc), 8);
      $trade_pairing_description = 'Ethereum';
@@ -924,14 +924,10 @@ $market_ids = $market_ids[$markets];
     $coin_to_btc = $_SESSION['usdt_btc'];
     
     $coin_to_trade_raw = get_trade_price($markets, $market_ids);
-    
-    // DEBUGGING
-    //echo ' usdt '; var_dump($coin_to_btc); var_dump($markets); var_dump($market_ids); var_dump($coin_to_trade_raw);
-    
     $coin_to_trade = number_format( $coin_to_trade_raw, 8, '.', ',');
-    $coin_to_trade_worth = ($coin_amount * $coin_to_trade_raw);
-    $coin_to_trade_worth2 = number_format($coin_to_trade_worth, 8, '.', ',');
-    $btc_worth = number_format( ($coin_to_trade_worth * $coin_to_btc), 8 );  // Convert value to bitcoin
+    $coin_to_trade_worth_raw = ($coin_amount * $coin_to_trade_raw);
+    $coin_to_trade_worth = number_format($coin_to_trade_worth_raw, 8, '.', ',');
+    $btc_worth = number_format( ($coin_to_trade_worth_raw * $coin_to_btc), 8 );  // Convert value to bitcoin
     $_SESSION['btc_worth_array'][] = (string)str_replace(',', '', $btc_worth);  
     $btc_trade_eq = number_format( ($coin_to_trade * $coin_to_btc), 8);
     $trade_pairing_description = 'Tether';
@@ -991,6 +987,8 @@ $market_ids = $market_ids[$markets];
     +'<p><span class="orange">1 Hour Change:</span> <?=( stristr(coinmarketcap_api($trade_symbol)['percent_change_1h'], '-') != false ? '<span class="red">'.coinmarketcap_api($trade_symbol)['percent_change_1h'].'%</span>' : '<span class="green">'.coinmarketcap_api($trade_symbol)['percent_change_1h'].'%</span>' )?></p>'
     +'<p><span class="orange">24 Hour Change:</span> <?=( stristr(coinmarketcap_api($trade_symbol)['percent_change_24h'], '-') != false ? '<span class="red">'.coinmarketcap_api($trade_symbol)['percent_change_24h'].'%</span>' : '<span class="green">'.coinmarketcap_api($trade_symbol)['percent_change_24h'].'%</span>' )?></p>'
     +'<p><span class="orange">7 Day Change:</span> <?=( stristr(coinmarketcap_api($trade_symbol)['percent_change_7d'], '-') != false ? '<span class="red">'.coinmarketcap_api($trade_symbol)['percent_change_7d'].'%</span>' : '<span class="green">'.coinmarketcap_api($trade_symbol)['percent_change_7d'].'%</span>' )?></p>'
+    +'<p><span class="orange">Available Supply:</span> <?=number_format(coinmarketcap_api($trade_symbol)['available_supply'], 0, '.', ',')?></p>'
+    +'<p><span class="orange">Total Supply:</span> <?=number_format(coinmarketcap_api($trade_symbol)['total_supply'], 0, '.', ',')?></p>'
     +'<p><span class="orange">Last Updated (UTC):</span> <?=gmdate("Y-M-d\ \\a\\t g:ia", coinmarketcap_api($trade_symbol)['last_updated'])?></p>';
 
 	<?php
@@ -1106,7 +1104,7 @@ $percent_alert_type = $alert_percent[2];
 <td class='data border_b'> <span>(<?=$trade_pairing_description?>)</span></span></td>
 
 <td class='data border_lb'><?php
-echo ' <span><span class="data">' . $coin_to_trade_worth2 . '</span> ' . $trade_pairing_symbol . '</span>';
+echo ' <span><span class="data">' . $coin_to_trade_worth . '</span> ' . $trade_pairing_symbol . '</span>';
   if ( $trade_pairing != 'btc' ) {
   echo '<div class="btc_worth"><span>(' . $btc_worth . ' BTC)</span></div>';
   }
@@ -1116,10 +1114,10 @@ echo ' <span><span class="data">' . $coin_to_trade_worth2 . '</span> ' . $trade_
 <td class='data border_lrb'><?php
 
   if ( $trade_pairing == 'btc' ) {
-  $coin_usd_worth = ( $coin_name == 'Bitcoin' ? $coin_to_trade_worth : ($coin_to_trade_worth * get_btc_usd($btc_in_usd)) );
+  $coin_usd_worth = ( $coin_name == 'Bitcoin' ? $coin_to_trade_worth_raw : ($coin_to_trade_worth_raw * get_btc_usd($btc_in_usd)) );
   }
   else {
-  $coin_usd_worth = ( ($coin_to_trade_worth * $coin_to_btc) * get_btc_usd($btc_in_usd));
+  $coin_usd_worth = ( ($coin_to_trade_worth_raw * $coin_to_btc) * get_btc_usd($btc_in_usd));
   }
   
 
@@ -1246,9 +1244,9 @@ return $data;
 
 function powerdown_usd($data) {
 
-global $steam_market, $btc_in_usd;
+global $steem_market, $btc_in_usd;
 
-return ( $data * $steam_market * get_btc_usd($btc_in_usd) );
+return ( $data * $steem_market * get_btc_usd($btc_in_usd) );
 
 }
 //////////////////////////////////////////////////////////
@@ -1256,7 +1254,7 @@ return ( $data * $steam_market * get_btc_usd($btc_in_usd) );
 
 function steempower_time($time) {
     
-global $_POST, $steam_market, $btc_in_usd, $steem_powerdown_time, $steempower_yearly_interest;
+global $_POST, $steem_market, $btc_in_usd, $steem_powerdown_time, $steempower_yearly_interest;
 
 $powertime = NULL;
 $powertime = NULL;
@@ -1292,10 +1290,10 @@ $speed = ($_POST['sp_total'] * $decimal_yearly_interest) / 525600;  // Interest 
     $powertime = ($speed * 60 * 24 * 365);
     }
     
-    $powertime_usd = ( $powertime * $steam_market * get_btc_usd($btc_in_usd) );
+    $powertime_usd = ( $powertime * $steem_market * get_btc_usd($btc_in_usd) );
     
     $steem_total = ( $powertime + $_POST['sp_total'] );
-    $usd_total = ( $steem_total * $steam_market * get_btc_usd($btc_in_usd) );
+    $usd_total = ( $steem_total * $steem_market * get_btc_usd($btc_in_usd) );
     
     $power_purchased = ( $_POST['sp_purchased'] / $steem_total );
     $power_earned = ( $_POST['sp_earned'] / $steem_total );
