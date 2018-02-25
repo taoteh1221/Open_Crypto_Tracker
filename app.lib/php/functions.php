@@ -486,6 +486,38 @@ global $coins_array;
   
   }
 
+  elseif ( strtolower($markets) == 'kucoin' ) {
+
+     $json_string = 'https://api.kucoin.com/v1/open/tick';
+     
+     $jsondata = @get_data($json_string);
+     
+     $data = json_decode($jsondata, TRUE);
+   
+  
+  $data = $data['data'];
+  //print_r($data);
+      if (is_array($data) || is_object($data)) {
+  
+      foreach ($data as $key => $value) {
+        
+        //print_r($key);
+        
+        if ( $data[$key]['symbol'] == $market_ids ) {
+         
+        return $data[$key]["lastDealPrice"];
+         
+         
+        }
+      
+    
+      }
+      
+      }
+  
+  
+  }
+
   elseif ( strtolower($markets) == 'livecoin' ) {
 
      $json_string = 'https://api.livecoin.net/exchange/ticker';

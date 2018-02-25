@@ -25,7 +25,7 @@ STEEM: taoteh1221
 OTHER CRYPTOCURRENCIES AND PAYPAL ACCEPTED HERE: https://dragonfrugal.com/donate/
 
 /*
- * USAGE (ADDING / UPDATING COINS) ...API support for: kraken / gatecoin / poloniex / coinbase / bittrex / bitfinex / cryptofresh / bter / gemini / hitbtc / liqui / cryptopia / livecoin / mercatox / upbit...BTC, ETH, LTC, AND USDT trading pair support
+ * USAGE (ADDING / UPDATING COINS) ...API support for: kraken / gatecoin / poloniex / coinbase / bittrex / bitfinex / cryptofresh / bter / gemini / hitbtc / liqui / cryptopia / livecoin / mercatox / upbit / kucoin...BTC, ETH, LTC, AND USDT trading pair support
  * Ethereum ICO subtoken support has been built in, but values are static ICO values in ETH
  *
  SEE THE BOTTOM OF THE README.txt FOR FOR AN EXAMPLE SET OF PRE-CONFIGURED ASSETS
@@ -282,6 +282,22 @@ $coins_array = array(
                         'default_pairing' => 'btc'
                         
                     ),
+                    // DGD
+                    'DGD' => array(
+                        
+                        'coin_name' => 'DigixDAO',
+                        'coin_symbol' => 'DGD',
+                        'coinmarketcap' => 'digixdao',
+                        'market_ids' => array(
+                                    'btc' => array(
+                                        'binance' => 'DGDBTC',
+                                        'liqui' => 'dgd_btc',
+                                        'hitbtc' => 'DGDBTC',
+                                        'livecoin' => 'DGD/BTC'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
+                    ),
                     // ADA
                     'ADA' => array(
                         
@@ -533,6 +549,23 @@ $coins_array = array(
                         'default_pairing' => 'btc'
                         
                     ),
+                    // POLY
+                    'POLY' => array(
+                        
+                        'coin_name' => 'Polymath',
+                        'coin_symbol' => 'POLY',
+                        'coinmarketcap' => 'polymath-network',
+                        'market_ids' => array(
+                                    'btc' => array(
+                                          'kucoin' => 'POLY-BTC'
+                                                    ),
+                                    'eth' => array(
+                                          'kucoin' => 'POLY-ETH'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
+                        
+                    ),
                     // GNT
                     'GNT' => array(
                         
@@ -676,5 +709,4 @@ $coins_array = array(
 );
 
 /////////////////// COIN MARKETS CONFIG -END- ////////////////////////////////////////////////////
-
 
