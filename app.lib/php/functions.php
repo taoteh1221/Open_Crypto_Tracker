@@ -991,14 +991,14 @@ $market_ids = $market_ids[$markets];
 
 </td>
 
-<td class='data border_lb' align='right' style='position: relative; padding-right: 32px;'>
+<td class='data border_lb' align='right' style='position: relative; padding-right: 32px; <?=( $coins_array[$trade_symbol]['ico'] == 'yes' ? 'padding-left: 32px;' : '' )?>'>
  
  <?php
  $cmkcap_render_data = trim($coins_array[$trade_symbol]['coinmarketcap']);
  
  if ( $cmkcap_render_data != '' ) {
  ?>
- <img id='<?=$cmkcap_render_data?>' src='templates/default/images/info.png' border=0' style='position: absolute; top: 4px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <a title='' href='http://coinmarketcap.com/currencies/<?=$cmkcap_render_data?>/' target='_blank'><?php echo $coin_name; ?></a>
+ <?=( $coins_array[$trade_symbol]['ico'] == 'yes' ? "<a title='SEC Announcement On ICOs' href='https://www.sec.gov/news/public-statement/enforcement-tm-statement-potentially-unlawful-online-platforms-trading' target='_blank'><img src='templates/default/images/alert.png' border=0' style='position: absolute; top: 4px; left: 0px; margin: 0px; height: 30px; width: 30px;' /></a> " : "" )?><img id='<?=$cmkcap_render_data?>' src='templates/default/images/info.png' border=0' style='position: absolute; top: 4px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <a title='' href='http://coinmarketcap.com/currencies/<?=$cmkcap_render_data?>/' target='_blank'><?php echo $coin_name; ?></a>
  <script>
 
 	<?php

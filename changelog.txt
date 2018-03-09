@@ -628,6 +628,15 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 
 
+-------------------------------------------------------------------
+1.9.5:
+-Added ICO designation ability per asset in configuration file
+-Added link to SEC statement on ICOs, for ICO-designated assets
+-------------------------------------------------------------------
+
+
+
+
 
 
 

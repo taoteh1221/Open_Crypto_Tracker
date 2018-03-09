@@ -37,6 +37,7 @@ OTHER CRYPTOCURRENCIES AND PAYPAL ACCEPTED HERE: https://dragonfrugal.com/donate
                         'coin_name' => 'COIN_NAME',
                         'coin_symbol' => 'UPPERCASE_COIN_SYMBOL',
                         'coinmarketcap' => 'coin-slug', // Is this coin listed on coinmarketcap, leave blank if not
+                        'ico' => 'no', // yes / no ...was this an ICO
                         'market_ids' => array(
                                     'btc' => array(
                                           'LOWERCASE_MARKETPLACE1' => 'MARKETNUMBERHERE',
@@ -115,6 +116,7 @@ $coins_array = array(
                         'coin_name' => 'Bitcoin',
                         'coin_symbol' => 'BTC',
                         'coinmarketcap' => 'bitcoin',
+                        'ico' => 'no',
                         'market_ids' => array(
                                     'btc' => array(
                                           'okcoin' => 'okcoin',
@@ -137,6 +139,7 @@ $coins_array = array(
                         'coin_name' => 'Monero',
                         'coin_symbol' => 'XMR',
                         'coinmarketcap' => 'monero',
+                        'ico' => 'no',
                         'market_ids' => array(
                                     'btc' => array(
                                           'poloniex' => 'BTC_XMR',
@@ -163,6 +166,7 @@ $coins_array = array(
                         'coin_name' => 'Ethereum',
                         'coin_symbol' => 'ETH',
                         'coinmarketcap' => 'ethereum',
+                        'ico' => 'no',
                         'market_ids' => array(
                                     'btc' => array(
                                           'poloniex' => 'BTC_ETH',
@@ -197,6 +201,7 @@ $coins_array = array(
                         'coin_name' => 'Decred',
                         'coin_symbol' => 'DCR',
                         'coinmarketcap' => 'decred',
+                        'ico' => 'no',
                         'market_ids' => array(
                                     'btc' => array(
                                           'poloniex' => 'BTC_DCR',
@@ -214,6 +219,7 @@ $coins_array = array(
                         'coin_name' => 'Dash',
                         'coin_symbol' => 'DASH',
                         'coinmarketcap' => 'dash',
+                        'ico' => 'no',
                         'market_ids' => array(
                                     'btc' => array(
                                         'poloniex' => 'BTC_DASH',
@@ -239,6 +245,7 @@ $coins_array = array(
                         'coin_name' => 'Litecoin',
                         'coin_symbol' => 'LTC',
                         'coinmarketcap' => 'litecoin',
+                        'ico' => 'no',
                         'market_ids' => array(
                                     'btc' => array(
                                         'bitfinex' => 'ltcbtc',
@@ -263,12 +270,28 @@ $coins_array = array(
                                         ),
                         'default_pairing' => 'btc'
                     ),
+                    // TUSD
+                    'TUSD' => array(
+                        
+                        'coin_name' => 'True USD',
+                        'coin_symbol' => 'TUSD',
+                        'coinmarketcap' => 'true-usd',
+                        'ico' => 'yes',
+                        'market_ids' => array(
+                                    'btc' => array(
+                                        'bittrex' => 'BTC-TUSD',
+                                        'upbit' => 'BTC-TUSD'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
+                    ),
                     // STEEM
                     'STEEM' => array(
                         
                         'coin_name' => 'Steem',
                         'coin_symbol' => 'STEEM',
                         'coinmarketcap' => 'steem',
+                        'ico' => 'no',
                         'market_ids' => array(
                                     'btc' => array(
                                           'poloniex' => 'BTC_STEEM',
@@ -282,132 +305,13 @@ $coins_array = array(
                         'default_pairing' => 'btc'
                         
                     ),
-                    // DGD
-                    'DGD' => array(
-                        
-                        'coin_name' => 'DigixDAO',
-                        'coin_symbol' => 'DGD',
-                        'coinmarketcap' => 'digixdao',
-                        'market_ids' => array(
-                                    'btc' => array(
-                                        'binance' => 'DGDBTC',
-                                        'liqui' => 'dgd_btc',
-                                        'hitbtc' => 'DGDBTC',
-                                        'livecoin' => 'DGD/BTC'
-                                                    )
-                                        ),
-                        'default_pairing' => 'btc'
-                    ),
-                    // ADA
-                    'ADA' => array(
-                        
-                        'coin_name' => 'Cardano',
-                        'coin_symbol' => 'ADA',
-                        'coinmarketcap' => 'cardano',
-                        'market_ids' => array(
-                                    'btc' => array(
-                                        'bittrex' => 'BTC-ADA',
-                                        'binance' => 'ADABTC',
-                                        'upbit' => 'BTC-ADA'
-                                                    ),
-                                    'eth' => array(
-                                          'bittrex' => 'ETH-ADA',
-                                          'binance' => 'ADAETH'
-                                                    )
-                                        ),
-                        'default_pairing' => 'btc'
-                    ),
-                    // VTC
-                    'VTC' => array(
-                        
-                        'coin_name' => 'Vertcoin',
-                        'coin_symbol' => 'VTC',
-                        'coinmarketcap' => 'vertcoin',
-                        'market_ids' => array(
-                                    'btc' => array(
-                                          'poloniex' => 'BTC_VTC',
-                                          'bittrex' => 'BTC-VTC',
-                                        	'upbit' => 'BTC-VTC'
-                                                    )
-                                        ),
-                        'default_pairing' => 'btc'
-                        
-                    ),
-                    // XMY
-                    'XMY' => array(
-                        
-                        'coin_name' => 'Myriad',
-                        'coin_symbol' => 'XMY',
-                        'coinmarketcap' => 'myriad',
-                        'market_ids' => array(
-                                    'btc' => array(
-                                          'bittrex' => 'BTC-XMY',
-                                          'cryptopia' => 'XMY/BTC'
-                                                    )
-                                        ),
-                        'default_pairing' => 'btc'
-                        
-                    ),
-                    // PPC
-                    'PPC' => array(
-                        
-                        'coin_name' => 'Peercoin',
-                        'coin_symbol' => 'PPC',
-                        'coinmarketcap' => 'peercoin',
-                        'market_ids' => array(
-                                    'btc' => array(
-                                          'poloniex' => 'BTC_PPC',
-                                          'bittrex' => 'BTC-PPC',
-                                          'livecoin' => 'PPC/BTC',
-                                          'cryptopia' => 'PPC/BTC',
-                                          'bter' => 'ppc_btc'
-                                                    )
-                                        ),
-                        'default_pairing' => 'btc'
-                        
-                    ),
-                    // FTC
-                    'FTC' => array(
-                        
-                        'coin_name' => 'Feathercoin',
-                        'coin_symbol' => 'FTC',
-                        'coinmarketcap' => 'feathercoin',
-                        'market_ids' => array(
-                                    'btc' => array(
-                                          'bittrex' => 'BTC-FTC',
-                                        	'upbit' => 'BTC-FTC',
-                                          'cryptopia' => 'FTC/BTC'
-                                                    )
-                                        ),
-                        'default_pairing' => 'btc'
-                        
-                    ),
-                    // DOGE
-                    'DOGE' => array(
-                        
-                        'coin_name' => 'Dogecoin',
-                        'coin_symbol' => 'DOGE',
-                        'coinmarketcap' => 'dogecoin',
-                        'market_ids' => array(
-                                    'btc' => array(
-                                          'poloniex' => 'BTC_DOGE',
-                                          'bittrex' => 'BTC-DOGE',
-                                        	'upbit' => 'BTC-DOGE',
-                                          'hitbtc' => 'DOGEBTC',
-                                          'livecoin' => 'DOGE/BTC',
-                                          'cryptopia' => 'DOGE/BTC',
-                                        	'tradesatoshi' => 'DOGE_BTC'
-                                                    )
-                                        ),
-                        'default_pairing' => 'btc'
-                        
-                    ),
                     // FCT
                     'FCT' => array(
                         
                         'coin_name' => 'Factom',
                         'coin_symbol' => 'FCT',
                         'coinmarketcap' => 'factom',
+                        'ico' => 'no',
                         'market_ids' => array(
                                     'btc' => array(
                                           'poloniex' => 'BTC_FCT',
@@ -425,6 +329,7 @@ $coins_array = array(
                         'coin_name' => 'Stellar',
                         'coin_symbol' => 'XLM',
                         'coinmarketcap' => 'stellar',
+                        'ico' => 'no',
                         'market_ids' => array(
                                     'btc' => array(
                                           'poloniex' => 'BTC_STR',
@@ -442,6 +347,7 @@ $coins_array = array(
                         'coin_name' => 'Aragon',
                         'coin_symbol' => 'ANT',
                         'coinmarketcap' => 'aragon',
+                        'ico' => 'yes',
                         'market_ids' => array(
                                     'btc' => array(
                                           'bittrex' => 'BTC-ANT',
@@ -458,6 +364,7 @@ $coins_array = array(
                         'coin_name' => 'oxProject',
                         'coin_symbol' => 'ZRX',
                         'coinmarketcap' => '0x',
+                        'ico' => 'yes',
                         'market_ids' => array(
                                     'btc' => array(
                                           'poloniex' => 'BTC_ZRX',
@@ -471,12 +378,30 @@ $coins_array = array(
                         'default_pairing' => 'btc'
                         
                     ),
+                    // DGD
+                    'DGD' => array(
+                        
+                        'coin_name' => 'DigixDAO',
+                        'coin_symbol' => 'DGD',
+                        'coinmarketcap' => 'digixdao',
+                        'ico' => 'yes',
+                        'market_ids' => array(
+                                    'btc' => array(
+                                        'binance' => 'DGDBTC',
+                                        'liqui' => 'dgd_btc',
+                                        'hitbtc' => 'DGDBTC',
+                                        'livecoin' => 'DGD/BTC'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
+                    ),
                     // SNT
                     'SNT' => array(
                         
                         'coin_name' => 'Status',
                         'coin_symbol' => 'SNT',
                         'coinmarketcap' => 'status',
+                        'ico' => 'yes',
                         'market_ids' => array(
                                     'btc' => array(
                                           'bter' => 'snt_btc',
@@ -502,6 +427,7 @@ $coins_array = array(
                         'coin_name' => 'Decentraland',
                         'coin_symbol' => 'MANA',
                         'coinmarketcap' => 'decentraland',
+                        'ico' => 'yes',
                         'market_ids' => array(
                                     'btc' => array(
                                           'bittrex' => 'BTC-MANA',
@@ -530,6 +456,7 @@ $coins_array = array(
                         'coin_name' => 'District0x',
                         'coin_symbol' => 'DNT',
                         'coinmarketcap' => 'district0x',
+                        'ico' => 'yes',
                         'market_ids' => array(
                                     'btc' => array(
                                           'bittrex' => 'BTC-DNT',
@@ -549,29 +476,13 @@ $coins_array = array(
                         'default_pairing' => 'btc'
                         
                     ),
-                    // POLY
-                    'POLY' => array(
-                        
-                        'coin_name' => 'Polymath',
-                        'coin_symbol' => 'POLY',
-                        'coinmarketcap' => 'polymath-network',
-                        'market_ids' => array(
-                                    'btc' => array(
-                                          'kucoin' => 'POLY-BTC'
-                                                    ),
-                                    'eth' => array(
-                                          'kucoin' => 'POLY-ETH'
-                                                    )
-                                        ),
-                        'default_pairing' => 'btc'
-                        
-                    ),
                     // GNT
                     'GNT' => array(
                         
                         'coin_name' => 'Golem',
                         'coin_symbol' => 'GNT',
                         'coinmarketcap' => 'golem-network-tokens',
+                        'ico' => 'yes',
                         'market_ids' => array(
                                     'btc' => array(
                                           'poloniex' => 'BTC_GNT',
@@ -584,83 +495,13 @@ $coins_array = array(
                         'default_pairing' => 'btc'
                         
                     ),
-                    // SWT
-                    'SWT' => array(
-                        
-                        'coin_name' => 'Swarm City',
-                        'coin_symbol' => 'SWT',
-                        'coinmarketcap' => 'swarm-city',
-                        'market_ids' => array(
-                                    'btc' => array(
-                                          'bittrex' => 'BTC-SWT',
-                                          'hitbtc' => 'SWTBTC',
-                                        	'upbit' => 'BTC-SWT'
-                                                    )
-                                        ),
-                        'default_pairing' => 'btc'
-                        
-                    ),
-                    // MYST
-                    'MYST' => array(
-                        
-                        'coin_name' => 'Mysterium',
-                        'coin_symbol' => 'MYST',
-                        'coinmarketcap' => 'mysterium',
-                        'market_ids' => array(
-                                    'eth' => array(
-                                          'liqui' => 'myst_eth'
-                                                    )
-                                        ),
-                        'default_pairing' => 'eth'
-                        
-                    ),
-                    // MCO
-                    'MCO' => array(
-                        
-                        'coin_name' => 'Monaco',
-                        'coin_symbol' => 'MCO',
-                        'coinmarketcap' => 'monaco',
-                        'market_ids' => array(
-                                    'btc' => array(
-                                          'bittrex' => 'BTC-MCO',
-                                          'binance' => 'MCOBTC',
-                                        	'upbit' => 'BTC-MCO',
-                                          'liqui' => 'mco_btc',
-                                          'livecoin' => 'MCO/BTC'
-                                                    )
-                                        ),
-                        'default_pairing' => 'btc'
-                        
-                    ),
-                    // BAT
-                    'BAT' => array(
-                        
-                        'coin_name' => 'Basic Attention Token',
-                        'coin_symbol' => 'BAT',
-                        'coinmarketcap' => 'basic-attention-token',
-                        'market_ids' => array(
-                                    'btc' => array(
-                                          'bittrex' => 'BTC-BAT',
-                                        	'upbit' => 'BTC-BAT',
-                                          'liqui' => 'bat_btc',
-                                          'bter' => 'bat_btc',
-                                          'mercatox' => 'BAT_BTC'
-                                                    ),
-                                    'eth' => array(
-                                          'bittrex' => 'ETH-BAT',
-                                          'liqui' => 'bat_eth',
-                                          'mercatox' => 'BAT_ETH'
-                                                    )
-                                        ),
-                        'default_pairing' => 'btc'
-                        
-                    ),
                     // BTS
                     'BTS' => array(
                         
                         'coin_name' => 'BitShares',
                         'coin_symbol' => 'BTS',
                         'coinmarketcap' => 'bitshares',
+                        'ico' => 'no',
                         'market_ids' => array(
                                     'btc' => array(
                                           'poloniex' => 'BTC_BTS',
@@ -678,6 +519,7 @@ $coins_array = array(
                         'coin_name' => 'Ripple',
                         'coin_symbol' => 'XRP',
                         'coinmarketcap' => 'ripple',
+                        'ico' => 'no',
                         'market_ids' => array(
                                     'btc' => array(
                                           'poloniex' => 'BTC_XRP',
@@ -690,19 +532,25 @@ $coins_array = array(
                         'default_pairing' => 'btc'
                         
                     ),
-                    // PIRL
-                    'PIRL' => array(
+                    // ADA
+                    'ADA' => array(
                         
-                        'coin_name' => 'Pirl',
-                        'coin_symbol' => 'PIRL',
-                        'coinmarketcap' => 'pirl',
+                        'coin_name' => 'Cardano',
+                        'coin_symbol' => 'ADA',
+                        'coinmarketcap' => 'cardano',
+                        'ico' => 'no',
                         'market_ids' => array(
                                     'btc' => array(
-                                          'cryptopia' => 'PIRL/BTC'
+                                        'bittrex' => 'BTC-ADA',
+                                        'binance' => 'ADABTC',
+                                        'upbit' => 'BTC-ADA'
+                                                    ),
+                                    'eth' => array(
+                                          'bittrex' => 'ETH-ADA',
+                                          'binance' => 'ADAETH'
                                                     )
                                         ),
                         'default_pairing' => 'btc'
-                        
                     )
                 
                 
