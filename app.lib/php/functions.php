@@ -72,13 +72,9 @@ function get_btc_usd($btc_in_usd) {
   
     elseif ( strtolower($btc_in_usd) == 'bitfinex' ) {
   
-    $json_string = 'https://api.bitfinex.com/v1/pubticker/btcusd';
+    $data = get_trade_price('bitfinex', 'tBTCUSD');
     
-    $jsondata = @get_data($json_string);
-    
-    $data = json_decode($jsondata, TRUE);
-    
-    return number_format( $data['last_price'], 2, '.', '');
+    return number_format( $data, 2, '.', '');
   
     }
   
@@ -262,21 +258,7 @@ function get_trade_price($markets, $market_ids) {
 global $coins_array;
  
 
-  if ( strtolower($markets) == 'bitfinex' ) {
-  
-  $json_string = 'https://api.bitfinex.com/v1/pubticker/' . $market_ids;
-  
-    $jsondata = @get_data($json_string);
-    
-    $data = json_decode($jsondata, TRUE);
-    
-    return number_format( $data['last_price'], 8, '.', '');
-    
-  
-  }
-
-
-  elseif ( strtolower($markets) == 'gemini' ) {
+  if ( strtolower($markets) == 'gemini' ) {
   
   $json_string = 'https://api.gemini.com/v1/pubticker/' . $market_ids;
   
@@ -761,6 +743,60 @@ global $coins_array;
   }
 
 
+  elseif ( strtolower($markets) == 'ethfinex' || strtolower($markets) == 'bitfinex' ) {
+  	
+  	
+  		foreach ( $coins_array as $markets ) {
+  		
+  			foreach ( $markets['market_ids'] as $market_pairings ) {
+  			
+  				if ( $market_pairings['ethfinex'] != '' ) {
+				
+				$finex_pairs .= $market_pairings['ethfinex'] . ',';
+				  				
+  				}
+  				
+  				if ( $market_pairings['bitfinex'] != '' ) {
+				
+				$finex_pairs .= $market_pairings['bitfinex'] . ',';
+				  				
+  				}
+  			
+  			}
+  			
+  		}
+
+
+     $json_string = 'https://api.bitfinex.com/v2/tickers?symbols=' . $finex_pairs;
+     
+     $jsondata = @get_data($json_string);
+     
+     $data = json_decode($jsondata, TRUE);
+  
+  //var_dump($data);
+  
+      if (is_array($data) || is_object($data)) {
+  
+      foreach ( $data as $object ) {
+        
+        if ( $object[0] == $market_ids ) {
+        	
+         //var_dump($object);
+         
+        return $object[( sizeof($object) - 4 )];
+         
+         
+        }
+      
+    
+      }
+      
+      }
+  
+  
+  }
+
+
   
 }
 //////////////////////////////////////////////////////////
@@ -998,7 +1034,7 @@ $market_ids = $market_ids[$markets];
  
  if ( $cmkcap_render_data != '' ) {
  ?>
- <?=( $coins_array[$trade_symbol]['ico'] == 'yes' ? "<a title='SEC Announcement On ICOs' href='https://www.sec.gov/news/public-statement/enforcement-tm-statement-potentially-unlawful-online-platforms-trading' target='_blank'><img src='templates/default/images/alert.png' border=0' style='position: absolute; top: 4px; left: 0px; margin: 0px; height: 30px; width: 30px;' /></a> " : "" )?><img id='<?=$cmkcap_render_data?>' src='templates/default/images/info.png' border=0' style='position: absolute; top: 4px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <a title='' href='http://coinmarketcap.com/currencies/<?=$cmkcap_render_data?>/' target='_blank'><?php echo $coin_name; ?></a>
+ <?=( $coins_array[$trade_symbol]['ico'] == 'yes' ? "<a title='SEC Website On ICO Guidance And Safety' href='https://www.sec.gov/ICO' target='_blank'><img src='templates/default/images/alert.png' border=0' style='position: absolute; top: 4px; left: 0px; margin: 0px; height: 30px; width: 30px;' /></a> " : "" )?><img id='<?=$cmkcap_render_data?>' src='templates/default/images/info.png' border=0' style='position: absolute; top: 4px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <a title='' href='http://coinmarketcap.com/currencies/<?=$cmkcap_render_data?>/' target='_blank'><?php echo $coin_name; ?></a>
  <script>
 
 	<?php
