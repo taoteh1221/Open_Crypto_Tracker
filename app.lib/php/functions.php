@@ -41,6 +41,39 @@
  
  
 //////////////////////////////////////////////////////////
+ function decred_api($request) {
+ 	
+ 	if ( !$_SESSION['decred_data']  ) {
+ 		
+ 	$json_string = 'https://explorer.dcrdata.org/api/block/best/verbose';
+ 	$jsondata = @get_data($json_string);
+  	
+  	$data = json_decode($jsondata, TRUE);
+    
+    	if ( !$data ) {
+    	return;
+    	}
+    	else {
+    	
+    	//var_dump($data);
+    	
+    	$_SESSION['decred_data'] = $data;
+  
+    	}
+   
+   }
+    	
+   $decred_data = $_SESSION['decred_data'];
+   
+   // Parse / return requested API data
+   return $decred_data[$request];
+  
+}
+//////////////////////////////////////////////////////////
+ 
+ 
+ 
+//////////////////////////////////////////////////////////
 function get_btc_usd($btc_in_usd) {
 
   

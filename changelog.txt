@@ -642,6 +642,13 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 
 
+-------------------------------------------------------------------
+1.9.7:
+-Added Decred mining calculator
+-Revised mining calculators to include block reward field
+-------------------------------------------------------------------
+
+
 
 
 

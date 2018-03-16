@@ -10,10 +10,12 @@
 				$_POST['eth_difficulty'] = str_replace("    ", '', $_POST['eth_difficulty']);
 				$_POST['eth_difficulty'] = str_replace(" ", '', $_POST['eth_difficulty']);
 				$_POST['eth_difficulty'] = str_replace(",", '', $_POST['eth_difficulty']);
-				    
-				$scale = ( trim($_POST['eth_difficulty']) / trim($_POST['eth_measure']) );
 				
-				$time = ( $scale / trim($_POST['eth_hashrate']) );
+				$miner_eth_hashrate = ( trim($_POST['eth_your_hashrate']) * trim($_POST['eth_measure']) );
+				
+				$time = ( trim($_POST['eth_difficulty']) / $miner_eth_hashrate );
+				
+				$minutes = ( $time / 60 );
 				
 				$hours = ( $time / 3600 );
 				
@@ -28,7 +30,14 @@
 				?>
 				<p style='color: green;'>
 				<?php
-				    if ( $hours < 24 ) {
+				    if ( $minutes < 60 ) {
+				    ?>
+				    Minutes until block found: 
+				    <?php
+				    echo round($minutes, 2);
+				    }
+				
+				    elseif ( $hours < 24 ) {
 				    ?>
 				    Hours until block found: 
 				    <?php
@@ -57,7 +66,7 @@
 				    }
 				
 				$caculate_daily = ( 24 / $hours );
-				$daily_average = ( $caculate_daily * ( get_trade_price('poloniex', 'BTC_ETH') * 5 ) );
+				$daily_average = ( $caculate_daily * ( get_trade_price('poloniex', 'BTC_ETH') * trim($_POST['eth_block_reward']) ) );
 				?>
 				<br />
 				<br />
@@ -69,13 +78,13 @@
 				<br />
 				Average ETH Earned Daily (block reward only): 
 				<?php
-				echo round(( round($daily_average, 8) / get_trade_price('poloniex', 'BTC_ETH') ), 8) . ' ETH';
+				echo number_format( round(( round($daily_average, 8) / get_trade_price('poloniex', 'BTC_ETH') ), 8) , 8) . ' ETH';
 				?>
 				<br />
 				<br />
 				Average BTC Value Earned Daily: 
 				<?php
-				echo round($daily_average, 8) . ' BTC ($' . round(( round($daily_average, 8) * get_btc_usd($btc_in_usd) ), 2) . ' USD)';
+				echo number_format(round($daily_average, 8), 8) . ' BTC ($' . round(( round($daily_average, 8) * get_btc_usd($btc_in_usd) ), 2) . ' USD)';
 				}
 				?>
 				</p>
@@ -86,13 +95,15 @@
 				<p><b>Difficulty:</b> <input type='text' value='<?=( $_POST['eth_difficulty'] ? number_format($_POST['eth_difficulty']) : number_format(hexdec(etherscan_api('difficulty'))) )?>' name='eth_difficulty' /> (uses <a href='https://etherscan.io/apis/' target='_blank'>etherscan.io/apis</a>)</p>
 				
 				
-				<p><b>Your Hashrate:</b> <input type='text' value='<?=$_POST['eth_hashrate']?>' name='eth_hashrate' />
+				<p><b>Your Hashrate:</b> <input type='text' value='<?=$_POST['eth_your_hashrate']?>' name='eth_your_hashrate' />
 				
 				<select name='eth_measure'>
 				<option value='1000000' <?=( $_POST['eth_measure'] == '1000000' ? 'selected' : '' )?>> Mhs </option>
 				<option value='1000' <?=( $_POST['eth_measure'] == '1000' ? 'selected' : '' )?>> Khs </option>
 				</select>
 				</p>
+				
+				<p><b>Block Reward:</b> <input type='text' value='<?=( $_POST['eth_block_reward'] ? $_POST['eth_block_reward'] : $mining_rewards['ethereum'] )?>' name='eth_block_reward' /> (static from config.php file, verify current block reward manually)</p>
 				
 				<input type='submit' value='Calculate ETH Mining Profit' />
 				

@@ -95,6 +95,13 @@ $eth_subtokens_ico_values = array(
                         );
 
 
+$mining_rewards = array(
+					//Mining rewards for different platforms (to prefill editable mining calculator forms)
+					'ethereum' => '3',
+					'decred' => '13.082125'
+					);
+
+
 /*
  * STEEM Power yearly interest rate START 11/29/2016 (1.425%, decreasing every year by roughly 0.075% until it hits a minimum of 0.075% and stays there)
  */
@@ -381,6 +388,37 @@ $coins_array = array(
                         'default_pairing' => 'btc'
                         
                     ),
+                    // MANA
+                    'MANA' => array(
+                        
+                        'coin_name' => 'Decentraland',
+                        'coin_symbol' => 'MANA',
+                        'coinmarketcap' => 'decentraland',
+                        'ico' => 'yes',
+                        'market_ids' => array(
+                                    'btc' => array(
+                                          'bittrex' => 'BTC-MANA',
+                                        	'upbit' => 'BTC-MANA',
+                                        	'ethfinex' => 'tMNABTC',
+                                          'liqui' => 'mana_btc',
+                                          'gatecoin' => 'MANBTC',
+                                          'mercatox' => 'MANA_BTC'
+                                                    ),
+                                    'eth' => array(
+                                          'bittrex' => 'ETH-MANA',
+                                        	'ethfinex' => 'tMNAETH',
+                                          'liqui' => 'mana_eth',
+                                          'gatecoin' => 'MANETH',
+                                          'mercatox' => 'MANA_ETH'
+                                                    ),
+                                    'usdt' => array(
+                                          'liqui' => 'mana_usdt',
+                                          'hitbtc' => 'MANAUSD'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
+                        
+                    ),
                     // DGD
                     'DGD' => array(
                         
@@ -421,37 +459,6 @@ $coins_array = array(
                                           'hitbtc' => 'SNTETH',
                                           'binance' => 'SNTETH',
                                           'liqui' => 'snt_eth'
-                                                    )
-                                        ),
-                        'default_pairing' => 'btc'
-                        
-                    ),
-                    // MANA
-                    'MANA' => array(
-                        
-                        'coin_name' => 'Decentraland',
-                        'coin_symbol' => 'MANA',
-                        'coinmarketcap' => 'decentraland',
-                        'ico' => 'yes',
-                        'market_ids' => array(
-                                    'btc' => array(
-                                          'bittrex' => 'BTC-MANA',
-                                        	'upbit' => 'BTC-MANA',
-                                        	'ethfinex' => 'tMNABTC',
-                                          'liqui' => 'mana_btc',
-                                          'gatecoin' => 'MANBTC',
-                                          'mercatox' => 'MANA_BTC'
-                                                    ),
-                                    'eth' => array(
-                                          'bittrex' => 'ETH-MANA',
-                                        	'ethfinex' => 'tMNAETH',
-                                          'liqui' => 'mana_eth',
-                                          'gatecoin' => 'MANETH',
-                                          'mercatox' => 'MANA_ETH'
-                                                    ),
-                                    'usdt' => array(
-                                          'liqui' => 'mana_usdt',
-                                          'hitbtc' => 'MANAUSD'
                                                     )
                                         ),
                         'default_pairing' => 'btc'
@@ -502,93 +509,6 @@ $coins_array = array(
                                         ),
                         'default_pairing' => 'btc'
                         
-                    ),	
-                    // SWT	
-                    'SWT' => array(	
-                        	
-                        'coin_name' => 'Swarm City',	
-                        'coin_symbol' => 'SWT',	
-                        'coinmarketcap' => 'swarm-city',
-                         'ico' => 'yes',	
-                        'market_ids' => array(	
-                                    'btc' => array(	
-                                          'bittrex' => 'BTC-SWT',	
-                                          'hitbtc' => 'SWTBTC',	
-                                        	'upbit' => 'BTC-SWT'	
-                                                    )	
-                                        ),	
-                        'default_pairing' => 'btc'	
-                        	
-                    ),	
-                    // MYST	
-                    'MYST' => array(	
-                        	
-                        'coin_name' => 'Mysterium',	
-                        'coin_symbol' => 'MYST',	
-                        'coinmarketcap' => 'mysterium',	
-                         'ico' => 'yes',
-                        'market_ids' => array(	
-                                    'eth' => array(	
-                                          'liqui' => 'myst_eth'	
-                                                    )	
-                                        ),	
-                        'default_pairing' => 'eth'	
-                        	
-                    ),	
-                    // POA	
-                    'POA' => array(	
-                        	
-                        'coin_name' => 'POA Network',	
-                        'coin_symbol' => 'POA',	
-                        'coinmarketcap' => 'poa-network',	
-                         'ico' => 'yes',
-                        'market_ids' => array(	
-                                    'btc' => array(	
-                                          'binance' => 'POABTC'	
-                                                    ),	
-                                    'eth' => array(	
-                                          'binance' => 'POAETH'	
-                                                    )	
-                                        ),	
-                        'default_pairing' => 'eth'	
-                        	
-                    ),
-                    // BTS
-                    'BTS' => array(
-                        
-                        'coin_name' => 'BitShares',
-                        'coin_symbol' => 'BTS',
-                        'coinmarketcap' => 'bitshares',
-                        'ico' => 'no',
-                        'market_ids' => array(
-                                    'btc' => array(
-                                          'poloniex' => 'BTC_BTS',
-                                          'livecoin' => 'BTS/BTC',
-                                          'bter' => 'bts_btc',
-                                          'cryptofresh' => 'BTS'
-                                                    )
-                                        ),
-                        'default_pairing' => 'btc'
-                        
-                    ),
-                    // XRP
-                    'XRP' => array(
-                        
-                        'coin_name' => 'Ripple',
-                        'coin_symbol' => 'XRP',
-                        'coinmarketcap' => 'ripple',
-                        'ico' => 'no',
-                        'market_ids' => array(
-                                    'btc' => array(
-                                          'poloniex' => 'BTC_XRP',
-                                          'bittrex' => 'BTC-XRP',
-                                          'kraken' => 'XXRPXXBT',
-                                          'bitfinex' => 'tXRPBTC',
-                                          'upbit' => 'BTC-XRP'
-                                                    )
-                                        ),
-                        'default_pairing' => 'btc'
-                        
                     ),
                     // ADA
                     'ADA' => array(
@@ -629,6 +549,93 @@ $coins_array = array(
                                                     )
                                         ),
                         'default_pairing' => 'btc'
+                    ),
+                    // BTS
+                    'BTS' => array(
+                        
+                        'coin_name' => 'BitShares',
+                        'coin_symbol' => 'BTS',
+                        'coinmarketcap' => 'bitshares',
+                        'ico' => 'no',
+                        'market_ids' => array(
+                                    'btc' => array(
+                                          'poloniex' => 'BTC_BTS',
+                                          'livecoin' => 'BTS/BTC',
+                                          'bter' => 'bts_btc',
+                                          'cryptofresh' => 'BTS'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
+                        
+                    ),
+                    // XRP
+                    'XRP' => array(
+                        
+                        'coin_name' => 'Ripple',
+                        'coin_symbol' => 'XRP',
+                        'coinmarketcap' => 'ripple',
+                        'ico' => 'no',
+                        'market_ids' => array(
+                                    'btc' => array(
+                                          'poloniex' => 'BTC_XRP',
+                                          'bittrex' => 'BTC-XRP',
+                                          'kraken' => 'XXRPXXBT',
+                                          'bitfinex' => 'tXRPBTC',
+                                          'upbit' => 'BTC-XRP'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
+                        
+                    ),	
+                    // SWT	
+                    'SWT' => array(	
+                        	
+                        'coin_name' => 'Swarm City',	
+                        'coin_symbol' => 'SWT',	
+                        'coinmarketcap' => 'swarm-city',
+                         'ico' => 'yes',	
+                        'market_ids' => array(	
+                                    'btc' => array(	
+                                          'bittrex' => 'BTC-SWT',	
+                                          'hitbtc' => 'SWTBTC',	
+                                        	'upbit' => 'BTC-SWT'	
+                                                    )	
+                                        ),	
+                        'default_pairing' => 'btc'	
+                        	
+                    ),	
+                    // POA	
+                    'POA' => array(	
+                        	
+                        'coin_name' => 'POA Network',	
+                        'coin_symbol' => 'POA',	
+                        'coinmarketcap' => 'poa-network',	
+                         'ico' => 'yes',
+                        'market_ids' => array(	
+                                    'btc' => array(	
+                                          'binance' => 'POABTC'	
+                                                    ),	
+                                    'eth' => array(	
+                                          'binance' => 'POAETH'	
+                                                    )	
+                                        ),	
+                        'default_pairing' => 'eth'	
+                        	
+                    ),	
+                    // MYST	
+                    'MYST' => array(	
+                        	
+                        'coin_name' => 'Mysterium',	
+                        'coin_symbol' => 'MYST',	
+                        'coinmarketcap' => 'mysterium',	
+                         'ico' => 'yes',
+                        'market_ids' => array(	
+                                    'eth' => array(	
+                                          'liqui' => 'myst_eth'	
+                                                    )	
+                                        ),	
+                        'default_pairing' => 'eth'	
+                        	
                     )
                 
                 
