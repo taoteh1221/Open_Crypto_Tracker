@@ -50,16 +50,14 @@ function decred_api($request) {
   	
   	$data = json_decode($jsondata, TRUE);
     
-    	if ( !$data ) {
-    	return;
-    	}
-    	else {
-    	
-    	//var_dump($data);
-    	
-    	$_SESSION['decred_data'] = $data;
-  
-    	}
+		if ( !$data ) {
+		return;
+		}
+		else {
+		
+		$_SESSION['decred_data'] = $data;
+		  
+		}
    
 	}
     	
