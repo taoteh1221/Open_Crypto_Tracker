@@ -7,7 +7,7 @@
  
  
 //////////////////////////////////////////////////////////
- function etherscan_api($block_info) {
+function etherscan_api($block_info) {
  	
   $json_string = 'http://api.etherscan.io/api?module=proxy&action=eth_blockNumber';
   $jsondata = @get_data($json_string);
@@ -41,9 +41,9 @@
  
  
 //////////////////////////////////////////////////////////
- function decred_api($request) {
+function decred_api($request) {
  	
- 	if ( !$_SESSION['decred_data']  ) {
+	if ( !$_SESSION['decred_data']  ) {
  		
  	$json_string = 'https://explorer.dcrdata.org/api/block/best/verbose';
  	$jsondata = @get_data($json_string);
@@ -61,7 +61,7 @@
   
     	}
    
-   }
+	}
     	
    $decred_data = $_SESSION['decred_data'];
    
