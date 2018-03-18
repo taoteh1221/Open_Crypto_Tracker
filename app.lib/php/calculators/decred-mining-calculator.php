@@ -10,13 +10,13 @@
 				$_POST['dcr_difficulty'] = str_replace(" ", '', $_POST['dcr_difficulty']);
 				$_POST['dcr_difficulty'] = str_replace(",", '', $_POST['dcr_difficulty']);
 
-				$miner_dcr_hashrate = ( trim($_POST['dcr_your_hashrate']) * trim($_POST['dcr_measure']) );
+				$miner_hashrate = ( trim($_POST['dcr_your_hashrate']) * trim($_POST['dcr_measure']) );
 				
-				$time = ( trim($_POST['dcr_difficulty']) * pow(2, 32) / $miner_dcr_hashrate );
+				$time = ( trim($_POST['dcr_difficulty']) * pow(2, 32) / $miner_hashrate );
 				
 				$minutes = ( $time / 60 );
 				
-				$hours = ( $time / 3600 );
+				$hours = ( $minutes / 60 );
 				
 				$days = ( $hours / 24 );
 				
@@ -97,6 +97,8 @@
 				<p><b>Your Hashrate:</b> <input type='text' value='<?=$_POST['dcr_your_hashrate']?>' name='dcr_your_hashrate' />
 				
 				<select name='dcr_measure'>
+				<option value='1000000000000' <?=( $_POST['dcr_measure'] == '1000000000000' ? 'selected' : '' )?>> Ths </option>
+				<option value='1000000000' <?=( $_POST['dcr_measure'] == '1000000000' ? 'selected' : '' )?>> Ghs </option>
 				<option value='1000000' <?=( $_POST['dcr_measure'] == '1000000' ? 'selected' : '' )?>> Mhs </option>
 				<option value='1000' <?=( $_POST['dcr_measure'] == '1000' ? 'selected' : '' )?>> Khs </option>
 				</select>

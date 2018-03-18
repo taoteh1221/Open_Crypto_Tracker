@@ -42,8 +42,6 @@ function etherscan_api($block_info) {
  
 //////////////////////////////////////////////////////////
 function decred_api($request) {
- 	
-	if ( !$_SESSION['decred_data']  ) {
  		
  	$json_string = 'https://explorer.dcrdata.org/api/block/best/verbose';
  	$jsondata = @get_data($json_string);
@@ -55,16 +53,9 @@ function decred_api($request) {
 		}
 		else {
 		
-		$_SESSION['decred_data'] = $data;
+		return $data[$request];
 		  
 		}
-   
-	}
-    	
-   $decred_data = $_SESSION['decred_data'];
-   
-   // Parse / return requested API data
-   return $decred_data[$request];
   
 }
 //////////////////////////////////////////////////////////

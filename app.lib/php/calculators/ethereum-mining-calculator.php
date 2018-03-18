@@ -11,13 +11,13 @@
 				$_POST['eth_difficulty'] = str_replace(" ", '', $_POST['eth_difficulty']);
 				$_POST['eth_difficulty'] = str_replace(",", '', $_POST['eth_difficulty']);
 				
-				$miner_eth_hashrate = ( trim($_POST['eth_your_hashrate']) * trim($_POST['eth_measure']) );
+				$miner_hashrate = ( trim($_POST['eth_your_hashrate']) * trim($_POST['eth_measure']) );
 				
-				$time = ( trim($_POST['eth_difficulty']) / $miner_eth_hashrate );
+				$time = ( trim($_POST['eth_difficulty']) / $miner_hashrate );
 				
 				$minutes = ( $time / 60 );
 				
-				$hours = ( $time / 3600 );
+				$hours = ( $minutes / 60 );
 				
 				$days = ( $hours / 24 );
 				
@@ -98,6 +98,8 @@
 				<p><b>Your Hashrate:</b> <input type='text' value='<?=$_POST['eth_your_hashrate']?>' name='eth_your_hashrate' />
 				
 				<select name='eth_measure'>
+				<option value='1000000000000' <?=( $_POST['eth_measure'] == '1000000000000' ? 'selected' : '' )?>> Ths </option>
+				<option value='1000000000' <?=( $_POST['eth_measure'] == '1000000000' ? 'selected' : '' )?>> Ghs </option>
 				<option value='1000000' <?=( $_POST['eth_measure'] == '1000000' ? 'selected' : '' )?>> Mhs </option>
 				<option value='1000' <?=( $_POST['eth_measure'] == '1000' ? 'selected' : '' )?>> Khs </option>
 				</select>
