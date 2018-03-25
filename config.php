@@ -1,6 +1,6 @@
 <?php
 /*
- * DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
+ * Copyright 2014-2018 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
  */
 
 
@@ -13,7 +13,7 @@ if ( realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) ) {
 
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
  
-$version = '1.9.7';  // 2018/MARCH/16TH
+$version = '1.9.8';  // 2018/MARCH/25TH
  
 session_start();
 require_once("app.lib/php/functions.php");
@@ -458,32 +458,6 @@ $coins_array = array(
                         'default_pairing' => 'btc'
                         
                     ),
-                    // DNT
-                    'DNT' => array(
-                        
-                        'coin_name' => 'District0x',
-                        'coin_symbol' => 'DNT',
-                        'coinmarketcap' => 'district0x',
-                        'ico' => 'yes',
-                        'market_ids' => array(
-                                    'btc' => array(
-                                          'bittrex' => 'BTC-DNT',
-                                        	'upbit' => 'BTC-DNT',
-                                          'liqui' => 'dnt_btc',
-                                          'hitbtc' => 'DNTBTC',
-                                          'bter' => 'dnt_btc',
-                                          'mercatox' => 'DNT_BTC'
-                                                    ),
-                                    'eth' => array(
-                                          'bittrex' => 'ETH-DNT',
-                                          'binance' => 'DNTETH',
-                                          'liqui' => 'dnt_eth',
-                                          'mercatox' => 'DNT_ETH'
-                                                    )
-                                        ),
-                        'default_pairing' => 'btc'
-                        
-                    ),
                     // GNT
                     'GNT' => array(
                         
@@ -576,6 +550,32 @@ $coins_array = array(
                                           'kraken' => 'XXRPXXBT',
                                           'bitfinex' => 'tXRPBTC',
                                           'upbit' => 'BTC-XRP'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
+                        
+                    ),
+                    // DNT
+                    'DNT' => array(
+                        
+                        'coin_name' => 'District0x',
+                        'coin_symbol' => 'DNT',
+                        'coinmarketcap' => 'district0x',
+                        'ico' => 'yes',
+                        'market_ids' => array(
+                                    'btc' => array(
+                                          'bittrex' => 'BTC-DNT',
+                                        	'upbit' => 'BTC-DNT',
+                                          'liqui' => 'dnt_btc',
+                                          'hitbtc' => 'DNTBTC',
+                                          'bter' => 'dnt_btc',
+                                          'mercatox' => 'DNT_BTC'
+                                                    ),
+                                    'eth' => array(
+                                          'bittrex' => 'ETH-DNT',
+                                          'binance' => 'DNTETH',
+                                          'liqui' => 'dnt_eth',
+                                          'mercatox' => 'DNT_ETH'
                                                     )
                                         ),
                         'default_pairing' => 'btc'

@@ -1,5 +1,9 @@
+<?php
+/*
+ * Copyright 2014-2018 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
+ */
 
-				<?php
+
 				
 				echo '<p><b>Block height:</b> ' . number_format(hexdec(etherscan_api('number'))) . '</p>';
 				echo '<p><b>Gas limit:</b> ' . number_format(hexdec(etherscan_api('gasLimit'))) . '</p>';

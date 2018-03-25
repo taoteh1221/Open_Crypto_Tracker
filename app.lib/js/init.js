@@ -1,4 +1,6 @@
 
+// Copyright 2014-2018 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
+
 
 // Wait until the DOM has loaded before querying the document
 $(document).ready(function(){

@@ -1,5 +1,6 @@
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Copyright 2014-2018 GPLv3
 Developed by Michael Kilday <mike@dragonfrugal.com>, released free / open source under GPL v3
 https://dragonfrugal.com/downloads/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -464,32 +465,6 @@ $coins_array = array(
                         'default_pairing' => 'btc'
                         
                     ),
-                    // DNT
-                    'DNT' => array(
-                        
-                        'coin_name' => 'District0x',
-                        'coin_symbol' => 'DNT',
-                        'coinmarketcap' => 'district0x',
-                        'ico' => 'yes',
-                        'market_ids' => array(
-                                    'btc' => array(
-                                          'bittrex' => 'BTC-DNT',
-                                        	'upbit' => 'BTC-DNT',
-                                          'liqui' => 'dnt_btc',
-                                          'hitbtc' => 'DNTBTC',
-                                          'bter' => 'dnt_btc',
-                                          'mercatox' => 'DNT_BTC'
-                                                    ),
-                                    'eth' => array(
-                                          'bittrex' => 'ETH-DNT',
-                                          'binance' => 'DNTETH',
-                                          'liqui' => 'dnt_eth',
-                                          'mercatox' => 'DNT_ETH'
-                                                    )
-                                        ),
-                        'default_pairing' => 'btc'
-                        
-                    ),
                     // GNT
                     'GNT' => array(
                         
@@ -582,6 +557,32 @@ $coins_array = array(
                                           'kraken' => 'XXRPXXBT',
                                           'bitfinex' => 'tXRPBTC',
                                           'upbit' => 'BTC-XRP'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
+                        
+                    ),
+                    // DNT
+                    'DNT' => array(
+                        
+                        'coin_name' => 'District0x',
+                        'coin_symbol' => 'DNT',
+                        'coinmarketcap' => 'district0x',
+                        'ico' => 'yes',
+                        'market_ids' => array(
+                                    'btc' => array(
+                                          'bittrex' => 'BTC-DNT',
+                                        	'upbit' => 'BTC-DNT',
+                                          'liqui' => 'dnt_btc',
+                                          'hitbtc' => 'DNTBTC',
+                                          'bter' => 'dnt_btc',
+                                          'mercatox' => 'DNT_BTC'
+                                                    ),
+                                    'eth' => array(
+                                          'bittrex' => 'ETH-DNT',
+                                          'binance' => 'DNTETH',
+                                          'liqui' => 'dnt_eth',
+                                          'mercatox' => 'DNT_ETH'
                                                     )
                                         ),
                         'default_pairing' => 'btc'
