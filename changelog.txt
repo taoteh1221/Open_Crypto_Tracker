@@ -660,6 +660,7 @@ app doing the data requests, not a malicious bot)
 -Major semantics cleanup
 -Built front end GUI for additional LTC / ETH / USDT market pairings support (that was already built into back end)
 -Minor optimizations
+-Added newsletters section on external resource links page
 -------------------------------------------------------------------
 
 

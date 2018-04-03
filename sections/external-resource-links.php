@@ -63,6 +63,24 @@
 </p>
 
 
+
+<p>
+    <fieldset><legend> Newsletters </legend>
+    <ul>
+        
+        
+        <li class='chart_links'><a href='http://proofofwork.news/' target='_blank'>Proof Of Work</a></li>
+        
+        <li class='chart_links'><a href='http://www.weekinethereum.com/' target='_blank'>Week In Ethereum</a></li>
+        
+        
+        
+        
+    </ul>
+    </fieldset>
+</p>
+
+
 <p>
     <fieldset><legend> Youtube Channels </legend>
     <ul>

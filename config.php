@@ -13,7 +13,7 @@ if ( realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) ) {
 
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
  
-$version = '1.9.9';  // 2018/APRIL/2ND
+$version = '1.9.9 BETA';  // 2018/APRIL/2ND
  
 session_start();
 require_once("app.lib/php/functions.php");
