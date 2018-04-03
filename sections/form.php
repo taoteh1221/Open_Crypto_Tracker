@@ -119,41 +119,76 @@ if (is_array($coins_array) || is_object($coins_array)) {
        
     <?=$coin['coin_name']?> (<?=strtoupper($coin['coin_symbol'])?>) 
     
-    <?php
-    if ( $coin['coin_symbol'] == 'BTC' ) {
-	 ?>
-	 USD
-	 <input type="hidden" id='<?=$field_var_pairing?>' name='<?=$field_var_pairing?>' value='btc' />
-	 <?php    
-    }
-    else {
-    ?>
+
     
-    <select id='<?=$field_var_pairing?>' name='<?=$field_var_pairing?>'>
+    <select onchange='
+    
+    $("#<?=$field_var_market?>_lists").children().hide(); 
+    $("#" + this.value + "<?=$coin['coin_symbol']?>_pairs").show(); 
+    
+    $("#<?=$field_var_market?>").val( $("#" + this.value + "<?=$coin['coin_symbol']?>_pairs option:selected").val() );
+    
+    ' id='<?=$field_var_pairing?>' name='<?=$field_var_pairing?>'>
         <?php
         foreach ( $coin['market_pairing'] as $pairing_key => $pairing_id ) {
          $loop = $loop + 1;
+         
+         	if ( $coin['coin_symbol'] == 'BTC' ) {
+         	?>
+         	<option value='btc' selected> USD </option>
+         	<?php
+         	}
+         	else{
         ?>
         <option value='<?=$pairing_key?>' <?=( isset($_POST[$field_var_pairing]) && ($_POST[$field_var_pairing]) == $pairing_key || isset($coin_pairing_id) && ($coin_pairing_id) == $pairing_key ? ' selected ' : '' )?>> <?=strtoupper(preg_replace("/_/i", " ", $pairing_key))?> </option>
         <?php
+        		}
+        
+					foreach ( $coin['market_pairing'][$pairing_key] as $market_key => $market_id ) {
+         		$loop2 = $loop2 + 1;
+         		
+        			$html_market_list[$pairing_key] .= "\n<option value='".$loop2."'" . ( isset($_POST[$field_var_market]) && ($_POST[$field_var_market]) == $loop2 || isset($coin_market_id) && ($coin_market_id) == $loop2 ? ' selected ' : '' ) . ">" . ucwords(preg_replace("/_/i", " ", $market_key)) . " </option>\n";
+        			
+					}
+        			$loop2 = NULL;
+        		
+        		
         }
         $loop = NULL;
         ?>
-    </select>
+    </select> 
+     market is <input type='hidden' id='<?=$field_var_market?>' name='<?=$field_var_market?>' value='<?php
+     
+     if ( $_POST[$field_var_market] ) {
+     echo $_POST[$field_var_market];
+     }
+     elseif ( $coin_market_id ) {
+     echo $coin_market_id;
+     }
+     else {
+		echo '1';
+     }
+     
+     ?>'>
+     
+     <span id='<?=$field_var_market?>_lists' style='display: inline;'>
+    <?php
+    
+    foreach ( $html_market_list as $key => $value ) {
+    ?>
+    
+    <select onchange ='
+    
+    $("#<?=$field_var_market?>").val( this.value );
+    
+    ' id='<?=$key.$coin['coin_symbol']?>_pairs' style='display: <?=( $selected_pairing == $key ? 'inline' : 'none' )?>;'><?=$html_market_list[$key]?></select>
+    
     <?php
     }
+    $html_market_list = NULL;
     ?>
-     market is <select id='<?=$field_var_market?>' name='<?=$field_var_market?>'>
-        <?php
-        foreach ( $coin['market_pairing'][$selected_pairing] as $market_key => $market_id ) {
-         $loop = $loop + 1;
-        ?>
-        <option value='<?=$loop?>' <?=( isset($_POST[$field_var_market]) && ($_POST[$field_var_market]) == $loop || isset($coin_market_id) && ($coin_market_id) == $loop ? ' selected ' : '' )?>> <?=ucwords(preg_replace("/_/i", " ", $market_key))?> </option>
-        <?php
-        }
-        $loop = NULL;
-        ?>
-    </select>, and amount is <input type='text' size='40' id='<?=$field_var_amount?>' name='<?=$field_var_amount?>' value='<?=$coin_amount_value?>' />
+    
+    </span>, and amount is <input type='text' size='40' id='<?=$field_var_amount?>' name='<?=$field_var_amount?>' value='<?=$coin_amount_value?>' />
     
     </p>
     
