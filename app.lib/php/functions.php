@@ -143,25 +143,12 @@ function get_btc_usd($btc_in_usd) {
  
    elseif ( strtolower($btc_in_usd) == 'gatecoin' ) {
  
- 
-      if ( !$_SESSION['gatecoin_markets'] ) {
       
       $json_string = 'https://api.gatecoin.com/Public/LiveTickers';
       
       $jsondata = @get_data($json_string);
       
       $data = json_decode($jsondata, TRUE);
-      
-      $_SESSION['gatecoin_markets'] = $data;
-    
-      }
-      else {
-        
-      $data = $_SESSION['gatecoin_markets'];
-      
-      }
-   
-   
    
    //var_dump($data);
        if (is_array($data) || is_object($data)) {
@@ -186,22 +173,11 @@ function get_btc_usd($btc_in_usd) {
    elseif ( strtolower($btc_in_usd) == 'livecoin' ) {
  
  
-      if ( !$_SESSION['livecoin_markets'] ) {
-      
       $json_string = 'https://api.livecoin.net/exchange/ticker';
       
       $jsondata = @get_data($json_string);
       
       $data = json_decode($jsondata, TRUE);
-      
-      $_SESSION['livecoin_markets'] = $data;
-    
-      }
-      else {
-        
-      $data = $_SESSION['livecoin_markets'];
-      
-      }
    
    
    
@@ -275,14 +251,14 @@ function get_btc_usd($btc_in_usd) {
 
 
 //////////////////////////////////////////////////////////
-function get_trade_price($markets, $market_ids) {
+function get_trade_price($chosen_market, $market_pairing) {
 
 global $coins_array;
  
 
-  if ( strtolower($markets) == 'gemini' ) {
+  if ( strtolower($chosen_market) == 'gemini' ) {
   
-  $json_string = 'https://api.gemini.com/v1/pubticker/' . $market_ids;
+  $json_string = 'https://api.gemini.com/v1/pubticker/' . $market_pairing;
   
     $jsondata = @get_data($json_string);
     
@@ -294,9 +270,9 @@ global $coins_array;
   }
 
 
-  elseif ( strtolower($markets) == 'binance' ) {
+  elseif ( strtolower($chosen_market) == 'binance' ) {
   
-  $json_string = 'https://www.binance.com/api/v1/ticker/24hr?symbol=' . $market_ids;
+  $json_string = 'https://www.binance.com/api/v1/ticker/24hr?symbol=' . $market_pairing;
   
     $jsondata = @get_data($json_string);
     
@@ -308,9 +284,9 @@ global $coins_array;
   }
 
 
-  elseif ( strtolower($markets) == 'coinbase' ) {
+  elseif ( strtolower($chosen_market) == 'coinbase' ) {
   
-     $json_string = 'https://api.coinbase.com/v2/exchange-rates?currency=' . $market_ids;
+     $json_string = 'https://api.coinbase.com/v2/exchange-rates?currency=' . $market_pairing;
      
      $jsondata = @get_data($json_string);
      
@@ -321,9 +297,9 @@ global $coins_array;
   }
   
 
-  elseif ( strtolower($markets) == 'cryptofresh' ) {
+  elseif ( strtolower($chosen_market) == 'cryptofresh' ) {
   
-  $json_string = 'https://cryptofresh.com/api/asset/markets?asset=' . $market_ids;
+  $json_string = 'https://cryptofresh.com/api/asset/markets?asset=' . $market_pairing;
   
     $jsondata = @get_data($json_string);
     
@@ -335,7 +311,7 @@ global $coins_array;
   }
 
 
-  elseif ( strtolower($markets) == 'bittrex' ) {
+  elseif ( strtolower($chosen_market) == 'bittrex' ) {
      
      $json_string = 'https://bittrex.com/api/v1.1/public/getmarketsummaries';
      
@@ -352,7 +328,7 @@ global $coins_array;
         
         //print_r($key);
         
-        if ( $data[$key]['MarketName'] == $market_ids ) {
+        if ( $data[$key]['MarketName'] == $market_pairing ) {
          
         return $data[$key]["Last"];
          
@@ -367,7 +343,7 @@ global $coins_array;
   
   }
 
-  elseif ( strtolower($markets) == 'mercatox' ) {
+  elseif ( strtolower($chosen_market) == 'mercatox' ) {
 
      $json_string = 'https://mercatox.com/public/json24';
      
@@ -384,7 +360,7 @@ global $coins_array;
           
           //print_r($key);
           
-           if ( $key == $market_ids ) {
+           if ( $key == $market_pairing ) {
             
            return $data[$key]["last"];
             
@@ -399,7 +375,7 @@ global $coins_array;
   
   }
 
-  elseif ( strtolower($markets) == 'tradesatoshi' ) {
+  elseif ( strtolower($chosen_market) == 'tradesatoshi' ) {
 
      $json_string = 'https://tradesatoshi.com/api/public/getmarketsummaries';
      
@@ -415,7 +391,7 @@ global $coins_array;
         
         //print_r($key);
         
-        if ( $data[$key]['market'] == $market_ids ) {
+        if ( $data[$key]['market'] == $market_pairing ) {
          
         return $data[$key]["last"];
          
@@ -430,9 +406,9 @@ global $coins_array;
   
   }
 
-  elseif ( strtolower($markets) == 'liqui' ) {
+  elseif ( strtolower($chosen_market) == 'liqui' ) {
   
-  $json_string = 'https://api.liqui.io/api/3/ticker/' . $market_ids;
+  $json_string = 'https://api.liqui.io/api/3/ticker/' . $market_pairing;
   
   $jsondata = @get_data($json_string);
   
@@ -445,7 +421,7 @@ global $coins_array;
         
         //print_r($key);
         
-        if ( $key == $market_ids ) {
+        if ( $key == $market_pairing ) {
          
         return $data[$key]["last"];
          
@@ -459,7 +435,7 @@ global $coins_array;
   
   }
 
-  elseif ( strtolower($markets) == 'poloniex' ) {
+  elseif ( strtolower($chosen_market) == 'poloniex' ) {
 
      $json_string = 'https://poloniex.com/public?command=returnTicker';
      
@@ -475,7 +451,7 @@ global $coins_array;
         
         //print_r($key);
         
-        if ( $key == $market_ids ) {
+        if ( $key == $market_pairing ) {
          
         return $data[$key]["last"];
          
@@ -490,7 +466,7 @@ global $coins_array;
   
   }
 
-  elseif ( strtolower($markets) == 'kucoin' ) {
+  elseif ( strtolower($chosen_market) == 'kucoin' ) {
 
      $json_string = 'https://api.kucoin.com/v1/open/tick';
      
@@ -507,7 +483,7 @@ global $coins_array;
         
         //print_r($key);
         
-        if ( $data[$key]['symbol'] == $market_ids ) {
+        if ( $data[$key]['symbol'] == $market_pairing ) {
          
         return $data[$key]["lastDealPrice"];
          
@@ -522,7 +498,7 @@ global $coins_array;
   
   }
 
-  elseif ( strtolower($markets) == 'livecoin' ) {
+  elseif ( strtolower($chosen_market) == 'livecoin' ) {
 
      $json_string = 'https://api.livecoin.net/exchange/ticker';
      
@@ -537,7 +513,7 @@ global $coins_array;
         
         //print_r($key);
         
-        if ( $data[$key]['symbol'] == $market_ids ) {
+        if ( $data[$key]['symbol'] == $market_pairing ) {
          
         return $data[$key]["last"];
          
@@ -552,7 +528,7 @@ global $coins_array;
   
   }
   
-  elseif ( strtolower($markets) == 'cryptopia' ) {
+  elseif ( strtolower($chosen_market) == 'cryptopia' ) {
 
      $json_string = 'https://www.cryptopia.co.nz/api/GetMarkets';
      
@@ -569,7 +545,7 @@ global $coins_array;
         
         //print_r($key);
         
-        if ( $data[$key]['Label'] == $market_ids ) {
+        if ( $data[$key]['Label'] == $market_pairing ) {
          
         return $data[$key]["LastPrice"];
          
@@ -584,7 +560,7 @@ global $coins_array;
   
   }
 
-  elseif ( strtolower($markets) == 'hitbtc' ) {
+  elseif ( strtolower($chosen_market) == 'hitbtc' ) {
 
      $json_string = 'https://api.hitbtc.com/api/1/public/ticker';
      
@@ -599,7 +575,7 @@ global $coins_array;
         
         //print_r($key);
         
-        if ( $key == $market_ids ) {
+        if ( $key == $market_pairing ) {
          
         return $data[$key]["last"];
          
@@ -614,7 +590,7 @@ global $coins_array;
   
   }
 
-  elseif ( strtolower($markets) == 'bter' ) {
+  elseif ( strtolower($chosen_market) == 'bter' ) {
 
      $json_string = 'http://data.bter.com/api/1/marketlist';
      
@@ -629,7 +605,7 @@ global $coins_array;
         
         //var_dump($data);
         
-        if ( $data[$key]['pair'] == $market_ids ) {
+        if ( $data[$key]['pair'] == $market_pairing ) {
          
         return $data[$key]['rate'];
          
@@ -645,9 +621,9 @@ global $coins_array;
   }
 
 
-  elseif ( strtolower($markets) == 'kraken' ) {
+  elseif ( strtolower($chosen_market) == 'kraken' ) {
   
-  $json_string = 'https://api.kraken.com/0/public/Ticker?pair=' . $market_ids;
+  $json_string = 'https://api.kraken.com/0/public/Ticker?pair=' . $market_pairing;
   
   $jsondata = @get_data($json_string);
   
@@ -669,7 +645,7 @@ global $coins_array;
       
       //print_r($data[$key][$key2]);
       
-      if ( $key2 == $market_ids ) {
+      if ( $key2 == $market_pairing ) {
        
       return $data[$key][$key2]["c"][0];;
        
@@ -690,7 +666,7 @@ global $coins_array;
 
 
 
-  elseif ( strtolower($markets) == 'gatecoin' ) {
+  elseif ( strtolower($chosen_market) == 'gatecoin' ) {
 
      $json_string = 'https://api.gatecoin.com/Public/LiveTickers';
      
@@ -703,7 +679,7 @@ global $coins_array;
   
       foreach ( $data['tickers'] as $key => $value ) {
         
-        if ( $data['tickers'][$key]["currencyPair"] == $market_ids ) {
+        if ( $data['tickers'][$key]["currencyPair"] == $market_pairing ) {
          
         return $data['tickers'][$key]["last"];
          
@@ -720,16 +696,16 @@ global $coins_array;
 
 
 
-  elseif ( strtolower($markets) == 'upbit' ) {
+  elseif ( strtolower($chosen_market) == 'upbit' ) {
   	
   	
   		foreach ( $coins_array as $markets ) {
   		
-  			foreach ( $markets['market_ids'] as $market_pairings ) {
+  			foreach ( $markets['market_pairing'] as $exchange_pairs ) {
   			
-  				if ( $market_pairings['upbit'] != '' ) {
+  				if ( $exchange_pairs['upbit'] != '' ) {
 				
-				$upbit_pairs .= 'CRIX.UPBIT.' . $market_pairings['upbit'] . ',';
+				$upbit_pairs .= 'CRIX.UPBIT.' . $exchange_pairs['upbit'] . ',';
 				  				
   				}
   			
@@ -749,7 +725,7 @@ global $coins_array;
   
       foreach ( $data as $key => $value ) {
         
-        if ( $data[$key]["code"] == 'CRIX.UPBIT.' . $market_ids ) {
+        if ( $data[$key]["code"] == 'CRIX.UPBIT.' . $market_pairing ) {
          
         return $data[$key]["tradePrice"];
          
@@ -765,22 +741,22 @@ global $coins_array;
   }
 
 
-  elseif ( strtolower($markets) == 'ethfinex' || strtolower($markets) == 'bitfinex' ) {
+  elseif ( strtolower($chosen_market) == 'ethfinex' || strtolower($chosen_market) == 'bitfinex' ) {
   	
   	
   		foreach ( $coins_array as $markets ) {
   		
-  			foreach ( $markets['market_ids'] as $market_pairings ) {
+  			foreach ( $markets['market_pairing'] as $exchange_pairs ) {
   			
-  				if ( $market_pairings['ethfinex'] != '' ) {
+  				if ( $exchange_pairs['ethfinex'] != '' ) {
 				
-				$finex_pairs .= $market_pairings['ethfinex'] . ',';
+				$finex_pairs .= $exchange_pairs['ethfinex'] . ',';
 				  				
   				}
   				
-  				if ( $market_pairings['bitfinex'] != '' ) {
+  				if ( $exchange_pairs['bitfinex'] != '' ) {
 				
-				$finex_pairs .= $market_pairings['bitfinex'] . ',';
+				$finex_pairs .= $exchange_pairs['bitfinex'] . ',';
 				  				
   				}
   			
@@ -801,7 +777,7 @@ global $coins_array;
   
       foreach ( $data as $object ) {
         
-        if ( $object[0] == $market_ids ) {
+        if ( $object[0] == $market_pairing ) {
         	
          //var_dump($object);
          
@@ -824,13 +800,13 @@ global $coins_array;
 //////////////////////////////////////////////////////////
  
 //////////////////////////////////////////////////////////
-function get_sub_token_price($markets, $market_ids) {
+function get_sub_token_price($chosen_market, $market_pairing) {
 
 global $eth_subtokens_ico_values;
 
- if ( strtolower($markets) == 'eth_subtokens_ico' ) {
+ if ( strtolower($chosen_market) == 'eth_subtokens_ico' ) {
 
-  return $eth_subtokens_ico_values[$market_ids];
+  return $eth_subtokens_ico_values[$market_pairing];
   }
  
 
@@ -887,25 +863,22 @@ global $coinmarketcap_ranks_max;
 
 
 //////////////////////////////////////////////////////////
-function coin_data($coin_name, $trade_symbol, $coin_amount, $markets, $market_ids, $trade_pairing, $sort_order) {
+function coin_data($coin_name, $trade_symbol, $coin_amount, $market_pairing_array, $selected_pairing, $selected_market, $sort_order) {
 
 global $_POST, $coins_array, $btc_in_usd, $alert_percent, $coinmarketcap_ranks_max, $api_timeout;
 
 
-//var_dump($markets);
+$original_market = $selected_market;
 
-
-$orig_markets = $markets;  // Save this for dynamic HTML form
-
-$all_markets = $coins_array[$trade_symbol]['market_ids'][$trade_pairing];  // Get all markets for this coin
+$all_markets = $coins_array[$trade_symbol]['market_pairing'][$selected_pairing];  // Get all markets for this coin
 
   // Update, get the selected market name
   
   $loop = 0;
    foreach ( $all_markets as $key => $value ) {
    
-    if ( $loop == $markets || $key == "eth_subtokens_ico" ) {
-    $markets = $key;
+    if ( $loop == $selected_market || $key == "eth_subtokens_ico" ) {
+    $selected_market = $key;
      
      if ( $coin_name == 'Bitcoin' ) {
      $_SESSION['btc_in_usd'] = $key;
@@ -923,12 +896,7 @@ $btc_in_usd = $_SESSION['btc_in_usd'];
 }
 
 
-//var_dump($markets);
-
-$market_ids = $market_ids[$markets];
-
-//var_dump($market_ids);
-
+$market_pairing = $market_pairing_array[$selected_market];
   
   
   if ( $coin_amount > 0.00000000 ) {
@@ -940,17 +908,17 @@ $market_ids = $market_ids[$markets];
     $_SESSION['td_color'] = '#e8e8e8';
     }
 
-    if ( $trade_pairing == 'btc' ) {
-    $coin_to_trade_raw = ( $coin_name == 'Bitcoin' ? get_btc_usd($btc_in_usd) : get_trade_price($markets, $market_ids) );
-    $coin_to_trade = number_format( $coin_to_trade_raw, ( $coin_name == 'Bitcoin' ? 2 : 8 ), '.', ',');
-    $coin_to_trade_worth_raw = ($coin_amount * $coin_to_trade_raw);
-    $coin_to_trade_worth = number_format($coin_to_trade_worth_raw, ( $coin_name == 'Bitcoin' ? 2 : 8 ), '.', ',');
-    $btc_worth = number_format( $coin_to_trade_worth_raw, 8 );  
+    if ( $selected_pairing == 'btc' ) {
+    $coin_trade_raw = ( $coin_name == 'Bitcoin' ? get_btc_usd($btc_in_usd) : get_trade_price($selected_market, $market_pairing) );
+    $coin_trade = number_format( $coin_trade_raw, ( $coin_name == 'Bitcoin' ? 2 : 8 ), '.', ',');
+    $coin_trade_total_raw = ($coin_amount * $coin_trade_raw);
+    $coin_trade_total = number_format($coin_trade_total_raw, ( $coin_name == 'Bitcoin' ? 2 : 8 ), '.', ',');
+    $btc_worth = number_format( $coin_trade_total_raw, 8 );  
     $_SESSION['btc_worth_array'][] = (string)str_replace(',', '', ( $coin_name == 'Bitcoin' ? $coin_amount : $btc_worth ) );
-    $trade_pairing_description = ( $coin_name == 'Bitcoin' ? 'US Dollar' : 'Bitcoin' );
-    $trade_pairing_symbol = ( $coin_name == 'Bitcoin' ? 'USD' : 'BTC' );
+    $pairing_description = ( $coin_name == 'Bitcoin' ? 'US Dollar' : 'Bitcoin' );
+    $pairing_symbol = ( $coin_name == 'Bitcoin' ? 'USD' : 'BTC' );
     }
-    else if ( $trade_pairing == 'ltc' ) {
+    else if ( $selected_pairing == 'ltc' ) {
     
     	if ( !$_SESSION['ltc_btc'] ) {
     	$_SESSION['ltc_btc'] = get_trade_price('poloniex', 'BTC_LTC');
@@ -958,18 +926,18 @@ $market_ids = $market_ids[$markets];
     
     $coin_to_btc = $_SESSION['ltc_btc'];
     
-    $coin_to_trade_raw = get_trade_price($markets, $market_ids);
-    $coin_to_trade = number_format( $coin_to_trade_raw, 8, '.', ',');
-    $coin_to_trade_worth_raw = ($coin_amount * $coin_to_trade_raw);
-    $coin_to_trade_worth = number_format($coin_to_trade_worth_raw, 8, '.', ',');
-    $btc_worth = number_format( ($coin_to_trade_worth_raw * $coin_to_btc), 8 );  // Convert value to bitcoin
+    $coin_trade_raw = get_trade_price($selected_market, $market_pairing);
+    $coin_trade = number_format( $coin_trade_raw, 8, '.', ',');
+    $coin_trade_total_raw = ($coin_amount * $coin_trade_raw);
+    $coin_trade_total = number_format($coin_trade_total_raw, 8, '.', ',');
+    $btc_worth = number_format( ($coin_trade_total_raw * $coin_to_btc), 8 );  // Convert value to bitcoin
     $_SESSION['btc_worth_array'][] = (string)str_replace(',', '', $btc_worth);  
-    $btc_trade_eq = number_format( ($coin_to_trade * $coin_to_btc), 8);
-    $trade_pairing_description = 'Litecoin';
-    $trade_pairing_symbol = 'LTC';
+    $btc_trade_eq = number_format( ($coin_trade * $coin_to_btc), 8);
+    $pairing_description = 'Litecoin';
+    $pairing_symbol = 'LTC';
     
     }
-    else if ( $trade_pairing == 'eth' ) {
+    else if ( $selected_pairing == 'eth' ) {
     
     	if ( !$_SESSION['eth_btc'] ) {
     	$_SESSION['eth_btc'] = get_trade_price('poloniex', 'BTC_ETH');
@@ -977,35 +945,35 @@ $market_ids = $market_ids[$markets];
     
     $coin_to_btc = $_SESSION['eth_btc'];
      
-     if ( $markets == 'eth_subtokens_ico' ) {
+     if ( $selected_market == 'eth_subtokens_ico' ) {
      
-     $coin_to_trade_raw = get_sub_token_price($markets, $market_ids);
-     $coin_to_trade = number_format( $coin_to_trade_raw, 8, '.', ',');
-     $coin_to_trade_worth_raw = ($coin_amount * $coin_to_trade_raw);
-     $coin_to_trade_worth = number_format($coin_to_trade_worth_raw, 8, '.', ',');
-     $btc_worth = number_format( ($coin_to_trade_worth_raw * $coin_to_btc), 8 );  // Convert value to bitcoin
+     $coin_trade_raw = get_sub_token_price($selected_market, $market_pairing);
+     $coin_trade = number_format( $coin_trade_raw, 8, '.', ',');
+     $coin_trade_total_raw = ($coin_amount * $coin_trade_raw);
+     $coin_trade_total = number_format($coin_trade_total_raw, 8, '.', ',');
+     $btc_worth = number_format( ($coin_trade_total_raw * $coin_to_btc), 8 );  // Convert value to bitcoin
      $_SESSION['btc_worth_array'][] = (string)str_replace(',', '', $btc_worth);  
-     $btc_trade_eq = number_format( ($coin_to_trade * $coin_to_btc), 8);
-     $trade_pairing_description = 'Ethereum';
-     $trade_pairing_symbol = 'ETH';
+     $btc_trade_eq = number_format( ($coin_trade * $coin_to_btc), 8);
+     $pairing_description = 'Ethereum';
+     $pairing_symbol = 'ETH';
      
      }
      else {
       
-     $coin_to_trade_raw = get_trade_price($markets, $market_ids);
-     $coin_to_trade = number_format( $coin_to_trade_raw, 8, '.', ',');
-     $coin_to_trade_worth_raw = ($coin_amount * $coin_to_trade_raw);
-     $coin_to_trade_worth = number_format($coin_to_trade_worth_raw, 8, '.', ',');
-     $btc_worth = number_format( ($coin_to_trade_worth_raw * $coin_to_btc), 8 );  // Convert value to bitcoin
+     $coin_trade_raw = get_trade_price($selected_market, $market_pairing);
+     $coin_trade = number_format( $coin_trade_raw, 8, '.', ',');
+     $coin_trade_total_raw = ($coin_amount * $coin_trade_raw);
+     $coin_trade_total = number_format($coin_trade_total_raw, 8, '.', ',');
+     $btc_worth = number_format( ($coin_trade_total_raw * $coin_to_btc), 8 );  // Convert value to bitcoin
      $_SESSION['btc_worth_array'][] = (string)str_replace(',', '', $btc_worth);  
-     $btc_trade_eq = number_format( ($coin_to_trade * $coin_to_btc), 8);
-     $trade_pairing_description = 'Ethereum';
-     $trade_pairing_symbol = 'ETH';
+     $btc_trade_eq = number_format( ($coin_trade * $coin_to_btc), 8);
+     $pairing_description = 'Ethereum';
+     $pairing_symbol = 'ETH';
      
      }
 
     }
-    else if ( $trade_pairing == 'usdt' ) {
+    else if ( $selected_pairing == 'usdt' ) {
     
     	if ( !$_SESSION['usdt_btc'] ) {
     	$_SESSION['usdt_btc'] = number_format( ( 1 / get_trade_price('poloniex', 'USDT_BTC') ), 8, '.', '');
@@ -1013,15 +981,15 @@ $market_ids = $market_ids[$markets];
     
     $coin_to_btc = $_SESSION['usdt_btc'];
     
-    $coin_to_trade_raw = get_trade_price($markets, $market_ids);
-    $coin_to_trade = number_format( $coin_to_trade_raw, 8, '.', ',');
-    $coin_to_trade_worth_raw = ($coin_amount * $coin_to_trade_raw);
-    $coin_to_trade_worth = number_format($coin_to_trade_worth_raw, 8, '.', ',');
-    $btc_worth = number_format( ($coin_to_trade_worth_raw * $coin_to_btc), 8 );  // Convert value to bitcoin
+    $coin_trade_raw = get_trade_price($selected_market, $market_pairing);
+    $coin_trade = number_format( $coin_trade_raw, 8, '.', ',');
+    $coin_trade_total_raw = ($coin_amount * $coin_trade_raw);
+    $coin_trade_total = number_format($coin_trade_total_raw, 8, '.', ',');
+    $btc_worth = number_format( ($coin_trade_total_raw * $coin_to_btc), 8 );  // Convert value to bitcoin
     $_SESSION['btc_worth_array'][] = (string)str_replace(',', '', $btc_worth);  
-    $btc_trade_eq = number_format( ($coin_to_trade * $coin_to_btc), 8);
-    $trade_pairing_description = 'Tether';
-    $trade_pairing_symbol = 'USDT';
+    $btc_trade_eq = number_format( ($coin_trade * $coin_to_btc), 8);
+    $pairing_description = 'Tether';
+    $pairing_symbol = 'USDT';
     
     }
   
@@ -1040,7 +1008,7 @@ $market_ids = $market_ids[$markets];
         foreach ( $all_markets as $market_key => $market_name ) {
          $loop = $loop + 1;
         ?>
-        <option value='<?=($loop)?>' <?=( $orig_markets == ($loop -1) ? ' selected ' : '' )?>> <?=ucwords(preg_replace("/_/i", " ", $market_key))?> </option>
+        <option value='<?=($loop)?>' <?=( $original_market == ($loop -1) ? ' selected ' : '' )?>> <?=ucwords(preg_replace("/_/i", " ", $market_key))?> </option>
         <?php
         }
         $loop = NULL;
@@ -1166,7 +1134,7 @@ $percent_alert_type = $alert_percent[2];
   echo ' ($'.number_format(( get_btc_usd($btc_in_usd) * $btc_trade_eq ), 8, '.', ',').' USD)';
   }
   elseif ( $coin_name != 'Bitcoin' ) {
-  echo ' ($'.number_format(( get_btc_usd($btc_in_usd) * $coin_to_trade ), 8, '.', ',').' USD)';
+  echo ' ($'.number_format(( get_btc_usd($btc_in_usd) * $coin_trade ), 8, '.', ',').' USD)';
   }
   else {
   echo ' ($'.number_format(get_btc_usd($btc_in_usd), 2, '.', ',').' USD)';
@@ -1178,11 +1146,11 @@ $percent_alert_type = $alert_percent[2];
 
 <td class='data border_b'><span><?php echo $trade_symbol; ?></span></td>
 
-<td class='data border_lb' align='right'><?php echo $coin_to_trade; ?>
+<td class='data border_lb' align='right'><?php echo $coin_trade; ?>
 
 <?php
 
-  if ( $trade_pairing != 'btc' ) {
+  if ( $selected_pairing != 'btc' ) {
   echo '<div class="btc_worth">(' . ( $btc_trade_eq > 0.00000000 ? $btc_trade_eq : '0.00000000' ) . ' Bitcoin)</div>';
   }
   
@@ -1191,11 +1159,11 @@ $percent_alert_type = $alert_percent[2];
 
 </td>
 
-<td class='data border_b'> <span>(<?=$trade_pairing_description?>)</span></span></td>
+<td class='data border_b'> <span>(<?=$pairing_description?>)</span></span></td>
 
 <td class='data border_lb'><?php
-echo ' <span><span class="data">' . $coin_to_trade_worth . '</span> ' . $trade_pairing_symbol . '</span>';
-  if ( $trade_pairing != 'btc' ) {
+echo ' <span><span class="data">' . $coin_trade_total . '</span> ' . $pairing_symbol . '</span>';
+  if ( $selected_pairing != 'btc' ) {
   echo '<div class="btc_worth"><span>(' . $btc_worth . ' BTC)</span></div>';
   }
 
@@ -1203,11 +1171,11 @@ echo ' <span><span class="data">' . $coin_to_trade_worth . '</span> ' . $trade_p
 
 <td class='data border_lrb'><?php
 
-  if ( $trade_pairing == 'btc' ) {
-  $coin_usd_worth = ( $coin_name == 'Bitcoin' ? $coin_to_trade_worth_raw : ($coin_to_trade_worth_raw * get_btc_usd($btc_in_usd)) );
+  if ( $selected_pairing == 'btc' ) {
+  $coin_usd_worth = ( $coin_name == 'Bitcoin' ? $coin_trade_total_raw : ($coin_trade_total_raw * get_btc_usd($btc_in_usd)) );
   }
   else {
-  $coin_usd_worth = ( ($coin_to_trade_worth_raw * $coin_to_btc) * get_btc_usd($btc_in_usd));
+  $coin_usd_worth = ( ($coin_trade_total_raw * $coin_to_btc) * get_btc_usd($btc_in_usd));
   }
   
 

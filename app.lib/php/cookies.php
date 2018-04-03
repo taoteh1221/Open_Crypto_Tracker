@@ -23,7 +23,6 @@ setcookie("coin_reload", $_COOKIE['coin_reload'], mktime()+31536000);
 if ( $_POST['submit_check'] == 1 ) {
  
  
- 
  if (is_array($_POST) || is_object($_POST)) {
   
   
@@ -37,6 +36,21 @@ if ( $_POST['submit_check'] == 1 ) {
           
           
             $set_coin_values .= $key.'-'. $_POST[$key] . '#';
+          
+          
+         }
+      
+      }
+   
+  
+      if ( preg_match("/_pairing/i", $key) ) {
+      
+      $_POST[$key] = strip_price_formatting($value);
+      
+         if ( $_POST['use_cookies'] == 1 && isset($_POST[$key]) ) {
+          
+          
+            $set_pairing_values .= $key.'-'. $_POST[$key] . '#';
           
           
          }
@@ -85,6 +99,7 @@ if ( $_POST['submit_check'] == 1 ) {
            // Cookie expires in 1 year (31536000 seconds)
            
            setcookie("coin_amounts", $set_coin_values, mktime()+31536000);
+           setcookie("coin_pairings", $set_pairing_values, mktime()+31536000);
            setcookie("coin_markets", $set_market_values, mktime()+31536000);
            
     header("Location: " . $_SERVER['PHP_SELF']);
@@ -93,10 +108,12 @@ if ( $_POST['submit_check'] == 1 ) {
   else {
    
   unset($_COOKIE['coin_amounts']);  // Delete any existing cookies
+  unset($_COOKIE['coin_pairings']);  // Delete any existing cookies
   unset($_COOKIE['coin_markets']);  // Delete any existing cookies
   unset($_COOKIE['coin_reload']);  // Delete any existing cookies
   
   setcookie ("coin_amounts", "", time()-3600);  // Delete any existing cookies
+  setcookie ("coin_pairings", "", time()-3600);  // Delete any existing cookies
   setcookie ("coin_markets", "", time()-3600);  // Delete any existing cookies
   setcookie ("coin_reload", "", time()-3600);  // Delete any existing cookies
  

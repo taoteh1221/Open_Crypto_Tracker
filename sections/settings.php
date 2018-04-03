@@ -15,7 +15,7 @@
 			    document.getElementById("btc_market").selectedIndex = (this.value - 1);
 			    '>
 				<?php
-				foreach ( $coins_array['BTC']['market_ids']['btc'] as $market_key => $market_name ) {
+				foreach ( $coins_array['BTC']['market_pairing']['btc'] as $market_key => $market_name ) {
 				$loop = $loop + 1;
 				?>
 				<option value='<?=$loop?>' <?=( isset($_POST['btc_market']) && ($_POST['btc_market']) == $loop || isset($btc_market) && $btc_market == ($loop - 1) ? ' selected ' : '' )?>> <?=ucfirst($market_key)?> </option>
