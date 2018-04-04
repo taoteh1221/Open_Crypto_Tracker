@@ -656,13 +656,22 @@ app doing the data requests, not a malicious bot)
 
 
 -------------------------------------------------------------------
-1.9.9:
+1.9.9 (BETA TESTING):
 -Major semantics cleanup
 -Built front end GUI for additional LTC / ETH / USDT market pairings support (that was already built into back end)
 -Minor optimizations
 -Added newsletters section on external resource links page
 -------------------------------------------------------------------
 
+
+
+-------------------------------------------------------------------
+2.0.0 (STABLE RELEASE):
+-Major semantics cleanup
+-Built front end GUI for additional LTC / ETH / USDT market pairings support (that was already built into back end)
+-Minor optimizations
+-Added newsletters section on external resource links page
+-------------------------------------------------------------------
 
 
 
