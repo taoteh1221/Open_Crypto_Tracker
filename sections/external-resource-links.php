@@ -32,6 +32,7 @@
     <ul>
         
         <li class='chart_links'><a href='https://bitcoinwisdom.com' target='_blank'>Bitcoinwisdom.com</a></li>
+        
         <li class='chart_links'><a href='http://coincap.io' target='_blank'>Coincap.io</a></li>
         
         
@@ -72,6 +73,8 @@
         <li class='chart_links'><a href='http://proofofwork.news/' target='_blank'>Proof Of Work</a></li>
         
         <li class='chart_links'><a href='http://www.weekinethereum.com/' target='_blank'>Week In Ethereum</a></li>
+        
+        <li class='chart_links'><a href='https://www.tokendaily.co/' target='_blank'>Token Daily</a></li>
         
         
         

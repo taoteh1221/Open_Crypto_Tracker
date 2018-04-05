@@ -270,6 +270,39 @@ global $coins_array;
   }
 
 
+  elseif ( strtolower($chosen_market) == 'bitstamp' ) {
+  	
+  
+  $json_string = 'https://www.bitstamp.net/api/v2/ticker/' . $market_pairing;
+  
+    $jsondata = @get_data($json_string);
+    
+    $data = json_decode($jsondata, TRUE);
+    
+    return number_format( $data['last'], 8, '.', '');
+    
+  
+  }
+
+
+
+  elseif ( strtolower($chosen_market) == 'okex' ) {
+  	
+  	// Available markets listed here: https://www.okex.com/v2/markets/products
+  
+  $json_string = 'https://www.okex.com/api/v1/ticker.do?symbol=' . $market_pairing;
+  
+    $jsondata = @get_data($json_string);
+    
+    $data = json_decode($jsondata, TRUE);
+    
+    return number_format( $data['ticker']['last'], 8, '.', '');
+    
+  
+  }
+
+
+
   elseif ( strtolower($chosen_market) == 'binance' ) {
   
   $json_string = 'https://www.binance.com/api/v1/ticker/24hr?symbol=' . $market_pairing;
@@ -343,37 +376,6 @@ global $coins_array;
   
   }
 
-  elseif ( strtolower($chosen_market) == 'mercatox' ) {
-
-     $json_string = 'https://mercatox.com/public/json24';
-     
-     $jsondata = @get_data($json_string);
-     
-     $data = json_decode($jsondata, TRUE);
-  
-  
-  $data = $data['pairs'];
-  //print_r($data);
-      if (is_array($data) || is_object($data)) {
-  
-        foreach ($data as $key => $value) {
-          
-          //print_r($key);
-          
-           if ( $key == $market_pairing ) {
-            
-           return $data[$key]["last"];
-            
-            
-           }
-        
-       
-        }
-      
-      }
-  
-  
-  }
 
   elseif ( strtolower($chosen_market) == 'tradesatoshi' ) {
 
@@ -917,6 +919,25 @@ $market_pairing = $market_pairing_array[$selected_market];
     $_SESSION['btc_worth_array'][] = (string)str_replace(',', '', ( $coin_name == 'Bitcoin' ? $coin_amount : $btc_worth ) );
     $pairing_description = ( $coin_name == 'Bitcoin' ? 'US Dollar' : 'Bitcoin' );
     $pairing_symbol = ( $coin_name == 'Bitcoin' ? 'USD' : 'BTC' );
+    }
+    else if ( $selected_pairing == 'xmr' ) {
+    
+    	if ( !$_SESSION['xmr_btc'] ) {
+    	$_SESSION['xmr_btc'] = get_trade_price('poloniex', 'BTC_XMR');
+    	}
+    
+    $coin_to_btc = $_SESSION['xmr_btc'];
+    
+    $coin_trade_raw = get_trade_price($selected_market, $market_pairing);
+    $coin_trade = number_format( $coin_trade_raw, 8, '.', ',');
+    $coin_trade_total_raw = ($coin_amount * $coin_trade_raw);
+    $coin_trade_total = number_format($coin_trade_total_raw, 8, '.', ',');
+    $btc_worth = number_format( ($coin_trade_total_raw * $coin_to_btc), 8 );  // Convert value to bitcoin
+    $_SESSION['btc_worth_array'][] = (string)str_replace(',', '', $btc_worth);  
+    $btc_trade_eq = number_format( ($coin_trade * $coin_to_btc), 8);
+    $pairing_description = 'Monero';
+    $pairing_symbol = 'XMR';
+    
     }
     else if ( $selected_pairing == 'ltc' ) {
     

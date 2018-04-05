@@ -674,6 +674,14 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 
 
+-------------------------------------------------------------------
+2.0.1:
+-Added Okex and Bitstamp markets API support
+-Added XMR market pairing support
+-Added additional USDT / XMR / LTC / ETH / BTC pairings in example assets
+-------------------------------------------------------------------
+
+
 
 
 
