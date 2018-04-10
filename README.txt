@@ -5,7 +5,7 @@ Developed by Michael Kilday <mike@dragonfrugal.com>, released free / open source
 https://dragonfrugal.com/downloads/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Just upload to your PHP-based web server, and you should be all set. You must have curl modules activated on your HTTP server, most web hosting companies provide this already. Contact your hosting provider if you encounter issues getting the real-time prices feeds from exchanges, and ask if curl is setup already. See below for an example on adding / editing your own markets into the coin list in config.php...it's very quick / easy to do (see bottom of this file for a pre-configured example set of assets / markets). Currently BTC / XMR / ETH / LTC / USDT based market pairing is compatible. Contact any supported exchanges help desk if you are unaware of the correct formatting of the trading pair name you are adding in the API configuration file (example: kraken has abitrary Xs inserted everywhere in SOME older pair names).
+Just upload to your PHP-based web server, and you should be all set. You must have curl modules activated on your HTTP server, most web hosting companies provide this already. Contact your hosting provider if you encounter issues getting the real-time prices feeds from exchanges, and ask if curl is setup already. See below for an example on adding / editing your own markets into the coin list in config.php...it's very quick / easy to do (see bottom of this file for a pre-configured example set of assets / markets). Currently BTC / XMR / ETH / LTC / USDT based market pairing is compatible. Contact any supported exchanges help desk if you are unaware of the correct formatting of the trading pair name you are adding in the API configuration file (examples: Kraken has abitrary Xs inserted everywhere in SOME older pair names, HitBTC sometimes has tether pairing without the "T" in the symbol name).
 
 Feature requests and bug reports can be filed at the following URLS:
 
@@ -739,9 +739,24 @@ $coins_array = array(
                                           'poloniex' => 'BTC_XRP',
                                           'bittrex' => 'BTC-XRP',
                                           'upbit' => 'BTC-XRP',
+                                        	'binance' => 'XRPBTC',
                                           'kraken' => 'XXRPXXBT',
                                           'bitfinex' => 'tXRPBTC',
-                                          'bitstamp' => 'xrpbtc'
+                                          'bitstamp' => 'xrpbtc',
+                                        	'hitbtc' => 'XRPBTC'
+                                                    ),
+                                    'eth' => array(
+                                          'bittrex' => 'ETH-XRP',
+                                          'upbit' => 'ETH-XRP',
+                                        	'binance' => 'XRPETH',
+                                        	'hitbtc' => 'XRPETH',
+                                        	'okex' => 'xrp_eth'
+                                                    ),
+                                    'usdt' => array(
+                                        	'poloniex' => 'USDT_XRP',
+                                          'bittrex' => 'USDT-XRP',
+                                          'upbit' => 'USDT-XRP',
+                                        	'hitbtc' => 'XRPUSDT'
                                                     )
                                         ),
                         'default_pairing' => 'btc'
@@ -758,14 +773,22 @@ $coins_array = array(
                                     'btc' => array(
                                           'bittrex' => 'BTC-DNT',
                                         	'upbit' => 'BTC-DNT',
+                                        	'binance' => 'DNTBTC',
                                           'liqui' => 'dnt_btc',
                                           'hitbtc' => 'DNTBTC',
-                                          'bter' => 'dnt_btc'
+                                          'bter' => 'dnt_btc',
+                                        	'okex' => 'dnt_btc'
                                                     ),
                                     'eth' => array(
                                           'bittrex' => 'ETH-DNT',
+                                          'upbit' => 'ETH-DNT',
                                           'binance' => 'DNTETH',
-                                          'liqui' => 'dnt_eth'
+                                          'liqui' => 'dnt_eth',
+                                        	'okex' => 'dnt_eth'
+                                                    ),
+                                    'usdt' => array(
+                                        	'liqui' => 'dnt_usdt',
+                                        	'okex' => 'dnt_usdt'
                                                     )
                                         ),
                         'default_pairing' => 'btc'
@@ -783,7 +806,10 @@ $coins_array = array(
                                           'bittrex' => 'BTC-SWT',	
                                         	'upbit' => 'BTC-SWT',	
                                           'hitbtc' => 'SWTBTC'	
-                                                    )	
+                                                    ),
+                                    'eth' => array(
+                                          'hitbtc' => 'SWTETH'
+                                                    )
                                         ),	
                         'default_pairing' => 'btc'	
                         	
@@ -814,8 +840,14 @@ $coins_array = array(
                         'coinmarketcap' => 'mysterium',	
                          'ico' => 'yes',
                         'market_pairing' => array(	
+                                    'btc' => array(	
+                                          'liqui' => 'myst_btc'	
+                                                    ),
                                     'eth' => array(	
                                           'liqui' => 'myst_eth'	
+                                                    ),
+                                    'usdt' => array(	
+                                          'liqui' => 'myst_usdt'	
                                                     )	
                                         ),	
                         'default_pairing' => 'eth'	
@@ -826,4 +858,5 @@ $coins_array = array(
 );
 
 /////////////////// COIN MARKETS CONFIG -END- ////////////////////////////////////////////////////
+
 

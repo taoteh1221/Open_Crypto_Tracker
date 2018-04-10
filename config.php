@@ -732,9 +732,24 @@ $coins_array = array(
                                           'poloniex' => 'BTC_XRP',
                                           'bittrex' => 'BTC-XRP',
                                           'upbit' => 'BTC-XRP',
+                                        	'binance' => 'XRPBTC',
                                           'kraken' => 'XXRPXXBT',
                                           'bitfinex' => 'tXRPBTC',
-                                          'bitstamp' => 'xrpbtc'
+                                          'bitstamp' => 'xrpbtc',
+                                        	'hitbtc' => 'XRPBTC'
+                                                    ),
+                                    'eth' => array(
+                                          'bittrex' => 'ETH-XRP',
+                                          'upbit' => 'ETH-XRP',
+                                        	'binance' => 'XRPETH',
+                                        	'hitbtc' => 'XRPETH',
+                                        	'okex' => 'xrp_eth'
+                                                    ),
+                                    'usdt' => array(
+                                        	'poloniex' => 'USDT_XRP',
+                                          'bittrex' => 'USDT-XRP',
+                                          'upbit' => 'USDT-XRP',
+                                        	'hitbtc' => 'XRPUSDT'
                                                     )
                                         ),
                         'default_pairing' => 'btc'
@@ -751,14 +766,22 @@ $coins_array = array(
                                     'btc' => array(
                                           'bittrex' => 'BTC-DNT',
                                         	'upbit' => 'BTC-DNT',
+                                        	'binance' => 'DNTBTC',
                                           'liqui' => 'dnt_btc',
                                           'hitbtc' => 'DNTBTC',
-                                          'bter' => 'dnt_btc'
+                                          'bter' => 'dnt_btc',
+                                        	'okex' => 'dnt_btc'
                                                     ),
                                     'eth' => array(
                                           'bittrex' => 'ETH-DNT',
+                                          'upbit' => 'ETH-DNT',
                                           'binance' => 'DNTETH',
-                                          'liqui' => 'dnt_eth'
+                                          'liqui' => 'dnt_eth',
+                                        	'okex' => 'dnt_eth'
+                                                    ),
+                                    'usdt' => array(
+                                        	'liqui' => 'dnt_usdt',
+                                        	'okex' => 'dnt_usdt'
                                                     )
                                         ),
                         'default_pairing' => 'btc'
@@ -776,7 +799,10 @@ $coins_array = array(
                                           'bittrex' => 'BTC-SWT',	
                                         	'upbit' => 'BTC-SWT',	
                                           'hitbtc' => 'SWTBTC'	
-                                                    )	
+                                                    ),
+                                    'eth' => array(
+                                          'hitbtc' => 'SWTETH'
+                                                    )
                                         ),	
                         'default_pairing' => 'btc'	
                         	
@@ -807,8 +833,14 @@ $coins_array = array(
                         'coinmarketcap' => 'mysterium',	
                          'ico' => 'yes',
                         'market_pairing' => array(	
+                                    'btc' => array(	
+                                          'liqui' => 'myst_btc'	
+                                                    ),
                                     'eth' => array(	
                                           'liqui' => 'myst_eth'	
+                                                    ),
+                                    'usdt' => array(	
+                                          'liqui' => 'myst_usdt'	
                                                     )	
                                         ),	
                         'default_pairing' => 'eth'	
