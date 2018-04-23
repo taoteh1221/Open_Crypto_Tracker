@@ -13,7 +13,7 @@ if ( realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) ) {
 
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
  
-$version = '2.0.1';  // 2018/APRIL/5TH
+$version = '2.0.2';  // 2018/APRIL/23RD
  
 session_start();
 require_once("app.lib/php/functions.php");
@@ -63,7 +63,7 @@ require_once("app.lib/php/init.php");
                                           'LOWERCASE_MARKETPLACE3' => 'USDT-COINSYMBOLHERE'
                                                     )
                                           ),
-                        'default_pairing' => 'LOWERCASE_BTC_OR_ETH_OR_LTC_OR_USDT_TRADING_PAIR'
+                        'default_pairing' => 'LOWERCASE_BTC_OR_XMR_OR_ETH_OR_LTC_OR_USDT_TRADING_PAIR'
                         
                     ),
                     
@@ -134,6 +134,30 @@ $coins_array = array(
                                           'hitbtc' => 'hitbtc',
                                           'gatecoin' => 'gatecoin',
                                           'livecoin' => 'livecoin'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
+                        
+                    ),
+                    // Misc. USD Assets
+                    'USD' => array(
+                        
+                        'coin_name' => 'Misc. USD Assets',
+                        'coin_symbol' => 'USD',
+                        'coinmarketcap' => '',
+                        'ico' => 'no',
+                        'market_pairing' => array(
+                                    'btc' => array(
+                                          'usd_assets' => 'usdtobtc'
+                                                    ),
+                                    'xmr' => array(
+                                          'usd_assets' => 'usdtoxmr'
+                                                    ),
+                                    'eth' => array(
+                                          'usd_assets' => 'usdtoeth'
+                                                    ),
+                                    'ltc' => array(
+                                          'usd_assets' => 'usdtoltc'
                                                     )
                                         ),
                         'default_pairing' => 'btc'

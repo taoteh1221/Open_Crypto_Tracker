@@ -253,7 +253,7 @@ function get_btc_usd($btc_in_usd) {
 //////////////////////////////////////////////////////////
 function get_trade_price($chosen_market, $market_pairing) {
 
-global $coins_array;
+global $btc_in_usd, $coins_array;
  
 
   if ( strtolower($chosen_market) == 'gemini' ) {
@@ -797,6 +797,28 @@ global $coins_array;
   }
 
 
+  elseif ( strtolower($chosen_market) == 'usd_assets' ) {
+		
+	  $usdtobtc = ( 1 / get_btc_usd($btc_in_usd) );		
+		
+	  if ( $market_pairing == 'usdtobtc' ) {
+     return $usdtobtc;
+     }
+	  elseif ( $market_pairing == 'usdtoxmr' ) {
+     return ( 1 / ( get_trade_price('poloniex', 'BTC_XMR') / $usdtobtc ) );
+     }
+	  elseif ( $market_pairing == 'usdtoeth' ) {
+     return ( 1 / ( get_trade_price('poloniex', 'BTC_ETH') / $usdtobtc ) );
+     }
+	  elseif ( $market_pairing == 'usdtoltc' ) {
+     return ( 1 / ( get_trade_price('poloniex', 'BTC_LTC') / $usdtobtc ) );
+     }
+  
+  
+  }
+
+
+
   
 }
 //////////////////////////////////////////////////////////
@@ -1013,6 +1035,7 @@ $market_pairing = $market_pairing_array[$selected_market];
     $pairing_symbol = 'USDT';
     
     }
+  
   
   
   ?>

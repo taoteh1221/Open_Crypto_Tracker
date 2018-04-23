@@ -67,7 +67,7 @@ OTHER CRYPTOCURRENCIES AND PAYPAL ACCEPTED HERE: https://dragonfrugal.com/donate
                                           'LOWERCASE_MARKETPLACE3' => 'USDT-COINSYMBOLHERE'
                                                     )
                                           ),
-                        'default_pairing' => 'LOWERCASE_BTC_OR_ETH_OR_LTC_OR_USDT_TRADING_PAIR'
+                        'default_pairing' => 'LOWERCASE_BTC_OR_XMR_OR_ETH_OR_LTC_OR_USDT_TRADING_PAIR'
                         
                     ),
                     
@@ -141,6 +141,30 @@ $coins_array = array(
                                           'hitbtc' => 'hitbtc',
                                           'gatecoin' => 'gatecoin',
                                           'livecoin' => 'livecoin'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
+                        
+                    ),
+                    // Misc. USD Assets
+                    'USD' => array(
+                        
+                        'coin_name' => 'Misc. USD Assets',
+                        'coin_symbol' => 'USD',
+                        'coinmarketcap' => '',
+                        'ico' => 'no',
+                        'market_pairing' => array(
+                                    'btc' => array(
+                                          'usd_assets' => 'usdtobtc'
+                                                    ),
+                                    'xmr' => array(
+                                          'usd_assets' => 'usdtoxmr'
+                                                    ),
+                                    'eth' => array(
+                                          'usd_assets' => 'usdtoeth'
+                                                    ),
+                                    'ltc' => array(
+                                          'usd_assets' => 'usdtoltc'
                                                     )
                                         ),
                         'default_pairing' => 'btc'
@@ -858,5 +882,4 @@ $coins_array = array(
 );
 
 /////////////////// COIN MARKETS CONFIG -END- ////////////////////////////////////////////////////
-
 
