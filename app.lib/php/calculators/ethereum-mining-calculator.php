@@ -9,7 +9,7 @@
 				echo '<p><b>Gas limit:</b> ' . number_format(hexdec(etherscan_api('gasLimit'))) . '</p>';
 				
 				
-				if ( $_POST['eth_submitted'] ) {
+			if ( $_POST['eth_submitted'] ) {
 				    
 				$_POST['eth_difficulty'] = str_replace("    ", '', $_POST['eth_difficulty']);
 				$_POST['eth_difficulty'] = str_replace(" ", '', $_POST['eth_difficulty']);
@@ -70,26 +70,55 @@
 				    }
 				
 				$caculate_daily = ( 24 / $hours );
-				$daily_average = ( $caculate_daily * ( get_trade_price('poloniex', 'BTC_ETH') * trim($_POST['eth_block_reward']) ) );
+				
+				$eth_daily_average = ( $caculate_daily * ( get_trade_price('poloniex', 'BTC_ETH') * trim($_POST['eth_block_reward']) ) );
+				
+				$usd_daily_average = number_format( ( round($eth_daily_average, 8) * get_btc_usd($btc_in_usd) ), 2);
+				
+				$btc_daily_average = number_format(round($eth_daily_average, 8), 8);
+				
+				$kwh_cost_daily = ( ( trim($_POST['eth_watts_used']) / 1000 ) * 24 ) * trim($_POST['eth_watts_rate']);
+				
+				
 				?>
 				<br />
 				<br />
 				Current Ethereum Value Per Coin: 
 				<?php
-				echo round(get_trade_price('poloniex', 'BTC_ETH'), 8) . ' BTC ($' . round(( round(get_trade_price('poloniex', 'BTC_ETH'), 8) * get_btc_usd($btc_in_usd) ), 8) . ' USD)';
+				echo number_format(get_trade_price('poloniex', 'BTC_ETH'), 8) . ' BTC ($' . round(( round(get_trade_price('poloniex', 'BTC_ETH'), 8) * get_btc_usd($btc_in_usd) ), 8) . ' USD)';
 				?>
 				<br />
 				<br />
 				Average ETH Earned Daily (block reward only): 
 				<?php
-				echo number_format( round(( round($daily_average, 8) / get_trade_price('poloniex', 'BTC_ETH') ), 8) , 8) . ' ETH';
+				echo number_format( round(( round($eth_daily_average, 8) / get_trade_price('poloniex', 'BTC_ETH') ), 8) , 8) . ' ETH';
 				?>
 				<br />
 				<br />
 				Average BTC Value Earned Daily: 
 				<?php
-				echo number_format(round($daily_average, 8), 8) . ' BTC ($' . round(( round($daily_average, 8) * get_btc_usd($btc_in_usd) ), 2) . ' USD)';
-				}
+				echo $btc_daily_average . ' BTC ($' . $usd_daily_average . ' USD)';
+				?>
+				<br />
+				<br />
+				Power Cost Daily: 
+				<?php
+				echo '$' . number_format(round($kwh_cost_daily, 2), 2);
+				?>
+				<br />
+				<br />
+				Daily Profit: 
+				<?php
+				echo '$' . number_format( ( $usd_daily_average - $kwh_cost_daily ), 2);
+				?>
+				<br />
+				<br />
+				Weekly Profit: 
+				<?php
+				echo '$' . number_format( ( ($usd_daily_average - $kwh_cost_daily) * 7 ), 2);
+				
+				
+			}
 				?>
 				</p>
 				<form name='eth' action='index.php#calculators' method='post'>
@@ -110,6 +139,10 @@
 				</p>
 				
 				<p><b>Block Reward:</b> <input type='text' value='<?=( $_POST['eth_block_reward'] ? $_POST['eth_block_reward'] : $mining_rewards['ethereum'] )?>' name='eth_block_reward' /> (static from config.php file, verify current block reward manually)</p>
+				
+				<p><b>Watts Used:</b> <input type='text' value='<?=( $_POST['eth_watts_used'] ? $_POST['eth_watts_used'] : '300' )?>' name='eth_watts_used' /></p>
+				
+				<p><b>kWh Rate ($/kWh):</b> <input type='text' value='<?=( $_POST['eth_watts_rate'] ? $_POST['eth_watts_rate'] : '0.10' )?>' name='eth_watts_rate' /></p>
 				
 				<input type='submit' value='Calculate ETH Mining Profit' />
 				

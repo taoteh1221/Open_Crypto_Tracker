@@ -25,6 +25,22 @@
 			</fieldset>
 			
 			<fieldset class='calculators'>
+				<legend style='color: blue;'> <b>Vertcoin Mining Calculator</b> </legend>
+		    
+				<?php require("app.lib/php/calculators/vertcoin-mining-calculator.php"); ?>
+				
+				
+			</fieldset>
+			
+			<fieldset class='calculators'>
+				<legend style='color: blue;'> <b>Ravencoin Mining Calculator</b> </legend>
+		    
+				<?php require("app.lib/php/calculators/ravencoin-mining-calculator.php"); ?>
+				
+				
+			</fieldset>
+			
+			<fieldset class='calculators'>
 				<legend style='color: blue;'> <b>STEEM Power Interest Rate / Power Down Weekly Payout Calculator</b> </legend>
 				
 				<?php require("app.lib/php/calculators/steem-power-interest-calculator.php"); ?>

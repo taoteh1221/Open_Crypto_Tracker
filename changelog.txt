@@ -688,6 +688,15 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 
 
+-------------------------------------------------------------------
+2.0.3:
+-Upgraded to Coinmarketcap v2 API
+-Added electricity cost in mining calculators
+-Added Vertcoin mining calculator
+-Added Ravencoin mining calculator
+-------------------------------------------------------------------
+
+
 
 
 

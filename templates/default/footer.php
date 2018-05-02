@@ -40,5 +40,7 @@
  * Copyright 2014-2018 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
  */ -->
 <?php
+//var_dump($_SESSION['debugging_printout']);
+
 session_destroy();
 ?>

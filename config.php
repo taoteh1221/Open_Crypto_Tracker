@@ -13,7 +13,7 @@ if ( realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) ) {
 
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
  
-$version = '2.0.2';  // 2018/APRIL/23RD
+$version = '2.0.3';  // 2018/MAY/1ST
  
 session_start();
 require_once("app.lib/php/functions.php");
@@ -97,7 +97,9 @@ $eth_subtokens_ico_values = array(
 $mining_rewards = array(
 					//Mining rewards for different platforms (to prefill editable mining calculator forms)
 					'ethereum' => '3',
-					'decred' => '13.082125'
+					'decred' => '13',
+					'vertcoin' => '25',
+					'ravencoin' => '5000'
 					);
 
 
@@ -465,6 +467,23 @@ $coins_array = array(
                         'default_pairing' => 'btc'
                         
                     ),
+                    // VTC
+                    'VTC' => array(
+                        
+                        'coin_name' => 'Vertcoin',
+                        'coin_symbol' => 'VTC',
+                        'coinmarketcap' => 'vertcoin',
+                        'ico' => 'no',
+                        'market_pairing' => array(
+                                    'btc' => array(
+                                          'poloniex' => 'BTC_VTC',
+                                          'bittrex' => 'BTC-VTC',
+                                        	'upbit' => 'BTC-VTC'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
+                        
+                    ),
                     // ANT
                     'ANT' => array(
                         
@@ -699,6 +718,33 @@ $coins_array = array(
                                                     )
                                         ),
                         'default_pairing' => 'btc'
+                    ),	
+                    // ZEN	
+                    'ZEN' => array(	
+                        	
+                        'coin_name' => 'ZenCash',	
+                        'coin_symbol' => 'ZEN',	
+                        'coinmarketcap' => 'zencash',	
+                         'ico' => 'no',
+                        'market_pairing' => array(	
+                                    'btc' => array(	
+                                        'bittrex' => 'BTC-ZEN',
+                                        'upbit' => 'BTC-ZEN',
+                                        'okex' => 'zen_btc',
+                                        'cryptopia' => 'ZEN/BTC'	
+                                                    ),
+                                    'eth' => array(	
+                                        'okex' => 'zen_eth'	
+                                                    ),
+                                    'ltc' => array(	
+                                        'cryptopia' => 'ZEN/LTC'	
+                                                    ),
+                                    'usdt' => array(	
+                                        'okex' => 'zen_usdt'	
+                                                    )	
+                                        ),	
+                        'default_pairing' => 'btc'	
+                        	
                     ),
                     // DATA
                     'DATA' => array(
@@ -869,6 +915,35 @@ $coins_array = array(
                                         ),	
                         'default_pairing' => 'eth'	
                         	
+                    ),	
+                    // PIRL	
+                    'PIRL' => array(	
+                        	
+                        'coin_name' => 'Pirl',	
+                        'coin_symbol' => 'PIRL',	
+                        'coinmarketcap' => 'pirl',	
+                         'ico' => 'no',
+                        'market_pairing' => array(	
+                                    'btc' => array(	
+                                          'cryptopia' => 'PIRL/BTC'	
+                                                    )
+                                        ),	
+                        'default_pairing' => 'btc'	
+                        	
+                    ),
+                    // RVN
+                    'RVN' => array(
+                        
+                        'coin_name' => 'Ravencoin',
+                        'coin_symbol' => 'RVN',
+                        'coinmarketcap' => 'ravencoin',
+                        'ico' => 'no',
+                        'market_pairing' => array(
+                                    'btc' => array(
+                                         'cryptofresh' => 'BRIDGE.RVN'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
                     )
                 
                 

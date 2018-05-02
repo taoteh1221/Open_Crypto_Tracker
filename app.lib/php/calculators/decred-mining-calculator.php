@@ -8,7 +8,7 @@
 				echo '<p><b>Block height:</b> ' . number_format(decred_api('height')) . '</p>';
 				
 				
-				if ( $_POST['dcr_submitted'] ) {
+			if ( $_POST['dcr_submitted'] ) {
 				    
 				$_POST['dcr_difficulty'] = str_replace("    ", '', $_POST['dcr_difficulty']);
 				$_POST['dcr_difficulty'] = str_replace(" ", '', $_POST['dcr_difficulty']);
@@ -68,8 +68,18 @@
 				    echo round($years, 2);
 				    }
 				
+				
 				$caculate_daily = ( 24 / $hours );
-				$daily_average = ( $caculate_daily * ( get_trade_price('poloniex', 'BTC_DCR') * trim($_POST['dcr_block_reward']) ) );
+				
+				$dcr_daily_average = ( $caculate_daily * ( get_trade_price('poloniex', 'BTC_DCR') * trim($_POST['dcr_block_reward']) ) );
+				
+				$usd_daily_average = number_format( ( round($dcr_daily_average, 8) * get_btc_usd($btc_in_usd) ), 2);
+				
+				$btc_daily_average = number_format(round($dcr_daily_average, 8), 8);
+				
+				$kwh_cost_daily = ( ( trim($_POST['dcr_watts_used']) / 1000 ) * 24 ) * trim($_POST['dcr_watts_rate']);
+				
+				
 				?>
 				<br />
 				<br />
@@ -81,14 +91,34 @@
 				<br />
 				Average DCR Earned Daily (block reward only): 
 				<?php
-				echo number_format( round(( round($daily_average, 8) / get_trade_price('poloniex', 'BTC_DCR') ), 8) , 8) . ' DCR';
+				echo number_format( round(( round($dcr_daily_average, 8) / get_trade_price('poloniex', 'BTC_DCR') ), 8) , 8) . ' DCR';
 				?>
 				<br />
 				<br />
 				Average BTC Value Earned Daily: 
 				<?php
-				echo number_format(round($daily_average, 8), 8) . ' BTC ($' . round(( round($daily_average, 8) * get_btc_usd($btc_in_usd) ), 2) . ' USD)';
-				}
+				echo $btc_daily_average . ' BTC ($' . $usd_daily_average . ' USD)';
+				?>
+				<br />
+				<br />
+				Power Cost Daily: 
+				<?php
+				echo '$' . number_format(round($kwh_cost_daily, 2), 2);
+				?>
+				<br />
+				<br />
+				Daily Profit: 
+				<?php
+				echo '$' . number_format( ( $usd_daily_average - $kwh_cost_daily ), 2);
+				?>
+				<br />
+				<br />
+				Weekly Profit: 
+				<?php
+				echo '$' . number_format( ( ($usd_daily_average - $kwh_cost_daily) * 7 ), 2);
+				
+				
+			}
 				?>
 				</p>
 				<form name='dcr' action='index.php#calculators' method='post'>
@@ -109,6 +139,10 @@
 				</p>
 				
 				<p><b>Block Reward:</b> <input type='text' value='<?=( $_POST['dcr_block_reward'] ? $_POST['dcr_block_reward'] : $mining_rewards['decred'] )?>' name='dcr_block_reward' /> (static from config.php file, verify current block reward manually)</p>
+				
+				<p><b>Watts Used:</b> <input type='text' value='<?=( $_POST['dcr_watts_used'] ? $_POST['dcr_watts_used'] : '300' )?>' name='dcr_watts_used' /></p>
+				
+				<p><b>kWh Rate ($/kWh):</b> <input type='text' value='<?=( $_POST['dcr_watts_rate'] ? $_POST['dcr_watts_rate'] : '0.10' )?>' name='dcr_watts_rate' /></p>
 				
 				<input type='submit' value='Calculate DCR Mining Profit' />
 				
