@@ -13,7 +13,7 @@ if ( realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) ) {
 
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
  
-$version = '2.0.3';  // 2018/MAY/1ST
+$version = '2.0.4';  // 2018/MAY/3RD
  
 session_start();
 require_once("app.lib/php/functions.php");
@@ -96,10 +96,10 @@ $eth_subtokens_ico_values = array(
 
 $mining_rewards = array(
 					//Mining rewards for different platforms (to prefill editable mining calculator forms)
-					'ethereum' => '3',
-					'decred' => '13',
-					'vertcoin' => '25',
-					'ravencoin' => '5000'
+					'eth' => '3',
+					'dcr' => '13',
+					'vtc' => '25',
+					'rvn' => '5000'
 					);
 
 

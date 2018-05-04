@@ -697,6 +697,14 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 
 
+-------------------------------------------------------------------
+2.0.4:
+-Modularized mining calculators (for easier later additions)
+-Added pool fee calculation to mining calculators
+-------------------------------------------------------------------
+
+
+
 
 
 

@@ -64,6 +64,50 @@ function decred_api($request) {
  
  
 //////////////////////////////////////////////////////////
+function mining_calc_form($calculation_form_data) {
+
+global $_POST, $mining_rewards;
+
+?>
+
+				<form name='<?=$calculation_form_data[1]?>' action='index.php#calculators' method='post'>
+				
+				<p><b>Difficulty:</b> <input type='text' value='<?=( $_POST['difficulty'] && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? number_format($_POST['difficulty']) : number_format($calculation_form_data[3]) )?>' name='difficulty' /> (uses <a href='<?=$calculation_form_data[4]?>' target='_blank'><?=$calculation_form_data[5]?></a>)</p>
+				
+				<p><b>Your Hashrate:</b> <input type='text' value='<?=( $_POST[$calculation_form_data[1].'_submitted'] == 1 ? $_POST['your_hashrate'] : '' )?>' name='your_hashrate' />
+				
+				<select name='measure'>
+				<option value='1000000000000' <?=( $_POST['measure'] == '1000000000000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Ths </option>
+				<option value='1000000000' <?=( $_POST['measure'] == '1000000000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Ghs </option>
+				<option value='1000000' <?=( $_POST['measure'] == '1000000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Mhs </option>
+				<option value='1000' <?=( $_POST['measure'] == '1000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Khs </option>
+				</select>
+				</p>
+				
+				<p><b>Block Reward:</b> <input type='text' value='<?=( $_POST['block_reward'] && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? $_POST['block_reward'] : $mining_rewards[$calculation_form_data[1]] )?>' name='block_reward' /> (static from config.php file, verify current block reward manually)</p>
+				
+				<p><b>Watts Used:</b> <input type='text' value='<?=( isset($_POST['watts_used']) && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? $_POST['watts_used'] : '300' )?>' name='watts_used' /></p>
+				
+				<p><b>kWh Rate ($/kWh):</b> <input type='text' value='<?=( isset($_POST['watts_rate']) && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? $_POST['watts_rate'] : '0.1000' )?>' name='watts_rate' /></p>
+				
+				<p><b>Pool Fee:</b> <input type='text' value='<?=( isset($_POST['pool_fee']) && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? $_POST['pool_fee'] : '1' )?>' size='4' name='pool_fee' />%</p>
+				    
+			   <input type='hidden' value='1' name='<?=$calculation_form_data[1]?>_submitted' />
+				
+				<input type='submit' value='Calculate <?=strtoupper($calculation_form_data[1])?> Mining Profit' />
+	
+				</form>
+				
+
+<?php
+  
+}
+//////////////////////////////////////////////////////////
+
+ 
+ 
+ 
+//////////////////////////////////////////////////////////
 function vertcoin_api($request) {
  		
 		
