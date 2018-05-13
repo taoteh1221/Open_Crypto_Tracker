@@ -8,11 +8,11 @@
 											'Ravencoin', // Coin name
 											'rvn', // Coin symbol
 											ravencoin_api('height'), // Block height
-											ravencoin_api('difficulty'), // Mining difficulty
-											'https://rvn.hash4.life/api', // Blockchain data API url
-											'rvn.hash4.life API', // Blockchain data API name
-											'cryptofresh', // Exchange name (lowercase for API logic)
-											'BRIDGE.RVN' // Market pair name
+											ravencoin_api('difficulty'), // Mining network measure (difficulty or network hashrate)
+											'http://rvnhodl.com/info', // Blockchain data API url
+											'rvnhodl.com API', // Blockchain data API name
+											'graviex', // Exchange name (lowercase for API logic)
+											'rvnbtc' // Market pair name
 											);
 			
 			
@@ -29,7 +29,7 @@
 			///////////////////////////////////////////////////////////////////////////
 			
 				// Difficulty calculation for this coin...MAY BE DIFFERENT PER COIN
-				$time = ( trim($_POST['difficulty']) * pow(2, 32) / $miner_hashrate );
+				$time = ( trim($_POST['network_measure']) * pow(2, 32) / $miner_hashrate );
 				
 			///////////////////////////////////////////////////////////////////////////
 			
@@ -40,7 +40,7 @@
 			}
 			// End form submission results
 				
-				mining_calc_form($calculation_form_data); // Generalized module
+				mining_calc_form($calculation_form_data, 'difficulty'); // Generalized module, with network measure name parameter (difficulty or nethashrate)
 				
 			///////////////////////////////////////////////////////////////////////////
 			

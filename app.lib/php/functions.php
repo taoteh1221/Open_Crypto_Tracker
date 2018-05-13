@@ -64,7 +64,7 @@ function decred_api($request) {
  
  
 //////////////////////////////////////////////////////////
-function mining_calc_form($calculation_form_data) {
+function mining_calc_form($calculation_form_data, $network_measure) {
 
 global $_POST, $mining_rewards;
 
@@ -72,19 +72,20 @@ global $_POST, $mining_rewards;
 
 				<form name='<?=$calculation_form_data[1]?>' action='index.php#calculators' method='post'>
 				
-				<p><b>Difficulty:</b> <input type='text' value='<?=( $_POST['difficulty'] && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? number_format($_POST['difficulty']) : number_format($calculation_form_data[3]) )?>' name='difficulty' /> (uses <a href='<?=$calculation_form_data[4]?>' target='_blank'><?=$calculation_form_data[5]?></a>)</p>
+				<p><b><?=ucfirst($network_measure)?>:</b> <input type='text' value='<?=( $_POST['network_measure'] && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? number_format($_POST['network_measure']) : number_format($calculation_form_data[3]) )?>' name='network_measure' /> (uses <a href='<?=$calculation_form_data[4]?>' target='_blank'><?=$calculation_form_data[5]?></a>)</p>
 				
 				<p><b>Your Hashrate:</b> <input type='text' value='<?=( $_POST[$calculation_form_data[1].'_submitted'] == 1 ? $_POST['your_hashrate'] : '' )?>' name='your_hashrate' />
 				
-				<select name='measure'>
-				<option value='1000000000000' <?=( $_POST['measure'] == '1000000000000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Ths </option>
-				<option value='1000000000' <?=( $_POST['measure'] == '1000000000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Ghs </option>
-				<option value='1000000' <?=( $_POST['measure'] == '1000000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Mhs </option>
-				<option value='1000' <?=( $_POST['measure'] == '1000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Khs </option>
+				<select name='hash_level'>
+				<option value='1000000000000' <?=( $_POST['hash_level'] == '1000000000000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Ths </option>
+				<option value='1000000000' <?=( $_POST['hash_level'] == '1000000000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Ghs </option>
+				<option value='1000000' <?=( $_POST['hash_level'] == '1000000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Mhs </option>
+				<option value='1000' <?=( $_POST['hash_level'] == '1000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Khs </option>
+				<option value='1' <?=( $_POST['hash_level'] == '1' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Hs </option>
 				</select>
 				</p>
 				
-				<p><b>Block Reward:</b> <input type='text' value='<?=( $_POST['block_reward'] && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? $_POST['block_reward'] : $mining_rewards[$calculation_form_data[1]] )?>' name='block_reward' /> (static from config.php file, verify current block reward manually)</p>
+				<p><b>Block Reward:</b> <input type='text' value='<?=( $_POST['block_reward'] && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? $_POST['block_reward'] : $mining_rewards[$calculation_form_data[1]] )?>' name='block_reward' /> (may be static from config.php file, verify current block reward manually)</p>
 				
 				<p><b>Watts Used:</b> <input type='text' value='<?=( isset($_POST['watts_used']) && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? $_POST['watts_used'] : '300' )?>' name='watts_used' /></p>
 				
@@ -100,6 +101,40 @@ global $_POST, $mining_rewards;
 				
 
 <?php
+  
+}
+//////////////////////////////////////////////////////////
+
+ 
+ 
+ 
+//////////////////////////////////////////////////////////
+function monero_api($request) {
+ 		
+ 	$json_string = 'https://moneroblocks.info/api/get_stats';
+ 	$jsondata = @get_data($json_string);
+  	
+  	$data = json_decode($jsondata, TRUE);
+    
+		if ( !$data ) {
+		return;
+		}
+		else {
+		
+		return $data[$request];
+		  
+		}
+  
+}
+//////////////////////////////////////////////////////////
+
+ 
+ 
+ 
+//////////////////////////////////////////////////////////
+function monero_reward() {
+ 		
+ 	return monero_api('last_reward') / 1000000000000;
   
 }
 //////////////////////////////////////////////////////////
@@ -134,12 +169,12 @@ function ravencoin_api($request) {
 		
 		if ( $request == 'height' ) {
 		
-		return trim(@get_data('https://rvn.hash4.life/api/getblockcount'));
+		return trim(@get_data('http://rvnhodl.com/api/getblockcount'));
 		  
 		}
 		elseif ( $request == 'difficulty' ) {
 		
-		return trim(@get_data('https://rvn.hash4.life/api/getdifficulty'));
+		return trim(@get_data('http://rvnhodl.com/api/getdifficulty'));
 		  
 		}
   
@@ -705,6 +740,37 @@ global $btc_in_usd, $coins_array;
         if ( $data[$key]['pair'] == $market_pairing ) {
          
         return $data[$key]['rate'];
+         
+         
+        }
+      
+    
+      }
+      
+      }
+  
+  
+  }
+  
+  
+  elseif ( strtolower($chosen_market) == 'graviex' ) {
+
+     $json_string = 'https://graviex.net//api/v2/tickers.json';
+     
+     $jsondata = @get_data($json_string);
+     
+     $data = json_decode($jsondata, TRUE);
+     
+  //print_r($data);
+      if (is_array($data) || is_object($data)) {
+  
+      foreach ($data as $key => $value) {
+        
+        //var_dump($data);
+        
+        if ( $data[$market_pairing] != '' ) {
+         
+        return $data[$market_pairing]['ticker']['last'];
          
          
         }

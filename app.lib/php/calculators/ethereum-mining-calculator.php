@@ -8,7 +8,7 @@
 											'Ethereum', // Coin name
 											'eth', // Coin symbol
 											etherscan_api('number'), // Block height
-											etherscan_api('difficulty'), // Mining difficulty
+											etherscan_api('difficulty'), // Mining network measure (difficulty or network hashrate)
 											'https://etherscan.io/apis/', // Blockchain data API url
 											'etherscan.io/apis', // Blockchain data API name
 											'poloniex', // Exchange name (lowercase for API logic)
@@ -30,7 +30,7 @@
 			///////////////////////////////////////////////////////////////////////////
 			
 				// Difficulty calculation for this coin...MAY BE DIFFERENT PER COIN
-				$time = ( trim($_POST['difficulty']) / $miner_hashrate );
+				$time = ( trim($_POST['network_measure']) / $miner_hashrate );
 				
 			///////////////////////////////////////////////////////////////////////////
 			
@@ -41,7 +41,7 @@
 			}
 			// End form submission results
 				
-				mining_calc_form($calculation_form_data); // Generalized module
+				mining_calc_form($calculation_form_data, 'difficulty'); // Generalized module, with network measure name parameter (difficulty or nethashrate)
 				
 			///////////////////////////////////////////////////////////////////////////
 			

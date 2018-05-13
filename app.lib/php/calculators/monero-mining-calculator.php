@@ -5,14 +5,14 @@
 			
 			// Coin information, to dynamically populate general sections
 			$calculation_form_data = array(
-											'Vertcoin', // Coin name
-											'vtc', // Coin symbol
-											vertcoin_api('height'), // Block height
-											vertcoin_api('difficulty'), // Mining difficulty
-											'http://explorer.vertcoin.info/info', // Blockchain data API url
-											'vertcoin.info API', // Blockchain data API name
-											'poloniex', // // Exchange name (lowercase for API logic)
-											'BTC_VTC' // Market pair name
+											'Monero', // Coin name
+											'xmr', // Coin symbol
+											monero_api('height'), // Block height
+											monero_api('hashrate'), // Mining network measure (difficulty or network hashrate)
+											'https://moneroblocks.info/api', // Blockchain data API url
+											'moneroblocks.info API', // Blockchain data API name
+											'poloniex', // Exchange name (lowercase for API logic)
+											'BTC_XMR' // Market pair name
 											);
 			
 			
@@ -29,7 +29,7 @@
 			///////////////////////////////////////////////////////////////////////////
 			
 				// Difficulty calculation for this coin...MAY BE DIFFERENT PER COIN
-				$time = ( trim($_POST['difficulty']) * pow(2, 32) / $miner_hashrate );
+				$time = ( trim($_POST['network_measure']) / $miner_hashrate ) * 120;
 				
 			///////////////////////////////////////////////////////////////////////////
 			
@@ -40,7 +40,7 @@
 			}
 			// End form submission results
 				
-				mining_calc_form($calculation_form_data); // Generalized module
+				mining_calc_form($calculation_form_data, 'nethashrate'); // Generalized module, with network measure name parameter (difficulty or nethashrate)
 				
 			///////////////////////////////////////////////////////////////////////////
 			

@@ -9,6 +9,14 @@
 			<div style='border: 2px dotted red; font-weight: bold; padding: 9px; color: red;'><a href='index.php' style='color: red;'>Click Here To Reset Default Tab / Calculators</a></div>
 			
 			<fieldset class='calculators'>
+				<legend style='color: blue;'> <b>Monero Mining Calculator</b> </legend>
+		    
+				<?php require("app.lib/php/calculators/monero-mining-calculator.php"); ?>
+				
+				
+			</fieldset>
+			
+			<fieldset class='calculators'>
 				<legend style='color: blue;'> <b>Ethereum Mining Calculator</b> </legend>
 		    
 				<?php require("app.lib/php/calculators/ethereum-mining-calculator.php"); ?>
@@ -20,14 +28,6 @@
 				<legend style='color: blue;'> <b>Decred Mining Calculator</b> </legend>
 		    
 				<?php require("app.lib/php/calculators/decred-mining-calculator.php"); ?>
-				
-				
-			</fieldset>
-			
-			<fieldset class='calculators'>
-				<legend style='color: blue;'> <b>Vertcoin Mining Calculator</b> </legend>
-		    
-				<?php require("app.lib/php/calculators/vertcoin-mining-calculator.php"); ?>
 				
 				
 			</fieldset>

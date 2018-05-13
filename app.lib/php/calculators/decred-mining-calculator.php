@@ -8,7 +8,7 @@
 											'Decred', // Coin name
 											'dcr', // Coin symbol
 											decred_api('height'), // Block height
-											decred_api('difficulty'), // Mining difficulty
+											decred_api('difficulty'), // Mining network measure (difficulty or network hashrate)
 											'https://github.com/decred/dcrdata#json-rest-api', // Blockchain data API url
 											'dcrdata.org API', // Blockchain data API name
 											'poloniex', // Exchange name (lowercase for API logic)
@@ -29,7 +29,7 @@
 			///////////////////////////////////////////////////////////////////////////
 			
 				// Difficulty calculation for this coin...MAY BE DIFFERENT PER COIN
-				$time = ( trim($_POST['difficulty']) * pow(2, 32) / $miner_hashrate );
+				$time = ( trim($_POST['network_measure']) * pow(2, 32) / $miner_hashrate );
 				
 			///////////////////////////////////////////////////////////////////////////
 			
@@ -40,7 +40,7 @@
 			}
 			// End form submission results
 				
-				mining_calc_form($calculation_form_data); // Generalized module
+				mining_calc_form($calculation_form_data, 'difficulty'); // Generalized module, with network measure name parameter (difficulty or nethashrate)
 				
 			///////////////////////////////////////////////////////////////////////////
 			

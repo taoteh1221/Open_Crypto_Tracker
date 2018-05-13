@@ -13,7 +13,7 @@ if ( realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) ) {
 
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
  
-$version = '2.0.4';  // 2018/MAY/3RD
+$version = '2.0.5';  // 2018/MAY/5TH
  
 session_start();
 require_once("app.lib/php/functions.php");
@@ -22,7 +22,7 @@ require_once("app.lib/php/init.php");
 
 
 /*
- * USAGE (ADDING / UPDATING COINS) ...API support for: kraken / gatecoin / poloniex / coinbase / bitstamp / bittrex / bitfinex and ethfinex / cryptofresh / bter / gemini / hitbtc / liqui / cryptopia / livecoin / upbit / kucoin / okex...BTC, XMR, ETH, LTC, AND USDT trading pair support
+ * USAGE (ADDING / UPDATING COINS) ...API support for: kraken / gatecoin / poloniex / coinbase / bitstamp / bittrex / bitfinex and ethfinex / cryptofresh / bter / gemini / hitbtc / liqui / cryptopia / livecoin / upbit / kucoin / okex / graviex...BTC, XMR, ETH, LTC, AND USDT trading pair support
  * Ethereum ICO subtoken support has been built in, but values are static ICO values in ETH
  *
  SEE THE BOTTOM OF THE README.txt FOR FOR AN EXAMPLE SET OF PRE-CONFIGURED ASSETS
@@ -75,11 +75,11 @@ require_once("app.lib/php/init.php");
 
 /////////////////// GENERAL CONFIG -START- ////////////////////////////////////////////////////
 
-$api_timeout = 15; // Seconds to wait for response from API endpoint
+$api_timeout = 10; // Seconds to wait for response from API endpoint
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken / hitbtc / gatecion / livecoin
 
-$coinmarketcap_ranks_max = '400'; // Maximum number of Coinmarketcap.com rankings to request from their API
+$coinmarketcap_ranks_max = '300'; // Maximum number of Coinmarketcap.com rankings to request from their API
 
 $eth_subtokens_ico_values = array(
                         // Static values in ETH for Ethereum subtokens, like during crowdsale periods etc
@@ -96,6 +96,7 @@ $eth_subtokens_ico_values = array(
 
 $mining_rewards = array(
 					//Mining rewards for different platforms (to prefill editable mining calculator forms)
+					'xmr' => monero_reward(),  // (2^64 - 1 - current_supply * 10^12) * 2^-19 * 10^-12
 					'eth' => '3',
 					'dcr' => '13',
 					'vtc' => '25',
@@ -467,23 +468,6 @@ $coins_array = array(
                         'default_pairing' => 'btc'
                         
                     ),
-                    // VTC
-                    'VTC' => array(
-                        
-                        'coin_name' => 'Vertcoin',
-                        'coin_symbol' => 'VTC',
-                        'coinmarketcap' => 'vertcoin',
-                        'ico' => 'no',
-                        'market_pairing' => array(
-                                    'btc' => array(
-                                          'poloniex' => 'BTC_VTC',
-                                          'bittrex' => 'BTC-VTC',
-                                        	'upbit' => 'BTC-VTC'
-                                                    )
-                                        ),
-                        'default_pairing' => 'btc'
-                        
-                    ),
                     // ANT
                     'ANT' => array(
                         
@@ -566,7 +550,8 @@ $coins_array = array(
                                         	'ethfinex' => 'tMNABTC',
                                           'liqui' => 'mana_btc',
                                           'gatecoin' => 'MANBTC',
-                                          'okex' => 'mana_btc'
+                                          'okex' => 'mana_btc',
+                                          'kucoin' => 'MANA-BTC'
                                                     ),
                                     'eth' => array(
                                           'bittrex' => 'ETH-MANA',
@@ -576,7 +561,8 @@ $coins_array = array(
                                         	'ethfinex' => 'tMNAETH',
                                           'liqui' => 'mana_eth',
                                           'gatecoin' => 'MANETH',
-                                          'okex' => 'mana_eth'
+                                          'okex' => 'mana_eth',
+                                          'kucoin' => 'MANA-ETH'
                                                     ),
                                     'usdt' => array(
                                           'liqui' => 'mana_usdt',
@@ -718,77 +704,6 @@ $coins_array = array(
                                                     )
                                         ),
                         'default_pairing' => 'btc'
-                    ),	
-                    // ZEN	
-                    'ZEN' => array(	
-                        	
-                        'coin_name' => 'ZenCash',	
-                        'coin_symbol' => 'ZEN',	
-                        'coinmarketcap' => 'zencash',	
-                         'ico' => 'no',
-                        'market_pairing' => array(	
-                                    'btc' => array(	
-                                        'bittrex' => 'BTC-ZEN',
-                                        'upbit' => 'BTC-ZEN',
-                                        'okex' => 'zen_btc',
-                                        'cryptopia' => 'ZEN/BTC'	
-                                                    ),
-                                    'eth' => array(	
-                                        'okex' => 'zen_eth'	
-                                                    ),
-                                    'ltc' => array(	
-                                        'cryptopia' => 'ZEN/LTC'	
-                                                    ),
-                                    'usdt' => array(	
-                                        'okex' => 'zen_usdt'	
-                                                    )	
-                                        ),	
-                        'default_pairing' => 'btc'	
-                        	
-                    ),
-                    // DATA
-                    'DATA' => array(
-                        
-                        'coin_name' => 'Streamr DATAcoin',
-                        'coin_symbol' => 'DATA',
-                        'coinmarketcap' => 'streamr-datacoin',
-                        'ico' => 'yes',
-                        'market_pairing' => array(
-                                    'btc' => array(
-                                        'hitbtc' => 'DATABTC',
-                                        'ethfinex' => 'tDATBTC'
-                                                    ),
-                                    'eth' => array(
-                                        'hitbtc' => 'DATAETH',
-                                        'ethfinex' => 'tDATETH'
-                                                    ),
-                                    'usdt' => array(
-                                        'hitbtc' => 'DATAUSD'
-                                                    )
-                                        ),
-                        'default_pairing' => 'btc'
-                    ),
-                    // BTS
-                    'BTS' => array(
-                        
-                        'coin_name' => 'BitShares',
-                        'coin_symbol' => 'BTS',
-                        'coinmarketcap' => 'bitshares',
-                        'ico' => 'no',
-                        'market_pairing' => array(
-                                    'btc' => array(
-                                          'poloniex' => 'BTC_BTS',
-                                        	'binance' => 'BTSBTC',
-                                          'livecoin' => 'BTS/BTC',
-                                          'bter' => 'bts_btc',
-                                          'cryptofresh' => 'BTS'
-                                                    ),
-                                    'eth' => array(
-                                        	'binance' => 'BTSETH'
-                                                    )
-                                        ),
-                        'default_pairing' => 'btc'
-                        
                     ),
                     // XRP
                     'XRP' => array(
@@ -825,112 +740,6 @@ $coins_array = array(
                         'default_pairing' => 'btc'
                         
                     ),
-                    // DNT
-                    'DNT' => array(
-                        
-                        'coin_name' => 'District0x',
-                        'coin_symbol' => 'DNT',
-                        'coinmarketcap' => 'district0x',
-                        'ico' => 'yes',
-                        'market_pairing' => array(
-                                    'btc' => array(
-                                          'bittrex' => 'BTC-DNT',
-                                        	'upbit' => 'BTC-DNT',
-                                        	'binance' => 'DNTBTC',
-                                          'liqui' => 'dnt_btc',
-                                          'hitbtc' => 'DNTBTC',
-                                          'bter' => 'dnt_btc',
-                                        	'okex' => 'dnt_btc'
-                                                    ),
-                                    'eth' => array(
-                                          'bittrex' => 'ETH-DNT',
-                                          'upbit' => 'ETH-DNT',
-                                          'binance' => 'DNTETH',
-                                          'liqui' => 'dnt_eth',
-                                        	'okex' => 'dnt_eth'
-                                                    ),
-                                    'usdt' => array(
-                                        	'liqui' => 'dnt_usdt',
-                                        	'okex' => 'dnt_usdt'
-                                                    )
-                                        ),
-                        'default_pairing' => 'btc'
-                        
-                    ),	
-                    // SWT	
-                    'SWT' => array(	
-                        	
-                        'coin_name' => 'Swarm City',	
-                        'coin_symbol' => 'SWT',	
-                        'coinmarketcap' => 'swarm-city',
-                         'ico' => 'yes',	
-                        'market_pairing' => array(	
-                                    'btc' => array(	
-                                          'bittrex' => 'BTC-SWT',	
-                                        	'upbit' => 'BTC-SWT',	
-                                          'hitbtc' => 'SWTBTC'	
-                                                    ),
-                                    'eth' => array(
-                                          'hitbtc' => 'SWTETH'
-                                                    )
-                                        ),	
-                        'default_pairing' => 'btc'	
-                        	
-                    ),	
-                    // POA	
-                    'POA' => array(	
-                        	
-                        'coin_name' => 'POA Network',	
-                        'coin_symbol' => 'POA',	
-                        'coinmarketcap' => 'poa-network',	
-                         'ico' => 'yes',
-                        'market_pairing' => array(	
-                                    'btc' => array(	
-                                          'binance' => 'POABTC'	
-                                                    ),	
-                                    'eth' => array(	
-                                          'binance' => 'POAETH'	
-                                                    )	
-                                        ),	
-                        'default_pairing' => 'eth'	
-                        	
-                    ),	
-                    // MYST	
-                    'MYST' => array(	
-                        	
-                        'coin_name' => 'Mysterium',	
-                        'coin_symbol' => 'MYST',	
-                        'coinmarketcap' => 'mysterium',	
-                         'ico' => 'yes',
-                        'market_pairing' => array(	
-                                    'btc' => array(	
-                                          'liqui' => 'myst_btc'	
-                                                    ),
-                                    'eth' => array(	
-                                          'liqui' => 'myst_eth'	
-                                                    ),
-                                    'usdt' => array(	
-                                          'liqui' => 'myst_usdt'	
-                                                    )	
-                                        ),	
-                        'default_pairing' => 'eth'	
-                        	
-                    ),	
-                    // PIRL	
-                    'PIRL' => array(	
-                        	
-                        'coin_name' => 'Pirl',	
-                        'coin_symbol' => 'PIRL',	
-                        'coinmarketcap' => 'pirl',	
-                         'ico' => 'no',
-                        'market_pairing' => array(	
-                                    'btc' => array(	
-                                          'cryptopia' => 'PIRL/BTC'	
-                                                    )
-                                        ),	
-                        'default_pairing' => 'btc'	
-                        	
-                    ),
                     // RVN
                     'RVN' => array(
                         
@@ -940,6 +749,7 @@ $coins_array = array(
                         'ico' => 'no',
                         'market_pairing' => array(
                                     'btc' => array(
+                                         'graviex' => 'rvnbtc',
                                          'cryptofresh' => 'BRIDGE.RVN'
                                                     )
                                         ),
