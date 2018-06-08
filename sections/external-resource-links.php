@@ -167,6 +167,8 @@
         
         <li class='chart_links'><a href='https://www.youtube.com/channel/UCVVDsIYJBQ_C7Bh_aI3ZMxQ/featured' target='_blank'>Magical Crypto Friends</a></li>
         
+        <li class='chart_links'><a href='https://www.youtube.com/user/australiaalex/featured' target='_blank'>Nugget's News</a></li>
+        
         <li class='chart_links'><a href='https://www.youtube.com/channel/UCEFJVYNiPp8xeIUyfaPCPQw/featured' target='_blank'>Off Chain with Jimmy Song</a></li>
         
         <li class='chart_links'><a href='https://www.youtube.com/channel/UCOBxM0AORW9BCj2rSuR6HBg/featured' target='_blank'>Shitcoin Talk</a></li>

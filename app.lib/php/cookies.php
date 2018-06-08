@@ -18,6 +18,19 @@ setcookie("coin_reload", $_COOKIE['coin_reload'], mktime()+31536000);
 
 }
 
+if ( $_POST['update_notes'] == 1 && trim($_POST['notes_reminders']) != '' && $_COOKIE['notes_reminders'] ) {
+setcookie("notes_reminders", $_POST['notes_reminders'], mktime()+31536000);
+
+header("Location: " . $_SERVER['PHP_SELF']);
+exit;
+}
+elseif ( $_POST['update_notes'] == 1 && trim($_POST['notes_reminders']) == '' && $_COOKIE['notes_reminders'] ) {
+setcookie("notes_reminders", " ", mktime()+31536000); // Initialized with some whitespace when blank
+
+header("Location: " . $_SERVER['PHP_SELF']);
+exit;
+}
+
 //////////////////////////////////////////////////////////////
 
 if ( $_POST['submit_check'] == 1 ) {
@@ -98,6 +111,16 @@ if ( $_POST['submit_check'] == 1 ) {
    
            // Cookie expires in 1 year (31536000 seconds)
            
+           
+           if ( $_POST['use_notes'] == 1 && !$_COOKIE['notes_reminders'] ) {
+           setcookie("notes_reminders", " ", mktime()+31536000); // Initialized with some whitespace when blank
+           }
+           elseif ( $_POST['use_notes'] != 1 ) {
+           unset($_COOKIE['notes_reminders']);  // Delete any existing cookies
+           setcookie ("notes_reminders", "", time()-3600);  // Delete any existing cookies
+           }
+           
+           
            setcookie("coin_amounts", $set_coin_values, mktime()+31536000);
            setcookie("coin_pairings", $set_pairing_values, mktime()+31536000);
            setcookie("coin_markets", $set_market_values, mktime()+31536000);
@@ -107,11 +130,13 @@ if ( $_POST['submit_check'] == 1 ) {
   }
   else {
    
+  unset($_COOKIE['notes_reminders']);  // Delete any existing cookies
   unset($_COOKIE['coin_amounts']);  // Delete any existing cookies
   unset($_COOKIE['coin_pairings']);  // Delete any existing cookies
   unset($_COOKIE['coin_markets']);  // Delete any existing cookies
   unset($_COOKIE['coin_reload']);  // Delete any existing cookies
   
+  setcookie ("notes_reminders", "", time()-3600);  // Delete any existing cookies
   setcookie ("coin_amounts", "", time()-3600);  // Delete any existing cookies
   setcookie ("coin_pairings", "", time()-3600);  // Delete any existing cookies
   setcookie ("coin_markets", "", time()-3600);  // Delete any existing cookies

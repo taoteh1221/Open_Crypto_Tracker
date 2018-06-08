@@ -173,7 +173,28 @@ $loop = NULL;
 
 // End outputting results
 }
+
+if ( $_COOKIE['notes_reminders'] ) {
 ?>
+
+<p>
+<form action='./' method='post'>
+
+<b>Trading Notes / Reminders:</b><br />
+
+<textarea name='notes_reminders' id='notes_reminders' rows='6' cols='80'><?=$_COOKIE['notes_reminders']?></textarea><br />
+
+<input type='hidden' name='update_notes' id='update_notes' value='1' />
+<input type='submit' value='Save Notes' />
+
+</form>
+</p>
+
+<?php
+}
+?>
+
+
                             
                             
                         

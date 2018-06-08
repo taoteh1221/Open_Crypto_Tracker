@@ -13,7 +13,7 @@ if ( realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) ) {
 
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
  
-$version = '2.0.5';  // 2018/MAY/5TH
+$version = '2.0.6';  // 2018/JUNE/7TH
  
 session_start();
 require_once("app.lib/php/functions.php");
@@ -376,7 +376,8 @@ $coins_array = array(
                         'market_pairing' => array(
                                     'btc' => array(
                                         'bittrex' => 'BTC-TUSD',
-                                        'upbit' => 'BTC-TUSD'
+                                        'upbit' => 'BTC-TUSD',
+                                        'binance' => 'TUSDBTC'
                                                     ),
                                     'eth' => array(
                                         'bittrex' => 'ETH-TUSD',
@@ -735,6 +736,50 @@ $coins_array = array(
                                           'bittrex' => 'USDT-XRP',
                                           'upbit' => 'USDT-XRP',
                                         	'hitbtc' => 'XRPUSDT'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
+                        
+                    ),
+                    // TRAC
+                    'TRAC' => array(
+                        
+                        'coin_name' => 'OriginTrail',
+                        'coin_symbol' => 'TRAC',
+                        'coinmarketcap' => 'origintrail',
+                        'ico' => 'yes',
+                        'market_pairing' => array(
+                                    'btc' => array(
+                                    		'kucoin' => 'TRAC-BTC'
+                                                    ),
+                                    'eth' => array(
+                                          'kucoin' => 'TRAC-ETH',
+                                        	'hitbtc' => 'TRACETH'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
+                        
+                    ),
+                    // ZIL
+                    'ZIL' => array(
+                        
+                        'coin_name' => 'Zilliqa',
+                        'coin_symbol' => 'ZIL',
+                        'coinmarketcap' => 'zilliqa',
+                        'ico' => 'yes',
+                        'market_pairing' => array(
+                                    'btc' => array(
+                                        	'binance' => 'ZILBTC',
+                                    		'kucoin' => 'ZIL-BTC',
+                                        	'okex' => 'zil_btc'
+                                                    ),
+                                    'eth' => array(
+                                        	'binance' => 'ZILETH',
+                                          'kucoin' => 'ZIL-ETH',
+                                        	'okex' => 'zil_eth'
+                                                    ),
+                                    'usdt' => array(
+                                        	'okex' => 'zil_usdt'
                                                     )
                                         ),
                         'default_pairing' => 'btc'
