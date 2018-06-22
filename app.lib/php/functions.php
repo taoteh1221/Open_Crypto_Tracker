@@ -1288,9 +1288,19 @@ $market_pairing = $market_pairing_array[$selected_market];
 	if ( coinmarketcap_api($trade_symbol)['rank'] == '' ) {
 	?>
 
-	var cmc_content = 'Coinmarketcap API may be offline / under heavy load, marketcap range not set high enough (current range is top <?=$coinmarketcap_ranks_max?> marketcaps), or API timeout set too low (current timeout is <?=$api_timeout?> seconds). Configuration adjustments can be made in config.php.';
-
-	<?php
+	var cmc_content = '<h3 style="color: #e5f1ff;">Coinmarketcap API may be offline / under heavy load, <br />marketcap range not set high enough (current range is top <?=$coinmarketcap_ranks_max?> marketcaps), <br />or API timeout set too low (current timeout is <?=$api_timeout?> seconds). <br />Configuration adjustments can be made in config.php.</h3>';
+	
+		<?php
+		if ( sizeof($alert_percent) > 1 ) {
+		?>
+		
+		setTimeout(function() {
+    	play_alert("<?=strtolower($trade_symbol)?>_row", "visual", "blue"); // Assets with CMC data not set or functioning properly
+		}, 1000);
+		
+		<?php
+		}
+		
 	}
 	else {
 	?> 
@@ -1366,6 +1376,7 @@ $percent_alert_type = $alert_percent[2];
  <?php
  }
 
+
 }
 ?>
 
@@ -1381,8 +1392,21 @@ $percent_alert_type = $alert_percent[2];
  $('#<?=$rand_id?>').balloon({
   html: true,
   position: "right",
-  contents: '<h3 class="orange">No Coinmarketcap.com data for <?=$coin_name?> (<?=$trade_symbol?>) has been configured yet.</h3>'
+  contents: '<h3 style="color: #e5f1ff;">No Coinmarketcap.com data for <?=$coin_name?> (<?=$trade_symbol?>) has been configured yet.</h3>'
 });
+
+		<?php
+		if ( sizeof($alert_percent) > 1 ) {
+		?>
+		
+		setTimeout(function() {
+    	play_alert("<?=strtolower($trade_symbol)?>_row", "visual", "blue"); // Assets with CMC data not set or functioning properly
+		}, 1000);
+		
+		<?php
+		}
+		?>
+		
  </script>
  <?php
  }

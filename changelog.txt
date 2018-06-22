@@ -719,6 +719,12 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+2.0.7:
+-Color coded percentage alert feature, for assets if no coinmarketcap data was retrieved
+-------------------------------------------------------------------
+
+
 
 
 

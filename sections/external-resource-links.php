@@ -155,6 +155,8 @@
         
         <li class='chart_links'><a href='https://www.youtube.com/user/PrisonOrFreedom/featured' target='_blank'>Cryptocurrency Market</a></li>
         
+        <li class='chart_links'><a href='https://www.youtube.com/channel/UCiUnrCUGCJTCC7KjuW493Ww' target='_blank'>Crypto Zombie</a></li>
+        
         <li class='chart_links'><a href='https://www.youtube.com/channel/UC2Q-Uk6OKdgpt3Zn6uJXX_A/featured' target='_blank'>Doug Polk Podcast</a></li>
         
         <li class='chart_links'><a href='https://www.youtube.com/user/epicenterbtc/featured' target='_blank'>Epicenter</a></li>

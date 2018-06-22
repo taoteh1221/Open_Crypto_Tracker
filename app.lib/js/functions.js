@@ -114,7 +114,10 @@ function play_alert(tr_id, alert_type, color) {
     
     $( document ).ready(function() {
       
-	if ( color == 'yellow' && !window.alert_color ) {
+	if ( color == 'blue' ) {
+	window.alert_color = '#e5f1ff'; // Assets with CMC data not set or functioning properly
+	}
+	else if ( color == 'yellow' && !window.alert_color ) {
 	window.alert_color = '#efd362';
 	}
 	else if ( color == 'green' && !window.alert_color ) {
@@ -127,15 +130,18 @@ function play_alert(tr_id, alert_type, color) {
       $('.tablesorter tr#' + tr_id).css("background-color", window.alert_color);
       $('.tablesorter tr#' + tr_id + ' td').css("background-color", window.alert_color);
       
-      // Zebra stripe in yellow or green
-	if ( window.alert_color == '#efd362' ) {
+      // Zebra stripes
+	
+	if ( color == 'blue' ) {
+	window.alert_color = ''; // Assets with CMC data not set or functioning properly
+	}
+	else if ( window.alert_color == '#efd362' ) {
 	window.alert_color = '#d3bb5b';
 	}
 	else if ( window.alert_color == '#d3bb5b' ) {
 	window.alert_color = '#efd362';
 	}
-	
-	if ( window.alert_color == '#81c185' ) {
+	else if ( window.alert_color == '#81c185' ) {
 	window.alert_color = '#abfcaf';
 	}
 	else if ( window.alert_color == '#abfcaf' ) {
