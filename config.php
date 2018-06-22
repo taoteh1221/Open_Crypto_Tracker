@@ -381,7 +381,8 @@ $coins_array = array(
                                                     ),
                                     'eth' => array(
                                         'bittrex' => 'ETH-TUSD',
-                                        'upbit' => 'ETH-TUSD'
+                                        'upbit' => 'ETH-TUSD',
+                                        'binance' => 'TUSDETH'
                                                     ),
                                     'usdt' => array(
                                         'bittrex' => 'USDT-TUSD'
@@ -785,6 +786,62 @@ $coins_array = array(
                         'default_pairing' => 'btc'
                         
                     ),
+                    // ENG
+                    'ENG' => array(
+                        
+                        'coin_name' => 'Enigma',
+                        'coin_symbol' => 'ENG',
+                        'coinmarketcap' => 'enigma-project',
+                        'ico' => 'yes',
+                        'market_pairing' => array(
+                                    'btc' => array(
+                                          'bittrex' => 'BTC-ENG',
+                                        	'binance' => 'ENGBTC',
+                                        	'okex' => 'eng_btc',
+                                        	'liqui' => 'eng_btc'
+                                                    ),
+                                    'eth' => array(
+                                          'bittrex' => 'ETH-ENG',
+                                        	'binance' => 'ENGETH',
+                                        	'okex' => 'eng_eth',
+                                        	'liqui' => 'eng_eth'
+                                                    ),
+                                    'usdt' => array(
+                                        	'okex' => 'eng_usdt',
+                                        	'liqui' => 'eng_usdt'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
+                        
+                    ),
+                    // SUB
+                    'SUB' => array(
+                        
+                        'coin_name' => 'Substratum',
+                        'coin_symbol' => 'SUB',
+                        'coinmarketcap' => 'substratum',
+                        'ico' => 'yes',
+                        'market_pairing' => array(
+                                    'btc' => array(
+                                        	'binance' => 'SUBBTC',
+                                        	'okex' => 'sub_btc',
+                                    		'kucoin' => 'SUB-BTC',
+                                        	'hitbtc' => 'SUBBTC'
+                                                    ),
+                                    'eth' => array(
+                                        	'binance' => 'SUBETH',
+                                        	'okex' => 'sub_eth',
+                                    		'kucoin' => 'SUB-ETH',
+                                        	'hitbtc' => 'SUBETH'
+                                                    ),
+                                    'usdt' => array(
+                                        	'okex' => 'sub_usdt',
+                                        	'hitbtc' => 'SUBUSDT'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
+                        
+                    ),
                     // RVN
                     'RVN' => array(
                         
@@ -799,6 +856,48 @@ $coins_array = array(
                                                     )
                                         ),
                         'default_pairing' => 'btc'
+                    ),
+                    // MYST
+                    'MYST' => array(
+                        
+                        'coin_name' => 'Mysterium',
+                        'coin_symbol' => 'MYST',
+                        'coinmarketcap' => 'mysterium',
+                        'ico' => 'yes',
+                        'market_pairing' => array(
+                                    'btc' => array(
+                                        	'liqui' => 'myst_btc'
+                                                    ),
+                                    'eth' => array(
+                                        	'liqui' => 'myst_eth'
+                                                    ),
+                                    'usdt' => array(
+                                        	'liqui' => 'myst_usdt'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
+                        
+                    ),
+                    // KCS
+                    'KCS' => array(
+                        
+                        'coin_name' => 'KuCoin Shares',
+                        'coin_symbol' => 'KCS',
+                        'coinmarketcap' => 'kucoin-shares',
+                        'ico' => 'yes',
+                        'market_pairing' => array(
+                                    'btc' => array(
+                                        	'kucoin' => 'KCS-BTC'
+                                                    ),
+                                    'eth' => array(
+                                        	'kucoin' => 'KCS-ETH'
+                                                    ),
+                                    'usdt' => array(
+                                        	'kucoin' => 'KCS-USDT'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
+                        
                     )
                 
                 
