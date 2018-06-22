@@ -4,11 +4,33 @@
 
 // Wait until the DOM has loaded before querying the document
 $(document).ready(function(){
+	
+	////////////////////////////////////////////////////////
+	
+	$.each($('textarea[data-autoresize]'), function() {
+    var offset = this.offsetHeight - this.clientHeight;
+ 
+    var resizeTextarea = function(el) {
+        $(el).css('height', 'auto').css('height', el.scrollHeight + offset);
+    };
+    
+    $(this).each(function() { resizeTextarea(this); }).removeAttr('data-autoresize');  // Onload
+    
+    $(this).change(function() { resizeTextarea(this); }).removeAttr('data-autoresize');  // Onchange
+    
+    $(this).on('keyup input', function() { resizeTextarea(this); }).removeAttr('data-autoresize'); // On keyup
+    
+});
+
+
+	//////////////////////////////////////////////////////////
   
   $('#donate').click(function() {
       $('#donate_div').toggle();
   });
 
+	//////////////////////////////////////////////////////////
+	
 	if ( getCookie("coin_reload").length > 0 ) {
 	
         //console.log('auto reload function triggered...');
@@ -17,6 +39,7 @@ $(document).ready(function(){
     
 	}
 	
+	//////////////////////////////////////////////////////////
 	
 				
 	$("#coins_table").tablesorter({
@@ -68,6 +91,7 @@ $(document).ready(function(){
 	    type: 'numeric' 
 	}); 
 	    
+	//////////////////////////////////////////////////////////
   
   
 	$('ul.tabs').each(function(){
@@ -108,5 +132,6 @@ $(document).ready(function(){
 	
 	});
 	
+	//////////////////////////////////////////////////////////
 
 });

@@ -9,6 +9,11 @@ width: auto;
 
 }
 
+textarea {
+    box-sizing: border-box;
+    resize: none;
+}
+
 td {
     margin: 0px;
 }

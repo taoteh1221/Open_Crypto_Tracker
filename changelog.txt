@@ -726,6 +726,13 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+2.0.8:
+-Auto resize trading notes area based on text content
+-------------------------------------------------------------------
+
+
+
 
 
 

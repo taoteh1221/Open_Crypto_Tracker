@@ -182,7 +182,7 @@ if ( $_COOKIE['notes_reminders'] ) {
 
 <b>Trading Notes / Reminders:</b><br />
 
-<textarea name='notes_reminders' id='notes_reminders' rows='6' style='width: 100%;'><?=$_COOKIE['notes_reminders']?></textarea><br />
+<textarea data-autoresize name='notes_reminders' id='notes_reminders' style='height: auto; width: 100%;'><?=$_COOKIE['notes_reminders']?></textarea><br />
 
 <input type='hidden' name='update_notes' id='update_notes' value='1' />
 <input type='submit' value='Save Notes' />
