@@ -733,6 +733,13 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+2.1.0:
+-Red info icon when CMC data not present...the proverbial "cherry on top", time to get off this crazy roller coaster. Thanks for the wild ride over the years BTC / ALTS! :-)
+-------------------------------------------------------------------
+
+
+
 
 
 
