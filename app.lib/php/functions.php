@@ -1278,14 +1278,15 @@ $market_pairing = $market_pairing_array[$selected_market];
  
  <?php
  $cmkcap_render_data = trim($coins_array[$trade_symbol]['coinmarketcap']);
+ $info_icon = ( !coinmarketcap_api($trade_symbol)['rank'] ? 'info-none.png' : 'info.png' );
  
  if ( $cmkcap_render_data != '' ) {
  ?>
- <?=( $coins_array[$trade_symbol]['ico'] == 'yes' ? "<a title='SEC Website On ICO Guidance And Safety' href='https://www.sec.gov/ICO' target='_blank'><img src='templates/default/images/alert.png' border=0' style='position: absolute; top: 3px; left: 0px; margin: 0px; height: 30px; width: 30px;' /></a> " : "" )?><img id='<?=$cmkcap_render_data?>' src='templates/default/images/info.png' border=0' style='position: absolute; top: 3px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <a title='' href='http://coinmarketcap.com/currencies/<?=$cmkcap_render_data?>/' target='_blank'><?php echo $coin_name; ?></a>
+ <?=( $coins_array[$trade_symbol]['ico'] == 'yes' ? "<a title='SEC Website On ICO Guidance And Safety' href='https://www.sec.gov/ICO' target='_blank'><img src='templates/default/images/alert.png' border=0' style='position: absolute; top: 3px; left: 0px; margin: 0px; height: 30px; width: 30px;' /></a> " : "" )?><img id='<?=$cmkcap_render_data?>' src='templates/default/images/<?=$info_icon?>' border=0' style='position: absolute; top: 3px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <a title='' href='http://coinmarketcap.com/currencies/<?=$cmkcap_render_data?>/' target='_blank'><?php echo $coin_name; ?></a>
  <script>
 
 	<?php
-	if ( coinmarketcap_api($trade_symbol)['rank'] == '' ) {
+	if ( !coinmarketcap_api($trade_symbol)['rank'] ) {
 	?>
 
 	var cmc_content = '<h3 style="color: #e5f1ff;">Coinmarketcap API may be offline / under heavy load, <br />marketcap range not set high enough (current range is top <?=$coinmarketcap_ranks_max?> marketcaps), <br />or API timeout set too low (current timeout is <?=$api_timeout?> seconds). <br />Configuration adjustments can be made in config.php.</h3>';
@@ -1387,7 +1388,7 @@ $percent_alert_type = $alert_percent[2];
  else {
   $rand_id = rand(10000000,100000000);
   ?>
-  <img id='<?=$rand_id?>' src='templates/default/images/info.png' border=0' style='position: absolute; top: 4px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <?=$coin_name?>
+  <img id='<?=$rand_id?>' src='templates/default/images/<?=$info_icon?>' border=0' style='position: absolute; top: 4px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <?=$coin_name?>
  <script>
  $('#<?=$rand_id?>').balloon({
   html: true,
