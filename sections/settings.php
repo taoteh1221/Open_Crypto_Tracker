@@ -134,6 +134,7 @@
 			delete_cookie("coin_amounts");
 			delete_cookie("coin_markets");
 			delete_cookie("coin_reload");
+			delete_cookie("alert_percent");
 			document.getElementById("use_cookies").value = "";
 			
 			delete_cookie("notes_reminders");

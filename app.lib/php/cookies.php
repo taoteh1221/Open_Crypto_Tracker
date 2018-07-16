@@ -129,18 +129,22 @@ if ( $_POST['submit_check'] == 1 ) {
     exit;
   }
   else {
+  	
+  // Delete any existing cookies
    
-  unset($_COOKIE['notes_reminders']);  // Delete any existing cookies
-  unset($_COOKIE['coin_amounts']);  // Delete any existing cookies
-  unset($_COOKIE['coin_pairings']);  // Delete any existing cookies
-  unset($_COOKIE['coin_markets']);  // Delete any existing cookies
-  unset($_COOKIE['coin_reload']);  // Delete any existing cookies
+  unset($_COOKIE['notes_reminders']);
+  unset($_COOKIE['coin_amounts']); 
+  unset($_COOKIE['coin_pairings']); 
+  unset($_COOKIE['coin_markets']); 
+  unset($_COOKIE['coin_reload']);  
+  unset($_COOKIE['alert_percent']);  
   
-  setcookie ("notes_reminders", "", time()-3600);  // Delete any existing cookies
-  setcookie ("coin_amounts", "", time()-3600);  // Delete any existing cookies
-  setcookie ("coin_pairings", "", time()-3600);  // Delete any existing cookies
-  setcookie ("coin_markets", "", time()-3600);  // Delete any existing cookies
-  setcookie ("coin_reload", "", time()-3600);  // Delete any existing cookies
+  setcookie ("notes_reminders", "", time()-3600);  
+  setcookie ("coin_amounts", "", time()-3600);  
+  setcookie ("coin_pairings", "", time()-3600);  
+  setcookie ("coin_markets", "", time()-3600);  
+  setcookie ("coin_reload", "", time()-3600);  
+  setcookie ("alert_percent", "", time()-3600);  
  
   }
   

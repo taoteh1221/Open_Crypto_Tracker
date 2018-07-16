@@ -740,6 +740,14 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+2.1.1:
+-Fixed Coinmarketcap settings cookie deletion, when cookies are disabled (thanks Stan for the report)
+-------------------------------------------------------------------
+
+
+
+
 
 
 
