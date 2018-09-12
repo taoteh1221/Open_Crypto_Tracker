@@ -24,7 +24,7 @@ require("templates/default/header.php");
 			 &nbsp; &nbsp; &nbsp; <span style='color: <?=( stristr($alert_percent[0], '-') == false ? 'green' : '#ea6b1c' )?>; font-weight: bold;'>Coinmarketcap alerts enabled (<?=$alert_percent[0]?>% / <?=$alert_percent[1]?>)</span>
 			<?php
 			}
-			?> &nbsp; &nbsp; &nbsp; <a href='javascript:location.reload(true);' style='font-weight: bold;' title='Refreshing data too frequently may cause API request refusals, it is recommended to use this sparingly.'>Refresh Data</a> &nbsp; <select name='select_auto_refresh' id='select_auto_refresh' onchange='auto_reload(this.value);'>
+			?> &nbsp; &nbsp; &nbsp; <a href='javascript:location.reload(true);' style='font-weight: bold;' title='Refreshing data too frequently may cause API request refusals, it is recommended to use this sparingly. Your current real-time exchange data cache setting in config.php is set to <?=$last_trade_ttl?> minute(s) to avoid IP blacklisting.'>Refresh Data</a> &nbsp; <select name='select_auto_refresh' id='select_auto_refresh' onchange='auto_reload(this.value);'>
 				<option value=''> Manually </option>
 				<option value='300' <?=( $_COOKIE['coin_reload'] == '300' ? 'selected' : '' )?>> Every 5 Minutes </option>
 				<option value='600' <?=( $_COOKIE['coin_reload'] == '600' ? 'selected' : '' )?>> Every 10 Minutes </option>

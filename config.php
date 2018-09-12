@@ -13,7 +13,7 @@ if ( realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) ) {
 
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
  
-$version = '2.1.1';  // 2018/JULY/16TH
+$version = '2.1.2';  // 2018/JULY/16TH
  
 session_start();
 require_once("app.lib/php/functions.php");
@@ -76,6 +76,8 @@ require_once("app.lib/php/init.php");
 /////////////////// GENERAL CONFIG -START- ////////////////////////////////////////////////////
 
 $api_timeout = 10; // Seconds to wait for response from API endpoint
+
+$last_trade_ttl = 1; // Minutes to cache last real-time exchange data...can be zero to skip cache, but set at least 1 minute to safely avoid your IP getting blocked
 
 $btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken / hitbtc / gatecion / livecoin
 
@@ -220,6 +222,26 @@ $coins_array = array(
                                         ),
                         'default_pairing' => 'btc'
                         
+                    ),
+                    // BNB
+                    'BNB' => array(
+                        
+                        'coin_name' => 'Binance Coin',
+                        'coin_symbol' => 'BNB',
+                        'coinmarketcap' => 'binance-coin',
+                        'ico' => 'yes',
+                        'market_pairing' => array(
+                                    'btc' => array(
+                                        'binance' => 'BNBBTC'
+                                                    ),
+                                    'eth' => array(
+                                        'binance' => 'BNBETH'
+                                                    ),
+                                    'usdt' => array(
+                                        'binance' => 'BNBUSDT'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
                     ),
                     // DCR
                     'DCR' => array(
@@ -567,6 +589,37 @@ $coins_array = array(
                         'default_pairing' => 'btc'
                         
                     ),
+                    // DGB
+                    'DGB' => array(
+                        
+                        'coin_name' => 'DigiByte',
+                        'coin_symbol' => 'DGB',
+                        'coinmarketcap' => 'digibyte',
+                        'ico' => 'no',
+                        'market_pairing' => array(
+                                    'btc' => array(
+                                          'poloniex' => 'BTC_DGB',
+                                          'bittrex' => 'BTC-DGB',
+                                        	'upbit' => 'BTC-DGB',
+                                          'hitbtc' => 'DGBBTC',
+                                          'kucoin' => 'DGB-BTC',
+                                        	'okex' => 'dgb_btc',
+                                        	'cryptopia' => 'BTC/DGB'
+                                                    ),
+                                    'eth' => array(
+                                          'bittrex' => 'ETH-DGB',
+                                          'hitbtc' => 'DGBETH',
+                                          'kucoin' => 'DGB-ETH',
+                                        	'okex' => 'dgb_eth'
+                                                    ),
+                                    'usdt' => array(
+                                          'hitbtc' => 'DGBUSD',
+                                        	'okex' => 'dgb_usdt'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
+                        
+                    ),
                     // TRAC
                     'TRAC' => array(
                         
@@ -718,32 +771,6 @@ $coins_array = array(
                         'default_pairing' => 'btc'
                         
                     ),
-                    // ANT
-                    'ANT' => array(
-                        
-                        'coin_name' => 'Aragon',
-                        'coin_symbol' => 'ANT',
-                        'coinmarketcap' => 'aragon',
-                        'ico' => 'yes',
-                        'market_pairing' => array(
-                                    'btc' => array(
-                                          'bittrex' => 'BTC-ANT',
-                                        	'upbit' => 'BTC-ANT',
-                                          'hitbtc' => 'ANTBTC',
-                                          'liqui' => 'ant_btc'
-                                                    ),
-                                    'eth' => array(
-                                          'bittrex' => 'ETH-ANT',
-                                          'upbit' => 'ETH-ANT',
-                                          'liqui' => 'ant_eth'
-                                                    ),
-                                    'usdt' => array(
-                                        	'liqui' => 'ant_usdt'
-                                                    )
-                                        ),
-                        'default_pairing' => 'btc'
-                        
-                    ),
                     // ADA
                     'ADA' => array(
                         
@@ -801,6 +828,32 @@ $coins_array = array(
                                           'bittrex' => 'USDT-XRP',
                                           'upbit' => 'USDT-XRP',
                                         	'hitbtc' => 'XRPUSDT'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
+                        
+                    ),
+                    // ANT
+                    'ANT' => array(
+                        
+                        'coin_name' => 'Aragon',
+                        'coin_symbol' => 'ANT',
+                        'coinmarketcap' => 'aragon',
+                        'ico' => 'yes',
+                        'market_pairing' => array(
+                                    'btc' => array(
+                                          'bittrex' => 'BTC-ANT',
+                                        	'upbit' => 'BTC-ANT',
+                                          'hitbtc' => 'ANTBTC',
+                                          'liqui' => 'ant_btc'
+                                                    ),
+                                    'eth' => array(
+                                          'bittrex' => 'ETH-ANT',
+                                          'upbit' => 'ETH-ANT',
+                                          'liqui' => 'ant_eth'
+                                                    ),
+                                    'usdt' => array(
+                                        	'liqui' => 'ant_usdt'
                                                     )
                                         ),
                         'default_pairing' => 'btc'

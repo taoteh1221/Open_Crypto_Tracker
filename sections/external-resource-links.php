@@ -111,6 +111,8 @@
         
         <li class='chart_links'><a href='https://cointelegraph.com/' target='_blank'>Coin Telegraph</a></li>
         
+        <li class='chart_links'><a href='https://www.cointrust.com/' target='_blank'>Coin Trust</a></li>
+        
         <li class='chart_links'><a href='https://www.ccn.com/' target='_blank'>Crypto Coins News</a></li>
         
         <li class='chart_links'><a href='https://letstalkbitcoin.com/' target='_blank'>Lets Talk Bitcoin</a></li>
@@ -145,11 +147,15 @@
         
         <li class='chart_links'><a href='https://www.youtube.com/channel/UCxODjeUwZHk3p-7TU-IsDOA/featured' target='_blank'>Boxmining</a></li>
         
+        <li class='chart_links'><a href='https://www.youtube.com/channel/UCN9Nj4tjXbVTLYWN0EKly_Q' target='_blank'>CNBC Crypto Trader</a></li>
+        
         <li class='chart_links'><a href='https://www.youtube.com/user/CoinDesk/featured' target='_blank'>Coindesk</a></li>
         
         <li class='chart_links'><a href='https://www.youtube.com/user/cointelegraph/featured' target='_blank'>Cointelegraph</a></li>
         
         <li class='chart_links'><a href='https://www.youtube.com/user/obham001/featured' target='_blank'>Crypt0</a></li>
+        
+        <li class='chart_links'><a href='https://www.youtube.com/channel/UCu7Sre5A1NMV8J3s2FhluCw/featured' target='_blank'>Crypto Love</a></li>
         
         <li class='chart_links'><a href='https://www.youtube.com/channel/UCavTvSwEoRABvnPtLg0e6LQ/featured' target='_blank'>Crypto Tips</a></li>
         

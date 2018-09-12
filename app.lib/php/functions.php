@@ -6,11 +6,25 @@
  
  
  
+/////////////////////////////////////////////////////////
+
+function update_cache_file($cache_file, $minutes) {
+
+	if ( file_exists($cache_file) && (filemtime($cache_file) > (time() - 60 * $minutes )) ) {
+	   return false; 
+	} 
+	else {
+	   // Our cache is out-of-date
+	   return true;
+	}
+
+}
+
 //////////////////////////////////////////////////////////
 function etherscan_api($block_info) {
  	
   $json_string = 'http://api.etherscan.io/api?module=proxy&action=eth_blockNumber';
-  $jsondata = @get_data($json_string);
+  $jsondata = @get_data('url', $json_string, 4);
     
   $data = json_decode($jsondata, TRUE);
   
@@ -22,7 +36,7 @@ function etherscan_api($block_info) {
     	else {
 		
   		$json_string = 'http://api.etherscan.io/api?module=proxy&action=eth_getBlockByNumber&tag='.$block_number.'&boolean=true';
-  		$jsondata = @get_data($json_string);
+  		$jsondata = @get_data('url', $json_string, 4);
     	
     	$data = json_decode($jsondata, TRUE);
     	
@@ -44,7 +58,7 @@ function etherscan_api($block_info) {
 function decred_api($request) {
  		
  	$json_string = 'https://explorer.dcrdata.org/api/block/best/verbose';
- 	$jsondata = @get_data($json_string);
+ 	$jsondata = @get_data('url', $json_string, 4);
   	
   	$data = json_decode($jsondata, TRUE);
     
@@ -112,7 +126,7 @@ global $_POST, $mining_rewards;
 function monero_api($request) {
  		
  	$json_string = 'https://moneroblocks.info/api/get_stats';
- 	$jsondata = @get_data($json_string);
+ 	$jsondata = @get_data('url', $json_string, 4);
   	
   	$data = json_decode($jsondata, TRUE);
     
@@ -148,12 +162,12 @@ function vertcoin_api($request) {
 		
 		if ( $request == 'height' ) {
 		
-		return trim(@get_data('http://explorer.vertcoin.info/api/getblockcount'));
+		return trim(@get_data('url', 'http://explorer.vertcoin.info/api/getblockcount', 3));
 		  
 		}
 		elseif ( $request == 'difficulty' ) {
 		
-		return trim(@get_data('http://explorer.vertcoin.info/api/getdifficulty'));
+		return trim(@get_data('url', 'http://explorer.vertcoin.info/api/getdifficulty', 3));
 		  
 		}
   
@@ -169,12 +183,12 @@ function ravencoin_api($request) {
 		
 		if ( $request == 'height' ) {
 		
-		return trim(@get_data('http://rvnhodl.com/api/getblockcount'));
+		return trim(@get_data('url', 'http://rvnhodl.com/api/getblockcount', 3));
 		  
 		}
 		elseif ( $request == 'difficulty' ) {
 		
-		return trim(@get_data('http://rvnhodl.com/api/getdifficulty'));
+		return trim(@get_data('url', 'http://rvnhodl.com/api/getdifficulty', 3));
 		  
 		}
   
@@ -187,12 +201,13 @@ function ravencoin_api($request) {
 //////////////////////////////////////////////////////////
 function get_btc_usd($btc_in_usd) {
 
+global $last_trade_ttl;
   
     if ( strtolower($btc_in_usd) == 'coinbase' ) {
     
     $json_string = 'https://api.coinbase.com/v2/prices/spot?currency=USD';
     
-    $jsondata = @get_data($json_string);
+    $jsondata = @get_data('url', $json_string, $last_trade_ttl);
     
     $data = json_decode($jsondata, TRUE);
     
@@ -205,7 +220,7 @@ function get_btc_usd($btc_in_usd) {
   
     $json_string = 'https://api.hitbtc.com/api/1/public/BTCUSD/ticker';
     
-    $jsondata = @get_data($json_string);
+    $jsondata = @get_data('url', $json_string, $last_trade_ttl);
     
     $data = json_decode($jsondata, TRUE);
     
@@ -227,7 +242,7 @@ function get_btc_usd($btc_in_usd) {
     
     $json_string = 'https://api.gemini.com/v1/pubticker/btcusd';
     
-      $jsondata = @get_data($json_string);
+      $jsondata = @get_data('url', $json_string, $last_trade_ttl);
       
       $data = json_decode($jsondata, TRUE);
       
@@ -240,7 +255,7 @@ function get_btc_usd($btc_in_usd) {
   
     $json_string = 'https://www.okcoin.com/api/ticker.do?ok=1';
     
-    $jsondata = @get_data($json_string);
+    $jsondata = @get_data('url', $json_string, $last_trade_ttl);
     
     $data = json_decode($jsondata, TRUE);
     
@@ -254,7 +269,7 @@ function get_btc_usd($btc_in_usd) {
  	
     $json_string = 'https://www.bitstamp.net/api/ticker/';
     
-    $jsondata = @get_data($json_string);
+    $jsondata = @get_data('url', $json_string, $last_trade_ttl);
     
     $data = json_decode($jsondata, TRUE);
     
@@ -268,7 +283,7 @@ function get_btc_usd($btc_in_usd) {
       
       $json_string = 'https://api.gatecoin.com/Public/LiveTickers';
       
-      $jsondata = @get_data($json_string);
+      $jsondata = @get_data('url', $json_string, $last_trade_ttl);
       
       $data = json_decode($jsondata, TRUE);
    
@@ -297,7 +312,7 @@ function get_btc_usd($btc_in_usd) {
  
       $json_string = 'https://api.livecoin.net/exchange/ticker';
       
-      $jsondata = @get_data($json_string);
+      $jsondata = @get_data('url', $json_string, $last_trade_ttl);
       
       $data = json_decode($jsondata, TRUE);
    
@@ -327,7 +342,7 @@ function get_btc_usd($btc_in_usd) {
    
    $json_string = 'https://api.kraken.com/0/public/Ticker?pair=XXBTZUSD';
    
-   $jsondata = @get_data($json_string);
+   $jsondata = @get_data('url', $json_string, $last_trade_ttl);
    
    $data = json_decode($jsondata, TRUE);
    
@@ -375,14 +390,14 @@ function get_btc_usd($btc_in_usd) {
 //////////////////////////////////////////////////////////
 function get_trade_price($chosen_market, $market_pairing) {
 
-global $btc_in_usd, $coins_array;
+global $btc_in_usd, $coins_array, $last_trade_ttl;
  
 
   if ( strtolower($chosen_market) == 'gemini' ) {
   
   $json_string = 'https://api.gemini.com/v1/pubticker/' . $market_pairing;
   
-    $jsondata = @get_data($json_string);
+    $jsondata = @get_data('url', $json_string, $last_trade_ttl);
     
     $data = json_decode($jsondata, TRUE);
     
@@ -397,7 +412,7 @@ global $btc_in_usd, $coins_array;
   
   $json_string = 'https://www.bitstamp.net/api/v2/ticker/' . $market_pairing;
   
-    $jsondata = @get_data($json_string);
+    $jsondata = @get_data('url', $json_string, $last_trade_ttl);
     
     $data = json_decode($jsondata, TRUE);
     
@@ -414,7 +429,7 @@ global $btc_in_usd, $coins_array;
   
   $json_string = 'https://www.okex.com/api/v1/ticker.do?symbol=' . $market_pairing;
   
-    $jsondata = @get_data($json_string);
+    $jsondata = @get_data('url', $json_string, $last_trade_ttl);
     
     $data = json_decode($jsondata, TRUE);
     
@@ -429,7 +444,7 @@ global $btc_in_usd, $coins_array;
   
   $json_string = 'https://www.binance.com/api/v1/ticker/24hr?symbol=' . $market_pairing;
   
-    $jsondata = @get_data($json_string);
+    $jsondata = @get_data('url', $json_string, $last_trade_ttl);
     
     $data = json_decode($jsondata, TRUE);
     
@@ -443,7 +458,7 @@ global $btc_in_usd, $coins_array;
   
      $json_string = 'https://api.coinbase.com/v2/exchange-rates?currency=' . $market_pairing;
      
-     $jsondata = @get_data($json_string);
+     $jsondata = @get_data('url', $json_string, $last_trade_ttl);
      
      $data = json_decode($jsondata, TRUE);
      
@@ -456,7 +471,7 @@ global $btc_in_usd, $coins_array;
   
   $json_string = 'https://cryptofresh.com/api/asset/markets?asset=' . $market_pairing;
   
-    $jsondata = @get_data($json_string);
+    $jsondata = @get_data('url', $json_string, $last_trade_ttl);
     
     $data = json_decode($jsondata, TRUE);
 	
@@ -478,7 +493,7 @@ global $btc_in_usd, $coins_array;
      
      $json_string = 'https://bittrex.com/api/v1.1/public/getmarketsummaries';
      
-     $jsondata = @get_data($json_string);
+     $jsondata = @get_data('url', $json_string, $last_trade_ttl);
      
      $data = json_decode($jsondata, TRUE);
    
@@ -511,7 +526,7 @@ global $btc_in_usd, $coins_array;
 
      $json_string = 'https://tradesatoshi.com/api/public/getmarketsummaries';
      
-     $jsondata = @get_data($json_string);
+     $jsondata = @get_data('url', $json_string, $last_trade_ttl);
      
      $data = json_decode($jsondata, TRUE);
   
@@ -542,7 +557,7 @@ global $btc_in_usd, $coins_array;
   
   $json_string = 'https://api.liqui.io/api/3/ticker/' . $market_pairing;
   
-  $jsondata = @get_data($json_string);
+  $jsondata = @get_data('url', $json_string, $last_trade_ttl);
   
   $data = json_decode($jsondata, TRUE);
   
@@ -571,7 +586,7 @@ global $btc_in_usd, $coins_array;
 
      $json_string = 'https://poloniex.com/public?command=returnTicker';
      
-     $jsondata = @get_data($json_string);
+     $jsondata = @get_data('url', $json_string, $last_trade_ttl);
      
      $data = json_decode($jsondata, TRUE);
    
@@ -602,7 +617,7 @@ global $btc_in_usd, $coins_array;
 
      $json_string = 'https://api.kucoin.com/v1/open/tick';
      
-     $jsondata = @get_data($json_string);
+     $jsondata = @get_data('url', $json_string, $last_trade_ttl);
      
      $data = json_decode($jsondata, TRUE);
    
@@ -634,7 +649,7 @@ global $btc_in_usd, $coins_array;
 
      $json_string = 'https://api.livecoin.net/exchange/ticker';
      
-     $jsondata = @get_data($json_string);
+     $jsondata = @get_data('url', $json_string, $last_trade_ttl);
      
      $data = json_decode($jsondata, TRUE);
      
@@ -664,7 +679,7 @@ global $btc_in_usd, $coins_array;
 
      $json_string = 'https://www.cryptopia.co.nz/api/GetMarkets';
      
-     $jsondata = @get_data($json_string);
+     $jsondata = @get_data('url', $json_string, $last_trade_ttl);
      
      $data = json_decode($jsondata, TRUE);
   
@@ -696,7 +711,7 @@ global $btc_in_usd, $coins_array;
 
      $json_string = 'https://api.hitbtc.com/api/1/public/ticker';
      
-     $jsondata = @get_data($json_string);
+     $jsondata = @get_data('url', $json_string, $last_trade_ttl);
      
      $data = json_decode($jsondata, TRUE);
      
@@ -726,7 +741,7 @@ global $btc_in_usd, $coins_array;
 
      $json_string = 'http://data.bter.com/api/1/marketlist';
      
-     $jsondata = @get_data($json_string);
+     $jsondata = @get_data('url', $json_string, $last_trade_ttl);
      
      $data = json_decode($jsondata, TRUE);
      
@@ -757,7 +772,7 @@ global $btc_in_usd, $coins_array;
 
      $json_string = 'https://graviex.net//api/v2/tickers.json';
      
-     $jsondata = @get_data($json_string);
+     $jsondata = @get_data('url', $json_string, $last_trade_ttl);
      
      $data = json_decode($jsondata, TRUE);
      
@@ -788,7 +803,7 @@ global $btc_in_usd, $coins_array;
   
   $json_string = 'https://api.kraken.com/0/public/Ticker?pair=' . $market_pairing;
   
-  $jsondata = @get_data($json_string);
+  $jsondata = @get_data('url', $json_string, $last_trade_ttl);
   
   $data = json_decode($jsondata, TRUE);
   
@@ -833,7 +848,7 @@ global $btc_in_usd, $coins_array;
 
      $json_string = 'https://api.gatecoin.com/Public/LiveTickers';
      
-     $jsondata = @get_data($json_string);
+     $jsondata = @get_data('url', $json_string, $last_trade_ttl);
      
      $data = json_decode($jsondata, TRUE);
   
@@ -879,7 +894,7 @@ global $btc_in_usd, $coins_array;
 
      $json_string = 'https://crix-api-endpoint.upbit.com/v1/crix/recent?codes=' . $upbit_pairs;
      
-     $jsondata = @get_data($json_string);
+     $jsondata = @get_data('url', $json_string, $last_trade_ttl);
      
      $data = json_decode($jsondata, TRUE);
   
@@ -930,7 +945,7 @@ global $btc_in_usd, $coins_array;
 
      $json_string = 'https://api.bitfinex.com/v2/tickers?symbols=' . $finex_pairs;
      
-     $jsondata = @get_data($json_string);
+     $jsondata = @get_data('url', $json_string, $last_trade_ttl);
      
      $data = json_decode($jsondata, TRUE);
   
@@ -1049,7 +1064,7 @@ global $coinmarketcap_ranks_max;
 			
      	$json_string = $cmc_request;
      	     
-	  	$jsondata = @get_data($json_string);
+	  	$jsondata = @get_data('url', $json_string, 4);
 	   
    	$data = json_decode($jsondata, TRUE);
     
@@ -1504,20 +1519,31 @@ return $total_value;
 
 
 //////////////////////////////////////////////////////////
-function get_data($url) {
 
-global $version, $user_agent, $api_timeout;
+function get_data($mode, $request, $ttl) {
 
+global $version, $user_agent, $api_server, $api_timeout;
+
+$cookie_jar = tempnam('/tmp','cookie');
+	
 // To avoid duplicate requests in current update session, AND cache data
-$url_check = md5($url);
+$hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 
 
-	if ( !$_SESSION['api_cache'][$url_check] ) {	
+	//if ( !$_SESSION['api_cache'][$hash_check] ) {	
+	// Cache API data for 1 minute
+	if ( update_cache_file('cache/api/'.$hash_check.'.dat', $ttl) == true || $ttl < 1 ) {	
 	
-	$ch = curl_init();
-	$cookie_jar = tempnam('/tmp','cookie');
+	$ch = curl_init(( $mode == 'array' ? $api_server : '' ));
 	
-	curl_setopt($ch, CURLOPT_URL, $url);
+		if ( $mode == 'array' ) {
+		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt( $ch, CURLOPT_POSTFIELDS, json_encode($request) );
+		}
+		elseif ( $mode == 'url' ) {
+		curl_setopt($ch, CURLOPT_URL, $request);
+		}
+	
 	curl_setopt($c, CURLOPT_COOKIEJAR, $cookie_jar);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 	curl_setopt($ch, CURLOPT_BINARYTRANSFER, 1);
@@ -1532,29 +1558,43 @@ $url_check = md5($url);
 	
 		if ( !$data ) {
 		$data = 'no';
-		$_SESSION['get_data_error'] .= ' No data returned from API endpoint "' . $url . '" (with timeout configuration setting of ' . $api_timeout . ' seconds). <br /> ';
+		$_SESSION['get_data_error'] .= ' No data returned from ' . ( $mode == 'array' ? 'API server "' . $api_server : 'request "' . $request ) . '" (with timeout configuration setting of ' . $api_timeout . ' seconds). <br /> ' . ( $mode == 'array' ? '<pre>' . print_r($request, TRUE) . '</pre>' : '' ) . ' <br /> ';
 		}
 		
-		elseif ( preg_match("/coinmarketcap/i", $url) && !preg_match("/last_updated/i", $data) ) {
-		$_SESSION['get_data_error'] .= '##REQUEST## data error response from '.$url.': <br /> =================================== <br />' . $data . ' <br /> =================================== <br />';
+		if ( preg_match("/coinmarketcap/i", $request) && !preg_match("/last_updated/i", $data) ) {
+		$_SESSION['get_data_error'] .= '##REQUEST## data error response from '.( $mode == 'array' ? $api_server : $request ).': <br /> =================================== <br />' . $data . ' <br /> =================================== <br />';
 		}
 	
 	
 	curl_close($ch);
 	unlink($cookie_jar) or die("Can't unlink $cookie_jar");
 	
-	$_SESSION['api_cache'][$url_check] = $data; // Cache API data for this update session
+	
+	//$_SESSION['api_cache'][$hash_check] = $data; // Cache API data for this update session
+	if ( $data && $ttl > 0 ) {
+	file_put_contents('cache/api/'.$hash_check.'.dat', $data, LOCK_EX);
+	}
+	else {
+	unlink('cache/api/'.$hash_check.'.dat');
+	}
+
 	
 	// DEBUGGING ONLY
-	//$_SESSION['get_data_error'] .= '##REQUEST## Request to endpoint "' . $url . '". <br /> ';
+	//$_SESSION['get_data_error'] .= '##REQUEST## Requested ' . ( $mode == 'array' ? 'API server "' . $api_server : 'endpoint "' . $request ) . '". <br /> ' . ( $mode == 'array' ? '<pre>' . print_r($request, TRUE) . '</pre>' : '' ) . ' <br /> ';
 	
 	}
 	else {
 		
-	$data = $_SESSION['api_cache'][$url_check];
+	//$data = $_SESSION['api_cache'][$hash_check];
+	$data = file_get_contents('cache/api/'.$hash_check.'.dat');
+	
+		if ( !preg_match("/coinmarketcap/i", $_SESSION['get_data_error']) && preg_match("/coinmarketcap/i", $request) && !preg_match("/last_updated/i", $data) ) {
+		$_SESSION['cmc_error'] = '##REQUEST## data error response from '.( $mode == 'array' ? $api_server : $request ).': <br /> =================================== <br />' . $data . ' <br /> =================================== <br />';
+		}
+	
 	
 	// DEBUGGING ONLY
-	//$_SESSION['get_data_error'] .= ' ##DUPLICATE## request ignored to endpoint "' . $url . '". <br /> ';
+	//$_SESSION['get_data_error'] .= ' ##DUPLICATE## request ignored for ' . ( $mode == 'array' ? 'API server "' . $api_server : 'endpoint "' . $request ) . '". <br /> ' . ( $mode == 'array' ? '<pre>' . print_r($request, TRUE) . '</pre>' : '' ) . ' <br /> ';
 	
 	
 	}
@@ -1564,6 +1604,7 @@ return $data;
 
 
 }
+
 //////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////

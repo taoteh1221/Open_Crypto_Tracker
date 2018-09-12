@@ -747,6 +747,17 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+2.1.2:
+-API Cache (thanks to mickys for the idea on my Zillexplorer repo for this)
+-Configurable API cache setting
+-------------------------------------------------------------------
+
+
+
+
+
+
 
 
 
