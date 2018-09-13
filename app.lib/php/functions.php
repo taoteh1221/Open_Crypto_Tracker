@@ -24,7 +24,7 @@ function update_cache_file($cache_file, $minutes) {
 function etherscan_api($block_info) {
  	
   $json_string = 'http://api.etherscan.io/api?module=proxy&action=eth_blockNumber';
-  $jsondata = @get_data('url', $json_string, 4);
+  $jsondata = @get_data('url', $json_string, 5);
     
   $data = json_decode($jsondata, TRUE);
   
@@ -36,7 +36,7 @@ function etherscan_api($block_info) {
     	else {
 		
   		$json_string = 'http://api.etherscan.io/api?module=proxy&action=eth_getBlockByNumber&tag='.$block_number.'&boolean=true';
-  		$jsondata = @get_data('url', $json_string, 4);
+  		$jsondata = @get_data('url', $json_string, 5);
     	
     	$data = json_decode($jsondata, TRUE);
     	
@@ -58,7 +58,7 @@ function etherscan_api($block_info) {
 function decred_api($request) {
  		
  	$json_string = 'https://explorer.dcrdata.org/api/block/best/verbose';
- 	$jsondata = @get_data('url', $json_string, 4);
+ 	$jsondata = @get_data('url', $json_string, 5);
   	
   	$data = json_decode($jsondata, TRUE);
     
@@ -126,7 +126,7 @@ global $_POST, $mining_rewards;
 function monero_api($request) {
  		
  	$json_string = 'https://moneroblocks.info/api/get_stats';
- 	$jsondata = @get_data('url', $json_string, 4);
+ 	$jsondata = @get_data('url', $json_string, 5);
   	
   	$data = json_decode($jsondata, TRUE);
     
@@ -162,12 +162,12 @@ function vertcoin_api($request) {
 		
 		if ( $request == 'height' ) {
 		
-		return trim(@get_data('url', 'http://explorer.vertcoin.info/api/getblockcount', 3));
+		return trim(@get_data('url', 'http://explorer.vertcoin.info/api/getblockcount', 5));
 		  
 		}
 		elseif ( $request == 'difficulty' ) {
 		
-		return trim(@get_data('url', 'http://explorer.vertcoin.info/api/getdifficulty', 3));
+		return trim(@get_data('url', 'http://explorer.vertcoin.info/api/getdifficulty', 5));
 		  
 		}
   
@@ -183,12 +183,12 @@ function ravencoin_api($request) {
 		
 		if ( $request == 'height' ) {
 		
-		return trim(@get_data('url', 'http://rvnhodl.com/api/getblockcount', 3));
+		return trim(@get_data('url', 'http://rvnhodl.com/api/getblockcount', 5));
 		  
 		}
 		elseif ( $request == 'difficulty' ) {
 		
-		return trim(@get_data('url', 'http://rvnhodl.com/api/getdifficulty', 3));
+		return trim(@get_data('url', 'http://rvnhodl.com/api/getdifficulty', 5));
 		  
 		}
   
@@ -1064,7 +1064,7 @@ global $coinmarketcap_ranks_max;
 			
      	$json_string = $cmc_request;
      	     
-	  	$jsondata = @get_data('url', $json_string, 4);
+	  	$jsondata = @get_data('url', $json_string, 7);
 	   
    	$data = json_decode($jsondata, TRUE);
     
@@ -1532,9 +1532,9 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 
 	//if ( !$_SESSION['api_cache'][$hash_check] ) {	
 	// Cache API data for 1 minute
-	if ( update_cache_file('cache/api/'.$hash_check.'.dat', $ttl) == true || $ttl < 1 ) {	
+	if ( update_cache_file('cache/api/'.$hash_check.'.dat', $ttl) == true && $ttl > 0 || $ttl == 0 ) {	
 	
-	$ch = curl_init(( $mode == 'array' ? $api_server : '' ));
+	$ch = curl_init( ( $mode == 'array' ? $api_server : '' ) );
 	
 		if ( $mode == 'array' ) {
 		curl_setopt($ch, CURLOPT_POST, 1);
@@ -1570,23 +1570,40 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 	unlink($cookie_jar) or die("Can't unlink $cookie_jar");
 	
 	
-	//$_SESSION['api_cache'][$hash_check] = $data; // Cache API data for this update session
-	if ( $data && $ttl > 0 ) {
-	file_put_contents('cache/api/'.$hash_check.'.dat', $data, LOCK_EX);
-	}
-	else {
-	unlink('cache/api/'.$hash_check.'.dat');
-	}
+		//$_SESSION['api_cache'][$hash_check] = $data; // Cache API data for this update session
+		if ( $data && $ttl > 0 ) {
+	
+		//echo 'Caching data '; // DEBUGGING ONLY
+
+		file_put_contents('cache/api/'.$hash_check.'.dat', $data, LOCK_EX);
+		
+		}
+		elseif ( !$data ) {
+		unlink('cache/api/'.$hash_check.'.dat'); // Delete any existing cache if empty value
+		//echo 'Deleted cache file, no data. '; // DEBUGGING ONLY
+		}
 
 	
 	// DEBUGGING ONLY
 	//$_SESSION['get_data_error'] .= '##REQUEST## Requested ' . ( $mode == 'array' ? 'API server "' . $api_server : 'endpoint "' . $request ) . '". <br /> ' . ( $mode == 'array' ? '<pre>' . print_r($request, TRUE) . '</pre>' : '' ) . ' <br /> ';
 	
 	}
+	elseif ( $ttl < 0 ) {
+	unlink('cache/api/'.$hash_check.'.dat'); // Delete cache if $ttl flagged to less than zero
+	//echo 'Deleted cache file, flagged for deletion. '; // DEBUGGING ONLY
+	}
 	else {
-		
+	
 	//$data = $_SESSION['api_cache'][$hash_check];
 	$data = file_get_contents('cache/api/'.$hash_check.'.dat');
+	
+		if ( !$data ) {
+		unlink('cache/api/'.$hash_check.'.dat'); // Delete any existing cache if empty value
+		//echo 'Deleted cache file, no data. ';
+		}
+		else {
+		//echo 'Cached data '; // DEBUGGING ONLY
+		}
 	
 		if ( !preg_match("/coinmarketcap/i", $_SESSION['get_data_error']) && preg_match("/coinmarketcap/i", $request) && !preg_match("/last_updated/i", $data) ) {
 		$_SESSION['cmc_error'] = '##REQUEST## data error response from '.( $mode == 'array' ? $api_server : $request ).': <br /> =================================== <br />' . $data . ' <br /> =================================== <br />';
