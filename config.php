@@ -13,7 +13,7 @@ if ( realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) ) {
 
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
  
-$version = '2.1.2';  // 2018/JULY/16TH
+$version = '2.1.3';  // 2018/SEPT/14TH
  
 session_start();
 require_once("app.lib/php/functions.php");
@@ -75,11 +75,13 @@ require_once("app.lib/php/init.php");
 
 /////////////////// GENERAL CONFIG -START- ////////////////////////////////////////////////////
 
+$btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken / hitbtc / gatecion / livecoin
+
 $api_timeout = 10; // Seconds to wait for response from API endpoint
 
 $last_trade_ttl = 1; // Minutes to cache last real-time exchange data...can be zero to skip cache, but set at least 1 minute to safely avoid your IP getting blocked
 
-$btc_in_usd = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken / hitbtc / gatecion / livecoin
+$coinmarketcap_ttl = 10; // Minutes to cache coinmarketcap data...start high and test lower, they can be strict
 
 $coinmarketcap_ranks_max = '300'; // Maximum number of Coinmarketcap.com rankings to request from their API
 

@@ -36,7 +36,7 @@ function etherscan_api($block_info) {
     	else {
 		
   		$json_string = 'http://api.etherscan.io/api?module=proxy&action=eth_getBlockByNumber&tag='.$block_number.'&boolean=true';
-  		$jsondata = @get_data('url', $json_string, 5);
+  		$jsondata = @get_data('url', $json_string, 0);
     	
     	$data = json_decode($jsondata, TRUE);
     	
@@ -1028,7 +1028,7 @@ return $price;
 //////////////////////////////////////////////////////////
 function coinmarketcap_api($symbol) {
 	
-global $coinmarketcap_ranks_max;
+global $coinmarketcap_ranks_max, $coinmarketcap_ttl;
 
 
 	if ( !$_SESSION['cmc_data'] ) {
@@ -1064,7 +1064,7 @@ global $coinmarketcap_ranks_max;
 			
      	$json_string = $cmc_request;
      	     
-	  	$jsondata = @get_data('url', $json_string, 7);
+	  	$jsondata = @get_data('url', $json_string, $coinmarketcap_ttl);
 	   
    	$data = json_decode($jsondata, TRUE);
     

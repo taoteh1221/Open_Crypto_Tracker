@@ -755,6 +755,16 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+2.1.3:
+-API Cache bug fix
+-CMC cache time in config file
+-------------------------------------------------------------------
+
+
+
+
+
 
 
 
