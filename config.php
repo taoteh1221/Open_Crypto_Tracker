@@ -11,9 +11,10 @@ if ( realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) ) {
 }
 
 
+error_reporting(0); // Turn off all error reporting (0), or enable (1)
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
  
-$version = '2.1.4';  // 2018/OCTOBER/10TH
+$version = '2.1.5';  // 2018/OCTOBER/12TH
  
 session_start();
 require_once("app.lib/php/functions.php");
@@ -89,30 +90,30 @@ $from_email = ''; // For cron job email alerts, MUST BE SET (see README.txt for 
 
 $to_email = ''; // For cron job email alerts, MUST BE SET (see README.txt for setup information) 
 
-$cron_alerts_freq = 60; // Re-run cron job email alerts after X minutes
+$cron_alerts_freq = 20; // Re-run cron job email alerts after X minutes
 
 $cron_alerts = array(
 					// Markets you want cron alerts for (alert sent when USD value is equal to / above...see README.txt for setup information) 
-					'btc' => 'bitfinex|btc|6000', // exchange|trade_pair|usd_value
-					'eth' => 'bittrex|btc|190', // exchange|trade_pair|usd_value
-					'xmr' => 'bittrex|btc|100', // exchange|trade_pair|usd_value
-					'dcr' => 'bittrex|btc|36', // exchange|trade_pair|usd_value
-					'tusd' => 'binance|btc|0.95', // exchange|trade_pair|usd_value
-					'dash' => 'bittrex|btc|150', // exchange|trade_pair|usd_value
-					'ltc' => 'bittrex|btc|50', // exchange|trade_pair|usd_value
-					'steem' => 'bittrex|btc|0.75', // exchange|trade_pair|usd_value
-					'mana' => 'bittrex|btc|0.061', // exchange|trade_pair|usd_value
-					'zrx' => 'bittrex|btc|0.70', // exchange|trade_pair|usd_value
-					'zil' => 'binance|btc|0.031', // exchange|trade_pair|usd_value
-					'trac' => 'kucoin|btc|0.031', // exchange|trade_pair|usd_value
-					'snt' => 'bittrex|btc|0.031', // exchange|trade_pair|usd_value
-					'gnt' => 'bittrex|btc|0.12', // exchange|trade_pair|usd_value
-					'fct' => 'bittrex|btc|3.95', // exchange|trade_pair|usd_value
-					'xlm' => 'bittrex|btc|0.20', // exchange|trade_pair|usd_value
-					'ada' => 'bittrex|btc|0.071', // exchange|trade_pair|usd_value
-					'xrp' => 'bittrex|btc|0.40', // exchange|trade_pair|usd_value
-					'rvn' => 'bittrex|btc|0.015', // exchange|trade_pair|usd_value
-					'myst' => 'hitbtc|btc|0.091' // exchange|trade_pair|usd_value
+					'btc' => 'bitfinex|btc|7000', // exchange|trade_pair|usd_value
+					'eth' => 'bittrex|btc|230', // exchange|trade_pair|usd_value
+					'xmr' => 'bittrex|btc|115', // exchange|trade_pair|usd_value
+					'dcr' => 'bittrex|btc|40', // exchange|trade_pair|usd_value
+					'tusd' => 'binance|btc|1.05', // exchange|trade_pair|usd_value
+					'dash' => 'bittrex|btc|180', // exchange|trade_pair|usd_value
+					'ltc' => 'bittrex|btc|60', // exchange|trade_pair|usd_value
+					'steem' => 'bittrex|btc|0.95', // exchange|trade_pair|usd_value
+					'mana' => 'bittrex|btc|0.095', // exchange|trade_pair|usd_value
+					'zrx' => 'bittrex|btc|0.85', // exchange|trade_pair|usd_value
+					'zil' => 'binance|btc|0.039', // exchange|trade_pair|usd_value
+					'trac' => 'kucoin|btc|0.039', // exchange|trade_pair|usd_value
+					'snt' => 'bittrex|btc|0.039', // exchange|trade_pair|usd_value
+					'gnt' => 'bittrex|btc|0.18', // exchange|trade_pair|usd_value
+					'fct' => 'bittrex|btc|4.25', // exchange|trade_pair|usd_value
+					'xlm' => 'bittrex|btc|0.30', // exchange|trade_pair|usd_value
+					'ada' => 'bittrex|btc|0.091', // exchange|trade_pair|usd_value
+					'xrp' => 'bittrex|btc|0.50', // exchange|trade_pair|usd_value
+					'rvn' => 'bittrex|btc|0.025', // exchange|trade_pair|usd_value
+					'myst' => 'hitbtc|btc|0.14' // exchange|trade_pair|usd_value
 					);
 
 $eth_subtokens_ico_values = array(

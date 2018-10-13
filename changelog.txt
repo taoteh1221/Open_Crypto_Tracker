@@ -773,6 +773,15 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+2.1.5:
+-Fixed bug in new price alerts by email feature
+-------------------------------------------------------------------
+
+
+
+
+
 
 
 

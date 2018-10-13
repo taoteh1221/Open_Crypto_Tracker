@@ -14,7 +14,7 @@ $asset_usd = ( $asset == 'BTC' ? $btc_usd : number_format( $btc_usd * get_trade_
 $message = 'The ' . $asset . ' market at the ' . ucfirst($exchange) . ' exchange is at or above your set alert level of $'.$alert_level.'. The current value is $' . $asset_usd . '. ';
 //$message = substr($message,0,60); // Make sure it will fit in a single text message
 
-	if ( update_cache_file('cache/alerts/'.$asset.'.dat', $cron_alerts_freq) == true && intval($asset_usd) >= intval($alert_level) ) {
+	if ( update_cache_file('cache/alerts/'.$asset.'.dat', $cron_alerts_freq) == true && floatval($asset_usd) >= floatval($alert_level) ) {
 		
 	safe_mail($to_email, $asset . ' Asset Value Increase Alert', $message);
 	file_put_contents('cache/alerts/'.$asset.'.dat', 1, LOCK_EX);
