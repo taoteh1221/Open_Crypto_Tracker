@@ -3,8 +3,86 @@
  * Copyright 2014-2018 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
  */
 
+
+////////////////////////////////////////////////////////
+
+function asset_alert($asset, $exchange, $pairing, $alert_level) {
+
+global $coins_array, $btc_usd, $to_email, $cron_alerts_freq;
+
+$asset_usd = ( $asset == 'BTC' ? $btc_usd : number_format( $btc_usd * get_trade_price($exchange, $coins_array[$asset]['market_pairing'][$pairing][$exchange]) , 8) );
+$message = 'The ' . $asset . ' market at the ' . ucfirst($exchange) . ' exchange is at or above your set alert level of $'.$alert_level.'. The current value is $' . $asset_usd . '. ';
+//$message = substr($message,0,60); // Make sure it will fit in a single text message
+
+	if ( update_cache_file('cache/alerts/'.$asset.'.dat', $cron_alerts_freq) == true && intval($asset_usd) >= intval($alert_level) ) {
+		
+	safe_mail($to_email, $asset . ' Asset Value Increase Alert', $message);
+	file_put_contents('cache/alerts/'.$asset.'.dat', 1, LOCK_EX);
+	
+	}
+
+}
  
  
+/////////////////////////////////////////////////////////
+
+function validate_email($email) {
+
+
+	$address = explode("@",$email);
+	
+	$domain = $address[1];
+	
+	// Validate "To" address
+	if ( !$email || !preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)+$/", $email) ) {
+	return "Please enter a valid email address.";
+	}
+	elseif (function_exists("getmxrr") && !getmxrr($domain,$mxrecords)) {
+	return "The email domain \"$domain\" appears incorrect.";
+	}
+	else {
+	return "valid";
+	}
+			
+
+}
+
+/////////////////////////////////////////////////////////
+
+function safe_mail($to, $subject, $message) {
+	
+global $from_email;
+
+// Stop injection vulnerability for PHP < 7.2
+$from_email = str_replace("\r\n", "\n", $from_email); // windows -> unix
+$from_email = str_replace("\r", "\n", $from_email);   // remaining -> unix
+
+$email_check = validate_email($to);
+
+	if ( $email_check != 'valid' ) {
+	return $email_check;
+	}
+			
+
+	// Use array for safety from header injection >= PHP 7.2 
+	if ( PHP_VERSION_ID >= 70200 ) {
+	
+	$headers = array(
+	    					'From' => $from_email
+	    					//'From' => $from_email,
+	    					//'Reply-To' => $from_email,
+	    					//'X-Mailer' => 'PHP/' . phpversion()
+							);
+	
+	}
+	else {
+	$headers = 'From: ' . $from_email;
+	}
+
+return mail($to, $subject, $message, $headers);
+
+}
+
  
 /////////////////////////////////////////////////////////
 
@@ -591,6 +669,36 @@ global $btc_in_usd, $coins_array, $last_trade_ttl;
      $data = json_decode($jsondata, TRUE);
    
   
+  //print_r($data);
+      if (is_array($data) || is_object($data)) {
+  
+      foreach ($data as $key => $value) {
+        
+        //print_r($key);
+        
+        if ( $key == $market_pairing ) {
+         
+        return $data[$key]["last"];
+         
+         
+        }
+      
+    
+      }
+      
+      }
+  
+  
+  }
+
+  elseif ( strtolower($chosen_market) == 'gateio' ) {
+
+     $json_string = 'https://data.gate.io/api2/1/tickers';
+     
+     $jsondata = @get_data('url', $json_string, $last_trade_ttl);
+     
+     $data = json_decode($jsondata, TRUE);
+   
   //print_r($data);
       if (is_array($data) || is_object($data)) {
   
@@ -1562,7 +1670,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		}
 		
 		if ( preg_match("/coinmarketcap/i", $request) && !preg_match("/last_updated/i", $data) ) {
-		$_SESSION['get_data_error'] .= '##REQUEST## data error response from '.( $mode == 'array' ? $api_server : $request ).': <br /> =================================== <br />' . $data . ' <br /> =================================== <br />';
+		$_SESSION['get_data_error'] .= '##REAL-TIME REQUEST## data error response from '.( $mode == 'array' ? $api_server : $request ).': <br /> =================================== <br />' . $data . ' <br /> =================================== <br />';
 		}
 	
 	
@@ -1606,7 +1714,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		}
 	
 		if ( !preg_match("/coinmarketcap/i", $_SESSION['get_data_error']) && preg_match("/coinmarketcap/i", $request) && !preg_match("/last_updated/i", $data) ) {
-		$_SESSION['cmc_error'] = '##REQUEST## data error response from '.( $mode == 'array' ? $api_server : $request ).': <br /> =================================== <br />' . $data . ' <br /> =================================== <br />';
+		$_SESSION['cmc_error'] = '##CACHED REQUEST## data error response from '.( $mode == 'array' ? $api_server : $request ).': <br /> =================================== <br />' . $data . ' <br /> =================================== <br />';
 		}
 	
 	

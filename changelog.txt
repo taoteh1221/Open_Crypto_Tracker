@@ -763,6 +763,17 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+2.1.4:
+-Tab styling
+-Gate.io API support
+-Cron job file
+-Cron job price alerts (by email)
+-------------------------------------------------------------------
+
+
+
+
 
 
 

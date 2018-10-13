@@ -187,6 +187,8 @@
         
         <li class='chart_links'><a href='https://www.youtube.com/user/ForeverMoreTatiana/featured' target='_blank'>Tatiana Moroz</a></li>
         
+        <li class='chart_links'><a href='https://www.youtube.com/channel/UCLnQ34ZBSjy2JQjeRudFEDw' target='_blank'>The Cryptoverse</a></li>
+        
         <li class='chart_links'><a href='https://www.youtube.com/channel/UCbiWJYRg8luWHnmNkJRZEnw/featured' target='_blank'>Tone Vays</a></li>
         
         

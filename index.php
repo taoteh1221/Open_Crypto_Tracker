@@ -9,12 +9,12 @@ require("templates/default/header.php");
 
 
 		<ul class='tabs'>
-			<li><a href='#values'>Your Coin Values</a></li>
-			<li><a href='#links'>External Resource Links</a></li>
-			<li><a href='#calculators'>Mining and Interest Calculators</a></li>
-			<li><a href='#amounts'>Update Coin Amounts</a></li>
-			<li><a href='#settings'>Program Settings</a></li>
-			<li><a style='color:red;' href='#help'>Help</a></li>
+			<li class='tabli'><a href='#values'>Your Coin Values</a></li>
+			<li class='tabli'><a href='#links'>External Resource Links</a></li>
+			<li class='tabli'><a href='#calculators'>Mining and Interest Calculators</a></li>
+			<li class='tabli'><a href='#amounts'>Update Coin Amounts</a></li>
+			<li class='tabli'><a href='#settings'>Program Settings</a></li>
+			<li class='tabli'><a style='color:red;' href='#help'>Help</a></li>
 		</ul>
 		<div id='values' class='tabdiv'>
 			<h3 style='display: inline;'> &nbsp; Your Coin Values</h3> (real-time exchange data)

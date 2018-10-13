@@ -4,6 +4,14 @@
  */
 
 
+date_default_timezone_set('UTC');
+
+// Make sure we have a PHP version id
+if (!defined('PHP_VERSION_ID')) {
+    $version = explode('.', PHP_VERSION);
+
+    define('PHP_VERSION_ID', ($version[0] * 10000 + $version[1] * 100 + $version[2]));
+}
 
 $alert_percent = explode("|", $_COOKIE['alert_percent']);
 
