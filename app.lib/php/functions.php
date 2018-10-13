@@ -58,7 +58,7 @@ $text_message = $asset . ' @ ' . ucfirst($exchange) . ' at/above $'.$alert_level
 	file_put_contents('cache/alerts/'.$asset.'.dat', 1, LOCK_EX);
 	
 	}
-	elseif ( floatval($asset_usd) < floatval($alert_level) && intval( file_get_contents('cache/alerts/'.$asset.'.dat') ) == 1 ) {
+	elseif ( update_cache_file('cache/alerts/'.$asset.'.dat', $cron_alerts_freq) == true && floatval($asset_usd) < floatval($alert_level) ) {
 	file_put_contents('cache/alerts/'.$asset.'.dat', 0, LOCK_EX);
 	}
 
