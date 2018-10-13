@@ -780,6 +780,13 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+2.1.6:
+-Texting to phone support for price alerts
+-------------------------------------------------------------------
+
+
+
 
 
 

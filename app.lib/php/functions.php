@@ -3,22 +3,63 @@
  * Copyright 2014-2018 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
  */
 
+////////////////////////////////////////////////////////
+
+function text_email($string) {
+
+$string = explode("|",$string);
+
+$number = $string[0];
+$carrier = $string[1];
+
+
+	if ( $carrier == 'alltel' ) {
+	$domain = '@message.alltel.com';
+	}
+	elseif ( $carrier == 'att' ) {
+	$domain = '@txt.att.net';
+	}
+	elseif ( $carrier == 'tmobile' ) {
+	$domain = '@tmomail.net';
+	}
+	elseif ( $carrier == 'virgin' ) {
+	$domain = '@vmobl.com';
+	}
+	elseif ( $carrier == 'sprint' ) {
+	$domain = '@messaging.sprintpcs.com';
+	}
+	elseif ( $carrier == 'verizon' ) {
+	$domain = '@vtext.com';
+	}
+	elseif ( $carrier == 'nextel' ) {
+	$domain = '@messaging.nextel.com';
+	}
+
+return $number . $domain;
+
+}
 
 ////////////////////////////////////////////////////////
 
 function asset_alert($asset, $exchange, $pairing, $alert_level) {
 
-global $coins_array, $btc_usd, $to_email, $cron_alerts_freq;
+global $coins_array, $btc_usd, $to_email, $to_text, $cron_alerts_freq;
 
 $asset_usd = ( $asset == 'BTC' ? $btc_usd : number_format( $btc_usd * get_trade_price($exchange, $coins_array[$asset]['market_pairing'][$pairing][$exchange]) , 8) );
-$message = 'The ' . $asset . ' market at the ' . ucfirst($exchange) . ' exchange is at or above your set alert level of $'.$alert_level.'. The current value is $' . $asset_usd . '. ';
+$email_message = 'The ' . $asset . ' market at the ' . ucfirst($exchange) . ' exchange is at or above your set alert level of $'.$alert_level.'. The current value is $' . $asset_usd . '. ';
+$text_message = $asset . ' @ ' . ucfirst($exchange) . ' at/above $'.$alert_level.': $' . $asset_usd;
 //$message = substr($message,0,60); // Make sure it will fit in a single text message
 
-	if ( update_cache_file('cache/alerts/'.$asset.'.dat', $cron_alerts_freq) == true && floatval($asset_usd) >= floatval($alert_level) ) {
+	if ( update_cache_file('cache/alerts/'.$asset.'.dat', $cron_alerts_freq) == true && floatval($asset_usd) >= floatval($alert_level)
+	|| intval( file_get_contents('cache/alerts/'.$asset.'.dat') ) == 0 && floatval($asset_usd) >= floatval($alert_level) ) {
 		
-	safe_mail($to_email, $asset . ' Asset Value Increase Alert', $message);
+	safe_mail($to_email, $asset . ' Asset Value Increase Alert', $email_message);
+	safe_mail( text_email($to_text) , $asset . ' Value Alert', $text_message);
 	file_put_contents('cache/alerts/'.$asset.'.dat', 1, LOCK_EX);
 	
+	}
+	elseif ( floatval($asset_usd) < floatval($alert_level) && intval( file_get_contents('cache/alerts/'.$asset.'.dat') ) == 1 ) {
+	file_put_contents('cache/alerts/'.$asset.'.dat', 0, LOCK_EX);
 	}
 
 }

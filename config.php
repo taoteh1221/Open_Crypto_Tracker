@@ -4,6 +4,8 @@
  */
 
 
+error_reporting(0); // Turn off all error reporting (0), or enable (1)
+
 // Forbid direct access to this file
 if ( realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) ) {
     header('HTTP/1.0 403 Forbidden', TRUE, 403);
@@ -11,10 +13,9 @@ if ( realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) ) {
 }
 
 
-error_reporting(0); // Turn off all error reporting (0), or enable (1)
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
  
-$version = '2.1.5';  // 2018/OCTOBER/12TH
+$version = '2.1.6';  // 2018/OCTOBER/13TH
  
 session_start();
 require_once("app.lib/php/functions.php");
@@ -90,7 +91,9 @@ $from_email = ''; // For cron job email alerts, MUST BE SET (see README.txt for 
 
 $to_email = ''; // For cron job email alerts, MUST BE SET (see README.txt for setup information) 
 
-$cron_alerts_freq = 20; // Re-run cron job email alerts after X minutes
+$to_text = ''; // For cron job text alerts, format used: '2223334444|att' // alltel, att , tmobile, virgin, sprint, verizon, nextel
+
+$cron_alerts_freq = 480; // Re-send cron job email / text alerts after X minutes (480 = 8 hours...set high to avoid text blacklisting)
 
 $cron_alerts = array(
 					// Markets you want cron alerts for (alert sent when USD value is equal to / above...see README.txt for setup information) 
@@ -98,7 +101,7 @@ $cron_alerts = array(
 					'eth' => 'bittrex|btc|230', // exchange|trade_pair|usd_value
 					'xmr' => 'bittrex|btc|115', // exchange|trade_pair|usd_value
 					'dcr' => 'bittrex|btc|40', // exchange|trade_pair|usd_value
-					'tusd' => 'binance|btc|1.05', // exchange|trade_pair|usd_value
+					'tusd' => 'binance|btc|1.10', // exchange|trade_pair|usd_value
 					'dash' => 'bittrex|btc|180', // exchange|trade_pair|usd_value
 					'ltc' => 'bittrex|btc|60', // exchange|trade_pair|usd_value
 					'steem' => 'bittrex|btc|0.95', // exchange|trade_pair|usd_value
