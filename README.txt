@@ -102,30 +102,30 @@ $to_email = ''; // For cron job email alerts, MUST BE SET (see README.txt for se
 
 $to_text = ''; // For cron job text alerts, format used: '2223334444|att' // alltel, att , tmobile, virgin, sprint, verizon, nextel
 
-$cron_alerts_freq = 480; // Re-send cron job email / text alerts after X minutes (480 = 8 hours...set high to avoid text blacklisting)
+$cron_alerts_freq = 1440; // Re-send cron job email / text alerts after X minutes (1440 = 1 day...set high to avoid email / text blacklisting)
 
 $cron_alerts = array(
 					// Markets you want cron alerts for (alert sent when USD value is equal to / above...see README.txt for setup information) 
-					'btc' => 'bitfinex|btc|7000', // exchange|trade_pair|usd_value
+					'btc' => 'bitfinex|btc|6450', // exchange|trade_pair|usd_value
 					'eth' => 'bittrex|btc|230', // exchange|trade_pair|usd_value
-					'xmr' => 'bittrex|btc|115', // exchange|trade_pair|usd_value
+					'xmr' => 'bittrex|btc|120', // exchange|trade_pair|usd_value
 					'dcr' => 'bittrex|btc|40', // exchange|trade_pair|usd_value
 					'tusd' => 'binance|btc|1.10', // exchange|trade_pair|usd_value
 					'dash' => 'bittrex|btc|180', // exchange|trade_pair|usd_value
-					'ltc' => 'bittrex|btc|60', // exchange|trade_pair|usd_value
-					'steem' => 'bittrex|btc|0.95', // exchange|trade_pair|usd_value
-					'mana' => 'bittrex|btc|0.095', // exchange|trade_pair|usd_value
-					'zrx' => 'bittrex|btc|0.85', // exchange|trade_pair|usd_value
-					'zil' => 'binance|btc|0.039', // exchange|trade_pair|usd_value
-					'trac' => 'kucoin|btc|0.039', // exchange|trade_pair|usd_value
-					'snt' => 'bittrex|btc|0.039', // exchange|trade_pair|usd_value
-					'gnt' => 'bittrex|btc|0.18', // exchange|trade_pair|usd_value
-					'fct' => 'bittrex|btc|4.25', // exchange|trade_pair|usd_value
+					'ltc' => 'bittrex|btc|65', // exchange|trade_pair|usd_value
+					'steem' => 'bittrex|btc|1.00', // exchange|trade_pair|usd_value
+					'mana' => 'bittrex|btc|0.090', // exchange|trade_pair|usd_value
+					'zrx' => 'bittrex|btc|0.90', // exchange|trade_pair|usd_value
+					'zil' => 'binance|btc|0.040', // exchange|trade_pair|usd_value
+					'trac' => 'kucoin|btc|0.038', // exchange|trade_pair|usd_value
+					'snt' => 'bittrex|btc|0.042', // exchange|trade_pair|usd_value
+					'gnt' => 'bittrex|btc|0.20', // exchange|trade_pair|usd_value
+					'fct' => 'bittrex|btc|4.30', // exchange|trade_pair|usd_value
 					'xlm' => 'bittrex|btc|0.30', // exchange|trade_pair|usd_value
-					'ada' => 'bittrex|btc|0.091', // exchange|trade_pair|usd_value
-					'xrp' => 'bittrex|btc|0.50', // exchange|trade_pair|usd_value
+					'ada' => 'bittrex|btc|0.095', // exchange|trade_pair|usd_value
+					'xrp' => 'bittrex|btc|0.55', // exchange|trade_pair|usd_value
 					'rvn' => 'bittrex|btc|0.025', // exchange|trade_pair|usd_value
-					'myst' => 'hitbtc|btc|0.14' // exchange|trade_pair|usd_value
+					'myst' => 'hitbtc|btc|0.11' // exchange|trade_pair|usd_value
 					);
 
 $eth_subtokens_ico_values = array(
@@ -828,5 +828,4 @@ $coins_array = array(
 );
 
 /////////////////// COIN MARKETS CONFIG -END- ////////////////////////////////////////////////////
-
 
