@@ -12,16 +12,17 @@ if ( realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) ) {
     exit;
 }
 
-
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
- 
-$version = '2.1.6';  // 2018/OCTOBER/13TH
- 
 session_start();
 require_once("app.lib/php/functions.php");
 require_once("app.lib/php/cookies.php");
 require_once("app.lib/php/init.php");
 
+///////////////////////////////////////////////////////////////////////////////////////////
+
+
+$version = '2.1.7';  // 2018/OCTOBER/18TH
+ 
 
 /*
  * USAGE (ADDING / UPDATING COINS) ...API support for: kraken / gatecoin / poloniex / coinbase / bitstamp / bittrex / bitfinex and ethfinex / cryptofresh / bter / gemini / hitbtc / liqui / cryptopia / livecoin / upbit / kucoin / okex / gate.io / graviex...BTC, XMR, ETH, LTC, AND USDT trading pair support
@@ -77,46 +78,51 @@ require_once("app.lib/php/init.php");
 
 /////////////////// GENERAL CONFIG -START- ////////////////////////////////////////////////////
 
-$btc_in_usd = 'bitfinex'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken / hitbtc / gatecion / livecoin
+$btc_exchange = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken / hitbtc / gatecion / livecoin
 
 $api_timeout = 10; // Seconds to wait for response from API endpoint
 
 $last_trade_ttl = 1; // Minutes to cache last real-time exchange data...can be zero to skip cache, but set at least 1 minute to safely avoid your IP getting blocked
 
-$coinmarketcap_ttl = 20; // Minutes to cache coinmarketcap data...start high and test lower, they can be strict
+$coinmarketcap_ttl = 10; // Minutes to cache coinmarketcap data...start high and test lower, they can be strict
 
-$coinmarketcap_ranks_max = 29; // Maximum number of Coinmarketcap.com rankings to request from their API
+$coinmarketcap_ranks_max = 100; // Maximum number of Coinmarketcap.com rankings to request from their API
 
 $from_email = ''; // For cron job email alerts, MUST BE SET (see README.txt for setup information) 
 
 $to_email = ''; // For cron job email alerts, MUST BE SET (see README.txt for setup information) 
 
-$to_text = ''; // For cron job text alerts, format used: '2223334444|att' // alltel, att , tmobile, virgin, sprint, verizon, nextel
+$to_text = ''; // For cron job text alerts, CAN BE BLANK, format used: '2223334444|att' // alltel, att , tmobile, virgin, sprint, verizon, nextel (see README.txt for setup information) 
+
+// For cron job notifyme notifications, CAN BE BLANK. Setup: http://www.thomptronics.com/notify-me
+$notifyme_accesscode = '';
 
 $cron_alerts_freq = 1440; // Re-send cron job email / text alerts after X minutes (1440 = 1 day...set high to avoid email / text blacklisting)
 
+
 $cron_alerts = array(
 					// Markets you want cron alerts for (alert sent when USD value is equal to / above...see README.txt for setup information) 
-					'btc' => 'bitfinex|btc|6450', // exchange|trade_pair|usd_value
+					// Delete any double forward slashes from in front of each asset you want to enable cron job price alerts on...
+					'btc' => 'coinbase|btc|6650', // exchange|trade_pair|usd_value
 					'eth' => 'bittrex|btc|230', // exchange|trade_pair|usd_value
 					'xmr' => 'bittrex|btc|120', // exchange|trade_pair|usd_value
-					'dcr' => 'bittrex|btc|40', // exchange|trade_pair|usd_value
+					'dcr' => 'bittrex|btc|42', // exchange|trade_pair|usd_value
 					'tusd' => 'binance|btc|1.10', // exchange|trade_pair|usd_value
-					'dash' => 'bittrex|btc|180', // exchange|trade_pair|usd_value
-					'ltc' => 'bittrex|btc|65', // exchange|trade_pair|usd_value
+				//	'dash' => 'bittrex|btc|180', // exchange|trade_pair|usd_value
+				//	'ltc' => 'bittrex|btc|65', // exchange|trade_pair|usd_value
 					'steem' => 'bittrex|btc|1.00', // exchange|trade_pair|usd_value
 					'mana' => 'bittrex|btc|0.090', // exchange|trade_pair|usd_value
-					'zrx' => 'bittrex|btc|0.90', // exchange|trade_pair|usd_value
+				//	'zrx' => 'bittrex|btc|0.90', // exchange|trade_pair|usd_value
 					'zil' => 'binance|btc|0.040', // exchange|trade_pair|usd_value
-					'trac' => 'kucoin|btc|0.038', // exchange|trade_pair|usd_value
-					'snt' => 'bittrex|btc|0.042', // exchange|trade_pair|usd_value
-					'gnt' => 'bittrex|btc|0.20', // exchange|trade_pair|usd_value
-					'fct' => 'bittrex|btc|4.30', // exchange|trade_pair|usd_value
+				//	'trac' => 'kucoin|btc|0.038', // exchange|trade_pair|usd_value
+				//	'snt' => 'bittrex|btc|0.042', // exchange|trade_pair|usd_value
+				//	'gnt' => 'bittrex|btc|0.20', // exchange|trade_pair|usd_value
+				//	'fct' => 'bittrex|btc|4.30', // exchange|trade_pair|usd_value
 					'xlm' => 'bittrex|btc|0.30', // exchange|trade_pair|usd_value
 					'ada' => 'bittrex|btc|0.095', // exchange|trade_pair|usd_value
-					'xrp' => 'bittrex|btc|0.55', // exchange|trade_pair|usd_value
-					'rvn' => 'bittrex|btc|0.025', // exchange|trade_pair|usd_value
-					'myst' => 'hitbtc|btc|0.11' // exchange|trade_pair|usd_value
+				//	'xrp' => 'bittrex|btc|0.55', // exchange|trade_pair|usd_value
+					'rvn' => 'bittrex|btc|0.030', // exchange|trade_pair|usd_value
+					'myst' => 'hitbtc|btc|0.20' // exchange|trade_pair|usd_value
 					);
 
 $eth_subtokens_ico_values = array(

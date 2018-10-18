@@ -14,7 +14,7 @@ if ( realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) ) {
 
 require("config.php");
 
-$btc_usd = get_btc_usd($btc_in_usd);
+$btc_usd = get_btc_usd($btc_exchange);
 
 foreach ( $cron_alerts as $key => $value ) {
 	

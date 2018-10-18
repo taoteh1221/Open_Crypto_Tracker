@@ -26,7 +26,7 @@ $steem_market = get_trade_price('poloniex', 'BTC_STEEM');
     
 
 
-<p style='font-weight: bold; color: green;'>1 STEEM = <?=$steem_market?> BTC ($<?=number_format( ( $steem_market * get_btc_usd($btc_in_usd) ), 8, '.', ',')?>)</p>
+<p style='font-weight: bold; color: green;'>1 STEEM = <?=$steem_market?> BTC ($<?=number_format( ( $steem_market * get_btc_usd($btc_exchange) ), 8, '.', ',')?>)</p>
 
 <p>
     <form action='index.php#calculators' method='post'>

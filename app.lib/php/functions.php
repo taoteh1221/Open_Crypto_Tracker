@@ -43,24 +43,46 @@ return $number . $domain;
 
 function asset_alert($asset, $exchange, $pairing, $alert_level) {
 
-global $coins_array, $btc_usd, $to_email, $to_text, $cron_alerts_freq;
+global $coins_array, $btc_exchange, $btc_usd, $to_email, $to_text, $notifyme_accesscode, $cron_alerts_freq;
+
+if ( $asset == 'BTC' && $btc_exchange != $exchange ) {
+$btc_usd = get_btc_usd($exchange);
+}
 
 $asset_usd = ( $asset == 'BTC' ? $btc_usd : number_format( $btc_usd * get_trade_price($exchange, $coins_array[$asset]['market_pairing'][$pairing][$exchange]) , 8) );
+
 $email_message = 'The ' . $asset . ' market at the ' . ucfirst($exchange) . ' exchange is at or above your set alert level of $'.$alert_level.'. The current value is $' . $asset_usd . '. ';
+
 $text_message = $asset . ' @ ' . ucfirst($exchange) . ' at/above $'.$alert_level.': $' . $asset_usd;
-//$message = substr($message,0,60); // Make sure it will fit in a single text message
+
+$notifyme_params = array(
+							'notification' => $email_message,
+							'accessCode' => $notifyme_accesscode
+							);
+
 
 	if ( update_cache_file('cache/alerts/'.$asset.'.dat', $cron_alerts_freq) == true && floatval($asset_usd) >= floatval($alert_level)
 	|| intval( file_get_contents('cache/alerts/'.$asset.'.dat') ) == 0 && floatval($asset_usd) >= floatval($alert_level) ) {
-		
-	safe_mail($to_email, $asset . ' Asset Value Increase Alert', $email_message);
-	safe_mail( text_email($to_text) , $asset . ' Value Alert', $text_message);
+	
+		if ( trim($to_email) != '' ) {
+		safe_mail($to_email, $asset . ' Asset Value Increase Alert', $email_message);
+		}
+
+		if ( trim( text_email($to_text) ) != '' ) {
+		safe_mail( text_email($to_text) , $asset . ' Value Alert', $text_message);
+		}
+
+		if ( trim($notifyme_accesscode) != '' ) {
+		data_request('array', $notifyme_params, 60, 'https://api.notifymyecho.com/v1/NotifyMe');
+		}
+	
 	file_put_contents('cache/alerts/'.$asset.'.dat', 1, LOCK_EX);
 	
 	}
 	elseif ( update_cache_file('cache/alerts/'.$asset.'.dat', $cron_alerts_freq) == true && floatval($asset_usd) < floatval($alert_level) ) {
 	file_put_contents('cache/alerts/'.$asset.'.dat', 0, LOCK_EX);
 	}
+
 
 }
  
@@ -143,7 +165,7 @@ function update_cache_file($cache_file, $minutes) {
 function etherscan_api($block_info) {
  	
   $json_string = 'http://api.etherscan.io/api?module=proxy&action=eth_blockNumber';
-  $jsondata = @get_data('url', $json_string, 5);
+  $jsondata = @data_request('url', $json_string, 5);
     
   $data = json_decode($jsondata, TRUE);
   
@@ -155,7 +177,7 @@ function etherscan_api($block_info) {
     	else {
 		
   		$json_string = 'http://api.etherscan.io/api?module=proxy&action=eth_getBlockByNumber&tag='.$block_number.'&boolean=true';
-  		$jsondata = @get_data('url', $json_string, 0);
+  		$jsondata = @data_request('url', $json_string, 0);
     	
     	$data = json_decode($jsondata, TRUE);
     	
@@ -177,7 +199,7 @@ function etherscan_api($block_info) {
 function decred_api($request) {
  		
  	$json_string = 'https://explorer.dcrdata.org/api/block/best/verbose';
- 	$jsondata = @get_data('url', $json_string, 5);
+ 	$jsondata = @data_request('url', $json_string, 5);
   	
   	$data = json_decode($jsondata, TRUE);
     
@@ -245,7 +267,7 @@ global $_POST, $mining_rewards;
 function monero_api($request) {
  		
  	$json_string = 'https://moneroblocks.info/api/get_stats';
- 	$jsondata = @get_data('url', $json_string, 5);
+ 	$jsondata = @data_request('url', $json_string, 5);
   	
   	$data = json_decode($jsondata, TRUE);
     
@@ -281,12 +303,12 @@ function vertcoin_api($request) {
 		
 		if ( $request == 'height' ) {
 		
-		return trim(@get_data('url', 'http://explorer.vertcoin.info/api/getblockcount', 5));
+		return trim(@data_request('url', 'http://explorer.vertcoin.info/api/getblockcount', 5));
 		  
 		}
 		elseif ( $request == 'difficulty' ) {
 		
-		return trim(@get_data('url', 'http://explorer.vertcoin.info/api/getdifficulty', 5));
+		return trim(@data_request('url', 'http://explorer.vertcoin.info/api/getdifficulty', 5));
 		  
 		}
   
@@ -302,12 +324,12 @@ function ravencoin_api($request) {
 		
 		if ( $request == 'height' ) {
 		
-		return trim(@get_data('url', 'http://rvnhodl.com/api/getblockcount', 5));
+		return trim(@data_request('url', 'http://rvnhodl.com/api/getblockcount', 5));
 		  
 		}
 		elseif ( $request == 'difficulty' ) {
 		
-		return trim(@get_data('url', 'http://rvnhodl.com/api/getdifficulty', 5));
+		return trim(@data_request('url', 'http://rvnhodl.com/api/getdifficulty', 5));
 		  
 		}
   
@@ -318,15 +340,15 @@ function ravencoin_api($request) {
  
  
 //////////////////////////////////////////////////////////
-function get_btc_usd($btc_in_usd) {
+function get_btc_usd($btc_exchange) {
 
 global $last_trade_ttl;
   
-    if ( strtolower($btc_in_usd) == 'coinbase' ) {
+    if ( strtolower($btc_exchange) == 'coinbase' ) {
     
     $json_string = 'https://api.coinbase.com/v2/prices/spot?currency=USD';
     
-    $jsondata = @get_data('url', $json_string, $last_trade_ttl);
+    $jsondata = @data_request('url', $json_string, $last_trade_ttl);
     
     $data = json_decode($jsondata, TRUE);
     
@@ -335,11 +357,11 @@ global $last_trade_ttl;
     }
   
   
-    elseif ( strtolower($btc_in_usd) == 'hitbtc' ) {
+    elseif ( strtolower($btc_exchange) == 'hitbtc' ) {
   
     $json_string = 'https://api.hitbtc.com/api/1/public/BTCUSD/ticker';
     
-    $jsondata = @get_data('url', $json_string, $last_trade_ttl);
+    $jsondata = @data_request('url', $json_string, $last_trade_ttl);
     
     $data = json_decode($jsondata, TRUE);
     
@@ -348,7 +370,7 @@ global $last_trade_ttl;
     }
   
   
-    elseif ( strtolower($btc_in_usd) == 'bitfinex' ) {
+    elseif ( strtolower($btc_exchange) == 'bitfinex' ) {
   
     $data = get_trade_price('bitfinex', 'tBTCUSD');
     
@@ -357,11 +379,11 @@ global $last_trade_ttl;
     }
   
 
-    elseif ( strtolower($btc_in_usd) == 'gemini' ) {
+    elseif ( strtolower($btc_exchange) == 'gemini' ) {
     
     $json_string = 'https://api.gemini.com/v1/pubticker/btcusd';
     
-      $jsondata = @get_data('url', $json_string, $last_trade_ttl);
+      $jsondata = @data_request('url', $json_string, $last_trade_ttl);
       
       $data = json_decode($jsondata, TRUE);
       
@@ -370,11 +392,11 @@ global $last_trade_ttl;
     }
 
 
-    elseif ( strtolower($btc_in_usd) == 'okcoin' ) {
+    elseif ( strtolower($btc_exchange) == 'okcoin' ) {
   
     $json_string = 'https://www.okcoin.com/api/ticker.do?ok=1';
     
-    $jsondata = @get_data('url', $json_string, $last_trade_ttl);
+    $jsondata = @data_request('url', $json_string, $last_trade_ttl);
     
     $data = json_decode($jsondata, TRUE);
     
@@ -384,11 +406,11 @@ global $last_trade_ttl;
     }
   
   
-    elseif ( strtolower($btc_in_usd) == 'bitstamp' ) {
+    elseif ( strtolower($btc_exchange) == 'bitstamp' ) {
  	
     $json_string = 'https://www.bitstamp.net/api/ticker/';
     
-    $jsondata = @get_data('url', $json_string, $last_trade_ttl);
+    $jsondata = @data_request('url', $json_string, $last_trade_ttl);
     
     $data = json_decode($jsondata, TRUE);
     
@@ -397,12 +419,12 @@ global $last_trade_ttl;
     }
   
  
-   elseif ( strtolower($btc_in_usd) == 'gatecoin' ) {
+   elseif ( strtolower($btc_exchange) == 'gatecoin' ) {
  
       
       $json_string = 'https://api.gatecoin.com/Public/LiveTickers';
       
-      $jsondata = @get_data('url', $json_string, $last_trade_ttl);
+      $jsondata = @data_request('url', $json_string, $last_trade_ttl);
       
       $data = json_decode($jsondata, TRUE);
    
@@ -426,12 +448,12 @@ global $last_trade_ttl;
    
    }
 
-   elseif ( strtolower($btc_in_usd) == 'livecoin' ) {
+   elseif ( strtolower($btc_exchange) == 'livecoin' ) {
  
  
       $json_string = 'https://api.livecoin.net/exchange/ticker';
       
-      $jsondata = @get_data('url', $json_string, $last_trade_ttl);
+      $jsondata = @data_request('url', $json_string, $last_trade_ttl);
       
       $data = json_decode($jsondata, TRUE);
    
@@ -457,11 +479,11 @@ global $last_trade_ttl;
    
    }
 
-   elseif ( strtolower($btc_in_usd) == 'kraken' ) {
+   elseif ( strtolower($btc_exchange) == 'kraken' ) {
    
    $json_string = 'https://api.kraken.com/0/public/Ticker?pair=XXBTZUSD';
    
-   $jsondata = @get_data('url', $json_string, $last_trade_ttl);
+   $jsondata = @data_request('url', $json_string, $last_trade_ttl);
    
    $data = json_decode($jsondata, TRUE);
    
@@ -509,14 +531,14 @@ global $last_trade_ttl;
 //////////////////////////////////////////////////////////
 function get_trade_price($chosen_market, $market_pairing) {
 
-global $btc_in_usd, $coins_array, $last_trade_ttl;
+global $btc_exchange, $coins_array, $last_trade_ttl;
  
 
   if ( strtolower($chosen_market) == 'gemini' ) {
   
   $json_string = 'https://api.gemini.com/v1/pubticker/' . $market_pairing;
   
-    $jsondata = @get_data('url', $json_string, $last_trade_ttl);
+    $jsondata = @data_request('url', $json_string, $last_trade_ttl);
     
     $data = json_decode($jsondata, TRUE);
     
@@ -531,7 +553,7 @@ global $btc_in_usd, $coins_array, $last_trade_ttl;
   
   $json_string = 'https://www.bitstamp.net/api/v2/ticker/' . $market_pairing;
   
-    $jsondata = @get_data('url', $json_string, $last_trade_ttl);
+    $jsondata = @data_request('url', $json_string, $last_trade_ttl);
     
     $data = json_decode($jsondata, TRUE);
     
@@ -548,7 +570,7 @@ global $btc_in_usd, $coins_array, $last_trade_ttl;
   
   $json_string = 'https://www.okex.com/api/v1/ticker.do?symbol=' . $market_pairing;
   
-    $jsondata = @get_data('url', $json_string, $last_trade_ttl);
+    $jsondata = @data_request('url', $json_string, $last_trade_ttl);
     
     $data = json_decode($jsondata, TRUE);
     
@@ -563,7 +585,7 @@ global $btc_in_usd, $coins_array, $last_trade_ttl;
   
   $json_string = 'https://www.binance.com/api/v1/ticker/24hr?symbol=' . $market_pairing;
   
-    $jsondata = @get_data('url', $json_string, $last_trade_ttl);
+    $jsondata = @data_request('url', $json_string, $last_trade_ttl);
     
     $data = json_decode($jsondata, TRUE);
     
@@ -577,7 +599,7 @@ global $btc_in_usd, $coins_array, $last_trade_ttl;
   
      $json_string = 'https://api.coinbase.com/v2/exchange-rates?currency=' . $market_pairing;
      
-     $jsondata = @get_data('url', $json_string, $last_trade_ttl);
+     $jsondata = @data_request('url', $json_string, $last_trade_ttl);
      
      $data = json_decode($jsondata, TRUE);
      
@@ -590,7 +612,7 @@ global $btc_in_usd, $coins_array, $last_trade_ttl;
   
   $json_string = 'https://cryptofresh.com/api/asset/markets?asset=' . $market_pairing;
   
-    $jsondata = @get_data('url', $json_string, $last_trade_ttl);
+    $jsondata = @data_request('url', $json_string, $last_trade_ttl);
     
     $data = json_decode($jsondata, TRUE);
 	
@@ -612,7 +634,7 @@ global $btc_in_usd, $coins_array, $last_trade_ttl;
      
      $json_string = 'https://bittrex.com/api/v1.1/public/getmarketsummaries';
      
-     $jsondata = @get_data('url', $json_string, $last_trade_ttl);
+     $jsondata = @data_request('url', $json_string, $last_trade_ttl);
      
      $data = json_decode($jsondata, TRUE);
    
@@ -645,7 +667,7 @@ global $btc_in_usd, $coins_array, $last_trade_ttl;
 
      $json_string = 'https://tradesatoshi.com/api/public/getmarketsummaries';
      
-     $jsondata = @get_data('url', $json_string, $last_trade_ttl);
+     $jsondata = @data_request('url', $json_string, $last_trade_ttl);
      
      $data = json_decode($jsondata, TRUE);
   
@@ -676,7 +698,7 @@ global $btc_in_usd, $coins_array, $last_trade_ttl;
   
   $json_string = 'https://api.liqui.io/api/3/ticker/' . $market_pairing;
   
-  $jsondata = @get_data('url', $json_string, $last_trade_ttl);
+  $jsondata = @data_request('url', $json_string, $last_trade_ttl);
   
   $data = json_decode($jsondata, TRUE);
   
@@ -705,7 +727,7 @@ global $btc_in_usd, $coins_array, $last_trade_ttl;
 
      $json_string = 'https://poloniex.com/public?command=returnTicker';
      
-     $jsondata = @get_data('url', $json_string, $last_trade_ttl);
+     $jsondata = @data_request('url', $json_string, $last_trade_ttl);
      
      $data = json_decode($jsondata, TRUE);
    
@@ -736,7 +758,7 @@ global $btc_in_usd, $coins_array, $last_trade_ttl;
 
      $json_string = 'https://data.gate.io/api2/1/tickers';
      
-     $jsondata = @get_data('url', $json_string, $last_trade_ttl);
+     $jsondata = @data_request('url', $json_string, $last_trade_ttl);
      
      $data = json_decode($jsondata, TRUE);
    
@@ -766,7 +788,7 @@ global $btc_in_usd, $coins_array, $last_trade_ttl;
 
      $json_string = 'https://api.kucoin.com/v1/open/tick';
      
-     $jsondata = @get_data('url', $json_string, $last_trade_ttl);
+     $jsondata = @data_request('url', $json_string, $last_trade_ttl);
      
      $data = json_decode($jsondata, TRUE);
    
@@ -798,7 +820,7 @@ global $btc_in_usd, $coins_array, $last_trade_ttl;
 
      $json_string = 'https://api.livecoin.net/exchange/ticker';
      
-     $jsondata = @get_data('url', $json_string, $last_trade_ttl);
+     $jsondata = @data_request('url', $json_string, $last_trade_ttl);
      
      $data = json_decode($jsondata, TRUE);
      
@@ -828,7 +850,7 @@ global $btc_in_usd, $coins_array, $last_trade_ttl;
 
      $json_string = 'https://www.cryptopia.co.nz/api/GetMarkets';
      
-     $jsondata = @get_data('url', $json_string, $last_trade_ttl);
+     $jsondata = @data_request('url', $json_string, $last_trade_ttl);
      
      $data = json_decode($jsondata, TRUE);
   
@@ -860,7 +882,7 @@ global $btc_in_usd, $coins_array, $last_trade_ttl;
 
      $json_string = 'https://api.hitbtc.com/api/1/public/ticker';
      
-     $jsondata = @get_data('url', $json_string, $last_trade_ttl);
+     $jsondata = @data_request('url', $json_string, $last_trade_ttl);
      
      $data = json_decode($jsondata, TRUE);
      
@@ -890,7 +912,7 @@ global $btc_in_usd, $coins_array, $last_trade_ttl;
 
      $json_string = 'http://data.bter.com/api/1/marketlist';
      
-     $jsondata = @get_data('url', $json_string, $last_trade_ttl);
+     $jsondata = @data_request('url', $json_string, $last_trade_ttl);
      
      $data = json_decode($jsondata, TRUE);
      
@@ -921,7 +943,7 @@ global $btc_in_usd, $coins_array, $last_trade_ttl;
 
      $json_string = 'https://graviex.net//api/v2/tickers.json';
      
-     $jsondata = @get_data('url', $json_string, $last_trade_ttl);
+     $jsondata = @data_request('url', $json_string, $last_trade_ttl);
      
      $data = json_decode($jsondata, TRUE);
      
@@ -952,7 +974,7 @@ global $btc_in_usd, $coins_array, $last_trade_ttl;
   
   $json_string = 'https://api.kraken.com/0/public/Ticker?pair=' . $market_pairing;
   
-  $jsondata = @get_data('url', $json_string, $last_trade_ttl);
+  $jsondata = @data_request('url', $json_string, $last_trade_ttl);
   
   $data = json_decode($jsondata, TRUE);
   
@@ -997,7 +1019,7 @@ global $btc_in_usd, $coins_array, $last_trade_ttl;
 
      $json_string = 'https://api.gatecoin.com/Public/LiveTickers';
      
-     $jsondata = @get_data('url', $json_string, $last_trade_ttl);
+     $jsondata = @data_request('url', $json_string, $last_trade_ttl);
      
      $data = json_decode($jsondata, TRUE);
   
@@ -1043,7 +1065,7 @@ global $btc_in_usd, $coins_array, $last_trade_ttl;
 
      $json_string = 'https://crix-api-endpoint.upbit.com/v1/crix/recent?codes=' . $upbit_pairs;
      
-     $jsondata = @get_data('url', $json_string, $last_trade_ttl);
+     $jsondata = @data_request('url', $json_string, $last_trade_ttl);
      
      $data = json_decode($jsondata, TRUE);
   
@@ -1094,7 +1116,7 @@ global $btc_in_usd, $coins_array, $last_trade_ttl;
 
      $json_string = 'https://api.bitfinex.com/v2/tickers?symbols=' . $finex_pairs;
      
-     $jsondata = @get_data('url', $json_string, $last_trade_ttl);
+     $jsondata = @data_request('url', $json_string, $last_trade_ttl);
      
      $data = json_decode($jsondata, TRUE);
   
@@ -1124,7 +1146,7 @@ global $btc_in_usd, $coins_array, $last_trade_ttl;
 
   elseif ( strtolower($chosen_market) == 'usd_assets' ) {
 		
-	  $usdtobtc = ( 1 / get_btc_usd($btc_in_usd) );		
+	  $usdtobtc = ( 1 / get_btc_usd($btc_exchange) );		
 		
 	  if ( $market_pairing == 'usdtobtc' ) {
      return $usdtobtc;
@@ -1213,7 +1235,7 @@ global $coinmarketcap_ranks_max, $coinmarketcap_ttl;
 			
      	$json_string = $cmc_request;
      	     
-	  	$jsondata = @get_data('url', $json_string, $coinmarketcap_ttl);
+	  	$jsondata = @data_request('url', $json_string, $coinmarketcap_ttl);
 	   
    	$data = json_decode($jsondata, TRUE);
     
@@ -1266,7 +1288,7 @@ global $coinmarketcap_ranks_max, $coinmarketcap_ttl;
 //////////////////////////////////////////////////////////
 function coin_data($coin_name, $trade_symbol, $coin_amount, $market_pairing_array, $selected_pairing, $selected_market, $sort_order) {
 
-global $_POST, $coins_array, $btc_in_usd, $alert_percent, $coinmarketcap_ranks_max, $api_timeout;
+global $_POST, $coins_array, $btc_exchange, $alert_percent, $coinmarketcap_ranks_max, $api_timeout;
 
 
 $original_market = $selected_market;
@@ -1293,7 +1315,7 @@ $all_markets = $coins_array[$trade_symbol]['market_pairing'][$selected_pairing];
 
 
 if ( $_SESSION['btc_in_usd'] ) {
-$btc_in_usd = $_SESSION['btc_in_usd'];
+$btc_exchange = $_SESSION['btc_in_usd'];
 }
 
 
@@ -1310,7 +1332,7 @@ $market_pairing = $market_pairing_array[$selected_market];
     }
 
     if ( $selected_pairing == 'btc' ) {
-    $coin_trade_raw = ( $coin_name == 'Bitcoin' ? get_btc_usd($btc_in_usd) : get_trade_price($selected_market, $market_pairing) );
+    $coin_trade_raw = ( $coin_name == 'Bitcoin' ? get_btc_usd($btc_exchange) : get_trade_price($selected_market, $market_pairing) );
     $coin_trade = number_format( $coin_trade_raw, ( $coin_name == 'Bitcoin' ? 2 : 8 ), '.', ',');
     $coin_trade_total_raw = ($coin_amount * $coin_trade_raw);
     $coin_trade_total = number_format($coin_trade_total_raw, ( $coin_name == 'Bitcoin' ? 2 : 8 ), '.', ',');
@@ -1585,13 +1607,13 @@ $percent_alert_type = $alert_percent[2];
 <td class='data border_b'><span><?php
 
   if ( $btc_trade_eq ) {
-  echo ' ($'.number_format(( get_btc_usd($btc_in_usd) * $btc_trade_eq ), 8, '.', ',').' USD)';
+  echo ' ($'.number_format(( get_btc_usd($btc_exchange) * $btc_trade_eq ), 8, '.', ',').' USD)';
   }
   elseif ( $coin_name != 'Bitcoin' ) {
-  echo ' ($'.number_format(( get_btc_usd($btc_in_usd) * $coin_trade ), 8, '.', ',').' USD)';
+  echo ' ($'.number_format(( get_btc_usd($btc_exchange) * $coin_trade ), 8, '.', ',').' USD)';
   }
   else {
-  echo ' ($'.number_format(get_btc_usd($btc_in_usd), 2, '.', ',').' USD)';
+  echo ' ($'.number_format(get_btc_usd($btc_exchange), 2, '.', ',').' USD)';
   }
 
 ?></span></td>
@@ -1626,10 +1648,10 @@ echo ' <span><span class="data">' . $coin_trade_total . '</span> ' . $pairing_sy
 <td class='data border_lrb'><?php
 
   if ( $selected_pairing == 'btc' ) {
-  $coin_usd_worth = ( $coin_name == 'Bitcoin' ? $coin_trade_total_raw : ($coin_trade_total_raw * get_btc_usd($btc_in_usd)) );
+  $coin_usd_worth = ( $coin_name == 'Bitcoin' ? $coin_trade_total_raw : ($coin_trade_total_raw * get_btc_usd($btc_exchange)) );
   }
   else {
-  $coin_usd_worth = ( ($coin_trade_total_raw * $coin_to_btc) * get_btc_usd($btc_in_usd));
+  $coin_usd_worth = ( ($coin_trade_total_raw * $coin_to_btc) * get_btc_usd($btc_exchange));
   }
   
 
@@ -1669,9 +1691,9 @@ return $total_value;
 
 //////////////////////////////////////////////////////////
 
-function get_data($mode, $request, $ttl) {
+function data_request($mode, $request, $ttl, $api_server=null) {
 
-global $version, $user_agent, $api_server, $api_timeout;
+global $version, $user_agent, $api_timeout;
 
 $cookie_jar = tempnam('/tmp','cookie');
 	
@@ -1799,9 +1821,9 @@ return $data;
 
 function powerdown_usd($data) {
 
-global $steem_market, $btc_in_usd;
+global $steem_market, $btc_exchange;
 
-return ( $data * $steem_market * get_btc_usd($btc_in_usd) );
+return ( $data * $steem_market * get_btc_usd($btc_exchange) );
 
 }
 //////////////////////////////////////////////////////////
@@ -1809,7 +1831,7 @@ return ( $data * $steem_market * get_btc_usd($btc_in_usd) );
 
 function steempower_time($time) {
     
-global $_POST, $steem_market, $btc_in_usd, $steem_powerdown_time, $steempower_yearly_interest;
+global $_POST, $steem_market, $btc_exchange, $steem_powerdown_time, $steempower_yearly_interest;
 
 $powertime = NULL;
 $powertime = NULL;
@@ -1845,10 +1867,10 @@ $speed = ($_POST['sp_total'] * $decimal_yearly_interest) / 525600;  // Interest 
     $powertime = ($speed * 60 * 24 * 365);
     }
     
-    $powertime_usd = ( $powertime * $steem_market * get_btc_usd($btc_in_usd) );
+    $powertime_usd = ( $powertime * $steem_market * get_btc_usd($btc_exchange) );
     
     $steem_total = ( $powertime + $_POST['sp_total'] );
-    $usd_total = ( $steem_total * $steem_market * get_btc_usd($btc_in_usd) );
+    $usd_total = ( $steem_total * $steem_market * get_btc_usd($btc_exchange) );
     
     $power_purchased = ( $_POST['sp_purchased'] / $steem_total );
     $power_earned = ( $_POST['sp_earned'] / $steem_total );

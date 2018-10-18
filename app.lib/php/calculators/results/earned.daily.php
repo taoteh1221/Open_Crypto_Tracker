@@ -9,7 +9,7 @@
 				<br />
 				Current <?=$calculation_form_data[0]?> Value Per Coin: 
 				<?php
-				echo number_format(get_trade_price($calculation_form_data[6], $calculation_form_data[7]), 8) . ' BTC ($' . round(( round(get_trade_price($calculation_form_data[6], $calculation_form_data[7]), 8) * get_btc_usd($btc_in_usd) ), 8) . ' USD)';
+				echo number_format(get_trade_price($calculation_form_data[6], $calculation_form_data[7]), 8) . ' BTC ($' . round(( round(get_trade_price($calculation_form_data[6], $calculation_form_data[7]), 8) * get_btc_usd($btc_exchange) ), 8) . ' USD)';
 				?>
 				
 				<br />

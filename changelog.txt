@@ -787,6 +787,17 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+2.1.7:
+-Cron alerts BTC to USD bug fix
+-Semantics cleanup
+-Added notifyme support to cron job alerts
+-------------------------------------------------------------------
+
+
+
+
+
 
 
 

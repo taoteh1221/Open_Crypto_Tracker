@@ -154,7 +154,7 @@ $all_coin_amounts_cookie_array = explode("#", $_COOKIE['coin_amounts']);
 $total_btc_worth = bitcoin_total();
 $total_btc_worth2 = number_format($total_btc_worth, 8, '.', ',');
 
-$total_usd_worth = ($total_btc_worth * get_btc_usd($btc_in_usd));
+$total_usd_worth = ($total_btc_worth * get_btc_usd($btc_exchange));
 $total_usd_worth2 = number_format($total_usd_worth, 2, '.', ',');
 
 echo '<p class="bold_1">Total Bitcoin Value: ' . $total_btc_worth2 . '<br />';
@@ -165,7 +165,7 @@ foreach ( $coins_array['BTC']['market_pairing']['btc'] as $key => $value ) {
 $loop = $loop + 1;
 
 	if ( $value == $coins_array_numbered[$btc_market] ) {
-	echo 'Total USD Value: $' . $total_usd_worth2 . ' (1 Bitcoin is currently worth $' .number_format( get_btc_usd($btc_in_usd), 2, '.', ','). ' at '.ucfirst($key).')</p>';
+	echo 'Total USD Value: $' . $total_usd_worth2 . ' (1 Bitcoin is currently worth $' .number_format( get_btc_usd($btc_exchange), 2, '.', ','). ' at '.ucfirst($key).')</p>';
 	}
 
 }
