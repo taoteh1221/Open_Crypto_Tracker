@@ -198,7 +198,7 @@ width: 100%;
     color: #ffb83f;
 }
 
-#percent_change_amount, #percent_change_time, #percent_change_alert_type {
+#alert_source, #percent_change_amount, #percent_change_time, #percent_change_alert_type {
 display: none;
 }
 

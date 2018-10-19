@@ -92,9 +92,9 @@ $api_timeout = 10; // Seconds to wait for response from API endpoint
 
 $last_trade_ttl = 1; // Minutes to cache last real-time exchange data...can be zero to skip cache, but set at least 1 minute to safely avoid your IP getting blocked
 
-$coinmarketcap_ttl = 10; // Minutes to cache coinmarketcap data...start high and test lower, they can be strict
+$marketcap_ttl = 10; // Minutes to cache marketcap data...start high and test lower, it can be strict
 
-$coinmarketcap_ranks_max = 100; // Maximum number of Coinmarketcap.com rankings to request from their API
+$marketcap_ranks_max = 100; // Maximum number of marketcap rankings to request from API
 
 $from_email = ''; // For cron job email alerts, MUST BE SET (see README.txt for setup information) 
 

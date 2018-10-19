@@ -21,7 +21,7 @@ require_once("app.lib/php/init.php");
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 
-$version = '2.1.7';  // 2018/OCTOBER/18TH
+$version = '2.1.8';  // 2018/OCTOBER/19TH
  
 
 /*
@@ -84,9 +84,9 @@ $api_timeout = 10; // Seconds to wait for response from API endpoint
 
 $last_trade_ttl = 1; // Minutes to cache last real-time exchange data...can be zero to skip cache, but set at least 1 minute to safely avoid your IP getting blocked
 
-$coinmarketcap_ttl = 10; // Minutes to cache coinmarketcap data...start high and test lower, they can be strict
+$marketcap_ttl = 10; // Minutes to cache marketcap data...start high and test lower, it can be strict
 
-$coinmarketcap_ranks_max = 100; // Maximum number of Coinmarketcap.com rankings to request from their API
+$marketcap_ranks_max = 100; // Maximum number of marketcap rankings to request from API
 
 $from_email = ''; // For cron job email alerts, MUST BE SET (see README.txt for setup information) 
 
@@ -121,7 +121,7 @@ $cron_alerts = array(
 					'xlm' => 'bittrex|btc|0.30', // exchange|trade_pair|usd_value
 					'ada' => 'bittrex|btc|0.095', // exchange|trade_pair|usd_value
 				//	'xrp' => 'bittrex|btc|0.55', // exchange|trade_pair|usd_value
-					'rvn' => 'bittrex|btc|0.030', // exchange|trade_pair|usd_value
+					'rvn' => 'bittrex|btc|0.035', // exchange|trade_pair|usd_value
 					'myst' => 'hitbtc|btc|0.20' // exchange|trade_pair|usd_value
 					);
 

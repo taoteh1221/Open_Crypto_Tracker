@@ -1197,9 +1197,121 @@ return $price;
 //////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////
+function marketcap_data($symbol) {
+	
+global $alert_percent;
+
+$data_provider = $alert_percent[0];
+
+$data = array();
+
+	if ( $data_provider == 'coinmarketcap' ) {
+		
+	$data['rank'] = coinmarketcap_api($symbol)['rank'];
+	$data['price'] = coinmarketcap_api($symbol)['quotes']['USD']['price'];
+	$data['market_cap'] = coinmarketcap_api($symbol)['quotes']['USD']['market_cap'];
+	$data['volume_24h'] = coinmarketcap_api($symbol)['quotes']['USD']['volume_24h'];
+	$data['percent_change_1h'] = coinmarketcap_api($symbol)['quotes']['USD']['percent_change_1h'];
+	$data['percent_change_24h'] = coinmarketcap_api($symbol)['quotes']['USD']['percent_change_24h'];
+	$data['percent_change_7d'] = coinmarketcap_api($symbol)['quotes']['USD']['percent_change_7d'];
+	$data['circulating_supply'] = coinmarketcap_api($symbol)['circulating_supply'];
+	$data['total_supply'] = coinmarketcap_api($symbol)['total_supply'];
+	$data['max_supply'] = coinmarketcap_api($symbol)['max_supply'];
+	$data['last_updated'] = coinmarketcap_api($symbol)['last_updated'];
+	
+	}
+
+
+return $data;
+
+}
+//////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////
+function coingecko_api($symbol) {
+	
+global $marketcap_ranks_max, $marketcap_ttl;
+
+
+	if ( !$_SESSION['cgk_data'] ) {
+
+		if ( !$_SESSION['cgk_json_array'] ) {
+			
+			
+		$page = 1;
+		$rankings_left = $marketcap_ranks_max;
+		
+			while ( $rankings_left > 0 ) {
+					
+			$limit = 100;
+			
+			$_SESSION['cgk_json_array'][] = 'https://api.coingecko.com/api/v3/coins?per_page='.$limit.'&page='.$page;
+			
+			$page = $page + 1;
+			$rankings_left = $rankings_left - $limit;
+			
+			}
+	
+		
+		}
+		
+		
+		foreach ( $_SESSION['cgk_json_array'] as $cgk_request ) {
+			
+     	$json_string = $cgk_request;
+     	     
+	  	$jsondata = @data_request('url', $json_string, $marketcap_ttl);
+	   
+   	$data = json_decode($jsondata, TRUE);
+    
+    	$array_merging[] = $data['data'];
+    	
+	
+		}
+		
+		$cgk_data = array(); // Empty array MUST be pre-defined for array_merge_recursive()
+		foreach ( $array_merging as $array ) {
+			
+ 	  	$cgk_data = array_merge_recursive($cgk_data, $array);
+	   
+ 	   }
+ 	   
+ 	   $_SESSION['cgk_data'] = $cgk_data;
+		
+
+	}
+	else {
+	$cgk_data = $_SESSION['cgk_data'];
+	}
+		
+	     	
+
+     if ( is_array($cgk_data) || is_object($cgk_data) ) {
+  		
+  	   	foreach ($cgk_data as $key => $value) {
+     	  	
+  	     	
+        		if ( $cgk_data[$key]['symbol'] == strtolower($symbol) ) {
+  	      		
+        		return $cgk_data[$key];
+        
+        
+     	  		}
+    	 
+    
+  	   	}
+      	
+     
+     	}
+		  
+  
+}
+//////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////
 function coinmarketcap_api($symbol) {
 	
-global $coinmarketcap_ranks_max, $coinmarketcap_ttl;
+global $marketcap_ranks_max, $marketcap_ttl;
 
 
 	if ( !$_SESSION['cmc_data'] ) {
@@ -1209,7 +1321,7 @@ global $coinmarketcap_ranks_max, $coinmarketcap_ttl;
 			
 		//Coinmarketcap's new v2 API caps each API request at 100 assets, so we need to break requests up that are over 100 assets...
 		$offset = 1;
-		$rankings_left = $coinmarketcap_ranks_max;
+		$rankings_left = $marketcap_ranks_max;
 		
 			while ( $rankings_left > 0 ) {
 					
@@ -1235,7 +1347,7 @@ global $coinmarketcap_ranks_max, $coinmarketcap_ttl;
 			
      	$json_string = $cmc_request;
      	     
-	  	$jsondata = @data_request('url', $json_string, $coinmarketcap_ttl);
+	  	$jsondata = @data_request('url', $json_string, $marketcap_ttl);
 	   
    	$data = json_decode($jsondata, TRUE);
     
@@ -1288,7 +1400,7 @@ global $coinmarketcap_ranks_max, $coinmarketcap_ttl;
 //////////////////////////////////////////////////////////
 function coin_data($coin_name, $trade_symbol, $coin_amount, $market_pairing_array, $selected_pairing, $selected_market, $sort_order) {
 
-global $_POST, $coins_array, $btc_exchange, $alert_percent, $coinmarketcap_ranks_max, $api_timeout;
+global $_POST, $coins_array, $btc_exchange, $alert_percent, $marketcap_ranks_max, $api_timeout;
 
 
 $original_market = $selected_market;
@@ -1463,26 +1575,26 @@ $market_pairing = $market_pairing_array[$selected_market];
 <td class='data border_lb' align='right' style='position: relative; padding-right: 32px; <?=( $coins_array[$trade_symbol]['ico'] == 'yes' ? 'padding-left: 32px;' : '' )?>'>
  
  <?php
- $cmkcap_render_data = trim($coins_array[$trade_symbol]['coinmarketcap']);
- $info_icon = ( !coinmarketcap_api($trade_symbol)['rank'] ? 'info-none.png' : 'info.png' );
+ $mkcap_render_data = trim($coins_array[$trade_symbol]['coinmarketcap']);
+ $info_icon = ( !marketcap_data($trade_symbol)['rank'] ? 'info-none.png' : 'info.png' );
  
- if ( $cmkcap_render_data != '' ) {
+ if ( $mkcap_render_data != '' ) {
  ?>
- <?=( $coins_array[$trade_symbol]['ico'] == 'yes' ? "<a title='SEC Website On ICO Guidance And Safety' href='https://www.sec.gov/ICO' target='_blank'><img src='templates/default/images/alert.png' border=0' style='position: absolute; top: 3px; left: 0px; margin: 0px; height: 30px; width: 30px;' /></a> " : "" )?><img id='<?=$cmkcap_render_data?>' src='templates/default/images/<?=$info_icon?>' border=0' style='position: absolute; top: 3px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <a title='' href='http://coinmarketcap.com/currencies/<?=$cmkcap_render_data?>/' target='_blank'><?php echo $coin_name; ?></a>
+ <?=( $coins_array[$trade_symbol]['ico'] == 'yes' ? "<a title='SEC Website On ICO Guidance And Safety' href='https://www.sec.gov/ICO' target='_blank'><img src='templates/default/images/alert.png' border=0' style='position: absolute; top: 3px; left: 0px; margin: 0px; height: 30px; width: 30px;' /></a> " : "" )?><img id='<?=$mkcap_render_data?>' src='templates/default/images/<?=$info_icon?>' border=0' style='position: absolute; top: 3px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <a title='' href='http://coinmarketcap.com/currencies/<?=$mkcap_render_data?>/' target='_blank'><?php echo $coin_name; ?></a>
  <script>
 
 	<?php
-	if ( !coinmarketcap_api($trade_symbol)['rank'] ) {
+	if ( !marketcap_data($trade_symbol)['rank'] ) {
 	?>
 
-	var cmc_content = '<h3 style="color: #e5f1ff;">Coinmarketcap API may be offline / under heavy load, <br />marketcap range not set high enough (current range is top <?=$coinmarketcap_ranks_max?> marketcaps), <br />or API timeout set too low (current timeout is <?=$api_timeout?> seconds). <br />Configuration adjustments can be made in config.php.</h3>';
+	var cmc_content = '<h3 style="color: #e5f1ff;"><?=ucfirst($alert_percent[0])?> API may be offline / under heavy load, <br />marketcap range not set high enough (current range is top <?=$marketcap_ranks_max?> marketcaps), <br />or API timeout set too low (current timeout is <?=$api_timeout?> seconds). <br />Configuration adjustments can be made in config.php.</h3>';
 	
 		<?php
 		if ( sizeof($alert_percent) > 1 ) {
 		?>
 		
 		setTimeout(function() {
-    	play_alert("<?=strtolower($trade_symbol)?>_row", "visual", "blue"); // Assets with CMC data not set or functioning properly
+    	play_alert("<?=strtolower($trade_symbol)?>_row", "visual", "blue"); // Assets with marketcap data not set or functioning properly
 		}, 1000);
 		
 		<?php
@@ -1492,30 +1604,33 @@ $market_pairing = $market_pairing_array[$selected_market];
 	else {
 	?> 
 
-	var cmc_content = '<h3 class="orange">Coinmarketcap.com Summary For <?=$coin_name?> (<?=$trade_symbol?>):</h3>'
-    +'<p><span class="orange">Average Market Price:</span> $<?=number_format(coinmarketcap_api($trade_symbol)['quotes']['USD']['price'],8,".",",")?></p>'
-    +'<p><span class="orange">Marketcap Ranking:</span> #<?=coinmarketcap_api($trade_symbol)['rank']?></p>'
-    +'<p><span class="orange">Marketcap (USD):</span> $<?=number_format(coinmarketcap_api($trade_symbol)['quotes']['USD']['market_cap'],0,".",",")?></p>'
-    +'<p><span class="orange">24 Hour Volume (USD):</span> $<?=number_format(coinmarketcap_api($trade_symbol)['quotes']['USD']['volume_24h'],0,".",",")?></p>'
-    +'<p><span class="orange">1 Hour Change:</span> <?=( stristr(coinmarketcap_api($trade_symbol)['quotes']['USD']['percent_change_1h'], '-') != false ? '<span class="red">'.coinmarketcap_api($trade_symbol)['quotes']['USD']['percent_change_1h'].'%</span>' : '<span class="green">'.coinmarketcap_api($trade_symbol)['quotes']['USD']['percent_change_1h'].'%</span>' )?></p>'
-    +'<p><span class="orange">24 Hour Change:</span> <?=( stristr(coinmarketcap_api($trade_symbol)['quotes']['USD']['percent_change_24h'], '-') != false ? '<span class="red">'.coinmarketcap_api($trade_symbol)['quotes']['USD']['percent_change_24h'].'%</span>' : '<span class="green">'.coinmarketcap_api($trade_symbol)['quotes']['USD']['percent_change_24h'].'%</span>' )?></p>'
-    +'<p><span class="orange">7 Day Change:</span> <?=( stristr(coinmarketcap_api($trade_symbol)['quotes']['USD']['percent_change_7d'], '-') != false ? '<span class="red">'.coinmarketcap_api($trade_symbol)['quotes']['USD']['percent_change_7d'].'%</span>' : '<span class="green">'.coinmarketcap_api($trade_symbol)['quotes']['USD']['percent_change_7d'].'%</span>' )?></p>'
-    +'<p><span class="orange">Available Supply:</span> <?=number_format(coinmarketcap_api($trade_symbol)['circulating_supply'], 0, '.', ',')?></p>'
-    +'<p><span class="orange">Total Supply:</span> <?=number_format(coinmarketcap_api($trade_symbol)['total_supply'], 0, '.', ',')?></p>'
+	var cmc_content = '<h3 class="orange"><?=ucfirst($alert_percent[0])?>.com Summary For <?=$coin_name?> (<?=$trade_symbol?>):</h3>'
+    +'<p><span class="orange">Average Market Price:</span> $<?=number_format(marketcap_data($trade_symbol)['price'],8,".",",")?></p>'
+    +'<p><span class="orange">Marketcap Ranking:</span> #<?=marketcap_data($trade_symbol)['rank']?></p>'
+    +'<p><span class="orange">Marketcap (USD):</span> $<?=number_format(marketcap_data($trade_symbol)['market_cap'],0,".",",")?></p>'
+    +'<p><span class="orange">24 Hour Volume (USD):</span> $<?=number_format(marketcap_data($trade_symbol)['volume_24h'],0,".",",")?></p>'
+    +'<p><span class="orange">1 Hour Change:</span> <?=( stristr(marketcap_data($trade_symbol)['percent_change_1h'], '-') != false ? '<span class="red">'.marketcap_data($trade_symbol)['percent_change_1h'].'%</span>' : '<span class="green">'.marketcap_data($trade_symbol)['percent_change_1h'].'%</span>' )?></p>'
+    +'<p><span class="orange">24 Hour Change:</span> <?=( stristr(marketcap_data($trade_symbol)['percent_change_24h'], '-') != false ? '<span class="red">'.marketcap_data($trade_symbol)['percent_change_24h'].'%</span>' : '<span class="green">'.marketcap_data($trade_symbol)['percent_change_24h'].'%</span>' )?></p>'
+    +'<p><span class="orange">7 Day Change:</span> <?=( stristr(marketcap_data($trade_symbol)['percent_change_7d'], '-') != false ? '<span class="red">'.marketcap_data($trade_symbol)['percent_change_7d'].'%</span>' : '<span class="green">'.marketcap_data($trade_symbol)['percent_change_7d'].'%</span>' )?></p>'
+    +'<p><span class="orange">Available Supply:</span> <?=number_format(marketcap_data($trade_symbol)['circulating_supply'], 0, '.', ',')?></p>'
+    +'<p><span class="orange">Total Supply:</span> <?=number_format(marketcap_data($trade_symbol)['total_supply'], 0, '.', ',')?></p>'
     <?php
-		if ( coinmarketcap_api($trade_symbol)['max_supply'] > 0 ) {
+		if ( marketcap_data($trade_symbol)['max_supply'] > 0 ) {
 		?>
-    +'<p><span class="orange">Maximum Supply:</span> <?=number_format(coinmarketcap_api($trade_symbol)['max_supply'], 0, '.', ',')?></p>'
+    +'<p><span class="orange">Maximum Supply:</span> <?=number_format(marketcap_data($trade_symbol)['max_supply'], 0, '.', ',')?></p>'
     <?php
 		}
+		if ( marketcap_data($trade_symbol)['last_updated'] != '' ) {
 		?>
-    +'<p><span class="orange">Last Updated (UTC):</span> <?=gmdate("Y-M-d\ \\a\\t g:ia", coinmarketcap_api($trade_symbol)['last_updated'])?></p>';
+    +'<p><span class="orange">Last Updated (UTC):</span> <?=gmdate("Y-M-d\ \\a\\t g:ia", marketcap_data($trade_symbol)['last_updated'])?></p>';
 
 	<?php
+		}
+	
 	}
 	?>
 
-	$('#<?=$cmkcap_render_data?>').balloon({
+	$('#<?=$mkcap_render_data?>').balloon({
   	html: true,
   	position: "right",
   	contents: cmc_content
@@ -1527,18 +1642,18 @@ $market_pairing = $market_pairing_array[$selected_market];
 
 if ( sizeof($alert_percent) > 1 ) {
 
-$percent_change_alert = $alert_percent[0];
+$percent_change_alert = $alert_percent[1];
 
-$percent_alert_type = $alert_percent[2];
+$percent_alert_type = $alert_percent[3];
 
- if ( $alert_percent[1] == '1hour' ) {
- $percent_change = coinmarketcap_api($trade_symbol)['quotes']['USD']['percent_change_1h'];
+ if ( $alert_percent[2] == '1hour' ) {
+ $percent_change = marketcap_data($trade_symbol)['percent_change_1h'];
  }
- elseif ( $alert_percent[1] == '24hour' ) {
- $percent_change = coinmarketcap_api($trade_symbol)['quotes']['USD']['percent_change_24h'];
+ elseif ( $alert_percent[2] == '24hour' ) {
+ $percent_change = marketcap_data($trade_symbol)['percent_change_24h'];
  }
- elseif ( $alert_percent[1] == '7day' ) {
- $percent_change = coinmarketcap_api($trade_symbol)['quotes']['USD']['percent_change_7d'];
+ elseif ( $alert_percent[2] == '7day' ) {
+ $percent_change = marketcap_data($trade_symbol)['percent_change_7d'];
  }
  
   //echo 'console.log("' . $percent_change_alert . '|' . $percent_change . '");';
@@ -1587,7 +1702,7 @@ $percent_alert_type = $alert_percent[2];
 		?>
 		
 		setTimeout(function() {
-    	play_alert("<?=strtolower($trade_symbol)?>_row", "visual", "blue"); // Assets with CMC data not set or functioning properly
+    	play_alert("<?=strtolower($trade_symbol)?>_row", "visual", "blue"); // Assets with marketcap data not set or functioning properly
 		}, 1000);
 		
 		<?php
@@ -1598,7 +1713,7 @@ $percent_alert_type = $alert_percent[2];
  <?php
  }
  
- $cmkcap_render_data = NULL;
+ $mkcap_render_data = NULL;
  $rand_id = NULL;
  ?>
  
