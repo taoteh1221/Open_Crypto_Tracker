@@ -41,7 +41,7 @@ OTHER CRYPTOCURRENCIES AND PAYPAL ACCEPTED HERE: https://dragonfrugal.com/donate
                         
                         'coin_name' => 'COIN_NAME',
                         'coin_symbol' => 'UPPERCASE_COIN_SYMBOL',
-                        'coinmarketcap' => 'coin-slug', // Is this coin listed on coinmarketcap, leave blank if not
+                        'marketcap-website-slug' => 'coin-slug', // Is this coin listed on coinmarketcap / coingecko, leave blank if not
                         'ico' => 'no', // yes / no ...was this an ICO
                         'market_pairing' => array(
                                     'btc' => array(
@@ -175,7 +175,7 @@ $coins_array = array(
                         
                         'coin_name' => 'Misc. USD Assets',
                         'coin_symbol' => 'USD',
-                        'coinmarketcap' => '',
+                        'marketcap-website-slug' => '',
                         'ico' => 'no',
                         'market_pairing' => array(
                                     'btc' => array(
@@ -199,7 +199,7 @@ $coins_array = array(
                         
                         'coin_name' => 'True USD',
                         'coin_symbol' => 'TUSD',
-                        'coinmarketcap' => 'true-usd',
+                        'marketcap-website-slug' => 'true-usd',
                         'ico' => 'yes',
                         'market_pairing' => array(
                                     'btc' => array(
@@ -223,7 +223,7 @@ $coins_array = array(
                         
                         'coin_name' => 'Bitcoin',
                         'coin_symbol' => 'BTC',
-                        'coinmarketcap' => 'bitcoin',
+                        'marketcap-website-slug' => 'bitcoin',
                         'ico' => 'no',
                         'market_pairing' => array(
                                     'btc' => array(
@@ -246,7 +246,7 @@ $coins_array = array(
                         
                         'coin_name' => 'Ethereum',
                         'coin_symbol' => 'ETH',
-                        'coinmarketcap' => 'ethereum',
+                        'marketcap-website-slug' => 'ethereum',
                         'ico' => 'no',
                         'market_pairing' => array(
                                     'btc' => array(
@@ -289,7 +289,7 @@ $coins_array = array(
                         
                         'coin_name' => 'Monero',
                         'coin_symbol' => 'XMR',
-                        'coinmarketcap' => 'monero',
+                        'marketcap-website-slug' => 'monero',
                         'ico' => 'no',
                         'market_pairing' => array(
                                     'btc' => array(
@@ -326,7 +326,7 @@ $coins_array = array(
                         
                         'coin_name' => 'Decred',
                         'coin_symbol' => 'DCR',
-                        'coinmarketcap' => 'decred',
+                        'marketcap-website-slug' => 'decred',
                         'ico' => 'no',
                         'market_pairing' => array(
                                     'btc' => array(
@@ -356,7 +356,7 @@ $coins_array = array(
                         
                         'coin_name' => 'Dash',
                         'coin_symbol' => 'DASH',
-                        'coinmarketcap' => 'dash',
+                        'marketcap-website-slug' => 'dash',
                         'ico' => 'no',
                         'market_pairing' => array(
                                     'btc' => array(
@@ -402,7 +402,7 @@ $coins_array = array(
                         
                         'coin_name' => 'Litecoin',
                         'coin_symbol' => 'LTC',
-                        'coinmarketcap' => 'litecoin',
+                        'marketcap-website-slug' => 'litecoin',
                         'ico' => 'no',
                         'market_pairing' => array(
                                     'btc' => array(
@@ -455,7 +455,7 @@ $coins_array = array(
                         
                         'coin_name' => 'Steem',
                         'coin_symbol' => 'STEEM',
-                        'coinmarketcap' => 'steem',
+                        'marketcap-website-slug' => 'steem',
                         'ico' => 'no',
                         'market_pairing' => array(
                                     'btc' => array(
@@ -480,7 +480,7 @@ $coins_array = array(
                         
                         'coin_name' => 'Decentraland',
                         'coin_symbol' => 'MANA',
-                        'coinmarketcap' => 'decentraland',
+                        'marketcap-website-slug' => 'decentraland',
                         'ico' => 'yes',
                         'market_pairing' => array(
                                     'btc' => array(
@@ -519,7 +519,7 @@ $coins_array = array(
                         
                         'coin_name' => 'oxProject',
                         'coin_symbol' => 'ZRX',
-                        'coinmarketcap' => '0x',
+                        'marketcap-website-slug' => '0x',
                         'ico' => 'yes',
                         'market_pairing' => array(
                                     'btc' => array(
@@ -560,7 +560,7 @@ $coins_array = array(
                         
                         'coin_name' => 'Zilliqa',
                         'coin_symbol' => 'ZIL',
-                        'coinmarketcap' => 'zilliqa',
+                        'marketcap-website-slug' => 'zilliqa',
                         'ico' => 'yes',
                         'market_pairing' => array(
                                     'btc' => array(
@@ -585,7 +585,7 @@ $coins_array = array(
                         
                         'coin_name' => 'OriginTrail',
                         'coin_symbol' => 'TRAC',
-                        'coinmarketcap' => 'origintrail',
+                        'marketcap-website-slug' => 'origintrail',
                         'ico' => 'yes',
                         'market_pairing' => array(
                                     'btc' => array(
@@ -604,7 +604,7 @@ $coins_array = array(
                         
                         'coin_name' => 'Status',
                         'coin_symbol' => 'SNT',
-                        'coinmarketcap' => 'status',
+                        'marketcap-website-slug' => 'status',
                         'ico' => 'yes',
                         'market_pairing' => array(
                                     'btc' => array(
@@ -646,7 +646,7 @@ $coins_array = array(
                         
                         'coin_name' => 'Golem',
                         'coin_symbol' => 'GNT',
-                        'coinmarketcap' => 'golem-network-tokens',
+                        'marketcap-website-slug' => 'golem-network-tokens',
                         'ico' => 'yes',
                         'market_pairing' => array(
                                     'btc' => array(
@@ -681,7 +681,7 @@ $coins_array = array(
                         
                         'coin_name' => 'Factom',
                         'coin_symbol' => 'FCT',
-                        'coinmarketcap' => 'factom',
+                        'marketcap-website-slug' => 'factom',
                         'ico' => 'no',
                         'market_pairing' => array(
                                     'btc' => array(
@@ -703,7 +703,7 @@ $coins_array = array(
                         
                         'coin_name' => 'Stellar',
                         'coin_symbol' => 'XLM',
-                        'coinmarketcap' => 'stellar',
+                        'marketcap-website-slug' => 'stellar',
                         'ico' => 'no',
                         'market_pairing' => array(
                                     'btc' => array(
@@ -736,7 +736,7 @@ $coins_array = array(
                         
                         'coin_name' => 'Cardano',
                         'coin_symbol' => 'ADA',
-                        'coinmarketcap' => 'cardano',
+                        'marketcap-website-slug' => 'cardano',
                         'ico' => 'no',
                         'market_pairing' => array(
                                     'btc' => array(
@@ -763,7 +763,7 @@ $coins_array = array(
                         
                         'coin_name' => 'Ripple',
                         'coin_symbol' => 'XRP',
-                        'coinmarketcap' => 'ripple',
+                        'marketcap-website-slug' => 'ripple',
                         'ico' => 'no',
                         'market_pairing' => array(
                                     'btc' => array(
@@ -798,7 +798,7 @@ $coins_array = array(
                         
                         'coin_name' => 'Ravencoin',
                         'coin_symbol' => 'RVN',
-                        'coinmarketcap' => 'ravencoin',
+                        'marketcap-website-slug' => 'ravencoin',
                         'ico' => 'no',
                         'market_pairing' => array(
                                     'btc' => array(
@@ -815,7 +815,7 @@ $coins_array = array(
                         
                         'coin_name' => 'Mysterium',
                         'coin_symbol' => 'MYST',
-                        'coinmarketcap' => 'mysterium',
+                        'marketcap-website-slug' => 'mysterium',
                         'ico' => 'yes',
                         'market_pairing' => array(
                                     'btc' => array(
