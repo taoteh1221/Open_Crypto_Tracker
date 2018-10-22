@@ -88,6 +88,8 @@ BELOW IS AN !---EXAMPLE---! SET OF CONFIGURED ASSETS. PLEASE NOTE THIS IS PROVID
 
 $btc_exchange = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken / hitbtc / gatecion / livecoin
 
+$marketcap_site = 'coinmarketcap'; // Default marketcap data source: coinmarketcap / coingecko
+
 $api_timeout = 10; // Seconds to wait for response from API endpoint
 
 $last_trade_ttl = 1; // Minutes to cache last real-time exchange data...can be zero to skip cache, but set at least 1 minute to safely avoid your IP getting blocked

@@ -21,7 +21,7 @@ require_once("app.lib/php/init.php");
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 
-$version = '2.1.8';  // 2018/OCTOBER/19TH
+$version = '2.1.8';  // 2018/OCTOBER/22ND
  
 
 /*
@@ -80,6 +80,8 @@ $version = '2.1.8';  // 2018/OCTOBER/19TH
 
 $btc_exchange = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken / hitbtc / gatecion / livecoin
 
+$marketcap_site = 'coinmarketcap'; // Default marketcap data source: coinmarketcap / coingecko
+
 $api_timeout = 10; // Seconds to wait for response from API endpoint
 
 $last_trade_ttl = 1; // Minutes to cache last real-time exchange data...can be zero to skip cache, but set at least 1 minute to safely avoid your IP getting blocked
@@ -121,7 +123,7 @@ $cron_alerts = array(
 					'xlm' => 'bittrex|btc|0.30', // exchange|trade_pair|usd_value
 					'ada' => 'bittrex|btc|0.095', // exchange|trade_pair|usd_value
 				//	'xrp' => 'bittrex|btc|0.55', // exchange|trade_pair|usd_value
-					'rvn' => 'bittrex|btc|0.035', // exchange|trade_pair|usd_value
+					'rvn' => 'bittrex|btc|0.047', // exchange|trade_pair|usd_value
 					'myst' => 'hitbtc|btc|0.20' // exchange|trade_pair|usd_value
 					);
 
