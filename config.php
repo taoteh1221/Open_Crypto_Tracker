@@ -21,7 +21,7 @@ require_once("app.lib/php/init.php");
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 
-$version = '2.1.8';  // 2018/OCTOBER/22ND
+$version = '2.1.9';  // 2018/OCTOBER/23RD
  
 
 /*
@@ -326,6 +326,7 @@ $coins_array = array(
                                     'btc' => array(
                                           'poloniex' => 'BTC_DCR',
                                           'bittrex' => 'BTC-DCR',
+                                        	'binance' => 'DCRBTC',
                                           'upbit' => 'BTC-DCR',
                                        	'kucoin' => 'DCR-BTC',
                                           'okex' => 'dcr_btc',
@@ -796,7 +797,7 @@ $coins_array = array(
                         'ico' => 'no',
                         'market_pairing' => array(
                                     'btc' => array(
-                                  			'binance' => 'RVNBTC',
+    													'binance' => 'RVNBTC',
                                          'bittrex' => 'BTC-RVN',
                                          'graviex' => 'rvnbtc',
                                          'cryptofresh' => 'BRIDGE.RVN'
@@ -830,4 +831,5 @@ $coins_array = array(
 
 
 
+require_once("app.lib/php/post-init.php");
 ?>

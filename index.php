@@ -21,7 +21,7 @@ require("templates/default/header.php");
 			<?php
 			if ( sizeof($alert_percent) > 1 ) {
 			?>
-			 &nbsp; &nbsp; &nbsp; <span style='color: <?=( stristr($alert_percent[1], '-') == false ? 'green' : '#ea6b1c' )?>; font-weight: bold;'><?=( $alert_percent[0] ? ucfirst($alert_percent[0]) : ucfirst($marketcap_site) )?> alerts enabled (<?=$alert_percent[1]?>% / <?=$alert_percent[2]?>)</span>
+			 &nbsp; &nbsp; &nbsp; <span style='color: <?=( stristr($alert_percent[1], '-') == false ? 'green' : '#ea6b1c' )?>; font-weight: bold;'><?=ucfirst($marketcap_site)?> alerts enabled (<?=$alert_percent[1]?>% / <?=$alert_percent[2]?>)</span>
 			<?php
 			}
 			?> &nbsp; &nbsp; &nbsp; <a href='javascript:location.reload(true);' style='font-weight: bold;' title='Refreshing data too frequently may cause API request refusals, it is recommended to use this sparingly. Your current real-time exchange data cache setting in config.php is set to <?=$last_trade_ttl?> minute(s) to avoid IP blacklisting.'>Refresh Data</a> &nbsp; <select name='select_auto_refresh' id='select_auto_refresh' onchange='auto_reload(this.value);'>

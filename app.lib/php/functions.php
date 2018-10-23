@@ -181,8 +181,6 @@ function etherscan_api($block_info) {
     	
     	$data = json_decode($jsondata, TRUE);
     	
-    	//var_dump($data);
-    	
     	$_SESSION['etherscan_data'] = $data['result'];
     	
     	return $_SESSION['etherscan_data'][$block_info];
@@ -308,7 +306,7 @@ function vertcoin_api($request) {
 		}
 		elseif ( $request == 'difficulty' ) {
 		
-		return trim(@data_request('url', 'http://explorer.vertcoin.info/api/getdifficulty', 5));
+		return trim(@data_request('url', 'http://explorer.vertcoin.info/api/getdifficulty', 60));
 		  
 		}
   
@@ -321,17 +319,25 @@ function vertcoin_api($request) {
 //////////////////////////////////////////////////////////
 function ravencoin_api($request) {
  		
-		
+ 		
+    $json_string = 'https://ravencoin.network/api/status?q=getInfo';
+    
+    $jsondata = @data_request('url', $json_string, 5);
+    
+    $data = json_decode($jsondata, TRUE);
+    
+    
 		if ( $request == 'height' ) {
 		
-		return trim(@data_request('url', 'http://rvnhodl.com/api/getblockcount', 5));
+		return $data['info']['blocks'];
 		  
 		}
 		elseif ( $request == 'difficulty' ) {
 		
-		return trim(@data_request('url', 'http://rvnhodl.com/api/getdifficulty', 5));
+		return $data['info']['difficulty'];
 		  
 		}
+  
   
 }
 //////////////////////////////////////////////////////////
@@ -491,31 +497,31 @@ global $last_trade_ttl;
    
        if (is_array($data) || is_object($data)) {
    
-       foreach ($data as $key => $value) {
+        foreach ($data as $key => $value) {
+          
+          //print_r($key);
+          
+          if ( $key == 'result' ) {
+      
+          //print_r($data[$key]);
+          
+           foreach ($data[$key] as $key2 => $value2) {
+             
+             //print_r($data[$key][$key2]);
+             
+             if ( $key2 == 'XXBTZUSD' ) {
+              
+             return $data[$key][$key2]["c"][0];
+              
+              
+             }
+           
          
-         //print_r($key);
-         
-         if ( $key == 'result' ) {
-     
-         //print_r($data[$key]);
-         
-     foreach ($data[$key] as $key2 => $value2) {
-       
-       //print_r($data[$key][$key2]);
-       
-       if ( $key2 == 'XXBTZUSD' ) {
+           }
         
-       return $data[$key][$key2]["c"][0];
-        
-        
-       }
-     
-   
-     }
-       
-         }
-     
-       }
+          }
+      
+        }
        
        }
    
@@ -643,19 +649,19 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
   //print_r($data);
       if (is_array($data) || is_object($data)) {
   
-      foreach ($data as $key => $value) {
-        
-        //print_r($key);
-        
-        if ( $data[$key]['MarketName'] == $market_pairing ) {
+       foreach ($data as $key => $value) {
          
-        return $data[$key]["Last"];
+         //print_r($key);
          
-         
-        }
-      
-    
-      }
+         if ( $data[$key]['MarketName'] == $market_pairing ) {
+          
+         return $data[$key]["Last"];
+          
+          
+         }
+       
+     
+       }
       
       }
   
@@ -675,19 +681,19 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
   //print_r($data);
       if (is_array($data) || is_object($data)) {
   
-      foreach ($data as $key => $value) {
-        
-        //print_r($key);
-        
-        if ( $data[$key]['market'] == $market_pairing ) {
+       foreach ($data as $key => $value) {
          
-        return $data[$key]["last"];
+         //print_r($key);
          
-         
-        }
-      
-    
-      }
+         if ( $data[$key]['market'] == $market_pairing ) {
+          
+         return $data[$key]["last"];
+          
+          
+         }
+       
+     
+       }
       
       }
   
@@ -705,19 +711,19 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
   //print_r($data);
       if (is_array($data) || is_object($data)) {
   
-      foreach ($data as $key => $value) {
-        
-        //print_r($key);
-        
-        if ( $key == $market_pairing ) {
+       foreach ($data as $key => $value) {
          
-        return $data[$key]["last"];
+         //print_r($key);
          
-         
-        }
-      
-    
-      }
+         if ( $key == $market_pairing ) {
+          
+         return $data[$key]["last"];
+          
+          
+         }
+       
+     
+       }
       
       }
   
@@ -735,19 +741,19 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
   //print_r($data);
       if (is_array($data) || is_object($data)) {
   
-      foreach ($data as $key => $value) {
-        
-        //print_r($key);
-        
-        if ( $key == $market_pairing ) {
+       foreach ($data as $key => $value) {
          
-        return $data[$key]["last"];
+         //print_r($key);
          
-         
-        }
-      
-    
-      }
+         if ( $key == $market_pairing ) {
+          
+         return $data[$key]["last"];
+          
+          
+         }
+       
+     
+       }
       
       }
   
@@ -765,19 +771,19 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
   //print_r($data);
       if (is_array($data) || is_object($data)) {
   
-      foreach ($data as $key => $value) {
-        
-        //print_r($key);
-        
-        if ( $key == $market_pairing ) {
+       foreach ($data as $key => $value) {
          
-        return $data[$key]["last"];
+         //print_r($key);
          
-         
-        }
-      
-    
-      }
+         if ( $key == $market_pairing ) {
+          
+         return $data[$key]["last"];
+          
+          
+         }
+       
+     
+       }
       
       }
   
@@ -797,19 +803,19 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
   //print_r($data);
       if (is_array($data) || is_object($data)) {
   
-      foreach ($data as $key => $value) {
-        
-        //print_r($key);
-        
-        if ( $data[$key]['symbol'] == $market_pairing ) {
+       foreach ($data as $key => $value) {
          
-        return $data[$key]["lastDealPrice"];
+         //print_r($key);
          
-         
-        }
-      
-    
-      }
+         if ( $data[$key]['symbol'] == $market_pairing ) {
+          
+         return $data[$key]["lastDealPrice"];
+          
+          
+         }
+       
+     
+       }
       
       }
   
@@ -827,19 +833,19 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
   //print_r($data);
       if (is_array($data) || is_object($data)) {
   
-      foreach ($data as $key => $value) {
-        
-        //print_r($key);
-        
-        if ( $data[$key]['symbol'] == $market_pairing ) {
+       foreach ($data as $key => $value) {
          
-        return $data[$key]["last"];
+         //print_r($key);
          
-         
-        }
-      
-    
-      }
+         if ( $data[$key]['symbol'] == $market_pairing ) {
+          
+         return $data[$key]["last"];
+          
+          
+         }
+       
+     
+       }
       
       }
   
@@ -859,19 +865,19 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
   //print_r($data);
       if (is_array($data) || is_object($data)) {
   
-            foreach ($data as $key => $value) {
+           foreach ($data as $key => $value) {
+            
+            //print_r($key);
+            
+            if ( $data[$key]['Label'] == $market_pairing ) {
+             
+            return $data[$key]["LastPrice"];
+             
+             
+            }
+          
         
-        //print_r($key);
-        
-        if ( $data[$key]['Label'] == $market_pairing ) {
-         
-        return $data[$key]["LastPrice"];
-         
-         
-        }
-      
-    
-      }
+          }
       
       }
   
@@ -889,19 +895,19 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
   //print_r($data);
       if (is_array($data) || is_object($data)) {
   
-      foreach ($data as $key => $value) {
-        
-        //print_r($key);
-        
-        if ( $key == $market_pairing ) {
+       foreach ($data as $key => $value) {
          
-        return $data[$key]["last"];
+         //print_r($key);
          
-         
-        }
-      
-    
-      }
+         if ( $key == $market_pairing ) {
+          
+         return $data[$key]["last"];
+          
+          
+         }
+       
+     
+       }
       
       }
   
@@ -919,19 +925,19 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
   //print_r($data);
       if (is_array($data) || is_object($data)) {
   
-      foreach ($data as $key => $value) {
-        
-        //var_dump($data);
-        
-        if ( $data[$key]['pair'] == $market_pairing ) {
+       foreach ($data as $key => $value) {
          
-        return $data[$key]['rate'];
+         //var_dump($data);
          
-         
-        }
-      
-    
-      }
+         if ( $data[$key]['pair'] == $market_pairing ) {
+          
+         return $data[$key]['rate'];
+          
+          
+         }
+       
+     
+       }
       
       }
   
@@ -950,19 +956,19 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
   //print_r($data);
       if (is_array($data) || is_object($data)) {
   
-      foreach ($data as $key => $value) {
-        
-        //var_dump($data);
-        
-        if ( $data[$market_pairing] != '' ) {
+       foreach ($data as $key => $value) {
          
-        return $data[$market_pairing]['ticker']['last'];
+         //var_dump($data);
          
-         
-        }
-      
-    
-      }
+         if ( $data[$market_pairing] != '' ) {
+          
+         return $data[$market_pairing]['ticker']['last'];
+          
+          
+         }
+       
+     
+       }
       
       }
   
@@ -982,31 +988,31 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
   
       if (is_array($data) || is_object($data)) {
   
-      foreach ($data as $key => $value) {
+       foreach ($data as $key => $value) {
+         
+         //print_r($key);
+         
+         if ( $key == 'result' ) {
+     
+         //print_r($data[$key]);
+         
+          foreach ($data[$key] as $key2 => $value2) {
+            
+            //print_r($data[$key][$key2]);
+            
+            if ( $key2 == $market_pairing ) {
+             
+            return $data[$key][$key2]["c"][0];;
+             
+             
+            }
+          
         
-        //print_r($key);
-        
-        if ( $key == 'result' ) {
-    
-        //print_r($data[$key]);
-        
-    foreach ($data[$key] as $key2 => $value2) {
-      
-      //print_r($data[$key][$key2]);
-      
-      if ( $key2 == $market_pairing ) {
+          }
        
-      return $data[$key][$key2]["c"][0];;
-       
-       
-      }
-    
-  
-    }
-      
-        }
-    
-      }
+         }
+     
+       }
       
       }
   
@@ -1026,17 +1032,17 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
   //var_dump($data);
       if (is_array($data) || is_object($data)) {
   
-      foreach ( $data['tickers'] as $key => $value ) {
-        
-        if ( $data['tickers'][$key]["currencyPair"] == $market_pairing ) {
+       foreach ( $data['tickers'] as $key => $value ) {
          
-        return $data['tickers'][$key]["last"];
-         
-         
-        }
-      
-    
-      }
+         if ( $data['tickers'][$key]["currencyPair"] == $market_pairing ) {
+          
+         return $data['tickers'][$key]["last"];
+          
+          
+         }
+       
+     
+       }
       
       }
   
@@ -1072,17 +1078,17 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
   //var_dump($data);
       if (is_array($data) || is_object($data)) {
   
-      foreach ( $data as $key => $value ) {
-        
-        if ( $data[$key]["code"] == 'CRIX.UPBIT.' . $market_pairing ) {
+       foreach ( $data as $key => $value ) {
          
-        return $data[$key]["tradePrice"];
-         
-         
-        }
-      
-    
-      }
+         if ( $data[$key]["code"] == 'CRIX.UPBIT.' . $market_pairing ) {
+          
+         return $data[$key]["tradePrice"];
+          
+          
+         }
+       
+     
+       }
       
       }
   
@@ -1124,19 +1130,19 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
   
       if (is_array($data) || is_object($data)) {
   
-      foreach ( $data as $object ) {
-        
-        if ( $object[0] == $market_pairing ) {
-        	
-         //var_dump($object);
+       foreach ( $data as $object ) {
          
-        return $object[( sizeof($object) - 4 )];
-         
-         
-        }
-      
-    
-      }
+         if ( $object[0] == $market_pairing ) {
+                 
+          //var_dump($object);
+          
+         return $object[( sizeof($object) - 4 )];
+          
+          
+         }
+       
+     
+       }
       
       }
   
@@ -1201,12 +1207,10 @@ function marketcap_data($symbol) {
 	
 global $marketcap_site, $alert_percent;
 
-$data_provider = ( $alert_percent[0] != '' ? $alert_percent[0] : $marketcap_site );
-
 $data = array();
 
 
-	if ( $data_provider == 'coinmarketcap' ) { 
+	if ( $marketcap_site == 'coinmarketcap' ) { 
 		
 	$data['rank'] = coinmarketcap_api($symbol)['rank'];
 	$data['price'] = coinmarketcap_api($symbol)['quotes']['USD']['price'];
@@ -1221,7 +1225,7 @@ $data = array();
 	$data['last_updated'] = coinmarketcap_api($symbol)['last_updated'];
 	
 	}
-	elseif ( $data_provider == 'coingecko' ) {
+	elseif ( $marketcap_site == 'coingecko' ) {
 		
 	$data['rank'] = coingecko_api($symbol)['market_data']['market_cap_rank'];
 	$data['price'] = coingecko_api($symbol)['market_data']['current_price']['usd'];
@@ -1602,15 +1606,14 @@ $market_pairing = $market_pairing_array[$selected_market];
  <?php
  $mkcap_render_data = trim($coins_array[$trade_symbol]['marketcap-website-slug']);
  $info_icon = ( !marketcap_data($trade_symbol)['rank'] ? 'info-none.png' : 'info.png' );
- $data_source = ( $alert_percent[0] ? $alert_percent[0] : $marketcap_site );
  
  if ( $mkcap_render_data != '' ) {
  	
  
- 	if ( $data_source == 'coinmarketcap' ) {
+ 	if ( $marketcap_site == 'coinmarketcap' ) {
  	$asset_pagebase = 'coinmarketcap.com/currencies/';
  	}
- 	elseif ( $data_source == 'coingecko' ) {
+ 	elseif ( $marketcap_site == 'coingecko' ) {
  	$asset_pagebase = 'coingecko.com/en/coins/';
  	}
  	
@@ -1623,7 +1626,7 @@ $market_pairing = $market_pairing_array[$selected_market];
 	if ( !marketcap_data($trade_symbol)['rank'] ) {
 	?>
 
-	var cmc_content = '<h3 style="color: #e5f1ff;"><?=ucfirst($data_source)?> API may be offline / under heavy load, <br />marketcap range not set high enough (current range is top <?=$marketcap_ranks_max?> marketcaps), <br />or API timeout set too low (current timeout is <?=$api_timeout?> seconds). <br />Configuration adjustments can be made in config.php.</h3>';
+	var cmc_content = '<h3 style="color: #e5f1ff;"><?=ucfirst($marketcap_site)?> API may be offline / under heavy load, <br />marketcap range not set high enough (current range is top <?=$marketcap_ranks_max?> marketcaps), <br />or API timeout set too low (current timeout is <?=$api_timeout?> seconds). <br />Configuration adjustments can be made in config.php.</h3>';
 	
 		<?php
 		if ( sizeof($alert_percent) > 1 ) {
@@ -1640,7 +1643,7 @@ $market_pairing = $market_pairing_array[$selected_market];
 	else {
 	?> 
 
-	var cmc_content = '<h3 class="orange"><?=ucfirst($data_source)?>.com Summary For <?=$coin_name?> (<?=$trade_symbol?>):</h3>'
+	var cmc_content = '<h3 class="orange"><?=ucfirst($marketcap_site)?>.com Summary For <?=$coin_name?> (<?=$trade_symbol?>):</h3>'
     +'<p><span class="orange">Average Market Price:</span> $<?=number_format(marketcap_data($trade_symbol)['price'],8,".",",")?></p>'
     +'<p><span class="orange">Marketcap Ranking:</span> #<?=marketcap_data($trade_symbol)['rank']?></p>'
     +'<p><span class="orange">Marketcap (USD):</span> $<?=number_format(marketcap_data($trade_symbol)['market_cap'],0,".",",")?></p>'
@@ -1734,7 +1737,7 @@ $percent_alert_type = $alert_percent[3];
  $('#<?=$rand_id?>').balloon({
   html: true,
   position: "right",
-  contents: '<h3 style="color: #e5f1ff;">No <?=ucfirst($data_source)?>.com data for <?=$coin_name?> (<?=$trade_symbol?>) has been configured yet.</h3>'
+  contents: '<h3 style="color: #e5f1ff;">No <?=ucfirst($marketcap_site)?>.com data for <?=$coin_name?> (<?=$trade_symbol?>) has been configured yet.</h3>'
 });
 
 		<?php

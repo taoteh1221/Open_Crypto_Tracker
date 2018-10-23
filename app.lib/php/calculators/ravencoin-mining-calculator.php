@@ -9,10 +9,10 @@
 											'rvn', // Coin symbol
 											ravencoin_api('height'), // Block height
 											ravencoin_api('difficulty'), // Mining network measure (difficulty or network hashrate)
-											'http://rvnhodl.com/info', // Blockchain data API url
-											'rvnhodl.com API', // Blockchain data API name
-											'graviex', // Exchange name (lowercase for API logic)
-											'rvnbtc' // Market pair name
+											'https://ravencoin.network/api/status?q=getInfo', // Blockchain data API url
+											'ravencoin.network API', // Blockchain data API name
+											'bittrex', // Exchange name (lowercase for API logic)
+											'BTC-RVN' // Market pair name
 											);
 			
 			
