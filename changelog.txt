@@ -806,6 +806,7 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 2.1.9:
 -Semantics, optimization, cleanup
+-Textbelt and Textlocal API support
 -------------------------------------------------------------------
 
 

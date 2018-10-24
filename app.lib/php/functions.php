@@ -9,7 +9,7 @@ function text_email($string) {
 
 $string = explode("|",$string);
 
-$number = $string[0];
+$number = substr($string[0], -10); // USA 10 digit number without country code
 $carrier = $string[1];
 
 
@@ -41,9 +41,32 @@ return $number . $domain;
 
 ////////////////////////////////////////////////////////
 
+function text_number($string) {
+
+$string = explode("|",$string);
+
+$number = $string[0];
+
+return $number;
+
+}
+
+////////////////////////////////////////////////////////
+
+function string_to_array($string) {
+
+$string = explode("|",$string);
+
+return $string;
+
+}
+
+
+////////////////////////////////////////////////////////
+
 function asset_alert($asset, $exchange, $pairing, $alert_level) {
 
-global $coins_array, $btc_exchange, $btc_usd, $to_email, $to_text, $notifyme_accesscode, $cron_alerts_freq;
+global $coins_array, $btc_exchange, $btc_usd, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $textlocal_account, $cron_alerts_freq;
 
 if ( $asset == 'BTC' && $btc_exchange != $exchange ) {
 $btc_usd = get_btc_usd($exchange);
@@ -60,6 +83,19 @@ $notifyme_params = array(
 							'accessCode' => $notifyme_accesscode
 							);
 
+$textbelt_params = array(
+							'phone' => text_number($to_text),
+							'message' => $text_message,
+							'key' => $textbelt_apikey
+							);
+
+$textlocal_params = array(
+							'username' => string_to_array($textlocal_account)[0],
+							'hash' => string_to_array($textlocal_account)[1],
+							'numbers' => text_number($to_text),
+							'message' => $text_message
+							);
+
 
 	if ( update_cache_file('cache/alerts/'.$asset.'.dat', $cron_alerts_freq) == true && floatval($asset_usd) >= floatval($alert_level)
 	|| intval( file_get_contents('cache/alerts/'.$asset.'.dat') ) == 0 && floatval($asset_usd) >= floatval($alert_level) ) {
@@ -68,12 +104,20 @@ $notifyme_params = array(
 		safe_mail($to_email, $asset . ' Asset Value Increase Alert', $email_message);
 		}
 
-		if ( trim( text_email($to_text) ) != '' ) {
+		if ( trim( text_email($to_text) ) != '' && trim($textbelt_apikey) != '' && trim($textlocal_account) != '' ) { // Only use text-to-email if other text services aren't configured
 		safe_mail( text_email($to_text) , $asset . ' Value Alert', $text_message);
 		}
 
 		if ( trim($notifyme_accesscode) != '' ) {
 		data_request('array', $notifyme_params, 60, 'https://api.notifymyecho.com/v1/NotifyMe');
+		}
+
+		if ( trim($textbelt_apikey) != '' && trim($textlocal_account) == '' ) { // Only run if textlocal API isn't being used to avoid double texts
+		data_request('array', $textbelt_params, 60, 'https://textbelt.com/text', 2);
+		}
+
+		if ( trim($textlocal_account) != '' && trim($textbelt_apikey) == '' ) { // Only run if textbelt API isn't being used to avoid double texts
+		data_request('array', $textlocal_params, 60, 'https://api.txtlocal.com/send/', 1);
 		}
 	
 	file_put_contents('cache/alerts/'.$asset.'.dat', 1, LOCK_EX);
@@ -1849,7 +1893,7 @@ return $total_value;
 
 //////////////////////////////////////////////////////////
 
-function data_request($mode, $request, $ttl, $api_server=null) {
+function data_request($mode, $request, $ttl, $api_server=null, $post_encoding=3) { // Default to JSON encoding post requests (most used)
 
 global $version, $user_agent, $api_timeout;
 
@@ -1865,7 +1909,15 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 	
 	$ch = curl_init( ( $mode == 'array' ? $api_server : '' ) );
 	
-		if ( $mode == 'array' ) {
+		if ( $mode == 'array' && $post_encoding == 1 ) {
+		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt( $ch, CURLOPT_POSTFIELDS, $request );
+		}
+		elseif ( $mode == 'array' && $post_encoding == 2 ) {
+		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt( $ch, CURLOPT_POSTFIELDS,  http_build_query($request) );
+		}
+		elseif ( $mode == 'array' && $post_encoding == 3 ) {
 		curl_setopt($ch, CURLOPT_POST, 1);
 		curl_setopt( $ch, CURLOPT_POSTFIELDS, json_encode($request) );
 		}
@@ -1893,7 +1945,6 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		if ( preg_match("/coinmarketcap/i", $request) && !preg_match("/last_updated/i", $data) ) {
 		$_SESSION['get_data_error'] .= '##REAL-TIME REQUEST## data error response from '.( $mode == 'array' ? $api_server : $request ).': <br /> =================================== <br />' . $data . ' <br /> =================================== <br />';
 		}
-	
 	
 	curl_close($ch);
 	unlink($cookie_jar) or die("Can't unlink $cookie_jar");

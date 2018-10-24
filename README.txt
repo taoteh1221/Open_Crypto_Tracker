@@ -102,10 +102,16 @@ $from_email = ''; // For cron job email alerts, MUST BE SET (see README.txt for 
 
 $to_email = ''; // For cron job email alerts, MUST BE SET (see README.txt for setup information) 
 
-$to_text = ''; // For cron job text alerts, CAN BE BLANK, format used: '2223334444|att' // alltel, att , tmobile, virgin, sprint, verizon, nextel (see README.txt for setup information) 
+$to_text = ''; // For cron job text alerts, CAN BE BLANK, country format MUST be used: '12223334444|att' // number_only, alltel, att , tmobile, virgin, sprint, verizon, nextel (see README.txt for setup information) 
 
 // For cron job notifyme notifications, CAN BE BLANK. Setup: http://www.thomptronics.com/notify-me
 $notifyme_accesscode = '';
+
+// For cron job textbelt notifications, CAN BE BLANK. Setup: https://textbelt.com/
+$textbelt_apikey = '';
+
+// For cron job textlocal notifications, CAN BE BLANK. Setup: https://www.textlocal.com/integrations/api/
+$textlocal_account = ''; // This format MUST be used: 'username|hash_code'
 
 $cron_alerts_freq = 1440; // Re-send cron job email / text alerts after X minutes (1440 = 1 day...set high to avoid email / text blacklisting)
 
@@ -113,10 +119,10 @@ $cron_alerts_freq = 1440; // Re-send cron job email / text alerts after X minute
 $cron_alerts = array(
 					// Markets you want cron alerts for (alert sent when USD value is equal to / above...see README.txt for setup information) 
 					// Delete any double forward slashes from in front of each asset you want to enable cron job price alerts on...
-					'btc' => 'coinbase|btc|6650', // exchange|trade_pair|usd_value
+					'btc' => 'coinbase|btc|6500', // exchange|trade_pair|usd_value
 					'eth' => 'bittrex|btc|230', // exchange|trade_pair|usd_value
 					'xmr' => 'bittrex|btc|120', // exchange|trade_pair|usd_value
-					'dcr' => 'bittrex|btc|42', // exchange|trade_pair|usd_value
+					'dcr' => 'binance|btc|55', // exchange|trade_pair|usd_value
 					'tusd' => 'binance|btc|1.10', // exchange|trade_pair|usd_value
 				//	'dash' => 'bittrex|btc|180', // exchange|trade_pair|usd_value
 				//	'ltc' => 'bittrex|btc|65', // exchange|trade_pair|usd_value
@@ -131,8 +137,8 @@ $cron_alerts = array(
 					'xlm' => 'bittrex|btc|0.30', // exchange|trade_pair|usd_value
 					'ada' => 'bittrex|btc|0.095', // exchange|trade_pair|usd_value
 				//	'xrp' => 'bittrex|btc|0.55', // exchange|trade_pair|usd_value
-					'rvn' => 'bittrex|btc|0.030', // exchange|trade_pair|usd_value
-					'myst' => 'hitbtc|btc|0.20' // exchange|trade_pair|usd_value
+					'rvn' => 'bittrex|btc|0.055', // exchange|trade_pair|usd_value
+					'myst' => 'hitbtc|btc|0.15' // exchange|trade_pair|usd_value
 					);
 
 $eth_subtokens_ico_values = array(
@@ -334,6 +340,7 @@ $coins_array = array(
                                     'btc' => array(
                                           'poloniex' => 'BTC_DCR',
                                           'bittrex' => 'BTC-DCR',
+                                        	'binance' => 'DCRBTC',
                                           'upbit' => 'BTC-DCR',
                                        	'kucoin' => 'DCR-BTC',
                                           'okex' => 'dcr_btc',
@@ -804,7 +811,7 @@ $coins_array = array(
                         'ico' => 'no',
                         'market_pairing' => array(
                                     'btc' => array(
-                                  			'binance' => 'RVNBTC',
+    													'binance' => 'RVNBTC',
                                          'bittrex' => 'BTC-RVN',
                                          'graviex' => 'rvnbtc',
                                          'cryptofresh' => 'BRIDGE.RVN'
