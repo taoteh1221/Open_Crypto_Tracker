@@ -62,11 +62,12 @@ return $string;
 }
 
 
+
 ////////////////////////////////////////////////////////
 
-function asset_alert($asset, $exchange, $pairing, $alert_level) {
+function asset_decrease_alert($asset, $exchange, $pairing) {
 
-global $coins_array, $btc_exchange, $btc_usd, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $textlocal_account, $cron_alerts_freq;
+global $coins_array, $btc_exchange, $btc_usd, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $textlocal_account, $cron_alerts_freq, $cron_alerts_percent;
 
 if ( $asset == 'BTC' && $btc_exchange != $exchange ) {
 $btc_usd = get_btc_usd($exchange);
@@ -74,9 +75,17 @@ $btc_usd = get_btc_usd($exchange);
 
 $asset_usd = ( $asset == 'BTC' ? $btc_usd : number_format( $btc_usd * get_trade_price($exchange, $coins_array[$asset]['market_pairing'][$pairing][$exchange]) , 8) );
 
-$email_message = 'The ' . $asset . ' market at the ' . ucfirst($exchange) . ' exchange is at or above your set alert level of $'.$alert_level.'. The current value is $' . $asset_usd . '. ';
+	if ( !file_get_contents('cache/alerts/'.$asset.'.dat') ) {
+	file_put_contents('cache/alerts/'.$asset.'.dat', $asset_usd, LOCK_EX);
+	}
+	
+$cached_value = file_get_contents('cache/alerts/'.$asset.'.dat');
 
-$text_message = $asset . ' @ ' . ucfirst($exchange) . ' at/above $'.$alert_level.': $' . $asset_usd;
+$cron_alerts_value = $cached_value - ( $cached_value * ($cron_alerts_percent / 100) );
+
+$email_message = 'The ' . $asset . ' market at the ' . ucfirst($exchange) . ' exchange is at or below your set alert level of '.$cron_alerts_percent.'% under the last cached value of $'.$cached_value.' ($'.$cron_alerts_value.'). The current value is $' . $asset_usd . '. ';
+
+$text_message = $asset . ' @ ' . ucfirst($exchange) . ' at/above $'.$cron_alerts_value.': $' . $asset_usd;
 
 $notifyme_params = array(
 							'notification' => $email_message,
@@ -97,34 +106,102 @@ $textlocal_params = array(
 							);
 
 
-	if ( update_cache_file('cache/alerts/'.$asset.'.dat', $cron_alerts_freq) == true && floatval($asset_usd) >= floatval($alert_level)
-	|| intval( file_get_contents('cache/alerts/'.$asset.'.dat') ) == 0 && floatval($asset_usd) >= floatval($alert_level) ) {
+	if ( update_cache_file('cache/alerts/'.$asset.'.dat', $cron_alerts_freq) == true && floatval($asset_usd) <= floatval($cron_alerts_value) ) {
 	
-		if ( trim($to_email) != '' ) {
-		safe_mail($to_email, $asset . ' Asset Value Increase Alert', $email_message);
+		if (  validate_email($to_email) == 'valid' ) {
+		safe_mail($to_email, $asset . ' Asset Value Decrease Alert', $email_message);
 		}
 
-		if ( trim( text_email($to_text) ) != '' && trim($textbelt_apikey) != '' && trim($textlocal_account) != '' ) { // Only use text-to-email if other text services aren't configured
+		if ( validate_email( text_email($to_text) ) == 'valid' && trim($textbelt_apikey) != '' && trim($textlocal_account) != '' ) { // Only use text-to-email if other text services aren't configured
 		safe_mail( text_email($to_text) , $asset . ' Value Alert', $text_message);
 		}
 
 		if ( trim($notifyme_accesscode) != '' ) {
-		data_request('array', $notifyme_params, 60, 'https://api.notifymyecho.com/v1/NotifyMe');
+		data_request('array', $notifyme_params, 0, 'https://api.notifymyecho.com/v1/NotifyMe');
 		}
 
 		if ( trim($textbelt_apikey) != '' && trim($textlocal_account) == '' ) { // Only run if textlocal API isn't being used to avoid double texts
-		data_request('array', $textbelt_params, 60, 'https://textbelt.com/text', 2);
+		data_request('array', $textbelt_params, 0, 'https://textbelt.com/text', 2);
 		}
 
 		if ( trim($textlocal_account) != '' && trim($textbelt_apikey) == '' ) { // Only run if textbelt API isn't being used to avoid double texts
-		data_request('array', $textlocal_params, 60, 'https://api.txtlocal.com/send/', 1);
+		data_request('array', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
 		}
 	
-	file_put_contents('cache/alerts/'.$asset.'.dat', 1, LOCK_EX);
+	file_put_contents('cache/alerts/'.$asset.'.dat', $asset_usd, LOCK_EX);
 	
 	}
-	elseif ( update_cache_file('cache/alerts/'.$asset.'.dat', $cron_alerts_freq) == true && floatval($asset_usd) < floatval($alert_level) ) {
-	file_put_contents('cache/alerts/'.$asset.'.dat', 0, LOCK_EX);
+
+
+}
+ 
+////////////////////////////////////////////////////////
+
+function asset_increase_alert($asset, $exchange, $pairing) {
+
+global $coins_array, $btc_exchange, $btc_usd, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $textlocal_account, $cron_alerts_freq, $cron_alerts_percent;
+
+if ( $asset == 'BTC' && $btc_exchange != $exchange ) {
+$btc_usd = get_btc_usd($exchange);
+}
+
+$asset_usd = ( $asset == 'BTC' ? $btc_usd : number_format( $btc_usd * get_trade_price($exchange, $coins_array[$asset]['market_pairing'][$pairing][$exchange]) , 8) );
+
+	if ( !file_get_contents('cache/alerts/'.$asset.'.dat') ) {
+	file_put_contents('cache/alerts/'.$asset.'.dat', $asset_usd, LOCK_EX);
+	}
+	
+$cached_value = file_get_contents('cache/alerts/'.$asset.'.dat');
+
+$cron_alerts_value = $cached_value + ( $cached_value * ($cron_alerts_percent / 100) );
+
+$email_message = 'The ' . $asset . ' market at the ' . ucfirst($exchange) . ' exchange is at or above your set alert level of '.$cron_alerts_percent.'% over the last cached value of $'.$cached_value.' ($'.$cron_alerts_value.'). The current value is $' . $asset_usd . '. ';
+
+$text_message = $asset . ' @ ' . ucfirst($exchange) . ' at/above $'.$cron_alerts_value.': $' . $asset_usd;
+
+$notifyme_params = array(
+							'notification' => $email_message,
+							'accessCode' => $notifyme_accesscode
+							);
+
+$textbelt_params = array(
+							'phone' => text_number($to_text),
+							'message' => $text_message,
+							'key' => $textbelt_apikey
+							);
+
+$textlocal_params = array(
+							'username' => string_to_array($textlocal_account)[0],
+							'hash' => string_to_array($textlocal_account)[1],
+							'numbers' => text_number($to_text),
+							'message' => $text_message
+							);
+
+
+	if ( update_cache_file('cache/alerts/'.$asset.'.dat', $cron_alerts_freq) == true && floatval($asset_usd) >= floatval($cron_alerts_value) ) {
+	
+		if ( validate_email($to_email) == 'valid' ) {
+		safe_mail($to_email, $asset . ' Asset Value Increase Alert', $email_message);
+		}
+
+		if ( validate_email( text_email($to_text) ) == 'valid' && trim($textbelt_apikey) != '' && trim($textlocal_account) != '' ) { // Only use text-to-email if other text services aren't configured
+		safe_mail( text_email($to_text) , $asset . ' Value Alert', $text_message);
+		}
+
+		if ( trim($notifyme_accesscode) != '' ) {
+		data_request('array', $notifyme_params, 0, 'https://api.notifymyecho.com/v1/NotifyMe');
+		}
+
+		if ( trim($textbelt_apikey) != '' && trim($textlocal_account) == '' ) { // Only run if textlocal API isn't being used to avoid double texts
+		data_request('array', $textbelt_params, 0, 'https://textbelt.com/text', 2);
+		}
+
+		if ( trim($textlocal_account) != '' && trim($textbelt_apikey) == '' ) { // Only run if textbelt API isn't being used to avoid double texts
+		data_request('array', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
+		}
+	
+	file_put_contents('cache/alerts/'.$asset.'.dat', $asset_usd, LOCK_EX);
+	
 	}
 
 

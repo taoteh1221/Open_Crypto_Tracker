@@ -23,9 +23,10 @@ $value = explode("|",$value); // Convert $value into an array
 $asset = strtoupper($key);
 $exchange = $value[0];
 $pairing = $value[1];
-$alert_level = $value[2];
 
-asset_alert($asset, $exchange, $pairing, $alert_level);
+asset_decrease_alert($asset, $exchange, $pairing);
+
+asset_increase_alert($asset, $exchange, $pairing);
 
 }
 

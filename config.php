@@ -21,7 +21,7 @@ require_once("app.lib/php/init.php");
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 
-$version = '2.1.9';  // 2018/OCTOBER/24TH
+$version = '2.2.0';  // 2018/OCTOBER/26TH
  
 
 /*
@@ -86,15 +86,15 @@ $api_timeout = 10; // Seconds to wait for response from API endpoint
 
 $last_trade_ttl = 1; // Minutes to cache last real-time exchange data...can be zero to skip cache, but set at least 1 minute to safely avoid your IP getting blocked
 
-$marketcap_ttl = 10; // Minutes to cache marketcap data...start high and test lower, it can be strict
+$marketcap_ttl = 15; // Minutes to cache marketcap data...start high and test lower, it can be strict
 
 $marketcap_ranks_max = 100; // Maximum number of marketcap rankings to request from API
 
-$from_email = ''; // For cron job email alerts, MUST BE SET (see README.txt for setup information) 
+$from_email = ''; // For cron job email alerts, MUST BE SET (see README.txt for cron job setup information) 
 
-$to_email = ''; // For cron job email alerts, MUST BE SET (see README.txt for setup information) 
+$to_email = ''; // For cron job email alerts, MUST BE SET
 
-$to_text = ''; // For cron job text alerts, CAN BE BLANK, country format MUST be used: '12223334444|att' // number_only, alltel, att , tmobile, virgin, sprint, verizon, nextel (see README.txt for setup information) 
+$to_text = ''; // For cron job text alerts, CAN BE BLANK, country format MUST be used: '12223334444|att' // number_only (for textbelt / textlocal), alltel, att , tmobile, virgin, sprint, verizon, nextel...attempts to email text if carrier set
 
 // For cron job notifyme notifications, CAN BE BLANK. Setup: http://www.thomptronics.com/notify-me
 $notifyme_accesscode = '';
@@ -105,32 +105,33 @@ $textbelt_apikey = '';
 // For cron job textlocal notifications, CAN BE BLANK. Setup: https://www.textlocal.com/integrations/api/
 $textlocal_account = ''; // This format MUST be used: 'username|hash_code'
 
-$cron_alerts_freq = 1440; // Re-send cron job email / text alerts after X minutes (1440 = 1 day...set high to avoid email / text blacklisting)
+$cron_alerts_freq = 720; // Re-send cron job email / text alerts after X minutes (720 = 12 hours...set high to avoid email / text blacklisting)
 
+$cron_alerts_percent = 7; // 1 to 100, without percent sign...percentage change (up or down) to send alerts when reached
 
 $cron_alerts = array(
-					// Markets you want cron alerts for (alert sent when USD value is equal to / above...see README.txt for setup information) 
+					// Markets you want cron alerts for (alert sent when value change is equal to or above / below $cron_alerts_percent...see README.txt for cron job setup information) 
 					// Delete any double forward slashes from in front of each asset you want to enable cron job price alerts on...
-					'btc' => 'coinbase|btc|6500', // exchange|trade_pair|usd_value
-					'eth' => 'bittrex|btc|230', // exchange|trade_pair|usd_value
-					'xmr' => 'bittrex|btc|120', // exchange|trade_pair|usd_value
-					'dcr' => 'binance|btc|55', // exchange|trade_pair|usd_value
-					'tusd' => 'binance|btc|1.10', // exchange|trade_pair|usd_value
-				//	'dash' => 'bittrex|btc|180', // exchange|trade_pair|usd_value
-				//	'ltc' => 'bittrex|btc|65', // exchange|trade_pair|usd_value
-					'steem' => 'bittrex|btc|1.00', // exchange|trade_pair|usd_value
-					'mana' => 'bittrex|btc|0.090', // exchange|trade_pair|usd_value
-				//	'zrx' => 'bittrex|btc|0.90', // exchange|trade_pair|usd_value
-					'zil' => 'binance|btc|0.040', // exchange|trade_pair|usd_value
-				//	'trac' => 'kucoin|btc|0.038', // exchange|trade_pair|usd_value
-				//	'snt' => 'bittrex|btc|0.042', // exchange|trade_pair|usd_value
-				//	'gnt' => 'bittrex|btc|0.20', // exchange|trade_pair|usd_value
-				//	'fct' => 'bittrex|btc|4.30', // exchange|trade_pair|usd_value
-					'xlm' => 'bittrex|btc|0.30', // exchange|trade_pair|usd_value
-					'ada' => 'bittrex|btc|0.095', // exchange|trade_pair|usd_value
-				//	'xrp' => 'bittrex|btc|0.55', // exchange|trade_pair|usd_value
-					'rvn' => 'bittrex|btc|0.055', // exchange|trade_pair|usd_value
-					'myst' => 'hitbtc|btc|0.15' // exchange|trade_pair|usd_value
+					'btc' => 'coinbase|btc', // exchange|trade_pairing
+					'eth' => 'bittrex|btc', // exchange|trade_pairing
+					'xmr' => 'bittrex|btc', // exchange|trade_pairing
+					'dcr' => 'binance|btc', // exchange|trade_pairing
+					'tusd' => 'binance|btc', // exchange|trade_pairing
+				//	'dash' => 'bittrex|btc', // exchange|trade_pairing
+				//	'ltc' => 'bittrex|btc', // exchange|trade_pairing
+					'steem' => 'bittrex|btc', // exchange|trade_pairing
+					'mana' => 'bittrex|btc', // exchange|trade_pairing
+				//	'zrx' => 'bittrex|btc', // exchange|trade_pairing
+					'zil' => 'binance|btc', // exchange|trade_pairing
+				//	'trac' => 'kucoin|btc', // exchange|trade_pairing
+				//	'snt' => 'bittrex|btc', // exchange|trade_pairing
+				//	'gnt' => 'bittrex|btc', // exchange|trade_pairing
+				//	'fct' => 'bittrex|btc', // exchange|trade_pairing
+					'xlm' => 'bittrex|btc', // exchange|trade_pairing
+					'ada' => 'bittrex|btc', // exchange|trade_pairing
+				//	'xrp' => 'bittrex|btc', // exchange|trade_pairing
+					'rvn' => 'bittrex|btc', // exchange|trade_pairing
+					'myst' => 'hitbtc|btc' // exchange|trade_pairing
 					);
 
 $eth_subtokens_ico_values = array(

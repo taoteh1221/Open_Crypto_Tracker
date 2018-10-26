@@ -811,6 +811,14 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+2.2.0:
+-Converted cron job price alerts to dynamic / percentage-based
+-------------------------------------------------------------------
+
+
+
+
 
 
 

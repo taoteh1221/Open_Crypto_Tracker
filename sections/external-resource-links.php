@@ -33,6 +33,8 @@
         
         <li class='chart_links'><a href='https://bitcoinwisdom.com' target='_blank'>Bitcoinwisdom.com</a></li>
         
+        <li class='chart_links'><a href='https://www.coingecko.com/' target='_blank'>Coingecko.com</a></li>
+        
         <li class='chart_links'><a href='http://coincap.io' target='_blank'>Coincap.io</a></li>
         
         <li class='chart_links'><a href='https://onchainfx.com/' target='_blank'>Onchainfx.com</a></li>
