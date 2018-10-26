@@ -24,9 +24,10 @@ $asset = strtoupper($key);
 $exchange = $value[0];
 $pairing = $value[1];
 
-asset_decrease_alert($asset, $exchange, $pairing);
+asset_alert_check($asset, $exchange, $pairing, 'decreased');
 
-asset_increase_alert($asset, $exchange, $pairing);
+asset_alert_check($asset, $exchange, $pairing, 'increased');
+
 
 }
 

@@ -113,13 +113,14 @@ $textbelt_apikey = '';
 // For cron job textlocal notifications, CAN BE BLANK. Setup: https://www.textlocal.com/integrations/api/
 $textlocal_account = ''; // This format MUST be used: 'username|hash_code'
 
-$cron_alerts_freq = 720; // Re-send cron job email / text alerts after X minutes (720 = 12 hours...set high to avoid email / text blacklisting)
+$cron_alerts_freq = 360; // Re-allow cron job email / text alerts after X minutes (360 = 6 hours...set high to avoid email / text blacklisting)
 
 $cron_alerts_percent = 7; // 1 to 100, without percent sign...percentage change (up or down) to send alerts when reached
 
 $cron_alerts = array(
 					// Markets you want cron alerts for (alert sent when value change is equal to or above / below $cron_alerts_percent...see README.txt for cron job setup information) 
 					// Delete any double forward slashes from in front of each asset you want to enable cron job price alerts on...
+					// NOTE: This list must only contain assets / exchanges included in the primary coin data configuration further down in this config file.
 					'btc' => 'coinbase|btc', // exchange|trade_pairing
 					'eth' => 'bittrex|btc', // exchange|trade_pairing
 					'xmr' => 'bittrex|btc', // exchange|trade_pairing
