@@ -102,7 +102,7 @@ $from_email = ''; // For cron job email alerts, MUST BE SET (see README.txt for 
 
 $to_email = ''; // For cron job email alerts, MUST BE SET
 
-$to_text = ''; // For cron job text alerts, CAN BE BLANK, country format MUST be used: '12223334444|att' // number_only (for textbelt / textlocal), alltel, att , tmobile, virgin, sprint, verizon, nextel...attempts to email text if carrier set
+$to_text = ''; // For cron job text alerts, CAN BE BLANK, country format MUST be used: '12223334444|att' // number_only (for textbelt / textlocal), alltel, att, tmobile, virgin, sprint, verizon, nextel...attempts to email text if carrier is set AND no textbelt / textlocal config is setup
 
 // For cron job notifyme notifications, CAN BE BLANK. Setup: http://www.thomptronics.com/notify-me
 $notifyme_accesscode = '';
@@ -114,7 +114,7 @@ $textbelt_apikey = '';
 // For cron job textlocal notifications, CAN BE BLANK. Setup: https://www.textlocal.com/integrations/api/
 $textlocal_account = ''; // This format MUST be used: 'username|hash_code'
 
-$cron_alerts_freq = 6; // Re-allow cron job email / text alerts after X hours (start high to avoid email / text blacklisting)
+$cron_alerts_freq = 8; // Re-allow cron job email / text alerts after X hours (start high to avoid email / text blacklisting)
 
 $cron_alerts_percent = 7; // $USD price percentage change (WITHOUT percent sign: 15 = 15%), sends alerts when percent change is reached...whole number values 1 to infinity
 
@@ -135,13 +135,13 @@ $cron_alerts = array(
 					'mana' => 'bittrex|btc', // exchange|trade_pairing
 				//	'zrx' => 'bittrex|btc', // exchange|trade_pairing
 					'zil' => 'binance|btc', // exchange|trade_pairing
-				//	'trac' => 'kucoin|btc', // exchange|trade_pairing
+					'trac' => 'kucoin|btc', // exchange|trade_pairing
 				//	'snt' => 'bittrex|btc', // exchange|trade_pairing
-				//	'gnt' => 'bittrex|btc', // exchange|trade_pairing
+					'gnt' => 'bittrex|btc', // exchange|trade_pairing
 				//	'fct' => 'bittrex|btc', // exchange|trade_pairing
 					'xlm' => 'bittrex|btc', // exchange|trade_pairing
 					'ada' => 'bittrex|btc', // exchange|trade_pairing
-				//	'xrp' => 'bittrex|btc', // exchange|trade_pairing
+					'xrp' => 'bittrex|btc', // exchange|trade_pairing
 					'rvn' => 'bittrex|btc', // exchange|trade_pairing
 					'myst' => 'hitbtc|btc' // exchange|trade_pairing
 					);

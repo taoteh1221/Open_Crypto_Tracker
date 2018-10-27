@@ -1754,7 +1754,20 @@ $market_pairing = $market_pairing_array[$selected_market];
 	$('#<?=$mkcap_render_data?>').balloon({
   	html: true,
   	position: "right",
-  	contents: cmc_content
+  	contents: cmc_content,
+  	css: {
+  			fontSize: ".7rem",
+  			minWidth: ".7rem",
+ 			padding: ".2rem .5rem",
+  			border: "1px solid rgba(212, 212, 212, .4)",
+  			borderRadius: "3px",
+  			boxShadow: "2px 2px 4px #555",
+  			color: "#eee",
+  			backgroundColor: "#111",
+  			opacity: "0.95",
+  			zIndex: "32767",
+  			textAlign: "left"
+			}
 	});
 
 
