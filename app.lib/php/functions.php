@@ -136,7 +136,7 @@ $textlocal_params = array(
 
 	
 	// Sending the alerts
-	if ( update_cache_file('cache/alerts/'.$asset.'.dat', $cron_alerts_freq) == true && $send_alert == 1 ) {
+	if ( update_cache_file('cache/alerts/'.$asset.'.dat', ( $cron_alerts_freq * 60 ) ) == true && $send_alert == 1 ) {
 	
 		if (  validate_email($to_email) == 'valid' ) {
 		safe_mail($to_email, $asset . ' Asset Value '.ucfirst($alert_mode).' Alert', $email_message);

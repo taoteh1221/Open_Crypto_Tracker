@@ -58,7 +58,7 @@ OTHER CRYPTOCURRENCIES AND PAYPAL ACCEPTED HERE: https://dragonfrugal.com/donate
                                           'LOWERCASE_MARKETPLACE1' => 'MARKETNUMBERHERE',
                                           'LOWERCASE_MARKETPLACE2' => 'ETH_COINSYMBOLHERE',
                                           'LOWERCASE_MARKETPLACE3' => 'ETH-COINSYMBOLHERE',
-                                          'eth_subtokens_ico' => 'THEDAO' // Must be defined in $eth_subtokens_ico_values at top of config.php
+                                          'eth_subtokens_ico' => 'THEDAO' // Must be defined in $eth_subtokens_ico_values in config.php
                                                     ),
                                     'ltc' => array(
                                           'LOWERCASE_MARKETPLACE1' => 'MARKETNUMBERHERE',
@@ -88,7 +88,7 @@ BELOW IS AN !---EXAMPLE---! SET OF CONFIGURED ASSETS. PLEASE NOTE THIS IS PROVID
 
 $btc_exchange = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken / hitbtc / gatecion / livecoin
 
-$marketcap_site = 'coinmarketcap'; // Default marketcap data source: coinmarketcap / coingecko
+$marketcap_site = 'coingecko'; // Default marketcap data source: coinmarketcap / coingecko
 
 $api_timeout = 10; // Seconds to wait for response from API endpoint
 
@@ -114,7 +114,7 @@ $textbelt_apikey = '';
 // For cron job textlocal notifications, CAN BE BLANK. Setup: https://www.textlocal.com/integrations/api/
 $textlocal_account = ''; // This format MUST be used: 'username|hash_code'
 
-$cron_alerts_freq = 360; // Re-allow cron job email / text alerts after X minutes (360 = 6 hours...set high to avoid email / text blacklisting)
+$cron_alerts_freq = 6; // Re-allow cron job email / text alerts after X hours (start high to avoid email / text blacklisting)
 
 $cron_alerts_percent = 7; // $USD price percentage change (WITHOUT percent sign: 15 = 15%), sends alerts when percent change is reached...whole number values 1 to infinity
 
@@ -123,7 +123,7 @@ $cron_alerts_refresh = 5; // Refresh all cached $USD asset prices every X days w
 $cron_alerts = array(
 					// Markets you want cron alerts for (alert sent when $USD value change is equal to or above / below $cron_alerts_percent...see README.txt for cron job setup information) 
 					// Delete any double forward slashes from in front of each asset you want to enable cron job price alerts on...
-					// NOTE: This list must only contain assets / exchanges included in the primary coin data configuration further down in this config file.
+					// NOTE: This list must only contain assets / exchanges / trading pairs included in the primary coin data configuration further down in this config file.
 					'btc' => 'coinbase|btc', // exchange|trade_pairing
 					'eth' => 'bittrex|btc', // exchange|trade_pairing
 					'xmr' => 'bittrex|btc', // exchange|trade_pairing
