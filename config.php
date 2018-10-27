@@ -99,6 +99,7 @@ $to_text = ''; // For cron job text alerts, CAN BE BLANK, country format MUST be
 // For cron job notifyme notifications, CAN BE BLANK. Setup: http://www.thomptronics.com/notify-me
 $notifyme_accesscode = '';
 
+// Do NOT use textbelt AND textlocal together. Leave one setting blank, or it will disable using both.
 // For cron job textbelt notifications, CAN BE BLANK. Setup: https://textbelt.com/
 $textbelt_apikey = '';
 
@@ -107,10 +108,12 @@ $textlocal_account = ''; // This format MUST be used: 'username|hash_code'
 
 $cron_alerts_freq = 360; // Re-allow cron job email / text alerts after X minutes (360 = 6 hours...set high to avoid email / text blacklisting)
 
-$cron_alerts_percent = 7; // 1 to 100, without percent sign...percentage change (up or down) to send alerts when reached
+$cron_alerts_percent = 7; // $USD price percentage change (WITHOUT percent sign: 15 = 15%), sends alerts when percent change is reached...whole number values 1 to infinity
+
+$cron_alerts_refresh = 5; // Refresh all cached $USD asset prices every X days with latest $USD prices...can be 0 to disable refreshing (until price alert is triggered)
 
 $cron_alerts = array(
-					// Markets you want cron alerts for (alert sent when value change is equal to or above / below $cron_alerts_percent...see README.txt for cron job setup information) 
+					// Markets you want cron alerts for (alert sent when $USD value change is equal to or above / below $cron_alerts_percent...see README.txt for cron job setup information) 
 					// Delete any double forward slashes from in front of each asset you want to enable cron job price alerts on...
 					// NOTE: This list must only contain assets / exchanges included in the primary coin data configuration further down in this config file.
 					'btc' => 'coinbase|btc', // exchange|trade_pairing

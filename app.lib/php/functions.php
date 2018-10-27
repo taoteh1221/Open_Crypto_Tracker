@@ -67,7 +67,7 @@ return $string;
 
 function asset_alert_check($asset, $exchange, $pairing, $alert_mode) {
 
-global $coins_array, $btc_exchange, $btc_usd, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $textlocal_account, $cron_alerts_freq, $cron_alerts_percent;
+global $coins_array, $btc_exchange, $btc_usd, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $textlocal_account, $cron_alerts_freq, $cron_alerts_percent, $cron_alerts_refresh;
 
 
 	if ( $asset == 'BTC' && $btc_exchange != $exchange ) {
@@ -77,9 +77,10 @@ global $coins_array, $btc_exchange, $btc_usd, $to_email, $to_text, $notifyme_acc
 
 $asset_usd = ( $asset == 'BTC' ? $btc_usd : number_format( $btc_usd * get_trade_price($exchange, $coins_array[$asset]['market_pairing'][$pairing][$exchange]) , 8) );
 
-
-	if ( !file_get_contents('cache/alerts/'.$asset.'.dat') ) {
-	file_put_contents('cache/alerts/'.$asset.'.dat', $asset_usd, LOCK_EX); // Cache current value if not already done
+	
+	// Cache current price value if not already done, OR if config setting set to refresh every X days
+	if ( update_cache_file('cache/alerts/'.$asset.'.dat', ( $cron_alerts_refresh * 1440 ) ) == true ) {
+	file_put_contents('cache/alerts/'.$asset.'.dat', $asset_usd, LOCK_EX); 
 	}
 
 	
@@ -114,7 +115,7 @@ $email_message = 'The ' . $asset . ' market value at the ' . ucfirst($exchange) 
 $text_message = $asset . ' value @ ' . ucfirst($exchange) . ' '.$alert_mode.' '.$change_symbol.number_format($percent_change, 2, '.', ',').'% from $'.$cached_value.' to $' . $asset_usd;
 
 
-// Alert parameter configs for all comm methods
+// Alert parameter configs for comm methods
 $notifyme_params = array(
 							'notification' => $email_message,
 							'accessCode' => $notifyme_accesscode

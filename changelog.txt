@@ -820,7 +820,7 @@ app doing the data requests, not a malicious bot)
 
 -------------------------------------------------------------------
 2.2.1:
--Optimized cron job price alerts back end / UI
+-Optimized cron job price alerts back end / UX
 -------------------------------------------------------------------
 
 
