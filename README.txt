@@ -98,6 +98,7 @@ $marketcap_ttl = 15; // Minutes to cache marketcap data...start high and test lo
 
 $marketcap_ranks_max = 100; // Maximum number of marketcap rankings to request from API
 
+// FROM email should be a REAL address on the website domain name, or you risk having sent email blacklisted / sent to junk folder
 $from_email = ''; // For cron job email alerts, MUST BE SET (see README.txt for cron job setup information) 
 
 $to_email = ''; // For cron job email alerts, MUST BE SET
@@ -114,11 +115,11 @@ $textbelt_apikey = '';
 // For cron job textlocal notifications, CAN BE BLANK. Setup: https://www.textlocal.com/integrations/api/
 $textlocal_account = ''; // This format MUST be used: 'username|hash_code'
 
-$cron_alerts_freq = 8; // Re-allow cron job email / text alerts after X hours (start high to avoid email / text blacklisting)
+$cron_alerts_freq = 1; // Re-allow cron job email / text alerts after X hours (set higher if issues with email / text blacklisting)
 
 $cron_alerts_percent = 7; // $USD price percentage change (WITHOUT percent sign: 15 = 15%), sends alerts when percent change is reached...whole number values 1 to infinity
 
-$cron_alerts_refresh = 5; // Refresh all cached $USD asset prices every X days with latest $USD prices...can be 0 to disable refreshing (until price alert is triggered)
+$cron_alerts_refresh = 1; // Refresh all cached $USD asset prices every X days with latest $USD prices...can be 0 to disable refreshing (until price alert is triggered)
 
 $cron_alerts = array(
 					// Markets you want cron alerts for (alert sent when $USD value change is equal to or above / below $cron_alerts_percent...see README.txt for cron job setup information) 
