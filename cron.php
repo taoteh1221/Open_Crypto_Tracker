@@ -31,4 +31,5 @@ asset_alert_check($asset, $exchange, $pairing, 'increased');
 
 }
 
+session_destroy();
 ?>
