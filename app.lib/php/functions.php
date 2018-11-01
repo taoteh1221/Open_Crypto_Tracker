@@ -78,6 +78,27 @@ global $coins_array, $btc_exchange, $btc_usd, $to_email, $to_text, $notifyme_acc
 $asset_usd = ( $asset == 'BTC' ? $btc_usd : number_format( $btc_usd * get_trade_price($exchange, $coins_array[$asset]['market_pairing'][$pairing][$exchange]) , 8) );
 
 	
+	// Check for a file modified time before any file creation / updating happens (to calculate time elapsed between updates)
+	if ( file_exists('cache/alerts/'.$asset.'.dat') ) {
+		
+   $last_check_days = number_format( ( time() - filemtime('cache/alerts/'.$asset.'.dat') ) / 86400 , 2, '.');
+   
+   	if ( floatval($last_check_days) >= 365 ) {
+   	$last_check_time = number_format( $last_check_days / 365 , 2, '.') . ' years';
+   	}
+   	elseif ( floatval($last_check_days) >= 30 ) {
+   	$last_check_time = number_format( $last_check_days / 30 , 2, '.') . ' months';
+   	}
+   	elseif ( floatval($last_check_days) >= 7 ) {
+   	$last_check_time = number_format( $last_check_days / 7 , 2, '.') . ' weeks';
+   	}
+   	else {
+   	$last_check_time = $last_check_days . ' days';
+   	}
+   
+	}
+	
+	
 	// Cache current price value if not already done, OR if config setting set to refresh every X days
 	if ( update_cache_file('cache/alerts/'.$asset.'.dat', ( $cron_alerts_refresh * 1440 ) ) == true ) {
 	file_put_contents('cache/alerts/'.$asset.'.dat', $asset_usd, LOCK_EX); 
@@ -109,10 +130,11 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset.'.dat') );
 	}
 
 
-// Message formatting
-$email_message = 'The ' . $asset . ' market value at the ' . ucfirst($exchange) . ' exchange has '.$alert_mode.' '.$change_symbol.number_format($percent_change, 2, '.', ',').'% from it\'s previous value of $'.$cached_value.', to a current value of $' . $asset_usd . '.';
 
-$text_message = $asset . ' value @ ' . ucfirst($exchange) . ' '.$alert_mode.' '.$change_symbol.number_format($percent_change, 2, '.', ',').'% from $'.$cached_value.' to $' . $asset_usd;
+// Message formatting
+$email_message = 'The ' . $asset . ' market value at the ' . ucfirst($exchange) . ' exchange has '.$alert_mode.' '.$change_symbol.number_format($percent_change, 2, '.', ',').'% from it\'s previous value of $'.$cached_value.', to a current value of $' . $asset_usd . ' over the past '.$last_check_time.'.';
+
+$text_message = $asset . ' value @ ' . ucfirst($exchange) . ' '.$alert_mode.' '.$change_symbol.number_format($percent_change, 2, '.', ',').'% from $'.$cached_value.' to $' . $asset_usd . ' in '.$last_check_time.'.';
 
 
 // Alert parameter configs for comm methods
