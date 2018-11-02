@@ -118,13 +118,13 @@ $textlocal_account = ''; // This format MUST be used: 'username|hash_code'
 
 $cron_alerts_freq = 1; // Re-allow cron job email / text alerts after X hours (per asset, set higher if issues with email / text blacklisting)
 
-$cron_alerts_percent = 15; // $USD price percentage change (WITHOUT percent sign: 15 = 15%), sends alerts when percent change is reached...whole number values 1 to infinity
+$cron_alerts_percent = 15; // $USD price percentage change (WITHOUT percent sign: 15 = 15%), sends alerts when percent change is reached
 
-$cron_alerts_refresh = 90; // Refresh all cached $USD asset prices every X days with latest $USD prices...can be 0 to disable refreshing (until price alert is triggered)
+$cron_alerts_refresh = 45; // Refresh prices every X days with latest prices...can be 0 to disable refreshing (until price alert is triggered)
 
 $cron_alerts = array(
 					// Markets you want cron alerts for (alert sent when $USD value change is equal to or above / below $cron_alerts_percent...see README.txt for cron job setup information) 
-					// Delete any double forward slashes from in front of each asset you want to enable cron job price alerts on...
+					// Delete any double forward slashes from in front of each asset you want to enable cron job price alerts on (or add double slash to disable)...
 					// NOTE: This list must only contain assets / exchanges / trading pairs included in the primary coin data configuration further down in this config file.
 					'btc' => 'coinbase|btc', // exchange|trade_pairing
 					'eth' => 'bittrex|btc', // exchange|trade_pairing
@@ -143,7 +143,7 @@ $cron_alerts = array(
 				//	'fct' => 'bittrex|btc', // exchange|trade_pairing
 					'xlm' => 'bittrex|btc', // exchange|trade_pairing
 					'ada' => 'bittrex|btc', // exchange|trade_pairing
-					'xrp' => 'bittrex|btc', // exchange|trade_pairing
+				//	'xrp' => 'bittrex|btc', // exchange|trade_pairing
 					'rvn' => 'bittrex|btc', // exchange|trade_pairing
 					'myst' => 'hitbtc|btc' // exchange|trade_pairing
 					);

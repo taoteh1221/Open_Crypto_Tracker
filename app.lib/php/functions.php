@@ -80,24 +80,23 @@ $asset_usd = ( $asset == 'BTC' ? $btc_usd : number_format( $btc_usd * get_trade_
 	
 	// Check for a file modified time before any file creation / updating happens (to calculate time elapsed between updates)
 	if ( file_exists('cache/alerts/'.$asset.'.dat') ) {
-		
-   $last_check_days = number_format( ( time() - filemtime('cache/alerts/'.$asset.'.dat') ) / 86400 , 2, '.');
+	
+   $last_check_days = ( time() - filemtime('cache/alerts/'.$asset.'.dat') ) / 86400;
    
    	if ( floatval($last_check_days) >= 365 ) {
-   	$last_check_time = number_format( $last_check_days / 365 , 2, '.') . ' years';
+   	$last_check_time = number_format( ($last_check_days / 365) , 2, '.', ',') . ' years';
    	}
    	elseif ( floatval($last_check_days) >= 30 ) {
-   	$last_check_time = number_format( $last_check_days / 30 , 2, '.') . ' months';
+   	$last_check_time = number_format( ($last_check_days / 30) , 2, '.', ',') . ' months';
    	}
    	elseif ( floatval($last_check_days) >= 7 ) {
-   	$last_check_time = number_format( $last_check_days / 7 , 2, '.') . ' weeks';
+   	$last_check_time = number_format( ($last_check_days / 7) , 2, '.', ',') . ' weeks';
    	}
    	else {
-   	$last_check_time = $last_check_days . ' days';
+   	$last_check_time = number_format($last_check_days, 2, '.', ',') . ' days';
    	}
    
 	}
-	
 	
 	// Cache current price value if not already done, OR if config setting set to refresh every X days
 	if ( update_cache_file('cache/alerts/'.$asset.'.dat', ( $cron_alerts_refresh * 1440 ) ) == true ) {
