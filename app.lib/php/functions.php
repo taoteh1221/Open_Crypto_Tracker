@@ -112,7 +112,7 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset.'.dat') );
 	$percent_change = 100 - ( $asset_usd / ( $cached_value / 100 ) );
 	$change_symbol = '-';
 	
-		if ( floatval($asset_usd) <= floatval($cron_alerts_value) ) {
+		if ( floatval($asset_usd) > 0.00000001 && floatval($asset_usd) <= floatval($cron_alerts_value) ) {
 		$send_alert = 1;
 		}
 	
@@ -122,7 +122,7 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset.'.dat') );
 	$percent_change = ( $asset_usd / ( $cached_value / 100 ) ) - 100;
 	$change_symbol = '+';
 	
-		if ( floatval($asset_usd) >= floatval($cron_alerts_value) ) {
+		if ( floatval($asset_usd) > 0.00000001 && floatval($asset_usd) >= floatval($cron_alerts_value) ) {
 		$send_alert = 1;
 		}
 	
