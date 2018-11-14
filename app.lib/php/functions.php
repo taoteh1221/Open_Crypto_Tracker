@@ -129,11 +129,12 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset.'.dat') );
 	}
 
 
-
 // Message formatting
-$email_message = 'The ' . $asset . ' market value at the ' . ucfirst($exchange) . ' exchange has '.$alert_mode.' '.$change_symbol.number_format($percent_change, 2, '.', ',').'% from it\'s previous value of $'.$cached_value.', to a current value of $' . $asset_usd . ' over the past '.$last_check_time.'.';
+$asset_usd_text = ( $asset == 'BTC' ? number_format($asset_usd, 2, '.', ',') : $asset_usd );
 
-$text_message = $asset . ' value @ ' . ucfirst($exchange) . ' '.$alert_mode.' '.$change_symbol.number_format($percent_change, 2, '.', ',').'% from $'.$cached_value.' to $' . $asset_usd . ' in '.$last_check_time.'.';
+$email_message = 'The ' . $asset . ' market value at the ' . ucfirst($exchange) . ' exchange has '.$alert_mode.' '.$change_symbol.number_format($percent_change, 2, '.', ',').'% from it\'s previous value of $'.$cached_value.', to a current value of $' . $asset_usd_text . ' over the past '.$last_check_time.'.';
+
+$text_message = $asset . ' value @ ' . ucfirst($exchange) . ' '.$alert_mode.' '.$change_symbol.number_format($percent_change, 2, '.', ',').'% from $'.$cached_value.' to $' . $asset_usd_text . ' in '.$last_check_time.'.';
 
 
 // Alert parameter configs for comm methods

@@ -109,9 +109,9 @@ $textlocal_account = ''; // This format MUST be used: 'username|hash_code'
 
 $cron_alerts_freq = 1; // Re-allow cron job email / text alerts after X hours (per asset, set higher if issues with email / text blacklisting)
 
-$cron_alerts_percent = 15; // $USD price percentage change (WITHOUT percent sign: 15 = 15%), sends alerts when percent change is reached
+$cron_alerts_percent = 12; // $USD price percentage change (WITHOUT percent sign: 15 = 15%), sends alerts when percent change is reached
 
-$cron_alerts_refresh = 45; // Refresh prices every X days with latest prices...can be 0 to disable refreshing (until price alert is triggered)
+$cron_alerts_refresh = 7; // Refresh prices every X days with latest prices...can be 0 to disable refreshing (until price alert is triggered)
 
 $cron_alerts = array(
 					// Markets you want cron alerts for (alert sent when $USD value change is equal to or above / below $cron_alerts_percent...see README.txt for cron job setup information) 
