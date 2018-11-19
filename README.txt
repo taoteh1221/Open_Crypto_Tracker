@@ -89,7 +89,7 @@ BELOW IS AN !---EXAMPLE---! SET OF CONFIGURED ASSETS. PLEASE NOTE THIS IS PROVID
 
 $btc_exchange = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken / hitbtc / gatecion / livecoin
 
-$marketcap_site = 'coingecko'; // Default marketcap data source: coinmarketcap / coingecko
+$marketcap_site = 'coinmarketcap'; // Default marketcap data source: coinmarketcap / coingecko
 
 $api_timeout = 10; // Seconds to wait for response from API endpoint
 
