@@ -264,9 +264,11 @@ function update_cache_file($cache_file, $minutes) {
 
 //////////////////////////////////////////////////////////
 function etherscan_api($block_info) {
- 	
+ 
+global $chainstats_cache;
+
   $json_string = 'http://api.etherscan.io/api?module=proxy&action=eth_blockNumber';
-  $jsondata = @data_request('url', $json_string, 5);
+  $jsondata = @data_request('url', $json_string, $chainstats_cache);
     
   $data = json_decode($jsondata, TRUE);
   
@@ -296,9 +298,11 @@ function etherscan_api($block_info) {
  
 //////////////////////////////////////////////////////////
 function decred_api($request) {
+ 
+global $chainstats_cache;
  		
  	$json_string = 'https://explorer.dcrdata.org/api/block/best/verbose';
- 	$jsondata = @data_request('url', $json_string, 5);
+ 	$jsondata = @data_request('url', $json_string, $chainstats_cache);
   	
   	$data = json_decode($jsondata, TRUE);
     
@@ -314,6 +318,93 @@ function decred_api($request) {
 }
 //////////////////////////////////////////////////////////
  
+ 
+ 
+ 
+//////////////////////////////////////////////////////////
+function monero_api($request) {
+ 
+global $chainstats_cache;
+ 		
+ 	$json_string = 'https://moneroblocks.info/api/get_stats';
+ 	$jsondata = @data_request('url', $json_string, $chainstats_cache);
+  	
+  	$data = json_decode($jsondata, TRUE);
+    
+		if ( !$data ) {
+		return;
+		}
+		else {
+		
+		return $data[$request];
+		  
+		}
+  
+}
+//////////////////////////////////////////////////////////
+
+ 
+ 
+ 
+//////////////////////////////////////////////////////////
+function monero_reward() {
+ 		
+ 	return monero_api('last_reward') / 1000000000000;
+  
+}
+//////////////////////////////////////////////////////////
+
+ 
+ 
+ 
+//////////////////////////////////////////////////////////
+function vertcoin_api($request) {
+ 
+global $chainstats_cache;
+		
+		if ( $request == 'height' ) {
+		
+		return trim(@data_request('url', 'http://explorer.vertcoin.info/api/getblockcount', $chainstats_cache));
+		  
+		}
+		elseif ( $request == 'difficulty' ) {
+		
+		return trim(@data_request('url', 'http://explorer.vertcoin.info/api/getdifficulty', $chainstats_cache));
+		  
+		}
+  
+}
+//////////////////////////////////////////////////////////
+ 
+ 
+ 
+ 
+//////////////////////////////////////////////////////////
+function ravencoin_api($request) {
+ 
+global $chainstats_cache;
+ 		
+    $json_string = 'https://ravencoin.network/api/status?q=getInfo';
+    
+    $jsondata = @data_request('url', $json_string, $chainstats_cache);
+    
+    $data = json_decode($jsondata, TRUE);
+    
+    
+		if ( $request == 'height' ) {
+		
+		return $data['info']['blocks'];
+		  
+		}
+		elseif ( $request == 'difficulty' ) {
+		
+		return $data['info']['difficulty'];
+		  
+		}
+  
+  
+}
+//////////////////////////////////////////////////////////
  
  
  
@@ -359,91 +450,6 @@ global $_POST, $mining_rewards;
 }
 //////////////////////////////////////////////////////////
 
- 
- 
- 
-//////////////////////////////////////////////////////////
-function monero_api($request) {
- 		
- 	$json_string = 'https://moneroblocks.info/api/get_stats';
- 	$jsondata = @data_request('url', $json_string, 5);
-  	
-  	$data = json_decode($jsondata, TRUE);
-    
-		if ( !$data ) {
-		return;
-		}
-		else {
-		
-		return $data[$request];
-		  
-		}
-  
-}
-//////////////////////////////////////////////////////////
-
- 
- 
- 
-//////////////////////////////////////////////////////////
-function monero_reward() {
- 		
- 	return monero_api('last_reward') / 1000000000000;
-  
-}
-//////////////////////////////////////////////////////////
-
- 
- 
- 
-//////////////////////////////////////////////////////////
-function vertcoin_api($request) {
- 		
-		
-		if ( $request == 'height' ) {
-		
-		return trim(@data_request('url', 'http://explorer.vertcoin.info/api/getblockcount', 5));
-		  
-		}
-		elseif ( $request == 'difficulty' ) {
-		
-		return trim(@data_request('url', 'http://explorer.vertcoin.info/api/getdifficulty', 60));
-		  
-		}
-  
-}
-//////////////////////////////////////////////////////////
- 
- 
- 
- 
-//////////////////////////////////////////////////////////
-function ravencoin_api($request) {
- 		
- 		
-    $json_string = 'https://ravencoin.network/api/status?q=getInfo';
-    
-    $jsondata = @data_request('url', $json_string, 5);
-    
-    $data = json_decode($jsondata, TRUE);
-    
-    
-		if ( $request == 'height' ) {
-		
-		return $data['info']['blocks'];
-		  
-		}
-		elseif ( $request == 'difficulty' ) {
-		
-		return $data['info']['difficulty'];
-		  
-		}
-  
-  
-}
-//////////////////////////////////////////////////////////
- 
- 
  
  
 //////////////////////////////////////////////////////////

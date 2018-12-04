@@ -21,7 +21,7 @@ require_once("app.lib/php/init.php");
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 
-$version = '2.2.2';  // 2018/NOVEMBER/19TH
+$version = '2.2.3';  // 2018/DECEMBER/3RD
  
 
 /*
@@ -79,6 +79,8 @@ $version = '2.2.2';  // 2018/NOVEMBER/19TH
 /////////////////// GENERAL CONFIG -START- ////////////////////////////////////////////////////
 
 $btc_exchange = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken / hitbtc / gatecion / livecoin
+
+$chainstats_cache = 20; // Time to cache blockchain stats (for mining calculators), in minutes
 
 $marketcap_site = 'coinmarketcap'; // Default marketcap data source: coinmarketcap / coingecko
 
