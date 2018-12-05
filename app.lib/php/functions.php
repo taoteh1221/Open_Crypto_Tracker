@@ -65,6 +65,7 @@ return $string;
 
 ////////////////////////////////////////////////////////
 
+
 function asset_alert_check($asset, $exchange, $pairing, $alert_mode) {
 
 global $coins_array, $btc_exchange, $btc_usd, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $textlocal_account, $cron_alerts_freq, $cron_alerts_percent, $cron_alerts_refresh;
@@ -78,7 +79,7 @@ global $coins_array, $btc_exchange, $btc_usd, $to_email, $to_text, $notifyme_acc
 $asset_usd = ( $asset == 'BTC' ? $btc_usd : number_format( $btc_usd * get_trade_price($exchange, $coins_array[$asset]['market_pairing'][$pairing][$exchange]) , 8) );
 
 	
-	// Check for a file modified time before any file creation / updating happens (to calculate time elapsed between updates)
+	// Check for a file modified time !!!BEFORE ANY!!! file creation / updating happens (to calculate time elapsed between updates)
 	if ( file_exists('cache/alerts/'.$asset.'.dat') ) {
 	
    $last_check_days = ( time() - filemtime('cache/alerts/'.$asset.'.dat') ) / 86400;
@@ -98,97 +99,111 @@ $asset_usd = ( $asset == 'BTC' ? $btc_usd : number_format( $btc_usd * get_trade_
    
 	}
 	
-	// Cache current price value if not already done, OR if config setting set to refresh every X days
-	if ( update_cache_file('cache/alerts/'.$asset.'.dat', ( $cron_alerts_refresh * 1440 ) ) == true ) {
-	file_put_contents('cache/alerts/'.$asset.'.dat', $asset_usd, LOCK_EX); 
-	}
-
 	
 $cached_value = trim( file_get_contents('cache/alerts/'.$asset.'.dat') );
 
 
-	if ( $alert_mode == 'decreased' ) {
-	$cron_alerts_value = $cached_value - ( $cached_value * ($cron_alerts_percent / 100) );
-	$percent_change = 100 - ( $asset_usd / ( $cached_value / 100 ) );
-	$change_symbol = '-';
+
+	////// If cached value, run alert checking ////////////
+	if ( $cached_value != '' ) {
 	
-		if ( floatval($asset_usd) > 0.00000001 && floatval($asset_usd) <= floatval($cron_alerts_value) ) {
-		$send_alert = 1;
-		}
-	
+  
+          if ( $alert_mode == 'decreased' ) {
+          $cron_alerts_value = $cached_value - ( $cached_value * ($cron_alerts_percent / 100) );
+          $percent_change = 100 - ( $asset_usd / ( $cached_value / 100 ) );
+          $change_symbol = '-';
+          
+                  if ( floatval($asset_usd) >= 0.00000001 && floatval($asset_usd) <= floatval($cron_alerts_value) ) {
+                  $send_alert = 1;
+                  }
+          
+          }
+          elseif ( $alert_mode == 'increased' ) {
+          $cron_alerts_value = $cached_value + ( $cached_value * ($cron_alerts_percent / 100) );
+          $percent_change = ( $asset_usd / ( $cached_value / 100 ) ) - 100;
+          $change_symbol = '+';
+          
+                  if ( floatval($asset_usd) >= 0.00000001 && floatval($asset_usd) >= floatval($cron_alerts_value) ) {
+                  $send_alert = 1;
+                  }
+          
+          }
+  
+  
+  // Message formatting
+  $cached_value_text = ( $asset == 'BTC' ? number_format($cached_value, 2, '.', ',') : $cached_value );
+  $asset_usd_text = ( $asset == 'BTC' ? number_format($asset_usd, 2, '.', ',') : $asset_usd );
+  
+  $email_message = 'The ' . $asset . ' market value at the ' . ucfirst($exchange) . ' exchange has '.$alert_mode.' '.$change_symbol.number_format($percent_change, 2, '.', ',').'% from it\'s previous value of $'.$cached_value_text.', to a current value of $' . $asset_usd_text . ' over the past '.$last_check_time.'.';
+  
+  $text_message = $asset . ' value @ ' . ucfirst($exchange) . ' '.$alert_mode.' '.$change_symbol.number_format($percent_change, 2, '.', ',').'% from $'.$cached_value_text.' to $' . $asset_usd_text . ' in '.$last_check_time.'.';
+  
+  
+  // Alert parameter configs for comm methods
+  $notifyme_params = array(
+                          'notification' => $email_message,
+                          'accessCode' => $notifyme_accesscode
+                          );
+  
+  $textbelt_params = array(
+                          'phone' => text_number($to_text),
+                          'message' => $text_message,
+                          'key' => $textbelt_apikey
+                          );
+  
+  $textlocal_params = array(
+                           'username' => string_to_array($textlocal_account)[0],
+                           'hash' => string_to_array($textlocal_account)[1],
+                           'numbers' => text_number($to_text),
+                           'message' => $text_message
+                           );
+  
+          
+          // Sending the alerts
+          if ( update_cache_file('cache/alerts/'.$asset.'.dat', ( $cron_alerts_freq * 60 ) ) == true && $send_alert == 1 ) {
+          
+                  if (  validate_email($to_email) == 'valid' ) {
+                  safe_mail($to_email, $asset . ' Asset Value '.ucfirst($alert_mode).' Alert', $email_message);
+                  }
+  
+                  if ( validate_email( text_email($to_text) ) == 'valid' && trim($textbelt_apikey) != '' && trim($textlocal_account) != '' ) { // Only use text-to-email if other text services aren't configured
+                  safe_mail( text_email($to_text) , $asset . ' Value Alert', $text_message);
+                  }
+  
+                  if ( trim($notifyme_accesscode) != '' ) {
+                  data_request('array', $notifyme_params, 0, 'https://api.notifymyecho.com/v1/NotifyMe');
+                  }
+  
+                  if ( trim($textbelt_apikey) != '' && trim($textlocal_account) == '' ) { // Only run if textlocal API isn't being used to avoid double texts
+                  data_request('array', $textbelt_params, 0, 'https://textbelt.com/text', 2);
+                  }
+  
+                  if ( trim($textlocal_account) != '' && trim($textbelt_apikey) == '' ) { // Only run if textbelt API isn't being used to avoid double texts
+                  data_request('array', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
+                  }
+          
+          file_put_contents('cache/alerts/'.$asset.'.dat', $asset_usd, LOCK_EX); // Cache the new lower / higher value
+          
+          }
+  
+  
 	}
-	elseif ( $alert_mode == 'increased' ) {
-	$cron_alerts_value = $cached_value + ( $cached_value * ($cron_alerts_percent / 100) );
-	$percent_change = ( $asset_usd / ( $cached_value / 100 ) ) - 100;
-	$change_symbol = '+';
-	
-		if ( floatval($asset_usd) > 0.00000001 && floatval($asset_usd) >= floatval($cron_alerts_value) ) {
-		$send_alert = 1;
-		}
-	
+	////// END alert checking //////////////
+
+
+
+	// Cache a price value if not already done, OR if config setting set to refresh every X days
+	if ( floatval($asset_usd) >= 0.00000001 && update_cache_file('cache/alerts/'.$asset.'.dat', ( $cron_alerts_refresh * 1440 ) ) == true ) {
+	file_put_contents('cache/alerts/'.$asset.'.dat', $asset_usd, LOCK_EX); 
 	}
 
-
-// Message formatting
-$cached_value_text = ( $asset == 'BTC' ? number_format($cached_value, 2, '.', ',') : $cached_value );
-$asset_usd_text = ( $asset == 'BTC' ? number_format($asset_usd, 2, '.', ',') : $asset_usd );
-
-$email_message = 'The ' . $asset . ' market value at the ' . ucfirst($exchange) . ' exchange has '.$alert_mode.' '.$change_symbol.number_format($percent_change, 2, '.', ',').'% from it\'s previous value of $'.$cached_value_text.', to a current value of $' . $asset_usd_text . ' over the past '.$last_check_time.'.';
-
-$text_message = $asset . ' value @ ' . ucfirst($exchange) . ' '.$alert_mode.' '.$change_symbol.number_format($percent_change, 2, '.', ',').'% from $'.$cached_value_text.' to $' . $asset_usd_text . ' in '.$last_check_time.'.';
-
-
-// Alert parameter configs for comm methods
-$notifyme_params = array(
-							'notification' => $email_message,
-							'accessCode' => $notifyme_accesscode
-							);
-
-$textbelt_params = array(
-							'phone' => text_number($to_text),
-							'message' => $text_message,
-							'key' => $textbelt_apikey
-							);
-
-$textlocal_params = array(
-							'username' => string_to_array($textlocal_account)[0],
-							'hash' => string_to_array($textlocal_account)[1],
-							'numbers' => text_number($to_text),
-							'message' => $text_message
-							);
-
-	
-	// Sending the alerts
-	if ( update_cache_file('cache/alerts/'.$asset.'.dat', ( $cron_alerts_freq * 60 ) ) == true && $send_alert == 1 ) {
-	
-		if (  validate_email($to_email) == 'valid' ) {
-		safe_mail($to_email, $asset . ' Asset Value '.ucfirst($alert_mode).' Alert', $email_message);
-		}
-
-		if ( validate_email( text_email($to_text) ) == 'valid' && trim($textbelt_apikey) != '' && trim($textlocal_account) != '' ) { // Only use text-to-email if other text services aren't configured
-		safe_mail( text_email($to_text) , $asset . ' Value Alert', $text_message);
-		}
-
-		if ( trim($notifyme_accesscode) != '' ) {
-		data_request('array', $notifyme_params, 0, 'https://api.notifymyecho.com/v1/NotifyMe');
-		}
-
-		if ( trim($textbelt_apikey) != '' && trim($textlocal_account) == '' ) { // Only run if textlocal API isn't being used to avoid double texts
-		data_request('array', $textbelt_params, 0, 'https://textbelt.com/text', 2);
-		}
-
-		if ( trim($textlocal_account) != '' && trim($textbelt_apikey) == '' ) { // Only run if textbelt API isn't being used to avoid double texts
-		data_request('array', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
-		}
-	
-	file_put_contents('cache/alerts/'.$asset.'.dat', $asset_usd, LOCK_EX); // Cache the new lower / higher value
-	
-	}
 
 
 }
  
+ 
 /////////////////////////////////////////////////////////
+
 
 function validate_email($email) {
 
@@ -278,15 +293,29 @@ global $chainstats_cache;
     	return;
     	}
     	else {
-		
-  		$json_string = 'http://api.etherscan.io/api?module=proxy&action=eth_getBlockByNumber&tag='.$block_number.'&boolean=true';
-  		$jsondata = @data_request('url', $json_string, 0);
-    	
-    	$data = json_decode($jsondata, TRUE);
-    	
-    	$_SESSION['etherscan_data'] = $data['result'];
-    	
-    	return $_SESSION['etherscan_data'][$block_info];
+    		
+    		// Non-dynamic cache file name, because filename would change every recache and create cache bloat
+    		if ( update_cache_file('cache/api/eth-stats.dat', $chainstats_cache ) == true ) {
+			
+  			$json_string = 'http://api.etherscan.io/api?module=proxy&action=eth_getBlockByNumber&tag='.$block_number.'&boolean=true';
+  			$jsondata = @data_request('url', $json_string, 0); // ZERO TO NOT CACHE DATA (WOULD CREATE CACHE BLOAT)
+    		
+    		file_put_contents('cache/api/eth-stats.dat', $jsondata, LOCK_EX);
+    		
+    		$data = json_decode($jsondata, TRUE);
+    		
+    		return $data['result'][$block_info];
+    		
+    		}
+    		else {
+    			
+    		$cached_data = trim( file_get_contents('cache/api/eth-stats.dat') );
+    		
+    		$data = json_decode($cached_data, TRUE);
+    		
+    		return $data['result'][$block_info];
+
+    		}
   
     	}
   

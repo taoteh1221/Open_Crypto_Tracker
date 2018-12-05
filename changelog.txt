@@ -835,6 +835,7 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 2.2.3:
 -Config to adjust chain stats cache time
+-Optimize API cache efficiency
 -------------------------------------------------------------------
 
 
