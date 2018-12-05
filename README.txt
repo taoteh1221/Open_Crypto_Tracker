@@ -9,7 +9,7 @@ LIVE DEMO: https://dragonfrugal.com/coin-prices/
 Just upload to your PHP-based web server, and you should be all set. You must have curl modules activated on your HTTP server, most web hosting companies provide this already. Contact your hosting provider if you encounter issues getting the real-time prices feeds from exchanges, and ask if curl is setup already. See below for an example on adding / editing your own markets into the coin list in config.php...it's very quick / easy to do (see bottom of this file for a pre-configured example set of assets / markets). Currently BTC / XMR / ETH / LTC / USDT based market pairing is compatible. Contact any supported exchanges help desk if you are unaware of the correct formatting of the trading pair name you are adding in the API configuration file (examples: Kraken has abitrary Xs inserted everywhere in SOME older pair names, HitBTC sometimes has tether pairing without the "T" in the symbol name).
 
 Setting up cron jobs for email alerts on price change: 
-cron.php in the root directory must be setup as a cron job on the server, if you want to take advantage of cron job based features like email alerts on price rise, etc. Consult your web server host's documentation or help desk, for your host's particular method of setting up a cron job. Note that you should have it run every X minutes 24/7, based on how often you want alerts / any other cron based features to run. Here is an example for reference, replace system paths with the correct ones for your server:
+cron.php in the root directory must be setup as a cron job on the server, if you want to take advantage of cron job based features like email alerts on price rise, etc. Consult your web server host's documentation or help desk, for your host's particular method of setting up a cron job. Note that you should have it run every X minutes 24/7, based on how often you want alerts / any other cron based features to run. Every 20 minutes is a good default time interval to start with. Here is an example cron job command for reference below. Replace system paths with the correct ones for your server:
 /path/to/php -q /home/username/path/to/website_install/cron.php
 
 Feature requests and bug reports can be filed at the following URLS:
@@ -93,7 +93,7 @@ $chainstats_cache = 20; // Time to cache blockchain stats (for mining calculator
 
 $marketcap_site = 'coinmarketcap'; // Default marketcap data source: coinmarketcap / coingecko
 
-$api_timeout = 10; // Seconds to wait for response from API endpoint
+$api_timeout = 15; // Seconds to wait for response from API endpoints
 
 $last_trade_ttl = 1; // Minutes to cache last real-time exchange data...can be zero to skip cache, but set at least 1 minute to safely avoid your IP getting blocked
 
