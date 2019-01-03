@@ -1,6 +1,6 @@
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Copyright 2014-2018 GPLv3
+Copyright 2014-2019 GPLv3
 Developed by Michael Kilday <mike@dragonfrugal.com>, released free / open source under GPL v3
 https://dragonfrugal.com/downloads/
 LIVE DEMO: https://dragonfrugal.com/coin-prices/
