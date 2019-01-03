@@ -854,6 +854,7 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 2.2.5:
 -Tweaks to mining calculator setups
+-Upgraded binance API to v3
 -------------------------------------------------------------------
 
 

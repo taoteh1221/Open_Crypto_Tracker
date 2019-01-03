@@ -765,15 +765,33 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
 
 
   elseif ( strtolower($chosen_market) == 'binance' ) {
+     
+     $json_string = 'https://www.binance.com/api/v3/ticker/price';
+     
+     $jsondata = @data_request('url', $json_string, $last_trade_ttl);
+     
+     $data = json_decode($jsondata, TRUE);
+   
   
-  $json_string = 'https://www.binance.com/api/v1/ticker/24hr?symbol=' . $market_pairing;
+  //print_r($data);
+      if (is_array($data) || is_object($data)) {
   
-    $jsondata = @data_request('url', $json_string, $last_trade_ttl);
-    
-    $data = json_decode($jsondata, TRUE);
-    
-    return number_format( $data['lastPrice'], 8, '.', '');
-    
+       foreach ($data as $key => $value) {
+         
+         //print_r($key);
+         
+         if ( $data[$key]['symbol'] == $market_pairing ) {
+          
+         return $data[$key]["price"];
+          
+          
+         }
+       
+     
+       }
+      
+      }
+  
   
   }
 
