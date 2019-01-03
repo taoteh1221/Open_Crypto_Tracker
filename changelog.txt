@@ -843,6 +843,15 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+2.2.4:
+-Updated copyright year
+-Show trading pair info in cron alerts text
+-------------------------------------------------------------------
+
+
+
+
 
 
 
