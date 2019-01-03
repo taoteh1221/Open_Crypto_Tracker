@@ -836,6 +836,9 @@ app doing the data requests, not a malicious bot)
 2.2.3:
 -Config to adjust chain stats cache time
 -Optimize API cache efficiency
+-Fixed cron alert bug related to trade pairings other than BTC
+-Allowed multiple cron job alerts per asset (different exchanges / trade pairings for same asset)
+-Tweaks
 -------------------------------------------------------------------
 
 

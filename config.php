@@ -21,7 +21,7 @@ require_once("app.lib/php/init.php");
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 
-$version = '2.2.3';  // 2018/DECEMBER/3RD
+$version = '2.2.3';  // 2019/JANUARY/3RD
  
 
 /*
@@ -84,7 +84,7 @@ $chainstats_cache = 20; // Time to cache blockchain stats (for mining calculator
 
 $marketcap_site = 'coinmarketcap'; // Default marketcap data source: coinmarketcap / coingecko
 
-$api_timeout = 10; // Seconds to wait for response from API endpoint
+$api_timeout = 15; // Seconds to wait for response from API endpoints
 
 $last_trade_ttl = 1; // Minutes to cache last real-time exchange data...can be zero to skip cache, but set at least 1 minute to safely avoid your IP getting blocked
 
@@ -111,7 +111,7 @@ $textlocal_account = ''; // This format MUST be used: 'username|hash_code'
 
 $cron_alerts_freq = 1; // Re-allow cron job email / text alerts after X hours (per asset, set higher if issues with email / text blacklisting)
 
-$cron_alerts_percent = 12; // $USD price percentage change (WITHOUT percent sign: 15 = 15%), sends alerts when percent change is reached
+$cron_alerts_percent = 15; // $USD price percentage change (WITHOUT percent sign: 15 = 15%), sends alerts when percent change is reached
 
 $cron_alerts_refresh = 7; // Refresh prices every X days with latest prices...can be 0 to disable refreshing (until price alert is triggered)
 
@@ -119,10 +119,13 @@ $cron_alerts = array(
 					// Markets you want cron alerts for (alert sent when $USD value change is equal to or above / below $cron_alerts_percent...see README.txt for cron job setup information) 
 					// Delete any double forward slashes from in front of each asset you want to enable cron job price alerts on (or add double slash to disable)...
 					// NOTE: This list must only contain assets / exchanges / trading pairs included in the primary coin data configuration further down in this config file.
+					// TO ADD MULTIPLE ALERTS FOR SAME ASSET (FOR DIFFERENT EXCHANGES / TRADE PAIRINGS), FORMAT LIKE SO: symbol, symbol-1, symbol-2, etc.
 					'btc' => 'coinbase|btc', // exchange|trade_pairing
 					'eth' => 'bittrex|btc', // exchange|trade_pairing
+					'eth-2' => 'coinbase|btc', // exchange|trade_pairing
 					'xmr' => 'bittrex|btc', // exchange|trade_pairing
 					'dcr' => 'binance|btc', // exchange|trade_pairing
+					'dcr-2' => 'bittrex|usdt', // exchange|trade_pairing
 					'tusd' => 'binance|btc', // exchange|trade_pairing
 				//	'dash' => 'bittrex|btc', // exchange|trade_pairing
 				//	'ltc' => 'bittrex|btc', // exchange|trade_pairing
@@ -130,15 +133,16 @@ $cron_alerts = array(
 					'mana' => 'bittrex|btc', // exchange|trade_pairing
 				//	'zrx' => 'bittrex|btc', // exchange|trade_pairing
 					'zil' => 'binance|btc', // exchange|trade_pairing
-					'trac' => 'kucoin|btc', // exchange|trade_pairing
+				//	'trac' => 'kucoin|btc', // exchange|trade_pairing
 				//	'snt' => 'bittrex|btc', // exchange|trade_pairing
-					'gnt' => 'bittrex|btc', // exchange|trade_pairing
+				//	'gnt' => 'bittrex|btc', // exchange|trade_pairing
 				//	'fct' => 'bittrex|btc', // exchange|trade_pairing
 					'xlm' => 'bittrex|btc', // exchange|trade_pairing
 					'ada' => 'bittrex|btc', // exchange|trade_pairing
 				//	'xrp' => 'bittrex|btc', // exchange|trade_pairing
 					'rvn' => 'bittrex|btc', // exchange|trade_pairing
-					'myst' => 'hitbtc|btc' // exchange|trade_pairing
+					'myst' => 'hitbtc|btc', // exchange|trade_pairing
+					'myst-2' => 'hitbtc|eth' // exchange|trade_pairing
 					);
 
 $eth_subtokens_ico_values = array(

@@ -151,7 +151,7 @@ div.tabdiv {
      }
      
      .tabs a.active {
-        top: 1px;
+        top: 2px;
         position: relative;
         border-top: 1px solid black;
         border-left: 1px solid black;
