@@ -7,8 +7,8 @@
 			$calculation_form_data = array(
 											'Decred', // Coin name
 											'dcr', // Coin symbol
-											decred_api('height'), // Block height
-											decred_api('difficulty'), // Mining network measure (difficulty or network hashrate)
+											decred_api('block', 'height'), // Block height
+											decred_api('block', 'difficulty'), // Mining network measure (difficulty or network hashrate)
 											'https://github.com/decred/dcrdata#json-rest-api', // Blockchain data API url
 											'dcrdata.org API', // Blockchain data API name
 											'poloniex', // Exchange name (lowercase for API logic)

@@ -359,11 +359,17 @@ global $chainstats_cache;
  
  
 //////////////////////////////////////////////////////////
-function decred_api($request) {
+function decred_api($type, $request) {
  
 global $chainstats_cache;
  		
+ 	if ( $type == 'block' ) {
  	$json_string = 'https://explorer.dcrdata.org/api/block/best/verbose';
+ 	}
+ 	elseif ( $type == 'subsidy' ) {
+ 	$json_string = 'https://explorer.dcrdata.org/api/block/best/subsidy';
+ 	}
+ 	
  	$jsondata = @data_request('url', $json_string, $chainstats_cache);
   	
   	$data = json_decode($jsondata, TRUE);
@@ -484,11 +490,13 @@ global $_POST, $mining_rewards;
 				<p><b>Your Hashrate:</b> <input type='text' value='<?=( $_POST[$calculation_form_data[1].'_submitted'] == 1 ? $_POST['your_hashrate'] : '' )?>' name='your_hashrate' />
 				
 				<select name='hash_level'>
-				<option value='1000000000000' <?=( $_POST['hash_level'] == '1000000000000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Ths </option>
-				<option value='1000000000' <?=( $_POST['hash_level'] == '1000000000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Ghs </option>
-				<option value='1000000' <?=( $_POST['hash_level'] == '1000000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Mhs </option>
-				<option value='1000' <?=( $_POST['hash_level'] == '1000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Khs </option>
-				<option value='1' <?=( $_POST['hash_level'] == '1' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Hs </option>
+				<option value='1000000000000000000' <?=( $_POST['hash_level'] == '1000000000000000000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Ehs (one quintillion hashes per second) </option>
+				<option value='1000000000000000' <?=( $_POST['hash_level'] == '1000000000000000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Phs (one quadrillion hashes per second) </option>
+				<option value='1000000000000' <?=( $_POST['hash_level'] == '1000000000000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Ths (one trillion hashes per second) </option>
+				<option value='1000000000' <?=( $_POST['hash_level'] == '1000000000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Ghs (one billion hashes per second) </option>
+				<option value='1000000' <?=( $_POST['hash_level'] == '1000000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Mhs (one million hashes per second) </option>
+				<option value='1000' <?=( $_POST['hash_level'] == '1000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Khs (one thousand hashes per second) </option>
+				<option value='1' <?=( $_POST['hash_level'] == '1' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Hs (one hash per second) </option>
 				</select>
 				</p>
 				

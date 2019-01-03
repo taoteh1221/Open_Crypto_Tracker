@@ -21,7 +21,7 @@ require_once("app.lib/php/init.php");
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 
-$version = '2.2.4';  // 2019/JANUARY/3RD
+$version = '2.2.5';  // 2019/JANUARY/3RD
  
 
 /*
@@ -161,8 +161,8 @@ $eth_subtokens_ico_values = array(
 $mining_rewards = array(
 					// Mining rewards for different platforms (to prefill editable mining calculator forms)
 					'xmr' => monero_reward(),  // (2^64 - 1 - current_supply * 10^12) * 2^-19 * 10^-12
-					'eth' => '3',
-					'dcr' => '13',
+					'eth' => '2',
+					'dcr' => ( decred_api('subsidy', 'work_reward') / 100000000 ),
 					'rvn' => '5000'
 					);
 
