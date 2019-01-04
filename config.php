@@ -92,6 +92,17 @@ $marketcap_ttl = 20; // Minutes to cache marketcap data...start high and test lo
 
 $marketcap_ranks_max = 100; // Maximum number of marketcap rankings to request from API
 
+// If using proxies, and login is required, use format: 'username:password'
+// Adding a user / pass here will automatically send login details to the proxy connections
+$proxy_login = '';
+
+// If using proxies, add the ip address / port number here for each one, like examples below (without the double slashes in front)
+// Adding proxies here will automatically choose one randomly for each API request
+$proxy_list = array(
+					// 'ipaddress1:portnumber1',
+					// 'ipaddress2:portnumber2',
+					);
+
 // FROM email should be a REAL address on the website domain name, or you risk having sent email blacklisted / sent to junk folder
 $from_email = ''; // For cron job email alerts, MUST BE SET (see README.txt for cron job setup information) 
 

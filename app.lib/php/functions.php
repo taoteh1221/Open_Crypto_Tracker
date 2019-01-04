@@ -1802,142 +1802,140 @@ $market_pairing = $market_pairing_array[$selected_market];
  $mkcap_render_data = trim($coins_array[$trade_symbol]['marketcap-website-slug']);
  $info_icon = ( !marketcap_data($trade_symbol)['rank'] ? 'info-none.png' : 'info.png' );
  
- if ( $mkcap_render_data != '' ) {
+	if ( $mkcap_render_data != '' ) {
  	
  
- 	if ( $marketcap_site == 'coinmarketcap' ) {
- 	$asset_pagebase = 'coinmarketcap.com/currencies/';
- 	}
- 	elseif ( $marketcap_site == 'coingecko' ) {
- 	$asset_pagebase = 'coingecko.com/en/coins/';
- 	}
+ 		if ( $marketcap_site == 'coinmarketcap' ) {
+ 		$asset_pagebase = 'coinmarketcap.com/currencies/';
+ 		}
+ 		elseif ( $marketcap_site == 'coingecko' ) {
+ 		$asset_pagebase = 'coingecko.com/en/coins/';
+ 		}
  	
  	
- ?>
+ 		?>
  <?=( $coins_array[$trade_symbol]['ico'] == 'yes' ? "<a title='SEC Website On ICO Guidance And Safety' href='https://www.sec.gov/ICO' target='_blank'><img src='templates/default/images/alert.png' border=0' style='position: absolute; top: 3px; left: 0px; margin: 0px; height: 30px; width: 30px;' /></a> " : "" )?><img id='<?=$mkcap_render_data?>' src='templates/default/images/<?=$info_icon?>' border=0' style='position: absolute; top: 3px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <a title='' href='https://<?=$asset_pagebase?><?=$mkcap_render_data?>/' target='_blank'><?php echo $coin_name; ?></a>
  <script>
 
-	<?php
-	if ( !marketcap_data($trade_symbol)['rank'] ) {
-	?>
+		<?php
+		if ( !marketcap_data($trade_symbol)['rank'] ) {
+		?>
 
 	var cmc_content = '<h3 style="color: #e5f1ff;"><?=ucfirst($marketcap_site)?> API may be offline / under heavy load, <br />marketcap range not set high enough (current range is top <?=$marketcap_ranks_max?> marketcaps), <br />or API timeout set too low (current timeout is <?=$api_timeout?> seconds). <br />Configuration adjustments can be made in config.php.</h3>';
 	
-		<?php
-		if ( sizeof($alert_percent) > 1 ) {
-		?>
+			<?php
+			if ( sizeof($alert_percent) > 1 ) {
+			?>
+			
+			setTimeout(function() {
+    		play_alert("<?=strtolower($trade_symbol)?>_row", "visual", "blue"); // Assets with marketcap data not set or functioning properly
+			}, 1000);
+			
+			<?php
+			}
 		
-		setTimeout(function() {
-    	play_alert("<?=strtolower($trade_symbol)?>_row", "visual", "blue"); // Assets with marketcap data not set or functioning properly
-		}, 1000);
-		
-		<?php
-		}
-		
+        }
+        else {
+        ?> 
+    
+        var cmc_content = '<h3 class="orange"><?=ucfirst($marketcap_site)?>.com Summary For <?=$coin_name?> (<?=$trade_symbol?>):</h3>'
+        +'<p><span class="orange">Average Market Price:</span> $<?=number_format(marketcap_data($trade_symbol)['price'],8,".",",")?></p>'
+        +'<p><span class="orange">Marketcap Ranking:</span> #<?=marketcap_data($trade_symbol)['rank']?></p>'
+        +'<p><span class="orange">Marketcap (USD):</span> $<?=number_format(marketcap_data($trade_symbol)['market_cap'],0,".",",")?></p>'
+        +'<p><span class="orange">24 Hour Volume (USD):</span> $<?=number_format(marketcap_data($trade_symbol)['volume_24h'],0,".",",")?></p>'
+        +'<p><span class="orange">1 Hour Change:</span> <?=( stristr(marketcap_data($trade_symbol)['percent_change_1h'], '-') != false ? '<span class="red">'.marketcap_data($trade_symbol)['percent_change_1h'].'%</span>' : '<span class="green">'.marketcap_data($trade_symbol)['percent_change_1h'].'%</span>' )?></p>'
+        +'<p><span class="orange">24 Hour Change:</span> <?=( stristr(marketcap_data($trade_symbol)['percent_change_24h'], '-') != false ? '<span class="red">'.marketcap_data($trade_symbol)['percent_change_24h'].'%</span>' : '<span class="green">'.marketcap_data($trade_symbol)['percent_change_24h'].'%</span>' )?></p>'
+        +'<p><span class="orange">7 Day Change:</span> <?=( stristr(marketcap_data($trade_symbol)['percent_change_7d'], '-') != false ? '<span class="red">'.marketcap_data($trade_symbol)['percent_change_7d'].'%</span>' : '<span class="green">'.marketcap_data($trade_symbol)['percent_change_7d'].'%</span>' )?></p>'
+        +'<p><span class="orange">Available Supply:</span> <?=number_format(marketcap_data($trade_symbol)['circulating_supply'], 0, '.', ',')?></p>'
+        <?php
+            if ( marketcap_data($trade_symbol)['total_supply'] > 0 ) {
+            ?>
+        +'<p><span class="orange">Total Supply:</span> <?=number_format(marketcap_data($trade_symbol)['total_supply'], 0, '.', ',')?></p>'
+        <?php
+            }
+            if ( marketcap_data($trade_symbol)['max_supply'] > 0 ) {
+            ?>
+        +'<p><span class="orange">Maximum Supply:</span> <?=number_format(marketcap_data($trade_symbol)['max_supply'], 0, '.', ',')?></p>'
+        <?php
+            }
+            if ( marketcap_data($trade_symbol)['last_updated'] != '' ) {
+            ?>
+        +'<p><span class="orange">Last Updated (UTC):</span> <?=gmdate("Y-M-d\ \\a\\t g:ia", marketcap_data($trade_symbol)['last_updated'])?></p>';
+    
+        <?php
+            }
+        
+        }
+        ?>
+    
+        $('#<?=$mkcap_render_data?>').balloon({
+        html: true,
+        position: "right",
+        contents: cmc_content,
+        css: {
+                fontSize: ".7rem",
+                minWidth: ".7rem",
+                padding: ".2rem .5rem",
+                border: "1px solid rgba(212, 212, 212, .4)",
+                borderRadius: "3px",
+                boxShadow: "2px 2px 4px #555",
+                color: "#eee",
+                backgroundColor: "#111",
+                opacity: "0.95",
+                zIndex: "32767",
+                textAlign: "left"
+                }
+        });
+    
+    
+    <?php
+    
+    
+        if ( sizeof($alert_percent) > 1 ) {
+    
+        $percent_change_alert = $alert_percent[1];
+    
+        $percent_alert_type = $alert_percent[3];
+    
+            if ( $alert_percent[2] == '1hour' ) {
+            $percent_change = marketcap_data($trade_symbol)['percent_change_1h'];
+            }
+            elseif ( $alert_percent[2] == '24hour' ) {
+            $percent_change = marketcap_data($trade_symbol)['percent_change_24h'];
+            }
+            elseif ( $alert_percent[2] == '7day' ) {
+            $percent_change = marketcap_data($trade_symbol)['percent_change_7d'];
+            }
+         
+          //echo 'console.log("' . $percent_change_alert . '|' . $percent_change . '");';
+          
+         
+            if ( stristr($percent_change_alert, '-') != false && $percent_change_alert >= $percent_change && is_numeric($percent_change) ) {
+            ?>
+         
+            setTimeout(function() {
+               play_alert("<?=strtolower($trade_symbol)?>_row", "<?=$percent_alert_type?>", "yellow");
+            }, 1000);
+            
+            <?php
+            }
+            elseif ( stristr($percent_change_alert, '-') == false && $percent_change_alert <= $percent_change && is_numeric($percent_change) ) {
+            ?>
+            
+            setTimeout(function() {
+               play_alert("<?=strtolower($trade_symbol)?>_row", "<?=$percent_alert_type?>", "green");
+            }, 1000);
+            
+            <?php
+            }
+        
+        
+        }
+        ?>
+     </script>
+ <?php
 	}
 	else {
-	?> 
-
-	var cmc_content = '<h3 class="orange"><?=ucfirst($marketcap_site)?>.com Summary For <?=$coin_name?> (<?=$trade_symbol?>):</h3>'
-    +'<p><span class="orange">Average Market Price:</span> $<?=number_format(marketcap_data($trade_symbol)['price'],8,".",",")?></p>'
-    +'<p><span class="orange">Marketcap Ranking:</span> #<?=marketcap_data($trade_symbol)['rank']?></p>'
-    +'<p><span class="orange">Marketcap (USD):</span> $<?=number_format(marketcap_data($trade_symbol)['market_cap'],0,".",",")?></p>'
-    +'<p><span class="orange">24 Hour Volume (USD):</span> $<?=number_format(marketcap_data($trade_symbol)['volume_24h'],0,".",",")?></p>'
-    +'<p><span class="orange">1 Hour Change:</span> <?=( stristr(marketcap_data($trade_symbol)['percent_change_1h'], '-') != false ? '<span class="red">'.marketcap_data($trade_symbol)['percent_change_1h'].'%</span>' : '<span class="green">'.marketcap_data($trade_symbol)['percent_change_1h'].'%</span>' )?></p>'
-    +'<p><span class="orange">24 Hour Change:</span> <?=( stristr(marketcap_data($trade_symbol)['percent_change_24h'], '-') != false ? '<span class="red">'.marketcap_data($trade_symbol)['percent_change_24h'].'%</span>' : '<span class="green">'.marketcap_data($trade_symbol)['percent_change_24h'].'%</span>' )?></p>'
-    +'<p><span class="orange">7 Day Change:</span> <?=( stristr(marketcap_data($trade_symbol)['percent_change_7d'], '-') != false ? '<span class="red">'.marketcap_data($trade_symbol)['percent_change_7d'].'%</span>' : '<span class="green">'.marketcap_data($trade_symbol)['percent_change_7d'].'%</span>' )?></p>'
-    +'<p><span class="orange">Available Supply:</span> <?=number_format(marketcap_data($trade_symbol)['circulating_supply'], 0, '.', ',')?></p>'
-    <?php
-		if ( marketcap_data($trade_symbol)['total_supply'] > 0 ) {
-		?>
-    +'<p><span class="orange">Total Supply:</span> <?=number_format(marketcap_data($trade_symbol)['total_supply'], 0, '.', ',')?></p>'
-    <?php
-		}
-		if ( marketcap_data($trade_symbol)['max_supply'] > 0 ) {
-		?>
-    +'<p><span class="orange">Maximum Supply:</span> <?=number_format(marketcap_data($trade_symbol)['max_supply'], 0, '.', ',')?></p>'
-    <?php
-		}
-		if ( marketcap_data($trade_symbol)['last_updated'] != '' ) {
-		?>
-    +'<p><span class="orange">Last Updated (UTC):</span> <?=gmdate("Y-M-d\ \\a\\t g:ia", marketcap_data($trade_symbol)['last_updated'])?></p>';
-
-	<?php
-		}
-	
-	}
-	?>
-
-	$('#<?=$mkcap_render_data?>').balloon({
-  	html: true,
-  	position: "right",
-  	contents: cmc_content,
-  	css: {
-  			fontSize: ".7rem",
-  			minWidth: ".7rem",
- 			padding: ".2rem .5rem",
-  			border: "1px solid rgba(212, 212, 212, .4)",
-  			borderRadius: "3px",
-  			boxShadow: "2px 2px 4px #555",
-  			color: "#eee",
-  			backgroundColor: "#111",
-  			opacity: "0.95",
-  			zIndex: "32767",
-  			textAlign: "left"
-			}
-	});
-
-
-<?php
-
-
-if ( sizeof($alert_percent) > 1 ) {
-
-$percent_change_alert = $alert_percent[1];
-
-$percent_alert_type = $alert_percent[3];
-
- if ( $alert_percent[2] == '1hour' ) {
- $percent_change = marketcap_data($trade_symbol)['percent_change_1h'];
- }
- elseif ( $alert_percent[2] == '24hour' ) {
- $percent_change = marketcap_data($trade_symbol)['percent_change_24h'];
- }
- elseif ( $alert_percent[2] == '7day' ) {
- $percent_change = marketcap_data($trade_symbol)['percent_change_7d'];
- }
- 
-  //echo 'console.log("' . $percent_change_alert . '|' . $percent_change . '");';
-  
- 
- if ( stristr($percent_change_alert, '-') != false && $percent_change_alert >= $percent_change && is_numeric($percent_change) ) {
- ?>
- 
- setTimeout(function() {
-    play_alert("<?=strtolower($trade_symbol)?>_row", "<?=$percent_alert_type?>", "yellow");
- }, 1000);
- 
- <?php
- }
- elseif ( stristr($percent_change_alert, '-') == false && $percent_change_alert <= $percent_change && is_numeric($percent_change) ) {
- ?>
- 
- setTimeout(function() {
-    play_alert("<?=strtolower($trade_symbol)?>_row", "<?=$percent_alert_type?>", "green");
- }, 1000);
- 
- <?php
- }
-
-
-}
-?>
-
-
- </script>
- <?php
- }
- else {
   $rand_id = rand(10000000,100000000);
   ?>
   <img id='<?=$rand_id?>' src='templates/default/images/<?=$info_icon?>' border=0' style='position: absolute; top: 4px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <?=$coin_name?>
@@ -1961,8 +1959,8 @@ $percent_alert_type = $alert_percent[3];
 		?>
 		
  </script>
- <?php
- }
+	<?php
+	}
  
  $mkcap_render_data = NULL;
  $rand_id = NULL;
@@ -2059,7 +2057,7 @@ return $total_value;
 
 function data_request($mode, $request, $ttl, $api_server=null, $post_encoding=3) { // Default to JSON encoding post requests (most used)
 
-global $version, $user_agent, $api_timeout;
+global $version, $user_agent, $api_timeout, $proxy_list, $proxy_login;
 
 $cookie_jar = tempnam('/tmp','cookie');
 	
@@ -2072,6 +2070,17 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 	if ( update_cache_file('cache/api/'.$hash_check.'.dat', $ttl) == true && $ttl > 0 || $ttl == 0 ) {	
 	
 	$ch = curl_init( ( $mode == 'array' ? $api_server : '' ) );
+	
+		
+		if ( sizeof($proxy_list) > 0 ) {
+		curl_setopt($ch, CURLOPT_PROXY, random_proxy($proxy_list) );    
+		curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, 1);  
+		}  
+		
+		if ( trim($proxy_login) != '' ) {
+		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+		curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxy_login);  
+		}
 	
 		if ( $mode == 'array' && $post_encoding == 1 ) {
 		curl_setopt($ch, CURLOPT_POST, 1);
@@ -2089,7 +2098,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		curl_setopt($ch, CURLOPT_URL, $request);
 		}
 	
-	curl_setopt($c, CURLOPT_COOKIEJAR, $cookie_jar);
+	curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie_jar);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 	curl_setopt($ch, CURLOPT_BINARYTRANSFER, 1);
 	curl_setopt($ch, CURLOPT_USERAGENT, $user_agent);
@@ -2179,6 +2188,18 @@ function trim_array($data) {
 return $data;
 
 }
+//////////////////////////////////////////////////////////
+
+function random_proxy($list) {
+
+$count = sizeof($list) - 1;
+
+$proxy = rand(0, $count);
+
+return $list[$proxy];
+
+}
+
 //////////////////////////////////////////////////////////
 
 function remove_formatting($data) {

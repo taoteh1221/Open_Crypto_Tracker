@@ -84,7 +84,6 @@ OTHER CRYPTOCURRENCIES AND PAYPAL ACCEPTED HERE: https://dragonfrugal.com/donate
 BELOW IS AN !---EXAMPLE---! SET OF CONFIGURED ASSETS. PLEASE NOTE THIS IS PROVIDED TO ASSIST YOU IN ADDING YOUR PARTICULAR FAVORITE ASSETS TO THE DEFAULT LIST, AND !---IN NO WAY---! INDICATES ENDORSEMENT OF !---ANY---! OF THESE ASSETS:
 
 
-
 /////////////////// GENERAL CONFIG -START- ////////////////////////////////////////////////////
 
 $btc_exchange = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken / hitbtc / gatecion / livecoin
@@ -100,6 +99,17 @@ $last_trade_ttl = 1; // Minutes to cache last real-time exchange data...can be z
 $marketcap_ttl = 20; // Minutes to cache marketcap data...start high and test lower, it can be strict
 
 $marketcap_ranks_max = 100; // Maximum number of marketcap rankings to request from API
+
+// If using proxies, and login is required, use format: 'username:password'
+// Adding a user / pass here will automatically send login details to the proxy connections
+$proxy_login = '';
+
+// If using proxies, add the ip address / port number here for each one, like examples below (without the double slashes in front)
+// Adding proxies here will automatically choose one randomly for each API request
+$proxy_list = array(
+					// 'ipaddress1:portnumber1',
+					// 'ipaddress2:portnumber2',
+					);
 
 // FROM email should be a REAL address on the website domain name, or you risk having sent email blacklisted / sent to junk folder
 $from_email = ''; // For cron job email alerts, MUST BE SET (see README.txt for cron job setup information) 
@@ -170,8 +180,8 @@ $eth_subtokens_ico_values = array(
 $mining_rewards = array(
 					// Mining rewards for different platforms (to prefill editable mining calculator forms)
 					'xmr' => monero_reward(),  // (2^64 - 1 - current_supply * 10^12) * 2^-19 * 10^-12
-					'eth' => '3',
-					'dcr' => '13',
+					'eth' => '2',
+					'dcr' => ( decred_api('subsidy', 'work_reward') / 100000000 ),
 					'rvn' => '5000'
 					);
 
