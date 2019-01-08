@@ -132,16 +132,16 @@ $cron_alerts = array(
 					// NOTE: This list must only contain assets / exchanges / trading pairs included in the primary coin data configuration further down in this config file.
 					// TO ADD MULTIPLE ALERTS FOR SAME ASSET (FOR DIFFERENT EXCHANGES / TRADE PAIRINGS), FORMAT LIKE SO: symbol, symbol-1, symbol-2, etc.
 					'btc' => 'coinbase|btc', // exchange|trade_pairing
-					'eth' => 'bittrex|btc', // exchange|trade_pairing
+					'eth' => 'binance|usdt', // exchange|trade_pairing
 					'eth-2' => 'coinbase|btc', // exchange|trade_pairing
-					'xmr' => 'bittrex|btc', // exchange|trade_pairing
+					'xmr' => 'binance|btc', // exchange|trade_pairing
 					'dcr' => 'binance|btc', // exchange|trade_pairing
 					'dcr-2' => 'bittrex|usdt', // exchange|trade_pairing
 					'tusd' => 'binance|btc', // exchange|trade_pairing
 				//	'dash' => 'bittrex|btc', // exchange|trade_pairing
 				//	'ltc' => 'bittrex|btc', // exchange|trade_pairing
 					'steem' => 'bittrex|btc', // exchange|trade_pairing
-					'mana' => 'bittrex|btc', // exchange|trade_pairing
+					'mana' => 'binance|btc', // exchange|trade_pairing
 				//	'zrx' => 'bittrex|btc', // exchange|trade_pairing
 					'zil' => 'binance|btc', // exchange|trade_pairing
 				//	'trac' => 'kucoin|btc', // exchange|trade_pairing

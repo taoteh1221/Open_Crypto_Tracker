@@ -169,7 +169,7 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
   
   $email_message = 'The ' . $asset . ' trade value in the '.strtoupper($pairing).' market at the ' . ucfirst($exchange) . ' exchange has '.$alert_mode.' '.$change_symbol.number_format($percent_change, 2, '.', ',').'% from it\'s previous value of $'.$cached_value_text.', to a current value of $' . $asset_usd_text . ' over the past '.$last_check_time.'.';
   
-  $text_message = $asset . ' / '.strtoupper($pairing).' @' . ucfirst($exchange) . ' '.$alert_mode.' '.$change_symbol.number_format($percent_change, 2, '.', ',').'% from $'.$cached_value_text.' to $' . $asset_usd_text . ' in '.$last_check_time.'.';
+  $text_message = $asset . '/'.strtoupper($pairing).' @' . ucfirst($exchange) . ' '.$alert_mode.' '.$change_symbol.number_format($percent_change, 2, '.', ',').'% from $'.$cached_value_text.' to $' . $asset_usd_text . ' in '.$last_check_time.'.';
   
   
   // Alert parameter configs for comm methods
@@ -2077,7 +2077,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, 1);  
 		}  
 		
-		if ( trim($proxy_login) != '' ) {
+		if ( trim($proxy_login) != '' && sizeof($proxy_list) > 0  ) {
 		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 		curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxy_login);  
 		}
