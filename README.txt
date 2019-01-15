@@ -100,16 +100,14 @@ $marketcap_ttl = 20; // Minutes to cache marketcap data...start high and test lo
 
 $marketcap_ranks_max = 100; // Maximum number of marketcap rankings to request from API
 
-// If using proxies, and login is required, use format: 'username:password'
-// Adding a user / pass here will automatically send login details to the proxy connections
-$proxy_login = '';
-
-// If using proxies, add the ip address / port number here for each one, like examples below (without the double slashes in front)
+// If using proxies (whitelisting with no login required), add the ip address / port number here for each one, like examples below (without the double slashes in front)
 // Adding proxies here will automatically choose one randomly for each API request
 $proxy_list = array(
 					// 'ipaddress1:portnumber1',
 					// 'ipaddress2:portnumber2',
 					);
+
+$proxy_alerts_freq = 1; // Re-allow proxy offline / misconfigured email alerts after X hours (can be 0)
 
 // FROM email should be a REAL address on the website domain name, or you risk having sent email blacklisted / sent to junk folder
 $from_email = ''; // For cron job email alerts, MUST BE SET (see README.txt for cron job setup information) 
@@ -128,9 +126,9 @@ $textbelt_apikey = '';
 // For cron job textlocal notifications, CAN BE BLANK. Setup: https://www.textlocal.com/integrations/api/
 $textlocal_account = ''; // This format MUST be used: 'username|hash_code'
 
-$cron_alerts_freq = 1; // Re-allow cron job email / text alerts after X hours (per asset, set higher if issues with email / text blacklisting)
+$cron_alerts_freq = 1; // Re-allow cron job email / text alerts after X hours (per asset, set higher if issues with email / text blacklisting...can be 0)
 
-$cron_alerts_percent = 15; // $USD price percentage change (WITHOUT percent sign: 15 = 15%), sends alerts when percent change is reached
+$cron_alerts_percent = 15; // $USD price percentage change (WITHOUT percent sign: 15 = 15%), sends alerts when percent change is reached (up or down)
 
 $cron_alerts_refresh = 7; // Refresh prices every X days with latest prices...can be 0 to disable refreshing (until price alert is triggered)
 

@@ -2055,9 +2055,9 @@ return $total_value;
 
 //////////////////////////////////////////////////////////
 
-function data_request($mode, $request, $ttl, $api_server=null, $post_encoding=3) { // Default to JSON encoding post requests (most used)
+function data_request($mode, $request, $ttl, $api_server=null, $post_encoding=3, $test_proxy=NULL) { // Default to JSON encoding post requests (most used)
 
-global $version, $user_agent, $api_timeout, $proxy_list, $proxy_login;
+global $version, $user_agent, $api_timeout, $proxy_list;
 
 $cookie_jar = tempnam('/tmp','cookie');
 	
@@ -2073,15 +2073,23 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 	
 		
 		if ( sizeof($proxy_list) > 0 ) {
-		curl_setopt($ch, CURLOPT_PROXY, random_proxy($proxy_list) );    
-		curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, 1);  
-		}  
+		$current_proxy = ( $mode == 'proxy-check' && $test_proxy != NULL ? $test_proxy : random_proxy() );
+		$ip_port = explode(':', $current_proxy);
 		
-		if ( trim($proxy_login) != '' && sizeof($proxy_list) > 0  ) {
-		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-		curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxy_login);  
+		//var_dump($ip_port); // DEBUGGING ONLY
+		
+		curl_setopt($ch, CURLOPT_PROXY, trim($ip_port[0]) );    
+		curl_setopt($ch, CURLOPT_PROXYPORT, trim($ip_port[1]) );    
+		curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, 1);  
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+		curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
+		//curl_setopt($ch, CURLOPT_HEADER, 1);  // KILLS CONNECTION???
+		} 
+		else {
+		curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie_jar);
+		curl_setopt($ch, CURLOPT_USERAGENT, $user_agent);
 		}
-	
+		
 		if ( $mode == 'array' && $post_encoding == 1 ) {
 		curl_setopt($ch, CURLOPT_POST, 1);
 		curl_setopt( $ch, CURLOPT_POSTFIELDS, $request );
@@ -2094,15 +2102,13 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		curl_setopt($ch, CURLOPT_POST, 1);
 		curl_setopt( $ch, CURLOPT_POSTFIELDS, json_encode($request) );
 		}
-		elseif ( $mode == 'url' ) {
+		elseif ( $mode == 'url' || $mode == 'proxy-check' ) {
 		curl_setopt($ch, CURLOPT_URL, $request);
 		}
 	
-	curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie_jar);
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-	curl_setopt($ch, CURLOPT_BINARYTRANSFER, 1);
-	curl_setopt($ch, CURLOPT_USERAGENT, $user_agent);
 	
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	//curl_setopt($ch, CURLOPT_BINARYTRANSFER, 1);  // NOT NEEDED???
 	curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, 0);
 	curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, 0); 
 	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $api_timeout);
@@ -2113,6 +2119,11 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		if ( !$data ) {
 		$data = 'no';
 		$_SESSION['get_data_error'] .= ' No data returned from ' . ( $mode == 'array' ? 'API server "' . $api_server : 'request "' . $request ) . '" (with timeout configuration setting of ' . $api_timeout . ' seconds). <br /> ' . ( $mode == 'array' ? '<pre>' . print_r($request, TRUE) . '</pre>' : '' ) . ' <br /> ';
+		
+			if ( sizeof($proxy_list) > 0 && $current_proxy != '' ) {
+			test_proxies($current_proxy); // Test this proxy, to make sure it's online / configured properly
+			}
+		
 		}
 		
 		if ( preg_match("/coinmarketcap/i", $request) && !preg_match("/last_updated/i", $data) ) {
@@ -2120,7 +2131,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		}
 	
 	curl_close($ch);
-	unlink($cookie_jar) or die("Can't unlink $cookie_jar");
+	//unlink($cookie_jar) or die("Can't unlink $cookie_jar");
 	
 	
 		//$_SESSION['api_cache'][$hash_check] = $data; // Cache API data for this update session
@@ -2176,7 +2187,119 @@ return $data;
 }
 
 //////////////////////////////////////////////////////////
+function test_proxies($problem_proxy) {
 
+global $proxy_alerts_freq, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $textlocal_account;
+
+$ip_port = explode(':', $problem_proxy);
+
+$ip = $ip_port[0];
+$port = $ip_port[1];
+
+$cache_filename = preg_replace('/:/', "_", $problem_proxy);
+
+	if ( update_cache_file('cache/alerts/proxy-check-'.$cache_filename.'.dat', ( $proxy_alerts_freq * 60 ) ) == true ) {
+	
+	$jsondata = @data_request('proxy-check', 'http://httpbin.org/ip', 0, '', '', $problem_proxy);
+	$data = json_decode($jsondata, TRUE);
+	
+		if ( trim($data['origin']) != '' ) {
+
+		$verbose_logs = ( strstr($problem_proxy, $data['origin']) == false ? 'Proxy '.$problem_proxy.' checkup status = MISCONFIGURED (detected ip: '.$data['origin'].'); Remote address DOES NOT match proxy address;' : 'Proxy '.$problem_proxy.' checkup status = OK (detected ip: '.$data['origin'].');' );
+		
+		$notifyme_logs = ( strstr($problem_proxy, $data['origin']) == false ? 'A checkup on proxy '.$ip.', port '.$port.' detected a misconfiguration. Remote address '.$data['origin'].' Does not match the proxy address.' : 'Proxy '.$ip.', port '.$port.' checkup status is OK.' );
+		
+		$text_logs = ( strstr($problem_proxy, $data['origin']) == false ? 'Proxy '.$problem_proxy.' misconfig (detected ip: '.$data['origin'].').' : 'Proxy '.$problem_proxy.' checkup OK (detected ip: '.$data['origin'].').' );
+		
+		}
+		else {
+			
+		$verbose_logs = 'Proxy '.$problem_proxy.' checkup status = MISCONFIGURED; No connection established;';
+		
+		$notifyme_logs = 'A checkup on proxy '.$ip.', port '.$port.' detected a misconfiguration. No connection established.';
+			
+		$text_logs = 'Proxy '.$problem_proxy.' misconfig, no connection established.';
+
+		}
+		
+		
+		// EMAIL
+		$email_format = " The proxy ".$problem_proxy." was unresponsive recently. An internal check on this proxy was performed: \n \n ============================================================== \n " . $verbose_logs . " \n ============================================================== \n \n ";
+		
+      if (  validate_email($to_email) == 'valid' ) {
+      safe_mail($to_email, 'A Proxy Was Unresponsive', $email_format);
+      }
+  
+    
+      // Alert parameter configs for comm methods
+      $notifyme_params = array(
+                              'notification' => $notifyme_logs,
+                              'accessCode' => $notifyme_accesscode
+                              );
+      
+      $textbelt_params = array(
+                              'phone' => text_number($to_text),
+                              'message' => $text_logs,
+                              'key' => $textbelt_apikey
+                              );
+      
+      $textlocal_params = array(
+                               'username' => string_to_array($textlocal_account)[0],
+                               'hash' => string_to_array($textlocal_account)[1],
+                               'numbers' => text_number($to_text),
+                               'message' => $text_logs
+                               );
+  
+		
+       if ( validate_email( text_email($to_text) ) == 'valid' && trim($textbelt_apikey) != '' && trim($textlocal_account) != '' ) { // Only use text-to-email if other text services aren't configured
+       safe_mail( text_email($to_text) , 'Unresponsive Proxy', $text_logs);
+       }
+  
+       if ( trim($notifyme_accesscode) != '' ) {
+       data_request('array', $notifyme_params, 0, 'https://api.notifymyecho.com/v1/NotifyMe');
+       }
+  
+       if ( trim($textbelt_apikey) != '' && trim($textlocal_account) == '' ) { // Only run if textlocal API isn't being used to avoid double texts
+       data_request('array', $textbelt_params, 0, 'https://textbelt.com/text', 2);
+       }
+  
+       if ( trim($textlocal_account) != '' && trim($textbelt_apikey) == '' ) { // Only run if textbelt API isn't being used to avoid double texts
+       data_request('array', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
+       }
+          
+          
+		file_put_contents('cache/alerts/proxy-check-'.$cache_filename.'.dat', $verbose_logs, LOCK_EX);
+		
+		
+		
+	}
+
+}
+//////////////////////////////////////////////////////////
+function base_url() {
+
+// base directory
+$base_dir = __DIR__;
+
+// server protocol
+$protocol = empty($_SERVER['HTTPS']) ? 'http' : 'https';
+
+// domain name
+$domain = $_SERVER['SERVER_NAME'];
+
+// base url
+$base_url = preg_replace("!^${doc_root}!", '', $base_dir);
+
+// server port
+$port = $_SERVER['SERVER_PORT'];
+$disp_port = ($protocol == 'http' && $port == 80 || $protocol == 'https' && $port == 443) ? '' : ":$port";
+
+// put em all together to get the complete base URL
+$url = "${protocol}://${domain}${disp_port}${base_url}";
+
+return $url; // = http://example.com/path/directory
+	
+}
 //////////////////////////////////////////////////////////
 
 function trim_array($data) {
@@ -2190,13 +2313,13 @@ return $data;
 }
 //////////////////////////////////////////////////////////
 
-function random_proxy($list) {
+function random_proxy() {
 
-$count = sizeof($list) - 1;
+global $proxy_list;
 
-$proxy = rand(0, $count);
+$proxy = array_rand($proxy_list);
 
-return $list[$proxy];
+return $proxy_list[$proxy];
 
 }
 
