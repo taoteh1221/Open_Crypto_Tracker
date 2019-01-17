@@ -195,6 +195,8 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
           // Sending the alerts
           if ( update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $cron_alerts_freq * 60 ) ) == true && $send_alert == 1 ) {
           
+          file_put_contents('cache/alerts/'.$asset_data.'.dat', $asset_usd, LOCK_EX); // Cache the new lower / higher value
+          
                   if (  validate_email($to_email) == 'valid' ) {
                   safe_mail($to_email, $asset . ' Asset Value '.ucfirst($alert_mode).' Alert', $email_message);
                   }
@@ -215,7 +217,6 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
                   data_request('array', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
                   }
           
-          file_put_contents('cache/alerts/'.$asset_data.'.dat', $asset_usd, LOCK_EX); // Cache the new lower / higher value
           
           }
   
@@ -2120,7 +2121,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		$data = 'no';
 		$_SESSION['get_data_error'] .= ' No data returned from ' . ( $mode == 'array' ? 'API server "' . $api_server : 'request "' . $request ) . '" (with timeout configuration setting of ' . $api_timeout . ' seconds). <br /> ' . ( $mode == 'array' ? '<pre>' . print_r($request, TRUE) . '</pre>' : '' ) . ' <br /> ';
 		
-			if ( sizeof($proxy_list) > 0 && $current_proxy != '' ) {
+			if ( sizeof($proxy_list) > 0 && $current_proxy != '' && $mode != 'proxy-check' ) { // Avoid infinite loops
 			test_proxies($current_proxy); // Test this proxy, to make sure it's online / configured properly
 			}
 		
@@ -2221,13 +2222,17 @@ $cache_filename = preg_replace('/:/', "_", $problem_proxy);
 		$text_logs = 'Proxy '.$problem_proxy.' misconfig, no connection established.';
 
 		}
+
+		
+		// Cache the logs
+		file_put_contents('cache/alerts/proxy-check-'.$cache_filename.'.dat', $verbose_logs, LOCK_EX);
 		
 		
 		// EMAIL
 		$email_format = " The proxy ".$problem_proxy." was unresponsive recently. An internal check on this proxy was performed: \n \n ============================================================== \n " . $verbose_logs . " \n ============================================================== \n \n ";
 		
       if (  validate_email($to_email) == 'valid' ) {
-      safe_mail($to_email, 'A Proxy Was Unresponsive', $email_format);
+      //safe_mail($to_email, 'A Proxy Was Unresponsive', $email_format);
       }
   
     
@@ -2252,25 +2257,22 @@ $cache_filename = preg_replace('/:/', "_", $problem_proxy);
   
 		
        if ( validate_email( text_email($to_text) ) == 'valid' && trim($textbelt_apikey) != '' && trim($textlocal_account) != '' ) { // Only use text-to-email if other text services aren't configured
-       safe_mail( text_email($to_text) , 'Unresponsive Proxy', $text_logs);
+       //safe_mail( text_email($to_text) , 'Unresponsive Proxy', $text_logs);
        }
   
        if ( trim($notifyme_accesscode) != '' ) {
-       data_request('array', $notifyme_params, 0, 'https://api.notifymyecho.com/v1/NotifyMe');
+       //data_request('array', $notifyme_params, 0, 'https://api.notifymyecho.com/v1/NotifyMe');
        }
   
        if ( trim($textbelt_apikey) != '' && trim($textlocal_account) == '' ) { // Only run if textlocal API isn't being used to avoid double texts
-       data_request('array', $textbelt_params, 0, 'https://textbelt.com/text', 2);
+       //data_request('array', $textbelt_params, 0, 'https://textbelt.com/text', 2);
        }
   
        if ( trim($textlocal_account) != '' && trim($textbelt_apikey) == '' ) { // Only run if textbelt API isn't being used to avoid double texts
-       data_request('array', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
+       //data_request('array', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
        }
           
           
-		file_put_contents('cache/alerts/proxy-check-'.$cache_filename.'.dat', $verbose_logs, LOCK_EX);
-		
-		
 		
 	}
 
