@@ -2102,9 +2102,8 @@ $cookie_jar = tempnam('/tmp','cookie');
 $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 
 
-	//if ( !$_SESSION['api_cache'][$hash_check] ) {	
-	// Cache API data for 1 minute
-	if ( update_cache_file('cache/api/'.$hash_check.'.dat', $ttl) == true && $ttl > 0 || $ttl == 0 ) {	
+	// Cache API data if set to cache...SESSION cache is only for runtime cache...persistent cache is the file cache (which updates after session because of file locking)
+	if ( update_cache_file('cache/api/'.$hash_check.'.dat', $ttl) == true && $ttl > 0 && !$_SESSION['api_cache'][$hash_check] || $ttl == 0 && !$_SESSION['api_cache'][$hash_check] ) {	
 	
 	$ch = curl_init( ( $mode == 'array' ? $api_server : '' ) );
 	
@@ -2152,7 +2151,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 	curl_setopt($ch, CURLOPT_TIMEOUT, $api_timeout);
 	
 	$data = curl_exec($ch);
-	
+
 		if ( !$data ) {
 		$data = 'no';
 		$_SESSION['get_data_error'] .= ' No data returned from ' . ( $mode == 'array' ? 'API server "' . $api_server : 'request "' . $request ) . '" (with timeout configuration setting of ' . $api_timeout . ' seconds). <br /> ' . ( $mode == 'array' ? '<pre>' . print_r($request, TRUE) . '</pre>' : '' ) . ' <br /> ';
@@ -2171,7 +2170,6 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 	//unlink($cookie_jar) or die("Can't unlink $cookie_jar");
 	
 	
-		//$_SESSION['api_cache'][$hash_check] = $data; // Cache API data for this update session
 		if ( $data && $ttl > 0 ) {
 	
 		//echo 'Caching data '; // DEBUGGING ONLY
@@ -2183,8 +2181,11 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		unlink('cache/api/'.$hash_check.'.dat'); // Delete any existing cache if empty value
 		//echo 'Deleted cache file, no data. '; // DEBUGGING ONLY
 		}
-
+		
+		
+	$_SESSION['api_cache'][$hash_check] = $data; // Cache API data for this update session, file cache doesn't update until session is over because of file locking
 	
+
 	// DEBUGGING ONLY
 	//$_SESSION['get_data_error'] .= '##REQUEST## Requested ' . ( $mode == 'array' ? 'API server "' . $api_server : 'endpoint "' . $request ) . '". <br /> ' . ( $mode == 'array' ? '<pre>' . print_r($request, TRUE) . '</pre>' : '' ) . ' <br /> ';
 	
@@ -2195,8 +2196,8 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 	}
 	else {
 	
-	//$data = $_SESSION['api_cache'][$hash_check];
-	$data = file_get_contents('cache/api/'.$hash_check.'.dat');
+	// Use session data if it exists, file cache doesn't update until session is over because of file locking
+	$data = ( $_SESSION['api_cache'][$hash_check] ? $_SESSION['api_cache'][$hash_check] : file_get_contents('cache/api/'.$hash_check.'.dat') );
 	
 		if ( !$data ) {
 		unlink('cache/api/'.$hash_check.'.dat'); // Delete any existing cache if empty value
