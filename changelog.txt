@@ -866,6 +866,7 @@ app doing the data requests, not a malicious bot)
 -Alerts / checkups on proxy failure
 -Simplified / highly compatible proxy config settings
 -IDEX exchange API support
+-Optimized API caching
 -------------------------------------------------------------------
 
 
