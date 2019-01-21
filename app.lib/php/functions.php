@@ -797,6 +797,42 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
   }
 
 
+
+  elseif ( strtolower($chosen_market) == 'idex' ) {
+     
+     $json_string = 'https://api.idex.market/returnTicker';
+     
+     $jsondata = @data_request('url', $json_string, $last_trade_ttl);
+     
+     $data = json_decode($jsondata, TRUE);
+   
+  
+  //print_r($data);
+  
+      if (is_array($data) || is_object($data)) {
+  
+       foreach ($data as $key => $value) {
+         
+         //print_r($key);
+         
+         if ( $key == $market_pairing ) {
+         	
+         //print_r($data[$key]);
+         
+         return $data[$key]["last"];
+          
+          
+         }
+       
+     
+       }
+      
+      }
+  
+  
+  }
+
+
   elseif ( strtolower($chosen_market) == 'coinbase' ) {
   
      $json_string = 'https://api.coinbase.com/v2/exchange-rates?currency=' . $market_pairing;
@@ -2197,79 +2233,105 @@ $ip_port = explode(':', $problem_proxy);
 $ip = $ip_port[0];
 $port = $ip_port[1];
 
-$cache_filename = preg_replace('/:/', "_", $problem_proxy);
+// Create cache filename / session var
+$cache_filename = $problem_proxy;
+$cache_filename = preg_replace("/\./", "-", $cache_filename);
+$cache_filename = preg_replace("/:/", "_", $cache_filename);
 
-	if ( update_cache_file('cache/alerts/proxy-check-'.$cache_filename.'.dat', ( $proxy_alerts_freq * 60 ) ) == true ) {
+	if ( update_cache_file('cache/alerts/proxy-check-'.$cache_filename.'.dat', ( $proxy_alerts_freq * 60 ) ) == true
+	&& in_array($cache_filename, $_SESSION['proxies_checked']) == false ) {
 	
 	$jsondata = @data_request('proxy-check', 'http://httpbin.org/ip', 0, '', '', $problem_proxy);
 	$data = json_decode($jsondata, TRUE);
 	
 		if ( trim($data['origin']) != '' ) {
 
-		$verbose_logs = ( strstr($problem_proxy, $data['origin']) == false ? 'Proxy '.$problem_proxy.' checkup status = MISCONFIGURED (detected ip: '.$data['origin'].'); Remote address DOES NOT match proxy address;' : 'Proxy '.$problem_proxy.' checkup status = OK (detected ip: '.$data['origin'].');' );
+
+			if ( strstr($problem_proxy, $data['origin']) == false ) {
+				
+			$misconfigured = 1;
+			
+			$notifyme_alert = 'A checkup on proxy '.$ip.', port '.$port.' detected a misconfiguration. Remote address '.$data['origin'].' Does not match the proxy address.';
+			
+			$text_alert = 'Proxy '.$problem_proxy.' remote address mismatch (detected ip: '.$data['origin'].').';
 		
-		$notifyme_logs = ( strstr($problem_proxy, $data['origin']) == false ? 'A checkup on proxy '.$ip.', port '.$port.' detected a misconfiguration. Remote address '.$data['origin'].' Does not match the proxy address.' : 'Proxy '.$ip.', port '.$port.' checkup status is OK.' );
+			}
+			
+			
+		$cached_logs = ( $misconfigured == 1 ? 'Proxy '.$problem_proxy.' checkup status = MISCONFIGURED (detected ip: '.$data['origin'].'); Remote address DOES NOT match proxy address;' : 'Proxy '.$problem_proxy.' checkup status = OK (detected ip: '.$data['origin'].');' );
 		
-		$text_logs = ( strstr($problem_proxy, $data['origin']) == false ? 'Proxy '.$problem_proxy.' misconfig (detected ip: '.$data['origin'].').' : 'Proxy '.$problem_proxy.' checkup OK (detected ip: '.$data['origin'].').' );
 		
 		}
 		else {
 			
-		$verbose_logs = 'Proxy '.$problem_proxy.' checkup status = MISCONFIGURED; No connection established;';
-		
-		$notifyme_logs = 'A checkup on proxy '.$ip.', port '.$port.' detected a misconfiguration. No connection established.';
+		$misconfigured = 1;
 			
-		$text_logs = 'Proxy '.$problem_proxy.' misconfig, no connection established.';
+		$cached_logs = 'Proxy '.$problem_proxy.' checkup status = DATA REQUEST FAILED; No endpoint connection established;';
+		
+		$notifyme_alert = 'A checkup on proxy '.$ip.', port '.$port.' resulted in a failed data request. No endpoint connection could be established.';
+			
+		$text_alert = 'Proxy '.$problem_proxy.' failed data request, no endpoint connection established.';
 
 		}
 
+      
+      $email_alert = " The proxy ".$problem_proxy." was unresponsive recently. An internal check on this proxy was performed, and results logged: \n \n ============================================================== \n " . $cached_logs . " \n ============================================================== \n \n ";
+                    
+		
+		// SESSION VAR to avoid duplicate alerts close together (while first alert still has cache file locked for writing)
+		$_SESSION['proxies_checked'][] = $cache_filename;
 		
 		// Cache the logs
-		file_put_contents('cache/alerts/proxy-check-'.$cache_filename.'.dat', $verbose_logs, LOCK_EX);
+		file_put_contents('cache/alerts/proxy-check-'.$cache_filename.'.dat', $cached_logs, LOCK_EX);
 		
 		
-		// EMAIL
-		$email_format = " The proxy ".$problem_proxy." was unresponsive recently. An internal check on this proxy was performed: \n \n ============================================================== \n " . $verbose_logs . " \n ============================================================== \n \n ";
 		
-      if (  validate_email($to_email) == 'valid' ) {
-      //safe_mail($to_email, 'A Proxy Was Unresponsive', $email_format);
-      }
-  
-    
-      // Alert parameter configs for comm methods
-      $notifyme_params = array(
-                              'notification' => $notifyme_logs,
-                              'accessCode' => $notifyme_accesscode
-                              );
+		// Send out alerts
+		if ( $misconfigured == 1 ) {
+                    
+                          
+          if (  validate_email($to_email) == 'valid' ) {
+          safe_mail($to_email, 'A Proxy Was Unresponsive', $email_alert);
+          }
       
-      $textbelt_params = array(
-                              'phone' => text_number($to_text),
-                              'message' => $text_logs,
-                              'key' => $textbelt_apikey
-                              );
+        
+          // Alert parameter configs for comm methods
+          $notifyme_params = array(
+                                  'notification' => $notifyme_alert,
+                                  'accessCode' => $notifyme_accesscode
+                                  );
+          
+          $textbelt_params = array(
+                                  'phone' => text_number($to_text),
+                                  'message' => $text_alert,
+                                  'key' => $textbelt_apikey
+                                  );
+          
+          $textlocal_params = array(
+                                   'username' => string_to_array($textlocal_account)[0],
+                                   'hash' => string_to_array($textlocal_account)[1],
+                                   'numbers' => text_number($to_text),
+                                   'message' => $text_alert
+                                   );
       
-      $textlocal_params = array(
-                               'username' => string_to_array($textlocal_account)[0],
-                               'hash' => string_to_array($textlocal_account)[1],
-                               'numbers' => text_number($to_text),
-                               'message' => $text_logs
-                               );
-  
-		
-       if ( validate_email( text_email($to_text) ) == 'valid' && trim($textbelt_apikey) != '' && trim($textlocal_account) != '' ) { // Only use text-to-email if other text services aren't configured
-       //safe_mail( text_email($to_text) , 'Unresponsive Proxy', $text_logs);
-       }
-  
-       if ( trim($notifyme_accesscode) != '' ) {
-       //data_request('array', $notifyme_params, 0, 'https://api.notifymyecho.com/v1/NotifyMe');
-       }
-  
-       if ( trim($textbelt_apikey) != '' && trim($textlocal_account) == '' ) { // Only run if textlocal API isn't being used to avoid double texts
-       //data_request('array', $textbelt_params, 0, 'https://textbelt.com/text', 2);
-       }
-  
-       if ( trim($textlocal_account) != '' && trim($textbelt_apikey) == '' ) { // Only run if textbelt API isn't being used to avoid double texts
-       //data_request('array', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
+                    
+           if ( validate_email( text_email($to_text) ) == 'valid' && trim($textbelt_apikey) != '' && trim($textlocal_account) != '' ) { // Only use text-to-email if other text services aren't configured
+           safe_mail( text_email($to_text) , 'Unresponsive Proxy', $text_alert);
+           }
+      
+           if ( trim($notifyme_accesscode) != '' ) {
+           data_request('array', $notifyme_params, 0, 'https://api.notifymyecho.com/v1/NotifyMe');
+           }
+      
+           if ( trim($textbelt_apikey) != '' && trim($textlocal_account) == '' ) { // Only run if textlocal API isn't being used to avoid double texts
+           data_request('array', $textbelt_params, 0, 'https://textbelt.com/text', 2);
+           }
+      
+           if ( trim($textlocal_account) != '' && trim($textbelt_apikey) == '' ) { // Only run if textbelt API isn't being used to avoid double texts
+           data_request('array', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
+           }
+           
+           
        }
           
           
