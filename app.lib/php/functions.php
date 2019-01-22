@@ -61,10 +61,7 @@ return $string;
 
 }
 
-
-
 ////////////////////////////////////////////////////////
-
 
 function asset_alert_check($asset_data, $exchange, $pairing, $alert_mode) {
 
@@ -235,9 +232,7 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
 
 }
  
- 
 /////////////////////////////////////////////////////////
-
 
 function validate_email($email) {
 
@@ -312,6 +307,7 @@ function update_cache_file($cache_file, $minutes) {
 }
 
 //////////////////////////////////////////////////////////
+
 function etherscan_api($block_info) {
  
 global $chainstats_cache;
@@ -354,12 +350,9 @@ global $chainstats_cache;
     	}
   
 }
+
 //////////////////////////////////////////////////////////
- 
- 
- 
- 
-//////////////////////////////////////////////////////////
+
 function decred_api($type, $request) {
  
 global $chainstats_cache;
@@ -385,12 +378,9 @@ global $chainstats_cache;
 		}
   
 }
+
 //////////////////////////////////////////////////////////
- 
- 
- 
- 
-//////////////////////////////////////////////////////////
+
 function monero_api($request) {
  
 global $chainstats_cache;
@@ -410,23 +400,17 @@ global $chainstats_cache;
 		}
   
 }
+
 //////////////////////////////////////////////////////////
 
- 
- 
- 
-//////////////////////////////////////////////////////////
 function monero_reward() {
  		
  	return monero_api('last_reward') / 1000000000000;
   
 }
+
 //////////////////////////////////////////////////////////
 
- 
- 
- 
-//////////////////////////////////////////////////////////
 function vertcoin_api($request) {
  
 global $chainstats_cache;
@@ -443,12 +427,9 @@ global $chainstats_cache;
 		}
   
 }
+
 //////////////////////////////////////////////////////////
- 
- 
- 
- 
-//////////////////////////////////////////////////////////
+
 function ravencoin_api($request) {
  
 global $chainstats_cache;
@@ -473,11 +454,9 @@ global $chainstats_cache;
   
   
 }
+
 //////////////////////////////////////////////////////////
- 
- 
- 
-//////////////////////////////////////////////////////////
+
 function mining_calc_form($calculation_form_data, $network_measure) {
 
 global $_POST, $mining_rewards;
@@ -519,11 +498,9 @@ global $_POST, $mining_rewards;
 <?php
   
 }
+
 //////////////////////////////////////////////////////////
 
- 
- 
-//////////////////////////////////////////////////////////
 function get_btc_usd($btc_exchange) {
 
 global $last_trade_ttl;
@@ -708,11 +685,9 @@ global $last_trade_ttl;
   
 
 }
-//////////////////////////////////////////////////////////
-
-
 
 //////////////////////////////////////////////////////////
+
 function get_trade_price($chosen_market, $market_pairing) {
 
 global $btc_exchange, $coins_array, $last_trade_ttl;
@@ -1406,9 +1381,9 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
 
   
 }
+
 //////////////////////////////////////////////////////////
- 
-//////////////////////////////////////////////////////////
+
 function get_sub_token_price($chosen_market, $market_pairing) {
 
 global $eth_subtokens_ico_values;
@@ -1420,9 +1395,9 @@ global $eth_subtokens_ico_values;
  
 
 }
+
 ///////////////////////////////////////////////////////////
 
-//////////////////////////////////////////////////////////
 function strip_price_formatting($price) {
 
 $price = preg_replace("/ /", "", $price); // Space
@@ -1432,9 +1407,9 @@ $price = preg_replace("/  /", "", $price); // Tab
 return $price;
 
 }
-//////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////
+
 function marketcap_data($symbol) {
 	
 global $marketcap_site, $alert_percent;
@@ -1480,9 +1455,9 @@ $data = array();
 return $data;
 
 }
-//////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////
+
 function coingecko_api($symbol) {
 	
 global $marketcap_ranks_max, $marketcap_ttl;
@@ -1566,9 +1541,9 @@ $array_merging = array();
 		  
   
 }
-//////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////
+
 function coinmarketcap_api($symbol) {
 	
 global $marketcap_ranks_max, $marketcap_ttl;
@@ -1654,11 +1629,9 @@ $array_merging = array();
 		  
   
 }
-//////////////////////////////////////////////////////////
-
-
 
 //////////////////////////////////////////////////////////
+
 function coin_data($coin_name, $trade_symbol, $coin_amount, $market_pairing_array, $selected_pairing, $selected_market, $sort_order) {
 
 global $_POST, $coins_array, $btc_exchange, $marketcap_site, $alert_percent, $marketcap_ranks_max, $api_timeout;
@@ -2066,12 +2039,9 @@ echo '$' . number_format($coin_usd_worth, 2, '.', ',');
   }
 
 }
-//////////////////////////////////////////////////////////
-
-
-
 
 //////////////////////////////////////////////////////////
+
 function bitcoin_total() {
 
     if (is_array($_SESSION['btc_worth_array']) || is_object($_SESSION['btc_worth_array'])) {
@@ -2086,9 +2056,6 @@ function bitcoin_total() {
 
 return $total_value;
 }
-//////////////////////////////////////////////////////////
-
-
 
 //////////////////////////////////////////////////////////
 
@@ -2098,12 +2065,13 @@ global $version, $user_agent, $api_timeout, $proxy_list;
 
 $cookie_jar = tempnam('/tmp','cookie');
 	
-// To avoid duplicate requests in current update session, AND cache data
+// To cache duplicate requests based on a data hash, during runtime update session (AND persist cache to flat files)
 $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 
 
-	// Cache API data if set to cache...SESSION cache is only for runtime cache...persistent cache is the file cache (which updates after session because of file locking)
-	if ( update_cache_file('cache/api/'.$hash_check.'.dat', $ttl) == true && $ttl > 0 && !$_SESSION['api_cache'][$hash_check] || $ttl == 0 && !$_SESSION['api_cache'][$hash_check] ) {	
+	// Cache API data if set to cache...SESSION cache is only for runtime cache (deleted at end of runtime)...persistent cache is the file cache (which only reliably updates near end of a runtime session because of file locking)
+	if ( update_cache_file('cache/api/'.$hash_check.'.dat', $ttl) == true && $ttl > 0 && !$_SESSION['api_cache'][$hash_check] 
+	|| $ttl == 0 && !$_SESSION['api_cache'][$hash_check] ) {	
 	
 	$ch = curl_init( ( $mode == 'array' ? $api_server : '' ) );
 	
@@ -2112,14 +2080,11 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		$current_proxy = ( $mode == 'proxy-check' && $test_proxy != NULL ? $test_proxy : random_proxy() );
 		$ip_port = explode(':', $current_proxy);
 		
-		//var_dump($ip_port); // DEBUGGING ONLY
-		
 		curl_setopt($ch, CURLOPT_PROXY, trim($ip_port[0]) );    
 		curl_setopt($ch, CURLOPT_PROXYPORT, trim($ip_port[1]) );    
 		curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, 1);  
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 		curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
-		//curl_setopt($ch, CURLOPT_HEADER, 1);  // KILLS CONNECTION???
 		} 
 		else {
 		curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie_jar);
@@ -2142,15 +2107,15 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		curl_setopt($ch, CURLOPT_URL, $request);
 		}
 	
-	
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-	//curl_setopt($ch, CURLOPT_BINARYTRANSFER, 1);  // NOT NEEDED???
 	curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, 0);
 	curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, 0); 
 	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $api_timeout);
 	curl_setopt($ch, CURLOPT_TIMEOUT, $api_timeout);
 	
 	$data = curl_exec($ch);
+	curl_close($ch);
+
 
 		if ( !$data ) {
 		$data = 'no';
@@ -2166,25 +2131,17 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		$_SESSION['get_data_error'] .= '##REAL-TIME REQUEST## data error response from '.( $mode == 'array' ? $api_server : $request ).': <br /> =================================== <br />' . $data . ' <br /> =================================== <br />';
 		}
 	
-	curl_close($ch);
-	//unlink($cookie_jar) or die("Can't unlink $cookie_jar");
 	
-	
-		if ( $data && $ttl > 0 ) {
-	
-		//echo 'Caching data '; // DEBUGGING ONLY
-
+		if ( $data && $ttl > 0 && $mode ) {
+		//echo 'File caching data '; // DEBUGGING ONLY
 		file_put_contents('cache/api/'.$hash_check.'.dat', $data, LOCK_EX);
-		
 		}
 		elseif ( !$data ) {
 		unlink('cache/api/'.$hash_check.'.dat'); // Delete any existing cache if empty value
 		//echo 'Deleted cache file, no data. '; // DEBUGGING ONLY
 		}
 		
-		
-	$_SESSION['api_cache'][$hash_check] = $data; // Cache API data for this update session, file cache doesn't update until session is over because of file locking
-	
+	$_SESSION['api_cache'][$hash_check] = $data; // Cache API data for this runtime session AFTER PERSISTENT FILE CACHE UPDATE, file cache doesn't reliably update until runtime session is ending because of file locking
 
 	// DEBUGGING ONLY
 	//$_SESSION['get_data_error'] .= '##REQUEST## Requested ' . ( $mode == 'array' ? 'API server "' . $api_server : 'endpoint "' . $request ) . '". <br /> ' . ( $mode == 'array' ? '<pre>' . print_r($request, TRUE) . '</pre>' : '' ) . ' <br /> ';
@@ -2196,7 +2153,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 	}
 	else {
 	
-	// Use session data if it exists, file cache doesn't update until session is over because of file locking
+	// Use session cache if it exists. Remember file cache doesn't update until session is nearly over because of file locking, so only reliable for persisting a cache long term
 	$data = ( $_SESSION['api_cache'][$hash_check] ? $_SESSION['api_cache'][$hash_check] : file_get_contents('cache/api/'.$hash_check.'.dat') );
 	
 		if ( !$data ) {
@@ -2213,7 +2170,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 	
 	
 	// DEBUGGING ONLY
-	//$_SESSION['get_data_error'] .= ' ##DUPLICATE## request ignored for ' . ( $mode == 'array' ? 'API server "' . $api_server : 'endpoint "' . $request ) . '". <br /> ' . ( $mode == 'array' ? '<pre>' . print_r($request, TRUE) . '</pre>' : '' ) . ' <br /> ';
+	//$_SESSION['get_data_error'] .= ' ##CACHED## request response for ' . ( $mode == 'array' ? 'API server "' . $api_server : 'endpoint "' . $request ) . '". <br /> ' . ( $mode == 'array' ? '<pre>' . print_r($request, TRUE) . '</pre>' : '' ) . ' <br /> ';
 	
 	
 	}
@@ -2225,6 +2182,7 @@ return $data;
 }
 
 //////////////////////////////////////////////////////////
+
 function test_proxies($problem_proxy) {
 
 global $proxy_alerts_freq, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $textlocal_account;
@@ -2239,10 +2197,14 @@ $cache_filename = $problem_proxy;
 $cache_filename = preg_replace("/\./", "-", $cache_filename);
 $cache_filename = preg_replace("/:/", "_", $cache_filename);
 
+$proxy_test_url = base_url() . 'proxy-test.php';
+
 	if ( update_cache_file('cache/alerts/proxy-check-'.$cache_filename.'.dat', ( $proxy_alerts_freq * 60 ) ) == true
 	&& in_array($cache_filename, $_SESSION['proxies_checked']) == false ) {
 	
-	$jsondata = @data_request('proxy-check', 'http://httpbin.org/ip', 0, '', '', $problem_proxy);
+	//$jsondata = @data_request('proxy-check', 'http://httpbin.org/ip', 0, '', '', $problem_proxy);
+	$jsondata = @data_request('proxy-check', $proxy_test_url, 0, '', '', $problem_proxy);
+	
 	$data = json_decode($jsondata, TRUE);
 	
 		if ( trim($data['origin']) != '' ) {
@@ -2259,7 +2221,7 @@ $cache_filename = preg_replace("/:/", "_", $cache_filename);
 			}
 			
 			
-		$cached_logs = ( $misconfigured == 1 ? 'Proxy '.$problem_proxy.' checkup status = MISCONFIGURED (detected ip: '.$data['origin'].'); Remote address DOES NOT match proxy address;' : 'Proxy '.$problem_proxy.' checkup status = OK (detected ip: '.$data['origin'].');' );
+		$cached_logs = ( $misconfigured == 1 ? 'Proxy '.$problem_proxy.' checkup status = MISCONFIGURED (test endpoint '.$proxy_test_url.' detected the incoming ip as: '.$data['origin'].'); Remote address DOES NOT match proxy address;' : 'Proxy '.$problem_proxy.' checkup status = OK (test endpoint '.$proxy_test_url.' detected the incoming ip as: '.$data['origin'].');' );
 		
 		
 		}
@@ -2267,7 +2229,7 @@ $cache_filename = preg_replace("/:/", "_", $cache_filename);
 			
 		$misconfigured = 1;
 			
-		$cached_logs = 'Proxy '.$problem_proxy.' checkup status = DATA REQUEST FAILED; No endpoint connection established;';
+		$cached_logs = 'Proxy '.$problem_proxy.' checkup status = DATA REQUEST FAILED; No connection established at test endpoint '.$proxy_test_url.';';
 		
 		$notifyme_alert = 'A checkup on proxy '.$ip.', port '.$port.' resulted in a failed data request. No endpoint connection could be established.';
 			
@@ -2284,7 +2246,6 @@ $cache_filename = preg_replace("/:/", "_", $cache_filename);
 		
 		// Cache the logs
 		file_put_contents('cache/alerts/proxy-check-'.$cache_filename.'.dat', $cached_logs, LOCK_EX);
-		
 		
 		
 		// Send out alerts
@@ -2340,31 +2301,37 @@ $cache_filename = preg_replace("/:/", "_", $cache_filename);
 	}
 
 }
+
 //////////////////////////////////////////////////////////
-function base_url() {
 
-// base directory
-$base_dir = __DIR__;
-
-// server protocol
-$protocol = empty($_SERVER['HTTPS']) ? 'http' : 'https';
-
-// domain name
-$domain = $_SERVER['SERVER_NAME'];
-
-// base url
-$base_url = preg_replace("!^${doc_root}!", '', $base_dir);
-
-// server port
-$port = $_SERVER['SERVER_PORT'];
-$disp_port = ($protocol == 'http' && $port == 80 || $protocol == 'https' && $port == 443) ? '' : ":$port";
-
-// put em all together to get the complete base URL
-$url = "${protocol}://${domain}${disp_port}${base_url}";
-
-return $url; // = http://example.com/path/directory
+function base_url($atRoot=FALSE, $atCore=FALSE, $parse=FALSE) {
 	
+	if ( isset($_SERVER['HTTP_HOST']) ) {
+        	
+   $http = isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off' ? 'https' : 'http';
+   $hostname = $_SERVER['HTTP_HOST'];
+   $dir =  str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
+
+   $core = preg_split('@/@', str_replace($_SERVER['DOCUMENT_ROOT'], '', realpath(dirname(__FILE__))), NULL, PREG_SPLIT_NO_EMPTY);
+   $core = $core[0];
+
+   $tmplt = $atRoot ? ($atCore ? "%s://%s/%s/" : "%s://%s/") : ($atCore ? "%s://%s/%s/" : "%s://%s%s");
+   $end = $atRoot ? ($atCore ? $core : $hostname) : ($atCore ? $core : $dir);
+   $base_url = sprintf( $tmplt, $http, $hostname, $end );
+            
+	}
+	else $base_url = 'http://localhost/';
+
+   if ($parse) {
+   $base_url = parse_url($base_url);
+   	     if (isset($base_url['path'])) if ($base_url['path'] == '/') $base_url['path'] = '';
+   }
+
+
+return $base_url;
+
 }
+
 //////////////////////////////////////////////////////////
 
 function trim_array($data) {
@@ -2376,6 +2343,7 @@ function trim_array($data) {
 return $data;
 
 }
+
 //////////////////////////////////////////////////////////
 
 function random_proxy() {
@@ -2399,6 +2367,7 @@ $data = preg_replace("/,/i", "", $data); // Comma
 return $data;
 
 }
+
 //////////////////////////////////////////////////////////
 
 function powerdown_usd($data) {
@@ -2408,8 +2377,8 @@ global $steem_market, $btc_exchange;
 return ( $data * $steem_market * get_btc_usd($btc_exchange) );
 
 }
-//////////////////////////////////////////////////////////
 
+//////////////////////////////////////////////////////////
 
 function steempower_time($time) {
     
@@ -2506,6 +2475,7 @@ $speed = ($_POST['sp_total'] * $decimal_yearly_interest) / 525600;  // Interest 
     <?php
     
 }
+
 //////////////////////////////////////////////////////////
 
 
