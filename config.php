@@ -25,7 +25,7 @@ $version = '2.2.6';  // 2019/JANUARY/15TH
  
 
 /*
- * USAGE (ADDING / UPDATING COINS) ...API support for: kraken / gatecoin / poloniex / coinbase / bitstamp / bittrex / bitfinex and ethfinex / cryptofresh / bter / gemini / hitbtc / liqui / cryptopia / livecoin / upbit / kucoin / okex / gate.io / graviex / idex...BTC, XMR, ETH, LTC, AND USDT trading pair support
+ * USAGE (ADDING / UPDATING COINS) ...API support for: kraken / gatecoin / poloniex / coinbase / bitstamp / bittrex / bitfinex and ethfinex / cryptofresh / bter / gemini / hitbtc / liqui / cryptopia / livecoin / upbit / kucoin / okex / gate.io / graviex / idex / hotbit...BTC, XMR, ETH, LTC, AND USDT trading pair support
  * Ethereum ICO subtoken support has been built in, but values are static ICO values in ETH
  *
  SEE THE BOTTOM OF THE README.txt FOR FOR AN EXAMPLE SET OF PRE-CONFIGURED ASSETS
@@ -78,11 +78,11 @@ $version = '2.2.6';  // 2019/JANUARY/15TH
 
 /////////////////// GENERAL CONFIG -START- ////////////////////////////////////////////////////
 
-$btc_exchange = 'coinbase'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken / hitbtc / gatecion / livecoin
+$btc_exchange = 'bitstamp'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken / hitbtc / gatecion / livecoin
 
 $chainstats_cache = 20; // Time to cache blockchain stats (for mining calculators), in minutes
 
-$marketcap_site = 'coinmarketcap'; // Default marketcap data source: coinmarketcap / coingecko
+$marketcap_site = 'coingecko'; // Default marketcap data source: coinmarketcap / coingecko
 
 $api_timeout = 15; // Seconds to wait for response from API endpoints
 
@@ -833,6 +833,26 @@ $coins_array = array(
                                         ),
                         'default_pairing' => 'btc'
                     ),
+                    // GRIN
+                    'GRIN' => array(
+                        
+                        'coin_name' => 'Grin',
+                        'coin_symbol' => 'GRIN',
+                        'marketcap-website-slug' => 'grin',
+                        'ico' => 'no',
+                        'market_pairing' => array(
+                                    'btc' => array(
+                                         'hotbit' => 'GRIN_BTC'
+                                                    ),
+                                    'eth' => array(
+                                         'hotbit' => 'GRIN_ETH'
+                                                    ),
+                                    'usdt' => array(
+                                         'hotbit' => 'GRIN_USDT'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
+                    ),
                     // MYST
                     'MYST' => array(
                         
@@ -862,6 +882,6 @@ $coins_array = array(
 
 require_once("app.lib/php/post-init.php");
 
-//test_proxies('255.255.255.255:999'); // DEBUGGING ONLY, RUN HERE OR EMAIL ALERTS MAY NOT SEND!
+//test_proxies('255.255.255.255:999'); // DEBUGGING PROXY CHECKUP FEATURE ONLY, RUN HERE OR EMAIL ALERTS MAY NOT SEND!
 
 ?>

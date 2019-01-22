@@ -967,6 +967,37 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
   
   }
 
+  elseif ( strtolower($chosen_market) == 'hotbit' ) {
+
+     $json_string = 'https://api.hotbit.io/api/v1/allticker';
+     
+     $jsondata = @data_request('url', $json_string, $last_trade_ttl);
+     
+     $data = json_decode($jsondata, TRUE);
+   
+  $data = $data['ticker'];
+  //print_r($data);
+      if (is_array($data) || is_object($data)) {
+  
+       foreach ($data as $key => $value) {
+         
+         //print_r($key);
+         
+         if ( $data[$key]["symbol"] == $market_pairing ) {
+          
+         return $data[$key]["last"];
+          
+          
+         }
+       
+     
+       }
+      
+      }
+  
+  
+  }
+
   elseif ( strtolower($chosen_market) == 'gateio' ) {
 
      $json_string = 'https://data.gate.io/api2/1/tickers';
