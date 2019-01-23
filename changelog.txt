@@ -871,6 +871,15 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+2.2.7:
+-Proxy checkup compatibility (for CLI cron jobs)
+-Tradeogre markets API support
+-------------------------------------------------------------------
+
+
+
+
 
 
 

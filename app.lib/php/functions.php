@@ -966,6 +966,37 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
   
   
   }
+  
+  elseif ( strtolower($chosen_market) == 'tradeogre' ) {
+
+     $json_string = 'https://tradeogre.com/api/v1/markets';
+     
+     $jsondata = @data_request('url', $json_string, $last_trade_ttl);
+     
+     $data = json_decode($jsondata, TRUE);
+   
+  
+  //print_r($data);
+      if (is_array($data) || is_object($data)) {
+  
+       foreach ($data as $key => $value) {
+         
+         //print_r($value);
+         
+         if ( $data[$key][$market_pairing] != '' ) {
+          
+         return $data[$key][$market_pairing]["price"];
+          
+          
+         }
+       
+     
+       }
+      
+      }
+  
+  
+  }
 
   elseif ( strtolower($chosen_market) == 'hotbit' ) {
 
@@ -2228,7 +2259,7 @@ $cache_filename = $problem_proxy;
 $cache_filename = preg_replace("/\./", "-", $cache_filename);
 $cache_filename = preg_replace("/:/", "_", $cache_filename);
 
-$proxy_test_url = base_url() . 'proxy-test.php';
+$proxy_test_url = 'http://httpbin.org/ip';
 
 	if ( update_cache_file('cache/alerts/proxy-check-'.$cache_filename.'.dat', ( $proxy_alerts_freq * 60 ) ) == true
 	&& in_array($cache_filename, $_SESSION['proxies_checked']) == false ) {
@@ -2336,7 +2367,8 @@ $proxy_test_url = base_url() . 'proxy-test.php';
 //////////////////////////////////////////////////////////
 
 function base_url($atRoot=FALSE, $atCore=FALSE, $parse=FALSE) {
-	
+// WARNING: THIS ONLY WORKS WELL FOR HTTP-BASED RUNTIME, ----NOT CLI---!
+
 	if ( isset($_SERVER['HTTP_HOST']) ) {
         	
    $http = isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off' ? 'https' : 'http';

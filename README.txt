@@ -31,7 +31,7 @@ STEEM: taoteh1221
 OTHER CRYPTOCURRENCIES AND PAYPAL ACCEPTED HERE: https://dragonfrugal.com/donate/
 
 /*
- * USAGE (ADDING / UPDATING COINS) ...API support for: kraken / gatecoin / poloniex / coinbase / bitstamp / bittrex / bitfinex and ethfinex / cryptofresh / bter / gemini / hitbtc / liqui / cryptopia / livecoin / upbit / kucoin / okex / gate.io / graviex / idex / hotbit...BTC, XMR, ETH, LTC, AND USDT trading pair support
+ * USAGE (ADDING / UPDATING COINS) ...API support for: kraken / gatecoin / poloniex / coinbase / bitstamp / bittrex / bitfinex and ethfinex / cryptofresh / bter / gemini / hitbtc / liqui / cryptopia / livecoin / upbit / kucoin / okex / gate.io / graviex / idex / hotbit / tradeogre...BTC, XMR, ETH, LTC, AND USDT trading pair support
  * Ethereum ICO subtoken support has been built in, but values are static ICO values in ETH
  *
  SEE THE BOTTOM OF THE README.txt FOR FOR AN EXAMPLE SET OF PRE-CONFIGURED ASSETS
@@ -157,7 +157,9 @@ $cron_alerts = array(
 					'xlm' => 'bittrex|btc', // exchange|trade_pairing
 					'ada' => 'bittrex|btc', // exchange|trade_pairing
 				//	'xrp' => 'bittrex|btc', // exchange|trade_pairing
-					'rvn' => 'bittrex|btc', // exchange|trade_pairing
+					'rvn' => 'binance|btc', // exchange|trade_pairing
+					'grin' => 'hotbit|btc', // exchange|trade_pairing
+					'grin-2' => 'hotbit|eth', // exchange|trade_pairing
 					'myst' => 'hitbtc|btc', // exchange|trade_pairing
 					'myst-2' => 'hitbtc|eth', // exchange|trade_pairing
 					'myst-3' => 'idex|eth' // exchange|trade_pairing

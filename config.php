@@ -21,11 +21,11 @@ require_once("app.lib/php/init.php");
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 
-$version = '2.2.6';  // 2019/JANUARY/15TH
+$version = '2.2.7';  // 2019/JANUARY/23RD
  
 
 /*
- * USAGE (ADDING / UPDATING COINS) ...API support for: kraken / gatecoin / poloniex / coinbase / bitstamp / bittrex / bitfinex and ethfinex / cryptofresh / bter / gemini / hitbtc / liqui / cryptopia / livecoin / upbit / kucoin / okex / gate.io / graviex / idex / hotbit...BTC, XMR, ETH, LTC, AND USDT trading pair support
+ * USAGE (ADDING / UPDATING COINS) ...API support for: kraken / gatecoin / poloniex / coinbase / bitstamp / bittrex / bitfinex and ethfinex / cryptofresh / bter / gemini / hitbtc / liqui / cryptopia / livecoin / upbit / kucoin / okex / gate.io / graviex / idex / hotbit / tradeogre...BTC, XMR, ETH, LTC, AND USDT trading pair support
  * Ethereum ICO subtoken support has been built in, but values are static ICO values in ETH
  *
  SEE THE BOTTOM OF THE README.txt FOR FOR AN EXAMPLE SET OF PRE-CONFIGURED ASSETS
@@ -149,7 +149,12 @@ $cron_alerts = array(
 					'xlm' => 'bittrex|btc', // exchange|trade_pairing
 					'ada' => 'bittrex|btc', // exchange|trade_pairing
 				//	'xrp' => 'bittrex|btc', // exchange|trade_pairing
-					'rvn' => 'bittrex|btc', // exchange|trade_pairing
+					'rvn' => 'binance|btc', // exchange|trade_pairing
+					'grin' => 'hotbit|btc', // exchange|trade_pairing
+					'grin-2' => 'hotbit|eth', // exchange|trade_pairing
+					'grin-3' => 'tradeogre|btc', // exchange|trade_pairing
+					'beam' => 'hotbit|btc', // exchange|trade_pairing
+					'beam-2' => 'hotbit|eth', // exchange|trade_pairing
 					'myst' => 'hitbtc|btc', // exchange|trade_pairing
 					'myst-2' => 'hitbtc|eth', // exchange|trade_pairing
 					'myst-3' => 'idex|eth' // exchange|trade_pairing
@@ -842,13 +847,34 @@ $coins_array = array(
                         'ico' => 'no',
                         'market_pairing' => array(
                                     'btc' => array(
-                                         'hotbit' => 'GRIN_BTC'
+                                         'hotbit' => 'GRIN_BTC',
+                                         'tradeogre' => 'BTC-GRIN'
                                                     ),
                                     'eth' => array(
                                          'hotbit' => 'GRIN_ETH'
                                                     ),
                                     'usdt' => array(
                                          'hotbit' => 'GRIN_USDT'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
+                    ),
+                    // BEAM
+                    'BEAM' => array(
+                        
+                        'coin_name' => 'Beam',
+                        'coin_symbol' => 'BEAM',
+                        'marketcap-website-slug' => 'beam',
+                        'ico' => 'yes',
+                        'market_pairing' => array(
+                                    'btc' => array(
+                                         'hotbit' => 'BEAM_BTC'
+                                                    ),
+                                    'eth' => array(
+                                         'hotbit' => 'BEAM_ETH'
+                                                    ),
+                                    'usdt' => array(
+                                         'hotbit' => 'BEAM_USDT'
                                                     )
                                         ),
                         'default_pairing' => 'btc'
