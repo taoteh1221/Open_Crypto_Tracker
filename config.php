@@ -25,7 +25,7 @@ $version = '2.2.7';  // 2019/JANUARY/23RD
  
 
 /*
- * USAGE (ADDING / UPDATING COINS) ...API support for: kraken / gatecoin / poloniex / coinbase / bitstamp / bittrex / bitfinex and ethfinex / cryptofresh / bter / gemini / hitbtc / liqui / cryptopia / livecoin / upbit / kucoin / okex / gate.io / graviex / idex / hotbit / tradeogre...BTC, XMR, ETH, LTC, AND USDT trading pair support
+ * USAGE (ADDING / UPDATING COINS) ...API support for: kraken / gatecoin / poloniex / coinbase / bitstamp / bittrex / bitfinex and ethfinex / cryptofresh / bter / gemini / hitbtc / liqui / cryptopia / livecoin / upbit / kucoin / okex / gate.io / graviex / idex / hotbit / tradeogre / bitforex / bigone...BTC, XMR, ETH, LTC, AND USDT trading pair support
  * Ethereum ICO subtoken support has been built in, but values are static ICO values in ETH
  *
  SEE THE BOTTOM OF THE README.txt FOR FOR AN EXAMPLE SET OF PRE-CONFIGURED ASSETS
@@ -101,6 +101,8 @@ $proxy_list = array(
 
 $proxy_alerts_freq = 1; // Re-allow proxy offline / misconfigured email alerts after X hours (can be 0)
 
+$proxy_alerts_type = 'email'; // 'email', or 'text', or 'notifyme', or 'all'...'email' keeps any text / notifyme price alert notifications a lot less cluttered ;-)
+
 // FROM email should be a REAL address on the website domain name, or you risk having sent email blacklisted / sent to junk folder
 $from_email = ''; // For cron job email alerts, MUST BE SET (see README.txt for cron job setup information) 
 
@@ -150,11 +152,8 @@ $cron_alerts = array(
 					'ada' => 'bittrex|btc', // exchange|trade_pairing
 				//	'xrp' => 'bittrex|btc', // exchange|trade_pairing
 					'rvn' => 'binance|btc', // exchange|trade_pairing
-					'grin' => 'hotbit|btc', // exchange|trade_pairing
-					'grin-2' => 'hotbit|eth', // exchange|trade_pairing
-					'grin-3' => 'tradeogre|btc', // exchange|trade_pairing
+					'grin' => 'kucoin|btc', // exchange|trade_pairing
 					'beam' => 'hotbit|btc', // exchange|trade_pairing
-					'beam-2' => 'hotbit|eth', // exchange|trade_pairing
 					'myst' => 'hitbtc|btc', // exchange|trade_pairing
 					'myst-2' => 'hitbtc|eth', // exchange|trade_pairing
 					'myst-3' => 'idex|eth' // exchange|trade_pairing
@@ -786,41 +785,6 @@ $coins_array = array(
                                         ),
                         'default_pairing' => 'btc'
                     ),
-                    // XRP
-                    'XRP' => array(
-                        
-                        'coin_name' => 'Ripple',
-                        'coin_symbol' => 'XRP',
-                        'marketcap-website-slug' => 'ripple',
-                        'ico' => 'no',
-                        'market_pairing' => array(
-                                    'btc' => array(
-                                          'poloniex' => 'BTC_XRP',
-                                          'bittrex' => 'BTC-XRP',
-                                          'upbit' => 'BTC-XRP',
-                                        	'binance' => 'XRPBTC',
-                                          'kraken' => 'XXRPXXBT',
-                                          'bitfinex' => 'tXRPBTC',
-                                          'bitstamp' => 'xrpbtc',
-                                        	'hitbtc' => 'XRPBTC'
-                                                    ),
-                                    'eth' => array(
-                                          'bittrex' => 'ETH-XRP',
-                                          'upbit' => 'ETH-XRP',
-                                        	'binance' => 'XRPETH',
-                                        	'hitbtc' => 'XRPETH',
-                                        	'okex' => 'xrp_eth'
-                                                    ),
-                                    'usdt' => array(
-                                        	'poloniex' => 'USDT_XRP',
-                                          'bittrex' => 'USDT-XRP',
-                                          'upbit' => 'USDT-XRP',
-                                        	'hitbtc' => 'XRPUSDT'
-                                                    )
-                                        ),
-                        'default_pairing' => 'btc'
-                        
-                    ),
                     // RVN
                     'RVN' => array(
                         
@@ -847,14 +811,18 @@ $coins_array = array(
                         'ico' => 'no',
                         'market_pairing' => array(
                                     'btc' => array(
+                                    	  'kucoin' => 'GRIN-BTC',
                                          'hotbit' => 'GRIN_BTC',
+                                         'bitforex' => 'coin-btc-grin',
                                          'tradeogre' => 'BTC-GRIN'
                                                     ),
                                     'eth' => array(
+                                    	  'kucoin' => 'GRIN-ETH',
                                          'hotbit' => 'GRIN_ETH'
                                                     ),
                                     'usdt' => array(
-                                         'hotbit' => 'GRIN_USDT'
+                                         'hotbit' => 'GRIN_USDT',
+                                         'bitforex' => 'coin-usdt-grin'
                                                     )
                                         ),
                         'default_pairing' => 'btc'
@@ -888,7 +856,8 @@ $coins_array = array(
                         'ico' => 'yes',
                         'market_pairing' => array(
                                     'btc' => array(
-                                          'hitbtc' => 'MYSTBTC'
+                                          'hitbtc' => 'MYSTBTC',
+                                          'bigone' => 'MYST-BTC'
                                                     ),
                                     'eth' => array(
                                           'hitbtc' => 'MYSTETH',

@@ -806,6 +806,42 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
   
   
   }
+  
+  
+  elseif ( strtolower($chosen_market) == 'bigone' ) {
+     
+     $json_string = 'https://big.one/api/v2/tickers';
+     
+     $jsondata = @data_request('url', $json_string, $last_trade_ttl);
+     
+     $data = json_decode($jsondata, TRUE);
+   
+  	  $data = $data['data'];
+  //print_r($data);
+  
+      if (is_array($data) || is_object($data)) {
+  
+       foreach ($data as $key => $value) {
+         
+         //print_r($key);
+         
+         if ( $data[$key]["market_id"] == $market_pairing ) {
+         	
+         //print_r($data[$key]);
+         
+         return $data[$key]["close"];
+          
+          
+         }
+       
+     
+       }
+      
+      }
+  
+  
+  }
+
 
 
   elseif ( strtolower($chosen_market) == 'coinbase' ) {
@@ -933,6 +969,18 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
        }
       
       }
+  
+  }
+
+  elseif ( strtolower($chosen_market) == 'bitforex' ) {
+  
+  $json_string = 'https://api.bitforex.com/api/v1/market/ticker?symbol=' . $market_pairing;
+  
+  $jsondata = @data_request('url', $json_string, $last_trade_ttl);
+  
+  $data = json_decode($jsondata, TRUE);
+  
+  return $data["data"]["last"];
   
   }
 
@@ -2181,7 +2229,12 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 
 		if ( !$data ) {
 		$data = 'no';
-		$_SESSION['get_data_error'] .= ' No data returned from ' . ( $mode == 'array' ? 'API server "' . $api_server : 'request "' . $request ) . '" (with timeout configuration setting of ' . $api_timeout . ' seconds). <br /> ' . ( $mode == 'array' ? '<pre>' . print_r($request, TRUE) . '</pre>' : '' ) . ' <br /> ';
+		
+		// SAFE VERSION
+		$_SESSION['get_data_error'] .= ' No data returned from ' . ( $mode == 'array' ? 'API server "' . $api_server : 'request "' . $request ) . '" (with timeout configuration setting of ' . $api_timeout . ' seconds). <br /> ';
+		
+		// DEBUGGING VERSION ONLY, CONTAINS USER DATA (API KEYS ETC)
+		//$_SESSION['get_data_error'] .= ' No data returned from ' . ( $mode == 'array' ? 'API server "' . $api_server : 'request "' . $request ) . '" (with timeout configuration setting of ' . $api_timeout . ' seconds). <br /> ' . ( $mode == 'array' ? '<pre>' . print_r($request, TRUE) . '</pre>' : '' ) . ' <br /> ';
 		
 			if ( sizeof($proxy_list) > 0 && $current_proxy != '' && $mode != 'proxy-check' ) { // Avoid infinite loops
 			test_proxies($current_proxy); // Test this proxy, to make sure it's online / configured properly
@@ -2247,7 +2300,7 @@ return $data;
 
 function test_proxies($problem_proxy) {
 
-global $proxy_alerts_freq, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $textlocal_account;
+global $proxy_alerts_freq, $proxy_alerts_type, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $textlocal_account;
 
 $ip_port = explode(':', $problem_proxy);
 
@@ -2314,7 +2367,8 @@ $proxy_test_url = 'http://httpbin.org/ip';
 		if ( $misconfigured == 1 ) {
                     
                           
-          if (  validate_email($to_email) == 'valid' ) {
+          if (  validate_email($to_email) == 'valid' && $proxy_alerts_type == 'email'
+          || validate_email($to_email) == 'valid' && $proxy_alerts_type == 'all' ) {
           safe_mail($to_email, 'A Proxy Was Unresponsive', $email_alert);
           }
       
@@ -2339,19 +2393,23 @@ $proxy_test_url = 'http://httpbin.org/ip';
                                    );
       
                     
-           if ( validate_email( text_email($to_text) ) == 'valid' && trim($textbelt_apikey) != '' && trim($textlocal_account) != '' ) { // Only use text-to-email if other text services aren't configured
+           if ( validate_email( text_email($to_text) ) == 'valid' && trim($textbelt_apikey) != '' && trim($textlocal_account) != '' && $proxy_alerts_type == 'text'
+           || validate_email( text_email($to_text) ) == 'valid' && trim($textbelt_apikey) != '' && trim($textlocal_account) != '' && $proxy_alerts_type == 'all' ) { // Only use text-to-email if other text services aren't configured
            safe_mail( text_email($to_text) , 'Unresponsive Proxy', $text_alert);
            }
       
-           if ( trim($notifyme_accesscode) != '' ) {
+           if ( trim($notifyme_accesscode) != '' && $proxy_alerts_type == 'notifyme'
+           || trim($notifyme_accesscode) != '' && $proxy_alerts_type == 'all' ) {
            data_request('array', $notifyme_params, 0, 'https://api.notifymyecho.com/v1/NotifyMe');
            }
       
-           if ( trim($textbelt_apikey) != '' && trim($textlocal_account) == '' ) { // Only run if textlocal API isn't being used to avoid double texts
+           if ( trim($textbelt_apikey) != '' && trim($textlocal_account) == '' && $proxy_alerts_type == 'text'
+           || trim($textbelt_apikey) != '' && trim($textlocal_account) == '' && $proxy_alerts_type == 'all' ) { // Only run if textlocal API isn't being used to avoid double texts
            data_request('array', $textbelt_params, 0, 'https://textbelt.com/text', 2);
            }
       
-           if ( trim($textlocal_account) != '' && trim($textbelt_apikey) == '' ) { // Only run if textbelt API isn't being used to avoid double texts
+           if ( trim($textlocal_account) != '' && trim($textbelt_apikey) == '' && $proxy_alerts_type == 'text'
+           || trim($textlocal_account) != '' && trim($textbelt_apikey) == '' && $proxy_alerts_type == 'all' ) { // Only run if textbelt API isn't being used to avoid double texts
            data_request('array', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
            }
            

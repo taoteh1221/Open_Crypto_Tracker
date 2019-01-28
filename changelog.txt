@@ -874,7 +874,9 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 2.2.7:
 -Proxy checkup compatibility (for CLI cron jobs)
--Tradeogre markets API support
+-Tradeogre / Bigone / Bitforex markets API support
+-Removed request params from API error notices in the UI
+-Proxy alert type setting
 -------------------------------------------------------------------
 
 

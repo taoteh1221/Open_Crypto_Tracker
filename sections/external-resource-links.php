@@ -193,6 +193,8 @@
         
         <li class='chart_links'><a href='https://www.youtube.com/channel/UCbiWJYRg8luWHnmNkJRZEnw/featured' target='_blank'>Tone Vays</a></li>
         
+        <li class='chart_links'><a href='https://www.youtube.com/channel/UCT44w6854K62cSiwA1aiXfw' target='_blank'>VoskCoin (good POW mining setups channel)</a></li>
+        
         
         
     </ul>
