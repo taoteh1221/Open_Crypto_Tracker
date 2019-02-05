@@ -150,7 +150,6 @@ $cron_alerts = array(
 				//	'fct' => 'bittrex|btc', // exchange|trade_pairing
 					'xlm' => 'bittrex|btc', // exchange|trade_pairing
 					'ada' => 'bittrex|btc', // exchange|trade_pairing
-				//	'xrp' => 'bittrex|btc', // exchange|trade_pairing
 					'rvn' => 'binance|btc', // exchange|trade_pairing
 					'grin' => 'kucoin|btc', // exchange|trade_pairing
 					'beam' => 'hotbit|btc', // exchange|trade_pairing
