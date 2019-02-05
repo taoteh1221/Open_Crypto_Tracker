@@ -1958,7 +1958,7 @@ $market_pairing = $market_pairing_array[$selected_market];
         else {
         ?> 
     
-        var cmc_content = '<h3 class="orange"><?=ucfirst($marketcap_site)?>.com Summary For <?=$coin_name?> (<?=$trade_symbol?>):</h3>'
+        var cmc_content = '<h3 class="orange" style="position: relative; top: -3px;"><?=ucfirst($marketcap_site)?>.com Summary For <?=$coin_name?> (<?=$trade_symbol?>):</h3>'
         +'<p><span class="orange">Average Market Price:</span> $<?=number_format(marketcap_data($trade_symbol)['price'],8,".",",")?></p>'
         +'<p><span class="orange">Marketcap Ranking:</span> #<?=marketcap_data($trade_symbol)['rank']?></p>'
         +'<p><span class="orange">Marketcap (USD):</span> $<?=number_format(marketcap_data($trade_symbol)['market_cap'],0,".",",")?></p>'
@@ -1993,12 +1993,12 @@ $market_pairing = $market_pairing_array[$selected_market];
         position: "right",
         contents: cmc_content,
         css: {
-                fontSize: ".7rem",
-                minWidth: ".7rem",
-                padding: ".2rem .5rem",
+                fontSize: ".9rem",
+                minWidth: ".9rem",
+                padding: ".3rem .7rem",
                 border: "1px solid rgba(212, 212, 212, .4)",
-                borderRadius: "3px",
-                boxShadow: "2px 2px 4px #555",
+                borderRadius: "6px",
+                boxShadow: "3px 3px 6px #555",
                 color: "#eee",
                 backgroundColor: "#111",
                 opacity: "0.95",
@@ -2353,7 +2353,7 @@ $proxy_test_url = 'http://httpbin.org/ip';
 		}
 
       
-      $email_alert = " The proxy ".$problem_proxy." was unresponsive recently. An internal check on this proxy was performed, and results logged: \n \n ============================================================== \n " . $cached_logs . " \n ============================================================== \n \n ";
+      $email_alert = " The proxy ".$problem_proxy." was unresponsive recently. A check on this proxy was performed, and results logged: \n \n ============================================================== \n " . $cached_logs . " \n ============================================================== \n \n ";
                     
 		
 		// SESSION VAR to avoid duplicate alerts close together (while first alert still has cache file locked for writing)

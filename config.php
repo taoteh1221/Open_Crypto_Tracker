@@ -21,7 +21,7 @@ require_once("app.lib/php/init.php");
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 
-$version = '2.2.7';  // 2019/JANUARY/23RD
+$version = '2.2.8';  // 2019/FEBRUARY/5TH
  
 
 /*
@@ -541,6 +541,51 @@ $coins_array = array(
                         'default_pairing' => 'btc'
                         
                     ),
+                    // GRIN
+                    'GRIN' => array(
+                        
+                        'coin_name' => 'Grin',
+                        'coin_symbol' => 'GRIN',
+                        'marketcap-website-slug' => 'grin',
+                        'ico' => 'no',
+                        'market_pairing' => array(
+                                    'btc' => array(
+                                    	  'kucoin' => 'GRIN-BTC',
+                                         'hotbit' => 'GRIN_BTC',
+                                         'bitforex' => 'coin-btc-grin',
+                                         'tradeogre' => 'BTC-GRIN'
+                                                    ),
+                                    'eth' => array(
+                                    	  'kucoin' => 'GRIN-ETH',
+                                         'hotbit' => 'GRIN_ETH'
+                                                    ),
+                                    'usdt' => array(
+                                         'hotbit' => 'GRIN_USDT',
+                                         'bitforex' => 'coin-usdt-grin'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
+                    ),
+                    // BEAM
+                    'BEAM' => array(
+                        
+                        'coin_name' => 'Beam',
+                        'coin_symbol' => 'BEAM',
+                        'marketcap-website-slug' => 'beam',
+                        'ico' => 'yes',
+                        'market_pairing' => array(
+                                    'btc' => array(
+                                         'hotbit' => 'BEAM_BTC'
+                                                    ),
+                                    'eth' => array(
+                                         'hotbit' => 'BEAM_ETH'
+                                                    ),
+                                    'usdt' => array(
+                                         'hotbit' => 'BEAM_USDT'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
+                    ),
                     // ZRX
                     'ZRX' => array(
                         
@@ -582,6 +627,33 @@ $coins_array = array(
                         'default_pairing' => 'btc'
                         
                     ),
+                    // ADA
+                    'ADA' => array(
+                        
+                        'coin_name' => 'Cardano',
+                        'coin_symbol' => 'ADA',
+                        'marketcap-website-slug' => 'cardano',
+                        'ico' => 'no',
+                        'market_pairing' => array(
+                                    'btc' => array(
+                                        'bittrex' => 'BTC-ADA',
+                                        'upbit' => 'BTC-ADA',
+                                        'hitbtc' => 'ADABTC',
+                                        'binance' => 'ADABTC'
+                                                    ),
+                                    'eth' => array(
+                                        'bittrex' => 'ETH-ADA',
+                                        'upbit' => 'ETH-ADA',
+                                        'hitbtc' => 'ADAETH',
+                                        'binance' => 'ADAETH'
+                                                    ),
+                                    'usdt' => array(
+                                        'bittrex' => 'USDT-ADA',
+                                        'hitbtc' => 'ADAUSD'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
+                    ),
                     // ZIL
                     'ZIL' => array(
                         
@@ -602,25 +674,6 @@ $coins_array = array(
                                                     ),
                                     'usdt' => array(
                                         	'okex' => 'zil_usdt'
-                                                    )
-                                        ),
-                        'default_pairing' => 'btc'
-                        
-                    ),
-                    // TRAC
-                    'TRAC' => array(
-                        
-                        'coin_name' => 'OriginTrail',
-                        'coin_symbol' => 'TRAC',
-                        'marketcap-website-slug' => 'origintrail',
-                        'ico' => 'yes',
-                        'market_pairing' => array(
-                                    'btc' => array(
-                                    		'kucoin' => 'TRAC-BTC'
-                                                    ),
-                                    'eth' => array(
-                                          'kucoin' => 'TRAC-ETH',
-                                        	'hitbtc' => 'TRACETH'
                                                     )
                                         ),
                         'default_pairing' => 'btc'
@@ -703,28 +756,6 @@ $coins_array = array(
                         'default_pairing' => 'btc'
                         
                     ),
-                    // FCT
-                    'FCT' => array(
-                        
-                        'coin_name' => 'Factom',
-                        'coin_symbol' => 'FCT',
-                        'marketcap-website-slug' => 'factom',
-                        'ico' => 'no',
-                        'market_pairing' => array(
-                                    'btc' => array(
-                                          'poloniex' => 'BTC_FCT',
-                                          'bittrex' => 'BTC-FCT',
-                                        	'upbit' => 'BTC-FCT',
-                                          'cryptopia' => 'FCT/BTC'
-                                                    ),
-                                    'eth' => array(
-                                          'bittrex' => 'ETH-FCT',
-                                        	'upbit' => 'ETH-FCT'
-                                                    )
-                                        ),
-                        'default_pairing' => 'btc'
-                        
-                    ),
                     // XLM
                     'XLM' => array(
                         
@@ -758,32 +789,27 @@ $coins_array = array(
                         'default_pairing' => 'btc'
                         
                     ),
-                    // ADA
-                    'ADA' => array(
+                    // FCT
+                    'FCT' => array(
                         
-                        'coin_name' => 'Cardano',
-                        'coin_symbol' => 'ADA',
-                        'marketcap-website-slug' => 'cardano',
+                        'coin_name' => 'Factom',
+                        'coin_symbol' => 'FCT',
+                        'marketcap-website-slug' => 'factom',
                         'ico' => 'no',
                         'market_pairing' => array(
                                     'btc' => array(
-                                        'bittrex' => 'BTC-ADA',
-                                        'upbit' => 'BTC-ADA',
-                                        'hitbtc' => 'ADABTC',
-                                        'binance' => 'ADABTC'
+                                          'poloniex' => 'BTC_FCT',
+                                          'bittrex' => 'BTC-FCT',
+                                        	'upbit' => 'BTC-FCT',
+                                          'cryptopia' => 'FCT/BTC'
                                                     ),
                                     'eth' => array(
-                                        'bittrex' => 'ETH-ADA',
-                                        'upbit' => 'ETH-ADA',
-                                        'hitbtc' => 'ADAETH',
-                                        'binance' => 'ADAETH'
-                                                    ),
-                                    'usdt' => array(
-                                        'bittrex' => 'USDT-ADA',
-                                        'hitbtc' => 'ADAUSD'
+                                          'bittrex' => 'ETH-FCT',
+                                        	'upbit' => 'ETH-FCT'
                                                     )
                                         ),
                         'default_pairing' => 'btc'
+                        
                     ),
                     // RVN
                     'RVN' => array(
@@ -798,51 +824,6 @@ $coins_array = array(
                                          'bittrex' => 'BTC-RVN',
                                          'graviex' => 'rvnbtc',
                                          'cryptofresh' => 'BRIDGE.RVN'
-                                                    )
-                                        ),
-                        'default_pairing' => 'btc'
-                    ),
-                    // GRIN
-                    'GRIN' => array(
-                        
-                        'coin_name' => 'Grin',
-                        'coin_symbol' => 'GRIN',
-                        'marketcap-website-slug' => 'grin',
-                        'ico' => 'no',
-                        'market_pairing' => array(
-                                    'btc' => array(
-                                    	  'kucoin' => 'GRIN-BTC',
-                                         'hotbit' => 'GRIN_BTC',
-                                         'bitforex' => 'coin-btc-grin',
-                                         'tradeogre' => 'BTC-GRIN'
-                                                    ),
-                                    'eth' => array(
-                                    	  'kucoin' => 'GRIN-ETH',
-                                         'hotbit' => 'GRIN_ETH'
-                                                    ),
-                                    'usdt' => array(
-                                         'hotbit' => 'GRIN_USDT',
-                                         'bitforex' => 'coin-usdt-grin'
-                                                    )
-                                        ),
-                        'default_pairing' => 'btc'
-                    ),
-                    // BEAM
-                    'BEAM' => array(
-                        
-                        'coin_name' => 'Beam',
-                        'coin_symbol' => 'BEAM',
-                        'marketcap-website-slug' => 'beam',
-                        'ico' => 'yes',
-                        'market_pairing' => array(
-                                    'btc' => array(
-                                         'hotbit' => 'BEAM_BTC'
-                                                    ),
-                                    'eth' => array(
-                                         'hotbit' => 'BEAM_ETH'
-                                                    ),
-                                    'usdt' => array(
-                                         'hotbit' => 'BEAM_USDT'
                                                     )
                                         ),
                         'default_pairing' => 'btc'
@@ -862,6 +843,25 @@ $coins_array = array(
                                     'eth' => array(
                                           'hitbtc' => 'MYSTETH',
                                           'idex' => 'ETH_MYST'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
+                        
+                    ),
+                    // TRAC
+                    'TRAC' => array(
+                        
+                        'coin_name' => 'OriginTrail',
+                        'coin_symbol' => 'TRAC',
+                        'marketcap-website-slug' => 'origintrail',
+                        'ico' => 'yes',
+                        'market_pairing' => array(
+                                    'btc' => array(
+                                    		'kucoin' => 'TRAC-BTC'
+                                                    ),
+                                    'eth' => array(
+                                          'kucoin' => 'TRAC-ETH',
+                                        	'hitbtc' => 'TRACETH'
                                                     )
                                         ),
                         'default_pairing' => 'btc'
