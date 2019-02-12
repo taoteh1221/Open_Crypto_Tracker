@@ -21,7 +21,7 @@ require_once("app.lib/php/init.php");
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 
-$version = '2.2.8';  // 2019/FEBRUARY/5TH
+$version = '2.2.8';  // 2019/FEBRUARY/12TH
  
 
 /*
@@ -99,7 +99,7 @@ $proxy_list = array(
 					// 'ipaddress2:portnumber2',
 					);
 
-$proxy_alerts_freq = 1; // Re-allow proxy offline / misconfigured email alerts after X hours (can be 0)
+$proxy_alerts_freq = 1; // Re-allow proxy request error / misconfigured email alerts after X hours (can be 0)
 
 $proxy_alerts_type = 'email'; // 'email', or 'text', or 'notifyme', or 'all'...'email' keeps any text / notifyme price alert notifications a lot less cluttered ;-)
 
@@ -875,7 +875,5 @@ $coins_array = array(
 
 
 require_once("app.lib/php/post-init.php");
-
-//test_proxies('255.255.255.255:999'); // DEBUGGING PROXY CHECKUP FEATURE ONLY, RUN HERE OR EMAIL ALERTS MAY NOT SEND!
 
 ?>

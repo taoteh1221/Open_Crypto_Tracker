@@ -883,7 +883,8 @@ app doing the data requests, not a malicious bot)
 
 -------------------------------------------------------------------
 2.2.8:
--Tweaks
+-Tweaks, bug fixes, optimizations
+-Quick market pairing selection change in UI
 -------------------------------------------------------------------
 
 

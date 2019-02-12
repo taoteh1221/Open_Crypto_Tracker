@@ -12,7 +12,7 @@
 			    
 			    ?>
 			    <p>Default Bitcoin Market: <select onchange='
-			    document.getElementById("btc_market").selectedIndex = (this.value - 1);
+			    $("#btc_market").val(this.value);
 			    '>
 				<?php
 				foreach ( $coins_array['BTC']['market_pairing']['btc'] as $market_key => $market_name ) {

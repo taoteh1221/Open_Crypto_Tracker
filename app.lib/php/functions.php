@@ -1749,7 +1749,9 @@ global $_POST, $coins_array, $btc_exchange, $marketcap_site, $alert_percent, $ma
 
 $original_market = $selected_market;
 
-$all_markets = $coins_array[$trade_symbol]['market_pairing'][$selected_pairing];  // Get all markets for this coin
+$all_markets = $market_pairing_array;  // All markets for this pairing
+
+$all_pairings = $coins_array[$trade_symbol]['market_pairing'];
 
   // Update, get the selected market name
   
@@ -1775,7 +1777,7 @@ $btc_exchange = $_SESSION['btc_in_usd'];
 }
 
 
-$market_pairing = $market_pairing_array[$selected_market];
+$market_pairing = $all_markets[$selected_market];
   
   
   if ( $coin_amount > 0.00000000 ) {
@@ -1794,7 +1796,6 @@ $market_pairing = $market_pairing_array[$selected_market];
     $coin_trade_total = number_format($coin_trade_total_raw, ( $coin_name == 'Bitcoin' ? 2 : 8 ), '.', ',');
     $btc_worth = number_format( $coin_trade_total_raw, 8 );  
     $_SESSION['btc_worth_array'][] = (string)str_replace(',', '', ( $coin_name == 'Bitcoin' ? $coin_amount : $btc_worth ) );
-    $pairing_description = ( $coin_name == 'Bitcoin' ? 'US Dollar' : 'Bitcoin' );
     $pairing_symbol = ( $coin_name == 'Bitcoin' ? 'USD' : 'BTC' );
     }
     else if ( $selected_pairing == 'xmr' ) {
@@ -1812,7 +1813,6 @@ $market_pairing = $market_pairing_array[$selected_market];
     $btc_worth = number_format( ($coin_trade_total_raw * $pairing_btc_value), 8 );  // Convert value to bitcoin
     $_SESSION['btc_worth_array'][] = (string)str_replace(',', '', $btc_worth);  
     $btc_trade_eq = number_format( ($coin_trade * $pairing_btc_value), 8);
-    $pairing_description = 'Monero';
     $pairing_symbol = 'XMR';
     
     }
@@ -1831,7 +1831,6 @@ $market_pairing = $market_pairing_array[$selected_market];
     $btc_worth = number_format( ($coin_trade_total_raw * $pairing_btc_value), 8 );  // Convert value to bitcoin
     $_SESSION['btc_worth_array'][] = (string)str_replace(',', '', $btc_worth);  
     $btc_trade_eq = number_format( ($coin_trade * $pairing_btc_value), 8);
-    $pairing_description = 'Litecoin';
     $pairing_symbol = 'LTC';
     
     }
@@ -1852,7 +1851,6 @@ $market_pairing = $market_pairing_array[$selected_market];
      $btc_worth = number_format( ($coin_trade_total_raw * $pairing_btc_value), 8 );  // Convert value to bitcoin
      $_SESSION['btc_worth_array'][] = (string)str_replace(',', '', $btc_worth);  
      $btc_trade_eq = number_format( ($coin_trade * $pairing_btc_value), 8);
-     $pairing_description = 'Ethereum';
      $pairing_symbol = 'ETH';
      
      }
@@ -1865,7 +1863,6 @@ $market_pairing = $market_pairing_array[$selected_market];
      $btc_worth = number_format( ($coin_trade_total_raw * $pairing_btc_value), 8 );  // Convert value to bitcoin
      $_SESSION['btc_worth_array'][] = (string)str_replace(',', '', $btc_worth);  
      $btc_trade_eq = number_format( ($coin_trade * $pairing_btc_value), 8);
-     $pairing_description = 'Ethereum';
      $pairing_symbol = 'ETH';
      
      }
@@ -1886,7 +1883,6 @@ $market_pairing = $market_pairing_array[$selected_market];
     $btc_worth = number_format( ($coin_trade_total_raw * $pairing_btc_value), 8 );  // Convert value to bitcoin
     $_SESSION['btc_worth_array'][] = (string)str_replace(',', '', $btc_worth);  
     $btc_trade_eq = number_format( ($coin_trade * $pairing_btc_value), 8);
-    $pairing_description = 'Tether';
     $pairing_symbol = 'USDT';
     
     }
@@ -1901,7 +1897,7 @@ $market_pairing = $market_pairing_array[$selected_market];
 <td class='data border_lb'>
  
     <select name='change_<?=strtolower($trade_symbol)?>_market' onchange='
-    document.coin_amounts.<?=strtolower($trade_symbol)?>_market.value = this.value; document.coin_amounts.submit();
+    $("#<?=strtolower($trade_symbol)?>_market").val(this.value); document.coin_amounts.submit();
     '>
         <?php
         foreach ( $all_markets as $market_key => $market_name ) {
@@ -2091,13 +2087,13 @@ $market_pairing = $market_pairing_array[$selected_market];
 <td class='data border_b'><span><?php
 
   if ( $btc_trade_eq ) {
-  echo ' ($'.number_format(( get_btc_usd($btc_exchange) * $btc_trade_eq ), 8, '.', ',').' USD)';
+  echo ' $'.number_format(( get_btc_usd($btc_exchange) * $btc_trade_eq ), 8, '.', ',').' USD';
   }
   elseif ( $coin_name != 'Bitcoin' ) {
-  echo ' ($'.number_format(( get_btc_usd($btc_exchange) * $coin_trade ), 8, '.', ',').' USD)';
+  echo ' $'.number_format(( get_btc_usd($btc_exchange) * $coin_trade ), 8, '.', ',').' USD';
   }
   else {
-  echo ' ($'.number_format(get_btc_usd($btc_exchange), 2, '.', ',').' USD)';
+  echo ' $'.number_format(get_btc_usd($btc_exchange), 2, '.', ',').' USD';
   }
 
 ?></span></td>
@@ -2119,7 +2115,39 @@ $market_pairing = $market_pairing_array[$selected_market];
 
 </td>
 
-<td class='data border_b'> <span>(<?=$pairing_description?>)</span></span></td>
+<td class='data border_b'> <span>
+ 
+    <select name='change_<?=strtolower($trade_symbol)?>_pairing' onchange='
+    $("#<?=strtolower($trade_symbol)?>_pairing").val(this.value); 
+    $("#<?=strtolower($trade_symbol)?>_market").val(1); // Just reset to first listed market for this pairing
+    document.coin_amounts.submit();
+    '>
+        <?php
+        
+		  if ( $coin_name == 'Bitcoin' ) {
+		  ?>
+		  <option value='btc'> USD </option>
+		  <?php
+		  }
+        
+        else {
+        	
+        $loop = 0;
+
+	        foreach ( $all_pairings as $pairing_key => $pairing_name ) {
+	         $loop = $loop + 1;
+	        ?>
+	        <option value='<?=$pairing_key?>' <?=( strtolower($pairing_symbol) == $pairing_key ? ' selected ' : '' )?>> <?=strtoupper($pairing_key)?> </option>
+	        <?php
+	        }
+        
+        $loop = NULL;
+        
+        }
+        ?>
+    </select>
+
+</span></td>
 
 <td class='data border_lb'><?php
 echo ' <span><span class="data">' . $coin_trade_total . '</span> ' . $pairing_symbol . '</span>';
