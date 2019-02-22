@@ -17,16 +17,17 @@ if ( $_POST['submit_check'] == 1 || $_COOKIE['coin_amounts'] ) {
 <table border='0' cellpadding='10' cellspacing='0' id="coins_table">
  <thead>
     <tr>
-<th class='border_lt'> Order</th>
+<th class='border_lt'> Re-sort</th>
 <th class='border_lt'> Exchange</th>
-<th class='border_lt' align='right'> Name</th>
+<th class='border_lt' align='right'> Asset Name</th>
 <th class='border_t'> USD Value</th>
-<th class='border_lt' align='right'> Amount</th>
+<th class='border_lt' align='right'> Holdings</th>
 <th class='border_t'> Symbol</th>
-<th class='border_lt' align='right'> Market Value</th>
+<th class='border_lt' align='right'> USD Volume</th>
+<th class='border_t' align='right'> Trade Value</th>
 <th class='border_t'> Market</th>
 <th class='border_lt'> Total Value</th>
-<th class='border_lrt'> USD Value</th>
+<th class='border_lrt'> USD Total</th>
     </tr>
   </thead>
  <tbody>

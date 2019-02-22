@@ -17,7 +17,7 @@ require("templates/default/header.php");
 			<li class='tabli'><a style='color:red;' href='#help'>Help</a></li>
 		</ul>
 		<div id='values' class='tabdiv'>
-			<h3 style='display: inline;'> &nbsp; Your Coin Values</h3> (<?=$last_trade_ttl?> minute cache)
+			<h3 style='display: inline;'> &nbsp; Coin Portfolio Value</h3> (<?=$last_trade_ttl?> minute cache)
 			<?php
 			if ( sizeof($alert_percent) > 1 ) {
 			?>

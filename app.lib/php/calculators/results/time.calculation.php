@@ -61,7 +61,7 @@
 				
 				$calculate_daily = ( 24 / $hours );
 				
-				$daily_average = ( $calculate_daily * ( get_trade_price($calculation_form_data[6], $calculation_form_data[7]) * trim($_POST['block_reward']) ) );
+				$daily_average = ( $calculate_daily * ( get_trade_data($calculation_form_data[6], $calculation_form_data[7])['last_trade'] * trim($_POST['block_reward']) ) );
 				
 				?>
 				

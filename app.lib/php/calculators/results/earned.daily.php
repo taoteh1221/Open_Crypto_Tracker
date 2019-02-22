@@ -9,7 +9,7 @@
 				<br />
 				Current <?=$calculation_form_data[0]?> Value Per Coin: 
 				<?php
-				echo number_format(get_trade_price($calculation_form_data[6], $calculation_form_data[7]), 8) . ' BTC ($' . round(( round(get_trade_price($calculation_form_data[6], $calculation_form_data[7]), 8) * get_btc_usd($btc_exchange) ), 8) . ' USD)';
+				echo number_format(get_trade_data($calculation_form_data[6], $calculation_form_data[7])['last_trade'], 8) . ' BTC ($' . round(( round(get_trade_data($calculation_form_data[6], $calculation_form_data[7])['last_trade'], 8) * get_btc_usd($btc_exchange) ), 8) . ' USD)';
 				?>
 				
 				<br />
@@ -23,7 +23,7 @@
 				
 				<?php
 
-				echo number_format( round(( round($daily_average, 8) / get_trade_price($calculation_form_data[6], $calculation_form_data[7]) ), 8) , 8) . ' ' . strtoupper($calculation_form_data[1]);
+				echo number_format( round(( round($daily_average, 8) / get_trade_data($calculation_form_data[6], $calculation_form_data[7])['last_trade'] ), 8) , 8) . ' ' . strtoupper($calculation_form_data[1]);
 				
 				?>
 				
@@ -70,7 +70,7 @@
 				
 				<?php
 
-				echo number_format( round( ( round($daily_average, 8) / get_trade_price($calculation_form_data[6], $calculation_form_data[7]) ) * 7 , 8) , 8) . ' ' . strtoupper($calculation_form_data[1]);
+				echo number_format( round( ( round($daily_average, 8) / get_trade_data($calculation_form_data[6], $calculation_form_data[7])['last_trade'] ) * 7 , 8) , 8) . ' ' . strtoupper($calculation_form_data[1]);
 				
 				?>
 				

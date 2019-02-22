@@ -90,7 +90,7 @@ $btc_exchange = 'bitstamp'; // Default Bitcoin value in USD: coinbase / bitfinex
 
 $chainstats_cache = 20; // Time to cache blockchain stats (for mining calculators), in minutes
 
-$marketcap_site = 'coingecko'; // Default marketcap data source: coinmarketcap / coingecko
+$marketcap_site = 'coinmarketcap'; // Default marketcap data source: coinmarketcap / coingecko
 
 $api_timeout = 15; // Seconds to wait for response from API endpoints
 
@@ -159,7 +159,7 @@ $cron_alerts = array(
 					'xlm' => 'bittrex|btc', // exchange|trade_pairing
 					'ada' => 'bittrex|btc', // exchange|trade_pairing
 					'rvn' => 'binance|btc', // exchange|trade_pairing
-					'grin' => 'kucoin|btc', // exchange|trade_pairing
+					'grin' => 'poloniex|btc', // exchange|trade_pairing
 					'beam' => 'hotbit|btc', // exchange|trade_pairing
 					'myst' => 'hitbtc|btc', // exchange|trade_pairing
 					'myst-2' => 'hitbtc|eth', // exchange|trade_pairing
@@ -557,6 +557,7 @@ $coins_array = array(
                         'ico' => 'no',
                         'market_pairing' => array(
                                     'btc' => array(
+                                         'poloniex' => 'BTC_GRIN',
                                     	  'kucoin' => 'GRIN-BTC',
                                          'hotbit' => 'GRIN_BTC',
                                          'bitforex' => 'coin-btc-grin',

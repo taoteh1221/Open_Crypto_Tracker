@@ -11,7 +11,7 @@ $_POST = trim_array($_POST);
 }
 
 // Get STEEM value
-$steem_market = get_trade_price('poloniex', 'BTC_STEEM');
+$steem_market = get_trade_data('poloniex', 'BTC_STEEM')['last_trade'];
 
 ?>
     
