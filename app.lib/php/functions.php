@@ -1987,24 +1987,6 @@ $market_pairing = $all_markets[$selected_market];
 
 <td class='data border_lb'><span><?php echo $sort_order; ?></span></td>
 
-<td class='data border_lb'>
- 
-    <select name='change_<?=strtolower($trade_symbol)?>_market' onchange='
-    $("#<?=strtolower($trade_symbol)?>_market").val(this.value); document.coin_amounts.submit();
-    '>
-        <?php
-        foreach ( $all_markets as $market_key => $market_name ) {
-         $loop = $loop + 1;
-        ?>
-        <option value='<?=($loop)?>' <?=( $original_market == ($loop -1) ? ' selected ' : '' )?>> <?=ucwords(preg_replace("/_/i", " ", $market_key))?> </option>
-        <?php
-        }
-        $loop = NULL;
-        ?>
-    </select>
-
-</td>
-
 <td class='data border_lb' align='right' style='position: relative; padding-right: 32px; <?=( $coins_array[$trade_symbol]['ico'] == 'yes' ? 'padding-left: 32px;' : '' )?>'>
  
  <?php
@@ -2023,7 +2005,7 @@ $market_pairing = $all_markets[$selected_market];
  	
  	
  		?>
- <?=( $coins_array[$trade_symbol]['ico'] == 'yes' ? "<a title='SEC Website On ICO Guidance And Safety' href='https://www.sec.gov/ICO' target='_blank'><img src='templates/default/images/alert.png' border=0' style='position: absolute; top: 3px; left: 0px; margin: 0px; height: 30px; width: 30px;' /></a> " : "" )?><img id='<?=$mkcap_render_data?>' src='templates/default/images/<?=$info_icon?>' border=0' style='position: absolute; top: 3px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <a title='' href='https://<?=$asset_pagebase?><?=$mkcap_render_data?>/' target='_blank'><?php echo $coin_name; ?></a>
+ <?=( $coins_array[$trade_symbol]['ico'] == 'yes' ? "<a title='SEC Website On ICO Guidance And Safety' href='https://www.sec.gov/ICO' target='_blank'><img src='templates/default/images/alert.png' border=0' style='position: absolute; top: 3px; left: 0px; margin: 0px; height: 30px; width: 30px;' /></a> " : "" )?><img id='<?=$mkcap_render_data?>' src='templates/default/images/<?=$info_icon?>' border=0' style='position: absolute; top: 3px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <a title='' href='https://<?=$asset_pagebase?><?=$mkcap_render_data?>/' target='_blank' style='color: blue;'><?php echo $coin_name; ?></a>
  <script>
 
 		<?php
@@ -2195,9 +2177,27 @@ $market_pairing = $all_markets[$selected_market];
 
 <td class='data border_b'><span><?php echo $trade_symbol; ?></span></td>
 
-<td class='data border_lb' align='right'><span>$<?php echo ( $trade_volume > 0 ? $trade_volume : 0 ); ?></span></td>
+<td class='data border_lb' align='right'>
+ 
+    <select name='change_<?=strtolower($trade_symbol)?>_market' onchange='
+    $("#<?=strtolower($trade_symbol)?>_market").val(this.value); document.coin_amounts.submit();
+    '>
+        <?php
+        foreach ( $all_markets as $market_key => $market_name ) {
+         $loop = $loop + 1;
+        ?>
+        <option value='<?=($loop)?>' <?=( $original_market == ($loop -1) ? ' selected ' : '' )?>> <?=ucwords(preg_replace("/_/i", " ", $market_key))?> </option>
+        <?php
+        }
+        $loop = NULL;
+        ?>
+    </select>
 
-<td class='data border_b' align='right'><?php echo $coin_trade; ?>
+</td>
+
+<td class='data border_b'><span>$<?php echo ( $trade_volume > 0 ? $trade_volume : 0 ); ?></span></td>
+
+<td class='data border_b' align='right'><span><?php echo $coin_trade; ?></span>
 
 <?php
 
@@ -2379,7 +2379,10 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		//echo 'Deleted cache file, no data. '; // DEBUGGING ONLY
 		}
 		
-	$_SESSION['api_cache'][$hash_check] = $data; // Cache API data for this runtime session AFTER PERSISTENT FILE CACHE UPDATE, file cache doesn't reliably update until runtime session is ending because of file locking
+		// Never cache proxy checking data
+		if ( $mode != 'proxy-check' ) {
+		$_SESSION['api_cache'][$hash_check] = $data; // Cache API data for this runtime session AFTER PERSISTENT FILE CACHE UPDATE, file cache doesn't reliably update until runtime session is ending because of file locking
+		}
 
 	// DEBUGGING ONLY
 	//$_SESSION['get_data_error'] .= '##REQUEST## Requested ' . ( $mode == 'array' ? 'API server "' . $api_server : 'endpoint "' . $request ) . '". <br /> ' . ( $mode == 'array' ? '<pre>' . print_r($request, TRUE) . '</pre>' : '' ) . ' <br /> ';
