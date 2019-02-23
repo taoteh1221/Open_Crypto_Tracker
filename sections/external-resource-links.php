@@ -52,6 +52,8 @@
         
         <li class='chart_links'><a href='https://coinbase.com' target='_blank'>Coinbase.com</a></li>
         
+        <li class='chart_links'><a href='https://us.binance.com' target='_blank'>Binance.com</a></li>
+        
         <li class='chart_links'><a href='https://bittrex.com' target='_blank'>Bittrex.com</a></li>
         
         <li class='chart_links'><a href='https://poloniex.com' target='_blank'>Poloniex.com</a></li>
@@ -59,8 +61,6 @@
         <li class='chart_links'><a href='https://hitbtc.com/' target='_blank'>Hitbtc.com</a></li>
         
         <li class='chart_links'><a href='https://shapeshift.io' target='_blank'>Shapeshift.io</a></li>
-        
-        <li class='chart_links'><a href='https://us.binance.com' target='_blank'>Binance.com</a></li>
         
         
         
@@ -79,11 +79,11 @@
         
         <li class='chart_links'><a href='http://proofofwork.news/' target='_blank'>Proof Of Work</a></li>
         
+        <li class='chart_links'><a href='http://www.weekinethereum.com/' target='_blank'>Week In Ethereum</a></li>
+        
         <li class='chart_links'><a href='https://sludgefeed.com/hashed/' target='_blank'>Sludgefeed's Hashed</a></li>
         
         <li class='chart_links'><a href='https://www.tokendaily.co/' target='_blank'>Token Daily</a></li>
-        
-        <li class='chart_links'><a href='http://www.weekinethereum.com/' target='_blank'>Week In Ethereum</a></li>
         
         
         

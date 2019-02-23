@@ -893,6 +893,7 @@ app doing the data requests, not a malicious bot)
 2.2.9:
 -Exchange market volume data (included in UI / alerts)
 -UI tweaks
+-Bug fixes
 -------------------------------------------------------------------
 
 

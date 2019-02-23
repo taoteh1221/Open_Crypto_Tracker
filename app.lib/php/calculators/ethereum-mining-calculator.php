@@ -11,8 +11,8 @@
 											etherscan_api('difficulty'), // Mining network measure (difficulty or network hashrate)
 											'https://etherscan.io/apis/', // Blockchain data API url
 											'etherscan.io/apis', // Blockchain data API name
-											'poloniex', // Exchange name (lowercase for API logic)
-											'BTC_ETH' // Market pair name
+											'binance', // Exchange name (lowercase for API logic)
+											'ETHBTC' // Market pair name
 											);
 			
 			

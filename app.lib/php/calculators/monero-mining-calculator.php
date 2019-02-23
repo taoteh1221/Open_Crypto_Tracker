@@ -11,8 +11,8 @@
 											monero_api('hashrate'), // Mining network measure (difficulty or network hashrate)
 											'https://moneroblocks.info/api', // Blockchain data API url
 											'moneroblocks.info API', // Blockchain data API name
-											'poloniex', // Exchange name (lowercase for API logic)
-											'BTC_XMR' // Market pair name
+											'binance', // Exchange name (lowercase for API logic)
+											'XMRBTC' // Market pair name
 											);
 			
 			

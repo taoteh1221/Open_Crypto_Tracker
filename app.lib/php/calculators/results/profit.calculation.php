@@ -4,7 +4,7 @@
  */
 	
 
-				$usd_daily_average = number_format( ( round($daily_average, 8) * get_btc_usd($btc_exchange) ), 2);
+				$usd_daily_average = number_format( ( round($daily_average, 8) * get_btc_usd($btc_exchange)['last_trade'] ), 2);
 				
 				$btc_daily_average = number_format(round($daily_average, 8), 8);
 				

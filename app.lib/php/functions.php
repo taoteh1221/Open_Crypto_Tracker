@@ -74,26 +74,27 @@ $asset = ( stristr($asset_data, "-") == false ? $asset_data : substr( $asset_dat
 
 
 	// Get any necessary variables for calculating asset's USD value
-	if ( $asset == 'BTC' && $btc_exchange != $exchange ) {
-	$btc_usd = get_btc_usd($exchange);
+	if ( $asset == 'BTC' ) {
+	$btc_usd = get_btc_usd($exchange)['last_trade']; // Overwrite global var with selected exchange (rather then default), when asset is Bitcoin
 	}
 
    if ( $pairing == 'xmr' && !$_SESSION['xmr_btc'] ) {
-   $_SESSION['xmr_btc'] = get_trade_data('poloniex', 'BTC_XMR')['last_trade'];
+   $_SESSION['xmr_btc'] = get_trade_data('binance', 'XMRBTC')['last_trade'];
    }
    elseif ( $pairing == 'ltc' && !$_SESSION['ltc_btc'] ) {
-   $_SESSION['ltc_btc'] = get_trade_data('poloniex', 'BTC_LTC')['last_trade'];
+   $_SESSION['ltc_btc'] = get_trade_data('binance', 'LTCBTC')['last_trade'];
    }
    elseif ( $pairing == 'eth' && !$_SESSION['eth_btc'] ) {
-   $_SESSION['eth_btc'] = get_trade_data('poloniex', 'BTC_ETH')['last_trade'];
+   $_SESSION['eth_btc'] = get_trade_data('binance', 'ETHBTC')['last_trade'];
    }
    elseif ( $pairing == 'usdt' && !$_SESSION['usdt_btc'] ) {
-   $_SESSION['usdt_btc'] = number_format( ( 1 / get_trade_data('poloniex', 'USDT_BTC')['last_trade'] ), 8, '.', '');
+   $_SESSION['usdt_btc'] = number_format( ( 1 / get_trade_data('binance', 'BTCUSDT')['last_trade'] ), 8, '.', '');
    }
     
 	// Get asset USD value
 	if ( $asset == 'BTC' ){ 
 	$asset_usd = $btc_usd;
+	$volume_usd = get_btc_usd($exchange)['24hr_usd_volume'];
 	}
 	else {
 		
@@ -515,7 +516,26 @@ global $last_trade_ttl;
     
     $data = json_decode($jsondata, TRUE);
     
-    return number_format( $data['data']['amount'], 2, '.', '');
+    return  array(
+    					'last_trade' => number_format( $data['data']['amount'], 2, '.', ''),
+    					'24hr_usd_volume' => NULL // Need volume API docs
+    					);
+
+  
+    }
+  
+  
+    elseif ( strtolower($btc_exchange) == 'bitfinex' ) {
+  
+    $data = get_trade_data('bitfinex', 'tBTCUSD')['last_trade'];
+    //$vol = get_trade_data('bitfinex', 'tBTCUSD')['24hr_usd_volume'];
+    
+    
+    return  array(
+    					'last_trade' => number_format( $data, 2, '.', ''),
+    					'24hr_usd_volume' => NULL  // Shitty API crapped out, try later
+    					);
+
   
     }
   
@@ -528,16 +548,12 @@ global $last_trade_ttl;
     
     $data = json_decode($jsondata, TRUE);
     
-    return number_format( $data['last'], 2, '.', '');
-  
-    }
-  
-  
-    elseif ( strtolower($btc_exchange) == 'bitfinex' ) {
-  
-    $data = get_trade_data('bitfinex', 'tBTCUSD')['last_trade'];
     
-    return number_format( $data, 2, '.', '');
+    return  array(
+    					'last_trade' => number_format( $data['last'], 2, '.', ''),
+    					'24hr_usd_volume' => volume_usd('bitcoin', $data['volume'], number_format( $data['last'], 2, '.', ''))
+    					);
+
   
     }
   
@@ -550,20 +566,30 @@ global $last_trade_ttl;
       
       $data = json_decode($jsondata, TRUE);
       
-    return number_format( $data['last'], 2, '.', '');
+      
+    return  array(
+    					'last_trade' => number_format( $data['last'], 2, '.', ''),
+    					'24hr_usd_volume' => volume_usd('bitcoin', $data['volume']['BTC'], number_format( $data['last'], 2, '.', ''))
+    					);
+
       
     }
 
 
     elseif ( strtolower($btc_exchange) == 'okcoin' ) {
   
-    $json_string = 'https://www.okcoin.com/api/ticker.do?ok=1';
+    $json_string = 'https://www.okcoin.com/api/v1/ticker.do?symbol=btc_usd';
     
     $jsondata = @data_request('url', $json_string, $last_trade_ttl);
     
     $data = json_decode($jsondata, TRUE);
     
-    return number_format( $data['ticker']['last'], 2, '.', '');
+    
+    return  array(
+    					'last_trade' => number_format( $data['ticker']['last'], 2, '.', ''),
+    					'24hr_usd_volume' => volume_usd('bitcoin', $data['ticker']['vol'], number_format( $data['ticker']['last'], 2, '.', ''))
+    					);
+
     
   
     }
@@ -577,8 +603,12 @@ global $last_trade_ttl;
     
     $data = json_decode($jsondata, TRUE);
     
-    return number_format( $data['last'], 2, '.', '');
     
+    return  array(
+    					'last_trade' => number_format( $data['last'], 2, '.', ''),
+    					'24hr_usd_volume' => volume_usd('bitcoin', $data['volume'], number_format( $data['last'], 2, '.', ''))
+    					);
+    				
     }
   
  
@@ -598,7 +628,12 @@ global $last_trade_ttl;
                
                if ( $data['tickers'][$key]["currencyPair"] == 'BTCUSD' ) {
                 
-               return $data['tickers'][$key]["last"];
+                
+    				return  array(
+    									'last_trade' => $data['tickers'][$key]["last"],
+    									'24hr_usd_volume' => volume_usd('bitcoin', $data['tickers'][$key]["volume"], $data['tickers'][$key]["last"])  // Very stubborn, try later
+    									);
+
                 
                 
                }
@@ -621,15 +656,18 @@ global $last_trade_ttl;
       $data = json_decode($jsondata, TRUE);
    
    
-   
-   //var_dump($data);
        if (is_array($data) || is_object($data)) {
          
              foreach ( $data as $key => $value ) {
                
                if ( $data[$key]['symbol'] == 'BTC/USD' ) {
                 
-               return $data[$key]["last"];
+                
+    				return  array(
+    									'last_trade' => $data[$key]["last"],
+    									'24hr_usd_volume' => volume_usd('bitcoin', $data[$key]['volume'], $data[$key]["last"])
+    									);
+
                 
                 
                }
@@ -668,7 +706,12 @@ global $last_trade_ttl;
              
              if ( $key2 == 'XXBTZUSD' ) {
               
-             return $data[$key][$key2]["c"][0];
+              
+    				return  array(
+    									'last_trade' => $data[$key][$key2]["c"][0],
+    									'24hr_usd_volume' => volume_usd('bitcoin', $data[$key][$key2]["v"][1], $data[$key][$key2]["c"][0])
+    									);
+
               
               
              }
@@ -1550,7 +1593,7 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
 
   elseif ( strtolower($chosen_market) == 'usd_assets' ) {
 		
-	  $usdtobtc = ( 1 / get_btc_usd($btc_exchange) );		
+	  $usdtobtc = ( 1 / get_btc_usd($btc_exchange)['last_trade'] );		
 		
 	  if ( $market_pairing == 'usdtobtc' ) {
      return  array(
@@ -1560,19 +1603,19 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
      }
 	  elseif ( $market_pairing == 'usdtoxmr' ) {
      return  array(
-    					'last_trade' => ( 1 / ( get_trade_data('poloniex', 'BTC_XMR')['last_trade'] / $usdtobtc ) ),
+    					'last_trade' => ( 1 / ( get_trade_data('binance', 'XMRBTC')['last_trade'] / $usdtobtc ) ),
     					'24hr_usd_volume' => NULL
     				);
      }
 	  elseif ( $market_pairing == 'usdtoeth' ) {
      return  array(
-    					'last_trade' => ( 1 / ( get_trade_data('poloniex', 'BTC_ETH')['last_trade'] / $usdtobtc ) ),
+    					'last_trade' => ( 1 / ( get_trade_data('binance', 'ETHBTC')['last_trade'] / $usdtobtc ) ),
     					'24hr_usd_volume' => NULL
     				);
      }
 	  elseif ( $market_pairing == 'usdtoltc' ) {
      return  array(
-    					'last_trade' => ( 1 / ( get_trade_data('poloniex', 'BTC_LTC')['last_trade'] / $usdtobtc ) ),
+    					'last_trade' => ( 1 / ( get_trade_data('binance', 'LTCBTC')['last_trade'] / $usdtobtc ) ),
     					'24hr_usd_volume' => NULL
     				);
      }
@@ -1883,7 +1926,7 @@ $market_pairing = $all_markets[$selected_market];
     }
 
     if ( $selected_pairing == 'btc' ) {
-    $coin_trade_raw = ( $coin_name == 'Bitcoin' ? get_btc_usd($btc_exchange) : get_trade_data($selected_market, $market_pairing)['last_trade'] );
+    $coin_trade_raw = ( $coin_name == 'Bitcoin' ? get_btc_usd($btc_exchange)['last_trade'] : get_trade_data($selected_market, $market_pairing)['last_trade'] );
     $coin_trade = number_format( $coin_trade_raw, ( $coin_name == 'Bitcoin' ? 2 : 8 ), '.', ',');
     $coin_trade_total_raw = ($coin_amount * $coin_trade_raw);
     $coin_trade_total = number_format($coin_trade_total_raw, ( $coin_name == 'Bitcoin' ? 2 : 8 ), '.', ',');
@@ -1894,7 +1937,7 @@ $market_pairing = $all_markets[$selected_market];
     else if ( $selected_pairing == 'xmr' ) {
     
     	if ( !$_SESSION['xmr_btc'] ) {
-    	$_SESSION['xmr_btc'] = get_trade_data('poloniex', 'BTC_XMR')['last_trade'];
+    	$_SESSION['xmr_btc'] = get_trade_data('binance', 'XMRBTC')['last_trade'];
     	}
     
     $pairing_btc_value = $_SESSION['xmr_btc'];
@@ -1912,7 +1955,7 @@ $market_pairing = $all_markets[$selected_market];
     else if ( $selected_pairing == 'ltc' ) {
     
     	if ( !$_SESSION['ltc_btc'] ) {
-    	$_SESSION['ltc_btc'] = get_trade_data('poloniex', 'BTC_LTC')['last_trade'];
+    	$_SESSION['ltc_btc'] = get_trade_data('binance', 'LTCBTC')['last_trade'];
     	}
     
     $pairing_btc_value = $_SESSION['ltc_btc'];
@@ -1930,7 +1973,7 @@ $market_pairing = $all_markets[$selected_market];
     else if ( $selected_pairing == 'eth' ) {
     
     	if ( !$_SESSION['eth_btc'] ) {
-    	$_SESSION['eth_btc'] = get_trade_data('poloniex', 'BTC_ETH')['last_trade'];
+    	$_SESSION['eth_btc'] = get_trade_data('binance', 'ETHBTC')['last_trade'];
     	}
     
     $pairing_btc_value = $_SESSION['eth_btc'];
@@ -1964,7 +2007,7 @@ $market_pairing = $all_markets[$selected_market];
     else if ( $selected_pairing == 'usdt' ) {
     
     	if ( !$_SESSION['usdt_btc'] ) {
-    	$_SESSION['usdt_btc'] = number_format( ( 1 / get_trade_data('poloniex', 'USDT_BTC')['last_trade'] ), 8, '.', '');
+    	$_SESSION['usdt_btc'] = number_format( ( 1 / get_trade_data('binance', 'BTCUSDT')['last_trade'] ), 8, '.', '');
     	}
     
     $pairing_btc_value = $_SESSION['usdt_btc'];
@@ -1980,7 +2023,7 @@ $market_pairing = $all_markets[$selected_market];
     
     }
   
-  $trade_volume = get_trade_data($selected_market, $market_pairing)['24hr_usd_volume'];
+  $trade_volume = ( $coin_name == 'Bitcoin' ? get_btc_usd($btc_exchange)['24hr_usd_volume'] : get_trade_data($selected_market, $market_pairing)['24hr_usd_volume'] );
   
   ?>
 <tr id='<?=strtolower($trade_symbol)?>_row'>
@@ -2162,13 +2205,13 @@ $market_pairing = $all_markets[$selected_market];
 <td class='data border_b'><span><?php
 
   if ( $btc_trade_eq ) {
-  echo ' $'.number_format(( get_btc_usd($btc_exchange) * $btc_trade_eq ), 8, '.', ',');
+  echo ' $'.number_format(( get_btc_usd($btc_exchange)['last_trade'] * $btc_trade_eq ), 8, '.', ',');
   }
   elseif ( $coin_name != 'Bitcoin' ) {
-  echo ' $'.number_format(( get_btc_usd($btc_exchange) * $coin_trade ), 8, '.', ',');
+  echo ' $'.number_format(( get_btc_usd($btc_exchange)['last_trade'] * $coin_trade ), 8, '.', ',');
   }
   else {
-  echo ' $'.number_format(get_btc_usd($btc_exchange), 2, '.', ',');
+  echo ' $'.number_format(get_btc_usd($btc_exchange)['last_trade'], 2, '.', ',');
   }
 
 ?></span></td>
@@ -2177,7 +2220,7 @@ $market_pairing = $all_markets[$selected_market];
 
 <td class='data border_b'><span><?php echo $trade_symbol; ?></span></td>
 
-<td class='data border_lb' align='right'>
+<td class='data border_lb'>
  
     <select name='change_<?=strtolower($trade_symbol)?>_market' onchange='
     $("#<?=strtolower($trade_symbol)?>_market").val(this.value); document.coin_amounts.submit();
@@ -2255,10 +2298,10 @@ echo ' <span><span class="data">' . $coin_trade_total . '</span> ' . $pairing_sy
 <td class='data border_lrb'><?php
 
   if ( $selected_pairing == 'btc' ) {
-  $coin_usd_worth = ( $coin_name == 'Bitcoin' ? $coin_trade_total_raw : ($coin_trade_total_raw * get_btc_usd($btc_exchange)) );
+  $coin_usd_worth = ( $coin_name == 'Bitcoin' ? $coin_trade_total_raw : ($coin_trade_total_raw * get_btc_usd($btc_exchange)['last_trade']) );
   }
   else {
-  $coin_usd_worth = ( ($coin_trade_total_raw * $pairing_btc_value) * get_btc_usd($btc_exchange));
+  $coin_usd_worth = ( ($coin_trade_total_raw * $pairing_btc_value) * get_btc_usd($btc_exchange)['last_trade']);
   }
   
 
@@ -2621,7 +2664,7 @@ function powerdown_usd($data) {
 
 global $steem_market, $btc_exchange;
 
-return ( $data * $steem_market * get_btc_usd($btc_exchange) );
+return ( $data * $steem_market * get_btc_usd($btc_exchange)['last_trade'] );
 
 }
 
@@ -2665,10 +2708,10 @@ $speed = ($_POST['sp_total'] * $decimal_yearly_interest) / 525600;  // Interest 
     $powertime = ($speed * 60 * 24 * 365);
     }
     
-    $powertime_usd = ( $powertime * $steem_market * get_btc_usd($btc_exchange) );
+    $powertime_usd = ( $powertime * $steem_market * get_btc_usd($btc_exchange)['last_trade'] );
     
     $steem_total = ( $powertime + $_POST['sp_total'] );
-    $usd_total = ( $steem_total * $steem_market * get_btc_usd($btc_exchange) );
+    $usd_total = ( $steem_total * $steem_market * get_btc_usd($btc_exchange)['last_trade'] );
     
     $power_purchased = ( $_POST['sp_purchased'] / $steem_total );
     $power_earned = ( $_POST['sp_earned'] / $steem_total );
@@ -2729,27 +2772,35 @@ function volume_usd($pair_name, $volume, $last_trade, $vol_in_pairing=false) {
 
 global $btc_exchange;
 
+
 $pairing = detect_pairing($pair_name);
 
+
 	// Get any necessary variables for calculating asset's USD value
-	$btc_usd = get_btc_usd($btc_exchange);
+	if ( $pair_name == 'bitcoin' ) {
+	$btc_usd = $last_trade;
+	}
+	else {
+	$btc_usd = get_btc_usd($btc_exchange)['last_trade'];
+	}
+
 
    if ( $pairing == 'xmr' && !$_SESSION['xmr_btc'] || $vol_in_pairing == 'xmr' && !$_SESSION['xmr_btc'] ) {
-   $_SESSION['xmr_btc'] = get_trade_data('poloniex', 'BTC_XMR')['last_trade'];
+   $_SESSION['xmr_btc'] = get_trade_data('binance', 'XMRBTC')['last_trade'];
    }
    elseif ( $pairing == 'ltc' && !$_SESSION['ltc_btc'] || $vol_in_pairing == 'ltc' && !$_SESSION['ltc_btc'] ) {
-   $_SESSION['ltc_btc'] = get_trade_data('poloniex', 'BTC_LTC')['last_trade'];
+   $_SESSION['ltc_btc'] = get_trade_data('binance', 'LTCBTC')['last_trade'];
    }
    elseif ( $pairing == 'eth' && !$_SESSION['eth_btc'] || $vol_in_pairing == 'eth' && !$_SESSION['eth_btc'] ) {
-   $_SESSION['eth_btc'] = get_trade_data('poloniex', 'BTC_ETH')['last_trade'];
+   $_SESSION['eth_btc'] = get_trade_data('binance', 'ETHBTC')['last_trade'];
    }
    elseif ( $pairing == 'usdt' && !$_SESSION['usdt_btc'] || $vol_in_pairing == 'usdt' && !$_SESSION['usdt_btc'] ) {
-   $_SESSION['usdt_btc'] = number_format( ( 1 / get_trade_data('poloniex', 'USDT_BTC')['last_trade'] ), 8, '.', '');
+   $_SESSION['usdt_btc'] = number_format( ( 1 / get_trade_data('binance', 'BTCUSDT')['last_trade'] ), 8, '.', '');
    }
 	
     
 	// Get asset USD value
-	if ( $vol_in_pairing == 'btc' ){ 
+	if ( $vol_in_pairing == 'btc' || $pair_name == 'bitcoin' ) { // Volume calculated in Bitcoin
 	$volume_usd = number_format( $btc_usd * $volume , 0, '.', ',');
 	}
 	elseif ( $vol_in_pairing != false ){ 
@@ -2792,6 +2843,9 @@ $pair_name = preg_replace("/usdc/i", "0000", $pair_name); // SKIP USD Coin
 		}
 		elseif ( preg_match("/xmr/i", $pair_name) && !preg_match("/usd/i", $pair_name) ) {
 		return 'xmr';
+		}
+		else {
+		return false;
 		}
 	
 	}

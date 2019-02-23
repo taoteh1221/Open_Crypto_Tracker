@@ -131,9 +131,9 @@ $cron_alerts = array(
 					// Delete any double forward slashes from in front of each asset you want to enable cron job price alerts on (or add double slash to disable)...
 					// NOTE: This list must only contain assets / exchanges / trading pairs included in the primary coin data configuration further down in this config file.
 					// TO ADD MULTIPLE ALERTS FOR SAME ASSET (FOR DIFFERENT EXCHANGES / TRADE PAIRINGS), FORMAT LIKE SO: symbol, symbol-1, symbol-2, etc.
-					'btc' => 'coinbase|btc', // exchange|trade_pairing
+					'btc' => 'bitstamp|btc', // exchange|trade_pairing
 					'eth' => 'binance|usdt', // exchange|trade_pairing
-					'eth-2' => 'coinbase|btc', // exchange|trade_pairing
+					'eth-2' => 'bitstamp|btc', // exchange|trade_pairing
 					'xmr' => 'binance|btc', // exchange|trade_pairing
 					'dcr' => 'binance|btc', // exchange|trade_pairing
 					'dcr-2' => 'bittrex|usdt', // exchange|trade_pairing
@@ -151,7 +151,7 @@ $cron_alerts = array(
 					'xlm' => 'bittrex|btc', // exchange|trade_pairing
 					'ada' => 'bittrex|btc', // exchange|trade_pairing
 					'rvn' => 'binance|btc', // exchange|trade_pairing
-					'grin' => 'poloniex|btc', // exchange|trade_pairing
+					'grin' => 'hotbit|btc', // exchange|trade_pairing
 					'beam' => 'hotbit|btc', // exchange|trade_pairing
 					'myst' => 'hitbtc|btc', // exchange|trade_pairing
 					'myst-2' => 'hitbtc|eth', // exchange|trade_pairing
@@ -252,11 +252,11 @@ $coins_array = array(
                         'ico' => 'no',
                         'market_pairing' => array(
                                     'btc' => array(
-                                          'okcoin' => 'okcoin',
-                                          'bitfinex' => 'tBTCUSD',
-                                          'kraken' => 'kraken',
                                           'coinbase' => 'coinbase',
                                           'bitstamp' => 'bitstamp',
+                                          'okcoin' => 'okcoin',
+                                          'bitfinex' => 'bitfinex',
+                                          'kraken' => 'kraken',
                                           'gemini' => 'gemini',
                                           'hitbtc' => 'hitbtc',
                                           'gatecoin' => 'gatecoin',

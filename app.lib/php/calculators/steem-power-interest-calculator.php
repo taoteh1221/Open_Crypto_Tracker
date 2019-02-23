@@ -11,7 +11,7 @@ $_POST = trim_array($_POST);
 }
 
 // Get STEEM value
-$steem_market = get_trade_data('poloniex', 'BTC_STEEM')['last_trade'];
+$steem_market = get_trade_data('binance', 'STEEMBTC')['last_trade'];
 
 ?>
     
@@ -26,7 +26,7 @@ $steem_market = get_trade_data('poloniex', 'BTC_STEEM')['last_trade'];
     
 
 
-<p style='font-weight: bold; color: green;'>1 STEEM = <?=$steem_market?> BTC ($<?=number_format( ( $steem_market * get_btc_usd($btc_exchange) ), 8, '.', ',')?>)</p>
+<p style='font-weight: bold; color: green;'>1 STEEM = <?=$steem_market?> BTC ($<?php echo number_format( ( $steem_market * get_btc_usd($btc_exchange)['last_trade'] ), 8, '.', ','); ?>)</p>
 
 <p>
     <form action='index.php#calculators' method='post'>

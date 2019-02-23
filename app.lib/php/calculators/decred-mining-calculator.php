@@ -11,8 +11,8 @@
 											decred_api('block', 'difficulty'), // Mining network measure (difficulty or network hashrate)
 											'https://github.com/decred/dcrdata#json-rest-api', // Blockchain data API url
 											'dcrdata.org API', // Blockchain data API name
-											'poloniex', // Exchange name (lowercase for API logic)
-											'BTC_DCR' // Market pair name
+											'binance', // Exchange name (lowercase for API logic)
+											'DCRBTC' // Market pair name
 											);
 			
 			
