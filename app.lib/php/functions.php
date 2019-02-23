@@ -1880,7 +1880,7 @@ $array_merging = array();
 
 function coin_data($coin_name, $trade_symbol, $coin_amount, $market_pairing_array, $selected_pairing, $selected_market, $sort_order) {
 
-global $_POST, $coins_array, $btc_exchange, $marketcap_site, $alert_percent, $marketcap_ranks_max, $api_timeout;
+global $_POST, $coins_array, $btc_exchange, $marketcap_site, $marketcap_ttl, $alert_percent, $marketcap_ranks_max, $api_timeout;
 
 
 $original_market = $selected_market;
@@ -2094,10 +2094,14 @@ $market_pairing = $all_markets[$selected_market];
             }
             if ( marketcap_data($trade_symbol)['last_updated'] != '' ) {
             ?>
-        +'<p><span class="orange">Last Updated (UTC):</span> <?=gmdate("Y-M-d\ \\a\\t g:ia", marketcap_data($trade_symbol)['last_updated'])?></p>';
+        +'<p><span class="orange">Timestamp (UTC):</span> <?=gmdate("Y-M-d\ \\a\\t g:ia", marketcap_data($trade_symbol)['last_updated'])?></p>'
     
         <?php
             }
+            ?>
+        +'<p><span class="orange">Cache time:</span> <?=$marketcap_ttl?> minute(s)</p>';
+    
+        <?php
         
         }
         ?>

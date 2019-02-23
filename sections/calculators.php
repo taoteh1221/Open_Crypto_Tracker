@@ -8,7 +8,7 @@
 
 			<div style='border: 2px dotted red; font-weight: bold; padding: 9px; color: red;'><a href='index.php' style='color: red;'>Click Here To Reset Default Tab / Calculators</a></div>
 			
-			<p style='font-weight: bold; color: red;'> Chain data (block height, difficulty, etc) on this page refreshes every <?=$chainstats_cache?> minutes. </p>
+			<p style='font-weight: bold; color: red;'> Chain data (block height, difficulty, etc) on this page is cached for <?=$chainstats_cache?> minute(s). </p>
 			
 			<fieldset class='calculators'>
 				<legend style='color: blue;'> <b>Monero Mining Calculator</b> </legend>
