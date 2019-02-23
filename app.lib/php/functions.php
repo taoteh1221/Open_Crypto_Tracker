@@ -2497,8 +2497,9 @@ $proxy_test_url = 'http://httpbin.org/ip';
 	
 		if ( trim($data['origin']) != '' ) {
 
-
-			if ( strstr($problem_proxy, $data['origin']) == false ) {
+			
+			// Look for the IP in the response
+			if ( strstr($data['origin'], $ip) == false ) {
 				
 			$misconfigured = 1;
 			
