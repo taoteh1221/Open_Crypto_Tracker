@@ -25,7 +25,7 @@ $version = '2.2.9';  // 2019/FEBRUARY/21ST
  
 
 /*
- * USAGE (ADDING / UPDATING COINS) ...API support for: kraken / gatecoin / poloniex / coinbase / bitstamp / bittrex / bitfinex and ethfinex / cryptofresh / bter / gemini / hitbtc / liqui / cryptopia / livecoin / upbit / kucoin / okex / gate.io / graviex / idex / hotbit / tradeogre / bitforex / bigone...BTC, XMR, ETH, LTC, AND USDT trading pair support
+ * USAGE (ADDING / UPDATING COINS) ...API support for: kraken / gatecoin / poloniex / binance / coinbase / bitstamp / bittrex / bitfinex and ethfinex / cryptofresh / bter / gemini / hitbtc / liqui / cryptopia / livecoin / upbit / kucoin / okex / gate.io / graviex / idex / hotbit / tradeogre / bitforex / bigone...BTC, XMR, ETH, LTC, AND USDT trading pair support
  * Ethereum ICO subtoken support has been built in, but values are static ICO values in ETH
  *
  SEE THE BOTTOM OF THE README.txt FOR FOR AN EXAMPLE SET OF PRE-CONFIGURED ASSETS
@@ -78,7 +78,7 @@ $version = '2.2.9';  // 2019/FEBRUARY/21ST
 
 /////////////////// GENERAL CONFIG -START- ////////////////////////////////////////////////////
 
-$btc_exchange = 'bitstamp'; // Default Bitcoin value in USD: coinbase / bitfinex / gemini / okcoin / bitstamp / kraken / hitbtc / gatecion / livecoin
+$btc_exchange = 'bitstamp'; // Default Bitcoin value in USD: binance coinbase / bitfinex / gemini / okcoin / bitstamp / kraken / hitbtc / gatecion / livecoin
 
 $chainstats_cache = 20; // Time to cache blockchain stats (for mining calculators), in minutes
 
@@ -132,6 +132,7 @@ $cron_alerts = array(
 					// NOTE: This list must only contain assets / exchanges / trading pairs included in the primary coin data configuration further down in this config file.
 					// TO ADD MULTIPLE ALERTS FOR SAME ASSET (FOR DIFFERENT EXCHANGES / TRADE PAIRINGS), FORMAT LIKE SO: symbol, symbol-1, symbol-2, etc.
 					'btc' => 'bitstamp|btc', // exchange|trade_pairing
+					'btc-2' => 'binance|btc', // exchange|trade_pairing
 					'eth' => 'binance|usdt', // exchange|trade_pairing
 					'eth-2' => 'bitstamp|btc', // exchange|trade_pairing
 					'xmr' => 'binance|btc', // exchange|trade_pairing
@@ -253,6 +254,7 @@ $coins_array = array(
                         'market_pairing' => array(
                                     'btc' => array(
                                           'coinbase' => 'coinbase',
+                                          'binance' => 'binance',
                                           'bitstamp' => 'bitstamp',
                                           'okcoin' => 'okcoin',
                                           'bitfinex' => 'bitfinex',
@@ -277,7 +279,7 @@ $coins_array = array(
                                     'btc' => array(
                                           'poloniex' => 'BTC_ETH',
                                           'kraken' => 'XETHXXBT',
-                                          'coinbase' => 'ETH',
+                                          'coinbase' => 'ETH-BTC',
                                           'hitbtc' => 'ETHBTC',
                                           'gatecoin' => 'ETHBTC',
                                           'bitfinex' => 'tETHBTC',
@@ -432,7 +434,7 @@ $coins_array = array(
                         'ico' => 'no',
                         'market_pairing' => array(
                                     'btc' => array(
-                                        'coinbase' => 'LTC',
+                                        'coinbase' => 'LTC-BTC',
                                         'okex' => 'ltc_btc',
                                         'bitfinex' => 'tLTCBTC',
                                         'poloniex' => 'BTC_LTC',

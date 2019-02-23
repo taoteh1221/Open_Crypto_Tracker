@@ -9,6 +9,11 @@
                         
                         
 			<div class='help_section'>
+                            <p><b>Setting Up Price Alerts:</b><br />
+                                You can setup price change alerts to be sent to your email, mobile phone, and amazon alexa devices. See the required settings in config.php, and instructions on cron job setup in the <a href='README.txt' target='_blank'>README.txt file</a>. Once setup, there is no need to keep your computer turned on. The alerts run automatically from your web server.</p>
+                        </div>
+                        
+			<div class='help_section'>
                             <p><b>Monitoring Coins You Don't Hold:</b><br />
                                 In the "Update Coin Amounts" section, for every coin you don't hold <i>but wish to monitor it's real-time value</i>, just set the amount to 0.00000001. This avoids skewing your "Total Bitcoin Value" and "Total USD Value" amounts, but allows you to track these coin value(s).</p>
                         </div>

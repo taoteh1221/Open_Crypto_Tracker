@@ -511,32 +511,90 @@ global $last_trade_ttl;
   
     if ( strtolower($btc_exchange) == 'coinbase' ) {
     
-    $json_string = 'https://api.coinbase.com/v2/prices/spot?currency=USD';
+    $json_string = 'https://api.pro.coinbase.com/products/BTC-USD/ticker';
     
     $jsondata = @data_request('url', $json_string, $last_trade_ttl);
     
     $data = json_decode($jsondata, TRUE);
     
     return  array(
-    					'last_trade' => number_format( $data['data']['amount'], 2, '.', ''),
-    					'24hr_usd_volume' => NULL // Need volume API docs
+    					'last_trade' => number_format( $data['price'], 2, '.', ''),
+    					'24hr_usd_volume' => volume_usd('bitcoin', $data['volume'], number_format( $data['price'], 2, '.', ''))
     					);
 
   
     }
+
+
+  elseif ( strtolower($btc_exchange) == 'binance' ) {
+     
+     $json_string = 'https://www.binance.com/api/v1/ticker/24hr';
+     
+     $jsondata = @data_request('url', $json_string, $last_trade_ttl);
+     
+     $data = json_decode($jsondata, TRUE);
+   
+  
+  //print_r($data);
+      if (is_array($data) || is_object($data)) {
+  
+       foreach ($data as $key => $value) {
+         
+         //print_r($key);
+         
+         if ( $data[$key]['symbol'] == 'BTCUSDT' ) {
+          
+         return  array(
+    					'last_trade' => $data[$key]["lastPrice"],
+    					'24hr_usd_volume' => volume_usd('bitcoin', $data[$key]["volume"], $data[$key]["lastPrice"])
+    				);
+          
+          
+         }
+       
+     
+       }
+      
+      }
+  
+  
+  }
+
+
   
   
     elseif ( strtolower($btc_exchange) == 'bitfinex' ) {
+    
+     
+     $json_string = 'https://api-pub.bitfinex.com/v2/tickers?symbols=ALL';
+     
+     $jsondata = @data_request('url', $json_string, $last_trade_ttl);
+     
+     $data = json_decode($jsondata, TRUE);
   
-    $data = get_trade_data('bitfinex', 'tBTCUSD')['last_trade'];
-    //$vol = get_trade_data('bitfinex', 'tBTCUSD')['24hr_usd_volume'];
-    
-    
-    return  array(
-    					'last_trade' => number_format( $data, 2, '.', ''),
-    					'24hr_usd_volume' => NULL  // Shitty API crapped out, try later
-    					);
-
+  //var_dump($data);
+  
+      if (is_array($data) || is_object($data)) {
+  
+       foreach ( $data as $object ) {
+         
+         if ( $object[0] == 'tBTCUSD' ) {
+                 
+          //var_dump($object);
+          
+         return  array(
+    					'last_trade' => $object[( sizeof($object) - 4 )],
+    					'24hr_usd_volume' => volume_usd('bitcoin', $object[( sizeof($object) - 3 )], $object[( sizeof($object) - 4 )])
+    				);
+          
+          
+         }
+       
+     
+       }
+      
+      }
+  
   
     }
   
@@ -908,15 +966,17 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
 
   elseif ( strtolower($chosen_market) == 'coinbase' ) {
   
-     $json_string = 'https://api.coinbase.com/v2/exchange-rates?currency=' . $market_pairing;
+     $json_string = 'https://api.pro.coinbase.com/products/'.$market_pairing.'/ticker';
      
      $jsondata = @data_request('url', $json_string, $last_trade_ttl);
      
      $data = json_decode($jsondata, TRUE);
+
+     //var_dump($data); // DEBUGGING
      
      return  array(
-    					'last_trade' => $data['data']['rates']['BTC'],
-    					'24hr_usd_volume' => NULL
+    					'last_trade' => $data['price'],
+    					'24hr_usd_volume' => volume_usd($market_pairing, $data["volume"], $data['price'])
     				);
    
   }
@@ -1121,7 +1181,7 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
           
          return  array(
     					'last_trade' => $data[$key][$market_pairing]["price"],
-    					'24hr_usd_volume' => volume_usd($market_pairing, $data[$key][$market_pairing]["volume"], '', 'btc')
+    					'24hr_usd_volume' => volume_usd($market_pairing, $data[$key][$market_pairing]["volume"], '', detect_pairing($market_pairing))
     				);
           
           
@@ -1223,7 +1283,7 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
           
          return  array(
     					'last_trade' => $data[$key]["lastDealPrice"],
-    					'24hr_usd_volume' => NULL  // V1 offline, no docs yet for v2
+    					'24hr_usd_volume' => NULL  // V1 offline, no docs yet for V2??
     				);
           
           
@@ -1496,7 +1556,7 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
   			
   				if ( $exchange_pairs['upbit'] != '' ) {
 				
-				$upbit_pairs .= 'CRIX.UPBIT.' . $exchange_pairs['upbit'] . ',';
+				$upbit_pairs .= $exchange_pairs['upbit'] . ',';
 				  				
   				}
   			
@@ -1504,23 +1564,25 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
   			
   		}
 
+		$upbit_pairs = substr($upbit_pairs, 0, -1);
 
-     $json_string = 'https://crix-api-endpoint.upbit.com/v1/crix/recent?codes=' . $upbit_pairs;
+     $json_string = 'https://api.upbit.com/v1/ticker?markets=' . $upbit_pairs;
      
      $jsondata = @data_request('url', $json_string, $last_trade_ttl);
      
      $data = json_decode($jsondata, TRUE);
   
   //var_dump($data);
+  
       if (is_array($data) || is_object($data)) {
   
        foreach ( $data as $key => $value ) {
          
-         if ( $data[$key]["code"] == 'CRIX.UPBIT.' . $market_pairing ) {
+         if ( $data[$key]["market"] == $market_pairing ) {
           
          return  array(
-    					'last_trade' => $data[$key]["tradePrice"],
-    					'24hr_usd_volume' => NULL
+    					'last_trade' => $data[$key]["trade_price"],
+    					'24hr_usd_volume' => volume_usd($market_pairing, $data[$key]["acc_trade_volume_24h"], $data[$key]["trade_price"])
     				);
           
           
@@ -1537,29 +1599,8 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
 
   elseif ( strtolower($chosen_market) == 'ethfinex' || strtolower($chosen_market) == 'bitfinex' ) {
   	
-  	
-  		foreach ( $coins_array as $markets ) {
-  		
-  			foreach ( $markets['market_pairing'] as $exchange_pairs ) {
-  			
-  				if ( $exchange_pairs['ethfinex'] != '' ) {
-				
-				$finex_pairs .= $exchange_pairs['ethfinex'] . ',';
-				  				
-  				}
-  				
-  				if ( $exchange_pairs['bitfinex'] != '' ) {
-				
-				$finex_pairs .= $exchange_pairs['bitfinex'] . ',';
-				  				
-  				}
-  			
-  			}
-  			
-  		}
-
-
-     $json_string = 'https://api.bitfinex.com/v2/tickers?symbols=' . $finex_pairs;
+     
+     $json_string = 'https://api-pub.bitfinex.com/v2/tickers?symbols=ALL';
      
      $jsondata = @data_request('url', $json_string, $last_trade_ttl);
      
@@ -1577,7 +1618,7 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
           
          return  array(
     					'last_trade' => $object[( sizeof($object) - 4 )],
-    					'24hr_usd_volume' => NULL
+    					'24hr_usd_volume' => volume_usd($market_pairing, $object[( sizeof($object) - 3 )], $object[( sizeof($object) - 4 )])
     				);
           
           
@@ -2100,7 +2141,7 @@ $market_pairing = $all_markets[$selected_market];
         <?php
             }
             ?>
-        +'<p><span class="orange">Cache time:</span> <?=$marketcap_ttl?> minute(s)</p>';
+        +'<p><span class="orange">Cache Time:</span> <?=$marketcap_ttl?> minute(s)</p>';
     
         <?php
         
@@ -2369,7 +2410,6 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		} 
 		else {
 		curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie_jar);
-		curl_setopt($ch, CURLOPT_USERAGENT, $user_agent);
 		}
 		
 		if ( $mode == 'array' && $post_encoding == 1 ) {
@@ -2393,6 +2433,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 	curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, 0); 
 	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $api_timeout);
 	curl_setopt($ch, CURLOPT_TIMEOUT, $api_timeout);
+	curl_setopt($ch, CURLOPT_USERAGENT, $user_agent);
 	
 	$data = curl_exec($ch);
 	curl_close($ch);
@@ -2654,6 +2695,17 @@ return $proxy_list[$proxy];
 
 //////////////////////////////////////////////////////////
 
+function random_user_agent() {
+
+global $user_agents;
+
+$agent = array_rand($user_agents);
+
+return $user_agents[$agent];
+
+}
+//////////////////////////////////////////////////////////
+
 function remove_formatting($data) {
 
 $data = preg_replace("/ /i", "", $data); // Space
@@ -2783,7 +2835,7 @@ $pairing = detect_pairing($pair_name);
 
 
 	// Get any necessary variables for calculating asset's USD value
-	if ( $pair_name == 'bitcoin' ) {
+	if ( $pair_name == 'bitcoin' && $last_trade != '' ) {
 	$btc_usd = $last_trade;
 	}
 	else {
