@@ -75,6 +75,7 @@ $asset = ( stristr($asset_data, "-") == false ? $asset_data : substr( $asset_dat
 
 	// Get any necessary variables for calculating asset's USD value
 	if ( $asset == 'BTC' ) {
+	$pairing = 'usd'; // Overwrite for Bitcoin only, so alerts properly describe the BTC fiat pairing in this app
 	$btc_usd = get_btc_usd($exchange)['last_trade']; // Overwrite global var with selected exchange (rather then default), when asset is Bitcoin
 	}
 
