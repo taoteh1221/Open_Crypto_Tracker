@@ -4,9 +4,9 @@
  */
 	
 
-				$usd_daily_average = number_format( ( round($daily_average, 8) * get_btc_usd($btc_exchange)['last_trade'] ), 2);
+				$usd_daily_average = ( round($daily_average, 8) * get_btc_usd($btc_exchange)['last_trade'] );
 				
-				$btc_daily_average = number_format(round($daily_average, 8), 8);
+				$btc_daily_average = round($daily_average, 8);
 				
 				$kwh_cost_daily = ( ( trim($_POST['watts_used']) / 1000 ) * 24 ) * trim($_POST['watts_rate']);
 				

@@ -32,7 +32,7 @@
 				
 				Average BTC Value Earned Daily: 
 				<?php
-				echo $btc_daily_average . ' BTC ($' . $usd_daily_average . ' USD)';
+				echo number_format( $btc_daily_average, 8 ) . ' BTC ($' . number_format( $usd_daily_average , 2) . ' USD)';
 				?>
 				
 				<br />
@@ -79,7 +79,7 @@
 				
 				Average BTC Value Earned Weekly: 
 				<?php
-				echo $btc_daily_average * 7 . ' BTC ($' . $usd_daily_average * 7 . ' USD)';
+				echo number_format( ( $btc_daily_average * 7 ) , 8) . ' BTC ($' . number_format( ( $usd_daily_average * 7 ) , 2) . ' USD)';
 				?>
 				
 				<br />
