@@ -107,7 +107,7 @@ $proxy_list = array(
 					// 'ipaddress2:portnumber2',
 					);
 
-$proxy_alerts_freq = 1; // Re-allow proxy request error / misconfigured email alerts after X hours (can be 0)
+$proxy_alerts_freq = 1; // Re-allow proxy request error / misconfigured email alerts after X hours (per ip/port pair, can be 0)
 
 $proxy_alerts_type = 'email'; // 'email', or 'text', or 'notifyme', or 'all'...'email' keeps any text / notifyme price alert notifications a lot less cluttered ;-)
 
