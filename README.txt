@@ -86,19 +86,19 @@ BELOW IS AN !---EXAMPLE---! SET OF CONFIGURED ASSETS. PLEASE NOTE THIS IS PROVID
 
 /////////////////// GENERAL CONFIG -START- ////////////////////////////////////////////////////
 
-$btc_exchange = 'bitstamp'; // Default Bitcoin value in USD: binance coinbase / bitfinex / gemini / okcoin / bitstamp / kraken / hitbtc / gatecion / livecoin
+$btc_exchange = 'binance'; // Default Bitcoin value in USD: binance / coinbase / bitfinex / gemini / okcoin / bitstamp / kraken / hitbtc / gatecion / livecoin
 
-$chainstats_cache = 20; // Time to cache blockchain stats (for mining calculators), in minutes
+$chainstats_cache = 15; // Time to cache blockchain stats (for mining calculators), in minutes
 
 $marketcap_site = 'coinmarketcap'; // Default marketcap data source: coinmarketcap / coingecko
 
-$api_timeout = 15; // Seconds to wait for response from API endpoints
+$api_timeout = 10; // Seconds to wait for response from API endpoints
 
 $last_trade_ttl = 1; // Minutes to cache last real-time exchange data...can be zero to skip cache, but set at least 1 minute to safely avoid your IP getting blocked
 
-$marketcap_ttl = 20; // Minutes to cache marketcap data...start high and test lower, it can be strict
+$marketcap_ttl = 15; // Minutes to cache marketcap data...start high and test lower, it can be strict
 
-$marketcap_ranks_max = 100; // Maximum number of marketcap rankings to request from API
+$marketcap_ranks_max = 200; // Maximum number of marketcap rankings to request from API. Ranks are grabbed 100 per request. Set to 100 if your data requests are throttled a lot.
 
 // If using proxies (whitelisting with no login required), add the ip address / port number here for each one, like examples below (without the double slashes in front)
 // Adding proxies here will automatically choose one randomly for each API request
@@ -130,9 +130,9 @@ $textlocal_account = ''; // This format MUST be used: 'username|hash_code'
 
 $cron_alerts_freq = 1; // Re-allow cron job email / text alerts after X hours (per asset, set higher if issues with email / text blacklisting...can be 0)
 
-$cron_alerts_percent = 15; // $USD price percentage change (WITHOUT percent sign: 15 = 15%), sends alerts when percent change is reached (up or down)
+$cron_alerts_percent = 10; // $USD price percentage change (WITHOUT percent sign: 15 = 15%), sends alerts when percent change is reached (up or down)
 
-$cron_alerts_refresh = 7; // Refresh prices every X days with latest prices...can be 0 to disable refreshing (until price alert is triggered)
+$cron_alerts_refresh = 5; // Refresh prices every X days with latest prices...can be 0 to disable refreshing (until price alert is triggered)
 
 $cron_alerts = array(
 					// Markets you want cron alerts for (alert sent when $USD value change is equal to or above / below $cron_alerts_percent...see README.txt for cron job setup information) 

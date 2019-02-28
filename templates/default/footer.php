@@ -4,7 +4,7 @@
             	
             	<div id="api_error_alert"><?=( $_SESSION['get_data_error'] ? $_SESSION['get_data_error'] . $_SESSION['cmc_error'] : $_SESSION['cmc_error'] )?></div>
             	
-    <p align='center'><a href='https://github.com/taoteh1221/DFD_Cryptocoin_Values/releases' target='_blank'>Version <?=$version?></a><br />(Github download / releases link)</p>
+    <p align='center'><a href='https://github.com/taoteh1221/DFD_Cryptocoin_Values/releases' target='_blank'>Version <?=$app_version?></a><br />(Github download / releases link)</p>
     
 
     <p align='center'>Donations support further development...<br /><a id='donate' href='#' onclick='return false;'>(click to show addresses below)</a></p>

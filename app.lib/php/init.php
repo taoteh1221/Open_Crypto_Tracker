@@ -19,8 +19,8 @@ $curl_setup = curl_version();
 
 $user_agents = array(
 							'Mozilla/5.0 AppleWebKit (KHTML, like Gecko) Chrome Safari',
-							'Mozilla/5.0 (X11; Linux x86_64;) Gecko Firefox',
-							'Mozilla/5.0 (Linux;) AppleWebKit (KHTML, like Gecko) Chrome Safari',
+							'Mozilla/5.0 Gecko Firefox',
+							'Mozilla/5.0 (compatible; API Parser;) AppleWebKit (KHTML, like Gecko) Chrome Safari',
 							'Mozilla/5.0 (compatible; API Parser;) Gecko Firefox'
 							);
 
@@ -28,7 +28,7 @@ if ( sizeof($proxy_list) > 0 ) {
 $user_agent = random_user_agent();  // If proxies in use, preserve privacy
 }
 else {
-$user_agent = $_SERVER['SERVER_SOFTWARE'] . ' HTTP Server; PHP v' .phpversion(). ' and Curl v' .$curl_setup["version"]. '; DFD Cryptocoin Values v' . $version . ' API Endpoint Parser;';
+$user_agent = 'Mozilla/5.0 (compatible; ' . $_SERVER['SERVER_SOFTWARE'] . ' HTTP Server; PHP v' .phpversion(). '; Curl v' .$curl_setup["version"]. '; DFD Cryptocoin Values v' . $app_version . ' API Endpoint Parser; +https://github.com/taoteh1221/DFD_Cryptocoin_Values) Gecko Firefox';
 }
 
 ?>

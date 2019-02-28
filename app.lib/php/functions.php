@@ -2383,7 +2383,7 @@ return $total_value;
 
 function data_request($mode, $request, $ttl, $api_server=null, $post_encoding=3, $test_proxy=NULL) { // Default to JSON encoding post requests (most used)
 
-global $version, $user_agent, $api_timeout, $proxy_list;
+global $user_agent, $api_timeout, $proxy_list;
 
 $cookie_jar = tempnam('/tmp','cookie');
 	
