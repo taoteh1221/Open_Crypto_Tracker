@@ -17,7 +17,7 @@ session_start();
 
 $app_version = '2.3.0';  // 2019/MARCH/1ST
  
-require_once("app.lib/php/functions.php");
+require_once("app.lib/php/functions/functions.php");
 require_once("app.lib/php/cookies.php");
 require_once("app.lib/php/init.php");
 

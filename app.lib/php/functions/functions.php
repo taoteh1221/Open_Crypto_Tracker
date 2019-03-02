@@ -786,7 +786,10 @@ $proxy_test_url = 'http://httpbin.org/ip';
 		}
 
       
-      $email_alert = " The proxy ".$problem_proxy." was unresponsive recently. A check on this proxy was performed, and results logged: \n \n ============================================================== \n " . $cached_logs . " \n ============================================================== \n \n ";
+      $email_alert = " The proxy ".$problem_proxy." was unresponsive recently. A check on this proxy was performed, and results logged: 
+      ==============================================================
+      " . $cached_logs . "
+      ==============================================================";
                     
 		
 		// SESSION VAR to avoid duplicate alerts close together (while first alert still has cache file locked for writing)
