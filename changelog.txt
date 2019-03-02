@@ -900,7 +900,9 @@ app doing the data requests, not a malicious bot)
 
 -------------------------------------------------------------------
 2.3.0:
--Tweaks
+-UI + backend tweaks / bug fixes
+-SMTP email setting option
+-Organized / categorized back end functions
 -------------------------------------------------------------------
 
 

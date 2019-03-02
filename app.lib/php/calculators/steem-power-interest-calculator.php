@@ -11,7 +11,7 @@ $_POST = trim_array($_POST);
 }
 
 // Get STEEM value
-$steem_market = get_trade_data('binance', 'STEEMBTC')['last_trade'];
+$steem_market = get_coin_value('binance', 'STEEMBTC')['last_trade'];
 
 ?>
     

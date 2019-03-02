@@ -3,8 +3,7 @@
  * Copyright 2014-2019 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
  */
 
-
-error_reporting(0); // Turn off all error reporting (0), or enable (1)
+error_reporting(0); // Turn off all error reporting on production servers (0), or enable (1)
 
 // Forbid direct access to this file
 if ( realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) ) {
@@ -13,67 +12,17 @@ if ( realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) ) {
 }
 
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
+
 session_start();
 
-$app_version = '2.3.0';  // 2019/FEBRUARY/21ST
+$app_version = '2.3.0';  // 2019/MARCH/1ST
  
 require_once("app.lib/php/functions.php");
 require_once("app.lib/php/cookies.php");
 require_once("app.lib/php/init.php");
 
-///////////////////////////////////////////////////////////////////////////////////////////
-
-
-/*
- * USAGE (ADDING / UPDATING COINS) ...API support for: kraken / gatecoin / poloniex / binance / coinbase / bitstamp / bittrex / bitfinex and ethfinex / cryptofresh / bter / gemini / hitbtc / liqui / cryptopia / livecoin / upbit / kucoin / okex / gate.io / graviex / idex / hotbit / tradeogre / bitforex / bigone...BTC, XMR, ETH, LTC, AND USDT trading pair support
- * Ethereum ICO subtoken support has been built in, but values are static ICO values in ETH
- *
- SEE THE BOTTOM OF THE README.txt FOR FOR AN EXAMPLE SET OF PRE-CONFIGURED ASSETS
- 
- 
-                    // UPPERCASE_COIN_SYMBOL
-                    'UPPERCASE_COIN_SYMBOL' => array(
-                        
-                        'coin_name' => 'COIN_NAME',
-                        'coin_symbol' => 'UPPERCASE_COIN_SYMBOL',
-                        'marketcap-website-slug' => 'coin-slug', // Is this coin listed on coinmarketcap / coingecko, leave blank if not
-                        'ico' => 'no', // yes / no ...was this an ICO
-                        'market_pairing' => array(
-                                    'btc' => array(
-                                          'LOWERCASE_MARKETPLACE1' => 'MARKETNUMBERHERE',
-                                          'LOWERCASE_MARKETPLACE2' => 'BTC_COINSYMBOLHERE',
-                                          'LOWERCASE_MARKETPLACE3' => 'BTC-COINSYMBOLHERE'
-                                                    ),
-                                    'xmr' => array(
-                                          'LOWERCASE_MARKETPLACE1' => 'MARKETNUMBERHERE',
-                                          'LOWERCASE_MARKETPLACE2' => 'XMR_COINSYMBOLHERE',
-                                          'LOWERCASE_MARKETPLACE3' => 'XMR-COINSYMBOLHERE'
-                                                    ),
-                                    'eth' => array(
-                                          'LOWERCASE_MARKETPLACE1' => 'MARKETNUMBERHERE',
-                                          'LOWERCASE_MARKETPLACE2' => 'ETH_COINSYMBOLHERE',
-                                          'LOWERCASE_MARKETPLACE3' => 'ETH-COINSYMBOLHERE',
-                                          'eth_subtokens_ico' => 'THEDAO' // Must be defined in $eth_subtokens_ico_values in config.php
-                                                    ),
-                                    'ltc' => array(
-                                          'LOWERCASE_MARKETPLACE1' => 'MARKETNUMBERHERE',
-                                          'LOWERCASE_MARKETPLACE2' => 'LTC_COINSYMBOLHERE',
-                                          'LOWERCASE_MARKETPLACE3' => 'LTC-COINSYMBOLHERE'
-                                                    ),
-                                    'usdt' => array(
-                                          'LOWERCASE_MARKETPLACE1' => 'MARKETNUMBERHERE',
-                                          'LOWERCASE_MARKETPLACE2' => 'USDT_COINSYMBOLHERE',
-                                          'LOWERCASE_MARKETPLACE3' => 'USDT-COINSYMBOLHERE'
-                                                    )
-                                          ),
-                        'default_pairing' => 'LOWERCASE_BTC_OR_XMR_OR_ETH_OR_LTC_OR_USDT_TRADING_PAIR'
-                        
-                    ),
-                    
-                    
-                    
- * 
- */
+// WHEN RE-CONFIGURING COIN DATA, LEAVE THIS CODE ABOVE HERE, DON'T DELETE ABOVE THIS LINE
+// SEE README.txt FOR HOW TO ADD / EDIT / DELETE COINS IN THIS CONFIG, AND AN EXAMPLE SET OF PRE-CONFIGURED ASSETS
 
 
 /////////////////// GENERAL CONFIG -START- ////////////////////////////////////////////////////
@@ -84,7 +33,7 @@ $chainstats_cache = 15; // Time to cache blockchain stats (for mining calculator
 
 $marketcap_site = 'coinmarketcap'; // Default marketcap data source: coinmarketcap / coingecko
 
-$api_timeout = 10; // Seconds to wait for response from API endpoints
+$api_timeout = 15; // Seconds to wait for response from API endpoints
 
 $last_trade_ttl = 1; // Minutes to cache last real-time exchange data...can be zero to skip cache, but set at least 1 minute to safely avoid your IP getting blocked
 
@@ -92,7 +41,7 @@ $marketcap_ttl = 15; // Minutes to cache marketcap data...start high and test lo
 
 $marketcap_ranks_max = 200; // Maximum number of marketcap rankings to request from API. Ranks are grabbed 100 per request. Set to 100 if your data requests are throttled a lot.
 
-// If using proxies (whitelisting with no login required), add the ip address / port number here for each one, like examples below (without the double slashes in front)
+// If using proxies (ip address whitelisting with no login required), add the ip address / port number here for each one, like examples below (without the double slashes in front)
 // Adding proxies here will automatically choose one randomly for each API request
 $proxy_list = array(
 					// 'ipaddress1:portnumber1',
@@ -103,7 +52,18 @@ $proxy_alerts_freq = 1; // Re-allow proxy request error / misconfigured email al
 
 $proxy_alerts_type = 'email'; // 'email', or 'text', or 'notifyme', or 'all'...'email' keeps any text / notifyme price alert notifications a lot less cluttered ;-)
 
-// FROM email should be a REAL address on the website domain name, or you risk having sent email blacklisted / sent to junk folder
+// !OPTIONALLY! use SMTP authentication email to send email, ALL SMTP SETTINGS CAN BE LEFT BLANK (PHP's built-in mail() function will be used instead)
+// Use SMTP if your web server has no reverse lookup set for it's ip address that matches your domain name (if your server is on your home network rather than normal web hosting)
+// !!DO --NOT-- USE YOUR PRIMARY / EVERYDAY EMAIL ACCOUNT, USE A THROWAWAY ACCOUNT ONLY!! If your web server is ever hacked, A HACKER WOULD THEN HAVE ACCESS YOUR EMAIL LOGIN FROM THIS FILE!!
+// If SMTP credentials / settings are filled in, BUT not setup properly below, !APP EMAILING WILL FAIL!
+$smtp_login = ''; // CAN BE BLANK. This format MUST be used: 'username|password'
+
+$smtp_server = ''; // CAN BE BLANK. This format MUST be used: 'domain_or_ip:port' example: 'example.com:25'
+
+$smtp_secure = ''; // CAN BE BLANK. BLANK '' for no secure connection, or 'tls', or 'ssl' for secure connections. Make sure to use correct port number ABOVE that corresponds to this security setup on your web server
+
+// IF SMTP EMAIL --NOT-- USED, the FROM email should be a REAL email address on the website domain name, or you may risk having sent email blacklisted / sent to junk folder
+// IF SMTP EMAIL --IS-- USED, THIS MUST MATCH THE EMAIL ADDRESS associated with the SMTP login
 $from_email = ''; // For cron job email alerts, MUST BE SET (see README.txt for cron job setup information) 
 
 $to_email = ''; // For cron job email alerts, MUST BE SET
@@ -122,9 +82,9 @@ $textlocal_account = ''; // This format MUST be used: 'username|hash_code'
 
 $cron_alerts_freq = 1; // Re-allow cron job email / text alerts after X hours (per asset, set higher if issues with email / text blacklisting...can be 0)
 
-$cron_alerts_percent = 10; // $USD price percentage change (WITHOUT percent sign: 15 = 15%), sends alerts when percent change is reached (up or down)
+$cron_alerts_percent = 12; // $USD price percentage change (WITHOUT percent sign: 15 = 15%), sends alerts when percent change is reached (up or down)
 
-$cron_alerts_refresh = 5; // Refresh prices every X days with latest prices...can be 0 to disable refreshing (until price alert is triggered)
+$cron_alerts_refresh = 3; // Refresh prices every X days with latest prices...can be 0 to disable refreshing (until price alert is triggered)
 
 $cron_alerts = array(
 					// Markets you want cron alerts for (alert sent when $USD value change is equal to or above / below $cron_alerts_percent...see README.txt for cron job setup information) 
@@ -143,6 +103,7 @@ $cron_alerts = array(
 				//	'ltc' => 'bittrex|btc', // exchange|trade_pairing
 					'steem' => 'bittrex|btc', // exchange|trade_pairing
 					'mana' => 'binance|btc', // exchange|trade_pairing
+					'ant' => 'bittrex|btc', // exchange|trade_pairing
 				//	'zrx' => 'bittrex|btc', // exchange|trade_pairing
 					'zil' => 'binance|btc', // exchange|trade_pairing
 				//	'trac' => 'kucoin|btc', // exchange|trade_pairing
@@ -542,6 +503,34 @@ $coins_array = array(
                         'default_pairing' => 'btc'
                         
                     ),
+                    // ANT
+                    'ANT' => array(
+                        
+                        'coin_name' => 'Aragon',
+                        'coin_symbol' => 'ANT',
+                        'marketcap-website-slug' => 'aragon',
+                        'ico' => 'yes',
+                        'market_pairing' => array(
+                                    'btc' => array(
+                                          'bittrex' => 'BTC-ANT',
+                                        	'ethfinex' => 'tANTBTC',
+                                        	'upbit' => 'BTC-ANT',
+                                          'hitbtc' => 'ANTBTC',
+                                          'liqui' => 'ant_btc'
+                                                    ),
+                                    'eth' => array(
+                                          'bittrex' => 'ETH-ANT',
+                                        	'ethfinex' => 'tANTETH',
+                                          'upbit' => 'ETH-ANT',
+                                          'liqui' => 'ant_eth'
+                                                    ),
+                                    'usdt' => array(
+                                        	'liqui' => 'ant_usdt'
+                                                    )
+                                        ),
+                        'default_pairing' => 'btc'
+                        
+                    ),
                     // GRIN
                     'GRIN' => array(
                         
@@ -877,6 +866,7 @@ $coins_array = array(
 
 
 
+// WHEN RE-CONFIGURING COIN DATA, LEAVE THIS CODE BELOW HERE, DON'T DELETE BELOW THIS LINE
 require_once("app.lib/php/post-init.php");
 
 ?>

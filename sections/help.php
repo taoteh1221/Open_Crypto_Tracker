@@ -8,6 +8,12 @@
 
                         
                         
+                        
+			<div class='help_section'>
+                            <p><b>First Run From Fresh Install:</b><br />
+                                The first time you install and run the DFD Cryptocoin Values app, it may be sluggish as it creates the temporary cache files for the first time. After the first page load with coin values and exchange data displaying, it should run much faster.</p>
+                        </div>
+                        
 			<div class='help_section'>
                             <p><b>Setting Up Price Alerts:</b><br />
                                 You can setup price change alerts to be sent to your email, mobile phone, and amazon alexa devices. See the required settings in config.php, and instructions on cron job setup in the <a href='README.txt' target='_blank'>README.txt file</a>. Once setup, there is no need to keep your computer turned on. The alerts run automatically from your web server.</p>
@@ -26,7 +32,7 @@
                         
 			<div class='help_section'>
                             <p><b>Coinmarketcap.com Data Not Available For An Asset</b><br />
-                                Either the asset has not been added to <a href='https://coinmarketcap.com' target='_blank'>coinmarketcap.com</a> yet, or you need to increase the number of rankings to fetch in config.php in the settings section.</p>
+                                Either the asset has not been added to <a href='https://coinmarketcap.com' target='_blank'>coinmarketcap.com</a> yet, you forgot to add the URL slug in it's config section, or you need to increase the number of rankings to fetch in config.php in the settings section (<?=$marketcap_ranks_max?> rankings is the current setting).</p>
                         </div>
                         
                         
