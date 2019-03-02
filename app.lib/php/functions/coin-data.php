@@ -475,15 +475,15 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
                   }
   
                   if ( trim($notifyme_accesscode) != '' ) {
-                  data_request('array', $notifyme_params, 0, 'https://api.notifymyecho.com/v1/NotifyMe');
+                  api_data('array', $notifyme_params, 0, 'https://api.notifymyecho.com/v1/NotifyMe');
                   }
   
                   if ( trim($textbelt_apikey) != '' && trim($textlocal_account) == '' ) { // Only run if textlocal API isn't being used to avoid double texts
-                  data_request('array', $textbelt_params, 0, 'https://textbelt.com/text', 2);
+                  api_data('array', $textbelt_params, 0, 'https://textbelt.com/text', 2);
                   }
   
                   if ( trim($textlocal_account) != '' && trim($textbelt_apikey) == '' ) { // Only run if textbelt API isn't being used to avoid double texts
-                  data_request('array', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
+                  api_data('array', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
                   }
           
           

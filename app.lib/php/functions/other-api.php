@@ -12,12 +12,12 @@ global $chainstats_cache;
 		
 		if ( $request == 'height' ) {
 		
-		return trim(@data_request('url', 'http://explorer.vertcoin.info/api/getblockcount', $chainstats_cache));
+		return trim(@api_data('url', 'http://explorer.vertcoin.info/api/getblockcount', $chainstats_cache));
 		  
 		}
 		elseif ( $request == 'difficulty' ) {
 		
-		return trim(@data_request('url', 'http://explorer.vertcoin.info/api/getdifficulty', $chainstats_cache));
+		return trim(@api_data('url', 'http://explorer.vertcoin.info/api/getdifficulty', $chainstats_cache));
 		  
 		}
   
@@ -31,7 +31,7 @@ global $chainstats_cache;
  		
     $json_string = 'https://ravencoin.network/api/status?q=getInfo';
     
-    $jsondata = @data_request('url', $json_string, $chainstats_cache);
+    $jsondata = @api_data('url', $json_string, $chainstats_cache);
     
     $data = json_decode($jsondata, TRUE);
     
@@ -63,7 +63,7 @@ global $chainstats_cache;
  	$json_string = 'https://explorer.dcrdata.org/api/block/best/subsidy';
  	}
  	
- 	$jsondata = @data_request('url', $json_string, $chainstats_cache);
+ 	$jsondata = @api_data('url', $json_string, $chainstats_cache);
   	
   	$data = json_decode($jsondata, TRUE);
     
@@ -85,7 +85,7 @@ function monero_api($request) {
 global $chainstats_cache;
  		
  	$json_string = 'https://moneroblocks.info/api/get_stats';
- 	$jsondata = @data_request('url', $json_string, $chainstats_cache);
+ 	$jsondata = @api_data('url', $json_string, $chainstats_cache);
   	
   	$data = json_decode($jsondata, TRUE);
     
@@ -107,7 +107,7 @@ function etherscan_api($block_info) {
 global $chainstats_cache;
 
   $json_string = 'http://api.etherscan.io/api?module=proxy&action=eth_blockNumber';
-  $jsondata = @data_request('url', $json_string, $chainstats_cache);
+  $jsondata = @api_data('url', $json_string, $chainstats_cache);
     
   $data = json_decode($jsondata, TRUE);
   
@@ -122,7 +122,7 @@ global $chainstats_cache;
     		if ( update_cache_file('cache/api/eth-stats.dat', $chainstats_cache ) == true ) {
 			
   			$json_string = 'http://api.etherscan.io/api?module=proxy&action=eth_getBlockByNumber&tag='.$block_number.'&boolean=true';
-  			$jsondata = @data_request('url', $json_string, 0); // ZERO TO NOT CACHE DATA (WOULD CREATE CACHE BLOAT)
+  			$jsondata = @api_data('url', $json_string, 0); // ZERO TO NOT CACHE DATA (WOULD CREATE CACHE BLOAT)
     		
     		file_put_contents('cache/api/eth-stats.dat', $jsondata, LOCK_EX);
     		
@@ -181,7 +181,7 @@ $array_merging = array();
 			
      	$json_string = $cgk_request;
      	     
-	  	$jsondata = @data_request('url', $json_string, $marketcap_ttl);
+	  	$jsondata = @api_data('url', $json_string, $marketcap_ttl);
 	   
    	$data = json_decode($jsondata, TRUE);
     
@@ -272,7 +272,7 @@ $array_merging = array();
 			
      	$json_string = $cmc_request;
      	     
-	  	$jsondata = @data_request('url', $json_string, $marketcap_ttl);
+	  	$jsondata = @api_data('url', $json_string, $marketcap_ttl);
 	   
    	$data = json_decode($jsondata, TRUE);
     

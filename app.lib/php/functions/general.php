@@ -274,7 +274,7 @@ return $base_url;
 
 //////////////////////////////////////////////////////////
 
-function data_request($mode, $request, $ttl, $api_server=null, $post_encoding=3, $test_proxy=NULL) { // Default to JSON encoding post requests (most used)
+function api_data($mode, $request, $ttl, $api_server=null, $post_encoding=3, $test_proxy=NULL) { // Default to JSON encoding post requests (most used)
 
 global $user_agent, $api_timeout, $proxy_list;
 
@@ -419,8 +419,7 @@ $proxy_test_url = 'http://httpbin.org/ip';
 	// SESSION VAR first, to avoid duplicate alerts at runtime (and longer term cache file locked for writing further down, after logs creation)
 	$_SESSION['proxies_checked'][] = $cache_filename;
 		
-	//$jsondata = @data_request('proxy-check', 'http://httpbin.org/ip', 0, '', '', $problem_proxy);
-	$jsondata = @data_request('proxy-check', $proxy_test_url, 0, '', '', $problem_proxy);
+	$jsondata = @api_data('proxy-check', $proxy_test_url, 0, '', '', $problem_proxy);
 	
 	$data = json_decode($jsondata, TRUE);
 	
@@ -500,17 +499,17 @@ $proxy_test_url = 'http://httpbin.org/ip';
       
            if ( trim($notifyme_accesscode) != '' && $proxy_alerts_type == 'notifyme'
            || trim($notifyme_accesscode) != '' && $proxy_alerts_type == 'all' ) {
-           data_request('array', $notifyme_params, 0, 'https://api.notifymyecho.com/v1/NotifyMe');
+           api_data('array', $notifyme_params, 0, 'https://api.notifymyecho.com/v1/NotifyMe');
            }
       
            if ( trim($textbelt_apikey) != '' && trim($textlocal_account) == '' && $proxy_alerts_type == 'text'
            || trim($textbelt_apikey) != '' && trim($textlocal_account) == '' && $proxy_alerts_type == 'all' ) { // Only run if textlocal API isn't being used to avoid double texts
-           data_request('array', $textbelt_params, 0, 'https://textbelt.com/text', 2);
+           api_data('array', $textbelt_params, 0, 'https://textbelt.com/text', 2);
            }
       
            if ( trim($textlocal_account) != '' && trim($textbelt_apikey) == '' && $proxy_alerts_type == 'text'
            || trim($textlocal_account) != '' && trim($textbelt_apikey) == '' && $proxy_alerts_type == 'all' ) { // Only run if textbelt API isn't being used to avoid double texts
-           data_request('array', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
+           api_data('array', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
            }
            
            
