@@ -88,7 +88,7 @@ $chainstats_cache = 15; // Time to cache blockchain stats (for mining calculator
 
 $marketcap_site = 'coinmarketcap'; // Default marketcap data source: coinmarketcap / coingecko
 
-$api_timeout = 15; // Seconds to wait for response from API endpoints
+$api_timeout = 20; // Seconds to wait for response from API endpoints
 
 $last_trade_ttl = 1; // Minutes to cache last real-time exchange data...can be zero to skip cache, but set at least 1 minute to safely avoid your IP getting blocked
 
