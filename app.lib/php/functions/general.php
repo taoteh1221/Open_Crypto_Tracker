@@ -94,9 +94,13 @@ function smtp_mail($to, $subject, $message) {
 // Using 3rd party SMTP class, initiated already as global var $smtp
 global $smtp;
 
+// 3rd party SMTP class does as html statically, so reformat here
+$message = str_replace("\r", "", $message);
+$message = str_replace("\n", "<br />", $message);
+
 $smtp->addTo($to);
 $smtp->Subject($subject);
-$smtp->Body('<pre>'.$message.'</pre>'); // 3rd party SMTP class does as html statically, so use <pre> tags for text
+$smtp->Body($message);
 
 return $smtp->Send();
 
@@ -329,7 +333,8 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 
 
 		if ( !$data ) {
-		$data = 'no';
+		unlink('cache/api/'.$hash_check.'.dat'); // Delete any existing cache if empty value
+		//echo 'Deleted cache file, no data. '; // DEBUGGING ONLY
 		
 		// SAFE VERSION
 		$_SESSION['get_data_error'] .= ' No data returned from ' . ( $mode == 'array' ? 'API server "' . $api_server : 'request "' . $request ) . '" (with timeout configuration setting of ' . $api_timeout . ' seconds). <br /> ';
@@ -348,18 +353,14 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		}
 	
 	
-		if ( $data && $ttl > 0 && $mode ) {
+		if ( $data && $ttl > 0 && $mode != 'proxy-check'  ) {
 		//echo 'File caching data '; // DEBUGGING ONLY
 		file_put_contents('cache/api/'.$hash_check.'.dat', $data, LOCK_EX);
-		}
-		elseif ( !$data ) {
-		unlink('cache/api/'.$hash_check.'.dat'); // Delete any existing cache if empty value
-		//echo 'Deleted cache file, no data. '; // DEBUGGING ONLY
 		}
 		
 		// Never cache proxy checking data
 		if ( $mode != 'proxy-check' ) {
-		$_SESSION['api_cache'][$hash_check] = $data; // Cache API data for this runtime session AFTER PERSISTENT FILE CACHE UPDATE, file cache doesn't reliably update until runtime session is ending because of file locking
+		$_SESSION['api_cache'][$hash_check] = ( $data ? $data : 'none' ); // Cache API data for this runtime session AFTER PERSISTENT FILE CACHE UPDATE, file cache doesn't reliably update until runtime session is ending because of file locking
 		}
 
 	// DEBUGGING ONLY
@@ -373,15 +374,8 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 	else {
 	
 	// Use session cache if it exists. Remember file cache doesn't update until session is nearly over because of file locking, so only reliable for persisting a cache long term
-	$data = ( $_SESSION['api_cache'][$hash_check] ? $_SESSION['api_cache'][$hash_check] : file_get_contents('cache/api/'.$hash_check.'.dat') );
+	$data = ( $_SESSION['api_cache'][$hash_check] && $_SESSION['api_cache'][$hash_check] != 'none' ? $_SESSION['api_cache'][$hash_check] : file_get_contents('cache/api/'.$hash_check.'.dat') );
 	
-		if ( !$data ) {
-		unlink('cache/api/'.$hash_check.'.dat'); // Delete any existing cache if empty value
-		//echo 'Deleted cache file, no data. ';
-		}
-		else {
-		//echo 'Cached data '; // DEBUGGING ONLY
-		}
 	
 		if ( !preg_match("/coinmarketcap/i", $_SESSION['get_data_error']) && preg_match("/coinmarketcap/i", $request) && !preg_match("/last_updated/i", $data) ) {
 		$_SESSION['cmc_error'] = '##CACHED REQUEST## data error response from '.( $mode == 'array' ? $api_server : $request ).': <br /> =================================== <br />' . $data . ' <br /> =================================== <br />';
@@ -404,7 +398,7 @@ return $data;
 
 function test_proxies($problem_proxy) {
 
-global $proxy_alerts_freq, $proxy_alerts_type, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $textlocal_account;
+global $proxy_alerts_freq, $proxy_alerts_type, $proxy_alerts_always, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $textlocal_account;
 
 $ip_port = explode(':', $problem_proxy);
 
@@ -421,6 +415,10 @@ $proxy_test_url = 'http://httpbin.org/ip';
 	if ( update_cache_file('cache/alerts/proxy-check-'.$cache_filename.'.dat', ( $proxy_alerts_freq * 60 ) ) == true
 	&& in_array($cache_filename, $_SESSION['proxies_checked']) == false ) {
 	
+		
+	// SESSION VAR first, to avoid duplicate alerts at runtime (and longer term cache file locked for writing further down, after logs creation)
+	$_SESSION['proxies_checked'][] = $cache_filename;
+		
 	//$jsondata = @data_request('proxy-check', 'http://httpbin.org/ip', 0, '', '', $problem_proxy);
 	$jsondata = @data_request('proxy-check', $proxy_test_url, 0, '', '', $problem_proxy);
 	
@@ -441,15 +439,15 @@ $proxy_test_url = 'http://httpbin.org/ip';
 			}
 			
 			
-		$cached_logs = ( $misconfigured == 1 ? 'Proxy '.$problem_proxy.' checkup status = MISCONFIGURED (test endpoint '.$proxy_test_url.' detected the incoming ip as: '.$data['origin'].'); Remote address DOES NOT match proxy address;' : 'Proxy '.$problem_proxy.' checkup status = OK (test endpoint '.$proxy_test_url.' detected the incoming ip as: '.$data['origin'].');' );
+		$cached_logs = ( $misconfigured == 1 ? 'Proxy '.$problem_proxy.' checkup status = MISCONFIGURED (test endpoint '.$proxy_test_url.' detected the incoming ip as: '.$data['origin'].');'."\n".'Remote address DOES NOT match proxy address;' : 'Proxy '.$problem_proxy.' checkup status = OK (test endpoint '.$proxy_test_url.' detected the incoming ip as: '.$data['origin'].');' );
 		
 		
 		}
 		else {
 			
 		$misconfigured = 1;
-			
-		$cached_logs = 'Proxy '.$problem_proxy.' checkup status = DATA REQUEST FAILED; No connection established at test endpoint '.$proxy_test_url.';';
+		
+		$cached_logs = 'Proxy '.$problem_proxy.' checkup status = DATA REQUEST FAILED;'."\n".'No connection established at test endpoint '.$proxy_test_url.';';
 		
 		$notifyme_alert = 'A checkup on proxy '.$ip.', port '.$port.' resulted in a failed data request. No endpoint connection could be established.';
 			
@@ -457,19 +455,16 @@ $proxy_test_url = 'http://httpbin.org/ip';
 
 		}
 
+
+		// Cache the logs
+		file_put_contents('cache/alerts/proxy-check-'.$cache_filename.'.dat', $cached_logs, LOCK_EX);
+			
       
       $email_alert = " The proxy ".$problem_proxy." was unresponsive recently. A check on this proxy was performed, and results logged: \n \n ============================================================== \n " . $cached_logs . " \n ============================================================== \n \n ";
                     
 		
-		// SESSION VAR to avoid duplicate alerts close together (while first alert still has cache file locked for writing)
-		$_SESSION['proxies_checked'][] = $cache_filename;
-		
-		// Cache the logs
-		file_put_contents('cache/alerts/proxy-check-'.$cache_filename.'.dat', $cached_logs, LOCK_EX);
-		
-		
 		// Send out alerts
-		if ( $misconfigured == 1 ) {
+		if ( $misconfigured == 1 || $proxy_alerts_always == 'yes' ) {
                     
                           
           if (  validate_email($to_email) == 'valid' && $proxy_alerts_type == 'email'

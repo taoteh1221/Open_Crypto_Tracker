@@ -11,7 +11,7 @@
                         
 			<div class='help_section'>
                             <p><b>First Run From Fresh Install:</b><br />
-                                The first time you install and run the DFD Cryptocoin Values app, it may be sluggish as it creates the temporary cache files for the first time. After the first page load with coin values and exchange data displaying, it should run much faster.</p>
+                                The first time you install and run the DFD Cryptocoin Values app, if it is sluggish or throws errors without clearing up, and you have enabled proxy ip addresses, disable them and try again. If it is a bad proxy service causing the issue, this may solve it.</p>
                         </div>
                         
 			<div class='help_section'>

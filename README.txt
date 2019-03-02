@@ -88,7 +88,7 @@ $chainstats_cache = 15; // Time to cache blockchain stats (for mining calculator
 
 $marketcap_site = 'coinmarketcap'; // Default marketcap data source: coinmarketcap / coingecko
 
-$api_timeout = 20; // Seconds to wait for response from API endpoints
+$api_timeout = 10; // Seconds to wait for response from API endpoints
 
 $last_trade_ttl = 1; // Minutes to cache last real-time exchange data...can be zero to skip cache, but set at least 1 minute to safely avoid your IP getting blocked
 
@@ -106,6 +106,8 @@ $proxy_list = array(
 $proxy_alerts_freq = 1; // Re-allow proxy request error / misconfigured email alerts after X hours (per ip/port pair, can be 0)
 
 $proxy_alerts_type = 'email'; // 'email', or 'text', or 'notifyme', or 'all'...'email' keeps any text / notifyme price alert notifications a lot less cluttered ;-)
+
+$proxy_alerts_always = 'yes'; // Send proxy alerts, even if the proxy checkup was OK? 'yes' or 'no'
 
 // !OPTIONALLY! use SMTP authentication email to send email, ALL SMTP SETTINGS CAN BE LEFT BLANK (PHP's built-in mail() function will be used instead)
 // Use SMTP if your web server has no reverse lookup set for it's ip address that matches your domain name (if your server is on your home network rather than normal web hosting)
