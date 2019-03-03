@@ -3,20 +3,14 @@
  * Copyright 2014-2019 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
  */
 
-error_reporting(0); // Turn off all error reporting on production servers (0), or enable (1)
-
 // Forbid direct access to this file
 if ( realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) ) {
     header('HTTP/1.0 403 Forbidden', TRUE, 403);
     exit;
 }
 
-//apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
+error_reporting(0); // Turn off all error reporting on production servers (0), or enable (1)
 
-session_start();
-
-$app_version = '2.3.0';  // 2019/MARCH/1ST
- 
 require_once("app.lib/php/functions/loader.php");
 require_once("app.lib/php/cookies.php");
 require_once("app.lib/php/init.php");
@@ -25,34 +19,42 @@ require_once("app.lib/php/init.php");
 // SEE README.txt FOR HOW TO ADD / EDIT / DELETE COINS IN THIS CONFIG, AND AN EXAMPLE SET OF PRE-CONFIGURED ASSETS
 
 
+///////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////// GENERAL CONFIG -START- ////////////////////////////////////////////////////
 
-$btc_exchange = 'binance'; // Default Bitcoin value in USD: binance / coinbase / bitfinex / gemini / okcoin / bitstamp / kraken / hitbtc / gatecion / livecoin
-
-$chainstats_cache = 15; // Time to cache blockchain stats (for mining calculators), in minutes
-
-$marketcap_site = 'coinmarketcap'; // Default marketcap data source: coinmarketcap / coingecko
 
 $api_timeout = 10; // Seconds to wait for response from API endpoints
 
-$last_trade_ttl = 1; // Minutes to cache last real-time exchange data...can be zero to skip cache, but set at least 1 minute to safely avoid your IP getting blocked
+$btc_exchange = 'binance'; // Default Bitcoin value in USD: binance / coinbase / bitfinex / gemini / okcoin / bitstamp / kraken / hitbtc / gatecion / livecoin
 
-$marketcap_ttl = 15; // Minutes to cache marketcap data...start high and test lower, it can be strict
+$marketcap_site = 'coinmarketcap'; // Default marketcap data source: coinmarketcap / coingecko
 
 $marketcap_ranks_max = 200; // Maximum number of marketcap rankings to request from API. Ranks are grabbed 100 per request. Set to 100 if your data requests are throttled a lot.
 
-// If using proxies (ip address whitelisting with no login required), add the ip address / port number here for each one, like examples below (without the double slashes in front)
+$marketcap_cache = 15; // Minutes to cache marketcap data...start high and test lower, it can be strict
+
+$last_trade_cache = 1; // Minutes to cache last real-time exchange data...can be zero to skip cache, but set at least 1 minute to safely avoid your IP getting blocked
+
+$chainstats_cache = 15; // Time to cache blockchain stats (for mining calculators), in minutes
+
+
+// If using proxies and login is required
+// Adding a user / pass here will automatically send login details for proxy connections. If you are using ip address whitelisting instead, THIS MUST BE LEFT BLANK
+$proxy_login = ''; // Use format: 'username:password'
+
+// If using proxies (ip address whitelisting OR username/password), add the ip address / port number here for each one, like examples below (without the double slashes in front)
 // Adding proxies here will automatically choose one randomly for each API request
 $proxy_list = array(
 					// 'ipaddress1:portnumber1',
 					// 'ipaddress2:portnumber2',
 					);
 
-$proxy_alerts_freq = 1; // Re-allow proxy request error / misconfigured email alerts after X hours (per ip/port pair, can be 0)
+$proxy_alerts = 'email'; // Alert for no proxy data connection. 'none', 'email', or 'text', or 'notifyme', or 'all'...'email' keeps any text / notifyme price alert notifications a lot less cluttered ;-)
 
-$proxy_alerts_type = 'email'; // 'email', or 'text', or 'notifyme', or 'all'...'email' keeps any text / notifyme price alert notifications a lot less cluttered ;-)
+$proxy_alerts_always = 'yes'; // Send proxy alerts even if the proxy checkup went OK (after being flagged for no data connection it started working again when checked)? 'yes' or 'no'
 
-$proxy_alerts_always = 'yes'; // Send proxy alerts, even if the proxy checkup was OK? 'yes' or 'no'
+$proxy_alerts_freq = 1; // Re-allow proxy data error / misconfigured alerts after X hours (per ip/port pair, can be 0)
+
 
 // !OPTIONALLY! use SMTP authentication email to send email, ALL SMTP SETTINGS CAN BE LEFT BLANK (PHP's built-in mail() function will be used instead)
 // Use SMTP if your web server has no reverse lookup set for it's ip address that matches your domain name (if your server is on your home network rather than normal web hosting)
@@ -62,7 +64,8 @@ $smtp_login = ''; // CAN BE BLANK. This format MUST be used: 'username|password'
 
 $smtp_server = ''; // CAN BE BLANK. This format MUST be used: 'domain_or_ip:port' example: 'example.com:25'
 
-$smtp_secure = ''; // CAN BE BLANK. BLANK '' for no secure connection, or 'tls', or 'ssl' for secure connections. Make sure to use correct port number ABOVE that corresponds to this security setup on your web server
+$smtp_secure = ''; // CAN BE BLANK '' for no secure connection, or 'tls', or 'ssl' for secure connections. Make sure to use correct port number ABOVE that corresponds to this security setup on your web server
+
 
 // IF SMTP EMAIL --NOT-- USED, the FROM email should be a REAL email address on the website domain name, or you may risk having sent email blacklisted / sent to junk folder
 // IF SMTP EMAIL --IS-- USED, THIS MUST MATCH THE EMAIL ADDRESS associated with the SMTP login
@@ -70,7 +73,8 @@ $from_email = ''; // For cron job email alerts, MUST BE SET (see README.txt for 
 
 $to_email = ''; // For cron job email alerts, MUST BE SET
 
-$to_text = ''; // For cron job text alerts, CAN BE BLANK, country format MUST be used: '12223334444|att' // number_only (for textbelt / textlocal), alltel, att, tmobile, virgin, sprint, verizon, nextel...attempts to email text if carrier is set AND no textbelt / textlocal config is setup
+$to_text = ''; // For cron job text alerts, CAN BE BLANK, country format MUST be used: '12223334444|number_only' // number_only (for textbelt / textlocal), alltel, att, tmobile, virgin, sprint, verizon, nextel...attempts to email text if carrier is set AND no textbelt / textlocal config is setup
+
 
 // For cron job notifyme notifications, CAN BE BLANK. Setup: http://www.thomptronics.com/notify-me
 $notifyme_accesscode = '';
@@ -82,11 +86,13 @@ $textbelt_apikey = '';
 // For cron job textlocal notifications, CAN BE BLANK. Setup: https://www.textlocal.com/integrations/api/
 $textlocal_account = ''; // This format MUST be used: 'username|hash_code'
 
+
 $cron_alerts_freq = 1; // Re-allow cron job email / text alerts after X hours (per asset, set higher if issues with email / text blacklisting...can be 0)
 
 $cron_alerts_percent = 12; // $USD price percentage change (WITHOUT percent sign: 15 = 15%), sends alerts when percent change is reached (up or down)
 
 $cron_alerts_refresh = 3; // Refresh prices every X days with latest prices...can be 0 to disable refreshing (until price alert is triggered)
+
 
 $cron_alerts = array(
 					// Markets you want cron alerts for (alert sent when $USD value change is equal to or above / below $cron_alerts_percent...see README.txt for cron job setup information) 
@@ -122,6 +128,7 @@ $cron_alerts = array(
 					'myst-3' => 'idex|eth' // exchange|trade_pairing
 					);
 
+
 $eth_subtokens_ico_values = array(
                         // Static values in ETH for Ethereum subtokens, like during crowdsale periods etc
                         'ETHSUBTOKENNAME' => '0.15',
@@ -150,11 +157,12 @@ $mining_rewards = array(
 $steempower_yearly_interest = 1.425;  // 1.425 (DO NOT INCLUDE PERCENT SIGN) the first year at 11/29/2016 refactored rates, see above for manual yearly adjustment
 $steem_powerdown_time = 13;  // Weeks to power down all STEEM Power holdings
 
-/////////////////// GENERAL CONFIG -END- ////////////////////////////////////////////////////
+
+/////////////////// GENERAL CONFIG -END- //////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////// COIN MARKETS CONFIG -START- ////////////////////////////////////////////////////
 
 $coins_array = array(
@@ -864,7 +872,8 @@ $coins_array = array(
                 
 );
 
-/////////////////// COIN MARKETS CONFIG -END- ////////////////////////////////////////////////////
+/////////////////// COIN MARKETS CONFIG -END- //////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 

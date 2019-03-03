@@ -94,13 +94,9 @@ function smtp_mail($to, $subject, $message) {
 // Using 3rd party SMTP class, initiated already as global var $smtp
 global $smtp;
 
-// 3rd party SMTP class does as html statically, so reformat here
-$message = str_replace("\r", "", $message);
-$message = str_replace("\n", "<br />", $message);
-
 $smtp->addTo($to);
 $smtp->Subject($subject);
-$smtp->Body($message);
+$smtp->Text($message);
 
 return $smtp->Send();
 
@@ -166,10 +162,10 @@ $from_email = str_replace("\r", "\n", $from_email);   // remaining -> unix
 	
 	// SMTP or PHP's built-in mail() function
 	if ( $smtp_login != '' && $smtp_server != '' ) {
-	return smtp_mail($to, $subject, $message);
+	return @smtp_mail($to, $subject, $message);
 	}
 	else {
-	return mail($to, $subject, $message, $headers);
+	return @mail($to, $subject, $message, $headers);
 	}
 
 
@@ -276,7 +272,11 @@ return $base_url;
 
 function api_data($mode, $request, $ttl, $api_server=null, $post_encoding=3, $test_proxy=NULL) { // Default to JSON encoding post requests (most used)
 
-global $user_agent, $api_timeout, $proxy_list;
+global $user_agent, $api_timeout, $proxy_login, $proxy_list;
+
+if ( preg_match("/etherscan/i", $request) ) {
+$user_agent = NULL;
+}
 
 $cookie_jar = tempnam('/tmp','cookie');
 	
@@ -292,14 +292,17 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 	
 		
 		if ( sizeof($proxy_list) > 0 ) {
+			
 		$current_proxy = ( $mode == 'proxy-check' && $test_proxy != NULL ? $test_proxy : random_proxy() );
-		$ip_port = explode(':', $current_proxy);
 		
-		curl_setopt($ch, CURLOPT_PROXY, trim($ip_port[0]) );    
-		curl_setopt($ch, CURLOPT_PROXYPORT, trim($ip_port[1]) );    
+		curl_setopt($ch, CURLOPT_PROXY, trim($current_proxy) );     
 		curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, 1);  
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-		curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
+		
+			if ( trim($proxy_login) != ''  ) {
+			curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+			curl_setopt($ch, CURLOPT_PROXYUSERPWD, trim($proxy_login) );  
+			}
+		
 		} 
 		else {
 		curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie_jar);
@@ -321,6 +324,8 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		curl_setopt($ch, CURLOPT_URL, $request);
 		}
 	
+	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+	curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 	curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, 0);
 	curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, 0); 
@@ -336,14 +341,19 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		unlink('cache/api/'.$hash_check.'.dat'); // Delete any existing cache if empty value
 		//echo 'Deleted cache file, no data. '; // DEBUGGING ONLY
 		
-		// SAFE VERSION
+		// SAFE UI ALERT VERSION
 		$_SESSION['get_data_error'] .= ' No data returned from ' . ( $mode == 'array' ? 'API server "' . $api_server : 'request "' . $request ) . '" (with timeout configuration setting of ' . $api_timeout . ' seconds). <br /> ';
 		
-		// DEBUGGING VERSION ONLY, CONTAINS USER DATA (API KEYS ETC)
+		// DEBUGGING UI ALERT VERSION ONLY, CONTAINS USER DATA (API KEYS ETC)
 		//$_SESSION['get_data_error'] .= ' No data returned from ' . ( $mode == 'array' ? 'API server "' . $api_server : 'request "' . $request ) . '" (with timeout configuration setting of ' . $api_timeout . ' seconds). <br /> ' . ( $mode == 'array' ? '<pre>' . print_r($request, TRUE) . '</pre>' : '' ) . ' <br /> ';
 		
 			if ( sizeof($proxy_list) > 0 && $current_proxy != '' && $mode != 'proxy-check' ) { // Avoid infinite loops
-			test_proxies($current_proxy); // Test this proxy, to make sure it's online / configured properly
+
+			$_SESSION['proxy_checkup'][] = array(
+															'endpoint' => ( $mode == 'array' ? 'API server at ' . $api_server : 'Request URL at ' . $request ),
+															'proxy' => $current_proxy
+															);
+															
 			}
 		
 		}
@@ -396,9 +406,12 @@ return $data;
 
 //////////////////////////////////////////////////////////
 
-function test_proxies($problem_proxy) {
+function test_proxy($problem_proxy_array) {
 
-global $proxy_alerts_freq, $proxy_alerts_type, $proxy_alerts_always, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $textlocal_account;
+global $proxy_alerts_freq, $proxy_alerts, $proxy_alerts_always, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $textlocal_account;
+
+$problem_endpoint = $problem_proxy_array['endpoint'];
+$problem_proxy = $problem_proxy_array['proxy'];
 
 $ip_port = explode(':', $problem_proxy);
 
@@ -438,7 +451,7 @@ $proxy_test_url = 'http://httpbin.org/ip';
 			}
 			
 			
-		$cached_logs = ( $misconfigured == 1 ? 'Proxy '.$problem_proxy.' checkup status = MISCONFIGURED (test endpoint '.$proxy_test_url.' detected the incoming ip as: '.$data['origin'].');'."\n".'Remote address DOES NOT match proxy address;' : 'Proxy '.$problem_proxy.' checkup status = OK (test endpoint '.$proxy_test_url.' detected the incoming ip as: '.$data['origin'].');' );
+		$cached_logs = ( $misconfigured == 1 ? 'Proxy '.$problem_proxy.' checkup status = MISCONFIGURED (test endpoint '.$proxy_test_url.' detected the incoming ip as: '.$data['origin'].');'." \n ".'Remote address DOES NOT match proxy address;' : 'Proxy '.$problem_proxy.' checkup status = OK (test endpoint '.$proxy_test_url.' detected the incoming ip as: '.$data['origin'].');' );
 		
 		
 		}
@@ -446,7 +459,7 @@ $proxy_test_url = 'http://httpbin.org/ip';
 			
 		$misconfigured = 1;
 		
-		$cached_logs = 'Proxy '.$problem_proxy.' checkup status = DATA REQUEST FAILED;'."\n".'No connection established at test endpoint '.$proxy_test_url.';';
+		$cached_logs = 'Proxy '.$problem_proxy.' checkup status = DATA REQUEST FAILED;'." \n ".'No connection established at test endpoint '.$proxy_test_url.';';
 		
 		$notifyme_alert = 'A checkup on proxy '.$ip.', port '.$port.' resulted in a failed data request. No endpoint connection could be established.';
 			
@@ -459,16 +472,16 @@ $proxy_test_url = 'http://httpbin.org/ip';
 		file_put_contents('cache/alerts/proxy-check-'.$cache_filename.'.dat', $cached_logs, LOCK_EX);
 			
       
-      $email_alert = " The proxy ".$problem_proxy." was unresponsive recently. A check on this proxy was performed, and results logged: \n \n ============================================================== \n " . $cached_logs . " \n ============================================================== \n \n ";
+      $email_alert = " The proxy ".$problem_proxy." recently did not receive data when accessing this endpoint: \n ".$problem_endpoint." \n \n A check on this proxy was performed at ".$proxy_test_url.", and results logged: \n ============================================================== \n " . $cached_logs . " \n ============================================================== \n \n ";
                     
 		
 		// Send out alerts
 		if ( $misconfigured == 1 || $proxy_alerts_always == 'yes' ) {
                     
                           
-          if (  validate_email($to_email) == 'valid' && $proxy_alerts_type == 'email'
-          || validate_email($to_email) == 'valid' && $proxy_alerts_type == 'all' ) {
-          safe_mail($to_email, 'A Proxy Was Unresponsive', $email_alert);
+          if (  validate_email($to_email) == 'valid' && $proxy_alerts == 'email'
+          || validate_email($to_email) == 'valid' && $proxy_alerts == 'all' ) {
+          @safe_mail($to_email, 'A Proxy Was Unresponsive', $email_alert);
           }
       
         
@@ -492,24 +505,24 @@ $proxy_test_url = 'http://httpbin.org/ip';
                                    );
       
                     
-           if ( validate_email( text_email($to_text) ) == 'valid' && trim($textbelt_apikey) != '' && trim($textlocal_account) != '' && $proxy_alerts_type == 'text'
-           || validate_email( text_email($to_text) ) == 'valid' && trim($textbelt_apikey) != '' && trim($textlocal_account) != '' && $proxy_alerts_type == 'all' ) { // Only use text-to-email if other text services aren't configured
-           safe_mail( text_email($to_text) , 'Unresponsive Proxy', $text_alert);
+           if ( validate_email( text_email($to_text) ) == 'valid' && trim($textbelt_apikey) != '' && trim($textlocal_account) != '' && $proxy_alerts == 'text'
+           || validate_email( text_email($to_text) ) == 'valid' && trim($textbelt_apikey) != '' && trim($textlocal_account) != '' && $proxy_alerts == 'all' ) { // Only use text-to-email if other text services aren't configured
+           @safe_mail( text_email($to_text) , 'Unresponsive Proxy', $text_alert);
            }
       
-           if ( trim($notifyme_accesscode) != '' && $proxy_alerts_type == 'notifyme'
-           || trim($notifyme_accesscode) != '' && $proxy_alerts_type == 'all' ) {
-           api_data('array', $notifyme_params, 0, 'https://api.notifymyecho.com/v1/NotifyMe');
+           if ( trim($notifyme_accesscode) != '' && $proxy_alerts == 'notifyme'
+           || trim($notifyme_accesscode) != '' && $proxy_alerts == 'all' ) {
+           @api_data('array', $notifyme_params, 0, 'https://api.notifymyecho.com/v1/NotifyMe');
            }
       
-           if ( trim($textbelt_apikey) != '' && trim($textlocal_account) == '' && $proxy_alerts_type == 'text'
-           || trim($textbelt_apikey) != '' && trim($textlocal_account) == '' && $proxy_alerts_type == 'all' ) { // Only run if textlocal API isn't being used to avoid double texts
-           api_data('array', $textbelt_params, 0, 'https://textbelt.com/text', 2);
+           if ( trim($textbelt_apikey) != '' && trim($textlocal_account) == '' && $proxy_alerts == 'text'
+           || trim($textbelt_apikey) != '' && trim($textlocal_account) == '' && $proxy_alerts == 'all' ) { // Only run if textlocal API isn't being used to avoid double texts
+           @api_data('array', $textbelt_params, 0, 'https://textbelt.com/text', 2);
            }
       
-           if ( trim($textlocal_account) != '' && trim($textbelt_apikey) == '' && $proxy_alerts_type == 'text'
-           || trim($textlocal_account) != '' && trim($textbelt_apikey) == '' && $proxy_alerts_type == 'all' ) { // Only run if textbelt API isn't being used to avoid double texts
-           api_data('array', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
+           if ( trim($textlocal_account) != '' && trim($textbelt_apikey) == '' && $proxy_alerts == 'text'
+           || trim($textlocal_account) != '' && trim($textbelt_apikey) == '' && $proxy_alerts == 'all' ) { // Only run if textbelt API isn't being used to avoid double texts
+           @api_data('array', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
            }
            
            

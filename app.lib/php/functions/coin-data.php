@@ -467,23 +467,23 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
           file_put_contents('cache/alerts/'.$asset_data.'.dat', $asset_usd, LOCK_EX); // Cache the new lower / higher value
           
                   if (  validate_email($to_email) == 'valid' ) {
-                  safe_mail($to_email, $asset . ' Asset Value '.ucfirst($alert_mode).' Alert', $email_message);
+                  @safe_mail($to_email, $asset . ' Asset Value '.ucfirst($alert_mode).' Alert', $email_message);
                   }
   
                   if ( validate_email( text_email($to_text) ) == 'valid' && trim($textbelt_apikey) != '' && trim($textlocal_account) != '' ) { // Only use text-to-email if other text services aren't configured
-                  safe_mail( text_email($to_text) , $asset . ' Value Alert', $text_message);
+                  @safe_mail( text_email($to_text) , $asset . ' Value Alert', $text_message);
                   }
   
                   if ( trim($notifyme_accesscode) != '' ) {
-                  api_data('array', $notifyme_params, 0, 'https://api.notifymyecho.com/v1/NotifyMe');
+                  @api_data('array', $notifyme_params, 0, 'https://api.notifymyecho.com/v1/NotifyMe');
                   }
   
                   if ( trim($textbelt_apikey) != '' && trim($textlocal_account) == '' ) { // Only run if textlocal API isn't being used to avoid double texts
-                  api_data('array', $textbelt_params, 0, 'https://textbelt.com/text', 2);
+                  @api_data('array', $textbelt_params, 0, 'https://textbelt.com/text', 2);
                   }
   
                   if ( trim($textlocal_account) != '' && trim($textbelt_apikey) == '' ) { // Only run if textbelt API isn't being used to avoid double texts
-                  api_data('array', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
+                  @api_data('array', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
                   }
           
           
@@ -508,7 +508,7 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
 
 function coin_data($coin_name, $trade_symbol, $coin_amount, $market_pairing_array, $selected_pairing, $selected_market, $sort_order) {
 
-global $_POST, $coins_array, $btc_exchange, $marketcap_site, $marketcap_ttl, $alert_percent, $marketcap_ranks_max, $api_timeout;
+global $_POST, $coins_array, $btc_exchange, $marketcap_site, $marketcap_cache, $alert_percent, $marketcap_ranks_max, $api_timeout;
 
 
 $original_market = $selected_market;
@@ -727,7 +727,7 @@ $market_pairing = $all_markets[$selected_market];
         <?php
             }
             ?>
-        +'<p><span class="orange">Cache Time:</span> <?=$marketcap_ttl?> minute(s)</p>'
+        +'<p><span class="orange">Cache Time:</span> <?=$marketcap_cache?> minute(s)</p>'
     
         +'<p>*Current config setting only retrieves the top <?=$marketcap_ranks_max?> rankings.</p>';
     

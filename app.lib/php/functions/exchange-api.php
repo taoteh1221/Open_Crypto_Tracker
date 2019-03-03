@@ -7,13 +7,13 @@
 
 function get_btc_usd($btc_exchange) {
 
-global $last_trade_ttl;
+global $last_trade_cache;
   
     if ( strtolower($btc_exchange) == 'coinbase' ) {
     
     $json_string = 'https://api.pro.coinbase.com/products/BTC-USD/ticker';
     
-    $jsondata = @api_data('url', $json_string, $last_trade_ttl);
+    $jsondata = @api_data('url', $json_string, $last_trade_cache);
     
     $data = json_decode($jsondata, TRUE);
     
@@ -30,7 +30,7 @@ global $last_trade_ttl;
      
      $json_string = 'https://www.binance.com/api/v1/ticker/24hr';
      
-     $jsondata = @api_data('url', $json_string, $last_trade_ttl);
+     $jsondata = @api_data('url', $json_string, $last_trade_cache);
      
      $data = json_decode($jsondata, TRUE);
    
@@ -68,7 +68,7 @@ global $last_trade_ttl;
      
      $json_string = 'https://api-pub.bitfinex.com/v2/tickers?symbols=ALL';
      
-     $jsondata = @api_data('url', $json_string, $last_trade_ttl);
+     $jsondata = @api_data('url', $json_string, $last_trade_cache);
      
      $data = json_decode($jsondata, TRUE);
   
@@ -103,7 +103,7 @@ global $last_trade_ttl;
   
     $json_string = 'https://api.hitbtc.com/api/1/public/BTCUSD/ticker';
     
-    $jsondata = @api_data('url', $json_string, $last_trade_ttl);
+    $jsondata = @api_data('url', $json_string, $last_trade_cache);
     
     $data = json_decode($jsondata, TRUE);
     
@@ -121,7 +121,7 @@ global $last_trade_ttl;
     
     $json_string = 'https://api.gemini.com/v1/pubticker/btcusd';
     
-      $jsondata = @api_data('url', $json_string, $last_trade_ttl);
+      $jsondata = @api_data('url', $json_string, $last_trade_cache);
       
       $data = json_decode($jsondata, TRUE);
       
@@ -139,7 +139,7 @@ global $last_trade_ttl;
   
     $json_string = 'https://www.okcoin.com/api/v1/ticker.do?symbol=btc_usd';
     
-    $jsondata = @api_data('url', $json_string, $last_trade_ttl);
+    $jsondata = @api_data('url', $json_string, $last_trade_cache);
     
     $data = json_decode($jsondata, TRUE);
     
@@ -158,7 +158,7 @@ global $last_trade_ttl;
  	
     $json_string = 'https://www.bitstamp.net/api/ticker/';
     
-    $jsondata = @api_data('url', $json_string, $last_trade_ttl);
+    $jsondata = @api_data('url', $json_string, $last_trade_cache);
     
     $data = json_decode($jsondata, TRUE);
     
@@ -176,7 +176,7 @@ global $last_trade_ttl;
       
       $json_string = 'https://api.gatecoin.com/Public/LiveTickers';
       
-      $jsondata = @api_data('url', $json_string, $last_trade_ttl);
+      $jsondata = @api_data('url', $json_string, $last_trade_cache);
       
       $data = json_decode($jsondata, TRUE);
    
@@ -210,7 +210,7 @@ global $last_trade_ttl;
  
       $json_string = 'https://api.livecoin.net/exchange/ticker';
       
-      $jsondata = @api_data('url', $json_string, $last_trade_ttl);
+      $jsondata = @api_data('url', $json_string, $last_trade_cache);
       
       $data = json_decode($jsondata, TRUE);
    
@@ -243,7 +243,7 @@ global $last_trade_ttl;
    
    $json_string = 'https://api.kraken.com/0/public/Ticker?pair=XXBTZUSD';
    
-   $jsondata = @api_data('url', $json_string, $last_trade_ttl);
+   $jsondata = @api_data('url', $json_string, $last_trade_cache);
    
    $data = json_decode($jsondata, TRUE);
    
@@ -294,14 +294,14 @@ global $last_trade_ttl;
 
 function get_coin_value($chosen_market, $market_pairing) {
 
-global $btc_exchange, $coins_array, $last_trade_ttl;
+global $btc_exchange, $coins_array, $last_trade_cache;
  
 
   if ( strtolower($chosen_market) == 'gemini' ) {
   
   $json_string = 'https://api.gemini.com/v1/pubticker/' . $market_pairing;
   
-    $jsondata = @api_data('url', $json_string, $last_trade_ttl);
+    $jsondata = @api_data('url', $json_string, $last_trade_cache);
     
     $data = json_decode($jsondata, TRUE);
     
@@ -318,7 +318,7 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
   
   $json_string = 'https://www.bitstamp.net/api/v2/ticker/' . $market_pairing;
   
-    $jsondata = @api_data('url', $json_string, $last_trade_ttl);
+    $jsondata = @api_data('url', $json_string, $last_trade_cache);
     
     $data = json_decode($jsondata, TRUE);
     
@@ -338,7 +338,7 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
   
   $json_string = 'https://www.okex.com/api/v1/ticker.do?symbol=' . $market_pairing;
   
-    $jsondata = @api_data('url', $json_string, $last_trade_ttl);
+    $jsondata = @api_data('url', $json_string, $last_trade_cache);
     
     $data = json_decode($jsondata, TRUE);
     
@@ -356,7 +356,7 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
      
      $json_string = 'https://www.binance.com/api/v1/ticker/24hr';
      
-     $jsondata = @api_data('url', $json_string, $last_trade_ttl);
+     $jsondata = @api_data('url', $json_string, $last_trade_cache);
      
      $data = json_decode($jsondata, TRUE);
    
@@ -392,7 +392,7 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
      
      $json_string = 'https://api.idex.market/returnTicker';
      
-     $jsondata = @api_data('url', $json_string, $last_trade_ttl);
+     $jsondata = @api_data('url', $json_string, $last_trade_cache);
      
      $data = json_decode($jsondata, TRUE);
    
@@ -430,7 +430,7 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
      
      $json_string = 'https://big.one/api/v2/tickers';
      
-     $jsondata = @api_data('url', $json_string, $last_trade_ttl);
+     $jsondata = @api_data('url', $json_string, $last_trade_cache);
      
      $data = json_decode($jsondata, TRUE);
    
@@ -468,7 +468,7 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
   
      $json_string = 'https://api.pro.coinbase.com/products/'.$market_pairing.'/ticker';
      
-     $jsondata = @api_data('url', $json_string, $last_trade_ttl);
+     $jsondata = @api_data('url', $json_string, $last_trade_cache);
      
      $data = json_decode($jsondata, TRUE);
 
@@ -486,7 +486,7 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
   
   $json_string = 'https://cryptofresh.com/api/asset/markets?asset=' . $market_pairing;
   
-    $jsondata = @api_data('url', $json_string, $last_trade_ttl);
+    $jsondata = @api_data('url', $json_string, $last_trade_cache);
     
     $data = json_decode($jsondata, TRUE);
 	
@@ -514,7 +514,7 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
      
      $json_string = 'https://bittrex.com/api/v1.1/public/getmarketsummaries';
      
-     $jsondata = @api_data('url', $json_string, $last_trade_ttl);
+     $jsondata = @api_data('url', $json_string, $last_trade_cache);
      
      $data = json_decode($jsondata, TRUE);
    
@@ -550,7 +550,7 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
 
      $json_string = 'https://tradesatoshi.com/api/public/getmarketsummaries';
      
-     $jsondata = @api_data('url', $json_string, $last_trade_ttl);
+     $jsondata = @api_data('url', $json_string, $last_trade_cache);
      
      $data = json_decode($jsondata, TRUE);
   
@@ -584,7 +584,7 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
   
   $json_string = 'https://api.liqui.io/api/3/ticker/' . $market_pairing;
   
-  $jsondata = @api_data('url', $json_string, $last_trade_ttl);
+  $jsondata = @api_data('url', $json_string, $last_trade_cache);
   
   $data = json_decode($jsondata, TRUE);
   
@@ -616,7 +616,7 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
   
   $json_string = 'https://api.bitforex.com/api/v1/market/ticker?symbol=' . $market_pairing;
   
-  $jsondata = @api_data('url', $json_string, $last_trade_ttl);
+  $jsondata = @api_data('url', $json_string, $last_trade_cache);
   
   $data = json_decode($jsondata, TRUE);
   
@@ -631,7 +631,7 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
 
      $json_string = 'https://poloniex.com/public?command=returnTicker';
      
-     $jsondata = @api_data('url', $json_string, $last_trade_ttl);
+     $jsondata = @api_data('url', $json_string, $last_trade_cache);
      
      $data = json_decode($jsondata, TRUE);
    
@@ -665,7 +665,7 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
 
      $json_string = 'https://tradeogre.com/api/v1/markets';
      
-     $jsondata = @api_data('url', $json_string, $last_trade_ttl);
+     $jsondata = @api_data('url', $json_string, $last_trade_cache);
      
      $data = json_decode($jsondata, TRUE);
    
@@ -699,7 +699,7 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
 
      $json_string = 'https://api.hotbit.io/api/v1/allticker';
      
-     $jsondata = @api_data('url', $json_string, $last_trade_ttl);
+     $jsondata = @api_data('url', $json_string, $last_trade_cache);
      
      $data = json_decode($jsondata, TRUE);
    
@@ -733,7 +733,7 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
 
      $json_string = 'https://data.gate.io/api2/1/tickers';
      
-     $jsondata = @api_data('url', $json_string, $last_trade_ttl);
+     $jsondata = @api_data('url', $json_string, $last_trade_cache);
      
      $data = json_decode($jsondata, TRUE);
    
@@ -766,7 +766,7 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
 
      $json_string = 'https://api.kucoin.com/v1/open/tick';
      
-     $jsondata = @api_data('url', $json_string, $last_trade_ttl);
+     $jsondata = @api_data('url', $json_string, $last_trade_cache);
      
      $data = json_decode($jsondata, TRUE);
    
@@ -801,7 +801,7 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
 
      $json_string = 'https://api.livecoin.net/exchange/ticker';
      
-     $jsondata = @api_data('url', $json_string, $last_trade_ttl);
+     $jsondata = @api_data('url', $json_string, $last_trade_cache);
      
      $data = json_decode($jsondata, TRUE);
      
@@ -834,7 +834,7 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
 
      $json_string = 'https://www.cryptopia.co.nz/api/GetMarkets';
      
-     $jsondata = @api_data('url', $json_string, $last_trade_ttl);
+     $jsondata = @api_data('url', $json_string, $last_trade_cache);
      
      $data = json_decode($jsondata, TRUE);
   
@@ -869,7 +869,7 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
 
      $json_string = 'https://api.hitbtc.com/api/1/public/ticker';
      
-     $jsondata = @api_data('url', $json_string, $last_trade_ttl);
+     $jsondata = @api_data('url', $json_string, $last_trade_cache);
      
      $data = json_decode($jsondata, TRUE);
      
@@ -902,7 +902,7 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
 
      $json_string = 'http://data.bter.com/api/1/marketlist';
      
-     $jsondata = @api_data('url', $json_string, $last_trade_ttl);
+     $jsondata = @api_data('url', $json_string, $last_trade_cache);
      
      $data = json_decode($jsondata, TRUE);
      
@@ -936,7 +936,7 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
 
      $json_string = 'https://graviex.net//api/v2/tickers.json';
      
-     $jsondata = @api_data('url', $json_string, $last_trade_ttl);
+     $jsondata = @api_data('url', $json_string, $last_trade_cache);
      
      $data = json_decode($jsondata, TRUE);
      
@@ -970,7 +970,7 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
   
   $json_string = 'https://api.kraken.com/0/public/Ticker?pair=' . $market_pairing;
   
-  $jsondata = @api_data('url', $json_string, $last_trade_ttl);
+  $jsondata = @api_data('url', $json_string, $last_trade_cache);
   
   $data = json_decode($jsondata, TRUE);
   
@@ -1018,7 +1018,7 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
 
      $json_string = 'https://api.gatecoin.com/Public/LiveTickers';
      
-     $jsondata = @api_data('url', $json_string, $last_trade_ttl);
+     $jsondata = @api_data('url', $json_string, $last_trade_cache);
      
      $data = json_decode($jsondata, TRUE);
   
@@ -1068,7 +1068,7 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
 
      $json_string = 'https://api.upbit.com/v1/ticker?markets=' . $upbit_pairs;
      
-     $jsondata = @api_data('url', $json_string, $last_trade_ttl);
+     $jsondata = @api_data('url', $json_string, $last_trade_cache);
      
      $data = json_decode($jsondata, TRUE);
   
@@ -1102,7 +1102,7 @@ global $btc_exchange, $coins_array, $last_trade_ttl;
      
      $json_string = 'https://api-pub.bitfinex.com/v2/tickers?symbols=ALL';
      
-     $jsondata = @api_data('url', $json_string, $last_trade_ttl);
+     $jsondata = @api_data('url', $json_string, $last_trade_cache);
      
      $data = json_decode($jsondata, TRUE);
   

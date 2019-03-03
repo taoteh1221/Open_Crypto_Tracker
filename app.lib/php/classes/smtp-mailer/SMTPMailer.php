@@ -59,7 +59,7 @@ Class SMTPMailer
         elseif (!empty($_SERVER['SERVER_NAME']))
             $this->local = $_SERVER['SERVER_NAME'];
         else
-            $this->local = $_SERVER['SERVER_ADDR'];
+            $this->local = php_uname("n"); // Use CLI compatible if all else fails
         if ($this->username)
             $this->from = array($this->username, '');
         define("NL", "\r\n");

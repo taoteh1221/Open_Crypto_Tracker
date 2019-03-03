@@ -22,7 +22,7 @@ $smtp_vars = smtp_vars();
 global $smtp_vars; // Needed for class compatibility (along with second instance in the class config_smtp.php file)
 
 // Initiation of the 3rd party SMTP class
-require_once(dirname(__FILE__) . '/classes/smtp-mailer/SMTPMailer.php');
+require_once( dirname(__FILE__) . '/classes/smtp-mailer/SMTPMailer.php');
 $smtp = new SMTPMailer();
 
 }

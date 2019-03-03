@@ -149,7 +149,7 @@ global $chainstats_cache;
 
 function coingecko_api($symbol) {
 	
-global $marketcap_ranks_max, $marketcap_ttl;
+global $marketcap_ranks_max, $marketcap_cache;
 
 $array_merging = array();
 
@@ -181,7 +181,7 @@ $array_merging = array();
 			
      	$json_string = $cgk_request;
      	     
-	  	$jsondata = @api_data('url', $json_string, $marketcap_ttl);
+	  	$jsondata = @api_data('url', $json_string, $marketcap_cache);
 	   
    	$data = json_decode($jsondata, TRUE);
     
@@ -235,7 +235,7 @@ $array_merging = array();
 
 function coinmarketcap_api($symbol) {
 	
-global $marketcap_ranks_max, $marketcap_ttl;
+global $marketcap_ranks_max, $marketcap_cache;
 
 $array_merging = array();
 
@@ -272,7 +272,7 @@ $array_merging = array();
 			
      	$json_string = $cmc_request;
      	     
-	  	$jsondata = @api_data('url', $json_string, $marketcap_ttl);
+	  	$jsondata = @api_data('url', $json_string, $marketcap_cache);
 	   
    	$data = json_decode($jsondata, TRUE);
     

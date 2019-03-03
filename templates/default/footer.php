@@ -42,5 +42,14 @@
 <?php
 //var_dump($_SESSION['debugging_printout']);
 
+if ( $proxy_alerts != 'none' ) {
+	
+	foreach ( $_SESSION['proxy_checkup'] as $problem_proxy ) {
+	test_proxy($problem_proxy);
+	sleep(1);
+	}
+
+}
+
 session_destroy();
 ?>
