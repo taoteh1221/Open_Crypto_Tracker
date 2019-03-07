@@ -10,10 +10,11 @@
 			
 			<p style='font-weight: bold; color: red;'> Chain data (block height, difficulty, etc) on this page is cached for <?=$chainstats_cache?> minute(s). </p>
 			
+			
 			<fieldset class='calculators'>
-				<legend style='color: blue;'> <b>Monero Mining Calculator</b> </legend>
+				<legend style='color: blue;'> <b>Bitcoin Mining Calculator</b> </legend>
 		    
-				<?php require("app.lib/php/calculators/monero-mining-calculator.php"); ?>
+				<?php require("app.lib/php/calculators/bitcoin-mining-calculator.php"); ?>
 				
 				
 			</fieldset>
@@ -22,6 +23,14 @@
 				<legend style='color: blue;'> <b>Ethereum Mining Calculator</b> </legend>
 		    
 				<?php require("app.lib/php/calculators/ethereum-mining-calculator.php"); ?>
+				
+				
+			</fieldset>
+				
+			<fieldset class='calculators'>
+				<legend style='color: blue;'> <b>Monero Mining Calculator</b> </legend>
+		    
+				<?php require("app.lib/php/calculators/monero-mining-calculator.php"); ?>
 				
 				
 			</fieldset>

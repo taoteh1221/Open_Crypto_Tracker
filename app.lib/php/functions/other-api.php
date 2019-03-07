@@ -3,23 +3,30 @@
  * Copyright 2014-2019 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
  */
 
-
 //////////////////////////////////////////////////////////
 
-function vertcoin_api($request) {
+function bitcoin_api($request) {
  
 global $chainstats_cache;
-		
+ 		
+    $json_string = 'https://blockexplorer.com/api/status?q=getInfo';
+    
+    $jsondata = @api_data('url', $json_string, $chainstats_cache);
+    
+    $data = json_decode($jsondata, TRUE);
+    
+    
 		if ( $request == 'height' ) {
 		
-		return trim(@api_data('url', 'http://explorer.vertcoin.info/api/getblockcount', $chainstats_cache));
+		return $data['info']['blocks'];
 		  
 		}
 		elseif ( $request == 'difficulty' ) {
 		
-		return trim(@api_data('url', 'http://explorer.vertcoin.info/api/getdifficulty', $chainstats_cache));
+		return $data['info']['difficulty'];
 		  
 		}
+  
   
 }
 

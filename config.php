@@ -49,7 +49,7 @@ $proxy_list = array(
 					// 'ipaddress2:portnumber2',
 					);
 
-$proxy_alerts = 'email'; // Alert for no proxy data connection. 'none', 'email', or 'text', or 'notifyme', or 'all'...'email' keeps any text / notifyme price alert notifications a lot less cluttered ;-)
+$proxy_alerts = 'none'; // Alert for no proxy data connection. 'none', 'email', or 'text', or 'notifyme', or 'all'...'email' keeps any text / notifyme price alert notifications a lot less cluttered ;-)
 
 $proxy_alerts_always = 'yes'; // Send proxy alerts even if the proxy checkup went OK (after being flagged for no data connection it started working again when checked)? 'yes' or 'no'
 
@@ -147,7 +147,8 @@ $mining_rewards = array(
 					'xmr' => monero_reward(),  // (2^64 - 1 - current_supply * 10^12) * 2^-19 * 10^-12
 					'eth' => '2',
 					'dcr' => ( decred_api('subsidy', 'work_reward') / 100000000 ),
-					'rvn' => '5000'
+					'rvn' => '5000',
+					'btc' => '12.5'
 					);
 
 

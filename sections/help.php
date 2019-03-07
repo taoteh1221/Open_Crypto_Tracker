@@ -10,8 +10,8 @@
                         
                         
 			<div class='help_section'>
-                            <p><b>First Run From Fresh Install:</b><br />
-                                The first time you install and run the DFD Cryptocoin Values app, if it is sluggish or throws errors without clearing up, and you have enabled proxy ip addresses, disable them and try again. If it is a bad proxy service causing the issue, this may solve it.</p>
+                            <p><b>Runs Sluggish With Proxies:</b><br />
+                                If page loads are sluggish or throw API connection errors without clearing up, and you have enabled proxy ip addresses, disable them and try again. If it is a bad or misconfigured proxy service causing the issue, this may solve it.</p>
                         </div>
                         
 			<div class='help_section'>
