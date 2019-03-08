@@ -144,11 +144,12 @@ $eth_subtokens_ico_values = array(
 
 $mining_rewards = array(
 					// Mining rewards for different platforms (to prefill editable mining calculator forms)
-					'xmr' => monero_reward(),  // (2^64 - 1 - current_supply * 10^12) * 2^-19 * 10^-12
+					'btc' => '12.5',
 					'eth' => '2',
+					'xmr' => monero_reward(),  // (2^64 - 1 - current_supply * 10^12) * 2^-19 * 10^-12
+					'ltc' => '25',
 					'dcr' => ( decred_api('subsidy', 'work_reward') / 100000000 ),
-					'rvn' => '5000',
-					'btc' => '12.5'
+					'rvn' => '5000'
 					);
 
 

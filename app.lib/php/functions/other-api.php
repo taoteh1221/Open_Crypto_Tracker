@@ -32,6 +32,33 @@ global $chainstats_cache;
 
 //////////////////////////////////////////////////////////
 
+function litecoin_api($request) {
+ 
+global $chainstats_cache;
+ 		
+    $json_string = 'https://chain.so/api/v2/get_info/LTC';
+    
+    $jsondata = @api_data('url', $json_string, $chainstats_cache);
+    
+    $data = json_decode($jsondata, TRUE);
+    
+    
+		if ( $request == 'height' ) {
+		
+		return $data['data']['blocks'];
+		  
+		}
+		elseif ( $request == 'difficulty' ) {
+		
+		return $data['data']['mining_difficulty'];
+		  
+		}
+  
+  
+}
+
+//////////////////////////////////////////////////////////
+
 function ravencoin_api($request) {
  
 global $chainstats_cache;

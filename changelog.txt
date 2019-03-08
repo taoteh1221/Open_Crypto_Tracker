@@ -904,7 +904,7 @@ app doing the data requests, not a malicious bot)
 -SMTP email setting option
 -Organized / categorized back end functions, config file settings
 -Proxy user/pass option
--Bitcoin mining calculator
+-Bitcoin / Litecoin mining calculators
 -------------------------------------------------------------------
 
 

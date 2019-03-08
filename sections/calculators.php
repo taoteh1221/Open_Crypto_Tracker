@@ -36,6 +36,14 @@
 			</fieldset>
 			
 			<fieldset class='calculators'>
+				<legend style='color: blue;'> <b>Litecoin Mining Calculator</b> </legend>
+		    
+				<?php require("app.lib/php/calculators/litecoin-mining-calculator.php"); ?>
+				
+				
+			</fieldset>
+			
+			<fieldset class='calculators'>
 				<legend style='color: blue;'> <b>Decred Mining Calculator</b> </legend>
 		    
 				<?php require("app.lib/php/calculators/decred-mining-calculator.php"); ?>
