@@ -270,6 +270,43 @@ return $base_url;
 
 //////////////////////////////////////////////////////////
 
+function error_logs($error_logs=null) {
+
+global $purge_error_logs, $mail_error_logs, $to_email;
+
+$error_logs .= $_SESSION['api_data_error'];
+	
+	// Purge old logs before storing new logs, if it's time to...otherwise just append.
+	if ( $error_logs != null && update_cache_file('cache/logs/errors.dat', ( $purge_error_logs * 1440 ) ) == true ) {
+	file_put_contents('cache/logs/errors.dat', $error_logs, LOCK_EX);
+	}
+	elseif ( $error_logs != null ) {
+	file_put_contents('cache/logs/errors.dat', $error_logs, FILE_APPEND | LOCK_EX);
+	}
+
+	// If it's time to email error logs...
+	if ( $mail_error_logs == 'daily ' ) {
+	$mail_freq = 1;
+	}
+	elseif ( $mail_error_logs == 'weekly ' ) {
+	$mail_freq = 7;
+	}
+
+	if ( $mail_freq > 0 && update_cache_file('cache/alerts/email-error-logs.dat', ( $mail_freq * 1440 ) ) == true ) {
+		
+	$message = "Here are the current DFD Cryptocoin Values error logs from the cache/logs/errors.dat file: \n =========================================================================== \n \n"  . file_get_contents('cache/logs/errors.dat');
+	
+	@safe_mail($to_email, ucfirst($mail_error_logs) . ' Error Logs Report', $message);
+	
+	file_put_contents('cache/alerts/email-error-logs.dat', date('Y-m-d H:i:s'), LOCK_EX); // Track this emailing event, to determine next time to email logs again.
+	
+	}
+	
+
+}
+
+//////////////////////////////////////////////////////////
+
 function api_data($mode, $request, $ttl, $api_server=null, $post_encoding=3, $test_proxy=NULL) { // Default to JSON encoding post requests (most used)
 
 global $user_agent, $api_timeout, $proxy_login, $proxy_list;
@@ -342,10 +379,10 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		//echo 'Deleted cache file, no data. '; // DEBUGGING ONLY
 		
 		// SAFE UI ALERT VERSION
-		$_SESSION['get_data_error'] .= ' No data returned from ' . ( $mode == 'array' ? 'API server "' . $api_server : 'request "' . $request ) . '" (with timeout configuration setting of ' . $api_timeout . ' seconds). <br /> ';
+		$_SESSION['api_data_error'] .= date('Y-m-d H:i:s') . ' | No data returned from ' . ( $mode == 'array' ? 'API server "' . $api_server : 'request "' . $request ) . '" (with timeout configuration setting of ' . $api_timeout . ' seconds). ' . ( $current_proxy ? 'Proxy used was ' . $current_proxy . '.' : 'Direct connection, no proxy used.' ) . "<br /> \n";
 		
 		// DEBUGGING UI ALERT VERSION ONLY, CONTAINS USER DATA (API KEYS ETC)
-		//$_SESSION['get_data_error'] .= ' No data returned from ' . ( $mode == 'array' ? 'API server "' . $api_server : 'request "' . $request ) . '" (with timeout configuration setting of ' . $api_timeout . ' seconds). <br /> ' . ( $mode == 'array' ? '<pre>' . print_r($request, TRUE) . '</pre>' : '' ) . ' <br /> ';
+		//$_SESSION['api_data_error'] .= date('Y-m-d H:i:s') . ' | No data returned from ' . ( $mode == 'array' ? 'API server "' . $api_server : 'request "' . $request ) . '" (with timeout configuration setting of ' . $api_timeout . ' seconds). <br /> ' . ( $mode == 'array' ? '<pre>' . print_r($request, TRUE) . ( $current_proxy ? 'Proxy used was ' . $current_proxy . '.' : 'Direct connection, no proxy used.' ) . '</pre>' : '' ) . "<br /> \n";
 		
 			if ( sizeof($proxy_list) > 0 && $current_proxy != '' && $mode != 'proxy-check' ) { // Avoid infinite loops
 
@@ -359,7 +396,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		}
 		
 		if ( preg_match("/coinmarketcap/i", $request) && !preg_match("/last_updated/i", $data) ) {
-		$_SESSION['get_data_error'] .= '##REAL-TIME REQUEST## data error response from '.( $mode == 'array' ? $api_server : $request ).': <br /> =================================== <br />' . $data . ' <br /> =================================== <br />';
+		$_SESSION['api_data_error'] .= date('Y-m-d H:i:s') . ' | ##REAL-TIME REQUEST## data error response from '.( $mode == 'array' ? $api_server : $request ).': <br /> =================================== <br />' . $data . ' <br /> =================================== ' . ( $current_proxy ? 'Proxy used was ' . $current_proxy . '.' : 'Direct connection, no proxy used.' ) . "<br /> \n";
 		}
 	
 	
@@ -374,7 +411,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		}
 
 	// DEBUGGING ONLY
-	//$_SESSION['get_data_error'] .= '##REQUEST## Requested ' . ( $mode == 'array' ? 'API server "' . $api_server : 'endpoint "' . $request ) . '". <br /> ' . ( $mode == 'array' ? '<pre>' . print_r($request, TRUE) . '</pre>' : '' ) . ' <br /> ';
+	//$_SESSION['api_data_error'] .= date('Y-m-d H:i:s') . ' | ##REQUEST## Requested ' . ( $mode == 'array' ? 'API server "' . $api_server : 'endpoint "' . $request ) . '". <br /> ' . ( $mode == 'array' ? '<pre>' . print_r($request, TRUE) . '</pre>' : '' ) . ( $current_proxy ? 'Proxy used was ' . $current_proxy . '.' : 'Direct connection, no proxy used.' ) . "<br /> \n";
 	
 	}
 	elseif ( $ttl < 0 ) {
@@ -387,13 +424,13 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 	$data = ( $_SESSION['api_cache'][$hash_check] && $_SESSION['api_cache'][$hash_check] != 'none' ? $_SESSION['api_cache'][$hash_check] : file_get_contents('cache/api/'.$hash_check.'.dat') );
 	
 	
-		if ( !preg_match("/coinmarketcap/i", $_SESSION['get_data_error']) && preg_match("/coinmarketcap/i", $request) && !preg_match("/last_updated/i", $data) ) {
+		if ( !preg_match("/coinmarketcap/i", $_SESSION['api_data_error']) && preg_match("/coinmarketcap/i", $request) && !preg_match("/last_updated/i", $data) ) {
 		$_SESSION['cmc_error'] = '##CACHED REQUEST## data error response from '.( $mode == 'array' ? $api_server : $request ).': <br /> =================================== <br />' . $data . ' <br /> =================================== <br />';
 		}
 	
 	
 	// DEBUGGING ONLY
-	//$_SESSION['get_data_error'] .= ' ##CACHED## request response for ' . ( $mode == 'array' ? 'API server "' . $api_server : 'endpoint "' . $request ) . '". <br /> ' . ( $mode == 'array' ? '<pre>' . print_r($request, TRUE) . '</pre>' : '' ) . ' <br /> ';
+	//$_SESSION['api_data_error'] .= date('Y-m-d H:i:s') . ' | ##CACHED## request response for ' . ( $mode == 'array' ? 'API server "' . $api_server : 'endpoint "' . $request ) . '". <br /> ' . ( $mode == 'array' ? '<pre>' . print_r($request, TRUE) . '</pre>' : '' ) . ( $current_proxy ? 'Proxy used was ' . $current_proxy . '.' : 'Direct connection, no proxy used.' ) . "<br /> \n";
 	
 	
 	}
@@ -408,7 +445,7 @@ return $data;
 
 function test_proxy($problem_proxy_array) {
 
-global $proxy_alerts_freq, $proxy_alerts, $proxy_alerts_always, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $textlocal_account;
+global $proxy_alerts_freq, $proxy_alerts, $proxy_alerts_all, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $textlocal_account;
 
 $problem_endpoint = $problem_proxy_array['endpoint'];
 $problem_proxy = $problem_proxy_array['proxy'];
@@ -476,7 +513,7 @@ $proxy_test_url = 'http://httpbin.org/ip';
                     
 		
 		// Send out alerts
-		if ( $misconfigured == 1 || $proxy_alerts_always == 'yes' ) {
+		if ( $misconfigured == 1 || $proxy_alerts_all == 'yes' ) {
                     
                           
           if (  validate_email($to_email) == 'valid' && $proxy_alerts == 'email'
@@ -535,6 +572,5 @@ $proxy_test_url = 'http://httpbin.org/ip';
 }
 
 //////////////////////////////////////////////////////////
-
 
 ?>

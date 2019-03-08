@@ -2,19 +2,18 @@
     <!- footer START -->
 
             	
-            	<div id="api_error_alert"><?=( $_SESSION['get_data_error'] ? $_SESSION['get_data_error'] . $_SESSION['cmc_error'] : $_SESSION['cmc_error'] )?></div>
+            	<div id="api_error_alert"><?=( $_SESSION['api_data_error'] ? $_SESSION['api_data_error'] . $_SESSION['cmc_error'] : $_SESSION['cmc_error'] )?></div>
             	
-    <p align='center'><a href='https://github.com/taoteh1221/DFD_Cryptocoin_Values/releases' target='_blank'>Version <?=$app_version?></a><br />(Github download / releases link)</p>
+    <p align='center'><a href='https://github.com/taoteh1221/DFD_Cryptocoin_Values/releases' target='_blank'>Version <?=$app_version?></a>
     
 
-    <p align='center'>Donations support further development...<br /><a id='donate' href='#' onclick='return false;'>(click to show addresses below)</a></p>
+    <p align='center'><a id='donate' href='#show_donation_addresses' title='Click to show donation addresses.' onclick='return false;'>Donations Support Development</a></p>
     
             	<div style='display: none;' id='donate_div' align='center'>
             	
-            	BTC: <br />1FfWHekHPLH7hQcU4d5MBVQ4WekJiA8Mk2
-            	<br /><br />XMR: <br /><span class='long_linebreak'>47mWWjuwPFiPD6t2MaWcMEfejtQpMuz9oj5hJq18f7nvagcmoJwxudKHUppaWnTMPaMWshMWUTPAUX623KyEtukbSMdmpqu</span>
-            	<br /><br />ETH: <br />0xf3da0858c3cfcc28a75c1232957a7fb190d7e5e9
-            	<br /><br />STEEM: <br />taoteh1221
+            	<b>Monero (XMR) Donation Address:</b> <br /><span class='long_linebreak'>47mWWjuwPFiPD6t2MaWcMEfejtQpMuz9oj5hJq18f7nvagcmoJwxudKHUppaWnTMPaMWshMWUTPAUX623KyEtukbSMdmpqu</span>
+            	<br /><b>Monero Address QR Code (for phones)</b><br /><img src='xmr-donations-qr-code.png' border='0' />
+            	<br /><br /><b>PayPal:</b> <br /><a href='https://www.paypal.me/dragonfrugal' target='_blank'>https://www.paypal.me/dragonfrugal</a>
             
             	</div>
      
@@ -42,6 +41,7 @@
 <?php
 //var_dump($_SESSION['debugging_printout']);
 
+
 if ( $proxy_alerts != 'none' ) {
 	
 	foreach ( $_SESSION['proxy_checkup'] as $problem_proxy ) {
@@ -51,5 +51,6 @@ if ( $proxy_alerts != 'none' ) {
 
 }
 
+error_logs();
 session_destroy();
 ?>

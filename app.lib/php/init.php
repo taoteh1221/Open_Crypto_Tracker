@@ -3,7 +3,7 @@
  * Copyright 2014-2019 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
  */
 
-$app_version = '2.3.0';  // 2019/MARCH/1ST
+$app_version = '2.3.1';  // 2019/MARCH/8TH
  
 date_default_timezone_set('UTC');
 

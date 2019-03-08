@@ -25,6 +25,10 @@ require_once("app.lib/php/init.php");
 
 $api_timeout = 10; // Seconds to wait for response from API endpoints
 
+$purge_error_logs = 7; // Days to keep error logs before purging old log entries (deletes ENTIRE set of logs every X days)
+
+$mail_error_logs = 'daily'; // 'no', 'daily', 'weekly' Email to / from MUST BE SET further down in this config file.
+
 $btc_exchange = 'binance'; // Default Bitcoin value in USD: binance / coinbase / bitfinex / gemini / okcoin / bitstamp / kraken / hitbtc / gatecion / livecoin
 
 $marketcap_site = 'coinmarketcap'; // Default marketcap data source: coinmarketcap / coingecko
@@ -51,7 +55,7 @@ $proxy_list = array(
 
 $proxy_alerts = 'none'; // Alert for no proxy data connection. 'none', 'email', or 'text', or 'notifyme', or 'all'...'email' keeps any text / notifyme price alert notifications a lot less cluttered ;-)
 
-$proxy_alerts_always = 'yes'; // Send proxy alerts even if the proxy checkup went OK (after being flagged for no data connection it started working again when checked)? 'yes' or 'no'
+$proxy_alerts_all = 'yes'; // Send proxy alerts even if the proxy checkup went OK (after being flagged for no data connection it started working again when checked)? 'yes' or 'no'
 
 $proxy_alerts_freq = 1; // Re-allow proxy data error / misconfigured alerts after X hours (per ip/port pair, can be 0)
 
@@ -91,12 +95,12 @@ $cron_alerts_freq = 1; // Re-allow cron job email / text alerts after X hours (p
 
 $cron_alerts_percent = 12; // $USD price percentage change (WITHOUT percent sign: 15 = 15%), sends alerts when percent change is reached (up or down)
 
-$cron_alerts_refresh = 3; // Refresh prices every X days with latest prices...can be 0 to disable refreshing (until price alert is triggered)
+$cron_alerts_refresh = 3; // Refresh prices every X days (since last refresh or alert) with latest prices...can be 0 to disable refreshing (until price alert is triggered)
 
 
 $cron_alerts = array(
 					// Markets you want cron alerts for (alert sent when $USD value change is equal to or above / below $cron_alerts_percent...see README.txt for cron job setup information) 
-					// Delete any double forward slashes from in front of each asset you want to enable cron job price alerts on (or add double slash to disable)...
+					// Delete any double forward slashes from in front of each asset you want to enable cron job price alerts on (or add double slash to disable alerts)...
 					// NOTE: This list must only contain assets / exchanges / trading pairs included in the primary coin data configuration further down in this config file.
 					// TO ADD MULTIPLE ALERTS FOR SAME ASSET (FOR DIFFERENT EXCHANGES / TRADE PAIRINGS), FORMAT LIKE SO: symbol, symbol-1, symbol-2, etc.
 					'btc' => 'bitstamp|btc', // exchange|trade_pairing

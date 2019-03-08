@@ -5,30 +5,24 @@ Developed by Michael Kilday <mike@dragonfrugal.com>, released free / open source
 https://dragonfrugal.com/downloads/
 LIVE DEMO: https://dragonfrugal.com/coin-prices/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Donations support further development... 
+
+XMR: 47mWWjuwPFiPD6t2MaWcMEfejtQpMuz9oj5hJq18f7nvagcmoJwxudKHUppaWnTMPaMWshMWUTPAUX623KyEtukbSMdmpqu
+
+PAYPAL: https://www.paypal.me/dragonfrugal
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Feature requests and bug reports can be filed at the following URLS:
+
+https://github.com/taoteh1221/DFD_Cryptocoin_Values/issues
+
+https://dragonfrugal.com/contact/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Just upload to your PHP-based web server and you should be all set, unless your host is a strict setup related to file writing permissions, in which case the 'cache' directory / all sub-directories permissions should be set to '777' chmod on unix / linux systems (or 'readable / writable' on windows systems). Your web host must have curl modules activated on your HTTP server. Most web hosting companies provide this "out-of-the-box" already. Contact your hosting provider if you encounter issues getting the real-time prices feeds from exchanges, and ask if curl is setup already. See below for an example on adding / editing your own markets into the coin list in config.php...it's very quick / easy to do (see bottom of this file for a pre-configured example set of assets / markets). Currently BTC / XMR / ETH / LTC / USDT based market pairing is compatible. Contact any supported exchanges help desk if you are unaware of the correct formatting of the trading pair name you are adding in the API configuration file (examples: Kraken has abitrary Xs inserted everywhere in SOME older pair names, HitBTC sometimes has tether pairing without the "T" in the symbol name).
 
 Setting up cron jobs for email alerts on price change: 
 cron.php in the root directory must be setup as a cron job on the server, if you want to take advantage of cron job based features like email alerts on price change percentage, etc. Consult your web server host's documentation or help desk, for your host's particular method of setting up a cron job. Note that you should have it run every X minutes 24/7, based on how often you want alerts / any other cron based features to run. Every 20 minutes is a good default time interval to start with. Here is an example cron job command for reference below. Replace system paths with the correct ones for your server:
 /path/to/php -q /home/username/path/to/website_install/cron.php
-
-Feature requests and bug reports can be filed at the following URLS:
-
-https://github.com/taoteh1221/DFD_Cryptocoin_Values/issues
-
-https://dragonfrugal.com/contact/
-
-Donations are welcome to support further development... 
-
-BTC: 1FfWHekHPLH7hQcU4d5MBVQ4WekJiA8Mk2
-
-XMR: 47mWWjuwPFiPD6t2MaWcMEfejtQpMuz9oj5hJq18f7nvagcmoJwxudKHUppaWnTMPaMWshMWUTPAUX623KyEtukbSMdmpqu
-
-ETH: 0xf3da0858c3cfcc28a75c1232957a7fb190d7e5e9
-
-STEEM: taoteh1221
-
-OTHER CRYPTOCURRENCIES AND PAYPAL ACCEPTED HERE: https://dragonfrugal.com/donate/
 
 
  * USAGE (ADDING / UPDATING COINS) ...API support for: kraken / gatecoin / poloniex / binance / coinbase / bitstamp / bittrex / bitfinex and ethfinex / cryptofresh / bter / gemini / hitbtc / liqui / cryptopia / livecoin / upbit / kucoin / okex / gate.io / graviex / idex / hotbit / tradeogre / bitforex / bigone...BTC, XMR, ETH, LTC, AND USDT trading pair support
@@ -86,6 +80,10 @@ BELOW IS AN !---EXAMPLE---! SET OF CONFIGURED ASSETS AND DEFAULT SETTINGS. PLEAS
 
 $api_timeout = 10; // Seconds to wait for response from API endpoints
 
+$purge_error_logs = 7; // Days to keep error logs before purging old log entries (deletes ENTIRE set of logs every X days)
+
+$mail_error_logs = 'daily'; // 'no', 'daily', 'weekly' Email to / from MUST BE SET further down in this config file.
+
 $btc_exchange = 'binance'; // Default Bitcoin value in USD: binance / coinbase / bitfinex / gemini / okcoin / bitstamp / kraken / hitbtc / gatecion / livecoin
 
 $marketcap_site = 'coinmarketcap'; // Default marketcap data source: coinmarketcap / coingecko
@@ -112,7 +110,7 @@ $proxy_list = array(
 
 $proxy_alerts = 'none'; // Alert for no proxy data connection. 'none', 'email', or 'text', or 'notifyme', or 'all'...'email' keeps any text / notifyme price alert notifications a lot less cluttered ;-)
 
-$proxy_alerts_always = 'yes'; // Send proxy alerts even if the proxy checkup went OK (after being flagged for no data connection it started working again when checked)? 'yes' or 'no'
+$proxy_alerts_all = 'yes'; // Send proxy alerts even if the proxy checkup went OK (after being flagged for no data connection it started working again when checked)? 'yes' or 'no'
 
 $proxy_alerts_freq = 1; // Re-allow proxy data error / misconfigured alerts after X hours (per ip/port pair, can be 0)
 
@@ -152,12 +150,12 @@ $cron_alerts_freq = 1; // Re-allow cron job email / text alerts after X hours (p
 
 $cron_alerts_percent = 12; // $USD price percentage change (WITHOUT percent sign: 15 = 15%), sends alerts when percent change is reached (up or down)
 
-$cron_alerts_refresh = 3; // Refresh prices every X days with latest prices...can be 0 to disable refreshing (until price alert is triggered)
+$cron_alerts_refresh = 3; // Refresh prices every X days (since last refresh or alert) with latest prices...can be 0 to disable refreshing (until price alert is triggered)
 
 
 $cron_alerts = array(
 					// Markets you want cron alerts for (alert sent when $USD value change is equal to or above / below $cron_alerts_percent...see README.txt for cron job setup information) 
-					// Delete any double forward slashes from in front of each asset you want to enable cron job price alerts on (or add double slash to disable)...
+					// Delete any double forward slashes from in front of each asset you want to enable cron job price alerts on (or add double slash to disable alerts)...
 					// NOTE: This list must only contain assets / exchanges / trading pairs included in the primary coin data configuration further down in this config file.
 					// TO ADD MULTIPLE ALERTS FOR SAME ASSET (FOR DIFFERENT EXCHANGES / TRADE PAIRINGS), FORMAT LIKE SO: symbol, symbol-1, symbol-2, etc.
 					'btc' => 'bitstamp|btc', // exchange|trade_pairing
@@ -937,4 +935,5 @@ $coins_array = array(
 
 /////////////////// COIN MARKETS CONFIG -END- //////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
