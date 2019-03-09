@@ -275,14 +275,7 @@ function error_logs($error_logs=null) {
 global $purge_error_logs, $mail_error_logs, $to_email;
 
 $error_logs .= $_SESSION['api_data_error'];
-	
-	// Purge old logs before storing new logs, if it's time to...otherwise just append.
-	if ( $error_logs != null && update_cache_file('cache/logs/errors.dat', ( $purge_error_logs * 1440 ) ) == true ) {
-	file_put_contents('cache/logs/errors.dat', $error_logs, LOCK_EX);
-	}
-	elseif ( $error_logs != null ) {
-	file_put_contents('cache/logs/errors.dat', $error_logs, FILE_APPEND | LOCK_EX);
-	}
+
 
 	// If it's time to email error logs...
 	if ( $mail_error_logs == 'daily ' ) {
@@ -300,6 +293,15 @@ $error_logs .= $_SESSION['api_data_error'];
 	
 	file_put_contents('cache/alerts/email-error-logs.dat', date('Y-m-d H:i:s'), LOCK_EX); // Track this emailing event, to determine next time to email logs again.
 	
+	}
+	
+	
+	// Log errors...Purge old logs before storing new logs, if it's time to...otherwise just append.
+	if ( $error_logs != null && update_cache_file('cache/logs/errors.dat', ( $purge_error_logs * 1440 ) ) == true ) {
+	file_put_contents('cache/logs/errors.dat', $error_logs, LOCK_EX);
+	}
+	elseif ( $error_logs != null ) {
+	file_put_contents('cache/logs/errors.dat', $error_logs, FILE_APPEND | LOCK_EX);
 	}
 	
 
