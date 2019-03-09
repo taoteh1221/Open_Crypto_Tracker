@@ -92,8 +92,19 @@ if ( $_POST['submit_check'] == 1 ) {
 
  
  
+  if ( $_POST['use_cookies'] == 1 && $_POST['sort_by'] != '' ) {
+  
+           // Cookie expires in 1 year (31536000 seconds)
+           
+           setcookie("sort_by", $_POST['sort_by'], mktime()+31536000);
+           
+  }
+  else {
+  unset($_COOKIE['sort_by']);  // Delete any existing cookie
+  setcookie ("sort_by", "", time()-3600);  // Delete any existing cookie
+  }
  
-  if ( $_POST['use_alert_percent'] != '' ) {
+  if ( $_POST['use_cookies'] == 1 && $_POST['use_alert_percent'] != '' ) {
   
            // Cookie expires in 1 year (31536000 seconds)
            

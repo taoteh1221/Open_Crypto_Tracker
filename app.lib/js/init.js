@@ -45,7 +45,7 @@ $(document).ready(function(){
 	$("#coins_table").tablesorter({
 		
 		// sort on the USD Total column, order desc 
-		sortList: [[10,1]],
+		sortList: [[sorted_by_col,sorted_by_asc_desc]],
 		widgets: ['zebra'],
                 headers: {
 		    

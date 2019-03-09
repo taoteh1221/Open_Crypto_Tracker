@@ -913,6 +913,7 @@ app doing the data requests, not a malicious bot)
 2.3.1:
 -Tweaks
 -Error log system, with emailing support
+-Settings page option for choosing preferred table sorting defaults
 -------------------------------------------------------------------
 
 

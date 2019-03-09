@@ -198,6 +198,10 @@ width: 100%;
     color: #ffb83f;
 }
 
+.settings_sections {
+margin: 25px;
+}
+
 #alert_source, #percent_change_amount, #percent_change_time, #percent_change_alert_type {
 display: none;
 }

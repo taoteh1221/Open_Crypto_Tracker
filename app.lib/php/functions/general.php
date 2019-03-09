@@ -445,7 +445,7 @@ return $data;
 
 function test_proxy($problem_proxy_array) {
 
-global $proxy_alerts_freq, $proxy_alerts, $proxy_alerts_all, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $textlocal_account;
+global $proxy_alerts_freq, $proxy_alerts, $proxy_checkup_ok, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $textlocal_account;
 
 $problem_endpoint = $problem_proxy_array['endpoint'];
 $problem_proxy = $problem_proxy_array['proxy'];
@@ -513,7 +513,7 @@ $proxy_test_url = 'http://httpbin.org/ip';
                     
 		
 		// Send out alerts
-		if ( $misconfigured == 1 || $proxy_alerts_all == 'yes' ) {
+		if ( $misconfigured == 1 || $proxy_checkup_ok == 'include' ) {
                     
                           
           if (  validate_email($to_email) == 'valid' && $proxy_alerts == 'email'

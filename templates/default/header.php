@@ -31,6 +31,11 @@ require("config.php");
 
 <script type="text/javascript" src="app.lib/js/functions.js"></script>
 
+<script>
+var sorted_by_col = <?=$sorted_by_col?>;
+var sorted_by_asc_desc = <?=$sorted_by_asc_desc?>;
+</script>
+
 <script type="text/javascript" src="app.lib/js/init.js"></script>
 
 <style>

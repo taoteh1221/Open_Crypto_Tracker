@@ -11,7 +11,7 @@
 			if (is_array($coins_array) || is_object($coins_array)) {
 			    
 			    ?>
-			    <p>Default Bitcoin Market: <select onchange='
+			    <p class='settings_sections'>Default Bitcoin Market: <select onchange='
 			    $("#btc_market").val(this.value);
 			    '>
 				<?php
@@ -23,14 +23,38 @@
 				}
 				$loop = NULL;
 				?>
-			    </select></p>
+			    </select>
+			    </p>
 			    <?php
 			
 			}
 			
 			?>
-
-			<p>
+			
+			    <p class='settings_sections'>Sort Table Data By Column: <select id='sorted_by_col' onchange='
+			    $("#sort_by").val( this.value + "|" + $("#sorted_by_asc_desc").val() );
+			    '>
+				<option value='0' <?=( $sorted_by_col == 0 ? ' selected ' : '' )?>> Re-sort </option>
+				<option value='1' <?=( $sorted_by_col == 1 ? ' selected ' : '' )?>> Asset </option>
+				<option value='2' <?=( $sorted_by_col == 2 ? ' selected ' : '' )?>> USD Value </option>
+				<option value='3' <?=( $sorted_by_col == 3 ? ' selected ' : '' )?>> Holdings </option>
+				<option value='4' <?=( $sorted_by_col == 4 ? ' selected ' : '' )?>> Symbol </option>
+				<option value='5' <?=( $sorted_by_col == 5 ? ' selected ' : '' )?>> Exchange </option>
+				<option value='6' <?=( $sorted_by_col == 6 ? ' selected ' : '' )?>> USD Volume </option>
+				<option value='7' <?=( $sorted_by_col == 7 ? ' selected ' : '' )?>> Trade Value </option>
+				<option value='8' <?=( $sorted_by_col == 8 ? ' selected ' : '' )?>> Market </option>
+				<option value='9' <?=( $sorted_by_col == 9 ? ' selected ' : '' )?>> Holdings Value </option>
+				<option value='10' <?=( $sorted_by_col == 10 ? ' selected ' : '' )?>> USD Subtotal </option>
+			    </select> 
+			     <select id='sorted_by_asc_desc' onchange='
+			    $("#sort_by").val( $("#sorted_by_col").val() + "|" + this.value );
+			    '>
+				<option value='0' <?=( $sorted_by_asc_desc == 0 ? ' selected ' : '' )?>> Ascending </option>
+				<option value='1' <?=( $sorted_by_asc_desc == 1 ? ' selected ' : '' )?>> Decending </option>
+			    </select></p>
+			    
+			    
+			<p class='settings_sections'>
 				
 				Percentage Change Alert (marketcap data):
 			     
@@ -144,13 +168,14 @@
 			?>
 
 			
-                        <p>
+                        <p class='settings_sections'>
                         Use cookie data to save settings between sessions <input type='checkbox' name='set_use_cookies' id='set_use_cookies' value='1' onchange='
                         if ( this.checked != true ) {
 			delete_cookie("coin_amounts");
 			delete_cookie("coin_markets");
 			delete_cookie("coin_reload");
 			delete_cookie("alert_percent");
+			delete_cookie("sort_by");
 			document.getElementById("use_cookies").value = "";
 			
 			delete_cookie("notes_reminders");
@@ -166,7 +191,7 @@
                         </p>
 			
 			
-                        <p>
+                        <p class='settings_sections'>
                         Enable trading notes (requires cookie data) <input type='checkbox' name='set_use_notes' id='set_use_notes' value='1' onchange='
                         if ( this.checked != true ) {
 			delete_cookie("notes_reminders");

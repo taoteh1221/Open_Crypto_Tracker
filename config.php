@@ -55,7 +55,7 @@ $proxy_list = array(
 
 $proxy_alerts = 'none'; // Alert for no proxy data connection. 'none', 'email', or 'text', or 'notifyme', or 'all'...'email' keeps any text / notifyme price alert notifications a lot less cluttered ;-)
 
-$proxy_alerts_all = 'yes'; // Send proxy alerts even if the proxy checkup went OK (after being flagged for no data connection it started working again when checked)? 'yes' or 'no'
+$proxy_checkup_ok = 'include'; // Still send proxy alerts even if the proxy checkup went OK? (after being flagged for no data connection, it started working again when checked) 'include' or 'ignore'
 
 $proxy_alerts_freq = 1; // Re-allow proxy data error / misconfigured alerts after X hours (per ip/port pair, can be 0)
 

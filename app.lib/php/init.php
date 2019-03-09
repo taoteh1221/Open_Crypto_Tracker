@@ -20,6 +20,19 @@ if (!defined('PHP_VERSION_ID')) {
     define('PHP_VERSION_ID', ($version[0] * 10000 + $version[1] * 100 + $version[2]));
 }
 
+$sort_settings = ( $_COOKIE['sort_by'] ? $_COOKIE['sort_by'] : $_POST['sort_by'] );
+$sort_settings = explode("|",$sort_settings);
+
+$sorted_by_col = $sort_settings[0];
+$sorted_by_asc_desc = $sort_settings[1];
+
+if ( !$sorted_by_col ) {
+$sorted_by_col = 0;
+}
+if ( !$sorted_by_asc_desc ) {
+$sorted_by_asc_desc = 0;
+}
+
 $alert_percent = explode("|", $_COOKIE['alert_percent']);
 
 $curl_setup = curl_version();

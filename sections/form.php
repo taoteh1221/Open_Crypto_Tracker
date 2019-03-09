@@ -204,6 +204,8 @@ if (is_array($coins_array) || is_object($coins_array)) {
 
 <input type='hidden' id='submit_check' name='submit_check' value='1' />
 
+<input type='hidden' id='sort_by' name='sort_by' value='<?=($sorted_by_col)?>|<?=($sorted_by_asc_desc)?>' />
+
 <input type='hidden' id='use_cookies' name='use_cookies' value='<?php echo ( $_COOKIE['coin_amounts'] ? '1' : ''); ?>' />
 
 <input type='hidden' id='use_notes' name='use_notes' value='<?php echo ( $_COOKIE['notes_reminders'] ? '1' : ''); ?>' />
