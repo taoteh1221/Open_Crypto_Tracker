@@ -20,7 +20,7 @@ https://dragonfrugal.com/contact/
 
 Just upload to your PHP-based web server and you should be all set, unless your host is a strict setup related to file writing permissions, in which case the 'cache' directory / all sub-directories permissions should be set to '777' chmod on unix / linux systems (or 'readable / writable' on windows systems). Your web host must have curl modules activated on your HTTP server. Most web hosting companies provide this "out-of-the-box" already. Contact your hosting provider if you encounter issues getting the real-time prices feeds from exchanges, and ask if curl is setup already. See below for an example on adding / editing your own markets into the coin list in config.php...it's very quick / easy to do (see bottom of this file for a pre-configured example set of assets / markets). Currently BTC / XMR / ETH / LTC / USDT based market pairing is compatible. Contact any supported exchanges help desk if you are unaware of the correct formatting of the trading pair name you are adding in the API configuration file (examples: Kraken has abitrary Xs inserted everywhere in SOME older pair names, HitBTC sometimes has tether pairing without the "T" in the symbol name).
 
-Setting up cron jobs for email alerts on price change: 
+Setting up cron jobs for alerts on price change (get email / text / Alexa notifications sent to you, even when you are offline): 
 cron.php in the root directory must be setup as a cron job on the server, if you want to take advantage of cron job based features like email alerts on price change percentage, etc. Consult your web server host's documentation or help desk, for your host's particular method of setting up a cron job. Note that you should have it run every X minutes 24/7, based on how often you want alerts / any other cron based features to run. Every 20 minutes is a good default time interval to start with. Here is an example cron job command for reference below. Replace system paths with the correct ones for your server:
 /path/to/php -q /home/username/path/to/website_install/cron.php
 
@@ -82,7 +82,7 @@ $api_timeout = 10; // Seconds to wait for response from API endpoints
 
 $purge_error_logs = 7; // Days to keep error logs before purging old log entries (deletes ENTIRE set of logs every X days)
 
-$mail_error_logs = 'daily'; // 'no', 'daily', 'weekly' Email to / from MUST BE SET further down in this config file.
+$mail_error_logs = 'daily'; // 'no', 'daily', 'weekly' Email to / from MUST BE SET further down in this config file. ONLY RUNS WHENEVER THE APP IS RUN, MAY NOT BE RELIABLY ACCURATE WITHOUT A CRON JOB
 
 $btc_exchange = 'binance'; // Default Bitcoin value in USD: binance / coinbase / bitfinex / gemini / okcoin / bitstamp / kraken / hitbtc / gatecion / livecoin
 
@@ -135,7 +135,7 @@ $to_email = ''; // For cron job email alerts, MUST BE SET
 $to_text = ''; // For cron job text alerts, CAN BE BLANK, country format MUST be used: '12223334444|number_only' // number_only (for textbelt / textlocal), alltel, att, tmobile, virgin, sprint, verizon, nextel...attempts to email text if carrier is set AND no textbelt / textlocal config is setup
 
 
-// For cron job notifyme notifications, CAN BE BLANK. Setup: http://www.thomptronics.com/notify-me
+// For cron job notifyme notifications (sending Alexa devices notifications for free), CAN BE BLANK. Setup: http://www.thomptronics.com/notify-me
 $notifyme_accesscode = '';
 
 // Do NOT use textbelt AND textlocal together. Leave one setting blank, or it will disable using both.
