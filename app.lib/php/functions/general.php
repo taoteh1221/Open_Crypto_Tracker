@@ -278,18 +278,18 @@ $error_logs .= $_SESSION['api_data_error'];
 
 
 	// If it's time to email error logs...
-	if ( $mail_error_logs == 'daily ' ) {
+	if ( $mail_error_logs == 'daily' ) {
 	$mail_freq = 1;
 	}
-	elseif ( $mail_error_logs == 'weekly ' ) {
+	elseif ( $mail_error_logs == 'weekly' ) {
 	$mail_freq = 7;
 	}
 
 	if ( $mail_freq > 0 && update_cache_file('cache/alerts/email-error-logs.dat', ( $mail_freq * 1440 ) ) == true ) {
 		
-	$message = "Here are the current DFD Cryptocoin Values error logs from the cache/logs/errors.dat file: \n =========================================================================== \n \n"  . file_get_contents('cache/logs/errors.dat');
+	$message = "  Here are the current error logs from the cache/logs/errors.dat file: \n =========================================================================== \n \n"  . file_get_contents('cache/logs/errors.dat');
 	
-	@safe_mail($to_email, ucfirst($mail_error_logs) . ' Error Logs Report', $message);
+	@safe_mail($to_email, 'DFD Cryptocoin Values ' . ucfirst($mail_error_logs) . ' Error Logs Report', $message);
 	
 	file_put_contents('cache/alerts/email-error-logs.dat', date('Y-m-d H:i:s'), LOCK_EX); // Track this emailing event, to determine next time to email logs again.
 	
