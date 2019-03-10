@@ -11,9 +11,9 @@
     
             	<div style='display: none;' id='donate_div' align='center'>
             	
-            	<b>Monero (XMR) Donation Address:</b> <br /><span class='long_linebreak'>47mWWjuwPFiPD6t2MaWcMEfejtQpMuz9oj5hJq18f7nvagcmoJwxudKHUppaWnTMPaMWshMWUTPAUX623KyEtukbSMdmpqu</span>
+            	<b>PayPal:</b> <br /><a href='https://www.paypal.me/dragonfrugal' target='_blank'>https://www.paypal.me/dragonfrugal</a>
+            	<br /><br /><b>Monero (XMR) Donation Address:</b> <br /><span class='long_linebreak'>47mWWjuwPFiPD6t2MaWcMEfejtQpMuz9oj5hJq18f7nvagcmoJwxudKHUppaWnTMPaMWshMWUTPAUX623KyEtukbSMdmpqu</span>
             	<br /><b>Monero Address QR Code (for phones)</b><br /><img src='xmr-donations-qr-code.png' border='0' />
-            	<br /><br /><b>PayPal:</b> <br /><a href='https://www.paypal.me/dragonfrugal' target='_blank'>https://www.paypal.me/dragonfrugal</a>
             
             	</div>
      
