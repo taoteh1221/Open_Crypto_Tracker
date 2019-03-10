@@ -333,7 +333,7 @@ global $_POST, $mining_rewards;
 
 function asset_alert_check($asset_data, $exchange, $pairing, $alert_mode) {
 
-global $coins_array, $btc_exchange, $btc_usd, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $textlocal_account, $cron_alerts_freq, $cron_alerts_percent, $cron_alerts_refresh;
+global $coins_array, $btc_exchange, $btc_usd, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $textlocal_account, $price_alerts_freq, $price_alerts_percent, $price_alerts_refresh;
 
 // Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
 $asset = ( stristr($asset_data, "-") == false ? $asset_data : substr( $asset_data, 0, strpos($asset_data, "-") ) );
@@ -411,21 +411,21 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
 	
   
           if ( $alert_mode == 'decreased' ) {
-          $cron_alerts_value = $cached_value - ( $cached_value * ($cron_alerts_percent / 100) );
+          $price_alerts_value = $cached_value - ( $cached_value * ($price_alerts_percent / 100) );
           $percent_change = 100 - ( $asset_usd / ( $cached_value / 100 ) );
           $change_symbol = '-';
           
-                  if ( floatval($asset_usd) >= 0.00000001 && floatval($asset_usd) <= floatval($cron_alerts_value) ) {
+                  if ( floatval($asset_usd) >= 0.00000001 && floatval($asset_usd) <= floatval($price_alerts_value) ) {
                   $send_alert = 1;
                   }
           
           }
           elseif ( $alert_mode == 'increased' ) {
-          $cron_alerts_value = $cached_value + ( $cached_value * ($cron_alerts_percent / 100) );
+          $price_alerts_value = $cached_value + ( $cached_value * ($price_alerts_percent / 100) );
           $percent_change = ( $asset_usd / ( $cached_value / 100 ) ) - 100;
           $change_symbol = '+';
           
-                  if ( floatval($asset_usd) >= 0.00000001 && floatval($asset_usd) >= floatval($cron_alerts_value) ) {
+                  if ( floatval($asset_usd) >= 0.00000001 && floatval($asset_usd) >= floatval($price_alerts_value) ) {
                   $send_alert = 1;
                   }
           
@@ -462,7 +462,7 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
   
           
           // Sending the alerts
-          if ( update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $cron_alerts_freq * 60 ) ) == true && $send_alert == 1 ) {
+          if ( update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $price_alerts_freq * 60 ) ) == true && $send_alert == 1 ) {
           
           file_put_contents('cache/alerts/'.$asset_data.'.dat', $asset_usd, LOCK_EX); // Cache the new lower / higher value
           
@@ -496,7 +496,7 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
 
 
 	// Cache a price value if not already done, OR if config setting set to refresh every X days
-	if ( floatval($asset_usd) >= 0.00000001 && update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $cron_alerts_refresh * 1440 ) ) == true ) {
+	if ( floatval($asset_usd) >= 0.00000001 && update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $price_alerts_refresh * 1440 ) ) == true ) {
 	file_put_contents('cache/alerts/'.$asset_data.'.dat', $asset_usd, LOCK_EX); 
 	}
 

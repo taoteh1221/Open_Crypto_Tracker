@@ -61,7 +61,7 @@
 				
 				$calculate_daily = ( 24 / $hours );
 				
-				$daily_average = ( $calculate_daily * trim($_POST['block_reward']) );
+				$daily_average = $calculate_daily * trim($_POST['block_reward']);
 				
 				?>
 				

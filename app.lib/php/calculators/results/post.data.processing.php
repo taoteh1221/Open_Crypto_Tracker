@@ -8,6 +8,6 @@
 				$_POST['network_measure'] = str_replace(" ", '', $_POST['network_measure']);
 				$_POST['network_measure'] = str_replace(",", '', $_POST['network_measure']);
 
-				$miner_hashrate = ( trim($_POST['your_hashrate']) * trim($_POST['hash_level']) );
+				$miner_hashrate = trim($_POST['your_hashrate']) * trim($_POST['hash_level']);
 
 ?>

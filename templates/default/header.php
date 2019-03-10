@@ -8,6 +8,8 @@ $start = $time;
 
 require("config.php");
 
+$runtime_mode = 'ui';
+
 ?><!DOCTYPE html>
 <html>
     <!-- /*

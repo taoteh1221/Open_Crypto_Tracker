@@ -914,6 +914,8 @@ app doing the data requests, not a malicious bot)
 -Tweaks
 -Error log system, with emailing support
 -Settings page option for choosing preferred table sorting defaults
+-Check for required CURL module at runtime
+-Setting for proxy alerts to only run during specific runtime modes
 -------------------------------------------------------------------
 
 

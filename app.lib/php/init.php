@@ -20,6 +20,12 @@ if (!defined('PHP_VERSION_ID')) {
     define('PHP_VERSION_ID', ($version[0] * 10000 + $version[1] * 100 + $version[2]));
 }
 
+// Check for curl
+if ( !function_exists('curl_version') ) {
+echo "Curl for PHP (version ID ".PHP_VERSION_ID.") is not installed yet. Curl is required to run this application.";
+exit;
+}
+
 $sort_settings = ( $_COOKIE['sort_by'] ? $_COOKIE['sort_by'] : $_POST['sort_by'] );
 $sort_settings = explode("|",$sort_settings);
 
