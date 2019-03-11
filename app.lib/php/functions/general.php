@@ -283,7 +283,7 @@ $error_logs .= $_SESSION['api_data_error'];
 
 $error_logs = strip_tags($error_logs); // Remove any HTML formatting used in UI alerts
 
-$base_dir = preg_replace("/\/app\.lib\/php\/functions\//i", "", dirname(__FILE__) );
+$base_dir = preg_replace("/\/app\.lib(.*)/i", "", dirname(__FILE__) );
 
 
 	// If it's time to email error logs...
@@ -296,7 +296,7 @@ $base_dir = preg_replace("/\/app\.lib\/php\/functions\//i", "", dirname(__FILE__
 
 	if ( $mail_freq > 0 && update_cache_file('cache/alerts/email-error-logs.dat', ( $mail_freq * 1440 ) ) == true ) {
 		
-	$message = " Here are the current error logs from the ".$base_dir."/cache/logs/errors.dat file: \n =========================================================================== \n \n"  . file_get_contents('cache/logs/errors.dat');
+	$message = " Here are the current error logs from the ".$base_dir."/cache/logs/errors.log file: \n =========================================================================== \n \n"  . file_get_contents('cache/logs/errors.log');
 	
 	@safe_mail($to_email, 'DFD Cryptocoin Values ' . ucfirst($mail_error_logs) . ' Error Logs Report', $message);
 	
@@ -306,11 +306,11 @@ $base_dir = preg_replace("/\/app\.lib\/php\/functions\//i", "", dirname(__FILE__
 	
 	
 	// Log errors...Purge old logs before storing new logs, if it's time to...otherwise just append.
-	if ( $error_logs != null && update_cache_file('cache/logs/errors.dat', ( $purge_error_logs * 1440 ) ) == true ) {
-	file_put_contents('cache/logs/errors.dat', $error_logs, LOCK_EX);
+	if ( $error_logs != null && update_cache_file('cache/logs/errors.log', ( $purge_error_logs * 1440 ) ) == true ) {
+	file_put_contents('cache/logs/errors.log', $error_logs, LOCK_EX);
 	}
 	elseif ( $error_logs != null ) {
-	file_put_contents('cache/logs/errors.dat', $error_logs, FILE_APPEND | LOCK_EX);
+	file_put_contents('cache/logs/errors.log', $error_logs, FILE_APPEND | LOCK_EX);
 	}
 	
 
