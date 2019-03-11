@@ -25,9 +25,9 @@ require_once("app.lib/php/init.php");
 
 $api_timeout = 10; // Seconds to wait for response from API endpoints
 
-$purge_error_logs = 3; // Days to keep error logs before purging old log entries (deletes ENTIRE set of logs every X days)
+$purge_error_logs = 2; // Days to keep error logs before purging old log entries (deletes ENTIRE set of logs every X days) start low, especially when using proxies
 
-$mail_error_logs = 'daily'; // 'no', 'daily', 'weekly' Email to / from MUST BE SET further down in this config file. ONLY RUNS WHENEVER THE APP IS RUN, MAY NOT BE RELIABLY ACCURATE WITHOUT A CRON JOB
+$mail_error_logs = 'daily'; // 'no', 'daily', 'weekly' Email to / from !MUST BE SET! further down in this config file to use this feature. ONLY RUNS WHENEVER THE APP IS RUN, MAY NOT BE RELIABLY ACCURATE WITHOUT A CRON JOB
 
 $btc_exchange = 'binance'; // Default Bitcoin value in USD: binance / coinbase / bitfinex / gemini / okcoin / bitstamp / kraken / hitbtc / gatecion / livecoin
 
@@ -53,7 +53,7 @@ $proxy_list = array(
 					// 'ipaddress2:portnumber2',
 					);
 
-$proxy_alerts = 'none'; // Alert for no proxy data connection. 'none', 'email', or 'text', or 'notifyme', or 'all'...'email' keeps any text / notifyme price alert notifications a lot less cluttered ;-)
+$proxy_alerts = 'email'; // Alerts for failed proxy data connections (if proxies enabled). 'none', 'email', or 'text', or 'notifyme', or 'all'...'email' keeps any text / notifyme price alert notifications a lot less cluttered ;-)
 
 $proxy_alerts_runtime = 'cron'; // Which runtime mode should allow proxy alerts? Options: 'cron', 'ui', 'all' (if proxy alerts are enabled: runs only during cron jobs, user interface usage, or all)
 

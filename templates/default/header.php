@@ -52,8 +52,8 @@ var sorted_by_asc_desc = <?=$sorted_by_asc_desc?>;
 <body>
     
     <audio preload="metadata" id="audio_alert">
-      <source src="templates/default/audio/Smoke-Alarm-SoundBible-1551222038.mp3">
-      <source src="templates/default/audio/Smoke-Alarm-SoundBible-1551222038.ogg">
+      <source src="media/audio/Smoke-Alarm-SoundBible-1551222038.mp3">
+      <source src="media/audio/Smoke-Alarm-SoundBible-1551222038.ogg">
     </audio>
 
     <div align='center' style='width: 98%; margin: auto;'>

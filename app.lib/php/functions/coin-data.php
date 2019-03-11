@@ -676,7 +676,7 @@ $market_pairing = $all_markets[$selected_market];
  	
  	
  		?>
- <?=( $coins_array[$trade_symbol]['ico'] == 'yes' ? "<a title='SEC Website On ICO Guidance And Safety' href='https://www.sec.gov/ICO' target='_blank'><img src='templates/default/images/alert.png' border=0' style='position: absolute; top: 3px; left: 0px; margin: 0px; height: 30px; width: 30px;' /></a> " : "" )?><img id='<?=$mkcap_render_data?>' src='templates/default/images/<?=$info_icon?>' border=0' style='position: absolute; top: 3px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <a title='' href='https://<?=$asset_pagebase?><?=$mkcap_render_data?>/' target='_blank' style='color: blue;'><?php echo $coin_name; ?></a>
+ <?=( $coins_array[$trade_symbol]['ico'] == 'yes' ? "<a title='SEC Website On ICO Guidance And Safety' href='https://www.sec.gov/ICO' target='_blank'><img src='media/images/alert.png' border=0' style='position: absolute; top: 3px; left: 0px; margin: 0px; height: 30px; width: 30px;' /></a> " : "" )?><img id='<?=$mkcap_render_data?>' src='media/images/<?=$info_icon?>' border=0' style='position: absolute; top: 3px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <a title='' href='https://<?=$asset_pagebase?><?=$mkcap_render_data?>/' target='_blank' style='color: blue;'><?php echo $coin_name; ?></a>
  <script>
 
 		<?php
@@ -806,7 +806,7 @@ $market_pairing = $all_markets[$selected_market];
 	else {
   $rand_id = rand(10000000,100000000);
   ?>
-  <img id='<?=$rand_id?>' src='templates/default/images/<?=$info_icon?>' border=0' style='position: absolute; top: 4px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <?=$coin_name?>
+  <img id='<?=$rand_id?>' src='media/images/<?=$info_icon?>' border=0' style='position: absolute; top: 4px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <?=$coin_name?>
  <script>
  $('#<?=$rand_id?>').balloon({
   html: true,

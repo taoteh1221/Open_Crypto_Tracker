@@ -911,7 +911,7 @@ app doing the data requests, not a malicious bot)
 
 -------------------------------------------------------------------
 2.3.1:
--Tweaks
+-Tweaks and optimizations
 -Error log system, with emailing support
 -Settings page option for choosing preferred table sorting defaults
 -Check for required CURL module at runtime

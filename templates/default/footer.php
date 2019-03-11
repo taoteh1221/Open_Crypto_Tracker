@@ -1,8 +1,14 @@
 
     <!- footer START -->
+<?php
 
+	foreach ( $_SESSION['repeat_error'] as $error ) {
+	$other_error_logs .= $error;
+	}
+
+?>
             	
-            	<div id="api_error_alert"><?=( $_SESSION['api_data_error'] ? $_SESSION['api_data_error'] . $_SESSION['cmc_error'] : $_SESSION['cmc_error'] )?></div>
+            	<div id="api_error_alert"><?php echo $_SESSION['api_data_error'] . $other_error_logs . $_SESSION['cmc_error']; ?></div>
             	
     <p align='center'><a href='https://github.com/taoteh1221/DFD_Cryptocoin_Values/releases' target='_blank' title='Download the latest version here.'>Github Releases (running v<?=$app_version?>)</a>
     
@@ -13,7 +19,7 @@
             	
             	<b>PayPal:</b> <br /><a href='https://www.paypal.me/dragonfrugal' target='_blank'>https://www.paypal.me/dragonfrugal</a>
             	<br /><br /><b>Monero (XMR) Donation Address:</b> <br /><span class='long_linebreak'>47mWWjuwPFiPD6t2MaWcMEfejtQpMuz9oj5hJq18f7nvagcmoJwxudKHUppaWnTMPaMWshMWUTPAUX623KyEtukbSMdmpqu</span>
-            	<br /><b>Monero Address QR Code (for phones)</b><br /><img src='xmr-donations-qr-code.png' border='0' />
+            	<br /><b>Monero Address QR Code (for phones)</b><br /><img src='media/images/xmr-donations-qr-code.png' border='0' />
             
             	</div>
      

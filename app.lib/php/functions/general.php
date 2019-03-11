@@ -276,6 +276,11 @@ global $purge_error_logs, $mail_error_logs, $to_email;
 
 $error_logs .= $_SESSION['api_data_error'];
 
+	// Include additional errors logged
+	foreach ( $_SESSION['repeat_error'] as $error ) {
+	$error_logs .= $error;
+	}
+
 $error_logs = strip_tags($error_logs); // Remove any HTML formatting used in UI alerts
 
 $base_dir = preg_replace("/\/app\.lib\/php\/functions\//i", "", dirname(__FILE__) );
@@ -381,16 +386,11 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 
 
 		if ( !$data ) {
-		unlink('cache/api/'.$hash_check.'.dat'); // Delete any existing cache if empty value
-		//echo 'Deleted cache file, no data. '; // DEBUGGING ONLY
 		
-		// SAFE UI ALERT VERSION
-		$_SESSION['api_data_error'] .= date('Y-m-d H:i:s') . ' | runtime mode: ' . $runtime_mode . ' | No data returned from ' . ( $mode == 'array' ? 'API server "' . $api_server : 'request "' . $request ) . '" (with timeout configuration setting of ' . $api_timeout . ' seconds). ' . ( $current_proxy ? 'Proxy used: ' . $current_proxy : 'Direct connection, no proxy used.' ) . "<br /> \n";
+		// SAFE UI ALERT VERSION (no post data with API keys etc)
+		$_SESSION['api_data_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | data attempt from: server (local timeout setting ' . $api_timeout . ' seconds) | proxy: ' .( $current_proxy ? $current_proxy : 'none' ). ' | connection failed for: ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint request at ' . $request ) . "<br /> \n";
 		
-		// DEBUGGING UI ALERT VERSION ONLY, CONTAINS USER DATA (API KEYS ETC)
-		//$_SESSION['api_data_error'] .= date('Y-m-d H:i:s') . ' | runtime mode: ' . $runtime_mode . ' | No data returned from ' . ( $mode == 'array' ? 'API server "' . $api_server : 'request "' . $request ) . '" (with timeout configuration setting of ' . $api_timeout . ' seconds). <br /> ' . ( $mode == 'array' ? '<pre>' . print_r($request, TRUE) . ( $current_proxy ? 'Proxy used: ' . $current_proxy : 'Direct connection, no proxy used.' ) . '</pre>' : '' ) . "<br /> \n";
-		
-			if ( sizeof($proxy_list) > 0 && $current_proxy != '' && $mode != 'proxy-check' ) { // Avoid infinite loops
+			if ( sizeof($proxy_list) > 0 && $current_proxy != '' && $mode != 'proxy-check' ) { // Avoid infinite loops doing proxy checks
 
 			$_SESSION['proxy_checkup'][] = array(
 															'endpoint' => ( $mode == 'array' ? 'API server at ' . $api_server : 'Request URL at ' . $request ),
@@ -401,42 +401,50 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		
 		}
 		
+		
+		// Don't log cmc throttle notices, BUT nullify $data since we're getting no API data (just a throttle notice)
 		if ( preg_match("/coinmarketcap/i", $request) && !preg_match("/last_updated/i", $data) ) {
-		$_SESSION['api_data_error'] .= date('Y-m-d H:i:s') . ' | runtime mode: ' . $runtime_mode . ' | ##REAL-TIME REQUEST## data error response from '.( $mode == 'array' ? $api_server : $request ).': <br /> =================================== <br />' . $data . ' <br /> =================================== ' . ( $current_proxy ? 'Proxy used: ' . $current_proxy : 'Direct connection, no proxy used.' ) . "<br /> \n";
+		$data = NULL;
 		}
 	
-	
-		if ( $data && $ttl > 0 && $mode != 'proxy-check'  ) {
-		//echo 'File caching data '; // DEBUGGING ONLY
-		file_put_contents('cache/api/'.$hash_check.'.dat', $data, LOCK_EX);
-		}
 		
 		// Never cache proxy checking data
 		if ( $mode != 'proxy-check' ) {
 		$_SESSION['api_cache'][$hash_check] = ( $data ? $data : 'none' ); // Cache API data for this runtime session AFTER PERSISTENT FILE CACHE UPDATE, file cache doesn't reliably update until runtime session is ending because of file locking
 		}
+		
+		// Cache data to the file cache
+		if ( $ttl > 0 && $mode != 'proxy-check'  ) {
+		file_put_contents('cache/api/'.$hash_check.'.dat', $_SESSION['api_cache'][$hash_check], LOCK_EX);
+		}
+		
 
-	// DEBUGGING ONLY
-	//$_SESSION['api_data_error'] .= date('Y-m-d H:i:s') . ' | runtime mode: ' . $runtime_mode . ' | ##REQUEST## Requested ' . ( $mode == 'array' ? 'API server "' . $api_server : 'endpoint "' . $request ) . '". <br /> ' . ( $mode == 'array' ? '<pre>' . print_r($request, TRUE) . '</pre>' : '' ) . ( $current_proxy ? 'Proxy used: ' . $current_proxy : 'Direct connection, no proxy used.' ) . "<br /> \n";
 	
 	}
 	elseif ( $ttl < 0 ) {
+	// If flagged for cache file deletion with -1 as $ttl
 	unlink('cache/api/'.$hash_check.'.dat'); // Delete cache if $ttl flagged to less than zero
-	//echo 'Deleted cache file, flagged for deletion. '; // DEBUGGING ONLY
 	}
 	else {
 	
+	
 	// Use session cache if it exists. Remember file cache doesn't update until session is nearly over because of file locking, so only reliable for persisting a cache long term
-	$data = ( $_SESSION['api_cache'][$hash_check] && $_SESSION['api_cache'][$hash_check] != 'none' ? $_SESSION['api_cache'][$hash_check] : file_get_contents('cache/api/'.$hash_check.'.dat') );
-	
-	
-		if ( !preg_match("/coinmarketcap/i", $_SESSION['api_data_error']) && preg_match("/coinmarketcap/i", $request) && !preg_match("/last_updated/i", $data) ) {
-		$_SESSION['cmc_error'] = '##CACHED REQUEST## data error response from '.( $mode == 'array' ? $api_server : $request ).': <br /> =================================== <br />' . $data . ' <br /> =================================== <br />';
+	// If no API data was received, add error notices to UI / error logs
+	$data = ( $_SESSION['api_cache'][$hash_check] ? $_SESSION['api_cache'][$hash_check] : file_get_contents('cache/api/'.$hash_check.'.dat') );
+		
+		if ( $data == 'none' ) {
+		
+			if ( !$_SESSION['error_duplicates'][$hash_check] ) {
+			$_SESSION['error_duplicates'][$hash_check] = 1; 
+			}
+			else {
+			$_SESSION['error_duplicates'][$hash_check] = $_SESSION['error_duplicates'][$hash_check] + 1;
+			}
+			
+		// Don't log this error again during THIS runtime, as it would be a duplicate...just overwrite same error message, BUT update the error count in it
+		$_SESSION['repeat_error'][$hash_check] = date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | data attempt(s) from: cache ('.$_SESSION['error_duplicates'][$hash_check].' runtime instances) | proxy: ' .( $current_proxy ? $current_proxy : 'none' ). ' | no data in cache, from connection failure for: ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint request at ' . $request ) . "<br /> \n";
+			
 		}
-	
-	
-	// DEBUGGING ONLY
-	//$_SESSION['api_data_error'] .= date('Y-m-d H:i:s') . ' | runtime mode: ' . $runtime_mode . ' | ##CACHED## request response for ' . ( $mode == 'array' ? 'API server "' . $api_server : 'endpoint "' . $request ) . '". <br /> ' . ( $mode == 'array' ? '<pre>' . print_r($request, TRUE) . '</pre>' : '' ) . ( $current_proxy ? 'Proxy used: ' . $current_proxy : 'Direct connection, no proxy used.' ) . "<br /> \n";
 	
 	
 	}
