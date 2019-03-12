@@ -473,14 +473,6 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
           
           file_put_contents('cache/alerts/'.$asset_data.'.dat', $asset_usd, LOCK_EX); // Cache the new lower / higher value
           
-                  if (  validate_email($to_email) == 'valid' ) {
-                  @safe_mail($to_email, $asset . ' Asset Value '.ucfirst($alert_mode).' Alert', $email_message);
-                  }
-  
-                  if ( validate_email( text_email($to_text) ) == 'valid' && trim($textbelt_apikey) != '' && trim($textlocal_account) != '' ) { // Only use text-to-email if other text services aren't configured
-                  @safe_mail( text_email($to_text) , $asset . ' Value Alert', $text_message);
-                  }
-  
                   if ( trim($notifyme_accesscode) != '' ) {
                   @api_data('array', $notifyme_params, 0, 'https://api.notifymyecho.com/v1/NotifyMe');
                   }
@@ -492,7 +484,18 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
                   if ( trim($textlocal_account) != '' && trim($textbelt_apikey) == '' ) { // Only run if textbelt API isn't being used to avoid double texts
                   @api_data('array', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
                   }
+           
+           			// SEND EMAILS LAST, AS EMAIL FAILURE CAN BREAK PHP SCRIPTING AND CAUSE RUNTIME TO STOP (causing text / notifyme alerts to fail too)
           
+                  if (  validate_email($to_email) == 'valid' ) {
+                  @safe_mail($to_email, $asset . ' Asset Value '.ucfirst($alert_mode).' Alert', $email_message);
+                  }
+  
+                  if ( validate_email( text_email($to_text) ) == 'valid' && trim($textbelt_apikey) != '' && trim($textlocal_account) != '' ) { 
+                  // Only use text-to-email if other text services aren't configured
+                  @safe_mail( text_email($to_text) , $asset . ' Value Alert', $text_message);
+                  }
+  
           
           }
   

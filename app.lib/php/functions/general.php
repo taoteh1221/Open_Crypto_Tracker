@@ -542,13 +542,7 @@ $proxy_test_url = 'http://httpbin.org/ip';
 		// Send out alerts
 		if ( $misconfigured == 1 || $proxy_checkup_ok == 'include' ) {
                     
-                          
-          if (  validate_email($to_email) == 'valid' && $proxy_alerts == 'email'
-          || validate_email($to_email) == 'valid' && $proxy_alerts == 'all' ) {
-          @safe_mail($to_email, 'A Proxy Was Unresponsive', $email_alert);
-          }
-      
-        
+                      
           // Alert parameter configs for comm methods
           $notifyme_params = array(
                                   'notification' => $notifyme_alert,
@@ -569,10 +563,6 @@ $proxy_test_url = 'http://httpbin.org/ip';
                                    );
       
                     
-           if ( validate_email( text_email($to_text) ) == 'valid' && trim($textbelt_apikey) != '' && trim($textlocal_account) != '' && $proxy_alerts == 'text'
-           || validate_email( text_email($to_text) ) == 'valid' && trim($textbelt_apikey) != '' && trim($textlocal_account) != '' && $proxy_alerts == 'all' ) { // Only use text-to-email if other text services aren't configured
-           @safe_mail( text_email($to_text) , 'Unresponsive Proxy', $text_alert);
-           }
       
            if ( trim($notifyme_accesscode) != '' && $proxy_alerts == 'notifyme'
            || trim($notifyme_accesscode) != '' && $proxy_alerts == 'all' ) {
@@ -587,6 +577,19 @@ $proxy_test_url = 'http://httpbin.org/ip';
            if ( trim($textlocal_account) != '' && trim($textbelt_apikey) == '' && $proxy_alerts == 'text'
            || trim($textlocal_account) != '' && trim($textbelt_apikey) == '' && $proxy_alerts == 'all' ) { // Only run if textbelt API isn't being used to avoid double texts
            @api_data('array', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
+           }
+           
+           // SEND EMAILS LAST, AS EMAIL FAILURE CAN BREAK PHP SCRIPTING AND CAUSE RUNTIME TO STOP (causing text / notifyme alerts to fail too)
+               
+           if (  validate_email($to_email) == 'valid' && $proxy_alerts == 'email'
+           || validate_email($to_email) == 'valid' && $proxy_alerts == 'all' ) {
+           @safe_mail($to_email, 'A Proxy Was Unresponsive', $email_alert);
+           }
+      
+           if ( validate_email( text_email($to_text) ) == 'valid' && trim($textbelt_apikey) != '' && trim($textlocal_account) != '' && $proxy_alerts == 'text'
+           || validate_email( text_email($to_text) ) == 'valid' && trim($textbelt_apikey) != '' && trim($textlocal_account) != '' && $proxy_alerts == 'all' ) { 
+           // Only use text-to-email if other text services aren't configured
+           @safe_mail( text_email($to_text) , 'Unresponsive Proxy', $text_alert);
            }
            
            

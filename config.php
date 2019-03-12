@@ -102,7 +102,7 @@ $price_alerts_freq = 1; // Re-allow cron job price alerts after X hours (per ass
 $price_alerts_percent = 12; // Price percentage change (WITHOUT percent sign: 15 = 15%), sends alerts when percent change reached (up or down)
 
 // Refresh comparison prices every X days (since last refresh / alert) with latest prices...can be 0 to disable refreshing (until price alert triggered)
-$price_alerts_refresh = 3; 
+$price_alerts_refresh = 0; 
 
 // PRICE CHANGE ALERTS REQUIRES CRON JOB SETUP (see README.txt for cron job setup information) 
 // Markets you want cron alerts for (alert sent when $USD value change is equal to or above / below $price_alerts_percent) 
