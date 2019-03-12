@@ -8,12 +8,6 @@
 
                         
                         
-                        
-			<div class='help_section'>
-                            <p><b>Runs Sluggish With Proxies:</b><br />
-                                If page loads are sluggish or throw API connection errors without clearing up, and you have enabled proxy ip addresses, disable them and try again. If it is a bad or misconfigured proxy service causing the issue, this may solve it.</p>
-                        </div>
-                        
 			<div class='help_section'>
                             <p><b>Setting Up Price Alerts:</b><br />
                                 You can setup price change alerts to be sent to your email, mobile phone, and amazon alexa devices. See the required settings in config.php, and instructions on cron job setup in the <a href='README.txt' target='_blank'>README.txt file</a>. Once setup, there is no need to keep your computer turned on. The alerts run automatically from your web server.</p>
@@ -22,6 +16,17 @@
 			<div class='help_section'>
                             <p><b>Monitoring Coins You Don't Hold:</b><br />
                                 In the "Update Coin Amounts" section, for every coin you don't hold <i>but wish to monitor it's real-time value</i>, just set the amount to 0.00000001. This avoids skewing your "Total Bitcoin Value" and "Total USD Value" amounts, but allows you to track these coin value(s).</p>
+                        </div>
+                        
+                        
+			<div class='help_section'>
+                            <p><b>Installing On Your Website, and Adding Your Own Coins:</b><br />
+                                If you install this application on your own server, you can add / delete / edit the coin list very easily. Instructions can be found in the <a href='README.txt' target='_blank'>README.txt file</a>.</p>
+                        </div>
+                        
+			<div class='help_section'>
+                            <p><b>Runs Sluggish With Proxies:</b><br />
+                                If page loads are sluggish or throw API connection errors without clearing up, and you have enabled proxy ip addresses, disable them and try again. If it is a bad or misconfigured proxy service causing the issue, this may solve it.</p>
                         </div>
                         
 			<div class='help_section'>
@@ -33,12 +38,6 @@
 			<div class='help_section'>
                             <p><b>Coinmarketcap.com Data Not Available For An Asset</b><br />
                                 Either the asset has not been added to <a href='https://coinmarketcap.com' target='_blank'>coinmarketcap.com</a> yet, you forgot to add the URL slug in it's config section, or you need to increase the number of rankings to fetch in config.php in the settings section (<?=$marketcap_ranks_max?> rankings is the current setting).</p>
-                        </div>
-                        
-                        
-			<div class='help_section'>
-                            <p><b>Installing On Your Website, and Adding Your Own Coins:</b><br />
-                                If you install this application on your own server, you can add / delete / edit the coin list very easily. Instructions can be found in the <a href='README.txt' target='_blank'>README.txt file</a>.</p>
                         </div>
                         
                         

@@ -88,27 +88,28 @@ global $chainstats_cache;
 
 function decred_api($type, $request) {
  
-global $chainstats_cache;
+global $chainstats_cache, $runtime_mode;
+
+	if ( $runtime_mode != 'ui' ) {
+	return false;  // We only use the block reward config file call for UI data, can skip the API request if not running the UI.
+	}
+ 	else {
  		
- 	if ( $type == 'block' ) {
- 	$json_string = 'https://explorer.dcrdata.org/api/block/best/verbose';
- 	}
- 	elseif ( $type == 'subsidy' ) {
- 	$json_string = 'https://explorer.dcrdata.org/api/block/best/subsidy';
- 	}
- 	
- 	$jsondata = @api_data('url', $json_string, $chainstats_cache);
-  	
-  	$data = json_decode($jsondata, TRUE);
-    
-		if ( !$data ) {
-		return;
-		}
-		else {
-		
+ 		if ( $type == 'block' ) {
+ 		$json_string = 'https://explorer.dcrdata.org/api/block/best/verbose';
+ 		}
+ 		elseif ( $type == 'subsidy' ) {
+ 		$json_string = 'https://explorer.dcrdata.org/api/block/best/subsidy';
+ 		}
+ 		
+ 		$jsondata = @api_data('url', $json_string, $chainstats_cache);
+  		
+  		$data = json_decode($jsondata, TRUE);
+   	 
 		return $data[$request];
-		  
-		}
+			  
+			
+	}
   
 }
 

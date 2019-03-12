@@ -12,9 +12,9 @@ if ( realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) ) {
     exit;
 }
 
-require("config.php");
-
 $runtime_mode = 'cron';
+
+require("config.php");
 
 $btc_usd = get_btc_usd($btc_exchange)['last_trade'];
 
@@ -29,7 +29,6 @@ $pairing = $value[1];
 asset_alert_check($asset, $exchange, $pairing, 'decreased');
 
 asset_alert_check($asset, $exchange, $pairing, 'increased');
-
 
 }
 

@@ -4,9 +4,6 @@
  */
 
 
-$marketcap_site = ( $alert_percent[0] != '' ? $alert_percent[0] : $marketcap_site );
-
-
 if ( sizeof($proxy_list) > 0 ) {
 $user_agent = 'Mozilla/5.0 (compatible; API_Endpoint_Parser;) Gecko Firefox';  // If proxies in use, preserve some privacy
 }
@@ -17,13 +14,22 @@ $user_agent = 'Mozilla/5.0 (compatible; ' . $_SERVER['SERVER_SOFTWARE'] . '; PHP
 
 if ( $smtp_login != '' && $smtp_server != '' ) {
 
+// Initiation of the 3rd party SMTP class
+require_once( dirname(__FILE__) . '/classes/smtp-mailer/SMTPMailer.php');
+$smtp = new SMTPMailer();
+
 // Passing smtp server login vars to config file structure used by the 3rd party SMTP class, to maintain ease with any future upgrade compatibility
 $smtp_vars = smtp_vars();
 global $smtp_vars; // Needed for class compatibility (along with second instance in the class config_smtp.php file)
 
-// Initiation of the 3rd party SMTP class
-require_once( dirname(__FILE__) . '/classes/smtp-mailer/SMTPMailer.php');
-$smtp = new SMTPMailer();
+}
+
+
+
+// Only need below logic during UI runtime
+if ( $runtime_mode == 'ui' ) {
+
+$marketcap_site = ( $alert_percent[0] != '' ? $alert_percent[0] : $marketcap_site );
 
 }
 

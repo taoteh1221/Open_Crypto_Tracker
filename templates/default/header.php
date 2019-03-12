@@ -6,9 +6,9 @@ $time = explode(' ', $time);
 $time = $time[1] + $time[0];
 $start = $time;
 
-require("config.php");
-
 $runtime_mode = 'ui';
+
+require("config.php");
 
 ?><!DOCTYPE html>
 <html>

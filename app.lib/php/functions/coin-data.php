@@ -17,9 +17,16 @@ return ( $data * $steem_market * get_btc_usd($btc_exchange)['last_trade'] );
 //////////////////////////////////////////////////////////
 
 function monero_reward() {
- 		
+	
+global $runtime_mode;
+
+	if ( $runtime_mode != 'ui' ) {
+	return false;  // We only use the block reward config file call for UI data, can skip the API request if not running the UI.
+	}
+	else {
  	return monero_api('last_reward') / 1000000000000;
-  
+   }
+   
 }
 
 //////////////////////////////////////////////////////////
