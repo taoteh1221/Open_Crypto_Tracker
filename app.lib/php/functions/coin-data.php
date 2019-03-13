@@ -485,7 +485,7 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
                   @api_data('array', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
                   }
            
-           			// SEND EMAILS LAST, AS EMAIL FAILURE CAN BREAK PHP SCRIPTING AND CAUSE RUNTIME TO STOP (causing text / notifyme alerts to fail too)
+           			// SEND EMAILS LAST, AS SMTP LOGIN FAILURE (if using included SMTP email feature, and login is wrong) CAN BREAK PHP SCRIPTING (causing text / notifyme alerts to fail too)
           
                   if (  validate_email($to_email) == 'valid' ) {
                   @safe_mail($to_email, $asset . ' Asset Value '.ucfirst($alert_mode).' Alert', $email_message);

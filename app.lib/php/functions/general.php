@@ -579,7 +579,7 @@ $proxy_test_url = 'http://httpbin.org/ip';
            @api_data('array', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
            }
            
-           // SEND EMAILS LAST, AS EMAIL FAILURE CAN BREAK PHP SCRIPTING AND CAUSE RUNTIME TO STOP (causing text / notifyme alerts to fail too)
+           // SEND EMAILS LAST, AS SMTP LOGIN FAILURE (if using included SMTP email feature, and login is wrong) CAN BREAK PHP SCRIPTING (causing text / notifyme alerts to fail too)
                
            if (  validate_email($to_email) == 'valid' && $proxy_alerts == 'email'
            || validate_email($to_email) == 'valid' && $proxy_alerts == 'all' ) {
