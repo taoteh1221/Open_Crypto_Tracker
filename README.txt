@@ -11,7 +11,7 @@ XMR: 47mWWjuwPFiPD6t2MaWcMEfejtQpMuz9oj5hJq18f7nvagcmoJwxudKHUppaWnTMPaMWshMWUTP
 
 PAYPAL: https://www.paypal.me/dragonfrugal
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Feature requests and bug reports can be filed at the following URLS:
+Questions, feature requests, and bug reports can be filed at the following URLS:
 
 https://github.com/taoteh1221/DFD_Cryptocoin_Values/issues
 

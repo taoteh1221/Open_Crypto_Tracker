@@ -920,6 +920,17 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+2.3.2:
+-Fixed SMTP mail bug, added failsafes
+-Fixed price alert cache auto-refresh bug
+-UI tweaks
+-------------------------------------------------------------------
+
+
+
+
+
 
 
 

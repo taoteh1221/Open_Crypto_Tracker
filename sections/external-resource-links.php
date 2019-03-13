@@ -39,6 +39,9 @@
         
         <li class='chart_links'><a href='http://coincap.io' target='_blank'>Coincap.io</a></li>
         
+        <li class='chart_links'><a href='https://www.altdex.co/' target='_blank'>AltDex 100 Cryptocurrency Index (ALT100)</a></li>
+        
+        
         
     </ul>
     </fieldset>
