@@ -23,9 +23,9 @@ require_once("app.lib/php/init.php");
 
 // SEE README.txt FOR HOW TO ADD / EDIT / DELETE COINS IN THIS CONFIG, AND AN EXAMPLE SET OF PRE-CONFIGURED SETTINGS / ASSETS
 
-$api_timeout = 10; // Seconds to wait for response from API endpoints
+$api_timeout = 15; // Seconds to wait for response from API endpoints
 
-$purge_error_logs = 3; // Days to keep error logs before purging (deletes logs every X days) start low, especially when using proxies
+$purge_error_logs = 4; // Days to keep error logs before purging (deletes logs every X days) start low, especially when using proxies
 
 $mail_error_logs = 'daily'; // 'no', 'daily', 'weekly' Email to / from !MUST BE SET! further down in this config file. MAY NOT BE RELIABLE WITHOUT A CRON JOB
 
@@ -39,7 +39,7 @@ $marketcap_cache = 15; // Minutes to cache marketcap data...start high and test 
 
 $last_trade_cache = 1; // Minutes to cache real-time exchange data...can be zero to skip cache, set at least 1 minute to avoid your IP getting blocked
 
-$chainstats_cache = 15; // Minutes to cache blockchain stats (for mining calculators)
+$chainstats_cache = 20; // Minutes to cache blockchain stats (for mining calculators)
 
 
 // If using proxies and login is required
@@ -99,7 +99,7 @@ $textlocal_account = ''; // This format MUST be used: 'username|hash_code'
 
 $price_alerts_freq = 1; // Re-allow cron job price alerts after X hours (per asset, set higher if issues with blacklisting...can be 0)
 
-$price_alerts_percent = 12; // Price percentage change (WITHOUT percent sign: 15 = 15%), sends alerts when percent change reached (up or down)
+$price_alerts_percent = 11; // Price percentage change (WITHOUT percent sign: 15 = 15%), sends alerts when percent change reached (up or down)
 
 // Refresh comparison prices every X days (since last refresh / alert) with latest prices...can be 0 to disable refreshing (until price alert triggered)
 $price_alerts_refresh = 0; 
@@ -177,7 +177,7 @@ $steem_powerdown_time = 13;
 ///////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////// COIN MARKETS CONFIG -START- ///////////////////////////////////////////////
 
-$coins_array = array(
+$coins_list = array(
 
                     // Misc. USD Assets
                     'USD' => array(

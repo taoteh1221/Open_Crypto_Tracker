@@ -8,14 +8,14 @@
 
 			<?php
 			
-			if (is_array($coins_array) || is_object($coins_array)) {
+			if (is_array($coins_list) || is_object($coins_list)) {
 			    
 			    ?>
 			    <p class='settings_sections'>Default Bitcoin Market: <select onchange='
 			    $("#btc_market").val(this.value);
 			    '>
 				<?php
-				foreach ( $coins_array['BTC']['market_pairing']['btc'] as $market_key => $market_name ) {
+				foreach ( $coins_list['BTC']['market_pairing']['btc'] as $market_key => $market_name ) {
 				$loop = $loop + 1;
 				?>
 				<option value='<?=$loop?>' <?=( isset($_POST['btc_market']) && ($_POST['btc_market']) == $loop || isset($btc_market) && $btc_market == ($loop - 1) ? ' selected ' : '' )?>> <?=ucfirst($market_key)?> </option>
@@ -56,7 +56,7 @@
 			    
 			<p class='settings_sections'>
 				
-				Percentage Change Alert (marketcap data):
+				Visual or Audio Alerts For Price Changes (from marketcap data):
 			     
 			    <select name='alert_percent' id='alert_percent' onchange='
 			    if ( this.value == "yes" ) {

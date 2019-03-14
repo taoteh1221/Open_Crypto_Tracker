@@ -52,7 +52,7 @@ if ( $_POST['submit_check'] == 1 ) {
 		  		
 
 		// Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
-		  coin_data($coins_array[$coin_symbol]['coin_name'], $coin_symbol, $value, $coins_array[$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $sort_order);
+		  coin_data($coins_list[$coin_symbol]['coin_name'], $coin_symbol, $value, $coins_list[$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $sort_order);
 		  
 		  
 		  }
@@ -130,7 +130,7 @@ $all_coin_amounts_cookie_array = explode("#", $_COOKIE['coin_amounts']);
 	   $selected_amount = $all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_amount'];
 	   
 		// Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
-	   coin_data($coins_array[$coin_symbol]['coin_name'], $coin_symbol, $selected_amount, $coins_array[$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $sort_order);
+	   coin_data($coins_list[$coin_symbol]['coin_name'], $coin_symbol, $selected_amount, $coins_list[$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $sort_order);
 	   
 	   
 	   
@@ -153,20 +153,17 @@ $all_coin_amounts_cookie_array = explode("#", $_COOKIE['coin_amounts']);
 <?php
 
 $total_btc_worth = bitcoin_total();
-$total_btc_worth2 = number_format($total_btc_worth, 8, '.', ',');
-
 $total_usd_worth = ($total_btc_worth * get_btc_usd($btc_exchange)['last_trade']);
-$total_usd_worth2 = number_format($total_usd_worth, 2, '.', ',');
 
-echo '<p class="bold_1">Total Bitcoin Value: ' . $total_btc_worth2 . '<br />';
+echo '<p class="bold_1">Total Bitcoin Value: ' . number_format($total_btc_worth, 8, '.', ',') . '<br />';
 
-$coins_array_numbered = array_values($coins_array['BTC']['market_pairing']['btc']);
+$coins_list_numbered = array_values($coins_list['BTC']['market_pairing']['btc']);
 
-foreach ( $coins_array['BTC']['market_pairing']['btc'] as $key => $value ) {
+foreach ( $coins_list['BTC']['market_pairing']['btc'] as $key => $value ) {
 $loop = $loop + 1;
 
-	if ( $value == $coins_array_numbered[$btc_market] ) {
-	echo 'Total USD Value: $' . $total_usd_worth2 . ' (1 Bitcoin is currently worth $' .number_format( get_btc_usd($btc_exchange)['last_trade'], 2, '.', ','). ' at '.ucfirst($key).')</p>';
+	if ( $value == $coins_list_numbered[$btc_market] ) {
+	echo 'Total USD Value: $' . number_format($total_usd_worth, 2, '.', ',') . ' (1 Bitcoin is currently worth $' .number_format( get_btc_usd($btc_exchange)['last_trade'], 2, '.', ','). ' at '.ucfirst($key).')</p>';
 	}
 
 }

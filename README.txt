@@ -20,7 +20,7 @@ https://dragonfrugal.com/contact/
 
 Just upload to your PHP-based web server and you should be all set, unless your host is a strict setup related to file writing permissions, in which case the 'cache' directory / all sub-directories permissions should be set to '777' chmod on unix / linux systems (or 'readable / writable' on windows systems). Your web host must have curl modules activated on your HTTP server. Most web hosting companies provide this "out-of-the-box" already. Contact your hosting provider if you encounter issues getting the real-time prices feeds from exchanges, and ask if curl is setup already. See below for an example on adding / editing your own markets into the coin list in config.php...it's very quick / easy to do (see bottom of this file for a pre-configured example set of assets / markets). Currently BTC / XMR / ETH / LTC / USDT based market pairing is compatible. Contact any supported exchanges help desk if you are unaware of the correct formatting of the trading pair name you are adding in the API configuration file (examples: Kraken has abitrary Xs inserted everywhere in SOME older pair names, HitBTC sometimes has tether pairing without the "T" in the symbol name).
 
-Setting up cron jobs for alerts on price change (get email / text / Alexa notifications sent to you, even when you are offline): 
+Setting up cron jobs for price change alerts by email / mobile phone text / amazon alexa notifications (get notifications sent to you, even when you are offline): 
 cron.php in the root directory must be setup as a cron job on the server, if you want to take advantage of cron job based features like email alerts on price change percentage, etc. Consult your web server host's documentation or help desk, for your host's particular method of setting up a cron job. Note that you should have it run every X minutes 24/7, based on how often you want alerts / any other cron based features to run. Every 20 minutes is a good default time interval to start with. Here is an example cron job command for reference below. Replace system paths with the correct ones for your server:
 /path/to/php -q /home/username/path/to/website_install/cron.php
 
@@ -71,7 +71,7 @@ cron.php in the root directory must be setup as a cron job on the server, if you
                     
     
  
-BELOW IS AN !---EXAMPLE---! SET OF CONFIGURED ASSETS AND DEFAULT SETTINGS. PLEASE NOTE THIS IS PROVIDED TO ASSIST YOU IN ADDING YOUR PARTICULAR FAVORITE ASSETS TO THE DEFAULT LIST, AND !---IN NO WAY---! INDICATES ENDORSEMENT OF !---ANY---! OF THESE ASSETS:
+BELOW IS AN EXAMPLE SET OF CONFIGURED ASSETS AND DEFAULT SETTINGS. PLEASE NOTE THIS IS PROVIDED TO ASSIST YOU IN ADDING YOUR PARTICULAR FAVORITE ASSETS TO THE DEFAULT LIST, AND !---IN NO WAY---! INDICATES ENDORSEMENT OF !---ANY---! OF THESE ASSETS:
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -79,9 +79,9 @@ BELOW IS AN !---EXAMPLE---! SET OF CONFIGURED ASSETS AND DEFAULT SETTINGS. PLEAS
 
 // SEE README.txt FOR HOW TO ADD / EDIT / DELETE COINS IN THIS CONFIG, AND AN EXAMPLE SET OF PRE-CONFIGURED SETTINGS / ASSETS
 
-$api_timeout = 10; // Seconds to wait for response from API endpoints
+$api_timeout = 15; // Seconds to wait for response from API endpoints
 
-$purge_error_logs = 3; // Days to keep error logs before purging (deletes logs every X days) start low, especially when using proxies
+$purge_error_logs = 4; // Days to keep error logs before purging (deletes logs every X days) start low, especially when using proxies
 
 $mail_error_logs = 'daily'; // 'no', 'daily', 'weekly' Email to / from !MUST BE SET! further down in this config file. MAY NOT BE RELIABLE WITHOUT A CRON JOB
 
@@ -95,7 +95,7 @@ $marketcap_cache = 15; // Minutes to cache marketcap data...start high and test 
 
 $last_trade_cache = 1; // Minutes to cache real-time exchange data...can be zero to skip cache, set at least 1 minute to avoid your IP getting blocked
 
-$chainstats_cache = 15; // Minutes to cache blockchain stats (for mining calculators)
+$chainstats_cache = 20; // Minutes to cache blockchain stats (for mining calculators)
 
 
 // If using proxies and login is required
@@ -155,7 +155,7 @@ $textlocal_account = ''; // This format MUST be used: 'username|hash_code'
 
 $price_alerts_freq = 1; // Re-allow cron job price alerts after X hours (per asset, set higher if issues with blacklisting...can be 0)
 
-$price_alerts_percent = 12; // Price percentage change (WITHOUT percent sign: 15 = 15%), sends alerts when percent change reached (up or down)
+$price_alerts_percent = 11; // Price percentage change (WITHOUT percent sign: 15 = 15%), sends alerts when percent change reached (up or down)
 
 // Refresh comparison prices every X days (since last refresh / alert) with latest prices...can be 0 to disable refreshing (until price alert triggered)
 $price_alerts_refresh = 0; 
@@ -233,7 +233,7 @@ $steem_powerdown_time = 13;
 ///////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////// COIN MARKETS CONFIG -START- ///////////////////////////////////////////////
 
-$coins_array = array(
+$coins_list = array(
 
                     // Misc. USD Assets
                     'USD' => array(

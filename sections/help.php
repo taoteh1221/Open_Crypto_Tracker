@@ -20,8 +20,8 @@
                         </div>
                         
 			<div class='help_section'>
-                            <p><b>Setting Up Price Alerts:</b><br />
-                                You can setup price change alerts to be sent to your email, mobile phone, and amazon alexa devices. See the required settings in config.php, and instructions on cron job setup in the <a href='README.txt' target='_blank'>README.txt file</a>. Once setup, there is no need to keep your computer turned on. The alerts run automatically from your web server.</p>
+                            <p><b>Setting Up Email / Text / Alexa Price Alerts:</b><br />
+                                You can setup price change alerts to be sent to email, mobile phone text, and amazon alexa notifications. See the required settings in config.php, and instructions on cron job setup in the <a href='README.txt' target='_blank'>README.txt file</a>. Once setup, there is no need to keep your computer turned on. The alerts run automatically from your web server.</p>
                         </div>
                         
 			<div class='help_section'>

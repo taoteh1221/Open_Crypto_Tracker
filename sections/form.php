@@ -10,15 +10,15 @@
 
 <p style='color: red; font-weight: bold;'><i><u>Semi-simplified version of above important disclaimer / advisory</u>:</i> <i>NEVER</i> invest more than you can afford to lose, <i>NEVER</i> buy an asset because of somebody's opinion of it, <i>ALWAYS <u>fully research</u></i> your planned investment beforehand, <i>ALWAYS</i> diversify for you <i>(and yours)</i> safety / sanity, <i><u>ALWAYS AVOID</u></i> <a href='https://twitter.com/hashtag/pumpndump?src=hash' target='_blank'>#pumpndump</a> / <a href='https://twitter.com/hashtag/fomo?src=hash' target='_blank'>#fomo</a> / <a href='https://twitter.com/hashtag/shitcoin?src=hash' target='_blank'>#shxtcoin</a> trading, <i>AND</i> hang on tight till you can't stand fully holding anymore / want to or must make a position exit (percentage) official. Best of luck, be careful out there in this cryptoland frontier <i>full of scams and greedy <u>glorified</u> (and NOT so glorified) crooks</i>! :-o</p>
 
-<p style='font-weight: bold;'><a href='README.txt' target='_blank'>Editing The Coin List On Your Own Server, or Setting Up Price Alerts</a></p>
+<p style='font-weight: bold;'><a href='README.txt' target='_blank'>Editing The Coin List, or Enabling Email / Text / Alexa Price Alerts</a></p>
 
 <form name='coin_amounts' action='<?=$_SERVER['PHP_SELF']?>' method='post'>
 
 <?php
 
-if (is_array($coins_array) || is_object($coins_array)) {
+if (is_array($coins_list) || is_object($coins_list)) {
     
-    foreach ( $coins_array as $coin ) {
+    foreach ( $coins_list as $coin ) {
     
     $field_var_pairing = strtolower($coin['coin_symbol']) . '_pairing';
     $field_var_market = strtolower($coin['coin_symbol']) . '_market';

@@ -22,7 +22,6 @@ global $last_trade_cache;
     					'24hr_usd_volume' => volume_usd('bitcoin', $data['volume'], number_format( $data['price'], 2, '.', ''))
     					);
 
-  
     }
 
 
@@ -35,20 +34,17 @@ global $last_trade_cache;
      $data = json_decode($jsondata, TRUE);
    
   
-  //print_r($data);
       if (is_array($data) || is_object($data)) {
   
        foreach ($data as $key => $value) {
          
-         //print_r($key);
          
          if ( $data[$key]['symbol'] == 'BTCUSDT' ) {
           
          return  array(
-    					'last_trade' => $data[$key]["lastPrice"],
-    					'24hr_usd_volume' => volume_usd('bitcoin', $data[$key]["volume"], $data[$key]["lastPrice"])
-    				);
-          
+    						'last_trade' => $data[$key]["lastPrice"],
+    						'24hr_usd_volume' => volume_usd('bitcoin', $data[$key]["volume"], $data[$key]["lastPrice"])
+    						);
           
          }
        
@@ -72,7 +68,6 @@ global $last_trade_cache;
      
      $data = json_decode($jsondata, TRUE);
   
-  //var_dump($data);
   
       if (is_array($data) || is_object($data)) {
   
@@ -80,13 +75,10 @@ global $last_trade_cache;
          
          if ( $object[0] == 'tBTCUSD' ) {
                  
-          //var_dump($object);
-          
          return  array(
-    					'last_trade' => $object[( sizeof($object) - 4 )],
-    					'24hr_usd_volume' => volume_usd('bitcoin', $object[( sizeof($object) - 3 )], $object[( sizeof($object) - 4 )])
-    				);
-          
+    						'last_trade' => $object[( sizeof($object) - 4 )],
+    						'24hr_usd_volume' => volume_usd('bitcoin', $object[( sizeof($object) - 3 )], $object[( sizeof($object) - 4 )])
+    						);
           
          }
        
@@ -107,13 +99,11 @@ global $last_trade_cache;
     
     $data = json_decode($jsondata, TRUE);
     
-    
     return  array(
     					'last_trade' => number_format( $data['last'], 2, '.', ''),
     					'24hr_usd_volume' => volume_usd('bitcoin', $data['volume'], number_format( $data['last'], 2, '.', ''))
     					);
 
-  
     }
   
 
@@ -121,17 +111,15 @@ global $last_trade_cache;
     
     $json_string = 'https://api.gemini.com/v1/pubticker/btcusd';
     
-      $jsondata = @api_data('url', $json_string, $last_trade_cache);
+    $jsondata = @api_data('url', $json_string, $last_trade_cache);
       
-      $data = json_decode($jsondata, TRUE);
-      
+    $data = json_decode($jsondata, TRUE);
       
     return  array(
     					'last_trade' => number_format( $data['last'], 2, '.', ''),
     					'24hr_usd_volume' => volume_usd('bitcoin', $data['volume']['BTC'], number_format( $data['last'], 2, '.', ''))
     					);
 
-      
     }
 
 
@@ -143,14 +131,11 @@ global $last_trade_cache;
     
     $data = json_decode($jsondata, TRUE);
     
-    
     return  array(
     					'last_trade' => number_format( $data['ticker']['last'], 2, '.', ''),
     					'24hr_usd_volume' => volume_usd('bitcoin', $data['ticker']['vol'], number_format( $data['ticker']['last'], 2, '.', ''))
     					);
-
     
-  
     }
   
   
@@ -161,7 +146,6 @@ global $last_trade_cache;
     $jsondata = @api_data('url', $json_string, $last_trade_cache);
     
     $data = json_decode($jsondata, TRUE);
-    
     
     return  array(
     					'last_trade' => number_format( $data['last'], 2, '.', ''),
@@ -180,21 +164,17 @@ global $last_trade_cache;
       
       $data = json_decode($jsondata, TRUE);
    
-   //var_dump($data);
        if (is_array($data) || is_object($data)) {
          
              foreach ( $data['tickers'] as $key => $value ) {
                
                if ( $data['tickers'][$key]["currencyPair"] == 'BTCUSD' ) {
                 
-                
     				return  array(
     									'last_trade' => $data['tickers'][$key]["last"],
     									'24hr_usd_volume' => volume_usd('bitcoin', $data['tickers'][$key]["volume"], $data['tickers'][$key]["last"])  // Very stubborn, try later
     									);
-
-                
-                
+                 
                }
              
      
@@ -221,14 +201,11 @@ global $last_trade_cache;
                
                if ( $data[$key]['symbol'] == 'BTC/USD' ) {
                 
-                
     				return  array(
     									'last_trade' => $data[$key]["last"],
     									'24hr_usd_volume' => volume_usd('bitcoin', $data[$key]['volume'], $data[$key]["last"])
     									);
-
-                
-                
+                 
                }
              
      
@@ -247,31 +224,20 @@ global $last_trade_cache;
    
    $data = json_decode($jsondata, TRUE);
    
-   //print_r($json_string);print_r($data);
-   
        if (is_array($data) || is_object($data)) {
    
         foreach ($data as $key => $value) {
           
-          //print_r($key);
-          
           if ( $key == 'result' ) {
-      
-          //print_r($data[$key]);
           
            foreach ($data[$key] as $key2 => $value2) {
              
-             //print_r($data[$key][$key2]);
-             
              if ( $key2 == 'XXBTZUSD' ) {
-              
               
     				return  array(
     									'last_trade' => $data[$key][$key2]["c"][0],
     									'24hr_usd_volume' => volume_usd('bitcoin', $data[$key][$key2]["v"][1], $data[$key][$key2]["c"][0])
     									);
-
-              
               
              }
            
@@ -294,7 +260,7 @@ global $last_trade_cache;
 
 function get_coin_value($chosen_market, $market_pairing) {
 
-global $btc_exchange, $coins_array, $last_trade_cache;
+global $btc_exchange, $coins_list, $last_trade_cache;
  
 
   if ( strtolower($chosen_market) == 'gemini' ) {
@@ -308,7 +274,7 @@ global $btc_exchange, $coins_array, $last_trade_cache;
     return array(
     					'last_trade' => number_format( $data['last'], 8, '.', ''),
     					'24hr_usd_volume' => volume_usd($market_pairing, $data['volume'][strtoupper(detect_pairing($market_pairing))], '', detect_pairing($market_pairing))
-    				);
+    					);
   
   }
 
@@ -325,9 +291,8 @@ global $btc_exchange, $coins_array, $last_trade_cache;
     return  array(
     					'last_trade' => number_format( $data['last'], 8, '.', ''),
     					'24hr_usd_volume' => volume_usd($market_pairing, $data["volume"], $data["last"])
-    				);
+    					);
     
-  
   }
 
 
@@ -345,9 +310,8 @@ global $btc_exchange, $coins_array, $last_trade_cache;
     return  array(
     					'last_trade' => number_format( $data['ticker']['last'], 8, '.', ''),
     					'24hr_usd_volume' => volume_usd($market_pairing, $data['ticker']["vol"], $data['ticker']["last"])
-    				);
-    
-  
+    					);
+   
   }
 
 
@@ -361,21 +325,18 @@ global $btc_exchange, $coins_array, $last_trade_cache;
      $data = json_decode($jsondata, TRUE);
    
   
-  //print_r($data);
       if (is_array($data) || is_object($data)) {
   
        foreach ($data as $key => $value) {
          
-         //print_r($key);
          
          if ( $data[$key]['symbol'] == $market_pairing ) {
           
          return  array(
-    					'last_trade' => $data[$key]["lastPrice"],
-    					'24hr_usd_volume' => volume_usd($market_pairing, $data[$key]["volume"], $data[$key]["lastPrice"])
-    				);
-          
-          
+    						'last_trade' => $data[$key]["lastPrice"],
+    						'24hr_usd_volume' => volume_usd($market_pairing, $data[$key]["volume"], $data[$key]["lastPrice"])
+    						);
+
          }
        
      
@@ -395,25 +356,18 @@ global $btc_exchange, $coins_array, $last_trade_cache;
      $jsondata = @api_data('url', $json_string, $last_trade_cache);
      
      $data = json_decode($jsondata, TRUE);
-   
   
-  //print_r($data);
   
       if (is_array($data) || is_object($data)) {
   
        foreach ($data as $key => $value) {
          
-         //print_r($key);
-         
          if ( $key == $market_pairing ) {
          	
-         //print_r($data[$key]);
-         
          return  array(
-    					'last_trade' => $data[$key]["last"],
-    					'24hr_usd_volume' => volume_usd($market_pairing, $data[$key]["baseVolume"], '', detect_pairing($market_pairing))
-    				);
-          
+    							'last_trade' => $data[$key]["last"],
+    							'24hr_usd_volume' => volume_usd($market_pairing, $data[$key]["baseVolume"], '', detect_pairing($market_pairing))
+    						);
           
          }
        
@@ -435,22 +389,17 @@ global $btc_exchange, $coins_array, $last_trade_cache;
      $data = json_decode($jsondata, TRUE);
    
   	  $data = $data['data'];
-  //print_r($data);
   
       if (is_array($data) || is_object($data)) {
   
        foreach ($data as $key => $value) {
          
-         //print_r($key);
-         
          if ( $data[$key]["market_id"] == $market_pairing ) {
          	
-         //print_r($data[$key]);
-         
          return  array(
-    					'last_trade' => $data[$key]["close"],
-    					'24hr_usd_volume' => volume_usd($market_pairing, $data[$key]["volume"], $data[$key]["close"])
-    				);
+    							'last_trade' => $data[$key]["close"],
+    							'24hr_usd_volume' => volume_usd($market_pairing, $data[$key]["volume"], $data[$key]["close"])
+    						);
           
          }
        
@@ -472,12 +421,10 @@ global $btc_exchange, $coins_array, $last_trade_cache;
      
      $data = json_decode($jsondata, TRUE);
 
-     //var_dump($data); // DEBUGGING
-     
      return  array(
     					'last_trade' => $data['price'],
     					'24hr_usd_volume' => volume_usd($market_pairing, $data["volume"], $data['price'])
-    				);
+    					);
    
   }
   
@@ -494,13 +441,13 @@ global $btc_exchange, $coins_array, $last_trade_cache;
 		return  array(
     					'last_trade' => number_format( $data['BRIDGE.BTC']['price'], 8, '.', ''),
     					'24hr_usd_volume' => volume_usd($market_pairing, $data['BRIDGE.BTC']['volume24'], number_format( $data['BRIDGE.BTC']['price'], 8, '.', ''))
-    				);
+    					);
 		}
 		elseif ( preg_match("/OPEN/", $market_pairing) ) {
 		return  array(
     					'last_trade' => number_format( $data['OPEN.BTC']['price'], 8, '.', ''),
     					'24hr_usd_volume' => volume_usd($market_pairing, $data['OPEN.BTC']['volume24'], number_format( $data['OPEN.BTC']['price'], 8, '.', ''))
-    				);
+    					);
 		}
   
     
@@ -517,26 +464,21 @@ global $btc_exchange, $coins_array, $last_trade_cache;
      $jsondata = @api_data('url', $json_string, $last_trade_cache);
      
      $data = json_decode($jsondata, TRUE);
-   
   
-  $data = $data['result'];
-  //print_r($data);
+  	  $data = $data['result'];
+  
       if (is_array($data) || is_object($data)) {
   
        foreach ($data as $key => $value) {
          
-         //print_r($key);
-         
          if ( $data[$key]['MarketName'] == $market_pairing ) {
           
          return  array(
-    					'last_trade' => $data[$key]["Last"],
-    					'24hr_usd_volume' => volume_usd($market_pairing, $data[$key]["Volume"], $data[$key]["Last"])
-    				);
-          
+    							'last_trade' => $data[$key]["Last"],
+    							'24hr_usd_volume' => volume_usd($market_pairing, $data[$key]["Volume"], $data[$key]["Last"])
+    						);
           
          }
-       
      
        }
       
@@ -554,24 +496,20 @@ global $btc_exchange, $coins_array, $last_trade_cache;
      
      $data = json_decode($jsondata, TRUE);
   
-  $data = $data['result'];
-  //print_r($data);
+  		$data = $data['result'];
+  
       if (is_array($data) || is_object($data)) {
   
        foreach ($data as $key => $value) {
          
-         //print_r($key);
-         
          if ( $data[$key]['market'] == $market_pairing ) {
           
          return  array(
-    					'last_trade' => $data[$key]["last"],
-    					'24hr_usd_volume' => volume_usd($market_pairing, $data[$key]["volume"], $data[$key]["last"])
-    				);
-          
+    							'last_trade' => $data[$key]["last"],
+    							'24hr_usd_volume' => volume_usd($market_pairing, $data[$key]["volume"], $data[$key]["last"])
+    						);
           
          }
-       
      
        }
       
@@ -588,19 +526,17 @@ global $btc_exchange, $coins_array, $last_trade_cache;
   
   $data = json_decode($jsondata, TRUE);
   
-  //print_r($data);
       if (is_array($data) || is_object($data)) {
   
        foreach ($data as $key => $value) {
          
-         //print_r($key);
          
          if ( $key == $market_pairing ) {
           
          return  array(
-    					'last_trade' => $data[$key]["last"],
-    					'24hr_usd_volume' => NULL
-    				);
+    							'last_trade' => $data[$key]["last"],
+    							'24hr_usd_volume' => NULL
+    						);
           
           
          }
@@ -634,25 +570,19 @@ global $btc_exchange, $coins_array, $last_trade_cache;
      $jsondata = @api_data('url', $json_string, $last_trade_cache);
      
      $data = json_decode($jsondata, TRUE);
-   
   
-  //print_r($data);
       if (is_array($data) || is_object($data)) {
   
        foreach ($data as $key => $value) {
          
-         //print_r($key);
-         
          if ( $key == $market_pairing ) {
           
          return  array(
-    					'last_trade' => $data[$key]["last"],
-    					'24hr_usd_volume' => volume_usd($market_pairing, $data[$key]["quoteVolume"], $data[$key]["last"])
-    				);
-          
+    							'last_trade' => $data[$key]["last"],
+    							'24hr_usd_volume' => volume_usd($market_pairing, $data[$key]["quoteVolume"], $data[$key]["last"])
+    						);
           
          }
-       
      
        }
       
@@ -668,25 +598,19 @@ global $btc_exchange, $coins_array, $last_trade_cache;
      $jsondata = @api_data('url', $json_string, $last_trade_cache);
      
      $data = json_decode($jsondata, TRUE);
-   
   
-  //print_r($data);
       if (is_array($data) || is_object($data)) {
   
        foreach ($data as $key => $value) {
          
-         //print_r($value);
-         
          if ( $data[$key][$market_pairing] != '' ) {
           
          return  array(
-    					'last_trade' => $data[$key][$market_pairing]["price"],
-    					'24hr_usd_volume' => volume_usd($market_pairing, $data[$key][$market_pairing]["volume"], '', detect_pairing($market_pairing))
-    				);
-          
+    							'last_trade' => $data[$key][$market_pairing]["price"],
+    							'24hr_usd_volume' => volume_usd($market_pairing, $data[$key][$market_pairing]["volume"], '', detect_pairing($market_pairing))
+    						);
           
          }
-       
      
        }
       
@@ -703,24 +627,20 @@ global $btc_exchange, $coins_array, $last_trade_cache;
      
      $data = json_decode($jsondata, TRUE);
    
-  $data = $data['ticker'];
-  //print_r($data);
+  		$data = $data['ticker'];
+  
       if (is_array($data) || is_object($data)) {
   
        foreach ($data as $key => $value) {
          
-         //print_r($key);
-         
          if ( $data[$key]["symbol"] == $market_pairing ) {
           
          return  array(
-    					'last_trade' => $data[$key]["last"],
-    					'24hr_usd_volume' => volume_usd($market_pairing, $data[$key]["vol"], $data[$key]["last"])
-    				);
-          
+    							'last_trade' => $data[$key]["last"],
+    							'24hr_usd_volume' => volume_usd($market_pairing, $data[$key]["vol"], $data[$key]["last"])
+    						);
           
          }
-       
      
        }
       
@@ -736,24 +656,19 @@ global $btc_exchange, $coins_array, $last_trade_cache;
      $jsondata = @api_data('url', $json_string, $last_trade_cache);
      
      $data = json_decode($jsondata, TRUE);
-   
-  //print_r($data);
+  
       if (is_array($data) || is_object($data)) {
   
        foreach ($data as $key => $value) {
          
-         //print_r($key);
-         
          if ( $key == $market_pairing ) {
           
          return  array(
-    					'last_trade' => $data[$key]["last"],
-    					'24hr_usd_volume' => volume_usd($market_pairing, $data[$key]["quoteVolume"], $data[$key]["last"])
-    				);
-          
+    							'last_trade' => $data[$key]["last"],
+    							'24hr_usd_volume' => volume_usd($market_pairing, $data[$key]["quoteVolume"], $data[$key]["last"])
+    						);
           
          }
-       
      
        }
       
@@ -769,26 +684,21 @@ global $btc_exchange, $coins_array, $last_trade_cache;
      $jsondata = @api_data('url', $json_string, $last_trade_cache);
      
      $data = json_decode($jsondata, TRUE);
-   
   
-  $data = $data['data'];
-  //print_r($data);
+  		$data = $data['data'];
+  
       if (is_array($data) || is_object($data)) {
   
        foreach ($data as $key => $value) {
          
-         //print_r($key);
-         
          if ( $data[$key]['symbol'] == $market_pairing ) {
           
          return  array(
-    					'last_trade' => $data[$key]["lastDealPrice"],
-    					'24hr_usd_volume' => NULL  // V1 offline, no docs yet for V2??
-    				);
-          
+    							'last_trade' => $data[$key]["lastDealPrice"],
+    							'24hr_usd_volume' => NULL  // V1 offline, no docs yet for V2??
+    						);
           
          }
-       
      
        }
       
@@ -804,24 +714,19 @@ global $btc_exchange, $coins_array, $last_trade_cache;
      $jsondata = @api_data('url', $json_string, $last_trade_cache);
      
      $data = json_decode($jsondata, TRUE);
-     
-  //print_r($data);
+  
       if (is_array($data) || is_object($data)) {
   
        foreach ($data as $key => $value) {
          
-         //print_r($key);
-         
          if ( $data[$key]['symbol'] == $market_pairing ) {
           
          return  array(
-    					'last_trade' => $data[$key]["last"],
-    					'24hr_usd_volume' => volume_usd($market_pairing, $data[$key]["volume"], $data[$key]["last"])
-    				);
-          
+    							'last_trade' => $data[$key]["last"],
+    							'24hr_usd_volume' => volume_usd($market_pairing, $data[$key]["volume"], $data[$key]["last"])
+    						);
           
          }
-       
      
        }
       
@@ -838,25 +743,20 @@ global $btc_exchange, $coins_array, $last_trade_cache;
      
      $data = json_decode($jsondata, TRUE);
   
-  $data = $data['Data'];
+  		$data = $data['Data'];
   
-  //print_r($data);
       if (is_array($data) || is_object($data)) {
   
            foreach ($data as $key => $value) {
             
-            //print_r($key);
-            
             if ( $data[$key]['Label'] == $market_pairing ) {
              
             return  array(
-    					'last_trade' => $data[$key]["LastPrice"],
-    					'24hr_usd_volume' => NULL  // Offline from hack
-    				);
-             
+    							'last_trade' => $data[$key]["LastPrice"],
+    							'24hr_usd_volume' => NULL  // Offline from hack
+    							);
              
             }
-          
         
           }
       
@@ -872,24 +772,19 @@ global $btc_exchange, $coins_array, $last_trade_cache;
      $jsondata = @api_data('url', $json_string, $last_trade_cache);
      
      $data = json_decode($jsondata, TRUE);
-     
-  //print_r($data);
+  
       if (is_array($data) || is_object($data)) {
   
        foreach ($data as $key => $value) {
          
-         //print_r($key);
-         
          if ( $key == $market_pairing ) {
           
          return  array(
-    					'last_trade' => $data[$key]["last"],
-    					'24hr_usd_volume' => volume_usd($market_pairing, $data[$key]["volume"], $data[$key]["last"])
-    				);
-          
+    							'last_trade' => $data[$key]["last"],
+    							'24hr_usd_volume' => volume_usd($market_pairing, $data[$key]["volume"], $data[$key]["last"])
+    						);
           
          }
-       
      
        }
       
@@ -905,24 +800,20 @@ global $btc_exchange, $coins_array, $last_trade_cache;
      $jsondata = @api_data('url', $json_string, $last_trade_cache);
      
      $data = json_decode($jsondata, TRUE);
-     
-  //print_r($data);
+  
       if (is_array($data) || is_object($data)) {
   
        foreach ($data as $key => $value) {
          
-         //var_dump($data);
          
          if ( $data[$key]['pair'] == $market_pairing ) {
           
          return  array(
-    					'last_trade' => $data[$key]['rate'],
-    					'24hr_usd_volume' => NULL  // Offline
-    				);
-          
+    							'last_trade' => $data[$key]['rate'],
+    							'24hr_usd_volume' => NULL  // Offline
+    						);
           
          }
-       
      
        }
       
@@ -939,24 +830,20 @@ global $btc_exchange, $coins_array, $last_trade_cache;
      $jsondata = @api_data('url', $json_string, $last_trade_cache);
      
      $data = json_decode($jsondata, TRUE);
-     
-  //print_r($data);
+  
       if (is_array($data) || is_object($data)) {
   
        foreach ($data as $key => $value) {
          
-         //var_dump($data);
          
          if ( $data[$market_pairing] != '' ) {
           
          return  array(
-    					'last_trade' => $data[$market_pairing]['ticker']['last'],
-    					'24hr_usd_volume' => volume_usd($market_pairing, $data[$market_pairing]['ticker']['vol'], $data[$market_pairing]['ticker']['last'])
-    				);
-          
+    							'last_trade' => $data[$market_pairing]['ticker']['last'],
+    							'24hr_usd_volume' => volume_usd($market_pairing, $data[$market_pairing]['ticker']['vol'], $data[$market_pairing]['ticker']['last'])
+    						);
           
          }
-       
      
        }
       
@@ -974,32 +861,22 @@ global $btc_exchange, $coins_array, $last_trade_cache;
   
   $data = json_decode($jsondata, TRUE);
   
-  //print_r($json_string);print_r($data);
-  
       if (is_array($data) || is_object($data)) {
   
        foreach ($data as $key => $value) {
          
-         //print_r($key);
-         
          if ( $key == 'result' ) {
-     
-         //print_r($data[$key]);
          
           foreach ($data[$key] as $key2 => $value2) {
-            
-            //print_r($data[$key][$key2]);
             
             if ( $key2 == $market_pairing ) {
              
             return  array(
-    					'last_trade' => $data[$key][$key2]["c"][0],
-    					'24hr_usd_volume' => volume_usd($market_pairing, $data[$key][$key2]["v"][1], $data[$key][$key2]["c"][0])
-    				);
-             
+    								'last_trade' => $data[$key][$key2]["c"][0],
+    								'24hr_usd_volume' => volume_usd($market_pairing, $data[$key][$key2]["v"][1], $data[$key][$key2]["c"][0])
+    							);
              
             }
-          
         
           }
        
@@ -1022,7 +899,6 @@ global $btc_exchange, $coins_array, $last_trade_cache;
      
      $data = json_decode($jsondata, TRUE);
   
-  //var_dump($data);
       if (is_array($data) || is_object($data)) {
   
        foreach ( $data['tickers'] as $key => $value ) {
@@ -1030,13 +906,11 @@ global $btc_exchange, $coins_array, $last_trade_cache;
          if ( $data['tickers'][$key]["currencyPair"] == $market_pairing ) {
           
          return  array(
-    					'last_trade' => $data['tickers'][$key]["last"],
-    					'24hr_usd_volume' => volume_usd($market_pairing, $data['tickers'][$key]["volume"], $data['tickers'][$key]["last"])
-    				);
-          
+    							'last_trade' => $data['tickers'][$key]["last"],
+    							'24hr_usd_volume' => volume_usd($market_pairing, $data['tickers'][$key]["volume"], $data['tickers'][$key]["last"])
+    						);
           
          }
-       
      
        }
       
@@ -1050,7 +924,7 @@ global $btc_exchange, $coins_array, $last_trade_cache;
   elseif ( strtolower($chosen_market) == 'upbit' ) {
   	
   	
-  		foreach ( $coins_array as $markets ) {
+  		foreach ( $coins_list as $markets ) {
   		
   			foreach ( $markets['market_pairing'] as $exchange_pairs ) {
   			
@@ -1072,8 +946,6 @@ global $btc_exchange, $coins_array, $last_trade_cache;
      
      $data = json_decode($jsondata, TRUE);
   
-  //var_dump($data);
-  
       if (is_array($data) || is_object($data)) {
   
        foreach ( $data as $key => $value ) {
@@ -1081,13 +953,11 @@ global $btc_exchange, $coins_array, $last_trade_cache;
          if ( $data[$key]["market"] == $market_pairing ) {
           
          return  array(
-    					'last_trade' => $data[$key]["trade_price"],
-    					'24hr_usd_volume' => volume_usd($market_pairing, $data[$key]["acc_trade_volume_24h"], $data[$key]["trade_price"])
-    				);
-          
+    							'last_trade' => $data[$key]["trade_price"],
+    							'24hr_usd_volume' => volume_usd($market_pairing, $data[$key]["acc_trade_volume_24h"], $data[$key]["trade_price"])
+    						);
           
          }
-       
      
        }
       
@@ -1106,24 +976,19 @@ global $btc_exchange, $coins_array, $last_trade_cache;
      
      $data = json_decode($jsondata, TRUE);
   
-  //var_dump($data);
-  
       if (is_array($data) || is_object($data)) {
   
        foreach ( $data as $object ) {
          
          if ( $object[0] == $market_pairing ) {
                  
-          //var_dump($object);
           
          return  array(
-    					'last_trade' => $object[( sizeof($object) - 4 )],
-    					'24hr_usd_volume' => volume_usd($market_pairing, $object[( sizeof($object) - 3 )], $object[( sizeof($object) - 4 )])
-    				);
-          
+    							'last_trade' => $object[( sizeof($object) - 4 )],
+    							'24hr_usd_volume' => volume_usd($market_pairing, $object[( sizeof($object) - 3 )], $object[( sizeof($object) - 4 )])
+    						);
           
          }
-       
      
        }
       
@@ -1141,25 +1006,25 @@ global $btc_exchange, $coins_array, $last_trade_cache;
      return  array(
     					'last_trade' => $usdtobtc,
     					'24hr_usd_volume' => NULL
-    				);
+    					);
      }
 	  elseif ( $market_pairing == 'usdtoxmr' ) {
      return  array(
     					'last_trade' => ( 1 / ( get_coin_value('binance', 'XMRBTC')['last_trade'] / $usdtobtc ) ),
     					'24hr_usd_volume' => NULL
-    				);
+    					);
      }
 	  elseif ( $market_pairing == 'usdtoeth' ) {
      return  array(
     					'last_trade' => ( 1 / ( get_coin_value('binance', 'ETHBTC')['last_trade'] / $usdtobtc ) ),
     					'24hr_usd_volume' => NULL
-    				);
+    					);
      }
 	  elseif ( $market_pairing == 'usdtoltc' ) {
      return  array(
     					'last_trade' => ( 1 / ( get_coin_value('binance', 'LTCBTC')['last_trade'] / $usdtobtc ) ),
     					'24hr_usd_volume' => NULL
-    				);
+    					);
      }
   
   
