@@ -56,7 +56,7 @@
 			    
 			<p class='settings_sections'>
 				
-				Visual or Audio Alerts For Price Changes (from marketcap data):
+				Visual or Audio Marketcap Data Alerts For Price Changes:
 			     
 			    <select name='alert_percent' id='alert_percent' onchange='
 			    if ( this.value == "yes" ) {

@@ -31,7 +31,7 @@ $mail_error_logs = 'daily'; // 'no', 'daily', 'weekly' Email to / from !MUST BE 
 
 $btc_exchange = 'binance'; // Default Bitcoin to USD: binance / coinbase / bitfinex / gemini / okcoin / bitstamp / kraken / hitbtc / gatecion / livecoin
 
-$marketcap_site = 'coinmarketcap'; // Default marketcap data source: coinmarketcap / coingecko
+$marketcap_site = 'coinmarketcap'; // Default marketcap data source: 'coinmarketcap', or 'coingecko'
 
 $marketcap_ranks_max = 200; // Number of marketcap rankings to request from API. Ranks are grabbed 100 per request. Set to 100 if you are throttled a lot.
 
@@ -58,7 +58,7 @@ $proxy_alerts = 'email'; // Alerts for failed proxy data connections. 'none', 'e
 
 $proxy_alerts_runtime = 'cron'; // Which runtime mode should allow proxy alerts? Options: 'cron', 'ui', 'all'
 
-$proxy_checkup_ok = 'ignore'; // Proxy alerts even if checkup went OK? (after flagged, started working again when checked) 'include', 'ignore'
+$proxy_checkup_ok = 'ignore'; // 'include', or 'ignore' Proxy alerts even if checkup went OK? (after flagged, started working again when checked) 
 
 $proxy_alerts_freq = 1; // Re-allow proxy alerts after X hours (per ip/port pair, can be 0)
 
@@ -75,41 +75,41 @@ $smtp_secure = ''; // CAN BE BLANK '' for no secure connection, or 'tls', or 'ss
 
 
 // IF SMTP EMAIL --NOT-- USED, FROM email should be REAL address on the website domain, or risk having email blacklisted / sent to junk folder
-// IF SMTP EMAIL --IS-- USED, THIS MUST MATCH EMAIL ADDRESS associated with SMTP login
+// IF SMTP EMAIL --IS-- USED, FROM EMAIL MUST MATCH EMAIL ADDRESS associated with SMTP login
 $from_email = ''; // For email features this MUST BE SET
 
 $to_email = ''; // For email features this MUST BE SET
 
-// For price alert texts, CAN BE BLANK. Attempts to email text if carrier is set AND no textbelt / textlocal config is setup
+// For exchange price alert texts, CAN BE BLANK. Attempts to email text if carrier is set AND no textbelt / textlocal config is setup
  // Country format MUST be used: '12223334444|number_only' number_only (for textbelt / textlocal), alltel, att, tmobile, virgin, sprint, verizon, nextel
 $to_text = '';
 
-// For price alert notifyme notifications (sending Alexa devices notifications for free), CAN BE BLANK. 
+// For exchange price alert notifyme alexa notifications (sending Alexa devices notifications for free), CAN BE BLANK. 
 // Setup: http://www.thomptronics.com/notify-me
 $notifyme_accesscode = '';
 
 // Do NOT use textbelt AND textlocal together. Leave one setting blank, or it will disable using both.
 
-// For price alert textbelt notifications, CAN BE BLANK. Setup: https://textbelt.com/
+// For exchange price alert textbelt notifications, CAN BE BLANK. Setup: https://textbelt.com/
 $textbelt_apikey = '';
 
-// For price alert textlocal notifications, CAN BE BLANK. Setup: https://www.textlocal.com/integrations/api/
+// For exchange price alert textlocal notifications, CAN BE BLANK. Setup: https://www.textlocal.com/integrations/api/
 $textlocal_account = ''; // This format MUST be used: 'username|hash_code'
 
 
-$price_alerts_freq = 1; // Re-allow cron job price alerts after X hours (per asset, set higher if issues with blacklisting...can be 0)
+$exchange_price_alerts_freq = 1; // Re-allow cron job price alerts after X hours (per asset, set higher if issues with blacklisting...can be 0)
 
-$price_alerts_percent = 11; // Price percentage change (WITHOUT percent sign: 15 = 15%), sends alerts when percent change reached (up or down)
+$exchange_price_alerts_percent = 11; // Price percentage change (WITHOUT percent sign: 15 = 15%), sends alerts when percent change reached (up or down)
 
 // Refresh comparison prices every X days (since last refresh / alert) with latest prices...can be 0 to disable refreshing (until price alert triggered)
-$price_alerts_refresh = 0; 
+$exchange_price_alerts_refresh = 0; 
 
-// PRICE CHANGE ALERTS REQUIRES CRON JOB SETUP (see README.txt for cron job setup information) 
-// Markets you want cron alerts for (alert sent when $USD value change is equal to or above / below $price_alerts_percent) 
+// EXCHANGE PRICE CHANGE ALERTS REQUIRES CRON JOB SETUP (see README.txt for cron job setup information) 
+// Markets you want exchange price change alerts for (alert sent when $USD value change is equal to or above / below $exchange_price_alerts_percent) 
 // Delete any double forward slashes from in front of each asset you want to enable cron job price alerts on (or add double slash to disable alerts)
 // NOTE: This list must only contain assets / exchanges / trading pairs included in the primary coin data configuration further down in this config file
 // TO ADD MULTIPLE ALERTS FOR SAME ASSET (FOR DIFFERENT EXCHANGES / TRADE PAIRINGS), FORMAT LIKE SO: symbol, symbol-1, symbol-2, etc.
-$price_alerts = array(
+$exchange_price_alerts = array(
 					'btc' => 'bitstamp|btc', // exchange|trade_pairing
 					'btc-2' => 'binance|btc', // exchange|trade_pairing
 					'eth' => 'binance|usdt', // exchange|trade_pairing

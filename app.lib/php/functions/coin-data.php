@@ -340,7 +340,7 @@ global $_POST, $mining_rewards;
 
 function asset_alert_check($asset_data, $exchange, $pairing, $alert_mode) {
 
-global $coins_list, $btc_exchange, $btc_usd, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $textlocal_account, $price_alerts_freq, $price_alerts_percent, $price_alerts_refresh;
+global $coins_list, $btc_exchange, $btc_usd, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $textlocal_account, $exchange_price_alerts_freq, $exchange_price_alerts_percent, $exchange_price_alerts_refresh;
 
 // Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
 $asset = ( stristr($asset_data, "-") == false ? $asset_data : substr( $asset_data, 0, strpos($asset_data, "-") ) );
@@ -418,21 +418,21 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
 	
   
           if ( $alert_mode == 'decreased' ) {
-          $price_alerts_value = $cached_value - ( $cached_value * ($price_alerts_percent / 100) );
+          $exchange_price_alerts_value = $cached_value - ( $cached_value * ($exchange_price_alerts_percent / 100) );
           $percent_change = 100 - ( $asset_usd / ( $cached_value / 100 ) );
           $change_symbol = '-';
           
-                  if ( floatval($asset_usd) >= 0.00000001 && floatval($asset_usd) <= floatval($price_alerts_value) ) {
+                  if ( floatval($asset_usd) >= 0.00000001 && floatval($asset_usd) <= floatval($exchange_price_alerts_value) ) {
                   $send_alert = 1;
                   }
           
           }
           elseif ( $alert_mode == 'increased' ) {
-          $price_alerts_value = $cached_value + ( $cached_value * ($price_alerts_percent / 100) );
+          $exchange_price_alerts_value = $cached_value + ( $cached_value * ($exchange_price_alerts_percent / 100) );
           $percent_change = ( $asset_usd / ( $cached_value / 100 ) ) - 100;
           $change_symbol = '+';
           
-                  if ( floatval($asset_usd) >= 0.00000001 && floatval($asset_usd) >= floatval($price_alerts_value) ) {
+                  if ( floatval($asset_usd) >= 0.00000001 && floatval($asset_usd) >= floatval($exchange_price_alerts_value) ) {
                   $send_alert = 1;
                   }
           
@@ -469,7 +469,7 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
   
           
           // Sending the alerts
-          if ( update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $price_alerts_freq * 60 ) ) == true && $send_alert == 1 ) {
+          if ( update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $exchange_price_alerts_freq * 60 ) ) == true && $send_alert == 1 ) {
           
           file_put_contents('cache/alerts/'.$asset_data.'.dat', $asset_usd, LOCK_EX); // Cache the new lower / higher value
           
@@ -509,7 +509,7 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
 	if ( floatval($asset_usd) >= 0.00000001 && !file_exists('cache/alerts/'.$asset_data.'.dat') ) {
 	file_put_contents('cache/alerts/'.$asset_data.'.dat', $asset_usd, LOCK_EX); 
 	}
-	elseif ( $price_alerts_refresh >= 1 && floatval($asset_usd) >= 0.00000001 && update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $price_alerts_refresh * 1440 ) ) == true ) {
+	elseif ( $exchange_price_alerts_refresh >= 1 && floatval($asset_usd) >= 0.00000001 && update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $exchange_price_alerts_refresh * 1440 ) ) == true ) {
 	file_put_contents('cache/alerts/'.$asset_data.'.dat', $asset_usd, LOCK_EX); 
 	}
 

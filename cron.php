@@ -18,7 +18,7 @@ require("config.php");
 
 $btc_usd = get_btc_usd($btc_exchange)['last_trade'];
 
-foreach ( $price_alerts as $key => $value ) {
+foreach ( $exchange_price_alerts as $key => $value ) {
 	
 $value = explode("|",$value); // Convert $value into an array
 

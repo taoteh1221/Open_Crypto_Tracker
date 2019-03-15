@@ -936,6 +936,13 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+2.3.4:
+-Semantics differentiating between marketcap visual or audio alerts in the UI, and exchange price alerts for email / text / alexa notifications.
+-------------------------------------------------------------------
+
+
+
 
 
 
