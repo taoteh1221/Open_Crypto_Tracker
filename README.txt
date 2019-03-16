@@ -153,7 +153,7 @@ $textbelt_apikey = '';
 $textlocal_account = ''; // This format MUST be used: 'username|hash_code'
 
 
-$exchange_price_alerts_freq = 1; // Re-allow cron job price alerts after X hours (per asset, set higher if issues with blacklisting...can be 0)
+$exchange_price_alerts_freq = 20; // Re-allow cron job price alerts after X minutes (per asset, set higher if issues with blacklisting...can be 0)
 
 $exchange_price_alerts_percent = 11; // Price percentage change (WITHOUT percent sign: 15 = 15%), sends alerts when percent change reached (up or down)
 

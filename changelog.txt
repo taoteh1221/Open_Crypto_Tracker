@@ -943,6 +943,14 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+2.3.5:
+-Changed minimum 'send new exchange price alerts' time setting from hours to minutes
+-------------------------------------------------------------------
+
+
+
+
 
 
 

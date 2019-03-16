@@ -469,7 +469,7 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
   
           
           // Sending the alerts
-          if ( update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $exchange_price_alerts_freq * 60 ) ) == true && $send_alert == 1 ) {
+          if ( update_cache_file('cache/alerts/'.$asset_data.'.dat', $exchange_price_alerts_freq) == true && $send_alert == 1 ) {
           
           file_put_contents('cache/alerts/'.$asset_data.'.dat', $asset_usd, LOCK_EX); // Cache the new lower / higher value
           
