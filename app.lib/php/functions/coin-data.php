@@ -64,14 +64,17 @@ return $total_value;
 
 function detect_pairing($pair_name) {
 
-$pair_name = preg_replace("/tusd/i", "0000", $pair_name); // SKIP TRUEUSD
-$pair_name = preg_replace("/usdc/i", "0000", $pair_name); // SKIP USD Coin
+$pair_name = preg_replace("/usdc/i", "0000", $pair_name); // SKIP 'USD Coin' FOR NOW
 
 	if ( !preg_match("/btc/i", $pair_name) && !preg_match("/xxbt/i", $pair_name) ) {
 	
 		// On rare occasion USDT is represented in pairing names as USD
-		if ( preg_match("/usd/i", $pair_name) ) {
+		if ( preg_match("/usd/i", $pair_name) && !preg_match("/tusd/i", $pair_name)
+		|| preg_match("/usdt/i", $pair_name) ) {
 		return 'usdt'; // Tether
+		}
+		elseif ( preg_match("/tusd/i", $pair_name) && !preg_match("/usdt/i", $pair_name) ) {
+		return 'tusd'; // TrueUSD
 		}
 		elseif ( preg_match("/eth/i", $pair_name) && !preg_match("/usd/i", $pair_name) ) {
 		return 'eth';
@@ -111,18 +114,25 @@ $pairing = detect_pairing($pair_name);
 	$btc_usd = get_btc_usd($btc_exchange)['last_trade'];
 	}
 
-
+	// XMR
    if ( $pairing == 'xmr' && !$_SESSION['xmr_btc'] || $vol_in_pairing == 'xmr' && !$_SESSION['xmr_btc'] ) {
    $_SESSION['xmr_btc'] = get_coin_value('binance', 'XMRBTC')['last_trade'];
    }
+   // LTC
    elseif ( $pairing == 'ltc' && !$_SESSION['ltc_btc'] || $vol_in_pairing == 'ltc' && !$_SESSION['ltc_btc'] ) {
    $_SESSION['ltc_btc'] = get_coin_value('binance', 'LTCBTC')['last_trade'];
    }
+   // ETH
    elseif ( $pairing == 'eth' && !$_SESSION['eth_btc'] || $vol_in_pairing == 'eth' && !$_SESSION['eth_btc'] ) {
    $_SESSION['eth_btc'] = get_coin_value('binance', 'ETHBTC')['last_trade'];
    }
+   // TETHER
    elseif ( $pairing == 'usdt' && !$_SESSION['usdt_btc'] || $vol_in_pairing == 'usdt' && !$_SESSION['usdt_btc'] ) {
    $_SESSION['usdt_btc'] = number_format( ( 1 / get_coin_value('binance', 'BTCUSDT')['last_trade'] ), 8, '.', '');
+   }
+   // TRUE USD
+   elseif ( $pairing == 'tusd' && !$_SESSION['tusd_btc'] || $vol_in_pairing == 'tusd' && !$_SESSION['tusd_btc'] ) {
+   $_SESSION['tusd_btc'] = number_format( ( 1 / get_coin_value('binance', 'BTCTUSD')['last_trade'] ), 8, '.', '');
    }
 	
     
@@ -354,17 +364,25 @@ $asset = ( stristr($asset_data, "-") == false ? $asset_data : substr( $asset_dat
 	$btc_usd = get_btc_usd($exchange)['last_trade']; // Overwrite global var with selected exchange (rather then default), when asset is Bitcoin
 	}
 
+	// XMR
    if ( $pairing == 'xmr' && !$_SESSION['xmr_btc'] ) {
    $_SESSION['xmr_btc'] = get_coin_value('binance', 'XMRBTC')['last_trade'];
    }
+   // LTC
    elseif ( $pairing == 'ltc' && !$_SESSION['ltc_btc'] ) {
    $_SESSION['ltc_btc'] = get_coin_value('binance', 'LTCBTC')['last_trade'];
    }
+   // ETH
    elseif ( $pairing == 'eth' && !$_SESSION['eth_btc'] ) {
    $_SESSION['eth_btc'] = get_coin_value('binance', 'ETHBTC')['last_trade'];
    }
+   // TETHER
    elseif ( $pairing == 'usdt' && !$_SESSION['usdt_btc'] ) {
    $_SESSION['usdt_btc'] = number_format( ( 1 / get_coin_value('binance', 'BTCUSDT')['last_trade'] ), 8, '.', '');
+   }
+   // TRUE USD
+   elseif ( $pairing == 'tusd' && !$_SESSION['tusd_btc'] ) {
+   $_SESSION['tusd_btc'] = number_format( ( 1 / get_coin_value('binance', 'BTCTUSD')['last_trade'] ), 8, '.', '');
    }
     
 	// Get asset USD value
@@ -576,6 +594,7 @@ $market_pairing = $all_markets[$selected_market];
     $_SESSION['btc_worth_array'][] = ( $coin_name == 'Bitcoin' ? $coin_amount : $coin_value_total_raw );
     $pairing_symbol = ( $coin_name == 'Bitcoin' ? 'USD' : 'BTC' );
     }
+    // XMR
     else if ( $selected_pairing == 'xmr' ) {
     
     	if ( !$_SESSION['xmr_btc'] ) {
@@ -591,6 +610,7 @@ $market_pairing = $all_markets[$selected_market];
     $pairing_symbol = 'XMR';
     
     }
+    // LTC
     else if ( $selected_pairing == 'ltc' ) {
     
     	if ( !$_SESSION['ltc_btc'] ) {
@@ -606,6 +626,7 @@ $market_pairing = $all_markets[$selected_market];
     $pairing_symbol = 'LTC';
     
     }
+    // ETH
     else if ( $selected_pairing == 'eth' ) {
     
     	if ( !$_SESSION['eth_btc'] ) {
@@ -634,6 +655,7 @@ $market_pairing = $all_markets[$selected_market];
      }
 
     }
+    // TETHER
     else if ( $selected_pairing == 'usdt' ) {
     
     	if ( !$_SESSION['usdt_btc'] ) {
@@ -647,6 +669,22 @@ $market_pairing = $all_markets[$selected_market];
     $_SESSION['btc_worth_array'][] = $coin_value_total_raw * $pairing_btc_value;  
     $btc_trade_eqiv = number_format( ($coin_value_raw * $pairing_btc_value), 8);
     $pairing_symbol = 'USDT';
+    
+    }
+    // TRUE USD
+    else if ( $selected_pairing == 'tusd' ) {
+    
+    	if ( !$_SESSION['tusd_btc'] ) {
+    	$_SESSION['tusd_btc'] = number_format( ( 1 / get_coin_value('binance', 'BTCTUSD')['last_trade'] ), 8, '.', '');
+    	}
+    
+    $pairing_btc_value = $_SESSION['tusd_btc'];
+    
+    $coin_value_raw = get_coin_value($selected_market, $market_pairing)['last_trade'];
+    $coin_value_total_raw = ($coin_amount * $coin_value_raw);
+    $_SESSION['btc_worth_array'][] = $coin_value_total_raw * $pairing_btc_value;  
+    $btc_trade_eqiv = number_format( ($coin_value_raw * $pairing_btc_value), 8);
+    $pairing_symbol = 'TUSD';
     
     }
   

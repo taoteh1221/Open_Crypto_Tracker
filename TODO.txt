@@ -8,6 +8,8 @@ Modularize the alert / messages services, to reuse code effeciently
 
 Remove liqui / gatecoin.io API logic and coin data (they closed down)
 
+Differentiate BTC USD / USDT / TUSD / USDC markets as bitcoin's market options, rather than designate all BTC markets as USD
+
 SQL-based accounts for storing API keys, coin amounts??
 
 2-way encryption (unlocked with 6 digit PIN) for storing coin amounts??

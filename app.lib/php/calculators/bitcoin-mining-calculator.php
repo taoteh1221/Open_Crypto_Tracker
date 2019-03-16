@@ -12,7 +12,7 @@
 											'https://blockexplorer.com/api-ref', // Blockchain data API url
 											'Blockexplorer API', // Blockchain data API name
 											'binance', // Exchange name (lowercase for API logic)
-											'BTCUSDT' // Market pair name
+											'BTCTUSD' // Market pair name
 											);
 			
 			

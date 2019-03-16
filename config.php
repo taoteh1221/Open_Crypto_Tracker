@@ -117,7 +117,7 @@ $exchange_price_alerts = array(
 					'xmr' => 'binance|btc', // exchange|trade_pairing
 					'dcr' => 'binance|btc', // exchange|trade_pairing
 					'dcr-2' => 'bittrex|usdt', // exchange|trade_pairing
-					'tusd' => 'binance|btc', // exchange|trade_pairing
+					'tusd' => 'binance|usdt', // exchange|trade_pairing
 				//	'dash' => 'bittrex|btc', // exchange|trade_pairing
 				//	'ltc' => 'bittrex|btc', // exchange|trade_pairing
 					'steem' => 'bittrex|btc', // exchange|trade_pairing
@@ -130,7 +130,7 @@ $exchange_price_alerts = array(
 				//	'gnt' => 'bittrex|btc', // exchange|trade_pairing
 				//	'fct' => 'bittrex|btc', // exchange|trade_pairing
 					'xlm' => 'bittrex|btc', // exchange|trade_pairing
-					'ada' => 'bittrex|btc', // exchange|trade_pairing
+					'ada' => 'binance|tusd', // exchange|trade_pairing
 					'rvn' => 'binance|btc', // exchange|trade_pairing
 					'grin' => 'hotbit|btc', // exchange|trade_pairing
 					'beam' => 'hotbit|btc', // exchange|trade_pairing
@@ -213,8 +213,7 @@ $coins_list = array(
                         'market_pairing' => array(
                                     'btc' => array(
                                         'bittrex' => 'BTC-TUSD',
-                                        'upbit' => 'BTC-TUSD',
-                                        'binance' => 'TUSDBTC'
+                                        'upbit' => 'BTC-TUSD'
                                                     ),
                                     'eth' => array(
                                         'bittrex' => 'ETH-TUSD',
@@ -222,6 +221,7 @@ $coins_list = array(
                                         'binance' => 'TUSDETH'
                                                     ),
                                     'usdt' => array(
+                                    	 'binance' => 'TUSDUSDT',
                                         'bittrex' => 'USDT-TUSD'
                                                     )
                                         ),
@@ -289,6 +289,9 @@ $coins_list = array(
                                           'hitbtc' => 'ETHUSD',
                                           'liqui' => 'eth_usdt',
                                           'okex' => 'eth_usdt'
+                                                    ),
+                                    'tusd' => array(
+                                          'binance' => 'ETHTUSD'
                                                     )
                                         ),
                         'default_pairing' => 'btc'
@@ -457,7 +460,10 @@ $coins_list = array(
                                         'kucoin' => 'LTC-USDT',
                                         'cryptopia' => 'LTC/USDT',
                                         'liqui' => 'ltc_usdt'
-                                          			)
+                                          			),
+                                    'tusd' => array(
+                                          'binance' => 'LTCTUSD'
+                                                    )
                                         ),
                         'default_pairing' => 'btc'
                     ),
@@ -663,6 +669,9 @@ $coins_list = array(
                                     'usdt' => array(
                                         'bittrex' => 'USDT-ADA',
                                         'hitbtc' => 'ADAUSD'
+                                                    ),
+                                    'tusd' => array(
+                                          'binance' => 'ADATUSD'
                                                     )
                                         ),
                         'default_pairing' => 'btc'
@@ -797,6 +806,9 @@ $coins_list = array(
                                         	'poloniex' => 'USDT_STR',
                                           'hitbtc' => 'XLMUSD',
                                         	'okex' => 'xlm_usdt'
+                                                    ),
+                                    'tusd' => array(
+                                          'binance' => 'XLMTUSD'
                                                     )
                                         ),
                         'default_pairing' => 'btc'
