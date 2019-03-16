@@ -948,6 +948,8 @@ app doing the data requests, not a malicious bot)
 -Changed minimum 'send new exchange price alerts' time setting from hours to minutes
 -Added True USD (TUSD) as a base trading pair (Binance now supports this)
 -Bug fix in raw formatted numbers in price alert logic (skewed large numbers with formatting)
+-Removed bter / liqui / gatecoin.io API logic and coin data (they closed down)
+-Updated Kucoin API
 -------------------------------------------------------------------
 
 

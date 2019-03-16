@@ -153,37 +153,6 @@ global $last_trade_cache;
     					);
     				
     }
-  
- 
-   elseif ( strtolower($btc_exchange) == 'gatecoin' ) {
- 
-      
-      $json_string = 'https://api.gatecoin.com/Public/LiveTickers';
-      
-      $jsondata = @api_data('url', $json_string, $last_trade_cache);
-      
-      $data = json_decode($jsondata, TRUE);
-   
-       if (is_array($data) || is_object($data)) {
-         
-             foreach ( $data['tickers'] as $key => $value ) {
-               
-               if ( $data['tickers'][$key]["currencyPair"] == 'BTCUSD' ) {
-                
-    				return  array(
-    									'last_trade' => $data['tickers'][$key]["last"],
-    									'24hr_usd_volume' => volume_usd('bitcoin', $data['tickers'][$key]["volume"], $data['tickers'][$key]["last"])  // Very stubborn, try later
-    									);
-                 
-               }
-             
-     
-             }
-             
-       }
-   
-   
-   }
 
    elseif ( strtolower($btc_exchange) == 'livecoin' ) {
  
@@ -518,36 +487,6 @@ global $btc_exchange, $coins_list, $last_trade_cache;
   
   }
 
-  elseif ( strtolower($chosen_market) == 'liqui' ) {
-  
-  $json_string = 'https://api.liqui.io/api/3/ticker/' . $market_pairing;
-  
-  $jsondata = @api_data('url', $json_string, $last_trade_cache);
-  
-  $data = json_decode($jsondata, TRUE);
-  
-      if (is_array($data) || is_object($data)) {
-  
-       foreach ($data as $key => $value) {
-         
-         
-         if ( $key == $market_pairing ) {
-          
-         return  array(
-    							'last_trade' => $data[$key]["last"],
-    							'24hr_usd_volume' => NULL
-    						);
-          
-          
-         }
-       
-     
-       }
-      
-      }
-  
-  }
-
   elseif ( strtolower($chosen_market) == 'bitforex' ) {
   
   $json_string = 'https://api.bitforex.com/api/v1/market/ticker?symbol=' . $market_pairing;
@@ -679,13 +618,13 @@ global $btc_exchange, $coins_list, $last_trade_cache;
 
   elseif ( strtolower($chosen_market) == 'kucoin' ) {
 
-     $json_string = 'https://api.kucoin.com/v1/open/tick';
+     $json_string = 'https://api.kucoin.com/api/v1/market/allTickers';
      
      $jsondata = @api_data('url', $json_string, $last_trade_cache);
      
      $data = json_decode($jsondata, TRUE);
   
-  		$data = $data['data'];
+  		$data = $data['data']['ticker'];
   
       if (is_array($data) || is_object($data)) {
   
@@ -694,8 +633,8 @@ global $btc_exchange, $coins_list, $last_trade_cache;
          if ( $data[$key]['symbol'] == $market_pairing ) {
           
          return  array(
-    							'last_trade' => $data[$key]["lastDealPrice"],
-    							'24hr_usd_volume' => NULL  // V1 offline, no docs yet for V2??
+    							'last_trade' => $data[$key]["last"],
+    							'24hr_usd_volume' => volume_usd($market_pairing, $data[$key]["vol"], $data[$key]["last"])
     						);
           
          }
@@ -753,7 +692,7 @@ global $btc_exchange, $coins_list, $last_trade_cache;
              
             return  array(
     							'last_trade' => $data[$key]["LastPrice"],
-    							'24hr_usd_volume' => NULL  // Offline from hack
+    							'24hr_usd_volume' => NULL  // Offline from hack still, will be back eventually
     							);
              
             }
@@ -782,35 +721,6 @@ global $btc_exchange, $coins_list, $last_trade_cache;
          return  array(
     							'last_trade' => $data[$key]["last"],
     							'24hr_usd_volume' => volume_usd($market_pairing, $data[$key]["volume"], $data[$key]["last"])
-    						);
-          
-         }
-     
-       }
-      
-      }
-  
-  
-  }
-
-  elseif ( strtolower($chosen_market) == 'bter' ) {
-
-     $json_string = 'http://data.bter.com/api/1/marketlist';
-     
-     $jsondata = @api_data('url', $json_string, $last_trade_cache);
-     
-     $data = json_decode($jsondata, TRUE);
-  
-      if (is_array($data) || is_object($data)) {
-  
-       foreach ($data as $key => $value) {
-         
-         
-         if ( $data[$key]['pair'] == $market_pairing ) {
-          
-         return  array(
-    							'last_trade' => $data[$key]['rate'],
-    							'24hr_usd_volume' => NULL  // Offline
     						);
           
          }
@@ -880,36 +790,6 @@ global $btc_exchange, $coins_list, $last_trade_cache;
         
           }
        
-         }
-     
-       }
-      
-      }
-  
-  
-  }
-
-
-
-  elseif ( strtolower($chosen_market) == 'gatecoin' ) {
-
-     $json_string = 'https://api.gatecoin.com/Public/LiveTickers';
-     
-     $jsondata = @api_data('url', $json_string, $last_trade_cache);
-     
-     $data = json_decode($jsondata, TRUE);
-  
-      if (is_array($data) || is_object($data)) {
-  
-       foreach ( $data['tickers'] as $key => $value ) {
-         
-         if ( $data['tickers'][$key]["currencyPair"] == $market_pairing ) {
-          
-         return  array(
-    							'last_trade' => $data['tickers'][$key]["last"],
-    							'24hr_usd_volume' => volume_usd($market_pairing, $data['tickers'][$key]["volume"], $data['tickers'][$key]["last"])
-    						);
-          
          }
      
        }

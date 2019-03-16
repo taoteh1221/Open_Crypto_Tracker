@@ -37,9 +37,26 @@
         
         <li class='chart_links'><a href='https://messari.io/onchainfx' target='_blank'>OnChain FX</a></li>
         
+        <li class='chart_links'><a href='https://info.binance.com/' target='_blank'>info.binance.com</a></li>
+        
         <li class='chart_links'><a href='http://coincap.io' target='_blank'>Coincap.io</a></li>
         
         <li class='chart_links'><a href='https://www.altdex.co/' target='_blank'>AltDex 100 Cryptocurrency Index (ALT100)</a></li>
+        
+        
+        
+    </ul>
+    </fieldset>
+</p>
+
+
+<p>
+    <fieldset><legend> Coin Mining </legend>
+    <ul>
+        
+        <li class='chart_links'><a href='https://simplemining.net/' target='_blank'>Simplemining.net</a></li>
+        
+        <li class='chart_links'><a href='https://www.reddit.com/r/gpumining/' target='_blank'>GPU Mining Subreddit</a></li>
         
         
         
@@ -61,7 +78,15 @@
         
         <li class='chart_links'><a href='https://poloniex.com' target='_blank'>Poloniex.com</a></li>
         
+        <li class='chart_links'><a href='https://gemini.com/' target='_blank'>Gemini.com</a></li>
+        
+        <li class='chart_links'><a href='https://www.bitfinex.com/' target='_blank'>Bitfinex.com</a></li>
+        
         <li class='chart_links'><a href='https://hitbtc.com/' target='_blank'>Hitbtc.com</a></li>
+        
+        <li class='chart_links'><a href='https://www.kucoin.com/' target='_blank'>Kucoin.com</a></li>
+        
+        <li class='chart_links'><a href='https://www.cryptopia.co.nz/' target='_blank'>Cryptopia.co.nz</a></li>
         
         <li class='chart_links'><a href='https://shapeshift.io' target='_blank'>Shapeshift.io</a></li>
         
@@ -139,8 +164,6 @@
     <ul>
         
         <li class='chart_links'><a href='https://www.youtube.com/user/aantonop/featured' target='_blank'>Andreas Antonopoulos</a></li>
-        
-        <li class='chart_links'><a href='https://www.youtube.com/channel/UCIy6h-7tAFyDXWY-o14zo-A/featured' target='_blank'>Angry Chicken</a></li>
         
         <li class='chart_links'><a href='https://www.youtube.com/user/BaltimoreHourly/featured' target='_blank'>BitcoinMeister</a></li>
         
