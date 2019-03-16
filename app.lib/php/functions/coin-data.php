@@ -393,11 +393,11 @@ $asset = ( stristr($asset_data, "-") == false ? $asset_data : substr( $asset_dat
 	else {
 		
 		if ( $pairing == 'btc' ) {
-		$asset_usd = number_format( $btc_usd * get_coin_value($exchange, $coins_list[$asset]['market_pairing'][$pairing][$exchange])['last_trade'] , 8);
+		$asset_usd = number_format( $btc_usd * get_coin_value($exchange, $coins_list[$asset]['market_pairing'][$pairing][$exchange])['last_trade'] , 8, '.', '');
 		}
 		else {
 		$pairing_btc_value = $_SESSION[$pairing.'_btc'];
-		$asset_usd = number_format( $btc_usd * ( $pairing_btc_value * get_coin_value($exchange, $coins_list[$asset]['market_pairing'][$pairing][$exchange])['last_trade'] ) , 8);
+		$asset_usd = number_format( $btc_usd * ( $pairing_btc_value * get_coin_value($exchange, $coins_list[$asset]['market_pairing'][$pairing][$exchange])['last_trade'] ) , 8, '.', '');
 		}
 		
 		$volume_usd = get_coin_value($exchange, $coins_list[$asset]['market_pairing'][$pairing][$exchange])['24hr_usd_volume'];
@@ -458,8 +458,8 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
   
   
   // Message formatting
-  $cached_value_text = ( $asset == 'BTC' ? number_format($cached_value, 2, '.', ',') : $cached_value );
-  $asset_usd_text = ( $asset == 'BTC' ? number_format($asset_usd, 2, '.', ',') : $asset_usd );
+  $cached_value_text = number_format($cached_value, 2, '.', ',');
+  $asset_usd_text = number_format($asset_usd, 2, '.', ',');
   
   $email_message = 'The ' . $asset . ' trade value in the '.strtoupper($pairing).' market at the ' . ucfirst($exchange) . ' exchange has '.$alert_mode.' '.$change_symbol.number_format($percent_change, 2, '.', ',').'% from it\'s previous value of $'.$cached_value_text.', to a current value of $' . $asset_usd_text . ' over the past '.$last_check_time.'. 24 hour trade volume is $' . $volume_usd . '.';
   

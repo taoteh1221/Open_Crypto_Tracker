@@ -947,6 +947,7 @@ app doing the data requests, not a malicious bot)
 2.3.5:
 -Changed minimum 'send new exchange price alerts' time setting from hours to minutes
 -Added True USD (TUSD) as a base trading pair (Binance now supports this)
+-Bug fix in raw formatted numbers in price alert logic (skewed large numbers with formatting)
 -------------------------------------------------------------------
 
 
