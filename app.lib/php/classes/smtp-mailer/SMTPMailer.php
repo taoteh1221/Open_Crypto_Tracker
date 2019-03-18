@@ -30,12 +30,14 @@ Class SMTPMailer
     private $hostname;
     private $local;
     private $log      = array();
+    private $logfile = '';
 
     public function __construct($server=false, $port=false, $secure=false)
     {
         // Setup basic configuration
         if (file_exists( dirname(__FILE__) . '/conf/config_smtp.php')) {
             include dirname(__FILE__) . '/conf/config_smtp.php';
+            $this->logfile   = $cfg_log_file;
             $this->server   = $cfg_server;
             $this->port     = $cfg_port;
             $this->secure   = $cfg_secure;
@@ -145,6 +147,14 @@ Class SMTPMailer
         echo '<b>SMTP Mail Transaction Log</b><br>';
         print_r($this->log);
     }
+    
+    // Log to file
+    public function LogFile()
+    {
+    		$format = date('Y-m-d H:i:s') . " UTC | smtp_error: \n =========SMTP error log START================================================== \n ".print_r($this->log, true)." \n =========SMTP error log END================================================== \n ";
+    		$format = strip_tags($format);
+    		file_put_contents($this->logfile, $format, FILE_APPEND | LOCK_EX);
+    }
 
     // Display current headers
     public function ShowHeaders()
@@ -167,7 +177,11 @@ Class SMTPMailer
 
         // Open server connection and run transfers
         $this->sock = fsockopen($this->hostname, $this->port, $enum, $estr, 30);
-        if (!$this->sock) exit('Socket connection error: '.$this->hostname);
+        if (!$this->sock) {
+        	$this->log[] = 'Socket connection error: '.$this->hostname;
+         $this->LogFile();
+         return;
+        	}
         $this->log[] = 'CONNECTION: fsockopen('.$this->hostname.')';
         $this->response('220');
         $this->logreq('EHLO '.$this->local, '250');
@@ -222,17 +236,17 @@ Class SMTPMailer
         if ($meta['timed_out'] === true) {
             fclose($this->sock);
             $this->log[] = '<b>Was a timeout in Server response</b>';
-            $this->ShowLog();            
+            $this->LogFile();            
             print_r($meta);
-            exit();
+            return;
         }
         $this->log[] = $result;
         if (substr($result, 0, 3) == $code)
             return;
         fclose($this->sock);
         $this->log[] = '<b>SMTP Server response Error</b>';
-        $this->ShowLog();
-        exit();
+        $this->LogFile();
+        return;
     }
 
     // Do create headers after precheck

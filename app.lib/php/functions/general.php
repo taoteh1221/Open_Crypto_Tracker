@@ -181,6 +181,8 @@ global $smtp_login, $smtp_server;
 
 $vars = array();
 
+$log_file = preg_replace("/\/app\.lib(.*)/i", "/cache/logs/errors.log", dirname(__FILE__) );
+
 $smtp_login = explode("|",$smtp_login);
 $smtp_server = explode(":",$smtp_server);
 
@@ -190,7 +192,8 @@ $smtp_password = $smtp_login[1];
 $smtp_host = $smtp_server[0];
 $smtp_port = $smtp_server[1];
 
-// Port vars over to class format (so it runs out-of-the-box)
+// Port vars over to class format (so it runs out-of-the-box as much as possible)
+$vars['cfg_log_file']   = $log_file;
 $vars['cfg_server']   = $smtp_host;
 $vars['cfg_port']     =  $smtp_port;
 $vars['cfg_secure']   = $smtp_secure;

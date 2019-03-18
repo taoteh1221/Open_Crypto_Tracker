@@ -388,7 +388,7 @@ $asset = ( stristr($asset_data, "-") == false ? $asset_data : substr( $asset_dat
 	// Get asset USD value
 	if ( $asset == 'BTC' ){ 
 	$asset_usd = $btc_usd;
-	$volume_usd = get_btc_usd($exchange)['24hr_usd_volume'];
+	$volume_usd_raw = get_btc_usd($exchange)['24hr_usd_volume'];
 	}
 	else {
 		
@@ -400,7 +400,7 @@ $asset = ( stristr($asset_data, "-") == false ? $asset_data : substr( $asset_dat
 		$asset_usd = number_format( $btc_usd * ( $pairing_btc_value * get_coin_value($exchange, $coins_list[$asset]['market_pairing'][$pairing][$exchange])['last_trade'] ) , 8, '.', '');
 		}
 		
-		$volume_usd = get_coin_value($exchange, $coins_list[$asset]['market_pairing'][$pairing][$exchange])['24hr_usd_volume'];
+		$volume_usd_raw = get_coin_value($exchange, $coins_list[$asset]['market_pairing'][$pairing][$exchange])['24hr_usd_volume'];
 	
 	}
 
@@ -459,7 +459,7 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
           
           
           // AFTER price checks, we disallow alerts where minimum 24 hour trade volume has NOT been met, ONLY if an API request doesn't fail to retrieve volume data
-          if ( $volume_usd > 0 && $volume_usd < $exchange_price_alerts_minvolume ) {
+          if ( $volume_usd_raw > 0 && $volume_usd_raw < $exchange_price_alerts_minvolume ) {
           $send_alert = NULL;
           }
   
@@ -467,7 +467,7 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
   // Message formatting
   $cached_value_text = ( $asset == 'BTC' ? number_format($cached_value, 2, '.', ',') : number_format($cached_value, 8, '.', ',') );
   $asset_usd_text = ( $asset == 'BTC' ? number_format($asset_usd, 2, '.', ',') : number_format($asset_usd, 8, '.', ',') );
-  $volume_usd_text = number_format($volume_usd, 0, '.', ',');
+  $volume_usd_text = number_format($volume_usd_raw, 0, '.', ',');
   
   $email_message = 'The ' . $asset . ' trade value in the '.strtoupper($pairing).' market at the ' . ucfirst($exchange) . ' exchange has '.$alert_mode.' '.$change_symbol.number_format($percent_change, 2, '.', ',').'% from it\'s previous value of $'.$cached_value_text.', to a current value of $' . $asset_usd_text . ' over the past '.$last_check_time.'. 24 hour trade volume is $' . $volume_usd_text . '.';
   

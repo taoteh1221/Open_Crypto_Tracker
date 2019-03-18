@@ -1,11 +1,10 @@
 
-Log mail errors?
 
 RESTFUL API system for requesting market values / portfolio values
 
 Simple trading bot, to run from cron / cli
 
-Modularize the alert / messages services, to reuse code effeciently
+Modularize the alert / messages services, to reuse code efficiently
 
 Differentiate BTC USD / USDT / TUSD / USDC markets as bitcoin's market options, rather than designate all BTC markets as USD
 

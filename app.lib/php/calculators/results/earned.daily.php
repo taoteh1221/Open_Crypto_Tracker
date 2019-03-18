@@ -38,7 +38,7 @@
 				
 				Average BTC Value Earned Daily: 
 				<?php
-				echo number_format( $btc_daily_average, 8 ) . ' BTC ($' . number_format( $usd_daily_average , 2) . ' USD)';
+				echo number_format( $btc_daily_average_raw, 8 ) . ' BTC ($' . number_format( $usd_daily_average_raw , 2) . ' USD)';
 				?>
 				
 				<br />
@@ -62,7 +62,7 @@
 				
 				<b>Daily Profit: 
 				<?php
-				echo '$' . number_format( $usd_daily_average - $kwh_cost_daily - $pool_fee_daily , 2);
+				echo '$' . number_format( $usd_daily_average_raw - $kwh_cost_daily - $pool_fee_daily , 2);
 				?></b>
 				
 				<br />
@@ -91,7 +91,7 @@
 				
 				Average BTC Value Earned Weekly: 
 				<?php
-				echo number_format( $btc_daily_average * 7 , 8) . ' BTC ($' . number_format( $usd_daily_average * 7 , 2) . ' USD)';
+				echo number_format( $btc_daily_average_raw * 7 , 8) . ' BTC ($' . number_format( $usd_daily_average_raw * 7 , 2) . ' USD)';
 				?>
 				
 				<br />
@@ -115,7 +115,7 @@
 				
 				<b>Weekly Profit: 
 				<?php
-				echo '$' . number_format( ( $usd_daily_average - $kwh_cost_daily - $pool_fee_daily ) * 7 , 2);
+				echo '$' . number_format( ( $usd_daily_average_raw - $kwh_cost_daily - $pool_fee_daily ) * 7 , 2);
 				?></b>
 				
 				<br />

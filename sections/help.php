@@ -36,6 +36,11 @@
                         </div>
                         
 			<div class='help_section'>
+                            <p><b>SMTP Email Doesn't Work:</b><br />
+                                If you have enabled SMTP emailing but it doesn't work, check the error logs file at /cache/logs/errors.log for error responses from the SMTP server connection attempt. Alternatively try disabling SMTP email by blanking out your username and password in the config.php file, and see if PHP's built-in mail function works (no setup required, other than SMTP settings must be blanked out).</p>
+                        </div>
+                        
+			<div class='help_section'>
                             <p><b>Runs Sluggish With Proxies:</b><br />
                                 If page loads are sluggish or throw API connection errors without clearing up, and you have enabled proxy ip addresses, disable them and try again. If it is a bad or misconfigured proxy service causing the issue, this may solve it.</p>
                         </div>
