@@ -138,24 +138,24 @@ $pairing = detect_pairing($pair_name);
     
 	// Get asset USD value
 	if ( $vol_in_pairing == 'btc' || $pair_name == 'bitcoin' ) { // Volume calculated in Bitcoin
-	$volume_usd = number_format( $btc_usd * $volume , 0, '.', '');
+	$volume_usd_raw = number_format( $btc_usd * $volume , 0, '.', '');
 	}
 	elseif ( $vol_in_pairing != false ){ 
-	$volume_usd = number_format( $btc_usd * ( $_SESSION[$pairing.'_btc'] * $volume ) , 0, '.', '');
+	$volume_usd_raw = number_format( $btc_usd * ( $_SESSION[$pairing.'_btc'] * $volume ) , 0, '.', '');
 	}
 	else {
 		
 		if ( $pairing == 'btc' ) {
-		$volume_usd = number_format( $btc_usd * ( $last_trade * $volume ) , 0, '.', '');
+		$volume_usd_raw = number_format( $btc_usd * ( $last_trade * $volume ) , 0, '.', '');
 		}
 		else {
-		$volume_usd = number_format( $btc_usd * ( ( $_SESSION[$pairing.'_btc'] * $last_trade ) * $volume ) , 0, '.', '');
+		$volume_usd_raw = number_format( $btc_usd * ( ( $_SESSION[$pairing.'_btc'] * $last_trade ) * $volume ) , 0, '.', '');
 		}
 	
 	}
 
 
-return $volume_usd;
+return $volume_usd_raw;
 
 }
 
