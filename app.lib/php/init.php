@@ -5,7 +5,7 @@
 
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
 
-$app_version = '2.3.5';  // 2019/MARCH/15TH
+$app_version = '2.3.6';  // 2019/MARCH/18TH
  
 date_default_timezone_set('UTC');
 

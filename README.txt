@@ -162,6 +162,8 @@ $exchange_price_alerts_freq = 15; // Re-allow cron job price alerts after X minu
 
 $exchange_price_alerts_percent = 10; // Price percentage change (WITHOUT percent sign: 15 = 15%), sends alerts when percent change reached (up or down)
 
+$exchange_price_alerts_minvolume = 250; // Minimum 24 hour volume filter (WITHOUT dollar sign: 250 = $250), only allows price alerts if minimum 24 hour volume reached
+
 // Refresh comparison prices every X days (since last refresh / alert) with latest prices...can be 0 to disable refreshing (until price alert triggered)
 $exchange_price_alerts_refresh = 0; 
 

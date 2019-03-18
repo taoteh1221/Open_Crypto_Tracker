@@ -138,18 +138,18 @@ $pairing = detect_pairing($pair_name);
     
 	// Get asset USD value
 	if ( $vol_in_pairing == 'btc' || $pair_name == 'bitcoin' ) { // Volume calculated in Bitcoin
-	$volume_usd = number_format( $btc_usd * $volume , 0, '.', ',');
+	$volume_usd = number_format( $btc_usd * $volume , 0, '.', '');
 	}
 	elseif ( $vol_in_pairing != false ){ 
-	$volume_usd = number_format( $btc_usd * ( $_SESSION[$pairing.'_btc'] * $volume ) , 0, '.', ',');
+	$volume_usd = number_format( $btc_usd * ( $_SESSION[$pairing.'_btc'] * $volume ) , 0, '.', '');
 	}
 	else {
 		
 		if ( $pairing == 'btc' ) {
-		$volume_usd = number_format( $btc_usd * ( $last_trade * $volume ) , 0, '.', ',');
+		$volume_usd = number_format( $btc_usd * ( $last_trade * $volume ) , 0, '.', '');
 		}
 		else {
-		$volume_usd = number_format( $btc_usd * ( ( $_SESSION[$pairing.'_btc'] * $last_trade ) * $volume ) , 0, '.', ',');
+		$volume_usd = number_format( $btc_usd * ( ( $_SESSION[$pairing.'_btc'] * $last_trade ) * $volume ) , 0, '.', '');
 		}
 	
 	}
@@ -350,7 +350,7 @@ global $_POST, $mining_rewards;
 
 function asset_alert_check($asset_data, $exchange, $pairing, $alert_mode) {
 
-global $coins_list, $btc_exchange, $btc_usd, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $textlocal_account, $exchange_price_alerts_freq, $exchange_price_alerts_percent, $exchange_price_alerts_refresh;
+global $coins_list, $btc_exchange, $btc_usd, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $textlocal_account, $exchange_price_alerts_freq, $exchange_price_alerts_percent, $exchange_price_alerts_minvolume, $exchange_price_alerts_refresh;
 
 // Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
 $asset = ( stristr($asset_data, "-") == false ? $asset_data : substr( $asset_data, 0, strpos($asset_data, "-") ) );
@@ -434,7 +434,8 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
 	////// If cached value, run alert checking ////////////
 	if ( $cached_value != '' ) {
 	
-  
+	
+  			 // Price checks
           if ( $alert_mode == 'decreased' ) {
           $exchange_price_alerts_value = $cached_value - ( $cached_value * ($exchange_price_alerts_percent / 100) );
           $percent_change = 100 - ( $asset_usd / ( $cached_value / 100 ) );
@@ -455,15 +456,22 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
                   }
           
           }
+          
+          
+          // AFTER price checks, we disallow alerts where minimum 24 hour trade volume has NOT been met, ONLY if an API request doesn't fail to retrieve volume data
+          if ( $volume_usd > 0 && $volume_usd < $exchange_price_alerts_minvolume ) {
+          $send_alert = NULL;
+          }
   
   
   // Message formatting
   $cached_value_text = ( $asset == 'BTC' ? number_format($cached_value, 2, '.', ',') : number_format($cached_value, 8, '.', ',') );
   $asset_usd_text = ( $asset == 'BTC' ? number_format($asset_usd, 2, '.', ',') : number_format($asset_usd, 8, '.', ',') );
+  $volume_usd_text = number_format($volume_usd, 0, '.', ',');
   
-  $email_message = 'The ' . $asset . ' trade value in the '.strtoupper($pairing).' market at the ' . ucfirst($exchange) . ' exchange has '.$alert_mode.' '.$change_symbol.number_format($percent_change, 2, '.', ',').'% from it\'s previous value of $'.$cached_value_text.', to a current value of $' . $asset_usd_text . ' over the past '.$last_check_time.'. 24 hour trade volume is $' . $volume_usd . '.';
+  $email_message = 'The ' . $asset . ' trade value in the '.strtoupper($pairing).' market at the ' . ucfirst($exchange) . ' exchange has '.$alert_mode.' '.$change_symbol.number_format($percent_change, 2, '.', ',').'% from it\'s previous value of $'.$cached_value_text.', to a current value of $' . $asset_usd_text . ' over the past '.$last_check_time.'. 24 hour trade volume is $' . $volume_usd_text . '.';
   
-  $text_message = $asset . '/'.strtoupper($pairing).' @' . ucfirst($exchange) . ' '.$alert_mode.' '.$change_symbol.number_format($percent_change, 2, '.', ',').'% from $'.$cached_value_text.' to $' . $asset_usd_text . ' in '.$last_check_time.'. 24hr Vol: $' . $volume_usd;
+  $text_message = $asset . '/'.strtoupper($pairing).' @' . ucfirst($exchange) . ' '.$alert_mode.' '.$change_symbol.number_format($percent_change, 2, '.', ',').'% from $'.$cached_value_text.' to $' . $asset_usd_text . ' in '.$last_check_time.'. 24hr Vol: $' . $volume_usd_text;
   
   
   // Alert parameter configs for comm methods
@@ -910,7 +918,7 @@ $market_pairing = $all_markets[$selected_market];
 
 </td>
 
-<td class='data border_b'><span>$<?php echo ( $trade_volume > 0 ? $trade_volume : 0 ); ?></span></td>
+<td class='data border_b'><span>$<?php echo ( $trade_volume > 0 ? number_format($trade_volume, 0, '.', ',') : 0 ); ?></span></td>
 
 <td class='data border_b' align='right'><span><?php echo number_format($coin_value_raw, ( $coin_name == 'Bitcoin' ? 2 : 8 ), '.', ','); ?></span>
 
