@@ -56,7 +56,7 @@
 			    
 			<p class='settings_sections'>
 				
-				Visual or Audio Marketcap Data Alerts For Price Changes:
+				Visual or Audio Alerts For Price Changes:
 			     
 			    <select name='alert_percent' id='alert_percent' onchange='
 			    if ( this.value == "yes" ) {
@@ -91,7 +91,7 @@
 			    '>
 			    <option value='coinmarketcap' <?=( $alert_percent[0] == 'coinmarketcap' ? ' selected ' : '' )?>> Coinmarketcap.com </option>
 			    <option value='coingecko' <?=( $alert_percent[0] == 'coingecko' ? ' selected ' : '' )?>> Coingecko.com </option>
-			    </select>
+			    </select>  
 			    
 			    <select name='percent_change_amount' id='percent_change_amount' onchange='
 			    if ( document.getElementById("alert_percent").value == "yes" ) {
@@ -121,8 +121,8 @@
 			    <option value='35' <?=( $alert_percent[1] == 35 ? ' selected ' : '' )?>> 35% </option>
 			    <option value='40' <?=( $alert_percent[1] == 40 ? ' selected ' : '' )?>> 40% </option>
 			    <option value='45' <?=( $alert_percent[1] == 45 ? ' selected ' : '' )?>> 45% </option>
-			    <option value='50' <?=( $alert_percent[1] == 50 ? ' selected ' : '' )?>> 50% or higher </option>
-			    </select>
+			    <option value='50' <?=( $alert_percent[1] == 50 ? ' selected ' : '' )?>> 50% </option>
+			    </select> (or more), 
 			     
 			    <select name='percent_change_time' id='percent_change_time' onchange='
 			    if ( document.getElementById("alert_percent").value == "yes" ) {
@@ -136,7 +136,7 @@
 			    <option value='1hour' <?=( $alert_percent[2] == '1hour' ? ' selected ' : '' )?>> 1 Hour </option>
 			    <option value='24hour' <?=( $alert_percent[2] == '24hour' ? ' selected ' : '' )?>> 24 Hour </option>
 			    <option value='7day' <?=( $alert_percent[2] == '7day' ? ' selected ' : '' )?>> 7 Day </option>
-			    </select>
+			    </select> trend, 
 			     
 			    <select name='percent_change_alert_type' id='percent_change_alert_type' onchange='
 			    if ( document.getElementById("alert_percent").value == "yes" ) {
@@ -169,7 +169,7 @@
 
 			
                         <p class='settings_sections'>
-                        Use cookie data to save settings between sessions <input type='checkbox' name='set_use_cookies' id='set_use_cookies' value='1' onchange='
+                        Use cookie data to save values between sessions <input type='checkbox' name='set_use_cookies' id='set_use_cookies' value='1' onchange='
                         if ( this.checked != true ) {
 			delete_cookie("coin_amounts");
 			delete_cookie("coin_markets");

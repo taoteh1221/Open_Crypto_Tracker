@@ -178,7 +178,7 @@ Class SMTPMailer
         // Open server connection and run transfers
         $this->sock = fsockopen($this->hostname, $this->port, $enum, $estr, 30);
         if (!$this->sock) {
-        	$this->log[] = 'Socket connection error: '.$this->hostname;
+        	$this->log[] = 'Socket connection error for hostname: ' . $this->hostname . '. Make sure your hostname and firewall settings are correct.';
          $this->LogFile();
          return;
         	}

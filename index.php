@@ -17,14 +17,14 @@ require("templates/default/header.php");
 			<li class='tabli'><a style='color:red;' href='#help'>Help</a></li>
 		</ul>
 		<div id='values' class='tabdiv'>
-			<h3 style='display: inline;'> &nbsp; Coin Portfolio Value</h3> (<?=$last_trade_cache?> minute cache)
+			<h3 style='display: inline;'>Coin Portfolio Value</h3> (<?=$last_trade_cache?> minute cache)
 			<?php
 			if ( sizeof($alert_percent) > 1 ) {
 			?>
-			 &nbsp; &nbsp; &nbsp; <span style='color: <?=( stristr($alert_percent[1], '-') == false ? 'green' : '#ea6b1c' )?>; font-weight: bold;'>Marketcap data alerts enabled (<?=ucfirst($marketcap_site)?>.com / <?=$alert_percent[1]?>% / <?=$alert_percent[2]?>)</span>
+			 &nbsp; &nbsp; <span style='color: <?=( stristr($alert_percent[1], '-') == false ? 'green' : '#ea6b1c' )?>; font-weight: bold;'>Visual alerts on (<?=ucfirst($marketcap_site)?> / <?=$alert_percent[1]?>% / <?=$alert_percent[2]?>)</span>
 			<?php
 			}
-			?> &nbsp; &nbsp; &nbsp; <a href='javascript:location.reload(true);' style='font-weight: bold;' title='Refreshing data too frequently may cause API request refusals, especially if request caching settings are too low. It is recommended to use this refresh feature sparingly with lower or disabled cache settings. The current real-time exchange data re-cache setting in config.php is set to <?=$last_trade_cache?> minute(s). A setting of 1 or higher assists in avoiding IP blacklisting by exchanges.'>Refresh Data</a> &nbsp; <select name='select_auto_refresh' id='select_auto_refresh' onchange='auto_reload(this.value);'>
+			?> &nbsp; &nbsp; <a href='javascript:location.reload(true);' style='font-weight: bold;' title='Refreshing data too frequently may cause API request refusals, especially if request caching settings are too low. It is recommended to use this refresh feature sparingly with lower or disabled cache settings. The current real-time exchange data re-cache setting in config.php is set to <?=$last_trade_cache?> minute(s). A setting of 1 or higher assists in avoiding IP blacklisting by exchanges.'>Refresh Data</a> &nbsp; <select name='select_auto_refresh' id='select_auto_refresh' onchange='auto_reload(this.value);'>
 				<option value=''> Manually </option>
 				<option value='300' <?=( $_COOKIE['coin_reload'] == '300' ? 'selected' : '' )?>> Every 5 Minutes </option>
 				<option value='600' <?=( $_COOKIE['coin_reload'] == '600' ? 'selected' : '' )?>> Every 10 Minutes </option>

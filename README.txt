@@ -84,36 +84,39 @@ BELOW IS AN EXAMPLE SET OF CONFIGURED ASSETS AND DEFAULT SETTINGS. PLEASE NOTE T
 
 // SEE README.txt FOR HOW TO ADD / EDIT / DELETE COINS IN THIS CONFIG, AND AN EXAMPLE SET OF PRE-CONFIGURED SETTINGS / ASSETS
 
-$api_timeout = 12; // Seconds to wait for response from API endpoints
+$api_timeout = 12; // Seconds to wait for response from API endpoints. Don't set too low, or you won't get data
 
 $purge_error_logs = 3; // Days to keep error logs before purging (deletes logs every X days) start low, especially when using proxies
 
-$mail_error_logs = 'daily'; // 'no', 'daily', 'weekly' Email to / from !MUST BE SET! further down in this config file. MAY NOT BE RELIABLE WITHOUT A CRON JOB
+$mail_error_logs = 'daily'; // 'no', 'daily', 'weekly' Email to / from !MUST BE SET! further down in this config file. MAY NOT SEND IN TIMELY FASHION WITHOUT CRON JOB
 
-$btc_exchange = 'binance'; // Default Bitcoin to USD (or equiv stable coin): coinbase / binance / bitstamp / bitfinex / kraken / gemini / hitbtc / okcoin / livecoin
+$btc_exchange = 'coinbase'; // Default Bitcoin to USD (or equiv stable coin): coinbase / binance / bitstamp / bitfinex / kraken / gemini / hitbtc / okcoin / livecoin
 
 $marketcap_site = 'coinmarketcap'; // Default marketcap data source: 'coinmarketcap', or 'coingecko'
 
-$marketcap_ranks_max = 200; // Number of marketcap rankings to request from API. Ranks are grabbed 100 per request. Set to 100 if you are throttled a lot.
+$marketcap_ranks_max = 200; // Number of marketcap rankings to request from API. Ranks are grabbed 100 per request. Set to 100 or 200 if you are blocked a lot
 
-$marketcap_cache = 20; // Minutes to cache marketcap data...start high and test lower, it can be strict
+$marketcap_cache = 30; // Minutes to cache above-mentioned marketcap rankings...start high and test lower, it can be strict
 
-$last_trade_cache = 1; // Minutes to cache real-time exchange data...can be zero to skip cache, set at least 1 minute to avoid your IP getting blocked
+$last_trade_cache = 1; // Minutes to cache real-time exchange data...can be zero to skip cache, but set to at least 1 minute to avoid your IP getting blocked
 
-$chainstats_cache = 30; // Minutes to cache blockchain stats (for mining calculators)
+$chainstats_cache = 60; // Minutes to cache blockchain stats (for mining calculators). Set high initially, can be strict
 
 
 // If using proxies and login is required
 // Adding a user / pass here will automatically send login details for proxy connections
-// If using ip address whitelisting instead, MUST BE LEFT BLANK
+// CAN BE BLANK. IF using ip address whitelisting instead, MUST BE LEFT BLANK
 $proxy_login = ''; // Use format: 'username:password'
 
 // If using proxies, add the ip address / port number here for each one, like examples below (without the double slashes in front)
-// Adding proxies here will automatically choose one randomly for each API request
+// CAN BE BLANK. Adding proxies here will automatically choose one randomly for each API request
 $proxy_list = array(
 					// 'ipaddress1:portnumber1',
 					// 'ipaddress2:portnumber2',
 					);
+
+
+// Proxy configuration settings (only used if proxies are enabled above)
 
 $proxy_alerts = 'email'; // Alerts for failed proxy data connections. 'none', 'email', 'text', 'notifyme', 'all'
 
@@ -121,13 +124,13 @@ $proxy_alerts_runtime = 'cron'; // Which runtime mode should allow proxy alerts?
 
 $proxy_checkup_ok = 'ignore'; // 'include', or 'ignore' Proxy alerts even if checkup went OK? (after flagged, started working again when checked) 
 
-$proxy_alerts_freq = 1; // Re-allow proxy alerts after X hours (per ip/port pair, can be 0)
+$proxy_alerts_freq = 1; // Re-allow same proxy alert(s) after X hours (per ip/port pair, can be 0)
 
 
 // OPTIONALLY use SMTP authentication to send email, if you have no reverse lookup that matches domain name (on your home network etc)
 // !!USE A THROWAWAY ACCOUNT ONLY!! If web server is hacked, HACKER WOULD THEN HAVE ACCESS YOUR EMAIL LOGIN FROM THIS FILE!!
 // If SMTP credentials / settings are filled in, BUT not setup properly, APP EMAILING WILL FAIL
-// SMTP SETTINGS CAN BE BLANK (PHP's built-in mail() function will be used instead)
+// CAN BE BLANK (PHP's built-in mail function will be automatically used instead)
 $smtp_login = ''; //  CAN BE BLANK. This format MUST be used: 'username|password'
 
 $smtp_server = ''; // CAN BE BLANK. This format MUST be used: 'domain_or_ip:port' example: 'example.com:25'
@@ -141,30 +144,33 @@ $from_email = ''; // For email features this MUST BE SET
 
 $to_email = ''; // For email features this MUST BE SET
 
-// For exchange price alert texts, CAN BE BLANK. Attempts to email text if carrier is set AND no textbelt / textlocal config is setup
- // Country format MUST be used: '12223334444|number_only' number_only (for textbelt / textlocal), alltel, att, tmobile, virgin, sprint, verizon, nextel
+// For exchange price alert texts. Attempts to email text if carrier is set AND no textbelt / textlocal config is setup
+// CAN BE BLANK. Country format MUST be used: '12223334444|number_only' number_only (for textbelt / textlocal), alltel, att, tmobile, virgin, sprint, verizon, nextel
 $to_text = '';
 
-// For exchange price alert notifyme alexa notifications (sending Alexa devices notifications for free), CAN BE BLANK. 
-// Setup: http://www.thomptronics.com/notify-me
+// For exchange price alert notifyme alexa notifications (sending Alexa devices notifications for free). 
+// CAN BE BLANK. Setup: http://www.thomptronics.com/notify-me
 $notifyme_accesscode = '';
 
 // Do NOT use textbelt AND textlocal together. Leave one setting blank, or it will disable using both.
 
-// For exchange price alert textbelt notifications, CAN BE BLANK. Setup: https://textbelt.com/
+// CAN BE BLANK. For exchange price alert textbelt notifications. Setup: https://textbelt.com/
 $textbelt_apikey = '';
 
-// For exchange price alert textlocal notifications, CAN BE BLANK. Setup: https://www.textlocal.com/integrations/api/
+// CAN BE BLANK. For exchange price alert textlocal notifications. Setup: https://www.textlocal.com/integrations/api/
 $textlocal_account = ''; // This format MUST be used: 'username|hash_code'
 
 
-$exchange_price_alerts_freq = 15; // Re-allow cron job price alerts after X minutes (per asset, set higher if issues with blacklisting...can be 0)
+// Exchange price alert settings
+// Only used if $exchange_price_alerts is filled in properly below, AND a cron job is setup (see README.txt for cron job setup information) 
 
-$exchange_price_alerts_percent = 10; // Price percentage change (WITHOUT percent sign: 15 = 15%), sends alerts when percent change reached (up or down)
+$exchange_price_alerts_freq = 15; // Re-allow same exchange price alert(s) after X minutes (per asset, set higher if issues with blacklisting...can be 0)
 
-$exchange_price_alerts_minvolume = 250; // Minimum 24 hour volume filter (WITHOUT dollar sign: 250 = $250), only allows price alerts if minimum 24 hour volume reached
+$exchange_price_alerts_percent = 10; // Price percent change to send alerts for (WITHOUT percent sign: 15 = 15%). Sends alerts when percent change reached (up or down)
 
-// Refresh comparison prices every X days (since last refresh / alert) with latest prices...can be 0 to disable refreshing (until price alert triggered)
+$exchange_price_alerts_minvolume = 350; // Minimum 24 hour volume filter (WITHOUT dollar sign: 250 = $250). Only allows sending exchange price alerts if minimum 24 hour volume reached
+
+// Refresh cached comparison prices every X days (since last refresh / alert) with latest prices...can be 0 to disable refreshing (until price alert triggers a refresh)
 $exchange_price_alerts_refresh = 0; 
 
 // EXCHANGE PRICE CHANGE ALERTS REQUIRES CRON JOB SETUP (see README.txt for cron job setup information) 
@@ -173,33 +179,37 @@ $exchange_price_alerts_refresh = 0;
 // NOTE: This list must only contain assets / exchanges / trading pairs included in the primary coin data configuration further down in this config file
 // TO ADD MULTIPLE ALERTS FOR SAME ASSET (FOR DIFFERENT EXCHANGES / TRADE PAIRINGS), FORMAT LIKE SO: symbol, symbol-1, symbol-2, etc.
 $exchange_price_alerts = array(
-					'btc' => 'bitstamp|btc', // exchange|trade_pairing
-					'btc-2' => 'binance|btc', // exchange|trade_pairing
-					'eth' => 'binance|usdt', // exchange|trade_pairing
-					'eth-2' => 'bitstamp|btc', // exchange|trade_pairing
-					'xmr' => 'binance|btc', // exchange|trade_pairing
-					'dcr' => 'binance|btc', // exchange|trade_pairing
-					'dcr-2' => 'bittrex|usdt', // exchange|trade_pairing
-					'tusd' => 'binance|usdt', // exchange|trade_pairing
-				//	'dash' => 'bittrex|btc', // exchange|trade_pairing
-				//	'ltc' => 'bittrex|btc', // exchange|trade_pairing
-					'steem' => 'bittrex|btc', // exchange|trade_pairing
-					'mana' => 'binance|btc', // exchange|trade_pairing
-					'ant' => 'bittrex|btc', // exchange|trade_pairing
-				//	'zrx' => 'bittrex|btc', // exchange|trade_pairing
-					'zil' => 'binance|btc', // exchange|trade_pairing
-				//	'trac' => 'kucoin|btc', // exchange|trade_pairing
-				//	'snt' => 'bittrex|btc', // exchange|trade_pairing
-				//	'gnt' => 'bittrex|btc', // exchange|trade_pairing
-				//	'fct' => 'bittrex|btc', // exchange|trade_pairing
-					'xlm' => 'bittrex|btc', // exchange|trade_pairing
-					'ada' => 'binance|tusd', // exchange|trade_pairing
-					'rvn' => 'binance|btc', // exchange|trade_pairing
-					'grin' => 'hotbit|btc', // exchange|trade_pairing
-					'beam' => 'hotbit|btc', // exchange|trade_pairing
-					'myst' => 'hitbtc|btc', // exchange|trade_pairing
-					'myst-2' => 'hitbtc|eth', // exchange|trade_pairing
-					'myst-3' => 'idex|eth' // exchange|trade_pairing
+				// 'symbol' => 'exchange1|trade_pairing1',
+				// 'symbol-2' => 'exchange2|trade_pairing2',
+					'tusd' => 'bittrex|btc',
+					'btc' => 'coinbase|btc',
+					'btc-2' => 'binance|btc',
+					'eth' => 'binance|usdt',
+					'eth-2' => 'bittrex|btc',
+					'xmr' => 'binance|btc',
+					'dcr' => 'binance|btc',
+					'dcr-2' => 'bittrex|usdt',
+				//	'dash' => 'bittrex|btc',
+				//	'ltc' => 'bittrex|btc',
+					'steem' => 'binance|eth',
+					'mana' => 'binance|btc',
+					'ant' => 'bittrex|btc',
+				//	'zrx' => 'bittrex|btc',
+					'zil' => 'binance|btc',
+				//	'trac' => 'kucoin|btc',
+				//	'snt' => 'bittrex|btc',
+				//	'gnt' => 'bittrex|btc',
+				//	'fct' => 'bittrex|btc',
+					'xlm' => 'binance|tusd',
+					'xlm-2' => 'bittrex|btc',
+					'ada' => 'binance|tusd',
+					'rvn' => 'binance|btc',
+					'grin' => 'kucoin|btc',
+					'grin-2' => 'hotbit|eth',
+					'beam' => 'hotbit|btc',
+					'myst' => 'hitbtc|btc',
+					'myst-2' => 'hitbtc|eth',
+					'myst-3' => 'idex|eth',
 					);
 
 

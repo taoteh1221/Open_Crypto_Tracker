@@ -959,6 +959,9 @@ app doing the data requests, not a malicious bot)
 -Config setting for only allowing exchange price alerts if a minimum 24 hour volume has been met
 -SMTP error logging
 -Semantics
+-Minor browser compatibility revisions
+-Default settings tweaks
+-Other minor revisions
 -------------------------------------------------------------------
 
 
