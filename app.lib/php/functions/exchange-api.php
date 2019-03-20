@@ -225,7 +225,9 @@ global $last_trade_cache;
 
 }
 
+
 //////////////////////////////////////////////////////////
+
 
 function get_coin_value($chosen_market, $market_pairing) {
 

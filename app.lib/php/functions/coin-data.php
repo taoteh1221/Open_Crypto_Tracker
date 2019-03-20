@@ -155,7 +155,14 @@ $pairing = detect_pairing($pair_name);
 	}
 
 
-return $volume_usd_raw;
+	// Return negative number, if no data detected
+	if ( is_numeric($volume) == true && $last_trade != '' || is_numeric($volume) == true && $vol_in_pairing != false ) {
+	return $volume_usd_raw;
+	}
+	else {
+	return -1;
+	}
+	 
 
 }
 
@@ -467,19 +474,39 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
           // Sending the alerts
           if ( update_cache_file('cache/alerts/'.$asset_data.'.dat', $exchange_price_alerts_freq) == true && $send_alert == 1 ) {
           
+  				// Message formatting for display to end user
           
-  				// Message formatting
-  				if ( $volume_usd_raw > 0 && $exchange_price_alerts_minvolume > 0 && $volume_usd_raw >= $exchange_price_alerts_minvolume ) {
-          	$minvolume_met_text = 'The minimum trade volume of $' . number_format($exchange_price_alerts_minvolume, 0, '.', ',') . ' has been met for the following price alert: ';
-          	}
-  				
+          	// Convert raw numbers to have separators etc
   				$cached_value_text = ( $asset == 'BTC' ? number_format($cached_value, 2, '.', ',') : number_format($cached_value, 8, '.', ',') );
   				$asset_usd_text = ( $asset == 'BTC' ? number_format($asset_usd_raw, 2, '.', ',') : number_format($asset_usd_raw, 8, '.', ',') );
-  				$volume_usd_text = number_format($volume_usd_raw, 0, '.', ',');
+  				$volume_usd_text = '$' . number_format($volume_usd_raw, 0, '.', ',');
   				
-  				$email_message = $minvolume_met_text . 'The ' . $asset . ' trade value in the '.strtoupper($pairing).' market at the ' . ucfirst($exchange) . ' exchange has '.$alert_mode.' '.$change_symbol.number_format($percent_change, 2, '.', ',').'% from it\'s previous value of $'.$cached_value_text.', to a current value of $' . $asset_usd_text . ' over the past '.$last_check_time.'. 24 hour trade volume is $' . $volume_usd_text . '.';
+          	
+          	// Format trade volume data
+  				if ( $volume_usd_raw >= 0 && $exchange_price_alerts_minvolume > 0 && $volume_usd_raw >= $exchange_price_alerts_minvolume ) {
+          	$email_volume_summary = '24 hour trade volume is ' . $volume_usd_text . ' (minimum volume alert filter enabled for $' . number_format($exchange_price_alerts_minvolume, 0, '.', ',') . ').';
+          	}
+          	// NULL if not setup to get volume, negative number returned if no data received from API
+  				elseif ( $volume_usd_raw == NULL && $exchange_price_alerts_minvolume > 0 || $volume_usd_raw == -1 && $exchange_price_alerts_minvolume > 0 ) { 
+          	$email_volume_summary = '24 hour trade volume could not be detected (so enabled minimum volume alert filter was skipped).';
+          	$volume_usd_text = 'No data';
+          	}
+          	elseif ( $volume_usd_raw >= 0 ) {
+          	$email_volume_summary = '24 hour trade volume is ' . $volume_usd_text . '.';
+          	}
+          	// NULL if not setup to get volume, negative number returned if no data received from API
+  				elseif ( $volume_usd_raw == NULL || $volume_usd_raw == -1 ) { 
+          	$email_volume_summary = '24 hour trade volume could not be detected.';
+          	$volume_usd_text = 'No data';
+          	}
   				
-  				$text_message = $asset . '/'.strtoupper($pairing).' @' . ucfirst($exchange) . ' '.$alert_mode.' '.$change_symbol.number_format($percent_change, 2, '.', ',').'% from $'.$cached_value_text.' to $' . $asset_usd_text . ' in '.$last_check_time.'. 24hr Vol: $' . $volume_usd_text;
+  				
+  				// Build the different messages, configure comm methods, and send messages
+  				
+  				$email_message = 'The ' . $asset . ' trade value in the '.strtoupper($pairing).' market at the ' . ucfirst($exchange) . ' exchange has '.$alert_mode.' '.$change_symbol.number_format($percent_change, 2, '.', ',').'% from it\'s previous value of $'.$cached_value_text.', to a current value of $' . $asset_usd_text . ' over the past '.$last_check_time.'. ' . $email_volume_summary;
+  				
+  				$text_message = $asset . '/'.strtoupper($pairing).' @' . ucfirst($exchange) . ' '.$alert_mode.' '.$change_symbol.number_format($percent_change, 2, '.', ',').'% from $'.$cached_value_text.' to $' . $asset_usd_text . ' in '.$last_check_time.'. 24hr Vol: ' . $volume_usd_text;
+  				
   				
   				
   				// Alert parameter configs for comm methods
@@ -502,9 +529,11 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
   				                         );
   				
           
+          
           	file_put_contents('cache/alerts/'.$asset_data.'.dat', $asset_usd_raw, LOCK_EX); // Cache the new lower / higher value
           
           
+          			// Send messages
                   if ( trim($notifyme_accesscode) != '' ) {
                   @api_data('array', $notifyme_params, 0, 'https://api.notifymyecho.com/v1/NotifyMe');
                   }
@@ -517,7 +546,7 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
                   @api_data('array', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
                   }
            
-           			// SEND EMAILS LAST, AS SMTP LOGIN FAILURE (if using included SMTP email feature, and login is wrong) CAN BREAK PHP SCRIPTING (causing text / notifyme alerts to fail too)
+           			// SEND EMAILS LAST, IN CASE OF SMTP METHOD FAILURE AND RUNTIME EXIT
           
                   if (  validate_email($to_email) == 'valid' ) {
                   @safe_mail($to_email, $asset . ' Asset Value '.ucfirst($alert_mode).' Alert', $email_message);
@@ -924,7 +953,21 @@ $market_pairing = $all_markets[$selected_market];
 
 </td>
 
-<td class='data border_b'><span>$<?php echo ( $trade_volume > 0 ? number_format($trade_volume, 0, '.', ',') : 0 ); ?></span></td>
+<td class='data border_b'><span>
+
+<?php 
+
+  // NULL if not setup to get volume, negative number returned if no data received from API
+  if ( $trade_volume == NULL || $trade_volume == -1 ) {
+  echo 'No Data';
+  }
+  elseif ( $trade_volume >= 0 ) {
+  echo number_format($trade_volume, 0, '.', ',');
+  }
+
+?>
+
+</span></td>
 
 <td class='data border_b' align='right'><span><?php echo number_format($coin_value_raw, ( $coin_name == 'Bitcoin' ? 2 : 8 ), '.', ','); ?></span>
 
