@@ -157,10 +157,7 @@ function play_alert(tr_id, alert_type, color) {
 	window.is_alerted = 1;
 	}
 
-	
-    window.is_alerted = 1;
-    //console.log( "percentage alert!" );
-    
+
     
     });
     
