@@ -168,7 +168,9 @@ $exchange_price_alerts_freq = 15; // Re-allow same exchange price alert(s) after
 
 $exchange_price_alerts_percent = 10; // Price percent change to send alerts for (WITHOUT percent sign: 15 = 15%). Sends alerts when percent change reached (up or down)
 
-$exchange_price_alerts_minvolume = 350; // Minimum 24 hour volume filter (WITHOUT dollar sign: 250 = $250). Only allows sending exchange price alerts if minimum 24 hour volume reached
+// Minimum 24 hour volume filter. Only allows sending exchange price alerts if minimum 24 hour volume reached
+// CAN BE 0, NO DECIMALS OR SEPARATORS, NUMBERS ONLY, WITHOUT dollar sign: 250 = $250 , 4500 = $4,500 , etc
+$exchange_price_alerts_minvolume = 350;
 
 // Refresh cached comparison prices every X days (since last refresh / alert) with latest prices...can be 0 to disable refreshing (until price alert triggers a refresh)
 $exchange_price_alerts_refresh = 0; 
