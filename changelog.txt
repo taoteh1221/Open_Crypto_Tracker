@@ -969,6 +969,7 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 2.3.7:
 -Minor revisions
+-Fixed error logs purge bug
 -------------------------------------------------------------------
 
 

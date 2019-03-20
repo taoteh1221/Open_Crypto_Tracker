@@ -297,20 +297,21 @@ $base_dir = preg_replace("/\/app\.lib(.*)/i", "", dirname(__FILE__) );
 	$mail_freq = 7;
 	}
 
-	if ( $mail_freq > 0 && update_cache_file('cache/alerts/email-error-logs.dat', ( $mail_freq * 1440 ) ) == true ) {
+	if ( $mail_freq > 0 && update_cache_file('cache/events/email-error-logs.dat', ( $mail_freq * 1440 ) ) == true ) {
 		
 	$message = " Here are the current error logs from the ".$base_dir."/cache/logs/errors.log file: \n =========================================================================== \n \n"  . file_get_contents('cache/logs/errors.log');
 	
 	@safe_mail($to_email, 'DFD Cryptocoin Values ' . ucfirst($mail_error_logs) . ' Error Logs Report', $message);
 	
-	file_put_contents('cache/alerts/email-error-logs.dat', date('Y-m-d H:i:s'), LOCK_EX); // Track this emailing event, to determine next time to email logs again.
+	file_put_contents('cache/events/email-error-logs.dat', date('Y-m-d H:i:s'), LOCK_EX); // Track this emailing event, to determine next time to email logs again.
 	
 	}
 	
 	
 	// Log errors...Purge old logs before storing new logs, if it's time to...otherwise just append.
-	if ( $error_logs != null && update_cache_file('cache/logs/errors.log', ( $purge_error_logs * 1440 ) ) == true ) {
+	if ( $error_logs != null && update_cache_file('cache/events/purge-error-logs.dat', ( $purge_error_logs * 1440 ) ) == true ) {
 	file_put_contents('cache/logs/errors.log', $error_logs, LOCK_EX);
+	file_put_contents('cache/events/purge-error-logs.dat', date('Y-m-d H:i:s'), LOCK_EX);
 	}
 	elseif ( $error_logs != null ) {
 	file_put_contents('cache/logs/errors.log', $error_logs, FILE_APPEND | LOCK_EX);
