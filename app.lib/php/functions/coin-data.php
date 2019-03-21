@@ -962,7 +962,7 @@ $market_pairing = $all_markets[$selected_market];
   echo 'No Data';
   }
   elseif ( $trade_volume >= 0 ) {
-  echo number_format($trade_volume, 0, '.', ',');
+  echo '$' . number_format($trade_volume, 0, '.', ',');
   }
 
 ?>
