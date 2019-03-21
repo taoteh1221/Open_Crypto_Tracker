@@ -976,6 +976,17 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+2.3.8:
+-Fixed minor SMTP bug (added new to address every addTo call, even if the same address)
+-Default configuration tweaks
+-Missing dollar sign in volume column, after logic overhaul
+-Minor revisions in help page
+-Cryptopia market volume API support
+-------------------------------------------------------------------
+
+
+
 
 
 

@@ -23,6 +23,7 @@ global $smtp_vars; // Needed for class compatibility (along with second instance
 
 // Initiation of the 3rd party SMTP class
 $smtp = new SMTPMailer();
+$smtp->addTo($to_email); // Add to email here one time...because class adds to an array each call, even if already added
 
 }
 

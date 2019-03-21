@@ -694,7 +694,7 @@ global $btc_exchange, $coins_list, $last_trade_cache;
              
             return  array(
     							'last_trade' => $data[$key]["LastPrice"],
-    							'24hr_usd_volume' => NULL  // Offline from hack still, will be back eventually
+    							'24hr_usd_volume' => volume_usd($market_pairing, $data[$key]["Volume"], $data[$key]["LastPrice"])
     							);
              
             }

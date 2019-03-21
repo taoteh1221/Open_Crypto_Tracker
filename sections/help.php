@@ -21,7 +21,7 @@
                         
 			<div class='help_section'>
                             <p><b>Setting Up Email / Text / Alexa Exchange Price Alerts:</b><br />
-                                You can setup exchange price alerts to be sent to email, mobile phone text, and amazon alexa notifications. You will be alerted when the USD price of an asset goes up or down a certain percent or more (whatever percent you choose in the settings), for specific exchange / base pairing combinations for that asset (you can even setup alerts for multiple exchange / base pairings for the same asset). See the required settings in config.php, and instructions on cron job setup in the <a href='README.txt' target='_blank'>README.txt file</a>. Once setup, there is no need to keep your computer turned on. The alerts run automatically from your web server.</p>
+                                You can setup exchange price alerts to be sent to email, mobile phone text, and amazon alexa notifications. You will be alerted when the USD price of an asset goes up or down a certain percent or more (whatever percent you choose in the settings), for specific exchange / base pairing combinations for that asset (you can even setup alerts for multiple exchanges / base pairings for the same asset). See the required settings in config.php, and instructions on cron job setup in the <a href='README.txt' target='_blank'>README.txt file</a>. Once setup, there is no need to keep your computer turned on. The alerts run automatically from your web server.</p>
                         </div>
                         
 			<div class='help_section'>
@@ -47,7 +47,7 @@
                         
 			<div class='help_section'>
                             <p><b>Messed Up Values After Upgrading:</b><br />
-                                If the config file settings are re-configured or re-ordered, reload / refresh the page before updating any coin values, or the submission form may not be configured properly and may not submit or display data correctly. Also, you may need to uncheck "Save coin values as cookie data" on the Program Settings page temporarily to clear out old cookie data that may conflict with the new configuration...then you can re-enable cookies again afterwards.</p>
+                                If the config file settings are re-configured or re-ordered, reload / refresh the page before updating any coin values, or the submission form may not be configured properly and may not submit or display data correctly. Also, you may need to uncheck "Use cookie data to save values between sessions" on the Program Settings page, to temporarily clear out old cookie data that may conflict with the new configuration...then you can re-enable cookies again afterwards.</p>
                         </div>
                         
                         
