@@ -11,3 +11,5 @@ Differentiate BTC USD / USDT / TUSD / USDC markets as bitcoin's market options, 
 SQL-based accounts for storing API keys, coin amounts??
 
 2-way encryption (unlocked with 6 digit PIN) for storing coin amounts??
+
+Twitter handle / subreddit name in coin config, and either a 'Social' tab or image hover pop-in with latest news (cached to avoid blacklist)?
