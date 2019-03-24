@@ -24,8 +24,9 @@ echo "<p style='color: red;'>GD for PHP (version ID ".PHP_VERSION_ID.") is not i
 elseif ( trim($_POST['qr-string']) != '' ) {
 ?>
 
-<p style='font-weight: bold;'>Generated QR Code Address:<p>
+<p style='font-weight: bold;'>Generated QR Code Address:</p>
 <p><image src='media/images/qr-code-image.php?data=<?=urlencode(trim($_POST['qr-string']))?>' border='0' /></p>
+<p style='color: red; font-weight: bold;'>--ALWAYS-- VERIFY YOUR ADDRESS COPIED OVER CORRECTLY</p>
 
 <?php
 }
