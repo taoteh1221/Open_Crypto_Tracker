@@ -12,6 +12,7 @@ require("templates/default/header.php");
 			<li class='tabli'><a href='#values'>Your Coin Values</a></li>
 			<li class='tabli'><a href='#links'>External Resource Links</a></li>
 			<li class='tabli'><a href='#calculators'>Mining and Interest Calculators</a></li>
+			<li class='tabli'><a href='#tools'>Crypto Tools</a></li>
 			<li class='tabli'><a href='#amounts'>Update Coin Amounts</a></li>
 			<li class='tabli'><a href='#settings'>Program Settings</a></li>
 			<li class='tabli'><a style='color:red;' href='#help'>Help</a></li>
@@ -48,6 +49,10 @@ require("templates/default/header.php");
 		<div id='calculators' class='tabdiv'>
 			<h3>Mining and Interest Calculators</h3>
 			<?php require("sections/calculators.php"); ?>
+		</div>
+		<div id='tools' class='tabdiv'>
+			<h3>Crypto Tools</h3>
+			<?php require("sections/tools.php"); ?>
 		</div>
 		<div id='amounts' class='tabdiv'>
 			<h3>Update Coin Amounts</h3>

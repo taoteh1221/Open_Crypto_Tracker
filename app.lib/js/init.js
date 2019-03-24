@@ -25,8 +25,8 @@ $(document).ready(function(){
 
 	//////////////////////////////////////////////////////////
   
-  $('#donate').click(function() {
-      $('#donate_div').toggle();
+  $( '.show' ).click(function() {
+      $( '.show_' + $(this).attr('id') ).toggle();
   });
 
 	//////////////////////////////////////////////////////////

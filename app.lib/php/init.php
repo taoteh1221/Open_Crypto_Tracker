@@ -5,7 +5,7 @@
 
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
 
-$app_version = '2.3.8';  // 2019/MARCH/21ST
+$app_version = '2.3.9';  // 2019/MARCH/23RD
  
 date_default_timezone_set('UTC');
 
@@ -60,6 +60,9 @@ $alert_percent = explode("|", $_COOKIE['alert_percent']);
 require_once( dirname(__FILE__) . "/cookies.php");
 
 }
+
+// Register the PHP apps directory
+$php_app_dir = dirname(__FILE__);
 
 
 ?>

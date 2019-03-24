@@ -6,11 +6,21 @@
 
 ?>
 
-<p style='color: red; font-weight: bold;'>Assets in the default list DO NOT indicate ANY endorsement of these assets (AND removal indicates NO anti-endorsement). These crypto-assets are merely either interesting, historically popular, or (at time off addition) good ROI for cryptocurrency mining hardware. They are only used as <i>examples for demoing feasibility of features</i> in this application, <a href='README.txt' target='_blank'>before you install it on your own PHP-enabled web server and change the list to your favorite assets</a>. Always do your due diligence investigating whether you are engaging in trading within acceptable risk levels for your net worth, and consider consulting a professional if you are unaware of what risks are present.</p>
+<p><a style='color: red; font-weight: bold;' class='show' id='disclaimer' href='#show_disclaimer' title='Click to show disclaimer.' onclick='return false;'>Disclaimer</a></p>
+    
+            <div style='display: none;' class='show_disclaimer' align='left'>
+            	
+     
+					<p style='color: red; font-weight: bold;'>Assets in the default list DO NOT indicate ANY endorsement of these assets (AND removal indicates NO anti-endorsement). These crypto-assets are merely either interesting, historically popular, or (at time off addition) good ROI for cryptocurrency mining hardware. They are only used as <i>examples for demoing feasibility of features</i> in this application, <a href='README.txt' target='_blank'>before you install it on your own PHP-enabled web server and change the list to your favorite assets</a>. Always do your due diligence investigating whether you are engaging in trading within acceptable risk levels for your net worth, and consider consulting a professional if you are unaware of what risks are present.</p>
 
-<p style='color: red; font-weight: bold;'><i><u>Semi-simplified version of above important disclaimer / advisory</u>:</i> <i>NEVER</i> invest more than you can afford to lose, <i>NEVER</i> buy an asset because of somebody's opinion of it, <i>ALWAYS <u>fully research</u></i> your planned investment beforehand, <i>ALWAYS</i> diversify for you <i>(and yours)</i> safety / sanity, <i><u>ALWAYS AVOID</u></i> <a href='https://twitter.com/hashtag/pumpndump?src=hash' target='_blank'>#pumpndump</a> / <a href='https://twitter.com/hashtag/fomo?src=hash' target='_blank'>#fomo</a> / <a href='https://twitter.com/hashtag/shitcoin?src=hash' target='_blank'>#shxtcoin</a> trading, <i>AND</i> hang on tight till you can't stand fully holding anymore / want to or must make a position exit (percentage) official. Best of luck, be careful out there in this cryptoland frontier <i>full of scams and greedy <u>glorified</u> (and NOT so glorified) crooks</i>! :-o</p>
+					<p style='color: red; font-weight: bold;'><i><u>Semi-simplified version of above important disclaimer / advisory</u>:</i> <i>NEVER</i> invest more than you can afford to lose, <i>NEVER</i> buy an asset because of somebody's opinion of it, <i>ALWAYS <u>fully research</u></i> your planned investment beforehand, <i>ALWAYS</i> diversify for you <i>(and yours)</i> safety / sanity, <i><u>ALWAYS AVOID</u></i> <a href='https://twitter.com/hashtag/pumpndump?src=hash' target='_blank'>#pumpndump</a> / <a href='https://twitter.com/hashtag/fomo?src=hash' target='_blank'>#fomo</a> / <a href='https://twitter.com/hashtag/shitcoin?src=hash' target='_blank'>#shxtcoin</a> trading, <i>AND</i> hang on tight till you can't stand fully holding anymore / want to or must make a position exit (percentage) official. Best of luck, be careful out there in this cryptoland frontier <i>full of scams and greedy <u>glorified</u> (and NOT so glorified) crooks</i>! :-o</p>
 
-<p style='font-weight: bold;'><a href='README.txt' target='_blank'>Editing The Coin List, or Enabling Email / Text / Alexa Exchange Price Alerts</a></p>
+            
+            </div>
+            	
+            	
+<p><a style='font-weight: bold;' href='README.txt' target='_blank'>Editing The Coin List, or Enabling Email / Text / Alexa Exchange Price Alerts</a></p>
+
 
 <form name='coin_amounts' action='<?=$_SERVER['PHP_SELF']?>' method='post'>
 

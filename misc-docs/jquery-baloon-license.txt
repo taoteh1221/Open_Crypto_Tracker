@@ -1,0 +1,9 @@
+/**
+ * Hover balloon on elements without css and images.
+ *
+ * Copyright (c) 2011 Hayato Takenaka
+ * Licensed under the MIT license:
+ * http://www.opensource.org/licenses/mit-license.php
+ * @author: Hayato Takenaka (https://urin.github.io)
+ * @version: 1.1.2 - 2017/04/30
+**/
