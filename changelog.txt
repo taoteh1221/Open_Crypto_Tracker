@@ -1000,6 +1000,7 @@ app doing the data requests, not a malicious bot)
 2.4.0:
 -Updated Okex API to v3
 -UI and config tweaks
+-Semantics on PHP library subdirectory structure
 -------------------------------------------------------------------
 
 

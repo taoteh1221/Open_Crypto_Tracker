@@ -8,7 +8,7 @@
 <p>If you need to safely / quickly copy an address to yours or someone else's phone with a QR Code scanner app. 
 <br /><br />NOTE: Whitespace, carriage returns, HTML, and non-alphanumeric characters are not allowed.</p>
 
-<form method='post' action='#tools'>
+<form method='post' action='#other_crypto_tools'>
 
 <input type='text' size='130' name='qr-string' placeholder="Enter address to convert to QR code here..." value='<?=trim($_POST['qr-string'])?>' />
 
