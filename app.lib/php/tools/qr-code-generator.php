@@ -5,7 +5,7 @@
 
 ?>
 
-<p>If you need to safely / quickly copy an address to yours or someone else's phone with a QR scanner app. 
+<p>If you need to safely / quickly copy an address to yours or someone else's phone with a QR Code scanner app. 
 <br /><br />NOTE: Whitespace, carriage returns, HTML, and non-alphanumeric characters are not allowed.</p>
 
 <form method='post' action='#tools'>

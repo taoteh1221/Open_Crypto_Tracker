@@ -270,19 +270,34 @@ global $btc_exchange, $coins_list, $last_trade_cache;
 
   elseif ( strtolower($chosen_market) == 'okex' ) {
   	
-  	// Available markets listed here: https://www.okex.com/v2/markets/products
   
-  $json_string = 'https://www.okex.com/api/v1/ticker.do?symbol=' . $market_pairing;
+  $json_string = 'https://www.okex.com/api/spot/v3/instruments/ticker';
   
     $jsondata = @api_data('url', $json_string, $last_trade_cache);
     
     $data = json_decode($jsondata, TRUE);
-    
-    return  array(
-    					'last_trade' => number_format( $data['ticker']['last'], 8, '.', ''),
-    					'24hr_usd_volume' => volume_usd($market_pairing, $data['ticker']["vol"], $data['ticker']["last"])
-    					);
    
+  
+      if (is_array($data) || is_object($data)) {
+  
+       foreach ($data as $key => $value) {
+       	
+         
+         if ( $data[$key]['instrument_id'] == $market_pairing ) {
+          
+         return  array(
+    						'last_trade' => $data[$key]["last"],
+    						'24hr_usd_volume' => volume_usd($market_pairing, $data[$key]["base_volume_24h"], $data[$key]["last"])
+    						);
+
+         }
+       
+     
+       }
+      
+      }
+  
+  
   }
 
 

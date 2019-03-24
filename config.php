@@ -283,7 +283,7 @@ $coins_list = array(
                                           'hitbtc' => 'ETHBTC',
                                           'upbit' => 'BTC-ETH',
                                           'kucoin' => 'ETH-BTC',
-                                          'okex' => 'eth_btc',
+                                          'okex' => 'ETH-BTC',
                                           'livecoin' => 'ETH/BTC',
                                           'cryptofresh' => 'OPEN.ETH'
                                                     ),
@@ -296,7 +296,7 @@ $coins_list = array(
                                           'poloniex' => 'USDT_ETH',
                                           'hitbtc' => 'ETHUSD',
                                           'upbit' => 'USDT-ETH',
-                                          'okex' => 'eth_usdt'
+                                          'okex' => 'ETH-USDT'
                                                     ),
                                     'tusd' => array(
                                           'binance' => 'ETHTUSD'
@@ -322,7 +322,7 @@ $coins_list = array(
                                           'kraken' => 'XXMRXXBT',
                                           'cryptopia' => 'XMR/BTC',
                                         	'upbit' => 'BTC-XMR',
-                                          'okex' => 'xmr_btc',
+                                          'okex' => 'XMR-BTC',
                                           'livecoin' => 'XMR/BTC'
                                                     ),
                                     'eth' => array(
@@ -335,7 +335,7 @@ $coins_list = array(
                                           'bittrex' => 'USDT-XMR',
                                           'poloniex' => 'USDT_XMR',
                                           'upbit' => 'USDT-XMR',
-                                          'okex' => 'xmr_usdt'
+                                          'okex' => 'XMR-USDT'
                                                     )
                                         ),
                         'default_pairing' => 'btc'
@@ -355,7 +355,7 @@ $coins_list = array(
                                           'poloniex' => 'BTC_DCR',
                                        	'kucoin' => 'DCR-BTC',
                                           'upbit' => 'BTC-DCR',
-                                          'okex' => 'dcr_btc',
+                                          'okex' => 'DCR-BTC',
                                           'cryptopia' => 'DCR/BTC',
                                           'gateio' => 'dcr_btc'
                                                     ),
@@ -364,7 +364,7 @@ $coins_list = array(
                                                     ),
                                     'usdt' => array(
                                           'bittrex' => 'USDT-DCR',
-                                          'okex' => 'dcr_usdt',
+                                          'okex' => 'DCR-USDT',
                                           'cryptopia' => 'DCR/USDT',
                                           'gateio' => 'dcr_usdt'
                                           			)
@@ -389,7 +389,7 @@ $coins_list = array(
                                         'hitbtc' => 'DASHBTC',
                                         'kucoin' => 'DASH-BTC',
                                         'upbit' => 'BTC-DASH',
-                                        'okex' => 'dash_btc',
+                                        'okex' => 'DASH-BTC',
                                         'livecoin' => 'DASH/BTC',
                                         'cryptopia' => 'DASH/BTC',
                                         'tradesatoshi' => 'DASH_BTC'
@@ -403,7 +403,7 @@ $coins_list = array(
                                          'hitbtc' => 'DASHETH',
                                          'kucoin' => 'DASH-ETH',
                                          'upbit' => 'ETH-DASH',
-                                         'okex' => 'dash_eth'
+                                         'okex' => 'DASH-ETH'
                                                     ),
                                     'usdt' => array(
                                          'poloniex' => 'USDT_DASH',
@@ -434,7 +434,7 @@ $coins_list = array(
                                         'hitbtc' => 'LTCBTC',
                                         'kucoin' => 'LTC-BTC',
                                         'upbit' => 'BTC-LTC',
-                                        'okex' => 'ltc_btc',
+                                        'okex' => 'LTC-BTC',
                                         'livecoin' => 'LTC/BTC',
                                         'cryptopia' => 'LTC/BTC',
                                         'cryptofresh' => 'OPEN.LTC',
@@ -449,7 +449,7 @@ $coins_list = array(
                                         'hitbtc' => 'LTCETH',
                                         'kucoin' => 'LTC-ETH',
                                         'upbit' => 'ETH-LTC',
-                                    	 'okex' => 'ltc_eth'
+                                    	 'okex' => 'LTC-ETH'
                                                     ),
                                     'usdt' => array(
                                         'binance' => 'LTCUSDT',
@@ -459,7 +459,7 @@ $coins_list = array(
                                         'kucoin' => 'LTC-USDT',
                                         'cryptopia' => 'LTC/USDT',
                                         'upbit' => 'USDT-LTC',
-                                        'okex' => 'ltc_usdt'
+                                        'okex' => 'LTC-USDT'
                                           			),
                                     'tusd' => array(
                                           'binance' => 'LTCTUSD'
@@ -507,7 +507,7 @@ $coins_list = array(
                                         	'ethfinex' => 'tMNABTC',
                                           'kucoin' => 'MANA-BTC',
                                         	'upbit' => 'BTC-MANA',
-                                          'okex' => 'mana_btc'
+                                          'okex' => 'MANA-BTC'
                                                     ),
                                     'eth' => array(
                                         	'binance' => 'MANAETH',
@@ -516,11 +516,11 @@ $coins_list = array(
                                           'hitbtc' => 'MANAETH',
                                           'kucoin' => 'MANA-ETH',
                                         	'upbit' => 'ETH-MANA',
-                                          'okex' => 'mana_eth'
+                                          'okex' => 'MANA-ETH'
                                                     ),
                                     'usdt' => array(
                                           'hitbtc' => 'MANAUSD',
-                                          'okex' => 'mana_usdt'
+                                          'okex' => 'MANA-USDT'
                                                     )
                                         ),
                         'default_pairing' => 'btc'
@@ -560,17 +560,27 @@ $coins_list = array(
                                     'btc' => array(
                                          'poloniex' => 'BTC_GRIN',
                                     	  'kucoin' => 'GRIN-BTC',
+                                         'hitbtc' => 'GRINBTC',
                                          'hotbit' => 'GRIN_BTC',
+                                         'gateio' => 'grin_btc',
                                          'bitforex' => 'coin-btc-grin',
-                                         'tradeogre' => 'BTC-GRIN'
+                                         'tradeogre' => 'BTC-GRIN',
+                                         'bigone' => 'GRIN-BTC'
                                                     ),
                                     'eth' => array(
                                     	  'kucoin' => 'GRIN-ETH',
-                                         'hotbit' => 'GRIN_ETH'
+                                         'hitbtc' => 'GRINETH',
+                                         'hotbit' => 'GRIN_ETH',
+                                         'gateio' => 'grin_eth',
+                                         'bitforex' => 'coin-eth-grin'
                                                     ),
                                     'usdt' => array(
+                                    	  'kucoin' => 'GRIN-USDT',
+                                         'hitbtc' => 'GRINUSD',
                                          'hotbit' => 'GRIN_USDT',
-                                         'bitforex' => 'coin-usdt-grin'
+                                         'gateio' => 'grin_usdt',
+                                         'bitforex' => 'coin-usdt-grin',
+                                         'bigone' => 'GRIN-USDT'
                                                     )
                                         ),
                         'default_pairing' => 'btc'
@@ -584,13 +594,19 @@ $coins_list = array(
                         'ico' => 'yes',
                         'market_pairing' => array(
                                     'btc' => array(
-                                         'hotbit' => 'BEAM_BTC'
+                                         'hotbit' => 'BEAM_BTC',
+                                         'gateio' => 'beam_btc',
+                                         'bitforex' => 'coin-btc-beam'
                                                     ),
                                     'eth' => array(
-                                         'hotbit' => 'BEAM_ETH'
+                                         'hotbit' => 'BEAM_ETH',
+                                         'gateio' => 'beam_eth',
+                                         'bitforex' => 'coin-eth-beam'
                                                     ),
                                     'usdt' => array(
-                                         'hotbit' => 'BEAM_USDT'
+                                         'hotbit' => 'BEAM_USDT',
+                                         'gateio' => 'beam_usdt',
+                                         'bitforex' => 'coin-usdt-beam'
                                                     )
                                         ),
                         'default_pairing' => 'btc'
@@ -620,11 +636,11 @@ $coins_list = array(
                                           'hitbtc' => 'ZRXETH',
                                           'upbit' => 'ETH-ZRX',
                                           'livecoin' => 'ZRX/ETH',
-                                        	'okex' => 'zrx_eth'
+                                        	'okex' => 'ZRX-ETH'
                                                     ),
                                     'usdt' => array(
                                           'hitbtc' => 'ZRXUSD',
-                                        	'okex' => 'zrx_usdt'
+                                        	'okex' => 'ZRX-USDT'
                                                     )
                                         ),
                         'default_pairing' => 'btc'
@@ -671,15 +687,15 @@ $coins_list = array(
                                     'btc' => array(
                                         	'binance' => 'ZILBTC',
                                     		'kucoin' => 'ZIL-BTC',
-                                        	'okex' => 'zil_btc'
+                                        	'okex' => 'ZIL-BTC'
                                                     ),
                                     'eth' => array(
                                         	'binance' => 'ZILETH',
                                           'kucoin' => 'ZIL-ETH',
-                                        	'okex' => 'zil_eth'
+                                        	'okex' => 'ZIL-ETH'
                                                     ),
                                     'usdt' => array(
-                                        	'okex' => 'zil_usdt'
+                                        	'okex' => 'ZIL-USDT'
                                                     )
                                         ),
                         'default_pairing' => 'btc'
@@ -701,7 +717,7 @@ $coins_list = array(
                                         	'kucoin' => 'SNT-BTC',
                                           'upbit' => 'BTC-SNT',
                                         	'livecoin' => 'SNT/BTC',
-                                       	'okex' => 'snt_btc'
+                                       	'okex' => 'SNT-BTC'
                                                     ),
                                     'eth' => array(
                                           'binance' => 'SNTETH',
@@ -711,11 +727,11 @@ $coins_list = array(
                                         	'kucoin' => 'SNT-ETH',
                                           'upbit' => 'ETH-SNT',
                                         	'livecoin' => 'SNT/ETH',
-                                        	'okex' => 'snt_eth'
+                                        	'okex' => 'SNT-ETH'
                                                     ),
                                     'usdt' => array(
                                           'hitbtc' => 'SNTUSD',
-                                        	'okex' => 'snt_usdt'
+                                        	'okex' => 'SNT-USDT'
                                                     )
                                         ),
                         'default_pairing' => 'btc'
@@ -736,7 +752,7 @@ $coins_list = array(
                                           'cryptopia' => 'GNT/BTC',
                                         	'upbit' => 'BTC-GNT',
                                         	'livecoin' => 'GNT/BTC',
-                                        	'okex' => 'gnt_btc'
+                                        	'okex' => 'GNT-BTC'
                                                     ),
                                     'eth' => array(
                                           'bittrex' => 'ETH-GNT',
@@ -744,10 +760,10 @@ $coins_list = array(
                                         	'ethfinex' => 'tGNTETH',
                                           'upbit' => 'ETH-GNT',
                                         	'livecoin' => 'GNT/ETH',
-                                        	'okex' => 'gnt_eth'
+                                        	'okex' => 'GNT-ETH'
                                                     ),
                                     'usdt' => array(
-                                        	'okex' => 'gnt_usdt'
+                                        	'okex' => 'GNT-USDT'
                                                     )
                                         ),
                         'default_pairing' => 'btc'
@@ -768,19 +784,19 @@ $coins_list = array(
                                           'hitbtc' => 'XLMBTC',
                                           'kraken' => 'XXLMXXBT',
                                           'upbit' => 'BTC-XLM',
-                                        	'okex' => 'xlm_btc'
+                                        	'okex' => 'XLM-BTC'
                                                     ),
                                     'eth' => array(
                                           'binance' => 'XLMETH',
                                           'bittrex' => 'ETH-XLM',
                                           'hitbtc' => 'XLMETH',
                                           'upbit' => 'ETH-XLM',
-                                        	'okex' => 'xlm_eth'
+                                        	'okex' => 'XLM-ETH'
                                                     ),
                                     'usdt' => array(
                                         	'poloniex' => 'USDT_STR',
                                           'hitbtc' => 'XLMUSD',
-                                        	'okex' => 'xlm_usdt'
+                                        	'okex' => 'XLM-USDT'
                                                     ),
                                     'tusd' => array(
                                           'binance' => 'XLMTUSD'
