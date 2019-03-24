@@ -26,7 +26,7 @@ include('../../app.lib/php/other/qr-code-generator/phpqrcode/qrlib.php');
 
      if (  $original == $sanitized ) {
 		// outputs image directly into browser, as PNG stream 
-		QRcode::png($original, false, 4, 8);
+		QRcode::png($original, false, 3, 5);
 	  }
 	  else {
 		$image = imagecreatefrompng('qr-error.png');
