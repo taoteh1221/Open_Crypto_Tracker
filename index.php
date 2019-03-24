@@ -9,7 +9,7 @@ require("templates/default/header.php");
 
 
 		<ul class='tabs'>
-			<li class='tabli'><a href='#values'>Your Coin Values</a></li>
+			<li class='tabli'><a href='#values'>Coin Portfolio Value</a></li>
 			<li class='tabli'><a href='#links'>External Resource Links</a></li>
 			<li class='tabli'><a href='#calculators'>Mining and Interest Calculators</a></li>
 			<li class='tabli'><a href='#other_crypto_tools'>Other Crypto Tools</a></li>
