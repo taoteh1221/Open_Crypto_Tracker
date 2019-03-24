@@ -5,14 +5,14 @@
 
 ?>
 
-<p>If you need to safely / quickly copy an address to you or someone else's phone with a QR scanner app. 
+<p>If you need to safely / quickly copy an address to yours or someone else's phone with a QR scanner app. 
 <br /><br />NOTE: Whitespace, carriage returns, HTML, and non-alphanumeric characters are not allowed.</p>
 
 <form method='post' action='#tools'>
 
-<input type='text' size='100' name='qr-string' placeholder="Enter address to convert to QR code here..." value='<?=trim($_POST['qr-string'])?>' />
+<input type='text' size='130' name='qr-string' placeholder="Enter address to convert to QR code here..." value='<?=trim($_POST['qr-string'])?>' />
 
-<input type='submit' value='Generate QR Code Address' />
+<br /><br /><input type='submit' value='Generate QR Code Address' />
 
 </form>
 
