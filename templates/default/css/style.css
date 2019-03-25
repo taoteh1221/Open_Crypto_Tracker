@@ -146,7 +146,7 @@ div.tabdiv {
         padding:5px 10px;
         display:inline-block;
         background:#808080;
-        color:black;
+        color:white;
         text-decoration:none;
      }
      
@@ -157,7 +157,7 @@ div.tabdiv {
         border-left: 1px solid black;
         border-right: 1px solid black;
         background:#fff;
-        color:#000;
+        color:black;
      }
 
 .calculators {

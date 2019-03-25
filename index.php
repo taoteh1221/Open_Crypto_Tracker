@@ -15,7 +15,7 @@ require("templates/default/header.php");
 			<li class='tabli'><a href='#other_crypto_tools'>Other Crypto Tools</a></li>
 			<li class='tabli'><a href='#amounts'>Update Coin Amounts</a></li>
 			<li class='tabli'><a href='#settings'>Program Settings</a></li>
-			<li class='tabli'><a style='color:red;' href='#help'>Help</a></li>
+			<li class='tabli'><a href='#help'>Help</a></li>
 		</ul>
 		<div id='values' class='tabdiv'>
 			<h3 style='display: inline;'>Coin Portfolio Value</h3> (<?=$last_trade_cache?> minute cache)
@@ -63,7 +63,7 @@ require("templates/default/header.php");
 			<?php require("sections/settings.php"); ?>
 		</div>
 		<div id='help' class='tabdiv'>
-			<h3 style='color: red;'>Help</h3>
+			<h3>Help</h3>
 			<?php require("sections/help.php"); ?>
 		</div>
 
