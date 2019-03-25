@@ -959,7 +959,7 @@ $market_pairing = $all_markets[$selected_market];
 
   // NULL if not setup to get volume, negative number returned if no data received from API
   if ( $trade_volume == NULL || $trade_volume == -1 ) {
-  echo 'No Data';
+  echo '$0';
   }
   elseif ( $trade_volume >= 0 ) {
   echo '$' . number_format($trade_volume, 0, '.', ',');

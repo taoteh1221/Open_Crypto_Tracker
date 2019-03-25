@@ -7,7 +7,7 @@
 ?>
 
 <p>
-    <fieldset><legend> Coinmarketcap.com Stats </legend>
+    <fieldset class='blue_fieldset'><legend style='color: blue;'> <strong>Coinmarketcap.com Stats</strong> </legend>
     <ul>
         
         <li class='chart_links'><a href='http://coinmarketcap.com/' target='_blank'>Top Marketcaps</a></li>
@@ -28,7 +28,7 @@
 
 
 <p>
-    <fieldset><legend> Other Stats </legend>
+    <fieldset class='blue_fieldset'><legend style='color: blue;'> <strong>Other Stats</strong> </legend>
     <ul>
         
         <li class='chart_links'><a href='https://bitcoinwisdom.com' target='_blank'>Bitcoinwisdom.com</a></li>
@@ -51,7 +51,7 @@
 
 
 <p>
-    <fieldset><legend> Coin Mining </legend>
+    <fieldset class='blue_fieldset'><legend style='color: blue;'> <strong>Coin Mining</strong> </legend>
     <ul>
         
         <li class='chart_links'><a href='https://simplemining.net/' target='_blank'>Simplemining.net</a></li>
@@ -66,7 +66,7 @@
 
 
 <p>
-    <fieldset><legend> Exchanges </legend>
+    <fieldset class='blue_fieldset'><legend style='color: blue;'> <strong>Exchanges</strong> </legend>
     <ul>
         
         
@@ -100,7 +100,7 @@
 
 
 <p>
-    <fieldset><legend> Newsletters </legend>
+    <fieldset class='blue_fieldset'><legend style='color: blue;'> <strong>Newsletters</strong> </legend>
     <ul>
         
         
@@ -124,7 +124,7 @@
 
 
 <p>
-    <fieldset><legend> News Websites </legend>
+    <fieldset class='blue_fieldset'><legend style='color: blue;'> <strong>News Websites</strong> </legend>
     <ul>
         
         
@@ -160,7 +160,7 @@
 
 
 <p>
-    <fieldset><legend> Youtube Channels </legend>
+    <fieldset class='blue_fieldset'><legend style='color: blue;'> <strong>Youtube Channels</strong> </legend>
     <ul>
         
         <li class='chart_links'><a href='https://www.youtube.com/user/aantonop/featured' target='_blank'>Andreas Antonopoulos</a></li>

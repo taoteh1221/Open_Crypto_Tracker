@@ -11,7 +11,7 @@
 			<p style='font-weight: bold; color: red;'> Chain data (block height, difficulty, etc) on this page is cached for <?=$chainstats_cache?> minute(s). </p>
 			
 			
-			<fieldset class='calculators'>
+			<fieldset class='blue_fieldset'>
 				<legend style='color: blue;'> <b>Bitcoin Mining Calculator</b> </legend>
 		    
 				<?php require("app.lib/php/other/calculators/bitcoin-mining-calculator.php"); ?>
@@ -19,7 +19,7 @@
 				
 			</fieldset>
 			
-			<fieldset class='calculators'>
+			<fieldset class='blue_fieldset'>
 				<legend style='color: blue;'> <b>Ethereum Mining Calculator</b> </legend>
 		    
 				<?php require("app.lib/php/other/calculators/ethereum-mining-calculator.php"); ?>
@@ -27,7 +27,7 @@
 				
 			</fieldset>
 				
-			<fieldset class='calculators'>
+			<fieldset class='blue_fieldset'>
 				<legend style='color: blue;'> <b>Monero Mining Calculator</b> </legend>
 		    
 				<?php require("app.lib/php/other/calculators/monero-mining-calculator.php"); ?>
@@ -35,7 +35,7 @@
 				
 			</fieldset>
 			
-			<fieldset class='calculators'>
+			<fieldset class='blue_fieldset'>
 				<legend style='color: blue;'> <b>Litecoin Mining Calculator</b> </legend>
 		    
 				<?php require("app.lib/php/other/calculators/litecoin-mining-calculator.php"); ?>
@@ -43,7 +43,7 @@
 				
 			</fieldset>
 			
-			<fieldset class='calculators'>
+			<fieldset class='blue_fieldset'>
 				<legend style='color: blue;'> <b>Decred Mining Calculator</b> </legend>
 		    
 				<?php require("app.lib/php/other/calculators/decred-mining-calculator.php"); ?>
@@ -51,7 +51,7 @@
 				
 			</fieldset>
 			
-			<fieldset class='calculators'>
+			<fieldset class='blue_fieldset'>
 				<legend style='color: blue;'> <b>Ravencoin Mining Calculator</b> </legend>
 		    
 				<?php require("app.lib/php/other/calculators/ravencoin-mining-calculator.php"); ?>
@@ -59,7 +59,7 @@
 				
 			</fieldset>
 			
-			<fieldset class='calculators'>
+			<fieldset class='blue_fieldset'>
 				<legend style='color: blue;'> <b>STEEM Power Interest Rate / Power Down Weekly Payout Calculator</b> </legend>
 				
 				<?php require("app.lib/php/other/calculators/steem-power-interest-calculator.php"); ?>
