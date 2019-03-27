@@ -741,7 +741,7 @@ $market_pairing = $all_markets[$selected_market];
 
 <td class='data border_lb'><span><?php echo $sort_order; ?></span></td>
 
-<td class='data border_lb' align='right' style='position: relative; padding-right: 32px; <?=( $coins_list[$trade_symbol]['ico'] == 'yes' ? 'padding-left: 32px;' : '' )?>'>
+<td class='data border_lb' align='right' style='position: relative; padding-right: 32px;'>
  
  <?php
  $mkcap_render_data = trim($coins_list[$trade_symbol]['marketcap-website-slug']);
@@ -759,7 +759,7 @@ $market_pairing = $all_markets[$selected_market];
  	
  	
  		?>
- <?=( $coins_list[$trade_symbol]['ico'] == 'yes' ? "<a title='SEC Website On ICO Guidance And Safety' href='https://www.sec.gov/ICO' target='_blank'><img src='media/images/alert.png' border=0' style='position: absolute; top: 3px; left: 0px; margin: 0px; height: 30px; width: 30px;' /></a> " : "" )?><img id='<?=$mkcap_render_data?>' src='media/images/<?=$info_icon?>' border=0' style='position: absolute; top: 3px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <a title='' href='https://<?=$asset_pagebase?><?=$mkcap_render_data?>/' target='_blank' style='color: blue;'><?php echo $coin_name; ?></a>
+ <img id='<?=$mkcap_render_data?>' src='media/images/<?=$info_icon?>' border=0' style='position: absolute; top: 3px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <a title='' href='https://<?=$asset_pagebase?><?=$mkcap_render_data?>/' target='_blank' style='color: blue;'><?php echo $coin_name; ?></a>
  <script>
 
 		<?php

@@ -1001,6 +1001,7 @@ app doing the data requests, not a malicious bot)
 -Updated Okex API to v3
 -UI and config tweaks
 -Semantics on PHP library subdirectory structure
+-Coin config structure optimization
 -------------------------------------------------------------------
 
 

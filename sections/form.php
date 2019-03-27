@@ -121,7 +121,7 @@ if (is_array($coins_list) || is_object($coins_list)) {
         
         
         
-    $selected_pairing = ( $coin_pairing_id ? $coin_pairing_id : $coin['default_pairing'] );
+    $selected_pairing = ( $coin_pairing_id ? $coin_pairing_id : 'btc' );
     
     ?>
     

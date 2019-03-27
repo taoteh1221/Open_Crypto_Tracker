@@ -160,6 +160,19 @@
 
 
 <p>
+    <fieldset class='blue_fieldset'><legend style='color: blue;'> <strong>Miscellaneous Links</strong> </legend>
+    <ul>
+        
+        <li class='chart_links'><a href='https://www.sec.gov/ICO' target='_blank'>SEC.gov ICO Awareness Site</a></li>
+        
+        
+        
+    </ul>
+    </fieldset>
+</p>
+
+
+<p>
     <fieldset class='blue_fieldset'><legend style='color: blue;'> <strong>Youtube Channels</strong> </legend>
     <ul>
         
