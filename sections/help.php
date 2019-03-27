@@ -14,8 +14,10 @@
                                 
                                 <a href='https://github.com/taoteh1221/DFD_Cryptocoin_Values/issues' target='_blank'>https://github.com/taoteh1221/DFD_Cryptocoin_Values/issues</a><br /><br />
                                 
-                                <a href='https://dragonfrugal.com/contact/' target='_blank'>https://dragonfrugal.com/contact/</a>
+                                <a href='https://dragonfrugal.com/contact/' target='_blank'>https://dragonfrugal.com/contact/</a><br /><br />
                                 
+
+											Web server setup / install is available for $30 hourly if needed. PM me on Twitter / Skype @ taoteh1221, or contact me using above contact links.
                                 </p>
                         </div>
                         
@@ -41,8 +43,8 @@
                         </div>
                         
 			<div class='help_section'>
-                            <p><b>Runs Sluggish With Proxies:</b><br />
-                                If page loads are sluggish or throw API connection errors without clearing up, and you have enabled proxy ip addresses, disable them and try again. If it is a bad or misconfigured proxy service causing the issue, this may solve it.</p>
+                            <p><b>Runs Sluggish / Throws Errors With Proxies:</b><br />
+                                If page loads are sluggish or throw API connection errors without clearing up, and you have enabled proxy ip addresses, disable them and try again. If it is a bad or misconfigured proxy setup causing the issue, and everything runs great after disabling proxies, you probably have either (a) a bad proxy or proxy configuration, or (b) an API server / endpoint address is not responding properly when routed through proxies (example: HTTP used instead of HTTPS can cause this error). <i>If you are sure your proxy setup is ok</i>, and that an API connection built-in to this app is the issue, please <a href='https://github.com/taoteh1221/DFD_Cryptocoin_Values/issues' target='_blank'>report it</a>.</p>
                         </div>
                         
 			<div class='help_section'>

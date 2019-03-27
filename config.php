@@ -61,7 +61,7 @@ $proxy_alerts = 'email'; // Alerts for failed proxy data connections. 'none', 'e
 
 $proxy_alerts_runtime = 'cron'; // Which runtime mode should allow proxy alerts? Options: 'cron', 'ui', 'all'
 
-$proxy_checkup_ok = 'ignore'; // 'include', or 'ignore' Proxy alerts even if checkup went OK? (after flagged, started working again when checked) 
+$proxy_checkup_ok = 'include'; // 'include', or 'ignore' Proxy alerts even if checkup went OK? (after flagged, started working again when checked) 
 
 $proxy_alerts_freq = 1; // Re-allow same proxy alert(s) after X hours (per ip/port pair, can be 0)
 

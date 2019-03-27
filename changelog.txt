@@ -999,9 +999,10 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 2.4.0:
 -Updated Okex API to v3
--UI and config tweaks
+-UI, config, APIs, UX, and other tweaks
 -Semantics on PHP library subdirectory structure
 -Coin config structure optimization
+-Fixed proxy checker bugs
 -------------------------------------------------------------------
 
 

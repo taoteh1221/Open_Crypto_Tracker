@@ -348,6 +348,19 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 			
 		$current_proxy = ( $mode == 'proxy-check' && $test_proxy != NULL ? $test_proxy : random_proxy() );
 		
+		// Check for valid proxy config
+		$ip_port = explode(':', $current_proxy);
+
+		$ip = $ip_port[0];
+		$port = $ip_port[1];
+
+			// If no ip/port detected in data string, cancel and continue runtime
+			if ( !$ip || !$port ) {
+			$_SESSION['api_data_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | data attempt from: server (local timeout setting ' . $api_timeout . ' seconds) | proxy: ' . $current_proxy . ' | canceling API data connection, proxy '.$current_proxy.' is not a valid proxy format (required format ip:port)' . "<br /> \n";
+			return FALSE;
+			}
+
+		
 		curl_setopt($ch, CURLOPT_PROXY, trim($current_proxy) );     
 		curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, 1);  
 		
@@ -466,6 +479,11 @@ function test_proxy($problem_proxy_array) {
 
 global $proxy_alerts_freq, $proxy_alerts, $proxy_alerts_runtime, $proxy_checkup_ok, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $textlocal_account, $runtime_mode;
 
+
+// Endpoint to test proxy connectivity: https://www.myip.com/api-docs/
+$proxy_test_url = 'https://api.myip.com/';
+
+
 $problem_endpoint = $problem_proxy_array['endpoint'];
 $problem_proxy = $problem_proxy_array['proxy'];
 
@@ -474,12 +492,16 @@ $ip_port = explode(':', $problem_proxy);
 $ip = $ip_port[0];
 $port = $ip_port[1];
 
+	// If no ip/port detected in data string, cancel and continue runtime
+	if ( !$ip || !$port ) {
+	$_SESSION['api_data_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | proxy check attempt on proxy: ' . $problem_proxy . ' | canceling proxy check, proxy '.$problem_proxy.' is not a valid proxy format (required format ip:port)' . "<br /> \n";
+	return FALSE;
+	}
+
 // Create cache filename / session var
 $cache_filename = $problem_proxy;
 $cache_filename = preg_replace("/\./", "-", $cache_filename);
 $cache_filename = preg_replace("/:/", "_", $cache_filename);
-
-$proxy_test_url = 'http://httpbin.org/ip';
 
 	if ( $proxy_alerts_runtime == 'all' ) {
 	$run_alerts = 1;
@@ -505,22 +527,22 @@ $proxy_test_url = 'http://httpbin.org/ip';
 	
 	$data = json_decode($jsondata, TRUE);
 	
-		if ( trim($data['origin']) != '' ) {
+		if ( sizeof($data) > 0 ) {
 
 			
 			// Look for the IP in the response
-			if ( strstr($data['origin'], $ip) == false ) {
+			if ( strstr($data['ip'], $ip) == false ) {
 				
 			$misconfigured = 1;
 			
-			$notifyme_alert = 'A checkup on proxy '.$ip.', port '.$port.' detected a misconfiguration. Remote address '.$data['origin'].' Does not match the proxy address.';
+			$notifyme_alert = 'A checkup on proxy ' . $ip . ', port ' . $port . ' detected a misconfiguration. Remote address ' . $data['ip'] . ' does not match the proxy address. Runtime mode is ' . $runtime_mode . '.';
 			
-			$text_alert = 'Proxy '.$problem_proxy.' remote address mismatch (detected ip: '.$data['origin'].').';
+			$text_alert = 'Proxy ' . $problem_proxy . ' remote address mismatch (detected as: ' . $data['ip'] . '). Runtime mode: ' . $runtime_mode;
 		
 			}
 			
 			
-		$cached_logs = ( $misconfigured == 1 ? 'Proxy '.$problem_proxy.' checkup status = MISCONFIGURED (test endpoint '.$proxy_test_url.' detected the incoming ip as: '.$data['origin'].');'." \n ".'Remote address DOES NOT match proxy address;' : 'Proxy '.$problem_proxy.' checkup status = OK (test endpoint '.$proxy_test_url.' detected the incoming ip as: '.$data['origin'].');' );
+		$cached_logs = ( $misconfigured == 1 ? 'Runtime mode: ' . $runtime_mode . "; \n " . 'Proxy ' . $problem_proxy . ' checkup status = MISCONFIGURED (test endpoint ' . $proxy_test_url . ' detected the incoming ip as: ' . $data['ip'] . ')' . "; \n " . 'Remote address DOES NOT match proxy address;' : 'Runtime mode: ' . $runtime_mode . "; \n " . 'Proxy ' . $problem_proxy . ' checkup status = OK (test endpoint ' . $proxy_test_url . ' detected the incoming ip as: ' . $data['ip'] . ');' );
 		
 		
 		}
@@ -528,11 +550,11 @@ $proxy_test_url = 'http://httpbin.org/ip';
 			
 		$misconfigured = 1;
 		
-		$cached_logs = 'Proxy '.$problem_proxy.' checkup status = DATA REQUEST FAILED;'." \n ".'No connection established at test endpoint '.$proxy_test_url.';';
-		
-		$notifyme_alert = 'A checkup on proxy '.$ip.', port '.$port.' resulted in a failed data request. No endpoint connection could be established.';
+		$notifyme_alert = 'A checkup on proxy ' . $ip . ', port ' . $port . ' resulted in a failed data request. No endpoint connection could be established. Runtime mode is ' . $runtime_mode . '.';
 			
-		$text_alert = 'Proxy '.$problem_proxy.' failed data request, no endpoint connection established.';
+		$text_alert = 'Proxy ' . $problem_proxy . ' failed, no endpoint connection. Runtime mode: ' . $runtime_mode;
+		
+		$cached_logs = 'Runtime mode: ' . $runtime_mode . "; \n " . 'Proxy ' . $problem_proxy . ' checkup status = DATA REQUEST FAILED' . "; \n " . 'No connection established at test endpoint ' . $proxy_test_url . ';';
 
 		}
 
@@ -541,7 +563,7 @@ $proxy_test_url = 'http://httpbin.org/ip';
 		file_put_contents('cache/alerts/proxy-check-'.$cache_filename.'.dat', $cached_logs, LOCK_EX);
 			
       
-      $email_alert = " The proxy ".$problem_proxy." recently did not receive data when accessing this endpoint: \n ".$problem_endpoint." \n \n A check on this proxy was performed at ".$proxy_test_url.", and results logged: \n ============================================================== \n " . $cached_logs . " \n ============================================================== \n \n ";
+      $email_alert = " The proxy " . $problem_proxy . " recently did not receive data when accessing this endpoint: \n " . $problem_endpoint . " \n \n A check on this proxy was performed at " . $proxy_test_url . ", and results logged: \n ============================================================== \n " . $cached_logs . " \n ============================================================== \n \n ";
                     
 		
 		// Send out alerts
