@@ -16,6 +16,8 @@ Questions, feature requests, and bug reports can be filed at the following URLS:
 https://github.com/taoteh1221/DFD_Cryptocoin_Values/issues
 
 https://dragonfrugal.com/contact/
+
+Web server setup / install is available for $30 hourly if needed. PM me on Twitter / Skype at username taoteh1221, or contact me using above contact links.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Just upload to your PHP-based web server and you should be all set, unless your host is a strict setup related to file writing permissions, in which case the 'cache' directory / all sub-directories permissions should be set to '777' chmod on unix / linux systems (or 'readable / writable' on windows systems). Your web host must have curl modules activated on your HTTP server. Most web hosting companies provide this "out-of-the-box" already. Contact your hosting provider if you encounter issues getting the real-time prices feeds from exchanges, and ask if curl is setup already. See below for an example on adding / editing your own markets into the coin list in config.php...it's very quick / easy to do (see bottom of this file for a pre-configured example set of assets / markets). Currently BTC / XMR / ETH / LTC / USDT (Tether) / TUSD (True USD) based market pairing is compatible. Contact any supported exchanges help desk if you are unaware of the correct formatting of the trading pair name you are adding in the API configuration file (examples: Kraken has abitrary Xs inserted everywhere in SOME older pair names, HitBTC sometimes has tether pairing without the "T" in the symbol name).
