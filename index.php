@@ -40,19 +40,19 @@ require("templates/default/header.php");
 				<option value='900' <?=( $_COOKIE['coin_reload'] == '900' ? 'selected' : '' )?>> Every 15 Minutes </option>
 				<option value='1800' <?=( $_COOKIE['coin_reload'] == '1800' ? 'selected' : '' )?>> Every 30 Minutes </option>
 			</select> &nbsp; <span id='reload_countdown' style='color: red;'></span>
-			<p><?php require("sections/coin.values.php"); ?></p>
+			<p><?php require("sections/coin-portfolio-value.php"); ?></p>
 		</div>
 		<div id='update_values' class='tabdiv'>
 			<h3>Update Coin Values</h3>
-			<p><?php require("sections/form.php"); ?></p>
+			<p><?php require("sections/update-coin-values.php"); ?></p>
 		</div>
 		<div id='settings' class='tabdiv'>
 			<h3>Program Settings</h3>
-			<?php require("sections/settings.php"); ?>
+			<?php require("sections/program-settings.php"); ?>
 		</div>
 		<div id='calculators' class='tabdiv'>
 			<h3>Mining / Interest Calculators</h3>
-			<?php require("sections/calculators.php"); ?>
+			<?php require("sections/mining-calculators.php"); ?>
 		</div>
 		<div id='other_crypto_tools' class='tabdiv'>
 			<h3>Other Crypto Tools</h3>

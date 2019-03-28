@@ -306,7 +306,9 @@ $base_dir = preg_replace("/\/app\.lib(.*)/i", "", dirname(__FILE__) );
 
 	if ( $mail_freq > 0 && update_cache_file('cache/events/email-error-logs.dat', ( $mail_freq * 1440 ) ) == true ) {
 		
-	$message = " Here are the current error logs from the ".$base_dir."/cache/logs/errors.log file: \n =========================================================================== \n \n"  . file_get_contents('cache/logs/errors.log');
+	$emailed_logs = file_get_contents('cache/logs/errors.log');
+		
+	$message = " Here are the current error logs from the ".$base_dir."/cache/logs/errors.log file: \n =========================================================================== \n \n"  . ( $emailed_logs != '' ? $emailed_logs : 'No error logs currently.' );
 	
 	@safe_mail($to_email, 'DFD Cryptocoin Values ' . ucfirst($mail_error_logs) . ' Error Logs Report', $message);
 	
