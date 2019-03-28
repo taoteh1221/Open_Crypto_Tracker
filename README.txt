@@ -89,13 +89,13 @@ BELOW IS AN EXAMPLE SET OF CONFIGURED ASSETS AND DEFAULT SETTINGS. PLEASE NOTE T
 ///////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////// GENERAL CONFIG -START- ////////////////////////////////////////////////////
 
+
+
 // SEE README.txt FOR HOW TO ADD / EDIT / DELETE COINS IN THIS CONFIG, AND AN EXAMPLE SET OF PRE-CONFIGURED SETTINGS / ASSETS
 
+
+
 $api_timeout = 12; // Seconds to wait for response from API endpoints. Don't set too low, or you won't get data
-
-$purge_error_logs = 3; // Days to keep error logs before purging (deletes logs every X days) start low, especially when using proxies
-
-$mail_error_logs = 'daily'; // 'no', 'daily', 'weekly' Email to / from !MUST BE SET! further down in this config file. MAY NOT SEND IN TIMELY FASHION WITHOUT CRON JOB
 
 $btc_exchange = 'coinbase'; // Default Bitcoin to USD (or equiv stable coin): coinbase / binance / bitstamp / bitfinex / kraken / gemini / hitbtc / okcoin / livecoin
 
@@ -108,6 +108,47 @@ $marketcap_cache = 15; // Minutes to cache above-mentioned marketcap rankings...
 $last_trade_cache = 1; // Minutes to cache real-time exchange data...can be zero to skip cache, but set to at least 1 minute to avoid your IP getting blocked
 
 $chainstats_cache = 15; // Minutes to cache blockchain stats (for mining calculators). Set high initially, can be strict
+
+$purge_error_logs = 3; // Days to keep error logs before purging (deletes logs every X days) start low, especially when using proxies
+
+$mail_error_logs = 'daily'; // 'no', 'daily', 'weekly' Email to / from !MUST BE SET! MAY NOT SEND IN TIMELY FASHION WITHOUT CRON JOB
+
+
+
+// IF SMTP EMAIL --NOT-- USED, FROM email should be REAL address on the website domain, or risk having email blacklisted / sent to junk folder
+// IF SMTP EMAIL --IS-- USED, FROM EMAIL MUST MATCH EMAIL ADDRESS associated with SMTP login (SMTP Email settings are further down below this setting)
+$from_email = ''; // MUST BE SET for price alerts and other email features
+
+$to_email = ''; // MUST BE SET for price alerts and other email features
+
+// For exchange price alert texts to mobile phones. Attempts to email text if carrier is set AND no textbelt / textlocal config is setup
+// CAN BE BLANK. Country format MUST be used: '12223334444|number_only' number_only (for textbelt / textlocal), alltel, att, tmobile, virgin, sprint, verizon, nextel
+$to_text = '';
+
+// For exchange price alert notifyme alexa notifications (sending Alexa devices notifications for free). 
+// CAN BE BLANK. Setup: http://www.thomptronics.com/notify-me
+$notifyme_accesscode = '';
+
+// Do NOT use textbelt AND textlocal together. Leave one setting blank, or it will disable using both.
+
+// CAN BE BLANK. For exchange price alert textbelt notifications. Setup: https://textbelt.com/
+$textbelt_apikey = '';
+
+// CAN BE BLANK. For exchange price alert textlocal notifications. Setup: https://www.textlocal.com/integrations/api/
+$textlocal_account = ''; // This format MUST be used: 'username|hash_code'
+
+
+
+// OPTIONALLY use SMTP authentication to send email, if you have no reverse lookup that matches domain name (on your home network etc)
+// !!USE A THROWAWAY ACCOUNT ONLY!! If web server is hacked, HACKER WOULD THEN HAVE ACCESS YOUR EMAIL LOGIN FROM THIS FILE!!
+// If SMTP credentials / settings are filled in, BUT not setup properly, APP EMAILING WILL FAIL
+// CAN BE BLANK (PHP's built-in mail function will be automatically used instead)
+$smtp_login = ''; //  CAN BE BLANK. This format MUST be used: 'username|password'
+
+$smtp_server = ''; // CAN BE BLANK. This format MUST be used: 'domain_or_ip:port' example: 'example.com:25'
+
+$smtp_secure = ''; // CAN BE BLANK '' for no secure connection, or 'tls', or 'ssl' for secure connections. Make sure port number ABOVE corresponds
+
 
 
 // If using proxies and login is required
@@ -125,7 +166,7 @@ $proxy_list = array(
 					);
 
 
-// Proxy configuration settings (only used if proxies are enabled above)
+// Additional proxy configuration settings (only used if proxies are enabled above)
 
 $proxy_alerts = 'email'; // Alerts for failed proxy data connections. 'none', 'email', 'text', 'notifyme', 'all'
 
@@ -136,46 +177,13 @@ $proxy_checkup_ok = 'include'; // 'include', or 'ignore' Proxy alerts even if ch
 $proxy_alerts_freq = 1; // Re-allow same proxy alert(s) after X hours (per ip/port pair, can be 0)
 
 
-// OPTIONALLY use SMTP authentication to send email, if you have no reverse lookup that matches domain name (on your home network etc)
-// !!USE A THROWAWAY ACCOUNT ONLY!! If web server is hacked, HACKER WOULD THEN HAVE ACCESS YOUR EMAIL LOGIN FROM THIS FILE!!
-// If SMTP credentials / settings are filled in, BUT not setup properly, APP EMAILING WILL FAIL
-// CAN BE BLANK (PHP's built-in mail function will be automatically used instead)
-$smtp_login = ''; //  CAN BE BLANK. This format MUST be used: 'username|password'
-
-$smtp_server = ''; // CAN BE BLANK. This format MUST be used: 'domain_or_ip:port' example: 'example.com:25'
-
-$smtp_secure = ''; // CAN BE BLANK '' for no secure connection, or 'tls', or 'ssl' for secure connections. Make sure port number ABOVE corresponds
-
-
-// IF SMTP EMAIL --NOT-- USED, FROM email should be REAL address on the website domain, or risk having email blacklisted / sent to junk folder
-// IF SMTP EMAIL --IS-- USED, FROM EMAIL MUST MATCH EMAIL ADDRESS associated with SMTP login
-$from_email = ''; // For email features this MUST BE SET
-
-$to_email = ''; // For email features this MUST BE SET
-
-// For exchange price alert texts. Attempts to email text if carrier is set AND no textbelt / textlocal config is setup
-// CAN BE BLANK. Country format MUST be used: '12223334444|number_only' number_only (for textbelt / textlocal), alltel, att, tmobile, virgin, sprint, verizon, nextel
-$to_text = '';
-
-// For exchange price alert notifyme alexa notifications (sending Alexa devices notifications for free). 
-// CAN BE BLANK. Setup: http://www.thomptronics.com/notify-me
-$notifyme_accesscode = '';
-
-// Do NOT use textbelt AND textlocal together. Leave one setting blank, or it will disable using both.
-
-// CAN BE BLANK. For exchange price alert textbelt notifications. Setup: https://textbelt.com/
-$textbelt_apikey = '';
-
-// CAN BE BLANK. For exchange price alert textlocal notifications. Setup: https://www.textlocal.com/integrations/api/
-$textlocal_account = ''; // This format MUST be used: 'username|hash_code'
-
 
 // Exchange price alert settings
 // Only used if $exchange_price_alerts is filled in properly below, AND a cron job is setup (see README.txt for cron job setup information) 
 
-$exchange_price_alerts_freq = 15; // Re-allow same exchange price alert(s) after X minutes (per asset, set higher if issues with blacklisting...can be 0)
-
 $exchange_price_alerts_percent = 8; // Price percent change to send alerts for (WITHOUT percent sign: 15 = 15%). Sends alerts when percent change reached (up or down)
+
+$exchange_price_alerts_freq = 15; // Re-allow same exchange price alert(s) after X minutes (per asset, set higher if issues with blacklisting...can be 0)
 
 // Minimum 24 hour volume filter. Only allows sending exchange price alerts if minimum 24 hour volume reached
 // CAN BE 0 TO DISABLE MINIMUM VOLUME FILTERING, NO DECIMALS OR SEPARATORS, NUMBERS ONLY, WITHOUT dollar sign: 250 = $250 , 4500 = $4,500 , etc
@@ -227,6 +235,7 @@ $exchange_price_alerts = array(
 					);
 
 
+
 // Static values in ETH for Ethereum subtokens, like during crowdsale periods etc
 $eth_subtokens_ico_values = array(
                         'ETHSUBTOKENNAME' => '0.15',
@@ -240,6 +249,7 @@ $eth_subtokens_ico_values = array(
                         );
 
 
+
 // Mining rewards for different platforms (to prefill editable mining calculator forms)
 $mining_rewards = array(
 					'btc' => '12.5',
@@ -251,6 +261,7 @@ $mining_rewards = array(
 					);
 
 
+
 // STEEM Power yearly interest rate START 11/29/2016 (1.425%, decreasing every year by roughly 0.075% until it hits a minimum of 0.075% and stays there)
 // 1.425 (DO NOT INCLUDE PERCENT SIGN) the first year at 11/29/2016 refactored rates, see above for manual yearly adjustment
 $steempower_yearly_interest = 1.425;
@@ -258,11 +269,17 @@ $steempower_yearly_interest = 1.425;
 // Weeks to power down all STEEM Power holdings
 $steem_powerdown_time = 13; 
 
+
+
 /////////////////// GENERAL CONFIG -END- //////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////// COIN MARKETS CONFIG -START- ///////////////////////////////////////////////
+
+
 
 $coins_list = array(
 
@@ -1012,6 +1029,7 @@ $coins_list = array(
                 
 );
 
+
+
 /////////////////// COIN MARKETS CONFIG -END- /////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
-

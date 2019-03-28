@@ -8,7 +8,7 @@
 			<?php
 			if ( sizeof($proxy_list) > 0 ) {
 			?>
-          <p class='settings_sections'><?=( trim($proxy_login) != '' ? 'Password-based' : 'IP whitelisting' )?> proxy mode is <i>enabled</i> in the configuration file for API connections (<?=sizeof($proxy_list)?> proxies randomly used<?=( $proxy_alerts != 'none' ? ', ' . $proxy_alerts . ' proxy alerts enabled for ' . $proxy_alerts_runtime . ' runtimes' : '' )?>). 
+          <p class='settings_sections'><?=( trim($proxy_login) != '' ? 'Password-based' : 'IP whitelisting' )?> proxy mode is <i>enabled</i> in the configuration file for API connections (<?=sizeof($proxy_list)?> proxies randomly used<?=( $proxy_alerts != 'none' ? ' / ' . $proxy_alerts . ' proxy alerts enabled max every ' . $proxy_alerts_freq . ' hours per proxy / enabled for ' . $proxy_alerts_runtime . ' runtimes' : '' )?>). 
           	
           		<?=$proxy_config_alert?>
           	
@@ -17,7 +17,7 @@
           }
 			if ( $price_alert_type_text != '' ) {
           ?>
-          	<p class='settings_sections'><?=$price_alert_type_text?> price alerts are <i>enabled</i> in the configuration file, <i>make sure a <a href='README.txt' target='_blank'>cron job for alerts is setup properly</a></i>. 
+          	<p class='settings_sections'><?=$price_alert_type_text?> price alerts are <i>enabled</i> in the configuration file (upon <?=$exchange_price_alerts_percent?>% or more USD price change / max every <?=$exchange_price_alerts_freq?> minutes per alert<?=( $exchange_price_alerts_minvolume > 0 ? ' / $' . $exchange_price_alerts_minvolume . ' minumum volume filter enabled' : '' )?>). <br /><i>Make sure a <a href='README.txt' target='_blank'>cron job for alerts is setup properly</a></i>. 
           	
           		<?=$price_change_config_alert?>
           	
