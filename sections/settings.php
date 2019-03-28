@@ -17,7 +17,7 @@
           }
 			if ( $price_alert_type_text != '' ) {
           ?>
-          	<p class='settings_sections'><?=$price_alert_type_text?> price alerts are <i>enabled</i> in the configuration file (upon <?=$exchange_price_alerts_percent?>% or more USD price change / every <?=$exchange_price_alerts_freq?> minutes max per-alert<?=( $exchange_price_alerts_minvolume > 0 ? ' / $' . $exchange_price_alerts_minvolume . ' minumum volume filter enabled' : '' )?>). <br /><i>Make sure a <a href='README.txt' target='_blank'>cron job for alerts is setup properly</a></i>. 
+          	<p class='settings_sections'><?=$price_alert_type_text?> exchange price alerts are <i>enabled</i> in the configuration file (upon <?=$exchange_price_alerts_percent?>% or more USD price change / every <?=$exchange_price_alerts_freq?> minutes max per-alert<?=( $exchange_price_alerts_minvolume > 0 ? ' / $' . $exchange_price_alerts_minvolume . ' minumum volume filter enabled' : '' )?>). <br /><i>Make sure a <a href='README.txt' target='_blank'>cron job for exchange price alerts is setup properly on your web server</a>, or this feature will not work.</i>. 
           	
           		<?=$price_change_config_alert?>
           	
