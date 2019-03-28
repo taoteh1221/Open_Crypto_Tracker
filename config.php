@@ -92,8 +92,6 @@ $smtp_secure = ''; // CAN BE BLANK '' for no secure connection, or 'tls', or 'ss
 $proxy_login = ''; // Use format: 'username:password'
 
 // If using proxies, add the ip address / port number here for each one, like examples below (without the double slashes in front)
-// limeproxies.com is fairly decent IF using ip address whitelisting, as they ALSO have URL (domain) whitelisting enabled in that mode, if you encounter blocked requests
-// http://help.limeproxies.com/getting-started/setting-up-proxy/how-do-i-addremove-a-url-under-whitelist
 // CAN BE BLANK. Adding proxies here will automatically choose one randomly for each API request
 $proxy_list = array(
 					// 'ipaddress1:portnumber1',
