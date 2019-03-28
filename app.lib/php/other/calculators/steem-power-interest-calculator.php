@@ -41,7 +41,7 @@ $steem_market = get_coin_value('binance', 'STEEMBTC')['last_trade'];
         
         <p><b>All STEEM Power:</b> <input type='text' name='sp_total' value='<?=$_POST['sp_total']?>' placeholder="(including interest)" size='45' /></p>
         
-        <p><input type='submit' value='Calculate Interest / Power Down Weekly Payout Amounts Over Time' /></p>
+        <p><input type='submit' value='Calculate STEEM Interest / Power Down Weekly Payout Amounts Over Time' /></p>
         
 				    <input type='hidden' value='1' name='steem_submitted' />
         

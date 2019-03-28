@@ -210,7 +210,7 @@ if (is_array($coins_list) || is_object($coins_list)) {
 }
 ?>
 
-<p><input type='submit' value='Update Coin Values Data' /></p>
+<p><input type='submit' value='Save Updated Coin Values' /></p>
 
 <input type='hidden' id='submit_check' name='submit_check' value='1' />
 

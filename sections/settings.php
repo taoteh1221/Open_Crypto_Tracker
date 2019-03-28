@@ -231,7 +231,7 @@
                         </p>
 			
 			
-                        <p class='settings_sections'><input type='button' value='Update Settings' onclick='document.coin_amounts.submit();' /></p>
+                        <p class='settings_sections'><input type='button' value='Save Updated Program Settings' onclick='document.coin_amounts.submit();' /></p>
                         
                         
                         

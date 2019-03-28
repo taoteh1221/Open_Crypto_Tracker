@@ -9,15 +9,15 @@ require("templates/default/header.php");
 
 
 		<ul class='tabs'>
-			<li class='tabli'><a href='#values'>Coin Portfolio Value</a></li>
-			<li class='tabli'><a href='#links'>External Resource Links</a></li>
-			<li class='tabli'><a href='#calculators'>Mining and Interest Calculators</a></li>
-			<li class='tabli'><a href='#other_crypto_tools'>Other Crypto Tools</a></li>
-			<li class='tabli'><a href='#amounts'>Update Coin Amounts</a></li>
+			<li class='tabli'><a href='#show_values'>Coin Portfolio Value</a></li>
+			<li class='tabli'><a href='#update_values'>Update Coin Values</a></li>
 			<li class='tabli'><a href='#settings'>Program Settings</a></li>
-			<li class='tabli'><a href='#help'>Help</a></li>
+			<li class='tabli'><a href='#calculators'>Mining / Interest Calculators</a></li>
+			<li class='tabli'><a href='#other_crypto_tools'>Other Crypto Tools</a></li>
+			<li class='tabli'><a href='#links'>External Resource Links</a></li>
+			<li class='tabli'><a href='#help'>Help?</a></li>
 		</ul>
-		<div id='values' class='tabdiv'>
+		<div id='show_values' class='tabdiv'>
 			<h3 style='display: inline;'>Coin Portfolio Value</h3> (<?=$last_trade_cache?> minute cache)
 			<?php
 			if ( sizeof($alert_percent) > 1 ) {
@@ -42,28 +42,28 @@ require("templates/default/header.php");
 			</select> &nbsp; <span id='reload_countdown' style='color: red;'></span>
 			<p><?php require("sections/coin.values.php"); ?></p>
 		</div>
-		<div id='links' class='tabdiv'>
-			<h3>External Resource Links</h3>
-			<?php require("sections/external-resource-links.php"); ?>
-		</div>
-		<div id='calculators' class='tabdiv'>
-			<h3>Mining and Interest Calculators</h3>
-			<?php require("sections/calculators.php"); ?>
-		</div>
-		<div id='other_crypto_tools' class='tabdiv'>
-			<h3>Other Crypto Tools</h3>
-			<?php require("sections/other-crypto-tools.php"); ?>
-		</div>
-		<div id='amounts' class='tabdiv'>
-			<h3>Update Coin Amounts</h3>
+		<div id='update_values' class='tabdiv'>
+			<h3>Update Coin Values</h3>
 			<p><?php require("sections/form.php"); ?></p>
 		</div>
 		<div id='settings' class='tabdiv'>
 			<h3>Program Settings</h3>
 			<?php require("sections/settings.php"); ?>
 		</div>
+		<div id='calculators' class='tabdiv'>
+			<h3>Mining / Interest Calculators</h3>
+			<?php require("sections/calculators.php"); ?>
+		</div>
+		<div id='other_crypto_tools' class='tabdiv'>
+			<h3>Other Crypto Tools</h3>
+			<?php require("sections/other-crypto-tools.php"); ?>
+		</div>
+		<div id='links' class='tabdiv'>
+			<h3>External Resource Links</h3>
+			<?php require("sections/external-resource-links.php"); ?>
+		</div>
 		<div id='help' class='tabdiv'>
-			<h3>Help</h3>
+			<h3>Help?</h3>
 			<?php require("sections/help.php"); ?>
 		</div>
 
