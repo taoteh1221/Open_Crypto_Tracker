@@ -183,7 +183,7 @@ if ( $_COOKIE['notes_reminders'] ) {
 <textarea data-autoresize name='notes_reminders' id='notes_reminders' style='height: auto; width: 100%;'><?=$_COOKIE['notes_reminders']?></textarea><br />
 
 <input type='hidden' name='update_notes' id='update_notes' value='1' />
-<input type='submit' value='Save Notes' />
+<input type='submit' value='Save Updated Notes' />
 
 </form>
 </p>
