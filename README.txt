@@ -201,7 +201,7 @@ $exchange_price_alerts = array(
 				// 'othersymbol' => 'exchange|trade_pairing',
 				// 'othersymbol-2' => 'exchange2|trade_pairing2',
 				// 'othersymbol-3' => 'exchange3|trade_pairing3',
-					'tusd' => 'bittrex|btc',
+					'tusd' => 'binance|usdt',
 					'btc' => 'coinbase|btc',
 					'btc-2' => 'binance|btc',
 					'eth' => 'binance|usdt',
@@ -209,27 +209,27 @@ $exchange_price_alerts = array(
 					'xmr' => 'binance|btc',
 					'dcr' => 'binance|btc',
 					'dcr-2' => 'bittrex|usdt',
-				//	'dash' => 'bittrex|btc',
-				//	'ltc' => 'bittrex|btc',
+					'dash' => 'bittrex|btc',
+					'ltc' => 'bittrex|btc',
 					'steem' => 'binance|eth',
 					'mana' => 'binance|btc',
 					'ant' => 'bittrex|btc',
+					'grin' => 'hitbtc|btc',
+					'grin-2' => 'kucoin|eth',
+					'beam' => 'hotbit|btc',
 				//	'zrx' => 'bittrex|btc',
+					'ada' => 'binance|tusd',
 					'zil' => 'binance|btc',
-				//	'trac' => 'kucoin|btc',
 				//	'snt' => 'bittrex|btc',
 				//	'gnt' => 'bittrex|btc',
-				//	'fct' => 'bittrex|btc',
 					'xlm' => 'binance|tusd',
 					'xlm-2' => 'bittrex|btc',
-					'ada' => 'binance|tusd',
+				//	'fct' => 'bittrex|btc',
 					'rvn' => 'binance|btc',
-					'grin' => 'kucoin|btc',
-					'grin-2' => 'hotbit|eth',
-					'beam' => 'hotbit|btc',
 					'myst' => 'hitbtc|btc',
 					'myst-2' => 'hitbtc|eth',
 					'myst-3' => 'idex|eth',
+				//	'trac' => 'kucoin|btc',
 					);
 
 
@@ -1031,3 +1031,4 @@ $coins_list = array(
 
 /////////////////// COIN MARKETS CONFIG -END- /////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
+

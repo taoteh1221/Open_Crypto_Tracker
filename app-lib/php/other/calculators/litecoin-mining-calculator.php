@@ -5,14 +5,14 @@
 			
 			// Coin information, to dynamically populate general sections
 			$calculation_form_data = array(
-											'Decred', // Coin name
-											'dcr', // Coin symbol
-											decred_api('block', 'height'), // Block height
-											decred_api('block', 'difficulty'), // Mining network measure (difficulty or network hashrate)
-											'https://github.com/decred/dcrdata#json-rest-api', // Blockchain data API url
-											'dcrdata.org API', // Blockchain data API name
+											'Litecoin', // Coin name
+											'ltc', // Coin symbol
+											litecoin_api('height'), // Block height
+											litecoin_api('difficulty'), // Mining network measure (difficulty or network hashrate)
+											'https://live-sochain-blockioinc.netdna-ssl.com/api', // Blockchain data API url
+											'SoChain API', // Blockchain data API name
 											'binance', // Exchange name (lowercase for API logic)
-											'DCRBTC' // Market pair name
+											'LTCBTC' // Market pair name
 											);
 			
 			
@@ -23,7 +23,7 @@
 			// Start form submission results
 			if ( $_POST[$calculation_form_data[1].'_submitted'] ) {
 				    
-				include('results/post.data.processing.php'); // Generalized module
+				include('results/post-data-processing.php'); // Generalized module
 				
 				
 			///////////////////////////////////////////////////////////////////////////
@@ -33,9 +33,9 @@
 				
 			///////////////////////////////////////////////////////////////////////////
 			
-				include('results/time.calculation.php'); // Generalized module
-				include('results/profit.calculation.php'); // Generalized module
-				include('results/earned.daily.php'); // Generalized module
+				include('results/time-calculation.php'); // Generalized module
+				include('results/profit-calculation.php'); // Generalized module
+				include('results/earned-daily.php'); // Generalized module
 				
 			}
 			// End form submission results

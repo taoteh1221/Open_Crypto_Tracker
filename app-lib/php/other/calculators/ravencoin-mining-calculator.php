@@ -23,7 +23,7 @@
 			// Start form submission results
 			if ( $_POST[$calculation_form_data[1].'_submitted'] ) {
 				    
-				include('results/post.data.processing.php'); // Generalized module
+				include('results/post-data-processing.php'); // Generalized module
 				
 				
 			///////////////////////////////////////////////////////////////////////////
@@ -33,9 +33,9 @@
 				
 			///////////////////////////////////////////////////////////////////////////
 			
-				include('results/time.calculation.php'); // Generalized module
-				include('results/profit.calculation.php'); // Generalized module
-				include('results/earned.daily.php'); // Generalized module
+				include('results/time-calculation.php'); // Generalized module
+				include('results/profit-calculation.php'); // Generalized module
+				include('results/earned-daily.php'); // Generalized module
 				
 			}
 			// End form submission results

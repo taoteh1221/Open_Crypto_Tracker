@@ -12,7 +12,7 @@
 			<fieldset class='blue_fieldset'>
 				<legend style='color: blue;'> <b>QR Code Generator For Addresses</b> </legend>
 		    
-				<?php require("app.lib/php/other/qr-code-generator/qr-code-generator.php"); ?>
+				<?php require("app-lib/php/other/qr-code-generator/qr-code-generator.php"); ?>
 				
 				
 			</fieldset>

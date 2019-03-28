@@ -187,7 +187,7 @@ global $smtp_login, $smtp_server;
 
 $vars = array();
 
-$log_file = preg_replace("/\/app\.lib(.*)/i", "/cache/logs/errors.log", dirname(__FILE__) );
+$log_file = preg_replace("/\/app-lib(.*)/i", "/cache/logs/errors.log", dirname(__FILE__) );
 
 $smtp_login = explode("|",$smtp_login);
 $smtp_server = explode(":",$smtp_server);
@@ -293,7 +293,7 @@ $error_logs .= strip_tags($_SESSION['config_error']); // Remove any HTML formatt
 	}
 	
 
-$base_dir = preg_replace("/\/app\.lib(.*)/i", "", dirname(__FILE__) );
+$base_dir = preg_replace("/\/app-lib(.*)/i", "", dirname(__FILE__) );
 
 
 	// If it's time to email error logs...

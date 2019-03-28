@@ -5,14 +5,14 @@
 			
 			// Coin information, to dynamically populate general sections
 			$calculation_form_data = array(
-											'Monero', // Coin name
-											'xmr', // Coin symbol
-											monero_api('height'), // Block height
-											monero_api('hashrate'), // Mining network measure (difficulty or network hashrate)
-											'https://moneroblocks.info/api', // Blockchain data API url
-											'moneroblocks.info API', // Blockchain data API name
+											'Bitcoin', // Coin name
+											'btc', // Coin symbol
+											bitcoin_api('height'), // Block height
+											bitcoin_api('difficulty'), // Mining network measure (difficulty or network hashrate)
+											'https://blockexplorer.com/api-ref', // Blockchain data API url
+											'Blockexplorer API', // Blockchain data API name
 											'binance', // Exchange name (lowercase for API logic)
-											'XMRBTC' // Market pair name
+											'BTCTUSD' // Market pair name
 											);
 			
 			
@@ -23,24 +23,24 @@
 			// Start form submission results
 			if ( $_POST[$calculation_form_data[1].'_submitted'] ) {
 				    
-				include('results/post.data.processing.php'); // Generalized module
+				include('results/post-data-processing.php'); // Generalized module
 				
 				
 			///////////////////////////////////////////////////////////////////////////
 			
 				// Difficulty calculation for this coin...MAY BE DIFFERENT PER COIN
-				$time = ( trim($_POST['network_measure']) / $miner_hashrate ) * 120;
+				$time = ( trim($_POST['network_measure']) * pow(2, 32) / $miner_hashrate );
 				
 			///////////////////////////////////////////////////////////////////////////
 			
-				include('results/time.calculation.php'); // Generalized module
-				include('results/profit.calculation.php'); // Generalized module
-				include('results/earned.daily.php'); // Generalized module
+				include('results/time-calculation.php'); // Generalized module
+				include('results/profit-calculation.php'); // Generalized module
+				include('results/earned-daily.php'); // Generalized module
 				
 			}
 			// End form submission results
 				
-				mining_calc_form($calculation_form_data, 'nethashrate'); // Generalized module, with network measure name parameter (difficulty or nethashrate)
+				mining_calc_form($calculation_form_data, 'difficulty'); // Generalized module, with network measure name parameter (difficulty or nethashrate)
 				
 			///////////////////////////////////////////////////////////////////////////
 			
