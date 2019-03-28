@@ -5,14 +5,18 @@
 
 
 ?>
-
+			<?php
+			if ( sizeof($proxy_list) > 0 ) {
+			?>
           <p class='settings_sections'><?=( trim($proxy_login) != '' ? 'Password-based' : 'IP whitelisting' )?> proxy mode is <i>enabled</i> in the configuration file for API connections (<?=sizeof($proxy_list)?> proxies randomly used<?=( $proxy_alerts != 'none' ? ', ' . $proxy_alerts . ' proxy alerts enabled for ' . $proxy_alerts_runtime . ' runtimes' : '' )?>). 
           	
           		<?=$proxy_config_alert?>
           	
           	</p>      
           <?php
-          	?>
+          }
+			if ( $price_alert_type_text != '' ) {
+          ?>
           	<p class='settings_sections'><?=$price_alert_type_text?> price alerts are <i>enabled</i> in the configuration file, <i>make sure a <a href='README.txt' target='_blank'>cron job for alerts is setup properly</a></i>. 
           	
           		<?=$price_change_config_alert?>
@@ -20,6 +24,7 @@
           	</p>  
                         
 			<?php
+			}
 			
 			if (is_array($coins_list) || is_object($coins_list)) {
 			    
