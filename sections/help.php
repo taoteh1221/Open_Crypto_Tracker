@@ -23,7 +23,8 @@
                         
 			<div class='help_section'>
                             <p><b>Setting Up Email / Text / Alexa Exchange Price Alerts:</b><br />
-                                You can setup exchange price alerts to be sent to email, mobile phone text, and amazon alexa notifications. You will be alerted when the USD price of an asset goes up or down a certain percent or more (whatever percent you choose in the settings), for specific exchange / base pairing combinations for that asset (you can even setup alerts for multiple exchanges / base pairings for the same asset). See the required settings in config.php, and instructions on cron job setup in the <a href='README.txt' target='_blank'>README.txt file</a>. Once setup, there is no need to keep your computer turned on. The alerts run automatically from your web server.</p>
+                                You can setup exchange price alerts to be sent to email, mobile phone text, and amazon alexa notifications. You will be alerted when the USD price of an asset goes up or down a certain percent or more (whatever percent you choose in the settings), for specific exchange / base pairing combinations for that asset. You can even setup alerts for multiple exchanges / base pairings for the same asset. </p>
+                             <p>See the required settings in config.php, and instructions on cron job setup in the <a href='README.txt' target='_blank'>README.txt file</a>. Once setup, there is no need to keep your computer turned on. The alerts run automatically from your web server. If you encounter errors or the alerts don't work during setup, check the error logs file at /cache/logs/errors.log for errors in your configuration setup. Basic checks are performed and errors are reported there, and on the Settings page.</p>
                         </div>
                         
 			<div class='help_section'>
@@ -39,12 +40,13 @@
                         
 			<div class='help_section'>
                             <p><b>SMTP Email Doesn't Work:</b><br />
-                                If you have enabled SMTP emailing but it doesn't work, check the error logs file at /cache/logs/errors.log for error responses from the SMTP server connection attempt. Alternatively try disabling SMTP email by blanking out your username and password in the config.php file, and see if PHP's built-in mail function works (no setup required, other than SMTP settings must be blanked out).</p>
+                                If you have enabled SMTP emailing but it doesn't work, check the error logs file at /cache/logs/errors.log for error responses from the SMTP server connection attempt(s). Alternatively try disabling SMTP email by blanking out your username and password in the config.php file, and see if PHP's built-in mail function works (no setup required, other than SMTP settings must be blanked out).</p>
                         </div>
                         
 			<div class='help_section'>
                             <p><b>Runs Sluggish / Throws Errors With Proxies:</b><br />
-                                If page loads are sluggish or throw API connection errors without clearing up, and you have enabled proxy ip addresses, disable them and try again. If it is a bad or misconfigured proxy setup causing the issue, and everything runs great after disabling proxies, you probably have either (a) a bad proxy or proxy configuration, or (b) an API server / endpoint address is not responding properly when routed through proxies (example: HTTP used instead of HTTPS can cause this error). <i>If you are sure your proxy setup is ok</i>, and that an API connection built-in to this app is the issue, please <a href='https://github.com/taoteh1221/DFD_Cryptocoin_Values/issues' target='_blank'>report it</a>.</p>
+                                If page loads are sluggish or throw API connection errors without clearing up, and you have enabled proxy ip addresses, check the error logs file at /cache/logs/errors.log for error responses from the proxy server connection attempt(s). If there are no errors log entries related to the issue that help diagnose the problem, disable using proxies in config.php and try loading the web page again.</p>
+                             <p>If it is a bad or misconfigured proxy setup causing the issue, and everything runs great after disabling proxies, you probably have either (a) a bad proxy or proxy configuration, or (b) an API server / endpoint address is not responding properly when routed through proxies (example: HTTP used instead of HTTPS can cause this error). <i>If you are absolutely sure your proxy setup is ok</i>, and that an API connection built-in to this app is the issue, please <a href='https://github.com/taoteh1221/DFD_Cryptocoin_Values/issues' target='_blank'>report it</a>.</p>
                         </div>
                         
 			<div class='help_section'>
