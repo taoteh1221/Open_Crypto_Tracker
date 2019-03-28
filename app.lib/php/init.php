@@ -14,6 +14,17 @@ session_start();
 $_SESSION['proxy_checkup'] = array();
 
 
+// Check for runtime mode
+if ( !$runtime_mode )  {
+echo 'No runtime mode set, exiting.';
+exit;
+}
+
+
+// Register the PHP apps directory
+$php_app_dir = dirname(__FILE__);
+
+
 // Make sure we have a PHP version id
 if (!defined('PHP_VERSION_ID')) {
     $version = explode('.', PHP_VERSION);
@@ -29,13 +40,6 @@ exit;
 }
 else {
 $curl_setup = curl_version();
-}
-
-
-// Check for runtime mode
-if ( !$runtime_mode )  {
-echo 'No runtime mode set, exiting.';
-exit;
 }
 
 
@@ -60,9 +64,6 @@ $alert_percent = explode("|", $_COOKIE['alert_percent']);
 require_once( dirname(__FILE__) . "/cookies.php");
 
 }
-
-// Register the PHP apps directory
-$php_app_dir = dirname(__FILE__);
 
 
 ?>

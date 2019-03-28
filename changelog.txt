@@ -1003,6 +1003,7 @@ app doing the data requests, not a malicious bot)
 -Semantics on PHP library subdirectory structure
 -Coin config structure optimization
 -Fixed proxy checker bugs
+-Basic configuration check with error logging, and results on settings page
 -------------------------------------------------------------------
 
 

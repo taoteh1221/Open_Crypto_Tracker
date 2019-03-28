@@ -107,6 +107,8 @@ return $smtp->Send();
 
 function validate_email($email) {
 
+// Trim whitespace off ends, since we do this before attempting to send anyways in our safe_mail function
+$email = trim($email);
 
 	$address = explode("@",$email);
 	
@@ -132,6 +134,9 @@ function safe_mail($to, $subject, $message) {
 	
 global $smtp_login, $smtp_server, $from_email;
 
+// Trim whitespace off ends
+$from_email = trim($from_email);
+$to = trim($to);
 
 // Stop injection vulnerability
 $from_email = str_replace("\r\n", "\n", $from_email); // windows -> unix
@@ -278,14 +283,15 @@ function error_logs($error_logs=null) {
 
 global $purge_error_logs, $mail_error_logs, $to_email;
 
-$error_logs .= $_SESSION['api_data_error'];
+// Combine all errors logged
+$error_logs .= strip_tags($_SESSION['api_data_error']); // Remove any HTML formatting used in UI alerts
 
-	// Include additional errors logged
+$error_logs .= strip_tags($_SESSION['config_error']); // Remove any HTML formatting used in UI alerts
+
 	foreach ( $_SESSION['repeat_error'] as $error ) {
-	$error_logs .= $error;
+	$error_logs .= strip_tags($error); // Remove any HTML formatting used in UI alerts
 	}
-
-$error_logs = strip_tags($error_logs); // Remove any HTML formatting used in UI alerts
+	
 
 $base_dir = preg_replace("/\/app\.lib(.*)/i", "", dirname(__FILE__) );
 
@@ -310,11 +316,11 @@ $base_dir = preg_replace("/\/app\.lib(.*)/i", "", dirname(__FILE__) );
 	
 	
 	// Log errors...Purge old logs before storing new logs, if it's time to...otherwise just append.
-	if ( $error_logs != null && update_cache_file('cache/events/purge-error-logs.dat', ( $purge_error_logs * 1440 ) ) == true ) {
+	if ( $error_logs != NULL && update_cache_file('cache/events/purge-error-logs.dat', ( $purge_error_logs * 1440 ) ) == true ) {
 	file_put_contents('cache/logs/errors.log', $error_logs, LOCK_EX);
 	file_put_contents('cache/events/purge-error-logs.dat', date('Y-m-d H:i:s'), LOCK_EX);
 	}
-	elseif ( $error_logs != null ) {
+	elseif ( $error_logs != NULL ) {
 	file_put_contents('cache/logs/errors.log', $error_logs, FILE_APPEND | LOCK_EX);
 	}
 	

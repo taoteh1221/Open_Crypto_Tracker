@@ -4,6 +4,135 @@
  */
 
 
+
+// Run some basic configuration file checks
+
+// Proxy configuration check
+if ( sizeof($proxy_list) > 0 ) {
+          	
+	// Check proxy config
+	$proxy_parse_errors = 0;
+	foreach ( $proxy_list as $proxy ) {
+          		
+	$string = explode(":",$proxy);
+          	
+		if ( !filter_var($string[0], FILTER_VALIDATE_IP) || !is_numeric($string[1]) ) {
+		$config_parse_error[] = $proxy;
+      $proxy_parse_errors = $proxy_parse_errors + 1;
+      }
+     	
+	}
+
+
+	// Displaying that errors were found
+	if ( $config_parse_error >= 1 ) {
+   $proxy_config_alert .= '<br /><span style="color: red;">' . $proxy_parse_errors . ' proxy configuration error(s):</span>' . " \n";
+   }
+          		
+	// Displaying any config errors
+	foreach ( $config_parse_error as $error ) {
+   $proxy_config_alert .= '<br /><span style="color: red;">Misconfigured proxy: ' . $error . '</span>' . " \n";
+   }
+          		
+$_SESSION['config_error'] .= ( $proxy_config_alert ? date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | configuration error: ' . $proxy_config_alert . "<br /> \n" : '' );
+          		
+	// Displaying if checks passed
+	if ( sizeof($config_parse_error) < 1 ) {
+   $proxy_config_alert .= '<br /><span style="color: green;">Config check seems ok.</span>';
+   }
+          		
+$config_parse_error = NULL; // Blank it out for any other config checks
+          		
+}
+
+
+// Price change alerts configuration check
+$text_parse = explode("|", trim($to_text) );
+          
+// Check price alert configs
+if ( trim($from_email) != '' && trim($to_email) != '' || sizeof($text_parse) == 2 || trim($notifyme_accesscode) != '' ) {
+          
+          
+		// Email
+      if ( trim($from_email) != '' && trim($to_email) != '' ) {
+      	
+      $alerts_enabled_types[] = 'Email';
+					
+			// Config error check(s)
+         if ( validate_email($from_email) != 'valid' ) {
+         $config_parse_error[] = 'FROM email not configured properly.' . " \n";
+         }
+          		
+         if ( validate_email($to_email) != 'valid' ) {
+         $config_parse_error[] = 'TO email not configured properly.' . " \n";
+         }
+          	
+		}
+          	
+          	
+		// Text
+      if ( $text_parse[1] != 'number_only'
+      || trim($textbelt_apikey) != '' && trim($textlocal_account) == ''
+      || trim($textbelt_apikey) == '' && trim($textlocal_account) != '' ) {
+      	
+      $alerts_enabled_types[] = 'Text';
+				
+			// Config error check(s)
+         if ( is_numeric($text_parse[0]) == FALSE ) {
+         $config_parse_error[] = 'Number for text email not configured properly.' . " \n";
+         }
+          		
+         if ( $text_parse[1] != 'number_only' && validate_email( text_email($to_text) ) != 'valid' ) {
+         $config_parse_error[] = 'Carrier for text email not configured properly.' . " \n";
+         }
+          	
+		}
+          	
+          	
+      // Notifyme (alexa)
+      if ( trim($notifyme_accesscode) != '' ) {
+      $alerts_enabled_types[] = 'Alexa';
+      }
+          	
+          	
+      // Our alert types
+      if ( sizeof($alerts_enabled_types) > 0 ) {
+          		
+        foreach ( $alerts_enabled_types as $type ) {
+        $price_alert_type_text .= $type . ' / ';
+        }
+          		
+      $price_alert_type_text = substr($price_alert_type_text, 0, -3);
+          		
+
+         // Displaying that errors were found
+         if ( $config_parse_error >= 1 ) {
+         $price_change_config_alert .=  '<br /><span style="color: red;">' . $price_alert_type_text . ' alert configuration error(s):</span>' . " \n";
+         }
+          		
+         // Displaying any config errors
+         foreach ( $config_parse_error as $error ) {
+         $price_change_config_alert .= '<br /><span style="color: red;">' . $error . '</span>';
+         }
+          		
+      $_SESSION['config_error'] .= ( $price_change_config_alert ? date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | configuration error: ' . $price_change_config_alert . "<br /> \n" : '');
+          		
+         // Displaying if checks passed
+         if ( sizeof($config_parse_error) < 1 ) {
+         $price_change_config_alert .= '<br /><span style="color: green;">Config check seems ok.</span>';
+         }
+          		
+      $config_parse_error = NULL; // Blank it out for any other config checks
+          		
+      }
+          	
+          	
+}
+// END of basic configuration file checks
+
+
+
+// User agent
 if ( sizeof($proxy_list) > 0 ) {
 $user_agent = 'Mozilla/5.0 (compatible; API_Endpoint_Parser;) Gecko Firefox';  // If proxies in use, preserve some privacy
 }
@@ -12,6 +141,8 @@ $user_agent = 'Mozilla/5.0 (compatible; ' . $_SERVER['SERVER_SOFTWARE'] . '; PHP
 }
 
 
+
+// SMTP email setup
 if ( $smtp_login != '' && $smtp_server != '' ) {
 
 require_once( dirname(__FILE__) . '/classes/smtp-mailer/SMTPMailer.php');
