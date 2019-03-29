@@ -16,3 +16,13 @@
 				
 				
 			</fieldset>
+			
+			<fieldset class='blue_fieldset'>
+				<legend style='color: blue;'> <b>External Tools</b> </legend>
+    			<ul>
+		    
+        			<li class='chart_links'><a href='https://timestamp.decred.org/' target='_blank'>Timestamp Proof-Of-Existence Of Files With The Decred Blockchain</a></li>
+				
+				
+    			</ul>
+			</fieldset>

@@ -1011,6 +1011,8 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 2.4.1:
 -Better consistency for coin config format
+-Proof of existence info in misc-docs subdirectory
+-External Tools section on 'Other Crypto Tools' page
 -------------------------------------------------------------------
 
 
