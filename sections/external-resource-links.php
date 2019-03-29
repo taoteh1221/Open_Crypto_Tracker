@@ -35,7 +35,7 @@
         
         <li class='chart_links'><a href='https://www.coingecko.com/' target='_blank'>Coingecko.com</a></li>
         
-        <li class='chart_links'><a href='https://messari.io/onchainfx' target='_blank'>OnChain FX</a></li>
+        <li class='chart_links'><a href='https://messari.io/onchainfx' target='_blank'>OnChainFX</a></li>
         
         <li class='chart_links'><a href='https://info.binance.com/' target='_blank'>info.binance.com</a></li>
         
@@ -53,6 +53,8 @@
 <p>
     <fieldset class='blue_fieldset'><legend style='color: blue;'> <strong>Coin Mining</strong> </legend>
     <ul>
+        
+        <li class='chart_links'><a href='https://messari.io/c/screener' target='_blank'>OnChainFX - PoW Miner Revenues</a></li>
         
         <li class='chart_links'><a href='https://simplemining.net/' target='_blank'>Simplemining.net</a></li>
         

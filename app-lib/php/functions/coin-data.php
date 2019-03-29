@@ -744,7 +744,7 @@ $market_pairing = $all_markets[$selected_market];
 <td class='data border_lb' align='right' style='position: relative; padding-right: 32px;'>
  
  <?php
- $mkcap_render_data = trim($coins_list[$trade_symbol]['marketcap-website-slug']);
+ $mkcap_render_data = trim($coins_list[$trade_symbol]['marketcap_website_slug']);
  $info_icon = ( !marketcap_data($trade_symbol)['rank'] ? 'info-none.png' : 'info.png' );
  
 	if ( $mkcap_render_data != '' ) {

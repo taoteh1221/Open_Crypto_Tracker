@@ -1008,6 +1008,17 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+2.4.1:
+-Better consistency for coin config format
+-------------------------------------------------------------------
+
+
+
+
+
+
+
 
 
 
