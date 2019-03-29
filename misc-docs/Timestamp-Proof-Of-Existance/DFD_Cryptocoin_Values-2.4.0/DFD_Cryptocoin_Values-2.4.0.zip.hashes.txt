@@ -1,0 +1,8 @@
+# MD5
+4721ed55c39f57dac7aa0a38085f596a  DFD_Cryptocoin_Values-2.4.0.zip
+# SHA1
+cf821efd6630b258ec8dc457727d22c063a5ce36  DFD_Cryptocoin_Values-2.4.0.zip
+# SHA256
+062cf064a8c7d2a7adf643a0d33728e6b87eb244129159358db9e68fdd2e1139  DFD_Cryptocoin_Values-2.4.0.zip
+# CRC32
+9dbf6f07  DFD_Cryptocoin_Values-2.4.0.zip

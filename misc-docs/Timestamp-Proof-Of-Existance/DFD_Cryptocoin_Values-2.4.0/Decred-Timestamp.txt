@@ -1,0 +1,16 @@
+Results
+The files sent to dcrtime can be either: 
+Anchored: the digest of the file and other files digests sent in the same hour range were compiled into a merkle root which is already stored in the chain. 
+Pending: the digest of the file is stored in the dcrtime server and it should be anchored within the next hour. 
+Not Anchored: the digest of the file is not stored in the dcrtime server.
+
+Anchored
+1
+DFD_Cryptocoin_Values-2.4.0.zip
+
+Anchored
+Digest: 062cf064a8c7d2a7adf643a0d33728e6b87eb244129159358db9e68fdd2e1139
+Timestamp: 1553821308
+Merkle root: 3f608a6e8665342c698a149b34896caab85c2e8677259eca8b000c10bbdefb75
+Transaction: d85a7c2d8f761b654bac83018b7400736537067cc2b9f437de19b3bcb3286aeb
+Download proof information

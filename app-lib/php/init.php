@@ -61,7 +61,7 @@ $sorted_by_asc_desc = $sort_settings[1];
 
 $alert_percent = explode("|", $_COOKIE['alert_percent']);
 
-require_once( dirname(__FILE__) . "/cookies.php");
+require_once( $php_app_dir . "/other/cookies.php");
 
 }
 

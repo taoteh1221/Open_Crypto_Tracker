@@ -160,9 +160,6 @@ if ( $_POST['submit_check'] == 1 ) {
   }
   
   
-  
-  //var_dump($set_coin_values);
-
  
  
 }
