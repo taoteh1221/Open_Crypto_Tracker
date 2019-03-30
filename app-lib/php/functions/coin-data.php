@@ -484,25 +484,28 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
           	
           	// Format trade volume data
           	
-          	// Successfully received volume data, at or above enabled minimum volume filter
-  				if ( $volume_usd_raw >= 0 && $exchange_price_alerts_minvolume > 0 && $volume_usd_raw >= $exchange_price_alerts_minvolume ) {
+          	// Minimum volume filter skipped message, only if filter enabled and no trade volume (otherwise is NULL)
+          	if ( $volume_usd_raw == NULL && $exchange_price_alerts_minvolume > 0 || $volume_usd_raw < 1 && $exchange_price_alerts_minvolume > 0 ) {
+          	$volume_filter_skipped_text = ', so enabled minimum volume filter was skipped';
+          	}
+          	else {
+          	$volume_filter_skipped_text = NULL;
+          	}
+          	
+          	// Successfully received positive volume data, at or above an enabled minimum volume filter
+  				if ( $volume_usd_raw > 0 && $exchange_price_alerts_minvolume > 0 && $volume_usd_raw >= $exchange_price_alerts_minvolume ) {
           	$email_volume_summary = '24 hour trade volume is ' . $volume_usd_text . ' (minimum volume filter set at $' . number_format($exchange_price_alerts_minvolume, 0, '.', ',') . ').';
           	}
-          	// NULL if not setup to get volume data, negative number returned if no data received from API, skip any enabled volume filter
-  				elseif ( $volume_usd_raw == NULL && $exchange_price_alerts_minvolume > 0 || $volume_usd_raw == -1 && $exchange_price_alerts_minvolume > 0 ) { 
-          	$email_volume_summary = '24 hour trade volume could not be detected (so enabled minimum volume filter was skipped).';
-          	$volume_usd_text = 'No data';
-          	}
-          	// If volume is zero or greater in successfully received volume data
+          	// If volume is zero or greater in successfully received volume data, without an enabled volume filter (or filter skipped)
           	// IF exchange dollar value price goes up/down and triggers alert, 
           	// BUT current reported volume is zero (temporary error on exchange side etc, NOT on our app's side),
-          	// inform end-user that any enabled volume filter was skipped because of this possible volume discrepancy being detected.
+          	// inform end-user of this probable volume discrepancy being detected.
           	elseif ( $volume_usd_raw >= 0 ) {
-          	$email_volume_summary = '24 hour trade volume is ' . $volume_usd_text . ( $exchange_price_alerts_minvolume > 0 && $volume_usd_raw == 0 ? ' (possible volume discrepancy detected, so enabled minimum volume filter was skipped)' : '' ) . '.'; 
+          	$email_volume_summary = '24 hour trade volume is ' . $volume_usd_text . ( $volume_usd_raw == 0 ? ' (probable volume discrepancy detected' . $volume_filter_skipped_text . ')' : '' ) . '.'; 
           	}
-          	// NULL if not setup to get volume, negative number returned if no data received from API
+          	// NULL if not setup to get volume, negative number returned if no data received from API, therefore skipping any enabled volume filter
   				elseif ( $volume_usd_raw == NULL || $volume_usd_raw == -1 ) { 
-          	$email_volume_summary = '24 hour trade volume could not be detected.';
+          	$email_volume_summary = 'No data received for 24 hour trade volume' . $volume_filter_skipped_text . '.';
           	$volume_usd_text = 'No data';
           	}
   				

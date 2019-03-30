@@ -1013,6 +1013,7 @@ app doing the data requests, not a malicious bot)
 -Better consistency for coin config format
 -Proof of existence info in misc-docs subdirectory
 -External Tools section on 'Other Crypto Tools' page
+-Probable exchange trade volume discrepancy detection
 -------------------------------------------------------------------
 
 
