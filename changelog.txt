@@ -1014,6 +1014,7 @@ app doing the data requests, not a malicious bot)
 -Proof of existence info in misc-docs subdirectory
 -External Tools section on 'Other Crypto Tools' page
 -Probable exchange trade volume discrepancy detection
+-Check for (and create if needed) the cache sub-directory structure
 -------------------------------------------------------------------
 
 

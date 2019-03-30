@@ -154,12 +154,12 @@ global $chainstats_cache;
     	else {
     		
     		// Non-dynamic cache file name, because filename would change every recache and create cache bloat
-    		if ( update_cache_file('cache/api/eth-stats.dat', $chainstats_cache ) == true ) {
+    		if ( update_cache_file('cache/apis/eth-stats.dat', $chainstats_cache ) == true ) {
 			
   			$json_string = 'https://api.etherscan.io/api?module=proxy&action=eth_getBlockByNumber&tag='.$block_number.'&boolean=true';
   			$jsondata = @api_data('url', $json_string, 0); // ZERO TO NOT CACHE DATA (WOULD CREATE CACHE BLOAT)
     		
-    		file_put_contents('cache/api/eth-stats.dat', $jsondata, LOCK_EX);
+    		file_put_contents('cache/apis/eth-stats.dat', $jsondata, LOCK_EX);
     		
     		$data = json_decode($jsondata, TRUE);
     		
@@ -168,7 +168,7 @@ global $chainstats_cache;
     		}
     		else {
     			
-    		$cached_data = trim( file_get_contents('cache/api/eth-stats.dat') );
+    		$cached_data = trim( file_get_contents('cache/apis/eth-stats.dat') );
     		
     		$data = json_decode($cached_data, TRUE);
     		

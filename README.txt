@@ -2,14 +2,16 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Copyright 2014-2019 GPLv3
 Developed by Michael Kilday <mike@dragonfrugal.com>, released free / open source under GPL v3
-https://dragonfrugal.com/downloads/
+
 LIVE DEMO: https://dragonfrugal.com/coin-prices/
+
+Download: https://github.com/taoteh1221/DFD_Cryptocoin_Values/releases
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Donations support further development... 
 
-XMR: 47mWWjuwPFiPD6t2MaWcMEfejtQpMuz9oj5hJq18f7nvagcmoJwxudKHUppaWnTMPaMWshMWUTPAUX623KyEtukbSMdmpqu
-
 PAYPAL: https://www.paypal.me/dragonfrugal
+
+XMR: 47mWWjuwPFiPD6t2MaWcMEfejtQpMuz9oj5hJq18f7nvagcmoJwxudKHUppaWnTMPaMWshMWUTPAUX623KyEtukbSMdmpqu
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Questions, feature requests, and bug reports can be filed at the following URLS:
 
@@ -92,6 +94,7 @@ BELOW IS AN EXAMPLE SET OF CONFIGURED ASSETS AND DEFAULT SETTINGS. PLEASE NOTE T
 
 
 // SEE README.txt FOR HOW TO ADD / EDIT / DELETE COINS IN THIS CONFIG, AND AN EXAMPLE SET OF PRE-CONFIGURED SETTINGS / ASSETS
+// TYPOS LIKE MISSED COMMAS / MISSED SINGLE-STYLE QUOTES / ETC WILL BREAK THE APP, BE CAREFUL EDITING THIS CONFIG FILE
 
 
 
@@ -192,8 +195,8 @@ $exchange_price_alerts_refresh = 0;
 
 // EXCHANGE PRICE CHANGE ALERTS REQUIRES CRON JOB SETUP (see README.txt for cron job setup information) 
 // Markets you want exchange price change alerts for (alert sent when $USD value change is equal to or above / below $exchange_price_alerts_percent) 
-// Delete any double forward slashes from in front of each asset you want to enable cron job price alerts on (or add double slash to disable alerts)
-// NOTE: This list must only contain assets / exchanges / trading pairs included in the primary coin data configuration further down in this config file
+// Delete any double forward slashes from in front of each asset you want to enable price alerts on (or add double slash to disable alerts)
+// NOTE: This list must only contain assets / exchanges / trading pairs included in the primary coin list configuration further down in this config file
 // TO ADD MULTIPLE ALERTS FOR SAME ASSET (FOR DIFFERENT EXCHANGES / TRADE PAIRINGS), FORMAT LIKE SO: symbol, symbol-1, symbol-2, etc.
 $exchange_price_alerts = array(
 				// 'symbol' => 'exchange|trade_pairing',
@@ -276,6 +279,11 @@ $steem_powerdown_time = 13;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////// COIN MARKETS CONFIG -START- ///////////////////////////////////////////////
+
+
+
+// SEE README.txt FOR HOW TO ADD / EDIT / DELETE COINS IN THIS CONFIG, AND AN EXAMPLE SET OF PRE-CONFIGURED SETTINGS / ASSETS
+// TYPOS LIKE MISSED COMMAS / MISSED SINGLE-STYLE QUOTES / ETC WILL BREAK THE APP, BE CAREFUL EDITING THIS CONFIG FILE
 
 
 
@@ -1031,4 +1039,3 @@ $coins_list = array(
 
 /////////////////// COIN MARKETS CONFIG -END- /////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
-

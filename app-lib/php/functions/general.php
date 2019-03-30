@@ -5,6 +5,19 @@
 
 /////////////////////////////////////////////////////////
 
+function dir_structure($path) {
+
+	if ( !is_dir($path) ) {
+	return  mkdir($path, 0777, true); // Recursively create whatever path depth desired if non-existent
+	}
+	else {
+	return TRUE;
+	}
+
+}
+
+/////////////////////////////////////////////////////////
+
 function update_cache_file($cache_file, $minutes) {
 
 	if (  file_exists($cache_file) && filemtime($cache_file) > ( time() - ( 60 * $minutes ) )  ) {
@@ -281,7 +294,7 @@ return $base_url;
 
 function error_logs($error_logs=null) {
 
-global $purge_error_logs, $mail_error_logs, $to_email;
+global $purge_error_logs, $mail_error_logs, $to_email, $base_dir;
 
 // Combine all errors logged
 $error_logs .= strip_tags($_SESSION['api_data_error']); // Remove any HTML formatting used in UI alerts
@@ -291,9 +304,6 @@ $error_logs .= strip_tags($_SESSION['config_error']); // Remove any HTML formatt
 	foreach ( $_SESSION['repeat_error'] as $error ) {
 	$error_logs .= strip_tags($error); // Remove any HTML formatting used in UI alerts
 	}
-	
-
-$base_dir = preg_replace("/\/app-lib(.*)/i", "", dirname(__FILE__) );
 
 
 	// If it's time to email error logs...
@@ -346,7 +356,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 
 
 	// Cache API data if set to cache...SESSION cache is only for runtime cache (deleted at end of runtime)...persistent cache is the file cache (which only reliably updates near end of a runtime session because of file locking)
-	if ( update_cache_file('cache/api/'.$hash_check.'.dat', $ttl) == true && $ttl > 0 && !$_SESSION['api_cache'][$hash_check] 
+	if ( update_cache_file('cache/apis/'.$hash_check.'.dat', $ttl) == true && $ttl > 0 && !$_SESSION['api_cache'][$hash_check] 
 	|| $ttl == 0 && !$_SESSION['api_cache'][$hash_check] ) {	
 	
 	$ch = curl_init( ( $mode == 'array' ? $api_server : '' ) );
@@ -441,7 +451,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		
 		// Cache data to the file cache
 		if ( $ttl > 0 && $mode != 'proxy-check'  ) {
-		file_put_contents('cache/api/'.$hash_check.'.dat', $_SESSION['api_cache'][$hash_check], LOCK_EX);
+		file_put_contents('cache/apis/'.$hash_check.'.dat', $_SESSION['api_cache'][$hash_check], LOCK_EX);
 		}
 		
 
@@ -449,14 +459,14 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 	}
 	elseif ( $ttl < 0 ) {
 	// If flagged for cache file deletion with -1 as $ttl
-	unlink('cache/api/'.$hash_check.'.dat'); // Delete cache if $ttl flagged to less than zero
+	unlink('cache/apis/'.$hash_check.'.dat'); // Delete cache if $ttl flagged to less than zero
 	}
 	else {
 	
 	
 	// Use session cache if it exists. Remember file cache doesn't update until session is nearly over because of file locking, so only reliable for persisting a cache long term
 	// If no API data was received, add error notices to UI / error logs
-	$data = ( $_SESSION['api_cache'][$hash_check] ? $_SESSION['api_cache'][$hash_check] : file_get_contents('cache/api/'.$hash_check.'.dat') );
+	$data = ( $_SESSION['api_cache'][$hash_check] ? $_SESSION['api_cache'][$hash_check] : file_get_contents('cache/apis/'.$hash_check.'.dat') );
 		
 		if ( $data == 'none' ) {
 		

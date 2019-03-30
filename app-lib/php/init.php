@@ -21,8 +21,22 @@ exit;
 }
 
 
+// Register the base directory
+$base_dir = preg_replace("/\/app-lib(.*)/i", "", dirname(__FILE__) );
+
 // Register the PHP apps directory
 $php_app_dir = dirname(__FILE__);
+
+
+
+// Check for cache sub-directory creation, create if needed...if it fails, alert end-user
+if ( dir_structure($base_dir . '/cache/alerts/') != TRUE
+|| dir_structure($base_dir . '/cache/apis/') != TRUE
+|| dir_structure($base_dir . '/cache/events/') != TRUE
+|| dir_structure($base_dir . '/cache/logs/') != TRUE ) {
+echo "Cannot create cache sub-directories. Please either manually create the sub-directories 'alerts', 'apis', 'events', and 'logs' with read / write permissions inside the folder 'cache', OR make sure the folder 'cache' itself has read / write permissions (and these sub-directories should be created automatically).";
+exit;
+}
 
 
 // Make sure we have a PHP version id
