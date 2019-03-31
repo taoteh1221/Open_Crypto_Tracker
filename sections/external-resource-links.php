@@ -131,6 +131,8 @@
         
         
         
+        <li class='chart_links'><a href='https://www.altdex.co/news/' target='_blank'>AltDex News Feed</a></li>
+        
         <li class='chart_links'><a href='http://bitcoinist.com/' target='_blank'>Bitcoinist</a></li>
         
         <li class='chart_links'><a href='https://bitcoinmagazine.com/' target='_blank'>Bitcoin Magazine</a></li>
