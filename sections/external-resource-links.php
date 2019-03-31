@@ -50,22 +50,6 @@
 </p>
 
 
-<p>
-    <fieldset class='blue_fieldset'><legend style='color: blue;'> <strong>Coin Mining</strong> </legend>
-    <ul>
-        
-        <li class='chart_links'><a href='https://messari.io/c/screener' target='_blank'>OnChainFX - PoW Miner Revenues</a></li>
-        
-        <li class='chart_links'><a href='https://simplemining.net/' target='_blank'>Simplemining.net</a></li>
-        
-        <li class='chart_links'><a href='https://www.reddit.com/r/gpumining/' target='_blank'>GPU Mining Subreddit</a></li>
-        
-        
-        
-    </ul>
-    </fieldset>
-</p>
-
 
 <p>
     <fieldset class='blue_fieldset'><legend style='color: blue;'> <strong>Exchanges</strong> </legend>
@@ -118,6 +102,27 @@
         
         
         
+    </ul>
+    </fieldset>
+</p>
+
+
+
+<p>
+    <fieldset class='blue_fieldset'><legend style='color: blue;'> <strong>Podcasts</strong> </legend>
+    <ul>
+        
+        
+        
+        <li class='chart_links'><a href='https://thebitcoinpodcast.com/' target='_blank'>The Bitcoin Podcast</a></li>
+        
+        <li class='chart_links'><a href='https://letstalkbitcoin.com/' target='_blank'>Lets Talk Bitcoin</a></li>
+        
+        <li class='chart_links'><a href='https://podcast.ethhub.io/' target='_blank'>Into The Ether</a></li>
+        
+        <li class='chart_links'><a href='https://www.zeroknowledge.fm/' target='_blank'>Zero Knowledge</a></li>
+        
+        
         
     </ul>
     </fieldset>
@@ -149,12 +154,26 @@
         
         <li class='chart_links'><a href='https://www.ccn.com/' target='_blank'>Crypto Coins News</a></li>
         
-        <li class='chart_links'><a href='https://letstalkbitcoin.com/' target='_blank'>Lets Talk Bitcoin</a></li>
-        
         <li class='chart_links'><a href='https://www.newsbtc.com/' target='_blank'>News BTC</a></li>
         
-        <li class='chart_links'><a href='https://thebitcoinpodcast.com/' target='_blank'>The Bitcoin Podcast</a></li>
         
+        
+        
+    </ul>
+    </fieldset>
+</p>
+
+
+
+<p>
+    <fieldset class='blue_fieldset'><legend style='color: blue;'> <strong>Coin Mining</strong> </legend>
+    <ul>
+        
+        <li class='chart_links'><a href='https://messari.io/c/screener' target='_blank'>OnChainFX - PoW Miner Revenues</a></li>
+        
+        <li class='chart_links'><a href='https://simplemining.net/' target='_blank'>Simplemining.net</a></li>
+        
+        <li class='chart_links'><a href='https://www.reddit.com/r/gpumining/' target='_blank'>GPU Mining Subreddit</a></li>
         
         
         
@@ -166,6 +185,11 @@
 <p>
     <fieldset class='blue_fieldset'><legend style='color: blue;'> <strong>Miscellaneous Links</strong> </legend>
     <ul>
+        
+        
+        <li class='chart_links'><a href='https://www.reddit.com/r/Bitcoin/' target='_blank'>Bitcoin Subreddit</a></li>
+        
+        <li class='chart_links'><a href='https://www.reddit.com/r/ethereum/' target='_blank'>Ethereum Subreddit</a></li>
         
         <li class='chart_links'><a href='https://www.sec.gov/ICO' target='_blank'>SEC.gov ICO Awareness Site</a></li>
         
@@ -186,7 +210,9 @@
         
         <li class='chart_links'><a href='https://www.youtube.com/user/cderose36/featured' target='_blank'>Bitcoin Uncensored</a></li>
         
-        <li class='chart_links'><a href='https://www.youtube.com/user/BitsBeTrippin' target='_blank'>Bits Be Trippin</a></li>
+        <li class='chart_links'><a href='https://www.youtube.com/user/BitsBeTrippin' target='_blank'>Bits Be Trippin</a> (POW mining channel)</li>
+                
+        <li class='chart_links'><a href='https://www.youtube.com/channel/UCZNt3fZazX9cwWcC9vjDJ4Q' target='_blank'>Blockstream</a></li>
                 
         <li class='chart_links'><a href='https://www.youtube.com/channel/UCpfB0lyoKDCKX8wZ7a-K-dw/feed' target='_blank'>Blocktalk</a></li>
         
@@ -210,13 +236,11 @@
         
         <li class='chart_links'><a href='https://www.youtube.com/channel/UCiUnrCUGCJTCC7KjuW493Ww' target='_blank'>Crypto Zombie</a></li>
         
-        <li class='chart_links'><a href='https://www.youtube.com/channel/UC2Q-Uk6OKdgpt3Zn6uJXX_A/featured' target='_blank'>Doug Polk Podcast</a></li>
-        
         <li class='chart_links'><a href='https://www.youtube.com/user/epicenterbtc/featured' target='_blank'>Epicenter</a></li>
         
         <li class='chart_links'><a href='https://www.youtube.com/channel/UCNOfzGXD_C9YMYmnefmPH0g/featured' target='_blank'>Ethereum Foundation</a></li>
         
-        <li class='chart_links'><a href='https://www.youtube.com/channel/UCjYHcWGAjUVqU49D2JOKD3w/featured' target='_blank'>I Mine Blocks</a></li>
+        <li class='chart_links'><a href='https://www.youtube.com/channel/UCjYHcWGAjUVqU49D2JOKD3w/featured' target='_blank'>I Mine Blocks</a> (POW mining channel)</li>
         
         <li class='chart_links'><a href='https://www.youtube.com/user/MrKennbosak/featured' target='_blank'>Kenn Bosak</a></li>
         
@@ -228,15 +252,15 @@
         
         <li class='chart_links'><a href='https://www.youtube.com/channel/UCOBxM0AORW9BCj2rSuR6HBg/featured' target='_blank'>Shitcoin Talk</a></li>
         
-        <li class='chart_links'><a href='https://www.youtube.com/channel/UCcUZXEJxPYsmsQ39q5osaCw/feed' target='_blank'>Speakers at Coinbase</a></li>
-        
         <li class='chart_links'><a href='https://www.youtube.com/user/ForeverMoreTatiana/featured' target='_blank'>Tatiana Moroz</a></li>
         
         <li class='chart_links'><a href='https://www.youtube.com/channel/UCLnQ34ZBSjy2JQjeRudFEDw' target='_blank'>The Cryptoverse</a></li>
         
         <li class='chart_links'><a href='https://www.youtube.com/channel/UCbiWJYRg8luWHnmNkJRZEnw/featured' target='_blank'>Tone Vays</a></li>
         
-        <li class='chart_links'><a href='https://www.youtube.com/channel/UCT44w6854K62cSiwA1aiXfw' target='_blank'>VoskCoin (good POW mining setups channel)</a></li>
+        <li class='chart_links'><a href='https://www.youtube.com/channel/UCT44w6854K62cSiwA1aiXfw' target='_blank'>VoskCoin</a> (POW mining channel)</li>
+        
+        <li class='chart_links'><a href='https://www.youtube.com/user/WorldCryptoNetwork/featured' target='_blank'>World Crypto Network</a></li>
         
         
         
