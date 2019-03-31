@@ -208,6 +208,8 @@
         
         <li class='chart_links'><a href='https://www.youtube.com/user/aantonop/featured' target='_blank'>Andreas Antonopoulos</a></li>
         
+        <li class='chart_links'><a href='https://www.youtube.com/channel/UCBAQgjMqCuXQXfmLhtZuIuA' target='_blank'>Bitcoin and Friends</a></li>
+        
         <li class='chart_links'><a href='https://www.youtube.com/user/BaltimoreHourly/featured' target='_blank'>BitcoinMeister</a></li>
         
         <li class='chart_links'><a href='https://www.youtube.com/user/cderose36/featured' target='_blank'>Bitcoin Uncensored</a></li>
