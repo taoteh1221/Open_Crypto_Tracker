@@ -383,9 +383,14 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		curl_setopt($ch, CURLOPT_PROXY, trim($current_proxy) );     
 		curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, 1);  
 		
-			if ( trim($proxy_login) != ''  ) {
+			// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
+			if ( $proxy_login != ''  ) {
+		
+			$user_pass = explode('||', $proxy_login);
+				
 			curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-			curl_setopt($ch, CURLOPT_PROXYUSERPWD, trim($proxy_login) );  
+			curl_setopt($ch, CURLOPT_PROXYUSERPWD, $user_pass[0] . ':' . $user_pass[1] );  
+			
 			}
 		
 		} 
