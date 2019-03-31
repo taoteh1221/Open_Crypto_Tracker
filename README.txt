@@ -22,11 +22,17 @@ https://dragonfrugal.com/contact/
 Web server setup / install is available for $30 hourly if needed. PM me on Twitter / Skype @ taoteh1221, or contact me using above contact links.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Just upload to your PHP-based web server and you should be all set, unless your host is a strict setup related to file writing permissions, in which case the 'cache' directory / all sub-directories permissions should be set to '777' chmod on unix / linux systems (or 'readable / writable' on windows systems). Your web host must have curl modules activated on your HTTP server. Most web hosting companies provide this "out-of-the-box" already. Contact your hosting provider if you encounter issues getting the real-time prices feeds from exchanges, and ask if curl is setup already. See below for an example on adding / editing your own markets into the coin list in config.php...it's very quick / easy to do (see bottom of this file for a pre-configured example set of assets / markets). Currently BTC / XMR / ETH / LTC / USDT (Tether) / TUSD (True USD) based market pairing is compatible. Contact any supported exchanges help desk if you are unaware of the correct formatting of the trading pair name you are adding in the API configuration file (examples: Kraken has abitrary Xs inserted everywhere in SOME older pair names, HitBTC sometimes has tether pairing without the "T" in the symbol name).
+Just upload to your PHP-based web server (with an FTP client like FileZilla) and you should be all set, unless your host is a strict setup related to file writing permissions, in which case the 'cache' directory should be set to '777' chmod on unix / linux systems (or 'readable / writable' on windows systems). Your web host must have CURL modules activated on your HTTP server. Most web hosting companies provide this "out-of-the-box" already. This app will detect whether or not CURL is setup on your website server. 
 
-Setting up cron jobs for exchange price alerts by email / mobile phone text / amazon alexa notifications (get notifications sent to you, even when you are offline): 
-cron.php in the root directory must be setup as a cron job on the server, if you want to take advantage of cron job based features like exchange price alerts, daily or weekly error log emails, etc. Consult your web server host's documentation or help desk, for your host's particular method of setting up a cron job. Note that you should have it run every X minutes 24/7, based on how often you want alerts / any other cron based features to run. Every 20 minutes is a good default time interval to start with. Here is an example cron job command for reference below. Replace system paths with the correct ones for your server:
+Setting up a cron job for exchange price alerts by email / mobile phone text / amazon alexa notifications (get notifications sent to you, even when you are offline): 
+
+If you want to take advantage of cron job based features like exchange price alerts, daily or weekly error log emails / etc, then cron.php in the root directory must be setup as a cron job on the web server. Consult your web server host's documentation or help desk, for your host's particular method of setting up a cron job. Note that you should have it run every X minutes 24/7, based on how often you want alerts / any other cron based features to run. Every 20 minutes is a good default time interval to start with. 
+
+Here is an example command for reference below, to setup as a cron job. Replace system paths in the example with the correct ones for your server:
+
 /path/to/php -q /home/username/path/to/website_install/cron.php
+
+Below is an example for adding / editing your own markets into the coin list in config.php. It's very quick / easy to do, after you get the hang of it. Also see bottom of this file for a pre-configured set of default settings and example assets / markets. Currently BTC / XMR / ETH / LTC / USDT (Tether) / TUSD (True USD) based market pairing is compatible. Contact any supported exchange's help desk if you are unaware of the correct formatting of the trading pair naming you are adding in the configuration file (examples: Kraken has abitrary Xs inserted everywhere in SOME older pair names, HitBTC sometimes has tether pairing without the "T" in the symbol name).
 
 
  * USAGE (ADDING / UPDATING COINS) ...API support for: coinbase / binance / bittrex / kraken / poloniex / bitstamp / bitfinex and ethfinex / cryptofresh / gemini / hitbtc / cryptopia / livecoin / upbit / kucoin / okex / gate.io / graviex / idex / hotbit / tradeogre / bitforex / bigone / tradesatoshi...BTC, XMR, ETH, LTC, USDT AND TUSD trading pair support
@@ -38,7 +44,7 @@ cron.php in the root directory must be setup as a cron job on the server, if you
                         
                         'coin_name' => 'COIN_NAME',
                         'coin_symbol' => 'UPPERCASE_COIN_SYMBOL',
-                        'marketcap_website_slug' => 'coin-slug', // Is this coin listed on coinmarketcap / coingecko, leave blank if not
+                        'marketcap_website_slug' => 'website-slug', // Website slug (URL data) on coinmarketcap / coingecko, leave blank if not listed there
                         'market_pairing' => array(
                         
                                     'btc' => array(
@@ -93,7 +99,7 @@ BELOW IS AN EXAMPLE SET OF CONFIGURED ASSETS AND DEFAULT SETTINGS. PLEASE NOTE T
 
 
 
-// SEE README.txt FOR HOW TO ADD / EDIT / DELETE COINS IN THIS CONFIG, AND AN EXAMPLE SET OF PRE-CONFIGURED SETTINGS / ASSETS
+// SEE README.txt FOR HOW TO ADD / EDIT / DELETE COINS IN THIS CONFIG, AND AN EXAMPLE SET OF PRE-CONFIGURED SETTINGS / EXAMPLE ASSETS
 // TYPOS LIKE MISSED COMMAS / MISSED SINGLE-STYLE QUOTES / ETC WILL BREAK THE APP, BE CAREFUL EDITING THIS CONFIG FILE
 
 
@@ -282,7 +288,7 @@ $steem_powerdown_time = 13;
 
 
 
-// SEE README.txt FOR HOW TO ADD / EDIT / DELETE COINS IN THIS CONFIG, AND AN EXAMPLE SET OF PRE-CONFIGURED SETTINGS / ASSETS
+// SEE README.txt FOR HOW TO ADD / EDIT / DELETE COINS IN THIS CONFIG, AND AN EXAMPLE SET OF PRE-CONFIGURED SETTINGS / EXAMPLE ASSETS
 // TYPOS LIKE MISSED COMMAS / MISSED SINGLE-STYLE QUOTES / ETC WILL BREAK THE APP, BE CAREFUL EDITING THIS CONFIG FILE
 
 
