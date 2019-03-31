@@ -122,6 +122,8 @@
         
         <li class='chart_links'><a href='https://www.zeroknowledge.fm/' target='_blank'>Zero Knowledge</a></li>
         
+        <li class='chart_links'><a href='http://h4shr8.libsyn.com/website' target='_blank'>H4SHR8 Crypto Mining Podcast</a></li>
+        
         
         
     </ul>
