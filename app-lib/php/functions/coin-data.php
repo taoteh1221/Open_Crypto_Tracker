@@ -547,11 +547,13 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
                   @api_data('array', $notifyme_params, 0, 'https://api.notifymyecho.com/v1/NotifyMe');
                   }
   
-                  if ( trim($textbelt_apikey) != '' && trim($textlocal_account) == '' ) { // Only run if textlocal API isn't being used to avoid double texts
+						// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
+                  if ( trim($textbelt_apikey) != '' && $textlocal_account == '' ) { // Only run if textlocal API isn't being used to avoid double texts
                   @api_data('array', $textbelt_params, 0, 'https://textbelt.com/text', 2);
                   }
   
-                  if ( trim($textlocal_account) != '' && trim($textbelt_apikey) == '' ) { // Only run if textbelt API isn't being used to avoid double texts
+						// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
+                  if ( $textlocal_account != '' && trim($textbelt_apikey) == '' ) { // Only run if textbelt API isn't being used to avoid double texts
                   @api_data('array', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
                   }
            
@@ -561,7 +563,8 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
                   @safe_mail($to_email, $asset . ' Asset Value '.ucfirst($alert_mode).' Alert', $email_message);
                   }
   
-                  if ( validate_email( text_email($to_text) ) == 'valid' && trim($textbelt_apikey) != '' && trim($textlocal_account) != '' ) { 
+						// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
+                  if ( validate_email( text_email($to_text) ) == 'valid' && trim($textbelt_apikey) != '' && $textlocal_account != '' ) { 
                   // Only use text-to-email if other text services aren't configured
                   @safe_mail( text_email($to_text) , $asset . ' Value Alert', $text_message);
                   }

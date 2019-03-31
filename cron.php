@@ -20,7 +20,7 @@ $btc_usd = get_btc_usd($btc_exchange)['last_trade'];
 
 foreach ( $exchange_price_alerts as $key => $value ) {
 	
-$value = explode("|",$value); // Convert $value into an array
+$value = explode("||",$value); // Convert $value into an array
 
 $asset = strtoupper($key);
 $exchange = $value[0];

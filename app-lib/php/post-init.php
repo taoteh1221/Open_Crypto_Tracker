@@ -9,9 +9,26 @@
 
 // Proxy configuration check
 if ( sizeof($proxy_list) > 0 ) {
+	
+
+	$proxy_parse_errors = 0;
+	
+	// proxy login configuration check
+	
+	// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
+	if ( $proxy_login != '' ) {
+		
+	$proxy_login_parse = explode("||", $proxy_login );
+
+		if ( trim($proxy_login_parse[0]) == '' || $proxy_login_parse[1] == '' ) {
+   	$config_parse_error[] = 'Proxy username / password not configured properly.' . " \n";
+      $proxy_parse_errors = $proxy_parse_errors + 1;
+		}
+	
+	}
+	
           	
 	// Check proxy config
-	$proxy_parse_errors = 0;
 	foreach ( $proxy_list as $proxy ) {
           		
 	$string = explode(":",$proxy);
@@ -38,7 +55,7 @@ $_SESSION['config_error'] .= ( $proxy_config_alert ? date('Y-m-d H:i:s') . ' UTC
           		
 	// Displaying if checks passed
 	if ( sizeof($config_parse_error) < 1 ) {
-   $proxy_config_alert .= '<br /><span style="color: green;">Config check seems ok.</span>';
+   $proxy_config_alert .= '<br /><span style="color: green;">Config formatting seems ok.</span>';
    }
           		
 $config_parse_error = NULL; // Blank it out for any other config checks
@@ -47,7 +64,7 @@ $config_parse_error = NULL; // Blank it out for any other config checks
 
 
 // Price change alerts configuration check
-$text_parse = explode("|", trim($to_text) );
+$text_parse = explode("||", trim($to_text) );
           
 // Check price alert configs
 if ( trim($from_email) != '' && trim($to_email) != '' || sizeof($text_parse) == 2 || trim($notifyme_accesscode) != '' ) {
@@ -71,9 +88,10 @@ if ( trim($from_email) != '' && trim($to_email) != '' || sizeof($text_parse) == 
           	
           	
 		// Text
+		// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
       if ( $text_parse[1] != 'number_only'
-      || trim($textbelt_apikey) != '' && trim($textlocal_account) == ''
-      || trim($textbelt_apikey) == '' && trim($textlocal_account) != '' ) {
+      || trim($textbelt_apikey) != '' && $textlocal_account == ''
+      || trim($textbelt_apikey) == '' && $textlocal_account != '' ) {
       	
       $alerts_enabled_types[] = 'Text';
 				
@@ -119,7 +137,7 @@ if ( trim($from_email) != '' && trim($to_email) != '' || sizeof($text_parse) == 
           		
          // Displaying if checks passed
          if ( sizeof($config_parse_error) < 1 ) {
-         $price_change_config_alert .= '<br /><span style="color: green;">Config check seems ok.</span>';
+         $price_change_config_alert .= '<br /><span style="color: green;">Config formatting seems ok.</span>';
          }
           		
       $config_parse_error = NULL; // Blank it out for any other config checks
@@ -128,6 +146,51 @@ if ( trim($from_email) != '' && trim($to_email) != '' || sizeof($text_parse) == 
           	
           	
 }
+
+
+
+// Check SMTP configs
+// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
+if ( $smtp_login != '' && $smtp_server != '' ) {
+	
+	
+// SMTP configuration check
+$smtp_login_parse = explode("||", $smtp_login );
+$smtp_server_parse = explode(":", $smtp_server );
+
+	if ( trim($smtp_login_parse[0]) == '' || $smtp_login_parse[1] == '' ) {
+   $config_parse_error[] = 'SMTP username / password not configured properly.' . " \n";
+	}
+	
+	if ( trim($smtp_server_parse[0]) == '' || !is_numeric( trim($smtp_server_parse[1]) ) ) {
+   $config_parse_error[] = 'SMTP server domain_or_ip / port not configured properly.' . " \n";
+	}
+	
+	
+   // Displaying that errors were found
+   if ( $config_parse_error >= 1 ) {
+   $smtp_config_alert .=  '<br /><span style="color: red;">SMTP configuration error(s):</span>' . " \n";
+   }
+          		
+   // Displaying any config errors
+   foreach ( $config_parse_error as $error ) {
+   $smtp_config_alert .= '<br /><span style="color: red;">' . $error . '</span>';
+   }
+	
+   
+   $_SESSION['config_error'] .= ( $smtp_config_alert ? date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | configuration error: ' . $smtp_config_alert . "<br /> \n" : '');
+
+        
+   // Displaying if checks passed
+   if ( sizeof($config_parse_error) < 1 ) {
+   $smtp_config_alert .= '<br /><span style="color: green;">Config formatting seems ok.</span>';
+   }
+          		
+   $config_parse_error = NULL; // Blank it out for any other config checks
+          		
+	
+}
+
 // END of basic configuration file checks
 
 
@@ -143,6 +206,7 @@ $user_agent = 'Mozilla/5.0 (compatible; ' . $_SERVER['SERVER_SOFTWARE'] . '; PHP
 
 
 // SMTP email setup
+// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
 if ( $smtp_login != '' && $smtp_server != '' ) {
 
 require_once( dirname(__FILE__) . '/classes/smtp-mailer/SMTPMailer.php');

@@ -25,6 +25,17 @@
                         
 			<?php
 			}
+			// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
+			if ( $smtp_login != '' && $smtp_server != '' ) {
+          ?>
+          	<p class='settings_sections'>SMTP emailing is <i>enabled</i> in the configuration file.
+          	
+          		<?=$smtp_config_alert?>
+          	
+          	</p>  
+                        
+			<?php
+			}
 			
 			if (is_array($coins_list) || is_object($coins_list)) {
 			    

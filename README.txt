@@ -132,7 +132,7 @@ $from_email = ''; // MUST BE SET for price alerts and other email features
 $to_email = ''; // MUST BE SET for price alerts and other email features
 
 // For exchange price alert texts to mobile phones. Attempts to email text if carrier is set AND no textbelt / textlocal config is setup
-// CAN BE BLANK. Country format MUST be used: '12223334444|number_only' number_only (for textbelt / textlocal), alltel, att, tmobile, virgin, sprint, verizon, nextel
+// CAN BE BLANK. Country format MUST be used: '12223334444||number_only' number_only (for textbelt / textlocal), alltel, att, tmobile, virgin, sprint, verizon, nextel
 $to_text = '';
 
 // For exchange price alert notifyme alexa notifications (sending Alexa devices notifications for free). 
@@ -145,7 +145,7 @@ $notifyme_accesscode = '';
 $textbelt_apikey = '';
 
 // CAN BE BLANK. For exchange price alert textlocal notifications. Setup: https://www.textlocal.com/integrations/api/
-$textlocal_account = ''; // This format MUST be used: 'username|hash_code'
+$textlocal_account = ''; // This format MUST be used: 'username||hash_code'
 
 
 
@@ -153,7 +153,7 @@ $textlocal_account = ''; // This format MUST be used: 'username|hash_code'
 // !!USE A THROWAWAY ACCOUNT ONLY!! If web server is hacked, HACKER WOULD THEN HAVE ACCESS YOUR EMAIL LOGIN FROM THIS FILE!!
 // If SMTP credentials / settings are filled in, BUT not setup properly, APP EMAILING WILL FAIL
 // CAN BE BLANK (PHP's built-in mail function will be automatically used instead)
-$smtp_login = ''; //  CAN BE BLANK. This format MUST be used: 'username|password'
+$smtp_login = ''; //  CAN BE BLANK. This format MUST be used: 'username||password'
 
 $smtp_server = ''; // CAN BE BLANK. This format MUST be used: 'domain_or_ip:port' example: 'example.com:25'
 
@@ -164,7 +164,7 @@ $smtp_secure = ''; // CAN BE BLANK '' for no secure connection, or 'tls', or 'ss
 // If using proxies and login is required
 // Adding a user / pass here will automatically send login details for proxy connections
 // CAN BE BLANK. IF using ip address whitelisting instead, MUST BE LEFT BLANK
-$proxy_login = ''; // Use format: 'username:password'
+$proxy_login = ''; // Use format: 'username||password'
 
 // If using proxies, add the ip address / port number here for each one, like examples below (without the double slashes in front)
 // CAN BE BLANK. Adding proxies here will automatically choose one randomly for each API request
@@ -206,40 +206,40 @@ $exchange_price_alerts_refresh = 0;
 // NOTE: This list must only contain assets / exchanges / trading pairs included in the primary coin list configuration further down in this config file
 // TO ADD MULTIPLE ALERTS FOR SAME ASSET (FOR DIFFERENT EXCHANGES / TRADE PAIRINGS), FORMAT LIKE SO: symbol, symbol-1, symbol-2, etc.
 $exchange_price_alerts = array(
-				// 'symbol' => 'exchange|trade_pairing',
-				// 'symbol-2' => 'exchange2|trade_pairing2',
-				// 'othersymbol' => 'exchange|trade_pairing',
-				// 'othersymbol-2' => 'exchange2|trade_pairing2',
-				// 'othersymbol-3' => 'exchange3|trade_pairing3',
-					'tusd' => 'binance|usdt',
-					'btc' => 'coinbase|btc',
-					'btc-2' => 'binance|btc',
-					'eth' => 'binance|usdt',
-					'eth-2' => 'bittrex|btc',
-					'xmr' => 'binance|btc',
-					'dcr' => 'binance|btc',
-					'dcr-2' => 'bittrex|usdt',
-					'dash' => 'bittrex|btc',
-					'ltc' => 'bittrex|btc',
-					'steem' => 'binance|eth',
-					'mana' => 'binance|btc',
-					'ant' => 'bittrex|btc',
-					'grin' => 'hitbtc|btc',
-					'grin-2' => 'kucoin|eth',
-					'beam' => 'hotbit|btc',
-				//	'zrx' => 'bittrex|btc',
-					'ada' => 'binance|tusd',
-					'zil' => 'binance|btc',
-				//	'snt' => 'bittrex|btc',
-				//	'gnt' => 'bittrex|btc',
-					'xlm' => 'binance|tusd',
-					'xlm-2' => 'bittrex|btc',
-				//	'fct' => 'bittrex|btc',
-					'rvn' => 'binance|btc',
-					'myst' => 'hitbtc|btc',
-					'myst-2' => 'hitbtc|eth',
-					'myst-3' => 'idex|eth',
-				//	'trac' => 'kucoin|btc',
+				// 'symbol' => 'exchange||trade_pairing',
+				// 'symbol-2' => 'exchange2||trade_pairing2',
+				// 'othersymbol' => 'exchange||trade_pairing',
+				// 'othersymbol-2' => 'exchange2||trade_pairing2',
+				// 'othersymbol-3' => 'exchange3||trade_pairing3',
+					'tusd' => 'binance||usdt',
+					'btc' => 'coinbase||btc',
+					'btc-2' => 'binance||btc',
+					'eth' => 'binance||usdt',
+					'eth-2' => 'bittrex||btc',
+					'xmr' => 'binance||btc',
+					'dcr' => 'binance||btc',
+					'dcr-2' => 'bittrex||usdt',
+					'dash' => 'bittrex||btc',
+					'ltc' => 'bittrex||btc',
+					'steem' => 'binance||eth',
+					'mana' => 'binance||btc',
+					'ant' => 'bittrex||btc',
+					'grin' => 'hitbtc||btc',
+					'grin-2' => 'kucoin||eth',
+					'beam' => 'hotbit||btc',
+				//	'zrx' => 'bittrex||btc',
+					'ada' => 'binance||tusd',
+					'zil' => 'binance||btc',
+				//	'snt' => 'bittrex||btc',
+				//	'gnt' => 'bittrex||btc',
+					'xlm' => 'binance||tusd',
+					'xlm-2' => 'bittrex||btc',
+				//	'fct' => 'bittrex||btc',
+					'rvn' => 'binance||btc',
+					'myst' => 'hitbtc||btc',
+					'myst-2' => 'hitbtc||eth',
+					'myst-3' => 'idex||eth',
+				//	'trac' => 'kucoin||btc',
 					);
 
 

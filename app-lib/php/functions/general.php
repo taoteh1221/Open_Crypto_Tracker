@@ -82,7 +82,7 @@ return $price;
 
 function text_number($string) {
 
-$string = explode("|",$string);
+$string = explode("||",$string);
 
 $number = $string[0];
 
@@ -94,7 +94,7 @@ return $number;
 
 function string_to_array($string) {
 
-$string = explode("|",$string);
+$string = explode("||",$string);
 
 return $string;
 
@@ -202,14 +202,15 @@ $vars = array();
 
 $log_file = preg_replace("/\/app-lib(.*)/i", "/cache/logs/errors.log", dirname(__FILE__) );
 
-$smtp_login = explode("|",$smtp_login);
-$smtp_server = explode(":",$smtp_server);
+$smtp_login = explode("||", $smtp_login );
+$smtp_server = explode(":", $smtp_server );
 
-$smtp_user = $smtp_login[0];
+// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
+$smtp_user = trim($smtp_login[0]);
 $smtp_password = $smtp_login[1];
 
-$smtp_host = $smtp_server[0];
-$smtp_port = $smtp_server[1];
+$smtp_host = trim($smtp_server[0]);
+$smtp_port = trim($smtp_server[1]);
 
 // Port vars over to class format (so it runs out-of-the-box as much as possible)
 $vars['cfg_log_file']   = $log_file;
@@ -227,7 +228,7 @@ return $vars;
 
 function text_email($string) {
 
-$string = explode("|",$string);
+$string = explode("||",$string);
 
 $number = substr($string[0], -10); // USA 10 digit number without country code
 $carrier = $string[1];
@@ -614,13 +615,15 @@ $cache_filename = preg_replace("/:/", "_", $cache_filename);
            @api_data('array', $notifyme_params, 0, 'https://api.notifymyecho.com/v1/NotifyMe');
            }
       
-           if ( trim($textbelt_apikey) != '' && trim($textlocal_account) == '' && $proxy_alerts == 'text'
-           || trim($textbelt_apikey) != '' && trim($textlocal_account) == '' && $proxy_alerts == 'all' ) { // Only run if textlocal API isn't being used to avoid double texts
+			  // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
+           if ( trim($textbelt_apikey) != '' && $textlocal_account == '' && $proxy_alerts == 'text'
+           || trim($textbelt_apikey) != '' && $textlocal_account == '' && $proxy_alerts == 'all' ) { // Only run if textlocal API isn't being used to avoid double texts
            @api_data('array', $textbelt_params, 0, 'https://textbelt.com/text', 2);
            }
       
-           if ( trim($textlocal_account) != '' && trim($textbelt_apikey) == '' && $proxy_alerts == 'text'
-           || trim($textlocal_account) != '' && trim($textbelt_apikey) == '' && $proxy_alerts == 'all' ) { // Only run if textbelt API isn't being used to avoid double texts
+			  // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
+           if ( $textlocal_account != '' && trim($textbelt_apikey) == '' && $proxy_alerts == 'text'
+           || $textlocal_account != '' && trim($textbelt_apikey) == '' && $proxy_alerts == 'all' ) { // Only run if textbelt API isn't being used to avoid double texts
            @api_data('array', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
            }
            
@@ -631,8 +634,9 @@ $cache_filename = preg_replace("/:/", "_", $cache_filename);
            @safe_mail($to_email, 'A Proxy Was Unresponsive', $email_alert);
            }
       
-           if ( validate_email( text_email($to_text) ) == 'valid' && trim($textbelt_apikey) != '' && trim($textlocal_account) != '' && $proxy_alerts == 'text'
-           || validate_email( text_email($to_text) ) == 'valid' && trim($textbelt_apikey) != '' && trim($textlocal_account) != '' && $proxy_alerts == 'all' ) { 
+			  // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
+           if ( validate_email( text_email($to_text) ) == 'valid' && trim($textbelt_apikey) != '' && $textlocal_account != '' && $proxy_alerts == 'text'
+           || validate_email( text_email($to_text) ) == 'valid' && trim($textbelt_apikey) != '' && $textlocal_account != '' && $proxy_alerts == 'all' ) { 
            // Only use text-to-email if other text services aren't configured
            @safe_mail( text_email($to_text) , 'Unresponsive Proxy', $text_alert);
            }
