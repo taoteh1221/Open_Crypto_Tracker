@@ -6,6 +6,18 @@
 
 ?>
 			<?php
+			if ( $price_alert_type_text != '' ) {
+          ?>
+          	<p class='settings_sections'><?=$price_alert_type_text?> exchange price alerts are <i>enabled</i> in the configuration file (upon <?=$exchange_price_alerts_percent?>% or more USD price change<?=( $exchange_price_alerts_freq > 0 ? ' / every ' . $exchange_price_alerts_freq . ' minutes max per-alert' : '' )?><?=( $exchange_price_alerts_minvolume > 0 ? ' / $' . $exchange_price_alerts_minvolume . ' minumum volume filter enabled' : '' )?><?=( $exchange_price_alerts_refresh > 0 ? ' / comparison price auto-refreshed after ' . $exchange_price_alerts_refresh . ' days' : '' )?>). 
+          	
+          	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job on your web server</a>, or this feature will not work AT ALL.</i> 
+          	
+          		<?=$price_change_config_alert?>
+          	
+          	</p>  
+                        
+			<?php
+			}
 			if ( sizeof($proxy_list) > 0 ) {
 			?>
           <p class='settings_sections'><?=( trim($proxy_login) != '' ? 'Password-based' : 'IP whitelisting' )?> proxy mode is <i>enabled</i> in the configuration file for API connections (<?=sizeof($proxy_list)?> proxies randomly used<?=( $proxy_alerts != 'none' ? ' / ' . $proxy_alerts . ' proxy alerts enabled for every ' . $proxy_alerts_freq . ' hours max per-proxy at ' . $proxy_alerts_runtime . ' runtime' : '' )?>). 
@@ -15,11 +27,14 @@
           	</p>      
           <?php
           }
-			if ( $price_alert_type_text != '' ) {
+			if ( $mail_error_logs == 'daily' && trim($from_email) != '' && trim($to_email) != ''
+			|| $mail_error_logs == 'weekly' && trim($from_email) != '' && trim($to_email) != '' ) {
           ?>
-          	<p class='settings_sections'><?=$price_alert_type_text?> exchange price alerts are <i>enabled</i> in the configuration file (upon <?=$exchange_price_alerts_percent?>% or more USD price change<?=( $exchange_price_alerts_freq > 0 ? ' / every ' . $exchange_price_alerts_freq . ' minutes max per-alert' : '' )?><?=( $exchange_price_alerts_minvolume > 0 ? ' / $' . $exchange_price_alerts_minvolume . ' minumum volume filter enabled' : '' )?><?=( $exchange_price_alerts_refresh > 0 ? ' / comparison price auto-refreshed after ' . $exchange_price_alerts_refresh . ' days' : '' )?>). <br /><i>Make sure a <a href='README.txt' target='_blank'>cron job for exchange price alerts is setup properly on your web server</a>, or this feature will not work.</i> 
+          	<p class='settings_sections'>Emailing error logs is <i>enabled</i> in the configuration file (<?=$mail_error_logs?>, purged every <?=$purge_error_logs?> days).
           	
-          		<?=$price_change_config_alert?>
+          	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job on your web server</a>, or this feature will not work RELIABLY.</i> 
+          	
+          		<?=$errorlogs_config_alert?>
           	
           	</p>  
                         

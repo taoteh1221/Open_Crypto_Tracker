@@ -197,7 +197,7 @@ $smtp_server_parse = explode(":", $smtp_server );
           		
    // Displaying any config errors
    foreach ( $config_parse_error as $error ) {
-   $smtp_config_alert .= '<br /><span style="color: red;">' . $error . '</span>';
+   $smtp_config_alert .= '<br /><span style="color: red;">' . $error . '</span>' . " \n";
    }
 	
    
@@ -214,12 +214,54 @@ $smtp_server_parse = explode(":", $smtp_server );
 	
 }
 
+
+
+// Email logs
+if ( $mail_error_logs == 'daily' && trim($from_email) != '' && trim($to_email) != ''
+|| $mail_error_logs == 'weekly' && trim($from_email) != '' && trim($to_email) != '' ) {
+					
+	// Config error check(s)
+   if ( validate_email($from_email) != 'valid' ) {
+   $config_parse_error[] = 'FROM email not configured properly.' . " \n";
+   }
+          		
+   if ( validate_email($to_email) != 'valid' ) {
+   $config_parse_error[] = 'TO email not configured properly.' . " \n";
+   }
+
+
+   // Displaying that errors were found
+   if ( $config_parse_error >= 1 ) {
+   $errorlogs_config_alert .=  '<br /><span style="color: red;">Email error logs configuration error(s):</span>' . " \n";
+   }
+          		
+   // Displaying any config errors
+   foreach ( $config_parse_error as $error ) {
+   $errorlogs_config_alert .= '<br /><span style="color: red;">' . $error . '</span>' . " \n";
+   }
+	
+   
+   $_SESSION['config_error'] .= ( $errorlogs_config_alert ? date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | configuration error: ' . $errorlogs_config_alert . "<br /> \n" : '');
+
+        
+   // Displaying if checks passed
+   if ( sizeof($config_parse_error) < 1 ) {
+   $errorlogs_config_alert .= '<br /><span style="color: green;">Config formatting seems ok.</span>';
+   }
+          		
+   $config_parse_error = NULL; // Blank it out for any other config checks
+          		       	
+}
+          	
+
+
 // Check $coins_list config
 if ( !is_array($coins_list) ) {
 $_SESSION['config_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | configuration error: The coins list formatting is corrupt, or not configured yet.' . "<br /> \n";
 }
 			
 // END of basic configuration file checks
+
 
 
 
