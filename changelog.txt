@@ -1028,6 +1028,14 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+2.4.3:
+-Completed all previously-unfinished (feasible) config formatting checks
+-------------------------------------------------------------------
+
+
+
+
 
 
 

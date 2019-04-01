@@ -19,9 +19,9 @@ if ( sizeof($proxy_list) > 0 ) {
 	if ( $proxy_login != '' ) {
 		
 	$proxy_login_parse = explode("||", $proxy_login );
-
-		if ( trim($proxy_login_parse[0]) == '' || $proxy_login_parse[1] == '' ) {
-   	$config_parse_error[] = 'Proxy username / password not configured properly.' . " \n";
+         
+		if ( sizeof($proxy_login_parse) < 2 || trim($proxy_login_parse[0]) == '' || $proxy_login_parse[1] == '' ) {
+   	$config_parse_error[] = 'Proxy username / password not formatted properly.' . " \n";
       $proxy_parse_errors = $proxy_parse_errors + 1;
 		}
 	
@@ -31,9 +31,9 @@ if ( sizeof($proxy_list) > 0 ) {
 	// Check proxy config
 	foreach ( $proxy_list as $proxy ) {
           		
-	$string = explode(":",$proxy);
+	$proxy_string = explode(":",$proxy);
           	
-		if ( !filter_var($string[0], FILTER_VALIDATE_IP) || !is_numeric($string[1]) ) {
+		if ( !filter_var($proxy_string[0], FILTER_VALIDATE_IP) || !is_numeric($proxy_string[1]) ) {
 		$config_parse_error[] = $proxy;
       $proxy_parse_errors = $proxy_parse_errors + 1;
       }
@@ -67,7 +67,7 @@ $config_parse_error = NULL; // Blank it out for any other config checks
 $text_parse = explode("||", trim($to_text) );
           
 // Check price alert configs
-if ( trim($from_email) != '' && trim($to_email) != '' || sizeof($text_parse) == 2 || trim($notifyme_accesscode) != '' ) {
+if ( trim($from_email) != '' && trim($to_email) != '' || sizeof($text_parse) > 0 || trim($notifyme_accesscode) != '' ) {
           
           
 		// Email
@@ -89,13 +89,17 @@ if ( trim($from_email) != '' && trim($to_email) != '' || sizeof($text_parse) == 
           	
 		// Text
 		// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-      if ( $text_parse[1] != 'number_only'
+      if ( trim($text_parse[0]) != '' && trim($text_parse[1]) != 'number_only'
       || trim($textbelt_apikey) != '' && $textlocal_account == ''
       || trim($textbelt_apikey) == '' && $textlocal_account != '' ) {
       	
       $alerts_enabled_types[] = 'Text';
 				
 			// Config error check(s)
+         if ( sizeof($text_parse) < 2 ) {
+         $config_parse_error[] = 'Number / carrier formatting for text email not configured properly.' . " \n";
+         }
+			
          if ( is_numeric($text_parse[0]) == FALSE ) {
          $config_parse_error[] = 'Number for text email not configured properly.' . " \n";
          }
@@ -121,6 +125,25 @@ if ( trim($from_email) != '' && trim($to_email) != '' || sizeof($text_parse) == 
         }
           		
       $price_alert_type_text = substr($price_alert_type_text, 0, -3);
+          		
+          		
+
+			// Check $exchange_price_alerts config
+			if ( !is_array($exchange_price_alerts) ) {
+			$config_parse_error[] = 'The asset / exchange / pairing price alert formatting is corrupt, or not configured yet.';
+			}
+			
+			
+			foreach ( $exchange_price_alerts as $key => $value ) {
+   		       		
+			$alerts_string = explode("||",$value);
+   		       	
+				if ( sizeof($alerts_string) < 2 ) {
+				$config_parse_error[] = "'" . $key . "' price alert exchange / market not formatted properly: '" . $value . "'";
+      		}
+     	
+			}
+
           		
 
          // Displaying that errors were found
@@ -158,12 +181,12 @@ if ( $smtp_login != '' && $smtp_server != '' ) {
 $smtp_login_parse = explode("||", $smtp_login );
 $smtp_server_parse = explode(":", $smtp_server );
 
-	if ( trim($smtp_login_parse[0]) == '' || $smtp_login_parse[1] == '' ) {
-   $config_parse_error[] = 'SMTP username / password not configured properly.' . " \n";
+	if ( sizeof($smtp_login_parse) < 2 || trim($smtp_login_parse[0]) == '' || $smtp_login_parse[1] == '' ) {
+   $config_parse_error[] = 'SMTP username / password not formatted properly.' . " \n";
 	}
 	
-	if ( trim($smtp_server_parse[0]) == '' || !is_numeric( trim($smtp_server_parse[1]) ) ) {
-   $config_parse_error[] = 'SMTP server domain_or_ip / port not configured properly.' . " \n";
+	if ( sizeof($smtp_server_parse) < 2 || trim($smtp_server_parse[0]) == '' || !is_numeric( trim($smtp_server_parse[1]) ) ) {
+   $config_parse_error[] = 'SMTP server domain_or_ip / port not formatted properly.' . " \n";
 	}
 	
 	
@@ -191,6 +214,11 @@ $smtp_server_parse = explode(":", $smtp_server );
 	
 }
 
+// Check $coins_list config
+if ( !is_array($coins_list) ) {
+$_SESSION['config_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | configuration error: The coins list formatting is corrupt, or not configured yet.' . "<br /> \n";
+}
+			
 // END of basic configuration file checks
 
 

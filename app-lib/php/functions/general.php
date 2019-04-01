@@ -84,7 +84,7 @@ function text_number($string) {
 
 $string = explode("||",$string);
 
-$number = $string[0];
+$number = trim($string[0]);
 
 return $number;
 
@@ -231,7 +231,7 @@ function text_email($string) {
 $string = explode("||",$string);
 
 $number = substr($string[0], -10); // USA 10 digit number without country code
-$carrier = $string[1];
+$carrier = trim($string[1]);
 
 
 	if ( $carrier == 'alltel' ) {
@@ -256,7 +256,7 @@ $carrier = $string[1];
 	$domain = '@messaging.nextel.com';
 	}
 
-return $number . $domain;
+return trim($number) . $domain;
 
 }
 
