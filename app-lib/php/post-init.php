@@ -153,7 +153,7 @@ if ( trim($from_email) != '' && trim($to_email) != '' || sizeof($text_parse) > 0
           		
          // Displaying any config errors
          foreach ( $config_parse_error as $error ) {
-         $price_change_config_alert .= '<br /><span style="color: red;">' . $error . '</span>';
+         $price_change_config_alert .= '<br /><span style="color: red;">' . $error . '</span>' . " \n";
          }
           		
       $_SESSION['config_error'] .= ( $price_change_config_alert ? date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | configuration error: ' . $price_change_config_alert . "<br /> \n" : '');
