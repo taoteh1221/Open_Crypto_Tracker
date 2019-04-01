@@ -5,7 +5,11 @@
 
 
 
+/////////////////////////////////////////////////
+
+
 // Run some basic configuration file checks
+
 
 // Proxy configuration check
 if ( sizeof($proxy_list) > 0 ) {
@@ -61,6 +65,8 @@ $_SESSION['config_error'] .= ( $proxy_config_alert ? date('Y-m-d H:i:s') . ' UTC
 $config_parse_error = NULL; // Blank it out for any other config checks
           		
 }
+
+
 
 
 // Price change alerts configuration check
@@ -172,6 +178,8 @@ if ( trim($from_email) != '' && trim($to_email) != '' || sizeof($text_parse) > 0
 
 
 
+
+
 // Check SMTP configs
 // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
 if ( $smtp_login != '' && $smtp_server != '' ) {
@@ -216,7 +224,9 @@ $smtp_server_parse = explode(":", $smtp_server );
 
 
 
-// Email logs
+
+
+// Email logs configs
 if ( $mail_error_logs == 'daily' && trim($from_email) != '' && trim($to_email) != ''
 || $mail_error_logs == 'weekly' && trim($from_email) != '' && trim($to_email) != '' ) {
 					
@@ -255,12 +265,19 @@ if ( $mail_error_logs == 'daily' && trim($from_email) != '' && trim($to_email) !
           	
 
 
+
 // Check $coins_list config
 if ( !is_array($coins_list) ) {
 $_SESSION['config_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | configuration error: The coins list formatting is corrupt, or not configured yet.' . "<br /> \n";
 }
 			
+			
+			
 // END of basic configuration file checks
+
+
+
+/////////////////////////////////////////////////
 
 
 
@@ -272,6 +289,7 @@ $user_agent = 'Mozilla/5.0 (compatible; API_Endpoint_Parser;) Gecko Firefox';  /
 else {
 $user_agent = 'Mozilla/5.0 (compatible; ' . $_SERVER['SERVER_SOFTWARE'] . '; PHP/' .phpversion(). '; Curl/' .$curl_setup["version"]. '; DFD_Cryptocoin_Values/' . $app_version . '; API_Endpoint_Parser; +https://github.com/taoteh1221/DFD_Cryptocoin_Values) Gecko Firefox';
 }
+
 
 
 
@@ -294,12 +312,14 @@ $smtp->addTo($to_email); // Add to email here one time...because class adds to a
 
 
 
+
 // Only need below logic during UI runtime
 if ( $runtime_mode == 'ui' ) {
 
 $marketcap_site = ( $alert_percent[0] != '' ? $alert_percent[0] : $marketcap_site );
 
 }
+
 
 
 ?>
