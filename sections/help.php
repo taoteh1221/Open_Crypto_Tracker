@@ -49,8 +49,8 @@
                         </div>
                         
 			<div class='help_section'>
-                            <p><b>SMTP Email Doesn't Work:</b><br /><br />
-                                If you have enabled SMTP emailing but it doesn't work, check the error logs file at /cache/logs/errors.log for error responses from the SMTP server connection attempt(s). Alternatively try disabling SMTP email by blanking out your username and password in the config.php file, and see if PHP's built-in mail function works (no setup required, other than SMTP settings must be blanked out).</p>
+                            <p><b>SMTP Email Sending Doesn't Work:</b><br /><br />
+                                If you have enabled SMTP emailing (to send emails) but it doesn't work, check the error logs file at /cache/logs/errors.log for error responses from the SMTP server connection attempt(s). Alternatively try disabling SMTP email sending by blanking out your username and password in the config.php file, and see if PHP's built-in mail function sends emails OK (no setup required, other than SMTP settings must be blanked out).</p>
                         </div>
                         
 			<div class='help_section'>

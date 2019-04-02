@@ -1031,6 +1031,10 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 2.4.3:
 -Completed all previously-unfinished (feasible) config formatting checks
+-More readable coins list configuration with extra spacing
+-Blockchain explorers section on external resources page
+-Removed extra carriage returns from error logging
+-Clarify SMTP setting usage
 -------------------------------------------------------------------
 
 

@@ -17,6 +17,59 @@ if ( sizeof($proxy_list) > 0 ) {
 
 	$proxy_parse_errors = 0;
 	
+	
+	// Email for proxy alerts
+	if ( $proxy_alerts == 'email' || $proxy_alerts == 'all' ) {
+		
+      if ( trim($from_email) != '' && trim($to_email) != '' ) {
+      	
+					
+			// Config error check(s)
+         if ( validate_email($from_email) != 'valid' ) {
+         $config_parse_error[] = 'FROM email not configured properly for proxy alerts.';
+      	$proxy_parse_errors = $proxy_parse_errors + 1;
+         }
+          		
+         if ( validate_email($to_email) != 'valid' ) {
+         $config_parse_error[] = 'TO email not configured properly for proxy alerts.';
+      	$proxy_parse_errors = $proxy_parse_errors + 1;
+         }
+          	
+		}
+		
+	}
+          
+	
+	// Text for proxy alerts
+	if ( $proxy_alerts == 'text' || $proxy_alerts == 'all' ) {
+		
+		// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
+      if ( trim($text_parse[0]) != '' && trim($text_parse[1]) != 'number_only'
+      || trim($textbelt_apikey) != '' && $textlocal_account == ''
+      || trim($textbelt_apikey) == '' && $textlocal_account != '' ) {
+      	
+				
+			// Config error check(s)
+         if ( sizeof($text_parse) < 2 ) {
+         $config_parse_error[] = 'Number / carrier formatting for text email not configured properly for proxy alerts.';
+      	$proxy_parse_errors = $proxy_parse_errors + 1;
+         }
+			
+         if ( is_numeric($text_parse[0]) == FALSE ) {
+         $config_parse_error[] = 'Number for text email not configured properly for proxy alerts.';
+      	$proxy_parse_errors = $proxy_parse_errors + 1;
+         }
+          		
+         if ( $text_parse[1] != 'number_only' && validate_email( text_email($to_text) ) != 'valid' ) {
+         $config_parse_error[] = 'Carrier for text email not configured properly for proxy alerts.';
+      	$proxy_parse_errors = $proxy_parse_errors + 1;
+         }
+          	
+		}
+		
+	}
+          		
+          	
 	// proxy login configuration check
 	
 	// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
@@ -25,7 +78,7 @@ if ( sizeof($proxy_list) > 0 ) {
 	$proxy_login_parse = explode("||", $proxy_login );
          
 		if ( sizeof($proxy_login_parse) < 2 || trim($proxy_login_parse[0]) == '' || $proxy_login_parse[1] == '' ) {
-   	$config_parse_error[] = 'Proxy username / password not formatted properly.' . " \n";
+   	$config_parse_error[] = 'Proxy username / password not formatted properly.';
       $proxy_parse_errors = $proxy_parse_errors + 1;
 		}
 	
@@ -47,19 +100,19 @@ if ( sizeof($proxy_list) > 0 ) {
 
 	// Displaying that errors were found
 	if ( $config_parse_error >= 1 ) {
-   $proxy_config_alert .= '<br /><span style="color: red;">' . $proxy_parse_errors . ' proxy configuration error(s):</span>' . " \n";
+   $proxy_config_alert .= '<span style="color: red;">' . $proxy_parse_errors . ' proxy configuration error(s):</span>' . "<br /> \n";
    }
           		
 	// Displaying any config errors
 	foreach ( $config_parse_error as $error ) {
-   $proxy_config_alert .= '<br /><span style="color: red;">Misconfigured proxy: ' . $error . '</span>' . " \n";
+   $proxy_config_alert .= '<span style="color: red;">Misconfigured proxy: ' . $error . '</span>' . "<br /> \n";
    }
           		
-$_SESSION['config_error'] .= ( $proxy_config_alert ? date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | configuration error: ' . $proxy_config_alert . "<br /> \n" : '' );
+$_SESSION['config_error'] .= ( $proxy_config_alert ? date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | configuration error: ' . $proxy_config_alert : '' );
           		
 	// Displaying if checks passed
 	if ( sizeof($config_parse_error) < 1 ) {
-   $proxy_config_alert .= '<br /><span style="color: green;">Config formatting seems ok.</span>';
+   $proxy_config_alert .= '<span style="color: green;">Config formatting seems ok.</span>';
    }
           		
 $config_parse_error = NULL; // Blank it out for any other config checks
@@ -83,11 +136,11 @@ if ( trim($from_email) != '' && trim($to_email) != '' || sizeof($text_parse) > 0
 					
 			// Config error check(s)
          if ( validate_email($from_email) != 'valid' ) {
-         $config_parse_error[] = 'FROM email not configured properly.' . " \n";
+         $config_parse_error[] = 'FROM email not configured properly for price alerts.';
          }
           		
          if ( validate_email($to_email) != 'valid' ) {
-         $config_parse_error[] = 'TO email not configured properly.' . " \n";
+         $config_parse_error[] = 'TO email not configured properly for price alerts.';
          }
           	
 		}
@@ -103,15 +156,15 @@ if ( trim($from_email) != '' && trim($to_email) != '' || sizeof($text_parse) > 0
 				
 			// Config error check(s)
          if ( sizeof($text_parse) < 2 ) {
-         $config_parse_error[] = 'Number / carrier formatting for text email not configured properly.' . " \n";
+         $config_parse_error[] = 'Number / carrier formatting for text email not configured properly for price alerts.';
          }
 			
          if ( is_numeric($text_parse[0]) == FALSE ) {
-         $config_parse_error[] = 'Number for text email not configured properly.' . " \n";
+         $config_parse_error[] = 'Number for text email not configured properly for price alerts.';
          }
           		
          if ( $text_parse[1] != 'number_only' && validate_email( text_email($to_text) ) != 'valid' ) {
-         $config_parse_error[] = 'Carrier for text email not configured properly.' . " \n";
+         $config_parse_error[] = 'Carrier for text email not configured properly for price alerts.';
          }
           	
 		}
@@ -154,19 +207,19 @@ if ( trim($from_email) != '' && trim($to_email) != '' || sizeof($text_parse) > 0
 
          // Displaying that errors were found
          if ( $config_parse_error >= 1 ) {
-         $price_change_config_alert .=  '<br /><span style="color: red;">' . $price_alert_type_text . ' alert configuration error(s):</span>' . " \n";
+         $price_change_config_alert .=  '<span style="color: red;">' . $price_alert_type_text . ' alert configuration error(s):</span>' . "<br /> \n";
          }
           		
          // Displaying any config errors
          foreach ( $config_parse_error as $error ) {
-         $price_change_config_alert .= '<br /><span style="color: red;">' . $error . '</span>' . " \n";
+         $price_change_config_alert .= '<span style="color: red;">' . $error . '</span>' . "<br /> \n";
          }
           		
-      $_SESSION['config_error'] .= ( $price_change_config_alert ? date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | configuration error: ' . $price_change_config_alert . "<br /> \n" : '');
+      $_SESSION['config_error'] .= ( $price_change_config_alert ? date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | configuration error: ' . $price_change_config_alert : '');
           		
          // Displaying if checks passed
          if ( sizeof($config_parse_error) < 1 ) {
-         $price_change_config_alert .= '<br /><span style="color: green;">Config formatting seems ok.</span>';
+         $price_change_config_alert .= '<span style="color: green;">Config formatting seems ok.</span>';
          }
           		
       $config_parse_error = NULL; // Blank it out for any other config checks
@@ -190,31 +243,31 @@ $smtp_login_parse = explode("||", $smtp_login );
 $smtp_server_parse = explode(":", $smtp_server );
 
 	if ( sizeof($smtp_login_parse) < 2 || trim($smtp_login_parse[0]) == '' || $smtp_login_parse[1] == '' ) {
-   $config_parse_error[] = 'SMTP username / password not formatted properly.' . " \n";
+   $config_parse_error[] = 'SMTP username / password not formatted properly.';
 	}
 	
 	if ( sizeof($smtp_server_parse) < 2 || trim($smtp_server_parse[0]) == '' || !is_numeric( trim($smtp_server_parse[1]) ) ) {
-   $config_parse_error[] = 'SMTP server domain_or_ip / port not formatted properly.' . " \n";
+   $config_parse_error[] = 'SMTP server domain_or_ip / port not formatted properly.';
 	}
 	
 	
    // Displaying that errors were found
    if ( $config_parse_error >= 1 ) {
-   $smtp_config_alert .=  '<br /><span style="color: red;">SMTP configuration error(s):</span>' . " \n";
+   $smtp_config_alert .=  '<span style="color: red;">SMTP configuration error(s):</span>' . "<br /> \n";
    }
           		
    // Displaying any config errors
    foreach ( $config_parse_error as $error ) {
-   $smtp_config_alert .= '<br /><span style="color: red;">' . $error . '</span>' . " \n";
+   $smtp_config_alert .= '<span style="color: red;">' . $error . '</span>' . "<br /> \n";
    }
 	
    
-   $_SESSION['config_error'] .= ( $smtp_config_alert ? date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | configuration error: ' . $smtp_config_alert . "<br /> \n" : '');
+   $_SESSION['config_error'] .= ( $smtp_config_alert ? date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | configuration error: ' . $smtp_config_alert : '');
 
         
    // Displaying if checks passed
    if ( sizeof($config_parse_error) < 1 ) {
-   $smtp_config_alert .= '<br /><span style="color: green;">Config formatting seems ok.</span>';
+   $smtp_config_alert .= '<span style="color: green;">Config formatting seems ok.</span>';
    }
           		
    $config_parse_error = NULL; // Blank it out for any other config checks
@@ -232,31 +285,31 @@ if ( $mail_error_logs == 'daily' && trim($from_email) != '' && trim($to_email) !
 					
 	// Config error check(s)
    if ( validate_email($from_email) != 'valid' ) {
-   $config_parse_error[] = 'FROM email not configured properly.' . " \n";
+   $config_parse_error[] = 'FROM email not configured properly for emailing error logs.';
    }
           		
    if ( validate_email($to_email) != 'valid' ) {
-   $config_parse_error[] = 'TO email not configured properly.' . " \n";
+   $config_parse_error[] = 'TO email not configured properly for emailing error logs.';
    }
 
 
    // Displaying that errors were found
    if ( $config_parse_error >= 1 ) {
-   $errorlogs_config_alert .=  '<br /><span style="color: red;">Email error logs configuration error(s):</span>' . " \n";
+   $errorlogs_config_alert .=  '<span style="color: red;">Email error logs configuration error(s):</span>' . "<br /> \n";
    }
           		
    // Displaying any config errors
    foreach ( $config_parse_error as $error ) {
-   $errorlogs_config_alert .= '<br /><span style="color: red;">' . $error . '</span>' . " \n";
+   $errorlogs_config_alert .= '<span style="color: red;">' . $error . '</span>' . "<br /> \n";
    }
 	
    
-   $_SESSION['config_error'] .= ( $errorlogs_config_alert ? date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | configuration error: ' . $errorlogs_config_alert . "<br /> \n" : '');
+   $_SESSION['config_error'] .= ( $errorlogs_config_alert ? date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | configuration error: ' . $errorlogs_config_alert : '');
 
         
    // Displaying if checks passed
    if ( sizeof($config_parse_error) < 1 ) {
-   $errorlogs_config_alert .= '<br /><span style="color: green;">Config formatting seems ok.</span>';
+   $errorlogs_config_alert .= '<span style="color: green;">Config formatting seems ok.</span>';
    }
           		
    $config_parse_error = NULL; // Blank it out for any other config checks

@@ -12,7 +12,7 @@
           	
           	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job on your web server</a>, or this feature will not work AT ALL.</i> 
           	
-          		<?=$price_change_config_alert?>
+          		<?=( $price_change_config_alert != '' ? '<br />' . $price_change_config_alert : '' )?>
           	
           	</p>  
                         
@@ -20,9 +20,9 @@
 			}
 			if ( sizeof($proxy_list) > 0 ) {
 			?>
-          <p class='settings_sections'><?=( trim($proxy_login) != '' ? 'Password-based' : 'IP whitelisting' )?> proxy mode is <i>enabled</i> in the configuration file for API connections (<?=sizeof($proxy_list)?> proxies randomly used<?=( $proxy_alerts != 'none' ? ' / ' . $proxy_alerts . ' proxy alerts enabled for every ' . $proxy_alerts_freq . ' hours max per-proxy at ' . $proxy_alerts_runtime . ' runtime' : '' )?>). 
+          <p class='settings_sections'><?=( trim($proxy_login) != '' ? 'Password-based' : 'IP whitelisting' )?> proxy mode is <i>enabled</i> in the configuration file for API connections (<?=sizeof($proxy_list)?> proxies randomly used<?=( $proxy_alerts != 'none' ? ' / proxy alerts enabled for ' . $proxy_alerts . ' alert method(s), every ' . $proxy_alerts_freq . ' hours max per-proxy at ' . $proxy_alerts_runtime . ' runtimes / ' .$proxy_checkup_ok. ' sending proxy alerts on proxy checks that tested OK after acting up' : '' )?>). 
           	
-          		<?=$proxy_config_alert?>
+          		<?=( $proxy_config_alert != '' ? '<br />' . $proxy_config_alert : '' )?>
           	
           	</p>      
           <?php
@@ -30,11 +30,11 @@
 			if ( $mail_error_logs == 'daily' && trim($from_email) != '' && trim($to_email) != ''
 			|| $mail_error_logs == 'weekly' && trim($from_email) != '' && trim($to_email) != '' ) {
           ?>
-          	<p class='settings_sections'>Emailing error logs is <i>enabled</i> in the configuration file (<?=$mail_error_logs?>, purged every <?=$purge_error_logs?> days).
+          	<p class='settings_sections'>Emailing error logs is <i>enabled</i> in the configuration file (sent out <?=$mail_error_logs?>, purged every <?=$purge_error_logs?> days).
           	
           	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job on your web server</a>, or this feature will not work RELIABLY.</i> 
           	
-          		<?=$errorlogs_config_alert?>
+          		<?=( $errorlogs_config_alert != '' ? '<br />' . $errorlogs_config_alert : '' )?>
           	
           	</p>  
                         
@@ -43,9 +43,9 @@
 			// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
 			if ( $smtp_login != '' && $smtp_server != '' ) {
           ?>
-          	<p class='settings_sections'>SMTP emailing is <i>enabled</i> in the configuration file.
+          	<p class='settings_sections'>SMTP email sending (by account login) is <i>enabled</i> in the configuration file.
           	
-          		<?=$smtp_config_alert?>
+          		<?=( $smtp_config_alert != '' ? '<br />' . $smtp_config_alert : '' )?>
           	
           	</p>  
                         

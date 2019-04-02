@@ -51,8 +51,8 @@ $mail_error_logs = 'daily'; // 'no', 'daily', 'weekly' Email to / from !MUST BE 
 
 
 
-// IF SMTP EMAIL --NOT-- USED, FROM email should be REAL address on the website domain, or risk having email blacklisted / sent to junk folder
-// IF SMTP EMAIL --IS-- USED, FROM EMAIL MUST MATCH EMAIL ADDRESS associated with SMTP login (SMTP Email settings are further down below this setting)
+// IF SMTP EMAIL SENDING --NOT-- USED, FROM email should be REAL address on the website domain, or risk having email blacklisted / sent to junk folder
+// IF SMTP EMAIL SENDING --IS-- USED, FROM EMAIL MUST MATCH EMAIL ADDRESS associated with SMTP login (SMTP Email settings are further down below this setting)
 $from_email = ''; // MUST BE SET for price alerts and other email features
 
 $to_email = ''; // MUST BE SET for price alerts and other email features
@@ -75,10 +75,10 @@ $textlocal_account = ''; // This format MUST be used: 'username||hash_code'
 
 
 
-// OPTIONALLY use SMTP authentication to send email, if you have no reverse lookup that matches domain name (on your home network etc)
+// OPTIONALLY use SMTP authentication TO SEND EMAIL, if you have no reverse lookup that matches domain name (on your home network etc)
 // !!USE A THROWAWAY ACCOUNT ONLY!! If web server is hacked, HACKER WOULD THEN HAVE ACCESS YOUR EMAIL LOGIN FROM THIS FILE!!
 // If SMTP credentials / settings are filled in, BUT not setup properly, APP EMAILING WILL FAIL
-// CAN BE BLANK (PHP's built-in mail function will be automatically used instead)
+// CAN BE BLANK (PHP's built-in mail function will be automatically used to send email instead)
 $smtp_login = ''; //  CAN BE BLANK. This format MUST be used: 'username||password'
 
 $smtp_server = ''; // CAN BE BLANK. This format MUST be used: 'domain_or_ip:port' example: 'example.com:25'
@@ -222,6 +222,7 @@ $steem_powerdown_time = 13;
 
 $coins_list = array(
 
+
                     // Misc. USD Assets
                     'USD' => array(
                         
@@ -249,6 +250,8 @@ $coins_list = array(
                                         ) // market_pairing END
                         
                     ), // Coin END
+                    
+                    
                     // TUSD
                     'TUSD' => array(
                         
@@ -275,6 +278,8 @@ $coins_list = array(
                                         ) // market_pairing END
                                         
                     ), // Coin END
+                    
+                    
                     // BTC
                     'BTC' => array(
                         
@@ -298,6 +303,8 @@ $coins_list = array(
                                         ) // market_pairing END
                         
                     ), // Coin END
+                    
+                    
                     // ETH
                     'ETH' => array(
                         
@@ -343,6 +350,8 @@ $coins_list = array(
                                         ) // market_pairing END
                         
                     ), // Coin END
+                    
+                    
                     // XMR
                     'XMR' => array(
                         
@@ -381,6 +390,8 @@ $coins_list = array(
                                         ) // market_pairing END
                         
                     ), // Coin END
+                    
+                    
                     // DCR
                     'DCR' => array(
                         
@@ -414,6 +425,8 @@ $coins_list = array(
                                         ) // market_pairing END
                         
                     ), // Coin END
+                    
+                    
                     // DASH
                     'DASH' => array(
                         
@@ -460,6 +473,8 @@ $coins_list = array(
                                         ) // market_pairing END
                         
                     ), // Coin END
+                    
+                    
                     // LTC
                     'LTC' => array(
                         
@@ -517,6 +532,8 @@ $coins_list = array(
                                         ) // market_pairing END
                                         
                     ), // Coin END
+                    
+                    
                     // STEEM
                     'STEEM' => array(
                         
@@ -543,6 +560,8 @@ $coins_list = array(
                                         ) // market_pairing END
                         
                     ), // Coin END
+                    
+                    
                     // MANA
                     'MANA' => array(
                         
@@ -579,6 +598,8 @@ $coins_list = array(
                                         ) // market_pairing END
                         
                     ), // Coin END
+                    
+                    
                     // ANT
                     'ANT' => array(
                         
@@ -603,6 +624,8 @@ $coins_list = array(
                                         ) // market_pairing END
                         
                     ), // Coin END
+                    
+                    
                     // GRIN
                     'GRIN' => array(
                         
@@ -642,6 +665,8 @@ $coins_list = array(
                                         ) // market_pairing END
                                         
                     ), // Coin END
+                    
+                    
                     // BEAM
                     'BEAM' => array(
                         
@@ -671,6 +696,8 @@ $coins_list = array(
                                         ) // market_pairing END
                                         
                     ), // Coin END
+                    
+                    
                     // ZRX
                     'ZRX' => array(
                         
@@ -708,6 +735,8 @@ $coins_list = array(
                                         ) // market_pairing END
                         
                     ), // Coin END
+                    
+                    
                     // ADA
                     'ADA' => array(
                         
@@ -742,6 +771,8 @@ $coins_list = array(
                                         ) // market_pairing END
                                         
                     ), // Coin END
+                    
+                    
                     // ZIL
                     'ZIL' => array(
                         
@@ -769,6 +800,8 @@ $coins_list = array(
                                         ) // market_pairing END
                         
                     ), // Coin END
+                    
+                    
                     // SNT
                     'SNT' => array(
                         
@@ -807,6 +840,8 @@ $coins_list = array(
                                         ) // market_pairing END
                         
                     ), // Coin END
+                    
+                    
                     // GNT
                     'GNT' => array(
                         
@@ -841,6 +876,8 @@ $coins_list = array(
                                         ) // market_pairing END
                         
                     ), // Coin END
+                    
+                    
                     // XLM
                     'XLM' => array(
                         
@@ -880,6 +917,8 @@ $coins_list = array(
                                         ) // market_pairing END
                         
                     ), // Coin END
+                    
+                    
                     // FCT
                     'FCT' => array(
                         
@@ -903,6 +942,8 @@ $coins_list = array(
                                         ) // market_pairing END
                         
                     ), // Coin END
+                    
+                    
                     // RVN
                     'RVN' => array(
                         
@@ -921,6 +962,8 @@ $coins_list = array(
                                         ) // market_pairing END
                                         
                     ), // Coin END
+                    
+                    
                     // MYST
                     'MYST' => array(
                         
@@ -942,6 +985,8 @@ $coins_list = array(
                                         ) // market_pairing END
                         
                     ), // Coin END
+                    
+                    
                     // TRAC
                     'TRAC' => array(
                         
@@ -964,9 +1009,10 @@ $coins_list = array(
                                         ) // market_pairing END
                         
                     ), // Coin END
+                    
                 
                 
-);
+); // coins_list END
 
 
 

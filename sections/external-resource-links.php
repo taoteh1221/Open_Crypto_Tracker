@@ -86,6 +86,24 @@
 
 
 <p>
+    <fieldset class='blue_fieldset'><legend style='color: blue;'> <strong>Block Explorers</strong> </legend>
+    <ul>
+        
+        
+        <li class='chart_links'><a href='https://www.blockchain.com/explorer' target='_blank'>Blockchain.com Bitcoin Explorer</a></li>
+        
+        <li class='chart_links'><a href='https://etherscan.io/' target='_blank'>Etherscan.io Ethereum Explorer</a></li>
+        
+        
+        
+        
+    </ul>
+    </fieldset>
+</p>
+
+
+
+<p>
     <fieldset class='blue_fieldset'><legend style='color: blue;'> <strong>Newsletters</strong> </legend>
     <ul>
         
