@@ -202,7 +202,7 @@ $exchange_price_alerts_refresh = 0;
 
 // EXCHANGE PRICE CHANGE ALERTS REQUIRES CRON JOB SETUP (see README.txt for cron job setup information) 
 // Markets you want exchange price change alerts for (alert sent when $USD value change is equal to or above / below $exchange_price_alerts_percent) 
-// Delete any double forward slashes from in front of each asset you want to enable price alerts on (or add double slash to disable alerts)
+// Delete any double forward slashes from in front of each asset you want to enable price alerts on (or add double slashes to disable alerts)
 // NOTE: This list must only contain assets / exchanges / trading pairs included in the primary coin list configuration further down in this config file
 // TO ADD MULTIPLE ALERTS FOR SAME ASSET (FOR DIFFERENT EXCHANGES / TRADE PAIRINGS), FORMAT LIKE SO: symbol, symbol-1, symbol-2, etc.
 $exchange_price_alerts = array(
