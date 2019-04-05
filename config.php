@@ -62,6 +62,7 @@ $to_email = ''; // MUST BE SET for price alerts and other email features
 $to_text = '';
 
 // For exchange price alert notifyme alexa notifications (sending Alexa devices notifications for free). 
+// NOTE: Amazon's Alexa API will only allow a maximum of 5 notifications every 5 minutes
 // CAN BE BLANK. Setup: http://www.thomptronics.com/notify-me
 $notifyme_accesscode = '';
 
