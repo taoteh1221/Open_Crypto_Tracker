@@ -9,19 +9,19 @@
 			<div style='border: 2px dotted red; font-weight: bold; padding: 9px; color: red;'><a href='index.php' style='color: red;'>Click Here To Reset Default Tab / Tool Settings</a></div>
 			
 			
-			<fieldset class='blue_fieldset'>
-				<legend style='color: blue;'> <b>QR Code Generator For Addresses</b> </legend>
+			<fieldset class='subsection_fieldset'>
+				<legend class='subsection_legend'> <b>QR Code Generator For Addresses</b> </legend>
 		    
 				<?php require("app-lib/php/other/qr-code-generator/qr-code-generator.php"); ?>
 				
 				
 			</fieldset>
 			
-			<fieldset class='blue_fieldset'>
-				<legend style='color: blue;'> <b>External Tools</b> </legend>
+			<fieldset class='subsection_fieldset'>
+				<legend class='subsection_legend'> <b>External Tools</b> </legend>
     			<ul>
 		    
-        			<li class='chart_links'><a href='https://timestamp.decred.org/' target='_blank'>Timestamp Proof-Of-Existence Of Files With The Decred Blockchain</a></li>
+        			<li class='links_list'><a href='https://timestamp.decred.org/' target='_blank'>Timestamp Proof-Of-Existence Of Files With The Decred Blockchain</a></li>
 				
 				
     			</ul>

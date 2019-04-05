@@ -1,10 +1,10 @@
 <?php
 
 // Start measuring page load time
-$time = microtime();
-$time = explode(' ', $time);
-$time = $time[1] + $time[0];
-$start = $time;
+$load_time = microtime();
+$load_time = explode(' ', $load_time);
+$load_time = $load_time[1] + $load_time[0];
+$start = $load_time;
 
 $runtime_mode = 'ui';
 
@@ -19,9 +19,9 @@ require("config.php");
 <head>
 <meta charset="UTF-8">
     <title>DFD Cryptocoin Values</title>
-<link rel="stylesheet" href="templates/default/css/style.css" type="text/css" />
+<link rel="stylesheet" href="templates/light_greyscale/css/style.css" type="text/css" />
 
-<link rel="stylesheet" href="templates/default/css/theme.default.css" type="text/css" />
+<link rel="stylesheet" href="templates/light_greyscale/css/theme.default.css" type="text/css" />
 
 <script type="text/javascript" src="app-lib/js/jquery/jquery1.8.3.min.js"></script>
 

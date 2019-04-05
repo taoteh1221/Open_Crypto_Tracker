@@ -30,7 +30,7 @@
 			///////////////////////////////////////////////////////////////////////////
 			
 				// Difficulty calculation for this coin...MAY BE DIFFERENT PER COIN
-				$time = ( trim($_POST['network_measure']) / $miner_hashrate );
+				$mining_time = ( trim($_POST['network_measure']) / $miner_hashrate );
 				
 			///////////////////////////////////////////////////////////////////////////
 			

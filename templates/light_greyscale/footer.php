@@ -26,10 +26,10 @@
     <?php
     
     // Calculate page load time
-    $time = microtime();
-    $time = explode(' ', $time);
-    $time = $time[1] + $time[0];
-    $finish = $time;
+    $load_time = microtime();
+    $load_time = explode(' ', $load_time);
+    $load_time = $load_time[1] + $load_time[0];
+    $finish = $load_time;
     $total_time = round(($finish - $start), 3);
     echo '<p align="center" style="color: '.( $total_time <= 10 ? 'green' : 'red' ).';"> Page generated in '.$total_time.' seconds. </p>';
     

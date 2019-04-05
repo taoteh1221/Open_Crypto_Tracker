@@ -375,7 +375,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 
 			// If no ip/port detected in data string, cancel and continue runtime
 			if ( !$ip || !$port ) {
-			$_SESSION['api_data_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | data attempt from: server (local timeout setting ' . $api_timeout . ' seconds) | proxy: ' . $current_proxy . ' | canceling API data connection, proxy '.$current_proxy.' is not a valid proxy format (required format ip:port)' . "<br /> \n";
+			$_SESSION['api_data_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | data attempt from: server (local timeout setting ' . $api_timeout . ' seconds) | proxy_used: ' . $current_proxy . ' | canceling API data connection, proxy '.$current_proxy.' is not a valid proxy format (required format ip:port)' . "<br /> \n";
 			return FALSE;
 			}
 
@@ -430,7 +430,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		if ( !$data ) {
 		
 		// SAFE UI ALERT VERSION (no post data with API keys etc)
-		$_SESSION['api_data_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | data attempt from: server (local timeout setting ' . $api_timeout . ' seconds) | proxy: ' .( $current_proxy ? $current_proxy : 'none' ). ' | connection failed for: ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint request at ' . $request ) . "<br /> \n";
+		$_SESSION['api_data_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | data attempt from: server (local timeout setting ' . $api_timeout . ' seconds) | proxy_used: ' .( $current_proxy ? $current_proxy : 'none' ). ' | connection failed for: ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint request at ' . $request ) . "<br /> \n";
 		
 			if ( sizeof($proxy_list) > 0 && $current_proxy != '' && $mode != 'proxy-check' ) { // Avoid infinite loops doing proxy checks
 
@@ -484,7 +484,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 			}
 			
 		// Don't log this error again during THIS runtime, as it would be a duplicate...just overwrite same error message, BUT update the error count in it
-		$_SESSION['repeat_error'][$hash_check] = date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | data attempt(s) from: cache ('.$_SESSION['error_duplicates'][$hash_check].' runtime instances) | proxy: ' .( $current_proxy ? $current_proxy : 'none' ). ' | no data in cache, from connection failure for: ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint request at ' . $request ) . "<br /> \n";
+		$_SESSION['repeat_error'][$hash_check] = date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | data attempt(s) from: cache ('.$_SESSION['error_duplicates'][$hash_check].' runtime instances) | proxy_used: ' .( $current_proxy ? $current_proxy : 'none' ). ' | no data in cache, from connection failure for: ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint request at ' . $request ) . "<br /> \n";
 			
 		}
 	

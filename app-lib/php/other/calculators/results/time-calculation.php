@@ -7,7 +7,7 @@
 ?>			
 			<?php
 				
-				$minutes = ( $time / 60 );
+				$minutes = ( $mining_time / 60 );
 				
 				$hours = ( $minutes / 60 );
 				
