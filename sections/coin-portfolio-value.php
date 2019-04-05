@@ -163,11 +163,13 @@ foreach ( $coins_list['BTC']['market_pairing']['btc'] as $key => $value ) {
 $loop = $loop + 1;
 
 	if ( $value == $coins_list_numbered[$btc_market] ) {
-	echo 'Total USD Value: $' . number_format($total_usd_worth, 2, '.', ',') . ' (1 Bitcoin is currently worth $' .number_format( get_btc_usd($btc_exchange)['last_trade'], 2, '.', ','). ' at '.ucfirst($key).')</p>';
+	echo 'Total USD Value: $' . number_format($total_usd_worth, 2, '.', ',') . ' (1 Bitcoin is currently worth $' .number_format( get_btc_usd($btc_exchange)['last_trade'], 2, '.', ','). ' at '.ucfirst($key).')';
 	}
 
 }
 $loop = NULL;
+
+echo '</p>';
 
 // End outputting results
 }
@@ -175,8 +177,8 @@ $loop = NULL;
 if ( $_COOKIE['notes_reminders'] ) {
 ?>
 
-<p>
 <form action='./' method='post'>
+<p>
 
 <b>Trading Notes / Reminders:</b><br />
 
@@ -185,8 +187,8 @@ if ( $_COOKIE['notes_reminders'] ) {
 <input type='hidden' name='update_notes' id='update_notes' value='1' />
 <input type='submit' value='Save Updated Notes' />
 
-</form>
 </p>
+</form>
 
 <?php
 }

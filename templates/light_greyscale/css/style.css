@@ -13,7 +13,7 @@ width: auto;
 margin: auto;
 padding: 0px;
 font-family: sans-serif;
-font-size: 14px;
+font-size: 15px;
 }
 
 
@@ -30,7 +30,7 @@ background: #fff;
 
 td {
 margin: 0px;
-padding: 9px;
+padding: 10px;
 }
 
 
@@ -51,12 +51,12 @@ resize: none;
 
 
 form p {
-font-size: 14px;
+font-size: 15px;
 }
 
 
 form p input {
-font-size: 13px;
+font-size: 14px;
 }
 
 a {
@@ -116,8 +116,8 @@ border-bottom: 2px solid #ccc;
 .bold_1 {
 font-weight: bold;
 color: green;
-padding: 7px;
-line-height: 23px;
+padding: 5px;
+line-height: 25px;
 }
 
 
@@ -154,6 +154,11 @@ word-wrap: break-word;
 
 .settings_sections {
 margin: 25px;
+}
+
+
+p.update_coins {
+padding-bottom: 7px;
 }
 
 

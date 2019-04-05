@@ -125,7 +125,7 @@ if (is_array($coins_list) || is_object($coins_list)) {
     
     ?>
     
-    <p>
+    <p class='update_coins'>
        
     <?=$coin['coin_name']?> (<?=strtoupper($coin['coin_symbol'])?>) 
     
@@ -198,7 +198,7 @@ if (is_array($coins_list) || is_object($coins_list)) {
     $html_market_list = NULL;
     ?>
     
-    </span>, and amount is <input type='text' size='40' id='<?=$field_var_amount?>' name='<?=$field_var_amount?>' value='<?=$coin_amount_value?>' />
+    </span>, token amount is: <input type='text' size='40' id='<?=$field_var_amount?>' name='<?=$field_var_amount?>' value='<?=$coin_amount_value?>' />
     
     </p>
     

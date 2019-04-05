@@ -278,7 +278,7 @@
         
         <li class='links_list'><a href='https://www.youtube.com/channel/UCVVDsIYJBQ_C7Bh_aI3ZMxQ/featured' target='_blank'>Magical Crypto Friends</a></li>
         
-        <li class='links_list'><a href='https://www.youtube.com/channel/UCFEHdhuB_BEUHA_eL9cjqHA' target='_blank'>Messari</a></li>
+        <li class='links_list'><a href='https://www.youtube.com/channel/UCFEHdhuB_BEUHA_eL9cjqHA' target='_blank'>Messari's Unqualified Opinions</a></li>
         
         <li class='links_list'><a href='https://www.youtube.com/user/australiaalex/featured' target='_blank'>Nugget's News</a></li>
         
