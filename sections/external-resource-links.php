@@ -43,6 +43,8 @@
         
         <li class='links_list'><a href='https://www.altdex.co/' target='_blank'>AltDex 100 Cryptocurrency Index (ALT100)</a></li>
         
+        <li class='links_list'><a href='https://www.blockchain.com/en/charts/mempool-size' target='_blank'>Bitcoin Mempool (queued unconfirmed transactions) Charts</a></li>
+        
         
         
     </ul>
@@ -141,6 +143,10 @@
         <li class='links_list'><a href='https://www.zeroknowledge.fm/' target='_blank'>Zero Knowledge</a></li>
         
         <li class='links_list'><a href='http://h4shr8.libsyn.com/website' target='_blank'>H4SHR8 Crypto Mining Podcast</a></li>
+        
+        <li class='links_list'><a href='https://open.spotify.com/show/09k4pnFm6WokaszuoeZ6yf' target='_blank'>Block Crunch Podcast</a></li>
+        
+        <li class='links_list'><a href='https://open.spotify.com/show/0uG5qpwFg67zTt0VQRTaZ7' target='_blank'>Messari's Unqualified Opinions</a></li>
         
         
         
