@@ -119,6 +119,8 @@
         
         <li class='links_list'><a href='https://www.tokendaily.co/' target='_blank'>Token Daily</a></li>
         
+        <li class='links_list'><a href='https://unchainedpodcast.com/category/newsletters/' target='_blank'>Unchained Newsletter</a></li>
+        
         
         
         
@@ -133,6 +135,8 @@
     <ul>
         
         
+        
+        <li class='links_list'><a href='https://unchainedpodcast.com/' target='_blank'>Unchained Podcast</a></li>
         
         <li class='links_list'><a href='https://thebitcoinpodcast.com/' target='_blank'>The Bitcoin Podcast</a></li>
         
@@ -273,6 +277,8 @@
         <li class='links_list'><a href='https://www.youtube.com/user/MrKennbosak/featured' target='_blank'>Kenn Bosak</a></li>
         
         <li class='links_list'><a href='https://www.youtube.com/channel/UCVVDsIYJBQ_C7Bh_aI3ZMxQ/featured' target='_blank'>Magical Crypto Friends</a></li>
+        
+        <li class='links_list'><a href='https://www.youtube.com/channel/UCFEHdhuB_BEUHA_eL9cjqHA' target='_blank'>Messari</a></li>
         
         <li class='links_list'><a href='https://www.youtube.com/user/australiaalex/featured' target='_blank'>Nugget's News</a></li>
         
