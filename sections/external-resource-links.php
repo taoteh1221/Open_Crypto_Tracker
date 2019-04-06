@@ -128,7 +128,7 @@
         
         <li class='links_list'><a href='http://proofofwork.news/' target='_blank'>Proof Of Work</a></li>
         
-        <li class='links_list'><a href='http://www.weekinethereum.com/' target='_blank'>Week In Ethereum</a></li>
+        <li class='links_list'><a href='https://weekinethereumnews.com/' target='_blank'>Week In Ethereum</a></li>
         
         <li class='links_list'><a href='https://sludgefeed.com/hashed/' target='_blank'>Sludgefeed's Hashed</a></li>
         
