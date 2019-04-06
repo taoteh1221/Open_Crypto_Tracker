@@ -3,7 +3,7 @@
  * Copyright 2014-2019 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
  */
 
-require("templates/light_greyscale/header.php");
+require("templates/light_greyscale/php/header.php");
 
 ?>
 
@@ -69,6 +69,6 @@ require("templates/light_greyscale/header.php");
 
 
 <?php
-require("templates/light_greyscale/footer.php");
+require("templates/light_greyscale/php/footer.php");
 ?>
 

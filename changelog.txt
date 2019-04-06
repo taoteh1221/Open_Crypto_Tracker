@@ -1046,6 +1046,16 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+2.4.5:
+-More UX / UI tweaks
+-Bug fixes
+-Further optimized config file coin list data
+-------------------------------------------------------------------
+
+
+
+
 
 
 

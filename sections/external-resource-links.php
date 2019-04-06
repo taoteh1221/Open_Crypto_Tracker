@@ -31,8 +31,6 @@
     <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Other Stats</strong> </legend>
     <ul>
         
-        <li class='links_list'><a href='https://bitcoinwisdom.com' target='_blank'>Bitcoinwisdom.com</a></li>
-        
         <li class='links_list'><a href='https://www.coingecko.com/' target='_blank'>Coingecko.com</a></li>
         
         <li class='links_list'><a href='https://messari.io/onchainfx' target='_blank'>OnChainFX</a></li>
@@ -42,6 +40,23 @@
         <li class='links_list'><a href='http://coincap.io' target='_blank'>Coincap.io</a></li>
         
         <li class='links_list'><a href='https://www.altdex.co/' target='_blank'>AltDex 100 Cryptocurrency Index (ALT100)</a></li>
+        
+        
+        
+    </ul>
+    </fieldset>
+</p>
+
+
+<p>
+    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Charts</strong> </legend>
+    <ul>
+        
+        <li class='links_list'><a href='https://bitcoinwisdom.com' target='_blank'>Bitcoinwisdom.com</a></li>
+        
+        <li class='links_list'><a href='https://www.tradingview.com/symbols/BTCUSD/' target='_blank'>Tradingview - Bitcoin / USD</a></li>
+        
+        <li class='links_list'><a href='https://www.binance.com/en/trade/pro/BTC_USDT' target='_blank'>Binance - Bitcoin / USD</a></li>
         
         <li class='links_list'><a href='https://www.blockchain.com/en/charts/mempool-size' target='_blank'>Bitcoin Mempool (queued unconfirmed transactions) Charts</a></li>
         
@@ -138,6 +153,8 @@
         
         <li class='links_list'><a href='https://unchainedpodcast.com/' target='_blank'>Unchained Podcast</a></li>
         
+        <li class='links_list'><a href='https://badcryptopodcast.com/' target='_blank'>The Bad Crypto Podcast</a></li>
+        
         <li class='links_list'><a href='https://thebitcoinpodcast.com/' target='_blank'>The Bitcoin Podcast</a></li>
         
         <li class='links_list'><a href='https://letstalkbitcoin.com/' target='_blank'>Lets Talk Bitcoin</a></li>
@@ -146,7 +163,7 @@
         
         <li class='links_list'><a href='https://www.zeroknowledge.fm/' target='_blank'>Zero Knowledge</a></li>
         
-        <li class='links_list'><a href='http://h4shr8.libsyn.com/website' target='_blank'>H4SHR8 Crypto Mining Podcast</a></li>
+        <li class='links_list'><a href='https://open.spotify.com/show/2CLetGT20MFsHqfeBN3fYl' target='_blank'>H4SHR8 Crypto Mining Podcast</a></li>
         
         <li class='links_list'><a href='https://open.spotify.com/show/09k4pnFm6WokaszuoeZ6yf' target='_blank'>Block Crunch Podcast</a></li>
         

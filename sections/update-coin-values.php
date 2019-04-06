@@ -28,11 +28,11 @@
 
 if (is_array($coins_list) || is_object($coins_list)) {
     
-    foreach ( $coins_list as $coin ) {
+    foreach ( $coins_list as $coin_array_key => $coin_array_value ) {
     
-    $field_var_pairing = strtolower($coin['coin_symbol']) . '_pairing';
-    $field_var_market = strtolower($coin['coin_symbol']) . '_market';
-    $field_var_amount = strtolower($coin['coin_symbol']) . '_amount';
+    $field_var_pairing = strtolower($coin_array_key) . '_pairing';
+    $field_var_market = strtolower($coin_array_key) . '_market';
+    $field_var_amount = strtolower($coin_array_key) . '_amount';
     
     
         if ( $_POST['submit_check'] == 1 ) {
@@ -55,7 +55,7 @@ if (is_array($coins_list) || is_object($coins_list)) {
                 
                 $coin_symbol = strtoupper(preg_replace("/_pairing/i", "", $single_coin_pairings_cookie_array[0]));
                 
-                    if ( $coin_symbol == strtoupper($coin['coin_symbol']) ) {
+                    if ( $coin_symbol == strtoupper($coin_array_key) ) {
                     $coin_pairing_id = $single_coin_pairings_cookie_array[1];
                     }
                 
@@ -81,7 +81,7 @@ if (is_array($coins_list) || is_object($coins_list)) {
                 
                 $coin_symbol = strtoupper(preg_replace("/_market/i", "", $single_coin_markets_cookie_array[0]));
                 
-                    if ( $coin_symbol == strtoupper($coin['coin_symbol']) ) {
+                    if ( $coin_symbol == strtoupper($coin_array_key) ) {
                     $coin_market_id = $single_coin_markets_cookie_array[1];
                     }
                 
@@ -107,7 +107,7 @@ if (is_array($coins_list) || is_object($coins_list)) {
                 
                 $coin_symbol = strtoupper(preg_replace("/_amount/i", "", $single_coin_amounts_cookie_array[0]));
                 
-        				if ( $coin_symbol == strtoupper($coin['coin_symbol']) ) {
+        				if ( $coin_symbol == strtoupper($coin_array_key) ) {
         				$coin_amount_value = $single_coin_amounts_cookie_array[1];
         				}
                 
@@ -127,23 +127,23 @@ if (is_array($coins_list) || is_object($coins_list)) {
     
     <p class='update_coins'>
        
-    <?=$coin['coin_name']?> (<?=strtoupper($coin['coin_symbol'])?>) 
+    <?=$coin_array_value['coin_name']?> (<?=strtoupper($coin_array_key)?>) 
     
 
     
     <select onchange='
     
     $("#<?=$field_var_market?>_lists").children().hide(); 
-    $("#" + this.value + "<?=$coin['coin_symbol']?>_pairs").show(); 
+    $("#" + this.value + "<?=$coin_array_key?>_pairs").show(); 
     
-    $("#<?=$field_var_market?>").val( $("#" + this.value + "<?=$coin['coin_symbol']?>_pairs option:selected").val() );
+    $("#<?=$field_var_market?>").val( $("#" + this.value + "<?=$coin_array_key?>_pairs option:selected").val() );
     
     ' id='<?=$field_var_pairing?>' name='<?=$field_var_pairing?>'>
         <?php
-        foreach ( $coin['market_pairing'] as $pairing_key => $pairing_id ) {
+        foreach ( $coin_array_value['market_pairing'] as $pairing_key => $pairing_id ) {
          $loop = $loop + 1;
          
-         	if ( $coin['coin_symbol'] == 'BTC' ) {
+         	if ( $coin_array_key == 'BTC' ) {
          	?>
          	<option value='btc' selected> USD </option>
          	<?php
@@ -154,7 +154,7 @@ if (is_array($coins_list) || is_object($coins_list)) {
         <?php
         		}
         
-					foreach ( $coin['market_pairing'][$pairing_key] as $market_key => $market_id ) {
+					foreach ( $coin_array_value['market_pairing'][$pairing_key] as $market_key => $market_id ) {
          		$loop2 = $loop2 + 1;
          		
         			$html_market_list[$pairing_key] .= "\n<option value='".$loop2."'" . ( isset($_POST[$field_var_market]) && ($_POST[$field_var_market]) == $loop2 || isset($coin_market_id) && ($coin_market_id) == $loop2 ? ' selected ' : '' ) . ">" . ucwords(preg_replace("/_/i", " ", $market_key)) . " </option>\n";
@@ -191,7 +191,7 @@ if (is_array($coins_list) || is_object($coins_list)) {
     
     $("#<?=$field_var_market?>").val( this.value );
     
-    ' id='<?=$key.$coin['coin_symbol']?>_pairs' style='display: <?=( $selected_pairing == $key ? 'inline' : 'none' )?>;'><?=$html_market_list[$key]?></select>
+    ' id='<?=$key.$coin_array_key?>_pairs' style='display: <?=( $selected_pairing == $key ? 'inline' : 'none' )?>;'><?=$html_market_list[$key]?></select>
     
     <?php
     }
@@ -220,7 +220,7 @@ if (is_array($coins_list) || is_object($coins_list)) {
 
 <input type='hidden' id='use_notes' name='use_notes' value='<?php echo ( $_COOKIE['notes_reminders'] ? '1' : ''); ?>' />
 
-<input type='hidden' id='use_alert_percent' name='use_alert_percent' value='<?php echo $_COOKIE['alert_percent']; ?>' />
+<input type='hidden' id='use_alert_percent' name='use_alert_percent' value='<?=( $_POST['use_alert_percent'] != '' ? $_POST['use_alert_percent'] : $_COOKIE['alert_percent'] )?>' />
 
 </form>
 

@@ -46,6 +46,7 @@ $(document).ready(function(){
 		
 		// sort on the USD Total column, order desc 
 		sortList: [[sorted_by_col,sorted_by_asc_desc]],
+    	theme : tablesort_theme, // theme "jui" and "bootstrap" override the uitheme widget option in v2.7+
 		widgets: ['zebra'],
                 headers: {
 		    

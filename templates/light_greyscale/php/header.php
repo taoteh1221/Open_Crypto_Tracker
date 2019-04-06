@@ -21,8 +21,6 @@ require("config.php");
     <title>DFD Cryptocoin Values</title>
 <link rel="stylesheet" href="templates/light_greyscale/css/style.css" type="text/css" />
 
-<link rel="stylesheet" href="templates/light_greyscale/css/theme.default.css" type="text/css" />
-
 <script type="text/javascript" src="app-lib/js/jquery/jquery1.8.3.min.js"></script>
 
 <script type="text/javascript" src="app-lib/js/jquery/jquery.tablesorter.min.js"></script>
@@ -36,6 +34,7 @@ require("config.php");
 <script>
 var sorted_by_col = <?=$sorted_by_col?>;
 var sorted_by_asc_desc = <?=$sorted_by_asc_desc?>;
+var tablesort_theme = 'default';
 </script>
 
 <script type="text/javascript" src="app-lib/js/init.js"></script>

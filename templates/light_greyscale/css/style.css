@@ -4,6 +4,34 @@
 
 
 /* //////////////////////////////
+IMPORTS
+////////////////////////////// */
+
+@import "theme.default.css";
+
+@import "theme.black-ice.css";
+
+@import "theme.blue.css";
+
+@import "theme.bootstrap.css";
+
+@import "theme.bootstrap_2.css";
+
+@import "theme.dark.css";
+
+@import "theme.dropbox.css";
+
+@import "theme.green.css";
+
+@import "theme.grey.css";
+
+@import "theme.ice.css";
+
+@import "theme.jui.css";
+
+@import "theme.metro-dark.css";
+
+/* //////////////////////////////
 ELEMENTS
 ////////////////////////////// */
 
@@ -47,6 +75,7 @@ margin-bottom: 15px;
 textarea {
 box-sizing: border-box;
 resize: none;
+border: 1px solid #808080;
 }
 
 
@@ -55,8 +84,9 @@ font-size: 15px;
 }
 
 
-form p input {
-font-size: 14px;
+input {
+font-size: 15px;
+border: 1px solid #808080;
 }
 
 a {

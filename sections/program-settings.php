@@ -109,7 +109,6 @@
 			    document.getElementById("percent_change_time").style.display = "inline";
 			    document.getElementById("percent_change_alert_type").style.display = "inline";
 			    document.getElementById("use_alert_percent").value = document.getElementById("alert_source").value + "|" + document.getElementById("percent_change_amount").value + "|" + document.getElementById("percent_change_time").value + "|" + document.getElementById("percent_change_alert_type").value;
-			    //console.log(document.getElementById("use_alert_percent").value);
 			    }
 			    else {
 			    document.getElementById("alert_source").style.display = "none";
@@ -127,7 +126,6 @@
 			    <select name='alert_source' id='alert_source' onchange='
 			    if ( document.getElementById("alert_percent").value == "yes" ) {
 			    document.getElementById("use_alert_percent").value = document.getElementById("alert_source").value + "|" + document.getElementById("percent_change_amount").value + "|" + document.getElementById("percent_change_time").value + "|" + document.getElementById("percent_change_alert_type").value;
-			    //console.log(document.getElementById("use_alert_percent").value);
 			    }
 			    else {
 			    document.getElementById("use_alert_percent").value = "";
@@ -140,7 +138,6 @@
 			    <select name='percent_change_amount' id='percent_change_amount' onchange='
 			    if ( document.getElementById("alert_percent").value == "yes" ) {
 			    document.getElementById("use_alert_percent").value = document.getElementById("alert_source").value + "|" + document.getElementById("percent_change_amount").value + "|" + document.getElementById("percent_change_time").value + "|" + document.getElementById("percent_change_alert_type").value;
-			    //console.log(document.getElementById("use_alert_percent").value);
 			    }
 			    else {
 			    document.getElementById("use_alert_percent").value = "";
@@ -166,12 +163,11 @@
 			    <option value='40' <?=( $alert_percent[1] == 40 ? ' selected ' : '' )?>> 40% </option>
 			    <option value='45' <?=( $alert_percent[1] == 45 ? ' selected ' : '' )?>> 45% </option>
 			    <option value='50' <?=( $alert_percent[1] == 50 ? ' selected ' : '' )?>> 50% </option>
-			    </select> (or more), 
+			    </select> 
 			     
 			    <select name='percent_change_time' id='percent_change_time' onchange='
 			    if ( document.getElementById("alert_percent").value == "yes" ) {
 			    document.getElementById("use_alert_percent").value = document.getElementById("alert_source").value + "|" + document.getElementById("percent_change_amount").value + "|" + document.getElementById("percent_change_time").value + "|" + document.getElementById("percent_change_alert_type").value;
-			    //console.log(document.getElementById("use_alert_percent").value);
 			    }
 			    else {
 			    document.getElementById("use_alert_percent").value = "";
@@ -180,12 +176,11 @@
 			    <option value='1hour' <?=( $alert_percent[2] == '1hour' ? ' selected ' : '' )?>> 1 Hour </option>
 			    <option value='24hour' <?=( $alert_percent[2] == '24hour' ? ' selected ' : '' )?>> 24 Hour </option>
 			    <option value='7day' <?=( $alert_percent[2] == '7day' ? ' selected ' : '' )?>> 7 Day </option>
-			    </select> trend, 
+			    </select>  
 			     
 			    <select name='percent_change_alert_type' id='percent_change_alert_type' onchange='
 			    if ( document.getElementById("alert_percent").value == "yes" ) {
 			    document.getElementById("use_alert_percent").value = document.getElementById("alert_source").value + "|" + document.getElementById("percent_change_amount").value + "|" + document.getElementById("percent_change_time").value + "|" + document.getElementById("percent_change_alert_type").value;
-			    //console.log(document.getElementById("use_alert_percent").value);
 			    }
 			    else {
 			    document.getElementById("use_alert_percent").value = "";

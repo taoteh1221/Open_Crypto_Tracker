@@ -44,8 +44,7 @@ Below is an example for adding / editing your own markets into the coin list in 
                     'UPPERCASE_COIN_SYMBOL' => array(
                         
                         'coin_name' => 'COIN_NAME',
-                        'coin_symbol' => 'UPPERCASE_COIN_SYMBOL',
-                        'marketcap_website_slug' => 'website-slug', // Website slug (URL data) on coinmarketcap / coingecko, leave blank if not listed there
+                        'marketcap_website_slug' => 'WEBSITE_SLUG', // Website slug (URL data) on coinmarketcap / coingecko, leave blank if not listed there
                         'market_pairing' => array(
                         
                                     'btc' => array(
@@ -107,7 +106,7 @@ BELOW IS AN EXAMPLE SET OF CONFIGURED ASSETS AND DEFAULT SETTINGS. PLEASE NOTE T
 
 $api_timeout = 12; // Seconds to wait for response from API endpoints. Don't set too low, or you won't get data
 
-$btc_exchange = 'coinbase'; // Default Bitcoin to USD (or equiv stable coin): coinbase / binance / bitstamp / bitfinex / kraken / gemini / hitbtc / okcoin / livecoin
+$btc_exchange = 'binance'; // Default Bitcoin to USD (or equiv stable coin): coinbase / binance / bitstamp / bitfinex / kraken / gemini / hitbtc / okcoin / livecoin
 
 $marketcap_site = 'coinmarketcap'; // Default marketcap data source: 'coinmarketcap', or 'coingecko'
 
@@ -302,7 +301,6 @@ $coins_list = array(
                     'USD' => array(
                         
                         'coin_name' => 'Misc. USD Assets',
-                        'coin_symbol' => 'USD',
                         'marketcap_website_slug' => '',
                         'market_pairing' => array(
                         
@@ -331,7 +329,6 @@ $coins_list = array(
                     'TUSD' => array(
                         
                         'coin_name' => 'True USD',
-                        'coin_symbol' => 'TUSD',
                         'marketcap_website_slug' => 'true-usd',
                         'market_pairing' => array(
                         
@@ -359,7 +356,6 @@ $coins_list = array(
                     'BTC' => array(
                         
                         'coin_name' => 'Bitcoin',
-                        'coin_symbol' => 'BTC',
                         'marketcap_website_slug' => 'bitcoin',
                         'market_pairing' => array(
                         
@@ -384,7 +380,6 @@ $coins_list = array(
                     'ETH' => array(
                         
                         'coin_name' => 'Ethereum',
-                        'coin_symbol' => 'ETH',
                         'marketcap_website_slug' => 'ethereum',
                         'market_pairing' => array(
                         
@@ -431,7 +426,6 @@ $coins_list = array(
                     'XMR' => array(
                         
                         'coin_name' => 'Monero',
-                        'coin_symbol' => 'XMR',
                         'marketcap_website_slug' => 'monero',
                         'market_pairing' => array(
                         
@@ -471,7 +465,6 @@ $coins_list = array(
                     'DCR' => array(
                         
                         'coin_name' => 'Decred',
-                        'coin_symbol' => 'DCR',
                         'marketcap_website_slug' => 'decred',
                         'market_pairing' => array(
                         
@@ -506,7 +499,6 @@ $coins_list = array(
                     'DASH' => array(
                         
                         'coin_name' => 'Dash',
-                        'coin_symbol' => 'DASH',
                         'marketcap_website_slug' => 'dash',
                         'market_pairing' => array(
                         
@@ -554,7 +546,6 @@ $coins_list = array(
                     'LTC' => array(
                         
                         'coin_name' => 'Litecoin',
-                        'coin_symbol' => 'LTC',
                         'marketcap_website_slug' => 'litecoin',
                         'market_pairing' => array(
                         
@@ -613,7 +604,6 @@ $coins_list = array(
                     'STEEM' => array(
                         
                         'coin_name' => 'Steem',
-                        'coin_symbol' => 'STEEM',
                         'marketcap_website_slug' => 'steem',
                         'market_pairing' => array(
                         
@@ -641,7 +631,6 @@ $coins_list = array(
                     'MANA' => array(
                         
                         'coin_name' => 'Decentraland',
-                        'coin_symbol' => 'MANA',
                         'marketcap_website_slug' => 'decentraland',
                         'market_pairing' => array(
                         
@@ -679,7 +668,6 @@ $coins_list = array(
                     'ANT' => array(
                         
                         'coin_name' => 'Aragon',
-                        'coin_symbol' => 'ANT',
                         'marketcap_website_slug' => 'aragon',
                         'market_pairing' => array(
                         
@@ -705,7 +693,6 @@ $coins_list = array(
                     'GRIN' => array(
                         
                         'coin_name' => 'Grin',
-                        'coin_symbol' => 'GRIN',
                         'marketcap_website_slug' => 'grin',
                         'market_pairing' => array(
                         
@@ -746,7 +733,6 @@ $coins_list = array(
                     'BEAM' => array(
                         
                         'coin_name' => 'Beam',
-                        'coin_symbol' => 'BEAM',
                         'marketcap_website_slug' => 'beam',
                         'market_pairing' => array(
                         
@@ -777,7 +763,6 @@ $coins_list = array(
                     'ZRX' => array(
                         
                         'coin_name' => 'oxProject',
-                        'coin_symbol' => 'ZRX',
                         'marketcap_website_slug' => '0x',
                         'market_pairing' => array(
                         
@@ -816,7 +801,6 @@ $coins_list = array(
                     'ADA' => array(
                         
                         'coin_name' => 'Cardano',
-                        'coin_symbol' => 'ADA',
                         'marketcap_website_slug' => 'cardano',
                         'market_pairing' => array(
                         
@@ -852,7 +836,6 @@ $coins_list = array(
                     'ZIL' => array(
                         
                         'coin_name' => 'Zilliqa',
-                        'coin_symbol' => 'ZIL',
                         'marketcap_website_slug' => 'zilliqa',
                         'market_pairing' => array(
                         
@@ -881,7 +864,6 @@ $coins_list = array(
                     'SNT' => array(
                         
                         'coin_name' => 'Status',
-                        'coin_symbol' => 'SNT',
                         'marketcap_website_slug' => 'status',
                         'market_pairing' => array(
                         
@@ -921,7 +903,6 @@ $coins_list = array(
                     'GNT' => array(
                         
                         'coin_name' => 'Golem',
-                        'coin_symbol' => 'GNT',
                         'marketcap_website_slug' => 'golem-network-tokens',
                         'market_pairing' => array(
                         
@@ -957,7 +938,6 @@ $coins_list = array(
                     'XLM' => array(
                         
                         'coin_name' => 'Stellar',
-                        'coin_symbol' => 'XLM',
                         'marketcap_website_slug' => 'stellar',
                         'market_pairing' => array(
                         
@@ -998,7 +978,6 @@ $coins_list = array(
                     'FCT' => array(
                         
                         'coin_name' => 'Factom',
-                        'coin_symbol' => 'FCT',
                         'marketcap_website_slug' => 'factom',
                         'market_pairing' => array(
                         
@@ -1023,7 +1002,6 @@ $coins_list = array(
                     'RVN' => array(
                         
                         'coin_name' => 'Ravencoin',
-                        'coin_symbol' => 'RVN',
                         'marketcap_website_slug' => 'ravencoin',
                         'market_pairing' => array(
                         
@@ -1043,7 +1021,6 @@ $coins_list = array(
                     'MYST' => array(
                         
                         'coin_name' => 'Mysterium',
-                        'coin_symbol' => 'MYST',
                         'marketcap_website_slug' => 'mysterium',
                         'market_pairing' => array(
                         
@@ -1066,7 +1043,6 @@ $coins_list = array(
                     'TRAC' => array(
                         
                         'coin_name' => 'OriginTrail',
-                        'coin_symbol' => 'TRAC',
                         'marketcap_website_slug' => 'origintrail',
                         'market_pairing' => array(
                         
@@ -1093,4 +1069,3 @@ $coins_list = array(
 
 /////////////////// COIN MARKETS CONFIG -END- /////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
-

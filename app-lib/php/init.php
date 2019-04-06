@@ -5,7 +5,7 @@
 
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
 
-$app_version = '2.4.4';  // 2019/APRIL/2ND
+$app_version = '2.4.5';  // 2019/APRIL/6TH
  
 date_default_timezone_set('UTC');
 
@@ -73,7 +73,7 @@ $sorted_by_asc_desc = $sort_settings[1];
 	$sorted_by_asc_desc = 0;
 	}
 
-$alert_percent = explode("|", $_COOKIE['alert_percent']);
+$alert_percent = explode("|", ( $_POST['use_alert_percent'] != '' ? $_POST['use_alert_percent'] : $_COOKIE['alert_percent'] ) );
 
 require_once( $php_app_dir . "/other/cookies.php");
 
