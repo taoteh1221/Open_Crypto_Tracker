@@ -8,6 +8,8 @@ $start = $load_time;
 
 $runtime_mode = 'ui';
 
+$tablesort_theme = 'default';
+
 require("config.php");
 
 ?><!DOCTYPE html>
@@ -34,14 +36,14 @@ require("config.php");
 <script>
 var sorted_by_col = <?=$sorted_by_col?>;
 var sorted_by_asc_desc = <?=$sorted_by_asc_desc?>;
-var tablesort_theme = 'default';
+var tablesort_theme = '<?=$tablesort_theme?>';
 </script>
 
 <script type="text/javascript" src="app-lib/js/init.js"></script>
 
 <style>
     
-.tablesorter-default .header, .tablesorter-default .tablesorter-header {
+.tablesorter-<?=$tablesort_theme?> .header, .tablesorter-default .tablesorter-header {
     white-space: nowrap;
 }
 
