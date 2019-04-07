@@ -155,6 +155,8 @@
         
         <li class='links_list'><a href='https://badcryptopodcast.com/' target='_blank'>The Bad Crypto Podcast</a></li>
         
+        <li class='links_list'><a href='https://badcryptopodcast.com/thecryptochick/' target='_blank'>The Crypto Chick Podcast</a></li>
+        
         <li class='links_list'><a href='https://thebitcoinpodcast.com/' target='_blank'>The Bitcoin Podcast</a></li>
         
         <li class='links_list'><a href='https://letstalkbitcoin.com/' target='_blank'>Lets Talk Bitcoin</a></li>
