@@ -3,7 +3,7 @@
  * Copyright 2014-2019 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
  */
 
-require("templates/light_greyscale/php/header.php");
+require("ui-templates/php/header.php");
 
 ?>
 
@@ -40,35 +40,35 @@ require("templates/light_greyscale/php/header.php");
 				<option value='900' <?=( $_COOKIE['coin_reload'] == '900' ? 'selected' : '' )?>> Every 15 Minutes </option>
 				<option value='1800' <?=( $_COOKIE['coin_reload'] == '1800' ? 'selected' : '' )?>> Every 30 Minutes </option>
 			</select> &nbsp; <span id='reload_countdown' style='color: red;'></span>
-			<p><?php require("sections/coin-portfolio-value.php"); ?></p>
+			<p><?php require("ui-templates/php/sections/coin-portfolio-value.php"); ?></p>
 		</div>
 		<div id='update_values' class='tabdiv'>
 			<h3>Update Coin Values</h3>
-			<p><?php require("sections/update-coin-values.php"); ?></p>
+			<p><?php require("ui-templates/php/sections/update-coin-values.php"); ?></p>
 		</div>
 		<div id='settings' class='tabdiv'>
 			<h3>Program Settings</h3>
-			<?php require("sections/program-settings.php"); ?>
+			<?php require("ui-templates/php/sections/program-settings.php"); ?>
 		</div>
 		<div id='calculators' class='tabdiv'>
 			<h3>Mining / Interest Calculators</h3>
-			<?php require("sections/mining-calculators.php"); ?>
+			<?php require("ui-templates/php/sections/mining-calculators.php"); ?>
 		</div>
 		<div id='other_crypto_tools' class='tabdiv'>
 			<h3>Other Crypto Tools</h3>
-			<?php require("sections/other-crypto-tools.php"); ?>
+			<?php require("ui-templates/php/sections/other-crypto-tools.php"); ?>
 		</div>
 		<div id='links' class='tabdiv'>
 			<h3>External Resource Links</h3>
-			<?php require("sections/external-resource-links.php"); ?>
+			<?php require("ui-templates/php/sections/external-resource-links.php"); ?>
 		</div>
 		<div id='help' class='tabdiv'>
 			<h3>Help?</h3>
-			<?php require("sections/help.php"); ?>
+			<?php require("ui-templates/php/sections/help.php"); ?>
 		</div>
 
 
 <?php
-require("templates/light_greyscale/php/footer.php");
+require("ui-templates/php/footer.php");
 ?>
 

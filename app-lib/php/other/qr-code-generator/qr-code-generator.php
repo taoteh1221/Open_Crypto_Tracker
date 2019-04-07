@@ -25,7 +25,7 @@ elseif ( trim($_POST['qr-string']) != '' ) {
 ?>
 
 <p style='font-weight: bold;'>Generated QR Code Address:</p>
-<p><image src='media/images/qr-code-image.php?data=<?=urlencode(trim($_POST['qr-string']))?>' border='0' /></p>
+<p><image src='ui-templates/media/images/qr-code-image.php?data=<?=urlencode(trim($_POST['qr-string']))?>' border='0' /></p>
 <p style='color: red; font-weight: bold;'>--ALWAYS-- VERIFY YOUR ADDRESS COPIED OVER CORRECTLY</p>
 
 <?php

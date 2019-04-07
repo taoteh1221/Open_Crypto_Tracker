@@ -19,7 +19,7 @@ require("config.php");
 <head>
 <meta charset="UTF-8">
     <title>DFD Cryptocoin Values</title>
-<link rel="stylesheet" href="templates/light_greyscale/css/style.css" type="text/css" />
+<link rel="stylesheet" href="ui-templates/css/style.css" type="text/css" />
 
 <script type="text/javascript" src="app-lib/js/jquery/jquery1.8.3.min.js"></script>
 
@@ -51,8 +51,8 @@ var tablesort_theme = 'default';
 <body>
     
     <audio preload="metadata" id="audio_alert">
-      <source src="media/audio/Smoke-Alarm-SoundBible-1551222038.mp3">
-      <source src="media/audio/Smoke-Alarm-SoundBible-1551222038.ogg">
+      <source src="ui-templates/media/audio/Smoke-Alarm-SoundBible-1551222038.mp3">
+      <source src="ui-templates/media/audio/Smoke-Alarm-SoundBible-1551222038.ogg">
     </audio>
 
     <div align='center' style='width: 98%; margin: auto;'>

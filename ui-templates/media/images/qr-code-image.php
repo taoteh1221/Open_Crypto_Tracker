@@ -21,7 +21,7 @@ $sanitized = preg_replace("/[^A-Za-z0-9 ]/", "FLAG", $sanitized);
 // Remove HTML
 $sanitized = filter_var($sanitized, FILTER_SANITIZE_STRING);
 
-include('../../app-lib/php/other/qr-code-generator/phpqrcode/qrlib.php'); 
+include('../../../app-lib/php/other/qr-code-generator/phpqrcode/qrlib.php'); 
 
 
      if (  $original == $sanitized ) {

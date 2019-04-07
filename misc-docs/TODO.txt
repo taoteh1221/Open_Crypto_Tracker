@@ -1,0 +1,34 @@
+
+
+///////////////////////////////////////////////////////
+TODO
+///////////////////////////////////////////////////////
+
+Make sure programming comments are adequate throughout the app.
+
+Add Dogecoin and mining calculator.
+
+Look for offered api options where data can get an exchanges whole set of markets, rather than just one, where hasn't been done yet. The relevant API connections have been moved to top sections in exchange-api.php for review.
+
+Dark greyscale CSS styling option, and theme switcher settings
+
+RESTFUL API system for requesting market values / portfolio values
+
+Simple trading bot, to run from cron / cli
+
+Modularize the alert / messages services, to reuse code efficiently
+
+Differentiate BTC USD / USDT / TUSD / USDC markets as bitcoin's market options, rather than designate all BTC markets as USD
+
+
+///////////////////////////////////////////////////////
+MAYBE
+///////////////////////////////////////////////////////
+
+SQL-based accounts for storing API keys, coin amounts??
+
+2-way encryption (unlocked with 6 digit PIN) for storing coin amounts??
+
+Twitter handle / subreddit name in coin config, and either a 'Social' tab or image hover pop-in with latest news (cached to avoid blacklist)??
+
+
