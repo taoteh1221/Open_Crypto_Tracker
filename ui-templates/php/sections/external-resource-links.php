@@ -52,7 +52,7 @@
     <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Charts</strong> </legend>
     <ul>
         
-        <li class='links_list'><a href='https://bitcoinwisdom.com' target='_blank'>Bitcoinwisdom.com</a></li>
+        <li class='links_list'><a href='https://bitcoinwisdom.io' target='_blank'>Bitcoinwisdom.io</a></li>
         
         <li class='links_list'><a href='https://www.tradingview.com/symbols/BTCUSD/' target='_blank'>Tradingview - Bitcoin / USD</a></li>
         
