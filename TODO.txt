@@ -1,4 +1,5 @@
 
+Dark greyscale theme option, and theme switcher settings
 
 RESTFUL API system for requesting market values / portfolio values
 
