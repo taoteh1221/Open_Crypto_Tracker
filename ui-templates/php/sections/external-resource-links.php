@@ -184,6 +184,8 @@
         
         <li class='links_list'><a href='https://open.spotify.com/show/0uG5qpwFg67zTt0VQRTaZ7' target='_blank'>Messari's Unqualified Opinions</a></li>
         
+        <li class='links_list'><a href='https://evolvement.io/' target='_blank'>Evolvement - The Financial Podcast</a></li>
+        
         
         
     </ul>
@@ -260,6 +262,8 @@
         <li class='links_list'><a href='http://www.maxkeiser.com/' target='_blank'>Keiser Report</a></li>
         
         <li class='links_list'><a href='https://www.sec.gov/ICO' target='_blank'>SEC.gov ICO Awareness Site</a></li>
+        
+        <li class='links_list'><a href='https://www.fomomasternode.com/' target='_blank'>FOMO Masternode</a></li>
         
         
         
