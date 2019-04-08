@@ -126,7 +126,7 @@
         
         
         
-        <li class='links_list'><a href='http://proofofwork.news/' target='_blank'>Proof Of Work</a></li>
+        <li class='links_list'><a href='http://proofofwork.news/' target='_blank'>Proof Of Work</a></li>   
         
         <li class='links_list'><a href='https://weekinethereumnews.com/' target='_blank'>Week In Ethereum</a></li>
         
@@ -134,7 +134,18 @@
         
         <li class='links_list'><a href='https://www.tokendaily.co/' target='_blank'>Token Daily</a></li>
         
+        <li class='links_list'><a href='https://bncdaily.com/' target='_blank'>Brave New Coin Daily</a></li>
+        
         <li class='links_list'><a href='https://unchainedpodcast.com/category/newsletters/' target='_blank'>Unchained Newsletter</a></li>
+        
+        <li class='links_list'><a href='https://ethhub.substack.com/' target='_blank'>EthHub Newsletter</a></li>
+        
+        <li class='links_list'><a href='https://coinmarketcap.com/newsletter/' target='_blank'>Coinmarketcap Newsletter</a></li>
+        
+        <li class='links_list'><a href='http://newsletter.coingecko.com/landing/subscribe' target='_blank'>Coingecko Newsletter</a></li>
+        
+        <li class='links_list'><a href='https://unbankd.co/' target='_blank'>Unbankd</a></li>
+        
         
         
         
@@ -165,6 +176,8 @@
         
         <li class='links_list'><a href='https://www.zeroknowledge.fm/' target='_blank'>Zero Knowledge</a></li>
         
+        <li class='links_list'><a href='https://www.coindesk.com/podcasts' target='_blank'>Road to Consensus (CoinDesk)</a></li>
+        
         <li class='links_list'><a href='https://open.spotify.com/show/2CLetGT20MFsHqfeBN3fYl' target='_blank'>H4SHR8 Crypto Mining Podcast</a></li>
         
         <li class='links_list'><a href='https://open.spotify.com/show/09k4pnFm6WokaszuoeZ6yf' target='_blank'>Block Crunch Podcast</a></li>
@@ -191,6 +204,8 @@
         
         <li class='links_list'><a href='https://bitcoinmagazine.com/' target='_blank'>Bitcoin Magazine</a></li>
         
+        <li class='links_list'><a href='https://bravenewcoin.com/' target='_blank'>Brave New Coin</a></li>
+        
         <li class='links_list'><a href='https://btcmanager.com/' target='_blank'>BTC Manager</a></li>
         
         <li class='links_list'><a href='https://coincenter.org/' target='_blank'>Coin Center</a></li>
@@ -204,6 +219,8 @@
         <li class='links_list'><a href='https://www.ccn.com/' target='_blank'>Crypto Coins News</a></li>
         
         <li class='links_list'><a href='https://www.newsbtc.com/' target='_blank'>News BTC</a></li>
+        
+        <li class='links_list'><a href='https://www.theblockcrypto.com/' target='_blank'>The Block</a></li>
         
         
         
@@ -240,6 +257,8 @@
         
         <li class='links_list'><a href='https://www.reddit.com/r/ethereum/' target='_blank'>Ethereum Subreddit</a></li>
         
+        <li class='links_list'><a href='http://www.maxkeiser.com/' target='_blank'>Keiser Report</a></li>
+        
         <li class='links_list'><a href='https://www.sec.gov/ICO' target='_blank'>SEC.gov ICO Awareness Site</a></li>
         
         
@@ -271,7 +290,9 @@
         
         <li class='links_list'><a href='https://www.youtube.com/channel/UCN9Nj4tjXbVTLYWN0EKly_Q' target='_blank'>CNBC Crypto Trader</a></li>
         
-        <li class='links_list'><a href='https://www.youtube.com/user/CoinDesk/featured' target='_blank'>Coindesk</a></li>
+        <li class='links_list'><a href='https://www.youtube.com/user/CoinDesk/featured' target='_blank'>CoinDesk</a></li>
+        
+        <li class='links_list'><a href='https://www.youtube.com/channel/UC95_Nqes9m5arhoT1lt1SFg/videos' target='_blank'>CoinGeek</a></li>
         
         <li class='links_list'><a href='https://www.youtube.com/user/cointelegraph/featured' target='_blank'>Cointelegraph</a></li>
         
