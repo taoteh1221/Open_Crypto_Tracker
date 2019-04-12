@@ -263,8 +263,6 @@
         
         <li class='links_list'><a href='https://www.sec.gov/ICO' target='_blank'>SEC.gov ICO Awareness Site</a></li>
         
-        <li class='links_list'><a href='https://www.fomomasternode.com/' target='_blank'>FOMO Masternode</a></li>
-        
         
         
     </ul>
@@ -295,8 +293,6 @@
         <li class='links_list'><a href='https://www.youtube.com/channel/UCN9Nj4tjXbVTLYWN0EKly_Q' target='_blank'>CNBC Crypto Trader</a></li>
         
         <li class='links_list'><a href='https://www.youtube.com/user/CoinDesk/featured' target='_blank'>CoinDesk</a></li>
-        
-        <li class='links_list'><a href='https://www.youtube.com/channel/UC95_Nqes9m5arhoT1lt1SFg/videos' target='_blank'>CoinGeek</a></li>
         
         <li class='links_list'><a href='https://www.youtube.com/user/cointelegraph/featured' target='_blank'>Cointelegraph</a></li>
         
