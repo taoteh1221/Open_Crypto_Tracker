@@ -184,6 +184,8 @@
         
         <li class='links_list'><a href='https://open.spotify.com/show/0uG5qpwFg67zTt0VQRTaZ7' target='_blank'>Messari's Unqualified Opinions</a></li>
         
+        <li class='links_list'><a href='https://offthechain.substack.com/' target='_blank'>Off The Chain With Anthony Pompliano</a></li>
+        
         <li class='links_list'><a href='https://evolvement.io/' target='_blank'>Evolvement - The Financial Podcast</a></li>
         
         

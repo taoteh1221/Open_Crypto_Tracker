@@ -217,10 +217,12 @@ $exchange_price_alerts = array(
 					'eth' => 'binance||usdt',
 					'eth-2' => 'bittrex||btc',
 					'xmr' => 'binance||btc',
+					'ltc' => 'bittrex||btc',
 					'dcr' => 'binance||btc',
 					'dcr-2' => 'bittrex||usdt',
 					'dash' => 'bittrex||btc',
-					'ltc' => 'bittrex||btc',
+					'ada' => 'binance||tusd',
+					'bnb' => 'binance||usdt',
 					'steem' => 'binance||eth',
 					'mana' => 'binance||btc',
 					'ant' => 'bittrex||btc',
@@ -228,10 +230,10 @@ $exchange_price_alerts = array(
 					'grin-2' => 'kucoin||eth',
 					'beam' => 'hotbit||btc',
 				//	'zrx' => 'bittrex||btc',
-					'ada' => 'binance||tusd',
+				//	'gnt' => 'bittrex||btc',
+					'atom' => 'hotbit||btc',
 					'zil' => 'binance||btc',
 				//	'snt' => 'bittrex||btc',
-				//	'gnt' => 'bittrex||btc',
 					'xlm' => 'binance||tusd',
 					'xlm-2' => 'bittrex||btc',
 				//	'fct' => 'bittrex||btc',
@@ -296,7 +298,8 @@ $steem_powerdown_time = 13;
 
 $coins_list = array(
 
-
+                    
+                    
                     // Misc. USD Assets
                     'USD' => array(
                         
@@ -351,7 +354,7 @@ $coins_list = array(
                                         
                     ), // Coin END
                     
-                    
+
                     // BTC
                     'BTC' => array(
                         
@@ -461,6 +464,64 @@ $coins_list = array(
                     ), // Coin END
                     
                     
+                    // LTC
+                    'LTC' => array(
+                        
+                        'coin_name' => 'Litecoin',
+                        'marketcap_website_slug' => 'litecoin',
+                        'market_pairing' => array(
+                        
+                                    'btc' => array(
+                                        'coinbase' => 'LTC-BTC',
+                                        'binance' => 'LTCBTC',
+                                        'bittrex' => 'BTC-LTC',
+                                        'poloniex' => 'BTC_LTC',
+                                        'bitstamp' => 'ltcbtc',
+                                        'bitfinex' => 'tLTCBTC',
+                                        'kraken' => 'XLTCXXBT',
+                                        'hitbtc' => 'LTCBTC',
+                                        'kucoin' => 'LTC-BTC',
+                                        'upbit' => 'BTC-LTC',
+                                        'okex' => 'LTC-BTC',
+                                        'livecoin' => 'LTC/BTC',
+                                        'cryptopia' => 'LTC/BTC',
+                                        'cryptofresh' => 'OPEN.LTC',
+                                        'tradesatoshi' => 'LTC_BTC'
+                                                    ),
+                                                    
+                                    'xmr' => array(
+                                        'poloniex' => 'XMR_LTC'
+                                                    ),
+                                                    
+                                    'eth' => array(
+                                        'binance' => 'LTCETH',
+                                        'bittrex' => 'ETH-LTC',
+                                        'hitbtc' => 'LTCETH',
+                                        'kucoin' => 'LTC-ETH',
+                                        'upbit' => 'ETH-LTC',
+                                    	 'okex' => 'LTC-ETH'
+                                                    ),
+                                                    
+                                    'usdt' => array(
+                                        'binance' => 'LTCUSDT',
+                                        'bittrex' => 'USDT-LTC',
+                                        'poloniex' => 'USDT_LTC',
+                                        'hitbtc' => 'LTCUSD',
+                                        'kucoin' => 'LTC-USDT',
+                                        'cryptopia' => 'LTC/USDT',
+                                        'upbit' => 'USDT-LTC',
+                                        'okex' => 'LTC-USDT'
+                                          			),
+                                          			
+                                    'tusd' => array(
+                                         'binance' => 'LTCTUSD'
+                                                    )
+                                                    
+                                        ) // market_pairing END
+                                        
+                    ), // Coin END
+                    
+                    
                     // DCR
                     'DCR' => array(
                         
@@ -542,61 +603,62 @@ $coins_list = array(
                     ), // Coin END
                     
                     
-                    // LTC
-                    'LTC' => array(
+                    // ADA
+                    'ADA' => array(
                         
-                        'coin_name' => 'Litecoin',
-                        'marketcap_website_slug' => 'litecoin',
+                        'coin_name' => 'Cardano',
+                        'marketcap_website_slug' => 'cardano',
                         'market_pairing' => array(
                         
                                     'btc' => array(
-                                        'coinbase' => 'LTC-BTC',
-                                        'binance' => 'LTCBTC',
-                                        'bittrex' => 'BTC-LTC',
-                                        'poloniex' => 'BTC_LTC',
-                                        'bitstamp' => 'ltcbtc',
-                                        'bitfinex' => 'tLTCBTC',
-                                        'kraken' => 'XLTCXXBT',
-                                        'hitbtc' => 'LTCBTC',
-                                        'kucoin' => 'LTC-BTC',
-                                        'upbit' => 'BTC-LTC',
-                                        'okex' => 'LTC-BTC',
-                                        'livecoin' => 'LTC/BTC',
-                                        'cryptopia' => 'LTC/BTC',
-                                        'cryptofresh' => 'OPEN.LTC',
-                                        'tradesatoshi' => 'LTC_BTC'
-                                                    ),
-                                                    
-                                    'xmr' => array(
-                                        'poloniex' => 'XMR_LTC'
+                                        'binance' => 'ADABTC',
+                                        'bittrex' => 'BTC-ADA',
+                                        'hitbtc' => 'ADABTC',
+                                        'upbit' => 'BTC-ADA'
                                                     ),
                                                     
                                     'eth' => array(
-                                        'binance' => 'LTCETH',
-                                        'bittrex' => 'ETH-LTC',
-                                        'hitbtc' => 'LTCETH',
-                                        'kucoin' => 'LTC-ETH',
-                                        'upbit' => 'ETH-LTC',
-                                    	 'okex' => 'LTC-ETH'
+                                        'binance' => 'ADAETH',
+                                        'bittrex' => 'ETH-ADA',
+                                        'hitbtc' => 'ADAETH',
+                                        'upbit' => 'ETH-ADA'
                                                     ),
                                                     
                                     'usdt' => array(
-                                        'binance' => 'LTCUSDT',
-                                        'bittrex' => 'USDT-LTC',
-                                        'poloniex' => 'USDT_LTC',
-                                        'hitbtc' => 'LTCUSD',
-                                        'kucoin' => 'LTC-USDT',
-                                        'cryptopia' => 'LTC/USDT',
-                                        'upbit' => 'USDT-LTC',
-                                        'okex' => 'LTC-USDT'
-                                          			),
-                                          			
+                                        'bittrex' => 'USDT-ADA',
+                                        'hitbtc' => 'ADAUSD'
+                                                    ),
+                                                    
                                     'tusd' => array(
-                                         'binance' => 'LTCTUSD'
+                                          'binance' => 'ADATUSD'
                                                     )
                                                     
                                         ) // market_pairing END
                                         
+                    ), // Coin END
+                    
+                    
+                    // BNB
+                    'BNB' => array(
+                        
+                        'coin_name' => 'Binance Coin',
+                        'marketcap_website_slug' => 'binance-coin',
+                        'market_pairing' => array(
+                        
+                                    'btc' => array(
+                                        	'binance' => 'BNBBTC'
+                                                    ),
+                                                    
+                                    'eth' => array(
+                                        	'binance' => 'BNBETH'
+                                                    ),
+                                                    
+                                    'usdt' => array(
+                                        	'binance' => 'BNBUSDT'
+                                                    )
+                                                    
+                                        ) // market_pairing END
+                        
                     ), // Coin END
                     
                     
@@ -797,34 +859,61 @@ $coins_list = array(
                     ), // Coin END
                     
                     
-                    // ADA
-                    'ADA' => array(
+                    // GNT
+                    'GNT' => array(
                         
-                        'coin_name' => 'Cardano',
-                        'marketcap_website_slug' => 'cardano',
+                        'coin_name' => 'Golem',
+                        'marketcap_website_slug' => 'golem-network-tokens',
                         'market_pairing' => array(
                         
                                     'btc' => array(
-                                        'binance' => 'ADABTC',
-                                        'bittrex' => 'BTC-ADA',
-                                        'hitbtc' => 'ADABTC',
-                                        'upbit' => 'BTC-ADA'
+                                          'bittrex' => 'BTC-GNT',
+                                          'poloniex' => 'BTC_GNT',
+                                        	'ethfinex' => 'tGNTBTC',
+                                          'cryptopia' => 'GNT/BTC',
+                                        	'upbit' => 'BTC-GNT',
+                                        	'livecoin' => 'GNT/BTC',
+                                        	'okex' => 'GNT-BTC'
                                                     ),
                                                     
                                     'eth' => array(
-                                        'binance' => 'ADAETH',
-                                        'bittrex' => 'ETH-ADA',
-                                        'hitbtc' => 'ADAETH',
-                                        'upbit' => 'ETH-ADA'
+                                          'bittrex' => 'ETH-GNT',
+                                          'poloniex' => 'ETH_GNT',
+                                        	'ethfinex' => 'tGNTETH',
+                                          'upbit' => 'ETH-GNT',
+                                        	'livecoin' => 'GNT/ETH',
+                                        	'okex' => 'GNT-ETH'
                                                     ),
                                                     
                                     'usdt' => array(
-                                        'bittrex' => 'USDT-ADA',
-                                        'hitbtc' => 'ADAUSD'
+                                        	'okex' => 'GNT-USDT'
+                                                    )
+                                                    
+                                        ) // market_pairing END
+                        
+                    ), // Coin END
+                    
+                    
+                    // ATOM
+                    'ATOM' => array(
+                        
+                        'coin_name' => 'Cosmos',
+                        'marketcap_website_slug' => 'cosmos',
+                        'market_pairing' => array(
+                        
+                                    'btc' => array(
+                                         'hotbit' => 'ATOM_BTC',
+                                         'bitforex' => 'coin-btc-atom'
                                                     ),
                                                     
-                                    'tusd' => array(
-                                          'binance' => 'ADATUSD'
+                                    'eth' => array(
+                                         'hotbit' => 'ATOM_ETH',
+                                         'bitforex' => 'coin-eth-atom'
+                                                    ),
+                                                    
+                                    'usdt' => array(
+                                         'hotbit' => 'ATOM_USDT',
+                                         'bitforex' => 'coin-usdt-atom'
                                                     )
                                                     
                                         ) // market_pairing END
@@ -892,41 +981,6 @@ $coins_list = array(
                                     'usdt' => array(
                                           'hitbtc' => 'SNTUSD',
                                         	'okex' => 'SNT-USDT'
-                                                    )
-                                                    
-                                        ) // market_pairing END
-                        
-                    ), // Coin END
-                    
-                    
-                    // GNT
-                    'GNT' => array(
-                        
-                        'coin_name' => 'Golem',
-                        'marketcap_website_slug' => 'golem-network-tokens',
-                        'market_pairing' => array(
-                        
-                                    'btc' => array(
-                                          'bittrex' => 'BTC-GNT',
-                                          'poloniex' => 'BTC_GNT',
-                                        	'ethfinex' => 'tGNTBTC',
-                                          'cryptopia' => 'GNT/BTC',
-                                        	'upbit' => 'BTC-GNT',
-                                        	'livecoin' => 'GNT/BTC',
-                                        	'okex' => 'GNT-BTC'
-                                                    ),
-                                                    
-                                    'eth' => array(
-                                          'bittrex' => 'ETH-GNT',
-                                          'poloniex' => 'ETH_GNT',
-                                        	'ethfinex' => 'tGNTETH',
-                                          'upbit' => 'ETH-GNT',
-                                        	'livecoin' => 'GNT/ETH',
-                                        	'okex' => 'GNT-ETH'
-                                                    ),
-                                                    
-                                    'usdt' => array(
-                                        	'okex' => 'GNT-USDT'
                                                     )
                                                     
                                         ) // market_pairing END
@@ -1069,3 +1123,4 @@ $coins_list = array(
 
 /////////////////// COIN MARKETS CONFIG -END- /////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
+
