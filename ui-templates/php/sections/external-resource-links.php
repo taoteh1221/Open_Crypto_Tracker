@@ -298,6 +298,8 @@
         
         <li class='links_list'><a href='https://www.youtube.com/user/obham001/featured' target='_blank'>Crypt0</a></li>
         
+        <li class='links_list'><a href='https://www.youtube.com/channel/UC67AEEecqFEc92nVvcqKdhA/featured' target='_blank'>Crypto Daily</a></li>
+        
         <li class='links_list'><a href='https://www.youtube.com/channel/UCu7Sre5A1NMV8J3s2FhluCw/featured' target='_blank'>Crypto Love</a></li>
         
         <li class='links_list'><a href='https://www.youtube.com/channel/UCavTvSwEoRABvnPtLg0e6LQ/featured' target='_blank'>Crypto Tips</a></li>
