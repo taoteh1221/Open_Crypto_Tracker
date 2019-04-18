@@ -188,6 +188,8 @@
         
         <li class='links_list'><a href='https://open.spotify.com/show/2QwpFjzJ0ZteqmMqw2xIfA' target='_blank'>Off The Chain With Anthony Pompliano (podcast)</a></li>
         
+        <li class='links_list'><a href='https://www.whatbitcoindid.com/' target='_blank'>What Bitcoin Did Podcast</a></li>
+        
         <li class='links_list'><a href='https://evolvement.io/' target='_blank'>Evolvement - The Financial Podcast</a></li>
         
         
