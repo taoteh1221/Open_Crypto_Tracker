@@ -330,6 +330,8 @@
         
         <li class='links_list'><a href='https://www.youtube.com/channel/UCrNytueyuavn5mVVt89epDA/featured' target='_blank'>CryptoCandor</a></li>
         
+        <li class='links_list'><a href='https://www.youtube.com/channel/UCla2jS8BrfLJj7kbKyy5_ew/featured' target='_blank'>CryptoWendyO</a></li>
+        
         <li class='links_list'><a href='https://www.youtube.com/user/PrisonOrFreedom/featured' target='_blank'>Cryptocurrency Market</a></li>
         
         <li class='links_list'><a href='https://www.youtube.com/channel/UCiUnrCUGCJTCC7KjuW493Ww' target='_blank'>Crypto Zombie</a></li>
