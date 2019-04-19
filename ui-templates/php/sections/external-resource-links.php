@@ -79,6 +79,8 @@
         
         <li class='links_list'><a href='https://bittrex.com' target='_blank'>Bittrex.com</a></li>
         
+        <li class='links_list'><a href='https://www.kraken.com/' target='_blank'>Kraken.com</a></li>
+        
         <li class='links_list'><a href='https://poloniex.com' target='_blank'>Poloniex.com</a></li>
         
         <li class='links_list'><a href='https://gemini.com/' target='_blank'>Gemini.com</a></li>
