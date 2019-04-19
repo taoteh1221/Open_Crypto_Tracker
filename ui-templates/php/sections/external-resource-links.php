@@ -83,7 +83,9 @@
         
         <li class='links_list'><a href='https://poloniex.com' target='_blank'>Poloniex.com</a></li>
         
-        <li class='links_list'><a href='https://gemini.com/' target='_blank'>Gemini.com</a></li>
+        <li class='links_list'><a href='https://gemini.com/' target='_blank'>Gemini.com</a></li
+        
+        <li class='links_list'><a href='https://www.bitstamp.net/' target='_blank'>Bitstamp.net</a></li>
         
         <li class='links_list'><a href='https://www.bitfinex.com/' target='_blank'>Bitfinex.com</a></li>
         
