@@ -1070,6 +1070,16 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+2.4.8:
+-UI content revisions
+-Error log purge bug fix
+-------------------------------------------------------------------
+
+
+
+
+
 
 
 

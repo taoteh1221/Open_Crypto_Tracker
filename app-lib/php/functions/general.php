@@ -329,8 +329,8 @@ $error_logs .= strip_tags($_SESSION['config_error']); // Remove any HTML formatt
 	
 	
 	// Log errors...Purge old logs before storing new logs, if it's time to...otherwise just append.
-	if ( $error_logs != NULL && update_cache_file('cache/events/purge-error-logs.dat', ( $purge_error_logs * 1440 ) ) == true ) {
-	file_put_contents('cache/logs/errors.log', $error_logs, LOCK_EX);
+	if ( update_cache_file('cache/events/purge-error-logs.dat', ( $purge_error_logs * 1440 ) ) == true ) {
+	file_put_contents('cache/logs/errors.log', $error_logs, LOCK_EX); // NULL if no new errors, but that's OK because we are purging any old entries 
 	file_put_contents('cache/events/purge-error-logs.dat', date('Y-m-d H:i:s'), LOCK_EX);
 	}
 	elseif ( $error_logs != NULL ) {
