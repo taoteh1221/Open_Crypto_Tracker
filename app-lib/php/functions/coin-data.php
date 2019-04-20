@@ -357,12 +357,10 @@ global $_POST, $mining_rewards;
 
 function asset_alert_check($asset_data, $exchange, $pairing, $alert_mode) {
 
-global $coins_list, $btc_exchange, $btc_usd, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $textlocal_account, $exchange_price_alerts_freq, $exchange_price_alerts_percent, $exchange_price_alerts_minvolume, $exchange_price_alerts_refresh;
+global $coins_list, $btc_exchange, $btc_usd, $exchange_price_alerts_freq, $exchange_price_alerts_percent, $exchange_price_alerts_minvolume, $exchange_price_alerts_refresh;
 
 // Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
 $asset = ( stristr($asset_data, "-") == false ? $asset_data : substr( $asset_data, 0, strpos($asset_data, "-") ) );
-
-//echo $asset_data. ", ".$asset . " " .$alert_mode." check \n"; // DEBUGGING
 
 
 	// Get any necessary variables for calculating asset's USD value
@@ -517,57 +515,21 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
   				$text_message = $asset . '/'.strtoupper($pairing).' @' . ucfirst($exchange) . ' '.$alert_mode.' '.$change_symbol.number_format($percent_change, 2, '.', ',').'% from $'.$cached_value_text.' to $' . $asset_usd_text . ' in '.$last_check_time.'. 24hr Vol: ' . $volume_usd_text;
   				
   				
-  				
-  				// Alert parameter configs for comm methods
-  				$notifyme_params = array(
-  				                        'notification' => $email_message,
-  				                        'accessCode' => $notifyme_accesscode
-  				                        );
-  				
-  				$textbelt_params = array(
-  				                        'phone' => text_number($to_text),
-  				                        'message' => $text_message,
-  				                        'key' => $textbelt_apikey
-  				                        );
-  				
-  				$textlocal_params = array(
-  				                         'username' => string_to_array($textlocal_account)[0],
-  				                         'hash' => string_to_array($textlocal_account)[1],
-  				                         'numbers' => text_number($to_text),
-  				                         'message' => $text_message
-  				                         );
-  				
-          
-          
-          	file_put_contents('cache/alerts/'.$asset_data.'.dat', $asset_usd_raw, LOCK_EX); // Cache the new lower / higher value
-          
-          
-          			// Send messages
-                  if ( trim($notifyme_accesscode) != '' ) {
-                  @api_data('array', $notifyme_params, 0, 'https://api.notifymyecho.com/v1/NotifyMe');
-                  }
-  
-						// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-                  if ( trim($textbelt_apikey) != '' && $textlocal_account == '' ) { // Only run if textlocal API isn't being used to avoid double texts
-                  @api_data('array', $textbelt_params, 0, 'https://textbelt.com/text', 2);
-                  }
-  
-						// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-                  if ( $textlocal_account != '' && trim($textbelt_apikey) == '' ) { // Only run if textbelt API isn't being used to avoid double texts
-                  @api_data('array', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
-                  }
-           
-           			// SEND EMAILS LAST, IN CASE OF SMTP METHOD FAILURE AND RUNTIME EXIT
-          
-                  if (  validate_email($to_email) == 'valid' ) {
-                  @safe_mail($to_email, $asset . ' Asset Value '.ucfirst($alert_mode).' Alert', $email_message);
-                  }
-  
-						// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-                  if ( validate_email( text_email($to_text) ) == 'valid' && trim($textbelt_apikey) != '' && $textlocal_account != '' ) { 
-                  // Only use text-to-email if other text services aren't configured
-                  @safe_mail( text_email($to_text) , $asset . ' Value Alert', $text_message);
-                  }
+  				// Cache the new lower / higher value
+          	file_put_contents('cache/alerts/'.$asset_data.'.dat', $asset_usd_raw, LOCK_EX); 
+          	
+  				// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
+          	$send_params = array(
+          								'text' => $text_message,
+          								'notifyme' => $email_message,
+          								'email' => array(
+          														'subject' => $asset . ' Asset Value '.ucfirst($alert_mode).' Alert',
+          														'message' => $email_message
+          														)
+          								);
+          	
+          	// Send notifications
+          	@send_notifications($send_params);
   
           
           }

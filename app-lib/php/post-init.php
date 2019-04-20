@@ -8,6 +8,14 @@
 /////////////////////////////////////////////////
 
 
+// Only need below logic during UI runtime
+if ( $runtime_mode == 'ui' ) {
+
+$marketcap_site = ( $alert_percent[0] != '' ? $alert_percent[0] : $marketcap_site );
+
+}
+
+
 // Run some basic configuration file checks
 
 
@@ -363,15 +371,6 @@ $smtp->addTo($to_email); // Add to email here one time...because class adds to a
 
 }
 
-
-
-
-// Only need below logic during UI runtime
-if ( $runtime_mode == 'ui' ) {
-
-$marketcap_site = ( $alert_percent[0] != '' ? $alert_percent[0] : $marketcap_site );
-
-}
 
 
 

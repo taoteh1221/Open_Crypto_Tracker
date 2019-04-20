@@ -1078,6 +1078,15 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+2.4.9:
+-UI content revisions
+-Modularized the email / text / notifyme (alexa) notifications logic 
+-Fixed text emailing bug
+-------------------------------------------------------------------
+
+
+
 
 
 

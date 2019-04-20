@@ -295,7 +295,7 @@ return $base_url;
 
 function error_logs($error_logs=null) {
 
-global $purge_error_logs, $mail_error_logs, $to_email, $base_dir;
+global $purge_error_logs, $mail_error_logs, $base_dir;
 
 // Combine all errors logged
 $error_logs .= strip_tags($_SESSION['api_data_error']); // Remove any HTML formatting used in UI alerts
@@ -321,8 +321,17 @@ $error_logs .= strip_tags($_SESSION['config_error']); // Remove any HTML formatt
 		
 	$message = " Here are the current error logs from the ".$base_dir."/cache/logs/errors.log file: \n =========================================================================== \n \n"  . ( $emailed_logs != '' ? $emailed_logs : 'No error logs currently.' );
 	
-	@safe_mail($to_email, 'DFD Cryptocoin Values ' . ucfirst($mail_error_logs) . ' Error Logs Report', $message);
-	
+  	// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
+   $send_params = array(
+          					'email' => array(
+          											'subject' => 'DFD Cryptocoin Values ' . ucfirst($mail_error_logs) . ' Error Logs Report',
+     													'message' => $message
+          											)
+          					);
+          	
+   // Send notifications
+   @send_notifications($send_params);
+          	
 	file_put_contents('cache/events/email-error-logs.dat', date('Y-m-d H:i:s'), LOCK_EX); // Track this emailing event, to determine next time to email logs again.
 	
 	}
@@ -337,6 +346,70 @@ $error_logs .= strip_tags($_SESSION['config_error']); // Remove any HTML formatt
 	file_put_contents('cache/logs/errors.log', $error_logs, FILE_APPEND | LOCK_EX);
 	}
 	
+
+}
+
+//////////////////////////////////////////////////////////
+
+function send_notifications($send_params) {
+
+global $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $textlocal_account;
+
+
+$notifyme_params = array(
+								 'notification' => $send_params['notifyme'],
+  				             'accessCode' => $notifyme_accesscode
+  				 	           );
+  				
+  				
+$textbelt_params = array(
+								 'message' => $send_params['text'],
+  				             'phone' => text_number($to_text),
+  				             'key' => $textbelt_apikey
+  		                    );
+  				
+  				
+$textlocal_params = array(
+								  'message' => $send_params['text'],
+  				              'username' => string_to_array($textlocal_account)[0],
+  				              'hash' => string_to_array($textlocal_account)[1],
+  		                    'numbers' => text_number($to_text)
+  				               );
+
+
+	// Send messages
+	
+	// Notifyme
+   if ( $send_params['notifyme'] != '' && trim($notifyme_accesscode) != '' ) {
+   @api_data('array', $notifyme_params, 0, 'https://api.notifymyecho.com/v1/NotifyMe');
+   }
+  
+   // Textbelt
+	// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
+   if ( $send_params['text'] != '' && trim($textbelt_apikey) != '' && $textlocal_account == '' ) { // Only run if textlocal API isn't being used to avoid double texts
+   @api_data('array', $textbelt_params, 0, 'https://textbelt.com/text', 2);
+   }
+  
+   // Textlocal
+	// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
+   if ( $send_params['text'] != '' && $textlocal_account != '' && trim($textbelt_apikey) == '' ) { // Only run if textbelt API isn't being used to avoid double texts
+   @api_data('array', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
+   }
+           
+   // SEND EMAILS LAST, IN CASE OF SMTP METHOD FAILURE AND RUNTIME EXIT
+  
+   // Text email
+	// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
+   if ( $send_params['text'] != '' && validate_email( text_email($to_text) ) == 'valid' && trim($textbelt_apikey) == '' && $textlocal_account == '' ) { 
+   // Only use text-to-email if other text services aren't configured
+   @safe_mail( text_email($to_text) , 'Text Notify', $send_params['text']);
+   }
+          
+   // Email
+   if ( $send_params['email']['message'] != '' && validate_email($to_email) == 'valid' ) {
+   @safe_mail($to_email, $send_params['email']['subject'], $send_params['email']['message']);
+   }
+  
 
 }
 
@@ -501,7 +574,7 @@ return $data;
 
 function test_proxy($problem_proxy_array) {
 
-global $proxy_alerts_freq, $proxy_alerts, $proxy_alerts_runtime, $proxy_checkup_ok, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $textlocal_account, $runtime_mode;
+global $proxy_alerts_freq, $proxy_alerts, $proxy_alerts_runtime, $proxy_checkup_ok, $runtime_mode;
 
 
 // Endpoint to test proxy connectivity: https://www.myip.com/api-docs/
@@ -593,59 +666,39 @@ $cache_filename = preg_replace("/:/", "_", $cache_filename);
 		// Send out alerts
 		if ( $misconfigured == 1 || $proxy_checkup_ok == 'include' ) {
                     
-                      
-          // Alert parameter configs for comm methods
-          $notifyme_params = array(
-                                  'notification' => $notifyme_alert,
-                                  'accessCode' => $notifyme_accesscode
-                                  );
-          
-          $textbelt_params = array(
-                                  'phone' => text_number($to_text),
-                                  'message' => $text_alert,
-                                  'key' => $textbelt_apikey
-                                  );
-          
-          $textlocal_params = array(
-                                   'username' => string_to_array($textlocal_account)[0],
-                                   'hash' => string_to_array($textlocal_account)[1],
-                                   'numbers' => text_number($to_text),
-                                   'message' => $text_alert
-                                   );
-      
                     
-      
-           if ( trim($notifyme_accesscode) != '' && $proxy_alerts == 'notifyme'
-           || trim($notifyme_accesscode) != '' && $proxy_alerts == 'all' ) {
-           @api_data('array', $notifyme_params, 0, 'https://api.notifymyecho.com/v1/NotifyMe');
-           }
-      
-			  // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-           if ( trim($textbelt_apikey) != '' && $textlocal_account == '' && $proxy_alerts == 'text'
-           || trim($textbelt_apikey) != '' && $textlocal_account == '' && $proxy_alerts == 'all' ) { // Only run if textlocal API isn't being used to avoid double texts
-           @api_data('array', $textbelt_params, 0, 'https://textbelt.com/text', 2);
-           }
-      
-			  // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-           if ( $textlocal_account != '' && trim($textbelt_apikey) == '' && $proxy_alerts == 'text'
-           || $textlocal_account != '' && trim($textbelt_apikey) == '' && $proxy_alerts == 'all' ) { // Only run if textbelt API isn't being used to avoid double texts
-           @api_data('array', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
-           }
-           
-           // SEND EMAILS LAST, IN CASE OF SMTP METHOD FAILURE AND RUNTIME EXIT
-               
-           if (  validate_email($to_email) == 'valid' && $proxy_alerts == 'email'
-           || validate_email($to_email) == 'valid' && $proxy_alerts == 'all' ) {
-           @safe_mail($to_email, 'A Proxy Was Unresponsive', $email_alert);
-           }
-      
-			  // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-           if ( validate_email( text_email($to_text) ) == 'valid' && trim($textbelt_apikey) != '' && $textlocal_account != '' && $proxy_alerts == 'text'
-           || validate_email( text_email($to_text) ) == 'valid' && trim($textbelt_apikey) != '' && $textlocal_account != '' && $proxy_alerts == 'all' ) { 
-           // Only use text-to-email if other text services aren't configured
-           @safe_mail( text_email($to_text) , 'Unresponsive Proxy', $text_alert);
-           }
-           
+  				// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
+  				if ( $proxy_alerts == 'all' ) {
+  					
+          	$send_params = array(
+          								'text' => $text_alert,
+          								'notifyme' => $notifyme_alert,
+          								'email' => array(
+          														'subject' => 'A Proxy Was Unresponsive',
+          														'message' => $email_alert
+          														)
+          								);
+          	
+          	}
+  				elseif ( $proxy_alerts == 'email' ) {
+  					
+          	$send_params['email'] = array(
+          											'subject' => 'A Proxy Was Unresponsive',
+          											'message' => $email_alert
+          											);
+          	
+          	}
+  				elseif ( $proxy_alerts == 'text' ) {
+          	$send_params['text'] = $text_alert;
+          	}
+  				elseif ( $proxy_alerts == 'notifyme' ) {
+          	$send_params['notifyme'] = $notifyme_alert;
+          	}
+          	
+          	
+          	// Send notifications
+          	@send_notifications($send_params);
+          	
            
        }
           
