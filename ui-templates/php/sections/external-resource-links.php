@@ -54,9 +54,9 @@
         
         <li class='links_list'><a href='https://bitcoinwisdom.io' target='_blank'>Bitcoinwisdom.io</a></li>
         
-        <li class='links_list'><a href='https://www.tradingview.com/symbols/BTCUSD/' target='_blank'>Tradingview - Bitcoin / USD</a></li>
-        
         <li class='links_list'><a href='https://www.binance.com/en/trade/pro/BTC_USDT' target='_blank'>Binance - Bitcoin / USD</a></li>
+        
+        <li class='links_list'><a href='https://www.tradingview.com/symbols/BTCUSD/' target='_blank'>Tradingview - Bitcoin / USD</a></li>
         
         <li class='links_list'><a href='https://www.blockchain.com/en/charts/mempool-size' target='_blank'>Bitcoin Mempool (queued unconfirmed transactions) Charts</a></li>
         
@@ -83,9 +83,11 @@
         
         <li class='links_list'><a href='https://poloniex.com' target='_blank'>Poloniex.com</a></li>
         
-        <li class='links_list'><a href='https://gemini.com/' target='_blank'>Gemini.com</a></li
+        <li class='links_list'><a href='https://gemini.com/' target='_blank'>Gemini.com</a></li>
         
         <li class='links_list'><a href='https://www.bitstamp.net/' target='_blank'>Bitstamp.net</a></li>
+        
+        <li class='links_list'><a href='https://shapeshift.io' target='_blank'>Shapeshift.io</a></li>
         
         <li class='links_list'><a href='https://www.bitfinex.com/' target='_blank'>Bitfinex.com</a></li>
         
@@ -94,8 +96,6 @@
         <li class='links_list'><a href='https://www.kucoin.com/' target='_blank'>Kucoin.com</a></li>
         
         <li class='links_list'><a href='https://www.cryptopia.co.nz/' target='_blank'>Cryptopia.co.nz</a></li>
-        
-        <li class='links_list'><a href='https://shapeshift.io' target='_blank'>Shapeshift.io</a></li>
         
         
         
@@ -128,30 +128,29 @@
     <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Newsletters</strong> </legend>
     <ul>
         
+         
         
+        <li class='links_list'><a href='https://bncdaily.com/' target='_blank'>Brave New Coin Daily</a></li>
         
-        <li class='links_list'><a href='http://proofofwork.news/' target='_blank'>Proof Of Work</a></li>   
+        <li class='links_list'><a href='http://newsletter.coingecko.com/landing/subscribe' target='_blank'>Coingecko Newsletter</a></li>
         
-        <li class='links_list'><a href='https://weekinethereumnews.com/' target='_blank'>Week In Ethereum</a></li>
+        <li class='links_list'><a href='https://coinmarketcap.com/newsletter/' target='_blank'>Coinmarketcap Newsletter</a></li>
+        
+        <li class='links_list'><a href='https://ethhub.substack.com/' target='_blank'>EthHub Newsletter</a></li>
+        
+        <li class='links_list'><a href='https://offthechain.substack.com/' target='_blank'>Off The Chain With Anthony Pompliano (newsletter)</a></li>
+        
+        <li class='links_list'><a href='http://proofofwork.news/' target='_blank'>Proof Of Work</a></li>  
         
         <li class='links_list'><a href='https://sludgefeed.com/hashed/' target='_blank'>Sludgefeed's Hashed</a></li>
         
         <li class='links_list'><a href='https://www.tokendaily.co/' target='_blank'>Token Daily</a></li>
         
-        <li class='links_list'><a href='https://offthechain.substack.com/' target='_blank'>Off The Chain With Anthony Pompliano (newsletter)</a></li>
-        
-        <li class='links_list'><a href='https://bncdaily.com/' target='_blank'>Brave New Coin Daily</a></li>
+        <li class='links_list'><a href='https://unbankd.co/' target='_blank'>Unbankd</a></li>
         
         <li class='links_list'><a href='https://unchainedpodcast.com/category/newsletters/' target='_blank'>Unchained Newsletter</a></li>
         
-        <li class='links_list'><a href='https://ethhub.substack.com/' target='_blank'>EthHub Newsletter</a></li>
-        
-        <li class='links_list'><a href='https://coinmarketcap.com/newsletter/' target='_blank'>Coinmarketcap Newsletter</a></li>
-        
-        <li class='links_list'><a href='http://newsletter.coingecko.com/landing/subscribe' target='_blank'>Coingecko Newsletter</a></li>
-        
-        <li class='links_list'><a href='https://unbankd.co/' target='_blank'>Unbankd</a></li>
-        
+        <li class='links_list'><a href='https://weekinethereumnews.com/' target='_blank'>Week In Ethereum</a></li>
         
         
         
@@ -168,34 +167,33 @@
         
         
         
-        <li class='links_list'><a href='https://unchainedpodcast.com/' target='_blank'>Unchained Podcast</a></li>
+        <li class='links_list'><a href='https://open.spotify.com/show/09k4pnFm6WokaszuoeZ6yf' target='_blank'>Block Crunch Podcast</a></li>
         
-        <li class='links_list'><a href='https://badcryptopodcast.com/' target='_blank'>The Bad Crypto Podcast</a></li>
-        
-        <li class='links_list'><a href='https://badcryptopodcast.com/thecryptochick/' target='_blank'>The Crypto Chick Podcast</a></li>
-        
-        <li class='links_list'><a href='https://thebitcoinpodcast.com/' target='_blank'>The Bitcoin Podcast</a></li>
-        
-        <li class='links_list'><a href='https://letstalkbitcoin.com/' target='_blank'>Lets Talk Bitcoin</a></li>
-        
-        <li class='links_list'><a href='https://podcast.ethhub.io/' target='_blank'>Into The Ether</a></li>
-        
-        <li class='links_list'><a href='https://www.zeroknowledge.fm/' target='_blank'>Zero Knowledge</a></li>
-        
-        <li class='links_list'><a href='https://www.coindesk.com/podcasts' target='_blank'>Road to Consensus (CoinDesk)</a></li>
+        <li class='links_list'><a href='https://evolvement.io/' target='_blank'>Evolvement - The Financial Podcast</a></li>
         
         <li class='links_list'><a href='https://open.spotify.com/show/2CLetGT20MFsHqfeBN3fYl' target='_blank'>H4SHR8 Crypto Mining Podcast</a></li>
         
-        <li class='links_list'><a href='https://open.spotify.com/show/09k4pnFm6WokaszuoeZ6yf' target='_blank'>Block Crunch Podcast</a></li>
+        <li class='links_list'><a href='https://podcast.ethhub.io/' target='_blank'>Into The Ether</a></li>
+        
+        <li class='links_list'><a href='https://letstalkbitcoin.com/' target='_blank'>Lets Talk Bitcoin</a></li>
         
         <li class='links_list'><a href='https://open.spotify.com/show/0uG5qpwFg67zTt0VQRTaZ7' target='_blank'>Messari's Unqualified Opinions</a></li>
         
         <li class='links_list'><a href='https://open.spotify.com/show/2QwpFjzJ0ZteqmMqw2xIfA' target='_blank'>Off The Chain With Anthony Pompliano (podcast)</a></li>
         
+        <li class='links_list'><a href='https://www.coindesk.com/podcasts' target='_blank'>Road to Consensus (CoinDesk)</a></li>
+        
+        <li class='links_list'><a href='https://badcryptopodcast.com/' target='_blank'>The Bad Crypto Podcast</a></li>
+        
+        <li class='links_list'><a href='https://thebitcoinpodcast.com/' target='_blank'>The Bitcoin Podcast</a></li>
+        
+        <li class='links_list'><a href='https://badcryptopodcast.com/thecryptochick/' target='_blank'>The Crypto Chick Podcast</a></li>
+        
+        <li class='links_list'><a href='https://unchainedpodcast.com/' target='_blank'>Unchained Podcast</a></li>
+        
         <li class='links_list'><a href='https://www.whatbitcoindid.com/' target='_blank'>What Bitcoin Did Podcast</a></li>
         
-        <li class='links_list'><a href='https://evolvement.io/' target='_blank'>Evolvement - The Financial Podcast</a></li>
-        
+        <li class='links_list'><a href='https://www.zeroknowledge.fm/' target='_blank'>Zero Knowledge</a></li>
         
         
     </ul>
