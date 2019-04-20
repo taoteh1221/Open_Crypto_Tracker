@@ -360,6 +360,8 @@
         
         <li class='links_list'><a href='https://www.youtube.com/channel/UCbiWJYRg8luWHnmNkJRZEnw/featured' target='_blank'>Tone Vays</a></li>
         
+        <li class='links_list'><a href='https://www.youtube.com/channel/UCWiiMnsnw5Isc2PP1to9nNw/featured' target='_blank'>Unchained Podcast</a></li>
+        
         <li class='links_list'><a href='https://www.youtube.com/channel/UCT44w6854K62cSiwA1aiXfw' target='_blank'>VoskCoin</a> (POW mining channel)</li>
         
         <li class='links_list'><a href='https://www.youtube.com/user/WorldCryptoNetwork/featured' target='_blank'>World Crypto Network</a></li>
