@@ -79,9 +79,9 @@
         
         <li class='links_list'><a href='https://bittrex.com' target='_blank'>Bittrex.com</a></li>
         
-        <li class='links_list'><a href='https://www.kraken.com/' target='_blank'>Kraken.com</a></li>
-        
         <li class='links_list'><a href='https://poloniex.com' target='_blank'>Poloniex.com</a></li>
+        
+        <li class='links_list'><a href='https://www.kraken.com/' target='_blank'>Kraken.com</a></li>
         
         <li class='links_list'><a href='https://gemini.com/' target='_blank'>Gemini.com</a></li>
         
@@ -136,6 +136,8 @@
         
         <li class='links_list'><a href='https://coinmarketcap.com/newsletter/' target='_blank'>Coinmarketcap Newsletter</a></li>
         
+        <li class='links_list'><a href='https://www.delphidigital.io/' target='_blank'>Delphi Digital</a></li>
+        
         <li class='links_list'><a href='https://ethhub.substack.com/' target='_blank'>EthHub Newsletter</a></li>
         
         <li class='links_list'><a href='https://offthechain.substack.com/' target='_blank'>Off The Chain With Anthony Pompliano (newsletter)</a></li>
@@ -169,17 +171,21 @@
         
         <li class='links_list'><a href='https://open.spotify.com/show/09k4pnFm6WokaszuoeZ6yf' target='_blank'>Block Crunch Podcast</a></li>
         
+        <li class='links_list'><a href='https://epicenter.tv/subscribe/' target='_blank'>Epicenter Bitcoin</a></li>
+        
         <li class='links_list'><a href='https://evolvement.io/' target='_blank'>Evolvement - The Financial Podcast</a></li>
         
         <li class='links_list'><a href='https://open.spotify.com/show/2CLetGT20MFsHqfeBN3fYl' target='_blank'>H4SHR8 Crypto Mining Podcast</a></li>
         
-        <li class='links_list'><a href='https://podcast.ethhub.io/' target='_blank'>Into The Ether</a></li>
+        <li class='links_list'><a href='https://podcast.ethhub.io/' target='_blank'>Into The Ether Podcast (by EthHub)</a></li>
         
         <li class='links_list'><a href='https://letstalkbitcoin.com/' target='_blank'>Lets Talk Bitcoin</a></li>
         
         <li class='links_list'><a href='https://open.spotify.com/show/0uG5qpwFg67zTt0VQRTaZ7' target='_blank'>Messari's Unqualified Opinions</a></li>
         
         <li class='links_list'><a href='https://open.spotify.com/show/2QwpFjzJ0ZteqmMqw2xIfA' target='_blank'>Off The Chain With Anthony Pompliano (podcast)</a></li>
+        
+        <li class='links_list'><a href='https://medium.com/pov-crypto' target='_blank'>POV Crypto</a></li>
         
         <li class='links_list'><a href='https://www.coindesk.com/podcasts' target='_blank'>Road to Consensus (CoinDesk)</a></li>
         
@@ -261,6 +267,9 @@
 <p>
     <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Developer (Blockchain Integration) Links</strong> </legend>
     <ul>
+        
+        
+        <li class='links_list'><a href='https://www.blockchain.com/api' target='_blank'>Blockchain.com API</a></li>
         
         
         <li class='links_list'><a href='https://thegraph.com/' target='_blank'>The Graph</a></li>
