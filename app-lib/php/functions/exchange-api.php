@@ -7,7 +7,7 @@
 
 function get_btc_usd($btc_exchange) {
 
-global $last_trade_cache;
+global $coins_list, $last_trade_cache;
   
   
    if ( strtolower($btc_exchange) == 'coinbase' ) {
@@ -75,8 +75,25 @@ global $last_trade_cache;
     
 
    elseif ( strtolower($btc_exchange) == 'kraken' ) {
+   	
+   	
+  		foreach ( $coins_list as $markets ) {
+  		
+  			foreach ( $markets['market_pairing'] as $exchange_pairs ) {
+  			
+  				if ( $exchange_pairs['kraken'] != '' ) {
+				
+				$kraken_pairs .= $exchange_pairs['kraken'] . ',';
+				  				
+  				}
+  			
+  			}
+  			
+  		}
+
+		$kraken_pairs = substr($kraken_pairs, 0, -1);
    
-   $json_string = 'https://api.kraken.com/0/public/Ticker?pair=XXBTZUSD';
+   $json_string = 'https://api.kraken.com/0/public/Ticker?pair=' . $kraken_pairs;
    
    $jsondata = @api_data('url', $json_string, $last_trade_cache);
    
@@ -344,8 +361,25 @@ global $btc_exchange, $coins_list, $last_trade_cache;
   
 
   elseif ( strtolower($chosen_market) == 'kraken' ) {
-  
-  $json_string = 'https://api.kraken.com/0/public/Ticker?pair=' . $market_pairing;
+   	
+   	
+  		foreach ( $coins_list as $markets ) {
+  		
+  			foreach ( $markets['market_pairing'] as $exchange_pairs ) {
+  			
+  				if ( $exchange_pairs['kraken'] != '' ) {
+				
+				$kraken_pairs .= $exchange_pairs['kraken'] . ',';
+				  				
+  				}
+  			
+  			}
+  			
+  		}
+
+		$kraken_pairs = substr($kraken_pairs, 0, -1);
+   
+   $json_string = 'https://api.kraken.com/0/public/Ticker?pair=' . $kraken_pairs;
   
   $jsondata = @api_data('url', $json_string, $last_trade_cache);
   

@@ -294,7 +294,7 @@ $coins_list = array(
                                           'binance' => 'binance',
                                           'bitstamp' => 'bitstamp',
                                           'bitfinex' => 'bitfinex',
-                                          'kraken' => 'kraken',
+                                          'kraken' => 'XXBTZUSD',
                                           'gemini' => 'gemini',
                                           'hitbtc' => 'hitbtc',
                                           'okcoin' => 'okcoin',
@@ -908,70 +908,6 @@ $coins_list = array(
                                     'usdt' => array(
                                           'hitbtc' => 'SNTUSD',
                                         	'okex' => 'SNT-USDT'
-                                                    )
-                                                    
-                                        ) // market_pairing END
-                        
-                    ), // Coin END
-                    
-                    
-                    // XLM
-                    'XLM' => array(
-                        
-                        'coin_name' => 'Stellar',
-                        'marketcap_website_slug' => 'stellar',
-                        'market_pairing' => array(
-                        
-                                    'btc' => array(
-                                        	'binance' => 'XLMBTC',
-                                          'bittrex' => 'BTC-XLM',
-                                          'poloniex' => 'BTC_STR',
-                                          'hitbtc' => 'XLMBTC',
-                                          'kraken' => 'XXLMXXBT',
-                                          'upbit' => 'BTC-XLM',
-                                        	'okex' => 'XLM-BTC'
-                                                    ),
-                                                    
-                                    'eth' => array(
-                                          'binance' => 'XLMETH',
-                                          'bittrex' => 'ETH-XLM',
-                                          'hitbtc' => 'XLMETH',
-                                          'upbit' => 'ETH-XLM',
-                                        	'okex' => 'XLM-ETH'
-                                                    ),
-                                                    
-                                    'usdt' => array(
-                                        	'poloniex' => 'USDT_STR',
-                                          'hitbtc' => 'XLMUSD',
-                                        	'okex' => 'XLM-USDT'
-                                                    ),
-                                                    
-                                    'tusd' => array(
-                                          'binance' => 'XLMTUSD'
-                                                    )
-                                                    
-                                        ) // market_pairing END
-                        
-                    ), // Coin END
-                    
-                    
-                    // FCT
-                    'FCT' => array(
-                        
-                        'coin_name' => 'Factom',
-                        'marketcap_website_slug' => 'factom',
-                        'market_pairing' => array(
-                        
-                                    'btc' => array(
-                                          'bittrex' => 'BTC-FCT',
-                                          'poloniex' => 'BTC_FCT',
-                                          'cryptopia' => 'FCT/BTC',
-                                        	'upbit' => 'BTC-FCT'
-                                                    ),
-                                                    
-                                    'eth' => array(
-                                          'bittrex' => 'ETH-FCT',
-                                        	'upbit' => 'ETH-FCT'
                                                     )
                                                     
                                         ) // market_pairing END
