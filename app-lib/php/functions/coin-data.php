@@ -66,7 +66,7 @@ function detect_pairing($pair_name) {
 
 $pair_name = preg_replace("/usdc/i", "0000", $pair_name); // SKIP 'USD Coin' FOR NOW
 
-	if ( !preg_match("/btc/i", $pair_name) && !preg_match("/xxbt/i", $pair_name) ) {
+	if ( !preg_match("/btc/i", $pair_name) && !preg_match("/xbt/i", $pair_name) ) {
 	
 		// On rare occasion USDT is represented in pairing names as USD
 		if ( preg_match("/usd/i", $pair_name) && !preg_match("/tusd/i", $pair_name)

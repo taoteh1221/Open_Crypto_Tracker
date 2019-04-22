@@ -1090,6 +1090,7 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 2.5.0:
 -Updated Kraken API call efficiency 
+-Tweaks
 -------------------------------------------------------------------
 
 
