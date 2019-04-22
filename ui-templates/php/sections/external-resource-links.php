@@ -271,7 +271,10 @@
     <ul>
         
         
-        <li class='links_list'><a href='https://www.blockchain.com/api' target='_blank'>Blockchain.com API</a></li>
+        <li class='links_list'><a href='https://www.blockchain.com/api' target='_blank'>Blockchain.com APIs</a></li>
+        
+        
+        <li class='links_list'><a href='https://etherscan.io/apis/' target='_blank'>Etherscan.io APIs</a></li>
         
         
         <li class='links_list'><a href='https://thegraph.com/' target='_blank'>The Graph</a></li>
@@ -292,9 +295,11 @@
         
         <li class='links_list'><a href='https://www.reddit.com/r/ethereum/' target='_blank'>Ethereum Subreddit</a></li>
         
-        <li class='links_list'><a href='http://www.maxkeiser.com/' target='_blank'>Keiser Report</a></li>
+        <li class='links_list'><a href='https://coincenter.org/' target='_blank'>CoinCenter.org</a></li>
         
         <li class='links_list'><a href='https://www.sec.gov/ICO' target='_blank'>SEC.gov ICO Awareness Site</a></li>
+        
+        <li class='links_list'><a href='http://www.maxkeiser.com/' target='_blank'>Keiser Report</a></li>
         
         
         
