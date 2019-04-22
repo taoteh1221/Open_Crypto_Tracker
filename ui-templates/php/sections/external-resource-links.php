@@ -195,6 +195,8 @@
         
         <li class='links_list'><a href='https://badcryptopodcast.com/thecryptochick/' target='_blank'>The Crypto Chick Podcast</a></li>
         
+        <li class='links_list'><a href='https://anchor.fm/thecryptoconomy' target='_blank'>The Cryptoconomy Podcast</a></li>
+        
         <li class='links_list'><a href='https://unchainedpodcast.com/' target='_blank'>Unchained Podcast</a></li>
         
         <li class='links_list'><a href='https://www.whatbitcoindid.com/' target='_blank'>What Bitcoin Did Podcast</a></li>
