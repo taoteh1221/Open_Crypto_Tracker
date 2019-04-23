@@ -8,7 +8,7 @@ Make sure programming comments are adequate throughout the app.
 
 Add Dogecoin and mining calculator.
 
-Look for offered api options where data can get an exchanges whole set of markets, rather than just one, where hasn't been done yet. The relevant API connections have been moved to top sections in exchange-api.php for review.
+Look for offered api options where data can get an exchanges whole set of markets, rather than just one, where hasn't been done yet. The relevant API connections have been moved to top sections in exchange-ticker-apis.php for review.
 
 Dark greyscale CSS styling option, and theme switcher settings
 

@@ -36,17 +36,17 @@
 			</fieldset>
 			
 			<fieldset class='subsection_fieldset'>
-				<legend class='subsection_legend'> <b>Litecoin Mining Calculator</b> </legend>
+				<legend class='subsection_legend'> <b>Decred Mining Calculator</b> </legend>
 		    
-				<?php require("app-lib/php/other/calculators/litecoin-mining-calculator.php"); ?>
+				<?php require("app-lib/php/other/calculators/decred-mining-calculator.php"); ?>
 				
 				
 			</fieldset>
 			
 			<fieldset class='subsection_fieldset'>
-				<legend class='subsection_legend'> <b>Decred Mining Calculator</b> </legend>
+				<legend class='subsection_legend'> <b>Litecoin Mining Calculator</b> </legend>
 		    
-				<?php require("app-lib/php/other/calculators/decred-mining-calculator.php"); ?>
+				<?php require("app-lib/php/other/calculators/litecoin-mining-calculator.php"); ?>
 				
 				
 			</fieldset>

@@ -213,8 +213,8 @@ margin: 0px;
 
 div.tabdiv {
 padding: 15px;
-width: auto;
-min-width: 1165px;
+width: 1450px;
+min-width: 1450px;
 min-height: 150px;
 display: inline-block;
 background: #fff;
@@ -291,7 +291,7 @@ IDs
 
 
 #coins_table {
-width: 100%;
+min-width: 1450px;
 }
 
 

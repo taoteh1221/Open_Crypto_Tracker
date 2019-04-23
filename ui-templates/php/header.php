@@ -20,7 +20,7 @@ require("config.php");
 
 <head>
 <meta charset="UTF-8">
-    <title>DFD Cryptocoin Values</title>
+    <title>DFD Cryptocoin Values - Cryptocurrency Portfolio Tracker</title>
 <link rel="stylesheet" href="ui-templates/css/style.css" type="text/css" />
 
 <script type="text/javascript" src="app-lib/js/jquery/jquery1.8.3.min.js"></script>
@@ -57,10 +57,9 @@ var tablesort_theme = '<?=$tablesort_theme?>';
       <source src="ui-templates/media/audio/Smoke-Alarm-SoundBible-1551222038.ogg">
     </audio>
 
-    <div align='center' style='width: 98%; margin: auto;'>
-    <p> &nbsp; </p>
-        <div align='center' style='min-width: 1320px; margin: auto;'>
-            <div align='left' style=' width: 1320px; margin: auto;'>
+    <div align='center' style='max-width: 1500px; min-width: 1500px; margin: auto;'>
+    <h3>DFD Cryptocoin Values - Cryptocurrency Portfolio Tracker</h3>
+            <div align='left' style='max-width: 1500px; min-width: 1500px; margin: 0px;'>
         <!- header END -->
 
 
