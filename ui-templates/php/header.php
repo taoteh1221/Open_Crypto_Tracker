@@ -57,9 +57,9 @@ var tablesort_theme = '<?=$tablesort_theme?>';
       <source src="ui-templates/media/audio/Smoke-Alarm-SoundBible-1551222038.ogg">
     </audio>
 
-    <div align='center' style='max-width: 1500px; min-width: 1500px; margin: auto;'>
+    <div align='center' style='width: 100%; min-width: 1400px; margin: auto;'>
     <h3>DFD Cryptocoin Values - Cryptocurrency Portfolio Tracker</h3>
-            <div align='left' style='max-width: 1500px; min-width: 1500px; margin: 0px;'>
+            <div align='left' style='width: 1400px; min-width: 1400px; margin: 0px;'>
         <!- header END -->
 
 

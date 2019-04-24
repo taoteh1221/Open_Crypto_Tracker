@@ -43,7 +43,7 @@ function auto_reload(time) {
 	count_down(time, 1);
 		
 		if ( document.getElementById("set_use_cookies").checked == false ) {
-		alert('To use auto-refresh effectively, enable "Save coin values as cookie data" in "Program Settings". Otherwise you likely will be prompted to manually re-submit form data every auto-refresh.');
+		alert('To use auto-refresh effectively, enable "Use cookie data to save values between sessions" on the "Program Settings" page. Otherwise you likely will be prompted to manually re-submit form data every auto-refresh.');
 		}
 
 	
@@ -86,11 +86,11 @@ function count_down(i, toggle) {
 	    	
 	    	var sec = ( i - (round_min*60) );
 	    	
-	    	document.getElementById("reload_countdown").innerHTML = "(" + round_min + " minutes " + sec + " seconds remaining)";
+	    	document.getElementById("reload_countdown").innerHTML = "(" + round_min + " minutes " + sec + " seconds)";
 	    	
 	    	}
 	    	else {
-	    	document.getElementById("reload_countdown").innerHTML = "(" + i + " seconds remaining)";
+	    	document.getElementById("reload_countdown").innerHTML = "(" + i + " seconds)";
 	    	}
 
 		

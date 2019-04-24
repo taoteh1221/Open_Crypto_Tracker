@@ -41,7 +41,7 @@ width: auto;
 margin: auto;
 padding: 0px;
 font-family: sans-serif;
-font-size: 15px;
+font-size: 17px;
 }
 
 
@@ -80,13 +80,30 @@ border: 1px solid #808080;
 
 
 p {
-font-size: 15px;
+font-size: 17px;
 }
 
 
-input {
-font-size: 15px;
+input, select {
+font-size: 17px;
 border: 1px solid #808080;
+}
+
+input[type=checkbox], input[type=radio] {
+width: 17px !important;
+height: 17px !important;
+}
+
+input[type=submit], input[type=button] {
+  background-color: #808080;
+  border: 1px solid black;
+  color: white;
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 17px;
+  cursor: pointer;
 }
 
 a {
@@ -101,11 +118,13 @@ a:hover {
 color: #898888;
 }
 
-
 /* //////////////////////////////
 CLASSES
 ////////////////////////////// */
 
+.show_coin_values {
+display: none;
+}
 
 .border_lt {
 border-top: 2px solid #ccc;
@@ -152,8 +171,9 @@ line-height: 25px;
 
 
 .subsection_fieldset {
-border: 2px solid black;
+border: 1px solid #808080;
 margin: 25px;
+margin-bottom: 50px;
 }
 
 
@@ -164,8 +184,9 @@ color: black;
 
 .help_section {
 border: 1px solid #808080;
-margin: 10px;
 padding: 15px;
+margin: 10px;
+margin-bottom: 50px;
 }
 
 
@@ -213,18 +234,19 @@ margin: 0px;
 
 div.tabdiv {
 padding: 15px;
-width: 1450px;
-min-width: 1450px;
+width: auto;
+min-width: 1400px;
 min-height: 150px;
 display: inline-block;
 background: #fff;
-border: 1px solid #808080;
+border: 2px solid #808080;
 }
 
 
 .tabli a {
 border-top-left-radius: 4px;
 border-top-right-radius: 4px;
+font-size: 18px;
 }
 
 
@@ -253,9 +275,9 @@ text-decoration: none;
 .tabs a.active {
 top: 2px;
 position: relative;
-border-top: 1px solid black;
-border-left: 1px solid black;
-border-right: 1px solid black;
+border-top: 2px solid #808080;
+border-left: 2px solid #808080;
+border-right: 2px solid #808080;
 background: #fff;
 color: black;
 }
@@ -263,13 +285,13 @@ color: black;
 
 td.data, td.data span.data, td select {
 color: blue;
-font-size: 15px;
+font-size: 17px;
 }
 
 
 td.data span {
 color: black;
-font-size: 15px;
+font-size: 17px;
 white-space: nowrap;
 }
 
@@ -278,11 +300,12 @@ white-space: nowrap;
 margin: 2px;
 padding: 0px;
 color: green;
-font-size: 13px;
+font-size: 15px;
 border: 0px;
 background: none;
 white-space: nowrap;
 }
+
 
 
 /* //////////////////////////////
@@ -291,7 +314,12 @@ IDs
 
 
 #coins_table {
-min-width: 1450px;
+min-width: 1400px;
+}
+
+
+#coins_table td:last-child {
+width: auto;
 }
 
 

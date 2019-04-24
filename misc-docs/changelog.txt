@@ -1103,6 +1103,15 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+2.5.2:
+-More UI content revisions
+-More UI / UX enhancements
+-------------------------------------------------------------------
+
+
+
+
 
 
 

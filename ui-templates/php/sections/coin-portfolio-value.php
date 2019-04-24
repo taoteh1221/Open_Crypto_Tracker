@@ -14,7 +14,7 @@ if ( $_POST['submit_check'] == 1 || $_COOKIE['coin_amounts'] ) {
 ?>
 
 
-<table border='0' cellpadding='10' cellspacing='0' id="coins_table">
+<table border='0' cellpadding='10' cellspacing='0' id="coins_table" class='show_coin_values'>
  <thead>
     <tr>
 <th class='border_lt'> Re-sort</th>
@@ -160,7 +160,7 @@ if ( $_POST['submit_check'] == 1 || $_COOKIE['coin_amounts'] ) {
 $total_btc_worth = bitcoin_total();
 $total_usd_worth = ($total_btc_worth * get_btc_usd($btc_exchange)['last_trade']);
 
-echo '<p class="bold_1">Total Bitcoin Value: ' . number_format($total_btc_worth, 8, '.', ',') . '<br />';
+echo '<p class="show_coin_values bold_1">Total Bitcoin Value: ' . number_format($total_btc_worth, 8, '.', ',') . '<br />';
 
 $coins_list_numbered = array_values($coins_list['BTC']['market_pairing']['btc']);
 
@@ -179,7 +179,16 @@ echo '</p>';
 // End outputting results
 }
 
-if ( !$assets_added ) {
+if ( $assets_added ) {
+?>
+<style>
+.show_coin_values {
+display: block;
+}
+</style>
+<?php
+}
+else {
 ?>
 <div align='center' style='min-height: 100px;'>
 	<span style='font-weight: bold; color: red; position: relative; top: 50px;'>No portfolio assets added yet (add them on the "Update Coin Values" page).</span>
