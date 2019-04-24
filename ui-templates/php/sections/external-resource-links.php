@@ -58,7 +58,11 @@
         
         <li class='links_list'><a href='https://www.tradingview.com/symbols/BTCUSD/' target='_blank'>Tradingview - Bitcoin / USD</a></li>
         
+        <li class='links_list'><a href='https://www.coinigy.com/' target='_blank'>Coinigy.com</a></li>
+        
         <li class='links_list'><a href='https://www.blockchain.com/en/charts/mempool-size' target='_blank'>Bitcoin Mempool (queued unconfirmed transactions) Charts</a></li>
+        
+        <li class='links_list'><a href='https://www.blockchain.com/charts/n-transactions?timespan=all' target='_blank'>Bitcoin Confirmed Transactions Per Day Charts</a></li>
         
         
         
@@ -140,6 +144,8 @@
         
         <li class='links_list'><a href='https://ethhub.substack.com/' target='_blank'>EthHub Newsletter</a></li>
         
+        <li class='links_list'><a href='http://martysbent.com/' target='_blank'>Marty's Ƀent</a></li>
+        
         <li class='links_list'><a href='https://offthechain.substack.com/' target='_blank'>Off The Chain With Anthony Pompliano (newsletter)</a></li>
         
         <li class='links_list'><a href='http://proofofwork.news/' target='_blank'>Proof Of Work</a></li>  
@@ -189,6 +195,8 @@
         
         <li class='links_list'><a href='https://www.coindesk.com/podcasts' target='_blank'>Road to Consensus (CoinDesk)</a></li>
         
+        <li class='links_list'><a href='https://anchor.fm/tales-from-the-crypt' target='_blank'>Tales from the Crypt</a></li>
+        
         <li class='links_list'><a href='https://badcryptopodcast.com/' target='_blank'>The Bad Crypto Podcast</a></li>
         
         <li class='links_list'><a href='https://thebitcoinpodcast.com/' target='_blank'>The Bitcoin Podcast</a></li>
@@ -225,8 +233,6 @@
         <li class='links_list'><a href='https://bravenewcoin.com/' target='_blank'>Brave New Coin</a></li>
         
         <li class='links_list'><a href='https://btcmanager.com/' target='_blank'>BTC Manager</a></li>
-        
-        <li class='links_list'><a href='https://coincenter.org/' target='_blank'>Coin Center</a></li>
         
         <li class='links_list'><a href='https://www.coindesk.com/' target='_blank'>Coin Desk</a></li>
         
@@ -377,6 +383,8 @@
         <li class='links_list'><a href='https://www.youtube.com/channel/UCbiWJYRg8luWHnmNkJRZEnw/featured' target='_blank'>Tone Vays</a></li>
         
         <li class='links_list'><a href='https://www.youtube.com/channel/UCWiiMnsnw5Isc2PP1to9nNw/featured' target='_blank'>Unchained Podcast</a></li>
+        
+        <li class='links_list'><a href='https://www.youtube.com/channel/UCHSzEP58zZC0WBPmJ9gmkkw/featured' target='_blank'>Understanding Bitcoin</a></li>
         
         <li class='links_list'><a href='https://www.youtube.com/channel/UCT44w6854K62cSiwA1aiXfw' target='_blank'>VoskCoin</a> (POW mining channel)</li>
         
