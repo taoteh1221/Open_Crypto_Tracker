@@ -364,6 +364,8 @@
         
         <li class='links_list'><a href='https://www.youtube.com/channel/UCjYHcWGAjUVqU49D2JOKD3w/featured' target='_blank'>I Mine Blocks</a> (POW mining channel)</li>
         
+        <li class='links_list'><a href='https://www.youtube.com/user/LiljeqvistIvan/featured' target='_blank'>Ivan on Tech</a></li>
+        
         <li class='links_list'><a href='https://www.youtube.com/user/MrKennbosak/featured' target='_blank'>Kenn Bosak</a></li>
         
         <li class='links_list'><a href='https://www.youtube.com/channel/UCVVDsIYJBQ_C7Bh_aI3ZMxQ/featured' target='_blank'>Magical Crypto Friends</a></li>
