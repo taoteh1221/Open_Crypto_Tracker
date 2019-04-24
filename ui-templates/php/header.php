@@ -59,7 +59,7 @@ var tablesort_theme = '<?=$tablesort_theme?>';
 
     <div align='center' style='width: 100%; min-width: 1400px; margin: auto;'>
     <h3>DFD Cryptocoin Values - Cryptocurrency Portfolio Tracker</h3>
-            <div align='left' style='width: 1400px; min-width: 1400px; margin: 0px;'>
+            <div align='left' style='display: inline; margin: 0px;'>
         <!- header END -->
 
 

@@ -68,6 +68,7 @@ padding-right: 30px;
 
 
 p, h3 { 
+word-break: normal;
 margin-bottom: 15px;
 }
 
@@ -236,6 +237,7 @@ div.tabdiv {
 padding: 15px;
 width: auto;
 min-width: 1400px;
+max-width: 1800px;
 min-height: 150px;
 display: inline-block;
 background: #fff;
@@ -251,6 +253,7 @@ font-size: 18px;
 
 
 .tabdiv {
+border-top-left-radius: 4px;
 border-top-right-radius: 4px;
 border-bottom-left-radius: 4px;
 border-bottom-right-radius: 4px;

@@ -8,7 +8,7 @@ require("ui-templates/php/header.php");
 ?>
 
 
-		<ul class='tabs'>
+		<ul class='tabs' style='display: inline;'>
 			<li class='tabli'><a href='#show_values'>Coin Portfolio Value</a></li>
 			<li class='tabli'><a href='#update_values'>Update Coin Values</a></li>
 			<li class='tabli'><a href='#settings'>Program Settings</a></li>
