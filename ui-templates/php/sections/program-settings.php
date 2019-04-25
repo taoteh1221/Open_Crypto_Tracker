@@ -209,34 +209,21 @@
 			
                         <p class='settings_sections'>
                         Use cookie data to save values between sessions <input type='checkbox' name='set_use_cookies' id='set_use_cookies' value='1' onchange='
-                        if ( this.checked != true ) {
-			delete_cookie("coin_amounts");
-			delete_cookie("coin_markets");
-			delete_cookie("coin_reload");
-			delete_cookie("alert_percent");
-			delete_cookie("sort_by");
-			document.getElementById("use_cookies").value = "";
-			
-			delete_cookie("notes_reminders");
-			document.getElementById("use_notes").value = "";
-			document.getElementById("set_use_notes").checked = false;
-			document.getElementById("set_use_notes").disabled = true;
+                        if ( this.checked == true ) {
+								document.getElementById("use_cookies").value = "1";
                         }
                         else {
-			document.getElementById("use_cookies").value = "1";
-			document.getElementById("set_use_notes").disabled = false;
+								document.getElementById("set_use_notes").checked = false;
                         }
-                        ' <?php echo ( $_COOKIE['coin_amounts'] && $_POST['submit_check'] != 1 || $_POST['use_cookies'] == 1 && $_POST['submit_check'] == 1 ? ' checked="checked"' : ''); ?> /> <span style='color: red;'>(un-checking this box <i><u>immediately</u> deletes ALL previously-saved cookie data <u>permanently</u></i>)</span>
+                        ' <?php echo ( $_COOKIE['coin_amounts'] && $_POST['submit_check'] != 1 || $_POST['use_cookies'] == 1 && $_POST['submit_check'] == 1 ? ' checked="checked"' : ''); ?> /> <span style='color: red;'>(un-checking this box <i>deletes ALL previously-saved cookie data <u>permanently</u></i>)</span>
                         </p>
 			
 			
                         <p class='settings_sections'>
                         Enable trading notes (requires cookie data) <input type='checkbox' name='set_use_notes' id='set_use_notes' value='1' onchange='
-                        if ( this.checked != true ) {
-			delete_cookie("notes_reminders");
-			document.getElementById("use_notes").value = "";
-                        }
-                        else {
+                        if ( this.checked == true ) {
+								document.getElementById("set_use_cookies").checked = true;
+								document.getElementById("use_cookies").value = "1";
          
 									if ( document.getElementById("notes_reminders") ) {
 									var prev_notes = document.getElementById("notes_reminders").value;								
@@ -245,14 +232,31 @@
 									var prev_notes = " "; // Initialized with some whitespace when blank
 									}
          
-         setCookie("notes_reminders", prev_notes, 365);
-			document.getElementById("use_notes").value = "1";
+        						setCookie("notes_reminders", prev_notes, 365);
+								document.getElementById("use_notes").value = "1";
                         }
                         ' <?php echo ( $_COOKIE['notes_reminders'] && $_POST['submit_check'] != 1 || $_POST['use_notes'] == 1 && $_POST['submit_check'] == 1 ? ' checked="checked"' : ''); ?> />
                         </p>
 			
 			
-                        <p class='settings_sections'><input type='button' value='Save Updated Program Settings' onclick='document.coin_amounts.submit();' /></p>
+                        <p class='settings_sections'><input type='button' value='Save Updated Program Settings' onclick='
+                        if ( document.getElementById("set_use_notes").checked != true ) {
+								delete_cookie("notes_reminders");
+								document.getElementById("use_notes").value = "";
+                        }
+                        if ( document.getElementById("set_use_cookies").checked != true ) {
+								delete_cookie("coin_amounts");
+								delete_cookie("coin_markets");
+								delete_cookie("coin_reload");
+								delete_cookie("alert_percent");
+								delete_cookie("sort_by");
+								document.getElementById("use_cookies").value = "";
+								
+								delete_cookie("notes_reminders");
+								document.getElementById("use_notes").value = "";
+                        }
+                        document.coin_amounts.submit();
+                        ' /></p>
                         
                         
                         
