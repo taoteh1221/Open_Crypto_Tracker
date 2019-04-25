@@ -226,7 +226,7 @@
 			document.getElementById("use_cookies").value = "1";
 			document.getElementById("set_use_notes").disabled = false;
                         }
-                        ' <?php echo ( $_COOKIE['coin_amounts'] && $_POST['submit_check'] != 1 || $_POST['use_cookies'] == 1 && $_POST['submit_check'] == 1 ? ' checked="checked"' : ''); ?> />
+                        ' <?php echo ( $_COOKIE['coin_amounts'] && $_POST['submit_check'] != 1 || $_POST['use_cookies'] == 1 && $_POST['submit_check'] == 1 ? ' checked="checked"' : ''); ?> /> <span style='color: red;'>(un-checking this box <i><u>immediately</u> deletes ALL previously-saved cookie data <u>permanently</u></i>)</span>
                         </p>
 			
 			
