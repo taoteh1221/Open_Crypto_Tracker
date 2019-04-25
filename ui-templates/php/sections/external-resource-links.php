@@ -177,6 +177,8 @@
         
         <li class='links_list'><a href='https://open.spotify.com/show/09k4pnFm6WokaszuoeZ6yf' target='_blank'>Block Crunch Podcast</a></li>
         
+        <li class='links_list'><a href='https://player.fm/series/chain-reaction-2478788' target='_blank'>Chain Reaction Podcast</a></li>
+        
         <li class='links_list'><a href='https://epicenter.tv/subscribe/' target='_blank'>Epicenter Bitcoin</a></li>
         
         <li class='links_list'><a href='https://evolvement.io/' target='_blank'>Evolvement - The Financial Podcast</a></li>
