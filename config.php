@@ -158,6 +158,7 @@ $exchange_price_alerts = array(
 				//	'zrx' => 'bittrex||btc',
 				//	'snt' => 'bittrex||btc',
 				//	'gnt' => 'bittrex||btc',
+					'enj' => 'binance||btc',
 				//	'zil' => 'binance||btc',
 				//	'ada' => 'binance||tusd',
 					'grin' => 'poloniex||btc',
@@ -806,6 +807,42 @@ $coins_list = array(
                                                     
                                     'usdt' => array(
                                         	'okex' => 'GNT-USDT'
+                                                    )
+                                                    
+                                        ) // market_pairing END
+                        
+                    ), // Coin END
+                    
+                    
+                    // ENJ
+                    'ENJ' => array(
+                        
+                        'coin_name' => 'Enjin Coin',
+                        'marketcap_website_slug' => 'enjin-coin',
+                        'market_pairing' => array(
+                        
+                                    'btc' => array(
+                                        	'binance' => 'ENJBTC',
+                                          'bittrex' => 'BTC-ENJ',
+                                        	'hitbtc' => 'ENJBTC',
+                                    		'kucoin' => 'ENJ-BTC',
+                                          'upbit' => 'BTC-ENJ',
+                                        	'livecoin' => 'ENJ/BTC'
+                                                    ),
+                                                    
+                                    'eth' => array(
+                                        	'binance' => 'ENJETH',
+                                        	'ethfinex' => 'tENJETH',
+                                        	'hitbtc' => 'ENJETH',
+                                          'kucoin' => 'ENJ-ETH',
+                                        	'livecoin' => 'ENJ/ETH',
+                                          'idex' => 'ETH_ENJ'
+                                                    ),
+                                                    
+                                    'usdt' => array(
+                                        	'binance' => 'ENJUSDT',
+                                          'bittrex' => 'USDT-ENJ',
+                                        	'hitbtc' => 'ENJUSD'
                                                     )
                                                     
                                         ) // market_pairing END
