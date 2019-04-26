@@ -1111,6 +1111,16 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+2.5.3:
+-Even more UI content revisions
+-Default config revisions
+-------------------------------------------------------------------
+
+
+
+
+
 
 
 

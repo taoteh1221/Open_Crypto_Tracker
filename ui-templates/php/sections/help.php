@@ -34,7 +34,7 @@
                         </div>
                         
 			<div class='help_section'>
-                            <p><b>Coinmarketcap.com Data Not Available For An Asset</b><br /><br />
+                            <p><b>Coinmarketcap.com Data Not Available For An Asset:</b><br /><br />
                                 Either the asset has not been added to <a href='https://coinmarketcap.com' target='_blank'>coinmarketcap.com</a> yet, you forgot to add the URL slug in it's config section, or you need to increase the number of rankings to fetch in config.php in the settings section (<?=$marketcap_ranks_max?> rankings is the current setting).</p>
                         </div>
                         
