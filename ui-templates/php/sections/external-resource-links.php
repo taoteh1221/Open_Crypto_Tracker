@@ -307,7 +307,11 @@
         
         <li class='links_list'><a href='https://www.sec.gov/ICO' target='_blank'>SEC.gov ICO Awareness Site</a></li>
         
-        <li class='links_list'><a href='http://www.maxkeiser.com/' target='_blank'>Keiser Report</a></li>
+        <li class='links_list'><a href='https://www.omniexplorer.info/asset/31' target='_blank'>Tether (USDT) Supply On Bitcoin Network</a></li>
+        
+        <li class='links_list'><a href='https://whale-alert.io/' target='_blank'>Whale Alert</a></li>
+        
+        <li class='links_list'><a href='http://www.maxkeiser.com/' target='_blank'>Keiser Report</a> (big Bitcoin supporter)</li>
         
         
         
