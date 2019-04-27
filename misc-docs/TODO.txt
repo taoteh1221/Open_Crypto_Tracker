@@ -4,6 +4,8 @@
 TODO
 ///////////////////////////////////////////////////////
 
+CSV file export / import of portfolio values.
+
 Make sure programming comments are adequate throughout the app.
 
 Add Dogecoin and mining calculator.
