@@ -8,7 +8,7 @@
 			<?php
 			if ( $price_alert_type_text != '' ) {
           ?>
-          	<p class='settings_sections'><?=$price_alert_type_text?> exchange price alerts are <i>enabled</i> in the configuration file (upon <?=$exchange_price_alerts_percent?>% or more USD price change<?=( $exchange_price_alerts_freq > 0 ? ' / every ' . $exchange_price_alerts_freq . ' minutes max per-alert' : '' )?><?=( $exchange_price_alerts_minvolume > 0 ? ' / $' . $exchange_price_alerts_minvolume . ' minumum volume filter enabled' : '' )?><?=( $exchange_price_alerts_refresh > 0 ? ' / comparison price auto-refreshed after ' . $exchange_price_alerts_refresh . ' days' : '' )?>). 
+          	<p class='settings_sections'><?=$price_alert_type_text?> exchange price alerts are <i>enabled</i> in the configuration file (upon <?=$exchange_price_alerts_percent?>% or more USD price change<?=( $exchange_price_alerts_freq > 0 ? ' / every ' . $exchange_price_alerts_freq . ' minutes max per-alert' : '' )?><?=( $exchange_price_alerts_minvolume > 0 ? ' / $' . number_format($exchange_price_alerts_minvolume, 0, '.', ',') . ' minumum volume filter enabled' : '' )?><?=( $exchange_price_alerts_refresh > 0 ? ' / comparison price auto-refreshed after ' . $exchange_price_alerts_refresh . ' days' : '' )?>). 
           	
           	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job on your web server</a>, or this feature will not work AT ALL.</i> 
           	
