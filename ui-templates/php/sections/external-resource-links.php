@@ -242,8 +242,6 @@
         
         <li class='links_list'><a href='https://www.cointrust.com/' target='_blank'>Coin Trust</a></li>
         
-        <li class='links_list'><a href='https://www.ccn.com/' target='_blank'>Crypto Coins News</a></li>
-        
         <li class='links_list'><a href='https://www.newsbtc.com/' target='_blank'>News BTC</a></li>
         
         <li class='links_list'><a href='https://www.theblockcrypto.com/' target='_blank'>The Block</a></li>
@@ -359,8 +357,6 @@
         <li class='links_list'><a href='https://www.youtube.com/channel/UCL4knTqpF5KTcJrAdethgNQ/featured' target='_blank'>CryptoStache</a></li>
         
         <li class='links_list'><a href='https://www.youtube.com/channel/UCavTvSwEoRABvnPtLg0e6LQ/featured' target='_blank'>Crypto Tips</a></li>
-        
-        <li class='links_list'><a href='https://www.youtube.com/channel/UCla2jS8BrfLJj7kbKyy5_ew/featured' target='_blank'>CryptoWendyO</a></li>
         
         <li class='links_list'><a href='https://www.youtube.com/user/PrisonOrFreedom/featured' target='_blank'>Cryptocurrency Market</a></li>
         
