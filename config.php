@@ -31,7 +31,7 @@ require_once("app-lib/php/init.php");
 
 
 
-$api_timeout = 12; // Seconds to wait for response from API endpoints. Don't set too low, or you won't get data
+$api_timeout = 15; // Seconds to wait for response from API endpoints. Don't set too low, or you won't get data
 
 $btc_exchange = 'binance'; // Default Bitcoin to USD (or equiv stable coin): coinbase / binance / bitstamp / bitfinex / kraken / gemini / hitbtc / okcoin / livecoin
 
@@ -116,7 +116,7 @@ $proxy_alerts_freq = 1; // Re-allow same proxy alert(s) after X hours (per ip/po
 // Exchange price alert settings
 // Only used if $exchange_price_alerts is filled in properly below, AND a cron job is setup (see README.txt for cron job setup information) 
 
-$exchange_price_alerts_percent = 8; // Price percent change to send alerts for (WITHOUT percent sign: 15 = 15%). Sends alerts when percent change reached (up or down)
+$exchange_price_alerts_percent = 15; // Price percent change to send alerts for (WITHOUT percent sign: 15 = 15%). Sends alerts when percent change reached (up or down)
 
 $exchange_price_alerts_freq = 15; // Re-allow same exchange price alert(s) after X minutes (per asset, set higher if issues with blacklisting...can be 0)
 
@@ -139,15 +139,15 @@ $exchange_price_alerts = array(
 				// 'othersymbol-2' => 'exchange2||trade_pairing2',
 				// 'othersymbol-3' => 'exchange3||trade_pairing3',
 				//	'tusd' => 'binance||usdt',
-					'btc' => 'coinbase||btc',
+				//	'btc' => 'coinbase||btc',
 					'btc-2' => 'binance||btc',
 					'eth' => 'binance||usdt',
-					'eth-2' => 'bittrex||btc',
+				//	'eth-2' => 'bittrex||btc',
 					'xmr' => 'binance||btc',
 					'dcr' => 'binance||btc',
 				//	'dcr-2' => 'bittrex||usdt',
 					'ltc' => 'bittrex||btc',
-				//	'dash' => 'bittrex||btc',
+					'dash' => 'bittrex||btc',
 					'atom' => 'poloniex||btc',
 				//	'atom-2' => 'kraken||btc',
 					'beam' => 'hotbit||btc',
@@ -159,15 +159,15 @@ $exchange_price_alerts = array(
 				//	'snt' => 'bittrex||btc',
 				//	'gnt' => 'bittrex||btc',
 					'enj' => 'binance||btc',
-				//	'zil' => 'binance||btc',
-				//	'ada' => 'binance||tusd',
+					'zil' => 'binance||btc',
+					'ada' => 'binance||tusd',
 					'grin' => 'poloniex||btc',
-					'grin-2' => 'hitbtc||eth',
+				//	'grin-2' => 'hitbtc||eth',
 				//	'rvn' => 'binance||btc',
 					'myst' => 'hitbtc||btc',
-					'myst-2' => 'hitbtc||eth',
-					'myst-3' => 'idex||eth',
-				//	'trac' => 'kucoin||btc',
+				//	'myst-2' => 'idex||eth',
+				//	'trac' => 'bittrex||btc',
+				//	'trac-2' => 'kucoin||btc',
 					);
 
 
