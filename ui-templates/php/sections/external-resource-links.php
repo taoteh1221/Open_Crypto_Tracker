@@ -273,17 +273,17 @@
 
 
 <p>
-    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Developer (Blockchain Integration) Links</strong> </legend>
+    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Blockchain Developer Links</strong> </legend>
     <ul>
         
         
         <li class='links_list'><a href='https://www.blockchain.com/api' target='_blank'>Blockchain.com APIs</a></li>
         
-        
         <li class='links_list'><a href='https://etherscan.io/apis/' target='_blank'>Etherscan.io APIs</a></li>
         
-        
         <li class='links_list'><a href='https://thegraph.com/' target='_blank'>The Graph</a></li>
+        
+        <li class='links_list'><a href='https://ethresear.ch/' target='_blank'>Ethereum Research</a></li>
         
         
         
@@ -341,6 +341,8 @@
         <li class='links_list'><a href='https://www.youtube.com/channel/UCxODjeUwZHk3p-7TU-IsDOA/featured' target='_blank'>Boxmining</a></li>
         
         <li class='links_list'><a href='https://www.youtube.com/channel/UCN9Nj4tjXbVTLYWN0EKly_Q' target='_blank'>CNBC Crypto Trader</a></li>
+        
+        <li class='links_list'><a href='https://www.youtube.com/channel/UCofTOFX4QuhT8OY-3-fFRFw' target='_blank'>Coinbase</a></li>
         
         <li class='links_list'><a href='https://www.youtube.com/user/CoinDesk/featured' target='_blank'>CoinDesk</a></li>
         
