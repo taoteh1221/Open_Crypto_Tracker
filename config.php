@@ -33,6 +33,8 @@ require_once("app-lib/php/init.php");
 
 $api_timeout = 15; // Seconds to wait for response from API endpoints. Don't set too low, or you won't get data
 
+$api_strict_ssl = 'yes'; // 'yes' verifies ALL SSL certificates for HTTPS API servers, 'no' verifies NOTHING (NOT RECOMMENDED in production environment)
+
 $btc_exchange = 'binance'; // Default Bitcoin to USD (or equiv stable coin): coinbase / binance / bitstamp / bitfinex / kraken / gemini / hitbtc / okcoin / livecoin
 
 $marketcap_site = 'coinmarketcap'; // Default marketcap data source: 'coinmarketcap', or 'coingecko'
@@ -148,8 +150,9 @@ $exchange_price_alerts = array(
 				//	'dcr-2' => 'bittrex||usdt',
 					'ltc' => 'bittrex||btc',
 					'dash' => 'bittrex||btc',
-					'atom' => 'poloniex||btc',
-				//	'atom-2' => 'kraken||btc',
+					'atom' => 'binance||btc',
+				//	'atom-2' => 'poloniex||btc',
+				//	'atom-3' => 'kraken||btc',
 					'beam' => 'hotbit||btc',
 					'steem' => 'binance||eth',
 					'bnb' => 'binance||usdt',
@@ -536,6 +539,7 @@ $coins_list = array(
                         'market_pairing' => array(
                         
                                     'btc' => array(
+                                         'binance' => 'ATOMBTC',
                                          'poloniex' => 'BTC_ATOM',
                                          'kraken' => 'ATOMXBT',
                                          'hotbit' => 'ATOM_BTC',

@@ -417,7 +417,7 @@ $textlocal_params = array(
 
 function api_data($mode, $request, $ttl, $api_server=null, $post_encoding=3, $test_proxy=NULL) { // Default to JSON encoding post requests (most used)
 
-global $user_agent, $api_timeout, $proxy_login, $proxy_list, $runtime_mode;
+global $user_agent, $api_timeout, $api_strict_ssl, $proxy_login, $proxy_list, $runtime_mode;
 
 if ( preg_match("/etherscan/i", $request) ) {
 $user_agent = NULL;
@@ -490,11 +490,23 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 	curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-	curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, 0);
-	curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, 0); 
 	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $api_timeout);
 	curl_setopt($ch, CURLOPT_TIMEOUT, $api_timeout);
 	curl_setopt($ch, CURLOPT_USERAGENT, $user_agent);
+	
+	
+		// If this is an SSL connection, add SSL parameters
+		if (  preg_match("/https:\/\//i", ( $mode == 'array' ? $api_server : $request ) )  ) {
+			
+		curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, ( $api_strict_ssl == 'yes' ? 2 : 0 ) );
+		curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, ( $api_strict_ssl == 'yes' ? TRUE : FALSE ) ); 
+		
+			if ( PHP_VERSION_ID >= 70700 && CURL_VERSION_ID >= 7410 ) {
+			curl_setopt ($ch, CURLOPT_SSL_VERIFYSTATUS, ( $api_strict_ssl == 'yes' ? TRUE : FALSE ) ); 
+			}
+
+		}
+		
 	
 	$data = curl_exec($ch);
 	curl_close($ch);

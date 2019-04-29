@@ -54,6 +54,7 @@ exit;
 }
 else {
 $curl_setup = curl_version();
+define('CURL_VERSION_ID', str_replace(".", "", $curl_setup["version"]) );
 }
 
 
