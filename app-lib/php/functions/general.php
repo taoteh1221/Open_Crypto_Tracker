@@ -454,14 +454,14 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 
 		
 		curl_setopt($ch, CURLOPT_PROXY, trim($current_proxy) );     
-		curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, 1);  
+		curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, TRUE);  
 		
 			// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
 			if ( $proxy_login != ''  ) {
 		
 			$user_pass = explode('||', $proxy_login);
 				
-			curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+			curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
 			curl_setopt($ch, CURLOPT_PROXYUSERPWD, $user_pass[0] . ':' . $user_pass[1] );  
 			
 			}
@@ -472,24 +472,24 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		}
 		
 		if ( $mode == 'array' && $post_encoding == 1 ) {
-		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_POST, TRUE);
 		curl_setopt( $ch, CURLOPT_POSTFIELDS, $request );
 		}
 		elseif ( $mode == 'array' && $post_encoding == 2 ) {
-		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_POST, TRUE);
 		curl_setopt( $ch, CURLOPT_POSTFIELDS,  http_build_query($request) );
 		}
 		elseif ( $mode == 'array' && $post_encoding == 3 ) {
-		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_POST, TRUE);
 		curl_setopt( $ch, CURLOPT_POSTFIELDS, json_encode($request) );
 		}
 		elseif ( $mode == 'url' || $mode == 'proxy-check' ) {
 		curl_setopt($ch, CURLOPT_URL, $request);
 		}
 	
-	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
 	curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $api_timeout);
 	curl_setopt($ch, CURLOPT_TIMEOUT, $api_timeout);
 	curl_setopt($ch, CURLOPT_USERAGENT, $user_agent);
