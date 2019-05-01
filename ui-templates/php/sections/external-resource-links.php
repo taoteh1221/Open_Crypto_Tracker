@@ -134,6 +134,8 @@
         
          
         
+        <li class='links_list'><a href='https://bitcoinops.org/en/newsletters/' target='_blank'>Bitcoin Optech</a></li>
+        
         <li class='links_list'><a href='https://bncdaily.com/' target='_blank'>Brave New Coin Daily</a></li>
         
         <li class='links_list'><a href='http://newsletter.coingecko.com/landing/subscribe' target='_blank'>Coingecko Newsletter</a></li>
@@ -301,6 +303,8 @@
         
         <li class='links_list'><a href='https://www.reddit.com/r/ethereum/' target='_blank'>Ethereum Subreddit</a></li>
         
+        <li class='links_list'><a href='https://twitter.com/hashtag/cryptotwitter?src=hash' target='_blank'>#CryptoTwitter</a></li>
+        
         <li class='links_list'><a href='https://coincenter.org/' target='_blank'>CoinCenter.org</a></li>
         
         <li class='links_list'><a href='https://blocktv.com/' target='_blank'>BlockTV</a></li>
@@ -312,6 +316,8 @@
         <li class='links_list'><a href='https://whale-alert.io/' target='_blank'>Whale Alert</a></li>
         
         <li class='links_list'><a href='http://www.maxkeiser.com/' target='_blank'>Keiser Report</a> (big Bitcoin supporter)</li>
+        
+        <li class='links_list'><a href='https://notes.ethereum.org/c/Sk8Zs--CQ' target='_blank'>What’s new in ETH 2.0</a></li>
         
         
         
