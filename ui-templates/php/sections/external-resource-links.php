@@ -10,6 +10,8 @@
     <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Coinmarketcap.com Stats</strong> </legend>
     <ul>
         
+			<p style='color: red;'>Newbie Warning: <i>LITERALLY nearly 99% of all tokens</i> listed on Coinmarketcap.com (OR any other site) are either scams, garbage, or dead ends. Tread VERY carefully when investing, and RESEARCH AT LENGTH BEFOREHAND (that does NOT included listening to some CEO or founder sweet talk their own token)! :-o</p>     
+        
         <li class='links_list'><a href='http://coinmarketcap.com/' target='_blank'>Top Marketcaps</a></li>
         
         <li class='links_list'><a href='http://coinmarketcap.com/currencies/volume/24-hour/' target='_blank'>Top 24 Hour Volumes</a></li>
@@ -20,7 +22,7 @@
         
         <li class='links_list'><a href='http://coinmarketcap.com/new/' target='_blank'>Newest Assets</a></li>
         
-        <li class='links_list'><a href='http://coinmarketcap.com/charts/' target='_blank'>Global Market Caps</a></li>
+        <li class='links_list'><a href='http://coinmarketcap.com/charts/' target='_blank'>Global Market Caps</a></li>   
         
     </ul>
     </fieldset>
@@ -148,8 +150,6 @@
         
         <li class='links_list'><a href='http://martysbent.com/' target='_blank'>Marty's Ƀent</a></li>
         
-        <li class='links_list'><a href='https://offthechain.substack.com/' target='_blank'>Off The Chain With Anthony Pompliano (newsletter)</a></li>
-        
         <li class='links_list'><a href='http://proofofwork.news/' target='_blank'>Proof Of Work</a></li>  
         
         <li class='links_list'><a href='https://sludgefeed.com/hashed/' target='_blank'>Sludgefeed's Hashed</a></li>
@@ -161,6 +161,8 @@
         <li class='links_list'><a href='https://unchainedpodcast.com/category/newsletters/' target='_blank'>Unchained Newsletter</a></li>
         
         <li class='links_list'><a href='https://weekinethereumnews.com/' target='_blank'>Week In Ethereum</a></li>
+        
+        <li class='links_list'><a href='https://notes.ethereum.org/c/Sk8Zs--CQ' target='_blank'>What’s new in ETH 2.0</a></li>
         
         
         
@@ -193,7 +195,7 @@
         
         <li class='links_list'><a href='https://open.spotify.com/show/0uG5qpwFg67zTt0VQRTaZ7' target='_blank'>Messari's Unqualified Opinions</a></li>
         
-        <li class='links_list'><a href='https://open.spotify.com/show/2QwpFjzJ0ZteqmMqw2xIfA' target='_blank'>Off The Chain With Anthony Pompliano (podcast)</a></li>
+        <li class='links_list'><a href='https://open.spotify.com/show/2QwpFjzJ0ZteqmMqw2xIfA' target='_blank'>Off The Chain With Anthony Pompliano</a></li>
         
         <li class='links_list'><a href='https://medium.com/pov-crypto' target='_blank'>POV Crypto</a></li>
         
@@ -261,11 +263,14 @@
     <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Coin Mining</strong> </legend>
     <ul>
         
-        <li class='links_list'><a href='https://messari.io/c/screener' target='_blank'>OnChainFX - PoW Miner Revenues</a></li>
         
         <li class='links_list'><a href='https://simplemining.net/' target='_blank'>Simplemining.net</a></li>
         
         <li class='links_list'><a href='https://www.reddit.com/r/gpumining/' target='_blank'>GPU Mining Subreddit</a></li>
+        
+        <li class='links_list'><a href='https://whattomine.com/' target='_blank'>Whattomine.com</a> (profit calculations)</li>
+        
+        <li class='links_list'><a href='https://messari.io/c/screener' target='_blank'>OnChainFX - PoW Miner Revenues</a></li>
         
         
         
@@ -283,7 +288,7 @@
         
         <li class='links_list'><a href='https://etherscan.io/apis/' target='_blank'>Etherscan.io APIs</a></li>
         
-        <li class='links_list'><a href='https://thegraph.com/' target='_blank'>The Graph</a></li>
+        <li class='links_list'><a href='https://thegraph.com/' target='_blank'>The Graph</a> (multiple GraphQL APIs)</li>
         
         <li class='links_list'><a href='https://ethresear.ch/' target='_blank'>Ethereum Research</a></li>
         
@@ -309,15 +314,13 @@
         
         <li class='links_list'><a href='https://blocktv.com/' target='_blank'>BlockTV</a></li>
         
-        <li class='links_list'><a href='https://www.sec.gov/ICO' target='_blank'>SEC.gov ICO Awareness Site</a></li>
-        
         <li class='links_list'><a href='https://www.omniexplorer.info/asset/31' target='_blank'>Tether (USDT) Supply On Bitcoin Network</a></li>
         
         <li class='links_list'><a href='https://whale-alert.io/' target='_blank'>Whale Alert</a></li>
         
         <li class='links_list'><a href='http://www.maxkeiser.com/' target='_blank'>Keiser Report</a> (big Bitcoin supporter)</li>
         
-        <li class='links_list'><a href='https://notes.ethereum.org/c/Sk8Zs--CQ' target='_blank'>What’s new in ETH 2.0</a></li>
+        <li class='links_list'><a href='https://www.sec.gov/ICO' target='_blank'>SEC.gov ICO Awareness Site</a></li>
         
         
         
@@ -332,17 +335,15 @@
         
         <li class='links_list'><a href='https://www.youtube.com/user/aantonop/featured' target='_blank'>Andreas Antonopoulos</a></li>
         
+        <li class='links_list'><a href='https://www.youtube.com/channel/UCfYw6dhiwGBJQY_-Jcs8ozw' target='_blank'>Binance</a></li>
+        
         <li class='links_list'><a href='https://www.youtube.com/channel/UCBAQgjMqCuXQXfmLhtZuIuA' target='_blank'>Bitcoin and Friends</a></li>
         
         <li class='links_list'><a href='https://www.youtube.com/user/BaltimoreHourly/featured' target='_blank'>BitcoinMeister</a></li>
         
-        <li class='links_list'><a href='https://www.youtube.com/user/cderose36/featured' target='_blank'>Bitcoin Uncensored</a></li>
-        
         <li class='links_list'><a href='https://www.youtube.com/user/BitsBeTrippin' target='_blank'>Bits Be Trippin</a> (POW mining channel)</li>
                 
         <li class='links_list'><a href='https://www.youtube.com/channel/UCZNt3fZazX9cwWcC9vjDJ4Q' target='_blank'>Blockstream</a></li>
-                
-        <li class='links_list'><a href='https://www.youtube.com/channel/UCpfB0lyoKDCKX8wZ7a-K-dw/feed' target='_blank'>Blocktalk</a></li>
         
         <li class='links_list'><a href='https://www.youtube.com/channel/UCxODjeUwZHk3p-7TU-IsDOA/featured' target='_blank'>Boxmining</a></li>
         
@@ -378,19 +379,11 @@
         
         <li class='links_list'><a href='https://www.youtube.com/user/LiljeqvistIvan/featured' target='_blank'>Ivan on Tech</a></li>
         
-        <li class='links_list'><a href='https://www.youtube.com/user/MrKennbosak/featured' target='_blank'>Kenn Bosak</a></li>
-        
         <li class='links_list'><a href='https://www.youtube.com/channel/UCVVDsIYJBQ_C7Bh_aI3ZMxQ/featured' target='_blank'>Magical Crypto Friends</a></li>
-        
-        <li class='links_list'><a href='https://www.youtube.com/channel/UCFEHdhuB_BEUHA_eL9cjqHA' target='_blank'>Messari's Unqualified Opinions</a></li>
         
         <li class='links_list'><a href='https://www.youtube.com/user/australiaalex/featured' target='_blank'>Nugget's News</a></li>
         
         <li class='links_list'><a href='https://www.youtube.com/channel/UCEFJVYNiPp8xeIUyfaPCPQw/featured' target='_blank'>Off Chain with Jimmy Song</a></li>
-        
-        <li class='links_list'><a href='https://www.youtube.com/channel/UCOBxM0AORW9BCj2rSuR6HBg/featured' target='_blank'>Shitcoin Talk</a></li>
-        
-        <li class='links_list'><a href='https://www.youtube.com/user/ForeverMoreTatiana/featured' target='_blank'>Tatiana Moroz</a></li>
         
         <li class='links_list'><a href='https://www.youtube.com/channel/UCLnQ34ZBSjy2JQjeRudFEDw' target='_blank'>The Cryptoverse</a></li>
         

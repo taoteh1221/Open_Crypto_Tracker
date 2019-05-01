@@ -1125,6 +1125,7 @@ app doing the data requests, not a malicious bot)
 2.5.4:
 -Proxy authentication compatibility
 -Tweaks
+-Even more UI content revisions
 -------------------------------------------------------------------
 
 
