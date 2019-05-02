@@ -144,11 +144,7 @@
         
         <li class='links_list'><a href='https://coinmarketcap.com/newsletter/' target='_blank'>Coinmarketcap Newsletter</a></li>
         
-        <li class='links_list'><a href='https://www.delphidigital.io/' target='_blank'>Delphi Digital</a></li>
-        
         <li class='links_list'><a href='https://ethhub.substack.com/' target='_blank'>EthHub Newsletter</a></li>
-        
-        <li class='links_list'><a href='http://martysbent.com/' target='_blank'>Marty's Ƀent</a></li>
         
         <li class='links_list'><a href='http://proofofwork.news/' target='_blank'>Proof Of Work</a></li>  
         
@@ -196,8 +192,6 @@
         <li class='links_list'><a href='https://open.spotify.com/show/0uG5qpwFg67zTt0VQRTaZ7' target='_blank'>Messari's Unqualified Opinions</a></li>
         
         <li class='links_list'><a href='https://open.spotify.com/show/2QwpFjzJ0ZteqmMqw2xIfA' target='_blank'>Off The Chain With Anthony Pompliano</a></li>
-        
-        <li class='links_list'><a href='https://medium.com/pov-crypto' target='_blank'>POV Crypto</a></li>
         
         <li class='links_list'><a href='https://www.coindesk.com/podcasts' target='_blank'>Road to Consensus (CoinDesk)</a></li>
         
