@@ -264,8 +264,6 @@
         
         <li class='links_list'><a href='https://whattomine.com/' target='_blank'>Whattomine.com</a> (profit calculations)</li>
         
-        <li class='links_list'><a href='https://messari.io/c/screener' target='_blank'>OnChainFX - PoW Miner Revenues</a></li>
-        
         
         
     </ul>
@@ -353,12 +351,6 @@
         
         <li class='links_list'><a href='https://www.youtube.com/channel/UCrNytueyuavn5mVVt89epDA/featured' target='_blank'>CryptoCandor</a></li>
         
-        <li class='links_list'><a href='https://www.youtube.com/channel/UC67AEEecqFEc92nVvcqKdhA/featured' target='_blank'>Crypto Daily</a></li>
-        
-        <li class='links_list'><a href='https://www.youtube.com/channel/UCu7Sre5A1NMV8J3s2FhluCw/featured' target='_blank'>Crypto Love</a></li>
-        
-        <li class='links_list'><a href='https://www.youtube.com/channel/UCL4knTqpF5KTcJrAdethgNQ/featured' target='_blank'>CryptoStache</a></li>
-        
         <li class='links_list'><a href='https://www.youtube.com/channel/UCavTvSwEoRABvnPtLg0e6LQ/featured' target='_blank'>Crypto Tips</a></li>
         
         <li class='links_list'><a href='https://www.youtube.com/user/PrisonOrFreedom/featured' target='_blank'>Cryptocurrency Market</a></li>
@@ -378,8 +370,6 @@
         <li class='links_list'><a href='https://www.youtube.com/user/australiaalex/featured' target='_blank'>Nugget's News</a></li>
         
         <li class='links_list'><a href='https://www.youtube.com/channel/UCEFJVYNiPp8xeIUyfaPCPQw/featured' target='_blank'>Off Chain with Jimmy Song</a></li>
-        
-        <li class='links_list'><a href='https://www.youtube.com/channel/UCLnQ34ZBSjy2JQjeRudFEDw' target='_blank'>The Cryptoverse</a></li>
         
         <li class='links_list'><a href='https://www.youtube.com/channel/UCbiWJYRg8luWHnmNkJRZEnw/featured' target='_blank'>Tone Vays</a></li>
         

@@ -31,7 +31,7 @@ require_once("app-lib/php/init.php");
 
 
 
-$api_timeout = 15; // Seconds to wait for response from API endpoints. Don't set too low, or you won't get data
+$api_timeout = 10; // Seconds to wait for response from API endpoints. Don't set too low, or you won't get data
 
 $api_strict_ssl = 'yes'; // 'yes' verifies ALL SSL certificates for HTTPS API servers, 'no' verifies NOTHING (NOT RECOMMENDED in production environment)
 
@@ -118,13 +118,13 @@ $proxy_alerts_freq = 1; // Re-allow same proxy alert(s) after X hours (per ip/po
 // Exchange price alert settings
 // Only used if $exchange_price_alerts is filled in properly below, AND a cron job is setup (see README.txt for cron job setup information) 
 
-$exchange_price_alerts_percent = 15; // Price percent change to send alerts for (WITHOUT percent sign: 15 = 15%). Sends alerts when percent change reached (up or down)
+$exchange_price_alerts_percent = 12; // Price percent change to send alerts for (WITHOUT percent sign: 15 = 15%). Sends alerts when percent change reached (up or down)
 
 $exchange_price_alerts_freq = 15; // Re-allow same exchange price alert(s) after X minutes (per asset, set higher if issues with blacklisting...can be 0)
 
 // Minimum 24 hour volume filter. Only allows sending exchange price alerts if minimum 24 hour volume reached
 // CAN BE 0 TO DISABLE MINIMUM VOLUME FILTERING, NO DECIMALS OR SEPARATORS, NUMBERS ONLY, WITHOUT dollar sign: 250 = $250 , 4500 = $4,500 , etc
-$exchange_price_alerts_minvolume = 1000;
+$exchange_price_alerts_minvolume = 750;
 
 // Refresh cached comparison prices every X days (since last refresh / alert) with latest prices...can be 0 to disable refreshing (until price alert triggers a refresh)
 $exchange_price_alerts_refresh = 0; 
@@ -162,15 +162,14 @@ $exchange_price_alerts = array(
 				//	'snt' => 'bittrex||btc',
 				//	'gnt' => 'bittrex||btc',
 					'enj' => 'binance||btc',
-					'zil' => 'binance||btc',
-					'ada' => 'binance||tusd',
+				//	'zil' => 'binance||btc',
+				//	'ada' => 'binance||tusd',
 					'grin' => 'poloniex||btc',
 				//	'grin-2' => 'hitbtc||eth',
 				//	'rvn' => 'binance||btc',
 					'myst' => 'hitbtc||btc',
 				//	'myst-2' => 'idex||eth',
-				//	'trac' => 'bittrex||btc',
-				//	'trac-2' => 'kucoin||btc',
+				//	'trac' => 'kucoin||btc',
 					);
 
 
@@ -1006,7 +1005,6 @@ $coins_list = array(
                         'market_pairing' => array(
                         
                                     'btc' => array(
-                                          'bittrex' => 'BTC-TRAC',
                                     		'kucoin' => 'TRAC-BTC'
                                                     ),
                                                     

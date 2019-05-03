@@ -1130,6 +1130,19 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+3.00.0:
+-Major overhaul fully complete
+-Switched to proper semantic versioning (for technical clarity)
+-Even more UI content revisions
+-------------------------------------------------------------------
+
+
+
+
+
+
+
 
 
 
