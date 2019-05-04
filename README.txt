@@ -1,6 +1,6 @@
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-DFD Cryptocoin Values - Open source / free private portfolio tracker, with email / text / alexa alerts
+DFD Cryptocoin Values - Open source / free private cryptocurrency portfolio tracker, with email / text / alexa alerts
 Copyright 2014-2019 GPLv3
 Developed by Michael Kilday <mike@dragonfrugal.com>, released free / open source under GPL v3
 
