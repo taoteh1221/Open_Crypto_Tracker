@@ -10,7 +10,7 @@
             	
     <div id="api_error_alert"><?php echo $_SESSION['config_error'] . $_SESSION['api_data_error'] . $other_error_logs . $_SESSION['cmc_error']; ?></div>
             	
-    <p align='center'><a href='https://github.com/taoteh1221/DFD_Cryptocoin_Values/releases' target='_blank' title='Download the latest version here.'>Github Releases (running v<?=$app_version?>)</a>
+    <p align='center'><a href='https://sourceforge.net/projects/dfd-cryptocoin-values/' target='_blank' title='Download the latest version here.'>Latest Releases (running v<?=$app_version?>)</a>
     
 
     <p align='center'><a class='show' id='donate' href='#show_donation_addresses' title='Click to show donation addresses.' onclick='return false;'>Donations Support Development</a></p>
