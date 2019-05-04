@@ -49,6 +49,9 @@ var tablesort_theme = '<?=$tablesort_theme?>';
 
 </style>
 
+<link rel="shortcut icon" href="ui-templates/media/images/favicon.png">
+<link rel="icon" href="ui-templates/media/images/favicon.png">
+
 </head>
 <body>
     

@@ -191,7 +191,9 @@ display: block;
 else {
 ?>
 <div align='center' style='min-height: 100px;'>
-	<span style='font-weight: bold; color: red; position: relative; top: 50px;'>No portfolio assets added yet (add them on the "Update Coin Values" page).</span>
+
+	<p><img src='ui-templates/media/images/favicon.png' border='0' /></p>
+	<p style='font-weight: bold; color: red; position: relative; margin: 15px;'>No portfolio assets added yet (add them on the "Update Coin Values" page).</p>
 </div>
 <?php
 }
