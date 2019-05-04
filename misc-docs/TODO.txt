@@ -29,5 +29,3 @@ SQL-based accounts for storing API keys, coin amounts??
 
 2-way encryption (unlocked with 6 digit PIN) for storing coin amounts??
 
-Git mirror test
-
