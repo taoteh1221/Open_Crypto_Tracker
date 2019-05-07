@@ -120,7 +120,7 @@ $proxy_alerts_freq = 1; // Re-allow same proxy alert(s) after X hours (per ip/po
 
 $exchange_price_alerts_percent = 12; // Price percent change to send alerts for (WITHOUT percent sign: 15 = 15%). Sends alerts when percent change reached (up or down)
 
-$exchange_price_alerts_freq = 15; // Re-allow same exchange price alert(s) after X minutes (per asset, set higher if issues with blacklisting...can be 0)
+$exchange_price_alerts_freq = 10; // Re-allow same exchange price alert(s) after X minutes (per asset, set higher if issues with blacklisting...can be 0)
 
 // Minimum 24 hour volume filter. Only allows sending exchange price alerts if minimum 24 hour volume reached
 // CAN BE 0 TO DISABLE MINIMUM VOLUME FILTERING, NO DECIMALS OR SEPARATORS, NUMBERS ONLY, WITHOUT dollar sign: 250 = $250 , 4500 = $4,500 , etc

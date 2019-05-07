@@ -27,9 +27,9 @@ Just upload to your PHP-based web server (with an FTP client like FileZilla) and
 
 Setting up a cron job for exchange price alerts by email / mobile phone text / amazon alexa notifications (get notifications sent to you, even when you are offline): 
 
-If you want to take advantage of cron job based features like exchange price alerts, daily or weekly error log emails / etc, then cron.php in the root directory must be setup as a cron job on the web server. Consult your web server host's documentation or help desk, for your host's particular method of setting up a cron job. Note that you should have it run every X minutes 24/7, based on how often you want alerts / any other cron based features to run. Every 20 minutes is a good default time interval to start with. 
+If you want to take advantage of cron job based features like exchange price alerts, daily or weekly error log emails / etc, then cron.php in the root directory must be setup as a cron job on the web server. Consult your web server host's documentation or help desk, for your host's particular method of setting up a cron job. Note that you should have it run every X minutes 24/7, based on how often you want alerts / any other cron based features to run. Every 15 or 20 minutes is a good default time interval to start with. 
 
-Here is an example command for reference below, to setup as a cron job. Replace system paths in the example with the correct ones for your server:
+Here is an example command for reference below, to setup as a cron job. Replace system paths in the example with the correct ones for your server (TIP - A very common path to PHP on a server is /usr/bin/php):
 
 /path/to/php -q /home/username/path/to/website_install/cron.php
 
@@ -193,7 +193,7 @@ $proxy_alerts_freq = 1; // Re-allow same proxy alert(s) after X hours (per ip/po
 
 $exchange_price_alerts_percent = 12; // Price percent change to send alerts for (WITHOUT percent sign: 15 = 15%). Sends alerts when percent change reached (up or down)
 
-$exchange_price_alerts_freq = 15; // Re-allow same exchange price alert(s) after X minutes (per asset, set higher if issues with blacklisting...can be 0)
+$exchange_price_alerts_freq = 10; // Re-allow same exchange price alert(s) after X minutes (per asset, set higher if issues with blacklisting...can be 0)
 
 // Minimum 24 hour volume filter. Only allows sending exchange price alerts if minimum 24 hour volume reached
 // CAN BE 0 TO DISABLE MINIMUM VOLUME FILTERING, NO DECIMALS OR SEPARATORS, NUMBERS ONLY, WITHOUT dollar sign: 250 = $250 , 4500 = $4,500 , etc
