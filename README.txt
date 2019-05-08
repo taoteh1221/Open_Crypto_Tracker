@@ -36,7 +36,7 @@ Here is an example command for reference below, to setup as a cron job. Replace 
 Below is an example for adding / editing your own markets into the coin list in config.php. It's very quick / easy to do, after you get the hang of it. Also see bottom of this file for a pre-configured set of default settings and example assets / markets. Currently BTC / XMR / ETH / LTC / USDT (Tether) / TUSD (True USD) based market pairing is compatible. Contact any supported exchange's help desk if you are unaware of the correct formatting of the trading pair naming you are adding in the configuration file (examples: Kraken has abitrary Xs inserted everywhere in SOME older pair names, HitBTC sometimes has tether pairing without the "T" in the symbol name).
 
 
- * USAGE (ADDING / UPDATING COINS) ...API support for: coinbase / binance / bittrex / kraken / poloniex / bitstamp / bitfinex and ethfinex / cryptofresh / gemini / hitbtc / cryptopia / livecoin / upbit / kucoin / okex / gate.io / graviex / idex / hotbit / tradeogre / bitforex / bigone / tradesatoshi...BTC, XMR, ETH, LTC, USDT AND TUSD trading pair support
+ * USAGE (ADDING / UPDATING COINS) ...API support for (contact me to request adding more): coinbase / binance / bittrex / kraken / poloniex / bitstamp / bitfinex and ethfinex / cryptofresh / gemini / hitbtc / cryptopia / livecoin / upbit / kucoin / okex / gate.io / graviex / idex / hotbit / tradeogre / bitforex / bigone / tradesatoshi...BTC, XMR, ETH, LTC, USDT AND TUSD trading pair support
  * Ethereum ICO subtoken support has been built in, but values are static ICO values in ETH
  
  
