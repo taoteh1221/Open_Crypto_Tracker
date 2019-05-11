@@ -177,6 +177,8 @@
         
         <li class='links_list'><a href='https://open.spotify.com/show/09k4pnFm6WokaszuoeZ6yf' target='_blank'>Block Crunch Podcast</a></li>
         
+        <li class='links_list'><a href='https://bi.11fs.com/' target='_blank'>Blockchain Insider</a></li>
+        
         <li class='links_list'><a href='https://player.fm/series/chain-reaction-2478788' target='_blank'>Chain Reaction Podcast</a></li>
         
         <li class='links_list'><a href='https://epicenter.tv/subscribe/' target='_blank'>Epicenter Bitcoin</a></li>
@@ -348,6 +350,8 @@
         <li class='links_list'><a href='https://www.youtube.com/user/cointelegraph/featured' target='_blank'>Cointelegraph</a></li>
         
         <li class='links_list'><a href='https://www.youtube.com/user/obham001/featured' target='_blank'>Crypt0</a></li>
+        
+        <li class='links_list'><a href='https://www.youtube.com/channel/UCt_oM56Ui0BCCgi0Yc-Wh3Q/featured' target='_blank'>Crypto Bobby</a></li>
         
         <li class='links_list'><a href='https://www.youtube.com/channel/UCrNytueyuavn5mVVt89epDA/featured' target='_blank'>CryptoCandor</a></li>
         
