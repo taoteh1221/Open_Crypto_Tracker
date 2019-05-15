@@ -330,10 +330,6 @@ $coins_list = array(
                                           'cryptofresh' => 'OPEN.ETH'
                                                     ),
                                                     
-                                    'ltc' => array(
-                                          'cryptopia' => 'ETH/LTC'
-                                                    ),
-                                                    
                                     'usdt' => array(
                                         	'binance' => 'ETHUSDT',
                                           'bittrex' => 'USDT-ETH',
@@ -366,7 +362,6 @@ $coins_list = array(
                                           'bitfinex' => 'tXMRBTC',
                                           'hitbtc' => 'XMRBTC',
                                           'kraken' => 'XXMRXXBT',
-                                          'cryptopia' => 'XMR/BTC',
                                         	'upbit' => 'BTC-XMR',
                                           'okex' => 'XMR-BTC',
                                           'livecoin' => 'XMR/BTC'
@@ -405,7 +400,6 @@ $coins_list = array(
                                        	'kucoin' => 'DCR-BTC',
                                           'upbit' => 'BTC-DCR',
                                           'okex' => 'DCR-BTC',
-                                          'cryptopia' => 'DCR/BTC',
                                           'gateio' => 'dcr_btc'
                                                     ),
                                                     
@@ -416,7 +410,6 @@ $coins_list = array(
                                     'usdt' => array(
                                           'bittrex' => 'USDT-DCR',
                                           'okex' => 'DCR-USDT',
-                                          'cryptopia' => 'DCR/USDT',
                                           'gateio' => 'dcr_usdt'
                                           			)
                                           			
@@ -445,7 +438,6 @@ $coins_list = array(
                                         'upbit' => 'BTC-LTC',
                                         'okex' => 'LTC-BTC',
                                         'livecoin' => 'LTC/BTC',
-                                        'cryptopia' => 'LTC/BTC',
                                         'cryptofresh' => 'OPEN.LTC',
                                         'tradesatoshi' => 'LTC_BTC'
                                                     ),
@@ -469,7 +461,6 @@ $coins_list = array(
                                         'poloniex' => 'USDT_LTC',
                                         'hitbtc' => 'LTCUSD',
                                         'kucoin' => 'LTC-USDT',
-                                        'cryptopia' => 'LTC/USDT',
                                         'upbit' => 'USDT-LTC',
                                         'okex' => 'LTC-USDT'
                                           			),
@@ -501,7 +492,6 @@ $coins_list = array(
                                         'upbit' => 'BTC-DASH',
                                         'okex' => 'DASH-BTC',
                                         'livecoin' => 'DASH/BTC',
-                                        'cryptopia' => 'DASH/BTC',
                                         'tradesatoshi' => 'DASH_BTC'
                                                     ),
                                                     
@@ -521,7 +511,6 @@ $coins_list = array(
                                     'usdt' => array(
                                          'poloniex' => 'USDT_DASH',
                                          'bittrex' => 'USDT-DASH',
-                                         'cryptopia' => 'DASH/USDT',
                                          'upbit' => 'USDT-DASH'
                                           			)
                                           			
@@ -793,7 +782,6 @@ $coins_list = array(
                                           'bittrex' => 'BTC-GNT',
                                           'poloniex' => 'BTC_GNT',
                                         	'ethfinex' => 'tGNTBTC',
-                                          'cryptopia' => 'GNT/BTC',
                                         	'upbit' => 'BTC-GNT',
                                         	'livecoin' => 'GNT/BTC',
                                         	'okex' => 'GNT-BTC'

@@ -36,7 +36,7 @@ Here is an example command for reference below, to setup as a cron job. Replace 
 Below is an example for adding / editing your own markets into the coin list in config.php. It's very quick / easy to do, after you get the hang of it. Also see bottom of this file for a pre-configured set of default settings and example assets / markets. Currently BTC / XMR / ETH / LTC / USDT (Tether) / TUSD (True USD) based market pairing is compatible. Contact any supported exchange's help desk if you are unaware of the correct formatting of the trading pair naming you are adding in the configuration file (examples: Kraken has abitrary Xs inserted everywhere in SOME older pair names, HitBTC sometimes has tether pairing without the "T" in the symbol name).
 
 
- * USAGE (ADDING / UPDATING COINS) ...API support for (contact me to request adding more): coinbase / binance / bittrex / kraken / poloniex / bitstamp / bitfinex and ethfinex / cryptofresh / gemini / hitbtc / cryptopia / livecoin / upbit / kucoin / okex / gate.io / graviex / idex / hotbit / tradeogre / bitforex / bigone / tradesatoshi...BTC, XMR, ETH, LTC, USDT AND TUSD trading pair support
+ * USAGE (ADDING / UPDATING COINS) ...API support for (contact me to request adding more): coinbase / binance / bittrex / kraken / poloniex / bitstamp / bitfinex and ethfinex / cryptofresh / gemini / hitbtc / livecoin / upbit / kucoin / okex / gate.io / graviex / idex / hotbit / tradeogre / bitforex / bigone / tradesatoshi...BTC, XMR, ETH, LTC, USDT AND TUSD trading pair support
  * Ethereum ICO subtoken support has been built in, but values are static ICO values in ETH
  
  
@@ -403,10 +403,6 @@ $coins_list = array(
                                           'cryptofresh' => 'OPEN.ETH'
                                                     ),
                                                     
-                                    'ltc' => array(
-                                          'cryptopia' => 'ETH/LTC'
-                                                    ),
-                                                    
                                     'usdt' => array(
                                         	'binance' => 'ETHUSDT',
                                           'bittrex' => 'USDT-ETH',
@@ -439,7 +435,6 @@ $coins_list = array(
                                           'bitfinex' => 'tXMRBTC',
                                           'hitbtc' => 'XMRBTC',
                                           'kraken' => 'XXMRXXBT',
-                                          'cryptopia' => 'XMR/BTC',
                                         	'upbit' => 'BTC-XMR',
                                           'okex' => 'XMR-BTC',
                                           'livecoin' => 'XMR/BTC'
@@ -478,7 +473,6 @@ $coins_list = array(
                                        	'kucoin' => 'DCR-BTC',
                                           'upbit' => 'BTC-DCR',
                                           'okex' => 'DCR-BTC',
-                                          'cryptopia' => 'DCR/BTC',
                                           'gateio' => 'dcr_btc'
                                                     ),
                                                     
@@ -489,7 +483,6 @@ $coins_list = array(
                                     'usdt' => array(
                                           'bittrex' => 'USDT-DCR',
                                           'okex' => 'DCR-USDT',
-                                          'cryptopia' => 'DCR/USDT',
                                           'gateio' => 'dcr_usdt'
                                           			)
                                           			
@@ -518,7 +511,6 @@ $coins_list = array(
                                         'upbit' => 'BTC-LTC',
                                         'okex' => 'LTC-BTC',
                                         'livecoin' => 'LTC/BTC',
-                                        'cryptopia' => 'LTC/BTC',
                                         'cryptofresh' => 'OPEN.LTC',
                                         'tradesatoshi' => 'LTC_BTC'
                                                     ),
@@ -542,7 +534,6 @@ $coins_list = array(
                                         'poloniex' => 'USDT_LTC',
                                         'hitbtc' => 'LTCUSD',
                                         'kucoin' => 'LTC-USDT',
-                                        'cryptopia' => 'LTC/USDT',
                                         'upbit' => 'USDT-LTC',
                                         'okex' => 'LTC-USDT'
                                           			),
@@ -574,7 +565,6 @@ $coins_list = array(
                                         'upbit' => 'BTC-DASH',
                                         'okex' => 'DASH-BTC',
                                         'livecoin' => 'DASH/BTC',
-                                        'cryptopia' => 'DASH/BTC',
                                         'tradesatoshi' => 'DASH_BTC'
                                                     ),
                                                     
@@ -594,7 +584,6 @@ $coins_list = array(
                                     'usdt' => array(
                                          'poloniex' => 'USDT_DASH',
                                          'bittrex' => 'USDT-DASH',
-                                         'cryptopia' => 'DASH/USDT',
                                          'upbit' => 'USDT-DASH'
                                           			)
                                           			
@@ -866,7 +855,6 @@ $coins_list = array(
                                           'bittrex' => 'BTC-GNT',
                                           'poloniex' => 'BTC_GNT',
                                         	'ethfinex' => 'tGNTBTC',
-                                          'cryptopia' => 'GNT/BTC',
                                         	'upbit' => 'BTC-GNT',
                                         	'livecoin' => 'GNT/BTC',
                                         	'okex' => 'GNT-BTC'
@@ -1099,4 +1087,3 @@ $coins_list = array(
 
 /////////////////// COIN MARKETS CONFIG -END- /////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
-

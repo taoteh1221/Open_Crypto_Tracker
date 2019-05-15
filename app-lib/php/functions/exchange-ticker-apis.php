@@ -780,37 +780,6 @@ global $btc_exchange, $coins_list, $last_trade_cache;
   
   
   }
-  
-  
-  elseif ( strtolower($chosen_market) == 'cryptopia' ) {
-
-     $json_string = 'https://www.cryptopia.co.nz/api/GetMarkets';
-     
-     $jsondata = @api_data('url', $json_string, $last_trade_cache);
-     
-     $data = json_decode($jsondata, TRUE);
-  
-  		$data = $data['Data'];
-  
-      if (is_array($data) || is_object($data)) {
-  
-           foreach ($data as $key => $value) {
-            
-            if ( $data[$key]['Label'] == $market_pairing ) {
-             
-            return  array(
-    							'last_trade' => $data[$key]["LastPrice"],
-    							'24hr_usd_volume' => volume_usd($market_pairing, $data[$key]["Volume"], $data[$key]["LastPrice"])
-    							);
-             
-            }
-        
-          }
-      
-      }
-  
-  
-  }
 
 
   elseif ( strtolower($chosen_market) == 'hitbtc' ) {

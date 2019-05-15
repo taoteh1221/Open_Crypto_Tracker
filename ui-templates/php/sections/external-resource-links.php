@@ -101,8 +101,6 @@
         
         <li class='links_list'><a href='https://www.kucoin.com/' target='_blank'>Kucoin.com</a></li>
         
-        <li class='links_list'><a href='https://www.cryptopia.co.nz/' target='_blank'>Cryptopia.co.nz</a></li>
-        
         
         
         
@@ -374,6 +372,8 @@
         <li class='links_list'><a href='https://www.youtube.com/user/LiljeqvistIvan/featured' target='_blank'>Ivan on Tech</a></li>
         
         <li class='links_list'><a href='https://www.youtube.com/channel/UCVVDsIYJBQ_C7Bh_aI3ZMxQ/featured' target='_blank'>Magical Crypto Friends</a></li>
+        
+        <li class='links_list'><a href='https://www.youtube.com/channel/UCSuHzQ3GrHSzoBbwrIq3LLA' target='_blank'>Naomi Brockwell</a></li>
         
         <li class='links_list'><a href='https://www.youtube.com/user/australiaalex/featured' target='_blank'>Nugget's News</a></li>
         
