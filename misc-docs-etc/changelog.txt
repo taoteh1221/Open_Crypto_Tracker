@@ -1164,6 +1164,7 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 3.04.0:
 -Removed cryptopia exchange API support
+-Default config revisions
 -------------------------------------------------------------------
 
 

@@ -31,7 +31,7 @@ require_once("app-lib/php/init.php");
 
 
 
-$api_timeout = 10; // Seconds to wait for response from API endpoints. Don't set too low, or you won't get data
+$api_timeout = 13; // Seconds to wait for response from API endpoints. Don't set too low, or you won't get data
 
 $api_strict_ssl = 'yes'; // 'yes' verifies ALL SSL certificates for HTTPS API servers, 'no' verifies NOTHING (NOT RECOMMENDED in production environment)
 
@@ -47,7 +47,7 @@ $last_trade_cache = 1; // Minutes to cache real-time exchange data...can be zero
 
 $chainstats_cache = 15; // Minutes to cache blockchain stats (for mining calculators). Set high initially, can be strict
 
-$purge_error_logs = 3; // Days to keep error logs before purging (deletes logs every X days) start low, especially when using proxies
+$purge_error_logs = 2; // Days to keep error logs before purging (deletes logs every X days) start low, especially when using proxies
 
 $mail_error_logs = 'daily'; // 'no', 'daily', 'weekly' Email to / from !MUST BE SET! MAY NOT SEND IN TIMELY FASHION WITHOUT CRON JOB
 
@@ -118,13 +118,13 @@ $proxy_alerts_freq = 1; // Re-allow same proxy alert(s) after X hours (per ip/po
 // Exchange price alert settings
 // Only used if $exchange_price_alerts is filled in properly below, AND a cron job is setup (see README.txt for cron job setup information) 
 
-$exchange_price_alerts_percent = 12; // Price percent change to send alerts for (WITHOUT percent sign: 15 = 15%). Sends alerts when percent change reached (up or down)
+$exchange_price_alerts_percent = 13; // Price percent change to send alerts for (WITHOUT percent sign: 15 = 15%). Sends alerts when percent change reached (up or down)
 
 $exchange_price_alerts_freq = 10; // Re-allow same exchange price alert(s) after X minutes (per asset, set higher if issues with blacklisting...can be 0)
 
 // Minimum 24 hour volume filter. Only allows sending exchange price alerts if minimum 24 hour volume reached
 // CAN BE 0 TO DISABLE MINIMUM VOLUME FILTERING, NO DECIMALS OR SEPARATORS, NUMBERS ONLY, WITHOUT dollar sign: 250 = $250 , 4500 = $4,500 , etc
-$exchange_price_alerts_minvolume = 750;
+$exchange_price_alerts_minvolume = 1000;
 
 // Refresh cached comparison prices every X days (since last refresh / alert) with latest prices...can be 0 to disable refreshing (until price alert triggers a refresh)
 $exchange_price_alerts_refresh = 0; 
@@ -166,6 +166,7 @@ $exchange_price_alerts = array(
 				//	'ada' => 'binance||tusd',
 					'grin' => 'poloniex||btc',
 				//	'grin-2' => 'hitbtc||eth',
+					'data' => 'binance||btc',
 				//	'rvn' => 'binance||btc',
 					'myst' => 'hitbtc||btc',
 				//	'myst-2' => 'idex||eth',
@@ -941,6 +942,38 @@ $coins_list = array(
                                                     
                                         ) // market_pairing END
                                         
+                    ), // Coin END
+                    
+                    
+                    // DATA
+                    'DATA' => array(
+                        
+                        'coin_name' => 'Streamr DATAcoin',
+                        'marketcap_website_slug' => 'streamr-datacoin',
+                        'market_pairing' => array(
+                        
+                                    'btc' => array(
+                                        'binance' => 'DATABTC',
+                                        'ethfinex' => 'tDATBTC',
+                                        'hitbtc' => 'DATABTC'
+                                                    ),
+                                                    
+                                    'eth' => array(
+                                        'binance' => 'DATAETH',
+                                        'ethfinex' => 'tDATETH',
+                                  		 'hitbtc' => 'DATAETH',
+                                        'gateio' => 'data_eth',
+                                        'idex' => 'ETH_DATA'
+                                                    ),
+                                                    
+                                    'usdt' => array(
+                                         'hitbtc' => 'DATAUSD',
+                                         'gateio' => 'data_usdt',
+                                         'bitforex' => 'coin-usdt-data'
+                                                    )
+                                                    
+                                        ) // market_pairing END
+                        
                     ), // Coin END
                     
                     
