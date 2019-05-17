@@ -544,7 +544,7 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
 	if ( floatval($asset_usd_raw) >= 0.00000001 && !file_exists('cache/alerts/'.$asset_data.'.dat') ) {
 	file_put_contents('cache/alerts/'.$asset_data.'.dat', $asset_usd_raw, LOCK_EX); 
 	}
-	elseif ( $exchange_price_alerts_refresh >= 1 && floatval($asset_usd_raw) >= 0.00000001 && update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $exchange_price_alerts_refresh * 1440 ) ) == true ) {
+	elseif ( $send_alert != 1 && $exchange_price_alerts_refresh >= 1 && floatval($asset_usd_raw) >= 0.00000001 && update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $exchange_price_alerts_refresh * 1440 ) ) == true ) {
 	file_put_contents('cache/alerts/'.$asset_data.'.dat', $asset_usd_raw, LOCK_EX); 
 	}
 
