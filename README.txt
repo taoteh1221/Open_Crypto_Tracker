@@ -471,7 +471,6 @@ $coins_list = array(
                                     'btc' => array(
                                         	'binance' => 'DCRBTC',
                                           'bittrex' => 'BTC-DCR',
-                                          'poloniex' => 'BTC_DCR',
                                        	'kucoin' => 'DCR-BTC',
                                           'upbit' => 'BTC-DCR',
                                           'okex' => 'DCR-BTC',

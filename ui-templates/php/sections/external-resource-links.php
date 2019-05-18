@@ -10,7 +10,15 @@
     <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Coinmarketcap.com Stats</strong> </legend>
     <ul>
         
-			<p style='color: red;'>Newbie Warning: <i>LITERALLY nearly 99% of all tokens</i> listed on Coinmarketcap.com (OR any other site) are either scams, garbage, or dead ends. Tread VERY carefully when investing, and RESEARCH AT LENGTH BEFOREHAND (that does NOT included listening to some CEO or founder sweet talk their own token)! :-o</p>     
+		<p><a style='color: red; font-weight: bold;' class='show' id='newbiewarning' href='#show_newbiewarning' title='Click to show newbie warning.' onclick='return false;'><b>Newbie Warning</b></a></p>
+    
+            <div style='display: none;' class='show_newbiewarning' align='left'>
+            	
+     
+					<p style='color: red;'><i>LITERALLY nearly 99% of all tokens</i> listed on Coinmarketcap.com (OR any other site) are either scams, garbage, or dead ends. Tread VERY carefully when investing, and RESEARCH AT LENGTH BEFOREHAND (that does NOT included listening to some CEO or founder sweet talk their own token, or explain how them owning over 50% of the total coin supply is not out of greed). :-o</p>
+
+            
+            </div>
         
         <li class='links_list'><a href='http://coinmarketcap.com/' target='_blank'>Top Marketcaps</a></li>
         
