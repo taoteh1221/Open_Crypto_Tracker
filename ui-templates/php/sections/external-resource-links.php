@@ -152,6 +152,8 @@
         
         <li class='links_list'><a href='https://ethhub.substack.com/' target='_blank'>EthHub Newsletter</a></li>
         
+        <li class='links_list'><a href='https://www.getrevue.co/profile/nlw' target='_blank'>Long Reads Sunday</a></li>  
+        
         <li class='links_list'><a href='http://proofofwork.news/' target='_blank'>Proof Of Work</a></li>  
         
         <li class='links_list'><a href='https://sludgefeed.com/hashed/' target='_blank'>Sludgefeed's Hashed</a></li>
