@@ -4,6 +4,8 @@
 TODO
 ///////////////////////////////////////////////////////
 
+Add additional coin values UI field for what you paid in USD per asset, and then add loss / gain data to UI.
+
 CSV file export / import of portfolio values.
 
 Make sure programming comments are adequate throughout the app.
