@@ -798,8 +798,8 @@ $market_pairing = $all_markets[$selected_market];
         position: "right",
         contents: cmc_content,
         css: {
-                fontSize: ".9rem",
-                minWidth: ".9rem",
+                fontSize: ".8rem",
+                minWidth: ".8rem",
                 padding: ".3rem .7rem",
                 border: "1px solid rgba(212, 212, 212, .4)",
                 borderRadius: "6px",

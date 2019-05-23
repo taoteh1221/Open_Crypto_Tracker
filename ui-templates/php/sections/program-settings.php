@@ -78,7 +78,7 @@
 			    <p class='settings_sections'>Sort Table Data By Column: <select id='sorted_by_col' onchange='
 			    $("#sort_by").val( this.value + "|" + $("#sorted_by_asc_desc").val() );
 			    '>
-				<option value='0' <?=( $sorted_by_col == 0 ? ' selected ' : '' )?>> Re-sort </option>
+				<option value='0' <?=( $sorted_by_col == 0 ? ' selected ' : '' )?>> # </option>
 				<option value='1' <?=( $sorted_by_col == 1 ? ' selected ' : '' )?>> Asset </option>
 				<option value='2' <?=( $sorted_by_col == 2 ? ' selected ' : '' )?>> USD Value </option>
 				<option value='3' <?=( $sorted_by_col == 3 ? ' selected ' : '' )?>> Holdings </option>

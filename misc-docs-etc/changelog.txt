@@ -1174,6 +1174,7 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 3.05.0:
 -Dev housekeeping
+-Smaller screen compatibility
 -------------------------------------------------------------------
 
 

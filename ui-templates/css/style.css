@@ -41,7 +41,7 @@ width: auto;
 margin: auto;
 padding: 0px;
 font-family: sans-serif;
-font-size: 17px;
+font-size: 15px;
 }
 
 
@@ -58,12 +58,12 @@ background: #fff;
 
 td {
 margin: 0px;
-padding: 10px;
+padding: 8px;
 }
 
 
 th {
-padding-right: 30px;
+padding-right: 28px;
 }
 
 
@@ -81,18 +81,18 @@ border: 1px solid #808080;
 
 
 p {
-font-size: 17px;
+font-size: 15px;
 }
 
 
 input, select {
-font-size: 17px;
+font-size: 15px;
 border: 1px solid #808080;
 }
 
 input[type=checkbox], input[type=radio] {
-width: 17px !important;
-height: 17px !important;
+width: 15px !important;
+height: 15px !important;
 }
 
 input[type=submit], input[type=button] {
@@ -103,7 +103,7 @@ input[type=submit], input[type=button] {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 17px;
+  font-size: 15px;
   cursor: pointer;
 }
 
@@ -236,8 +236,8 @@ margin: 0px;
 div.tabdiv {
 padding: 15px;
 width: auto;
-min-width: 1400px;
-max-width: 1800px;
+min-width: 1300px;
+max-width: 1700px;
 min-height: 150px;
 display: inline-block;
 background: #fff;
@@ -248,7 +248,7 @@ border: 2px solid #808080;
 .tabli a {
 border-top-left-radius: 4px;
 border-top-right-radius: 4px;
-font-size: 18px;
+font-size: 17px;
 }
 
 
@@ -288,13 +288,13 @@ color: black;
 
 td.data, td.data span.data, td select {
 color: blue;
-font-size: 17px;
+font-size: 15px;
 }
 
 
 td.data span {
 color: black;
-font-size: 17px;
+font-size: 15px;
 white-space: nowrap;
 }
 
@@ -303,7 +303,7 @@ white-space: nowrap;
 margin: 2px;
 padding: 0px;
 color: green;
-font-size: 15px;
+font-size: 13px;
 border: 0px;
 background: none;
 white-space: nowrap;
@@ -317,7 +317,7 @@ IDs
 
 
 #coins_table {
-min-width: 1400px;
+min-width: 1300px;
 }
 
 

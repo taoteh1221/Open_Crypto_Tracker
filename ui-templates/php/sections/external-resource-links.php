@@ -203,6 +203,8 @@
         
         <li class='links_list'><a href='https://open.spotify.com/show/2QwpFjzJ0ZteqmMqw2xIfA' target='_blank'>Off The Chain With Anthony Pompliano</a></li>
         
+        <li class='links_list'><a href='https://open.spotify.com/show/3ObwKoyqttA1OLNhInnrbx' target='_blank'>Rekt Podcast</a></li>
+        
         <li class='links_list'><a href='https://www.coindesk.com/podcasts' target='_blank'>Road to Consensus (CoinDesk)</a></li>
         
         <li class='links_list'><a href='https://anchor.fm/tales-from-the-crypt' target='_blank'>Tales from the Crypt</a></li>

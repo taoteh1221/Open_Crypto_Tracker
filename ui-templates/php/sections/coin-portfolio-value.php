@@ -17,17 +17,17 @@ if ( $_POST['submit_check'] == 1 || $_COOKIE['coin_amounts'] ) {
 <table border='0' cellpadding='10' cellspacing='0' id="coins_table" class='show_coin_values'>
  <thead>
     <tr>
-<th class='border_lt'> Re-sort</th>
-<th class='border_lt' align='right' style='color: blue;'> Asset</th>
-<th class='border_t'> USD Value</th>
-<th class='border_lt' align='right' style='color: blue;'> Holdings</th>
-<th class='border_t'> Symbol</th>
-<th class='border_lt' style='color: blue;'> Exchange</th>
-<th class='border_t'> USD Volume</th>
-<th class='border_t' align='right'> Trade Value</th>
-<th class='border_t' style='color: blue;'> Market</th>
-<th class='border_lt' style='color: blue;'> Holdings Value</th>
-<th class='border_lrt' style='color: blue;'> USD Subtotal</th>
+<th class='border_lt'>#</th>
+<th class='border_lt' align='right' style='color: blue;'>Asset</th>
+<th class='border_t'>USD Value</th>
+<th class='border_lt' align='right' style='color: blue;'>Holdings</th>
+<th class='border_t'>Symbol</th>
+<th class='border_lt' style='color: blue;'>Exchange</th>
+<th class='border_t'>USD Volume</th>
+<th class='border_t' align='right'>Trade Value</th>
+<th class='border_t' style='color: blue;'>Market</th>
+<th class='border_lt' style='color: blue;'>Holdings Value</th>
+<th class='border_lrt' style='color: blue;'>USD Subtotal</th>
     </tr>
   </thead>
  <tbody>
