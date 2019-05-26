@@ -191,14 +191,14 @@ $proxy_alerts_freq = 1; // Re-allow same proxy alert(s) after X hours (per ip/po
 // Exchange price alert settings
 // Only used if $exchange_price_alerts is filled in properly below, AND a cron job is setup (see README.txt for cron job setup information) 
 
-$exchange_price_alerts_percent = 13; // Price percent change to send alerts for (WITHOUT percent sign: 15 = 15%). Sends alerts when percent change reached (up or down)
+$exchange_price_alerts_percent = 10; // Price percent change to send alerts for (WITHOUT percent sign: 15 = 15%). Sends alerts when percent change reached (up or down)
 
 $exchange_price_alerts_freq = 10; // Re-allow same exchange price alert(s) after X minutes (per asset, set higher if issues with blacklisting...can be 0)
 
 // Minimum 24 hour volume filter. Only allows sending exchange price alerts if minimum 24 hour volume reached
 // CAN BE 0 TO DISABLE MINIMUM VOLUME FILTERING, NO DECIMALS OR SEPARATORS, NUMBERS ONLY, WITHOUT dollar sign: 250 = $250 , 4500 = $4,500 , etc
 // THIS FILTER WILL AUTO-DISABLE IF THERE IS AN ERROR RETRIEVING VOLUME DATA ON A CERTAIN MARKET
-$exchange_price_alerts_minvolume = 1000;
+$exchange_price_alerts_minvolume = 250;
 
 // Refresh cached comparison prices every X days (since last refresh / alert) with latest prices...can be 0 to disable refreshing (until price alert triggers a refresh)
 $exchange_price_alerts_refresh = 0; 
@@ -214,37 +214,30 @@ $exchange_price_alerts = array(
 				// 'othersymbol' => 'exchange||trade_pairing',
 				// 'othersymbol-2' => 'exchange2||trade_pairing2',
 				// 'othersymbol-3' => 'exchange3||trade_pairing3',
-				//	'tusd' => 'binance||usdt',
 				//	'btc' => 'coinbase||btc',
 					'btc-2' => 'binance||btc',
 					'eth' => 'binance||usdt',
 				//	'eth-2' => 'bittrex||btc',
 					'xmr' => 'binance||btc',
+					'ltc' => 'bittrex||btc',
 					'dcr' => 'binance||btc',
 				//	'dcr-2' => 'bittrex||usdt',
-					'ltc' => 'bittrex||btc',
-					'dash' => 'bittrex||btc',
+					'grin' => 'poloniex||btc',
+				//	'grin-2' => 'hitbtc||eth',
 					'atom' => 'binance||btc',
 				//	'atom-2' => 'poloniex||btc',
 				//	'atom-3' => 'kraken||btc',
-					'beam' => 'hotbit||btc',
 					'steem' => 'binance||eth',
-					'bnb' => 'binance||usdt',
-					'mana' => 'binance||btc',
+					'tusd' => 'binance||usdt',
 					'ant' => 'bittrex||btc',
-				//	'zrx' => 'bittrex||btc',
-				//	'snt' => 'bittrex||btc',
-				//	'gnt' => 'bittrex||btc',
 					'enj' => 'binance||btc',
-				//	'zil' => 'binance||btc',
-				//	'ada' => 'binance||tusd',
-					'grin' => 'poloniex||btc',
-				//	'grin-2' => 'hitbtc||eth',
+					'mana' => 'binance||btc',
+					'bnb' => 'binance||usdt',
+					'gnt' => 'bittrex||btc',
 					'data' => 'binance||btc',
-				//	'rvn' => 'binance||btc',
+					'trac' => 'kucoin||btc',
 					'myst' => 'hitbtc||btc',
-				//	'myst-2' => 'idex||eth',
-				//	'trac' => 'kucoin||btc',
+					'myst-2' => 'idex||eth',
 					);
 
 
@@ -302,61 +295,6 @@ $coins_list = array(
 
                     
                     
-                    // Misc. USD Assets
-                    'USD' => array(
-                        
-                        'coin_name' => 'Misc. USD Assets',
-                        'marketcap_website_slug' => '',
-                        'market_pairing' => array(
-                        
-                                    'btc' => array(
-                                          'usd_assets' => 'usdtobtc'
-                                                    ),
-                                                    
-                                    'xmr' => array(
-                                          'usd_assets' => 'usdtoxmr'
-                                                    ),
-                                                    
-                                    'eth' => array(
-                                          'usd_assets' => 'usdtoeth'
-                                                    ),
-                                                    
-                                    'ltc' => array(
-                                          'usd_assets' => 'usdtoltc'
-                                                    )
-                                                    
-                                        ) // market_pairing END
-                        
-                    ), // Coin END
-                    
-                    
-                    // TUSD
-                    'TUSD' => array(
-                        
-                        'coin_name' => 'True USD',
-                        'marketcap_website_slug' => 'true-usd',
-                        'market_pairing' => array(
-                        
-                                    'btc' => array(
-                                        'bittrex' => 'BTC-TUSD',
-                                        'upbit' => 'BTC-TUSD'
-                                                    ),
-                                                    
-                                    'eth' => array(
-                                        'bittrex' => 'ETH-TUSD',
-                                        'upbit' => 'ETH-TUSD'
-                                                    ),
-                                                    
-                                    'usdt' => array(
-                                    	 'binance' => 'TUSDUSDT',
-                                        'bittrex' => 'USDT-TUSD'
-                                                    )
-                                                    
-                                        ) // market_pairing END
-                                        
-                    ), // Coin END
-                    
-
                     // BTC
                     'BTC' => array(
                         
@@ -461,37 +399,6 @@ $coins_list = array(
                     ), // Coin END
                     
                     
-                    // DCR
-                    'DCR' => array(
-                        
-                        'coin_name' => 'Decred',
-                        'marketcap_website_slug' => 'decred',
-                        'market_pairing' => array(
-                        
-                                    'btc' => array(
-                                        	'binance' => 'DCRBTC',
-                                          'bittrex' => 'BTC-DCR',
-                                       	'kucoin' => 'DCR-BTC',
-                                          'upbit' => 'BTC-DCR',
-                                          'okex' => 'DCR-BTC',
-                                          'gateio' => 'dcr_btc'
-                                                    ),
-                                                    
-                                		'eth' => array(
-                                        	'kucoin' => 'DCR-ETH'
-                                                    ),
-                                                    
-                                    'usdt' => array(
-                                          'bittrex' => 'USDT-DCR',
-                                          'okex' => 'DCR-USDT',
-                                          'gateio' => 'dcr_usdt'
-                                          			)
-                                          			
-                                        ) // market_pairing END
-                        
-                    ), // Coin END
-                    
-                    
                     // LTC
                     'LTC' => array(
                         
@@ -548,48 +455,74 @@ $coins_list = array(
                     ), // Coin END
                     
                     
-                    // DASH
-                    'DASH' => array(
+                    // DCR
+                    'DCR' => array(
                         
-                        'coin_name' => 'Dash',
-                        'marketcap_website_slug' => 'dash',
+                        'coin_name' => 'Decred',
+                        'marketcap_website_slug' => 'decred',
                         'market_pairing' => array(
                         
                                     'btc' => array(
-                                        'binance' => 'DASHBTC',
-                                        'bittrex' => 'BTC-DASH',
-                                        'poloniex' => 'BTC_DASH',
-                                        'kraken' => 'DASHXBT',
-                                        'bitfinex' => 'tDSHBTC',
-                                        'hitbtc' => 'DASHBTC',
-                                        'kucoin' => 'DASH-BTC',
-                                        'upbit' => 'BTC-DASH',
-                                        'okex' => 'DASH-BTC',
-                                        'livecoin' => 'DASH/BTC',
-                                        'tradesatoshi' => 'DASH_BTC'
+                                        	'binance' => 'DCRBTC',
+                                          'bittrex' => 'BTC-DCR',
+                                       	'kucoin' => 'DCR-BTC',
+                                          'upbit' => 'BTC-DCR',
+                                          'okex' => 'DCR-BTC',
+                                          'gateio' => 'dcr_btc'
                                                     ),
                                                     
-												'xmr' => array(
-													  'poloniex' => 'XMR_DASH'
-                                                    ),
-                                                    
-                                    'eth' => array(
-                                         'binance' => 'DASHETH',
-                                         'bittrex' => 'ETH-DASH',
-                                         'hitbtc' => 'DASHETH',
-                                         'kucoin' => 'DASH-ETH',
-                                         'upbit' => 'ETH-DASH',
-                                         'okex' => 'DASH-ETH'
+                                		'eth' => array(
+                                        	'kucoin' => 'DCR-ETH'
                                                     ),
                                                     
                                     'usdt' => array(
-                                         'poloniex' => 'USDT_DASH',
-                                         'bittrex' => 'USDT-DASH',
-                                         'upbit' => 'USDT-DASH'
+                                          'bittrex' => 'USDT-DCR',
+                                          'okex' => 'DCR-USDT',
+                                          'gateio' => 'dcr_usdt'
                                           			)
                                           			
                                         ) // market_pairing END
                         
+                    ), // Coin END
+                    
+                    
+                    // GRIN
+                    'GRIN' => array(
+                        
+                        'coin_name' => 'Grin',
+                        'marketcap_website_slug' => 'grin',
+                        'market_pairing' => array(
+                        
+                                    'btc' => array(
+                                         'poloniex' => 'BTC_GRIN',
+                                    	  'kucoin' => 'GRIN-BTC',
+                                         'hitbtc' => 'GRINBTC',
+                                         'hotbit' => 'GRIN_BTC',
+                                         'gateio' => 'grin_btc',
+                                         'bitforex' => 'coin-btc-grin',
+                                         'tradeogre' => 'BTC-GRIN',
+                                         'bigone' => 'GRIN-BTC'
+                                                    ),
+                                                    
+                                    'eth' => array(
+                                    	  'kucoin' => 'GRIN-ETH',
+                                         'hitbtc' => 'GRINETH',
+                                         'hotbit' => 'GRIN_ETH',
+                                         'gateio' => 'grin_eth',
+                                         'bitforex' => 'coin-eth-grin'
+                                                    ),
+                                                    
+                                    'usdt' => array(
+                                    	  'kucoin' => 'GRIN-USDT',
+                                         'hitbtc' => 'GRINUSD',
+                                         'hotbit' => 'GRIN_USDT',
+                                         'gateio' => 'grin_usdt',
+                                         'bitforex' => 'coin-usdt-grin',
+                                         'bigone' => 'GRIN-USDT'
+                                                    )
+                                                    
+                                        ) // market_pairing END
+                                        
                     ), // Coin END
                     
                     
@@ -625,36 +558,6 @@ $coins_list = array(
                     ), // Coin END
                     
                     
-                    // BEAM
-                    'BEAM' => array(
-                        
-                        'coin_name' => 'Beam',
-                        'marketcap_website_slug' => 'beam',
-                        'market_pairing' => array(
-                        
-                                    'btc' => array(
-                                         'hotbit' => 'BEAM_BTC',
-                                         'gateio' => 'beam_btc',
-                                         'bitforex' => 'coin-btc-beam'
-                                                    ),
-                                                    
-                                    'eth' => array(
-                                         'hotbit' => 'BEAM_ETH',
-                                         'gateio' => 'beam_eth',
-                                         'bitforex' => 'coin-eth-beam'
-                                                    ),
-                                                    
-                                    'usdt' => array(
-                                         'hotbit' => 'BEAM_USDT',
-                                         'gateio' => 'beam_usdt',
-                                         'bitforex' => 'coin-usdt-beam'
-                                                    )
-                                                    
-                                        ) // market_pairing END
-                                        
-                    ), // Coin END
-                    
-                    
                     // STEEM
                     'STEEM' => array(
                         
@@ -682,23 +585,87 @@ $coins_list = array(
                     ), // Coin END
                     
                     
-                    // BNB
-                    'BNB' => array(
+                    // TUSD
+                    'TUSD' => array(
                         
-                        'coin_name' => 'Binance Coin',
-                        'marketcap_website_slug' => 'binance-coin',
+                        'coin_name' => 'True USD',
+                        'marketcap_website_slug' => 'true-usd',
                         'market_pairing' => array(
                         
                                     'btc' => array(
-                                        	'binance' => 'BNBBTC'
+                                        'bittrex' => 'BTC-TUSD',
+                                        'upbit' => 'BTC-TUSD'
                                                     ),
                                                     
                                     'eth' => array(
-                                        	'binance' => 'BNBETH'
+                                        'bittrex' => 'ETH-TUSD',
+                                        'upbit' => 'ETH-TUSD'
                                                     ),
                                                     
                                     'usdt' => array(
-                                        	'binance' => 'BNBUSDT'
+                                    	 'binance' => 'TUSDUSDT',
+                                        'bittrex' => 'USDT-TUSD'
+                                                    )
+                                                    
+                                        ) // market_pairing END
+                                        
+                    ), // Coin END
+                    
+                    
+                    // ANT
+                    'ANT' => array(
+                        
+                        'coin_name' => 'Aragon',
+                        'marketcap_website_slug' => 'aragon',
+                        'market_pairing' => array(
+                        
+                                    'btc' => array(
+                                          'bittrex' => 'BTC-ANT',
+                                        	'ethfinex' => 'tANTBTC',
+                                          'hitbtc' => 'ANTBTC',
+                                        	'upbit' => 'BTC-ANT'
+                                                    ),
+                                                    
+                                    'eth' => array(
+                                          'bittrex' => 'ETH-ANT',
+                                        	'ethfinex' => 'tANTETH',
+                                          'upbit' => 'ETH-ANT'
+                                                    )
+                                                    
+                                        ) // market_pairing END
+                        
+                    ), // Coin END
+                    
+                    
+                    // ENJ
+                    'ENJ' => array(
+                        
+                        'coin_name' => 'Enjin Coin',
+                        'marketcap_website_slug' => 'enjin-coin',
+                        'market_pairing' => array(
+                        
+                                    'btc' => array(
+                                        	'binance' => 'ENJBTC',
+                                          'bittrex' => 'BTC-ENJ',
+                                        	'hitbtc' => 'ENJBTC',
+                                    		'kucoin' => 'ENJ-BTC',
+                                          'upbit' => 'BTC-ENJ',
+                                        	'livecoin' => 'ENJ/BTC'
+                                                    ),
+                                                    
+                                    'eth' => array(
+                                        	'binance' => 'ENJETH',
+                                        	'ethfinex' => 'tENJETH',
+                                        	'hitbtc' => 'ENJETH',
+                                          'kucoin' => 'ENJ-ETH',
+                                        	'livecoin' => 'ENJ/ETH',
+                                          'idex' => 'ETH_ENJ'
+                                                    ),
+                                                    
+                                    'usdt' => array(
+                                        	'binance' => 'ENJUSDT',
+                                          'bittrex' => 'USDT-ENJ',
+                                        	'hitbtc' => 'ENJUSD'
                                                     )
                                                     
                                         ) // market_pairing END
@@ -743,101 +710,23 @@ $coins_list = array(
                     ), // Coin END
                     
                     
-                    // ANT
-                    'ANT' => array(
+                    // BNB
+                    'BNB' => array(
                         
-                        'coin_name' => 'Aragon',
-                        'marketcap_website_slug' => 'aragon',
+                        'coin_name' => 'Binance Coin',
+                        'marketcap_website_slug' => 'binance-coin',
                         'market_pairing' => array(
                         
                                     'btc' => array(
-                                          'bittrex' => 'BTC-ANT',
-                                        	'ethfinex' => 'tANTBTC',
-                                          'hitbtc' => 'ANTBTC',
-                                        	'upbit' => 'BTC-ANT'
+                                        	'binance' => 'BNBBTC'
                                                     ),
                                                     
                                     'eth' => array(
-                                          'bittrex' => 'ETH-ANT',
-                                        	'ethfinex' => 'tANTETH',
-                                          'upbit' => 'ETH-ANT'
-                                                    )
-                                                    
-                                        ) // market_pairing END
-                        
-                    ), // Coin END
-                    
-                    
-                    // ZRX
-                    'ZRX' => array(
-                        
-                        'coin_name' => 'oxProject',
-                        'marketcap_website_slug' => '0x',
-                        'market_pairing' => array(
-                        
-                                    'btc' => array(
-                                        	'binance' => 'ZRXBTC',
-                                          'bittrex' => 'BTC-ZRX',
-                                          'poloniex' => 'BTC_ZRX',
-                                        	'ethfinex' => 'tZRXBTC',
-                                          'hitbtc' => 'ZRXBTC',
-                                        	'upbit' => 'BTC-ZRX',
-                                          'livecoin' => 'ZRX/BTC'
-                                                    ),
-                                                    
-                                    'eth' => array(
-                                        	'binance' => 'ZRXETH',
-                                          'bittrex' => 'ETH-ZRX',
-                                          'poloniex' => 'ETH_ZRX',
-                                        	'ethfinex' => 'tZRXETH',
-                                          'hitbtc' => 'ZRXETH',
-                                          'upbit' => 'ETH-ZRX',
-                                          'livecoin' => 'ZRX/ETH',
-                                        	'okex' => 'ZRX-ETH'
+                                        	'binance' => 'BNBETH'
                                                     ),
                                                     
                                     'usdt' => array(
-                                          'hitbtc' => 'ZRXUSD',
-                                        	'okex' => 'ZRX-USDT'
-                                                    )
-                                                    
-                                        ) // market_pairing END
-                        
-                    ), // Coin END
-                    
-                    
-                    // SNT
-                    'SNT' => array(
-                        
-                        'coin_name' => 'Status',
-                        'marketcap_website_slug' => 'status',
-                        'market_pairing' => array(
-                        
-                                    'btc' => array(
-                                        	'binance' => 'SNTBTC',
-                                          'bittrex' => 'BTC-SNT',
-                                        	'ethfinex' => 'tSNTBTC',
-                                          'hitbtc' => 'SNTBTC',
-                                        	'kucoin' => 'SNT-BTC',
-                                          'upbit' => 'BTC-SNT',
-                                        	'livecoin' => 'SNT/BTC',
-                                       	'okex' => 'SNT-BTC'
-                                                    ),
-                                                    
-                                    'eth' => array(
-                                          'binance' => 'SNTETH',
-                                          'bittrex' => 'ETH-SNT',
-                                        	'ethfinex' => 'tSNTETH',
-                                          'hitbtc' => 'SNTETH',
-                                        	'kucoin' => 'SNT-ETH',
-                                          'upbit' => 'ETH-SNT',
-                                        	'livecoin' => 'SNT/ETH',
-                                        	'okex' => 'SNT-ETH'
-                                                    ),
-                                                    
-                                    'usdt' => array(
-                                          'hitbtc' => 'SNTUSD',
-                                        	'okex' => 'SNT-USDT'
+                                        	'binance' => 'BNBUSDT'
                                                     )
                                                     
                                         ) // market_pairing END
@@ -879,145 +768,6 @@ $coins_list = array(
                     ), // Coin END
                     
                     
-                    // ENJ
-                    'ENJ' => array(
-                        
-                        'coin_name' => 'Enjin Coin',
-                        'marketcap_website_slug' => 'enjin-coin',
-                        'market_pairing' => array(
-                        
-                                    'btc' => array(
-                                        	'binance' => 'ENJBTC',
-                                          'bittrex' => 'BTC-ENJ',
-                                        	'hitbtc' => 'ENJBTC',
-                                    		'kucoin' => 'ENJ-BTC',
-                                          'upbit' => 'BTC-ENJ',
-                                        	'livecoin' => 'ENJ/BTC'
-                                                    ),
-                                                    
-                                    'eth' => array(
-                                        	'binance' => 'ENJETH',
-                                        	'ethfinex' => 'tENJETH',
-                                        	'hitbtc' => 'ENJETH',
-                                          'kucoin' => 'ENJ-ETH',
-                                        	'livecoin' => 'ENJ/ETH',
-                                          'idex' => 'ETH_ENJ'
-                                                    ),
-                                                    
-                                    'usdt' => array(
-                                        	'binance' => 'ENJUSDT',
-                                          'bittrex' => 'USDT-ENJ',
-                                        	'hitbtc' => 'ENJUSD'
-                                                    )
-                                                    
-                                        ) // market_pairing END
-                        
-                    ), // Coin END
-                    
-                    
-                    // ZIL
-                    'ZIL' => array(
-                        
-                        'coin_name' => 'Zilliqa',
-                        'marketcap_website_slug' => 'zilliqa',
-                        'market_pairing' => array(
-                        
-                                    'btc' => array(
-                                        	'binance' => 'ZILBTC',
-                                    		'kucoin' => 'ZIL-BTC',
-                                        	'okex' => 'ZIL-BTC'
-                                                    ),
-                                                    
-                                    'eth' => array(
-                                        	'binance' => 'ZILETH',
-                                          'kucoin' => 'ZIL-ETH',
-                                        	'okex' => 'ZIL-ETH'
-                                                    ),
-                                                    
-                                    'usdt' => array(
-                                        	'okex' => 'ZIL-USDT'
-                                                    )
-                                                    
-                                        ) // market_pairing END
-                        
-                    ), // Coin END
-                    
-                    
-                    // ADA
-                    'ADA' => array(
-                        
-                        'coin_name' => 'Cardano',
-                        'marketcap_website_slug' => 'cardano',
-                        'market_pairing' => array(
-                        
-                                    'btc' => array(
-                                        'binance' => 'ADABTC',
-                                        'bittrex' => 'BTC-ADA',
-                                        'hitbtc' => 'ADABTC',
-                                        'upbit' => 'BTC-ADA'
-                                                    ),
-                                                    
-                                    'eth' => array(
-                                        'binance' => 'ADAETH',
-                                        'bittrex' => 'ETH-ADA',
-                                        'hitbtc' => 'ADAETH',
-                                        'upbit' => 'ETH-ADA'
-                                                    ),
-                                                    
-                                    'usdt' => array(
-                                        'bittrex' => 'USDT-ADA',
-                                        'hitbtc' => 'ADAUSD'
-                                                    ),
-                                                    
-                                    'tusd' => array(
-                                          'binance' => 'ADATUSD'
-                                                    )
-                                                    
-                                        ) // market_pairing END
-                                        
-                    ), // Coin END
-                    
-                    
-                    // GRIN
-                    'GRIN' => array(
-                        
-                        'coin_name' => 'Grin',
-                        'marketcap_website_slug' => 'grin',
-                        'market_pairing' => array(
-                        
-                                    'btc' => array(
-                                         'poloniex' => 'BTC_GRIN',
-                                    	  'kucoin' => 'GRIN-BTC',
-                                         'hitbtc' => 'GRINBTC',
-                                         'hotbit' => 'GRIN_BTC',
-                                         'gateio' => 'grin_btc',
-                                         'bitforex' => 'coin-btc-grin',
-                                         'tradeogre' => 'BTC-GRIN',
-                                         'bigone' => 'GRIN-BTC'
-                                                    ),
-                                                    
-                                    'eth' => array(
-                                    	  'kucoin' => 'GRIN-ETH',
-                                         'hitbtc' => 'GRINETH',
-                                         'hotbit' => 'GRIN_ETH',
-                                         'gateio' => 'grin_eth',
-                                         'bitforex' => 'coin-eth-grin'
-                                                    ),
-                                                    
-                                    'usdt' => array(
-                                    	  'kucoin' => 'GRIN-USDT',
-                                         'hitbtc' => 'GRINUSD',
-                                         'hotbit' => 'GRIN_USDT',
-                                         'gateio' => 'grin_usdt',
-                                         'bitforex' => 'coin-usdt-grin',
-                                         'bigone' => 'GRIN-USDT'
-                                                    )
-                                                    
-                                        ) // market_pairing END
-                                        
-                    ), // Coin END
-                    
-                    
                     // DATA
                     'DATA' => array(
                         
@@ -1050,22 +800,25 @@ $coins_list = array(
                     ), // Coin END
                     
                     
-                    // RVN
-                    'RVN' => array(
+                    // TRAC
+                    'TRAC' => array(
                         
-                        'coin_name' => 'Ravencoin',
-                        'marketcap_website_slug' => 'ravencoin',
+                        'coin_name' => 'OriginTrail',
+                        'marketcap_website_slug' => 'origintrail',
                         'market_pairing' => array(
                         
                                     'btc' => array(
-    												  'binance' => 'RVNBTC',
-                                         'bittrex' => 'BTC-RVN',
-                                         'graviex' => 'rvnbtc',
-                                         'cryptofresh' => 'BRIDGE.RVN'
+                                    		'kucoin' => 'TRAC-BTC'
+                                                    ),
+                                                    
+                                    'eth' => array(
+                                        	'hitbtc' => 'TRACETH',
+                                          'kucoin' => 'TRAC-ETH',
+                                          'idex' => 'ETH_TRAC'
                                                     )
                                                     
                                         ) // market_pairing END
-                                        
+                        
                     ), // Coin END
                     
                     
@@ -1091,21 +844,27 @@ $coins_list = array(
                     ), // Coin END
                     
                     
-                    // TRAC
-                    'TRAC' => array(
+                    // Misc. USD Assets
+                    'USD' => array(
                         
-                        'coin_name' => 'OriginTrail',
-                        'marketcap_website_slug' => 'origintrail',
+                        'coin_name' => 'Misc. USD Assets',
+                        'marketcap_website_slug' => '',
                         'market_pairing' => array(
                         
                                     'btc' => array(
-                                    		'kucoin' => 'TRAC-BTC'
+                                          'usd_assets' => 'usdtobtc'
+                                                    ),
+                                                    
+                                    'xmr' => array(
+                                          'usd_assets' => 'usdtoxmr'
                                                     ),
                                                     
                                     'eth' => array(
-                                        	'hitbtc' => 'TRACETH',
-                                          'kucoin' => 'TRAC-ETH',
-                                          'idex' => 'ETH_TRAC'
+                                          'usd_assets' => 'usdtoeth'
+                                                    ),
+                                                    
+                                    'ltc' => array(
+                                          'usd_assets' => 'usdtoltc'
                                                     )
                                                     
                                         ) // market_pairing END
