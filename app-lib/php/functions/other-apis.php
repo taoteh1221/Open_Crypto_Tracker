@@ -59,33 +59,6 @@ global $chainstats_cache;
 
 //////////////////////////////////////////////////////////
 
-function ravencoin_api($request) {
- 
-global $chainstats_cache;
- 		
-    $json_string = 'https://ravencoin.network/api/status?q=getInfo';
-    
-    $jsondata = @api_data('url', $json_string, $chainstats_cache);
-    
-    $data = json_decode($jsondata, TRUE);
-    
-    
-		if ( $request == 'height' ) {
-		
-		return $data['info']['blocks'];
-		  
-		}
-		elseif ( $request == 'difficulty' ) {
-		
-		return $data['info']['difficulty'];
-		  
-		}
-  
-  
-}
-
-//////////////////////////////////////////////////////////
-
 function decred_api($type, $request) {
  
 global $chainstats_cache, $runtime_mode;

@@ -189,7 +189,6 @@ $mining_rewards = array(
 					'xmr' => monero_reward(),  // (2^64 - 1 - current_supply * 10^12) * 2^-19 * 10^-12
 					'ltc' => '25',
 					'dcr' => ( decred_api('subsidy', 'work_reward') / 100000000 ),
-					'rvn' => '5000',
 					);
 
 
