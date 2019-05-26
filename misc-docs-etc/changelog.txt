@@ -1182,6 +1182,7 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 3.05.0:
 -Default config revisions
+-README revisions
 -------------------------------------------------------------------
 
 
