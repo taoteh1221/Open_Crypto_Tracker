@@ -162,7 +162,6 @@ $exchange_price_alerts = array(
 					'bnb' => 'binance||usdt',
 					'gnt' => 'bittrex||btc',
 					'data' => 'binance||btc',
-					'trac' => 'kucoin||btc',
 					'myst' => 'hitbtc||btc',
 					'myst-2' => 'idex||eth',
 					);
@@ -719,28 +718,6 @@ $coins_list = array(
                                          'hitbtc' => 'DATAUSD',
                                          'gateio' => 'data_usdt',
                                          'bitforex' => 'coin-usdt-data'
-                                                    )
-                                                    
-                                        ) // market_pairing END
-                        
-                    ), // Coin END
-                    
-                    
-                    // TRAC
-                    'TRAC' => array(
-                        
-                        'coin_name' => 'OriginTrail',
-                        'marketcap_website_slug' => 'origintrail',
-                        'market_pairing' => array(
-                        
-                                    'btc' => array(
-                                    		'kucoin' => 'TRAC-BTC'
-                                                    ),
-                                                    
-                                    'eth' => array(
-                                        	'hitbtc' => 'TRACETH',
-                                          'kucoin' => 'TRAC-ETH',
-                                          'idex' => 'ETH_TRAC'
                                                     )
                                                     
                                         ) // market_pairing END
