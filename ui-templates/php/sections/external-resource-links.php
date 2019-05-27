@@ -8,7 +8,6 @@
 
 <p>
     <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Coinmarketcap.com Stats</strong> </legend>
-    <ul>
         
 		<p><a style='color: red; font-weight: bold;' class='show' id='newbiewarning' href='#show_newbiewarning' title='Click to show newbie warning.' onclick='return false;'><b>Newbie Warning</b></a></p>
     
@@ -19,6 +18,8 @@
 
             
             </div>
+            
+    <ul>
         
         <li class='links_list'><a href='http://coinmarketcap.com/' target='_blank'>Top Marketcaps</a></li>
         
@@ -127,6 +128,36 @@
         
         <li class='links_list'><a href='https://etherscan.io/' target='_blank'>Etherscan.io Ethereum Explorer</a></li>
         
+        
+        
+        
+    </ul>
+    </fieldset>
+</p>
+
+
+<p>
+    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Crypto Wallets</strong> </legend>
+        
+		<p><a style='color: red; font-weight: bold;' class='show' id='newbiewarning2' href='#show_newbiewarning2' title='Click to show newbie warning.' onclick='return false;'><b>Newbie Warning</b></a></p>
+    
+            <div style='display: none;' class='show_newbiewarning2' align='left'>
+            	
+     
+					<p style='color: red;'>Store your coins in your own wallet (<i>hardware wallets allow this safely and easily</i>), do NOT store large holdings on an exchange. If an exchange is hacked, and your coins are stored on that exchange, <u>you easily can loose your coins with no recourse</u>. :-o ALWAYS backup your wallet recovery seed too, and never store it in (unencrypted) plain text on a computer or the cloud.</p>
+
+            
+            </div>
+            
+    <ul>
+        
+        <li class='links_list'><a href='https://www.ledger.com/' target='_blank'>Ledger</a> (multi-coin hardware wallet)</li>
+        
+        <li class='links_list'><a href='https://trezor.io/' target='_blank'>Trezor</a> (multi-coin hardware wallet)</li>
+        
+        <li class='links_list'><a href='https://bitcoin.org/en/choose-your-wallet' target='_blank'>Bitcoin Wallets</a> (Bitcoin software wallets)</li>
+        
+        <li class='links_list'><a href='https://metamask.io/' target='_blank'>Metamask</a> (Ethereum software wallet browser extension)</li>
         
         
         
