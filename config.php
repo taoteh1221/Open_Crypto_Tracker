@@ -155,15 +155,13 @@ $exchange_price_alerts = array(
 				//	'atom-2' => 'poloniex||btc',
 				//	'atom-3' => 'kraken||btc',
 					'steem' => 'binance||eth',
-					'tusd' => 'binance||usdt',
 					'ant' => 'bittrex||btc',
-					'enj' => 'binance||btc',
 					'mana' => 'binance||btc',
-					'bnb' => 'binance||usdt',
 					'gnt' => 'bittrex||btc',
 					'data' => 'binance||btc',
 					'myst' => 'hitbtc||btc',
 					'myst-2' => 'idex||eth',
+					'tusd' => 'binance||usdt',
 					);
 
 
@@ -510,33 +508,6 @@ $coins_list = array(
                     ), // Coin END
                     
                     
-                    // TUSD
-                    'TUSD' => array(
-                        
-                        'coin_name' => 'True USD',
-                        'marketcap_website_slug' => 'true-usd',
-                        'market_pairing' => array(
-                        
-                                    'btc' => array(
-                                        'bittrex' => 'BTC-TUSD',
-                                        'upbit' => 'BTC-TUSD'
-                                                    ),
-                                                    
-                                    'eth' => array(
-                                        'bittrex' => 'ETH-TUSD',
-                                        'upbit' => 'ETH-TUSD'
-                                                    ),
-                                                    
-                                    'usdt' => array(
-                                    	 'binance' => 'TUSDUSDT',
-                                        'bittrex' => 'USDT-TUSD'
-                                                    )
-                                                    
-                                        ) // market_pairing END
-                                        
-                    ), // Coin END
-                    
-                    
                     // ANT
                     'ANT' => array(
                         
@@ -555,42 +526,6 @@ $coins_list = array(
                                           'bittrex' => 'ETH-ANT',
                                         	'ethfinex' => 'tANTETH',
                                           'upbit' => 'ETH-ANT'
-                                                    )
-                                                    
-                                        ) // market_pairing END
-                        
-                    ), // Coin END
-                    
-                    
-                    // ENJ
-                    'ENJ' => array(
-                        
-                        'coin_name' => 'Enjin Coin',
-                        'marketcap_website_slug' => 'enjin-coin',
-                        'market_pairing' => array(
-                        
-                                    'btc' => array(
-                                        	'binance' => 'ENJBTC',
-                                          'bittrex' => 'BTC-ENJ',
-                                        	'hitbtc' => 'ENJBTC',
-                                    		'kucoin' => 'ENJ-BTC',
-                                          'upbit' => 'BTC-ENJ',
-                                        	'livecoin' => 'ENJ/BTC'
-                                                    ),
-                                                    
-                                    'eth' => array(
-                                        	'binance' => 'ENJETH',
-                                        	'ethfinex' => 'tENJETH',
-                                        	'hitbtc' => 'ENJETH',
-                                          'kucoin' => 'ENJ-ETH',
-                                        	'livecoin' => 'ENJ/ETH',
-                                          'idex' => 'ETH_ENJ'
-                                                    ),
-                                                    
-                                    'usdt' => array(
-                                        	'binance' => 'ENJUSDT',
-                                          'bittrex' => 'USDT-ENJ',
-                                        	'hitbtc' => 'ENJUSD'
                                                     )
                                                     
                                         ) // market_pairing END
@@ -628,30 +563,6 @@ $coins_list = array(
                                     'usdt' => array(
                                           'hitbtc' => 'MANAUSD',
                                           'okex' => 'MANA-USDT'
-                                                    )
-                                                    
-                                        ) // market_pairing END
-                        
-                    ), // Coin END
-                    
-                    
-                    // BNB
-                    'BNB' => array(
-                        
-                        'coin_name' => 'Binance Coin',
-                        'marketcap_website_slug' => 'binance-coin',
-                        'market_pairing' => array(
-                        
-                                    'btc' => array(
-                                        	'binance' => 'BNBBTC'
-                                                    ),
-                                                    
-                                    'eth' => array(
-                                        	'binance' => 'BNBETH'
-                                                    ),
-                                                    
-                                    'usdt' => array(
-                                        	'binance' => 'BNBUSDT'
                                                     )
                                                     
                                         ) // market_pairing END
@@ -744,6 +655,33 @@ $coins_list = array(
                                                     
                                         ) // market_pairing END
                         
+                    ), // Coin END
+                    
+                    
+                    // TUSD
+                    'TUSD' => array(
+                        
+                        'coin_name' => 'True USD',
+                        'marketcap_website_slug' => 'true-usd',
+                        'market_pairing' => array(
+                        
+                                    'btc' => array(
+                                        'bittrex' => 'BTC-TUSD',
+                                        'upbit' => 'BTC-TUSD'
+                                                    ),
+                                                    
+                                    'eth' => array(
+                                        'bittrex' => 'ETH-TUSD',
+                                        'upbit' => 'ETH-TUSD'
+                                                    ),
+                                                    
+                                    'usdt' => array(
+                                    	 'binance' => 'TUSDUSDT',
+                                        'bittrex' => 'USDT-TUSD'
+                                                    )
+                                                    
+                                        ) // market_pairing END
+                                        
                     ), // Coin END
                     
                     

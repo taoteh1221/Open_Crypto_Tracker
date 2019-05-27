@@ -1183,6 +1183,7 @@ app doing the data requests, not a malicious bot)
 3.06.0:
 -Default config revisions
 -README revisions
+-Wallets section on external resources page
 -------------------------------------------------------------------
 
 
