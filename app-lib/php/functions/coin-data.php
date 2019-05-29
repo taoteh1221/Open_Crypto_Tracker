@@ -357,11 +357,11 @@ global $_POST, $mining_rewards;
 
 function asset_alert_check($asset_data, $exchange, $pairing, $alert_mode) {
 
-global $coins_list, $btc_exchange, $btc_usd, $exchange_price_alerts_freq, $exchange_price_alerts_percent, $exchange_price_alerts_minvolume, $exchange_price_alerts_refresh;
+global $coins_list, $btc_exchange, $btc_usd, $charts_page, $exchange_price_alerts_freq, $exchange_price_alerts_percent, $exchange_price_alerts_minvolume, $exchange_price_alerts_refresh;
 
 // Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
 $asset = ( stristr($asset_data, "-") == false ? $asset_data : substr( $asset_data, 0, strpos($asset_data, "-") ) );
-
+$asset = strtoupper($asset);
 
 	// Get any necessary variables for calculating asset's USD value
 	if ( $asset == 'BTC' ) {
@@ -548,6 +548,11 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
 	file_put_contents('cache/alerts/'.$asset_data.'.dat', $asset_usd_raw, LOCK_EX); 
 	}
 
+
+	// If the charts page is enabled in config.php, save latest chart data for assets with price alerts configured on them
+	if ( $charts_page == 'enable' && $alert_mode == 'increased' ) { // We only want this chart data stored once, so just run during the check for 'increased' value
+	file_put_contents('cache/charts/'.$asset.'/'.$asset_data.'_chart.dat', time() . '||' . $exchange . '||' . $pairing . '||' . $asset_usd_raw . '||' . $volume_usd_raw . "\n", FILE_APPEND | LOCK_EX); 
+	}
 
 
 }

@@ -11,6 +11,13 @@ require("ui-templates/php/header.php");
 		<ul class='tabs' style='display: inline;'>
 			<li class='tabli'><a href='#show_values'>Coin Portfolio Value</a></li>
 			<li class='tabli'><a href='#update_values'>Update Coin Values</a></li>
+			<?php
+			if ( $charts_page == 'enable' ) {
+			?>
+			<li class='tabli'><a href='#charts'>Charts</a></li>
+			<?php
+			}
+			?>
 			<li class='tabli'><a href='#settings'>Program Settings</a></li>
 			<li class='tabli'><a href='#calculators'>Mining / Interest Calculators</a></li>
 			<li class='tabli'><a href='#other_crypto_tools'>Other Crypto Tools</a></li>
@@ -46,6 +53,16 @@ require("ui-templates/php/header.php");
 			<h3>Update Coin Values</h3>
 			<p><?php require("ui-templates/php/sections/update-coin-values.php"); ?></p>
 		</div>
+			<?php
+			if ( $charts_page == 'enable' ) {
+			?>
+		<div id='charts' class='tabdiv'>
+			<h3>Charts</h3>
+			<?php require("ui-templates/php/sections/charts.php"); ?>
+		</div>
+			<?php
+			}
+			?>
 		<div id='settings' class='tabdiv'>
 			<h3>Program Settings</h3>
 			<?php require("ui-templates/php/sections/program-settings.php"); ?>

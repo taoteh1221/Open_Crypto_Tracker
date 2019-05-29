@@ -33,6 +33,15 @@ require("config.php");
 
 <script type="text/javascript" src="app-lib/js/functions.js"></script>
 
+<?php
+if ( $charts_page == 'enable' ) {
+?>
+<script type="text/javascript" src="app-lib/js/zingchart.min.js"></script>
+<?php
+}
+?>
+
+
 <script>
 var sorted_by_col = <?=$sorted_by_col?>;
 var sorted_by_asc_desc = <?=$sorted_by_asc_desc?>;

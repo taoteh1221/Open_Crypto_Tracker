@@ -52,6 +52,11 @@ $purge_error_logs = 2; // Days to keep error logs before purging (deletes logs e
 $mail_error_logs = 'daily'; // 'no', 'daily', 'weekly' Email to / from !MUST BE SET! MAY NOT SEND IN TIMELY FASHION WITHOUT CRON JOB
 
 
+// Caches USD price / volume data for historical charts of all assets added to 'exchange price alerts' (further down in this config file)
+// Enables a charts tab / page with historical charts. STILL EARLY EXPERIMENTAL CODE (AS OF 5/29/2019), MAY SLOW PAGE LOADS SIGNIFICANTLY
+// Disabling disables EVERYTHING related to the charts features...the page, caching, even the javascript associated with the charts
+$charts_page = 'disable'; // 'enable' / 'disable'
+
 
 // IF SMTP EMAIL SENDING --NOT-- USED, FROM email should be REAL address on the website domain, or risk having email blacklisted / sent to junk folder
 // IF SMTP EMAIL SENDING --IS-- USED, FROM EMAIL MUST MATCH EMAIL ADDRESS associated with SMTP login (SMTP Email settings are further down below this setting)

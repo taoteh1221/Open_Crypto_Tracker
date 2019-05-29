@@ -15,6 +15,24 @@ $marketcap_site = ( $alert_percent[0] != '' ? $alert_percent[0] : $marketcap_sit
 
 }
 
+// Chart data caches
+if ( !$disabled_cache ) {
+
+	foreach ( $coins_list as $key => $value ) {
+	
+		if ( dir_structure($base_dir . '/cache/charts/'.$key.'/') != TRUE ) {
+		$disabled_charts = 1;
+		}
+	
+	}
+	
+	if ( $disabled_charts == 1 ) {
+	echo "Improper directory permissions on the /cache/charts/ directory, cannot create asset subdirectories.";
+	exit;
+	}
+
+}
+
 
 // Run some basic configuration file checks
 

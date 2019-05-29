@@ -22,13 +22,12 @@ foreach ( $exchange_price_alerts as $key => $value ) {
 	
 $value = explode("||",$value); // Convert $value into an array
 
-$asset = strtoupper($key);
 $exchange = $value[0];
 $pairing = $value[1];
 
-asset_alert_check($asset, $exchange, $pairing, 'decreased');
+asset_alert_check($key, $exchange, $pairing, 'decreased');
 
-asset_alert_check($asset, $exchange, $pairing, 'increased');
+asset_alert_check($key, $exchange, $pairing, 'increased');
 
 }
 

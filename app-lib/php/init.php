@@ -5,7 +5,7 @@
 
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
 
-$app_version = '3.06.0';  // 2019/MAY/26TH
+$app_version = '3.07.0';  // 2019/MAY/29TH
  
 date_default_timezone_set('UTC');
 
@@ -33,8 +33,10 @@ $php_app_dir = dirname(__FILE__);
 if ( dir_structure($base_dir . '/cache/alerts/') != TRUE
 || dir_structure($base_dir . '/cache/apis/') != TRUE
 || dir_structure($base_dir . '/cache/events/') != TRUE
-|| dir_structure($base_dir . '/cache/logs/') != TRUE ) {
-echo "Cannot create cache sub-directories. Please either manually create the sub-directories 'alerts', 'apis', 'events', and 'logs' with read / write permissions inside the folder 'cache', OR make sure the folder 'cache' itself has read / write permissions (and these sub-directories should be created automatically).";
+|| dir_structure($base_dir . '/cache/logs/') != TRUE
+|| dir_structure($base_dir . '/cache/charts/') != TRUE ) {
+$disabled_cache = 1;
+echo "Cannot create cache sub-directories. Please either manually create the sub-directories 'alerts', 'apis', 'events', 'logs', and 'charts' with read / write permissions inside the folder 'cache', OR make sure the folder 'cache' itself has read / write permissions (and these sub-directories should be created automatically).";
 exit;
 }
 

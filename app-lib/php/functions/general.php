@@ -118,6 +118,35 @@ return $smtp->Send();
 
 /////////////////////////////////////////////////////////
 
+function chart_data($file) {
+
+$data = array();
+$fn = fopen($file,"r");
+  
+  while(! feof($fn))  {
+  	
+	$result = explode("||", trim( fgets($fn) ) );
+	
+	$data['time'] .= ( $result[0] != '' ? $result[0] . '000,' : NULL );  // Zingchart want 3 more zeros with unix time (milliseconds)
+	$data['exchange'] = ( $result[1] != '' ? $result[1] : $data['exchange'] ); // Skip if empty while looping
+	$data['pairing'] = ( $result[2] != '' ? $result[2] : $data['pairing'] ); // Skip if empty while looping
+	$data['close'] .= $result[3] . ',';
+	$data['volume'] .= $result[4] . ',';
+	
+  }
+
+fclose($fn);
+
+$data['time'] = rtrim($data['time'],',');
+$data['close'] = rtrim($data['close'],',');
+$data['volume'] = rtrim($data['volume'],',');
+
+return $data;
+
+}
+
+/////////////////////////////////////////////////////////
+
 function validate_email($email) {
 
 // Trim whitespace off ends, since we do this before attempting to send anyways in our safe_mail function
