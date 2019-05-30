@@ -118,6 +118,18 @@ return $smtp->Send();
 
 /////////////////////////////////////////////////////////
 
+function chart_range($range) {
+
+global $chart_update_freq;
+
+$updates_daily = $chart_update_freq * 24;
+
+return ($updates_daily * $range);
+
+}
+
+/////////////////////////////////////////////////////////
+
 function chart_data($file) {
 
 $data = array();

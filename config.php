@@ -57,6 +57,9 @@ $mail_error_logs = 'daily'; // 'no', 'daily', 'weekly' Email to / from !MUST BE 
 // Disabling disables EVERYTHING related to the charts features...the page, caching, even the javascript associated with the charts
 $charts_page = 'off'; // 'on' / 'off'
 
+// Determines the presets for the chart time period buttons (1week,1month,6month,1year,2year), only used if $charts_page above is on
+$chart_update_freq = 4; // How many times per hour your cron job runs (see README.txt for cron job setup information) 
+
 
 // IF SMTP EMAIL SENDING --NOT-- USED, FROM email should be REAL address on the website domain, or risk having email blacklisted / sent to junk folder
 // IF SMTP EMAIL SENDING --IS-- USED, FROM EMAIL MUST MATCH EMAIL ADDRESS associated with SMTP login (SMTP Email settings are further down below this setting)

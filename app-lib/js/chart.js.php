@@ -10,6 +10,7 @@ $runtime_mode = 'chart_output';
 chdir("../../");
 require("config.php");
 
+
 if ( $charts_page != 'on' ) {
 exit;
 }
@@ -21,6 +22,9 @@ if ( $_GET['type'] == 'asset' ) {
 		// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
 		$asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, strpos($key, "-") ) );
 		$asset = strtoupper($asset);
+		
+		// Strip non-alphanumeric characters to use in js vars, to isolate logic for each separate chart
+		$js_key = preg_replace("//", "", $key);
 		
 		$market_parse = explode("||", $exchange_price_alerts[$key] );
 		
@@ -35,18 +39,18 @@ if ( $_GET['type'] == 'asset' ) {
 		
 		
 ?>
-var dates = [<?=$chart_data['time']?>];
-var closes = [<?=$chart_data['close']?>];
-var volumes =[<?=$chart_data['volume']?>];
+var dates_<?=$js_key?> = [<?=$chart_data['time']?>];
+var closes_<?=$js_key?> = [<?=$chart_data['close']?>];
+var volumes_<?=$js_key?> =[<?=$chart_data['volume']?>];
 
-var stockState = {
-  current: '2Y',
-  dates: dates,
-  closes: closes,
-  volumes: volumes
+var stockState_<?=$js_key?> = {
+  current: 'ALL',
+  dates: dates_<?=$js_key?>,
+  closes: closes_<?=$js_key?>,
+  volumes: volumes_<?=$js_key?>
 };
  
-function getCloseConfig(dates, values, current) {
+function getCloseConfig_<?=$js_key?>(dates, values, current) {
   return {
   type: 'area',
   backgroundColor: "#333",
@@ -59,9 +63,10 @@ function getCloseConfig(dates, values, current) {
       backgroundColor: "#bbb",
       fontColor: "#222",
       text: "Close: $%v",
+	 	fontSize: "20",
       fontFamily: "Open Sans",
       y:0,
-            "thousands-separator":",",
+      "thousands-separator":",",
     },
     scaleLabel:{
       fontColor: "#222",
@@ -81,7 +86,7 @@ function getCloseConfig(dates, values, current) {
     shared: true
   },
   plotarea: {
-    margin: "60 50 40 50"
+    margin: "60 45 55 60"
   },
   plot: {
     marker:{
@@ -89,12 +94,15 @@ function getCloseConfig(dates, values, current) {
     }
   },
   tooltip:{
-    text: "Close: %v",
+    text: "Close: $%v",
+	 fontSize: "20",
     backgroundColor: "#BBB",
     borderColor:"transparent",
-            "thousands-separator":","
+    "thousands-separator":","
   },
   scaleY: {
+    "format":"$%v",
+    "thousands-separator":",",
     guide: {
       visible: true,
       lineStyle: 'solid',
@@ -102,9 +110,9 @@ function getCloseConfig(dates, values, current) {
     },
     item: {
       fontColor: "#ddd",
-      fontFamily: "Open Sans"
-    },
-    "thousands-separator":","
+      fontFamily: "Open Sans",
+      fontSize: "16",
+    }
   },
   scaleX: {
     guide: {
@@ -115,12 +123,13 @@ function getCloseConfig(dates, values, current) {
     values: dates,
  	  transform: {
  	    type: 'date',
- 	    all: '%Y/%m/%d<br />%H:%i'  
+ 	    all: '%Y/%m/%d<br />%H:%i'
  	  },
    	zooming:{
       shared: true
     },
     item: {
+	 fontSize: "16",
       fontColor: "#ddd",
       fontFamily: "Open Sans"
     }
@@ -139,56 +148,66 @@ function getCloseConfig(dates, values, current) {
 	    y: 10,
 	    id: '1W',
 	    fontColor: (current === '1W') ? "#FFF" : "#777",
-	    fontSize: "16",
+	    fontSize: "22",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
 	    text: "1W"
 	  },
 	  {
-	    x: 50,
+	    x: 60,
 	    y: 10,
 	    id: '1M',
 	    fontColor: (current === '1M') ? "#FFF" : "#777",
-	    fontSize: "16",
+	    fontSize: "22",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
 	    text: "1M"
 	  },
 	  {
-	    x: 90,
+	    x: 110,
 	    y: 10,
 	    id: '6M',
 	    fontColor: (current === '6M') ? "#FFF" : "#777",
-	    fontSize: "16",
+	    fontSize: "22",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
 	    text: "6M"
 	  },
 	  {
-	    x: 130,
+	    x: 160,
 	    y: 10,
 	    id: '1Y',
 	    fontColor: (current === '1Y') ? "#FFF" : "#777",
-	    fontSize: "16",
+	    fontSize: "22",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
 	    text: "1Y"
 	  },
 	  {
-	    x: 170,
+	    x: 210,
 	    y: 10,
 	    id: '2Y',
 	    fontColor: (current === '2Y') ? "#FFF" : "#777",
-	    fontSize: "16",
+	    fontSize: "22",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
 	    text: "2Y"
+	  },
+	  {
+	    x: 260,
+	    y: 10,
+	    id: 'ALL',
+	    fontColor: (current === 'ALL') ? "#FFF" : "#777",
+	    fontSize: "22",
+	    fontFamily: "Open Sans",
+	    cursor: "hand",
+	    text: "ALL"
 	  }
 	]
 };
 }
  
-function getVolumeConfig(dates, values) {
+function getVolumeConfig_<?=$js_key?>(dates, values) {
   return {
   type: 'bar',
   height: 80,
@@ -199,14 +218,15 @@ function getVolumeConfig(dates, values) {
     margin: "20 50 20 50"
   },
   source: {
-    text: "Exchange: <?=ucfirst($market_parse[0])?>",
+    text: "<?=$asset?> Asset / <?=strtoupper($market_parse[1])?> Market / <?=ucfirst($market_parse[0])?> Exchange",
     fontColor:"#ddd",
-	 fontSize: "17",
+	 fontSize: "15",
     fontFamily: "Open Sans"
   },
   tooltip:{
     visible: false,
     text: "Volume: $%v",
+	 fontSize: "20",
     fontFamily: "Open Sans",
     borderColor:"transparent",
     "thousands-separator":","
@@ -223,6 +243,7 @@ function getVolumeConfig(dates, values) {
       fontFamily: "Open Sans",
       backgroundColor:"#BBB",
       text: "Volume: $%v",
+	 	fontSize: "20",
       y:0,
       "thousands-separator":","
     }
@@ -248,8 +269,8 @@ zingchart.render({
   id: '<?=strtolower($key)?>_chart',
   data: {
     graphset:[
-      getCloseConfig(stockState.dates, stockState.closes, '2Y'),
-      getVolumeConfig(stockState.dates, stockState.volumes)
+      getCloseConfig_<?=$js_key?>(stockState_<?=$js_key?>.dates, stockState_<?=$js_key?>.closes, 'ALL'),
+      getVolumeConfig_<?=$js_key?>(stockState_<?=$js_key?>.dates, stockState_<?=$js_key?>.volumes)
     ]
   },
   height: 500, 
@@ -258,46 +279,52 @@ zingchart.render({
  
  
 zingchart.bind('<?=strtolower($key)?>_chart', 'label_click', function(e){
-  if(stockState.current === e.labelid){
+  if(stockState_<?=$js_key?>.current === e.labelid){
     return;
   }
   
-  var windowClose = [];
-  var windowVolume = [];
-  var windowDates = [];
+  var windowClose_<?=$js_key?> = [];
+  var windowVolume_<?=$js_key?> = [];
+  var windowDates_<?=$js_key?> = [];
   var cut = 0;
   switch(e.labelid) {
     case '1W': 
-      cut = 5;
+      cut = stockState_<?=$js_key?>.dates.length <= <?=chart_range(7)?> ? stockState_<?=$js_key?>.dates.length : <?=chart_range(7)?>;
     break;
     case '1M':
-      cut = 20;
+      cut = stockState_<?=$js_key?>.dates.length <= <?=chart_range(30)?> ? stockState_<?=$js_key?>.dates.length : <?=chart_range(30)?>;
     break;
     case '6M': 
-      cut = 130;
+      cut = stockState_<?=$js_key?>.dates.length <= <?=chart_range(183)?> ? stockState_<?=$js_key?>.dates.length : <?=chart_range(183)?>;
     break;
     case '1Y': 
-      cut = 260;
+      cut = stockState_<?=$js_key?>.dates.length <= <?=chart_range(365)?> ? stockState_<?=$js_key?>.dates.length : <?=chart_range(365)?>;
+    break;
+    case '2Y': 
+      cut = stockState_<?=$js_key?>.dates.length <= <?=chart_range(730)?> ? stockState_<?=$js_key?>.dates.length : <?=chart_range(730)?>;
+    break;
+    case 'ALL': 
+      cut = stockState_<?=$js_key?>.dates.length;
     break;
     default: 
-      cut = stockState.dates.length;
+      cut = stockState_<?=$js_key?>.dates.length;
     break;
   }
-    windowClose = stockState.closes.slice(stockState.closes.length-cut);
-    windowDates = stockState.dates.slice(stockState.dates.length-cut);
-    windowVolume = stockState.volumes.slice(stockState.volumes.length-cut);
+    windowClose_<?=$js_key?> = stockState_<?=$js_key?>.closes.slice(stockState_<?=$js_key?>.closes.length-cut);
+    windowDates_<?=$js_key?> = stockState_<?=$js_key?>.dates.slice(stockState_<?=$js_key?>.dates.length-cut);
+    windowVolume_<?=$js_key?> = stockState_<?=$js_key?>.volumes.slice(stockState_<?=$js_key?>.volumes.length-cut);
     
   zingchart.exec('<?=strtolower($key)?>_chart', 'setdata', {
     
     data: {
       graphset:[
-        getCloseConfig(windowDates, windowClose, e.labelid),
-        getVolumeConfig(windowDates, windowVolume)
+        getCloseConfig_<?=$js_key?>(windowDates_<?=$js_key?>, windowClose_<?=$js_key?>, e.labelid),
+        getVolumeConfig_<?=$js_key?>(windowDates_<?=$js_key?>, windowVolume_<?=$js_key?>)
       ]
     }
   });
  
-  stockState.current = e.labelid;
+  stockState_<?=$js_key?>.current = e.labelid;
   
 });
 
