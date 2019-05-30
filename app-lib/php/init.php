@@ -35,9 +35,14 @@ if ( dir_structure($base_dir . '/cache/alerts/') != TRUE
 || dir_structure($base_dir . '/cache/events/') != TRUE
 || dir_structure($base_dir . '/cache/logs/') != TRUE
 || dir_structure($base_dir . '/cache/charts/') != TRUE ) {
-$disabled_cache = 1;
-echo "Cannot create cache sub-directories. Please either manually create the sub-directories 'alerts', 'apis', 'events', 'logs', and 'charts' with read / write permissions inside the folder 'cache', OR make sure the folder 'cache' itself has read / write permissions (and these sub-directories should be created automatically).";
+echo "Cannot create '/cache/' sub-directories. Please either manually create the sub-directories 'alerts', 'apis', 'events', 'logs', and 'charts' with read / write permissions inside the folder 'cache', OR make sure the folder '/cache/' itself has read / write permissions (and these sub-directories should be created automatically).";
 exit;
+}
+
+
+// Recreate .htaccess to restrict web snooping of cache contents, if the cache directory was deleted / recreated
+if ( !file_exists($base_dir . '/cache/.htaccess') ) {
+file_put_contents($base_dir . '/cache/.htaccess', 'deny from all', LOCK_EX); 
 }
 
 

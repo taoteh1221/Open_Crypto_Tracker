@@ -14,7 +14,7 @@
             <div style='display: none;' class='show_newbiewarning' align='left'>
             	
      
-					<p style='color: red;'><i>LITERALLY nearly 99% of all tokens</i> listed on Coinmarketcap.com (OR any other site) are either scams, garbage, or dead ends. Tread VERY carefully when investing, and RESEARCH AT LENGTH BEFOREHAND (that does NOT included listening to some CEO or founder sweet talk their own token, or explain how them owning over 50% of the total coin supply is not out of greed). :-o</p>
+					<p style='color: red;'><i>LITERALLY nearly 99% of all tokens</i> listed on Coinmarketcap.com (OR any other site) are either scams, garbage, or dead ends. Tread VERY carefully when investing, and RESEARCH AT LENGTH BEFOREHAND (that does NOT included listening to some CEO or founder sweet talk their own token, tell you how competing systems suck and their system is better, or explain how them owning over 50% of the total coin supply is not out of greed). :-o</p>
 
             
             </div>
@@ -144,20 +144,24 @@
             <div style='display: none;' class='show_newbiewarning2' align='left'>
             	
      
-					<p style='color: red;'>Store your coins in your own wallet (<i>hardware wallets allow this safely and easily</i>), do NOT store large holdings on an exchange. If an exchange is hacked, and your coins are stored on that exchange, <u>you easily can loose your coins with no recourse</u>. :-o ALWAYS backup your wallet recovery seed too, and never store it in (unencrypted) plain text on a computer or the cloud.</p>
+					<p style='color: red;'>Store your coins in your own wallet (<i>hardware wallets allow this safely and easily</i>), do NOT store large holdings on an exchange. If an exchange is hacked, and your coins are stored on that exchange, <u>you easily can loose your coins with no recourse</u>. :-o ALWAYS backup your HD wallet recovery seed too, and never store it in (unencrypted) plain text on a computer or the cloud. If you use Bitcoin Core always backup your wallet.dat file after every transaction, if you use a paper wallet always transfer the ENTIRE amount out in the first transaction out...otherwise you will lose your coins.</p>
 
             
             </div>
             
     <ul>
         
-        <li class='links_list'><a href='https://www.ledger.com/' target='_blank'>Ledger</a> (multi-coin hardware wallet)</li>
+        <li class='links_list'><a href='https://www.ledger.com/' target='_blank'>Ledger</a> (proprietary multi-coin hardware wallet, with bank grade security chip)</li>
         
-        <li class='links_list'><a href='https://trezor.io/' target='_blank'>Trezor</a> (multi-coin hardware wallet)</li>
+        <li class='links_list'><a href='https://trezor.io/' target='_blank'>Trezor</a> (open source multi-coin hardware wallet)</li>
         
-        <li class='links_list'><a href='https://bitcoin.org/en/choose-your-wallet' target='_blank'>Bitcoin Wallets</a> (Bitcoin software wallets)</li>
+        <li class='links_list'><a href='https://bitcoin.org/en/choose-your-wallet' target='_blank'>Bitcoin Wallets</a> (Bitcoin hardware / software wallets)</li>
         
         <li class='links_list'><a href='https://metamask.io/' target='_blank'>Metamask</a> (Ethereum software wallet browser extension)</li>
+        
+        <li class='links_list'><a href='https://mycrypto.com/' target='_blank'>Mycrypto.com</a> (Ethereum online wallet)</li>
+        
+        <li class='links_list'><a href='https://download.mycrypto.com/' target='_blank'>Mycrypto Desktop App</a> (Ethereum software wallet)</li>
         
         
         

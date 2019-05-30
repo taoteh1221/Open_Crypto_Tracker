@@ -550,8 +550,8 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
 
 
 	// If the charts page is enabled in config.php, save latest chart data for assets with price alerts configured on them
-	if ( $charts_page == 'enable' && $alert_mode == 'increased' ) { // We only want this chart data stored once, so just run during the check for 'increased' value
-	file_put_contents('cache/charts/'.$asset.'/'.$asset_data.'_chart.dat', time() . '||' . $exchange . '||' . $pairing . '||' . $asset_usd_raw . '||' . $volume_usd_raw . "\n", FILE_APPEND | LOCK_EX); 
+	if ( floatval($asset_usd_raw) >= 0.00000001 && $charts_page == 'on' && $alert_mode == 'increased' ) { // We only want this chart data stored once, so just run during the check for 'increased' value
+	file_put_contents('cache/charts/'.$asset.'/'.$asset_data.'_chart.dat', time() . '||' . $asset_usd_raw . '||' . $volume_usd_raw . "\n", FILE_APPEND | LOCK_EX); 
 	}
 
 

@@ -10,7 +10,7 @@ $runtime_mode = 'chart_output';
 chdir("../../");
 require("config.php");
 
-if ( $charts_page != 'enable' ) {
+if ( $charts_page != 'on' ) {
 exit;
 }
 
@@ -21,6 +21,12 @@ if ( $_GET['type'] == 'asset' ) {
 		// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
 		$asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, strpos($key, "-") ) );
 		$asset = strtoupper($asset);
+		
+		$market_parse = explode("||", $exchange_price_alerts[$key] );
+		
+			if ( $asset == 'BTC' ) {
+			$market_parse[1] = 'USD';
+			}
 
  
 		if ( $_GET['asset_data'] == $key ) {
@@ -64,12 +70,12 @@ function getCloseConfig(dates, values, current) {
     }
   },
   title: {
-    text: "<?=$asset?> / <?=strtoupper($chart_data['pairing'])?> (USD Value)",
+    text: "<?=$asset?> / <?=strtoupper($market_parse[1])?> (USD Value) @ <?=ucfirst($market_parse[0])?>",
     fontColor: "#fff",
     fontFamily: 'Open Sans',
-    fontSize: 30,
-    align: 'left',
-    offsetX: 10
+    fontSize: 28,
+    align: 'right',
+    offsetX: -10
   },
   zoom: {
     shared: true
@@ -129,7 +135,7 @@ function getCloseConfig(dates, values, current) {
 	],
 	labels: [
 	  {
-	    x: 490,
+	    x: 10,
 	    y: 10,
 	    id: '1W',
 	    fontColor: (current === '1W') ? "#FFF" : "#777",
@@ -139,7 +145,7 @@ function getCloseConfig(dates, values, current) {
 	    text: "1W"
 	  },
 	  {
-	    x: 530,
+	    x: 50,
 	    y: 10,
 	    id: '1M',
 	    fontColor: (current === '1M') ? "#FFF" : "#777",
@@ -149,7 +155,7 @@ function getCloseConfig(dates, values, current) {
 	    text: "1M"
 	  },
 	  {
-	    x: 570,
+	    x: 90,
 	    y: 10,
 	    id: '6M',
 	    fontColor: (current === '6M') ? "#FFF" : "#777",
@@ -159,7 +165,7 @@ function getCloseConfig(dates, values, current) {
 	    text: "6M"
 	  },
 	  {
-	    x: 610,
+	    x: 130,
 	    y: 10,
 	    id: '1Y',
 	    fontColor: (current === '1Y') ? "#FFF" : "#777",
@@ -169,7 +175,7 @@ function getCloseConfig(dates, values, current) {
 	    text: "1Y"
 	  },
 	  {
-	    x: 650,
+	    x: 170,
 	    y: 10,
 	    id: '2Y',
 	    fontColor: (current === '2Y') ? "#FFF" : "#777",
@@ -193,9 +199,9 @@ function getVolumeConfig(dates, values) {
     margin: "20 50 20 50"
   },
   source: {
-    text: "Exchange: <?=ucfirst($chart_data['exchange'])?>",
+    text: "Exchange: <?=ucfirst($market_parse[0])?>",
     fontColor:"#ddd",
-	 fontSize: "16",
+	 fontSize: "17",
     fontFamily: "Open Sans"
   },
   tooltip:{

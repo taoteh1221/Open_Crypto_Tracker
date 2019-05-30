@@ -127,11 +127,9 @@ $fn = fopen($file,"r");
   	
 	$result = explode("||", trim( fgets($fn) ) );
 	
-	$data['time'] .= ( $result[0] != '' ? $result[0] . '000,' : NULL );  // Zingchart want 3 more zeros with unix time (milliseconds)
-	$data['exchange'] = ( $result[1] != '' ? $result[1] : $data['exchange'] ); // Skip if empty while looping
-	$data['pairing'] = ( $result[2] != '' ? $result[2] : $data['pairing'] ); // Skip if empty while looping
-	$data['close'] .= $result[3] . ',';
-	$data['volume'] .= $result[4] . ',';
+	$data['time'] .= ( $result[0] != '' ? $result[0] . '000,' : NULL );  // Zingchart wants 3 more zeros with unix time (milliseconds)
+	$data['close'] .= $result[1] . ',';
+	$data['volume'] .= $result[2] . ',';
 	
   }
 

@@ -34,7 +34,7 @@ require("config.php");
 <script type="text/javascript" src="app-lib/js/functions.js"></script>
 
 <?php
-if ( $charts_page == 'enable' ) {
+if ( $charts_page == 'on' ) {
 ?>
 <script type="text/javascript" src="app-lib/js/zingchart.min.js"></script>
 <?php
@@ -70,7 +70,7 @@ var tablesort_theme = '<?=$tablesort_theme?>';
     </audio>
 
     <div align='center' style='width: 100%; min-width: 1300px; margin: auto;'>
-    <h3>DFD Cryptocoin Values - Cryptocurrency Portfolio Tracker</h3>
+    <h2>DFD Cryptocoin Values - Cryptocurrency Portfolio Tracker</h2>
             <div align='left' style='display: inline; margin: 0px;'>
         <!- header END -->
 

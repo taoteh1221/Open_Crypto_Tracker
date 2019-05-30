@@ -55,7 +55,7 @@ $mail_error_logs = 'daily'; // 'no', 'daily', 'weekly' Email to / from !MUST BE 
 // Caches USD price / volume data for historical charts of all assets added to 'exchange price alerts' (further down in this config file)
 // Enables a charts tab / page with historical charts. STILL EARLY EXPERIMENTAL CODE (AS OF 5/29/2019), MAY SLOW PAGE LOADS SIGNIFICANTLY
 // Disabling disables EVERYTHING related to the charts features...the page, caching, even the javascript associated with the charts
-$charts_page = 'disable'; // 'enable' / 'disable'
+$charts_page = 'off'; // 'on' / 'off'
 
 
 // IF SMTP EMAIL SENDING --NOT-- USED, FROM email should be REAL address on the website domain, or risk having email blacklisted / sent to junk folder
@@ -146,7 +146,7 @@ $exchange_price_alerts = array(
 				// 'othersymbol' => 'exchange||trade_pairing',
 				// 'othersymbol-2' => 'exchange2||trade_pairing2',
 				// 'othersymbol-3' => 'exchange3||trade_pairing3',
-				//	'btc' => 'coinbase||btc',
+					'btc' => 'coinbase||btc',
 					'btc-2' => 'binance||btc',
 					'eth' => 'binance||usdt',
 				//	'eth-2' => 'bittrex||btc',
@@ -165,7 +165,8 @@ $exchange_price_alerts = array(
 					'gnt' => 'bittrex||btc',
 					'data' => 'binance||btc',
 					'myst' => 'hitbtc||btc',
-					'myst-2' => 'idex||eth',
+					'myst-2' => 'hitbtc||eth',
+					'myst-3' => 'idex||eth',
 					'tusd' => 'binance||usdt',
 					);
 

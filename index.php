@@ -9,10 +9,10 @@ require("ui-templates/php/header.php");
 
 
 		<ul class='tabs' style='display: inline;'>
-			<li class='tabli'><a href='#show_values'>Coin Portfolio Value</a></li>
-			<li class='tabli'><a href='#update_values'>Update Coin Values</a></li>
+			<li class='tabli'><a href='#show_values'>Portfolio Value</a></li>
+			<li class='tabli'><a href='#update_values'>Update Values</a></li>
 			<?php
-			if ( $charts_page == 'enable' ) {
+			if ( $charts_page == 'on' ) {
 			?>
 			<li class='tabli'><a href='#charts'>Charts</a></li>
 			<?php
@@ -25,7 +25,7 @@ require("ui-templates/php/header.php");
 			<li class='tabli'><a href='#help'>Help?</a></li>
 		</ul>
 		<div id='show_values' class='tabdiv'>
-			<h3 style='display: inline;'>Coin Portfolio Value</h3> (<?=$last_trade_cache?> minute cache)
+			<h3 style='display: inline;'>Portfolio Value</h3> (<?=$last_trade_cache?> minute cache)
 			<?php
 			if ( sizeof($alert_percent) > 1 ) {
 				
@@ -50,11 +50,11 @@ require("ui-templates/php/header.php");
 			<p><?php require("ui-templates/php/sections/coin-portfolio-value.php"); ?></p>
 		</div>
 		<div id='update_values' class='tabdiv'>
-			<h3>Update Coin Values</h3>
+			<h3>Update Values</h3>
 			<p><?php require("ui-templates/php/sections/update-coin-values.php"); ?></p>
 		</div>
 			<?php
-			if ( $charts_page == 'enable' ) {
+			if ( $charts_page == 'on' ) {
 			?>
 		<div id='charts' class='tabdiv'>
 			<h3>Charts</h3>

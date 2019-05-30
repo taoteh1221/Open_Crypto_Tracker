@@ -18,16 +18,20 @@ $marketcap_site = ( $alert_percent[0] != '' ? $alert_percent[0] : $marketcap_sit
 // Chart data caches
 if ( !$disabled_cache ) {
 
-	foreach ( $coins_list as $key => $value ) {
+	foreach ( $exchange_price_alerts as $key => $value ) {
 	
-		if ( dir_structure($base_dir . '/cache/charts/'.$key.'/') != TRUE ) {
+		// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
+		$asset_dir = ( stristr($key, "-") == false ? $key : substr( $key, 0, strpos($key, "-") ) );
+		$asset_dir = strtoupper($asset_dir);
+		
+		if ( dir_structure($base_dir . '/cache/charts/'.$asset_dir.'/') != TRUE ) {
 		$disabled_charts = 1;
 		}
 	
 	}
 	
 	if ( $disabled_charts == 1 ) {
-	echo "Improper directory permissions on the /cache/charts/ directory, cannot create asset subdirectories.";
+	echo "Improper directory permissions on the '/cache/charts/' directory, cannot create asset sub-directories. Make sure the folder '/cache/charts/' itself has read / write permissions (and these sub-directories should be created automatically)";
 	exit;
 	}
 
