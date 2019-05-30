@@ -24,7 +24,7 @@ if ( $_GET['type'] == 'asset' ) {
 		$asset = strtoupper($asset);
 		
 		// Strip non-alphanumeric characters to use in js vars, to isolate logic for each separate chart
-		$js_key = preg_replace("//", "", $key);
+		$js_key = preg_replace("/-/", "", $key);
 		
 		$market_parse = explode("||", $exchange_price_alerts[$key] );
 		
@@ -53,7 +53,7 @@ var stockState_<?=$js_key?> = {
 function getCloseConfig_<?=$js_key?>(dates, values, current) {
   return {
   type: 'area',
-  backgroundColor: "#333",
+  backgroundColor: "#515050",
   height: 420,
   x: 0, 
   y: 0,
@@ -147,7 +147,7 @@ function getCloseConfig_<?=$js_key?>(dates, values, current) {
 	    x: 10,
 	    y: 10,
 	    id: '1W',
-	    fontColor: (current === '1W') ? "#FFF" : "#777",
+	    fontColor: (current === '1W') ? "#FFF" : "#b5b5b5",
 	    fontSize: "22",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
@@ -157,7 +157,7 @@ function getCloseConfig_<?=$js_key?>(dates, values, current) {
 	    x: 60,
 	    y: 10,
 	    id: '1M',
-	    fontColor: (current === '1M') ? "#FFF" : "#777",
+	    fontColor: (current === '1M') ? "#FFF" : "#b5b5b5",
 	    fontSize: "22",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
@@ -167,7 +167,7 @@ function getCloseConfig_<?=$js_key?>(dates, values, current) {
 	    x: 110,
 	    y: 10,
 	    id: '6M',
-	    fontColor: (current === '6M') ? "#FFF" : "#777",
+	    fontColor: (current === '6M') ? "#FFF" : "#b5b5b5",
 	    fontSize: "22",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
@@ -177,7 +177,7 @@ function getCloseConfig_<?=$js_key?>(dates, values, current) {
 	    x: 160,
 	    y: 10,
 	    id: '1Y',
-	    fontColor: (current === '1Y') ? "#FFF" : "#777",
+	    fontColor: (current === '1Y') ? "#FFF" : "#b5b5b5",
 	    fontSize: "22",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
@@ -187,7 +187,7 @@ function getCloseConfig_<?=$js_key?>(dates, values, current) {
 	    x: 210,
 	    y: 10,
 	    id: '2Y',
-	    fontColor: (current === '2Y') ? "#FFF" : "#777",
+	    fontColor: (current === '2Y') ? "#FFF" : "#b5b5b5",
 	    fontSize: "22",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
@@ -197,7 +197,7 @@ function getCloseConfig_<?=$js_key?>(dates, values, current) {
 	    x: 260,
 	    y: 10,
 	    id: 'ALL',
-	    fontColor: (current === 'ALL') ? "#FFF" : "#777",
+	    fontColor: (current === 'ALL') ? "#FFF" : "#b5b5b5",
 	    fontSize: "22",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
@@ -213,7 +213,7 @@ function getVolumeConfig_<?=$js_key?>(dates, values) {
   height: 80,
   x: 0, 
   y: 400,
-  backgroundColor: "#333",
+  backgroundColor: "#515050",
   plotarea: {
     margin: "20 50 20 50"
   },

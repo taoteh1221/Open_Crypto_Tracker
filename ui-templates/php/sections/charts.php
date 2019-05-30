@@ -22,7 +22,7 @@
 <?php
 foreach ( $exchange_price_alerts as $key => $value ) {
 ?>
-<div style='margin-bp' id='<?=$key?>_chart'></div>
+<div style='background-color: #515050; border: 1px solid #808080; border-radius: 5px;' id='<?=$key?>_chart'></div>
 <script src='app-lib/js/chart.js.php?type=asset&asset_data=<?=urlencode($key)?>' async></script>
 <br/><br/><br/>
 <?php
