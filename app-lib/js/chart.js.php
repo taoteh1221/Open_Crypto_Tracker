@@ -80,7 +80,7 @@ function getCloseConfig_<?=$js_key?>(dates, values, current) {
     fontFamily: 'Open Sans',
     fontSize: 28,
     align: 'right',
-    offsetX: -10
+    offsetX: -15
   },
   zoom: {
     shared: true
@@ -123,7 +123,7 @@ function getCloseConfig_<?=$js_key?>(dates, values, current) {
     values: dates,
  	  transform: {
  	    type: 'date',
- 	    all: '%Y/%m/%d<br />%H:%i'
+ 	    all: '%Y/%m/%d<br />%H:%i%a'
  	  },
    	zooming:{
       shared: true
@@ -144,7 +144,7 @@ function getCloseConfig_<?=$js_key?>(dates, values, current) {
 	],
 	labels: [
 	  {
-	    x: 10,
+	    x: 40,
 	    y: 10,
 	    id: '1W',
 	    fontColor: (current === '1W') ? "#FFF" : "#b5b5b5",
@@ -154,7 +154,7 @@ function getCloseConfig_<?=$js_key?>(dates, values, current) {
 	    text: "1W"
 	  },
 	  {
-	    x: 60,
+	    x: 90,
 	    y: 10,
 	    id: '1M',
 	    fontColor: (current === '1M') ? "#FFF" : "#b5b5b5",
@@ -164,7 +164,7 @@ function getCloseConfig_<?=$js_key?>(dates, values, current) {
 	    text: "1M"
 	  },
 	  {
-	    x: 110,
+	    x: 140,
 	    y: 10,
 	    id: '6M',
 	    fontColor: (current === '6M') ? "#FFF" : "#b5b5b5",
@@ -174,7 +174,7 @@ function getCloseConfig_<?=$js_key?>(dates, values, current) {
 	    text: "6M"
 	  },
 	  {
-	    x: 160,
+	    x: 190,
 	    y: 10,
 	    id: '1Y',
 	    fontColor: (current === '1Y') ? "#FFF" : "#b5b5b5",
@@ -184,7 +184,7 @@ function getCloseConfig_<?=$js_key?>(dates, values, current) {
 	    text: "1Y"
 	  },
 	  {
-	    x: 210,
+	    x: 240,
 	    y: 10,
 	    id: '2Y',
 	    fontColor: (current === '2Y') ? "#FFF" : "#b5b5b5",
@@ -194,7 +194,7 @@ function getCloseConfig_<?=$js_key?>(dates, values, current) {
 	    text: "2Y"
 	  },
 	  {
-	    x: 260,
+	    x: 290,
 	    y: 10,
 	    id: 'ALL',
 	    fontColor: (current === 'ALL') ? "#FFF" : "#b5b5b5",
@@ -218,10 +218,13 @@ function getVolumeConfig_<?=$js_key?>(dates, values) {
     margin: "20 50 20 50"
   },
   source: {
-    text: "<?=$asset?> Asset / <?=strtoupper($market_parse[1])?> Market / <?=ucfirst($market_parse[0])?> Exchange",
+    text: "(<?=$asset?> Asset / <?=strtoupper($market_parse[1])?> Market / <?=ucfirst($market_parse[0])?> Exchange)",
     fontColor:"#ddd",
-	 fontSize: "15",
-    fontFamily: "Open Sans"
+	 fontSize: "17",
+    fontFamily: "Open Sans",
+    offsetX: -130,
+    offsetY: 11,
+    align: 'right'
   },
   tooltip:{
     visible: false,
