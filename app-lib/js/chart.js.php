@@ -53,6 +53,13 @@ var stockState_<?=$js_key?> = {
 function getCloseConfig_<?=$js_key?>(dates, values, current) {
   return {
   type: 'area',
+  "preview":{
+ 	  live: true,
+ 	  "adjust-layout": true,
+ 	  "alpha-area": 0.5,
+		backgroundColor:"#777676 #3D3C3C",
+ 	  	height: 30
+  },
   backgroundColor: "#515050",
   height: 420,
   x: 0, 
@@ -80,13 +87,13 @@ function getCloseConfig_<?=$js_key?>(dates, values, current) {
     fontFamily: 'Open Sans',
     fontSize: 28,
     align: 'right',
-    offsetX: -15
+    offsetX: -20
   },
   zoom: {
     shared: true
   },
   plotarea: {
-    margin: "60 45 55 60"
+    margin: "60 65 55 85"
   },
   plot: {
     marker:{
@@ -139,12 +146,13 @@ function getCloseConfig_<?=$js_key?>(dates, values, current) {
 			values: values,
 			lineColor: "#fff",
 			lineWidth: 1,
-			backgroundColor:"#909090 #313131"
+			backgroundColor:"#fff #000",
+			alpha: 0.5
 		}
 	],
 	labels: [
 	  {
-	    x: 40,
+	    x: 50,
 	    y: 10,
 	    id: '1W',
 	    fontColor: (current === '1W') ? "#FFF" : "#b5b5b5",
@@ -154,7 +162,7 @@ function getCloseConfig_<?=$js_key?>(dates, values, current) {
 	    text: "1W"
 	  },
 	  {
-	    x: 90,
+	    x: 100,
 	    y: 10,
 	    id: '1M',
 	    fontColor: (current === '1M') ? "#FFF" : "#b5b5b5",
@@ -164,7 +172,7 @@ function getCloseConfig_<?=$js_key?>(dates, values, current) {
 	    text: "1M"
 	  },
 	  {
-	    x: 140,
+	    x: 150,
 	    y: 10,
 	    id: '6M',
 	    fontColor: (current === '6M') ? "#FFF" : "#b5b5b5",
@@ -174,7 +182,7 @@ function getCloseConfig_<?=$js_key?>(dates, values, current) {
 	    text: "6M"
 	  },
 	  {
-	    x: 190,
+	    x: 200,
 	    y: 10,
 	    id: '1Y',
 	    fontColor: (current === '1Y') ? "#FFF" : "#b5b5b5",
@@ -184,7 +192,7 @@ function getCloseConfig_<?=$js_key?>(dates, values, current) {
 	    text: "1Y"
 	  },
 	  {
-	    x: 240,
+	    x: 250,
 	    y: 10,
 	    id: '2Y',
 	    fontColor: (current === '2Y') ? "#FFF" : "#b5b5b5",
@@ -194,7 +202,7 @@ function getCloseConfig_<?=$js_key?>(dates, values, current) {
 	    text: "2Y"
 	  },
 	  {
-	    x: 290,
+	    x: 300,
 	    y: 10,
 	    id: 'ALL',
 	    fontColor: (current === 'ALL') ? "#FFF" : "#b5b5b5",
@@ -210,20 +218,20 @@ function getCloseConfig_<?=$js_key?>(dates, values, current) {
 function getVolumeConfig_<?=$js_key?>(dates, values) {
   return {
   type: 'bar',
-  height: 80,
+  height: 70,
   x: 0, 
   y: 400,
   backgroundColor: "#515050",
   plotarea: {
-    margin: "20 50 20 50"
+    margin: "11 60 5 78"
   },
   source: {
     text: "(<?=$asset?> Asset / <?=strtoupper($market_parse[1])?> Market / <?=ucfirst($market_parse[0])?> Exchange)",
-    fontColor:"#ddd",
-	 fontSize: "17",
+    fontColor:"#f9f7d4",
+	 fontSize: "14",
     fontFamily: "Open Sans",
-    offsetX: -130,
-    offsetY: 11,
+    offsetX: -132,
+    offsetY: 23,
     align: 'right'
   },
   tooltip:{
@@ -262,7 +270,8 @@ function getVolumeConfig_<?=$js_key?>(dates, values) {
 		{
 			values: values,
 			text: "Volume",
-			backgroundColor: "#bbb"
+			backgroundColor: "#bbb",
+    		offsetX: 0
 		}
 	]
 };

@@ -137,11 +137,13 @@ $fn = fopen($file,"r");
   
   while(! feof($fn))  {
   	
-	$result = explode("||", trim( fgets($fn) ) );
+	$result = explode("||", fgets($fn) );
 	
-	$data['time'] .= ( $result[0] != '' ? $result[0] . '000,' : NULL );  // Zingchart wants 3 more zeros with unix time (milliseconds)
-	$data['close'] .= $result[1] . ',';
-	$data['volume'] .= $result[2] . ',';
+		if ( trim($result[0]) != '' && trim($result[1]) != '' && trim($result[2]) != '' ) {
+		$data['time'] .= trim($result[0]) . '000,';  // Zingchart wants 3 more zeros with unix time (milliseconds)
+		$data['close'] .= trim($result[1]) . ',';
+		$data['volume'] .= trim($result[2]) . ',';
+		}
 	
   }
 
