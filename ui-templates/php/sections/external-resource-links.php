@@ -85,6 +85,17 @@
 
 <p>
     <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Exchanges</strong> </legend>
+    
+		<p><a style='color: red; font-weight: bold;' class='show' id='newbiewarning2' href='#show_newbiewarning2' title='Click to show newbie warning.' onclick='return false;'><b>Newbie Warning</b></a></p>
+    
+            <div style='display: none;' class='show_newbiewarning2' align='left'>
+            	
+     
+					<p style='color: red;'>Store your coins in your own wallet (<i>hardware wallets allow this safely and easily</i>), do NOT store large holdings on an exchange. If an exchange is hacked, and your coins are stored on that exchange, <u>you easily can loose your coins with no recourse</u>. :-o Also, ALWAYS enable 2-factor-authentication ("2FA" with Google Authenticator, Authy, etc) in your exchange account for logins / withdrawals, and NEVER USE 2FA VIA MOBILE TEXT MESSAGE, OR YOU COULD GET SIM-SWAP HACKED AND LOOSE ALL YOUR COINS!</p>
+ 
+            
+            </div>
+            
     <ul>
         
         
@@ -139,12 +150,12 @@
 <p>
     <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Crypto Wallets</strong> </legend>
         
-		<p><a style='color: red; font-weight: bold;' class='show' id='newbiewarning2' href='#show_newbiewarning2' title='Click to show newbie warning.' onclick='return false;'><b>Newbie Warning</b></a></p>
+		<p><a style='color: red; font-weight: bold;' class='show' id='newbiewarning3' href='#show_newbiewarning3' title='Click to show newbie warning.' onclick='return false;'><b>Newbie Warning</b></a></p>
     
-            <div style='display: none;' class='show_newbiewarning2' align='left'>
+            <div style='display: none;' class='show_newbiewarning3' align='left'>
             	
      
-					<p style='color: red;'>Store your coins in your own wallet (<i>hardware wallets allow this safely and easily</i>), do NOT store large holdings on an exchange. If an exchange is hacked, and your coins are stored on that exchange, <u>you easily can loose your coins with no recourse</u>. :-o ALWAYS backup your HD wallet recovery seed too, and never store it in (unencrypted) plain text on a computer or the cloud. If you use Bitcoin Core always backup your wallet.dat file after every transaction, if you use a paper wallet always transfer the ENTIRE amount out in the first transaction out...otherwise you will lose your coins.</p>
+					<p style='color: red;'>ALWAYS backup your HD wallet recovery seed, and never store it in (unencrypted) plain text on a computer or the cloud. If you use Bitcoin Core always backup your wallet.dat file after every transaction, if you use a paper wallet always transfer the ENTIRE amount out in the first transaction out...otherwise you will lose your coins.</p>
 
             
             </div>
