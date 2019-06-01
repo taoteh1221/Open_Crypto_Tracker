@@ -130,7 +130,7 @@ function getCloseConfig_<?=$js_key?>(dates, values, current) {
     values: dates,
  	  transform: {
  	    type: 'date',
- 	    all: '%Y/%m/%d<br />%H:%i%a'
+ 	    all: '%Y/%m/%d<br />%g:%i%a'
  	  },
    	zooming:{
       shared: true
