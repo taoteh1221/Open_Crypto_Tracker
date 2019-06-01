@@ -40,7 +40,7 @@ if ( $_GET['type'] == 'asset' ) {
 		
 ?>
 var dates_<?=$js_key?> = [<?=$chart_data['time']?>];
-var closes_<?=$js_key?> = [<?=$chart_data['close']?>];
+var closes_<?=$js_key?> = [<?=$chart_data['spot']?>];
 var volumes_<?=$js_key?> =[<?=$chart_data['volume']?>];
 
 var stockState_<?=$js_key?> = {
@@ -69,7 +69,7 @@ function getCloseConfig_<?=$js_key?>(dates, values, current) {
     plotLabel:{
       backgroundColor: "#bbb",
       fontColor: "#222",
-      text: "Close: $%v",
+      text: "Spot Price: $%v",
 	 	fontSize: "20",
       fontFamily: "Open Sans",
       y:0,
@@ -101,7 +101,7 @@ function getCloseConfig_<?=$js_key?>(dates, values, current) {
     }
   },
   tooltip:{
-    text: "Close: $%v",
+    text: "Spot Price: $%v",
 	 fontSize: "20",
     backgroundColor: "#BBB",
     borderColor:"transparent",
@@ -226,17 +226,17 @@ function getVolumeConfig_<?=$js_key?>(dates, values) {
     margin: "11 60 5 78"
   },
   source: {
-    text: "(<?=$asset?> Asset / <?=strtoupper($market_parse[1])?> Market / <?=ucfirst($market_parse[0])?> Exchange)",
+    text: "24 Hour Volume",
     fontColor:"#f9f7d4",
-	 fontSize: "14",
+	 fontSize: "16",
     fontFamily: "Open Sans",
-    offsetX: -132,
-    offsetY: 23,
-    align: 'right'
+    offsetX: 73,
+    offsetY: 15,
+    align: 'left'
   },
   tooltip:{
     visible: false,
-    text: "Volume: $%v",
+    text: "24 Hour Volume: $%v",
 	 fontSize: "20",
     fontFamily: "Open Sans",
     borderColor:"transparent",
@@ -253,7 +253,7 @@ function getVolumeConfig_<?=$js_key?>(dates, values) {
     plotLabel:{
       fontFamily: "Open Sans",
       backgroundColor:"#BBB",
-      text: "Volume: $%v",
+      text: "24 Hour Volume: $%v",
 	 	fontSize: "20",
       y:0,
       "thousands-separator":","
@@ -269,7 +269,7 @@ function getVolumeConfig_<?=$js_key?>(dates, values) {
 	series : [
 		{
 			values: values,
-			text: "Volume",
+			text: "24hr Volume",
 			backgroundColor: "#bbb",
     		offsetX: 0
 		}
