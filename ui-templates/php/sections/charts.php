@@ -69,6 +69,8 @@ foreach ( $exchange_price_alerts as $key => $value ) {
 
 	<p><button class='force_button_style' onclick='javascript:window.location.href = "index.php<?=( $_GET['start_page'] == 'charts' ? '?start_page=charts&' : '?' )?>hide_charts=" + document.getElementById("hide_charts").value + "<?=( $_GET['start_page'] == 'charts' ? '#charts' : '' )?>";'>Update Hidden Charts</button></p>
 
+	<p style='color: red;'>*Although you can persist hiding charts pretty good without enabling cookie data, to fully persist hiding charts it's recommended to enable "Use cookie data to save values between sessions" on the Program Settings page. For instance, updating coin values or markets in your portfolio will reset back to showing all charts. But if you enable cookie data, your hidden charts will stay hidden.</p>
+
 </div>
 
 
@@ -90,7 +92,7 @@ $('.hide_chart_settings').modaal({
 	<p style='font-weight: bold; color: red;'>Charts are only generated here for each price alert that is properly configured in the configuration file (config.php). Price alerts must be <a href='README.txt' target='_blank'>setup as a cron job on your web server</a> or they will not work, <i>and the charts here will not work either</i> (they will remain blank). The charts page, chart caching, and chart javascript can be disabled in the configuration file (config.php).
 	
 <br /><br />
-	Although you can persist hiding charts pretty good without enabling cookie data, to fully persist hiding charts it's recommended to enable "Use cookie data to save values between sessions" on the Program Settings page. For instance, updating coin values or markets will reset back to showing all charts, unless you enable cookie data.</p>
+	Although you can persist hiding charts pretty good without enabling cookie data, to fully persist hiding charts it's recommended to enable "Use cookie data to save values between sessions" on the Program Settings page. For instance, updating coin values or markets in your portfolio will reset back to showing all charts. But if you enable cookie data, your hidden charts will stay hidden.</p>
 
             
 </div>
