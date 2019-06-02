@@ -43,7 +43,7 @@ function auto_reload(time) {
 	count_down(time, 1);
 		
 		if ( document.getElementById("set_use_cookies").checked == false ) {
-		alert('To use auto-refresh effectively, enable "Use cookie data to save values between sessions" on the "Program Settings" page. Otherwise you likely will be prompted to manually re-submit form data every auto-refresh.');
+		alert('Using this feature requires cookie data. To use auto-refresh effectively, enable "Use cookie data to save values between sessions" on the "Settings" page. Otherwise you likely will be prompted to manually re-submit form data every auto-refresh.');
 		}
 
 	

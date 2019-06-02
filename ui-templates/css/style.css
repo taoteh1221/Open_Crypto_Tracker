@@ -61,7 +61,6 @@ margin: 0px;
 padding: 8px;
 }
 
-
 th {
 padding-right: 28px;
 }
@@ -235,7 +234,6 @@ margin: 0px;
 
 div.tabdiv {
 padding: 15px;
-width: auto;
 min-width: 1300px;
 max-width: 1700px;
 min-height: 150px;
@@ -248,7 +246,7 @@ border: 2px solid #808080;
 .tabli a {
 border-top-left-radius: 4px;
 border-top-right-radius: 4px;
-font-size: 17px;
+font-size: 20px;
 }
 
 
@@ -317,12 +315,12 @@ IDs
 
 
 #coins_table {
+position: relative;
 min-width: 1300px;
 }
 
 
 #coins_table td:last-child {
-width: auto;
 }
 
 

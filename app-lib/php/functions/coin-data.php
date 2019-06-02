@@ -317,7 +317,7 @@ global $_POST, $mining_rewards;
 
 ?>
 
-				<form name='<?=$calculation_form_data[1]?>' action='index.php#calculators' method='post'>
+				<form name='<?=$calculation_form_data[1]?>' action='index.php#mining_calculators' method='post'>
 				
 				<p><b><?=ucfirst($network_measure)?>:</b> <input type='text' value='<?=( $_POST['network_measure'] && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? number_format($_POST['network_measure']) : number_format($calculation_form_data[3]) )?>' name='network_measure' /> (uses <a href='<?=$calculation_form_data[4]?>' target='_blank'><?=$calculation_form_data[5]?></a>)</p>
 				

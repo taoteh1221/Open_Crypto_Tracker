@@ -9,7 +9,7 @@ require("ui-templates/php/header.php");
 
 
 		<ul class='tabs' style='display: inline;'>
-			<li class='tabli'><a href='#portfolio_value'>Portfolio Value</a></li>
+			<li class='tabli'><a href='#portfolio'>Portfolio</a></li>
 			<li class='tabli'><a href='#update_values'>Update Values</a></li>
 			<?php
 			if ( $charts_page == 'on' ) {
@@ -18,14 +18,14 @@ require("ui-templates/php/header.php");
 			<?php
 			}
 			?>
-			<li class='tabli'><a href='#settings'>Program Settings</a></li>
-			<li class='tabli'><a href='#calculators'>Mining / Interest Calculators</a></li>
-			<li class='tabli'><a href='#other_crypto_tools'>Other Crypto Tools</a></li>
+			<li class='tabli'><a href='#settings'>Settings</a></li>
+			<li class='tabli'><a href='#mining_calculators'>Mining Calculators</a></li>
+			<li class='tabli'><a href='#other_tools'>Other Tools</a></li>
 			<li class='tabli'><a href='#links'>External Resource Links</a></li>
 			<li class='tabli'><a href='#help'>Help?</a></li>
 		</ul>
-		<div id='portfolio_value' class='tabdiv'>
-			<h3 style='display: inline;'>Portfolio Value</h3> (<?=$last_trade_cache?> minute cache)
+		<div id='portfolio' class='tabdiv'>
+			<h3 style='display: inline;'>Portfolio</h3> (<?=$last_trade_cache?> minute cache)
 			<?php
 			if ( sizeof($alert_percent) > 1 ) {
 				
@@ -47,11 +47,11 @@ require("ui-templates/php/header.php");
 				<option value='900' <?=( $_COOKIE['coin_reload'] == '900' ? 'selected' : '' )?>> Every 15 Minutes </option>
 				<option value='1800' <?=( $_COOKIE['coin_reload'] == '1800' ? 'selected' : '' )?>> Every 30 Minutes </option>
 			</select> &nbsp;<span id='reload_countdown' style='color: red;'></span>
-			<p><?php require("ui-templates/php/sections/coin-portfolio-value.php"); ?></p>
+			<p><?php require("ui-templates/php/sections/portfolio.php"); ?></p>
 		</div>
 		<div id='update_values' class='tabdiv'>
 			<h3>Update Values</h3>
-			<p><?php require("ui-templates/php/sections/update-coin-values.php"); ?></p>
+			<p><?php require("ui-templates/php/sections/update-values.php"); ?></p>
 		</div>
 			<?php
 			if ( $charts_page == 'on' ) {
@@ -64,16 +64,16 @@ require("ui-templates/php/header.php");
 			}
 			?>
 		<div id='settings' class='tabdiv'>
-			<h3>Program Settings</h3>
-			<?php require("ui-templates/php/sections/program-settings.php"); ?>
+			<h3>Settings</h3>
+			<?php require("ui-templates/php/sections/settings.php"); ?>
 		</div>
-		<div id='calculators' class='tabdiv'>
-			<h3>Mining / Interest Calculators</h3>
+		<div id='mining_calculators' class='tabdiv'>
+			<h3>Mining Calculators</h3>
 			<?php require("ui-templates/php/sections/mining-calculators.php"); ?>
 		</div>
-		<div id='other_crypto_tools' class='tabdiv'>
-			<h3>Other Crypto Tools</h3>
-			<?php require("ui-templates/php/sections/other-crypto-tools.php"); ?>
+		<div id='other_tools' class='tabdiv'>
+			<h3>Other Tools</h3>
+			<?php require("ui-templates/php/sections/other-tools.php"); ?>
 		</div>
 		<div id='links' class='tabdiv'>
 			<h3>External Resource Links</h3>

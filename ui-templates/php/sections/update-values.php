@@ -22,7 +22,7 @@
 <p><a style='font-weight: bold;' href='README.txt' target='_blank'>Editing The Coin List, or Enabling Email / Text / Alexa Exchange Price Alerts</a></p>
 
 
-<form name='coin_amounts' action='<?=$_SERVER['PHP_SELF']?>' method='post'>
+<form name='coin_amounts' action='index.php' method='post'>
 
 <?php
 
@@ -222,6 +222,8 @@ if (is_array($coins_list) || is_object($coins_list)) {
 
 <input type='hidden' id='use_alert_percent' name='use_alert_percent' value='<?=( $_POST['use_alert_percent'] != '' ? $_POST['use_alert_percent'] : $_COOKIE['alert_percent'] )?>' />
 
+<input type='hidden' id='show_charts' name='show_charts' value='<?=( $_POST['show_charts'] != '' ? $_POST['show_charts'] : $_COOKIE['show_charts'] )?>' />
+		
 </form>
 
 

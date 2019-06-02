@@ -1190,7 +1190,7 @@ app doing the data requests, not a malicious bot)
 
 -------------------------------------------------------------------
 3.07.0:
--Added USD price / volume historical charts for assets with price alerts enabled (disabled by default, still experimental as of 5/29/2019...can be enabled in config.php)
+-Added USD price / volume historical charts for assets with price alerts enabled
 -Optimizations
 -External resource page additions
 -------------------------------------------------------------------

@@ -75,8 +75,8 @@ var tablesort_theme = '<?=$tablesort_theme?>';
     </audio>
 
     <div align='center' style='width: 100%; min-width: 1300px; margin: auto;'>
-    <h2>DFD Cryptocoin Values - Cryptocurrency Portfolio Tracker</h2>
-            <div align='left' style='display: inline; margin: 0px;'>
+    <h1>DFD Cryptocoin Values - Cryptocurrency Portfolio Tracker</h1>
+            <div align='left' style=' margin: 0px; min-width: 1300px; display: inline;'>
         <!- header END -->
 
 

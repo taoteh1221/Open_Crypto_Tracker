@@ -4,20 +4,6 @@
  */
 
 
-
-// Removing 1 and 2 minute auto-reload options (to reduce request denied API server responses)
-if ( $_COOKIE['coin_reload'] > '0' && $_COOKIE['coin_reload'] < '300' ) {
-
-unset($_COOKIE['coin_reload']);  // Delete any existing cookie
-setcookie ("coin_reload", "", time()-3600);  // Delete any existing cookie
- 
-$_COOKIE['coin_reload'] = '300';
-
-// Cookie expires in 1 year (31536000 seconds)
-setcookie("coin_reload", $_COOKIE['coin_reload'], mktime()+31536000);
-
-}
-
 if ( $_POST['update_notes'] == 1 && trim($_POST['notes_reminders']) != '' && $_COOKIE['notes_reminders'] ) {
 setcookie("notes_reminders", $_POST['notes_reminders'], mktime()+31536000);
 
@@ -104,6 +90,7 @@ if ( $_POST['submit_check'] == 1 ) {
   setcookie ("sort_by", "", time()-3600);  // Delete any existing cookie
   }
  
+ 
   if ( $_POST['use_cookies'] == 1 && $_POST['use_alert_percent'] != '' ) {
   
            // Cookie expires in 1 year (31536000 seconds)
@@ -115,7 +102,6 @@ if ( $_POST['submit_check'] == 1 ) {
   unset($_COOKIE['alert_percent']);  // Delete any existing cookie
   setcookie ("alert_percent", "", time()-3600);  // Delete any existing cookie
   }
- 
  
  
   if ( $_POST['use_cookies'] == 1 ) {
@@ -136,6 +122,8 @@ if ( $_POST['submit_check'] == 1 ) {
            setcookie("coin_pairings", $set_pairing_values, mktime()+31536000);
            setcookie("coin_markets", $set_market_values, mktime()+31536000);
            
+           setcookie("show_charts", ( $_POST['show_charts'] != '' ? $_POST['show_charts'] : 'placeholder,' ), mktime()+31536000);
+           
     header("Location: " . $_SERVER['PHP_SELF']);
     exit;
   }
@@ -149,6 +137,7 @@ if ( $_POST['submit_check'] == 1 ) {
   unset($_COOKIE['coin_markets']); 
   unset($_COOKIE['coin_reload']);  
   unset($_COOKIE['alert_percent']);  
+  unset($_COOKIE['show_charts']);  
   
   setcookie ("notes_reminders", "", time()-3600);  
   setcookie ("coin_amounts", "", time()-3600);  
@@ -156,6 +145,7 @@ if ( $_POST['submit_check'] == 1 ) {
   setcookie ("coin_markets", "", time()-3600);  
   setcookie ("coin_reload", "", time()-3600);  
   setcookie ("alert_percent", "", time()-3600);  
+  setcookie ("show_charts", "", time()-3600);  
  
   }
   

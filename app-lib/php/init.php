@@ -68,6 +68,8 @@ define('CURL_VERSION_ID', str_replace(".", "", $curl_setup["version"]) );
 // Only need below logic during UI runtime
 if ( $runtime_mode == 'ui' ) {
 
+require_once( $php_app_dir . "/other/cookies.php");
+
 $sort_settings = ( $_COOKIE['sort_by'] ? $_COOKIE['sort_by'] : $_POST['sort_by'] );
 $sort_settings = explode("|",$sort_settings);
 
@@ -83,7 +85,7 @@ $sorted_by_asc_desc = $sort_settings[1];
 
 $alert_percent = explode("|", ( $_POST['use_alert_percent'] != '' ? $_POST['use_alert_percent'] : $_COOKIE['alert_percent'] ) );
 
-require_once( $php_app_dir . "/other/cookies.php");
+$show_charts = explode(',', rtrim( ( $_POST['show_charts'] != '' ? $_POST['show_charts'] : $_COOKIE['show_charts'] ) , ',') );
 
 }
 

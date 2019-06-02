@@ -239,7 +239,7 @@
                         </p>
 			
 			
-                        <p class='settings_sections'><input type='button' value='Save Updated Program Settings' onclick='
+                        <p class='settings_sections'><input type='button' value='Save Updated Settings' onclick='
                         if ( document.getElementById("set_use_notes").checked != true ) {
 								delete_cookie("notes_reminders");
 								document.getElementById("use_notes").value = "";

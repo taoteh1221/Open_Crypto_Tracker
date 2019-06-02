@@ -12,6 +12,8 @@
 			<fieldset class='subsection_fieldset'>
 				<legend class='subsection_legend'> <b>QR Code Generator For Addresses</b> </legend>
 		    
+			<p style='color: red;'>If you have portfolio data entered on the Update Values page you don't want to lose, be sure you have enabled "Use cookie data to save values between sessions" on the Settings page before using this tool.</p>
+			
 				<?php require("app-lib/php/other/qr-code-generator/qr-code-generator.php"); ?>
 				
 				
