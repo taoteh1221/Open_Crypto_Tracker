@@ -22,7 +22,7 @@
 <p><a style='font-weight: bold;' href='README.txt' target='_blank'>Editing The Coin List, or Enabling Email / Text / Alexa Exchange Price Alerts</a></p>
 
 
-<form name='coin_amounts' action='index.php' method='post'>
+<form id='coin_amounts' name='coin_amounts' action='<?=start_page($_GET['start_page'])?>' method='post'>
 
 <?php
 

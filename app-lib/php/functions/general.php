@@ -3,6 +3,15 @@
  * Copyright 2014-2019 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
  */
 
+
+/////////////////////////////////////////////////////////
+
+function start_page($page) {
+
+return 'index.php' . ( $page != '' ? '?start_page=' . $page . '#' . $page : '' );
+
+}
+
 /////////////////////////////////////////////////////////
 
 function dir_structure($path) {
@@ -126,6 +135,30 @@ $updates_daily = $chart_update_freq * 24;
 
 return ($updates_daily * $range);
 
+}
+
+/////////////////////////////////////////////////////////
+
+function start_page_html($page) {
+?>
+	<select onchange='
+	
+		if ( this.value == "index.php?start_page=<?=$page?>" ) {
+		var anchor = "#<?=$page?>";
+		}
+		else {
+		var anchor = "";
+		}
+	
+	// This start page method saves portfolio data during the session, even without cookie data enabled
+	document.getElementById("coin_amounts").action = this.value + anchor;
+	document.coin_amounts.submit();
+	
+	'>
+		<option value='index.php'> Show Portfolio Page First </option>
+		<option value='index.php?start_page=<?=$page?>' <?=( $_GET['start_page'] == $page ? 'selected' : '' )?> > Show <?=ucfirst($page)?> Page First </option>
+	</select>
+<?php
 }
 
 /////////////////////////////////////////////////////////

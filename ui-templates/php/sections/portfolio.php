@@ -201,7 +201,7 @@ else {
 if ( $_COOKIE['notes_reminders'] ) {
 ?>
 
-<form action='./' method='post'>
+<form action='<?=start_page($_GET['start_page'])?>' method='post'>
 <p>
 
 <b>Trading Notes / Reminders:</b><br />

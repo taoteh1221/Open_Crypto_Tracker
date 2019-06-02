@@ -7,13 +7,13 @@
 if ( $_POST['update_notes'] == 1 && trim($_POST['notes_reminders']) != '' && $_COOKIE['notes_reminders'] ) {
 setcookie("notes_reminders", $_POST['notes_reminders'], mktime()+31536000);
 
-header("Location: " . $_SERVER['PHP_SELF']);
+header("Location: " . start_page($_GET['start_page']));
 exit;
 }
 elseif ( $_POST['update_notes'] == 1 && trim($_POST['notes_reminders']) == '' && $_COOKIE['notes_reminders'] ) {
 setcookie("notes_reminders", " ", mktime()+31536000); // Initialized with some whitespace when blank
 
-header("Location: " . $_SERVER['PHP_SELF']);
+header("Location: " . start_page($_GET['start_page']));
 exit;
 }
 
@@ -124,7 +124,7 @@ if ( $_POST['submit_check'] == 1 ) {
            
            setcookie("show_charts", ( $_POST['show_charts'] != '' ? $_POST['show_charts'] : 'placeholder,' ), mktime()+31536000);
            
-    header("Location: " . $_SERVER['PHP_SELF']);
+    header("Location: " . start_page($_GET['start_page'])); // Preserve any start page data
     exit;
   }
   else {

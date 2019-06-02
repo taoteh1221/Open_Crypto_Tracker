@@ -5,32 +5,8 @@
 
 ?>
 
-<?php
-// Check for the 'show_charts' cookie...if it exists then cookie data is enabled,
-// so we can safely change start pages without losing form submission data
-if ( $_COOKIE['show_charts'] != '' ) {
-?>
-<p>
-	<select id='page_select' onchange='
-	
-		if ( this.value == "index.php?start_page=charts" ) {
-		var anchor = "#charts";
-		}
-		else {
-		var anchor = "";
-		}
 
-	window.location.href = this.value + anchor;
-	
-	'>
-		<option value='index.php'> Show Portfolio Page First </option>
-		<option value='index.php?start_page=charts' <?=( $_GET['start_page'] == 'charts' ? 'selected' : '' )?> > Show Charts Page First </option>
-	</select>
-</p>
-<?php
-}
-?>
-			
+<p><?=start_page_html('charts')?></p>			
 			
 <button class="show_chart_settings force_button_style">Show / Hide Charts</button>
 
