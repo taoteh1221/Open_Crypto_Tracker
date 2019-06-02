@@ -95,7 +95,7 @@ width: 15px !important;
 height: 15px !important;
 }
 
-input[type=submit], input[type=button] {
+input[type=submit], input[type=button], .force_button_style {
   background-color: #808080;
   border: 1px solid black;
   color: white;

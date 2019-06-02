@@ -40,17 +40,17 @@ if ( $_GET['type'] == 'asset' ) {
 		
 ?>
 var dates_<?=$js_key?> = [<?=$chart_data['time']?>];
-var closes_<?=$js_key?> = [<?=$chart_data['spot']?>];
+var spots_<?=$js_key?> = [<?=$chart_data['spot']?>];
 var volumes_<?=$js_key?> =[<?=$chart_data['volume']?>];
 
 var stockState_<?=$js_key?> = {
   current: 'ALL',
   dates: dates_<?=$js_key?>,
-  closes: closes_<?=$js_key?>,
+  spots: spots_<?=$js_key?>,
   volumes: volumes_<?=$js_key?>
 };
  
-function getCloseConfig_<?=$js_key?>(dates, values, current) {
+function getspotConfig_<?=$js_key?>(dates, values, current) {
   return {
   type: 'area',
   "preview":{
@@ -66,6 +66,7 @@ function getCloseConfig_<?=$js_key?>(dates, values, current) {
   y: 0,
   crosshairX:{
     shared: true,
+    exact: true,
     plotLabel:{
       backgroundColor: "#bbb",
       fontColor: "#222",
@@ -87,13 +88,13 @@ function getCloseConfig_<?=$js_key?>(dates, values, current) {
     fontFamily: 'Open Sans',
     fontSize: 28,
     align: 'right',
-    offsetX: -20
+    offsetX: -10
   },
   zoom: {
     shared: true
   },
   plotarea: {
-    margin: "60 65 55 85"
+    margin: "60 65 55 115"
   },
   plot: {
     marker:{
@@ -152,7 +153,7 @@ function getCloseConfig_<?=$js_key?>(dates, values, current) {
 	],
 	labels: [
 	  {
-	    x: 50,
+	    x: 110,
 	    y: 10,
 	    id: '1W',
 	    fontColor: (current === '1W') ? "#FFF" : "#b5b5b5",
@@ -162,7 +163,7 @@ function getCloseConfig_<?=$js_key?>(dates, values, current) {
 	    text: "1W"
 	  },
 	  {
-	    x: 100,
+	    x: 160,
 	    y: 10,
 	    id: '1M',
 	    fontColor: (current === '1M') ? "#FFF" : "#b5b5b5",
@@ -172,7 +173,7 @@ function getCloseConfig_<?=$js_key?>(dates, values, current) {
 	    text: "1M"
 	  },
 	  {
-	    x: 150,
+	    x: 210,
 	    y: 10,
 	    id: '6M',
 	    fontColor: (current === '6M') ? "#FFF" : "#b5b5b5",
@@ -182,7 +183,7 @@ function getCloseConfig_<?=$js_key?>(dates, values, current) {
 	    text: "6M"
 	  },
 	  {
-	    x: 200,
+	    x: 260,
 	    y: 10,
 	    id: '1Y',
 	    fontColor: (current === '1Y') ? "#FFF" : "#b5b5b5",
@@ -192,7 +193,7 @@ function getCloseConfig_<?=$js_key?>(dates, values, current) {
 	    text: "1Y"
 	  },
 	  {
-	    x: 250,
+	    x: 310,
 	    y: 10,
 	    id: '2Y',
 	    fontColor: (current === '2Y') ? "#FFF" : "#b5b5b5",
@@ -202,7 +203,7 @@ function getCloseConfig_<?=$js_key?>(dates, values, current) {
 	    text: "2Y"
 	  },
 	  {
-	    x: 300,
+	    x: 360,
 	    y: 10,
 	    id: 'ALL',
 	    fontColor: (current === 'ALL') ? "#FFF" : "#b5b5b5",
@@ -210,6 +211,16 @@ function getCloseConfig_<?=$js_key?>(dates, values, current) {
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
 	    text: "ALL"
+	  },
+	  {
+	    x: 427,
+	    y: 10,
+	    id: 'RESETZOOM',
+	    fontColor: "#b5b5b5",
+	    fontSize: "22",
+	    fontFamily: "Open Sans",
+	    cursor: "hand",
+	    text: "RESET ZOOM"
 	  }
 	]
 };
@@ -223,15 +234,20 @@ function getVolumeConfig_<?=$js_key?>(dates, values) {
   y: 400,
   backgroundColor: "#515050",
   plotarea: {
-    margin: "11 60 5 78"
+    margin: "11 63 5 112"
+  },
+  plot: {
+  	barSpace: "0px",
+  	barsSpaceLeft: "0px",
+  	barsSpaceRight: "0px"
   },
   source: {
     text: "24 Hour Volume",
-    fontColor:"#f9f7d4",
-	 fontSize: "16",
+    fontColor:"#fff",
+	 fontSize: "15",
     fontFamily: "Open Sans",
-    offsetX: 73,
-    offsetY: 15,
+    offsetX: 108,
+    offsetY: 13,
     align: 'left'
   },
   tooltip:{
@@ -247,6 +263,7 @@ function getVolumeConfig_<?=$js_key?>(dates, values) {
   },
   crosshairX:{
     shared: true,
+    exact: true,
     scaleLabel:{
       visible: false
     },
@@ -264,7 +281,18 @@ function getVolumeConfig_<?=$js_key?>(dates, values) {
     zooming: true
   },
   scaleY: {
-    visible: false
+    "format":"$%v",
+    "thousands-separator":",",
+    guide: {
+      visible: true,
+      lineStyle: 'solid',
+      lineColor: "#444"
+    },
+    item: {
+      fontColor: "#ddd",
+      fontFamily: "Open Sans",
+      fontSize: "12",
+    }
   },
 	series : [
 		{
@@ -281,7 +309,7 @@ zingchart.render({
   id: '<?=strtolower($key)?>_chart',
   data: {
     graphset:[
-      getCloseConfig_<?=$js_key?>(stockState_<?=$js_key?>.dates, stockState_<?=$js_key?>.closes, 'ALL'),
+      getspotConfig_<?=$js_key?>(stockState_<?=$js_key?>.dates, stockState_<?=$js_key?>.spots, 'ALL'),
       getVolumeConfig_<?=$js_key?>(stockState_<?=$js_key?>.dates, stockState_<?=$js_key?>.volumes)
     ]
   },
@@ -291,13 +319,19 @@ zingchart.render({
  
  
 zingchart.bind('<?=strtolower($key)?>_chart', 'label_click', function(e){
-  if(stockState_<?=$js_key?>.current === e.labelid){
+  if(stockState_<?=$js_key?>.current === e.labelid && e.labelid != 'RESETZOOM'){
     return;
   }
   
-  var windowClose_<?=$js_key?> = [];
+  var windowspot_<?=$js_key?> = [];
   var windowVolume_<?=$js_key?> = [];
   var windowDates_<?=$js_key?> = [];
+  
+  
+  	if ( e.labelid === 'RESETZOOM' ) {
+  	e.labelid = 'ALL';
+  	}
+  
   var cut = 0;
   switch(e.labelid) {
     case '1W': 
@@ -322,7 +356,7 @@ zingchart.bind('<?=strtolower($key)?>_chart', 'label_click', function(e){
       cut = stockState_<?=$js_key?>.dates.length;
     break;
   }
-    windowClose_<?=$js_key?> = stockState_<?=$js_key?>.closes.slice(stockState_<?=$js_key?>.closes.length-cut);
+    windowspot_<?=$js_key?> = stockState_<?=$js_key?>.spots.slice(stockState_<?=$js_key?>.spots.length-cut);
     windowDates_<?=$js_key?> = stockState_<?=$js_key?>.dates.slice(stockState_<?=$js_key?>.dates.length-cut);
     windowVolume_<?=$js_key?> = stockState_<?=$js_key?>.volumes.slice(stockState_<?=$js_key?>.volumes.length-cut);
     
@@ -330,12 +364,12 @@ zingchart.bind('<?=strtolower($key)?>_chart', 'label_click', function(e){
     
     data: {
       graphset:[
-        getCloseConfig_<?=$js_key?>(windowDates_<?=$js_key?>, windowClose_<?=$js_key?>, e.labelid),
+        getspotConfig_<?=$js_key?>(windowDates_<?=$js_key?>, windowspot_<?=$js_key?>, e.labelid),
         getVolumeConfig_<?=$js_key?>(windowDates_<?=$js_key?>, windowVolume_<?=$js_key?>)
       ]
     }
   });
- 
+ 	
   stockState_<?=$js_key?>.current = e.labelid;
   
 });

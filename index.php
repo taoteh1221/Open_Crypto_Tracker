@@ -9,7 +9,7 @@ require("ui-templates/php/header.php");
 
 
 		<ul class='tabs' style='display: inline;'>
-			<li class='tabli'><a href='#show_values'>Portfolio Value</a></li>
+			<li class='tabli'><a href='#portfolio_value'>Portfolio Value</a></li>
 			<li class='tabli'><a href='#update_values'>Update Values</a></li>
 			<?php
 			if ( $charts_page == 'on' ) {
@@ -24,7 +24,7 @@ require("ui-templates/php/header.php");
 			<li class='tabli'><a href='#links'>External Resource Links</a></li>
 			<li class='tabli'><a href='#help'>Help?</a></li>
 		</ul>
-		<div id='show_values' class='tabdiv'>
+		<div id='portfolio_value' class='tabdiv'>
 			<h3 style='display: inline;'>Portfolio Value</h3> (<?=$last_trade_cache?> minute cache)
 			<?php
 			if ( sizeof($alert_percent) > 1 ) {

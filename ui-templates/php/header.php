@@ -21,7 +21,10 @@ require("config.php");
 <head>
 <meta charset="UTF-8">
     <title>DFD Cryptocoin Values - Cryptocurrency Portfolio Tracker</title>
+    
 <link rel="stylesheet" href="ui-templates/css/style.css" type="text/css" />
+
+<link rel="stylesheet" href="ui-templates/css/modaal.css" type="text/css" />
 
 <script type="text/javascript" src="app-lib/js/jquery/jquery1.8.3.min.js"></script>
 
@@ -32,6 +35,8 @@ require("config.php");
 <script type="text/javascript" src="app-lib/js/jquery/jquery.balloon.min.js"></script>
 
 <script type="text/javascript" src="app-lib/js/functions.js"></script>
+
+<script type="text/javascript" src="app-lib/js/modaal.js"></script>
 
 <?php
 if ( $charts_page == 'on' ) {

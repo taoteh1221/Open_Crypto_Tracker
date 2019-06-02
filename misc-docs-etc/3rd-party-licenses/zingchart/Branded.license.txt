@@ -1,0 +1,29 @@
+
+https://www.zingchart.com/buy/details/branded-license/
+
+
+ZingChart Branded License
+Updated August 30, 2016
+
+Grant of License
+The ZingChart Branded license is not for a specific type of application or bound to a particular domain. The Branded license instead provides full access to the ZingChart library for free and can be used on websites, in applications, and used in hosted software products. The Branded license does require the “Powered by ZingChart” watermark and link be visible on all charts, visualizations, and maps.
+
+The ZingChart Branded license is not permitted to be distributed in installable software products. If your product is distributed and installed by your end users an OEM license would be required.
+
+Any attempt to remove, hide, or reduce the visibility of the watermark would be a violation of the Branded licensing agreement.
+
+Light theme watermark example  Dark theme watermark example
+If charts branded with a watermark is not acceptable for your project you would need to purchase the appropriate paid license. You can find details on all of our paid licenses on www.zingchart.com/buy.
+
+The License File
+The Branded license does not require a license file nor will one be provided. The ZingChart branded library is available to be downloaded at www.zingchart.com/try. The absence of a valid license file will cause the “Powered by ZingChart” watermark to appear on all charts.
+
+The ZingChart watermark will not display when a page is served from your localhost. If you are working locally on 127.0.0.1 or any other localhost configured on your machine the watermark will not appear. This is done by design to give developers a way to test charts and facilitate demos without the watermark.
+
+Included Support
+The use of the ZingChart branded license does not provide access to support via email, chat, or phone. Developers using the branded version of the library are provided access to the ZingChart online documentation only. Should a support need arise for troubleshooting or bug fixes branded license users may purchase support at our standard rates.
+
+Versions & Upgrades
+All branded license users are welcome to update to the most current version of ZingChart at anytime. To access our most recent build go to www.zingchart.com/try
+
+

@@ -1,0 +1,62 @@
+
+https://www.zingchart.com/legal/
+https://www.zingchart.com/buy/details/branded-license/
+
+Confusing licensing, but looks like they deem it acceptable to use / redistrubute this zingchart library in this particular GPLv3 app after talking to Nick Ardecky at ZingSoft...so using this library for now. If anybody from ZingSoft counters Nick's claims on it being usable / redistrubutable under these conditions (including this zingchart library in a free / open source GPLv3 software-only app, with unlimited public digital download / redistribution), then this library will be immediately removed and replaced with a more compatible licensed product.
+
+=========================================================================================
+
+From: "Nick from ZingSoft, Inc." <nicXXXXXXXXX@zingsoftXXXXXXXXXXXXXXXXXX.com>
+
+...Really appreciate you reaching out to us! App looks good and you are not violating our license agreement in your application. You are good to use ZingChart. 
+ The bottom line is the licensed watermark is allowed in ANY software but a distributed system. Distributed systems are hardware pieces sold to factories and what not...
+
+
+On Thu, May 30, 2019 at 09:07 PM, "Michael Kilday" <taoXXXXXXX@XXXXX.com> wrote:
+
+    Hello,
+    I just finished a proof-of-concept using zingchart in a publicly free /
+    open source project of mine (added a chart page to my app, not released
+    yet):
+
+    Private demo:
+    https://dragonfrugal.com/XXXXXXXXXXXXXXX/index.php#charts
+
+    Github repository of my app:
+    https://github.com/taoteh1221/DFD_Cryptocoin_Values
+
+    After finishing the POC, went looking for a license file to include in
+    my app, but only found info on your page here:
+    https://www.zingchart.com/legal/
+
+    Specifically:
+    "Without limiting the foregoing, unless the accompanying license
+    agreement expressly allows otherwise, any copying or redistribution of
+    the Software is prohibited, including any copying or reproduction of the
+    Software to any other server or location for further reproduction,
+    redistribution or use on a service bureau basis. Any unauthorized use,
+    copying or distribution of the Software is expressly prohibited by law,
+    and may result in severe civil and criminal penalties. Violators will be
+    prosecuted to the maximum extent possible."
+
+    And the notice at the top of zingchart.min.js:
+    "All of the code within the ZingChart software is developed and
+    copyrighted by ZingChart, Inc., and may not be copied,
+    replicated, or used in any other software or application without prior
+    permission from ZingChart. All usage must coincide with the
+    ZingChart End User License Agreement which can be requested by email at support@zingchart.com."
+
+    So my question is: What exactly is the ZingChart End User License
+    Agreement in this case, and is it in any way compatible with usage in a
+    GPLv3 licensed application that is freely redistributed?
+
+    I'll promptly remove it from my app if it's an incompatible license...I
+    do have zingchart.min.js running locally, so it would be redistributed
+    if I did stick with your product. I have not created a release including
+    it yet, it's only in the git repository here:
+    https://github.com/taoteh1221/DFD_Cryptocoin_Values/tree/master/app-lib/js
+
+    Thanks for your time,
+    Mike
+
+=========================================================================================
