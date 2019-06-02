@@ -34,6 +34,11 @@
                         </div>
                         
 			<div class='help_section'>
+                            <p><b>Page Loads Slowly With Charts Enabled:</b><br /><br />
+                                If you have the Charts page enabled in config.php, and page load times are slow after showing charts, go to the Charts page and click the "Show / Hide Charts" button. Uncheck all charts, and click "Update Shown Charts". If the page load times are faster afterwards, the issue may have been that you were loading too many charts at once. Try just loading a few charts instead, this may help page load times.</p>
+                        </div>
+                        
+			<div class='help_section'>
                             <p><b>Coinmarketcap.com Data Not Available For An Asset:</b><br /><br />
                                 Either the asset has not been added to <a href='https://coinmarketcap.com' target='_blank'>coinmarketcap.com</a> yet, you forgot to add the URL slug in it's config section, or you need to increase the number of rankings to fetch in config.php in the settings section (<?=$marketcap_ranks_max?> rankings is the current setting).</p>
                         </div>
@@ -54,7 +59,7 @@
                         </div>
                         
 			<div class='help_section'>
-                            <p><b>Runs Sluggish / Throws Errors With Proxies:</b><br /><br />
+                            <p><b>Page Loads Slowly or Throws Errors With Proxies Enabled:</b><br /><br />
                                 If page loads are sluggish or throw API connection errors without clearing up, and you have enabled proxy ip addresses, check the error logs file at /cache/logs/errors.log for error responses from the proxy server connection attempt(s). If there are no errors log entries related to the issue that help diagnose the problem, disable using proxies in config.php and try loading the web page again.</p>
                              
                              <p>If it is a bad or misconfigured proxy setup causing the issue, and everything runs great after disabling proxies, you probably have either (a) a bad proxy or proxy configuration, or (b) an API server / endpoint address is not responding properly when routed through proxies (example: HTTP used instead of HTTPS can cause this error). <i>If you are absolutely sure your proxy setup is ok</i>, and that an API connection built-in to this app is the issue, please <a href='https://github.com/taoteh1221/DFD_Cryptocoin_Values/issues' target='_blank'>report it</a>.</p>
