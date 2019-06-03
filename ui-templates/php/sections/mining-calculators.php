@@ -12,7 +12,7 @@
 			
 			<p style='font-weight: bold;'>Chain data (block height, difficulty, etc) on this page is cached for <?=$chainstats_cache?> minute(s).</p>
 			
-			<p style='color: red;'>If you have portfolio data entered on the Update Values page you don't want to lose, be sure you have enabled "Use cookie data to save values between sessions" on the Settings page before using these mining calculators.</p>
+			<p style='color: red;'>Using these mining calculators <i><u>will set this page as the start page</u>, which you can reset afterwards at top left</i>. If you have portfolio data you don't want to lose, be sure you have enabled "Use cookie data to save values between sessions" on the Settings page before using these mining calculators.</p>
 			
 			<fieldset class='subsection_fieldset'>
 				<legend class='subsection_legend'> <b>Bitcoin Mining Calculator</b> </legend>
@@ -61,6 +61,5 @@
 				
 			</fieldset>
 		    
-<p align='center'><a href='#mining_calculators'>Back To Top</a></p>
-
+		    
 

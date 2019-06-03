@@ -9,7 +9,7 @@
 
 <p><?=start_page_html('charts')?></p>			
 			
-<button class="show_chart_settings force_button_style">Chart Settings</button>
+<p><button class="show_chart_settings force_button_style">Chart Settings</button></p>
 
 
 <div id="show_chart_settings" style="display:none;">
@@ -57,9 +57,6 @@ $('.show_chart_settings').modaal({
 });
 </script>
 
-
-<br />
-  
   
 <p><a style='color: red; font-weight: bold;' class='show' id='chartsnotice' href='#show_chartsnotice' title='Click to show charts notice.' onclick='return false;'><b>Charts Notice</b></a></p>
     
@@ -103,8 +100,6 @@ if ( $charts_available == 1 && $charts_shown != 1 ) {
 <?php
 }
 ?>
-
-<p align='center'><a href='#charts'>Back To Top</a></p>
 
 
 

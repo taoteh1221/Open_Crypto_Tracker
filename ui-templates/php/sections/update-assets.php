@@ -6,7 +6,7 @@
 
 ?>
 
-			<h3 style='display: inline;'>Update Values</h3>
+			<h3 style='display: inline;'>Update Assets</h3>
 			
 <p><a style='color: red; font-weight: bold;' class='show' id='disclaimer' href='#show_disclaimer' title='Click to show disclaimer.' onclick='return false;'>Disclaimer</a></p>
     

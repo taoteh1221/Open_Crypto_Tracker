@@ -146,6 +146,8 @@ return ($updates_daily * $range);
 
 function start_page_html($page) {
 ?>
+<span style='border: 2px dotted black; padding: 8px;'> 
+	
 	<select onchange='
 	
 		if ( this.value == "index.php?start_page=<?=$page?>" ) {
@@ -165,17 +167,21 @@ function start_page_html($page) {
 		if ( $_GET['start_page'] != '' && $_GET['start_page'] != $page ) {
 		$another_set = 1;
 		?>
-		<option value='index.php?start_page=<?=$_GET['start_page']?>' selected > Show <?=ucfirst($_GET['start_page'])?> Page First </option>
+		<option value='index.php?start_page=<?=$_GET['start_page']?>' selected > Show <?=ucfirst( preg_replace("/_/i", " ", $_GET['start_page']) )?> Page First </option>
 		<?php
 		}
 		?>
-		<option value='index.php?start_page=<?=$page?>' <?=( $_GET['start_page'] == $page ? 'selected' : '' )?> > Show <?=ucfirst($page)?> Page First </option>
+		<option value='index.php?start_page=<?=$page?>' <?=( $_GET['start_page'] == $page ? 'selected' : '' )?> > Show <?=ucfirst( preg_replace("/_/i", " ", $page) )?> Page First </option>
 	</select> 
+	
+</span>
+
 	<?php
 	if ( $another_set == 1 ) {
 	?>
-	<span style='color: red;'> (another secondary page is currently the start page)</span>
-<?php
+	<span style='color: red;'>&nbsp;(another secondary page is currently the start page)</span>
+	 <br clear='all' />
+	<?php
 	}
 	
 }

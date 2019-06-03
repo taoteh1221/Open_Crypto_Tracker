@@ -10,7 +10,7 @@ require("ui-templates/php/header.php");
 
 		<ul class='tabs' style='display: inline;'>
 			<li class='tabli'><a href='#portfolio'>Portfolio</a></li>
-			<li class='tabli'><a href='#update_values'>Update Values</a></li>
+			<li class='tabli'><a href='#update_assets'>Update Assets</a></li>
 			<li class='tabli'><a href='#settings'>Settings</a></li>
 			<?php
 			if ( $charts_page == 'on' ) {
@@ -29,8 +29,8 @@ require("ui-templates/php/header.php");
 		<div id='portfolio' class='tabdiv'>
 			<?php require("ui-templates/php/sections/portfolio.php"); ?>
 		</div>
-		<div id='update_values' class='tabdiv'>
-			<?php require("ui-templates/php/sections/update-values.php"); ?>
+		<div id='update_assets' class='tabdiv'>
+			<?php require("ui-templates/php/sections/update-assets.php"); ?>
 		</div>
 		<div id='settings' class='tabdiv'>
 			<?php require("ui-templates/php/sections/settings.php"); ?>

@@ -1,4 +1,6 @@
 
+<p align='center'><a href='javascript:scroll(0,0);'>Back To Top</a></p>
+
     <!- footer START -->
 <?php
 
