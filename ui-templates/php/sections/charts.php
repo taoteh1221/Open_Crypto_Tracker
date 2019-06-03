@@ -46,7 +46,7 @@ foreach ( $exchange_price_alerts as $key => $value ) {
 
 	<p><button class='force_button_style' onclick='javascript:document.coin_amounts.submit();'>Update Activated Charts</button></p>
 	
-	<p style='color: red;'>*Charts are hidden by default to increase page loading speed. You can persist showing charts between sessions by enabling "Use cookie data to save values between sessions" on the Settings page. <i>If you enable cookie data before showing your charts, your charts will stay visible all the time</i>.</p>
+	<p style='color: red;'>*Charts are not activated by default to increase page loading speed. <i>If you enable "Use cookie data to save values between sessions" on the Settings page before activating your charts, they will stay visible between sessions</i>.</p>
 
 </div>
 
@@ -63,10 +63,7 @@ $('.show_chart_settings').modaal({
 <div style='display: none;' class='show_chartsnotice' align='left'>
             	
      
-	<p style='font-weight: bold; color: red;'>Charts are only available to show for each price alert properly configured in config.php. Price alerts must be <a href='README.txt' target='_blank'>setup as a cron job on your web server</a>, or <i>the charts here will not work</i> (they will remain blank). The chart's tab, page, caching, and javascript can be disabled in config.php.
-	
-<br /><br />
-	Charts are hidden by default to increase page loading speed. You can persist showing charts between sessions by enabling "Use cookie data to save values between sessions" on the Settings page. <i>If you enable cookie data before showing your charts, your charts will stay visible all the time</i>.</p>
+	<p style='font-weight: bold; color: red;'>Charts are only available to show for each price alert properly configured in config.php. Price alerts must be <a href='README.txt' target='_blank'>setup as a cron job on your web server</a>, or <i>the charts here will not work</i> (they will remain blank). The chart's tab, page, caching, and javascript can be disabled in config.php.</p>
 
             
 </div>
@@ -95,7 +92,7 @@ if ( $charts_available == 1 && $charts_shown != 1 ) {
 <div align='center' style='min-height: 100px;'>
 
 	<p><img src='ui-templates/media/images/favicon.png' border='0' /></p>
-	<p style='font-weight: bold; color: red; position: relative; margin: 15px;'>Click the "Chart Settings" button to activate charts.</p>
+	<p style='font-weight: bold; color: red; position: relative; margin: 15px;'>Click the Chart Settings button to activate charts.</p>
 </div>
 <?php
 }
