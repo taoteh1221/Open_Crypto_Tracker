@@ -5,18 +5,28 @@
 
 ?>
 
+			<h3 style='display: inline;'>Charts</h3>
 
 <p><?=start_page_html('charts')?></p>			
 			
-<button class="show_chart_settings force_button_style">Show / Hide Charts</button>
+<button class="show_chart_settings force_button_style">Chart Settings</button>
 
 
 <div id="show_chart_settings" style="display:none;">
 
-	<h3>Show / Hide Charts</h3>
+	<h3>Activated Charts</h3>
 	
 <?php
 foreach ( $exchange_price_alerts as $key => $value ) {
+		// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
+		$show_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, strpos($key, "-") ) );
+		$show_asset = strtoupper($show_asset);
+		
+		$show_asset_params = explode("||", $value);
+		
+			if ( $show_asset == 'BTC' ) {
+			$show_asset_params[1] = 'USD';
+			}
 ?>
 	<p><input type='checkbox' value='<?=$key?>' onchange='
 
@@ -29,12 +39,12 @@ foreach ( $exchange_price_alerts as $key => $value ) {
 		document.getElementById("show_charts").value = show_charts.replace("<?=$key?>,", "");
 		}
 	
-' <?=( in_array($key, $show_charts) ? 'checked' : '' )?> /> Show "<?=$key?>" chart</p>
+' <?=( in_array($key, $show_charts) ? 'checked' : '' )?> /> <?=$show_asset?> / <?=strtoupper($show_asset_params[1])?> @ <?=ucfirst($show_asset_params[0])?></p>
 <?php
 }
 ?>
 
-	<p><button class='force_button_style' onclick='javascript:document.coin_amounts.submit();'>Update Shown Charts</button></p>
+	<p><button class='force_button_style' onclick='javascript:document.coin_amounts.submit();'>Update Activated Charts</button></p>
 	
 	<p style='color: red;'>*Charts are hidden by default to increase page loading speed. You can persist showing charts between sessions by enabling "Use cookie data to save values between sessions" on the Settings page. <i>If you enable cookie data before showing your charts, your charts will stay visible all the time</i>.</p>
 
@@ -69,8 +79,9 @@ $('.show_chart_settings').modaal({
 
 // Render the charts
 foreach ( $exchange_price_alerts as $key => $value ) {
-	
+	$charts_available = 1;
 	if ( in_array($key, $show_charts) ) {
+	$charts_shown = 1;
 ?>
 
 <div style='background-color: #515050; border: 1px solid #808080; border-radius: 5px;' id='<?=$key?>_chart'></div>
@@ -81,6 +92,19 @@ foreach ( $exchange_price_alerts as $key => $value ) {
 	}
 	
 }
+
+if ( $charts_available == 1 && $charts_shown != 1 ) {
 ?>
+<div align='center' style='min-height: 100px;'>
+
+	<p><img src='ui-templates/media/images/favicon.png' border='0' /></p>
+	<p style='font-weight: bold; color: red; position: relative; margin: 15px;'>Click the "Chart Settings" button to activate charts.</p>
+</div>
+<?php
+}
+?>
+
+<p align='center'><a href='#charts'>Back To Top</a></p>
+
 
 

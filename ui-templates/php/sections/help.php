@@ -5,8 +5,7 @@
 
 
 ?>
-
-                        
+			<h3 style='display: inline;'>Help?</h3>
                         
 			<div class='help_section'>
                             <p><b>Feature Requests and Reporting Issues:</b><br /><br />
@@ -35,7 +34,7 @@
                         
 			<div class='help_section'>
                             <p><b>Page Loads Slowly With Charts Enabled:</b><br /><br />
-                                If you have the Charts page enabled in config.php, and page load times are slow after showing charts, go to the Charts page and click the "Show / Hide Charts" button. Uncheck all charts, and click "Update Shown Charts". If the page load times are faster afterwards, the issue may have been that you were loading too many charts at once. Try just loading a few charts instead, this may help page load times.</p>
+                                If you have the Charts page enabled in config.php, and page load times are slow after showing charts, go to the Charts page and click the "Chart Settings" button. Uncheck all charts, and click "Update Activated Charts". If the page load times are faster afterwards, the issue may have been that you were loading too many charts at once. Try just loading a few charts instead, this may help page load times.</p>
                         </div>
                         
 			<div class='help_section'>
@@ -65,4 +64,6 @@
                              <p>If it is a bad or misconfigured proxy setup causing the issue, and everything runs great after disabling proxies, you probably have either (a) a bad proxy or proxy configuration, or (b) an API server / endpoint address is not responding properly when routed through proxies (example: HTTP used instead of HTTPS can cause this error). <i>If you are absolutely sure your proxy setup is ok</i>, and that an API connection built-in to this app is the issue, please <a href='https://github.com/taoteh1221/DFD_Cryptocoin_Values/issues' target='_blank'>report it</a>.</p>
                         </div>
                         
+		    
+<p align='center'><a href='#help'>Back To Top</a></p>
                         

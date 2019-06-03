@@ -6,7 +6,33 @@
 
 ?>
 
-                            
+    
+			<h3 style='display: inline;'>Portfolio</h3> (<?=$last_trade_cache?> minute cache)
+			<?php
+			if ( sizeof($alert_percent) > 1 ) {
+				
+				if ( $alert_percent[3] == 'visual_only' ) {
+				$visual_audio_alerts = 'Visual';
+				}
+				elseif ( $alert_percent[3] == 'visual_audio' ) {
+				$visual_audio_alerts = 'Visual / Audio';
+				}
+				
+			?>
+			  &nbsp; &nbsp; <span style='color: <?=( stristr($alert_percent[1], '-') == false ? 'green' : '#ea6b1c' )?>; font-weight: bold;'><?=$visual_audio_alerts?> alerts (<?=ucfirst($marketcap_site)?> / <?=$alert_percent[1]?>% / <?=$alert_percent[2]?>)</span>
+			<?php
+			}
+			?>  &nbsp; &nbsp; &nbsp; <a href='javascript:location.reload(true);' style='font-weight: bold;' title='Refreshing data too frequently may cause API request refusals, especially if request caching settings are too low. It is recommended to use this refresh feature sparingly with lower or disabled cache settings. The current real-time exchange data re-cache setting in config.php is set to <?=$last_trade_cache?> minute(s). A setting of 1 or higher assists in avoiding IP blacklisting by exchanges.'>Refresh</a>
+			
+			 &nbsp;<select name='select_auto_refresh' id='select_auto_refresh' onchange='auto_reload(this.value);'>
+				<option value=''> Manually </option>
+				<option value='300' <?=( $_COOKIE['coin_reload'] == '300' ? 'selected' : '' )?>> Every 5 Minutes </option>
+				<option value='600' <?=( $_COOKIE['coin_reload'] == '600' ? 'selected' : '' )?>> Every 10 Minutes </option>
+				<option value='900' <?=( $_COOKIE['coin_reload'] == '900' ? 'selected' : '' )?>> Every 15 Minutes </option>
+				<option value='1800' <?=( $_COOKIE['coin_reload'] == '1800' ? 'selected' : '' )?>> Every 30 Minutes </option>
+			</select> &nbsp;<span id='reload_countdown' style='color: red;'></span>
+			
+			<p>                        
                             
 <?php
 // Start outputting results
@@ -218,7 +244,7 @@ if ( $_COOKIE['notes_reminders'] ) {
 }
 ?>
 
-
+</p>
                             
                             
                         

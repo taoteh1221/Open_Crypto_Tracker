@@ -5,6 +5,7 @@
 
 
 ?>
+			<h3 style='display: inline;'>External Resources</h3>
 
 <p>
     <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Coinmarketcap.com Stats</strong> </legend>
@@ -452,4 +453,6 @@
     </ul>
     </fieldset>
 </p>
+		    
+<p align='center'><a href='#links'>Back To Top</a></p>
 

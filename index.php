@@ -11,6 +11,7 @@ require("ui-templates/php/header.php");
 		<ul class='tabs' style='display: inline;'>
 			<li class='tabli'><a href='#portfolio'>Portfolio</a></li>
 			<li class='tabli'><a href='#update_values'>Update Values</a></li>
+			<li class='tabli'><a href='#settings'>Settings</a></li>
 			<?php
 			if ( $charts_page == 'on' ) {
 			?>
@@ -18,69 +19,41 @@ require("ui-templates/php/header.php");
 			<?php
 			}
 			?>
-			<li class='tabli'><a href='#settings'>Settings</a></li>
 			<li class='tabli'><a href='#mining_calculators'>Mining Calculators</a></li>
-			<li class='tabli'><a href='#other_tools'>Other Tools</a></li>
-			<li class='tabli'><a href='#links'>External Resource Links</a></li>
+			<li class='tabli'><a href='#tools'>Tools</a></li>
+			<li class='tabli'><a href='#resources'>Resources</a></li>
 			<li class='tabli'><a href='#help'>Help?</a></li>
 		</ul>
+		
+		
 		<div id='portfolio' class='tabdiv'>
-			<h3 style='display: inline;'>Portfolio</h3> (<?=$last_trade_cache?> minute cache)
-			<?php
-			if ( sizeof($alert_percent) > 1 ) {
-				
-				if ( $alert_percent[3] == 'visual_only' ) {
-				$visual_audio_alerts = 'Visual';
-				}
-				elseif ( $alert_percent[3] == 'visual_audio' ) {
-				$visual_audio_alerts = 'Visual / Audio';
-				}
-				
-			?>
-			  &nbsp; &nbsp; <span style='color: <?=( stristr($alert_percent[1], '-') == false ? 'green' : '#ea6b1c' )?>; font-weight: bold;'><?=$visual_audio_alerts?> alerts (<?=ucfirst($marketcap_site)?> / <?=$alert_percent[1]?>% / <?=$alert_percent[2]?>)</span>
-			<?php
-			}
-			?>  &nbsp; &nbsp; &nbsp; <a href='javascript:location.reload(true);' style='font-weight: bold;' title='Refreshing data too frequently may cause API request refusals, especially if request caching settings are too low. It is recommended to use this refresh feature sparingly with lower or disabled cache settings. The current real-time exchange data re-cache setting in config.php is set to <?=$last_trade_cache?> minute(s). A setting of 1 or higher assists in avoiding IP blacklisting by exchanges.'>Refresh</a> &nbsp;<select name='select_auto_refresh' id='select_auto_refresh' onchange='auto_reload(this.value);'>
-				<option value=''> Manually </option>
-				<option value='300' <?=( $_COOKIE['coin_reload'] == '300' ? 'selected' : '' )?>> Every 5 Minutes </option>
-				<option value='600' <?=( $_COOKIE['coin_reload'] == '600' ? 'selected' : '' )?>> Every 10 Minutes </option>
-				<option value='900' <?=( $_COOKIE['coin_reload'] == '900' ? 'selected' : '' )?>> Every 15 Minutes </option>
-				<option value='1800' <?=( $_COOKIE['coin_reload'] == '1800' ? 'selected' : '' )?>> Every 30 Minutes </option>
-			</select> &nbsp;<span id='reload_countdown' style='color: red;'></span>
-			<p><?php require("ui-templates/php/sections/portfolio.php"); ?></p>
+			<?php require("ui-templates/php/sections/portfolio.php"); ?>
 		</div>
 		<div id='update_values' class='tabdiv'>
-			<h3>Update Values</h3>
-			<p><?php require("ui-templates/php/sections/update-values.php"); ?></p>
+			<?php require("ui-templates/php/sections/update-values.php"); ?>
+		</div>
+		<div id='settings' class='tabdiv'>
+			<?php require("ui-templates/php/sections/settings.php"); ?>
 		</div>
 			<?php
 			if ( $charts_page == 'on' ) {
 			?>
 		<div id='charts' class='tabdiv'>
-			<h3>Charts</h3>
 			<?php require("ui-templates/php/sections/charts.php"); ?>
 		</div>
 			<?php
 			}
 			?>
-		<div id='settings' class='tabdiv'>
-			<h3>Settings</h3>
-			<?php require("ui-templates/php/sections/settings.php"); ?>
-		</div>
 		<div id='mining_calculators' class='tabdiv'>
-			<h3>Mining Calculators</h3>
 			<?php require("ui-templates/php/sections/mining-calculators.php"); ?>
 		</div>
-		<div id='other_tools' class='tabdiv'>
-			<h3>Other Tools</h3>
-			<?php require("ui-templates/php/sections/other-tools.php"); ?>
+		<div id='tools' class='tabdiv'>
+			<?php require("ui-templates/php/sections/tools.php"); ?>
 		</div>
-		<div id='links' class='tabdiv'>
-			<h3>External Resource Links</h3>
-			<?php require("ui-templates/php/sections/external-resource-links.php"); ?>
+		<div id='resources' class='tabdiv'>
+			<?php require("ui-templates/php/sections/resources.php"); ?>
 		</div>
 		<div id='help' class='tabdiv'>
-			<h3>Help?</h3>
 			<?php require("ui-templates/php/sections/help.php"); ?>
 		</div>
 

@@ -6,9 +6,11 @@
 
 ?>
 
-			<div style='border: 2px dotted red; font-weight: bold; padding: 9px; color: red;'><a href='index.php' style='color: red;'>Click Here To Reset Default Tab / Calculators</a></div>
+			<h3 style='display: inline;'>Mining Calculators</h3>
+
+			<p><?=start_page_html('mining_calculators')?></p>			
 			
-			<p style='font-weight: bold; color: red;'>Chain data (block height, difficulty, etc) on this page is cached for <?=$chainstats_cache?> minute(s).</p>
+			<p style='font-weight: bold;'>Chain data (block height, difficulty, etc) on this page is cached for <?=$chainstats_cache?> minute(s).</p>
 			
 			<p style='color: red;'>If you have portfolio data entered on the Update Values page you don't want to lose, be sure you have enabled "Use cookie data to save values between sessions" on the Settings page before using these mining calculators.</p>
 			
@@ -59,3 +61,6 @@
 				
 			</fieldset>
 		    
+<p align='center'><a href='#mining_calculators'>Back To Top</a></p>
+
+

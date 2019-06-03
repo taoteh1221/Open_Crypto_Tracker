@@ -5,9 +5,10 @@
 
 
 ?>
+			<h3 style='display: inline;'>Other Tools</h3>
 
-			<div style='border: 2px dotted red; font-weight: bold; padding: 9px; color: red;'><a href='index.php' style='color: red;'>Click Here To Reset Default Tab / Tool Settings</a></div>
-			
+<p><?=start_page_html('tools')?></p>			
+
 			
 			<fieldset class='subsection_fieldset'>
 				<legend class='subsection_legend'> <b>QR Code Generator For Addresses</b> </legend>

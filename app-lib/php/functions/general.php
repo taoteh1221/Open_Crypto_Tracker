@@ -8,7 +8,12 @@
 
 function start_page($page) {
 
-return 'index.php' . ( $page != '' ? '?start_page=' . $page . '#' . $page : '' );
+	if ( $page != '' ) {
+	return 'index.php' . ( $page != '' ? '?start_page=' . $page . '#' . $page : '' );
+	}
+	else {
+	return 'index.php';
+	}
 
 }
 
@@ -156,9 +161,23 @@ function start_page_html($page) {
 	
 	'>
 		<option value='index.php'> Show Portfolio Page First </option>
+		<?php
+		if ( $_GET['start_page'] != '' && $_GET['start_page'] != $page ) {
+		$another_set = 1;
+		?>
+		<option value='index.php?start_page=<?=$_GET['start_page']?>' selected > Show <?=ucfirst($_GET['start_page'])?> Page First </option>
+		<?php
+		}
+		?>
 		<option value='index.php?start_page=<?=$page?>' <?=( $_GET['start_page'] == $page ? 'selected' : '' )?> > Show <?=ucfirst($page)?> Page First </option>
-	</select>
+	</select> 
+	<?php
+	if ( $another_set == 1 ) {
+	?>
+	<span style='color: red;'> (another secondary page is currently the start page)</span>
 <?php
+	}
+	
 }
 
 /////////////////////////////////////////////////////////

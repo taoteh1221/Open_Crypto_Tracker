@@ -5,6 +5,7 @@
 
 
 ?>
+			<h3 style='display: inline;'>Settings</h3>
 			<?php
 			if ( $price_alert_type_text != '' ) {
           ?>

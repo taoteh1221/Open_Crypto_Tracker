@@ -20,22 +20,22 @@ if ( $_GET['type'] == 'asset' ) {
 	foreach ( $exchange_price_alerts as $key => $value ) {
  
 		// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
-		$asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, strpos($key, "-") ) );
-		$asset = strtoupper($asset);
+		$chart_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, strpos($key, "-") ) );
+		$chart_asset = strtoupper($chart_asset);
 		
 		// Strip non-alphanumeric characters to use in js vars, to isolate logic for each separate chart
 		$js_key = preg_replace("/-/", "", $key);
 		
 		$market_parse = explode("||", $exchange_price_alerts[$key] );
 		
-			if ( $asset == 'BTC' ) {
+			if ( $chart_asset == 'BTC' ) {
 			$market_parse[1] = 'USD';
 			}
 
  
 		if ( $_GET['asset_data'] == $key ) {
 			
-		$chart_data = chart_data('cache/charts/'.$asset.'/'.$key.'_chart.dat');
+		$chart_data = chart_data('cache/charts/'.$chart_asset.'/'.$key.'_chart.dat');
 		
 		
 ?>
@@ -83,7 +83,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
     }
   },
   title: {
-    text: "<?=$asset?> / <?=strtoupper($market_parse[1])?> (USD Value) @ <?=ucfirst($market_parse[0])?>",
+    text: "<?=$chart_asset?> / <?=strtoupper($market_parse[1])?> (USD Value) @ <?=ucfirst($market_parse[0])?>",
     fontColor: "#fff",
     fontFamily: 'Open Sans',
     fontSize: 28,
