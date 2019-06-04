@@ -1204,6 +1204,16 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+3.09.0:
+-Altcoin / BTC Trade Target Calculator, on Tools page
+-------------------------------------------------------------------
+
+
+
+
+
+
 
 
 

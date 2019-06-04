@@ -48,9 +48,13 @@ if ( $charts_page == 'on' ) {
 
 
 <script>
+
 var sorted_by_col = <?=$sorted_by_col?>;
 var sorted_by_asc_desc = <?=$sorted_by_asc_desc?>;
 var tablesort_theme = '<?=$tablesort_theme?>';
+
+var btc_usd_value = '<?=number_format( get_coin_value('binance', 'BTCTUSD')['last_trade'], 2, '.', '' )?>';
+
 </script>
 
 <script type="text/javascript" src="app-lib/js/init.js"></script>

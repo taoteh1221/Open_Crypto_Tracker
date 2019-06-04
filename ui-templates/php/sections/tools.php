@@ -20,6 +20,47 @@
 				
 			</fieldset>
 			
+			
+			<fieldset class='subsection_fieldset'>
+				<legend class='subsection_legend'> <b>Altcoin / BTC Trade Target Calculator</b> </legend>
+    			
+    			
+    			<p>Token Amount: <input type='text' id='to_trade_amount' name='to_trade_amount' value='0' size='20' onkeyup='
+    			satoshi_value("refresh");
+    			' /> </p>
+    			
+    			<p>BTC Trade Target: <input type='text' id='sat_target' name='sat_target' value='0.00000001' minlength="10" maxlength="10" size="11" onkeyup='
+    			satoshi_value("refresh");
+    			' /> </p>
+    			
+    			<p>
+    			
+    				Increase Satoshi Value: <button class='force_button_style' onclick='document.getElementById("sat_target").value = (0.00000001).toFixed(8); satoshi_value("refresh");'>Reset</button> 
+    			
+    				<button class='force_button_style' onclick='satoshi_value(0.00000001);'>+1</button> 
+    				
+    				<button class='force_button_style' onclick='satoshi_value(0.00000010);'>+10</button> 
+    				
+    				<button class='force_button_style' onclick='satoshi_value(0.00000100);'>+100</button> 
+    				
+    				<button class='force_button_style' onclick='satoshi_value(0.00001000);'>+1,000</button> 
+    				
+    				<button class='force_button_style' onclick='satoshi_value(0.00010000);'>+10,000</button> 
+    				
+    				<button class='force_button_style' onclick='satoshi_value(0.00100000);'>+100,000</button> 
+    				
+    				<button class='force_button_style' onclick='satoshi_value(0.01000000);'>+1,000,000</button> 
+    				
+    				<button class='force_button_style' onclick='satoshi_value(0.10000000);'>+10,000,000</button> 
+    				
+    			</p>
+    			
+    			<p style='font-weight: bold; color: green;'>Sell Target: $<span id='target_usd'>0.00</span> (<span id='target_btc'>0.00</span> BTC) </p>
+    			
+    			
+			</fieldset>
+			
+			
 			<fieldset class='subsection_fieldset'>
 				<legend class='subsection_legend'> <b>External Tools</b> </legend>
     			<ul>
@@ -31,3 +72,7 @@
 				
     			</ul>
 			</fieldset>
+			
+			
+			
+			

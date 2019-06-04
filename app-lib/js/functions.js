@@ -3,6 +3,12 @@
 
 /////////////////////////////////////////////////////////////
 
+function formatNumber(num) {
+  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+}
+
+/////////////////////////////////////////////////////////////
+
 function delete_cookie( name ) {
   document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }
@@ -27,6 +33,39 @@ function getCookie(cname) {
         if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
     }
     return "";
+}
+
+
+/////////////////////////////////////////////////////////////
+
+function satoshi_value(sat_increase) {
+
+var to_trade_amount = Number(document.getElementById("to_trade_amount").value);
+
+var sat_target = Number(document.getElementById("sat_target").value);
+
+	if ( sat_increase == 'refresh' ) {
+		
+	var num_total = (sat_target).toFixed(8);
+
+	
+	}
+	else {
+	
+	sat_increase = Number(sat_increase);
+	
+	var num_total = (sat_increase + sat_target).toFixed(8);
+
+	document.getElementById("sat_target").value = num_total;
+	
+	}
+
+//console.log('num_total = ' + num_total );
+	
+document.getElementById("target_usd").innerHTML = formatNumber( ( (to_trade_amount * num_total) * btc_usd_value ).toFixed(2) );
+
+document.getElementById("target_btc").innerHTML = (to_trade_amount * num_total).toFixed(8);
+
 }
 
 
