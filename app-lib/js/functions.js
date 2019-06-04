@@ -1,11 +1,6 @@
 
 // Copyright 2014-2019 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
 
-/////////////////////////////////////////////////////////////
-
-function formatNumber(num) {
-  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
-}
 
 /////////////////////////////////////////////////////////////
 
@@ -45,26 +40,35 @@ var to_trade_amount = Number(document.getElementById("to_trade_amount").value);
 var sat_target = Number(document.getElementById("sat_target").value);
 
 	if ( sat_increase == 'refresh' ) {
-		
 	var num_total = (sat_target).toFixed(8);
-
-	
 	}
 	else {
-	
 	sat_increase = Number(sat_increase);
 	
 	var num_total = (sat_increase + sat_target).toFixed(8);
-
-	document.getElementById("sat_target").value = num_total;
 	
+	document.getElementById("sat_target").value = num_total;
 	}
 
-//console.log('num_total = ' + num_total );
-	
-document.getElementById("target_usd").innerHTML = formatNumber( ( (to_trade_amount * num_total) * btc_usd_value ).toFixed(2) );
 
-document.getElementById("target_btc").innerHTML = (to_trade_amount * num_total).toFixed(8);
+var target_usd = ( num_total * btc_usd_value );
+
+var target_total_usd = ( (to_trade_amount * num_total) * btc_usd_value );
+
+
+document.getElementById("target_usd").innerHTML = target_usd.toLocaleString(undefined, {
+  minimumFractionDigits: 8,
+  maximumFractionDigits: 8
+});
+
+document.getElementById("target_btc").innerHTML = num_total;
+
+document.getElementById("target_total_usd").innerHTML = target_total_usd.toLocaleString(undefined, {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2
+});
+
+document.getElementById("target_total_btc").innerHTML = (to_trade_amount * num_total).toFixed(8);
 
 }
 

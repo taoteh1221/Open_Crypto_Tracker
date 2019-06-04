@@ -11,6 +11,7 @@ chdir("../../");
 require("config.php");
 
 
+// Have this script not load any code if charts are not turned on
 if ( $charts_page != 'on' ) {
 exit;
 }
@@ -35,6 +36,11 @@ if ( $_GET['type'] == 'asset' ) {
  
 		if ( $_GET['asset_data'] == $key ) {
 			
+		// Have this script not load any code (and not leave page endlessly loading) if cache data is not present
+		if ( file_exists('cache/charts/'.$chart_asset.'/'.$key.'_chart.dat') != 1 ) {
+		exit;
+		}
+		
 		$chart_data = chart_data('cache/charts/'.$chart_asset.'/'.$key.'_chart.dat');
 		
 		

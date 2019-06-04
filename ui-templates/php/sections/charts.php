@@ -63,7 +63,7 @@ $('.show_chart_settings').modaal({
 <div style='display: none;' class='show_chartsnotice' align='left'>
             	
      
-	<p style='font-weight: bold; color: red;'>Charts are only available to show for each price alert properly configured in config.php. Price alerts must be <a href='README.txt' target='_blank'>setup as a cron job on your web server</a>, or <i>the charts here will not work</i> (they will remain blank). The chart's tab, page, caching, and javascript can be disabled in config.php.</p>
+	<p style='font-weight: bold; color: red;'>Charts are only available to show for each price alert properly configured in config.php. Price alerts must be <a href='README.txt' target='_blank'>setup as a cron job on your web server</a>, or <i>the charts here will not work</i> (this page will remain blank). The chart's tab, page, caching, and javascript can be disabled in config.php.</p>
 
             
 </div>

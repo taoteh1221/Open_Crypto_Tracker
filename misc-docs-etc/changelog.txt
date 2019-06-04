@@ -1205,8 +1205,9 @@ app doing the data requests, not a malicious bot)
 
 
 -------------------------------------------------------------------
-3.09.0:
+3.08.1:
 -Altcoin / BTC Trade Target Calculator, on Tools page
+-UX revision (bug fix) related to chart.js.php endlessly loading when no chart data is present
 -------------------------------------------------------------------
 
 
