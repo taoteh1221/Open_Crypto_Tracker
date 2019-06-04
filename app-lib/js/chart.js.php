@@ -70,6 +70,9 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
   height: 420,
   x: 0, 
   y: 0,
+  globals: {
+  	fontSize: 20
+  },
   crosshairX:{
     shared: true,
     exact: true,
@@ -105,6 +108,9 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
   plot: {
     marker:{
       visible: false
+    },
+    tooltip: {
+    	fontSize: 20
     }
   },
   tooltip:{
