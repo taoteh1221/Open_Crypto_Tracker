@@ -1212,6 +1212,16 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+3.08.2:
+-Bug fix for CSS layout on main navigation tabs on large screens
+-Minor semantic re-wording
+-------------------------------------------------------------------
+
+
+
+
+
 
 
 

@@ -8,7 +8,7 @@ require("ui-templates/php/header.php");
 ?>
 
 
-		<ul class='tabs' style='display: inline;'>
+		<ul class='tabs' style='display: inline-block; width: 100%; text-align: center;'>
 			<li class='tabli'><a href='#portfolio'>Portfolio</a></li>
 			<li class='tabli'><a href='#update_assets'>Update Assets</a></li>
 			<li class='tabli'><a href='#settings'>Settings</a></li>
