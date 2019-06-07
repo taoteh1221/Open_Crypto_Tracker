@@ -4,10 +4,6 @@
 TODO
 ///////////////////////////////////////////////////////
 
-On 'other tools' page, add an auto-updating (via js) satoshi price vs dollars for X amount of tokens, to see dollar value at certain satoshi prices for X amount of coins.
-
-Ability to temporarily hide portfolio data, without deleting it (maybe with a PIN?)
-
 Add additional coin values UI field for what you paid in USD per asset, and then add loss / gain data to UI.
 
 CSV file export / import of portfolio values.
@@ -15,8 +11,6 @@ CSV file export / import of portfolio values.
 Make sure programming comments are adequate throughout the app.
 
 Add Dogecoin and mining calculator.
-
-Look for offered api options where data can get an exchanges whole set of markets, rather than just one, where hasn't been done yet. The relevant API connections have been moved to top sections in exchange-ticker-apis.php for review.
 
 Dark greyscale CSS styling option, and theme switcher settings
 
@@ -30,6 +24,8 @@ Differentiate BTC USD / USDT / TUSD / USDC markets as bitcoin's market options, 
 ///////////////////////////////////////////////////////
 MAYBE
 ///////////////////////////////////////////////////////
+
+Ability to temporarily hide portfolio data, without deleting it (maybe with a PIN?)
 
 SQL-based accounts for storing API keys, coin amounts??
 

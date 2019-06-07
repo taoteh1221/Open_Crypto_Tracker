@@ -187,6 +187,16 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
 	  {
 	    x: 210,
 	    y: 10,
+	    id: '3M',
+	    fontColor: (current === '3M') ? "#FFF" : "#b5b5b5",
+	    fontSize: "22",
+	    fontFamily: "Open Sans",
+	    cursor: "hand",
+	    text: "3M"
+	  },
+	  {
+	    x: 260,
+	    y: 10,
 	    id: '6M',
 	    fontColor: (current === '6M') ? "#FFF" : "#b5b5b5",
 	    fontSize: "22",
@@ -195,7 +205,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
 	    text: "6M"
 	  },
 	  {
-	    x: 260,
+	    x: 310,
 	    y: 10,
 	    id: '1Y',
 	    fontColor: (current === '1Y') ? "#FFF" : "#b5b5b5",
@@ -205,7 +215,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
 	    text: "1Y"
 	  },
 	  {
-	    x: 310,
+	    x: 360,
 	    y: 10,
 	    id: '2Y',
 	    fontColor: (current === '2Y') ? "#FFF" : "#b5b5b5",
@@ -215,7 +225,17 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
 	    text: "2Y"
 	  },
 	  {
-	    x: 360,
+	    x: 410,
+	    y: 10,
+	    id: '4Y',
+	    fontColor: (current === '4Y') ? "#FFF" : "#b5b5b5",
+	    fontSize: "22",
+	    fontFamily: "Open Sans",
+	    cursor: "hand",
+	    text: "4Y"
+	  },
+	  {
+	    x: 460,
 	    y: 10,
 	    id: 'ALL',
 	    fontColor: (current === 'ALL') ? "#FFF" : "#b5b5b5",
@@ -225,7 +245,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
 	    text: "ALL"
 	  },
 	  {
-	    x: 427,
+	    x: 527,
 	    y: 10,
 	    id: 'RESETZOOM',
 	    fontColor: "#b5b5b5",
@@ -352,6 +372,9 @@ zingchart.bind('<?=strtolower($key)?>_chart', 'label_click', function(e){
     case '1M':
       cut = stockState_<?=$js_key?>.dates.length <= <?=chart_range(30)?> ? stockState_<?=$js_key?>.dates.length : <?=chart_range(30)?>;
     break;
+    case '3M':
+      cut = stockState_<?=$js_key?>.dates.length <= <?=chart_range(91)?> ? stockState_<?=$js_key?>.dates.length : <?=chart_range(91)?>;
+    break;
     case '6M': 
       cut = stockState_<?=$js_key?>.dates.length <= <?=chart_range(183)?> ? stockState_<?=$js_key?>.dates.length : <?=chart_range(183)?>;
     break;
@@ -360,6 +383,9 @@ zingchart.bind('<?=strtolower($key)?>_chart', 'label_click', function(e){
     break;
     case '2Y': 
       cut = stockState_<?=$js_key?>.dates.length <= <?=chart_range(730)?> ? stockState_<?=$js_key?>.dates.length : <?=chart_range(730)?>;
+    break;
+    case '4Y': 
+      cut = stockState_<?=$js_key?>.dates.length <= <?=chart_range(1460)?> ? stockState_<?=$js_key?>.dates.length : <?=chart_range(1460)?>;
     break;
     case 'ALL': 
       cut = stockState_<?=$js_key?>.dates.length;
