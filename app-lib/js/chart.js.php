@@ -87,6 +87,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
     },
     scaleLabel:{
       fontColor: "#222",
+      fontSize:20,
       fontFamily: "Open Sans",
       backgroundColor: "#bbb",
     }
