@@ -95,9 +95,10 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
     text: "<?=$chart_asset?> / <?=strtoupper($market_parse[1])?> (USD Value) @ <?=ucfirst($market_parse[0])?>",
     fontColor: "#fff",
     fontFamily: 'Open Sans',
-    fontSize: 28,
+    fontSize: 25,
     align: 'right',
-    offsetX: -10
+    offsetX: -13,
+    offsetY: 3
   },
   zoom: {
     shared: true
@@ -247,12 +248,12 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
 	  {
 	    x: 527,
 	    y: 10,
-	    id: 'RESETZOOM',
+	    id: 'RESET',
 	    fontColor: "#b5b5b5",
 	    fontSize: "22",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
-	    text: "RESET ZOOM"
+	    text: "RESET"
 	  }
 	]
 };
@@ -351,7 +352,7 @@ zingchart.render({
  
  
 zingchart.bind('<?=strtolower($key)?>_chart', 'label_click', function(e){
-  if(stockState_<?=$js_key?>.current === e.labelid && e.labelid != 'RESETZOOM'){
+  if(stockState_<?=$js_key?>.current === e.labelid && e.labelid != 'RESET'){
     return;
   }
   
@@ -360,7 +361,7 @@ zingchart.bind('<?=strtolower($key)?>_chart', 'label_click', function(e){
   var windowDates_<?=$js_key?> = [];
   
   
-  	if ( e.labelid === 'RESETZOOM' ) {
+  	if ( e.labelid === 'RESET' ) {
   	e.labelid = 'ALL';
   	}
   
