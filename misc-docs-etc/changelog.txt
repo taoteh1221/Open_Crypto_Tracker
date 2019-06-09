@@ -1223,6 +1223,7 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 3.09.0:
 -Minor UX tweaks
+-Optional charts based on pairing values (to compliment USD values charts)
 -------------------------------------------------------------------
 
 

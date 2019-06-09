@@ -24,27 +24,57 @@ if ( $_GET['type'] == 'asset' ) {
 		$chart_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, strpos($key, "-") ) );
 		$chart_asset = strtoupper($chart_asset);
 		
-		// Strip non-alphanumeric characters to use in js vars, to isolate logic for each separate chart
-		$js_key = preg_replace("/-/", "", $key);
-		
 		$market_parse = explode("||", $exchange_price_alerts[$key] );
 		
 			if ( $chart_asset == 'BTC' ) {
-			$market_parse[1] = 'USD';
+			$market_parse[1] = 'usd';
 			}
 
+
+		$charted_value = ( $_GET['charted_value'] == 'pairing' && $chart_asset != 'BTC' ? $market_parse[1] : 'usd' );
+		
+		
+		// Strip non-alphanumeric characters to use in js vars, to isolate logic for each separate chart
+		$js_key = preg_replace("/-/", "", $key) . '_' . $charted_value;
+		
  
 		if ( $_GET['asset_data'] == $key ) {
 			
-		// Have this script not load any code (and not leave page endlessly loading) if cache data is not present
-		if ( file_exists('cache/charts/'.$chart_asset.'/'.$key.'_chart.dat') != 1 ) {
-		exit;
-		}
+			
+			// Unicode asset symbols
+			if ( $market_parse[1] == 'btc' && $chart_asset == 'BTC' || $market_parse[1] == 'usdt' || $market_parse[1] == 'tusd' || $_GET['charted_value'] == 'usd' ) {
+			$trade_symbol = "$";
+			$volume_symbol = "$";
+			}
+			elseif ( $market_parse[1] == 'btc' && $chart_asset != 'BTC' ) {
+			$trade_symbol = "Ƀ";
+			$volume_symbol = $chart_asset;
+			}
+			elseif ( $market_parse[1] == 'eth' ) {
+			$trade_symbol = "Ξ";
+			$volume_symbol = $chart_asset;
+			}
+			elseif ( $market_parse[1] == 'ltc' ) {
+			$trade_symbol = "Ł";
+			$volume_symbol = $chart_asset;
+			}
+			elseif ( $market_parse[1] == 'xmr' ) {
+			$trade_symbol = "ɱ";
+			$volume_symbol = $chart_asset;
+			}
+			
+			
+			// Have this script not load any code (and not leave page endlessly loading) if cache data is not present
+			if ( file_exists('cache/charts/'.$chart_asset.'/'.$key.'_chart_'.$charted_value.'.dat') != 1 ) {
+			exit;
+			}
 		
-		$chart_data = chart_data('cache/charts/'.$chart_asset.'/'.$key.'_chart.dat');
-		
+		$chart_data = chart_data('cache/charts/'.$chart_asset.'/'.$key.'_chart_'.$charted_value.'.dat');
 		
 ?>
+
+
+
 var dates_<?=$js_key?> = [<?=$chart_data['time']?>];
 var spots_<?=$js_key?> = [<?=$chart_data['spot']?>];
 var volumes_<?=$js_key?> =[<?=$chart_data['volume']?>];
@@ -79,7 +109,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
     plotLabel:{
       backgroundColor: "#bbb",
       fontColor: "#222",
-      text: "Spot Price: $%v",
+      text: "Spot Price: <?=($trade_symbol == '$' ? $trade_symbol : $trade_symbol . ' ')?>%v",
 	 	fontSize: "20",
       fontFamily: "Open Sans",
       y:0,
@@ -93,13 +123,13 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
     }
   },
   title: {
-    text: "<?=$chart_asset?> / <?=strtoupper($market_parse[1])?> (USD Value) @ <?=ucfirst($market_parse[0])?>",
+    text: "(<?=( $trade_symbol == '$' ? 'USD' : strtoupper($market_parse[1]) )?> Value) <?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=ucfirst($market_parse[0])?>",
     fontColor: "#fff",
     fontFamily: 'Open Sans',
-    fontSize: 25,
+    fontSize: 23,
     align: 'right',
-    offsetX: -13,
-    offsetY: 3
+    offsetX: -18,
+    offsetY: 4
   },
   zoom: {
     shared: true
@@ -116,14 +146,14 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
     }
   },
   tooltip:{
-    text: "Spot Price: $%v",
+    text: "Spot Price: <?=($trade_symbol == '$' ? $trade_symbol : $trade_symbol . ' ')?>%v",
 	 fontSize: "20",
     backgroundColor: "#BBB",
     borderColor:"transparent",
     "thousands-separator":","
   },
   scaleY: {
-    "format":"$%v",
+    "format":"<?=($trade_symbol == '$' ? $trade_symbol : $trade_symbol . ' ')?>%v",
     "thousands-separator":",",
     guide: {
       visible: true,
@@ -133,7 +163,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
     item: {
       fontColor: "#ddd",
       fontFamily: "Open Sans",
-      fontSize: "16",
+      fontSize: "14",
     }
   },
   scaleX: {
@@ -167,91 +197,101 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
 	],
 	labels: [
 	  {
-	    x: 110,
+	    x: 80,
+	    y: 10,
+	    id: '1D',
+	    fontColor: (current === '1D') ? "#FFF" : "#b5b5b5",
+	    fontSize: "21",
+	    fontFamily: "Open Sans",
+	    cursor: "hand",
+	    text: "1D"
+	  },
+	  {
+	    x: 130,
 	    y: 10,
 	    id: '1W',
 	    fontColor: (current === '1W') ? "#FFF" : "#b5b5b5",
-	    fontSize: "22",
+	    fontSize: "21",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
 	    text: "1W"
 	  },
 	  {
-	    x: 160,
+	    x: 180,
 	    y: 10,
 	    id: '1M',
 	    fontColor: (current === '1M') ? "#FFF" : "#b5b5b5",
-	    fontSize: "22",
+	    fontSize: "21",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
 	    text: "1M"
 	  },
 	  {
-	    x: 210,
+	    x: 230,
 	    y: 10,
 	    id: '3M',
 	    fontColor: (current === '3M') ? "#FFF" : "#b5b5b5",
-	    fontSize: "22",
+	    fontSize: "21",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
 	    text: "3M"
 	  },
 	  {
-	    x: 260,
+	    x: 280,
 	    y: 10,
 	    id: '6M',
 	    fontColor: (current === '6M') ? "#FFF" : "#b5b5b5",
-	    fontSize: "22",
+	    fontSize: "21",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
 	    text: "6M"
 	  },
 	  {
-	    x: 310,
+	    x: 330,
 	    y: 10,
 	    id: '1Y',
 	    fontColor: (current === '1Y') ? "#FFF" : "#b5b5b5",
-	    fontSize: "22",
+	    fontSize: "21",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
 	    text: "1Y"
 	  },
 	  {
-	    x: 360,
+	    x: 380,
 	    y: 10,
 	    id: '2Y',
 	    fontColor: (current === '2Y') ? "#FFF" : "#b5b5b5",
-	    fontSize: "22",
+	    fontSize: "21",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
 	    text: "2Y"
 	  },
 	  {
-	    x: 410,
+	    x: 430,
 	    y: 10,
 	    id: '4Y',
 	    fontColor: (current === '4Y') ? "#FFF" : "#b5b5b5",
-	    fontSize: "22",
+	    fontSize: "21",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
 	    text: "4Y"
 	  },
 	  {
-	    x: 460,
+	    x: 480,
 	    y: 10,
 	    id: 'ALL',
 	    fontColor: (current === 'ALL') ? "#FFF" : "#b5b5b5",
-	    fontSize: "22",
+	    fontSize: "21",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
 	    text: "ALL"
 	  },
 	  {
-	    x: 527,
+	    x: 547,
 	    y: 10,
 	    id: 'RESET',
 	    fontColor: "#b5b5b5",
-	    fontSize: "22",
+	    fontSize: "21",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
 	    text: "RESET"
@@ -278,15 +318,15 @@ function getVolumeConfig_<?=$js_key?>(dates, values) {
   source: {
     text: "24 Hour Volume",
     fontColor:"#fff",
-	 fontSize: "15",
+	 fontSize: "13",
     fontFamily: "Open Sans",
-    offsetX: 108,
+    offsetX: 106,
     offsetY: 13,
     align: 'left'
   },
   tooltip:{
     visible: false,
-    text: "24 Hour Volume: $%v",
+    text: "24 Hour Volume: <?=($volume_symbol == '$' ? $volume_symbol : '')?>%v <?=($volume_symbol != '$' ? $volume_symbol : '')?>",
 	 fontSize: "20",
     fontFamily: "Open Sans",
     borderColor:"transparent",
@@ -304,7 +344,7 @@ function getVolumeConfig_<?=$js_key?>(dates, values) {
     plotLabel:{
       fontFamily: "Open Sans",
       backgroundColor:"#BBB",
-      text: "24 Hour Volume: $%v",
+      text: "24 Hour Volume: <?=($volume_symbol == '$' ? $volume_symbol : '')?>%v <?=($volume_symbol != '$' ? $volume_symbol : '')?>",
 	 	fontSize: "20",
       y:0,
       "thousands-separator":","
@@ -315,7 +355,7 @@ function getVolumeConfig_<?=$js_key?>(dates, values) {
     zooming: true
   },
   scaleY: {
-    "format":"$%v",
+    "format":"<?=($volume_symbol == '$' ? $volume_symbol : '')?>%v",
     "thousands-separator":",",
     guide: {
       visible: true,
@@ -340,7 +380,7 @@ function getVolumeConfig_<?=$js_key?>(dates, values) {
 }
  
 zingchart.render({
-  id: '<?=strtolower($key)?>_chart',
+  id: '<?=strtolower($key)?>_<?=$charted_value?>_chart',
   data: {
     graphset:[
       getspotConfig_<?=$js_key?>(stockState_<?=$js_key?>.dates, stockState_<?=$js_key?>.spots, 'ALL'),
@@ -352,7 +392,7 @@ zingchart.render({
 });
  
  
-zingchart.bind('<?=strtolower($key)?>_chart', 'label_click', function(e){
+zingchart.bind('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'label_click', function(e){
   if(stockState_<?=$js_key?>.current === e.labelid && e.labelid != 'RESET'){
     return;
   }
@@ -368,6 +408,9 @@ zingchart.bind('<?=strtolower($key)?>_chart', 'label_click', function(e){
   
   var cut = 0;
   switch(e.labelid) {
+    case '1D':
+      cut = stockState_<?=$js_key?>.dates.length <= <?=chart_range(1)?> ? stockState_<?=$js_key?>.dates.length : <?=chart_range(1)?>;
+    break;
     case '1W': 
       cut = stockState_<?=$js_key?>.dates.length <= <?=chart_range(7)?> ? stockState_<?=$js_key?>.dates.length : <?=chart_range(7)?>;
     break;
@@ -400,7 +443,7 @@ zingchart.bind('<?=strtolower($key)?>_chart', 'label_click', function(e){
     windowDates_<?=$js_key?> = stockState_<?=$js_key?>.dates.slice(stockState_<?=$js_key?>.dates.length-cut);
     windowVolume_<?=$js_key?> = stockState_<?=$js_key?>.volumes.slice(stockState_<?=$js_key?>.volumes.length-cut);
     
-  zingchart.exec('<?=strtolower($key)?>_chart', 'setdata', {
+  zingchart.exec('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'setdata', {
     
     data: {
       graphset:[
@@ -414,7 +457,11 @@ zingchart.bind('<?=strtolower($key)?>_chart', 'label_click', function(e){
   
 });
 
+
+
 <?php
+		
+
 		}
 	
 	}

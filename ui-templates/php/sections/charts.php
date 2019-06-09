@@ -16,6 +16,7 @@
 
 	<h3>Activated Charts</h3>
 	
+	
 <?php
 foreach ( $exchange_price_alerts as $key => $value ) {
 		// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
@@ -25,10 +26,24 @@ foreach ( $exchange_price_alerts as $key => $value ) {
 		$show_asset_params = explode("||", $value);
 		
 			if ( $show_asset == 'BTC' ) {
-			$show_asset_params[1] = 'USD';
+			$show_asset_params[1] = 'usd';
 			}
+		
 ?>
-	<p><input type='checkbox' value='<?=$key?>' onchange='
+
+			<fieldset class='subsection_fieldset'>
+				<legend class='subsection_legend'> <b><?=$show_asset?> / <?=strtoupper($show_asset_params[1])?> @ <?=ucfirst($show_asset_params[0])?></b> </legend>
+		    
+			<?php
+		
+			if ( $show_asset == 'BTC' ) {
+			
+			?>
+			
+
+	<p>
+	
+	<input type='checkbox' value='<?=$key?>' onchange='
 
 	var show_charts = document.getElementById("show_charts").value;
 	
@@ -39,7 +54,57 @@ foreach ( $exchange_price_alerts as $key => $value ) {
 		document.getElementById("show_charts").value = show_charts.replace("<?=$key?>,", "");
 		}
 	
-' <?=( in_array($key, $show_charts) ? 'checked' : '' )?> /> <?=$show_asset?> / <?=strtoupper($show_asset_params[1])?> @ <?=ucfirst($show_asset_params[0])?></p>
+' <?=( in_array($key, $show_charts) ? 'checked' : '' )?> /> USD Chart
+
+		</p>
+
+
+			<?php
+			}
+			else {
+			?>
+			
+			
+		    <p> 
+		    
+		    <input type='checkbox' value='<?=$key?>_<?=$show_asset_params[1]?>' onchange='
+
+	var show_charts = document.getElementById("show_charts").value;
+	
+		if ( this.checked == true ) {
+		document.getElementById("show_charts").value = show_charts + this.value + ",";
+		}
+		else {
+		document.getElementById("show_charts").value = show_charts.replace("<?=$key?>_<?=$show_asset_params[1]?>,", "");
+		}
+	
+' <?=( in_array($key . '_' . $show_asset_params[1], $show_charts) ? 'checked' : '' )?> /> <?=strtoupper($show_asset_params[1])?> Chart
+
+	 			</p>
+	 			
+	 			<p>
+
+	<input type='checkbox' value='<?=$key?>' onchange='
+
+	var show_charts = document.getElementById("show_charts").value;
+	
+		if ( this.checked == true ) {
+		document.getElementById("show_charts").value = show_charts + this.value + ",";
+		}
+		else {
+		document.getElementById("show_charts").value = show_charts.replace("<?=$key?>,", "");
+		}
+	
+' <?=( in_array($key, $show_charts) ? 'checked' : '' )?> /> USD Chart
+
+					</p>
+
+
+			<?php
+			}?>
+
+			</fieldset>
+		    
 <?php
 }
 ?>
@@ -73,13 +138,26 @@ $('.show_chart_settings').modaal({
 
 // Render the charts
 foreach ( $exchange_price_alerts as $key => $value ) {
+	
 	$charts_available = 1;
+	$alerts_market_parse = explode("||", $exchange_price_alerts[$key] );	
+	
 	if ( in_array($key, $show_charts) ) {
 	$charts_shown = 1;
 ?>
 
-<div style='background-color: #515050; border: 1px solid #808080; border-radius: 5px;' id='<?=$key?>_chart'></div>
-<script src='app-lib/js/chart.js.php?type=asset&asset_data=<?=urlencode($key)?>' async></script>
+<div style='background-color: #515050; border: 1px solid #808080; border-radius: 5px;' id='<?=$key?>_usd_chart'></div>
+<script src='app-lib/js/chart.js.php?type=asset&asset_data=<?=urlencode($key)?>&charted_value=usd' async></script>
+<br/><br/><br/>
+
+<?php
+	}
+	if ( in_array($key.'_'.$alerts_market_parse[1], $show_charts) ) {
+	$charts_shown = 1;
+?>
+
+<div style='background-color: #515050; border: 1px solid #808080; border-radius: 5px;' id='<?=$key?>_<?=$alerts_market_parse[1]?>_chart'></div>
+<script src='app-lib/js/chart.js.php?type=asset&asset_data=<?=urlencode($key)?>&charted_value=pairing' async></script>
 <br/><br/><br/>
 
 <?php

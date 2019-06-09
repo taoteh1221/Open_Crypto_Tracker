@@ -98,7 +98,7 @@ $pair_name = preg_replace("/usdc/i", "0000", $pair_name); // SKIP 'USD Coin' FOR
 
 //////////////////////////////////////////////////////////
 
-function volume_usd($pair_name, $volume, $last_trade, $vol_in_pairing=false) {
+function trade_volume($pair_name, $volume, $last_trade, $vol_in_pairing=false, $volume_value='usd') {  // Default volume in USD
 
 global $btc_exchange;
 
@@ -156,8 +156,11 @@ $pairing = detect_pairing($pair_name);
 
 
 	// Return negative number, if no data detected
-	if ( is_numeric($volume) == true && $last_trade != '' || is_numeric($volume) == true && $vol_in_pairing != false ) {
+	if ( $volume_value == 'usd' && is_numeric($volume) == true && $last_trade != '' || is_numeric($volume) == true && $vol_in_pairing != false ) {
 	return $volume_usd_raw;
+	}
+	elseif ( $volume_value == 'pairing' && is_numeric($volume) == true && $last_trade != '' || is_numeric($volume) == true && $vol_in_pairing != false ) {
+	return $volume;
 	}
 	else {
 	return -1;
@@ -393,18 +396,23 @@ $asset = strtoupper($asset);
 	// Get asset USD value
 	if ( $asset == 'BTC' ){ 
 	$asset_usd_raw = $btc_usd;
+	$volume_pairing_raw = get_btc_usd($exchange)['24hr_volume']; // For chart values based off pairing data (not USD equiv)
 	$volume_usd_raw = get_btc_usd($exchange)['24hr_usd_volume'];
 	}
 	else {
 		
 		if ( $pairing == 'btc' ) {
+		$pairing_value_raw = number_format( get_coin_value($exchange, $coins_list[$asset]['market_pairing'][$pairing][$exchange])['last_trade'] , 8, '.', '');
 		$asset_usd_raw = number_format( $btc_usd * get_coin_value($exchange, $coins_list[$asset]['market_pairing'][$pairing][$exchange])['last_trade'] , 8, '.', '');
 		}
 		else {
+		$pairing_value_raw = number_format( get_coin_value($exchange, $coins_list[$asset]['market_pairing'][$pairing][$exchange])['last_trade'] , 8, '.', '');
+		
 		$pairing_btc_value = $_SESSION[$pairing.'_btc'];
 		$asset_usd_raw = number_format( $btc_usd * ( $pairing_btc_value * get_coin_value($exchange, $coins_list[$asset]['market_pairing'][$pairing][$exchange])['last_trade'] ) , 8, '.', '');
 		}
 		
+		$volume_pairing_raw = get_coin_value($exchange, $coins_list[$asset]['market_pairing'][$pairing][$exchange])['24hr_volume']; // For chart values based off pairing data (not USD equiv)
 		$volume_usd_raw = get_coin_value($exchange, $coins_list[$asset]['market_pairing'][$pairing][$exchange])['24hr_usd_volume'];
 	
 	}
@@ -551,7 +559,13 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
 
 	// If the charts page is enabled in config.php, save latest chart data for assets with price alerts configured on them
 	if ( floatval($asset_usd_raw) >= 0.00000001 && $charts_page == 'on' && $alert_mode == 'increased' ) { // We only want this chart data stored once, so just run during the check for 'increased' value
-	file_put_contents('cache/charts/'.$asset.'/'.$asset_data.'_chart.dat', time() . '||' . $asset_usd_raw . '||' . $volume_usd_raw . "\n", FILE_APPEND | LOCK_EX); 
+	
+	file_put_contents('cache/charts/'.$asset.'/'.$asset_data.'_chart_usd.dat', time() . '||' . $asset_usd_raw . '||' . $volume_usd_raw . "\n", FILE_APPEND | LOCK_EX); 
+	
+		if ( floatval($pairing_value_raw) >= 0.00000001 ) {
+		file_put_contents('cache/charts/'.$asset.'/'.$asset_data.'_chart_'.$pairing.'.dat', time() . '||' . $pairing_value_raw . '||' . $volume_pairing_raw . "\n", FILE_APPEND | LOCK_EX); 
+		}
+	
 	}
 
 
