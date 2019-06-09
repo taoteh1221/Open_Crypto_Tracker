@@ -42,12 +42,20 @@ if ( $_GET['type'] == 'asset' ) {
 			
 			
 			// Unicode asset symbols
-			if ( $market_parse[1] == 'btc' && $chart_asset == 'BTC' || $market_parse[1] == 'usdt' || $market_parse[1] == 'tusd' || $_GET['charted_value'] == 'usd' ) {
+			if ( $market_parse[1] == 'btc' && $chart_asset == 'BTC' || $_GET['charted_value'] == 'usd' ) {
 			$trade_symbol = "$";
 			$volume_symbol = "$";
 			}
 			elseif ( $market_parse[1] == 'btc' && $chart_asset != 'BTC' ) {
 			$trade_symbol = "Ƀ";
+			$volume_symbol = $chart_asset;
+			}
+			elseif ( $market_parse[1] == 'usdt' ) {
+			$trade_symbol = "₮";
+			$volume_symbol = $chart_asset;
+			}
+			elseif ( $market_parse[1] == 'tusd' || $market_parse[1] == 'usdc' ) {
+			$trade_symbol = "Ⓢ";
 			$volume_symbol = $chart_asset;
 			}
 			elseif ( $market_parse[1] == 'eth' ) {
@@ -123,7 +131,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
     }
   },
   title: {
-    text: "(<?=( $trade_symbol == '$' ? 'USD' : strtoupper($market_parse[1]) )?> Value) <?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=ucfirst($market_parse[0])?>",
+    text: "(<?=( $trade_symbol == '$' ? 'USD' : strtoupper($market_parse[1]) )?> Chart)  <?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=ucfirst($market_parse[0])?>",
     fontColor: "#fff",
     fontFamily: 'Open Sans',
     fontSize: 23,
