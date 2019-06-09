@@ -48,13 +48,15 @@ foreach ( $exchange_price_alerts as $key => $value ) {
 	var show_charts = document.getElementById("show_charts").value;
 	
 		if ( this.checked == true ) {
-		document.getElementById("show_charts").value = show_charts + this.value + ",";
+		document.getElementById("show_charts").value = show_charts + "[" + this.value + "]" + ",";
 		}
 		else {
-		document.getElementById("show_charts").value = show_charts.replace("<?=$key?>,", "");
+		document.getElementById("show_charts").value = show_charts.replace("[<?=$key?>],", "");
 		}
+		
+		//console.log("show_charts = " + document.getElementById("show_charts").value);
 	
-' <?=( in_array($key, $show_charts) ? 'checked' : '' )?> /> USD Chart
+' <?=( in_array("[".$key."]", $show_charts) ? 'checked' : '' )?> /> USD Chart
 
 		</p>
 
@@ -72,13 +74,15 @@ foreach ( $exchange_price_alerts as $key => $value ) {
 	var show_charts = document.getElementById("show_charts").value;
 	
 		if ( this.checked == true ) {
-		document.getElementById("show_charts").value = show_charts + this.value + ",";
+		document.getElementById("show_charts").value = show_charts + "[" + this.value + "]" + ",";
 		}
 		else {
-		document.getElementById("show_charts").value = show_charts.replace("<?=$key?>_<?=$show_asset_params[1]?>,", "");
+		document.getElementById("show_charts").value = show_charts.replace("[<?=$key?>_<?=$show_asset_params[1]?>],", "");
 		}
+		
+		//console.log("show_charts = " + document.getElementById("show_charts").value);
 	
-' <?=( in_array($key . '_' . $show_asset_params[1], $show_charts) ? 'checked' : '' )?> /> <?=strtoupper($show_asset_params[1])?> Chart
+' <?=( in_array("[".$key . '_' . $show_asset_params[1]."]", $show_charts) ? 'checked' : '' )?> /> <?=strtoupper($show_asset_params[1])?> Chart
 
 	 			</p>
 	 			
@@ -89,13 +93,15 @@ foreach ( $exchange_price_alerts as $key => $value ) {
 	var show_charts = document.getElementById("show_charts").value;
 	
 		if ( this.checked == true ) {
-		document.getElementById("show_charts").value = show_charts + this.value + ",";
+		document.getElementById("show_charts").value = show_charts + "[" + this.value + "]" + ",";
 		}
 		else {
-		document.getElementById("show_charts").value = show_charts.replace("<?=$key?>,", "");
+		document.getElementById("show_charts").value = show_charts.replace("[<?=$key?>],", "");
 		}
+		
+		//console.log("show_charts = " + document.getElementById("show_charts").value);
 	
-' <?=( in_array($key, $show_charts) ? 'checked' : '' )?> /> USD Chart
+' <?=( in_array("[".$key."]", $show_charts) ? 'checked' : '' )?> /> USD Chart
 
 					</p>
 
@@ -142,7 +148,7 @@ foreach ( $exchange_price_alerts as $key => $value ) {
 	$charts_available = 1;
 	$alerts_market_parse = explode("||", $exchange_price_alerts[$key] );	
 	
-	if ( in_array($key, $show_charts) ) {
+	if ( in_array('['.$key.']', $show_charts) ) {
 	$charts_shown = 1;
 ?>
 
@@ -152,7 +158,7 @@ foreach ( $exchange_price_alerts as $key => $value ) {
 
 <?php
 	}
-	if ( in_array($key.'_'.$alerts_market_parse[1], $show_charts) ) {
+	if ( in_array('['.$key.'_'.$alerts_market_parse[1].']', $show_charts) ) {
 	$charts_shown = 1;
 ?>
 

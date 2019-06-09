@@ -189,7 +189,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
       shared: true
     },
     item: {
-	 fontSize: "16",
+	 fontSize: "14",
       fontColor: "#ddd",
       fontFamily: "Open Sans"
     }

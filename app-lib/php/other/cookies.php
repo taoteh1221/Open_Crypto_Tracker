@@ -122,7 +122,7 @@ if ( $_POST['submit_check'] == 1 ) {
            setcookie("coin_pairings", $set_pairing_values, mktime()+31536000);
            setcookie("coin_markets", $set_market_values, mktime()+31536000);
            
-           setcookie("show_charts", ( $_POST['show_charts'] != '' ? $_POST['show_charts'] : 'placeholder,' ), mktime()+31536000);
+           setcookie("show_charts", ( $_POST['show_charts'] != '' ? $_POST['show_charts'] : '[placeholder],' ), mktime()+31536000);
            
     header("Location: " . start_page($_GET['start_page'])); // Preserve any start page data
     exit;
