@@ -130,7 +130,7 @@ $mail_error_logs = 'daily'; // 'no', 'daily', 'weekly' Email to / from !MUST BE 
 // Disabling disables EVERYTHING related to the charts features...the page, caching, even the javascript associated with the charts
 $charts_page = 'on'; // 'on' / 'off'
 
-// Determines the presets for the chart time period buttons (1week,1month,6month,1year,2year), only used if $charts_page above is on
+// Determines the presets for the chart time period buttons (1day,1week,1month,3month,6month,1year,2year,4year), only used if $charts_page above is on
 $chart_update_freq = 4; // How many times per hour your cron job runs (see README.txt for cron job setup information) 
 
 
