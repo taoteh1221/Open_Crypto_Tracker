@@ -14,8 +14,17 @@
 
 <div id="show_chart_settings" style="display:none;">
 
-	<h3>Activated Charts</h3>
 	
+	<h3>Activated Charts</h3>
+
+<p style='color: red;'>*Charts are not activated by default to increase page loading speed. <i>If you enable "Use cookie data to save values between sessions" on the Settings page before activating your charts, they will stay visible between sessions</i>.</p>
+
+<!-- Submit button must be OUTSIDE form tags here, or it submits the target form improperly and loses data -->
+<p><button class='force_button_style' onclick='document.coin_amounts.submit();'>Update Activated Charts</button></p>
+
+<p><input type='checkbox' onclick='selectAll(this, "activate_charts");' /> Select / Unselect All</p>
+	
+	<form id='activate_charts' name='activate_charts'>
 	
 <?php
 foreach ( $exchange_price_alerts as $key => $value ) {
@@ -35,76 +44,19 @@ foreach ( $exchange_price_alerts as $key => $value ) {
 				<legend class='subsection_legend'> <b><?=$show_asset?> / <?=strtoupper($show_asset_params[1])?> @ <?=ucfirst($show_asset_params[0])?></b> </legend>
 		    
 			<?php
-		
 			if ( $show_asset == 'BTC' ) {
-			
 			?>
-			
 
-	<p>
-	
-	<input type='checkbox' value='<?=$key?>' onchange='
-
-	var show_charts = document.getElementById("show_charts").value;
-	
-		if ( this.checked == true ) {
-		document.getElementById("show_charts").value = show_charts + "[" + this.value + "]" + ",";
-		}
-		else {
-		document.getElementById("show_charts").value = show_charts.replace("[<?=$key?>],", "");
-		}
-		
-		//console.log("show_charts = " + document.getElementById("show_charts").value);
-	
-' <?=( in_array("[".$key."]", $show_charts) ? 'checked' : '' )?> /> USD Chart
-
-		</p>
-
+			<p><input type='checkbox' value='<?=$key?>' onchange='chart_toggle(this);' <?=( in_array("[".$key."]", $show_charts) ? 'checked' : '' )?> /> USD Chart</p>
 
 			<?php
 			}
 			else {
 			?>
 			
-			
-		    <p> 
-		    
-		    <input type='checkbox' value='<?=$key?>_<?=$show_asset_params[1]?>' onchange='
-
-	var show_charts = document.getElementById("show_charts").value;
-	
-		if ( this.checked == true ) {
-		document.getElementById("show_charts").value = show_charts + "[" + this.value + "]" + ",";
-		}
-		else {
-		document.getElementById("show_charts").value = show_charts.replace("[<?=$key?>_<?=$show_asset_params[1]?>],", "");
-		}
-		
-		//console.log("show_charts = " + document.getElementById("show_charts").value);
-	
-' <?=( in_array("[".$key . '_' . $show_asset_params[1]."]", $show_charts) ? 'checked' : '' )?> /> <?=strtoupper($show_asset_params[1])?> Chart
-
-	 			</p>
+		   <p><input type='checkbox' value='<?=$key?>_<?=$show_asset_params[1]?>' onchange='chart_toggle(this);' <?=( in_array("[".$key . '_' . $show_asset_params[1]."]", $show_charts) ? 'checked' : '' )?> /> <?=strtoupper($show_asset_params[1])?> Chart</p>
 	 			
-	 			<p>
-
-	<input type='checkbox' value='<?=$key?>' onchange='
-
-	var show_charts = document.getElementById("show_charts").value;
-	
-		if ( this.checked == true ) {
-		document.getElementById("show_charts").value = show_charts + "[" + this.value + "]" + ",";
-		}
-		else {
-		document.getElementById("show_charts").value = show_charts.replace("[<?=$key?>],", "");
-		}
-		
-		//console.log("show_charts = " + document.getElementById("show_charts").value);
-	
-' <?=( in_array("[".$key."]", $show_charts) ? 'checked' : '' )?> /> USD Chart
-
-					</p>
-
+	 		<p><input type='checkbox' value='<?=$key?>' onchange='chart_toggle(this);' <?=( in_array("[".$key."]", $show_charts) ? 'checked' : '' )?> /> USD Chart</p>
 
 			<?php
 			}?>
@@ -115,10 +67,11 @@ foreach ( $exchange_price_alerts as $key => $value ) {
 }
 ?>
 
-	<p><button class='force_button_style' onclick='javascript:document.coin_amounts.submit();'>Update Activated Charts</button></p>
-	
-	<p style='color: red;'>*Charts are not activated by default to increase page loading speed. <i>If you enable "Use cookie data to save values between sessions" on the Settings page before activating your charts, they will stay visible between sessions</i>.</p>
+	</form>
 
+	<!-- Submit button must be OUTSIDE form tags here, or it submits the target form improperly and loses data -->
+	<p><button class='force_button_style' onclick='document.coin_amounts.submit();'>Update Activated Charts</button></p>
+	
 </div>
 
 

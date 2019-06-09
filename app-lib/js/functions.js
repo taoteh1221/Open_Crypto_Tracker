@@ -4,6 +4,43 @@
 
 /////////////////////////////////////////////////////////////
 
+function chart_toggle(obj_var) {
+  
+	var show_charts = $("#show_charts").val();
+	
+		if ( obj_var.checked == true ) {
+		$("#show_charts").val("[" + obj_var.value + "]" + "," + show_charts);
+		}
+		else {
+		$("#show_charts").val( show_charts.replace("[" + obj_var.value + "],", "") );
+		}
+		
+		//console.log("show_charts = " + $("#show_charts").val() );  // DEBUGGING ONLY
+	
+}
+
+/////////////////////////////////////////////////////////////
+
+function selectAll(toggle, form_name) {
+	
+    var checkbox, i=0;
+    while ( checkbox=document.getElementById(form_name).elements[i++] ) {
+    	
+        if ( checkbox.type == "checkbox" ) {
+            
+            if ( form_name == 'activate_charts' && checkbox.checked != toggle.checked ) {
+        		checkbox.checked = toggle.checked;
+            chart_toggle(checkbox);
+            }
+            
+        }
+        
+    }
+     
+}
+
+/////////////////////////////////////////////////////////////
+
 function delete_cookie( name ) {
   document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }

@@ -235,6 +235,7 @@ $exchange_price_alerts = array(
 					'atom' => 'binance||btc',
 				//	'atom-2' => 'poloniex||btc',
 				//	'atom-3' => 'kraken||btc',
+					'matic' => 'binance||btc',
 					'steem' => 'binance||eth',
 					'ant' => 'bittrex||btc',
 					'mana' => 'binance||btc',
@@ -556,6 +557,34 @@ $coins_list = array(
                                          'poloniex' => 'USDT_ATOM',
                                          'hotbit' => 'ATOM_USDT',
                                          'bitforex' => 'coin-usdt-atom'
+                                                    )
+                                                    
+                                        ) // market_pairing END
+                                        
+                    ), // Coin END
+                    
+                    
+                    // MATIC
+                    'MATIC' => array(
+                        
+                        'coin_name' => 'Matic Network',
+                        'marketcap_website_slug' => 'matic-network',
+                        'market_pairing' => array(
+                        
+                                    'btc' => array(
+                                         'binance' => 'MATICBTC',
+                                         'hotbit' => 'MATIC_BTC',
+                                         'bitforex' => 'coin-btc-matic'
+                                                    ),
+                                                    
+                                    'eth' => array(
+                                         'hotbit' => 'MATIC_ETH',
+                                         'idex' => 'ETH_MATIC'
+                                                    ),
+                                                    
+                                    'usdt' => array(
+                                         'binance' => 'MATICUSDT',
+                                         'bitforex' => 'coin-usdt-matic'
                                                     )
                                                     
                                         ) // market_pairing END

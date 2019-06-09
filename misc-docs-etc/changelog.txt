@@ -1237,6 +1237,16 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+3.09.2:
+-Even more minor UX tweaks
+-Yet another bug fix for activated charts list (sorry, lol)
+-------------------------------------------------------------------
+
+
+
+
+
 
 
 
