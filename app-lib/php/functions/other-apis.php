@@ -9,24 +9,21 @@ function bitcoin_api($request) {
  
 global $chainstats_cache;
  		
-    $json_string = 'https://blockexplorer.com/api/status?q=getInfo';
-    
-    $jsondata = @api_data('url', $json_string, $chainstats_cache);
-    
-    $data = json_decode($jsondata, TRUE);
-    
     
 		if ( $request == 'height' ) {
 		
-		return $data['info']['blocks'];
+    	$string = 'https://blockchain.info/q/getblockcount';
 		  
 		}
 		elseif ( $request == 'difficulty' ) {
 		
-		return $data['info']['difficulty'];
+    	$string = 'https://blockchain.info/q/getdifficulty';
 		  
 		}
-  
+		
+    $data = @api_data('url', $string, $chainstats_cache);
+    
+  return (float)$data;
   
 }
 

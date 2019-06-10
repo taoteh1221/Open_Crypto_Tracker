@@ -9,8 +9,8 @@
 											'btc', // Coin symbol
 											bitcoin_api('height'), // Block height
 											bitcoin_api('difficulty'), // Mining network measure (difficulty or network hashrate)
-											'https://blockexplorer.com/api-ref', // Blockchain data API url
-											'Blockexplorer API', // Blockchain data API name
+											'https://www.blockchain.com/api/q', // Blockchain data API url
+											'Blockchain.com API', // Blockchain data API name
 											'binance', // Exchange name (lowercase for API logic)
 											'BTCTUSD' // Market pair name
 											);
