@@ -160,13 +160,13 @@ if (is_array($coins_list) || is_object($coins_list)) {
     
     ?>
     
-    <div class='update_coins'>
+    <div class='long_list'>
        
        
 			    
-       		<b><span style='color: blue;'><?=$coin_array_value['coin_name']?> (<?=strtoupper($coin_array_key)?>)</span> / </b> 
+       		<b><?=$coin_array_value['coin_name']?> (<?=strtoupper($coin_array_key)?>)</b> /  
        
-			    <select style='font-weight: bold;' onchange='
+			    <select onchange='
 			    
 			    $("#<?=$field_var_market?>_lists").children().hide(); 
 			    $("#" + this.value + "<?=$coin_array_key?>_pairs").show(); 
@@ -202,7 +202,7 @@ if (is_array($coins_list) || is_object($coins_list)) {
 				$loop = NULL;
 				?>
 			    </select> 
-			     <b>market @</b> <input type='hidden' id='<?=$field_var_market?>' name='<?=$field_var_market?>' value='<?php
+			     Market @ <input type='hidden' id='<?=$field_var_market?>' name='<?=$field_var_market?>' value='<?php
 			     
 			     if ( $_POST[$field_var_market] ) {
 			     echo $_POST[$field_var_market];
@@ -226,20 +226,20 @@ if (is_array($coins_list) || is_object($coins_list)) {
 			    
 			    $("#<?=$field_var_market?>").val( this.value );
 			    
-			    ' id='<?=$key.$coin_array_key?>_pairs' style='font-weight: bold; display: <?=( $selected_pairing == $key ? 'inline' : 'none' )?>;'><?=$html_market_list[$key]?></select>
+			    ' id='<?=$key.$coin_array_key?>_pairs' style='display: <?=( $selected_pairing == $key ? 'inline' : 'none' )?>;'><?=$html_market_list[$key]?></select>
 			    
 			    <?php
 			    }
 			    $html_market_list = NULL;
 			    ?>
 			    
-			    </span> 
+			    </span>, &nbsp; 
 			    
-		<br /><br />
-     <b>Token Amount Held:</b> <input type='text' size='18' id='<?=$field_var_amount?>' name='<?=$field_var_amount?>' value='<?=$coin_amount_value?>' /> <?=strtoupper($coin_array_key)?>
+		
+     Amount: <input type='text' size='12' id='<?=$field_var_amount?>' name='<?=$field_var_amount?>' value='<?=$coin_amount_value?>' /> <?=strtoupper($coin_array_key)?>, &nbsp; 
 		    
-		<br /><br />
-     <b>Average Entry Price (USD, per-token):</b> $<input type='text' size='18' id='<?=$field_var_paid?>' name='<?=$field_var_paid?>' value='<?=$coin_paid_value?>' />
+		
+     Paid (per-token): $<input type='text' size='6' id='<?=$field_var_paid?>' name='<?=$field_var_paid?>' value='<?=$coin_paid_value?>' />
      
 			
     </div>

@@ -208,10 +208,10 @@ margin: 25px;
 }
 
 
-.update_coins {
-border: 1px solid #808080;
+.long_list {
+border: 1px solid #b2b2b2;
 padding: 15px;
-margin-bottom: 15px;
+margin-bottom: 25px;
 }
 
 .red {

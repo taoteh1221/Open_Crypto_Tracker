@@ -40,28 +40,29 @@ foreach ( $exchange_price_alerts as $key => $value ) {
 		
 ?>
 
-			<fieldset class='subsection_fieldset'>
-				<legend class='subsection_legend'> <b><?=$show_asset?> / <?=strtoupper($show_asset_params[1])?> @ <?=ucfirst($show_asset_params[0])?></b> </legend>
-		    
+    <div class='long_list'>
+    
+    	<b><?=$show_asset?> / <?=strtoupper($show_asset_params[1])?> @ <?=ucfirst($show_asset_params[0])?>:</b> &nbsp; &nbsp; 
+    	
 			<?php
 			if ( $show_asset == 'BTC' ) {
 			?>
 
-			<p><input type='checkbox' value='<?=$key?>' onchange='chart_toggle(this);' <?=( in_array("[".$key."]", $show_charts) ? 'checked' : '' )?> /> USD Chart</p>
+			<input type='checkbox' value='<?=$key?>' onchange='chart_toggle(this);' <?=( in_array("[".$key."]", $show_charts) ? 'checked' : '' )?> /> USD Chart
 
 			<?php
 			}
 			else {
 			?>
-			
-		   <p><input type='checkbox' value='<?=$key?>_<?=$show_asset_params[1]?>' onchange='chart_toggle(this);' <?=( in_array("[".$key . '_' . $show_asset_params[1]."]", $show_charts) ? 'checked' : '' )?> /> <?=strtoupper($show_asset_params[1])?> Chart</p>
 	 			
-	 		<p><input type='checkbox' value='<?=$key?>' onchange='chart_toggle(this);' <?=( in_array("[".$key."]", $show_charts) ? 'checked' : '' )?> /> USD Chart</p>
+	 		<input type='checkbox' value='<?=$key?>' onchange='chart_toggle(this);' <?=( in_array("[".$key."]", $show_charts) ? 'checked' : '' )?> /> USD Chart &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+			
+		   <input type='checkbox' value='<?=$key?>_<?=$show_asset_params[1]?>' onchange='chart_toggle(this);' <?=( in_array("[".$key . '_' . $show_asset_params[1]."]", $show_charts) ? 'checked' : '' )?> /> <?=strtoupper($show_asset_params[1])?> Chart 
 
 			<?php
 			}?>
 
-			</fieldset>
+		</div>
 		    
 <?php
 }
