@@ -27,6 +27,9 @@ if ( $_POST['submit_check'] == 1 ) {
   
    foreach ( $_POST as $key => $value ) {
   
+  
+  
+  
       if ( preg_match("/_amount/i", $key) ) {
       
       $_POST[$key] = strip_price_formatting($value);
@@ -70,6 +73,23 @@ if ( $_POST['submit_check'] == 1 ) {
          }
       
       }
+   
+  
+      if ( preg_match("/_paid/i", $key) ) {
+      
+      $_POST[$key] = strip_price_formatting($value);
+      
+         if ( $_POST['use_cookies'] == 1 && isset($_POST[$key]) ) {
+          
+          
+            $set_paid_values .= $key.'-'. $_POST[$key] . '#';
+          
+          
+         }
+      
+      }
+   
+   
    
   
    }
@@ -121,6 +141,7 @@ if ( $_POST['submit_check'] == 1 ) {
            setcookie("coin_amounts", $set_coin_values, mktime()+31536000);
            setcookie("coin_pairings", $set_pairing_values, mktime()+31536000);
            setcookie("coin_markets", $set_market_values, mktime()+31536000);
+           setcookie("coin_paid", $set_paid_values, mktime()+31536000);
            
            setcookie("show_charts", ( $_POST['show_charts'] != '' ? $_POST['show_charts'] : '[placeholder],' ), mktime()+31536000);
            
@@ -135,6 +156,7 @@ if ( $_POST['submit_check'] == 1 ) {
   unset($_COOKIE['coin_amounts']); 
   unset($_COOKIE['coin_pairings']); 
   unset($_COOKIE['coin_markets']); 
+  unset($_COOKIE['coin_paid']); 
   unset($_COOKIE['coin_reload']);  
   unset($_COOKIE['alert_percent']);  
   unset($_COOKIE['show_charts']);  
@@ -142,7 +164,8 @@ if ( $_POST['submit_check'] == 1 ) {
   setcookie ("notes_reminders", "", time()-3600);  
   setcookie ("coin_amounts", "", time()-3600);  
   setcookie ("coin_pairings", "", time()-3600);  
-  setcookie ("coin_markets", "", time()-3600);  
+  setcookie ("coin_markets", "", time()-3600);   
+  setcookie ("coin_paid", "", time()-3600);  
   setcookie ("coin_reload", "", time()-3600);  
   setcookie ("alert_percent", "", time()-3600);  
   setcookie ("show_charts", "", time()-3600);  

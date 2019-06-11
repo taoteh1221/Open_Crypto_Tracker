@@ -208,10 +208,11 @@ margin: 25px;
 }
 
 
-p.update_coins {
-padding-bottom: 7px;
+.update_coins {
+border: 1px solid #808080;
+padding: 15px;
+margin-bottom: 15px;
 }
-
 
 .red {
 color: red;
@@ -297,10 +298,21 @@ white-space: nowrap;
 }
 
 
-.btc_worth, .btc_worth span, td.data div.btc_worth span {
+.gain, .gain span, td.data div.gain span, .btc_worth, .btc_worth span, td.data div.btc_worth span {
 margin: 2px;
 padding: 0px;
 color: green;
+font-size: 13px;
+border: 0px;
+background: none;
+white-space: nowrap;
+}
+
+
+.loss, .loss span, td.data div.loss span {
+margin: 2px;
+padding: 0px;
+color: red;
 font-size: 13px;
 border: 0px;
 background: none;

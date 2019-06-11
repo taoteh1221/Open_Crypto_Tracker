@@ -62,6 +62,23 @@ return $total_value;
 
 //////////////////////////////////////////////////////////
 
+function gain_loss_total() {
+
+    if (is_array($_SESSION['gain_loss_array']) || is_object($_SESSION['gain_loss_array'])) {
+      
+  foreach ( $_SESSION['gain_loss_array'] as $gain_loss ) {
+  
+  $total_gain_loss = ($gain_loss + $total_gain_loss);
+  
+  }
+  
+    }
+
+return $total_gain_loss;
+}
+
+//////////////////////////////////////////////////////////
+
 function detect_pairing($pair_name) {
 
 $pair_name = preg_replace("/usdc/i", "0000", $pair_name); // SKIP 'USD Coin' FOR NOW
@@ -573,7 +590,7 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
 
 //////////////////////////////////////////////////////////
 
-function coin_data_row($coin_name, $trade_symbol, $coin_amount, $market_pairing_array, $selected_pairing, $selected_market, $sort_order) {
+function coin_data_row($coin_name, $trade_symbol, $coin_amount, $market_pairing_array, $selected_pairing, $selected_market, $sort_order, $purchase_price=NULL) {
 
 global $_POST, $coins_list, $btc_exchange, $marketcap_site, $marketcap_cache, $alert_percent, $marketcap_ranks_max, $api_timeout;
 
@@ -725,6 +742,24 @@ $market_pairing = $all_markets[$selected_market];
     }
   
   
+  	 // Calculate gain / loss if purchase price was populated
+  	 if ( $selected_pairing == 'btc' ) {
+  	 $coin_usd_worth_raw = ( $coin_name == 'Bitcoin' ? $coin_value_total_raw : ($coin_value_total_raw * get_btc_usd($btc_exchange)['last_trade']) );
+  	 }
+  	 else {
+  	 $coin_usd_worth_raw = ( ($coin_value_total_raw * $pairing_btc_value) * get_btc_usd($btc_exchange)['last_trade']);
+  	 }
+  
+  
+	 if ( floatval($purchase_price) >= 0.00000001 ) {
+	 	
+	 $coin_paid_total_raw = ($coin_amount * $purchase_price);
+	 $gain_loss = $coin_usd_worth_raw - $coin_paid_total_raw;
+    $_SESSION['gain_loss_array'][] = $gain_loss;  
+    
+	 }
+	  
+	  
   // Get trade volume
   $trade_volume = ( $coin_name == 'Bitcoin' ? get_btc_usd($btc_exchange)['24hr_usd_volume'] : get_coin_value($selected_market, $market_pairing)['24hr_usd_volume'] );
   
@@ -1010,7 +1045,9 @@ $market_pairing = $all_markets[$selected_market];
 </span></td>
 
 <td class='data border_lb'><?php
+
 echo ' <span><span class="data">' . number_format($coin_value_total_raw, ( $coin_name == 'Bitcoin' ? 2 : 8 ), '.', ',') . '</span> ' . $pairing_symbol . '</span>';
+
   if ( $selected_pairing != 'btc' ) {
   echo '<div class="btc_worth"><span>(' . number_format( $coin_value_total_raw * $pairing_btc_value , 8 ) . ' BTC)</span></div>';
   }
@@ -1019,15 +1056,12 @@ echo ' <span><span class="data">' . number_format($coin_value_total_raw, ( $coin
 
 <td class='data border_lrb'><?php
 
-  if ( $selected_pairing == 'btc' ) {
-  $coin_usd_worth = ( $coin_name == 'Bitcoin' ? $coin_value_total_raw : ($coin_value_total_raw * get_btc_usd($btc_exchange)['last_trade']) );
-  }
-  else {
-  $coin_usd_worth = ( ($coin_value_total_raw * $pairing_btc_value) * get_btc_usd($btc_exchange)['last_trade']);
-  }
-  
+echo '$' . number_format($coin_usd_worth_raw, 2, '.', ',');
 
-echo '$' . number_format($coin_usd_worth, 2, '.', ',');
+  if ( floatval($purchase_price) >= 0.00000001 ) {
+  $parsed_gain_loss = preg_replace("/-/", "-$", number_format( $gain_loss, 2, '.', ',' ) );
+  echo '<div class="'.( $gain_loss >= 0 ? 'gain' : 'loss' ).'"><span>('.( $gain_loss >= 0 ? '+$' : '' ) . $parsed_gain_loss . ')</span></div>';
+  }
 
 ?></td>
 

@@ -75,14 +75,20 @@ if ( $_POST['submit_check'] == 1 || $_COOKIE['coin_amounts'] ) {
 										$coin_symbol = strtoupper(preg_replace("/_amount/i", "", $key));
 										$selected_pairing = ($_POST[strtolower($coin_symbol).'_pairing']);
 										$selected_market = ($_POST[strtolower($coin_symbol).'_market'] - 1);
+										$purchase_price = ($_POST[strtolower($coin_symbol).'_paid']);
 												
 						
 								// Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
-										coin_data_row($coins_list[$coin_symbol]['coin_name'], $coin_symbol, $value, $coins_list[$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $sort_order);
+										coin_data_row($coins_list[$coin_symbol]['coin_name'], $coin_symbol, $value, $coins_list[$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $sort_order, $purchase_price);
 										
 											if ( floatval($value) >= 0.00000001 ) {
 											$assets_added = 1;
 											}
+											
+											if ( floatval($purchase_price) >= 0.00000001 ) {
+											$purchase_price_added = 1;
+											}
+										
 										
 										}
 									
@@ -133,6 +139,23 @@ if ( $_POST['submit_check'] == 1 || $_COOKIE['coin_amounts'] ) {
 		}
 	
 	
+	$all_coin_paid_cookie_array = explode("#", $_COOKIE['coin_paid']);
+	
+		if (is_array($all_coin_paid_cookie_array) || is_object($all_coin_paid_cookie_array)) {
+			
+					foreach ( $all_coin_paid_cookie_array as $coin_paid ) {
+									
+					$single_coin_paid_cookie_array = explode("-", $coin_paid);
+					
+					$coin_symbol = strtoupper(preg_replace("/_paid/i", "", $single_coin_paid_cookie_array[0]));
+					
+					$all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_paid'] = $single_coin_paid_cookie_array[1];
+					
+					}
+					
+		}
+	
+	
 		
 		
 	
@@ -157,13 +180,19 @@ if ( $_POST['submit_check'] == 1 || $_COOKIE['coin_amounts'] ) {
 					$selected_pairing = $all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_pairing'];
 					$selected_market = ($all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_market'] -1);
 					$selected_amount = $all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_amount'];
+					$purchase_price = $all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_paid'];
 					
 			// Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
-					coin_data_row($coins_list[$coin_symbol]['coin_name'], $coin_symbol, $selected_amount, $coins_list[$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $sort_order);
+					coin_data_row($coins_list[$coin_symbol]['coin_name'], $coin_symbol, $selected_amount, $coins_list[$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $sort_order, $purchase_price);
 					
 						if ( floatval($selected_amount) >= 0.00000001 ) {
 						$assets_added = 1;
 						}
+						
+						if ( floatval($purchase_price) >= 0.00000001 ) {
+						$purchase_price_added = 1;
+						}
+						
 					
 					$sort_order = $sort_order + 1;
 	
@@ -199,6 +228,13 @@ $coins_list_numbered = array_values($coins_list['BTC']['market_pairing']['btc'])
 
 	}
 	$loop = NULL;
+
+
+	if ( $purchase_price_added == 1 ) {
+	$gain_loss_worth = gain_loss_total();
+	$parsed_gain_loss_worth = preg_replace("/-/", "-$", number_format( $gain_loss_worth, 2, '.', ',' ) );
+	echo '<br /> <span style="color: ' . ( $gain_loss_worth >= 0 ? 'green;">Total USD Gains: +$' : 'red;">Total USD Losses: ' ) . $parsed_gain_loss_worth . '</span>';
+	}
 
 echo '</p>';
 
