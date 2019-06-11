@@ -22,12 +22,13 @@
 			
 			
 			<fieldset class='subsection_fieldset'>
-				<legend class='subsection_legend'> <b>Altcoin / BTC Trade Target Calculator</b> </legend>
+				<legend class='subsection_legend'> <b>Altcoin Trade Value / Marketcap Calculator</b> </legend>
     			
+    			<p>Preview your altcoin sell order value. Alternatively, this tool can also be used to calculate the marketcap of a coin supply.</p>
     			
     			<p><b>Token Amount:</b> <input type='text' id='to_trade_amount' name='to_trade_amount' value='0' size='20' /> </p>
     			
-    			<p><b>BTC Trade Target:</b> <input type='text' id='sat_target' name='sat_target' value='0.00000001' minlength="10" maxlength="10" size="11" /> </p>
+    			<p><b>BTC Trade Value:</b> <input type='text' id='sat_target' name='sat_target' value='0.00000001' minlength="10" maxlength="10" size="11" /> </p>
     			
     			<p>
     			
@@ -54,9 +55,9 @@
     				
     			</p>
     			
-    			<p style='font-weight: bold; color: green;'>Token Trade Target: $<span id='target_usd'>0.00</span> (<span id='target_btc'>0.00</span> BTC) </p>
+    			<p style='font-weight: bold; color: green;'>Per-Token Trade Value: $<span id='target_usd'>0.00</span> (<span id='target_btc'>0.00</span> BTC) </p>
     			
-    			<p style='font-weight: bold; color: green;'>Total Trade Target: $<span id='target_total_usd'>0.00</span> (<span id='target_total_btc'>0.00</span> BTC) </p>
+    			<p style='font-weight: bold; color: green;'>Total Trade Value: $<span id='target_total_usd'>0.00</span> (<span id='target_total_btc'>0.00</span> BTC) </p>
     			
     			<script>
     			
