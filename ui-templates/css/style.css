@@ -7,29 +7,29 @@
 IMPORTS
 ////////////////////////////// */
 
-@import "theme.default.css";
+@import "tablesorter/theme.default.css";
 
-@import "theme.black-ice.css";
+@import "tablesorter/theme.black-ice.css";
 
-@import "theme.blue.css";
+@import "tablesorter/theme.blue.css";
 
-@import "theme.bootstrap.css";
+@import "tablesorter/theme.bootstrap.css";
 
-@import "theme.bootstrap_2.css";
+@import "tablesorter/theme.bootstrap_2.css";
 
-@import "theme.dark.css";
+@import "tablesorter/theme.dark.css";
 
-@import "theme.dropbox.css";
+@import "tablesorter/theme.dropbox.css";
 
-@import "theme.green.css";
+@import "tablesorter/theme.green.css";
 
-@import "theme.grey.css";
+@import "tablesorter/theme.grey.css";
 
-@import "theme.ice.css";
+@import "tablesorter/theme.ice.css";
 
-@import "theme.jui.css";
+@import "tablesorter/theme.jui.css";
 
-@import "theme.metro-dark.css";
+@import "tablesorter/theme.metro-dark.css";
 
 /* //////////////////////////////
 ELEMENTS
@@ -53,6 +53,7 @@ width: auto;
 
 table {
 background: #fff;
+border-collapse: separate;
 }
 
 
@@ -108,6 +109,7 @@ input[type=submit], input[type=button], .force_button_style {
 
 a {
 color: black;
+text-decoration: underline;
 }
 
 a:visited {
@@ -116,6 +118,18 @@ color: #636060;
 
 a:hover {
 color: #898888;
+}
+
+fieldset {
+    width: auto;
+    padding: 25px; /* To give a bit of padding on the left and right */
+}
+
+legend {
+    width:auto;
+    padding:6px 6px; /* To give a bit of padding on the left and right */
+    border-bottom:none;
+    margin-bottom: 0px;
 }
 
 /* //////////////////////////////
@@ -164,7 +178,6 @@ border-bottom: 2px solid #ccc;
 
 .bold_1 {
 font-weight: bold;
-color: green;
 padding: 5px;
 line-height: 25px;
 }
@@ -211,19 +224,32 @@ margin: 25px;
 .long_list {
 border: 1px solid #b2b2b2;
 padding: 15px;
-margin-bottom: 25px;
+margin-bottom: 10px;
 }
 
 .red {
-color: red;
+color: #ce4131 !important;
 }
 
 .green {
-color: green;
+color: #066000 !important;
 }
 
+.green_bright {
+color: #099100 !important;
+}
+
+
 .orange {
-color: #ffb83f;
+color: #ea6b1c !important;
+}
+
+.yellow {
+color: #ffb83f !important;
+}
+
+.blue {
+color: #251dc1 !important;
 }
 
 
@@ -286,7 +312,7 @@ color: black;
 
 
 td.data, td.data span.data, td select {
-color: blue;
+color: #251dc1;
 font-size: 15px;
 }
 
@@ -298,10 +324,10 @@ white-space: nowrap;
 }
 
 
-.gain, .gain span, td.data div.gain span, .btc_worth, .btc_worth span, td.data div.btc_worth span {
+.gain, td.data span.gain, td.data div.gain span, .btc_worth, .btc_worth span, td.data div.btc_worth span {
 margin: 2px;
 padding: 0px;
-color: green;
+color: #065640; /* slightly darker green than normal */
 font-size: 13px;
 border: 0px;
 background: none;
@@ -309,17 +335,30 @@ white-space: nowrap;
 }
 
 
-.loss, .loss span, td.data div.loss span {
+.loss, td.data span.loss, td.data div.loss span {
 margin: 2px;
 padding: 0px;
-color: red;
+color: #b53d2d;
 font-size: 13px;
 border: 0px;
 background: none;
 white-space: nowrap;
 }
 
+.btn-link {
+font-weight: 800;
+font-size: 15px;
+color: #251dc1;
+text-decoration: none;
+}
 
+.force_1200px_wrapper {
+max-width: 1200px;
+}
+
+.charts_wrapper {
+width: 100%;
+}
 
 /* //////////////////////////////
 IDs
@@ -338,7 +377,7 @@ min-width: 1200px;
 
 #api_error_alert {
 font-weight: bold; 
-color: red; 
+color: #b53d2d; 
 padding: 6px;
 }
 

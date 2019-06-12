@@ -179,7 +179,7 @@ function start_page_html($page) {
 	<?php
 	if ( $another_set == 1 ) {
 	?>
-	<span style='color: red;'>&nbsp;(another secondary page is currently the start page)</span>
+	<span class='red'>&nbsp;(another secondary page is currently the start page)</span>
 	 <br clear='all' />
 	<?php
 	}

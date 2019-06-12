@@ -1,5 +1,5 @@
 
-<p align='center'><a href='javascript:scroll(0,0);'>Back To Top</a></p>
+<p align='center' style='margin: 15px;'><a href='javascript:scroll(0,0);'>Back To Top</a></p>
 
     <!- footer START -->
 <?php
@@ -33,7 +33,7 @@
     $load_time = $load_time[1] + $load_time[0];
     $finish = $load_time;
     $total_time = round(($finish - $start), 3);
-    echo '<p align="center" style="color: '.( $total_time <= 10 ? 'green' : 'red' ).';"> Page generated in '.$total_time.' seconds. </p>';
+    echo '<p align="center" class="'.( $total_time <= 10 ? 'green' : 'red' ).'"> Page generated in '.$total_time.' seconds. </p>';
     
     ?>
         

@@ -22,11 +22,18 @@ require("config.php");
 <meta charset="UTF-8">
     <title>DFD Cryptocoin Values - Cryptocurrency Portfolio Tracker</title>
     
+    
+<link rel="stylesheet" href="ui-templates/css/bootstrap/bootstrap.min.css" type="text/css" />
+
 <link rel="stylesheet" href="ui-templates/css/style.css" type="text/css" />
 
 <link rel="stylesheet" href="ui-templates/css/modaal.css" type="text/css" />
 
-<script type="text/javascript" src="app-lib/js/jquery/jquery1.8.3.min.js"></script>
+
+
+<script type="text/javascript" src="app-lib/js/jquery/jquery-3.4.1.min.js"></script>
+
+<script type="text/javascript" src="app-lib/js/jquery/bootstrap.min.js"></script>
 
 <script type="text/javascript" src="app-lib/js/jquery/jquery.tablesorter.min.js"></script>
 
@@ -79,7 +86,7 @@ var btc_usd_value = '<?=number_format( get_btc_usd('binance')['last_trade'], 2, 
     </audio>
 
     <div align='center' style='width: 100%; min-width: 1200px; margin: auto;'>
-    <h1>DFD Cryptocoin Values - Cryptocurrency Portfolio Tracker</h1>
+    <h2>DFD Cryptocoin Values - Cryptocurrency Portfolio Tracker</h2>
             <div align='left' style=' margin: 0px; min-width: 1200px; display: inline;'>
         <!- header END -->
 

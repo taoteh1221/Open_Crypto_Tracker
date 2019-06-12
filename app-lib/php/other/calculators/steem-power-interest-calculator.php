@@ -26,7 +26,7 @@ $steem_market = get_coin_value('binance', 'STEEMBTC')['last_trade'];
     
 
 
-<p style='font-weight: bold; color: green;'>1 STEEM = <?=$steem_market?> BTC ($<?php echo number_format( ( $steem_market * get_btc_usd($btc_exchange)['last_trade'] ), 8, '.', ','); ?>)</p>
+<p class='green' style='font-weight: bold;'>1 STEEM = <?=$steem_market?> BTC ($<?php echo number_format( ( $steem_market * get_btc_usd($btc_exchange)['last_trade'] ), 8, '.', ','); ?>)</p>
 
 <p>
     <form action='index.php#calculators' method='post'>
@@ -52,7 +52,7 @@ $steem_market = get_coin_value('binance', 'STEEMBTC')['last_trade'];
 if ( $_POST['steem_submitted'] ) {
 ?>
 
-<p style='color: red; font-weight: bold;'>Your <i>current</i> STEEM Power interest rate results (<i><u>USD values may change significantly over long periods of time</u></i>):</p>
+<p class='red' style='font-weight: bold;'>Your <i>current</i> STEEM Power interest rate results (<i><u>USD values may change significantly over long periods of time</u></i>):</p>
 
 <?php
 

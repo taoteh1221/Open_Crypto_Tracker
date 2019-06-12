@@ -1248,7 +1248,9 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 3.10.0:
 -Gains / losses per token (and total gains / losses)
--UX on long settings lists
+-Consolidated more CSS into main stylesheet file
+-Integrated bootstrap framework
+-UX / UI revisions
 -------------------------------------------------------------------
 
 

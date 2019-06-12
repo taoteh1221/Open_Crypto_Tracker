@@ -44,7 +44,7 @@
 				<br />
 				<br />
 				
-				<b style='color: red;'>Power Cost Daily: 
+				<b class='red'>Power Cost Daily: 
 				<?php
 				echo '$' . number_format($kwh_cost_daily, 2);
 				?></b>
@@ -52,7 +52,7 @@
 				<br />
 				<br />
 				
-				<b style='color: red;'>Pool Fee Daily: 
+				<b class='red'>Pool Fee Daily: 
 				<?php
 				echo '$' . number_format($pool_fee_daily, 2);
 				?></b>
@@ -97,7 +97,7 @@
 				<br />
 				<br />
 				
-				<b style='color: red;'>Power Cost Weekly: 
+				<b class='red'>Power Cost Weekly: 
 				<?php
 				echo '$' . number_format($kwh_cost_daily * 7, 2);
 				?></b>
@@ -105,7 +105,7 @@
 				<br />
 				<br />
 				
-				<b style='color: red;'>Pool Fee Weekly: 
+				<b class='red'>Pool Fee Weekly: 
 				<?php
 				echo '$' . number_format($pool_fee_daily * 7, 2);
 				?></b>

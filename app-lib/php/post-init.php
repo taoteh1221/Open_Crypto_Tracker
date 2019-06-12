@@ -126,19 +126,19 @@ if ( sizeof($proxy_list) > 0 ) {
 
 	// Displaying that errors were found
 	if ( $config_parse_error >= 1 ) {
-   $proxy_config_alert .= '<span style="color: red;">' . $proxy_parse_errors . ' proxy configuration error(s):</span>' . "<br /> \n";
+   $proxy_config_alert .= '<span class="red">' . $proxy_parse_errors . ' proxy configuration error(s):</span>' . "<br /> \n";
    }
           		
 	// Displaying any config errors
 	foreach ( $config_parse_error as $error ) {
-   $proxy_config_alert .= '<span style="color: red;">Misconfigured proxy: ' . $error . '</span>' . "<br /> \n";
+   $proxy_config_alert .= '<span class="red">Misconfigured proxy: ' . $error . '</span>' . "<br /> \n";
    }
           		
 $_SESSION['config_error'] .= ( $proxy_config_alert ? date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | configuration error: ' . $proxy_config_alert : '' );
           		
 	// Displaying if checks passed
 	if ( sizeof($config_parse_error) < 1 ) {
-   $proxy_config_alert .= '<span style="color: green;">Config formatting seems ok.</span>';
+   $proxy_config_alert .= '<span class="green">Config formatting seems ok.</span>';
    }
           		
 $config_parse_error = NULL; // Blank it out for any other config checks
@@ -233,19 +233,19 @@ if ( trim($from_email) != '' && trim($to_email) != '' || sizeof($text_parse) > 0
 
          // Displaying that errors were found
          if ( $config_parse_error >= 1 ) {
-         $price_change_config_alert .=  '<span style="color: red;">' . $price_alert_type_text . ' alert configuration error(s):</span>' . "<br /> \n";
+         $price_change_config_alert .=  '<span class="red">' . $price_alert_type_text . ' alert configuration error(s):</span>' . "<br /> \n";
          }
           		
          // Displaying any config errors
          foreach ( $config_parse_error as $error ) {
-         $price_change_config_alert .= '<span style="color: red;">' . $error . '</span>' . "<br /> \n";
+         $price_change_config_alert .= '<span class="red">' . $error . '</span>' . "<br /> \n";
          }
           		
       $_SESSION['config_error'] .= ( $price_change_config_alert ? date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | configuration error: ' . $price_change_config_alert : '');
           		
          // Displaying if checks passed
          if ( sizeof($config_parse_error) < 1 ) {
-         $price_change_config_alert .= '<span style="color: green;">Config formatting seems ok.</span>';
+         $price_change_config_alert .= '<span class="green">Config formatting seems ok.</span>';
          }
           		
       $config_parse_error = NULL; // Blank it out for any other config checks
@@ -279,12 +279,12 @@ $smtp_server_parse = explode(":", $smtp_server );
 	
    // Displaying that errors were found
    if ( $config_parse_error >= 1 ) {
-   $smtp_config_alert .=  '<span style="color: red;">SMTP configuration error(s):</span>' . "<br /> \n";
+   $smtp_config_alert .=  '<span class="red">SMTP configuration error(s):</span>' . "<br /> \n";
    }
           		
    // Displaying any config errors
    foreach ( $config_parse_error as $error ) {
-   $smtp_config_alert .= '<span style="color: red;">' . $error . '</span>' . "<br /> \n";
+   $smtp_config_alert .= '<span class="red">' . $error . '</span>' . "<br /> \n";
    }
 	
    
@@ -293,7 +293,7 @@ $smtp_server_parse = explode(":", $smtp_server );
         
    // Displaying if checks passed
    if ( sizeof($config_parse_error) < 1 ) {
-   $smtp_config_alert .= '<span style="color: green;">Config formatting seems ok.</span>';
+   $smtp_config_alert .= '<span class="green">Config formatting seems ok.</span>';
    }
           		
    $config_parse_error = NULL; // Blank it out for any other config checks
@@ -321,12 +321,12 @@ if ( $mail_error_logs == 'daily' && trim($from_email) != '' && trim($to_email) !
 
    // Displaying that errors were found
    if ( $config_parse_error >= 1 ) {
-   $errorlogs_config_alert .=  '<span style="color: red;">Email error logs configuration error(s):</span>' . "<br /> \n";
+   $errorlogs_config_alert .=  '<span class="red">Email error logs configuration error(s):</span>' . "<br /> \n";
    }
           		
    // Displaying any config errors
    foreach ( $config_parse_error as $error ) {
-   $errorlogs_config_alert .= '<span style="color: red;">' . $error . '</span>' . "<br /> \n";
+   $errorlogs_config_alert .= '<span class="red">' . $error . '</span>' . "<br /> \n";
    }
 	
    
@@ -335,7 +335,7 @@ if ( $mail_error_logs == 'daily' && trim($from_email) != '' && trim($to_email) !
         
    // Displaying if checks passed
    if ( sizeof($config_parse_error) < 1 ) {
-   $errorlogs_config_alert .= '<span style="color: green;">Config formatting seems ok.</span>';
+   $errorlogs_config_alert .= '<span class="green">Config formatting seems ok.</span>';
    }
           		
    $config_parse_error = NULL; // Blank it out for any other config checks

@@ -38,7 +38,7 @@ require("ui-templates/php/header.php");
 			<?php
 			if ( $charts_page == 'on' ) {
 			?>
-		<div id='charts' class='tabdiv'>
+		<div id='charts' class='tabdiv container-fluid'>
 			<?php require("ui-templates/php/sections/charts.php"); ?>
 		</div>
 			<?php

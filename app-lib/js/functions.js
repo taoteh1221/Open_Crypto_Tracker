@@ -194,14 +194,14 @@ function play_alert(tr_id, alert_type, color) {
     
     $( document ).ready(function() {
       
-	if ( color == 'blue' ) {
+	if ( color == 'no_cmc' ) {
 	window.alert_color = '#e5f1ff'; // Assets with CMC data not set or functioning properly
 	}
 	else if ( color == 'yellow' && !window.alert_color ) {
 	window.alert_color = '#efd362';
 	}
 	else if ( color == 'green' && !window.alert_color ) {
-	window.alert_color = '#81c185';
+	window.alert_color = '#7dc67d';
 	}
       
       
@@ -212,7 +212,7 @@ function play_alert(tr_id, alert_type, color) {
       
       // Zebra stripes
 	
-	if ( color == 'blue' ) {
+	if ( color == 'no_cmc' ) {
 	window.alert_color = ''; // Assets with CMC data not set or functioning properly
 	}
 	else if ( window.alert_color == '#efd362' ) {
@@ -221,11 +221,11 @@ function play_alert(tr_id, alert_type, color) {
 	else if ( window.alert_color == '#d3bb5b' ) {
 	window.alert_color = '#efd362';
 	}
-	else if ( window.alert_color == '#81c185' ) {
-	window.alert_color = '#abfcaf';
+	else if ( window.alert_color == '#7dc67d' ) {
+	window.alert_color = '#93ea93';
 	}
-	else if ( window.alert_color == '#abfcaf' ) {
-	window.alert_color = '#81c185';
+	else if ( window.alert_color == '#93ea93' ) {
+	window.alert_color = '#7dc67d';
 	}
       
 	

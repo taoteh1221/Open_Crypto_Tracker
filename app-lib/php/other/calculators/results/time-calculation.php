@@ -21,7 +21,7 @@
 				
 				
 		<!-- Green colored START -->
-		<p style='color: green;'>
+		<p class='green'>
 			
 				<?php
 				    if ( $minutes < 60 ) {

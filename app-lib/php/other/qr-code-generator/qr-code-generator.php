@@ -10,7 +10,7 @@
 
 <form method='post' action='<?=start_page('tools')?>'>
 
-<input type='text' size='130' name='qr-string' placeholder="Enter address to convert to QR code here..." value='<?=trim($_POST['qr-string'])?>' />
+<input type='text' name='qr-string' placeholder="Enter address to convert to QR code here..." value='<?=trim($_POST['qr-string'])?>' style='width: 100%;' />
 
 <br /><br /><input type='submit' value='Generate QR Code Address' />
 
@@ -19,14 +19,14 @@
 <?php
 
 if ( !function_exists("imagepng") ) {
-echo "<p style='color: red;'>GD for PHP (version ID ".PHP_VERSION_ID.") is not installed yet. GD is required to run this application.</p>";
+echo "<p class='red'>GD for PHP (version ID ".PHP_VERSION_ID.") is not installed yet. GD is required to run this application.</p>";
 } 
 elseif ( trim($_POST['qr-string']) != '' ) {
 ?>
 
 <p style='font-weight: bold;'>Generated QR Code Address:</p>
 <p><image src='ui-templates/media/images/qr-code-image.php?data=<?=urlencode(trim($_POST['qr-string']))?>' border='0' /></p>
-<p style='color: red; font-weight: bold;'>--ALWAYS-- VERIFY YOUR ADDRESS COPIED OVER CORRECTLY</p>
+<p class='red' style='font-weight: bold;'>--ALWAYS-- VERIFY YOUR ADDRESS COPIED OVER CORRECTLY</p>
 
 <?php
 }

@@ -769,7 +769,7 @@ $market_pairing = $all_markets[$selected_market];
 
 <td class='data border_lb'><span><?php echo $sort_order; ?></span></td>
 
-<td class='data border_lb' align='right' style='position: relative; padding-right: 32px;'>
+<td class='data border_lb' align='right' style='position: relative; padding-right: 32px; white-space: nowrap;'>
  
  <?php
  $mkcap_render_data = trim($coins_list[$trade_symbol]['marketcap_website_slug']);
@@ -787,21 +787,21 @@ $market_pairing = $all_markets[$selected_market];
  	
  	
  		?>
- <img id='<?=$mkcap_render_data?>' src='ui-templates/media/images/<?=$info_icon?>' border=0' style='position: absolute; top: 4px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <a title='' href='https://<?=$asset_pagebase?><?=$mkcap_render_data?>/' target='_blank' style='color: blue;'><?php echo $coin_name; ?></a>
+ <img id='<?=$mkcap_render_data?>' src='ui-templates/media/images/<?=$info_icon?>' border=0' style='position: absolute; top: 4px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <a title='' href='https://<?=$asset_pagebase?><?=$mkcap_render_data?>/' target='_blank' class='blue'><?php echo $coin_name; ?></a>
  <script>
 
 		<?php
 		if ( !marketcap_data($trade_symbol)['rank'] ) {
 		?>
 
-	var cmc_content = '<h3 style="color: #e5f1ff;"><?=ucfirst($marketcap_site)?> API may be offline / under heavy load, <br />marketcap range not set high enough (current range is top <?=$marketcap_ranks_max?> marketcaps), <br />or API timeout set too low (current timeout is <?=$api_timeout?> seconds). <br />Configuration adjustments can be made in config.php.</h3>';
+	var cmc_content = '<h5 style="color: #e5f1ff;"><?=ucfirst($marketcap_site)?> API may be offline / under heavy load, <br />marketcap range not set high enough (current range is top <?=$marketcap_ranks_max?> marketcaps), <br />or API timeout set too low (current timeout is <?=$api_timeout?> seconds). <br />Configuration adjustments can be made in config.php.</h5>';
 	
 			<?php
 			if ( sizeof($alert_percent) > 1 ) {
 			?>
 			
 			setTimeout(function() {
-    		play_alert("<?=strtolower($trade_symbol)?>_row", "visual", "blue"); // Assets with marketcap data not set or functioning properly
+    		play_alert("<?=strtolower($trade_symbol)?>_row", "visual", "no_cmc"); // Assets with marketcap data not set or functioning properly
 			}, 1000);
 			
 			<?php
@@ -811,34 +811,34 @@ $market_pairing = $all_markets[$selected_market];
         else {
         ?> 
     
-        var cmc_content = '<h3 class="orange" style="position: relative; top: -3px;"><?=ucfirst($marketcap_site)?>.com Summary For <?=$coin_name?> (<?=$trade_symbol?>):</h3>'
-        +'<p><span class="orange">Average Global Market Price:</span> $<?=number_format(marketcap_data($trade_symbol)['price'],8,".",",")?></p>'
-        +'<p><span class="orange">Marketcap Ranking:</span> #<?=marketcap_data($trade_symbol)['rank']?></p>'
-        +'<p><span class="orange">Marketcap (USD):</span> $<?=number_format(marketcap_data($trade_symbol)['market_cap'],0,".",",")?></p>'
-        +'<p><span class="orange">24 Hour Global Volume (USD):</span> $<?=number_format(marketcap_data($trade_symbol)['volume_24h'],0,".",",")?></p>'
-        +'<p><span class="orange">1 Hour Change:</span> <?=( stristr(marketcap_data($trade_symbol)['percent_change_1h'], '-') != false ? '<span class="red">'.marketcap_data($trade_symbol)['percent_change_1h'].'%</span>' : '<span class="green">'.marketcap_data($trade_symbol)['percent_change_1h'].'%</span>' )?></p>'
-        +'<p><span class="orange">24 Hour Change:</span> <?=( stristr(marketcap_data($trade_symbol)['percent_change_24h'], '-') != false ? '<span class="red">'.marketcap_data($trade_symbol)['percent_change_24h'].'%</span>' : '<span class="green">'.marketcap_data($trade_symbol)['percent_change_24h'].'%</span>' )?></p>'
-        +'<p><span class="orange">7 Day Change:</span> <?=( stristr(marketcap_data($trade_symbol)['percent_change_7d'], '-') != false ? '<span class="red">'.marketcap_data($trade_symbol)['percent_change_7d'].'%</span>' : '<span class="green">'.marketcap_data($trade_symbol)['percent_change_7d'].'%</span>' )?></p>'
-        +'<p><span class="orange">Available Supply:</span> <?=number_format(marketcap_data($trade_symbol)['circulating_supply'], 0, '.', ',')?></p>'
+        var cmc_content = '<h4 class="yellow" style="position: relative;"><?=ucfirst($marketcap_site)?>.com Summary For <?=$coin_name?> (<?=$trade_symbol?>):</h4>'
+        +'<p><span class="yellow">Average Global Market Price:</span> $<?=number_format(marketcap_data($trade_symbol)['price'],8,".",",")?></p>'
+        +'<p><span class="yellow">Marketcap Ranking:</span> #<?=marketcap_data($trade_symbol)['rank']?></p>'
+        +'<p><span class="yellow">Marketcap (USD):</span> $<?=number_format(marketcap_data($trade_symbol)['market_cap'],0,".",",")?></p>'
+        +'<p><span class="yellow">24 Hour Global Volume (USD):</span> $<?=number_format(marketcap_data($trade_symbol)['volume_24h'],0,".",",")?></p>'
+        +'<p><span class="yellow">1 Hour Change:</span> <?=( stristr(marketcap_data($trade_symbol)['percent_change_1h'], '-') != false ? '<span class="red">'.marketcap_data($trade_symbol)['percent_change_1h'].'%</span>' : '<span class="green_bright">'.marketcap_data($trade_symbol)['percent_change_1h'].'%</span>' )?></p>'
+        +'<p><span class="yellow">24 Hour Change:</span> <?=( stristr(marketcap_data($trade_symbol)['percent_change_24h'], '-') != false ? '<span class="red">'.marketcap_data($trade_symbol)['percent_change_24h'].'%</span>' : '<span class="green_bright">'.marketcap_data($trade_symbol)['percent_change_24h'].'%</span>' )?></p>'
+        +'<p><span class="yellow">7 Day Change:</span> <?=( stristr(marketcap_data($trade_symbol)['percent_change_7d'], '-') != false ? '<span class="red">'.marketcap_data($trade_symbol)['percent_change_7d'].'%</span>' : '<span class="green_bright">'.marketcap_data($trade_symbol)['percent_change_7d'].'%</span>' )?></p>'
+        +'<p><span class="yellow">Available Supply:</span> <?=number_format(marketcap_data($trade_symbol)['circulating_supply'], 0, '.', ',')?></p>'
         <?php
             if ( marketcap_data($trade_symbol)['total_supply'] > 0 ) {
             ?>
-        +'<p><span class="orange">Total Supply:</span> <?=number_format(marketcap_data($trade_symbol)['total_supply'], 0, '.', ',')?></p>'
+        +'<p><span class="yellow">Total Supply:</span> <?=number_format(marketcap_data($trade_symbol)['total_supply'], 0, '.', ',')?></p>'
         <?php
             }
             if ( marketcap_data($trade_symbol)['max_supply'] > 0 ) {
             ?>
-        +'<p><span class="orange">Maximum Supply:</span> <?=number_format(marketcap_data($trade_symbol)['max_supply'], 0, '.', ',')?></p>'
+        +'<p><span class="yellow">Maximum Supply:</span> <?=number_format(marketcap_data($trade_symbol)['max_supply'], 0, '.', ',')?></p>'
         <?php
             }
             if ( marketcap_data($trade_symbol)['last_updated'] != '' ) {
             ?>
-        +'<p><span class="orange">Timestamp (UTC):</span> <?=gmdate("Y-M-d\ \\a\\t g:ia", marketcap_data($trade_symbol)['last_updated'])?></p>'
+        +'<p><span class="yellow">Timestamp (UTC):</span> <?=gmdate("Y-M-d\ \\a\\t g:ia", marketcap_data($trade_symbol)['last_updated'])?></p>'
     
         <?php
             }
             ?>
-        +'<p><span class="orange">Cache Time:</span> <?=$marketcap_cache?> minute(s)</p>'
+        +'<p><span class="yellow">Cache Time:</span> <?=$marketcap_cache?> minute(s)</p>'
     
         +'<p>*Current config setting only retrieves the top <?=$marketcap_ranks_max?> rankings.</p>';
     
@@ -922,7 +922,7 @@ $market_pairing = $all_markets[$selected_market];
  $('#<?=$rand_id?>').balloon({
   html: true,
   position: "right",
-  contents: '<h3 style="color: #e5f1ff;">No <?=ucfirst($marketcap_site)?>.com data for <?=$coin_name?> (<?=$trade_symbol?>) has been configured yet.</h3>'
+  contents: '<h5 style="color: #e5f1ff;">No <?=ucfirst($marketcap_site)?>.com data for <?=$coin_name?> (<?=$trade_symbol?>) has been configured yet.</h5>'
 });
 
 		<?php
@@ -930,7 +930,7 @@ $market_pairing = $all_markets[$selected_market];
 		?>
 		
 		setTimeout(function() {
-    	play_alert("<?=strtolower($trade_symbol)?>_row", "visual", "blue"); // Assets with marketcap data not set or functioning properly
+    	play_alert("<?=strtolower($trade_symbol)?>_row", "visual", "no_cmc"); // Assets with marketcap data not set or functioning properly
 		}, 1000);
 		
 		<?php
@@ -1054,13 +1054,13 @@ echo ' <span><span class="data">' . number_format($coin_value_total_raw, ( $coin
 
 ?></td>
 
-<td class='data border_lrb'><?php
+<td class='data border_lrb' style='white-space: nowrap;'><?php
 
 echo '$' . number_format($coin_usd_worth_raw, 2, '.', ',');
 
   if ( floatval($purchase_price) >= 0.00000001 ) {
   $parsed_gain_loss = preg_replace("/-/", "-$", number_format( $gain_loss, 2, '.', ',' ) );
-  echo '<div class="'.( $gain_loss >= 0 ? 'gain' : 'loss' ).'"><span>('.( $gain_loss >= 0 ? '+$' : '' ) . $parsed_gain_loss . ')</span></div>';
+  echo ' <span class="'.( $gain_loss >= 0 ? 'gain' : 'loss' ).'">('.( $gain_loss >= 0 ? '+$' : '' ) . $parsed_gain_loss . ')</span>';
   }
 
 ?></td>

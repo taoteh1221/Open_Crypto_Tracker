@@ -7,7 +7,7 @@
 ?>
 
     
-			<h3 style='display: inline;'>Portfolio</h3> (<?=$last_trade_cache?> minute cache)
+			<h4 style='display: inline;'>Portfolio</h4> (<?=$last_trade_cache?> minute cache)
 			<?php
 			if ( sizeof($alert_percent) > 1 ) {
 				
@@ -19,7 +19,7 @@
 				}
 				
 			?>
-			  &nbsp; &nbsp; <span style='color: <?=( stristr($alert_percent[1], '-') == false ? 'green' : '#ea6b1c' )?>; font-weight: bold;'><?=$visual_audio_alerts?> alerts (<?=ucfirst($marketcap_site)?> / <?=$alert_percent[1]?>% / <?=$alert_percent[2]?>)</span>
+			  &nbsp; &nbsp; <span class='<?=( stristr($alert_percent[1], '-') == false ? 'green' : 'orange' )?>' style='font-weight: bold;'><?=$visual_audio_alerts?> alerts (<?=ucfirst($marketcap_site)?> / <?=$alert_percent[1]?>% / <?=$alert_percent[2]?>)</span>
 			<?php
 			}
 			?>  &nbsp; &nbsp; &nbsp; <a href='javascript:location.reload(true);' style='font-weight: bold;' title='Refreshing data too frequently may cause API request refusals, especially if request caching settings are too low. It is recommended to use this refresh feature sparingly with lower or disabled cache settings. The current real-time exchange data re-cache setting in config.php is set to <?=$last_trade_cache?> minute(s). A setting of 1 or higher assists in avoiding IP blacklisting by exchanges.'>Refresh</a>
@@ -30,7 +30,7 @@
 				<option value='600' <?=( $_COOKIE['coin_reload'] == '600' ? 'selected' : '' )?>> Every 10 Minutes </option>
 				<option value='900' <?=( $_COOKIE['coin_reload'] == '900' ? 'selected' : '' )?>> Every 15 Minutes </option>
 				<option value='1800' <?=( $_COOKIE['coin_reload'] == '1800' ? 'selected' : '' )?>> Every 30 Minutes </option>
-			</select> &nbsp;<span id='reload_countdown' style='color: red;'></span>
+			</select> &nbsp;<span id='reload_countdown' class='red'></span>
 			
 			<p>                        
                             
@@ -44,16 +44,16 @@ if ( $_POST['submit_check'] == 1 || $_COOKIE['coin_amounts'] ) {
  <thead>
     <tr>
 <th class='border_lt'>#</th>
-<th class='border_lt' align='right' style='color: blue;'>Asset</th>
+<th class='border_lt blue' align='right'>Asset</th>
 <th class='border_t'>USD Value</th>
-<th class='border_lt' align='right' style='color: blue;'>Holdings</th>
+<th class='border_lt blue' align='right'>Holdings</th>
 <th class='border_t'>Symbol</th>
-<th class='border_lt' style='color: blue;'>Exchange</th>
+<th class='border_lt blue'>Exchange</th>
 <th class='border_t'>USD Volume</th>
 <th class='border_t' align='right'>Trade Value</th>
-<th class='border_t' style='color: blue;'>Market</th>
-<th class='border_lt' style='color: blue;'>Holdings Value</th>
-<th class='border_lrt' style='color: blue;'>USD Subtotal</th>
+<th class='border_t blue'>Market</th>
+<th class='border_lt blue'>Holdings Value</th>
+<th class='border_lrt blue'>USD Subtotal</th>
     </tr>
   </thead>
  <tbody>
@@ -215,7 +215,7 @@ if ( $_POST['submit_check'] == 1 || $_COOKIE['coin_amounts'] ) {
 $total_btc_worth = bitcoin_total();
 $total_usd_worth = ($total_btc_worth * get_btc_usd($btc_exchange)['last_trade']);
 
-echo '<p class="show_coin_values bold_1">Total Bitcoin Value: ' . number_format($total_btc_worth, 8, '.', ',') . '<br />';
+echo '<p class="show_coin_values bold_1 green">Total Bitcoin Value: ' . number_format($total_btc_worth, 8, '.', ',') . '<br />';
 
 $coins_list_numbered = array_values($coins_list['BTC']['market_pairing']['btc']);
 
@@ -233,7 +233,7 @@ $coins_list_numbered = array_values($coins_list['BTC']['market_pairing']['btc'])
 	if ( $purchase_price_added == 1 ) {
 	$gain_loss_worth = gain_loss_total();
 	$parsed_gain_loss_worth = preg_replace("/-/", "-$", number_format( $gain_loss_worth, 2, '.', ',' ) );
-	echo '<br /> <span style="color: ' . ( $gain_loss_worth >= 0 ? 'green;">Total USD Gains: +$' : 'red;">Total USD Losses: ' ) . $parsed_gain_loss_worth . '</span>';
+	echo '<br /> <span class="' . ( $gain_loss_worth >= 0 ? 'green">Total USD Gains: +$' : 'red">Total USD Losses: ' ) . $parsed_gain_loss_worth . '</span>';
 	}
 
 echo '</p>';
@@ -255,7 +255,7 @@ else {
 <div align='center' style='min-height: 100px;'>
 
 	<p><img src='ui-templates/media/images/favicon.png' border='0' /></p>
-	<p style='font-weight: bold; color: red; position: relative; margin: 15px;'>No portfolio assets added yet (add them on the Update Assets page).</p>
+	<p class='red' style='font-weight: bold; position: relative; margin: 15px;'>No portfolio assets added yet (add them on the Update Assets page).</p>
 </div>
 <?php
 }

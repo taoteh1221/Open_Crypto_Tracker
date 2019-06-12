@@ -5,7 +5,11 @@
 
 
 ?>
-			<h3 style='display: inline;'>Settings</h3>
+
+<div class='force_1200px_wrapper'>
+
+			
+			<h4 style='display: inline;'>Settings</h4>
 			<?php
 			if ( $price_alert_type_text != '' ) {
           ?>
@@ -216,7 +220,7 @@
                         else {
 								document.getElementById("set_use_notes").checked = false;
                         }
-                        ' <?php echo ( $_COOKIE['coin_amounts'] && $_POST['submit_check'] != 1 || $_POST['use_cookies'] == 1 && $_POST['submit_check'] == 1 ? ' checked="checked"' : ''); ?> /> <span style='color: red;'>(un-checking this box <i>deletes ALL previously-saved cookie data <u>permanently</u></i>)</span>
+                        ' <?php echo ( $_COOKIE['coin_amounts'] && $_POST['submit_check'] != 1 || $_POST['use_cookies'] == 1 && $_POST['submit_check'] == 1 ? ' checked="checked"' : ''); ?> /> <span class='red'>(un-checking this box <i>deletes ALL previously-saved cookie data <u>permanently</u></i>)</span>
                         </p>
 			
 			
@@ -262,4 +266,10 @@
                         
                         
                         
+		    
+		    
+</div> <!-- force_1200px_wrapper END -->
+
+
+
                         
