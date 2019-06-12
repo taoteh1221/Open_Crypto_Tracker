@@ -168,7 +168,7 @@
 	       
 	       
 				    
-			<b><?=$coin_array_value['coin_name']?> (<?=strtoupper($coin_array_key)?>)</b> /  
+			<b class='blue'><?=$coin_array_value['coin_name']?> (<?=strtoupper($coin_array_key)?>)</b> /  
 	       
 				    <select onchange='
 				    
@@ -240,10 +240,10 @@
 				    </span>, &nbsp; 
 				    
 			
-	     Amount: <input type='text' size='12' id='<?=$field_var_amount?>' name='<?=$field_var_amount?>' value='<?=$coin_amount_value?>' /> <?=strtoupper($coin_array_key)?>, &nbsp; 
+	     <b>Amount:</b> <input type='text' size='12' id='<?=$field_var_amount?>' name='<?=$field_var_amount?>' value='<?=$coin_amount_value?>' /> <?=strtoupper($coin_array_key)?>, &nbsp; 
 			    
 			
-	     Paid (per-token): $<input type='text' size='6' id='<?=$field_var_paid?>' name='<?=$field_var_paid?>' value='<?=$coin_paid_value?>' />
+	     <b>Paid (per-token):</b> $<input type='text' size='6' id='<?=$field_var_paid?>' name='<?=$field_var_paid?>' value='<?=$coin_paid_value?>' />
 	     
 				
 	    </div>
