@@ -27,7 +27,7 @@ Just upload to your PHP-based web server (with an FTP client like FileZilla) and
 
 Setting up a cron job for exchange price alerts by email / mobile phone text / amazon alexa notifications (get notifications sent to you, even when you are offline): 
 
-If you want to take advantage of cron job based features like exchange price alerts, daily or weekly error log emails / etc, then cron.php in the root directory must be setup as a cron job on the web server. Consult your web server host's documentation or help desk, for your host's particular method of setting up a cron job. Note that you should have it run every X minutes 24/7, based on how often you want alerts / any other cron based features to run. Every 15 or 20 minutes is a good default time interval to start with. 
+If you want to take advantage of cron job based features like exchange price alerts, daily or weekly error log emails / etc, then cron.php in the root directory must be setup as a cron job on the web server. Consult your web server host's documentation or help desk, for your host's particular method of setting up a cron job. Note that you should have it run every X minutes 24/7, based on how often you want alerts / any other cron based features to run. Every 15 minutes is a good default time interval. 
 
 Here is an example command for reference below, to setup as a cron job. Replace system paths in the example with the correct ones for your server (TIP - A very common path to PHP on a server is /usr/bin/php):
 
@@ -131,7 +131,7 @@ $mail_error_logs = 'daily'; // 'no', 'daily', 'weekly' Email to / from !MUST BE 
 $charts_page = 'on'; // 'on' / 'off'
 
 // Determines the presets for the chart time period buttons (1day,1week,1month,3month,6month,1year,2year,4year), only used if $charts_page above is on
-$chart_update_freq = 4; // How many times per hour your cron job runs (see README.txt for cron job setup information) 
+$charts_update_freq = 4; // How many times per hour your cron job runs (see README.txt for cron job setup information) 
 
 
 // IF SMTP EMAIL SENDING --NOT-- USED, FROM email should be REAL address on the website domain, or risk having email blacklisted / sent to junk folder
@@ -201,7 +201,7 @@ $proxy_alerts_freq = 1; // Re-allow same proxy alert(s) after X hours (per ip/po
 
 $exchange_price_alerts_percent = 8; // Price percent change to send alerts for (WITHOUT percent sign: 15 = 15%). Sends alerts when percent change reached (up or down)
 
-$exchange_price_alerts_freq = 10; // Re-allow same exchange price alert(s) after X minutes (per asset, set higher if issues with blacklisting...can be 0)
+$exchange_price_alerts_freq = 9; // Re-allow same exchange price alert(s) after X minutes (per asset, set higher if issues with blacklisting...can be 0)
 
 // Minimum 24 hour volume filter. Only allows sending exchange price alerts if minimum 24 hour volume reached
 // CAN BE 0 TO DISABLE MINIMUM VOLUME FILTERING, NO DECIMALS OR SEPARATORS, NUMBERS ONLY, WITHOUT dollar sign: 250 = $250 , 4500 = $4,500 , etc

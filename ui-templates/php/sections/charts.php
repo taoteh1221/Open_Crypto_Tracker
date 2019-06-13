@@ -30,7 +30,7 @@
 		
 	<?php
 	
-	$zebra_stripe = 'f8f6f6';
+	$zebra_stripe = 'e8e8e8';
 	foreach ( $exchange_price_alerts as $key => $value ) {
 			// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
 			$show_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, strpos($key, "-") ) );
@@ -70,11 +70,11 @@
 				
 	<?php
 	    
-		 	if ( $zebra_stripe == 'f8f6f6' ) {
+		 	if ( $zebra_stripe == 'e8e8e8' ) {
 		 	$zebra_stripe = 'ffffff';
 		 	}
 		 	else {
-		 	$zebra_stripe = 'f8f6f6';
+		 	$zebra_stripe = 'e8e8e8';
 		 	}
 		 	
 	}

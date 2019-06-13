@@ -134,9 +134,9 @@ return $smtp->Send();
 
 function chart_range($range) {
 
-global $chart_update_freq;
+global $charts_update_freq;
 
-$updates_daily = $chart_update_freq * 24;
+$updates_daily = $charts_update_freq * 24;
 
 return ($updates_daily * $range);
 

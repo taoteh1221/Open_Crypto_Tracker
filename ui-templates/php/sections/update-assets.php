@@ -39,7 +39,7 @@
 	if (is_array($coins_list) || is_object($coins_list)) {
 	    
 	    
-	    $zebra_stripe = 'f8f6f6';
+	    $zebra_stripe = 'e8e8e8';
 	    foreach ( $coins_list as $coin_array_key => $coin_array_value ) {
 		
 	    
@@ -252,11 +252,11 @@
 	    
 	    <?php
 	    
-		 	if ( $zebra_stripe == 'f8f6f6' ) {
+		 	if ( $zebra_stripe == 'e8e8e8' ) {
 		 	$zebra_stripe = 'ffffff';
 		 	}
 		 	else {
-		 	$zebra_stripe = 'f8f6f6';
+		 	$zebra_stripe = 'e8e8e8';
 		 	}
 	    
 	    $coin_symbol = NULL;
