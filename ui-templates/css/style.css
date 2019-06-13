@@ -222,8 +222,11 @@ margin: 25px;
 
 
 .long_list {
-border: 1px solid #b2b2b2;
 padding: 15px;
+margin: 0px;
+}
+
+.long_list_end {
 margin-bottom: 10px;
 }
 

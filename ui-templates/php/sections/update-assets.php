@@ -39,6 +39,7 @@
 	if (is_array($coins_list) || is_object($coins_list)) {
 	    
 	    
+	    $zebra_stripe = 'f8f6f6';
 	    foreach ( $coins_list as $coin_array_key => $coin_array_value ) {
 		
 	    
@@ -162,9 +163,10 @@
 	        
 	    $selected_pairing = ( $coin_pairing_id ? $coin_pairing_id : 'btc' );
 	    
+	    
 	    ?>
 	    
-	    <div class='long_list'>
+	    <div class='long_list' style='background-color: #<?=$zebra_stripe?>;'>
 	       
 	       
 				    
@@ -250,6 +252,13 @@
 	    
 	    <?php
 	    
+		 	if ( $zebra_stripe == 'f8f6f6' ) {
+		 	$zebra_stripe = 'ffffff';
+		 	}
+		 	else {
+		 	$zebra_stripe = 'f8f6f6';
+		 	}
+	    
 	    $coin_symbol = NULL;
 	    $coin_amount_value = NULL;
 	    
@@ -258,6 +267,8 @@
 	    
 	}
 	?>
+	<div class='long_list_end'> &nbsp; </div>
+	
 	
 	<input type='hidden' id='submit_check' name='submit_check' value='1' />
 	

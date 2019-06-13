@@ -29,6 +29,8 @@
 		<form id='activate_charts' name='activate_charts'>
 		
 	<?php
+	
+	$zebra_stripe = 'f8f6f6';
 	foreach ( $exchange_price_alerts as $key => $value ) {
 			// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
 			$show_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, strpos($key, "-") ) );
@@ -42,7 +44,7 @@
 			
 	?>
 	
-		<div class='long_list'>
+		<div class='long_list' style='background-color: #<?=$zebra_stripe?>;'>
 		
 			<b><?=$show_asset?> / <?=strtoupper($show_asset_params[1])?> @ <?=ucfirst($show_asset_params[0])?>:</b> &nbsp; &nbsp; 
 			
@@ -67,8 +69,18 @@
 			</div>
 				
 	<?php
+	    
+		 	if ( $zebra_stripe == 'f8f6f6' ) {
+		 	$zebra_stripe = 'ffffff';
+		 	}
+		 	else {
+		 	$zebra_stripe = 'f8f6f6';
+		 	}
+		 	
 	}
+	    
 	?>
+	<div class='long_list_end'> &nbsp; </div>
 	
 		</form>
 	
