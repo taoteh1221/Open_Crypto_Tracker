@@ -223,7 +223,8 @@ $coins_list_numbered = array_values($coins_list['BTC']['market_pairing']['btc'])
 	$loop = $loop + 1;
 
 		if ( $value == $coins_list_numbered[$btc_market] ) {
-		echo 'Total USD Value: $' . number_format($total_usd_worth, 2, '.', ',') . ' (1 Bitcoin is currently worth $' .number_format( get_btc_usd($btc_exchange)['last_trade'], 2, '.', ','). ' at '.ucfirst($key).')';
+		$show_exchange = $key;
+		echo 'Total USD Value: $' . number_format($total_usd_worth, 2, '.', ',');
 		}
 
 	}
@@ -233,8 +234,10 @@ $coins_list_numbered = array_values($coins_list['BTC']['market_pairing']['btc'])
 	if ( $purchase_price_added == 1 ) {
 	$gain_loss_worth = gain_loss_total();
 	$parsed_gain_loss_worth = preg_replace("/-/", "-$", number_format( $gain_loss_worth, 2, '.', ',' ) );
-	echo '<br /> <span class="' . ( $gain_loss_worth >= 0 ? 'green">Total USD Gains: +$' : 'red">Total USD Losses: ' ) . $parsed_gain_loss_worth . '</span>';
+	echo '<br /><span class="' . ( $gain_loss_worth >= 0 ? 'green">Total USD Gains: +$' : 'red">Total USD Losses: ' ) . $parsed_gain_loss_worth . '</span>';
 	}
+	
+	echo '<br /><span style="color: black;">($' .number_format( get_btc_usd($btc_exchange)['last_trade'], 2, '.', ','). ' per Bitcoin @ '.ucfirst($show_exchange).')</span>';
 
 echo '</p>';
 
