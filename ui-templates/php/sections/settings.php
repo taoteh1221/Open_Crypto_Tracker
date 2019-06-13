@@ -60,7 +60,7 @@
 			if (is_array($coins_list) || is_object($coins_list)) {
 			    
 			    ?>
-			    <p class='settings_sections'>Default Bitcoin Market: <select onchange='
+			    <p class='settings_sections'><b>Default Bitcoin Market:</b> <select onchange='
 			    $("#btc_market").val(this.value);
 			    '>
 				<?php
@@ -80,7 +80,7 @@
 			
 			?>
 			
-			    <p class='settings_sections'>Sort Table Data By Column: <select id='sorted_by_col' onchange='
+			    <p class='settings_sections'><b>Sort Table Data By Column:</b> <select id='sorted_by_col' onchange='
 			    $("#sort_by").val( this.value + "|" + $("#sorted_by_asc_desc").val() );
 			    '>
 				<option value='0' <?=( $sorted_by_col == 0 ? ' selected ' : '' )?>> # </option>
@@ -105,7 +105,7 @@
 			    
 			<p class='settings_sections'>
 				
-				Visual or Audio Alerts For Price Changes:
+				<b>Visual or Audio Alerts For Price Changes:</b>
 			     
 			    <select name='alert_percent' id='alert_percent' onchange='
 			    if ( this.value == "yes" ) {
@@ -213,7 +213,7 @@
 
 			
                         <p class='settings_sections'>
-                        Use cookie data to save values between sessions <input type='checkbox' name='set_use_cookies' id='set_use_cookies' value='1' onchange='
+                        <b>Use cookie data to save values between sessions:</b> <input type='checkbox' name='set_use_cookies' id='set_use_cookies' value='1' onchange='
                         if ( this.checked == true ) {
 								document.getElementById("use_cookies").value = "1";
                         }
@@ -225,7 +225,7 @@
 			
 			
                         <p class='settings_sections'>
-                        Enable trading notes (requires cookie data) <input type='checkbox' name='set_use_notes' id='set_use_notes' value='1' onchange='
+                        <b>Enable trading notes (requires cookie data):</b> <input type='checkbox' name='set_use_notes' id='set_use_notes' value='1' onchange='
                         if ( this.checked == true ) {
 								document.getElementById("set_use_cookies").checked = true;
 								document.getElementById("use_cookies").value = "1";
