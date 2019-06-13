@@ -518,10 +518,6 @@ function api_data($mode, $request, $ttl, $api_server=null, $post_encoding=3, $te
 
 global $user_agent, $api_timeout, $api_strict_ssl, $proxy_login, $proxy_list, $runtime_mode;
 
-if ( preg_match("/etherscan/i", $request) ) {
-$user_agent = NULL;
-}
-
 $cookie_jar = tempnam('/tmp','cookie');
 	
 // To cache duplicate requests based on a data hash, during runtime update session (AND persist cache to flat files)
