@@ -194,9 +194,8 @@
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Newsletters</strong> </legend>
 	    <ul>
 	        
-	         
 	        
-	        <li class='links_list'><a href='https://bitcoinops.org/en/newsletters/' target='_blank'>Bitcoin Optech</a></li>
+	        <li class='links_list'><a href='https://bitcoinops.org/en/newsletters/' target='_blank'>Bitcoin Optech Newsletter</a></li>
 	        
 	        <li class='links_list'><a href='https://bncdaily.com/' target='_blank'>Brave New Coin Daily</a></li>
 	        
@@ -216,11 +215,11 @@
 	        
 	        <li class='links_list'><a href='https://unbankd.co/' target='_blank'>Unbankd</a></li>
 	        
+	        <li class='links_list'><a href='https://theblockcrypto.substack.com/' target='_blank'>The Block Newsletter</a></li>
+	        
 	        <li class='links_list'><a href='https://unchainedpodcast.com/category/newsletters/' target='_blank'>Unchained Newsletter</a></li>
 	        
 	        <li class='links_list'><a href='https://weekinethereumnews.com/' target='_blank'>Week In Ethereum</a></li>
-	        
-	        <li class='links_list'><a href='https://notes.ethereum.org/c/Sk8Zs--CQ' target='_blank'>What’s new in ETH 2.0</a></li>
 	        
 	        
 	        
@@ -342,13 +341,19 @@
 	    <ul>
 	        
 	        
+	        <li class='links_list'><a href='https://bitcoinops.org/' target='_blank'>Bitcoin Optech</a></li>
+	        
 	        <li class='links_list'><a href='https://www.blockchain.com/api' target='_blank'>Blockchain.com APIs</a></li>
 	        
 	        <li class='links_list'><a href='https://etherscan.io/apis/' target='_blank'>Etherscan.io APIs</a></li>
 	        
+	        <li class='links_list'><a href='https://ethresear.ch/' target='_blank'>Ethereum Research</a></li>
+	        
+	        <li class='links_list'><a href='https://programmingbitcoin.com/' target='_blank'>Programming Bitcoin</a></li>
+	        
 	        <li class='links_list'><a href='https://thegraph.com/' target='_blank'>The Graph</a> (multiple GraphQL APIs)</li>
 	        
-	        <li class='links_list'><a href='https://ethresear.ch/' target='_blank'>Ethereum Research</a></li>
+	        <li class='links_list'><a href='https://notes.ethereum.org/c/Sk8Zs--CQ' target='_blank'>What’s new in ETH 2.0</a></li>
 	        
 	        
 	        

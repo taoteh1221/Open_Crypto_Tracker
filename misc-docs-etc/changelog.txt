@@ -1276,6 +1276,7 @@ app doing the data requests, not a malicious bot)
 -UX revisions
 -SEO for project page / README.txt on Github
 -Meta robots html tag for app installs to not be indexed by search engines
+-Updated Resources page
 -------------------------------------------------------------------
 
 
