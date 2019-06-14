@@ -247,7 +247,7 @@ $coins_list_numbered = array_values($coins_list['BTC']['market_pairing']['btc'])
 	echo '<br />Stats: ' . number_format($bitcoin_dominance, 2, '.', ',') . '% Bitcoin / ' . number_format($altcoin_dominance, 2, '.', ',') .'% Altcoin(s)';
 	}
 
-echo '<br /><span style="color: black;">(1 BTC is currently worth $' .number_format( get_btc_usd($btc_exchange)['last_trade'], 2, '.', ','). ' @ '.ucfirst($show_exchange).')</span>';
+echo '<br /><span style="color: black;">(1 BTC is $' .number_format( get_btc_usd($btc_exchange)['last_trade'], 2, '.', ','). ' @ '.ucfirst($show_exchange).')</span>';
 	
 echo '</p>';
 
