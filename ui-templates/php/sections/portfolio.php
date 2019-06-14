@@ -221,7 +221,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance;
 
 echo '<p class="show_coin_values bold_1 green">';
 
-echo 'Bitcoin Value: ' . number_format($total_btc_worth, 8, '.', ',');
+echo 'BTC Value: Ƀ ' . number_format($total_btc_worth, 8, '.', ',');
 	
 $coins_list_numbered = array_values($coins_list['BTC']['market_pairing']['btc']);
 
@@ -240,14 +240,14 @@ $coins_list_numbered = array_values($coins_list['BTC']['market_pairing']['btc'])
 	if ( $purchase_price_added == 1 ) {
 	$gain_loss_worth = gain_loss_total();
 	$parsed_gain_loss_worth = preg_replace("/-/", "-$", number_format( $gain_loss_worth, 2, '.', ',' ) );
-	echo '<br /><span class="' . ( $gain_loss_worth >= 0 ? 'green">USD Gains: +$' : 'red">USD Losses: ' ) . $parsed_gain_loss_worth . '</span>';
+	echo '<br /><span class="' . ( $gain_loss_worth >= 0 ? 'green">USD Gain: +$' : 'red">USD Loss: ' ) . $parsed_gain_loss_worth . '</span>';
 	}
 	
 	if ( $bitcoin_dominance >= 0 && $altcoin_dominance >= 0 ) {
-	echo '<br />Diversification: ' . number_format($bitcoin_dominance, 2, '.', ',') . '% Bitcoin / ' . number_format($altcoin_dominance, 2, '.', ',') .'% Altcoin(s)';
+	echo '<br />Stats: ' . number_format($bitcoin_dominance, 2, '.', ',') . '% Bitcoin / ' . number_format($altcoin_dominance, 2, '.', ',') .'% Altcoin(s)';
 	}
 
-echo '<br /><span style="color: black;">(Bitcoin Price: $' .number_format( get_btc_usd($btc_exchange)['last_trade'], 2, '.', ','). ' @ '.ucfirst($show_exchange).')</span>';
+echo '<br /><span style="color: black;">(1 BTC is currently worth $' .number_format( get_btc_usd($btc_exchange)['last_trade'], 2, '.', ','). ' @ '.ucfirst($show_exchange).')</span>';
 	
 echo '</p>';
 
