@@ -49,7 +49,7 @@
 	
 		<div class='long_list' style='background-color: #<?=$zebra_stripe?>;'>
 		
-			<b><?=$show_asset?> / <?=strtoupper($show_asset_params[1])?> @ <?=ucfirst($show_asset_params[0])?>:</b> &nbsp; &nbsp; 
+			<b><?=$show_asset?> / <?=strtoupper($show_asset_params[1])?> @ <?=ucfirst($show_asset_params[0])?>:</b> &nbsp; &nbsp; &nbsp; 
 			
 				<?php
 				if ( $show_asset == 'BTC' ) {

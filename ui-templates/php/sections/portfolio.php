@@ -215,8 +215,14 @@ if ( $_POST['submit_check'] == 1 || $_COOKIE['coin_amounts'] ) {
 $total_btc_worth = bitcoin_total();
 $total_usd_worth = ($total_btc_worth * get_btc_usd($btc_exchange)['last_trade']);
 
-echo '<p class="show_coin_values bold_1 green">Total Bitcoin Value: ' . number_format($total_btc_worth, 8, '.', ',') . '<br />';
+$bitcoin_dominance = ( $_SESSION['bitcoin_dominance'] / $total_usd_worth ) * 100;
 
+$altcoin_dominance = 100 - $bitcoin_dominance;
+
+echo '<p class="show_coin_values bold_1 green">';
+
+echo 'Bitcoin Value: ' . number_format($total_btc_worth, 8, '.', ',');
+	
 $coins_list_numbered = array_values($coins_list['BTC']['market_pairing']['btc']);
 
 	foreach ( $coins_list['BTC']['market_pairing']['btc'] as $key => $value ) {
@@ -224,21 +230,25 @@ $coins_list_numbered = array_values($coins_list['BTC']['market_pairing']['btc'])
 
 		if ( $value == $coins_list_numbered[$btc_market] ) {
 		$show_exchange = $key;
-		echo 'Total USD Value: $' . number_format($total_usd_worth, 2, '.', ',');
 		}
 
 	}
 	$loop = NULL;
 
+	echo '<br />USD Value: $' . number_format($total_usd_worth, 2, '.', ',');
 
 	if ( $purchase_price_added == 1 ) {
 	$gain_loss_worth = gain_loss_total();
 	$parsed_gain_loss_worth = preg_replace("/-/", "-$", number_format( $gain_loss_worth, 2, '.', ',' ) );
-	echo '<br /><span class="' . ( $gain_loss_worth >= 0 ? 'green">Total USD Gains: +$' : 'red">Total USD Losses: ' ) . $parsed_gain_loss_worth . '</span>';
+	echo '<br /><span class="' . ( $gain_loss_worth >= 0 ? 'green">USD Gains: +$' : 'red">USD Losses: ' ) . $parsed_gain_loss_worth . '</span>';
 	}
 	
-	echo '<br /><span style="color: black;">($' .number_format( get_btc_usd($btc_exchange)['last_trade'], 2, '.', ','). ' per Bitcoin @ '.ucfirst($show_exchange).')</span>';
+	if ( $bitcoin_dominance >= 0 && $altcoin_dominance >= 0 ) {
+	echo '<br />Diversification: ' . number_format($bitcoin_dominance, 2, '.', ',') . '% Bitcoin / ' . number_format($altcoin_dominance, 2, '.', ',') .'% Altcoin(s)';
+	}
 
+echo '<br /><span style="color: black;">(Bitcoin Price: $' .number_format( get_btc_usd($btc_exchange)['last_trade'], 2, '.', ','). ' @ '.ucfirst($show_exchange).')</span>';
+	
 echo '</p>';
 
 // End outputting results
@@ -267,7 +277,6 @@ if ( $_COOKIE['notes_reminders'] ) {
 ?>
 
 <form action='<?=start_page($_GET['start_page'])?>' method='post'>
-<p>
 
 <b>Trading Notes / Reminders:</b><br />
 
@@ -276,7 +285,6 @@ if ( $_COOKIE['notes_reminders'] ) {
 <input type='hidden' name='update_notes' id='update_notes' value='1' />
 <input type='submit' value='Save Updated Notes' />
 
-</p>
 </form>
 
 <?php

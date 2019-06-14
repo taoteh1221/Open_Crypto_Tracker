@@ -14,68 +14,74 @@ require("config.php");
 
 ?><!DOCTYPE html>
 <html>
-    <!-- /*
+
+<!-- /*
  * Copyright 2014-2019 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
  */ -->
 
 <head>
-<meta charset="UTF-8">
-    <title>DFD Cryptocoin Values - Cryptocurrency Portfolio Tracker</title>
+
+	<title>DFD Cryptocoin Values - Cryptocurrency Portfolio Tracker</title>
+    
+	<meta charset="UTF-8">
     
     
-<link rel="stylesheet" href="ui-templates/css/bootstrap/bootstrap.min.css" type="text/css" />
+	<link rel="stylesheet" href="ui-templates/css/bootstrap/bootstrap.min.css" type="text/css" />
 
-<link rel="stylesheet" href="ui-templates/css/style.css" type="text/css" />
+	<link rel="stylesheet" href="ui-templates/css/style.css" type="text/css" />
 
-<link rel="stylesheet" href="ui-templates/css/modaal.css" type="text/css" />
-
-
-
-<script type="text/javascript" src="app-lib/js/jquery/jquery-3.4.1.min.js"></script>
-
-<script type="text/javascript" src="app-lib/js/jquery/bootstrap.min.js"></script>
-
-<script type="text/javascript" src="app-lib/js/jquery/jquery.tablesorter.min.js"></script>
-
-<script type="text/javascript" src="app-lib/js/jquery/jquery.tablesorter.widgets.min.js"></script>
-
-<script type="text/javascript" src="app-lib/js/jquery/jquery.balloon.min.js"></script>
-
-<script type="text/javascript" src="app-lib/js/functions.js"></script>
-
-<script type="text/javascript" src="app-lib/js/modaal.js"></script>
-
-<?php
-if ( $charts_page == 'on' ) {
-?>
-<script type="text/javascript" src="app-lib/js/zingchart.min.js"></script>
-<?php
-}
-?>
+	<link rel="stylesheet" href="ui-templates/css/modaal.css" type="text/css" />
 
 
-<script>
+	<style>
 
-var sorted_by_col = <?=$sorted_by_col?>;
-var sorted_by_asc_desc = <?=$sorted_by_asc_desc?>;
-var tablesort_theme = '<?=$tablesort_theme?>';
-
-var btc_usd_value = '<?=number_format( get_btc_usd('binance')['last_trade'], 2, '.', '' )?>';
-
-</script>
-
-<script type="text/javascript" src="app-lib/js/init.js"></script>
-
-<style>
-    
-.tablesorter-<?=$tablesort_theme?> .header, .tablesorter-default .tablesorter-header {
+	@import "ui-templates/css/tablesorter/theme.<?=$tablesort_theme?>.css";
+	
+	.tablesorter-<?=$tablesort_theme?> .header, .tablesorter-<?=$tablesort_theme?> .tablesorter-header {
     white-space: nowrap;
-}
+	}
+	
+	</style>
 
-</style>
 
-<link rel="shortcut icon" href="ui-templates/media/images/favicon.png">
-<link rel="icon" href="ui-templates/media/images/favicon.png">
+	<script type="text/javascript" src="app-lib/js/jquery/jquery-3.4.1.min.js"></script>
+
+	<script type="text/javascript" src="app-lib/js/jquery/bootstrap.min.js"></script>
+
+	<script type="text/javascript" src="app-lib/js/jquery/jquery.tablesorter.min.js"></script>
+
+	<script type="text/javascript" src="app-lib/js/jquery/jquery.tablesorter.widgets.min.js"></script>
+
+	<script type="text/javascript" src="app-lib/js/jquery/jquery.balloon.min.js"></script>
+
+	<script type="text/javascript" src="app-lib/js/functions.js"></script>
+
+	<script type="text/javascript" src="app-lib/js/modaal.js"></script>
+
+	<?php
+	if ( $charts_page == 'on' ) {
+	?>
+	<script type="text/javascript" src="app-lib/js/zingchart.min.js"></script>
+	<?php
+	}
+	?>
+
+	<script type="text/javascript" src="app-lib/js/init.js"></script>
+
+
+	<script>
+	
+	var sorted_by_col = <?=$sorted_by_col?>;
+	var sorted_by_asc_desc = <?=$sorted_by_asc_desc?>;
+	var tablesort_theme = '<?=$tablesort_theme?>';
+	
+	var btc_usd_value = '<?=number_format( get_btc_usd('binance')['last_trade'], 2, '.', '' )?>';
+	
+	</script>
+
+
+	<link rel="shortcut icon" href="ui-templates/media/images/favicon.png">
+	<link rel="icon" href="ui-templates/media/images/favicon.png">
 
 </head>
 <body>

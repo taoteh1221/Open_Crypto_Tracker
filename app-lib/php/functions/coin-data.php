@@ -763,6 +763,10 @@ $market_pairing = $all_markets[$selected_market];
   // Get trade volume
   $trade_volume = ( $coin_name == 'Bitcoin' ? get_btc_usd($btc_exchange)['24hr_usd_volume'] : get_coin_value($selected_market, $market_pairing)['24hr_usd_volume'] );
   
+	if ( $coin_name == 'Bitcoin' ) {
+	$_SESSION['bitcoin_dominance'] = $coin_value_total_raw;
+	}
+  
   
   ?>
 <tr id='<?=strtolower($trade_symbol)?>_row'>
@@ -811,36 +815,36 @@ $market_pairing = $all_markets[$selected_market];
         else {
         ?> 
     
-        var cmc_content = '<h4 class="yellow" style="position: relative;"><?=ucfirst($marketcap_site)?>.com Summary For <?=$coin_name?> (<?=$trade_symbol?>):</h4>'
-        +'<p><span class="yellow">Average Global Market Price:</span> $<?=number_format(marketcap_data($trade_symbol)['price'],8,".",",")?></p>'
-        +'<p><span class="yellow">Marketcap Ranking:</span> #<?=marketcap_data($trade_symbol)['rank']?></p>'
-        +'<p><span class="yellow">Marketcap (USD):</span> $<?=number_format(marketcap_data($trade_symbol)['market_cap'],0,".",",")?></p>'
-        +'<p><span class="yellow">24 Hour Global Volume (USD):</span> $<?=number_format(marketcap_data($trade_symbol)['volume_24h'],0,".",",")?></p>'
-        +'<p><span class="yellow">1 Hour Change:</span> <?=( stristr(marketcap_data($trade_symbol)['percent_change_1h'], '-') != false ? '<span class="red">'.marketcap_data($trade_symbol)['percent_change_1h'].'%</span>' : '<span class="green_bright">'.marketcap_data($trade_symbol)['percent_change_1h'].'%</span>' )?></p>'
-        +'<p><span class="yellow">24 Hour Change:</span> <?=( stristr(marketcap_data($trade_symbol)['percent_change_24h'], '-') != false ? '<span class="red">'.marketcap_data($trade_symbol)['percent_change_24h'].'%</span>' : '<span class="green_bright">'.marketcap_data($trade_symbol)['percent_change_24h'].'%</span>' )?></p>'
-        +'<p><span class="yellow">7 Day Change:</span> <?=( stristr(marketcap_data($trade_symbol)['percent_change_7d'], '-') != false ? '<span class="red">'.marketcap_data($trade_symbol)['percent_change_7d'].'%</span>' : '<span class="green_bright">'.marketcap_data($trade_symbol)['percent_change_7d'].'%</span>' )?></p>'
-        +'<p><span class="yellow">Available Supply:</span> <?=number_format(marketcap_data($trade_symbol)['circulating_supply'], 0, '.', ',')?></p>'
+        var cmc_content = '<h5 class="yellow" style="position: relative;"><?=ucfirst($marketcap_site)?>.com Summary For <?=$coin_name?> (<?=$trade_symbol?>):</h5>'
+        +'<p class="coin_info"><span class="yellow">Average Global Market Price:</span> $<?=number_format(marketcap_data($trade_symbol)['price'],8,".",",")?></p>'
+        +'<p class="coin_info"><span class="yellow">Marketcap Ranking:</span> #<?=marketcap_data($trade_symbol)['rank']?></p>'
+        +'<p class="coin_info"><span class="yellow">Marketcap (USD):</span> $<?=number_format(marketcap_data($trade_symbol)['market_cap'],0,".",",")?></p>'
+        +'<p class="coin_info"><span class="yellow">24 Hour Global Volume (USD):</span> $<?=number_format(marketcap_data($trade_symbol)['volume_24h'],0,".",",")?></p>'
+        +'<p class="coin_info"><span class="yellow">1 Hour Change:</span> <?=( stristr(marketcap_data($trade_symbol)['percent_change_1h'], '-') != false ? '<span class="red">'.marketcap_data($trade_symbol)['percent_change_1h'].'%</span>' : '<span class="green_bright">'.marketcap_data($trade_symbol)['percent_change_1h'].'%</span>' )?></p>'
+        +'<p class="coin_info"><span class="yellow">24 Hour Change:</span> <?=( stristr(marketcap_data($trade_symbol)['percent_change_24h'], '-') != false ? '<span class="red">'.marketcap_data($trade_symbol)['percent_change_24h'].'%</span>' : '<span class="green_bright">'.marketcap_data($trade_symbol)['percent_change_24h'].'%</span>' )?></p>'
+        +'<p class="coin_info"><span class="yellow">7 Day Change:</span> <?=( stristr(marketcap_data($trade_symbol)['percent_change_7d'], '-') != false ? '<span class="red">'.marketcap_data($trade_symbol)['percent_change_7d'].'%</span>' : '<span class="green_bright">'.marketcap_data($trade_symbol)['percent_change_7d'].'%</span>' )?></p>'
+        +'<p class="coin_info"><span class="yellow">Available Supply:</span> <?=number_format(marketcap_data($trade_symbol)['circulating_supply'], 0, '.', ',')?></p>'
         <?php
             if ( marketcap_data($trade_symbol)['total_supply'] > 0 ) {
             ?>
-        +'<p><span class="yellow">Total Supply:</span> <?=number_format(marketcap_data($trade_symbol)['total_supply'], 0, '.', ',')?></p>'
+        +'<p class="coin_info"><span class="yellow">Total Supply:</span> <?=number_format(marketcap_data($trade_symbol)['total_supply'], 0, '.', ',')?></p>'
         <?php
             }
             if ( marketcap_data($trade_symbol)['max_supply'] > 0 ) {
             ?>
-        +'<p><span class="yellow">Maximum Supply:</span> <?=number_format(marketcap_data($trade_symbol)['max_supply'], 0, '.', ',')?></p>'
+        +'<p class="coin_info"><span class="yellow">Maximum Supply:</span> <?=number_format(marketcap_data($trade_symbol)['max_supply'], 0, '.', ',')?></p>'
         <?php
             }
             if ( marketcap_data($trade_symbol)['last_updated'] != '' ) {
             ?>
-        +'<p><span class="yellow">Timestamp (UTC):</span> <?=gmdate("Y-M-d\ \\a\\t g:ia", marketcap_data($trade_symbol)['last_updated'])?></p>'
+        +'<p class="coin_info"><span class="yellow">Timestamp (UTC):</span> <?=gmdate("Y-M-d\ \\a\\t g:ia", marketcap_data($trade_symbol)['last_updated'])?></p>'
     
         <?php
             }
             ?>
-        +'<p><span class="yellow">Cache Time:</span> <?=$marketcap_cache?> minute(s)</p>'
+        +'<p class="coin_info"><span class="yellow">Cache Time:</span> <?=$marketcap_cache?> minute(s)</p>'
     
-        +'<p>*Current config setting only retrieves the top <?=$marketcap_ranks_max?> rankings.</p>';
+        +'<p class="coin_info">*Current config setting only retrieves the top <?=$marketcap_ranks_max?> rankings.</p>';
     
         <?php
         

@@ -1265,6 +1265,8 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 3.11.1:
 -Bug fix for passing user agent string to API server
+-UX revisions
+-Portfolio diversification stats (BTC % / ALTS %)
 -------------------------------------------------------------------
 
 

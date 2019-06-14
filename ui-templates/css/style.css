@@ -4,34 +4,6 @@
 
 
 /* //////////////////////////////
-IMPORTS
-////////////////////////////// */
-
-@import "tablesorter/theme.default.css";
-
-@import "tablesorter/theme.black-ice.css";
-
-@import "tablesorter/theme.blue.css";
-
-@import "tablesorter/theme.bootstrap.css";
-
-@import "tablesorter/theme.bootstrap_2.css";
-
-@import "tablesorter/theme.dark.css";
-
-@import "tablesorter/theme.dropbox.css";
-
-@import "tablesorter/theme.green.css";
-
-@import "tablesorter/theme.grey.css";
-
-@import "tablesorter/theme.ice.css";
-
-@import "tablesorter/theme.jui.css";
-
-@import "tablesorter/theme.metro-dark.css";
-
-/* //////////////////////////////
 ELEMENTS
 ////////////////////////////// */
 
@@ -59,7 +31,7 @@ border-collapse: separate;
 
 td {
 margin: 0px;
-padding: 8px;
+padding: 7px;
 }
 
 th {
@@ -135,6 +107,10 @@ legend {
 /* //////////////////////////////
 CLASSES
 ////////////////////////////// */
+
+.coin_info {
+margin: 5px;
+}
 
 .show_coin_values {
 display: none;
@@ -252,7 +228,7 @@ color: #ffb83f !important;
 }
 
 .blue {
-color: #251dc1 !important;
+color: #1a1696 !important;
 }
 
 
@@ -315,7 +291,7 @@ color: black;
 
 
 td.data, td.data span.data, td select {
-color: #251dc1;
+color: #1a1696;
 font-size: 15px;
 }
 
@@ -351,7 +327,7 @@ white-space: nowrap;
 .btn-link {
 font-weight: 800;
 font-size: 15px;
-color: #251dc1;
+color: #1a1696;
 text-decoration: none;
 }
 
