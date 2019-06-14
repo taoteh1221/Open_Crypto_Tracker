@@ -110,7 +110,7 @@
 	        
 	        You can setup exchange price alerts to be sent to email, mobile phone text, and amazon alexa notifications. You will be alerted when the USD price of an asset goes up or down a certain percent or more (whatever percent you choose in the settings), for specific exchange / base pairing combinations for that asset. You can even setup alerts for multiple exchanges / base pairings for the same asset.
 	    <br /><br />
-	      See the required settings in config.php, and instructions on cron job setup in the <a href='README.txt' target='_blank'>README.txt file</a>. Once setup, there is no need to keep your computer turned on. The alerts run automatically from your web server. If you encounter errors or the alerts don't work during setup, check the error logs file at /cache/logs/errors.log for errors in your configuration setup. Basic checks are performed and errors are reported there, and on the Settings page. 
+	      Running exchange price alerts requires setting up a cron job on your website server, <i>otherwise they will not work</i>. See the required settings in config.php, and instructions on cron job setup in the <a href='README.txt' target='_blank'>README.txt file</a>. Once setup, there is no need to keep your computer turned on. The alerts run automatically from your website server. If you encounter errors or the alerts don't work during setup, check the error logs file at /cache/logs/errors.log for errors in your configuration setup. Basic checks are performed and errors are reported there, and on the Settings page. 
 	        
 	        
 	      </div>
@@ -140,7 +140,7 @@
 	      <div class="card-body">
 	      
 	       
-	        On the Update Assets page, for every coin you don't hold <i>but wish to monitor it's real-time value</i>, just set the amount to 0.00000001. This avoids skewing your "Total Bitcoin Value" and "Total USD Value" amounts, but allows you to track these coin value(s). 
+	        On the Update Assets page, for every coin you don't hold <i>but wish to monitor it's real-time value</i>, just set the amount to 0.00000001. This avoids skewing your total "Bitcoin Value" / "USD Value" summary amounts, but allows you to track these coin value(s). 
 	        
 	        
 	      </div>
