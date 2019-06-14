@@ -8,6 +8,9 @@
 <div class='charts_wrapper'>
 	
 	<h4 style='display: inline;'>Charts</h4>
+				
+				<span id='reload_countdown4' class='red countdown_notice'></span>
+			
 	
 	<p style='margin-top: 15px; margin-bottom: 15px;'><?=start_page_html('charts')?></p>			
 				

@@ -356,11 +356,19 @@ text-decoration: none;
 }
 
 .force_1200px_wrapper {
+position: relative;
 max-width: 1200px;
 }
 
 .charts_wrapper {
+position: relative;
 width: 100%;
+}
+
+.countdown_notice {
+position: absolute;
+top: 0px;
+right: 0px;
 }
 
 /* //////////////////////////////

@@ -10,6 +10,11 @@
 
 			
 			<h4 style='display: inline;'>Settings</h4>
+				
+				<span id='reload_countdown3' class='red countdown_notice'></span>
+			
+			
+			
 			<?php
 			if ( $price_alert_type_text != '' ) {
           ?>

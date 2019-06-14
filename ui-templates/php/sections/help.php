@@ -10,8 +10,8 @@
 	
 				<h4 style='display: inline;'>Help?</h4>
 				
-				
-	
+				<span id='reload_countdown8' class='red countdown_notice'></span>
+			
 	
 	<div class="accordion" id="accordionHelp" style='margin: 20px;'> <!-- Accordion START -->
 	
