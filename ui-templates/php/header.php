@@ -24,6 +24,7 @@ require("config.php");
 	<title>DFD Cryptocoin Values - Open source / free private cryptocurrency investment portfolio tracker, with email / text / Alexa alerts, charts, mining calculators, and other crypto tools</title>
     
 	<meta charset="UTF-8">
+	<meta name="robots" content="noindex,nofollow"> <!-- Keeps this URL private (search engines won't add this URL to their search indexes) -->
     
     
 	<link rel="stylesheet" href="ui-templates/css/bootstrap/bootstrap.min.css" type="text/css" />

@@ -1274,6 +1274,8 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 3.12.0:
 -UX revisions
+-SEO for project page / README.txt on Github
+-Meta robots html tag for app installs to not be indexed by search engines
 -------------------------------------------------------------------
 
 
