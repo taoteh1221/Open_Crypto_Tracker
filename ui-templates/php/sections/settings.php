@@ -18,7 +18,7 @@
 			<?php
 			if ( $price_alert_type_text != '' ) {
           ?>
-          	<p class='settings_sections'><?=$price_alert_type_text?> exchange price alerts are <i>enabled</i> in the configuration file (upon <?=$exchange_price_alerts_percent?>% or more USD price change<?=( $exchange_price_alerts_freq > 0 ? ' / max every ' . $exchange_price_alerts_freq . ' minutes per-alert' : '' )?><?=( $exchange_price_alerts_minvolume > 0 ? ' / $' . number_format($exchange_price_alerts_minvolume, 0, '.', ',') . ' minumum volume filter enabled' : '' )?><?=( $exchange_price_alerts_refresh > 0 ? ' / comparison price auto-refreshed after ' . $exchange_price_alerts_refresh . ' days' : '' )?>). 
+          	<p class='settings_sections'><b><?=$price_alert_type_text?> exchange price alerts</b> are <i>enabled</i> in the configuration file (upon <?=$exchange_price_alerts_percent?>% or more USD price change<?=( $exchange_price_alerts_freq > 0 ? ' / max every ' . $exchange_price_alerts_freq . ' minutes per-alert' : '' )?><?=( $exchange_price_alerts_minvolume > 0 ? ' / $' . number_format($exchange_price_alerts_minvolume, 0, '.', ',') . ' minumum volume filter enabled' : '' )?><?=( $exchange_price_alerts_refresh > 0 ? ' / comparison price auto-refreshed after ' . $exchange_price_alerts_refresh . ' days' : '' )?>). 
           	
           	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job on your web server</a>, or this feature will not work AT ALL.</i> 
           	
@@ -30,7 +30,7 @@
 			}
 			if ( sizeof($proxy_list) > 0 ) {
 			?>
-          <p class='settings_sections'><?=( trim($proxy_login) != '' ? 'Password-based' : 'IP whitelisting' )?> proxy mode is <i>enabled</i> in the configuration file for API connections (<?=sizeof($proxy_list)?> proxies randomly used<?=( $proxy_alerts != 'none' ? ' / proxy alerts enabled for ' . $proxy_alerts . ' alert method(s), every ' . $proxy_alerts_freq . ' hours max per-proxy at ' . $proxy_alerts_runtime . ' runtimes / ' .$proxy_checkup_ok. ' sending proxy alerts on proxy checks that tested OK after acting up' : '' )?>). 
+          <p class='settings_sections'><b><?=( trim($proxy_login) != '' ? 'Password-based' : 'IP whitelisting' )?> proxy mode</b> is <i>enabled</i> in the configuration file for API connections (<?=sizeof($proxy_list)?> proxies randomly used<?=( $proxy_alerts != 'none' ? ' / proxy alerts enabled for ' . $proxy_alerts . ' alert method(s), every ' . $proxy_alerts_freq . ' hours max per-proxy at ' . $proxy_alerts_runtime . ' runtimes / ' .$proxy_checkup_ok. ' sending proxy alerts on proxy checks that tested OK after acting up' : '' )?>). 
           	
           		<?=( $proxy_config_alert != '' ? '<br />' . $proxy_config_alert : '' )?>
           	
@@ -40,7 +40,7 @@
 			if ( $mail_error_logs == 'daily' && trim($from_email) != '' && trim($to_email) != ''
 			|| $mail_error_logs == 'weekly' && trim($from_email) != '' && trim($to_email) != '' ) {
           ?>
-          	<p class='settings_sections'>Emailing error logs is <i>enabled</i> in the configuration file (sent out <?=$mail_error_logs?>, purged every <?=$purge_error_logs?> days).
+          	<p class='settings_sections'><b>Emailing error logs</b> is <i>enabled</i> in the configuration file (sent out <?=$mail_error_logs?>, purged every <?=$purge_error_logs?> days).
           	
           	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job on your web server</a>, or this feature will not work RELIABLY.</i> 
           	
@@ -53,7 +53,7 @@
 			// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
 			if ( $smtp_login != '' && $smtp_server != '' ) {
           ?>
-          	<p class='settings_sections'>SMTP email sending (by account login) is <i>enabled</i> in the configuration file.
+          	<p class='settings_sections'><b>SMTP email sending</b> (by account login) is <i>enabled</i> in the configuration file.
           	
           		<?=( $smtp_config_alert != '' ? '<br />' . $smtp_config_alert : '' )?>
           	
