@@ -49,9 +49,9 @@ function bitcoin_total() {
 
     if (is_array($_SESSION['btc_worth_array']) || is_object($_SESSION['btc_worth_array'])) {
       
-  foreach ( $_SESSION['btc_worth_array'] as $coin_value ) {
+  foreach ( $_SESSION['btc_worth_array'] as $key => $value ) {
   
-  $total_value = ($coin_value + $total_value);
+  $total_value = ($value + $total_value);
   
   }
   
@@ -644,7 +644,7 @@ $market_pairing = $all_markets[$selected_market];
     if ( $selected_pairing == 'btc' ) {
     $coin_value_raw = ( $coin_name == 'Bitcoin' ? get_btc_usd($btc_exchange)['last_trade'] : get_coin_value($selected_market, $market_pairing)['last_trade'] );
     $coin_value_total_raw = ($coin_amount * $coin_value_raw);
-    $_SESSION['btc_worth_array'][] = ( $coin_name == 'Bitcoin' ? $coin_amount : $coin_value_total_raw );
+    $_SESSION['btc_worth_array'][$trade_symbol] = ( $coin_name == 'Bitcoin' ? $coin_amount : $coin_value_total_raw );
     $pairing_symbol = ( $coin_name == 'Bitcoin' ? 'USD' : 'BTC' );
     }
     // XMR
@@ -658,7 +658,7 @@ $market_pairing = $all_markets[$selected_market];
     
     $coin_value_raw = get_coin_value($selected_market, $market_pairing)['last_trade'];
     $coin_value_total_raw = ($coin_amount * $coin_value_raw);
-    $_SESSION['btc_worth_array'][] = $coin_value_total_raw * $pairing_btc_value;  
+    $_SESSION['btc_worth_array'][$trade_symbol] = $coin_value_total_raw * $pairing_btc_value;  
     $btc_trade_eqiv = number_format( ($coin_value_raw * $pairing_btc_value), 8);
     $pairing_symbol = 'XMR';
     
@@ -674,7 +674,7 @@ $market_pairing = $all_markets[$selected_market];
     
     $coin_value_raw = get_coin_value($selected_market, $market_pairing)['last_trade'];
     $coin_value_total_raw = ($coin_amount * $coin_value_raw);
-    $_SESSION['btc_worth_array'][] = $coin_value_total_raw * $pairing_btc_value;  
+    $_SESSION['btc_worth_array'][$trade_symbol] = $coin_value_total_raw * $pairing_btc_value;  
     $btc_trade_eqiv = number_format( ($coin_value_raw * $pairing_btc_value), 8);
     $pairing_symbol = 'LTC';
     
@@ -692,7 +692,7 @@ $market_pairing = $all_markets[$selected_market];
      
      $coin_value_raw = get_sub_token_price($selected_market, $market_pairing);
      $coin_value_total_raw = ($coin_amount * $coin_value_raw);
-     $_SESSION['btc_worth_array'][] = $coin_value_total_raw * $pairing_btc_value;  
+     $_SESSION['btc_worth_array'][$trade_symbol] = $coin_value_total_raw * $pairing_btc_value;  
      $btc_trade_eqiv = number_format( ($coin_value_raw * $pairing_btc_value), 8);
      $pairing_symbol = 'ETH';
      
@@ -701,7 +701,7 @@ $market_pairing = $all_markets[$selected_market];
       
      $coin_value_raw = get_coin_value($selected_market, $market_pairing)['last_trade'];
      $coin_value_total_raw = ($coin_amount * $coin_value_raw);
-     $_SESSION['btc_worth_array'][] = $coin_value_total_raw * $pairing_btc_value;  
+     $_SESSION['btc_worth_array'][$trade_symbol] = $coin_value_total_raw * $pairing_btc_value;  
      $btc_trade_eqiv = number_format( ($coin_value_raw * $pairing_btc_value), 8);
      $pairing_symbol = 'ETH';
      
@@ -719,7 +719,7 @@ $market_pairing = $all_markets[$selected_market];
     
     $coin_value_raw = get_coin_value($selected_market, $market_pairing)['last_trade'];
     $coin_value_total_raw = ($coin_amount * $coin_value_raw);
-    $_SESSION['btc_worth_array'][] = $coin_value_total_raw * $pairing_btc_value;  
+    $_SESSION['btc_worth_array'][$trade_symbol] = $coin_value_total_raw * $pairing_btc_value;  
     $btc_trade_eqiv = number_format( ($coin_value_raw * $pairing_btc_value), 8);
     $pairing_symbol = 'USDT';
     
@@ -735,7 +735,7 @@ $market_pairing = $all_markets[$selected_market];
     
     $coin_value_raw = get_coin_value($selected_market, $market_pairing)['last_trade'];
     $coin_value_total_raw = ($coin_amount * $coin_value_raw);
-    $_SESSION['btc_worth_array'][] = $coin_value_total_raw * $pairing_btc_value;  
+    $_SESSION['btc_worth_array'][$trade_symbol] = $coin_value_total_raw * $pairing_btc_value;  
     $btc_trade_eqiv = number_format( ($coin_value_raw * $pairing_btc_value), 8);
     $pairing_symbol = 'TUSD';
     
@@ -763,10 +763,6 @@ $market_pairing = $all_markets[$selected_market];
   // Get trade volume
   $trade_volume = ( $coin_name == 'Bitcoin' ? get_btc_usd($btc_exchange)['24hr_usd_volume'] : get_coin_value($selected_market, $market_pairing)['24hr_usd_volume'] );
   
-	if ( $coin_name == 'Bitcoin' ) {
-	$_SESSION['bitcoin_dominance'] = $coin_value_total_raw;
-	}
-  
   
   ?>
 <tr id='<?=strtolower($trade_symbol)?>_row'>
@@ -791,7 +787,7 @@ $market_pairing = $all_markets[$selected_market];
  	
  	
  		?>
- <img id='<?=$mkcap_render_data?>' src='ui-templates/media/images/<?=$info_icon?>' border=0' style='position: absolute; top: 4px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <a title='' href='https://<?=$asset_pagebase?><?=$mkcap_render_data?>/' target='_blank' class='blue'><?php echo $coin_name; ?></a>
+ <img id='<?=$mkcap_render_data?>' src='ui-templates/media/images/<?=$info_icon?>' border='0' style='position: absolute; top: 4px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <a title='' href='https://<?=$asset_pagebase?><?=$mkcap_render_data?>/' target='_blank' class='blue'><?php echo $coin_name; ?></a>
  <script>
 
 		<?php
@@ -921,7 +917,7 @@ $market_pairing = $all_markets[$selected_market];
 	else {
   $rand_id = rand(10000000,100000000);
   ?>
-  <img id='<?=$rand_id?>' src='ui-templates/media/images/<?=$info_icon?>' border=0' style='position: absolute; top: 4px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <?=$coin_name?>
+  <img id='<?=$rand_id?>' src='ui-templates/media/images/<?=$info_icon?>' border='0' style='position: absolute; top: 4px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <?=$coin_name?>
  <script>
  $('#<?=$rand_id?>').balloon({
   html: true,

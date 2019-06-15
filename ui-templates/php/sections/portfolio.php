@@ -215,7 +215,7 @@ if ( $_POST['submit_check'] == 1 || $_COOKIE['coin_amounts'] ) {
 $total_btc_worth = bitcoin_total();
 $total_usd_worth = ($total_btc_worth * get_btc_usd($btc_exchange)['last_trade']);
 
-$bitcoin_dominance = ( $_SESSION['bitcoin_dominance'] / $total_usd_worth ) * 100;
+$bitcoin_dominance = ( $_SESSION['btc_worth_array']['BTC'] / $total_btc_worth ) * 100;
 
 $altcoin_dominance = 100 - $bitcoin_dominance;
 
@@ -246,6 +246,51 @@ $coins_list_numbered = array_values($coins_list['BTC']['market_pairing']['btc'])
 	if ( $bitcoin_dominance >= 0 && $altcoin_dominance >= 0 ) {
 	echo '<br />Stats: ' . number_format($bitcoin_dominance, 2, '.', ',') . '% Bitcoin / ' . number_format($altcoin_dominance, 2, '.', ',') .'% Altcoin(s)';
 	}
+	?>
+	<img id='portfolio_dominance' src='ui-templates/media/images/info.png' width='30' border='0' style='position: relative; left: -5px;' /> 
+ <script>
+
+        var dominance_content = '<h5 class="yellow" style="position: relative;">Portfolio Dominance Stats:</h5>'
+        
+        <?php
+            foreach ( $_SESSION['btc_worth_array'] as $key => $value ) {
+            	$dominance = ( $value / $total_btc_worth ) * 100;
+            	
+            		if ( $dominance >= 0.01 ) {
+            ?>
+        +'<p class="coin_info"><span class="yellow"><?=$key?>:</span> <?=number_format($dominance, 2, '.', ',')?>%</p>'
+        
+        <?php
+        				}
+        				
+            }
+         ?>
+            
+        +'<p class="coin_info"><span class="yellow"> </p>';
+    
+    
+        $('#portfolio_dominance').balloon({
+        html: true,
+        position: "right",
+        contents: dominance_content,
+        css: {
+                fontSize: ".8rem",
+                minWidth: ".8rem",
+                padding: ".3rem .7rem",
+                border: "1px solid rgba(212, 212, 212, .4)",
+                borderRadius: "6px",
+                boxShadow: "3px 3px 6px #555",
+                color: "#eee",
+                backgroundColor: "#111",
+                opacity: "0.95",
+                zIndex: "32767",
+                textAlign: "left"
+                }
+        });
+    
+     </script>
+     
+	<?php
 
 echo '<br /><span style="color: black;">(1 BTC is $' .number_format( get_btc_usd($btc_exchange)['last_trade'], 2, '.', ','). ' @ '.ucfirst($show_exchange).')</span>';
 	

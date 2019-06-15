@@ -1281,6 +1281,14 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+3.13.0:
+-Portfolio dominance stats summary info bubble for all held assets (hovering over info icon in stats summary)
+-------------------------------------------------------------------
+
+
+
+
 
 
 
