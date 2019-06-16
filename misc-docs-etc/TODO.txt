@@ -4,8 +4,6 @@
 TODO
 ///////////////////////////////////////////////////////
 
-Add a 'backups' main subdirectory, with an index.php file protecting filename listing, which doubles as a download initiator via /backups/?file=FILENAME , AND ONLY ALLOWS DOWNLOADS WITH A X-BIT HASH SUFFIX IN THE FILENAME FOR SECURITY OF BACKUP FILES.
-
 CSV file export / import of portfolio values.
 
 Make sure programming comments are adequate throughout the app.
