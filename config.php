@@ -56,7 +56,7 @@ $mail_error_logs = 'daily'; // 'off', 'daily', 'weekly' Email to / from !MUST BE
 
 
 // ENABLING CHARTS REQUIRES A CRON JOB SETUP (see README.txt for cron job setup information)
-// Caches USD price / volume data for historical charts of all assets added to 'exchange price alerts' (further down in this config file)
+// Caches USD + crypto price / volume data for historical charts of all assets added to 'exchange price alerts' (further down in this config file)
 // Enables a charts tab / page with historical charts. STILL EARLY EXPERIMENTAL CODE (AS OF 5/29/2019), MAY SLOW PAGE LOADS SIGNIFICANTLY
 // Disabling will disable EVERYTHING related to the charts features...the page, caching, even the javascript associated with the charts
 $charts_page = 'on'; // 'on' / 'off'
@@ -64,7 +64,7 @@ $charts_page = 'on'; // 'on' / 'off'
 // Determines the presets for the chart time period buttons (1day,1week,1month,3month,6month,1year,2year,4year), only used if $charts_page above is on
 $charts_update_freq = 4; // How many times per hour did you setup your cron job to run? (see README.txt for cron job setup information) 
 
-// Backup chart data in a zip file in the 'backups' subdirectory (with a secure random 32 character hexadecimal suffix for privacy)
+// Backup chart data in a zip file in the 'backups' subdirectory (with a secure random 32 character hexadecimal suffix for privacy), only used if $charts_page above is on
 $chart_data_backups = 'daily'; // 'off', 'daily', 'weekly' Email to / from !MUST BE SET! (a download link is emailed to you of the chart data archive)
 
 
