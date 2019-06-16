@@ -50,6 +50,18 @@
                         
 			<?php
 			}
+			if ( $charts_page == 'on' && $chart_data_backups != 'off' ) {
+          ?>
+          	<p class='settings_sections'><b>Chart Backups</b> is <i>enabled</i> in the configuration file (run <?=$chart_data_backups?>, old backups purged after <?=$delete_old_backups?> days).
+          	
+          	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job on your web server</a>, or this feature will not work AT ALL.</i> 
+          	
+          		<?=( $errorlogs_config_alert != '' ? '<br />' . $errorlogs_config_alert : '' )?>
+          	
+          	</p>  
+                        
+			<?php
+			}
 			// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
 			if ( $smtp_login != '' && $smtp_server != '' ) {
           ?>

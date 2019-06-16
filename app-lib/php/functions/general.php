@@ -132,6 +132,26 @@ return $smtp->Send();
 
 /////////////////////////////////////////////////////////
 
+function delete_old_files($dir, $days, $ext) {
+	
+$files = glob($dir."*.".$ext);
+
+  foreach ($files as $file) {
+  	
+    if ( is_file($file) ) {
+    	
+      if ( time() - filemtime($file) >= 60 * 60 * 24 * $days ) {
+      unlink($file);
+      }
+      
+    }
+    
+  }
+  
+ }
+
+/////////////////////////////////////////////////////////
+
 function chart_range($range) {
 
 global $charts_update_freq;
@@ -140,6 +160,87 @@ $updates_daily = $charts_update_freq * 24;
 
 return ($updates_daily * $range);
 
+}
+
+/////////////////////////////////////////////////////////
+
+function random_hash($num_bytes) {
+
+global $base_dir;
+
+	// PHP 4 
+	if ( PHP_VERSION_ID < 50000 ) {
+	$_SESSION['other_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | Error: Upgrade to PHP v5 or later to support cryptographically secure pseudo-random bytes in this application, or your application may not function properly' . "<br /> \n";
+	}
+	// PHP 5 (V6 RELEASE WAS SKIPPED)
+	elseif ( PHP_VERSION_ID < 60000 ) {
+	require_once($base_dir . '/app-lib/php/other/random-compat/lib/random.php');
+	$hash = random_bytes($num_bytes);
+	}
+	// >= PHP 7
+	elseif ( PHP_VERSION_ID >= 70000 ) {
+	$hash = random_bytes($num_bytes);
+	}
+
+	if ( strlen($hash) == $num_bytes ) {
+	return bin2hex($hash);
+	}
+	else {
+	return false;
+	}
+
+}
+
+/////////////////////////////////////////////////////////
+
+function zip_recursively($source, $destination) {
+	
+		
+		if ( !extension_loaded('zip') ) {
+			return 'no_extension';
+		}
+		elseif ( !file_exists($source) ) {
+			return 'no_source';
+		}
+	
+		$zip = new ZipArchive();
+		if ( !$zip->open($destination, ZIPARCHIVE::CREATE) ) {
+			return 'no_open_dest';
+		}
+	
+		$source = str_replace('\\', '/', realpath($source));
+	
+		if ( is_dir($source) === true ) {
+			
+			$files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source), RecursiveIteratorIterator::SELF_FIRST);
+	
+			foreach ($files as $file) {
+				
+				$file = str_replace('\\', '/', $file);
+	
+				// Ignore "." and ".." folders
+				if ( in_array( substr($file, strrpos($file, '/')+1) , array('.', '..') ) )
+					continue;
+	
+				$file = realpath($file);
+	
+				if (is_dir($file) === true) {
+					$zip->addEmptyDir(str_replace($source . '/', '', $file . '/'));
+				}
+				elseif (is_file($file) === true) {
+					$zip->addFromString(str_replace($source . '/', '', $file), file_get_contents($file));
+				}
+				
+			}
+			
+		}
+		elseif ( is_file($source) === true ) {
+			$zip->addFromString(basename($source), file_get_contents($source));
+		}
+	
+		return $zip->close();
+		
+    
 }
 
 /////////////////////////////////////////////////////////
@@ -362,7 +463,9 @@ return trim($number) . $domain;
 //////////////////////////////////////////////////////////
 
 function base_url($atRoot=FALSE, $atCore=FALSE, $parse=FALSE) {
+	
 // WARNING: THIS ONLY WORKS WELL FOR HTTP-BASED RUNTIME, ----NOT CLI---!
+// CACHE IT TO FILE DURING UI RUNTIME FOR CLI TO USE LATER ;-)
 
 	if ( isset($_SERVER['HTTP_HOST']) ) {
         	
@@ -400,6 +503,8 @@ global $purge_error_logs, $mail_error_logs, $base_dir;
 $error_logs .= strip_tags($_SESSION['api_data_error']); // Remove any HTML formatting used in UI alerts
 
 $error_logs .= strip_tags($_SESSION['config_error']); // Remove any HTML formatting used in UI alerts
+
+$error_logs .= strip_tags($_SESSION['other_error']); // Remove any HTML formatting used in UI alerts
 
 	foreach ( $_SESSION['repeat_error'] as $error ) {
 	$error_logs .= strip_tags($error); // Remove any HTML formatting used in UI alerts
@@ -593,11 +698,11 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		// If this is an SSL connection, add SSL parameters
 		if (  preg_match("/https:\/\//i", ( $mode == 'array' ? $api_server : $request ) )  ) {
 			
-		curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, ( $api_strict_ssl == 'yes' ? 2 : 0 ) );
-		curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, ( $api_strict_ssl == 'yes' ? TRUE : FALSE ) ); 
+		curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, ( $api_strict_ssl == 'on' ? 2 : 0 ) );
+		curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, ( $api_strict_ssl == 'on' ? TRUE : FALSE ) ); 
 		
 			if ( PHP_VERSION_ID >= 70700 && CURL_VERSION_ID >= 7410 ) {
-			curl_setopt ($ch, CURLOPT_SSL_VERIFYSTATUS, ( $api_strict_ssl == 'yes' ? TRUE : FALSE ) ); 
+			curl_setopt ($ch, CURLOPT_SSL_VERIFYSTATUS, ( $api_strict_ssl == 'on' ? TRUE : FALSE ) ); 
 			}
 
 		}

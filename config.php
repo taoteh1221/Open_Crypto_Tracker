@@ -33,7 +33,7 @@ require_once("app-lib/php/init.php");
 
 $api_timeout = 13; // Seconds to wait for response from API endpoints. Don't set too low, or you won't get data
 
-$api_strict_ssl = 'yes'; // 'yes' verifies ALL SSL certificates for HTTPS API servers, 'no' verifies NOTHING (NOT RECOMMENDED in production environment)
+$api_strict_ssl = 'on'; // 'on' verifies ALL SSL certificates for HTTPS API servers, 'off' verifies NOTHING (NOT RECOMMENDED in production environment)
 
 $btc_exchange = 'binance'; // Default Bitcoin to USD (or equiv stable coin): coinbase / binance / bitstamp / bitfinex / kraken / gemini / hitbtc / okcoin / livecoin
 
@@ -47,18 +47,26 @@ $last_trade_cache = 1; // Minutes to cache real-time exchange data...can be zero
 
 $chainstats_cache = 15; // Minutes to cache blockchain stats (for mining calculators). Set high initially, can be strict
 
+$delete_old_backups = 10; // Days until old zip archive backups should be deleted (chart data archives, etc)
+
 $purge_error_logs = 2; // Days to keep error logs before purging (deletes logs every X days) start low, especially when using proxies
 
-$mail_error_logs = 'daily'; // 'no', 'daily', 'weekly' Email to / from !MUST BE SET! MAY NOT SEND IN TIMELY FASHION WITHOUT CRON JOB
+$mail_error_logs = 'daily'; // 'off', 'daily', 'weekly' Email to / from !MUST BE SET! MAY NOT SEND IN TIMELY FASHION WITHOUT CRON JOB
 
 
+
+// ENABLING CHARTS REQUIRES A CRON JOB SETUP (see README.txt for cron job setup information)
 // Caches USD price / volume data for historical charts of all assets added to 'exchange price alerts' (further down in this config file)
 // Enables a charts tab / page with historical charts. STILL EARLY EXPERIMENTAL CODE (AS OF 5/29/2019), MAY SLOW PAGE LOADS SIGNIFICANTLY
-// Disabling disables EVERYTHING related to the charts features...the page, caching, even the javascript associated with the charts
+// Disabling will disable EVERYTHING related to the charts features...the page, caching, even the javascript associated with the charts
 $charts_page = 'on'; // 'on' / 'off'
 
 // Determines the presets for the chart time period buttons (1day,1week,1month,3month,6month,1year,2year,4year), only used if $charts_page above is on
-$charts_update_freq = 4; // How many times per hour your cron job runs (see README.txt for cron job setup information) 
+$charts_update_freq = 4; // How many times per hour did you setup your cron job to run? (see README.txt for cron job setup information) 
+
+// Backup chart data in a zip file in the 'backups' subdirectory (with a secure random 32 character hexadecimal suffix for privacy)
+$chart_data_backups = 'daily'; // 'off', 'daily', 'weekly' Email to / from !MUST BE SET! (a download link is emailed to you of the chart data archive)
+
 
 
 // IF SMTP EMAIL SENDING --NOT-- USED, FROM email should be REAL address on the website domain, or risk having email blacklisted / sent to junk folder
@@ -117,7 +125,7 @@ $proxy_alerts = 'email'; // Alerts for failed proxy data connections. 'none', 'e
 
 $proxy_alerts_runtime = 'cron'; // Which runtime mode should allow proxy alerts? Options: 'cron', 'ui', 'all'
 
-$proxy_checkup_ok = 'include'; // 'include', or 'ignore' Proxy alerts even if checkup went OK? (after flagged, started working again when checked) 
+$proxy_checkup_ok = 'include'; // 'include', or 'ignore' Proxy alerts sent to you even if proxy checkup went OK? (after flagged, started working again when checked) 
 
 $proxy_alerts_freq = 1; // Re-allow same proxy alert(s) after X hours (per ip/port pair, can be 0)
 

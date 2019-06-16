@@ -7,6 +7,8 @@
 	foreach ( $_SESSION['repeat_error'] as $error ) {
 	$other_error_logs .= $error;
 	}
+	
+	$other_error_logs .= $_SESSION['other_error'];
 
 ?>
             	

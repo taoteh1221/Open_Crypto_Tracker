@@ -34,8 +34,9 @@ if ( dir_structure($base_dir . '/cache/alerts/') != TRUE
 || dir_structure($base_dir . '/cache/apis/') != TRUE
 || dir_structure($base_dir . '/cache/events/') != TRUE
 || dir_structure($base_dir . '/cache/logs/') != TRUE
-|| dir_structure($base_dir . '/cache/charts/') != TRUE ) {
-echo "Cannot create '/cache/' sub-directories. Please either manually create the sub-directories 'alerts', 'apis', 'events', 'logs', and 'charts' with read / write permissions inside the folder 'cache', OR make sure the folder '/cache/' itself has read / write permissions (and these sub-directories should be created automatically).";
+|| dir_structure($base_dir . '/cache/charts/') != TRUE
+|| dir_structure($base_dir . '/cache/vars/') != TRUE ) {
+echo "Cannot create '/cache/' sub-directories. Please either manually create the sub-directories 'alerts', 'apis', 'events', 'logs', 'charts', and 'vars' with read / write permissions inside the folder 'cache', OR make sure the folder '/cache/' itself has read / write permissions (and these sub-directories should be created automatically).";
 exit;
 }
 
@@ -70,6 +71,13 @@ if ( $runtime_mode == 'ui' ) {
 
 require_once( $php_app_dir . "/other/cookies.php");
 
+
+	// Have UI runtime mode cache the app URL data, since CLI runtime cannot determine the app URL (for sending backup link emails during backups, etc)
+	if ( file_exists('cache/vars/app_url.dat') != 1 ) {
+	file_put_contents('cache/vars/app_url.dat', base_url(), LOCK_EX);
+	}
+
+
 $sort_settings = ( $_COOKIE['sort_by'] ? $_COOKIE['sort_by'] : $_POST['sort_by'] );
 $sort_settings = explode("|",$sort_settings);
 
@@ -88,6 +96,10 @@ $alert_percent = explode("|", ( $_POST['use_alert_percent'] != '' ? $_POST['use_
 $show_charts = explode(',', rtrim( ( $_POST['show_charts'] != '' ? $_POST['show_charts'] : $_COOKIE['show_charts'] ) , ',') );
 
 }
+
+
+// Base URL, that even works during CLI runtime (horray)
+$base_url = file_get_contents('cache/vars/app_url.dat');
 
 
 ?>

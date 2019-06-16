@@ -253,6 +253,9 @@ $coins_list_numbered = array_values($coins_list['BTC']['market_pairing']['btc'])
         var dominance_content = '<h5 class="yellow" style="position: relative;">Portfolio Dominance Stats:</h5>'
         
         <?php
+        		
+        		// Sort by most dominant first
+        		arsort($_SESSION['btc_worth_array']);
             foreach ( $_SESSION['btc_worth_array'] as $key => $value ) {
             	$dominance = ( $value / $total_btc_worth ) * 100;
             	
