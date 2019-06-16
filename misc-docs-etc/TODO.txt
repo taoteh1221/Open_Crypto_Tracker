@@ -4,6 +4,8 @@
 TODO
 ///////////////////////////////////////////////////////
 
+Include restore link in backup archive emails, to use that particular backup to restore from.
+
 CSV file export / import of portfolio values.
 
 Make sure programming comments are adequate throughout the app.
@@ -22,6 +24,10 @@ Differentiate BTC USD / USDT / TUSD / USDC markets as bitcoin's market options, 
 ///////////////////////////////////////////////////////
 MAYBE
 ///////////////////////////////////////////////////////
+
+For semantics, move 'logs' subdirectory out of the 'cache' subdirectory, into it's own primary subdirectory?
+
+Look into more graceful 'loading...' placeholder until page is fully loaded?
 
 Ability to temporarily hide portfolio data, without deleting it (maybe with a PIN?)
 
