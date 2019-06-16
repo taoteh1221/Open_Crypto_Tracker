@@ -1291,6 +1291,15 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+3.13.1:
+-Bug fix for chart backups config validating (and error reporting)
+-------------------------------------------------------------------
+
+
+
+
+
 
 
 

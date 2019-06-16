@@ -345,6 +345,46 @@ if ( $mail_error_logs == 'daily' && trim($from_email) != '' && trim($to_email) !
 
 
 
+// Email backup archives configs
+if ( $charts_page == 'on' && $chart_data_backups == 'daily' && trim($from_email) != '' && trim($to_email) != ''
+|| $charts_page == 'on' && $chart_data_backups == 'weekly' && trim($from_email) != '' && trim($to_email) != '' ) {
+					
+	// Config error check(s)
+   if ( validate_email($from_email) != 'valid' ) {
+   $config_parse_error[] = 'FROM email not configured properly for emailing backup archive notice / link.';
+   }
+          		
+   if ( validate_email($to_email) != 'valid' ) {
+   $config_parse_error[] = 'TO email not configured properly for emailing backup archive notice / link.';
+   }
+
+
+   // Displaying that errors were found
+   if ( $config_parse_error >= 1 ) {
+   $backuparchive_config_alert .=  '<span class="red">Backup archiving configuration error(s):</span>' . "<br /> \n";
+   }
+          		
+   // Displaying any config errors
+   foreach ( $config_parse_error as $error ) {
+   $backuparchive_config_alert .= '<span class="red">' . $error . '</span>' . "<br /> \n";
+   }
+	
+   
+   $_SESSION['config_error'] .= ( $backuparchive_config_alert ? date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | configuration error: ' . $backuparchive_config_alert : '');
+
+        
+   // Displaying if checks passed
+   if ( sizeof($config_parse_error) < 1 ) {
+   $backuparchive_config_alert .= '<span class="green">Config formatting seems ok.</span>';
+   }
+          		
+   $config_parse_error = NULL; // Blank it out for any other config checks
+          		       	
+}
+          	
+
+
+
 // Check $coins_list config
 if ( !is_array($coins_list) ) {
 $_SESSION['config_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | configuration error: The coins list formatting is corrupt, or not configured yet.' . "<br /> \n";

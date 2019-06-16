@@ -56,7 +56,7 @@
           	
           	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job on your web server</a>, or this feature will not work AT ALL.</i> 
           	
-          		<?=( $errorlogs_config_alert != '' ? '<br />' . $errorlogs_config_alert : '' )?>
+          		<?=( $backuparchive_config_alert != '' ? '<br />' . $backuparchive_config_alert : '' )?>
           	
           	</p>  
                         
