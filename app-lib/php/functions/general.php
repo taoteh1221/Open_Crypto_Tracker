@@ -164,131 +164,6 @@ return ($updates_daily * $range);
 
 /////////////////////////////////////////////////////////
 
-function random_hash($num_bytes) {
-
-global $base_dir;
-
-	// PHP 4 
-	if ( PHP_VERSION_ID < 50000 ) {
-	$_SESSION['other_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | Error: Upgrade to PHP v5 or later to support cryptographically secure pseudo-random bytes in this application, or your application may not function properly' . "<br /> \n";
-	}
-	// PHP 5 (V6 RELEASE WAS SKIPPED)
-	elseif ( PHP_VERSION_ID < 60000 ) {
-	require_once($base_dir . '/app-lib/php/other/random-compat/lib/random.php');
-	$hash = random_bytes($num_bytes);
-	}
-	// >= PHP 7
-	elseif ( PHP_VERSION_ID >= 70000 ) {
-	$hash = random_bytes($num_bytes);
-	}
-
-	if ( strlen($hash) == $num_bytes ) {
-	return bin2hex($hash);
-	}
-	else {
-	return false;
-	}
-
-}
-
-/////////////////////////////////////////////////////////
-
-function zip_recursively($source, $destination) {
-	
-		
-		if ( !extension_loaded('zip') ) {
-			return 'no_extension';
-		}
-		elseif ( !file_exists($source) ) {
-			return 'no_source';
-		}
-	
-		$zip = new ZipArchive();
-		if ( !$zip->open($destination, ZIPARCHIVE::CREATE) ) {
-			return 'no_open_dest';
-		}
-	
-		$source = str_replace('\\', '/', realpath($source));
-	
-		if ( is_dir($source) === true ) {
-			
-			$files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source), RecursiveIteratorIterator::SELF_FIRST);
-	
-			foreach ($files as $file) {
-				
-				$file = str_replace('\\', '/', $file);
-	
-				// Ignore "." and ".." folders
-				if ( in_array( substr($file, strrpos($file, '/')+1) , array('.', '..') ) )
-					continue;
-	
-				$file = realpath($file);
-	
-				if (is_dir($file) === true) {
-					$zip->addEmptyDir(str_replace($source . '/', '', $file . '/'));
-				}
-				elseif (is_file($file) === true) {
-					$zip->addFromString(str_replace($source . '/', '', $file), file_get_contents($file));
-				}
-				
-			}
-			
-		}
-		elseif ( is_file($source) === true ) {
-			$zip->addFromString(basename($source), file_get_contents($source));
-		}
-	
-		return $zip->close();
-		
-    
-}
-
-/////////////////////////////////////////////////////////
-
-function start_page_html($page) {
-?>
-<span style='border: 2px dotted black; padding: 8px;'> 
-	
-	<select onchange='
-	
-		if ( this.value == "index.php?start_page=<?=$page?>" ) {
-		var anchor = "#<?=$page?>";
-		}
-		else {
-		var anchor = "";
-		}
-	
-	// This start page method saves portfolio data during the session, even without cookie data enabled
-	document.getElementById("coin_amounts").action = this.value + anchor;
-	document.coin_amounts.submit();
-	
-	'>
-		<option value='index.php'> Show Portfolio Page First </option>
-		<?php
-		if ( $_GET['start_page'] != '' && $_GET['start_page'] != $page ) {
-		$another_set = 1;
-		?>
-		<option value='index.php?start_page=<?=$_GET['start_page']?>' selected > Show <?=ucfirst( preg_replace("/_/i", " ", $_GET['start_page']) )?> Page First </option>
-		<?php
-		}
-		?>
-		<option value='index.php?start_page=<?=$page?>' <?=( $_GET['start_page'] == $page ? 'selected' : '' )?> > Show <?=ucfirst( preg_replace("/_/i", " ", $page) )?> Page First </option>
-	</select> 
-	
-</span>
-
-	<?php
-	if ( $another_set == 1 ) {
-	?>
-	<span class='red'>&nbsp;(another secondary page is currently the start page)</span>
-	 <br clear='all' />
-	<?php
-	}
-	
-}
-
-/////////////////////////////////////////////////////////
-
 function chart_data($file) {
 
 $data = array();
@@ -343,50 +218,30 @@ $email = trim($email);
 
 /////////////////////////////////////////////////////////
 
-function safe_mail($to, $subject, $message) {
-	
-global $smtp_login, $smtp_server, $from_email;
+function random_hash($num_bytes) {
 
-// Trim whitespace off ends
-$from_email = trim($from_email);
-$to = trim($to);
+global $base_dir;
 
-// Stop injection vulnerability
-$from_email = str_replace("\r\n", "\n", $from_email); // windows -> unix
-$from_email = str_replace("\r", "\n", $from_email);   // remaining -> unix
+	// PHP 4 
+	if ( PHP_VERSION_ID < 50000 ) {
+	$_SESSION['other_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | Error: Upgrade to PHP v5 or later to support cryptographically secure pseudo-random bytes in this application, or your application may not function properly' . "<br /> \n";
+	}
+	// PHP 5 (V6 RELEASE WAS SKIPPED)
+	elseif ( PHP_VERSION_ID < 60000 ) {
+	require_once($base_dir . '/app-lib/php/other/random-compat/lib/random.php');
+	$hash = random_bytes($num_bytes);
+	}
+	// >= PHP 7
+	elseif ( PHP_VERSION_ID >= 70000 ) {
+	$hash = random_bytes($num_bytes);
+	}
 
-
-	// Use array for safety from header injection >= PHP 7.2 
-	if ( PHP_VERSION_ID >= 70200 ) {
-	
-	$headers = array(
-	    					'From' => $from_email
-	    					//'From' => $from_email,
-	    					//'Reply-To' => $from_email,
-	    					//'X-Mailer' => 'PHP/' . phpversion()
-							);
-	
+	if ( strlen($hash) == $num_bytes ) {
+	return bin2hex($hash);
 	}
 	else {
-	$headers = 'From: ' . $from_email;
+	return false;
 	}
-		
-		
-	// Validate TO email
-	$email_check = validate_email($to);
-	if ( $email_check != 'valid' ) {
-	return $email_check;
-	}
-	
-	
-	// SMTP or PHP's built-in mail() function
-	if ( $smtp_login != '' && $smtp_server != '' ) {
-	return @smtp_mail($subject, $message); // Added to email in post-init.php one time...because class adds to an array each call, even if already added
-	}
-	else {
-	return @mail($to, $subject, $message, $headers);
-	}
-
 
 }
 
@@ -490,6 +345,210 @@ function base_url($atRoot=FALSE, $atCore=FALSE, $parse=FALSE) {
 
 
 return $base_url;
+
+}
+
+/////////////////////////////////////////////////////////
+
+function zip_recursively($source, $destination) {
+	
+		
+		if ( !extension_loaded('zip') ) {
+			return 'no_extension';
+		}
+		elseif ( !file_exists($source) ) {
+			return 'no_source';
+		}
+	
+		$zip = new ZipArchive();
+		if ( !$zip->open($destination, ZIPARCHIVE::CREATE) ) {
+			return 'no_open_dest';
+		}
+	
+		$source = str_replace('\\', '/', realpath($source));
+	
+		if ( is_dir($source) === true ) {
+			
+			$files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source), RecursiveIteratorIterator::SELF_FIRST);
+	
+			foreach ($files as $file) {
+				
+				$file = str_replace('\\', '/', $file);
+	
+				// Ignore "." and ".." folders
+				if ( in_array( substr($file, strrpos($file, '/')+1) , array('.', '..') ) )
+					continue;
+	
+				$file = realpath($file);
+	
+				if (is_dir($file) === true) {
+					$zip->addEmptyDir(str_replace($source . '/', '', $file . '/'));
+				}
+				elseif (is_file($file) === true) {
+					$zip->addFromString(str_replace($source . '/', '', $file), file_get_contents($file));
+				}
+				
+			}
+			
+		}
+		elseif ( is_file($source) === true ) {
+			$zip->addFromString(basename($source), file_get_contents($source));
+		}
+	
+		return $zip->close();
+		
+    
+}
+
+/////////////////////////////////////////////////////////
+
+function start_page_html($page) {
+?>
+<span style='border: 2px dotted black; padding: 8px;'> 
+	
+	<select onchange='
+	
+		if ( this.value == "index.php?start_page=<?=$page?>" ) {
+		var anchor = "#<?=$page?>";
+		}
+		else {
+		var anchor = "";
+		}
+	
+	// This start page method saves portfolio data during the session, even without cookie data enabled
+	document.getElementById("coin_amounts").action = this.value + anchor;
+	document.coin_amounts.submit();
+	
+	'>
+		<option value='index.php'> Show Portfolio Page First </option>
+		<?php
+		if ( $_GET['start_page'] != '' && $_GET['start_page'] != $page ) {
+		$another_set = 1;
+		?>
+		<option value='index.php?start_page=<?=$_GET['start_page']?>' selected > Show <?=ucfirst( preg_replace("/_/i", " ", $_GET['start_page']) )?> Page First </option>
+		<?php
+		}
+		?>
+		<option value='index.php?start_page=<?=$page?>' <?=( $_GET['start_page'] == $page ? 'selected' : '' )?> > Show <?=ucfirst( preg_replace("/_/i", " ", $page) )?> Page First </option>
+	</select> 
+	
+</span>
+
+	<?php
+	if ( $another_set == 1 ) {
+	?>
+	<span class='red'>&nbsp;(another secondary page is currently the start page)</span>
+	 <br clear='all' />
+	<?php
+	}
+	
+}
+
+/////////////////////////////////////////////////////////
+
+function safe_mail($to, $subject, $message) {
+	
+global $smtp_login, $smtp_server, $from_email;
+
+// Trim whitespace off ends
+$from_email = trim($from_email);
+$to = trim($to);
+
+// Stop injection vulnerability
+$from_email = str_replace("\r\n", "\n", $from_email); // windows -> unix
+$from_email = str_replace("\r", "\n", $from_email);   // remaining -> unix
+
+
+	// Use array for safety from header injection >= PHP 7.2 
+	if ( PHP_VERSION_ID >= 70200 ) {
+	
+	$headers = array(
+	    					'From' => $from_email
+	    					//'From' => $from_email,
+	    					//'Reply-To' => $from_email,
+	    					//'X-Mailer' => 'PHP/' . phpversion()
+							);
+	
+	}
+	else {
+	$headers = 'From: ' . $from_email;
+	}
+		
+		
+	// Validate TO email
+	$email_check = validate_email($to);
+	if ( $email_check != 'valid' ) {
+	return $email_check;
+	}
+	
+	
+	// SMTP or PHP's built-in mail() function
+	if ( $smtp_login != '' && $smtp_server != '' ) {
+	return @smtp_mail($subject, $message); // Added to email in post-init.php one time...because class adds to an array each call, even if already added
+	}
+	else {
+	return @mail($to, $subject, $message, $headers);
+	}
+
+
+}
+
+//////////////////////////////////////////////////////////
+
+function backup_archive($backup_prefix, $backup_target, $interval) {
+
+global $runtime_mode, $delete_old_backups, $base_dir, $base_url;
+
+
+	if ( update_cache_file('cache/events/backup_'.$backup_prefix.'.dat', ( $interval * 1440 ) ) == true ) {
+
+	$secure_128bit_hash = random_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
+	
+	
+		// We only want to store backup files with suffixes that can't be guessed, 
+		// otherwise halt the application if an issue is detected safely creating a random hash
+		if ( $secure_128bit_hash == false ) {
+		$_SESSION['other_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | Error: Cryptographically secure pseudo-random bytes could not be generated for '.$backup_prefix.' backup archive filename suffix, backup aborted to preserve backups directory privacy' . "<br /> \n";
+		}
+		else {
+			
+			$backup_file = $backup_prefix . '_'.date( "Y-M-d", time() ).'_'.$secure_128bit_hash.'.zip';
+			$backup_dest = $base_dir . '/backups/' . $backup_file;
+			
+			// Zip archive
+			$backup_results = zip_recursively($backup_target, $backup_dest);
+			
+			
+				if ( $backup_results == 1 ) {
+					
+				file_put_contents('cache/events/backup_'.$backup_prefix.'.dat', time(), LOCK_EX);
+					
+				$backup_url = 'backups/?file=' . $backup_file;
+				
+				$message = "A backup archive has been created for: ".$backup_prefix."\n\nHere is a link to download the backup to your computer: " . $base_url . $backup_url . "\n\n(backup archives are purged after " . $delete_old_backups . " days)";
+				
+				// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
+				$send_params = array(
+										'email' => array(
+															'subject' => 'DFD Cryptocoin Values - Backup Archive For: ' . $backup_prefix,
+															'message' => $message
+															)
+										);
+							
+				// Send notifications
+				@send_notifications($send_params);
+				
+				}
+				else {
+				$_SESSION['other_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | Error: Backup zip archive creation failed with '.$backup_results . "<br /> \n";
+				}
+				
+		
+		}
+	
+
+	}
+
 
 }
 

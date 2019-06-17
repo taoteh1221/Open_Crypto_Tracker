@@ -40,7 +40,7 @@
 			if ( $mail_error_logs == 'daily' && trim($from_email) != '' && trim($to_email) != ''
 			|| $mail_error_logs == 'weekly' && trim($from_email) != '' && trim($to_email) != '' ) {
           ?>
-          	<p class='settings_sections'><b>Emailing error logs</b> is <i>enabled</i> in the configuration file (sent out <?=$mail_error_logs?>, purged every <?=$purge_error_logs?> days).
+          	<p class='settings_sections'><b>Emailing error logs</b> is <i>enabled</i> in the configuration file (sent out <?=$mail_error_logs?>, log file purged every <?=$purge_error_logs?> days).
           	
           	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job on your web server</a>, or this feature will not work RELIABLY.</i> 
           	
@@ -50,9 +50,9 @@
                         
 			<?php
 			}
-			if ( $charts_page == 'on' && $chart_data_backups != 'off' ) {
+			if ( $charts_page == 'on' && $charts_backup_freq > 0 ) {
           ?>
-          	<p class='settings_sections'><b>Chart Backups</b> is <i>enabled</i> in the configuration file (run <?=$chart_data_backups?>, old backups purged after <?=$delete_old_backups?> days).
+          	<p class='settings_sections'><b>Chart Backups</b> are <i>enabled</i> in the configuration file (run every <?=$charts_backup_freq?> days, purged after <?=$delete_old_backups?> days old).
           	
           	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job on your web server</a>, or this feature will not work AT ALL.</i> 
           	

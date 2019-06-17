@@ -346,8 +346,7 @@ if ( $mail_error_logs == 'daily' && trim($from_email) != '' && trim($to_email) !
 
 
 // Email backup archives configs
-if ( $charts_page == 'on' && $chart_data_backups == 'daily' && trim($from_email) != '' && trim($to_email) != ''
-|| $charts_page == 'on' && $chart_data_backups == 'weekly' && trim($from_email) != '' && trim($to_email) != '' ) {
+if ( $charts_page == 'on' && $charts_backup_freq > 0 && trim($from_email) != '' && trim($to_email) != '' ) {
 					
 	// Config error check(s)
    if ( validate_email($from_email) != 'valid' ) {

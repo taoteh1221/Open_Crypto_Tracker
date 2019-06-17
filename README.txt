@@ -138,7 +138,7 @@ $charts_page = 'on'; // 'on' / 'off'
 $charts_update_freq = 4; // How many times per hour did you setup your cron job to run? (see README.txt for cron job setup information) 
 
 // Backup chart data in a zip file in the 'backups' subdirectory (with a secure random 32 character hexadecimal suffix for privacy), only used if $charts_page above is on
-$chart_data_backups = 'daily'; // 'off', 'daily', 'weekly' Email to / from !MUST BE SET! (a download link is emailed to you of the chart data archive)
+$charts_backup_freq = 3; // Every X days backup chart data. 0 disables backups. Email to / from !MUST BE SET! (a download link is emailed to you of the chart data archive)
 
 
 
@@ -214,7 +214,7 @@ $exchange_price_alerts_freq = 9; // Re-allow same exchange price alert(s) after 
 // Minimum 24 hour volume filter. Only allows sending exchange price alerts if minimum 24 hour volume reached
 // CAN BE 0 TO DISABLE MINIMUM VOLUME FILTERING, NO DECIMALS OR SEPARATORS, NUMBERS ONLY, WITHOUT dollar sign: 250 = $250 , 4500 = $4,500 , etc
 // THIS FILTER WILL AUTO-DISABLE IF THERE IS AN ERROR RETRIEVING VOLUME DATA ON A CERTAIN MARKET
-$exchange_price_alerts_minvolume = 250;
+$exchange_price_alerts_minvolume = 1250;
 
 // Refresh cached comparison prices every X days (since last refresh / alert) with latest prices...can be 0 to disable refreshing (until price alert triggers a refresh)
 $exchange_price_alerts_refresh = 0; 
@@ -839,4 +839,3 @@ $coins_list = array(
 
 /////////////////// COIN MARKETS CONFIG -END- /////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
-

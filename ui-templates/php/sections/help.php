@@ -299,6 +299,36 @@
 	    </div>
 	  </div>
 	  
+	
+	<?php
+	$accord_var = 10;
+	?>
+	
+	  <div class="card z-depth-0 bordered">
+	    <div class="card-header" id="heading_<?=$accord_var?>">
+	      <h5 class="mb-0">
+	        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse_<?=$accord_var?>"
+	          aria-expanded="false" aria-controls="collapse_<?=$accord_var?>">
+	          
+	          Backup Archives Don't Work
+	          
+	        </button>
+	      </h5>
+	    </div>
+	    <div id="collapse_<?=$accord_var?>" class="collapse" aria-labelledby="heading_<?=$accord_var?>"
+	      data-parent="#accordionHelp">
+	      <div class="card-body">
+	      
+	         
+	        If backup archives (for chart data etc) don't work properly, check the error logs file at /cache/logs/errors.log for error responses related to (a) "cryptographically secure pseudo-random bytes could not be generated" (which means your system is not properly setup to generate secure random characters, which are used for backup storage privacy via a random filename suffix), or (b) "Backup zip archive creation failed with no_extension" (which means your system does not have the libzip module for the PHP command-line version on your server). If you have either of these issues, the problem is related to your server not being setup properly to support this functionality. It's not a bug in this application. Contact your hosting provider or system administrator to have them fix your server setup to support these features.
+	    <br /><br />
+	      If you have none of these error log messages, your issue may be file / folder permissions. Make sure the /backups/ directory access permissions are set to readable and writable. This assures the ZIP archive has permission to be created in this directory.
+	        
+	        
+	      </div>
+	    </div>
+	  </div>
+	  
 	  
 	  
 	  

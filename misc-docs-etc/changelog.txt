@@ -1298,6 +1298,18 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+3.14.0:
+-Chart data archiving config switched to every X days (better UX as data size grows)
+-Backup archiving logic moved into reusable module
+-Misc. UX revisions
+-------------------------------------------------------------------
+
+
+
+
+
+
 
 
 
