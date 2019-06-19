@@ -14,13 +14,13 @@
 	
 	<p style='margin-top: 15px; margin-bottom: 15px;'><?=start_page_html('charts')?></p>			
 				
-	<p><button class="show_chart_settings force_button_style">Chart Settings</button></p>
+	<p><button class="show_chart_settings force_button_style">Activate Charts</button></p>
 	
 	
 	<div id="show_chart_settings" style="display:none;">
 	
 		
-		<h3>Activated Charts</h3>
+		<h3>Activate Charts</h3>
 	
 	<p class='red'>*Charts are not activated by default to increase page loading speed. <i>If you enable "Use cookie data to save values between sessions" on the Settings page before activating your charts, they will stay visible between sessions</i>.</p>
 	
@@ -147,7 +147,7 @@
 	<div align='center' style='min-height: 100px;'>
 	
 		<p><img src='ui-templates/media/images/favicon.png' border='0' /></p>
-		<p class='red' style='font-weight: bold; position: relative; margin: 15px;'>Click the Chart Settings button to activate charts.</p>
+		<p class='red' style='font-weight: bold; position: relative; margin: 15px;'>Click the Activate Charts button (top left) to add charts.</p>
 	</div>
 	<?php
 	}
