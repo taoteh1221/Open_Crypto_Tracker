@@ -109,7 +109,7 @@
 	<div style='display: none;' class='show_chartsnotice' align='left'>
 					
 		 
-		<p class='red' style='font-weight: bold;'>Charts are only available to show for each price alert properly configured in config.php. Price alerts must be <a href='README.txt' target='_blank'>setup as a cron job on your web server</a>, or <i>the charts here will not work</i> (this page will remain blank). The chart's tab, page, caching, and javascript can be disabled in config.php.</p>
+		<p class='red' style='font-weight: bold;'>Charts are only available to show for each asset properly configured in the charts / asset price alerts configuration section in the file config.php (located in the primary directory of this app). Charts (and asset price alerts) must be <a href='README.txt' target='_blank'>setup as a cron job on your web server</a>, or <i>they will not work</i>. The chart's tab, page, caching, and javascript can be disabled in config.php if you choose to not setup a cron job.</p>
 	
 				
 	</div>
