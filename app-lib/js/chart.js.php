@@ -18,13 +18,13 @@ exit;
 
 if ( $_GET['type'] == 'asset' ) {
 
-	foreach ( $exchange_price_alerts as $key => $value ) {
+	foreach ( $asset_charts_and_alerts as $key => $value ) {
  
 		// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
 		$chart_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, strpos($key, "-") ) );
 		$chart_asset = strtoupper($chart_asset);
 		
-		$market_parse = explode("||", $exchange_price_alerts[$key] );
+		$market_parse = explode("||", $value );
 		
 			if ( $chart_asset == 'BTC' ) {
 			$market_parse[1] = 'usd';
@@ -33,6 +33,13 @@ if ( $_GET['type'] == 'asset' ) {
 
 		$charted_value = ( $_GET['charted_value'] == 'pairing' && $chart_asset != 'BTC' ? $market_parse[1] : 'usd' );
 		
+		
+			// Have this script not load any code (and not leave page endlessly loading) if cache data is not present
+			if ( file_exists('cache/charts/'.$chart_asset.'/'.$key.'_chart_'.$charted_value.'.dat') != 1
+			|| $market_parse[2] != 'chart' && $market_parse[2] != 'both' ) {
+			exit;
+			}
+			
 		
 		// Strip non-alphanumeric characters to use in js vars, to isolate logic for each separate chart
 		$js_key = preg_replace("/-/", "", $key) . '_' . $charted_value;
@@ -72,11 +79,6 @@ if ( $_GET['type'] == 'asset' ) {
 			}
 			
 			
-			// Have this script not load any code (and not leave page endlessly loading) if cache data is not present
-			if ( file_exists('cache/charts/'.$chart_asset.'/'.$key.'_chart_'.$charted_value.'.dat') != 1 ) {
-			exit;
-			}
-		
 		$chart_data = chart_data('cache/charts/'.$chart_asset.'/'.$key.'_chart_'.$charted_value.'.dat');
 		
 ?>

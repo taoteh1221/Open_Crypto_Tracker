@@ -30,15 +30,16 @@ backup_archive('charts-data', $base_dir . '/cache/charts/', $charts_backup_freq)
 // Price alerts checking
 $btc_usd = get_btc_usd($btc_exchange)['last_trade'];
 
-foreach ( $exchange_price_alerts as $key => $value ) {
+foreach ( $asset_charts_and_alerts as $key => $value ) {
 	
 $value = explode("||",$value); // Convert $value into an array
 
 $exchange = $value[0];
 $pairing = $value[1];
+$mode = $value[2];
 
-asset_alert_check($key, $exchange, $pairing, 'decreased');
-asset_alert_check($key, $exchange, $pairing, 'increased');
+asset_alert_check($key, $exchange, $pairing, $mode, 'decreased');
+asset_alert_check($key, $exchange, $pairing, $mode, 'increased');
 
 }
 

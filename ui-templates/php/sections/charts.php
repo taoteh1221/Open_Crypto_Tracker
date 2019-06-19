@@ -34,22 +34,24 @@
 	<?php
 	
 	$zebra_stripe = 'e8e8e8';
-	foreach ( $exchange_price_alerts as $key => $value ) {
-			// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
-			$show_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, strpos($key, "-") ) );
-			$show_asset = strtoupper($show_asset);
-			
-			$show_asset_params = explode("||", $value);
-			
-				if ( $show_asset == 'BTC' ) {
-				$show_asset_params[1] = 'usd';
-				}
-			
+	foreach ( $asset_charts_and_alerts as $key => $value ) {
+		
+		// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
+		$show_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, strpos($key, "-") ) );
+		$show_asset = strtoupper($show_asset);
+		
+		$show_asset_params = explode("||", $value);
+		
+			if ( $show_asset == 'BTC' ) {
+			$show_asset_params[1] = 'usd';
+			}
+				
+			if ( $show_asset_params[2] == 'chart' || $show_asset_params[2] == 'both' ) {
 	?>
 	
 		<div class='long_list' style='background-color: #<?=$zebra_stripe?>;'>
 		
-			<b><?=$show_asset?> / <?=strtoupper($show_asset_params[1])?> @ <?=ucfirst($show_asset_params[0])?>:</b> &nbsp; &nbsp; &nbsp; 
+			<b><span class='blue'><?=$show_asset?></span> / <?=strtoupper($show_asset_params[1])?> @ <?=ucfirst($show_asset_params[0])?>:</b> &nbsp; &nbsp; &nbsp; 
 			
 				<?php
 				if ( $show_asset == 'BTC' ) {
@@ -73,11 +75,13 @@
 				
 	<?php
 	    
-		 	if ( $zebra_stripe == 'e8e8e8' ) {
-		 	$zebra_stripe = 'ffffff';
-		 	}
-		 	else {
-		 	$zebra_stripe = 'e8e8e8';
+		 		if ( $zebra_stripe == 'e8e8e8' ) {
+			 	$zebra_stripe = 'ffffff';
+			 	}
+			 	else {
+			 	$zebra_stripe = 'e8e8e8';
+			 	}
+		 	
 		 	}
 		 	
 	}
@@ -114,12 +118,13 @@
 	<?php
 	
 	// Render the charts
-	foreach ( $exchange_price_alerts as $key => $value ) {
+	foreach ( $asset_charts_and_alerts as $key => $value ) {
 		
 		$charts_available = 1;
-		$alerts_market_parse = explode("||", $exchange_price_alerts[$key] );	
+		$alerts_market_parse = explode("||", $value );	
 		
-		if ( in_array('['.$key.']', $show_charts) ) {
+		if ( in_array('['.$key.']', $show_charts) && $alerts_market_parse[2] == 'chart' 
+		|| in_array('['.$key.']', $show_charts) && $alerts_market_parse[2] == 'both'  ) {
 		$charts_shown = 1;
 	?>
 	

@@ -375,9 +375,9 @@ global $_POST, $mining_rewards;
 
 ////////////////////////////////////////////////////////
 
-function asset_alert_check($asset_data, $exchange, $pairing, $alert_mode) {
+function asset_alert_check($asset_data, $exchange, $pairing, $mode, $alert_mode) {
 
-global $coins_list, $btc_exchange, $btc_usd, $charts_page, $exchange_price_alerts_freq, $exchange_price_alerts_percent, $exchange_price_alerts_minvolume, $exchange_price_alerts_refresh;
+global $coins_list, $btc_exchange, $btc_usd, $charts_page, $asset_price_alerts_freq, $asset_price_alerts_percent, $asset_price_alerts_minvolume, $asset_price_alerts_refresh;
 
 // Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
 $asset = ( stristr($asset_data, "-") == false ? $asset_data : substr( $asset_data, 0, strpos($asset_data, "-") ) );
@@ -467,35 +467,40 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
 	
   			 // Price checks
           if ( $alert_mode == 'decreased' ) {
-          $exchange_price_alerts_value = $cached_value - ( $cached_value * ($exchange_price_alerts_percent / 100) );
+          $asset_price_alerts_value = $cached_value - ( $cached_value * ($asset_price_alerts_percent / 100) );
           $percent_change = 100 - ( $asset_usd_raw / ( $cached_value / 100 ) );
           $change_symbol = '-';
           
-                  if ( floatval($asset_usd_raw) >= 0.00000001 && floatval($asset_usd_raw) <= floatval($exchange_price_alerts_value) ) {
+                  if ( floatval($asset_usd_raw) >= 0.00000001 && floatval($asset_usd_raw) <= floatval($asset_price_alerts_value) ) {
                   $send_alert = 1;
                   }
           
           }
           elseif ( $alert_mode == 'increased' ) {
-          $exchange_price_alerts_value = $cached_value + ( $cached_value * ($exchange_price_alerts_percent / 100) );
+          $asset_price_alerts_value = $cached_value + ( $cached_value * ($asset_price_alerts_percent / 100) );
           $percent_change = ( $asset_usd_raw / ( $cached_value / 100 ) ) - 100;
           $change_symbol = '+';
           
-                  if ( floatval($asset_usd_raw) >= 0.00000001 && floatval($asset_usd_raw) >= floatval($exchange_price_alerts_value) ) {
+                  if ( floatval($asset_usd_raw) >= 0.00000001 && floatval($asset_usd_raw) >= floatval($asset_price_alerts_value) ) {
                   $send_alert = 1;
                   }
           
           }
           
           
-          // AFTER price checks, we disallow alerts where minimum 24 hour trade volume has NOT been met, ONLY if an API request doesn't fail to retrieve volume data
-          if ( $volume_usd_raw > 0 && $volume_usd_raw < $exchange_price_alerts_minvolume ) {
+          // AFTER gathering market data, we disallow alerts where minimum 24 hour trade volume has NOT been met, ONLY if an API request doesn't fail to retrieve volume data
+          if ( $volume_usd_raw > 0 && $volume_usd_raw < $asset_price_alerts_minvolume ) {
           $send_alert = NULL;
           }
   
+          // AFTER gathering market data, we disallow alerts if they are not activated
+          if ( $mode != 'both' && $mode != 'alert' ) {
+          $send_alert = NULL;
+          }
+          
           
           // Sending the alerts
-          if ( update_cache_file('cache/alerts/'.$asset_data.'.dat', $exchange_price_alerts_freq) == true && $send_alert == 1 ) {
+          if ( update_cache_file('cache/alerts/'.$asset_data.'.dat', $asset_price_alerts_freq) == true && $send_alert == 1 ) {
           
   				// Message formatting for display to end user
           
@@ -508,7 +513,7 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
           	// Format trade volume data
           	
           	// Minimum volume filter skipped message, only if filter enabled and no trade volume (otherwise is NULL)
-          	if ( $volume_usd_raw == NULL && $exchange_price_alerts_minvolume > 0 || $volume_usd_raw < 1 && $exchange_price_alerts_minvolume > 0 ) {
+          	if ( $volume_usd_raw == NULL && $asset_price_alerts_minvolume > 0 || $volume_usd_raw < 1 && $asset_price_alerts_minvolume > 0 ) {
           	$volume_filter_skipped_text = ', so enabled minimum volume filter was skipped';
           	}
           	else {
@@ -516,8 +521,8 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
           	}
           	
           	// Successfully received positive volume data, at or above an enabled minimum volume filter
-  				if ( $volume_usd_raw > 0 && $exchange_price_alerts_minvolume > 0 && $volume_usd_raw >= $exchange_price_alerts_minvolume ) {
-          	$email_volume_summary = '24 hour trade volume is ' . $volume_usd_text . ' (minimum volume filter set at $' . number_format($exchange_price_alerts_minvolume, 0, '.', ',') . ').';
+  				if ( $volume_usd_raw > 0 && $asset_price_alerts_minvolume > 0 && $volume_usd_raw >= $asset_price_alerts_minvolume ) {
+          	$email_volume_summary = '24 hour trade volume is ' . $volume_usd_text . ' (minimum volume filter set at $' . number_format($asset_price_alerts_minvolume, 0, '.', ',') . ').';
           	}
           	// If volume is zero or greater in successfully received volume data, without an enabled volume filter (or filter skipped)
           	// IF exchange dollar value price goes up/down and triggers alert, 
@@ -535,7 +540,7 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
   				
   				// Build the different messages, configure comm methods, and send messages
   				
-  				$email_message = 'The ' . $asset . ' trade value in the '.strtoupper($pairing).' market at the ' . ucfirst($exchange) . ' exchange has '.$alert_mode.' '.$change_symbol.number_format($percent_change, 2, '.', ',').'% from it\'s previous value of $'.$cached_value_text.', to a current value of $' . $asset_usd_text . ' over the past '.$last_check_time.' since the last price ' . ( $exchange_price_alerts_refresh > 0 ? 'refresh' : 'alert' ) . '. ' . $email_volume_summary;
+  				$email_message = 'The ' . $asset . ' trade value in the '.strtoupper($pairing).' market at the ' . ucfirst($exchange) . ' exchange has '.$alert_mode.' '.$change_symbol.number_format($percent_change, 2, '.', ',').'% from it\'s previous value of $'.$cached_value_text.', to a current value of $' . $asset_usd_text . ' over the past '.$last_check_time.' since the last price ' . ( $asset_price_alerts_refresh > 0 ? 'refresh' : 'alert' ) . '. ' . $email_volume_summary;
   				
   				$text_message = $asset . '/'.strtoupper($pairing).' @' . ucfirst($exchange) . ' '.$alert_mode.' '.$change_symbol.number_format($percent_change, 2, '.', ',').'% from $'.$cached_value_text.' to $' . $asset_usd_text . ' in '.$last_check_time.'. 24hr Vol: ' . $volume_usd_text;
   				
@@ -563,19 +568,23 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
 	}
 	////// END alert checking //////////////
 
-
+ 
 
 	// Cache a price value if not already done, OR if config setting set to refresh every X days
-	if ( floatval($asset_usd_raw) >= 0.00000001 && !file_exists('cache/alerts/'.$asset_data.'.dat') ) {
+	if ( $mode == 'both' && floatval($asset_usd_raw) >= 0.00000001 && !file_exists('cache/alerts/'.$asset_data.'.dat')
+	|| $mode == 'alert' && floatval($asset_usd_raw) >= 0.00000001 && !file_exists('cache/alerts/'.$asset_data.'.dat') ) {
 	file_put_contents('cache/alerts/'.$asset_data.'.dat', $asset_usd_raw, LOCK_EX); 
 	}
-	elseif ( $send_alert != 1 && $exchange_price_alerts_refresh >= 1 && floatval($asset_usd_raw) >= 0.00000001 && update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $exchange_price_alerts_refresh * 1440 ) ) == true ) {
+	elseif ( $mode == 'both' && $send_alert != 1 && $asset_price_alerts_refresh >= 1 && floatval($asset_usd_raw) >= 0.00000001 && update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $asset_price_alerts_refresh * 1440 ) ) == true
+	|| $mode == 'alert' && $send_alert != 1 && $asset_price_alerts_refresh >= 1 && floatval($asset_usd_raw) >= 0.00000001 && update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $asset_price_alerts_refresh * 1440 ) ) == true ) {
 	file_put_contents('cache/alerts/'.$asset_data.'.dat', $asset_usd_raw, LOCK_EX); 
 	}
+
 
 
 	// If the charts page is enabled in config.php, save latest chart data for assets with price alerts configured on them
-	if ( floatval($asset_usd_raw) >= 0.00000001 && $charts_page == 'on' && $alert_mode == 'increased' ) { // We only want this chart data stored once, so just run during the check for 'increased' value
+	if ( $mode == 'both' && floatval($asset_usd_raw) >= 0.00000001 && $charts_page == 'on' && $alert_mode == 'increased'
+	|| $mode == 'chart' && floatval($asset_usd_raw) >= 0.00000001 && $charts_page == 'on' && $alert_mode == 'increased' ) { // We only want this chart data stored once, so just run during the check for 'increased' value
 	
 	file_put_contents('cache/charts/'.$asset.'/'.$asset_data.'_chart_usd.dat', time() . '||' . $asset_usd_raw . '||' . $volume_usd_raw . "\n", FILE_APPEND | LOCK_EX); 
 	
@@ -584,6 +593,7 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
 		}
 	
 	}
+
 
 
 }

@@ -16,15 +16,22 @@ $marketcap_site = ( $alert_percent[0] != '' ? $alert_percent[0] : $marketcap_sit
 }
 
 // Chart data caches
-foreach ( $exchange_price_alerts as $key => $value ) {
+foreach ( $asset_charts_and_alerts as $key => $value ) {
 	
 	// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
 	$asset_dir = ( stristr($key, "-") == false ? $key : substr( $key, 0, strpos($key, "-") ) );
 	$asset_dir = strtoupper($asset_dir);
+		
+	$asset_cache_params = explode("||", $value);
 	
-	if ( dir_structure($base_dir . '/cache/charts/'.$asset_dir.'/') != TRUE ) {
-	$disabled_charts = 1;
+	if ( $asset_cache_params[2] == 'chart' || $asset_cache_params[2] == 'both' ) {
+	
+		if ( dir_structure($base_dir . '/cache/charts/'.$asset_dir.'/') != TRUE ) { // Attempt to create directory if it doesn't exist
+		$disabled_charts = 1;
+		}
+	
 	}
+	
 	
 }
 	
@@ -213,17 +220,17 @@ if ( trim($from_email) != '' && trim($to_email) != '' || sizeof($text_parse) > 0
           		
           		
 
-			// Check $exchange_price_alerts config
-			if ( !is_array($exchange_price_alerts) ) {
+			// Check $asset_charts_and_alerts config
+			if ( !is_array($asset_charts_and_alerts) ) {
 			$config_parse_error[] = 'The asset / exchange / pairing price alert formatting is corrupt, or not configured yet.';
 			}
 			
 			
-			foreach ( $exchange_price_alerts as $key => $value ) {
+			foreach ( $asset_charts_and_alerts as $key => $value ) {
    		       		
 			$alerts_string = explode("||",$value);
    		       	
-				if ( sizeof($alerts_string) < 2 ) {
+				if ( sizeof($alerts_string) < 3 ) {
 				$config_parse_error[] = "'" . $key . "' price alert exchange / market not formatted properly: '" . $value . "'";
       		}
      	

@@ -36,9 +36,9 @@ Just upload to your PHP-based web server (with an FTP client like FileZilla) and
 ################################################################################################################
 
 
-Setting up a cron job for exchange price alerts by email / mobile phone text / amazon alexa notifications (get notifications sent to you, even when you are offline): 
+Setting up a cron job for asset price alerts by email / mobile phone text / amazon alexa notifications (get notifications sent to you, even when you are offline): 
 
-If you want to take advantage of cron job based features like exchange price alerts, charts, chart data backups, daily or weekly error log emails / etc, then the file cron.php (located in the primary directory of this app) must be setup as a cron job on your website's web server. Consult your web server host's documentation or help desk, for their particular method of setting up a cron job. Note that you should have it run every X minutes 24/7, based on how often you want alerts / any other cron based features to run. Setting up the cron job to run every 15 minutes is a good default time interval to start off with. 
+If you want to take advantage of cron job based features like asset price alerts, charts, chart data backups, daily or weekly error log emails / etc, then the file cron.php (located in the primary directory of this app) must be setup as a cron job on your website's web server. Consult your web server host's documentation or help desk, for their particular method of setting up a cron job. Note that you should have it run every X minutes 24/7, based on how often you want alerts / any other cron based features to run. Setting up the cron job to run every 15 minutes is a good default time interval to start off with. 
 
 Here is an example cron job command line for reference below (not including any cron parameters your host interface may require), to setup as the "command" within a cron job. Replace system paths in the example with the correct ones for your server (TIP - A very common path to PHP on a server is /usr/bin/php):
 
@@ -126,7 +126,7 @@ $api_timeout = 13; // Seconds to wait for response from API endpoints. Don't set
 
 $api_strict_ssl = 'on'; // 'on' verifies ALL SSL certificates for HTTPS API servers, 'off' verifies NOTHING (NOT RECOMMENDED in production environment)
 
-$btc_exchange = 'binance'; // Default Bitcoin to USD (or equiv stable coin): coinbase / binance / bitstamp / bitfinex / kraken / gemini / hitbtc / okcoin / livecoin
+$btc_exchange = 'coinbase'; // Default Bitcoin to USD (or equiv stable coin): coinbase / binance / bitstamp / bitfinex / kraken / gemini / hitbtc / okcoin / livecoin
 
 $marketcap_site = 'coinmarketcap'; // Default marketcap data source: 'coinmarketcap', or 'coingecko'
 
@@ -138,16 +138,16 @@ $last_trade_cache = 1; // Minutes to cache real-time exchange data...can be zero
 
 $chainstats_cache = 15; // Minutes to cache blockchain stats (for mining calculators). Set high initially, can be strict
 
-$delete_old_backups = 10; // Days until old zip archive backups should be deleted (chart data archives, etc)
+$delete_old_backups = 7; // Days until old zip archive backups should be deleted (chart data archives, etc)
 
-$purge_error_logs = 2; // Days to keep error logs before purging (deletes logs every X days) start low, especially when using proxies
+$purge_error_logs = 5; // Days to keep error logs before purging (deletes logs every X days) start low, especially when using proxies
 
 $mail_error_logs = 'daily'; // 'off', 'daily', 'weekly' Email to / from !MUST BE SET! MAY NOT SEND IN TIMELY FASHION WITHOUT CRON JOB
 
 
 
 // ENABLING CHARTS REQUIRES A CRON JOB SETUP (see README.txt for cron job setup information)
-// Caches USD + crypto price / volume data for historical charts of all assets added to 'exchange price alerts' (further down in this config file)
+// Caches USD + crypto price / volume data for historical charts of all assets added to 'asset price alerts' (further down in this config file)
 // Enables a charts tab / page with historical charts. STILL EARLY EXPERIMENTAL CODE (AS OF 5/29/2019), MAY SLOW PAGE LOADS SIGNIFICANTLY
 // Disabling will disable EVERYTHING related to the charts features...the page, caching, even the javascript associated with the charts
 $charts_page = 'on'; // 'on' / 'off'
@@ -156,7 +156,7 @@ $charts_page = 'on'; // 'on' / 'off'
 $charts_update_freq = 4; // How many times per hour did you setup your cron job to run? (see README.txt for cron job setup information) 
 
 // Backup chart data in a zip file in the 'backups' subdirectory (with a secure random 32 character hexadecimal suffix for privacy), only used if $charts_page above is on
-$charts_backup_freq = 3; // Every X days backup chart data. 0 disables backups. Email to / from !MUST BE SET! (a download link is emailed to you of the chart data archive)
+$charts_backup_freq = 2; // Every X days backup chart data. 0 disables backups. Email to / from !MUST BE SET! (a download link is emailed to you of the chart data archive)
 
 
 
@@ -166,21 +166,21 @@ $from_email = ''; // MUST BE SET for price alerts and other email features
 
 $to_email = ''; // MUST BE SET for price alerts and other email features
 
-// For exchange price alert texts to mobile phones. Attempts to email text if carrier is set AND no textbelt / textlocal config is setup
+// For asset price alert texts to mobile phones. Attempts to email text if carrier is set AND no textbelt / textlocal config is setup
 // CAN BE BLANK. Country format MUST be used: '12223334444||number_only' number_only (for textbelt / textlocal), alltel, att, tmobile, virgin, sprint, verizon, nextel
 $to_text = '';
 
-// For exchange price alert notifyme alexa notifications (sending Alexa devices notifications for free). 
+// For asset price alert notifyme alexa notifications (sending Alexa devices notifications for free). 
 // NOTE: Amazon's Alexa API will only allow a maximum of 5 notifications every 5 minutes
 // CAN BE BLANK. Setup: http://www.thomptronics.com/notify-me
 $notifyme_accesscode = '';
 
 // Do NOT use textbelt AND textlocal together. Leave one setting blank, or it will disable using both.
 
-// CAN BE BLANK. For exchange price alert textbelt notifications. Setup: https://textbelt.com/
+// CAN BE BLANK. For asset price alert textbelt notifications. Setup: https://textbelt.com/
 $textbelt_apikey = '';
 
-// CAN BE BLANK. For exchange price alert textlocal notifications. Setup: https://www.textlocal.com/integrations/api/
+// CAN BE BLANK. For asset price alert textlocal notifications. Setup: https://www.textlocal.com/integrations/api/
 $textlocal_account = ''; // This format MUST be used: 'username||hash_code'
 
 
@@ -222,56 +222,121 @@ $proxy_alerts_freq = 1; // Re-allow same proxy alert(s) after X hours (per ip/po
 
 
 
-// Exchange price alert settings
-// Only used if $exchange_price_alerts is filled in properly below, AND a cron job is setup (see README.txt for cron job setup information) 
+// Asset price alert settings
+// Only used if $asset_charts_and_alerts is filled in properly below, AND a cron job is setup (see README.txt for cron job setup information) 
 
-$exchange_price_alerts_percent = 8; // Price percent change to send alerts for (WITHOUT percent sign: 15 = 15%). Sends alerts when percent change reached (up or down)
+$asset_price_alerts_percent = 7; // Price percent change to send alerts for (WITHOUT percent sign: 15 = 15%). Sends alerts when percent change reached (up or down)
 
-$exchange_price_alerts_freq = 9; // Re-allow same exchange price alert(s) after X minutes (per asset, set higher if issues with blacklisting...can be 0)
+$asset_price_alerts_freq = 4; // Re-allow same asset price alert(s) after X minutes (per asset, set higher if issues with blacklisting...can be 0)
 
-// Minimum 24 hour volume filter. Only allows sending exchange price alerts if minimum 24 hour volume reached
+// Minimum 24 hour volume filter. Only allows sending asset price alerts if minimum 24 hour volume reached
 // CAN BE 0 TO DISABLE MINIMUM VOLUME FILTERING, NO DECIMALS OR SEPARATORS, NUMBERS ONLY, WITHOUT dollar sign: 250 = $250 , 4500 = $4,500 , etc
 // THIS FILTER WILL AUTO-DISABLE IF THERE IS AN ERROR RETRIEVING VOLUME DATA ON A CERTAIN MARKET
-$exchange_price_alerts_minvolume = 1250;
+$asset_price_alerts_minvolume = 750;
 
 // Refresh cached comparison prices every X days (since last refresh / alert) with latest prices...can be 0 to disable refreshing (until price alert triggers a refresh)
-$exchange_price_alerts_refresh = 0; 
+$asset_price_alerts_refresh = 0; 
 
-// EXCHANGE PRICE CHANGE ALERTS REQUIRES CRON JOB SETUP (see README.txt for cron job setup information) 
-// Markets you want exchange price change alerts for (alert sent when $USD value change is equal to or above / below $exchange_price_alerts_percent) 
-// Delete any double forward slashes from in front of each asset you want to enable price alerts on (or add double slashes to disable alerts)
+// CHARTS / ASSET PRICE ALERTS REQUIRE A CRON JOB SETUP (see README.txt for cron job setup information) 
+// Markets you want charts or asset price change alerts for (alerts sent when $USD value change is equal to or above / below $asset_price_alerts_percent) 
+// Delete any double forward slashes from in front of each asset you want to enable charts / price alerts on (or add double slashes to disable)
 // NOTE: This list must only contain assets / exchanges / trading pairs included in the primary coin list configuration further down in this config file
-// TO ADD MULTIPLE ALERTS FOR SAME ASSET (FOR DIFFERENT EXCHANGES / TRADE PAIRINGS), FORMAT LIKE SO: symbol, symbol-1, symbol-2, etc.
-$exchange_price_alerts = array(
-				// 'symbol' => 'exchange||trade_pairing',
-				// 'symbol-2' => 'exchange2||trade_pairing2',
-				// 'othersymbol' => 'exchange||trade_pairing',
-				// 'othersymbol-2' => 'exchange2||trade_pairing2',
-				// 'othersymbol-3' => 'exchange3||trade_pairing3',
-					'btc' => 'coinbase||btc',
-					'btc-2' => 'binance||btc',
-					'eth' => 'binance||usdt',
-				//	'eth-2' => 'bittrex||btc',
-					'xmr' => 'binance||btc',
-					'ltc' => 'bittrex||btc',
-					'dcr' => 'binance||btc',
-				//	'dcr-2' => 'bittrex||usdt',
-					'grin' => 'poloniex||btc',
-				//	'grin-2' => 'hitbtc||eth',
-					'atom' => 'binance||btc',
-				//	'atom-2' => 'poloniex||btc',
-				//	'atom-3' => 'kraken||btc',
-					'matic' => 'binance||btc',
-					'steem' => 'binance||eth',
-					'ant' => 'bittrex||btc',
-					'mana' => 'binance||btc',
-					'gnt' => 'bittrex||btc',
-					'data' => 'binance||btc',
-					'myst' => 'hitbtc||btc',
-					'myst-2' => 'hitbtc||eth',
-					'myst-3' => 'idex||eth',
-					'tusd' => 'binance||usdt',
+// TO ADD MULTIPLE CHARTS / ALERTS FOR SAME ASSET (FOR DIFFERENT EXCHANGES / TRADE PAIRINGS), FORMAT LIKE SO: symbol, symbol-1, symbol-2, etc.
+// TO ENABLE CHART AND ALERT = both, TO ENABLE CHART ONLY = chart, TO ENABLE ALERT ONLY = alert
+$asset_charts_and_alerts = array(
+
+					// SYMBOL
+				// 'symbol' => 'exchange||trade_pairing||both',
+				// 'symbol-2' => 'exchange2||trade_pairing2||chart',
+				
+					// OTHERSYMBOL
+				// 'othersymbol' => 'exchange||trade_pairing||both',
+				// 'othersymbol-2' => 'exchange2||trade_pairing2||alert',
+				// 'othersymbol-3' => 'exchange3||trade_pairing3||chart',
+					
+					// BTC
+					'btc' => 'coinbase||btc||both',
+					'btc-2' => 'binance||btc||chart',
+					'btc-3' => 'bitstamp||btc||chart',
+					'btc-4' => 'kraken||btc||chart',
+					'btc-5' => 'gemini||btc||chart',
+					'btc-6' => 'bitfinex||btc||chart',
+					
+					// ETH
+					'eth' => 'coinbase||btc||both',
+					'eth-2' => 'bittrex||btc||chart',
+					'eth-3' => 'bittrex||usdt||chart',
+					'eth-4' => 'poloniex||btc||chart',
+					'eth-5' => 'poloniex||usdt||chart',
+					'eth-6' => 'kraken||btc||chart',
+					'eth-7' => 'binance||usdt||chart',
+					
+					// XMR
+					'xmr' => 'bittrex||btc||both',
+					'xmr-2' => 'bittrex||eth||chart',
+					'xmr-3' => 'poloniex||btc||chart',
+					'xmr-4' => 'binance||btc||chart',
+					'xmr-5' => 'binance||eth||chart',
+					
+					// LTC
+					'ltc' => 'bittrex||btc||both',
+					'ltc-2' => 'bittrex||eth||chart',
+					'ltc-3' => 'poloniex||btc||chart',
+					'ltc-4' => 'poloniex||xmr||chart',
+					'ltc-5' => 'binance||usdt||chart',
+					'ltc-6' => 'binance||eth||chart',
+					
+					// DCR
+					'dcr' => 'bittrex||btc||both',
+					'dcr-2' => 'bittrex||usdt||chart',
+					'dcr-3' => 'binance||btc||chart',
+					'dcr-4' => 'kucoin||btc||chart',
+					'dcr-5' => 'kucoin||eth||chart',
+					
+					// GRIN
+					'grin' => 'poloniex||btc||both',
+					'grin-2' => 'kucoin||btc||chart',
+					'grin-3' => 'hitbtc||btc||chart',
+					'grin-4' => 'hotbit||btc||chart',
+					
+					// ATOM
+					'atom' => 'poloniex||btc||both',
+					'atom-2' => 'kraken||btc||chart',
+					'atom-3' => 'binance||btc||chart',
+					
+					// STEEM
+					'steem' => 'bittrex||btc||both',
+					'steem-2' => 'poloniex||btc||chart',
+					'steem-3' => 'binance||btc||chart',
+					
+					// ANT
+					'ant' => 'hitbtc||btc||both',
+					'ant-2' => 'ethfinex||btc||chart',
+					
+					// MANA
+					'mana' => 'bittrex||btc||both',
+					'mana-2' => 'poloniex||btc||chart',
+					'mana-3' => 'binance||btc||chart',
+					'mana-4' => 'kucoin||btc||chart',
+					'mana-5' => 'ethfinex||btc||chart',
+					
+					// GNT
+					'gnt' => 'bittrex||btc||both',
+					'gnt-2' => 'poloniex||btc||chart',
+					'gnt-3' => 'ethfinex||btc||chart',
+					
+					// DATA
+					'data' => 'hitbtc||btc||both',
+					'data-2' => 'binance||btc||chart',
+					
+					//MYST
+					'myst' => 'hitbtc||btc||both',
+					'myst-2' => 'hitbtc||eth||alert',
+					'myst-3' => 'idex||eth||alert',
+					
+					
 					);
+// END $asset_charts_and_alerts
 
 
 
@@ -279,10 +344,7 @@ $exchange_price_alerts = array(
 $eth_subtokens_ico_values = array(
                         'ETHSUBTOKENNAME' => '0.15',
                         'GOLEM' => '0.001',
-                        'SWARMCITY' => '0.0133333333333333',
                         'ARAGON' => '0.01',
-                        'STATUS' => '0.0001',
-                        '0XPROJECT' => '0.00016929425',
                         'DECENTRALAND' => '0.00008',
                         );
 
@@ -338,9 +400,9 @@ $coins_list = array(
                                           'coinbase' => 'coinbase',
                                           'binance' => 'binance',
                                           'bitstamp' => 'bitstamp',
-                                          'bitfinex' => 'bitfinex',
                                           'kraken' => 'XXBTZUSD',
                                           'gemini' => 'gemini',
+                                          'bitfinex' => 'bitfinex',
                                           'hitbtc' => 'hitbtc',
                                           'okcoin' => 'okcoin',
                                           'livecoin' => 'livecoin'
@@ -590,34 +652,6 @@ $coins_list = array(
                     ), // Coin END
                     
                     
-                    // MATIC
-                    'MATIC' => array(
-                        
-                        'coin_name' => 'Matic Network',
-                        'marketcap_website_slug' => 'matic-network',
-                        'market_pairing' => array(
-                        
-                                    'btc' => array(
-                                         'binance' => 'MATICBTC',
-                                         'hotbit' => 'MATIC_BTC',
-                                         'bitforex' => 'coin-btc-matic'
-                                                    ),
-                                                    
-                                    'eth' => array(
-                                         'hotbit' => 'MATIC_ETH',
-                                         'idex' => 'ETH_MATIC'
-                                                    ),
-                                                    
-                                    'usdt' => array(
-                                         'binance' => 'MATICUSDT',
-                                         'bitforex' => 'coin-usdt-matic'
-                                                    )
-                                                    
-                                        ) // market_pairing END
-                                        
-                    ), // Coin END
-                    
-                    
                     // STEEM
                     'STEEM' => array(
                         
@@ -857,3 +891,4 @@ $coins_list = array(
 
 /////////////////// COIN MARKETS CONFIG -END- /////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
+
