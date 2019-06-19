@@ -9,7 +9,7 @@
 <div class='force_1200px_wrapper'>
 	
 				
-				<h4 style='display: inline;'>External Resources</h4>
+				<h4 style='display: inline;'>Resources</h4>
 				
 				<span id='reload_countdown7' class='red countdown_notice'></span>
 			

@@ -9,7 +9,7 @@
 <div class='force_1200px_wrapper'>
 
 			
-			<h4 style='display: inline;'>Other Tools</h4>
+			<h4 style='display: inline;'>Tools</h4>
 				
 				<span id='reload_countdown6' class='red countdown_notice'></span>
 			
