@@ -22,7 +22,7 @@
 		
 		<h3>Activate Charts</h3>
 	
-	<p class='red'>*Charts are not activated by default to increase page loading speed. <i>If you enable "Use cookie data to save values between sessions" on the Settings page before activating your charts, they will stay visible between sessions</i>.</p>
+	<p class='red'>*Charts are not activated by default to increase page loading speed. It's recommended to avoid activating too many charts at the same time, to keep your page load times quick. You can enable "Use cookie data to save values between sessions" on the Settings page <i>before activating your charts</i>, if you want them to stay activated between browser sessions.</p>
 	
 	<!-- Submit button must be OUTSIDE form tags here, or it submits the target form improperly and loses data -->
 	<p><button class='force_button_style' onclick='document.coin_amounts.submit();'>Update Activated Charts</button></p>
