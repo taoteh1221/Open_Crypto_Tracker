@@ -47,7 +47,7 @@ $last_trade_cache = 1; // Minutes to cache real-time exchange data...can be zero
 
 $chainstats_cache = 15; // Minutes to cache blockchain stats (for mining calculators). Set high initially, can be strict
 
-$delete_old_backups = 7; // Days until old zip archive backups should be deleted (chart data archives, etc)
+$delete_old_backups = 11; // Days until old zip archive backups should be deleted (chart data archives, etc)
 
 $purge_error_logs = 5; // Days to keep error logs before purging (deletes logs every X days) start low, especially when using proxies
 
@@ -65,7 +65,7 @@ $charts_page = 'on'; // 'on' / 'off'
 $charts_update_freq = 4; // How many times per hour did you setup your cron job to run? (see README.txt for cron job setup information) 
 
 // Backup chart data in a zip file in the 'backups' subdirectory (with a secure random 32 character hexadecimal suffix for privacy), only used if $charts_page above is on
-$charts_backup_freq = 2; // Every X days backup chart data. 0 disables backups. Email to / from !MUST BE SET! (a download link is emailed to you of the chart data archive)
+$charts_backup_freq = 3; // Every X days backup chart data. 0 disables backups. Email to / from !MUST BE SET! (a download link is emailed to you of the chart data archive)
 
 
 
