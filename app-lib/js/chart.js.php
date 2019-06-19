@@ -133,7 +133,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
     }
   },
   title: {
-    text: "(<?=( $trade_symbol == '$' ? 'USD' : strtoupper($market_parse[1]) )?> Chart)  <?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=ucfirst($market_parse[0])?>",
+    text: "(<?=( $trade_symbol == '$' ? 'USD' : strtoupper($market_parse[1]) )?> Chart)  <?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=ucwords(preg_replace("/_/i", " ", $market_parse[0]))?>",
     fontColor: "#fff",
     fontFamily: 'Open Sans',
     fontSize: 23,

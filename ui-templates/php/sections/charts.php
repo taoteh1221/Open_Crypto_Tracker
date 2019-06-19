@@ -49,9 +49,9 @@
 			if ( $show_asset_params[2] == 'chart' || $show_asset_params[2] == 'both' ) {
 	?>
 	
-		<div class='long_list' style='background-color: #<?=$zebra_stripe?>;'>
+		<div class='long_list' style='background-color: #<?=$zebra_stripe?>; <?=( $last_rendered != $show_asset ? 'border-top: 2px solid black;' : '' )?>'>
 		
-			<b><span class='blue'><?=$show_asset?></span> / <?=strtoupper($show_asset_params[1])?> @ <?=ucfirst($show_asset_params[0])?>:</b> &nbsp; &nbsp; &nbsp; 
+			<b><span class='blue'><?=$show_asset?></span> / <?=strtoupper($show_asset_params[1])?> @ <?=ucwords(preg_replace("/_/i", " ", $show_asset_params[0]))?>:</b> &nbsp; &nbsp; &nbsp; 
 			
 				<?php
 				if ( $show_asset == 'BTC' ) {
@@ -83,11 +83,12 @@
 			 	}
 		 	
 		 	}
-		 	
+	
+	$last_rendered = $show_asset;
 	}
 	    
 	?>
-	<div class='long_list_end'> &nbsp; </div>
+	<div class='long_list_end' style='border-top: 2px solid black;'> &nbsp; </div>
 	
 		</form>
 	
@@ -113,7 +114,6 @@
 	
 				
 	</div>
-	
 	
 	<?php
 	

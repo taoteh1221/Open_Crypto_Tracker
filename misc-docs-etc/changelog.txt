@@ -1309,8 +1309,10 @@ app doing the data requests, not a malicious bot)
 
 -------------------------------------------------------------------
 3.15.0:
--Minor UX revisions
+-UX revisions
 -Feature to enable charts and alerts separately if desired (includes config file formatting changes)
+-USDC base pairing support
+-Bittrex International market naming (semantics)
 -------------------------------------------------------------------
 
 

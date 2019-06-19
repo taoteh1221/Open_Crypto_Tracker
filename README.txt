@@ -36,13 +36,13 @@ Just upload to your PHP-based web server (with an FTP client like FileZilla) and
 ################################################################################################################
 
 
-Setting up a cron job for asset price alerts by email / mobile phone text / amazon alexa notifications (get notifications sent to you, even when you are offline): 
+Setting up a cron job for charts and asset price alerts by email / mobile phone text / amazon alexa notifications (get notifications sent to you, even when you are offline): 
 
-If you want to take advantage of cron job based features like asset price alerts, charts, chart data backups, daily or weekly error log emails / etc, then the file cron.php (located in the primary directory of this app) must be setup as a cron job on your website's web server. Consult your web server host's documentation or help desk, for their particular method of setting up a cron job. Note that you should have it run every X minutes 24/7, based on how often you want alerts / any other cron based features to run. Setting up the cron job to run every 15 minutes is a good default time interval to start off with. 
+If you want to take advantage of cron job based features like charts, chart data backups, asset price alerts, daily or weekly error log emails / etc, then the file cron.php (located in the primary directory of this app) must be setup as a cron job on your website's web server. Consult your web server host's documentation or help desk, for their particular method of setting up a cron job. Note that you should have it run every X minutes 24/7, based on how often you want alerts / any other cron based features to run. Setting up the cron job to run at least every 15 minutes is a good default time interval to start off with. 
 
 Here is an example cron job command line for reference below (not including any cron parameters your host interface may require), to setup as the "command" within a cron job. Replace system paths in the example with the correct ones for your server (TIP - A very common path to PHP on a server is /usr/bin/php):
 
-/path/to/php -q /home/username/path/to/website_install/cron.php
+/path/to/php -q /home/username/path/to/website/this_app/cron.php
 
 
 ################################################################################################################
@@ -50,10 +50,10 @@ Here is an example cron job command line for reference below (not including any 
 
 Adding / editing / deleting assets and markets in the coins list:
 
-Below is an example for editing your assets / markets into the coin list in the file config.php (located in the primary directory of this app). It's very quick / easy to do (after you get the hang of it, lol). Also see further down in this README for a pre-configured set of default settings and example assets / markets. Currently BTC / XMR / ETH / LTC / USDT (Tether) / TUSD (True USD) based market pairing is compatible. Contact any supported exchange's help desk if you are unaware of the correct formatting of the trading pair naming you are adding in the configuration file (examples: Kraken has arbitrary Xs inserted in SOME older pair names, HitBTC sometimes has tether pairing without the "T" in the symbol name).
+Below is an example for editing your assets / markets into the coin list in the file config.php (located in the primary directory of this app). It's very quick / easy to do (after you get the hang of it, lol). Also see further down in this README for a pre-configured set of default settings and example assets / markets. Currently BTC / XMR / ETH / LTC / USDT (Tether) / TUSD (True USD) / USDC based market pairing is compatible. Contact any supported exchange's help desk if you are unaware of the correct formatting of the trading pair naming you are adding in the configuration file (examples: Kraken has arbitrary Xs inserted in SOME older pair names, HitBTC sometimes has tether pairing without the "T" in the symbol name).
 
 
- * USAGE (ADDING / UPDATING COINS) ...API support for (contact me to request adding more): coinbase / binance / bittrex / kraken / poloniex / bitstamp / bitfinex and ethfinex / cryptofresh / gemini / hitbtc / livecoin / upbit / kucoin / okex / gateio / graviex / idex / hotbit / tradeogre / bitforex / bigone / tradesatoshi...BTC, XMR, ETH, LTC, USDT AND TUSD trading pair support
+ * USAGE (ADDING / UPDATING COINS) ...API support for (contact me to request adding more): coinbase / binance / bittrex and bittrex_intl / kraken / poloniex / bitstamp / bitfinex and ethfinex / cryptofresh / gemini / hitbtc / livecoin / upbit / kucoin / okex / gateio / graviex / idex / hotbit / tradeogre / bitforex / bigone / tradesatoshi...BTC, XMR, ETH, LTC, USDT, TUSD, and USDC trading pair support
  * Ethereum ICO subtoken support has been built in, but values are static ICO values in ETH
  
  
@@ -99,6 +99,12 @@ Below is an example for editing your assets / markets into the coin list in the 
                                           'LOWERCASE_MARKETPLACE1' => 'MARKETNUMBERHERE',
                                           'LOWERCASE_MARKETPLACE2' => 'TUSD_COINSYMBOLHERE',
                                           'LOWERCASE_MARKETPLACE3' => 'TUSD-COINSYMBOLHERE'
+                                                    ),
+                                                    
+                                    'usdc' => array(
+                                          'LOWERCASE_MARKETPLACE1' => 'MARKETNUMBERHERE',
+                                          'LOWERCASE_MARKETPLACE2' => 'USDC_COINSYMBOLHERE',
+                                          'LOWERCASE_MARKETPLACE3' => 'USDC-COINSYMBOLHERE'
                                                     )
                                                     
                                           ) // market_pairing END
@@ -126,7 +132,7 @@ $api_timeout = 13; // Seconds to wait for response from API endpoints. Don't set
 
 $api_strict_ssl = 'on'; // 'on' verifies ALL SSL certificates for HTTPS API servers, 'off' verifies NOTHING (NOT RECOMMENDED in production environment)
 
-$btc_exchange = 'coinbase'; // Default Bitcoin to USD (or equiv stable coin): coinbase / binance / bitstamp / bitfinex / kraken / gemini / hitbtc / okcoin / livecoin
+$btc_exchange = 'binance'; // Default Bitcoin to USD (or equiv stable coin): coinbase / binance / bitstamp / bitfinex / kraken / gemini / hitbtc / okcoin / livecoin
 
 $marketcap_site = 'coinmarketcap'; // Default marketcap data source: 'coinmarketcap', or 'coingecko'
 
@@ -147,8 +153,8 @@ $mail_error_logs = 'daily'; // 'off', 'daily', 'weekly' Email to / from !MUST BE
 
 
 // ENABLING CHARTS REQUIRES A CRON JOB SETUP (see README.txt for cron job setup information)
-// Caches USD + crypto price / volume data for historical charts of all assets added to 'asset price alerts' (further down in this config file)
-// Enables a charts tab / page with historical charts. STILL EARLY EXPERIMENTAL CODE (AS OF 5/29/2019), MAY SLOW PAGE LOADS SIGNIFICANTLY
+// Caches USD + crypto price / volume data for charts of all assets added to $asset_charts_and_alerts (further down in this config file)
+// Enables a charts tab / page with historical charts. STILL EARLY CODE (AS OF 5/29/2019), MAY SLOW PAGE LOADS SIGNIFICANTLY UNTIL FURTHER OPTIMIZED
 // Disabling will disable EVERYTHING related to the charts features...the page, caching, even the javascript associated with the charts
 $charts_page = 'on'; // 'on' / 'off'
 
@@ -231,17 +237,18 @@ $asset_price_alerts_freq = 4; // Re-allow same asset price alert(s) after X minu
 
 // Minimum 24 hour volume filter. Only allows sending asset price alerts if minimum 24 hour volume reached
 // CAN BE 0 TO DISABLE MINIMUM VOLUME FILTERING, NO DECIMALS OR SEPARATORS, NUMBERS ONLY, WITHOUT dollar sign: 250 = $250 , 4500 = $4,500 , etc
-// THIS FILTER WILL AUTO-DISABLE IF THERE IS AN ERROR RETRIEVING VOLUME DATA ON A CERTAIN MARKET
+// THIS FILTER WILL AUTO-DISABLE IF THERE IS AN ERROR RETRIEVING DATA ON A CERTAIN MARKET (WHEN NOT EVEN A ZERO IS RECEIVED)
 $asset_price_alerts_minvolume = 750;
 
-// Refresh cached comparison prices every X days (since last refresh / alert) with latest prices...can be 0 to disable refreshing (until price alert triggers a refresh)
+// Refresh cached comparison prices every X days (since last refresh / alert) with latest prices
+// Can be 0 to disable refreshing (until price alert triggers a refresh)
 $asset_price_alerts_refresh = 0; 
 
-// CHARTS / ASSET PRICE ALERTS REQUIRE A CRON JOB SETUP (see README.txt for cron job setup information) 
+// CHARTS / ASSET PRICE ALERTS SETUP REQUIRES A CRON JOB RUNNING ON YOUR WEBSITE SERVER (see README.txt for cron job setup information) 
 // Markets you want charts or asset price change alerts for (alerts sent when $USD value change is equal to or above / below $asset_price_alerts_percent) 
-// Delete any double forward slashes from in front of each asset you want to enable charts / price alerts on (or add double slashes to disable)
+// Delete any double forward slashes from in front of each asset you want to enable charts / price alerts on (or add double slashes in front to disable it)
 // NOTE: This list must only contain assets / exchanges / trading pairs included in the primary coin list configuration further down in this config file
-// TO ADD MULTIPLE CHARTS / ALERTS FOR SAME ASSET (FOR DIFFERENT EXCHANGES / TRADE PAIRINGS), FORMAT LIKE SO: symbol, symbol-1, symbol-2, etc.
+// TO ADD MULTIPLE CHARTS / ALERTS FOR SAME ASSET (FOR DIFFERENT EXCHANGES / TRADE PAIRINGS), FORMAT LIKE SO: symbol, symbol-1, symbol-2, symbol-3, etc.
 // TO ENABLE CHART AND ALERT = both, TO ENABLE CHART ONLY = chart, TO ENABLE ALERT ONLY = alert
 $asset_charts_and_alerts = array(
 
@@ -255,68 +262,79 @@ $asset_charts_and_alerts = array(
 				// 'othersymbol-3' => 'exchange3||trade_pairing3||chart',
 					
 					// BTC
-					'btc' => 'coinbase||btc||both',
-					'btc-2' => 'binance||btc||chart',
+					'btc' => 'coinbase||btc||chart',
+					'btc-2' => 'binance||btc||both',
 					'btc-3' => 'bitstamp||btc||chart',
 					'btc-4' => 'kraken||btc||chart',
 					'btc-5' => 'gemini||btc||chart',
 					'btc-6' => 'bitfinex||btc||chart',
 					
 					// ETH
-					'eth' => 'coinbase||btc||both',
+					'eth' => 'coinbase||btc||chart',
 					'eth-2' => 'bittrex||btc||chart',
 					'eth-3' => 'bittrex||usdt||chart',
 					'eth-4' => 'poloniex||btc||chart',
 					'eth-5' => 'poloniex||usdt||chart',
 					'eth-6' => 'kraken||btc||chart',
-					'eth-7' => 'binance||usdt||chart',
+					'eth-7' => 'binance||usdt||both',
 					
 					// XMR
-					'xmr' => 'bittrex||btc||both',
+					'xmr' => 'bittrex||btc||chart',
 					'xmr-2' => 'bittrex||eth||chart',
 					'xmr-3' => 'poloniex||btc||chart',
-					'xmr-4' => 'binance||btc||chart',
+					'xmr-4' => 'binance||btc||both',
 					'xmr-5' => 'binance||eth||chart',
 					
 					// LTC
-					'ltc' => 'bittrex||btc||both',
+					'ltc' => 'bittrex||btc||chart',
 					'ltc-2' => 'bittrex||eth||chart',
 					'ltc-3' => 'poloniex||btc||chart',
 					'ltc-4' => 'poloniex||xmr||chart',
-					'ltc-5' => 'binance||usdt||chart',
+					'ltc-5' => 'binance||usdt||both',
 					'ltc-6' => 'binance||eth||chart',
 					
 					// DCR
-					'dcr' => 'bittrex||btc||both',
+					'dcr' => 'bittrex||btc||chart',
 					'dcr-2' => 'bittrex||usdt||chart',
-					'dcr-3' => 'binance||btc||chart',
+					'dcr-3' => 'binance||btc||both',
 					'dcr-4' => 'kucoin||btc||chart',
 					'dcr-5' => 'kucoin||eth||chart',
 					
 					// GRIN
 					'grin' => 'poloniex||btc||both',
-					'grin-2' => 'kucoin||btc||chart',
-					'grin-3' => 'hitbtc||btc||chart',
-					'grin-4' => 'hotbit||btc||chart',
+					'grin-2' => 'bittrex_intl||btc||chart',
+					'grin-3' => 'bittrex_intl||usdt||chart',
+					'grin-4' => 'gateio||usdt||chart',
+					'grin-5' => 'kucoin||btc||chart',
+					'grin-6' => 'hitbtc||btc||chart',
+					'grin-7' => 'hotbit||btc||chart',
 					
 					// ATOM
-					'atom' => 'poloniex||btc||both',
+					'atom' => 'poloniex||btc||chart',
 					'atom-2' => 'kraken||btc||chart',
-					'atom-3' => 'binance||btc||chart',
+					'atom-3' => 'binance||btc||both',
+					'atom-4' => 'binance||tusd||chart',
+					'atom-5' => 'binance||usdc||chart',
+					'atom-6' => 'bittrex_intl||btc||chart',
+					'atom-7' => 'bittrex_intl||eth||chart',
+					'atom-8' => 'bittrex_intl||usdt||chart',
+					'atom-9' => 'okex||btc||chart',
+					'atom-10' => 'okex||eth||chart',
 					
 					// STEEM
-					'steem' => 'bittrex||btc||both',
+					'steem' => 'bittrex||btc||chart',
 					'steem-2' => 'poloniex||btc||chart',
-					'steem-3' => 'binance||btc||chart',
+					'steem-3' => 'binance||btc||both',
 					
 					// ANT
-					'ant' => 'hitbtc||btc||both',
-					'ant-2' => 'ethfinex||btc||chart',
+					'ant' => 'bittrex_intl||btc||both',
+					'ant-2' => 'hitbtc||btc||chart',
+					'ant-3' => 'ethfinex||btc||chart',
 					
 					// MANA
-					'mana' => 'bittrex||btc||both',
+					'mana' => 'bittrex||btc||chart',
 					'mana-2' => 'poloniex||btc||chart',
-					'mana-3' => 'binance||btc||chart',
+					'mana-3' => 'binance||btc||both',
 					'mana-4' => 'kucoin||btc||chart',
 					'mana-5' => 'ethfinex||btc||chart',
 					
@@ -326,8 +344,8 @@ $asset_charts_and_alerts = array(
 					'gnt-3' => 'ethfinex||btc||chart',
 					
 					// DATA
-					'data' => 'hitbtc||btc||both',
-					'data-2' => 'binance||btc||chart',
+					'data' => 'hitbtc||btc||chart',
+					'data-2' => 'binance||btc||both',
 					
 					//MYST
 					'myst' => 'hitbtc||btc||both',
@@ -589,6 +607,7 @@ $coins_list = array(
                         
                                     'btc' => array(
                                          'poloniex' => 'BTC_GRIN',
+                                         'bittrex_intl' => 'BTC-GRIN',
                                     	  'kucoin' => 'GRIN-BTC',
                                          'hitbtc' => 'GRINBTC',
                                          'hotbit' => 'GRIN_BTC',
@@ -607,6 +626,7 @@ $coins_list = array(
                                                     ),
                                                     
                                     'usdt' => array(
+                                         'bittrex_intl' => 'USDT-GRIN',
                                     	  'kucoin' => 'GRIN-USDT',
                                          'hitbtc' => 'GRINUSD',
                                          'hotbit' => 'GRIN_USDT',
@@ -630,21 +650,34 @@ $coins_list = array(
                                     'btc' => array(
                                          'binance' => 'ATOMBTC',
                                          'poloniex' => 'BTC_ATOM',
+                                         'bittrex_intl' => 'BTC-ATOM',
                                          'kraken' => 'ATOMXBT',
+                                         'okex' => 'ATOM-BTC',
                                          'hotbit' => 'ATOM_BTC',
                                          'bitforex' => 'coin-btc-atom'
                                                     ),
                                                     
                                     'eth' => array(
                                          'kraken' => 'ATOMETH',
+                                         'bittrex_intl' => 'ETH-ATOM',
+                                         'okex' => 'ATOM-ETH',
                                          'hotbit' => 'ATOM_ETH',
                                          'bitforex' => 'coin-eth-atom'
                                                     ),
                                                     
                                     'usdt' => array(
                                          'poloniex' => 'USDT_ATOM',
+                                         'bittrex_intl' => 'USDT-ATOM',
                                          'hotbit' => 'ATOM_USDT',
                                          'bitforex' => 'coin-usdt-atom'
+                                                    ),
+                                                    
+                                    'tusd' => array(
+                                         'binance' => 'ATOMTUSD'
+                                                    ),
+                                                    
+                                    'usdc' => array(
+                                         'binance' => 'ATOMUSDC'
                                                     )
                                                     
                                         ) // market_pairing END
@@ -687,14 +720,14 @@ $coins_list = array(
                         'market_pairing' => array(
                         
                                     'btc' => array(
-                                          'bittrex' => 'BTC-ANT',
+                                          'bittrex_intl' => 'BTC-ANT',
                                         	'ethfinex' => 'tANTBTC',
                                           'hitbtc' => 'ANTBTC',
                                         	'upbit' => 'BTC-ANT'
                                                     ),
                                                     
                                     'eth' => array(
-                                          'bittrex' => 'ETH-ANT',
+                                          'bittrex_intl' => 'ETH-ANT',
                                         	'ethfinex' => 'tANTETH',
                                           'upbit' => 'ETH-ANT'
                                                     )

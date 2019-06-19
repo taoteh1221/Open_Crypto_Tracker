@@ -562,7 +562,7 @@ global $btc_exchange, $coins_list, $last_trade_cache;
   }
 
 
-  elseif ( strtolower($chosen_market) == 'bittrex' ) {
+  elseif ( strtolower($chosen_market) == 'bittrex' || strtolower($chosen_market) == 'bittrex_intl' ) {
      
      $json_string = 'https://bittrex.com/api/v1.1/public/getmarketsummaries';
      

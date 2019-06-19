@@ -12,7 +12,7 @@
 											'https://www.blockchain.com/api/q', // Blockchain data API url
 											'Blockchain.com API', // Blockchain data API name
 											'binance', // Exchange name (lowercase for API logic)
-											'BTCTUSD' // Market pair name
+											'BTCUSDT' // Market pair name
 											);
 			
 			
