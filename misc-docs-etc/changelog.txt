@@ -1317,6 +1317,15 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+3.15.1:
+-Bug fix in Bittrex International market naming (semantics) interfacing
+-Minor UX revisions
+-------------------------------------------------------------------
+
+
+
+
 
 
 

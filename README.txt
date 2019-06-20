@@ -2,7 +2,9 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 DFD Cryptocoin Values - Open source / free private cryptocurrency investment portfolio tracker, with email / text / Alexa alerts, charts, mining calculators, and other crypto tools
+
 Copyright 2014-2019 GPLv3
+
 Developed by Michael Kilday <mike@dragonfrugal.com>, released free / open source under GPL v3
 
 LIVE DEMO: https://dragonfrugal.com/coin-prices/
@@ -38,7 +40,7 @@ Just upload to your PHP-based web server (with an FTP client like FileZilla) and
 
 Setting up a cron job for charts and asset price alerts by email / mobile phone text / amazon alexa notifications (get notifications sent to you, even when you are offline): 
 
-If you want to take advantage of cron job based features like charts, chart data backups, asset price alerts, daily or weekly error log emails / etc, then the file cron.php (located in the primary directory of this app) must be setup as a cron job on your website's web server. Consult your web server host's documentation or help desk, for their particular method of setting up a cron job. Note that you should have it run every X minutes 24/7, based on how often you want alerts / any other cron based features to run. Setting up the cron job to run at least every 15 minutes is a good default time interval to start off with. 
+If you want to take advantage of cron job based features like charts, chart data backups, asset price alerts, daily or weekly error log emails / etc, then the file cron.php (located in the primary directory of this app) must be setup as a cron job on your website's web server. Consult your web server host's documentation or help desk, for their particular method of setting up a cron job. Note that you should have it run every X minutes 24/7, based on how often you want alerts / any other cron based features to run. Setting up the cron job to run every 15 minutes is a safe default time interval to start off with (if set too low, exchanges will throttle / block your data requests temporarily for requesting data too frequently). 
 
 Here is an example cron job command line for reference below (not including any cron parameters your host interface may require), to setup as the "command" within a cron job. Replace system paths in the example with the correct ones for your server (TIP - A very common path to PHP on a server is /usr/bin/php):
 

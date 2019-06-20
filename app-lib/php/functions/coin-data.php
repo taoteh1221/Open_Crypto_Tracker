@@ -513,7 +513,8 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
           
   				// Message formatting for display to end user
           
-          	// Convert raw numbers to have separators etc
+          	// Convert raw numbers to have separators, remove underscores in names, etc
+  				$exchange_text = ucwords(preg_replace("/_/i", " ", $exchange));
   				$cached_value_text = ( $asset == 'BTC' ? number_format($cached_value, 2, '.', ',') : number_format($cached_value, 8, '.', ',') );
   				$asset_usd_text = ( $asset == 'BTC' ? number_format($asset_usd_raw, 2, '.', ',') : number_format($asset_usd_raw, 8, '.', ',') );
   				$volume_usd_text = '$' . number_format($volume_usd_raw, 0, '.', ',');
@@ -549,9 +550,9 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
   				
   				// Build the different messages, configure comm methods, and send messages
   				
-  				$email_message = 'The ' . $asset . ' trade value in the '.strtoupper($pairing).' market at the ' . ucfirst($exchange) . ' exchange has '.$alert_mode.' '.$change_symbol.number_format($percent_change, 2, '.', ',').'% from it\'s previous value of $'.$cached_value_text.', to a current value of $' . $asset_usd_text . ' over the past '.$last_check_time.' since the last price ' . ( $asset_price_alerts_refresh > 0 ? 'refresh' : 'alert' ) . '. ' . $email_volume_summary;
+  				$email_message = 'The ' . $asset . ' trade value in the '.strtoupper($pairing).' market at the ' . $exchange_text . ' exchange has '.$alert_mode.' '.$change_symbol.number_format($percent_change, 2, '.', ',').'% from it\'s previous value of $'.$cached_value_text.', to a current value of $' . $asset_usd_text . ' over the past '.$last_check_time.' since the last price ' . ( $asset_price_alerts_refresh > 0 ? 'refresh' : 'alert' ) . '. ' . $email_volume_summary;
   				
-  				$text_message = $asset . '/'.strtoupper($pairing).' @' . ucfirst($exchange) . ' '.$alert_mode.' '.$change_symbol.number_format($percent_change, 2, '.', ',').'% from $'.$cached_value_text.' to $' . $asset_usd_text . ' in '.$last_check_time.'. 24hr Vol: ' . $volume_usd_text;
+  				$text_message = $asset . '/'.strtoupper($pairing).' @ ' . $exchange_text . ' '.$alert_mode.' '.$change_symbol.number_format($percent_change, 2, '.', ',').'% from $'.$cached_value_text.' to $' . $asset_usd_text . ' in '.$last_check_time.'. 24hr Vol: ' . $volume_usd_text;
   				
   				
   				// Cache the new lower / higher value
