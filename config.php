@@ -43,7 +43,7 @@ $marketcap_ranks_max = 200; // Number of marketcap rankings to request from API.
 
 $marketcap_cache = 15; // Minutes to cache above-mentioned marketcap rankings...start high and test lower, it can be strict
 
-$last_trade_cache = 1; // Minutes to cache real-time exchange data...can be zero to skip cache, but set to at least 1 minute to avoid your IP getting blocked
+$last_trade_cache = 2; // Minutes to cache real-time exchange data...can be zero to skip cache, but set to at least 1 minute to avoid your IP getting blocked
 
 $chainstats_cache = 15; // Minutes to cache blockchain stats (for mining calculators). Set high initially, can be strict
 
@@ -60,9 +60,6 @@ $mail_error_logs = 'daily'; // 'off', 'daily', 'weekly' Email to / from !MUST BE
 // Enables a charts tab / page with historical charts. STILL EARLY CODE (AS OF 5/29/2019), MAY SLOW PAGE LOADS SIGNIFICANTLY UNTIL FURTHER OPTIMIZED
 // Disabling will disable EVERYTHING related to the charts features...the page, caching, even the javascript associated with the charts
 $charts_page = 'on'; // 'on' / 'off'
-
-// Determines the presets for the chart time period buttons (1day,1week,1month,3month,6month,1year,2year,4year), only used if $charts_page above is on
-$charts_update_freq = 4; // How many times per hour did you setup your cron job to run? (see README.txt for cron job setup information) 
 
 // Backup chart data in a zip file in the 'backups' subdirectory (with a secure random 32 character hexadecimal suffix for privacy), only used if $charts_page above is on
 $charts_backup_freq = 3; // Every X days backup chart data. 0 disables backups. Email to / from !MUST BE SET! (a download link is emailed to you of the chart data archive)

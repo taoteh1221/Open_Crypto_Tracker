@@ -1325,6 +1325,15 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+3.16.0:
+-Chart update frequency now automatically determined (manually-adjusted $charts_update_freq in config file no longer needed / removed)
+-Minor UX revisions
+-------------------------------------------------------------------
+
+
+
+
 
 
 

@@ -317,7 +317,7 @@ white-space: nowrap;
 .loss, td.data span.loss, td.data div.loss span {
 margin: 2px;
 padding: 0px;
-color: #b53d2d;
+color: #af1700; /* slightly darker red than normal */
 font-size: 13px;
 border: 0px;
 background: none;

@@ -247,6 +247,37 @@ global $base_dir;
 
 /////////////////////////////////////////////////////////
 
+function chart_time_interval($file, $linecount, $length) {
+
+
+	$last_lines = get_last_lines($file, $linecount, $length);
+	foreach ( $last_lines as $line ) {
+	$data = explode("||", $line);
+	
+		if ( $data[0] != '' ) {
+		$timestamps[] = $data[0];
+		}
+	
+	}
+	
+	
+	foreach ( $timestamps as $key => $value ) {
+		
+		if ( $timestamps[($key - 1)] != '' ) {
+		$total_minutes = $total_minutes + round( ( $timestamps[$key] - $timestamps[($key - 1)] ) / 60 );
+		}
+		
+	}
+
+
+$average_interval = round( $total_minutes / ( sizeof($timestamps) - 1 ) );
+
+return round( 60 / $average_interval );
+
+}
+
+/////////////////////////////////////////////////////////
+
 function smtp_vars() {
 
 // To preserve SMTPMailer class upgrade structure, by creating a global var to be run in classes/smtp-mailer/conf/config_smtp.php
@@ -547,6 +578,85 @@ global $runtime_mode, $delete_old_backups, $base_dir, $base_url;
 		}
 	
 
+	}
+
+
+}
+
+/////////////////////////////////////////////////////////
+
+function get_last_lines($file, $linecount, $length) {
+	
+$linecount = $linecount + 2; // Offset including blank data on ends
+
+$length = $length * 1.5; // Offset to assure we get enough data
+
+//we double the offset factor on each iteration
+//if our first guess at the file offset doesn't
+//yield $linecount lines
+$offset_factor = 1;
+
+$bytes = filesize($file);
+
+$fp = fopen($file, "r");
+
+	if ( !$fp ) {
+	return false;
+	}
+
+
+	$complete = false;
+	while ( !$complete ) {
+		
+		
+		//seek to a position close to end of file
+		$offset = $linecount * $length * $offset_factor;
+		fseek($fp, -$offset, SEEK_END);
+	
+	
+		//we might seek mid-line, so read partial line
+		//if our offset means we're reading the whole file, 
+		//we don't skip...
+		if ( $offset < $bytes ) {
+		fgets($fp);
+		}
+	
+	
+		//read all following lines, store last x
+		$lines = array();
+		while( !feof($fp) ) {
+			
+			$line = fgets($fp);
+			array_push($lines, $line);
+			
+			if ( count($lines) > $linecount ) {
+			array_shift($lines);
+			$complete = true;
+			}
+			
+		}
+	
+	
+		//if we read the whole file, we're done, even if we
+		//don't have enough lines
+		if ( $offset >= $bytes ) {
+		$complete = true;
+		}
+		else {
+		$offset_factor *= 2; //otherwise let's seek even further back
+		}
+		 
+		 
+	}
+
+fclose($fp);
+
+
+	if ( !$lines ) {
+	return false;
+	}
+	else {
+	return array_slice( $lines, (0 - $linecount) );
 	}
 
 

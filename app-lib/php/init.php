@@ -5,7 +5,7 @@
 
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
 
-$app_version = '3.15.1';  // 2019/JUNE/20TH
+$app_version = '3.16.0';  // 2019/JUNE/20TH
  
 date_default_timezone_set('UTC');
 
@@ -74,7 +74,8 @@ require_once( $php_app_dir . "/other/cookies.php");
 
 	// Have UI runtime mode cache the app URL data, since CLI runtime cannot determine the app URL (for sending backup link emails during backups, etc)
 	if ( file_exists('cache/vars/app_url.dat') != 1 ) {
-	file_put_contents('cache/vars/app_url.dat', base_url(), LOCK_EX);
+	$base_url = base_url();
+	file_put_contents('cache/vars/app_url.dat', $base_url, LOCK_EX);
 	}
 
 
@@ -99,7 +100,8 @@ $show_charts = explode(',', rtrim( ( $_POST['show_charts'] != '' ? $_POST['show_
 
 
 // Base URL, that even works during CLI runtime (horray)
-$base_url = file_get_contents('cache/vars/app_url.dat');
+$base_url = ( $base_url != '' ? $base_url : trim( file_get_contents('cache/vars/app_url.dat') ) );
+
 
 
 ?>

@@ -437,5 +437,41 @@ $smtp->addTo($to_email); // Add to email here one time...because class adds to a
 
 
 
+// Re-check the average time interval between chart data points, once every 24 hours
+if ( $charts_page == 'on' && update_cache_file('cache/vars/chart_interval.dat', (60 * 24) ) == true ) {
+	
+	foreach ( $asset_charts_and_alerts as $key => $value ) {
+	
+		if ( trim($find_first_filename) == '' ) {
+			
+		// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
+		$find_first_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, strpos($key, "-") ) );
+		$find_first_asset = strtoupper($find_first_asset);
+	
+		$find_first_chart = explode("||", $value);
+		
+			if ( $find_first_asset == 'BTC' ) {
+			$find_first_chart[1] = 'usd';
+			}
+
+			if ( $find_first_chart[2] == 'both' || $find_first_chart[2] == 'chart' ) {
+			$find_first_filename = 'cache/charts/'.$find_first_asset.'/'.$key.'_chart_'.$find_first_chart[1].'.dat';
+			}
+
+		}
+		
+	}
+
+$charts_update_freq = chart_time_interval($find_first_filename, 100, 45); // Determine interval with the last 100 lines (if available), set average length as 45 characters
+
+file_put_contents('cache/vars/chart_interval.dat', $charts_update_freq, LOCK_EX);
+
+}
+
+
+// Chart update frequency
+$charts_update_freq = ( $charts_update_freq != '' ? $charts_update_freq : trim( file_get_contents('cache/vars/chart_interval.dat') ) );
+
+
 
 ?>
