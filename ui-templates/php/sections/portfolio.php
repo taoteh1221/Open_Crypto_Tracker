@@ -308,7 +308,7 @@ $coins_list_numbered = array_values($coins_list['BTC']['market_pairing']['btc'])
      
 	<?php
 
-echo '<br /><span style="color: black;">(1 BTC is $' .number_format( get_btc_usd($btc_exchange)['last_trade'], 2, '.', ','). ' @ '.ucfirst($show_exchange).')</span>';
+echo '<br /><span style="color: black;">(Bitcoin is $' .number_format( get_btc_usd($btc_exchange)['last_trade'], 2, '.', ','). ' @ '.ucfirst($show_exchange).')</span>';
 	
 echo '</p>';
 

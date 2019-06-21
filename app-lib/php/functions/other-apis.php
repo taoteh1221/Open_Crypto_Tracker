@@ -29,6 +29,22 @@ global $chainstats_cache;
 
 //////////////////////////////////////////////////////////
 
+function grin_api($request) {
+ 
+global $chainstats_cache;
+ 		
+$json_string = 'https://api.grinmint.com/v1/networkStats';
+
+$jsondata = @api_data('url', $json_string, $chainstats_cache);
+    
+$data = json_decode($jsondata, TRUE);
+    
+return $data[$request];
+  
+}
+
+//////////////////////////////////////////////////////////
+
 function litecoin_api($request) {
  
 global $chainstats_cache;

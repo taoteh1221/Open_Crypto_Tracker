@@ -22,39 +22,39 @@
 				
 		<!-- Green colored START -->
 		<p class='green'>
-			
+			Average 
 				<?php
 				    if ( $minutes < 60 ) {
 				    ?>
-				    Minutes until block found: 
+				    minutes until block found: 
 				    <?php
 				    echo round($minutes, 2);
 				    }
 				
 				    elseif ( $hours < 24 ) {
 				    ?>
-				    Hours until block found: 
+				    hours until block found: 
 				    <?php
 				    echo round($hours, 2);
 				    }
 				
 				    elseif ( $days < 30 ) {
 				    ?>
-				    Days until block found: 
+				    days until block found: 
 				    <?php
 				    echo round($days, 2);
 				    }
 				
 				    elseif ( $days < 365 ) {
 				    ?>
-				    Months until block found: 
+				    months until block found: 
 				    <?php
 				    echo round($months, 2);
 				    }
 				    
 				    else {
 				    ?>
-				    Years until block found: 
+				    years until block found: 
 				    <?php
 				    echo round($years, 2);
 				    }

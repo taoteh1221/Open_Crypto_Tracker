@@ -3,6 +3,12 @@
  * Copyright 2014-2019 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
  */
 
+/////////////////////////////////////////////////////////
+
+function remove_number_format($text) {
+    $text = str_replace(",", "", $text);
+    return (int)$text;
+}
 
 /////////////////////////////////////////////////////////
 

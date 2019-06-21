@@ -31,7 +31,7 @@ require_once("app-lib/php/init.php");
 
 
 
-$api_timeout = 13; // Seconds to wait for response from API endpoints. Don't set too low, or you won't get data
+$api_timeout = 15; // Seconds to wait for response from API endpoints. Don't set too low, or you won't get data
 
 $api_strict_ssl = 'on'; // 'on' verifies ALL SSL certificates for HTTPS API servers, 'off' verifies NOTHING (NOT RECOMMENDED in production environment)
 
@@ -133,12 +133,12 @@ $proxy_alerts_freq = 1; // Re-allow same proxy alert(s) after X hours (per ip/po
 
 $asset_price_alerts_percent = 7; // Price percent change to send alerts for (WITHOUT percent sign: 15 = 15%). Sends alerts when percent change reached (up or down)
 
-$asset_price_alerts_freq = 4; // Re-allow same asset price alert(s) after X minutes (per asset, set higher if issues with blacklisting...can be 0)
+$asset_price_alerts_freq = 10; // Re-allow same asset price alert(s) after X minutes (per asset, set higher if issues with blacklisting...can be 0)
 
 // Minimum 24 hour volume filter. Only allows sending asset price alerts if minimum 24 hour volume reached
 // CAN BE 0 TO DISABLE MINIMUM VOLUME FILTERING, NO DECIMALS OR SEPARATORS, NUMBERS ONLY, WITHOUT dollar sign: 250 = $250 , 4500 = $4,500 , etc
 // THIS FILTER WILL AUTO-DISABLE IF THERE IS AN ERROR RETRIEVING DATA ON A CERTAIN MARKET (WHEN NOT EVEN A ZERO IS RECEIVED)
-$asset_price_alerts_minvolume = 750;
+$asset_price_alerts_minvolume = 1000;
 
 // Refresh cached comparison prices every X days (since last refresh / alert) with latest prices
 // Can be 0 to disable refreshing (until price alert triggers a refresh)
@@ -275,6 +275,7 @@ $mining_rewards = array(
 					'xmr' => monero_reward(),  // (2^64 - 1 - current_supply * 10^12) * 2^-19 * 10^-12
 					'ltc' => '25',
 					'dcr' => ( decred_api('subsidy', 'work_reward') / 100000000 ),
+					'grin' => '60',
 					);
 
 

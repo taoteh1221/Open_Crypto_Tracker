@@ -336,7 +336,7 @@ $speed = ($_POST['sp_total'] * $decimal_yearly_interest) / 525600;  // Interest 
 
 //////////////////////////////////////////////////////////
 
-function mining_calc_form($calculation_form_data, $network_measure) {
+function mining_calc_form($calculation_form_data, $network_measure, $hash_unit='hash') {
 
 global $_POST, $mining_rewards;
 
@@ -344,10 +344,34 @@ global $_POST, $mining_rewards;
 
 				<form name='<?=$calculation_form_data[1]?>' action='<?=start_page('mining_calculators')?>' method='post'>
 				
-				<p><b><?=ucfirst($network_measure)?>:</b> <input type='text' value='<?=( $_POST['network_measure'] && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? number_format($_POST['network_measure']) : number_format($calculation_form_data[3]) )?>' name='network_measure' /> (uses <a href='<?=$calculation_form_data[4]?>' target='_blank'><?=$calculation_form_data[5]?></a>)</p>
 				
-				<p><b>Your Hashrate:</b> <input type='text' value='<?=( $_POST[$calculation_form_data[1].'_submitted'] == 1 ? $_POST['your_hashrate'] : '' )?>' name='your_hashrate' />
+				<?php
+				if ( $hash_unit == 'graph' ) {
+				?>
+				<p><b>Cuckoo Version:</b>  
+				<select name='cuckoo_cycles'>
+				<option value='29' <?=( $_POST['cuckoo_cycles'] == '29' ? 'selected' : '' )?>>Cuckoo30 (29) </option>
+				<option value='60' <?=( $_POST['cuckoo_cycles'] == '60' ? 'selected' : '' )?>>Cuckoo31 (60) </option>
+				<option value='124' <?=( $_POST['cuckoo_cycles'] == '124' ? 'selected' : '' )?>>Cuckoo32 (124) </option>
+				</select>
+				</p>
+				<?php
+				}
+				?>
 				
+				
+				<p><b><?=ucfirst($network_measure)?>:</b> 
+				<input type='text' value='<?=( $_POST['network_measure'] && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? number_format($_POST['network_measure']) : number_format($calculation_form_data[3]) )?>' name='network_measure' /> (uses <a href='<?=$calculation_form_data[4]?>' target='_blank'><?=$calculation_form_data[5]?></a>)</p>
+				
+				
+				<p><b>Your Hashrate:</b>  
+				<input type='text' value='<?=( $_POST[$calculation_form_data[1].'_submitted'] == 1 ? $_POST['your_hashrate'] : '' )?>' name='your_hashrate' /> 
+				
+				
+				
+				<?php
+				if ( $hash_unit == 'hash' ) {
+				?>
 				<select name='hash_level'>
 				<option value='1000000000000000000' <?=( $_POST['hash_level'] == '1000000000000000000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Ehs (one quintillion hashes per second) </option>
 				<option value='1000000000000000' <?=( $_POST['hash_level'] == '1000000000000000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Phs (one quadrillion hashes per second) </option>
@@ -357,6 +381,26 @@ global $_POST, $mining_rewards;
 				<option value='1000' <?=( $_POST['hash_level'] == '1000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Khs (one thousand hashes per second) </option>
 				<option value='1' <?=( $_POST['hash_level'] == '1' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Hs (one hash per second) </option>
 				</select>
+				
+				<?php
+				}
+				elseif ( $hash_unit == 'graph' ) {
+				?>
+				<select name='hash_level'>
+				<option value='1000000000000000000' <?=( $_POST['hash_level'] == '1000000000000000000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Egps (one quintillion graphs per second) </option>
+				<option value='1000000000000000' <?=( $_POST['hash_level'] == '1000000000000000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Pgps (one quadrillion graphs per second) </option>
+				<option value='1000000000000' <?=( $_POST['hash_level'] == '1000000000000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Tgps (one trillion graphs per second) </option>
+				<option value='1000000000' <?=( $_POST['hash_level'] == '1000000000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Ggps (one billion graphs per second) </option>
+				<option value='1000000' <?=( $_POST['hash_level'] == '1000000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Mgps (one million graphs per second) </option>
+				<option value='1000' <?=( $_POST['hash_level'] == '1000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Kgps (one thousand graphs per second) </option>
+				<option value='1' <?=( $_POST['hash_level'] == '1' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Gps (one graphs per second) </option>
+				</select>
+				
+				<?php
+				}
+				?>
+				
+				
 				</p>
 				
 				<p><b>Block Reward:</b> <input type='text' value='<?=( $_POST['block_reward'] && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? $_POST['block_reward'] : $mining_rewards[$calculation_form_data[1]] )?>' name='block_reward' /> (may be static from config.php file, verify current block reward manually)</p>
