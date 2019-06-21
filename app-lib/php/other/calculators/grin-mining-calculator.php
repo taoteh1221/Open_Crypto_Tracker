@@ -55,7 +55,7 @@
 				}
 				
 			
-			echo '<p class="green"><b>'.$mining_algo.' Hashrate:</b> ' . number_format($algo_network_hashrate , 0, '.', ',') . ' GPS</p>';
+			echo '<p class="green"><b>'.$mining_algo.' Network Hashrate:</b> ' . number_format($algo_network_hashrate , 0, '.', ',') . ' GPS</p>';
 				
 			///////////////////////////////////////////////////////////////////////////
 			
