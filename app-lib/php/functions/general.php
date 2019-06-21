@@ -182,7 +182,7 @@ $fn = fopen($file,"r");
 		if ( trim($result[0]) != '' && trim($result[1]) != '' && trim($result[2]) != '' ) {
 		$data['time'] .= trim($result[0]) . '000,';  // Zingchart wants 3 more zeros with unix time (milliseconds)
 		$data['spot'] .= trim($result[1]) . ',';
-		$data['volume'] .= trim($result[2]) . ',';
+		$data['volume'] .= round(trim($result[2])) . ',';
 		}
 	
   }
