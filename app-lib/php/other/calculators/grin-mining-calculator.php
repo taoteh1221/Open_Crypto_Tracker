@@ -29,33 +29,16 @@
 			
 				// Difficulty calculation for this coin...MAY BE DIFFERENT PER COIN
 				
-				// scale = (N-1) * 2^(N-30) for cuckooN cycles
 				// https://github.com/mimblewimble/docs/wiki/FAQ
 				
-				$algo_network_hashrate = round( 42 * ( trim($_POST['network_measure']) / $_POST['cuckoo_cycles'] ) / 60 );
+				$algo_network_hashrate = round( 42 * ( trim($_POST['network_measure']) / cuckoo_mining_level($_POST['cuckoo_cycles']) ) / 60 );
 				
 				$hashrate_percent = $miner_hashrate / $algo_network_hashrate;
 				
 				$mining_time = 60 / $hashrate_percent / 100;
-							
-				
-				if ( $_POST['cuckoo_cycles'] < 30 ) {
-				//$mining_time = $mining_time * 2;  // Had to do this to match grinmint's calculator? Why?
-				}
-			
-			
-				if ( $_POST['cuckoo_cycles'] == 29 ) {
-				$mining_algo = 'Cuckoo30 (29)';
-				}
-				elseif ( $_POST['cuckoo_cycles'] == 60 ) {
-				$mining_algo = 'Cuckoo31 (60)';
-				}
-				elseif ( $_POST['cuckoo_cycles'] == 124 ) {
-				$mining_algo = 'Cuckoo32 (124)';
-				}
 				
 			
-			echo '<p class="green"><b>'.$mining_algo.' Network Hashrate:</b> ' . number_format($algo_network_hashrate , 0, '.', ',') . ' GPS</p>';
+			echo '<p class="green"><b>Cuckoo '.$_POST['cuckoo_cycles'].' Network GPS:</b> ' . number_format($algo_network_hashrate , 0, '.', ',') . '</p>';
 				
 			///////////////////////////////////////////////////////////////////////////
 			
