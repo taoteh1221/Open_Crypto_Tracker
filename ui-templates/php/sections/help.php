@@ -230,7 +230,7 @@
 	      <div class="card-body">
 	      
 	      
-	        If you install this application on your own server, you can add / delete / edit the coin list very easily. Instructions can be found in the <a href='README.txt' target='_blank'>README.txt file</a>. 
+	        If you install this application on your website server, you can add / delete / edit the coin list very easily. Instructions can be found in the <a href='README.txt' target='_blank'>README.txt file</a>. 
 	        
 	        
 	      </div>
