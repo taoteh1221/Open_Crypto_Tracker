@@ -43,6 +43,19 @@
 				//$mining_time = $mining_time * 2;  // Had to do this to match grinmint's calculator? Why?
 				}
 			
+			
+				if ( $_POST['cuckoo_cycles'] == 29 ) {
+				$mining_algo = 'Cuckoo30 (29)';
+				}
+				elseif ( $_POST['cuckoo_cycles'] == 60 ) {
+				$mining_algo = 'Cuckoo31 (60)';
+				}
+				elseif ( $_POST['cuckoo_cycles'] == 124 ) {
+				$mining_algo = 'Cuckoo32 (124)';
+				}
+				
+			
+			echo '<p class="green"><b>'.$mining_algo.' Hashrate:</b> ' . number_format($algo_network_hashrate , 0, '.', ',') . ' GPS</p>';
 				
 			///////////////////////////////////////////////////////////////////////////
 			
