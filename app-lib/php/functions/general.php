@@ -462,11 +462,11 @@ function start_page_html($page) {
 		if ( $_GET['start_page'] != '' && $_GET['start_page'] != $page ) {
 		$another_set = 1;
 		?>
-		<option value='index.php?start_page=<?=$_GET['start_page']?>' selected > Show <?=ucfirst( preg_replace("/_/i", " ", $_GET['start_page']) )?> Page First </option>
+		<option value='index.php?start_page=<?=$_GET['start_page']?>' selected > Show <?=ucwords( preg_replace("/_/i", " ", $_GET['start_page']) )?> Page First </option>
 		<?php
 		}
 		?>
-		<option value='index.php?start_page=<?=$page?>' <?=( $_GET['start_page'] == $page ? 'selected' : '' )?> > Show <?=ucfirst( preg_replace("/_/i", " ", $page) )?> Page First </option>
+		<option value='index.php?start_page=<?=$page?>' <?=( $_GET['start_page'] == $page ? 'selected' : '' )?> > Show <?=ucwords( preg_replace("/_/i", " ", $page) )?> Page First </option>
 	</select> 
 	
 </span>
