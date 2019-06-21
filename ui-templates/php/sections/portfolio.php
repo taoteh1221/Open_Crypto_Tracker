@@ -238,9 +238,22 @@ $coins_list_numbered = array_values($coins_list['BTC']['market_pairing']['btc'])
 	echo '<br />USD Value: $' . number_format($total_usd_worth, 2, '.', ',');
 
 	if ( $purchase_price_added == 1 ) {
+		
 	$gain_loss_worth = gain_loss_total();
 	$parsed_gain_loss_worth = preg_replace("/-/", "-$", number_format( $gain_loss_worth, 2, '.', ',' ) );
-	echo '<br /><span class="' . ( $gain_loss_worth >= 0 ? 'green">USD Gain: +$' : 'red">USD Loss: ' ) . $parsed_gain_loss_worth . '</span>';
+	
+	$positive_gain_loss_worth = abs($gain_loss_worth); // Needed to calculate original worth with loss
+	
+		if ( $gain_loss_worth < 0 ) {
+		$original_worth = $total_usd_worth + $positive_gain_loss_worth;
+		}
+		else {
+		$original_worth = $total_usd_worth - $gain_loss_worth;
+		}
+		
+	$percent_difference = ( ($total_usd_worth / $original_worth) - 1 ) * 100;
+	
+	echo '<br /><span class="' . ( $gain_loss_worth >= 0 ? 'green">USD Gain: +$' : 'red">USD Loss: ' ) . $parsed_gain_loss_worth . ' (' . ( $gain_loss_worth >= 0 ? '+' : '' ) . number_format($percent_difference, 2, '.', ',') . '%)</span>';
 	}
 	
 	if ( $bitcoin_dominance >= 0 && $altcoin_dominance >= 0 ) {
