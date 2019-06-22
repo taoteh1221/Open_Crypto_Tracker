@@ -41,15 +41,15 @@ $marketcap_site = 'coinmarketcap'; // Default marketcap data source: 'coinmarket
 
 $marketcap_ranks_max = 200; // Number of marketcap rankings to request from API. Ranks are grabbed 100 per request. Set to 100 or 200 if you are blocked a lot
 
-$marketcap_cache = 15; // Minutes to cache above-mentioned marketcap rankings...start high and test lower, it can be strict
+$marketcap_cache = 20; // Minutes to cache above-mentioned marketcap rankings...start high and test lower, it can be strict
 
 $last_trade_cache = 2; // Minutes to cache real-time exchange data...can be zero to skip cache, but set to at least 1 minute to avoid your IP getting blocked
 
-$chainstats_cache = 15; // Minutes to cache blockchain stats (for mining calculators). Set high initially, can be strict
+$chainstats_cache = 20; // Minutes to cache blockchain stats (for mining calculators). Set high initially, can be strict
 
-$delete_old_backups = 11; // Days until old zip archive backups should be deleted (chart data archives, etc)
+$delete_old_backups = 10; // Days until old zip archive backups should be deleted (chart data archives, etc)
 
-$purge_error_logs = 5; // Days to keep error logs before purging (deletes logs every X days) start low, especially when using proxies
+$purge_error_logs = 7; // Days to keep error logs before purging (deletes logs every X days) start low, especially when using proxies
 
 $mail_error_logs = 'daily'; // 'off', 'daily', 'weekly' Email to / from !MUST BE SET! MAY NOT SEND IN TIMELY FASHION WITHOUT CRON JOB
 

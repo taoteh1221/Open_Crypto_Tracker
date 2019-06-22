@@ -462,7 +462,8 @@ if ( $charts_page == 'on' && update_cache_file('cache/vars/chart_interval.dat', 
 		
 	}
 
-$charts_update_freq = chart_time_interval($find_first_filename, 100, 45); // Determine interval with the last 100 lines (if available), set average length as 45 characters
+// Dynamically determine average time interval with the last 250 lines (or max available if less), presume an average max characters length of ~40
+$charts_update_freq = chart_time_interval($find_first_filename, 250, 40);
 
 file_put_contents('cache/vars/chart_interval.dat', $charts_update_freq, LOCK_EX);
 
