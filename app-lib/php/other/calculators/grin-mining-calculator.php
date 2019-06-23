@@ -30,15 +30,14 @@
 				// Difficulty calculation for this coin...MAY BE DIFFERENT PER COIN
 				
 				// https://github.com/mimblewimble/docs/wiki/FAQ
+				// scale = (N-1) * 2^(N-30) for cuckooN cycles
+
 				
-				$algo_network_hashrate = round( 42 * ( trim($_POST['network_measure']) / cuckoo_mining_level($_POST['cuckoo_cycles']) ) / 60 );
+				$algo_network_hashrate = round( 42 * ( trim($_POST['network_measure']) / cuckoo_scaling_level($_POST['cuckoo_cycles']) ) / 60 );
 				
 				$hashrate_percent = $miner_hashrate / $algo_network_hashrate;
 				
 				$mining_time = 60 / $hashrate_percent / 100;
-				
-			
-			echo '<p class="green"><b>Cuckoo '.$_POST['cuckoo_cycles'].' Network GPS:</b> ' . number_format($algo_network_hashrate , 0, '.', ',') . '</p>';
 				
 			///////////////////////////////////////////////////////////////////////////
 			
