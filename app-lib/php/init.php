@@ -72,8 +72,8 @@ if ( $runtime_mode == 'ui' ) {
 require_once( $php_app_dir . "/other/cookies.php");
 
 
-	// Have UI runtime mode cache the app URL data, since CLI runtime cannot determine the app URL (for sending backup link emails during backups, etc)
-	if ( file_exists('cache/vars/app_url.dat') != 1 ) {
+	// Have UI runtime mode cache the app URL data every 72 hours, since CLI runtime cannot determine the app URL (for sending backup link emails during backups, etc)
+	if ( update_cache_file('cache/vars/app_url.dat', (60 * 72) ) == true ) {
 	$base_url = base_url();
 	file_put_contents('cache/vars/app_url.dat', $base_url, LOCK_EX);
 	}

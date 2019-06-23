@@ -436,8 +436,8 @@ $smtp->addTo($to_email); // Add to email here one time...because class adds to a
 
 
 
-// Re-check the average time interval between chart data points, once every 24 hours
-if ( $charts_page == 'on' && update_cache_file('cache/vars/chart_interval.dat', (60 * 24) ) == true ) {
+// Re-check the average time interval between chart data points, once every 72 hours
+if ( $charts_page == 'on' && update_cache_file('cache/vars/chart_interval.dat', (60 * 72) ) == true ) {
 	
 	foreach ( $asset_charts_and_alerts as $key => $value ) {
 	
@@ -461,8 +461,8 @@ if ( $charts_page == 'on' && update_cache_file('cache/vars/chart_interval.dat', 
 		
 	}
 
-// Dynamically determine average time interval with the last 250 lines (or max available if less), presume an average max characters length of ~40
-$charts_update_freq = chart_time_interval($find_first_filename, 250, 40);
+// Dynamically determine average time interval with the last 500 lines (or max available if less), presume an average max characters length of ~40
+$charts_update_freq = chart_time_interval($find_first_filename, 500, 40);
 
 file_put_contents('cache/vars/chart_interval.dat', $charts_update_freq, LOCK_EX);
 
