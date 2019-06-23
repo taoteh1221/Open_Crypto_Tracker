@@ -27,7 +27,7 @@ foreach ( $asset_charts_and_alerts as $key => $value ) {
 	if ( $asset_cache_params[2] == 'chart' || $asset_cache_params[2] == 'both' ) {
 	
 		if ( dir_structure($base_dir . '/cache/charts/'.$asset_dir.'/') != TRUE ) { // Attempt to create directory if it doesn't exist
-		$disabled_charts = 1;
+		$disabled_caching = 1;
 		}
 	
 	}
@@ -35,7 +35,7 @@ foreach ( $asset_charts_and_alerts as $key => $value ) {
 	
 }
 	
-if ( $disabled_charts == 1 ) {
+if ( $disabled_caching == 1 ) {
 echo "Improper directory permissions on the '/cache/charts/' directory, cannot create asset sub-directories. Make sure the folder '/cache/charts/' itself has read / write permissions (and these sub-directories should be created automatically)";
 exit;
 }
@@ -313,8 +313,7 @@ $smtp_server_parse = explode(":", $smtp_server );
 
 
 // Email logs configs
-if ( $mail_error_logs == 'daily' && trim($from_email) != '' && trim($to_email) != ''
-|| $mail_error_logs == 'weekly' && trim($from_email) != '' && trim($to_email) != '' ) {
+if ( $mail_error_logs > 0 && trim($from_email) != '' && trim($to_email) != '' ) {
 					
 	// Config error check(s)
    if ( validate_email($from_email) != 'valid' ) {

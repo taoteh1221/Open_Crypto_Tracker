@@ -37,10 +37,9 @@
           	</p>      
           <?php
           }
-			if ( $mail_error_logs == 'daily' && trim($from_email) != '' && trim($to_email) != ''
-			|| $mail_error_logs == 'weekly' && trim($from_email) != '' && trim($to_email) != '' ) {
+			if ( $mail_error_logs > 0 && trim($from_email) != '' && trim($to_email) != '' ) {
           ?>
-          	<p class='settings_sections'><b>Emailing error logs</b> is <i>enabled</i> in the configuration file (sent out <?=$mail_error_logs?>, log file purged every <?=$purge_error_logs?> days).
+          	<p class='settings_sections'><b>Emailing error logs</b> is <i>enabled</i> in the configuration file (sent out every <?=$mail_error_logs?> days, log file purged every <?=$purge_error_logs?> days).
           	
           	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job on your web server</a>, or this feature will not work RELIABLY.</i> 
           	

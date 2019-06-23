@@ -6,8 +6,12 @@
 /////////////////////////////////////////////////////////
 
 function remove_number_format($text) {
-    $text = str_replace(",", "", $text);
-    return (int)$text;
+
+$text = str_replace("    ", '', $text);
+$text = str_replace(" ", '', $text);
+$text = str_replace(",", "", $text);
+
+return (int)$text;
 }
 
 /////////////////////////////////////////////////////////
@@ -687,14 +691,7 @@ $error_logs .= strip_tags($_SESSION['other_error']); // Remove any HTML formatti
 
 
 	// If it's time to email error logs...
-	if ( $mail_error_logs == 'daily' ) {
-	$mail_freq = 1;
-	}
-	elseif ( $mail_error_logs == 'weekly' ) {
-	$mail_freq = 7;
-	}
-
-	if ( $mail_freq > 0 && update_cache_file('cache/events/email-error-logs.dat', ( $mail_freq * 1440 ) ) == true ) {
+	if ( $mail_error_logs > 0 && update_cache_file('cache/events/email-error-logs.dat', ( $mail_error_logs * 1440 ) ) == true ) {
 		
 	$emailed_logs = file_get_contents('cache/logs/errors.log');
 		
@@ -703,7 +700,7 @@ $error_logs .= strip_tags($_SESSION['other_error']); // Remove any HTML formatti
   	// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
    $send_params = array(
           					'email' => array(
-          											'subject' => 'DFD Cryptocoin Values ' . ucfirst($mail_error_logs) . ' Error Logs Report',
+          											'subject' => 'DFD Cryptocoin Values - Error Logs Report',
      													'message' => $message
           											)
           					);

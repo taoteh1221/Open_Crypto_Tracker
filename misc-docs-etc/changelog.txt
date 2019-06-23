@@ -1336,7 +1336,8 @@ app doing the data requests, not a malicious bot)
 
 -------------------------------------------------------------------
 3.17.0:
--Minor UX revisions
+-Minor revisions
+-Changed error logs config to be every X days (instead of only daily/weekly)
 -------------------------------------------------------------------
 
 

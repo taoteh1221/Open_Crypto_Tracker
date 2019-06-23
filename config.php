@@ -51,7 +51,7 @@ $delete_old_backups = 10; // Days until old zip archive backups should be delete
 
 $purge_error_logs = 7; // Days to keep error logs before purging (deletes logs every X days) start low, especially when using proxies
 
-$mail_error_logs = 'daily'; // 'off', 'daily', 'weekly' Email to / from !MUST BE SET! MAY NOT SEND IN TIMELY FASHION WITHOUT CRON JOB
+$mail_error_logs = 1; // Every X days mail error logs. 0 disables mailing error logs. Email to / from !MUST BE SET! MAY NOT SEND IN TIMELY FASHION WITHOUT CRON JOB
 
 
 
