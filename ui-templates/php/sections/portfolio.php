@@ -46,7 +46,7 @@ if ( $_POST['submit_check'] == 1 || $_COOKIE['coin_amounts'] ) {
 <th class='border_lt'>#</th>
 <th class='border_lt blue' align='right'>Asset</th>
 <th class='border_t'>USD Value</th>
-<th class='border_lt blue' align='right'>Holdings</th>
+<th class='border_lt blue' align='right'>Held</th>
 <th class='border_t'>Symbol</th>
 <th class='border_lt blue'>Exchange</th>
 <th class='border_t'>USD Volume</th>

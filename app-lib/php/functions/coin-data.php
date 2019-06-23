@@ -721,7 +721,7 @@ $btc_exchange = $_SESSION['btc_in_usd'];
 $market_pairing = $all_markets[$selected_market];
   
   
-  if ( $coin_amount > 0.00000000 ) {
+  if ( floattostr($coin_amount) > 0.00000000 ) { // Show even if decimal is off the map, just for UX purposes tracking token price only
     
     
     // UI table coloring
@@ -1068,7 +1068,34 @@ $market_pairing = $all_markets[$selected_market];
 
 ?></span></td>
 
-<td class='data border_lb' align='right'><?php echo number_format($coin_amount, 8, '.', ','); ?></td>
+<td class='data border_lb' align='right'>
+
+<?php
+
+// Pretty number formatting, while maintaining decimals
+$raw_coin_amount = remove_number_format($coin_amount);
+
+
+	if ( preg_match("/\./", $raw_coin_amount) ) {
+	$coin_amount_decimal = preg_replace("/(.*)\./", "", $raw_coin_amount);
+	$check_coin_amount_decimal = '0.' . $coin_amount_decimal;
+	}
+	else {
+	$coin_amount_decimal = NULL;
+	$check_coin_amount_decimal = NULL;
+	}
+	    
+
+	if ( $trade_symbol == 'USD' ) {
+	echo number_format($raw_coin_amount, 2, '.', ',');
+	}
+	else {
+	// We only want to show a decimal if it's a satoshi or higher...for lower amounts (just tracking token value, not held asset value) we hide decimals
+	echo number_format($raw_coin_amount, 0, '.', ',') . ( floattostr($check_coin_amount_decimal) >= 0.00000001 ? '.' . $coin_amount_decimal : '' );
+	}
+
+
+?></td>
 
 <td class='data border_b'><span><?php echo $trade_symbol; ?></span></td>
 

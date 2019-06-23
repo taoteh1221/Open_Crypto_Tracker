@@ -180,6 +180,56 @@
 	    $selected_pairing = ( $coin_pairing_id ? $coin_pairing_id : 'btc' );
 	    
 	    
+		// Pretty number formatting, while maintaining decimals
+	   $raw_coin_amount_value = remove_number_format($coin_amount_value);
+	    
+	    	if ( preg_match("/\./", $raw_coin_amount_value) ) {
+	    	$coin_amount_decimal = preg_replace("/(.*)\./", "", $raw_coin_amount_value);
+	    	$check_coin_amount_decimal = '0.' . $coin_amount_decimal;
+	    	}
+	    	else {
+	    	$coin_amount_decimal = NULL;
+	    	$check_coin_amount_decimal = NULL;
+	    	}
+	    
+	    
+	    	if ( floattostr($raw_coin_amount_value) > 0.00000000 ) {  // Show even if decimal is off the map, just for UX purposes tracking token price only
+	    		
+	    		if ( strtoupper($coin_array_key) == 'USD' ) {
+	    		$coin_amount_value = number_format($raw_coin_amount_value, 2, '.', ',');
+	    		}
+	    		else {
+	    		// Show even if decimal is off the map, just for UX purposes tracking token price only
+	    		$coin_amount_value = number_format($raw_coin_amount_value, 0, '.', ',') . ( floattostr($check_coin_amount_decimal) > 0.00000000 ? '.' . $coin_amount_decimal : '' );
+	    		}
+	    	
+	    	}
+	    	else {
+	    	$coin_amount_value = NULL;
+	    	}
+	    	
+	    
+	    
+	   $raw_paid_value = remove_number_format($coin_paid_value);
+	    
+	    	if ( preg_match("/\./", $raw_paid_value) ) {
+	    	$coin_paid_decimal = preg_replace("/(.*)\./", "", $raw_paid_value);
+	    	$check_coin_paid_decimal = '0.' . $coin_paid_decimal;
+	    	}
+	    	else {
+	    	$coin_paid_decimal = NULL;
+	    	$check_coin_paid_decimal = NULL;
+	    	}
+	    
+	    
+	    	if ( floattostr($raw_paid_value) > 0.00000000 ) { 
+	    	$coin_paid_value = number_format($raw_paid_value, 0, '.', ',') . ( floattostr($check_coin_paid_decimal) > 0.00000000 ? '.' . $coin_paid_decimal : '' );
+	    	}
+	    	else {
+	    	$coin_paid_value = NULL;
+	    	}
+	    	
+	    	
 	    ?>
 	    
 	    <div class='long_list' style='background-color: #<?=$zebra_stripe?>;'>
@@ -258,10 +308,10 @@
 				    </span>, &nbsp; 
 				    
 			
-	     <b>Amount:</b> <input type='text' size='12' id='<?=$field_var_amount?>' name='<?=$field_var_amount?>' value='<?=$coin_amount_value?>' /> <?=strtoupper($coin_array_key)?>, &nbsp; 
+	     <b>Amount Held:</b> <input type='text' size='13' id='<?=$field_var_amount?>' name='<?=$field_var_amount?>' value='<?=$coin_amount_value?>' /> <span class='blue'><?=strtoupper($coin_array_key)?></span>, &nbsp; 
 			    
 			
-	     <b>Paid (per-token):</b> $<input type='text' size='6' id='<?=$field_var_paid?>' name='<?=$field_var_paid?>' value='<?=$coin_paid_value?>' />
+	     <b>Bought @ (per-token):</b> $<input type='text' size='8' id='<?=$field_var_paid?>' name='<?=$field_var_paid?>' value='<?=$coin_paid_value?>' />
 	     
 				
 	    </div>

@@ -5,13 +5,25 @@
 
 /////////////////////////////////////////////////////////
 
+// Always display very large / small numbers in non-scientific format
+function floattostr($val) {
+
+preg_match( "#^([\+\-]|)([0-9]*)(\.([0-9]*?)|)(0*)$#", trim($val), $o );
+
+return (int)$o[1].sprintf('%d',$o[2]).($o[3]!='.'?$o[3]:'');
+
+}
+
+/////////////////////////////////////////////////////////
+
 function remove_number_format($text) {
 
 $text = str_replace("    ", '', $text);
 $text = str_replace(" ", '', $text);
 $text = str_replace(",", "", $text);
+$text = trim($text);
 
-return (int)$text;
+return floattostr($text);
 }
 
 /////////////////////////////////////////////////////////

@@ -102,7 +102,7 @@
 				<option value='0' <?=( $sorted_by_col == 0 ? ' selected ' : '' )?>> # </option>
 				<option value='1' <?=( $sorted_by_col == 1 ? ' selected ' : '' )?>> Asset </option>
 				<option value='2' <?=( $sorted_by_col == 2 ? ' selected ' : '' )?>> USD Value </option>
-				<option value='3' <?=( $sorted_by_col == 3 ? ' selected ' : '' )?>> Holdings </option>
+				<option value='3' <?=( $sorted_by_col == 3 ? ' selected ' : '' )?>> Held </option>
 				<option value='4' <?=( $sorted_by_col == 4 ? ' selected ' : '' )?>> Symbol </option>
 				<option value='5' <?=( $sorted_by_col == 5 ? ' selected ' : '' )?>> Exchange </option>
 				<option value='6' <?=( $sorted_by_col == 6 ? ' selected ' : '' )?>> USD Volume </option>

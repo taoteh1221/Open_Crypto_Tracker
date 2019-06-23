@@ -140,7 +140,7 @@
 	      <div class="card-body">
 	      
 	       
-	        On the Update Assets page, for every coin you don't hold <i>but wish to monitor it's real-time value</i>, just set the amount to 0.00000001. This avoids skewing your total "Bitcoin Value" / "USD Value" summary amounts, but allows you to track these coin value(s). 
+	        On the Update Assets page, for every coin you don't hold <i>but wish to monitor it's real-time value</i>, just set the amount to be <u>smaller than 0.00000001</u> (smaller than one 'Satoshi', the smallest divisible Bitcoin amount). This sets your asset holdings to $0, avoids skewing your total "Bitcoin Value" / "USD Value" summary amounts, and allows you to view / track these coin value(s). 
 	        
 	        
 	      </div>
