@@ -79,7 +79,7 @@ if ( $_POST['submit_check'] == 1 || $_COOKIE['coin_amounts'] ) {
 												
 						
 								// Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
-										coin_data_row($coins_list[$coin_symbol]['coin_name'], $coin_symbol, $value, $coins_list[$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $sort_order, $purchase_price);
+										ui_coin_data($coins_list[$coin_symbol]['coin_name'], $coin_symbol, $value, $coins_list[$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $sort_order, $purchase_price);
 										
 											if ( floatval($value) >= 0.00000001 ) {
 											$assets_added = 1;
@@ -183,7 +183,7 @@ if ( $_POST['submit_check'] == 1 || $_COOKIE['coin_amounts'] ) {
 					$purchase_price = $all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_paid'];
 					
 			// Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
-					coin_data_row($coins_list[$coin_symbol]['coin_name'], $coin_symbol, $selected_amount, $coins_list[$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $sort_order, $purchase_price);
+					ui_coin_data($coins_list[$coin_symbol]['coin_name'], $coin_symbol, $selected_amount, $coins_list[$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $sort_order, $purchase_price);
 					
 						if ( floatval($selected_amount) >= 0.00000001 ) {
 						$assets_added = 1;

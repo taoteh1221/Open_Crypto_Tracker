@@ -12,9 +12,13 @@
 	
 				<h4 style='display: inline;'>Update Assets</h4>
 				
+				
 				<span id='reload_countdown2' class='red countdown_notice'></span>
 				
+				
 	<p style='margin-top: 10px;'><a style='font-weight: bold;' class='show red' id='disclaimer' href='#show_disclaimer' title='Click to show disclaimer.' onclick='return false;'>Disclaimer</a></p>
+	    
+	    
 	    
 		<div style='display: none;' class='show_disclaimer' align='left'>
 			
@@ -41,10 +45,27 @@
 		</div>
 			
 			
+			
 	<p><a style='font-weight: bold;' href='README.txt' target='_blank'>Editing The Coin List, or Enabling Email / Text / Alexa Exchange Price Alerts</a></p>
+	
 	
 	<!-- Submit button must be OUTSIDE form tags here, or it submits the target form improperly and loses data -->
 	<p><button class='force_button_style' onclick='document.coin_amounts.submit();'>Save Updated Assets</button></p>
+	
+		
+		
+	<div style='display: inline-block; border: 2px dotted black; padding: 7px; margin-left: 0px; margin-bottom: 15px;'>
+	
+		<div align='center' style='font-weight: bold;'>Watch Only</div>
+	
+		<div style='margin-left: 6px;'><input type='checkbox' onclick='selectAll(this, "coin_amounts");' /> Select / Unselect All <i>Unheld Assets</i>	</div>
+		
+	
+	</div>
+	
+	
+	<br clear='all' />	
+	
 	
 	
 	<form id='coin_amounts' name='coin_amounts' action='<?=start_page($_GET['start_page'])?>' method='post'>
@@ -63,6 +84,8 @@
 	    $field_var_market = strtolower($coin_array_key) . '_market';
 	    $field_var_amount = strtolower($coin_array_key) . '_amount';
 	    $field_var_paid = strtolower($coin_array_key) . '_paid';
+	    $field_var_watchonly = strtolower($coin_array_key) . '_watchonly';
+	    $field_var_restore = strtolower($coin_array_key) . '_restore';
 	    
 	    
 	        if ( $_POST['submit_check'] == 1 ) {
@@ -232,11 +255,14 @@
 	    	
 	    ?>
 	    
-	    <div class='long_list' style='background-color: #<?=$zebra_stripe?>;'>
+	    <div class='long_list' style='background-color: #<?=$zebra_stripe?>;'> 
 	       
 	       
+	       <input type='checkbox' value='<?=strtolower($coin_array_key)?>' id='<?=$field_var_watchonly?>' onchange='watch_toggle(this);' <?=( $raw_coin_amount_value > 0 && $raw_coin_amount_value <= '0.000000001' ? 'checked' : '' )?> /> &nbsp;&nbsp; 
+				    
 				    
 			<b class='blue'><?=$coin_array_value['coin_name']?> (<?=strtoupper($coin_array_key)?>)</b> /  
+	       
 	       
 				    <select onchange='
 				    
@@ -274,6 +300,8 @@
 					$loop = NULL;
 					?>
 				    </select> 
+				    
+				    
 				     Market @ <input type='hidden' id='<?=$field_var_market?>' name='<?=$field_var_market?>' value='<?php
 				     
 				     if ( $_POST[$field_var_market] ) {
@@ -287,6 +315,7 @@
 				     }
 				     
 				     ?>'>
+				     
 				     
 				     <span id='<?=$field_var_market?>_lists' style='display: inline;'>
 				    <?php
@@ -307,14 +336,27 @@
 				    
 				    </span>, &nbsp; 
 				    
+				    
 			
-	     <b>Amount Held:</b> <input type='text' size='13' id='<?=$field_var_amount?>' name='<?=$field_var_amount?>' value='<?=$coin_amount_value?>' /> <span class='blue'><?=strtoupper($coin_array_key)?></span>, &nbsp; 
+	     			 <b>Amount Held:</b> <input type='text' size='13' id='<?=$field_var_amount?>' name='<?=$field_var_amount?>' value='<?=$coin_amount_value?>' onkeyup='
+	     
+	     $("#<?=strtolower($coin_array_key)?>_restore").val( $("#<?=strtolower($coin_array_key)?>_amount").val() );
+	     
+	     ' onblur='
+	     
+	     $("#<?=strtolower($coin_array_key)?>_restore").val( $("#<?=strtolower($coin_array_key)?>_amount").val() );
+	     
+	     ' <?=( $raw_coin_amount_value > 0 && $raw_coin_amount_value <= '0.000000001' ? 'readonly' : '' )?> /> <span class='blue'><?=strtoupper($coin_array_key)?></span>, &nbsp; 
 			    
 			
 	     <b>Bought @ (per-token):</b> $<input type='text' size='8' id='<?=$field_var_paid?>' name='<?=$field_var_paid?>' value='<?=$coin_paid_value?>' />
 	     
+	     
+	     <input type='hidden' id='<?=$field_var_restore?>' name='<?=$field_var_restore?>' value='<?=( $raw_coin_amount_value > 0 && $raw_coin_amount_value <= '0.000000001' ? '' : $coin_amount_value )?>' />
+				
 				
 	    </div>
+	    
 	    
 	    <?php
 	    
@@ -333,6 +375,7 @@
 	    
 	}
 	?>
+	
 	<div class='long_list_end'> &nbsp; </div>
 	
 	

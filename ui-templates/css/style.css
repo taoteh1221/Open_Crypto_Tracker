@@ -62,10 +62,12 @@ font-size: 15px;
 border: 1px solid #808080;
 }
 
+
 input[type=checkbox], input[type=radio] {
 width: 15px !important;
 height: 15px !important;
 }
+
 
 input[type=submit], input[type=button], .force_button_style {
   background-color: #808080;
@@ -79,18 +81,32 @@ input[type=submit], input[type=button], .force_button_style {
   cursor: pointer;
 }
 
+
+input[type=text]:-moz-read-only { /* For Firefox */
+  background-color: #d1d1d1;
+}
+
+
+input[type=text]:read-only { 
+  background-color: #d1d1d1;
+}
+
+
 a {
 color: black;
 text-decoration: underline;
 }
 
+
 a:visited {
 color: #636060;
 }
 
+
 a:hover {
 color: #898888;
 }
+
 
 fieldset {
     width: auto;
@@ -104,17 +120,21 @@ legend {
     margin-bottom: 0px;
 }
 
+
 /* //////////////////////////////
 CLASSES
 ////////////////////////////// */
+
 
 .coin_info {
 margin: 5px;
 }
 
+
 .show_coin_values {
 display: none;
 }
+
 
 .border_lt {
 border-top: 2px solid #ccc;
@@ -140,6 +160,7 @@ border-bottom: 2px solid #ccc;
 border-left: 2px solid #ccc;
 border-right: 2px solid #ccc;
 }
+
 
 .border_t {
 border-top: 2px solid #ccc;
@@ -202,17 +223,21 @@ padding: 15px;
 margin: 0px;
 }
 
+
 .long_list_end {
 margin-bottom: 10px;
 }
+
 
 .red {
 color: #D61F00 !important;
 }
 
+
 .green {
 color: #066000 !important;
 }
+
 
 .green_bright {
 color: #0bb200 !important;
@@ -223,9 +248,11 @@ color: #0bb200 !important;
 color: #ea6b1c !important;
 }
 
+
 .yellow {
 color: #ffb83f !important;
 }
+
 
 .blue {
 color: #1a1696 !important;
@@ -324,6 +351,7 @@ background: none;
 white-space: nowrap;
 }
 
+
 .btn-link {
 font-weight: 800;
 font-size: 15px;
@@ -331,21 +359,25 @@ color: #1a1696;
 text-decoration: none;
 }
 
+
 .force_1200px_wrapper {
 position: relative;
 max-width: 1200px;
 }
+
 
 .charts_wrapper {
 position: relative;
 width: 100%;
 }
 
+
 .countdown_notice {
 position: absolute;
 top: 0px;
 right: 0px;
 }
+
 
 /* //////////////////////////////
 IDs

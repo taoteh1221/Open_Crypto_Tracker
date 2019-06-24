@@ -601,7 +601,7 @@ $cached_array = explode("||", $data_file);
           if ( update_cache_file('cache/alerts/'.$asset_data.'.dat', $asset_price_alerts_freq) == true && $send_alert == 1 ) {
           
           	// Calculate new base pair volume's increase / decrease percentage
-          	$volume_change_percent = round( ($volume_pairing_raw / $cached_array[2] * 100) , 2);
+          	$volume_change_percent = round( 1 - ($cached_array[2] / $volume_pairing_raw) * 100 , 2);
           
   				// Message formatting for display to end user
           
@@ -610,8 +610,8 @@ $cached_array = explode("||", $data_file);
   				$cached_value_text = ( $asset == 'BTC' ? number_format($cached_value, 2, '.', ',') : number_format($cached_value, 8, '.', ',') );
   				$asset_usd_text = ( $asset == 'BTC' ? number_format($asset_usd_raw, 2, '.', ',') : number_format($asset_usd_raw, 8, '.', ',') );
   				$volume_usd_text = '$' . number_format($volume_usd_raw, 0, '.', ',');
-  				$volume_change_text = '24 hour ' .strtoupper($pairing). ' trading volume has ' . ( $volume_change_percent >= 0 ? 'increased +' : 'decreased -' ) . $volume_change_percent . '%.';
-  				$volume_change_text_mobile = '(' . ( $volume_change_percent >= 0 ? '+' : '-' ) . $volume_change_percent . '%)';
+  				$volume_change_text = '24 hour ' .strtoupper($pairing). ' trading volume has ' . ( $volume_change_percent >= 0 ? 'increased +' : 'decreased ' ) . $volume_change_percent . '%.';
+  				$volume_change_text_mobile = '(' . ( $volume_change_percent >= 0 ? '+' : '' ) . $volume_change_percent . '%)';
   				
   					// Backwards compatibility
   					if ( $cached_array[2] == NULL ) {
@@ -709,7 +709,7 @@ $cached_array = explode("||", $data_file);
 
 //////////////////////////////////////////////////////////
 
-function coin_data_row($coin_name, $trade_symbol, $coin_amount, $market_pairing_array, $selected_pairing, $selected_market, $sort_order, $purchase_price=NULL) {
+function ui_coin_data($coin_name, $trade_symbol, $coin_amount, $market_pairing_array, $selected_pairing, $selected_market, $sort_order, $purchase_price=NULL) {
 
 global $_POST, $coins_list, $btc_exchange, $marketcap_site, $marketcap_cache, $alert_percent, $marketcap_ranks_max, $api_timeout;
 

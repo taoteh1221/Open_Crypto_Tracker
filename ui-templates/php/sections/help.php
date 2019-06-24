@@ -130,36 +130,6 @@
 	        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse_<?=$accord_var?>"
 	          aria-expanded="false" aria-controls="collapse_<?=$accord_var?>">
 	          
-	          Monitoring Coins You Don't Hold
-	          
-	        </button>
-	      </h5>
-	    </div>
-	    <div id="collapse_<?=$accord_var?>" class="collapse" aria-labelledby="heading_<?=$accord_var?>"
-	      data-parent="#accordionHelp">
-	      <div class="card-body">
-	      
-	       
-	        On the Update Assets page, for every coin you don't hold <i>but wish to monitor it's real-time value</i>, just set the amount to be <u>smaller than 0.00000001</u> (smaller than one 'Satoshi', the smallest divisible Bitcoin amount). This sets your asset holdings to $0, avoids skewing your total "Bitcoin Value" / "USD Value" summary amounts, and allows you to view / track these coin value(s). 
-	        
-	        
-	      </div>
-	    </div>
-	  </div>
-	  
-	  
-	
-	
-	<?php
-	$accord_var = 5;
-	?>
-	
-	  <div class="card z-depth-0 bordered">
-	    <div class="card-header" id="heading_<?=$accord_var?>">
-	      <h5 class="mb-0">
-	        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse_<?=$accord_var?>"
-	          aria-expanded="false" aria-controls="collapse_<?=$accord_var?>">
-	          
 	          Page Loads Slowly With Charts Enabled
 	          
 	        </button>
@@ -181,7 +151,7 @@
 	
 	
 	<?php
-	$accord_var = 6;
+	$accord_var = 5;
 	?>
 	
 	  <div class="card z-depth-0 bordered">
@@ -211,7 +181,7 @@
 	
 	
 	<?php
-	$accord_var = 7;
+	$accord_var = 6;
 	?>
 	
 	  <div class="card z-depth-0 bordered">
@@ -241,7 +211,7 @@
 	
 	
 	<?php
-	$accord_var = 8;
+	$accord_var = 7;
 	?>
 	
 	  <div class="card z-depth-0 bordered">
@@ -271,7 +241,7 @@
 	
 	
 	<?php
-	$accord_var = 9;
+	$accord_var = 8;
 	?>
 	
 	  <div class="card z-depth-0 bordered">
@@ -301,7 +271,7 @@
 	  
 	
 	<?php
-	$accord_var = 10;
+	$accord_var = 9;
 	?>
 	
 	  <div class="card z-depth-0 bordered">

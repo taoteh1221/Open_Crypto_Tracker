@@ -2,6 +2,34 @@
 // Copyright 2014-2019 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
 
 
+
+/////////////////////////////////////////////////////////////
+
+function watch_toggle(obj_var) {
+  
+	var show_charts = $("#show_charts").val();
+	
+		if ( obj_var.checked == true ) {
+			
+			var num_value = $("#"+obj_var.value+"_amount").val();
+			num_value = num_value.replace(/,/g, '');
+			
+			if ( num_value >= 0.00000001 ) {
+			obj_var.checked = false;
+			}
+			else {
+			$("#"+obj_var.value+"_amount").val("0.000000001");
+			$("#"+obj_var.value+"_amount").attr("readonly", "readonly");
+			}
+		
+		}
+		else {
+		$("#"+obj_var.value+"_amount").removeAttr("readonly");
+		$("#"+obj_var.value+"_amount").val( $("#"+obj_var.value+"_restore").val() );
+		}
+	
+}
+
 /////////////////////////////////////////////////////////////
 
 function chart_toggle(obj_var) {
@@ -14,8 +42,6 @@ function chart_toggle(obj_var) {
 		else {
 		$("#show_charts").val( show_charts.replace("[" + obj_var.value + "],", "") );
 		}
-		
-		//console.log("show_charts = " + $("#show_charts").val() );  // DEBUGGING ONLY
 	
 }
 
@@ -31,6 +57,11 @@ function selectAll(toggle, form_name) {
             if ( form_name == 'activate_charts' && checkbox.checked != toggle.checked ) {
         		checkbox.checked = toggle.checked;
             chart_toggle(checkbox);
+            }
+            
+            else if ( form_name == 'coin_amounts' && checkbox.checked != toggle.checked ) {
+        		checkbox.checked = toggle.checked;
+            watch_toggle(checkbox);
             }
             
         }
