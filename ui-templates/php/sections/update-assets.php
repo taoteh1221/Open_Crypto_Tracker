@@ -58,7 +58,7 @@
 	
 		<div align='center' style='font-weight: bold;'>Watch Only</div>
 	
-		<div style='margin-left: 6px;'><input type='checkbox' onclick='selectAll(this, "coin_amounts");' /> Select / Unselect All <i>Unheld Assets</i>	</div>
+		<div style='margin-left: 6px;'><input type='checkbox' onclick='selectAll(this, "coin_amounts");' /> Select / Unselect All <i><u>Unheld</u> Assets</i>	</div>
 		
 	
 	</div>

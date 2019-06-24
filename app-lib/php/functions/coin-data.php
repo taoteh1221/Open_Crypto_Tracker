@@ -639,7 +639,7 @@ $cached_array = explode("||", $data_file);
   				
   				$volume_usd_text = '$' . number_format($volume_usd_raw, 0, '.', ',');
   				
-  				$volume_change_text = '24 hour ' . $asset . ' trading volume has ' . ( $volume_change_symbol == '+' ? 'increased ' : 'decreased ' ) . $volume_change_symbol . number_format($volume_percent_change, 2, '.', ',') . '% since the last price alert.';
+  				$volume_change_text = '24 hour trade volume has ' . ( $volume_change_symbol == '+' ? 'increased ' : 'decreased ' ) . $volume_change_symbol . number_format($volume_percent_change, 2, '.', ',') . '% since the last price ' . ( $asset_price_alerts_refresh > 0 ? 'refresh' : 'alert' ) . '.';
   				
   				$volume_change_text_mobile = '(' . $volume_change_symbol . number_format($volume_percent_change, 2, '.', ',') . '%)';
   				

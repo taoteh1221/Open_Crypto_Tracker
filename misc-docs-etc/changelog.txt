@@ -1336,7 +1336,7 @@ app doing the data requests, not a malicious bot)
 
 -------------------------------------------------------------------
 3.17.0:
--Minor revisions
+-Misc. minor revisions
 -Changed error logs config to be every X days (instead of only daily/weekly)
 -Pretty number formatting, while maintaining decimals
 -Volume percent change with price alerts
