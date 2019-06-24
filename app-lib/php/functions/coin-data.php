@@ -550,17 +550,27 @@ $data_file = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
 $cached_array = explode("||", $data_file);
 
 
+	// Make sure numbers are cleanly pulled from cache file
+	foreach ( $cached_array as $key => $value ) {
+	$cached_array[$key] = remove_number_format($value);
+	}
+
+
 	// Backwards compatibility
 	if ( $cached_array[0] == NULL ) {
 	$cached_value = $data_file;
+	$cached_volume_value = NULL;
 	}
 	else {
-	$cached_value = $cached_array[0];
+	$cached_value = $cached_array[0];  // USD value
+	$cached_volume_value = $cached_array[2]; // Crypto volume value (more accurate percent increase / decrease stats than USD volume)
 	}
+
 
 
 	////// If cached value, run alert checking ////////////
 	if ( $cached_value != '' ) {
+	
 	
 	
   			 // Price checks
@@ -586,10 +596,24 @@ $cached_array = explode("||", $data_file);
           }
           
           
-          // AFTER gathering market data, we disallow alerts where minimum 24 hour trade volume has NOT been met, ONLY if an API request doesn't fail to retrieve volume data
+          
+          // Crypto volume checks
+          if ( $volume_pairing_raw < $cached_volume_value ) {
+          $volume_percent_change = 100 - ( $volume_pairing_raw / ( $cached_volume_value / 100 ) );
+          $volume_change_symbol = '-';
+          }
+          elseif ( $volume_pairing_raw >= $cached_volume_value ) {
+          $volume_percent_change = ( $volume_pairing_raw / ( $cached_volume_value / 100 ) ) - 100;
+          $volume_change_symbol = '+';
+          }
+          
+          
+          
+          // AFTER gathering market data, we disallow alerts where minimum 24 hour trade USD volume has NOT been met, ONLY if an API request doesn't fail to retrieve volume data
           if ( $volume_usd_raw > 0 && $volume_usd_raw < $asset_price_alerts_minvolume ) {
           $send_alert = NULL;
           }
+  
   
           // AFTER gathering market data, we disallow alerts if they are not activated
           if ( $mode != 'both' && $mode != 'alert' ) {
@@ -597,31 +621,40 @@ $cached_array = explode("||", $data_file);
           }
           
           
+          
           // Sending the alerts
           if ( update_cache_file('cache/alerts/'.$asset_data.'.dat', $asset_price_alerts_freq) == true && $send_alert == 1 ) {
           
-          	// Calculate new base pair volume's increase / decrease percentage
-          	$volume_change_percent = round( 1 - ($cached_array[2] / $volume_pairing_raw) * 100 , 2);
           
   				// Message formatting for display to end user
           
-          	// Convert raw numbers to have separators, remove underscores in names, etc
+          	// Pretty up textual output to end-user (convert raw numbers to have separators, remove underscores in names, etc)
   				$exchange_text = ucwords(preg_replace("/_/i", " ", $exchange));
-  				$cached_value_text = ( $asset == 'BTC' ? number_format($cached_value, 2, '.', ',') : number_format($cached_value, 8, '.', ',') );
-  				$asset_usd_text = ( $asset == 'BTC' ? number_format($asset_usd_raw, 2, '.', ',') : number_format($asset_usd_raw, 8, '.', ',') );
-  				$volume_usd_text = '$' . number_format($volume_usd_raw, 0, '.', ',');
-  				$volume_change_text = '24 hour ' .strtoupper($pairing). ' trading volume has ' . ( $volume_change_percent >= 0 ? 'increased +' : 'decreased ' ) . $volume_change_percent . '%.';
-  				$volume_change_text_mobile = '(' . ( $volume_change_percent >= 0 ? '+' : '' ) . $volume_change_percent . '%)';
   				
-  					// Backwards compatibility
-  					if ( $cached_array[2] == NULL ) {
-  					$volume_change_text = NULL;
-  					$volume_change_text_mobile = NULL;
-  					}
+  				$cached_value_text = ( $asset == 'BTC' ? number_format($cached_value, 2, '.', ',') : number_format($cached_value, 8, '.', ',') );
+  				
+  				$asset_usd_text = ( $asset == 'BTC' ? number_format($asset_usd_raw, 2, '.', ',') : number_format($asset_usd_raw, 8, '.', ',') );
+  				
+  				$percent_change_text = number_format($percent_change, 2, '.', ',');
+  				
+  				$volume_usd_text = '$' . number_format($volume_usd_raw, 0, '.', ',');
+  				
+  				$volume_change_text = '24 hour ' . $asset . ' trading volume has ' . ( $volume_change_symbol == '+' ? 'increased ' : 'decreased ' ) . $volume_change_symbol . number_format($volume_percent_change, 2, '.', ',') . '% since the last price alert.';
+  				
+  				$volume_change_text_mobile = '(' . $volume_change_symbol . number_format($volume_percent_change, 2, '.', ',') . '%)';
+  				
+  				
+  				
+  				// Backwards compatibility
+  				if ( $cached_volume_value == NULL ) {
+  				$volume_change_text = NULL;
+  				$volume_change_text_mobile = NULL;
+  				}
+          	
           	
           	// Format trade volume data
           	
-          	// Minimum volume filter skipped message, only if filter enabled and no trade volume (otherwise is NULL)
+          	// Minimum volume filter skipped message, only if filter enabled and error getting trade volume data (otherwise is NULL)
           	if ( $volume_usd_raw == NULL && $asset_price_alerts_minvolume > 0 || $volume_usd_raw < 1 && $asset_price_alerts_minvolume > 0 ) {
           	$volume_filter_skipped_text = ', so enabled minimum volume filter was skipped';
           	}
@@ -629,7 +662,7 @@ $cached_array = explode("||", $data_file);
           	$volume_filter_skipped_text = NULL;
           	}
           	
-          	// Successfully received positive volume data, at or above an enabled minimum volume filter
+          	// Successfully received > 0 volume data, at or above an enabled minimum volume filter
   				if ( $volume_usd_raw > 0 && $asset_price_alerts_minvolume > 0 && $volume_usd_raw >= $asset_price_alerts_minvolume ) {
           	$email_volume_summary = '24 hour trade volume is ' . $volume_usd_text . ' (minimum volume filter set at $' . number_format($asset_price_alerts_minvolume, 0, '.', ',') . ').';
           	}
@@ -649,9 +682,9 @@ $cached_array = explode("||", $data_file);
   				
   				// Build the different messages, configure comm methods, and send messages
   				
-  				$email_message = 'The ' . $asset . ' trade value in the '.strtoupper($pairing).' market at the ' . $exchange_text . ' exchange has '.$alert_mode.' '.$change_symbol.number_format($percent_change, 2, '.', ',').'% from it\'s previous value of $'.$cached_value_text.', to a current value of $' . $asset_usd_text . ' over the past '.$last_check_time.' since the last price ' . ( $asset_price_alerts_refresh > 0 ? 'refresh' : 'alert' ) . '. ' . $email_volume_summary . ' ' . $volume_change_text;
+  				$email_message = 'The ' . $asset . ' trade value in the ' . strtoupper($pairing) . ' market at the ' . $exchange_text . ' exchange has ' . $alert_mode . ' ' . $change_symbol . $percent_change_text . '% from it\'s previous value of $' . $cached_value_text . ', to a current value of $' . $asset_usd_text . ' over the past ' . $last_check_time . ' since the last price ' . ( $asset_price_alerts_refresh > 0 ? 'refresh' : 'alert' ) . '. ' . $email_volume_summary . ' ' . $volume_change_text;
   				
-  				$text_message = $asset . '/'.strtoupper($pairing).' @ ' . $exchange_text . ' '.$alert_mode.' '.$change_symbol.number_format($percent_change, 2, '.', ',').'% from $'.$cached_value_text.' to $' . $asset_usd_text . ' in '.$last_check_time.'. 24hr Vol: ' . $volume_usd_text . ' ' . $volume_change_text_mobile;
+  				$text_message = $asset . '/' . strtoupper($pairing) . ' @ ' . $exchange_text . ' ' . $alert_mode . ' ' . $change_symbol . $percent_change_text . '% from $' . $cached_value_text . ' to $' . $asset_usd_text . ' in '.$last_check_time . '. 24hr Vol: ' . $volume_usd_text . ' ' . $volume_change_text_mobile;
   				
   				
   				// Cache the new lower / higher value + volume data
@@ -672,6 +705,7 @@ $cached_array = explode("||", $data_file);
   
           
           }
+          
   
   
 	}
@@ -707,7 +741,12 @@ $cached_array = explode("||", $data_file);
 
 }
 
+
+
 //////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+
+
 
 function ui_coin_data($coin_name, $trade_symbol, $coin_amount, $market_pairing_array, $selected_pairing, $selected_market, $sort_order, $purchase_price=NULL) {
 
