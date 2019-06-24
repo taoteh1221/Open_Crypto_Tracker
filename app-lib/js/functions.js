@@ -6,8 +6,6 @@
 /////////////////////////////////////////////////////////////
 
 function watch_toggle(obj_var) {
-  
-	var show_charts = $("#show_charts").val();
 	
 		if ( obj_var.checked == true ) {
 			
