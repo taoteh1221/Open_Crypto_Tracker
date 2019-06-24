@@ -516,6 +516,12 @@ $asset = strtoupper($asset);
 	
 	}
 
+
+	// Round for pretty numbers
+	$volume_pairing_raw = round($volume_pairing_raw);
+	$volume_usd_raw = round($volume_usd_raw);	
+	
+	$new_file_contents = $asset_usd_raw . '||' . $volume_usd_raw . '||' . $volume_pairing_raw;
 	
 	
 	// Check for a file modified time !!!BEFORE ANY!!! file creation / updating happens (to calculate time elapsed between updates)
@@ -538,9 +544,19 @@ $asset = strtoupper($asset);
    
 	}
 	
-	
-$cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
 
+$data_file = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
+
+$cached_array = explode("||", $data_file);
+
+
+	// Backwards compatibility
+	if ( $cached_array[0] == NULL ) {
+	$cached_value = $data_file;
+	}
+	else {
+	$cached_value = $cached_array[0];
+	}
 
 
 	////// If cached value, run alert checking ////////////
@@ -584,6 +600,9 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
           // Sending the alerts
           if ( update_cache_file('cache/alerts/'.$asset_data.'.dat', $asset_price_alerts_freq) == true && $send_alert == 1 ) {
           
+          	// Calculate new base pair volume's increase / decrease percentage
+          	$volume_change_percent = round( ($volume_pairing_raw / $cached_array[2] * 100) , 2);
+          
   				// Message formatting for display to end user
           
           	// Convert raw numbers to have separators, remove underscores in names, etc
@@ -591,7 +610,14 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
   				$cached_value_text = ( $asset == 'BTC' ? number_format($cached_value, 2, '.', ',') : number_format($cached_value, 8, '.', ',') );
   				$asset_usd_text = ( $asset == 'BTC' ? number_format($asset_usd_raw, 2, '.', ',') : number_format($asset_usd_raw, 8, '.', ',') );
   				$volume_usd_text = '$' . number_format($volume_usd_raw, 0, '.', ',');
+  				$volume_change_text = '24 hour ' .strtoupper($pairing). ' trading volume has ' . ( $volume_change_percent >= 0 ? 'increased +' : 'decreased -' ) . $volume_change_percent . '%.';
+  				$volume_change_text_mobile = '(' . ( $volume_change_percent >= 0 ? '+' : '-' ) . $volume_change_percent . '%)';
   				
+  					// Backwards compatibility
+  					if ( $cached_array[2] == NULL ) {
+  					$volume_change_text = NULL;
+  					$volume_change_text_mobile = NULL;
+  					}
           	
           	// Format trade volume data
           	
@@ -623,13 +649,13 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
   				
   				// Build the different messages, configure comm methods, and send messages
   				
-  				$email_message = 'The ' . $asset . ' trade value in the '.strtoupper($pairing).' market at the ' . $exchange_text . ' exchange has '.$alert_mode.' '.$change_symbol.number_format($percent_change, 2, '.', ',').'% from it\'s previous value of $'.$cached_value_text.', to a current value of $' . $asset_usd_text . ' over the past '.$last_check_time.' since the last price ' . ( $asset_price_alerts_refresh > 0 ? 'refresh' : 'alert' ) . '. ' . $email_volume_summary;
+  				$email_message = 'The ' . $asset . ' trade value in the '.strtoupper($pairing).' market at the ' . $exchange_text . ' exchange has '.$alert_mode.' '.$change_symbol.number_format($percent_change, 2, '.', ',').'% from it\'s previous value of $'.$cached_value_text.', to a current value of $' . $asset_usd_text . ' over the past '.$last_check_time.' since the last price ' . ( $asset_price_alerts_refresh > 0 ? 'refresh' : 'alert' ) . '. ' . $email_volume_summary . ' ' . $volume_change_text;
   				
-  				$text_message = $asset . '/'.strtoupper($pairing).' @ ' . $exchange_text . ' '.$alert_mode.' '.$change_symbol.number_format($percent_change, 2, '.', ',').'% from $'.$cached_value_text.' to $' . $asset_usd_text . ' in '.$last_check_time.'. 24hr Vol: ' . $volume_usd_text;
+  				$text_message = $asset . '/'.strtoupper($pairing).' @ ' . $exchange_text . ' '.$alert_mode.' '.$change_symbol.number_format($percent_change, 2, '.', ',').'% from $'.$cached_value_text.' to $' . $asset_usd_text . ' in '.$last_check_time.'. 24hr Vol: ' . $volume_usd_text . ' ' . $volume_change_text_mobile;
   				
   				
-  				// Cache the new lower / higher value
-          	file_put_contents('cache/alerts/'.$asset_data.'.dat', $asset_usd_raw, LOCK_EX); 
+  				// Cache the new lower / higher value + volume data
+          	file_put_contents('cache/alerts/'.$asset_data.'.dat', $new_file_contents, LOCK_EX); 
           	
   				// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
           	$send_params = array(
@@ -653,14 +679,14 @@ $cached_value = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
 
  
 
-	// Cache a price value if not already done, OR if config setting set to refresh every X days
+	// Cache a price value / volumes if not already done, OR if config setting set to refresh every X days
 	if ( $mode == 'both' && floatval($asset_usd_raw) >= 0.00000001 && !file_exists('cache/alerts/'.$asset_data.'.dat')
 	|| $mode == 'alert' && floatval($asset_usd_raw) >= 0.00000001 && !file_exists('cache/alerts/'.$asset_data.'.dat') ) {
-	file_put_contents('cache/alerts/'.$asset_data.'.dat', $asset_usd_raw, LOCK_EX); 
+	file_put_contents('cache/alerts/'.$asset_data.'.dat', $new_file_contents, LOCK_EX); 
 	}
 	elseif ( $mode == 'both' && $send_alert != 1 && $asset_price_alerts_refresh >= 1 && floatval($asset_usd_raw) >= 0.00000001 && update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $asset_price_alerts_refresh * 1440 ) ) == true
 	|| $mode == 'alert' && $send_alert != 1 && $asset_price_alerts_refresh >= 1 && floatval($asset_usd_raw) >= 0.00000001 && update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $asset_price_alerts_refresh * 1440 ) ) == true ) {
-	file_put_contents('cache/alerts/'.$asset_data.'.dat', $asset_usd_raw, LOCK_EX); 
+	file_put_contents('cache/alerts/'.$asset_data.'.dat', $new_file_contents, LOCK_EX); 
 	}
 
 
