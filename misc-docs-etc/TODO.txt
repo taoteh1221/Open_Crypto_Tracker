@@ -4,7 +4,11 @@
 TODO
 ///////////////////////////////////////////////////////
 
-Include restore link in backup archive emails, to use that particular backup to restore from.
+Add chart sorting by crypto and usd price / volume percentage change over 1 hour / 1 day / 1 week / 1 month / 90 days.
+
+Think over if percentages should keep 2 decimal points throughout the app, or if they should just round up with no decimal points.
+
+Create help section about checking if your config file format matches latest release's format, and deleting the cache folder if there are possibly cache-related errors.
 
 CSV file export / import of portfolio values.
 
@@ -24,6 +28,8 @@ Differentiate BTC USD / USDT / TUSD / USDC markets as bitcoin's market options, 
 ///////////////////////////////////////////////////////
 MAYBE
 ///////////////////////////////////////////////////////
+
+Maybe add security nonce, re-establishing a session at end of runtime with nonce generated at beginning of runtime?
 
 For semantics, move 'logs' subdirectory out of the 'cache' subdirectory, into it's own primary subdirectory?
 
