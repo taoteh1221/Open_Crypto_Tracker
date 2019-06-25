@@ -31,7 +31,7 @@ Web server setup / install is available for $30 hourly if needed. PM me on Twitt
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Privately track your investment in Bitcoin, Ethereum, Monero, Litecoin, Grin, Cosmos, and an unlimited number of other altcoins / cryptocurrencies. Customize the coin list / alerts / charts to your favorite assets / exchange pairings. No limits, add as many coins / markets as you want.
+Privately track your investment in Bitcoin, Ethereum, Monero, Litecoin, Grin, Cosmos, and an unlimited number of other altcoins / cryptocurrencies. Customize the coin list / alerts / charts to your favorite assets and exchange pairings. No limits, add as many coins / markets as you want. 
 
 Just upload to your PHP-based web server (with an FTP client like FileZilla) and you should be all set, unless your host is a strict setup related to file writing permissions, in which case the 'cache' directory should be set to '777' chmod on unix / linux systems (or 'readable / writable' on windows systems). Your web host must have CURL modules activated on your HTTP server. Most web hosting companies provide this "out-of-the-box" already. This app will detect whether or not CURL is setup on your website server. 
 
