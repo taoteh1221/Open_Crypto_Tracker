@@ -4,30 +4,26 @@
 TODO
 ///////////////////////////////////////////////////////
 
+Add Dogecoin and mining calculator.
+
+Dark greyscale CSS styling option, and theme switcher settings
+
 Add chart sorting by crypto and usd price / volume percentage change over 1 hour / 1 day / 1 week / 1 month / 90 days.
-
-Think over if percentages should keep 2 decimal points throughout the app, or if they should just round up with no decimal points.
-
-Create help section about checking if your config file format matches latest release's format, and deleting the cache folder if there are possibly cache-related errors.
 
 CSV file export / import of portfolio values.
 
 Make sure programming comments are adequate throughout the app.
 
-Add Dogecoin and mining calculator.
-
-Dark greyscale CSS styling option, and theme switcher settings
-
 RESTFUL API system for requesting market values / portfolio values
 
 Simple trading bot, to run from cron / cli
-
-Differentiate BTC USD / USDT / TUSD / USDC markets as bitcoin's market options, rather than designate all BTC markets as USD
 
 
 ///////////////////////////////////////////////////////
 MAYBE
 ///////////////////////////////////////////////////////
+
+Differentiate BTC USD / USDT / TUSD / USDC markets as bitcoin's market options, rather than designate all BTC markets as USD?
 
 Maybe add security nonce, re-establishing a session at end of runtime with nonce generated at beginning of runtime?
 

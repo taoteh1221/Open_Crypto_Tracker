@@ -75,9 +75,15 @@
 	      <div class="card-body">
 	      
 	      
-	    If you recently upgraded to a newer version of this app, and layout or features don't work properly anymore, you may need to clear your browser cache and refresh the page afterwards. This will assure your browser is loading any newly-updated layout styling or javascript-based features.
-	    <br /><br />
 	        If the coins list settings are re-configured or re-ordered in config.php, reload / refresh the page before updating any coin values, or the submission form may not be configured properly and may not submit or display data correctly. Also, you may need to uncheck "Use cookie data to save values between sessions" on the Settings page, to temporarily clear out old cookie data that may conflict with the new configuration...then you can re-enable cookies again afterwards. 
+	    <br /><br />
+	    If you recently upgraded to a newer version of this app, and layout or features don't work properly anymore, you may need to clear your browser cache (temporary files) and restart you browser / refresh the page afterwards. This will assure your browser is loading any newly-updated layout styling or javascript-based features.
+	    <br /><br />
+	    If your problems still persist even after clearing your browser cache (temporary files) and restarting your browser, your config.php setup may be corrupt OR an older format than the latest version requires. Try backing up you old config.php file, and replacing it with the default config.php file included with the latest release. This will ensure your configuration setup is not corrupt or outdated.
+	    <br /><br />
+	    If none of the above solutions work, your last resort (before contacting me for support) is to wipe out all data in your cache directory folder within the app. THIS WILL ERASE YOUR CHART DATA, SO YOU MAY WANT TO BE SURE YOU HAVE A BACKUP FIRST. After your chart data is backed up, delete the folder named 'cache' in the main directory of this app. Reloading the app web page should re-create the cache folder, with new / clean cache files.
+	    <br /><br />
+	    If you are still having issues after trying everything, file an issue here at the github project account, and I will help you troubleshoot the problems: <a href='https://github.com/taoteh1221/DFD_Cryptocoin_Values/issues' target='_blank'>https://github.com/taoteh1221/DFD_Cryptocoin_Values/issues</a>
 	        
 	        
 	      </div>

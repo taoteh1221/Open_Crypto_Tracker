@@ -1354,8 +1354,10 @@ app doing the data requests, not a malicious bot)
 
 -------------------------------------------------------------------
 3.18.0:
--Documentation revisions
--FAQ.txt for FAQ info before installation
+-FAQ.txt for FAQ info before installation (besides FAQ web page in-app)
+-Increased price alert checking efficiency by a factor of 2
+-Price alert UX revisions
+-Documentation / FAQ revisions
 -------------------------------------------------------------------
 
 
