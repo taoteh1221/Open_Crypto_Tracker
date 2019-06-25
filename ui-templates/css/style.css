@@ -82,6 +82,11 @@ input[type=submit], input[type=button], .force_button_style {
 }
 
 
+input[readonly] { /* For MSIE */
+  background-color: #d1d1d1;
+}
+
+
 input[type=text]:-moz-read-only { /* For Firefox */
   background-color: #d1d1d1;
 }

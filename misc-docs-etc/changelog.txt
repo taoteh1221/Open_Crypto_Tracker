@@ -1345,6 +1345,14 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+3.17.1:
+-Bug fix for Microsoft Internet Explorer read-only text input field background styling
+-------------------------------------------------------------------
+
+
+
+
 
 
 
