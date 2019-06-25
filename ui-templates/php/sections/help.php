@@ -170,7 +170,7 @@
 	      <div class="card-body">
 	      
 	       
-	        Either the asset has not been added to <a href='https://coinmarketcap.com' target='_blank'>coinmarketcap.com</a> yet, you forgot to add the URL slug in it's config section, or you need to increase the number of rankings to fetch in config.php in the settings section (<?=$marketcap_ranks_max?> rankings is the current setting). 
+	        Either the asset has not been added to <a href='https://coinmarketcap.com' target='_blank'>coinmarketcap.com</a> yet, you forgot to add the URL slug in it's config section, or you need to increase the number of rankings to fetch in config.php in the settings section (200 rankings is the safe maximum to avoid getting your API requests throttled / blocked). 
 	        
 	        
 	      </div>

@@ -1352,6 +1352,17 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+3.18.0:
+-Documentation revisions
+-FAQ.txt for FAQ info before installation
+-------------------------------------------------------------------
+
+
+
+
+
+
 
 
 

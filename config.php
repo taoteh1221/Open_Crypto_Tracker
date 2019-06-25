@@ -39,7 +39,8 @@ $btc_exchange = 'binance'; // Default Bitcoin to USD (or equiv stable coin): coi
 
 $marketcap_site = 'coinmarketcap'; // Default marketcap data source: 'coinmarketcap', or 'coingecko'
 
-$marketcap_ranks_max = 200; // Number of marketcap rankings to request from API. Ranks are grabbed 100 per request. Set to 100 or 200 if you are blocked a lot
+// Number of marketcap rankings to request from API. Ranks are grabbed 100 per request
+$marketcap_ranks_max = 200; // 200 rankings is the safe maximum to avoid getting your API requests throttled / blocked
 
 $marketcap_cache = 20; // Minutes to cache above-mentioned marketcap rankings...start high and test lower, it can be strict
 

@@ -1,0 +1,98 @@
+
+
+=========================================================================================================================================
+
+  Feature Requests and Reporting Issues
+  
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+Have a question, feature you'd like to see added, or an issue to report? You can do that at the following URLs:
+
+https://github.com/taoteh1221/DFD_Cryptocoin_Values/issues
+
+https://dragonfrugal.com/contact/
+
+Web server setup / install is available for $30 hourly if needed. PM me on Twitter / Skype @ taoteh1221, or contact me using above contact links.
+
+	    
+=========================================================================================================================================
+
+  Layout / Functions / Assets Not Running Properly, After Reconfiguring or Upgrading
+  
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+If you recently upgraded to a newer version of this app, and layout or features don't work properly anymore, you may need to clear your browser cache and refresh the page afterwards. This will assure your browser is loading any newly-updated layout styling or javascript-based features.
+	    
+If the coins list settings are re-configured or re-ordered in config.php, reload / refresh the page before updating any coin values, or the submission form may not be configured properly and may not submit or display data correctly. Also, you may need to uncheck "Use cookie data to save values between sessions" on the Settings page, to temporarily clear out old cookie data that may conflict with the new configuration...then you can re-enable cookies again afterwards. 
+
+	  
+=========================================================================================================================================
+
+  Setting Up Email / Text / Alexa Exchange Price Alerts
+  
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+You can setup asset price alerts to be sent to email, mobile phone text, and amazon alexa notifications. You will be alerted when the USD price of an asset goes up or down a certain percent or more (whatever percent you choose in the settings), for specific exchange / base pairing combinations for that asset. You can even setup alerts for multiple exchanges / base pairings for the same asset.
+	    
+Running asset price alerts requires setting up a cron job on your website server, otherwise they will not work. See the required settings in config.php, and instructions on cron job setup in the README.txt file. Once setup, there is no need to keep your computer turned on. The alerts run automatically from your website server. If you encounter errors or the alerts don't work during setup, check the error logs file at /cache/logs/errors.log for errors in your configuration setup. Basic checks are performed and errors are reported there, and on the Settings page. 
+
+ 
+=========================================================================================================================================
+
+  Page Loads Slowly With Charts Enabled
+  
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+If you have the Charts page enabled in config.php, and page load times are slow after activating your favorite charts, go to the Charts page and click the "Activate Charts" button. Uncheck all charts, and click "Update Activated Charts". If the page load times are faster afterwards, the issue may have been that you were loading too many charts at once. Try loading only a few charts instead, this may help page load times. 
+
+
+=========================================================================================================================================
+
+  Coinmarketcap.com Data Not Available For An Asset
+  
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+Either the asset has not been added to coinmarketcap.com yet, you forgot to add the URL slug in it's config section, or you need to increase the number of rankings to fetch in config.php in the settings section (200 rankings is the safe maximum to avoid getting your API requests throttled / blocked). 
+
+
+=========================================================================================================================================
+
+  Installing On Your Website, and Adding Your Own Coins
+  
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+If you install this application on your website server, you can add / delete / edit the coin list very easily. Instructions can be found in the README.txt file. 
+
+
+=========================================================================================================================================
+
+  SMTP Email Sending Doesn't Work
+  
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+If you have enabled SMTP emailing (to send emails) but it doesn't work, check the error logs file at /cache/logs/errors.log for error responses from the SMTP server connection attempt(s). Alternatively try disabling SMTP email sending by blanking out your username and password in the config.php file, and see if PHP's built-in mail function sends emails OK (no setup required, other than SMTP settings must be blanked out). 
+
+
+=========================================================================================================================================
+
+  Page Loads Slowly or Throws Errors With Proxies Enabled
+  
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+If page loads are sluggish or throw API connection errors without clearing up, and you have enabled proxy ip addresses, check the error logs file at /cache/logs/errors.log for error responses from the proxy server connection attempt(s). If there are no errors log entries related to the issue that help diagnose the problem, disable using proxies in config.php and try loading the web page again.
+	    
+If it is a bad or misconfigured proxy setup causing the issue, and everything runs great after disabling proxies, you probably have either (a) a bad proxy or proxy configuration, or (b) an API server / endpoint address is not responding properly when routed through proxies (example: HTTP used instead of HTTPS can cause this error). If you are absolutely sure your proxy setup is ok, and that an API connection built-in to this app is the issue, please report it here: https://github.com/taoteh1221/DFD_Cryptocoin_Values/issues
+
+
+=========================================================================================================================================
+
+  Backup Archives Don't Work
+  
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+If backup archives (for chart data etc) don't work properly, check the error logs file at /cache/logs/errors.log for error responses related to (a) "cryptographically secure pseudo-random bytes could not be generated" (which means your system is not properly setup to generate secure random characters, which are used for backup storage privacy via a random filename suffix), or (b) "Backup zip archive creation failed with no_extension" (which means your system does not have the libzip module for the PHP command-line version on your server). If you have either of these issues, the problem is related to your server not being setup properly to support this functionality. It's not a bug in this application. Contact your hosting provider or system administrator to have them fix your server setup to support these features.
+	    
+If you have none of these error log messages, your issue may be file / folder permissions. Make sure the /backups/ directory access permissions are set to readable and writable. This assures the ZIP archive has permission to be created in this directory.
+
+
+=========================================================================================================================================
