@@ -77,9 +77,9 @@ function gain_loss_total() {
 
     if (is_array($_SESSION['gain_loss_array']) || is_object($_SESSION['gain_loss_array'])) {
       
-  foreach ( $_SESSION['gain_loss_array'] as $gain_loss ) {
+  foreach ( $_SESSION['gain_loss_array'] as $key => $value ) {
   
-  $total_gain_loss = ($gain_loss + $total_gain_loss);
+  $total_gain_loss = ($value['gain_loss'] + $total_gain_loss);
   
   }
   
@@ -455,17 +455,23 @@ global $_POST, $mining_rewards;
 
 function asset_charts_and_alerts($asset_data, $exchange, $pairing, $mode) {
 
-global $coins_list, $btc_exchange, $btc_usd, $charts_page, $asset_price_alerts_freq, $asset_price_alerts_percent, $asset_price_alerts_minvolume, $asset_price_alerts_refresh;
+global $runtime_mode, $base_dir, $coins_list, $btc_exchange, $charts_page, $asset_price_alerts_freq, $asset_price_alerts_percent, $asset_price_alerts_minvolume, $asset_price_alerts_refresh;
 
 // Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
 $asset = ( stristr($asset_data, "-") == false ? $asset_data : substr( $asset_data, 0, strpos($asset_data, "-") ) );
 $asset = strtoupper($asset);
+
 
 	// Get any necessary variables for calculating asset's USD value
 	if ( $asset == 'BTC' ) {
 	$pairing = 'usd'; // Overwrite for Bitcoin only, so alerts properly describe the BTC fiat pairing in this app
 	$btc_usd = get_btc_usd($exchange)['last_trade']; // Overwrite global var with selected exchange (rather then default), when asset is Bitcoin
 	}
+	else {
+	$btc_usd = get_btc_usd($btc_exchange)['last_trade'];
+	}
+	
+	
 
 	// XMR
    if ( $pairing == 'xmr' && !$_SESSION['xmr_btc'] ) {
@@ -517,11 +523,30 @@ $asset = strtoupper($asset);
 	}
 
 
+
 	// Round for pretty numbers
 	$volume_pairing_raw = round($volume_pairing_raw);
 	$volume_usd_raw = round($volume_usd_raw);	
 	
 	$new_file_contents = $asset_usd_raw . '||' . $volume_usd_raw . '||' . $volume_pairing_raw;
+	
+	
+	
+	// Make sure we have basic values, otherwise return false
+	if ( $btc_usd == NULL ) {
+	$_SESSION['other_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | error: No Bitcoin USD value set' . "<br /> \n";
+	$set_return = 1;
+	}
+	
+	if ( floattostr($asset_usd_raw) == NULL ) {
+	$_SESSION['other_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | error: No asset USD value set' . "<br /> \n";
+	$set_return = 1;
+	}
+	
+	if ( $set_return == 1 ) {
+	return FALSE;
+	}
+	
 	
 	
 	// Check for a file modified time !!!BEFORE ANY!!! file creation / updating happens (to calculate time elapsed between updates)
@@ -574,24 +599,24 @@ $cached_array = explode("||", $data_file);
 	
 	
   			 // Price checks
-          if ( floattostr($asset_usd_raw) < floattostr($cached_value) ) {
+          if ( floattostr($cached_value) >= 0.00000001 && floattostr($asset_usd_raw) < floattostr($cached_value) ) {
           $asset_price_alerts_value = $cached_value - ( $cached_value * ($asset_price_alerts_percent / 100) );
           $percent_change = 100 - ( $asset_usd_raw / ( $cached_value / 100 ) );
           $change_symbol = '-';
           $increase_decrease = 'decreased';
           
-                  if ( floatval($asset_usd_raw) >= 0.00000001 && floatval($asset_usd_raw) <= floatval($asset_price_alerts_value) ) {
+                  if ( floattostr($asset_usd_raw) >= 0.00000001 && floattostr($asset_usd_raw) <= floattostr($asset_price_alerts_value) ) {
                   $send_alert = 1;
                   }
           
           }
-          elseif ( floattostr($asset_usd_raw) >= floattostr($cached_value) ) {
+          elseif (  floattostr($cached_value) >= 0.00000001 && floattostr($asset_usd_raw) >= floattostr($cached_value) ) {
           $asset_price_alerts_value = $cached_value + ( $cached_value * ($asset_price_alerts_percent / 100) );
           $percent_change = ( $asset_usd_raw / ( $cached_value / 100 ) ) - 100;
           $change_symbol = '+';
           $increase_decrease = 'increased';
           
-                  if ( floatval($asset_usd_raw) >= 0.00000001 && floatval($asset_usd_raw) >= floatval($asset_price_alerts_value) ) {
+                  if ( floattostr($asset_usd_raw) >= 0.00000001 && floattostr($asset_usd_raw) >= floattostr($asset_price_alerts_value) ) {
                   $send_alert = 1;
                   }
           
@@ -641,7 +666,7 @@ $cached_array = explode("||", $data_file);
   				
   				$volume_usd_text = '$' . number_format($volume_usd_raw, 0, '.', ',');
   				
-  				$volume_change_text = 'has ' . ( $volume_change_symbol == '+' ? 'increased ' : 'decreased ' ) . $volume_change_symbol . number_format($volume_percent_change, 2, '.', ',') . '% to a value of';
+  				$volume_change_text = 'has ' . ( $volume_change_symbol == '+' ? 'increased ' : 'decreased ' ) . $volume_change_symbol . number_format($volume_percent_change, 2, '.', ',') . '% to a dollar value of';
   				
   				$volume_change_text_mobile = '(' . $volume_change_symbol . number_format($volume_percent_change, 2, '.', ',') . '%)';
   				
@@ -667,18 +692,18 @@ $cached_array = explode("||", $data_file);
           	
           	// Successfully received > 0 volume data, at or above an enabled minimum volume filter
   				if ( $volume_usd_raw > 0 && $asset_price_alerts_minvolume > 0 && $volume_usd_raw >= $asset_price_alerts_minvolume ) {
-          	$email_volume_summary = '24 hour trade volume ' . $volume_change_text . ' ' . $volume_usd_text . ' (minimum volume filter set at $' . number_format($asset_price_alerts_minvolume, 0, '.', ',') . ').';
+          	$email_volume_summary = '24 hour trading pair volume ' . $volume_change_text . ' ' . $volume_usd_text . ' (minimum volume filter is $' . number_format($asset_price_alerts_minvolume, 0, '.', ',') . ').';
           	}
           	// If volume is zero or greater in successfully received volume data, without an enabled volume filter (or filter skipped)
           	// IF exchange dollar value price goes up/down and triggers alert, 
           	// BUT current reported volume is zero (temporary error on exchange side etc, NOT on our app's side),
           	// inform end-user of this probable volume discrepancy being detected.
           	elseif ( $volume_usd_raw >= 0 ) {
-          	$email_volume_summary = '24 hour trade volume ' . $volume_change_text . ' ' . $volume_usd_text . ( $volume_usd_raw == 0 ? ' (probable volume discrepancy detected' . $volume_filter_skipped_text . ')' : '' ) . '.'; 
+          	$email_volume_summary = '24 hour trading pair volume ' . $volume_change_text . ' ' . $volume_usd_text . ( $volume_usd_raw == 0 ? ' (probable volume discrepancy detected' . $volume_filter_skipped_text . ')' : '' ) . '.'; 
           	}
           	// NULL if not setup to get volume, negative number returned if no data received from API, therefore skipping any enabled volume filter
   				elseif ( $volume_usd_raw == NULL || $volume_usd_raw == -1 ) { 
-          	$email_volume_summary = 'No data received for 24 hour trade volume' . $volume_filter_skipped_text . '.';
+          	$email_volume_summary = 'No data received for 24 hour trading pair volume' . $volume_filter_skipped_text . '.';
           	$volume_usd_text = 'No data';
           	}
   				
@@ -686,13 +711,13 @@ $cached_array = explode("||", $data_file);
   				
   				// Build the different messages, configure comm methods, and send messages
   				
-  				$email_message = 'Over the past ' . $last_check_time . ' since the last price ' . ( $asset_price_alerts_refresh > 0 ? 'refresh' : 'alert' ) . ', the ' . $asset . ' trade value in the ' . strtoupper($pairing) . ' market at ' . $exchange_text . ' has ' . $increase_decrease . ' ' . $change_symbol . $percent_change_text . '% from it\'s previous value of $' . $cached_value_text . ', to a current value of $' . $asset_usd_text . '. ' . $email_volume_summary;
+  				$email_message = 'The ' . $asset . ' trade value in the ' . strtoupper($pairing) . ' market at ' . $exchange_text . ' has ' . $increase_decrease . ' ' . $change_symbol . $percent_change_text . '% to a dollar value of $' . $asset_usd_text . ' since the last ' . ( $asset_price_alerts_refresh > 0 ? 'refresh' : 'alert' ) . ' ' . $last_check_time . ' ago. ' . $email_volume_summary;
   				
-  				$text_message = $last_check_time . ' since last ' . ( $asset_price_alerts_refresh > 0 ? 'refresh' : 'alert' ) . ', ' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange_text . ' ' . $increase_decrease . ' ' . $change_symbol . $percent_change_text . '% from $' . $cached_value_text . ' to $' . $asset_usd_text . '. 24hr Vol: ' . $volume_usd_text . ' ' . $volume_change_text_mobile;
+  				$text_message = $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange_text . ' ' . $increase_decrease . ' ' . $change_symbol . $percent_change_text . '% to $' . $asset_usd_text . ' in ' . $last_check_time . '. 24hr Vol: ' . $volume_usd_text . ' ' . $volume_change_text_mobile;
   				
   				
   				// Cache the new lower / higher value + volume data
-          	file_put_contents('cache/alerts/'.$asset_data.'.dat', $new_file_contents, LOCK_EX); 
+          	store_file_contents($base_dir . '/cache/alerts/'.$asset_data.'.dat', $new_file_contents); 
           	
   				// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
           	$send_params = array(
@@ -718,30 +743,32 @@ $cached_array = explode("||", $data_file);
  
 
 	// Cache a price value / volumes if not already done, OR if config setting set to refresh every X days
-	if ( $mode == 'both' && floatval($asset_usd_raw) >= 0.00000001 && !file_exists('cache/alerts/'.$asset_data.'.dat')
-	|| $mode == 'alert' && floatval($asset_usd_raw) >= 0.00000001 && !file_exists('cache/alerts/'.$asset_data.'.dat') ) {
-	file_put_contents('cache/alerts/'.$asset_data.'.dat', $new_file_contents, LOCK_EX); 
+	if ( $mode == 'both' && floattostr($asset_usd_raw) >= 0.00000001 && !file_exists('cache/alerts/'.$asset_data.'.dat')
+	|| $mode == 'alert' && floattostr($asset_usd_raw) >= 0.00000001 && !file_exists('cache/alerts/'.$asset_data.'.dat') ) {
+	store_file_contents($base_dir . '/cache/alerts/'.$asset_data.'.dat', $new_file_contents); 
 	}
-	elseif ( $mode == 'both' && $send_alert != 1 && $asset_price_alerts_refresh >= 1 && floatval($asset_usd_raw) >= 0.00000001 && update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $asset_price_alerts_refresh * 1440 ) ) == true
-	|| $mode == 'alert' && $send_alert != 1 && $asset_price_alerts_refresh >= 1 && floatval($asset_usd_raw) >= 0.00000001 && update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $asset_price_alerts_refresh * 1440 ) ) == true ) {
-	file_put_contents('cache/alerts/'.$asset_data.'.dat', $new_file_contents, LOCK_EX); 
+	elseif ( $mode == 'both' && $send_alert != 1 && $asset_price_alerts_refresh >= 1 && floattostr($asset_usd_raw) >= 0.00000001 && update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $asset_price_alerts_refresh * 1440 ) ) == true
+	|| $mode == 'alert' && $send_alert != 1 && $asset_price_alerts_refresh >= 1 && floattostr($asset_usd_raw) >= 0.00000001 && update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $asset_price_alerts_refresh * 1440 ) ) == true ) {
+	store_file_contents($base_dir . '/cache/alerts/'.$asset_data.'.dat', $new_file_contents); 
 	}
 
 
 
 	// If the charts page is enabled in config.php, save latest chart data for assets with price alerts configured on them
-	if ( $mode == 'both' && floatval($asset_usd_raw) >= 0.00000001 && $charts_page == 'on'
-	|| $mode == 'chart' && floatval($asset_usd_raw) >= 0.00000001 && $charts_page == 'on' ) { // We only want this chart data stored once, so just run during the check for 'increased' value
+	if ( $mode == 'both' && floattostr($asset_usd_raw) >= 0.00000001 && $charts_page == 'on'
+	|| $mode == 'chart' && floattostr($asset_usd_raw) >= 0.00000001 && $charts_page == 'on' ) { // We only want this chart data stored once, so just run during the check for 'increased' value
 	
-	file_put_contents('cache/charts/'.$asset.'/'.$asset_data.'_chart_usd.dat', time() . '||' . $asset_usd_raw . '||' . $volume_usd_raw . "\n", FILE_APPEND | LOCK_EX); 
+	store_file_contents($base_dir . '/cache/charts/'.$asset.'/'.$asset_data.'_chart_usd.dat', time() . '||' . $asset_usd_raw . '||' . $volume_usd_raw . "\n", "append"); 
 	
-		if ( floatval($pairing_value_raw) >= 0.00000001 ) {
-		file_put_contents('cache/charts/'.$asset.'/'.$asset_data.'_chart_'.$pairing.'.dat', time() . '||' . $pairing_value_raw . '||' . $volume_pairing_raw . "\n", FILE_APPEND | LOCK_EX); 
+		if ( floattostr($pairing_value_raw) >= 0.00000001 ) {
+		store_file_contents($base_dir . '/cache/charts/'.$asset.'/'.$asset_data.'_chart_'.$pairing.'.dat', time() . '||' . $pairing_value_raw . '||' . $volume_pairing_raw . "\n", "append"); 
 		}
 	
 	}
 
 
+// If we haven't returned FALSE yet because of any issues being detected, return TRUE to indicate all seems ok
+return TRUE;
 
 }
 
@@ -933,7 +960,13 @@ $market_pairing = $all_markets[$selected_market];
 	 	
 	 $coin_paid_total_raw = ($coin_amount * $purchase_price);
 	 $gain_loss = $coin_usd_worth_raw - $coin_paid_total_raw;
-    $_SESSION['gain_loss_array'][] = $gain_loss;  
+    $_SESSION['gain_loss_array'][] = array(
+    													'coin_symbol' => $trade_symbol, 
+    													'coin_paid' => $purchase_price,
+    													'coin_paid_total' => $coin_paid_total_raw,
+    													'coin_worth_total' => $coin_usd_worth_raw,
+    													'gain_loss' => $gain_loss,
+    													);
     
 	 }
 	  
@@ -1265,7 +1298,7 @@ echo '$' . number_format($coin_usd_worth_raw, 2, '.', ',');
 
   if ( floatval($purchase_price) >= 0.00000001 ) {
   $parsed_gain_loss = preg_replace("/-/", "-$", number_format( $gain_loss, 2, '.', ',' ) );
-  echo ' <span class="'.( $gain_loss >= 0 ? 'gain' : 'loss' ).'">('.( $gain_loss >= 0 ? '+$' : '' ) . $parsed_gain_loss . ')</span>';
+  //echo ' <span class="'.( $gain_loss >= 0 ? 'gain' : 'loss' ).'">('.( $gain_loss >= 0 ? '+$' : '' ) . $parsed_gain_loss . ')</span>';
   }
 
 ?></td>

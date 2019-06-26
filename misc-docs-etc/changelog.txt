@@ -1362,6 +1362,18 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+3.18.1:
+-Bug fix where BTC => USD value not passed into charts / price alerts function in weird edge cases
+-Per-asset gain / loss stats moved to info bubble next to gain / loss summary (bottom of portfolio page), percentages now included (besides USD value)
+-Error logging support in charts / price alerts function
+-Error logging support when writing files to the data cache
+-------------------------------------------------------------------
+
+
+
+
+
 
 
 

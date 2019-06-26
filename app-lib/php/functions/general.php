@@ -5,6 +5,29 @@
 
 /////////////////////////////////////////////////////////
 
+function store_file_contents($file, $content, $mode=false) {
+	
+global $runtime_mode, $base_dir;
+
+	if ( $mode == 'append' ) {
+	$result = file_put_contents($file, $content, FILE_APPEND | LOCK_EX);
+	}
+	else {
+	$result = file_put_contents($file, $content, LOCK_EX);
+	}
+	
+	
+	if ( $result == FALSE ) {
+	$_SESSION['other_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | file_write_error: File write failed for file "' . $file . '"' . "<br /> \n";
+	}
+	
+	
+return $result;
+
+}
+
+/////////////////////////////////////////////////////////
+
 // Always display very large / small numbers in non-scientific format
 function floattostr($val) {
 
@@ -285,7 +308,9 @@ function chart_time_interval($file, $linecount, $length) {
 	
 	foreach ( $timestamps as $key => $value ) {
 		
+		$count = 0;
 		if ( $timestamps[($key - 1)] != '' ) {
+		$count = $count + 1;
 		$total_minutes = $total_minutes + round( ( $timestamps[$key] - $timestamps[($key - 1)] ) / 60 );
 		}
 		
@@ -294,7 +319,10 @@ function chart_time_interval($file, $linecount, $length) {
 
 $average_interval = round( $total_minutes / ( sizeof($timestamps) - 1 ) );
 
-return round( 60 / $average_interval );
+// Only return average intervals if we have a minimum of 24 intervals to average out
+// (set to 1 until then, to keep chart buttons from acting weird until we have enough data)
+return ( $count >= 24 ? round( 60 / $average_interval ) : 1 );  
+
 
 }
 
@@ -574,7 +602,7 @@ global $runtime_mode, $delete_old_backups, $base_dir, $base_url;
 			
 				if ( $backup_results == 1 ) {
 					
-				file_put_contents('cache/events/backup_'.$backup_prefix.'.dat', time(), LOCK_EX);
+				store_file_contents($base_dir . '/cache/events/backup_'.$backup_prefix.'.dat', time());
 					
 				$backup_url = 'backups/?file=' . $backup_file;
 				
@@ -720,18 +748,18 @@ $error_logs .= strip_tags($_SESSION['other_error']); // Remove any HTML formatti
    // Send notifications
    @send_notifications($send_params);
           	
-	file_put_contents('cache/events/email-error-logs.dat', date('Y-m-d H:i:s'), LOCK_EX); // Track this emailing event, to determine next time to email logs again.
+	store_file_contents($base_dir . '/cache/events/email-error-logs.dat', date('Y-m-d H:i:s')); // Track this emailing event, to determine next time to email logs again.
 	
 	}
 	
 	
 	// Log errors...Purge old logs before storing new logs, if it's time to...otherwise just append.
 	if ( update_cache_file('cache/events/purge-error-logs.dat', ( $purge_error_logs * 1440 ) ) == true ) {
-	file_put_contents('cache/logs/errors.log', $error_logs, LOCK_EX); // NULL if no new errors, but that's OK because we are purging any old entries 
-	file_put_contents('cache/events/purge-error-logs.dat', date('Y-m-d H:i:s'), LOCK_EX);
+	store_file_contents($base_dir . '/cache/logs/errors.log', $error_logs); // NULL if no new errors, but that's OK because we are purging any old entries 
+	store_file_contents('cache/events/purge-error-logs.dat', date('Y-m-d H:i:s'));
 	}
 	elseif ( $error_logs != NULL ) {
-	file_put_contents('cache/logs/errors.log', $error_logs, FILE_APPEND | LOCK_EX);
+	store_file_contents($base_dir . '/cache/logs/errors.log', $error_logs, "append");
 	}
 	
 
@@ -805,7 +833,7 @@ $textlocal_params = array(
 
 function api_data($mode, $request, $ttl, $api_server=null, $post_encoding=3, $test_proxy=NULL) { // Default to JSON encoding post requests (most used)
 
-global $user_agent, $api_timeout, $api_strict_ssl, $proxy_login, $proxy_list, $runtime_mode;
+global $base_dir, $user_agent, $api_timeout, $api_strict_ssl, $proxy_login, $proxy_list, $runtime_mode;
 
 $cookie_jar = tempnam('/tmp','cookie');
 	
@@ -926,7 +954,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		
 		// Cache data to the file cache
 		if ( $ttl > 0 && $mode != 'proxy-check'  ) {
-		file_put_contents('cache/apis/'.$hash_check.'.dat', $_SESSION['api_cache'][$hash_check], LOCK_EX);
+		store_file_contents($base_dir . '/cache/apis/'.$hash_check.'.dat', $_SESSION['api_cache'][$hash_check]);
 		}
 		
 
@@ -970,7 +998,7 @@ return $data;
 
 function test_proxy($problem_proxy_array) {
 
-global $proxy_alerts_freq, $proxy_alerts, $proxy_alerts_runtime, $proxy_checkup_ok, $runtime_mode;
+global $base_dir, $proxy_alerts_freq, $proxy_alerts, $proxy_alerts_runtime, $proxy_checkup_ok, $runtime_mode;
 
 
 // Endpoint to test proxy connectivity: https://www.myip.com/api-docs/
@@ -1053,7 +1081,7 @@ $cache_filename = preg_replace("/:/", "_", $cache_filename);
 
 
 		// Cache the logs
-		file_put_contents('cache/alerts/proxy-check-'.$cache_filename.'.dat', $cached_logs, LOCK_EX);
+		store_file_contents($base_dir . '/cache/alerts/proxy-check-'.$cache_filename.'.dat', $cached_logs);
 			
       
       $email_alert = " The proxy " . $problem_proxy . " recently did not receive data when accessing this endpoint: \n " . $problem_endpoint . " \n \n A check on this proxy was performed at " . $proxy_test_url . ", and results logged: \n ============================================================== \n " . $cached_logs . " \n ============================================================== \n \n ";

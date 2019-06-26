@@ -5,7 +5,7 @@
 
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
 
-$app_version = '3.18.0';  // 2019/JUNE/25TH
+$app_version = '3.18.1';  // 2019/JUNE/26TH
  
 date_default_timezone_set('UTC');
 
@@ -43,7 +43,7 @@ exit;
 
 // Recreate .htaccess to restrict web snooping of cache contents, if the cache directory was deleted / recreated
 if ( !file_exists($base_dir . '/cache/.htaccess') ) {
-file_put_contents($base_dir . '/cache/.htaccess', 'deny from all', LOCK_EX); 
+store_file_contents($base_dir . '/cache/.htaccess', 'deny from all'); 
 }
 
 
@@ -75,7 +75,7 @@ require_once( $php_app_dir . "/other/cookies.php");
 	// Have UI runtime mode cache the app URL data every 72 hours, since CLI runtime cannot determine the app URL (for sending backup link emails during backups, etc)
 	if ( update_cache_file('cache/vars/app_url.dat', (60 * 72) ) == true ) {
 	$base_url = base_url();
-	file_put_contents('cache/vars/app_url.dat', $base_url, LOCK_EX);
+	store_file_contents($base_dir . '/cache/vars/app_url.dat', $base_url);
 	}
 
 

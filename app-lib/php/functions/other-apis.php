@@ -125,7 +125,7 @@ global $chainstats_cache;
 
 function etherscan_api($block_info) {
  
-global $chainstats_cache;
+global $base_dir, $chainstats_cache;
 
   $json_string = 'https://api.etherscan.io/api?module=proxy&action=eth_blockNumber';
   $jsondata = @api_data('url', $json_string, $chainstats_cache);
@@ -145,7 +145,7 @@ global $chainstats_cache;
   			$json_string = 'https://api.etherscan.io/api?module=proxy&action=eth_getBlockByNumber&tag='.$block_number.'&boolean=true';
   			$jsondata = @api_data('url', $json_string, 0); // ZERO TO NOT CACHE DATA (WOULD CREATE CACHE BLOAT)
     		
-    		file_put_contents('cache/apis/eth-stats.dat', $jsondata, LOCK_EX);
+    		store_file_contents($base_dir . '/cache/apis/eth-stats.dat', $jsondata);
     		
     		$data = json_decode($jsondata, TRUE);
     		

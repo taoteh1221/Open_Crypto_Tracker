@@ -255,11 +255,65 @@ $coins_list_numbered = array_values($coins_list['BTC']['market_pairing']['btc'])
 	
 	echo '<br /><span class="' . ( $gain_loss_worth >= 0 ? 'green">USD Gain: +$' : 'red">USD Loss: ' ) . $parsed_gain_loss_worth . ' (' . ( $gain_loss_worth >= 0 ? '+' : '' ) . number_format($percent_difference, 2, '.', ',') . '%)</span>';
 	}
+	?> 
+	<img id='portfolio_gain_loss' src='ui-templates/media/images/info.png' width='30' border='0' style='position: relative; left: -5px;' /> 
+ <script>
+
+        var gain_loss_content = '<h5 class="yellow" style="position: relative;">Portfolio Gain / Loss Stats:</h5>'
+        
+        <?php
+        		
+        		// Sort descending gains
+        		$gain_loss_array = $_SESSION['gain_loss_array'];
+        		$columns_array = array_column($gain_loss_array, 'gain_loss');
+				array_multisort($columns_array, SORT_DESC, $gain_loss_array);
+        		
+            foreach ( $gain_loss_array as $key => $value ) {
+            	
+					$parsed_gain_loss = preg_replace("/-/", "-$", number_format( $value['gain_loss'], 2, '.', ',' ) );
 	
+   				$gain_loss_percent = ( ($value['coin_worth_total'] / $value['coin_paid_total']) - 1 ) * 100;
+            	
+            	
+            		if ( $value['coin_paid'] != NULL ) {
+            ?>
+        +'<p class="coin_info"><span class="yellow"><?=$value['coin_symbol']?>:</span> <span class="<?=( $value['gain_loss'] >= 0 ? 'green_bright">+$' : 'red">' )?><?=$parsed_gain_loss?> (<?=( $value['gain_loss'] >= 0 ? '+' : '' )?><?=number_format($gain_loss_percent, 2, '.', ',')?>%)</span></p>'
+        
+        <?php
+        				}
+        				
+            }
+         ?>
+            
+        +'<p class="coin_info"><span class="yellow"> </p>';
+    
+    
+        $('#portfolio_gain_loss').balloon({
+        html: true,
+        position: "right",
+        contents: gain_loss_content,
+        css: {
+                fontSize: ".8rem",
+                minWidth: ".8rem",
+                padding: ".3rem .7rem",
+                border: "1px solid rgba(212, 212, 212, .4)",
+                borderRadius: "6px",
+                boxShadow: "3px 3px 6px #555",
+                color: "#eee",
+                backgroundColor: "#111",
+                opacity: "0.95",
+                zIndex: "32767",
+                textAlign: "left"
+                }
+        });
+    
+     </script>
+     
+	<?php
 	if ( $bitcoin_dominance >= 0 && $altcoin_dominance >= 0 ) {
 	echo '<br />Stats: ' . number_format($bitcoin_dominance, 2, '.', ',') . '% Bitcoin / ' . number_format($altcoin_dominance, 2, '.', ',') .'% Altcoin(s)';
 	}
-	?>
+	?> 
 	<img id='portfolio_dominance' src='ui-templates/media/images/info.png' width='30' border='0' style='position: relative; left: -5px;' /> 
  <script>
 

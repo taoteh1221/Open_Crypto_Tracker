@@ -8,6 +8,10 @@
 /////////////////////////////////////////////////
 
 
+// Set BTC / USD default value
+$btc_usd = get_btc_usd($btc_exchange)['last_trade'];
+
+
 // Only need below logic during UI runtime
 if ( $runtime_mode == 'ui' ) {
 
@@ -437,7 +441,10 @@ $smtp->addTo($to_email); // Add to email here one time...because class adds to a
 
 
 // Re-check the average time interval between chart data points, once every 72 hours
-if ( $charts_page == 'on' && update_cache_file('cache/vars/chart_interval.dat', (60 * 72) ) == true ) {
+// If we just started collecting data, check frequently
+// (placeholder is always set to 1 to keep chart buttons from acting weird until we have enough data)
+if ( $charts_page == 'on' && update_cache_file('cache/vars/chart_interval.dat', (60 * 72) ) == true
+|| !is_numeric(trim(file_get_contents('cache/vars/chart_interval.dat'))) || trim(file_get_contents('cache/vars/chart_interval.dat')) == 1 ) {  
 	
 	foreach ( $asset_charts_and_alerts as $key => $value ) {
 	
@@ -464,7 +471,7 @@ if ( $charts_page == 'on' && update_cache_file('cache/vars/chart_interval.dat', 
 // Dynamically determine average time interval with the last 500 lines (or max available if less), presume an average max characters length of ~40
 $charts_update_freq = chart_time_interval($find_first_filename, 500, 40);
 
-file_put_contents('cache/vars/chart_interval.dat', $charts_update_freq, LOCK_EX);
+store_file_contents($base_dir . '/cache/vars/chart_interval.dat', $charts_update_freq);
 
 }
 

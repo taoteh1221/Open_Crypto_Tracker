@@ -4,7 +4,7 @@
  */
  
 require_once("app-lib/php/functions/general.php");
-require_once("app-lib/php/functions/coin-data.php");
+require_once("app-lib/php/functions/asset-data.php");
 require_once("app-lib/php/functions/exchange-ticker-apis.php");
 require_once("app-lib/php/functions/other-apis.php");
 

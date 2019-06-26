@@ -28,8 +28,6 @@ backup_archive('charts-data', $base_dir . '/cache/charts/', $charts_backup_freq)
 
 
 // Charts and price alerts
-$btc_usd = get_btc_usd($btc_exchange)['last_trade'];
-
 foreach ( $asset_charts_and_alerts as $key => $value ) {
 	
 $value = explode("||",$value); // Convert $value into an array
@@ -38,7 +36,11 @@ $exchange = $value[0];
 $pairing = $value[1];
 $mode = $value[2];
 
-asset_charts_and_alerts($key, $exchange, $pairing, $mode);
+$result = asset_charts_and_alerts($key, $exchange, $pairing, $mode);
+
+	if ( $result == FALSE ) {
+	$_SESSION['other_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | error: Charts / alerts update failure' . "<br /> \n";
+	}
 
 }
 
