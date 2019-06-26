@@ -709,7 +709,7 @@ $cached_array = explode("||", $data_file);
   				
   				// Build the different messages, configure comm methods, and send messages
   				
-  				$email_message = 'The ' . $asset . ' trade value in the ' . strtoupper($pairing) . ' market at ' . $exchange_text . ' has ' . $increase_decrease . ' in dollar value by ' . $change_symbol . $percent_change_text . '% to a value of $' . $asset_usd_text . ' over ' . $last_check_time . ' since the last price ' . ( $asset_price_alerts_refresh > 0 ? 'refresh' : 'alert' ) . '. ' . $email_volume_summary;
+  				$email_message = 'The ' . $asset . ' trade value in the ' . strtoupper($pairing) . ' market at ' . $exchange_text . ' has ' . $increase_decrease . ' in dollar value by ' . $change_symbol . $percent_change_text . '% to $' . $asset_usd_text . ' over ' . $last_check_time . ' since the last price ' . ( $asset_price_alerts_refresh > 0 ? 'refresh' : 'alert' ) . '. ' . $email_volume_summary;
   				
   				$text_message = $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange_text . ' ' . $increase_decrease . ' in dollar value ' . $change_symbol . $percent_change_text . '% to $' . $asset_usd_text . ' in ' . $last_check_time . '. 24hr Vol: ' . $volume_usd_text . ' ' . $volume_change_text_mobile;
   				

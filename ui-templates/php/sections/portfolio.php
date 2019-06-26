@@ -258,7 +258,15 @@ $coins_list_numbered = array_values($coins_list['BTC']['market_pairing']['btc'])
 	?> 
 	<img id='portfolio_gain_loss' src='ui-templates/media/images/info.png' width='30' border='0' style='position: relative; left: -5px;' /> 
  <script>
-
+ 
+ 	<?php
+ 	if ( $parsed_gain_loss_worth != NULL ) {
+ 	?>
+	document.title = '<?=( $gain_loss_worth >= 0 ? '+$' : '' )?><?=$parsed_gain_loss_worth?> | ' + document.title;
+ 	<?php
+ 	}
+ 	?>
+ 	
         var gain_loss_content = '<h5 class="yellow" style="position: relative;">Portfolio Gain / Loss Stats:</h5>'
         
         <?php
