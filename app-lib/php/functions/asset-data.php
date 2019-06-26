@@ -534,12 +534,12 @@ $asset = strtoupper($asset);
 	
 	// Make sure we have basic values, otherwise return false
 	if ( $btc_usd == NULL ) {
-	$_SESSION['other_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | error: No Bitcoin USD value set' . "<br /> \n";
+	$_SESSION['other_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | error: No Bitcoin USD value set | charts_alerts_data: ' . $asset_data . ' (' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ") <br /> \n";
 	$set_return = 1;
 	}
 	
 	if ( floattostr($asset_usd_raw) == NULL ) {
-	$_SESSION['other_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | error: No asset USD value set' . "<br /> \n";
+	$_SESSION['other_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | error: No asset value set | charts_alerts_data: ' . $asset_data . ' (' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ") <br /> \n";
 	$set_return = 1;
 	}
 	

@@ -30,6 +30,10 @@ backup_archive('charts-data', $base_dir . '/cache/charts/', $charts_backup_freq)
 // Charts and price alerts
 foreach ( $asset_charts_and_alerts as $key => $value ) {
 	
+// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
+$asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, strpos($key, "-") ) );
+$asset = strtoupper($asset);
+
 $value = explode("||",$value); // Convert $value into an array
 
 $exchange = $value[0];
@@ -39,7 +43,7 @@ $mode = $value[2];
 $result = asset_charts_and_alerts($key, $exchange, $pairing, $mode);
 
 	if ( $result == FALSE ) {
-	$_SESSION['other_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | error: Charts / alerts update failure' . "<br /> \n";
+	$_SESSION['other_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | error: Charts / alerts update failure | charts_alerts_data: ' . $key . ' (' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ") <br /> \n";
 	}
 
 }
