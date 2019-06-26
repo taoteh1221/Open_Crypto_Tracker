@@ -658,8 +658,6 @@ $cached_array = explode("||", $data_file);
           	// Pretty up textual output to end-user (convert raw numbers to have separators, remove underscores in names, etc)
   				$exchange_text = ucwords(preg_replace("/_/i", " ", $exchange));
   				
-  				$cached_value_text = ( $asset == 'BTC' ? number_format($cached_value, 2, '.', ',') : number_format($cached_value, 8, '.', ',') );
-  				
   				$asset_usd_text = ( $asset == 'BTC' ? number_format($asset_usd_raw, 2, '.', ',') : number_format($asset_usd_raw, 8, '.', ',') );
   				
   				$percent_change_text = number_format($percent_change, 2, '.', ',');
@@ -668,7 +666,7 @@ $cached_array = explode("||", $data_file);
   				
   				$volume_change_text = 'has ' . ( $volume_change_symbol == '+' ? 'increased ' : 'decreased ' ) . $volume_change_symbol . number_format($volume_percent_change, 2, '.', ',') . '% to a dollar value of';
   				
-  				$volume_change_text_mobile = '(' . $volume_change_symbol . number_format($volume_percent_change, 2, '.', ',') . '%)';
+  				$volume_change_text_mobile = '(' . $volume_change_symbol . number_format($volume_percent_change, 2, '.', ',') . '% base vol)';
   				
   				
   				
@@ -692,7 +690,12 @@ $cached_array = explode("||", $data_file);
           	
           	// Successfully received > 0 volume data, at or above an enabled minimum volume filter
   				if ( $volume_usd_raw > 0 && $asset_price_alerts_minvolume > 0 && $volume_usd_raw >= $asset_price_alerts_minvolume ) {
-          	$email_volume_summary = '24 hour trading pair volume ' . $volume_change_text . ' ' . $volume_usd_text . ' (minimum volume filter is $' . number_format($asset_price_alerts_minvolume, 0, '.', ',') . ').';
+          	$email_volume_summary = '24 hour base pair volume ' . $volume_change_text . ' ' . $volume_usd_text . ' (minimum volume filter set at $' . number_format($asset_price_alerts_minvolume, 0, '.', ',') . ').';
+          	}
+          	// NULL if not setup to get volume, negative number returned if no data received from API, therefore skipping any enabled volume filter
+  				elseif ( $volume_pairing_raw == NULL || $volume_pairing_raw == -1 ) { 
+          	$email_volume_summary = 'No data received for 24 hour trading pair volume' . $volume_filter_skipped_text . '.';
+          	$volume_usd_text = 'No data';
           	}
           	// If volume is zero or greater in successfully received volume data, without an enabled volume filter (or filter skipped)
           	// IF exchange dollar value price goes up/down and triggers alert, 
@@ -701,19 +704,14 @@ $cached_array = explode("||", $data_file);
           	elseif ( $volume_usd_raw >= 0 ) {
           	$email_volume_summary = '24 hour trading pair volume ' . $volume_change_text . ' ' . $volume_usd_text . ( $volume_usd_raw == 0 ? ' (probable volume discrepancy detected' . $volume_filter_skipped_text . ')' : '' ) . '.'; 
           	}
-          	// NULL if not setup to get volume, negative number returned if no data received from API, therefore skipping any enabled volume filter
-  				elseif ( $volume_usd_raw == NULL || $volume_usd_raw == -1 ) { 
-          	$email_volume_summary = 'No data received for 24 hour trading pair volume' . $volume_filter_skipped_text . '.';
-          	$volume_usd_text = 'No data';
-          	}
   				
   				
   				
   				// Build the different messages, configure comm methods, and send messages
   				
-  				$email_message = 'The ' . $asset . ' trade value in the ' . strtoupper($pairing) . ' market at ' . $exchange_text . ' has ' . $increase_decrease . ' ' . $change_symbol . $percent_change_text . '% to a dollar value of $' . $asset_usd_text . ' since the last ' . ( $asset_price_alerts_refresh > 0 ? 'refresh' : 'alert' ) . ' ' . $last_check_time . ' ago. ' . $email_volume_summary;
+  				$email_message = 'The ' . $asset . ' trade value in the ' . strtoupper($pairing) . ' market at ' . $exchange_text . ' has ' . $increase_decrease . ' in dollar value by ' . $change_symbol . $percent_change_text . '% to a value of $' . $asset_usd_text . ' over ' . $last_check_time . ' since the last price ' . ( $asset_price_alerts_refresh > 0 ? 'refresh' : 'alert' ) . '. ' . $email_volume_summary;
   				
-  				$text_message = $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange_text . ' ' . $increase_decrease . ' ' . $change_symbol . $percent_change_text . '% to $' . $asset_usd_text . ' in ' . $last_check_time . '. 24hr Vol: ' . $volume_usd_text . ' ' . $volume_change_text_mobile;
+  				$text_message = $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange_text . ' ' . $increase_decrease . ' in dollar value ' . $change_symbol . $percent_change_text . '% to $' . $asset_usd_text . ' in ' . $last_check_time . '. 24hr Vol: ' . $volume_usd_text . ' ' . $volume_change_text_mobile;
   				
   				
   				// Cache the new lower / higher value + volume data
