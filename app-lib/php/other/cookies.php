@@ -5,13 +5,13 @@
 
 
 if ( $_POST['update_notes'] == 1 && trim($_POST['notes_reminders']) != '' && $_COOKIE['notes_reminders'] ) {
-setcookie("notes_reminders", $_POST['notes_reminders'], mktime()+31536000);
+store_cookie_contents("notes_reminders", $_POST['notes_reminders'], mktime()+31536000);
 
 header("Location: " . start_page($_GET['start_page']));
 exit;
 }
 elseif ( $_POST['update_notes'] == 1 && trim($_POST['notes_reminders']) == '' && $_COOKIE['notes_reminders'] ) {
-setcookie("notes_reminders", " ", mktime()+31536000); // Initialized with some whitespace when blank
+store_cookie_contents("notes_reminders", " ", mktime()+31536000); // Initialized with some whitespace when blank
 
 header("Location: " . start_page($_GET['start_page']));
 exit;
@@ -102,12 +102,12 @@ if ( $_POST['submit_check'] == 1 ) {
   
            // Cookie expires in 1 year (31536000 seconds)
            
-           setcookie("sort_by", $_POST['sort_by'], mktime()+31536000);
+           store_cookie_contents("sort_by", $_POST['sort_by'], mktime()+31536000);
            
   }
   else {
+  store_cookie_contents("sort_by", "", time()-3600);  // Delete any existing cookie
   unset($_COOKIE['sort_by']);  // Delete any existing cookie
-  setcookie ("sort_by", "", time()-3600);  // Delete any existing cookie
   }
  
  
@@ -115,12 +115,12 @@ if ( $_POST['submit_check'] == 1 ) {
   
            // Cookie expires in 1 year (31536000 seconds)
            
-           setcookie("alert_percent", $_POST['use_alert_percent'], mktime()+31536000);
+           store_cookie_contents("alert_percent", $_POST['use_alert_percent'], mktime()+31536000);
            
   }
   else {
+  store_cookie_contents("alert_percent", "", time()-3600);  // Delete any existing cookie
   unset($_COOKIE['alert_percent']);  // Delete any existing cookie
-  setcookie ("alert_percent", "", time()-3600);  // Delete any existing cookie
   }
  
  
@@ -130,20 +130,20 @@ if ( $_POST['submit_check'] == 1 ) {
            
            
            if ( $_POST['use_notes'] == 1 && !$_COOKIE['notes_reminders'] ) {
-           setcookie("notes_reminders", " ", mktime()+31536000); // Initialized with some whitespace when blank
+           store_cookie_contents("notes_reminders", " ", mktime()+31536000); // Initialized with some whitespace when blank
            }
            elseif ( $_POST['use_notes'] != 1 ) {
+           store_cookie_contents("notes_reminders", "", time()-3600);  // Delete any existing cookies
            unset($_COOKIE['notes_reminders']);  // Delete any existing cookies
-           setcookie ("notes_reminders", "", time()-3600);  // Delete any existing cookies
            }
            
            
-           setcookie("coin_amounts", $set_coin_values, mktime()+31536000);
-           setcookie("coin_pairings", $set_pairing_values, mktime()+31536000);
-           setcookie("coin_markets", $set_market_values, mktime()+31536000);
-           setcookie("coin_paid", $set_paid_values, mktime()+31536000);
+           store_cookie_contents("coin_amounts", $set_coin_values, mktime()+31536000);
+           store_cookie_contents("coin_pairings", $set_pairing_values, mktime()+31536000);
+           store_cookie_contents("coin_markets", $set_market_values, mktime()+31536000);
+           store_cookie_contents("coin_paid", $set_paid_values, mktime()+31536000);
            
-           setcookie("show_charts", ( $_POST['show_charts'] != '' ? $_POST['show_charts'] : '[placeholder],' ), mktime()+31536000);
+           store_cookie_contents("show_charts", ( $_POST['show_charts'] != '' ? $_POST['show_charts'] : '[placeholder],' ), mktime()+31536000);
            
     header("Location: " . start_page($_GET['start_page'])); // Preserve any start page data
     exit;
@@ -151,27 +151,29 @@ if ( $_POST['submit_check'] == 1 ) {
   else {
   	
   // Delete any existing cookies
-   
-  unset($_COOKIE['notes_reminders']);
+  
+  store_cookie_contents("coin_amounts", "", time()-3600);  
+  store_cookie_contents("coin_pairings", "", time()-3600);  
+  store_cookie_contents("coin_markets", "", time()-3600);   
+  store_cookie_contents("coin_paid", "", time()-3600);  
+  store_cookie_contents("coin_reload", "", time()-3600);  
+  store_cookie_contents("alert_percent", "", time()-3600); 
+  store_cookie_contents("notes_reminders", "", time()-3600);   
+  store_cookie_contents("show_charts", "", time()-3600);  
+  
+  // --------------------------
+  
   unset($_COOKIE['coin_amounts']); 
   unset($_COOKIE['coin_pairings']); 
   unset($_COOKIE['coin_markets']); 
   unset($_COOKIE['coin_paid']); 
   unset($_COOKIE['coin_reload']);  
   unset($_COOKIE['alert_percent']);  
+  unset($_COOKIE['notes_reminders']);
   unset($_COOKIE['show_charts']);  
-  
-  setcookie ("notes_reminders", "", time()-3600);  
-  setcookie ("coin_amounts", "", time()-3600);  
-  setcookie ("coin_pairings", "", time()-3600);  
-  setcookie ("coin_markets", "", time()-3600);   
-  setcookie ("coin_paid", "", time()-3600);  
-  setcookie ("coin_reload", "", time()-3600);  
-  setcookie ("alert_percent", "", time()-3600);  
-  setcookie ("show_charts", "", time()-3600);  
+ 
  
   }
-  
   
  
  

@@ -5,9 +5,32 @@
 
 /////////////////////////////////////////////////////////
 
+function store_cookie_contents($name, $value, $time) {
+	
+global $runtime_mode;
+
+$result = setcookie($name, $value, $time);
+	
+	
+	// Android / Safari maximum cookie size is 4093 bytes, Chrome / Firefox max is 4096
+	if ( strlen($value) > 4093 ) {  
+	$_SESSION['other_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | cookie_error: Cookie size is greater than 4093 bytes (' . strlen($value) . ' bytes), which is not compatible with modern browser maximum cookie sizes. Portfolio is too large for saving as cookie data.' . "<br /> \n";
+	}
+	
+	if ( $result == FALSE ) {
+	$_SESSION['other_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | cookie_error: Cookie creation failed for cookie "' . $name . '"' . "<br /> \n";
+	}
+	
+	
+return $result;
+
+}
+
+/////////////////////////////////////////////////////////
+
 function store_file_contents($file, $content, $mode=false) {
 	
-global $runtime_mode, $base_dir;
+global $runtime_mode;
 
 	if ( $mode == 'append' ) {
 	$result = file_put_contents($file, $content, FILE_APPEND | LOCK_EX);

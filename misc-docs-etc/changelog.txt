@@ -1373,10 +1373,11 @@ app doing the data requests, not a malicious bot)
 
 
 -------------------------------------------------------------------
-3.19.0:
+3.18.2:
 -Bug fixes / UX improvements on price alerts
 -Verbose error logging for chart and price alert errors
 -Gain and loss summary in page / tab title
+-Error logging support for enabling cookies in UI (detects if too much data is being stored per-cookie for very large portfolios)
 -------------------------------------------------------------------
 
 

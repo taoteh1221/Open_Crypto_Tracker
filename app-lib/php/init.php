@@ -5,7 +5,7 @@
 
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
 
-$app_version = '3.19.0';  // 2019/JUNE/26TH
+$app_version = '3.18.2';  // 2019/JUNE/27TH
  
 date_default_timezone_set('UTC');
 
@@ -23,10 +23,6 @@ exit;
 
 // Register the base directory
 $base_dir = preg_replace("/\/app-lib(.*)/i", "", dirname(__FILE__) );
-
-// Register the PHP apps directory
-$php_app_dir = dirname(__FILE__);
-
 
 
 // Check for cache sub-directory creation, create if needed...if it fails, alert end-user
@@ -69,7 +65,7 @@ define('CURL_VERSION_ID', str_replace(".", "", $curl_setup["version"]) );
 // Only need below logic during UI runtime
 if ( $runtime_mode == 'ui' ) {
 
-require_once( $php_app_dir . "/other/cookies.php");
+require_once( $base_dir . "/app-lib/php/other/cookies.php");
 
 
 	// Have UI runtime mode cache the app URL data every 72 hours, since CLI runtime cannot determine the app URL (for sending backup link emails during backups, etc)

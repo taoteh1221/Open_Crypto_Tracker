@@ -219,202 +219,216 @@ $bitcoin_dominance = ( $_SESSION['btc_worth_array']['BTC'] / $total_btc_worth ) 
 
 $altcoin_dominance = 100 - $bitcoin_dominance;
 
-echo '<p class="show_coin_values bold_1 green">';
-
-echo 'BTC Value: Ƀ ' . number_format($total_btc_worth, 8, '.', ',');
-	
-$coins_list_numbered = array_values($coins_list['BTC']['market_pairing']['btc']);
-
-	foreach ( $coins_list['BTC']['market_pairing']['btc'] as $key => $value ) {
-	$loop = $loop + 1;
-
-		if ( $value == $coins_list_numbered[$btc_market] ) {
-		$show_exchange = $key;
-		}
-
-	}
-	$loop = NULL;
-
-	echo '<br />USD Value: $' . number_format($total_usd_worth, 2, '.', ',');
-
-	if ( $purchase_price_added == 1 ) {
-		
-	$gain_loss_worth = gain_loss_total();
-	$parsed_gain_loss_worth = preg_replace("/-/", "-$", number_format( $gain_loss_worth, 2, '.', ',' ) );
-	
-	$positive_gain_loss_worth = abs($gain_loss_worth); // Needed to calculate original worth with loss
-	
-		if ( $gain_loss_worth < 0 ) {
-		$original_worth = $total_usd_worth + $positive_gain_loss_worth;
-		}
-		else {
-		$original_worth = $total_usd_worth - $gain_loss_worth;
-		}
-		
-	$percent_difference = ( ($total_usd_worth / $original_worth) - 1 ) * 100;
-	
-	echo '<br /><span class="' . ( $gain_loss_worth >= 0 ? 'green">USD Gain: +$' : 'red">USD Loss: ' ) . $parsed_gain_loss_worth . ' (' . ( $gain_loss_worth >= 0 ? '+' : '' ) . number_format($percent_difference, 2, '.', ',') . '%)</span>';
-	}
-	?> 
-	<img id='portfolio_gain_loss' src='ui-templates/media/images/info.png' width='30' border='0' style='position: relative; left: -5px;' /> 
- <script>
- 
- 	<?php
- 	if ( $parsed_gain_loss_worth != NULL ) {
- 	?>
-	document.title = '<?=( $gain_loss_worth >= 0 ? '+$' : '' )?><?=$parsed_gain_loss_worth?> | ' + document.title;
- 	<?php
- 	}
- 	?>
- 	
-        var gain_loss_content = '<h5 class="yellow" style="position: relative;">Portfolio Gain / Loss Stats:</h5>'
-        
-        <?php
-        		
-        		// Sort descending gains
-        		$gain_loss_array = $_SESSION['gain_loss_array'];
-        		$columns_array = array_column($gain_loss_array, 'gain_loss');
-				array_multisort($columns_array, SORT_DESC, $gain_loss_array);
-        		
-            foreach ( $gain_loss_array as $key => $value ) {
-            	
-					$parsed_gain_loss = preg_replace("/-/", "-$", number_format( $value['gain_loss'], 2, '.', ',' ) );
-	
-   				$gain_loss_percent = ( ($value['coin_worth_total'] / $value['coin_paid_total']) - 1 ) * 100;
-            	
-            	
-            		if ( $value['coin_paid'] != NULL ) {
-            ?>
-        +'<p class="coin_info"><span class="yellow"><?=$value['coin_symbol']?>:</span> <span class="<?=( $value['gain_loss'] >= 0 ? 'green_bright">+$' : 'red">' )?><?=$parsed_gain_loss?> (<?=( $value['gain_loss'] >= 0 ? '+' : '' )?><?=number_format($gain_loss_percent, 2, '.', ',')?>%)</span></p>'
-        
-        <?php
-        				}
-        				
-            }
-         ?>
-            
-        +'<p class="coin_info"><span class="yellow"> </p>';
-    
-    
-        $('#portfolio_gain_loss').balloon({
-        html: true,
-        position: "right",
-        contents: gain_loss_content,
-        css: {
-                fontSize: ".8rem",
-                minWidth: ".8rem",
-                padding: ".3rem .7rem",
-                border: "1px solid rgba(212, 212, 212, .4)",
-                borderRadius: "6px",
-                boxShadow: "3px 3px 6px #555",
-                color: "#eee",
-                backgroundColor: "#111",
-                opacity: "0.95",
-                zIndex: "32767",
-                textAlign: "left"
-                }
-        });
-    
-     </script>
-     
-	<?php
-	if ( $bitcoin_dominance >= 0 && $altcoin_dominance >= 0 ) {
-	echo '<br />Stats: ' . number_format($bitcoin_dominance, 2, '.', ',') . '% Bitcoin / ' . number_format($altcoin_dominance, 2, '.', ',') .'% Altcoin(s)';
-	}
-	?> 
-	<img id='portfolio_dominance' src='ui-templates/media/images/info.png' width='30' border='0' style='position: relative; left: -5px;' /> 
- <script>
-
-        var dominance_content = '<h5 class="yellow" style="position: relative;">Portfolio Dominance Stats:</h5>'
-        
-        <?php
-        		
-        		// Sort by most dominant first
-        		arsort($_SESSION['btc_worth_array']);
-            foreach ( $_SESSION['btc_worth_array'] as $key => $value ) {
-            	$dominance = ( $value / $total_btc_worth ) * 100;
-            	
-            		if ( $dominance >= 0.01 ) {
-            ?>
-        +'<p class="coin_info"><span class="yellow"><?=$key?>:</span> <?=number_format($dominance, 2, '.', ',')?>%</p>'
-        
-        <?php
-        				}
-        				
-            }
-         ?>
-            
-        +'<p class="coin_info"><span class="yellow"> </p>';
-    
-    
-        $('#portfolio_dominance').balloon({
-        html: true,
-        position: "right",
-        contents: dominance_content,
-        css: {
-                fontSize: ".8rem",
-                minWidth: ".8rem",
-                padding: ".3rem .7rem",
-                border: "1px solid rgba(212, 212, 212, .4)",
-                borderRadius: "6px",
-                boxShadow: "3px 3px 6px #555",
-                color: "#eee",
-                backgroundColor: "#111",
-                opacity: "0.95",
-                zIndex: "32767",
-                textAlign: "left"
-                }
-        });
-    
-     </script>
-     
-	<?php
-
-echo '<br /><span style="color: black;">(Bitcoin is $' .number_format( get_btc_usd($btc_exchange)['last_trade'], 2, '.', ','). ' @ '.ucfirst($show_exchange).')</span>';
-	
-echo '</p>';
-
-// End outputting results
-}
-
-if ( $assets_added ) {
 ?>
-<style>
-.show_coin_values {
-display: block;
-}
-</style>
+
+
+<div class="show_coin_values bold_1 green">
+
+
 <?php
-}
-else {
-?>
-<div align='center' style='min-height: 100px;'>
+	
+	echo 'BTC Value: Ƀ ' . number_format($total_btc_worth, 8, '.', ',');
+		
+	$coins_list_numbered = array_values($coins_list['BTC']['market_pairing']['btc']);
+	
+		foreach ( $coins_list['BTC']['market_pairing']['btc'] as $key => $value ) {
+		$loop = $loop + 1;
+	
+			if ( $value == $coins_list_numbered[$btc_market] ) {
+			$show_exchange = $key;
+			}
+	
+		}
+		$loop = NULL;
+	
+		echo '<br />USD Value: $' . number_format($total_usd_worth, 2, '.', ',');
+	
+		if ( $purchase_price_added == 1 ) {
+			
+		$gain_loss_worth = gain_loss_total();
+		$parsed_gain_loss_worth = preg_replace("/-/", "-$", number_format( $gain_loss_worth, 2, '.', ',' ) );
+		
+		$positive_gain_loss_worth = abs($gain_loss_worth); // Needed to calculate original worth with loss
+		
+			if ( $gain_loss_worth < 0 ) {
+			$original_worth = $total_usd_worth + $positive_gain_loss_worth;
+			}
+			else {
+			$original_worth = $total_usd_worth - $gain_loss_worth;
+			}
+			
+		$percent_difference = ( ($total_usd_worth / $original_worth) - 1 ) * 100;
+		
+		echo '<br /><span class="' . ( $gain_loss_worth >= 0 ? 'green">USD Gain: +$' : 'red">USD Loss: ' ) . $parsed_gain_loss_worth . ' (' . ( $gain_loss_worth >= 0 ? '+' : '' ) . number_format($percent_difference, 2, '.', ',') . '%)</span>';
+		}
+		?> 
+		<img id='portfolio_gain_loss' src='ui-templates/media/images/info.png' width='30' border='0' style='position: relative; left: -5px;' /> 
+		
+	 <script>
+	 
+		<?php
+		if ( $parsed_gain_loss_worth != NULL ) {
+		?>
+		document.title = '<?=( $gain_loss_worth >= 0 ? '+$' : '' )?><?=$parsed_gain_loss_worth?> | ' + document.title;
+		<?php
+		}
+		?>
+		
+			var gain_loss_content = '<h5 class="yellow" style="position: relative;">Portfolio Gain / Loss Stats:</h5>'
+			
+			<?php
+					
+					// Sort descending gains
+					$gain_loss_array = $_SESSION['gain_loss_array'];
+					$columns_array = array_column($gain_loss_array, 'gain_loss');
+					array_multisort($columns_array, SORT_DESC, $gain_loss_array);
+					
+				foreach ( $gain_loss_array as $key => $value ) {
+					
+						$parsed_gain_loss = preg_replace("/-/", "-$", number_format( $value['gain_loss'], 2, '.', ',' ) );
+		
+					$gain_loss_percent = ( ($value['coin_worth_total'] / $value['coin_paid_total']) - 1 ) * 100;
+					
+					
+						if ( $value['coin_paid'] != NULL ) {
+				?>
+			+'<p class="coin_info"><span class="yellow"><?=$value['coin_symbol']?>:</span> <span class="<?=( $value['gain_loss'] >= 0 ? 'green_bright">+$' : 'red">' )?><?=$parsed_gain_loss?> (<?=( $value['gain_loss'] >= 0 ? '+' : '' )?><?=number_format($gain_loss_percent, 2, '.', ',')?>%)</span></p>'
+			
+			<?php
+							}
+							
+				}
+			 ?>
+				
+			+'<p class="coin_info"><span class="yellow"> </p>';
+		
+		
+			$('#portfolio_gain_loss').balloon({
+			html: true,
+			position: "right",
+			contents: gain_loss_content,
+			css: {
+					fontSize: ".8rem",
+					minWidth: ".8rem",
+					padding: ".3rem .7rem",
+					border: "1px solid rgba(212, 212, 212, .4)",
+					borderRadius: "6px",
+					boxShadow: "3px 3px 6px #555",
+					color: "#eee",
+					backgroundColor: "#111",
+					opacity: "0.95",
+					zIndex: "32767",
+					textAlign: "left"
+					}
+			});
+		
+		 </script>
+		 
+		<?php
+		if ( $bitcoin_dominance >= 0 && $altcoin_dominance >= 0 ) {
+		echo '<br />Stats: ' . number_format($bitcoin_dominance, 2, '.', ',') . '% Bitcoin / ' . number_format($altcoin_dominance, 2, '.', ',') .'% Altcoin(s)';
+		}
+		?> 
+		<img id='portfolio_dominance' src='ui-templates/media/images/info.png' width='30' border='0' style='position: relative; left: -5px;' /> 
+	 <script>
+	
+			var dominance_content = '<h5 class="yellow" style="position: relative;">Portfolio Dominance Stats:</h5>'
+			
+			<?php
+					
+					// Sort by most dominant first
+					arsort($_SESSION['btc_worth_array']);
+				foreach ( $_SESSION['btc_worth_array'] as $key => $value ) {
+					$dominance = ( $value / $total_btc_worth ) * 100;
+					
+						if ( $dominance >= 0.01 ) {
+				?>
+			+'<p class="coin_info"><span class="yellow"><?=$key?>:</span> <?=number_format($dominance, 2, '.', ',')?>%</p>'
+			
+			<?php
+							}
+							
+				}
+			 ?>
+				
+			+'<p class="coin_info"><span class="yellow"> </p>';
+		
+		
+			$('#portfolio_dominance').balloon({
+			html: true,
+			position: "right",
+			contents: dominance_content,
+			css: {
+					fontSize: ".8rem",
+					minWidth: ".8rem",
+					padding: ".3rem .7rem",
+					border: "1px solid rgba(212, 212, 212, .4)",
+					borderRadius: "6px",
+					boxShadow: "3px 3px 6px #555",
+					color: "#eee",
+					backgroundColor: "#111",
+					opacity: "0.95",
+					zIndex: "32767",
+					textAlign: "left"
+					}
+			});
+		
+		 </script>
+		 
+		<?php
+	
+	echo '<br /><span style="color: black;">(Bitcoin is $' .number_format( get_btc_usd($btc_exchange)['last_trade'], 2, '.', ','). ' @ '.ucfirst($show_exchange).')</span>';
+	
+	// End outputting results
+	}
+	
+	if ( $assets_added ) {
+	?>
+	
+	<style>
+	.show_coin_values {
+	display: block;
+	}
+	</style>
+	
+	<?php
+	}
+	else {
+	?>
+	
+	<div align='center' style='min-height: 100px;'>
+	
+		<p><img src='ui-templates/media/images/favicon.png' border='0' /></p>
+		<p class='red' style='font-weight: bold; position: relative; margin: 15px;'>No portfolio assets added yet (add them on the Update Assets page).</p>
+	</div>
+	
+	<?php
+	}
+	
+	
+	if ( $_COOKIE['notes_reminders'] ) {
+	?>
+	
+	<div style='margin-top: 10px;'>
+	
+		<form action='<?=start_page($_GET['start_page'])?>' method='post'>
+	
+		<b style='color: black;'>Trading Notes / Reminders:</b><br />
+	
+		<textarea data-autoresize name='notes_reminders' id='notes_reminders' style='height: auto; width: 100%;'><?=$_COOKIE['notes_reminders']?></textarea><br />
+	
+		<input type='hidden' name='update_notes' id='update_notes' value='1' />
+		<input type='submit' value='Save Updated Notes' />
+	
+		</form>
+		
+	</div>
+	
+	<?php
+	}
+	?>
 
-	<p><img src='ui-templates/media/images/favicon.png' border='0' /></p>
-	<p class='red' style='font-weight: bold; position: relative; margin: 15px;'>No portfolio assets added yet (add them on the Update Assets page).</p>
 </div>
-<?php
-}
-
-if ( $_COOKIE['notes_reminders'] ) {
-?>
-
-<form action='<?=start_page($_GET['start_page'])?>' method='post'>
-
-<b>Trading Notes / Reminders:</b><br />
-
-<textarea data-autoresize name='notes_reminders' id='notes_reminders' style='height: auto; width: 100%;'><?=$_COOKIE['notes_reminders']?></textarea><br />
-
-<input type='hidden' name='update_notes' id='update_notes' value='1' />
-<input type='submit' value='Save Updated Notes' />
-
-</form>
-
-<?php
-}
-?>
-
-</p>
                             
                             
                         
