@@ -23,6 +23,8 @@ Simple trading bot, to run from cron / cli
 MAYBE
 ///////////////////////////////////////////////////////
 
+Using primary chart data files as the source, create extra chart data files for 1week / 1month / 3month / 6month / 1year / 2year / 4year charts, using different minimum time intervals?
+
 Differentiate BTC USD / USDT / TUSD / USDC markets as bitcoin's market options, rather than designate all BTC markets as USD?
 
 Maybe add security nonce, re-establishing a session at end of runtime with nonce generated at beginning of runtime?
