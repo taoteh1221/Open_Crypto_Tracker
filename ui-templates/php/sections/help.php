@@ -305,6 +305,44 @@
 	    </div>
 	  </div>
 	  
+	
+	<?php
+	$accord_var = 10;
+	?>
+	
+	  <div class="card z-depth-0 bordered">
+	    <div class="card-header" id="heading_<?=$accord_var?>">
+	      <h5 class="mb-0">
+	        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse_<?=$accord_var?>"
+	          aria-expanded="false" aria-controls="collapse_<?=$accord_var?>">
+	          
+	          Write Errors In Error Log For Charts / Other Data
+	          
+	        </button>
+	      </h5>
+	    </div>
+	    <div id="collapse_<?=$accord_var?>" class="collapse" aria-labelledby="heading_<?=$accord_var?>"
+	      data-parent="#accordionHelp">
+	      <div class="card-body">
+	      
+	         
+	        If you have a lot of charts setup in your configuration file, and your are getting a message in the error logs like "file_write_error: File write failed for file X", and your website server is running a linux-based operating system, you may need to setup a higher "open files" limit for your website user account. 
+<br /><br />
+First, if you have shell access you can login and run this command to check your current limits:
+<br /><br />
+ulimit -n
+<br /><br />
+If it's a low number like 1024, this may be the cause of your file write error issue (especially if you run multiple web apps that write a lot of data on the same account). If you are running a dedicated or VPS server, you can easily change this limit. 
+<br /><br />
+Running a google search for "set permanently ulimit -n linux", you'll find tons of articles on permanently upping your user's open files limit:
+<br /><br />
+<a href='https://www.google.com/search?q=set+permanently+ulimit+-n+linux' target='_blank'>https://www.google.com/search?q=set+permanently+ulimit+-n+linux</a>
+	        
+	        
+	      </div>
+	    </div>
+	  </div>
+	  
 	  
 	  
 	  
