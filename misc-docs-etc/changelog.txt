@@ -1374,9 +1374,9 @@ app doing the data requests, not a malicious bot)
 
 -------------------------------------------------------------------
 3.19.0:
--Better UX on price alert wording
+-Bug fixes / UX improvements on price alerts
 -Verbose error logging for chart and price alert errors
--Gain / loss summary in page tab title
+-Gain and loss summary in page / tab title
 -------------------------------------------------------------------
 
 

@@ -625,11 +625,11 @@ $cached_array = explode("||", $data_file);
           
           
           // Crypto volume checks
-          if ( $volume_pairing_raw < $cached_volume_value ) {
+          if ( floattostr($cached_volume_value) >= 0 && $volume_pairing_raw < $cached_volume_value ) {
           $volume_percent_change = 100 - ( $volume_pairing_raw / ( $cached_volume_value / 100 ) );
           $volume_change_symbol = '-';
           }
-          elseif ( $volume_pairing_raw >= $cached_volume_value ) {
+          elseif ( floattostr($cached_volume_value) >= 0 && $volume_pairing_raw >= $cached_volume_value ) {
           $volume_percent_change = ( $volume_pairing_raw / ( $cached_volume_value / 100 ) ) - 100;
           $volume_change_symbol = '+';
           }
@@ -670,8 +670,8 @@ $cached_array = explode("||", $data_file);
   				
   				
   				
-  				// Backwards compatibility
-  				if ( $cached_volume_value == NULL || $volume_pairing_raw == NULL || $volume_pairing_raw == -1 ) {
+  				// Backwards compatibility (from before volume was stored), and also if -1 from exchange API error not reporting any volume data (not even zero)
+  				if ( $cached_volume_value == NULL || $cached_volume_value == -1 || $volume_pairing_raw == NULL || $volume_pairing_raw == -1 ) {
   				$volume_change_text = NULL;
   				$volume_change_text_mobile = NULL;
   				}
