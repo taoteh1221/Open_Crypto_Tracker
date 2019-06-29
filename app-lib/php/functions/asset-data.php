@@ -491,7 +491,7 @@ global $_POST, $mining_rewards;
 
 function asset_charts_and_alerts($asset_data, $exchange, $pairing, $mode) {
 
-global $runtime_mode, $base_dir, $coins_list, $btc_exchange, $charts_page, $asset_price_alerts_freq, $asset_price_alerts_percent, $asset_price_alerts_minvolume, $asset_price_alerts_refresh;
+global $runtime_mode, $base_dir, $local_time_offset, $coins_list, $btc_exchange, $charts_page, $asset_price_alerts_freq, $asset_price_alerts_percent, $asset_price_alerts_minvolume, $asset_price_alerts_refresh;
 
 // Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
 $asset = ( stristr($asset_data, "-") == false ? $asset_data : substr( $asset_data, 0, strpos($asset_data, "-") ) );
@@ -749,6 +749,7 @@ $cached_array = explode("||", $data_file);
   				
   				$text_message = $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange_text . ' ' . $increase_decrease . ' ' . $change_symbol . $percent_change_text . '% in dollar value to $' . $asset_usd_text . ' over ' . $last_check_time . '. 24hr USD Vol: ' . $volume_usd_text . ' ' . $volume_change_text_mobile;
   				
+  				$notifyme_message = $email_message . ' Timestamp is ' . time_date_format($local_time_offset, 'pretty_time') . '.';
   				
   				// Cache the new lower / higher value + volume data
           	store_file_contents($base_dir . '/cache/alerts/'.$asset_data.'.dat', $new_file_contents); 
@@ -756,7 +757,7 @@ $cached_array = explode("||", $data_file);
   				// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
           	$send_params = array(
           								'text' => $text_message,
-          								'notifyme' => $email_message,
+          								'notifyme' => $notifyme_message,
           								'email' => array(
           														'subject' => $asset . ' Asset Value '.ucfirst($increase_decrease).' Alert',
           														'message' => $email_message

@@ -49,7 +49,7 @@
                         
 			<?php
 			}
-			if ( $charts_page == 'on' && $charts_backup_freq > 0 ) {
+			if ( $charts_page == 'on' && $charts_backup_freq > 0 && trim($from_email) != '' && trim($to_email) != '' ) {
           ?>
           	<p class='settings_sections'><b>Chart Backups</b> are <i>enabled</i> in the configuration file (run every <?=$charts_backup_freq?> days, purged after <?=$delete_old_backups?> days old).
           	

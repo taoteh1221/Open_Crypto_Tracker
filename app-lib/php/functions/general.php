@@ -284,6 +284,41 @@ file_download($file, 'csv'); // Download file (by default deletes after download
 ////////////////////////////////////////////////////////
 
 
+function time_date_format($offset=false, $mode=false) {
+
+
+	if ( $offset == FALSE ) {
+	$time = time();
+	}
+	else {
+	$time = time() + ( $offset * (60 * 60) );  // Offset is in hours
+	}
+
+
+	if ( $mode == FALSE ) {
+	$date = date("Y-m-d H:i:s", $time); // Format: 2001-03-10 17:16:18 (the MySQL DATETIME format)
+	}
+	elseif ( $mode == 'pretty_date_time' ) {
+	$date = date("F jS, @ g:ia", $time); // Format: March 10th, @ 5:16pm
+	}
+	elseif ( $mode == 'pretty_date' ) {
+	$date = date("F jS", $time); // Format: March 10th
+	}
+	elseif ( $mode == 'pretty_time' ) {
+	$date = date("g:ia", $time); // Format: 5:16pm
+	}
+
+$date = preg_replace("/@/", "at", $date); // 'at' is a stubborn word to escape into the date() function, so we cheat a little
+
+return $date;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
 function store_all_cookies($set_coin_values, $set_pairing_values, $set_market_values, $set_paid_values) {
 
 
