@@ -41,7 +41,7 @@ elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $run_csv_i
       $_POST[$key] = strip_price_formatting($value);
       
          if ( isset($_POST[$key]) ) {
-            $set_coin_values .= $key.'-'. $_POST[$key] . '#';
+            $set_coin_values .= $key.'-'. remove_number_format($_POST[$key]) . '#';
          }
       
       }
@@ -74,7 +74,7 @@ elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $run_csv_i
       $_POST[$key] = strip_price_formatting($value);
       
          if ( isset($_POST[$key]) ) {
-            $set_paid_values .= $key.'-'. $_POST[$key] . '#';
+            $set_paid_values .= $key.'-'. remove_number_format($_POST[$key]) . '#';
          }
       
       }
@@ -129,7 +129,6 @@ elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $run_csv_i
 	        		
   
   }
-
 
 
 

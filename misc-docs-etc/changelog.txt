@@ -1392,6 +1392,14 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+3.18.4:
+-Bug fix for rounding error (caused by pretty numbers formatting left of decimal)
+-------------------------------------------------------------------
+
+
+
+
 
 
 

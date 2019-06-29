@@ -270,6 +270,7 @@
 	   $raw_coin_amount_value = remove_number_format($coin_amount_value);
 	    
 	    	if ( preg_match("/\./", $raw_coin_amount_value) ) {
+	    	$coin_amount_no_decimal = preg_replace("/\.(.*)/", "", $raw_coin_amount_value);
 	    	$coin_amount_decimal = preg_replace("/(.*)\./", "", $raw_coin_amount_value);
 	    	$check_coin_amount_decimal = '0.' . $coin_amount_decimal;
 	    	}
@@ -279,14 +280,15 @@
 	    	}
 	    
 	    
-	    	if ( floattostr($raw_coin_amount_value) > 0.00000000 ) {  // Show even if decimal is off the map, just for UX purposes tracking token price only
+	    	if ( $raw_coin_amount_value > 0.00000000 ) {  // Show even if decimal is off the map, just for UX purposes tracking token price only
 	    		
 	    		if ( strtoupper($coin_array_key) == 'USD' ) {
 	    		$coin_amount_value = number_format($raw_coin_amount_value, 2, '.', ',');
 	    		}
 	    		else {
 	    		// Show even if decimal is off the map, just for UX purposes tracking token price only
-	    		$coin_amount_value = number_format($raw_coin_amount_value, 0, '.', ',') . ( floattostr($check_coin_amount_decimal) > 0.00000000 ? '.' . $coin_amount_decimal : '' );
+	    		// $X_no_decimal stops rounding, while number_format gives us pretty numbers left of decimal
+	    		$coin_amount_value = number_format($coin_amount_no_decimal, 0, '.', ',') . ( floattostr($check_coin_amount_decimal) > 0.00000000 ? '.' . $coin_amount_decimal : '' );
 	    		}
 	    	
 	    	}
@@ -299,6 +301,7 @@
 	   $raw_paid_value = remove_number_format($coin_paid_value);
 	    
 	    	if ( preg_match("/\./", $raw_paid_value) ) {
+	    	$coin_paid_no_decimal = preg_replace("/\.(.*)/", "", $raw_paid_value);
 	    	$coin_paid_decimal = preg_replace("/(.*)\./", "", $raw_paid_value);
 	    	$check_coin_paid_decimal = '0.' . $coin_paid_decimal;
 	    	}
@@ -307,9 +310,10 @@
 	    	$check_coin_paid_decimal = NULL;
 	    	}
 	    
-	    
-	    	if ( floattostr($raw_paid_value) > 0.00000000 ) { 
-	    	$coin_paid_value = number_format($raw_paid_value, 0, '.', ',') . ( floattostr($check_coin_paid_decimal) > 0.00000000 ? '.' . $coin_paid_decimal : '' );
+	    	
+	    	// $X_no_decimal stops rounding, while number_format gives us pretty numbers left of decimal
+	    	if ( $raw_paid_value > 0.00000000 ) { 
+	    	$coin_paid_value = number_format($coin_paid_no_decimal, 0, '.', ',') . ( floattostr($check_coin_paid_decimal) > 0.00000000 ? '.' . $coin_paid_decimal : '' );
 	    	}
 	    	else {
 	    	$coin_paid_value = NULL;

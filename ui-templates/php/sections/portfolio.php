@@ -71,20 +71,21 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 								
 										if ( preg_match("/_amount/i", $key) ) {
 										
+										$value = remove_number_format($value);
 										$coin_symbol = strtoupper(preg_replace("/_amount/i", "", $key));
 										$selected_pairing = ($_POST[strtolower($coin_symbol).'_pairing']);
 										$selected_market = ($_POST[strtolower($coin_symbol).'_market'] - 1); // Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
-										$purchase_price = ($_POST[strtolower($coin_symbol).'_paid']);
+										$purchase_price = remove_number_format($_POST[strtolower($coin_symbol).'_paid']);
 												
 						
 								
 										ui_coin_data($coins_list[$coin_symbol]['coin_name'], $coin_symbol, $value, $coins_list[$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price);
 										
-											if ( floatval($value) >= 0.00000001 ) {
+											if ( $value >= 0.00000001 ) {
 											$assets_added = 1;
 											}
 											
-											if ( floatval($purchase_price) >= 0.00000001 ) {
+											if ( $purchase_price >= 0.00000001 ) {
 											$purchase_price_added = 1;
 											}
 										
@@ -122,11 +123,11 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 								
 										ui_coin_data($coins_list[$coin_symbol]['coin_name'], $coin_symbol, $held_amount, $coins_list[$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price);
 										
-											if ( floattostr($held_amount) >= 0.00000001 ) {
+											if ( $held_amount >= 0.00000001 ) {
 											$assets_added = 1;
 											}
 											
-											if ( floattostr($purchase_price) >= 0.00000001 ) {
+											if ( $purchase_price >= 0.00000001 ) {
 											$purchase_price_added = 1;
 											}
 										
@@ -218,19 +219,21 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 					
 					
 					// Bundle all required cookie data in this final cookies parsing loop for each coin, and render the coin's data
+					// We don't need remove_number_format() for cookie data, because it was already done creating the cookies
+					$selected_amount = $all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_amount'];
 					$selected_pairing = $all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_pairing'];
 					$selected_market = ($all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_market'] -1);
-					$selected_amount = $all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_amount'];
 					$purchase_price = $all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_paid'];
 					
 			// Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
 					ui_coin_data($coins_list[$coin_symbol]['coin_name'], $coin_symbol, $selected_amount, $coins_list[$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price);
 					
-						if ( floatval($selected_amount) >= 0.00000001 ) {
+						// Need floattostr() here, because we didn't need remove_number_format() above (which uses floattostr())
+						if ( floattostr($selected_amount) >= 0.00000001 ) {
 						$assets_added = 1;
 						}
 						
-						if ( floatval($purchase_price) >= 0.00000001 ) {
+						if ( floattostr($purchase_price) >= 0.00000001 ) {
 						$purchase_price_added = 1;
 						}
 						

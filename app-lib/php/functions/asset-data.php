@@ -590,13 +590,13 @@ $asset = strtoupper($asset);
 	
    $last_check_days = ( time() - filemtime('cache/alerts/'.$asset_data.'.dat') ) / 86400;
    
-   	if ( floatval($last_check_days) >= 365 ) {
+   	if ( floattostr($last_check_days) >= 365 ) {
    	$last_check_time = number_format( ($last_check_days / 365) , 2, '.', ',') . ' years';
    	}
-   	elseif ( floatval($last_check_days) >= 30 ) {
+   	elseif ( floattostr($last_check_days) >= 30 ) {
    	$last_check_time = number_format( ($last_check_days / 30) , 2, '.', ',') . ' months';
    	}
-   	elseif ( floatval($last_check_days) >= 7 ) {
+   	elseif ( floattostr($last_check_days) >= 7 ) {
    	$last_check_time = number_format( ($last_check_days / 7) , 2, '.', ',') . ' weeks';
    	}
    	else {
@@ -989,7 +989,7 @@ $market_pairing = $all_markets[$selected_market];
   	 }
   
   
-	 if ( floatval($purchase_price) >= 0.00000001 ) {
+	 if ( $purchase_price >= 0.00000001 ) {
 	 	
 	 $coin_paid_total_raw = ($coin_amount * $purchase_price);
 	 $gain_loss = $coin_usd_worth_raw - $coin_paid_total_raw;
@@ -1212,6 +1212,7 @@ $raw_coin_amount = remove_number_format($coin_amount);
 
 
 	if ( preg_match("/\./", $raw_coin_amount) ) {
+	$coin_amount_no_decimal = preg_replace("/\.(.*)/", "", $raw_coin_amount);
 	$coin_amount_decimal = preg_replace("/(.*)\./", "", $raw_coin_amount);
 	$check_coin_amount_decimal = '0.' . $coin_amount_decimal;
 	}
@@ -1226,7 +1227,8 @@ $raw_coin_amount = remove_number_format($coin_amount);
 	}
 	else {
 	// We only want to show a decimal if it's a satoshi or higher...for lower amounts (just tracking token value, not held asset value) we hide decimals
-	echo number_format($raw_coin_amount, 0, '.', ',') . ( floattostr($check_coin_amount_decimal) >= 0.00000001 ? '.' . $coin_amount_decimal : '' );
+	// $X_no_decimal stops rounding, while number_format gives us pretty numbers left of decimal
+	echo number_format($coin_amount_no_decimal, 0, '.', ',') . ( floattostr($check_coin_amount_decimal) >= 0.00000001 ? '.' . $coin_amount_decimal : '' );
 	}
 
 
@@ -1330,7 +1332,7 @@ echo ' <span><span class="data">' . number_format($coin_value_total_raw, ( $coin
 
 echo '$' . number_format($coin_usd_worth_raw, 2, '.', ',');
 
-  if ( floatval($purchase_price) >= 0.00000001 ) {
+  if ( $purchase_price >= 0.00000001 ) {
   $parsed_gain_loss = preg_replace("/-/", "-$", number_format( $gain_loss, 2, '.', ',' ) );
   //echo ' <span class="'.( $gain_loss >= 0 ? 'gain' : 'loss' ).'">('.( $gain_loss >= 0 ? '+$' : '' ) . $parsed_gain_loss . ')</span>';
   }
