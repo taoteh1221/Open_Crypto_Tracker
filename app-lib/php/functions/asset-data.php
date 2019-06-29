@@ -850,7 +850,7 @@ $btc_exchange = $_SESSION['btc_in_usd'];
 $market_pairing = $all_markets[$selected_market];
   
   
-  if ( floattostr($coin_amount) > 0.00000000 ) { // Show even if decimal is off the map, just for UX purposes tracking token price only
+  if ( $coin_amount > 0.00000000 ) { // Show even if decimal is off the map, just for UX purposes tracking token price only
     
     
     // UI table coloring
