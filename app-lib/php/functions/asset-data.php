@@ -1217,6 +1217,7 @@ $raw_coin_amount = remove_number_format($coin_amount);
 	$check_coin_amount_decimal = '0.' . $coin_amount_decimal;
 	}
 	else {
+	$coin_amount_no_decimal = $raw_coin_amount;
 	$coin_amount_decimal = NULL;
 	$check_coin_amount_decimal = NULL;
 	}

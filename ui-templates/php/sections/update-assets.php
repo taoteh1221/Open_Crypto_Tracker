@@ -147,8 +147,8 @@
 	        			if ( strtoupper($coin_array_key) == strtoupper($key) ) {
 	        		 	$coin_pairing_id = $value[4];
 	        			$coin_market_id = $value[3];
-	        		 	$coin_amount_value = $value[1];
-	       		 	$coin_paid_value = $value[2];
+	        		 	$coin_amount_value = remove_number_format($value[1]);
+	       		 	$coin_paid_value = remove_number_format($value[2]);
 	       		 	}
 	        	
 	        		}
@@ -275,6 +275,7 @@
 	    	$check_coin_amount_decimal = '0.' . $coin_amount_decimal;
 	    	}
 	    	else {
+	    	$coin_amount_no_decimal = $raw_coin_amount_value;
 	    	$coin_amount_decimal = NULL;
 	    	$check_coin_amount_decimal = NULL;
 	    	}
@@ -306,6 +307,7 @@
 	    	$check_coin_paid_decimal = '0.' . $coin_paid_decimal;
 	    	}
 	    	else {
+	    	$coin_paid_no_decimal = $raw_paid_value;
 	    	$coin_paid_decimal = NULL;
 	    	$check_coin_paid_decimal = NULL;
 	    	}

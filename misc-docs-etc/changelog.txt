@@ -1399,6 +1399,14 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+3.18.5:
+-Bug fix for pretty numbers again (zeroed out if no decimal)
+-------------------------------------------------------------------
+
+
+
+
 
 
 
