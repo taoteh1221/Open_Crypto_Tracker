@@ -3,7 +3,351 @@
  * Copyright 2014-2019 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
  */
 
-/////////////////////////////////////////////////////////
+
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function string_to_array($string) {
+
+$string = explode("||",$string);
+
+return $string;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function remove_formatting($data) {
+
+$data = preg_replace("/ /i", "", $data); // Space
+$data = preg_replace("/ /i", "", $data); // Tab
+$data = preg_replace("/,/i", "", $data); // Comma
+        
+return $data;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function strip_price_formatting($price) {
+
+$price = preg_replace("/ /", "", $price); // Space
+$price = preg_replace("/,/", "", $price); // Comma
+$price = preg_replace("/  /", "", $price); // Tab
+
+return $price;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function trim_array($data) {
+
+        foreach ( $data as $key => $value ) {
+        $data[$key] = trim(remove_formatting($value));
+        }
+        
+return $data;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function random_proxy() {
+
+global $proxy_list;
+
+$proxy = array_rand($proxy_list);
+
+return $proxy_list[$proxy];
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function text_number($string) {
+
+$string = explode("||",$string);
+
+$number = trim($string[0]);
+
+return $number;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+// Always display very large / small numbers in non-scientific format
+function floattostr($val) {
+
+preg_match( "#^([\+\-]|)([0-9]*)(\.([0-9]*?)|)(0*)$#", trim($val), $o );
+
+return (int)$o[1].sprintf('%d',$o[2]).($o[3]!='.'?$o[3]:'');
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function remove_number_format($text) {
+
+$text = str_replace("    ", '', $text);
+$text = str_replace(" ", '', $text);
+$text = str_replace(",", "", $text);
+$text = trim($text);
+
+return floattostr($text);
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function start_page($page, $href_link=false) {
+
+	// We want to force a page reload for href links, so technically we change the URL but location remains the same
+	if ( $href_link != FALSE ) {
+	$index = './';
+	}
+	else {
+	$index = 'index.php';
+	}
+	
+	if ( $page != '' ) {
+	$url = $index . ( $page != '' ? '?start_page=' . $page . '#' . $page : '' );
+	}
+	else {
+	$url = $index;
+	}
+	
+	
+return $url;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function dir_structure($path) {
+
+	if ( !is_dir($path) ) {
+	return  mkdir($path, 0777, true); // Recursively create whatever path depth desired if non-existent
+	}
+	else {
+	return TRUE;
+	}
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function chart_range($range) {
+
+global $charts_update_freq;
+
+$updates_daily = $charts_update_freq * 24;
+
+return ($updates_daily * $range);
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function update_cache_file($cache_file, $minutes) {
+
+	if (  file_exists($cache_file) && filemtime($cache_file) > ( time() - ( 60 * $minutes ) )  ) {
+	   return false; 
+	} 
+	else {
+	   // Our cache is out-of-date
+	   return true;
+	}
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function convert_to_utf8($string) {
+
+// May be needed for charsets from different spreadsheet apps across the world, so leave in case needed
+
+$result = iconv("ISO-8859-1", "UTF-8", $string); // ISO-8859-1 to UTF8
+
+//$result = iconv(mb_detect_encoding($string, mb_detect_order(), true), "UTF-8", $string); // Auto-detect
+
+return $result;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function smtp_mail($subject, $message) {
+
+// Using 3rd party SMTP class, initiated already as global var $smtp
+global $smtp;
+
+// Added to email in post-init.php one time...because class adds to an array each call, even if already added
+
+$smtp->Subject($subject);
+$smtp->Text($message);
+
+return $smtp->Send();
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function delete_old_files($dir, $days, $ext) {
+	
+$files = glob($dir."*.".$ext);
+
+  foreach ($files as $file) {
+  	
+    if ( is_file($file) ) {
+    	
+      if ( time() - filemtime($file) >= 60 * 60 * 24 * $days ) {
+      unlink($file);
+      }
+      
+    }
+    
+  }
+  
+ }
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function create_csv_file($file, $array) {
+
+	if ( $file == 'temp' ) {
+	$file = tempnam(sys_get_temp_dir(), 'temp');
+	}
+
+$fp = fopen($file, 'w');
+
+	foreach($array as $fields) {
+	fputcsv($fp, $fields);
+	}
+
+file_download($file, 'csv'); // Download file (by default deletes after download, then exits)
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function store_all_cookies($set_coin_values, $set_pairing_values, $set_market_values, $set_paid_values) {
+
+
+           // Cookies expire in 1 year (31536000 seconds)
+           
+           
+           // Notes (only creation / deletion here, update logic is in cookies.php)
+           if ( $_POST['submit_check'] == 1 && $_POST['use_notes'] == 1 && !$_COOKIE['notes_reminders'] ) {
+           store_cookie_contents("notes_reminders", " ", mktime()+31536000); // Initialized with some whitespace when blank
+           }
+           elseif ( $_POST['submit_check'] == 1 && $_POST['use_notes'] != 1 ) {
+           store_cookie_contents("notes_reminders", "", time()-3600);  // Delete any existing cookies
+           unset($_COOKIE['notes_reminders']);  // Delete any existing cookies
+           }
+           
+           
+           // Charts
+           if ( $_POST['submit_check'] == 1 ) {
+           store_cookie_contents("show_charts", $_POST['show_charts'], mktime()+31536000);
+           }
+           
+           
+           // Portfolio
+           store_cookie_contents("coin_amounts", $set_coin_values, mktime()+31536000);
+           store_cookie_contents("coin_pairings", $set_pairing_values, mktime()+31536000);
+           store_cookie_contents("coin_markets", $set_market_values, mktime()+31536000);
+           store_cookie_contents("coin_paid", $set_paid_values, mktime()+31536000);
+           
+           
+           
+ 
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function delete_all_cookies() {
+
+  store_cookie_contents("coin_amounts", "", time()-3600);  
+  store_cookie_contents("coin_pairings", "", time()-3600);  
+  store_cookie_contents("coin_markets", "", time()-3600);   
+  store_cookie_contents("coin_paid", "", time()-3600);  
+  store_cookie_contents("coin_reload", "", time()-3600);  
+  store_cookie_contents("alert_percent", "", time()-3600); 
+  store_cookie_contents("notes_reminders", "", time()-3600);   
+  store_cookie_contents("show_charts", "", time()-3600);  
+  
+  // --------------------------
+  
+  unset($_COOKIE['coin_amounts']); 
+  unset($_COOKIE['coin_pairings']); 
+  unset($_COOKIE['coin_markets']); 
+  unset($_COOKIE['coin_paid']); 
+  unset($_COOKIE['coin_reload']);  
+  unset($_COOKIE['alert_percent']);  
+  unset($_COOKIE['notes_reminders']);
+  unset($_COOKIE['show_charts']);  
+ 
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
 
 function store_cookie_contents($name, $value, $time) {
 	
@@ -26,7 +370,46 @@ return $result;
 
 }
 
-/////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function csv_file_array($file) {
+	
+	$row = 0;
+	if ( ( $handle = fopen($file, "r") ) != FALSE ) {
+		
+		while ( ( $data = fgetcsv($handle, 0, ",") ) != FALSE ) {
+			
+		$num = count($data);
+		
+			if ( $data[0] != 'Asset Symbol' ) {  // Skip importing header
+			$asset = strtoupper($data[0]);
+		
+				for ($c=0; $c < $num; $c++) {
+				$csv_rows[$asset][] = $data[$c];
+				}
+			
+			}
+			
+		$row++;
+			
+		}
+		fclose($handle);
+		
+	}
+
+unlink($file); // Delete temp file
+
+return $csv_rows;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
 
 function store_file_contents($file, $content, $mode=false) {
 	
@@ -49,188 +432,10 @@ return $result;
 
 }
 
-/////////////////////////////////////////////////////////
-
-// Always display very large / small numbers in non-scientific format
-function floattostr($val) {
-
-preg_match( "#^([\+\-]|)([0-9]*)(\.([0-9]*?)|)(0*)$#", trim($val), $o );
-
-return (int)$o[1].sprintf('%d',$o[2]).($o[3]!='.'?$o[3]:'');
-
-}
-
-/////////////////////////////////////////////////////////
-
-function remove_number_format($text) {
-
-$text = str_replace("    ", '', $text);
-$text = str_replace(" ", '', $text);
-$text = str_replace(",", "", $text);
-$text = trim($text);
-
-return floattostr($text);
-}
-
-/////////////////////////////////////////////////////////
-
-function start_page($page) {
-
-	if ( $page != '' ) {
-	return 'index.php' . ( $page != '' ? '?start_page=' . $page . '#' . $page : '' );
-	}
-	else {
-	return 'index.php';
-	}
-
-}
-
-/////////////////////////////////////////////////////////
-
-function dir_structure($path) {
-
-	if ( !is_dir($path) ) {
-	return  mkdir($path, 0777, true); // Recursively create whatever path depth desired if non-existent
-	}
-	else {
-	return TRUE;
-	}
-
-}
-
-/////////////////////////////////////////////////////////
-
-function update_cache_file($cache_file, $minutes) {
-
-	if (  file_exists($cache_file) && filemtime($cache_file) > ( time() - ( 60 * $minutes ) )  ) {
-	   return false; 
-	} 
-	else {
-	   // Our cache is out-of-date
-	   return true;
-	}
-
-}
-
-//////////////////////////////////////////////////////////
-
-function trim_array($data) {
-
-        foreach ( $data as $key => $value ) {
-        $data[$key] = trim(remove_formatting($value));
-        }
-        
-return $data;
-
-}
-
-//////////////////////////////////////////////////////////
-
-function random_proxy() {
-
-global $proxy_list;
-
-$proxy = array_rand($proxy_list);
-
-return $proxy_list[$proxy];
-
-}
-
-//////////////////////////////////////////////////////////
-
-function remove_formatting($data) {
-
-$data = preg_replace("/ /i", "", $data); // Space
-$data = preg_replace("/ /i", "", $data); // Tab
-$data = preg_replace("/,/i", "", $data); // Comma
-        
-return $data;
-
-}
-
-///////////////////////////////////////////////////////////
-
-function strip_price_formatting($price) {
-
-$price = preg_replace("/ /", "", $price); // Space
-$price = preg_replace("/,/", "", $price); // Comma
-$price = preg_replace("/  /", "", $price); // Tab
-
-return $price;
-
-}
 
 ////////////////////////////////////////////////////////
-
-function text_number($string) {
-
-$string = explode("||",$string);
-
-$number = trim($string[0]);
-
-return $number;
-
-}
-
 ////////////////////////////////////////////////////////
 
-function string_to_array($string) {
-
-$string = explode("||",$string);
-
-return $string;
-
-}
-
-/////////////////////////////////////////////////////////
-
-function smtp_mail($subject, $message) {
-
-// Using 3rd party SMTP class, initiated already as global var $smtp
-global $smtp;
-
-// Added to email in post-init.php one time...because class adds to an array each call, even if already added
-
-$smtp->Subject($subject);
-$smtp->Text($message);
-
-return $smtp->Send();
-
-}
-
-/////////////////////////////////////////////////////////
-
-function delete_old_files($dir, $days, $ext) {
-	
-$files = glob($dir."*.".$ext);
-
-  foreach ($files as $file) {
-  	
-    if ( is_file($file) ) {
-    	
-      if ( time() - filemtime($file) >= 60 * 60 * 24 * $days ) {
-      unlink($file);
-      }
-      
-    }
-    
-  }
-  
- }
-
-/////////////////////////////////////////////////////////
-
-function chart_range($range) {
-
-global $charts_update_freq;
-
-$updates_daily = $charts_update_freq * 24;
-
-return ($updates_daily * $range);
-
-}
-
-/////////////////////////////////////////////////////////
 
 function chart_data($file) {
 
@@ -259,7 +464,10 @@ return $data;
 
 }
 
-/////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
 
 function validate_email($email) {
 
@@ -284,7 +492,10 @@ $email = trim($email);
 
 }
 
-/////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
 
 function random_hash($num_bytes) {
 
@@ -313,7 +524,10 @@ global $base_dir;
 
 }
 
-/////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
 
 function chart_time_interval($file, $linecount, $length) {
 
@@ -329,9 +543,9 @@ function chart_time_interval($file, $linecount, $length) {
 	}
 	
 	
+	$count = 0;
 	foreach ( $timestamps as $key => $value ) {
 		
-		$count = 0;
 		if ( $timestamps[($key - 1)] != '' ) {
 		$count = $count + 1;
 		$total_minutes = $total_minutes + round( ( $timestamps[$key] - $timestamps[($key - 1)] ) / 60 );
@@ -342,6 +556,7 @@ function chart_time_interval($file, $linecount, $length) {
 
 $average_interval = round( $total_minutes / ( sizeof($timestamps) - 1 ) );
 
+
 // Only return average intervals if we have a minimum of 24 intervals to average out
 // (set to 1 until then, to keep chart buttons from acting weird until we have enough data)
 return ( $count >= 24 ? round( 60 / $average_interval ) : 1 );  
@@ -349,7 +564,51 @@ return ( $count >= 24 ? round( 60 / $average_interval ) : 1 );
 
 }
 
-/////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function file_download($file, $type=false, $save=false) {
+
+
+	if ( $type == FALSE ) {
+	$content_type = 'Content-Type: application/octet-stream';
+	$filename = $file;
+	}
+	elseif ( $type == 'csv' ) {
+	$content_type = 'Content-type: text/csv; charset=UTF-8';
+	$filename = $file . '.csv';
+	}
+
+
+	if ( file_exists($file) ) {
+		
+		header('Content-Description: File Transfer');
+		header($content_type);
+		header('Content-Disposition: attachment; filename="'.basename($filename).'"');
+		header('Expires: 0');
+		header('Cache-Control: must-revalidate');
+		header('Pragma: public');
+		header('Content-Length: ' . filesize($file));
+		
+		$result = readfile($file);
+		
+			if ( $result != FALSE && $save == FALSE ) {
+			unlink($file); // Delete file
+			}
+		
+		exit;
+		
+	}
+
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
 
 function smtp_vars() {
 
@@ -383,7 +642,10 @@ return $vars;
 
 }
 
+
 ////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
 
 function text_email($string) {
 
@@ -419,7 +681,10 @@ return trim($number) . $domain;
 
 }
 
-//////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
 
 function base_url($atRoot=FALSE, $atCore=FALSE, $parse=FALSE) {
 	
@@ -452,7 +717,10 @@ return $base_url;
 
 }
 
-/////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
 
 function zip_recursively($source, $destination) {
 	
@@ -504,7 +772,10 @@ function zip_recursively($source, $destination) {
     
 }
 
-/////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
 
 function start_page_html($page) {
 ?>
@@ -520,7 +791,8 @@ function start_page_html($page) {
 		}
 	
 	// This start page method saves portfolio data during the session, even without cookie data enabled
-	document.getElementById("coin_amounts").action = this.value + anchor;
+	var set_action = this.value + anchor;
+	set_target_action("coin_amounts", "_self", set_action);
 	document.coin_amounts.submit();
 	
 	'>
@@ -548,7 +820,10 @@ function start_page_html($page) {
 	
 }
 
-/////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
 
 function safe_mail($to, $subject, $message) {
 	
@@ -597,7 +872,10 @@ $from_email = str_replace("\r", "\n", $from_email);   // remaining -> unix
 
 }
 
-//////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
 
 function backup_archive($backup_prefix, $backup_target, $interval) {
 
@@ -656,7 +934,10 @@ global $runtime_mode, $delete_old_backups, $base_dir, $base_url;
 
 }
 
-/////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
 
 function get_last_lines($file, $linecount, $length) {
 	
@@ -735,7 +1016,10 @@ fclose($fp);
 
 }
 
-//////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
 
 function error_logs($error_logs=null) {
 
@@ -788,7 +1072,10 @@ $error_logs .= strip_tags($_SESSION['other_error']); // Remove any HTML formatti
 
 }
 
-//////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
 
 function send_notifications($send_params) {
 
@@ -852,7 +1139,10 @@ $textlocal_params = array(
 
 }
 
-//////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
 
 function api_data($mode, $request, $ttl, $api_server=null, $post_encoding=3, $test_proxy=NULL) { // Default to JSON encoding post requests (most used)
 
@@ -1017,7 +1307,10 @@ return $data;
 
 }
 
-//////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
 
 function test_proxy($problem_proxy_array) {
 
@@ -1155,6 +1448,9 @@ $cache_filename = preg_replace("/:/", "_", $cache_filename);
 
 }
 
-//////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
 
 ?>

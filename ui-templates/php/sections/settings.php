@@ -238,7 +238,7 @@
 								document.getElementById("use_notes").value = "";
 								document.getElementById("set_use_notes").checked = false;
                         }
-                        ' <?php echo ( $_COOKIE['coin_amounts'] && $_POST['submit_check'] != 1 || $_POST['use_cookies'] == 1 && $_POST['submit_check'] == 1 ? 'checked' : ''); ?> /> <span class='red'>(un-checking this box <i>deletes ALL previously-saved cookie data <u>permanently</u></i>)</span>
+                        ' <?php echo ( $_COOKIE['coin_amounts'] != '' ? 'checked' : ''); ?> /> <span class='red'>(un-checking this box <i>deletes ALL previously-saved cookie data <u>permanently</u></i>)</span>
                         </p>
 			
 			
@@ -252,11 +252,13 @@
                         else {
 								document.getElementById("use_notes").value = "";
                         }
-                        ' <?php echo ( $_COOKIE['notes_reminders'] && $_POST['submit_check'] != 1 || $_POST['use_notes'] == 1 && $_POST['submit_check'] == 1 ? 'checked' : ''); ?> />
+                        ' <?php echo ( $_COOKIE['notes_reminders'] != '' ? 'checked' : ''); ?> />
                         </p>
 			
 			
-                        <p class='settings_sections'><input type='button' value='Save Updated Settings' onclick='document.coin_amounts.submit();' /></p>
+                        <p class='settings_sections'><input type='button' value='Save Updated Settings' onclick='
+                        document.coin_amounts.submit();
+                        ' /></p>
                         
                         
                         

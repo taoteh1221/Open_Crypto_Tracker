@@ -239,8 +239,20 @@ color: #D61F00 !important;
 }
 
 
+.red_dotted {
+padding: 10px;
+border: 2px dotted #D61F00 !important;
+}
+
+
 .green {
 color: #066000 !important;
+}
+
+
+.green_dotted {
+padding: 10px;
+border: 2px dotted #066000 !important;
 }
 
 

@@ -5,7 +5,7 @@
 
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
 
-$app_version = '3.19.0';  // 2019/JUNE/27TH
+$app_version = '3.18.3';  // 2019/JUNE/29TH
  
 date_default_timezone_set('UTC');
 
@@ -65,11 +65,9 @@ define('CURL_VERSION_ID', str_replace(".", "", $curl_setup["version"]) );
 // Only need below logic during UI runtime
 if ( $runtime_mode == 'ui' ) {
 
-require_once( $base_dir . "/app-lib/php/other/cookies.php");
 
-
-	// Have UI runtime mode cache the app URL data every 72 hours, since CLI runtime cannot determine the app URL (for sending backup link emails during backups, etc)
-	if ( update_cache_file('cache/vars/app_url.dat', (60 * 72) ) == true ) {
+	// Have UI runtime mode cache the app URL data every 24 hours, since CLI runtime cannot determine the app URL (for sending backup link emails during backups, etc)
+	if ( update_cache_file('cache/vars/app_url.dat', (60 * 24) ) == true ) {
 	$base_url = base_url();
 	store_file_contents($base_dir . '/cache/vars/app_url.dat', $base_url);
 	}

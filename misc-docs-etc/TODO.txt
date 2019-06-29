@@ -10,8 +10,6 @@ Dark greyscale CSS styling option, and theme switcher settings
 
 Add chart sorting by crypto and usd price / volume percentage change over 1 hour / 1 day / 1 week / 1 month / 90 days.
 
-CSV file export / import of portfolio values.
-
 Make sure programming comments are adequate throughout the app.
 
 RESTFUL API system for requesting market values / portfolio values

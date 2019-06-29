@@ -5,6 +5,30 @@
 
 /////////////////////////////////////////////////////////////
 
+function validateForm(form_id, feild) {
+	
+  var x = document.forms[form_id][feild].value;
+  if (x == "") {
+    alert(feild + " must be populated.");
+    return false;
+  }
+  else {
+  document.forms[form_id].submit();
+  }
+  
+}
+
+/////////////////////////////////////////////////////////////
+
+function set_target_action(obj_id, set_target, set_action) {
+	
+document.getElementById(obj_id).target = set_target;
+document.getElementById(obj_id).action = set_action;
+	
+}
+
+/////////////////////////////////////////////////////////////
+
 function watch_toggle(obj_var) {
 	
 		if ( obj_var.checked == true ) {

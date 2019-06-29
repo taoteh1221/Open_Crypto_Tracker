@@ -25,7 +25,9 @@
 	<p class='red'>*Charts are not activated by default to increase page loading speed. It's recommended to avoid activating too many charts at the same time, to keep your page load times quick. You can enable "Use cookie data to save values between sessions" on the Settings page <i>before activating your charts</i>, if you want them to stay activated between browser sessions.</p>
 	
 	<!-- Submit button must be OUTSIDE form tags here, or it submits the target form improperly and loses data -->
-	<p><button class='force_button_style' onclick='document.coin_amounts.submit();'>Update Activated Charts</button></p>
+	<p><button class='force_button_style' onclick='
+	document.coin_amounts.submit();
+	'>Update Activated Charts</button></p>
 	
 	<p><input type='checkbox' onclick='selectAll(this, "activate_charts");' /> Select / Unselect All</p>
 		
@@ -93,7 +95,9 @@
 		</form>
 	
 		<!-- Submit button must be OUTSIDE form tags here, or it submits the target form improperly and loses data -->
-		<p><button class='force_button_style' onclick='document.coin_amounts.submit();'>Update Activated Charts</button></p>
+		<p><button class='force_button_style' onclick='
+		document.coin_amounts.submit();
+		'>Update Activated Charts</button></p>
 		
 	</div>
 	

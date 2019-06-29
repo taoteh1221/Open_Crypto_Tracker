@@ -1383,8 +1383,11 @@ app doing the data requests, not a malicious bot)
 
 
 -------------------------------------------------------------------
-3.19.0:
--Additions to FAQ.txt / Help page
+3.18.3:
+-Bug fix for layout error when no portfolio added yet
+-Bug fix for chart interval detection (for chart time interval preset buttons)
+-Additions to HELP-FAQ.txt / Help page
+-Import / Export portfolio from CSV file
 -------------------------------------------------------------------
 
 

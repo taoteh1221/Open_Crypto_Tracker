@@ -44,17 +44,43 @@
 		
 		</div>
 			
-			
-			
-	<p><a style='font-weight: bold;' href='README.txt' target='_blank'>Editing The Coin List, or Enabling Email / Text / Alexa Exchange Price Alerts</a></p>
 	
 	
-	<!-- Submit button must be OUTSIDE form tags here, or it submits the target form improperly and loses data -->
-	<p><button class='force_button_style' onclick='document.coin_amounts.submit();'>Save Updated Assets</button></p>
+	
+	<div>
+	<a style='font-weight: bold;' href='README.txt' target='_blank'>Editing The Coin List, or Enabling Email / Text / Alexa Exchange Price Alerts</a>
+	</div>
+	
+			
+	<div align='left' style='margin-top: 30px; margin-bottom: 15px;'>
+	
+		
+		<!-- Submit button must be OUTSIDE form tags here, or it submits the target form improperly and loses data -->
+		<button class='force_button_style' onclick='
+		document.coin_amounts.submit();
+		'>Save Updated Assets</button>
+	
+		<form style='display: inline;' name='csv_import' id='csv_import' enctype="multipart/form-data" action="<?=start_page($_GET['start_page'])?>" method="post">
+		
+	    <input type="hidden" name="csv_check" value="1" />
+	    
+	    <input style='margin-left: 75px;' name="csv_file" type="file" />
+	    
+	    <input type="button" onclick='validateForm("csv_import", "csv_file");' value="Import Portfolio From CSV File" />
+	    
+		</form>
+		
+		<button style='margin-left: 75px;' class='force_button_style' onclick='
+		set_target_action("coin_amounts", "_blank", "download.php");
+		document.coin_amounts.submit();
+		set_target_action("coin_amounts", "_self", "<?=start_page($_GET['start_page'])?>");
+		'>Export Portfolio To CSV File</button>
+		
+	</div>
 	
 		
 		
-	<div style='display: inline-block; border: 2px dotted black; padding: 7px; margin-left: 0px; margin-bottom: 15px;'>
+	<div style='display: inline-block; border: 2px dotted black; padding: 7px; margin-left: 0px; margin-top: 15px; margin-bottom: 15px;'>
 	
 		<div align='center' style='font-weight: bold;'>Watch Only</div>
 	
@@ -66,6 +92,25 @@
 	
 	<br clear='all' />	
 	
+	 <?php
+	 if ( $csv_import_fail != NULL ) {
+	 ?>
+	<br />	
+	 <div class='red red_dotted' style='font-weight: bold;'><?=$csv_import_fail?></div>
+	<br />	
+	<br />	
+	 <?php
+	 }
+	 if ( $csv_import_succeed != NULL ) {
+	 ?>
+	<br />	
+	 <div class='green green_dotted' style='font-weight: bold;'><?=$csv_import_succeed?></div>
+	<br />	
+	<br />	
+	 <?php
+	 }
+	 ?>
+	
 	
 	
 	<form id='coin_amounts' name='coin_amounts' action='<?=start_page($_GET['start_page'])?>' method='post'>
@@ -74,7 +119,7 @@
 	<?php
 	
 	if (is_array($coins_list) || is_object($coins_list)) {
-	    
+
 	    
 	    $zebra_stripe = 'e8e8e8';
 	    foreach ( $coins_list as $coin_array_key => $coin_array_value ) {
@@ -94,10 +139,27 @@
 	        $coin_amount_value = $_POST[$field_var_amount];
 	        $coin_paid_value = $_POST[$field_var_paid];
 	        }
+	        elseif ( $run_csv_import == 1 ) {
+	        	
+	        
+	        		foreach( $csv_file_array as $key => $value ) {
+	        		
+	        			if ( strtoupper($coin_array_key) == strtoupper($key) ) {
+	        		 	$coin_pairing_id = $value[4];
+	        			$coin_market_id = $value[3];
+	        		 	$coin_amount_value = $value[1];
+	       		 	$coin_paid_value = $value[2];
+	       		 	}
+	        	
+	        		}
+	        		
+	        
+	        }
 	        
 	
 	    
-	        if ( $_COOKIE['coin_pairings'] ) {
+	    	  // Cookies
+	        if ( !$run_csv_import && $_COOKIE['coin_pairings'] ) {
 	        
 	        $all_coin_pairings_cookie_array = explode("#", $_COOKIE['coin_pairings']);
 	        
@@ -107,7 +169,7 @@
 		        
 		    $single_coin_pairings_cookie_array = explode("-", $coin_pairings);
 		    
-		    $coin_symbol = strtoupper(preg_replace("/_pairing/i", "", $single_coin_pairings_cookie_array[0]));
+		    $coin_symbol = strtoupper(preg_replace("/_pairing/i", "", $single_coin_pairings_cookie_array[0]));  
 		    
 		        if ( $coin_symbol == strtoupper($coin_array_key) ) {
 		        $coin_pairing_id = $single_coin_pairings_cookie_array[1];
@@ -123,7 +185,7 @@
 	        
 	        
 	        
-	        if ( $_COOKIE['coin_markets'] ) {
+	        if ( !$run_csv_import && $_COOKIE['coin_markets'] ) {
 	        
 	        $all_coin_markets_cookie_array = explode("#", $_COOKIE['coin_markets']);
 	        
@@ -133,7 +195,7 @@
 		        
 		    $single_coin_markets_cookie_array = explode("-", $coin_markets);
 		    
-		    $coin_symbol = strtoupper(preg_replace("/_market/i", "", $single_coin_markets_cookie_array[0]));
+		    $coin_symbol = strtoupper(preg_replace("/_market/i", "", $single_coin_markets_cookie_array[0]));  
 		    
 		        if ( $coin_symbol == strtoupper($coin_array_key) ) {
 		        $coin_market_id = $single_coin_markets_cookie_array[1];
@@ -149,7 +211,7 @@
 	        }
 	        
 	
-	        if ( $_COOKIE['coin_amounts'] ) {
+	        if ( !$run_csv_import && $_COOKIE['coin_amounts'] ) {
 	        
 	        $all_coin_amounts_cookie_array = explode("#", $_COOKIE['coin_amounts']);
 	        
@@ -159,7 +221,8 @@
 		        
 		    $single_coin_amounts_cookie_array = explode("-", $coin_amounts);
 		    
-		    $coin_symbol = strtoupper(preg_replace("/_amount/i", "", $single_coin_amounts_cookie_array[0]));
+		    $coin_symbol = strtoupper(preg_replace("/_amount/i", "", $single_coin_amounts_cookie_array[0]));  
+		    
 		    
 					if ( $coin_symbol == strtoupper($coin_array_key) ) {
 					$coin_amount_value = $single_coin_amounts_cookie_array[1];
@@ -174,7 +237,7 @@
 	        }
 	        
 	
-	        if ( $_COOKIE['coin_paid'] ) {
+	        if ( !$run_csv_import && $_COOKIE['coin_paid'] ) {
 	        
 	        $all_coin_paid_cookie_array = explode("#", $_COOKIE['coin_paid']);
 	        
@@ -184,7 +247,7 @@
 		        
 		    $single_coin_paid_cookie_array = explode("-", $coin_paid);
 		    
-		    $coin_symbol = strtoupper(preg_replace("/_paid/i", "", $single_coin_paid_cookie_array[0]));
+		    $coin_symbol = strtoupper(preg_replace("/_paid/i", "", $single_coin_paid_cookie_array[0]));  
 		    
 					if ( $coin_symbol == strtoupper($coin_array_key) ) {
 					$coin_paid_value = $single_coin_paid_cookie_array[1];
@@ -368,7 +431,11 @@
 		 	}
 	    
 	    $coin_symbol = NULL;
+	    
+	    $coin_pairing_id = NULL;
+	    $coin_market_id = NULL;
 	    $coin_amount_value = NULL;
+ 		 $coin_paid_value = NULL;
 	    
 	    }
 	    
@@ -383,9 +450,9 @@
 	
 	<input type='hidden' id='sort_by' name='sort_by' value='<?=($sorted_by_col)?>|<?=($sorted_by_asc_desc)?>' />
 	
-	<input type='hidden' id='use_cookies' name='use_cookies' value='<?php echo ( $_COOKIE['coin_amounts'] ? '1' : ''); ?>' />
+	<input type='hidden' id='use_cookies' name='use_cookies' value='<?php echo ( $_COOKIE['coin_amounts'] != '' ? '1' : ''); ?>' />
 	
-	<input type='hidden' id='use_notes' name='use_notes' value='<?php echo ( $_COOKIE['notes_reminders'] ? '1' : ''); ?>' />
+	<input type='hidden' id='use_notes' name='use_notes' value='<?php echo ( $_COOKIE['notes_reminders'] != '' ? '1' : ''); ?>' />
 	
 	<input type='hidden' id='use_alert_percent' name='use_alert_percent' value='<?=( $_POST['use_alert_percent'] != '' ? $_POST['use_alert_percent'] : $_COOKIE['alert_percent'] )?>' />
 	

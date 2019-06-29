@@ -14,12 +14,54 @@
 $btc_usd = get_btc_usd($btc_exchange)['last_trade'];
 
 
+
+
 // Only need below logic during UI runtime
 if ( $runtime_mode == 'ui' ) {
 
+	// We can safely dismiss alerts with cookies enabled, without losing data
+	if ( $_COOKIE['coin_amounts'] != '' ) {
+	$dismiss_alert = ' <br /><br /><a href="'.start_page($_GET['start_page'], 'href').'">Dismiss Alert</a>';
+	}
+		
+	
+	// If CSV file import is in process, check it
+	if ( $_POST['csv_check'] == 1 ) {
+		
+		
+		// Checks and importing
+		if ( $_FILES['csv_file']['tmp_name'] != NULL ) {
+		$csv_file_array = csv_file_array($_FILES['csv_file']['tmp_name']);
+   	}
+   	else {
+   	$csv_import_fail = 'You forgot to select your CSV import file.' . $dismiss_alert;
+   	}
+   	
+   	
+		if ( !$csv_import_fail && !is_array($csv_file_array) ) {
+   	$csv_import_fail = 'Your CSV import file does not appear to be formatted correctly. You can <a href="download.php?example_template=1" target="_blank">download this example template</a> to start over with correct formatting.' . $dismiss_alert;
+   	}
+		elseif ( is_array($csv_file_array) ) {
+   	$csv_import_succeed = 'Your CSV import succeeded.' . $dismiss_alert;
+   	}
+   	
+   	if ( !$csv_import_fail && $_POST['csv_check'] == 1 ) {
+   	$run_csv_import = 1;
+   	}
+   
+	}
+	
+	
+// Now that $run_csv_import has been determined, we can call our cookie logic
+require_once( $base_dir . "/app-lib/php/other/cookies.php");
+
+
 $marketcap_site = ( $alert_percent[0] != '' ? $alert_percent[0] : $marketcap_site );
 
+
 }
+
+
 
 // Chart data caches
 foreach ( $asset_charts_and_alerts as $key => $value ) {
@@ -40,6 +82,8 @@ foreach ( $asset_charts_and_alerts as $key => $value ) {
 	
 	
 }
+
+
 	
 if ( $disabled_caching == 1 ) {
 echo "Improper directory permissions on the '/cache/charts/' directory, cannot create asset sub-directories. Make sure the folder '/cache/charts/' itself has read / write permissions (and these sub-directories should be created automatically)";
@@ -442,10 +486,10 @@ $smtp->addTo($to_email); // Add to email here one time...because class adds to a
 
 
 
-// Re-check the average time interval between chart data points, once every 72 hours
+// Re-check the average time interval between chart data points, once every 24 hours
 // If we just started collecting data, check frequently
 // (placeholder is always set to 1 to keep chart buttons from acting weird until we have enough data)
-if ( $charts_page == 'on' && update_cache_file('cache/vars/chart_interval.dat', (60 * 72) ) == true
+if ( $charts_page == 'on' && update_cache_file('cache/vars/chart_interval.dat', (60 * 24) ) == true
 || !is_numeric(trim(file_get_contents('cache/vars/chart_interval.dat'))) || trim(file_get_contents('cache/vars/chart_interval.dat')) == 1 ) {  
 	
 	foreach ( $asset_charts_and_alerts as $key => $value ) {
