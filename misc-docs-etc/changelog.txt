@@ -1417,6 +1417,7 @@ app doing the data requests, not a malicious bot)
 3.19.0:
 -Local time configuration setting
 -Timestamping for notifyme (alexa) alerts
+-Margin leverage fields / calculations / stats
 -------------------------------------------------------------------
 
 

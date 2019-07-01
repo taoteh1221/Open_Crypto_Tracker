@@ -129,6 +129,7 @@
 	    $field_var_market = strtolower($coin_array_key) . '_market';
 	    $field_var_amount = strtolower($coin_array_key) . '_amount';
 	    $field_var_paid = strtolower($coin_array_key) . '_paid';
+	    $field_var_leverage = strtolower($coin_array_key) . '_leverage';
 	    $field_var_watchonly = strtolower($coin_array_key) . '_watchonly';
 	    $field_var_restore = strtolower($coin_array_key) . '_restore';
 	    
@@ -136,8 +137,9 @@
 	        if ( $_POST['submit_check'] == 1 ) {
 	        $coin_pairing_id = $_POST[$field_var_pairing];
 	        $coin_market_id = $_POST[$field_var_market];
-	        $coin_amount_value = $_POST[$field_var_amount];
-	        $coin_paid_value = $_POST[$field_var_paid];
+	        $coin_amount_value = remove_number_format($_POST[$field_var_amount]);
+	        $coin_paid_value = remove_number_format($_POST[$field_var_paid]);
+	        $coin_leverage_value = $_POST[$field_var_leverage];
 	        }
 	        elseif ( $run_csv_import == 1 ) {
 	        	
@@ -145,10 +147,11 @@
 	        		foreach( $csv_file_array as $key => $value ) {
 	        		
 	        			if ( strtoupper($coin_array_key) == strtoupper($key) ) {
-	        		 	$coin_pairing_id = $value[4];
-	        			$coin_market_id = $value[3];
+	        		 	$coin_pairing_id = $value[5];
+	        			$coin_market_id = $value[4];
 	        		 	$coin_amount_value = remove_number_format($value[1]);
 	       		 	$coin_paid_value = remove_number_format($value[2]);
+	       		 	$coin_leverage_value = $value[3];
 	       		 	}
 	        	
 	        		}
@@ -223,9 +226,9 @@
 		    
 		    $coin_symbol = strtoupper(preg_replace("/_amount/i", "", $single_coin_amounts_cookie_array[0]));  
 		    
-		    
+		    		// We don't need remove_number_format() for cookie data, because it was already done creating the cookies
 					if ( $coin_symbol == strtoupper($coin_array_key) ) {
-					$coin_amount_value = $single_coin_amounts_cookie_array[1];
+					$coin_amount_value = floattostr($single_coin_amounts_cookie_array[1]);
 					}
 		    
 		    
@@ -248,9 +251,35 @@
 		    $single_coin_paid_cookie_array = explode("-", $coin_paid);
 		    
 		    $coin_symbol = strtoupper(preg_replace("/_paid/i", "", $single_coin_paid_cookie_array[0]));  
+		    		
+		    		// We don't need remove_number_format() for cookie data, because it was already done creating the cookies
+					if ( $coin_symbol == strtoupper($coin_array_key) ) {
+					$coin_paid_value = floattostr($single_coin_paid_cookie_array[1]);
+					}
+		    
+		    
+		    }
+		    
+		}
+	        
+	        
+	        }
+	        
+	
+	        if ( !$run_csv_import && $_COOKIE['coin_leverage'] ) {
+	        
+	        $all_coin_leverage_cookie_array = explode("#", $_COOKIE['coin_leverage']);
+	        
+		if (is_array($all_coin_leverage_cookie_array) || is_object($all_coin_leverage_cookie_array)) {
+		    
+		    foreach ( $all_coin_leverage_cookie_array as $coin_leverage ) {
+		        
+		    $single_coin_leverage_cookie_array = explode("-", $coin_leverage);
+		    
+		    $coin_symbol = strtoupper(preg_replace("/_leverage/i", "", $single_coin_leverage_cookie_array[0]));  
 		    
 					if ( $coin_symbol == strtoupper($coin_array_key) ) {
-					$coin_paid_value = $single_coin_paid_cookie_array[1];
+					$coin_leverage_value = $single_coin_leverage_cookie_array[1];
 					}
 		    
 		    
@@ -418,7 +447,22 @@
 	     ' <?=( $raw_coin_amount_value > 0 && $raw_coin_amount_value <= '0.000000001' ? 'readonly' : '' )?> /> <span class='blue'><?=strtoupper($coin_array_key)?></span>, &nbsp; 
 			    
 			
-	     <b>Bought @ (per-token):</b> $<input type='text' size='8' id='<?=$field_var_paid?>' name='<?=$field_var_paid?>' value='<?=$coin_paid_value?>' />
+	     <b>Bought @ (per-token):</b> $<input type='text' size='8' id='<?=$field_var_paid?>' name='<?=$field_var_paid?>' value='<?=$coin_paid_value?>' /> 
+	     
+	     
+	     <b>Margin Leverage:</b> 
+	     
+	     <select name='<?=$field_var_leverage?>' id='<?=$field_var_leverage?>'>
+	     <option value='0' <?=( $coin_leverage_value == 0 ? 'selected' : '' )?>> None </option>
+	     <option value='2' <?=( $coin_leverage_value == 2 ? 'selected' : '' )?>> 2x </option>
+	     <option value='3' <?=( $coin_leverage_value == 3 ? 'selected' : '' )?>> 3x </option>
+	     <option value='4' <?=( $coin_leverage_value == 4 ? 'selected' : '' )?>> 4x </option>
+	     <option value='5' <?=( $coin_leverage_value == 5 ? 'selected' : '' )?>> 5x </option>
+	     <option value='10' <?=( $coin_leverage_value == 10 ? 'selected' : '' )?>> 10x </option>
+	     <option value='25' <?=( $coin_leverage_value == 25 ? 'selected' : '' )?>> 25x </option>
+	     <option value='50' <?=( $coin_leverage_value == 50 ? 'selected' : '' )?>> 50x </option>
+	     <option value='100' <?=( $coin_leverage_value == 100 ? 'selected' : '' )?>> 100x </option>
+	     </select>
 	     
 	     
 	     <input type='hidden' id='<?=$field_var_restore?>' name='<?=$field_var_restore?>' value='<?=( $raw_coin_amount_value > 0 && $raw_coin_amount_value <= '0.000000001' ? '' : $coin_amount_value )?>' />

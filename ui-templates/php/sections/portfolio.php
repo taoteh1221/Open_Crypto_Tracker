@@ -76,10 +76,11 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 										$selected_pairing = ($_POST[strtolower($coin_symbol).'_pairing']);
 										$selected_market = ($_POST[strtolower($coin_symbol).'_market'] - 1); // Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
 										$purchase_price = remove_number_format($_POST[strtolower($coin_symbol).'_paid']);
+										$leverage_level = $_POST[strtolower($coin_symbol).'_leverage'];
 												
 						
 								
-										ui_coin_data($coins_list[$coin_symbol]['coin_name'], $coin_symbol, $value, $coins_list[$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price);
+										ui_coin_data($coins_list[$coin_symbol]['coin_name'], $coin_symbol, $value, $coins_list[$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price, $leverage_level);
 										
 											if ( $value >= 0.00000001 ) {
 											$assets_added = 1;
@@ -118,10 +119,11 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 										$selected_pairing = $value[4];
 										$selected_market = $value[3] - 1; // Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
 										$purchase_price = remove_number_format($value[2]);
+										$leverage_level = $_POST[strtolower($coin_symbol).'_leverage'];
 												
 						
 								
-										ui_coin_data($coins_list[$coin_symbol]['coin_name'], $coin_symbol, $held_amount, $coins_list[$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price);
+										ui_coin_data($coins_list[$coin_symbol]['coin_name'], $coin_symbol, $held_amount, $coins_list[$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price, $leverage_level);
 										
 											if ( $held_amount >= 0.00000001 ) {
 											$assets_added = 1;
@@ -198,6 +200,23 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 		}
 	
 	
+	$all_coin_leverage_cookie_array = explode("#", $_COOKIE['coin_leverage']);
+	
+		if (is_array($all_coin_leverage_cookie_array) || is_object($all_coin_leverage_cookie_array)) {
+			
+					foreach ( $all_coin_leverage_cookie_array as $coin_leverage ) {
+									
+					$single_coin_leverage_cookie_array = explode("-", $coin_leverage);
+					
+					$coin_symbol = strtoupper(preg_replace("/_leverage/i", "", $single_coin_leverage_cookie_array[0]));
+					
+					$all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_leverage'] = $single_coin_leverage_cookie_array[1];
+					
+					}
+					
+		}
+	
+	
 		
 		
 	
@@ -224,9 +243,10 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 					$selected_pairing = $all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_pairing'];
 					$selected_market = ($all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_market'] -1);
 					$purchase_price = floattostr($all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_paid']);
+					$leverage_level = $all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_leverage'];
 					
 			// Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
-					ui_coin_data($coins_list[$coin_symbol]['coin_name'], $coin_symbol, $selected_amount, $coins_list[$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price);
+					ui_coin_data($coins_list[$coin_symbol]['coin_name'], $coin_symbol, $selected_amount, $coins_list[$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price, $leverage_level);
 					
 						
 						if ( $selected_amount >= 0.00000001 ) {
@@ -325,13 +345,17 @@ echo '<div class="show_coin_values bold_1 green">';
 				foreach ( $gain_loss_array as $key => $value ) {
 					
 						$parsed_gain_loss = preg_replace("/-/", "-$", number_format( $value['gain_loss'], 2, '.', ',' ) );
+						
+							if ( $value['coin_leverage'] >= 2 ) {
+							$parsed_before_leveraged = preg_replace("/-/", "-$", number_format( ( $value['gain_loss'] / $value['coin_leverage'] ) , 2, '.', ',' ) );
+							}
 		
 					$gain_loss_percent = ( ($value['coin_worth_total'] / $value['coin_paid_total']) - 1 ) * 100;
 					
 					
 						if ( $value['coin_paid'] != NULL ) {
 				?>
-			+'<p class="coin_info"><span class="yellow"><?=$value['coin_symbol']?>:</span> <span class="<?=( $value['gain_loss'] >= 0 ? 'green_bright">+$' : 'red">' )?><?=$parsed_gain_loss?> (<?=( $value['gain_loss'] >= 0 ? '+' : '' )?><?=number_format($gain_loss_percent, 2, '.', ',')?>%)</span></p>'
+			+'<p class="coin_info"><span class="yellow"><?=$value['coin_symbol']?>:</span> <span class="<?=( $value['gain_loss'] >= 0 ? 'green_bright">+$' : 'red">' )?><?=$parsed_gain_loss?> (<?=( $value['gain_loss'] >= 0 ? '+' : '' )?><?=number_format($gain_loss_percent, 2, '.', ',')?>%<?=( $value['coin_leverage'] >= 2 ? ', ' . $value['coin_leverage'] . 'x Margin Leverage @ ' . ( $value['gain_loss'] >= 0 ? '+$' : '' ) . $parsed_before_leveraged : '' )?>)</span></p>'
 			
 			<?php
 							}

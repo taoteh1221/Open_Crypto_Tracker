@@ -812,7 +812,7 @@ return TRUE;
 ////////////////////////////////////////////////////////
 
 
-function ui_coin_data($coin_name, $trade_symbol, $coin_amount, $market_pairing_array, $selected_pairing, $selected_market, $purchase_price=NULL) {
+function ui_coin_data($coin_name, $trade_symbol, $coin_amount, $market_pairing_array, $selected_pairing, $selected_market, $purchase_price=NULL, $leverage_level) {
 
 global $_POST, $coins_list, $btc_exchange, $marketcap_site, $marketcap_cache, $alert_percent, $marketcap_ranks_max, $api_timeout;
 
@@ -997,9 +997,10 @@ $market_pairing = $all_markets[$selected_market];
     $_SESSION['gain_loss_array'][] = array(
     													'coin_symbol' => $trade_symbol, 
     													'coin_paid' => $purchase_price,
+    													'coin_leverage' => $leverage_level,
     													'coin_paid_total' => $coin_paid_total_raw,
     													'coin_worth_total' => $coin_usd_worth_raw,
-    													'gain_loss' => $gain_loss,
+    													'gain_loss' => ( $leverage_level >= 2 ? ($gain_loss * $leverage_level) : $gain_loss ),
     													);
     
 	 }

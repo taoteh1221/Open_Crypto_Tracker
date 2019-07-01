@@ -335,7 +335,7 @@ $asset_charts_and_alerts = array(
 					'steem-3' => 'binance||btc||both',
 					
 					// ANT
-					'ant' => 'bittrex_intl||btc||both',
+					'ant' => 'bittrex_intl||btc||chart',
 					'ant-2' => 'hitbtc||btc||chart',
 					'ant-3' => 'ethfinex||btc||chart',
 					
