@@ -25,7 +25,7 @@ require("config.php");
     
 	<meta charset="UTF-8">
 	<meta name="robots" content="noindex,nofollow"> <!-- Keeps this URL private (search engines won't add this URL to their search indexes) -->
-    
+   <meta name="viewport" content="width=device-width, initial-scale=1">
     
 	<link rel="stylesheet" href="ui-templates/css/bootstrap/bootstrap.min.css" type="text/css" />
 
