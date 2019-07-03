@@ -14,7 +14,6 @@
 				<span id='reload_countdown7' class='red countdown_notice'></span>
 			
 	
-	<p>
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Coinmarketcap.com Stats</strong> </legend>
 	        
 			<p><a style='font-weight: bold;' class='show red' id='newbiewarning' href='#show_newbiewarning' title='Click to show newbie warning.' onclick='return false;'><b>Newbie Warning</b></a></p>
@@ -43,10 +42,8 @@
 	        
 	    </ul>
 	    </fieldset>
-	</p>
-	
-	
-	<p>
+	    
+	    
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Other Stats</strong> </legend>
 	    <ul>
 	        
@@ -64,10 +61,9 @@
 	        
 	    </ul>
 	    </fieldset>
-	</p>
-	
-	
-	<p>
+
+
+
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Charts</strong> </legend>
 	    <ul>
 	        
@@ -87,11 +83,9 @@
 	        
 	    </ul>
 	    </fieldset>
-	</p>
 	
 	
 	
-	<p>
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Exchanges</strong> </legend>
 	    
 			<p><a style='font-weight: bold;' class='show red' id='newbiewarning2' href='#show_newbiewarning2' title='Click to show newbie warning.' onclick='return false;'><b>Newbie Warning</b></a></p>
@@ -134,11 +128,9 @@
 	        
 	    </ul>
 	    </fieldset>
-	</p>
 	
 	
 	
-	<p>
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Block Explorers</strong> </legend>
 	    <ul>
 	        
@@ -152,10 +144,9 @@
 	        
 	    </ul>
 	    </fieldset>
-	</p>
 	
 	
-	<p>
+	
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Crypto Wallets</strong> </legend>
 	        
 			<p><a style='font-weight: bold;' class='show red' id='newbiewarning3' href='#show_newbiewarning3' title='Click to show newbie warning.' onclick='return false;'><b>Newbie Warning</b></a></p>
@@ -186,11 +177,9 @@
 	        
 	    </ul>
 	    </fieldset>
-	</p>
 	
 	
 	
-	<p>
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Newsletters</strong> </legend>
 	    <ul>
 	        
@@ -226,11 +215,9 @@
 	        
 	    </ul>
 	    </fieldset>
-	</p>
 	
 	
 	
-	<p>
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Podcasts</strong> </legend>
 	    <ul>
 	        
@@ -279,11 +266,9 @@
 	        
 	    </ul>
 	    </fieldset>
-	</p>
 	
 	
 	
-	<p>
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>News Websites</strong> </legend>
 	    <ul>
 	        
@@ -314,11 +299,9 @@
 	        
 	    </ul>
 	    </fieldset>
-	</p>
-	
-	
-	
-	<p>
+
+
+
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Coin Mining</strong> </legend>
 	    <ul>
 	        
@@ -333,10 +316,9 @@
 	        
 	    </ul>
 	    </fieldset>
-	</p>
 	
 	
-	<p>
+	
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Blockchain Developer Links</strong> </legend>
 	    <ul>
 	        
@@ -359,10 +341,9 @@
 	        
 	    </ul>
 	    </fieldset>
-	</p>
 	
 	
-	<p>
+	
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Miscellaneous Links</strong> </legend>
 	    <ul>
 	        
@@ -389,10 +370,9 @@
 	        
 	    </ul>
 	    </fieldset>
-	</p>
 	
 	
-	<p>
+	
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Youtube Channels</strong> </legend>
 	    <ul>
 	        
@@ -464,7 +444,7 @@
 	        
 	    </ul>
 	    </fieldset>
-	</p>
+	
 			    
 	
 			    

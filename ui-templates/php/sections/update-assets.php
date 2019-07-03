@@ -35,7 +35,7 @@
 						
 						<i><u>Semi-simplified version of above important disclaimer / advisory</u>:</i> 
 						
-						<br /><br /><i>NEVER</i> invest more than you can afford to lose, <i>NEVER</i> buy an asset because of somebody's opinion of it, <i>ALWAYS <u>fully research</u></i> your planned investment beforehand (fundamentals are just as important as chart TA), <i>ALWAYS</i> diversify / balance your portfolio for you <i>(and yours)</i> safety / sanity, <i>ALWAYS <u>buy low</u></i> AND <u>sell high</u></i> (NOT the other way around), <i><u>ALWAYS AVOID</u></i> <a href='https://twitter.com/hashtag/pumpndump?src=hash' target='_blank'>#pumpndump</a> / <a href='https://twitter.com/hashtag/fomo?src=hash' target='_blank'>#fomo</a> / <a href='https://twitter.com/hashtag/shitcoin?src=hash' target='_blank'>#shxtcoin</a> trading, <i>AND</i> hang on tight until you can't stand fully holding anymore / want to or must make a position exit (percentage) official. 
+						<br /><br /><i>NEVER</i> invest more than you can afford to lose, <i>NEVER</i> buy an asset because of somebody's opinion of it, <i>ALWAYS <u>fully research</u></i> your planned investment beforehand (fundamentals are just as important as chart TA), <i>ALWAYS</i> diversify / balance your portfolio for you <i>(and yours)</i> safety / sanity, <i>ALWAYS <u>buy low</u> AND <u>sell high</u></i> (NOT the other way around), <i><u>ALWAYS AVOID</u></i> <a href='https://twitter.com/hashtag/pumpndump?src=hash' target='_blank'>#pumpndump</a> / <a href='https://twitter.com/hashtag/fomo?src=hash' target='_blank'>#fomo</a> / <a href='https://twitter.com/hashtag/shitcoin?src=hash' target='_blank'>#shxtcoin</a> trading, <i>AND</i> hang on tight until you can't stand fully holding anymore / want to or must make a position exit (percentage) official. 
 						
 						<br /><br />Best of luck, be careful out there in this cryptoland frontier <i>full of garbage coins, scam coins, and greedy <u>glorified</u> (and NOT so glorified) crooks</i> and their silver tongues! :-o
 						
@@ -124,6 +124,7 @@
 	    $zebra_stripe = 'e8e8e8';
 	    foreach ( $coins_list as $coin_array_key => $coin_array_value ) {
 		
+		 $rand_id = rand(10000000,100000000);
 	    
 	    $field_var_pairing = strtolower($coin_array_key) . '_pairing';
 	    $field_var_market = strtolower($coin_array_key) . '_market';
@@ -463,6 +464,39 @@
 	     <option value='50' <?=( $coin_leverage_value == 50 ? 'selected' : '' )?>> 50x </option>
 	     <option value='100' <?=( $coin_leverage_value == 100 ? 'selected' : '' )?>> 100x </option>
 	     </select>
+		<img id='leverage_trading_notes_<?=$rand_id?>' src='ui-templates/media/images/info.png' alt='' width='30' border='0' style='position: relative; left: -5px;' /> 
+	 <script>
+	
+			var leverage_trading_notes = '<h5 align="center" class="yellow" style="position: relative; white-space: nowrap;">Using Margin Leverage In This App</h5>'
+			
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">In this app, you set the "Amount" of tokens to match your margin leverage deposit (example: buying 1 BTC @ 5x margin leverage would be 0.2 BTC in the "Amount" field in this app). You\'ll also need to fill in the "Paid (per-token)" field with the average price paid in USD per-token. Finally, set the "Margin Leverage" field to match your margin leverage, and click "Save Updated Assets".</p>'
+			
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">To see your leverage stats after updating your portfolio, go to the bottom of the Portfolio page, where you\'ll find a stats section. Hovering over the "I" icon next to those summary stats will display additional stats per asset as well. There is also an "I" icon in the far right table column (USD Subtotal) you can hover over for leverage stats per asset too.</p>'
+			
+			+'<p class="coin_info"><span class="yellow"> </span></p>';
+		
+		
+			$('#leverage_trading_notes_<?=$rand_id?>').balloon({
+			html: true,
+			position: "left",
+			contents: leverage_trading_notes,
+			css: {
+					fontSize: ".8rem",
+					minWidth: ".8rem",
+					padding: ".3rem .7rem",
+					border: "1px solid rgba(212, 212, 212, .4)",
+					borderRadius: "6px",
+					boxShadow: "3px 3px 6px #555",
+					color: "#eee",
+					backgroundColor: "#111",
+					opacity: "0.95",
+					zIndex: "32767",
+					textAlign: "left"
+					}
+			});
+		
+		 </script>
+		 
 	     
 	     
 	     <input type='hidden' id='<?=$field_var_restore?>' name='<?=$field_var_restore?>' value='<?=( $raw_coin_amount_value > 0 && $raw_coin_amount_value <= '0.000000001' ? '' : $coin_amount_value )?>' />

@@ -1444,6 +1444,15 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+3.20.2:
+-Bug fix for broken HTML in new code
+-HTML validation / optimizations
+-------------------------------------------------------------------
+
+
+
+
 
 
 

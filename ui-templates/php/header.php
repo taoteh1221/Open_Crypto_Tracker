@@ -13,7 +13,7 @@ $tablesort_theme = 'default';
 require("config.php");
 
 ?><!DOCTYPE html>
-<html>
+<html lang="en">
 
 <!-- /*
  * Copyright 2014-2019 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
@@ -23,9 +23,9 @@ require("config.php");
 
 	<title>DFD Cryptocoin Values - Open source / free private cryptocurrency investment portfolio tracker, with email / text / Alexa alerts, charts, mining calculators, leverage / gain / loss / dominance stats, and other crypto tools</title>
     
-	<meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="robots" content="noindex,nofollow"> <!-- Keeps this URL private (search engines won't add this URL to their search indexes) -->
-   <meta name="viewport" content="width=device-width, initial-scale=1">
     
 	<link rel="stylesheet" href="ui-templates/css/bootstrap/bootstrap.min.css" type="text/css" />
 
@@ -45,31 +45,28 @@ require("config.php");
 	</style>
 
 
-	<script type="text/javascript" src="app-lib/js/jquery/jquery-3.4.1.min.js"></script>
+	<script src="app-lib/js/jquery/jquery-3.4.1.min.js"></script>
 
-	<script type="text/javascript" src="app-lib/js/jquery/bootstrap.min.js"></script>
+	<script src="app-lib/js/jquery/jquery.tablesorter.min.js"></script>
 
-	<script type="text/javascript" src="app-lib/js/jquery/jquery.tablesorter.min.js"></script>
+	<script src="app-lib/js/jquery/jquery.tablesorter.widgets.min.js"></script>
 
-	<script type="text/javascript" src="app-lib/js/jquery/jquery.tablesorter.widgets.min.js"></script>
+	<script src="app-lib/js/jquery/jquery.balloon.min.js"></script>
 
-	<script type="text/javascript" src="app-lib/js/jquery/jquery.balloon.min.js"></script>
-
-	<script type="text/javascript" src="app-lib/js/functions.js"></script>
-
-	<script type="text/javascript" src="app-lib/js/modaal.js"></script>
+	<script src="app-lib/js/modaal.js"></script>
 
 	<?php
 	if ( $charts_page == 'on' ) {
 	?>
-	<script type="text/javascript" src="app-lib/js/zingchart.min.js"></script>
+	<script src="app-lib/js/zingchart.min.js"></script>
 	<?php
 	}
 	?>
 
-	<script type="text/javascript" src="app-lib/js/init.js"></script>
+	<script src="app-lib/js/functions.js"></script>
 
-
+	<script src="app-lib/js/init.js"></script>
+	
 	<script>
 	
 	var sorted_by_col = <?=$sorted_by_col?>;
@@ -95,6 +92,6 @@ require("config.php");
     <div align='center' style='width: 100%; min-width: 1200px; margin: auto;'>
     <h2>DFD Cryptocoin Values - Cryptocurrency Portfolio Tracker</h2>
             <div align='left' style=' margin: 0px; min-width: 1200px; display: inline;'>
-        <!- header END -->
+        <!-- header END -->
 
 

@@ -382,10 +382,10 @@ echo '<div class="show_coin_values bold_1 green">';
 		
 		
 		echo '<div class="portfolio_summary"><span class="black">' . ( $gain_loss_total >= 0 ? 'USD Gain:</span> <span class="green">+$' : 'USD Loss:</span> <span class="red">' ) . $parsed_gain_loss_total . ' (' . ( $gain_loss_total >= 0 ? '+' : '-' ) . number_format($percent_difference_total, 2, '.', ',') . '%' . $leverage_text2 . ')</span>';
-		}
+		
 		?> 
 		
-		<img id='portfolio_gain_loss' src='ui-templates/media/images/info.png' width='30' border='0' style='position: relative; left: -5px;' /> </div>
+		<img id='portfolio_gain_loss' src='ui-templates/media/images/info.png' alt='' width='30' border='0' style='position: relative; left: -5px;' /> </div>
 		
 		
 	 <script>
@@ -451,11 +451,12 @@ echo '<div class="show_coin_values bold_1 green">';
 		 </script>
 		 
 		<?php
+		}
 		if ( $bitcoin_dominance >= 0 && $altcoin_dominance >= 0 ) {
 		echo '<div class="portfolio_summary"><span class="black">Stats:</span> ' . number_format($bitcoin_dominance, 2, '.', ',') . '% Bitcoin / ' . number_format($altcoin_dominance, 2, '.', ',') .'% Altcoin(s)';
 		?>
 		
-		<img id='portfolio_dominance' src='ui-templates/media/images/info.png' width='30' border='0' style='position: relative; left: -5px;' /> </div>
+		<img id='portfolio_dominance' src='ui-templates/media/images/info.png' alt='' width='30' border='0' style='position: relative; left: -5px;' /> </div>
 	 <script>
 	
 			var dominance_content = '<h5 class="yellow" style="position: relative; white-space: nowrap;">Portfolio Dominance Stats:</h5>'
@@ -527,7 +528,7 @@ echo '</div>';
 	
 	<div align='center' style='min-height: 100px;'>
 	
-		<p><img src='ui-templates/media/images/favicon.png' border='0' /></p>
+		<p><img src='ui-templates/media/images/favicon.png' alt='' border='0' /></p>
 		<p class='red' style='font-weight: bold; position: relative; margin: 15px;'>No portfolio assets added yet (add them on the Update Assets page).</p>
 	</div>
 	

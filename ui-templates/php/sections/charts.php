@@ -133,7 +133,15 @@
 	?>
 	
 	<div style='background-color: #515050; border: 1px solid #808080; border-radius: 5px;' id='<?=$key?>_usd_chart'></div>
-	<script src='app-lib/js/chart.js.php?type=asset&asset_data=<?=urlencode($key)?>&charted_value=usd' async></script>
+	
+	<script>
+	
+	$(document).ready(function() {
+    $.getScript("app-lib/js/chart.js.php?type=asset&asset_data=<?=urlencode($key)?>&charted_value=usd");
+	});
+	
+	</script>
+	
 	<br/><br/><br/>
 	
 	<?php
@@ -143,7 +151,15 @@
 	?>
 	
 	<div style='background-color: #515050; border: 1px solid #808080; border-radius: 5px;' id='<?=$key?>_<?=$alerts_market_parse[1]?>_chart'></div>
-	<script src='app-lib/js/chart.js.php?type=asset&asset_data=<?=urlencode($key)?>&charted_value=pairing' async></script>
+	
+	<script>
+	
+	$(document).ready(function() {
+    $.getScript("app-lib/js/chart.js.php?type=asset&asset_data=<?=urlencode($key)?>&charted_value=pairing");
+	});
+	
+	</script>
+	
 	<br/><br/><br/>
 	
 	<?php
@@ -155,7 +171,7 @@
 	?>
 	<div align='center' style='min-height: 100px;'>
 	
-		<p><img src='ui-templates/media/images/favicon.png' border='0' /></p>
+		<p><img src='ui-templates/media/images/favicon.png' alt='' border='0' /></p>
 		<p class='red' style='font-weight: bold; position: relative; margin: 15px;'>Click the Activate Charts button (top left) to add charts.</p>
 	</div>
 	<?php

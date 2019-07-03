@@ -15,20 +15,11 @@ $steem_market = get_coin_value('binance', 'STEEMBTC')['last_trade'];
 
 ?>
     
-    <style>
-    .result {
-    margin: 7px; border: 2px solid black; padding: 7px;
-    }
-    .normal {
-    font-weight: normal;
-    }
-    </style>
-    
 
 
 <p class='green' style='font-weight: bold;'>1 STEEM = <?=$steem_market?> BTC ($<?php echo number_format( ( $steem_market * get_btc_usd($btc_exchange)['last_trade'] ), 8, '.', ','); ?>)</p>
 
-<p>
+<div>
     <form action='index.php#calculators' method='post'>
         
         <p><b>Power Down Period:</b> <?=$steem_powerdown_time?> weeks</p>
@@ -46,7 +37,7 @@ $steem_market = get_coin_value('binance', 'STEEMBTC')['last_trade'];
 				    <input type='hidden' value='1' name='steem_submitted' />
         
     </form>
-</p>
+</div>
 
 <?php
 if ( $_POST['steem_submitted'] ) {

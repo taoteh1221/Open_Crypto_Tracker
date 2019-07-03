@@ -2,7 +2,7 @@
 <p align='center' style='margin: 15px;'><a href='javascript:scroll(0,0);'>Back To Top</a></p>
 
 
-    <!- footer START -->
+    <!-- footer START -->
 <?php
 
 	foreach ( $_SESSION['repeat_error'] as $error ) {
@@ -43,6 +43,12 @@
    		 </div>
     </div>
      <br /> <br />
+     
+ 
+
+
+<!-- https://v4-alpha.getbootstrap.com/getting-started/introduction/#starter-template -->
+<script src="app-lib/js/jquery/bootstrap.min.js"></script>
 </body>
 </html>
 <!-- /*
