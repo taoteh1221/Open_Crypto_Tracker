@@ -91,19 +91,19 @@ return $total_value;
 ////////////////////////////////////////////////////////
 
 
-function gain_loss_total() {
+function coin_stats_data($request) {
 
-    if (is_array($_SESSION['gain_loss_array']) || is_object($_SESSION['gain_loss_array'])) {
+	if (is_array($_SESSION['coin_stats_array']) || is_object($_SESSION['coin_stats_array'])) {
       
-  foreach ( $_SESSION['gain_loss_array'] as $key => $value ) {
+      
+  		foreach ( $_SESSION['coin_stats_array'] as $key => $value ) {
+  		$results = ($value[$request] + $results);
+		}
   
-  $total_gain_loss = ($value['gain_loss'] + $total_gain_loss);
   
-  }
-  
-    }
+	}
 
-return $total_gain_loss;
+return $results;
 }
 
 
@@ -816,6 +816,8 @@ function ui_coin_data($coin_name, $trade_symbol, $coin_amount, $market_pairing_a
 
 global $_POST, $coins_list, $btc_exchange, $marketcap_site, $marketcap_cache, $alert_percent, $marketcap_ranks_max, $api_timeout;
 
+$rand_id = rand(10000000,100000000);
+  
 $sort_order = ( array_search($trade_symbol, array_keys($coins_list)) + 1);
 
 $original_market = $selected_market;
@@ -881,7 +883,7 @@ $market_pairing = $all_markets[$selected_market];
     
     $coin_value_raw = get_coin_value($selected_market, $market_pairing)['last_trade'];
     $coin_value_total_raw = ($coin_amount * $coin_value_raw);
-    $_SESSION['btc_worth_array'][$trade_symbol] = $coin_value_total_raw * $pairing_btc_value;  
+    $_SESSION['btc_worth_array'][$trade_symbol] = floattostr($coin_value_total_raw * $pairing_btc_value);  
     $btc_trade_eqiv = number_format( ($coin_value_raw * $pairing_btc_value), 8);
     $pairing_symbol = 'XMR';
     
@@ -897,7 +899,7 @@ $market_pairing = $all_markets[$selected_market];
     
     $coin_value_raw = get_coin_value($selected_market, $market_pairing)['last_trade'];
     $coin_value_total_raw = ($coin_amount * $coin_value_raw);
-    $_SESSION['btc_worth_array'][$trade_symbol] = $coin_value_total_raw * $pairing_btc_value;  
+    $_SESSION['btc_worth_array'][$trade_symbol] = floattostr($coin_value_total_raw * $pairing_btc_value);  
     $btc_trade_eqiv = number_format( ($coin_value_raw * $pairing_btc_value), 8);
     $pairing_symbol = 'LTC';
     
@@ -915,7 +917,7 @@ $market_pairing = $all_markets[$selected_market];
      
      $coin_value_raw = get_sub_token_price($selected_market, $market_pairing);
      $coin_value_total_raw = ($coin_amount * $coin_value_raw);
-     $_SESSION['btc_worth_array'][$trade_symbol] = $coin_value_total_raw * $pairing_btc_value;  
+     $_SESSION['btc_worth_array'][$trade_symbol] = floattostr($coin_value_total_raw * $pairing_btc_value);  
      $btc_trade_eqiv = number_format( ($coin_value_raw * $pairing_btc_value), 8);
      $pairing_symbol = 'ETH';
      
@@ -924,7 +926,7 @@ $market_pairing = $all_markets[$selected_market];
       
      $coin_value_raw = get_coin_value($selected_market, $market_pairing)['last_trade'];
      $coin_value_total_raw = ($coin_amount * $coin_value_raw);
-     $_SESSION['btc_worth_array'][$trade_symbol] = $coin_value_total_raw * $pairing_btc_value;  
+     $_SESSION['btc_worth_array'][$trade_symbol] = floattostr($coin_value_total_raw * $pairing_btc_value);  
      $btc_trade_eqiv = number_format( ($coin_value_raw * $pairing_btc_value), 8);
      $pairing_symbol = 'ETH';
      
@@ -942,7 +944,7 @@ $market_pairing = $all_markets[$selected_market];
     
     $coin_value_raw = get_coin_value($selected_market, $market_pairing)['last_trade'];
     $coin_value_total_raw = ($coin_amount * $coin_value_raw);
-    $_SESSION['btc_worth_array'][$trade_symbol] = $coin_value_total_raw * $pairing_btc_value;  
+    $_SESSION['btc_worth_array'][$trade_symbol] = floattostr($coin_value_total_raw * $pairing_btc_value);  
     $btc_trade_eqiv = number_format( ($coin_value_raw * $pairing_btc_value), 8);
     $pairing_symbol = 'USDT';
     
@@ -958,7 +960,7 @@ $market_pairing = $all_markets[$selected_market];
     
     $coin_value_raw = get_coin_value($selected_market, $market_pairing)['last_trade'];
     $coin_value_total_raw = ($coin_amount * $coin_value_raw);
-    $_SESSION['btc_worth_array'][$trade_symbol] = $coin_value_total_raw * $pairing_btc_value;  
+    $_SESSION['btc_worth_array'][$trade_symbol] = floattostr($coin_value_total_raw * $pairing_btc_value);  
     $btc_trade_eqiv = number_format( ($coin_value_raw * $pairing_btc_value), 8);
     $pairing_symbol = 'TUSD';
     
@@ -974,14 +976,13 @@ $market_pairing = $all_markets[$selected_market];
     
     $coin_value_raw = get_coin_value($selected_market, $market_pairing)['last_trade'];
     $coin_value_total_raw = ($coin_amount * $coin_value_raw);
-    $_SESSION['btc_worth_array'][$trade_symbol] = $coin_value_total_raw * $pairing_btc_value;  
+    $_SESSION['btc_worth_array'][$trade_symbol] = floattostr($coin_value_total_raw * $pairing_btc_value);  
     $btc_trade_eqiv = number_format( ($coin_value_raw * $pairing_btc_value), 8);
     $pairing_symbol = 'USDC';
     
     }
   
   
-  	 // Calculate gain / loss if purchase price was populated
   	 if ( $selected_pairing == 'btc' ) {
   	 $coin_usd_worth_raw = ( $coin_name == 'Bitcoin' ? $coin_value_total_raw : ($coin_value_total_raw * get_btc_usd($btc_exchange)['last_trade']) );
   	 }
@@ -990,22 +991,46 @@ $market_pairing = $all_markets[$selected_market];
   	 }
   
   
+	 
+  	 // Calculate gain / loss if purchase price was populated
 	 if ( $purchase_price >= 0.00000001 ) {
 	 	
 	 $coin_paid_total_raw = ($coin_amount * $purchase_price);
+	 
 	 $gain_loss = $coin_usd_worth_raw - $coin_paid_total_raw;
-    $_SESSION['gain_loss_array'][] = array(
-    													'coin_symbol' => $trade_symbol, 
-    													'coin_paid' => $purchase_price,
-    													'coin_leverage' => $leverage_level,
-    													'coin_paid_total' => $coin_paid_total_raw,
-    													'coin_worth_total' => $coin_usd_worth_raw,
-    													'gain_loss' => ( $leverage_level >= 2 ? ($gain_loss * $leverage_level) : $gain_loss ),
-    													);
+	 
+	 $gain_loss_percent = ( ($coin_usd_worth_raw / $coin_paid_total_raw) - 1 ) * 100;
+	 
+	 
+	 // Check for leverage
+	 $only_leverage_gain_loss = ( $leverage_level >= 2 ? ($gain_loss * ($leverage_level - 1) ) : 0 );
+	 
+	 $inc_leverage_gain_loss = ( $leverage_level >= 2 ? ($gain_loss * $leverage_level) : $gain_loss );
+	 
+	 $inc_leverage_gain_loss_percent =  ( $leverage_level >= 2 ? ($gain_loss_percent * $leverage_level) : $gain_loss_percent );
+	 
     
 	 }
+	 else {
+	 $no_purchase_price = 1;
+	 }
 	  
-	  
+	 
+	 
+    $_SESSION['coin_stats_array'][] = array(
+    													'coin_symbol' => $trade_symbol, 
+    													'coin_leverage' => $leverage_level,
+    													'coin_worth_total' => $coin_usd_worth_raw,
+    													'coin_worth_if_purchase_price' => ($no_purchase_price == 1 ? NULL : $coin_usd_worth_raw),
+    													'coin_paid' => $purchase_price,
+    													'coin_paid_total' => $coin_paid_total_raw,
+    													'gain_loss_only_leverage' => $only_leverage_gain_loss,
+    													'gain_loss_total' => $inc_leverage_gain_loss,
+    													'gain_loss_percent_total' => $inc_leverage_gain_loss_percent,
+    													);
+    										
+
+
   // Get trade volume
   $trade_volume = ( $coin_name == 'Bitcoin' ? get_btc_usd($btc_exchange)['24hr_usd_volume'] : get_coin_value($selected_market, $market_pairing)['24hr_usd_volume'] );
   
@@ -1013,7 +1038,7 @@ $market_pairing = $all_markets[$selected_market];
   ?>
 <tr id='<?=strtolower($trade_symbol)?>_row'>
 
-<td class='data border_lb'><span><?php echo $sort_order; ?></span></td>
+<td class='data border_lb'><span class='app_sort_filter'><?php echo $sort_order; ?></span></td>
 
 <td class='data border_lb' align='right' style='position: relative; padding-right: 32px; white-space: nowrap;'>
  
@@ -1033,7 +1058,7 @@ $market_pairing = $all_markets[$selected_market];
  	
  	
  		?>
- <img id='<?=$mkcap_render_data?>' src='ui-templates/media/images/<?=$info_icon?>' border='0' style='position: absolute; top: 4px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <a title='' href='https://<?=$asset_pagebase?><?=$mkcap_render_data?>/' target='_blank' class='blue'><?php echo $coin_name; ?></a>
+ <img id='<?=$mkcap_render_data?>' src='ui-templates/media/images/<?=$info_icon?>' border='0' style='position: absolute; top: 4px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <a title='' href='https://<?=$asset_pagebase?><?=$mkcap_render_data?>/' target='_blank' class='blue app_sort_filter'><?php echo $coin_name; ?></a>
  <script>
 
 		<?php
@@ -1161,7 +1186,6 @@ $market_pairing = $all_markets[$selected_market];
  <?php
 	}
 	else {
-  $rand_id = rand(10000000,100000000);
   ?>
   <img id='<?=$rand_id?>' src='ui-templates/media/images/<?=$info_icon?>' border='0' style='position: absolute; top: 4px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <?=$coin_name?>
  <script>
@@ -1191,7 +1215,11 @@ $market_pairing = $all_markets[$selected_market];
  
 </td>
 
-<td class='data border_b'><span><?php
+<td class='data border_b'>
+
+<span class='app_sort_filter'>
+
+<?php
 
   if ( $btc_trade_eqiv ) {
   echo ' $'.number_format(( get_btc_usd($btc_exchange)['last_trade'] * $btc_trade_eqiv ), 8, '.', ',');
@@ -1203,9 +1231,14 @@ $market_pairing = $all_markets[$selected_market];
   echo ' $'.number_format(get_btc_usd($btc_exchange)['last_trade'], 2, '.', ',');
   }
 
-?></span></td>
+?>
+
+</span>
+
+</td>
 
 <td class='data border_lb' align='right'>
+
 
 <?php
 
@@ -1226,22 +1259,26 @@ $raw_coin_amount = remove_number_format($coin_amount);
 	    
 
 	if ( $trade_symbol == 'USD' ) {
-	echo number_format($raw_coin_amount, 2, '.', ',');
+	echo "<span class='app_sort_filter blue'>" . number_format($raw_coin_amount, 2, '.', ',') . "</span>";
 	}
 	else {
 	// We only want to show a decimal if it's a satoshi or higher...for lower amounts (just tracking token value, not held asset value) we hide decimals
 	// $X_no_decimal stops rounding, while number_format gives us pretty numbers left of decimal
-	echo number_format($coin_amount_no_decimal, 0, '.', ',') . ( floattostr($check_coin_amount_decimal) >= 0.00000001 ? '.' . $coin_amount_decimal : '' );
+	echo "<span class='app_sort_filter blue'>" . number_format($coin_amount_no_decimal, 0, '.', ',') . ( floattostr($check_coin_amount_decimal) >= 0.00000001 ? '.' . $coin_amount_decimal : '' ) . "</span>";
 	}
 
+	 
 
-?></td>
+?>
 
-<td class='data border_b'><span><?php echo $trade_symbol; ?></span></td>
+
+</td>
+
+<td class='data border_b'><span class='app_sort_filter'><?php echo $trade_symbol; ?></span></td>
 
 <td class='data border_lb'>
  
-    <select name='change_<?=strtolower($trade_symbol)?>_market' onchange='
+    <select class='app_sort_filter' name='change_<?=strtolower($trade_symbol)?>_market' onchange='
     $("#<?=strtolower($trade_symbol)?>_market").val(this.value);
     document.coin_amounts.submit();
     '>
@@ -1258,7 +1295,7 @@ $raw_coin_amount = remove_number_format($coin_amount);
 
 </td>
 
-<td class='data border_b'><span>
+<td class='data border_b'><span class='app_sort_filter'>
 
 <?php 
 
@@ -1274,7 +1311,7 @@ $raw_coin_amount = remove_number_format($coin_amount);
 
 </span></td>
 
-<td class='data border_b' align='right'><span><?php echo number_format($coin_value_raw, ( $coin_name == 'Bitcoin' ? 2 : 8 ), '.', ','); ?></span>
+<td class='data border_b' align='right'><span class='app_sort_filter'><?php echo number_format($coin_value_raw, ( $coin_name == 'Bitcoin' ? 2 : 8 ), '.', ','); ?></span>
 
 <?php
 
@@ -1289,7 +1326,7 @@ $raw_coin_amount = remove_number_format($coin_amount);
 
 <td class='data border_b'> <span>
  
-    <select name='change_<?=strtolower($trade_symbol)?>_pairing' onchange='
+    <select class='app_sort_filter' name='change_<?=strtolower($trade_symbol)?>_pairing' onchange='
     $("#<?=strtolower($trade_symbol)?>_pairing").val(this.value); 
     $("#<?=strtolower($trade_symbol)?>_market").val(1); // Just reset to first listed market for this pairing
     document.coin_amounts.submit();
@@ -1323,7 +1360,7 @@ $raw_coin_amount = remove_number_format($coin_amount);
 
 <td class='data border_lb'><?php
 
-echo ' <span><span class="data">' . number_format($coin_value_total_raw, ( $coin_name == 'Bitcoin' ? 2 : 8 ), '.', ',') . '</span> ' . $pairing_symbol . '</span>';
+echo ' <span><span class="data app_sort_filter">' . number_format($coin_value_total_raw, ( $coin_name == 'Bitcoin' ? 2 : 8 ), '.', ',') . '</span> ' . $pairing_symbol . '</span>';
 
   if ( $selected_pairing != 'btc' ) {
   echo '<div class="btc_worth"><span>(' . number_format( $coin_value_total_raw * $pairing_btc_value , 8 ) . ' BTC)</span></div>';
@@ -1333,12 +1370,67 @@ echo ' <span><span class="data">' . number_format($coin_value_total_raw, ( $coin
 
 <td class='data border_lrb' style='white-space: nowrap;'><?php
 
-echo '$' . number_format($coin_usd_worth_raw, 2, '.', ',');
+echo '<span class="app_sort_filter blue">$' . number_format($coin_usd_worth_raw, 2, '.', ',') . '</span>';
 
-  if ( $purchase_price >= 0.00000001 ) {
+  if ( $purchase_price >= 0.00000001 && $leverage_level >= 2 ) {
+  
+  echo ' <span class="extra_data blue">+ ' . $leverage_level . 'x leverage</span>';
+
   $parsed_gain_loss = preg_replace("/-/", "-$", number_format( $gain_loss, 2, '.', ',' ) );
-  //echo ' <span class="'.( $gain_loss >= 0 ? 'gain' : 'loss' ).'">('.( $gain_loss >= 0 ? '+$' : '' ) . $parsed_gain_loss . ')</span>';
-  }
+  
+  $parsed_inc_leverage_gain_loss = preg_replace("/-/", "-$", number_format( $inc_leverage_gain_loss, 2, '.', ',' ) );
+  
+  $parsed_only_leverage_gain_loss = preg_replace("/-/", "-$", number_format($only_leverage_gain_loss, 2, '.', ',' ) );
+  
+  
+  // Pretty format, but no need to parse out anything here
+  $pretty_leverage_gain_loss_percent = number_format( $inc_leverage_gain_loss_percent, 2, '.', ',' );
+  $pretty_coin_worth_inc_leverage = number_format( ($coin_usd_worth_raw + $only_leverage_gain_loss) , 2, '.', ',' );
+  
+  
+  		// Formatting
+  		$gain_loss_span_color = ( $gain_loss >= 0 ? 'green_bright' : 'red' );
+  		$gain_loss_usd = ( $gain_loss >= 0 ? '+$' : '' );
+  		
+		?> 
+		<img id='<?=$rand_id?>_leverage' src='ui-templates/media/images/info.png' width='30' border='0' style='position: relative; left: -5px;' />
+	 <script>
+	
+			var leverage_content = '<h5 class="yellow" style="position: relative;"><?=$leverage_level?>x Leverage For <?=$coin_name?> (<?=$trade_symbol?>):</h5>'
+			
+			+'<p class="coin_info"><span class="yellow">Deposit:</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_usd?><?=$parsed_gain_loss?></span></p>'
+			
+			+'<p class="coin_info"><span class="yellow">Leverage:</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_usd?><?=$parsed_only_leverage_gain_loss?></span></p>'
+			
+			+'<p class="coin_info"><span class="yellow">Total:</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_usd?><?=$parsed_inc_leverage_gain_loss?> / <?=( $gain_loss >= 0 ? '+' : '' )?><?=$pretty_leverage_gain_loss_percent?>%</span> (worth $<?=$pretty_coin_worth_inc_leverage?>)</p>'
+			
+				
+			+'<p class="coin_info"><span class="yellow"> </span></p>';
+		
+		
+			$('#<?=$rand_id?>_leverage').balloon({
+			html: true,
+			position: "left",
+			contents: leverage_content,
+			css: {
+					fontSize: ".8rem",
+					minWidth: ".8rem",
+					padding: ".3rem .7rem",
+					border: "1px solid rgba(212, 212, 212, .4)",
+					borderRadius: "6px",
+					boxShadow: "3px 3px 6px #555",
+					color: "#eee",
+					backgroundColor: "#111",
+					opacity: "0.95",
+					zIndex: "32767",
+					textAlign: "left"
+					}
+			});
+		
+		 </script>
+		 
+		<?php
+  		}
 
 ?></td>
 

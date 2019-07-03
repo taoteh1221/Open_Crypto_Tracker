@@ -5,6 +5,18 @@
 
 /////////////////////////////////////////////////////////////
 
+var sort_extraction = function(node) {
+
+// Sort with the .app_sort_filter CSS class as the primary sorter
+var sort_target = $(node).find(".app_sort_filter").text();
+
+// Remove any commas from number sorting
+return sort_target.replace(/,/g, '');
+
+}
+
+/////////////////////////////////////////////////////////////
+
 function validateForm(form_id, feild) {
 	
   var x = document.forms[form_id][feild].value;

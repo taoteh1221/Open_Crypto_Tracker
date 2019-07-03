@@ -1429,6 +1429,13 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+3.20.0:
+-Better UI / UX for table sorting / margin leverage stats
+-------------------------------------------------------------------
+
+
+
 
 
 

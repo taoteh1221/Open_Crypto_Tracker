@@ -31,7 +31,7 @@ border-collapse: separate;
 
 td {
 margin: 0px;
-padding: 7px;
+padding: 6px;
 }
 
 th {
@@ -282,6 +282,22 @@ color: #1a1696 !important;
 }
 
 
+.black {
+color: black !important;
+}
+
+
+.bitcoin {
+color: #af5e11 !important;
+}
+
+
+.portfolio_summary {
+margin-top: 2px;
+margin-bottom: 2px;
+}
+
+
 .tabs {
 padding: 0px; 
 margin: 0px;
@@ -354,7 +370,7 @@ white-space: nowrap;
 
 
 .gain, td.data span.gain, td.data div.gain span, .btc_worth, .btc_worth span, td.data div.btc_worth span {
-margin: 2px;
+margin: 0px;
 padding: 0px;
 color: #065640; /* slightly darker green than normal */
 font-size: 13px;
@@ -364,8 +380,18 @@ white-space: nowrap;
 }
 
 
+.extra_data, td.data span.extra_data, td.data div.extra_data span, .extra_data span, td.data div.extra_data span {
+margin: 0px;
+padding: 0px;
+font-size: 13px;
+border: 0px;
+background: none;
+white-space: nowrap;
+}
+
+
 .loss, td.data span.loss, td.data div.loss span {
-margin: 2px;
+margin: 0px;
 padding: 0px;
 color: #af1700; /* slightly darker red than normal */
 font-size: 13px;

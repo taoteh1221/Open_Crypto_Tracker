@@ -47,8 +47,9 @@ $(document).ready(function(){
 		// sort on the USD Total column, order desc 
 		sortList: [[sorted_by_col,sorted_by_asc_desc]],
     	theme : tablesort_theme, // theme "jui" and "bootstrap" override the uitheme widget option in v2.7+
+  		textExtraction: sort_extraction,
 		widgets: ['zebra'],
-                headers: {
+      headers: {
 		    
 		// disable sorting of the first column (we can use zero or the header class name)
 		  '.no-sort' : {
@@ -58,22 +59,28 @@ $(document).ready(function(){
 			    0: { 
 				sorter:'sortprices' 
 			    },
+			    2: { 
+				sorter:'sortprices' 
+			    },
 			    3: { 
-				sorter:'sortprices' 
-			    },
-			    4: { 
-				sorter:'sortprices' 
-			    },
-			    5: { 
 				sorter:'sortprices' 
 			    },
 			    6: { 
 				sorter:'sortprices' 
+			    },
+			    7: { 
+				sorter:'sortprices' 
+			    },
+			    9: { 
+				sorter:'sortprices' 
+			    },
+			    10: { 
+				sorter:'sortprices' 
 			    }
 		
-                }
+        }
 		
-        });
+    });
 	
 	
 	// add parser through the tablesorter addParser method 
