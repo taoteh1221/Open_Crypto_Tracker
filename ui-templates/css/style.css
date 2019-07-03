@@ -133,6 +133,7 @@ CLASSES
 
 .coin_info {
 margin: 5px;
+white-space: nowrap;
 }
 
 

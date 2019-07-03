@@ -1082,7 +1082,7 @@ $market_pairing = $all_markets[$selected_market];
         else {
         ?> 
     
-        var cmc_content = '<h5 class="yellow" style="position: relative;"><?=ucfirst($marketcap_site)?>.com Summary For <?=$coin_name?> (<?=$trade_symbol?>):</h5>'
+        var cmc_content = '<h5 class="yellow" style="position: relative; white-space: nowrap;"><?=ucfirst($marketcap_site)?>.com Summary For <?=$coin_name?> (<?=$trade_symbol?>):</h5>'
         +'<p class="coin_info"><span class="yellow">Average Global Market Price:</span> $<?=number_format(marketcap_data($trade_symbol)['price'],8,".",",")?></p>'
         +'<p class="coin_info"><span class="yellow">Marketcap Ranking:</span> #<?=marketcap_data($trade_symbol)['rank']?></p>'
         +'<p class="coin_info"><span class="yellow">Marketcap (USD):</span> $<?=number_format(marketcap_data($trade_symbol)['market_cap'],0,".",",")?></p>'
@@ -1396,7 +1396,7 @@ echo '<span class="app_sort_filter blue">$' . number_format($coin_usd_worth_raw,
 		<img id='<?=$rand_id?>_leverage' src='ui-templates/media/images/info.png' width='30' border='0' style='position: relative; left: -5px;' />
 	 <script>
 	
-			var leverage_content = '<h5 class="yellow" style="position: relative;"><?=$leverage_level?>x Leverage For <?=$coin_name?> (<?=$trade_symbol?>):</h5>'
+			var leverage_content = '<h5 class="yellow" style="position: relative; white-space: nowrap;"><?=$leverage_level?>x Leverage For <?=$coin_name?> (<?=$trade_symbol?>):</h5>'
 			
 			+'<p class="coin_info"><span class="yellow">Deposit:</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_usd?><?=$parsed_gain_loss?></span></p>'
 			

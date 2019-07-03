@@ -398,7 +398,7 @@ echo '<div class="show_coin_values bold_1 green">';
 		}
 		?>
 		
-			var gain_loss_content = '<h5 class="yellow" style="position: relative;">Portfolio Gain / Loss Stats:</h5>'
+			var gain_loss_content = '<h5 class="yellow" style="position: relative; white-space: nowrap;">Portfolio Gain / Loss Stats:</h5>'
 			
 			<?php
 					
@@ -458,7 +458,7 @@ echo '<div class="show_coin_values bold_1 green">';
 		<img id='portfolio_dominance' src='ui-templates/media/images/info.png' width='30' border='0' style='position: relative; left: -5px;' /> </div>
 	 <script>
 	
-			var dominance_content = '<h5 class="yellow" style="position: relative;">Portfolio Dominance Stats:</h5>'
+			var dominance_content = '<h5 class="yellow" style="position: relative; white-space: nowrap;">Portfolio Dominance Stats:</h5>'
 			
 			<?php
 					

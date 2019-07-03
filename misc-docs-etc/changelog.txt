@@ -1436,6 +1436,16 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+3.20.1:
+-Bug fix for info balloons to not word wrap lines (was minimizing balloon width too much on mobile)
+-Fixed error logging for base pairings info, when chart / price alert runs for BTC / USD markets
+-------------------------------------------------------------------
+
+
+
+
+
 
 
 

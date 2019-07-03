@@ -35,7 +35,7 @@ Privately track your investment in Bitcoin, Ethereum, Monero, Litecoin, Grin, Co
 
 Just upload to your PHP-based web server (with an FTP client like FileZilla) and you should be all set, unless your host is a strict setup related to file writing permissions, in which case the 'cache' directory should be set to '777' chmod on unix / linux systems (or 'readable / writable' on windows systems). Your web host must have CURL modules activated on your HTTP server. Most web hosting companies provide this "out-of-the-box" already. This app will detect whether or not CURL is setup on your website server. 
 
-See below for additional details on setup, and see FAQ.txt for tips / troubleshooting FAQs.
+See below for additional details on setup, and see HELP-FAQ.txt for tips / troubleshooting FAQs.
 
 ################################################################################################################
 
