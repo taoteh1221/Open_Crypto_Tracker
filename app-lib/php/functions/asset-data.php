@@ -1058,7 +1058,7 @@ $market_pairing = $all_markets[$selected_market];
  	
  	
  		?>
- <img id='<?=$mkcap_render_data?>' src='ui-templates/media/images/<?=$info_icon?>' alt='' border='0' style='position: absolute; top: 4px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <a title='' href='https://<?=$asset_pagebase?><?=$mkcap_render_data?>/' target='_blank' class='blue app_sort_filter'><?php echo $coin_name; ?></a>
+ <img id='<?=$mkcap_render_data?>' src='ui-templates/media/images/<?=$info_icon?>' alt='' border='0' style='position: absolute; top: 2px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <a title='' href='https://<?=$asset_pagebase?><?=$mkcap_render_data?>/' target='_blank' class='blue app_sort_filter'><?php echo $coin_name; ?></a>
  <script>
 
 		<?php
@@ -1187,7 +1187,7 @@ $market_pairing = $all_markets[$selected_market];
 	}
 	else {
   ?>
-  <img id='<?=$rand_id?>' src='ui-templates/media/images/<?=$info_icon?>' alt='' border='0' style='position: absolute; top: 4px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <?=$coin_name?>
+  <img id='<?=$rand_id?>' src='ui-templates/media/images/<?=$info_icon?>' alt='' border='0' style='position: absolute; top: 2px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <?=$coin_name?>
  <script>
  $('#<?=$rand_id?>').balloon({
   html: true,
