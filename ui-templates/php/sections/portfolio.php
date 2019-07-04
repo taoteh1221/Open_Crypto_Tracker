@@ -77,7 +77,7 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 								
 										if ( preg_match("/_amount/i", $key) ) {
 										
-										$value = remove_number_format($value);
+										$held_amount = remove_number_format($value);
 										$coin_symbol = strtoupper(preg_replace("/_amount/i", "", $key));
 										$selected_pairing = ($_POST[strtolower($coin_symbol).'_pairing']);
 										$selected_market = ($_POST[strtolower($coin_symbol).'_market'] - 1); // Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
@@ -86,9 +86,9 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 												
 						
 								
-										ui_coin_data($coins_list[$coin_symbol]['coin_name'], $coin_symbol, $value, $coins_list[$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price, $leverage_level);
+										ui_coin_data($coins_list[$coin_symbol]['coin_name'], $coin_symbol, $held_amount, $coins_list[$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price, $leverage_level);
 										
-											if ( $value >= 0.00000001 ) {
+											if ( $held_amount >= 0.00000001 ) {
 											$assets_added = 1;
 											}
 											
@@ -253,17 +253,17 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 					
 					// Bundle all required cookie data in this final cookies parsing loop for each coin, and render the coin's data
 					// We don't need remove_number_format() for cookie data, because it was already done creating the cookies
-					$selected_amount = floattostr($all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_amount']);
+					$held_amount = floattostr($all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_amount']);
 					$selected_pairing = $all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_pairing'];
 					$selected_market = ($all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_market'] -1);
 					$purchase_price = floattostr($all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_paid']);
 					$leverage_level = $all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_leverage'];
 					
 			// Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
-					ui_coin_data($coins_list[$coin_symbol]['coin_name'], $coin_symbol, $selected_amount, $coins_list[$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price, $leverage_level);
+					ui_coin_data($coins_list[$coin_symbol]['coin_name'], $coin_symbol, $held_amount, $coins_list[$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price, $leverage_level);
 					
 						
-						if ( $selected_amount >= 0.00000001 ) {
+						if ( $held_amount >= 0.00000001 ) {
 						$assets_added = 1;
 						}
 						
@@ -348,7 +348,7 @@ echo '<div class="show_coin_values bold_1 green">';
 	  
 	  // Notice that margin leverage is NOT included !!WITHIN!! BTC / USD TOTALS EVER (for UX's sake, too confusing to included in anything other than gain / loss stats)
 	  // We only include data in parenthesis NEXT TO THE BTC / USD PORTFOLIO SUMMARIES
-	  $leverage_text = ( $purchase_price_added == 1 && $leverage_added == 1 ? ' <span style="color: #b24007;">(deposits <i><u>are</u></i> included, leverages <i><u>not</u></i> included)</span>' : '' );
+	  $leverage_text = ( $purchase_price_added == 1 && $leverage_added == 1 && $gain_loss_total != NULL ? ' <span style="color: #b24007;">(deposits <i><u>are</u></i> included, leverages <i><u>not</u></i> included)</span>' : '' );
 
 
 
@@ -358,14 +358,14 @@ echo '<div class="show_coin_values bold_1 green">';
 		
 		echo '<div class="portfolio_summary"><span class="black">USD Value:</span> $' . number_format($total_usd_worth, 2, '.', ',') . $leverage_text . '</div>';
 		
-		echo ( $purchase_price_added == 1 && $leverage_added == 1 ? '<div class="portfolio_summary"><span class="black">Including Leverages:</span> $' . number_format($total_usd_worth_inc_leverage, 2, '.', ',') . '</div>' : '' );
+		echo ( $purchase_price_added == 1 && $leverage_added == 1 && $gain_loss_total != NULL ? '<div class="portfolio_summary"><span class="black">Including Leverages:</span> $' . number_format($total_usd_worth_inc_leverage, 2, '.', ',') . '</div>' : '' );
 	
 
 
 
 		// Now that BTC / USD summaries have margin leverage stats NEXT TO THEM (NOT in the actual BTC / USD amounts, for UX's sake), 
 		// we move on to the gain / loss stats WHICH ARE THE ONLY STATS UX FEASIBLE ENOUGH TO INCLUDE MARGIN LEVERAGE DATA INCLUDED IN THE ACTUAL VALUES
-		if ( $purchase_price_added == 1 ) {
+		if ( $gain_loss_total != NULL ) {
 			
 			
           // Gain / loss percent
@@ -390,13 +390,8 @@ echo '<div class="show_coin_values bold_1 green">';
 		
 	 <script>
 	 
-		<?php
-		if ( $parsed_gain_loss_total != NULL ) {
-		?>
-		document.title = '<?=( $gain_loss_total >= 0 ? '+$' : '' )?><?=$parsed_gain_loss_total?> | ' + document.title;
-		<?php
-		}
-		?>
+		document.title = '<?=( $gain_loss_total >= 0 ? '+$' : '' )?><?=$parsed_gain_loss_total?> (<?=( $gain_loss_total >= 0 ? '+' : '-' )?><?=number_format($percent_difference_total, 2, '.', ',')?>%)  ||  ' + document.title;
+	
 		
 			var gain_loss_content = '<h5 class="yellow" style="position: relative; white-space: nowrap;">Portfolio Gain / Loss Stats:</h5>'
 			
