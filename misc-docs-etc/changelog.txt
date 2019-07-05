@@ -1464,6 +1464,7 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 3.22.0:
 -Block volume error configuration setting
+-UI / UX tweaks
 -------------------------------------------------------------------
 
 

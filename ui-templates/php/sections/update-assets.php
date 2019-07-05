@@ -6,7 +6,7 @@
 
 ?>
 
-<div class='force_1200px_wrapper'>
+<div class='force_1350px_wrapper'>
 	
 				
 	
@@ -385,7 +385,7 @@
 	    <div class='long_list_taller' style='background-color: #<?=$zebra_stripe?>;'> 
 	       
 	       
-	       <input type='checkbox' value='<?=strtolower($coin_array_key)?>' id='<?=$field_var_watchonly?>' onchange='watch_toggle(this);' <?=( $raw_coin_amount_value > 0 && $raw_coin_amount_value <= '0.000000001' ? 'checked' : '' )?> /> &nbsp;&nbsp; 
+	       <input type='checkbox' value='<?=strtolower($coin_array_key)?>' id='<?=$field_var_watchonly?>' onchange='watch_toggle(this);' <?=( $raw_coin_amount_value > 0 && $raw_coin_amount_value <= '0.000000001' ? 'checked' : '' )?> /> &nbsp;
 				    
 				    
 			<b class='blue'><?=$coin_array_value['coin_name']?> (<?=strtoupper($coin_array_key)?>)</b> /  
@@ -461,11 +461,11 @@
 				    $html_market_list = NULL;
 				    ?>
 				    
-				    </span> &nbsp; 
+				    </span>  
 				    
 				    
 			
-	     			 <b>Amount:</b> <input type='text' size='9' id='<?=$field_var_amount?>' name='<?=$field_var_amount?>' value='<?=$coin_amount_value?>' onkeyup='
+	     			 <b>Amount:</b> <input type='text' size='7' id='<?=$field_var_amount?>' name='<?=$field_var_amount?>' value='<?=$coin_amount_value?>' onkeyup='
 	     
 	     $("#<?=strtolower($coin_array_key)?>_restore").val( $("#<?=strtolower($coin_array_key)?>_amount").val() );
 	     
@@ -473,10 +473,10 @@
 	     
 	     $("#<?=strtolower($coin_array_key)?>_restore").val( $("#<?=strtolower($coin_array_key)?>_amount").val() );
 	     
-	     ' <?=( $raw_coin_amount_value > 0 && $raw_coin_amount_value <= '0.000000001' ? 'readonly' : '' )?> /> <span class='blue'><?=strtoupper($coin_array_key)?></span> &nbsp;  
+	     ' <?=( $raw_coin_amount_value > 0 && $raw_coin_amount_value <= '0.000000001' ? 'readonly' : '' )?> /> <span class='blue'><?=strtoupper($coin_array_key)?></span>   
 			    
 			
-	     <b>Paid (per-token):</b> $<input type='text' size='7' id='<?=$field_var_paid?>' name='<?=$field_var_paid?>' value='<?=$coin_paid_value?>' /> &nbsp; 
+	     <b>Paid (per-token):</b> $<input type='text' size='5' id='<?=$field_var_paid?>' name='<?=$field_var_paid?>' value='<?=$coin_paid_value?>' />  
 	     
 	     
 	     <b>Margin Leverage:</b> 

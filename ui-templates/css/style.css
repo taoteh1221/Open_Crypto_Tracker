@@ -431,6 +431,12 @@ max-width: 1200px;
 }
 
 
+.force_1350px_wrapper {
+position: relative;
+max-width: 1350px;
+}
+
+
 .charts_wrapper {
 position: relative;
 width: 100%;

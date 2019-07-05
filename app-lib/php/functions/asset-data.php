@@ -1404,7 +1404,7 @@ echo '<span class="' . ( $selected_margintype == 'short' ? 'short">★ $' : 'blu
 
   if ( $purchase_price >= 0.00000001 && $leverage_level >= 2 ) {
   
-  echo ' <span class="extra_data blue">+ ' . $leverage_level . 'x leverage</span>';
+  echo ' <span class="extra_data blue">@ ' . $leverage_level . 'x ' . $selected_margintype . '</span>';
 
   $parsed_gain_loss = preg_replace("/-/", "-$", number_format( $gain_loss, 2, '.', ',' ) );
   
@@ -1432,7 +1432,7 @@ echo '<span class="' . ( $selected_margintype == 'short' ? 'short">★ $' : 'blu
 			
 			+'<p class="coin_info"><span class="yellow">Leverage:</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_usd?><?=$parsed_only_leverage_gain_loss?></span></p>'
 			
-			+'<p class="coin_info"><span class="yellow">Total:</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_usd?><?=$parsed_inc_leverage_gain_loss?> / <?=( $gain_loss >= 0 ? '+' : '' )?><?=$pretty_leverage_gain_loss_percent?>%</span> ($<?=$pretty_coin_worth_inc_leverage?>)</p>'
+			+'<p class="coin_info"><span class="yellow">Total:</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_usd?><?=$parsed_inc_leverage_gain_loss?> / <?=( $gain_loss >= 0 ? '+' : '' )?><?=$pretty_leverage_gain_loss_percent?>%</span> ($<?=$pretty_coin_worth_inc_leverage?> @ <?=$leverage_level?>x <?=$selected_margintype?>)</p>'
 			
 				
 			+'<p class="coin_info"><span class="yellow"> </span></p>';
