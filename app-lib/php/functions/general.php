@@ -319,7 +319,7 @@ return $date;
 ////////////////////////////////////////////////////////
 
 
-function store_all_cookies($set_coin_values, $set_pairing_values, $set_market_values, $set_paid_values, $set_leverage_values) {
+function store_all_cookies($set_coin_values, $set_pairing_values, $set_market_values, $set_paid_values, $set_leverage_values, $set_margintype_values) {
 
 
            // Cookies expire in 1 year (31536000 seconds)
@@ -347,6 +347,7 @@ function store_all_cookies($set_coin_values, $set_pairing_values, $set_market_va
            store_cookie_contents("coin_markets", $set_market_values, mktime()+31536000);
            store_cookie_contents("coin_paid", $set_paid_values, mktime()+31536000);
            store_cookie_contents("coin_leverage", $set_leverage_values, mktime()+31536000);
+           store_cookie_contents("coin_margintype", $set_margintype_values, mktime()+31536000);
            
            
            
@@ -365,6 +366,7 @@ function delete_all_cookies() {
   store_cookie_contents("coin_markets", "", time()-3600);   
   store_cookie_contents("coin_paid", "", time()-3600);    
   store_cookie_contents("coin_leverage", "", time()-3600);  
+  store_cookie_contents("coin_margintype", "", time()-3600);  
   store_cookie_contents("coin_reload", "", time()-3600);  
   store_cookie_contents("alert_percent", "", time()-3600); 
   store_cookie_contents("notes_reminders", "", time()-3600);   
@@ -377,6 +379,7 @@ function delete_all_cookies() {
   unset($_COOKIE['coin_markets']); 
   unset($_COOKIE['coin_paid']); 
   unset($_COOKIE['coin_leverage']); 
+  unset($_COOKIE['coin_margintype']); 
   unset($_COOKIE['coin_reload']);  
   unset($_COOKIE['alert_percent']);  
   unset($_COOKIE['notes_reminders']);

@@ -385,6 +385,16 @@ white-space: nowrap;
 }
 
 
+.extra_data, td.data span.extra_data, td.data div.extra_data span, .extra_data span, td.data div.extra_data span {
+margin: 0px;
+padding: 0px;
+font-size: 13px;
+border: 0px;
+background: none;
+white-space: nowrap;
+}
+
+
 .gain, td.data span.gain, td.data div.gain span, .btc_worth, .btc_worth span, td.data div.btc_worth span {
 margin: 0px;
 padding: 0px;
@@ -396,17 +406,7 @@ white-space: nowrap;
 }
 
 
-.extra_data, td.data span.extra_data, td.data div.extra_data span, .extra_data span, td.data div.extra_data span {
-margin: 0px;
-padding: 0px;
-font-size: 13px;
-border: 0px;
-background: none;
-white-space: nowrap;
-}
-
-
-.loss, td.data span.loss, td.data div.loss span {
+.loss, td.data span.loss, td.data div.loss span, .short, td.data span.short, td.data div.short span {
 margin: 0px;
 padding: 0px;
 color: #af1700; /* slightly darker red than normal */

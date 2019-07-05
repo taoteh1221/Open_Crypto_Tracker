@@ -83,10 +83,11 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 										$selected_market = ($_POST[strtolower($coin_symbol).'_market'] - 1); // Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
 										$purchase_price = remove_number_format($_POST[strtolower($coin_symbol).'_paid']);
 										$leverage_level = $_POST[strtolower($coin_symbol).'_leverage'];
+										$selected_margintype = $_POST[strtolower($coin_symbol).'_margintype'];
 												
 						
 								
-										ui_coin_data($coins_list[$coin_symbol]['coin_name'], $coin_symbol, $held_amount, $coins_list[$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price, $leverage_level);
+										ui_coin_data($coins_list[$coin_symbol]['coin_name'], $coin_symbol, $held_amount, $coins_list[$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price, $leverage_level, $selected_margintype);
 										
 											if ( $held_amount >= 0.00000001 ) {
 											$assets_added = 1;
@@ -98,6 +99,10 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 											
 											if ( $leverage_level >= 2 ) {
 											$leverage_added = 1;
+											}
+											
+											if ( $selected_margintype == 'short' ) {
+											$short_added = 1;
 											}
 										
 										
@@ -126,14 +131,15 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 	        			
 										$held_amount = remove_number_format($value[1]);
 										$coin_symbol = strtoupper($value[0]);
-										$selected_pairing = $value[4];
-										$selected_market = $value[3] - 1; // Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
+										$selected_pairing = $value[6];
+										$selected_market = $value[5] - 1; // Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
 										$purchase_price = remove_number_format($value[2]);
-										$leverage_level = $_POST[strtolower($coin_symbol).'_leverage'];
+										$leverage_level = $value[3];
+										$selected_margintype = strtolower($value[4]);
 												
 						
 								
-										ui_coin_data($coins_list[$coin_symbol]['coin_name'], $coin_symbol, $held_amount, $coins_list[$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price, $leverage_level);
+										ui_coin_data($coins_list[$coin_symbol]['coin_name'], $coin_symbol, $held_amount, $coins_list[$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price, $leverage_level, $selected_margintype);
 										
 											if ( $held_amount >= 0.00000001 ) {
 											$assets_added = 1;
@@ -145,6 +151,10 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 											
 											if ( $leverage_level >= 2 ) {
 											$leverage_added = 1;
+											}
+											
+											if ( $selected_margintype == 'short' ) {
+											$short_added = 1;
 											}
 										
 										
@@ -231,6 +241,23 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 		}
 	
 	
+	$all_coin_margintype_cookie_array = explode("#", $_COOKIE['coin_margintype']);
+	
+		if (is_array($all_coin_margintype_cookie_array) || is_object($all_coin_margintype_cookie_array)) {
+			
+					foreach ( $all_coin_margintype_cookie_array as $coin_margintype ) {
+									
+					$single_coin_margintype_cookie_array = explode("-", $coin_margintype);
+					
+					$coin_symbol = strtoupper(preg_replace("/_margintype/i", "", $single_coin_margintype_cookie_array[0]));
+					
+					$all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_margintype'] = $single_coin_margintype_cookie_array[1];
+					
+					}
+					
+		}
+	
+	
 		
 		
 	
@@ -258,9 +285,10 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 					$selected_market = ($all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_market'] -1);
 					$purchase_price = floattostr($all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_paid']);
 					$leverage_level = $all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_leverage'];
+					$selected_margintype = $all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_margintype'];
 					
 			// Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
-					ui_coin_data($coins_list[$coin_symbol]['coin_name'], $coin_symbol, $held_amount, $coins_list[$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price, $leverage_level);
+					ui_coin_data($coins_list[$coin_symbol]['coin_name'], $coin_symbol, $held_amount, $coins_list[$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price, $leverage_level, $selected_margintype);
 					
 						
 						if ( $held_amount >= 0.00000001 ) {
@@ -273,6 +301,10 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 											
 						if ( $leverage_level >= 2 ) {
 						$leverage_added = 1;
+						}
+											
+						if ( $selected_margintype == 'short' ) {
+						$short_added = 1;
 						}
 						
 					
@@ -312,18 +344,36 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 // Get portfolio summaries
 
 
-$total_btc_worth = bitcoin_total();
+$total_btc_worth_raw = number_format(bitcoin_total(), 8, '.', '');
+
+// Pretty number formatting, while maintaining decimals
+$raw_btc_worth_value = remove_number_format($total_btc_worth_raw);
+	    
+	    
+	if ( preg_match("/\./", $raw_btc_worth_value) ) {
+	$btc_worth_no_decimal = preg_replace("/\.(.*)/", "", $raw_btc_worth_value);
+	$btc_worth_decimal = preg_replace("/(.*)\./", "", $raw_btc_worth_value);
+	$check_btc_worth_decimal = '0.' . $btc_worth_decimal;
+	}
+	else {
+	$btc_worth_no_decimal = $raw_btc_worth_value;
+	$btc_worth_decimal = NULL;
+	$check_btc_worth_decimal = NULL;
+	}
+	    
+	    
+$total_btc_worth = number_format($btc_worth_no_decimal, 0, '.', ',') . ( floattostr($check_btc_worth_decimal) > 0.00000000 ? '.' . $btc_worth_decimal : '' );
 
 $total_usd_worth = coin_stats_data('coin_worth_total');
 
-$bitcoin_dominance = ( $_SESSION['btc_worth_array']['BTC'] / $total_btc_worth ) * 100;
+$bitcoin_dominance = ( $_SESSION['btc_worth_array']['BTC'] / $total_btc_worth_raw ) * 100;
 
 $altcoin_dominance = 100 - $bitcoin_dominance;
 	
 		
-
-echo '<div class="show_coin_values bold_1 green">';
-
+?>
+<div class="show_coin_values bold_1 green"><!-- Summary START -->
+<?php
 		
 		// Run BEFORE output of BTC / USD portfolio values, to include any margin / leverage summaries in parentheses NEXT TO THEM (NOT in the actual BTC / USD amounts, for UX's sake)
 		if ( $purchase_price_added == 1 ) {
@@ -338,7 +388,7 @@ echo '<div class="show_coin_values bold_1 green">';
   		
 		$total_usd_worth_inc_leverage = $total_usd_worth + $leverage_only_gain_loss;
   		
-		$total_usd_worth_if_purchase_price = coin_stats_data('coin_worth_if_purchase_price') + $leverage_only_gain_loss;
+		$total_usd_worth_if_purchase_price = coin_stats_data('coin_total_worth_if_purchase_price') + $leverage_only_gain_loss;
 		
 		$gain_loss_text = ( $gain_loss_total >= 0 ? 'gains' : 'losses' );
 		
@@ -348,17 +398,16 @@ echo '<div class="show_coin_values bold_1 green">';
 	  
 	  // Notice that margin leverage is NOT included !!WITHIN!! BTC / USD TOTALS EVER (for UX's sake, too confusing to included in anything other than gain / loss stats)
 	  // We only include data in parenthesis NEXT TO THE BTC / USD PORTFOLIO SUMMARIES
-	  $leverage_text = ( $purchase_price_added == 1 && $leverage_added == 1 && $gain_loss_total != NULL ? ' <span style="color: #b24007;">(deposits <i><u>are</u></i> included, leverages <i><u>not</u></i> included)</span>' : '' );
-
-
+	  $leverage_text1 = ( $purchase_price_added == 1 && $leverage_added == 1 && $gain_loss_total != NULL ? ' <span class="red"> &nbsp;(includes adjusted long deposits, <i><u>not</u></i> leverage)</span>' : '' );
+	  $leverage_text2 = ( $purchase_price_added == 1 && $leverage_added == 1 && $gain_loss_total != NULL ? ' <span class="red"> &nbsp;(includes adjusted short / long deposits, <i><u>not</u></i> leverage)</span>' : '' );
 
 
 		// BTC / USD portfolio stats output
-		echo '<div class="portfolio_summary"><span class="black">BTC Value:</span> <span class="bitcoin">Ƀ ' . number_format($total_btc_worth, 8, '.', ',') . '</span>' . $leverage_text . '</div>';
+		echo '<div class="portfolio_summary"><span class="black">BTC Value:</span> <span class="bitcoin">Ƀ ' . $total_btc_worth . '</span>' . $leverage_text1 . '</div>';
 		
-		echo '<div class="portfolio_summary"><span class="black">USD Value:</span> $' . number_format($total_usd_worth, 2, '.', ',') . $leverage_text . '</div>';
+		echo '<div class="portfolio_summary"><span class="black">USD Value:</span> $' . number_format($total_usd_worth, 2, '.', ',') . $leverage_text2 . '</div>';
 		
-		echo ( $purchase_price_added == 1 && $leverage_added == 1 && $gain_loss_total != NULL ? '<div class="portfolio_summary"><span class="black">Including Leverages:</span> $' . number_format($total_usd_worth_inc_leverage, 2, '.', ',') . '</div>' : '' );
+		echo ( $purchase_price_added == 1 && $leverage_added == 1 && $gain_loss_total != NULL ? '<div class="portfolio_summary"><span class="black">Leverage Included:</span> $' . number_format($total_usd_worth_inc_leverage, 2, '.', ',') . '</div>' : '' );
 	
 
 
@@ -378,7 +427,7 @@ echo '<div class="show_coin_values bold_1 green">';
           
 		
 		// Notice that we include margin leverage in gain / loss stats (for UX's sake, too confusing to included in anything other than gain / loss stats)
-		$leverage_text2 = ( $leverage_added == 1 ? ', leverages <i><u>are</u></i> included' : '' );
+		$leverage_text2 = ( $leverage_added == 1 ? ', includes leverage' : '' );
 		
 		
 		echo '<div class="portfolio_summary"><span class="black">' . ( $gain_loss_total >= 0 ? 'USD Gain:</span> <span class="green">+$' : 'USD Loss:</span> <span class="red">' ) . $parsed_gain_loss_total . ' (' . ( $gain_loss_total >= 0 ? '+' : '-' ) . number_format($percent_difference_total, 2, '.', ',') . '%' . $leverage_text2 . ')</span>';
@@ -409,11 +458,13 @@ echo '<div class="show_coin_values bold_1 green">';
 						if ( $value['coin_leverage'] >= 2 ) {
 						$parsed_total_with_leverage = number_format( ( $value['coin_worth_total'] + $value['gain_loss_only_leverage'] ) , 2, '.', ',' );
 						}
-					
+						
 					
 						if ( floattostr($value['coin_paid']) >= 0.00000001 ) {
+							
+							
 				?>
-			+'<p class="coin_info"><span class="yellow"><?=$value['coin_symbol']?>:</span> <span class="<?=( $value['gain_loss_total'] >= 0 ? 'green_bright">+$' : 'red">' )?><?=$parsed_gain_loss?> / <?=( $value['gain_loss_total'] >= 0 ? '+' : '' )?><?=number_format($value['gain_loss_percent_total'], 2, '.', ',')?>%</span> <?=( $value['coin_leverage'] >= 2 ? '($' . $parsed_total_with_leverage . ' @ ' . $value['coin_leverage'] . 'x leverage)' : '' )?></p>'
+			+'<p class="coin_info"><span class="yellow"><?=$value['coin_symbol']?>:</span> <span class="<?=( $value['gain_loss_total'] >= 0 ? 'green_bright">+$' : 'red">' )?><?=$parsed_gain_loss?> / <?=( $value['gain_loss_total'] >= 0 ? '+' : '' )?><?=number_format($value['gain_loss_percent_total'], 2, '.', ',')?>%</span> <?=( $value['coin_leverage'] >= 2 ? '($' . $parsed_total_with_leverage . ' @ ' . $value['coin_leverage'] . 'x leverage ' . $value['selected_margintype'] . ')' : '' )?></p>'
 			
 			<?php
 						}
@@ -461,7 +512,7 @@ echo '<div class="show_coin_values bold_1 green">';
 					// Sort by most dominant first
 					arsort($_SESSION['btc_worth_array']);
 				foreach ( $_SESSION['btc_worth_array'] as $key => $value ) {
-					$dominance = ( $value / $total_btc_worth ) * 100;
+					$dominance = ( $value / $total_btc_worth_raw ) * 100;
 					
 						if ( $dominance >= 0.01 ) {
 				?>
@@ -501,9 +552,16 @@ echo '<div class="show_coin_values bold_1 green">';
 		}
 	
 	echo '<div class="portfolio_summary"><span class="black">(Bitcoin is trading @ $' .number_format( get_btc_usd($btc_exchange)['last_trade'], 2, '.', ','). ' on '.ucfirst($show_exchange).')</span></div>';
-	
-echo '</div>';
-	
+
+			
+		if ( $short_added == 1 ) {
+		?>	
+		<div class="portfolio_summary" style='margin-top: 15px;'><span class="short">★ Adjusted short trade value(s)</span></div>		
+		<?php
+		}
+		?>
+</div><!-- Summary END -->
+	<?php	
 	// End outputting results
 	}
 	

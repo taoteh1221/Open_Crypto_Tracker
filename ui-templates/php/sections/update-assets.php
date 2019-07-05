@@ -131,6 +131,7 @@
 	    $field_var_amount = strtolower($coin_array_key) . '_amount';
 	    $field_var_paid = strtolower($coin_array_key) . '_paid';
 	    $field_var_leverage = strtolower($coin_array_key) . '_leverage';
+	    $field_var_margintype = strtolower($coin_array_key) . '_margintype';
 	    $field_var_watchonly = strtolower($coin_array_key) . '_watchonly';
 	    $field_var_restore = strtolower($coin_array_key) . '_restore';
 	    
@@ -141,6 +142,7 @@
 	        $coin_amount_value = remove_number_format($_POST[$field_var_amount]);
 	        $coin_paid_value = remove_number_format($_POST[$field_var_paid]);
 	        $coin_leverage_value = $_POST[$field_var_leverage];
+	        $coin_margintype_value = $_POST[$field_var_margintype];
 	        }
 	        elseif ( $run_csv_import == 1 ) {
 	        	
@@ -148,11 +150,12 @@
 	        		foreach( $csv_file_array as $key => $value ) {
 	        		
 	        			if ( strtoupper($coin_array_key) == strtoupper($key) ) {
-	        		 	$coin_pairing_id = $value[5];
-	        			$coin_market_id = $value[4];
+	        		 	$coin_pairing_id = $value[6];
+	        			$coin_market_id = $value[5];
 	        		 	$coin_amount_value = remove_number_format($value[1]);
 	       		 	$coin_paid_value = remove_number_format($value[2]);
 	       		 	$coin_leverage_value = $value[3];
+	        			$coin_margintype_value = strtolower($value[4]);
 	       		 	}
 	        	
 	        		}
@@ -281,6 +284,31 @@
 		    
 					if ( $coin_symbol == strtoupper($coin_array_key) ) {
 					$coin_leverage_value = $single_coin_leverage_cookie_array[1];
+					}
+		    
+		    
+		    }
+		    
+		}
+	        
+	        
+	        }
+	        
+	
+	        if ( !$run_csv_import && $_COOKIE['coin_margintype'] ) {
+	        
+	        $all_coin_margintype_cookie_array = explode("#", $_COOKIE['coin_margintype']);
+	        
+		if (is_array($all_coin_margintype_cookie_array) || is_object($all_coin_margintype_cookie_array)) {
+		    
+		    foreach ( $all_coin_margintype_cookie_array as $coin_margintype ) {
+		        
+		    $single_coin_margintype_cookie_array = explode("-", $coin_margintype);
+		    
+		    $coin_symbol = strtoupper(preg_replace("/_margintype/i", "", $single_coin_margintype_cookie_array[0]));  
+		    
+					if ( $coin_symbol == strtoupper($coin_array_key) ) {
+					$coin_margintype_value = $single_coin_margintype_cookie_array[1];
 					}
 		    
 		    
@@ -463,15 +491,23 @@
 	     <option value='25' <?=( $coin_leverage_value == 25 ? 'selected' : '' )?>> 25x </option>
 	     <option value='50' <?=( $coin_leverage_value == 50 ? 'selected' : '' )?>> 50x </option>
 	     <option value='100' <?=( $coin_leverage_value == 100 ? 'selected' : '' )?>> 100x </option>
-	     </select>
+	     </select> 
+	     
+	     
+	     <select name='<?=$field_var_margintype?>' id='<?=$field_var_margintype?>'>
+	     <option value='long' <?=( $coin_margintype_value == 'long' ? 'selected' : '' )?>> Long </option>
+	     <option value='short' <?=( $coin_margintype_value == 'short' ? 'selected' : '' )?>> Short </option>
+	     </select> 
+	     
+	     
 		<img id='leverage_trading_notes_<?=$rand_id?>' src='ui-templates/media/images/info.png' alt='' width='30' border='0' style='position: relative; left: -5px;' /> 
 	 <script>
 	
-			var leverage_trading_notes = '<h5 align="center" class="yellow" style="position: relative; white-space: nowrap;">Using Margin Leverage In This App</h5>'
+			var leverage_trading_notes = '<h5 align="center" class="yellow" style="position: relative; white-space: nowrap;">Tracking Long / Short Margin Leverage Trades</h5>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">In this app, you set the "Amount" of tokens to match your margin leverage deposit (example: buying 1 BTC @ 5x margin leverage would be 0.2 BTC in the "Amount" field in this app). You\'ll also need to fill in the "Paid (per-token)" field with the average price paid in USD per-token. Finally, set the "Margin Leverage" field to match your margin leverage, and click "Save Updated Assets".</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Set the "Amount" of tokens to match your margin leverage deposit (example: buying 1 BTC @ 5x leverage would be 0.2 BTC in the "Amount" field in this app). You\'ll also need to fill in the "Paid (per-token)" field with the average price paid in USD per-token. Finally, set the "Margin Leverage" fields to match your leverage and whether you are long or short. When you are done, click "Save Updated Assets".</p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">To see your leverage stats after updating your portfolio, go to the bottom of the Portfolio page, where you\'ll find a stats section. Hovering over the "I" icon next to those summary stats will display additional stats per asset as well. There is also an "I" icon in the far right table column (USD Subtotal) you can hover over for leverage stats per asset too.</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">To see your margin leverage stats after updating your portfolio, go to the bottom of the Portfolio page, where you\'ll find a stats section. Hovering over the "I" icon next to those summary stats will display additional stats per-asset. There is also an "I" icon in the far right table column (USD Subtotal) per-asset, which you can hover over for margin leverage stats too.</p>'
 			
 			+'<p class="coin_info"><span class="yellow"> </span></p>';
 		

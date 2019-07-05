@@ -1452,6 +1452,20 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+3.21.0:
+-Cleaned up margin trades UI / UX
+-Added margin short trade tracking
+-Minor misc. UX tweaks
+-------------------------------------------------------------------
+
+
+
+
+
+
+
+
 
 
 

@@ -91,6 +91,17 @@ elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $run_csv_i
       }
    
   
+      if ( preg_match("/_margintype/i", $key) ) {
+      
+      $_POST[$key] = strip_price_formatting($value);
+      
+         if ( isset($_POST[$key]) ) {
+            $set_margintype_values .= $key.'-'. $_POST[$key] . '#';
+         }
+      
+      }
+   
+  
    }
   
  
@@ -127,15 +138,17 @@ elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $run_csv_i
 	    
 	     $compat_key = strtolower($key);
 	     	
-	     $set_pairing_values .= $compat_key . '_pairing-' . $value[5] . '#';
+	     $set_pairing_values .= $compat_key . '_pairing-' . $value[6] . '#';
 	     
-		  $set_market_values .= $compat_key . '_market-' . $value[4] . '#';
+		  $set_market_values .= $compat_key . '_market-' . $value[5] . '#';
 		  
 	     $set_coin_values .= $compat_key . '_amount-' . remove_number_format($value[1]) . '#';
 	     
 	     $set_paid_values .= $compat_key . '_paid-' . remove_number_format($value[2]) . '#';
 	     
 	     $set_leverage_values .= $compat_key . '_leverage-' . $value[3] . '#';
+	     
+	     $set_margintype_values .= $compat_key . '_margintype-' . strtolower($value[4]) . '#';
 	     
 	     
 	   }
@@ -147,7 +160,7 @@ elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $run_csv_i
 
 // Store all cookies and redirect to app URL, to clear any POST data from any future page refreshing
 $set_coin_values = ( $set_coin_values != NULL ? $set_coin_values : ' ' ); // Initialized with some whitespace when blank
-store_all_cookies($set_coin_values, $set_pairing_values, $set_market_values, $set_paid_values, $set_leverage_values);
+store_all_cookies($set_coin_values, $set_pairing_values, $set_market_values, $set_paid_values, $set_leverage_values, $set_margintype_values);
 header("Location: " . start_page($_GET['start_page'])); // Preserve any start page data
 exit;
  	

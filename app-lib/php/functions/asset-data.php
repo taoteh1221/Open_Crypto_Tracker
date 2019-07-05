@@ -93,17 +93,22 @@ return $total_value;
 
 function coin_stats_data($request) {
 
+
 	if (is_array($_SESSION['coin_stats_array']) || is_object($_SESSION['coin_stats_array'])) {
       
       
   		foreach ( $_SESSION['coin_stats_array'] as $key => $value ) {
-  		$results = ($value[$request] + $results);
+  		
+  		$results = ($results + $value[$request]);
+  		
 		}
   
   
 	}
 
+
 return $results;
+
 }
 
 
@@ -812,7 +817,7 @@ return TRUE;
 ////////////////////////////////////////////////////////
 
 
-function ui_coin_data($coin_name, $trade_symbol, $coin_amount, $market_pairing_array, $selected_pairing, $selected_market, $purchase_price=NULL, $leverage_level) {
+function ui_coin_data($coin_name, $trade_symbol, $coin_amount, $market_pairing_array, $selected_pairing, $selected_market, $purchase_price=NULL, $leverage_level, $selected_margintype) {
 
 global $_POST, $coins_list, $btc_exchange, $marketcap_site, $marketcap_cache, $alert_percent, $marketcap_ranks_max, $api_timeout;
 
@@ -998,9 +1003,26 @@ $market_pairing = $all_markets[$selected_market];
 	 $coin_paid_total_raw = ($coin_amount * $purchase_price);
 	 
 	 $gain_loss = $coin_usd_worth_raw - $coin_paid_total_raw;
+	 	 
+	 	 
+	 	// Convert $gain_loss for shorts
+		if ( $selected_margintype == 'short' ) {
+  		
+ 		$prev_gain_loss_val = $gain_loss;
+ 			
+ 			if ( $prev_gain_loss_val >= 0 ) {
+ 	 		$gain_loss = $prev_gain_loss_val - ( $prev_gain_loss_val * 2 );
+ 	 		$coin_usd_worth_raw = $coin_usd_worth_raw - ( $prev_gain_loss_val * 2 );
+ 		 	}
+ 	 		else {
+ 		 	$gain_loss = $prev_gain_loss_val + ( abs($prev_gain_loss_val) * 2 );
+ 			$coin_usd_worth_raw = $coin_usd_worth_raw + ( abs($prev_gain_loss_val) * 2 );
+ 	 		}
+
+ 	 	}
+	 
 	 
 	 $gain_loss_percent = ( ($coin_usd_worth_raw / $coin_paid_total_raw) - 1 ) * 100;
-	 
 	 
 	 // Check for leverage
 	 $only_leverage_gain_loss = ( $leverage_level >= 2 ? ($gain_loss * ($leverage_level - 1) ) : 0 );
@@ -1020,8 +1042,9 @@ $market_pairing = $all_markets[$selected_market];
     $_SESSION['coin_stats_array'][] = array(
     													'coin_symbol' => $trade_symbol, 
     													'coin_leverage' => $leverage_level,
+    													'selected_margintype' => $selected_margintype,
     													'coin_worth_total' => $coin_usd_worth_raw,
-    													'coin_worth_if_purchase_price' => ($no_purchase_price == 1 ? NULL : $coin_usd_worth_raw),
+    													'coin_total_worth_if_purchase_price' => ($no_purchase_price == 1 ? NULL : $coin_usd_worth_raw),
     													'coin_paid' => $purchase_price,
     													'coin_paid_total' => $coin_paid_total_raw,
     													'gain_loss_only_leverage' => $only_leverage_gain_loss,
@@ -1370,7 +1393,8 @@ echo ' <span><span class="data app_sort_filter">' . number_format($coin_value_to
 
 <td class='data border_lrb' style='white-space: nowrap;'><?php
 
-echo '<span class="app_sort_filter blue">$' . number_format($coin_usd_worth_raw, 2, '.', ',') . '</span>';
+
+echo '<span class="' . ( $selected_margintype == 'short' ? 'short">★ $' : 'blue">$' ) . '<span class="app_sort_filter" style="color: inherit;">' . number_format($coin_usd_worth_raw, 2, '.', ',') . '</span></span>';
 
   if ( $purchase_price >= 0.00000001 && $leverage_level >= 2 ) {
   
@@ -1396,13 +1420,13 @@ echo '<span class="app_sort_filter blue">$' . number_format($coin_usd_worth_raw,
 		<img id='<?=$rand_id?>_leverage' src='ui-templates/media/images/info.png' alt='' width='30' border='0' style='position: relative; left: -5px;' />
 	 <script>
 	
-			var leverage_content = '<h5 class="yellow" style="position: relative; white-space: nowrap;"><?=$leverage_level?>x Leverage For <?=$coin_name?> (<?=$trade_symbol?>):</h5>'
+			var leverage_content = '<h5 class="yellow" style="position: relative; white-space: nowrap;"><?=$leverage_level?>x Leverage <?=ucfirst($selected_margintype)?> For <?=$coin_name?> (<?=$trade_symbol?>):</h5>'
 			
 			+'<p class="coin_info"><span class="yellow">Deposit:</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_usd?><?=$parsed_gain_loss?></span> (USD Subtotal)</p>'
 			
 			+'<p class="coin_info"><span class="yellow">Leverage:</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_usd?><?=$parsed_only_leverage_gain_loss?></span></p>'
 			
-			+'<p class="coin_info"><span class="yellow">Total:</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_usd?><?=$parsed_inc_leverage_gain_loss?> / <?=( $gain_loss >= 0 ? '+' : '' )?><?=$pretty_leverage_gain_loss_percent?>%</span> ($<?=$pretty_coin_worth_inc_leverage?> @ <?=$leverage_level?>x leverage)</p>'
+			+'<p class="coin_info"><span class="yellow">Total:</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_usd?><?=$parsed_inc_leverage_gain_loss?> / <?=( $gain_loss >= 0 ? '+' : '' )?><?=$pretty_leverage_gain_loss_percent?>%</span> ($<?=$pretty_coin_worth_inc_leverage?>)</p>'
 			
 				
 			+'<p class="coin_info"><span class="yellow"> </span></p>';

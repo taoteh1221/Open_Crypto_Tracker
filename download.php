@@ -26,6 +26,7 @@ $example_download_array[] = array(
 	        							'Amount Held',
 	        							'USD Purchase Price (per-token)',
 	        							'Margin Leverage',
+	        							'Long or Short',
 	        							'Market ID (Exchange)',
 	        							'Base Pairing'
 	        							);
@@ -36,6 +37,7 @@ $example_download_array[] = array(
 	        							'0.00123',
 	        							'11,500.25',
 	        							'0',
+	        							'long',
 	        							'1',
 	        							'btc'
 	        							);		
@@ -46,6 +48,7 @@ $example_download_array[] = array(
 	        							'7.255',
 	        							'120.50',
 	        							'0',
+	        							'long',
 	        							'1',
 	        							'btc'
 	        							);			
@@ -56,6 +59,7 @@ $example_download_array[] = array(
 	        							'45.755',
 	        							'2.25',
 	        							'0',
+	        							'long',
 	        							'1',
 	        							'btc'
 	        							);	
@@ -66,6 +70,7 @@ $example_download_array[] = array(
 	        							'80.15',
 	        							'',
 	        							'0',
+	        							'long',
 	        							'1',
 	        							'btc'
 	        							);							
@@ -103,6 +108,7 @@ $csv_download_array[] = array(
 	        							'Amount Held',
 	        							'USD Purchase Price (per-token)',
 	        							'Margin Leverage',
+	        							'Long or Short',
 	        							'Market ID (Exchange)',
 	        							'Base Pairing'
 	        							);
@@ -116,6 +122,7 @@ $csv_download_array[] = array(
 	    $field_var_amount = strtolower($coin_array_key) . '_amount';
 	    $field_var_paid = strtolower($coin_array_key) . '_paid';
 	    $field_var_leverage = strtolower($coin_array_key) . '_leverage';
+	    $field_var_margintype = strtolower($coin_array_key) . '_margintype';
 	    $field_var_watchonly = strtolower($coin_array_key) . '_watchonly';
 	    $field_var_restore = strtolower($coin_array_key) . '_restore';
 	    
@@ -126,6 +133,7 @@ $csv_download_array[] = array(
 	    $coin_amount_value = $_POST[$field_var_amount];
 	    $coin_paid_value = $_POST[$field_var_paid];
 	    $coin_leverage_value = $_POST[$field_var_leverage];
+	    $coin_margintype_value = $_POST[$field_var_margintype];
 	        	
 	        
 	    $selected_pairing = ( $coin_pairing_id ? $coin_pairing_id : 'btc' );
@@ -196,6 +204,7 @@ $csv_download_array[] = array(
 	        											$coin_amount_value,
 	        											$coin_paid_value,
 	        											$coin_leverage_value,
+	        											$coin_margintype_value,
 	        											$coin_market_id,
 	        											$selected_pairing
 	        											);
