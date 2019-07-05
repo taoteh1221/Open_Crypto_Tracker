@@ -496,7 +496,7 @@ global $_POST, $mining_rewards;
 
 function asset_charts_and_alerts($asset_data, $exchange, $pairing, $mode) {
 
-global $runtime_mode, $base_dir, $local_time_offset, $coins_list, $btc_exchange, $charts_page, $asset_price_alerts_freq, $asset_price_alerts_percent, $asset_price_alerts_minvolume, $asset_price_alerts_refresh;
+global $runtime_mode, $base_dir, $local_time_offset, $block_volume_error, $coins_list, $btc_exchange, $charts_page, $asset_price_alerts_freq, $asset_price_alerts_percent, $asset_price_alerts_minvolume, $asset_price_alerts_refresh;
 
 // Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
 $asset = ( stristr($asset_data, "-") == false ? $asset_data : substr( $asset_data, 0, strpos($asset_data, "-") ) );
@@ -677,14 +677,20 @@ $cached_array = explode("||", $data_file);
           
           
           
-          // AFTER gathering market data, we disallow alerts where minimum 24 hour trade USD volume has NOT been met, ONLY if an API request doesn't fail to retrieve volume data
+          // We disallow alerts where minimum 24 hour trade USD volume has NOT been met, ONLY if an API request doesn't fail to retrieve volume data
           if ( $volume_usd_raw > 0 && $volume_usd_raw < $asset_price_alerts_minvolume ) {
           $send_alert = NULL;
           }
   
   
-          // AFTER gathering market data, we disallow alerts if they are not activated
+          // We disallow alerts if they are not activated
           if ( $mode != 'both' && $mode != 'alert' ) {
+          $send_alert = NULL;
+          }
+  
+  
+          // We disallow alerts if $block_volume_error is on, and there is a volume retrieval error
+          if ( $volume_pairing_raw == -1 && $block_volume_error == 'on' ) {
           $send_alert = NULL;
           }
           
@@ -734,7 +740,7 @@ $cached_array = explode("||", $data_file);
           	$email_volume_summary = '24 hour base volume ' . $volume_change_text . ' ' . $volume_usd_text . ' (minimum volume filter set at $' . number_format($asset_price_alerts_minvolume, 0, '.', ',') . ').';
           	}
           	// NULL if not setup to get volume, negative number returned if no data received from API, therefore skipping any enabled volume filter
-  				elseif ( $volume_pairing_raw == NULL || $volume_pairing_raw == -1 ) { 
+  				elseif ( $volume_pairing_raw == -1 ) { 
           	$email_volume_summary = 'No data received for 24 hour base volume' . $volume_filter_skipped_text . '.';
           	$volume_usd_text = 'No data';
           	}

@@ -43,7 +43,12 @@ $api_timeout = 15; // Seconds to wait for response from API endpoints. Don't set
 
 $api_strict_ssl = 'on'; // 'on' verifies ALL SSL certificates for HTTPS API servers, 'off' verifies NOTHING (NOT RECOMMENDED in production environment)
 
-$btc_exchange = 'binance'; // Default Bitcoin to USD (or equiv stable coin): coinbase / binance / bitstamp / bitfinex / kraken / gemini / hitbtc / okcoin / livecoin
+// Block an asset price alert if price retrieved, BUT failed retrieving base volume (not even a zero was retrieved, nothing)
+// Good for blocking questionable exchanges bugging you with price alerts, especially with the minimum volume filter enabled
+$block_volume_error = 'on'; // 'on' / 'off'  
+
+// Default Bitcoin to USD (or equiv stable coin)
+$btc_exchange = 'binance'; // coinbase / binance / bitstamp / bitfinex / kraken / gemini / hitbtc / okcoin / livecoin
 
 $marketcap_site = 'coinmarketcap'; // Default marketcap data source: 'coinmarketcap', or 'coingecko'
 
@@ -52,7 +57,8 @@ $marketcap_ranks_max = 200; // 200 rankings is the safe maximum to avoid getting
 
 $marketcap_cache = 20; // Minutes to cache above-mentioned marketcap rankings...start high and test lower, it can be strict
 
-$last_trade_cache = 2; // Minutes to cache real-time exchange data...can be zero to skip cache, but set to at least 1 minute to avoid your IP getting blocked
+// Minutes to cache real-time exchange data...can be zero to skip cache, but set to at least 1 minute to avoid your IP getting blocked
+$last_trade_cache = 2; 
 
 $chainstats_cache = 20; // Minutes to cache blockchain stats (for mining calculators). Set high initially, can be strict
 
@@ -60,7 +66,8 @@ $delete_old_backups = 7; // Days until old zip archive backups should be deleted
 
 $purge_error_logs = 7; // Days to keep error logs before purging (deletes logs every X days) start low, especially when using proxies
 
-$mail_error_logs = 1; // Every X days mail error logs. 0 disables mailing error logs. Email to / from !MUST BE SET! MAY NOT SEND IN TIMELY FASHION WITHOUT CRON JOB
+// Every X days mail error logs. 0 disables mailing error logs. Email to / from !MUST BE SET! MAY NOT SEND IN TIMELY FASHION WITHOUT CRON JOB
+$mail_error_logs = 1; 
 
 
 
