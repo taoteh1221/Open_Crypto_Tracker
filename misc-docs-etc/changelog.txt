@@ -1466,6 +1466,7 @@ app doing the data requests, not a malicious bot)
 -Block volume error configuration setting
 -UI / UX tweaks
 -Modularized some code into separate files / functions
+-Minor bug fixes
 -------------------------------------------------------------------
 
 

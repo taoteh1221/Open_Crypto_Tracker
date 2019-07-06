@@ -666,12 +666,16 @@ $cached_array = explode("||", $data_file);
           
           
           // Crypto volume checks
-          if ( floattostr($cached_volume_value) >= 0 && $volume_pairing_raw < $cached_volume_value ) {
+          if ( floattostr($cached_volume_value) > 0 && $volume_pairing_raw < $cached_volume_value ) {
           $volume_percent_change = 100 - ( $volume_pairing_raw / ( $cached_volume_value / 100 ) );
           $volume_change_symbol = '-';
           }
-          elseif ( floattostr($cached_volume_value) >= 0 && $volume_pairing_raw >= $cached_volume_value ) {
+          elseif ( floattostr($cached_volume_value) > 0 && $volume_pairing_raw >= $cached_volume_value ) {
           $volume_percent_change = ( $volume_pairing_raw / ( $cached_volume_value / 100 ) ) - 100;
+          $volume_change_symbol = '+';
+          }
+          elseif ( floattostr($cached_volume_value) == 0 && $volume_pairing_raw >= $cached_volume_value ) {
+          $volume_percent_change = $asset_usd_raw; // Use USD value for percent up, for UX sake, if volume is up from zero
           $volume_change_symbol = '+';
           }
           
