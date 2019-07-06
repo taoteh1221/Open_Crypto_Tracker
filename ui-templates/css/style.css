@@ -431,8 +431,9 @@ max-width: 1200px;
 }
 
 
-.force_1350px_wrapper {
+.update_assets_wrapper {
 position: relative;
+min-width: 1250px;
 max-width: 1350px;
 }
 

@@ -346,23 +346,7 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 
 $total_btc_worth_raw = number_format(bitcoin_total(), 8, '.', '');
 
-// Pretty number formatting, while maintaining decimals
-$raw_btc_worth_value = remove_number_format($total_btc_worth_raw);
-	    
-	    
-	if ( preg_match("/\./", $raw_btc_worth_value) ) {
-	$btc_worth_no_decimal = preg_replace("/\.(.*)/", "", $raw_btc_worth_value);
-	$btc_worth_decimal = preg_replace("/(.*)\./", "", $raw_btc_worth_value);
-	$check_btc_worth_decimal = '0.' . $btc_worth_decimal;
-	}
-	else {
-	$btc_worth_no_decimal = $raw_btc_worth_value;
-	$btc_worth_decimal = NULL;
-	$check_btc_worth_decimal = NULL;
-	}
-	    
-	    
-$total_btc_worth = number_format($btc_worth_no_decimal, 0, '.', ',') . ( floattostr($check_btc_worth_decimal) > 0.00000000 ? '.' . $btc_worth_decimal : '' );
+$total_btc_worth = pretty_numbers($total_btc_worth_raw, 8);
 
 $total_usd_worth = coin_stats_data('coin_worth_total');
 
@@ -430,7 +414,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance;
 		$leverage_text2 = ( $leverage_added == 1 ? ', includes leverage' : '' );
 		
 		
-		echo '<div class="portfolio_summary"><span class="black">' . ( $gain_loss_total >= 0 ? 'USD Gain:</span> <span class="green">+$' : 'USD Loss:</span> <span class="red">' ) . $parsed_gain_loss_total . ' (' . ( $gain_loss_total >= 0 ? '+' : '-' ) . number_format($percent_difference_total, 2, '.', ',') . '%' . $leverage_text2 . ')</span>';
+		echo '<div class="portfolio_summary"><span class="black">' . ( $gain_loss_total >= 0 ? 'Gain:</span> <span class="green">+$' : 'Loss:</span> <span class="red">' ) . $parsed_gain_loss_total . ' (' . ( $gain_loss_total >= 0 ? '+' : '-' ) . number_format($percent_difference_total, 2, '.', ',') . '%' . $leverage_text2 . ')</span>';
 		
 		?> 
 		
@@ -442,7 +426,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance;
 		document.title = '<?=( $gain_loss_total >= 0 ? '+$' : '' )?><?=$parsed_gain_loss_total?> (<?=( $gain_loss_total >= 0 ? '+' : '-' )?><?=number_format($percent_difference_total, 2, '.', ',')?>%)  ||  ' + document.title;
 	
 		
-			var gain_loss_content = '<h5 class="yellow" style="position: relative; white-space: nowrap;">Portfolio Gain / Loss Stats:</h5>'
+			var gain_loss_content = '<h5 class="yellow" style="position: relative; white-space: nowrap;">Gain / Loss Stats:</h5>'
 			
 			<?php
 					
@@ -472,7 +456,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance;
 				}
 			 ?>
 				
-			+'<p class="coin_info"><span class="yellow"> </span></p>';
+			+'<p class="coin_info" style="white-space: normal;">*<?=( $leverage_added == 1 ? 'Leverage / ' : '' )?>Gain / Loss stats only include portfolio assets where you<br />have set the "Paid (per-token)" value on the Update Assets page.</p>';
 		
 		
 			$('#portfolio_gain_loss').balloon({

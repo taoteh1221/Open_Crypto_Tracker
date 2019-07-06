@@ -4,6 +4,8 @@
 TODO
 ///////////////////////////////////////////////////////
 
+See if at all feasible to fully modularize mining calculators to be added via config file settings
+
 Add Dogecoin and mining calculator.
 
 Dark greyscale CSS styling option, and theme switcher settings

@@ -319,79 +319,6 @@ return $date;
 ////////////////////////////////////////////////////////
 
 
-function store_all_cookies($set_coin_values, $set_pairing_values, $set_market_values, $set_paid_values, $set_leverage_values, $set_margintype_values) {
-
-
-           // Cookies expire in 1 year (31536000 seconds)
-           
-           
-           // Notes (only creation / deletion here, update logic is in cookies.php)
-           if ( $_POST['submit_check'] == 1 && $_POST['use_notes'] == 1 && !$_COOKIE['notes_reminders'] ) {
-           store_cookie_contents("notes_reminders", " ", mktime()+31536000); // Initialized with some whitespace when blank
-           }
-           elseif ( $_POST['submit_check'] == 1 && $_POST['use_notes'] != 1 ) {
-           store_cookie_contents("notes_reminders", "", time()-3600);  // Delete any existing cookies
-           unset($_COOKIE['notes_reminders']);  // Delete any existing cookies
-           }
-           
-           
-           // Charts
-           if ( $_POST['submit_check'] == 1 ) {
-           store_cookie_contents("show_charts", $_POST['show_charts'], mktime()+31536000);
-           }
-           
-           
-           // Portfolio
-           store_cookie_contents("coin_amounts", $set_coin_values, mktime()+31536000);
-           store_cookie_contents("coin_pairings", $set_pairing_values, mktime()+31536000);
-           store_cookie_contents("coin_markets", $set_market_values, mktime()+31536000);
-           store_cookie_contents("coin_paid", $set_paid_values, mktime()+31536000);
-           store_cookie_contents("coin_leverage", $set_leverage_values, mktime()+31536000);
-           store_cookie_contents("coin_margintype", $set_margintype_values, mktime()+31536000);
-           
-           
-           
- 
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function delete_all_cookies() {
-
-  store_cookie_contents("coin_amounts", "", time()-3600);  
-  store_cookie_contents("coin_pairings", "", time()-3600);  
-  store_cookie_contents("coin_markets", "", time()-3600);   
-  store_cookie_contents("coin_paid", "", time()-3600);    
-  store_cookie_contents("coin_leverage", "", time()-3600);  
-  store_cookie_contents("coin_margintype", "", time()-3600);  
-  store_cookie_contents("coin_reload", "", time()-3600);  
-  store_cookie_contents("alert_percent", "", time()-3600); 
-  store_cookie_contents("notes_reminders", "", time()-3600);   
-  store_cookie_contents("show_charts", "", time()-3600);  
-  
-  // --------------------------
-  
-  unset($_COOKIE['coin_amounts']); 
-  unset($_COOKIE['coin_pairings']); 
-  unset($_COOKIE['coin_markets']); 
-  unset($_COOKIE['coin_paid']); 
-  unset($_COOKIE['coin_leverage']); 
-  unset($_COOKIE['coin_margintype']); 
-  unset($_COOKIE['coin_reload']);  
-  unset($_COOKIE['alert_percent']);  
-  unset($_COOKIE['notes_reminders']);
-  unset($_COOKIE['show_charts']);  
- 
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
 function store_cookie_contents($name, $value, $time) {
 	
 global $runtime_mode;
@@ -757,6 +684,136 @@ function base_url($atRoot=FALSE, $atCore=FALSE, $parse=FALSE) {
 
 
 return $base_url;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function store_all_cookies($set_coin_values, $set_pairing_values, $set_market_values, $set_paid_values, $set_leverage_values, $set_margintype_values) {
+
+
+           // Cookies expire in 1 year (31536000 seconds)
+           
+           
+           // Notes (only creation / deletion here, update logic is in cookies.php)
+           if ( $_POST['submit_check'] == 1 && $_POST['use_notes'] == 1 && !$_COOKIE['notes_reminders'] ) {
+           store_cookie_contents("notes_reminders", " ", mktime()+31536000); // Initialized with some whitespace when blank
+           }
+           elseif ( $_POST['submit_check'] == 1 && $_POST['use_notes'] != 1 ) {
+           store_cookie_contents("notes_reminders", "", time()-3600);  // Delete any existing cookies
+           unset($_COOKIE['notes_reminders']);  // Delete any existing cookies
+           }
+           
+           
+           // Charts
+           if ( $_POST['submit_check'] == 1 ) {
+           store_cookie_contents("show_charts", $_POST['show_charts'], mktime()+31536000);
+           }
+           
+           
+           // Portfolio
+           store_cookie_contents("coin_amounts", $set_coin_values, mktime()+31536000);
+           store_cookie_contents("coin_pairings", $set_pairing_values, mktime()+31536000);
+           store_cookie_contents("coin_markets", $set_market_values, mktime()+31536000);
+           store_cookie_contents("coin_paid", $set_paid_values, mktime()+31536000);
+           store_cookie_contents("coin_leverage", $set_leverage_values, mktime()+31536000);
+           store_cookie_contents("coin_margintype", $set_margintype_values, mktime()+31536000);
+           
+           
+           
+ 
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function delete_all_cookies() {
+
+  store_cookie_contents("coin_amounts", "", time()-3600);  
+  store_cookie_contents("coin_pairings", "", time()-3600);  
+  store_cookie_contents("coin_markets", "", time()-3600);   
+  store_cookie_contents("coin_paid", "", time()-3600);    
+  store_cookie_contents("coin_leverage", "", time()-3600);  
+  store_cookie_contents("coin_margintype", "", time()-3600);  
+  store_cookie_contents("coin_reload", "", time()-3600);  
+  store_cookie_contents("alert_percent", "", time()-3600); 
+  store_cookie_contents("notes_reminders", "", time()-3600);   
+  store_cookie_contents("show_charts", "", time()-3600);  
+  
+  // --------------------------
+  
+  unset($_COOKIE['coin_amounts']); 
+  unset($_COOKIE['coin_pairings']); 
+  unset($_COOKIE['coin_markets']); 
+  unset($_COOKIE['coin_paid']); 
+  unset($_COOKIE['coin_leverage']); 
+  unset($_COOKIE['coin_margintype']); 
+  unset($_COOKIE['coin_reload']);  
+  unset($_COOKIE['alert_percent']);  
+  unset($_COOKIE['notes_reminders']);
+  unset($_COOKIE['show_charts']);  
+ 
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function pretty_numbers($amount_value, $amount_decimals, $small_unlimited=false) {
+
+
+// Pretty number formatting, while maintaining decimals
+$raw_amount_value = remove_number_format($amount_value);
+	    
+	    
+	    	if ( preg_match("/\./", $raw_amount_value) ) {
+	    	$amount_no_decimal = preg_replace("/\.(.*)/", "", $raw_amount_value);
+	    	$amount_decimal = preg_replace("/(.*)\./", "", $raw_amount_value);
+	    	$check_amount_decimal = '0.' . $amount_decimal;
+	    	}
+	    	else {
+	    	$amount_no_decimal = $raw_amount_value;
+	    	$amount_decimal = NULL;
+	    	$check_amount_decimal = NULL;
+	    	}
+	    
+	    	
+	    	// Show even if low value is off the map, just for UX purposes (tracking token price only, etc)
+	    	if ( floattostr($raw_amount_value) > 0.00000000 && $small_unlimited == TRUE ) {  
+	    		
+	    		if ( $amount_decimals == 2 ) {
+	    		$amount_value = number_format($raw_amount_value, 2, '.', ',');
+	    		}
+	    		else {
+				// $X_no_decimal stops rounding, while number_format gives us pretty numbers left of decimal
+	    		$amount_value = number_format($amount_no_decimal, 0, '.', ',') . ( floattostr($check_amount_decimal) > 0.00000000 ? '.' . $amount_decimal : '' );
+	    		}
+	    	
+	    	}
+	    	// Show low value only with 8 decimals minimum
+	    	elseif ( floattostr($raw_amount_value) >= 0.00000001 && $small_unlimited == FALSE ) {  
+	    		
+	    		if ( $amount_decimals == 2 ) {
+	    		$amount_value = number_format($raw_amount_value, 2, '.', ',');
+	    		}
+	    		else {
+				// $X_no_decimal stops rounding, while number_format gives us pretty numbers left of decimal
+	    		$amount_value = number_format($amount_no_decimal, 0, '.', ',') . ( floattostr($check_amount_decimal) > 0.00000000 ? '.' . $amount_decimal : '' );
+	    		}
+	    	
+	    	}
+	    	else {
+	    	$amount_value = NULL;
+	    	}
+	    	
+	    
+return $amount_value;
 
 }
 

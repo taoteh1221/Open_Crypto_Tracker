@@ -1271,32 +1271,16 @@ $market_pairing = $all_markets[$selected_market];
 
 <?php
 
-// Pretty number formatting, while maintaining decimals
-$raw_coin_amount = remove_number_format($coin_amount);
-
-
-	if ( preg_match("/\./", $raw_coin_amount) ) {
-	$coin_amount_no_decimal = preg_replace("/\.(.*)/", "", $raw_coin_amount);
-	$coin_amount_decimal = preg_replace("/(.*)\./", "", $raw_coin_amount);
-	$check_coin_amount_decimal = '0.' . $coin_amount_decimal;
+	if ( strtoupper($trade_symbol) == 'USD' ) {
+	$coin_amount_decimals = 2;
 	}
 	else {
-	$coin_amount_no_decimal = $raw_coin_amount;
-	$coin_amount_decimal = NULL;
-	$check_coin_amount_decimal = NULL;
+	$coin_amount_decimals = 8;
 	}
-	    
+	
+$pretty_coin_amount = pretty_numbers($coin_amount, $coin_amount_decimals);
 
-	if ( $trade_symbol == 'USD' ) {
-	echo "<span class='app_sort_filter blue'>" . number_format($raw_coin_amount, 2, '.', ',') . "</span>";
-	}
-	else {
-	// We only want to show a decimal if it's a satoshi or higher...for lower amounts (just tracking token value, not held asset value) we hide decimals
-	// $X_no_decimal stops rounding, while number_format gives us pretty numbers left of decimal
-	echo "<span class='app_sort_filter blue'>" . number_format($coin_amount_no_decimal, 0, '.', ',') . ( floattostr($check_coin_amount_decimal) >= 0.00000001 ? '.' . $coin_amount_decimal : '' ) . "</span>";
-	}
-
-	 
+echo "<span class='app_sort_filter blue'>" . ( $pretty_coin_amount != NULL ? $pretty_coin_amount : 0 ) . "</span>";
 
 ?>
 

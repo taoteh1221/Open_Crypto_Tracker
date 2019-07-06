@@ -6,7 +6,7 @@
 
 ?>
 
-<div class='force_1350px_wrapper'>
+<div class='update_assets_wrapper'>
 	
 				
 	
@@ -324,61 +324,17 @@
 	    $selected_pairing = ( $coin_pairing_id ? $coin_pairing_id : 'btc' );
 	    
 	    
-		// Pretty number formatting, while maintaining decimals
-	   $raw_coin_amount_value = remove_number_format($coin_amount_value);
-	    
-	    	if ( preg_match("/\./", $raw_coin_amount_value) ) {
-	    	$coin_amount_no_decimal = preg_replace("/\.(.*)/", "", $raw_coin_amount_value);
-	    	$coin_amount_decimal = preg_replace("/(.*)\./", "", $raw_coin_amount_value);
-	    	$check_coin_amount_decimal = '0.' . $coin_amount_decimal;
+	    	if ( strtoupper($coin_array_key) == 'USD' ) {
+	    	$coin_amount_decimals = 2;
 	    	}
 	    	else {
-	    	$coin_amount_no_decimal = $raw_coin_amount_value;
-	    	$coin_amount_decimal = NULL;
-	    	$check_coin_amount_decimal = NULL;
+	    	$coin_amount_decimals = 8;
 	    	}
 	    
+	  	 $coin_amount_value = pretty_numbers($coin_amount_value, $coin_amount_decimals, TRUE); // TRUE = Show even if low value is off the map, just for UX purposes tracking token price only, etc
 	    
-	    	if ( $raw_coin_amount_value > 0.00000000 ) {  // Show even if decimal is off the map, just for UX purposes tracking token price only
-	    		
-	    		if ( strtoupper($coin_array_key) == 'USD' ) {
-	    		$coin_amount_value = number_format($raw_coin_amount_value, 2, '.', ',');
-	    		}
-	    		else {
-	    		// Show even if decimal is off the map, just for UX purposes tracking token price only
-	    		// $X_no_decimal stops rounding, while number_format gives us pretty numbers left of decimal
-	    		$coin_amount_value = number_format($coin_amount_no_decimal, 0, '.', ',') . ( floattostr($check_coin_amount_decimal) > 0.00000000 ? '.' . $coin_amount_decimal : '' );
-	    		}
-	    	
-	    	}
-	    	else {
-	    	$coin_amount_value = NULL;
-	    	}
-	    	
-	    
-	    
-	   $raw_paid_value = remove_number_format($coin_paid_value);
-	    
-	    	if ( preg_match("/\./", $raw_paid_value) ) {
-	    	$coin_paid_no_decimal = preg_replace("/\.(.*)/", "", $raw_paid_value);
-	    	$coin_paid_decimal = preg_replace("/(.*)\./", "", $raw_paid_value);
-	    	$check_coin_paid_decimal = '0.' . $coin_paid_decimal;
-	    	}
-	    	else {
-	    	$coin_paid_no_decimal = $raw_paid_value;
-	    	$coin_paid_decimal = NULL;
-	    	$check_coin_paid_decimal = NULL;
-	    	}
-	    
-	    	
-	    	// $X_no_decimal stops rounding, while number_format gives us pretty numbers left of decimal
-	    	if ( $raw_paid_value > 0.00000000 ) { 
-	    	$coin_paid_value = number_format($coin_paid_no_decimal, 0, '.', ',') . ( floattostr($check_coin_paid_decimal) > 0.00000000 ? '.' . $coin_paid_decimal : '' );
-	    	}
-	    	else {
-	    	$coin_paid_value = NULL;
-	    	}
-	    	
+	  	 $coin_paid_value = pretty_numbers($coin_paid_value, 8); // Show low value only with 8 decimals minimum
+	  	 
 	    	
 	    ?>
 	    
@@ -508,6 +464,8 @@
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Set the "Amount" of tokens to match your margin leverage deposit (example: buying 1 BTC @ 5x leverage would be 0.2 BTC in the "Amount" field in this app). You\'ll also need to fill in the "Paid (per-token)" field with the average price paid in USD per-token. Finally, set the "Margin Leverage" fields to match your leverage and whether you are long or short. When you are done, click "Save Updated Assets".</p>'
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">To see your margin leverage stats after updating your portfolio, go to the bottom of the Portfolio page, where you\'ll find a stats section. Hovering over the "I" icon next to those summary stats will display additional stats per-asset. There is also an "I" icon in the far right table column (USD Subtotal) per-asset, which you can hover over for margin leverage stats too.</p>'
+			
+			+'<p class="coin_info extra_margins red" style="white-space: normal; max-width: 600px;"><b>Leverage trading is <u>EXTREMELY RISKY</u> (and even more so in crypto markets). Never put more than ~5% of your total investment worth into leverage trades, or you will <u>RISK LOSING EVERYTHING</u>!</b></p>'
 			
 			+'<p class="coin_info"><span class="yellow"> </span></p>';
 		
