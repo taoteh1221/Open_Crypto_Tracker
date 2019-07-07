@@ -338,7 +338,7 @@
 	    	
 	    ?>
 	    
-	    <div class='long_list_taller' style='background-color: #<?=$zebra_stripe?>;'> 
+	    <div class='long_list_taller' style='white-space: nowrap; background-color: #<?=$zebra_stripe?>;'> 
 	       
 	       
 	       <input type='checkbox' value='<?=strtolower($coin_array_key)?>' id='<?=$field_var_watchonly?>' onchange='watch_toggle(this);' <?=( $raw_coin_amount_value > 0 && $raw_coin_amount_value <= '0.000000001' ? 'checked' : '' )?> /> &nbsp;

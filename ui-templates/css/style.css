@@ -304,7 +304,7 @@ color: black !important;
 
 
 .bitcoin {
-color: #af5e11 !important;
+color: #dd7c0d !important;
 }
 
 
@@ -433,8 +433,7 @@ max-width: 1200px;
 
 .update_assets_wrapper {
 position: relative;
-min-width: 1250px;
-max-width: 1350px;
+max-width: 1300px;
 }
 
 

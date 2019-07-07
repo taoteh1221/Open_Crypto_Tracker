@@ -705,6 +705,19 @@ $cached_array = explode("||", $data_file);
           
           
   				// Message formatting for display to end user
+          	
+          	$desc_alert_type = ( $asset_price_alerts_refresh > 0 ? 'refresh' : 'alert' );
+          	
+          	// IF base volume was zero last alert / refresh, for UX sake we use USD volume instead of base volume (for percent up, so it's not up 70,000% for altcoins lol)
+          	if ( floattostr($cached_volume_value) == 0 ) {
+          	$volume_describe = 'USD volume was $0 last price ' . $desc_alert_type . ', and ';
+          	$volume_describe_mobile = 'USD vol up from $0 last ' . $desc_alert_type;
+          	}
+          	else {
+          	$volume_describe = 'base volume ';
+          	$volume_describe_mobile = 'base vol';
+          	}
+          
           
           	// Pretty up textual output to end-user (convert raw numbers to have separators, remove underscores in names, etc)
   				$exchange_text = ucwords(preg_replace("/_/i", " ", $exchange));
@@ -717,7 +730,7 @@ $cached_array = explode("||", $data_file);
   				
   				$volume_change_text = 'has ' . ( $volume_change_symbol == '+' ? 'increased ' : 'decreased ' ) . $volume_change_symbol . number_format($volume_percent_change, 2, '.', ',') . '% to a dollar value of';
   				
-  				$volume_change_text_mobile = '(' . $volume_change_symbol . number_format($volume_percent_change, 2, '.', ',') . '% base vol)';
+  				$volume_change_text_mobile = '(' . $volume_change_symbol . number_format($volume_percent_change, 2, '.', ',') . '% ' . $volume_describe_mobile . ')';
   				
   				
   				
@@ -741,11 +754,11 @@ $cached_array = explode("||", $data_file);
           	
           	// Successfully received > 0 volume data, at or above an enabled minimum volume filter
   				if ( $volume_usd_raw > 0 && $asset_price_alerts_minvolume > 0 && $volume_usd_raw >= $asset_price_alerts_minvolume ) {
-          	$email_volume_summary = '24 hour base volume ' . $volume_change_text . ' ' . $volume_usd_text . ' (minimum volume filter set at $' . number_format($asset_price_alerts_minvolume, 0, '.', ',') . ').';
+          	$email_volume_summary = '24 hour ' . $volume_describe . $volume_change_text . ' ' . $volume_usd_text . ' (minimum volume filter set at $' . number_format($asset_price_alerts_minvolume, 0, '.', ',') . ').';
           	}
           	// NULL if not setup to get volume, negative number returned if no data received from API, therefore skipping any enabled volume filter
   				elseif ( $volume_pairing_raw == -1 ) { 
-          	$email_volume_summary = 'No data received for 24 hour base volume' . $volume_filter_skipped_text . '.';
+          	$email_volume_summary = 'No data received for 24 hour volume' . $volume_filter_skipped_text . '.';
           	$volume_usd_text = 'No data';
           	}
           	// If volume is zero or greater in successfully received volume data, without an enabled volume filter (or filter skipped)
@@ -753,14 +766,14 @@ $cached_array = explode("||", $data_file);
           	// BUT current reported volume is zero (temporary error on exchange side etc, NOT on our app's side),
           	// inform end-user of this probable volume discrepancy being detected.
           	elseif ( $volume_usd_raw >= 0 ) {
-          	$email_volume_summary = '24 hour base volume ' . $volume_change_text . ' ' . $volume_usd_text . ( $volume_usd_raw == 0 ? ' (probable volume discrepancy detected' . $volume_filter_skipped_text . ')' : '' ) . '.'; 
+          	$email_volume_summary = '24 hour ' . $volume_describe . $volume_change_text . ' ' . $volume_usd_text . ( $volume_usd_raw == 0 ? ' (probable volume discrepancy detected' . $volume_filter_skipped_text . ')' : '' ) . '.'; 
           	}
   				
   				
   				
   				// Build the different messages, configure comm methods, and send messages
   				
-  				$email_message = 'The ' . $asset . ' trade value in the ' . strtoupper($pairing) . ' market at the ' . $exchange_text . ' exchange has ' . $increase_decrease . ' ' . $change_symbol . $percent_change_text . '% in dollar value to $' . $asset_usd_text . ' over the past ' . $last_check_time . ' since the last price ' . ( $asset_price_alerts_refresh > 0 ? 'refresh' : 'alert' ) . '. ' . $email_volume_summary;
+  				$email_message = 'The ' . $asset . ' trade value in the ' . strtoupper($pairing) . ' market at the ' . $exchange_text . ' exchange has ' . $increase_decrease . ' ' . $change_symbol . $percent_change_text . '% in dollar value to $' . $asset_usd_text . ' over the past ' . $last_check_time . ' since the last price ' . $desc_alert_type . '. ' . $email_volume_summary;
   				
   				$text_message = $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange_text . ' ' . $increase_decrease . ' ' . $change_symbol . $percent_change_text . '% in dollar value to $' . $asset_usd_text . ' over ' . $last_check_time . '. 24hr USD Vol: ' . $volume_usd_text . ' ' . $volume_change_text_mobile;
   				
@@ -806,11 +819,11 @@ $cached_array = explode("||", $data_file);
 
 	// If the charts page is enabled in config.php, save latest chart data for assets with price alerts configured on them
 	if ( $mode == 'both' && floattostr($asset_usd_raw) >= 0.00000001 && $charts_page == 'on'
-	|| $mode == 'chart' && floattostr($asset_usd_raw) >= 0.00000001 && $charts_page == 'on' ) { // We only want this chart data stored once, so just run during the check for 'increased' value
+	|| $mode == 'chart' && floattostr($asset_usd_raw) >= 0.00000001 && $charts_page == 'on' ) { 
 	
-	store_file_contents($base_dir . '/cache/charts/'.$asset.'/'.$asset_data.'_chart_usd.dat', time() . '||' . $asset_usd_raw . '||' . $volume_usd_raw . "\n", "append"); 
-	
-		if ( floattostr($pairing_value_raw) >= 0.00000001 ) {
+		// Only store chart data if the exchange reported volume data too, even if zero (we don't want to store anything if data errors happened from questionable exchanges)
+		if ( floattostr($pairing_value_raw) >= 0.0000000 ) {
+		store_file_contents($base_dir . '/cache/charts/'.$asset.'/'.$asset_data.'_chart_usd.dat', time() . '||' . $asset_usd_raw . '||' . $volume_usd_raw . "\n", "append"); 
 		store_file_contents($base_dir . '/cache/charts/'.$asset.'/'.$asset_data.'_chart_'.$pairing.'.dat', time() . '||' . $pairing_value_raw . '||' . $volume_pairing_raw . "\n", "append"); 
 		}
 	
