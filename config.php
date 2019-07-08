@@ -386,6 +386,13 @@ $coins_list = array(
                                                     
                                     'tusd' => array(
                                           'binance' => 'ETHTUSD'
+                                                    ),
+                                                    
+                                    'usdc' => array(
+                                          'coinbase' => 'ETH-USDC',
+                                          'binance' => 'ETHUSDC',
+                                          'poloniex' => 'USDC_ETH',
+                                          'kucoin' => 'ETH-USDC'
                                                     )
                                                     
                                         ) // market_pairing END
@@ -424,6 +431,10 @@ $coins_list = array(
                                           'poloniex' => 'USDT_XMR',
                                           'upbit' => 'USDT-XMR',
                                           'okex' => 'XMR-USDT'
+                                                    ),
+                                                    
+                                    'usdc' => array(
+                                          'poloniex' => 'USDC_XMR'
                                                     )
                                                     
                                         ) // market_pairing END
@@ -480,6 +491,11 @@ $coins_list = array(
                                           			
                                     'tusd' => array(
                                          'binance' => 'LTCTUSD'
+                                                    ),
+                                          			
+                                    'usdc' => array(
+                                         'binance' => 'LTCUSDC',
+                                         'poloniex' => 'USDC_LTC'
                                                     )
                                                     
                                         ) // market_pairing END
@@ -553,6 +569,10 @@ $coins_list = array(
                                          'gateio' => 'grin_usdt',
                                          'bitforex' => 'coin-usdt-grin',
                                          'bigone' => 'GRIN-USDT'
+                                                    ),
+                                                    
+                                    'usdc' => array(
+                                         'poloniex' => 'USDC_GRIN'
                                                     )
                                                     
                                         ) // market_pairing END
@@ -597,7 +617,8 @@ $coins_list = array(
                                                     ),
                                                     
                                     'usdc' => array(
-                                         'binance' => 'ATOMUSDC'
+                                         'binance' => 'ATOMUSDC',
+                                         'poloniex' => 'USDC_ATOM'
                                                     )
                                                     
                                         ) // market_pairing END
@@ -687,6 +708,10 @@ $coins_list = array(
                                     'usdt' => array(
                                           'hitbtc' => 'MANAUSD',
                                           'okex' => 'MANA-USDT'
+                                                    ),
+                                                    
+                                    'usdc' => array(
+                                          'coinbase' => 'MANA-USDC'
                                                     )
                                                     
                                         ) // market_pairing END
@@ -721,6 +746,10 @@ $coins_list = array(
                                                     
                                     'usdt' => array(
                                         	'okex' => 'GNT-USDT'
+                                                    ),
+                                                    
+                                    'usdc' => array(
+                                          'coinbase' => 'GNT-USDC'
                                                     )
                                                     
                                         ) // market_pairing END
