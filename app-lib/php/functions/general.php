@@ -328,7 +328,7 @@ $result = setcookie($name, $value, $time);
 	
 	// Android / Safari maximum cookie size is 4093 bytes, Chrome / Firefox max is 4096
 	if ( strlen($value) > 4093 ) {  
-	$_SESSION['other_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | cookie_error: Cookie size is greater than 4093 bytes (' . strlen($value) . ' bytes), which is not compatible with modern browser maximum cookie sizes. Portfolio is too large for saving as cookie data, try CSV file import / export instead for large portfolios.' . "<br /> \n";
+	$_SESSION['other_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | cookie_error: Cookie size is greater than 4093 bytes (' . strlen($value) . ' bytes), which is not compatible with modern browser maximum cookie sizes. Portfolio may be too large for saving as cookie data on your particular browser. If saving portfolio as cookie data fails on your browser, try using CSV file import / export instead for large portfolios.' . "<br /> \n";
 	}
 	
 	if ( $result == FALSE ) {
