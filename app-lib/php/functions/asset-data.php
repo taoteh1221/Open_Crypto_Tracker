@@ -1405,7 +1405,7 @@ echo '<span class="' . ( $selected_margintype == 'short' ? 'short">★ $' : 'blu
 
   if ( $purchase_price >= 0.00000001 && $leverage_level >= 2 ) {
   
-  echo ' <span class="extra_data blue">@ ' . $leverage_level . 'x ' . $selected_margintype . '</span>';
+  echo ' <span class="extra_data blue">(' . $leverage_level . 'x ' . $selected_margintype . ')</span>';
 
   $parsed_gain_loss = preg_replace("/-/", "-$", number_format( $gain_loss, 2, '.', ',' ) );
   
@@ -1429,11 +1429,11 @@ echo '<span class="' . ( $selected_margintype == 'short' ? 'short">★ $' : 'blu
 	
 			var leverage_content = '<h5 class="yellow" style="position: relative; white-space: nowrap;"><?=$leverage_level?>x Leverage <?=ucfirst($selected_margintype)?> For <?=$coin_name?> (<?=$trade_symbol?>):</h5>'
 			
-			+'<p class="coin_info"><span class="yellow">Deposit (1x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_usd?><?=$parsed_gain_loss?></span> (USD Subtotal)</p>'
+			+'<p class="coin_info"><span class="yellow">Deposit (1x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_usd?><?=$parsed_gain_loss?></span> ($<?=number_format($coin_usd_worth_raw, 2, '.', ',')?>)</p>'
 			
 			+'<p class="coin_info"><span class="yellow">Loan (<?=($leverage_level - 1)?>x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_usd?><?=$parsed_only_leverage_gain_loss?></span></p>'
 			
-			+'<p class="coin_info"><span class="yellow">Total (<?=($leverage_level)?>x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_usd?><?=$parsed_inc_leverage_gain_loss?> / <?=( $gain_loss >= 0 ? '+' : '' )?><?=$pretty_leverage_gain_loss_percent?>%</span> ($<?=$pretty_coin_worth_inc_leverage?> @ <?=$leverage_level?>x <?=$selected_margintype?>)</p>'
+			+'<p class="coin_info"><span class="yellow">Total (<?=($leverage_level)?>x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_usd?><?=$parsed_inc_leverage_gain_loss?> / <?=( $gain_loss >= 0 ? '+' : '' )?><?=$pretty_leverage_gain_loss_percent?>%</span> ($<?=$pretty_coin_worth_inc_leverage?>)</p>'
 			
 				
 			+'<p class="coin_info"><span class="yellow"> </span></p>';
