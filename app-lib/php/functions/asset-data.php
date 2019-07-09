@@ -625,7 +625,7 @@ $cached_array = explode("||", $data_file);
 	// Backwards compatibility
 	if ( $cached_array[0] == NULL ) {
 	$cached_value = $data_file;
-	$cached_volume_value = NULL;
+	$cached_volume_value = -1;
 	}
 	else {
 	$cached_value = $cached_array[0];  // USD value
@@ -734,8 +734,8 @@ $cached_array = explode("||", $data_file);
   				
   				
   				
-  				// Backwards compatibility (from before volume was stored), and also if -1 from exchange API error not reporting any volume data (not even zero)
-  				if ( $cached_volume_value == NULL || $cached_volume_value == -1 || $volume_pairing_raw == NULL || $volume_pairing_raw == -1 ) {
+  				// If -1 from exchange API error not reporting any volume data (not even zero)
+  				if ( $cached_volume_value == -1 || $volume_pairing_raw == -1 ) {
   				$volume_change_text = NULL;
   				$volume_change_text_mobile = NULL;
   				}
