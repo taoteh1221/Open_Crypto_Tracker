@@ -152,6 +152,13 @@ white-space: nowrap;
 }
 
 
+.balloon_notation {
+white-space: normal; 
+font-size: 13px; 
+margin-top: 15px;
+}
+
+
 .show_coin_values {
 display: none;
 }
