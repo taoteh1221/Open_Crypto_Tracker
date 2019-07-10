@@ -358,7 +358,11 @@
 	        
 	        <li class='links_list'><a href='https://blocktv.com/' target='_blank'>BlockTV</a></li>
 	        
+	        <li class='links_list'><a href='https://www.instructables.com/id/Cryptocurrency-Ticker/' target='_blank'>Raspberry PI Crypto Price Ticker</a></li>
+	        
 	        <li class='links_list'><a href='https://www.omniexplorer.info/asset/31' target='_blank'>Tether (USDT) Supply On Bitcoin Network</a></li>
+	        
+	        <li class='links_list'><a href='https://etherscan.io/token/0xdac17f958d2ee523a2206206994597c13d831ec7' target='_blank'>Tether (USDT) Supply On Ethereum Network</a></li>
 	        
 	        <li class='links_list'><a href='https://whale-alert.io/' target='_blank'>Whale Alert</a></li>
 	        
