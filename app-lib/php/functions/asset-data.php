@@ -1427,7 +1427,7 @@ echo '<span class="' . ( $selected_margintype == 'short' ? 'short">★ $' : 'blu
 		<img id='<?=$rand_id?>_leverage' src='ui-templates/media/images/info.png' alt='' width='30' border='0' style='position: relative; left: -5px;' />
 	 <script>
 	
-			var leverage_content = '<h5 class="yellow" style="position: relative; white-space: nowrap;"><?=$leverage_level?>x Leverage <?=ucfirst($selected_margintype)?> For <?=$coin_name?> (<?=$trade_symbol?>):</h5>'
+			var leverage_content = '<h5 class="yellow" style="position: relative; white-space: nowrap;"><?=$leverage_level?>x <?=ucfirst($selected_margintype)?> For <?=$coin_name?> (<?=$trade_symbol?>):</h5>'
 			
 			+'<p class="coin_info"><span class="yellow">Deposit (1x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_usd?><?=$parsed_gain_loss?></span> ($<?=number_format($coin_usd_worth_raw, 2, '.', ',')?>)</p>'
 			

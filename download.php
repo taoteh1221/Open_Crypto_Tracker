@@ -6,7 +6,7 @@
 
 error_reporting(0); // Turn off all error reporting (0), or enable (1)
 
-$runtime_mode = 'csv_export_download';
+$runtime_mode = 'downloads';
 
 require("config.php");
 
@@ -19,6 +19,11 @@ exit;
 // Portfolio export download
 elseif ( $_POST['submit_check'] == 1 && is_array($coins_list) || $_POST['submit_check'] == 1 && is_object($coins_list) ) {
 require_once( $base_dir . "/app-lib/php/other/export-csv.php");
+exit;
+}
+// Backups download
+elseif ( $_GET['backup'] != NULL ) {
+require_once( $base_dir . "/app-lib/php/other/backups.php");
 exit;
 }
 else {

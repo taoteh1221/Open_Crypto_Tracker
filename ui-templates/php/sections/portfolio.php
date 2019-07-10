@@ -448,7 +448,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance;
 							
 							
 				?>
-			+'<p class="coin_info"><span class="yellow"><?=$value['coin_symbol']?>:</span> <span class="<?=( $value['gain_loss_total'] >= 0 ? 'green_bright">+$' : 'red">' )?><?=$parsed_gain_loss?> / <?=( $value['gain_loss_total'] >= 0 ? '+' : '' )?><?=number_format($value['gain_loss_percent_total'], 2, '.', ',')?>%</span> <?=( $value['coin_leverage'] >= 2 ? '(' . $value['coin_leverage'] . 'x leverage ' . $value['selected_margintype'] . ')' : '' )?></p>'
+			+'<p class="coin_info"><span class="yellow"><?=$value['coin_symbol']?>:</span> <span class="<?=( $value['gain_loss_total'] >= 0 ? 'green_bright">+$' : 'red">' )?><?=$parsed_gain_loss?> / <?=( $value['gain_loss_total'] >= 0 ? '+' : '' )?><?=number_format($value['gain_loss_percent_total'], 2, '.', ',')?>%</span> <?=( $value['coin_leverage'] >= 2 ? '(' . $value['coin_leverage'] . 'x ' . $value['selected_margintype'] . ')' : '' )?></p>'
 			
 			<?php
 						}
@@ -456,7 +456,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance;
 				}
 			 ?>
 				
-			+'<p class="coin_info balloon_notation">*<?=( $leverage_added == 1 ? 'Leverage / ' : '' )?>Gain / Loss stats only include portfolio assets where you<br />have set the "Paid (per-token)" value on the Update Assets page.</p>';
+			+'<p class="coin_info balloon_notation">*<?=( $leverage_added == 1 ? 'Leverage / ' : '' )?>Gain / Loss stats only include assets where you<br />have set the "Paid (per-token)" value on the Update Assets page.</p>';
 		
 		
 			$('#portfolio_gain_loss').balloon({

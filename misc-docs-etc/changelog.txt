@@ -1475,6 +1475,7 @@ app doing the data requests, not a malicious bot)
 3.23.0:
 -UI / UX tweaks
 -More USDC markets in default config
+-Moved chart backup downloads to run from download.php
 -------------------------------------------------------------------
 
 

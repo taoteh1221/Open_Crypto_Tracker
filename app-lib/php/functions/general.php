@@ -1005,7 +1005,7 @@ global $runtime_mode, $delete_old_backups, $base_dir, $base_url;
 					
 				store_file_contents($base_dir . '/cache/events/backup_'.$backup_prefix.'.dat', time());
 					
-				$backup_url = 'backups/?file=' . $backup_file;
+				$backup_url = 'download.php?backup=' . $backup_file;
 				
 				$message = "A backup archive has been created for: ".$backup_prefix."\n\nHere is a link to download the backup to your computer: " . $base_url . $backup_url . "\n\n(backup archives are purged after " . $delete_old_backups . " days)";
 				
