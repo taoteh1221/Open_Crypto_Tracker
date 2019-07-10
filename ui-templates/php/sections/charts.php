@@ -132,7 +132,7 @@
 		$charts_shown = 1;
 	?>
 	
-	<div style='background-color: #515050; border: 1px solid #808080; border-radius: 5px;' id='<?=$key?>_usd_chart'></div>
+	<div class='chart_wrapper' id='<?=$key?>_usd_chart'></div>
 	
 	<script>
 	
@@ -150,7 +150,7 @@
 		$charts_shown = 1;
 	?>
 	
-	<div style='background-color: #515050; border: 1px solid #808080; border-radius: 5px;' id='<?=$key?>_<?=$alerts_market_parse[1]?>_chart'></div>
+	<div class='chart_wrapper' id='<?=$key?>_<?=$alerts_market_parse[1]?>_chart'></div>
 	
 	<script>
 	

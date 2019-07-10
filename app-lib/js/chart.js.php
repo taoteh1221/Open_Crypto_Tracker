@@ -388,7 +388,9 @@ function getVolumeConfig_<?=$js_key?>(dates, values) {
 	]
 };
 }
- 
+
+ zingchart.TOUCHZOOM = 'pinch'; /* mobile compatibility */
+
 zingchart.render({
   id: '<?=strtolower($key)?>_<?=$charted_value?>_chart',
   data: {

@@ -457,6 +457,15 @@ right: 0px;
 }
 
 
+.chart_wrapper {
+position: relative;
+z-index: 99999999999; /* top layer as much as can be forced */
+background-color: #515050; 
+border: 1px solid #808080; 
+border-radius: 5px;
+}
+
+
 /* //////////////////////////////
 IDs
 ////////////////////////////// */
