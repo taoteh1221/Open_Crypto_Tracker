@@ -1488,6 +1488,16 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+3.24.0:
+-Added dark color scheme, and color scheme switcher setting 
+-------------------------------------------------------------------
+
+
+
+
+
+
 
 
 

@@ -10,8 +10,6 @@ See if at all feasible to fully modularize mining calculators to be added via co
 
 Add Dogecoin and mining calculator.
 
-Dark greyscale CSS styling option, and theme switcher settings
-
 Add chart sorting by crypto and usd price / volume percentage change over 1 hour / 1 day / 1 week / 1 month / 90 days.
 
 Make sure programming comments are adequate throughout the app.

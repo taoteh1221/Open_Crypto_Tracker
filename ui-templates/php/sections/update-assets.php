@@ -121,7 +121,7 @@
 	if (is_array($coins_list) || is_object($coins_list)) {
 
 	    
-	    $zebra_stripe = 'e8e8e8';
+	    $zebra_stripe = 'long_list_odd';
 	    foreach ( $coins_list as $coin_array_key => $coin_array_value ) {
 		
 		 $rand_id = rand(10000000,100000000);
@@ -338,7 +338,7 @@
 	    	
 	    ?>
 	    
-	    <div class='long_list_taller' style='white-space: nowrap; background-color: #<?=$zebra_stripe?>;'> 
+	    <div class='<?=$zebra_stripe?> long_list_taller' style='white-space: nowrap;'> 
 	       
 	       
 	       <input type='checkbox' value='<?=strtolower($coin_array_key)?>' id='<?=$field_var_watchonly?>' onchange='watch_toggle(this);' <?=( remove_number_format($coin_amount_value) > 0 && remove_number_format($coin_amount_value) <= '0.000000001' ? 'checked' : '' )?> /> &nbsp;
@@ -417,7 +417,7 @@
 				    $html_market_list = NULL;
 				    ?>
 				    
-				    </span>  
+				    </span> &nbsp;  &nbsp; 
 				    
 				    
 			
@@ -429,10 +429,10 @@
 	     
 	     $("#<?=strtolower($coin_array_key)?>_restore").val( $("#<?=strtolower($coin_array_key)?>_amount").val() );
 	     
-	     ' <?=( remove_number_format($coin_amount_value) > 0 && remove_number_format($coin_amount_value) <= '0.000000001' ? 'readonly' : '' )?> /> <span class='blue'><?=strtoupper($coin_array_key)?></span>   
+	     ' <?=( remove_number_format($coin_amount_value) > 0 && remove_number_format($coin_amount_value) <= '0.000000001' ? 'readonly' : '' )?> /> <span class='blue'><?=strtoupper($coin_array_key)?></span>  &nbsp;  &nbsp; 
 			    
 			
-	     <b>Paid (per-token):</b> $<input type='text' size='7' id='<?=$field_var_paid?>' name='<?=$field_var_paid?>' value='<?=$coin_paid_value?>' />  
+	     <b>Paid (per-token):</b> $<input type='text' size='7' id='<?=$field_var_paid?>' name='<?=$field_var_paid?>' value='<?=$coin_paid_value?>' />   &nbsp;  &nbsp; 
 	     
 	     
 	     <b>Margin Leverage:</b> 
@@ -501,11 +501,11 @@
 	    
 	    <?php
 	    
-		 	if ( $zebra_stripe == 'e8e8e8' ) {
-		 	$zebra_stripe = 'ffffff';
+		 	if ( $zebra_stripe == 'long_list_odd' ) {
+		 	$zebra_stripe = 'long_list_even';
 		 	}
 		 	else {
-		 	$zebra_stripe = 'e8e8e8';
+		 	$zebra_stripe = 'long_list_odd';
 		 	}
 	    
 	    $coin_symbol = NULL;
@@ -525,6 +525,8 @@
 	
 	
 	<input type='hidden' id='submit_check' name='submit_check' value='1' />
+	
+	<input type='hidden' id='theme_selected' name='theme_selected' value='<?=$theme_selected?>' />
 	
 	<input type='hidden' id='sort_by' name='sort_by' value='<?=($sorted_by_col)?>|<?=($sorted_by_asc_desc)?>' />
 	

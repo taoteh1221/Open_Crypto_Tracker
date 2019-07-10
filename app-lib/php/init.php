@@ -5,7 +5,7 @@
 
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
 
-$app_version = '3.23.1';  // 2019/JULY/10TH
+$app_version = '3.24.0';  // 2019/JULY/10TH
  
 date_default_timezone_set('UTC');
 
@@ -73,6 +73,24 @@ if ( $runtime_mode == 'ui' ) {
 	}
 
 
+
+	if ( $_COOKIE['theme_selected'] != NULL ) {
+	$theme_selected = $_COOKIE['theme_selected'];
+	}
+	elseif ( $_POST['theme_selected'] != NULL ) {
+	$theme_selected = $_POST['theme_selected'];
+	}
+	else {
+	$theme_selected = 'light';
+	}
+	// Sanitizing $theme_selected is very important, as we are calling external files with the value
+	if ( $theme_selected != 'light' && $theme_selected != 'dark' ) {
+	$_SESSION['other_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | security_alert: Requested theme value was "' . $theme_selected . '" ' . "<br /> \n";
+	error_logs();
+	exit;
+	}
+
+
 $sort_settings = ( $_COOKIE['sort_by'] ? $_COOKIE['sort_by'] : $_POST['sort_by'] );
 $sort_settings = explode("|",$sort_settings);
 
@@ -86,9 +104,12 @@ $sorted_by_asc_desc = $sort_settings[1];
 	$sorted_by_asc_desc = 0;
 	}
 
+
 $alert_percent = explode("|", ( $_POST['use_alert_percent'] != '' ? $_POST['use_alert_percent'] : $_COOKIE['alert_percent'] ) );
 
+
 $show_charts = explode(',', rtrim( ( $_POST['show_charts'] != '' ? $_POST['show_charts'] : $_COOKIE['show_charts'] ) , ',') );
+
 
 }
 

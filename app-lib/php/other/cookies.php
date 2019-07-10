@@ -108,7 +108,11 @@ elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $run_csv_i
  
  	// UI settings only (not included in any portfolio importing)
    // Cookies expire in 1 year (31536000 seconds)
-   if ( $_POST['sort_by'] != '' ) {
+   if ( $_POST['theme_selected'] != NULL ) {
+   store_cookie_contents("theme_selected", $_POST['theme_selected'], mktime()+31536000);
+   }
+  
+   if ( $_POST['sort_by'] != NULL ) {
    store_cookie_contents("sort_by", $_POST['sort_by'], mktime()+31536000);
    }
    else {
@@ -116,8 +120,7 @@ elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $run_csv_i
    unset($_COOKIE['sort_by']);  // Delete any existing cookie
    }
   
-  
-   if ( $_POST['use_alert_percent'] != '' ) {
+   if ( $_POST['use_alert_percent'] != NULL ) {
    store_cookie_contents("alert_percent", $_POST['use_alert_percent'], mktime()+31536000);
    }
    else {

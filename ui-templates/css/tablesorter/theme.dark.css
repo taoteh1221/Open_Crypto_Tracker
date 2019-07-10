@@ -1,27 +1,26 @@
 /*************
-  Dark Theme (by thezoggy)
- *************/
+Default Theme
+*************/
 /* overall */
 .tablesorter-dark {
-	width: 100%;
-	font: 11px/18px Arial, Sans-serif;
-	color: #ccc;
-	text-align: left;
-	background-color: #000;
+	color: #333;
+	background-color: #2C3441;
 	border-spacing: 0;
+	margin: 10px 0 15px;
+	text-align: left;
 }
 
 /* header */
 .tablesorter-dark th,
 .tablesorter-dark thead td {
-	padding: 4px;
-	font: bold 12px/20px Arial, Sans-serif;
 	color: #fff;
-	background-color: #000;
+	background-color: #2C3441;
 	border-collapse: collapse;
+	border-bottom: #808080 2px solid;
 }
-.tablesorter-dark thead th {
-	border-bottom: #333 2px solid;
+.tablesorter-dark tfoot th,
+.tablesorter-dark tfoot td {
+	border: 0;
 }
 .tablesorter-dark .header,
 .tablesorter-dark .tablesorter-header {
@@ -54,24 +53,21 @@
 .tablesorter-dark tfoot .tablesorter-headerSortDown,
 .tablesorter-dark tfoot .tablesorter-headerAsc,
 .tablesorter-dark tfoot .tablesorter-headerDesc {
-	border-top: #888 1px solid;
-	/* remove sort arrows from footer */
-	background-image: none;
+	border-top: #808080 2px solid;
 }
 
 /* tbody */
 .tablesorter-dark td {
-	padding: 4px;
-	background-color: #000;
-	border-bottom: #333 1px solid;
-	color: #ccc;
+	background-color: #2C3441;
+	vertical-align: top;
 }
 
 /* hovered row colors */
 .tablesorter-dark tbody > tr:hover > td,
 .tablesorter-dark tbody > tr.even:hover > td,
 .tablesorter-dark tbody > tr.odd:hover > td {
-	background: #000;
+	background: #5b646d;
+	color: white;
 }
 
 /* table processing indicator */
@@ -84,43 +80,43 @@
 
 /* Zebra Widget - row alternating colors */
 .tablesorter-dark tr.odd td {
-	background-color: #202020;
+	background-color: #28313a;
 }
 .tablesorter-dark tr.even td {
-	background-color: #101010;
+	background-color: #343f49;
 }
 
 /* Column Widget - column sort colors */
-.tablesorter-dark td.primary,
 .tablesorter-dark tr.odd td.primary {
-	background-color: #0a0a0a;
+	background-color: #bfbfbf;
 }
+.tablesorter-dark td.primary,
 .tablesorter-dark tr.even td.primary {
-	background-color: #050505;
+	background-color: #d9d9d9;
+}
+.tablesorter-dark tr.odd td.secondary {
+	background-color: #d9d9d9;
 }
 .tablesorter-dark td.secondary,
-.tablesorter-dark tr.odd td.secondary {
-	background-color: #0f0f0f;
-}
 .tablesorter-dark tr.even td.secondary {
-	background-color: #0a0a0a;
+	background-color: #e6e6e6;
+}
+.tablesorter-dark tr.odd td.tertiary {
+	background-color: #e6e6e6;
 }
 .tablesorter-dark td.tertiary,
-.tablesorter-dark tr.odd td.tertiary {
-	background-color: #191919;
-}
 .tablesorter-dark tr.even td.tertiary {
-	background-color: #0f0f0f;
+	background-color: #f2f2f2;
 }
 
 /* caption */
 caption {
-	background: #202020;
+	background: #2C3441;
 }
 
 /* filter widget */
 .tablesorter-dark .tablesorter-filter-row td {
-	background: #202020;
+	background: #eee;
 	line-height: normal;
 	text-align: center; /* center the input */
 	-webkit-transition: line-height 0.1s ease;
@@ -134,7 +130,6 @@ caption {
 	filter: alpha(opacity=50);
 	cursor: not-allowed;
 }
-
 /* hidden filter row */
 .tablesorter-dark .tablesorter-filter-row.hideme td {
 	/*** *********************************************** ***/
@@ -156,16 +151,15 @@ caption {
 	opacity: 0;
 	filter: alpha(opacity=0);
 }
-
 /* filters */
 .tablesorter-dark .tablesorter-filter {
-	width: 98%;
+	width: 95%;
 	height: auto;
 	margin: 4px;
 	padding: 4px;
-	background-color: #111;
-	border: 1px solid #222;
-	color: #ddd;
+	background-color: #2C3441;
+	border: 1px solid #bbb;
+	color: #333;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;

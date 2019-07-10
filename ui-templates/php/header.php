@@ -8,8 +8,6 @@ $start = $load_time;
 
 $runtime_mode = 'ui';
 
-$tablesort_theme = 'default';
-
 require("config.php");
 
 ?><!DOCTYPE html>
@@ -29,16 +27,17 @@ require("config.php");
     
 	<link rel="stylesheet" href="ui-templates/css/bootstrap/bootstrap.min.css" type="text/css" />
 
-	<link rel="stylesheet" href="ui-templates/css/style.css" type="text/css" />
-
 	<link rel="stylesheet" href="ui-templates/css/modaal.css" type="text/css" />
+	
+	<!-- Load theme styling last to over rule -->
+	<link rel="stylesheet" href="ui-templates/css/<?=$theme_selected?>.style.css" type="text/css" />
 
 
 	<style>
 
-	@import "ui-templates/css/tablesorter/theme.<?=$tablesort_theme?>.css";
+	@import "ui-templates/css/tablesorter/theme.<?=$theme_selected?>.css";
 	
-	.tablesorter-<?=$tablesort_theme?> .header, .tablesorter-<?=$tablesort_theme?> .tablesorter-header {
+	.tablesorter-<?=$theme_selected?> .header, .tablesorter-<?=$theme_selected?> .tablesorter-header {
     white-space: nowrap;
 	}
 	
@@ -71,7 +70,7 @@ require("config.php");
 	
 	var sorted_by_col = <?=$sorted_by_col?>;
 	var sorted_by_asc_desc = <?=$sorted_by_asc_desc?>;
-	var tablesort_theme = '<?=$tablesort_theme?>';
+	var tablesort_theme = '<?=$theme_selected?>';
 	
 	var btc_usd_value = '<?=number_format( get_btc_usd('binance')['last_trade'], 2, '.', '' )?>';
 	

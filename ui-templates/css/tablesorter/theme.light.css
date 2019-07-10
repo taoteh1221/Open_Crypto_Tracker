@@ -2,7 +2,7 @@
 Default Theme
 *************/
 /* overall */
-.tablesorter-default {
+.tablesorter-light {
 	color: #333;
 	background-color: #fff;
 	border-spacing: 0;
@@ -11,67 +11,67 @@ Default Theme
 }
 
 /* header */
-.tablesorter-default th,
-.tablesorter-default thead td {
+.tablesorter-light th,
+.tablesorter-light thead td {
 	color: #000;
 	background-color: #fff;
 	border-collapse: collapse;
 	border-bottom: #ccc 2px solid;
 }
-.tablesorter-default tfoot th,
-.tablesorter-default tfoot td {
+.tablesorter-light tfoot th,
+.tablesorter-light tfoot td {
 	border: 0;
 }
-.tablesorter-default .header,
-.tablesorter-default .tablesorter-header {
+.tablesorter-light .header,
+.tablesorter-light .tablesorter-header {
 	background-image: url(data:image/gif;base64,R0lGODlhFQAJAIAAACMtMP///yH5BAEAAAEALAAAAAAVAAkAAAIXjI+AywnaYnhUMoqt3gZXPmVg94yJVQAAOw==);
 	background-position: center right;
 	background-repeat: no-repeat;
 	cursor: pointer;
 	white-space: normal;
 }
-.tablesorter-default thead .headerSortUp,
-.tablesorter-default thead .tablesorter-headerSortUp,
-.tablesorter-default thead .tablesorter-headerAsc {
+.tablesorter-light thead .headerSortUp,
+.tablesorter-light thead .tablesorter-headerSortUp,
+.tablesorter-light thead .tablesorter-headerAsc {
 	background-image: url(data:image/gif;base64,R0lGODlhFQAEAIAAACMtMP///yH5BAEAAAEALAAAAAAVAAQAAAINjI8Bya2wnINUMopZAQA7);
 	border-bottom: #000 2px solid;
 }
-.tablesorter-default thead .headerSortDown,
-.tablesorter-default thead .tablesorter-headerSortDown,
-.tablesorter-default thead .tablesorter-headerDesc {
+.tablesorter-light thead .headerSortDown,
+.tablesorter-light thead .tablesorter-headerSortDown,
+.tablesorter-light thead .tablesorter-headerDesc {
 	background-image: url(data:image/gif;base64,R0lGODlhFQAEAIAAACMtMP///yH5BAEAAAEALAAAAAAVAAQAAAINjB+gC+jP2ptn0WskLQA7);
 	border-bottom: #000 2px solid;
 }
-.tablesorter-default thead .sorter-false {
+.tablesorter-light thead .sorter-false {
 	background-image: none;
 	cursor: default;
 	padding: 4px;
 }
 
 /* tfoot */
-.tablesorter-default tfoot .tablesorter-headerSortUp,
-.tablesorter-default tfoot .tablesorter-headerSortDown,
-.tablesorter-default tfoot .tablesorter-headerAsc,
-.tablesorter-default tfoot .tablesorter-headerDesc {
+.tablesorter-light tfoot .tablesorter-headerSortUp,
+.tablesorter-light tfoot .tablesorter-headerSortDown,
+.tablesorter-light tfoot .tablesorter-headerAsc,
+.tablesorter-light tfoot .tablesorter-headerDesc {
 	border-top: #000 2px solid;
 }
 
 /* tbody */
-.tablesorter-default td {
+.tablesorter-light td {
 	background-color: #fff;
 	vertical-align: top;
 }
 
 /* hovered row colors */
-.tablesorter-default tbody > tr:hover > td,
-.tablesorter-default tbody > tr.even:hover > td,
-.tablesorter-default tbody > tr.odd:hover > td {
+.tablesorter-light tbody > tr:hover > td,
+.tablesorter-light tbody > tr.even:hover > td,
+.tablesorter-light tbody > tr.odd:hover > td {
 	background: #f4f2c7;
 	color: #000;
 }
 
 /* table processing indicator */
-.tablesorter-default .tablesorter-processing {
+.tablesorter-light .tablesorter-processing {
 	background-position: center center !important;
 	background-repeat: no-repeat !important;
 	/* background-image: url(../addons/pager/icons/loading.gif) !important; */
@@ -79,33 +79,33 @@ Default Theme
 }
 
 /* Zebra Widget - row alternating colors */
-.tablesorter-default tr.odd td {
+.tablesorter-light tr.odd td {
 	background-color: #e8e8e8;
 }
-.tablesorter-default tr.even td {
+.tablesorter-light tr.even td {
 	background-color: white;
 }
 
 /* Column Widget - column sort colors */
-.tablesorter-default tr.odd td.primary {
+.tablesorter-light tr.odd td.primary {
 	background-color: #bfbfbf;
 }
-.tablesorter-default td.primary,
-.tablesorter-default tr.even td.primary {
+.tablesorter-light td.primary,
+.tablesorter-light tr.even td.primary {
 	background-color: #d9d9d9;
 }
-.tablesorter-default tr.odd td.secondary {
+.tablesorter-light tr.odd td.secondary {
 	background-color: #d9d9d9;
 }
-.tablesorter-default td.secondary,
-.tablesorter-default tr.even td.secondary {
+.tablesorter-light td.secondary,
+.tablesorter-light tr.even td.secondary {
 	background-color: #e6e6e6;
 }
-.tablesorter-default tr.odd td.tertiary {
+.tablesorter-light tr.odd td.tertiary {
 	background-color: #e6e6e6;
 }
-.tablesorter-default td.tertiary,
-.tablesorter-default tr.even td.tertiary {
+.tablesorter-light td.tertiary,
+.tablesorter-light tr.even td.tertiary {
 	background-color: #f2f2f2;
 }
 
@@ -115,7 +115,7 @@ caption {
 }
 
 /* filter widget */
-.tablesorter-default .tablesorter-filter-row td {
+.tablesorter-light .tablesorter-filter-row td {
 	background: #eee;
 	line-height: normal;
 	text-align: center; /* center the input */
@@ -125,13 +125,13 @@ caption {
 	transition: line-height 0.1s ease;
 }
 /* optional disabled input styling */
-.tablesorter-default .tablesorter-filter-row .disabled {
+.tablesorter-light .tablesorter-filter-row .disabled {
 	opacity: 0.5;
 	filter: alpha(opacity=50);
 	cursor: not-allowed;
 }
 /* hidden filter row */
-.tablesorter-default .tablesorter-filter-row.hideme td {
+.tablesorter-light .tablesorter-filter-row.hideme td {
 	/*** *********************************************** ***/
 	/*** change this padding to modify the thickness     ***/
 	/*** of the closed filter row (height = padding x 2) ***/
@@ -141,7 +141,7 @@ caption {
 	line-height: 0;
 	cursor: pointer;
 }
-.tablesorter-default .tablesorter-filter-row.hideme .tablesorter-filter {
+.tablesorter-light .tablesorter-filter-row.hideme .tablesorter-filter {
 	height: 1px;
 	min-height: 0;
 	border: 0;
@@ -152,7 +152,7 @@ caption {
 	filter: alpha(opacity=0);
 }
 /* filters */
-.tablesorter-default .tablesorter-filter {
+.tablesorter-light .tablesorter-filter {
 	width: 95%;
 	height: auto;
 	margin: 4px;

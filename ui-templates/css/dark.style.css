@@ -1,0 +1,528 @@
+/*
+ * Copyright 2014-2019 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
+ */
+
+
+/* //////////////////////////////
+ELEMENTS
+////////////////////////////// */
+
+
+html {
+width: auto;
+margin: auto;
+padding: 0px;
+font-family: sans-serif;
+font-size: 15px;
+}
+
+
+body {
+margin: 15px;
+width: auto;
+background-color: #2C3441;
+color: #fff;
+}
+
+
+table {
+background: #2C3441;
+border-collapse: separate;
+}
+
+
+td {
+margin: 0px;
+padding: 6px;
+}
+
+th {
+padding-right: 28px;
+}
+
+
+p, h3 { 
+word-break: normal;
+margin-bottom: 15px;
+}
+
+
+textarea {
+box-sizing: border-box;
+resize: none;
+border: 1px solid #808080;
+}
+
+
+p {
+font-size: 15px;
+}
+
+
+input, select {
+font-size: 15px;
+border: 1px solid #808080;
+}
+
+
+input[type=checkbox], input[type=radio] {
+width: 15px !important;
+height: 15px !important;
+}
+
+
+input[type=submit], input[type=button], .force_button_style {
+  background-color: #545d66;
+  border: 1px solid white;
+  color: white;
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+
+input[readonly] { /* For MSIE */
+  background-color: #939393;
+}
+
+
+input[type=text]:-moz-read-only { /* For Firefox */
+  background-color: #939393;
+}
+
+
+input[type=text]:read-only { 
+  background-color: #939393;
+}
+
+
+a {
+color: white;
+text-decoration: underline;
+}
+
+
+a:visited {
+color: #898888;
+}
+
+
+a:hover {
+color: #bcbaba;
+}
+
+
+fieldset {
+    width: auto;
+    padding: 25px; /* To give a bit of padding on the left and right */
+}
+
+legend {
+    width:auto;
+    padding:6px 6px; /* To give a bit of padding on the left and right */
+    border-bottom:none;
+    margin-bottom: 0px;
+}
+
+
+/* //////////////////////////////
+CLASSES
+////////////////////////////// */
+
+
+.extra_margins {
+padding: 11px;
+}
+
+
+.result {
+margin: 7px; border: 2px solid black; padding: 7px;
+}
+    
+    
+.normal {
+font-weight: normal;
+}
+
+
+.coin_info {
+margin: 5px;
+white-space: nowrap;
+}
+
+
+.balloon_notation {
+white-space: normal; 
+font-size: 13px; 
+margin-top: 15px;
+}
+
+
+.show_coin_values {
+display: none;
+}
+
+
+.border_lt {
+border-top: 2px solid #808080;
+border-left: 2px solid #808080;
+}
+
+
+.border_lrt {
+border-top: 2px solid #808080;
+border-left: 2px solid #808080;
+border-right: 2px solid #808080;
+}
+
+
+.border_lb {
+border-bottom: 2px solid #808080;
+border-left: 2px solid #808080;
+}
+
+
+.border_lrb {
+border-bottom: 2px solid #808080;
+border-left: 2px solid #808080;
+border-right: 2px solid #808080;
+}
+
+
+.border_t {
+border-top: 2px solid #808080;
+padding-right: 25px;
+}
+
+
+.border_b {
+border-bottom: 2px solid #808080;
+}
+
+
+.bold_1 {
+font-weight: bold;
+padding: 5px;
+line-height: 25px;
+}
+
+
+.subsection_fieldset {
+border: 1px solid #808080;
+margin: 25px;
+margin-bottom: 50px;
+}
+
+
+.subsection_legend {
+color: white;
+}
+
+
+.help_section {
+border: 1px solid #808080;
+padding: 15px;
+margin: 10px;
+margin-bottom: 50px;
+}
+
+
+.links_list {
+font-weight: bold;
+margin: 20px;
+}
+
+
+.long_linebreak { 
+display: block;
+width: 350px;
+word-wrap: break-word;
+}
+
+
+.settings_sections {
+margin: 25px;
+}
+
+
+.long_list {
+padding: 15px;
+margin: 0px;
+}
+
+
+.long_list_odd {
+background: #28313a;
+}
+
+
+.long_list_even {
+background: #343f49;
+}
+
+
+.long_list_taller {
+padding: 20px;
+margin: 0px;
+}
+
+
+.long_list_end {
+margin-bottom: 10px;
+}
+
+
+.red {
+color: #b23429 !important;
+}
+
+
+.red_dotted {
+padding: 10px;
+border: 2px dotted #b23429 !important;
+}
+
+
+.green {
+color: #0a8e01 !important;
+}
+
+
+.green_dotted {
+padding: 10px;
+border: 2px dotted #0a8e01 !important;
+}
+
+
+.green_bright {
+color: #0bb200 !important;
+}
+
+
+.orange {
+color: #ea6b1c !important;
+}
+
+
+.yellow {
+color: #ffb83f !important;
+}
+
+
+.blue {
+color: #2d7ebc !important;
+}
+
+
+.black {
+color: white !important;
+}
+
+
+.bitcoin {
+color: #dd7c0d !important;
+}
+
+
+.portfolio_summary {
+margin-top: 2px;
+margin-bottom: 2px;
+}
+
+
+.tabs {
+padding: 0px; 
+margin: 0px;
+}
+
+
+div.tabdiv {
+padding: 15px;
+min-width: 1200px;
+max-width: 1700px;
+min-height: 150px;
+display: inline-block;
+background: #2C3441;
+border: 2px solid #808080;
+}
+
+
+.tabli a {
+border-top-left-radius: 4px;
+border-top-right-radius: 4px;
+font-size: 21px;
+}
+
+
+.tabdiv {
+border-top-left-radius: 4px;
+border-top-right-radius: 4px;
+border-bottom-left-radius: 4px;
+border-bottom-right-radius: 4px;
+}
+
+
+.tabs li {
+list-style: none;
+display: inline;
+}
+
+
+.tabs a {
+padding: 5px 10px;
+display: inline-block;
+background: #909396;
+color: black;
+text-decoration: none;
+}
+
+
+.tabs a.active {
+top: 2px;
+position: relative;
+border-top: 2px solid #808080;
+border-left: 2px solid #808080;
+border-right: 2px solid #808080;
+background: #2C3441;
+color: white;
+}
+
+
+td.data, td.data span.data, td select {
+color: #2d7ebc;
+font-size: 15px;
+}
+
+
+td.data span {
+color: white;
+font-size: 15px;
+white-space: nowrap;
+}
+
+
+.extra_data, td.data span.extra_data, td.data div.extra_data span, .extra_data span, td.data div.extra_data span {
+margin: 0px;
+padding: 0px;
+font-size: 13px;
+border: 0px;
+background: none;
+white-space: nowrap;
+}
+
+
+.gain, td.data span.gain, td.data div.gain span, .btc_worth, .btc_worth span, td.data div.btc_worth span {
+margin: 0px;
+padding: 0px;
+color: #065640; /* slightly darker green than normal */
+font-size: 13px;
+border: 0px;
+background: none;
+white-space: nowrap;
+}
+
+
+.loss, td.data span.loss, td.data div.loss span, .short, td.data span.short, td.data div.short span {
+margin: 0px;
+padding: 0px;
+color: #af1700; /* slightly darker red than normal */
+font-size: 13px;
+border: 0px;
+background: none;
+white-space: nowrap;
+}
+
+
+.btn-link, .btn-link a, .btn-link:hover {
+font-weight: 800;
+font-size: 15px;
+color: #2d7ebc;
+text-decoration: none;
+}
+
+
+.force_1200px_wrapper {
+position: relative;
+max-width: 1200px;
+}
+
+
+.update_assets_wrapper {
+position: relative;
+max-width: 1300px;
+}
+
+
+.charts_wrapper {
+position: relative;
+width: 100%;
+}
+
+
+.countdown_notice {
+position: absolute;
+top: 0px;
+right: 0px;
+}
+
+
+.chart_wrapper {
+position: relative;
+background-color: #515050; 
+border: 1px solid #808080; 
+border-radius: 5px;
+}
+
+
+.start_page_menu {
+border: 2px dotted white; 
+padding: 8px;
+}
+
+
+.activate_chart_sections {
+border-top: 2px solid white;
+}
+
+
+.modaal-container, .accordion .card {
+    color: #fff !important;
+    background: #323944 !important;
+}
+
+
+/* //////////////////////////////
+IDs
+////////////////////////////// */
+
+
+#show_chart_settings {
+display: none;
+}
+
+
+#coins_table {
+position: relative;
+min-width: 1200px;
+}
+
+
+#coins_table td:last-child {
+}
+
+
+#api_error_alert {
+font-weight: bold; 
+color: #b53d2d; 
+padding: 6px;
+}
+
+
+#alert_source, #percent_change_amount, #percent_change_time, #percent_change_alert_type {
+display: none;
+}
+
+

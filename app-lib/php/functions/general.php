@@ -741,9 +741,13 @@ function delete_all_cookies() {
   store_cookie_contents("coin_leverage", "", time()-3600);  
   store_cookie_contents("coin_margintype", "", time()-3600);  
   store_cookie_contents("coin_reload", "", time()-3600);  
-  store_cookie_contents("alert_percent", "", time()-3600); 
   store_cookie_contents("notes_reminders", "", time()-3600);   
   store_cookie_contents("show_charts", "", time()-3600);  
+  
+  
+  store_cookie_contents("theme_selected", "", time()-3600);  
+  store_cookie_contents("sort_by", "", time()-3600);  
+  store_cookie_contents("alert_percent", "", time()-3600); 
   
   // --------------------------
   
@@ -754,9 +758,13 @@ function delete_all_cookies() {
   unset($_COOKIE['coin_leverage']); 
   unset($_COOKIE['coin_margintype']); 
   unset($_COOKIE['coin_reload']);  
-  unset($_COOKIE['alert_percent']);  
   unset($_COOKIE['notes_reminders']);
   unset($_COOKIE['show_charts']);  
+  
+  
+  unset($_COOKIE['theme_selected']);  
+  unset($_COOKIE['sort_by']);  
+  unset($_COOKIE['alert_percent']);  
  
 }
 
@@ -879,7 +887,7 @@ function zip_recursively($source, $destination) {
 
 function start_page_html($page) {
 ?>
-<span style='border: 2px dotted black; padding: 8px;'> 
+<span class='start_page_menu'> 
 	
 	<select onchange='
 	

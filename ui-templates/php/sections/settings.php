@@ -72,7 +72,19 @@
                         
 			<?php
 			}
+			?>
 			
+			
+			    <p class='settings_sections'><b>Color Scheme:</b> <select onchange='
+			    $("#theme_selected").val(this.value);
+			    '>
+				<option value='light' <?=( $theme_selected == 'light' ? ' selected ' : '' )?>> Light </option>
+				<option value='dark' <?=( $theme_selected == 'dark' ? ' selected ' : '' )?>> Dark </option>
+			    </select></p>
+			    
+			    
+			
+			<?php
 			if (is_array($coins_list) || is_object($coins_list)) {
 			    
 			    ?>
@@ -95,6 +107,7 @@
 			}
 			
 			?>
+			
 			
 			    <p class='settings_sections'><b>Sort Table Data By Column:</b> <select id='sorted_by_col' onchange='
 			    $("#sort_by").val( this.value + "|" + $("#sorted_by_asc_desc").val() );

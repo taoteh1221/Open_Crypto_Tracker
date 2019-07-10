@@ -20,6 +20,8 @@ font-size: 15px;
 body {
 margin: 15px;
 width: auto;
+background-color: #fff;
+color: #000;
 }
 
 
@@ -252,6 +254,16 @@ margin: 0px;
 }
 
 
+.long_list_odd {
+background: #e8e8e8;
+}
+
+
+.long_list_even {
+background: #ffffff;
+}
+
+
 .long_list_taller {
 padding: 20px;
 margin: 0px;
@@ -459,16 +471,31 @@ right: 0px;
 
 .chart_wrapper {
 position: relative;
-z-index: 99999999999; /* top layer as much as can be forced */
 background-color: #515050; 
 border: 1px solid #808080; 
 border-radius: 5px;
 }
 
 
+.start_page_menu {
+border: 2px dotted black; 
+padding: 8px;
+}
+
+
+.activate_chart_sections {
+border-top: 2px solid black;
+}
+
+
 /* //////////////////////////////
 IDs
 ////////////////////////////// */
+
+
+#show_chart_settings {
+display: none;
+}
 
 
 #coins_table {
