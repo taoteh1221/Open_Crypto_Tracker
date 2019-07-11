@@ -64,7 +64,7 @@
 		
 	    <input type="hidden" name="csv_check" value="1" />
 	    
-	    <input style='margin-left: 75px;' name="csv_file" type="file" />
+	    <span id='file_upload'><input style='margin-left: 75px;' name="csv_file" type="file" /></span>
 	    
 	    <input type="button" onclick='validateForm("csv_import", "csv_file");' value="Import Portfolio From CSV File" />
 	    
@@ -421,7 +421,7 @@
 				    
 				    
 			
-	     			 <b>Amount:</b> <input type='text' size='9' id='<?=$field_var_amount?>' name='<?=$field_var_amount?>' value='<?=$coin_amount_value?>' onkeyup='
+	     			 <b>Amount:</b> <input type='text' size='11' id='<?=$field_var_amount?>' name='<?=$field_var_amount?>' value='<?=$coin_amount_value?>' onkeyup='
 	     
 	     $("#<?=strtolower($coin_array_key)?>_restore").val( $("#<?=strtolower($coin_array_key)?>_amount").val() );
 	     
@@ -432,7 +432,7 @@
 	     ' <?=( remove_number_format($coin_amount_value) > 0 && remove_number_format($coin_amount_value) <= '0.000000001' ? 'readonly' : '' )?> /> <span class='blue'><?=strtoupper($coin_array_key)?></span>  &nbsp;  &nbsp; 
 			    
 			
-	     <b>Paid (per-token):</b> $<input type='text' size='7' id='<?=$field_var_paid?>' name='<?=$field_var_paid?>' value='<?=$coin_paid_value?>' />   &nbsp;  &nbsp; 
+	     <b>Paid (per-token):</b> $<input type='text' size='10' id='<?=$field_var_paid?>' name='<?=$field_var_paid?>' value='<?=$coin_paid_value?>' />   &nbsp;  &nbsp; 
 	     
 	     
 	     <b>Margin Leverage:</b> 
@@ -493,7 +493,7 @@
 		 
 	     
 	     
-	     <input type='hidden' id='<?=$field_var_restore?>' name='<?=$field_var_restore?>' value='<?=( $raw_coin_amount_value > 0 && $raw_coin_amount_value <= '0.000000001' ? '' : $coin_amount_value )?>' />
+	     <input type='hidden' id='<?=$field_var_restore?>' name='<?=$field_var_restore?>' value='<?=( remove_number_format($coin_amount_value) > 0 && remove_number_format($coin_amount_value) <= '0.000000001' ? '' : $coin_amount_value )?>' />
 				
 				
 	    </div>

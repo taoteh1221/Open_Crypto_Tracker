@@ -842,7 +842,7 @@ return TRUE;
 
 function ui_coin_data($coin_name, $trade_symbol, $coin_amount, $market_pairing_array, $selected_pairing, $selected_market, $purchase_price=NULL, $leverage_level, $selected_margintype) {
 
-global $_POST, $coins_list, $btc_exchange, $marketcap_site, $marketcap_cache, $alert_percent, $marketcap_ranks_max, $api_timeout;
+global $_POST, $theme_selected, $coins_list, $btc_exchange, $marketcap_site, $marketcap_cache, $alert_percent, $marketcap_ranks_max, $api_timeout;
 
 $rand_id = rand(10000000,100000000);
   
@@ -1118,7 +1118,7 @@ $market_pairing = $all_markets[$selected_market];
 			?>
 			
 			setTimeout(function() {
-    		play_alert("<?=strtolower($trade_symbol)?>_row", "visual", "no_cmc"); // Assets with marketcap data not set or functioning properly
+    		play_alert("<?=strtolower($trade_symbol)?>_row", "visual", "no_cmc", "<?=$theme_selected?>"); // Assets with marketcap data not set or functioning properly
 			}, 1000);
 			
 			<?php
@@ -1210,7 +1210,7 @@ $market_pairing = $all_markets[$selected_market];
             ?>
          
             setTimeout(function() {
-               play_alert("<?=strtolower($trade_symbol)?>_row", "<?=$percent_alert_type?>", "yellow");
+               play_alert("<?=strtolower($trade_symbol)?>_row", "<?=$percent_alert_type?>", "yellow", "<?=$theme_selected?>");
             }, 1000);
             
             <?php
@@ -1219,7 +1219,7 @@ $market_pairing = $all_markets[$selected_market];
             ?>
             
             setTimeout(function() {
-               play_alert("<?=strtolower($trade_symbol)?>_row", "<?=$percent_alert_type?>", "green");
+               play_alert("<?=strtolower($trade_symbol)?>_row", "<?=$percent_alert_type?>", "green", "<?=$theme_selected?>");
             }, 1000);
             
             <?php
@@ -1246,7 +1246,7 @@ $market_pairing = $all_markets[$selected_market];
 		?>
 		
 		setTimeout(function() {
-    	play_alert("<?=strtolower($trade_symbol)?>_row", "visual", "no_cmc"); // Assets with marketcap data not set or functioning properly
+    	play_alert("<?=strtolower($trade_symbol)?>_row", "visual", "no_cmc", "<?=$theme_selected?>"); // Assets with marketcap data not set or functioning properly
 		}, 1000);
 		
 		<?php

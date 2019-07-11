@@ -59,9 +59,10 @@ font-size: 15px;
 }
 
 
-input, select {
+input, select, textarea {
 font-size: 15px;
 border: 1px solid #808080;
+background-color: #bcbaba;
 }
 
 
@@ -85,17 +86,17 @@ input[type=submit], input[type=button], .force_button_style {
 
 
 input[readonly] { /* For MSIE */
-  background-color: #939393;
+  background-color: #6f6e6e;
 }
 
 
 input[type=text]:-moz-read-only { /* For Firefox */
-  background-color: #939393;
+  background-color: #6f6e6e;
 }
 
 
 input[type=text]:read-only { 
-  background-color: #939393;
+  background-color: #6f6e6e;
 }
 
 
@@ -106,7 +107,7 @@ text-decoration: underline;
 
 
 a:visited {
-color: #898888;
+color: #a09e9e;
 }
 
 
@@ -313,7 +314,7 @@ color: #ffb83f !important;
 
 
 .blue {
-color: #1fb0fb !important;
+color: #1996d7 !important;
 }
 
 
@@ -392,7 +393,7 @@ color: white;
 
 
 td.data, td.data span.data, td select {
-color: #1fb0fb;
+color: #1996d7;
 font-size: 15px;
 }
 
@@ -439,7 +440,7 @@ white-space: nowrap;
 .btn-link, .btn-link a, .btn-link:hover {
 font-weight: 800;
 font-size: 15px;
-color: #1fb0fb;
+color: #1996d7;
 text-decoration: none;
 }
 
@@ -497,6 +498,11 @@ border-top: 2px solid white;
 /* //////////////////////////////
 IDs
 ////////////////////////////// */
+
+
+#file_upload {
+color: black;
+}
 
 
 #show_chart_settings {

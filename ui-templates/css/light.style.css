@@ -59,7 +59,7 @@ font-size: 15px;
 }
 
 
-input, select {
+input, select, textarea {
 font-size: 15px;
 border: 1px solid #808080;
 }
@@ -491,6 +491,11 @@ border-top: 2px solid black;
 /* //////////////////////////////
 IDs
 ////////////////////////////// */
+
+
+#file_upload {
+color: black;
+}
 
 
 #show_chart_settings {

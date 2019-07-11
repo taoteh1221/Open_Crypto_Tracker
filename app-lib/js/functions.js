@@ -58,6 +58,11 @@ function watch_toggle(obj_var) {
 		
 		}
 		else {
+			
+			if ( num_value < 0.00000001 ) {
+			$("#"+obj_var.value+"_amount").val("");
+			}
+			
 		$("#"+obj_var.value+"_amount").removeAttr("readonly");
 		$("#"+obj_var.value+"_amount").val( $("#"+obj_var.value+"_restore").val() );
 		}
@@ -275,18 +280,25 @@ function count_down(i, toggle) {
 
 /////////////////////////////////////////////////////////////
 
-function play_alert(tr_id, alert_type, color) {
+function play_alert(tr_id, alert_type, color, theme) {
+
 
     
     $( document ).ready(function() {
       
+	if ( color == 'yellow' ) {
+	var zebra_odd = ( theme == 'light' ? '#efd362' : '#d4bb58' );
+	var zebra_even = ( theme == 'light' ? '#d3bb5b' : '#b7a24d' );
+	}
+	else if ( color == 'green' ) {
+	var zebra_odd = ( theme == 'light' ? '#7dc67d' : '#6ba76b' );
+	var zebra_even = ( theme == 'light' ? '#93ea93' : '#5a8c5a' );
+	}
+      
  if ( color != 'no_cmc' ) {
  	
-	if ( color == 'yellow' && !window.alert_color ) {
-	window.alert_color = '#efd362';
-	}
-	else if ( color == 'green' && !window.alert_color ) {
-	window.alert_color = '#7dc67d';
+	if ( !window.alert_color ) {
+	window.alert_color = zebra_odd;
 	}
       
       
@@ -295,29 +307,24 @@ function play_alert(tr_id, alert_type, color) {
       $('.tablesorter tr#' + tr_id).css("background-color", window.alert_color);
       $('.tablesorter tr#' + tr_id + ' td').css("background-color", window.alert_color);
       
-      // Zebra stripes
-	
-	if ( window.alert_color == '#efd362' ) {
-	window.alert_color = '#d3bb5b';
+      
+	// Zebra stripes
+	if ( window.alert_color == zebra_odd ) {
+	window.alert_color = zebra_even;
 	}
-	else if ( window.alert_color == '#d3bb5b' ) {
-	window.alert_color = '#efd362';
-	}
-	else if ( window.alert_color == '#7dc67d' ) {
-	window.alert_color = '#93ea93';
-	}
-	else if ( window.alert_color == '#93ea93' ) {
-	window.alert_color = '#7dc67d';
+	else if ( window.alert_color == zebra_even ) {
+	window.alert_color = zebra_odd;
 	}
       
 	
-	
+	// Audio, if chosen in settings
 	if ( !window.is_alerted && alert_type == 'visual_audio' ) {
 	  
 	  document.getElementById('audio_alert').play();
 	  
 	window.is_alerted = 1;
 	}
+	
 	
  }
 
