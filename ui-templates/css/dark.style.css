@@ -276,13 +276,13 @@ margin-bottom: 10px;
 
 
 .red {
-color: #b23429 !important;
+color: #cf3d32 !important;
 }
 
 
 .red_dotted {
 padding: 10px;
-border: 2px dotted #b23429 !important;
+border: 2px dotted #cf3d32 !important;
 }
 
 
@@ -313,7 +313,7 @@ color: #ffb83f !important;
 
 
 .blue {
-color: #2d7ebc !important;
+color: #1fb0fb !important;
 }
 
 
@@ -392,7 +392,7 @@ color: white;
 
 
 td.data, td.data span.data, td select {
-color: #2d7ebc;
+color: #1fb0fb;
 font-size: 15px;
 }
 
@@ -439,7 +439,7 @@ white-space: nowrap;
 .btn-link, .btn-link a, .btn-link:hover {
 font-weight: 800;
 font-size: 15px;
-color: #2d7ebc;
+color: #1fb0fb;
 text-decoration: none;
 }
 
