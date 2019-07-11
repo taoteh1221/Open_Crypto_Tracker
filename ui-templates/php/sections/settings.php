@@ -75,7 +75,7 @@
 			?>
 			
 			
-			    <p class='settings_sections'><b>Color Scheme:</b> <select onchange='
+			    <p class='settings_sections'><b>Theme Colors:</b> <select onchange='
 			    $("#theme_selected").val(this.value);
 			    '>
 				<option value='light' <?=( $theme_selected == 'light' ? ' selected ' : '' )?>> Light </option>
