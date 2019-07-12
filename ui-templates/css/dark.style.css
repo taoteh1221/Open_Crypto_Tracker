@@ -25,6 +25,7 @@ background-color: #bcbaba;
 
 
 input[type=submit], input[type=button], .force_button_style {
+  border: 1px solid white;
   background-color: #545d66;
 }
 
