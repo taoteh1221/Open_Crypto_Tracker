@@ -30,6 +30,7 @@ require("config.php");
 	<link rel="stylesheet" href="ui-templates/css/modaal.css" type="text/css" />
 	
 	<!-- Load theme styling last to over rule -->
+	<link rel="stylesheet" href="ui-templates/css/style.css" type="text/css" />
 	<link rel="stylesheet" href="ui-templates/css/<?=$theme_selected?>.style.css" type="text/css" />
 
 

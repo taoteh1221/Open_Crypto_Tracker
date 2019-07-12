@@ -8,18 +8,7 @@ ELEMENTS
 ////////////////////////////// */
 
 
-html {
-width: auto;
-margin: auto;
-padding: 0px;
-font-family: sans-serif;
-font-size: 15px;
-}
-
-
 body {
-margin: 15px;
-width: auto;
 background-color: #fff;
 color: #000;
 }
@@ -27,60 +16,11 @@ color: #000;
 
 table {
 background: #fff;
-border-collapse: separate;
-}
-
-
-td {
-margin: 0px;
-padding: 6px;
-}
-
-th {
-padding-right: 28px;
-}
-
-
-p, h3 { 
-word-break: normal;
-margin-bottom: 15px;
-}
-
-
-textarea {
-box-sizing: border-box;
-resize: none;
-border: 1px solid #808080;
-}
-
-
-p {
-font-size: 15px;
-}
-
-
-input, select, textarea {
-font-size: 15px;
-border: 1px solid #808080;
-}
-
-
-input[type=checkbox], input[type=radio] {
-width: 15px !important;
-height: 15px !important;
 }
 
 
 input[type=submit], input[type=button], .force_button_style {
   background-color: #808080;
-  border: 1px solid black;
-  color: white;
-  padding: 5px 10px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 15px;
-  cursor: pointer;
 }
 
 
@@ -101,7 +41,6 @@ input[type=text]:read-only {
 
 a {
 color: black;
-text-decoration: underline;
 }
 
 
@@ -115,54 +54,13 @@ color: #898888;
 }
 
 
-fieldset {
-    width: auto;
-    padding: 25px; /* To give a bit of padding on the left and right */
-}
-
-legend {
-    width:auto;
-    padding:6px 6px; /* To give a bit of padding on the left and right */
-    border-bottom:none;
-    margin-bottom: 0px;
-}
-
-
 /* //////////////////////////////
 CLASSES
 ////////////////////////////// */
 
 
-.extra_margins {
-padding: 11px;
-}
-
-
 .result {
-margin: 7px; border: 2px solid black; padding: 7px;
-}
-    
-    
-.normal {
-font-weight: normal;
-}
-
-
-.coin_info {
-margin: 5px;
-white-space: nowrap;
-}
-
-
-.balloon_notation {
-white-space: normal; 
-font-size: 13px; 
-margin-top: 15px;
-}
-
-
-.show_coin_values {
-display: none;
+border: 2px solid black; 
 }
 
 
@@ -194,7 +92,6 @@ border-right: 2px solid #ccc;
 
 .border_t {
 border-top: 2px solid #ccc;
-padding-right: 25px;
 }
 
 
@@ -203,54 +100,8 @@ border-bottom: 2px solid #ccc;
 }
 
 
-.bold_1 {
-font-weight: bold;
-padding: 5px;
-line-height: 25px;
-}
-
-
-.subsection_fieldset {
-border: 1px solid #808080;
-margin: 25px;
-margin-bottom: 50px;
-}
-
-
 .subsection_legend {
 color: black;
-}
-
-
-.help_section {
-border: 1px solid #808080;
-padding: 15px;
-margin: 10px;
-margin-bottom: 50px;
-}
-
-
-.links_list {
-font-weight: bold;
-margin: 20px;
-}
-
-
-.long_linebreak { 
-display: block;
-width: 350px;
-word-wrap: break-word;
-}
-
-
-.settings_sections {
-margin: 25px;
-}
-
-
-.long_list {
-padding: 15px;
-margin: 0px;
 }
 
 
@@ -261,17 +112,6 @@ background: #e8e8e8;
 
 .long_list_even {
 background: #ffffff;
-}
-
-
-.long_list_taller {
-padding: 20px;
-margin: 0px;
-}
-
-
-.long_list_end {
-margin-bottom: 10px;
 }
 
 
@@ -297,21 +137,6 @@ border: 2px dotted #066000 !important;
 }
 
 
-.green_bright {
-color: #0bb200 !important;
-}
-
-
-.orange {
-color: #ea6b1c !important;
-}
-
-
-.yellow {
-color: #ffb83f !important;
-}
-
-
 .blue {
 color: #1a1696 !important;
 }
@@ -322,70 +147,18 @@ color: black !important;
 }
 
 
-.bitcoin {
-color: #dd7c0d !important;
-}
-
-
-.portfolio_summary {
-margin-top: 2px;
-margin-bottom: 2px;
-}
-
-
-.tabs {
-padding: 0px; 
-margin: 0px;
-}
-
-
 div.tabdiv {
-padding: 15px;
-min-width: 1200px;
-max-width: 1700px;
-min-height: 150px;
-display: inline-block;
 background: #fff;
-border: 2px solid #808080;
-}
-
-
-.tabli a {
-border-top-left-radius: 4px;
-border-top-right-radius: 4px;
-font-size: 21px;
-}
-
-
-.tabdiv {
-border-top-left-radius: 4px;
-border-top-right-radius: 4px;
-border-bottom-left-radius: 4px;
-border-bottom-right-radius: 4px;
-}
-
-
-.tabs li {
-list-style: none;
-display: inline;
 }
 
 
 .tabs a {
-padding: 5px 10px;
-display: inline-block;
 background: #808080;
 color: white;
-text-decoration: none;
 }
 
 
 .tabs a.active {
-top: 2px;
-position: relative;
-border-top: 2px solid #808080;
-border-left: 2px solid #808080;
-border-right: 2px solid #808080;
 background: #fff;
 color: black;
 }
@@ -393,93 +166,21 @@ color: black;
 
 td.data, td.data span.data, td select {
 color: #1a1696;
-font-size: 15px;
 }
 
 
 td.data span {
 color: black;
-font-size: 15px;
-white-space: nowrap;
 }
 
 
-.extra_data, td.data span.extra_data, td.data div.extra_data span, .extra_data span, td.data div.extra_data span {
-margin: 0px;
-padding: 0px;
-font-size: 13px;
-border: 0px;
-background: none;
-white-space: nowrap;
-}
-
-
-.gain, td.data span.gain, td.data div.gain span, .btc_worth, .btc_worth span, td.data div.btc_worth span {
-margin: 0px;
-padding: 0px;
-color: #065640; /* slightly darker green than normal */
-font-size: 13px;
-border: 0px;
-background: none;
-white-space: nowrap;
-}
-
-
-.loss, td.data span.loss, td.data div.loss span, .short, td.data span.short, td.data div.short span {
-margin: 0px;
-padding: 0px;
-color: #af1700; /* slightly darker red than normal */
-font-size: 13px;
-border: 0px;
-background: none;
-white-space: nowrap;
-}
-
-
-.btn-link {
-font-weight: 800;
-font-size: 15px;
+.btn-link, .btn-link a, .btn-link:hover {
 color: #1a1696;
-text-decoration: none;
-}
-
-
-.force_1200px_wrapper {
-position: relative;
-max-width: 1200px;
-}
-
-
-.update_assets_wrapper {
-position: relative;
-max-width: 1300px;
-}
-
-
-.charts_wrapper {
-position: relative;
-width: 100%;
-}
-
-
-.countdown_notice {
-position: absolute;
-top: 0px;
-right: 0px;
-}
-
-
-.chart_wrapper {
-position: relative;
-background-color: #515050; 
-border: 1px solid #808080; 
-border-radius: 5px;
 }
 
 
 .start_page_menu {
 border: 2px dotted black; 
-padding: 8px;
 }
 
 
@@ -493,35 +194,8 @@ IDs
 ////////////////////////////// */
 
 
-#file_upload {
-color: black;
-}
-
-
-#show_chart_settings {
-display: none;
-}
-
-
-#coins_table {
-position: relative;
-min-width: 1200px;
-}
-
-
-#coins_table td:last-child {
-}
-
-
 #api_error_alert {
-font-weight: bold; 
-color: #b53d2d; 
-padding: 6px;
-}
-
-
-#alert_source, #percent_change_amount, #percent_change_time, #percent_change_alert_type {
-display: none;
+color: #D61F00; 
 }
 
 
