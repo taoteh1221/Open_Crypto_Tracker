@@ -9,13 +9,13 @@ ELEMENTS
 
 
 body {
-background-color: #2C3441;
+background-color: #080808;
 color: #fff;
 }
 
 
 table {
-background: #2C3441;
+background: #202020;
 }
 
 
@@ -26,7 +26,7 @@ background-color: #bcbaba;
 
 input[type=submit], input[type=button], .force_button_style {
   border: 1px solid white;
-  background-color: #545d66;
+  background-color: #42484e;
 }
 
 
@@ -154,7 +154,7 @@ color: white !important;
 
 
 div.tabdiv {
-background: #2C3441;
+background: #202020;
 }
 
 
@@ -165,7 +165,7 @@ color: black;
 
 
 .tabs a.active {
-background: #2C3441;
+background: #202020;
 color: white;
 }
 
