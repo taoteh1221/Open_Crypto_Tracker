@@ -165,13 +165,13 @@ color: black;
 }
 
 
-td.data, td.data span.data, td select {
-color: #1a1696;
+td.data span {
+color: black;
 }
 
 
-td.data span {
-color: black;
+td.data, td.data span.data, td select {
+color: #1a1696;
 }
 
 

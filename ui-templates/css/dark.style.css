@@ -20,7 +20,7 @@ background: #202020;
 
 
 input, select, textarea {
-background-color: #bcbaba;
+background-color: #dbd9d9;
 }
 
 
@@ -144,7 +144,7 @@ border: 2px dotted #0a8e01 !important;
 
 
 .blue {
-color: #1996d7 !important;
+color: #1681b8 !important;
 }
 
 
@@ -170,18 +170,18 @@ color: white;
 }
 
 
-td.data, td.data span.data, td select {
-color: #1996d7;
-}
-
-
 td.data span {
 color: white;
 }
 
 
+td.data, td.data span.data, td select {
+color: #1681b8;
+}
+
+
 .btn-link, .btn-link a, .btn-link:hover {
-color: #1996d7;
+color: #1681b8;
 }
 
 

@@ -1498,6 +1498,7 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 3.25.0:
 -Consolidated theme-coloring-only CSS
+-Dark theme color fixes / improvements
 -------------------------------------------------------------------
 
 
