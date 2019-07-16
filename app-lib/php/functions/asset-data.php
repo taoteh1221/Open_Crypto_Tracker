@@ -625,11 +625,13 @@ $cached_array = explode("||", $data_file);
 	// Backwards compatibility
 	if ( $cached_array[0] == NULL ) {
 	$cached_value = $data_file;
-	$cached_volume_value = -1;
+	$cached_usd_volume = -1;
+	$cached_pairing_volume = -1;
 	}
 	else {
 	$cached_value = $cached_array[0];  // USD value
-	$cached_volume_value = $cached_array[2]; // Crypto volume value (more accurate percent increase / decrease stats than USD volume)
+	$cached_usd_volume = $cached_array[1]; // USD volume value
+	$cached_pairing_volume = $cached_array[2]; // Crypto volume value (more accurate percent increase / decrease stats than USD volume)
 	}
 
 
@@ -666,16 +668,20 @@ $cached_array = explode("||", $data_file);
           
           
           // Crypto volume checks
-          if ( floattostr($cached_volume_value) > 0 && $volume_pairing_raw < $cached_volume_value ) {
-          $volume_percent_change = 100 - ( $volume_pairing_raw / ( $cached_volume_value / 100 ) );
-          $volume_change_symbol = '-';
-          }
-          elseif ( floattostr($cached_volume_value) > 0 && $volume_pairing_raw >= $cached_volume_value ) {
-          $volume_percent_change = ( $volume_pairing_raw / ( $cached_volume_value / 100 ) ) - 100;
+          if ( $cached_usd_volume <= 0 && $volume_usd_raw <= 0 ) { // ONLY USD VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
+          $volume_percent_change = 0; // Skip calculating percent change if cached / live USD volume are both zero or -1 (exchange API error)
           $volume_change_symbol = '+';
           }
-          elseif ( floattostr($cached_volume_value) == 0 && $volume_pairing_raw >= $cached_volume_value ) {
-          $volume_percent_change = $asset_usd_raw; // Use USD value for percent up, for UX sake, if volume is up from zero
+          elseif ( $cached_usd_volume <= 0 && $volume_pairing_raw >= $cached_pairing_volume ) { // ONLY USD VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
+          $volume_percent_change = $asset_usd_raw; // Use USD value for percent up, for UX sake, if volume is up from zero or -1 (exchange API error)
+          $volume_change_symbol = '+';
+          }
+          elseif ( $cached_usd_volume > 0 && $volume_pairing_raw < $cached_pairing_volume ) {
+          $volume_percent_change = 100 - ( $volume_pairing_raw / ( $cached_pairing_volume / 100 ) );
+          $volume_change_symbol = '-';
+          }
+          elseif ( $cached_usd_volume > 0 && $volume_pairing_raw >= $cached_pairing_volume ) {
+          $volume_percent_change = ( $volume_pairing_raw / ( $cached_pairing_volume / 100 ) ) - 100;
           $volume_change_symbol = '+';
           }
           
@@ -694,7 +700,8 @@ $cached_array = explode("||", $data_file);
   
   
           // We disallow alerts if $block_volume_error is on, and there is a volume retrieval error
-          if ( $volume_pairing_raw == -1 && $block_volume_error == 'on' ) {
+          // ONLY USD VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
+          if ( $volume_usd_raw == -1 && $block_volume_error == 'on' ) {
           $send_alert = NULL;
           }
           
@@ -708,10 +715,15 @@ $cached_array = explode("||", $data_file);
           	
           	$desc_alert_type = ( $asset_price_alerts_refresh > 0 ? 'refresh' : 'alert' );
           	
-          	// IF base volume was zero last alert / refresh, for UX sake we use USD volume instead of base volume (for percent up, so it's not up 70,000% for altcoins lol)
-          	if ( floattostr($cached_volume_value) == 0 ) {
+          	// IF USD volume was zero last alert / refresh, for UX sake we use current USD volume instead of current base volume (for percent up, so it's not up 70,000% for altcoins lol)
+          	if ( $cached_usd_volume == 0 ) {
           	$volume_describe = 'USD volume was $0 last price ' . $desc_alert_type . ', and ';
           	$volume_describe_mobile = 'USD vol up from $0 last ' . $desc_alert_type;
+          	}
+          	// Best we can do feasibly for UX on volume reporting errors
+          	elseif ( $cached_usd_volume == -1 ) { // ONLY USD VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
+          	$volume_describe = 'USD volume was NULL last price ' . $desc_alert_type . ', and ';
+          	$volume_describe_mobile = 'USD vol up from NULL last ' . $desc_alert_type;
           	}
           	else {
           	$volume_describe = 'base volume ';
@@ -735,7 +747,8 @@ $cached_array = explode("||", $data_file);
   				
   				
   				// If -1 from exchange API error not reporting any volume data (not even zero)
-  				if ( $cached_volume_value == -1 || $volume_pairing_raw == -1 ) {
+  				// ONLY USD VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
+  				if ( $cached_usd_volume == -1 || $volume_usd_raw == -1 ) {
   				$volume_change_text = NULL;
   				$volume_change_text_mobile = NULL;
   				}
@@ -757,7 +770,8 @@ $cached_array = explode("||", $data_file);
           	$email_volume_summary = '24 hour ' . $volume_describe . $volume_change_text . ' ' . $volume_usd_text . ' (minimum volume filter set at $' . number_format($asset_price_alerts_minvolume, 0, '.', ',') . ').';
           	}
           	// NULL if not setup to get volume, negative number returned if no data received from API, therefore skipping any enabled volume filter
-  				elseif ( $volume_pairing_raw == -1 ) { 
+          	// ONLY USD VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
+  				elseif ( $volume_usd_raw == -1 ) { 
           	$email_volume_summary = 'No data received for 24 hour volume' . $volume_filter_skipped_text . '.';
           	$volume_usd_text = 'No data';
           	}
