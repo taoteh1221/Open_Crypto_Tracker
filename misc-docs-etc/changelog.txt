@@ -1504,8 +1504,8 @@ app doing the data requests, not a malicious bot)
 
 
 -------------------------------------------------------------------
-3.26.0:
--Price alert UX improvements
+3.25.1:
+-Price alert bug fixes / UX improvements
 -------------------------------------------------------------------
 
 

@@ -673,7 +673,7 @@ $cached_array = explode("||", $data_file);
           $volume_change_symbol = '+';
           }
           elseif ( $cached_usd_volume <= 0 && $volume_pairing_raw >= $cached_pairing_volume ) { // ONLY USD VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
-          $volume_percent_change = $asset_usd_raw; // Use USD value for percent up, for UX sake, if volume is up from zero or -1 (exchange API error)
+          $volume_percent_change = $volume_usd_raw; // Use USD volume value for percent up, for UX sake, if volume is up from zero or -1 (exchange API error)
           $volume_change_symbol = '+';
           }
           elseif ( $cached_usd_volume > 0 && $volume_pairing_raw < $cached_pairing_volume ) {
