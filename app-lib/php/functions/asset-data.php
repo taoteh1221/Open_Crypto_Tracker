@@ -688,7 +688,7 @@ $cached_array = explode("||", $data_file);
           
           
           // We disallow alerts where minimum 24 hour trade USD volume has NOT been met, ONLY if an API request doesn't fail to retrieve volume data
-          if ( $volume_usd_raw > 0 && $volume_usd_raw < $asset_price_alerts_minvolume ) {
+          if ( $volume_usd_raw >= 0 && $volume_usd_raw < $asset_price_alerts_minvolume ) {
           $send_alert = NULL;
           }
   
