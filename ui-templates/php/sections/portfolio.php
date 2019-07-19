@@ -456,7 +456,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance;
 				}
 			 ?>
 				
-			+'<p class="coin_info balloon_notation">*<?=( $leverage_added == 1 ? 'Leverage / ' : '' )?>Gain / Loss stats only include assets where you<br />have set the "Paid (per-token)" value on the Update Assets page.</p>';
+			+'<p class="coin_info balloon_notation">*<?=( $leverage_added == 1 ? 'Leverage / ' : '' )?>Gain / Loss stats only include assets where you have set<br />the "Paid (per-token)" value on the Update Assets page.</p>';
 		
 		
 			$('#portfolio_gain_loss').balloon({
@@ -508,7 +508,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance;
 				}
 			 ?>
 				
-			+'<p class="coin_info balloon_notation"><?=( $short_added == 1 ? '*Does <u>not</u> adjust for short deposit(s) gain / loss.' : '' )?></p>';
+			+'<p class="coin_info balloon_notation"><?=( $leverage_added == 1 ? '*Does <u>not</u> adjust for any type of leverage' : '' )?><?=(  $short_added == 1 ? ', or short deposit(s) gain / loss' : '' )?><?=( $leverage_added == 1 ? '.' : '' )?></p>';
 		
 		
 			$('#portfolio_dominance').balloon({
@@ -540,7 +540,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance;
 			
 		if ( $short_added == 1 ) {
 		?>	
-		<div class="portfolio_summary" style='margin-top: 15px;'><span class="short">★ Adjusted short trade value(s)</span></div>		
+		<div class="portfolio_summary" style='margin-top: 15px;'><span class="short">★ Adjusted short trade deposit(s) (leverage <u>not</u> included)</span></div>		
 		<?php
 		}
 		?>

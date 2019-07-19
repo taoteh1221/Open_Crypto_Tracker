@@ -1445,7 +1445,7 @@ echo '<span class="' . ( $selected_margintype == 'short' ? 'short">★ $' : 'blu
 			
 			+'<p class="coin_info"><span class="yellow">Deposit (1x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_usd?><?=$parsed_gain_loss?></span> ($<?=number_format($coin_usd_worth_raw, 2, '.', ',')?>)</p>'
 			
-			+'<p class="coin_info"><span class="yellow">Loan (<?=($leverage_level - 1)?>x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_usd?><?=$parsed_only_leverage_gain_loss?></span></p>'
+			+'<p class="coin_info"><span class="yellow">Margin (<?=($leverage_level - 1)?>x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_usd?><?=$parsed_only_leverage_gain_loss?></span></p>'
 			
 			+'<p class="coin_info"><span class="yellow">Total (<?=($leverage_level)?>x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_usd?><?=$parsed_inc_leverage_gain_loss?> / <?=( $gain_loss >= 0 ? '+' : '' )?><?=$pretty_leverage_gain_loss_percent?>%</span> ($<?=$pretty_coin_worth_inc_leverage?>)</p>'
 			
