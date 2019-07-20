@@ -16,7 +16,7 @@
 				<span id='reload_countdown2' class='red countdown_notice'></span>
 				
 				
-	<p style='margin-top: 10px;'><a style='font-weight: bold;' class='show red' id='disclaimer' href='#show_disclaimer' title='Click to show disclaimer.' onclick='return false;'>Disclaimer</a></p>
+	<p style='margin-top: 10px;'><a style='font-weight: bold;' class='show red' id='disclaimer' href='#show_disclaimer' title='Click to show disclaimer.' onclick='return false;'>Disclaimer!</a></p>
 	    
 	    
 	    
@@ -461,11 +461,12 @@
 	
 			var leverage_trading_notes = '<h5 align="center" class="yellow" style="position: relative; white-space: nowrap;">Tracking Long / Short Margin Leverage Trades</h5>'
 			
+			
+			+'<p class="coin_info extra_margins red" style="white-space: normal; max-width: 600px; font-size: 13px;"><b>*Leverage trading is <u>EXTREMELY RISKY</u> (and even more so in crypto markets). Never put more than ~5% of your total investment worth into leverage trades, or you will <u>RISK LOSING EVERYTHING</u>!</b></p>'
+			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Set the "Amount" of tokens to match your margin leverage deposit (example: buying 1 BTC @ 5x leverage would be 0.2 BTC in the "Amount" field in this app). You\'ll also need to fill in the "Paid (per-token)" field with the average price paid in USD per-token. Finally, set the "Margin Leverage" fields to match your leverage and whether you are long or short. When you are done, click "Save Updated Assets".</p>'
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">To see your margin leverage stats after updating your portfolio, go to the bottom of the Portfolio page, where you\'ll find a stats section. Hovering over the "I" icon next to those summary stats will display additional stats per-asset. There is also an "I" icon in the far right table column (USD Subtotal) per-asset, which you can hover over for margin leverage stats too.</p>'
-			
-			+'<p class="coin_info extra_margins red" style="white-space: normal; max-width: 600px; font-size: 13px;"><b>*Leverage trading is <u>EXTREMELY RISKY</u> (and even more so in crypto markets). Never put more than ~5% of your total investment worth into leverage trades, or you will <u>RISK LOSING EVERYTHING</u>!</b></p>'
 			
 			+'<p class="coin_info"><span class="yellow"> </span></p>';
 		
