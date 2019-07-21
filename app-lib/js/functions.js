@@ -236,25 +236,77 @@ function count_down(i, toggle) {
 	    	
 	    	var sec = ( i - (round_min*60) );
 	    	
-	    	document.getElementById("reload_countdown").innerHTML = "(" + round_min + " minutes " + sec + " seconds)";
-	    	document.getElementById("reload_countdown2").innerHTML = "(page reload in " + round_min + " minutes " + sec + " seconds)";
-	    	document.getElementById("reload_countdown3").innerHTML = "(page reload in " + round_min + " minutes " + sec + " seconds)";
-	    	document.getElementById("reload_countdown4").innerHTML = "(page reload in " + round_min + " minutes " + sec + " seconds)";
-	    	document.getElementById("reload_countdown5").innerHTML = "(page reload in " + round_min + " minutes " + sec + " seconds)";
-	    	document.getElementById("reload_countdown6").innerHTML = "(page reload in " + round_min + " minutes " + sec + " seconds)";
-	    	document.getElementById("reload_countdown7").innerHTML = "(page reload in " + round_min + " minutes " + sec + " seconds)";
-	    	document.getElementById("reload_countdown8").innerHTML = "(page reload in " + round_min + " minutes " + sec + " seconds)";
-	    	
+	    		if ( document.getElementById("reload_countdown") ) {
+	    		document.getElementById("reload_countdown").innerHTML = "(" + round_min + " minutes " + sec + " seconds)";
+	    		}
+	    		
+	    		if ( document.getElementById("reload_countdown2") ) {
+	    		document.getElementById("reload_countdown2").innerHTML = "(" + round_min + " minutes " + sec + " seconds)";
+	    		}
+	    		
+	    		if ( document.getElementById("reload_countdown3") ) {
+	    		document.getElementById("reload_countdown3").innerHTML = "(" + round_min + " minutes " + sec + " seconds)";
+	    		}
+	    		
+	    		if ( document.getElementById("reload_countdown4") ) {
+	    		document.getElementById("reload_countdown4").innerHTML = "(" + round_min + " minutes " + sec + " seconds)";
+	    		}
+	    		
+	    		if ( document.getElementById("reload_countdown5") ) {
+	    		document.getElementById("reload_countdown5").innerHTML = "(" + round_min + " minutes " + sec + " seconds)";
+	    		}
+	    		
+	    		if ( document.getElementById("reload_countdown6") ) {
+	    		document.getElementById("reload_countdown6").innerHTML = "(" + round_min + " minutes " + sec + " seconds)";
+	    		}
+	    		
+	    		if ( document.getElementById("reload_countdown7") ) {
+	    		document.getElementById("reload_countdown7").innerHTML = "(" + round_min + " minutes " + sec + " seconds)";
+	    		}
+	    		
+	    		if ( document.getElementById("reload_countdown8") ) {
+	    		document.getElementById("reload_countdown8").innerHTML = "(" + round_min + " minutes " + sec + " seconds)";
+	    		}
+	    		
+	    		
+	    		
 	    	}
 	    	else {
-	    	document.getElementById("reload_countdown").innerHTML = "(" + i + " seconds)";
-	    	document.getElementById("reload_countdown2").innerHTML = "(page reload in " + i + " seconds)";
-	    	document.getElementById("reload_countdown3").innerHTML = "(page reload in " + i + " seconds)";
-	    	document.getElementById("reload_countdown4").innerHTML = "(page reload in " + i + " seconds)";
-	    	document.getElementById("reload_countdown5").innerHTML = "(page reload in " + i + " seconds)";
-	    	document.getElementById("reload_countdown6").innerHTML = "(page reload in " + i + " seconds)";
-	    	document.getElementById("reload_countdown7").innerHTML = "(page reload in " + i + " seconds)";
-	    	document.getElementById("reload_countdown8").innerHTML = "(page reload in " + i + " seconds)";
+	    		
+	    		if ( document.getElementById("reload_countdown") ) {
+	    		document.getElementById("reload_countdown").innerHTML = "(" + i + " seconds)";
+	    		}
+	    		
+	    		if ( document.getElementById("reload_countdown2") ) {
+	    		document.getElementById("reload_countdown2").innerHTML = "(" + i + " seconds)";
+	    		}
+	    		
+	    		if ( document.getElementById("reload_countdown3") ) {
+	    		document.getElementById("reload_countdown3").innerHTML = "(" + i + " seconds)";
+	    		}
+	    		
+	    		if ( document.getElementById("reload_countdown4") ) {
+	    		document.getElementById("reload_countdown4").innerHTML = "(" + i + " seconds)";
+	    		}
+	    		
+	    		if ( document.getElementById("reload_countdown5") ) {
+	    		document.getElementById("reload_countdown5").innerHTML = "(" + i + " seconds)";
+	    		}
+	    		
+	    		if ( document.getElementById("reload_countdown6") ) {
+	    		document.getElementById("reload_countdown6").innerHTML = "(" + i + " seconds)";
+	    		}
+	    		
+	    		if ( document.getElementById("reload_countdown7") ) {
+	    		document.getElementById("reload_countdown7").innerHTML = "(" + i + " seconds)";
+	    		}
+	    		
+	    		if ( document.getElementById("reload_countdown8") ) {
+	    		document.getElementById("reload_countdown8").innerHTML = "(" + i + " seconds)";
+	    		}
+	    		
+	    		
+	    	
 	    	}
 
 		
