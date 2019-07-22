@@ -437,7 +437,9 @@
 	     
 	     <b>Margin Leverage:</b> 
 	     
-	     <select name='<?=$field_var_leverage?>' id='<?=$field_var_leverage?>'>
+	     <select name='<?=$field_var_leverage?>' id='<?=$field_var_leverage?>' onchange='
+	     alert(" Leverage trading in crypto assets is \n EXTREMELY RISKY. NEVER put more \n than ~5% of your crypto investments \n in leveraged trades EVER, OR YOU \n ###COULD LOSE EVERYTHING###. ");
+	     '>
 	     <option value='0' <?=( $coin_leverage_value == 0 ? 'selected' : '' )?>> None </option>
 	     <option value='2' <?=( $coin_leverage_value == 2 ? 'selected' : '' )?>> 2x </option>
 	     <option value='3' <?=( $coin_leverage_value == 3 ? 'selected' : '' )?>> 3x </option>
