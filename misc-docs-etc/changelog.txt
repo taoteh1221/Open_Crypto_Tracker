@@ -1538,6 +1538,15 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+3.28.0:
+-Dominance stats UX revision (alt and btc maximalist-friendly, lol)
+-------------------------------------------------------------------
+
+
+
+
+
 
 
 
