@@ -188,6 +188,8 @@
 	        
 	        <li class='links_list'><a href='https://bncdaily.com/' target='_blank'>Brave New Coin Daily</a></li>
 	        
+	        <li class='links_list'><a href='https://research.circle.com/' target='_blank'>Circle Research</a></li>
+	        
 	        <li class='links_list'><a href='http://newsletter.coingecko.com/landing/subscribe' target='_blank'>Coingecko Newsletter</a></li>
 	        
 	        <li class='links_list'><a href='https://coinmarketcap.com/newsletter/' target='_blank'>Coinmarketcap Newsletter</a></li>
@@ -358,7 +360,7 @@
 	        
 	        <li class='links_list'><a href='https://blocktv.com/' target='_blank'>BlockTV</a></li>
 	        
-	        <li class='links_list'><a href='https://www.instructables.com/id/Cryptocurrency-Ticker/' target='_blank'>Raspberry PI Crypto Price Ticker</a></li>
+	        <li class='links_list'><a href='https://github.com/taoteh1221/BTC-Ticker' target='_blank'>Raspberry PI Real-Time BTC Ticker</a> (a side project of mine)</li>
 	        
 	        <li class='links_list'><a href='https://www.omniexplorer.info/asset/31' target='_blank'>Tether (USDT) Supply On Bitcoin Network</a></li>
 	        
