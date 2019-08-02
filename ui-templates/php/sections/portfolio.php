@@ -90,20 +90,25 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 										ui_coin_data($coins_list[$coin_symbol]['coin_name'], $coin_symbol, $held_amount, $coins_list[$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price, $leverage_level, $selected_margintype);
 										
 											if ( $held_amount >= 0.00000001 ) {
+												
 											$assets_added = 1;
+											
+											
+												if ( $purchase_price >= 0.00000001 ) {
+												$purchase_price_added = 1;
+												}
+												
+												if ( $leverage_level >= 2 ) {
+												$leverage_added = 1;
+												}
+												
+												if ( $selected_margintype == 'short' ) {
+												$short_added = 1;
+												}
+											
+											
 											}
 											
-											if ( $purchase_price >= 0.00000001 ) {
-											$purchase_price_added = 1;
-											}
-											
-											if ( $leverage_level >= 2 ) {
-											$leverage_added = 1;
-											}
-											
-											if ( $selected_margintype == 'short' ) {
-											$short_added = 1;
-											}
 										
 										
 										}
@@ -142,20 +147,25 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 										ui_coin_data($coins_list[$coin_symbol]['coin_name'], $coin_symbol, $held_amount, $coins_list[$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price, $leverage_level, $selected_margintype);
 										
 											if ( $held_amount >= 0.00000001 ) {
+												
 											$assets_added = 1;
+											
+											
+												if ( $purchase_price >= 0.00000001 ) {
+												$purchase_price_added = 1;
+												}
+												
+												if ( $leverage_level >= 2 ) {
+												$leverage_added = 1;
+												}
+												
+												if ( $selected_margintype == 'short' ) {
+												$short_added = 1;
+												}
+											
+											
 											}
 											
-											if ( $purchase_price >= 0.00000001 ) {
-											$purchase_price_added = 1;
-											}
-											
-											if ( $leverage_level >= 2 ) {
-											$leverage_added = 1;
-											}
-											
-											if ( $selected_margintype == 'short' ) {
-											$short_added = 1;
-											}
 										
 										
 										
@@ -292,20 +302,25 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 					
 						
 						if ( $held_amount >= 0.00000001 ) {
+							
 						$assets_added = 1;
+						
+						
+							if ( $purchase_price >= 0.00000001 ) {
+							$purchase_price_added = 1;
+							}
+												
+							if ( $leverage_level >= 2 ) {
+							$leverage_added = 1;
+							}
+												
+							if ( $selected_margintype == 'short' ) {
+							$short_added = 1;
+							}
+						
+						
 						}
 						
-						if ( $purchase_price >= 0.00000001 ) {
-						$purchase_price_added = 1;
-						}
-											
-						if ( $leverage_level >= 2 ) {
-						$leverage_added = 1;
-						}
-											
-						if ( $selected_margintype == 'short' ) {
-						$short_added = 1;
-						}
 						
 					
 	
@@ -382,8 +397,8 @@ $altcoin_dominance = 100 - $bitcoin_dominance;
 	  
 	  // Notice that margin leverage is NOT included !!WITHIN!! BTC / USD TOTALS EVER (for UX's sake, too confusing to included in anything other than gain / loss stats)
 	  // We only include data in parenthesis NEXT TO THE BTC / USD PORTFOLIO SUMMARIES
-	  $leverage_text1 = ( $purchase_price_added == 1 && $leverage_added == 1 && $gain_loss_total != NULL ? ' <span class="red"> &nbsp;(includes adjusted long deposits, <i><u>not</u></i> leverage)</span>' : '' );
-	  $leverage_text2 = ( $purchase_price_added == 1 && $leverage_added == 1 && $gain_loss_total != NULL ? ' <span class="red"> &nbsp;(includes adjusted short / long deposits, <i><u>not</u></i> leverage)</span>' : '' );
+	  $leverage_text1 = ( $purchase_price_added == 1 && $leverage_added == 1 && is_numeric($gain_loss_total) == TRUE ? ' <span class="red"> &nbsp;(includes adjusted long deposits, <i><u>not</u></i> leverage)</span>' : '' );
+	  $leverage_text2 = ( $purchase_price_added == 1 && $leverage_added == 1 && is_numeric($gain_loss_total) == TRUE ? ' <span class="red"> &nbsp;(includes adjusted short / long deposits, <i><u>not</u></i> leverage)</span>' : '' );
 
 
 		// BTC / USD portfolio stats output
@@ -391,14 +406,14 @@ $altcoin_dominance = 100 - $bitcoin_dominance;
 		
 		echo '<div class="portfolio_summary"><span class="black">USD Value:</span> $' . number_format($total_usd_worth, 2, '.', ',') . $leverage_text2 . '</div>';
 		
-		echo ( $purchase_price_added == 1 && $leverage_added == 1 && $gain_loss_total != NULL ? '<div class="portfolio_summary"><span class="black">Leverage Included:</span> $' . number_format($total_usd_worth_inc_leverage, 2, '.', ',') . '</div>' : '' );
+		echo ( $purchase_price_added == 1 && $leverage_added == 1 && is_numeric($gain_loss_total) == TRUE ? '<div class="portfolio_summary"><span class="black">Leverage Included:</span> $' . number_format($total_usd_worth_inc_leverage, 2, '.', ',') . '</div>' : '' );
 	
 
 
 
 		// Now that BTC / USD summaries have margin leverage stats NEXT TO THEM (NOT in the actual BTC / USD amounts, for UX's sake), 
 		// we move on to the gain / loss stats WHICH ARE THE ONLY STATS UX FEASIBLE ENOUGH TO INCLUDE MARGIN LEVERAGE DATA INCLUDED IN THE ACTUAL VALUES
-		if ( $gain_loss_total != NULL ) {
+		if ( $purchase_price_added == 1 && is_numeric($gain_loss_total) == TRUE ) {
 			
 			
           // Gain / loss percent
