@@ -835,12 +835,16 @@ $cached_array = explode("||", $data_file);
 	if ( $mode == 'both' && floattostr($asset_usd_raw) >= 0.00000001 && $charts_page == 'on'
 	|| $mode == 'chart' && floattostr($asset_usd_raw) >= 0.00000001 && $charts_page == 'on' ) { 
 	
-		// Only store chart data if the exchange reported volume data too, even if zero (we don't want to store anything if data errors happened from questionable exchanges)
-		if ( floattostr($pairing_value_raw) >= 0.0000000 ) {
-		store_file_contents($base_dir . '/cache/charts/'.$asset.'/'.$asset_data.'_chart_usd.dat', time() . '||' . $asset_usd_raw . '||' . $volume_usd_raw . "\n", "append"); 
+		
+	// USD charts (BTC/USD markets, AND ALSO crypto-to-crypto pairings converted to USD value)
+	store_file_contents($base_dir . '/cache/charts/'.$asset.'/'.$asset_data.'_chart_usd.dat', time() . '||' . $asset_usd_raw . '||' . $volume_usd_raw . "\n", "append"); 
+		
+		// Pure crypto-to-crypto pairing charts
+		if ( $pairing != 'usd' ) {
 		store_file_contents($base_dir . '/cache/charts/'.$asset.'/'.$asset_data.'_chart_'.$pairing.'.dat', time() . '||' . $pairing_value_raw . '||' . $volume_pairing_raw . "\n", "append"); 
 		}
-	
+			
+		
 	}
 
 
