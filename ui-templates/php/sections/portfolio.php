@@ -108,7 +108,9 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 											
 											
 											}
-											
+											elseif ( $held_amount > 0.00000000 ) { // Show even if decimal is off the map, just for UX purposes tracking token price only
+											$assets_watched = 1;
+											}
 										
 										
 										}
@@ -164,6 +166,9 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 												}
 											
 											
+											}
+											elseif ( $held_amount > 0.00000000 ) { // Show even if decimal is off the map, just for UX purposes tracking token price only
+											$assets_watched = 1;
 											}
 											
 										
@@ -320,6 +325,9 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 						
 						
 						}
+						elseif ( $held_amount > 0.00000000 ) { // Show even if decimal is off the map, just for UX purposes tracking token price only
+						$assets_watched = 1;
+						}
 						
 						
 					
@@ -361,7 +369,7 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 
 $total_btc_worth_raw = number_format(bitcoin_total(), 8, '.', '');
 
-$total_btc_worth = pretty_numbers($total_btc_worth_raw, 8);
+$total_btc_worth = ( $total_btc_worth_raw >= 0.00000001 ? pretty_numbers($total_btc_worth_raw, 8) : '0.00000000' );
 
 $total_usd_worth = coin_stats_data('coin_worth_total');
 
@@ -571,7 +579,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance;
 	// End outputting results
 	}
 	
-	if ( $assets_added ) {
+	if ( $assets_added || $assets_watched ) {
 	?>
 	
 	<style>

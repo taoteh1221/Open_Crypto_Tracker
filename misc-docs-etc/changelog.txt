@@ -1552,6 +1552,16 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+3.29.1:
+-Fixed "watch only" assets bug not registering to show on portfolio page, if no held assets are included
+-------------------------------------------------------------------
+
+
+
+
+
+
 
 
 
