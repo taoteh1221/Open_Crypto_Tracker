@@ -438,17 +438,39 @@
 	     <b>Margin Leverage:</b> 
 	     
 	     <select name='<?=$field_var_leverage?>' id='<?=$field_var_leverage?>' onchange='
-	     alert(" Leverage trading in crypto assets is \n EXTREMELY RISKY. NEVER put more \n than ~5% of your crypto investments \n in leveraged trades EVER, OR YOU \n ###COULD LOSE EVERYTHING###. ");
+	     if ( this.value <= 5 ) {
+	     var mode = "Sane";
+	     }
+	     else if ( this.value <= 10 ) {
+	     var mode = "Mostly Sane";
+	     }
+	     else if ( this.value <= 20 ) {
+	     var mode = "Half Sane";
+	     }
+	     else if ( this.value <= 30 ) {
+	     var mode = "Insane";
+	     }
+	     else if ( this.value <= 40 ) {
+	     var mode = "Crazy";
+	     }
+	     else if ( this.value <= 50 ) {
+	     var mode = "Batshit Crazy";
+	     }
+	     else if ( this.value >= 50 ) {
+	     var mode = "Beyond Batshit Crazy";
+	     }
+	     alert(" " + this.value + "x (" + mode + " Mode) \n Leverage trading in crypto assets is \n EXTREMELY RISKY. NEVER put more \n than ~5% of your crypto investments \n in leveraged trades EVER, OR YOU \n ###COULD LOSE EVERYTHING###. ");
 	     '>
 	     <option value='0' <?=( $coin_leverage_value == 0 ? 'selected' : '' )?>> None </option>
-	     <option value='2' <?=( $coin_leverage_value == 2 ? 'selected' : '' )?>> 2x </option>
-	     <option value='3' <?=( $coin_leverage_value == 3 ? 'selected' : '' )?>> 3x </option>
-	     <option value='4' <?=( $coin_leverage_value == 4 ? 'selected' : '' )?>> 4x </option>
-	     <option value='5' <?=( $coin_leverage_value == 5 ? 'selected' : '' )?>> 5x </option>
-	     <option value='10' <?=( $coin_leverage_value == 10 ? 'selected' : '' )?>> 10x </option>
-	     <option value='25' <?=( $coin_leverage_value == 25 ? 'selected' : '' )?>> 25x </option>
-	     <option value='50' <?=( $coin_leverage_value == 50 ? 'selected' : '' )?>> 50x </option>
-	     <option value='100' <?=( $coin_leverage_value == 100 ? 'selected' : '' )?>> 100x </option>
+	     <?php
+	     $leverage_count = 2;
+	     while ( $leverage_count <= 100 ) {
+	     ?>	     
+	     <option value='<?=$leverage_count?>' <?=( $coin_leverage_value == $leverage_count ? 'selected' : '' )?>> <?=$leverage_count?>x </option>
+	     <?php
+	     $leverage_count = $leverage_count + 1;
+	     }
+	     ?>
 	     </select> 
 	     
 	     
