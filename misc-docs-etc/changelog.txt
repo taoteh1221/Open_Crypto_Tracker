@@ -1569,6 +1569,7 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 3.30.0:
 -Leverage trading UX / UI
+-Revised default config settings
 -------------------------------------------------------------------
 
 

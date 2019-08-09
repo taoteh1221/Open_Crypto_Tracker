@@ -60,7 +60,7 @@ $marketcap_cache = 20; // Minutes to cache above-mentioned marketcap rankings...
 // Minutes to cache real-time exchange data...can be zero to skip cache, but set to at least 1 minute to avoid your IP getting blocked
 $last_trade_cache = 2; 
 
-$chainstats_cache = 20; // Minutes to cache blockchain stats (for mining calculators). Set high initially, can be strict
+$chainstats_cache = 30; // Minutes to cache blockchain stats (for mining calculators). Set high initially, can be strict
 
 $delete_old_backups = 7; // Days until old zip archive backups should be deleted (chart data archives, etc)
 
@@ -289,7 +289,7 @@ $mining_rewards = array(
 					'btc' => '12.5',
 					'eth' => '2',
 					'xmr' => monero_reward(),  // (2^64 - 1 - current_supply * 10^12) * 2^-19 * 10^-12
-					'ltc' => '25',
+					'ltc' => '12.5',
 					'dcr' => ( decred_api('subsidy', 'work_reward') / 100000000 ),
 					'grin' => '60',
 					);

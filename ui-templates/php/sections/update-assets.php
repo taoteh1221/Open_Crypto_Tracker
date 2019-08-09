@@ -456,7 +456,7 @@
 	     else if ( this.value <= 50 ) {
 	     var mode = "Batshit Crazy";
 	     }
-	     else if ( this.value >= 50 ) {
+	     else if ( this.value > 50 ) {
 	     var mode = "Beyond Batshit Crazy";
 	     }
 	     alert(" " + this.value + "x (" + mode + " Mode) \n Leverage trading in crypto assets is \n EXTREMELY RISKY. NEVER put more \n than ~5% of your crypto investments \n in leveraged trades EVER, OR YOU \n ###COULD LOSE EVERYTHING###. ");
