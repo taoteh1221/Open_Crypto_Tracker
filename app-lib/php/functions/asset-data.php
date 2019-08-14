@@ -715,7 +715,7 @@ $cached_array = explode("||", $data_file);
           	
           	$desc_alert_type = ( $asset_price_alerts_refresh > 0 ? 'refresh' : 'alert' );
           	
-          	// IF USD volume was zero last alert / refresh, for UX sake we use current USD volume instead of current base volume (for percent up, so it's not up 70,000% for altcoins lol)
+          	// IF USD volume was zero last alert / refresh, for UX sake we use current USD volume instead of current pair volume (for percent up, so it's not up 70,000% for altcoins lol)
           	if ( $cached_usd_volume == 0 ) {
           	$volume_describe = 'USD volume was $0 last price ' . $desc_alert_type . ', and ';
           	$volume_describe_mobile = 'USD vol up from $0 last ' . $desc_alert_type;
@@ -726,8 +726,8 @@ $cached_array = explode("||", $data_file);
           	$volume_describe_mobile = 'USD vol up from NULL last ' . $desc_alert_type;
           	}
           	else {
-          	$volume_describe = 'base volume ';
-          	$volume_describe_mobile = 'base vol';
+          	$volume_describe = 'pair volume ';
+          	$volume_describe_mobile = 'pair vol';
           	}
           
           
