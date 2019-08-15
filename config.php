@@ -205,7 +205,6 @@ $asset_charts_and_alerts = array(
 					'ltc' => 'bittrex||btc||chart',
 					'ltc-2' => 'bittrex||eth||chart',
 					'ltc-3' => 'poloniex||btc||chart',
-					'ltc-4' => 'poloniex||xmr||chart',
 					'ltc-5' => 'binance||usdt||both',
 					'ltc-6' => 'binance||eth||chart',
 					
@@ -466,10 +465,6 @@ $coins_list = array(
                                         'tradesatoshi' => 'LTC_BTC'
                                                     ),
                                                     
-                                    'xmr' => array(
-                                        'poloniex' => 'XMR_LTC'
-                                                    ),
-                                                    
                                     'eth' => array(
                                         'binance' => 'LTCETH',
                                         'bittrex' => 'ETH-LTC',
@@ -644,8 +639,7 @@ $coins_list = array(
                                                     ),
                                                     
                                     'eth' => array(
-                                        	'binance' => 'STEEMETH',
-                                          'poloniex' => 'ETH_STEEM'
+                                        	'binance' => 'STEEMETH'
                                                     )
                                                     
                                         ) // market_pairing END
@@ -737,7 +731,6 @@ $coins_list = array(
                                                     
                                     'eth' => array(
                                           'bittrex' => 'ETH-GNT',
-                                          'poloniex' => 'ETH_GNT',
                                         	'ethfinex' => 'tGNTETH',
                                           'upbit' => 'ETH-GNT',
                                         	'livecoin' => 'GNT/ETH',
