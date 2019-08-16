@@ -165,13 +165,15 @@
 	        
 	        <li class='links_list'><a href='https://trezor.io/' target='_blank'>Trezor</a> (open source multi-coin hardware wallet)</li>
 	        
+	        <li class='links_list'><a href='https://greenaddress.it/' target='_blank'>Bitcoin GreenAddress Wallet</a> (Bitcoin software wallet with hardware wallet support)</li>
+	        
 	        <li class='links_list'><a href='https://bitcoin.org/en/choose-your-wallet' target='_blank'>Bitcoin Wallets</a> (Bitcoin hardware / software wallets)</li>
 	        
 	        <li class='links_list'><a href='https://metamask.io/' target='_blank'>Metamask</a> (Ethereum software wallet browser extension)</li>
 	        
-	        <li class='links_list'><a href='https://mycrypto.com/' target='_blank'>Mycrypto.com</a> (Ethereum online wallet)</li>
+	        <li class='links_list'><a href='https://mycrypto.com/' target='_blank'>Mycrypto.com</a> (Ethereum online wallet with hardware wallet support)</li>
 	        
-	        <li class='links_list'><a href='https://download.mycrypto.com/' target='_blank'>Mycrypto Desktop App</a> (Ethereum software wallet)</li>
+	        <li class='links_list'><a href='https://download.mycrypto.com/' target='_blank'>Mycrypto Desktop App</a> (Ethereum software wallet with hardware wallet support)</li>
 	        
 	        
 	        
