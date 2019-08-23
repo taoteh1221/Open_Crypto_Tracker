@@ -507,11 +507,16 @@ $altcoin_dominance = 100 - $bitcoin_dominance;
 		}
 		if ( floattostr($bitcoin_dominance) >= 0.01 || floattostr($altcoin_dominance) >= 0.01 ) {
 			
+			
+			if ( floattostr($altcoin_dominance) >= 0.01 ) {
+			$altcoin_dominance_text = ' / ' . number_format($altcoin_dominance, 2, '.', ',') .'% Altcoin(s)';
+			}
+			
 			if ( floattostr($bitcoin_dominance) >= 0.01 ) {
-			echo '<div class="portfolio_summary"><span class="black">Dominance:</span> ' . number_format($bitcoin_dominance, 2, '.', ',') . '% Bitcoin / ' . number_format($altcoin_dominance, 2, '.', ',') .'% Altcoin(s)';
+			echo '<div class="portfolio_summary"><span class="black">Dominance:</span> ' . number_format($bitcoin_dominance, 2, '.', ',') . '% Bitcoin' . $altcoin_dominance_text;
 			}
 			else {
-			echo '<div class="portfolio_summary"><span class="black">Dominance</span>';
+			echo '<div class="portfolio_summary"><span class="black">Dominance</span> 100% Altcoin(s)';
 			}
 			
 		?>
