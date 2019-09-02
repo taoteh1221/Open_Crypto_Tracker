@@ -181,7 +181,7 @@ $data = array();
 	$data['last_updated'] = strtotime( coingecko_api($symbol)['last_updated'] );
 	
 	}
-	elseif ( $marketcap_site == 'coinmarketcap' && trim($coinmarketcapcom_api_key) != NULL ) { 
+	elseif ( $marketcap_site == 'coinmarketcap' ) { 
 		
 	$data['rank'] = coinmarketcap_api($symbol)['cmc_rank'];
 	$data['price'] = coinmarketcap_api($symbol)['quote']['USD']['price'];
@@ -197,11 +197,6 @@ $data = array();
 	$data['max_supply'] = coinmarketcap_api($symbol)['max_supply'];
 	
 	$data['last_updated'] = coinmarketcap_api($symbol)['last_updated'];
-	
-	}
-	elseif ( $marketcap_site == 'coinmarketcap' && trim($coinmarketcapcom_api_key) == NULL ) { 
-		
-	$_SESSION['cmc_config_error'] = date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | configuration error: "$coinmarketcapcom_api_key" is not configured in config.php' . "<br /> \n";
 	
 	}
 
@@ -592,7 +587,7 @@ $asset = strtoupper($asset);
 	}
 	
 	if ( floattostr($asset_usd_raw) == NULL ) {
-	$_SESSION['other_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | error: No asset value set | charts_alerts_data: ' . $asset_data . ' (' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ") <br /> \n";
+	$_SESSION['other_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | error: No asset USD value set | charts_alerts_data: ' . $asset_data . ' (' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ") <br /> \n";
 	$set_return = 1;
 	}
 	

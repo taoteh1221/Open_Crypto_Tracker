@@ -213,8 +213,17 @@ $array_merging = array();
 
 function coinmarketcap_api($symbol) {
 	
-global $api_timeout, $coinmarketcapcom_api_key, $marketcap_ranks_max, $marketcap_cache;
+global $runtime_mode, $api_timeout, $coinmarketcapcom_api_key, $marketcap_ranks_max, $marketcap_cache;
 
+
+	if ( trim($coinmarketcapcom_api_key) == NULL ) { 
+		
+	$_SESSION['cmc_config_error'] = date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | configuration error: "$coinmarketcapcom_api_key" is not configured in config.php' . "<br /> \n";
+	
+	return FALSE;
+	
+	}
+	
 
 	if ( !$_SESSION['cmc_data'] ) {
 	
