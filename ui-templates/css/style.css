@@ -102,6 +102,16 @@ CLASSES
 ////////////////////////////// */
 
 
+.al_right {
+text-align: right;
+}
+
+
+.al_right span {
+padding-right: 5px;
+}
+
+
 .extra_margins {
 padding: 11px;
 }
