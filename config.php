@@ -50,12 +50,15 @@ $block_volume_error = 'on'; // 'on' / 'off'
 // Default Bitcoin to USD (or equiv stable coin)
 $btc_exchange = 'binance'; // coinbase / binance / bitstamp / bitfinex / kraken / gemini / hitbtc / okcoin / livecoin
 
-$marketcap_site = 'coinmarketcap'; // Default marketcap data source: 'coinmarketcap', or 'coingecko'
+$marketcap_site = 'coingecko'; // Default marketcap data source: 'coinmarketcap', or 'coingecko'
 
 // Number of marketcap rankings to request from API. Ranks are grabbed 100 per request
-$marketcap_ranks_max = 200; // 200 rankings is the safe maximum to avoid getting your API requests throttled / blocked
+$marketcap_ranks_max = 200; // 200 rankings is a safe maximum to start with, it avoids getting your API requests throttled / blocked
 
 $marketcap_cache = 20; // Minutes to cache above-mentioned marketcap rankings...start high and test lower, it can be strict
+
+// API key for coinmarketcap.com Pro API (required unfortunately, FREE level is available): https://coinmarketcap.com/api
+$coinmarketcapcom_api_key = '';
 
 // Minutes to cache real-time exchange data...can be zero to skip cache, but set to at least 1 minute to avoid your IP getting blocked
 $last_trade_cache = 2; 

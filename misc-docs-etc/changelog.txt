@@ -1577,6 +1577,7 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 3.31.0:
 -UX revisions
+-Compatibility with new coinmarketcap API (requires an API key now in config.php)
 -------------------------------------------------------------------
 
 

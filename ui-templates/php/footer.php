@@ -10,6 +10,8 @@
 	}
 	
 	$other_error_logs .= $_SESSION['other_error'];
+	
+	$other_error_logs .= $_SESSION['cmc_config_error'];
 
 ?>
             	

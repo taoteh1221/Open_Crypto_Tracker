@@ -773,7 +773,7 @@ function delete_all_cookies() {
 ////////////////////////////////////////////////////////
 
 
-function pretty_numbers($amount_value, $amount_decimals, $small_unlimited=false) {
+function pretty_numbers($amount_value, $num_decimals, $small_unlimited=false) {
 
 
 // Pretty number formatting, while maintaining decimals
@@ -790,12 +790,18 @@ $raw_amount_value = remove_number_format($amount_value);
 	    	$amount_decimal = NULL;
 	    	$check_amount_decimal = NULL;
 	    	}
+	    	
+	    	
+	    // Limit $amount_decimal to $num_decimals (unless it's a watch-only asset)
+	    if ( $raw_amount_value != 0.000000001 ) {
+	    $amount_decimal = ( iconv_strlen($amount_decimal, "UTF-8") > $num_decimals ? substr($amount_decimal, 0, $num_decimals) : $amount_decimal );
+	    }
 	    
 	    	
 	    	// Show even if low value is off the map, just for UX purposes (tracking token price only, etc)
 	    	if ( floattostr($raw_amount_value) > 0.00000000 && $small_unlimited == TRUE ) {  
 	    		
-	    		if ( $amount_decimals == 2 ) {
+	    		if ( $num_decimals == 2 ) {
 	    		$amount_value = number_format($raw_amount_value, 2, '.', ',');
 	    		}
 	    		else {
@@ -807,7 +813,7 @@ $raw_amount_value = remove_number_format($amount_value);
 	    	// Show low value only with 8 decimals minimum
 	    	elseif ( floattostr($raw_amount_value) >= 0.00000001 && $small_unlimited == FALSE ) {  
 	    		
-	    		if ( $amount_decimals == 2 ) {
+	    		if ( $num_decimals == 2 ) {
 	    		$amount_value = number_format($raw_amount_value, 2, '.', ',');
 	    		}
 	    		else {
@@ -1140,6 +1146,8 @@ $error_logs .= strip_tags($_SESSION['config_error']); // Remove any HTML formatt
 
 $error_logs .= strip_tags($_SESSION['other_error']); // Remove any HTML formatting used in UI alerts
 
+$error_logs .= strip_tags($_SESSION['cmc_config_error']); // Remove any HTML formatting used in UI alerts
+
 	foreach ( $_SESSION['repeat_error'] as $error ) {
 	$error_logs .= strip_tags($error); // Remove any HTML formatting used in UI alerts
 	}
@@ -1252,7 +1260,7 @@ $textlocal_params = array(
 ////////////////////////////////////////////////////////
 
 
-function api_data($mode, $request, $ttl, $api_server=null, $post_encoding=3, $test_proxy=NULL) { // Default to JSON encoding post requests (most used)
+function api_data($mode, $request, $ttl, $api_server=null, $post_encoding=3, $test_proxy=NULL, $headers=NULL) { // Default to JSON encoding post requests (most used)
 
 global $base_dir, $user_agent, $api_timeout, $api_strict_ssl, $proxy_login, $proxy_list, $runtime_mode;
 
@@ -1268,6 +1276,9 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 	
 	$ch = curl_init( ( $mode == 'array' ? $api_server : '' ) );
 	
+		if ( $headers != NULL ) {
+		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+		}
 		
 		if ( sizeof($proxy_list) > 0 ) {
 			

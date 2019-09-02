@@ -158,27 +158,12 @@ function detect_pairing($pair_name) {
 
 function marketcap_data($symbol) {
 	
-global $marketcap_site, $alert_percent;
+global $runtime_mode, $marketcap_site, $coinmarketcapcom_api_key, $alert_percent;
 
 $data = array();
 
 
-	if ( $marketcap_site == 'coinmarketcap' ) { 
-		
-	$data['rank'] = coinmarketcap_api($symbol)['rank'];
-	$data['price'] = coinmarketcap_api($symbol)['quotes']['USD']['price'];
-	$data['market_cap'] = coinmarketcap_api($symbol)['quotes']['USD']['market_cap'];
-	$data['volume_24h'] = coinmarketcap_api($symbol)['quotes']['USD']['volume_24h'];
-	$data['percent_change_1h'] = coinmarketcap_api($symbol)['quotes']['USD']['percent_change_1h'];
-	$data['percent_change_24h'] = coinmarketcap_api($symbol)['quotes']['USD']['percent_change_24h'];
-	$data['percent_change_7d'] = coinmarketcap_api($symbol)['quotes']['USD']['percent_change_7d'];
-	$data['circulating_supply'] = coinmarketcap_api($symbol)['circulating_supply'];
-	$data['total_supply'] = coinmarketcap_api($symbol)['total_supply'];
-	$data['max_supply'] = coinmarketcap_api($symbol)['max_supply'];
-	$data['last_updated'] = coinmarketcap_api($symbol)['last_updated'];
-	
-	}
-	elseif ( $marketcap_site == 'coingecko' ) {
+	if ( $marketcap_site == 'coingecko' ) {
 		
 	$data['rank'] = coingecko_api($symbol)['market_data']['market_cap_rank'];
 	$data['price'] = coingecko_api($symbol)['market_data']['current_price']['usd'];
@@ -196,9 +181,36 @@ $data = array();
 	$data['last_updated'] = strtotime( coingecko_api($symbol)['last_updated'] );
 	
 	}
+	elseif ( $marketcap_site == 'coinmarketcap' && trim($coinmarketcapcom_api_key) != NULL ) { 
+		
+	$data['rank'] = coinmarketcap_api($symbol)['cmc_rank'];
+	$data['price'] = coinmarketcap_api($symbol)['quote']['USD']['price'];
+	$data['market_cap'] = coinmarketcap_api($symbol)['quote']['USD']['market_cap'];
+	$data['volume_24h'] = coinmarketcap_api($symbol)['quote']['USD']['volume_24h'];
+	
+	$data['percent_change_1h'] = number_format( coinmarketcap_api($symbol)['quote']['USD']['percent_change_1h'] , 2, ".", ",");
+	$data['percent_change_24h'] = number_format( coinmarketcap_api($symbol)['quote']['USD']['percent_change_24h'] , 2, ".", ",");
+	$data['percent_change_7d'] = number_format( coinmarketcap_api($symbol)['quote']['USD']['percent_change_7d'] , 2, ".", ",");
+	
+	$data['circulating_supply'] = coinmarketcap_api($symbol)['circulating_supply'];
+	$data['total_supply'] = coinmarketcap_api($symbol)['total_supply'];
+	$data['max_supply'] = coinmarketcap_api($symbol)['max_supply'];
+	
+	$data['last_updated'] = coinmarketcap_api($symbol)['last_updated'];
+	
+	}
+	elseif ( $marketcap_site == 'coinmarketcap' && trim($coinmarketcapcom_api_key) == NULL ) { 
+		
+	$_SESSION['cmc_config_error'] = date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | configuration error: "$coinmarketcapcom_api_key" is not configured in config.php' . "<br /> \n";
+	
+	}
 
+	
+	// UX on number values
+	$data['price'] = ( floattostr($data['price']) >= 1.01 ? pretty_numbers($data['price'], 2) : pretty_numbers($data['price'], 8) );
+	
 
-return $data;
+return ( $data['rank'] != NULL ? $data : NULL );
 
 }
 
@@ -860,7 +872,7 @@ return TRUE;
 
 function ui_coin_data($coin_name, $trade_symbol, $coin_amount, $market_pairing_array, $selected_pairing, $selected_market, $purchase_price=NULL, $leverage_level, $selected_margintype) {
 
-global $_POST, $theme_selected, $coins_list, $btc_exchange, $marketcap_site, $marketcap_cache, $alert_percent, $marketcap_ranks_max, $api_timeout;
+global $_POST, $theme_selected, $coins_list, $btc_exchange, $marketcap_site, $marketcap_cache, $coinmarketcapcom_api_key, $alert_percent, $marketcap_ranks_max, $api_timeout;
 
 $rand_id = rand(10000000,100000000);
   
@@ -1127,11 +1139,22 @@ $market_pairing = $all_markets[$selected_market];
 
 		<?php
 		if ( !marketcap_data($trade_symbol)['rank'] ) {
-		?>
+			
+			if ( $marketcap_site == 'coinmarketcap' && trim($coinmarketcapcom_api_key) == NULL ) {
+			?>
 
-	var cmc_content = '<h5 style="color: #e5f1ff;"><?=ucfirst($marketcap_site)?> API may be offline / under heavy load, <br />marketcap range not set high enough (current range is top <?=$marketcap_ranks_max?> marketcaps), <br />or API timeout set too low (current timeout is <?=$api_timeout?> seconds). <br />Configuration adjustments can be made in config.php.</h5>';
+			var cmc_content = '<h5 style="color: #e5f1ff;"><?=ucfirst($marketcap_site)?> API key is required. <br />Configuration adjustments can be made in config.php.</h5>';
 	
 			<?php
+			}
+			else {
+			?>
+
+			var cmc_content = '<h5 style="color: #e5f1ff;"><?=ucfirst($marketcap_site)?> API may be offline / under heavy load, <br />marketcap range not set high enough (current range is top <?=$marketcap_ranks_max?> marketcaps), <br />or API timeout set too low (current timeout is <?=$api_timeout?> seconds). <br />Configuration adjustments can be made in config.php.</h5>';
+	
+			<?php
+			}
+
 			if ( sizeof($alert_percent) > 1 ) {
 			?>
 			
@@ -1147,7 +1170,7 @@ $market_pairing = $all_markets[$selected_market];
         ?> 
     
         var cmc_content = '<h5 class="yellow" style="position: relative; white-space: nowrap;"><?=ucfirst($marketcap_site)?>.com Summary For <?=$coin_name?> (<?=$trade_symbol?>):</h5>'
-        +'<p class="coin_info"><span class="yellow">Average Global Market Price:</span> $<?=number_format(marketcap_data($trade_symbol)['price'],8,".",",")?></p>'
+        +'<p class="coin_info"><span class="yellow">Average Global Market Price:</span> $<?=marketcap_data($trade_symbol)['price']?></p>'
         +'<p class="coin_info"><span class="yellow">Marketcap Ranking:</span> #<?=marketcap_data($trade_symbol)['rank']?></p>'
         +'<p class="coin_info"><span class="yellow">Marketcap (USD):</span> $<?=number_format(marketcap_data($trade_symbol)['market_cap'],0,".",",")?></p>'
         +'<p class="coin_info"><span class="yellow">24 Hour Global Volume (USD):</span> $<?=number_format(marketcap_data($trade_symbol)['volume_24h'],0,".",",")?></p>'
@@ -1286,14 +1309,19 @@ $market_pairing = $all_markets[$selected_market];
 <?php
 
   if ( $btc_trade_eqiv ) {
-  echo ' $'.number_format(( get_btc_usd($btc_exchange)['last_trade'] * $btc_trade_eqiv ), 8, '.', ',');
+  $dollar_value = ( get_btc_usd($btc_exchange)['last_trade'] * $btc_trade_eqiv );
   }
   elseif ( $coin_name != 'Bitcoin' ) {
-  echo ' $'.number_format(( get_btc_usd($btc_exchange)['last_trade'] * $coin_value_raw ), 8, '.', ',');
+  $dollar_value = ( get_btc_usd($btc_exchange)['last_trade'] * $coin_value_raw );
   }
   else {
-  echo ' $'.number_format(get_btc_usd($btc_exchange)['last_trade'], 2, '.', ',');
+  $dollar_value = get_btc_usd($btc_exchange)['last_trade'];
   }
+
+  // UX on number values
+  $dollar_value = ( floattostr($dollar_value) >= 1.01 ? pretty_numbers($dollar_value, 2) : pretty_numbers($dollar_value, 8) );
+	
+  echo '$' . $dollar_value;
 
 ?>
 
