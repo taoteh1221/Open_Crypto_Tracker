@@ -352,11 +352,13 @@
 	    <ul>
 	        
 	        
+	        <li class='links_list'><a href='https://nakamotoinstitute.org/' target='_blank'>Nakamotoinstitute.org</a></li>
+	        
+	        <li class='links_list'><a href='https://twitter.com/hashtag/cryptotwitter?src=hash' target='_blank'>#CryptoTwitter</a></li>
+	        
 	        <li class='links_list'><a href='https://www.reddit.com/r/Bitcoin/' target='_blank'>Bitcoin Subreddit</a></li>
 	        
 	        <li class='links_list'><a href='https://www.reddit.com/r/ethereum/' target='_blank'>Ethereum Subreddit</a></li>
-	        
-	        <li class='links_list'><a href='https://twitter.com/hashtag/cryptotwitter?src=hash' target='_blank'>#CryptoTwitter</a></li>
 	        
 	        <li class='links_list'><a href='https://coincenter.org/' target='_blank'>CoinCenter.org</a></li>
 	        
