@@ -79,6 +79,8 @@
 	        
 	        <li class='links_list'><a href='https://www.blockchain.com/charts/n-transactions?timespan=all' target='_blank'>Bitcoin Confirmed Transactions Per Day Charts</a></li>
 	        
+	        <li class='links_list'><a href='https://www.blockchain.com/charts/hash-rate?timespan=all' target='_blank'>Bitcoin Hashrate (mining)</a></li>
+	        
 	        
 	        
 	    </ul>
