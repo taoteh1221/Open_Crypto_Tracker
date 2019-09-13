@@ -252,9 +252,10 @@ global $runtime_mode, $api_timeout, $coinmarketcapcom_api_key, $marketcap_ranks_
 	
 	}
 
-
+	
 
     if ( is_array($_SESSION['cmc_data']) || is_object($_SESSION['cmc_data']) ) {
+  		
   		
   	   	foreach ($_SESSION['cmc_data'] as $key => $value) {
      	  	

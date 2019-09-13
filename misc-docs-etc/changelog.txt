@@ -1583,7 +1583,8 @@ app doing the data requests, not a malicious bot)
 
 
 -------------------------------------------------------------------
-3.32.0:
+3.31.1:
+-Timestamp bug fix for marketcap data
 -Optimizations
 -UX / UI improvements
 -------------------------------------------------------------------

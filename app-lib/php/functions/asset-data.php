@@ -182,7 +182,7 @@ $data = array();
 	
 	}
 	elseif ( $marketcap_site == 'coinmarketcap' ) { 
-		
+
 	$data['rank'] = coinmarketcap_api($symbol)['cmc_rank'];
 	$data['price'] = coinmarketcap_api($symbol)['quote']['USD']['price'];
 	$data['market_cap'] = coinmarketcap_api($symbol)['quote']['USD']['market_cap'];
@@ -196,10 +196,10 @@ $data = array();
 	$data['total_supply'] = coinmarketcap_api($symbol)['total_supply'];
 	$data['max_supply'] = coinmarketcap_api($symbol)['max_supply'];
 	
-	$data['last_updated'] = coinmarketcap_api($symbol)['last_updated'];
+	$data['last_updated'] = strtotime( coinmarketcap_api($symbol)['last_updated'] );
 	
 	}
-
+ 	
 	
 	// UX on number values
 	$data['price'] = ( floattostr($data['price']) >= 1.01 ? pretty_numbers($data['price'], 2) : pretty_numbers($data['price'], 8) );
