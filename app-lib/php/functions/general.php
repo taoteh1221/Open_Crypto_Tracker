@@ -128,6 +128,27 @@ return floattostr($text);
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
 
+// See if $val is a whole number without decimals
+function whole_int($val) {
+	
+    $val = strval($val);
+    $val = str_replace('-', '', $val);
+
+    if (ctype_digit($val))
+    {
+        if ($val === (string)0)
+            return true;
+        elseif(ltrim($val, '0') === $val)
+            return true;
+    }
+
+    return false;
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
 
 function start_page($page, $href_link=false) {
 

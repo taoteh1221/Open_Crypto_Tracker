@@ -136,9 +136,12 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 	        		
 	        			if ( remove_number_format($value[1]) > 0.00000000 ) {  // Show even if decimal is off the map, just for UX purposes tracking token price only
 	        			
+	        			$value[5] = ( whole_int($value[5]) != false ? $value[5] : 1 ); // If market ID input is corrupt, default to 1
+	        			$value[3] = ( whole_int($value[3]) != false ? $value[3] : 0 ); // If leverage amount input is corrupt, default to 0
+	        			
 										$held_amount = remove_number_format($value[1]);
 										$coin_symbol = strtoupper($value[0]);
-										$selected_pairing = $value[6];
+										$selected_pairing = strtolower($value[6]);
 										$selected_market = $value[5] - 1; // Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
 										$purchase_price = remove_number_format($value[2]);
 										$leverage_level = $value[3];

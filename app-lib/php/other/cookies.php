@@ -139,9 +139,12 @@ elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $run_csv_i
 	        		
 	    // Must be compatible with UI form cookie storage method: $key.'-'. $_POST[$key] . '#'
 	    
+	     $value[5] = ( whole_int($value[5]) != false ? $value[5] : 1 ); // If market ID input is corrupt, default to 1
+	     $value[3] = ( whole_int($value[3]) != false ? $value[3] : 0 ); // If leverage amount input is corrupt, default to 0
+	    
 	     $compat_key = strtolower($key);
 	     	
-	     $set_pairing_values .= $compat_key . '_pairing-' . $value[6] . '#';
+	     $set_pairing_values .= $compat_key . '_pairing-' . strtolower($value[6]) . '#';
 	     
 		  $set_market_values .= $compat_key . '_market-' . $value[5] . '#';
 		  
