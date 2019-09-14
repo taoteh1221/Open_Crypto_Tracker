@@ -202,7 +202,7 @@ $data = array();
  	
 	
 	// UX on number values
-	$data['price'] = ( floattostr($data['price']) >= 1.01 ? pretty_numbers($data['price'], 2) : pretty_numbers($data['price'], 8) );
+	$data['price'] = ( floattostr($data['price']) >= 1.00 ? pretty_numbers($data['price'], 2) : pretty_numbers($data['price'], 6) );
 	
 
 return ( $data['rank'] != NULL ? $data : NULL );
@@ -1314,7 +1314,7 @@ $market_pairing = $all_markets[$selected_market];
   }
 
   // UX on number values
-  $dollar_value = ( floattostr($dollar_value) >= 1.01 ? pretty_numbers($dollar_value, 2) : pretty_numbers($dollar_value, 8) );
+  $dollar_value = ( floattostr($dollar_value) >= 1.00 ? pretty_numbers($dollar_value, 2) : pretty_numbers($dollar_value, 6) );
 	
   echo '$' . $dollar_value;
 
