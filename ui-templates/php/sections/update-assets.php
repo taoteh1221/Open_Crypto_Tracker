@@ -476,7 +476,7 @@
 	     
 	     <select name='<?=$field_var_margintype?>' id='<?=$field_var_margintype?>'>
 	     <option value='long' <?=( $coin_margintype_value == 'long' ? 'selected' : '' )?>> Long </option>
-	     <option value='short' <?=( $coin_margintype_value == 'short' ? 'selected' : '' )?>> Short </option>
+	     <option value='short' <?=( $coin_leverage_value >= 2 && $coin_margintype_value == 'short' ? 'selected' : '' )?>> Short </option>
 	     </select> 
 	     
 	     

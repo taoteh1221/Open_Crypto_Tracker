@@ -1591,6 +1591,16 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+3.31.2:
+-Minor bug fix for leveraged trades UI (when no leverage chosen)
+-Brighter green / red text within info balloons
+-------------------------------------------------------------------
+
+
+
+
+
 
 
 

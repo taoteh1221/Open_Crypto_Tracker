@@ -102,7 +102,7 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 												$leverage_added = 1;
 												}
 												
-												if ( $selected_margintype == 'short' ) {
+												if ( $leverage_level >= 2 && $selected_margintype == 'short' ) {
 												$short_added = 1;
 												}
 											
@@ -161,7 +161,7 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 												$leverage_added = 1;
 												}
 												
-												if ( $selected_margintype == 'short' ) {
+												if ( $leverage_level >= 2 && $selected_margintype == 'short' ) {
 												$short_added = 1;
 												}
 											
@@ -319,7 +319,7 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 							$leverage_added = 1;
 							}
 												
-							if ( $selected_margintype == 'short' ) {
+							if ( $leverage_level >= 2 && $selected_margintype == 'short' ) {
 							$short_added = 1;
 							}
 						
@@ -471,7 +471,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance;
 							
 							
 				?>
-			+'<p class="coin_info"><span class="yellow"><?=$value['coin_symbol']?>:</span> <span class="<?=( $value['gain_loss_total'] >= 0 ? 'green_bright">+$' : 'red">' )?><?=$parsed_gain_loss?> / <?=( $value['gain_loss_total'] >= 0 ? '+' : '' )?><?=number_format($value['gain_loss_percent_total'], 2, '.', ',')?>%</span> <?=( $value['coin_leverage'] >= 2 ? '(' . $value['coin_leverage'] . 'x ' . $value['selected_margintype'] . ')' : '' )?></p>'
+			+'<p class="coin_info"><span class="yellow"><?=$value['coin_symbol']?>:</span> <span class="<?=( $value['gain_loss_total'] >= 0 ? 'green_bright">+$' : 'red_bright">' )?><?=$parsed_gain_loss?> / <?=( $value['gain_loss_total'] >= 0 ? '+' : '' )?><?=number_format($value['gain_loss_percent_total'], 2, '.', ',')?>%</span> <?=( $value['coin_leverage'] >= 2 ? '(' . $value['coin_leverage'] . 'x ' . $value['selected_margintype'] . ')' : '' )?></p>'
 			
 			<?php
 						}
