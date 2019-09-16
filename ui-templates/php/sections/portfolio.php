@@ -378,7 +378,9 @@ $total_usd_worth = coin_stats_data('coin_worth_total');
 
 $bitcoin_dominance = ( $_SESSION['btc_worth_array']['BTC'] / $total_btc_worth_raw ) * 100;
 
-$altcoin_dominance = 100 - $bitcoin_dominance;
+$ethereum_dominance = ( $_SESSION['btc_worth_array']['ETH'] / $total_btc_worth_raw ) * 100;
+
+$altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	
 		
 ?>
@@ -508,26 +510,33 @@ $altcoin_dominance = 100 - $bitcoin_dominance;
 		 
 		<?php
 		}
-		if ( floattostr($bitcoin_dominance) >= 0.01 || floattostr($altcoin_dominance) >= 0.01 ) {
+		if ( floattostr($bitcoin_dominance) >= 0.01 || floattostr($ethereum_dominance) >= 0.01 || floattostr($altcoin_dominance) >= 0.01 ) {
 			
-			
-			if ( floattostr($altcoin_dominance) >= 0.01 ) {
-			$altcoin_dominance_text = ' / ' . number_format($altcoin_dominance, 2, '.', ',') .'% Altcoin(s)';
-			}
 			
 			if ( floattostr($bitcoin_dominance) >= 0.01 ) {
-			echo '<div class="portfolio_summary"><span class="black">Dominance:</span> ' . number_format($bitcoin_dominance, 2, '.', ',') . '% Bitcoin' . $altcoin_dominance_text;
+			$bitcoin_dominance_text = number_format($bitcoin_dominance, 2, '.', ',') . '% Bitcoin';
+			$seperator_btc = ( floattostr($bitcoin_dominance) < 100 ? ' / ' : '' );
 			}
-			else {
-			echo '<div class="portfolio_summary"><span class="black">Dominance</span> 100% Altcoin(s)';
+			
+			if ( floattostr($ethereum_dominance) >= 0.01 ) {
+			$ethereum_dominance_text = number_format($ethereum_dominance, 2, '.', ',') . '% Ethereum';
+			$seperator_eth = ( floattostr($bitcoin_dominance) + floattostr($ethereum_dominance) < 100 ? ' / ' : '' );
 			}
+			
+			if ( floattostr($altcoin_dominance) >= 0.01 ) {
+			$altcoin_dominance_text = number_format($altcoin_dominance, 2, '.', ',') .'% Altcoin(s)';
+			}
+			
+			
+			echo '<div class="portfolio_summary"><span class="black">Balance:</span> ' . $bitcoin_dominance_text . $seperator_btc . $ethereum_dominance_text . $seperator_eth . $altcoin_dominance_text;
+			
 			
 		?>
 		
 		<img id='portfolio_dominance' src='ui-templates/media/images/info.png' alt='' width='30' border='0' style='position: relative; left: -5px;' /> </div>
 	 <script>
 	
-			var dominance_content = '<h5 class="yellow" style="position: relative; white-space: nowrap;">Portfolio Dominance Stats:</h5>'
+			var dominance_content = '<h5 class="yellow" style="position: relative; white-space: nowrap;">Portfolio Balance Stats:</h5>'
 			
 			<?php
 					
