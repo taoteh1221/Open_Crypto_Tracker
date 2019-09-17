@@ -1329,7 +1329,7 @@ $market_pairing = $all_markets[$selected_market];
 
 <?php
 
-	if ( strtoupper($trade_symbol) == 'USD' ) {
+	if ( strtoupper($trade_symbol) == 'MISCUSD' ) {
 	$coin_amount_decimals = 2;
 	}
 	else {

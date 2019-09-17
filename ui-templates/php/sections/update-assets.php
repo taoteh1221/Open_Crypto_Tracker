@@ -329,7 +329,7 @@
 	    $selected_pairing = ( $coin_pairing_id ? $coin_pairing_id : 'btc' );
 	    
 	    
-	    	if ( strtoupper($coin_array_key) == 'USD' ) {
+	    	if ( strtoupper($coin_array_key) == 'MISCUSD' ) {
 	    	$coin_amount_decimals = 2;
 	    	}
 	    	else {

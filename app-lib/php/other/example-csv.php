@@ -50,7 +50,7 @@ $example_download_array[] = array(
 	        
 // USD
 $example_download_array[] = array(
-	        							'USD',
+	        							'MISCUSD',
 	        							'80.15',
 	        							'',
 	        							'0',

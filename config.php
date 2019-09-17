@@ -50,15 +50,16 @@ $block_volume_error = 'on'; // 'on' / 'off'
 // Default Bitcoin to USD (or equiv stable coin)
 $btc_exchange = 'binance'; // coinbase / binance / bitstamp / bitfinex / kraken / gemini / hitbtc / okcoin / livecoin
 
-$marketcap_site = 'coingecko'; // Default marketcap data source: 'coinmarketcap', or 'coingecko'
+// Default marketcap data source: 'coingecko', or 'coinmarketcap' (coinmarketcap requires a FREE API key, see below)
+$marketcap_site = 'coingecko'; 
+
+// API key for coinmarketcap.com Pro API (required unfortunately, but a FREE level is available): https://coinmarketcap.com/api
+$coinmarketcapcom_api_key = '';
 
 // Number of marketcap rankings to request from API. Ranks are grabbed 100 per request
 $marketcap_ranks_max = 200; // 200 rankings is a safe maximum to start with, it avoids getting your API requests throttled / blocked
 
 $marketcap_cache = 20; // Minutes to cache above-mentioned marketcap rankings...start high and test lower, it can be strict
-
-// API key for coinmarketcap.com Pro API (required unfortunately, FREE level is available): https://coinmarketcap.com/api
-$coinmarketcapcom_api_key = '';
 
 // Minutes to cache real-time exchange data...can be zero to skip cache, but set to at least 1 minute to avoid your IP getting blocked
 $last_trade_cache = 2; 
@@ -834,10 +835,10 @@ $coins_list = array(
                     ), // Coin END
                     
                     
-                    // Misc. USD Assets
-                    'USD' => array(
+                    // Misc. USD Value
+                    'MISCUSD' => array(
                         
-                        'coin_name' => 'Misc. USD Assets',
+                        'coin_name' => 'Misc. USD Value',
                         'marketcap_website_slug' => '',
                         'market_pairing' => array(
                         
