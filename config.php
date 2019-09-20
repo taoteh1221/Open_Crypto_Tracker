@@ -36,7 +36,7 @@ require_once("app-lib/php/init.php");  // REQUIRED, DON'T DELETE BY ACCIDENT
 
 
 
-// Your local time offset in hours compared to UTC time. Can be negative or positive (example: -5 or +5)
+// Your local time offset in hours compared to UTC time. Can be negative or positive (example: -5 or 5)
 $local_time_offset = -4; // (Used for UX / UI only, will not change or screw up email / log times etc if you change this)
 
 $api_timeout = 15; // Seconds to wait for response from API endpoints. Don't set too low, or you won't get data
@@ -264,7 +264,7 @@ $asset_charts_and_alerts = array(
 					
 					// DATA
 					'data' => 'hitbtc||btc||chart',
-					'data-2' => 'binance||btc||both',
+					'data-2' => 'binance||btc||chart',
 					
 					//MYST
 					'myst' => 'hitbtc||btc||both',
