@@ -190,8 +190,10 @@ if ( sizeof($proxy_list) > 0 ) {
 	foreach ( $config_parse_error as $error ) {
    $proxy_config_alert .= '<span class="red">Misconfigured proxy: ' . $error . '</span>' . "<br /> \n";
    }
-          		
-$_SESSION['config_error'] .= ( $proxy_config_alert ? date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | configuration error: ' . $proxy_config_alert : '' );
+
+	if ( $proxy_config_alert ) {
+	app_error('config_error', $proxy_config_alert);
+	}
           		
 	// Displaying if checks passed
 	if ( sizeof($config_parse_error) < 1 ) {
@@ -298,7 +300,10 @@ if ( trim($from_email) != '' && trim($to_email) != '' || sizeof($text_parse) > 0
          $price_change_config_alert .= '<span class="red">' . $error . '</span>' . "<br /> \n";
          }
           		
-      $_SESSION['config_error'] .= ( $price_change_config_alert ? date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | configuration error: ' . $price_change_config_alert : '');
+
+			if ( $price_change_config_alert ) {
+			app_error('config_error', $price_change_config_alert);
+			}
           		
          // Displaying if checks passed
          if ( sizeof($config_parse_error) < 1 ) {
@@ -343,9 +348,11 @@ $smtp_server_parse = explode(":", $smtp_server );
    foreach ( $config_parse_error as $error ) {
    $smtp_config_alert .= '<span class="red">' . $error . '</span>' . "<br /> \n";
    }
-	
-   
-   $_SESSION['config_error'] .= ( $smtp_config_alert ? date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | configuration error: ' . $smtp_config_alert : '');
+          		
+
+	if ( $smtp_config_alert ) {
+	app_error('config_error', $smtp_config_alert);
+	}
 
         
    // Displaying if checks passed
@@ -384,9 +391,11 @@ if ( $mail_error_logs > 0 && trim($from_email) != '' && trim($to_email) != '' ) 
    foreach ( $config_parse_error as $error ) {
    $errorlogs_config_alert .= '<span class="red">' . $error . '</span>' . "<br /> \n";
    }
-	
-   
-   $_SESSION['config_error'] .= ( $errorlogs_config_alert ? date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | configuration error: ' . $errorlogs_config_alert : '');
+          		
+
+	if ( $errorlogs_config_alert ) {
+	app_error('config_error', $errorlogs_config_alert);
+	}
 
         
    // Displaying if checks passed
@@ -423,9 +432,11 @@ if ( $charts_page == 'on' && $charts_backup_freq > 0 && trim($from_email) != '' 
    foreach ( $config_parse_error as $error ) {
    $backuparchive_config_alert .= '<span class="red">' . $error . '</span>' . "<br /> \n";
    }
-	
-   
-   $_SESSION['config_error'] .= ( $backuparchive_config_alert ? date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | configuration error: ' . $backuparchive_config_alert : '');
+          		
+
+	if ( $backuparchive_config_alert ) {
+	app_error('config_error', $backuparchive_config_alert);
+	}
 
         
    // Displaying if checks passed
@@ -442,7 +453,7 @@ if ( $charts_page == 'on' && $charts_backup_freq > 0 && trim($from_email) != '' 
 
 // Check $coins_list config
 if ( !is_array($coins_list) ) {
-$_SESSION['config_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | configuration error: The coins list formatting is corrupt, or not configured yet.' . "<br /> \n";
+app_error('config_error', 'The coins list formatting is corrupt, or not configured yet');
 }
 			
 			

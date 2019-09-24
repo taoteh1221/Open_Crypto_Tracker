@@ -4,6 +4,8 @@
 TODO
 ///////////////////////////////////////////////////////
 
+Create documentation to install on a raspberry pi.
+
 Stats in UI using chart data (if available), to show spot / volume percent changes over an end-user-defined time period.
 
 Add an alert bell icon in header, and have alerts make it red and be an info bubble clicking it, rather than alerts printed in the footer

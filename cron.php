@@ -49,7 +49,7 @@ $mode = $value[2];
 $result = asset_charts_and_alerts($key, $exchange, $pairing, $mode);
 
 	if ( $result == FALSE ) {
-	$_SESSION['other_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | error: Charts / alerts update failure | charts_alerts_data: ' . $key . ' (' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ") <br /> \n";
+	app_error( 'other_error', 'Charts / alerts update failure', $key . ' (' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ')' );
 	}
 
 }

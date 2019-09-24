@@ -5,7 +5,7 @@
 
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
 
-$app_version = '3.33.0';  // 2019/SEPTEMBER/16TH
+$app_version = '3.34.0';  // 2019/SEPTEMBER/24TH
  
 date_default_timezone_set('UTC');
 
@@ -85,7 +85,7 @@ if ( $runtime_mode == 'ui' ) {
 	}
 	// Sanitizing $theme_selected is very important, as we are calling external files with the value
 	if ( $theme_selected != 'light' && $theme_selected != 'dark' ) {
-	$_SESSION['other_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | security_alert: Requested theme value was "' . $theme_selected . '" ' . "<br /> \n";
+	app_error('other_error', 'Requested theme value was "' . $theme_selected . '"');
 	error_logs();
 	exit;
 	}

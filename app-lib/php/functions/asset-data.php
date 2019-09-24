@@ -158,7 +158,7 @@ function detect_pairing($pair_name) {
 
 function marketcap_data($symbol) {
 	
-global $runtime_mode, $marketcap_site, $coinmarketcapcom_api_key, $alert_percent;
+global $marketcap_site, $coinmarketcapcom_api_key, $alert_percent;
 
 $data = array();
 
@@ -503,7 +503,7 @@ global $_POST, $mining_rewards;
 
 function asset_charts_and_alerts($asset_data, $exchange, $pairing, $mode) {
 
-global $runtime_mode, $base_dir, $local_time_offset, $block_volume_error, $coins_list, $btc_exchange, $charts_page, $asset_price_alerts_freq, $asset_price_alerts_percent, $asset_price_alerts_minvolume, $asset_price_alerts_refresh;
+global $base_dir, $local_time_offset, $block_volume_error, $coins_list, $btc_exchange, $charts_page, $asset_price_alerts_freq, $asset_price_alerts_percent, $asset_price_alerts_minvolume, $asset_price_alerts_refresh;
 
 // Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
 $asset = ( stristr($asset_data, "-") == false ? $asset_data : substr( $asset_data, 0, strpos($asset_data, "-") ) );
@@ -582,12 +582,12 @@ $asset = strtoupper($asset);
 	
 	// Make sure we have basic values, otherwise return false
 	if ( $btc_usd == NULL ) {
-	$_SESSION['other_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | error: No Bitcoin USD value set | charts_alerts_data: ' . $asset_data . ' (' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ") <br /> \n";
+	app_error( 'other_error', 'No Bitcoin USD value set', $asset_data . ' (' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ')' );
 	$set_return = 1;
 	}
 	
 	if ( floattostr($asset_usd_raw) == NULL ) {
-	$_SESSION['other_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | error: No asset USD value set | charts_alerts_data: ' . $asset_data . ' (' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ") <br /> \n";
+	app_error( 'other_error', 'No asset USD value set', $asset_data . ' (' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ')' );
 	$set_return = 1;
 	}
 	

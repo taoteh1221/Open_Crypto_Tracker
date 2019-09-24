@@ -23,6 +23,25 @@ return $string;
 ////////////////////////////////////////////////////////
 
 
+function app_error($error_type, $error_message, $telemetry=false, $hashcheck=false) {
+
+global $runtime_mode;
+
+	if ( $hashcheck != false ) {
+	$_SESSION[$error_type][$hashcheck] .= date('Y-m-d H:i:s') . ' UTC | runtime: ' . $runtime_mode . ' | error: ' . $error_message . ( $telemetry != false ? ' | telemetry: [ '  . $telemetry . ' ]' : '' ) . " <br /> \n";
+	}
+	else {
+	$_SESSION[$error_type] .= date('Y-m-d H:i:s') . ' UTC | runtime: ' . $runtime_mode . ' | error: ' . $error_message . ( $telemetry != false ? ' | telemetry: [ '  . $telemetry . ' ]' : '' ) . " <br /> \n";
+	}
+
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
 function remove_formatting($data) {
 
 $data = preg_replace("/ /i", "", $data); // Space
@@ -341,19 +360,17 @@ return $date;
 
 
 function store_cookie_contents($name, $value, $time) {
-	
-global $runtime_mode;
 
 $result = setcookie($name, $value, $time);
 	
 	
 	// Android / Safari maximum cookie size is 4093 bytes, Chrome / Firefox max is 4096
 	if ( strlen($value) > 4093 ) {  
-	$_SESSION['other_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | cookie_error: Cookie size is greater than 4093 bytes (' . strlen($value) . ' bytes), which is not compatible with modern browser maximum cookie sizes. Portfolio may be too large for saving as cookie data on your particular browser. If saving portfolio as cookie data fails on your browser, try using CSV file import / export instead for large portfolios.' . "<br /> \n";
+	app_error('other_error', 'Cookie size is greater than 4093 bytes (' . strlen($value) . ' bytes). If saving portfolio as cookie data fails on your browser, try using CSV file import / export instead for large portfolios.');
 	}
 	
 	if ( $result == FALSE ) {
-	$_SESSION['other_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | cookie_error: Cookie creation failed for cookie "' . $name . '"' . "<br /> \n";
+	app_error('other_error', 'Cookie creation failed for cookie "' . $name . '"');
 	}
 	
 	
@@ -403,8 +420,6 @@ return $csv_rows;
 
 
 function store_file_contents($file, $content, $mode=false) {
-	
-global $runtime_mode;
 
 	if ( $mode == 'append' ) {
 	$result = file_put_contents($file, $content, FILE_APPEND | LOCK_EX);
@@ -415,7 +430,7 @@ global $runtime_mode;
 	
 	
 	if ( $result == FALSE ) {
-	$_SESSION['other_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | file_write_error: File write failed for file "' . $file . '"' . "<br /> \n";
+	app_error('other_error', 'File write failed for file "' . $file . '"');
 	}
 	
 	
@@ -494,7 +509,7 @@ global $base_dir;
 
 	// PHP 4 
 	if ( PHP_VERSION_ID < 50000 ) {
-	$_SESSION['other_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | Error: Upgrade to PHP v5 or later to support cryptographically secure pseudo-random bytes in this application, or your application may not function properly' . "<br /> \n";
+	app_error('other_error', 'Upgrade to PHP v5 or later to support cryptographically secure pseudo-random bytes in this application, or your application may not function properly');
 	}
 	// PHP 5 (V6 RELEASE WAS SKIPPED)
 	elseif ( PHP_VERSION_ID < 60000 ) {
@@ -1014,7 +1029,7 @@ $from_email = str_replace("\r", "\n", $from_email);   // remaining -> unix
 
 function backup_archive($backup_prefix, $backup_target, $interval) {
 
-global $runtime_mode, $delete_old_backups, $base_dir, $base_url;
+global $delete_old_backups, $base_dir, $base_url;
 
 
 	if ( update_cache_file('cache/events/backup_'.$backup_prefix.'.dat', ( $interval * 1440 ) ) == true ) {
@@ -1025,7 +1040,7 @@ global $runtime_mode, $delete_old_backups, $base_dir, $base_url;
 		// We only want to store backup files with suffixes that can't be guessed, 
 		// otherwise halt the application if an issue is detected safely creating a random hash
 		if ( $secure_128bit_hash == false ) {
-		$_SESSION['other_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | Error: Cryptographically secure pseudo-random bytes could not be generated for '.$backup_prefix.' backup archive filename suffix, backup aborted to preserve backups directory privacy' . "<br /> \n";
+		app_error('other_error', 'Cryptographically secure pseudo-random bytes could not be generated for '.$backup_prefix.' backup archive filename suffix, backup aborted to preserve backups directory privacy');
 		}
 		else {
 			
@@ -1057,7 +1072,7 @@ global $runtime_mode, $delete_old_backups, $base_dir, $base_url;
 				
 				}
 				else {
-				$_SESSION['other_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | Error: Backup zip archive creation failed with '.$backup_results . "<br /> \n";
+				app_error('other_error', 'Backup zip archive creation failed with ' . $backup_results);
 				}
 				
 		
@@ -1283,7 +1298,7 @@ $textlocal_params = array(
 
 function api_data($mode, $request, $ttl, $api_server=null, $post_encoding=3, $test_proxy=NULL, $headers=NULL) { // Default to JSON encoding post requests (most used)
 
-global $base_dir, $user_agent, $api_timeout, $api_strict_ssl, $proxy_login, $proxy_list, $runtime_mode;
+global $base_dir, $user_agent, $api_timeout, $api_strict_ssl, $proxy_login, $proxy_list;
 
 $cookie_jar = tempnam('/tmp','cookie');
 	
@@ -1313,7 +1328,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 
 			// If no ip/port detected in data string, cancel and continue runtime
 			if ( !$ip || !$port ) {
-			$_SESSION['api_data_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | data attempt from: server (local timeout setting ' . $api_timeout . ' seconds) | proxy_used: ' . $current_proxy . ' | canceling API data connection, proxy '.$current_proxy.' is not a valid proxy format (required format ip:port)' . "<br /> \n";
+			app_error('api_data_error', 'proxy '.$current_proxy.' is not a valid format');
 			return FALSE;
 			}
 
@@ -1380,7 +1395,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		if ( !$data ) {
 		
 		// SAFE UI ALERT VERSION (no post data with API keys etc)
-		$_SESSION['api_data_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | data attempt from: server (local timeout setting ' . $api_timeout . ' seconds) | proxy_used: ' .( $current_proxy ? $current_proxy : 'none' ). ' | connection failed for: ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint request at ' . $request ) . "<br /> \n";
+		app_error( 'api_data_error', 'connection failed for ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint request at ' . $request ), 'request attempt from: server (local timeout setting ' . $api_timeout . ' seconds); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . ';' );
 		
 			if ( sizeof($proxy_list) > 0 && $current_proxy != '' && $mode != 'proxy-check' ) { // Avoid infinite loops doing proxy checks
 
@@ -1434,7 +1449,8 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 			}
 			
 		// Don't log this error again during THIS runtime, as it would be a duplicate...just overwrite same error message, BUT update the error count in it
-		$_SESSION['repeat_error'][$hash_check] = date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | data attempt(s) from: cache ('.$_SESSION['error_duplicates'][$hash_check].' runtime instances) | proxy_used: ' .( $current_proxy ? $current_proxy : 'none' ). ' | no data in cache, from connection failure for: ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint request at ' . $request ) . "<br /> \n";
+		
+		app_error( 'repeat_error', 'no data in cache from connection failure with ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint request at ' . $request ), 'request attempt(s) from: cache ('.$_SESSION['error_duplicates'][$hash_check].' runtime instances); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . ';', $hash_check );
 			
 		}
 	
@@ -1471,7 +1487,7 @@ $port = $ip_port[1];
 
 	// If no ip/port detected in data string, cancel and continue runtime
 	if ( !$ip || !$port ) {
-	$_SESSION['api_data_error'] .= date('Y-m-d H:i:s') . ' UTC | runtime mode: ' . $runtime_mode . ' | proxy check attempt on proxy: ' . $problem_proxy . ' | canceling proxy check, proxy '.$problem_proxy.' is not a valid proxy format (required format ip:port)' . "<br /> \n";
+	app_error('api_data_error', 'proxy '.$problem_proxy.' is not a valid format');
 	return FALSE;
 	}
 
@@ -1514,12 +1530,12 @@ $cache_filename = preg_replace("/:/", "_", $cache_filename);
 			
 			$notifyme_alert = 'A checkup on proxy ' . $ip . ', port ' . $port . ' detected a misconfiguration. Remote address ' . $data['ip'] . ' does not match the proxy address. Runtime mode is ' . $runtime_mode . '.';
 			
-			$text_alert = 'Proxy ' . $problem_proxy . ' remote address mismatch (detected as: ' . $data['ip'] . '). Runtime mode: ' . $runtime_mode;
+			$text_alert = 'Proxy ' . $problem_proxy . ' remote address mismatch (detected as: ' . $data['ip'] . '). runtime: ' . $runtime_mode;
 		
 			}
 			
 			
-		$cached_logs = ( $misconfigured == 1 ? 'Runtime mode: ' . $runtime_mode . "; \n " . 'Proxy ' . $problem_proxy . ' checkup status = MISCONFIGURED (test endpoint ' . $proxy_test_url . ' detected the incoming ip as: ' . $data['ip'] . ')' . "; \n " . 'Remote address DOES NOT match proxy address;' : 'Runtime mode: ' . $runtime_mode . "; \n " . 'Proxy ' . $problem_proxy . ' checkup status = OK (test endpoint ' . $proxy_test_url . ' detected the incoming ip as: ' . $data['ip'] . ');' );
+		$cached_logs = ( $misconfigured == 1 ? 'runtime: ' . $runtime_mode . "; \n " . 'Proxy ' . $problem_proxy . ' checkup status = MISCONFIGURED (test endpoint ' . $proxy_test_url . ' detected the incoming ip as: ' . $data['ip'] . ')' . "; \n " . 'Remote address DOES NOT match proxy address;' : 'runtime: ' . $runtime_mode . "; \n " . 'Proxy ' . $problem_proxy . ' checkup status = OK (test endpoint ' . $proxy_test_url . ' detected the incoming ip as: ' . $data['ip'] . ');' );
 		
 		
 		}
@@ -1529,9 +1545,9 @@ $cache_filename = preg_replace("/:/", "_", $cache_filename);
 		
 		$notifyme_alert = 'A checkup on proxy ' . $ip . ', port ' . $port . ' resulted in a failed data request. No endpoint connection could be established. Runtime mode is ' . $runtime_mode . '.';
 			
-		$text_alert = 'Proxy ' . $problem_proxy . ' failed, no endpoint connection. Runtime mode: ' . $runtime_mode;
+		$text_alert = 'Proxy ' . $problem_proxy . ' failed, no endpoint connection. runtime: ' . $runtime_mode;
 		
-		$cached_logs = 'Runtime mode: ' . $runtime_mode . "; \n " . 'Proxy ' . $problem_proxy . ' checkup status = DATA REQUEST FAILED' . "; \n " . 'No connection established at test endpoint ' . $proxy_test_url . ';';
+		$cached_logs = 'runtime: ' . $runtime_mode . "; \n " . 'Proxy ' . $problem_proxy . ' checkup status = DATA REQUEST FAILED' . "; \n " . 'No connection established at test endpoint ' . $proxy_test_url . ';';
 
 		}
 
