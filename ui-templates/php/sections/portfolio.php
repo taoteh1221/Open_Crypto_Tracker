@@ -515,12 +515,12 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 			
 			if ( floattostr($bitcoin_dominance) >= 0.01 ) {
 			$bitcoin_dominance_text = number_format($bitcoin_dominance, 2, '.', ',') . '% Bitcoin';
-			$seperator_btc = ( floattostr($bitcoin_dominance) < 100 ? ' / ' : '' );
+			$seperator_btc = ( number_format($bitcoin_dominance, 2, '.', '') < 100 ? ' / ' : '' );
 			}
 			
 			if ( floattostr($ethereum_dominance) >= 0.01 ) {
 			$ethereum_dominance_text = number_format($ethereum_dominance, 2, '.', ',') . '% Ethereum';
-			$seperator_eth = ( floattostr($bitcoin_dominance) + floattostr($ethereum_dominance) < 100 ? ' / ' : '' );
+			$seperator_eth = ( number_format($bitcoin_dominance, 2, '.', '') + number_format($ethereum_dominance, 2, '.', '') < 100 ? ' / ' : '' );
 			}
 			
 			if ( floattostr($altcoin_dominance) >= 0.01 ) {

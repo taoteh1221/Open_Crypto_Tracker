@@ -1617,6 +1617,7 @@ app doing the data requests, not a malicious bot)
 3.34.0:
 -Consolidated all error logging code
 -Removed excess verbosity in error logging
+-UX improvements
 -------------------------------------------------------------------
 
 
