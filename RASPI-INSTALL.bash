@@ -25,6 +25,8 @@ echo "User 'pi' added to group 'www-data' for website file access."
 
 echo "If you want to use price alerts or charts, you'll need to setup a cron job for that."
 
+echo "IMPORTANT NOTE: If you have --already setup a cron job previously-- and need to reconfigure it, skip the automated setup (to avoid creating duplicate cron jobs), and edit the cron jobs manually with this command: crontab -e"
+
 echo "Select 1 or 2, to choose whether to setup a cron job for price alerts / charts."
 
 OPTIONS="setup_cron skip"
