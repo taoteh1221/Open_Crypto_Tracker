@@ -218,7 +218,7 @@ global $api_timeout, $coinmarketcapcom_api_key, $marketcap_ranks_max, $marketcap
 
 	if ( trim($coinmarketcapcom_api_key) == NULL ) { 
 	
-	app_error('cmc_config_error', '"$coinmarketcapcom_api_key" is not configured in config.php');
+	app_error('cmc_config_error', '"$coinmarketcapcom_api_key" is not configured in config.php', false, false, true);
 	
 	return FALSE;
 	

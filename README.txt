@@ -35,20 +35,45 @@ Web server setup / install is available for $30 hourly if needed. PM me on Twitt
 
 Privately track your investment in Bitcoin, Ethereum, Monero, Litecoin, Grin, Cosmos, and an unlimited number of other altcoins / cryptocurrencies. Customize the coin list / alerts / charts to your favorite assets and exchange pairings. No limits, add as many coins / markets as you want. 
 
-Just upload to your PHP-based web server (with an FTP client like FileZilla) and you should be all set, unless your host is a strict setup related to file writing permissions, in which case the 'cache' directory should be set to '777' chmod on unix / linux systems (or 'readable / writable' on windows systems). Your web host must have CURL modules activated on your HTTP server. Most web hosting companies provide this "out-of-the-box" already. This app will detect whether or not CURL is setup on your website server. 
 
-See below for additional details on setup, and see HELP-FAQ.txt for tips / troubleshooting FAQs.
+################################################################################################################
+
+To setup a webserver on a Raspberry Pi to run this app, copy the file "RASPI-INSTALL.bash" over to your raspberry pi, and run these commands below (from a terminal window in same directory as this file):
+
+sudo chmod +x RASPI-INSTALL.bash
+
+sudo ./RASPI-INSTALL.bash
+
+Follow the prompts after the webserver has installed, to setup SSH and a cron job (for price alerts / charts).
 
 ################################################################################################################
 
 
-Setting up a cron job for charts and asset price alerts by email / mobile phone text / amazon alexa notifications (get notifications sent to you, even when you are offline): 
+Just upload this app's files to your PHP-based web server (with an FTP client like FileZilla) and you should be all set, unless your host is a strict setup related to file writing permissions, in which case the 'cache' directory should be set to '777' chmod on unix / linux systems (or 'readable / writable' on windows systems). Your web host must have CURL modules activated on your HTTP server. Most web hosting companies provide this "out-of-the-box" already. This app will detect whether or not CURL is setup on your website server. 
 
-If you want to take advantage of cron job based features like charts, chart data backups, asset price alerts, daily or weekly error log emails / etc, then the file cron.php (located in the primary directory of this app) must be setup as a cron job on your website's web server. Consult your web server host's documentation or help desk, for their particular method of setting up a cron job. Note that you should have it run every X minutes 24/7, based on how often you want alerts / any other cron based features to run. Setting up the cron job to run every 15 minutes is the recommended lowest time interval (if set any lower, the free exchange APIs may throttle / block your data requests temporarily on occasion for requesting data too frequently, which can affect your alerts / charts). 
+See below for additional details on setup, and see HELP-FAQ.txt for tips / troubleshooting FAQs.
+
+
+################################################################################################################
+
+
+Setting up a cron job for charts and asset price alerts by email / mobile phone text / amazon alexa notifications (get notifications sent to you, even when your PC / Laptop is offline): 
+
+If you want to take advantage of cron job based features like charts, chart data backups, asset price alerts, daily or weekly error log emails / etc, then the file cron.php (located in the primary directory of this app) must be setup as a cron job on your website's web server. 
+
+If you run the included webserver setup / install script for raspberry pi devices on internal (home) networks, cron job setup is automated during this process. If you are using a full online website host for hosting a TLD website domain name remotely, consult your web server host's documentation or help desk for their particular method of setting up a cron job. 
+
+Note that you should have the cron job run every 5, 10, 15, or 30 minutes 24/7, based on how often you want alerts / any other cron based features to run. Setting up the cron job to run every 15 minutes is the recommended lowest time interval (if set any lower, the free exchange APIs may throttle / block your data requests temporarily on occasion for requesting data too frequently, which can negatively affect your alerts / charts). 
 
 Here is an example cron job command line for reference below (not including any cron parameters your host interface may require), to setup as the "command" within a cron job. Replace system paths in the example with the correct ones for your server (TIP - A very common path to PHP on a server is /usr/bin/php):
 
 /path/to/php -q /home/username/path/to/website/this_app/cron.php
+
+Here is another example of a COMPLETE cron command that can be added into cron via the "crontab -e" command line option (to run every 15 minutes 24/7) on a linux-based machine:
+
+*/15 * * * * /usr/bin/php -q /var/www/html/cron.php
+
+IMPORTANT NOTE: If everything is setup properly, and the cron job still does NOT run, your particular server may require the cron.php file to be set as 'executable' ('755' chmod on unix / linux systems) to allow running it.
 
 
 ################################################################################################################

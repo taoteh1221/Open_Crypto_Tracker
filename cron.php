@@ -4,13 +4,14 @@
  */
 
 
-error_reporting(0); // Turn off all error reporting (0), or enable (1)
-
 // Forbid direct INTERNET access to this file
-if ( realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) ) {
+if ( $_SERVER['REQUEST_METHOD'] != NULL && realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) ) {
     header('HTTP/1.0 403 Forbidden', TRUE, 403);
     exit;
 }
+
+// Assure CLI runtime is in install directory (server compatibility required for some PHP setups)
+chdir( dirname(__FILE__) );
 
 $runtime_mode = 'cron';
 

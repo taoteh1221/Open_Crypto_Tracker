@@ -1617,7 +1617,11 @@ app doing the data requests, not a malicious bot)
 3.34.0:
 -Consolidated all error logging code
 -Removed excess verbosity in error logging
+-Automated webserver setup script for Raspberry Pi
+-Updated cron job setup documentation
 -UX improvements
+-System compatibility improvements
+-Zingchart upgrade
 -------------------------------------------------------------------
 
 

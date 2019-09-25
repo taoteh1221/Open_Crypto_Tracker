@@ -23,15 +23,29 @@ return $string;
 ////////////////////////////////////////////////////////
 
 
-function app_error($error_type, $error_message, $telemetry=false, $hashcheck=false) {
+function app_error($error_type, $error_message, $telemetry=false, $hashcheck=false, $overwrite=false) {
 
 global $runtime_mode;
 
-	if ( $hashcheck != false ) {
-	$_SESSION[$error_type][$hashcheck] .= date('Y-m-d H:i:s') . ' UTC | runtime: ' . $runtime_mode . ' | ' . $error_type . ': ' . $error_message . ( $telemetry != false ? ' | telemetry: [ '  . $telemetry . ' ]' : '' ) . " <br /> \n";
+	if ( $overwrite == false ) {
+	
+		if ( $hashcheck != false ) {
+		$_SESSION[$error_type][$hashcheck] .= date('Y-m-d H:i:s') . ' UTC | runtime: ' . $runtime_mode . ' | ' . $error_type . ': ' . $error_message . ( $telemetry != false ? ' | telemetry: [ '  . $telemetry . ' ]' : '' ) . " <br /> \n";
+		}
+		else {
+		$_SESSION[$error_type] .= date('Y-m-d H:i:s') . ' UTC | runtime: ' . $runtime_mode . ' | ' . $error_type . ': ' . $error_message . ( $telemetry != false ? ' | telemetry: [ '  . $telemetry . ' ]' : '' ) . " <br /> \n";
+		}
+	
 	}
 	else {
-	$_SESSION[$error_type] .= date('Y-m-d H:i:s') . ' UTC | runtime: ' . $runtime_mode . ' | ' . $error_type . ': ' . $error_message . ( $telemetry != false ? ' | telemetry: [ '  . $telemetry . ' ]' : '' ) . " <br /> \n";
+	
+		if ( $hashcheck != false ) {
+		$_SESSION[$error_type][$hashcheck] = date('Y-m-d H:i:s') . ' UTC | runtime: ' . $runtime_mode . ' | ' . $error_type . ': ' . $error_message . ( $telemetry != false ? ' | telemetry: [ '  . $telemetry . ' ]' : '' ) . " <br /> \n";
+		}
+		else {
+		$_SESSION[$error_type] = date('Y-m-d H:i:s') . ' UTC | runtime: ' . $runtime_mode . ' | ' . $error_type . ': ' . $error_message . ( $telemetry != false ? ' | telemetry: [ '  . $telemetry . ' ]' : '' ) . " <br /> \n";
+		}
+	
 	}
 
 
@@ -198,8 +212,20 @@ return $url;
 
 function dir_structure($path) {
 
+global $http_users, $http_runtime_user;
+
 	if ( !is_dir($path) ) {
-	return  mkdir($path, 0777, true); // Recursively create whatever path depth desired if non-existent
+	
+		// Run cache compatibility on certain PHP setups
+		if ( !$http_runtime_user || in_array($http_runtime_user, $http_users) ) {
+		$oldmask = umask(0);
+		return  mkdir($path, 0777, true); // Recursively create whatever path depth desired if non-existent
+		umask($oldmask);
+		}
+		else {
+		return  mkdir($path, 0777, true); // Recursively create whatever path depth desired if non-existent
+		}
+	
 	}
 	else {
 	return TRUE;
@@ -421,6 +447,8 @@ return $csv_rows;
 
 function store_file_contents($file, $content, $mode=false) {
 
+global $http_users, $http_runtime_user;
+
 	if ( $mode == 'append' ) {
 	$result = file_put_contents($file, $content, FILE_APPEND | LOCK_EX);
 	}
@@ -431,6 +459,11 @@ function store_file_contents($file, $content, $mode=false) {
 	
 	if ( $result == FALSE ) {
 	app_error('other_error', 'File write failed for file "' . $file . '"');
+	}
+	
+	// Run cache compatibility on certain PHP setups
+	if ( !$http_runtime_user || in_array($http_runtime_user, $http_users) ) {
+	chmod($file, 0666);
 	}
 	
 	
