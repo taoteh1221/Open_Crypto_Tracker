@@ -1622,6 +1622,7 @@ app doing the data requests, not a malicious bot)
 -UX improvements
 -System compatibility improvements
 -Zingchart upgrade
+-Minor bug fixes
 -------------------------------------------------------------------
 
 

@@ -44,7 +44,7 @@ select opt in $OPTIONS; do
       	echo "Path set to cron.php: $PATH"
 			fi
         
-        echo "Enter time interval in minutes (must be 5, 10, 15, or 30...leave blank / hit enter for default of 15)"
+        echo "Enter time interval in minutes (must be 5, 10, 15, 20, or 30...leave blank / hit enter for default of 15)"
         
         read INTERVAL
         
@@ -107,14 +107,16 @@ echo "Website files must be placed inside this folder: /var/www/html/"
 
 ######################################
 
-#Enabling PHP fastCGI...not yet a good automated script, so disabled for now
+#PHP fastCGI and suexec...not yet a good automated script, so disabled for now
 
 #echo "https://cwiki.apache.org/confluence/display/httpd/PHP-FPM"
+#echo "https://geekanddummy.com/how-to-raspberry-pi-tutorial-part-3-web-file-hosting-with-webmin-virtualmin"
 
-#/usr/bin/sudo apt-get install php-fpm -y
+#/usr/bin/sudo apt-get install php-fpm apache2-suexec-custom -y
 
 # Activates in Apache2 with following commands
 #/usr/sbin/a2enmod proxy_fcgi setenvif
 #/usr/sbin/a2enconf php7.3-fpm
-
+#/usr/sbin/a2enmod suexec
+#/usr/sbin/a2enmod actions
 

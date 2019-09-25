@@ -27,25 +27,14 @@ function app_error($error_type, $error_message, $telemetry=false, $hashcheck=fal
 
 global $runtime_mode;
 
-	if ( $overwrite == false ) {
-	
-		if ( $hashcheck != false ) {
-		$_SESSION[$error_type][$hashcheck] .= date('Y-m-d H:i:s') . ' UTC | runtime: ' . $runtime_mode . ' | ' . $error_type . ': ' . $error_message . ( $telemetry != false ? ' | telemetry: [ '  . $telemetry . ' ]' : '' ) . " <br /> \n";
-		}
-		else {
-		$_SESSION[$error_type] .= date('Y-m-d H:i:s') . ' UTC | runtime: ' . $runtime_mode . ' | ' . $error_type . ': ' . $error_message . ( $telemetry != false ? ' | telemetry: [ '  . $telemetry . ' ]' : '' ) . " <br /> \n";
-		}
-	
+	if ( $hashcheck != false ) {
+	$_SESSION[$error_type][$hashcheck] = date('Y-m-d H:i:s') . ' UTC | runtime: ' . $runtime_mode . ' | ' . $error_type . ': ' . $error_message . ( $telemetry != false ? ' | telemetry: [ '  . $telemetry . ' ]' : '' ) . " <br /> \n";
+	}
+	elseif ( $overwrite != false ) {
+	$_SESSION[$error_type] = date('Y-m-d H:i:s') . ' UTC | runtime: ' . $runtime_mode . ' | ' . $error_type . ': ' . $error_message . ( $telemetry != false ? ' | telemetry: [ '  . $telemetry . ' ]' : '' ) . " <br /> \n";
 	}
 	else {
-	
-		if ( $hashcheck != false ) {
-		$_SESSION[$error_type][$hashcheck] = date('Y-m-d H:i:s') . ' UTC | runtime: ' . $runtime_mode . ' | ' . $error_type . ': ' . $error_message . ( $telemetry != false ? ' | telemetry: [ '  . $telemetry . ' ]' : '' ) . " <br /> \n";
-		}
-		else {
-		$_SESSION[$error_type] = date('Y-m-d H:i:s') . ' UTC | runtime: ' . $runtime_mode . ' | ' . $error_type . ': ' . $error_message . ( $telemetry != false ? ' | telemetry: [ '  . $telemetry . ' ]' : '' ) . " <br /> \n";
-		}
-	
+	$_SESSION[$error_type] .= date('Y-m-d H:i:s') . ' UTC | runtime: ' . $runtime_mode . ' | ' . $error_type . ': ' . $error_message . ( $telemetry != false ? ' | telemetry: [ '  . $telemetry . ' ]' : '' ) . " <br /> \n";
 	}
 
 

@@ -5,11 +5,12 @@
 
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
 
-$app_version = '3.34.0 BETA 1';  // 2019/SEPTEMBER/24TH
+$app_version = '3.34.0 BETA 2';  // 2019/SEPTEMBER/25TH
  
 date_default_timezone_set('UTC');
 
-session_start();
+session_destroy(); // For edge-case bug, where session wasn't destroyed at end of previous runtime
+session_start(); // New session start
 
 $_SESSION['proxy_checkup'] = array();
 
