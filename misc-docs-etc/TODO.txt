@@ -4,6 +4,8 @@
 TODO
 ///////////////////////////////////////////////////////
 
+Add feature to restore chart data from the zip archive backups, with some sort of authentication (maybe confirm restore from emailed link with the unique backup file name).
+
 Stats in UI using chart data (if available), to show spot / volume percent changes over an end-user-defined time period.
 
 Add an alert bell icon in header, and have alerts make it red and be an info bubble clicking it, rather than alerts printed in the footer
