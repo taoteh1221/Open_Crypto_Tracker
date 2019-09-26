@@ -9,8 +9,8 @@
 											'ltc', // Coin symbol
 											litecoin_api('height'), // Block height
 											litecoin_api('difficulty'), // Mining network measure (difficulty or network hashrate)
-											'https://live-sochain-blockioinc.netdna-ssl.com/api', // Blockchain data API url
-											'SoChain API', // Blockchain data API name
+											'http://explorer.litecoin.net/q', // Blockchain data API url
+											'Litecoin.net API', // Blockchain data API name
 											'binance', // Exchange name (lowercase for API logic)
 											'LTCBTC' // Market pair name
 											);

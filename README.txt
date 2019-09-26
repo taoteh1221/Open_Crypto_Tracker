@@ -38,18 +38,20 @@ Privately track your investment in Bitcoin, Ethereum, Monero, Litecoin, Grin, Co
 
 ################################################################################################################
 
-To setup a webserver on a Raspberry Pi to run this app, copy the file "RASPI-INSTALL.bash" over to your raspberry pi, and run these commands below (from a terminal window in same directory as this file):
+To setup a web server on a Raspberry Pi (affordable low power single board computer) to run this app, copy the file "RASPI-INSTALL.bash" (located in the primary directory of this app) over to your Raspberry Pi desktop, and run these commands below (from a terminal program on the pi):
+
+cd ~/Desktop
 
 sudo chmod +x RASPI-INSTALL.bash
 
 sudo ./RASPI-INSTALL.bash
 
-Follow the prompts after the webserver has installed, to setup SSH and a cron job (for price alerts / charts).
+Follow the prompts after the web server has installed, to setup SSH (for SFTP with Filezilla etc to upload remotely to the web server) and a cron job (for price alerts / charts).
 
 ################################################################################################################
 
 
-Just upload this app's files to your PHP-based web server (with an FTP client like FileZilla) and you should be all set, unless your host is a strict setup related to file writing permissions, in which case the 'cache' directory should be set to '777' chmod on unix / linux systems (or 'readable / writable' on windows systems). Your web host must have CURL modules activated on your HTTP server. Most web hosting companies provide this "out-of-the-box" already. This app will detect whether or not CURL is setup on your website server. 
+Just upload this app's files to your PHP-based web server (with an FTP client like FileZilla) and you should be all set, unless your host is a strict setup related to file writing permissions, in which case the 'cache' directory permissions should be set to '777' chmod on unix / linux systems (or 'readable / writable' on windows systems). Your web host must have CURL modules activated on your HTTP server. Most web hosting companies provide this "out-of-the-box" already. This app will detect whether or not CURL is setup on your website server. 
 
 See below for additional details on setup, and see HELP-FAQ.txt for tips / troubleshooting FAQs.
 
@@ -61,7 +63,7 @@ Setting up a cron job for charts and asset price alerts by email / mobile phone 
 
 If you want to take advantage of cron job based features like charts, chart data backups, asset price alerts, daily or weekly error log emails / etc, then the file cron.php (located in the primary directory of this app) must be setup as a cron job on your website's web server. 
 
-If you run the included webserver setup / install script for raspberry pi devices on internal (home) networks, cron job setup is automated during this process. If you are using a full online website host for hosting a TLD website domain name remotely, consult your web server host's documentation or help desk for their particular method of setting up a cron job. 
+If you run the included webserver setup / install script for Raspberry Pi (affordable low power single board computer) devices on home / internal networks, cron job setup is automated during this process. If you are using a full online website host for hosting a TLD website domain name remotely, consult your web server host's documentation or help desk for their particular method of setting up a cron job. 
 
 Note that you should have the cron job run every 5, 10, 15, 20, or 30 minutes 24/7, based on how often you want alerts / any other cron based features to run. Setting up the cron job to run every 15 minutes is the recommended lowest time interval (if set any lower, the free exchange APIs may throttle / block your data requests temporarily on occasion for requesting data too frequently, which can negatively affect your alerts / charts). 
 
@@ -73,7 +75,7 @@ Here is another example of a COMPLETE cron command that can be added into cron v
 
 */15 * * * * /usr/bin/php -q /var/www/html/cron.php
 
-IMPORTANT NOTE: If everything is setup properly, and the cron job still does NOT run, your particular server may require the cron.php file to be set as 'executable' ('755' chmod on unix / linux systems) to allow running it.
+IMPORTANT NOTE: If everything is setup properly and the cron job still does NOT run, your particular server may require the cron.php file permissions to be set as 'executable' ('755' chmod on unix / linux systems) to allow running it.
 
 
 ################################################################################################################

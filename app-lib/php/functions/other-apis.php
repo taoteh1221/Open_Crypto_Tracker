@@ -49,23 +49,21 @@ function litecoin_api($request) {
  
 global $chainstats_cache;
  		
-    $json_string = 'https://chain.so/api/v2/get_info/LTC';
-    
-    $jsondata = @api_data('url', $json_string, $chainstats_cache);
-    
-    $data = json_decode($jsondata, TRUE);
-    
     
 		if ( $request == 'height' ) {
 		
-		return $data['data']['blocks'];
+    	$string = 'http://explorer.litecoin.net/chain/Litecoin/q/getblockcount';
 		  
 		}
 		elseif ( $request == 'difficulty' ) {
 		
-		return $data['data']['mining_difficulty'];
+    	$string = 'http://explorer.litecoin.net/chain/Litecoin/q/getdifficulty';
 		  
 		}
+		
+    $data = @api_data('url', $string, $chainstats_cache);
+    
+  return (float)$data;
   
   
 }

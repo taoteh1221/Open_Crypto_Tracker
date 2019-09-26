@@ -118,7 +118,7 @@
 	    <br /><br />
 	      Running charts or price alerts requires setting up a cron job on your website server (this is automated for raspberry pi users who use the webserver setup script), otherwise charts / alerts will not work. See the required settings in config.php, and instructions on cron job setup in the <a href='README.txt' target='_blank'>README.txt file</a>. Once setup, there is no need to keep your PC / Laptop turned on. The charts and price alerts run automatically from your website server. If you encounter errors or the charts / alerts don't work during setup, check the error logs file at /cache/logs/errors.log for errors in your configuration setup. Basic checks are performed and errors are reported there, and on the Settings page. 
 	        <br /><br />
-	        IMPORTANT NOTE: If everything is setup properly, and the cron job still does NOT run, your particular server may require the cron.php file to be set as 'executable' ('755' chmod on unix / linux systems) to allow running it.
+	        IMPORTANT NOTE: If everything is setup properly and the cron job still does NOT run, your particular server may require the cron.php file permissions to be set as 'executable' ('755' chmod on unix / linux systems) to allow running it.
 	        
 	      </div>
 	    </div>
