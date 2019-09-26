@@ -484,7 +484,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 				}
 			 ?>
 				
-			+'<p class="coin_info balloon_notation">*<?=( $leverage_added == 1 ? 'Leverage / ' : '' )?>Gain / Loss stats only include assets where you have set<br />the "Paid (per-token)" value on the Update Assets page.</p>';
+			+'<p class="coin_info balloon_notation">*<?=( $leverage_added == 1 ? 'Leverage / ' : '' )?>Gain / Loss stats only include assets where you have set the<br />"Average Paid (per-token)" value on the Update Assets page.</p>';
 		
 		
 			$('#portfolio_gain_loss').balloon({
