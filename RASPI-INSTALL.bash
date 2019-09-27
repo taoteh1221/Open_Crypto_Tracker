@@ -49,7 +49,7 @@ fi
 ######################################
 
 
-echo "TECHNICAL NOTE: This script was designed to install / setup on the Raspian operating system (developed / created on Raspbian Linux v10), for Raspberry Pi computers. Your operating system has been detected as: $OS v$VER. This script may work on other Debian-based systems as well, but it has not been tested / developed for that purpose. If you already have unrelated web site files located at /var/www/html/ on your system, they may be affected. Please back up any important pre-existing files in that directory before proceeding."
+echo "TECHNICAL NOTE: This script was designed to install / setup on the Raspian operating system, and was developed / created on Raspbian Linux v10, for Raspberry Pi computers (your operating system has been detected as: $OS v$VER). This script may work on other Debian-based systems as well, but it has not been tested / developed for that purpose. If you already have unrelated web site files located at /var/www/html/ on your system, they may be affected. Please back up any important pre-existing files in that directory before proceeding."
 
 				
 if [ -f /var/www/html/config.php ]
