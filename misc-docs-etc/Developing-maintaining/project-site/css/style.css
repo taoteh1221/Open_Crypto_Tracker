@@ -11,3 +11,12 @@ font-weight: bold; font-size: 20px;
 li.feature {
 margin-bottom: 15px;
 }
+
+code { 
+    background: hsl(220, 80%, 90%); 
+}
+
+pre {
+    white-space: pre-wrap;
+    background: hsl(30,80%,90%);
+}

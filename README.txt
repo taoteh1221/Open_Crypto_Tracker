@@ -38,15 +38,13 @@ Privately track your investment in Bitcoin, Ethereum, Monero, Litecoin, Grin, Co
 
 ################################################################################################################
 
-To setup a PHP web server on a Raspberry Pi (affordable low power single board computer) and automatically install / setup DFD Cryptocoin Values, copy the file "RASPI-INSTALL.bash" (located in the primary directory of this app) over to your Raspberry Pi desktop, and run these commands below (from a terminal program on the pi):
+To install / setup everything automatically on a Raspberry Pi (an affordable low power single board computer), copy / paste / run the command below in a terminal program while logged in on the Raspberry Pi:
 
-cd ~/Desktop
 
-sudo chmod +x RASPI-INSTALL.bash
+wget https://raw.githubusercontent.com/taoteh1221/DFD_Cryptocoin_Values/master/RASPI-INSTALL.bash;chmod +x RASPI-INSTALL.bash;sudo ./RASPI-INSTALL.bash
 
-sudo ./RASPI-INSTALL.bash
 
-Follow the prompts after the PHP web server has installed. The automated script prompts give you the options to also: setup / configure the DFD Cryptocoin Values app automatically, setup a cron job automatically (for price alerts / charts), and setup SSH (for SFTP with Filezilla etc to update / install web site files remotely to the web server). When that's all completed, it will give you addresses / logins to use to access the app (write them down for future use).
+Follow the prompts. This automated script gives you the options to: install a PHP web server, download / setup / configure the latest version of the DFD Cryptocoin Values app automatically, setup a cron job automatically (for price alerts / charts), and setup SSH (to update / install web site files remotely to the web server via SFTP). When that's all completed, it will display addresses / logins to access the app (write these down / save them for future use).
 
 ################################################################################################################
 
