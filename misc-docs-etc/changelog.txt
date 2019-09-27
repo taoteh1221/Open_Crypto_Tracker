@@ -1636,6 +1636,15 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+3.35.1:
+-Automated install script for Raspberry Pi now detects any previous install's config.php file, an backs it up before upgrading / re-installing.
+-------------------------------------------------------------------
+
+
+
+
+
 
 
 

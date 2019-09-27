@@ -6,10 +6,58 @@
 ######################################
 
 
-IP=`/bin/hostname -I` # Get the host ip address to print on screen after setup
+# Get date
+DATE=$(date '+%Y-%m-%d')
 
-echo "TECHNICAL NOTE: This script was designed to install / setup on the Raspian operating system, for Raspberry Pi computers. It may work on other Debian-based systems as well, but it has not been tested / developed for that purpose. If you already have unrelated web site files located at /var/www/html/ on your system, they may be affected. Please back up any important pre-existing files in that directory before proceeding."
 
+# Get the host ip address
+IP=`/bin/hostname -I` 
+
+
+# Get the operating system and version
+if [ -f /etc/os-release ]; then
+    # freedesktop.org and systemd
+    . /etc/os-release
+    OS=$NAME
+    VER=$VERSION_ID
+elif type lsb_release >/dev/null 2>&1; then
+    # linuxbase.org
+    OS=$(lsb_release -si)
+    VER=$(lsb_release -sr)
+elif [ -f /etc/lsb-release ]; then
+    # For some versions of Debian/Ubuntu without lsb_release command
+    . /etc/lsb-release
+    OS=$DISTRIB_ID
+    VER=$DISTRIB_RELEASE
+elif [ -f /etc/debian_version ]; then
+    # Older Debian/Ubuntu/etc.
+    OS=Debian
+    VER=$(cat /etc/debian_version)
+elif [ -f /etc/SuSe-release ]; then
+    # Older SuSE/etc.
+    ...
+elif [ -f /etc/redhat-release ]; then
+    # Older Red Hat, CentOS, etc.
+    ...
+else
+    # Fall back to uname, e.g. "Linux <version>", also works for BSD, etc.
+    OS=$(uname -s)
+    VER=$(uname -r)
+fi
+
+
+######################################
+
+
+echo "TECHNICAL NOTE: This script was designed to install / setup on the Raspian operating system (developed / created on Raspbian Linux v10), for Raspberry Pi computers. Your operating system has been detected as: $OS v$VER. This script may work on other Debian-based systems as well, but it has not been tested / developed for that purpose. If you already have unrelated web site files located at /var/www/html/ on your system, they may be affected. Please back up any important pre-existing files in that directory before proceeding."
+
+				
+if [ -f /var/www/html/config.php ]
+then
+echo "A configuration file from a previous install of DFD Cryptocoin Values has been detected on your system. During this upgrade / re-install, it will be backed up to /var/www/html/config.php.BACKUP.$DATE to save any custom settings within it. You will need to manually move any custom settings in this backup file to the new config.php file with a text editor."
+fi
+  				
+  				
 echo "Select 1 or 2 to choose whether to continue, or quit."
 
 OPTIONS="continue quit"
@@ -116,6 +164,15 @@ select opt in $OPTIONS; do
 				
 				rm DFD-Cryptocoin-Values.zip
 				
+				
+					if [ -f /var/www/html/config.php ]
+					then
+					cp /var/www/html/config.php /var/www/html/config.php.BACKUP.$DATE
+					chown $SYS_USER:$SYS_USER /var/www/html/config.php.BACKUP.$DATE
+					echo "Old configuration file /var/www/html/config.php has been backed up to: /var/www/html/config.php.BACKUP.$DATE"
+  					fi
+  				
+  				
 				\cp -r ./ /var/www/html/
 				
 				cd ../
