@@ -38,7 +38,7 @@ Privately track your investment in Bitcoin, Ethereum, Monero, Litecoin, Grin, Co
 
 ################################################################################################################
 
-To install / setup everything automatically on a Raspberry Pi (an affordable low power single board computer), copy / paste / run the command below in a terminal program while logged in on the Raspberry Pi:
+To install / upgrade everything automatically on a Raspberry Pi (an affordable low power single board computer), copy / paste / run the command below in a terminal program while logged in on the Raspberry Pi:
 
 
 wget https://raw.githubusercontent.com/taoteh1221/DFD_Cryptocoin_Values/master/RASPI-INSTALL.bash;chmod +x RASPI-INSTALL.bash;sudo ./RASPI-INSTALL.bash
