@@ -1627,6 +1627,16 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+3.35.0:
+-Automated install script for Raspberry Pi can now auto-install the latest version of DFD Cryptocoin Values, and configure it.
+-Better UX for install script
+-Updated install documentation
+-------------------------------------------------------------------
+
+
+
+
 
 
 

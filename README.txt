@@ -38,7 +38,7 @@ Privately track your investment in Bitcoin, Ethereum, Monero, Litecoin, Grin, Co
 
 ################################################################################################################
 
-To setup a web server on a Raspberry Pi (affordable low power single board computer) to run this app, copy the file "RASPI-INSTALL.bash" (located in the primary directory of this app) over to your Raspberry Pi desktop, and run these commands below (from a terminal program on the pi):
+To setup a PHP web server on a Raspberry Pi (affordable low power single board computer) and automatically install / setup DFD Cryptocoin Values, copy the file "RASPI-INSTALL.bash" (located in the primary directory of this app) over to your Raspberry Pi desktop, and run these commands below (from a terminal program on the pi):
 
 cd ~/Desktop
 
@@ -46,7 +46,7 @@ sudo chmod +x RASPI-INSTALL.bash
 
 sudo ./RASPI-INSTALL.bash
 
-Follow the prompts after the web server has installed, to setup SSH (for SFTP with Filezilla etc to upload remotely to the web server) and a cron job (for price alerts / charts).
+Follow the prompts after the PHP web server has installed. The automated script prompts give you the options to also: setup / configure the DFD Cryptocoin Values app automatically, setup a cron job automatically (for price alerts / charts), and setup SSH (for SFTP with Filezilla etc to update / install web site files remotely to the web server). When that's all completed, it will give you addresses / logins to use to access the app (write them down for future use).
 
 ################################################################################################################
 
@@ -63,7 +63,7 @@ Setting up a cron job for charts and asset price alerts by email / mobile phone 
 
 If you want to take advantage of cron job based features like charts, chart data backups, asset price alerts, daily or weekly error log emails / etc, then the file cron.php (located in the primary directory of this app) must be setup as a cron job on your website's web server. 
 
-If you run the included webserver setup / install script for Raspberry Pi (affordable low power single board computer) devices on home / internal networks, cron job setup is automated during this process. If you are using a full online website host for hosting a TLD website domain name remotely, consult your web server host's documentation or help desk for their particular method of setting up a cron job. 
+If you run the automated setup / install script for Raspberry Pi (affordable low power single board computer) devices on home / internal networks, automatic cron job setup is offered as an option during this process. If you are using a full online website host for hosting a TLD website domain name remotely, consult your web server host's documentation or help desk for their particular method of setting up a cron job. 
 
 Note that you should have the cron job run every 5, 10, 15, 20, or 30 minutes 24/7, based on how often you want alerts / any other cron based features to run. Setting up the cron job to run every 15 minutes is the recommended lowest time interval (if set any lower, the free exchange APIs may throttle / block your data requests temporarily on occasion for requesting data too frequently, which can negatively affect your alerts / charts). 
 
