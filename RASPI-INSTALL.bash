@@ -54,7 +54,7 @@ echo "TECHNICAL NOTE: This script was designed to install / setup on the Raspian
 				
 if [ -f /var/www/html/config.php ]
 then
-echo "A configuration file from a previous install of DFD Cryptocoin Values has been detected on your system. During this upgrade / re-install, it will be backed up to /var/www/html/config.php.BACKUP.$DATE to save any custom settings within it. You will need to manually move any custom settings in this backup file to the new config.php file with a text editor."
+echo "A configuration file from a previous install of DFD Cryptocoin Values has been detected on your system. During this upgrade / re-install, it will be backed up to /var/www/html/config.php.BACKUP.$DATE.[random string] to save any custom settings within it. You will need to manually move any custom settings in this backup file to the new config.php file with a text editor."
 fi
   				
   				
@@ -92,7 +92,7 @@ select opt in $OPTIONS; do
 			
 			echo "Proceeding with PHP web server installation..."
 			
-			/usr/bin/sudo /usr/bin/apt-get install apache2 php php-curl php-gd php-zip bsdtar libapache2-mod-php -y
+			/usr/bin/sudo /usr/bin/apt-get install apache2 php php-curl php-gd php-zip libapache2-mod-php -y
 			
 			sleep 3
 			
@@ -152,6 +152,20 @@ select opt in $OPTIONS; do
 				echo "Skipping auto-install of DFD Cryptocoin Values."
 				else
 				
+				echo "Making sure your system is updated before installing required components..."
+				
+				/usr/bin/sudo /usr/bin/apt-get update
+				
+				/usr/bin/sudo /usr/bin/apt-get upgrade -y
+				
+				echo "Proceeding with required component installation..."
+				
+				/usr/bin/sudo /usr/bin/apt-get install bsdtar pwgen openssl -y
+				
+				echo "Required component installation completed."
+				
+				sleep 3
+			
 				echo "Downloading and installing the latest version of DFD Cryptocoin Values..."
 				
 				mkdir DFD-Cryptocoin-Values
@@ -167,9 +181,41 @@ select opt in $OPTIONS; do
 				
 					if [ -f /var/www/html/config.php ]
 					then
-					cp /var/www/html/config.php /var/www/html/config.php.BACKUP.$DATE
-					chown $SYS_USER:$SYS_USER /var/www/html/config.php.BACKUP.$DATE
-					echo "Old configuration file /var/www/html/config.php has been backed up to: /var/www/html/config.php.BACKUP.$DATE"
+					
+					# Generate random string 16 characters long
+					RAND_STRING=$(/usr/bin/pwgen -s 16 1)
+					
+					
+						# If pwgen fails, use openssl
+						if [ -z "$RAND_STRING" ]
+						then
+  						RAND_STRING=$(/usr/bin/openssl rand -hex 12)
+						fi
+				
+						# If openssl fails, create manually
+						if [ -z "$RAND_STRING" ]
+						then
+						echo "Automatic random hash creation has failed, please enter a random alphanumeric string of text (no spaces / symbols) at least 10 characters long."
+						echo "If you skip this, no backup of the previous install's /var/www/html/config.php file will be created (for security reasons), and YOU WILL LOSE ALL PREVIOUSLY-CONFIGURED SETTINGS."
+  						read RAND_STRING
+						fi
+				
+						# If $RAND_STRING has a value, backup config.php, otherwise don't create backup file (for security reasons)
+						if [ ! -z "$RAND_STRING" ]
+						then
+  							
+						cp /var/www/html/config.php /var/www/html/config.php.BACKUP.$DATE.$RAND_STRING
+						
+						chown $SYS_USER:$SYS_USER /var/www/html/config.php.BACKUP.$DATE.$RAND_STRING
+						
+						echo "Old configuration file /var/www/html/config.php has been backed up to: /var/www/html/config.php.BACKUP.$DATE.$RAND_STRING"
+						
+  						else
+  						echo "No backup of the previous install's /var/www/html/config.php file was created (for security reasons)."
+  						echo "The new install WILL NOW OVERWRITE ALL PREVIOUSLY-CONFIGURED SETTINGS in /var/www/html/config.php..."
+						fi
+						
+					
   					fi
   				
   				
@@ -330,7 +376,17 @@ echo "If you wish to allow internet access (when not on your home / internal net
 #echo "https://cwiki.apache.org/confluence/display/httpd/PHP-FPM"
 #echo "https://geekanddummy.com/how-to-raspberry-pi-tutorial-part-3-web-file-hosting-with-webmin-virtualmin"
 
+#echo "Making sure your system is updated before installing required components..."
+				
+#/usr/bin/sudo /usr/bin/apt-get update
+				
+#/usr/bin/sudo /usr/bin/apt-get upgrade -y
+				
+#echo "Proceeding with required component installation..."
+
 #/usr/bin/sudo /usr/bin/apt-get install php-fpm apache2-suexec-custom -y
+				
+#echo "Required component installation completed."
 
 # Activates in Apache2 with following commands
 #/usr/sbin/a2enmod proxy_fcgi setenvif

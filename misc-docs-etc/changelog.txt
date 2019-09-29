@@ -1643,6 +1643,19 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+3.35.2:
+-Automated install script for Raspberry Pi now adds a random file suffix (for security), when backing up any previous install's config.php file during upgrade / re-install.
+-------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
 
 
 
