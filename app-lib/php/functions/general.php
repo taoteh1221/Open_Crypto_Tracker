@@ -531,7 +531,7 @@ global $base_dir;
 
 	// PHP 4 
 	if ( PHP_VERSION_ID < 50000 ) {
-	app_error('other_error', 'Upgrade to PHP v5 or later to support cryptographically secure pseudo-random bytes in this application, or your application may not function properly');
+	app_error('security_error', 'Upgrade to PHP v5 or later to support cryptographically secure pseudo-random bytes in this application, or your application may not function properly');
 	}
 	// PHP 5 (V6 RELEASE WAS SKIPPED)
 	elseif ( PHP_VERSION_ID < 60000 ) {
@@ -1062,7 +1062,7 @@ global $delete_old_backups, $base_dir, $base_url;
 		// We only want to store backup files with suffixes that can't be guessed, 
 		// otherwise halt the application if an issue is detected safely creating a random hash
 		if ( $secure_128bit_hash == false ) {
-		app_error('other_error', 'Cryptographically secure pseudo-random bytes could not be generated for '.$backup_prefix.' backup archive filename suffix, backup aborted to preserve backups directory privacy');
+		app_error('security_error', 'Cryptographically secure pseudo-random bytes could not be generated for '.$backup_prefix.' backup archive filename suffix, backup aborted to preserve backups directory privacy');
 		}
 		else {
 			
@@ -1202,9 +1202,11 @@ $error_logs .= strip_tags($_SESSION['api_data_error']); // Remove any HTML forma
 
 $error_logs .= strip_tags($_SESSION['config_error']); // Remove any HTML formatting used in UI alerts
 
-$error_logs .= strip_tags($_SESSION['other_error']); // Remove any HTML formatting used in UI alerts
+$error_logs .= strip_tags($_SESSION['security_error']); // Remove any HTML formatting used in UI alerts
 
 $error_logs .= strip_tags($_SESSION['cmc_config_error']); // Remove any HTML formatting used in UI alerts
+
+$error_logs .= strip_tags($_SESSION['other_error']); // Remove any HTML formatting used in UI alerts
 
 	foreach ( $_SESSION['repeat_error'] as $error ) {
 	$error_logs .= strip_tags($error); // Remove any HTML formatting used in UI alerts

@@ -9,9 +9,12 @@
 	$other_error_logs .= $error;
 	}
 	
-	$other_error_logs .= $_SESSION['other_error'];
+	$other_error_logs .= $_SESSION['security_error'];
 	
 	$other_error_logs .= $_SESSION['cmc_config_error'];
+	
+	$other_error_logs .= $_SESSION['other_error'];
+	
 
 ?>
             	

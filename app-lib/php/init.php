@@ -5,7 +5,7 @@
 
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
 
-$app_version = '3.35.2';  // 2019/SEPTEMBER/29TH
+$app_version = '3.36.0';  // 2019/SEPTEMBER/29TH
  
 date_default_timezone_set('UTC');
 
@@ -103,7 +103,7 @@ if ( $runtime_mode == 'ui' ) {
 	}
 	// Sanitizing $theme_selected is very important, as we are calling external files with the value
 	if ( $theme_selected != 'light' && $theme_selected != 'dark' ) {
-	app_error('other_error', 'Requested theme value was "' . $theme_selected . '"');
+	app_error('security_error', 'Injected theme path value attack', 'Requested theme value: "' . $theme_selected . '";');
 	error_logs();
 	exit;
 	}

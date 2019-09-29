@@ -1650,6 +1650,14 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+3.36.0:
+-Security error semantics in error logging.
+-------------------------------------------------------------------
+
+
+
+
 
 
 
