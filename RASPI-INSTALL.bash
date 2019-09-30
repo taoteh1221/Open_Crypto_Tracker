@@ -356,7 +356,7 @@ if [ "$SSH_SETUP" = "1" ]; then
 
 echo "SFTP login details are..."
 
-echo "SFTP host: $IP (port 22)"
+echo "INTERNAL NETWORK SFTP host: $IP (port 22, on home / internal network)"
 
 echo "SFTP username: $SYS_USER"
 
@@ -368,10 +368,10 @@ echo "/var/www/html/"
 fi
 
 
-echo "INTERNAL NETWORK HTTP web address (viewing web pages in web browser on home / internal network) is:"
+echo "INTERNAL NETWORK HTTP web address (viewing web pages in web browser, on home / internal network) is:"
 echo "http://$IP"
 
-echo "If you wish to allow internet access (when not on your home / internal network), port forwarding on your router needs to be setup (preferably with strict firewall rules, to disallow the Raspberry Pi to request access to other machines on your home / internal network)."
+echo "If you wish to allow internet access (when not on your home / internal network), port forwarding on your router needs to be setup (preferably with strict router firewall rules, to disallow the Raspberry Pi to request access to other machines on your home / internal network, and only allow it to route outbound through the internet gateway)."
 
 
 ######################################
