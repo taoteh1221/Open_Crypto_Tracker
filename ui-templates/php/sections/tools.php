@@ -40,7 +40,7 @@
     			<p><button class='force_button_style' onclick='
     				document.getElementById("sat_target").value = (0.00000001).toFixed(8);
     				satoshi_value("refresh");
-    				'>Reset</button> 
+    				'>Reset Satoshi Value</button> 
     			
     				<button class='force_button_style' onclick='satoshi_value(0.00000001);'>+1</button> 
     				
