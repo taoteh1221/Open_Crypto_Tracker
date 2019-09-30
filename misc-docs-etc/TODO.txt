@@ -6,19 +6,25 @@ TODO
 
 Add support for automated install script on more debian-based systems (with openssh-server install option, and choosing the apache document root location) 
 
-Add feature to restore chart data from the zip archive backups, with some sort of authentication (maybe confirm restore from emailed link with the unique backup file name).
-
-Stats in UI using chart data (if available), to show spot / volume percent changes over an end-user-defined time period.
-
-Add an alert bell icon in header, and have alerts make it red and be an info bubble clicking it, rather than alerts printed in the footer
-
-See if at all feasible to fully modularize mining calculators to be added via config file settings
+Make sure programming comments are adequate throughout the app.
 
 Add Dogecoin and mining calculator.
 
-Add chart sorting by crypto and usd price / volume percentage change over 1 hour / 1 day / 1 week / 1 month / 90 days.
+Add fiat currency converter, to convert USD to GBP / EURO / etc.
 
-Make sure programming comments are adequate throughout the app.
+2-way encryption (unlocked with 8 digit PIN) for storing coin amounts (IN COOKIES ONLY, NO DATABASE STORAGE !EVER!), with "quick lock" to quickly re-hide portfolio data.
+
+SQL-based accounts for storing configuration settings per-user (including setting up new assets available at supported exchanges), BUT !NEVER! STORES PORTFOLIO DATA (FOR PRIVACY / SECURITY-SAKE).
+
+Add feature to restore chart data from the zip archive backups, with SQL-based admin authentication.
+
+Stats in UI using chart data (if available), to show spot / volume percent changes over an end-user-defined time period (example: LTC spot price +33.62% / volume -12.83% from April 6th 2019 to November 22nd 2019).
+
+Add header login nav like prototype for zilliqa block explorer (use the developed account system structure too).
+
+Add an alert bell icon in upcoming header login nav, and have alerts make it red and be a drop-down info bubble clicking it, rather than alerts printed in the footer.
+
+Add chart sorting by crypto and usd price / volume percentage change over 1 hour / 1 day / 1 week / 1 month / 90 days.
 
 RESTFUL API system for requesting market values / portfolio values
 
@@ -29,19 +35,11 @@ Simple trading bot, to run from cron / cli
 MAYBE
 ///////////////////////////////////////////////////////
 
+See if at all feasible to fully modularize mining calculators to be added via config settings?
+
 Using primary chart data files as the source, create extra chart data files for 1week / 1month / 3month / 6month / 1year / 2year / 4year charts, using different minimum time intervals?
 
-Differentiate BTC USD / USDT / TUSD / USDC markets as bitcoin's market options, rather than designate all BTC markets as USD?
-
-Maybe add security nonce, re-establishing a session at end of runtime with nonce generated at beginning of runtime?
-
-For semantics, move 'logs' subdirectory out of the 'cache' subdirectory, into it's own primary subdirectory?
+Maybe add security nonce to thwart CSRF attacks?
 
 Look into more graceful 'loading...' placeholder until page is fully loaded?
-
-Ability to temporarily hide portfolio data, without deleting it (maybe with a PIN?)
-
-SQL-based accounts for storing API keys, coin amounts??
-
-2-way encryption (unlocked with 6 digit PIN) for storing coin amounts??
 
