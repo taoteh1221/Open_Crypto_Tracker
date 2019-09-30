@@ -327,17 +327,6 @@ select opt in $OPTIONS; do
         break
        fi
 done
-
-
-if [ "$SSH_SETUP" = "1" ]; then
-echo "SFTP host: $IP (port 22)"
-
-echo "SFTP username: $SYS_USER"
-
-echo "SFTP password: (password for system user $SYS_USER)"
-
-echo "SFTP web server directory (where web site files should be placed): /var/www/html/"
-fi
        
        
 ######################################
@@ -363,10 +352,27 @@ echo "If web server setup has completed successfully, DFD Cryptocoin Values can 
 fi
 
 
-echo "INTERNAL NETWORK web address (view in browser on home / internal network) is:"
+if [ "$SSH_SETUP" = "1" ]; then
+
+echo "SFTP login details are..."
+
+echo "SFTP host: $IP (port 22)"
+
+echo "SFTP username: $SYS_USER"
+
+echo "SFTP password: (password for system user $SYS_USER)"
+
+echo "SFTP remote working directory (where web site files should be placed on web server):"
+echo "/var/www/html/"
+
+fi
+
+
+echo "INTERNAL NETWORK HTTP web address (viewing web pages in web browser on home / internal network) is:"
 echo "http://$IP"
 
 echo "If you wish to allow internet access (when not on your home / internal network), port forwarding on your router needs to be setup (preferably with strict firewall rules, to disallow the Raspberry Pi to request access to other machines on your home / internal network)."
+
 
 ######################################
 
