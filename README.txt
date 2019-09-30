@@ -46,7 +46,7 @@ To install / upgrade everything automatically on a Raspberry Pi (an affordable l
 wget -O RASPI-INSTALL.bash https://git.io/JenUe;chmod +x RASPI-INSTALL.bash;sudo ./RASPI-INSTALL.bash
 
 
-Follow the prompts. This automated script gives you the options to: install a PHP web server, download / setup / configure the latest version of the DFD Cryptocoin Values app automatically, setup a cron job automatically (for price alerts / charts), and setup SSH (to update / install web site files remotely to the web server via SFTP). When that's all completed, it will display addresses / logins to access the app (write these down / save them for future use).
+Follow the prompts. This automated script gives you the options to: install / setup a PHP web server automatically, download / setup / configure the latest version of the DFD Cryptocoin Values app automatically, setup a cron job automatically (for price alerts / charts), and setup SSH (to update / install web site files remotely to the web server via SFTP) automatically. When that's all completed, it will display addresses / logins to access the app (write these down / save them for future use).
 
 ################################################################################################################
 
