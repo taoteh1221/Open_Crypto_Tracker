@@ -7,9 +7,11 @@ Copyright 2014-2019 GPLv3
 
 Developed by Michael Kilday <mike@dragonfrugal.com>, released free / open source under GPL v3
 
-LIVE DEMO: https://dragonfrugal.com/coin-prices/
+Project Website: https://dfd-cryptocoin-values.sourceforge.io
 
-Download: https://github.com/taoteh1221/DFD_Cryptocoin_Values/releases
+LIVE PUBLIC DEMO: https://dragonfrugal.com/coin-prices
+
+Download Latest Version: https://github.com/taoteh1221/DFD_Cryptocoin_Values/releases
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
