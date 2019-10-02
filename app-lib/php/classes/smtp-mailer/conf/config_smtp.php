@@ -1,6 +1,6 @@
 <?php
 
- // Needed for class compatibility (along with initial instance in app's post-init.php file)
+ // Needed for class compatibility (along with initial instance in app's config-init.php file)
 global $smtp_vars;
 		
 $cfg_log_file   = $smtp_vars['cfg_log_file'];

@@ -3,9 +3,14 @@
  * Copyright 2014-2019 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
  */
 
+
+error_reporting(0); // Turn off all error reporting on production servers (0), or enable (1)
+
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
 
-$app_version = '3.36.0';  // 2019/SEPTEMBER/29TH
+require_once("app-lib/php/loader.php");
+
+$app_version = '3.37.0';  // 2019/OCTOBER/2ND
  
 date_default_timezone_set('UTC');
 

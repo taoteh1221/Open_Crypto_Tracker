@@ -1658,6 +1658,15 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+3.37.0:
+-Optimized back end directory / file structure
+-Less initialization code in config.php
+-------------------------------------------------------------------
+
+
+
+
 
 
 
