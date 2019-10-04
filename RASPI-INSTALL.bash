@@ -207,11 +207,17 @@ echo " "
 WWW_GROUP=$(/bin/ps -ef | /bin/egrep '(httpd|httpd2|apache|apache2)' | /bin/grep -v `whoami` | /bin/grep -v root | /usr/bin/head -n1 | /usr/bin/awk '{print $1}')
 
 echo "The web server's user group has been detected as:"
-echo "$WWW_GROUP"
-echo " "
 
+if [ -z "$WWW_GROUP" ]; then
+WWW_GROUP="www-data"
+echo "User group NOT detected, using default group 'www-data'"
+else
+echo "$WWW_GROUP"
+fi
+
+echo " "
 echo "Enter the web server's user group:"
-echo "(leave blank / hit enter for default of user group '$WWW_GROUP')"
+echo "(leave blank / hit enter to use default group '$WWW_GROUP')"
 echo " "
 
 read CUSTOM_GROUP
