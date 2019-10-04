@@ -227,7 +227,7 @@ echo " "
 
 
 echo "Do you want this script to automatically download the latest version of"
-echo "DFD Cryptocoin Values from Sourceforge, and install / configure it?"
+echo "DFD Cryptocoin Values from Github.com, and install / configure it?"
 echo " "
 
 echo "Select 1 or 2 to choose whether to auto-install DFD Cryptocoin Values, or skip it."
@@ -262,7 +262,7 @@ select opt in $OPTIONS; do
 				
 				echo " "
 				
-				/usr/bin/sudo /usr/bin/apt-get install bsdtar pwgen openssl -y
+				/usr/bin/sudo /usr/bin/apt-get install curl jq bsdtar pwgen openssl -y
 				
 				echo " "
 				
@@ -272,7 +272,7 @@ select opt in $OPTIONS; do
 				
 				echo " "
 				
-				echo "Downloading and installing the latest version of DFD Cryptocoin Values..."
+				echo "Downloading and installing the latest version of DFD Cryptocoin Values, from Github.com..."
 				
 				echo " "
 				
@@ -280,7 +280,9 @@ select opt in $OPTIONS; do
 				
 				cd DFD-Cryptocoin-Values
 				
-				/usr/bin/wget -O DFD-Cryptocoin-Values.zip https://sourceforge.net/projects/dfd-cryptocoin-values/files/latest/download
+				ZIP_DL=$(/usr/bin/curl -s 'https://api.github.com/repos/taoteh1221/DFD_Cryptocoin_Values/releases/latest' | /usr/bin/jq -r '.zipball_url')
+				
+				/usr/bin/wget -O DFD-Cryptocoin-Values.zip $ZIP_DL
 				
 				/usr/bin/bsdtar --strip-components=1 -xvf DFD-Cryptocoin-Values.zip
 				
@@ -585,6 +587,7 @@ echo "If you wish to allow internet access (when not on your home / internal net
 echo "port forwarding on your router needs to be setup (preferably with strict router firewall rules,"
 echo "to disallow the Raspberry Pi to request access to other machines on your home / internal network,"
 echo "and only allow it to route outbound through the internet gateway)."
+echo " "
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
