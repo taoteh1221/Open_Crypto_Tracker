@@ -1,11 +1,14 @@
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+################################################################################################################
 
-DFD Cryptocoin Values - Open source / free private cryptocurrency investment portfolio tracker, with email / text / Alexa alerts, charts, mining calculators, leverage / gain / loss / balance stats, and other crypto tools. 
+
+DFD Cryptocoin Values - Developed by Michael Kilday <mike@dragonfrugal.com>, released free / open source (under GPL v3)
 
 Copyright 2014-2019 GPLv3
 
-Developed by Michael Kilday <mike@dragonfrugal.com>, released free / open source under GPL v3
+Open source / free private cryptocurrency investment portfolio tracker, with email / text / Alexa alerts, charts, mining calculators, leverage / gain / loss / balance stats, and other crypto tools. 
+
+Privately track your investment in Bitcoin, Ethereum, Monero, Litecoin, Grin, Cosmos, and an unlimited number of other altcoins / cryptocurrencies. Customize the coin list / alerts / charts to your favorite assets and exchange pairings. No limits, add as many coins / markets as you want. 
 
 Project Website: https://dfd-cryptocoin-values.sourceforge.io
 
@@ -13,7 +16,9 @@ LIVE PUBLIC DEMO: https://dragonfrugal.com/coin-prices
 
 Download Latest Version: https://github.com/taoteh1221/DFD_Cryptocoin_Values/releases
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+################################################################################################################
+
 
 Donations support further development... 
 
@@ -23,7 +28,9 @@ PATREON: https://www.patreon.com/dragonfrugal
 
 Monero (XMR): 47mWWjuwPFiPD6t2MaWcMEfejtQpMuz9oj5hJq18f7nvagcmoJwxudKHUppaWnTMPaMWshMWUTPAUX623KyEtukbSMdmpqu
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+################################################################################################################
+
 
 Questions, feature requests, and bug reports can be filed at the following URLS:
 
@@ -33,12 +40,9 @@ https://dragonfrugal.com/contact/
 
 Web server setup / install is available for $30 hourly if needed. PM me on Twitter / Skype @ taoteh1221, or contact me using above contact links.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Privately track your investment in Bitcoin, Ethereum, Monero, Litecoin, Grin, Cosmos, and an unlimited number of other altcoins / cryptocurrencies. Customize the coin list / alerts / charts to your favorite assets and exchange pairings. No limits, add as many coins / markets as you want. 
-
 
 ################################################################################################################
+
 
 To install / upgrade everything automatically on a Raspberry Pi (an affordable low power single board computer), copy / paste / run the command below in a terminal program while logged in on the Raspberry Pi:
 
@@ -47,6 +51,7 @@ wget -O RASPI-INSTALL.bash https://git.io/JenUe;chmod +x RASPI-INSTALL.bash;sudo
 
 
 Follow the prompts. This automated script gives you the options to: install / setup a PHP web server automatically, download / setup / configure the latest version of the DFD Cryptocoin Values app automatically, setup a cron job automatically (for price alerts / charts), and setup SSH (to update / install web site files remotely to the web server via SFTP) automatically. When that's all completed, it will display addresses / logins to access the app (write these down / save them for future use).
+
 
 ################################################################################################################
 
