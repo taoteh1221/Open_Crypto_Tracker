@@ -63,7 +63,7 @@ $example_download_array[] = array(
 
 // Log errors, destroy session data
 error_logs();
-session_destroy();
+$_SESSION = FALSE;
 
 // Run last, as it exits when completed
 create_csv_file('temp', $example_download_array); 

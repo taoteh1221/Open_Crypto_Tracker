@@ -59,7 +59,7 @@ if ($fd = fopen ($fullPath, "r")) {
 
 // Log errors, destroy session data
 error_logs();
-session_destroy();
+$_SESSION = FALSE;
 
 fclose ($fd);
 exit;

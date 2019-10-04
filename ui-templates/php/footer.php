@@ -74,5 +74,5 @@ if ( $proxy_alerts != 'none' ) {
 }
 
 error_logs();
-session_destroy();
+$_SESSION = FALSE;
 ?>
