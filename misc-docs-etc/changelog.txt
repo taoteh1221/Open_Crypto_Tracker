@@ -1676,6 +1676,16 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+3.37.2:
+-EVEN MORE optimized session deleting (for edge-case bug, where session data doesn't delete after runtime)
+-------------------------------------------------------------------
+
+
+
+
+
+
 
 
 

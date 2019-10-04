@@ -29,7 +29,7 @@ exit;
 else {
 // Log errors, destroy session data
 error_logs();
-$_SESSION = FALSE;
+hardy_session_clearing();
 exit;
 }
 

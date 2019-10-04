@@ -10,10 +10,11 @@ error_reporting(0); // Turn off all error reporting on production servers (0), o
 
 require_once("app-lib/php/loader.php");
 
-$app_version = '3.37.1';  // 2019/OCTOBER/4TH
+$app_version = '3.37.2';  // 2019/OCTOBER/4TH
  
 date_default_timezone_set('UTC');
 
+hardy_session_clearing(); // Try to avoid edge-case bug where sessions didn't delete last runtime
 session_start(); // New session start
 
 $_SESSION['proxy_checkup'] = array();

@@ -74,5 +74,5 @@ if ( $proxy_alerts != 'none' ) {
 }
 
 error_logs();
-$_SESSION = FALSE;
+hardy_session_clearing();
 ?>

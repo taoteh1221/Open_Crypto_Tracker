@@ -23,6 +23,24 @@ return $string;
 ////////////////////////////////////////////////////////
 
 
+function hardy_session_clearing() {
+
+// Deleting all session data can fail on occasion, and wreak havoc.
+// This helps according to one programmer on php.net
+session_start();
+session_unset();
+session_destroy();
+session_write_close();
+setcookie(session_name(),'',0,'/');
+session_regenerate_id(true);
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
 function app_error($error_type, $error_message, $telemetry=false, $hashcheck=false, $overwrite=false) {
 
 global $runtime_mode;
