@@ -339,6 +339,10 @@
 	        
 	        <li class='links_list'><a href='https://programmingbitcoin.com/' target='_blank'>Programming Bitcoin</a></li>
 	        
+	        <li class='links_list'><a href='https://bitcoin.stackexchange.com/' target='_blank'>StackExchange - Bitcoin</a></li>
+	        
+	        <li class='links_list'><a href='https://ethereum.stackexchange.com/' target='_blank'>StackExchange - Ethereum</a></li>
+	        
 	        <li class='links_list'><a href='https://thegraph.com/' target='_blank'>The Graph</a> (multiple GraphQL APIs)</li>
 	        
 	        <li class='links_list'><a href='https://notes.ethereum.org/c/Sk8Zs--CQ' target='_blank'>What’s new in ETH 2.0</a></li>
