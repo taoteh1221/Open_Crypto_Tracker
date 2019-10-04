@@ -102,6 +102,14 @@ CLASSES
 ////////////////////////////// */
 
 
+.chart_wrapper span.loading {
+color: white;
+font-weight: bold;
+font-size: 18px;
+line-height: 26px;
+}
+
+
 .al_right {
 text-align: right;
 }

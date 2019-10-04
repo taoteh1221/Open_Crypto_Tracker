@@ -124,6 +124,9 @@
 	// Render the charts
 	foreach ( $asset_charts_and_alerts as $key => $value ) {
 		
+		$chart_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, strpos($key, "-") ) );
+		$chart_asset = strtoupper($chart_asset);
+		
 		$charts_available = 1;
 		$alerts_market_parse = explode("||", $value );	
 		
@@ -132,7 +135,7 @@
 		$charts_shown = 1;
 	?>
 	
-	<div class='chart_wrapper' id='<?=$key?>_usd_chart'></div>
+	<div class='chart_wrapper' id='<?=$key?>_usd_chart'><span class='loading'>Loading chart for <?=strtoupper($chart_asset)?> / USD @ <?=ucwords(preg_replace("/_/i", " ", $alerts_market_parse[0]))?>...</span></div>
 	
 	<script>
 	
@@ -150,7 +153,7 @@
 		$charts_shown = 1;
 	?>
 	
-	<div class='chart_wrapper' id='<?=$key?>_<?=$alerts_market_parse[1]?>_chart'></div>
+	<div class='chart_wrapper' id='<?=$key?>_<?=$alerts_market_parse[1]?>_chart'><span class='loading'>Loading chart for <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=ucwords(preg_replace("/_/i", " ", $alerts_market_parse[0]))?>...</span></div>
 	
 	<script>
 	

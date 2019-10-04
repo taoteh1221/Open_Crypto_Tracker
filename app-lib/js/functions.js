@@ -190,15 +190,34 @@ function auto_reload(time) {
 	
 	if ( time >= 1 ) {
 		
-	count_down(time, 1);
 		
 		if ( document.getElementById("set_use_cookies").checked == false ) {
-		alert('Using this feature requires cookie data. To use auto-refresh effectively, enable "Use cookie data to save values between sessions" on the "Settings" page. Otherwise you likely will be prompted to manually re-submit form data every auto-refresh.');
+			
+		var use_cookies = confirm(' You must enable "Use cookie data to save values between sessions" on the "Settings" page before using this auto-refresh feature. \n \n Click OK below to enable "Use cookie data to save values between sessions" automatically NOW, or click CANCEL to NOT enable cookie data storage for this app.');
+		
+			if ( use_cookies == true ) {
+				
+			setCookie("coin_reload", time, 365);
+			
+			$("#use_cookies").val(1);
+			
+			document.getElementById("reload_countdown").innerHTML = "(reloading settings, please wait...)";
+			
+				setTimeout(function () {
+    			$("#coin_amounts").submit();
+				}, 2000);
+			
+			}
+			else{
+			$("#select_auto_refresh").val('');
+			return false;
+			}
+		
 		}
-
-	
-	
-	setCookie("coin_reload", time, 365);
+		else {
+		setCookie("coin_reload", time, 365);
+		count_down(time, 1);
+		}
 	
 	
 	window.reload_function = setInterval(function() {
