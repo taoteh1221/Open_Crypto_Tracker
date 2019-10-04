@@ -1668,8 +1668,10 @@ app doing the data requests, not a malicious bot)
 
 
 -------------------------------------------------------------------
-3.38.0:
+3.37.1:
 -Optimized session handling (for edge-case session destroy bug)
+-Minor bug in chart loading
+-Improved chart loading UX
 -------------------------------------------------------------------
 
 

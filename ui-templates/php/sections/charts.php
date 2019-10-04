@@ -119,6 +119,8 @@
 				
 	</div>
 	
+	<div class='red' id='charts_error'></div>
+	
 	<?php
 	
 	// Render the charts

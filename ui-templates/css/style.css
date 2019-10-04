@@ -392,6 +392,15 @@ IDs
 ////////////////////////////// */
 
 
+#charts_error {
+display: none;
+font-weight: bold;
+border: 4px dotted #808080;
+padding: 9px;
+margin: 20px;
+}
+
+
 #file_upload {
 color: black;
 }

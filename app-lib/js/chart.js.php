@@ -19,6 +19,10 @@ exit;
 if ( $_GET['type'] == 'asset' ) {
 
 	foreach ( $asset_charts_and_alerts as $key => $value ) {
+		
+ 
+		if ( $_GET['asset_data'] == $key ) {
+			
  
 		// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
 		$chart_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, strpos($key, "-") ) );
@@ -34,19 +38,9 @@ if ( $_GET['type'] == 'asset' ) {
 		$charted_value = ( $_GET['charted_value'] == 'pairing' && $chart_asset != 'BTC' ? $market_parse[1] : 'usd' );
 		
 		
-			// Have this script not load any code (and not leave page endlessly loading) if cache data is not present
-			if ( file_exists('cache/charts/'.$chart_asset.'/'.$key.'_chart_'.$charted_value.'.dat') != 1
-			|| $market_parse[2] != 'chart' && $market_parse[2] != 'both' ) {
-			exit;
-			}
-			
-		
 		// Strip non-alphanumeric characters to use in js vars, to isolate logic for each separate chart
 		$js_key = preg_replace("/-/", "", $key) . '_' . $charted_value;
 		
- 
-		if ( $_GET['asset_data'] == $key ) {
-			
 			
 			// Unicode asset symbols
 			if ( $market_parse[1] == 'btc' && $chart_asset == 'BTC' || $_GET['charted_value'] == 'usd' ) {
@@ -76,6 +70,22 @@ if ( $_GET['type'] == 'asset' ) {
 			elseif ( $market_parse[1] == 'xmr' ) {
 			$trade_symbol = "ɱ";
 			$volume_symbol = $chart_asset;
+			}
+			
+		
+			// Have this script send the UI alert messages, and not load any chart code (to not leave the page endlessly loading) if cache data is not present
+			if ( file_exists('cache/charts/'.$chart_asset.'/'.$key.'_chart_'.$charted_value.'.dat') != 1
+			|| $market_parse[2] != 'chart' && $market_parse[2] != 'both' ) {
+			?>
+			
+			$("#<?=$key?>_<?=$charted_value?>_chart span.loading").html('No chart data activated for: <?=$chart_asset?> / <?=( $trade_symbol == '$' ? 'USD' : strtoupper($market_parse[1]) )?> @ <?=ucwords(preg_replace("/_/i", " ", $market_parse[0]))?>');
+			
+			$("#charts_error").show();
+			
+			$("#charts_error").html('Please make sure you have a cron job running (see <a href="README.txt" target="_blank">README.txt</a> for how-to setup a cron job), or charts cannot be activated. Check app error logs too, for write errors (which would indicate improper cache directory permissions).');
+			
+			<?php
+			exit;
 			}
 			
 			
