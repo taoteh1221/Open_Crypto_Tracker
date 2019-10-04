@@ -61,6 +61,7 @@ fi
 
 			
 echo "Enter the FULL SYSTEM PATH to the document root of the web server:"
+echo "(this does NOT automate setting apache's document root, you would need to do that manually)"
 echo "(leave blank / hit enter to use the default value: /var/www/html)"
 echo " "
 
@@ -97,7 +98,7 @@ echo "Your operating system has been detected as:"
 echo "$OS v$VER"
 echo " "
 
-echo "This script may work on other Debian-based systems as well, but it has not been tested / developed for that purpose."
+echo "This script may work on other Debian-based systems as well, but it has not been tested for that purpose."
 echo "If you already have unrelated web site files located at $DOC_ROOT on your system, they may be affected."
 echo "Please back up any important pre-existing files in that directory before proceeding."
 echo " "
@@ -161,9 +162,9 @@ select opt in $OPTIONS; do
 			
 			echo " "
 			
-			/usr/bin/sudo /usr/bin/apt-get update
+			/usr/bin/apt-get update
 			
-			/usr/bin/sudo /usr/bin/apt-get upgrade -y
+			/usr/bin/apt-get upgrade -y
 			
 			echo " "
 			
@@ -171,7 +172,7 @@ select opt in $OPTIONS; do
 			
 			echo " "
 			
-			/usr/bin/sudo /usr/bin/apt-get install apache2 php php-curl php-gd php-zip libapache2-mod-php -y
+			/usr/bin/apt-get install apache2 php php-curl php-gd php-zip libapache2-mod-php -y
 			
 			sleep 3
 			
@@ -197,8 +198,42 @@ echo " "
 ######################################
 
 
+echo "We need to find out what user group the web server belongs to."
+echo " "
+
+echo "Attempting to auto-detect the web server's user group..."
+echo " "
+
+WWW_GROUP=$(/bin/ps -ef | /bin/egrep '(httpd|httpd2|apache|apache2)' | /bin/grep -v `whoami` | /bin/grep -v root | /usr/bin/head -n1 | /usr/bin/awk '{print $1}')
+
+echo "The web server's user group has been detected as:"
+echo "$WWW_GROUP"
+echo " "
+
+echo "Enter the web server's user group:"
+echo "(leave blank / hit enter for default of user group '$WWW_GROUP')"
+echo " "
+
+read CUSTOM_GROUP
+        
+if [ -z "$CUSTOM_GROUP" ]; then
+CUSTOM_GROUP=${1:-$WWW_GROUP}
+echo "Using default user group: $WWW_GROUP"
+else
+echo "Using custom user group: $CUSTOM_GROUP"
+fi
+
+echo " "
+echo "The web server's user group has been declared as:"
+echo "$CUSTOM_GROUP"
+echo " "
+
+
+######################################
+
+
 echo "We need to add the username you'll be logging in as,"
-echo "to the 'www-data' group to allow proper editing permissions..."
+echo "to the '$CUSTOM_GROUP' web server user group to allow proper editing permissions..."
 echo " "
 
 echo "Enter the system username to allow web server editing access for:"
@@ -216,10 +251,10 @@ fi
 
 chown -R $SYS_USER:$SYS_USER /var/www/*
 
-/usr/sbin/usermod -a -G www-data $SYS_USER
+/usr/sbin/usermod -a -G $CUSTOM_GROUP $SYS_USER
 
-echo "Web server editing access for username '$SYS_USER' is complete."
-
+echo " "
+echo "Web server editing access for user name '$SYS_USER', in web server user group '$CUSTOM_GROUP', is completed."
 echo " "
 
 
@@ -252,9 +287,9 @@ select opt in $OPTIONS; do
 				
 				echo " "
 				
-				/usr/bin/sudo /usr/bin/apt-get update
+				/usr/bin/apt-get update
 				
-				/usr/bin/sudo /usr/bin/apt-get upgrade -y
+				/usr/bin/apt-get upgrade -y
 				
 				echo " "
 				
@@ -262,7 +297,7 @@ select opt in $OPTIONS; do
 				
 				echo " "
 				
-				/usr/bin/sudo /usr/bin/apt-get install curl jq bsdtar pwgen openssl -y
+				/usr/bin/apt-get install curl jq bsdtar pwgen openssl -y
 				
 				echo " "
 				
@@ -450,13 +485,13 @@ echo " "
 ######################################
 
 
-echo "Enabling the built-in SSH server on your Raspberry Pi allows easy remote"
+echo "Enabling the built-in SSH server on your system allows easy remote"
 echo "installation / updating of your web site files via SFTP (from another computer"
 echo "on your home / internal network), with Filezilla or any other SFTP-enabled FTP software."
 echo " "
 
-echo "If you choose to NOT enable SSH on your Raspberry Pi, you'll need to install / update your"
-echo "web site files directly on the Raspberry Pi (not recommended)."
+echo "If you choose to NOT enable SSH on your system, you'll need to install / update your"
+echo "web site files directly on the device itself (not recommended)."
 echo " "
 
 echo "If you do use SSH, ---make sure the password for username '$SYS_USER' is strong---,"
@@ -480,6 +515,7 @@ select opt in $OPTIONS; do
 				if [ -f "/usr/bin/raspi-config" ]; then
 				echo " "
 				echo "Initiating raspi-config..."
+				# We need sudo here, or raspi-config fails in bash
 				/usr/bin/sudo /usr/bin/raspi-config
 				else
 				echo " "
@@ -490,9 +526,9 @@ select opt in $OPTIONS; do
 				
 				echo " "
 				
-				/usr/bin/sudo /usr/bin/apt-get update
+				/usr/bin/apt-get update
 				
-				/usr/bin/sudo /usr/bin/apt-get upgrade -y
+				/usr/bin/apt-get upgrade -y
 				
 				echo " "
 				
@@ -500,7 +536,7 @@ select opt in $OPTIONS; do
 				
 				echo " "
 				
-				/usr/bin/sudo /usr/bin/apt-get install openssh-server -y
+				/usr/bin/apt-get install openssh-server -y
 				
 				echo " "
 				
@@ -564,14 +600,16 @@ fi
 if [ "$SSH_SETUP" = "1" ]; then
 
 echo "SFTP login details are..."
+
+echo " "
+echo "INTERNAL NETWORK SFTP host (port 22, on home / internal network):"
+echo "$IP"
 echo " "
 
-echo "INTERNAL NETWORK SFTP host: $IP (port 22, on home / internal network)"
-
 echo "SFTP username: $SYS_USER"
-
 echo "SFTP password: (password for system user $SYS_USER)"
 
+echo " "
 echo "SFTP remote working directory (where web site files should be placed on web server):"
 echo "$DOC_ROOT"
 echo " "
@@ -602,13 +640,13 @@ echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 #echo "Making sure your system is updated before installing required components..."
 				
-#/usr/bin/sudo /usr/bin/apt-get update
+#/usr/bin/apt-get update
 				
-#/usr/bin/sudo /usr/bin/apt-get upgrade -y
+#/usr/bin/apt-get upgrade -y
 				
 #echo "Proceeding with required component installation..."
 
-#/usr/bin/sudo /usr/bin/apt-get install php-fpm apache2-suexec-custom -y
+#/usr/bin/apt-get install php-fpm apache2-suexec-custom -y
 				
 #echo "Required component installation completed."
 
