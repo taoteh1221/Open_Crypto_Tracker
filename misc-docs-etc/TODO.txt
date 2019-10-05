@@ -17,7 +17,7 @@ SQL-based accounts for storing configuration settings per-user (including settin
 
 Add feature to restore chart data from the zip archive backups (with SQL-based admin authentication ONLY).
 
-Stats in UI using chart data (if available), to show spot / volume percent changes over an end-user-defined time period (example: LTC spot price +33.62% / volume -12.83% from April 6th 2019 to November 22nd 2019).
+Stats in UI using chart data (if available), to show and compare spot / volume percent changes over an end-user-defined time period for a number of assets (example: BTC / LTC / ETH / XMR spot price percentage changes / 24hr volume percentage changes from April 6th 2019 to November 22nd 2019). Shows trends on which assets are performing better for a certain time period.
 
 Add header login nav like prototype for zilliqa block explorer (use the developed account system structure too).
 
