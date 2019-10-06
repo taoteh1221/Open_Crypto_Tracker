@@ -629,7 +629,7 @@ echo " "
 
 echo "If you wish to allow internet access (when not on your home / internal network),"
 echo "port forwarding on your router needs to be setup (preferably with strict router firewall rules,"
-echo "to disallow the Raspberry Pi to request access to other machines on your home / internal network,"
+echo "to disallow this device to request access to other machines on your home / internal network,"
 echo "and only allow it to route outbound through the internet gateway)."
 echo " "
 
