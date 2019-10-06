@@ -5,7 +5,7 @@
     <!-- footer START -->
 <?php
 
-	foreach ( $_SESSION['repeat_error'] as $error ) {
+	foreach ( $_SESSION['cache_error'] as $error ) {
 	$other_error_logs .= $error;
 	}
 	

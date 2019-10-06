@@ -1226,7 +1226,7 @@ $error_logs .= strip_tags($_SESSION['cmc_config_error']); // Remove any HTML for
 
 $error_logs .= strip_tags($_SESSION['other_error']); // Remove any HTML formatting used in UI alerts
 
-	foreach ( $_SESSION['repeat_error'] as $error ) {
+	foreach ( $_SESSION['cache_error'] as $error ) {
 	$error_logs .= strip_tags($error); // Remove any HTML formatting used in UI alerts
 	}
 
@@ -1492,7 +1492,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 			
 		// Don't log this error again during THIS runtime, as it would be a duplicate...just overwrite same error message, BUT update the error count in it
 		
-		app_error( 'repeat_error', 'no data in cache from connection failure with ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint request at ' . $request ), 'request attempt(s) from: cache ('.$_SESSION['error_duplicates'][$hash_check].' runtime instances); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . ';', $hash_check );
+		app_error( 'cache_error', 'no data in cache from connection failure with ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint request at ' . $request ), 'request attempt(s) from: cache ('.$_SESSION['error_duplicates'][$hash_check].' runtime instances); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . ';', $hash_check );
 			
 		}
 	

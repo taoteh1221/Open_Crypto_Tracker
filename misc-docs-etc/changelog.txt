@@ -1686,6 +1686,7 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 3.38.0:
 -Improved Raspberry PI auto-install script
+-Improved cache error logging semantics
 -------------------------------------------------------------------
 
 
