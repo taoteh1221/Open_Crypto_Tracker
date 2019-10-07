@@ -55,15 +55,20 @@ require("config.php");
 
 	<script src="app-lib/js/modaal.js"></script>
 
+	<script src="app-lib/js/functions.js"></script>
+
 	<?php
 	if ( $charts_page == 'on' ) {
 	?>
 	<script src="app-lib/js/zingchart.min.js"></script>
+	<script>
+	var charts_num = <?=( sizeof($show_charts) > 0 ? sizeof($show_charts) : 0 )?>;
+	var charts_loaded = [];
+	charts_loading_check(charts_loaded);
+	</script>
 	<?php
 	}
 	?>
-
-	<script src="app-lib/js/functions.js"></script>
 
 	<script src="app-lib/js/init.js"></script>
 	
@@ -92,6 +97,16 @@ require("config.php");
     <div align='center' style='width: 100%; min-width: 1200px; margin: auto;'>
     <h2>DFD Cryptocoin Values - Cryptocurrency Portfolio Tracker</h2>
             <div align='left' style=' margin: 0px; min-width: 1200px; display: inline;'>
+            
+					<?php
+					if ( $charts_page == 'on' ) {
+					?>
+            	<div align='center' id='loading_charts' class='red'>Loading charts...</div>
+					<?php
+					}
+					?>
+					
         <!-- header END -->
+        
 
 

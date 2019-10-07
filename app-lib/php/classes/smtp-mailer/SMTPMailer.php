@@ -161,7 +161,7 @@ Class SMTPMailer
     {
         echo '<pre>';
         echo '<b>SMTP Mail Headers</b><br>';
-        echo htmlspecialchars($this->doHeaders(false));
+        echo $this->doHeaders(false);
     }
 
     // Send the SMTP Mail
@@ -202,7 +202,7 @@ Class SMTPMailer
             $this->logreq('RCPT TO: '.$address, '250');
 
         $this->logreq('DATA', '354');
-        $this->log[] = htmlspecialchars($this->doHeaders(false));
+        $this->log[] = $this->doHeaders(false);
         $this->request($this->headers, '250');
 
         $this->logreq('QUIT', '221');
@@ -214,7 +214,7 @@ Class SMTPMailer
     // Log command and do request
     private function logreq($cmd, $code)
     {
-        $this->log[] = htmlspecialchars($cmd);
+        $this->log[] = $cmd;
         $this->request($cmd, $code);
         return;
     }    

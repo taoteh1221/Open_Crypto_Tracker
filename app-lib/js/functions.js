@@ -1,7 +1,18 @@
 
 // Copyright 2014-2019 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
 
+/////////////////////////////////////////////////////////////
 
+function charts_loading_check(charts_loaded) {
+
+	if ( charts_loaded.length >= window.charts_num ) {
+	$("#loading_charts").hide();
+	}
+	else {
+	$("#loading_charts").show();
+	}
+
+}
 
 /////////////////////////////////////////////////////////////
 

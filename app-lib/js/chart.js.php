@@ -82,7 +82,11 @@ if ( $_GET['type'] == 'asset' ) {
 			
 			$("#charts_error").show();
 			
-			$("#charts_error").html('Please make sure you have a cron job running (see <a href="README.txt" target="_blank">README.txt</a> for how-to setup a cron job), or charts cannot be activated. Check app error logs too, for write errors (which would indicate improper cache directory permissions).');
+			$("#charts_error").html('One or more charts could not be loaded. Please make sure you have a cron job running (see <a href="README.txt" target="_blank">README.txt</a> for how-to setup a cron job), or charts cannot be activated. Check app error logs too, for write errors (which would indicate improper cache directory permissions).');
+			
+			charts_loaded.push("chart_<?=$js_key?>");
+			
+			charts_loading_check(charts_loaded);
 			
 			<?php
 			exit;
@@ -481,6 +485,10 @@ zingchart.bind('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'label_click',
 
 
 $("#<?=$key?>_<?=$charted_value?>_chart span").hide(); // Hide "Loading chart X..." after it loads
+			
+charts_loaded.push("chart_<?=$js_key?>");
+
+charts_loading_check(charts_loaded);
 
 
 

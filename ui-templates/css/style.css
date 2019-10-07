@@ -392,6 +392,17 @@ IDs
 ////////////////////////////// */
 
 
+#loading_charts {
+display: none;
+font-weight: bold;
+font-size: 19px;
+background-color: #a8a6a6;
+border: 2px dotted #808080;
+padding: 5px;
+margin: 5px;
+}
+
+
 #charts_error {
 display: none;
 font-weight: bold;
