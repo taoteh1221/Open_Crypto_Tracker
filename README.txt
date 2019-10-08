@@ -23,7 +23,7 @@ Download Latest Version: https://github.com/taoteh1221/DFD_Cryptocoin_Values/rel
 To install / upgrade everything automatically on a Raspberry Pi (an affordable low power single board computer), copy / paste / run the command below in a terminal program while logged in on the Raspberry Pi:
 
 
-wget -O FOLIO-RASPI-INSTALL.bash https://git.io/JeWWk;chmod +x FOLIO-RASPI-INSTALL.bash;sudo ./FOLIO-RASPI-INSTALL.bash
+wget -O FOLIO-INSTALL.bash https://git.io/JeWWE;chmod +x FOLIO-INSTALL.bash;sudo ./FOLIO-INSTALL.bash
 
 
 Follow the prompts. This automated script gives you the options to: install / setup a PHP web server automatically, download / setup / configure the latest version of the DFD Cryptocoin Values app automatically, setup a cron job automatically (for price alerts / charts), and setup SSH (to update / install web site files remotely to the web server via SFTP) automatically. When that's all completed, it will display addresses / logins to access the app (write these down / save them for future use).
