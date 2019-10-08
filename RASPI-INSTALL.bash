@@ -419,13 +419,6 @@ echo " "
 echo "If you want to use price alerts or charts, you'll need to setup a cron job for that."
 echo " "
 
-echo "IMPORTANT NOTE:"
-echo "If you have --already setup a cron job PREVIOUSLY-- and need to reconfigure it,"
-echo "skip the automated setup (to avoid creating duplicate cron jobs), and edit the"
-echo "cron jobs manually with this command:"
-echo "crontab -e"
-echo " "
-
 echo "Select 1 or 2 to choose whether to setup a cron job for price alerts / charts, or skip it."
 echo " "
 
@@ -469,7 +462,7 @@ select opt in $OPTIONS; do
 				
         CRONJOB="*/$INTERVAL * * * * $SYS_USER /usr/bin/php -q $PATH"
 
-		  echo "$CRONJOB" >>  /etc/cron.d/cryptocoin
+		  echo "$CRONJOB" > /etc/cron.d/cryptocoin
 
 		  chown $SYS_USER:$SYS_USER /etc/cron.d/cryptocoin
         
@@ -584,7 +577,7 @@ echo "should now be complete (if you chose those options), unless you saw any"
 echo "errors on screen during setup."
 echo " "
 
-echo "DFD Cryptocoin Values is located (and can be edited) inside this folder:"
+echo "DFD Cryptocoin Values is located at (and can be edited) inside this folder:"
 echo "$DOC_ROOT"
 echo " "
 
