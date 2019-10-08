@@ -1699,4 +1699,11 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+3.39.1:
+-Bug fix for auto install script (automated cron job creation routine)
+-------------------------------------------------------------------
+
+
+
 

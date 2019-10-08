@@ -464,12 +464,19 @@ select opt in $OPTIONS; do
       	echo "Time interval set to $INTERVAL minutes."
 			fi
         
-        CRONJOB="*/$INTERVAL * * * * /usr/bin/php -q $PATH"
-		  (/usr/bin/crontab -u $SYS_USER -l; echo "$CRONJOB" ) | /usr/bin/crontab -u $SYS_USER -
+				
+		  touch /etc/cron.d/cryptocoin
+				
+        CRONJOB="*/$INTERVAL * * * * $SYS_USER /usr/bin/php -q $PATH"
+
+		  echo "$CRONJOB" >>  /etc/cron.d/cryptocoin
+
+		  chown $SYS_USER:$SYS_USER /etc/cron.d/cryptocoin
         
         echo " "
-        echo "A cron job has been setup for user '$SYS_USER', as cron command:"
-        echo "*/$INTERVAL * * * * /usr/bin/php -q $PATH"
+        echo "A cron job has been setup for user '$SYS_USER',"
+        echo "as a command in /etc/cron.d/cryptocoin:"
+        echo "$CRONJOB"
         echo " "
         
         echo "IMPORTANT NOTE:"
