@@ -359,10 +359,7 @@ select opt in $OPTIONS; do
 						
 						chown $SYS_USER:$SYS_USER $DOC_ROOT/config.php.BACKUP.$DATE.$RAND_STRING
 						
-						echo " "
-						echo "Old configuration file $DOC_ROOT/config.php has been backed up to:"
-						echo "$DOC_ROOT/config.php.BACKUP.$DATE.$RAND_STRING"
-						echo " "
+						CONFIG_BACKUP=1
 						
   						else
   						echo "No backup of the previous install's $DOC_ROOT/config.php file was created (for security reasons)."
@@ -570,6 +567,7 @@ echo "# SAVE THE INFORMATION BELOW FOR FUTURE ACCESS TO THIS APP #"
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 echo " "
 
+
 if [ "$APP_SETUP" = "1" ]; then
 
 echo "Web server setup and installation / configuration of DFD Cryptocoin Values"
@@ -598,6 +596,18 @@ echo " "
 echo "If web server setup has completed successfully, DFD Cryptocoin Values"
 echo "can now be installed (if you haven't already) in $DOC_ROOT remotely via SFTP,"
 echo "or by copying over app files locally."
+echo " "
+
+fi
+
+
+if [ "$CONFIG_BACKUP" = "1" ]; then
+
+echo " "
+echo "The previously-installed DFD Cryptocoin Values configuration"
+echo "file $DOC_ROOT/config.php has been backed up to:"
+echo "$DOC_ROOT/config.php.BACKUP.$DATE.$RAND_STRING"
+echo "You will need to manually move any custom settings in this backup file to the new config.php file with a text editor."
 echo " "
 
 fi
