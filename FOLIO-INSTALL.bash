@@ -172,7 +172,7 @@ select opt in $OPTIONS; do
 			
 			echo " "
 			
-			/usr/bin/apt-get install apache2 php php-curl php-gd php-zip libapache2-mod-php -y
+			/usr/bin/apt-get install apache2 php php-curl php-gd php-zip libapache2-mod-php ssl-cert -y
 			
 			sleep 3
 			
@@ -255,7 +255,7 @@ else
 echo "Using username: $SYS_USER"
 fi
 
-chown -R $SYS_USER:$SYS_USER /var/www/*
+/bin/chown -R $SYS_USER:$SYS_USER /var/www/*
 
 /usr/sbin/usermod -a -G $CUSTOM_GROUP $SYS_USER
 
@@ -357,7 +357,7 @@ select opt in $OPTIONS; do
   							
 						cp $DOC_ROOT/config.php $DOC_ROOT/config.php.BACKUP.$DATE.$RAND_STRING
 						
-						chown $SYS_USER:$SYS_USER $DOC_ROOT/config.php.BACKUP.$DATE.$RAND_STRING
+						/bin/chown $SYS_USER:$SYS_USER $DOC_ROOT/config.php.BACKUP.$DATE.$RAND_STRING
 						
 						CONFIG_BACKUP=1
 						
@@ -389,7 +389,7 @@ select opt in $OPTIONS; do
 				chmod 755 $DOC_ROOT/cron.php
 				
 				# No trailing forward slash here
-				chown -R $SYS_USER:$SYS_USER $DOC_ROOT
+				/bin/chown -R $SYS_USER:$SYS_USER $DOC_ROOT
 				
 				echo " "
 				
@@ -455,13 +455,13 @@ select opt in $OPTIONS; do
 			fi
         
 				
-		  touch /etc/cron.d/cryptocoin
+		  /usr/bin/touch /etc/cron.d/cryptocoin
 				
         CRONJOB="*/$INTERVAL * * * * $SYS_USER /usr/bin/php -q $PATH"
 
 		  echo "$CRONJOB" > /etc/cron.d/cryptocoin
 
-		  chown $SYS_USER:$SYS_USER /etc/cron.d/cryptocoin
+		  /bin/chown $SYS_USER:$SYS_USER /etc/cron.d/cryptocoin
         
         echo " "
         echo "A cron job has been setup for user '$SYS_USER',"
@@ -603,7 +603,6 @@ fi
 
 if [ "$CONFIG_BACKUP" = "1" ]; then
 
-echo " "
 echo "The previously-installed DFD Cryptocoin Values configuration"
 echo "file $DOC_ROOT/config.php has been backed up to:"
 echo "$DOC_ROOT/config.php.BACKUP.$DATE.$RAND_STRING"
@@ -616,16 +615,16 @@ fi
 if [ "$SSH_SETUP" = "1" ]; then
 
 echo "SFTP login details are..."
-
 echo " "
+
 echo "INTERNAL NETWORK SFTP host (port 22, on home / internal network):"
 echo "$IP"
 echo " "
 
 echo "SFTP username: $SYS_USER"
 echo "SFTP password: (password for system user $SYS_USER)"
-
 echo " "
+
 echo "SFTP remote working directory (where web site files should be placed on web server):"
 echo "$DOC_ROOT"
 echo " "
@@ -635,6 +634,11 @@ fi
 
 echo "INTERNAL NETWORK HTTP web address (viewing web pages in web browser, on home / internal network) is:"
 echo "http://$IP"
+echo " "
+
+echo "If you wish to enable secure SSL (HTTPS) web site connections, you'll need to"
+echo "MANUALLY set that up. See this Wiki for a guide to do that on Debian-based systems:"
+echo "https://wiki.debian.org/Self-Signed_Certificate"
 echo " "
 
 echo "If you wish to allow internet access (when not on your home / internal network),"
