@@ -866,17 +866,11 @@ echo "https://$IP"
 echo " "
 
 echo "IMPORTANT SSL / HTTPS NOTE:"
-recho "The SSL certificate installed on this web server is SELF-SIGNED,"
+echo "The SSL certificate installed on this web server is SELF-SIGNED,"
 echo "so your browser ---will give you a warning message--- when you visit"
 echo "the above HTTPS address. This is normal behavior for self-signed"
 echo "certificates, no need to get worried about it. Google search"
 echo "with 'self-signed https' for more information on the topic."
-echo " "
-
-echo "If you wish to enable secure SSL (HTTPS) web site connections, you'll need to"
-echo "MANUALLY set that up. See this Wiki for a guide to do that on Debian-based systems:"
-echo "https://wiki.debian.org/Self-Signed_Certificate"
-echo " "
 
 echo "If you wish to allow internet access (when not on your home / internal network),"
 echo "port forwarding on your router needs to be setup (preferably with strict router firewall rules,"
