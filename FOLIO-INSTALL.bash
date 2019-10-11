@@ -608,9 +608,9 @@ select opt in $OPTIONS; do
 				
 				rm $DOC_ROOT/.gitignore
 				
-				chmod 777 $DOC_ROOT/cache
+				/bin/chmod 777 $DOC_ROOT/cache
 				
-				chmod 755 $DOC_ROOT/cron.php
+				/bin/chmod 755 $DOC_ROOT/cron.php
 				
 				# No trailing forward slash here
 				/bin/chown -R $SYS_USER:$SYS_USER $DOC_ROOT
@@ -679,13 +679,21 @@ select opt in $OPTIONS; do
 			fi
         
 				
+		  # Setup cron (to check logs after install: tail -f /var/log/syslog | grep cron -i)
+				
 		  /usr/bin/touch /etc/cron.d/cryptocoin
 				
         CRONJOB="*/$INTERVAL * * * * $SYS_USER /usr/bin/php -q $PATH > /dev/null 2>&1"
 
-		  echo "$CRONJOB" > /etc/cron.d/cryptocoin
-
-		  /bin/chown $SYS_USER:$SYS_USER /etc/cron.d/cryptocoin
+		  # Play it safe and be sure their is a newline after this job entry
+		  echo -e "$CRONJOB\n" > /etc/cron.d/cryptocoin
+		  
+		  # cron.d entries must be a permission of 644
+		  /bin/chmod 644 /etc/cron.d/cryptocoin
+		  
+		  # cron.d entries MUST BE OWNED BY ROOT
+		  /bin/chown root:root /etc/cron.d/cryptocoin
+		  
         
         echo " "
         echo "A cron job has been setup for user '$SYS_USER',"
@@ -696,7 +704,7 @@ select opt in $OPTIONS; do
         echo "IMPORTANT NOTE:"
         echo "If everything is setup properly and the cron job still does NOT run,"
         echo "your particular server may require the cron.php file permissions to be set"
-        echo "as 'executable' ('755' chmod on unix / linux systems) to allow running it."
+        echo "as 'executable' ('755' /bin/chmod on unix / linux systems) to allow running it."
         
         break
        elif [ "$opt" = "skip" ]; then

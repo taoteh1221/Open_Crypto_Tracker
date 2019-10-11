@@ -1723,6 +1723,13 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+3.40.2:
+-Bug fix for proper cron.d owner permissions
+-------------------------------------------------------------------
+
+
+
 
 
 
