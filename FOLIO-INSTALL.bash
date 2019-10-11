@@ -145,6 +145,33 @@ done
 echo " "
 
 
+
+######################################
+
+
+echo " "
+
+echo "Making sure your system is updated before installation..."
+
+echo " "
+			
+/usr/bin/sudo /usr/bin/apt-get update
+
+/usr/bin/sudo /usr/bin/apt-get upgrade -y
+
+/usr/bin/sudo /usr/bin/apt-get dist-upgrade -y
+
+/usr/bin/sudo /usr/bin/apt-get clean
+
+echo " "
+				
+echo "System update completed."
+				
+sleep 3
+				
+echo " "
+
+
 ######################################
 
 
@@ -157,16 +184,6 @@ select opt in $OPTIONS; do
         if [ "$opt" = "install_webserver" ]; then
          
          echo " "
-         
-			echo "Making sure your system is updated before PHP web server installation..."
-			
-			echo " "
-			
-			/usr/bin/apt-get update
-			
-			/usr/bin/apt-get upgrade -y
-			
-			echo " "
 			
 			echo "Proceeding with PHP web server installation..."
 			
@@ -514,16 +531,6 @@ select opt in $OPTIONS; do
 				
 				echo " "
 				
-				echo "Making sure your system is updated before installing required components..."
-				
-				echo " "
-				
-				/usr/bin/apt-get update
-				
-				/usr/bin/apt-get upgrade -y
-				
-				echo " "
-				
 				echo "Proceeding with required component installation..."
 				
 				echo " "
@@ -756,18 +763,6 @@ select opt in $OPTIONS; do
 				# We need sudo here, or raspi-config fails in bash
 				/usr/bin/sudo /usr/bin/raspi-config
 				else
-				echo " "
-				
-				echo "Installing openssh-server..."
-				
-				echo "Making sure your system is updated before installing openssh-server..."
-				
-				echo " "
-				
-				/usr/bin/apt-get update
-				
-				/usr/bin/apt-get upgrade -y
-				
 				echo " "
 				
 				echo "Proceeding with openssh-server installation..."
