@@ -681,7 +681,7 @@ select opt in $OPTIONS; do
 				
 		  /usr/bin/touch /etc/cron.d/cryptocoin
 				
-        CRONJOB="*/$INTERVAL * * * * $SYS_USER /usr/bin/php -q $PATH"
+        CRONJOB="*/$INTERVAL * * * * $SYS_USER /usr/bin/php -q $PATH > /dev/null 2>&1"
 
 		  echo "$CRONJOB" > /etc/cron.d/cryptocoin
 

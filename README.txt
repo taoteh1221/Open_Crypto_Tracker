@@ -113,7 +113,7 @@ Here is an example cron job command line for reference below (not including any 
 
 Here is another example of a COMPLETE cron command that can be added into cron via the "crontab -e" command line option (to run every 15 minutes 24/7) on a linux-based machine:
 
-*/15 * * * * /usr/bin/php -q /var/www/html/cron.php
+*/15 * * * * /usr/bin/php -q /var/www/html/cron.php > /dev/null 2>&1
 
 IMPORTANT NOTE: If everything is setup properly and the cron job still does NOT run, your particular server may require the cron.php file permissions to be set as 'executable' ('755' chmod on unix / linux systems) to allow running it.
 
