@@ -704,7 +704,7 @@ select opt in $OPTIONS; do
         echo "IMPORTANT NOTE:"
         echo "If everything is setup properly and the cron job still does NOT run,"
         echo "your particular server may require the cron.php file permissions to be set"
-        echo "as 'executable' ('755' /bin/chmod on unix / linux systems) to allow running it."
+        echo "as 'executable' ('755' chmod on unix / linux systems) to allow running it."
         
         break
        elif [ "$opt" = "skip" ]; then
