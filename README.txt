@@ -26,8 +26,11 @@ To install / upgrade everything automatically on a Raspberry Pi (an affordable l
 wget -O FOLIO-INSTALL.bash https://git.io/JeWWE;chmod +x FOLIO-INSTALL.bash;sudo ./FOLIO-INSTALL.bash
 
 
-Follow the prompts. This automated script gives you the options to: install / setup a PHP web server automatically, download / setup / configure the latest version of the DFD Cryptocoin Values app automatically, setup a cron job automatically (for price alerts / charts), and setup SSH (to update / install web site files remotely to the web server via SFTP) automatically. When that's all completed, it will display addresses / logins to access the app (write these down / save them for future use).
+Follow the prompts. This automated script gives you the options to: install / setup a PHP web server automatically, download / setup / configure the latest version of the DFD Cryptocoin Values app automatically, setup a cron job automatically (for price alerts / charts), and setup SSH (to update / install web site files remotely to the web server via SFTP) automatically. 
 
+When the auto-install is completed, it will display addresses / logins to access the app (write these down / save them for future use).
+
+For additional documentation, see HELP-FAQ.txt.
 
 ################################################################################################################
 
@@ -67,30 +70,6 @@ Cryptocurrency portfolio subtotal summaries, and total portfolio worth (in Crypt
 ################################################################################################################
 
 
-Questions, feature requests, and bug reports can be filed at the following URLS:
-
-https://github.com/taoteh1221/DFD_Cryptocoin_Values/issues
-
-https://dragonfrugal.com/contact/
-
-Web server setup / install is available for $30 hourly if needed. PM me on Twitter / Skype @ taoteh1221, or contact me using above contact links.
-
-
-################################################################################################################
-
-
-Donations support further development... 
-
-PAYPAL: https://www.paypal.me/dragonfrugal
-
-PATREON: https://www.patreon.com/dragonfrugal
-
-Monero (XMR): 47mWWjuwPFiPD6t2MaWcMEfejtQpMuz9oj5hJq18f7nvagcmoJwxudKHUppaWnTMPaMWshMWUTPAUX623KyEtukbSMdmpqu
-
-
-################################################################################################################
-
-
 Just upload this app's files to your PHP-based web server (with an FTP client like FileZilla) and you should be all set, unless your host is a strict setup related to file writing permissions, in which case the 'cache' directory permissions should be set to '777' chmod on unix / linux systems (or 'readable / writable' on windows systems). Your web host must have CURL modules activated on your HTTP server. Most web hosting companies provide this "out-of-the-box" already. This app will detect whether or not CURL is setup on your website server. 
 
 See below for additional details on setup, and see HELP-FAQ.txt for tips / troubleshooting FAQs.
@@ -118,13 +97,13 @@ Here is another example of a COMPLETE cron command that can be added by creating
 */15 * * * * WEBSITE_USERNAME_GOES_HERE /usr/bin/php -q /var/www/html/cron.php > /dev/null 2>&1
 
 
-If your system doesn't have /etc/cron.d/ on it, then roughly the same format can be installed via the 'crontab -e' command (logged in as the user you want running the cron job):
+If your system DOES NOT have /etc/cron.d/ on it, then NEARLY the same format (minus the username) can be installed via the 'crontab -e' command (logged in as the user you want running the cron job):
 
 */15 * * * * /usr/bin/php -q /var/www/html/cron.php > /dev/null 2>&1
 
 
 
-IMPORTANT NOTE: If everything is setup properly and the cron job still does NOT run, your particular server may require the cron.php file permissions to be set as 'executable' ('755' chmod on unix / linux systems) to allow running it.
+IMPORTANT CRON JOB NOTES: MAKE SURE YOU ONLY USE EITHER /etc/cron.d/, or 'crontab -e', NOT BOTH...ANY OLD DUPLICATE ENTRIES WILL RUN YOUR CRON JOB TOO OFTEN. If everything is setup properly and the cron job still does NOT run, your particular server may require the cron.php file permissions to be set as 'executable' ('755' chmod on unix / linux systems) to allow running it.
 
 
 ################################################################################################################
@@ -200,6 +179,31 @@ Below is an example for editing your assets / markets into the coin list in the 
     
  // SEE CONFIG.EXAMPLE.txt FOR A FULL EXAMPLE OF THE CONFIGURATION (ESPECIALLY IF YOU MESS UP config.php, lol)
  
+
+
+################################################################################################################
+
+
+Questions, feature requests, and bug reports can be filed at the following URLS:
+
+https://github.com/taoteh1221/DFD_Cryptocoin_Values/issues
+
+https://dragonfrugal.com/contact/
+
+Web server setup / install is available for $30 hourly if needed. PM me on Twitter / Skype @ taoteh1221, or contact me using above contact links.
+
+
+################################################################################################################
+
+
+Donations support further development... 
+
+PAYPAL: https://www.paypal.me/dragonfrugal
+
+PATREON: https://www.patreon.com/dragonfrugal
+
+Monero (XMR): 47mWWjuwPFiPD6t2MaWcMEfejtQpMuz9oj5hJq18f7nvagcmoJwxudKHUppaWnTMPaMWshMWUTPAUX623KyEtukbSMdmpqu
+
       
 ################################################################################################################              
 

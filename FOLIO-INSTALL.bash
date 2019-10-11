@@ -222,7 +222,7 @@ select opt in $OPTIONS; do
 			
        
          # Enable HTTP (port 80) htaccess
-         
+         #/usr/sbin/a2ensite 000-default
           
          HTTP_CONFIG="/etc/apache2/sites-available/000-default.conf"
             
@@ -313,6 +313,7 @@ EOF
                         
                                                 
          # Enable HTTPS (port 443) htaccess
+         #/usr/sbin/a2ensite default-ssl
          
          
          HTTPS_CONFIG="/etc/apache2/sites-available/default-ssl.conf"
@@ -706,6 +707,8 @@ select opt in $OPTIONS; do
         echo "your particular server may require the cron.php file permissions to be set"
         echo "as 'executable' ('755' chmod on unix / linux systems) to allow running it."
         
+        CRON_SETUP=1
+        
         break
        elif [ "$opt" = "skip" ]; then
         echo " "
@@ -801,6 +804,7 @@ echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 echo " "
 
 
+
 if [ "$APP_SETUP" = "1" ]; then
 
 echo "Web server setup and installation / configuration of DFD Cryptocoin Values"
@@ -834,6 +838,7 @@ echo " "
 fi
 
 
+
 if [ "$CONFIG_BACKUP" = "1" ]; then
 
 echo "The previously-installed DFD Cryptocoin Values configuration"
@@ -843,6 +848,23 @@ echo "You will need to manually move any custom settings in this backup file to 
 echo " "
 
 fi
+
+
+
+if [ "$CRON_SETUP" = "1" ]; then
+
+echo "A cron job has been setup for user '$SYS_USER',"
+echo "as a command in /etc/cron.d/cryptocoin:"
+echo "$CRONJOB"
+echo " "
+
+echo "Double-check that the command 'crontab -e' does not have any OLD MATCHING entries"
+echo "pointing to the same cron job, OR YOUR CRON JOB WILL RUN TOO OFTEN."
+echo "(when /etc/cron.d/ is used, then 'crontab -e' should NOT BE USED for the same cron job)"
+echo " "
+
+fi
+
 
 
 if [ "$SSH_SETUP" = "1" ]; then
@@ -863,6 +885,7 @@ echo "$DOC_ROOT"
 echo " "
 
 fi
+
 
 
 echo "INTERNAL NETWORK HTTP web address (viewing web pages in web browser, on home / internal network) is:"
