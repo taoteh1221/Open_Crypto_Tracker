@@ -226,11 +226,11 @@ global $http_users, $http_runtime_user;
 		// Run cache compatibility on certain PHP setups
 		if ( !$http_runtime_user || in_array($http_runtime_user, $http_users) ) {
 		$oldmask = umask(0);
-		return  mkdir($path, 0777, true); // Recursively create whatever path depth desired if non-existent
+		return  mkdir($path, octdec('777'), true); // Recursively create whatever path depth desired if non-existent
 		umask($oldmask);
 		}
 		else {
-		return  mkdir($path, 0777, true); // Recursively create whatever path depth desired if non-existent
+		return  mkdir($path, octdec('777'), true); // Recursively create whatever path depth desired if non-existent
 		}
 	
 	}
@@ -468,9 +468,20 @@ global $http_users, $http_runtime_user;
 	app_error('other_error', 'File write failed for file "' . $file . '"');
 	}
 	
+	
+	// For security, never make an .htaccess file writable by any user not in the group
+	if ( strstr($file, 'htaccess') != FALSE ) {
+	$chmod_setting = octdec('664');
+	}
+	else {
+	$chmod_setting = octdec('666');
+	}
+	
 	// Run cache compatibility on certain PHP setups
 	if ( !$http_runtime_user || in_array($http_runtime_user, $http_users) ) {
-	chmod($file, 0666);
+	$oldmask = umask(0);
+	chmod($file, $chmod_setting);
+	umask($oldmask);
 	}
 	
 	

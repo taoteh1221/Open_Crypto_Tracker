@@ -1717,6 +1717,8 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 3.40.1:
 -Fix for edge-case auto-install script error
+-Tighter security on any generated .htaccess file permissions
+-Auto-install script now supports setting up: htaccess / mod_rewrite / SSL (secure HTTPS web addresses)
 -------------------------------------------------------------------
 
 

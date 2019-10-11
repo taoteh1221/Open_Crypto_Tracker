@@ -172,13 +172,232 @@ select opt in $OPTIONS; do
 			
 			echo " "
 			
-			/usr/bin/apt-get install apache2 php php-curl php-gd php-zip libapache2-mod-php ssl-cert -y
+			/usr/bin/apt-get install apache2 php php-curl php-gd php-zip libapache2-mod-php openssl ssl-cert -y
 			
 			sleep 3
 			
 			echo " "
 			
 			mv -v $DOC_ROOT/index.html $DOC_ROOT/index.php
+
+
+
+			######################################
+			
+
+			# SSL / Rewrite setup
+			
+			echo " "
+			
+			# Regenerate new self-signed SSL cert keys with ssl-cert (for secure HTTPS web pages)
+			/usr/sbin/make-ssl-cert generate-default-snakeoil --force-overwrite
+
+			echo "New SSL certificate keys self-generated..."
+			echo " "
+
+			# Enable SSL (for secure HTTPS web pages)
+			/usr/sbin/a2enmod ssl
+			/usr/sbin/a2ensite default-ssl
+			
+			echo " "
+
+			# Enable mod-rewrite, for upcoming REST API features
+			/usr/sbin/a2enmod rewrite
+			
+			echo " "
+				
+				if [ -f /etc/init.d/apache2 ]; then
+				echo "Mod-rewrite and SSL (for secure HTTPS web pages) have been enabled,"
+				echo "restarting the Apache web server..."
+				/etc/init.d/apache2 restart
+				echo " "
+				else
+				echo "Mod-rewrite and SSL (for secure HTTPS web pages) have been enabled."
+				echo "You must restart the Apache web server for this to take affect."
+				echo " "
+				fi
+
+
+			######################################
+			
+       
+         # Enable HTTP (port 80) htaccess
+         
+          
+         HTTP_CONFIG="/etc/apache2/sites-available/000-default.conf"
+            
+            if [ ! -f $HTTP_CONFIG ]; then
+            
+            echo "$HTTP_CONFIG could NOT be found on your system."
+            echo "Please enter the FULL Apache config file path for HTTP (port 80):"
+            echo " "
+            
+            read HTTP_CONFIG
+                    
+                if [ ! -f $HTTP_CONFIG ] || [ -z "$HTTP_CONFIG" ]; then
+                echo "No HTTP config file detected, skipping Apache htaccess setup for port 80..."
+                SKIP_HTTP_HTACCESS=1
+                else
+                echo "Using Apache HTTP config file:"
+                echo "$HTTP_CONFIG"
+                CHECK_HTTP=$(<$HTTP_CONFIG)
+                fi
+            
+            echo " "
+            
+            else
+            
+            CHECK_HTTP=$(<$HTTP_CONFIG)
+            
+            fi
+            
+            
+            
+            if [ "$SKIP_HTTP_HTACCESS" != "1" ] && [[ $CHECK_HTTP != *"cryptocoin_htaccess_80"* ]]; then
+            
+            echo " "
+            
+            echo "Enabling htaccess for HTTP (port 80)..."
+            echo " "
+            
+            read -r -d '' HTACCESS_HTTP <<- EOF
+            \r
+            \t#cryptocoin_htaccess_80
+            \t<Directory $DOC_ROOT>
+            \t\tOptions Indexes FollowSymLinks MultiViews
+            \t\tAllowOverride All
+            \t\tRequire all granted
+            \t</Directory>
+            \r
+            EOF
+            
+            
+            # Backup the HTTP config before editing, to be safe
+            \cp $HTTP_CONFIG $HTTP_CONFIG.BACKUP.$DATE
+            
+            
+            # Create the new HTTP config
+            NEW_HTTP_CONFIG=$(echo -e "$HTACCESS_HTTP" | /bin/sed '/:80>/r /dev/stdin' $HTTP_CONFIG)
+            
+            
+            # Install the new HTTP config
+            echo -e "$NEW_HTTP_CONFIG" > $HTTP_CONFIG
+                            
+                            
+                # Restart Apache
+                if [ -f /etc/init.d/apache2 ]; then
+                echo "Htaccess has been enabled for HTTP (port 80),"
+                echo "restarting the Apache web server..."
+                /etc/init.d/apache2 restart
+                echo " "
+                else
+                echo "Htaccess has been enabled for HTTP (port 80)."
+                echo "You must restart the Apache web server for this to take affect."
+                echo " "
+                fi
+            
+            
+            else
+            
+            echo " "
+            
+            echo "Htaccess was already enabled for HTTP (port 80)."
+            echo " "
+            
+            fi
+            
+            
+         ######################################
+                        
+                                                
+         # Enable HTTPS (port 443) htaccess
+         
+         
+         HTTPS_CONFIG="/etc/apache2/sites-available/default-ssl.conf"
+            
+            if [ ! -f $HTTPS_CONFIG ]; then
+            
+            echo "$HTTPS_CONFIG could NOT be found on your system."
+            echo "Please enter the FULL Apache config file path for HTTPS (port 443):"
+            echo " "
+            
+            read HTTPS_CONFIG
+                    
+                if [ ! -f $HTTPS_CONFIG ] || [ -z "$HTTPS_CONFIG" ]; then
+                echo "No HTTPS config file detected, skipping Apache htaccess setup for port 443..."
+                SKIP_HTTPS_HTACCESS=1
+                else
+                echo "Using Apache HTTPS config file:"
+                echo "$HTTPS_CONFIG"
+                CHECK_HTTPS=$(<$HTTPS_CONFIG)
+                fi
+            
+            echo " "
+            
+            else
+            
+            CHECK_HTTPS=$(<$HTTPS_CONFIG)
+            
+            fi
+            
+            
+            
+            if [ "$SKIP_HTTPS_HTACCESS" != "1" ] && [[ $CHECK_HTTPS != *"cryptocoin_htaccess_443"* ]]; then
+            
+            echo " "
+            
+            echo "Enabling htaccess for HTTPS (port 443)..."
+            echo " "
+            
+            read -r -d '' HTACCESS_HTTPS <<- EOF
+            \r
+            \t#cryptocoin_htaccess_443
+            \t<Directory $DOC_ROOT>
+            \t\tOptions Indexes FollowSymLinks MultiViews
+            \t\tAllowOverride All
+            \t\tRequire all granted
+            \t</Directory>
+            \r
+            EOF
+            
+            
+            # Backup the HTTPS config before editing, to be safe
+            \cp $HTTPS_CONFIG $HTTPS_CONFIG.BACKUP.$DATE
+            
+            
+            # Create the new HTTPS config
+            NEW_HTTPS_CONFIG=$(echo -e "$HTACCESS_HTTPS" | /bin/sed '/:443>/r /dev/stdin' $HTTPS_CONFIG)
+            
+            
+            # Install the new HTTPS config
+            echo -e "$NEW_HTTPS_CONFIG" > $HTTPS_CONFIG
+                            
+                            
+                # Restart Apache
+                if [ -f /etc/init.d/apache2 ]; then
+                echo "Htaccess has been enabled for HTTPS (port 443),"
+                echo "restarting the Apache web server..."
+                /etc/init.d/apache2 restart
+                echo " "
+                else
+                echo "Htaccess has been enabled for HTTPS (port 443)."
+                echo "You must restart the Apache web server for this to take affect."
+                echo " "
+                fi
+            
+            
+            else
+            
+            echo " "
+            
+            echo "Htaccess was already enabled for HTTPS (port 443)."
+            echo " "
+            
+            fi
+            
+
+			######################################
+			
 			
 			echo " "
 			
@@ -558,8 +777,9 @@ done
        
 echo " "
 
-       
+
 ######################################
+
 
 echo " "
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
@@ -634,6 +854,18 @@ fi
 
 echo "INTERNAL NETWORK HTTP web address (viewing web pages in web browser, on home / internal network) is:"
 echo "http://$IP"
+echo " "
+
+echo "INTERNAL NETWORK SSL / HTTPS (secure / private SSL connection) web address is:"
+echo "https://$IP"
+echo " "
+
+echo "IMPORTANT SSL / HTTPS NOTE:"
+recho "The SSL certificate installed on this web server is SELF-SIGNED,"
+echo "so your browser ---will give you a warning message--- when you visit"
+echo "the above HTTPS address. This is normal behavior for self-signed"
+echo "certificates, no need to get worried about it. Google search"
+echo "with 'self-signed https' for more information on the topic."
 echo " "
 
 echo "If you wish to enable secure SSL (HTTPS) web site connections, you'll need to"
