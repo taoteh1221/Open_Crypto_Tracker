@@ -259,17 +259,19 @@ select opt in $OPTIONS; do
             
             echo "Enabling htaccess for HTTP (port 80)..."
             echo " "
-            
-            read -r -d '' HTACCESS_HTTP <<- EOF
-            \r
-            \t#cryptocoin_htaccess_80
-            \t<Directory $DOC_ROOT>
-            \t\tOptions Indexes FollowSymLinks MultiViews
-            \t\tAllowOverride All
-            \t\tRequire all granted
-            \t</Directory>
-            \r
-            EOF
+
+
+# Don't nest / indent, or it could malform the setting addition            
+read -r -d '' HTACCESS_HTTP <<- EOF
+\r
+\t#cryptocoin_htaccess_80
+\t<Directory $DOC_ROOT>
+\t\tOptions Indexes FollowSymLinks MultiViews
+\t\tAllowOverride All
+\t\tRequire all granted
+\t</Directory>
+\r
+EOF
             
             
             # Backup the HTTP config before editing, to be safe
@@ -349,16 +351,19 @@ select opt in $OPTIONS; do
             echo "Enabling htaccess for HTTPS (port 443)..."
             echo " "
             
-            read -r -d '' HTACCESS_HTTPS <<- EOF
-            \r
-            \t#cryptocoin_htaccess_443
-            \t<Directory $DOC_ROOT>
-            \t\tOptions Indexes FollowSymLinks MultiViews
-            \t\tAllowOverride All
-            \t\tRequire all granted
-            \t</Directory>
-            \r
-            EOF
+            
+            
+# Don't nest / indent, or it could malform the setting addition  
+read -r -d '' HTACCESS_HTTPS <<- EOF
+\r
+\t#cryptocoin_htaccess_443
+\t<Directory $DOC_ROOT>
+\t\tOptions Indexes FollowSymLinks MultiViews
+\t\tAllowOverride All
+\t\tRequire all granted
+\t</Directory>
+\r
+EOF
             
             
             # Backup the HTTPS config before editing, to be safe
