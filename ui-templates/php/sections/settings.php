@@ -187,16 +187,16 @@
 			    <option value='-15' <?=( $alert_percent[1] == '-15' ? ' selected ' : '' )?>> -15% </option>
 			    <option value='-10' <?=( $alert_percent[1] == '-10' ? ' selected ' : '' )?>> -10% </option>
 			    <option value='-5' <?=( $alert_percent[1] == '-5' ? ' selected ' : '' )?>> -5% </option>
-			    <option value='5' <?=( !$alert_percent[1] || $alert_percent[1] == 5 ? ' selected ' : '' )?>> 5% </option>
-			    <option value='10' <?=( $alert_percent[1] == 10 ? ' selected ' : '' )?>> 10% </option>
-			    <option value='15' <?=( $alert_percent[1] == 15 ? ' selected ' : '' )?>> 15% </option>
-			    <option value='20' <?=( $alert_percent[1] == 20 ? ' selected ' : '' )?>> 20% </option>
-			    <option value='25' <?=( $alert_percent[1] == 25 ? ' selected ' : '' )?>> 25% </option>
-			    <option value='30' <?=( $alert_percent[1] == 30 ? ' selected ' : '' )?>> 30% </option>
-			    <option value='35' <?=( $alert_percent[1] == 35 ? ' selected ' : '' )?>> 35% </option>
-			    <option value='40' <?=( $alert_percent[1] == 40 ? ' selected ' : '' )?>> 40% </option>
-			    <option value='45' <?=( $alert_percent[1] == 45 ? ' selected ' : '' )?>> 45% </option>
-			    <option value='50' <?=( $alert_percent[1] == 50 ? ' selected ' : '' )?>> 50% </option>
+			    <option value='5' <?=( !$alert_percent[1] || $alert_percent[1] == 5 ? ' selected ' : '' )?>> +5% </option>
+			    <option value='10' <?=( $alert_percent[1] == 10 ? ' selected ' : '' )?>> +10% </option>
+			    <option value='15' <?=( $alert_percent[1] == 15 ? ' selected ' : '' )?>> +15% </option>
+			    <option value='20' <?=( $alert_percent[1] == 20 ? ' selected ' : '' )?>> +20% </option>
+			    <option value='25' <?=( $alert_percent[1] == 25 ? ' selected ' : '' )?>> +25% </option>
+			    <option value='30' <?=( $alert_percent[1] == 30 ? ' selected ' : '' )?>> +30% </option>
+			    <option value='35' <?=( $alert_percent[1] == 35 ? ' selected ' : '' )?>> +35% </option>
+			    <option value='40' <?=( $alert_percent[1] == 40 ? ' selected ' : '' )?>> +40% </option>
+			    <option value='45' <?=( $alert_percent[1] == 45 ? ' selected ' : '' )?>> +45% </option>
+			    <option value='50' <?=( $alert_percent[1] == 50 ? ' selected ' : '' )?>> +50% </option>
 			    </select> 
 			     
 			    <select name='percent_change_time' id='percent_change_time' onchange='

@@ -10,7 +10,7 @@ error_reporting(0); // Turn off all error reporting on production servers (0), o
 
 require_once("app-lib/php/loader.php");
 
-$app_version = '3.41.0';  // 2019/OCTOBER/11TH
+$app_version = '3.42.0';  // 2019/OCTOBER/11TH
  
 date_default_timezone_set('UTC');
 
