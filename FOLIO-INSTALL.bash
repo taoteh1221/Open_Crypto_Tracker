@@ -90,7 +90,7 @@ fi
 
 
 echo "TECHNICAL NOTE:"
-echo "This script was designed to install / setup on the Raspian operating system,"
+echo "This script was designed to install / setup on the Raspbian operating system,"
 echo "and was developed / created on Raspbian Linux v10, for Raspberry Pi computers."
 echo " "
 
