@@ -5,27 +5,38 @@ TODO
 ///////////////////////////////////////////////////////
 
 
-Make sure programming comments are adequate throughout the app.
+For the fiat/primary currency converter (to convert all crypto-based trade values between USD / GBP / EUR / stablecoin / etc as the app's "primary currency"): Use the simple / powerful solution of adding the different fiat/stablecoin markets for Bitcoin in same manner as alternate markets for altcoins are added (including Tether / stablecoin markets), THEN detect the fiat/primary currency that was selected, AND set it's symbol / letter-code as the app's fiat/primary currency.
 
-Add Dogecoin and mining calculator.
-
-Add fiat currency converter, to convert USD to GBP / EURO / etc.
-
-2-way encryption option (unlocked with 6 digit PIN) for storing coin amounts (IN COOKIES ONLY, NO DATABASE STORAGE !EVER!), with "quick lock" to quickly re-hide portfolio data.
-
-SQL-based accounts for storing configuration settings per-user (including setting up new assets available at supported exchanges), BUT !NEVER! STORES PORTFOLIO DATA (FOR PRIVACY / SECURITY-SAKE).
-
-Add feature to restore chart data from the zip archive backups (with SQL-based admin authentication ONLY).
-
-Stats in UI using chart data (if available), to show and compare spot / volume percent changes over an end-user-defined time period for a number of assets (example: BTC / LTC / ETH / XMR spot price percentage changes / 24hr volume percentage changes from April 6th 2019 to November 22nd 2019). Shows trends on which assets are performing better for a certain time period.
 
 Add header login nav like prototype for zilliqa block explorer (use the developed account system structure too).
 
+
 Add an alert bell icon in upcoming header login nav, and have alerts make it red and be a drop-down info bubble clicking it, rather than alerts printed in the footer.
+
+
+Make sure programming comments are adequate throughout the app.
+
+
+Add Dogecoin and mining calculator.
+
+
+2-way encryption option (unlocked with 6 digit PIN) for storing coin amounts (IN COOKIES ONLY, NO DATABASE STORAGE !EVER!), with "quick lock" to quickly re-hide portfolio data.
+
+
+SQL-based accounts for storing configuration settings per-user (including setting up new assets available at supported exchanges), BUT !NEVER! STORES PORTFOLIO DATA (FOR PRIVACY / SECURITY-SAKE).
+
+
+Add feature to restore chart data from the zip archive backups (with SQL-based admin authentication ONLY).
+
+
+Stats in UI using chart data (if available), to show and compare spot / volume percent changes over an end-user-defined time period for a number of assets (example: BTC / LTC / ETH / XMR spot price percentage changes / 24hr volume percentage changes from April 6th 2019 to November 22nd 2019). Shows trends on which assets are performing better for a certain time period.
+
 
 Add chart sorting by crypto and usd price / volume percentage change over 1 hour / 1 day / 1 week / 1 month / 90 days / 6 months / 1 year.
 
+
 RESTFUL API system for requesting market values
+
 
 Simple trading bot, to run from cron / cli (with SQL-based admin authentication / web UI for configuration)
 
@@ -34,11 +45,21 @@ Simple trading bot, to run from cron / cli (with SQL-based admin authentication 
 MAYBE
 ///////////////////////////////////////////////////////
 
+
 See if at all feasible to fully modularize mining calculators to be added via config settings?
+
 
 Using primary chart data files as the source, dynamically create and cache extra chart data files for 1week / 1month / 3month / 6month / 1year / 2year / 4year charts (every hour?), using different minimum time intervals, to improve scaling UI integration (UI load times, as more chart data is collected)?
 
+
 Add security nonce to thwart CSRF attacks on cookie portfolio data / SQL-based (authenticated) admin pages?
 
+
 Look into graceful 'loading...' placeholder until page is fully loaded?
+
+
+
+
+
+
 
