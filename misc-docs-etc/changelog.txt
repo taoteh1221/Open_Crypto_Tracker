@@ -1740,6 +1740,8 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 3.42.0:
 -UX revisions
+-Theme CSS consolidation
+-Better matching dark theme colors
 -------------------------------------------------------------------
 
 

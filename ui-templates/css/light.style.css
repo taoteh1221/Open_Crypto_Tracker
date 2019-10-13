@@ -8,14 +8,9 @@ ELEMENTS
 ////////////////////////////// */
 
 
-body {
+body, table, .long_list_even, div.tabdiv, .tabs a.active {
 background-color: #fff;
 color: #000;
-}
-
-
-table {
-background: #fff;
 }
 
 
@@ -40,8 +35,8 @@ input[type=text]:read-only {
 }
 
 
-a {
-color: black;
+a, .black, td.data span, .subsection_legend {
+color: black !important;
 }
 
 
@@ -101,22 +96,12 @@ border-bottom: 2px solid #ccc;
 }
 
 
-.subsection_legend {
-color: black;
-}
-
-
 .long_list_odd {
 background: #e8e8e8;
 }
 
 
-.long_list_even {
-background: #ffffff;
-}
-
-
-.red {
+.red, #api_error_alert {
 color: #D61F00 !important;
 }
 
@@ -138,45 +123,19 @@ border: 2px dotted #066000 !important;
 }
 
 
-.blue {
+.orange {
+color: #ea6b1c !important;
+}
+
+
+.blue, td.data, td.data span.data, td select, .btn-link, .btn-link a, .btn-link:hover {
 color: #1a1696 !important;
-}
-
-
-.black {
-color: black !important;
-}
-
-
-div.tabdiv {
-background: #fff;
 }
 
 
 .tabs a {
 background: #808080;
 color: white;
-}
-
-
-.tabs a.active {
-background: #fff;
-color: black;
-}
-
-
-td.data span {
-color: black;
-}
-
-
-td.data, td.data span.data, td select {
-color: #1a1696;
-}
-
-
-.btn-link, .btn-link a, .btn-link:hover {
-color: #1a1696;
 }
 
 
@@ -194,9 +153,5 @@ border-top: 2px solid black;
 IDs
 ////////////////////////////// */
 
-
-#api_error_alert {
-color: #D61F00; 
-}
 
 

@@ -12,8 +12,6 @@ html {
 width: auto;
 margin: auto;
 padding: 0px;
-font-family: sans-serif;
-font-size: 15px;
 }
 
 
@@ -51,13 +49,13 @@ border: 1px solid #808080;
 }
 
 
-p {
+html, p, td.data, td.data span.data, td select, td.data span, input, select, textarea, input[type=submit], input[type=button], .force_button_style, .btn-link, .btn-link a, .btn-link:hover {	
+font-family: sans-serif;
 font-size: 15px;
 }
 
 
 input, select, textarea {
-font-size: 15px;
 border: 1px solid #808080;
 }
 
@@ -74,7 +72,6 @@ input[type=submit], input[type=button], .force_button_style {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 15px;
   cursor: pointer;
 }
 
@@ -225,11 +222,6 @@ color: #ff4747 !important;
 }
 
 
-.orange {
-color: #ea6b1c !important;
-}
-
-
 .yellow {
 color: #ffb83f !important;
 }
@@ -299,13 +291,7 @@ border-right: 2px solid #808080;
 }
 
 
-td.data, td.data span.data, td select {
-font-size: 15px;
-}
-
-
 td.data span {
-font-size: 15px;
 white-space: nowrap;
 }
 
@@ -344,7 +330,6 @@ white-space: nowrap;
 
 .btn-link, .btn-link a, .btn-link:hover {
 font-weight: 800;
-font-size: 15px;
 text-decoration: none;
 }
 
@@ -417,11 +402,6 @@ color: black;
 }
 
 
-#show_chart_settings {
-display: none;
-}
-
-
 #coins_table {
 position: relative;
 min-width: 1200px;
@@ -438,7 +418,7 @@ padding: 6px;
 }
 
 
-#alert_source, #percent_change_amount, #percent_change_time, #percent_change_alert_type {
+#alert_source, #percent_change_amount, #percent_change_time, #percent_change_alert_type, #show_chart_settings {
 display: none;
 }
 

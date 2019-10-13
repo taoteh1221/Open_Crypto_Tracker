@@ -14,8 +14,9 @@ color: #fff;
 }
 
 
-table {
+table, div.tabdiv, .tabs a.active {
 background: #202020;
+color: white;
 }
 
 
@@ -45,8 +46,8 @@ input[type=text]:read-only {
 }
 
 
-a {
-color: white;
+a, .black, td.data span, .subsection_legend {
+color: white !important;
 }
 
 
@@ -57,6 +58,13 @@ color: #a09e9e;
 
 a:hover {
 color: #bcbaba;
+}
+
+
+/* Dark theme drop-down text color needs to remain darker blue 
+like light theme drop-downs (or mobile looks crappy) */
+td select {
+color: #1a1696;
 }
 
 
@@ -106,11 +114,6 @@ border-bottom: 2px solid #808080;
 }
 
 
-.subsection_legend {
-color: white;
-}
-
-
 .long_list_odd {
 background: #28313a;
 }
@@ -121,7 +124,7 @@ background: #343f49;
 }
 
 
-.red {
+.red, #api_error_alert {
 color: #cf3d32 !important;
 }
 
@@ -143,45 +146,19 @@ border: 2px dotted #0a8e01 !important;
 }
 
 
-.blue {
-color: #1681b8 !important;
+.orange {
+color: #ce7039 !important;
 }
 
 
-.black {
-color: white !important;
-}
-
-
-div.tabdiv {
-background: #202020;
+.blue, td.data, td.data span.data, .btn-link, .btn-link a, .btn-link:hover {
+color: #23aeea !important;
 }
 
 
 .tabs a {
 background: #909396;
 color: black;
-}
-
-
-.tabs a.active {
-background: #202020;
-color: white;
-}
-
-
-td.data span {
-color: white;
-}
-
-
-td.data, td.data span.data, td select {
-color: #1681b8;
-}
-
-
-.btn-link, .btn-link a, .btn-link:hover {
-color: #1681b8;
 }
 
 
@@ -205,9 +182,5 @@ border-top: 2px solid white;
 IDs
 ////////////////////////////// */
 
-
-#api_error_alert {
-color: #cf3d32; 
-}
 
 

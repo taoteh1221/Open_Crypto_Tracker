@@ -369,12 +369,12 @@ function play_alert(tr_id, alert_type, color, theme) {
     $( document ).ready(function() {
       
 	if ( color == 'yellow' ) {
-	var zebra_odd = ( theme == 'light' ? '#efd362' : '#d4bb58' );
-	var zebra_even = ( theme == 'light' ? '#d3bb5b' : '#b7a24d' );
+	var zebra_odd = ( theme == 'light' ? '#efd362' : '#705d29' );
+	var zebra_even = ( theme == 'light' ? '#d3bb5b' : '#564a1e' );
 	}
 	else if ( color == 'green' ) {
-	var zebra_odd = ( theme == 'light' ? '#7dc67d' : '#6ba76b' );
-	var zebra_even = ( theme == 'light' ? '#93ea93' : '#5a8c5a' );
+	var zebra_odd = ( theme == 'light' ? '#7dc67d' : '#3d603d' );
+	var zebra_even = ( theme == 'light' ? '#93ea93' : '#2d492d' );
 	}
       
  if ( color != 'no_cmc' ) {
