@@ -157,11 +157,8 @@ echo " "
 			
 /usr/bin/sudo /usr/bin/apt-get update
 
+#DO NOT RUN dist-upgrade, bad things can happen, lol
 /usr/bin/sudo /usr/bin/apt-get upgrade -y
-
-/usr/bin/sudo /usr/bin/apt-get dist-upgrade -y
-
-/usr/bin/sudo /usr/bin/apt-get clean
 
 echo " "
 				
