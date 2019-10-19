@@ -503,14 +503,27 @@ global $_POST, $mining_rewards;
 
 function asset_charts_and_alerts($asset_data, $exchange, $pairing, $mode) {
 
+
+
+// Globals
 global $base_dir, $local_time_offset, $block_volume_error, $coins_list, $btc_exchange, $charts_page, $asset_price_alerts_freq, $asset_price_alerts_percent, $asset_price_alerts_minvolume, $asset_price_alerts_refresh;
+
+
+
+
 
 // Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
 $asset = ( stristr($asset_data, "-") == false ? $asset_data : substr( $asset_data, 0, strpos($asset_data, "-") ) );
 $asset = strtoupper($asset);
 
 
+
+
+
+
+
 	// Get any necessary variables for calculating asset's USD value
+	
 	if ( $asset == 'BTC' ) {
 	$pairing = 'usd'; // Overwrite for Bitcoin only, so alerts properly describe the BTC fiat pairing in this app
 	$btc_usd = get_btc_usd($exchange)['last_trade']; // Overwrite global var with selected exchange (rather then default), when asset is Bitcoin
@@ -520,6 +533,12 @@ $asset = strtoupper($asset);
 	}
 	
 	
+	
+
+
+	
+	
+	// Altcoin / alternate base pairing setup(s)
 
 	// XMR
    if ( $pairing == 'xmr' && !$_SESSION['xmr_btc'] ) {
@@ -545,8 +564,15 @@ $asset = strtoupper($asset);
    elseif ( $pairing == 'usdc' && !$_SESSION['usdc_btc'] ) {
    $_SESSION['usdc_btc'] = number_format( ( 1 / get_coin_value('binance', 'BTCUSDC')['last_trade'] ), 8, '.', '');
    }
-    
+   
+   
+   
+   
+   
+   
+   
 	// Get asset USD value
+	
 	if ( $asset == 'BTC' ){ 
 	$asset_usd_raw = $btc_usd;
 	$volume_pairing_raw = get_btc_usd($exchange)['24hr_volume']; // For chart values based off pairing data (not USD equiv)
@@ -572,7 +598,11 @@ $asset = strtoupper($asset);
 
 
 
-	// Round for pretty numbers
+
+
+
+	// Round for prettier numbers UX
+	
 	$volume_pairing_raw = round($volume_pairing_raw);
 	$volume_usd_raw = round($volume_usd_raw);	
 	
@@ -580,7 +610,11 @@ $asset = strtoupper($asset);
 	
 	
 	
-	// Make sure we have basic values, otherwise return false
+	
+	
+	
+	// Make sure we have basic values, otherwise log errors / return false
+	
 	if ( $btc_usd == NULL ) {
 	app_error( 'other_error', 'No Bitcoin USD value set', $asset_data . ' (' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ')' );
 	$set_return = 1;
@@ -597,7 +631,11 @@ $asset = strtoupper($asset);
 	
 	
 	
+	
+	
+	
 	// Check for a file modified time !!!BEFORE ANY!!! file creation / updating happens (to calculate time elapsed between updates)
+	
 	if ( file_exists('cache/alerts/'.$asset_data.'.dat') ) {
 	
    $last_check_days = ( time() - filemtime('cache/alerts/'.$asset_data.'.dat') ) / 86400;
@@ -618,18 +656,28 @@ $asset = strtoupper($asset);
 	}
 	
 
+
+
 $data_file = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
 
 $cached_array = explode("||", $data_file);
 
 
+
+
+
 	// Make sure numbers are cleanly pulled from cache file
+	
 	foreach ( $cached_array as $key => $value ) {
 	$cached_array[$key] = remove_number_format($value);
 	}
 
 
+
+
+
 	// Backwards compatibility
+	
 	if ( $cached_array[0] == NULL ) {
 	$cached_value = $data_file;
 	$cached_usd_volume = -1;
@@ -643,12 +691,21 @@ $cached_array = explode("||", $data_file);
 
 
 
+
+
+
+
+
 	////// If cached value, run alert checking ////////////
+	
 	if ( $cached_value != '' ) {
 	
 	
 	
+	
+	
   			 // Price checks
+  			 
           if ( floattostr($cached_value) >= 0.00000001 && floattostr($asset_usd_raw) < floattostr($cached_value) ) {
           $asset_price_alerts_value = $cached_value - ( $cached_value * ($asset_price_alerts_percent / 100) );
           $percent_change = 100 - ( $asset_usd_raw / ( $cached_value / 100 ) );
@@ -674,7 +731,10 @@ $cached_array = explode("||", $data_file);
           
           
           
+          
+          
           // Crypto volume checks
+          
           if ( $cached_usd_volume <= 0 && $volume_usd_raw <= 0 ) { // ONLY USD VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
           $volume_percent_change = 0; // Skip calculating percent change if cached / live USD volume are both zero or -1 (exchange API error)
           $volume_change_symbol = '+';
@@ -693,11 +753,15 @@ $cached_array = explode("||", $data_file);
           }
           
           
-          
           // We disallow alerts where minimum 24 hour trade USD volume has NOT been met, ONLY if an API request doesn't fail to retrieve volume data
           if ( $volume_usd_raw >= 0 && $volume_usd_raw < $asset_price_alerts_minvolume ) {
           $send_alert = NULL;
           }
+  
+  
+  
+  
+  
   
   
           // We disallow alerts if they are not activated
@@ -714,8 +778,16 @@ $cached_array = explode("||", $data_file);
           
           
           
+          
+          
+          
+          
+          
           // Sending the alerts
+          
           if ( update_cache_file('cache/alerts/'.$asset_data.'.dat', $asset_price_alerts_freq) == true && $send_alert == 1 ) {
+          
+          
           
           
   				// Message formatting for display to end user
@@ -738,10 +810,14 @@ $cached_array = explode("||", $data_file);
           	}
           
           
+          
+          
           	// Pretty up textual output to end-user (convert raw numbers to have separators, remove underscores in names, etc)
+          	
   				$exchange_text = ucwords(preg_replace("/_/i", " ", $exchange));
   				
-  				$asset_usd_text = ( $asset == 'BTC' ? number_format($asset_usd_raw, 2, '.', ',') : number_format($asset_usd_raw, 8, '.', ',') );
+  				// Pretty numbers UX on USD asset value
+  				$asset_usd_text = ( floattostr($asset_usd_raw) >= 1.00 ? pretty_numbers($asset_usd_raw, 2) : pretty_numbers($asset_usd_raw, 6) );
   				
   				$percent_change_text = number_format($percent_change, 2, '.', ',');
   				
@@ -753,12 +829,16 @@ $cached_array = explode("||", $data_file);
   				
   				
   				
+  				
+  				
   				// If -1 from exchange API error not reporting any volume data (not even zero)
   				// ONLY USD VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
   				if ( $cached_usd_volume == -1 || $volume_usd_raw == -1 ) {
   				$volume_change_text = NULL;
   				$volume_change_text_mobile = NULL;
   				}
+          	
+          	
           	
           	
           	// Format trade volume data
@@ -792,16 +872,23 @@ $cached_array = explode("||", $data_file);
   				
   				
   				
-  				// Build the different messages, configure comm methods, and send messages
   				
+  				
+  				// Build the different messages, configure comm methods, and send messages
+				
   				$email_message = 'The ' . $asset . ' trade value in the ' . strtoupper($pairing) . ' market at the ' . $exchange_text . ' exchange has ' . $increase_decrease . ' ' . $change_symbol . $percent_change_text . '% in dollar value to $' . $asset_usd_text . ' over the past ' . $last_check_time . ' since the last price ' . $desc_alert_type . '. ' . $email_volume_summary;
+  				
+  				// Were're just adding a human-readable timestamp to smart home (audio) alerts
+  				$notifyme_message = $email_message . ' Timestamp is ' . time_date_format($local_time_offset, 'pretty_time') . '.';
   				
   				$text_message = $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange_text . ' ' . $increase_decrease . ' ' . $change_symbol . $percent_change_text . '% in dollar value to $' . $asset_usd_text . ' over ' . $last_check_time . '. 24hr USD Vol: ' . $volume_usd_text . ' ' . $volume_change_text_mobile;
   				
-  				$notifyme_message = $email_message . ' Timestamp is ' . time_date_format($local_time_offset, 'pretty_time') . '.';
+  				
   				
   				// Cache the new lower / higher value + volume data
           	store_file_contents($base_dir . '/cache/alerts/'.$asset_data.'.dat', $new_file_contents); 
+          	
+          	
           	
   				// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
           	$send_params = array(
@@ -813,20 +900,31 @@ $cached_array = explode("||", $data_file);
           														)
           								);
           	
+          	
+          	
           	// Send notifications
           	@send_notifications($send_params);
   
           
+          
           }
+          
+          
+          
           
   
   
 	}
 	////// END alert checking //////////////
+	
+	
+	
+	
 
  
 
 	// Cache a price value / volumes if not already done, OR if config setting set to refresh every X days
+	
 	if ( $mode == 'both' && floattostr($asset_usd_raw) >= 0.00000001 && !file_exists('cache/alerts/'.$asset_data.'.dat')
 	|| $mode == 'alert' && floattostr($asset_usd_raw) >= 0.00000001 && !file_exists('cache/alerts/'.$asset_data.'.dat') ) {
 	store_file_contents($base_dir . '/cache/alerts/'.$asset_data.'.dat', $new_file_contents); 
@@ -838,7 +936,10 @@ $cached_array = explode("||", $data_file);
 
 
 
+
+
 	// If the charts page is enabled in config.php, save latest chart data for assets with price alerts configured on them
+	
 	if ( $mode == 'both' && floattostr($asset_usd_raw) >= 0.00000001 && $charts_page == 'on'
 	|| $mode == 'chart' && floattostr($asset_usd_raw) >= 0.00000001 && $charts_page == 'on' ) { 
 	
@@ -853,10 +954,15 @@ $cached_array = explode("||", $data_file);
 			
 		
 	}
+	
+	
+	
 
 
 // If we haven't returned FALSE yet because of any issues being detected, return TRUE to indicate all seems ok
+
 return TRUE;
+
 
 }
 
@@ -867,7 +973,10 @@ return TRUE;
 
 function ui_coin_data($coin_name, $trade_symbol, $coin_amount, $market_pairing_array, $selected_pairing, $selected_market, $purchase_price=NULL, $leverage_level, $selected_margintype) {
 
+// Globals
 global $_POST, $theme_selected, $coins_list, $btc_exchange, $marketcap_site, $marketcap_cache, $coinmarketcapcom_api_key, $alert_percent, $marketcap_ranks_max, $api_timeout;
+
+
 
 $rand_id = rand(10000000,100000000);
   
@@ -878,6 +987,8 @@ $original_market = $selected_market;
 $all_markets = $market_pairing_array;  // All markets for this pairing
 
 $all_pairings = $coins_list[$trade_symbol]['market_pairing'];
+
+
 
   // Update, get the selected market name
   
@@ -898,15 +1009,21 @@ $all_pairings = $coins_list[$trade_symbol]['market_pairing'];
   $loop = NULL; 
 
 
+
+
 if ( $_SESSION['btc_in_usd'] ) {
 $btc_exchange = $_SESSION['btc_in_usd'];
 }
 
 
+
 $market_pairing = $all_markets[$selected_market];
+
+
   
   
   if ( $coin_amount > 0.00000000 ) { // Show even if decimal is off the map, just for UX purposes tracking token price only
+    
     
     
     // UI table coloring
@@ -917,6 +1034,7 @@ $market_pairing = $all_markets[$selected_market];
     $_SESSION['td_color'] = '#e8e8e8';
     }
 
+	
 	
 	 // Get coin values, including non-BTC pairings
     if ( $selected_pairing == 'btc' ) {
@@ -1045,6 +1163,8 @@ $market_pairing = $all_markets[$selected_market];
   
   
 	 
+	 
+	 
   	 // Calculate gain / loss if purchase price was populated
 	 if ( $purchase_price >= 0.00000001 ) {
 	 	
@@ -1087,6 +1207,7 @@ $market_pairing = $all_markets[$selected_market];
 	  
 	 
 	 
+	 
     $_SESSION['coin_stats_array'][] = array(
     													'coin_symbol' => $trade_symbol, 
     													'coin_leverage' => $leverage_level,
@@ -1102,18 +1223,38 @@ $market_pairing = $all_markets[$selected_market];
     										
 
 
+
+
   // Get trade volume
   $trade_volume = ( $coin_name == 'Bitcoin' ? get_btc_usd($btc_exchange)['24hr_usd_volume'] : get_coin_value($selected_market, $market_pairing)['24hr_usd_volume'] );
   
   
+  
+  
+  // Render webpage UI output
+  
   ?>
-<tr id='<?=strtolower($trade_symbol)?>_row'>
 
-<td class='data border_lb'><span class='app_sort_filter'><?php echo $sort_order; ?></span></td>
+
+<!-- Coin data row START -->
+<tr id='<?=strtolower($trade_symbol)?>_row'>
+  
+
+
+
+<td class='data border_lb'>
+
+<span class='app_sort_filter'><?php echo $sort_order; ?></span>
+
+</td>
+
+
 
 <td class='data border_lb' align='right' style='position: relative; padding-right: 32px; white-space: nowrap;'>
  
  <?php
+ 
+ 
  $mkcap_render_data = trim($coins_list[$trade_symbol]['marketcap_website_slug']);
  $info_icon = ( !marketcap_data($trade_symbol)['rank'] ? 'info-none.png' : 'info.png' );
  
@@ -1129,6 +1270,7 @@ $market_pairing = $all_markets[$selected_market];
  	
  	
  		?>
+ 		
  <img id='<?=$mkcap_render_data?>' src='ui-templates/media/images/<?=$info_icon?>' alt='' border='0' style='position: absolute; top: 2px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <a title='' href='https://<?=$asset_pagebase?><?=$mkcap_render_data?>/' target='_blank' class='blue app_sort_filter'><?php echo $coin_name; ?></a>
  <script>
 
@@ -1265,10 +1407,12 @@ $market_pairing = $all_markets[$selected_market];
         }
         ?>
      </script>
+     
  <?php
 	}
 	else {
   ?>
+  
   <img id='<?=$rand_id?>' src='ui-templates/media/images/<?=$info_icon?>' alt='' border='0' style='position: absolute; top: 2px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <?=$coin_name?>
  <script>
  $('#<?=$rand_id?>').balloon({
@@ -1290,6 +1434,7 @@ $market_pairing = $all_markets[$selected_market];
 		?>
 		
  </script>
+ 
 	<?php
 	}
  
@@ -1297,9 +1442,12 @@ $market_pairing = $all_markets[$selected_market];
  
 </td>
 
+
+
 <td class='data border_b'>
 
 <span class='app_sort_filter'>
+
 
 <?php
 
@@ -1320,9 +1468,12 @@ $market_pairing = $all_markets[$selected_market];
 
 ?>
 
+
 </span>
 
 </td>
+
+
 
 <td class='data border_lb' align='right'>
 
@@ -1345,7 +1496,15 @@ echo "<span class='app_sort_filter blue'>" . ( $pretty_coin_amount != NULL ? $pr
 
 </td>
 
-<td class='data border_b'><span class='app_sort_filter'><?php echo $trade_symbol; ?></span></td>
+
+
+<td class='data border_b'><span class='app_sort_filter'>
+
+<?php echo $trade_symbol; ?></span>
+
+</td>
+
+
 
 <td class='data border_lb'>
  
@@ -1366,7 +1525,10 @@ echo "<span class='app_sort_filter blue'>" . ( $pretty_coin_amount != NULL ? $pr
 
 </td>
 
+
+
 <td class='data border_b'><span class='app_sort_filter'>
+
 
 <?php 
 
@@ -1380,9 +1542,15 @@ echo "<span class='app_sort_filter blue'>" . ( $pretty_coin_amount != NULL ? $pr
 
 ?>
 
-</span></td>
+
+</span>
+
+</td>
+
+
 
 <td class='data border_b' align='right'><span class='app_sort_filter'><?php echo number_format($coin_value_raw, ( $coin_name == 'Bitcoin' ? 2 : 8 ), '.', ','); ?></span>
+
 
 <?php
 
@@ -1395,6 +1563,8 @@ echo "<span class='app_sort_filter blue'>" . ( $pretty_coin_amount != NULL ? $pr
 
 </td>
 
+
+
 <td class='data border_b'> <span>
  
     <select class='app_sort_filter' name='change_<?=strtolower($trade_symbol)?>_pairing' onchange='
@@ -1402,14 +1572,14 @@ echo "<span class='app_sort_filter blue'>" . ( $pretty_coin_amount != NULL ? $pr
     $("#<?=strtolower($trade_symbol)?>_market").val(1); // Just reset to first listed market for this pairing
     document.coin_amounts.submit();
     '>
+    
+    
         <?php
-        
 		  if ( $coin_name == 'Bitcoin' ) {
 		  ?>
 		  <option value='btc'> USD </option>
 		  <?php
 		  }
-        
         else {
         	
         $loop = 0;
@@ -1425,11 +1595,20 @@ echo "<span class='app_sort_filter blue'>" . ( $pretty_coin_amount != NULL ? $pr
         
         }
         ?>
+        
+        
     </select>
 
-</span></td>
+</span>
 
-<td class='data border_lb'><?php
+</td>
+
+
+
+<td class='data border_lb'>
+
+
+<?php
 
 echo ' <span><span class="data app_sort_filter">' . number_format($coin_value_total_raw, ( $coin_name == 'Bitcoin' ? 2 : 8 ), '.', ',') . '</span> ' . $pairing_symbol . '</span>';
 
@@ -1437,9 +1616,17 @@ echo ' <span><span class="data app_sort_filter">' . number_format($coin_value_to
   echo '<div class="btc_worth"><span>(' . number_format( $coin_value_total_raw * $pairing_btc_value , 8 ) . ' BTC)</span></div>';
   }
 
-?></td>
+?>
 
-<td class='data border_lrb' style='white-space: nowrap;'><?php
+</td>
+
+
+
+<td class='data border_lrb' style='white-space: nowrap;'>
+
+
+
+<?php
 
 
 echo '<span class="' . ( $purchase_price >= 0.00000001 && $leverage_level >= 2 && $selected_margintype == 'short' ? 'short">★ $' : 'blue">$' ) . '<span class="app_sort_filter" style="color: inherit;">' . number_format($coin_usd_worth_raw, 2, '.', ',') . '</span></span>';
@@ -1504,12 +1691,24 @@ echo '<span class="' . ( $purchase_price >= 0.00000001 && $leverage_level >= 2 &
 		<?php
   		}
 
-?></td>
+?>
 
+
+
+</td>
+
+
+  
 </tr>
+<!-- Coin data row END -->
+
 
 <?php
   }
+  
+  // END of render webpage UI output
+
+
 
 }
 

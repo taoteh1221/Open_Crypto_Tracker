@@ -88,7 +88,7 @@
         
         			<li class='links_list'><a href='https://calendar.google.com/' target='_blank'>Google Calendar to Send Yourself Reminders For Important Crypto Times</a> ;-)</li>
 	        
-	        		<li class='links_list'><a href='https://github.com/taoteh1221/DFD_Crypto_Ticker' target='_blank'>Raspberry PI Real-Time Crypto Ticker</a> (a side project of mine)</li>
+	        		<li class='links_list'><a href='https://sourceforge.net/projects/dfd-crypto-ticker/' target='_blank'>Raspberry PI Real-Time / Multi-Crypto Slideshow Price Ticker</a> (a side project of mine)</li>
 				
 				
     			</ul>
