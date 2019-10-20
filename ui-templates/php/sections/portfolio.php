@@ -400,7 +400,10 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
   		
 		$total_usd_worth_inc_leverage = $total_usd_worth + $leverage_only_gain_loss;
 		
-		$parsed_total_usd_worth_inc_leverage = preg_replace("/-/", "-$", number_format( $total_usd_worth_inc_leverage, 2, '.', ',' ) );
+  		// Here we can go negative 'total worth' with the margin leverage (unlike with the margin deposit)
+  		// We only want a negative sign here in the UI for 'total worth' clarity (if applicable), NEVER a plus sign
+  		// (plus sign would indicate a gain, NOT 'total worth')
+		$parsed_total_usd_worth_inc_leverage = preg_replace("/-/", "", number_format( $total_usd_worth_inc_leverage, 2, '.', ',' ) );
   		
 		$total_usd_worth_if_purchase_price = coin_stats_data('coin_total_worth_if_purchase_price') + $leverage_only_gain_loss;
 		
@@ -421,7 +424,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 		
 		echo '<div class="portfolio_summary"><span class="black">USD Value:</span> $' . number_format($total_usd_worth, 2, '.', ',') . $leverage_text2 . '</div>';
 		
-		echo ( $purchase_price_added == 1 && $leverage_added == 1 && is_numeric($gain_loss_total) == TRUE ? '<div class="portfolio_summary"><span class="black">Leverage Included: </span>' . ( $total_usd_worth_inc_leverage >= 0 ? '<span class="green">+$' : '<span class="red">' ) . $parsed_total_usd_worth_inc_leverage . '</span>' . '</div>' : '' );
+		echo ( $purchase_price_added == 1 && $leverage_added == 1 && is_numeric($gain_loss_total) == TRUE ? '<div class="portfolio_summary"><span class="black">Leverage Included: </span>' . ( $total_usd_worth_inc_leverage >= 0 ? '<span class="green">' : '<span class="red">-' ) . '$' . $parsed_total_usd_worth_inc_leverage . '</span>' . '</div>' : '' );
 	
 
 

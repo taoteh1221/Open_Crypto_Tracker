@@ -1764,6 +1764,16 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+3.42.3:
+-Another bug fix for portfolio summary leverage stats (newly-introduced)
+-------------------------------------------------------------------
+
+
+
+
+
+
 
 
 
