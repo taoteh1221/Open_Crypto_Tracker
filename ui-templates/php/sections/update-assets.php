@@ -469,7 +469,7 @@
 	     <option value='0' <?=( $coin_leverage_value == 0 ? 'selected' : '' )?>> None </option>
 	     <?php
 	     $leverage_count = 2;
-	     while ( $leverage_count <= 100 ) {
+	     while ( $margin_leverage_max > 1 && $leverage_count <= $margin_leverage_max ) {
 	     ?>	     
 	     <option value='<?=$leverage_count?>' <?=( $coin_leverage_value == $leverage_count ? 'selected' : '' )?>> <?=$leverage_count?>x </option>
 	     <?php

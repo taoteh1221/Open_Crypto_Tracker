@@ -1632,19 +1632,27 @@ echo ' <span><span class="data app_sort_filter">' . number_format($coin_value_to
 echo '<span class="' . ( $purchase_price >= 0.00000001 && $leverage_level >= 2 && $selected_margintype == 'short' ? 'short">★ $' : 'blue">$' ) . '<span class="app_sort_filter" style="color: inherit;">' . number_format($coin_usd_worth_raw, 2, '.', ',') . '</span></span>';
 
   if ( $purchase_price >= 0.00000001 && $leverage_level >= 2 ) {
+
+  $coin_worth_inc_leverage = $coin_usd_worth_raw + $only_leverage_gain_loss;
   
   echo ' <span class="extra_data blue">(' . $leverage_level . 'x ' . $selected_margintype . ')</span>';
 
+  // Here we parse out negative symbols
   $parsed_gain_loss = preg_replace("/-/", "-$", number_format( $gain_loss, 2, '.', ',' ) );
   
   $parsed_inc_leverage_gain_loss = preg_replace("/-/", "-$", number_format( $inc_leverage_gain_loss, 2, '.', ',' ) );
   
   $parsed_only_leverage_gain_loss = preg_replace("/-/", "-$", number_format($only_leverage_gain_loss, 2, '.', ',' ) );
   
+  // Here we can go negative 'total worth' with the margin leverage (unlike with the margin deposit)
+  // We only want a negative sign here in the UI for 'total worth' clarity (if applicable), NEVER a plus sign
+  // (plus sign would indicate a gain, NOT 'total worth')
+  $parsed_coin_worth_inc_leverage = preg_replace("/-/", "", number_format($coin_worth_inc_leverage, 2, '.', ',' ) );
+  
   
   // Pretty format, but no need to parse out anything here
+  $pretty_coin_usd_worth_raw = number_format( ($coin_usd_worth_raw) , 2, '.', ',' );
   $pretty_leverage_gain_loss_percent = number_format( $inc_leverage_gain_loss_percent, 2, '.', ',' );
-  $pretty_coin_worth_inc_leverage = number_format( ($coin_usd_worth_raw + $only_leverage_gain_loss) , 2, '.', ',' );
   
   
   		// Formatting
@@ -1657,11 +1665,11 @@ echo '<span class="' . ( $purchase_price >= 0.00000001 && $leverage_level >= 2 &
 	
 			var leverage_content = '<h5 class="yellow" style="position: relative; white-space: nowrap;"><?=$leverage_level?>x <?=ucfirst($selected_margintype)?> For <?=$coin_name?> (<?=$trade_symbol?>):</h5>'
 			
-			+'<p class="coin_info"><span class="yellow">Deposit (1x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_usd?><?=$parsed_gain_loss?></span> ($<?=number_format($coin_usd_worth_raw, 2, '.', ',')?>)</p>'
+			+'<p class="coin_info"><span class="yellow">Deposit (1x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_usd?><?=$parsed_gain_loss?></span> ($<?=$pretty_coin_usd_worth_raw?>)</p>'
 			
 			+'<p class="coin_info"><span class="yellow">Margin (<?=($leverage_level - 1)?>x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_usd?><?=$parsed_only_leverage_gain_loss?></span></p>'
 			
-			+'<p class="coin_info"><span class="yellow">Total (<?=($leverage_level)?>x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_usd?><?=$parsed_inc_leverage_gain_loss?> / <?=( $gain_loss >= 0 ? '+' : '' )?><?=$pretty_leverage_gain_loss_percent?>%</span> ($<?=$pretty_coin_worth_inc_leverage?>)</p>'
+			+'<p class="coin_info"><span class="yellow">Total (<?=($leverage_level)?>x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_usd?><?=$parsed_inc_leverage_gain_loss?> / <?=( $gain_loss >= 0 ? '+' : '' )?><?=$pretty_leverage_gain_loss_percent?>%</span> (<?=( $coin_worth_inc_leverage >= 0 ? '' : '-' )?>$<?=$parsed_coin_worth_inc_leverage?>)</p>'
 			
 				
 			+'<p class="coin_info"><span class="yellow"> </span></p>';

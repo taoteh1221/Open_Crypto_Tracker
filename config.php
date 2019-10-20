@@ -40,9 +40,11 @@ $api_timeout = 15; // Seconds to wait for response from API endpoints. Don't set
 
 $api_strict_ssl = 'on'; // 'on' verifies ALL SSL certificates for HTTPS API servers, 'off' verifies NOTHING (NOT RECOMMENDED in production environment)
 
+$margin_leverage_max = 125; // Maximum margin leverage available in the user interface ('Update Assets' page, etc)
+
 // Block an asset price alert if price retrieved, BUT failed retrieving base volume (not even a zero was retrieved, nothing)
 // Good for blocking questionable exchanges bugging you with price alerts, especially when used in combination with the minimum volume filter
-$block_volume_error = 'on'; // 'on' / 'off'  
+$block_volume_error = 'on'; // 'on' / 'off' 
 
 // Default Bitcoin to USD (or equiv stable coin)
 $btc_exchange = 'binance'; // coinbase / binance / bitstamp / bitfinex / kraken / gemini / hitbtc / okcoin / livecoin

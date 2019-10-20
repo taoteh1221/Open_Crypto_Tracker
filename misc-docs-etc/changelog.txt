@@ -1754,6 +1754,18 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+3.42.2:
+-Bug fix for portfolio summary leverage stats
+-Config setting for maximum margin leverage
+-UX revisions
+-Code cleanup
+-------------------------------------------------------------------
+
+
+
+
+
 
 
 
