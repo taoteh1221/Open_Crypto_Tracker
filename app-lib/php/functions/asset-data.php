@@ -601,7 +601,7 @@ $asset = strtoupper($asset);
 
 
 
-	// Round for prettier numbers UX
+	// Round to nullify insignificant decimal amounts / for prettier numbers UX
 	
 	$volume_pairing_raw = round($volume_pairing_raw);
 	$volume_usd_raw = round($volume_usd_raw);	
@@ -685,8 +685,9 @@ $cached_array = explode("||", $data_file);
 	}
 	else {
 	$cached_value = $cached_array[0];  // USD value
-	$cached_usd_volume = $cached_array[1]; // USD volume value
-	$cached_pairing_volume = $cached_array[2]; // Crypto volume value (more accurate percent increase / decrease stats than USD volume)
+	// Round to nullify insignificant decimal amounts skewing checks
+	$cached_usd_volume = round($cached_array[1]); // USD volume value
+	$cached_pairing_volume = round($cached_array[2]); // Crypto volume value (more accurate percent increase / decrease stats than USD volume)
 	}
 
 
