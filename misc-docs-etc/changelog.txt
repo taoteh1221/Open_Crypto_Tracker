@@ -1781,6 +1781,20 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+3.43.0:
+-Changed Bittrex Intl brand to Bittrex Global
+-Added Binance US API support
+-------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
 
 
 

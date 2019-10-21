@@ -50,7 +50,7 @@ $usd_decimals_max = 6; // Maximum number of decimal places for US Dollar values 
 $block_volume_error = 'on'; // 'on' / 'off' 
 
 // Default Bitcoin to USD (or equiv stable coin)
-$btc_exchange = 'binance'; // coinbase / binance / bitstamp / bitfinex / kraken / gemini / hitbtc / okcoin / livecoin
+$btc_exchange = 'binance'; // coinbase / binance / binance_us / bitstamp / bitfinex / kraken / gemini / hitbtc / okcoin / livecoin
 
 // Default marketcap data source: 'coingecko', or 'coinmarketcap' (coinmarketcap requires a FREE API key, see below)
 $marketcap_site = 'coingecko'; 
@@ -190,6 +190,7 @@ $asset_charts_and_alerts = array(
 					'btc-4' => 'kraken||btc||chart',
 					'btc-5' => 'gemini||btc||chart',
 					'btc-6' => 'bitfinex||btc||chart',
+					'btc-7' => 'binance_us||btc||chart',
 					
 					// ETH
 					'eth' => 'coinbase||btc||chart',
@@ -199,6 +200,7 @@ $asset_charts_and_alerts = array(
 					'eth-5' => 'poloniex||usdt||chart',
 					'eth-6' => 'kraken||btc||chart',
 					'eth-7' => 'binance||usdt||both',
+					'eth-8' => 'binance_us||btc||chart',
 					
 					// XMR
 					'xmr' => 'bittrex||btc||chart',
@@ -213,6 +215,7 @@ $asset_charts_and_alerts = array(
 					'ltc-3' => 'poloniex||btc||chart',
 					'ltc-5' => 'binance||usdt||both',
 					'ltc-6' => 'binance||eth||chart',
+					'ltc-7' => 'binance_us||btc||chart',
 					
 					// DCR
 					'dcr' => 'bittrex||btc||chart',
@@ -223,8 +226,8 @@ $asset_charts_and_alerts = array(
 					
 					// GRIN
 					'grin' => 'poloniex||btc||both',
-					'grin-2' => 'bittrex_intl||btc||chart',
-					'grin-3' => 'bittrex_intl||usdt||chart',
+					'grin-2' => 'bittrex_global||btc||chart',
+					'grin-3' => 'bittrex_global||usdt||chart',
 					'grin-4' => 'gateio||usdt||chart',
 					'grin-5' => 'kucoin||btc||chart',
 					'grin-6' => 'hitbtc||btc||chart',
@@ -236,9 +239,9 @@ $asset_charts_and_alerts = array(
 					'atom-3' => 'binance||btc||both',
 					'atom-4' => 'binance||tusd||chart',
 					'atom-5' => 'binance||usdc||chart',
-					'atom-6' => 'bittrex_intl||btc||chart',
-					'atom-7' => 'bittrex_intl||eth||chart',
-					'atom-8' => 'bittrex_intl||usdt||chart',
+					'atom-6' => 'bittrex_global||btc||chart',
+					'atom-7' => 'bittrex_global||eth||chart',
+					'atom-8' => 'bittrex_global||usdt||chart',
 					'atom-9' => 'okex||btc||chart',
 					'atom-10' => 'okex||eth||chart',
 					
@@ -248,7 +251,7 @@ $asset_charts_and_alerts = array(
 					'steem-3' => 'binance||btc||both',
 					
 					// ANT
-					'ant' => 'bittrex_intl||btc||chart',
+					'ant' => 'bittrex_global||btc||chart',
 					'ant-2' => 'hitbtc||btc||chart',
 					'ant-3' => 'ethfinex||btc||chart',
 					
@@ -344,6 +347,7 @@ $coins_list = array(
                                     'btc' => array(
                                           'coinbase' => 'coinbase',
                                           'binance' => 'binance',
+                                          'binance_us' => 'binance_us',
                                           'bitstamp' => 'bitstamp',
                                           'kraken' => 'XXBTZUSD',
                                           'gemini' => 'gemini',
@@ -368,6 +372,7 @@ $coins_list = array(
                                     'btc' => array(
                                           'coinbase' => 'ETH-BTC',
                                           'binance' => 'ETHBTC',
+                                          'binance_us' => 'ETHBTC',
                                           'bittrex' => 'BTC-ETH',
                                           'poloniex' => 'BTC_ETH',
                                           'bitstamp' => 'ethbtc',
@@ -384,6 +389,7 @@ $coins_list = array(
                                                     
                                     'usdt' => array(
                                         	'binance' => 'ETHUSDT',
+                                        	'binance_us' => 'ETHUSDT',
                                           'bittrex' => 'USDT-ETH',
                                           'poloniex' => 'USDT_ETH',
                                           'hitbtc' => 'ETHUSD',
@@ -459,6 +465,7 @@ $coins_list = array(
                                     'btc' => array(
                                         'coinbase' => 'LTC-BTC',
                                         'binance' => 'LTCBTC',
+                                        'binance_us' => 'LTCBTC',
                                         'bittrex' => 'BTC-LTC',
                                         'poloniex' => 'BTC_LTC',
                                         'bitstamp' => 'ltcbtc',
@@ -484,6 +491,7 @@ $coins_list = array(
                                                     
                                     'usdt' => array(
                                         'binance' => 'LTCUSDT',
+                                        'binance_us' => 'LTCUSDT',
                                         'bittrex' => 'USDT-LTC',
                                         'poloniex' => 'USDT_LTC',
                                         'hitbtc' => 'LTCUSD',
@@ -546,7 +554,7 @@ $coins_list = array(
                         
                                     'btc' => array(
                                          'poloniex' => 'BTC_GRIN',
-                                         'bittrex_intl' => 'BTC-GRIN',
+                                         'bittrex_global' => 'BTC-GRIN',
                                     	  'kucoin' => 'GRIN-BTC',
                                          'hitbtc' => 'GRINBTC',
                                          'hotbit' => 'GRIN_BTC',
@@ -565,7 +573,7 @@ $coins_list = array(
                                                     ),
                                                     
                                     'usdt' => array(
-                                         'bittrex_intl' => 'USDT-GRIN',
+                                         'bittrex_global' => 'USDT-GRIN',
                                     	  'kucoin' => 'GRIN-USDT',
                                          'hitbtc' => 'GRINUSD',
                                          'hotbit' => 'GRIN_USDT',
@@ -593,7 +601,7 @@ $coins_list = array(
                                     'btc' => array(
                                          'binance' => 'ATOMBTC',
                                          'poloniex' => 'BTC_ATOM',
-                                         'bittrex_intl' => 'BTC-ATOM',
+                                         'bittrex_global' => 'BTC-ATOM',
                                          'kraken' => 'ATOMXBT',
                                          'okex' => 'ATOM-BTC',
                                          'hotbit' => 'ATOM_BTC',
@@ -602,7 +610,7 @@ $coins_list = array(
                                                     
                                     'eth' => array(
                                          'kraken' => 'ATOMETH',
-                                         'bittrex_intl' => 'ETH-ATOM',
+                                         'bittrex_global' => 'ETH-ATOM',
                                          'okex' => 'ATOM-ETH',
                                          'hotbit' => 'ATOM_ETH',
                                          'bitforex' => 'coin-eth-atom'
@@ -610,7 +618,7 @@ $coins_list = array(
                                                     
                                     'usdt' => array(
                                          'poloniex' => 'USDT_ATOM',
-                                         'bittrex_intl' => 'USDT-ATOM',
+                                         'bittrex_global' => 'USDT-ATOM',
                                          'hotbit' => 'ATOM_USDT',
                                          'bitforex' => 'coin-usdt-atom'
                                                     ),
@@ -663,14 +671,14 @@ $coins_list = array(
                         'market_pairing' => array(
                         
                                     'btc' => array(
-                                          'bittrex_intl' => 'BTC-ANT',
+                                          'bittrex_global' => 'BTC-ANT',
                                         	'ethfinex' => 'tANTBTC',
                                           'hitbtc' => 'ANTBTC',
                                         	'upbit' => 'BTC-ANT'
                                                     ),
                                                     
                                     'eth' => array(
-                                          'bittrex_intl' => 'ETH-ANT',
+                                          'bittrex_global' => 'ETH-ANT',
                                         	'ethfinex' => 'tANTETH',
                                           'upbit' => 'ETH-ANT'
                                                     )
