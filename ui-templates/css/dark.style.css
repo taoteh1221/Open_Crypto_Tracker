@@ -46,8 +46,8 @@ input[type=text]:read-only {
 }
 
 
-a, .black, td.data span, .subsection_legend {
-color: white !important;
+a, .black, td.data span, .subsection_legend, .btc_worth, .btc_worth span, td.data div.btc_worth span {
+color: white;
 }
 
 
@@ -61,10 +61,9 @@ color: #bcbaba;
 }
 
 
-/* Dark theme drop-down text color needs to remain darker blue 
-like light theme drop-downs (or mobile looks crappy) */
+/* Dark theme drop-downs (in table data only) need dark background too */
 td select {
-color: #1a1696;
+background: #3a3a3a;
 }
 
 
@@ -151,7 +150,7 @@ color: #ce7039 !important;
 }
 
 
-.blue, td.data, td.data span.data, .btn-link, .btn-link a, .btn-link:hover {
+.blue, td.blue, td.blue span.blue, td select, .btn-link, .btn-link a, .btn-link:hover {
 color: #23aeea !important;
 }
 

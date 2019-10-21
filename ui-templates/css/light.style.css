@@ -35,8 +35,8 @@ input[type=text]:read-only {
 }
 
 
-a, .black, td.data span, .subsection_legend {
-color: black !important;
+a, .black, td.data span, .subsection_legend, .btc_worth, .btc_worth span, td.data div.btc_worth span {
+color: black;
 }
 
 
@@ -128,7 +128,7 @@ color: #ea6b1c !important;
 }
 
 
-.blue, td.data, td.data span.data, td select, .btn-link, .btn-link a, .btn-link:hover {
+.blue, td.blue, td.blue span.blue, td select, .btn-link, .btn-link a, .btn-link:hover {
 color: #1a1696 !important;
 }
 

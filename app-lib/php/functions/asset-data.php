@@ -1412,7 +1412,7 @@ $market_pairing = $all_markets[$selected_market];
 	else {
   ?>
   
-  <img id='<?=$rand_id?>' src='ui-templates/media/images/<?=$info_icon?>' alt='' border='0' style='position: absolute; top: 2px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <?=$coin_name?>
+  <img id='<?=$rand_id?>' src='ui-templates/media/images/<?=$info_icon?>' alt='' border='0' style='position: absolute; top: 2px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <span class='blue app_sort_filter'><?=$coin_name?></span>
  <script>
  $('#<?=$rand_id?>').balloon({
   html: true,
@@ -1474,7 +1474,7 @@ $market_pairing = $all_markets[$selected_market];
 
 
 
-<td class='data border_lb' align='right'>
+<td class='data border_lb blue' align='right'>
 
 
 <?php
@@ -1604,12 +1604,12 @@ echo "<span class='app_sort_filter blue'>" . ( $pretty_coin_amount != NULL ? $pr
 
 
 
-<td class='data border_lb'>
+<td class='data border_lb blue'>
 
 
 <?php
 
-echo ' <span><span class="data app_sort_filter">' . number_format($coin_value_total_raw, ( $coin_name == 'Bitcoin' ? 2 : 8 ), '.', ',') . '</span> ' . $pairing_symbol . '</span>';
+echo ' <span><span class="data app_sort_filter blue">' . number_format($coin_value_total_raw, ( $coin_name == 'Bitcoin' ? 2 : 8 ), '.', ',') . '</span> ' . $pairing_symbol . '</span>';
 
   if ( $selected_pairing != 'btc' ) {
   echo '<div class="btc_worth"><span>(' . number_format( $coin_value_total_raw * $pairing_btc_value , 8 ) . ' BTC)</span></div>';
@@ -1621,7 +1621,7 @@ echo ' <span><span class="data app_sort_filter">' . number_format($coin_value_to
 
 
 
-<td class='data border_lrb' style='white-space: nowrap;'>
+<td class='data border_lrb blue' style='white-space: nowrap;'>
 
 
 
@@ -1634,7 +1634,7 @@ echo '<span class="' . ( $purchase_price >= 0.00000001 && $leverage_level >= 2 &
 
   $coin_worth_inc_leverage = $coin_usd_worth_raw + $only_leverage_gain_loss;
   
-  echo ' <span class="extra_data blue">(' . $leverage_level . 'x ' . $selected_margintype . ')</span>';
+  echo ' <span class="extra_data">(' . $leverage_level . 'x ' . $selected_margintype . ')</span>';
 
   // Here we parse out negative symbols
   $parsed_gain_loss = preg_replace("/-/", "-$", number_format( $gain_loss, 2, '.', ',' ) );

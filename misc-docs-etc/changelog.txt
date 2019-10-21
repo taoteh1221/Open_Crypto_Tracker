@@ -1773,7 +1773,8 @@ app doing the data requests, not a malicious bot)
 
 -------------------------------------------------------------------
 3.42.4:
--Small bug fix for price alert volume change percentage (edge case / UX issue)
+-Bug fix for price alert volume change percentage (edge case / UX issue)
+-Bug fix for 'BTC worth' text color in dark theme (where base pairing isn't BTC)
 -Coding cleanup (semantics)
 -Config setting to control the maximum decimals used on coins with USD values under $1 (for cleaner interface / UX)
 -------------------------------------------------------------------
