@@ -158,7 +158,7 @@ function detect_pairing($pair_name) {
 
 function marketcap_data($symbol) {
 	
-global $marketcap_site, $coinmarketcapcom_api_key, $alert_percent;
+global $marketcap_site, $coinmarketcapcom_api_key, $alert_percent, $usd_decimals_max;
 
 $data = array();
 
@@ -202,7 +202,7 @@ $data = array();
  	
 	
 	// UX on number values
-	$data['price'] = ( floattostr($data['price']) >= 1.00 ? pretty_numbers($data['price'], 2) : pretty_numbers($data['price'], 6) );
+	$data['price'] = ( floattostr($data['price']) >= 1.00 ? pretty_numbers($data['price'], 2) : pretty_numbers($data['price'], $usd_decimals_max) );
 	
 
 return ( $data['rank'] != NULL ? $data : NULL );
@@ -506,7 +506,7 @@ function asset_charts_and_alerts($asset_data, $exchange, $pairing, $mode) {
 
 
 // Globals
-global $base_dir, $local_time_offset, $block_volume_error, $coins_list, $btc_exchange, $charts_page, $asset_price_alerts_freq, $asset_price_alerts_percent, $asset_price_alerts_minvolume, $asset_price_alerts_refresh;
+global $base_dir, $local_time_offset, $block_volume_error, $coins_list, $btc_exchange, $charts_page, $asset_price_alerts_freq, $asset_price_alerts_percent, $asset_price_alerts_minvolume, $asset_price_alerts_refresh, $usd_decimals_max;
 
 
 
@@ -574,21 +574,21 @@ $asset = strtoupper($asset);
 	// Get asset USD value
 	
 	if ( $asset == 'BTC' ){ 
-	$asset_usd_raw = $btc_usd;
+	$asset_usd_value_raw = $btc_usd;
 	$volume_pairing_raw = get_btc_usd($exchange)['24hr_volume']; // For chart values based off pairing data (not USD equiv)
 	$volume_usd_raw = get_btc_usd($exchange)['24hr_usd_volume'];
 	}
 	else {
 		
 		if ( $pairing == 'btc' ) {
-		$pairing_value_raw = number_format( get_coin_value($exchange, $coins_list[$asset]['market_pairing'][$pairing][$exchange])['last_trade'] , 8, '.', '');
-		$asset_usd_raw = number_format( $btc_usd * get_coin_value($exchange, $coins_list[$asset]['market_pairing'][$pairing][$exchange])['last_trade'] , 8, '.', '');
+		$asset_pairing_value_raw = number_format( get_coin_value($exchange, $coins_list[$asset]['market_pairing'][$pairing][$exchange])['last_trade'] , 8, '.', '');
+		$asset_usd_value_raw = number_format( $btc_usd * get_coin_value($exchange, $coins_list[$asset]['market_pairing'][$pairing][$exchange])['last_trade'] , 8, '.', '');
 		}
 		else {
-		$pairing_value_raw = number_format( get_coin_value($exchange, $coins_list[$asset]['market_pairing'][$pairing][$exchange])['last_trade'] , 8, '.', '');
+		$asset_pairing_value_raw = number_format( get_coin_value($exchange, $coins_list[$asset]['market_pairing'][$pairing][$exchange])['last_trade'] , 8, '.', '');
 		
 		$pairing_btc_value = $_SESSION[$pairing.'_btc'];
-		$asset_usd_raw = number_format( $btc_usd * ( $pairing_btc_value * get_coin_value($exchange, $coins_list[$asset]['market_pairing'][$pairing][$exchange])['last_trade'] ) , 8, '.', '');
+		$asset_usd_value_raw = number_format( $btc_usd * ( $pairing_btc_value * get_coin_value($exchange, $coins_list[$asset]['market_pairing'][$pairing][$exchange])['last_trade'] ) , 8, '.', '');
 		}
 		
 		$volume_pairing_raw = get_coin_value($exchange, $coins_list[$asset]['market_pairing'][$pairing][$exchange])['24hr_volume']; // For chart values based off pairing data (not USD equiv)
@@ -601,12 +601,11 @@ $asset = strtoupper($asset);
 
 
 
-	// Round to nullify insignificant decimal amounts / for prettier numbers UX
+	// Round USD volume to nullify insignificant decimal amounts / for prettier numbers UX
+	$volume_usd_raw = ( isset($volume_usd_raw) ? round($volume_usd_raw) : NULL );	
 	
-	$volume_pairing_raw = round($volume_pairing_raw);
-	$volume_usd_raw = round($volume_usd_raw);	
 	
-	$new_file_contents = $asset_usd_raw . '||' . $volume_usd_raw . '||' . $volume_pairing_raw;
+	$alert_cache_contents = $asset_usd_value_raw . '||' . $volume_usd_raw . '||' . $volume_pairing_raw;
 	
 	
 	
@@ -620,7 +619,7 @@ $asset = strtoupper($asset);
 	$set_return = 1;
 	}
 	
-	if ( floattostr($asset_usd_raw) == NULL ) {
+	if ( floattostr($asset_usd_value_raw) == NULL ) {
 	app_error( 'other_error', 'No asset USD value set', $asset_data . ' (' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ')' );
 	$set_return = 1;
 	}
@@ -679,15 +678,14 @@ $cached_array = explode("||", $data_file);
 	// Backwards compatibility
 	
 	if ( $cached_array[0] == NULL ) {
-	$cached_value = $data_file;
+	$cached_asset_usd_value = $data_file;
 	$cached_usd_volume = -1;
 	$cached_pairing_volume = -1;
 	}
 	else {
-	$cached_value = $cached_array[0];  // USD value
-	// Round to nullify insignificant decimal amounts skewing checks
-	$cached_usd_volume = round($cached_array[1]); // USD volume value
-	$cached_pairing_volume = round($cached_array[2]); // Crypto volume value (more accurate percent increase / decrease stats than USD volume)
+	$cached_asset_usd_value = $cached_array[0];  // USD token value
+	$cached_usd_volume = round($cached_array[1]); // USD volume value (round USD volume to nullify insignificant decimal amounts skewing checks)
+	$cached_pairing_volume = $cached_array[2]; // Crypto volume value (more accurate percent increase / decrease stats than USD value fluctuations)
 	}
 
 
@@ -699,7 +697,7 @@ $cached_array = explode("||", $data_file);
 
 	////// If cached value, run alert checking ////////////
 	
-	if ( $cached_value != '' ) {
+	if ( $cached_asset_usd_value != '' ) {
 	
 	
 	
@@ -707,24 +705,24 @@ $cached_array = explode("||", $data_file);
 	
   			 // Price checks
   			 
-          if ( floattostr($cached_value) >= 0.00000001 && floattostr($asset_usd_raw) < floattostr($cached_value) ) {
-          $asset_price_alerts_value = $cached_value - ( $cached_value * ($asset_price_alerts_percent / 100) );
-          $percent_change = 100 - ( $asset_usd_raw / ( $cached_value / 100 ) );
+          if ( floattostr($cached_asset_usd_value) >= 0.00000001 && floattostr($asset_usd_value_raw) < floattostr($cached_asset_usd_value) ) {
+          $asset_price_alerts_value = $cached_asset_usd_value - ( $cached_asset_usd_value * ($asset_price_alerts_percent / 100) );
+          $percent_change = 100 - ( $asset_usd_value_raw / ( $cached_asset_usd_value / 100 ) );
           $change_symbol = '-';
           $increase_decrease = 'decreased';
           
-                  if ( floattostr($asset_usd_raw) >= 0.00000001 && floattostr($asset_usd_raw) <= floattostr($asset_price_alerts_value) ) {
+                  if ( floattostr($asset_usd_value_raw) >= 0.00000001 && floattostr($asset_usd_value_raw) <= floattostr($asset_price_alerts_value) ) {
                   $send_alert = 1;
                   }
           
           }
-          elseif (  floattostr($cached_value) >= 0.00000001 && floattostr($asset_usd_raw) >= floattostr($cached_value) ) {
-          $asset_price_alerts_value = $cached_value + ( $cached_value * ($asset_price_alerts_percent / 100) );
-          $percent_change = ( $asset_usd_raw / ( $cached_value / 100 ) ) - 100;
+          elseif (  floattostr($cached_asset_usd_value) >= 0.00000001 && floattostr($asset_usd_value_raw) >= floattostr($cached_asset_usd_value) ) {
+          $asset_price_alerts_value = $cached_asset_usd_value + ( $cached_asset_usd_value * ($asset_price_alerts_percent / 100) );
+          $percent_change = ( $asset_usd_value_raw / ( $cached_asset_usd_value / 100 ) ) - 100;
           $change_symbol = '+';
           $increase_decrease = 'increased';
           
-                  if ( floattostr($asset_usd_raw) >= 0.00000001 && floattostr($asset_usd_raw) >= floattostr($asset_price_alerts_value) ) {
+                  if ( floattostr($asset_usd_value_raw) >= 0.00000001 && floattostr($asset_usd_value_raw) >= floattostr($asset_price_alerts_value) ) {
                   $send_alert = 1;
                   }
           
@@ -818,7 +816,7 @@ $cached_array = explode("||", $data_file);
   				$exchange_text = ucwords(preg_replace("/_/i", " ", $exchange));
   				
   				// Pretty numbers UX on USD asset value
-  				$asset_usd_text = ( floattostr($asset_usd_raw) >= 1.00 ? pretty_numbers($asset_usd_raw, 2) : pretty_numbers($asset_usd_raw, 6) );
+  				$asset_usd_text = ( floattostr($asset_usd_value_raw) >= 1.00 ? pretty_numbers($asset_usd_value_raw, 2) : pretty_numbers($asset_usd_value_raw, $usd_decimals_max) );
   				
   				$percent_change_text = number_format($percent_change, 2, '.', ',');
   				
@@ -887,7 +885,7 @@ $cached_array = explode("||", $data_file);
   				
   				
   				// Cache the new lower / higher value + volume data
-          	store_file_contents($base_dir . '/cache/alerts/'.$asset_data.'.dat', $new_file_contents); 
+          	store_file_contents($base_dir . '/cache/alerts/'.$asset_data.'.dat', $alert_cache_contents); 
           	
           	
           	
@@ -924,15 +922,15 @@ $cached_array = explode("||", $data_file);
 
  
 
-	// Cache a price value / volumes if not already done, OR if config setting set to refresh every X days
+	// Cache a price alert value / volumes if not already done, OR if config setting set to refresh every X days
 	
-	if ( $mode == 'both' && floattostr($asset_usd_raw) >= 0.00000001 && !file_exists('cache/alerts/'.$asset_data.'.dat')
-	|| $mode == 'alert' && floattostr($asset_usd_raw) >= 0.00000001 && !file_exists('cache/alerts/'.$asset_data.'.dat') ) {
-	store_file_contents($base_dir . '/cache/alerts/'.$asset_data.'.dat', $new_file_contents); 
+	if ( $mode == 'both' && floattostr($asset_usd_value_raw) >= 0.00000001 && !file_exists('cache/alerts/'.$asset_data.'.dat')
+	|| $mode == 'alert' && floattostr($asset_usd_value_raw) >= 0.00000001 && !file_exists('cache/alerts/'.$asset_data.'.dat') ) {
+	store_file_contents($base_dir . '/cache/alerts/'.$asset_data.'.dat', $alert_cache_contents); 
 	}
-	elseif ( $mode == 'both' && $send_alert != 1 && $asset_price_alerts_refresh >= 1 && floattostr($asset_usd_raw) >= 0.00000001 && update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $asset_price_alerts_refresh * 1440 ) ) == true
-	|| $mode == 'alert' && $send_alert != 1 && $asset_price_alerts_refresh >= 1 && floattostr($asset_usd_raw) >= 0.00000001 && update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $asset_price_alerts_refresh * 1440 ) ) == true ) {
-	store_file_contents($base_dir . '/cache/alerts/'.$asset_data.'.dat', $new_file_contents); 
+	elseif ( $mode == 'both' && $send_alert != 1 && $asset_price_alerts_refresh >= 1 && floattostr($asset_usd_value_raw) >= 0.00000001 && update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $asset_price_alerts_refresh * 1440 ) ) == true
+	|| $mode == 'alert' && $send_alert != 1 && $asset_price_alerts_refresh >= 1 && floattostr($asset_usd_value_raw) >= 0.00000001 && update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $asset_price_alerts_refresh * 1440 ) ) == true ) {
+	store_file_contents($base_dir . '/cache/alerts/'.$asset_data.'.dat', $alert_cache_contents); 
 	}
 
 
@@ -941,16 +939,16 @@ $cached_array = explode("||", $data_file);
 
 	// If the charts page is enabled in config.php, save latest chart data for assets with price alerts configured on them
 	
-	if ( $mode == 'both' && floattostr($asset_usd_raw) >= 0.00000001 && $charts_page == 'on'
-	|| $mode == 'chart' && floattostr($asset_usd_raw) >= 0.00000001 && $charts_page == 'on' ) { 
+	if ( $mode == 'both' && floattostr($asset_usd_value_raw) >= 0.00000001 && $charts_page == 'on'
+	|| $mode == 'chart' && floattostr($asset_usd_value_raw) >= 0.00000001 && $charts_page == 'on' ) { 
 	
 		
 	// USD charts (BTC/USD markets, AND ALSO crypto-to-crypto pairings converted to USD value)
-	store_file_contents($base_dir . '/cache/charts/'.$asset.'/'.$asset_data.'_chart_usd.dat', time() . '||' . $asset_usd_raw . '||' . $volume_usd_raw . "\n", "append"); 
+	store_file_contents($base_dir . '/cache/charts/'.$asset.'/'.$asset_data.'_chart_usd.dat', time() . '||' . $asset_usd_value_raw . '||' . $volume_usd_raw . "\n", "append"); 
 		
 		// Pure crypto-to-crypto pairing charts
 		if ( $pairing != 'usd' ) {
-		store_file_contents($base_dir . '/cache/charts/'.$asset.'/'.$asset_data.'_chart_'.$pairing.'.dat', time() . '||' . $pairing_value_raw . '||' . $volume_pairing_raw . "\n", "append"); 
+		store_file_contents($base_dir . '/cache/charts/'.$asset.'/'.$asset_data.'_chart_'.$pairing.'.dat', time() . '||' . $asset_pairing_value_raw . '||' . $volume_pairing_raw . "\n", "append"); 
 		}
 			
 		
@@ -975,7 +973,7 @@ return TRUE;
 function ui_coin_data($coin_name, $trade_symbol, $coin_amount, $market_pairing_array, $selected_pairing, $selected_market, $purchase_price=NULL, $leverage_level, $selected_margintype) {
 
 // Globals
-global $_POST, $theme_selected, $coins_list, $btc_exchange, $marketcap_site, $marketcap_cache, $coinmarketcapcom_api_key, $alert_percent, $marketcap_ranks_max, $api_timeout;
+global $_POST, $theme_selected, $coins_list, $btc_exchange, $marketcap_site, $marketcap_cache, $coinmarketcapcom_api_key, $alert_percent, $marketcap_ranks_max, $api_timeout, $usd_decimals_max;
 
 
 
@@ -1463,7 +1461,7 @@ $market_pairing = $all_markets[$selected_market];
   }
 
   // UX on number values
-  $dollar_value = ( floattostr($dollar_value) >= 1.00 ? pretty_numbers($dollar_value, 2) : pretty_numbers($dollar_value, 6) );
+  $dollar_value = ( floattostr($dollar_value) >= 1.00 ? pretty_numbers($dollar_value, 2) : pretty_numbers($dollar_value, $usd_decimals_max) );
 	
   echo '$' . $dollar_value;
 

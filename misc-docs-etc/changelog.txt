@@ -1771,6 +1771,17 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+3.42.4:
+-Small bug fix for price alert volume change percentage (edge case / UX issue)
+-Coding cleanup (semantics)
+-Config setting to control the maximum decimals used on coins with USD values under $1 (for cleaner interface / UX)
+-------------------------------------------------------------------
+
+
+
+
+
 
 
 

@@ -93,7 +93,7 @@ if ( $_GET['type'] == 'asset' ) {
 			}
 			
 			
-		$chart_data = chart_data('cache/charts/'.$chart_asset.'/'.$key.'_chart_'.$charted_value.'.dat');
+		$chart_data = chart_data('cache/charts/'.$chart_asset.'/'.$key.'_chart_'.$charted_value.'.dat', 'round');
 		
 ?>
 

@@ -494,7 +494,7 @@ return $result;
 ////////////////////////////////////////////////////////
 
 
-function chart_data($file) {
+function chart_data($file, $round_volume=false) {
 
 $data = array();
 $fn = fopen($file,"r");
@@ -506,7 +506,14 @@ $fn = fopen($file,"r");
 		if ( trim($result[0]) != '' && trim($result[1]) != '' && trim($result[2]) != '' ) {
 		$data['time'] .= trim($result[0]) . '000,';  // Zingchart wants 3 more zeros with unix time (milliseconds)
 		$data['spot'] .= trim($result[1]) . ',';
-		$data['volume'] .= round(trim($result[2])) . ',';
+		
+			if ( $round_volume != false ) {
+			$data['volume'] .= round(trim($result[2])) . ','; // Round volume for chart UX
+			}
+			else {
+			$data['volume'] .= trim($result[2]) . ','; // Skip rounding (if volume is in BTC, or whatever reason)
+			}
+		
 		}
 	
   }
