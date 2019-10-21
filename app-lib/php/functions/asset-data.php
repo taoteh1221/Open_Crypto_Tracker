@@ -1628,7 +1628,7 @@ echo ' <span><span class="data app_sort_filter blue">' . number_format($coin_val
 <?php
 
 
-echo '<span class="' . ( $purchase_price >= 0.00000001 && $leverage_level >= 2 && $selected_margintype == 'short' ? 'short">★ $' : 'blue">$' ) . '<span class="app_sort_filter" style="color: inherit;">' . number_format($coin_usd_worth_raw, 2, '.', ',') . '</span></span>';
+echo '<span class="' . ( $purchase_price >= 0.00000001 && $leverage_level >= 2 && $selected_margintype == 'short' ? 'short">★ ' : 'blue">' ) . '<span class="app_sort_filter blue">$' . number_format($coin_usd_worth_raw, 2, '.', ',') . '</span></span>';
 
   if ( $purchase_price >= 0.00000001 && $leverage_level >= 2 ) {
 
