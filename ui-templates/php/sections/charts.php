@@ -53,7 +53,7 @@
 	
 		<div class='<?=$zebra_stripe?> long_list <?=( $last_rendered != $show_asset ? 'activate_chart_sections' : '' )?>'>
 		
-			<b><span class='blue'><?=$show_asset?></span> / <?=strtoupper($show_asset_params[1])?> @ <?=ucwords(preg_replace("/_/i", " ", $show_asset_params[0]))?>:</b> &nbsp; &nbsp; &nbsp; 
+			<b><span class='blue'><?=$show_asset?></span> / <?=strtoupper($show_asset_params[1])?> @ <?=name_rendering($show_asset_params[0])?>:</b> &nbsp; &nbsp; &nbsp; 
 			
 				<?php
 				if ( $show_asset == 'BTC' ) {
@@ -137,7 +137,7 @@
 		$charts_shown = 1;
 	?>
 	
-	<div class='chart_wrapper' id='<?=$key?>_usd_chart'><span class='loading'>Loading chart for <?=strtoupper($chart_asset)?> / USD @ <?=ucwords(preg_replace("/_/i", " ", $alerts_market_parse[0]))?>...</span></div>
+	<div class='chart_wrapper' id='<?=$key?>_usd_chart'><span class='loading'>Loading chart for <?=strtoupper($chart_asset)?> / USD @ <?=name_rendering($alerts_market_parse[0])?>...</span></div>
 	
 	<script>
 	
@@ -155,7 +155,7 @@
 		$charts_shown = 1;
 	?>
 	
-	<div class='chart_wrapper' id='<?=$key?>_<?=$alerts_market_parse[1]?>_chart'><span class='loading'>Loading chart for <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=ucwords(preg_replace("/_/i", " ", $alerts_market_parse[0]))?>...</span></div>
+	<div class='chart_wrapper' id='<?=$key?>_<?=$alerts_market_parse[1]?>_chart'><span class='loading'>Loading chart for <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=name_rendering($alerts_market_parse[0])?>...</span></div>
 	
 	<script>
 	

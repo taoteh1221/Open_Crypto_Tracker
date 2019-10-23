@@ -95,7 +95,7 @@
 				foreach ( $coins_list['BTC']['market_pairing']['btc'] as $market_key => $market_name ) {
 				$loop = $loop + 1;
 				?>
-				<option value='<?=$loop?>' <?=( isset($_POST['btc_market']) && ($_POST['btc_market']) == $loop || isset($btc_market) && $btc_market == ($loop - 1) ? ' selected ' : '' )?>> <?=ucfirst($market_key)?> </option>
+				<option value='<?=$loop?>' <?=( isset($_POST['btc_market']) && ($_POST['btc_market']) == $loop || isset($btc_market) && $btc_market == ($loop - 1) ? ' selected ' : '' )?>> <?=name_rendering($market_key)?> </option>
 				<?php
 				}
 				$loop = NULL;

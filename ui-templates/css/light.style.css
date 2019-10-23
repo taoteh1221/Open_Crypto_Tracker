@@ -14,6 +14,11 @@ color: #000;
 }
 
 
+input, select, textarea {
+background-color: white;
+}
+
+
 input[type=submit], input[type=button], .force_button_style {
   border: 1px solid black;
   background-color: #808080;
@@ -47,6 +52,12 @@ color: #636060;
 
 a:hover {
 color: #898888;
+}
+
+
+/* Light theme drop-downs (in table data only) off white */
+td select {
+background: #f2f2f2;
 }
 
 

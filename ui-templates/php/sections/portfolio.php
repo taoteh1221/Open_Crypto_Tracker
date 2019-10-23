@@ -587,7 +587,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 		<?php
 		}
 	
-	echo '<div class="portfolio_summary"><span class="black">(Bitcoin is trading @ $' .number_format( get_btc_usd($btc_exchange)['last_trade'], 2, '.', ','). ' on ' . ucwords(preg_replace("/_/i", " ", $show_exchange)) . ')</span></div>';
+	echo '<div class="portfolio_summary"><span class="black">(Bitcoin is trading @ $' .number_format( get_btc_usd($btc_exchange)['last_trade'], 2, '.', ','). ' on ' . name_rendering($show_exchange) . ')</span></div>';
 
 			
 		if ( $short_added == 1 ) {

@@ -378,7 +378,7 @@
 									foreach ( $coin_array_value['market_pairing'][$pairing_key] as $market_key => $market_id ) {
 							$loop2 = $loop2 + 1;
 							
-								$html_market_list[$pairing_key] .= "\n<option value='".$loop2."'" . ( isset($_POST[$field_var_market]) && ($_POST[$field_var_market]) == $loop2 || isset($coin_market_id) && ($coin_market_id) == $loop2 ? ' selected ' : '' ) . ">" . ucwords(preg_replace("/_/i", " ", $market_key)) . " </option>\n";
+								$html_market_list[$pairing_key] .= "\n<option value='".$loop2."'" . ( isset($_POST[$field_var_market]) && ($_POST[$field_var_market]) == $loop2 || isset($coin_market_id) && ($coin_market_id) == $loop2 ? ' selected ' : '' ) . ">" . name_rendering($market_key) . " </option>\n";
 								
 									}
 								$loop2 = NULL;

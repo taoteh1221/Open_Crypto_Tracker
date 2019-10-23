@@ -813,7 +813,7 @@ $cached_array = explode("||", $data_file);
           
           	// Pretty up textual output to end-user (convert raw numbers to have separators, remove underscores in names, etc)
           	
-  				$exchange_text = ucwords(preg_replace("/_/i", " ", $exchange));
+  				$exchange_text = name_rendering($exchange);
   				
   				// Pretty numbers UX on USD asset value
   				$asset_usd_text = ( floattostr($asset_usd_value_raw) >= 1.00 ? pretty_numbers($asset_usd_value_raw, 2) : pretty_numbers($asset_usd_value_raw, $usd_decimals_max) );
@@ -1515,7 +1515,7 @@ echo "<span class='app_sort_filter blue'>" . ( $pretty_coin_amount != NULL ? $pr
         foreach ( $all_markets as $market_key => $market_name ) {
          $loop = $loop + 1;
         ?>
-        <option value='<?=($loop)?>' <?=( $original_market == ($loop -1) ? ' selected ' : '' )?>> <?=ucwords(preg_replace("/_/i", " ", $market_key))?> </option>
+        <option value='<?=($loop)?>' <?=( $original_market == ($loop -1) ? ' selected ' : '' )?>> <?=name_rendering($market_key)?> </option>
         <?php
         }
         $loop = NULL;

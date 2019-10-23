@@ -6,6 +6,37 @@
 
 
 
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function name_rendering($string) {
+
+
+// Uppercase every word, and remove underscore between them
+$string = ucwords(preg_replace("/_/i", " ", $string));
+
+
+// Pretty up the individual words as needed
+$words = explode(" ",$string);
+
+	foreach($words as $key => $value) {
+	
+		if ( $value == 'Us' ) {
+		$words[$key] = strtoupper($value); // All uppercase US
+		}
+	
+	$pretty_string .= $words[$key] . ' ';
+	}
+
+
+return trim($pretty_string);
+
+
+}
+
+
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
 
