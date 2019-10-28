@@ -38,7 +38,8 @@ For additional documentation, see HELP-FAQ.txt.
 FEATURES
 
 -Automated and user-friendly installation / upgrade script for Raspberry Pi (an affordable low power single board computer) setup on your home / internal network.
-Cryptocurrency portfolio subtotal summaries, and total portfolio worth (in Crypto and USD), including value gain / loss data (with tracking support for long / short margin leverages up to 100x), portfolio balance data, and marketcap data.
+
+-Cryptocurrency portfolio subtotal summaries, and total portfolio worth (in Crypto and USD), including value gain / loss data (with tracking support for long / short margin leverages), portfolio balance data, and marketcap data.
 
 -Price change alerts by email / text / Alexa (configurable alert parameters available).
 
@@ -114,7 +115,7 @@ Adding / editing / deleting assets and markets in the coins list:
 Below is an example for editing your assets / markets into the coin list in the file config.php (located in the primary directory of this app). It's very quick / easy to do (after you get the hang of it, lol). Also see further down in this README for a pre-configured set of default settings and example assets / markets. Currently BTC / XMR / ETH / LTC / USDT (Tether) / TUSD (True USD) / USDC base pairing is supported. Contact any supported exchange's help desk if you are unaware of the correct formatting of the trading pair naming you are adding in the configuration file (examples: Kraken has arbitrary Xs inserted in SOME older pair names, HitBTC sometimes has tether pairing without the "T" in the symbol name).
 
 
- * USAGE (ADDING / UPDATING COINS) ...API support for (contact me to request more): coinbase / binance / binance_us / bittrex & bittrex_global / kraken / poloniex / bitstamp / bitfinex and ethfinex / cryptofresh / gemini / hitbtc / livecoin / upbit / kucoin / okex / gateio / graviex / idex / hotbit / tradeogre / bitforex / bigone / tradesatoshi...BTC, XMR, ETH, LTC, USDT, TUSD, and USDC trading pair support
+ * USAGE (ADDING / UPDATING COINS) ...API support for (contact me to request more): coinbase / binance & binance_us / bittrex & bittrex_global / kraken / poloniex / bitstamp / bitfinex & ethfinex / cryptofresh / gemini / hitbtc / livecoin / upbit / kucoin / okex / gateio / graviex / idex / hotbit / tradeogre / bitforex / bigone / tradesatoshi...BTC, XMR, ETH, LTC, USDT, TUSD, and USDC trading pair support
  * Ethereum ICO subtoken support has been built in, but values are static ICO values in ETH
  
  
