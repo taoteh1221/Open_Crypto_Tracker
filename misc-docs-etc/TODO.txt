@@ -8,7 +8,7 @@ TODO
 Buy a google home mini cheap on ebay, and develop price alerts compatibility for it.
 
 
-For the fiat/primary currency converter (to convert all crypto-based trade values between USD / GBP / EUR / stablecoin / etc as the app's "primary currency"): Use the simple / powerful solution of adding the different fiat/stablecoin markets for Bitcoin in same manner as alternate markets for altcoins are added (including Tether / stablecoin markets), THEN detect the fiat/primary currency that was selected, AND set it's symbol / letter-code as the app's fiat/primary currency.
+For the fiat/primary currency converter (to convert all crypto-based trade values between USD / GBP / EUR / stablecoin / etc as the app's "primary currency"): Use the simple / powerful solution of adding the different fiat/stablecoin markets for Bitcoin in same manner as alternate markets for altcoins are added (including Tether / stablecoin markets), THEN detect the fiat/primary currency that was selected, AND set it's symbol / letter-code as the app's fiat/primary currency. ADD USD MARKETS FOR ALTCOINS BEFORE CREATING THIS FEATURE, TO TRANSITION FROM USD TO "PRIMARY CURRENCY" AFTERWARD, IN A MORE ENCOMPASSING MANNER.
 
 
 Add header login nav like prototype for zilliqa block explorer (use the developed account system structure too).
