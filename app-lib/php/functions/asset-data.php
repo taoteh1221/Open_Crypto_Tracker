@@ -1306,8 +1306,8 @@ $market_pairing = $all_markets[$selected_market];
         ?> 
     
         var cmc_content = '<h5 class="yellow" style="position: relative; white-space: nowrap;"><?=ucfirst($marketcap_site)?>.com Summary For <?=$coin_name?> (<?=$trade_symbol?>):</h5>'
-        +'<p class="coin_info"><span class="yellow">Average Global Market Price:</span> $<?=marketcap_data($trade_symbol)['price']?></p>'
         +'<p class="coin_info"><span class="yellow">Marketcap Ranking:</span> #<?=marketcap_data($trade_symbol)['rank']?></p>'
+        +'<p class="coin_info"><span class="yellow">Average Global Market Price:</span> $<?=marketcap_data($trade_symbol)['price']?></p>'
         +'<p class="coin_info"><span class="yellow">Marketcap (USD):</span> $<?=number_format(marketcap_data($trade_symbol)['market_cap'],0,".",",")?></p>'
         +'<p class="coin_info"><span class="yellow">24 Hour Global Volume (USD):</span> $<?=number_format(marketcap_data($trade_symbol)['volume_24h'],0,".",",")?></p>'
         +'<p class="coin_info"><span class="yellow">1 Hour Change:</span> <?=( stristr(marketcap_data($trade_symbol)['percent_change_1h'], '-') != false ? '<span class="red_bright">'.marketcap_data($trade_symbol)['percent_change_1h'].'%</span>' : '<span class="green_bright">+'.marketcap_data($trade_symbol)['percent_change_1h'].'%</span>' )?></p>'
@@ -1332,9 +1332,9 @@ $market_pairing = $all_markets[$selected_market];
         <?php
             }
             ?>
-        +'<p class="coin_info"><span class="yellow">Cache Time:</span> <?=$marketcap_cache?> minute(s)</p>'
+        +'<p class="coin_info"><span class="yellow">Local Cache Time:</span> <?=$marketcap_cache?> minute(s)</p>'
     
-        +'<p class="coin_info">*Current config setting only retrieves the top <?=$marketcap_ranks_max?> rankings.</p>';
+        +'<p class="coin_info">*Current config setting retrieves the top <?=$marketcap_ranks_max?> rankings.</p>';
     
         <?php
         

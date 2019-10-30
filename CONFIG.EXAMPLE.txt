@@ -149,7 +149,7 @@ $asset_price_alerts_freq = 10; // Re-allow same asset price alert(s) after X min
 // Minimum 24 hour volume filter. Only allows sending asset price alerts if minimum 24 hour volume reached
 // CAN BE 0 TO DISABLE MINIMUM VOLUME FILTERING, NO DECIMALS OR SEPARATORS, NUMBERS ONLY, WITHOUT dollar sign: 250 = $250 , 4500 = $4,500 , etc
 // THIS FILTER WILL AUTO-DISABLE IF THERE IS AN ERROR RETRIEVING DATA ON A CERTAIN MARKET (WHEN NOT EVEN A ZERO IS RECEIVED)
-$asset_price_alerts_minvolume = 1500;
+$asset_price_alerts_minvolume = 3000;
 
 // Refresh cached comparison prices every X days (since last refresh / alert) with latest prices
 // Can be 0 to disable refreshing (until price alert triggers a refresh)
