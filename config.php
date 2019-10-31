@@ -271,6 +271,10 @@ $asset_charts_and_alerts = array(
 					'data' => 'hitbtc||btc||chart',
 					'data-2' => 'binance||btc||chart',
 					
+					// DAG
+					'dag' => 'kucoin||btc||both',
+					'dag-2' => 'hitbtc||btc||chart',
+					
 					//MYST
 					'myst' => 'hitbtc||btc||both',
 					'myst-2' => 'hitbtc||eth||alert',
@@ -791,6 +795,31 @@ $coins_list = array(
                                          'hitbtc' => 'DATAUSD',
                                          'gateio' => 'data_usdt',
                                          'bitforex' => 'coin-usdt-data'
+                                                    )
+                                                    
+                                        ) // market_pairing END
+                        
+                    ), // Coin END
+                    
+                    
+                    // DAG
+                    'DAG' => array(
+                        
+                        'coin_name' => 'Constellation',
+                        'marketcap_website_slug' => 'constellation',
+                        'market_pairing' => array(
+                        
+                                    'btc' => array(
+                                        'kucoin' => 'DAG-BTC',
+                                        'hotbit' => 'DAG_BTC',
+                                        'hitbtc' => 'DAGBTC'
+                                                    ),
+                                                    
+                                    'eth' => array(
+                                        'kucoin' => 'DAG-ETH',
+                                        'hotbit' => 'DAG_ETH',
+                                        'hitbtc' => 'DAGETH',
+                                        'idex' => 'ETH_DAG'
                                                     )
                                                     
                                         ) // market_pairing END
