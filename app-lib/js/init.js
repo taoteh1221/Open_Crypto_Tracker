@@ -5,6 +5,12 @@
 // Wait until the DOM has loaded before querying the document
 $(document).ready(function(){
 	
+	
+// Charts background / border
+$(".chart_wrapper").css({ "background-color": window.charts_background });
+$(".chart_wrapper").css({ "border": '2px solid ' + window.charts_border });
+
+
 	////////////////////////////////////////////////////////
 	
 	$.each($('textarea[data-autoresize]'), function() {

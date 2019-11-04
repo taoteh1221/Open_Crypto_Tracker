@@ -117,7 +117,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
  	  live: true,
  	  "adjust-layout": true,
  	  "alpha-area": 0.5,
-		backgroundColor:"#777676 #3D3C3C", /* setting graph gradient dark/light range, we'll change the background color further down (via a config.php var)  */
+  		backgroundColor: "<?=$charts_background?>", /* hides un-stylible date text for now, by setting background on preview area */
  	  	height: 30
   },
   backgroundColor: "<?=$charts_background?>",
@@ -125,7 +125,8 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
   x: 0, 
   y: 0,
   globals: {
-  	fontSize: 20
+  	fontSize: 20,
+  	fontColor: "<?=$charts_text?>"
   },
   crosshairX:{
     shared: true,
@@ -215,9 +216,12 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
 		{
 			values: values,
 			lineColor: "<?=$charts_text?>",
-			lineWidth: 1,
-			backgroundColor:"<?=$charts_text?> <?=$charts_graphs_gradient?>",
-			alpha: 0.5
+			lineWidth: 2,
+			backgroundColor:"<?=$charts_text?> <?=$charts_price_gradient?>", /* background gradient on graphed price area in main chart (NOT the chart background) */
+			alpha: 0.5,
+				previewState: {
+      		backgroundColor: "<?=$charts_price_gradient?>" /* background color on graphed price area in preview below chart (NOT the preview area background) */
+				}
 		}
 	],
 	labels: [
@@ -352,7 +356,9 @@ function getVolumeConfig_<?=$js_key?>(dates, values) {
   tooltip:{
     visible: false,
     text: "24 Hour Volume: <?=($volume_symbol == '$' ? $volume_symbol : '')?>%v <?=($volume_symbol != '$' ? $volume_symbol : '')?>",
+    fontColor: "<?=$charts_tooltip_text?>",
 	 fontSize: "20",
+    backgroundColor: "<?=$charts_tooltip_background?>",
     fontFamily: "Open Sans",
     borderColor:"transparent",
     "thousands-separator":","
@@ -367,8 +373,9 @@ function getVolumeConfig_<?=$js_key?>(dates, values) {
       visible: false
     },
     plotLabel:{
+      backgroundColor: "<?=$charts_tooltip_background?>",
+      fontColor: "<?=$charts_tooltip_text?>",
       fontFamily: "Open Sans",
-      backgroundColor:"<?=$charts_tooltip_background?>",
       text: "24 Hour Volume: <?=($volume_symbol == '$' ? $volume_symbol : '')?>%v <?=($volume_symbol != '$' ? $volume_symbol : '')?>",
 	 	fontSize: "20",
       y:0,

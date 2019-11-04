@@ -74,6 +74,9 @@ $charts_page = 'on'; // 'on' / 'off'
 
 // Chart colors (https://www.w3schools.com/colors/colors_picker.asp)
 
+// Charts border color
+$charts_border = '#808080';  
+
 // Charts background color
 $charts_background = '#515050';  
 
@@ -86,8 +89,8 @@ $charts_text = '#dddddd';
 // Charts link color
 $charts_link = '#b5b5b5';  
 
-// Charts price graphs base gradient color (shades the price graph gradients this color)
-$charts_graphs_gradient = '#000000'; 
+// Charts price (base) gradient color
+$charts_price_gradient = '#000000'; 
 
 // Charts tooltip background color
 $charts_tooltip_background = '#bbbbbb';

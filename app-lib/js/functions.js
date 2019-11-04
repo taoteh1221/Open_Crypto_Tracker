@@ -266,75 +266,15 @@ function count_down(i, toggle) {
 	    	
 	    	var sec = ( i - (round_min*60) );
 	    	
-	    		if ( document.getElementById("reload_countdown") ) {
-	    		document.getElementById("reload_countdown").innerHTML = "(" + round_min + " minutes " + sec + " seconds)";
-	    		}
-	    		
-	    		if ( document.getElementById("reload_countdown2") ) {
-	    		document.getElementById("reload_countdown2").innerHTML = "(page reload in " + round_min + " minutes " + sec + " seconds)";
-	    		}
-	    		
-	    		if ( document.getElementById("reload_countdown3") ) {
-	    		document.getElementById("reload_countdown3").innerHTML = "(page reload in " + round_min + " minutes " + sec + " seconds)";
-	    		}
-	    		
-	    		if ( document.getElementById("reload_countdown4") ) {
-	    		document.getElementById("reload_countdown4").innerHTML = "(page reload in " + round_min + " minutes " + sec + " seconds)";
-	    		}
-	    		
-	    		if ( document.getElementById("reload_countdown5") ) {
-	    		document.getElementById("reload_countdown5").innerHTML = "(page reload in " + round_min + " minutes " + sec + " seconds)";
-	    		}
-	    		
-	    		if ( document.getElementById("reload_countdown6") ) {
-	    		document.getElementById("reload_countdown6").innerHTML = "(page reload in " + round_min + " minutes " + sec + " seconds)";
-	    		}
-	    		
-	    		if ( document.getElementById("reload_countdown7") ) {
-	    		document.getElementById("reload_countdown7").innerHTML = "(page reload in " + round_min + " minutes " + sec + " seconds)";
-	    		}
-	    		
-	    		if ( document.getElementById("reload_countdown8") ) {
-	    		document.getElementById("reload_countdown8").innerHTML = "(page reload in " + round_min + " minutes " + sec + " seconds)";
-	    		}
-	    		
+	    	$("#reload_countdown").html("(" + round_min + " minutes " + sec + " seconds)"); // Portfolio page
+	    	$("span.countdown_notice").html("(page reload in " + round_min + " minutes " + sec + " seconds)"); // Secondary pages
 	    		
 	    		
 	    	}
 	    	else {
 	    		
-	    		if ( document.getElementById("reload_countdown") ) {
-	    		document.getElementById("reload_countdown").innerHTML = "(" + i + " seconds)";
-	    		}
-	    		
-	    		if ( document.getElementById("reload_countdown2") ) {
-	    		document.getElementById("reload_countdown2").innerHTML = "(page reload in " + i + " seconds)";
-	    		}
-	    		
-	    		if ( document.getElementById("reload_countdown3") ) {
-	    		document.getElementById("reload_countdown3").innerHTML = "(page reload in " + i + " seconds)";
-	    		}
-	    		
-	    		if ( document.getElementById("reload_countdown4") ) {
-	    		document.getElementById("reload_countdown4").innerHTML = "(page reload in " + i + " seconds)";
-	    		}
-	    		
-	    		if ( document.getElementById("reload_countdown5") ) {
-	    		document.getElementById("reload_countdown5").innerHTML = "(page reload in " + i + " seconds)";
-	    		}
-	    		
-	    		if ( document.getElementById("reload_countdown6") ) {
-	    		document.getElementById("reload_countdown6").innerHTML = "(page reload in " + i + " seconds)";
-	    		}
-	    		
-	    		if ( document.getElementById("reload_countdown7") ) {
-	    		document.getElementById("reload_countdown7").innerHTML = "(page reload in " + i + " seconds)";
-	    		}
-	    		
-	    		if ( document.getElementById("reload_countdown8") ) {
-	    		document.getElementById("reload_countdown8").innerHTML = "(page reload in " + i + " seconds)";
-	    		}
-	    		
+	    	$("#reload_countdown").html("(" + i + " seconds)"); // Portfolio page
+	    	$("span.countdown_notice").html("(page reload in " + i + " seconds)"); // Secondary pages
 	    		
 	    	
 	    	}
@@ -348,21 +288,15 @@ function count_down(i, toggle) {
 	    
 	}
 	else {
-	document.getElementById("reload_countdown").innerHTML = "";
-	document.getElementById("reload_countdown2").innerHTML = "";
-	document.getElementById("reload_countdown3").innerHTML = "";
-	document.getElementById("reload_countdown4").innerHTML = "";
-	document.getElementById("reload_countdown5").innerHTML = "";
-	document.getElementById("reload_countdown6").innerHTML = "";
-	document.getElementById("reload_countdown7").innerHTML = "";
-	document.getElementById("reload_countdown8").innerHTML = "";
+	$("#reload_countdown").html(""); // Portfolio page
+	$("span.countdown_notice").html(""); // Secondary pages
 	}
     
 }
 
 /////////////////////////////////////////////////////////////
 
-function play_alert(tr_id, alert_type, color, theme) {
+function row_alert(tr_id, alert_type, color, theme) {
 
 
     
@@ -417,3 +351,7 @@ function play_alert(tr_id, alert_type, color, theme) {
 }
 
 /////////////////////////////////////////////////////////////
+
+
+
+

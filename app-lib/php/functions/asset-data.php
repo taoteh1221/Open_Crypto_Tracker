@@ -1295,7 +1295,7 @@ $market_pairing = $all_markets[$selected_market];
 			?>
 			
 			setTimeout(function() {
-    		play_alert("<?=strtolower($trade_symbol)?>_row", "visual", "no_cmc", "<?=$theme_selected?>"); // Assets with marketcap data not set or functioning properly
+    		row_alert("<?=strtolower($trade_symbol)?>_row", "visual", "no_cmc", "<?=$theme_selected?>"); // Assets with marketcap data not set or functioning properly
 			}, 1000);
 			
 			<?php
@@ -1387,7 +1387,7 @@ $market_pairing = $all_markets[$selected_market];
             ?>
          
             setTimeout(function() {
-               play_alert("<?=strtolower($trade_symbol)?>_row", "<?=$percent_alert_type?>", "yellow", "<?=$theme_selected?>");
+               row_alert("<?=strtolower($trade_symbol)?>_row", "<?=$percent_alert_type?>", "yellow", "<?=$theme_selected?>");
             }, 1000);
             
             <?php
@@ -1396,7 +1396,7 @@ $market_pairing = $all_markets[$selected_market];
             ?>
             
             setTimeout(function() {
-               play_alert("<?=strtolower($trade_symbol)?>_row", "<?=$percent_alert_type?>", "green", "<?=$theme_selected?>");
+               row_alert("<?=strtolower($trade_symbol)?>_row", "<?=$percent_alert_type?>", "green", "<?=$theme_selected?>");
             }, 1000);
             
             <?php
@@ -1425,7 +1425,7 @@ $market_pairing = $all_markets[$selected_market];
 		?>
 		
 		setTimeout(function() {
-    	play_alert("<?=strtolower($trade_symbol)?>_row", "visual", "no_cmc", "<?=$theme_selected?>"); // Assets with marketcap data not set or functioning properly
+    	row_alert("<?=strtolower($trade_symbol)?>_row", "visual", "no_cmc", "<?=$theme_selected?>"); // Assets with marketcap data not set or functioning properly
 		}, 1000);
 		
 		<?php

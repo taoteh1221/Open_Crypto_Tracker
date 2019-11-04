@@ -78,6 +78,10 @@ require("config.php");
 	var sorted_by_asc_desc = <?=$sorted_by_asc_desc?>;
 	var tablesort_theme = '<?=$theme_selected?>';
 	
+	var charts_background = '<?=$charts_background?>';
+	
+	var charts_border = '<?=$charts_border?>';
+	
 	var btc_usd_value = '<?=number_format( get_btc_usd('binance')['last_trade'], 2, '.', '' )?>';
 	
 	</script>

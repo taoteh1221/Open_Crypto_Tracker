@@ -100,7 +100,6 @@ CLASSES
 
 
 .chart_wrapper span.loading {
-color: white;
 font-weight: bold;
 font-size: 18px;
 line-height: 26px;
@@ -346,7 +345,7 @@ max-width: 1400px;
 }
 
 
-.charts_wrapper {
+.charts_page_wrapper {
 position: relative;
 width: 100%;
 }
@@ -361,8 +360,6 @@ right: 0px;
 
 .chart_wrapper {
 position: relative;
-background-color: #515050; 
-border: 1px solid #808080; 
 border-radius: 5px;
 }
 
