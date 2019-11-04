@@ -216,7 +216,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
 		{
 			values: values,
 			lineColor: "<?=$charts_text?>",
-			lineWidth: 2,
+			lineWidth: 1,
 			backgroundColor:"<?=$charts_text?> <?=$charts_price_gradient?>", /* background gradient on graphed price area in main chart (NOT the chart background) */
 			alpha: 0.5,
 				previewState: {
