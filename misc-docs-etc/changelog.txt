@@ -1794,6 +1794,7 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 3.44.0:
 -UX revisions
+-Configuration settings for chart colors (new config.php variables)
 -------------------------------------------------------------------
 
 

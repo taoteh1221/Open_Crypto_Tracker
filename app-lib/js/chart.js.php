@@ -117,10 +117,10 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
  	  live: true,
  	  "adjust-layout": true,
  	  "alpha-area": 0.5,
-		backgroundColor:"#777676 #3D3C3C",
+		backgroundColor:"#777676 #3D3C3C", /* setting graph gradient dark/light range, we'll change the background color further down (via a config.php var)  */
  	  	height: 30
   },
-  backgroundColor: "#515050",
+  backgroundColor: "<?=$charts_background?>",
   height: 420,
   x: 0, 
   y: 0,
@@ -131,8 +131,8 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
     shared: true,
     exact: true,
     plotLabel:{
-      backgroundColor: "#bbb",
-      fontColor: "#222",
+      backgroundColor: "<?=$charts_tooltip_background?>",
+      fontColor: "<?=$charts_tooltip_text?>",
       text: "Spot Price: <?=($trade_symbol == '$' ? $trade_symbol : $trade_symbol . ' ')?>%v",
 	 	fontSize: "20",
       fontFamily: "Open Sans",
@@ -140,15 +140,15 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
       "thousands-separator":",",
     },
     scaleLabel:{
-      fontColor: "#222",
+      fontColor: "<?=$charts_tooltip_text?>",
       fontSize:20,
       fontFamily: "Open Sans",
-      backgroundColor: "#bbb",
+      backgroundColor: "<?=$charts_tooltip_background?>",
     }
   },
   title: {
     text: "(<?=( $trade_symbol == '$' ? 'USD' : strtoupper($market_parse[1]) )?> Chart)  <?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=name_rendering($market_parse[0])?>",
-    fontColor: "#fff",
+    fontColor: "<?=$charts_text?>",
     fontFamily: 'Open Sans',
     fontSize: 23,
     align: 'right',
@@ -171,8 +171,9 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
   },
   tooltip:{
     text: "Spot Price: <?=($trade_symbol == '$' ? $trade_symbol : $trade_symbol . ' ')?>%v",
+    fontColor: "<?=$charts_tooltip_text?>",
 	 fontSize: "20",
-    backgroundColor: "#BBB",
+    backgroundColor: "<?=$charts_tooltip_background?>",
     borderColor:"transparent",
     "thousands-separator":","
   },
@@ -182,10 +183,10 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
     guide: {
       visible: true,
       lineStyle: 'solid',
-      lineColor: "#444"
+      lineColor: "<?=$charts_line?>"
     },
     item: {
-      fontColor: "#ddd",
+      fontColor: "<?=$charts_text?>",
       fontFamily: "Open Sans",
       fontSize: "14",
     }
@@ -194,7 +195,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
     guide: {
       visible: true,
       lineStyle: 'solid',
-      lineColor: "#444"
+      lineColor: "<?=$charts_line?>"
     },
     values: dates,
  	  transform: {
@@ -206,16 +207,16 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
     },
     item: {
 	 fontSize: "14",
-      fontColor: "#ddd",
+      fontColor: "<?=$charts_text?>",
       fontFamily: "Open Sans"
     }
   },
 	series : [
 		{
 			values: values,
-			lineColor: "#fff",
+			lineColor: "<?=$charts_text?>",
 			lineWidth: 1,
-			backgroundColor:"#fff #000",
+			backgroundColor:"<?=$charts_text?> <?=$charts_graphs_gradient?>",
 			alpha: 0.5
 		}
 	],
@@ -224,7 +225,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
 	    x: 80,
 	    y: 10,
 	    id: '1D',
-	    fontColor: (current === '1D') ? "#FFF" : "#b5b5b5",
+	    fontColor: (current === '1D') ? "<?=$charts_text?>" : "<?=$charts_link?>",
 	    fontSize: "21",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
@@ -234,7 +235,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
 	    x: 130,
 	    y: 10,
 	    id: '1W',
-	    fontColor: (current === '1W') ? "#FFF" : "#b5b5b5",
+	    fontColor: (current === '1W') ? "<?=$charts_text?>" : "<?=$charts_link?>",
 	    fontSize: "21",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
@@ -244,7 +245,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
 	    x: 180,
 	    y: 10,
 	    id: '1M',
-	    fontColor: (current === '1M') ? "#FFF" : "#b5b5b5",
+	    fontColor: (current === '1M') ? "<?=$charts_text?>" : "<?=$charts_link?>",
 	    fontSize: "21",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
@@ -254,7 +255,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
 	    x: 230,
 	    y: 10,
 	    id: '3M',
-	    fontColor: (current === '3M') ? "#FFF" : "#b5b5b5",
+	    fontColor: (current === '3M') ? "<?=$charts_text?>" : "<?=$charts_link?>",
 	    fontSize: "21",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
@@ -264,7 +265,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
 	    x: 280,
 	    y: 10,
 	    id: '6M',
-	    fontColor: (current === '6M') ? "#FFF" : "#b5b5b5",
+	    fontColor: (current === '6M') ? "<?=$charts_text?>" : "<?=$charts_link?>",
 	    fontSize: "21",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
@@ -274,7 +275,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
 	    x: 330,
 	    y: 10,
 	    id: '1Y',
-	    fontColor: (current === '1Y') ? "#FFF" : "#b5b5b5",
+	    fontColor: (current === '1Y') ? "<?=$charts_text?>" : "<?=$charts_link?>",
 	    fontSize: "21",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
@@ -284,7 +285,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
 	    x: 380,
 	    y: 10,
 	    id: '2Y',
-	    fontColor: (current === '2Y') ? "#FFF" : "#b5b5b5",
+	    fontColor: (current === '2Y') ? "<?=$charts_text?>" : "<?=$charts_link?>",
 	    fontSize: "21",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
@@ -294,7 +295,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
 	    x: 430,
 	    y: 10,
 	    id: '4Y',
-	    fontColor: (current === '4Y') ? "#FFF" : "#b5b5b5",
+	    fontColor: (current === '4Y') ? "<?=$charts_text?>" : "<?=$charts_link?>",
 	    fontSize: "21",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
@@ -304,7 +305,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
 	    x: 480,
 	    y: 10,
 	    id: 'ALL',
-	    fontColor: (current === 'ALL') ? "#FFF" : "#b5b5b5",
+	    fontColor: (current === 'ALL') ? "<?=$charts_text?>" : "<?=$charts_link?>",
 	    fontSize: "21",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
@@ -314,7 +315,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
 	    x: 547,
 	    y: 10,
 	    id: 'RESET',
-	    fontColor: "#b5b5b5",
+	    fontColor: "<?=$charts_link?>",
 	    fontSize: "21",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
@@ -330,7 +331,7 @@ function getVolumeConfig_<?=$js_key?>(dates, values) {
   height: 70,
   x: 0, 
   y: 400,
-  backgroundColor: "#515050",
+  backgroundColor: "<?=$charts_background?>",
   plotarea: {
     margin: "11 63 5 112"
   },
@@ -341,7 +342,7 @@ function getVolumeConfig_<?=$js_key?>(dates, values) {
   },
   source: {
     text: "24 Hour Volume",
-    fontColor:"#fff",
+    fontColor:"<?=$charts_text?>",
 	 fontSize: "13",
     fontFamily: "Open Sans",
     offsetX: 106,
@@ -367,7 +368,7 @@ function getVolumeConfig_<?=$js_key?>(dates, values) {
     },
     plotLabel:{
       fontFamily: "Open Sans",
-      backgroundColor:"#BBB",
+      backgroundColor:"<?=$charts_tooltip_background?>",
       text: "24 Hour Volume: <?=($volume_symbol == '$' ? $volume_symbol : '')?>%v <?=($volume_symbol != '$' ? $volume_symbol : '')?>",
 	 	fontSize: "20",
       y:0,
@@ -384,10 +385,10 @@ function getVolumeConfig_<?=$js_key?>(dates, values) {
     guide: {
       visible: true,
       lineStyle: 'solid',
-      lineColor: "#444"
+      lineColor: "<?=$charts_line?>"
     },
     item: {
-      fontColor: "#ddd",
+      fontColor: "<?=$charts_text?>",
       fontFamily: "Open Sans",
       fontSize: "12",
     }
@@ -396,7 +397,7 @@ function getVolumeConfig_<?=$js_key?>(dates, values) {
 		{
 			values: values,
 			text: "24hr Volume",
-			backgroundColor: "#bbb",
+			backgroundColor: "<?=$charts_text?>",
     		offsetX: 0
 		}
 	]

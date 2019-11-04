@@ -72,6 +72,29 @@ $mail_error_logs = 1;
 // Disabling will disable EVERYTHING related to the charts features...the page, caching, even the javascript associated with the charts
 $charts_page = 'on'; // 'on' / 'off'
 
+// Chart colors (https://www.w3schools.com/colors/colors_picker.asp)
+
+// Charts background color
+$charts_background = '#515050';  
+
+// Charts line color
+$charts_line = '#444444';  
+
+// Charts text color
+$charts_text = '#dddddd';  
+
+// Charts link color
+$charts_link = '#b5b5b5';  
+
+// Charts price graphs base gradient color (shades the price graph gradients this color)
+$charts_graphs_gradient = '#000000'; 
+
+// Charts tooltip background color
+$charts_tooltip_background = '#bbbbbb';
+
+// Charts tooltip text color
+$charts_tooltip_text = '#222222';
+
 // Backup chart data in a zip file in the 'backups' subdirectory (with a secure random 32 character hexadecimal suffix for privacy), only used if $charts_page above is on
 $charts_backup_freq = 1; // Every X days backup chart data. 0 disables backups. Email to / from !MUST BE SET! (a download link is emailed to you of the chart data archive)
 
