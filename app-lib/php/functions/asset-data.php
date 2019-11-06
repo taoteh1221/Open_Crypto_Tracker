@@ -604,6 +604,9 @@ $asset = strtoupper($asset);
 	// Round USD volume to nullify insignificant decimal amounts / for prettier numbers UX
 	$volume_usd_raw = ( isset($volume_usd_raw) ? round($volume_usd_raw) : NULL );	
 	
+	// Round pairing volume to only keep 3 decimals max (for BTC volume etc), to save on data set / storage size
+	$volume_pairing_raw = ( isset($volume_pairing_raw) ? round($volume_pairing_raw, 3) : NULL );	
+	
 	
 	$alert_cache_contents = $asset_usd_value_raw . '||' . $volume_usd_raw . '||' . $volume_pairing_raw;
 	
