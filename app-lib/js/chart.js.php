@@ -114,10 +114,15 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
   return {
   type: 'area',
   "preview":{
+  		label: {
+      color: '<?=$charts_text?>',
+      fontSize: '10px',
+      lineWidth: '1px',
+      lineColor: '<?=$charts_line?>',
+     	},
  	  live: true,
  	  "adjust-layout": true,
  	  "alpha-area": 0.5,
-  		backgroundColor: "<?=$charts_background?>", /* hides un-stylible date text for now, by setting background on preview area */
  	  	height: 30
   },
   backgroundColor: "<?=$charts_background?>",
