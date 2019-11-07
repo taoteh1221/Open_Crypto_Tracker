@@ -1804,6 +1804,7 @@ app doing the data requests, not a malicious bot)
 3.45.0:
 -More optimizations
 -Chart revision (timeline text in preview area)
+-Error logs UX
 -------------------------------------------------------------------
 
 

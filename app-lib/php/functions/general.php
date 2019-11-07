@@ -496,7 +496,7 @@ global $http_users, $http_runtime_user;
 	
 	
 	if ( $result == FALSE ) {
-	app_error('other_error', 'File write failed for file "' . $file . '"');
+	app_error('other_error', 'File write failed for file "' . $file . '" (check permissions for "' . basename($file) . '")');
 	}
 	
 	
