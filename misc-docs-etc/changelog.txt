@@ -1802,9 +1802,10 @@ app doing the data requests, not a malicious bot)
 
 -------------------------------------------------------------------
 3.45.0:
--More optimizations
--Chart revision (timeline text in preview area)
--Error logs UX
+-More chart data storage / retrieval optimizations
+-Chart interface revision (timeline text in spot price preview area)
+-Charts UX (spot price / volume number formatting)
+-Error logs UX (for write errors)
 -------------------------------------------------------------------
 
 

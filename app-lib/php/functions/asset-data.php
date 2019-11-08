@@ -568,9 +568,6 @@ $asset = strtoupper($asset);
    
    
    
-   
-   
-   
 	// Get asset USD value
 	
 	if ( $asset == 'BTC' ){ 
@@ -597,19 +594,45 @@ $asset = strtoupper($asset);
 	}
 
 
-
-
-
-
-	// Round USD volume to nullify insignificant decimal amounts / for prettier numbers UX
-	$volume_usd_raw = ( isset($volume_usd_raw) ? round($volume_usd_raw) : NULL );	
+   
 	
-	// Round pairing volume to only keep 3 decimals max (for BTC volume etc), to save on data set / storage size
+	// Optimizing storage size needed for charts data
+	
+	// Round USD volume to nullify insignificant decimal amounts / for prettier numbers UX, and to save on data set / storage size
+	$volume_usd_raw = ( isset($volume_usd_raw) ? round($volume_usd_raw) : NULL );		
+	
+	
+	// Round pairing volume to only keep 3 decimals max (for crypto volume etc), to save on data set / storage size
 	$volume_pairing_raw = ( isset($volume_pairing_raw) ? round($volume_pairing_raw, 3) : NULL );	
 	
 	
-	$alert_cache_contents = $asset_usd_value_raw . '||' . $volume_usd_raw . '||' . $volume_pairing_raw;
+	// Round USD asset price to only keep $usd_decimals_max decimals maximum (or only 2 decimals if worth $1 or more), to save on data set / storage size
+	$asset_usd_value_raw = ( floattostr($asset_usd_value_raw) >= 1.00 ? round($asset_usd_value_raw, 2) : round($asset_usd_value_raw, $usd_decimals_max) );
 	
+	
+	// If USD equivalent (stablecoin) CRYPTO pairing format, round stablecoin asset price 
+	// to only keep $usd_decimals_max decimals maximum (or only 2 decimals if worth $1 or more), to save on data set / storage size
+   if ( $pairing == 'usdt' || $pairing == 'tusd' || $pairing == 'usdc' ) {
+   $asset_pairing_value_raw = ( floattostr($asset_pairing_value_raw) >= 1.00 ? round($asset_pairing_value_raw, 2) : round($asset_pairing_value_raw, $usd_decimals_max) );
+   }
+
+
+	// Remove trailing zeros from CRYPTO asset price, to save on data set / storage size
+	$asset_pairing_value_raw = floattostr($asset_pairing_value_raw);
+	
+	
+	// Remove any extra leading zeros as well from CRYPTO asset price, that floattostr() may create, to save on data set / storage size
+	if ( $asset_pairing_value_raw < 1 ) {
+	$asset_pairing_value_raw = preg_replace("/00\./", "0.", $asset_pairing_value_raw);
+	}
+	if ( $asset_pairing_value_raw >= 1 ) {
+	$asset_pairing_value_raw = ltrim($asset_pairing_value_raw, '0');
+	}
+
+	
+	
+	
+	$alert_cache_contents = $asset_usd_value_raw . '||' . $volume_usd_raw . '||' . $volume_pairing_raw;
 	
 	
 	

@@ -174,9 +174,9 @@ function floattostr($val) {
 
 preg_match( "#^([\+\-]|)([0-9]*)(\.([0-9]*?)|)(0*)$#", trim($val), $o );
 
-return (int)$o[1].sprintf('%d',$o[2]).($o[3]!='.'?$o[3]:'');
+$result = (int)$o[1].sprintf('%d',$o[2]).($o[3]!='.'?$o[3]:'');
 
-//return floatval($val);
+return $result;
 
 }
 
@@ -525,24 +525,40 @@ return $result;
 ////////////////////////////////////////////////////////
 
 
-function chart_data($file, $skip_decimals=false) {
+function chart_data($file, $trade_format) {
+
+global $usd_decimals_max;
+
 
 $data = array();
 $fn = fopen($file,"r");
   
-  while(! feof($fn))  {
+  while( !feof($fn) )  {
   	
 	$result = explode("||", fgets($fn) );
 	
 		if ( trim($result[0]) != '' && trim($result[1]) != '' && trim($result[2]) != '' ) {
-		$data['time'] .= trim($result[0]) . '000,';  // Zingchart wants 3 more zeros with unix time (milliseconds)
-		$data['spot'] .= trim($result[1]) . ',';
+			
+		$data['time'] .= $result[0] . '000,';  // Zingchart wants 3 more zeros with unix time (milliseconds)
 		
-			if ( $skip_decimals != false ) {
-			$data['volume'] .= round(trim($result[2])) . ','; // Round away all decimals in volume for chart UX
+			// Format or round USD / stablecoin price depending on value (non-stablecoin crypto values are already stored in the format we want for the interface)
+			if ( $trade_format == 'usd' ) {
+			$data['spot'] .= ( floattostr($result[1]) >= 1.00 ? number_format((float)$result[1], 2, '.', '')  :  round($result[1], $usd_decimals_max)  ) . ',';
+			$data['volume'] .= round($result[2]) . ',';
 			}
+			elseif ( $trade_format == 'btc_usd' ) {
+			$data['spot'] .= ( floattostr($result[1]) >= 1.00 ? number_format((float)$result[1], 2, '.', '')  :  round($result[1], $usd_decimals_max)  ) . ',';
+			$data['volume'] .= round($result[2]) . ',';
+			}
+			// Non-stablecoin crypto
+			elseif ( $trade_format == 'not_usd_equiv' ) {
+			$data['spot'] .= $result[1] . ',';
+			$data['volume'] .= round($result[2], 3) . ',';
+			}
+			// Stablecoins
 			else {
-			$data['volume'] .= round(trim($result[2]), 3) . ','; // Round to 3 decimals (if volume is in BTC, or whatever reason...saves on data set size by excluding unneeded decimals)
+			$data['spot'] .= ( floattostr($result[1]) >= 1.00 ? number_format((float)$result[1], 2, '.', '')  :  round($result[1], $usd_decimals_max)  ) . ',';
+			$data['volume'] .= round($result[2], 3) . ',';
 			}
 		
 		}
@@ -551,6 +567,7 @@ $fn = fopen($file,"r");
 
 fclose($fn);
 
+// Trim away extra commas
 $data['time'] = rtrim($data['time'],',');
 $data['spot'] = rtrim($data['spot'],',');
 $data['volume'] = rtrim($data['volume'],',');

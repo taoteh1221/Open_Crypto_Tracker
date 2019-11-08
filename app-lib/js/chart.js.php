@@ -46,17 +46,20 @@ if ( $_GET['type'] == 'asset' ) {
 			if ( $market_parse[1] == 'btc' && $chart_asset == 'BTC' || $_GET['charted_value'] == 'usd' ) {
 			$trade_symbol = "$";
 			$volume_symbol = "$";
-			}
-			elseif ( $market_parse[1] == 'btc' && $chart_asset != 'BTC' ) {
-			$trade_symbol = "Ƀ";
-			$volume_symbol = $chart_asset;
+			$usd_eqiv = 1;
 			}
 			elseif ( $market_parse[1] == 'usdt' ) {
 			$trade_symbol = "₮";
 			$volume_symbol = $chart_asset;
+			$usd_eqiv = 1;
 			}
 			elseif ( $market_parse[1] == 'tusd' || $market_parse[1] == 'usdc' ) {
 			$trade_symbol = "Ⓢ";
+			$volume_symbol = $chart_asset;
+			$usd_eqiv = 1;
+			}
+			elseif ( $market_parse[1] == 'btc' && $chart_asset != 'BTC' ) {
+			$trade_symbol = "Ƀ";
 			$volume_symbol = $chart_asset;
 			}
 			elseif ( $market_parse[1] == 'eth' ) {
@@ -78,7 +81,7 @@ if ( $_GET['type'] == 'asset' ) {
 			|| $market_parse[2] != 'chart' && $market_parse[2] != 'both' ) {
 			?>
 			
-			$("#<?=$key?>_<?=$charted_value?>_chart span.loading").html('No chart data activated for: <?=$chart_asset?> / <?=( $trade_symbol == '$' ? 'USD' : strtoupper($market_parse[1]) )?> @ <?=name_rendering($market_parse[0])?>');
+			$("#<?=$key?>_<?=$charted_value?>_chart span.loading").html(' No chart data activated for: <?=$chart_asset?> / <?=( $trade_symbol == '$' ? 'USD' : strtoupper($market_parse[1]) )?> @ <?=name_rendering($market_parse[0])?>');
 			
 			$("#charts_error").show();
 			
@@ -92,8 +95,14 @@ if ( $_GET['type'] == 'asset' ) {
 			exit;
 			}
 			
-			
-		$chart_data = chart_data('cache/charts/'.$chart_asset.'/'.$key.'_chart_'.$charted_value.'.dat', 'round');
+		
+			if ( $usd_eqiv == 1 ) {
+			$chart_data = chart_data('cache/charts/'.$chart_asset.'/'.$key.'_chart_'.$charted_value.'.dat', ( $market_parse[1] == 'btc' ? $market_parse[1] . '_usd' : $market_parse[1] ) );
+			}
+			else {
+			$chart_data = chart_data('cache/charts/'.$chart_asset.'/'.$key.'_chart_'.$charted_value.'.dat', 'not_usd_equiv');
+			}
+		
 		
 ?>
 

@@ -137,7 +137,7 @@
 		$charts_shown = 1;
 	?>
 	
-	<div class='chart_wrapper' id='<?=$key?>_usd_chart'><span class='loading' style='color: <?=$charts_text?>;'>Loading chart for <?=strtoupper($chart_asset)?> / USD @ <?=name_rendering($alerts_market_parse[0])?>...</span></div>
+	<div class='chart_wrapper' id='<?=$key?>_usd_chart'><span class='loading' style='color: <?=$charts_text?>;'> Loading chart for <?=strtoupper($chart_asset)?> / USD @ <?=name_rendering($alerts_market_parse[0])?>...</span></div>
 	
 	<script>
 	
@@ -155,7 +155,7 @@
 		$charts_shown = 1;
 	?>
 	
-	<div class='chart_wrapper' id='<?=$key?>_<?=$alerts_market_parse[1]?>_chart'><span class='loading' style='color: <?=$charts_text?>;'>Loading chart for <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=name_rendering($alerts_market_parse[0])?>...</span></div>
+	<div class='chart_wrapper' id='<?=$key?>_<?=$alerts_market_parse[1]?>_chart'><span class='loading' style='color: <?=$charts_text?>;'> Loading chart for <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=name_rendering($alerts_market_parse[0])?>...</span></div>
 	
 	<script>
 	
