@@ -23,7 +23,7 @@ Make sure programming comments are adequate throughout the app.
 Add Dogecoin and mining calculator.
 
 
-2-way encryption option (unlocked with 6 digit PIN) for storing coin amounts (IN COOKIES ONLY, NO DATABASE STORAGE !EVER!), with "quick lock" to quickly re-hide portfolio data.
+2-way encryption option (unlocked with 6 digit PIN) for storing coin amounts (IN COOKIES ONLY, NO DATABASE STORAGE !EVER!), with "quick lock" to quickly re-hide portfolio data (staying hidden persists on page load / reload as well with a cookie).
 
 
 SQL-based accounts for storing configuration settings per-user (including setting up new assets available at supported exchanges), BUT !NEVER! STORES PORTFOLIO DATA (FOR PRIVACY / SECURITY-SAKE).

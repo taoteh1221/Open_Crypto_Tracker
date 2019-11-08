@@ -81,7 +81,7 @@ if ( $_GET['type'] == 'asset' ) {
 			|| $market_parse[2] != 'chart' && $market_parse[2] != 'both' ) {
 			?>
 			
-			$("#<?=$key?>_<?=$charted_value?>_chart span.loading").html(' No chart data activated for: <?=$chart_asset?> / <?=( $trade_symbol == '$' ? 'USD' : strtoupper($market_parse[1]) )?> @ <?=name_rendering($market_parse[0])?>');
+			$("#<?=$key?>_<?=$charted_value?>_chart span.loading").html(' &nbsp; No chart data activated for: <?=$chart_asset?> / <?=( $trade_symbol == '$' ? 'USD' : strtoupper($market_parse[1]) )?> @ <?=name_rendering($market_parse[0])?>');
 			
 			$("#charts_error").show();
 			
