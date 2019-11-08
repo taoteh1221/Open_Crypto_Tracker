@@ -155,8 +155,9 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
       "thousands-separator":",",
     },
     scaleLabel:{
+    	alpha: 1.0,
       fontColor: "<?=$charts_tooltip_text?>",
-      fontSize:20,
+      fontSize: 20,
       fontFamily: "Open Sans",
       backgroundColor: "<?=$charts_tooltip_background?>",
     }
@@ -189,7 +190,6 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
     fontColor: "<?=$charts_tooltip_text?>",
 	 fontSize: "20",
     backgroundColor: "<?=$charts_tooltip_background?>",
-    borderColor:"transparent",
     "thousands-separator":","
   },
   scaleY: {
@@ -374,7 +374,6 @@ function getVolumeConfig_<?=$js_key?>(dates, values) {
 	 fontSize: "20",
     backgroundColor: "<?=$charts_tooltip_background?>",
     fontFamily: "Open Sans",
-    borderColor:"transparent",
     "thousands-separator":","
   },
   zoom: {

@@ -617,18 +617,8 @@ $asset = strtoupper($asset);
    }
 
 
-	// Remove trailing zeros from CRYPTO asset price, to save on data set / storage size
+	// Remove any leading / trailing zeros from CRYPTO asset price, to save on data set / storage size
 	$asset_pairing_value_raw = floattostr($asset_pairing_value_raw);
-	
-	
-	// Remove any extra leading zeros as well from CRYPTO asset price, that floattostr() may create, to save on data set / storage size
-	if ( $asset_pairing_value_raw < 1 ) {
-	$asset_pairing_value_raw = preg_replace("/00\./", "0.", $asset_pairing_value_raw);
-	}
-	if ( $asset_pairing_value_raw >= 1 ) {
-	$asset_pairing_value_raw = ltrim($asset_pairing_value_raw, '0');
-	}
-
 	
 	
 	

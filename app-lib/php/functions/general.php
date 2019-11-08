@@ -170,11 +170,22 @@ return $number;
 
 
 // Always display very large / small numbers in non-scientific format
+// Also removes any leading and trailing zeros for efficient storage / UX / etc
 function floattostr($val) {
 
 preg_match( "#^([\+\-]|)([0-9]*)(\.([0-9]*?)|)(0*)$#", trim($val), $o );
 
 $result = (int)$o[1].sprintf('%d',$o[2]).($o[3]!='.'?$o[3]:'');
+
+
+	// Remove any extra leading zeros created from above logic
+	if ( $result < 1 ) {
+	$result = preg_replace("/00\./", "0.", $result);
+	}
+	elseif ( $result >= 1 ) {
+	$result = ltrim($result, '0');
+	}
+
 
 return $result;
 
