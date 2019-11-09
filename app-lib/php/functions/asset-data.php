@@ -721,7 +721,7 @@ $cached_array = explode("||", $data_file);
 	
   			 // Price checks
   			 
-  			 // USD price percent change (absolute value)
+  			 // USD price percent change (!MUST BE! absolute value)
           $percent_change = abs( ($asset_usd_value_raw - $cached_asset_usd_value) / abs($cached_asset_usd_value) * 100 );
   			 
   			 // Check whether we should send an alert
@@ -745,7 +745,7 @@ $cached_array = explode("||", $data_file);
           
           // Crypto volume checks
           
-          // Crypto volume percent change (absolute value)
+          // Crypto volume percent change (!MUST BE! absolute value)
           $volume_percent_change = abs( ($volume_pairing_raw - $cached_pairing_volume) / abs($cached_pairing_volume) * 100 );
           
           // UX adjustments, and UI / UX variables
@@ -983,7 +983,7 @@ return TRUE;
 ////////////////////////////////////////////////////////
 
 
-function ui_coin_data($coin_name, $trade_symbol, $coin_amount, $market_pairing_array, $selected_pairing, $selected_market, $purchase_price=NULL, $leverage_level, $selected_margintype) {
+function ui_coin_data_row($coin_name, $trade_symbol, $coin_amount, $market_pairing_array, $selected_pairing, $selected_market, $purchase_price=NULL, $leverage_level, $selected_margintype) {
 
 // Globals
 global $_POST, $theme_selected, $coins_list, $btc_exchange, $marketcap_site, $marketcap_cache, $coinmarketcapcom_api_key, $alert_percent, $marketcap_ranks_max, $api_timeout, $usd_decimals_max;
@@ -1202,7 +1202,8 @@ $market_pairing = $all_markets[$selected_market];
  	 	}
 	 
 	 
-	 $gain_loss_percent = ( ($coin_usd_worth_raw / $coin_paid_total_raw) - 1 ) * 100;
+	 // Gain / loss percent (!MUST NOT BE! absolute value)
+	 $gain_loss_percent = ($coin_usd_worth_raw - $coin_paid_total_raw) / abs($coin_paid_total_raw) * 100;
 	 
 	 // Check for any leverage gain / loss
 	 $only_leverage_gain_loss = ( $leverage_level >= 2 ? ($gain_loss * ($leverage_level - 1) ) : 0 );
@@ -1268,7 +1269,9 @@ $market_pairing = $all_markets[$selected_market];
  
  
  $mkcap_render_data = trim($coins_list[$trade_symbol]['marketcap_website_slug']);
+ 
  $info_icon = ( !marketcap_data($trade_symbol)['rank'] ? 'info-none.png' : 'info.png' );
+ 
  
 	if ( $mkcap_render_data != '' ) {
  	

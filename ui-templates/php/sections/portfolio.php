@@ -80,14 +80,17 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 										$held_amount = remove_number_format($value);
 										$coin_symbol = strtoupper(preg_replace("/_amount/i", "", $key));
 										$selected_pairing = ($_POST[strtolower($coin_symbol).'_pairing']);
-										$selected_market = ($_POST[strtolower($coin_symbol).'_market'] - 1); // Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
+										// Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
+										$selected_market = ($_POST[strtolower($coin_symbol).'_market'] - 1); 
 										$purchase_price = remove_number_format($_POST[strtolower($coin_symbol).'_paid']);
 										$leverage_level = $_POST[strtolower($coin_symbol).'_leverage'];
 										$selected_margintype = $_POST[strtolower($coin_symbol).'_margintype'];
 												
 						
-								
-										ui_coin_data($coins_list[$coin_symbol]['coin_name'], $coin_symbol, $held_amount, $coins_list[$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price, $leverage_level, $selected_margintype);
+										// Render the row of coin data in the UI
+										ui_coin_data_row($coins_list[$coin_symbol]['coin_name'], $coin_symbol, $held_amount, $coins_list[$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price, $leverage_level, $selected_margintype);
+										
+										
 										
 											if ( $held_amount >= 0.00000001 ) {
 												
@@ -142,14 +145,17 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 										$held_amount = remove_number_format($value[1]);
 										$coin_symbol = strtoupper($value[0]);
 										$selected_pairing = strtolower($value[6]);
-										$selected_market = $value[5] - 1; // Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
+										// Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
+										$selected_market = $value[5] - 1; 
 										$purchase_price = remove_number_format($value[2]);
 										$leverage_level = $value[3];
 										$selected_margintype = strtolower($value[4]);
 												
 						
-								
-										ui_coin_data($coins_list[$coin_symbol]['coin_name'], $coin_symbol, $held_amount, $coins_list[$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price, $leverage_level, $selected_margintype);
+										// Render the row of coin data in the UI
+										ui_coin_data_row($coins_list[$coin_symbol]['coin_name'], $coin_symbol, $held_amount, $coins_list[$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price, $leverage_level, $selected_margintype);
+										
+										
 										
 											if ( $held_amount >= 0.00000001 ) {
 												
@@ -300,13 +306,16 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 					// We don't need remove_number_format() for cookie data, because it was already done creating the cookies
 					$held_amount = floattostr($all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_amount']);
 					$selected_pairing = $all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_pairing'];
+					// Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
 					$selected_market = ($all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_market'] -1);
 					$purchase_price = floattostr($all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_paid']);
 					$leverage_level = $all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_leverage'];
 					$selected_margintype = $all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_margintype'];
 					
-			// Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
-					ui_coin_data($coins_list[$coin_symbol]['coin_name'], $coin_symbol, $held_amount, $coins_list[$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price, $leverage_level, $selected_margintype);
+					
+					// Render the row of coin data in the UI
+					ui_coin_data_row($coins_list[$coin_symbol]['coin_name'], $coin_symbol, $held_amount, $coins_list[$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price, $leverage_level, $selected_margintype);
+					
 					
 						
 						if ( $held_amount >= 0.00000001 ) {
@@ -430,17 +439,12 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 
 
 		// Now that BTC / USD summaries have margin leverage stats NEXT TO THEM (NOT in the actual BTC / USD amounts, for UX's sake), 
-		// we move on to the gain / loss stats WHICH ARE THE ONLY STATS UX FEASIBLE ENOUGH TO INCLUDE MARGIN LEVERAGE DATA INCLUDED IN THE ACTUAL VALUES
+		// we move on to the gain / loss stats WHERE IT IS FEASIBLE ENOUGH TO INCLUDE !BASIC! MARGIN LEVERAGE DATA SUMMARY (where applicable)
 		if ( $purchase_price_added == 1 && is_numeric($gain_loss_total) == TRUE ) {
 			
 			
-          // Gain / loss percent
-          if ( floattostr($original_worth) >= 0.00000001 && $total_usd_worth_if_purchase_price < $original_worth ) {
-          $percent_difference_total = 100 - ( $total_usd_worth_if_purchase_price / ( $original_worth / 100 ) );
-          }
-          elseif ( floattostr($original_worth) >= 0.00000001 && $total_usd_worth_if_purchase_price >= $original_worth ) {
-          $percent_difference_total = ( $total_usd_worth_if_purchase_price / ( $original_worth / 100 ) ) - 100;
-          }
+     	// Gain / loss percent (!MUST BE! absolute value)
+      $percent_difference_total = abs( ($total_usd_worth_if_purchase_price - $original_worth) / abs($original_worth) * 100 );
           
 		
 		// Notice that we include margin leverage in gain / loss stats (for UX's sake, too confusing to included in anything other than gain / loss stats)
@@ -547,6 +551,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 					
 					// Sort by most dominant first
 					arsort($_SESSION['btc_worth_array']);
+					
 				foreach ( $_SESSION['btc_worth_array'] as $key => $value ) {
 					$dominance = ( $value / $total_btc_worth_raw ) * 100;
 					
