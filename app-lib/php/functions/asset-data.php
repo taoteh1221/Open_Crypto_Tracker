@@ -721,27 +721,22 @@ $cached_array = explode("||", $data_file);
 	
   			 // Price checks
   			 
+  			 // USD price percent change (absolute value)
+          $percent_change = abs( ($asset_usd_value_raw - $cached_asset_usd_value) / abs($cached_asset_usd_value) * 100 );
+  			 
+  			 // Check whether we should send an alert
+          if ( floattostr($asset_usd_value_raw) >= 0.00000001 && $percent_change >= $asset_price_alerts_percent ) {
+          $send_alert = 1;
+          }
+          
+          // UX / UI variables
           if ( floattostr($cached_asset_usd_value) >= 0.00000001 && floattostr($asset_usd_value_raw) < floattostr($cached_asset_usd_value) ) {
-          $asset_price_alerts_value = $cached_asset_usd_value - ( $cached_asset_usd_value * ($asset_price_alerts_percent / 100) );
-          $percent_change = 100 - ( $asset_usd_value_raw / ( $cached_asset_usd_value / 100 ) );
           $change_symbol = '-';
           $increase_decrease = 'decreased';
-          
-                  if ( floattostr($asset_usd_value_raw) >= 0.00000001 && floattostr($asset_usd_value_raw) <= floattostr($asset_price_alerts_value) ) {
-                  $send_alert = 1;
-                  }
-          
           }
           elseif (  floattostr($cached_asset_usd_value) >= 0.00000001 && floattostr($asset_usd_value_raw) >= floattostr($cached_asset_usd_value) ) {
-          $asset_price_alerts_value = $cached_asset_usd_value + ( $cached_asset_usd_value * ($asset_price_alerts_percent / 100) );
-          $percent_change = ( $asset_usd_value_raw / ( $cached_asset_usd_value / 100 ) ) - 100;
           $change_symbol = '+';
           $increase_decrease = 'increased';
-          
-                  if ( floattostr($asset_usd_value_raw) >= 0.00000001 && floattostr($asset_usd_value_raw) >= floattostr($asset_price_alerts_value) ) {
-                  $send_alert = 1;
-                  }
-          
           }
           
           
@@ -750,6 +745,10 @@ $cached_array = explode("||", $data_file);
           
           // Crypto volume checks
           
+          // Crypto volume percent change (absolute value)
+          $volume_percent_change = abs( ($volume_pairing_raw - $cached_pairing_volume) / abs($cached_pairing_volume) * 100 );
+          
+          // UX adjustments, and UI / UX variables
           if ( $cached_usd_volume <= 0 && $volume_usd_raw <= 0 ) { // ONLY USD VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
           $volume_percent_change = 0; // Skip calculating percent change if cached / live USD volume are both zero or -1 (exchange API error)
           $volume_change_symbol = '+';
@@ -759,11 +758,9 @@ $cached_array = explode("||", $data_file);
           $volume_change_symbol = '+';
           }
           elseif ( $cached_usd_volume > 0 && $volume_pairing_raw < $cached_pairing_volume ) {
-          $volume_percent_change = 100 - ( $volume_pairing_raw / ( $cached_pairing_volume / 100 ) );
           $volume_change_symbol = '-';
           }
-          elseif ( $cached_usd_volume > 0 && $volume_pairing_raw >= $cached_pairing_volume ) {
-          $volume_percent_change = ( $volume_pairing_raw / ( $cached_pairing_volume / 100 ) ) - 100;
+          elseif ( $cached_usd_volume > 0 && $volume_pairing_raw > $cached_pairing_volume ) {
           $volume_change_symbol = '+';
           }
           
