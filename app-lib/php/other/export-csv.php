@@ -50,7 +50,7 @@ $csv_download_array[] = array(
 	    
 	  	 $coin_amount_value = pretty_numbers($coin_amount_value, $coin_amount_decimals);
 	    
-	  	 $coin_paid_value = pretty_numbers($coin_paid_value, 8);
+	    $coin_paid_value = ( floattostr($coin_paid_value) >= 1.00 ? pretty_numbers($coin_paid_value, 2) : pretty_numbers($coin_paid_value, $usd_decimals_max) );
 	  	 
 	    
 	   	// Asset data to array for CSV export

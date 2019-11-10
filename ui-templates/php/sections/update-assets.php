@@ -338,7 +338,8 @@
 	    
 	  	 $coin_amount_value = pretty_numbers($coin_amount_value, $coin_amount_decimals, TRUE); // TRUE = Show even if low value is off the map, just for UX purposes tracking token price only, etc
 	    
-	  	 $coin_paid_value = pretty_numbers($coin_paid_value, 8); // Show low value only with 8 decimals minimum
+	    
+	    $coin_paid_value = ( floattostr($coin_paid_value) >= 1.00 ? pretty_numbers($coin_paid_value, 2) : pretty_numbers($coin_paid_value, $usd_decimals_max) );
 	  	 
 	    	
 	    ?>
