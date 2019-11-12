@@ -1611,7 +1611,9 @@ echo "<span class='app_sort_filter blue'>" . ( $pretty_coin_amount != NULL ? $pr
 
 
 
-<td class='data border_b' align='right'><span class='app_sort_filter'>
+<td class='data border_b' align='right'>
+
+<span class='app_sort_filter'>
 
 <?php 
 
@@ -1622,7 +1624,9 @@ echo "<span class='app_sort_filter blue'>" . ( $pretty_coin_amount != NULL ? $pr
   
 echo ( $usd_eqiv == 1 ? pretty_numbers($coin_value_raw, $coin_value_usd_decimals) : pretty_numbers($coin_value_raw, 8) ); 
 
-?></span>
+?>
+
+</span>
 
 
 <?php
