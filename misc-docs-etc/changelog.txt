@@ -1829,6 +1829,18 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+3.46.1:
+-Bugfixes / improvements for pretty numbers and number formatting removal (input/output UX)
+-Updated API output formatting
+-Chart UX for low value crypto assets
+-------------------------------------------------------------------
+
+
+
+
+
+
 
 
 

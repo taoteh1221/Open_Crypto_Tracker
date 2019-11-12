@@ -173,21 +173,28 @@ return $number;
 // Also removes any leading and trailing zeros for efficient storage / UX / etc
 function floattostr($val) {
 
-preg_match( "#^([\+\-]|)([0-9]*)(\.([0-9]*?)|)(0*)$#", trim($val), $o );
+// Convert any scientific formatting to normal decimals
+// MUST BE 9 DECIMALS EXACTLY, TO COUNT WATCH-ONLY ASSETS
+// (ANYTHING OVER 9 DECIMALS SHOULD BE AVOIDED FOR UX)
+$val = number_format($val, 9, '.', '');
 
-$result = (int)$o[1].sprintf('%d',$o[2]).($o[3]!='.'?$o[3]:'');
+//remove zeros from end of number ie. 140.00000 becomes 140.
+$val = rtrim($val, '0');
+
+//remove decimal point if an integer ie. 140. becomes 140
+$val = rtrim($val, '.');
 
 
 	// Remove any extra leading zeros created from above logic
-	if ( $result < 1 ) {
-	$result = preg_replace("/00\./", "0.", $result);
+	if ( $val < 1 ) {
+	$val = preg_replace("/00\./", "0.", $val);
 	}
-	elseif ( $result >= 1 ) {
-	$result = ltrim($result, '0');
+	elseif ( $val >= 1 ) {
+	$val = ltrim($val, '0');
 	}
-
-
-return $result;
+	
+	
+return $val;
 
 }
 
@@ -930,7 +937,11 @@ function pretty_numbers($amount_value, $num_decimals, $small_unlimited=false) {
 
 
 // Pretty number formatting, while maintaining decimals
+
+
+// Strip formatting, convert from scientific format, and remove leading / trailing zeros
 $raw_amount_value = remove_number_format($amount_value);
+	    
 	    
 	    
 	    	if ( preg_match("/\./", $raw_amount_value) ) {
@@ -963,7 +974,7 @@ $raw_amount_value = remove_number_format($amount_value);
 	    		}
 	    	
 	    	}
-	    	// Show low value only with 8 decimals minimum
+	    	// Show low value only with $amount_decimal minimum
 	    	elseif ( floattostr($raw_amount_value) >= 0.00000001 && $small_unlimited == FALSE ) {  
 	    		
 	    		if ( $num_decimals == 2 ) {
@@ -980,6 +991,7 @@ $raw_amount_value = remove_number_format($amount_value);
 	    	}
 	    	
 	    
+//return $raw_amount_value;
 return $amount_value;
 
 }

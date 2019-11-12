@@ -151,6 +151,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
       text: "Spot Price: <?=($trade_symbol == '$' ? $trade_symbol : $trade_symbol . ' ')?>%v",
 	 	fontSize: "20",
       fontFamily: "Open Sans",
+      <?=( floattostr($chart_data['spot'][0]) < 0.000001 ? 'decimals: 8,' : '' )?>
       y:0,
       "thousands-separator":",",
     },

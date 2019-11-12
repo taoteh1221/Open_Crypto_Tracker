@@ -583,13 +583,13 @@ $asset = strtoupper($asset);
 	// BTC / USD markets
 	if ( $asset == 'BTC' ){ 
 	$asset_usd_value_raw = get_btc_usd($exchange, $pairing)['last_trade']; // When asset is Bitcoin, don't use $btc_usd (may be different BTC exchange)
-	$volume_pairing_raw = get_btc_usd($exchange)['24hr_volume']; // For chart values based off pairing data (not USD equiv)
+	$volume_asset_raw = get_btc_usd($exchange)['24hr_asset_volume']; // For chart values based off pairing data (not USD equiv)
 	$volume_usd_raw = get_btc_usd($exchange, $pairing)['24hr_usd_volume'];
 	}
 	// ALTS / USD markets
 	elseif ( $pairing == 'usd' ){ 
 	$asset_usd_value_raw = number_format( get_coin_value($exchange, $coins_list[$asset]['market_pairing'][$pairing][$exchange])['last_trade'] , 8, '.', '');
-	$volume_pairing_raw = get_coin_value($exchange, $coins_list[$asset]['market_pairing'][$pairing][$exchange])['24hr_volume']; // For chart values based off pairing data (not USD equiv)
+	$volume_asset_raw = get_coin_value($exchange, $coins_list[$asset]['market_pairing'][$pairing][$exchange])['24hr_asset_volume']; // For chart values based off pairing data (not USD equiv)
 	$volume_usd_raw = get_coin_value($exchange, $coins_list[$asset]['market_pairing'][$pairing][$exchange], $pairing)['24hr_usd_volume'];
 	}
 	// ALTS / CRYPTO [PAIRING] markets (WITH USD EQUIV CHARTS INCLUDED)
@@ -606,7 +606,7 @@ $asset = strtoupper($asset);
 		$asset_usd_value_raw = number_format( $btc_usd * ( $pairing_btc_value * get_coin_value($exchange, $coins_list[$asset]['market_pairing'][$pairing][$exchange])['last_trade'] ) , 8, '.', '');
 		}
 		
-		$volume_pairing_raw = get_coin_value($exchange, $coins_list[$asset]['market_pairing'][$pairing][$exchange])['24hr_volume']; // For chart values based off pairing data (not USD equiv)
+		$volume_asset_raw = get_coin_value($exchange, $coins_list[$asset]['market_pairing'][$pairing][$exchange])['24hr_asset_volume']; // For chart values based off pairing data (not USD equiv)
 		$volume_usd_raw = get_coin_value($exchange, $coins_list[$asset]['market_pairing'][$pairing][$exchange], $pairing)['24hr_usd_volume'];
 	
 	}
@@ -621,7 +621,7 @@ $asset = strtoupper($asset);
 	
 	
 	// Round pairing volume to only keep 3 decimals max (for crypto volume etc), to save on data set / storage size
-	$volume_pairing_raw = ( isset($volume_pairing_raw) ? round($volume_pairing_raw, 3) : NULL );	
+	$volume_asset_raw = ( isset($volume_asset_raw) ? round($volume_asset_raw, 3) : NULL );	
 	
 	
 	// Round USD asset price to only keep $usd_decimals_max decimals maximum (or only 2 decimals if worth $1 or more), to save on data set / storage size
@@ -640,7 +640,7 @@ $asset = strtoupper($asset);
 	
 	
 	
-	$alert_cache_contents = $asset_usd_value_raw . '||' . $volume_usd_raw . '||' . $volume_pairing_raw;
+	$alert_cache_contents = $asset_usd_value_raw . '||' . $volume_usd_raw . '||' . $volume_asset_raw;
 	
 	
 	
@@ -764,21 +764,21 @@ $cached_array = explode("||", $data_file);
           // Crypto volume checks
           
           // Crypto volume percent change (!MUST BE! absolute value)
-          $volume_percent_change = abs( ($volume_pairing_raw - $cached_pairing_volume) / abs($cached_pairing_volume) * 100 );
+          $volume_percent_change = abs( ($volume_asset_raw - $cached_pairing_volume) / abs($cached_pairing_volume) * 100 );
           
           // UX adjustments, and UI / UX variables
           if ( $cached_usd_volume <= 0 && $volume_usd_raw <= 0 ) { // ONLY USD VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
           $volume_percent_change = 0; // Skip calculating percent change if cached / live USD volume are both zero or -1 (exchange API error)
           $volume_change_symbol = '+';
           }
-          elseif ( $cached_usd_volume <= 0 && $volume_pairing_raw >= $cached_pairing_volume ) { // ONLY USD VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
+          elseif ( $cached_usd_volume <= 0 && $volume_asset_raw >= $cached_pairing_volume ) { // ONLY USD VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
           $volume_percent_change = $volume_usd_raw; // Use USD volume value for percent up, for UX sake, if volume is up from zero or -1 (exchange API error)
           $volume_change_symbol = '+';
           }
-          elseif ( $cached_usd_volume > 0 && $volume_pairing_raw < $cached_pairing_volume ) {
+          elseif ( $cached_usd_volume > 0 && $volume_asset_raw < $cached_pairing_volume ) {
           $volume_change_symbol = '-';
           }
-          elseif ( $cached_usd_volume > 0 && $volume_pairing_raw > $cached_pairing_volume ) {
+          elseif ( $cached_usd_volume > 0 && $volume_asset_raw > $cached_pairing_volume ) {
           $volume_change_symbol = '+';
           }
           
@@ -979,7 +979,7 @@ $cached_array = explode("||", $data_file);
 		
 		// Pure crypto-to-crypto pairing charts
 		if ( $pairing != 'usd' ) {
-		store_file_contents($base_dir . '/cache/charts/'.$asset.'/'.$asset_data.'_chart_'.$pairing.'.dat', time() . '||' . $asset_pairing_value_raw . '||' . $volume_pairing_raw . "\n", "append"); 
+		store_file_contents($base_dir . '/cache/charts/'.$asset.'/'.$asset_data.'_chart_'.$pairing.'.dat', time() . '||' . $asset_pairing_value_raw . '||' . $volume_asset_raw . "\n", "append"); 
 		}
 			
 		
@@ -1221,7 +1221,7 @@ $market_pairing = $all_markets[$selected_market];
   	 }
   
   
-	 
+  
 	 
 	 
   	 // Calculate gain / loss if purchase price was populated
