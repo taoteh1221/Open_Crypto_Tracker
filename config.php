@@ -320,9 +320,9 @@ $asset_charts_and_alerts = array(
 					'myst-3' => 'idex||eth||alert',
 					
 					//DAI
-					'dai' => 'coinbase||usdc||alert',
+					'dai' => 'coinbase||usdc||chart',
 					'dai-2' => 'kraken||usd||both',
-					'dai-3' => 'bittrex||btc||alert',
+					'dai-3' => 'bittrex||btc||chart',
 					
 					
 					);
