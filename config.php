@@ -37,6 +37,9 @@ require_once("app-lib/php/init.php");  // REQUIRED, DON'T DELETE BY ACCIDENT
 // (Used for UX / UI timestamping only, will not change or screw up UTC log times etc if you change this)
 $local_time_offset = -4; // example: -5 or 5
 
+// Allows (styled) embedded tweets in UI pages from twitter.com (shows a couple tweets / permits external script load: platform.twitter.com/widgets.js)
+$allow_tweet_embed_js = 'on'; // 'on' or 'off'
+
 $api_timeout = 15; // Seconds to wait for response from API endpoints. Don't set too low, or you won't get data
 
 $api_strict_ssl = 'on'; // 'on' verifies ALL SSL certificates for HTTPS API servers, 'off' verifies NOTHING (NOT RECOMMENDED in production environment)
@@ -227,6 +230,10 @@ $asset_charts_and_alerts = array(
 					'eth-6' => 'kraken||btc||chart',
 					'eth-7' => 'binance||usdt||both',
 					'eth-8' => 'binance_us||btc||chart',
+					'eth-9' => 'coinbase||usd||chart',
+					'eth-10' => 'kraken||usd||chart',
+					'eth-11' => 'bitstamp||usd||chart',
+					'eth-12' => 'gemini||usd||chart',
 					
 					// XMR
 					'xmr' => 'bittrex||btc||chart',
@@ -276,6 +283,12 @@ $asset_charts_and_alerts = array(
 					'steem-2' => 'poloniex||btc||chart',
 					'steem-3' => 'binance||btc||both',
 					
+					// DOGE
+					'doge' => 'bittrex||btc||chart',
+					'doge-2' => 'poloniex||btc||chart',
+					'doge-3' => 'binance||btc||both',
+					'doge-4' => 'binance_us||usdt||chart',
+					
 					// ANT
 					'ant' => 'bittrex_global||btc||chart',
 					'ant-2' => 'hitbtc||btc||chart',
@@ -306,8 +319,14 @@ $asset_charts_and_alerts = array(
 					'myst-2' => 'hitbtc||eth||alert',
 					'myst-3' => 'idex||eth||alert',
 					
+					//DAI
+					'dai' => 'coinbase||usdc||alert',
+					'dai-2' => 'kraken||usd||both',
+					'dai-3' => 'bittrex||btc||alert',
+					
 					
 					);
+					
 // END $asset_charts_and_alerts
 
 
@@ -330,6 +349,7 @@ $mining_rewards = array(
 					'ltc' => '12.5',
 					'dcr' => ( decred_api('subsidy', 'work_reward') / 100000000 ),
 					'grin' => '60',
+					'doge' => '10000',
 					);
 
 
@@ -424,6 +444,7 @@ $coins_list = array(
                                           'poloniex' => 'USDT_ETH',
                                           'hitbtc' => 'ETHUSD',
                                           'upbit' => 'USDT-ETH',
+                                       	'kucoin' => 'ETH-USDT',
                                           'okex' => 'ETH-USDT'
                                                     ),
                                                     
@@ -436,6 +457,14 @@ $coins_list = array(
                                           'binance' => 'ETHUSDC',
                                           'poloniex' => 'USDC_ETH',
                                           'kucoin' => 'ETH-USDC'
+                                                    ),
+                                                    
+                                    'usd' => array(
+                                          'coinbase' => 'ETH-USD',
+                                          'kraken' => 'XETHZUSD',
+                                          'bitstamp' => 'ethusd',
+                                          'gemini' => 'ethusd',
+                                          'bitfinex' => 'tETHUSD'
                                                     )
                                                     
                                         ) // market_pairing END
@@ -693,6 +722,52 @@ $coins_list = array(
                     ), // Coin END
                     
                     
+                    // DOGE
+                    'DOGE' => array(
+                        
+                        'coin_name' => 'Dogecoin',
+                        'marketcap_website_slug' => 'dogecoin',
+                        'market_pairing' => array(
+                        
+                                    'btc' => array(
+                                        	'binance' => 'DOGEBTC',
+                                        	'kraken' => 'XXDGXXBT',
+                                          'bittrex' => 'BTC-DOGE',
+                                          'poloniex' => 'BTC_DOGE',
+                                          'hitbtc' => 'DOGEBTC',
+                                          'hotbit' => 'DOGE_BTC',
+                                          'gateio' => 'doge_btc',
+                                          'upbit' => 'BTC-DOGE',
+                                          'livecoin' => 'DOGE/BTC',
+                                        	'tradesatoshi' => 'DOGE_BTC'
+                                                    ),
+                                                    
+                                    'eth' => array(
+                                        	'hotbit' => 'DOGE_ETH',
+                                          'hitbtc' => 'DOGEETH',
+                                        	'tradesatoshi' => 'DOGE_ETH',
+                                         	'bitforex' => 'coin-eth-doge'
+                                                    ),
+                                                    
+                                    'usdt' => array(
+                                        	'binance' => 'DOGEUSDT',
+                                        	'binance_us' => 'DOGEUSDT',
+                                          'bittrex' => 'USDT-DOGE',
+                                          'hitbtc' => 'DOGEUSD',
+                                          'poloniex' => 'USDT_DOGE',
+                                          'okex' => 'DOGE-USDT',
+                                         	'bitforex' => 'coin-usdt-doge'
+                                                    ),
+                                                    
+                                    'usdc' => array(
+                                        	'poloniex' => 'USDC_DOGE'
+                                                    )
+                                                    
+                                        ) // market_pairing END
+                        
+                    ), // Coin END
+                    
+                    
                     // ANT
                     'ANT' => array(
                         
@@ -872,6 +947,43 @@ $coins_list = array(
                                                     
                                         ) // market_pairing END
                         
+                    ), // Coin END
+                    
+                    
+                    // DAI
+                    'DAI' => array(
+                        
+                        'coin_name' => 'Dai',
+                        'marketcap_website_slug' => 'dai',
+                        'market_pairing' => array(
+                        
+                                    'btc' => array(
+                                        'bittrex' => 'BTC-DAI',
+                                        'upbit' => 'BTC-DAI'
+                                                    ),
+                                                    
+                                    'eth' => array(
+                                        'bittrex' => 'ETH-DAI',
+                                    	 'bitfinex' => 'tDAIETH'
+                                                    ),
+                                                    
+                                    'usdt' => array(
+                                    	 'kraken' => 'DAIUSDT'
+                                                    ),
+                                                    
+                                    'usdc' => array(
+                                    	 'coinbase' => 'DAI-USDC',
+                                        'hitbtc' => 'DAIUSDC',
+                                        'idex' => 'USDC_DAI'
+                                                    ),
+                                                    
+                                    'usd' => array(
+                                    	 'kraken' => 'DAIUSD',
+                                    	 'bitfinex' => 'tDAIUSD'
+                                                    )
+                                                    
+                                        ) // market_pairing END
+                                        
                     ), // Coin END
                     
                     

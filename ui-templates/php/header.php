@@ -82,7 +82,7 @@ require("config.php");
 	
 	var charts_border = '<?=$charts_border?>';
 	
-	var btc_usd_value = '<?=number_format( get_btc_usd('binance')['last_trade'], 2, '.', '' )?>';
+	var btc_usd_value = '<?=number_format( $btc_usd, 2, '.', '' )?>';
 	
 	</script>
 

@@ -9,11 +9,13 @@
 
 
 // Set BTC / USD default value
-// $btc_usd ACTS UP TRYING TO PASS INTO FUNCTIONS FOR SOME VERY ODD REASON
-// FOR NOW, PASS $btc_exchange INTO FUNCTIONS INSTEAD, AND REUSE THIS CODE WITHIN THE FUNCTION
+// If $_SESSION['btc_in_usd'] is set (from choosing a different BTC/USD market in the UI), use it
+if ( $_SESSION['btc_in_usd'] ) {
+$btc_exchange = $_SESSION['btc_in_usd'];
+}
+
 $btc_usd = get_btc_usd($btc_exchange)['last_trade'];
-
-
+    
 
 
 // Only need below logic during UI runtime

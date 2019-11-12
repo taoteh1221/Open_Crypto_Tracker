@@ -55,6 +55,15 @@
 
 <!-- https://v4-alpha.getbootstrap.com/getting-started/introduction/#starter-template -->
 <script src="app-lib/js/jquery/bootstrap.min.js"></script>
+
+<?php
+if ( $allow_tweet_embed_js == 'on' ) {
+?>
+<script id="twitter-wjs" type="text/javascript" async defer src="//platform.twitter.com/widgets.js"></script>
+<?php
+}
+?>
+
 </body>
 </html>
 <!-- /*

@@ -1822,6 +1822,9 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 3.46.0:
 -UX revisions
+-Altcoin USD-based pairing markets support
+-Default config revision (includes new parameters)
+-Dogecoin mining calculator
 -------------------------------------------------------------------
 
 

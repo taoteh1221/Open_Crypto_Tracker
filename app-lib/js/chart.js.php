@@ -43,7 +43,7 @@ if ( $_GET['type'] == 'asset' ) {
 		
 			
 			// Unicode asset symbols
-			if ( $market_parse[1] == 'btc' && $chart_asset == 'BTC' || $_GET['charted_value'] == 'usd' ) {
+			if ( $market_parse[1] == 'btc' && $chart_asset == 'BTC' || $_GET['charted_value'] == 'usd' || $market_parse[1] == 'usd' ) {
 			$trade_symbol = "$";
 			$volume_symbol = "$";
 			$usd_eqiv = 1;

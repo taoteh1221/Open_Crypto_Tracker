@@ -70,6 +70,15 @@
 			</fieldset>
 			
 			<fieldset class='subsection_fieldset'>
+				<legend class='subsection_legend'> <b>Dogecoin Mining Calculator</b> </legend>
+		    
+				<?php require("app-lib/php/other/calculators/dogecoin-mining-calculator.php"); ?>
+				
+				
+			</fieldset>
+			
+			
+			<fieldset class='subsection_fieldset'>
 				<legend class='subsection_legend'> <b>STEEM Power Interest Rate / Power Down Weekly Payout Calculator</b> </legend>
 				
 				<?php require("app-lib/php/other/calculators/steem-power-interest-calculator.php"); ?>

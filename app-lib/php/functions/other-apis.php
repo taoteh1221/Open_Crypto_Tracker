@@ -29,6 +29,30 @@ global $chainstats_cache;
 
 //////////////////////////////////////////////////////////
 
+function dogecoin_api($request) {
+ 
+global $chainstats_cache;
+ 		
+    
+		if ( $request == 'height' ) {
+		
+    	$string = 'https://dogechain.info/chain/Dogecoin/q/getblockcount';
+		  
+		}
+		elseif ( $request == 'difficulty' ) {
+		
+    	$string = 'https://dogechain.info/chain/Dogecoin/q/getdifficulty';
+		  
+		}
+		
+    $data = @api_data('url', $string, $chainstats_cache);
+    
+  return (float)$data;
+  
+}
+
+//////////////////////////////////////////////////////////
+
 function grin_api($request) {
  
 global $chainstats_cache;

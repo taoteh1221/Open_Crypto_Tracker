@@ -39,6 +39,15 @@
 						
 						<br /><br />Best of luck, be careful out there in this cryptoland frontier <i>full of garbage coins, scam coins, and greedy <u>glorified</u> (and NOT so glorified) crooks</i> and their silver tongues! :-o
 						
+<?php
+if ( $allow_tweet_embed_js == 'on' ) {
+?>
+						<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Make sure your crypto bags aren&#39;t overly heavy for your net worth folks, then you&#39;ll enjoy the ride like leny no matter what happens. 🐶😁 <a href="https://t.co/VdxgQBXZ9f">https://t.co/VdxgQBXZ9f</a></p>&mdash; Mike Kilday (@taoteh1221) <a href="https://twitter.com/taoteh1221/status/1192997965952094208?ref_src=twsrc%5Etfw">November 9, 2019</a></blockquote>
+<?php
+}
+?>
+						
+						
 						</p>
 	
 		
@@ -48,7 +57,7 @@
 	
 	
 	<div>
-	<a style='font-weight: bold;' href='README.txt' target='_blank'>Editing The Coin List, or Enabling Email / Text / Alexa Exchange Price Alerts</a>
+	<a style='font-weight: bold;' href='README.txt' target='_blank'>Editing The Coin List, and Enabling Email / Text / Alexa Exchange Price Alerts (installation on a Raspberry Pi or website)</a>
 	</div>
 	
 			

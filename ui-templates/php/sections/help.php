@@ -116,7 +116,7 @@
 	        
 	        You can setup charts or price alerts in your app install. Asset price alerts can be sent to email, mobile phone text, and amazon alexa notifications. You will be alerted when the USD price of an asset goes up or down a certain percent or more (whatever percent you choose in the settings), for specific exchange / base pairing combinations for that asset. You can even setup alerts for multiple exchanges / base pairings for the same asset.
 	    <br /><br />
-	      Running charts or price alerts requires setting up a cron job on your website server (this is automated for Raspberry Pi users who use the automated setup / install script), otherwise charts / alerts will not work. See the required settings in config.php, and instructions on cron job setup in the <a href='README.txt' target='_blank'>README.txt file</a>. Once setup, there is no need to keep your PC / Laptop turned on. The charts and price alerts run automatically from your website server. If you encounter errors or the charts / alerts don't work during setup, check the error logs file at /cache/logs/errors.log for errors in your configuration setup. Basic checks are performed and errors are reported there, and on the Settings page. 
+	      Running charts or price alerts requires setting up a cron job on your Raspberry Pi or website server (this is automated for Raspberry Pi users who use the automated setup / install script), otherwise charts / alerts will not work. See the required settings in config.php, and instructions on cron job setup in the <a href='README.txt' target='_blank'>README.txt file</a>. Once setup, there is no need to keep your PC / Laptop turned on. The charts and price alerts run automatically from your website server. If you encounter errors or the charts / alerts don't work during setup, check the error logs file at /cache/logs/errors.log for errors in your configuration setup. Basic checks are performed and errors are reported there, and on the Settings page. 
 	        
 	      </div>
 	    </div>
@@ -195,7 +195,7 @@
 	        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse_<?=$accord_var?>"
 	          aria-expanded="false" aria-controls="collapse_<?=$accord_var?>">
 	          
-	          Installing On Your Website, and Adding Your Own Coins
+	          Installing On Your Raspberry Pi or Website, and Adding Your Own Coins
 	          
 	        </button>
 	      </h5>
@@ -205,7 +205,7 @@
 	      <div class="card-body">
 	      
 	      
-	        If you install this application on your website server, you can add / delete / edit the coin list very easily. Instructions can be found in the <a href='README.txt' target='_blank'>README.txt file</a>. 
+	        If you install this application on your Raspberry Pi or website, you can add / delete / edit the coin list very easily. Instructions can be found in the <a href='README.txt' target='_blank'>README.txt file</a> (an automatic install script is available for setup on Raspberry Pi devices). 
 	        
 	        
 	      </div>
