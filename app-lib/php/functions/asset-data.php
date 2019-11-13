@@ -1370,12 +1370,7 @@ $market_pairing = $all_markets[$selected_market];
     
         var cmc_content = '<h5 class="yellow" style="position: relative; white-space: nowrap;"><?=ucfirst($marketcap_site)?>.com Summary For <?=$coin_name?> (<?=$trade_symbol?>):</h5>'
         +'<p class="coin_info"><span class="yellow">Marketcap Ranking:</span> #<?=marketcap_data($trade_symbol)['rank']?></p>'
-        +'<p class="coin_info"><span class="yellow">Average Global Market Price:</span> $<?=marketcap_data($trade_symbol)['price']?></p>'
-        +'<p class="coin_info"><span class="yellow">Marketcap (USD):</span> $<?=number_format(marketcap_data($trade_symbol)['market_cap'],0,".",",")?></p>'
-        +'<p class="coin_info"><span class="yellow">24 Hour Global Volume (USD):</span> $<?=number_format(marketcap_data($trade_symbol)['volume_24h'],0,".",",")?></p>'
-        +'<p class="coin_info"><span class="yellow">1 Hour Change:</span> <?=( stristr(marketcap_data($trade_symbol)['percent_change_1h'], '-') != false ? '<span class="red_bright">'.marketcap_data($trade_symbol)['percent_change_1h'].'%</span>' : '<span class="green_bright">+'.marketcap_data($trade_symbol)['percent_change_1h'].'%</span>' )?></p>'
-        +'<p class="coin_info"><span class="yellow">24 Hour Change:</span> <?=( stristr(marketcap_data($trade_symbol)['percent_change_24h'], '-') != false ? '<span class="red_bright">'.marketcap_data($trade_symbol)['percent_change_24h'].'%</span>' : '<span class="green_bright">+'.marketcap_data($trade_symbol)['percent_change_24h'].'%</span>' )?></p>'
-        +'<p class="coin_info"><span class="yellow">7 Day Change:</span> <?=( stristr(marketcap_data($trade_symbol)['percent_change_7d'], '-') != false ? '<span class="red_bright">'.marketcap_data($trade_symbol)['percent_change_7d'].'%</span>' : '<span class="green_bright">+'.marketcap_data($trade_symbol)['percent_change_7d'].'%</span>' )?></p>'
+        +'<p class="coin_info"><span class="yellow">Marketcap Value:</span> $<?=number_format(marketcap_data($trade_symbol)['market_cap'],0,".",",")?></p>'
         +'<p class="coin_info"><span class="yellow">Available Supply:</span> <?=number_format(marketcap_data($trade_symbol)['circulating_supply'], 0, '.', ',')?></p>'
         <?php
             if ( marketcap_data($trade_symbol)['total_supply'] > 0 ) {
@@ -1388,10 +1383,16 @@ $market_pairing = $all_markets[$selected_market];
         +'<p class="coin_info"><span class="yellow">Maximum Supply:</span> <?=number_format(marketcap_data($trade_symbol)['max_supply'], 0, '.', ',')?></p>'
         <?php
             }
+            ?>
+        +'<p class="coin_info"><span class="yellow">Average Token Value:</span> $<?=marketcap_data($trade_symbol)['price']?></p>'
+        +'<p class="coin_info"><span class="yellow">24 Hour Volume:</span> $<?=number_format(marketcap_data($trade_symbol)['volume_24h'],0,".",",")?></p>'
+        +'<p class="coin_info"><span class="yellow">1 Hour Change:</span> <?=( stristr(marketcap_data($trade_symbol)['percent_change_1h'], '-') != false ? '<span class="red_bright">'.marketcap_data($trade_symbol)['percent_change_1h'].'%</span>' : '<span class="green_bright">+'.marketcap_data($trade_symbol)['percent_change_1h'].'%</span>' )?></p>'
+        +'<p class="coin_info"><span class="yellow">24 Hour Change:</span> <?=( stristr(marketcap_data($trade_symbol)['percent_change_24h'], '-') != false ? '<span class="red_bright">'.marketcap_data($trade_symbol)['percent_change_24h'].'%</span>' : '<span class="green_bright">+'.marketcap_data($trade_symbol)['percent_change_24h'].'%</span>' )?></p>'
+        +'<p class="coin_info"><span class="yellow">7 Day Change:</span> <?=( stristr(marketcap_data($trade_symbol)['percent_change_7d'], '-') != false ? '<span class="red_bright">'.marketcap_data($trade_symbol)['percent_change_7d'].'%</span>' : '<span class="green_bright">+'.marketcap_data($trade_symbol)['percent_change_7d'].'%</span>' )?></p>'
+        <?php
             if ( marketcap_data($trade_symbol)['last_updated'] != '' ) {
             ?>
         +'<p class="coin_info"><span class="yellow">Timestamp (UTC):</span> <?=gmdate("Y-M-d\ \\a\\t g:ia", marketcap_data($trade_symbol)['last_updated'])?></p>'
-    
         <?php
             }
             ?>
