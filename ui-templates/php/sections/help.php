@@ -27,7 +27,7 @@
 	        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse_<?=$accord_var?>"
 	          aria-expanded="true" aria-controls="collapse_<?=$accord_var?>">
 	          
-	          Feature Requests and Reporting Issues
+	          Feature Requests And Reporting Issues
 	          
 	        </button>
 	      </h5>
@@ -65,7 +65,7 @@
 	        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse_<?=$accord_var?>"
 	          aria-expanded="false" aria-controls="collapse_<?=$accord_var?>">
 	          
-	          Layout / Functions / Assets Not Running Properly, After Reconfiguring or Upgrading
+	          Layout / Functions / Assets Not Running Properly, After Reconfiguring Or Upgrading
 	          
 	        </button>
 	      </h5>
@@ -103,7 +103,7 @@
 	        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse_<?=$accord_var?>"
 	          aria-expanded="false" aria-controls="collapse_<?=$accord_var?>">
 	          
-	          Setting Up Charts and Email / Text / Alexa Exchange Price Alerts
+	          Setting Up Charts And Email / Text / Alexa Exchange Price Alerts
 	          
 	        </button>
 	      </h5>
@@ -195,7 +195,7 @@
 	        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse_<?=$accord_var?>"
 	          aria-expanded="false" aria-controls="collapse_<?=$accord_var?>">
 	          
-	          Installing On Your Raspberry Pi or Website, and Adding Your Own Coins
+	          Installing On Your Raspberry Pi Or Website, And Adding Your Own Coins
 	          
 	        </button>
 	      </h5>
@@ -255,7 +255,7 @@
 	        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse_<?=$accord_var?>"
 	          aria-expanded="false" aria-controls="collapse_<?=$accord_var?>">
 	          
-	          Page Loads Slowly or Throws Errors With Proxies Enabled
+	          Page Loads Slowly Or Throws Errors With Proxies Enabled
 	          
 	        </button>
 	      </h5>

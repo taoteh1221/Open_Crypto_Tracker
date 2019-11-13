@@ -17,7 +17,7 @@ Web server setup / install is available for $30 hourly if needed. PM me on Twitt
 	    
 =========================================================================================================================================
 
-  Layout / Functions / Assets Not Running Properly, After Reconfiguring or Upgrading
+  Layout / Functions / Assets Not Running Properly, After Reconfiguring Or Upgrading
   
 -----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -35,7 +35,7 @@ If you are still having issues after trying everything, file an issue here at th
 	  
 =========================================================================================================================================
 
-  Setting Up Charts and Email / Text / Alexa Exchange Price Alerts
+  Setting Up Charts And Email / Text / Alexa Exchange Price Alerts
   
 -----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -63,7 +63,7 @@ Either the asset has not been added to coinmarketcap.com yet, you forgot to add 
 
 =========================================================================================================================================
 
-  Installing On Your Raspberry Pi or Website, and Adding Your Own Coins
+  Installing On Your Raspberry Pi Or Website, And Adding Your Own Coins
   
 -----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -81,7 +81,7 @@ If you have enabled SMTP emailing (to send emails) but it doesn't work, check th
 
 =========================================================================================================================================
 
-  Page Loads Slowly or Throws Errors With Proxies Enabled
+  Page Loads Slowly Or Throws Errors With Proxies Enabled
   
 -----------------------------------------------------------------------------------------------------------------------------------------
 

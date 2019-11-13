@@ -272,6 +272,8 @@ if ( $allow_tweet_embed_js == 'on' ) {
 	        
 	        <li class='links_list'><a href='https://unchainedpodcast.com/' target='_blank'>Unchained Podcast</a></li>
 	        
+	        <li class='links_list'><a href='https://open.spotify.com/show/2SyQeKusKdS0y4eOdowCMg' target='_blank'>Untold Stories With Charlie Shrem</a></li>
+	        
 	        <li class='links_list'><a href='https://www.whatbitcoindid.com/' target='_blank'>What Bitcoin Did Podcast</a></li>
 	        
 	        <li class='links_list'><a href='https://www.zeroknowledge.fm/' target='_blank'>Zero Knowledge</a></li>
