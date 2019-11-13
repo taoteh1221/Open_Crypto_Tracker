@@ -46,7 +46,7 @@ $api_strict_ssl = 'on'; // 'on' verifies ALL SSL certificates for HTTPS API serv
 
 $margin_leverage_max = 125; // Maximum margin leverage available in the user interface ('Update Assets' page, etc)
 
-$usd_decimals_max = 6; // Maximum number of decimal places for US Dollar values (of coins worth under $1, for prettier interface)
+$usd_decimals_max = 5; // Maximum number of decimal places for US Dollar values (of coins worth under $1, for prettier / less-cluttered interface)
 
 // Block an asset price alert if price retrieved, BUT failed retrieving pair volume (not even a zero was retrieved, nothing)
 // Good for blocking questionable exchanges bugging you with price alerts, especially when used in combination with the minimum volume filter
@@ -280,7 +280,6 @@ $asset_charts_and_alerts = array(
 					
 					// STEEM
 					'steem' => 'bittrex||btc||chart',
-					'steem-2' => 'poloniex||btc||chart',
 					'steem-3' => 'binance||btc||both',
 					
 					// DOGE
@@ -706,10 +705,8 @@ $coins_list = array(
                                     'btc' => array(
                                         	'binance' => 'STEEMBTC',
                                           'bittrex' => 'BTC-STEEM',
-                                          'poloniex' => 'BTC_STEEM',
                                           'hitbtc' => 'STEEMBTC',
                                           'upbit' => 'BTC-STEEM',
-                                          'livecoin' => 'STEEM/BTC',
                                           'cryptofresh' => 'OPEN.STEEM'
                                                     ),
                                                     

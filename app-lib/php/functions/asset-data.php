@@ -1384,11 +1384,11 @@ $market_pairing = $all_markets[$selected_market];
         <?php
             }
             ?>
-        +'<p class="coin_info"><span class="yellow">Average Token Value:</span> $<?=marketcap_data($trade_symbol)['price']?></p>'
-        +'<p class="coin_info"><span class="yellow">24 Hour Volume:</span> $<?=number_format(marketcap_data($trade_symbol)['volume_24h'],0,".",",")?></p>'
+        +'<p class="coin_info"><span class="yellow">Token Value (average):</span> $<?=marketcap_data($trade_symbol)['price']?></p>'
         +'<p class="coin_info"><span class="yellow">1 Hour Change:</span> <?=( stristr(marketcap_data($trade_symbol)['percent_change_1h'], '-') != false ? '<span class="red_bright">'.marketcap_data($trade_symbol)['percent_change_1h'].'%</span>' : '<span class="green_bright">+'.marketcap_data($trade_symbol)['percent_change_1h'].'%</span>' )?></p>'
         +'<p class="coin_info"><span class="yellow">24 Hour Change:</span> <?=( stristr(marketcap_data($trade_symbol)['percent_change_24h'], '-') != false ? '<span class="red_bright">'.marketcap_data($trade_symbol)['percent_change_24h'].'%</span>' : '<span class="green_bright">+'.marketcap_data($trade_symbol)['percent_change_24h'].'%</span>' )?></p>'
         +'<p class="coin_info"><span class="yellow">7 Day Change:</span> <?=( stristr(marketcap_data($trade_symbol)['percent_change_7d'], '-') != false ? '<span class="red_bright">'.marketcap_data($trade_symbol)['percent_change_7d'].'%</span>' : '<span class="green_bright">+'.marketcap_data($trade_symbol)['percent_change_7d'].'%</span>' )?></p>'
+        +'<p class="coin_info"><span class="yellow">24 Hour Volume:</span> $<?=number_format(marketcap_data($trade_symbol)['volume_24h'],0,".",",")?></p>'
         <?php
             if ( marketcap_data($trade_symbol)['last_updated'] != '' ) {
             ?>
@@ -1396,7 +1396,7 @@ $market_pairing = $all_markets[$selected_market];
         <?php
             }
             ?>
-        +'<p class="coin_info"><span class="yellow">Local Cache Time:</span> <?=$marketcap_cache?> minute(s)</p>'
+        +'<p class="coin_info"><span class="yellow">App Cache Time:</span> <?=$marketcap_cache?> minute(s)</p>'
     
         +'<p class="coin_info">*Current config setting retrieves the top <?=$marketcap_ranks_max?> rankings.</p>';
     
