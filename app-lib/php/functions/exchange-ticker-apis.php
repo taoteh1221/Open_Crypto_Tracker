@@ -5,11 +5,11 @@
 
 //////////////////////////////////////////////////////////
 
-function get_btc_usd($btc_exchange, $config_base_pairing=false) {
+function get_btc_usd($btc_exchange, $pairing_config=false) {
 
 global $coins_list, $last_trade_cache;
          	
-$pairing = ( $config_base_pairing != false ? $config_base_pairing : 'usd' );
+$pairing = ( $pairing_config != false ? $pairing_config : 'usd' );
   
   
    if ( strtolower($btc_exchange) == 'coinbase' ) {
@@ -23,7 +23,7 @@ $pairing = ( $config_base_pairing != false ? $config_base_pairing : 'usd' );
     return  array(
     					'last_trade' => number_format( $data['price'], 2, '.', ''),
     					'24hr_asset_volume' => $data['volume'],
-    					'24hr_base_volume' => NULL,
+    					'24hr_pairing_volume' => NULL, // No pairing volume data for this API
     					'24hr_usd_volume' => trade_volume('bitcoin', $pairing, $data['volume'], number_format( $data['price'], 2, '.', ''))
     					);
 
@@ -41,7 +41,7 @@ $pairing = ( $config_base_pairing != false ? $config_base_pairing : 'usd' );
     return  array(
     					'last_trade' => number_format( $data['last'], 2, '.', ''),
     					'24hr_asset_volume' => $data['volume']['BTC'],
-    					'24hr_base_volume' => NULL,
+    					'24hr_pairing_volume' => $data['volume']['USD'],
     					'24hr_usd_volume' => trade_volume('bitcoin', $pairing, $data['volume']['BTC'], number_format( $data['last'], 2, '.', ''))
     					);
 
@@ -59,7 +59,7 @@ $pairing = ( $config_base_pairing != false ? $config_base_pairing : 'usd' );
     return  array(
     					'last_trade' => number_format( $data['last'], 2, '.', ''),
     					'24hr_asset_volume' => $data['volume'],
-    					'24hr_base_volume' => NULL,
+    					'24hr_pairing_volume' => NULL, // No pairing volume data for this API
     					'24hr_usd_volume' => trade_volume('bitcoin', $pairing, $data['volume'], number_format( $data['last'], 2, '.', ''))
     					);
     				
@@ -77,7 +77,7 @@ $pairing = ( $config_base_pairing != false ? $config_base_pairing : 'usd' );
     return  array(
     					'last_trade' => number_format( $data['ticker']['last'], 2, '.', ''),
     					'24hr_asset_volume' => $data['ticker']['vol'],
-    					'24hr_base_volume' => NULL,
+    					'24hr_pairing_volume' => NULL, // No pairing volume data for this API
     					'24hr_usd_volume' => trade_volume('bitcoin', $pairing, $data['ticker']['vol'], number_format( $data['ticker']['last'], 2, '.', ''))
     					);
     
@@ -122,7 +122,7 @@ $pairing = ( $config_base_pairing != false ? $config_base_pairing : 'usd' );
     				return  array(
     									'last_trade' => $data[$key][$key2]["c"][0],
     									'24hr_asset_volume' => $data[$key][$key2]["v"][1],
-    									'24hr_base_volume' => NULL,
+    									'24hr_pairing_volume' => NULL, // No pairing volume data for this API
     									'24hr_usd_volume' => trade_volume('bitcoin', $pairing, $data[$key][$key2]["v"][1], $data[$key][$key2]["c"][0])
     									);
               
@@ -160,7 +160,7 @@ $pairing = ( $config_base_pairing != false ? $config_base_pairing : 'usd' );
          return  array(
     						'last_trade' => $data[$key]["lastPrice"],
     						'24hr_asset_volume' => $data[$key]["volume"],
-    						'24hr_base_volume' => NULL,
+    						'24hr_pairing_volume' => $data[$key]["quoteVolume"],
     						'24hr_usd_volume' => trade_volume('bitcoin', $pairing, $data[$key]["volume"], $data[$key]["lastPrice"])
     						);
           
@@ -194,7 +194,7 @@ $pairing = ( $config_base_pairing != false ? $config_base_pairing : 'usd' );
          return  array(
     						'last_trade' => $data[$key]["lastPrice"],
     						'24hr_asset_volume' => $data[$key]["volume"],
-    						'24hr_base_volume' => NULL,
+    						'24hr_pairing_volume' => $data[$key]["quoteVolume"],
     						'24hr_usd_volume' => trade_volume('bitcoin', $pairing, $data[$key]["volume"], $data[$key]["lastPrice"])
     						);
           
@@ -228,7 +228,7 @@ $pairing = ( $config_base_pairing != false ? $config_base_pairing : 'usd' );
          return  array(
     						'last_trade' => $object[( sizeof($object) - 4 )],
     						'24hr_asset_volume' => $object[( sizeof($object) - 3 )],
-    						'24hr_base_volume' => NULL,
+    						'24hr_pairing_volume' => NULL, // No pairing volume data for this API
     						'24hr_usd_volume' => trade_volume('bitcoin', $pairing, $object[( sizeof($object) - 3 )], $object[( sizeof($object) - 4 )])
     						);
           
@@ -260,7 +260,7 @@ $pairing = ( $config_base_pairing != false ? $config_base_pairing : 'usd' );
          return  array(
     							'last_trade' => $data[$key]["last"],
     							'24hr_asset_volume' => $data[$key]["volume"],
-    							'24hr_base_volume' => NULL,
+    							'24hr_pairing_volume' => $data[$key]["volume_quote"],
     							'24hr_usd_volume' => trade_volume('bitcoin', $pairing, $data[$key]["volume"], $data[$key]["last"])
     						);
           
@@ -294,7 +294,7 @@ $pairing = ( $config_base_pairing != false ? $config_base_pairing : 'usd' );
     				return  array(
     									'last_trade' => $data[$key]["last"],
     									'24hr_asset_volume' => $data[$key]["volume"],
-    									'24hr_base_volume' => NULL,
+    									'24hr_pairing_volume' => NULL, // No pairing volume data for this API
     									'24hr_usd_volume' => trade_volume('bitcoin', $pairing, $data[$key]['volume'], $data[$key]["last"])
     									);
                  
@@ -316,11 +316,11 @@ $pairing = ( $config_base_pairing != false ? $config_base_pairing : 'usd' );
 //////////////////////////////////////////////////////////
 
 
-function get_coin_value($chosen_exchange, $market_pairing, $config_base_pairing=false) {
+function get_coin_value($chosen_exchange, $market_pairing, $pairing_config=false) {
 
 global $btc_exchange, $coins_list, $last_trade_cache;
          	
-$pairing = ( $config_base_pairing != false ? $config_base_pairing : detect_pairing($market_pairing) );
+$pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market_pairing) );
  
 
   if ( strtolower($chosen_exchange) == 'gemini' ) {
@@ -333,9 +333,9 @@ $pairing = ( $config_base_pairing != false ? $config_base_pairing : detect_pairi
     
     return array(
     					'last_trade' => number_format( $data['last'], 8, '.', ''),
-    					'24hr_asset_volume' => $data['volume'][strtoupper($pairing)],
-    					'24hr_base_volume' => NULL,
-    					'24hr_usd_volume' => trade_volume($market_pairing, $pairing, $data['volume'][strtoupper($pairing)], '', $pairing)
+    					'24hr_asset_volume' => $data['volume'][strtoupper( str_replace($pairing, '', $market_pairing) )],
+    					'24hr_pairing_volume' => $data['volume'][strtoupper($pairing)],
+    					'24hr_usd_volume' => trade_volume($market_pairing, $pairing, $data['volume'][strtoupper($pairing)], '', $pairing) // '24hr_pairing_volume' more reliable parsing
     					);
   
   }
@@ -353,7 +353,7 @@ $pairing = ( $config_base_pairing != false ? $config_base_pairing : detect_pairi
     return  array(
     					'last_trade' => number_format( $data['last'], 8, '.', ''),
     					'24hr_asset_volume' => $data["volume"],
-    					'24hr_base_volume' => NULL,
+    					'24hr_pairing_volume' => NULL, // No pairing volume data for this API
     					'24hr_usd_volume' => trade_volume($market_pairing, $pairing, $data["volume"], $data["last"])
     					);
     
@@ -371,7 +371,7 @@ $pairing = ( $config_base_pairing != false ? $config_base_pairing : detect_pairi
      return  array(
     					'last_trade' => $data['price'],
     					'24hr_asset_volume' => $data["volume"],
-    					'24hr_base_volume' => NULL,
+    					'24hr_pairing_volume' => NULL, // No pairing volume data for this API
     					'24hr_usd_volume' => trade_volume($market_pairing, $pairing, $data["volume"], $data['price'])
     					);
    
@@ -390,7 +390,7 @@ $pairing = ( $config_base_pairing != false ? $config_base_pairing : detect_pairi
 		return  array(
     					'last_trade' => number_format( $data['BRIDGE.BTC']['price'], 8, '.', ''),
     					'24hr_asset_volume' => $data['BRIDGE.BTC']['volume24'],
-    					'24hr_base_volume' => NULL,
+    					'24hr_pairing_volume' => NULL, // No pairing volume data for this API
     					'24hr_usd_volume' => trade_volume($market_pairing, $pairing, $data['BRIDGE.BTC']['volume24'], number_format( $data['BRIDGE.BTC']['price'], 8, '.', ''))
     					);
 		}
@@ -398,7 +398,7 @@ $pairing = ( $config_base_pairing != false ? $config_base_pairing : detect_pairi
 		return  array(
     					'last_trade' => number_format( $data['OPEN.BTC']['price'], 8, '.', ''),
     					'24hr_asset_volume' => $data['OPEN.BTC']['volume24'],
-    					'24hr_base_volume' => NULL,
+    					'24hr_pairing_volume' => NULL, // No pairing volume data for this API
     					'24hr_usd_volume' => trade_volume($market_pairing, $pairing, $data['OPEN.BTC']['volume24'], number_format( $data['OPEN.BTC']['price'], 8, '.', ''))
     					);
 		}
@@ -421,7 +421,7 @@ $pairing = ( $config_base_pairing != false ? $config_base_pairing : detect_pairi
   return  array(
     					'last_trade' => $data["data"]["last"],
     					'24hr_asset_volume' => $data["data"]["vol"],
-    					'24hr_base_volume' => NULL,
+    					'24hr_pairing_volume' => NULL, // No pairing volume data for this API
     					'24hr_usd_volume' => trade_volume($market_pairing, $pairing, $data["data"]["vol"], $data["data"]["last"])
     				);
   
@@ -466,7 +466,7 @@ $pairing = ( $config_base_pairing != false ? $config_base_pairing : detect_pairi
             return  array(
     								'last_trade' => $data[$key][$key2]["c"][0],
     								'24hr_asset_volume' => $data[$key][$key2]["v"][1],
-    								'24hr_base_volume' => NULL,
+    								'24hr_pairing_volume' => NULL, // No pairing volume data for this API
     								'24hr_usd_volume' => trade_volume($market_pairing, $pairing, $data[$key][$key2]["v"][1], $data[$key][$key2]["c"][0])
     							);
              
@@ -504,7 +504,7 @@ $pairing = ( $config_base_pairing != false ? $config_base_pairing : detect_pairi
          return  array(
     						'last_trade' => $data[$key]["last"],
     						'24hr_asset_volume' => $data[$key]["base_volume_24h"],
-    						'24hr_base_volume' => NULL,
+    						'24hr_pairing_volume' => NULL, // No pairing volume data for this API
     						'24hr_usd_volume' => trade_volume($market_pairing, $pairing, $data[$key]["base_volume_24h"], $data[$key]["last"])
     						);
 
@@ -538,7 +538,7 @@ $pairing = ( $config_base_pairing != false ? $config_base_pairing : detect_pairi
          return  array(
     						'last_trade' => $data[$key]["lastPrice"],
     						'24hr_asset_volume' => $data[$key]["volume"],
-    						'24hr_base_volume' => NULL,
+    						'24hr_pairing_volume' => $data[$key]["quoteVolume"],
     						'24hr_usd_volume' => trade_volume($market_pairing, $pairing, $data[$key]["volume"], $data[$key]["lastPrice"])
     						);
 
@@ -572,7 +572,7 @@ $pairing = ( $config_base_pairing != false ? $config_base_pairing : detect_pairi
          return  array(
     						'last_trade' => $data[$key]["lastPrice"],
     						'24hr_asset_volume' => $data[$key]["volume"],
-    						'24hr_base_volume' => NULL,
+    						'24hr_pairing_volume' => $data[$key]["quoteVolume"],
     						'24hr_usd_volume' => trade_volume($market_pairing, $pairing, $data[$key]["volume"], $data[$key]["lastPrice"])
     						);
 
@@ -604,9 +604,10 @@ $pairing = ( $config_base_pairing != false ? $config_base_pairing : detect_pairi
          	
          return  array(
     							'last_trade' => $data[$key]["last"],
-    							'24hr_asset_volume' => $data[$key]["baseVolume"],
-    							'24hr_base_volume' => NULL,
-    							'24hr_usd_volume' => trade_volume($market_pairing, $pairing, $data[$key]["baseVolume"], '', $pairing)
+    							// ARRAY KEY SEMANTICS BACKWARDS COMPARED TO OTHER EXCHANGES
+    							'24hr_asset_volume' => $data[$key]["quoteVolume"],
+    							'24hr_pairing_volume' => $data[$key]["baseVolume"],
+    							'24hr_usd_volume' => trade_volume($market_pairing, $pairing, $data[$key]["quoteVolume"], $data[$key]["last"])
     						);
           
          }
@@ -639,7 +640,7 @@ $pairing = ( $config_base_pairing != false ? $config_base_pairing : detect_pairi
          return  array(
     							'last_trade' => $data[$key]["close"],
     							'24hr_asset_volume' => $data[$key]["volume"],
-    							'24hr_base_volume' => NULL,
+    							'24hr_pairing_volume' => NULL, // No pairing volume data for this API
     							'24hr_usd_volume' => trade_volume($market_pairing, $pairing, $data[$key]["volume"], $data[$key]["close"])
     						);
           
@@ -672,8 +673,9 @@ $pairing = ( $config_base_pairing != false ? $config_base_pairing : detect_pairi
           
          return  array(
     							'last_trade' => $data[$key]["Last"],
+    							// ARRAY KEY SEMANTICS BACKWARDS COMPARED TO OTHER EXCHANGES
     							'24hr_asset_volume' => $data[$key]["Volume"],
-    							'24hr_base_volume' => NULL,
+    							'24hr_pairing_volume' => $data[$key]["BaseVolume"],
     							'24hr_usd_volume' => trade_volume($market_pairing, $pairing, $data[$key]["Volume"], $data[$key]["Last"])
     						);
           
@@ -705,8 +707,9 @@ $pairing = ( $config_base_pairing != false ? $config_base_pairing : detect_pairi
           
          return  array(
     							'last_trade' => $data[$key]["last"],
+    							// ARRAY KEY SEMANTICS BACKWARDS COMPARED TO OTHER EXCHANGES
     							'24hr_asset_volume' => $data[$key]["volume"],
-    							'24hr_base_volume' => NULL,
+    							'24hr_pairing_volume' => $data[$key]["baseVolume"],
     							'24hr_usd_volume' => trade_volume($market_pairing, $pairing, $data[$key]["volume"], $data[$key]["last"])
     						);
           
@@ -736,8 +739,9 @@ $pairing = ( $config_base_pairing != false ? $config_base_pairing : detect_pairi
           
          return  array(
     							'last_trade' => $data[$key]["last"],
+    							// ARRAY KEY SEMANTICS BACKWARDS COMPARED TO OTHER EXCHANGES
     							'24hr_asset_volume' => $data[$key]["quoteVolume"],
-    							'24hr_base_volume' => NULL,
+    							'24hr_pairing_volume' => $data[$key]["baseVolume"],
     							'24hr_usd_volume' => trade_volume($market_pairing, $pairing, $data[$key]["quoteVolume"], $data[$key]["last"])
     						);
           
@@ -767,9 +771,9 @@ $pairing = ( $config_base_pairing != false ? $config_base_pairing : detect_pairi
           
          return  array(
     							'last_trade' => $data[$key][$market_pairing]["price"],
-    							'24hr_asset_volume' => $data[$key][$market_pairing]["volume"],
-    							'24hr_base_volume' => NULL,
-    							'24hr_usd_volume' => trade_volume($market_pairing, $pairing, $data[$key][$market_pairing]["volume"], '', $pairing)
+    							'24hr_asset_volume' => NULL, // No asset volume data for this API
+    							'24hr_pairing_volume' => $data[$key][$market_pairing]["volume"],
+    							'24hr_usd_volume' => trade_volume($market_pairing, $pairing, $data[$key][$market_pairing]["volume"], '', $pairing) // '24hr_pairing_volume' used (no asset volume available)
     						);
           
          }
@@ -801,7 +805,7 @@ $pairing = ( $config_base_pairing != false ? $config_base_pairing : detect_pairi
          return  array(
     							'last_trade' => $data[$key]["last"],
     							'24hr_asset_volume' => $data[$key]["vol"],
-    							'24hr_base_volume' => NULL,
+    							'24hr_pairing_volume' => NULL, // No pairing volume data for this API
     							'24hr_usd_volume' => trade_volume($market_pairing, $pairing, $data[$key]["vol"], $data[$key]["last"])
     						);
           
@@ -831,8 +835,9 @@ $pairing = ( $config_base_pairing != false ? $config_base_pairing : detect_pairi
           
          return  array(
     							'last_trade' => $data[$key]["last"],
+    							// ARRAY KEY SEMANTICS BACKWARDS COMPARED TO OTHER EXCHANGES
     							'24hr_asset_volume' => $data[$key]["quoteVolume"],
-    							'24hr_base_volume' => NULL,
+    							'24hr_pairing_volume' => $data[$key]["baseVolume"],
     							'24hr_usd_volume' => trade_volume($market_pairing, $pairing, $data[$key]["quoteVolume"], $data[$key]["last"])
     						);
           
@@ -865,7 +870,7 @@ $pairing = ( $config_base_pairing != false ? $config_base_pairing : detect_pairi
          return  array(
     							'last_trade' => $data[$key]["last"],
     							'24hr_asset_volume' => $data[$key]["vol"],
-    							'24hr_base_volume' => NULL,
+    							'24hr_pairing_volume' => $data[$key]["volValue"],
     							'24hr_usd_volume' => trade_volume($market_pairing, $pairing, $data[$key]["vol"], $data[$key]["last"])
     						);
           
@@ -896,7 +901,7 @@ $pairing = ( $config_base_pairing != false ? $config_base_pairing : detect_pairi
          return  array(
     							'last_trade' => $data[$key]["last"],
     							'24hr_asset_volume' => $data[$key]["volume"],
-    							'24hr_base_volume' => NULL,
+    							'24hr_pairing_volume' => NULL, // No pairing volume data for this API
     							'24hr_usd_volume' => trade_volume($market_pairing, $pairing, $data[$key]["volume"], $data[$key]["last"])
     						);
           
@@ -927,7 +932,7 @@ $pairing = ( $config_base_pairing != false ? $config_base_pairing : detect_pairi
          return  array(
     							'last_trade' => $data[$key]["last"],
     							'24hr_asset_volume' => $data[$key]["volume"],
-    							'24hr_base_volume' => NULL,
+    							'24hr_pairing_volume' => $data[$key]["volume_quote"],
     							'24hr_usd_volume' => trade_volume($market_pairing, $pairing, $data[$key]["volume"], $data[$key]["last"])
     						);
           
@@ -959,7 +964,7 @@ $pairing = ( $config_base_pairing != false ? $config_base_pairing : detect_pairi
          return  array(
     							'last_trade' => $data[$market_pairing]['ticker']['last'],
     							'24hr_asset_volume' => $data[$market_pairing]['ticker']['vol'],
-    							'24hr_base_volume' => NULL,
+    							'24hr_pairing_volume' => NULL, // Weird pairing volume always in BTC according to array keyname, skipping
     							'24hr_usd_volume' => trade_volume($market_pairing, $pairing, $data[$market_pairing]['ticker']['vol'], $data[$market_pairing]['ticker']['last'])
     						);
           
@@ -1007,7 +1012,7 @@ $pairing = ( $config_base_pairing != false ? $config_base_pairing : detect_pairi
          return  array(
     							'last_trade' => $data[$key]["trade_price"],
     							'24hr_asset_volume' => $data[$key]["acc_trade_volume_24h"],
-    							'24hr_base_volume' => NULL,
+    							'24hr_pairing_volume' => NULL, // No 24 hour trade volume going by array keynames, skipping
     							'24hr_usd_volume' => trade_volume($market_pairing, $pairing, $data[$key]["acc_trade_volume_24h"], $data[$key]["trade_price"])
     						);
           
@@ -1040,7 +1045,7 @@ $pairing = ( $config_base_pairing != false ? $config_base_pairing : detect_pairi
          return  array(
     							'last_trade' => $object[( sizeof($object) - 4 )],
     							'24hr_asset_volume' => $object[( sizeof($object) - 3 )],
-    							'24hr_base_volume' => NULL,
+    							'24hr_pairing_volume' => NULL, // No pairing volume data for this API
     							'24hr_usd_volume' => trade_volume($market_pairing, $pairing, $object[( sizeof($object) - 3 )], $object[( sizeof($object) - 4 )])
     						);
           
@@ -1062,7 +1067,7 @@ $pairing = ( $config_base_pairing != false ? $config_base_pairing : detect_pairi
      return  array(
     					'last_trade' => $usdtobtc,
     					'24hr_asset_volume' => NULL,
-    					'24hr_base_volume' => NULL,
+    					'24hr_pairing_volume' => NULL,
     					'24hr_usd_volume' => NULL
     					);
      }
@@ -1070,7 +1075,7 @@ $pairing = ( $config_base_pairing != false ? $config_base_pairing : detect_pairi
      return  array(
     					'last_trade' => ( 1 / ( get_coin_value('binance', 'XMRBTC')['last_trade'] / $usdtobtc ) ),
     					'24hr_asset_volume' => NULL,
-    					'24hr_base_volume' => NULL,
+    					'24hr_pairing_volume' => NULL,
     					'24hr_usd_volume' => NULL
     					);
      }
@@ -1078,7 +1083,7 @@ $pairing = ( $config_base_pairing != false ? $config_base_pairing : detect_pairi
      return  array(
     					'last_trade' => ( 1 / ( get_coin_value('binance', 'ETHBTC')['last_trade'] / $usdtobtc ) ),
     					'24hr_asset_volume' => NULL,
-    					'24hr_base_volume' => NULL,
+    					'24hr_pairing_volume' => NULL,
     					'24hr_usd_volume' => NULL
     					);
      }
@@ -1086,7 +1091,7 @@ $pairing = ( $config_base_pairing != false ? $config_base_pairing : detect_pairi
      return  array(
     					'last_trade' => ( 1 / ( get_coin_value('binance', 'LTCBTC')['last_trade'] / $usdtobtc ) ),
     					'24hr_asset_volume' => NULL,
-    					'24hr_base_volume' => NULL,
+    					'24hr_pairing_volume' => NULL,
     					'24hr_usd_volume' => NULL
     					);
      }

@@ -1838,6 +1838,16 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+3.47.0:
+-Coding semantics cleanup
+-Added parsing of pairing volume data from market API calls (for exchanges that support it)
+-------------------------------------------------------------------
+
+
+
+
+
 
 
 

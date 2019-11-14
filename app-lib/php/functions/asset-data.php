@@ -215,7 +215,7 @@ return ( $data['rank'] != NULL ? $data : NULL );
 ////////////////////////////////////////////////////////
 
 
-function trade_volume($pair_name, $base_pairing, $volume, $last_trade, $vol_in_pairing=false, $volume_value='usd') {  // Default volume in USD
+function trade_volume($pair_name, $pairing, $volume, $last_trade, $vol_in_pairing=false, $volume_value='usd') {  // Default volume in USD
 
 global $btc_exchange, $btc_usd;
 
@@ -226,32 +226,32 @@ global $btc_exchange, $btc_usd;
 
 
 	// XMR
-   if ( $base_pairing == 'xmr' && !$_SESSION['xmr_btc'] || $vol_in_pairing == 'xmr' && !$_SESSION['xmr_btc'] ) {
+   if ( $pairing == 'xmr' && !$_SESSION['xmr_btc'] || $vol_in_pairing == 'xmr' && !$_SESSION['xmr_btc'] ) {
    $_SESSION['xmr_btc'] = get_coin_value('binance', 'XMRBTC')['last_trade'];
    }
    // LTC
-   elseif ( $base_pairing == 'ltc' && !$_SESSION['ltc_btc'] || $vol_in_pairing == 'ltc' && !$_SESSION['ltc_btc'] ) {
+   elseif ( $pairing == 'ltc' && !$_SESSION['ltc_btc'] || $vol_in_pairing == 'ltc' && !$_SESSION['ltc_btc'] ) {
    $_SESSION['ltc_btc'] = get_coin_value('binance', 'LTCBTC')['last_trade'];
    }
    // ETH
-   elseif ( $base_pairing == 'eth' && !$_SESSION['eth_btc'] || $vol_in_pairing == 'eth' && !$_SESSION['eth_btc'] ) {
+   elseif ( $pairing == 'eth' && !$_SESSION['eth_btc'] || $vol_in_pairing == 'eth' && !$_SESSION['eth_btc'] ) {
    $_SESSION['eth_btc'] = get_coin_value('binance', 'ETHBTC')['last_trade'];
    }
    // TETHER
-   elseif ( $base_pairing == 'usdt' && !$_SESSION['usdt_btc'] || $vol_in_pairing == 'usdt' && !$_SESSION['usdt_btc'] ) {
+   elseif ( $pairing == 'usdt' && !$_SESSION['usdt_btc'] || $vol_in_pairing == 'usdt' && !$_SESSION['usdt_btc'] ) {
    $_SESSION['usdt_btc'] = number_format( ( 1 / get_coin_value('binance', 'BTCUSDT')['last_trade'] ), 8, '.', '');
    }
    // TRUE USD
-   elseif ( $base_pairing == 'tusd' && !$_SESSION['tusd_btc'] || $vol_in_pairing == 'tusd' && !$_SESSION['tusd_btc'] ) {
+   elseif ( $pairing == 'tusd' && !$_SESSION['tusd_btc'] || $vol_in_pairing == 'tusd' && !$_SESSION['tusd_btc'] ) {
    $_SESSION['tusd_btc'] = number_format( ( 1 / get_coin_value('binance', 'BTCTUSD')['last_trade'] ), 8, '.', '');
    }
    // USDC
-   elseif ( $base_pairing == 'usdc' && !$_SESSION['usdc_btc'] || $vol_in_pairing == 'usdc' && !$_SESSION['usdc_btc'] ) {
+   elseif ( $pairing == 'usdc' && !$_SESSION['usdc_btc'] || $vol_in_pairing == 'usdc' && !$_SESSION['usdc_btc'] ) {
    $_SESSION['usdc_btc'] = number_format( ( 1 / get_coin_value('binance', 'BTCUSDC')['last_trade'] ), 8, '.', '');
    }
    // USD
    // We don't want ANY rounding calculating this, so were setting the decimal amount VERY HIGH
-   elseif ( $base_pairing == 'usd' && !$_SESSION['usd_btc'] || $vol_in_pairing == 'usd' && !$_SESSION['usd_btc'] ) {
+   elseif ( $pairing == 'usd' && !$_SESSION['usd_btc'] || $vol_in_pairing == 'usd' && !$_SESSION['usd_btc'] ) {
    $_SESSION['usd_btc'] = number_format( (1 / $btc_usd), 20, '.', '');
    $_SESSION['usd_btc'] = floattostr($_SESSION['usd_btc']);
    }
@@ -264,21 +264,21 @@ global $btc_exchange, $btc_usd;
 	$volume_usd_raw = number_format( $btc_usd * $volume , 0, '.', '');
 	}
 	// Volume by base pair in USD
-	elseif ( $vol_in_pairing != false && $base_pairing == 'usd' ) { 
+	elseif ( $vol_in_pairing != false && $pairing == 'usd' ) { 
 	$volume_usd_raw = number_format( $volume , 0, '.', '');
 	}
 	// Volume by base pair in Altcoin
 	elseif ( $vol_in_pairing != false ){ 
-	$volume_usd_raw = number_format( $btc_usd * ( $_SESSION[$base_pairing.'_btc'] * $volume ) , 0, '.', '');
+	$volume_usd_raw = number_format( $btc_usd * ( $_SESSION[$pairing.'_btc'] * $volume ) , 0, '.', '');
 	}
 	// Volume by asset
 	else {
 		
-		if ( $base_pairing == 'btc' ) {
+		if ( $pairing == 'btc' ) {
 		$volume_usd_raw = number_format( $btc_usd * ( $last_trade * $volume ) , 0, '.', '');
 		}
 		else {
-		$volume_usd_raw = number_format( $btc_usd * ( ( $_SESSION[$base_pairing.'_btc'] * $last_trade ) * $volume ) , 0, '.', '');
+		$volume_usd_raw = number_format( $btc_usd * ( ( $_SESSION[$pairing.'_btc'] * $last_trade ) * $volume ) , 0, '.', '');
 		}
 	
 	}
@@ -1001,7 +1001,7 @@ return TRUE;
 ////////////////////////////////////////////////////////
 
 
-function ui_coin_data_row($coin_name, $trade_symbol, $coin_amount, $market_pairing_array, $selected_base_pairing, $selected_market, $purchase_price=NULL, $leverage_level, $selected_margintype) {
+function ui_coin_data_row($coin_name, $trade_symbol, $coin_amount, $market_pairing_array, $selected_pairing, $selected_market, $purchase_price=NULL, $leverage_level, $selected_margintype) {
 
 // Globals
 global $_POST, $theme_selected, $coins_list, $btc_exchange, $btc_usd, $marketcap_site, $marketcap_cache, $coinmarketcapcom_api_key, $alert_percent, $marketcap_ranks_max, $api_timeout, $usd_decimals_max;
@@ -1066,8 +1066,8 @@ $market_pairing = $all_markets[$selected_market];
 	
 	
 	 // Get coin values, including non-BTC pairings
-    if ( $selected_base_pairing == 'btc' ) {
-    $coin_value_raw = ( $coin_name == 'Bitcoin' ? get_btc_usd($btc_exchange, $selected_base_pairing)['last_trade'] : get_coin_value($selected_market, $market_pairing)['last_trade'] );
+    if ( $selected_pairing == 'btc' ) {
+    $coin_value_raw = ( $coin_name == 'Bitcoin' ? get_btc_usd($btc_exchange, $selected_pairing)['last_trade'] : get_coin_value($selected_market, $market_pairing)['last_trade'] );
     $coin_value_total_raw = ($coin_amount * $coin_value_raw);
     $_SESSION['btc_worth_array'][$trade_symbol] = ( $coin_name == 'Bitcoin' ? $coin_amount : $coin_value_total_raw );
     
@@ -1081,7 +1081,7 @@ $market_pairing = $all_markets[$selected_market];
     	
     }
     // XMR
-    else if ( $selected_base_pairing == 'xmr' ) {
+    else if ( $selected_pairing == 'xmr' ) {
     
     	if ( !$_SESSION['xmr_btc'] ) {
     	$_SESSION['xmr_btc'] = get_coin_value('binance', 'XMRBTC')['last_trade'];
@@ -1097,7 +1097,7 @@ $market_pairing = $all_markets[$selected_market];
     
     }
     // LTC
-    else if ( $selected_base_pairing == 'ltc' ) {
+    else if ( $selected_pairing == 'ltc' ) {
     
     	if ( !$_SESSION['ltc_btc'] ) {
     	$_SESSION['ltc_btc'] = get_coin_value('binance', 'LTCBTC')['last_trade'];
@@ -1113,7 +1113,7 @@ $market_pairing = $all_markets[$selected_market];
     
     }
     // ETH
-    else if ( $selected_base_pairing == 'eth' ) {
+    else if ( $selected_pairing == 'eth' ) {
     
     	if ( !$_SESSION['eth_btc'] ) {
     	$_SESSION['eth_btc'] = get_coin_value('binance', 'ETHBTC')['last_trade'];
@@ -1142,7 +1142,7 @@ $market_pairing = $all_markets[$selected_market];
 
     }
     // TETHER
-    else if ( $selected_base_pairing == 'usdt' ) {
+    else if ( $selected_pairing == 'usdt' ) {
     
     	if ( !$_SESSION['usdt_btc'] ) {
     	$_SESSION['usdt_btc'] = number_format( ( 1 / get_coin_value('binance', 'BTCUSDT')['last_trade'] ), 8, '.', '');
@@ -1159,7 +1159,7 @@ $market_pairing = $all_markets[$selected_market];
     
     }
     // TRUE USD
-    else if ( $selected_base_pairing == 'tusd' ) {
+    else if ( $selected_pairing == 'tusd' ) {
     
     	if ( !$_SESSION['tusd_btc'] ) {
     	$_SESSION['tusd_btc'] = number_format( ( 1 / get_coin_value('binance', 'BTCTUSD')['last_trade'] ), 8, '.', '');
@@ -1176,7 +1176,7 @@ $market_pairing = $all_markets[$selected_market];
     
     }
     // USDC
-    else if ( $selected_base_pairing == 'usdc' ) {
+    else if ( $selected_pairing == 'usdc' ) {
     
     	if ( !$_SESSION['usdc_btc'] ) {
     	$_SESSION['usdc_btc'] = number_format( ( 1 / get_coin_value('binance', 'BTCUSDC')['last_trade'] ), 8, '.', '');
@@ -1193,7 +1193,7 @@ $market_pairing = $all_markets[$selected_market];
     
     }
     // USD
-    else if ( $selected_base_pairing == 'usd' ) {
+    else if ( $selected_pairing == 'usd' ) {
     
     	// We don't want ANY rounding calculating this, so were setting the decimal amount VERY HIGH
     	if ( !$_SESSION['usd_btc'] ) {
@@ -1213,11 +1213,11 @@ $market_pairing = $all_markets[$selected_market];
     }
   
   
-  	 if ( $selected_base_pairing == 'btc' ) {
-  	 $coin_usd_worth_raw = ( $coin_name == 'Bitcoin' ? $coin_value_total_raw : ($coin_value_total_raw * get_btc_usd($btc_exchange, $selected_base_pairing)['last_trade']) );
+  	 if ( $selected_pairing == 'btc' ) {
+  	 $coin_usd_worth_raw = ( $coin_name == 'Bitcoin' ? $coin_value_total_raw : ($coin_value_total_raw * get_btc_usd($btc_exchange, $selected_pairing)['last_trade']) );
   	 }
   	 else {
-  	 $coin_usd_worth_raw = ( ($coin_value_total_raw * $pairing_btc_value) * get_btc_usd($btc_exchange, $selected_base_pairing)['last_trade']);
+  	 $coin_usd_worth_raw = ( ($coin_value_total_raw * $pairing_btc_value) * get_btc_usd($btc_exchange, $selected_pairing)['last_trade']);
   	 }
   
   
@@ -1286,7 +1286,7 @@ $market_pairing = $all_markets[$selected_market];
 
 
   // Get trade volume
-  $trade_volume = ( $coin_name == 'Bitcoin' ? get_btc_usd($btc_exchange, $selected_base_pairing)['24hr_usd_volume'] : get_coin_value($selected_market, $market_pairing, $selected_base_pairing)['24hr_usd_volume'] );
+  $trade_volume = ( $coin_name == 'Bitcoin' ? get_btc_usd($btc_exchange, $selected_pairing)['24hr_usd_volume'] : get_coin_value($selected_market, $market_pairing, $selected_pairing)['24hr_usd_volume'] );
   
   
   
@@ -1515,13 +1515,13 @@ $market_pairing = $all_markets[$selected_market];
 <?php
 
   if ( $btc_trade_eqiv ) {
-  $dollar_value = ( get_btc_usd($btc_exchange, $selected_base_pairing)['last_trade'] * $btc_trade_eqiv );
+  $dollar_value = ( get_btc_usd($btc_exchange, $selected_pairing)['last_trade'] * $btc_trade_eqiv );
   }
   elseif ( $coin_name != 'Bitcoin' ) {
-  $dollar_value = ( get_btc_usd($btc_exchange, $selected_base_pairing)['last_trade'] * $coin_value_raw );
+  $dollar_value = ( get_btc_usd($btc_exchange, $selected_pairing)['last_trade'] * $coin_value_raw );
   }
   else {
-  $dollar_value = get_btc_usd($btc_exchange, $selected_base_pairing)['last_trade'];
+  $dollar_value = get_btc_usd($btc_exchange, $selected_pairing)['last_trade'];
   }
 
   // UX on number values
@@ -1632,7 +1632,7 @@ echo ( $usd_eqiv == 1 ? pretty_numbers($coin_value_raw, $coin_value_usd_decimals
 
 <?php
 
-  if ( $selected_base_pairing != 'btc' ) {
+  if ( $selected_pairing != 'btc' ) {
   echo '<div class="btc_worth">(' . ( $btc_trade_eqiv > 0.00000000 ? $btc_trade_eqiv : '0.00000000' ) . ' Bitcoin)</div>';
   }
   
@@ -1690,7 +1690,7 @@ echo ( $usd_eqiv == 1 ? pretty_numbers($coin_value_raw, $coin_value_usd_decimals
 
 echo ' <span><span class="data app_sort_filter blue">' . number_format($coin_value_total_raw, ( $usd_eqiv == 1 ? 2 : 8 ), '.', ',') . '</span> ' . $pairing_symbol . '</span>';
 
-  if ( $selected_base_pairing != 'btc' ) {
+  if ( $selected_pairing != 'btc' ) {
   echo '<div class="btc_worth"><span>(' . number_format( $coin_value_total_raw * $pairing_btc_value , 8 ) . ' BTC)</span></div>';
   }
 
