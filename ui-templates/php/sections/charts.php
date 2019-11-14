@@ -125,6 +125,8 @@
 					
 		 
 		<p class='red' style='font-weight: bold;'>Charts are only available to show for each asset properly configured in the charts / asset price alerts configuration section in the file config.php (located in the primary directory of this app). Charts (and asset price alerts) must be <a href='README.txt' target='_blank'>setup as a cron job on your web server</a>, or <i>they will not work</i>. The chart's tab, page, caching, and javascript can be disabled in config.php if you choose to not setup a cron job.</p>
+		 
+		<p class='red' style='font-weight: bold;'>For charts based on crypto price (instead of USD), 24 hour volume is calculated from the asset volume (not the volume of the pairing), because a large percentage of crypto exchanges only provide asset volume data (with no pairing volume data included). For USD-based charts, the 24 hour USD volume is also calculated from the asset volume (and converted to the USD value of that asset volume).</p>
 	
 				
 	</div>

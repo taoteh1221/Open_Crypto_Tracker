@@ -4,6 +4,7 @@
 TODO
 ///////////////////////////////////////////////////////
 
+Create unit tests 
 
 Buy a google home mini cheap on ebay, and develop price alerts compatibility for it.
 
@@ -15,12 +16,6 @@ Add header login nav like prototype for zilliqa block explorer (use the develope
 
 
 Add an alert bell icon in upcoming header login nav, and have alerts make it red and be a drop-down info bubble clicking it, rather than alerts printed in the footer.
-
-
-Make sure programming comments are adequate throughout the app.
-
-
-Add Dogecoin and mining calculator.
 
 
 2-way encryption option (unlocked with 6 digit PIN) for storing coin amounts (IN COOKIES ONLY, NO DATABASE STORAGE !EVER!), with "quick lock" to quickly re-hide portfolio data (staying hidden persists on page load / reload as well with a cookie).
@@ -38,7 +33,7 @@ Stats in UI using chart data (if available), to show and compare spot / volume p
 Add chart sorting by crypto and usd price / volume percentage change over 1 hour / 1 day / 1 week / 1 month / 90 days / 6 months / 1 year.
 
 
-RESTFUL API system for requesting market values
+RESTFUL API system for requesting asset attributes (USD spot price / vol , etc)
 
 
 Simple trading bot, to run from cron / cli (with SQL-based admin authentication / web UI for configuration)
