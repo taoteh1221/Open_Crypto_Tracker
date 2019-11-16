@@ -238,45 +238,43 @@ if ( $allow_tweet_embed_js == 'on' ) {
 	        
 	        <li class='links_list'><a href='https://open.spotify.com/show/09k4pnFm6WokaszuoeZ6yf' target='_blank'>Block Crunch Podcast</a></li>
 	        
-	        <li class='links_list'><a href='https://bi.11fs.com/' target='_blank'>Blockchain Insider</a></li>
+	        <li class='links_list'><a href='https://open.spotify.com/show/4VOhf9IRUYDMISnTSa4IR6' target='_blank'>Blockchain Insider</a></li>
 	        
-	        <li class='links_list'><a href='https://player.fm/series/chain-reaction-2478788' target='_blank'>Chain Reaction Podcast</a></li>
+	        <li class='links_list'><a href='https://open.spotify.com/show/62PR1RigLG2YN5Pelq6UY9' target='_blank'>Chain Reaction Podcast</a></li>
 	        
-	        <li class='links_list'><a href='https://epicenter.tv/subscribe/' target='_blank'>Epicenter Bitcoin</a></li>
+	        <li class='links_list'><a href='https://open.spotify.com/show/5pBuPJdMabzdDaZEyUZopi' target='_blank'>Epicenter Bitcoin</a></li>
 	        
 	        <li class='links_list'><a href='https://evolvement.io/' target='_blank'>Evolvement - The Financial Podcast</a></li>
 	        
 	        <li class='links_list'><a href='https://open.spotify.com/show/2CLetGT20MFsHqfeBN3fYl' target='_blank'>H4SHR8 Crypto Mining Podcast</a></li>
 	        
-	        <li class='links_list'><a href='https://podcast.ethhub.io/' target='_blank'>Into The Ether Podcast (by EthHub)</a></li>
-	        
-	        <li class='links_list'><a href='https://letstalkbitcoin.com/' target='_blank'>Lets Talk Bitcoin</a></li>
+	        <li class='links_list'><a href='https://open.spotify.com/show/2CNyWXgKVxTqTlmLhc8A5m' target='_blank'>Into The Ether Podcast (by EthHub)</a></li>
 	        
 	        <li class='links_list'><a href='https://open.spotify.com/show/0uG5qpwFg67zTt0VQRTaZ7' target='_blank'>Messari's Unqualified Opinions</a></li>
 	        
 	        <li class='links_list'><a href='https://open.spotify.com/show/2QwpFjzJ0ZteqmMqw2xIfA' target='_blank'>Off The Chain With Anthony Pompliano</a></li>
 	        
+	        <li class='links_list'><a href='https://open.spotify.com/show/4OxfZixGspVVpn0mx8FPcg' target='_blank'>POV Crypto Podcast</a></li>
+	        
 	        <li class='links_list'><a href='https://open.spotify.com/show/3ObwKoyqttA1OLNhInnrbx' target='_blank'>Rekt Podcast</a></li>
 	        
-	        <li class='links_list'><a href='https://www.coindesk.com/podcasts' target='_blank'>Road to Consensus (CoinDesk)</a></li>
+	        <li class='links_list'><a href='https://open.spotify.com/show/0Vd8E5vWnCfB4xucu87WNZ' target='_blank'>Tales from the Crypt</a></li>
 	        
-	        <li class='links_list'><a href='https://anchor.fm/tales-from-the-crypt' target='_blank'>Tales from the Crypt</a></li>
+	        <li class='links_list'><a href='https://open.spotify.com/show/4rKK1cICXnzCA7GZzbULBY' target='_blank'>The Bad Crypto Podcast</a></li>
 	        
-	        <li class='links_list'><a href='https://badcryptopodcast.com/' target='_blank'>The Bad Crypto Podcast</a></li>
+	        <li class='links_list'><a href='https://open.spotify.com/show/7vC3IydlbcHq7fHEgUXyYx' target='_blank'>The Bitcoin Podcast</a></li>
 	        
-	        <li class='links_list'><a href='https://thebitcoinpodcast.com/' target='_blank'>The Bitcoin Podcast</a></li>
+	        <li class='links_list'><a href='https://open.spotify.com/show/3RHfXyEPkxsj2yoetdds0H' target='_blank'>The Crypto Chick Podcast</a></li>
 	        
-	        <li class='links_list'><a href='https://badcryptopodcast.com/thecryptochick/' target='_blank'>The Crypto Chick Podcast</a></li>
+	        <li class='links_list'><a href='https://open.spotify.com/show/16c6WR2znCZM1wveeeJoSz' target='_blank'>The Cryptoconomy Podcast</a></li>
 	        
-	        <li class='links_list'><a href='https://anchor.fm/thecryptoconomy' target='_blank'>The Cryptoconomy Podcast</a></li>
-	        
-	        <li class='links_list'><a href='https://unchainedpodcast.com/' target='_blank'>Unchained Podcast</a></li>
+	        <li class='links_list'><a href='https://open.spotify.com/show/1cJrrfGY1SKBIRn5noKSAf' target='_blank'>Unchained Podcast</a></li>
 	        
 	        <li class='links_list'><a href='https://open.spotify.com/show/2SyQeKusKdS0y4eOdowCMg' target='_blank'>Untold Stories With Charlie Shrem</a></li>
 	        
-	        <li class='links_list'><a href='https://www.whatbitcoindid.com/' target='_blank'>What Bitcoin Did Podcast</a></li>
+	        <li class='links_list'><a href='https://open.spotify.com/show/0mWUJuONiilW5JSBBFZ0s7' target='_blank'>What Bitcoin Did Podcast</a></li>
 	        
-	        <li class='links_list'><a href='https://www.zeroknowledge.fm/' target='_blank'>Zero Knowledge</a></li>
+	        <li class='links_list'><a href='https://open.spotify.com/show/5Xan1x9Cj7BBvRs2Ss4keG' target='_blank'>Zero Knowledge</a></li>
 	        
 	        
 	    </ul>
