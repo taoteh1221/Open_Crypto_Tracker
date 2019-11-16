@@ -169,6 +169,31 @@ return $number;
 ////////////////////////////////////////////////////////
 
 
+function sort_files($files_dir, $extension) {
+	
+$scan_array = scandir($files_dir);
+$files = array();
+  
+  foreach($scan_array as $filename) {
+    
+    if ( pathinfo($filename, PATHINFO_EXTENSION) == $extension ) {
+      $mod_time = filemtime($files_dir.'/'.$filename);
+      $files[$mod_time . '-' . $filename] = $filename;
+    }
+    
+  }
+
+ksort($files);
+
+return $files;
+  
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
 // Always display very large / small numbers in non-scientific format
 // Also removes any leading and trailing zeros for efficient storage / UX / etc
 function floattostr($val) {
@@ -1197,7 +1222,7 @@ global $delete_old_backups, $base_dir, $base_url;
 										);
 							
 				// Send notifications
-				@send_notifications($send_params);
+				@queue_notifications($send_params);
 				
 				}
 				else {
@@ -1336,7 +1361,7 @@ $error_logs .= strip_tags($_SESSION['other_error']); // Remove any HTML formatti
           					);
           	
    // Send notifications
-   @send_notifications($send_params);
+   @queue_notifications($send_params);
           	
 	store_file_contents($base_dir . '/cache/events/email-error-logs.dat', date('Y-m-d H:i:s')); // Track this emailing event, to determine next time to email logs again.
 	
@@ -1360,69 +1385,225 @@ $error_logs .= strip_tags($_SESSION['other_error']); // Remove any HTML formatti
 ////////////////////////////////////////////////////////
 
 
-function send_notifications($send_params) {
+function queue_notifications($send_params) {
 
 global $base_dir, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $textlocal_account;
 
 
-$notifyme_params = array(
-								 'notification' => $send_params['notifyme'],
-  				             'accessCode' => $notifyme_accesscode
-  				 	           );
-  				
-  				
-$textbelt_params = array(
-								 'message' => $send_params['text'],
-  				             'phone' => text_number($to_text),
-  				             'key' => $textbelt_apikey
-  		                    );
-  				
-  				
-$textlocal_params = array(
-								  'message' => $send_params['text'],
-  				              'username' => string_to_array($textlocal_account)[0],
-  				              'hash' => string_to_array($textlocal_account)[1],
-  		                    'numbers' => text_number($to_text)
-  				               );
-
-
-	// Send messages
+	// Queue messages
+	
+	// RANDOM HASH SHOULD BE CALLED PER-STATEMENT, OTHERWISE FOR SOME REASON SEEMS TO REUSE SAME HASH FOR THE WHOLE RUNTIME INSTANCE (if set as a variable beforehand)
 	
 	// Notifyme
    if ( $send_params['notifyme'] != '' && trim($notifyme_accesscode) != '' ) {
-   $notifyme_response = @api_data('array', $notifyme_params, 0, 'https://api.notifymyecho.com/v1/NotifyMe');
-	store_file_contents($base_dir . '/cache/logs/last-notifyme-response.log', $notifyme_response);
+	store_file_contents($base_dir . '/cache/queue/messages/notifyme-' . random_hash(4) . '.queue', $send_params['notifyme']);
    }
   
    // Textbelt
 	// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
    if ( $send_params['text'] != '' && trim($textbelt_apikey) != '' && $textlocal_account == '' ) { // Only run if textlocal API isn't being used to avoid double texts
-   $textbelt_response = @api_data('array', $textbelt_params, 0, 'https://textbelt.com/text', 2);
-	store_file_contents($base_dir . '/cache/logs/last-textbelt-response.log', $textbelt_response);
+	store_file_contents($base_dir . '/cache/queue/messages/textbelt-' . random_hash(4) . '.queue', $send_params['text']);
    }
   
    // Textlocal
 	// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
    if ( $send_params['text'] != '' && $textlocal_account != '' && trim($textbelt_apikey) == '' ) { // Only run if textbelt API isn't being used to avoid double texts
-   $textlocal_response = @api_data('array', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
-	store_file_contents($base_dir . '/cache/logs/last-textlocal-response.log', $textlocal_response);
+	store_file_contents($base_dir . '/cache/queue/messages/textlocal-' . random_hash(4) . '.queue', $send_params['text']);
    }
    
            
-   // SEND EMAILS LAST, IN CASE OF SMTP METHOD FAILURE AND RUNTIME EXIT
-  
    // Text email
 	// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
+	// Only use text-to-email if other text services aren't configured
    if ( $send_params['text'] != '' && validate_email( text_email($to_text) ) == 'valid' && trim($textbelt_apikey) == '' && $textlocal_account == '' ) { 
-   // Only use text-to-email if other text services aren't configured
-   @safe_mail( text_email($to_text) , 'Text Notify', $send_params['text']);
+   
+   $textemail_array = array('subject' => 'Text Notify', 'message' => $send_params['text']);
+   
+	store_file_contents($base_dir . '/cache/queue/messages/textemail-' . random_hash(4) . '.queue', json_encode($textemail_array) );
+	
    }
           
-   // Email
+   // Normal email
    if ( $send_params['email']['message'] != '' && validate_email($to_email) == 'valid' ) {
-   @safe_mail($to_email, $send_params['email']['subject'], $send_params['email']['message']);
+   
+   $email_array = array('subject' => $send_params['email']['subject'], 'message' => $send_params['email']['message']);
+   
+	store_file_contents($base_dir . '/cache/queue/messages/normalemail-' . random_hash(4) . '.queue', json_encode($email_array) );
+	
    }
   
+
+}
+
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function send_notifications() {
+
+global $base_dir, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $textlocal_account;
+
+
+	// ONLY process queued messages IF they are NOT already being processed by another runtime instance
+	// Use file locking with flock() to do this
+	$fp = fopen($base_dir . '/cache/events/notifications-queue-processing.dat', "w+");
+	if ( flock($fp, LOCK_EX) ) {  // If we are allowed a file lock, we can proceed
+	
+	
+	////////////START//////////////////////
+	
+	
+	// Array of currently queued messages in the cache
+	$messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue');
+	
+	//var_dump($messages_queue); // DEBUGGING ONLY
+	//return false; // DEBUGGING ONLY
+	
+	
+	$notifyme_params = array(
+								 'notification' => NULL, // Setting this right before sending
+								 'accessCode' => $notifyme_accesscode
+								   );
+					
+					
+	$textbelt_params = array(
+								 'message' => NULL, // Setting this right before sending
+								 'phone' => text_number($to_text),
+								 'key' => $textbelt_apikey
+								);
+					
+					
+	$textlocal_params = array(
+								  'message' => NULL, // Setting this right before sending
+								  'username' => string_to_array($textlocal_account)[0],
+								  'hash' => string_to_array($textlocal_account)[1],
+								  'numbers' => text_number($to_text)
+								   );
+	
+	
+	
+		// Send messages
+		
+		foreach ( $messages_queue as $queued_cache_file ) {
+		
+		
+		$message_data = trim( file_get_contents($base_dir . '/cache/queue/messages/' . $queued_cache_file) );
+		
+		
+			
+			// Notifyme
+			// stripos() misbehaves using != FALSE, so wrapped with is_int()
+		   if ( $message_data != '' && trim($notifyme_accesscode) != '' && is_int( stripos($queued_cache_file, 'notifyme') ) == TRUE ) { 
+		   
+		   $notifyme_params['notification'] = $message_data;
+			
+		   $notifyme_response = @api_data('array', $notifyme_params, 0, 'https://api.notifymyecho.com/v1/NotifyMe');
+		   
+			store_file_contents($base_dir . '/cache/logs/last-notifyme-response.log', $notifyme_response);
+			
+			unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
+		   }
+		  
+		  
+		  
+		   // Textbelt
+			// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
+			// Only run if textlocal API isn't being used to avoid double texts
+			// stripos() misbehaves using != FALSE, so wrapped with is_int()
+		   if ( $message_data != '' && trim($textbelt_apikey) != '' && $textlocal_account == '' && is_int( stripos($queued_cache_file, 'textbelt') ) == TRUE ) {  
+		   
+		   $textbelt_params['message'] = $message_data;
+		   
+		   $textbelt_response = @api_data('array', $textbelt_params, 0, 'https://textbelt.com/text', 2);
+		   
+			store_file_contents($base_dir . '/cache/logs/last-textbelt-response.log', $textbelt_response);
+			
+			unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
+		   }
+		  
+		  
+		  
+		   // Textlocal
+			// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
+			// Only run if textbelt API isn't being used to avoid double texts
+			// stripos() misbehaves using != FALSE, so wrapped with is_int()
+		   if ( $message_data != '' && $textlocal_account != '' && trim($textbelt_apikey) == '' && is_int( stripos($queued_cache_file, 'textlocal') ) == TRUE ) {  
+		   
+		   $textlocal_params['message'] = $message_data;
+		   
+		   $textlocal_response = @api_data('array', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
+		   
+			store_file_contents($base_dir . '/cache/logs/last-textlocal-response.log', $textlocal_response);
+			
+			unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
+		   }
+		   
+				   
+				   
+		   // SEND EMAILS LAST, IN CASE OF SMTP METHOD FAILURE AND RUNTIME EXIT
+		  
+		  
+		  
+		   // Text email
+			// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
+			// Only use text-to-email if other text services aren't configured
+			 // stripos() misbehaves using != FALSE, so wrapped with is_int()
+		   if ( validate_email( text_email($to_text) ) == 'valid' && trim($textbelt_apikey) == '' && $textlocal_account == '' && is_int( stripos($queued_cache_file, 'textemail') ) == TRUE ) { 
+		   
+		   $textemail_array = json_decode($message_data, true);
+		   
+		   
+				if ( $textemail_array['subject'] != '' && $textemail_array['message'] != '' ) {
+				@safe_mail( text_email($to_text) , $textemail_array['subject'], $textemail_array['message']);
+				}
+			
+			unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
+		   }
+				  
+				  
+				  
+		   // Normal email
+			// stripos() misbehaves using != FALSE, so wrapped with is_int()
+		   if ( validate_email($to_email) == 'valid' && is_int( stripos($queued_cache_file, 'normalemail') ) == TRUE ) {
+		   
+		   $email_array = json_decode($message_data, true);
+		   
+		   
+				if ( $email_array['subject'] != '' && $email_array['message'] != '' ) {
+				@safe_mail($to_email, $email_array['subject'], $email_array['message']);
+				}
+			
+			unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
+		   }
+		   
+	   
+	   
+	   // Delete any STRAY message queue cache file (not processed for whatever reason)
+		//unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
+		
+		
+	   }
+  
+  
+	
+	
+	////////////END//////////////////////
+	
+	
+	// We are done processing the queue, so we can release the lock
+   fwrite($fp, time_date_format(false, 'pretty_date_time'). " UTC\n");
+   fflush($fp);            // flush output before releasing the lock
+   flock($fp, LOCK_UN);    // release the lock
+	fclose($fp);
+	return true;
+	} 
+	else {
+   return false; // Another runtime instance was already processing the queue, so skip processing and return false
+	}
+
+
 
 }
 
@@ -1728,7 +1909,7 @@ $cache_filename = preg_replace("/:/", "_", $cache_filename);
           	
           	
           	// Send notifications
-          	@send_notifications($send_params);
+          	@queue_notifications($send_params);
           	
            
        }

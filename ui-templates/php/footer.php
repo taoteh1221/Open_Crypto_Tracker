@@ -83,5 +83,6 @@ if ( $proxy_alerts != 'none' ) {
 }
 
 error_logs();
+send_notifications();
 hardy_session_clearing();
 ?>

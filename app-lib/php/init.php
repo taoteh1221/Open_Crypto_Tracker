@@ -10,7 +10,7 @@ error_reporting(0); // Turn off all error reporting on production servers (0), o
 
 require_once("app-lib/php/loader.php");
 
-$app_version = '3.47.0';  // 2019/NOVEMBER/14TH
+$app_version = '3.48.0';  // 2019/NOVEMBER/16TH
  
 date_default_timezone_set('UTC');
 
@@ -69,8 +69,10 @@ if ( dir_structure($base_dir . '/cache/alerts/') != TRUE
 || dir_structure($base_dir . '/cache/events/') != TRUE
 || dir_structure($base_dir . '/cache/logs/') != TRUE
 || dir_structure($base_dir . '/cache/charts/') != TRUE
-|| dir_structure($base_dir . '/cache/vars/') != TRUE ) {
-echo "Cannot create '/cache/' sub-directories. Please either manually create the sub-directories 'alerts', 'apis', 'events', 'logs', 'charts', and 'vars' with read / write permissions inside the folder 'cache', OR make sure the folder '/cache/' itself has FULL read / write permissions (chmod 777 on unix / linux systems), and these sub-directories should be created automatically.";
+|| dir_structure($base_dir . '/cache/vars/') != TRUE
+|| dir_structure($base_dir . '/cache/queue/messages/') != TRUE
+|| dir_structure($base_dir . '/cache/temp/') != TRUE ) {
+echo "Cannot create cache sub-directories. Please make sure the folder '/cache/' has FULL read / write permissions (chmod 777 on unix / linux systems), so the cache sub-directories can be created automatically.";
 exit;
 }
 

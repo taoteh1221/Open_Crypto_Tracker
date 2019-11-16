@@ -79,6 +79,7 @@ $csv_download_array[] = array(
 
 // Log errors, destroy session data
 error_logs();
+send_notifications();
 hardy_session_clearing();
 
 // Run last, as it exits when completed

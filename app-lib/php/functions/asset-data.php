@@ -933,7 +933,7 @@ $cached_array = explode("||", $data_file);
           	
           	
           	// Send notifications
-          	@send_notifications($send_params);
+          	@queue_notifications($send_params);
   
           
           

@@ -1849,6 +1849,14 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+3.48.0:
+-Alert message queuing system (to throttle sending messages, so as not to exceed notifyme alexa / mobile text API limits)
+-------------------------------------------------------------------
+
+
+
+
 
 
 
