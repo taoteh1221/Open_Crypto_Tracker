@@ -1841,7 +1841,10 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 3.47.0:
 -Coding semantics cleanup
+-Minor bugfixes
 -Added parsing of pairing volume data from market API calls (for exchanges that support it)
+-Revised resources page
+-Logs for last notifyme / text alert responses
 -------------------------------------------------------------------
 
 

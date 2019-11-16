@@ -1362,7 +1362,7 @@ $error_logs .= strip_tags($_SESSION['other_error']); // Remove any HTML formatti
 
 function send_notifications($send_params) {
 
-global $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $textlocal_account;
+global $base_dir, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $textlocal_account;
 
 
 $notifyme_params = array(
@@ -1390,20 +1390,24 @@ $textlocal_params = array(
 	
 	// Notifyme
    if ( $send_params['notifyme'] != '' && trim($notifyme_accesscode) != '' ) {
-   @api_data('array', $notifyme_params, 0, 'https://api.notifymyecho.com/v1/NotifyMe');
+   $notifyme_response = @api_data('array', $notifyme_params, 0, 'https://api.notifymyecho.com/v1/NotifyMe');
+	store_file_contents($base_dir . '/cache/logs/last-notifyme-response.log', $notifyme_response);
    }
   
    // Textbelt
 	// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
    if ( $send_params['text'] != '' && trim($textbelt_apikey) != '' && $textlocal_account == '' ) { // Only run if textlocal API isn't being used to avoid double texts
-   @api_data('array', $textbelt_params, 0, 'https://textbelt.com/text', 2);
+   $textbelt_response = @api_data('array', $textbelt_params, 0, 'https://textbelt.com/text', 2);
+	store_file_contents($base_dir . '/cache/logs/last-textbelt-response.log', $textbelt_response);
    }
   
    // Textlocal
 	// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
    if ( $send_params['text'] != '' && $textlocal_account != '' && trim($textbelt_apikey) == '' ) { // Only run if textbelt API isn't being used to avoid double texts
-   @api_data('array', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
+   $textlocal_response = @api_data('array', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
+	store_file_contents($base_dir . '/cache/logs/last-textlocal-response.log', $textlocal_response);
    }
+   
            
    // SEND EMAILS LAST, IN CASE OF SMTP METHOD FAILURE AND RUNTIME EXIT
   
