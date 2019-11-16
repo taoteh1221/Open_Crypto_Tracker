@@ -112,13 +112,17 @@ if ( $allow_tweet_embed_js == 'on' ) {
 	        
 	        <li class='links_list'><a href='https://coinbase.com' target='_blank'>Coinbase.com</a></li>
 	        
-	        <li class='links_list'><a href='https://us.binance.com' target='_blank'>Binance.com</a></li>
+	        <li class='links_list'><a href='https://www.kraken.com/' target='_blank'>Kraken.com</a></li>
 	        
 	        <li class='links_list'><a href='https://bittrex.com' target='_blank'>Bittrex.com</a></li>
 	        
-	        <li class='links_list'><a href='https://poloniex.com' target='_blank'>Poloniex.com</a></li>
+	        <li class='links_list'><a href='https://binance.com' target='_blank'>Binance.com</a></li>
 	        
-	        <li class='links_list'><a href='https://www.kraken.com/' target='_blank'>Kraken.com</a></li>
+	        <li class='links_list'><a href='https://binance.us' target='_blank'>Binance.us</a></li>
+	        
+	        <li class='links_list'><a href='https://www.kucoin.com/' target='_blank'>Kucoin.com</a></li>
+	        
+	        <li class='links_list'><a href='https://poloniex.com' target='_blank'>Poloniex.com</a></li>
 	        
 	        <li class='links_list'><a href='https://gemini.com/' target='_blank'>Gemini.com</a></li>
 	        
@@ -129,8 +133,6 @@ if ( $allow_tweet_embed_js == 'on' ) {
 	        <li class='links_list'><a href='https://www.bitfinex.com/' target='_blank'>Bitfinex.com</a></li>
 	        
 	        <li class='links_list'><a href='https://hitbtc.com/' target='_blank'>Hitbtc.com</a></li>
-	        
-	        <li class='links_list'><a href='https://www.kucoin.com/' target='_blank'>Kucoin.com</a></li>
 	        
 	        
 	        
