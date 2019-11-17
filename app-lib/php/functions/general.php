@@ -1446,14 +1446,41 @@ function send_notifications() {
 global $base_dir, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $textlocal_account;
 
 
-// If it's been at least five minutes since a notifyme alert was sent, reset the counter for that
-if ( update_cache_file('cache/events/notifyme-alerts-sent.dat', 5 ) == true ) {
-store_file_contents($base_dir . '/cache/events/notifyme-alerts-sent.dat', 0); 
-$_SESSION['notifyme_count'] = 0;
-}
-else {
-$_SESSION['notifyme_count'] = trim( file_get_contents($base_dir . '/cache/events/notifyme-alerts-sent.dat') );
-}
+
+	if ( !isset($_SESSION['notifications_count']) ) {
+	$_SESSION['notifications_count'] = 0;
+	}
+	
+	
+	
+	// If it's been well over 5 minutes since a notifyme alert was sent 
+	// (we use 6 minutes, safely over the 5 minute limit for the maximum 5 requests), 
+	// and no session count is set, set session count to zero
+	// Don't update the file-cached count here, that will happen automatically from resetting the session count to zero 
+	// (if there are notifyme messages queued to send)
+	if ( !isset($_SESSION['notifyme_count']) && update_cache_file('cache/events/notifyme-alerts-sent.dat', 6 ) == true ) {
+	$_SESSION['notifyme_count'] = 0;
+	}
+	// If it hasn't been well over 5 minutes since the last notifyme send
+	// (we use 6 minutes, safely over the 5 minute limit for the maximum 5 requests), and there is no session count, 
+	// use the file-cached count for the session count starting point
+	elseif ( !isset($_SESSION['notifyme_count']) && update_cache_file('cache/events/notifyme-alerts-sent.dat', 6 ) == false ) {
+	$_SESSION['notifyme_count'] = trim( file_get_contents($base_dir . '/cache/events/notifyme-alerts-sent.dat') );
+	}
+	
+	
+	
+	if ( !isset($_SESSION['textbelt_count']) ) {
+	$_SESSION['textbelt_count'] = 0;
+	}
+	
+	
+	
+	if ( !isset($_SESSION['textlocal_count']) ) {
+	$_SESSION['textlocal_count'] = 0;
+	}
+
+
 
 
 // Array of currently queued messages in the cache
@@ -1512,7 +1539,7 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue');
 			
 			// Notifyme
 			// stripos() misbehaves using != FALSE, so wrapped with is_int()
-		   if ( $message_data != '' && trim($notifyme_accesscode) != '' && is_int( stripos($queued_cache_file, 'notifyme') ) == TRUE ) { 
+		   if ( $message_data != '' && trim($notifyme_accesscode) != '' && is_int( stripos($queued_cache_file, 'notifyme') ) == true ) { 
 		   
 		   $notifyme_params['notification'] = $message_data;
 		   
@@ -1531,17 +1558,15 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue');
 		  		$_SESSION['notifyme_count'] = $_SESSION['notifyme_count'] + 1;
 				
 				$message_sent = 1;
+				
+		   	store_file_contents($base_dir . '/cache/events/notifyme-alerts-sent.dat', $_SESSION['notifyme_count']); 
 		   	
 				store_file_contents($base_dir . '/cache/logs/last-notifyme-response.log', $notifyme_response);
 				
 				unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
 				
 		   	}
-          	// Track if we are at 5 new notifyme alerts already, to determine next time we can send notifyme alerts
-		   	elseif ( $_SESSION['notifyme_count'] == 5 && update_cache_file('cache/events/notifyme-alerts-sent.dat', 5 ) == true ) {
-				store_file_contents($base_dir . '/cache/events/notifyme-alerts-sent.dat', $_SESSION['notifyme_count']); 
-				}
-				
+		   	
 		   	
 		   	
 		   }
@@ -1639,9 +1664,6 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue');
 		   }
 		   
 	   
-	   
-	   // Delete any STRAY message queue cache file (not processed for whatever reason)
-		//unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
 		
 		
 	   }
@@ -1659,16 +1681,17 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue');
 	
 	
 	// We are done processing the queue, so we can release the lock
-   fwrite($fp, time_date_format(false, 'pretty_date_time'). " UTC\n");
+   fwrite($fp, time_date_format(false, 'pretty_date_time'). " UTC (with file lock)\n");
    fflush($fp);            // flush output before releasing the lock
    flock($fp, LOCK_UN);    // release the lock
-	fclose($fp);
 	return true;
 	
 	} 
 	else {
+   fwrite($fp, time_date_format(false, 'pretty_date_time'). " UTC (no file lock)\n");
    return false; // Another runtime instance was already processing the queue, so skip processing and return false
 	}
+	fclose($fp);
 
 
 
