@@ -1446,20 +1446,37 @@ function send_notifications() {
 global $base_dir, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $textlocal_account;
 
 
+// If it's been at least five minutes since a notifyme alert was sent, reset the counter for that
+if ( update_cache_file('cache/events/notifyme-alerts-sent.dat', 5 ) == true ) {
+store_file_contents($base_dir . '/cache/events/notifyme-alerts-sent.dat', 0); 
+$_SESSION['notifyme_count'] = 0;
+}
+else {
+$_SESSION['notifyme_count'] = trim( file_get_contents($base_dir . '/cache/events/notifyme-alerts-sent.dat') );
+}
+
+
+// Array of currently queued messages in the cache
+$messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue');
+	
+//var_dump($messages_queue); // DEBUGGING ONLY
+//return false; // DEBUGGING ONLY
+	
+
 	// ONLY process queued messages IF they are NOT already being processed by another runtime instance
 	// Use file locking with flock() to do this
 	$fp = fopen($base_dir . '/cache/events/notifications-queue-processing.dat', "w+");
-	if ( flock($fp, LOCK_EX) ) {  // If we are allowed a file lock, we can proceed
+	if ( sizeof($messages_queue) > 0 && flock($fp, LOCK_EX) ) {  // If queued messages exist, AND we are allowed a file lock, we can proceed
 	
 	
 	////////////START//////////////////////
 	
 	
-	// Array of currently queued messages in the cache
-	$messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue');
-	
-	//var_dump($messages_queue); // DEBUGGING ONLY
-	//return false; // DEBUGGING ONLY
+		// Sleep for 1.25 seconds before starting ANY consecutive message send, to avoid API blacklisting
+		if ( $_SESSION['notifications_count'] > 0 ) {
+		usleep(1250000);
+		}
+		
 	
 	
 	$notifyme_params = array(
@@ -1498,12 +1515,35 @@ global $base_dir, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $
 		   if ( $message_data != '' && trim($notifyme_accesscode) != '' && is_int( stripos($queued_cache_file, 'notifyme') ) == TRUE ) { 
 		   
 		   $notifyme_params['notification'] = $message_data;
-			
-		   $notifyme_response = @api_data('array', $notifyme_params, 0, 'https://api.notifymyecho.com/v1/NotifyMe');
 		   
-			store_file_contents($base_dir . '/cache/logs/last-notifyme-response.log', $notifyme_response);
+		   
+		   	// Sleep for 0.4 seconds extra on consecutive notifyme messages
+		   	if ( $_SESSION['notifyme_count'] > 0 ) {
+		   	usleep(400000);
+		   	}
 			
-			unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
+				
+				// Only 5 notifyme messages allowed per minute
+				if ( $_SESSION['notifyme_count'] < 5 ) {
+				
+		   	$notifyme_response = @api_data('array', $notifyme_params, 0, 'https://api.notifymyecho.com/v1/NotifyMe');
+		   	
+		  		$_SESSION['notifyme_count'] = $_SESSION['notifyme_count'] + 1;
+				
+				$message_sent = 1;
+		   	
+				store_file_contents($base_dir . '/cache/logs/last-notifyme-response.log', $notifyme_response);
+				
+				unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
+				
+		   	}
+          	// Track if we are at 5 new notifyme alerts already, to determine next time we can send notifyme alerts
+		   	elseif ( $_SESSION['notifyme_count'] == 5 && update_cache_file('cache/events/notifyme-alerts-sent.dat', 5 ) == true ) {
+				store_file_contents($base_dir . '/cache/events/notifyme-alerts-sent.dat', $_SESSION['notifyme_count']); 
+				}
+				
+		   	
+		   	
 		   }
 		  
 		  
@@ -1516,7 +1556,16 @@ global $base_dir, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $
 		   
 		   $textbelt_params['message'] = $message_data;
 		   
+		   	// Sleep for 0.95 seconds extra on consecutive text messages
+		   	if ( $_SESSION['textbelt_count'] > 0 ) {
+		   	usleep(950000);
+		   	}
+		   
 		   $textbelt_response = @api_data('array', $textbelt_params, 0, 'https://textbelt.com/text', 2);
+		   
+		   $_SESSION['textbelt_count'] = $_SESSION['textbelt_count'] + 1;
+			
+			$message_sent = 1;
 		   
 			store_file_contents($base_dir . '/cache/logs/last-textbelt-response.log', $textbelt_response);
 			
@@ -1533,7 +1582,16 @@ global $base_dir, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $
 		   
 		   $textlocal_params['message'] = $message_data;
 		   
+		   	// Sleep for 0.95 seconds extra on consecutive text messages
+		   	if ( $_SESSION['textlocal_count'] > 0 ) {
+		   	usleep(950000);
+		   	}
+		   
 		   $textlocal_response = @api_data('array', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
+		   
+		   $_SESSION['textlocal_count'] = $_SESSION['textlocal_count'] + 1;
+			
+			$message_sent = 1;
 		   
 			store_file_contents($base_dir . '/cache/logs/last-textlocal-response.log', $textlocal_response);
 			
@@ -1557,6 +1615,7 @@ global $base_dir, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $
 		   
 				if ( $textemail_array['subject'] != '' && $textemail_array['message'] != '' ) {
 				@safe_mail( text_email($to_text) , $textemail_array['subject'], $textemail_array['message']);
+				$message_sent = 1;
 				}
 			
 			unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
@@ -1573,6 +1632,7 @@ global $base_dir, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $
 		   
 				if ( $email_array['subject'] != '' && $email_array['message'] != '' ) {
 				@safe_mail($to_email, $email_array['subject'], $email_array['message']);
+				$message_sent = 1;
 				}
 			
 			unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
@@ -1587,9 +1647,15 @@ global $base_dir, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $
 	   }
   
   
+  
+  		if ( $message_sent == 1 ) {
+  		$_SESSION['notifications_count'] = $_SESSION['notifications_count'] + 1;
+  		}
+	
 	
 	
 	////////////END//////////////////////
+	
 	
 	
 	// We are done processing the queue, so we can release the lock
@@ -1598,6 +1664,7 @@ global $base_dir, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $
    flock($fp, LOCK_UN);    // release the lock
 	fclose($fp);
 	return true;
+	
 	} 
 	else {
    return false; // Another runtime instance was already processing the queue, so skip processing and return false
