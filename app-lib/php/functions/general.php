@@ -169,10 +169,11 @@ return $number;
 ////////////////////////////////////////////////////////
 
 
-function sort_files($files_dir, $extension) {
+function sort_files($files_dir, $extension, $sort) {
 	
 $scan_array = scandir($files_dir);
 $files = array();
+  
   
   foreach($scan_array as $filename) {
     
@@ -183,7 +184,14 @@ $files = array();
     
   }
 
-ksort($files);
+
+  if ( $sort == 'asc' ) {
+  ksort($files);
+  }
+  elseif ( $sort == 'desc' ) {
+  krsort($files);
+  }
+
 
 return $files;
   
@@ -1446,252 +1454,263 @@ function send_notifications() {
 global $base_dir, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $textlocal_account;
 
 
-
-	if ( !isset($_SESSION['notifications_count']) ) {
-	$_SESSION['notifications_count'] = 0;
-	}
-	
-	
-	
-	// If it's been well over 5 minutes since a notifyme alert was sent 
-	// (we use 6 minutes, safely over the 5 minute limit for the maximum 5 requests), 
-	// and no session count is set, set session count to zero
-	// Don't update the file-cached count here, that will happen automatically from resetting the session count to zero 
-	// (if there are notifyme messages queued to send)
-	if ( !isset($_SESSION['notifyme_count']) && update_cache_file('cache/events/notifyme-alerts-sent.dat', 6 ) == true ) {
-	$_SESSION['notifyme_count'] = 0;
-	}
-	// If it hasn't been well over 5 minutes since the last notifyme send
-	// (we use 6 minutes, safely over the 5 minute limit for the maximum 5 requests), and there is no session count, 
-	// use the file-cached count for the session count starting point
-	elseif ( !isset($_SESSION['notifyme_count']) && update_cache_file('cache/events/notifyme-alerts-sent.dat', 6 ) == false ) {
-	$_SESSION['notifyme_count'] = trim( file_get_contents($base_dir . '/cache/events/notifyme-alerts-sent.dat') );
-	}
-	
-	
-	
-	if ( !isset($_SESSION['textbelt_count']) ) {
-	$_SESSION['textbelt_count'] = 0;
-	}
-	
-	
-	
-	if ( !isset($_SESSION['textlocal_count']) ) {
-	$_SESSION['textlocal_count'] = 0;
-	}
-
-
-
-
 // Array of currently queued messages in the cache
-$messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue');
+$messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc');
 	
 //var_dump($messages_queue); // DEBUGGING ONLY
 //return false; // DEBUGGING ONLY
-	
 
-	// ONLY process queued messages IF they are NOT already being processed by another runtime instance
-	// Use file locking with flock() to do this
-	$fp = fopen($base_dir . '/cache/events/notifications-queue-processing.dat', "w+");
-	if ( sizeof($messages_queue) > 0 && flock($fp, LOCK_EX) ) {  // If queued messages exist, AND we are allowed a file lock, we can proceed
+
+	// If queued messages exist, proceed
+	if ( sizeof($messages_queue) > 0 ) {
 	
 	
-	////////////START//////////////////////
 	
-	
-		// Sleep for 1.25 seconds before starting ANY consecutive message send, to avoid API blacklisting
-		if ( $_SESSION['notifications_count'] > 0 ) {
-		usleep(1250000);
+		if ( !isset($_SESSION['notifications_count']) ) {
+		$_SESSION['notifications_count'] = 0;
 		}
 		
-	
-	
-	$notifyme_params = array(
-								 'notification' => NULL, // Setting this right before sending
-								 'accessCode' => $notifyme_accesscode
-								   );
-					
-					
-	$textbelt_params = array(
-								 'message' => NULL, // Setting this right before sending
-								 'phone' => text_number($to_text),
-								 'key' => $textbelt_apikey
-								);
-					
-					
-	$textlocal_params = array(
-								  'message' => NULL, // Setting this right before sending
-								  'username' => string_to_array($textlocal_account)[0],
-								  'hash' => string_to_array($textlocal_account)[1],
-								  'numbers' => text_number($to_text)
-								   );
-	
-	
-	
-		// Send messages
-		
-		foreach ( $messages_queue as $queued_cache_file ) {
 		
 		
-		$message_data = trim( file_get_contents($base_dir . '/cache/queue/messages/' . $queued_cache_file) );
+		// If it's been well over 5 minutes since a notifyme alert was sent 
+		// (we use 6 minutes, safely over the 5 minute limit for the maximum 5 requests), 
+		// and no session count is set, set session count to zero
+		// Don't update the file-cached count here, that will happen automatically from resetting the session count to zero 
+		// (if there are notifyme messages queued to send)
+		if ( !isset($_SESSION['notifyme_count']) && update_cache_file('cache/events/notifyme-alerts-sent.dat', 6 ) == true ) {
+		$_SESSION['notifyme_count'] = 0;
+		}
+		// If it hasn't been well over 5 minutes since the last notifyme send
+		// (we use 6 minutes, safely over the 5 minute limit for the maximum 5 requests), and there is no session count, 
+		// use the file-cached count for the session count starting point
+		elseif ( !isset($_SESSION['notifyme_count']) && update_cache_file('cache/events/notifyme-alerts-sent.dat', 6 ) == false ) {
+		$_SESSION['notifyme_count'] = trim( file_get_contents($base_dir . '/cache/events/notifyme-alerts-sent.dat') );
+		}
 		
 		
+		
+		if ( !isset($_SESSION['textbelt_count']) ) {
+		$_SESSION['textbelt_count'] = 0;
+		}
+		
+		
+		
+		if ( !isset($_SESSION['textlocal_count']) ) {
+		$_SESSION['textlocal_count'] = 0;
+		}
+	
+	
+		
+	
+		// ONLY process queued messages IF they are NOT already being processed by another runtime instance
+		// Use file locking with flock() to do this
+		$fp = fopen($base_dir . '/cache/events/notifications-queue-processing.dat', "w+");
+		if ( flock($fp, LOCK_EX) ) {  // If we are allowed a file lock, we can proceed
+		
+		
+		////////////START//////////////////////
+		
+		
+			// Sleep for 1.25 seconds before starting ANY consecutive message send, to avoid API blacklisting
+			if ( $_SESSION['notifications_count'] > 0 ) {
+			usleep(1250000);
+			}
 			
-			// Notifyme
-			// stripos() misbehaves using != FALSE, so wrapped with is_int()
-		   if ( $message_data != '' && trim($notifyme_accesscode) != '' && is_int( stripos($queued_cache_file, 'notifyme') ) == true ) { 
-		   
-		   $notifyme_params['notification'] = $message_data;
-		   
-		   
-		   	// Sleep for 0.4 seconds extra on consecutive notifyme messages
-		   	if ( $_SESSION['notifyme_count'] > 0 ) {
-		   	usleep(400000);
-		   	}
+		
+		
+		$notifyme_params = array(
+									 'notification' => NULL, // Setting this right before sending
+									 'accessCode' => $notifyme_accesscode
+									   );
+						
+						
+		$textbelt_params = array(
+									 'message' => NULL, // Setting this right before sending
+									 'phone' => text_number($to_text),
+									 'key' => $textbelt_apikey
+									);
+						
+						
+		$textlocal_params = array(
+									  'message' => NULL, // Setting this right before sending
+									  'username' => string_to_array($textlocal_account)[0],
+									  'hash' => string_to_array($textlocal_account)[1],
+									  'numbers' => text_number($to_text)
+									   );
+		
+		
+		
+			// Send messages
+			
+			foreach ( $messages_queue as $queued_cache_file ) {
+			
+			
+			$message_data = trim( file_get_contents($base_dir . '/cache/queue/messages/' . $queued_cache_file) );
+			
 			
 				
-				// Only 5 notifyme messages allowed per minute
-				if ( $_SESSION['notifyme_count'] < 5 ) {
+				// Notifyme
+				// stripos() misbehaves using != FALSE, so wrapped with is_int()
+			   if ( $message_data != '' && trim($notifyme_accesscode) != '' && is_int( stripos($queued_cache_file, 'notifyme') ) == true ) { 
+			   
+			   $notifyme_params['notification'] = $message_data;
+			   
+			   
+				// Sleep for 0.4 seconds extra on consecutive notifyme messages
+				if ( $_SESSION['notifyme_count'] > 0 ) {
+				usleep(400000);
+				}
 				
-		   	$notifyme_response = @api_data('array', $notifyme_params, 0, 'https://api.notifymyecho.com/v1/NotifyMe');
-		   	
-		  		$_SESSION['notifyme_count'] = $_SESSION['notifyme_count'] + 1;
+					
+					// Only 5 notifyme messages allowed per minute
+					if ( $_SESSION['notifyme_count'] < 5 ) {
+					
+				$notifyme_response = @api_data('array', $notifyme_params, 0, 'https://api.notifymyecho.com/v1/NotifyMe');
+				
+					$_SESSION['notifyme_count'] = $_SESSION['notifyme_count'] + 1;
+					
+					$message_sent = 1;
+					
+				store_file_contents($base_dir . '/cache/events/notifyme-alerts-sent.dat', $_SESSION['notifyme_count']); 
+				
+					store_file_contents($base_dir . '/cache/logs/last-notifyme-response.log', $notifyme_response);
+					
+					unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
+					
+				}
+				
+				
+				
+			   }
+			  
+			  
+			  
+			   // Textbelt
+				// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
+				// Only run if textlocal API isn't being used to avoid double texts
+				// stripos() misbehaves using != FALSE, so wrapped with is_int()
+			   if ( $message_data != '' && trim($textbelt_apikey) != '' && $textlocal_account == '' && is_int( stripos($queued_cache_file, 'textbelt') ) == TRUE ) {  
+			   
+			   $textbelt_params['message'] = $message_data;
+			   
+				// Sleep for 0.95 seconds extra on consecutive text messages
+				if ( $_SESSION['textbelt_count'] > 0 ) {
+				usleep(950000);
+				}
+			   
+			   $textbelt_response = @api_data('array', $textbelt_params, 0, 'https://textbelt.com/text', 2);
+			   
+			   $_SESSION['textbelt_count'] = $_SESSION['textbelt_count'] + 1;
 				
 				$message_sent = 1;
-				
-		   	store_file_contents($base_dir . '/cache/events/notifyme-alerts-sent.dat', $_SESSION['notifyme_count']); 
-		   	
-				store_file_contents($base_dir . '/cache/logs/last-notifyme-response.log', $notifyme_response);
+			   
+				store_file_contents($base_dir . '/cache/logs/last-textbelt-response.log', $textbelt_response);
 				
 				unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
+			   }
+			  
+			  
+			  
+			   // Textlocal
+				// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
+				// Only run if textbelt API isn't being used to avoid double texts
+				// stripos() misbehaves using != FALSE, so wrapped with is_int()
+			   if ( $message_data != '' && $textlocal_account != '' && trim($textbelt_apikey) == '' && is_int( stripos($queued_cache_file, 'textlocal') ) == TRUE ) {  
+			   
+			   $textlocal_params['message'] = $message_data;
+			   
+				// Sleep for 0.95 seconds extra on consecutive text messages
+				if ( $_SESSION['textlocal_count'] > 0 ) {
+				usleep(950000);
+				}
+			   
+			   $textlocal_response = @api_data('array', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
+			   
+			   $_SESSION['textlocal_count'] = $_SESSION['textlocal_count'] + 1;
 				
-		   	}
-		   	
-		   	
-		   	
-		   }
-		  
-		  
-		  
-		   // Textbelt
-			// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-			// Only run if textlocal API isn't being used to avoid double texts
-			// stripos() misbehaves using != FALSE, so wrapped with is_int()
-		   if ( $message_data != '' && trim($textbelt_apikey) != '' && $textlocal_account == '' && is_int( stripos($queued_cache_file, 'textbelt') ) == TRUE ) {  
-		   
-		   $textbelt_params['message'] = $message_data;
-		   
-		   	// Sleep for 0.95 seconds extra on consecutive text messages
-		   	if ( $_SESSION['textbelt_count'] > 0 ) {
-		   	usleep(950000);
-		   	}
-		   
-		   $textbelt_response = @api_data('array', $textbelt_params, 0, 'https://textbelt.com/text', 2);
-		   
-		   $_SESSION['textbelt_count'] = $_SESSION['textbelt_count'] + 1;
-			
-			$message_sent = 1;
-		   
-			store_file_contents($base_dir . '/cache/logs/last-textbelt-response.log', $textbelt_response);
-			
-			unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
-		   }
-		  
-		  
-		  
-		   // Textlocal
-			// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-			// Only run if textbelt API isn't being used to avoid double texts
-			// stripos() misbehaves using != FALSE, so wrapped with is_int()
-		   if ( $message_data != '' && $textlocal_account != '' && trim($textbelt_apikey) == '' && is_int( stripos($queued_cache_file, 'textlocal') ) == TRUE ) {  
-		   
-		   $textlocal_params['message'] = $message_data;
-		   
-		   	// Sleep for 0.95 seconds extra on consecutive text messages
-		   	if ( $_SESSION['textlocal_count'] > 0 ) {
-		   	usleep(950000);
-		   	}
-		   
-		   $textlocal_response = @api_data('array', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
-		   
-		   $_SESSION['textlocal_count'] = $_SESSION['textlocal_count'] + 1;
-			
-			$message_sent = 1;
-		   
-			store_file_contents($base_dir . '/cache/logs/last-textlocal-response.log', $textlocal_response);
-			
-			unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
-		   }
-		   
-				   
-				   
-		   // SEND EMAILS LAST, IN CASE OF SMTP METHOD FAILURE AND RUNTIME EXIT
-		  
-		  
-		  
-		   // Text email
-			// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-			// Only use text-to-email if other text services aren't configured
-			 // stripos() misbehaves using != FALSE, so wrapped with is_int()
-		   if ( validate_email( text_email($to_text) ) == 'valid' && trim($textbelt_apikey) == '' && $textlocal_account == '' && is_int( stripos($queued_cache_file, 'textemail') ) == TRUE ) { 
-		   
-		   $textemail_array = json_decode($message_data, true);
-		   
-		   
-				if ( $textemail_array['subject'] != '' && $textemail_array['message'] != '' ) {
-				@safe_mail( text_email($to_text) , $textemail_array['subject'], $textemail_array['message']);
 				$message_sent = 1;
-				}
+			   
+				store_file_contents($base_dir . '/cache/logs/last-textlocal-response.log', $textlocal_response);
+				
+				unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
+			   }
+			   
+					   
+					   
+			   // SEND EMAILS LAST, IN CASE OF SMTP METHOD FAILURE AND RUNTIME EXIT
+			  
+			  
+			  
+			   // Text email
+				// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
+				// Only use text-to-email if other text services aren't configured
+				 // stripos() misbehaves using != FALSE, so wrapped with is_int()
+			   if ( validate_email( text_email($to_text) ) == 'valid' && trim($textbelt_apikey) == '' && $textlocal_account == '' && is_int( stripos($queued_cache_file, 'textemail') ) == TRUE ) { 
+			   
+			   $textemail_array = json_decode($message_data, true);
+			   
+			   
+					if ( $textemail_array['subject'] != '' && $textemail_array['message'] != '' ) {
+					@safe_mail( text_email($to_text) , $textemail_array['subject'], $textemail_array['message']);
+					$message_sent = 1;
+					}
+				
+				unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
+			   }
+					  
+					  
+					  
+			   // Normal email
+				// stripos() misbehaves using != FALSE, so wrapped with is_int()
+			   if ( validate_email($to_email) == 'valid' && is_int( stripos($queued_cache_file, 'normalemail') ) == TRUE ) {
+			   
+			   $email_array = json_decode($message_data, true);
+			   
+			   
+					if ( $email_array['subject'] != '' && $email_array['message'] != '' ) {
+					@safe_mail($to_email, $email_array['subject'], $email_array['message']);
+					$message_sent = 1;
+					}
+				
+				unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
+			   }
+			   
+		   
 			
-			unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
-		   }
-				  
-				  
-				  
-		   // Normal email
-			// stripos() misbehaves using != FALSE, so wrapped with is_int()
-		   if ( validate_email($to_email) == 'valid' && is_int( stripos($queued_cache_file, 'normalemail') ) == TRUE ) {
-		   
-		   $email_array = json_decode($message_data, true);
-		   
-		   
-				if ( $email_array['subject'] != '' && $email_array['message'] != '' ) {
-				@safe_mail($to_email, $email_array['subject'], $email_array['message']);
-				$message_sent = 1;
-				}
 			
-			unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
 		   }
-		   
-	   
+	  
+	  
+	  
+			if ( $message_sent == 1 ) {
+			$_SESSION['notifications_count'] = $_SESSION['notifications_count'] + 1;
+			}
 		
 		
-	   }
-  
-  
-  
-  		if ( $message_sent == 1 ) {
-  		$_SESSION['notifications_count'] = $_SESSION['notifications_count'] + 1;
-  		}
+		
+		////////////END//////////////////////
+		
+		
+		
+		// We are done processing the queue, so we can release the lock
+	   fwrite($fp, time_date_format(false, 'pretty_date_time'). " UTC (with file lock)\n");
+	   fflush($fp);            // flush output before releasing the lock
+	   flock($fp, LOCK_UN);    // release the lock
+		return true;
+		
+		} 
+		else {
+	   fwrite($fp, time_date_format(false, 'pretty_date_time'). " UTC (no file lock)\n");
+	   return false; // Another runtime instance was already processing the queue, so skip processing and return false
+		}
+		fclose($fp);
 	
 	
 	
-	////////////END//////////////////////
-	
-	
-	
-	// We are done processing the queue, so we can release the lock
-   fwrite($fp, time_date_format(false, 'pretty_date_time'). " UTC (with file lock)\n");
-   fflush($fp);            // flush output before releasing the lock
-   flock($fp, LOCK_UN);    // release the lock
-	return true;
-	
-	} 
-	else {
-   fwrite($fp, time_date_format(false, 'pretty_date_time'). " UTC (no file lock)\n");
-   return false; // Another runtime instance was already processing the queue, so skip processing and return false
 	}
-	fclose($fp);
+	else {
+	return false; // No messages are queued to send, so skip and return false
+	}
 
 
 
