@@ -23,7 +23,7 @@ $example_download_array[] = array(
 	        							'0',
 	        							'long',
 	        							'1',
-	        							'btc'
+	        							'usd'
 	        							);		
 	        
 // LTC

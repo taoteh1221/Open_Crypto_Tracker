@@ -44,9 +44,6 @@
 		
 		$show_asset_params = explode("||", $value);
 		
-			if ( $show_asset == 'BTC' ) {
-			$show_asset_params[1] = 'usd';
-			}
 				
 			if ( $show_asset_params[2] == 'chart' || $show_asset_params[2] == 'both' ) {
 	?>
@@ -56,23 +53,15 @@
 			<b><span class='blue'><?=$show_asset?></span> / <?=strtoupper($show_asset_params[1])?> @ <?=name_rendering($show_asset_params[0])?>:</b> &nbsp; &nbsp; &nbsp; 
 			
 				<?php
-				// BTC / USD-paired markets
-				if ( $show_asset == 'BTC' ) {
-				?>
-	
-				<input type='checkbox' value='<?=$key?>' onchange='chart_toggle(this);' <?=( in_array("[".$key."]", $show_charts) ? 'checked' : '' )?> /> USD Chart
-	
-				<?php
-				}
-				// ALTS / USD-paired markets
-				elseif ( $show_asset_params[1] == 'usd' ) {
+				// USD-paired markets
+				if ( $show_asset_params[1] == 'usd' ) {
 				?>
 	
 			   <input type='checkbox' value='<?=$key?>_<?=$show_asset_params[1]?>' onchange='chart_toggle(this);' <?=( in_array("[".$key . '_' . $show_asset_params[1]."]", $show_charts) ? 'checked' : '' )?> /> <?=strtoupper($show_asset_params[1])?> Chart 
 	
 				<?php
 				}
-				// ALTS / CRYPTO-paired markets (WITH USD EQUIV CHARTS INCLUDED)
+				// CRYPTO-paired markets (WITH USD EQUIV CHARTS INCLUDED)
 				else {
 				?>
 					

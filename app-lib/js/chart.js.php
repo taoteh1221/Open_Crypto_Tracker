@@ -29,13 +29,9 @@ if ( $_GET['type'] == 'asset' ) {
 		$chart_asset = strtoupper($chart_asset);
 		
 		$market_parse = explode("||", $value );
-		
-			if ( $chart_asset == 'BTC' ) {
-			$market_parse[1] = 'usd';
-			}
 
 
-		$charted_value = ( $_GET['charted_value'] == 'pairing' && $chart_asset != 'BTC' ? $market_parse[1] : 'usd' );
+		$charted_value = ( $_GET['charted_value'] == 'pairing' ? $market_parse[1] : 'usd' );
 		
 		
 		// Strip non-alphanumeric characters to use in js vars, to isolate logic for each separate chart
@@ -43,7 +39,7 @@ if ( $_GET['type'] == 'asset' ) {
 		
 			
 			// Unicode asset symbols
-			if ( $market_parse[1] == 'btc' && $chart_asset == 'BTC' || $_GET['charted_value'] == 'usd' || $market_parse[1] == 'usd' ) {
+			if ( $_GET['charted_value'] == 'usd' || $market_parse[1] == 'usd' ) {
 			$trade_symbol = "$";
 			$volume_symbol = "$";
 			$usd_eqiv = 1;
@@ -58,7 +54,7 @@ if ( $_GET['type'] == 'asset' ) {
 			$volume_symbol = $chart_asset;
 			$usd_eqiv = 1;
 			}
-			elseif ( $market_parse[1] == 'btc' && $chart_asset != 'BTC' ) {
+			elseif ( $market_parse[1] == 'btc' ) {
 			$trade_symbol = "Ƀ";
 			$volume_symbol = $chart_asset;
 			}

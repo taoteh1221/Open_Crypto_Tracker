@@ -24,7 +24,7 @@
 
 // Your local time offset in hours compared to UTC time. Can be negative or positive.
 // (Used for UX / UI timestamping only, will not change or screw up UTC log times etc if you change this)
-$local_time_offset = -4; // example: -5 or 5
+$local_time_offset = -5; // example: -5 or 5
 
 // Allows (styled) embedded tweets in UI pages from twitter.com (shows a couple tweets / permits external script load: platform.twitter.com/widgets.js)
 $allow_tweet_embed_js = 'on'; // 'on' or 'off'
@@ -202,13 +202,13 @@ $asset_charts_and_alerts = array(
 				// 'othersymbol-3' => 'exchange3||trade_pairing3||chart',
 					
 					// BTC
-					'btc' => 'coinbase||btc||chart',
-					'btc-2' => 'binance||btc||both',
-					'btc-3' => 'bitstamp||btc||chart',
-					'btc-4' => 'kraken||btc||chart',
-					'btc-5' => 'gemini||btc||chart',
-					'btc-6' => 'bitfinex||btc||chart',
-					'btc-7' => 'binance_us||btc||chart',
+					'btc' => 'coinbase||usd||chart',
+					'btc-2' => 'binance||usd||both',
+					'btc-3' => 'bitstamp||usd||chart',
+					'btc-4' => 'kraken||usd||chart',
+					'btc-5' => 'gemini||usd||chart',
+					'btc-6' => 'bitfinex||usd||chart',
+					'btc-7' => 'binance_us||usd||chart',
 					
 					// ETH
 					'eth' => 'coinbase||btc||chart',
@@ -382,7 +382,7 @@ $coins_list = array(
                         'marketcap_website_slug' => 'bitcoin',
                         'market_pairing' => array(
                         
-                                    'btc' => array(
+                                    'usd' => array(
                                           'coinbase' => 'coinbase',
                                           'binance' => 'binance',
                                           'binance_us' => 'binance_us',

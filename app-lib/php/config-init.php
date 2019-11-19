@@ -147,10 +147,6 @@ if ( $charts_page == 'on' && update_cache_file('cache/vars/chart_interval.dat', 
 		$find_first_asset = strtoupper($find_first_asset);
 	
 		$find_first_chart = explode("||", $value);
-		
-			if ( $find_first_asset == 'BTC' ) {
-			$find_first_chart[1] = 'usd';
-			}
 
 			if ( $find_first_chart[2] == 'both' || $find_first_chart[2] == 'chart' ) {
 			$find_first_filename = 'cache/charts/'.$find_first_asset.'/'.$key.'_chart_'.$find_first_chart[1].'.dat';

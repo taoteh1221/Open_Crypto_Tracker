@@ -374,16 +374,10 @@ if ( $allow_tweet_embed_js == 'on' ) {
 					foreach ( $coin_array_value['market_pairing'] as $pairing_key => $pairing_id ) {
 					 $loop = $loop + 1;
 					 
-						if ( $coin_array_key == 'BTC' ) {
-						?>
-						<option value='btc' selected> USD </option>
-						<?php
-						}
-						else{
+						
 					?>
 					<option value='<?=$pairing_key?>' <?=( isset($_POST[$field_var_pairing]) && ($_POST[$field_var_pairing]) == $pairing_key || isset($coin_pairing_id) && ($coin_pairing_id) == $pairing_key ? ' selected ' : '' )?>> <?=strtoupper(preg_replace("/_/i", " ", $pairing_key))?> </option>
 					<?php
-							}
 					
 									foreach ( $coin_array_value['market_pairing'][$pairing_key] as $market_key => $market_id ) {
 							$loop2 = $loop2 + 1;

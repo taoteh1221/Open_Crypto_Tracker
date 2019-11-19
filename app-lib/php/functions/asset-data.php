@@ -146,7 +146,7 @@ function detect_pairing($pair_name) {
 		}
 	
 	}
-	else {
+	elseif ( preg_match("/btc/i", $pair_name) ) {
 	return 'btc';
 	}
 
@@ -533,12 +533,6 @@ $asset = strtoupper($asset);
 
 	// Get any necessary variables for calculating asset's USD value
 	
-	if ( $asset == 'BTC' ) {
-	$pairing = 'usd'; // Overwrite for Bitcoin only, so alerts properly describe the BTC fiat pairing in this app
-	}
-	
-	
-
 
 	
 	
@@ -1067,17 +1061,10 @@ $market_pairing = $all_markets[$selected_market];
 	
 	 // Get coin values, including non-BTC pairings
     if ( $selected_pairing == 'btc' ) {
-    $coin_value_raw = ( $coin_name == 'Bitcoin' ? get_btc_usd($btc_exchange, $selected_pairing)['last_trade'] : get_coin_value($selected_market, $market_pairing)['last_trade'] );
+    $coin_value_raw = get_coin_value($selected_market, $market_pairing)['last_trade'];
     $coin_value_total_raw = ($coin_amount * $coin_value_raw);
-    $_SESSION['btc_worth_array'][$trade_symbol] = ( $coin_name == 'Bitcoin' ? $coin_amount : $coin_value_total_raw );
-    
-    	if ( $coin_name == 'Bitcoin' ) {
-    	$pairing_symbol = 'USD';
-	 	$usd_eqiv = 1;
-    	}
-    	else {
-    	$pairing_symbol = 'BTC';
-    	}
+    $_SESSION['btc_worth_array'][$trade_symbol] = $coin_value_total_raw;
+    $pairing_symbol = 'BTC';
     	
     }
     // XMR
@@ -1203,10 +1190,10 @@ $market_pairing = $all_markets[$selected_market];
     
     $pairing_btc_value = $_SESSION['usd_btc'];
     
-    $coin_value_raw = get_coin_value($selected_market, $market_pairing)['last_trade'];
+    $coin_value_raw = ( $coin_name == 'Bitcoin' ? get_btc_usd($btc_exchange, $selected_pairing)['last_trade'] : get_coin_value($selected_market, $market_pairing)['last_trade'] );
     $coin_value_total_raw = ($coin_amount * $coin_value_raw);
-    $_SESSION['btc_worth_array'][$trade_symbol] = floattostr($coin_value_total_raw * $pairing_btc_value);  
-    $btc_trade_eqiv = number_format( ($coin_value_raw * $pairing_btc_value), 8);
+    $_SESSION['btc_worth_array'][$trade_symbol] = ( $coin_name == 'Bitcoin' ? $coin_amount : floattostr($coin_value_total_raw * $pairing_btc_value) );  
+    $btc_trade_eqiv = ( $coin_name == 'Bitcoin' ? NULL : number_format( ($coin_value_raw * $pairing_btc_value), 8) );
     $pairing_symbol = 'USD';
 	 $usd_eqiv = 1;
     
@@ -1214,10 +1201,10 @@ $market_pairing = $all_markets[$selected_market];
   
   
   	 if ( $selected_pairing == 'btc' ) {
-  	 $coin_usd_worth_raw = ( $coin_name == 'Bitcoin' ? $coin_value_total_raw : ($coin_value_total_raw * get_btc_usd($btc_exchange, $selected_pairing)['last_trade']) );
+  	 $coin_usd_worth_raw = $coin_value_total_raw * get_btc_usd($btc_exchange, $selected_pairing)['last_trade'];
   	 }
   	 else {
-  	 $coin_usd_worth_raw = ( ($coin_value_total_raw * $pairing_btc_value) * get_btc_usd($btc_exchange, $selected_pairing)['last_trade']);
+  	 $coin_usd_worth_raw = ($coin_value_total_raw * $pairing_btc_value) * get_btc_usd($btc_exchange, $selected_pairing)['last_trade'];
   	 }
   
   
@@ -1632,7 +1619,7 @@ echo ( $usd_eqiv == 1 ? pretty_numbers($coin_value_raw, $coin_value_usd_decimals
 
 <?php
 
-  if ( $selected_pairing != 'btc' ) {
+  if ( $selected_pairing != 'btc' && $coin_name != 'Bitcoin' ) {
   echo '<div class="btc_worth">(' . ( $btc_trade_eqiv > 0.00000000 ? $btc_trade_eqiv : '0.00000000' ) . ' Bitcoin)</div>';
   }
   
@@ -1653,13 +1640,7 @@ echo ( $usd_eqiv == 1 ? pretty_numbers($coin_value_raw, $coin_value_usd_decimals
     
     
         <?php
-		  if ( $coin_name == 'Bitcoin' ) {
-		  ?>
-		  <option value='btc'> USD </option>
-		  <?php
-		  }
-        else {
-        	
+		  
         $loop = 0;
 
 	        foreach ( $all_pairings as $pairing_key => $pairing_name ) {
@@ -1671,7 +1652,6 @@ echo ( $usd_eqiv == 1 ? pretty_numbers($coin_value_raw, $coin_value_usd_decimals
         
         $loop = NULL;
         
-        }
         ?>
         
         
@@ -1690,7 +1670,7 @@ echo ( $usd_eqiv == 1 ? pretty_numbers($coin_value_raw, $coin_value_usd_decimals
 
 echo ' <span><span class="data app_sort_filter blue">' . number_format($coin_value_total_raw, ( $usd_eqiv == 1 ? 2 : 8 ), '.', ',') . '</span> ' . $pairing_symbol . '</span>';
 
-  if ( $selected_pairing != 'btc' ) {
+  if ( $selected_pairing != 'btc' && $coin_name != 'Bitcoin' ) {
   echo '<div class="btc_worth"><span>(' . number_format( $coin_value_total_raw * $pairing_btc_value , 8 ) . ' BTC)</span></div>';
   }
 

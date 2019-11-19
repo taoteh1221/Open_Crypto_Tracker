@@ -40,11 +40,6 @@ $value = explode("||",$value); // Convert $value into an array
 $exchange = $value[0];
 $pairing = $value[1];
 $mode = $value[2];
-
-
-	if ( $asset == 'BTC' ) {
-	$pairing = 'usd'; // Overwrite for Bitcoin only, so alerts properly describe the BTC fiat pairing in this app
-	}
 	
 	
 $result = asset_charts_and_alerts($key, $exchange, $pairing, $mode);

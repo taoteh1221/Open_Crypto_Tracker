@@ -363,8 +363,8 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 
 
 	// Get exchange name
-	$coins_list_numbered = array_values($coins_list['BTC']['market_pairing']['btc']);
-	foreach ( $coins_list['BTC']['market_pairing']['btc'] as $key => $value ) {
+	$coins_list_numbered = array_values($coins_list['BTC']['market_pairing']['usd']);
+	foreach ( $coins_list['BTC']['market_pairing']['usd'] as $key => $value ) {
 	$loop = $loop + 1;
 	
 		if ( $value == $coins_list_numbered[$btc_market] ) {
