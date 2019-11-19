@@ -9,9 +9,9 @@
 
 
 // Set BTC / USD default value
-// If $_SESSION['btc_in_usd'] is set (from choosing a different BTC/USD market in the UI), use it
-if ( $_SESSION['btc_in_usd'] ) {
-$btc_exchange = $_SESSION['btc_in_usd'];
+// If $_SESSION['btc_exchange'] is set (from choosing a different BTC/USD market in the UI), use it
+if ( $_SESSION['btc_exchange'] ) {
+$btc_exchange = $_SESSION['btc_exchange'];
 }
 
 $btc_usd = get_btc_usd($btc_exchange)['last_trade'];

@@ -1023,7 +1023,7 @@ $all_pairings = $coins_list[$trade_symbol]['market_pairing'];
     $selected_market = $key;
      
      if ( $coin_name == 'Bitcoin' ) {
-     $_SESSION['btc_in_usd'] = $key;
+     $_SESSION['btc_exchange'] = $key;
      }
      
     }
@@ -1035,9 +1035,11 @@ $all_pairings = $coins_list[$trade_symbol]['market_pairing'];
 
 
 
-if ( $_SESSION['btc_in_usd'] ) {
-$btc_exchange = $_SESSION['btc_in_usd'];
+if ( $_SESSION['btc_exchange'] ) {
+$btc_exchange = $_SESSION['btc_exchange'];
 }
+
+$btc_usd = get_btc_usd($btc_exchange)['last_trade']; // Overwrite default BTC/USD value, in case user changed preferred market
 
 
 $market_pairing = $all_markets[$selected_market];
