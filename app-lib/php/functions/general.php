@@ -1550,7 +1550,6 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 			
 				
 				// Notifyme
-				// stripos() misbehaves using != FALSE, so wrapped with is_int()
 			   if ( $message_data != '' && trim($notifyme_accesscode) != '' && preg_match("/notifyme/i", $queued_cache_file) ) { 
 			   
 			   $notifyme_params['notification'] = $message_data;
@@ -1588,7 +1587,6 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 			   // Textbelt
 				// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
 				// Only run if textlocal API isn't being used to avoid double texts
-				// stripos() misbehaves using != FALSE, so wrapped with is_int()
 			   if ( $message_data != '' && trim($textbelt_apikey) != '' && $textlocal_account == '' && preg_match("/textbelt/i", $queued_cache_file) ) {  
 			   
 			   $textbelt_params['message'] = $message_data;
@@ -1614,7 +1612,6 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 			   // Textlocal
 				// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
 				// Only run if textbelt API isn't being used to avoid double texts
-				// stripos() misbehaves using != FALSE, so wrapped with is_int()
 			   if ( $message_data != '' && $textlocal_account != '' && trim($textbelt_apikey) == '' && preg_match("/textlocal/i", $queued_cache_file) ) {  
 			   
 			   $textlocal_params['message'] = $message_data;
@@ -1644,7 +1641,6 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 			   // Text email
 				// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
 				// Only use text-to-email if other text services aren't configured
-				 // stripos() misbehaves using != FALSE, so wrapped with is_int()
 			   if ( validate_email( text_email($to_text) ) == 'valid' && trim($textbelt_apikey) == '' && $textlocal_account == '' && preg_match("/textemail/i", $queued_cache_file) ) { 
 			   
 			   $textemail_array = json_decode($message_data, true);
@@ -1661,7 +1657,6 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 					  
 					  
 			   // Normal email
-				// stripos() misbehaves using != FALSE, so wrapped with is_int()
 			   if ( validate_email($to_email) == 'valid' && preg_match("/normalemail/i", $queued_cache_file) ) {
 			   
 			   $email_array = json_decode($message_data, true);
