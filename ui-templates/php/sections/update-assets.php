@@ -441,7 +441,41 @@ if ( $allow_tweet_embed_js == 'on' ) {
 	     ' <?=( remove_number_format($asset_amount_value) > 0 && remove_number_format($asset_amount_value) <= '0.000000001' ? 'readonly' : '' )?> /> <span class='blue'><?=strtoupper($coin_array_key)?></span>  &nbsp;  &nbsp; 
 			    
 			
-	     <b>Average Paid (per-token):</b> $<input type='text' size='10' id='<?=$field_var_paid?>' name='<?=$field_var_paid?>' value='<?=$coin_paid_value?>' />   &nbsp;  &nbsp; 
+	     <b>Average Paid (per-token):</b> $<input type='text' size='10' id='<?=$field_var_paid?>' name='<?=$field_var_paid?>' value='<?=$coin_paid_value?>' /> 
+	     
+	     
+		<img id='average_paid_notes_<?=$rand_id?>' src='ui-templates/media/images/info.png' alt='' width='30' border='0' style='position: relative; left: -5px;' /> 
+	 <script>
+	
+			var average_paid_notes = '<h5 align="center" class="yellow" style="position: relative; white-space: nowrap;">Calculating Average Price Paid Per Token</h5>'
+			
+			
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Total USD Paid &#247; Total Tokens Purchased = Average Price Paid Per Token</p>'
+			
+			+'<p class="coin_info"><span class="yellow"> </span></p>';
+		
+		
+			$('#average_paid_notes_<?=$rand_id?>').balloon({
+			html: true,
+			position: "left",
+			contents: average_paid_notes,
+			css: {
+					fontSize: ".8rem",
+					minWidth: ".8rem",
+					padding: ".3rem .7rem",
+					border: "1px solid rgba(212, 212, 212, .4)",
+					borderRadius: "6px",
+					boxShadow: "3px 3px 6px #555",
+					color: "#eee",
+					backgroundColor: "#111",
+					opacity: "0.95",
+					zIndex: "32767",
+					textAlign: "left"
+					}
+			});
+		
+		 </script>
+		   &nbsp;  &nbsp; 
 	     
 	     
 	     <b>Margin Leverage:</b> 
