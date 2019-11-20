@@ -130,7 +130,7 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 		
 		if (is_array($csv_file_array) || is_object($csv_file_array)) {
 			
-		$btc_market = ( $csv_file_array['BTC'][3] != NULL ? $csv_file_array['BTC'][3] - 1 : 1 );  // If no BTC asset is in imported file, default to 1
+		$btc_market = ( $csv_file_array['BTC'][3] != NULL ? $csv_file_array['BTC'][3] - 1 : 1 );  // If no BTC market is in imported file, default to 1
 									
 				foreach( $csv_file_array as $key => $value ) {
 								
@@ -289,9 +289,9 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 	
 		if (is_array($all_coin_amounts_cookie_array) || is_object($all_coin_amounts_cookie_array)) {
 			
-					foreach ( $all_coin_amounts_cookie_array as $coin_amounts ) {
+					foreach ( $all_coin_amounts_cookie_array as $asset_amounts ) {
 									
-					$single_coin_amount_cookie_array = explode("-", $coin_amounts);
+					$single_coin_amount_cookie_array = explode("-", $asset_amounts);
 					
 					$coin_symbol = strtoupper(preg_replace("/_amount/i", "", $single_coin_amount_cookie_array[0]));
 				

@@ -32,7 +32,7 @@ $csv_download_array[] = array(
 	    
 	    $coin_pairing_id = $_POST[$field_var_pairing];
 	    $coin_market_id = $_POST[$field_var_market];
-	    $coin_amount_value = $_POST[$field_var_amount];
+	    $asset_amount_value = $_POST[$field_var_amount];
 	    $coin_paid_value = $_POST[$field_var_paid];
 	    $coin_leverage_value = $_POST[$field_var_leverage];
 	    $coin_margintype_value = $_POST[$field_var_margintype];
@@ -42,23 +42,23 @@ $csv_download_array[] = array(
 	    
 	    
 	    	if ( strtoupper($coin_array_key) == 'MISCUSD' ) {
-	    	$coin_amount_decimals = 2;
+	    	$asset_amount_decimals = 2;
 	    	}
 	    	else {
-	    	$coin_amount_decimals = 8;
+	    	$asset_amount_decimals = 8;
 	    	}
 	    
-	  	 $coin_amount_value = pretty_numbers($coin_amount_value, $coin_amount_decimals);
+	  	 $asset_amount_value = pretty_numbers($asset_amount_value, $asset_amount_decimals);
 	    
 	    $coin_paid_value = ( floattostr($coin_paid_value) >= 1.00 ? pretty_numbers($coin_paid_value, 2) : pretty_numbers($coin_paid_value, $usd_decimals_max) );
 	  	 
 	    
 	   	// Asset data to array for CSV export
-	      if ( remove_number_format($coin_amount_value) >= 0.00000001 ) {
+	      if ( remove_number_format($asset_amount_value) >= 0.00000001 ) {
 	        	
 	        $csv_download_array[] = array(
 	        											strtoupper($coin_array_key),
-	        											$coin_amount_value,
+	        											$asset_amount_value,
 	        											$coin_paid_value,
 	        											$coin_leverage_value,
 	        											$coin_margintype_value,
