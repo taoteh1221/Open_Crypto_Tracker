@@ -574,17 +574,15 @@ $asset = strtoupper($asset);
 		// BTC
 		if ( $asset == 'BTC' ) { 
 		// DONT use $btc_usd (may be different BTC exchange)
-		$asset_usd_value_raw = get_coin_value('BTC', $exchange, $coins_list[$asset]['market_pairing'][$pairing][$exchange], $pairing)['last_trade']; 
-		// For chart values based off pairing data (not USD equiv)
-		$volume_asset_raw = get_coin_value('BTC', $exchange, $coins_list[$asset]['market_pairing'][$pairing][$exchange], $pairing)['24hr_asset_volume']; 
-		$volume_usd_raw = get_coin_value('BTC', $exchange, $coins_list[$asset]['market_pairing'][$pairing][$exchange], $pairing)['24hr_usd_volume'];
+		$asset_usd_value_raw = get_coin_value($asset, $exchange, $coins_list[$asset]['market_pairing'][$pairing][$exchange], $pairing)['last_trade']; 
 		}
 		// ALTS
 		else {
 		$asset_usd_value_raw = number_format( get_coin_value($asset, $exchange, $coins_list[$asset]['market_pairing'][$pairing][$exchange])['last_trade'] , 8, '.', '');
-		$volume_asset_raw = get_coin_value($asset, $exchange, $coins_list[$asset]['market_pairing'][$pairing][$exchange])['24hr_asset_volume']; // For chart values based off pairing data (not USD equiv)
-		$volume_usd_raw = get_coin_value($asset, $exchange, $coins_list[$asset]['market_pairing'][$pairing][$exchange], $pairing)['24hr_usd_volume'];
 		}
+	
+	$volume_asset_raw = get_coin_value($asset, $exchange, $coins_list[$asset]['market_pairing'][$pairing][$exchange], $pairing)['24hr_asset_volume'];  // For chart values based off pairing data (not USD equiv)
+	$volume_usd_raw = get_coin_value($asset, $exchange, $coins_list[$asset]['market_pairing'][$pairing][$exchange], $pairing)['24hr_usd_volume'];
 	
 	}
 	// CRYPTO [PAIRING] markets (WITH USD EQUIV CHARTS INCLUDED)
@@ -1201,7 +1199,7 @@ $market_pairing = $all_markets[$selected_exchange];
     
     $pairing_btc_value = $_SESSION['usd_btc'];
     
-    $coin_value_raw = ( strtolower($asset_name) == 'bitcoin' ? $btc_usd : get_coin_value($asset_symbol, $selected_exchange, $market_pairing)['last_trade'] );
+    $coin_value_raw = get_coin_value($asset_symbol, $selected_exchange, $market_pairing)['last_trade'];
     $coin_value_total_raw = ($asset_amount * $coin_value_raw);
     $_SESSION['btc_worth_array'][$asset_symbol] = ( strtolower($asset_name) == 'bitcoin' ? $asset_amount : floattostr($coin_value_total_raw * $pairing_btc_value) );  
     $btc_trade_eqiv = ( strtolower($asset_name) == 'bitcoin' ? NULL : number_format( ($coin_value_raw * $pairing_btc_value), 8) );
