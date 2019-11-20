@@ -367,7 +367,7 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 	foreach ( $coins_list['BTC']['market_pairing']['usd'] as $key => $value ) {
 	$loop = $loop + 1;
 	
-		if ( $value == $coins_list_numbered[$btc_market] ) {
+		if ( ($loop - 1) == $btc_market ) {
 		$show_exchange = $key;
 		}
 
@@ -592,7 +592,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 		<?php
 		}
 	
-	echo '<div class="portfolio_summary"><span class="black">(Bitcoin is trading @ $' .number_format( get_btc_usd($btc_exchange)['last_trade'], 2, '.', ','). ' on ' . name_rendering($show_exchange) . ')</span></div>';
+	echo '<div class="portfolio_summary"><span class="black">(Bitcoin is trading @ $' .number_format( $btc_usd, 2, '.', ','). ' on ' . name_rendering($show_exchange) . ')</span></div>';
 
 			
 		if ( $short_added == 1 ) {

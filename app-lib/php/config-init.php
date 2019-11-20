@@ -8,14 +8,17 @@
 /////////////////////////////////////////////////
 
 
-// Set BTC / USD default value
+// Set BTC / currency_market default value
 // If $_SESSION['btc_exchange'] is set (from choosing a different BTC/USD market in the UI), use it
 if ( $_SESSION['btc_exchange'] ) {
 $btc_exchange = $_SESSION['btc_exchange'];
 }
 
-$btc_usd = get_btc_usd($btc_exchange)['last_trade'];
-    
+if ( $_SESSION['btc_currency_market'] ) {
+$btc_currency_market = $_SESSION['btc_currency_market'];
+}
+
+$btc_usd = get_coin_value('BTC', $btc_exchange, $coins_list['BTC']['market_pairing'][$btc_currency_market][$btc_exchange], $btc_currency_market)['last_trade'];
 
 
 // Only need below logic during UI runtime

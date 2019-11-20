@@ -17,7 +17,7 @@ $steem_market = get_coin_value('STEEM', 'binance', 'STEEMBTC')['last_trade'];
     
 
 
-<p class='green' style='font-weight: bold;'>1 STEEM = <?=$steem_market?> BTC ($<?php echo number_format( ( $steem_market * get_btc_usd($btc_exchange)['last_trade'] ), 8, '.', ','); ?>)</p>
+<p class='green' style='font-weight: bold;'>1 STEEM = <?=$steem_market?> BTC ($<?php echo number_format( ( $steem_market * $btc_usd ), 8, '.', ','); ?>)</p>
 
 <div>
     <form action='index.php#calculators' method='post'>

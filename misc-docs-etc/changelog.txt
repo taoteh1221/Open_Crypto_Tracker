@@ -1859,6 +1859,7 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 3.49.0:
 -Optimizations
+-Merged BTC markets / Altcoin markets API calls into one shared API calling function
 -Ported BTC/USD markets to new USD markets system
 -Upgraded Zingchart library (for price charts) to latest release
 -------------------------------------------------------------------

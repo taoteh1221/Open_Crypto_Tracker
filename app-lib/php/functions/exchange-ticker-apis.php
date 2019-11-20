@@ -3,324 +3,19 @@
  * Copyright 2014-2019 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
  */
 
-//////////////////////////////////////////////////////////
-
-function get_btc_usd($btc_exchange, $pairing_config=false) {
-
-global $coins_list, $last_trade_cache;
-         	
-$pairing = ( $pairing_config != false ? $pairing_config : 'usd' );
-  
-  
-   if ( strtolower($btc_exchange) == 'coinbase' ) {
-    
-    $json_string = 'https://api.pro.coinbase.com/products/BTC-USD/ticker';
-    
-    $jsondata = @api_data('url', $json_string, $last_trade_cache);
-    
-    $data = json_decode($jsondata, TRUE);
-    
-    return  array(
-    					'last_trade' => number_format( $data['price'], 2, '.', ''),
-    					'24hr_asset_volume' => $data['volume'],
-    					'24hr_pairing_volume' => NULL, // No pairing volume data for this API
-    					'24hr_usd_volume' => trade_volume('bitcoin', $pairing, $data['volume'], number_format( $data['price'], 2, '.', ''))
-    					);
-
-   }
-
-  
-   elseif ( strtolower($btc_exchange) == 'gemini' ) {
-    
-    $json_string = 'https://api.gemini.com/v1/pubticker/btcusd';
-    
-    $jsondata = @api_data('url', $json_string, $last_trade_cache);
-      
-    $data = json_decode($jsondata, TRUE);
-      
-    return  array(
-    					'last_trade' => number_format( $data['last'], 2, '.', ''),
-    					'24hr_asset_volume' => $data['volume']['BTC'],
-    					'24hr_pairing_volume' => $data['volume']['USD'],
-    					'24hr_usd_volume' => trade_volume('bitcoin', $pairing, $data['volume']['BTC'], number_format( $data['last'], 2, '.', ''))
-    					);
-
-   }
-  
-  
-    elseif ( strtolower($btc_exchange) == 'bitstamp' ) {
- 	
-    $json_string = 'https://www.bitstamp.net/api/ticker/';
-    
-    $jsondata = @api_data('url', $json_string, $last_trade_cache);
-    
-    $data = json_decode($jsondata, TRUE);
-    
-    return  array(
-    					'last_trade' => number_format( $data['last'], 2, '.', ''),
-    					'24hr_asset_volume' => $data['volume'],
-    					'24hr_pairing_volume' => NULL, // No pairing volume data for this API
-    					'24hr_usd_volume' => trade_volume('bitcoin', $pairing, $data['volume'], number_format( $data['last'], 2, '.', ''))
-    					);
-    				
-    }
-
-
-    elseif ( strtolower($btc_exchange) == 'okcoin' ) {
-  
-    $json_string = 'https://www.okcoin.com/api/v1/ticker.do?symbol=btc_usd';
-    
-    $jsondata = @api_data('url', $json_string, $last_trade_cache);
-    
-    $data = json_decode($jsondata, TRUE);
-    
-    return  array(
-    					'last_trade' => number_format( $data['ticker']['last'], 2, '.', ''),
-    					'24hr_asset_volume' => $data['ticker']['vol'],
-    					'24hr_pairing_volume' => NULL, // No pairing volume data for this API
-    					'24hr_usd_volume' => trade_volume('bitcoin', $pairing, $data['ticker']['vol'], number_format( $data['ticker']['last'], 2, '.', ''))
-    					);
-    
-    }
-    
-
-   elseif ( strtolower($btc_exchange) == 'kraken' ) {
-   	
-   	
-  		foreach ( $coins_list as $markets ) {
-  		
-  			foreach ( $markets['market_pairing'] as $exchange_pairs ) {
-  			
-  				if ( $exchange_pairs['kraken'] != '' ) {
-				
-				$kraken_pairs .= $exchange_pairs['kraken'] . ',';
-				  				
-  				}
-  			
-  			}
-  			
-  		}
-
-		$kraken_pairs = substr($kraken_pairs, 0, -1);
-   
-   $json_string = 'https://api.kraken.com/0/public/Ticker?pair=' . $kraken_pairs;
-   
-   $jsondata = @api_data('url', $json_string, $last_trade_cache);
-   
-   $data = json_decode($jsondata, TRUE);
-   
-       if (is_array($data) || is_object($data)) {
-   
-        foreach ($data as $key => $value) {
-          
-          if ( $key == 'result' ) {
-          
-           foreach ($data[$key] as $key2 => $value2) {
-             
-             if ( $key2 == 'XXBTZUSD' ) {
-              
-    				return  array(
-    									'last_trade' => $data[$key][$key2]["c"][0],
-    									'24hr_asset_volume' => $data[$key][$key2]["v"][1],
-    									'24hr_pairing_volume' => NULL, // No pairing volume data for this API
-    									'24hr_usd_volume' => trade_volume('bitcoin', $pairing, $data[$key][$key2]["v"][1], $data[$key][$key2]["c"][0])
-    									);
-              
-             }
-           
-         
-           }
-        
-          }
-      
-        }
-       
-       }
-   
-   
-   }
-    
-
-  	elseif ( strtolower($btc_exchange) == 'binance' ) {
-     
-     $json_string = 'https://www.binance.com/api/v3/ticker/24hr';
-     
-     $jsondata = @api_data('url', $json_string, $last_trade_cache);
-     
-     $data = json_decode($jsondata, TRUE);
-   
-  
-      if (is_array($data) || is_object($data)) {
-  
-       foreach ($data as $key => $value) {
-         
-         
-         if ( $data[$key]['symbol'] == 'BTCUSDT' ) {
-          
-         return  array(
-    						'last_trade' => $data[$key]["lastPrice"],
-    						'24hr_asset_volume' => $data[$key]["volume"],
-    						'24hr_pairing_volume' => $data[$key]["quoteVolume"],
-    						'24hr_usd_volume' => trade_volume('bitcoin', $pairing, $data[$key]["volume"], $data[$key]["lastPrice"])
-    						);
-          
-         }
-       
-     
-       }
-      
-      }
-  
-  
-  	}
-    
-
-  	elseif ( strtolower($btc_exchange) == 'binance_us' ) {
-     
-     $json_string = 'https://api.binance.us/api/v3/ticker/24hr';
-     
-     $jsondata = @api_data('url', $json_string, $last_trade_cache);
-     
-     $data = json_decode($jsondata, TRUE);
-   
-  
-      if (is_array($data) || is_object($data)) {
-  
-       foreach ($data as $key => $value) {
-         
-         
-         if ( $data[$key]['symbol'] == 'BTCUSD' ) {
-          
-         return  array(
-    						'last_trade' => $data[$key]["lastPrice"],
-    						'24hr_asset_volume' => $data[$key]["volume"],
-    						'24hr_pairing_volume' => $data[$key]["quoteVolume"],
-    						'24hr_usd_volume' => trade_volume('bitcoin', $pairing, $data[$key]["volume"], $data[$key]["lastPrice"])
-    						);
-          
-         }
-       
-     
-       }
-      
-      }
-  
-  
-  	}
-
-  
-    elseif ( strtolower($btc_exchange) == 'bitfinex' ) {
-    
-     
-     $json_string = 'https://api-pub.bitfinex.com/v2/tickers?symbols=ALL';
-     
-     $jsondata = @api_data('url', $json_string, $last_trade_cache);
-     
-     $data = json_decode($jsondata, TRUE);
-  
-  
-      if (is_array($data) || is_object($data)) {
-  
-       foreach ( $data as $object ) {
-         
-         if ( $object[0] == 'tBTCUSD' ) {
-                 
-         return  array(
-    						'last_trade' => $object[( sizeof($object) - 4 )],
-    						'24hr_asset_volume' => $object[( sizeof($object) - 3 )],
-    						'24hr_pairing_volume' => NULL, // No pairing volume data for this API
-    						'24hr_usd_volume' => trade_volume('bitcoin', $pairing, $object[( sizeof($object) - 3 )], $object[( sizeof($object) - 4 )])
-    						);
-          
-         }
-       
-     
-       }
-      
-      }
-  
-  
-    }
-  
-  
-    elseif ( strtolower($btc_exchange) == 'hitbtc' ) {
-  
-    $json_string = 'https://api.hitbtc.com/api/1/public/ticker';
-    
-    $jsondata = @api_data('url', $json_string, $last_trade_cache);
-    
-    $data = json_decode($jsondata, TRUE);
-  
-      if (is_array($data) || is_object($data)) {
-  
-       foreach ($data as $key => $value) {
-         
-         if ( $key == 'BTCUSD' ) {
-          
-         return  array(
-    							'last_trade' => $data[$key]["last"],
-    							'24hr_asset_volume' => $data[$key]["volume"],
-    							'24hr_pairing_volume' => $data[$key]["volume_quote"],
-    							'24hr_usd_volume' => trade_volume('bitcoin', $pairing, $data[$key]["volume"], $data[$key]["last"])
-    						);
-          
-         }
-     
-       }
-      
-      }
-  
-  
-
-    }
-    
-
-   elseif ( strtolower($btc_exchange) == 'livecoin' ) {
- 
- 
-      $json_string = 'https://api.livecoin.net/exchange/ticker';
-      
-      $jsondata = @api_data('url', $json_string, $last_trade_cache);
-      
-      $data = json_decode($jsondata, TRUE);
-   
-   
-       if (is_array($data) || is_object($data)) {
-         
-             foreach ( $data as $key => $value ) {
-               
-               if ( $data[$key]['symbol'] == 'BTC/USD' ) {
-                
-    				return  array(
-    									'last_trade' => $data[$key]["last"],
-    									'24hr_asset_volume' => $data[$key]["volume"],
-    									'24hr_pairing_volume' => NULL, // No pairing volume data for this API
-    									'24hr_usd_volume' => trade_volume('bitcoin', $pairing, $data[$key]['volume'], $data[$key]["last"])
-    									);
-                 
-               }
-             
-     
-             }
-             
-       }
-   
-   
-   }
-   
-  
-
-}
-
 
 //////////////////////////////////////////////////////////
 
 
 function get_coin_value($asset_symbol, $chosen_exchange, $market_pairing, $pairing_config=false) {
 
-global $btc_exchange, $coins_list, $last_trade_cache;
+
+global $btc_exchange, $btc_usd, $coins_list, $last_trade_cache;
+         	
          	
 $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market_pairing) );
+ 
+ 
  
 
   if ( strtolower($chosen_exchange) == 'gemini' ) {
@@ -338,6 +33,24 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
     					'24hr_usd_volume' => trade_volume($asset_symbol, $pairing, $data['volume'][strtoupper($pairing)], '', $pairing) // '24hr_pairing_volume' more reliable parsing
     					);
   
+  }
+
+
+  elseif ( strtolower($chosen_exchange) == 'okcoin' ) {
+  
+    $json_string = 'https://www.okcoin.com/api/v1/ticker.do?symbol=' . $market_pairing;
+    
+    $jsondata = @api_data('url', $json_string, $last_trade_cache);
+    
+    $data = json_decode($jsondata, TRUE);
+    
+    return  array(
+    					'last_trade' => number_format( $data['ticker']['last'], 2, '.', ''),
+    					'24hr_asset_volume' => $data['ticker']['vol'],
+    					'24hr_pairing_volume' => NULL, // No pairing volume data for this API
+    					'24hr_usd_volume' => trade_volume($asset_symbol, $pairing, $data['ticker']['vol'], number_format( $data['ticker']['last'], 2, '.', ''))
+    					);
+    
   }
 
 
@@ -1061,7 +774,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
 
   elseif ( strtolower($chosen_exchange) == 'usd_assets' ) {
 		
-	  $usdtobtc = ( 1 / get_btc_usd($btc_exchange)['last_trade'] );		
+	  $usdtobtc = ( 1 / $btc_usd );		
 		
 	  if ( $market_pairing == 'usdtobtc' ) {
      return  array(

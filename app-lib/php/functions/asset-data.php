@@ -25,9 +25,9 @@ return ($num - 1) * pow(2, ($num - 30) );
 
 function powerdown_usd($data) {
 
-global $steem_market, $btc_exchange;
+global $steem_market, $btc_exchange, $btc_usd;
 
-return ( $data * $steem_market * get_btc_usd($btc_exchange)['last_trade'] );
+return ( $data * $steem_market * $btc_usd );
 
 }
 
@@ -215,12 +215,12 @@ return ( $data['rank'] != NULL ? $data : NULL );
 ////////////////////////////////////////////////////////
 
 
-function trade_volume($asset, $pairing, $volume, $last_trade, $vol_in_pairing=false, $volume_value='usd') {  // Default volume in USD
+function trade_volume($asset_symbol, $pairing, $volume, $last_trade, $vol_in_pairing=false, $volume_value='usd') {  // Default volume in USD
 
 global $btc_exchange, $btc_usd;
 
-	// WE NEED TO SET THIS for get_btc_usd() calls, because it is not set as a global THE FIRST RUNTIME CALL
-	if ( $asset == 'bitcoin' ) {
+	// WE NEED TO SET THIS for get_coin_value() calls, because it is not set as a global THE FIRST RUNTIME CALL
+	if ( strtoupper($asset_symbol) == 'BTC' ) {
 	$btc_usd = $last_trade;
 	}
 
@@ -260,7 +260,7 @@ global $btc_exchange, $btc_usd;
 	// Get asset USD value
 	
 	// Volume by base pair in BTC
-	if ( $vol_in_pairing == 'btc' || $asset == 'bitcoin' ) {
+	if ( $vol_in_pairing == 'btc' || strtoupper($asset_symbol) == 'BTC' ) {
 	$volume_usd_raw = number_format( $btc_usd * $volume , 0, '.', '');
 	}
 	// Volume by base pair in USD
@@ -305,7 +305,7 @@ global $btc_exchange, $btc_usd;
 
 function steempower_time($time) {
     
-global $_POST, $steem_market, $btc_exchange, $steem_powerdown_time, $steempower_yearly_interest;
+global $_POST, $steem_market, $btc_exchange, $btc_usd, $steem_powerdown_time, $steempower_yearly_interest;
 
 $powertime = NULL;
 $powertime = NULL;
@@ -341,10 +341,10 @@ $speed = ($_POST['sp_total'] * $decimal_yearly_interest) / 525600;  // Interest 
     $powertime = ($speed * 60 * 24 * 365);
     }
     
-    $powertime_usd = ( $powertime * $steem_market * get_btc_usd($btc_exchange)['last_trade'] );
+    $powertime_usd = ( $powertime * $steem_market * $btc_usd );
     
     $steem_total = ( $powertime + $_POST['sp_total'] );
-    $usd_total = ( $steem_total * $steem_market * get_btc_usd($btc_exchange)['last_trade'] );
+    $usd_total = ( $steem_total * $steem_market * $btc_usd );
     
     $power_purchased = ( $_POST['sp_purchased'] / $steem_total );
     $power_earned = ( $_POST['sp_earned'] / $steem_total );
@@ -573,9 +573,11 @@ $asset = strtoupper($asset);
 	
 		// BTC
 		if ( $asset == 'BTC' ) { 
-		$asset_usd_value_raw = get_btc_usd($exchange, $pairing)['last_trade']; // When asset is Bitcoin, don't use $btc_usd (may be different BTC exchange)
-		$volume_asset_raw = get_btc_usd($exchange)['24hr_asset_volume']; // For chart values based off pairing data (not USD equiv)
-		$volume_usd_raw = get_btc_usd($exchange, $pairing)['24hr_usd_volume'];
+		// DONT use $btc_usd (may be different BTC exchange)
+		$asset_usd_value_raw = get_coin_value('BTC', $exchange, $coins_list[$asset]['market_pairing'][$pairing][$exchange], $pairing)['last_trade']; 
+		// For chart values based off pairing data (not USD equiv)
+		$volume_asset_raw = get_coin_value('BTC', $exchange, $coins_list[$asset]['market_pairing'][$pairing][$exchange], $pairing)['24hr_asset_volume']; 
+		$volume_usd_raw = get_coin_value('BTC', $exchange, $coins_list[$asset]['market_pairing'][$pairing][$exchange], $pairing)['24hr_usd_volume'];
 		}
 		// ALTS
 		else {
@@ -989,7 +991,7 @@ function ui_coin_data_row($asset_name, $asset_symbol, $asset_amount, $market_pai
 
 
 // Globals
-global $_POST, $theme_selected, $coins_list, $btc_exchange, $btc_usd, $marketcap_site, $marketcap_cache, $coinmarketcapcom_api_key, $alert_percent, $marketcap_ranks_max, $api_timeout, $usd_decimals_max;
+global $_POST, $theme_selected, $coins_list, $btc_exchange, $btc_currency_market, $btc_usd, $marketcap_site, $marketcap_cache, $coinmarketcapcom_api_key, $alert_percent, $marketcap_ranks_max, $api_timeout, $usd_decimals_max;
 
 
 
@@ -1015,6 +1017,7 @@ $all_pairings = $coins_list[$asset_symbol]['market_pairing'];
      
      if ( strtolower($asset_name) == 'bitcoin' ) {
      $_SESSION['btc_exchange'] = $key;
+     $_SESSION['btc_currency_market'] = $selected_pairing;
      }
      
     }
@@ -1030,8 +1033,13 @@ if ( $_SESSION['btc_exchange'] ) {
 $btc_exchange = $_SESSION['btc_exchange'];
 }
 
-$btc_usd = get_btc_usd($btc_exchange)['last_trade']; // Overwrite default BTC/USD value, in case user changed preferred market
+if ( $_SESSION['btc_currency_market'] ) {
+$btc_currency_market = $_SESSION['btc_currency_market'];
+}
 
+
+// Overwrite default BTC/currency_market value, in case user changed preferred market
+$btc_usd = get_coin_value('BTC', $btc_exchange, $coins_list['BTC']['market_pairing'][$btc_currency_market][$btc_exchange], $btc_currency_market)['last_trade'];
 
 $market_pairing = $all_markets[$selected_exchange];
 
@@ -1193,7 +1201,7 @@ $market_pairing = $all_markets[$selected_exchange];
     
     $pairing_btc_value = $_SESSION['usd_btc'];
     
-    $coin_value_raw = ( strtolower($asset_name) == 'bitcoin' ? get_btc_usd($btc_exchange, $selected_pairing)['last_trade'] : get_coin_value($asset_symbol, $selected_exchange, $market_pairing)['last_trade'] );
+    $coin_value_raw = ( strtolower($asset_name) == 'bitcoin' ? $btc_usd : get_coin_value($asset_symbol, $selected_exchange, $market_pairing)['last_trade'] );
     $coin_value_total_raw = ($asset_amount * $coin_value_raw);
     $_SESSION['btc_worth_array'][$asset_symbol] = ( strtolower($asset_name) == 'bitcoin' ? $asset_amount : floattostr($coin_value_total_raw * $pairing_btc_value) );  
     $btc_trade_eqiv = ( strtolower($asset_name) == 'bitcoin' ? NULL : number_format( ($coin_value_raw * $pairing_btc_value), 8) );
@@ -1207,10 +1215,10 @@ $market_pairing = $all_markets[$selected_exchange];
   
   
   	 if ( $selected_pairing == 'btc' ) {
-  	 $coin_usd_worth_raw = $coin_value_total_raw * get_btc_usd($btc_exchange, $selected_pairing)['last_trade'];
+  	 $coin_usd_worth_raw = $coin_value_total_raw * $btc_usd;
   	 }
   	 else {
-  	 $coin_usd_worth_raw = ($coin_value_total_raw * $pairing_btc_value) * get_btc_usd($btc_exchange, $selected_pairing)['last_trade'];
+  	 $coin_usd_worth_raw = ($coin_value_total_raw * $pairing_btc_value) * $btc_usd;
   	 }
   
   
@@ -1279,7 +1287,7 @@ $market_pairing = $all_markets[$selected_exchange];
 
 
   // Get trade volume
-  $trade_volume = ( strtolower($asset_name) == 'bitcoin' ? get_btc_usd($btc_exchange, $selected_pairing)['24hr_usd_volume'] : get_coin_value($asset_symbol, $selected_exchange, $market_pairing, $selected_pairing)['24hr_usd_volume'] );
+  $trade_volume = get_coin_value($asset_symbol, $selected_exchange, $market_pairing, $selected_pairing)['24hr_usd_volume'];
   
   
   
@@ -1508,13 +1516,13 @@ $market_pairing = $all_markets[$selected_exchange];
 <?php
 
   if ( $btc_trade_eqiv ) {
-  $dollar_value = ( get_btc_usd($btc_exchange, $selected_pairing)['last_trade'] * $btc_trade_eqiv );
+  $dollar_value = ( $btc_usd * $btc_trade_eqiv );
   }
   elseif ( strtolower($asset_name) != 'bitcoin' ) {
-  $dollar_value = ( get_btc_usd($btc_exchange, $selected_pairing)['last_trade'] * $coin_value_raw );
+  $dollar_value = ( $btc_usd * $coin_value_raw );
   }
   else {
-  $dollar_value = get_btc_usd($btc_exchange, $selected_pairing)['last_trade'];
+  $dollar_value = $btc_usd;
   }
 
   // UX on number values

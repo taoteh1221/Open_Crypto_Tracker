@@ -33,6 +33,13 @@ require_once("app-lib/php/init.php");  // REQUIRED, DON'T DELETE BY ACCIDENT
 
 
 
+
+// Default Bitcoin exchange
+$btc_exchange = 'binance'; // coinbase / binance / binance_us / bitstamp / bitfinex / kraken / gemini / hitbtc / okcoin / livecoin
+
+// Default Bitcoin currency (market) pairing
+$btc_currency_market = 'usd'; // 'usd' (more to come)
+
 // Your local time offset in hours compared to UTC time. Can be negative or positive.
 // (Used for UX / UI timestamping only, will not change or screw up UTC log times etc if you change this)
 $local_time_offset = -5; // example: -5 or 5
@@ -51,9 +58,6 @@ $usd_decimals_max = 5; // Maximum number of decimal places for US Dollar values 
 // Block an asset price alert if price retrieved, BUT failed retrieving pair volume (not even a zero was retrieved, nothing)
 // Good for blocking questionable exchanges bugging you with price alerts, especially when used in combination with the minimum volume filter
 $block_volume_error = 'on'; // 'on' / 'off' 
-
-// Default Bitcoin to USD (or equiv stable coin)
-$btc_exchange = 'binance'; // coinbase / binance / binance_us / bitstamp / bitfinex / kraken / gemini / hitbtc / okcoin / livecoin
 
 // Default marketcap data source: 'coingecko', or 'coinmarketcap' (coinmarketcap requires a FREE API key, see below)
 $marketcap_site = 'coingecko'; 
@@ -394,16 +398,16 @@ $coins_list = array(
                         'market_pairing' => array(
                         
                                     'usd' => array(
-                                          'coinbase' => 'coinbase',
-                                          'binance' => 'binance',
-                                          'binance_us' => 'binance_us',
-                                          'bitstamp' => 'bitstamp',
+                                          'coinbase' => 'BTC-USD',
+                                          'binance' => 'BTCUSDT',
+                                          'binance_us' => 'BTCUSD',
+                                          'bitstamp' => 'btcusd',
                                           'kraken' => 'XXBTZUSD',
-                                          'gemini' => 'gemini',
-                                          'bitfinex' => 'bitfinex',
-                                          'hitbtc' => 'hitbtc',
-                                          'okcoin' => 'okcoin',
-                                          'livecoin' => 'livecoin'
+                                          'gemini' => 'btcusd',
+                                          'bitfinex' => 'tBTCUSD',
+                                          'hitbtc' => 'BTCUSD',
+                                          'okcoin' => 'btc_usd',
+                                          'livecoin' => 'BTC/USD'
                                                     )
                                                     
                                         ) // market_pairing END
