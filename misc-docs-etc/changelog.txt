@@ -1862,6 +1862,8 @@ app doing the data requests, not a malicious bot)
 -Merged BTC markets / Altcoin markets API calls into one shared API calling function
 -Ported BTC/USD markets to new USD markets system
 -Upgraded Zingchart library (for price charts) to latest release
+-UX revisions
+-Better CSV import failure / success detection
 -------------------------------------------------------------------
 
 

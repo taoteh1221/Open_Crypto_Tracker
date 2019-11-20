@@ -511,7 +511,13 @@ function csv_file_array($file) {
 			$asset = strtoupper($data[0]);
 		
 				for ($c=0; $c < $num; $c++) {
-				$csv_rows[$asset][] = $data[$c];
+					
+					// Make sure asset symbol variable is alphanumeric, otherwise skip
+					// (this helps a lot detecting failed or successful importing)
+					if ( ctype_alnum($asset) ) { 
+					$csv_rows[$asset][] = $data[$c];
+					}
+				
 				}
 			
 			}

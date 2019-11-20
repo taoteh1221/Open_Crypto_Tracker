@@ -13,6 +13,7 @@ require_once("app-lib/php/loader.php");
 $app_version = '3.49.0';  // 2019/NOVEMBER/19TH
  
 date_default_timezone_set('UTC');
+ini_set('auto_detect_line_endings',TRUE); // Mac compatibility with CSV spreadsheet importing
 
 hardy_session_clearing(); // Try to avoid edge-case bug where sessions didn't delete last runtime
 session_start(); // New session start
