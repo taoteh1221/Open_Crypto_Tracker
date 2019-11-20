@@ -18,7 +18,26 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
  
  
 
-  if ( strtolower($chosen_exchange) == 'gemini' ) {
+
+  if ( strtolower($chosen_exchange) == 'coinbase' ) {
+  
+     $json_string = 'https://api.pro.coinbase.com/products/'.$market_pairing.'/ticker';
+     
+     $jsondata = @api_data('url', $json_string, $last_trade_cache);
+     
+     $data = json_decode($jsondata, TRUE);
+
+     return  array(
+    					'last_trade' => $data['price'],
+    					'24hr_asset_volume' => $data["volume"],
+    					'24hr_pairing_volume' => NULL, // No pairing volume data for this API
+    					'24hr_usd_volume' => trade_volume($asset_symbol, $pairing, $data["volume"], $data['price'])
+    					);
+   
+  }
+  
+
+  elseif ( strtolower($chosen_exchange) == 'gemini' ) {
   
   $json_string = 'https://api.gemini.com/v1/pubticker/' . $market_pairing;
   
@@ -27,10 +46,10 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
     $data = json_decode($jsondata, TRUE);
     
     return array(
-    					'last_trade' => number_format( $data['last'], 8, '.', ''),
-    					'24hr_asset_volume' => $data['volume'][strtoupper( str_replace($pairing, '', $market_pairing) )],
+    					'last_trade' => $data['last'],
+    					'24hr_asset_volume' => $data['volume'][strtoupper($asset_symbol)],
     					'24hr_pairing_volume' => $data['volume'][strtoupper($pairing)],
-    					'24hr_usd_volume' => trade_volume($asset_symbol, $pairing, $data['volume'][strtoupper($pairing)], '', $pairing) // '24hr_pairing_volume' more reliable parsing
+    					'24hr_usd_volume' => trade_volume($asset_symbol, $pairing, $data['volume'][strtoupper($asset_symbol)], $data['last']) // '24hr_pairing_volume' more reliable parsing
     					);
   
   }
@@ -70,24 +89,6 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
     					'24hr_usd_volume' => trade_volume($asset_symbol, $pairing, $data["volume"], $data["last"])
     					);
     
-  }
-
-
-  elseif ( strtolower($chosen_exchange) == 'coinbase' ) {
-  
-     $json_string = 'https://api.pro.coinbase.com/products/'.$market_pairing.'/ticker';
-     
-     $jsondata = @api_data('url', $json_string, $last_trade_cache);
-     
-     $data = json_decode($jsondata, TRUE);
-
-     return  array(
-    					'last_trade' => $data['price'],
-    					'24hr_asset_volume' => $data["volume"],
-    					'24hr_pairing_volume' => NULL, // No pairing volume data for this API
-    					'24hr_usd_volume' => trade_volume($asset_symbol, $pairing, $data["volume"], $data['price'])
-    					);
-   
   }
   
 

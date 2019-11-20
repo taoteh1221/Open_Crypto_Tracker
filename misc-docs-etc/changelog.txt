@@ -1868,6 +1868,15 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+3.49.1:
+-Bug fix for Gemini exchange markets API compatibility
+-------------------------------------------------------------------
+
+
+
+
+
 
 
 

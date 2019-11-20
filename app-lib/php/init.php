@@ -10,7 +10,7 @@ error_reporting(0); // Turn off all error reporting on production servers (0), o
 
 require_once("app-lib/php/loader.php");
 
-$app_version = '3.49.0';  // 2019/NOVEMBER/19TH
+$app_version = '3.49.1';  // 2019/NOVEMBER/20TH
  
 date_default_timezone_set('UTC');
 ini_set('auto_detect_line_endings',TRUE); // Mac compatibility with CSV spreadsheet importing
