@@ -130,7 +130,6 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 		
 		if (is_array($csv_file_array) || is_object($csv_file_array)) {
 			
-		$btc_market = ( $csv_file_array['BTC'][3] != NULL ? $csv_file_array['BTC'][3] - 1 : 1 );  // If no BTC market is in imported file, default to 1
 									
 				foreach( $csv_file_array as $key => $value ) {
 								
@@ -139,18 +138,42 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 	        		
 	        			if ( remove_number_format($value[1]) > 0.00000000 ) {  // Show even if decimal is off the map, just for UX purposes tracking token price only
 	        			
-	        			$value[5] = ( whole_int($value[5]) != false ? $value[5] : 1 ); // If market ID input is corrupt, default to 1
-	        			$value[3] = ( whole_int($value[3]) != false ? $value[3] : 0 ); // If leverage amount input is corrupt, default to 0
+	        			$value[5] = ( whole_int( trim($value[5]) ) != false ? trim($value[5]) : 1 ); // If market ID input is corrupt, default to 1
+	        			$value[3] = ( whole_int( trim($value[3]) ) != false ? trim($value[3]) : 0 ); // If leverage amount input is corrupt, default to 0
 	        			
-										$held_amount = remove_number_format($value[1]);
-										$coin_symbol = strtoupper($value[0]);
-										$selected_pairing = strtolower($value[6]);
+										$held_amount = remove_number_format( trim($value[1]) );
+										$coin_symbol = strtoupper( trim($value[0]) );
+										$selected_pairing = strtolower( trim($value[6]) );
 										// Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
-										$selected_market = $value[5] - 1; 
+										$selected_market = ( $value[5] != NULL ? $value[5] - 1 : 1 ); 
 										$purchase_price = remove_number_format($value[2]);
 										$leverage_level = $value[3];
-										$selected_margintype = strtolower($value[4]);
-												
+										$selected_margintype = strtolower( trim($value[4]) );
+										
+											
+											// Check pairing value
+											foreach ( $coins_list[$coin_symbol]['market_pairing'] as $pairing_key => $unused ) {
+					 						$ploop = 0;
+					 						
+					 							// Use first pairing key from coins config for this asset, if no pairing value was set properly in the spreadsheet
+					 							if ( $ploop == 0 ) {
+					 								
+					 								if ( $selected_pairing == NULL || !$coins_list[$coin_symbol]['market_pairing'][$selected_pairing] ) {
+					 								$selected_pairing = $pairing_key;
+					 								}
+					 							
+					 							}
+											
+											$ploop = $ploop + 1;
+											}
+											
+											
+											// Check margin type value
+											if ( $selected_margintype != 'long' && $selected_margintype != 'short' ) {
+											$selected_margintype = 'long';
+											}
+											
+						
 						
 										// Render the row of coin data in the UI
 										ui_coin_data_row($coins_list[$coin_symbol]['coin_name'], $coin_symbol, $held_amount, $coins_list[$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price, $leverage_level, $selected_margintype);

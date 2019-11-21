@@ -11,8 +11,8 @@ $csv_download_array[] = array(
 	        							'USD Purchase Average (per-token)',
 	        							'Margin Leverage',
 	        							'Long or Short',
-	        							'Market ID (Exchange)',
-	        							'Base Pairing'
+	        							'Exchange ID',
+	        							'Market Pairing'
 	        							);
 	    
 	    
@@ -38,8 +38,24 @@ $csv_download_array[] = array(
 	    $coin_margintype_value = $_POST[$field_var_margintype];
 	        	
 	        
-	    $selected_pairing = ( $coin_pairing_id ? $coin_pairing_id : 'btc' );
+	    $selected_pairing = ( $coin_pairing_id ? $coin_pairing_id : NULL );
 	    
+	    
+			foreach ( $coins_list[strtoupper($coin_array_key)]['market_pairing'] as $pairing_key => $unused ) {
+			$ploop = 0;
+					 						
+				// Use first pairing key from coins config for this asset, if no pairing value was set properly
+				if ( $ploop == 0 ) {
+				
+					if ( $selected_pairing == NULL || !$coins_list[strtoupper($coin_array_key)]['market_pairing'][$selected_pairing] ) {
+					$selected_pairing = $pairing_key;
+					}
+				
+				}
+											
+			$ploop = $ploop + 1;
+			}
+											
 	    
 	    	if ( strtoupper($coin_array_key) == 'MISCUSD' ) {
 	    	$asset_amount_decimals = 2;

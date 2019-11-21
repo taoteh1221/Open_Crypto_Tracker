@@ -92,10 +92,10 @@
 			    $("#btc_market").val(this.value);
 			    '>
 				<?php
-				foreach ( $coins_list['BTC']['market_pairing']['usd'] as $market_key => $market_name ) {
+				foreach ( $coins_list['BTC']['market_pairing']['usd'] as $market_key => $unused ) {
 				$loop = $loop + 1;
 				?>
-				<option value='<?=$loop?>' <?=( isset($_POST['btc_market']) && ($_POST['btc_market']) == $loop || isset($btc_market) && $btc_market == ($loop - 1) ? ' selected ' : '' )?>> <?=name_rendering($market_key)?> </option>
+				<option value='<?=$loop?>' <?=( isset($_POST['btc_market']) && ($_POST['btc_market']) == $loop || isset($btc_market) && $btc_market == ($loop - 1) || $market_key == $btc_exchange ? ' selected ' : '' )?>> <?=name_rendering($market_key)?> </option>
 				<?php
 				}
 				$loop = NULL;

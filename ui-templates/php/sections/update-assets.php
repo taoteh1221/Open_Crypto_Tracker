@@ -333,10 +333,8 @@ if ( $allow_tweet_embed_js == 'on' ) {
 	        
 	        }
 	        
-	        
-	        
-	    $selected_pairing = ( $coin_pairing_id ? $coin_pairing_id : 'btc' );
-	    
+	      
+	      
 	    
 	    	if ( strtoupper($coin_array_key) == 'MISCUSD' ) {
 	    	$asset_amount_decimals = 2;
@@ -344,6 +342,7 @@ if ( $allow_tweet_embed_js == 'on' ) {
 	    	else {
 	    	$asset_amount_decimals = 8;
 	    	}
+	    
 	    
 	  	 $asset_amount_value = pretty_numbers($asset_amount_value, $asset_amount_decimals, TRUE); // TRUE = Show even if low value is off the map, just for UX purposes tracking token price only, etc
 	    
@@ -373,7 +372,11 @@ if ( $allow_tweet_embed_js == 'on' ) {
 					<?php
 					foreach ( $coin_array_value['market_pairing'] as $pairing_key => $pairing_id ) {
 					 $loop = $loop + 1;
-					 
+					 	
+					 	// Get first pairing key for further down in the logic, if no $coin_pairing_id value was set
+					 	if ( $loop == 1 ) {
+					 	$selected_pairing = ( $coin_pairing_id ? $coin_pairing_id : $pairing_key );
+					 	}
 						
 					?>
 					<option value='<?=$pairing_key?>' <?=( isset($_POST[$field_var_pairing]) && ($_POST[$field_var_pairing]) == $pairing_key || isset($coin_pairing_id) && ($coin_pairing_id) == $pairing_key ? ' selected ' : '' )?>> <?=strtoupper(preg_replace("/_/i", " ", $pairing_key))?> </option>
@@ -382,7 +385,10 @@ if ( $allow_tweet_embed_js == 'on' ) {
 									foreach ( $coin_array_value['market_pairing'][$pairing_key] as $market_key => $market_id ) {
 							$loop2 = $loop2 + 1;
 							
-								$html_market_list[$pairing_key] .= "\n<option value='".$loop2."'" . ( isset($_POST[$field_var_market]) && ($_POST[$field_var_market]) == $loop2 || isset($coin_market_id) && ($coin_market_id) == $loop2 ? ' selected ' : '' ) . ">" . name_rendering($market_key) . " </option>\n";
+								$html_market_list[$pairing_key] .= "\n<option value='".$loop2."'" . ( 
+								isset($_POST[$field_var_market]) && ($_POST[$field_var_market]) == $loop2 
+								|| isset($coin_market_id) && ($coin_market_id) == $loop2 
+								|| !isset($coin_market_id) && !isset($_POST[$field_var_market]) && strtolower($coin_array_value['coin_name']) == 'bitcoin' && $market_key == $btc_exchange ? ' selected ' : '' ) . ">" . name_rendering($market_key) . " </option>\n";
 								
 									}
 								$loop2 = NULL;
@@ -410,6 +416,7 @@ if ( $allow_tweet_embed_js == 'on' ) {
 				     
 				     
 				     <span id='<?=$field_var_market?>_lists' style='display: inline;'>
+				     <!-- Selected (or first if none selected) pairing: <?=$selected_pairing?> -->
 				    <?php
 				    
 				    foreach ( $html_market_list as $key => $value ) {

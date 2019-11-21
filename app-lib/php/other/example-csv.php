@@ -11,8 +11,8 @@ $example_download_array[] = array(
 	        							'USD Purchase Average (per-token)',
 	        							'Margin Leverage',
 	        							'Long or Short',
-	        							'Market ID (Exchange)',
-	        							'Base Pairing'
+	        							'Exchange ID',
+	        							'Market Pairing'
 	        							);
 	        
 // BTC

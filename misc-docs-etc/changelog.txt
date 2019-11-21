@@ -1871,6 +1871,9 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 3.49.1:
 -Bug fix for Gemini exchange markets API compatibility
+-Bug fix for BTC markets fields (from consolidating API call logic last release)
+-Better error handling when importing slightly malformed CSV spreadsheet data
+-Improved spreadsheet column names UX
 -------------------------------------------------------------------
 
 
