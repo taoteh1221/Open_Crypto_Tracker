@@ -5,38 +5,6 @@
 
 
 
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function name_rendering($string) {
-
-
-// Uppercase every word, and remove underscore between them
-$string = ucwords(preg_replace("/_/i", " ", $string));
-
-
-// Pretty up the individual words as needed
-$words = explode(" ",$string);
-
-	foreach($words as $key => $value) {
-	
-		if ( $value == 'Us' ) {
-		$words[$key] = strtoupper($value); // All uppercase US
-		}
-	
-	$pretty_string .= $words[$key] . ' ';
-	}
-
-
-return trim($pretty_string);
-
-
-}
-
-
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
 
@@ -46,46 +14,6 @@ function string_to_array($string) {
 $string = explode("||",$string);
 
 return $string;
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function hardy_session_clearing() {
-
-// Deleting all session data can fail on occasion, and wreak havoc.
-// This helps according to one programmer on php.net
-session_start();
-session_unset();
-session_destroy();
-session_write_close();
-setcookie(session_name(),'',0,'/');
-session_regenerate_id(true);
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function app_error($error_type, $error_message, $telemetry=false, $hashcheck=false, $overwrite=false) {
-
-global $runtime_mode;
-
-	if ( $hashcheck != false ) {
-	$_SESSION[$error_type][$hashcheck] = date('Y-m-d H:i:s') . ' UTC | runtime: ' . $runtime_mode . ' | ' . $error_type . ': ' . $error_message . ( $telemetry != false ? ' | telemetry: [ '  . $telemetry . ' ]' : '' ) . " <br /> \n";
-	}
-	elseif ( $overwrite != false ) {
-	$_SESSION[$error_type] = date('Y-m-d H:i:s') . ' UTC | runtime: ' . $runtime_mode . ' | ' . $error_type . ': ' . $error_message . ( $telemetry != false ? ' | telemetry: [ '  . $telemetry . ' ]' : '' ) . " <br /> \n";
-	}
-	else {
-	$_SESSION[$error_type] .= date('Y-m-d H:i:s') . ' UTC | runtime: ' . $runtime_mode . ' | ' . $error_type . ': ' . $error_message . ( $telemetry != false ? ' | telemetry: [ '  . $telemetry . ' ]' : '' ) . " <br /> \n";
-	}
-
 
 }
 
@@ -126,9 +54,9 @@ return $price;
 
 function trim_array($data) {
 
-        foreach ( $data as $key => $value ) {
-        $data[$key] = trim(remove_formatting($value));
-        }
+   foreach ( $data as $key => $value ) {
+   $data[$key] = trim(remove_formatting($value));
+   }
         
 return $data;
 
@@ -169,73 +97,6 @@ return $number;
 ////////////////////////////////////////////////////////
 
 
-function sort_files($files_dir, $extension, $sort) {
-	
-$scan_array = scandir($files_dir);
-$files = array();
-  
-  
-  foreach($scan_array as $filename) {
-    
-    if ( pathinfo($filename, PATHINFO_EXTENSION) == $extension ) {
-      $mod_time = filemtime($files_dir.'/'.$filename);
-      $files[$mod_time . '-' . $filename] = $filename;
-    }
-    
-  }
-
-
-  if ( $sort == 'asc' ) {
-  ksort($files);
-  }
-  elseif ( $sort == 'desc' ) {
-  krsort($files);
-  }
-
-
-return $files;
-  
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-// Always display very large / small numbers in non-scientific format
-// Also removes any leading and trailing zeros for efficient storage / UX / etc
-function floattostr($val) {
-
-// Convert any scientific formatting to normal decimals
-// MUST BE 9 DECIMALS EXACTLY, TO COUNT WATCH-ONLY ASSETS
-// (ANYTHING OVER 9 DECIMALS SHOULD BE AVOIDED FOR UX)
-$val = number_format($val, 9, '.', '');
-
-//remove zeros from end of number ie. 140.00000 becomes 140.
-$val = rtrim($val, '0');
-
-//remove decimal point if an integer ie. 140. becomes 140
-$val = rtrim($val, '.');
-
-
-	// Remove any extra leading zeros created from above logic
-	if ( $val < 1 ) {
-	$val = preg_replace("/00\./", "0.", $val);
-	}
-	elseif ( $val >= 1 ) {
-	$val = ltrim($val, '0');
-	}
-	
-	
-return $val;
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
 function remove_number_format($text) {
 
 $text = str_replace("    ", '', $text);
@@ -244,81 +105,6 @@ $text = str_replace(",", "", $text);
 $text = trim($text);
 
 return floattostr($text);
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-// See if $val is a whole number without decimals
-function whole_int($val) {
-	
-    $val = strval($val);
-    $val = str_replace('-', '', $val);
-
-    if (ctype_digit($val))
-    {
-        if ($val === (string)0)
-            return true;
-        elseif(ltrim($val, '0') === $val)
-            return true;
-    }
-
-    return false;
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function start_page($page, $href_link=false) {
-
-	// We want to force a page reload for href links, so technically we change the URL but location remains the same
-	if ( $href_link != FALSE ) {
-	$index = './';
-	}
-	else {
-	$index = 'index.php';
-	}
-	
-	if ( $page != '' ) {
-	$url = $index . ( $page != '' ? '?start_page=' . $page . '#' . $page : '' );
-	}
-	else {
-	$url = $index;
-	}
-	
-	
-return $url;
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function dir_structure($path) {
-
-global $http_users, $http_runtime_user;
-
-	if ( !is_dir($path) ) {
-	
-		// Run cache compatibility on certain PHP setups
-		if ( !$http_runtime_user || in_array($http_runtime_user, $http_users) ) {
-		$oldmask = umask(0);
-		return  mkdir($path, octdec('777'), true); // Recursively create whatever path depth desired if non-existent
-		umask($oldmask);
-		}
-		else {
-		return  mkdir($path, octdec('777'), true); // Recursively create whatever path depth desired if non-existent
-		}
-	
-	}
-	else {
-	return TRUE;
-	}
 
 }
 
@@ -395,6 +181,24 @@ return $smtp->Send();
 ////////////////////////////////////////////////////////
 
 
+function hardy_session_clearing() {
+
+// Deleting all session data can fail on occasion, and wreak havoc.
+// This helps according to one programmer on php.net
+session_start();
+session_unset();
+session_destroy();
+session_write_close();
+setcookie(session_name(),'',0,'/');
+session_regenerate_id(true);
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
 function delete_old_files($dir, $days, $ext) {
 	
 $files = glob($dir."*.".$ext);
@@ -438,6 +242,285 @@ file_download($file, 'csv'); // Download file (by default deletes after download
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
 
+// See if $val is a whole number without decimals
+function whole_int($val) {
+	
+    $val = strval($val);
+    $val = str_replace('-', '', $val);
+
+    if (ctype_digit($val))
+    {
+        if ($val === (string)0)
+            return true;
+        elseif(ltrim($val, '0') === $val)
+            return true;
+    }
+
+    return false;
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function app_error($error_type, $error_message, $telemetry=false, $hashcheck=false, $overwrite=false) {
+
+global $runtime_mode;
+
+	if ( $hashcheck != false ) {
+	$_SESSION[$error_type][$hashcheck] = date('Y-m-d H:i:s') . ' UTC | runtime: ' . $runtime_mode . ' | ' . $error_type . ': ' . $error_message . ( $telemetry != false ? ' | telemetry: [ '  . $telemetry . ' ]' : '' ) . " <br /> \n";
+	}
+	elseif ( $overwrite != false ) {
+	$_SESSION[$error_type] = date('Y-m-d H:i:s') . ' UTC | runtime: ' . $runtime_mode . ' | ' . $error_type . ': ' . $error_message . ( $telemetry != false ? ' | telemetry: [ '  . $telemetry . ' ]' : '' ) . " <br /> \n";
+	}
+	else {
+	$_SESSION[$error_type] .= date('Y-m-d H:i:s') . ' UTC | runtime: ' . $runtime_mode . ' | ' . $error_type . ': ' . $error_message . ( $telemetry != false ? ' | telemetry: [ '  . $telemetry . ' ]' : '' ) . " <br /> \n";
+	}
+
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function name_rendering($string) {
+
+
+// Uppercase every word, and remove underscore between them
+$string = ucwords(preg_replace("/_/i", " ", $string));
+
+
+// Pretty up the individual words as needed
+$words = explode(" ",$string);
+
+	foreach($words as $key => $value) {
+	
+		if ( $value == 'Us' ) {
+		$words[$key] = strtoupper($value); // All uppercase US
+		}
+	
+	$pretty_string .= $words[$key] . ' ';
+	}
+
+
+return trim($pretty_string);
+
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function sort_files($files_dir, $extension, $sort) {
+	
+$scan_array = scandir($files_dir);
+$files = array();
+  
+  
+  foreach($scan_array as $filename) {
+    
+    if ( pathinfo($filename, PATHINFO_EXTENSION) == $extension ) {
+      $mod_time = filemtime($files_dir.'/'.$filename);
+      $files[$mod_time . '-' . $filename] = $filename;
+    }
+    
+  }
+
+
+  if ( $sort == 'asc' ) {
+  ksort($files);
+  }
+  elseif ( $sort == 'desc' ) {
+  krsort($files);
+  }
+
+
+return $files;
+  
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function store_cookie_contents($name, $value, $time) {
+
+$result = setcookie($name, $value, $time);
+	
+	
+	// Android / Safari maximum cookie size is 4093 bytes, Chrome / Firefox max is 4096
+	if ( strlen($value) > 4093 ) {  
+	app_error('other_error', 'Cookie size is greater than 4093 bytes (' . strlen($value) . ' bytes). If saving portfolio as cookie data fails on your browser, try using CSV file import / export instead for large portfolios.');
+	}
+	
+	if ( $result == FALSE ) {
+	app_error('other_error', 'Cookie creation failed for cookie "' . $name . '"');
+	}
+	
+	
+return $result;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function validate_email($email) {
+
+// Trim whitespace off ends, since we do this before attempting to send anyways in our safe_mail function
+$email = trim($email);
+
+	$address = explode("@",$email);
+	
+	$domain = $address[1];
+	
+	// Validate "To" address
+	if ( !$email || !preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)+$/", $email) ) {
+	return "Please enter a valid email address.";
+	}
+	elseif (function_exists("getmxrr") && !getmxrr($domain,$mxrecords)) {
+	return "The email domain \"$domain\" appears incorrect.";
+	}
+	else {
+	return "valid";
+	}
+			
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function random_hash($num_bytes) {
+
+global $base_dir;
+
+	// PHP 4 
+	if ( PHP_VERSION_ID < 50000 ) {
+	app_error('security_error', 'Upgrade to PHP v5 or later to support cryptographically secure pseudo-random bytes in this application, or your application may not function properly');
+	}
+	// PHP 5 (V6 RELEASE WAS SKIPPED)
+	elseif ( PHP_VERSION_ID < 60000 ) {
+	require_once($base_dir . '/app-lib/php/other/random-compat/lib/random.php');
+	$hash = random_bytes($num_bytes);
+	}
+	// >= PHP 7
+	elseif ( PHP_VERSION_ID >= 70000 ) {
+	$hash = random_bytes($num_bytes);
+	}
+
+	if ( strlen($hash) == $num_bytes ) {
+	return bin2hex($hash);
+	}
+	else {
+	return false;
+	}
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+// Always display very large / small numbers in non-scientific format
+// Also removes any leading and trailing zeros for efficient storage / UX / etc
+function floattostr($val) {
+
+// Convert any scientific formatting to normal decimals
+// MUST BE 9 DECIMALS EXACTLY, TO COUNT WATCH-ONLY ASSETS
+// (ANYTHING OVER 9 DECIMALS SHOULD BE AVOIDED FOR UX)
+$val = number_format($val, 9, '.', '');
+
+//remove zeros from end of number ie. 140.00000 becomes 140.
+$val = rtrim($val, '0');
+
+//remove decimal point if an integer ie. 140. becomes 140
+$val = rtrim($val, '.');
+
+
+	// Remove any extra leading zeros created from above logic
+	if ( $val < 1 ) {
+	$val = preg_replace("/00\./", "0.", $val);
+	}
+	elseif ( $val >= 1 ) {
+	$val = ltrim($val, '0');
+	}
+	
+	
+return $val;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function start_page($page, $href_link=false) {
+
+	// We want to force a page reload for href links, so technically we change the URL but location remains the same
+	if ( $href_link != FALSE ) {
+	$index = './';
+	}
+	else {
+	$index = 'index.php';
+	}
+	
+	if ( $page != '' ) {
+	$url = $index . ( $page != '' ? '?start_page=' . $page . '#' . $page : '' );
+	}
+	else {
+	$url = $index;
+	}
+	
+	
+return $url;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function dir_structure($path) {
+
+global $http_users, $http_runtime_user;
+
+	if ( !is_dir($path) ) {
+	
+		// Run cache compatibility on certain PHP setups
+		if ( !$http_runtime_user || in_array($http_runtime_user, $http_users) ) {
+		$oldmask = umask(0);
+		return  mkdir($path, octdec('777'), true); // Recursively create whatever path depth desired if non-existent
+		umask($oldmask);
+		}
+		else {
+		return  mkdir($path, octdec('777'), true); // Recursively create whatever path depth desired if non-existent
+		}
+	
+	}
+	else {
+	return TRUE;
+	}
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
 
 function time_date_format($offset=false, $mode=false) {
 
@@ -466,30 +549,6 @@ function time_date_format($offset=false, $mode=false) {
 $date = preg_replace("/@/", "at", $date); // 'at' is a stubborn word to escape into the date() function, so we cheat a little
 
 return $date;
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function store_cookie_contents($name, $value, $time) {
-
-$result = setcookie($name, $value, $time);
-	
-	
-	// Android / Safari maximum cookie size is 4093 bytes, Chrome / Firefox max is 4096
-	if ( strlen($value) > 4093 ) {  
-	app_error('other_error', 'Cookie size is greater than 4093 bytes (' . strlen($value) . ' bytes). If saving portfolio as cookie data fails on your browser, try using CSV file import / export instead for large portfolios.');
-	}
-	
-	if ( $result == FALSE ) {
-	app_error('other_error', 'Cookie creation failed for cookie "' . $name . '"');
-	}
-	
-	
-return $result;
 
 }
 
@@ -630,66 +689,6 @@ $data['spot'] = rtrim($data['spot'],',');
 $data['volume'] = rtrim($data['volume'],',');
 
 return $data;
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function validate_email($email) {
-
-// Trim whitespace off ends, since we do this before attempting to send anyways in our safe_mail function
-$email = trim($email);
-
-	$address = explode("@",$email);
-	
-	$domain = $address[1];
-	
-	// Validate "To" address
-	if ( !$email || !preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)+$/", $email) ) {
-	return "Please enter a valid email address.";
-	}
-	elseif (function_exists("getmxrr") && !getmxrr($domain,$mxrecords)) {
-	return "The email domain \"$domain\" appears incorrect.";
-	}
-	else {
-	return "valid";
-	}
-			
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function random_hash($num_bytes) {
-
-global $base_dir;
-
-	// PHP 4 
-	if ( PHP_VERSION_ID < 50000 ) {
-	app_error('security_error', 'Upgrade to PHP v5 or later to support cryptographically secure pseudo-random bytes in this application, or your application may not function properly');
-	}
-	// PHP 5 (V6 RELEASE WAS SKIPPED)
-	elseif ( PHP_VERSION_ID < 60000 ) {
-	require_once($base_dir . '/app-lib/php/other/random-compat/lib/random.php');
-	$hash = random_bytes($num_bytes);
-	}
-	// >= PHP 7
-	elseif ( PHP_VERSION_ID >= 70000 ) {
-	$hash = random_bytes($num_bytes);
-	}
-
-	if ( strlen($hash) == $num_bytes ) {
-	return bin2hex($hash);
-	}
-	else {
-	return false;
-	}
 
 }
 
@@ -2027,6 +2026,8 @@ $cache_filename = preg_replace("/:/", "_", $cache_filename);
           
 		
 	}
+
+
 
 }
 

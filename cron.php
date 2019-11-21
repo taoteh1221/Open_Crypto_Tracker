@@ -62,7 +62,7 @@ if ( $proxy_alerts != 'none' ) {
 }
 
 
-// Log errors, destroy session data
+// Log errors, send notifications, destroy session data
 error_logs();
 send_notifications();
 hardy_session_clearing();

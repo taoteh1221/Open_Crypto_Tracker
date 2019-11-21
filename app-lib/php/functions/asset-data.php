@@ -58,12 +58,10 @@ function get_sub_token_price($chosen_market, $market_pairing) {
 
 global $eth_subtokens_ico_values;
 
- if ( strtolower($chosen_market) == 'eth_subtokens_ico' ) {
-
+  if ( strtolower($chosen_market) == 'eth_subtokens_ico' ) {
   return $eth_subtokens_ico_values[$market_pairing];
   }
  
-
 }
 
 
@@ -75,15 +73,14 @@ function bitcoin_total() {
 
     if (is_array($_SESSION['btc_worth_array']) || is_object($_SESSION['btc_worth_array'])) {
       
-  foreach ( $_SESSION['btc_worth_array'] as $key => $value ) {
-  
-  $total_value = ($value + $total_value);
-  
-  }
+  		foreach ( $_SESSION['btc_worth_array'] as $key => $value ) {
+  		$total_value = ($value + $total_value);
+  		}
   
     }
 
 return $total_value;
+
 }
 
 
@@ -96,16 +93,11 @@ function coin_stats_data($request) {
 
 	if (is_array($_SESSION['coin_stats_array']) || is_object($_SESSION['coin_stats_array'])) {
       
-      
   		foreach ( $_SESSION['coin_stats_array'] as $key => $value ) {
-  		
   		$results = ($results + $value[$request]);
-  		
 		}
   
-  
 	}
-
 
 return $results;
 
@@ -148,6 +140,9 @@ function detect_pairing($pair_name) {
 	}
 	elseif ( preg_match("/btc/i", $pair_name) ) {
 	return 'btc';
+	}
+	else {
+	return false;
 	}
 
 }
@@ -250,24 +245,22 @@ global $btc_exchange, $btc_usd;
    $_SESSION['usdc_btc'] = number_format( ( 1 / get_coin_value('USDC', 'binance', 'BTCUSDC')['last_trade'] ), 8, '.', '');
    }
    // USD
-   // We don't want ANY rounding calculating this, so were setting the decimal amount VERY HIGH
    elseif ( $pairing == 'usd' && !$_SESSION['usd_btc'] || $vol_in_pairing == 'usd' && !$_SESSION['usd_btc'] ) {
-   $_SESSION['usd_btc'] = number_format( (1 / $btc_usd), 20, '.', '');
-   $_SESSION['usd_btc'] = floattostr($_SESSION['usd_btc']);
+   $_SESSION['usd_btc'] = number_format( (1 / $btc_usd), 8, '.', '');
    }
 	
     
 	// Get asset USD value
 	
-	// Volume by base pair in BTC
+	// Volume by market pair in BTC
 	if ( $vol_in_pairing == 'btc' || strtoupper($asset_symbol) == 'BTC' ) {
 	$volume_usd_raw = number_format( $btc_usd * $volume , 0, '.', '');
 	}
-	// Volume by base pair in USD
+	// Volume by market pair in USD
 	elseif ( $vol_in_pairing != false && $pairing == 'usd' ) { 
 	$volume_usd_raw = number_format( $volume , 0, '.', '');
 	}
-	// Volume by base pair in Altcoin
+	// Volume by market pair in Altcoin
 	elseif ( $vol_in_pairing != false ) { 
 	$volume_usd_raw = number_format( $btc_usd * ( $_SESSION[$pairing.'_btc'] * $volume ) , 0, '.', '');
 	}
@@ -284,7 +277,7 @@ global $btc_exchange, $btc_usd;
 	}
 
 
-	// Return negative number, if no data detected
+	// Return negative number, if no data detected (so we know when data errors happen)
 	if ( $volume_value == 'usd' && is_numeric($volume) == true && $last_trade != '' || is_numeric($volume) == true && $vol_in_pairing != false ) {
 	return $volume_usd_raw;
 	}
@@ -432,6 +425,7 @@ global $_POST, $mining_rewards;
 				<option value='31' <?=( $_POST['cuckoo_cycles'] == '31' ? 'selected' : '' )?>>Cuckoo 31 </option>
 				<option value='32' <?=( $_POST['cuckoo_cycles'] == '32' ? 'selected' : '' )?>>Cuckoo 32 </option>
 				<option value='33' <?=( $_POST['cuckoo_cycles'] == '33' ? 'selected' : '' )?>>Cuckoo 33 </option>
+				<option value='34' <?=( $_POST['cuckoo_cycles'] == '34' ? 'selected' : '' )?>>Cuckoo 34 </option>
 				</select> 
 				
 				(uses <a href='<?=$calculation_form_data[4]?>' target='_blank'><?=$calculation_form_data[5]?></a>)
@@ -556,10 +550,8 @@ $asset = strtoupper($asset);
    $_SESSION['usdc_btc'] = number_format( ( 1 / get_coin_value('USDC', 'binance', 'BTCUSDC')['last_trade'] ), 8, '.', '');
    }
    // USD
-   // We don't want ANY rounding calculating this, so were setting the decimal amount VERY HIGH
    elseif ( $pairing == 'usd' && !$_SESSION['usd_btc'] ) {
-   $_SESSION['usd_btc'] = number_format( (1 / $btc_usd), 20, '.', '');
-   $_SESSION['usd_btc'] = floattostr($_SESSION['usd_btc']);
+   $_SESSION['usd_btc'] = number_format( (1 / $btc_usd), 8, '.', '');
    }
    
    
@@ -973,9 +965,9 @@ $cached_array = explode("||", $data_file);
 	
 
 
-// If we haven't returned FALSE yet because of any issues being detected, return TRUE to indicate all seems ok
+// If we haven't returned false yet because of any issues being detected, return TRUE to indicate all seems ok
 
-return TRUE;
+return true;
 
 
 }
@@ -1191,10 +1183,8 @@ $market_pairing = $all_markets[$selected_exchange];
     // USD
     else if ( $selected_pairing == 'usd' ) {
     
-    	// We don't want ANY rounding calculating this, so were setting the decimal amount VERY HIGH
     	if ( !$_SESSION['usd_btc'] ) {
-    	$_SESSION['usd_btc'] = number_format( (1 / $btc_usd), 20, '.', '');
-    	$_SESSION['usd_btc'] = floattostr($_SESSION['usd_btc']);
+    	$_SESSION['usd_btc'] = number_format( (1 / $btc_usd), 8, '.', '');
     	}
     
     $pairing_btc_value = $_SESSION['usd_btc'];
@@ -1310,6 +1300,7 @@ $market_pairing = $all_markets[$selected_exchange];
 
 
 <td class='data border_lb' align='right' style='position: relative; padding-right: 32px; white-space: nowrap;'>
+ 
  
  <?php
  
@@ -1501,6 +1492,7 @@ $market_pairing = $all_markets[$selected_exchange];
 	}
  
  ?>
+ 
  
 </td>
 

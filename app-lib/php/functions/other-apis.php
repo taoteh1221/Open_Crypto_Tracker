@@ -3,7 +3,9 @@
  * Copyright 2014-2019 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
  */
 
+
 //////////////////////////////////////////////////////////
+
 
 function bitcoin_api($request) {
  
@@ -27,7 +29,9 @@ global $chainstats_cache;
   
 }
 
+
 //////////////////////////////////////////////////////////
+
 
 function dogecoin_api($request) {
  
@@ -51,7 +55,9 @@ global $chainstats_cache;
   
 }
 
+
 //////////////////////////////////////////////////////////
+
 
 function grin_api($request) {
  
@@ -67,7 +73,9 @@ return $data[$request];
   
 }
 
+
 //////////////////////////////////////////////////////////
+
 
 function litecoin_api($request) {
  
@@ -92,7 +100,9 @@ global $chainstats_cache;
   
 }
 
+
 //////////////////////////////////////////////////////////
+
 
 function decred_api($type, $request) {
  
@@ -121,7 +131,9 @@ global $chainstats_cache, $runtime_mode;
   
 }
 
+
 //////////////////////////////////////////////////////////
+
 
 function monero_api($request) {
  
@@ -143,7 +155,9 @@ global $chainstats_cache;
   
 }
 
+
 //////////////////////////////////////////////////////////
+
 
 function etherscan_api($block_info) {
  
@@ -188,7 +202,9 @@ global $base_dir, $chainstats_cache;
   
 }
 
+
 //////////////////////////////////////////////////////////
+
 
 function coingecko_api($symbol) {
 	
@@ -231,7 +247,9 @@ $array_merging = array();
   
 }
 
+
 //////////////////////////////////////////////////////////
+
 
 function coinmarketcap_api($symbol) {
 	
@@ -298,6 +316,7 @@ global $api_timeout, $coinmarketcapcom_api_key, $marketcap_ranks_max, $marketcap
 		  
   
 }
+
 
 //////////////////////////////////////////////////////////
 

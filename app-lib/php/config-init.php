@@ -9,7 +9,6 @@
 
 
 // Set BTC / currency_market default value
-// If $_SESSION['btc_exchange'] is set (from choosing a different BTC/USD market in the UI), use it
 if ( $_SESSION['btc_exchange'] ) {
 $btc_exchange = $_SESSION['btc_exchange'];
 }
@@ -19,6 +18,7 @@ $btc_currency_market = $_SESSION['btc_currency_market'];
 }
 
 $btc_usd = get_coin_value('BTC', $btc_exchange, $coins_list['BTC']['market_pairing'][$btc_currency_market][$btc_exchange], $btc_currency_market)['last_trade'];
+
 
 
 // Only need below logic during UI runtime
@@ -165,6 +165,7 @@ $charts_update_freq = chart_time_interval($find_first_filename, 500, 40);
 store_file_contents($base_dir . '/cache/vars/chart_interval.dat', $charts_update_freq);
 
 }
+
 
 
 // Chart update frequency

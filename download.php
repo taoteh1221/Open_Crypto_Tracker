@@ -27,7 +27,7 @@ require_once( $base_dir . "/app-lib/php/other/backups.php");
 exit;
 }
 else {
-// Log errors, destroy session data
+// Log errors, send notifications, destroy session data
 error_logs();
 send_notifications();
 hardy_session_clearing();

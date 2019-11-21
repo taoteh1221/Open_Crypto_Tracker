@@ -16,8 +16,6 @@ global $btc_exchange, $btc_usd, $coins_list, $last_trade_cache;
 $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market_pairing) );
  
  
- 
-
 
   if ( strtolower($chosen_exchange) == 'coinbase' ) {
   
@@ -37,6 +35,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
   }
   
 
+
   elseif ( strtolower($chosen_exchange) == 'gemini' ) {
   
   $json_string = 'https://api.gemini.com/v1/pubticker/' . $market_pairing;
@@ -53,6 +52,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
     					);
   
   }
+
 
 
   elseif ( strtolower($chosen_exchange) == 'okcoin' ) {
@@ -73,6 +73,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
   }
 
 
+
   elseif ( strtolower($chosen_exchange) == 'bitstamp' ) {
   	
   
@@ -91,6 +92,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
     
   }
   
+
 
   elseif ( strtolower($chosen_exchange) == 'cryptofresh' ) {
   
@@ -124,6 +126,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
   }
   
 
+
   elseif ( strtolower($chosen_exchange) == 'bitforex' ) {
   
   $json_string = 'https://api.bitforex.com/api/v1/market/ticker?symbol=' . $market_pairing;
@@ -141,6 +144,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
   
   }
   
+
 
   elseif ( strtolower($chosen_exchange) == 'kraken' ) {
    	
@@ -198,6 +202,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
   }
   
 
+
   elseif ( strtolower($chosen_exchange) == 'okex' ) {
   	
   
@@ -231,6 +236,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
   
   
   }
+
 
 
   elseif ( strtolower($chosen_exchange) == 'binance' ) {
@@ -267,6 +273,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
   }
 
 
+
   elseif ( strtolower($chosen_exchange) == 'binance_us' ) {
      
      $json_string = 'https://api.binance.us/api/v3/ticker/24hr';
@@ -299,6 +306,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
   
   
   }
+
 
 
   elseif ( strtolower($chosen_exchange) == 'idex' ) {
@@ -335,6 +343,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
   }
   
   
+  
   elseif ( strtolower($chosen_exchange) == 'bigone' ) {
      
      $json_string = 'https://big.one/api/v2/tickers';
@@ -367,6 +376,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
   
   
   }
+
 
 
   elseif ( strtolower($chosen_exchange) == 'bittrex' || strtolower($chosen_exchange) == 'bittrex_global' ) {
@@ -403,6 +413,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
   }
 
 
+
   elseif ( strtolower($chosen_exchange) == 'tradesatoshi' ) {
 
      $json_string = 'https://tradesatoshi.com/api/public/getmarketsummaries';
@@ -437,6 +448,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
   }
   
 
+
   elseif ( strtolower($chosen_exchange) == 'poloniex' ) {
 
      $json_string = 'https://poloniex.com/public?command=returnTicker';
@@ -469,6 +481,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
   }
   
   
+  
   elseif ( strtolower($chosen_exchange) == 'tradeogre' ) {
 
      $json_string = 'https://tradeogre.com/api/v1/markets';
@@ -498,6 +511,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
   
   
   }
+
 
 
   elseif ( strtolower($chosen_exchange) == 'hotbit' ) {
@@ -533,6 +547,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
   }
 
 
+
   elseif ( strtolower($chosen_exchange) == 'gateio' ) {
 
      $json_string = 'https://data.gate.io/api2/1/tickers';
@@ -563,6 +578,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
   
   
   }
+
 
 
   elseif ( strtolower($chosen_exchange) == 'kucoin' ) {
@@ -598,6 +614,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
   }
 
 
+
   elseif ( strtolower($chosen_exchange) == 'livecoin' ) {
 
      $json_string = 'https://api.livecoin.net/exchange/ticker';
@@ -627,6 +644,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
   
   
   }
+
 
 
   elseif ( strtolower($chosen_exchange) == 'hitbtc' ) {
@@ -660,6 +678,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
   }
   
   
+  
   elseif ( strtolower($chosen_exchange) == 'graviex' ) {
 
      $json_string = 'https://graviex.net//api/v2/tickers.json';
@@ -690,6 +709,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
   
   
   }
+
 
 
   elseif ( strtolower($chosen_exchange) == 'upbit' ) {
@@ -740,6 +760,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
   }
 
 
+
   elseif ( strtolower($chosen_exchange) == 'ethfinex' || strtolower($chosen_exchange) == 'bitfinex' ) {
   	
      
@@ -771,6 +792,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
   
   
   }
+
 
 
   elseif ( strtolower($chosen_exchange) == 'usd_assets' ) {
@@ -817,6 +839,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
 
   
 }
+
 
 //////////////////////////////////////////////////////////
 

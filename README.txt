@@ -121,60 +121,60 @@ Below is an example for editing your assets / markets into the coin list in the 
  
  
  
-                    // UPPERCASE_COIN_SYMBOL
-                    'UPPERCASE_COIN_SYMBOL' => array(
+                    // UPPERCASE_COIN_SYMBOL_HERE
+                    'UPPERCASE_COIN_SYMBOL_HERE' => array(
                         
-                        'coin_name' => 'COIN_NAME',
-                        'marketcap_website_slug' => 'WEBSITE_SLUG', // Website slug (URL data) on coinmarketcap / coingecko, leave blank if not listed there
+                        'coin_name' => 'COIN_NAME_HERE',
+                        'marketcap_website_slug' => 'WEBSITE_SLUG_HERE', // Website slug (URL data) on coinmarketcap / coingecko, leave blank if not listed there
                         'market_pairing' => array(
                         
                                     'btc' => array(
-                                          'LOWERCASE_MARKETPLACE1' => 'MARKETNUMBERHERE',
-                                          'LOWERCASE_MARKETPLACE2' => 'BTC_COINSYMBOLHERE',
-                                          'LOWERCASE_MARKETPLACE3' => 'BTC-COINSYMBOLHERE'
+                                          'lowercase_marketplace1' => 'MARKETNUMBERHERE',
+                                          'lowercase_marketplace2' => 'BTC_COINSYMBOLHERE',
+                                          'lowercase_marketplace3' => 'BTC-COINSYMBOLHERE'
                                                     ),
                                                     
                                     'xmr' => array(
-                                          'LOWERCASE_MARKETPLACE1' => 'MARKETNUMBERHERE',
-                                          'LOWERCASE_MARKETPLACE2' => 'XMR_COINSYMBOLHERE',
-                                          'LOWERCASE_MARKETPLACE3' => 'XMR-COINSYMBOLHERE'
+                                          'lowercase_marketplace1' => 'MARKETNUMBERHERE',
+                                          'lowercase_marketplace2' => 'XMR_COINSYMBOLHERE',
+                                          'lowercase_marketplace3' => 'XMR-COINSYMBOLHERE'
                                                     ),
                                                     
                                     'eth' => array(
-                                          'LOWERCASE_MARKETPLACE1' => 'MARKETNUMBERHERE',
-                                          'LOWERCASE_MARKETPLACE2' => 'ETH_COINSYMBOLHERE',
-                                          'LOWERCASE_MARKETPLACE3' => 'ETH-COINSYMBOLHERE',
+                                          'lowercase_marketplace1' => 'MARKETNUMBERHERE',
+                                          'lowercase_marketplace2' => 'ETH_COINSYMBOLHERE',
+                                          'lowercase_marketplace3' => 'ETH-COINSYMBOLHERE',
                                           'eth_subtokens_ico' => 'ETHSUBTOKENNAME' // Must be defined in $eth_subtokens_ico_values in config.php
                                                     ),
                                                     
                                     'ltc' => array(
-                                          'LOWERCASE_MARKETPLACE1' => 'MARKETNUMBERHERE',
-                                          'LOWERCASE_MARKETPLACE2' => 'LTC_COINSYMBOLHERE',
-                                          'LOWERCASE_MARKETPLACE3' => 'LTC-COINSYMBOLHERE'
+                                          'lowercase_marketplace1' => 'MARKETNUMBERHERE',
+                                          'lowercase_marketplace2' => 'LTC_COINSYMBOLHERE',
+                                          'lowercase_marketplace3' => 'LTC-COINSYMBOLHERE'
                                                     ),
                                                     
                                     'usdt' => array(
-                                          'LOWERCASE_MARKETPLACE1' => 'MARKETNUMBERHERE',
-                                          'LOWERCASE_MARKETPLACE2' => 'USDT_COINSYMBOLHERE',
-                                          'LOWERCASE_MARKETPLACE3' => 'USDT-COINSYMBOLHERE'
+                                          'lowercase_marketplace1' => 'MARKETNUMBERHERE',
+                                          'lowercase_marketplace2' => 'USDT_COINSYMBOLHERE',
+                                          'lowercase_marketplace3' => 'USDT-COINSYMBOLHERE'
                                                     ),
                                                     
                                     'tusd' => array(
-                                          'LOWERCASE_MARKETPLACE1' => 'MARKETNUMBERHERE',
-                                          'LOWERCASE_MARKETPLACE2' => 'TUSD_COINSYMBOLHERE',
-                                          'LOWERCASE_MARKETPLACE3' => 'TUSD-COINSYMBOLHERE'
+                                          'lowercase_marketplace1' => 'MARKETNUMBERHERE',
+                                          'lowercase_marketplace2' => 'TUSD_COINSYMBOLHERE',
+                                          'lowercase_marketplace3' => 'TUSD-COINSYMBOLHERE'
                                                     ),
                                                     
                                     'usdc' => array(
-                                          'LOWERCASE_MARKETPLACE1' => 'MARKETNUMBERHERE',
-                                          'LOWERCASE_MARKETPLACE2' => 'USDC_COINSYMBOLHERE',
-                                          'LOWERCASE_MARKETPLACE3' => 'USDC-COINSYMBOLHERE'
+                                          'lowercase_marketplace1' => 'MARKETNUMBERHERE',
+                                          'lowercase_marketplace2' => 'USDC_COINSYMBOLHERE',
+                                          'lowercase_marketplace3' => 'USDC-COINSYMBOLHERE'
                                                     ),
                                                     
                                     'usd' => array(
-                                          'LOWERCASE_MARKETPLACE1' => 'MARKETNUMBERHERE',
-                                          'LOWERCASE_MARKETPLACE2' => 'USD_COINSYMBOLHERE',
-                                          'LOWERCASE_MARKETPLACE3' => 'USD-COINSYMBOLHERE'
+                                          'lowercase_marketplace1' => 'MARKETNUMBERHERE',
+                                          'lowercase_marketplace2' => 'USD_COINSYMBOLHERE',
+                                          'lowercase_marketplace3' => 'USD-COINSYMBOLHERE'
                                                     )
                                                     
                                           ) // market_pairing END
@@ -197,7 +197,7 @@ https://github.com/taoteh1221/DFD_Cryptocoin_Values/issues
 
 https://dragonfrugal.com/contact/
 
-Web server setup / install is available for $30 hourly if needed. PM me on Twitter / Skype @ taoteh1221, or contact me using above contact links.
+Web server setup / install is available for $30 hourly if needed (try the auto-install bash script first). PM me on Twitter / Skype @ taoteh1221, or contact me using above contact links.
 
 
 ################################################################################################################

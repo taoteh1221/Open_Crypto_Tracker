@@ -8,15 +8,19 @@ error_reporting(0); // Turn off all error reporting on production servers (0), o
 
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
 
+$app_version = '3.49.1';  // 2019/NOVEMBER/20TH
+
+
 require_once("app-lib/php/loader.php");
 
-$app_version = '3.49.1';  // 2019/NOVEMBER/20TH
- 
-date_default_timezone_set('UTC');
+
+date_default_timezone_set('UTC'); // Set time as UTC for logs etc ($local_time_offset in config.php can adjust UI / UX timestamps as needed)
 ini_set('auto_detect_line_endings',TRUE); // Mac compatibility with CSV spreadsheet importing
+
 
 hardy_session_clearing(); // Try to avoid edge-case bug where sessions didn't delete last runtime
 session_start(); // New session start
+
 
 $_SESSION['proxy_checkup'] = array();
 
@@ -51,7 +55,7 @@ define('CURL_VERSION_ID', str_replace(".", "", $curl_setup["version"]) );
 }
 
 
-// UI / HTTP user and system users list, for cache compatibility determination
+// HTTP user and system users list, for cache compatibility determination
 $http_runtime_user = ( $runtime_mode == 'ui' ? posix_getpwuid(posix_geteuid())['name'] : trim( file_get_contents('cache/vars/http_runtime_user.dat') ) );
 
 $http_users = array(
@@ -62,6 +66,7 @@ $http_users = array(
 						'httpd2'
 							);
 
+
 // We can create cache directories (if needed), with $http_runtime_user determined (for cache compatibility on certain PHP setups)
 
 // Check for cache sub-directory creation, create if needed...if it fails, alert end-user
@@ -71,8 +76,7 @@ if ( dir_structure($base_dir . '/cache/alerts/') != TRUE
 || dir_structure($base_dir . '/cache/logs/') != TRUE
 || dir_structure($base_dir . '/cache/charts/') != TRUE
 || dir_structure($base_dir . '/cache/vars/') != TRUE
-|| dir_structure($base_dir . '/cache/queue/messages/') != TRUE
-|| dir_structure($base_dir . '/cache/temp/') != TRUE ) {
+|| dir_structure($base_dir . '/cache/queue/messages/') != TRUE ) {
 echo "Cannot create cache sub-directories. Please make sure the folder '/cache/' has FULL read / write permissions (chmod 777 on unix / linux systems), so the cache sub-directories can be created automatically.";
 exit;
 }

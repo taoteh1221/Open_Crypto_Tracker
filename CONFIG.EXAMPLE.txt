@@ -22,7 +22,6 @@
 
 
 
-
 // Default Bitcoin exchange
 $btc_exchange = 'binance'; // coinbase / binance / binance_us / bitstamp / bitfinex / kraken / gemini / hitbtc / okcoin / livecoin
 

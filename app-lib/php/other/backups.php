@@ -6,6 +6,7 @@
 
 $filename_sections = explode("_", $_GET['backup']);
 
+
 foreach ( $filename_sections as $section ) {
 	
 $section = preg_replace("/\.zip/", "", $section);
@@ -23,10 +24,12 @@ if ( $private_filename != 1 ) {
 die('Non-private filename request detected, download aborted.');
 }
 
+
 $path = "backups/";
 
 $fullPath = $path.$_GET['backup'];
- 
+
+
 if ($fd = fopen ($fullPath, "r")) {
     $fsize = filesize($fullPath);
     $path_parts = pathinfo($fullPath);
@@ -57,12 +60,13 @@ if ($fd = fopen ($fullPath, "r")) {
 }
 
 
-// Log errors, destroy session data
+// Log errors, send notifications, destroy session data
 error_logs();
 send_notifications();
 hardy_session_clearing();
 
 fclose ($fd);
 exit;
+
 
 ?>
