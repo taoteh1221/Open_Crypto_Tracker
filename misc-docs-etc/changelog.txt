@@ -1874,6 +1874,7 @@ app doing the data requests, not a malicious bot)
 -Bug fix for BTC markets fields (from consolidating API call logic last release)
 -Better error handling when importing slightly malformed CSV spreadsheet data
 -Improved spreadsheet column names UX
+-Code cleanup
 -------------------------------------------------------------------
 
 
