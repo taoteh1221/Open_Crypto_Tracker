@@ -1029,7 +1029,6 @@ $raw_amount_value = remove_number_format($amount_value);
 	    	}
 	    	
 	    
-//return $raw_amount_value;
 return $amount_value;
 
 }
@@ -1482,28 +1481,27 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 		// and no session count is set, set session count to zero
 		// Don't update the file-cached count here, that will happen automatically from resetting the session count to zero 
 		// (if there are notifyme messages queued to send)
-		if ( !isset($_SESSION['notifyme_count']) && update_cache_file('cache/events/notifyme-alerts-sent.dat', 6 ) == true ) {
+		if ( !isset($_SESSION['notifyme_count']) && update_cache_file($base_dir . '/cache/events/notifyme-alerts-sent.dat', 6 ) == true ) {
 		$_SESSION['notifyme_count'] = 0;
 		}
 		// If it hasn't been well over 5 minutes since the last notifyme send
 		// (we use 6 minutes, safely over the 5 minute limit for the maximum 5 requests), and there is no session count, 
 		// use the file-cached count for the session count starting point
-		elseif ( !isset($_SESSION['notifyme_count']) && update_cache_file('cache/events/notifyme-alerts-sent.dat', 6 ) == false ) {
+		elseif ( !isset($_SESSION['notifyme_count']) && update_cache_file($base_dir . '/cache/events/notifyme-alerts-sent.dat', 6 ) == false ) {
 		$_SESSION['notifyme_count'] = trim( file_get_contents($base_dir . '/cache/events/notifyme-alerts-sent.dat') );
 		}
 		
 		
 		
-		if ( !isset($_SESSION['textbelt_count']) ) {
-		$_SESSION['textbelt_count'] = 0;
+		if ( !isset($_SESSION['text_count']) ) {
+		$_SESSION['text_count'] = 0;
 		}
 		
 		
 		
-		if ( !isset($_SESSION['textlocal_count']) ) {
-		$_SESSION['textlocal_count'] = 0;
+		if ( !isset($_SESSION['email_count']) ) {
+		$_SESSION['email_count'] = 0;
 		}
-	
 	
 		
 	
@@ -1516,9 +1514,9 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 		////////////START//////////////////////
 		
 		
-			// Sleep for 1.25 seconds before starting ANY consecutive message send, to avoid API blacklisting
+			// Sleep for 1.5 seconds before starting ANY consecutive message send, to help avoid being blacklisted
 			if ( $_SESSION['notifications_count'] > 0 ) {
-			usleep(1250000);
+			usleep(1500000);
 			}
 			
 		
@@ -1545,9 +1543,10 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 		
 		
 		
-			// Send messages
 			
+			// Send messages
 			foreach ( $messages_queue as $queued_cache_file ) {
+				
 			
 			
 			$message_data = trim( file_get_contents($base_dir . '/cache/queue/messages/' . $queued_cache_file) );
@@ -1560,28 +1559,28 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 			   $notifyme_params['notification'] = $message_data;
 			   
 			   
-				// Sleep for 0.4 seconds extra on consecutive notifyme messages
-				if ( $_SESSION['notifyme_count'] > 0 ) {
-				usleep(400000);
-				}
+					// Sleep for 1.5 seconds EXTRA on consecutive notifyme messages
+					if ( $_SESSION['notifyme_count'] > 0 ) {
+					usleep(1500000);
+					}
 				
 					
 					// Only 5 notifyme messages allowed per minute
 					if ( $_SESSION['notifyme_count'] < 5 ) {
 					
-				$notifyme_response = @api_data('array', $notifyme_params, 0, 'https://api.notifymyecho.com/v1/NotifyMe');
+					$notifyme_response = @api_data('array', $notifyme_params, 0, 'https://api.notifymyecho.com/v1/NotifyMe');
 				
 					$_SESSION['notifyme_count'] = $_SESSION['notifyme_count'] + 1;
 					
 					$message_sent = 1;
 					
-				store_file_contents($base_dir . '/cache/events/notifyme-alerts-sent.dat', $_SESSION['notifyme_count']); 
+					store_file_contents($base_dir . '/cache/events/notifyme-alerts-sent.dat', $_SESSION['notifyme_count']); 
 				
 					store_file_contents($base_dir . '/cache/logs/last-notifyme-response.log', $notifyme_response);
 					
 					unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
 					
-				}
+					}
 				
 				
 				
@@ -1596,20 +1595,21 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 			   
 			   $textbelt_params['message'] = $message_data;
 			   
-				// Sleep for 0.95 seconds extra on consecutive text messages
-				if ( $_SESSION['textbelt_count'] > 0 ) {
-				usleep(950000);
-				}
+					// Sleep for 1.5 seconds EXTRA on consecutive text messages
+					if ( $_SESSION['text_count'] > 0 ) {
+					usleep(1500000);
+					}
 			   
 			   $textbelt_response = @api_data('array', $textbelt_params, 0, 'https://textbelt.com/text', 2);
 			   
-			   $_SESSION['textbelt_count'] = $_SESSION['textbelt_count'] + 1;
+			   $_SESSION['text_count'] = $_SESSION['text_count'] + 1;
 				
 				$message_sent = 1;
 			   
 				store_file_contents($base_dir . '/cache/logs/last-textbelt-response.log', $textbelt_response);
 				
 				unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
+				
 			   }
 			  
 			  
@@ -1621,20 +1621,21 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 			   
 			   $textlocal_params['message'] = $message_data;
 			   
-				// Sleep for 0.95 seconds extra on consecutive text messages
-				if ( $_SESSION['textlocal_count'] > 0 ) {
-				usleep(950000);
-				}
+					// Sleep for 1.5 seconds EXTRA on consecutive text messages
+					if ( $_SESSION['text_count'] > 0 ) {
+					usleep(1500000);
+					}
 			   
 			   $textlocal_response = @api_data('array', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
 			   
-			   $_SESSION['textlocal_count'] = $_SESSION['textlocal_count'] + 1;
+			   $_SESSION['text_count'] = $_SESSION['text_count'] + 1;
 				
 				$message_sent = 1;
 			   
 				store_file_contents($base_dir . '/cache/logs/last-textlocal-response.log', $textlocal_response);
 				
 				unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
+				
 			   }
 			   
 					   
@@ -1652,11 +1653,23 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 			   
 			   
 					if ( $textemail_array['subject'] != '' && $textemail_array['message'] != '' ) {
+						
+						// Sleep for 1.5 seconds EXTRA on consecutive text messages
+						if ( $_SESSION['text_count'] > 0 ) {
+						usleep(1500000);
+						}
+			   
 					@safe_mail( text_email($to_text) , $textemail_array['subject'], $textemail_array['message']);
+			   
+			   	$_SESSION['text_count'] = $_SESSION['text_count'] + 1;
+			   	
 					$message_sent = 1;
+					
+					unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
+					
 					}
 				
-				unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
+				
 			   }
 					  
 					  
@@ -1668,11 +1681,23 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 			   
 			   
 					if ( $email_array['subject'] != '' && $email_array['message'] != '' ) {
+						
+						// Sleep for 1.5 seconds EXTRA on consecutive email messages
+						if ( $_SESSION['email_count'] > 0 ) {
+						usleep(1500000);
+						}
+			   
 					@safe_mail($to_email, $email_array['subject'], $email_array['message']);
+			   
+			   	$_SESSION['email_count'] = $_SESSION['email_count'] + 1;
+			   	
 					$message_sent = 1;
+					
+					unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
+					
 					}
 				
-				unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
+				
 			   }
 			   
 		   
