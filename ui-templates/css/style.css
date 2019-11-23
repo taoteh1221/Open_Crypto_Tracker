@@ -394,6 +394,11 @@ margin: 20px;
 }
 
 
+#charts.tabdiv {
+max-width: 100%;
+}
+
+
 #file_upload {
 color: black;
 }

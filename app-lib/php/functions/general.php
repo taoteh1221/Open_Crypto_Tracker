@@ -222,7 +222,7 @@ $files = glob($dir."*.".$ext);
 ////////////////////////////////////////////////////////
 
 
-function create_csv_file($file, $array) {
+function create_csv_file($file, $save_as, $array) {
 
 	if ( $file == 'temp' ) {
 	$file = tempnam(sys_get_temp_dir(), 'temp');
@@ -234,7 +234,7 @@ $fp = fopen($file, 'w');
 	fputcsv($fp, $fields);
 	}
 
-file_download($file, 'csv'); // Download file (by default deletes after download, then exits)
+file_download($file, $save_as); // Download file (by default deletes after download, then exits)
 
 }
 
@@ -737,16 +737,15 @@ return ( $count >= 24 ? round( 60 / $average_interval ) : 1 );
 ////////////////////////////////////////////////////////
 
 
-function file_download($file, $type=false, $save=false) {
+function file_download($file, $save_as, $delete=true) {
 
+$type = pathinfo($save_as, PATHINFO_EXTENSION);
 
-	if ( $type == FALSE ) {
-	$content_type = 'Content-Type: application/octet-stream';
-	$filename = $file;
-	}
-	elseif ( $type == 'csv' ) {
+	if ( $type == 'csv' ) {
 	$content_type = 'Content-type: text/csv; charset=UTF-8';
-	$filename = $file . '.csv';
+	}
+	else {
+	$content_type = 'Content-Type: application/octet-stream';
 	}
 
 
@@ -754,7 +753,7 @@ function file_download($file, $type=false, $save=false) {
 		
 		header('Content-Description: File Transfer');
 		header($content_type);
-		header('Content-Disposition: attachment; filename="'.basename($filename).'"');
+		header('Content-Disposition: attachment; filename="'.basename($save_as).'"');
 		header('Expires: 0');
 		header('Cache-Control: must-revalidate');
 		header('Pragma: public');
@@ -762,7 +761,7 @@ function file_download($file, $type=false, $save=false) {
 		
 		$result = readfile($file);
 		
-			if ( $result != FALSE && $save == FALSE ) {
+			if ( $result != false && $delete == true ) {
 			unlink($file); // Delete file
 			}
 		

@@ -67,7 +67,7 @@ send_notifications();
 hardy_session_clearing();
 
 // Run last, as it exits when completed
-create_csv_file('temp', $example_download_array); 
+create_csv_file('temp', 'Crypto_Portfolio_Example.csv', $example_download_array); 
 
 
 ?>

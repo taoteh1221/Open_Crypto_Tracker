@@ -8,7 +8,7 @@ error_reporting(0); // Turn off all error reporting on production servers (0), o
 
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
 
-$app_version = '3.49.1';  // 2019/NOVEMBER/20TH
+$app_version = '3.49.2';  // 2019/NOVEMBER/23RD
 
 
 require_once("app-lib/php/loader.php");

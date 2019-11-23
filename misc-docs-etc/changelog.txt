@@ -1879,6 +1879,17 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+3.49.2:
+-Bug fix for viewing on mobile devices (proper width / zoom)
+-UX on spreadsheet exporting (better default download filenames)
+-UX on charts page width (charts are now 100% of browser width)
+-------------------------------------------------------------------
+
+
+
+
+
 
 
 
