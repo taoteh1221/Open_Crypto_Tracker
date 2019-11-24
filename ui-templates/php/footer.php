@@ -36,14 +36,25 @@
      
     <?php
     
-    // Calculate page load time
-    $load_time = microtime();
-    $load_time = explode(' ', $load_time);
-    $load_time = $load_time[1] + $load_time[0];
-    $finish = $load_time;
-    $total_time = round(($finish - $start), 3);
-    echo '<p align="center" class="'.( $total_time <= 10 ? 'green' : 'red' ).'"> Page generated in '.$total_time.' seconds. </p>';
+		if ( $proxy_alerts != 'none' ) {
+	
+			foreach ( $_SESSION['proxy_checkup'] as $problem_proxy ) {
+			test_proxy($problem_proxy);
+			sleep(1);
+			}
+
+		}
+
+		// Log errors, send notifications, destroy session data
+		error_logs();
+		send_notifications();
+
+    	// Calculate script runtime BEFORE clearing session data
+    	$script_runtime = script_runtime('finish');
+    	echo '<p align="center" class="'.( $script_runtime <= 10 ? 'green' : 'red' ).'"> Page generated in '.$script_runtime.' seconds. </p>';
     
+		hardy_session_clearing();
+	
     ?>
         
    		 </div>
@@ -56,35 +67,11 @@
 <!-- https://v4-alpha.getbootstrap.com/getting-started/introduction/#starter-template -->
 <script src="app-lib/js/jquery/bootstrap.min.js"></script>
 
-<?php
-if ( $allow_tweet_embed_js == 'on' ) {
-?>
-<script id="twitter-wjs" type="text/javascript" async defer src="//platform.twitter.com/widgets.js"></script>
-<?php
-}
-?>
-
 </body>
 </html>
+
 <!-- /*
  * Copyright 2014-2019 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
  */ -->
-<?php
-//var_dump($_SESSION['debugging_printout']);
-
-
-if ( $proxy_alerts != 'none' ) {
-	
-	foreach ( $_SESSION['proxy_checkup'] as $problem_proxy ) {
-	test_proxy($problem_proxy);
-	sleep(1);
-	}
-
-}
-
-// Log errors, send notifications, destroy session data
-error_logs();
-send_notifications();
-hardy_session_clearing();
-
-?>
+ 
+ 

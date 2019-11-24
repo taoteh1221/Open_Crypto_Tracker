@@ -1,11 +1,5 @@
 <?php
 
-// Start measuring page load time
-$load_time = microtime();
-$load_time = explode(' ', $load_time);
-$load_time = $load_time[1] + $load_time[0];
-$start = $load_time;
-
 $runtime_mode = 'ui';
 
 require("config.php");

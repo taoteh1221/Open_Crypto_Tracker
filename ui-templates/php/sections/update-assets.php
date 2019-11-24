@@ -38,15 +38,8 @@
 						<br /><br /><i>NEVER</i> invest more than you can afford to lose, <i>NEVER</i> buy an asset because of somebody's opinion of it, <i>ALWAYS <u>fully research</u></i> your planned investment beforehand (fundamentals are just as important as chart TA), <i>ALWAYS</i> diversify / balance your portfolio for you <i>(and yours)</i> safety / sanity, <i>ALWAYS <u>buy low</u> AND <u>sell high</u></i> (NOT the other way around), <i><u>ALWAYS AVOID</u></i> <a href='https://twitter.com/hashtag/pumpndump?src=hash' target='_blank'>#pumpndump</a> / <a href='https://twitter.com/hashtag/fomo?src=hash' target='_blank'>#fomo</a> / <a href='https://twitter.com/hashtag/shitcoin?src=hash' target='_blank'>#shxtcoin</a> trading, <i>AND</i> hang on tight until you can't stand fully holding anymore / want to or must make a position exit (percentage) official. 
 						
 						<br /><br />Best of luck, be careful out there in this cryptoland frontier <i>full of garbage coins, scam coins, and greedy <u>glorified</u> (and NOT so glorified) crooks</i> and their silver tongues! :-o
-						
-<?php
-if ( $allow_tweet_embed_js == 'on' ) {
-?>
-						<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Make sure your crypto bags aren&#39;t overly heavy for your net worth folks, then you&#39;ll enjoy the ride like leny no matter what happens. 🐶😁 <a href="https://t.co/VdxgQBXZ9f">https://t.co/VdxgQBXZ9f</a></p>&mdash; Mike Kilday (@taoteh1221) <a href="https://twitter.com/taoteh1221/status/1192997965952094208?ref_src=twsrc%5Etfw">November 9, 2019</a></blockquote>
-<?php
-}
-?>
-						
+
+						<br /><br /><a href="https://twitter.com/taoteh1221/status/1192997965952094208" target="_blank"><img src='ui-templates/media/images/twitter-1192997965952094208.png' width='425' border='0' /></a>
 						
 						</p>
 	

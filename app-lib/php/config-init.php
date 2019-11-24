@@ -7,6 +7,12 @@
 
 /////////////////////////////////////////////////
 
+if ( $debug_mode == 'on' ) {
+	
+error_reporting(1); // Turn on all PHP error reporting
+	
+}
+    	
 
 // Set BTC / currency_market default value
 if ( $_SESSION['btc_exchange'] ) {

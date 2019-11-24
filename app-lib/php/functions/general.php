@@ -245,18 +245,45 @@ file_download($file, $save_as); // Download file (by default deletes after downl
 // See if $val is a whole number without decimals
 function whole_int($val) {
 	
-    $val = strval($val);
-    $val = str_replace('-', '', $val);
+$val = strval($val);
+$val = str_replace('-', '', $val);
 
-    if (ctype_digit($val))
-    {
-        if ($val === (string)0)
-            return true;
-        elseif(ltrim($val, '0') === $val)
-            return true;
+    if (ctype_digit($val)) {
+    	
+        if ( $val === (string)0 ) {
+        return true;
+        }
+        elseif( ltrim($val, '0') === $val ) {
+        return true;
+        }
+            
     }
 
-    return false;
+return false;
+    
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function script_runtime($mode) {
+
+// Calculate script runtime
+$time = microtime();
+$time = explode(' ', $time);
+$time = $time[1] + $time[0];
+
+	if ( $mode == 'start' ) {
+	$_SESSION['start_runtime'] = $time;
+	}
+	elseif ( $mode == 'finish' ) {
+	$total_runtime = round( ($time - $_SESSION['start_runtime']) , 3);
+	$_SESSION['start_runtime'] = NULL; // Clear start value to be safe
+	return $total_runtime;
+	}
+
 }
 
 
@@ -1407,19 +1434,19 @@ global $base_dir, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $
 	
 	// Notifyme
    if ( $send_params['notifyme'] != '' && trim($notifyme_accesscode) != '' ) {
-	store_file_contents($base_dir . '/cache/queue/messages/notifyme-' . random_hash(4) . '.queue', $send_params['notifyme']);
+	store_file_contents($base_dir . '/cache/queue/messages/notifyme-' . random_hash(8) . '.queue', $send_params['notifyme']);
    }
   
    // Textbelt
 	// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
    if ( $send_params['text'] != '' && trim($textbelt_apikey) != '' && $textlocal_account == '' ) { // Only run if textlocal API isn't being used to avoid double texts
-	store_file_contents($base_dir . '/cache/queue/messages/textbelt-' . random_hash(4) . '.queue', $send_params['text']);
+	store_file_contents($base_dir . '/cache/queue/messages/textbelt-' . random_hash(8) . '.queue', $send_params['text']);
    }
   
    // Textlocal
 	// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
    if ( $send_params['text'] != '' && $textlocal_account != '' && trim($textbelt_apikey) == '' ) { // Only run if textbelt API isn't being used to avoid double texts
-	store_file_contents($base_dir . '/cache/queue/messages/textlocal-' . random_hash(4) . '.queue', $send_params['text']);
+	store_file_contents($base_dir . '/cache/queue/messages/textlocal-' . random_hash(8) . '.queue', $send_params['text']);
    }
    
            
@@ -1430,7 +1457,7 @@ global $base_dir, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $
    
    $textemail_array = array('subject' => 'Text Notify', 'message' => $send_params['text']);
    
-	store_file_contents($base_dir . '/cache/queue/messages/textemail-' . random_hash(4) . '.queue', json_encode($textemail_array) );
+	store_file_contents($base_dir . '/cache/queue/messages/textemail-' . random_hash(8) . '.queue', json_encode($textemail_array) );
 	
    }
           
@@ -1439,7 +1466,7 @@ global $base_dir, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $
    
    $email_array = array('subject' => $send_params['email']['subject'], 'message' => $send_params['email']['message']);
    
-	store_file_contents($base_dir . '/cache/queue/messages/normalemail-' . random_hash(4) . '.queue', json_encode($email_array) );
+	store_file_contents($base_dir . '/cache/queue/messages/normalemail-' . random_hash(8) . '.queue', json_encode($email_array) );
 	
    }
   
@@ -1557,11 +1584,8 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 			   
 			   $notifyme_params['notification'] = $message_data;
 			   
-			   
-					// Sleep for 1.5 seconds EXTRA on consecutive notifyme messages
-					if ( $_SESSION['notifyme_count'] > 0 ) {
-					usleep(1500000);
-					}
+				// Sleep for 1 second EXTRA on EACH consecutive notifyme message, to throttle MANY outgoing messages
+				sleep(1 * $_SESSION['notifyme_count']);
 				
 					
 					// Only 5 notifyme messages allowed per minute
@@ -1594,10 +1618,8 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 			   
 			   $textbelt_params['message'] = $message_data;
 			   
-					// Sleep for 1.5 seconds EXTRA on consecutive text messages
-					if ( $_SESSION['text_count'] > 0 ) {
-					usleep(1500000);
-					}
+				// Sleep for 1 second EXTRA on EACH consecutive text message, to throttle MANY outgoing messages
+				sleep(1 * $_SESSION['text_count']);
 			   
 			   $textbelt_response = @api_data('array', $textbelt_params, 0, 'https://textbelt.com/text', 2);
 			   
@@ -1620,10 +1642,8 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 			   
 			   $textlocal_params['message'] = $message_data;
 			   
-					// Sleep for 1.5 seconds EXTRA on consecutive text messages
-					if ( $_SESSION['text_count'] > 0 ) {
-					usleep(1500000);
-					}
+				// Sleep for 1 second EXTRA on EACH consecutive text message, to throttle MANY outgoing messages
+				sleep(1 * $_SESSION['text_count']);
 			   
 			   $textlocal_response = @api_data('array', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
 			   
@@ -1653,10 +1673,8 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 			   
 					if ( $textemail_array['subject'] != '' && $textemail_array['message'] != '' ) {
 						
-						// Sleep for 1.5 seconds EXTRA on consecutive text messages
-						if ( $_SESSION['text_count'] > 0 ) {
-						usleep(1500000);
-						}
+					// Sleep for 1 second EXTRA on EACH consecutive text message, to throttle MANY outgoing messages
+					sleep(1 * $_SESSION['text_count']);
 			   
 					@safe_mail( text_email($to_text) , $textemail_array['subject'], $textemail_array['message']);
 			   
@@ -1680,11 +1698,9 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 			   
 			   
 					if ( $email_array['subject'] != '' && $email_array['message'] != '' ) {
-						
-						// Sleep for 1.5 seconds EXTRA on consecutive email messages
-						if ( $_SESSION['email_count'] > 0 ) {
-						usleep(1500000);
-						}
+			   
+					// Sleep for 1 second EXTRA on EACH consecutive email message, to throttle MANY outgoing messages
+					sleep(1 * $_SESSION['email_count']);
 			   
 					@safe_mail($to_email, $email_array['subject'], $email_array['message']);
 			   

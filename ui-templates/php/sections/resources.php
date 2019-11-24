@@ -21,15 +21,14 @@
 		<div style='display: none;' class='show_newbiewarning' align='left'>
 			
 	     
-						<p class='red'><i>LITERALLY nearly 99% of all tokens</i> listed on Coinmarketcap.com (OR any other site) are either scams, garbage, or dead ends. Tread VERY carefully when investing, and RESEARCH AT LENGTH BEFOREHAND (that does NOT included listening to some CEO or founder sweet talk their own token, tell you how competing systems suck and their system is better, or explain how them owning over 50% of the total coin supply is not out of greed). :-o</p>
+						<p class='red'>
+						
+						<i>LITERALLY nearly 99% of all tokens</i> listed on Coinmarketcap.com (OR any other site) are either scams, garbage, or dead ends. Tread VERY carefully when investing, and RESEARCH AT LENGTH BEFOREHAND (that does NOT included listening to some CEO or founder sweet talk their own token, tell you how competing systems suck and their system is better, or explain how them owning over 50% of the total coin supply is not out of greed). :-o
 	
-<?php
-if ( $allow_tweet_embed_js == 'on' ) {
-?>
-	<blockquote class="twitter-tweet"><p lang="en" dir="ltr">🤯 Never thought they&#39;d do the right thing, they held these tokens for so long. Kudos to <a href="https://twitter.com/StellarProtocol?ref_src=twsrc%5Etfw">@StellarProtocol</a> ! 👍👌🎉💯🚀🌛 <a href="https://t.co/4P2klhECKy">https://t.co/4P2klhECKy</a></p>&mdash; Mike Kilday (@taoteh1221) <a href="https://twitter.com/taoteh1221/status/1191548821752438784?ref_src=twsrc%5Etfw">November 5, 2019</a></blockquote>
-<?php
-}
-?>
+
+						<br /><br /><a href="https://twitter.com/taoteh1221/status/1191548821752438784" target="_blank"><img src='ui-templates/media/images/twitter-1191548821752438784.png' width='414' border='0' /></a>
+						
+						</p>
 		
 		</div>
 		

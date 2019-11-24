@@ -10,6 +10,7 @@ if ( isset($_SERVER['REQUEST_METHOD']) && realpath(__FILE__) == realpath($_SERVE
     exit;
 }
 
+
 // Assure CLI runtime is in install directory (server compatibility required for some PHP setups)
 chdir( dirname(__FILE__) );
 
@@ -65,6 +66,20 @@ if ( $proxy_alerts != 'none' ) {
 // Log errors, send notifications, destroy session data
 error_logs();
 send_notifications();
+
+if ( $debug_mode == 'on' ) {
+	
+	// Email admin cron.php runtime stats
+	if ( validate_email($to_email) == 'valid' ) {
+			
+	$stats_message = 'Stats for cron.php runtime: Runtime lasted ' . script_runtime('finish') . ' seconds.';
+		
+	@safe_mail($to_email, 'Cron Job Runtime Stats', $stats_message);
+		
+	}
+	
+}
+    	
 hardy_session_clearing();
 
 ?>

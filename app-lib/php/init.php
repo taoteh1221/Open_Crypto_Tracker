@@ -4,11 +4,11 @@
  */
 
 
-error_reporting(0); // Turn off all error reporting on production servers (0), or enable (1)
+error_reporting(0); // Turn off all PHP error reporting on production servers (0), or enable (1)
 
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
 
-$app_version = '3.49.2';  // 2019/NOVEMBER/23RD
+$app_version = '3.50.0';  // 2019/NOVEMBER/24TH
 
 
 require_once("app-lib/php/loader.php");
@@ -21,6 +21,8 @@ ini_set('auto_detect_line_endings',TRUE); // Mac compatibility with CSV spreadsh
 hardy_session_clearing(); // Try to avoid edge-case bug where sessions didn't delete last runtime
 session_start(); // New session start
 
+// Start measuring script runtime
+script_runtime('start');
 
 $_SESSION['proxy_checkup'] = array();
 
