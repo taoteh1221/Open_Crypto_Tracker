@@ -1583,8 +1583,9 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 			   
 			   $notifyme_params['notification'] = $message_data;
 			   
-				// Sleep for 1 second EXTRA on EACH consecutive notifyme message, to throttle MANY outgoing messages
-				sleep(1 * $_SESSION['notifyme_count']);
+				// Sleep for 1 second EXTRA on EACH consecutive notifyme message, to throttle MANY outgoing messages, to help avoid being blacklisted
+				$notifyme_sleep = 1 * $_SESSION['notifyme_count'];
+				sleep($notifyme_sleep);
 				
 					
 					// Only 5 notifyme messages allowed per minute
@@ -1617,8 +1618,9 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 			   
 			   $textbelt_params['message'] = $message_data;
 			   
-				// Sleep for 1 second EXTRA on EACH consecutive text message, to throttle MANY outgoing messages
-				sleep(1 * $_SESSION['text_count']);
+				// Sleep for 1 second EXTRA on EACH consecutive text message, to throttle MANY outgoing messages, to help avoid being blacklisted
+				$text_sleep = 1 * $_SESSION['text_count'];
+				sleep($text_sleep);
 			   
 			   $textbelt_response = @api_data('array', $textbelt_params, 0, 'https://textbelt.com/text', 2);
 			   
@@ -1641,8 +1643,9 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 			   
 			   $textlocal_params['message'] = $message_data;
 			   
-				// Sleep for 1 second EXTRA on EACH consecutive text message, to throttle MANY outgoing messages
-				sleep(1 * $_SESSION['text_count']);
+				// Sleep for 1 second EXTRA on EACH consecutive text message, to throttle MANY outgoing messages, to help avoid being blacklisted
+				$text_sleep = 1 * $_SESSION['text_count'];
+				sleep($text_sleep);
 			   
 			   $textlocal_response = @api_data('array', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
 			   
@@ -1672,8 +1675,9 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 			   
 					if ( $textemail_array['subject'] != '' && $textemail_array['message'] != '' ) {
 						
-					// Sleep for 1 second EXTRA on EACH consecutive text message, to throttle MANY outgoing messages
-					sleep(1 * $_SESSION['text_count']);
+					// Sleep for 1 second EXTRA on EACH consecutive text message, to throttle MANY outgoing messages, to help avoid being blacklisted
+					$text_sleep = 1 * $_SESSION['text_count'];
+					sleep($text_sleep);
 			   
 					@safe_mail( text_email($to_text) , $textemail_array['subject'], $textemail_array['message']);
 			   
@@ -1698,8 +1702,9 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 			   
 					if ( $email_array['subject'] != '' && $email_array['message'] != '' ) {
 			   
-					// Sleep for 1 second EXTRA on EACH consecutive email message, to throttle MANY outgoing messages
-					sleep(1 * $_SESSION['email_count']);
+					// Sleep for 1 second EXTRA on EACH consecutive email message, to throttle MANY outgoing messages, to help avoid being blacklisted
+					$email_sleep = 1 * $_SESSION['email_count'];
+					sleep($email_sleep);
 			   
 					@safe_mail($to_email, $email_array['subject'], $email_array['message']);
 			   
