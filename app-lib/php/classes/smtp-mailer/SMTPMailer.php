@@ -86,6 +86,13 @@ Class SMTPMailer
         $this->reply_to[] = array($address, $name);
     }
 
+    // Single recipient email addresses
+    public function singleTo($address, $name = '')
+    {
+        $this->to = array(); // Clear any other recipient email addresses
+        $this->to[] = array($address, $name);
+    }
+
     // Add recipient email address
     public function addTo($address, $name = '')
     {

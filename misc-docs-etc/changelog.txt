@@ -1889,7 +1889,8 @@ app doing the data requests, not a malicious bot)
 
 
 -------------------------------------------------------------------
-3.50.0:
+3.49.3:
+-Bug fix for text-by-email using smtp-authenticated email sending
 -Better message queue throttling
 -Debug mode toggle in configuration file (enhanced logging / alerts)
 -Removed twitter widget external javascript call / config option (to keep javascript calls local only)

@@ -162,13 +162,12 @@ return $result;
 ////////////////////////////////////////////////////////
 
 
-function smtp_mail($subject, $message) {
+function smtp_mail($to, $subject, $message) {
 
 // Using 3rd party SMTP class, initiated already as global var $smtp
 global $smtp;
 
-// Added to email in config-init.php one time...because class adds to an array each call, even if already added
-
+$smtp->singleTo($to); 
 $smtp->Subject($subject);
 $smtp->Text($message);
 
@@ -1205,7 +1204,7 @@ $from_email = str_replace("\r", "\n", $from_email);   // remaining -> unix
 	
 	// SMTP or PHP's built-in mail() function
 	if ( $smtp_login != '' && $smtp_server != '' ) {
-	return @smtp_mail($subject, $message); // Added to email in config-init.php one time...because class adds to an array each call, even if already added
+	return @smtp_mail($to, $subject, $message); 
 	}
 	else {
 	return @mail($to, $subject, $message, $headers);
