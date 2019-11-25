@@ -165,8 +165,9 @@ return $result;
 function smtp_mail($to, $subject, $message) {
 
 // Using 3rd party SMTP class, initiated already as global var $smtp
-global $smtp;
+global $from_email, $smtp;
 
+$smtp->From($from_email); 
 $smtp->singleTo($to); 
 $smtp->Subject($subject);
 $smtp->Text($message);

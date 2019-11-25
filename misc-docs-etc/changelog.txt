@@ -1898,6 +1898,15 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+3.50.0:
+-Proper setting of FROM email when using SMTP authentication feature
+-------------------------------------------------------------------
+
+
+
+
+
 
 
 
