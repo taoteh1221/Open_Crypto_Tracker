@@ -1171,29 +1171,13 @@ function safe_mail($to, $subject, $message) {
 	
 global $smtp_login, $smtp_server, $from_email;
 
-// Trim whitespace off ends
+// Stop injection vulnerability
+$from_email = str_replace("\r\n", "", $from_email); // windows -> unix
+$from_email = str_replace("\r", "", $from_email);   // remaining -> unix
+
+// Trim any (remaining) whitespace off ends
 $from_email = trim($from_email);
 $to = trim($to);
-
-// Stop injection vulnerability
-$from_email = str_replace("\r\n", "\n", $from_email); // windows -> unix
-$from_email = str_replace("\r", "\n", $from_email);   // remaining -> unix
-
-
-	// Use array for safety from header injection >= PHP 7.2 
-	if ( PHP_VERSION_ID >= 70200 ) {
-	
-	$headers = array(
-	    					'From' => $from_email
-	    					//'From' => $from_email,
-	    					//'Reply-To' => $from_email,
-	    					//'X-Mailer' => 'PHP/' . phpversion()
-							);
-	
-	}
-	else {
-	$headers = 'From: ' . $from_email;
-	}
 		
 		
 	// Validate TO email
@@ -1203,12 +1187,30 @@ $from_email = str_replace("\r", "\n", $from_email);   // remaining -> unix
 	}
 	
 	
-	// SMTP or PHP's built-in mail() function
+	// SMTP mailing, or PHP's built-in mail() function
 	if ( $smtp_login != '' && $smtp_server != '' ) {
 	return @smtp_mail($to, $subject, $message); 
 	}
 	else {
+		
+		// Use array for safety from header injection >= PHP 7.2 
+		if ( PHP_VERSION_ID >= 70200 ) {
+	
+		$headers = array(
+	    					'From' => $from_email,
+	    					'X-Mailer' => 'PHP/' . phpversion()
+							);
+	
+		}
+		else {
+			
+		$headers = 'From: ' . $from_email . "\r\n" .
+    	'X-Mailer: PHP/' . phpversion();
+    	
+		}
+	
 	return @mail($to, $subject, $message, $headers);
+	
 	}
 
 
