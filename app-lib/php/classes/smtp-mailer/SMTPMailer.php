@@ -13,6 +13,7 @@ Class SMTPMailer
     private $secure = 'tls';
     private $username = '';
     private $password = '';
+    private $app_version = ''; // DFD Cryptocoin Values version
     public $to       = array();
     public $from     = array();
     public $cc       = array();
@@ -43,6 +44,7 @@ Class SMTPMailer
             $this->secure   = $cfg_secure;
             $this->username = $cfg_username;
             $this->password = $cfg_password;
+            $this->app_version = $cfg_app_version; // DFD Cryptocoin Values version
         }
         if ($server !== false) {
             $this->server   = $server;
@@ -296,7 +298,7 @@ Class SMTPMailer
         }
         $this->ahead[] = 'Subject: '.'=?UTF-8?B?'.base64_encode($this->subject).'?=';
         $this->ahead[] = 'Message-ID: '.$this->generateMessageID();
-        $this->ahead[] = 'X-Mailer: '.'PHP/'.phpversion();
+        $this->ahead[] = 'X-Mailer: '.'DFD_Cryptocoin_Values/' . $this->app_version . ' - PHP/' . phpversion();
         $this->ahead[] = 'MIME-Version: '.'1.0';
 
         $boundary = md5(uniqid());

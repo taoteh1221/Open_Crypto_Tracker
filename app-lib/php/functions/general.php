@@ -808,7 +808,7 @@ function smtp_vars() {
 
 // To preserve SMTPMailer class upgrade structure, by creating a global var to be run in classes/smtp-mailer/conf/config_smtp.php
 
-global $smtp_login, $smtp_server;
+global $app_version, $smtp_login, $smtp_server;
 
 $vars = array();
 
@@ -831,6 +831,7 @@ $vars['cfg_port']     =  $smtp_port;
 $vars['cfg_secure']   = $smtp_secure;
 $vars['cfg_username'] = $smtp_user;
 $vars['cfg_password'] = $smtp_password;
+$vars['cfg_app_version'] = $app_version; // DFD Cryptocoin Values version
 
 return $vars;
 
@@ -1169,7 +1170,7 @@ function start_page_html($page) {
 
 function safe_mail($to, $subject, $message) {
 	
-global $smtp_login, $smtp_server, $from_email;
+global $app_version, $smtp_login, $smtp_server, $from_email;
 
 // Stop injection vulnerability
 $from_email = str_replace("\r\n", "", $from_email); // windows -> unix
@@ -1198,14 +1199,14 @@ $to = trim($to);
 	
 		$headers = array(
 	    					'From' => $from_email,
-	    					'X-Mailer' => 'PHP/' . phpversion()
+	    					'X-Mailer' => 'DFD_Cryptocoin_Values/' . $app_version . ' - PHP/' . phpversion()
 							);
 	
 		}
 		else {
 			
 		$headers = 'From: ' . $from_email . "\r\n" .
-    	'X-Mailer: PHP/' . phpversion();
+    	'X-Mailer: DFD_Cryptocoin_Values/' . $app_version . ' - PHP/' . phpversion();
     	
 		}
 	
