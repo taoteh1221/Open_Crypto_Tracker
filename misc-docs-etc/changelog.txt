@@ -1909,6 +1909,7 @@ app doing the data requests, not a malicious bot)
 3.50.0:
 -Refined email headers when using PHP's built-in mail() function
 -Added app name/version to X-Mailer header in emails (smtp mail, and php default mail function)
+-Portfolio data table column name semantics
 -------------------------------------------------------------------
 
 

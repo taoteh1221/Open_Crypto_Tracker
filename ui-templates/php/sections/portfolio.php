@@ -51,15 +51,15 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
     <tr>
 <th class='border_lt'>#</th>
 <th class='border_lt blue al_right'><span>Asset</span></th>
-<th class='border_t'>USD Value</th>
-<th class='border_lt blue al_right'>Held</th>
+<th class='border_t'>Per-Token Value</th>
+<th class='border_lt blue al_right'>Holdings</th>
 <th class='border_t'>Symbol</th>
 <th class='border_lt blue'>Exchange</th>
-<th class='border_t'>USD Volume</th>
+<th class='border_t'>Trade Volume</th>
 <th class='border_t al_right'>Trade Value</th>
 <th class='border_t blue'>Market</th>
 <th class='border_lt blue'>Holdings Value</th>
-<th class='border_lrt blue'>USD Subtotal</th>
+<th class='border_lrt blue'>Subtotal</th>
     </tr>
   </thead>
  <tbody>
