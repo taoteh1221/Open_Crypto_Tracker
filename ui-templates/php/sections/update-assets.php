@@ -430,7 +430,7 @@
 				    
 				    
 			
-	     			 <b>Amount:</b> <input type='text' size='11' id='<?=$field_var_amount?>' name='<?=$field_var_amount?>' value='<?=$asset_amount_value?>' onkeyup='
+	     			 <b>Holdings:</b> <input type='text' size='11' id='<?=$field_var_amount?>' name='<?=$field_var_amount?>' value='<?=$asset_amount_value?>' onkeyup='
 	     
 	     $("#<?=strtolower($coin_array_key)?>_restore").val( $("#<?=strtolower($coin_array_key)?>_amount").val() );
 	     
@@ -531,11 +531,11 @@
 			
 			+'<p class="coin_info extra_margins red" style="white-space: normal; max-width: 600px; font-size: 13px;"><b>*Leverage trading is <u>EXTREMELY RISKY</u> (and even more so in crypto markets). Never put more than ~5% of your total investment worth into leverage trades, or you will <u>RISK LOSING EVERYTHING</u>!</b></p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Set the "Pairing / Exchange" drop-down menus for the asset to any markets you prefer. It doesn\'t matter which ones you choose, as long as the price discovery closely matches the exchange where you are margin trading this asset.</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Set the "Asset / Pairing @ Exchange" drop-down menus for the asset to any markets you prefer. It doesn\'t matter which ones you choose, as long as the price discovery closely matches the exchange where you are margin trading this asset.</p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Set the "Amount" of tokens to match your margin leverage deposit (example: buying 1 BTC @ 5x leverage would be 0.2 BTC in the "Amount" field in this app). You\'ll also need to fill in the "Average Paid (per-token)" field with the average price paid in USD per-token. Finally, set the "Margin Leverage" fields to match your leverage and whether you are long or short. When you are done, click "Save Updated Assets".</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Set the "Holdings" field to match your margin leverage deposit (example: buying 1 BTC @ 5x leverage would be 0.2 BTC in the "Holdings" field in this app). You\'ll also need to fill in the "Average Paid (per-token)" field with the average price paid in USD per-token. Finally, set the "Margin Leverage" fields to match your leverage and whether you are long or short. When you are done, click "Save Updated Assets".</p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">To see your margin leverage stats after updating your portfolio, go to the bottom of the Portfolio page, where you\'ll find a stats section. Hovering over the "I" icon next to those summary stats will display additional stats per-asset. There is also an "I" icon in the far right table column (USD Subtotal) per-asset, which you can hover over for margin leverage stats too.</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">To see your margin leverage stats after updating your portfolio, go to the bottom of the Portfolio page, where you\'ll find a stats section. Hovering over the "I" icon next to those summary stats will display additional stats per-asset. There is also an "I" icon in the far right table column (Subtotal) per-asset, which you can hover over for margin leverage stats too.</p>'
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">*Current maximum margin leverage setting of <?=$margin_leverage_max?>x can be adjusted in config.php.</p>'
 			
