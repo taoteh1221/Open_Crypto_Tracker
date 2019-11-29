@@ -41,7 +41,7 @@ if ( sizeof($proxy_list) > 0 ) {
 	if ( $proxy_alerts == 'text' || $proxy_alerts == 'all' ) {
 		
 		// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-      if ( trim($text_parse[0]) != '' && trim($text_parse[1]) != 'number_only'
+      if ( trim($text_parse[0]) != '' && trim($text_parse[1]) != 'numberonly'
       || trim($textbelt_apikey) != '' && $textlocal_account == ''
       || trim($textbelt_apikey) == '' && $textlocal_account != '' ) {
       	
@@ -57,7 +57,7 @@ if ( sizeof($proxy_list) > 0 ) {
       	$proxy_parse_errors = $proxy_parse_errors + 1;
          }
           		
-         if ( $text_parse[1] != 'number_only' && validate_email( text_email($to_text) ) != 'valid' ) {
+         if ( $text_parse[1] != 'numberonly' && validate_email( text_email($to_text) ) != 'valid' ) {
          $config_parse_error[] = 'Carrier for text email not configured properly for proxy alerts.';
       	$proxy_parse_errors = $proxy_parse_errors + 1;
          }
@@ -147,7 +147,7 @@ if ( trim($from_email) != '' && trim($to_email) != '' || sizeof($text_parse) > 0
           	
 		// Text
 		// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-      if ( trim($text_parse[0]) != '' && trim($text_parse[1]) != 'number_only'
+      if ( trim($text_parse[0]) != '' && trim($text_parse[1]) != 'numberonly'
       || trim($textbelt_apikey) != '' && $textlocal_account == ''
       || trim($textbelt_apikey) == '' && $textlocal_account != '' ) {
       	
@@ -162,7 +162,7 @@ if ( trim($from_email) != '' && trim($to_email) != '' || sizeof($text_parse) > 0
          $config_parse_error[] = 'Number for text email not configured properly for price alerts.';
          }
           		
-         if ( $text_parse[1] != 'number_only' && validate_email( text_email($to_text) ) != 'valid' ) {
+         if ( $text_parse[1] != 'numberonly' && validate_email( text_email($to_text) ) != 'valid' ) {
          $config_parse_error[] = 'Carrier for text email not configured properly for price alerts.';
          }
           	

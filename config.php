@@ -125,8 +125,11 @@ $from_email = ''; // MUST BE SET for price alerts and other email features
 
 $to_email = ''; // MUST BE SET for price alerts and other email features
 
-// For asset price alert texts to mobile phones. Attempts to email text if carrier is set AND no textbelt / textlocal config is setup
-// CAN BE BLANK. Country format MUST be used: '12223334444||number_only' number_only (for textbelt / textlocal), alltel, att, tmobile, virgin, sprint, verizon, nextel
+// For asset price alert texts to mobile phones. Attempts to email text if a SUPPORTED CARRIER name is set, AND no textbelt / textlocal config is setup.
+// numberonly (when using textbelt / textlocal service), alaskacomm, att, bell, bellmts, bluegrass, boost, cellcom,
+// cricket, cspire, digicel, eastlink, fido, gci, googlefi, metropcs, nextech, pcmobile, pioneer, republic, rogers, 
+// sasktel, sprint, strata, telus, tmobile, tracfone, union, uscellular, verizon, viaero, virgin, virginca
+// CAN BE BLANK. Country format MUST be used: '12223334444||numberonly' 
 $to_text = '';
 
 // For asset price alert notifyme alexa notifications (sending Alexa devices notifications for free). 
@@ -184,7 +187,7 @@ $proxy_alerts_freq = 1; // Re-allow same proxy alert(s) after X hours (per ip/po
 // Asset price alert settings
 // Only used if $asset_charts_and_alerts is filled in properly below, AND a cron job is setup (see README.txt for cron job setup information) 
 
-$asset_price_alerts_percent = 7; // Price percent change to send alerts for (WITHOUT percent sign: 15 = 15%). Sends alerts when percent change reached (up or down)
+$asset_price_alerts_percent = 7.5; // Price percent change to send alerts for (WITHOUT percent sign: 15 = 15%). Sends alerts when percent change reached (up or down)
 
 $asset_price_alerts_freq = 10; // Re-allow same asset price alert(s) after X minutes (per asset, set higher if issues with blacklisting...can be 0)
 
