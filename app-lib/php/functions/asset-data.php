@@ -720,6 +720,8 @@ $cached_array = explode("||", $data_file);
   			 
   			 // USD price percent change (!MUST BE! absolute value)
           $percent_change = abs( ($asset_usd_value_raw - $cached_asset_usd_value) / abs($cached_asset_usd_value) * 100 );
+          
+          $percent_change = floattostr($percent_change); // Better decimal support
   			 
   			 // Check whether we should send an alert
           if ( floattostr($asset_usd_value_raw) >= 0.00000001 && $percent_change >= $asset_price_alerts_percent ) {
@@ -744,6 +746,8 @@ $cached_array = explode("||", $data_file);
           
           // Crypto volume percent change (!MUST BE! absolute value)
           $volume_percent_change = abs( ($volume_asset_raw - $cached_pairing_volume) / abs($cached_pairing_volume) * 100 );
+          
+          $volume_percent_change = floattostr($volume_percent_change); // Better decimal support
           
           // UX adjustments, and UI / UX variables
           if ( $cached_usd_volume <= 0 && $volume_usd_raw <= 0 ) { // ONLY USD VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR

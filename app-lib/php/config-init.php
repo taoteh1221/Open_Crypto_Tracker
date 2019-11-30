@@ -26,6 +26,8 @@ $btc_currency_market = $_SESSION['btc_currency_market'];
 $btc_usd = get_coin_value('BTC', $btc_exchange, $coins_list['BTC']['market_pairing'][$btc_currency_market][$btc_exchange], $btc_currency_market)['last_trade'];
 
 
+$asset_price_alerts_percent = floattostr($asset_price_alerts_percent); // Better decimal support for price change percent config
+
 
 // Only need below logic during UI runtime
 if ( $runtime_mode == 'ui' ) {
