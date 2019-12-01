@@ -842,193 +842,6 @@ return $vars;
 ////////////////////////////////////////////////////////
 
 
-function text_email($string) {
-
-/* **************************************************
-
-Supported (texting) carrier notes...
-
-alaskacomm:	number@msg.acsalaska.com
-
-att: number@txt.att.net
-
-bell:	number@txt.bell.ca
-
-bellmts:	number@text.mts.net
-
-bluegrass:	number@sms.bluecell.com
-
-boost: number@sms.myboostmobile.com
-
-cellcom:	number@cellcom.quiktxt.com
-
-cricket: number@sms.cricketwireless.net
-
-cspire: number@cspire1.com
-
-digicel:	number@digitextlc.com
-
-eastlink:	number@mms.eastlink.ca
-
-fido:	number@fido.ca
-
-gci:	number@mobile.gci.net
-
-googlefi: number@msg.fi.google.com
-
-metropcs: number@mymetropcs.com
-
-nextech:	number@sms.nextechwireless.com
-
-pcmobile:	number@mobiletxt.ca
-
-pioneer:	number@zsend.com
-
-republic: number@text.republicwireless.com
-
-rogers:	number@pcs.rogers.com
-
-sasktel:	number@sms.sasktel.com
-
-sprint: number@messaging.sprintpcs.com
-
-strata:	number@rinasms.com
-
-telus:	number@msg.telus.com
-
-tmobile: number@tmomail.net
-
-tracfone: number@mmst5.tracfone.com
-
-union:	number@mms.unionwireless.com
-
-uscellular: number@email.uscc.net
-
-verizon: number@vtext.com
-
-viaero:	number@viaerosms.com
-
-virgin: number@vmobl.com
-
-virginca:	number@vmobile.ca
-
-**************************************************** */
-
-$string = explode("||",$string);
-
-$number = substr($string[0], -10); // USA 10 digit number without country code
-$carrier = trim($string[1]);
-
-	// Set text domain
-	if ( $carrier == 'alaskacomm' ) {
-	$domain = '@msg.acsalaska.com';
-	}
-	elseif ( $carrier == 'att' ) {
-	$domain = '@txt.att.net';
-	}
-	elseif ( $carrier == 'bell' ) {
-	$domain = '@txt.bell.ca';
-	}
-	elseif ( $carrier == 'bellmts' ) {
-	$domain = '@text.mts.net';
-	}
-	elseif ( $carrier == 'bluegrass' ) {
-	$domain = '@sms.bluecell.com';
-	}
-	elseif ( $carrier == 'boost' ) {
-	$domain = '@sms.myboostmobile.com';
-	}
-	elseif ( $carrier == 'cellcom' ) {
-	$domain = '@cellcom.quiktxt.com';
-	}
-	elseif ( $carrier == 'cricket' ) {
-	$domain = '@sms.cricketwireless.net';
-	}
-	elseif ( $carrier == 'cspire' ) {
-	$domain = '@cspire1.com';
-	}
-	elseif ( $carrier == 'digicel' ) {
-	$domain = '@digitextlc.com';
-	}
-	elseif ( $carrier == 'eastlink' ) {
-	$domain = '@mms.eastlink.ca';
-	}
-	elseif ( $carrier == 'fido' ) {
-	$domain = '@fido.ca';
-	}
-	elseif ( $carrier == 'gci' ) {
-	$domain = '@mobile.gci.net';
-	}
-	elseif ( $carrier == 'googlefi' ) {
-	$domain = '@msg.fi.google.com';
-	}
-	elseif ( $carrier == 'metropcs' ) {
-	$domain = '@mymetropcs.com';
-	}
-	elseif ( $carrier == 'nextech' ) {
-	$domain = '@sms.nextechwireless.com';
-	}
-	elseif ( $carrier == 'pcmobile' ) {
-	$domain = '@mobiletxt.ca';
-	}
-	elseif ( $carrier == 'pioneer' ) {
-	$domain = '@zsend.com';
-	}
-	elseif ( $carrier == 'republic' ) {
-	$domain = '@text.republicwireless.com';
-	}
-	elseif ( $carrier == 'rogers' ) {
-	$domain = '@pcs.rogers.com';
-	}
-	elseif ( $carrier == 'sasktel' ) {
-	$domain = '@sms.sasktel.com';
-	}
-	elseif ( $carrier == 'sprint' ) {
-	$domain = '@messaging.sprintpcs.com';
-	}
-	elseif ( $carrier == 'strata' ) {
-	$domain = '@rinasms.com';
-	}
-	elseif ( $carrier == 'telus' ) {
-	$domain = '@msg.telus.com';
-	}
-	elseif ( $carrier == 'tmobile' ) {
-	$domain = '@tmomail.net';
-	}
-	elseif ( $carrier == 'tracfone' ) {
-	$domain = '@mmst5.tracfone.com';
-	}
-	elseif ( $carrier == 'union' ) {
-	$domain = '@mms.unionwireless.com';
-	}
-	elseif ( $carrier == 'uscellular' ) {
-	$domain = '@email.uscc.net';
-	}
-	elseif ( $carrier == 'verizon' ) {
-	$domain = '@vtext.com';
-	}
-	elseif ( $carrier == 'viaero' ) {
-	$domain = '@viaerosms.com';
-	}
-	elseif ( $carrier == 'virgin' ) {
-	$domain = '@vmobl.com';
-	}
-	elseif ( $carrier == 'virginca' ) {
-	$domain = '@vmobile.ca';
-	}
-
-
-// Return formatted texting email address
-return trim($number) . $domain;
-
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
 function base_url($atRoot=FALSE, $atCore=FALSE, $parse=FALSE) {
 	
 // WARNING: THIS ONLY WORKS WELL FOR HTTP-BASED RUNTIME, ----NOT CLI---!
@@ -1505,6 +1318,193 @@ fclose($fp);
 	else {
 	return array_slice( $lines, (0 - $linecount) );
 	}
+
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function text_email($string) {
+
+/* **************************************************
+
+Supported (texting) carrier notes...
+
+alaskacomm:	number@msg.acsalaska.com
+
+att: number@txt.att.net
+
+bell:	number@txt.bell.ca
+
+bellmts:	number@text.mts.net
+
+bluegrass:	number@sms.bluecell.com
+
+boost: number@sms.myboostmobile.com
+
+cellcom:	number@cellcom.quiktxt.com
+
+cricket: number@sms.cricketwireless.net
+
+cspire: number@cspire1.com
+
+digicel:	number@digitextlc.com
+
+eastlink:	number@mms.eastlink.ca
+
+fido:	number@fido.ca
+
+gci:	number@mobile.gci.net
+
+googlefi: number@msg.fi.google.com
+
+metropcs: number@mymetropcs.com
+
+nextech:	number@sms.nextechwireless.com
+
+pcmobile:	number@mobiletxt.ca
+
+pioneer:	number@zsend.com
+
+republic: number@text.republicwireless.com
+
+rogers:	number@pcs.rogers.com
+
+sasktel:	number@sms.sasktel.com
+
+sprint: number@messaging.sprintpcs.com
+
+strata:	number@rinasms.com
+
+telus:	number@msg.telus.com
+
+tmobile: number@tmomail.net
+
+tracfone: number@mmst5.tracfone.com
+
+union:	number@mms.unionwireless.com
+
+uscellular: number@email.uscc.net
+
+verizon: number@vtext.com
+
+viaero:	number@viaerosms.com
+
+virgin: number@vmobl.com
+
+virginca:	number@vmobile.ca
+
+**************************************************** */
+
+$string = explode("||",$string);
+
+$number = substr($string[0], -10); // USA 10 digit number without country code
+$carrier = trim($string[1]);
+
+	// Set text domain
+	if ( $carrier == 'alaskacomm' ) {
+	$domain = '@msg.acsalaska.com';
+	}
+	elseif ( $carrier == 'att' ) {
+	$domain = '@txt.att.net';
+	}
+	elseif ( $carrier == 'bell' ) {
+	$domain = '@txt.bell.ca';
+	}
+	elseif ( $carrier == 'bellmts' ) {
+	$domain = '@text.mts.net';
+	}
+	elseif ( $carrier == 'bluegrass' ) {
+	$domain = '@sms.bluecell.com';
+	}
+	elseif ( $carrier == 'boost' ) {
+	$domain = '@sms.myboostmobile.com';
+	}
+	elseif ( $carrier == 'cellcom' ) {
+	$domain = '@cellcom.quiktxt.com';
+	}
+	elseif ( $carrier == 'cricket' ) {
+	$domain = '@sms.cricketwireless.net';
+	}
+	elseif ( $carrier == 'cspire' ) {
+	$domain = '@cspire1.com';
+	}
+	elseif ( $carrier == 'digicel' ) {
+	$domain = '@digitextlc.com';
+	}
+	elseif ( $carrier == 'eastlink' ) {
+	$domain = '@mms.eastlink.ca';
+	}
+	elseif ( $carrier == 'fido' ) {
+	$domain = '@fido.ca';
+	}
+	elseif ( $carrier == 'gci' ) {
+	$domain = '@mobile.gci.net';
+	}
+	elseif ( $carrier == 'googlefi' ) {
+	$domain = '@msg.fi.google.com';
+	}
+	elseif ( $carrier == 'metropcs' ) {
+	$domain = '@mymetropcs.com';
+	}
+	elseif ( $carrier == 'nextech' ) {
+	$domain = '@sms.nextechwireless.com';
+	}
+	elseif ( $carrier == 'pcmobile' ) {
+	$domain = '@mobiletxt.ca';
+	}
+	elseif ( $carrier == 'pioneer' ) {
+	$domain = '@zsend.com';
+	}
+	elseif ( $carrier == 'republic' ) {
+	$domain = '@text.republicwireless.com';
+	}
+	elseif ( $carrier == 'rogers' ) {
+	$domain = '@pcs.rogers.com';
+	}
+	elseif ( $carrier == 'sasktel' ) {
+	$domain = '@sms.sasktel.com';
+	}
+	elseif ( $carrier == 'sprint' ) {
+	$domain = '@messaging.sprintpcs.com';
+	}
+	elseif ( $carrier == 'strata' ) {
+	$domain = '@rinasms.com';
+	}
+	elseif ( $carrier == 'telus' ) {
+	$domain = '@msg.telus.com';
+	}
+	elseif ( $carrier == 'tmobile' ) {
+	$domain = '@tmomail.net';
+	}
+	elseif ( $carrier == 'tracfone' ) {
+	$domain = '@mmst5.tracfone.com';
+	}
+	elseif ( $carrier == 'union' ) {
+	$domain = '@mms.unionwireless.com';
+	}
+	elseif ( $carrier == 'uscellular' ) {
+	$domain = '@email.uscc.net';
+	}
+	elseif ( $carrier == 'verizon' ) {
+	$domain = '@vtext.com';
+	}
+	elseif ( $carrier == 'viaero' ) {
+	$domain = '@viaerosms.com';
+	}
+	elseif ( $carrier == 'virgin' ) {
+	$domain = '@vmobl.com';
+	}
+	elseif ( $carrier == 'virginca' ) {
+	$domain = '@vmobile.ca';
+	}
+
+
+// Return formatted texting email address
+return trim($number) . $domain;
 
 
 }
