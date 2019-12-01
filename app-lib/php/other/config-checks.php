@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2019 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
+ * Copyright 2014-2020 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
  */
 
 
@@ -58,7 +58,7 @@ if ( sizeof($proxy_list) > 0 ) {
          }
           		
          if ( $text_parse[1] != 'numberonly' && validate_email( text_email($to_text) ) != 'valid' ) {
-         $config_parse_error[] = 'Carrier for text email not configured properly for proxy alerts.';
+         $config_parse_error[] = 'Mobile text services carrier name (for email-to-text) not configured properly for proxy alerts.';
       	$proxy_parse_errors = $proxy_parse_errors + 1;
          }
           	
@@ -163,7 +163,7 @@ if ( trim($from_email) != '' && trim($to_email) != '' || sizeof($text_parse) > 0
          }
           		
          if ( $text_parse[1] != 'numberonly' && validate_email( text_email($to_text) ) != 'valid' ) {
-         $config_parse_error[] = 'Carrier for text email not configured properly for price alerts.';
+         $config_parse_error[] = 'Mobile text services carrier name (for email-to-text) not configured properly for price alerts.';
          }
           	
 		}

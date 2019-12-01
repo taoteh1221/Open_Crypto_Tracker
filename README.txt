@@ -4,7 +4,7 @@
 
 DFD Cryptocoin Values - Developed by Michael Kilday <mike@dragonfrugal.com>, released free / open source (under GPL v3)
 
-Copyright 2014-2019 GPLv3
+Copyright 2014-2020 GPLv3
 
 Open source / free private cryptocurrency investment portfolio tracker, with email / text / Alexa alerts, charts, mining calculators, leverage / gain / loss / balance stats, and other crypto tools. 
 

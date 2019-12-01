@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2019 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
+ * Copyright 2014-2020 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
  */
 
 
@@ -8,7 +8,7 @@ error_reporting(0); // Turn off all PHP error reporting on production servers (0
 
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
 
-$app_version = '3.50.0';  // 2019/NOVEMBER/25TH
+$app_version = '3.51.0';  // 2019/DECEMBER/1ST
 
 
 require_once("app-lib/php/loader.php");

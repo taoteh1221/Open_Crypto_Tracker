@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2019 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
+ * Copyright 2014-2020 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
  */
 
 // Forbid direct INTERNET access to this file
@@ -126,10 +126,11 @@ $from_email = ''; // MUST BE SET for price alerts and other email features
 $to_email = ''; // MUST BE SET for price alerts and other email features
 
 // For asset price alert texts to mobile phones. Attempts to email text if a SUPPORTED CARRIER name is set, AND no textbelt / textlocal config is setup.
+// SMTP-authenticated email sending MAY GET THROUGH TEXTING SERVICE CONTENT FILTERS BETTER THAN USING PHP'S BUILT-IN EMAILING FUNCTION
+// CAN BE BLANK. Country format MUST be used: '12223334444||numberonly' 
 // numberonly (when using textbelt / textlocal service), alaskacomm, att, bell, bellmts, bluegrass, boost, cellcom,
 // cricket, cspire, digicel, eastlink, fido, gci, googlefi, metropcs, nextech, pcmobile, pioneer, republic, rogers, 
 // sasktel, sprint, strata, telus, tmobile, tracfone, union, uscellular, verizon, viaero, virgin, virginca
-// CAN BE BLANK. Country format MUST be used: '12223334444||numberonly' 
 $to_text = '';
 
 // For asset price alert notifyme alexa notifications (sending Alexa devices notifications for free). 
@@ -230,8 +231,6 @@ $asset_charts_and_alerts = array(
 					'eth' => 'coinbase||btc||chart',
 					'eth-2' => 'bittrex||btc||chart',
 					'eth-3' => 'bittrex||usdt||chart',
-					'eth-4' => 'poloniex||btc||chart',
-					'eth-5' => 'poloniex||usdt||chart',
 					'eth-6' => 'kraken||btc||chart',
 					'eth-7' => 'binance||usdt||both',
 					'eth-8' => 'binance_us||btc||chart',
@@ -243,14 +242,12 @@ $asset_charts_and_alerts = array(
 					// XMR
 					'xmr' => 'bittrex||btc||chart',
 					'xmr-2' => 'bittrex||eth||chart',
-					'xmr-3' => 'poloniex||btc||chart',
 					'xmr-4' => 'binance||btc||both',
 					'xmr-5' => 'binance||eth||chart',
 					
 					// LTC
 					'ltc' => 'bittrex||btc||chart',
 					'ltc-2' => 'bittrex||eth||chart',
-					'ltc-3' => 'poloniex||btc||chart',
 					'ltc-5' => 'binance||usdt||both',
 					'ltc-6' => 'binance||eth||chart',
 					'ltc-7' => 'binance_us||btc||chart',
@@ -263,16 +260,14 @@ $asset_charts_and_alerts = array(
 					'dcr-5' => 'kucoin||eth||chart',
 					
 					// GRIN
-					'grin' => 'poloniex||btc||both',
 					'grin-2' => 'bittrex_global||btc||chart',
 					'grin-3' => 'bittrex_global||usdt||chart',
 					'grin-4' => 'gateio||usdt||chart',
-					'grin-5' => 'kucoin||btc||chart',
+					'grin-5' => 'kucoin||btc||both',
 					'grin-6' => 'hitbtc||btc||chart',
 					'grin-7' => 'hotbit||btc||chart',
 					
 					// ATOM
-					'atom' => 'poloniex||btc||chart',
 					'atom-2' => 'kraken||btc||chart',
 					'atom-3' => 'binance||btc||both',
 					'atom-4' => 'binance||tusd||chart',
@@ -289,30 +284,27 @@ $asset_charts_and_alerts = array(
 					
 					// DOGE
 					'doge' => 'bittrex||btc||chart',
-					'doge-2' => 'poloniex||btc||chart',
 					'doge-3' => 'binance||btc||both',
 					'doge-4' => 'binance_us||usdt||chart',
 					
 					// ANT
-					'ant' => 'bittrex_global||btc||chart',
+					'ant' => 'bittrex_global||btc||both',
 					'ant-2' => 'hitbtc||btc||chart',
 					'ant-3' => 'ethfinex||btc||chart',
 					
 					// MANA
 					'mana' => 'bittrex||btc||chart',
-					'mana-2' => 'poloniex||btc||chart',
 					'mana-3' => 'binance||btc||both',
 					'mana-4' => 'kucoin||btc||chart',
 					'mana-5' => 'ethfinex||btc||chart',
 					
 					// GNT
 					'gnt' => 'bittrex||btc||both',
-					'gnt-2' => 'poloniex||btc||chart',
 					'gnt-3' => 'ethfinex||btc||chart',
 					
 					// DATA
 					'data' => 'hitbtc||btc||chart',
-					'data-2' => 'binance||btc||chart',
+					'data-2' => 'binance||btc||both',
 					
 					// DAG
 					'dag' => 'kucoin||btc||both',
@@ -435,9 +427,9 @@ $coins_list = array(
                                           'hitbtc' => 'ETHBTC',
                                           'upbit' => 'BTC-ETH',
                                           'kucoin' => 'ETH-BTC',
-                                          'poloniex' => 'BTC_ETH',
                                           'okex' => 'ETH-BTC',
                                           'livecoin' => 'ETH/BTC',
+                                          'poloniex' => 'BTC_ETH',
                                           'cryptofresh' => 'OPEN.ETH'
                                                     ),
                                                     
@@ -448,8 +440,8 @@ $coins_list = array(
                                           'hitbtc' => 'ETHUSD',
                                           'upbit' => 'USDT-ETH',
                                        	'kucoin' => 'ETH-USDT',
-                                          'poloniex' => 'USDT_ETH',
-                                          'okex' => 'ETH-USDT'
+                                          'okex' => 'ETH-USDT',
+                                          'poloniex' => 'USDT_ETH'
                                                     ),
                                                     
                                     'tusd' => array(
@@ -490,9 +482,9 @@ $coins_list = array(
                                           'hitbtc' => 'XMRBTC',
                                           'kraken' => 'XXMRXXBT',
                                         	'upbit' => 'BTC-XMR',
-                                          'poloniex' => 'BTC_XMR',
                                           'okex' => 'XMR-BTC',
-                                          'livecoin' => 'XMR/BTC'
+                                          'livecoin' => 'XMR/BTC',
+                                          'poloniex' => 'BTC_XMR'
                                                     ),
                                                     
                                     'eth' => array(
@@ -505,8 +497,8 @@ $coins_list = array(
                                     'usdt' => array(
                                           'bittrex' => 'USDT-XMR',
                                           'upbit' => 'USDT-XMR',
-                                          'poloniex' => 'USDT_XMR',
-                                          'okex' => 'XMR-USDT'
+                                          'okex' => 'XMR-USDT',
+                                          'poloniex' => 'USDT_XMR'
                                                     ),
                                                     
                                     'usdc' => array(
@@ -536,9 +528,9 @@ $coins_list = array(
                                         'hitbtc' => 'LTCBTC',
                                         'kucoin' => 'LTC-BTC',
                                         'upbit' => 'BTC-LTC',
-                                        'poloniex' => 'BTC_LTC',
                                         'okex' => 'LTC-BTC',
                                         'livecoin' => 'LTC/BTC',
+                                        'poloniex' => 'BTC_LTC',
                                         'cryptofresh' => 'OPEN.LTC',
                                         'tradesatoshi' => 'LTC_BTC'
                                                     ),
@@ -559,8 +551,8 @@ $coins_list = array(
                                         'hitbtc' => 'LTCUSD',
                                         'kucoin' => 'LTC-USDT',
                                         'upbit' => 'USDT-LTC',
-                                        'poloniex' => 'USDT_LTC',
-                                        'okex' => 'LTC-USDT'
+                                        'okex' => 'LTC-USDT',
+                                        'poloniex' => 'USDT_LTC'
                                           			),
                                           			
                                     'tusd' => array(
@@ -618,10 +610,10 @@ $coins_list = array(
                                     'btc' => array(
                                          'bittrex_global' => 'BTC-GRIN',
                                     	  'kucoin' => 'GRIN-BTC',
-                                         'poloniex' => 'BTC_GRIN',
                                          'hitbtc' => 'GRINBTC',
                                          'hotbit' => 'GRIN_BTC',
                                          'gateio' => 'grin_btc',
+                                         'poloniex' => 'BTC_GRIN',
                                          'bitforex' => 'coin-btc-grin',
                                          'tradeogre' => 'BTC-GRIN',
                                          'bigone' => 'GRIN-BTC'
@@ -665,9 +657,9 @@ $coins_list = array(
                                          'binance' => 'ATOMBTC',
                                          'bittrex_global' => 'BTC-ATOM',
                                          'kraken' => 'ATOMXBT',
-                                         'poloniex' => 'BTC_ATOM',
                                          'okex' => 'ATOM-BTC',
                                          'hotbit' => 'ATOM_BTC',
+                                         'poloniex' => 'BTC_ATOM',
                                          'bitforex' => 'coin-btc-atom'
                                                     ),
                                                     
@@ -681,8 +673,8 @@ $coins_list = array(
                                                     
                                     'usdt' => array(
                                          'bittrex_global' => 'USDT-ATOM',
-                                         'poloniex' => 'USDT_ATOM',
                                          'hotbit' => 'ATOM_USDT',
+                                         'poloniex' => 'USDT_ATOM',
                                          'bitforex' => 'coin-usdt-atom'
                                                     ),
                                                     
@@ -736,11 +728,11 @@ $coins_list = array(
                                         	'kraken' => 'XXDGXXBT',
                                           'bittrex' => 'BTC-DOGE',
                                           'upbit' => 'BTC-DOGE',
-                                          'poloniex' => 'BTC_DOGE',
                                           'hitbtc' => 'DOGEBTC',
                                           'hotbit' => 'DOGE_BTC',
                                           'gateio' => 'doge_btc',
                                           'livecoin' => 'DOGE/BTC',
+                                          'poloniex' => 'BTC_DOGE',
                                         	'tradesatoshi' => 'DOGE_BTC'
                                                     ),
                                                     
@@ -756,8 +748,8 @@ $coins_list = array(
                                         	'binance_us' => 'DOGEUSDT',
                                           'bittrex' => 'USDT-DOGE',
                                           'hitbtc' => 'DOGEUSD',
-                                          'poloniex' => 'USDT_DOGE',
                                           'okex' => 'DOGE-USDT',
+                                          'poloniex' => 'USDT_DOGE',
                                          	'bitforex' => 'coin-usdt-doge'
                                                     ),
                                                     
@@ -808,8 +800,8 @@ $coins_list = array(
                                         	'ethfinex' => 'tMNABTC',
                                           'kucoin' => 'MANA-BTC',
                                         	'upbit' => 'BTC-MANA',
-                                          'poloniex' => 'BTC_MANA',
-                                          'okex' => 'MANA-BTC'
+                                          'okex' => 'MANA-BTC',
+                                          'poloniex' => 'BTC_MANA'
                                                     ),
                                                     
                                     'eth' => array(
@@ -847,9 +839,9 @@ $coins_list = array(
                                           'bittrex' => 'BTC-GNT',
                                         	'ethfinex' => 'tGNTBTC',
                                         	'upbit' => 'BTC-GNT',
-                                          'poloniex' => 'BTC_GNT',
                                         	'livecoin' => 'GNT/BTC',
-                                        	'okex' => 'GNT-BTC'
+                                        	'okex' => 'GNT-BTC',
+                                          'poloniex' => 'BTC_GNT'
                                                     ),
                                                     
                                     'eth' => array(

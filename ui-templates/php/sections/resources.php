@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2019 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
+ * Copyright 2014-2020 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
  */
 
 
@@ -121,8 +121,6 @@
 	        
 	        <li class='links_list'><a href='https://www.kucoin.com/' target='_blank'>Kucoin.com</a></li>
 	        
-	        <li class='links_list'><a href='https://poloniex.com' target='_blank'>Poloniex.com</a></li>
-	        
 	        <li class='links_list'><a href='https://gemini.com/' target='_blank'>Gemini.com</a></li>
 	        
 	        <li class='links_list'><a href='https://www.bitstamp.net/' target='_blank'>Bitstamp.net</a></li>
@@ -132,6 +130,8 @@
 	        <li class='links_list'><a href='https://www.bitfinex.com/' target='_blank'>Bitfinex.com</a></li>
 	        
 	        <li class='links_list'><a href='https://hitbtc.com/' target='_blank'>Hitbtc.com</a></li>
+	        
+	        <li class='links_list'><a href='https://poloniex.com' target='_blank'>Poloniex.com</a></li>
 	        
 	        
 	        
