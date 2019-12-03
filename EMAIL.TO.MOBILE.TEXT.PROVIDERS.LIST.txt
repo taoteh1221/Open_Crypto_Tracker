@@ -1,0 +1,318 @@
+
+
+================================================================================================================================
+
+
+Below are the mobile networks supported by DFD Cryptocoin Value's email-to-text functionality. 
+
+Using your corresponding "Network Name" (case-sensitive) listed below, 
+add that EXACT name in config.php within the $to_text setting as the text network name variable,
+to enable text alerts to your network's phone number.
+
+
+================================================================================================================================
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Network Name (case-sensitive, required in config.php $to_text setting)          Email-to-Text Internet Gateway (FOR DEV NOTES / REFERENCE ONLY)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+[NO NETWORK (when using textbelt / textlocal API instead)]
+skip_network_name      N/A
+
+
+
+
+[INTERNATIONAL]
+Esendex         @echoemail.net 
+Globalstar      @msg.globalstarusa.com    
+
+
+      
+      
+[MISCELLANEOUS COUNTRIES]
+beeline  (Russia)               @sms.beemail.ru  
+bluesky  (Samoa, USA)           @psms.bluesky.as  
+china_mobile  (China)           @139.com       
+claro_ni  (Nicaragua)           @ideasclaro-ca.com      
+claro_pr  (Puerto Rico)         @vtexto.com      
+digicel  (Dominica)             @digitextdm.com       
+emtel  (Mauritius)              @emtelworld.net     
+guyana_tt  (Guyana)             @sms.cellinkgy.com   
+helio  (South Korea)            @myhelio.com         
+ice  (Costa Rica)               @sms.ice.cr            
+m1  (Singapore)                 @m1.com.sg      
+mas_movil  (Panama)             @cwmovil.com        
+mobitel  (Sri Lanka)            @sms.mobitel.lk   
+movistar_ar  (Latin America)    @movimensaje.com.ar      
+movistar_uy (Uruguay)           @sms.movistar.com.uy 
+setar  (Aruba)                  @mas.aw 
+spikko  (Israel)                @SpikkoSMS.com      
+tmobile_hr  (Croatia)           @sms.t-mobile.hr   
+tele2_lv  (Latvia)              @sms.tele2.lv        
+tele2_se  (Sweden)              @sms.tele2.se           
+vodafone_pt  (Portugal)         @sms.vodafone.pt         
+
+
+
+
+[AUSTRALIA]
+sms_broadcast             @send.smsbroadcast.com.au      
+sms_central               @sms.smscentral.com.au      
+sms_pup                   @smspup.com           
+tmobile_au (Optus Zoo)    @optusmobile.com.au  
+telstra                   @sms.tim.telstra.com   
+ut_box                    @sms.utbox.net         
+
+
+  
+  
+[AUSTRIA]
+firmen_sms      @subdomain.firmensms.at   
+tmobile_at      @sms.t-mobile.at        
+        
+        
+   
+   
+[ARGENTINA]
+cti_movil (Now Claro AR)   @sms.ctimovil.com.ar  
+movistar_ar                @sms.movistar.net.ar       
+personal                   @alertas.personal.com.ar   
+
+
+
+
+[BRAZIL]
+claro_br   @clarotorpedo.com.br      
+vivo       @torpedoemail.com.br     
+
+
+
+
+[BULGARIA]
+globul        @sms.globul.bg         
+mobiltel      @sms.mtel.net     
+
+
+
+
+[CANADA]
+aliant_ca        @sms.wirefree.informe.ca  
+bell             @txt.bell.ca  
+bell_mts         @text.mts.net   
+fido             @sms.fido.ca       
+koodo            @msg.telus.com      
+lynx             @sms.lynxmobility.com 
+pc_telecom       @mobiletxt.ca      
+rogers           @mms.rogers.com   
+sasktel          @pcs.sasktelmobility.com  
+Telus            @mms.telusmobility.com  
+virgin_ca        @vmobile.ca        
+wind             @txt.windmobile.ca 
+
+   
+   
+   
+[COLUMBIA]
+claro_co                 @iclaro.com.co     
+movistar_co              @movistar.com.co   
+tigo (Formerly Ola)      @sms.tigo.com.co     
+
+
+
+ 
+[EUROPE]
+freebie_sms       @smssturen.com              
+tellus_talk       @esms.nu       
+
+
+
+
+[FRANCE]
+bouygues      @mms.bouyguestelecom.fr        
+sfr           @sfr.fr      
+    
+
+
+   
+[GERMANY]
+e_plus        @smsmail.eplus.de            
+o2            @o2online.de        
+tmobile_de    @t-mobile-sms.de  
+vodafone_de   @vodafone-sms.de  
+
+
+
+ 
+[HONG KONG]
+access_you      @messaging.accessyou.com      
+csl             @mgw.mmsc1.hkcsl.com    
+
+
+
+
+[ICELAND]
+vodafone_is     @sms.is           
+box_is          @box.is  
+
+
+
+
+[INDIA]
+airCel                  @aircel.co.in      
+airtel                  @airtelmail.com     
+airtel AP               @airtelap.com       
+airtel Chennai          @airtelchennai.com    
+airtel Kerala           @airtelkerala.com           
+airtel KK               @airtelkk.com        
+airtel Kolkata          @airtelkol.com  
+Celforce                @celforce.com     
+Escotel                 @escotelmobile.com        
+Idea                    @ideacellular.net     
+RPG                     @rpgmail.net       
+
+ 
+ 
+ 
+[ITALY]
+TIM            @timnet.com                
+Vodafone IT    @sms.vodafone.it      
+
+
+
+
+[MEXICO]
+Nextel         @msgnextel.com.mx     
+Telcel         @itelcel.com       
+
+   
+   
+   
+[NETHERLANDS]
+Orange         @sms.orange.nl    
+Tmobile NL     @gin.nl      
+
+
+
+
+[NEW ZEALAND]
+Telecom        @etxt.co.nz    
+Vodafone NZ    @mtxt.co.nz   
+
+
+
+ 
+[NORWAY]
+Sendega        @sendega.com       
+Teletopia      @sms.teletopiasms.no
+
+  
+  
+  
+[SOUTH AFRICA]
+MTN            @sms.co.za     
+Vodacom        @voda.co.za   
+
+
+           
+           
+[SPAIN]
+Esendex        @esendex.net    
+Movistar ES    0@movistar.net    
+Vodafone ES    0@vodafone.es   
+
+
+
+
+[Switzerland]
+box_ch            @mms.boxis.net  
+sunrise_ch        @gsm.sunrise.ch  
+
+
+
+
+[POLAND]
+Plus           @text.plusgsm.pl          
+Polkomtel      @text.plusgsm.pl 
+   
+        
+        
+        
+[UNITED KINGDOM]
+HSL            @sms.haysystems.com     
+Mediaburst     @sms.mediaburst.co.uk   
+My-Cool-SMS    @my-cool-sms.com       
+Orange         @orange.net         
+Txtlocal       @txtlocal.co.uk      
+UniMovil       @viawebsms.com 
+Virgin UK      @vxtras.com 
+   
+   
+   
+   
+[UNITED STATES]
+AirFire               @sms.airfiremobile.com      
+Aio                   @mms.aiowireless.net      
+Alaska Comm           @msg.acsalaska.com      
+Alltel                @mms.alltelwireless.com  
+Ameritech             @paging.acswireless.com         
+Assurance             @vmobl.com      
+ATT                   @mms.att.net      
+ATT Paging            @page.att.net       
+BellSouth             @bellsouth.cl      
+Bluegrass             @mms.myblueworks.com         
+Boost                 @myboostmobile.com         
+CellCom               @cellcom.quiktxt.com      
+Cellular South        @csouth1.com      
+Centennial            @cwemail.com      
+Chariton Valley       @sms.cvalley.net      
+Chat Mobility         @mail.msgsender.com      
+Cincinnati Bell       @mms.gocbw.com        
+Cleartalk             @sms.cleartalk.us  
+Cricket               @mms.mycricket.com      
+CSpire                @cspire1.com     
+DTC                   @sms.advantagecell.net    
+Edge                  @sms.edgewireless.com      
+Element               @SMS.elementmobile.net        
+GCI                   @mobile.gci.net     
+Golden State          @gscsms.com      
+Greatcall             @vtxt.com        
+Hawaiian Telcom       @hawaii.sprintpcs.com     
+Kajeet                @mobile.kajeet.net       
+LongLines             @text.longlines.com      
+MetroPCS              @mymetropcs.com           
+Nextech               @sms.ntwls.net   
+Pioneer               @zsend.com   
+Pocket                @sms.pocket.com          
+Qwest                 @qwestmp.com     
+Rogers                @mms.rogers.com   
+Simple Mobile         @smtext.com     
+Southernlinc          @page.southernlinc.com      
+South Central Comm    @rinasms.com 
+Sprint                @pm.sprint.com      
+Syringa               @rinasms.com       
+Tmobile US            @tmomail.net          
+Teleflip              @teleflip.com      
+Telus                 @mms.telusmobility.com 
+TracFone              @mmst5.tracfone.com     
+Unicel                @utext.com           
+Union                 @union-tel.com      
+US Cellular           @email.uscc.net      
+USA Mobility          @usamobility.net      
+verizon               @vtext.com     
+viaero                @mmsviaero.com      
+virgin_us             @vmobl.com      
+Voyager               @text.voyagermobile.com      
+West Central          @sms.wcc.net      
+XIT                   @sms.xit.net
+
+
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+

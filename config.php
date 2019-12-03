@@ -125,13 +125,12 @@ $from_email = ''; // MUST BE SET for price alerts and other email features
 
 $to_email = ''; // MUST BE SET for price alerts and other email features
 
-// For asset price alert texts to mobile phones. Attempts to email text if a SUPPORTED CARRIER name is set, AND no textbelt / textlocal config is setup.
+// For asset price alert texts to mobile phone numbers. 
+// Attempts to email the text if a SUPPORTED MOBILE TEXTING NETWORK name is set, AND no textbelt / textlocal config is setup.
 // SMTP-authenticated email sending MAY GET THROUGH TEXTING SERVICE CONTENT FILTERS BETTER THAN USING PHP'S BUILT-IN EMAILING FUNCTION
-// CAN BE BLANK. Country format MUST be used: '12223334444||numberonly' 
-// numberonly (when using textbelt / textlocal service), alaskacomm, att, bell, bellmts, bluegrass, boost, cellcom,
-// cricket, cspire, digicel, eastlink, fido, gci, googlefi, metropcs, nextech, pcmobile, pioneer, republic, rogers, 
-// sasktel, sprint, strata, telus, tmobile, tracfone, union, uscellular, verizon, viaero, virgin, virginca
-$to_text = '';
+// SEE THE FILE "EMAIL.TO.MOBILE.TEXT.PROVIDERS.LIST.txt" (in the main folder) FOR A LIST OF SUPPORTED MOBILE TEXTING NETWORK PROVIDER NAMES
+// CAN BE BLANK. Country code format MAY NEED TO BE USED (depending on your mobile network)
+$to_text = ''; // 'phone_number||network_name' (example: '12223334444||virgin_us')
 
 // For asset price alert notifyme alexa notifications (sending Alexa devices notifications for free). 
 // NOTE: Amazon's Alexa API will only allow a maximum of 5 notifications every 5 minutes

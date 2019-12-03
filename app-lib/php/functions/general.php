@@ -1401,110 +1401,110 @@ virginca:	number@vmobile.ca
 
 $string = explode("||",$string);
 
-$number = substr($string[0], -10); // USA 10 digit number without country code
-$carrier = trim($string[1]);
+$phone_number = substr($string[0], -10); 
+$network_name = trim($string[1]);
 
 	// Set text domain
-	if ( $carrier == 'alaskacomm' ) {
-	$domain = '@msg.acsalaska.com';
+	if ( $network_name == 'alaskacomm' ) {
+	$gateway = '@msg.acsalaska.com';
 	}
-	elseif ( $carrier == 'att' ) {
-	$domain = '@txt.att.net';
+	elseif ( $network_name == 'att' ) {
+	$gateway = '@txt.att.net';
 	}
-	elseif ( $carrier == 'bell' ) {
-	$domain = '@txt.bell.ca';
+	elseif ( $network_name == 'bell' ) {
+	$gateway = '@txt.bell.ca';
 	}
-	elseif ( $carrier == 'bellmts' ) {
-	$domain = '@text.mts.net';
+	elseif ( $network_name == 'bellmts' ) {
+	$gateway = '@text.mts.net';
 	}
-	elseif ( $carrier == 'bluegrass' ) {
-	$domain = '@sms.bluecell.com';
+	elseif ( $network_name == 'bluegrass' ) {
+	$gateway = '@sms.bluecell.com';
 	}
-	elseif ( $carrier == 'boost' ) {
-	$domain = '@sms.myboostmobile.com';
+	elseif ( $network_name == 'boost' ) {
+	$gateway = '@sms.myboostmobile.com';
 	}
-	elseif ( $carrier == 'cellcom' ) {
-	$domain = '@cellcom.quiktxt.com';
+	elseif ( $network_name == 'cellcom' ) {
+	$gateway = '@cellcom.quiktxt.com';
 	}
-	elseif ( $carrier == 'cricket' ) {
-	$domain = '@sms.cricketwireless.net';
+	elseif ( $network_name == 'cricket' ) {
+	$gateway = '@sms.cricketwireless.net';
 	}
-	elseif ( $carrier == 'cspire' ) {
-	$domain = '@cspire1.com';
+	elseif ( $network_name == 'cspire' ) {
+	$gateway = '@cspire1.com';
 	}
-	elseif ( $carrier == 'digicel' ) {
-	$domain = '@digitextlc.com';
+	elseif ( $network_name == 'digicel' ) {
+	$gateway = '@digitextlc.com';
 	}
-	elseif ( $carrier == 'eastlink' ) {
-	$domain = '@mms.eastlink.ca';
+	elseif ( $network_name == 'eastlink' ) {
+	$gateway = '@mms.eastlink.ca';
 	}
-	elseif ( $carrier == 'fido' ) {
-	$domain = '@fido.ca';
+	elseif ( $network_name == 'fido' ) {
+	$gateway = '@fido.ca';
 	}
-	elseif ( $carrier == 'gci' ) {
-	$domain = '@mobile.gci.net';
+	elseif ( $network_name == 'gci' ) {
+	$gateway = '@mobile.gci.net';
 	}
-	elseif ( $carrier == 'googlefi' ) {
-	$domain = '@msg.fi.google.com';
+	elseif ( $network_name == 'googlefi' ) {
+	$gateway = '@msg.fi.google.com';
 	}
-	elseif ( $carrier == 'metropcs' ) {
-	$domain = '@mymetropcs.com';
+	elseif ( $network_name == 'metropcs' ) {
+	$gateway = '@mymetropcs.com';
 	}
-	elseif ( $carrier == 'nextech' ) {
-	$domain = '@sms.nextechwireless.com';
+	elseif ( $network_name == 'nextech' ) {
+	$gateway = '@sms.nextechwireless.com';
 	}
-	elseif ( $carrier == 'pcmobile' ) {
-	$domain = '@mobiletxt.ca';
+	elseif ( $network_name == 'pcmobile' ) {
+	$gateway = '@mobiletxt.ca';
 	}
-	elseif ( $carrier == 'pioneer' ) {
-	$domain = '@zsend.com';
+	elseif ( $network_name == 'pioneer' ) {
+	$gateway = '@zsend.com';
 	}
-	elseif ( $carrier == 'republic' ) {
-	$domain = '@text.republicwireless.com';
+	elseif ( $network_name == 'republic' ) {
+	$gateway = '@text.republicwireless.com';
 	}
-	elseif ( $carrier == 'rogers' ) {
-	$domain = '@pcs.rogers.com';
+	elseif ( $network_name == 'rogers' ) {
+	$gateway = '@pcs.rogers.com';
 	}
-	elseif ( $carrier == 'sasktel' ) {
-	$domain = '@sms.sasktel.com';
+	elseif ( $network_name == 'sasktel' ) {
+	$gateway = '@sms.sasktel.com';
 	}
-	elseif ( $carrier == 'sprint' ) {
-	$domain = '@messaging.sprintpcs.com';
+	elseif ( $network_name == 'sprint' ) {
+	$gateway = '@messaging.sprintpcs.com';
 	}
-	elseif ( $carrier == 'strata' ) {
-	$domain = '@rinasms.com';
+	elseif ( $network_name == 'strata' ) {
+	$gateway = '@rinasms.com';
 	}
-	elseif ( $carrier == 'telus' ) {
-	$domain = '@msg.telus.com';
+	elseif ( $network_name == 'telus' ) {
+	$gateway = '@msg.telus.com';
 	}
-	elseif ( $carrier == 'tmobile' ) {
-	$domain = '@tmomail.net';
+	elseif ( $network_name == 'tmobile' ) {
+	$gateway = '@tmomail.net';
 	}
-	elseif ( $carrier == 'tracfone' ) {
-	$domain = '@mmst5.tracfone.com';
+	elseif ( $network_name == 'tracfone' ) {
+	$gateway = '@mmst5.tracfone.com';
 	}
-	elseif ( $carrier == 'union' ) {
-	$domain = '@mms.unionwireless.com';
+	elseif ( $network_name == 'union' ) {
+	$gateway = '@mms.unionwireless.com';
 	}
-	elseif ( $carrier == 'uscellular' ) {
-	$domain = '@email.uscc.net';
+	elseif ( $network_name == 'uscellular' ) {
+	$gateway = '@email.uscc.net';
 	}
-	elseif ( $carrier == 'verizon' ) {
-	$domain = '@vtext.com';
+	elseif ( $network_name == 'verizon' ) {
+	$gateway = '@vtext.com';
 	}
-	elseif ( $carrier == 'viaero' ) {
-	$domain = '@viaerosms.com';
+	elseif ( $network_name == 'viaero' ) {
+	$gateway = '@viaerosms.com';
 	}
-	elseif ( $carrier == 'virgin' ) {
-	$domain = '@vmobl.com';
+	elseif ( $network_name == 'virgin' ) {
+	$gateway = '@vmobl.com';
 	}
-	elseif ( $carrier == 'virginca' ) {
-	$domain = '@vmobile.ca';
+	elseif ( $network_name == 'virginca' ) {
+	$gateway = '@vmobile.ca';
 	}
 
 
 // Return formatted texting email address
-return trim($number) . $domain;
+return trim($phone_number) . $gateway;
 
 
 }
