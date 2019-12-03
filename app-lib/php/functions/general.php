@@ -1691,9 +1691,9 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 		////////////START//////////////////////
 		
 		
-			// Sleep for 1.5 seconds before starting ANY consecutive message send, to help avoid being blacklisted
+			// Sleep for 2 seconds before starting ANY consecutive message send, to help avoid being blacklisted
 			if ( $_SESSION['notifications_count'] > 0 ) {
-			usleep(1500000);
+			sleep(2);
 			}
 			
 		
