@@ -549,6 +549,31 @@ global $http_users, $http_runtime_user;
 ////////////////////////////////////////////////////////
 
 
+function text_email($string) {
+
+global $mobile_networks;
+
+$string = explode("||",$string);
+
+$phone_number = substr($string[0], -10); 
+$network_name = trim( strtolower($string[1]) ); // Force lowercase lookups for reliability / consistency
+
+	// Set text domain
+	if ( trim($phone_number) != '' && isset($mobile_networks[$network_name]) ) {
+	return trim($phone_number) . '@' . trim($mobile_networks[$network_name]); // Return formatted texting email address
+	}
+	else {
+	return false;
+	}
+
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
 function time_date_format($offset=false, $mode=false) {
 
 
@@ -1318,193 +1343,6 @@ fclose($fp);
 	else {
 	return array_slice( $lines, (0 - $linecount) );
 	}
-
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function text_email($string) {
-
-/* **************************************************
-
-Supported (texting) carrier notes...
-
-alaskacomm:	number@msg.acsalaska.com
-
-att: number@txt.att.net
-
-bell:	number@txt.bell.ca
-
-bellmts:	number@text.mts.net
-
-bluegrass:	number@sms.bluecell.com
-
-boost: number@sms.myboostmobile.com
-
-cellcom:	number@cellcom.quiktxt.com
-
-cricket: number@sms.cricketwireless.net
-
-cspire: number@cspire1.com
-
-digicel:	number@digitextlc.com
-
-eastlink:	number@mms.eastlink.ca
-
-fido:	number@fido.ca
-
-gci:	number@mobile.gci.net
-
-googlefi: number@msg.fi.google.com
-
-metropcs: number@mymetropcs.com
-
-nextech:	number@sms.nextechwireless.com
-
-pcmobile:	number@mobiletxt.ca
-
-pioneer:	number@zsend.com
-
-republic: number@text.republicwireless.com
-
-rogers:	number@pcs.rogers.com
-
-sasktel:	number@sms.sasktel.com
-
-sprint: number@messaging.sprintpcs.com
-
-strata:	number@rinasms.com
-
-telus:	number@msg.telus.com
-
-tmobile: number@tmomail.net
-
-tracfone: number@mmst5.tracfone.com
-
-union:	number@mms.unionwireless.com
-
-uscellular: number@email.uscc.net
-
-verizon: number@vtext.com
-
-viaero:	number@viaerosms.com
-
-virgin: number@vmobl.com
-
-virginca:	number@vmobile.ca
-
-**************************************************** */
-
-$string = explode("||",$string);
-
-$phone_number = substr($string[0], -10); 
-$network_name = trim($string[1]);
-
-	// Set text domain
-	if ( $network_name == 'alaskacomm' ) {
-	$gateway = '@msg.acsalaska.com';
-	}
-	elseif ( $network_name == 'att' ) {
-	$gateway = '@txt.att.net';
-	}
-	elseif ( $network_name == 'bell' ) {
-	$gateway = '@txt.bell.ca';
-	}
-	elseif ( $network_name == 'bellmts' ) {
-	$gateway = '@text.mts.net';
-	}
-	elseif ( $network_name == 'bluegrass' ) {
-	$gateway = '@sms.bluecell.com';
-	}
-	elseif ( $network_name == 'boost' ) {
-	$gateway = '@sms.myboostmobile.com';
-	}
-	elseif ( $network_name == 'cellcom' ) {
-	$gateway = '@cellcom.quiktxt.com';
-	}
-	elseif ( $network_name == 'cricket' ) {
-	$gateway = '@sms.cricketwireless.net';
-	}
-	elseif ( $network_name == 'cspire' ) {
-	$gateway = '@cspire1.com';
-	}
-	elseif ( $network_name == 'digicel' ) {
-	$gateway = '@digitextlc.com';
-	}
-	elseif ( $network_name == 'eastlink' ) {
-	$gateway = '@mms.eastlink.ca';
-	}
-	elseif ( $network_name == 'fido' ) {
-	$gateway = '@fido.ca';
-	}
-	elseif ( $network_name == 'gci' ) {
-	$gateway = '@mobile.gci.net';
-	}
-	elseif ( $network_name == 'googlefi' ) {
-	$gateway = '@msg.fi.google.com';
-	}
-	elseif ( $network_name == 'metropcs' ) {
-	$gateway = '@mymetropcs.com';
-	}
-	elseif ( $network_name == 'nextech' ) {
-	$gateway = '@sms.nextechwireless.com';
-	}
-	elseif ( $network_name == 'pcmobile' ) {
-	$gateway = '@mobiletxt.ca';
-	}
-	elseif ( $network_name == 'pioneer' ) {
-	$gateway = '@zsend.com';
-	}
-	elseif ( $network_name == 'republic' ) {
-	$gateway = '@text.republicwireless.com';
-	}
-	elseif ( $network_name == 'rogers' ) {
-	$gateway = '@pcs.rogers.com';
-	}
-	elseif ( $network_name == 'sasktel' ) {
-	$gateway = '@sms.sasktel.com';
-	}
-	elseif ( $network_name == 'sprint' ) {
-	$gateway = '@messaging.sprintpcs.com';
-	}
-	elseif ( $network_name == 'strata' ) {
-	$gateway = '@rinasms.com';
-	}
-	elseif ( $network_name == 'telus' ) {
-	$gateway = '@msg.telus.com';
-	}
-	elseif ( $network_name == 'tmobile' ) {
-	$gateway = '@tmomail.net';
-	}
-	elseif ( $network_name == 'tracfone' ) {
-	$gateway = '@mmst5.tracfone.com';
-	}
-	elseif ( $network_name == 'union' ) {
-	$gateway = '@mms.unionwireless.com';
-	}
-	elseif ( $network_name == 'uscellular' ) {
-	$gateway = '@email.uscc.net';
-	}
-	elseif ( $network_name == 'verizon' ) {
-	$gateway = '@vtext.com';
-	}
-	elseif ( $network_name == 'viaero' ) {
-	$gateway = '@viaerosms.com';
-	}
-	elseif ( $network_name == 'virgin' ) {
-	$gateway = '@vmobl.com';
-	}
-	elseif ( $network_name == 'virginca' ) {
-	$gateway = '@vmobile.ca';
-	}
-
-
-// Return formatted texting email address
-return trim($phone_number) . $gateway;
 
 
 }
