@@ -129,9 +129,10 @@ $to_email = ''; // MUST BE SET for price alerts and other email features
 // For asset price alert texts to mobile phone numbers. 
 // Attempts to email the text if a SUPPORTED MOBILE TEXTING NETWORK name is set, AND no textbelt / textlocal config is setup.
 // SMTP-authenticated email sending MAY GET THROUGH TEXTING SERVICE CONTENT FILTERS BETTER THAN USING PHP'S BUILT-IN EMAILING FUNCTION
-// SEE THE FILE "EMAIL.TO.MOBILE.TEXT.PROVIDERS.LIST.txt" (in the main folder) FOR A LIST OF SUPPORTED MOBILE TEXTING NETWORK PROVIDER NAMES
+// SEE FURTHER DOWN IN THIS CONFIG FILE, FOR A LIST OF SUPPORTED MOBILE TEXTING NETWORK PROVIDER NAMES 
+// IN THE EMAIL-TO-MOBILE-TEXT CONFIG SECTION (the "network name keys" in the $mobile_networks variables array)
 // CAN BE BLANK. Country code format MAY NEED TO BE USED (depending on your mobile network)
-$to_text = ''; // 'phone_number||network_name' (example: '12223334444||virgin_us')
+$to_text = ''; // 'phone_number||network_name_key' (example: '12223334444||virgin_us')
 
 // For asset price alert notifyme alexa notifications (sending Alexa devices notifications for free). 
 // NOTE: Amazon's Alexa API will only allow a maximum of 5 notifications every 5 minutes
@@ -361,6 +362,265 @@ $steem_powerdown_time = 13;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////// GENERAL CONFIG -END- //////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////// EMAIL-TO-MOBILE-TEXT CONFIG -START- ///////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+/*
+
+Below are the mobile networks supported by DFD Cryptocoin Value's email-to-mobile-text functionality. 
+
+Using your corresponding "Network Name Key" (case-sensitive) listed below, 
+add that EXACT name in this config file further above within the $to_text setting as the text network name variable,
+to enable email-to-text alerts to your network's mobile phone number.
+
+PLEASE REPORT ANY MISSING / INCORRECT / NON-FUNCTIONAL GATEWAYS HERE, AND I WILL FIX THEM:
+https://github.com/taoteh1221/DFD_Cryptocoin_Values/issues
+(or you can add / update it yourself right in this configuration, if you know the correct gateway domain name)
+
+*/
+
+
+// All supported mobile network email-to-text gateway (domain name) configurations
+// Network name keys MUST BE LOWERCASE (for reliability / consistency, 
+// as these name keys are always called from (forced) lowercase name key lookups)
+
+// DUPLICATE NETWORK NAME KEYS --WILL CANCEL EACH OTHER OUT--, !!USE A UNIQUE NAME FOR EACH KEY!!
+
+
+$mobile_networks = array(
+                        
+                        
+                        // [EXAMPLE]
+                        // 'network_name_key' => 'network_gateway1.com',
+                        // 'unique_network_name_key' => 'network_gateway2.com',
+                        
+                        
+                        // [NO NETWORK] (when using textbelt / textlocal API instead)
+                        'skip_network_name' => NULL,
+                        
+                        
+                        // [INTERNATIONAL]
+                        'esendex' => 'echoemail.net',
+                        'global_star' => 'msg.globalstarusa.com',
+                        
+                        
+                        // [MISCELLANEOUS COUNTRIES]
+                        'beeline' => 'sms.beemail.ru',          // Russia
+                        'bluesky' => 'psms.bluesky.as',         // Samoa, USA
+                        'china_mobile' => '139.com',            // China
+                        'claro_ni' => 'ideasclaro-ca.com',      // Nicaragua
+                        'claro_pr' => 'vtexto.com',             // Puerto Rico
+                        'digicel' => 'digitextdm.com',          // Dominica
+                        'emtel' => 'emtelworld.net',            // Mauritius
+                        'guyana_tt' => 'sms.cellinkgy.com',     // Guyana
+                        'helio' => 'myhelio.com',               // South Korea
+                        'ice' => 'sms.ice.cr',                  // Costa Rica
+                        'm1' => 'm1.com.sg',                    // Singapore
+                        'mas_movil' => 'cwmovil.com',           // Panama
+                        'mobitel' => 'sms.mobitel.lk',          // Sri Lanka
+                        'movistar_ar' => 'movimensaje.com.ar',  // Latin America
+                        'movistar_uy' => 'sms.movistar.com.uy', // Uruguay
+                        'setar' => 'mas.aw',                    // Aruba
+                        'spikko' => 'SpikkoSMS.com',            // Israel
+                        'tmobile_hr' => 'sms.t-mobile.hr',      // Croatia
+                        'tele2_lv' => 'sms.tele2.lv',           // Latvia
+                        'tele2_se' => 'sms.tele2.se',           // Sweden
+                        'telcel' => 'itelcel.com',              // Mexico
+                        'vodafone_pt' => 'sms.vodafone.pt',     // Portugal
+                        
+                        
+                        // [AUSTRALIA]
+                        'sms_broadcast' => 'send.smsbroadcast.com.au',
+                        'sms_central' => 'sms.smscentral.com.au',
+                        'sms_pup' => 'smspup.com',
+                        'tmobile_au' => 'optusmobile.com.au',
+                        'telstra' => 'sms.tim.telstra.com',
+                        'ut_box' => 'sms.utbox.net',
+                        
+                        
+                        // [AUSTRIA]
+                        'firmen_sms' => 'subdomain.firmensms.at',
+                        'tmobile_at' => 'sms.t-mobile.at',
+                        
+                        
+                        // [ARGENTINA]
+                        'cti_movil' => 'sms.ctimovil.com.ar',
+                        'movistar_ar' => 'sms.movistar.net.ar',
+                        'personal' => 'alertas.personal.com.ar',
+                        
+                        
+                        // [BRAZIL]
+                        'claro_br' => 'clarotorpedo.com.br',
+                        'vivo' => 'torpedoemail.com.br',
+                        
+                        
+                        // [BULGARIA]
+                        'globul' => 'sms.globul.bg',
+                        'mobiltel' => 'sms.mtel.net',
+                        
+                        
+                        // [CANADA]
+                        'bell' => 'txt.bell.ca',
+                        'bell_mts' => 'text.mts.net',
+                        'fido' => 'sms.fido.ca',
+                        'koodo' => 'msg.telus.com',
+                        'lynx' => 'sms.lynxmobility.com',
+                        'pc_telecom' => 'mobiletxt.ca',
+                        'rogers' => 'mms.rogers.com',
+                        'sasktel' => 'pcs.sasktelmobility.com',
+                        'telus' => 'mms.telusmobility.com',
+                        'virgin_ca' => 'vmobile.ca',
+                        'wind' => 'txt.windmobile.ca',
+                        
+                        
+                        // [COLUMBIA]
+                        'claro_co' => 'iclaro.com.co',
+                        'movistar_co' => 'movistar.com.co',
+                        'tigo' => 'sms.tigo.com.co',
+                        
+                        
+                        // [EUROPE]
+                        'freebie_sms' => 'smssturen.com',
+                        'tellus_talk' => 'esms.nu',
+                        
+                        
+                        // [FRANCE]
+                        'bouygues' => 'mms.bouyguestelecom.fr',
+                        'orange_fr' => 'orange.fr',
+                        'sfr' => 'sfr.fr',
+                        
+                        
+                        // [GERMANY]
+                        'e_plus' => 'smsmail.eplus.de',
+                        'o2' => 'o2online.de',
+                        'tmobile_de' => 't-mobile-sms.de',
+                        'vodafone_de' => 'vodafone-sms.de',
+                        
+                        
+                        // [HONG KONG]
+                        'access_you' => 'messaging.accessyou.com',
+                        'csl' => 'mgw.mmsc1.hkcsl.com',
+                        
+                        
+                        // [ICELAND]
+                        'vodafone_is' => 'sms.is',
+                        'box_is' => 'box.is',
+                        
+                        
+                        // [INDIA]
+                        'aircel' => 'aircel.co.in',
+                        'airtel' => 'airtelmail.com',
+                        'airtel_ap' => 'airtelap.com',
+                        'airtel_chennai' => 'airtelchennai.com',
+                        'airtel_kerala' => 'airtelkerala.com',
+                        'airtel_kk' => 'airtelkk.com',
+                        'airtel_kolkata' => 'airtelkol.com',
+                        'celforce' => 'celforce.com',
+                        'escotel' => 'escotelmobile.com',
+                        'idea' => 'ideacellular.net',
+                        'rpg' => 'rpgmail.net',
+                        'vodafone_in' => 'sms.vodafone.in',
+                        
+                        
+                        // [ITALY]
+                        'tim' => 'timnet.com',
+                        'vodafone_it' => 'sms.vodafone.it',
+                        
+                        
+                        // [NETHERLANDS]
+                        'orange_nl' => 'sms.orange.nl',
+                        'tmobile_nl' => 'gin.nl',
+                        
+                        
+                        // [NEW ZEALAND]
+                        'telecom' => 'etxt.co.nz',
+                        'vodafone_nz' => 'mtxt.co.nz',
+                        
+                        
+                        // [NORWAY]
+                        'sendega' => 'sendega.com',
+                        'teletopia' => 'sms.teletopiasms.no',
+                        
+                        
+                        // [SOUTH AFRICA]
+                        'mtn' => 'sms.co.za',
+                        'vodacom' => 'voda.co.za',
+                        
+                        
+                        // [SPAIN]
+                        'esendex' => 'esendex.net',
+                        'movistar_es' => 'movistar.net',
+                        'vodafone_es' => 'vodafone.es',
+                        
+                        
+                        // [Switzerland]
+                        'box_ch' => 'mms.boxis.net',
+                        'sunrise_ch' => 'gsm.sunrise.ch',
+                        
+                        
+                        // [POLAND]
+                        'orange_pl' => 'orange.pl',
+                        'plus' => 'text.plusgsm.pl',
+                        'polkomtel' => 'text.plusgsm.pl',
+                        
+                        
+                        // [UNITED KINGDOM]
+                        'media_burst' => 'sms.mediaburst.co.uk',
+                        'orange_uk' => 'orange.net',
+                        'tmobile_uk' => 't-mobile.uk.net',
+                        'txt_local' => 'txtlocal.co.uk',
+                        'uni_movil' => 'viawebsms.com',
+                        'virgin_uk' => 'vxtras.com',
+                        'vodafone_uk' => 'vodafone.net',
+                        
+                        
+                        // [UNITED STATES]
+                        'alaska_comm' => 'msg.acsalaska.com',
+                        'att' => 'txt.att.net',
+                        'bluegrass' => 'mms.myblueworks.com',
+                        'boost' => 'myboostmobile.com',
+                        'cellcom' => 'cellcom.quiktxt.com',
+                        'chariton_valley' => 'sms.cvalley.net',
+                        'chat_mobility' => 'mail.msgsender.com',
+                        'clear_talk' => 'sms.cleartalk.us',
+                        'cricket' => 'mms.mycricket.com',
+                        'cspire' => 'cspire1.com',
+                        'dtc' => 'sms.advantagecell.net',
+                        'element' => 'SMS.elementmobile.net',
+                        'gci' => 'mobile.gci.net',
+                        'hawaiian_telcom' => 'hawaii.sprintpcs.com',
+                        'nextech' => 'sms.ntwls.net',
+                        'pioneer' => 'zsend.com',
+                        'rogers' => 'mms.rogers.com',
+                        'simple_mobile' => 'smtext.com',
+                        'southern_linc' => 'page.southernlinc.com',
+                        'south_central_comm' => 'rinasms.com',
+                        'sprint' => 'messaging.sprintpcs.com',
+                        'tmobile_us' => 'tmomail.net',
+                        'telus' => 'mms.telusmobility.com',
+                        'trac_fone' => 'mmst5.tracfone.com',
+                        'union' => 'union-tel.com',
+                        'us_cellular' => 'email.uscc.net',
+                        'verizon' => 'vtext.com',
+                        'viaero' => 'mmsviaero.com',
+                        'virgin_us' => 'vmobl.com',
+                        'west_central' => 'sms.wcc.net',
+                        'xit' => 'sms.xit.net',
+                        
+
+); // mobile_networks END
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////// EMAIL-TO-MOBILE-TEXT CONFIG -END- /////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 

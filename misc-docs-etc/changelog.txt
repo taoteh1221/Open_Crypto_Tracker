@@ -1923,6 +1923,16 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+3.52.0:
+-Better UX for new email-to-mobile-text system configuration
+-------------------------------------------------------------------
+
+
+
+
+
+
 
 
 
