@@ -1918,7 +1918,7 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 3.51.0:
 -Optimizations
--Comprehensive email-to-text providers support (MANY more providers now supported)
+-New / comprehensive email-to-mobile-text system, with scalable network provider support config (and MANY more network providers added)
 -------------------------------------------------------------------
 
 
