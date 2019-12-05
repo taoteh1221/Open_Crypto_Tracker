@@ -162,7 +162,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
     }
   },
   title: {
-    text: "(<?=( $trade_symbol == '$' ? 'USD' : strtoupper($market_parse[1]) )?> Chart)  <?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=name_rendering($market_parse[0])?>",
+    text: "<?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=name_rendering($market_parse[0])?> (<?=( $trade_symbol == '$' ? 'USD' : strtoupper($market_parse[1]) )?> Chart)",
     fontColor: "<?=$charts_text?>",
     fontFamily: 'Open Sans',
     fontSize: 23,
