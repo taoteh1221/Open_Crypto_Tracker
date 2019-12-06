@@ -263,7 +263,6 @@ $asset_charts_and_alerts = array(
 					
 					// GRIN
 					'grin-2' => 'bittrex_global||btc||chart',
-					'grin-3' => 'bittrex_global||usdt||chart',
 					'grin-4' => 'gateio||usdt||chart',
 					'grin-5' => 'kucoin||btc||both',
 					'grin-6' => 'hitbtc||btc||chart',
@@ -890,7 +889,6 @@ $coins_list = array(
                                                     ),
                                                     
                                     'usdt' => array(
-                                         'bittrex_global' => 'USDT-GRIN',
                                     	  'kucoin' => 'GRIN-USDT',
                                          'hitbtc' => 'GRINUSD',
                                          'hotbit' => 'GRIN_USDT',
