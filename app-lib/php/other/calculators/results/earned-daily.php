@@ -9,7 +9,7 @@
 				<br />
 				Current <?=$calculation_form_data[0]?> Value Per Coin: 
 				<?php
-				echo ( $calculation_form_data[1] == 'btc' ? number_format($btc_usd, 2) . ' USD' : number_format(get_coin_value(strtoupper($calculation_form_data[1]), $calculation_form_data[6], $calculation_form_data[7])['last_trade'], 8) . ' BTC ($' . round( get_coin_value(strtoupper($calculation_form_data[1]), $calculation_form_data[6], $calculation_form_data[7])['last_trade'] * $btc_usd , 8) . ' USD)' );
+				echo ( $calculation_form_data[1] == 'btc' ? number_format($btc_fiat_value, 2) . ' ' . strtoupper($btc_fiat_pairing) : number_format(get_coin_value(strtoupper($calculation_form_data[1]), $calculation_form_data[6], $calculation_form_data[7])['last_trade'], 8) . ' BTC ($' . round( get_coin_value(strtoupper($calculation_form_data[1]), $calculation_form_data[6], $calculation_form_data[7])['last_trade'] * $btc_fiat_value , 8) . ' '.strtoupper($btc_fiat_pairing).')' );
 				?>
 				
 				<br />
@@ -38,7 +38,7 @@
 				
 				Average BTC Value Earned Daily: 
 				<?php
-				echo number_format( $btc_daily_average_raw, 8 ) . ' BTC ($' . number_format( $usd_daily_average_raw , 2) . ' USD)';
+				echo number_format( $btc_daily_average_raw, 8 ) . ' BTC ($' . number_format( $fiat_daily_average_raw , 2) . ' '.strtoupper($btc_fiat_pairing).')';
 				?>
 				
 				<br />
@@ -62,7 +62,7 @@
 				
 				<b>Daily Profit: 
 				<?php
-				echo '$' . number_format( $usd_daily_average_raw - $kwh_cost_daily - $pool_fee_daily , 2);
+				echo '$' . number_format( $fiat_daily_average_raw - $kwh_cost_daily - $pool_fee_daily , 2);
 				?></b>
 				
 				<br />
@@ -91,7 +91,7 @@
 				
 				Average BTC Value Earned Weekly: 
 				<?php
-				echo number_format( $btc_daily_average_raw * 7 , 8) . ' BTC ($' . number_format( $usd_daily_average_raw * 7 , 2) . ' USD)';
+				echo number_format( $btc_daily_average_raw * 7 , 8) . ' BTC ($' . number_format( $fiat_daily_average_raw * 7 , 2) . ' '.strtoupper($btc_fiat_pairing).')';
 				?>
 				
 				<br />
@@ -115,7 +115,7 @@
 				
 				<b>Weekly Profit: 
 				<?php
-				echo '$' . number_format( ( $usd_daily_average_raw - $kwh_cost_daily - $pool_fee_daily ) * 7 , 2);
+				echo '$' . number_format( ( $fiat_daily_average_raw - $kwh_cost_daily - $pool_fee_daily ) * 7 , 2);
 				?></b>
 				
 				<br />

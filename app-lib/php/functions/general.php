@@ -695,7 +695,27 @@ return $result;
 
 function chart_data($file, $trade_format) {
 
-global $usd_decimals_max;
+global $fiat_decimals_max, $charts_alerts_btc_fiat_pairing;
+
+
+	if ( $trade_format == 'usd' ) {
+	$fiat_formatting = 1;
+	}
+	elseif ( $trade_format == 'usdt' ) {
+	$fiat_formatting = 1;
+	}
+	elseif ( $trade_format == 'usdc' ) {
+	$fiat_formatting = 1;
+	}
+	elseif ( $trade_format == 'tusd' ) {
+	$fiat_formatting = 1;
+	}
+	elseif ( $trade_format == 'gbp' ) {
+	$fiat_formatting = 1;
+	}
+	elseif ( $trade_format == 'eur' ) {
+	$fiat_formatting = 1;
+	}
 
 
 $data = array();
@@ -709,23 +729,14 @@ $fn = fopen($file,"r");
 			
 		$data['time'] .= $result[0] . '000,';  // Zingchart wants 3 more zeros with unix time (milliseconds)
 		
-			// Format or round USD / stablecoin price depending on value (non-stablecoin crypto values are already stored in the format we want for the interface)
-			if ( $trade_format == 'usd' ) {
-			$data['spot'] .= ( floattostr($result[1]) >= 1.00 ? number_format((float)$result[1], 2, '.', '')  :  round($result[1], $usd_decimals_max)  ) . ',';
+			// Format or round Fiat / stablecoin price depending on value (non-stablecoin crypto values are already stored in the format we want for the interface)
+			if ( $fiat_formatting == 1 ) {
+			$data['spot'] .= ( floattostr($result[1]) >= 1.00 ? number_format((float)$result[1], 2, '.', '')  :  round($result[1], $fiat_decimals_max)  ) . ',';
 			$data['volume'] .= round($result[2]) . ',';
 			}
-			elseif ( $trade_format == 'btc_usd' ) {
-			$data['spot'] .= ( floattostr($result[1]) >= 1.00 ? number_format((float)$result[1], 2, '.', '')  :  round($result[1], $usd_decimals_max)  ) . ',';
-			$data['volume'] .= round($result[2]) . ',';
-			}
-			// Non-stablecoin crypto
-			elseif ( $trade_format == 'not_usd_equiv' ) {
-			$data['spot'] .= $result[1] . ',';
-			$data['volume'] .= round($result[2], 3) . ',';
-			}
-			// Stablecoins
+			// Non-fiat-or-stablecoin crypto
 			else {
-			$data['spot'] .= ( floattostr($result[1]) >= 1.00 ? number_format((float)$result[1], 2, '.', '')  :  round($result[1], $usd_decimals_max)  ) . ',';
+			$data['spot'] .= $result[1] . ',';
 			$data['volume'] .= round($result[2], 3) . ',';
 			}
 		

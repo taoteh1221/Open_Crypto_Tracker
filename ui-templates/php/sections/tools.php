@@ -60,9 +60,9 @@
     				
     			</p>
     			
-    			<p class='green' style='font-weight: bold;'>Per-Token Value: $<span id='target_usd'>0.00</span> (<span id='target_btc'>0.00</span> BTC) </p>
+    			<p class='green' style='font-weight: bold;'>Per-Token (<?=strtoupper($btc_fiat_pairing)?>): $<span id='target_fiat'>0.00</span> (<span id='target_btc'>0.00</span> BTC) </p>
     			
-    			<p class='green' style='font-weight: bold;'>Total Value: $<span id='target_total_usd'>0.00</span> (<span id='target_total_btc'>0.00</span> BTC) </p>
+    			<p class='green' style='font-weight: bold;'>Total: $<span id='target_total_fiat'>0.00</span> (<span id='target_total_btc'>0.00</span> BTC) </p>
     			
     			<script>
     			

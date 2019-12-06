@@ -39,7 +39,7 @@ FEATURES
 
 -Automated and user-friendly installation / upgrade script for Raspberry Pi (an affordable low power single board computer) setup on your home / internal network.
 
--Cryptocurrency portfolio subtotal summaries, and total portfolio worth (in Crypto and USD), including value gain / loss data (with tracking support for long / short margin leverages), portfolio balance data, and marketcap data.
+-Cryptocurrency portfolio subtotal summaries, and total portfolio worth (in crypto and your local fiat currency), including value gain / loss data (with tracking support for long / short margin leverages), portfolio balance data, and marketcap data.
 
 -Price change alerts by email / text / Alexa (configurable alert parameters available).
 
@@ -49,13 +49,13 @@ FEATURES
 
 -Import / Export your portfolio in CSV (spreadsheet) file format.
 
--Detailed charts (base values in Crypto and USD), with spot price / volume, zooming, and crosshair hovering.
+-Detailed charts (base values in crypto and your local fiat currency), with spot price / volume, zooming, and crosshair hovering.
 
 -Switch between light / dark (night mode) theme colors.
 
 -Mining calculators, to determine coin mining profitability (includes electricity costs and pool fees).
 
--Crypto tools (QR code generator, altcoin trade preview / marketcap calculator in BTC and USD, etc).
+-Crypto tools (QR code generator, altcoin trade preview / marketcap calculator in BTC and your local fiat currency, etc).
 
 -External resources page, includes links to marketcap stats sites / news sites / wallets / exchanges / block explorers / developer resources / newsletters / podcasts / social media / etc.
 

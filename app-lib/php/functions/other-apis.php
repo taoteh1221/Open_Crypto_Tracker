@@ -253,7 +253,7 @@ $array_merging = array();
 
 function coinmarketcap_api($symbol) {
 	
-global $api_timeout, $coinmarketcapcom_api_key, $marketcap_ranks_max, $marketcap_cache;
+global $btc_fiat_pairing, $api_timeout, $coinmarketcapcom_api_key, $marketcap_ranks_max, $marketcap_cache;
 
 
 	if ( trim($coinmarketcapcom_api_key) == NULL ) { 
@@ -266,6 +266,8 @@ global $api_timeout, $coinmarketcapcom_api_key, $marketcap_ranks_max, $marketcap
 	
 
 	if ( !$_SESSION['cmc_data'] ) {
+		
+	$btc_fiat_pairing = strtoupper($btc_fiat_pairing);
 	
 	$headers = [
   'Accepts: application/json',
@@ -275,7 +277,7 @@ global $api_timeout, $coinmarketcapcom_api_key, $marketcap_ranks_max, $marketcap
 	$cmc_params = array(
 	  							'start' => '1',
 	 							'limit' => $marketcap_ranks_max,
-	  							'convert' => 'USD'
+	  							'convert' => $btc_fiat_pairing
 								);
 
 	$url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest';

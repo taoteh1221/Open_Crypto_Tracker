@@ -14,19 +14,26 @@ error_reporting(1); // Turn on all PHP error reporting
 }
     	
 
-// Set BTC / currency_market default value
+// Set BTC / currency_market dynamic value
+
+// We NEVER change BTC / currency_market value FOR CHARTS, 
+// so move the default $btc_fiat_pairing value into it's own chart-related variable,
+// before dynamic updating of $btc_fiat_pairing
+$charts_alerts_btc_fiat_pairing = $btc_fiat_pairing; 
+
 if ( $_SESSION['btc_exchange'] ) {
 $btc_exchange = $_SESSION['btc_exchange'];
 }
 
-if ( $_SESSION['btc_currency_market'] ) {
-$btc_currency_market = $_SESSION['btc_currency_market'];
+if ( $_SESSION['btc_fiat_pairing'] ) {
+$btc_fiat_pairing = $_SESSION['btc_fiat_pairing'];
 }
 
-$btc_usd = get_coin_value('BTC', $btc_exchange, $coins_list['BTC']['market_pairing'][$btc_currency_market][$btc_exchange], $btc_currency_market)['last_trade'];
+$btc_fiat_value = get_coin_value('BTC', $btc_exchange, $coins_list['BTC']['market_pairing'][$btc_fiat_pairing][$btc_exchange], $btc_fiat_pairing)['last_trade'];
 
 
 $asset_price_alerts_percent = floattostr($asset_price_alerts_percent); // Better decimal support for price change percent config
+
 
 
 // Only need below logic during UI runtime

@@ -1,4 +1,4 @@
-"Asset Symbol","Holdings","USD Purchase Average (per-token)","Margin Leverage","Long or Short","Exchange ID","Market Pairing"
+"Asset Symbol","Holdings","Purchase Average (per-token)","Margin Leverage","Long or Short","Exchange ID","Market Pairing"
 BTC,0.00123,"11,500.25",0,long,1,btc
 LTC,7.255,120.50,0,long,1,btc
 GRIN,45.755,2.25,0,long,1,btc

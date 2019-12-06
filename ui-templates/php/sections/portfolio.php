@@ -51,7 +51,7 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
     <tr>
 <th class='border_lt'>#</th>
 <th class='border_lt blue al_right'><span>Asset</span></th>
-<th class='border_t'>Per-Token Value</th>
+<th class='border_t'>Per-Token (<?=strtoupper($btc_fiat_pairing)?>)</th>
 <th class='border_lt blue al_right'>Holdings</th>
 <th class='border_t'>Symbol</th>
 <th class='border_lt blue'>Exchange</th>
@@ -59,7 +59,7 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 <th class='border_t al_right'>Trade Value</th>
 <th class='border_t blue'>Market</th>
 <th class='border_lt blue'>Holdings Value</th>
-<th class='border_lrt blue'>Subtotal</th>
+<th class='border_lrt blue'>Subtotal (<?=strtoupper($btc_fiat_pairing)?>)</th>
     </tr>
   </thead>
  <tbody>
@@ -386,8 +386,8 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 
 
 	// Get exchange name
-	$coins_list_numbered = array_values($coins_list['BTC']['market_pairing']['usd']);
-	foreach ( $coins_list['BTC']['market_pairing']['usd'] as $key => $value ) {
+	$coins_list_numbered = array_values($coins_list['BTC']['market_pairing'][$btc_fiat_pairing]);
+	foreach ( $coins_list['BTC']['market_pairing'][$btc_fiat_pairing] as $key => $value ) {
 	$loop = $loop + 1;
 	
 		if ( ($loop - 1) == $btc_market ) {
@@ -406,7 +406,7 @@ $total_btc_worth_raw = number_format(bitcoin_total(), 8, '.', '');
 
 $total_btc_worth = ( $total_btc_worth_raw >= 0.00000001 ? pretty_numbers($total_btc_worth_raw, 8) : '0.00000000' );
 
-$total_usd_worth = coin_stats_data('coin_worth_total');
+$total_fiat_worth = coin_stats_data('coin_worth_total');
 
 $bitcoin_dominance = ( $_SESSION['btc_worth_array']['BTC'] / $total_btc_worth_raw ) * 100;
 
@@ -419,7 +419,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 <div class="show_coin_values bold_1 green"><!-- Summary START -->
 <?php
 		
-		// Run BEFORE output of BTC / USD portfolio values, to include any margin / leverage summaries in parentheses NEXT TO THEM (NOT in the actual BTC / USD amounts, for UX's sake)
+		// Run BEFORE output of BTC / PAIRING portfolio values, to include any margin / leverage summaries in parentheses NEXT TO THEM (NOT in the actual BTC / PAIRING amounts, for UX's sake)
 		if ( $purchase_price_added == 1 ) {
 			
 		$gain_loss_total = coin_stats_data('gain_loss_total');
@@ -430,14 +430,14 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 		
 		$leverage_only_gain_loss = coin_stats_data('gain_loss_only_leverage');
   		
-		$total_usd_worth_inc_leverage = $total_usd_worth + $leverage_only_gain_loss;
+		$total_fiat_worth_inc_leverage = $total_fiat_worth + $leverage_only_gain_loss;
 		
   		// Here we can go negative 'total worth' with the margin leverage (unlike with the margin deposit)
   		// We only want a negative sign here in the UI for 'total worth' clarity (if applicable), NEVER a plus sign
   		// (plus sign would indicate a gain, NOT 'total worth')
-		$parsed_total_usd_worth_inc_leverage = preg_replace("/-/", "", number_format( $total_usd_worth_inc_leverage, 2, '.', ',' ) );
+		$parsed_total_fiat_worth_inc_leverage = preg_replace("/-/", "", number_format( $total_fiat_worth_inc_leverage, 2, '.', ',' ) );
   		
-		$total_usd_worth_if_purchase_price = coin_stats_data('coin_total_worth_if_purchase_price') + $leverage_only_gain_loss;
+		$total_fiat_worth_if_purchase_price = coin_stats_data('coin_total_worth_if_purchase_price') + $leverage_only_gain_loss;
 		
 		$gain_loss_text = ( $gain_loss_total >= 0 ? 'gains' : 'losses' );
 		
@@ -445,29 +445,29 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 		
 	  
 	  
-	  // Notice that margin leverage is NOT included !!WITHIN!! BTC / USD TOTALS EVER (for UX's sake, too confusing to included in anything other than gain / loss stats)
-	  // We only include data in parenthesis NEXT TO THE BTC / USD PORTFOLIO SUMMARIES
+	  // Notice that margin leverage is NOT included !!WITHIN!! BTC / PAIRING TOTALS EVER (for UX's sake, too confusing to included in anything other than gain / loss stats)
+	  // We only include data in parenthesis NEXT TO THE BTC / PAIRING PORTFOLIO SUMMARIES
 	  $leverage_text1 = ( $purchase_price_added == 1 && $leverage_added == 1 && is_numeric($gain_loss_total) == TRUE ? ' <span class="red"> &nbsp;(includes adjusted long deposits, <i><u>not</u></i> leverage)</span>' : '' );
 	  $leverage_text2 = ( $purchase_price_added == 1 && $leverage_added == 1 && is_numeric($gain_loss_total) == TRUE ? ' <span class="red"> &nbsp;(includes adjusted short / long deposits, <i><u>not</u></i> leverage)</span>' : '' );
 
 
-		// BTC / USD portfolio stats output
+		// BTC / PAIRING portfolio stats output
 		echo '<div class="portfolio_summary"><span class="black">BTC Value:</span> <span class="bitcoin">Ƀ ' . $total_btc_worth . '</span>' . $leverage_text1 . '</div>';
 		
-		echo '<div class="portfolio_summary"><span class="black">USD Value:</span> $' . number_format($total_usd_worth, 2, '.', ',') . $leverage_text2 . '</div>';
+		echo '<div class="portfolio_summary"><span class="black">'.strtoupper($btc_fiat_pairing).' Value:</span> $' . number_format($total_fiat_worth, 2, '.', ',') . $leverage_text2 . '</div>';
 		
-		echo ( $purchase_price_added == 1 && $leverage_added == 1 && is_numeric($gain_loss_total) == TRUE ? '<div class="portfolio_summary"><span class="black">Leverage Included: </span>' . ( $total_usd_worth_inc_leverage >= 0 ? '<span class="green">' : '<span class="red">-' ) . '$' . $parsed_total_usd_worth_inc_leverage . '</span>' . '</div>' : '' );
+		echo ( $purchase_price_added == 1 && $leverage_added == 1 && is_numeric($gain_loss_total) == TRUE ? '<div class="portfolio_summary"><span class="black">Leverage Included: </span>' . ( $total_fiat_worth_inc_leverage >= 0 ? '<span class="green">' : '<span class="red">-' ) . '$' . $parsed_total_fiat_worth_inc_leverage . '</span>' . '</div>' : '' );
 	
 
 
 
-		// Now that BTC / USD summaries have margin leverage stats NEXT TO THEM (NOT in the actual BTC / USD amounts, for UX's sake), 
+		// Now that BTC / PAIRING summaries have margin leverage stats NEXT TO THEM (NOT in the actual BTC / PAIRING amounts, for UX's sake), 
 		// we move on to the gain / loss stats WHERE IT IS FEASIBLE ENOUGH TO INCLUDE !BASIC! MARGIN LEVERAGE DATA SUMMARY (where applicable)
 		if ( $purchase_price_added == 1 && is_numeric($gain_loss_total) == TRUE ) {
 			
 			
      	// Gain / loss percent (!MUST BE! absolute value)
-      $percent_difference_total = abs( ($total_usd_worth_if_purchase_price - $original_worth) / abs($original_worth) * 100 );
+      $percent_difference_total = abs( ($total_fiat_worth_if_purchase_price - $original_worth) / abs($original_worth) * 100 );
           
 		
 		// Notice that we include margin leverage in gain / loss stats (for UX's sake, too confusing to included in anything other than gain / loss stats)
@@ -615,7 +615,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 		<?php
 		}
 	
-	echo '<div class="portfolio_summary"><span class="black">(Bitcoin is trading @ $' .number_format( $btc_usd, 2, '.', ','). ' on ' . name_rendering($show_exchange) . ')</span></div>';
+	echo '<div class="portfolio_summary"><span class="black">(Bitcoin is trading @ $' .number_format( $btc_fiat_value, 2, '.', ','). ' on ' . name_rendering($show_exchange) . ')</span></div>';
 
 			
 		if ( $short_added == 1 ) {

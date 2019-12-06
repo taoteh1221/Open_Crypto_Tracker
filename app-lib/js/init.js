@@ -50,7 +50,6 @@ $(".chart_wrapper").css({ "border": '2px solid ' + window.charts_border });
 				
 	$("#coins_table").tablesorter({
 		
-		// sort on the USD Total column, order desc 
 		sortList: [[sorted_by_col,sorted_by_asc_desc]],
     	theme : tablesort_theme, // theme "jui" and "bootstrap" override the uitheme widget option in v2.7+
   		textExtraction: sort_extraction,

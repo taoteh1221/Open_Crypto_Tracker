@@ -53,19 +53,19 @@
 			<b><span class='blue'><?=$show_asset?></span> / <?=strtoupper($show_asset_params[1])?> @ <?=name_rendering($show_asset_params[0])?>:</b> &nbsp; &nbsp; &nbsp; 
 			
 				<?php
-				// USD-paired markets
-				if ( $show_asset_params[1] == 'usd' ) {
+				// Markets that are the same as DEFAULT FIAT CONFIG setting
+				if ( $show_asset_params[1] == $charts_alerts_btc_fiat_pairing ) {
 				?>
 	
 			   <input type='checkbox' value='<?=$key?>_<?=$show_asset_params[1]?>' onchange='chart_toggle(this);' <?=( in_array("[".$key . '_' . $show_asset_params[1]."]", $show_charts) ? 'checked' : '' )?> /> <?=strtoupper($show_asset_params[1])?> Chart 
 	
 				<?php
 				}
-				// CRYPTO-paired markets (WITH USD EQUIV CHARTS INCLUDED)
+				// All other paired markets (WITH DEFAULT FIAT CONFIG EQUIV CHARTS INCLUDED)
 				else {
 				?>
 					
-				<input type='checkbox' value='<?=$key?>' onchange='chart_toggle(this);' <?=( in_array("[".$key."]", $show_charts) ? 'checked' : '' )?> /> USD Chart &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+				<input type='checkbox' value='<?=$key?>' onchange='chart_toggle(this);' <?=( in_array("[".$key."]", $show_charts) ? 'checked' : '' )?> /> <?=strtoupper($charts_alerts_btc_fiat_pairing)?> Chart &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
 				
 			   <input type='checkbox' value='<?=$key?>_<?=$show_asset_params[1]?>' onchange='chart_toggle(this);' <?=( in_array("[".$key . '_' . $show_asset_params[1]."]", $show_charts) ? 'checked' : '' )?> /> <?=strtoupper($show_asset_params[1])?> Chart 
 	
@@ -115,7 +115,7 @@
 		 
 		<p class='red' style='font-weight: bold;'>Charts are only available to show for each asset properly configured in the charts / asset price alerts configuration section in the file config.php (located in the primary directory of this app). Charts (and asset price alerts) must be <a href='README.txt' target='_blank'>setup as a cron job on your web server</a>, or <i>they will not work</i>. The chart's tab, page, caching, and javascript can be disabled in config.php if you choose to not setup a cron job.</p>
 		 
-		<p class='red' style='font-weight: bold;'>For charts based on crypto price (instead of USD), 24 hour volume is calculated from the asset volume (not the volume of the pairing), because a large percentage of crypto exchanges only provide asset volume data (with no pairing volume data included). For USD-based charts, the 24 hour USD volume is also calculated from the asset volume (and converted to the USD value of that asset volume).</p>
+		<p class='red' style='font-weight: bold;'>For charts based on crypto price (instead of <?=strtoupper($charts_alerts_btc_fiat_pairing)?>), 24 hour volume is calculated from the asset volume (not the volume of the pairing), because a large percentage of crypto exchanges only provide asset volume data (with no pairing volume data included). For <?=strtoupper($charts_alerts_btc_fiat_pairing)?>-based charts, the 24 hour <?=strtoupper($charts_alerts_btc_fiat_pairing)?> volume is also calculated from the asset volume (and converted to the <?=strtoupper($charts_alerts_btc_fiat_pairing)?> value of that asset volume).</p>
 	
 				
 	</div>
@@ -138,12 +138,12 @@
 		$charts_shown = 1;
 	?>
 	
-	<div class='chart_wrapper' id='<?=$key?>_usd_chart'><span class='loading' style='color: <?=$charts_text?>;'> &nbsp; Loading chart for <?=strtoupper($chart_asset)?> / USD @ <?=name_rendering($alerts_market_parse[0])?>...</span></div>
+	<div class='chart_wrapper' id='<?=$key?>_<?=strtolower($charts_alerts_btc_fiat_pairing)?>_chart'><span class='loading' style='color: <?=$charts_text?>;'> &nbsp; Loading chart for <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=name_rendering($alerts_market_parse[0])?> (<?=strtoupper($charts_alerts_btc_fiat_pairing)?> Chart)...</span></div>
 	
 	<script>
 	
 	$(document).ready(function() {
-    $.getScript("app-lib/js/chart.js.php?type=asset&asset_data=<?=urlencode($key)?>&charted_value=usd");
+    $.getScript("app-lib/js/chart.js.php?type=asset&asset_data=<?=urlencode($key)?>&charted_value=<?=strtolower($charts_alerts_btc_fiat_pairing)?>");
 	});
 	
 	</script>
@@ -156,7 +156,7 @@
 		$charts_shown = 1;
 	?>
 	
-	<div class='chart_wrapper' id='<?=$key?>_<?=$alerts_market_parse[1]?>_chart'><span class='loading' style='color: <?=$charts_text?>;'> &nbsp; Loading chart for <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=name_rendering($alerts_market_parse[0])?>...</span></div>
+	<div class='chart_wrapper' id='<?=$key?>_<?=$alerts_market_parse[1]?>_chart'><span class='loading' style='color: <?=$charts_text?>;'> &nbsp; Loading chart for <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=name_rendering($alerts_market_parse[0])?> (<?=strtoupper($alerts_market_parse[1])?> Chart)...</span></div>
 	
 	<script>
 	

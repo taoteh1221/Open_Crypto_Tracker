@@ -76,7 +76,7 @@ require("config.php");
 	
 	var charts_border = '<?=$charts_border?>';
 	
-	var btc_usd_value = '<?=number_format( $btc_usd, 2, '.', '' )?>';
+	var btc_fiat_value = '<?=number_format( $btc_fiat_value, 2, '.', '' )?>';
 	
 	</script>
 

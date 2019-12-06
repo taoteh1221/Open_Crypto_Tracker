@@ -8,7 +8,7 @@
 $example_download_array[] = array(
 	        							'Asset Symbol',
 	        							'Holdings',
-	        							'USD Purchase Average (per-token)',
+	        							'Purchase Average (per-token)',
 	        							'Margin Leverage',
 	        							'Long or Short',
 	        							'Exchange ID',
@@ -48,7 +48,7 @@ $example_download_array[] = array(
 	        							'btc'
 	        							);	
 	        
-// USD
+// MISCUSD
 $example_download_array[] = array(
 	        							'MISCUSD',
 	        							'80.15',

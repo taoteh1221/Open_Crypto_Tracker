@@ -31,43 +31,40 @@ if ( $_GET['type'] == 'asset' ) {
 		$market_parse = explode("||", $value );
 
 
-		$charted_value = ( $_GET['charted_value'] == 'pairing' ? $market_parse[1] : 'usd' );
+		$charted_value = ( $_GET['charted_value'] == 'pairing' ? $market_parse[1] : $charts_alerts_btc_fiat_pairing );
 		
 		
 		// Strip non-alphanumeric characters to use in js vars, to isolate logic for each separate chart
 		$js_key = preg_replace("/-/", "", $key) . '_' . $charted_value;
 		
-			
-			// Unicode asset symbols
-			if ( $_GET['charted_value'] == 'usd' || $market_parse[1] == 'usd' ) {
-			$trade_symbol = "$";
+		
+			// Unicode asset symbols and currency names
+			if ( $charted_value == 'usd' ) {
+			$currency_symbol = "$";
 			$volume_symbol = "$";
-			$usd_eqiv = 1;
 			}
-			elseif ( $market_parse[1] == 'usdt' ) {
-			$trade_symbol = "₮";
-			$volume_symbol = $chart_asset;
-			$usd_eqiv = 1;
-			}
-			elseif ( $market_parse[1] == 'tusd' || $market_parse[1] == 'usdc' ) {
-			$trade_symbol = "Ⓢ";
-			$volume_symbol = $chart_asset;
-			$usd_eqiv = 1;
-			}
-			elseif ( $market_parse[1] == 'btc' ) {
-			$trade_symbol = "Ƀ";
+			elseif ( $charted_value == 'usdt' ) {
+			$currency_symbol = "₮";
 			$volume_symbol = $chart_asset;
 			}
-			elseif ( $market_parse[1] == 'eth' ) {
-			$trade_symbol = "Ξ";
+			elseif ( $charted_value == 'tusd' || $charted_value == 'usdc' ) {
+			$currency_symbol = "Ⓢ";
 			$volume_symbol = $chart_asset;
 			}
-			elseif ( $market_parse[1] == 'ltc' ) {
-			$trade_symbol = "Ł";
+			elseif ( $charted_value == 'btc' ) {
+			$currency_symbol = "Ƀ";
 			$volume_symbol = $chart_asset;
 			}
-			elseif ( $market_parse[1] == 'xmr' ) {
-			$trade_symbol = "ɱ";
+			elseif ( $charted_value == 'eth' ) {
+			$currency_symbol = "Ξ";
+			$volume_symbol = $chart_asset;
+			}
+			elseif ( $charted_value == 'ltc' ) {
+			$currency_symbol = "Ł";
+			$volume_symbol = $chart_asset;
+			}
+			elseif ( $charted_value == 'xmr' ) {
+			$currency_symbol = "ɱ";
 			$volume_symbol = $chart_asset;
 			}
 			
@@ -77,7 +74,7 @@ if ( $_GET['type'] == 'asset' ) {
 			|| $market_parse[2] != 'chart' && $market_parse[2] != 'both' ) {
 			?>
 			
-			$("#<?=$key?>_<?=$charted_value?>_chart span.loading").html(' &nbsp; No chart data activated for: <?=$chart_asset?> / <?=( $trade_symbol == '$' ? 'USD' : strtoupper($market_parse[1]) )?> @ <?=name_rendering($market_parse[0])?>');
+			$("#<?=$key?>_<?=$charted_value?>_chart span.loading").html(' &nbsp; No chart data activated for: <?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=name_rendering($market_parse[0])?> \(<?=strtoupper($charted_value)?> Chart\)');
 			
 			$("#charts_error").show();
 			
@@ -92,12 +89,7 @@ if ( $_GET['type'] == 'asset' ) {
 			}
 			
 		
-			if ( $usd_eqiv == 1 ) {
-			$chart_data = chart_data('cache/charts/'.$chart_asset.'/'.$key.'_chart_'.$charted_value.'.dat', ( $market_parse[1] == 'btc' ? $market_parse[1] . '_usd' : $market_parse[1] ) );
-			}
-			else {
-			$chart_data = chart_data('cache/charts/'.$chart_asset.'/'.$key.'_chart_'.$charted_value.'.dat', 'not_usd_equiv');
-			}
+		$chart_data = chart_data('cache/charts/'.$chart_asset.'/'.$key.'_chart_'.$charted_value.'.dat', $market_parse[1]);
 		
 		
 		$price_sample = substr( $chart_data['spot'] , 0, strpos( $chart_data['spot'] , "," ) );
@@ -146,7 +138,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
     plotLabel:{
       backgroundColor: "<?=$charts_tooltip_background?>",
       fontColor: "<?=$charts_tooltip_text?>",
-      text: "Spot Price: <?=($trade_symbol == '$' ? $trade_symbol : $trade_symbol . ' ')?>%v",
+      text: "Spot Price: <?=($currency_symbol == '$' ? $currency_symbol : $currency_symbol . ' ')?>%v",
 	 	fontSize: "20",
       fontFamily: "Open Sans",
       <?=( $price_sample < 0.000001 ? 'decimals: 8,' : '' )?> /* -- price_sample: <?=$price_sample?> -- */ 
@@ -162,7 +154,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
     }
   },
   title: {
-    text: "<?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=name_rendering($market_parse[0])?> (<?=( $trade_symbol == '$' ? 'USD' : strtoupper($market_parse[1]) )?> Chart)",
+    text: "<?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=name_rendering($market_parse[0])?> (<?=strtoupper($charted_value)?> Chart)",
     fontColor: "<?=$charts_text?>",
     fontFamily: 'Open Sans',
     fontSize: 23,
@@ -185,14 +177,14 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
     }
   },
   tooltip:{
-    text: "Spot Price: <?=($trade_symbol == '$' ? $trade_symbol : $trade_symbol . ' ')?>%v",
+    text: "Spot Price: <?=($currency_symbol == '$' ? $currency_symbol : $currency_symbol . ' ')?>%v",
     fontColor: "<?=$charts_tooltip_text?>",
 	 fontSize: "20",
     backgroundColor: "<?=$charts_tooltip_background?>",
     "thousands-separator":","
   },
   scaleY: {
-    "format":"<?=($trade_symbol == '$' ? $trade_symbol : $trade_symbol . ' ')?>%v",
+    "format":"<?=($currency_symbol == '$' ? $currency_symbol : $currency_symbol . ' ')?>%v",
     "thousands-separator":",",
     guide: {
       visible: true,

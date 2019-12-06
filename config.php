@@ -36,8 +36,8 @@ require_once("app-lib/php/init.php");  // REQUIRED, DON'T DELETE BY ACCIDENT
 // Default Bitcoin exchange
 $btc_exchange = 'binance'; // coinbase / binance / binance_us / bitstamp / bitfinex / kraken / gemini / hitbtc / okcoin / livecoin
 
-// Default Bitcoin currency (market) pairing
-$btc_currency_market = 'usd'; // 'usd' (more to come)
+// Default Bitcoin fiat (or stablecoin fiat equivalent) market pairing
+$btc_fiat_pairing = 'usd'; // 'usd' (more to come)
 
 // Your local time offset in hours compared to UTC time. Can be negative or positive.
 // (Used for UX / UI timestamping only, will not change or screw up UTC log times etc if you change this)
@@ -52,7 +52,7 @@ $debug_mode = 'off';
 
 $margin_leverage_max = 125; // Maximum margin leverage available in the user interface ('Update Assets' page, etc)
 
-$usd_decimals_max = 5; // Maximum number of decimal places for US Dollar values (of coins worth under $1, for prettier / less-cluttered interface)
+$fiat_decimals_max = 5; // Maximum number of decimal places for fiat values (example: of coins worth under $1, for prettier / less-cluttered interface)
 
 // Block an asset price alert if price retrieved, BUT failed retrieving pair volume (not even a zero was retrieved, nothing)
 // Good for blocking questionable exchanges bugging you with price alerts, especially when used in combination with the minimum volume filter
@@ -84,7 +84,8 @@ $mail_error_logs = 1;
 
 
 // ENABLING CHARTS REQUIRES A CRON JOB SETUP (see README.txt for cron job setup information)
-// Caches USD + crypto price / volume data for charts of all assets added to $asset_charts_and_alerts (further down in this config file)
+// Caches the default fiat/stablecoin currency ($btc_fiat_pairing at top of this config) price + crypto price / volume data for charts 
+// of all assets added to $asset_charts_and_alerts (further down in this config file)
 // Enables a charts tab / page with historical charts. STILL EARLY CODE (AS OF 5/29/2019), MAY SLOW PAGE LOADS SIGNIFICANTLY UNTIL FURTHER OPTIMIZED
 // Disabling will disable EVERYTHING related to the charts features...the page, caching, even the javascript associated with the charts
 $charts_page = 'on'; // 'on' / 'off'
@@ -135,7 +136,6 @@ $to_email = ''; // MUST BE SET for price alerts and other email features
 $to_text = ''; // 'phone_number||network_name_key' (example: '12223334444||virgin_us')
 
 // For asset price alert notifyme alexa notifications (sending Alexa devices notifications for free). 
-// NOTE: Amazon's Alexa API will only allow a maximum of 5 notifications every 5 minutes
 // CAN BE BLANK. Setup: http://www.thomptronics.com/notify-me
 $notifyme_accesscode = '';
 
@@ -194,7 +194,7 @@ $asset_price_alerts_percent = 7.5; // Price percent change to send alerts for (W
 $asset_price_alerts_freq = 10; // Re-allow same asset price alert(s) after X minutes (per asset, set higher if issues with blacklisting...can be 0)
 
 // Minimum 24 hour volume filter. Only allows sending asset price alerts if minimum 24 hour volume reached
-// CAN BE 0 TO DISABLE MINIMUM VOLUME FILTERING, NO DECIMALS OR SEPARATORS, NUMBERS ONLY, WITHOUT dollar sign: 250 = $250 , 4500 = $4,500 , etc
+// CAN BE 0 TO DISABLE MINIMUM VOLUME FILTERING, NO DECIMALS OR SEPARATORS, NUMBERS ONLY, WITHOUT the fiat prefix symbol: 250 = $250 , 4500 = $4,500 , etc
 // THIS FILTER WILL AUTO-DISABLE IF THERE IS AN ERROR RETRIEVING DATA ON A CERTAIN MARKET (WHEN NOT EVEN A ZERO IS RECEIVED)
 $asset_price_alerts_minvolume = 3000;
 
@@ -203,7 +203,8 @@ $asset_price_alerts_minvolume = 3000;
 $asset_price_alerts_refresh = 0; 
 
 // CHARTS / ASSET PRICE ALERTS SETUP REQUIRES A CRON JOB RUNNING ON YOUR WEBSITE SERVER (see README.txt for cron job setup information) 
-// Markets you want charts or asset price change alerts for (alerts sent when $USD value change is equal to or above / below $asset_price_alerts_percent) 
+// Markets you want charts or asset price change alerts for (alerts sent when default fiat/stablecoin currency 
+// [$btc_fiat_pairing at top of this config] value change is equal to or above / below $asset_price_alerts_percent) 
 // Delete any double forward slashes from in front of each asset you want to enable charts / price alerts on (or add double slashes in front to disable it)
 // NOTE: This list must only contain assets / exchanges / trading pairs included in the primary coin list configuration further down in this config file
 // TO ADD MULTIPLE CHARTS / ALERTS FOR SAME ASSET (FOR DIFFERENT EXCHANGES / TRADE PAIRINGS), FORMAT LIKE SO: symbol, symbol-1, symbol-2, symbol-3, etc.
@@ -287,6 +288,7 @@ $asset_charts_and_alerts = array(
 					'doge' => 'bittrex||btc||chart',
 					'doge-3' => 'binance||btc||both',
 					'doge-4' => 'binance_us||usdt||chart',
+					'doge-5' => 'kraken||btc||chart',
 					
 					// ANT
 					'ant' => 'bittrex_global||btc||both',
@@ -305,10 +307,10 @@ $asset_charts_and_alerts = array(
 					
 					// DATA
 					'data' => 'hitbtc||btc||chart',
-					'data-2' => 'binance||btc||both',
+					'data-2' => 'binance||btc||chart',
 					
 					// DAG
-					'dag' => 'kucoin||btc||both',
+					'dag' => 'kucoin||btc||chart',
 					'dag-2' => 'hitbtc||btc||chart',
 					
 					//MYST

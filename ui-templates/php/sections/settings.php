@@ -18,7 +18,7 @@
 			<?php
 			if ( $price_alert_type_text != '' ) {
           ?>
-          	<p class='settings_sections'><b><?=$price_alert_type_text?> asset price alerts</b> are <i>enabled</i> in the configuration file (upon <?=$asset_price_alerts_percent?>% or more USD price change<?=( $asset_price_alerts_freq > 0 ? ' / max every ' . $asset_price_alerts_freq . ' minutes per-alert' : '' )?><?=( $asset_price_alerts_minvolume > 0 ? ' / $' . number_format($asset_price_alerts_minvolume, 0, '.', ',') . ' minumum volume filter enabled' : '' )?><?=( $asset_price_alerts_refresh > 0 ? ' / comparison price auto-refreshed after ' . $asset_price_alerts_refresh . ' days' : '' )?>). 
+          	<p class='settings_sections'><b><?=$price_alert_type_text?> asset price alerts</b> are <i>enabled</i> in the configuration file (upon <?=$asset_price_alerts_percent?>% or more <?=strtoupper($charts_alerts_btc_fiat_pairing)?> price change<?=( $asset_price_alerts_freq > 0 ? ' / max every ' . $asset_price_alerts_freq . ' minutes per-alert' : '' )?><?=( $asset_price_alerts_minvolume > 0 ? ' / $' . number_format($asset_price_alerts_minvolume, 0, '.', ',') . ' minumum volume filter enabled' : '' )?><?=( $asset_price_alerts_refresh > 0 ? ' / comparison price auto-refreshed after ' . $asset_price_alerts_refresh . ' days' : '' )?>). 
           	
           	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job on your web server</a>, or this feature will not work AT ALL.</i> 
           	
@@ -92,7 +92,7 @@
 			    $("#btc_market").val(this.value);
 			    '>
 				<?php
-				foreach ( $coins_list['BTC']['market_pairing']['usd'] as $market_key => $unused ) {
+				foreach ( $coins_list['BTC']['market_pairing'][$btc_fiat_pairing] as $market_key => $unused ) {
 				$loop = $loop + 1;
 				?>
 				<option value='<?=$loop?>' <?=( isset($_POST['btc_market']) && ($_POST['btc_market']) == $loop || isset($btc_market) && $btc_market == ($loop - 1) || $market_key == $btc_exchange ? ' selected ' : '' )?>> <?=name_rendering($market_key)?> </option>
@@ -114,7 +114,7 @@
 			    '>
 				<option value='0' <?=( $sorted_by_col == 0 ? ' selected ' : '' )?>> # </option>
 				<option value='1' <?=( $sorted_by_col == 1 ? ' selected ' : '' )?>> Asset </option>
-				<option value='2' <?=( $sorted_by_col == 2 ? ' selected ' : '' )?>> Per-Token Value </option>
+				<option value='2' <?=( $sorted_by_col == 2 ? ' selected ' : '' )?>> Per-Token (<?=strtoupper($btc_fiat_pairing)?>) </option>
 				<option value='3' <?=( $sorted_by_col == 3 ? ' selected ' : '' )?>> Holdings </option>
 				<option value='4' <?=( $sorted_by_col == 4 ? ' selected ' : '' )?>> Symbol </option>
 				<option value='5' <?=( $sorted_by_col == 5 ? ' selected ' : '' )?>> Exchange </option>
@@ -122,7 +122,7 @@
 				<option value='7' <?=( $sorted_by_col == 7 ? ' selected ' : '' )?>> Trade Value </option>
 				<option value='8' <?=( $sorted_by_col == 8 ? ' selected ' : '' )?>> Market </option>
 				<option value='9' <?=( $sorted_by_col == 9 ? ' selected ' : '' )?>> Holdings Value </option>
-				<option value='10' <?=( $sorted_by_col == 10 ? ' selected ' : '' )?>> Subtotal </option>
+				<option value='10' <?=( $sorted_by_col == 10 ? ' selected ' : '' )?>> Subtotal (<?=strtoupper($btc_fiat_pairing)?>) </option>
 			    </select> 
 			     <select id='sorted_by_asc_desc' onchange='
 			    $("#sort_by").val( $("#sorted_by_col").val() + "|" + this.value );

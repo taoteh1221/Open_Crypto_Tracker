@@ -340,7 +340,7 @@
 	  	 $asset_amount_value = pretty_numbers($asset_amount_value, $asset_amount_decimals, TRUE); // TRUE = Show even if low value is off the map, just for UX purposes tracking token price only, etc
 	    
 	    
-	    $coin_paid_value = ( floattostr($coin_paid_value) >= 1.00 ? pretty_numbers($coin_paid_value, 2) : pretty_numbers($coin_paid_value, $usd_decimals_max) );
+	    $coin_paid_value = ( floattostr($coin_paid_value) >= 1.00 ? pretty_numbers($coin_paid_value, 2) : pretty_numbers($coin_paid_value, $fiat_decimals_max) );
 	  	 
 	    	
 	    ?>
@@ -447,10 +447,10 @@
 		<img id='average_paid_notes_<?=$rand_id?>' src='ui-templates/media/images/info.png' alt='' width='30' border='0' style='position: relative; left: -5px;' /> 
 	 <script>
 	
-			var average_paid_notes = '<h5 align="center" class="yellow" style="position: relative; white-space: nowrap;">Calculating Average Price Paid Per Token</h5>'
+			var average_paid_notes = '<h5 align="center" class="yellow" style="position: relative; white-space: nowrap;">Calculating Average <?=strtoupper($btc_fiat_pairing)?> Price Paid Per Token</h5>'
 			
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Total USD Paid &#247; Total Tokens Purchased = Average Price Paid Per Token</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Total <?=strtoupper($btc_fiat_pairing)?> Paid &#247; Total Tokens Purchased = Average <?=strtoupper($btc_fiat_pairing)?> Price Paid Per Token</p>'
 			
 			+'<p class="coin_info"><span class="yellow"> </span></p>';
 		
@@ -533,7 +533,7 @@
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Set the "Asset / Pairing @ Exchange" drop-down menus for the asset to any markets you prefer. It doesn\'t matter which ones you choose, as long as the price discovery closely matches the exchange where you are margin trading this asset.</p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Set the "Holdings" field to match your margin leverage deposit (example: buying 1 BTC @ 5x leverage would be 0.2 BTC in the "Holdings" field in this app). You\'ll also need to fill in the "Average Paid (per-token)" field with the average price paid in USD per-token. Finally, set the "Margin Leverage" fields to match your leverage and whether you are long or short. When you are done, click "Save Updated Assets".</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Set the "Holdings" field to match your margin leverage deposit (example: buying 1 BTC @ 5x leverage would be 0.2 BTC in the "Holdings" field in this app). You\'ll also need to fill in the "Average Paid (per-token)" field with the average price paid in <?=strtoupper($btc_fiat_pairing)?> per-token. Finally, set the "Margin Leverage" fields to match your leverage and whether you are long or short. When you are done, click "Save Updated Assets".</p>'
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">To see your margin leverage stats after updating your portfolio, go to the bottom of the Portfolio page, where you\'ll find a stats section. Hovering over the "I" icon next to those summary stats will display additional stats per-asset. There is also an "I" icon in the far right table column (Subtotal) per-asset, which you can hover over for margin leverage stats too.</p>'
 			
