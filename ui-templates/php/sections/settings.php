@@ -72,6 +72,16 @@
                         
 			<?php
 			}
+			if ( $debug_mode != 'off' ) {
+          ?>
+          	<p class='settings_sections'><b>Debug Mode</b> is <i>enabled</i> in the configuration file.
+          	
+          		<br /><span class='bitcoin'>Debug Mode: <?=$debug_mode?></span>
+          	
+          	</p>  
+                        
+			<?php
+			}
 			?>
 			
 			

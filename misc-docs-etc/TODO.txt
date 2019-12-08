@@ -4,12 +4,7 @@
 TODO
 ///////////////////////////////////////////////////////
 
-Create unit tests 
-
 Buy a google home mini cheap on ebay, and develop price alerts compatibility for it.
-
-
-For the fiat/primary currency converter (to convert all crypto-based trade values between USD / GBP / EUR / stablecoin / etc as the app's "primary currency"): Use the simple / powerful solution of adding the different fiat/stablecoin markets for Bitcoin in same manner as alternate markets for altcoins are added (including Tether / stablecoin markets), THEN detect the fiat/primary currency that was selected, AND set it's symbol / letter-code as the app's fiat/primary currency.
 
 
 Add header login nav like prototype for zilliqa block explorer (use the developed account system structure too).
@@ -31,6 +26,9 @@ Stats in UI using chart data (if available), to show and compare spot / volume p
 
 
 Add chart sorting by crypto and usd price / volume percentage change over 1 hour / 1 day / 1 week / 1 month / 90 days / 6 months / 1 year.
+
+
+Add market stats summaries from chart data, like pie charts for exchange volume on certain pairs, etc.
 
 
 RESTFUL API system for requesting asset attributes (USD spot price / vol , etc)

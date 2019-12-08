@@ -67,7 +67,7 @@ if ( $proxy_alerts != 'none' ) {
 error_logs();
 send_notifications();
 
-if ( $debug_mode == 'on' ) {
+if ( $debug_mode != 'off' ) {
 	
 	// Email admin cron.php runtime stats
 	if ( validate_email($to_email) == 'valid' ) {

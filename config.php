@@ -47,7 +47,8 @@ $api_timeout = 15; // Seconds to wait for response from API endpoints. Don't set
 
 $api_strict_ssl = 'on'; // 'on' verifies ALL SSL certificates for HTTPS API servers, 'off' verifies NOTHING (NOT RECOMMENDED in production environment)
 
-// 'on' does verbose / extra logging and sends admin emails under certain conditions, 'off' disables extra logging / extra admin emailing
+// Runs unit tests (any errors detected are logged to the normal error log file), and sends admin emails under certain conditions
+// 'off' (disables), 'all' (all checks), 'charts' (chart/price alert checks), 'texts' (mobile gateway checks), 'markets' (coin market checks)
 $debug_mode = 'off'; 
 
 $margin_leverage_max = 125; // Maximum margin leverage available in the user interface ('Update Assets' page, etc)
@@ -414,27 +415,27 @@ $mobile_networks = array(
                         
                         // [MISCELLANEOUS COUNTRIES]
                         'beeline' => 'sms.beemail.ru',          // Russia
-                        'bluesky' => 'psms.bluesky.as',         // Samoa, USA
                         'china_mobile' => '139.com',            // China
-                        'claro_ni' => 'ideasclaro-ca.com',      // Nicaragua
                         'claro_pr' => 'vtexto.com',             // Puerto Rico
+                        'csl' => 'mgw.mmsc1.hkcsl.com',         // Hong Kong
                         'digicel' => 'digitextdm.com',          // Dominica
                         'emtel' => 'emtelworld.net',            // Mauritius
                         'guyana_tt' => 'sms.cellinkgy.com',     // Guyana
-                        'helio' => 'myhelio.com',               // South Korea
                         'ice' => 'sms.ice.cr',                  // Costa Rica
                         'm1' => 'm1.com.sg',                    // Singapore
                         'mas_movil' => 'cwmovil.com',           // Panama
+                        'mobiltel' => 'sms.mtel.net',           // Bulgaria
                         'mobitel' => 'sms.mobitel.lk',          // Sri Lanka
-                        'movistar_ar' => 'movimensaje.com.ar',  // Latin America
+                        'movistar_ar' => 'sms.movistar.net.ar', // Argentina
                         'movistar_uy' => 'sms.movistar.com.uy', // Uruguay
                         'setar' => 'mas.aw',                    // Aruba
-                        'spikko' => 'SpikkoSMS.com',            // Israel
+                        'sunrise_ch' => 'gsm.sunrise.ch',       // Switzerland
                         'tmobile_hr' => 'sms.t-mobile.hr',      // Croatia
                         'tele2_lv' => 'sms.tele2.lv',           // Latvia
                         'tele2_se' => 'sms.tele2.se',           // Sweden
                         'telcel' => 'itelcel.com',              // Mexico
-                        'vodafone_pt' => 'sms.vodafone.pt',     // Portugal
+                        'tmobile_nl' => 'gin.nl',               // Netherlands
+                        'vodafone_it' => 'sms.vodafone.it',     // Italy
                         
                         
                         // [AUSTRALIA]
@@ -451,22 +452,6 @@ $mobile_networks = array(
                         'tmobile_at' => 'sms.t-mobile.at',
                         
                         
-                        // [ARGENTINA]
-                        'cti_movil' => 'sms.ctimovil.com.ar',
-                        'movistar_ar' => 'sms.movistar.net.ar',
-                        'personal' => 'alertas.personal.com.ar',
-                        
-                        
-                        // [BRAZIL]
-                        'claro_br' => 'clarotorpedo.com.br',
-                        'vivo' => 'torpedoemail.com.br',
-                        
-                        
-                        // [BULGARIA]
-                        'globul' => 'sms.globul.bg',
-                        'mobiltel' => 'sms.mtel.net',
-                        
-                        
                         // [CANADA]
                         'bell' => 'txt.bell.ca',
                         'bell_mts' => 'text.mts.net',
@@ -474,7 +459,7 @@ $mobile_networks = array(
                         'koodo' => 'msg.telus.com',
                         'lynx' => 'sms.lynxmobility.com',
                         'pc_telecom' => 'mobiletxt.ca',
-                        'rogers' => 'mms.rogers.com',
+                        'rogers' => 'pcs.rogers.com',
                         'sasktel' => 'pcs.sasktelmobility.com',
                         'telus' => 'mms.telusmobility.com',
                         'virgin_ca' => 'vmobile.ca',
@@ -484,7 +469,6 @@ $mobile_networks = array(
                         // [COLUMBIA]
                         'claro_co' => 'iclaro.com.co',
                         'movistar_co' => 'movistar.com.co',
-                        'tigo' => 'sms.tigo.com.co',
                         
                         
                         // [EUROPE]
@@ -499,15 +483,9 @@ $mobile_networks = array(
                         
                         
                         // [GERMANY]
-                        'e_plus' => 'smsmail.eplus.de',
                         'o2' => 'o2online.de',
                         'tmobile_de' => 't-mobile-sms.de',
                         'vodafone_de' => 'vodafone-sms.de',
-                        
-                        
-                        // [HONG KONG]
-                        'access_you' => 'messaging.accessyou.com',
-                        'csl' => 'mgw.mmsc1.hkcsl.com',
                         
                         
                         // [ICELAND]
@@ -518,26 +496,8 @@ $mobile_networks = array(
                         // [INDIA]
                         'aircel' => 'aircel.co.in',
                         'airtel' => 'airtelmail.com',
-                        'airtel_ap' => 'airtelap.com',
-                        'airtel_chennai' => 'airtelchennai.com',
                         'airtel_kerala' => 'airtelkerala.com',
-                        'airtel_kk' => 'airtelkk.com',
-                        'airtel_kolkata' => 'airtelkol.com',
-                        'celforce' => 'celforce.com',
                         'escotel' => 'escotelmobile.com',
-                        'idea' => 'ideacellular.net',
-                        'rpg' => 'rpgmail.net',
-                        'vodafone_in' => 'sms.vodafone.in',
-                        
-                        
-                        // [ITALY]
-                        'tim' => 'timnet.com',
-                        'vodafone_it' => 'sms.vodafone.it',
-                        
-                        
-                        // [NETHERLANDS]
-                        'orange_nl' => 'sms.orange.nl',
-                        'tmobile_nl' => 'gin.nl',
                         
                         
                         // [NEW ZEALAND]
@@ -561,11 +521,6 @@ $mobile_networks = array(
                         'vodafone_es' => 'vodafone.es',
                         
                         
-                        // [Switzerland]
-                        'box_ch' => 'mms.boxis.net',
-                        'sunrise_ch' => 'gsm.sunrise.ch',
-                        
-                        
                         // [POLAND]
                         'orange_pl' => 'orange.pl',
                         'plus' => 'text.plusgsm.pl',
@@ -574,10 +529,8 @@ $mobile_networks = array(
                         
                         // [UNITED KINGDOM]
                         'media_burst' => 'sms.mediaburst.co.uk',
-                        'orange_uk' => 'orange.net',
                         'tmobile_uk' => 't-mobile.uk.net',
                         'txt_local' => 'txtlocal.co.uk',
-                        'uni_movil' => 'viawebsms.com',
                         'virgin_uk' => 'vxtras.com',
                         'vodafone_uk' => 'vodafone.net',
                         
@@ -589,17 +542,13 @@ $mobile_networks = array(
                         'boost' => 'myboostmobile.com',
                         'cellcom' => 'cellcom.quiktxt.com',
                         'chariton_valley' => 'sms.cvalley.net',
-                        'chat_mobility' => 'mail.msgsender.com',
                         'clear_talk' => 'sms.cleartalk.us',
-                        'cricket' => 'mms.mycricket.com',
+                        'cricket' => 'mms.cricketwireless.net',
                         'cspire' => 'cspire1.com',
-                        'dtc' => 'sms.advantagecell.net',
-                        'element' => 'SMS.elementmobile.net',
                         'gci' => 'mobile.gci.net',
-                        'hawaiian_telcom' => 'hawaii.sprintpcs.com',
                         'nextech' => 'sms.ntwls.net',
                         'pioneer' => 'zsend.com',
-                        'rogers' => 'mms.rogers.com',
+                        'rogers' => 'pcs.rogers.com',
                         'simple_mobile' => 'smtext.com',
                         'southern_linc' => 'page.southernlinc.com',
                         'south_central_comm' => 'rinasms.com',
@@ -744,7 +693,6 @@ $coins_list = array(
                                           'kraken' => 'XXMRXXBT',
                                         	'upbit' => 'BTC-XMR',
                                           'okex' => 'XMR-BTC',
-                                          'livecoin' => 'XMR/BTC',
                                           'poloniex' => 'BTC_XMR'
                                                     ),
                                                     
@@ -1107,9 +1055,7 @@ $coins_list = array(
                                     'eth' => array(
                                           'bittrex' => 'ETH-GNT',
                                         	'ethfinex' => 'tGNTETH',
-                                          'upbit' => 'ETH-GNT',
-                                        	'livecoin' => 'GNT/ETH',
-                                        	'okex' => 'GNT-ETH'
+                                          'upbit' => 'ETH-GNT'
                                                     ),
                                                     
                                     'usdt' => array(
@@ -1190,8 +1136,7 @@ $coins_list = array(
                         'market_pairing' => array(
                         
                                     'btc' => array(
-                                          'hitbtc' => 'MYSTBTC',
-                                          'bigone' => 'MYST-BTC'
+                                          'hitbtc' => 'MYSTBTC'
                                                     ),
                                                     
                                     'eth' => array(
@@ -1227,8 +1172,7 @@ $coins_list = array(
                                                     
                                     'usdc' => array(
                                     	 'coinbase' => 'DAI-USDC',
-                                        'hitbtc' => 'DAIUSDC',
-                                        'idex' => 'USDC_DAI'
+                                        'hitbtc' => 'DAIUSDC'
                                                     ),
                                                     
                                     'usd' => array(

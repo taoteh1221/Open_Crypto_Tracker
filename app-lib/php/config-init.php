@@ -7,9 +7,10 @@
 
 /////////////////////////////////////////////////
 
-if ( $debug_mode == 'on' ) {
+if ( $debug_mode != 'off' ) {
 	
 error_reporting(1); // Turn on all PHP error reporting
+require_once("app-lib/php/debugging/tests.php");
 	
 }
     	
