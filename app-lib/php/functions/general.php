@@ -414,7 +414,7 @@ $email = trim($email);
 	return "Please enter a valid email address.";
 	}
 	elseif (function_exists("getmxrr") && !getmxrr($domain,$mxrecords)) {
-	return "The email domain \"$domain\" appears incorrect.";
+	return "The email domain \"$domain\" appears incorrect, no mail server records exist for this domain name.";
 	}
 	else {
 	return "valid";
