@@ -199,6 +199,46 @@ session_regenerate_id(true);
 ////////////////////////////////////////////////////////
 
 
+// Return the TLD only (no subdomain)
+function get_tld($url) {
+
+
+// TLDs supported
+$urlMap = array(
+					'com', 
+					'net',
+					'org',
+					'co.uk',
+					'net.uk',
+					'org.uk',
+					'com.au',
+					'net.au',
+					'org.au'
+					);
+
+
+$urlData = parse_url($url);
+$hostData = explode('.', $urlData['host']);
+$hostData = array_reverse($hostData);
+
+
+	if ( array_search($hostData[1] . '.' . $hostData[0], $urlMap) !== FALSE ) {
+   $host = $hostData[2] . '.' . $hostData[1] . '.' . $hostData[0];
+	} 
+	elseif ( array_search($hostData[0], $urlMap) !== FALSE ) {
+   $host = $hostData[1] . '.' . $hostData[0];
+ 	}
+
+
+return trim($host);
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
 function delete_old_files($dir, $days, $ext) {
 	
 $files = glob($dir."*.".$ext);
@@ -1768,7 +1808,7 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 
 function api_data($mode, $request, $ttl, $api_server=null, $post_encoding=3, $test_proxy=NULL, $headers=NULL) { // Default to JSON encoding post requests (most used)
 
-global $base_dir, $user_agent, $api_timeout, $api_strict_ssl, $proxy_login, $proxy_list;
+global $base_dir, $limited_apis, $user_agent, $api_timeout, $api_strict_ssl, $proxy_login, $proxy_list;
 
 $cookie_jar = tempnam('/tmp','cookie');
 	
@@ -1776,16 +1816,42 @@ $cookie_jar = tempnam('/tmp','cookie');
 $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 
 
-	// Cache API data if set to cache...SESSION cache is only for runtime cache (deleted at end of runtime)...persistent cache is the file cache (which only reliably updates near end of a runtime session because of file locking)
+	// Cache API data if set to cache...SESSION cache is only for runtime cache (deleted at end of runtime)
+	// ...persistent cache is the file cache (which only reliably updates near end of a runtime session because of file locking)
 	if ( update_cache_file('cache/apis/'.$hash_check.'.dat', $ttl) == true && $ttl > 0 && !$_SESSION['api_cache'][$hash_check] 
 	|| $ttl == 0 && !$_SESSION['api_cache'][$hash_check] ) {	
 	
 	$ch = curl_init( ( $mode == 'array' ? $api_server : '' ) );
 	
+	
+		// If this is an API service that requires multiple calls (for each market), 
+		// and a request to it has been made consecutively, we throttle it to avoid being blacklisted
+		$check_api_endpoint = ( $mode == 'array' ? $api_server : $request );
+		$endpoint_tld = get_tld($check_api_endpoint);
+		
+		if ( in_array($endpoint_tld, $limited_apis) ) {
+		
+		$tld_session_prefix = preg_replace("/\./i", "_", $endpoint_tld);
+		
+			if ( !$_SESSION[$tld_session_prefix . '_calls'] ) {
+			$_SESSION[$tld_session_prefix . '_calls'] = 1;
+			}
+			elseif ( $_SESSION[$tld_session_prefix . '_calls'] == 1 ) {
+			//echo ' --- throttled endpoint: ' . $check_api_endpoint . ' --- <br /> '; // DEBUGGING ONLY
+			//echo ' --- throttled TLD session "' . $tld_session_prefix . '_calls": ' . $endpoint_tld . ' --- <br /> '; // DEBUGGING ONLY
+			usleep(1150000); // Throttle 1.15 seconds
+			}
+
+		}
+		
+		
+		// If header data is being passed in
 		if ( $headers != NULL ) {
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 		}
 		
+		
+		// If proxies are configured
 		if ( sizeof($proxy_list) > 0 ) {
 			
 		$current_proxy = ( $mode == 'proxy-check' && $test_proxy != NULL ? $test_proxy : random_proxy() );

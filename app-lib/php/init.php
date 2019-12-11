@@ -8,7 +8,7 @@ error_reporting(0); // Turn off all PHP error reporting on production servers (0
 
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
 
-$app_version = '3.53.0';  // 2019/DECEMBER/7TH
+$app_version = '3.54.0';  // 2019/DECEMBER/11TH
 
 
 require_once("app-lib/php/loader.php");
@@ -18,13 +18,16 @@ date_default_timezone_set('UTC'); // Set time as UTC for logs etc ($local_time_o
 ini_set('auto_detect_line_endings',TRUE); // Mac compatibility with CSV spreadsheet importing
 
 
+
 hardy_session_clearing(); // Try to avoid edge-case bug where sessions didn't delete last runtime
 session_start(); // New session start
+
 
 // Start measuring script runtime (AFTER loading functions with app-lib/php/loader.php, AND starting a new session)
 script_runtime('start');
 
 $_SESSION['proxy_checkup'] = array();
+
 
 
 // Check for runtime mode
@@ -34,8 +37,10 @@ exit;
 }
 
 
+
 // Register the base directory
 $base_dir = preg_replace("/\/app-lib(.*)/i", "", dirname(__FILE__) );
+
 
 
 // Make sure we have a PHP version id
@@ -44,6 +49,7 @@ if (!defined('PHP_VERSION_ID')) {
 
     define('PHP_VERSION_ID', ($version[0] * 10000 + $version[1] * 100 + $version[2]));
 }
+
 
 
 // Check for curl
@@ -57,6 +63,7 @@ define('CURL_VERSION_ID', str_replace(".", "", $curl_setup["version"]) );
 }
 
 
+
 // HTTP user and system users list, for cache compatibility determination
 $http_runtime_user = ( $runtime_mode == 'ui' ? posix_getpwuid(posix_geteuid())['name'] : trim( file_get_contents('cache/vars/http_runtime_user.dat') ) );
 
@@ -67,6 +74,19 @@ $http_users = array(
 						'httpd',
 						'httpd2'
 							);
+
+
+
+// TLD-only for each API service that requires multiple calls (for each market)
+$limited_apis = array(
+						'coinbase.com',
+						'gemini.com',
+						'okcoin.com',
+						'bitstamp.net',
+						'cryptofresh.com',
+						'bitforex.com'
+							);
+							
 
 
 // We can create cache directories (if needed), with $http_runtime_user determined (for cache compatibility on certain PHP setups)
@@ -84,10 +104,12 @@ exit;
 }
 
 
+
 // Recreate .htaccess to restrict web snooping of cache contents, if the cache directory was deleted / recreated
 if ( !file_exists($base_dir . '/cache/.htaccess') ) {
 store_file_contents($base_dir . '/cache/.htaccess', 'deny from all'); 
 }
+
 
 
 // Only need below logic during UI runtime
@@ -146,8 +168,10 @@ $show_charts = explode(',', rtrim( ( $_POST['show_charts'] != '' ? $_POST['show_
 }
 
 
+
 // Base URL, that even works during CLI runtime (horray)
 $base_url = ( $base_url != '' ? $base_url : trim( file_get_contents('cache/vars/app_url.dat') ) );
+
 
 
 ?>

@@ -1939,6 +1939,15 @@ app doing the data requests, not a malicious bot)
 
 
 
+-------------------------------------------------------------------
+3.54.0:
+-Throttling of limited APIs (to help avoid ip blacklisting)
+-More USD markets
+-------------------------------------------------------------------
+
+
+
+
 
 
 

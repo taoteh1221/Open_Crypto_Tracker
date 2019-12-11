@@ -670,7 +670,8 @@ $coins_list = array(
                                           'kraken' => 'XETHZUSD',
                                           'bitstamp' => 'ethusd',
                                           'gemini' => 'ethusd',
-                                          'bitfinex' => 'tETHUSD'
+                                          'bitfinex' => 'tETHUSD',
+                                          'okcoin' => 'eth_usd'
                                                     )
                                                     
                                         ) // market_pairing END
@@ -771,6 +772,15 @@ $coins_list = array(
                                     'usdc' => array(
                                          'binance' => 'LTCUSDC',
                                          'poloniex' => 'USDC_LTC'
+                                                    ),
+                                                    
+                                    'usd' => array(
+                                          'coinbase' => 'LTC-USD',
+                                          'kraken' => 'XLTCZUSD',
+                                          'bitstamp' => 'ltcusd',
+                                          'gemini' => 'ltcusd',
+                                          'bitfinex' => 'tLTCUSD',
+                                          'okcoin' => 'ltc_usd'
                                                     )
                                                     
                                         ) // market_pairing END
