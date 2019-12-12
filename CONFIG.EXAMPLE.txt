@@ -14,6 +14,7 @@
 
 
 
+
 // SEE README.txt FOR HOW TO ADD / EDIT / DELETE COINS IN THIS CONFIG
 
 // SEE CONFIG.EXAMPLE.txt FOR A FULL EXAMPLE OF THE CONFIGURATION (ESPECIALLY IF YOU MESS UP config.php, lol)
@@ -22,31 +23,23 @@
 
 
 
-// Default Bitcoin exchange
-$btc_exchange = 'binance'; // coinbase / binance / binance_us / bitstamp / bitfinex / kraken / gemini / hitbtc / okcoin / livecoin
 
-// Default Bitcoin fiat (or stablecoin fiat equivalent) market pairing
-$btc_fiat_pairing = 'usd'; // 'usd' (more to come)
-
-// Your local time offset in hours compared to UTC time. Can be negative or positive.
-// (Used for UX / UI timestamping only, will not change or screw up UTC log times etc if you change this)
-$local_time_offset = -5; // example: -5 or 5
-
-$api_timeout = 15; // Seconds to wait for response from API endpoints. Don't set too low, or you won't get data
-
-$api_strict_ssl = 'on'; // 'on' verifies ALL SSL certificates for HTTPS API servers, 'off' verifies NOTHING (NOT RECOMMENDED in production environment)
-
-// Runs unit tests (any errors detected are logged to the normal error log file), and sends admin emails under certain conditions
-// 'off' (disables), 'all' (all checks), 'charts' (chart/price alert checks), 'texts' (mobile gateway checks), 'markets' (coin market checks)
+// $debug_mode enabled runs unit tests during ui runtimes (during webpage load), errors detected are error-logged and printed as alerts in footer
+// It also admin-emails runtime stats during cron runtimes (during chart data saving / price alert checks)
+// UNIT TESTS WILL ONLY RUN DURING WEB PAGE LOAD, CRON JOBS WILL ONLY EMAIL RUNTIME SUMMARIES
+// 'off' (disables), 'all' (all checks), 'charts' (chart/price alert checks), 'texts' (mobile gateway checks), 
+// 'markets' (coin market checks), 'cron' (sends admin email during cron runtime, with runtime statistics)
 $debug_mode = 'off'; 
 
-$margin_leverage_max = 125; // Maximum margin leverage available in the user interface ('Update Assets' page, etc)
+// Your local time offset in hours compared to UTC time. Can be negative or positive.
+// (Used for user experience 'pretty' timestamping only, will not change or screw up UTC log times etc if you change this)
+$local_time_offset = -5; // example: -5 or 5
 
-$fiat_decimals_max = 5; // Maximum number of decimal places for fiat values (example: of coins worth under $1, for prettier / less-cluttered interface)
+// Default Bitcoin exchange (for charts / price alert fiat-equivalent value determination)
+$btc_exchange = 'binance'; // coinbase / binance / binance_us / bitstamp / bitfinex / kraken / gemini / hitbtc / okcoin / livecoin
 
-// Block an asset price alert if price retrieved, BUT failed retrieving pair volume (not even a zero was retrieved, nothing)
-// Good for blocking questionable exchanges bugging you with price alerts, especially when used in combination with the minimum volume filter
-$block_volume_error = 'on'; // 'on' / 'off' 
+// Default Bitcoin fiat (or stablecoin fiat equivalent) market pairing (for charts / price alert fiat-equivalent value determination)
+$btc_fiat_pairing = 'usd'; // 'usd' (more to come)
 
 // Default marketcap data source: 'coingecko', or 'coinmarketcap' (coinmarketcap requires a FREE API key, see below)
 $marketcap_site = 'coingecko'; 
@@ -57,6 +50,14 @@ $coinmarketcapcom_api_key = '';
 // Number of marketcap rankings to request from API. Ranks are grabbed 100 per request
 $marketcap_ranks_max = 200; // 200 rankings is a safe maximum to start with, it avoids getting your API requests throttled / blocked
 
+$margin_leverage_max = 125; // Maximum margin leverage available in the user interface ('Update Assets' page, etc)
+
+$fiat_decimals_max = 5; // Maximum decimal places for fiat values of coins worth under 1 (usd/gbp/eur/etc), for prettier / less-cluttered interface
+
+// Block an asset price alert if price retrieved, BUT failed retrieving pair volume (not even a zero was retrieved, nothing)
+// Good for blocking questionable exchanges bugging you with price alerts, especially when used in combination with the minimum volume filter
+$block_volume_error = 'on'; // 'on' / 'off' 
+
 $marketcap_cache = 20; // Minutes to cache above-mentioned marketcap rankings...start high and test lower, it can be strict
 
 // Minutes to cache real-time exchange data...can be zero to skip cache, but set to at least 1 minute to avoid your IP getting blocked
@@ -64,12 +65,17 @@ $last_trade_cache = 2;
 
 $chainstats_cache = 30; // Minutes to cache blockchain stats (for mining calculators). Set high initially, can be strict
 
+$api_timeout = 15; // Seconds to wait for response from API endpoints (exchange data, etc). Don't set too low, or you won't get data
+
+$api_strict_ssl = 'on'; // 'on' verifies ALL SSL certificates for HTTPS API servers, 'off' verifies NOTHING (NOT RECOMMENDED in production environment)
+
 $delete_old_backups = 7; // Days until old zip archive backups should be deleted (chart data archives, etc)
 
 $purge_error_logs = 7; // Days to keep error logs before purging (deletes logs every X days) start low, especially when using proxies
 
 // Every X days mail error logs. 0 disables mailing error logs. Email to / from !MUST BE SET! MAY NOT SEND IN TIMELY FASHION WITHOUT CRON JOB
 $mail_error_logs = 1; 
+
 
 
 
@@ -111,6 +117,7 @@ $charts_backup_freq = 1; // Every X days backup chart data. 0 disables backups. 
 
 
 
+
 // IF SMTP EMAIL SENDING --NOT-- USED, FROM email should be REAL address on the website domain, or risk having email blacklisted / sent to junk folder
 // IF SMTP EMAIL SENDING --IS-- USED, FROM EMAIL MUST MATCH EMAIL ADDRESS associated with SMTP login (SMTP Email settings are further down below this setting)
 $from_email = ''; // MUST BE SET for price alerts and other email features
@@ -139,6 +146,7 @@ $textlocal_account = ''; // This format MUST be used: 'username||hash_code'
 
 
 
+
 // OPTIONALLY use SMTP authentication TO SEND EMAIL, if you have no reverse lookup that matches domain name (on your home network etc)
 // !!USE A THROWAWAY ACCOUNT ONLY!! If web server is hacked, HACKER WOULD THEN HAVE ACCESS YOUR EMAIL LOGIN FROM THIS FILE!!
 // If SMTP credentials / settings are filled in, BUT not setup properly, APP EMAILING WILL FAIL
@@ -148,6 +156,7 @@ $smtp_login = ''; //  CAN BE BLANK. This format MUST be used: 'username||passwor
 $smtp_server = ''; // CAN BE BLANK. This format MUST be used: 'domain_or_ip:port' example: 'example.com:25'
 
 $smtp_secure = ''; // CAN BE BLANK '' for no secure connection, or 'tls', or 'ssl' for secure connections. Make sure port number ABOVE corresponds
+
 
 
 
@@ -173,6 +182,7 @@ $proxy_alerts_runtime = 'cron'; // Which runtime mode should allow proxy alerts?
 $proxy_checkup_ok = 'include'; // 'include', or 'ignore' Proxy alerts sent to you even if proxy checkup went OK? (after flagged, started working again when checked) 
 
 $proxy_alerts_freq = 1; // Re-allow same proxy alert(s) after X hours (per ip/port pair, can be 0)
+
 
 
 
@@ -319,6 +329,7 @@ $asset_charts_and_alerts = array(
 
 
 
+
 // Static values in ETH for Ethereum subtokens, like during crowdsale periods etc
 $eth_subtokens_ico_values = array(
                         'ETHSUBTOKENNAME' => '0.15',
@@ -326,6 +337,7 @@ $eth_subtokens_ico_values = array(
                         'ARAGON' => '0.01',
                         'DECENTRALAND' => '0.00008',
                         );
+
 
 
 
@@ -342,6 +354,7 @@ $mining_rewards = array(
 
 
 
+
 // STEEM Power yearly interest rate START 11/29/2016 (1.425%, decreasing every year by roughly 0.075% until it hits a minimum of 0.075% and stays there)
 // 1.425 (DO NOT INCLUDE PERCENT SIGN) the first year at 11/29/2016 refactored rates, see above for manual yearly adjustment
 $steempower_yearly_interest = 1.425;
@@ -351,15 +364,18 @@ $steem_powerdown_time = 13;
 
 
 
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////// GENERAL CONFIG -END- //////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////// EMAIL-TO-MOBILE-TEXT CONFIG -START- ///////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
+
 
 
 
@@ -558,9 +574,11 @@ $mobile_networks = array(
 
 
 
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////// EMAIL-TO-MOBILE-TEXT CONFIG -END- /////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
+
 
 
 
@@ -570,11 +588,13 @@ $mobile_networks = array(
 
 
 
+
 // SEE README.txt FOR HOW TO ADD / EDIT / DELETE COINS IN THIS CONFIG
 
 // SEE CONFIG.EXAMPLE.txt FOR A FULL EXAMPLE OF THE CONFIGURATION (ESPECIALLY IF YOU MESS UP config.php, lol)
 
 // TYPOS LIKE MISSED COMMAS / MISSED QUOTES / ETC WILL BREAK THE APP, BE CAREFUL EDITING THIS CONFIG FILE
+
 
 
 
@@ -1239,6 +1259,7 @@ $coins_list = array(
                 
                 
 ); // coins_list END
+
 
 
 
