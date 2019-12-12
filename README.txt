@@ -205,7 +205,9 @@ Web server setup / install is available for $30 hourly if needed (try the auto-i
 
 Donations support further development... 
 
-PAYPAL: https://www.paypal.me/dragonfrugal
+GITHUB:  https://github.com/sponsors/taoteh1221
+
+PAYPAL:  https://www.paypal.me/dragonfrugal
 
 PATREON: https://www.patreon.com/dragonfrugal
 
