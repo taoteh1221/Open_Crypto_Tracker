@@ -842,8 +842,7 @@ $coins_list = array(
                                     	  'kucoin' => 'GRIN-ETH',
                                          'hitbtc' => 'GRINETH',
                                          'hotbit' => 'GRIN_ETH',
-                                         'gateio' => 'grin_eth',
-                                         'bitforex' => 'coin-eth-grin'
+                                         'gateio' => 'grin_eth'
                                                     ),
                                                     
                                     'usdt' => array(
@@ -1104,8 +1103,7 @@ $coins_list = array(
                                                     
                                     'usdt' => array(
                                          'hitbtc' => 'DATAUSD',
-                                         'gateio' => 'data_usdt',
-                                         'bitforex' => 'coin-usdt-data'
+                                         'gateio' => 'data_usdt'
                                                     )
                                                     
                                         ) // market_pairing END

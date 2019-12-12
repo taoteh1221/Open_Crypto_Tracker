@@ -16,61 +16,186 @@ global $btc_exchange, $btc_fiat_value, $coins_list, $last_trade_cache;
 $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market_pairing) );
  
  
-
-  if ( strtolower($chosen_exchange) == 'coinbase' ) {
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
+ 
   
-     $json_string = 'https://api.pro.coinbase.com/products/'.$market_pairing.'/ticker';
+  
+  if ( strtolower($chosen_exchange) == 'bigone' ) {
+     
+     $json_string = 'https://big.one/api/v2/tickers';
      
      $jsondata = @api_data('url', $json_string, $last_trade_cache);
      
      $data = json_decode($jsondata, TRUE);
-
-     return  array(
-    					'last_trade' => $data['price'],
-    					'24hr_asset_volume' => $data["volume"],
-    					'24hr_pairing_volume' => NULL, // No pairing volume data for this API
-    					'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data["volume"], $data['price'])
-    					);
    
+  	  $data = $data['data'];
+  
+      if (is_array($data) || is_object($data)) {
+  
+       foreach ($data as $key => $value) {
+         
+         if ( $data[$key]["market_id"] == $market_pairing ) {
+         	
+         return  array(
+    							'last_trade' => $data[$key]["close"],
+    							'24hr_asset_volume' => $data[$key]["volume"],
+    							'24hr_pairing_volume' => NULL, // No pairing volume data for this API
+    							'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data[$key]["volume"], $data[$key]["close"])
+    						);
+          
+         }
+       
+     
+       }
+      
+      }
+  
+  
   }
+ 
+ 
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
   
 
 
-  elseif ( strtolower($chosen_exchange) == 'gemini' ) {
+  elseif ( strtolower($chosen_exchange) == 'binance' ) {
+     
+     $json_string = 'https://www.binance.com/api/v1/ticker/24hr';
+     
+     $jsondata = @api_data('url', $json_string, $last_trade_cache);
+     
+     $data = json_decode($jsondata, TRUE);
+   
   
-  $json_string = 'https://api.gemini.com/v1/pubticker/' . $market_pairing;
+      if (is_array($data) || is_object($data)) {
   
-    $jsondata = @api_data('url', $json_string, $last_trade_cache);
-    
-    $data = json_decode($jsondata, TRUE);
-    
-    return array(
-    					'last_trade' => $data['last'],
-    					'24hr_asset_volume' => $data['volume'][strtoupper($asset_symbol)],
-    					'24hr_pairing_volume' => $data['volume'][strtoupper($pairing)],
-    					'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data['volume'][strtoupper($asset_symbol)], $data['last']) // '24hr_pairing_volume' more reliable parsing
-    					);
+       foreach ($data as $key => $value) {
+         
+         
+         if ( $data[$key]['symbol'] == $market_pairing ) {
+          
+         return  array(
+    						'last_trade' => $data[$key]["lastPrice"],
+    						'24hr_asset_volume' => $data[$key]["volume"],
+    						'24hr_pairing_volume' => $data[$key]["quoteVolume"],
+    						'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data[$key]["volume"], $data[$key]["lastPrice"])
+    						);
+
+         }
+       
+     
+       }
+      
+      }
+  
   
   }
+ 
+ 
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
-  elseif ( strtolower($chosen_exchange) == 'okcoin' ) {
+  elseif ( strtolower($chosen_exchange) == 'binance_us' ) {
+     
+     $json_string = 'https://api.binance.us/api/v3/ticker/24hr';
+     
+     $jsondata = @api_data('url', $json_string, $last_trade_cache);
+     
+     $data = json_decode($jsondata, TRUE);
+   
   
-    $json_string = 'https://www.okcoin.com/api/v1/ticker.do?symbol=' . $market_pairing;
-    
-    $jsondata = @api_data('url', $json_string, $last_trade_cache);
-    
-    $data = json_decode($jsondata, TRUE);
-    
-    return  array(
-    					'last_trade' => number_format( $data['ticker']['last'], 2, '.', ''),
-    					'24hr_asset_volume' => $data['ticker']['vol'],
+      if (is_array($data) || is_object($data)) {
+  
+       foreach ($data as $key => $value) {
+         
+         
+         if ( $data[$key]['symbol'] == $market_pairing ) {
+          
+         return  array(
+    						'last_trade' => $data[$key]["lastPrice"],
+    						'24hr_asset_volume' => $data[$key]["volume"],
+    						'24hr_pairing_volume' => $data[$key]["quoteVolume"],
+    						'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data[$key]["volume"], $data[$key]["lastPrice"])
+    						);
+
+         }
+       
+     
+       }
+      
+      }
+  
+  
+  }
+ 
+ 
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+  elseif ( strtolower($chosen_exchange) == 'bitfinex' || strtolower($chosen_exchange) == 'ethfinex' ) {
+  	
+     
+     $json_string = 'https://api-pub.bitfinex.com/v2/tickers?symbols=ALL';
+     
+     $jsondata = @api_data('url', $json_string, $last_trade_cache);
+     
+     $data = json_decode($jsondata, TRUE);
+  
+      if (is_array($data) || is_object($data)) {
+  
+       foreach ( $data as $object ) {
+         
+         if ( $object[0] == $market_pairing ) {
+                 
+          
+         return  array(
+    							'last_trade' => $object[( sizeof($object) - 4 )],
+    							'24hr_asset_volume' => $object[( sizeof($object) - 3 )],
+    							'24hr_pairing_volume' => NULL, // No pairing volume data for this API
+    							'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $object[( sizeof($object) - 3 )], $object[( sizeof($object) - 4 )])
+    						);
+          
+         }
+     
+       }
+      
+      }
+  
+  
+  }
+ 
+ 
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
+  
+  
+
+  elseif ( strtolower($chosen_exchange) == 'bitforex' ) {
+  
+  $json_string = 'https://api.bitforex.com/api/v1/market/ticker?symbol=' . $market_pairing;
+  
+  $jsondata = @api_data('url', $json_string, $last_trade_cache);
+  
+  $data = json_decode($jsondata, TRUE);
+  
+  return  array(
+    					'last_trade' => $data["data"]["last"],
+    					'24hr_asset_volume' => $data["data"]["vol"],
     					'24hr_pairing_volume' => NULL, // No pairing volume data for this API
-    					'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data['ticker']['vol'], number_format( $data['ticker']['last'], 2, '.', ''))
-    					);
-    
+    					'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data["data"]["vol"], $data["data"]["last"])
+    				);
+  
   }
+ 
+ 
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -91,6 +216,72 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
     					);
     
   }
+ 
+ 
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+  elseif ( strtolower($chosen_exchange) == 'bittrex' || strtolower($chosen_exchange) == 'bittrex_global' ) {
+     
+     $json_string = 'https://bittrex.com/api/v1.1/public/getmarketsummaries';
+     
+     $jsondata = @api_data('url', $json_string, $last_trade_cache);
+     
+     $data = json_decode($jsondata, TRUE);
+  
+  	  $data = $data['result'];
+  
+      if (is_array($data) || is_object($data)) {
+  
+       foreach ($data as $key => $value) {
+         
+         if ( $data[$key]['MarketName'] == $market_pairing ) {
+          
+         return  array(
+    							'last_trade' => $data[$key]["Last"],
+    							// ARRAY KEY SEMANTICS BACKWARDS COMPARED TO OTHER EXCHANGES
+    							'24hr_asset_volume' => $data[$key]["Volume"],
+    							'24hr_pairing_volume' => $data[$key]["BaseVolume"],
+    							'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data[$key]["Volume"], $data[$key]["Last"])
+    						);
+          
+         }
+     
+       }
+      
+      }
+  
+  
+  }
+ 
+ 
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
+  
+  
+
+  elseif ( strtolower($chosen_exchange) == 'coinbase' ) {
+  
+     $json_string = 'https://api.pro.coinbase.com/products/'.$market_pairing.'/ticker';
+     
+     $jsondata = @api_data('url', $json_string, $last_trade_cache);
+     
+     $data = json_decode($jsondata, TRUE);
+
+     return  array(
+    					'last_trade' => $data['price'],
+    					'24hr_asset_volume' => $data["volume"],
+    					'24hr_pairing_volume' => NULL, // No pairing volume data for this API
+    					'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data["volume"], $data['price'])
+    					);
+   
+  }
+ 
+ 
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
   
 
 
@@ -124,25 +315,220 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
     
   
   }
-  
+ 
+ 
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-  elseif ( strtolower($chosen_exchange) == 'bitforex' ) {
+
+  elseif ( strtolower($chosen_exchange) == 'gateio' ) {
+
+     $json_string = 'https://data.gate.io/api2/1/tickers';
+     
+     $jsondata = @api_data('url', $json_string, $last_trade_cache);
+     
+     $data = json_decode($jsondata, TRUE);
   
-  $json_string = 'https://api.bitforex.com/api/v1/market/ticker?symbol=' . $market_pairing;
+      if (is_array($data) || is_object($data)) {
   
-  $jsondata = @api_data('url', $json_string, $last_trade_cache);
+       foreach ($data as $key => $value) {
+         
+         if ( $key == $market_pairing ) {
+          
+         return  array(
+    							'last_trade' => $data[$key]["last"],
+    							// ARRAY KEY SEMANTICS BACKWARDS COMPARED TO OTHER EXCHANGES
+    							'24hr_asset_volume' => $data[$key]["quoteVolume"],
+    							'24hr_pairing_volume' => $data[$key]["baseVolume"],
+    							'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data[$key]["quoteVolume"], $data[$key]["last"])
+    						);
+          
+         }
+     
+       }
+      
+      }
   
-  $data = json_decode($jsondata, TRUE);
-  
-  return  array(
-    					'last_trade' => $data["data"]["last"],
-    					'24hr_asset_volume' => $data["data"]["vol"],
-    					'24hr_pairing_volume' => NULL, // No pairing volume data for this API
-    					'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data["data"]["vol"], $data["data"]["last"])
-    				);
   
   }
+ 
+ 
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
+  
+
+
+  elseif ( strtolower($chosen_exchange) == 'gemini' ) {
+  
+  $json_string = 'https://api.gemini.com/v1/pubticker/' . $market_pairing;
+  
+    $jsondata = @api_data('url', $json_string, $last_trade_cache);
+    
+    $data = json_decode($jsondata, TRUE);
+    
+    return array(
+    					'last_trade' => $data['last'],
+    					'24hr_asset_volume' => $data['volume'][strtoupper($asset_symbol)],
+    					'24hr_pairing_volume' => $data['volume'][strtoupper($pairing)],
+    					'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data['volume'][strtoupper($asset_symbol)], $data['last']) // '24hr_pairing_volume' more reliable parsing
+    					);
+  
+  }
+ 
+ 
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
+  
+  
+  
+  elseif ( strtolower($chosen_exchange) == 'graviex' ) {
+
+     $json_string = 'https://graviex.net//api/v2/tickers.json';
+     
+     $jsondata = @api_data('url', $json_string, $last_trade_cache);
+     
+     $data = json_decode($jsondata, TRUE);
+  
+      if (is_array($data) || is_object($data)) {
+  
+       foreach ($data as $key => $value) {
+         
+         
+         if ( $data[$market_pairing] != '' ) {
+          
+         return  array(
+    							'last_trade' => $data[$market_pairing]['ticker']['last'],
+    							'24hr_asset_volume' => $data[$market_pairing]['ticker']['vol'],
+    							'24hr_pairing_volume' => NULL, // Weird pairing volume always in BTC according to array keyname, skipping
+    							'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data[$market_pairing]['ticker']['vol'], $data[$market_pairing]['ticker']['last'])
+    						);
+          
+         }
+     
+       }
+      
+      }
+  
+  
+  }
+ 
+ 
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+  elseif ( strtolower($chosen_exchange) == 'hitbtc' ) {
+
+     $json_string = 'https://api.hitbtc.com/api/1/public/ticker';
+     
+     $jsondata = @api_data('url', $json_string, $last_trade_cache);
+     
+     $data = json_decode($jsondata, TRUE);
+  
+      if (is_array($data) || is_object($data)) {
+  
+       foreach ($data as $key => $value) {
+         
+         if ( $key == $market_pairing ) {
+          
+         return  array(
+    							'last_trade' => $data[$key]["last"],
+    							'24hr_asset_volume' => $data[$key]["volume"],
+    							'24hr_pairing_volume' => $data[$key]["volume_quote"],
+    							'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data[$key]["volume"], $data[$key]["last"])
+    						);
+          
+         }
+     
+       }
+      
+      }
+  
+  
+  }
+ 
+ 
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+  elseif ( strtolower($chosen_exchange) == 'hotbit' ) {
+
+     $json_string = 'https://api.hotbit.io/api/v1/allticker';
+     
+     $jsondata = @api_data('url', $json_string, $last_trade_cache);
+     
+     $data = json_decode($jsondata, TRUE);
+   
+  		$data = $data['ticker'];
+  
+      if (is_array($data) || is_object($data)) {
+  
+       foreach ($data as $key => $value) {
+         
+         if ( $data[$key]["symbol"] == $market_pairing ) {
+          
+         return  array(
+    							'last_trade' => $data[$key]["last"],
+    							'24hr_asset_volume' => $data[$key]["vol"],
+    							'24hr_pairing_volume' => NULL, // No pairing volume data for this API
+    							'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data[$key]["vol"], $data[$key]["last"])
+    						);
+          
+         }
+     
+       }
+      
+      }
+  
+  
+  }
+ 
+ 
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+  elseif ( strtolower($chosen_exchange) == 'idex' ) {
+     
+     $json_string = 'https://api.idex.market/returnTicker';
+     
+     $jsondata = @api_data('url', $json_string, $last_trade_cache);
+     
+     $data = json_decode($jsondata, TRUE);
+  
+  
+      if (is_array($data) || is_object($data)) {
+  
+       foreach ($data as $key => $value) {
+         
+         if ( $key == $market_pairing ) {
+         	
+         return  array(
+    							'last_trade' => $data[$key]["last"],
+    							// ARRAY KEY SEMANTICS BACKWARDS COMPARED TO OTHER EXCHANGES
+    							'24hr_asset_volume' => $data[$key]["quoteVolume"],
+    							'24hr_pairing_volume' => $data[$key]["baseVolume"],
+    							'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data[$key]["quoteVolume"], $data[$key]["last"])
+    						);
+          
+         }
+       
+     
+       }
+      
+      }
+  
+  
+  }
+ 
+ 
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
   
 
 
@@ -200,6 +586,107 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
   
   
   }
+ 
+ 
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+  elseif ( strtolower($chosen_exchange) == 'kucoin' ) {
+
+     $json_string = 'https://api.kucoin.com/api/v1/market/allTickers';
+     
+     $jsondata = @api_data('url', $json_string, $last_trade_cache);
+     
+     $data = json_decode($jsondata, TRUE);
+  
+  		$data = $data['data']['ticker'];
+  
+      if (is_array($data) || is_object($data)) {
+  
+       foreach ($data as $key => $value) {
+         
+         if ( $data[$key]['symbol'] == $market_pairing ) {
+          
+         return  array(
+    							'last_trade' => $data[$key]["last"],
+    							'24hr_asset_volume' => $data[$key]["vol"],
+    							'24hr_pairing_volume' => $data[$key]["volValue"],
+    							'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data[$key]["vol"], $data[$key]["last"])
+    						);
+          
+         }
+     
+       }
+      
+      }
+  
+  
+  }
+ 
+ 
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+  elseif ( strtolower($chosen_exchange) == 'livecoin' ) {
+
+     $json_string = 'https://api.livecoin.net/exchange/ticker';
+     
+     $jsondata = @api_data('url', $json_string, $last_trade_cache);
+     
+     $data = json_decode($jsondata, TRUE);
+  
+      if (is_array($data) || is_object($data)) {
+  
+       foreach ($data as $key => $value) {
+         
+         if ( $data[$key]['symbol'] == $market_pairing ) {
+          
+         return  array(
+    							'last_trade' => $data[$key]["last"],
+    							'24hr_asset_volume' => $data[$key]["volume"],
+    							'24hr_pairing_volume' => NULL, // No pairing volume data for this API
+    							'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data[$key]["volume"], $data[$key]["last"])
+    						);
+          
+         }
+     
+       }
+      
+      }
+  
+  
+  }
+ 
+ 
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+  elseif ( strtolower($chosen_exchange) == 'okcoin' ) {
+  
+    $json_string = 'https://www.okcoin.com/api/v1/ticker.do?symbol=' . $market_pairing;
+    
+    $jsondata = @api_data('url', $json_string, $last_trade_cache);
+    
+    $data = json_decode($jsondata, TRUE);
+    
+    return  array(
+    					'last_trade' => number_format( $data['ticker']['last'], 2, '.', ''),
+    					'24hr_asset_volume' => $data['ticker']['vol'],
+    					'24hr_pairing_volume' => NULL, // No pairing volume data for this API
+    					'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data['ticker']['vol'], number_format( $data['ticker']['last'], 2, '.', ''))
+    					);
+    
+  }
+ 
+ 
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
   
 
 
@@ -236,94 +723,27 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
   
   
   }
+ 
+ 
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
+  
 
 
+  elseif ( strtolower($chosen_exchange) == 'poloniex' ) {
 
-  elseif ( strtolower($chosen_exchange) == 'binance' ) {
-     
-     $json_string = 'https://www.binance.com/api/v1/ticker/24hr';
+     $json_string = 'https://poloniex.com/public?command=returnTicker';
      
      $jsondata = @api_data('url', $json_string, $last_trade_cache);
      
      $data = json_decode($jsondata, TRUE);
-   
-  
-      if (is_array($data) || is_object($data)) {
-  
-       foreach ($data as $key => $value) {
-         
-         
-         if ( $data[$key]['symbol'] == $market_pairing ) {
-          
-         return  array(
-    						'last_trade' => $data[$key]["lastPrice"],
-    						'24hr_asset_volume' => $data[$key]["volume"],
-    						'24hr_pairing_volume' => $data[$key]["quoteVolume"],
-    						'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data[$key]["volume"], $data[$key]["lastPrice"])
-    						);
-
-         }
-       
-     
-       }
-      
-      }
-  
-  
-  }
-
-
-
-  elseif ( strtolower($chosen_exchange) == 'binance_us' ) {
-     
-     $json_string = 'https://api.binance.us/api/v3/ticker/24hr';
-     
-     $jsondata = @api_data('url', $json_string, $last_trade_cache);
-     
-     $data = json_decode($jsondata, TRUE);
-   
-  
-      if (is_array($data) || is_object($data)) {
-  
-       foreach ($data as $key => $value) {
-         
-         
-         if ( $data[$key]['symbol'] == $market_pairing ) {
-          
-         return  array(
-    						'last_trade' => $data[$key]["lastPrice"],
-    						'24hr_asset_volume' => $data[$key]["volume"],
-    						'24hr_pairing_volume' => $data[$key]["quoteVolume"],
-    						'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data[$key]["volume"], $data[$key]["lastPrice"])
-    						);
-
-         }
-       
-     
-       }
-      
-      }
-  
-  
-  }
-
-
-
-  elseif ( strtolower($chosen_exchange) == 'idex' ) {
-     
-     $json_string = 'https://api.idex.market/returnTicker';
-     
-     $jsondata = @api_data('url', $json_string, $last_trade_cache);
-     
-     $data = json_decode($jsondata, TRUE);
-  
   
       if (is_array($data) || is_object($data)) {
   
        foreach ($data as $key => $value) {
          
          if ( $key == $market_pairing ) {
-         	
+          
          return  array(
     							'last_trade' => $data[$key]["last"],
     							// ARRAY KEY SEMANTICS BACKWARDS COMPARED TO OTHER EXCHANGES
@@ -333,7 +753,6 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
     						);
           
          }
-       
      
        }
       
@@ -341,66 +760,32 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
   
   
   }
+ 
+ 
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
   
   
   
-  elseif ( strtolower($chosen_exchange) == 'bigone' ) {
-     
-     $json_string = 'https://big.one/api/v2/tickers';
-     
-     $jsondata = @api_data('url', $json_string, $last_trade_cache);
-     
-     $data = json_decode($jsondata, TRUE);
-   
-  	  $data = $data['data'];
-  
-      if (is_array($data) || is_object($data)) {
-  
-       foreach ($data as $key => $value) {
-         
-         if ( $data[$key]["market_id"] == $market_pairing ) {
-         	
-         return  array(
-    							'last_trade' => $data[$key]["close"],
-    							'24hr_asset_volume' => $data[$key]["volume"],
-    							'24hr_pairing_volume' => NULL, // No pairing volume data for this API
-    							'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data[$key]["volume"], $data[$key]["close"])
-    						);
-          
-         }
-       
-     
-       }
-      
-      }
-  
-  
-  }
+  elseif ( strtolower($chosen_exchange) == 'tradeogre' ) {
 
-
-
-  elseif ( strtolower($chosen_exchange) == 'bittrex' || strtolower($chosen_exchange) == 'bittrex_global' ) {
-     
-     $json_string = 'https://bittrex.com/api/v1.1/public/getmarketsummaries';
+     $json_string = 'https://tradeogre.com/api/v1/markets';
      
      $jsondata = @api_data('url', $json_string, $last_trade_cache);
      
      $data = json_decode($jsondata, TRUE);
   
-  	  $data = $data['result'];
-  
       if (is_array($data) || is_object($data)) {
   
        foreach ($data as $key => $value) {
          
-         if ( $data[$key]['MarketName'] == $market_pairing ) {
+         if ( $data[$key][$market_pairing] != '' ) {
           
          return  array(
-    							'last_trade' => $data[$key]["Last"],
-    							// ARRAY KEY SEMANTICS BACKWARDS COMPARED TO OTHER EXCHANGES
-    							'24hr_asset_volume' => $data[$key]["Volume"],
-    							'24hr_pairing_volume' => $data[$key]["BaseVolume"],
-    							'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data[$key]["Volume"], $data[$key]["Last"])
+    							'last_trade' => $data[$key][$market_pairing]["price"],
+    							'24hr_asset_volume' => NULL, // No asset volume data for this API
+    							'24hr_pairing_volume' => $data[$key][$market_pairing]["volume"],
+    							'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data[$key][$market_pairing]["volume"], '', $pairing) // '24hr_pairing_volume' used (no asset volume available)
     						);
           
          }
@@ -411,6 +796,10 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
   
   
   }
+ 
+ 
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -446,269 +835,10 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
   
   
   }
-  
-
-
-  elseif ( strtolower($chosen_exchange) == 'poloniex' ) {
-
-     $json_string = 'https://poloniex.com/public?command=returnTicker';
-     
-     $jsondata = @api_data('url', $json_string, $last_trade_cache);
-     
-     $data = json_decode($jsondata, TRUE);
-  
-      if (is_array($data) || is_object($data)) {
-  
-       foreach ($data as $key => $value) {
-         
-         if ( $key == $market_pairing ) {
-          
-         return  array(
-    							'last_trade' => $data[$key]["last"],
-    							// ARRAY KEY SEMANTICS BACKWARDS COMPARED TO OTHER EXCHANGES
-    							'24hr_asset_volume' => $data[$key]["quoteVolume"],
-    							'24hr_pairing_volume' => $data[$key]["baseVolume"],
-    							'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data[$key]["quoteVolume"], $data[$key]["last"])
-    						);
-          
-         }
-     
-       }
-      
-      }
-  
-  
-  }
-  
-  
-  
-  elseif ( strtolower($chosen_exchange) == 'tradeogre' ) {
-
-     $json_string = 'https://tradeogre.com/api/v1/markets';
-     
-     $jsondata = @api_data('url', $json_string, $last_trade_cache);
-     
-     $data = json_decode($jsondata, TRUE);
-  
-      if (is_array($data) || is_object($data)) {
-  
-       foreach ($data as $key => $value) {
-         
-         if ( $data[$key][$market_pairing] != '' ) {
-          
-         return  array(
-    							'last_trade' => $data[$key][$market_pairing]["price"],
-    							'24hr_asset_volume' => NULL, // No asset volume data for this API
-    							'24hr_pairing_volume' => $data[$key][$market_pairing]["volume"],
-    							'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data[$key][$market_pairing]["volume"], '', $pairing) // '24hr_pairing_volume' used (no asset volume available)
-    						);
-          
-         }
-     
-       }
-      
-      }
-  
-  
-  }
-
-
-
-  elseif ( strtolower($chosen_exchange) == 'hotbit' ) {
-
-     $json_string = 'https://api.hotbit.io/api/v1/allticker';
-     
-     $jsondata = @api_data('url', $json_string, $last_trade_cache);
-     
-     $data = json_decode($jsondata, TRUE);
-   
-  		$data = $data['ticker'];
-  
-      if (is_array($data) || is_object($data)) {
-  
-       foreach ($data as $key => $value) {
-         
-         if ( $data[$key]["symbol"] == $market_pairing ) {
-          
-         return  array(
-    							'last_trade' => $data[$key]["last"],
-    							'24hr_asset_volume' => $data[$key]["vol"],
-    							'24hr_pairing_volume' => NULL, // No pairing volume data for this API
-    							'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data[$key]["vol"], $data[$key]["last"])
-    						);
-          
-         }
-     
-       }
-      
-      }
-  
-  
-  }
-
-
-
-  elseif ( strtolower($chosen_exchange) == 'gateio' ) {
-
-     $json_string = 'https://data.gate.io/api2/1/tickers';
-     
-     $jsondata = @api_data('url', $json_string, $last_trade_cache);
-     
-     $data = json_decode($jsondata, TRUE);
-  
-      if (is_array($data) || is_object($data)) {
-  
-       foreach ($data as $key => $value) {
-         
-         if ( $key == $market_pairing ) {
-          
-         return  array(
-    							'last_trade' => $data[$key]["last"],
-    							// ARRAY KEY SEMANTICS BACKWARDS COMPARED TO OTHER EXCHANGES
-    							'24hr_asset_volume' => $data[$key]["quoteVolume"],
-    							'24hr_pairing_volume' => $data[$key]["baseVolume"],
-    							'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data[$key]["quoteVolume"], $data[$key]["last"])
-    						);
-          
-         }
-     
-       }
-      
-      }
-  
-  
-  }
-
-
-
-  elseif ( strtolower($chosen_exchange) == 'kucoin' ) {
-
-     $json_string = 'https://api.kucoin.com/api/v1/market/allTickers';
-     
-     $jsondata = @api_data('url', $json_string, $last_trade_cache);
-     
-     $data = json_decode($jsondata, TRUE);
-  
-  		$data = $data['data']['ticker'];
-  
-      if (is_array($data) || is_object($data)) {
-  
-       foreach ($data as $key => $value) {
-         
-         if ( $data[$key]['symbol'] == $market_pairing ) {
-          
-         return  array(
-    							'last_trade' => $data[$key]["last"],
-    							'24hr_asset_volume' => $data[$key]["vol"],
-    							'24hr_pairing_volume' => $data[$key]["volValue"],
-    							'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data[$key]["vol"], $data[$key]["last"])
-    						);
-          
-         }
-     
-       }
-      
-      }
-  
-  
-  }
-
-
-
-  elseif ( strtolower($chosen_exchange) == 'livecoin' ) {
-
-     $json_string = 'https://api.livecoin.net/exchange/ticker';
-     
-     $jsondata = @api_data('url', $json_string, $last_trade_cache);
-     
-     $data = json_decode($jsondata, TRUE);
-  
-      if (is_array($data) || is_object($data)) {
-  
-       foreach ($data as $key => $value) {
-         
-         if ( $data[$key]['symbol'] == $market_pairing ) {
-          
-         return  array(
-    							'last_trade' => $data[$key]["last"],
-    							'24hr_asset_volume' => $data[$key]["volume"],
-    							'24hr_pairing_volume' => NULL, // No pairing volume data for this API
-    							'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data[$key]["volume"], $data[$key]["last"])
-    						);
-          
-         }
-     
-       }
-      
-      }
-  
-  
-  }
-
-
-
-  elseif ( strtolower($chosen_exchange) == 'hitbtc' ) {
-
-     $json_string = 'https://api.hitbtc.com/api/1/public/ticker';
-     
-     $jsondata = @api_data('url', $json_string, $last_trade_cache);
-     
-     $data = json_decode($jsondata, TRUE);
-  
-      if (is_array($data) || is_object($data)) {
-  
-       foreach ($data as $key => $value) {
-         
-         if ( $key == $market_pairing ) {
-          
-         return  array(
-    							'last_trade' => $data[$key]["last"],
-    							'24hr_asset_volume' => $data[$key]["volume"],
-    							'24hr_pairing_volume' => $data[$key]["volume_quote"],
-    							'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data[$key]["volume"], $data[$key]["last"])
-    						);
-          
-         }
-     
-       }
-      
-      }
-  
-  
-  }
-  
-  
-  
-  elseif ( strtolower($chosen_exchange) == 'graviex' ) {
-
-     $json_string = 'https://graviex.net//api/v2/tickers.json';
-     
-     $jsondata = @api_data('url', $json_string, $last_trade_cache);
-     
-     $data = json_decode($jsondata, TRUE);
-  
-      if (is_array($data) || is_object($data)) {
-  
-       foreach ($data as $key => $value) {
-         
-         
-         if ( $data[$market_pairing] != '' ) {
-          
-         return  array(
-    							'last_trade' => $data[$market_pairing]['ticker']['last'],
-    							'24hr_asset_volume' => $data[$market_pairing]['ticker']['vol'],
-    							'24hr_pairing_volume' => NULL, // Weird pairing volume always in BTC according to array keyname, skipping
-    							'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data[$market_pairing]['ticker']['vol'], $data[$market_pairing]['ticker']['last'])
-    						);
-          
-         }
-     
-       }
-      
-      }
-  
-  
-  }
+ 
+ 
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -758,40 +888,10 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
   
   
   }
-
-
-
-  elseif ( strtolower($chosen_exchange) == 'ethfinex' || strtolower($chosen_exchange) == 'bitfinex' ) {
-  	
-     
-     $json_string = 'https://api-pub.bitfinex.com/v2/tickers?symbols=ALL';
-     
-     $jsondata = @api_data('url', $json_string, $last_trade_cache);
-     
-     $data = json_decode($jsondata, TRUE);
-  
-      if (is_array($data) || is_object($data)) {
-  
-       foreach ( $data as $object ) {
-         
-         if ( $object[0] == $market_pairing ) {
-                 
-          
-         return  array(
-    							'last_trade' => $object[( sizeof($object) - 4 )],
-    							'24hr_asset_volume' => $object[( sizeof($object) - 3 )],
-    							'24hr_pairing_volume' => NULL, // No pairing volume data for this API
-    							'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $object[( sizeof($object) - 3 )], $object[( sizeof($object) - 4 )])
-    						);
-          
-         }
-     
-       }
-      
-      }
-  
-  
-  }
+ 
+ 
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -834,14 +934,15 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
   
   
   }
-
+ 
+ 
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
   
 }
 
-
-//////////////////////////////////////////////////////////
 
 
 ?>
