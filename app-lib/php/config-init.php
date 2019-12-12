@@ -6,13 +6,6 @@
 
 
 /////////////////////////////////////////////////
-
-if ( $debug_mode != 'off' ) {
-	
-error_reporting(1); // Turn on all PHP error reporting
-require_once("app-lib/php/debugging/tests.php");
-	
-}
     	
 
 // Set BTC / currency_market dynamic value
@@ -186,6 +179,13 @@ store_file_contents($base_dir . '/cache/vars/chart_interval.dat', $charts_update
 // Chart update frequency
 $charts_update_freq = ( $charts_update_freq != '' ? $charts_update_freq : trim( file_get_contents('cache/vars/chart_interval.dat') ) );
 
+
+
+// Unit tests to run in debug mode, AFTER loading init / config-init logic
+if ( $debug_mode != 'off' ) {
+error_reporting(1); // Turn on all PHP error reporting
+require_once("app-lib/php/debugging/tests.php");
+}
 
 
 ?>

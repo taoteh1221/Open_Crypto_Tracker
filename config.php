@@ -293,7 +293,7 @@ $asset_charts_and_alerts = array(
 					
 					// STEEM
 					'steem' => 'bittrex||btc||chart',
-					'steem-3' => 'binance||btc||both',
+					'steem-3' => 'binance||btc||chart',
 					
 					// DOGE
 					'doge' => 'bittrex||btc||chart',
@@ -563,6 +563,7 @@ $mobile_networks = array(
                         'cricket' => 'mms.cricketwireless.net',
                         'cspire' => 'cspire1.com',
                         'gci' => 'mobile.gci.net',
+                        'googlefi' => 'msg.fi.google.com',
                         'nextech' => 'sms.ntwls.net',
                         'pioneer' => 'zsend.com',
                         'rogers' => 'pcs.rogers.com',
