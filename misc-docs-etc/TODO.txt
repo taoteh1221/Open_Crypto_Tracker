@@ -4,6 +4,10 @@
 TODO
 ///////////////////////////////////////////////////////
 
+
+Look into controlling the primary fiat currency ONLY ON THE SETTINGS PAGE, NOT BASED OFF THE BITCOIN PAIRING CHOICE. It may be a better UX.
+
+
 Buy a google home mini cheap on ebay, and develop price alerts compatibility for it.
 
 
