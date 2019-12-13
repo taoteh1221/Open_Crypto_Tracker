@@ -735,25 +735,10 @@ return $result;
 
 function chart_data($file, $trade_format) {
 
-global $fiat_decimals_max, $charts_alerts_btc_fiat_pairing;
+global $fiat_decimals_max, $charts_alerts_btc_fiat_pairing, $fiat_symbols;
 
 
-	if ( $trade_format == 'usd' ) {
-	$fiat_formatting = 1;
-	}
-	elseif ( $trade_format == 'usdt' ) {
-	$fiat_formatting = 1;
-	}
-	elseif ( $trade_format == 'usdc' ) {
-	$fiat_formatting = 1;
-	}
-	elseif ( $trade_format == 'tusd' ) {
-	$fiat_formatting = 1;
-	}
-	elseif ( $trade_format == 'gbp' ) {
-	$fiat_formatting = 1;
-	}
-	elseif ( $trade_format == 'eur' ) {
+	if ( array_key_exists($trade_format, $fiat_symbols) ) {
 	$fiat_formatting = 1;
 	}
 

@@ -41,6 +41,7 @@ if ( $_GET['type'] == 'asset' ) {
 			// Unicode asset symbols
 			if ( array_key_exists($charted_value, $fiat_symbols) ) {
 			$currency_symbol = $fiat_symbols[$charted_value];
+			$fiat_equiv = 1;
 			}
 			elseif ( array_key_exists($charted_value, $crypto_symbols) ) {
 			$currency_symbol = $crypto_symbols[$charted_value];
