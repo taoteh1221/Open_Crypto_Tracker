@@ -199,46 +199,6 @@ session_regenerate_id(true);
 ////////////////////////////////////////////////////////
 
 
-// Return the TLD only (no subdomain)
-function get_tld($url) {
-
-
-// TLDs supported
-$urlMap = array(
-					'com', 
-					'net',
-					'org',
-					'co.uk',
-					'net.uk',
-					'org.uk',
-					'com.au',
-					'net.au',
-					'org.au'
-					);
-
-
-$urlData = parse_url($url);
-$hostData = explode('.', $urlData['host']);
-$hostData = array_reverse($hostData);
-
-
-	if ( array_search($hostData[1] . '.' . $hostData[0], $urlMap) !== FALSE ) {
-   $host = $hostData[2] . '.' . $hostData[1] . '.' . $hostData[0];
-	} 
-	elseif ( array_search($hostData[0], $urlMap) !== FALSE ) {
-   $host = $hostData[1] . '.' . $hostData[0];
- 	}
-
-
-return trim($host);
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
 function delete_old_files($dir, $days, $ext) {
 	
 $files = glob($dir."*.".$ext);
@@ -353,6 +313,30 @@ global $runtime_mode;
 ////////////////////////////////////////////////////////
 
 
+function store_cookie_contents($name, $value, $time) {
+
+$result = setcookie($name, $value, $time);
+	
+	
+	// Android / Safari maximum cookie size is 4093 bytes, Chrome / Firefox max is 4096
+	if ( strlen($value) > 4093 ) {  
+	app_error('other_error', 'Cookie size is greater than 4093 bytes (' . strlen($value) . ' bytes). If saving portfolio as cookie data fails on your browser, try using CSV file import / export instead for large portfolios.');
+	}
+	
+	if ( $result == FALSE ) {
+	app_error('other_error', 'Cookie creation failed for cookie "' . $name . '"');
+	}
+	
+	
+return $result;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
 function name_rendering($string) {
 
 
@@ -409,30 +393,6 @@ $files = array();
 
 return $files;
   
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function store_cookie_contents($name, $value, $time) {
-
-$result = setcookie($name, $value, $time);
-	
-	
-	// Android / Safari maximum cookie size is 4093 bytes, Chrome / Firefox max is 4096
-	if ( strlen($value) > 4093 ) {  
-	app_error('other_error', 'Cookie size is greater than 4093 bytes (' . strlen($value) . ' bytes). If saving portfolio as cookie data fails on your browser, try using CSV file import / export instead for large portfolios.');
-	}
-	
-	if ( $result == FALSE ) {
-	app_error('other_error', 'Cookie creation failed for cookie "' . $name . '"');
-	}
-	
-	
-return $result;
-
 }
 
 
@@ -641,6 +601,46 @@ function time_date_format($offset=false, $mode=false) {
 $date = preg_replace("/@/", "at", $date); // 'at' is a stubborn word to escape into the date() function, so we cheat a little
 
 return $date;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+// Return the TLD only (no subdomain)
+function get_tld($url) {
+
+
+// TLDs supported
+$urlMap = array(
+					'com', 
+					'net',
+					'org',
+					'co.uk',
+					'net.uk',
+					'org.uk',
+					'com.au',
+					'net.au',
+					'org.au'
+					);
+
+
+$urlData = parse_url($url);
+$hostData = explode('.', $urlData['host']);
+$hostData = array_reverse($hostData);
+
+
+	if ( array_search($hostData[1] . '.' . $hostData[0], $urlMap) !== FALSE ) {
+   $host = $hostData[2] . '.' . $hostData[1] . '.' . $hostData[0];
+	} 
+	elseif ( array_search($hostData[0], $urlMap) !== FALSE ) {
+   $host = $hostData[1] . '.' . $hostData[0];
+ 	}
+
+
+return trim($host);
 
 }
 

@@ -39,33 +39,16 @@ if ( $_GET['type'] == 'asset' ) {
 		
 		
 			// Unicode asset symbols and currency names
-			if ( $charted_value == 'usd' ) {
-			$currency_symbol = "$";
-			$volume_symbol = "$";
+			if ( $charted_value == 'usd'
+			|| $charted_value == 'gbp' 
+			|| $charted_value == 'eur'
+			|| $charted_value == 'usdt'
+			|| $charted_value == 'tusd' 
+			|| $charted_value == 'usdc' ) {
+			$currency_symbol = $fiat_symbols[$charted_value];
 			}
-			elseif ( $charted_value == 'usdt' ) {
-			$currency_symbol = "₮";
-			$volume_symbol = $chart_asset;
-			}
-			elseif ( $charted_value == 'tusd' || $charted_value == 'usdc' ) {
-			$currency_symbol = "Ⓢ";
-			$volume_symbol = $chart_asset;
-			}
-			elseif ( $charted_value == 'btc' ) {
-			$currency_symbol = "Ƀ";
-			$volume_symbol = $chart_asset;
-			}
-			elseif ( $charted_value == 'eth' ) {
-			$currency_symbol = "Ξ";
-			$volume_symbol = $chart_asset;
-			}
-			elseif ( $charted_value == 'ltc' ) {
-			$currency_symbol = "Ł";
-			$volume_symbol = $chart_asset;
-			}
-			elseif ( $charted_value == 'xmr' ) {
-			$currency_symbol = "ɱ";
-			$volume_symbol = $chart_asset;
+			else {
+			$currency_symbol = $crypto_symbols[$charted_value];
 			}
 			
 		
@@ -80,7 +63,7 @@ if ( $_GET['type'] == 'asset' ) {
 			
 			$("#charts_error").html('One or more charts could not be loaded. Please make sure you have a cron job running (see <a href="README.txt" target="_blank">README.txt</a> for how-to setup a cron job), or charts cannot be activated. Check app error logs too, for write errors (which would indicate improper cache directory permissions).');
 			
-			charts_loaded.push("chart_<?=$js_key?>");
+			window.charts_loaded.push("chart_<?=$js_key?>");
 			
 			charts_loading_check(charts_loaded);
 			
@@ -138,7 +121,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
     plotLabel:{
       backgroundColor: "<?=$charts_tooltip_background?>",
       fontColor: "<?=$charts_tooltip_text?>",
-      text: "Spot Price: <?=($currency_symbol == '$' ? $currency_symbol : $currency_symbol . ' ')?>%v",
+      text: "Spot Price: <?=$currency_symbol?>%v",
 	 	fontSize: "20",
       fontFamily: "Open Sans",
       <?=( $price_sample < 0.000001 ? 'decimals: 8,' : '' )?> /* -- price_sample: <?=$price_sample?> -- */ 
@@ -177,14 +160,14 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
     }
   },
   tooltip:{
-    text: "Spot Price: <?=($currency_symbol == '$' ? $currency_symbol : $currency_symbol . ' ')?>%v",
+    text: "Spot Price: <?=$currency_symbol?>%v",
     fontColor: "<?=$charts_tooltip_text?>",
 	 fontSize: "20",
     backgroundColor: "<?=$charts_tooltip_background?>",
     "thousands-separator":","
   },
   scaleY: {
-    "format":"<?=($currency_symbol == '$' ? $currency_symbol : $currency_symbol . ' ')?>%v",
+    "format":"<?=$currency_symbol?>%v",
     "thousands-separator":",",
     guide: {
       visible: true,
@@ -360,7 +343,7 @@ function getVolumeConfig_<?=$js_key?>(dates, values) {
   },
   tooltip:{
     visible: false,
-    text: "24 Hour Volume: <?=($volume_symbol == '$' ? $volume_symbol : '')?>%v <?=($volume_symbol != '$' ? $volume_symbol : '')?>",
+    text: "24 Hour Volume: <?=$currency_symbol?>%v",
     fontColor: "<?=$charts_tooltip_text?>",
 	 fontSize: "20",
     backgroundColor: "<?=$charts_tooltip_background?>",
@@ -380,7 +363,7 @@ function getVolumeConfig_<?=$js_key?>(dates, values) {
       backgroundColor: "<?=$charts_tooltip_background?>",
       fontColor: "<?=$charts_tooltip_text?>",
       fontFamily: "Open Sans",
-      text: "24 Hour Volume: <?=($volume_symbol == '$' ? $volume_symbol : '')?>%v <?=($volume_symbol != '$' ? $volume_symbol : '')?>",
+      text: "24 Hour Volume: <?=$currency_symbol?>%v",
 	 	fontSize: "20",
       y:0,
       "thousands-separator":","
@@ -391,7 +374,7 @@ function getVolumeConfig_<?=$js_key?>(dates, values) {
     zooming: true
   },
   scaleY: {
-    "format":"<?=($volume_symbol == '$' ? $volume_symbol : '')?>%v",
+    "format":"<?=$currency_symbol?>%v",
     "thousands-separator":",",
     guide: {
       visible: true,

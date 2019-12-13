@@ -8,7 +8,7 @@ error_reporting(0); // Turn off all PHP error reporting on production servers (0
 
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
 
-$app_version = '3.54.0';  // 2019/DECEMBER/11TH
+$app_version = '4.00.0 BETA 1';  // 2019/DECEMBER/13TH
 
 
 require_once("app-lib/php/loader.php");
@@ -85,6 +85,28 @@ $limited_apis = array(
 						'bitstamp.net',
 						'cryptofresh.com',
 						'bitforex.com'
+							);
+
+
+
+// Currency symbols for all supported fiat / equivalent BITCOIN-ONLY market pairings
+$fiat_symbols = array(
+						'usd' => '$',
+						'gbp' => '£',
+						'eur' => '€',
+						'usdt' => '₮ ',
+						'tusd' => 'Ⓢ ',
+						'usdc' => 'Ⓢ '
+							);
+
+
+
+// Currency symbols for crypto pairings
+$crypto_symbols = array(
+						'btc' => 'Ƀ ',
+						'eth' => 'Ξ ',
+						'ltc' => 'Ł ',
+						'xmr' => 'ɱ '
 							);
 							
 

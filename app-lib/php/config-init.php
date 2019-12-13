@@ -23,7 +23,8 @@ if ( $_SESSION['btc_fiat_pairing'] ) {
 $btc_fiat_pairing = $_SESSION['btc_fiat_pairing'];
 }
 
-$btc_fiat_value = get_coin_value('BTC', $btc_exchange, $coins_list['BTC']['market_pairing'][$btc_fiat_pairing][$btc_exchange], $btc_fiat_pairing)['last_trade'];
+// MUST be called FIRST at runtime by the default bitcoin market, to set this var for reuse later in runtime
+$btc_fiat_value = asset_market_data('BTC', $btc_exchange, $coins_list['BTC']['market_pairing'][$btc_fiat_pairing][$btc_exchange], $btc_fiat_pairing)['last_trade'];
 
 
 $asset_price_alerts_percent = floattostr($asset_price_alerts_percent); // Better decimal support for price change percent config

@@ -267,7 +267,8 @@ global $btc_fiat_pairing, $api_timeout, $coinmarketcapcom_api_key, $marketcap_ra
 
 	if ( !$_SESSION['cmc_data'] ) {
 		
-	$btc_fiat_pairing = strtoupper($btc_fiat_pairing);
+	// Don't overwrite global
+	$coinmarketcap_fiat = strtoupper($btc_fiat_pairing);
 	
 	$headers = [
   'Accepts: application/json',
@@ -277,7 +278,7 @@ global $btc_fiat_pairing, $api_timeout, $coinmarketcapcom_api_key, $marketcap_ra
 	$cmc_params = array(
 	  							'start' => '1',
 	 							'limit' => $marketcap_ranks_max,
-	  							'convert' => $btc_fiat_pairing
+	  							'convert' => $coinmarketcap_fiat
 								);
 
 	$url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest';

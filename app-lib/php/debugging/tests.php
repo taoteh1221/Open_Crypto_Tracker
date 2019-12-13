@@ -27,7 +27,7 @@ if ( $runtime_mode == 'ui' ) {
 		
 		$check_pairing_name = $coins_list[$check_asset]['market_pairing'][$check_asset_params[1]][$check_asset_params[0]];
 		
-		$test_result = get_coin_value($check_asset, $check_asset_params[0], $check_pairing_name)['last_trade'];
+		$test_result = asset_market_data($check_asset, $check_asset_params[0], $check_pairing_name)['last_trade'];
 		
 			if ( $test_result == NULL ) {
 			app_error( 'other_error', 'No chart / price alert market data available', 'chart_key: ' . $key . '; market: ' . $check_asset . ' / ' . strtoupper($check_asset_params[1]) . ' @ ' . ucfirst($check_asset_params[0]) );
@@ -70,7 +70,7 @@ if ( $runtime_mode == 'ui' ) {
 			
 				foreach ( $pairing_value as $key => $value ) {
 				
-				$test_result = get_coin_value( strtoupper($coin_key) , $key , $value )['last_trade'];
+				$test_result = asset_market_data( strtoupper($coin_key) , $key , $value )['last_trade'];
 				
 					if ( $test_result == NULL ) {
 					app_error( 'other_error', 'No coin market data available', strtoupper($coin_key) . ' / ' . strtoupper($pairing_key) . ' @ ' . ucfirst($key) );

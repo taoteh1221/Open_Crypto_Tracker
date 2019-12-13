@@ -113,9 +113,9 @@
 	<div style='display: none;' class='show_chartsnotice' align='left'>
 					
 		 
-		<p class='red' style='font-weight: bold;'>Charts are only available to show for each asset properly configured in the charts / asset price alerts configuration section in the file config.php (located in the primary directory of this app). Charts (and asset price alerts) must be <a href='README.txt' target='_blank'>setup as a cron job on your web server</a>, or <i>they will not work</i>. The chart's tab, page, caching, and javascript can be disabled in config.php if you choose to not setup a cron job.</p>
+		<p class='red' style='font-weight: bold;'>A few crypto exchanges only provide asset volume data (with no pairing volume data included). If 24 hour pair volume is NOT available for a market, it will be emulated via the asset volume multiplied by the asset price (which gives us the rough pairing volume for a better chart user experience).</p>
 		 
-		<p class='red' style='font-weight: bold;'>For charts based on crypto price (instead of <?=strtoupper($charts_alerts_btc_fiat_pairing)?>), 24 hour volume is calculated from the asset volume (not the volume of the pairing), because a large percentage of crypto exchanges only provide asset volume data (with no pairing volume data included). For <?=strtoupper($charts_alerts_btc_fiat_pairing)?>-based charts, the 24 hour <?=strtoupper($charts_alerts_btc_fiat_pairing)?> volume is also calculated from the asset volume (and converted to the <?=strtoupper($charts_alerts_btc_fiat_pairing)?> value of that asset volume).</p>
+		<p class='red' style='font-weight: bold;'>Charts are only available to show for each asset properly configured in the charts / asset price alerts configuration section in the file config.php (located in the primary directory of this app). Charts (and asset price alerts) must be <a href='README.txt' target='_blank'>setup as a cron job on your web server</a>, or <i>they will not work</i>. The chart's tab, page, caching, and javascript can be disabled in config.php if you choose to not setup a cron job.</p>
 	
 				
 	</div>

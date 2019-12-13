@@ -115,7 +115,7 @@ Adding / editing / deleting assets and markets in the coins list:
 Below is an example for editing your assets / markets into the coin list in the file config.php (located in the primary directory of this app). It's very quick / easy to do (after you get the hang of it, lol). Also see further down in this README for a pre-configured set of default settings and example assets / markets. Currently BTC / XMR / ETH / LTC / USDT (Tether) / TUSD (True USD) / USDC / USD base pairing is supported. Contact any supported exchange's help desk if you are unaware of the correct formatting of the trading pair naming you are adding in the configuration file (examples: Kraken has arbitrary Xs inserted in SOME older pair names, HitBTC sometimes has tether pairing without the "T" in the symbol name).
 
 
- * USAGE (ADDING / UPDATING COINS) ...API support for (contact me to request more): bigone / binance & binance_us / bitfinex & ethfinex / bitforex / bitstamp  / bittrex & bittrex_global / coinbase / cryptofresh / gateio / gemini / graviex / hitbtc / hotbit / idex / kraken / kucoin / livecoin / okcoin / okex / poloniex / tradeogre / tradesatoshi / upbit...BTC, XMR, ETH, LTC, USDT, TUSD, USDC, and USD trading pair support
+ * USAGE (ADDING / UPDATING COINS) ...API support for (contact me to request more): bigone / binance & binance_us / bitfinex & ethfinex / bitforex / bitstamp  / bittrex & bittrex_global / coinbase / cryptofresh / gateio / gemini / graviex / hitbtc / hotbit / idex / kraken / kucoin / livecoin / okcoin / okex / poloniex / tradeogre / tradesatoshi / upbit...BTC, XMR, ETH, LTC, USDT, TUSD, USDC, USD, GBP, and EUR trading pair support
  * Ethereum ICO subtoken support has been built in, but values are static ICO values in ETH
  
  
@@ -175,6 +175,18 @@ Below is an example for editing your assets / markets into the coin list in the 
                                           'lowercase_marketplace1' => 'MARKETNUMBERHERE',
                                           'lowercase_marketplace2' => 'USD_COINSYMBOLHERE',
                                           'lowercase_marketplace3' => 'USD-COINSYMBOLHERE'
+                                                    ),
+                                                    
+                                    'gbp' => array(
+                                          'lowercase_marketplace1' => 'MARKETNUMBERHERE',
+                                          'lowercase_marketplace2' => 'GBP_COINSYMBOLHERE',
+                                          'lowercase_marketplace3' => 'GBP-COINSYMBOLHERE'
+                                                    ),
+                                                    
+                                    'eur' => array(
+                                          'lowercase_marketplace1' => 'MARKETNUMBERHERE',
+                                          'lowercase_marketplace2' => 'EUR_COINSYMBOLHERE',
+                                          'lowercase_marketplace3' => 'EUR-COINSYMBOLHERE'
                                                     )
                                                     
                                           ) // market_pairing END

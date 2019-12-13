@@ -18,7 +18,7 @@
 			<?php
 			if ( $price_alert_type_text != '' ) {
           ?>
-          	<p class='settings_sections'><b><?=$price_alert_type_text?> asset price alerts</b> are <i>enabled</i> in the configuration file (upon <?=$asset_price_alerts_percent?>% or more <?=strtoupper($charts_alerts_btc_fiat_pairing)?> price change<?=( $asset_price_alerts_freq > 0 ? ' / max every ' . $asset_price_alerts_freq . ' minutes per-alert' : '' )?><?=( $asset_price_alerts_minvolume > 0 ? ' / $' . number_format($asset_price_alerts_minvolume, 0, '.', ',') . ' minumum volume filter enabled' : '' )?><?=( $asset_price_alerts_refresh > 0 ? ' / comparison price auto-refreshed after ' . $asset_price_alerts_refresh . ' days' : '' )?>). 
+          	<p class='settings_sections'><b><?=$price_alert_type_text?> asset price alerts</b> are <i>enabled</i> in the configuration file (upon <?=$asset_price_alerts_percent?>% or more <?=strtoupper($charts_alerts_btc_fiat_pairing)?> price change<?=( $asset_price_alerts_freq > 0 ? ' / max every ' . $asset_price_alerts_freq . ' minutes per-alert' : '' )?><?=( $asset_price_alerts_minvolume > 0 ? ' / ' . $fiat_symbols[$charts_alerts_btc_fiat_pairing] . number_format($asset_price_alerts_minvolume, 0, '.', ',') . ' minumum volume filter enabled' : '' )?><?=( $asset_price_alerts_refresh > 0 ? ' / comparison price auto-refreshed after ' . $asset_price_alerts_refresh . ' days' : '' )?>). 
           	
           	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job on your web server</a>, or this feature will not work AT ALL.</i> 
           	

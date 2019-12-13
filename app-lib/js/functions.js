@@ -4,8 +4,10 @@
 /////////////////////////////////////////////////////////////
 
 function charts_loading_check(charts_loaded) {
+	
+	//console.log('loaded charts = ' + window.charts_loaded.length + ', all charts = ' + window.charts_num);
 
-	if ( charts_loaded.length >= window.charts_num ) {
+	if ( window.charts_loaded.length >= window.charts_num ) {
 	$("#loading_charts").hide();
 	}
 	else {

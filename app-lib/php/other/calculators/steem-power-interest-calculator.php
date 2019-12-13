@@ -11,16 +11,16 @@ $_POST = trim_array($_POST);
 }
 
 // Get STEEM value
-$steem_market = get_coin_value('STEEM', 'binance', 'STEEMBTC')['last_trade'];
+$steem_market = asset_market_data('STEEM', 'binance', 'STEEMBTC')['last_trade'];
 
 ?>
     
 
 
-<p class='green' style='font-weight: bold;'>1 STEEM = <?=$steem_market?> BTC ($<?php echo number_format( ( $steem_market * $btc_fiat_value ), 8, '.', ','); ?>)</p>
+<p class='green' style='font-weight: bold;'>1 STEEM = <?=$steem_market?> BTC (<?=$fiat_symbols[$btc_fiat_pairing]?><?php echo number_format( ( $steem_market * $btc_fiat_value ), 8, '.', ','); ?>)</p>
 
 <div>
-    <form action='index.php#calculators' method='post'>
+    <form action='<?=start_page('mining_calculators')?>' method='post'>
         
         <p><b>Power Down Period:</b> <?=$steem_powerdown_time?> weeks</p>
 	

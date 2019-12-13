@@ -11,6 +11,10 @@ $(".chart_wrapper").css({ "background-color": window.charts_background });
 $(".chart_wrapper").css({ "border": '2px solid ' + window.charts_border });
 
 
+// Dynamic table header updating
+$("span.btc_fiat_pairing").html(window.btc_fiat_pairing); 
+
+
 	////////////////////////////////////////////////////////
 	
 	$.each($('textarea[data-autoresize]'), function() {

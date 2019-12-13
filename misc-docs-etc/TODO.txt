@@ -7,6 +7,14 @@ TODO
 Buy a google home mini cheap on ebay, and develop price alerts compatibility for it.
 
 
+SQL-based accounts for storing configuration settings per-user (including setting up new assets available at supported exchanges), BUT !NEVER! STORES PORTFOLIO DATA (FOR PRIVACY / SECURITY-SAKE).
+
+When sql host config has been set in config.php, BUT DATABASE SETUP HAS NOT RUN YET, have the UI require entering the sql user password to initiate database setup (for security)
+
+
+Maintain sql-based config as completely separate module(s) from the file-based config (config.php), except for the sql host connection / authentication details (put those at the top of the config.php configurations).
+
+
 Add header login nav like prototype for zilliqa block explorer (use the developed account system structure too).
 
 
@@ -14,9 +22,6 @@ Add an alert bell icon in upcoming header login nav, and have alerts make it red
 
 
 2-way encryption option (unlocked with 6 digit PIN) for storing coin amounts (IN COOKIES ONLY, NO DATABASE STORAGE !EVER!), with "quick lock" to quickly re-hide portfolio data (staying hidden persists on page load / reload as well with a cookie).
-
-
-SQL-based accounts for storing configuration settings per-user (including setting up new assets available at supported exchanges), BUT !NEVER! STORES PORTFOLIO DATA (FOR PRIVACY / SECURITY-SAKE).
 
 
 Add feature to restore chart data from the zip archive backups (with SQL-based admin authentication ONLY).

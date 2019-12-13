@@ -35,11 +35,11 @@ $debug_mode = 'off';
 // (Used for user experience 'pretty' timestamping only, will not change or screw up UTC log times etc if you change this)
 $local_time_offset = -5; // example: -5 or 5
 
-// Default Bitcoin exchange (for charts / price alert fiat-equivalent value determination)
-$btc_exchange = 'binance'; // coinbase / binance / binance_us / bitstamp / bitfinex / kraken / gemini / hitbtc / okcoin / livecoin
+// Default BITCOIN-ONLY exchange (for charts / price alert fiat-equivalent value determination)
+$btc_exchange = 'kraken'; // coinbase / binance / binance_us / bitstamp / bitfinex / kraken / gemini / hitbtc / okcoin / livecoin
 
-// Default Bitcoin fiat (or stablecoin fiat equivalent) market pairing (for charts / price alert fiat-equivalent value determination)
-$btc_fiat_pairing = 'usd'; // 'usd' (more to come)
+// Default BITCOIN-ONLY fiat (or stablecoin fiat equivalent) market pairing (for charts / price alert fiat-equivalent value determination)
+$btc_fiat_pairing = 'usd'; // 'usd', 'usdt', 'gbp', 'eur' (more to come)
 
 // Default marketcap data source: 'coingecko', or 'coinmarketcap' (coinmarketcap requires a FREE API key, see below)
 $marketcap_site = 'coingecko'; 
@@ -222,12 +222,15 @@ $asset_charts_and_alerts = array(
 					
 					// BTC
 					'btc' => 'coinbase||usd||chart',
-					'btc-2' => 'binance||usd||both',
+					'btc-2' => 'binance||usdt||both',
 					'btc-3' => 'bitstamp||usd||chart',
 					'btc-4' => 'kraken||usd||chart',
 					'btc-5' => 'gemini||usd||chart',
 					'btc-6' => 'bitfinex||usd||chart',
 					'btc-7' => 'binance_us||usd||chart',
+					'btc-8' => 'kraken||eur||chart',
+					'btc-9' => 'coinbase||eur||chart',
+					'btc-10' => 'coinbase||gbp||chart',
 					
 					// ETH
 					'eth' => 'coinbase||btc||chart',
@@ -240,6 +243,8 @@ $asset_charts_and_alerts = array(
 					'eth-10' => 'kraken||usd||chart',
 					'eth-11' => 'bitstamp||usd||chart',
 					'eth-12' => 'gemini||usd||chart',
+					'eth-13' => 'coinbase||gbp||chart',
+					'eth-14' => 'coinbase||eur||chart',
 					
 					// XMR
 					'xmr' => 'bittrex||btc||chart',
@@ -612,7 +617,6 @@ $coins_list = array(
                         
                                     'usd' => array(
                                           'coinbase' => 'BTC-USD',
-                                          'binance' => 'BTCUSDT',
                                           'binance_us' => 'BTCUSD',
                                           'bitstamp' => 'btcusd',
                                           'kraken' => 'XXBTZUSD',
@@ -621,6 +625,20 @@ $coins_list = array(
                                           'hitbtc' => 'BTCUSD',
                                           'okcoin' => 'btc_usd',
                                           'livecoin' => 'BTC/USD'
+                                                    ),
+                                                    
+                                    'usdt' => array(
+                                          'binance' => 'BTCUSDT'
+                                                    ),
+                                                    
+                                    'gbp' => array(
+                                          'coinbase' => 'BTC-GBP',
+                                          'bitfinex' => 'tBTCGBP'
+                                                    ),
+                                                    
+                                    'eur' => array(
+                                          'coinbase' => 'BTC-EUR',
+                                          'kraken' => 'XXBTZEUR'
                                                     )
                                                     
                                         ) // market_pairing END
@@ -682,6 +700,14 @@ $coins_list = array(
                                           'gemini' => 'ethusd',
                                           'bitfinex' => 'tETHUSD',
                                           'okcoin' => 'eth_usd'
+                                                    ),
+                                                    
+                                    'gbp' => array(
+                                          'coinbase' => 'ETH-GBP'
+                                                    ),
+                                                    
+                                    'eur' => array(
+                                          'coinbase' => 'ETH-EUR'
                                                     )
                                                     
                                         ) // market_pairing END

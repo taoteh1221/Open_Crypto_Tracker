@@ -57,7 +57,7 @@ require("config.php");
 	<script src="app-lib/js/zingchart.min.js"></script>
 	<script>
 	var charts_num = <?=( sizeof($show_charts) > 0 ? sizeof($show_charts) : 0 )?>;
-	var charts_loaded = [];
+	var charts_loaded = new Array();
 	charts_loading_check(charts_loaded);
 	</script>
 	<?php
@@ -77,6 +77,8 @@ require("config.php");
 	var charts_border = '<?=$charts_border?>';
 	
 	var btc_fiat_value = '<?=number_format( $btc_fiat_value, 2, '.', '' )?>';
+	
+	var btc_fiat_pairing = '<?=strtoupper($btc_fiat_pairing)?>';
 	
 	</script>
 
