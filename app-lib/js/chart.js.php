@@ -38,16 +38,11 @@ if ( $_GET['type'] == 'asset' ) {
 		$js_key = preg_replace("/-/", "", $key) . '_' . $charted_value;
 		
 		
-			// Unicode asset symbols and currency names
-			if ( $charted_value == 'usd'
-			|| $charted_value == 'gbp' 
-			|| $charted_value == 'eur'
-			|| $charted_value == 'usdt'
-			|| $charted_value == 'tusd' 
-			|| $charted_value == 'usdc' ) {
+			// Unicode asset symbols
+			if ( array_key_exists($charted_value, $fiat_symbols) ) {
 			$currency_symbol = $fiat_symbols[$charted_value];
 			}
-			else {
+			elseif ( array_key_exists($charted_value, $crypto_symbols) ) {
 			$currency_symbol = $crypto_symbols[$charted_value];
 			}
 			
