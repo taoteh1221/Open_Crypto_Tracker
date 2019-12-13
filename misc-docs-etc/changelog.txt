@@ -1943,9 +1943,11 @@ app doing the data requests, not a malicious bot)
 4.00.0:
 -Bug fix of global import variable overwrite (accidentally changed value to uppercase globally)
 -Throttling of limited APIs (to help avoid ip blacklisting by exchanges requiring a separate call for each coin)
--Dynamic currency symbol for default/chosen bitcoin market pairing / primary fiat currency (for upcoming multi-currency feature release)
 -All stablecoin base-paired charts now have 24 hour volume as corresponding stablecoin value (for UX feel of fiat charts)
 -More USD markets
+-Added USDT / GBP / EUR Bitcoin markets
+-Dynamically changeable primary fiat currency globally (charts / alerts / token value / subtotal / total / tools / calculators), 
+based off the chosen Bitcoin market pairing (charts / alerts default fiat currency is changeable in configuration file).
 -Code cleanup / optimizations
 IMPORTANT NOTE: v4.00.0 and higher of this app REQUIRES DELETING YOUR PREVIOUS CHART DATA FROM ANY EARLIER VERSIONS.
 MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWARDS-COMPATIBLE.
