@@ -259,6 +259,30 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
  
  
  ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+  elseif ( strtolower($chosen_exchange) == 'btcmarkets' ) {
+     
+  
+     $json_string = 'https://api.btcmarkets.net/market/'.$market_pairing.'/tick';
+     
+     $jsondata = @api_data('url', $json_string, $last_trade_cache);
+     
+     $data = json_decode($jsondata, TRUE);
+
+     return  array(
+    					'last_trade' => $data['lastPrice'],
+    					'24hr_asset_volume' => $data["volume24h"],
+    					'24hr_pairing_volume' => NULL, // No pairing volume data for this API
+    					'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data["volume24h"], $data['lastPrice'])
+    					);
+   
+  }
+ 
+ 
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
   
   
 
@@ -895,37 +919,37 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
 
 
 
-  elseif ( strtolower($chosen_exchange) == 'usd_assets' ) {
+  elseif ( strtolower($chosen_exchange) == 'fiat_assets' ) {
 		
-	  $usdtobtc = ( 1 / $btc_fiat_value );		
+	  $fiattobtc = ( 1 / $btc_fiat_value );		
 		
-	  if ( $market_pairing == 'usdtobtc' ) {
+	  if ( $market_pairing == 'fiattobtc' ) {
      return  array(
-    					'last_trade' => $usdtobtc,
+    					'last_trade' => $fiattobtc,
     					'24hr_asset_volume' => NULL,
     					'24hr_pairing_volume' => NULL,
     					'24hr_fiat_volume' => NULL
     					);
      }
-	  elseif ( $market_pairing == 'usdtoxmr' ) {
+	  elseif ( $market_pairing == 'fiattoxmr' ) {
      return  array(
-    					'last_trade' => ( 1 / ( asset_market_data('XMR', 'binance', 'XMRBTC')['last_trade'] / $usdtobtc ) ),
+    					'last_trade' => ( 1 / ( asset_market_data('XMR', 'binance', 'XMRBTC')['last_trade'] / $fiattobtc ) ),
     					'24hr_asset_volume' => NULL,
     					'24hr_pairing_volume' => NULL,
     					'24hr_fiat_volume' => NULL
     					);
      }
-	  elseif ( $market_pairing == 'usdtoeth' ) {
+	  elseif ( $market_pairing == 'fiattoeth' ) {
      return  array(
-    					'last_trade' => ( 1 / ( asset_market_data('ETH', 'binance', 'ETHBTC')['last_trade'] / $usdtobtc ) ),
+    					'last_trade' => ( 1 / ( asset_market_data('ETH', 'binance', 'ETHBTC')['last_trade'] / $fiattobtc ) ),
     					'24hr_asset_volume' => NULL,
     					'24hr_pairing_volume' => NULL,
     					'24hr_fiat_volume' => NULL
     					);
      }
-	  elseif ( $market_pairing == 'usdtoltc' ) {
+	  elseif ( $market_pairing == 'fiattoltc' ) {
      return  array(
-    					'last_trade' => ( 1 / ( asset_market_data('LTC', 'binance', 'LTCBTC')['last_trade'] / $usdtobtc ) ),
+    					'last_trade' => ( 1 / ( asset_market_data('LTC', 'binance', 'LTCBTC')['last_trade'] / $fiattobtc ) ),
     					'24hr_asset_volume' => NULL,
     					'24hr_pairing_volume' => NULL,
     					'24hr_fiat_volume' => NULL

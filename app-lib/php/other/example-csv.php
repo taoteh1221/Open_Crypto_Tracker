@@ -48,9 +48,9 @@ $example_download_array[] = array(
 	        							'btc'
 	        							);	
 	        
-// MISCUSD
+// MISCASSETS
 $example_download_array[] = array(
-	        							'MISCUSD',
+	        							'MISCASSETS',
 	        							'80.15',
 	        							'',
 	        							'0',

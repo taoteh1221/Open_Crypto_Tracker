@@ -329,7 +329,7 @@
 	      
 	      
 	    
-	    	if ( strtoupper($coin_array_key) == 'MISCUSD' ) {
+	    	if ( strtoupper($coin_array_key) == 'MISCASSETS' ) {
 	    	$asset_amount_decimals = 2;
 	    	}
 	    	else {

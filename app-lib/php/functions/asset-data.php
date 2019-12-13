@@ -338,6 +338,16 @@ function pairing_sessions($pairing) {
    $_SESSION['usd_btc'] = number_format( (1 /  asset_market_data('USD', 'kraken', 'XXBTZUSD')['last_trade'] ), 8, '.', '');
    return $_SESSION['usd_btc'];
    }
+   // CAD
+   elseif ( $pairing == 'cad' && !$_SESSION['cad_btc'] ) {
+   $_SESSION['cad_btc'] = number_format( (1 /  asset_market_data('CAD', 'kraken', 'XXBTZCAD')['last_trade'] ), 8, '.', '');
+   return $_SESSION['cad_btc'];
+   }
+   // AUD
+   elseif ( $pairing == 'aud' && !$_SESSION['aud_btc'] ) {
+   $_SESSION['aud_btc'] = number_format( (1 /  asset_market_data('AUD', 'btcmarkets', 'BTC/AUD')['last_trade'] ), 8, '.', '');
+   return $_SESSION['aud_btc'];
+   }
    // GBP
    elseif ( $pairing == 'gbp' && !$_SESSION['gbp_btc'] ) {
    $_SESSION['gbp_btc'] = number_format( (1 /  asset_market_data('GBP', 'bitfinex', 'tBTCGBP')['last_trade'] ), 8, '.', '');
@@ -1458,7 +1468,7 @@ $market_pairing = $all_markets[$selected_exchange];
 
 <?php
 
-	if ( strtoupper($asset_symbol) == 'MISCUSD' ) {
+	if ( strtoupper($asset_symbol) == 'MISCASSETS' ) {
 	$asset_amount_decimals = 2;
 	}
 	else {

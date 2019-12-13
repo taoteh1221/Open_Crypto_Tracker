@@ -51,7 +51,7 @@ $local_time_offset = -5; // example: -5 or 5
 $btc_exchange = 'kraken'; // coinbase / binance / binance_us / bitstamp / bitfinex / kraken / gemini / hitbtc / okcoin / livecoin
 
 // Default BITCOIN-ONLY fiat (or stablecoin fiat equivalent) market pairing (for charts / price alert fiat-equivalent value determination)
-$btc_fiat_pairing = 'usd'; // 'usd', 'usdt', 'gbp', 'eur' (more to come)
+$btc_fiat_pairing = 'usd'; // 'usd', 'cad', 'aud', 'gbp', 'eur', 'usdt', 'tusd', 'usdc' (more to come)
 
 // Default marketcap data source: 'coingecko', or 'coinmarketcap' (coinmarketcap requires a FREE API key, see below)
 $marketcap_site = 'coingecko'; 
@@ -243,20 +243,22 @@ $asset_charts_and_alerts = array(
 					'btc-8' => 'kraken||eur||chart',
 					'btc-9' => 'coinbase||eur||chart',
 					'btc-10' => 'coinbase||gbp||chart',
+					'btc-11' => 'kraken||cad||chart',
+					'btc-12' => 'btcmarkets||aud||chart',
 					
 					// ETH
 					'eth' => 'coinbase||btc||chart',
 					'eth-2' => 'bittrex||btc||chart',
-					'eth-3' => 'bittrex||usdt||chart',
-					'eth-6' => 'kraken||btc||chart',
-					'eth-7' => 'binance||usdt||both',
-					'eth-8' => 'binance_us||btc||chart',
-					'eth-9' => 'coinbase||usd||chart',
-					'eth-10' => 'kraken||usd||chart',
-					'eth-11' => 'bitstamp||usd||chart',
-					'eth-12' => 'gemini||usd||chart',
-					'eth-13' => 'coinbase||gbp||chart',
-					'eth-14' => 'coinbase||eur||chart',
+					'eth-3' => 'kraken||btc||chart',
+					'eth-4' => 'binance||usdt||both',
+					'eth-5' => 'binance_us||btc||chart',
+					'eth-6' => 'coinbase||usd||chart',
+					'eth-7' => 'kraken||usd||chart',
+					'eth-8' => 'bitstamp||usd||chart',
+					'eth-9' => 'gemini||usd||chart',
+					'eth-10' => 'coinbase||gbp||chart',
+					'eth-11' => 'coinbase||eur||chart',
+					'eth-12' => 'bittrex||usdt||chart',
 					
 					// XMR
 					'xmr' => 'bittrex||btc||chart',
@@ -267,9 +269,9 @@ $asset_charts_and_alerts = array(
 					// LTC
 					'ltc' => 'bittrex||btc||chart',
 					'ltc-2' => 'bittrex||eth||chart',
-					'ltc-5' => 'binance||usdt||both',
-					'ltc-6' => 'binance||eth||chart',
-					'ltc-7' => 'binance_us||btc||chart',
+					'ltc-3' => 'binance||usdt||both',
+					'ltc-4' => 'binance||eth||chart',
+					'ltc-5' => 'binance_us||btc||chart',
 					
 					// DCR
 					'dcr' => 'bittrex||btc||chart',
@@ -280,10 +282,10 @@ $asset_charts_and_alerts = array(
 					
 					// GRIN
 					'grin-2' => 'bittrex_global||btc||chart',
-					'grin-4' => 'gateio||usdt||chart',
-					'grin-5' => 'kucoin||btc||both',
-					'grin-6' => 'hitbtc||btc||chart',
-					'grin-7' => 'hotbit||btc||chart',
+					'grin-3' => 'gateio||usdt||chart',
+					'grin-4' => 'kucoin||btc||both',
+					'grin-5' => 'hitbtc||btc||chart',
+					'grin-6' => 'hotbit||btc||chart',
 					
 					// ATOM
 					'atom-2' => 'kraken||btc||chart',
@@ -298,13 +300,13 @@ $asset_charts_and_alerts = array(
 					
 					// STEEM
 					'steem' => 'bittrex||btc||chart',
-					'steem-3' => 'binance||btc||chart',
+					'steem-2' => 'binance||btc||chart',
 					
 					// DOGE
 					'doge' => 'bittrex||btc||chart',
-					'doge-3' => 'binance||btc||both',
-					'doge-4' => 'binance_us||usdt||chart',
-					'doge-5' => 'kraken||btc||chart',
+					'doge-2' => 'binance||btc||both',
+					'doge-3' => 'binance_us||usdt||chart',
+					'doge-4' => 'kraken||btc||chart',
 					
 					// ANT
 					'ant' => 'bittrex_global||btc||both',
@@ -313,13 +315,13 @@ $asset_charts_and_alerts = array(
 					
 					// MANA
 					'mana' => 'bittrex||btc||chart',
-					'mana-3' => 'binance||btc||both',
-					'mana-4' => 'kucoin||btc||chart',
-					'mana-5' => 'ethfinex||btc||chart',
+					'mana-2' => 'binance||btc||both',
+					'mana-3' => 'kucoin||btc||chart',
+					'mana-4' => 'ethfinex||btc||chart',
 					
 					// GNT
 					'gnt' => 'bittrex||btc||both',
-					'gnt-3' => 'ethfinex||btc||chart',
+					'gnt-2' => 'ethfinex||btc||chart',
 					
 					// DATA
 					'data' => 'hitbtc||btc||chart',
@@ -637,6 +639,14 @@ $coins_list = array(
                                           'hitbtc' => 'BTCUSD',
                                           'okcoin' => 'btc_usd',
                                           'livecoin' => 'BTC/USD'
+                                                    ),
+                                                    
+                                    'cad' => array(
+                                          'kraken' => 'XXBTZCAD'
+                                                    ),
+                                                    
+                                    'aud' => array(
+                                    		'btcmarkets' => 'BTC/AUD'
                                                     ),
                                                     
                                     'usdt' => array(
@@ -1268,27 +1278,27 @@ $coins_list = array(
                     ), // Coin END
                     
                     
-                    // Misc. USD Value
-                    'MISCUSD' => array(
+                    // Misc. Assets Value
+                    'MISCASSETS' => array(
                         
-                        'coin_name' => 'Misc. USD Value',
+                        'coin_name' => 'Misc. Assets Value',
                         'marketcap_website_slug' => '',
                         'market_pairing' => array(
                         
                                     'btc' => array(
-                                          'usd_assets' => 'usdtobtc'
+                                          'fiat_assets' => 'fiattobtc'
                                                     ),
                                                     
                                     'xmr' => array(
-                                          'usd_assets' => 'usdtoxmr'
+                                          'fiat_assets' => 'fiattoxmr'
                                                     ),
                                                     
                                     'eth' => array(
-                                          'usd_assets' => 'usdtoeth'
+                                          'fiat_assets' => 'fiattoeth'
                                                     ),
                                                     
                                     'ltc' => array(
-                                          'usd_assets' => 'usdtoltc'
+                                          'fiat_assets' => 'fiattoltc'
                                                     )
                                                     
                                         ) // market_pairing END

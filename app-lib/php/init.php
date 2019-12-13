@@ -8,7 +8,7 @@ error_reporting(0); // Turn off all PHP error reporting on production servers (0
 
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
 
-$app_version = '4.00.0 BETA 1';  // 2019/DECEMBER/13TH
+$app_version = '4.00.0 BETA 2';  // 2019/DECEMBER/13TH
 
 
 require_once("app-lib/php/loader.php");
@@ -79,12 +79,13 @@ $http_users = array(
 
 // TLD-only for each API service that requires multiple calls (for each market)
 $limited_apis = array(
-						'coinbase.com',
-						'gemini.com',
-						'okcoin.com',
+						'bitforex.com',
 						'bitstamp.net',
+						'btcmarkets.net',
+						'coinbase.com',
 						'cryptofresh.com',
-						'bitforex.com'
+						'gemini.com',
+						'okcoin.com'
 							);
 
 
@@ -92,6 +93,8 @@ $limited_apis = array(
 // Currency symbols for all supported fiat / equivalent BITCOIN-ONLY market pairings
 $fiat_symbols = array(
 						'usd' => '$',
+						'cad' => 'C$',
+						'aud' => 'A$',
 						'gbp' => '£',
 						'eur' => '€',
 						'usdt' => '₮ ',

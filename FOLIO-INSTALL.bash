@@ -446,7 +446,8 @@ echo " "
 echo "Attempting to auto-detect the web server's user group..."
 echo " "
 
-WWW_GROUP=$(/bin/ps -ef | /bin/egrep '(httpd|httpd2|apache|apache2)' | /bin/grep -v `whoami` | /bin/grep -v root | /usr/bin/head -n1 | /usr/bin/awk '{print $1}')
+#WWW_GROUP=$(/bin/ps -ef | /bin/egrep '(httpd|httpd2|apache|apache2)' | /bin/grep -v `whoami` | /bin/grep -v root | /usr/bin/head -n1 | /usr/bin/awk '{print $1}')
+WWW_GROUP=$(/bin/ps axo user,group,comm | /bin/egrep '(httpd|httpd2|apache|apache2)' | /bin/grep -v ^root | /usr/bin/cut -d\  -f 2 | /usr/bin/uniq)
 
 echo "The web server's user group has been detected as:"
 
