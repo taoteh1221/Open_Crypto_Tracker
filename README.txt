@@ -130,49 +130,6 @@ Ethereum ICO subtoken support has been built in, but values are static ICO value
                         'coin_name' => 'COIN_NAME_HERE',
                         'marketcap_website_slug' => 'WEBSITE_SLUG_HERE', // Website slug (URL data) on coinmarketcap / coingecko, leave blank if not listed there
                         'market_pairing' => array(
-                        
-                                    'btc' => array(
-                                          'lowercase_marketplace1' => 'MARKETNUMBERHERE',
-                                          'lowercase_marketplace2' => 'BTC_COINSYMBOLHERE',
-                                          'lowercase_marketplace3' => 'BTC-COINSYMBOLHERE'
-                                                    ),
-                                                    
-                                    'xmr' => array(
-                                          'lowercase_marketplace1' => 'MARKETNUMBERHERE',
-                                          'lowercase_marketplace2' => 'XMR_COINSYMBOLHERE',
-                                          'lowercase_marketplace3' => 'XMR-COINSYMBOLHERE'
-                                                    ),
-                                                    
-                                    'eth' => array(
-                                          'lowercase_marketplace1' => 'MARKETNUMBERHERE',
-                                          'lowercase_marketplace2' => 'ETH_COINSYMBOLHERE',
-                                          'lowercase_marketplace3' => 'ETH-COINSYMBOLHERE',
-                                          'eth_subtokens_ico' => 'ETHSUBTOKENNAME' // Must be defined in $eth_subtokens_ico_values in config.php
-                                                    ),
-                                                    
-                                    'ltc' => array(
-                                          'lowercase_marketplace1' => 'MARKETNUMBERHERE',
-                                          'lowercase_marketplace2' => 'LTC_COINSYMBOLHERE',
-                                          'lowercase_marketplace3' => 'LTC-COINSYMBOLHERE'
-                                                    ),
-                                                    
-                                    'usdt' => array(
-                                          'lowercase_marketplace1' => 'MARKETNUMBERHERE',
-                                          'lowercase_marketplace2' => 'USDT_COINSYMBOLHERE',
-                                          'lowercase_marketplace3' => 'USDT-COINSYMBOLHERE'
-                                                    ),
-                                                    
-                                    'tusd' => array(
-                                          'lowercase_marketplace1' => 'MARKETNUMBERHERE',
-                                          'lowercase_marketplace2' => 'TUSD_COINSYMBOLHERE',
-                                          'lowercase_marketplace3' => 'TUSD-COINSYMBOLHERE'
-                                                    ),
-                                                    
-                                    'usdc' => array(
-                                          'lowercase_marketplace1' => 'MARKETNUMBERHERE',
-                                          'lowercase_marketplace2' => 'USDC_COINSYMBOLHERE',
-                                          'lowercase_marketplace3' => 'USDC-COINSYMBOLHERE'
-                                                    ),
                                                     
                                     'usd' => array(
                                           'lowercase_marketplace1' => 'MARKETNUMBERHERE',
@@ -202,6 +159,49 @@ Ethereum ICO subtoken support has been built in, but values are static ICO value
                                           'lowercase_marketplace1' => 'MARKETNUMBERHERE',
                                           'lowercase_marketplace2' => 'EUR_COINSYMBOLHERE',
                                           'lowercase_marketplace3' => 'EUR-COINSYMBOLHERE'
+                                                    ),
+                                                    
+                                    'usdt' => array(
+                                          'lowercase_marketplace1' => 'MARKETNUMBERHERE',
+                                          'lowercase_marketplace2' => 'USDT_COINSYMBOLHERE',
+                                          'lowercase_marketplace3' => 'USDT-COINSYMBOLHERE'
+                                                    ),
+                                                    
+                                    'tusd' => array(
+                                          'lowercase_marketplace1' => 'MARKETNUMBERHERE',
+                                          'lowercase_marketplace2' => 'TUSD_COINSYMBOLHERE',
+                                          'lowercase_marketplace3' => 'TUSD-COINSYMBOLHERE'
+                                                    ),
+                                                    
+                                    'usdc' => array(
+                                          'lowercase_marketplace1' => 'MARKETNUMBERHERE',
+                                          'lowercase_marketplace2' => 'USDC_COINSYMBOLHERE',
+                                          'lowercase_marketplace3' => 'USDC-COINSYMBOLHERE'
+                                                    ),
+                        
+                                    'btc' => array(
+                                          'lowercase_marketplace1' => 'MARKETNUMBERHERE',
+                                          'lowercase_marketplace2' => 'BTC_COINSYMBOLHERE',
+                                          'lowercase_marketplace3' => 'BTC-COINSYMBOLHERE'
+                                                    ),
+                                                    
+                                    'eth' => array(
+                                          'lowercase_marketplace1' => 'MARKETNUMBERHERE',
+                                          'lowercase_marketplace2' => 'ETH_COINSYMBOLHERE',
+                                          'lowercase_marketplace3' => 'ETH-COINSYMBOLHERE',
+                                          'eth_subtokens_ico' => 'ETHSUBTOKENNAME' // Must be defined in $eth_subtokens_ico_values in config.php
+                                                    ),
+                                                    
+                                    'xmr' => array(
+                                          'lowercase_marketplace1' => 'MARKETNUMBERHERE',
+                                          'lowercase_marketplace2' => 'XMR_COINSYMBOLHERE',
+                                          'lowercase_marketplace3' => 'XMR-COINSYMBOLHERE'
+                                                    ),
+                                                    
+                                    'ltc' => array(
+                                          'lowercase_marketplace1' => 'MARKETNUMBERHERE',
+                                          'lowercase_marketplace2' => 'LTC_COINSYMBOLHERE',
+                                          'lowercase_marketplace3' => 'LTC-COINSYMBOLHERE'
                                                     )
                                                     
                                           ) // market_pairing END

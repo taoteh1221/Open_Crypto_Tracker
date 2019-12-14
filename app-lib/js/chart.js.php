@@ -73,6 +73,10 @@ if ( $_GET['type'] == 'asset' ) {
 		
 		$price_sample = substr( $chart_data['spot'] , 0, strpos( $chart_data['spot'] , "," ) );
 		
+		
+		$spot_price_decimals = ( $fiat_equiv == 1 ? $fiat_decimals_max : 8 );
+		
+		
 ?>
 
 
@@ -120,7 +124,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
       text: "Spot Price: <?=$currency_symbol?>%v",
 	 	fontSize: "20",
       fontFamily: "Open Sans",
-      <?=( $price_sample < 0.000001 ? 'decimals: 8,' : '' )?> /* -- price_sample: <?=$price_sample?> -- */ 
+      <?=( $price_sample < 0.000001 ? 'decimals: ' . $spot_price_decimals . ',' : '' )?> /* -- price_sample: <?=$price_sample?> -- */ 
       y:0,
       "thousands-separator":",",
     },
