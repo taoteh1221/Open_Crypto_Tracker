@@ -64,7 +64,7 @@ define('CURL_VERSION_ID', str_replace(".", "", $curl_setup["version"]) );
 
 
 
-// HTTP user and system users list, for cache compatibility determination
+// HTTP SERVER user and system user detection variables, for cache compatibility auto-configuration
 $http_runtime_user = ( $runtime_mode == 'ui' ? posix_getpwuid(posix_geteuid())['name'] : trim( file_get_contents('cache/vars/http_runtime_user.dat') ) );
 
 $http_users = array(
@@ -78,6 +78,7 @@ $http_users = array(
 
 
 // TLD-only for each API service that requires multiple calls (for each market)
+// Used to throttle these market calls a bit, so we don't get blacklisted
 $limited_apis = array(
 						'bitforex.com',
 						'bitstamp.net',
@@ -86,35 +87,6 @@ $limited_apis = array(
 						'cryptofresh.com',
 						'gemini.com',
 						'okcoin.com'
-							);
-
-
-
-// Currency symbols for all supported fiat / equivalent BITCOIN-ONLY market pairings
-$fiat_symbols = array(
-						'usd' => '$',
-						'cad' => 'C$',
-						'aud' => 'A$',
-						'sgd' => 'S$',
-						'hkd' => 'HK$',
-						'gbp' => '£',
-						'eur' => '€',
-						'chf' => 'CHf ',
-						'rub' => '₽',
-						'jpy' => 'J¥',
-						'usdt' => '₮ ',
-						'tusd' => 'Ⓢ',
-						'usdc' => 'Ⓢ'
-							);
-
-
-
-// Currency symbols for crypto pairings
-$crypto_symbols = array(
-						'btc' => 'Ƀ ',
-						'eth' => 'Ξ ',
-						'ltc' => 'Ł ',
-						'xmr' => 'ɱ '
 							);
 							
 

@@ -735,10 +735,10 @@ return $result;
 
 function chart_data($file, $trade_format) {
 
-global $fiat_decimals_max, $charts_alerts_btc_fiat_pairing, $fiat_symbols;
+global $fiat_decimals_max, $charts_alerts_btc_fiat_pairing, $fiat_currencies;
 
 
-	if ( array_key_exists($trade_format, $fiat_symbols) ) {
+	if ( array_key_exists($trade_format, $fiat_currencies) ) {
 	$fiat_formatting = 1;
 	}
 

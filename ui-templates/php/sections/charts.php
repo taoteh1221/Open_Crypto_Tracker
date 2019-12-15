@@ -114,7 +114,7 @@
 	<div style='display: none;' class='show_chartsnotice' align='left'>
 		
 		<?php
-		foreach ( $fiat_symbols as $key => $unused ) {
+		foreach ( $fiat_currencies as $key => $unused ) {
 		$supported_fiat_list .= strtoupper($key) . ' / ';
 		}
 		$supported_fiat_list = trim($supported_fiat_list);

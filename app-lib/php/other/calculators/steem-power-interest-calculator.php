@@ -17,7 +17,7 @@ $steem_market = asset_market_data('STEEM', 'binance', 'STEEMBTC')['last_trade'];
     
 
 
-<p class='green' style='font-weight: bold;'>1 STEEM = <?=$steem_market?> BTC (<?=$fiat_symbols[$btc_fiat_pairing]?><?php echo number_format( ( $steem_market * $btc_fiat_value ), 8, '.', ','); ?>)</p>
+<p class='green' style='font-weight: bold;'>1 STEEM = <?=$steem_market?> BTC (<?=$fiat_currencies[$btc_fiat_pairing]?><?php echo number_format( ( $steem_market * $btc_fiat_value ), 8, '.', ','); ?>)</p>
 
 <div>
     <form action='<?=start_page('mining_calculators')?>' method='post'>

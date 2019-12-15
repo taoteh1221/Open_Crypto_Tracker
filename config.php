@@ -391,6 +391,45 @@ $steem_powerdown_time = 13;
 
 
 
+// POWER USER SETTINGS (ADJUST WITH CARE, OR YOU CAN BREAK THE APP!)
+
+// Currencies / symbols for BITCOIN/FIAT(OR STABLECOIN) markets
+// that we activate as primary currency options (globally) throughout the app
+// MUST BE AN EXISTING BTC/FIAT(OR STABLECOIN) MARKET PAIRING TO PROPERLY ACTIVATE
+$fiat_currencies = array(
+						//'lowercase_btc_fiat_or_stablecoin_pairing' => 'SYMBOL',
+						'usd' => '$',
+						'cad' => 'C$',
+						'aud' => 'A$',
+						'sgd' => 'S$',
+						'hkd' => 'HK$',
+						'gbp' => '£',
+						'eur' => '€',
+						'chf' => 'CHf ',
+						'rub' => '₽',
+						'jpy' => 'J¥',
+						'usdt' => '₮ ',
+						'tusd' => 'Ⓢ ',
+						'usdc' => 'Ⓢ '
+							);
+
+
+
+
+// Currencies / symbols for CRYPTO/BTC pairings in our $coins_list array
+// that we activate pairing support for (crypto/crypto markets)
+// EACH COIN MUST HAVE A BTC MARKET PAIRING ALREADY EXIST TO PROPERLY ACTIVATE (EXCEPT FOR btc)
+$crypto_to_crypto_pairing = array(
+						//'lowercase_coin_abrv' => 'SYMBOL',
+						'btc' => 'Ƀ ',
+						'eth' => 'Ξ ',
+						'xmr' => 'ɱ ',
+						'ltc' => 'Ł '
+							);
+
+
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////// GENERAL CONFIG -END- //////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -762,15 +801,15 @@ $coins_list = array(
                                                     ),
                                                     
                                     'usdc' => array(
-                                          'coinbase' => 'ETH-USDC',
                                           'binance' => 'ETHUSDC',
+                                          'coinbase' => 'ETH-USDC',
                                           'kucoin' => 'ETH-USDC',
                                           'poloniex' => 'USDC_ETH'
                                                     ),
                         
                                     'btc' => array(
-                                          'coinbase' => 'ETH-BTC',
                                           'binance' => 'ETHBTC',
+                                          'coinbase' => 'ETH-BTC',
                                           'binance_us' => 'ETHBTC',
                                           'bittrex' => 'BTC-ETH',
                                           'bitstamp' => 'ethbtc',
@@ -885,8 +924,8 @@ $coins_list = array(
                                                     ),
                         
                                     'btc' => array(
-                                        'coinbase' => 'LTC-BTC',
                                         'binance' => 'LTCBTC',
+                                        'coinbase' => 'LTC-BTC',
                                         'huobi' => 'ltcbtc',
                                         'binance_us' => 'LTCBTC',
                                         'bittrex' => 'BTC-LTC',

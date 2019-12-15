@@ -126,8 +126,8 @@ Ethereum ICO subtoken support has been built in, but values are static ICO value
  
  
  
-                    // UPPERCASE_COIN_SYMBOL_HERE
-                    'UPPERCASE_COIN_SYMBOL_HERE' => array(
+                    // UPPERCASE_COIN_ABRV_HERE
+                    'UPPERCASE_COIN_ABRV_HERE' => array(
                         
                         'coin_name' => 'COIN_NAME_HERE',
                         'marketcap_website_slug' => 'WEBSITE_SLUG_HERE', // Website slug (URL data) on coinmarketcap / coingecko, leave blank if not listed there

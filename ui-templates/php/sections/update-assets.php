@@ -441,7 +441,7 @@
 	     ' <?=( remove_number_format($asset_amount_value) > 0 && remove_number_format($asset_amount_value) <= '0.000000001' ? 'readonly' : '' )?> /> <span class='blue'><?=strtoupper($coin_array_key)?></span>  &nbsp;  &nbsp; 
 			    
 			
-	     <b>Average Paid (per-token):</b> <?=$fiat_symbols[$btc_fiat_pairing]?><input type='text' size='10' id='<?=$field_var_paid?>' name='<?=$field_var_paid?>' value='<?=$coin_paid_value?>' /> 
+	     <b>Average Paid (per-token):</b> <?=$fiat_currencies[$btc_fiat_pairing]?><input type='text' size='10' id='<?=$field_var_paid?>' name='<?=$field_var_paid?>' value='<?=$coin_paid_value?>' /> 
 	     
 	     
 		<img id='average_paid_notes_<?=$rand_id?>' src='ui-templates/media/images/info.png' alt='' width='30' border='0' style='position: relative; left: -5px;' /> 

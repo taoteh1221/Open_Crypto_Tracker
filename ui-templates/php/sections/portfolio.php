@@ -424,7 +424,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 			
 		$gain_loss_total = coin_stats_data('gain_loss_total');
 		
-		$parsed_gain_loss_total = preg_replace("/-/", "-" . $fiat_symbols[$btc_fiat_pairing], number_format( $gain_loss_total, 2, '.', ',' ) );
+		$parsed_gain_loss_total = preg_replace("/-/", "-" . $fiat_currencies[$btc_fiat_pairing], number_format( $gain_loss_total, 2, '.', ',' ) );
 		
 		$original_worth = coin_stats_data('coin_paid_total');
 		
@@ -454,9 +454,9 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 		// BTC / PAIRING portfolio stats output
 		echo '<div class="portfolio_summary"><span class="black">BTC Value:</span> <span class="bitcoin">Ƀ ' . $total_btc_worth . '</span>' . $leverage_text1 . '</div>';
 		
-		echo '<div class="portfolio_summary"><span class="black">'.strtoupper($btc_fiat_pairing).' Value:</span> ' . $fiat_symbols[$btc_fiat_pairing] . number_format($total_fiat_worth, 2, '.', ',') . $leverage_text2 . '</div>';
+		echo '<div class="portfolio_summary"><span class="black">'.strtoupper($btc_fiat_pairing).' Value:</span> ' . $fiat_currencies[$btc_fiat_pairing] . number_format($total_fiat_worth, 2, '.', ',') . $leverage_text2 . '</div>';
 		
-		echo ( $purchase_price_added == 1 && $leverage_added == 1 && is_numeric($gain_loss_total) == TRUE ? '<div class="portfolio_summary"><span class="black">Leverage Included: </span>' . ( $total_fiat_worth_inc_leverage >= 0 ? '<span class="green">' : '<span class="red">-' ) . $fiat_symbols[$btc_fiat_pairing] . $parsed_total_fiat_worth_inc_leverage . '</span>' . '</div>' : '' );
+		echo ( $purchase_price_added == 1 && $leverage_added == 1 && is_numeric($gain_loss_total) == TRUE ? '<div class="portfolio_summary"><span class="black">Leverage Included: </span>' . ( $total_fiat_worth_inc_leverage >= 0 ? '<span class="green">' : '<span class="red">-' ) . $fiat_currencies[$btc_fiat_pairing] . $parsed_total_fiat_worth_inc_leverage . '</span>' . '</div>' : '' );
 	
 
 
@@ -474,7 +474,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 		$leverage_text2 = ( $leverage_added == 1 ? ', includes leverage' : '' );
 		
 		
-		echo '<div class="portfolio_summary"><span class="black">' . ( $gain_loss_total >= 0 ? 'Gain:</span> <span class="green">+' . $fiat_symbols[$btc_fiat_pairing] : 'Loss:</span> <span class="red">' ) . $parsed_gain_loss_total . ' (' . ( $gain_loss_total >= 0 ? '+' : '-' ) . number_format($percent_difference_total, 2, '.', ',') . '%' . $leverage_text2 . ')</span>';
+		echo '<div class="portfolio_summary"><span class="black">' . ( $gain_loss_total >= 0 ? 'Gain:</span> <span class="green">+' . $fiat_currencies[$btc_fiat_pairing] : 'Loss:</span> <span class="red">' ) . $parsed_gain_loss_total . ' (' . ( $gain_loss_total >= 0 ? '+' : '-' ) . number_format($percent_difference_total, 2, '.', ',') . '%' . $leverage_text2 . ')</span>';
 		
 		?> 
 		
@@ -483,7 +483,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 		
 	 <script>
 	 
-		document.title = '<?=( $gain_loss_total >= 0 ? '+' . $fiat_symbols[$btc_fiat_pairing] : '' )?><?=$parsed_gain_loss_total?> (<?=( $gain_loss_total >= 0 ? '+' : '-' )?><?=number_format($percent_difference_total, 2, '.', ',')?>%)  ||  ' + document.title;
+		document.title = '<?=( $gain_loss_total >= 0 ? '+' . $fiat_currencies[$btc_fiat_pairing] : '' )?><?=$parsed_gain_loss_total?> (<?=( $gain_loss_total >= 0 ? '+' : '-' )?><?=number_format($percent_difference_total, 2, '.', ',')?>%)  ||  ' + document.title;
 	
 		
 			var gain_loss_content = '<h5 class="yellow" style="position: relative; white-space: nowrap;">Gain / Loss Stats:</h5>'
@@ -497,7 +497,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 					
 				foreach ( $coin_stats_array as $key => $value ) {
 					
-						$parsed_gain_loss = preg_replace("/-/", "-" . $fiat_symbols[$btc_fiat_pairing], number_format( $value['gain_loss_total'], 2, '.', ',' ) );
+						$parsed_gain_loss = preg_replace("/-/", "-" . $fiat_currencies[$btc_fiat_pairing], number_format( $value['gain_loss_total'], 2, '.', ',' ) );
 						
 						if ( $value['coin_leverage'] >= 2 ) {
 						$parsed_total_with_leverage = number_format( ( $value['coin_worth_total'] + $value['gain_loss_only_leverage'] ) , 2, '.', ',' );
@@ -508,7 +508,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 							
 							
 				?>
-			+'<p class="coin_info"><span class="yellow"><?=$value['coin_symbol']?>:</span> <span class="<?=( $value['gain_loss_total'] >= 0 ? 'green_bright">+' . $fiat_symbols[$btc_fiat_pairing] : 'red_bright">' )?><?=$parsed_gain_loss?> (<?=( $value['gain_loss_total'] >= 0 ? '+' : '' )?><?=number_format($value['gain_loss_percent_total'], 2, '.', ',')?>%<?=( $value['coin_leverage'] >= 2 ? ', ' . $value['coin_leverage'] . 'x ' . $value['selected_margintype'] : '' )?>)</span></p>'
+			+'<p class="coin_info"><span class="yellow"><?=$value['coin_symbol']?>:</span> <span class="<?=( $value['gain_loss_total'] >= 0 ? 'green_bright">+' . $fiat_currencies[$btc_fiat_pairing] : 'red_bright">' )?><?=$parsed_gain_loss?> (<?=( $value['gain_loss_total'] >= 0 ? '+' : '' )?><?=number_format($value['gain_loss_percent_total'], 2, '.', ',')?>%<?=( $value['coin_leverage'] >= 2 ? ', ' . $value['coin_leverage'] . 'x ' . $value['selected_margintype'] : '' )?>)</span></p>'
 			
 			<?php
 						}
@@ -615,7 +615,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 		<?php
 		}
 	
-	echo '<div class="portfolio_summary"><span class="black">(Bitcoin is trading @ ' . $fiat_symbols[$btc_fiat_pairing] . number_format( $btc_fiat_value, 2, '.', ',') . ' on ' . name_rendering($show_exchange) . ')</span></div>';
+	echo '<div class="portfolio_summary"><span class="black">(Bitcoin is trading @ ' . $fiat_currencies[$btc_fiat_pairing] . number_format( $btc_fiat_value, 2, '.', ',') . ' on ' . name_rendering($show_exchange) . ')</span></div>';
 
 			
 		if ( $short_added == 1 ) {
