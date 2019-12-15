@@ -53,10 +53,6 @@
 
 		}
 
-		// Log errors / debugging, send notifications, destroy session data
-		error_logs();
-		debugging_logs();
-		send_notifications();
 
     	// Calculate script runtime BEFORE clearing session data
     	$script_runtime = script_runtime('finish');
@@ -68,6 +64,10 @@
 		
     	echo '<p align="center" class="'.( $script_runtime <= 10 ? 'green' : 'red' ).'"> Page generated in '.$script_runtime.' seconds. </p>';
     
+		// Log errors / debugging, send notifications, destroy session data
+		error_logs();
+		debugging_logs();
+		send_notifications();
 		hardy_session_clearing();
 	
     ?>
