@@ -30,7 +30,7 @@ if ( $runtime_mode == 'ui' ) {
 		$test_result = asset_market_data($check_asset, $check_asset_params[0], $check_pairing_name)['last_trade'];
 		
 			if ( $test_result == NULL ) {
-			app_error( 'other_error', 'No chart / price alert market data available', 'chart_key: ' . $key . '; market: ' . $check_asset . ' / ' . strtoupper($check_asset_params[1]) . ' @ ' . ucfirst($check_asset_params[0]) );
+			app_logging( 'other_error', 'No chart / price alert market data available', 'chart_key: ' . $key . '; market: ' . $check_asset . ' / ' . strtoupper($check_asset_params[1]) . ' @ ' . ucfirst($check_asset_params[0]) );
 		}
 				
 		
@@ -49,7 +49,7 @@ if ( $runtime_mode == 'ui' ) {
 			$test_result = validate_email( 'test@' . trim($value) );
 		
 			if ( $test_result != 'valid' ) {
-			app_error( 'other_error', 'email-to-mobile-text gateway '.trim($value).' does not appear valid', 'key: ' . $key . '; gateway: ' . trim($value) . '; result: ' . $test_result );
+			app_logging( 'other_error', 'email-to-mobile-text gateway '.trim($value).' does not appear valid', 'key: ' . $key . '; gateway: ' . trim($value) . '; result: ' . $test_result );
 			}
 		
 		}
@@ -73,7 +73,7 @@ if ( $runtime_mode == 'ui' ) {
 				$test_result = asset_market_data( strtoupper($coin_key) , $key , $value )['last_trade'];
 				
 					if ( $test_result == NULL ) {
-					app_error( 'other_error', 'No coin market data available', strtoupper($coin_key) . ' / ' . strtoupper($pairing_key) . ' @ ' . ucfirst($key) );
+					app_logging( 'other_error', 'No coin market data available', strtoupper($coin_key) . ' / ' . strtoupper($pairing_key) . ' @ ' . ucfirst($key) );
 					}
 				
 				}

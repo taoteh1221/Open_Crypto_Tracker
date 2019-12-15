@@ -1941,18 +1941,31 @@ app doing the data requests, not a malicious bot)
 
 -------------------------------------------------------------------
 4.00.0:
--Bug fix of global import variable overwrite (accidentally changed value to uppercase globally)
--Throttling of limited APIs (to help avoid ip blacklisting by exchanges requiring a separate call for each coin)
+
+-Power user config section (use with care)
+
+-Bug fix of global import variable overwrites
+
+-More USD (and other fiat) markets for Bitcoin / Altcoins
+
+-Code cleanup / optimizations / bug fixes / semantics
+
 -All charts now have 24 hour volume as pairing volume (for normal UX feel charts)
--More USD markets
--Added USDT / GBP / EUR Bitcoin markets
--Dynamically changeable primary fiat currency globally (charts / alerts / token value / subtotal / total / tools / calculators), 
-based off the chosen Bitcoin market pairing (charts / alerts default fiat currency is changeable in configuration file).
--Code cleanup / optimizations / bug fixes
+
+-Added debugging log (when debugging is enabled in config.php) to log runtime telemetry
+
 -API support for btcmarkets.net, bitpanda.com, lakebtc.com, tidebit.com, huobi.pro, cex.io
--New trading pairs: CAD / AUD / SGD / HKD / GBP / EUR / CHF / JPY
+
+-Throttling of limited APIs (to help avoid ip blacklisting by exchanges requiring a separate call for each coin)
+
+-New Bitcoin fiat (or stablecoin) trading pairs: USDT / TUSD / USDC / GBP / EUR / CAD / AUD / SGD / HKD / GBP / EUR / CHF / JPY / RUB
+
+-Dynamically changeable primary fiat currency globally (charts / alerts / token value / subtotal / total / tools / calculators), 
+based off the chosen Bitcoin market pairing (charts / alerts default fiat currency is ONLY changeable in configuration file).
+
 IMPORTANT NOTE: v4.00.0 and higher of this app REQUIRES DELETING YOUR PREVIOUS CHART DATA FROM ANY EARLIER VERSIONS.
 MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWARDS-COMPATIBLE.
+
 -------------------------------------------------------------------
 
 

@@ -291,18 +291,18 @@ $time = $time[1] + $time[0];
 ////////////////////////////////////////////////////////
 
 
-function app_error($error_type, $error_message, $telemetry=false, $hashcheck=false, $overwrite=false) {
+function app_logging($log_type, $log_message, $telemetry=false, $hashcheck=false, $overwrite=false) {
 
 global $runtime_mode;
 
 	if ( $hashcheck != false ) {
-	$_SESSION[$error_type][$hashcheck] = date('Y-m-d H:i:s') . ' UTC | runtime: ' . $runtime_mode . ' | ' . $error_type . ': ' . $error_message . ( $telemetry != false ? ' | telemetry: [ '  . $telemetry . ' ]' : '' ) . " <br /> \n";
+	$_SESSION[$log_type][$hashcheck] = date('Y-m-d H:i:s') . ' UTC | runtime: ' . $runtime_mode . ' | ' . $log_type . ': ' . $log_message . ( $telemetry != false ? ' | telemetry: [ '  . $telemetry . ' ]' : '' ) . " <br /> \n";
 	}
 	elseif ( $overwrite != false ) {
-	$_SESSION[$error_type] = date('Y-m-d H:i:s') . ' UTC | runtime: ' . $runtime_mode . ' | ' . $error_type . ': ' . $error_message . ( $telemetry != false ? ' | telemetry: [ '  . $telemetry . ' ]' : '' ) . " <br /> \n";
+	$_SESSION[$log_type] = date('Y-m-d H:i:s') . ' UTC | runtime: ' . $runtime_mode . ' | ' . $log_type . ': ' . $log_message . ( $telemetry != false ? ' | telemetry: [ '  . $telemetry . ' ]' : '' ) . " <br /> \n";
 	}
 	else {
-	$_SESSION[$error_type] .= date('Y-m-d H:i:s') . ' UTC | runtime: ' . $runtime_mode . ' | ' . $error_type . ': ' . $error_message . ( $telemetry != false ? ' | telemetry: [ '  . $telemetry . ' ]' : '' ) . " <br /> \n";
+	$_SESSION[$log_type] .= date('Y-m-d H:i:s') . ' UTC | runtime: ' . $runtime_mode . ' | ' . $log_type . ': ' . $log_message . ( $telemetry != false ? ' | telemetry: [ '  . $telemetry . ' ]' : '' ) . " <br /> \n";
 	}
 
 
@@ -320,11 +320,11 @@ $result = setcookie($name, $value, $time);
 	
 	// Android / Safari maximum cookie size is 4093 bytes, Chrome / Firefox max is 4096
 	if ( strlen($value) > 4093 ) {  
-	app_error('other_error', 'Cookie size is greater than 4093 bytes (' . strlen($value) . ' bytes). If saving portfolio as cookie data fails on your browser, try using CSV file import / export instead for large portfolios.');
+	app_logging('other_error', 'Cookie size is greater than 4093 bytes (' . strlen($value) . ' bytes). If saving portfolio as cookie data fails on your browser, try using CSV file import / export instead for large portfolios.');
 	}
 	
 	if ( $result == FALSE ) {
-	app_error('other_error', 'Cookie creation failed for cookie "' . $name . '"');
+	app_logging('other_error', 'Cookie creation failed for cookie "' . $name . '"');
 	}
 	
 	
@@ -434,7 +434,7 @@ global $base_dir;
 
 	// PHP 4 
 	if ( PHP_VERSION_ID < 50000 ) {
-	app_error('security_error', 'Upgrade to PHP v5 or later to support cryptographically secure pseudo-random bytes in this application, or your application may not function properly');
+	app_logging('security_error', 'Upgrade to PHP v5 or later to support cryptographically secure pseudo-random bytes in this application, or your application may not function properly');
 	}
 	// PHP 5 (V6 RELEASE WAS SKIPPED)
 	elseif ( PHP_VERSION_ID < 60000 ) {
@@ -704,7 +704,7 @@ global $http_users, $http_runtime_user;
 	
 	
 	if ( $result == FALSE ) {
-	app_error('other_error', 'File write failed for file "' . $file . '" (check permissions for "' . basename($file) . '")');
+	app_logging('other_error', 'File write failed for file "' . $file . '" (check permissions for "' . basename($file) . '")');
 	}
 	
 	
@@ -1257,7 +1257,7 @@ global $delete_old_backups, $base_dir, $base_url;
 		// We only want to store backup files with suffixes that can't be guessed, 
 		// otherwise halt the application if an issue is detected safely creating a random hash
 		if ( $secure_128bit_hash == false ) {
-		app_error('security_error', 'Cryptographically secure pseudo-random bytes could not be generated for '.$backup_prefix.' backup archive filename suffix, backup aborted to preserve backups directory privacy');
+		app_logging('security_error', 'Cryptographically secure pseudo-random bytes could not be generated for '.$backup_prefix.' backup archive filename suffix, backup aborted to preserve backups directory privacy');
 		}
 		else {
 			
@@ -1289,7 +1289,7 @@ global $delete_old_backups, $base_dir, $base_url;
 				
 				}
 				else {
-				app_error('other_error', 'Backup zip archive creation failed with ' . $backup_results);
+				app_logging('other_error', 'Backup zip archive creation failed with ' . $backup_results);
 				}
 				
 		
@@ -1388,9 +1388,74 @@ fclose($fp);
 ////////////////////////////////////////////////////////
 
 
-function error_logs($error_logs=null) {
+function debugging_logs() {
 
-global $purge_error_logs, $mail_error_logs, $base_dir;
+global $debug_mode, $purge_logs, $mail_logs, $base_dir;
+
+	if ( $debug_mode != 'all' && $debug_mode != 'telemetry' ) {
+	return false;
+	}
+
+// Combine all debugging logged
+$debugging_logs .= strip_tags($_SESSION['api_data_debugging']); // Remove any HTML formatting used in UI alerts
+
+$debugging_logs .= strip_tags($_SESSION['config_debugging']); // Remove any HTML formatting used in UI alerts
+
+$debugging_logs .= strip_tags($_SESSION['security_debugging']); // Remove any HTML formatting used in UI alerts
+
+$debugging_logs .= strip_tags($_SESSION['cmc_config_debugging']); // Remove any HTML formatting used in UI alerts
+
+$debugging_logs .= strip_tags($_SESSION['other_debugging']); // Remove any HTML formatting used in UI alerts
+
+
+	foreach ( $_SESSION['cache_debugging'] as $debugging ) {
+	$debugging_logs .= strip_tags($debugging); // Remove any HTML formatting used in UI alerts
+	}
+
+
+	// If it's time to email debugging logs...
+	if ( $mail_logs > 0 && update_cache_file('cache/events/email-debugging-logs.dat', ( $mail_logs * 1440 ) ) == true ) {
+		
+	$emailed_logs = file_get_contents('cache/logs/debugging.log');
+		
+	$message = " Here are the current debugging logs from the ".$base_dir."/cache/logs/debugging.log file: \n =========================================================================== \n \n"  . ( $emailed_logs != '' ? $emailed_logs : 'No debugging logs currently.' );
+	
+  	// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
+   $send_params = array(
+          					'email' => array(
+          											'subject' => 'DFD Cryptocoin Values - Debugging Logs Report',
+     													'message' => $message
+          											)
+          					);
+          	
+   // Send notifications
+   @queue_notifications($send_params);
+          	
+	store_file_contents($base_dir . '/cache/events/email-debugging-logs.dat', date('Y-m-d H:i:s')); // Track this emailing event, to determine next time to email logs again.
+	
+	}
+	
+	
+	// Log debugging...Purge old logs before storing new logs, if it's time to...otherwise just append.
+	if ( update_cache_file('cache/events/purge-debugging-logs.dat', ( $purge_logs * 1440 ) ) == true ) {
+	store_file_contents($base_dir . '/cache/logs/debugging.log', $debugging_logs); // NULL if no new debugging, but that's OK because we are purging any old entries 
+	store_file_contents('cache/events/purge-debugging-logs.dat', date('Y-m-d H:i:s'));
+	}
+	elseif ( $debugging_logs != NULL ) {
+	store_file_contents($base_dir . '/cache/logs/debugging.log', $debugging_logs, "append");
+	}
+	
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function error_logs() {
+
+global $purge_logs, $mail_logs, $base_dir;
 
 // Combine all errors logged
 $error_logs .= strip_tags($_SESSION['api_data_error']); // Remove any HTML formatting used in UI alerts
@@ -1403,13 +1468,14 @@ $error_logs .= strip_tags($_SESSION['cmc_config_error']); // Remove any HTML for
 
 $error_logs .= strip_tags($_SESSION['other_error']); // Remove any HTML formatting used in UI alerts
 
+
 	foreach ( $_SESSION['cache_error'] as $error ) {
 	$error_logs .= strip_tags($error); // Remove any HTML formatting used in UI alerts
 	}
 
 
 	// If it's time to email error logs...
-	if ( $mail_error_logs > 0 && update_cache_file('cache/events/email-error-logs.dat', ( $mail_error_logs * 1440 ) ) == true ) {
+	if ( $mail_logs > 0 && update_cache_file('cache/events/email-error-logs.dat', ( $mail_logs * 1440 ) ) == true ) {
 		
 	$emailed_logs = file_get_contents('cache/logs/errors.log');
 		
@@ -1432,7 +1498,7 @@ $error_logs .= strip_tags($_SESSION['other_error']); // Remove any HTML formatti
 	
 	
 	// Log errors...Purge old logs before storing new logs, if it's time to...otherwise just append.
-	if ( update_cache_file('cache/events/purge-error-logs.dat', ( $purge_error_logs * 1440 ) ) == true ) {
+	if ( update_cache_file('cache/events/purge-error-logs.dat', ( $purge_logs * 1440 ) ) == true ) {
 	store_file_contents($base_dir . '/cache/logs/errors.log', $error_logs); // NULL if no new errors, but that's OK because we are purging any old entries 
 	store_file_contents('cache/events/purge-error-logs.dat', date('Y-m-d H:i:s'));
 	}
@@ -1849,7 +1915,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 
 			// If no ip/port detected in data string, cancel and continue runtime
 			if ( !$ip || !$port ) {
-			app_error('api_data_error', 'proxy '.$current_proxy.' is not a valid format');
+			app_logging('api_data_error', 'proxy '.$current_proxy.' is not a valid format');
 			return FALSE;
 			}
 
@@ -1916,7 +1982,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		if ( !$data ) {
 		
 		// SAFE UI ALERT VERSION (no post data with API keys etc)
-		app_error( 'api_data_error', 'connection failed for ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint request at ' . $request ), 'request attempt from: server (local timeout setting ' . $api_timeout . ' seconds); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . ';' );
+		app_logging( 'api_data_error', 'connection failed for ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint request at ' . $request ), 'request attempt from: server (local timeout setting ' . $api_timeout . ' seconds); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . ';' );
 		
 			if ( sizeof($proxy_list) > 0 && $current_proxy != '' && $mode != 'proxy-check' ) { // Avoid infinite loops doing proxy checks
 
@@ -1971,7 +2037,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 			
 		// Don't log this error again during THIS runtime, as it would be a duplicate...just overwrite same error message, BUT update the error count in it
 		
-		app_error( 'cache_error', 'no data in cache from connection failure with ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint request at ' . $request ), 'request attempt(s) from: cache ('.$_SESSION['error_duplicates'][$hash_check].' runtime instances); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . ';', $hash_check );
+		app_logging( 'cache_error', 'no data in cache from connection failure with ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint request at ' . $request ), 'request attempt(s) from: cache ('.$_SESSION['error_duplicates'][$hash_check].' runtime instances); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . ';', $hash_check );
 			
 		}
 	
@@ -2008,7 +2074,7 @@ $port = $ip_port[1];
 
 	// If no ip/port detected in data string, cancel and continue runtime
 	if ( !$ip || !$port ) {
-	app_error('api_data_error', 'proxy '.$problem_proxy.' is not a valid format');
+	app_logging('api_data_error', 'proxy '.$problem_proxy.' is not a valid format');
 	return FALSE;
 	}
 

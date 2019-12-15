@@ -110,6 +110,10 @@ return $results;
 
 function detect_pairing($pair_name) {
 
+// When debugging, see if we even use this function at all?
+app_logging('other_debugging', 'detect_pairing() function was used', 'pair_name: ' . $pair_name );
+	
+	
 	if ( !preg_match("/btc/i", $pair_name) && !preg_match("/xbt/i", $pair_name) ) {
 	
 		if ( preg_match("/usdt/i", $pair_name) ) {
@@ -256,7 +260,7 @@ global $btc_fiat_pairing, $fiat_currencies, $btc_fiat_value;
 	}
 	// Fiat volume from other PAIRING volume
 	elseif ( $vol_in_pairing != false ) { 
-	$pairing_btc_value = pairing_sessions($pairing);
+	$pairing_btc_value = pairing_market_value($pairing);
 	$volume_fiat_raw = number_format( $temp_btc_fiat_value * ( $vol_in_pairing * $pairing_btc_value ) , 0, '.', '');
 	}
 	// Fiat volume from ASSET volume
@@ -269,7 +273,7 @@ global $btc_fiat_pairing, $fiat_currencies, $btc_fiat_value;
 		$volume_fiat_raw = number_format( $temp_btc_fiat_value * ( $last_trade * $volume ) , 0, '.', '');
 		}
 		else {
-		$pairing_btc_value = pairing_sessions($pairing);
+		$pairing_btc_value = pairing_market_value($pairing);
 		$volume_fiat_raw = number_format( $temp_btc_fiat_value * ( $last_trade * $volume ) * $pairing_btc_value , 0, '.', '');
 		}
 	
@@ -292,7 +296,7 @@ global $btc_fiat_pairing, $fiat_currencies, $btc_fiat_value;
 ////////////////////////////////////////////////////////
 
 
-function pairing_sessions($pairing) {
+function pairing_market_value($pairing) {
 
 global $coins_list, $fiat_currencies, $crypto_to_crypto_pairing;
 
@@ -589,7 +593,7 @@ $asset_market_data = asset_market_data($asset, $exchange, $coins_list[$asset]['m
 	}
 	// OTHER PAIRINGS CONVERTED TO DEFAULT FIAT CONFIG (EQUIV) CHARTS
 	else {
-	$pairing_btc_value = pairing_sessions($pairing); 
+	$pairing_btc_value = pairing_market_value($pairing); 
 	$asset_fiat_value_raw = number_format( $btc_fiat_value * ( $asset_market_data['last_trade'] * $pairing_btc_value ) , 8, '.', '');
 	}
 	
@@ -611,7 +615,7 @@ $asset_market_data = asset_market_data($asset, $exchange, $coins_list[$asset]['m
 	
 	// Return false if we have no $btc_fiat_value
 	if ( $btc_fiat_value == NULL ) {
-	app_error( 'other_error', 'No Bitcoin '.strtoupper($charts_alerts_btc_fiat_pairing).' value set', $asset_data . ' (' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ')' );
+	app_logging( 'other_error', 'No Bitcoin '.strtoupper($charts_alerts_btc_fiat_pairing).' value set', $asset_data . ' (' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ')' );
 	$set_return = 1;
 	}
 	
@@ -620,7 +624,7 @@ $asset_market_data = asset_market_data($asset, $exchange, $coins_list[$asset]['m
 	// Continue
 	}
 	else {
-	app_error( 'other_error', 'No asset '.strtoupper($charts_alerts_btc_fiat_pairing).' value set', $asset_data . ' (' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ')' );
+	app_logging( 'other_error', 'No asset '.strtoupper($charts_alerts_btc_fiat_pairing).' value set', $asset_data . ' (' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ')' );
 	$set_return = 1;
 	}
 	
@@ -1094,7 +1098,7 @@ $market_pairing = $all_markets[$selected_exchange];
     }
     // ETH ICOS
     elseif ( $selected_pairing == 'eth' && $selected_exchange == 'eth_subtokens_ico' ) {
-    $pairing_btc_value = pairing_sessions($selected_pairing);
+    $pairing_btc_value = pairing_market_value($selected_pairing);
     $coin_value_raw = get_sub_token_price($selected_exchange, $market_pairing);
     $btc_trade_eqiv = number_format( ($coin_value_raw * $pairing_btc_value), 8);
     $coin_value_total_raw = ($asset_amount * $coin_value_raw);
@@ -1103,7 +1107,7 @@ $market_pairing = $all_markets[$selected_exchange];
     }
     // OTHER PAIRINGS
     else {
-    $pairing_btc_value = pairing_sessions($selected_pairing);
+    $pairing_btc_value = pairing_market_value($selected_pairing);
     $coin_value_raw = asset_market_data($asset_symbol, $selected_exchange, $market_pairing, $selected_pairing)['last_trade'];
     $btc_trade_eqiv = ( strtolower($asset_name) == 'bitcoin' ? NULL : number_format( ($coin_value_raw * $pairing_btc_value), 8) );
     $coin_value_total_raw = ($asset_amount * $coin_value_raw);

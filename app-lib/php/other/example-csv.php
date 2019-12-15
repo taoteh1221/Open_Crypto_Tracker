@@ -61,8 +61,9 @@ $example_download_array[] = array(
 	        							
 
 
-// Log errors, send notifications, destroy session data
+// Log errors / debugging, send notifications, destroy session data
 error_logs();
+debugging_logs();
 send_notifications();
 hardy_session_clearing();
 

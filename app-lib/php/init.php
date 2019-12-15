@@ -141,7 +141,7 @@ if ( $runtime_mode == 'ui' ) {
 	}
 	// Sanitizing $theme_selected is very important, as we are calling external files with the value
 	if ( $theme_selected != 'light' && $theme_selected != 'dark' ) {
-	app_error('security_error', 'Injected theme path value attack', 'Requested theme value: "' . $theme_selected . '";');
+	app_logging('security_error', 'Injected theme path value attack', 'Requested theme value: "' . $theme_selected . '";');
 	error_logs();
 	exit;
 	}

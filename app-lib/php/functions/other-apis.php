@@ -258,7 +258,7 @@ global $btc_fiat_pairing, $api_timeout, $coinmarketcapcom_api_key, $marketcap_ra
 
 	if ( trim($coinmarketcapcom_api_key) == NULL ) { 
 	
-	app_error('cmc_config_error', '"$coinmarketcapcom_api_key" is not configured in config.php', false, false, true);
+	app_logging('cmc_config_error', '"$coinmarketcapcom_api_key" is not configured in config.php', false, false, true);
 	
 	return FALSE;
 	

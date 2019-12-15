@@ -106,7 +106,7 @@ if ( sizeof($proxy_list) > 0 ) {
    }
 
 	if ( $proxy_config_alert ) {
-	app_error('config_error', $proxy_config_alert);
+	app_logging('config_error', $proxy_config_alert);
 	}
           		
 	// Displaying if checks passed
@@ -216,7 +216,7 @@ if ( trim($from_email) != '' && trim($to_email) != '' || sizeof($text_parse) > 0
           		
 
 			if ( $price_change_config_alert ) {
-			app_error('config_error', $price_change_config_alert);
+			app_logging('config_error', $price_change_config_alert);
 			}
           		
          // Displaying if checks passed
@@ -265,7 +265,7 @@ $smtp_server_parse = explode(":", $smtp_server );
           		
 
 	if ( $smtp_config_alert ) {
-	app_error('config_error', $smtp_config_alert);
+	app_logging('config_error', $smtp_config_alert);
 	}
 
         
@@ -284,7 +284,7 @@ $smtp_server_parse = explode(":", $smtp_server );
 
 
 // Email logs configs
-if ( $mail_error_logs > 0 && trim($from_email) != '' && trim($to_email) != '' ) {
+if ( $mail_logs > 0 && trim($from_email) != '' && trim($to_email) != '' ) {
 					
 	// Config error check(s)
    if ( validate_email($from_email) != 'valid' ) {
@@ -298,23 +298,23 @@ if ( $mail_error_logs > 0 && trim($from_email) != '' && trim($to_email) != '' ) 
 
    // Displaying that errors were found
    if ( $config_parse_error >= 1 ) {
-   $errorlogs_config_alert .=  '<span class="red">Email error logs configuration error(s):</span>' . "<br /> \n";
+   $logs_config_alert .=  '<span class="red">Email error logs configuration error(s):</span>' . "<br /> \n";
    }
           		
    // Displaying any config errors
    foreach ( $config_parse_error as $error ) {
-   $errorlogs_config_alert .= '<span class="red">' . $error . '</span>' . "<br /> \n";
+   $logs_config_alert .= '<span class="red">' . $error . '</span>' . "<br /> \n";
    }
           		
 
-	if ( $errorlogs_config_alert ) {
-	app_error('config_error', $errorlogs_config_alert);
+	if ( $logs_config_alert ) {
+	app_logging('config_error', $logs_config_alert);
 	}
 
         
    // Displaying if checks passed
    if ( sizeof($config_parse_error) < 1 ) {
-   $errorlogs_config_alert .= '<span class="green">Config formatting seems ok.</span>';
+   $logs_config_alert .= '<span class="green">Config formatting seems ok.</span>';
    }
           		
    $config_parse_error = NULL; // Blank it out for any other config checks
@@ -349,7 +349,7 @@ if ( $charts_page == 'on' && $charts_backup_freq > 0 && trim($from_email) != '' 
           		
 
 	if ( $backuparchive_config_alert ) {
-	app_error('config_error', $backuparchive_config_alert);
+	app_logging('config_error', $backuparchive_config_alert);
 	}
 
         
@@ -367,7 +367,7 @@ if ( $charts_page == 'on' && $charts_backup_freq > 0 && trim($from_email) != '' 
 
 // Check $coins_list config
 if ( !is_array($coins_list) ) {
-app_error('config_error', 'The coins list formatting is corrupt, or not configured yet');
+app_logging('config_error', 'The coins list formatting is corrupt, or not configured yet');
 }
 			
 			

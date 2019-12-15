@@ -37,10 +37,10 @@ require_once("app-lib/php/init.php");  // REQUIRED, DON'T DELETE BY ACCIDENT
 
 
 // $debug_mode enabled runs unit tests during ui runtimes (during webpage load), errors detected are error-logged and printed as alerts in footer
-// It also admin-emails runtime stats during cron runtimes (during chart data saving / price alert checks)
-// UNIT TESTS WILL ONLY RUN DURING WEB PAGE LOAD, CRON JOBS WILL ONLY EMAIL RUNTIME SUMMARIES
-// 'off' (disables), 'all' (all checks), 'charts' (chart/price alert checks), 'texts' (mobile gateway checks), 
-// 'markets' (coin market checks), 'cron' (sends admin email during cron runtime, with runtime statistics)
+// It also logs ui / cron runtime telemetry to /cache/logs/debugging.log
+// 'off' (disables), 'all' (all debugging), 'charts' (chart/price alert checks), 'texts' (mobile gateway checks), 
+// 'markets' (coin market checks), 'telemetry' (logs runtime telemetry)
+// UNIT TESTS WILL ONLY RUN DURING WEB PAGE LOAD
 $debug_mode = 'off'; 
 
 // Your local time offset in hours compared to UTC time. Can be negative or positive.
@@ -90,10 +90,10 @@ $api_strict_ssl = 'on'; // 'on' verifies ALL SSL certificates for HTTPS API serv
 
 $delete_old_backups = 7; // Days until old zip archive backups should be deleted (chart data archives, etc)
 
-$purge_error_logs = 7; // Days to keep error logs before purging (deletes logs every X days) start low, especially when using proxies
+$purge_logs = 7; // Days to keep logs before purging (deletes logs every X days) start low, especially when using proxies
 
-// Every X days mail error logs. 0 disables mailing error logs. Email to / from !MUST BE SET! MAY NOT SEND IN TIMELY FASHION WITHOUT CRON JOB
-$mail_error_logs = 1; 
+// Every X days mail logs. 0 disables mailing logs. Email to / from !MUST BE SET! MAY NOT SEND IN TIMELY FASHION WITHOUT CRON JOB
+$mail_logs = 1; 
 
 
 
@@ -344,7 +344,7 @@ $asset_charts_and_alerts = array(
 					'myst-3' => 'idex||eth||alert',
 					
 					//DAI
-					'dai' => 'coinbase||usdc||chart',
+					'dai' => 'coinbase||usdc||both',
 					'dai-2' => 'kraken||usd||both',
 					'dai-3' => 'bittrex||btc||chart',
 					
@@ -1398,12 +1398,12 @@ $coins_list = array(
                                           'fiat_assets' => 'fiat_to_btc'
                                                     ),
                                                     
-                                    'xmr' => array(
-                                          'fiat_assets' => 'fiat_to_xmr'
-                                                    ),
-                                                    
                                     'eth' => array(
                                           'fiat_assets' => 'fiat_to_eth'
+                                                    ),
+                                                    
+                                    'xmr' => array(
+                                          'fiat_assets' => 'fiat_to_xmr'
                                                     ),
                                                     
                                     'ltc' => array(

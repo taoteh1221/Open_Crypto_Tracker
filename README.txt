@@ -264,11 +264,13 @@ Web server setup / install is available for $30 hourly if needed (try the auto-i
 
 Donations support further development... 
 
-GITHUB:  https://github.com/sponsors/taoteh1221
+GITHUB:    https://github.com/sponsors/taoteh1221
 
-PAYPAL:  https://www.paypal.me/dragonfrugal
+COINBASE:  https://commerce.coinbase.com/checkout/5e72fe35-752e-4a65-a4c3-2d49d73f2c36
 
-PATREON: https://www.patreon.com/dragonfrugal
+PAYPAL:    https://www.paypal.me/dragonfrugal
+
+PATREON:   https://www.patreon.com/dragonfrugal
 
 Monero (XMR): 47mWWjuwPFiPD6t2MaWcMEfejtQpMuz9oj5hJq18f7nvagcmoJwxudKHUppaWnTMPaMWshMWUTPAUX623KyEtukbSMdmpqu
 

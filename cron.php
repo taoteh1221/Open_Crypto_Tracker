@@ -46,7 +46,7 @@ $mode = $value[2];
 $result = asset_charts_and_alerts($key, $exchange, $pairing, $mode);
 
 	if ( $result == FALSE ) {
-	app_error( 'other_error', 'Charts / alerts update failure', $key . ' (' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ')' );
+	app_logging( 'other_error', 'Charts / alerts update failure', $key . ' (' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ')' );
 	}
 
 }
@@ -63,23 +63,16 @@ if ( $proxy_alerts != 'none' ) {
 }
 
 
-// Log errors, send notifications, destroy session data
-error_logs();
-send_notifications();
 
-if ( $debug_mode == 'all' || $debug_mode == 'cron' ) {
-	
-	// Email admin cron.php runtime stats
-	if ( validate_email($to_email) == 'valid' ) {
-			
-	$stats_message = 'Stats for cron.php runtime: Runtime lasted ' . script_runtime('finish') . ' seconds.';
-		
-	@safe_mail($to_email, 'Cron Job Runtime Stats', $stats_message);
-		
-	}
-	
+if ( $debug_mode == 'all' || $debug_mode == 'telemetry' ) {
+// Log runtime stats
+app_logging('other_debugging', 'Stats for '.$runtime_mode.' runtime', $runtime_mode.'_runtime: Runtime lasted ' . script_runtime('finish') . ' seconds.');
 }
-    	
+
+// Log errors / debugging, send notifications, destroy session data
+error_logs();
+debugging_logs();
+send_notifications();
 hardy_session_clearing();
 
 ?>
