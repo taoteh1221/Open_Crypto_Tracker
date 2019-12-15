@@ -117,7 +117,7 @@ Below is an example for editing your assets / markets into the coin list in the 
 
 USAGE (ADDING / UPDATING COINS)
 
-Support for trading pairs (contact me to request more): USD / CAD / AUD / SGD / HKD / GBP / EUR / CHF / JPY / USDT (Tether) / TUSD (True USD) / USDC / BTC / XMR / ETH / LTC.
+Support for trading pairs (contact me to request more): USD / CAD / AUD / SGD / HKD / GBP / EUR / CHF / RUB / JPY / USDT (Tether) / TUSD (True USD) / USDC / BTC / XMR / ETH / LTC.
 
 Support for exchanges (contact me to request more): bigone / binance & binance_us / bitfinex & ethfinex / bitforex / bitpanda / bitstamp  / bittrex & bittrex_global / btcmarkets / cex / coinbase / cryptofresh / gateio / gemini / graviex / hitbtc / hotbit / huobi / idex / kraken / kucoin / lakebtc / livecoin / okcoin / okex / poloniex / tidebit / tradeogre / tradesatoshi / upbit.
 
