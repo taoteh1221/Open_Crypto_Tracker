@@ -115,11 +115,13 @@ Adding / editing / deleting assets and markets in the coins list:
 Below is an example for editing your assets / markets into the coin list in the file config.php (located in the primary directory of this app). It's very quick / easy to do (after you get the hang of it, lol). Also see further down in this README for a pre-configured set of default settings and example assets / markets. Contact any supported exchange's help desk if you are unaware of the correct formatting of the trading pair naming you are adding in the configuration file (examples: Kraken has arbitrary Xs inserted in SOME older pair names, HitBTC sometimes has tether pairing without the "T" in the symbol name).
 
 
-USAGE (ADDING / UPDATING COINS) ...API support for (contact me to request more): bigone / binance & binance_us / bitfinex & ethfinex / bitforex / bitstamp  / bittrex & bittrex_global / btcmarkets / coinbase / cryptofresh / gateio / gemini / graviex / hitbtc / hotbit / idex / kraken / kucoin / livecoin / okcoin / okex / poloniex / tradeogre / tradesatoshi / upbit
+USAGE (ADDING / UPDATING COINS)
 
-BTC / XMR / ETH / LTC / USDT (Tether) / TUSD (True USD) / USDC / USD / CAD / AUD / GBP / EUR trading pair support
+Support for trading pairs (contact me to request more): USD / CAD / AUD / SGD / HKD / GBP / EUR / CHF / JPY / USDT (Tether) / TUSD (True USD) / USDC / BTC / XMR / ETH / LTC.
 
-Ethereum ICO subtoken support has been built in, but values are static ICO values in ETH
+Support for exchanges (contact me to request more): bigone / binance & binance_us / bitfinex & ethfinex / bitforex / bitpanda / bitstamp  / bittrex & bittrex_global / btcmarkets / cex / coinbase / cryptofresh / gateio / gemini / graviex / hitbtc / hotbit / huobi / idex / kraken / kucoin / lakebtc / livecoin / okcoin / okex / poloniex / tidebit / tradeogre / tradesatoshi / upbit.
+
+Ethereum ICO subtoken support has been built in, but values are static ICO values in ETH.
  
  
  
@@ -149,6 +151,18 @@ Ethereum ICO subtoken support has been built in, but values are static ICO value
                                           'lowercase_marketplace3' => 'AUD-COINSYMBOLHERE'
                                                     ),
                                                     
+                                    'sgd' => array(
+                                          'lowercase_marketplace1' => 'MARKETNUMBERHERE',
+                                          'lowercase_marketplace2' => 'SGD_COINSYMBOLHERE',
+                                          'lowercase_marketplace3' => 'SGD-COINSYMBOLHERE'
+                                                    ),
+                                                    
+                                    'hkd' => array(
+                                          'lowercase_marketplace1' => 'MARKETNUMBERHERE',
+                                          'lowercase_marketplace2' => 'HKD_COINSYMBOLHERE',
+                                          'lowercase_marketplace3' => 'HKD-COINSYMBOLHERE'
+                                                    ),
+                                                    
                                     'gbp' => array(
                                           'lowercase_marketplace1' => 'MARKETNUMBERHERE',
                                           'lowercase_marketplace2' => 'GBP_COINSYMBOLHERE',
@@ -159,6 +173,24 @@ Ethereum ICO subtoken support has been built in, but values are static ICO value
                                           'lowercase_marketplace1' => 'MARKETNUMBERHERE',
                                           'lowercase_marketplace2' => 'EUR_COINSYMBOLHERE',
                                           'lowercase_marketplace3' => 'EUR-COINSYMBOLHERE'
+                                                    ),
+                                                    
+                                    'chf' => array(
+                                          'lowercase_marketplace1' => 'MARKETNUMBERHERE',
+                                          'lowercase_marketplace2' => 'CHF_COINSYMBOLHERE',
+                                          'lowercase_marketplace3' => 'CHF-COINSYMBOLHERE'
+                                                    ),
+                                                    
+                                    'rub' => array(
+                                          'lowercase_marketplace1' => 'MARKETNUMBERHERE',
+                                          'lowercase_marketplace2' => 'RUB_COINSYMBOLHERE',
+                                          'lowercase_marketplace3' => 'RUB-COINSYMBOLHERE'
+                                                    ),
+                                                    
+                                    'jpy' => array(
+                                          'lowercase_marketplace1' => 'MARKETNUMBERHERE',
+                                          'lowercase_marketplace2' => 'JPY_COINSYMBOLHERE',
+                                          'lowercase_marketplace3' => 'JPY-COINSYMBOLHERE'
                                                     ),
                                                     
                                     'usdt' => array(

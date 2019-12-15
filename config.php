@@ -48,10 +48,17 @@ $debug_mode = 'off';
 $local_time_offset = -5; // example: -5 or 5
 
 // Default BITCOIN-ONLY exchange (for charts / price alert fiat-equivalent value determination)
-$btc_exchange = 'kraken'; // coinbase / binance / binance_us / bitstamp / bitfinex / kraken / gemini / hitbtc / okcoin / livecoin
+// 'binance', binance_us', 'bitfinex', 'bitpanda', 'bitstamp', 'btcmarkets', 'cex', 'coinbase', 'gemini', 
+// 'hitbtc', 'huobi', 'kraken', 'lakebtc', 'livecoin', 'okcoin', 'okex', 'tidebit'
+// SEE THE $coins_list CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
+// MARKET PAIRING VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (to populate $btc_fiat_pairing directly below with)
+$btc_exchange = 'kraken'; 
 
-// Default BITCOIN-ONLY fiat (or stablecoin fiat equivalent) market pairing (for charts / price alert fiat-equivalent value determination)
-$btc_fiat_pairing = 'usd'; // 'usd', 'cad', 'aud', 'gbp', 'eur', 'usdt', 'tusd', 'usdc' (more to come)
+// Default BITCOIN-ONLY fiat (or stablecoin equivalent) market pairing (for charts / price alert fiat-equivalent value determination)
+// 'usd', 'cad', 'aud', 'sgd', 'hkd', 'gbp', 'eur', 'chf', 'rub', 'jpy', 'usdt', 'tusd', 'usdc'
+// SEE THE $coins_list CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
+// MARKET PAIRING VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (set in $btc_exchange directly above)
+$btc_fiat_pairing = 'usd'; 
 
 // Default marketcap data source: 'coingecko', or 'coinmarketcap' (coinmarketcap requires a FREE API key, see below)
 $marketcap_site = 'coingecko'; 
@@ -636,31 +643,62 @@ $coins_list = array(
                                           'kraken' => 'XXBTZUSD',
                                           'gemini' => 'btcusd',
                                           'bitfinex' => 'tBTCUSD',
+                                          'lakebtc' => 'btcusd',
                                           'hitbtc' => 'BTCUSD',
                                           'okcoin' => 'btc_usd',
-                                          'livecoin' => 'BTC/USD'
+                                          'livecoin' => 'BTC/USD',
+                                          'cex' => 'BTC:USD'
                                                     ),
                                                     
                                     'cad' => array(
-                                          'kraken' => 'XXBTZCAD'
+                                          'kraken' => 'XXBTZCAD',
+                                          'lakebtc' => 'btccad'
                                                     ),
                                                     
                                     'aud' => array(
-                                    		'btcmarkets' => 'BTC/AUD'
+                                    		'btcmarkets' => 'BTC/AUD',
+                                          'lakebtc' => 'btcaud'
+                                                    ),
+                                                    
+                                    'sgd' => array(
+                                          'lakebtc' => 'btcsgd'
+                                                    ),
+                                                    
+                                    'hkd' => array(
+                                          'tidebit' => 'btchkd'
                                                     ),
                                                     
                                     'gbp' => array(
                                           'coinbase' => 'BTC-GBP',
-                                          'bitfinex' => 'tBTCGBP'
+                                          'bitfinex' => 'tBTCGBP',
+                                          'lakebtc' => 'btcgbp',
+                                          'cex' => 'BTC:GBP'
                                                     ),
                                                     
                                     'eur' => array(
                                           'coinbase' => 'BTC-EUR',
-                                          'kraken' => 'XXBTZEUR'
+                                          'kraken' => 'XXBTZEUR',
+                                          'bitpanda' => 'BTC_EUR',
+                                          'lakebtc' => 'btceur',
+                                          'cex' => 'BTC:EUR'
+                                                    ),
+                                                    
+                                    'chf' => array(
+                                          'lakebtc' => 'btcchf'
+                                                    ),
+                                                    
+                                    'rub' => array(
+                                          'cex' => 'BTC:RUB'
+                                                    ),
+                                                    
+                                    'jpy' => array(
+                                          'lakebtc' => 'btcjpy'
                                                     ),
                                                     
                                     'usdt' => array(
-                                          'binance' => 'BTCUSDT'
+                                          'binance' => 'BTCUSDT',
+                                          'huobi' => 'btcusdt',
+                                          'okex' => 'BTC-USDT'
                                                     ),
                                                     
                                     'tusd' => array(
@@ -689,19 +727,27 @@ $coins_list = array(
                                           'bitstamp' => 'ethusd',
                                           'gemini' => 'ethusd',
                                           'bitfinex' => 'tETHUSD',
-                                          'okcoin' => 'eth_usd'
+                                          'okcoin' => 'eth_usd',
+                                          'cex' => 'ETH:USD'
+                                                    ),
+                                                    
+                                    'hkd' => array(
+                                          'tidebit' => 'ethhkd'
                                                     ),
                                                     
                                     'gbp' => array(
-                                          'coinbase' => 'ETH-GBP'
+                                          'coinbase' => 'ETH-GBP',
+                                          'cex' => 'BTC:GBP'
                                                     ),
                                                     
                                     'eur' => array(
-                                          'coinbase' => 'ETH-EUR'
+                                          'coinbase' => 'ETH-EUR',
+                                          'cex' => 'ETH:EUR'
                                                     ),
                                                     
                                     'usdt' => array(
                                         	'binance' => 'ETHUSDT',
+                                          'huobi' => 'ethusdt',
                                         	'binance_us' => 'ETHUSDT',
                                           'bittrex' => 'USDT-ETH',
                                           'hitbtc' => 'ETHUSD',
@@ -753,6 +799,7 @@ $coins_list = array(
                         'market_pairing' => array(
                         
                                     'usdt' => array(
+                                          'huobi' => 'xmrusdt',
                                           'bittrex' => 'USDT-XMR',
                                           'upbit' => 'USDT-XMR',
                                           'okex' => 'XMR-USDT',
@@ -765,6 +812,7 @@ $coins_list = array(
                         
                                     'btc' => array(
                                         	'binance' => 'XMRBTC',
+                                          'huobi' => 'xmrbtc',
                                           'bittrex' => 'BTC-XMR',
                                           'bitfinex' => 'tXMRBTC',
                                           'hitbtc' => 'XMRBTC',
@@ -776,6 +824,7 @@ $coins_list = array(
                                                     
                                     'eth' => array(
                                         	'binance' => 'XMRETH',
+                                          'huobi' => 'xmreth',
                                           'bittrex' => 'ETH-XMR',
                                           'hitbtc' => 'XMRETH',
                                           'upbit' => 'ETH-XMR'
@@ -800,11 +849,23 @@ $coins_list = array(
                                           'bitstamp' => 'ltcusd',
                                           'gemini' => 'ltcusd',
                                           'bitfinex' => 'tLTCUSD',
-                                          'okcoin' => 'ltc_usd'
+                                          'okcoin' => 'ltc_usd',
+                                          'cex' => 'LTC:USD'
+                                                    ),
+                                                    
+                                    'eur' => array(
+                                          'coinbase' => 'LTC-EUR',
+                                          'cex' => 'LTC:EUR'
+                                                    ),
+                                                    
+                                    'gbp' => array(
+                                          'coinbase' => 'LTC-GBP',
+                                          'cex' => 'LTC:GBP'
                                                     ),
                                                     
                                     'usdt' => array(
                                         'binance' => 'LTCUSDT',
+                                        'huobi' => 'ltcusdt',
                                         'binance_us' => 'LTCUSDT',
                                         'bittrex' => 'USDT-LTC',
                                         'hitbtc' => 'LTCUSD',
@@ -826,6 +887,7 @@ $coins_list = array(
                                     'btc' => array(
                                         'coinbase' => 'LTC-BTC',
                                         'binance' => 'LTCBTC',
+                                        'huobi' => 'ltcbtc',
                                         'binance_us' => 'LTCBTC',
                                         'bittrex' => 'BTC-LTC',
                                         'bitstamp' => 'ltcbtc',

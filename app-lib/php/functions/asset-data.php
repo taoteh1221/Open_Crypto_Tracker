@@ -348,6 +348,16 @@ function pairing_sessions($pairing) {
    $_SESSION['aud_btc'] = number_format( (1 /  asset_market_data('AUD', 'btcmarkets', 'BTC/AUD')['last_trade'] ), 8, '.', '');
    return $_SESSION['aud_btc'];
    }
+   // SGD
+   elseif ( $pairing == 'sgd' && !$_SESSION['sgd_btc'] ) {
+   $_SESSION['sgd_btc'] = number_format( (1 /  asset_market_data('SGD', 'lakebtc', 'btcsgd')['last_trade'] ), 8, '.', '');
+   return $_SESSION['sgd_btc'];
+   }
+   // HKD
+   elseif ( $pairing == 'hkd' && !$_SESSION['hkd_btc'] ) {
+   $_SESSION['hkd_btc'] = number_format( (1 /  asset_market_data('HKD', 'tidebit', 'btchkd')['last_trade'] ), 8, '.', '');
+   return $_SESSION['hkd_btc'];
+   }
    // GBP
    elseif ( $pairing == 'gbp' && !$_SESSION['gbp_btc'] ) {
    $_SESSION['gbp_btc'] = number_format( (1 /  asset_market_data('GBP', 'bitfinex', 'tBTCGBP')['last_trade'] ), 8, '.', '');
@@ -357,6 +367,21 @@ function pairing_sessions($pairing) {
    elseif ( $pairing == 'eur' && !$_SESSION['eur_btc'] ) {
    $_SESSION['eur_btc'] = number_format( (1 /  asset_market_data('EUR', 'kraken', 'XXBTZEUR')['last_trade'] ), 8, '.', '');
    return $_SESSION['eur_btc'];
+   }
+   // CHF
+   elseif ( $pairing == 'chf' && !$_SESSION['chf_btc'] ) {
+   $_SESSION['chf_btc'] = number_format( (1 /  asset_market_data('CHF', 'lakebtc', 'btcchf')['last_trade'] ), 8, '.', '');
+   return $_SESSION['chf_btc'];
+   }
+   // RUB
+   elseif ( $pairing == 'rub' && !$_SESSION['rub_btc'] ) {
+   $_SESSION['rub_btc'] = number_format( (1 /  asset_market_data('RUB', 'cex', 'BTC:RUB')['last_trade'] ), 8, '.', '');
+   return $_SESSION['rub_btc'];
+   }
+   // JPY
+   elseif ( $pairing == 'jpy' && !$_SESSION['jpy_btc'] ) {
+   $_SESSION['jpy_btc'] = number_format( (1 /  asset_market_data('JPY', 'lakebtc', 'btcjpy')['last_trade'] ), 8, '.', '');
+   return $_SESSION['jpy_btc'];
    }
    else {
    return false;
@@ -1452,7 +1477,7 @@ $market_pairing = $all_markets[$selected_exchange];
   // UX on FIAT number values
   $coin_fiat_value = ( floattostr($coin_fiat_value) >= 1.00 ? pretty_numbers($coin_fiat_value, 2) : pretty_numbers($coin_fiat_value, $fiat_decimals_max) );
 	
-  echo $fiat_symbols[$btc_fiat_pairing] . $coin_fiat_value;
+  echo $fiat_symbols[$btc_fiat_pairing] . "<span class='app_sort_filter'>" . $coin_fiat_value . "</span>";
 
 ?>
 
@@ -1515,17 +1540,19 @@ echo "<span class='app_sort_filter blue'>" . ( $pretty_coin_amount != NULL ? $pr
 
 
 
-<td class='data border_b'><span class='app_sort_filter'>
+<td class='data border_b'>
+
+<span class='white'><?=$fiat_symbols[$btc_fiat_pairing]?></span><span class='app_sort_filter'>
 
 
 <?php 
 
   // NULL if not setup to get volume, negative number returned if no data received from API
   if ( $trade_volume == NULL || $trade_volume == -1 ) {
-  echo $fiat_symbols[$btc_fiat_pairing] . '0';
+  echo '0';
   }
   elseif ( $trade_volume >= 0 ) {
-  echo $fiat_symbols[$btc_fiat_pairing] . number_format($trade_volume, 0, '.', ',');
+  echo number_format($trade_volume, 0, '.', ',');
   }
 
 ?>
@@ -1568,9 +1595,11 @@ echo ( $fiat_eqiv == 1 ? pretty_numbers($coin_value_raw, $coin_value_fiat_decima
 
 
 
-<td class='data border_b'> <span>
+<td class='data border_b'> 
+
+<span class='app_sort_filter'>
  
-    <select class='app_sort_filter' name='change_<?=strtolower($asset_symbol)?>_pairing' onchange='
+    <select name='change_<?=strtolower($asset_symbol)?>_pairing' onchange='
     $("#<?=strtolower($asset_symbol)?>_pairing").val(this.value); 
     $("#<?=strtolower($asset_symbol)?>_market").val(1); // Just reset to first listed market for this pairing
     document.coin_amounts.submit();
@@ -1625,7 +1654,7 @@ echo ' <span><span class="data app_sort_filter blue">' . number_format($coin_val
 <?php
 
 
-echo '<span class="' . ( $purchase_price >= 0.00000001 && $leverage_level >= 2 && $selected_margintype == 'short' ? 'short">★ ' : 'blue">' ) . '<span class="app_sort_filter blue">' . $fiat_symbols[$btc_fiat_pairing] . number_format($coin_fiat_worth_raw, 2, '.', ',') . '</span></span>';
+echo '<span class="' . ( $purchase_price >= 0.00000001 && $leverage_level >= 2 && $selected_margintype == 'short' ? 'short">★ ' : 'blue">' ) . '<span class="blue">' . $fiat_symbols[$btc_fiat_pairing] . '</span><span class="app_sort_filter blue">' . number_format($coin_fiat_worth_raw, 2, '.', ',') . '</span></span>';
 
   if ( $purchase_price >= 0.00000001 && $leverage_level >= 2 ) {
 

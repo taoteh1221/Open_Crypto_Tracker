@@ -199,6 +199,46 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
 
 
 
+  elseif ( strtolower($chosen_exchange) == 'bitpanda' ) {
+ 
+     
+     $json_string = 'https://api.exchange.bitpanda.com/public/v1/market-ticker';
+     
+     $jsondata = @api_data('url', $json_string, $last_trade_cache);
+     
+     $data = json_decode($jsondata, TRUE);
+   
+  
+      if (is_array($data) || is_object($data)) {
+  
+       foreach ($data as $key => $value) {
+         
+         
+         if ( $data[$key]['instrument_code'] == $market_pairing ) {
+          
+         return  array(
+    						'last_trade' => $data[$key]["last_price"],
+    						'24hr_asset_volume' => $data[$key]["base_volume"],
+    						'24hr_pairing_volume' => $data[$key]["quote_volume"],
+    						'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data[$key]["base_volume"], $data[$key]["last_price"], $data[$key]["quote_volume"])
+    						);
+
+         }
+       
+     
+       }
+      
+      }
+  
+  
+  }
+ 
+ 
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
   elseif ( strtolower($chosen_exchange) == 'bitstamp' ) {
   	
   
@@ -278,6 +318,48 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
     					'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data["volume24h"], $data['lastPrice'])
     					);
    
+  }
+ 
+ 
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+  elseif ( strtolower($chosen_exchange) == 'cex' ) {
+ 
+     
+     $json_string = 'https://cex.io/api/tickers/BTC/USD/USDT/RUB/EUR/GBP';
+     
+     $jsondata = @api_data('url', $json_string, $last_trade_cache);
+     
+     $data = json_decode($jsondata, TRUE);
+     
+     $data = $data['data'];
+     
+  
+      if (is_array($data) || is_object($data)) {
+  
+       foreach ($data as $key => $value) {
+         
+         
+         if ( $data[$key]["pair"] == $market_pairing ) {
+          
+         return  array(
+    						'last_trade' => $data[$key]["last"],
+    						'24hr_asset_volume' => $data[$key]["volume"],
+    						'24hr_pairing_volume' => NULL,
+    						'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data[$key]["volume"], $data[$key]["last"])
+    						);
+
+         }
+       
+     
+       }
+      
+      }
+  
+  
   }
  
  
@@ -517,6 +599,49 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
 
 
 
+  elseif ( strtolower($chosen_exchange) == 'huobi' ) {
+ 
+     
+     $json_string = 'https://api.huobi.pro/market/tickers';
+     
+     $jsondata = @api_data('url', $json_string, $last_trade_cache);
+     
+     $data = json_decode($jsondata, TRUE);
+     
+     $data = $data['data'];
+     
+  
+      if (is_array($data) || is_object($data)) {
+  
+       foreach ($data as $key => $value) {
+         
+         
+         if ( $data[$key]["symbol"] == $market_pairing ) {
+          
+         return  array(
+    						'last_trade' => $data[$key]["close"],
+    						'24hr_asset_volume' => $data[$key]["amount"],
+    						'24hr_pairing_volume' => $data[$key]["vol"],
+    						'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data[$key]["amount"], $data[$key]["close"], $data[$key]["vol"])
+    						);
+
+         }
+       
+     
+       }
+      
+      }
+  
+  
+  }
+ 
+ 
+ 
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
   elseif ( strtolower($chosen_exchange) == 'idex' ) {
      
      $json_string = 'https://api.idex.market/returnTicker';
@@ -655,6 +780,46 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
 
 
 
+  elseif ( strtolower($chosen_exchange) == 'lakebtc' ) {
+ 
+     
+     $json_string = 'https://api.lakebtc.com/api_v2/ticker';
+     
+     $jsondata = @api_data('url', $json_string, $last_trade_cache);
+     
+     $data = json_decode($jsondata, TRUE);
+     
+  
+      if (is_array($data) || is_object($data)) {
+  
+       foreach ($data as $key => $value) {
+         
+         
+         if ( $key == $market_pairing ) {
+          
+         return  array(
+    						'last_trade' => $data[$key]["last"],
+    						'24hr_asset_volume' => $data[$key]["volume"],
+    						'24hr_pairing_volume' => NULL,
+    						'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data[$key]["volume"], $data[$key]["last"])
+    						);
+
+         }
+       
+     
+       }
+      
+      }
+  
+  
+  }
+ 
+ 
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
   elseif ( strtolower($chosen_exchange) == 'livecoin' ) {
 
      $json_string = 'https://api.livecoin.net/exchange/ticker';
@@ -777,6 +942,46 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
     						);
           
          }
+     
+       }
+      
+      }
+  
+  
+  }
+ 
+ 
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+  elseif ( strtolower($chosen_exchange) == 'tidebit' ) {
+ 
+     
+     $json_string = 'https://www.tidebit.com/api/v2/tickers';
+     
+     $jsondata = @api_data('url', $json_string, $last_trade_cache);
+     
+     $data = json_decode($jsondata, TRUE);
+     
+  
+      if (is_array($data) || is_object($data)) {
+  
+       foreach ($data as $key => $value) {
+         
+         
+         if ( $key == $market_pairing ) {
+          
+         return  array(
+    						'last_trade' => $data[$key]["ticker"]["last"],
+    						'24hr_asset_volume' => $data[$key]["ticker"]["vol"],
+    						'24hr_pairing_volume' => NULL,
+    						'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data[$key]["ticker"]["vol"], $data[$key]["ticker"]["last"])
+    						);
+
+         }
+       
      
        }
       
