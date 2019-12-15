@@ -53,7 +53,7 @@ FEATURES
 
 -Switch between light / dark (night mode) theme colors.
 
--Mining calculators, to determine coin mining profitability (includes electricity costs and pool fees).
+-Mining calculators, to determine coin mining profitability (in crypto and your local fiat currency, includes electricity costs and pool fees).
 
 -Crypto tools (QR code generator, altcoin trade preview / marketcap calculator in BTC and your local fiat currency, etc).
 
