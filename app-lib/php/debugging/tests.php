@@ -27,11 +27,16 @@ if ( $runtime_mode == 'ui' ) {
 		
 		$check_pairing_name = $coins_list[$check_asset]['market_pairing'][$check_asset_params[1]][$check_asset_params[0]];
 		
-		$test_result = asset_market_data($check_asset, $check_asset_params[0], $check_pairing_name)['last_trade'];
+		// Consolidate function calls for runtime speed improvement
+		$charts_test_data = asset_market_data($check_asset, $check_asset_params[0], $check_pairing_name);
 		
-			if ( $test_result == NULL ) {
-			app_logging( 'other_error', 'No chart / price alert market data available', 'chart_key: ' . $key . '; market: ' . $check_asset . ' / ' . strtoupper($check_asset_params[1]) . ' @ ' . ucfirst($check_asset_params[0]) );
-		}
+			if ( $charts_test_data['last_trade'] == NULL ) {
+			app_logging( 'other_error', 'No chart / alert last trade market data available', 'chart_key: ' . $key . '; market: ' . $check_asset . ' / ' . strtoupper($check_asset_params[1]) . ' @ ' . ucfirst($check_asset_params[0]) );
+			}
+			
+			if ( $charts_test_data['24hr_fiat_volume'] == NULL ) {
+			app_logging( 'other_error', 'No chart / alert fiat volume market data available', 'chart_key: ' . $key . '; market: ' . $check_asset . ' / ' . strtoupper($check_asset_params[1]) . ' @ ' . ucfirst($check_asset_params[0]) );
+			}
 				
 		
 		}
@@ -70,11 +75,17 @@ if ( $runtime_mode == 'ui' ) {
 			
 				foreach ( $pairing_value as $key => $value ) {
 				
-				$test_result = asset_market_data( strtoupper($coin_key) , $key , $value )['last_trade'];
+				// Consolidate function calls for runtime speed improvement
+				$markets_test_data = asset_market_data( strtoupper($coin_key) , $key, $value);
 				
-					if ( $test_result == NULL ) {
-					app_logging( 'other_error', 'No coin market data available', strtoupper($coin_key) . ' / ' . strtoupper($pairing_key) . ' @ ' . ucfirst($key) );
+					if ( $markets_test_data['last_trade'] == NULL ) {
+					app_logging( 'other_error', 'No coin last trade market data available', strtoupper($coin_key) . ' / ' . strtoupper($pairing_key) . ' @ ' . ucfirst($key) );
 					}
+					
+					if ( $markets_test_data['24hr_fiat_volume'] == NULL ) {
+					app_logging( 'other_error', 'No coin fiat volume market data available', strtoupper($coin_key) . ' / ' . strtoupper($pairing_key) . ' @ ' . ucfirst($key) );
+					}
+					
 				
 				}
 				

@@ -98,7 +98,7 @@
 			if (is_array($coins_list) || is_object($coins_list)) {
 			    
 			    ?>
-			    <p class='settings_sections'><b>Default Fiat Currency:</b> 
+			    <p class='settings_sections'><b>Fiat Currency Market:</b> 
 			    
 
 					<select onchange='
@@ -152,10 +152,7 @@
 				    </select> 
 				    
 				    
-				    <br /><br /> 
-				    <b>Default Bitcoin Market:</b> 
-				    
-				    <input type='hidden' id='btc_pairing_name' name='btc_pairing_name' value='<?=$selected_pairing?>' />
+				     @ <input type='hidden' id='btc_pairing_name' name='btc_pairing_name' value='<?=$selected_pairing?>' />
 				    <!-- FOR FUTURE FEATURE OF A CHECKBOX OPTION TO DECOUPLE DEFAULT CURRENCY/MARKET FROM "UPDATE ASSETS" TAB'S SETTINGS -->
 				    <input type='hidden' id='btc_market_id' name='btc_market_id' value='<?=$exhange_field_id?>' />
 				     

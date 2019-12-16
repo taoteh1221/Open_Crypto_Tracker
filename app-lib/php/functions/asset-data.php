@@ -127,21 +127,23 @@ $data = array();
 		$app_notes = 'Coingecko does not support stablecoin stats,<br />showing USD stats instead.';
 		}
 	
+	// Consolidate function calls for runtime speed improvement
+	$coingecko_api = coingecko_api($symbol);
 		
-	$data['rank'] = coingecko_api($symbol)['market_data']['market_cap_rank'];
-	$data['price'] = coingecko_api($symbol)['market_data']['current_price'][$coingecko_fiat];
-	$data['market_cap'] = coingecko_api($symbol)['market_data']['market_cap'][$coingecko_fiat];
-	$data['volume_24h'] = coingecko_api($symbol)['market_data']['total_volume'][$coingecko_fiat];
+	$data['rank'] = $coingecko_api['market_data']['market_cap_rank'];
+	$data['price'] = $coingecko_api['market_data']['current_price'][$coingecko_fiat];
+	$data['market_cap'] = $coingecko_api['market_data']['market_cap'][$coingecko_fiat];
+	$data['volume_24h'] = $coingecko_api['market_data']['total_volume'][$coingecko_fiat];
 	
-	$data['percent_change_1h'] = number_format( coingecko_api($symbol)['market_data']['price_change_percentage_1h_in_currency'][$coingecko_fiat] , 2, ".", ",");
-	$data['percent_change_24h'] = number_format( coingecko_api($symbol)['market_data']['price_change_percentage_24h'] , 2, ".", ",");
-	$data['percent_change_7d'] = number_format( coingecko_api($symbol)['market_data']['price_change_percentage_7d'] , 2, ".", ",");
+	$data['percent_change_1h'] = number_format( $coingecko_api['market_data']['price_change_percentage_1h_in_currency'][$coingecko_fiat] , 2, ".", ",");
+	$data['percent_change_24h'] = number_format( $coingecko_api['market_data']['price_change_percentage_24h'] , 2, ".", ",");
+	$data['percent_change_7d'] = number_format( $coingecko_api['market_data']['price_change_percentage_7d'] , 2, ".", ",");
 	
-	$data['circulating_supply'] = coingecko_api($symbol)['market_data']['circulating_supply'];
-	$data['total_supply'] = coingecko_api($symbol)['market_data']['total_supply'];
+	$data['circulating_supply'] = $coingecko_api['market_data']['circulating_supply'];
+	$data['total_supply'] = $coingecko_api['market_data']['total_supply'];
 	$data['max_supply'] = NULL;
 	
-	$data['last_updated'] = strtotime( coingecko_api($symbol)['last_updated'] );
+	$data['last_updated'] = strtotime( $coingecko_api['last_updated'] );
 	
 	$data['app_notes'] = $app_notes;
 	
@@ -150,21 +152,24 @@ $data = array();
 		
 	// Don't overwrite global
 	$coinmarketcap_fiat = strtoupper($btc_fiat_pairing);
-
-	$data['rank'] = coinmarketcap_api($symbol)['cmc_rank'];
-	$data['price'] = coinmarketcap_api($symbol)['quote'][$coinmarketcap_fiat]['price'];
-	$data['market_cap'] = coinmarketcap_api($symbol)['quote'][$coinmarketcap_fiat]['market_cap'];
-	$data['volume_24h'] = coinmarketcap_api($symbol)['quote'][$coinmarketcap_fiat]['volume_24h'];
 	
-	$data['percent_change_1h'] = number_format( coinmarketcap_api($symbol)['quote'][$coinmarketcap_fiat]['percent_change_1h'] , 2, ".", ",");
-	$data['percent_change_24h'] = number_format( coinmarketcap_api($symbol)['quote'][$coinmarketcap_fiat]['percent_change_24h'] , 2, ".", ",");
-	$data['percent_change_7d'] = number_format( coinmarketcap_api($symbol)['quote'][$coinmarketcap_fiat]['percent_change_7d'] , 2, ".", ",");
+	// Consolidate function calls for runtime speed improvement
+	$coinmarketcap_api = coinmarketcap_api($symbol);
+		
+	$data['rank'] = $coinmarketcap_api['cmc_rank'];
+	$data['price'] = $coinmarketcap_api['quote'][$coinmarketcap_fiat]['price'];
+	$data['market_cap'] = $coinmarketcap_api['quote'][$coinmarketcap_fiat]['market_cap'];
+	$data['volume_24h'] = $coinmarketcap_api['quote'][$coinmarketcap_fiat]['volume_24h'];
 	
-	$data['circulating_supply'] = coinmarketcap_api($symbol)['circulating_supply'];
-	$data['total_supply'] = coinmarketcap_api($symbol)['total_supply'];
-	$data['max_supply'] = coinmarketcap_api($symbol)['max_supply'];
+	$data['percent_change_1h'] = number_format( $coinmarketcap_api['quote'][$coinmarketcap_fiat]['percent_change_1h'] , 2, ".", ",");
+	$data['percent_change_24h'] = number_format( $coinmarketcap_api['quote'][$coinmarketcap_fiat]['percent_change_24h'] , 2, ".", ",");
+	$data['percent_change_7d'] = number_format( $coinmarketcap_api['quote'][$coinmarketcap_fiat]['percent_change_7d'] , 2, ".", ",");
 	
-	$data['last_updated'] = strtotime( coinmarketcap_api($symbol)['last_updated'] );
+	$data['circulating_supply'] = $coinmarketcap_api['circulating_supply'];
+	$data['total_supply'] = $coinmarketcap_api['total_supply'];
+	$data['max_supply'] = $coinmarketcap_api['max_supply'];
+	
+	$data['last_updated'] = strtotime( $coinmarketcap_api['last_updated'] );
 	
 	$data['app_notes'] = $app_notes;
 	
@@ -532,7 +537,7 @@ $asset = strtoupper($asset);
 	// Get any necessary variables for calculating asset's DEFAULT FIAT CONFIG value
 
 
-// Code re-use reduction
+// Consolidate function calls for runtime speed improvement
 $asset_market_data = asset_market_data($asset, $exchange, $coins_list[$asset]['market_pairing'][$pairing][$exchange], $pairing);
    
    
@@ -1021,6 +1026,7 @@ $btc_fiat_pairing = $_SESSION['btc_fiat_pairing'];
 // Overwrite DEFAULT FIAT CONFIG / BTC market value, in case user changed preferred market IN THE UI
 $btc_fiat_value = asset_market_data('BTC', $btc_exchange, $coins_list['BTC']['market_pairing'][$btc_fiat_pairing][$btc_exchange])['last_trade'];
 
+
 $market_pairing = $all_markets[$selected_exchange];
 
 
@@ -1045,7 +1051,7 @@ $market_pairing = $all_markets[$selected_exchange];
 	 
     $pairing_symbol = strtoupper($selected_pairing);
     
-    // Code re-use reduction
+    // Consolidate function calls for runtime speed improvement
     $asset_market_data = asset_market_data($asset_symbol, $selected_exchange, $market_pairing, $selected_pairing);
 	 
 	 // BTC PAIRINGS
@@ -1180,7 +1186,10 @@ $market_pairing = $all_markets[$selected_exchange];
  
  $mkcap_render_data = trim($coins_list[$asset_symbol]['marketcap_website_slug']);
  
- $info_icon = ( !marketcap_data($asset_symbol)['rank'] ? 'info-none.png' : 'info.png' );
+ // Consolidate function calls for runtime speed improvement
+ $marketcap_data = marketcap_data($asset_symbol);
+ 
+ $info_icon = ( !$marketcap_data['rank'] ? 'info-none.png' : 'info.png' );
  
  
 	if ( $mkcap_render_data != '' ) {
@@ -1200,7 +1209,7 @@ $market_pairing = $all_markets[$selected_exchange];
  <script>
 
 		<?php
-		if ( !marketcap_data($asset_symbol)['rank'] ) {
+		if ( !$marketcap_data['rank'] ) {
 			
 			if ( $marketcap_site == 'coinmarketcap' && trim($coinmarketcapcom_api_key) == NULL ) {
 			?>
@@ -1232,35 +1241,35 @@ $market_pairing = $all_markets[$selected_exchange];
         ?> 
     
         var cmc_content = '<h5 class="yellow" style="position: relative; white-space: nowrap;"><?=ucfirst($marketcap_site)?>.com Summary For <?=$asset_name?> (<?=$asset_symbol?>):</h5>'
-        +'<p class="coin_info"><span class="yellow">Marketcap Ranking:</span> #<?=marketcap_data($asset_symbol)['rank']?></p>'
-        +'<p class="coin_info"><span class="yellow">Marketcap Value:</span> <?=$fiat_currencies[$btc_fiat_pairing]?><?=number_format(marketcap_data($asset_symbol)['market_cap'],0,".",",")?></p>'
-        +'<p class="coin_info"><span class="yellow">Available Supply:</span> <?=number_format(marketcap_data($asset_symbol)['circulating_supply'], 0, '.', ',')?></p>'
+        +'<p class="coin_info"><span class="yellow">Marketcap Ranking:</span> #<?=$marketcap_data['rank']?></p>'
+        +'<p class="coin_info"><span class="yellow">Marketcap Value:</span> <?=$fiat_currencies[$btc_fiat_pairing]?><?=number_format($marketcap_data['market_cap'],0,".",",")?></p>'
+        +'<p class="coin_info"><span class="yellow">Available Supply:</span> <?=number_format($marketcap_data['circulating_supply'], 0, '.', ',')?></p>'
         <?php
-            if ( marketcap_data($asset_symbol)['total_supply'] > 0 ) {
+            if ( $marketcap_data['total_supply'] > 0 ) {
             ?>
-        +'<p class="coin_info"><span class="yellow">Total Supply:</span> <?=number_format(marketcap_data($asset_symbol)['total_supply'], 0, '.', ',')?></p>'
-        <?php
-            }
-            if ( marketcap_data($asset_symbol)['max_supply'] > 0 ) {
-            ?>
-        +'<p class="coin_info"><span class="yellow">Maximum Supply:</span> <?=number_format(marketcap_data($asset_symbol)['max_supply'], 0, '.', ',')?></p>'
+        +'<p class="coin_info"><span class="yellow">Total Supply:</span> <?=number_format($marketcap_data['total_supply'], 0, '.', ',')?></p>'
         <?php
             }
+            if ( $marketcap_data['max_supply'] > 0 ) {
             ?>
-        +'<p class="coin_info"><span class="yellow">Token Value (average):</span> <?=$fiat_currencies[$btc_fiat_pairing]?><?=marketcap_data($asset_symbol)['price']?></p>'
-        +'<p class="coin_info"><span class="yellow">1 Hour Change:</span> <?=( stristr(marketcap_data($asset_symbol)['percent_change_1h'], '-') != false ? '<span class="red_bright">'.marketcap_data($asset_symbol)['percent_change_1h'].'%</span>' : '<span class="green_bright">+'.marketcap_data($asset_symbol)['percent_change_1h'].'%</span>' )?></p>'
-        +'<p class="coin_info"><span class="yellow">24 Hour Change:</span> <?=( stristr(marketcap_data($asset_symbol)['percent_change_24h'], '-') != false ? '<span class="red_bright">'.marketcap_data($asset_symbol)['percent_change_24h'].'%</span>' : '<span class="green_bright">+'.marketcap_data($asset_symbol)['percent_change_24h'].'%</span>' )?></p>'
-        +'<p class="coin_info"><span class="yellow">7 Day Change:</span> <?=( stristr(marketcap_data($asset_symbol)['percent_change_7d'], '-') != false ? '<span class="red_bright">'.marketcap_data($asset_symbol)['percent_change_7d'].'%</span>' : '<span class="green_bright">+'.marketcap_data($asset_symbol)['percent_change_7d'].'%</span>' )?></p>'
-        +'<p class="coin_info"><span class="yellow">24 Hour Volume:</span> <?=$fiat_currencies[$btc_fiat_pairing]?><?=number_format(marketcap_data($asset_symbol)['volume_24h'],0,".",",")?></p>'
-        <?php
-            if ( marketcap_data($asset_symbol)['last_updated'] != '' ) {
-            ?>
-        +'<p class="coin_info"><span class="yellow">Timestamp (UTC):</span> <?=gmdate("Y-M-d\ \\a\\t g:ia", marketcap_data($asset_symbol)['last_updated'])?></p>'
+        +'<p class="coin_info"><span class="yellow">Maximum Supply:</span> <?=number_format($marketcap_data['max_supply'], 0, '.', ',')?></p>'
         <?php
             }
-            if ( marketcap_data($asset_symbol)['app_notes'] != '' ) {
             ?>
-        +'<p class="coin_info"><span class="yellow">Notes:</span> <?=marketcap_data($asset_symbol)['app_notes']?></p>'
+        +'<p class="coin_info"><span class="yellow">Token Value (average):</span> <?=$fiat_currencies[$btc_fiat_pairing]?><?=$marketcap_data['price']?></p>'
+        +'<p class="coin_info"><span class="yellow">1 Hour Change:</span> <?=( stristr($marketcap_data['percent_change_1h'], '-') != false ? '<span class="red_bright">'.$marketcap_data['percent_change_1h'].'%</span>' : '<span class="green_bright">+'.$marketcap_data['percent_change_1h'].'%</span>' )?></p>'
+        +'<p class="coin_info"><span class="yellow">24 Hour Change:</span> <?=( stristr($marketcap_data['percent_change_24h'], '-') != false ? '<span class="red_bright">'.$marketcap_data['percent_change_24h'].'%</span>' : '<span class="green_bright">+'.$marketcap_data['percent_change_24h'].'%</span>' )?></p>'
+        +'<p class="coin_info"><span class="yellow">7 Day Change:</span> <?=( stristr($marketcap_data['percent_change_7d'], '-') != false ? '<span class="red_bright">'.$marketcap_data['percent_change_7d'].'%</span>' : '<span class="green_bright">+'.$marketcap_data['percent_change_7d'].'%</span>' )?></p>'
+        +'<p class="coin_info"><span class="yellow">24 Hour Volume:</span> <?=$fiat_currencies[$btc_fiat_pairing]?><?=number_format($marketcap_data['volume_24h'],0,".",",")?></p>'
+        <?php
+            if ( $marketcap_data['last_updated'] != '' ) {
+            ?>
+        +'<p class="coin_info"><span class="yellow">Timestamp (UTC):</span> <?=gmdate("Y-M-d\ \\a\\t g:ia", $marketcap_data['last_updated'])?></p>'
+        <?php
+            }
+            if ( $marketcap_data['app_notes'] != '' ) {
+            ?>
+        +'<p class="coin_info"><span class="yellow">Notes:</span> <?=$marketcap_data['app_notes']?></p>'
         <?php
             }
             ?>
@@ -1304,13 +1313,13 @@ $market_pairing = $all_markets[$selected_exchange];
     
     
             if ( $alert_percent[2] == '1hour' ) {
-            $percent_change = marketcap_data($asset_symbol)['percent_change_1h'];
+            $percent_change = $marketcap_data['percent_change_1h'];
             }
             elseif ( $alert_percent[2] == '24hour' ) {
-            $percent_change = marketcap_data($asset_symbol)['percent_change_24h'];
+            $percent_change = $marketcap_data['percent_change_24h'];
             }
             elseif ( $alert_percent[2] == '7day' ) {
-            $percent_change = marketcap_data($asset_symbol)['percent_change_7d'];
+            $percent_change = $marketcap_data['percent_change_7d'];
             }
           
          

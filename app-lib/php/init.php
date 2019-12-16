@@ -23,9 +23,6 @@ hardy_session_clearing(); // Try to avoid edge-case bug where sessions didn't de
 session_start(); // New session start
 
 
-// Start measuring script runtime (AFTER loading functions with app-lib/php/loader.php, AND starting a new session)
-script_runtime('start');
-
 $_SESSION['proxy_checkup'] = array();
 
 

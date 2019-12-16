@@ -1,5 +1,12 @@
 <?php
 
+// Calculate script runtime length
+$time = microtime();
+$time = explode(' ', $time);
+$time = $time[1] + $time[0];
+$start_runtime = $time;
+
+// Runtime mode
 $runtime_mode = 'ui';
 
 require("config.php");

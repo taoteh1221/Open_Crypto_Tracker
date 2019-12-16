@@ -16,9 +16,6 @@ $steem_market = asset_market_data('STEEM', 'binance', 'STEEMBTC')['last_trade'];
 ?>
     
 
-
-<p class='green' style='font-weight: bold;'>1 STEEM = <?=$steem_market?> BTC (<?=$fiat_currencies[$btc_fiat_pairing]?><?php echo number_format( ( $steem_market * $btc_fiat_value ), 8, '.', ','); ?>)</p>
-
 <div>
     <form action='<?=start_page('mining_calculators')?>' method='post'>
         
@@ -44,6 +41,9 @@ if ( $_POST['steem_submitted'] ) {
 ?>
 
 <p class='red' style='font-weight: bold;'>Your <i>current</i> STEEM Power interest rate results (<i><u><?=strtoupper($btc_fiat_pairing)?> values may change significantly over long periods of time</u></i>):</p>
+
+<p class='green' style='font-weight: bold;'>1 STEEM = <?=$steem_market?> BTC (<?=$fiat_currencies[$btc_fiat_pairing]?><?php echo number_format( ( $steem_market * $btc_fiat_value ), 8, '.', ','); ?>)</p>
+
 
 <?php
 

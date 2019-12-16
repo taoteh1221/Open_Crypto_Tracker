@@ -268,29 +268,6 @@ return false;
 ////////////////////////////////////////////////////////
 
 
-function script_runtime($mode) {
-
-// Calculate script runtime
-$time = microtime();
-$time = explode(' ', $time);
-$time = $time[1] + $time[0];
-
-	if ( $mode == 'start' ) {
-	$_SESSION['start_runtime'] = $time;
-	}
-	elseif ( $mode == 'finish' ) {
-	$total_runtime = round( ($time - $_SESSION['start_runtime']) , 3);
-	$_SESSION['start_runtime'] = NULL; // Clear start value to be safe
-	return $total_runtime;
-	}
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
 function app_logging($log_type, $log_message, $telemetry=false, $hashcheck=false, $overwrite=false) {
 
 global $runtime_mode;
@@ -1859,7 +1836,7 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 
 function api_data($mode, $request, $ttl, $api_server=null, $post_encoding=3, $test_proxy=NULL, $headers=NULL) { // Default to JSON encoding post requests (most used)
 
-global $base_dir, $limited_apis, $user_agent, $api_timeout, $api_strict_ssl, $proxy_login, $proxy_list;
+global $debug_mode, $base_dir, $limited_apis, $user_agent, $api_timeout, $api_strict_ssl, $proxy_login, $proxy_list;
 
 $cookie_jar = tempnam('/tmp','cookie');
 	
@@ -1981,7 +1958,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 
 		if ( !$data ) {
 		
-		// SAFE UI ALERT VERSION (no post data with API keys etc)
+		// LOG-SAFE VERSION (no post data with API keys etc)
 		app_logging( 'api_data_error', 'connection failed for ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint request at ' . $request ), 'request attempt from: server (local timeout setting ' . $api_timeout . ' seconds); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . ';' );
 		
 			if ( sizeof($proxy_list) > 0 && $current_proxy != '' && $mode != 'proxy-check' ) { // Avoid infinite loops doing proxy checks
@@ -1994,6 +1971,13 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 			}
 		
 		}
+		elseif ( $debug_mode == 'all' || $debug_mode == 'telemetry' ) {
+		
+		// LOG-SAFE VERSION (no post data with API keys etc)
+		app_logging( 'api_data_debugging', 'connection request for ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint at ' . $request ), 'request from: server (local timeout setting ' . $api_timeout . ' seconds); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . ';' );
+			
+		}
+		
 		
 		
 		// Don't log cmc throttle notices, BUT nullify $data since we're getting no API data (just a throttle notice)
@@ -2039,6 +2023,20 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		
 		app_logging( 'cache_error', 'no data in cache from connection failure with ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint request at ' . $request ), 'request attempt(s) from: cache ('.$_SESSION['error_duplicates'][$hash_check].' runtime instances); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . ';', $hash_check );
 			
+		}
+		elseif ( $debug_mode == 'all' || $debug_mode == 'telemetry' ) {
+		
+			if ( !$_SESSION['debugging_duplicates'][$hash_check] ) {
+			$_SESSION['debugging_duplicates'][$hash_check] = 1; 
+			}
+			else {
+			$_SESSION['debugging_duplicates'][$hash_check] = $_SESSION['debugging_duplicates'][$hash_check] + 1;
+			}
+			
+		// Don't log this debugging again during THIS runtime, as it would be a duplicate...just overwrite same debugging message, BUT update the debugging count in it
+		
+		app_logging( 'cache_debugging', 'Cache data request for ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint at ' . $request ), 'request(s) from: cache ('.$_SESSION['debugging_duplicates'][$hash_check].' runtime instances); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . ';', $hash_check );
+		
 		}
 	
 	

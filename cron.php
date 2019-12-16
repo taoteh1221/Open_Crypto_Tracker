@@ -3,6 +3,11 @@
  * Copyright 2014-2020 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
  */
 
+// Calculate script runtime length
+$time = microtime();
+$time = explode(' ', $time);
+$time = $time[1] + $time[0];
+$start_runtime = $time;
 
 // Forbid direct INTERNET access to this file
 if ( isset($_SERVER['REQUEST_METHOD']) && realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) ) {
@@ -14,6 +19,7 @@ if ( isset($_SERVER['REQUEST_METHOD']) && realpath(__FILE__) == realpath($_SERVE
 // Assure CLI runtime is in install directory (server compatibility required for some PHP setups)
 chdir( dirname(__FILE__) );
 
+// Runtime mode
 $runtime_mode = 'cron';
 
 require("config.php");
@@ -63,16 +69,25 @@ if ( $proxy_alerts != 'none' ) {
 }
 
 
+// Log errors, send notifications BEFORE runtime stats
+error_logs();
+send_notifications();
+
+
+// Calculate script runtime length
+$time = microtime();
+$time = explode(' ', $time);
+$time = $time[1] + $time[0];
+$total_runtime = round( ($time - $start_runtime) , 3);
 
 if ( $debug_mode == 'all' || $debug_mode == 'telemetry' ) {
 // Log runtime stats
-app_logging('other_debugging', 'Stats for '.$runtime_mode.' runtime', $runtime_mode.'_runtime: Runtime lasted ' . script_runtime('finish') . ' seconds.');
+app_logging('other_debugging', 'Stats for '.$runtime_mode.' runtime', $runtime_mode.'_runtime: runtime lasted ' . $total_runtime . ' seconds');
 }
 
-// Log errors / debugging, send notifications, destroy session data
-error_logs();
+// Process debugging logs / destroy session data AFTER runtime stats
 debugging_logs();
-send_notifications();
 hardy_session_clearing();
+
 
 ?>
