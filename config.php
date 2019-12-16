@@ -40,7 +40,10 @@ require_once("app-lib/php/init.php");  // REQUIRED, DON'T DELETE BY ACCIDENT
 // It also logs ui / cron runtime telemetry to /cache/logs/debugging.log
 // 'off' (disables), 'all' (all debugging), 'charts' (chart/price alert checks), 'texts' (mobile gateway checks), 
 // 'markets' (coin market checks), 'telemetry' (logs runtime telemetry)
-// UNIT TESTS WILL ONLY RUN DURING WEB PAGE LOAD
+// UNIT TESTS WILL ONLY RUN DURING WEB PAGE LOAD. MAY REQUIRE  
+// SETTING MAXIMUM ALLOWED PHP EXECUTION TIME TO 120 SECONDS TEMPORARILY, 
+// FOR ALL UNIT TESTS TO FULLY COMPLETE RUNNING, IF YOU GET AN ERROR 500.
+// OPTIONALLY, TRY RUNNING ONE TEST PER PAGE LOAD, TO AVOID THIS.
 $debug_mode = 'off'; 
 
 // Your local time offset in hours compared to UTC time. Can be negative or positive.

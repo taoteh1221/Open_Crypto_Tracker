@@ -7,6 +7,11 @@
 
 /////////////////////////////////////////////////
     	
+    	
+if ( $debug_mode != 'off' ) {
+error_reporting(1); // If debugging is enabled, turn on all PHP error reporting immediately after parsing config.php
+}
+
 
 // Set BTC / currency_market dynamic value
 
@@ -24,7 +29,7 @@ $btc_fiat_pairing = $_SESSION['btc_fiat_pairing'];
 }
 
 // MUST be called FIRST at runtime by the default bitcoin market, to set this var for reuse later in runtime
-$btc_fiat_value = asset_market_data('BTC', $btc_exchange, $coins_list['BTC']['market_pairing'][$btc_fiat_pairing][$btc_exchange], $btc_fiat_pairing)['last_trade'];
+$btc_fiat_value = asset_market_data('BTC', $btc_exchange, $coins_list['BTC']['market_pairing'][$btc_fiat_pairing][$btc_exchange])['last_trade'];
 
 
 $asset_price_alerts_percent = floattostr($asset_price_alerts_percent); // Better decimal support for price change percent config
@@ -184,7 +189,6 @@ $charts_update_freq = ( $charts_update_freq != '' ? $charts_update_freq : trim( 
 
 // Unit tests to run in debug mode, AFTER loading init / config-init logic
 if ( $debug_mode != 'off' ) {
-error_reporting(1); // Turn on all PHP error reporting
 require_once("app-lib/php/debugging/tests.php");
 }
 

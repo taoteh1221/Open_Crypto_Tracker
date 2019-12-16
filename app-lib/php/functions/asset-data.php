@@ -108,54 +108,6 @@ return $results;
 ////////////////////////////////////////////////////////
 
 
-function detect_pairing($pair_name) {
-
-// When debugging, see if we even use this function at all?
-app_logging('other_debugging', 'detect_pairing() function was used', 'pair_name: ' . $pair_name );
-	
-	
-	if ( !preg_match("/btc/i", $pair_name) && !preg_match("/xbt/i", $pair_name) ) {
-	
-		if ( preg_match("/usdt/i", $pair_name) ) {
-		return 'usdt'; // Tether
-		}
-		elseif ( preg_match("/tusd/i", $pair_name) ) {
-		return 'tusd'; // TrueUSD
-		}
-		elseif ( preg_match("/usdc/i", $pair_name) ) {
-		return 'usdc'; // USDC
-		}
-		elseif ( preg_match("/usd/i", $pair_name) ) {
-		return 'usd'; // USD
-		}
-		elseif ( preg_match("/eth/i", $pair_name) ) {
-		return 'eth';
-		}
-		elseif ( preg_match("/ltc/i", $pair_name) ) {
-		return 'ltc';
-		}
-		elseif ( preg_match("/xmr/i", $pair_name) ) {
-		return 'xmr';
-		}
-		else {
-		return false;
-		}
-	
-	}
-	elseif ( preg_match("/btc/i", $pair_name) ) {
-	return 'btc';
-	}
-	else {
-	return false;
-	}
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
 function marketcap_data($symbol) {
 	
 global $btc_fiat_pairing, $marketcap_site, $coinmarketcapcom_api_key, $alert_percent, $fiat_decimals_max;
@@ -235,6 +187,11 @@ return ( $data['rank'] != NULL ? $data : NULL );
 function trade_volume($asset_symbol, $pairing, $volume, $last_trade, $vol_in_pairing=false) {
 
 global $btc_fiat_pairing, $fiat_currencies, $btc_fiat_value;
+	
+	// If no pairing data, skip calculating trade volume to save on uneeded overhead
+	if ( $pairing == false ) {
+	return false;
+	}
 
 
 	// WE NEED TO SET THIS (ONLY IF NOT SET ALREADY) for asset_market_data() calls, 
@@ -1034,7 +991,7 @@ $all_pairings = $coins_list[$asset_symbol]['market_pairing'];
      ?>
      
      <script>
-     window.btc_fiat_value = '<?=asset_market_data('BTC', $_SESSION['btc_exchange'], $coins_list['BTC']['market_pairing'][$_SESSION['btc_fiat_pairing']][$_SESSION['btc_exchange']], $_SESSION['btc_fiat_pairing'])['last_trade']?>';
+     window.btc_fiat_value = '<?=asset_market_data('BTC', $_SESSION['btc_exchange'], $coins_list['BTC']['market_pairing'][$_SESSION['btc_fiat_pairing']][$_SESSION['btc_exchange']])['last_trade']?>';
      
      window.btc_fiat_pairing = '<?=strtoupper($_SESSION['btc_fiat_pairing'])?>';
      </script>
@@ -1062,7 +1019,7 @@ $btc_fiat_pairing = $_SESSION['btc_fiat_pairing'];
 
 
 // Overwrite DEFAULT FIAT CONFIG / BTC market value, in case user changed preferred market IN THE UI
-$btc_fiat_value = asset_market_data('BTC', $btc_exchange, $coins_list['BTC']['market_pairing'][$btc_fiat_pairing][$btc_exchange], $btc_fiat_pairing)['last_trade'];
+$btc_fiat_value = asset_market_data('BTC', $btc_exchange, $coins_list['BTC']['market_pairing'][$btc_fiat_pairing][$btc_exchange])['last_trade'];
 
 $market_pairing = $all_markets[$selected_exchange];
 
@@ -1087,10 +1044,13 @@ $market_pairing = $all_markets[$selected_exchange];
 	 // Get coin values, including non-BTC pairings
 	 
     $pairing_symbol = strtoupper($selected_pairing);
+    
+    // Code re-use reduction
+    $asset_market_data = asset_market_data($asset_symbol, $selected_exchange, $market_pairing, $selected_pairing);
 	 
 	 // BTC PAIRINGS
     if ( $selected_pairing == 'btc' ) {
-    $coin_value_raw = asset_market_data($asset_symbol, $selected_exchange, $market_pairing, $selected_pairing)['last_trade'];
+    $coin_value_raw = $asset_market_data['last_trade'];
     $btc_trade_eqiv = number_format($coin_value_raw, 8);
     $coin_value_total_raw = ($asset_amount * $coin_value_raw);
   	 $coin_fiat_worth_raw = $coin_value_total_raw *  $btc_fiat_value;
@@ -1108,7 +1068,7 @@ $market_pairing = $all_markets[$selected_exchange];
     // OTHER PAIRINGS
     else {
     $pairing_btc_value = pairing_market_value($selected_pairing);
-    $coin_value_raw = asset_market_data($asset_symbol, $selected_exchange, $market_pairing, $selected_pairing)['last_trade'];
+    $coin_value_raw = $asset_market_data['last_trade'];
     $btc_trade_eqiv = ( strtolower($asset_name) == 'bitcoin' ? NULL : number_format( ($coin_value_raw * $pairing_btc_value), 8) );
     $coin_value_total_raw = ($asset_amount * $coin_value_raw);
   	 $coin_fiat_worth_raw = ($coin_value_total_raw * $pairing_btc_value) *  $btc_fiat_value;
@@ -1188,7 +1148,7 @@ $market_pairing = $all_markets[$selected_exchange];
 
 
   // Get trade volume
-  $trade_volume = asset_market_data($asset_symbol, $selected_exchange, $market_pairing, $selected_pairing)['24hr_fiat_volume'];
+  $trade_volume = $asset_market_data['24hr_fiat_volume'];
   
   
   

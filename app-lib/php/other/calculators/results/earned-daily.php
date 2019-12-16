@@ -9,7 +9,7 @@
 				<br />
 				Current <?=$calculation_form_data[0]?> Value Per Coin: 
 				<?php
-				echo ( $calculation_form_data[1] == 'btc' ? number_format($btc_fiat_value, 2) . ' ' . strtoupper($btc_fiat_pairing) : number_format(asset_market_data(strtoupper($calculation_form_data[1]), $calculation_form_data[6], $calculation_form_data[7])['last_trade'], 8) . ' BTC (' . $fiat_currencies[$btc_fiat_pairing] . round( asset_market_data(strtoupper($calculation_form_data[1]), $calculation_form_data[6], $calculation_form_data[7])['last_trade'] * $btc_fiat_value , 8) . ' '.strtoupper($btc_fiat_pairing).')' );
+				echo ( $calculation_form_data[1] == 'btc' ? number_format($btc_fiat_value, 2) . ' ' . strtoupper($btc_fiat_pairing) : number_format($mined_coin_value, 8) . ' BTC (' . $fiat_currencies[$btc_fiat_pairing] . round( $mined_coin_value * $btc_fiat_value , 8) . ' '.strtoupper($btc_fiat_pairing).')' );
 				?>
 				
 				<br />

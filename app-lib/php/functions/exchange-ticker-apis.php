@@ -7,13 +7,11 @@
 //////////////////////////////////////////////////////////
 
 
-function asset_market_data($asset_symbol, $chosen_exchange, $market_pairing, $pairing_config=false) {
+// We only need $pairing data if our function call needs 24hr trade volumes, so it's optional overhead
+function asset_market_data($asset_symbol, $chosen_exchange, $market_id, $pairing=false) { 
 
 
 global $btc_exchange, $btc_fiat_value, $coins_list, $last_trade_cache;
-         	
-         	
-$pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market_pairing) );
  
  
  
@@ -35,7 +33,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
   
        foreach ($data as $key => $value) {
          
-         if ( $data[$key]["market_id"] == $market_pairing ) {
+         if ( $data[$key]["market_id"] == $market_id ) {
          	
          return  array(
     							'last_trade' => $data[$key]["close"],
@@ -74,7 +72,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
        foreach ($data as $key => $value) {
          
          
-         if ( $data[$key]['symbol'] == $market_pairing ) {
+         if ( $data[$key]['symbol'] == $market_id ) {
           
          return  array(
     						'last_trade' => $data[$key]["lastPrice"],
@@ -113,7 +111,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
        foreach ($data as $key => $value) {
          
          
-         if ( $data[$key]['symbol'] == $market_pairing ) {
+         if ( $data[$key]['symbol'] == $market_id ) {
           
          return  array(
     						'last_trade' => $data[$key]["lastPrice"],
@@ -151,7 +149,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
   
        foreach ( $data as $object ) {
          
-         if ( $object[0] == $market_pairing ) {
+         if ( $object[0] == $market_id ) {
                  
           
          return  array(
@@ -178,7 +176,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
 
   elseif ( strtolower($chosen_exchange) == 'bitforex' ) {
   
-  $json_string = 'https://api.bitforex.com/api/v1/market/ticker?symbol=' . $market_pairing;
+  $json_string = 'https://api.bitforex.com/api/v1/market/ticker?symbol=' . $market_id;
   
   $jsondata = @api_data('url', $json_string, $last_trade_cache);
   
@@ -214,7 +212,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
        foreach ($data as $key => $value) {
          
          
-         if ( $data[$key]['instrument_code'] == $market_pairing ) {
+         if ( $data[$key]['instrument_code'] == $market_id ) {
           
          return  array(
     						'last_trade' => $data[$key]["last_price"],
@@ -242,7 +240,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
   elseif ( strtolower($chosen_exchange) == 'bitstamp' ) {
   	
   
-  $json_string = 'https://www.bitstamp.net/api/v2/ticker/' . $market_pairing;
+  $json_string = 'https://www.bitstamp.net/api/v2/ticker/' . $market_id;
   
     $jsondata = @api_data('url', $json_string, $last_trade_cache);
     
@@ -277,7 +275,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
   
        foreach ($data as $key => $value) {
          
-         if ( $data[$key]['MarketName'] == $market_pairing ) {
+         if ( $data[$key]['MarketName'] == $market_id ) {
           
          return  array(
     							'last_trade' => $data[$key]["Last"],
@@ -305,7 +303,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
   elseif ( strtolower($chosen_exchange) == 'btcmarkets' ) {
      
   
-     $json_string = 'https://api.btcmarkets.net/market/'.$market_pairing.'/tick';
+     $json_string = 'https://api.btcmarkets.net/market/'.$market_id.'/tick';
      
      $jsondata = @api_data('url', $json_string, $last_trade_cache);
      
@@ -343,7 +341,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
        foreach ($data as $key => $value) {
          
          
-         if ( $data[$key]["pair"] == $market_pairing ) {
+         if ( $data[$key]["pair"] == $market_id ) {
           
          return  array(
     						'last_trade' => $data[$key]["last"],
@@ -370,7 +368,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
 
   elseif ( strtolower($chosen_exchange) == 'coinbase' ) {
   
-     $json_string = 'https://api.pro.coinbase.com/products/'.$market_pairing.'/ticker';
+     $json_string = 'https://api.pro.coinbase.com/products/'.$market_id.'/ticker';
      
      $jsondata = @api_data('url', $json_string, $last_trade_cache);
      
@@ -393,13 +391,13 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
 
   elseif ( strtolower($chosen_exchange) == 'cryptofresh' ) {
   
-  $json_string = 'https://cryptofresh.com/api/asset/markets?asset=' . $market_pairing;
+  $json_string = 'https://cryptofresh.com/api/asset/markets?asset=' . $market_id;
   
     $jsondata = @api_data('url', $json_string, $last_trade_cache);
     
     $data = json_decode($jsondata, TRUE);
 	
-		if ( preg_match("/BRIDGE/", $market_pairing) ) {
+		if ( preg_match("/BRIDGE/", $market_id) ) {
 		return  array(
     					'last_trade' => number_format( $data['BRIDGE.BTC']['price'], 8, '.', ''),
     					'24hr_asset_volume' => $data['BRIDGE.BTC']['volume24'],
@@ -407,7 +405,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
     					'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data['BRIDGE.BTC']['volume24'], number_format( $data['BRIDGE.BTC']['price'], 8, '.', ''))
     					);
 		}
-		elseif ( preg_match("/OPEN/", $market_pairing) ) {
+		elseif ( preg_match("/OPEN/", $market_id) ) {
 		return  array(
     					'last_trade' => number_format( $data['OPEN.BTC']['price'], 8, '.', ''),
     					'24hr_asset_volume' => $data['OPEN.BTC']['volume24'],
@@ -440,7 +438,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
   
        foreach ($data as $key => $value) {
          
-         if ( $key == $market_pairing ) {
+         if ( $key == $market_id ) {
           
          return  array(
     							'last_trade' => $data[$key]["last"],
@@ -467,7 +465,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
 
   elseif ( strtolower($chosen_exchange) == 'gemini' ) {
   
-  $json_string = 'https://api.gemini.com/v1/pubticker/' . $market_pairing;
+  $json_string = 'https://api.gemini.com/v1/pubticker/' . $market_id;
   
     $jsondata = @api_data('url', $json_string, $last_trade_cache);
     
@@ -501,13 +499,13 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
        foreach ($data as $key => $value) {
          
          
-         if ( $data[$market_pairing] != '' ) {
+         if ( $data[$market_id] != '' ) {
           
          return  array(
-    							'last_trade' => $data[$market_pairing]['ticker']['last'],
-    							'24hr_asset_volume' => $data[$market_pairing]['ticker']['vol'],
+    							'last_trade' => $data[$market_id]['ticker']['last'],
+    							'24hr_asset_volume' => $data[$market_id]['ticker']['vol'],
     							'24hr_pairing_volume' => NULL, // Weird pairing volume always in BTC according to array keyname, skipping
-    							'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data[$market_pairing]['ticker']['vol'], $data[$market_pairing]['ticker']['last'])
+    							'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data[$market_id]['ticker']['vol'], $data[$market_id]['ticker']['last'])
     						);
           
          }
@@ -537,7 +535,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
   
        foreach ($data as $key => $value) {
          
-         if ( $key == $market_pairing ) {
+         if ( $key == $market_id ) {
           
          return  array(
     							'last_trade' => $data[$key]["last"],
@@ -575,7 +573,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
   
        foreach ($data as $key => $value) {
          
-         if ( $data[$key]["symbol"] == $market_pairing ) {
+         if ( $data[$key]["symbol"] == $market_id ) {
           
          return  array(
     							'last_trade' => $data[$key]["last"],
@@ -616,7 +614,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
        foreach ($data as $key => $value) {
          
          
-         if ( $data[$key]["symbol"] == $market_pairing ) {
+         if ( $data[$key]["symbol"] == $market_id ) {
           
          return  array(
     						'last_trade' => $data[$key]["close"],
@@ -655,7 +653,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
   
        foreach ($data as $key => $value) {
          
-         if ( $key == $market_pairing ) {
+         if ( $key == $market_id ) {
          	
          return  array(
     							'last_trade' => $data[$key]["last"],
@@ -714,7 +712,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
          
           foreach ($data[$key] as $key2 => $value2) {
             
-            if ( $key2 == $market_pairing ) {
+            if ( $key2 == $market_id ) {
              
             return  array(
     								'last_trade' => $data[$key][$key2]["c"][0],
@@ -756,7 +754,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
   
        foreach ($data as $key => $value) {
          
-         if ( $data[$key]['symbol'] == $market_pairing ) {
+         if ( $data[$key]['symbol'] == $market_id ) {
           
          return  array(
     							'last_trade' => $data[$key]["last"],
@@ -795,7 +793,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
        foreach ($data as $key => $value) {
          
          
-         if ( $key == $market_pairing ) {
+         if ( $key == $market_id ) {
           
          return  array(
     						'last_trade' => $data[$key]["last"],
@@ -832,7 +830,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
   
        foreach ($data as $key => $value) {
          
-         if ( $data[$key]['symbol'] == $market_pairing ) {
+         if ( $data[$key]['symbol'] == $market_id ) {
           
          return  array(
     							'last_trade' => $data[$key]["last"],
@@ -858,7 +856,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
 
   elseif ( strtolower($chosen_exchange) == 'okcoin' ) {
   
-    $json_string = 'https://www.okcoin.com/api/v1/ticker.do?symbol=' . $market_pairing;
+    $json_string = 'https://www.okcoin.com/api/v1/ticker.do?symbol=' . $market_id;
     
     $jsondata = @api_data('url', $json_string, $last_trade_cache);
     
@@ -894,7 +892,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
        foreach ($data as $key => $value) {
        	
          
-         if ( $data[$key]['instrument_id'] == $market_pairing ) {
+         if ( $data[$key]['instrument_id'] == $market_id ) {
           
          return  array(
     						'last_trade' => $data[$key]["last"],
@@ -931,7 +929,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
   
        foreach ($data as $key => $value) {
          
-         if ( $key == $market_pairing ) {
+         if ( $key == $market_id ) {
           
          return  array(
     							'last_trade' => $data[$key]["last"],
@@ -971,7 +969,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
        foreach ($data as $key => $value) {
          
          
-         if ( $key == $market_pairing ) {
+         if ( $key == $market_id ) {
           
          return  array(
     						'last_trade' => $data[$key]["ticker"]["last"],
@@ -1008,13 +1006,13 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
   
        foreach ($data as $key => $value) {
          
-         if ( $data[$key][$market_pairing] != '' ) {
+         if ( $data[$key][$market_id] != '' ) {
           
          return  array(
-    							'last_trade' => $data[$key][$market_pairing]["price"],
+    							'last_trade' => $data[$key][$market_id]["price"],
     							'24hr_asset_volume' => NULL, // No asset volume data for this API
-    							'24hr_pairing_volume' => $data[$key][$market_pairing]["volume"],
-    							'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data[$key][$market_pairing]["volume"], $data[$key][$market_pairing]["price"], $data[$key][$market_pairing]["volume"]) 
+    							'24hr_pairing_volume' => $data[$key][$market_id]["volume"],
+    							'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data[$key][$market_id]["volume"], $data[$key][$market_id]["price"], $data[$key][$market_id]["volume"]) 
     						);
           
          }
@@ -1046,7 +1044,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
   
        foreach ($data as $key => $value) {
          
-         if ( $data[$key]['market'] == $market_pairing ) {
+         if ( $data[$key]['market'] == $market_id ) {
           
          return  array(
     							'last_trade' => $data[$key]["last"],
@@ -1100,7 +1098,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
   
        foreach ( $data as $key => $value ) {
          
-         if ( $data[$key]["market"] == $market_pairing ) {
+         if ( $data[$key]["market"] == $market_id ) {
           
          return  array(
     							'last_trade' => $data[$key]["trade_price"],
@@ -1128,7 +1126,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
 		
 	  $fiat_to_btc = ( 1 / $btc_fiat_value );		
 		
-	  if ( $market_pairing == 'fiat_to_btc' ) {
+	  if ( $market_id == 'fiat_to_btc' ) {
      return  array(
     					'last_trade' => $fiat_to_btc,
     					'24hr_asset_volume' => NULL,
@@ -1136,7 +1134,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
     					'24hr_fiat_volume' => NULL
     					);
      }
-	  elseif ( $market_pairing == 'fiat_to_eth' ) {
+	  elseif ( $market_id == 'fiat_to_eth' ) {
      return  array(
     					'last_trade' => ( 1 / ( pairing_market_value('eth') / $fiat_to_btc ) ),
     					'24hr_asset_volume' => NULL,
@@ -1144,7 +1142,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
     					'24hr_fiat_volume' => NULL
     					);
      }
-	  elseif ( $market_pairing == 'fiat_to_xmr' ) {
+	  elseif ( $market_id == 'fiat_to_xmr' ) {
      return  array(
     					'last_trade' => ( 1 / ( pairing_market_value('xmr') / $fiat_to_btc ) ),
     					'24hr_asset_volume' => NULL,
@@ -1152,7 +1150,7 @@ $pairing = ( $pairing_config != false ? $pairing_config : detect_pairing($market
     					'24hr_fiat_volume' => NULL
     					);
      }
-	  elseif ( $market_pairing == 'fiat_to_ltc' ) {
+	  elseif ( $market_id == 'fiat_to_ltc' ) {
      return  array(
     					'last_trade' => ( 1 / ( pairing_market_value('ltc') / $fiat_to_btc ) ),
     					'24hr_asset_volume' => NULL,

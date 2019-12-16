@@ -85,7 +85,7 @@
 			?>
 			
 			
-			    <p class='settings_sections'><b>Theme Colors:</b> <select onchange='
+			    <p class='settings_sections'><b>Theme:</b> <select onchange='
 			    $("#theme_selected").val(this.value);
 			    '>
 				<option value='light' <?=( $theme_selected == 'light' ? ' selected ' : '' )?>> Light </option>
@@ -98,19 +98,99 @@
 			if (is_array($coins_list) || is_object($coins_list)) {
 			    
 			    ?>
-			    <p class='settings_sections'><b>Default Bitcoin Market:</b> <select onchange='
-			    $("#btc_market").val(this.value);
-			    '>
-				<?php
-				foreach ( $coins_list['BTC']['market_pairing'][$btc_fiat_pairing] as $market_key => $unused ) {
-				$loop = $loop + 1;
-				?>
-				<option value='<?=$loop?>' <?=( isset($_POST['btc_market']) && ($_POST['btc_market']) == $loop || isset($btc_market) && $btc_market == ($loop - 1) || $market_key == $btc_exchange ? ' selected ' : '' )?>> <?=name_rendering($market_key)?> </option>
-				<?php
-				}
-				$loop = NULL;
-				?>
-			    </select>
+			    <p class='settings_sections'><b>Default Fiat Currency:</b> 
+			    
+
+					<select onchange='
+					
+				    $("#btc_market_id_lists").children().hide(); 
+				    $("#" + this.value + "btcfiat_pairs").show(); 
+				    $("#btc_market_id").val( $("#" + this.value + "btcfiat_pairs option:selected").val() );
+				    
+				    $("#btc_pairing_name").val( this.value );
+				    
+				    /////////////////////////////////////////////////////////
+				    
+				    // "Update assets" tab, mirroring of settings
+				    
+				    $("#btc_market_lists").children().hide(); 
+				    $("#" + this.value + "BTC_pairs").show(); 
+				    $("#btc_market").val( $("#" + this.value + "BTC_pairs option:selected").val() );
+				    
+				    $("#btc_pairing").val( this.value );
+				    
+				    '>
+					
+					<?php
+					foreach (  $coins_list['BTC']['market_pairing'] as $pairing_key => $pairing_id ) {
+					 $loop = $loop + 1;
+					 	
+					 	// Get first pairing key for further down in the logic, if no $btc_fiat_pairing value was set
+					 	if ( $loop == 1 ) {
+					 	$selected_pairing = ( $btc_fiat_pairing ? $btc_fiat_pairing : $pairing_key );
+					 	}
+						
+					?>
+					<option value='<?=$pairing_key?>' <?=( isset($btc_fiat_pairing) && $btc_fiat_pairing == $pairing_key ? ' selected ' : '' )?>> <?=strtoupper(preg_replace("/_/i", " ", $pairing_key))?> </option>
+					<?php
+					
+									foreach ( $coins_list['BTC']['market_pairing'][$pairing_key] as $market_key => $market_id ) {
+									$loop2 = $loop2 + 1;
+									
+										if ( $selected_pairing == $pairing_key && $market_key == $btc_exchange ) {
+										$exhange_field_id = $loop2;
+										}
+									
+									$btc_market_list[$pairing_key] .= "\n<option value='".$loop2."'" . ( $exhange_field_id == $loop2 ? ' selected ' : '' ) . ">" . name_rendering($market_key) . " </option>\n";
+									}
+									$loop2 = NULL;
+							
+							
+					}
+					$loop = NULL;
+					?>
+				    </select> 
+				    
+				    
+				    <br /><br /> 
+				    <b>Default Bitcoin Market:</b> 
+				    
+				    <input type='hidden' id='btc_pairing_name' name='btc_pairing_name' value='<?=$selected_pairing?>' />
+				    <!-- FOR FUTURE FEATURE OF A CHECKBOX OPTION TO DECOUPLE DEFAULT CURRENCY/MARKET FROM "UPDATE ASSETS" TAB'S SETTINGS -->
+				    <input type='hidden' id='btc_market_id' name='btc_market_id' value='<?=$exhange_field_id?>' />
+				     
+				     
+				     <span id='btc_market_id_lists' style='display: inline;'>
+				     <!-- Selected (or first if none selected) pairing: <?=$selected_pairing?> -->
+				    <?php
+				    
+				    foreach ( $btc_market_list as $key => $value ) {
+				    ?>
+				    
+				    <select onchange ='
+				    
+				    $("#btc_market_id").val( this.value );
+				    
+				    /////////////////////////////////////////////////////////
+				    
+				    // "Update assets" tab, mirroring of settings
+				    
+				    $("#btc_market").val( this.value ); // Set hidden field var
+				    $("#" + $("#btc_pairing_name").val() + "BTC_pairs").val( this.value ); // Set selected drop down choice
+				    
+				    ' id='<?=$key?>btcfiat_pairs' style='display: <?=( $selected_pairing == $key ? 'inline' : 'none' )?>;'><?=$btc_market_list[$key]?>
+				    
+				    </select>
+				    
+				    <?php
+				    }
+				    $btc_market_list = NULL;
+				    ?>
+				    
+				    </span> (determines per-token / portfolio fiat values)
+
+
+
 			    </p>
 			    <?php
 			
