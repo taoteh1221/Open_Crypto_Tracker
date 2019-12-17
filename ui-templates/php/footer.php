@@ -65,7 +65,7 @@
 		$time = $time[1] + $time[0];
 		$total_runtime = round( ($time - $start_runtime) , 3);
 
-		if ( $debug_mode == 'all' || $debug_mode == 'telemetry' ) {
+		if ( $debug_mode == 'all' || $debug_mode == 'telemetry' || $debug_mode == 'stats' ) {
 		// Log runtime stats
 		app_logging('other_debugging', 'Stats for '.$runtime_mode.' runtime', $runtime_mode.'_runtime: runtime lasted ' . $total_runtime . ' seconds');
 		}

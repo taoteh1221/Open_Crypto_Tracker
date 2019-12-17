@@ -39,7 +39,7 @@ require_once("app-lib/php/init.php");  // REQUIRED, DON'T DELETE BY ACCIDENT
 // $debug_mode enabled runs unit tests during ui runtimes (during webpage load), errors detected are error-logged and printed as alerts in footer
 // It also logs ui / cron runtime telemetry to /cache/logs/debugging.log
 // 'off' (disables), 'all' (all debugging), 'charts' (chart/price alert checks), 'texts' (mobile gateway checks), 
-// 'markets' (coin market checks), 'telemetry' (logs runtime telemetry)
+// 'markets' (coin market checks), 'telemetry' (logs function telemetries), 'stats' (basic runtime stats)
 // UNIT TESTS WILL ONLY RUN DURING WEB PAGE LOAD. MAY REQUIRE  
 // SETTING MAXIMUM ALLOWED PHP EXECUTION TIME TO 120 SECONDS TEMPORARILY, 
 // FOR ALL UNIT TESTS TO FULLY COMPLETE RUNNING, IF YOU GET AN ERROR 500.
