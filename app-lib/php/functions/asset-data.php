@@ -993,12 +993,19 @@ $all_pairings = $coins_list[$asset_symbol]['market_pairing'];
      if ( strtolower($asset_name) == 'bitcoin' ) {
      $_SESSION['btc_exchange'] = $key;
      $_SESSION['btc_fiat_pairing'] = $selected_pairing;
+     $coins_list['MISCASSETS']['coin_name'] = 'Misc. '.strtoupper($selected_pairing).' Value';
+     
+			// Fallback for config errors
+			if ( !$fiat_currencies[$selected_pairing] ) {
+			$fiat_currencies[$selected_pairing] = strtoupper($selected_pairing) . ' ';
+			}
+
      ?>
      
      <script>
-     window.btc_fiat_value = '<?=asset_market_data('BTC', $_SESSION['btc_exchange'], $coins_list['BTC']['market_pairing'][$_SESSION['btc_fiat_pairing']][$_SESSION['btc_exchange']])['last_trade']?>';
+     window.btc_fiat_value = '<?=asset_market_data('BTC', $key, $coins_list['BTC']['market_pairing'][$selected_pairing][$key])['last_trade']?>';
      
-     window.btc_fiat_pairing = '<?=strtoupper($_SESSION['btc_fiat_pairing'])?>';
+     window.btc_fiat_pairing = '<?=strtoupper($selected_pairing)?>';
      </script>
      
      <?php

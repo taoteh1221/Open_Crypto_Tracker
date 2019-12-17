@@ -1979,6 +1979,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Added all 13 fiat pairings (to already-existing 4 crypto pairings) within MISCASSETS as pairing options (to see what the equivalent trade / holdings value in the paired currency would be)
 
+-UX revisions
+
 -------------------------------------------------------------------
 
 

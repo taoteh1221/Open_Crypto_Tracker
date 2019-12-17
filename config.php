@@ -421,9 +421,9 @@ $fiat_currencies = array(
 
 
 
-// Currencies => symbols for ANYCRYPTO/BTC pairings in our $coins_list array
-// that we activate pairing support for (for ANYCRYPTO/ANYCRYPTO markets)
-// MUST BE AN EXISTING ANYCRYPTO/BTC MARKET PAIRING TO PROPERLY ACTIVATE (!EXCEPT! FOR btc)
+// Currencies => symbols for ALTCOIN pairings in our $coins_list array
+// that we activate pairing support for (for ALTCOIN/PAIRING markets)
+// MUST BE AN EXISTING ALTCOIN/BTC MARKET PAIRING TO PROPERLY ACTIVATE (!EXCEPT! FOR 'btc')
 $crypto_to_crypto_pairing = array(
 						//'lowercase_coin_abrv' => 'SYMBOL',
 						'btc' => 'Ƀ ',
@@ -1389,86 +1389,6 @@ $coins_list = array(
                                                     
                                         ) // market_pairing END
                                         
-                    ), // Coin END
-                    
-                    
-                    // Misc. Assets Value
-                    'MISCASSETS' => array(
-                        
-                        'coin_name' => 'Misc. Assets Value',
-                        'marketcap_website_slug' => '',
-                        'market_pairing' => array(
-                        
-                                    'usd' => array(
-                                          'fiat_assets' => 'usd'
-                                                    ),
-                                                    
-                                    'cad' => array(
-                                          'fiat_assets' => 'cad'
-                                                    ),
-                                                    
-                                    'aud' => array(
-                                          'fiat_assets' => 'aud'
-                                                    ),
-                                                    
-                                    'sgd' => array(
-                                          'fiat_assets' => 'sgd'
-                                                    ),
-                                                    
-                                    'hkd' => array(
-                                          'fiat_assets' => 'hkd'
-                                                    ),
-                                                    
-                                    'gbp' => array(
-                                          'fiat_assets' => 'gbp'
-                                                    ),
-                                                    
-                                    'eur' => array(
-                                          'fiat_assets' => 'eur'
-                                                    ),
-                                                    
-                                    'chf' => array(
-                                          'fiat_assets' => 'chf'
-                                                    ),
-                                                    
-                                    'rub' => array(
-                                          'fiat_assets' => 'rub'
-                                                    ),
-                                                    
-                                    'jpy' => array(
-                                          'fiat_assets' => 'jpy'
-                                                    ),
-                                                    
-                                    'usdt' => array(
-                                          'fiat_assets' => 'usdt'
-                                                    ),
-                                                    
-                                    'tusd' => array(
-                                          'fiat_assets' => 'tusd'
-                                                    ),
-                                                    
-                                    'usdc' => array(
-                                          'fiat_assets' => 'usdc'
-                                                    ),
-                                                    
-                                    'btc' => array(
-                                          'fiat_assets' => 'btc'
-                                                    ),
-                                                    
-                                    'eth' => array(
-                                          'fiat_assets' => 'eth'
-                                                    ),
-                                                    
-                                    'xmr' => array(
-                                          'fiat_assets' => 'xmr'
-                                                    ),
-                                                    
-                                    'ltc' => array(
-                                          'fiat_assets' => 'ltc'
-                                                    )
-                                                    
-                                        ) // market_pairing END
-                        
                     ), // Coin END
                     
                 

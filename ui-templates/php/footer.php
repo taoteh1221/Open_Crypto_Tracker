@@ -74,7 +74,7 @@
 		debugging_logs();
 		hardy_session_clearing();
 		
-    	echo '<p align="center" class="'.( $script_runtime <= 10 ? 'green' : 'red' ).'"> Page generated in '.$total_runtime.' seconds. </p>';
+    	echo '<p align="center" class="'.( $total_runtime <= 10 ? 'green' : 'red' ).'"> Page generated in '.$total_runtime.' seconds. </p>';
     
 	
     ?>

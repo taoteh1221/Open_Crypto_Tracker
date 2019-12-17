@@ -25,7 +25,7 @@
 	     
 						<p class='red' style='font-weight: bold;'>
 						
-						Assets in the default list DO NOT indicate ANY endorsement of these assets (AND removal indicates NO anti-endorsement). These crypto-assets are merely either interesting, historically popular, or (at time off addition) good ROI for cryptocurrency mining hardware. They are only used as <i>examples for demoing feasibility of features</i> in this application, <a href='README.txt' target='_blank'>before you install it on your own PHP-enabled web server and change the list to your favorite assets</a>. 
+						Assets in the default list DO NOT indicate ANY endorsement of these assets (AND removal indicates NO anti-endorsement). These crypto-assets are merely either interesting, historically popular, or (at time off addition) good ROI for cryptocurrency mining hardware. They are only used as <i>examples for demoing feasibility of features</i> in this application, <a href='README.txt' target='_blank'>before you install it on your Raspberry Pi or website server, and change the list to your favorite assets</a>. 
 						
 						<br /><br />Always do your due diligence investigating whether you are engaging in trading within acceptable risk levels for your net worth, and consider consulting a professional if you are unaware of what risks are present.
 						
@@ -35,7 +35,7 @@
 						
 						<i><u>Semi-simplified version of above important disclaimer / advisory</u>:</i> 
 						
-						<br /><br /><i>NEVER</i> invest more than you can afford to lose, <i>NEVER</i> buy an asset because of somebody's opinion of it, <i>ALWAYS <u>fully research</u></i> your planned investment beforehand (fundamentals are just as important as chart TA), <i>ALWAYS</i> diversify / balance your portfolio for you <i>(and yours)</i> safety / sanity, <i>ALWAYS <u>buy low</u> AND <u>sell high</u></i> (NOT the other way around), <i><u>ALWAYS AVOID</u></i> <a href='https://twitter.com/hashtag/pumpndump?src=hash' target='_blank'>#pumpndump</a> / <a href='https://twitter.com/hashtag/fomo?src=hash' target='_blank'>#fomo</a> / <a href='https://twitter.com/hashtag/shitcoin?src=hash' target='_blank'>#shxtcoin</a> trading, <i>AND</i> hang on tight until you can't stand fully holding anymore / want to or must make a position exit (percentage) official. 
+						<br /><br /><i>NEVER</i> invest more than you can afford to lose, <i>NEVER</i> buy an asset because of somebody's opinion of it, <i>ALWAYS <u>fully research</u></i> your planned investment beforehand (fundamentals are just as important as chart TA), <i>ALWAYS</i> diversify and balance your portfolio with <i>mostly larger / largest marketcap</i> assets (which are relatively less volatile) for you <i>and yours</i> safety and sanity, <i>ALWAYS <u>buy low</u> AND <u>sell high</u></i> (NOT the other way around), <i><u>ALWAYS AVOID</u></i> <a href='https://twitter.com/hashtag/pumpndump?src=hash' target='_blank'>#pumpndump</a> / <a href='https://twitter.com/hashtag/fomo?src=hash' target='_blank'>#fomo</a> / <a href='https://twitter.com/hashtag/shitcoin?src=hash' target='_blank'>#shxtcoin</a> trading, <i>AND</i> hang on tight until you can't stand fully holding anymore / want to or must make a position exit (percentage) official. 
 						
 						<br /><br />Best of luck, be careful out there in this cryptoland frontier <i>full of garbage coins, scam coins, and greedy <u>glorified</u> (and NOT so glorified) crooks</i> and their silver tongues! :-o
 

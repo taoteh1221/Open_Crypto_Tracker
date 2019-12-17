@@ -8,9 +8,11 @@
 /////////////////////////////////////////////////
     	
     	
+    	
 if ( $debug_mode != 'off' ) {
 error_reporting(1); // If debugging is enabled, turn on all PHP error reporting immediately after parsing config.php
 }
+
 
 
 // Set BTC / currency_market dynamic value
@@ -20,6 +22,13 @@ error_reporting(1); // If debugging is enabled, turn on all PHP error reporting 
 // before dynamic updating of $btc_fiat_pairing
 $charts_alerts_btc_fiat_pairing = $btc_fiat_pairing; 
 
+
+// Fallback for config errors
+if ( !$fiat_currencies[$charts_alerts_btc_fiat_pairing] ) {
+$fiat_currencies[$charts_alerts_btc_fiat_pairing] = strtoupper($charts_alerts_btc_fiat_pairing) . ' ';
+}
+
+
 if ( $_SESSION['btc_exchange'] ) {
 $btc_exchange = $_SESSION['btc_exchange'];
 }
@@ -28,11 +37,39 @@ if ( $_SESSION['btc_fiat_pairing'] ) {
 $btc_fiat_pairing = $_SESSION['btc_fiat_pairing'];
 }
 
+// Fallback for config errors
+if ( !$fiat_currencies[$btc_fiat_pairing] ) {
+$fiat_currencies[$btc_fiat_pairing] = strtoupper($btc_fiat_pairing) . ' ';
+}
+
 // MUST be called FIRST at runtime by the default bitcoin market, to set this var for reuse later in runtime
 $btc_fiat_value = asset_market_data('BTC', $btc_exchange, $coins_list['BTC']['market_pairing'][$btc_fiat_pairing][$btc_exchange])['last_trade'];
 
 
-$asset_price_alerts_percent = floattostr($asset_price_alerts_percent); // Better decimal support for price change percent config
+
+// Better decimal support for price change percent config
+$asset_price_alerts_percent = floattostr($asset_price_alerts_percent); 
+
+
+
+// Dynamically add MISCASSETS to coin list
+if (is_array($coins_list) || is_object($coins_list)) {
+
+$coins_list['MISCASSETS'] = array(
+                        			'coin_name' => 'Misc. '.strtoupper($btc_fiat_pairing).' Value',
+                        			'marketcap_website_slug' => '',
+                        			'market_pairing' => array()
+                        			);
+		
+		foreach ( $fiat_currencies as $pairing_key => $unused ) {
+		$coins_list['MISCASSETS']['market_pairing'][$pairing_key] = array('fiat_assets' => $pairing_key);
+		}
+		
+		foreach ( $crypto_to_crypto_pairing as $pairing_key => $unused ) {
+		$coins_list['MISCASSETS']['market_pairing'][$pairing_key] = array('fiat_assets' => $pairing_key);
+		}
+		
+}
 
 
 

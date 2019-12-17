@@ -37,7 +37,8 @@ if ( $_GET['type'] == 'asset' ) {
 		// Strip non-alphanumeric characters to use in js vars, to isolate logic for each separate chart
 		$js_key = preg_replace("/-/", "", $key) . '_' . $charted_value;
 		
-		
+
+			
 			// Unicode asset symbols
 			if ( array_key_exists($charted_value, $fiat_currencies) ) {
 			$currency_symbol = $fiat_currencies[$charted_value];
@@ -45,6 +46,10 @@ if ( $_GET['type'] == 'asset' ) {
 			}
 			elseif ( array_key_exists($charted_value, $crypto_to_crypto_pairing) ) {
 			$currency_symbol = $crypto_to_crypto_pairing[$charted_value];
+			}
+			// Fallback for config errors
+			else {
+			$currency_symbol = strtoupper($charted_value) . ' ';
 			}
 			
 		

@@ -28,13 +28,13 @@ if ( $runtime_mode == 'ui' ) {
 		$check_pairing_name = $coins_list[$check_asset]['market_pairing'][$check_asset_params[1]][$check_asset_params[0]];
 		
 		// Consolidate function calls for runtime speed improvement
-		$charts_test_data = asset_market_data($check_asset, $check_asset_params[0], $check_pairing_name);
+		$charts_test_data = asset_market_data($check_asset, $check_asset_params[0], $check_pairing_name, $check_asset_params[1]);
 		
 			if ( $charts_test_data['last_trade'] == NULL ) {
 			app_logging( 'other_error', 'No chart / alert last trade market data available', 'chart_key: ' . $key . '; market: ' . $check_asset . ' / ' . strtoupper($check_asset_params[1]) . ' @ ' . ucfirst($check_asset_params[0]) );
 			}
 			
-			if ( $charts_test_data['24hr_fiat_volume'] == NULL ) {
+			if ( $charts_test_data['24hr_fiat_volume'] == NULL || $charts_test_data['24hr_fiat_volume'] < 1 ) {
 			app_logging( 'other_error', 'No chart / alert fiat volume market data available', 'chart_key: ' . $key . '; market: ' . $check_asset . ' / ' . strtoupper($check_asset_params[1]) . ' @ ' . ucfirst($check_asset_params[0]) );
 			}
 				
@@ -51,10 +51,14 @@ if ( $runtime_mode == 'ui' ) {
 	
 		foreach ( $mobile_networks as $key => $value ) {
 			
+			if ( $key != 'skip_network_name' ) {
+			
 			$test_result = validate_email( 'test@' . trim($value) );
 		
-			if ( $test_result != 'valid' ) {
-			app_logging( 'other_error', 'email-to-mobile-text gateway '.trim($value).' does not appear valid', 'key: ' . $key . '; gateway: ' . trim($value) . '; result: ' . $test_result );
+				if ( $test_result != 'valid' ) {
+				app_logging( 'other_error', 'email-to-mobile-text gateway '.trim($value).' does not appear valid', 'key: ' . $key . '; gateway: ' . trim($value) . '; result: ' . $test_result );
+				}
+			
 			}
 		
 		}
@@ -75,17 +79,20 @@ if ( $runtime_mode == 'ui' ) {
 			
 				foreach ( $pairing_value as $key => $value ) {
 				
-				// Consolidate function calls for runtime speed improvement
-				$markets_test_data = asset_market_data( strtoupper($coin_key) , $key, $value);
+					if ( $key != 'fiat_assets' ) {
+					
+					// Consolidate function calls for runtime speed improvement
+					$markets_test_data = asset_market_data( strtoupper($coin_key) , $key, $value, $pairing_key);
 				
-					if ( $markets_test_data['last_trade'] == NULL ) {
-					app_logging( 'other_error', 'No coin last trade market data available', strtoupper($coin_key) . ' / ' . strtoupper($pairing_key) . ' @ ' . ucfirst($key) );
-					}
+						if ( $markets_test_data['last_trade'] == NULL ) {
+						app_logging( 'other_error', 'No coin last trade market data available', strtoupper($coin_key) . ' / ' . strtoupper($pairing_key) . ' @ ' . name_rendering($key) );
+						}
 					
-					if ( $markets_test_data['24hr_fiat_volume'] == NULL ) {
-					app_logging( 'other_error', 'No coin fiat volume market data available', strtoupper($coin_key) . ' / ' . strtoupper($pairing_key) . ' @ ' . ucfirst($key) );
-					}
+						if ( $markets_test_data['24hr_fiat_volume'] == NULL || $markets_test_data['24hr_fiat_volume'] < 1 ) {
+						app_logging( 'other_error', 'No coin fiat volume market data available', strtoupper($coin_key) . ' / ' . strtoupper($pairing_key) . ' @ ' . name_rendering($key) );
+						}
 					
+					}
 				
 				}
 				
