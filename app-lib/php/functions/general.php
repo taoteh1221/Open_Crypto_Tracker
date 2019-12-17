@@ -1369,7 +1369,7 @@ function debugging_logs() {
 
 global $debug_mode, $purge_logs, $mail_logs, $base_dir;
 
-	if ( $debug_mode != 'all' && $debug_mode != 'telemetry' ) {
+	if ( $debug_mode == 'off' ) {
 	return false;
 	}
 
