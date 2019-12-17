@@ -386,8 +386,8 @@ $steem_powerdown_time = 13;
 
 // POWER USER SETTINGS (ADJUST WITH CARE, OR YOU CAN BREAK THE APP!)
 
-// Currencies / symbols for BITCOIN/FIAT(OR STABLECOIN) markets
-// that we activate as primary currency options (globally) throughout the app
+// Currencies => symbols for BITCOIN/FIAT(OR STABLECOIN) pairings in our $coins_list array
+// that we activate as fiat currency options (globally) throughout the app
 // MUST BE AN EXISTING BTC/FIAT(OR STABLECOIN) MARKET PAIRING TO PROPERLY ACTIVATE
 $fiat_currencies = array(
 						//'lowercase_btc_fiat_or_stablecoin_pairing' => 'SYMBOL',
@@ -409,9 +409,9 @@ $fiat_currencies = array(
 
 
 
-// Currencies / symbols for CRYPTO/BTC pairings in our $coins_list array
-// that we activate pairing support for (crypto/crypto markets)
-// EACH COIN MUST HAVE A BTC MARKET PAIRING ALREADY EXIST TO PROPERLY ACTIVATE (EXCEPT FOR btc)
+// Currencies => symbols for ANYCRYPTO/BTC pairings in our $coins_list array
+// that we activate pairing support for (for ANYCRYPTO/ANYCRYPTO markets)
+// MUST BE AN EXISTING ANYCRYPTO/BTC MARKET PAIRING TO PROPERLY ACTIVATE (!EXCEPT! FOR btc)
 $crypto_to_crypto_pairing = array(
 						//'lowercase_coin_abrv' => 'SYMBOL',
 						'btc' => 'Ƀ ',
@@ -1387,20 +1387,72 @@ $coins_list = array(
                         'marketcap_website_slug' => '',
                         'market_pairing' => array(
                         
+                                    'usd' => array(
+                                          'fiat_assets' => 'usd'
+                                                    ),
+                                                    
+                                    'cad' => array(
+                                          'fiat_assets' => 'cad'
+                                                    ),
+                                                    
+                                    'aud' => array(
+                                          'fiat_assets' => 'aud'
+                                                    ),
+                                                    
+                                    'sgd' => array(
+                                          'fiat_assets' => 'sgd'
+                                                    ),
+                                                    
+                                    'hkd' => array(
+                                          'fiat_assets' => 'hkd'
+                                                    ),
+                                                    
+                                    'gbp' => array(
+                                          'fiat_assets' => 'gbp'
+                                                    ),
+                                                    
+                                    'eur' => array(
+                                          'fiat_assets' => 'eur'
+                                                    ),
+                                                    
+                                    'chf' => array(
+                                          'fiat_assets' => 'chf'
+                                                    ),
+                                                    
+                                    'rub' => array(
+                                          'fiat_assets' => 'rub'
+                                                    ),
+                                                    
+                                    'jpy' => array(
+                                          'fiat_assets' => 'jpy'
+                                                    ),
+                                                    
+                                    'usdt' => array(
+                                          'fiat_assets' => 'usdt'
+                                                    ),
+                                                    
+                                    'tusd' => array(
+                                          'fiat_assets' => 'tusd'
+                                                    ),
+                                                    
+                                    'usdc' => array(
+                                          'fiat_assets' => 'usdc'
+                                                    ),
+                                                    
                                     'btc' => array(
-                                          'fiat_assets' => 'fiat_to_btc'
+                                          'fiat_assets' => 'btc'
                                                     ),
                                                     
                                     'eth' => array(
-                                          'fiat_assets' => 'fiat_to_eth'
+                                          'fiat_assets' => 'eth'
                                                     ),
                                                     
                                     'xmr' => array(
-                                          'fiat_assets' => 'fiat_to_xmr'
+                                          'fiat_assets' => 'xmr'
                                                     ),
                                                     
                                     'ltc' => array(
-                                          'fiat_assets' => 'fiat_to_ltc'
+                                          'fiat_assets' => 'ltc'
                                                     )
                                                     
                                         ) // market_pairing END

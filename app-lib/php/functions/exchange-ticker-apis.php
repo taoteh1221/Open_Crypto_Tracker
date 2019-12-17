@@ -1123,10 +1123,12 @@ global $btc_exchange, $btc_fiat_value, $coins_list, $last_trade_cache;
 
 
   elseif ( strtolower($chosen_exchange) == 'fiat_assets' ) {
-		
-	  $fiat_to_btc = ( 1 / $btc_fiat_value );		
-		
-	  if ( $market_id == 'fiat_to_btc' ) {
+	
+  // BTC value of 1 unit of the default fiat currency
+  $fiat_to_btc = ( 1 / $btc_fiat_value );		
+	
+	  // BTC pairing
+	  if ( $market_id == 'btc' ) {
      return  array(
     					'last_trade' => $fiat_to_btc,
     					'24hr_asset_volume' => NULL,
@@ -1134,25 +1136,10 @@ global $btc_exchange, $btc_fiat_value, $coins_list, $last_trade_cache;
     					'24hr_fiat_volume' => NULL
     					);
      }
-	  elseif ( $market_id == 'fiat_to_eth' ) {
+     // All other pairing
+	  else {
      return  array(
-    					'last_trade' => ( 1 / ( pairing_market_value('eth') / $fiat_to_btc ) ),
-    					'24hr_asset_volume' => NULL,
-    					'24hr_pairing_volume' => NULL,
-    					'24hr_fiat_volume' => NULL
-    					);
-     }
-	  elseif ( $market_id == 'fiat_to_xmr' ) {
-     return  array(
-    					'last_trade' => ( 1 / ( pairing_market_value('xmr') / $fiat_to_btc ) ),
-    					'24hr_asset_volume' => NULL,
-    					'24hr_pairing_volume' => NULL,
-    					'24hr_fiat_volume' => NULL
-    					);
-     }
-	  elseif ( $market_id == 'fiat_to_ltc' ) {
-     return  array(
-    					'last_trade' => ( 1 / ( pairing_market_value('ltc') / $fiat_to_btc ) ),
+    					'last_trade' => ( 1 / ( pairing_market_value($market_id) / $fiat_to_btc ) ),
     					'24hr_asset_volume' => NULL,
     					'24hr_pairing_volume' => NULL,
     					'24hr_fiat_volume' => NULL
