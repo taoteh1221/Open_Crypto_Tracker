@@ -993,9 +993,15 @@ $all_pairings = $coins_list[$asset_symbol]['market_pairing'];
      if ( strtolower($asset_name) == 'bitcoin' ) {
      $_SESSION['btc_exchange'] = $key;
      $_SESSION['btc_fiat_pairing'] = $selected_pairing;
-     $coins_list['MISCASSETS']['coin_name'] = 'Misc. '.strtoupper($selected_pairing).' Value';
      
-			// Fallback for config errors
+     		// Dynamically modify MISCASSETS in $coins_list
+			// ONLY IF USER HASN'T MESSED UP $coins_list, AS WE DON'T WANT TO CANCEL OUT ANY
+			// CONFIG CHECKS CREATING ERROR LOG ENTRIES / UI ALERTS INFORMING THEM OF THAT
+			if (is_array($coins_list) || is_object($coins_list)) {
+     		$coins_list['MISCASSETS']['coin_name'] = 'Misc. '.strtoupper($selected_pairing).' Value';
+     		}
+     
+			// Fallback for currency symbol config errors
 			if ( !$fiat_currencies[$selected_pairing] ) {
 			$fiat_currencies[$selected_pairing] = strtoupper($selected_pairing) . ' ';
 			}

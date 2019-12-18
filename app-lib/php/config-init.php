@@ -23,7 +23,7 @@ error_reporting(1); // If debugging is enabled, turn on all PHP error reporting 
 $charts_alerts_btc_fiat_pairing = $btc_fiat_pairing; 
 
 
-// Fallback for config errors
+// Fallback for currency symbol config errors
 if ( !$fiat_currencies[$charts_alerts_btc_fiat_pairing] ) {
 $fiat_currencies[$charts_alerts_btc_fiat_pairing] = strtoupper($charts_alerts_btc_fiat_pairing) . ' ';
 }
@@ -37,7 +37,7 @@ if ( $_SESSION['btc_fiat_pairing'] ) {
 $btc_fiat_pairing = $_SESSION['btc_fiat_pairing'];
 }
 
-// Fallback for config errors
+// Fallback for currency symbol config errors
 if ( !$fiat_currencies[$btc_fiat_pairing] ) {
 $fiat_currencies[$btc_fiat_pairing] = strtoupper($btc_fiat_pairing) . ' ';
 }
@@ -52,7 +52,9 @@ $asset_price_alerts_percent = floattostr($asset_price_alerts_percent);
 
 
 
-// Dynamically add MISCASSETS to coin list
+// Dynamically add MISCASSETS to $coins_list
+// ONLY IF USER HASN'T MESSED UP $coins_list, AS WE DON'T WANT TO CANCEL OUT ANY
+// CONFIG CHECKS CREATING ERROR LOG ENTRIES / UI ALERTS INFORMING THEM OF THAT
 if (is_array($coins_list) || is_object($coins_list)) {
 
 $coins_list['MISCASSETS'] = array(

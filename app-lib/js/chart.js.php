@@ -47,7 +47,7 @@ if ( $_GET['type'] == 'asset' ) {
 			elseif ( array_key_exists($charted_value, $crypto_to_crypto_pairing) ) {
 			$currency_symbol = $crypto_to_crypto_pairing[$charted_value];
 			}
-			// Fallback for config errors
+			// Fallback for currency symbol config errors
 			else {
 			$currency_symbol = strtoupper($charted_value) . ' ';
 			}
