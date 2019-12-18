@@ -49,7 +49,7 @@ FEATURES
 
 -Import / Export your portfolio in CSV (spreadsheet) file format.
 
--Detailed charts (base values in crypto and your local fiat currency), with spot price / volume, zooming, and crosshair hovering.
+-Detailed charts (base values in crypto and your local fiat currency), with spot price / 24 hour volume, zooming, and crosshair hovering.
 
 -Switch between light / dark (night mode) theme colors.
 
@@ -63,9 +63,9 @@ FEATURES
 
 -Options to add proxies for API requests / SMTP authentication for email sending.
 
--Detailed error logging for in-app functions / configuration settings / networking features, to assist with troubleshooting, installation, and configuration of the app.
+-Detailed error logging and debugging for in-app functions / configuration settings / networking features, to assist with troubleshooting, installation, and configuration of the app.
 
--Chart data backup archives and app error logs sent to your email.
+-Chart data backup archives and app error / debugging logs sent to your email.
 
 
 ################################################################################################################
