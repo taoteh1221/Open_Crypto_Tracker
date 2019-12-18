@@ -386,11 +386,10 @@ $steem_powerdown_time = 13;
 
 // POWER USER SETTINGS (ADJUST WITH CARE, OR YOU CAN BREAK THE APP!)
 
-// Currencies => symbols for BITCOIN/FIAT(OR STABLECOIN) pairings in our $coins_list array
-// that we activate as fiat currency options (globally) throughout the app
-// MUST BE AN EXISTING BTC/FIAT(OR STABLECOIN) MARKET PAIRING TO PROPERLY ACTIVATE
+// Currency symbols for BITCOIN/FIAT(OR STABLECOIN) pairings in $coins_list array
+// MUST BE AN EXISTING BTC/FIAT(OR STABLECOIN) MARKET PAIRING TO PROPERLY DISPLAY SYMBOLS
 $fiat_currencies = array(
-						//'lowercase_btc_fiat_or_stablecoin_pairing' => 'SYMBOL',
+						//'lowercase_btc_fiat_or_stablecoin_pairing' => 'CURRENCY_SYMBOL',
 						'usd' => '$',
 						'cad' => 'C$',
 						'aud' => 'A$',
@@ -409,12 +408,12 @@ $fiat_currencies = array(
 
 
 
-// Currencies => symbols for ALTCOIN pairings in our $coins_list array
-// that we activate pairing support for (for ALTCOIN/PAIRING markets)
-// MUST BE AN EXISTING ALTCOIN/BTC MARKET PAIRING TO PROPERLY ACTIVATE (!EXCEPT! FOR 'btc')
+// Activate support for ALTCOIN-paired markets (like doge/ltc, dai/eth, etc)
+// ('btc' pairing support CAN BE SKIPPED HERE, as it's ALREADY BUILT-IN to this app)
+// EACH ALTCOIN LISTED HERE !MUST HAVE! AN EXISTING 'btc' MARKET (within 'market_pairing') 
+// in it's $coins_list listing (further down in this config file) TO PROPERLY ACTIVATE
 $crypto_to_crypto_pairing = array(
-						//'lowercase_coin_abrv' => 'SYMBOL',
-						'btc' => 'Ƀ ',
+						//'lowercase_altcoin_abrv' => 'CRYPTO_SYMBOL',
 						'eth' => 'Ξ ',
 						'xmr' => 'ɱ ',
 						'ltc' => 'Ł '

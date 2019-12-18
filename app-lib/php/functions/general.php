@@ -181,6 +181,28 @@ return $smtp->Send();
 ////////////////////////////////////////////////////////
 
 
+function cleanup_config($string, $mode) {
+
+	// Upper or lower case
+	if ( $mode == 'lower' ) {
+	$string = strtolower($string);
+	}
+	elseif ( $mode == 'upper' ) {
+	$string = strtoupper($string);
+	}
+
+// Remove all whitespace
+$string = preg_replace('/\s/', '', $string);
+
+return $string;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
 function hardy_session_clearing() {
 
 // Deleting all session data can fail on occasion, and wreak havoc.

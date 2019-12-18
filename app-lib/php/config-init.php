@@ -15,6 +15,49 @@ error_reporting(1); // If debugging is enabled, turn on all PHP error reporting 
 
 
 
+// START CONFIG CLEANUP (auto-correct any basic end user data entry errors in config.php)
+
+// Cleaning lowercase alphanumeric string values
+$debug_mode = cleanup_config($debug_mode, 'lower');
+$btc_exchange = cleanup_config($btc_exchange, 'lower');
+$btc_fiat_pairing = cleanup_config($btc_fiat_pairing, 'lower');
+$marketcap_site = cleanup_config($marketcap_site, 'lower');
+$block_volume_error = cleanup_config($block_volume_error, 'lower');
+$api_strict_ssl = cleanup_config($api_strict_ssl, 'lower');
+$charts_page = cleanup_config($charts_page, 'lower');
+$smtp_secure = cleanup_config($smtp_secure, 'lower');
+$proxy_alerts = cleanup_config($proxy_alerts, 'lower');
+$proxy_alerts_runtime = cleanup_config($proxy_alerts_runtime, 'lower');
+$proxy_checkup_ok = cleanup_config($proxy_checkup_ok, 'lower');
+
+// Cleaning charts/alerts array
+$cleaned_asset_charts_and_alerts = array();
+foreach ( $asset_charts_and_alerts as $key => $value ) {
+$cleaned_key = cleanup_config($key, 'lower');
+$cleaned_value = cleanup_config($value, 'lower');
+$cleaned_asset_charts_and_alerts[$cleaned_key] = $cleaned_value;
+}
+$asset_charts_and_alerts = $cleaned_asset_charts_and_alerts;
+
+// Cleaning mobile networks array
+$cleaned_mobile_networks = array();
+foreach ( $mobile_networks as $key => $value ) {
+$cleaned_key = cleanup_config($key, 'lower');
+$cleaned_value = cleanup_config($value, 'lower');
+$cleaned_mobile_networks[$cleaned_key] = $cleaned_value;
+}
+$mobile_networks = $cleaned_mobile_networks;
+
+// END CONFIG CLEANUP
+
+
+
+// Default BTC CRYPTO/CRYPTO market pairing support 
+// (so we activate it here instead of in config.php, for good UX adding altcoin markets dynamically there)
+$crypto_to_crypto_pairing['btc'] = 'Ƀ ';
+
+
+
 // Set BTC / currency_market dynamic value
 
 // We NEVER change BTC / currency_market value FOR CHARTS, 
