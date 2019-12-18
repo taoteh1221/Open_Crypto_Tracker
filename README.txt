@@ -112,7 +112,7 @@ IMPORTANT CRON JOB NOTES: MAKE SURE YOU ONLY USE EITHER /etc/cron.d/, or 'cronta
 
 Adding / editing / deleting assets and markets in the coins list:
 
-Below is an example for editing your assets / markets into the coin list in the file config.php (located in the primary directory of this app). It's very quick / easy to do (after you get the hang of it, lol). Also see further down in this README for a pre-configured set of default settings and example assets / markets. Contact any supported exchange's help desk if you are unaware of the correct formatting of the trading pair naming you are adding in the configuration file (examples: Kraken has arbitrary Xs inserted in SOME older pair names, HitBTC sometimes has tether pairing without the "T" in the symbol name).
+Below is an example for editing your assets / markets into the coin list in the file config.php (located in the primary directory of this app). It's very quick / easy to do (after you get the hang of it, lol). Also see the text file CONFIG.EXAMPLE.txt, for a pre-configured set of default settings and example assets / markets. Contact any supported exchange's help desk if you are unaware of the correct formatting of the trading pair naming you are adding in the configuration file (examples: Kraken has arbitrary Xs inserted in SOME older pair names, HitBTC sometimes has tether pairing without the "T" in the symbol name).
 
 
 USAGE (ADDING / UPDATING COINS)
