@@ -31,11 +31,11 @@ if ( $runtime_mode == 'ui' ) {
 		$charts_test_data = asset_market_data($check_asset, $check_asset_params[0], $check_pairing_name, $check_asset_params[1]);
 		
 			if ( $charts_test_data['last_trade'] == NULL ) {
-			app_logging( 'other_error', 'No chart / alert last trade market data available', 'chart_key: ' . $key . '; market: ' . $check_asset . ' / ' . strtoupper($check_asset_params[1]) . ' @ ' . ucfirst($check_asset_params[0]) );
+			app_logging( 'other_error', 'No chart / alert price data available', 'chart_key: ' . $key . '; market: ' . $check_asset . ' / ' . strtoupper($check_asset_params[1]) . ' @ ' . ucfirst($check_asset_params[0]) );
 			}
 			
 			if ( $charts_test_data['24hr_fiat_volume'] == NULL || $charts_test_data['24hr_fiat_volume'] < 1 ) {
-			app_logging( 'other_error', 'No chart / alert fiat volume market data available', 'chart_key: ' . $key . '; market: ' . $check_asset . ' / ' . strtoupper($check_asset_params[1]) . ' @ ' . ucfirst($check_asset_params[0]) );
+			app_logging( 'other_error', 'No chart / alert volume data available', 'chart_key: ' . $key . '; market: ' . $check_asset . ' / ' . strtoupper($check_asset_params[1]) . ' @ ' . ucfirst($check_asset_params[0]) );
 			}
 				
 		
@@ -85,11 +85,11 @@ if ( $runtime_mode == 'ui' ) {
 					$markets_test_data = asset_market_data( strtoupper($coin_key) , $key, $value, $pairing_key);
 				
 						if ( $markets_test_data['last_trade'] == NULL ) {
-						app_logging( 'other_error', 'No coin last trade market data available', strtoupper($coin_key) . ' / ' . strtoupper($pairing_key) . ' @ ' . name_rendering($key) );
+						app_logging( 'other_error', 'No market price data available', strtoupper($coin_key) . ' / ' . strtoupper($pairing_key) . ' @ ' . name_rendering($key) );
 						}
 					
 						if ( $markets_test_data['24hr_fiat_volume'] == NULL || $markets_test_data['24hr_fiat_volume'] < 1 ) {
-						app_logging( 'other_error', 'No coin fiat volume market data available', strtoupper($coin_key) . ' / ' . strtoupper($pairing_key) . ' @ ' . name_rendering($key) );
+						app_logging( 'other_error', 'No market volume data available', strtoupper($coin_key) . ' / ' . strtoupper($pairing_key) . ' @ ' . name_rendering($key) );
 						}
 					
 					}
