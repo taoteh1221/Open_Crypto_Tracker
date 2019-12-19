@@ -63,6 +63,8 @@ FEATURES
 
 -Options to add proxies for API requests / SMTP authentication for email sending.
 
+-Configuration checking, alerting, logging, and auto-correcting (where possible).
+
 -Detailed error logging and debugging for in-app functions / configuration settings / networking features, to assist with troubleshooting, installation, and configuration of the app.
 
 -Chart data backup archives and app error / debugging logs sent to your email.

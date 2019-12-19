@@ -203,28 +203,6 @@ return $string;
 ////////////////////////////////////////////////////////
 
 
-function cpu_info() {
-
-	if ( is_file('/proc/cpuinfo') ) {
-	
-	$data = file_get_contents('/proc/cpuinfo');
-	
-	$output['cpu_model'] = $data[4];
-	
-	return $output;
-	}
-	else {
-	return false;
-	}
-
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
 function hardy_session_clearing() {
 
 // Deleting all session data can fail on occasion, and wreak havoc.
@@ -587,42 +565,6 @@ $network_name = trim( strtolower($string[1]) ); // Force lowercase lookups for r
 	return false;
 	}
 
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function hardware_info() {
-
-$cpu_info = cpu_info();
- 	
-$output['cpu_model'] = $cpu_info['cpu_model'];
-
-
-	if ( is_file('/sys/class/thermal/thermal_zone0/temp') ) {
- 	$file = fopen("/sys/class/thermal/thermal_zone0/temp","r");
- 	$soc_temp = fgets($file);
- 	$output['cpu_temp'] = round($soc_temp/1000);
- 	fclose($f);
-	}
-	elseif ( is_file('/sys/class/thermal/thermal_zone1/temp') ) {
- 	$file = fopen("/sys/class/thermal/thermal_zone1/temp","r");
- 	$soc_temp = fgets($file);
- 	$output['cpu_temp'] = round($soc_temp/1000);
- 	fclose($f);
-	}
-	elseif ( is_file('/sys/class/thermal/thermal_zone2/temp') ) {
- 	$file = fopen("/sys/class/thermal/thermal_zone2/temp","r");
- 	$soc_temp = fgets($file);
- 	$output['cpu_temp'] = round($soc_temp/1000);
- 	fclose($f);
-	}
-
-
-return $output;
 
 }
 
@@ -1621,6 +1563,90 @@ global $base_dir, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $
 
 }
 
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function system_info() {
+
+
+	// Server stats
+	if ( is_readable('/proc/stat') ) {
+	$server_info = @file_get_contents('/proc/stat');
+	
+	$raw_server_info_array = explode("\n", $server_info);
+	
+		foreach ( $raw_server_info_array as $server_info_field ) {
+		
+			if ( trim($server_info_field) != '' ) {
+				
+			$server_info_field = preg_replace('/ /', ':', $server_info_field, 1);
+				
+			$temp_array = explode(":", $server_info_field);
+			
+				foreach ( $temp_array as $key => $value ) {
+				$trimmed_key = trim($key);
+				$trimmed_value = trim($value);
+				$temp_array_cleaned[$trimmed_key] = $trimmed_value;
+				}
+				$temp_array = $temp_array_cleaned;
+			
+			$server_info_array[] = $temp_array;
+			}
+		
+		}
+	
+	$system['server_info'] = $server_info_array;
+	}
+	
+	
+	// CPU stats
+	if ( is_readable('/proc/cpuinfo') ) {
+	$cpu_info = @file_get_contents('/proc/cpuinfo');
+	
+	$raw_cpu_info_array = explode("\n", $cpu_info);
+	
+		foreach ( $raw_cpu_info_array as $cpu_info_field ) {
+		
+			if ( trim($cpu_info_field) != '' ) {
+				
+			$temp_array = explode(":", $cpu_info_field);
+			
+				foreach ( $temp_array as $key => $value ) {
+				$trimmed_key = trim($key);
+				$trimmed_value = trim($value);
+				$temp_array_cleaned[$trimmed_key] = $trimmed_value;
+				}
+				$temp_array = $temp_array_cleaned;
+			
+			$cpu_info_array[] = $temp_array;
+			}
+		
+		}
+	
+	$system['cpu_info'] = $cpu_info_array;
+	}
+	
+
+	// Temperature stats
+	if ( is_readable('/sys/class/thermal/thermal_zone0/temp') ) {
+ 	$temp_info = @file_get_contents('/sys/class/thermal/thermal_zone0/temp');
+ 	$system['temp_info'] = round($temp_info/1000);
+	}
+	elseif ( is_readable('/sys/class/thermal/thermal_zone1/temp') ) {
+ 	$temp_info = @file_get_contents('/sys/class/thermal/thermal_zone1/temp');
+ 	$system['temp_info'] = round($temp_info/1000);
+	}
+	elseif ( is_readable('/sys/class/thermal/thermal_zone2/temp') ) {
+ 	$temp_info = @file_get_contents('/sys/class/thermal/thermal_zone2/temp');
+ 	$system['temp_info'] = round($temp_info/1000);
+	}
+
+
+return $system;
+
+}
 
 
 ////////////////////////////////////////////////////////

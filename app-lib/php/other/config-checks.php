@@ -121,10 +121,38 @@ $config_parse_error = NULL; // Blank it out for any other config checks
 
 
 
-// Price change alerts configuration check
+// Charts and price change alerts configuration check
+
+
+// Check default Bitcoin market/pairing configs (used by charts/alerts)
+if ( !isset( $coins_list['BTC']['market_pairing'][$charts_alerts_btc_fiat_pairing] ) ) {
+
+	foreach ( $coins_list['BTC']['market_pairing'] as $pairing_key => $unused ) {
+	$avialable_btc_pairings .= strtolower($pairing_key) . ', ';
+	}
+	$avialable_btc_pairings = trim($avialable_btc_pairings);
+	$avialable_btc_pairings = rtrim($avialable_btc_pairings,',');
+	
+$config_parse_error[] = 'The $btc_fiat_pairing (default Bitcoin fiat pairing) value \''.$btc_fiat_pairing.'\' in config.php is not a valid Bitcoin pairing option (valid Bitcoin pairing options are: '.$avialable_btc_pairings.')';
+
+}
+elseif ( !isset( $coins_list['BTC']['market_pairing'][$charts_alerts_btc_fiat_pairing][$btc_exchange] ) ) {
+
+	foreach ( $coins_list['BTC']['market_pairing'][$charts_alerts_btc_fiat_pairing] as $pairing_key => $unused ) {
+	$avialable_btc_exchanges .= strtolower($pairing_key) . ', ';
+	}
+	$avialable_btc_exchanges = trim($avialable_btc_exchanges);
+	$avialable_btc_exchanges = rtrim($avialable_btc_exchanges,',');
+	
+$config_parse_error[] = 'The $btc_exchange (default Bitcoin exchange) value \''.$btc_exchange.'\' in config.php is not a valid option for \''.$charts_alerts_btc_fiat_pairing.'\' Bitcoin pairings (valid \''.$charts_alerts_btc_fiat_pairing.'\' Bitcoin pairing options are: '.$avialable_btc_exchanges.')';
+
+}
+
+
 $text_parse = explode("||", trim($to_text) );
           
-// Check price alert configs
+          
+// Check other charts/price alerts configs
 if ( trim($from_email) != '' && trim($to_email) != '' || sizeof($text_parse) > 0 || trim($notifyme_accesscode) != '' ) {
           
           
