@@ -76,7 +76,8 @@
 		
     	echo '<p align="center" class="'.( $total_runtime <= 10 ? 'green' : 'red' ).'"> Page generated in '.$total_runtime.' seconds. </p>';
     
-	
+		// var_dump( hardware_info() ); // DEBUGGING ONLY
+		
     ?>
         
    		 </div>

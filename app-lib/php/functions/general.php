@@ -203,6 +203,28 @@ return $string;
 ////////////////////////////////////////////////////////
 
 
+function cpu_info() {
+
+	if ( is_file('/proc/cpuinfo') ) {
+	
+	$data = file_get_contents('/proc/cpuinfo');
+	
+	$output['cpu_model'] = $data[4];
+	
+	return $output;
+	}
+	else {
+	return false;
+	}
+
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
 function hardy_session_clearing() {
 
 // Deleting all session data can fail on occasion, and wreak havoc.
@@ -565,6 +587,42 @@ $network_name = trim( strtolower($string[1]) ); // Force lowercase lookups for r
 	return false;
 	}
 
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function hardware_info() {
+
+$cpu_info = cpu_info();
+ 	
+$output['cpu_model'] = $cpu_info['cpu_model'];
+
+
+	if ( is_file('/sys/class/thermal/thermal_zone0/temp') ) {
+ 	$file = fopen("/sys/class/thermal/thermal_zone0/temp","r");
+ 	$soc_temp = fgets($file);
+ 	$output['cpu_temp'] = round($soc_temp/1000);
+ 	fclose($f);
+	}
+	elseif ( is_file('/sys/class/thermal/thermal_zone1/temp') ) {
+ 	$file = fopen("/sys/class/thermal/thermal_zone1/temp","r");
+ 	$soc_temp = fgets($file);
+ 	$output['cpu_temp'] = round($soc_temp/1000);
+ 	fclose($f);
+	}
+	elseif ( is_file('/sys/class/thermal/thermal_zone2/temp') ) {
+ 	$file = fopen("/sys/class/thermal/thermal_zone2/temp","r");
+ 	$soc_temp = fgets($file);
+ 	$output['cpu_temp'] = round($soc_temp/1000);
+ 	fclose($f);
+	}
+
+
+return $output;
 
 }
 
