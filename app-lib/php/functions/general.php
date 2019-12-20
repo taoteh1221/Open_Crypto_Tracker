@@ -1581,18 +1581,19 @@ function system_info() {
 		
 			if ( trim($server_info_field) != '' ) {
 				
-			$server_info_field = preg_replace('/ /', ':', $server_info_field, 1);
+			$server_info_field = preg_replace('/\s/', ':', $server_info_field, 1);
 				
 			$temp_array = explode(":", $server_info_field);
-			
+				
+				$loop = 0;
 				foreach ( $temp_array as $key => $value ) {
-				$trimmed_key = trim($key);
-				$trimmed_value = trim($value);
-				$temp_array_cleaned[$trimmed_key] = $trimmed_value;
+				$trimmed_value = ( $loop < 1 ? strtolower(trim($value)) : trim($value) );
+				$trimmed_value = ( $loop < 1 ? preg_replace('/\s/', '_', $trimmed_value) : $trimmed_value );
+				$temp_array_cleaned[$key] = $trimmed_value;
+				$loop = $loop + 1;
 				}
-				$temp_array = $temp_array_cleaned;
 			
-			$server_info_array[] = $temp_array;
+			$server_info_array[$temp_array_cleaned[0]] = $temp_array_cleaned[1];
 			}
 		
 		}
@@ -1613,14 +1614,15 @@ function system_info() {
 				
 			$temp_array = explode(":", $cpu_info_field);
 			
+				$loop = 0;
 				foreach ( $temp_array as $key => $value ) {
-				$trimmed_key = trim($key);
-				$trimmed_value = trim($value);
-				$temp_array_cleaned[$trimmed_key] = $trimmed_value;
+				$trimmed_value = ( $loop < 1 ? strtolower(trim($value)) : trim($value) );
+				$trimmed_value = ( $loop < 1 ? preg_replace('/\s/', '_', $trimmed_value) : $trimmed_value );
+				$temp_array_cleaned[$key] = $trimmed_value;
+				$loop = $loop + 1;
 				}
-				$temp_array = $temp_array_cleaned;
 			
-			$cpu_info_array[] = $temp_array;
+			$cpu_info_array[$temp_array_cleaned[0]] = $temp_array_cleaned[1];
 			}
 		
 		}
