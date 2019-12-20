@@ -65,6 +65,9 @@ $btc_exchange = 'kraken';
 // MARKET PAIRING VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (set in $btc_exchange directly above)
 $btc_fiat_pairing = 'usd'; 
 
+// Maximum decimal places for fiat values of coins worth under 1.00 [usd/gbp/eur/jpy/brl/rub/etc], for prettier / less-cluttered interface
+$fiat_decimals_max = 5; // IF YOU ADJUST $btc_fiat_pairing ABOVE, YOU MAY NEED TO ADJUST THIS ACCORDINGLY FOR !FUNCTIONAL! CHARTS / ALERTS
+
 // Default marketcap data source: 'coingecko', or 'coinmarketcap' (coinmarketcap requires a FREE API key, see below)
 $marketcap_site = 'coingecko'; 
 
@@ -75,8 +78,6 @@ $coinmarketcapcom_api_key = '';
 $marketcap_ranks_max = 200; // 200 rankings is a safe maximum to start with, it avoids getting your API requests throttled / blocked
 
 $margin_leverage_max = 125; // Maximum margin leverage available in the user interface ('Update Assets' page, etc)
-
-$fiat_decimals_max = 5; // Maximum decimal places for fiat values of coins worth under 1 (usd/gbp/eur/etc), for prettier / less-cluttered interface
 
 // Block an asset price alert if price retrieved, BUT failed retrieving pair volume (not even a zero was retrieved, nothing)
 // Good for blocking questionable exchanges bugging you with price alerts, especially when used in combination with the minimum volume filter
