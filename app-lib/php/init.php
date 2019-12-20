@@ -69,7 +69,7 @@ $http_users = array(
 						'apache',
 						'apache2',
 						'httpd',
-						'httpd2'
+						'httpd2',
 							);
 
 
@@ -78,14 +78,16 @@ $http_users = array(
 // Used to throttle these market calls a bit, so we don't get blacklisted
 $limited_apis = array(
 						'bitforex.com',
+						'bitflyer.com',
 						'bitstamp.net',
 						'btcmarkets.net',
 						'coinbase.com',
 						'cryptofresh.com',
 						'gemini.com',
-						'okcoin.com'
+						'okcoin.com',
 							);
 							
+
 
 
 // We can create cache directories (if needed), with $http_runtime_user determined (for cache compatibility on certain PHP setups)

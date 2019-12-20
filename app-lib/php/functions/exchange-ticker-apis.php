@@ -194,6 +194,29 @@ global $btc_exchange, $btc_fiat_value, $coins_list, $last_trade_cache;
  
  
  ////////////////////////////////////////////////////////////////////////////////////////////////
+  
+  
+
+  elseif ( strtolower($chosen_exchange) == 'bitflyer' ) {
+  
+  $json_string = 'https://api.bitflyer.com/v1/getticker?product_code=' . $market_id;
+  
+  $jsondata = @api_data('url', $json_string, $last_trade_cache);
+  
+  $data = json_decode($jsondata, TRUE);
+  
+  return  array(
+    					'last_trade' => $data["ltp"],
+    					'24hr_asset_volume' => $data["volume_by_product"],
+    					'24hr_pairing_volume' => NULL, // Seems to be an EXACT duplicate of asset volume in MANY cases, skipping to be safe
+    					'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data["volume_by_product"], $data["ltp"]) 
+    				);
+  
+  }
+ 
+ 
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -283,6 +306,43 @@ global $btc_exchange, $btc_fiat_value, $coins_list, $last_trade_cache;
     							'24hr_asset_volume' => $data[$key]["Volume"],
     							'24hr_pairing_volume' => $data[$key]["BaseVolume"],
     							'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data[$key]["Volume"], $data[$key]["Last"], $data[$key]["BaseVolume"])
+    						);
+          
+         }
+     
+       }
+      
+      }
+  
+  
+  }
+ 
+ 
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+  elseif ( strtolower($chosen_exchange) == 'braziliex' ) {
+     
+     $json_string = 'https://braziliex.com/api/v1/public/ticker';
+     
+     $jsondata = @api_data('url', $json_string, $last_trade_cache);
+     
+     $data = json_decode($jsondata, TRUE);
+     
+  
+      if (is_array($data) || is_object($data)) {
+  
+       foreach ($data as $key => $value) {
+         
+         if ( $data[$key]['market'] == $market_id ) {
+          
+         return  array(
+    							'last_trade' => $data[$key]["last"],
+    							'24hr_asset_volume' => $data[$key]["baseVolume24"],
+    							'24hr_pairing_volume' => $data[$key]["quoteVolume24"],
+    							'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data[$key]["baseVolume24"], $data[$key]["last"], $data[$key]["quoteVolume24"])
     						);
           
          }
@@ -951,6 +1011,42 @@ global $btc_exchange, $btc_fiat_value, $coins_list, $last_trade_cache;
  
  
  ////////////////////////////////////////////////////////////////////////////////////////////////
+  
+
+
+  elseif ( strtolower($chosen_exchange) == 'southxchange' ) {
+
+     $json_string = 'https://www.southxchange.com/api/prices';
+     
+     $jsondata = @api_data('url', $json_string, $last_trade_cache);
+     
+     $data = json_decode($jsondata, TRUE);
+  
+      if (is_array($data) || is_object($data)) {
+  
+       foreach ($data as $key => $value) {
+         
+         if ( $data[$key]["Market"] == $market_id ) {
+          
+         return  array(
+    							'last_trade' => $data[$key]["Last"],
+    							'24hr_asset_volume' => $data[$key]["Volume24Hr"],
+    							'24hr_pairing_volume' => NULL,
+    							'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data[$key]["Volume24Hr"], $data[$key]["Last"])
+    						);
+          
+         }
+     
+       }
+      
+      }
+  
+  
+  }
+ 
+ 
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -1012,7 +1108,7 @@ global $btc_exchange, $btc_fiat_value, $coins_list, $last_trade_cache;
     							'last_trade' => $data[$key][$market_id]["price"],
     							'24hr_asset_volume' => NULL, // No asset volume data for this API
     							'24hr_pairing_volume' => $data[$key][$market_id]["volume"],
-    							'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data[$key][$market_id]["volume"], $data[$key][$market_id]["price"], $data[$key][$market_id]["volume"]) 
+    							'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, NULL, $data[$key][$market_id]["price"], $data[$key][$market_id]["volume"]) 
     						);
           
          }

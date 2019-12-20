@@ -1997,6 +1997,10 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Hardware sensor(s) data included in debugging mode stats (cpu / temperature / load / etc)
 
+-Sort all exchange / pairing drop-down menus alphabetically (better user experience with large lists)
+
+-API exchange support for southxchange, braziliex, bitflyer
+
 IMPORTANT NOTE: v4.00.0 and higher of this app REQUIRES DELETING YOUR PREVIOUS CHART DATA FROM ANY EARLIER VERSIONS.
 MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWARDS-COMPATIBLE.
 

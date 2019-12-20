@@ -194,7 +194,7 @@ function trade_volume($asset_symbol, $pairing, $volume, $last_trade, $vol_in_pai
 global $btc_fiat_pairing, $fiat_currencies, $btc_fiat_value;
 	
 	// If no pairing data, skip calculating trade volume to save on uneeded overhead
-	if ( $pairing == false ) {
+	if ( $pairing == false || is_numeric($volume) != true && is_numeric($vol_in_pairing) != true ) {
 	return false;
 	}
 
@@ -243,7 +243,7 @@ global $btc_fiat_pairing, $fiat_currencies, $btc_fiat_value;
 
 
 	// Return negative number, if no data detected (so we know when data errors happen)
-	if ( is_numeric($volume) == true && $last_trade != '' || is_numeric($volume) == true && $vol_in_pairing != false ) {
+	if ( $last_trade != '' || $vol_in_pairing != false ) {
 	return $volume_fiat_raw;
 	}
 	else {

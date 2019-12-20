@@ -119,9 +119,9 @@ Below is an example for editing your assets / markets into the coin list in the 
 
 USAGE (ADDING / UPDATING COINS)
 
-Support for trading pairs (contact me to request more): USD / CAD / AUD / SGD / HKD / GBP / EUR / CHF / RUB / JPY / USDT (Tether) / TUSD (True USD) / USDC / BTC / XMR / ETH / LTC.
+Support for trading pairs (contact me to request more): AUD / BRL / BTC / CAD / CHF / ETH / EUR / GBP / HKD / JPY / LTC / RUB / SGD / TUSD (True USD) / USD / USDC / USDT (Tether) / XMR.
 
-Support for exchanges (contact me to request more): bigone / binance & binance_us / bitfinex & ethfinex / bitforex / bitpanda / bitstamp  / bittrex & bittrex_global / btcmarkets / cex / coinbase / cryptofresh / gateio / gemini / graviex / hitbtc / hotbit / huobi / idex / kraken / kucoin / lakebtc / livecoin / okcoin / okex / poloniex / tidebit / tradeogre / tradesatoshi / upbit.
+Support for exchanges (contact me to request more): bigone / binance & binance_us / bitfinex & ethfinex / bitforex / bitflyer / bitpanda / bitstamp  / bittrex & bittrex_global / braziliex / btcmarkets / cex / coinbase / cryptofresh / gateio / gemini / graviex / hitbtc / hotbit / huobi / idex / kraken / kucoin / lakebtc / livecoin / okcoin / okex / poloniex / southxchange / tidebit / tradeogre / tradesatoshi / upbit.
 
 Ethereum ICO subtoken support has been built in, but values are static ICO values in ETH.
  
@@ -146,7 +146,7 @@ Ethereum ICO subtoken support has been built in, but values are static ICO value
                                           'lowercase_exchange2' => 'eth/COINSYMBOLHERE',
                                           'lowercase_exchange3' => 'ETH-COINSYMBOLHERE',
                                           'eth_subtokens_ico' => 'ETHSUBTOKENNAME' // Must be defined in $eth_subtokens_ico_values in config.php
-                                                    )
+                                                    ),
                                                     
                                           ) // market_pairing END
                         

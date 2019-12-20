@@ -54,8 +54,8 @@ $mobile_networks = $cleaned_mobile_networks;
 
 // Default BTC CRYPTO/CRYPTO market pairing support 
 // (so we activate it here instead of in config.php, for good UX adding altcoin markets dynamically there)
-$crypto_to_crypto_pairing['btc'] = 'Ƀ ';
-
+// Add to beginning of the array
+$crypto_to_crypto_pairing = array_merge( array('btc' => 'Ƀ ') , $crypto_to_crypto_pairing);
 
 
 // Set BTC / currency_market dynamic value
@@ -95,31 +95,54 @@ $asset_price_alerts_percent = floattostr($asset_price_alerts_percent);
 
 
 
-// Dynamically add MISCASSETS to $coins_list
-// ONLY IF USER HASN'T MESSED UP $coins_list, AS WE DON'T WANT TO CANCEL OUT ANY
-// CONFIG CHECKS CREATING ERROR LOG ENTRIES / UI ALERTS INFORMING THEM OF THAT
-if (is_array($coins_list) || is_object($coins_list)) {
-
-$coins_list['MISCASSETS'] = array(
-                        			'coin_name' => 'Misc. '.strtoupper($btc_fiat_pairing).' Value',
-                        			'marketcap_website_slug' => '',
-                        			'market_pairing' => array()
-                        			);
-		
-		foreach ( $fiat_currencies as $pairing_key => $unused ) {
-		$coins_list['MISCASSETS']['market_pairing'][$pairing_key] = array('fiat_assets' => $pairing_key);
-		}
-		
-		foreach ( $crypto_to_crypto_pairing as $pairing_key => $unused ) {
-		$coins_list['MISCASSETS']['market_pairing'][$pairing_key] = array('fiat_assets' => $pairing_key);
-		}
-		
-}
-
-
-
 // Only need below logic during UI runtime
 if ( $runtime_mode == 'ui' ) {
+
+
+    // Dynamically add MISCASSETS to $coins_list UI
+    // ONLY IF USER HASN'T MESSED UP $coins_list, AS WE DON'T WANT TO CANCEL OUT ANY
+    // CONFIG CHECKS CREATING ERROR LOG ENTRIES / UI ALERTS INFORMING THEM OF THAT
+    if (is_array($coins_list) || is_object($coins_list)) {
+    
+    $coins_list['MISCASSETS'] = array(
+                                        'coin_name' => 'Misc. '.strtoupper($btc_fiat_pairing).' Value',
+                                        'marketcap_website_slug' => '',
+                                        'market_pairing' => array()
+                                        );
+            
+            
+            foreach ( $crypto_to_crypto_pairing as $pairing_key => $pairing_unused ) {
+            $coins_list['MISCASSETS']['market_pairing'][$pairing_key] = array('fiat_assets' => $pairing_key);
+            }
+            
+            foreach ( $fiat_currencies as $pairing_key => $pairing_unused ) {
+            $coins_list['MISCASSETS']['market_pairing'][$pairing_key] = array('fiat_assets' => $pairing_key);
+            }
+    
+    }
+    
+    
+    // Alphabetically sort all exchanges / pairings (drop-down menus) for UX
+    if (is_array($coins_list) || is_object($coins_list)) {
+    
+        foreach ( $coins_list as $symbol_key => $symbol_unused ) {
+            
+            if ( $coins_list[$symbol_key] == 'MISCASSETS' ) {
+            asort($coins_list[$symbol_key]['market_pairing']);
+            }
+            else {
+            ksort($coins_list[$symbol_key]['market_pairing']);
+            }
+            
+            
+            foreach ( $coins_list[$symbol_key]['market_pairing'] as $pairing_key => $pairing_unused ) {
+            ksort($coins_list[$symbol_key]['market_pairing'][$pairing_key]);
+            }
+        
+        }
+    
+    }
+
 
 	// We can safely dismiss alerts with cookies enabled, without losing data
 	if ( $_COOKIE['coin_amounts'] != '' ) {
@@ -269,7 +292,7 @@ $charts_update_freq = ( $charts_update_freq != '' ? $charts_update_freq : trim( 
 
 
 
-// Unit tests to run in debug mode, AFTER loading init / config-init logic
+// Unit tests to run in debug mode, !AFTER! loading init / config-init logic
 if ( $debug_mode != 'off' ) {
 require_once("app-lib/php/debugging/tests.php");
 }
