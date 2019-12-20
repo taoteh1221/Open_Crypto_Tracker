@@ -54,7 +54,7 @@ if ( $_GET['type'] == 'asset' ) {
 			
 		
 			// Have this script send the UI alert messages, and not load any chart code (to not leave the page endlessly loading) if cache data is not present
-			if ( file_exists('cache/charts/'.$chart_asset.'/'.$key.'_chart_'.$charted_value.'.dat') != 1
+			if ( file_exists('cache/charts/spot_price_and_24hr_volume/'.$chart_asset.'/'.$key.'_chart_'.$charted_value.'.dat') != 1
 			|| $market_parse[2] != 'chart' && $market_parse[2] != 'both' ) {
 			?>
 			
@@ -73,7 +73,7 @@ if ( $_GET['type'] == 'asset' ) {
 			}
 			
 		
-		$chart_data = chart_data('cache/charts/'.$chart_asset.'/'.$key.'_chart_'.$charted_value.'.dat', $market_parse[1]);
+		$chart_data = chart_data('cache/charts/spot_price_and_24hr_volume/'.$chart_asset.'/'.$key.'_chart_'.$charted_value.'.dat', $market_parse[1]);
 		
 		
 		$price_sample = substr( $chart_data['spot'] , 0, strpos( $chart_data['spot'] , "," ) );

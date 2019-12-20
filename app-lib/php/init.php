@@ -8,7 +8,7 @@ error_reporting(0); // Turn off all PHP error reporting on production servers (0
 
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
 
-$app_version = '4.02.0';  // 2019/DECEMBER/18TH
+$app_version = '4.03.0';  // 2019/DECEMBER/20TH
 
 
 require_once("app-lib/php/loader.php");
@@ -97,7 +97,7 @@ if ( dir_structure($base_dir . '/cache/alerts/') != TRUE
 || dir_structure($base_dir . '/cache/apis/') != TRUE
 || dir_structure($base_dir . '/cache/events/') != TRUE
 || dir_structure($base_dir . '/cache/logs/') != TRUE
-|| dir_structure($base_dir . '/cache/charts/') != TRUE
+|| dir_structure($base_dir . '/cache/charts/spot_price_and_24hr_volume/') != TRUE
 || dir_structure($base_dir . '/cache/vars/') != TRUE
 || dir_structure($base_dir . '/cache/queue/messages/') != TRUE ) {
 echo "Cannot create cache sub-directories. Please make sure the folder '/cache/' has FULL read / write permissions (chmod 777 on unix / linux systems), so the cache sub-directories can be created automatically.";
