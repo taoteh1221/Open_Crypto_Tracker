@@ -120,15 +120,24 @@
 		$supported_fiat_list = trim($supported_fiat_list);
 		$supported_fiat_list = rtrim($supported_fiat_list,'/');
 		$supported_fiat_list = trim($supported_fiat_list);
+		
+		foreach ( $coins_list['BTC']['market_pairing'][$charts_alerts_btc_fiat_pairing] as $key => $unused ) {
+		$supported_exchange_list .= name_rendering($key) . ' / ';
+		}
+		$supported_exchange_list = trim($supported_exchange_list);
+		$supported_exchange_list = rtrim($supported_exchange_list,'/');
+		$supported_exchange_list = trim($supported_exchange_list);
 		?>
 					
-		<p class='red' style='font-weight: bold;'>The charts <i>primary fiat currency</i> is set to: &nbsp; <span class='bitcoin'><?=strtoupper($charts_alerts_btc_fiat_pairing)?></span> &nbsp; (<?=$supported_fiat_list?> are supported in config.php, in the "$btc_fiat_pairing" setting)</p>
+		<p class='red' style='font-weight: bold;'>The charts <i>primary fiat market</i> is set to: &nbsp; <span class='bitcoin'><?=strtoupper($charts_alerts_btc_fiat_pairing)?> / <?=name_rendering($charts_alerts_btc_exchange)?></span></p>
+		
+		<p class='red' style='font-weight: bold;'> Other <?=strtoupper($charts_alerts_btc_fiat_pairing)?>-paired exchanges supported in this app are: <?=$supported_exchange_list?>. Other fiat pairings (that are supported in config.php in the "$btc_fiat_pairing" setting) are: <?=$supported_fiat_list?>. !NOT! ALL EXCHANGES SUPPORT ALL FIAT PAIRS, double check any setting changes you make (and check the error log at /cache/logs/errors.log for any reported issues).</p>
 		 
 		<p class='red' style='font-weight: bold;'>A few crypto exchanges only provide asset volume data (with no pairing volume data included). If 24 hour pair volume is NOT available for a market, it will be emulated via the asset volume multiplied by the <i>current</i> asset market value (which gives us the rough pairing volume for a better chart user experience).</p>
 		 
 		<p class='red' style='font-weight: bold;'>Charts are only available to show for each asset properly configured in the charts / asset price alerts configuration section in the file config.php (located in the primary directory of this app). Charts (and asset price alerts) must be <a href='README.txt' target='_blank'>setup as a cron job on your web server</a>, or <i>they will not work</i>. The chart's tab, page, caching, and javascript can be disabled in config.php if you choose to not setup a cron job.</p>
 	
-				
+				<br /><br />
 	</div>
 	
 	

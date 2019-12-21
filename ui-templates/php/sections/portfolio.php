@@ -601,7 +601,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 		<?php
 		}
 	
-	echo '<div class="portfolio_summary"><span class="black">(Bitcoin is trading @ ' . $fiat_currencies[$btc_fiat_pairing] . number_format( $btc_fiat_value, 2, '.', ',') . ' on ' . name_rendering( $btc_exchange ) . ')</span></div>';
+	echo '<div class="portfolio_summary"><span class="black">(Bitcoin is trading @ ' . $fiat_currencies[$btc_fiat_pairing] . number_format( $btc_fiat_value, 2, '.', ',') . ' on ' . name_rendering($btc_exchange) . ')</span></div>';
 
 			
 		if ( $short_added == 1 ) {

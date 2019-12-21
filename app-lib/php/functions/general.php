@@ -355,6 +355,12 @@ $words = explode(" ",$string);
 	$pretty_string .= $words[$key] . ' ';
 	}
 
+$pretty_string = preg_replace("/btc/i", 'BTC', $pretty_string);
+$pretty_string = preg_replace("/coin/i", 'Coin', $pretty_string);
+$pretty_string = preg_replace("/exchange/i", 'Exchange', $pretty_string);
+$pretty_string = preg_replace("/finex/i", 'Finex', $pretty_string);
+$pretty_string = preg_replace("/stamp/i", 'Stamp', $pretty_string);
+$pretty_string = preg_replace("/flyer/i", 'Flyer', $pretty_string);
 
 return trim($pretty_string);
 

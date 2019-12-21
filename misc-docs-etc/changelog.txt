@@ -2011,6 +2011,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.03.0:
 
+-UX revisions
+
 -Code cleanup / optimization
 
 -Additional configuration scanning / error logging
