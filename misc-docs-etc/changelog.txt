@@ -2013,6 +2013,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -UX revisions
 
+-Misc bug fixes
+
 -Code cleanup / optimization
 
 -Additional configuration scanning / error logging

@@ -638,9 +638,9 @@ $asset_market_data = asset_market_data($asset, $exchange, $coins_list[$asset]['m
 	$asset_fiat_value_raw = ( floattostr($asset_fiat_value_raw) >= 1.00 ? round($asset_fiat_value_raw, 2) : round($asset_fiat_value_raw, $fiat_decimals_max) );
 	
 	
-	// If stablecoin CRYPTO pairing format, round stablecoin asset price 
+	// If fiat pairing format, round asset price 
 	// to only keep $fiat_decimals_max decimals maximum (or only 2 decimals if worth $1 or more), to save on data set / storage size
-   if ( $pairing == 'usdt' || $pairing == 'tusd' || $pairing == 'usdc' ) {
+   if ( array_key_exists($pairing, $fiat_currencies) ) {
    $asset_pairing_value_raw = ( floattostr($asset_pairing_value_raw) >= 1.00 ? round($asset_pairing_value_raw, 2) : round($asset_pairing_value_raw, $fiat_decimals_max) );
    }
 

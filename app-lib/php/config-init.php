@@ -14,6 +14,30 @@ error_reporting(1); // If debugging is enabled, turn on all PHP error reporting 
 }
 
 
+
+// Dynamically add MISCASSETS to $coins_list BEFORE ALPHABETICAL SORTING
+// ONLY IF USER HASN'T MESSED UP $coins_list, AS WE DON'T WANT TO CANCEL OUT ANY
+// CONFIG CHECKS CREATING ERROR LOG ENTRIES / UI ALERTS INFORMING THEM OF THAT
+if (is_array($coins_list) || is_object($coins_list)) {
+    
+    $coins_list['MISCASSETS'] = array(
+                                        'coin_name' => 'Misc. '.strtoupper($btc_fiat_pairing).' Value',
+                                        'marketcap_website_slug' => '',
+                                        'market_pairing' => array()
+                                        );
+            
+            
+            foreach ( $crypto_to_crypto_pairing as $pairing_key => $pairing_unused ) {
+            $coins_list['MISCASSETS']['market_pairing'][$pairing_key] = array('fiat_assets' => $pairing_key);
+            }
+            
+            foreach ( $fiat_currencies as $pairing_key => $pairing_unused ) {
+            $coins_list['MISCASSETS']['market_pairing'][$pairing_key] = array('fiat_assets' => $pairing_key);
+            }
+    
+}
+
+
     
 // !!BEFORE MANIPULATING ANYTHING ELSE!!, alphabetically sort all exchanges / pairings for UX
 if (is_array($coins_list) || is_object($coins_list)) {
@@ -138,29 +162,6 @@ $asset_price_alerts_percent = floattostr($asset_price_alerts_percent);
 
 // Only need below logic during UI runtime
 if ( $runtime_mode == 'ui' ) {
-
-
-    // Dynamically add MISCASSETS to $coins_list UI
-    // ONLY IF USER HASN'T MESSED UP $coins_list, AS WE DON'T WANT TO CANCEL OUT ANY
-    // CONFIG CHECKS CREATING ERROR LOG ENTRIES / UI ALERTS INFORMING THEM OF THAT
-    if (is_array($coins_list) || is_object($coins_list)) {
-    
-    $coins_list['MISCASSETS'] = array(
-                                        'coin_name' => 'Misc. '.strtoupper($btc_fiat_pairing).' Value',
-                                        'marketcap_website_slug' => '',
-                                        'market_pairing' => array()
-                                        );
-            
-            
-            foreach ( $crypto_to_crypto_pairing as $pairing_key => $pairing_unused ) {
-            $coins_list['MISCASSETS']['market_pairing'][$pairing_key] = array('fiat_assets' => $pairing_key);
-            }
-            
-            foreach ( $fiat_currencies as $pairing_key => $pairing_unused ) {
-            $coins_list['MISCASSETS']['market_pairing'][$pairing_key] = array('fiat_assets' => $pairing_key);
-            }
-    
-    }
 
 
 	// We can safely dismiss alerts with cookies enabled, without losing data
