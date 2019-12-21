@@ -15,6 +15,13 @@ error_reporting(1); // If debugging is enabled, turn on all PHP error reporting 
 
 
 
+// Default BTC CRYPTO/CRYPTO market pairing support, BEFORE GENERATING MISCASSETS ARRAY
+// (so we activate it here instead of in config.php, for good UX adding altcoin markets dynamically there)
+// Add to beginning of the array
+$crypto_to_crypto_pairing = array_merge( array('btc' => 'Ƀ ') , $crypto_to_crypto_pairing);
+
+
+
 // Dynamically add MISCASSETS to $coins_list BEFORE ALPHABETICAL SORTING
 // ONLY IF USER HASN'T MESSED UP $coins_list, AS WE DON'T WANT TO CANCEL OUT ANY
 // CONFIG CHECKS CREATING ERROR LOG ENTRIES / UI ALERTS INFORMING THEM OF THAT
@@ -62,14 +69,15 @@ if (is_array($coins_list) || is_object($coins_list)) {
     
     
     
-// Clean / auto-correct $btc_fiat_pairing and $btc_exchange BEFORE BELOW LOGIC
+// Clean / auto-correct $btc_fiat_pairing and $btc_exchange BEFORE BELOW CHARTS/ALERTS LOGIC
 $btc_fiat_pairing = cleanup_config($btc_fiat_pairing, 'lower');
 $btc_exchange = cleanup_config($btc_exchange, 'lower');
 
 
 
-// We NEVER change BTC / currency_market value FOR CHARTS, 
-// so move the default $btc_fiat_pairing / $btc_exchange values into their own chart-related variables,
+// Get chart/alert defaults before default Bitcoin market is dynamically manipulated
+// We NEVER change BTC / currency_market value FOR CHARTS/ALERTS, 
+// so move the default $btc_fiat_pairing / $btc_exchange values into their own chart/alerts related variables,
 // before dynamic updating of $btc_fiat_pairing / $btc_exchange
 $charts_alerts_btc_fiat_pairing = $btc_fiat_pairing; 
 $charts_alerts_btc_exchange = $btc_exchange;
@@ -81,6 +89,18 @@ if ( $_POST['fiat_market_standalone'] || $_COOKIE['fiat_market_standalone'] ) {
 $fiat_market_standalone = explode("|", ( $_POST['fiat_market_standalone'] != '' ? $_POST['fiat_market_standalone'] : $_COOKIE['fiat_market_standalone'] ) );
 $btc_fiat_pairing = $fiat_market_standalone[0]; // MUST RUN !BEFORE! btc_market() CALL BELOW, OR INCORRECT VALUE DETERMINED FOR btc_market() CALL
 $btc_exchange = btc_market($fiat_market_standalone[1] - 1);
+}
+
+
+
+// Set BTC / currency_market dynamic value, IF $fiat_market_standalone NOT SET
+
+if ( sizeof($fiat_market_standalone) != 2 && $_SESSION['btc_fiat_pairing'] ) {
+$btc_fiat_pairing = $_SESSION['btc_fiat_pairing'];
+}
+
+if ( sizeof($fiat_market_standalone) != 2 && $_SESSION['btc_exchange'] ) {
+$btc_exchange = $_SESSION['btc_exchange'];
 }
 
 
@@ -121,34 +141,6 @@ $mobile_networks = $cleaned_mobile_networks;
 // END CONFIG CLEANUP
 
 
-
-// Default BTC CRYPTO/CRYPTO market pairing support 
-// (so we activate it here instead of in config.php, for good UX adding altcoin markets dynamically there)
-// Add to beginning of the array
-$crypto_to_crypto_pairing = array_merge( array('btc' => 'Ƀ ') , $crypto_to_crypto_pairing);
-
-
-// Set BTC / currency_market dynamic value
-
-
-// Fallback for currency symbol config errors
-if ( !$fiat_currencies[$charts_alerts_btc_fiat_pairing] ) {
-$fiat_currencies[$charts_alerts_btc_fiat_pairing] = strtoupper($charts_alerts_btc_fiat_pairing) . ' ';
-}
-
-
-if ( sizeof($fiat_market_standalone) != 2 && $_SESSION['btc_exchange'] ) {
-$btc_exchange = $_SESSION['btc_exchange'];
-}
-
-if ( sizeof($fiat_market_standalone) != 2 && $_SESSION['btc_fiat_pairing'] ) {
-$btc_fiat_pairing = $_SESSION['btc_fiat_pairing'];
-}
-
-// Fallback for currency symbol config errors
-if ( !$fiat_currencies[$btc_fiat_pairing] ) {
-$fiat_currencies[$btc_fiat_pairing] = strtoupper($btc_fiat_pairing) . ' ';
-}
 
 // MUST be called FIRST at runtime by the default bitcoin market, to set this var for reuse later in runtime
 $btc_fiat_value = asset_market_data('BTC', $btc_exchange, $coins_list['BTC']['market_pairing'][$btc_fiat_pairing][$btc_exchange])['last_trade'];
@@ -226,9 +218,7 @@ foreach ( $asset_charts_and_alerts as $key => $value ) {
 	
 	}
 	
-	
 }
-
 
 if ( $disabled_caching == 1 ) {
 echo "Improper directory permissions on the '/cache/charts/spot_price_and_24hr_volume/' directory, cannot create asset sub-directories. Make sure the folder '/cache/charts/spot_price_and_24hr_volume/' itself has read / write permissions (and these sub-directories should be created automatically)";
@@ -237,10 +227,8 @@ exit;
 
 
 
-
 // Configuration checks
 require_once( $base_dir . "/app-lib/php/other/config-checks.php");
-
 
 
 
@@ -251,7 +239,6 @@ $user_agent = 'Mozilla/5.0 (compatible; API_Endpoint_Parser;) Gecko Firefox';  /
 else {
 $user_agent = 'Mozilla/5.0 (compatible; ' . $_SERVER['SERVER_SOFTWARE'] . '; PHP/' .phpversion(). '; Curl/' .$curl_setup["version"]. '; DFD_Cryptocoin_Values/' . $app_version . '; API_Endpoint_Parser; +https://github.com/taoteh1221/DFD_Cryptocoin_Values) Gecko Firefox';
 }
-
 
 
 
@@ -270,7 +257,6 @@ global $smtp_vars; // Needed for class compatibility (along with second instance
 $smtp = new SMTPMailer();
 
 }
-
 
 
 
