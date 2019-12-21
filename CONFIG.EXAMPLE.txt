@@ -40,18 +40,18 @@ $debug_mode = 'off';
 // (Used for user experience 'pretty' timestamping only, will not change or screw up UTC log times etc if you change this)
 $local_time_offset = -5; // example: -5 or 5
 
+// Default BITCOIN-ONLY fiat (or stablecoin equivalent) market pairing (for charts / price alert fiat-equivalent value determination)
+// 'usd', 'cad', 'aud', 'sgd', 'hkd', 'gbp', 'eur', 'chf', 'rub', 'jpy', 'usdt', 'tusd', 'usdc'
+// SEE THE $coins_list CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
+// MARKET PAIRING VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (set in $btc_exchange directly above)
+$btc_fiat_pairing = 'usd'; 
+
 // Default BITCOIN-ONLY exchange (for charts / price alert fiat-equivalent value determination)
 // 'binance', binance_us', 'bitfinex', 'bitpanda', 'bitstamp', 'btcmarkets', 'cex', 'coinbase', 'gemini', 
 // 'hitbtc', 'huobi', 'kraken', 'lakebtc', 'livecoin', 'okcoin', 'okex', 'tidebit'
 // SEE THE $coins_list CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
 // MARKET PAIRING VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (to populate $btc_fiat_pairing directly below with)
 $btc_exchange = 'kraken'; 
-
-// Default BITCOIN-ONLY fiat (or stablecoin equivalent) market pairing (for charts / price alert fiat-equivalent value determination)
-// 'usd', 'cad', 'aud', 'sgd', 'hkd', 'gbp', 'eur', 'chf', 'rub', 'jpy', 'usdt', 'tusd', 'usdc'
-// SEE THE $coins_list CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
-// MARKET PAIRING VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (set in $btc_exchange directly above)
-$btc_fiat_pairing = 'usd'; 
 
 // Maximum decimal places for fiat values of coins worth under 1.00 [usd/gbp/eur/jpy/brl/rub/etc], for prettier / less-cluttered interface
 $fiat_decimals_max = 5; // IF YOU ADJUST $btc_fiat_pairing ABOVE, YOU MAY NEED TO ADJUST THIS ACCORDINGLY FOR !FUNCTIONAL! CHARTS / ALERTS

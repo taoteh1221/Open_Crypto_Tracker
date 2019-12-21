@@ -938,29 +938,12 @@ return $base_url;
 ////////////////////////////////////////////////////////
 
 
-function store_all_cookies($set_coin_values, $set_pairing_values, $set_market_values, $set_paid_values, $set_leverage_values, $set_margintype_values) {
+function update_cookies($set_coin_values, $set_pairing_values, $set_market_values, $set_paid_values, $set_leverage_values, $set_margintype_values) {
 
-
+           
            // Cookies expire in 1 year (31536000 seconds)
            
-           
-           // Notes (only creation / deletion here, update logic is in cookies.php)
-           if ( $_POST['submit_check'] == 1 && $_POST['use_notes'] == 1 && !$_COOKIE['notes_reminders'] ) {
-           store_cookie_contents("notes_reminders", " ", mktime()+31536000); // Initialized with some whitespace when blank
-           }
-           elseif ( $_POST['submit_check'] == 1 && $_POST['use_notes'] != 1 ) {
-           store_cookie_contents("notes_reminders", "", time()-3600);  // Delete any existing cookies
-           unset($_COOKIE['notes_reminders']);  // Delete any existing cookies
-           }
-           
-           
-           // Charts
-           if ( $_POST['submit_check'] == 1 ) {
-           store_cookie_contents("show_charts", $_POST['show_charts'], mktime()+31536000);
-           }
-           
-           
-           // Portfolio
+           // Portfolio data
            store_cookie_contents("coin_amounts", $set_coin_values, mktime()+31536000);
            store_cookie_contents("coin_pairings", $set_pairing_values, mktime()+31536000);
            store_cookie_contents("coin_markets", $set_market_values, mktime()+31536000);
@@ -969,6 +952,63 @@ function store_all_cookies($set_coin_values, $set_pairing_values, $set_market_va
            store_cookie_contents("coin_margintype", $set_margintype_values, mktime()+31536000);
            
            
+
+           // UI settings (not included in any portfolio data)
+           if ( $_POST['submit_check'] == 1 ) {
+           	
+               
+               if ( $_POST['show_charts'] != NULL ) {
+               store_cookie_contents("show_charts", $_POST['show_charts'], mktime()+31536000);
+               }
+               else {
+               store_cookie_contents("show_charts", "", time()-3600);  // Delete any existing cookies
+               unset($_COOKIE['show_charts']);  // Delete any existing cookies
+               }
+              
+               if ( $_POST['theme_selected'] != NULL ) {
+               store_cookie_contents("theme_selected", $_POST['theme_selected'], mktime()+31536000);
+               }
+               else {
+               store_cookie_contents("theme_selected", "", time()-3600);  // Delete any existing cookies
+               unset($_COOKIE['theme_selected']);  // Delete any existing cookies
+               }
+               
+               if ( $_POST['sort_by'] != NULL ) {
+               store_cookie_contents("sort_by", $_POST['sort_by'], mktime()+31536000);
+               }
+               else {
+               store_cookie_contents("sort_by", "", time()-3600);  // Delete any existing cookies
+               unset($_COOKIE['sort_by']);  // Delete any existing cookies
+               }
+              
+               if ( $_POST['use_alert_percent'] != NULL ) {
+               store_cookie_contents("alert_percent", $_POST['use_alert_percent'], mktime()+31536000);
+               }
+               else {
+               store_cookie_contents("alert_percent", "", time()-3600);  // Delete any existing cookies
+               unset($_COOKIE['alert_percent']);  // Delete any existing cookies
+               }
+              
+               if ( $_POST['fiat_market_standalone'] != NULL ) {
+               store_cookie_contents("fiat_market_standalone", $_POST['fiat_market_standalone'], mktime()+31536000);
+               }
+               else {
+               store_cookie_contents("fiat_market_standalone", "", time()-3600);  // Delete any existing cookies
+               unset($_COOKIE['fiat_market_standalone']);  // Delete any existing cookies
+               }
+              
+           	
+               // Notes (only creation / deletion here, update logic is in cookies.php)
+               if ( $_POST['use_notes'] == 1 && !$_COOKIE['notes_reminders'] ) {
+               store_cookie_contents("notes_reminders", " ", mktime()+31536000); // Initialized with some whitespace when blank
+               }
+               elseif ( $_POST['use_notes'] != 1 ) {
+               store_cookie_contents("notes_reminders", "", time()-3600);  // Delete any existing cookies
+               unset($_COOKIE['notes_reminders']);  // Delete any existing cookies
+               }
+           
+           
+           }
            
  
 }
@@ -980,37 +1020,48 @@ function store_all_cookies($set_coin_values, $set_pairing_values, $set_market_va
 
 function delete_all_cookies() {
 
+// To be safe, delete cookies using 2 methods
+  
+  // Portfolio
   store_cookie_contents("coin_amounts", "", time()-3600);  
   store_cookie_contents("coin_pairings", "", time()-3600);  
   store_cookie_contents("coin_markets", "", time()-3600);   
   store_cookie_contents("coin_paid", "", time()-3600);    
   store_cookie_contents("coin_leverage", "", time()-3600);  
   store_cookie_contents("coin_margintype", "", time()-3600);  
+  
+  
+  // Settings
   store_cookie_contents("coin_reload", "", time()-3600);  
   store_cookie_contents("notes_reminders", "", time()-3600);   
   store_cookie_contents("show_charts", "", time()-3600);  
-  
-  
   store_cookie_contents("theme_selected", "", time()-3600);  
   store_cookie_contents("sort_by", "", time()-3600);  
   store_cookie_contents("alert_percent", "", time()-3600); 
+  store_cookie_contents("fiat_market_standalone", "", time()-3600); 
+  
   
   // --------------------------
   
+  
+  // Portfolio
   unset($_COOKIE['coin_amounts']); 
   unset($_COOKIE['coin_pairings']); 
   unset($_COOKIE['coin_markets']); 
   unset($_COOKIE['coin_paid']); 
   unset($_COOKIE['coin_leverage']); 
   unset($_COOKIE['coin_margintype']); 
+  
+  
+  // Settings
   unset($_COOKIE['coin_reload']);  
   unset($_COOKIE['notes_reminders']);
   unset($_COOKIE['show_charts']);  
-  
-  
   unset($_COOKIE['theme_selected']);  
   unset($_COOKIE['sort_by']);  
   unset($_COOKIE['alert_percent']);  
+  unset($_COOKIE['fiat_market_standalone']);  
+ 
  
 }
 

@@ -108,6 +108,32 @@ return $results;
 ////////////////////////////////////////////////////////
 
 
+function btc_market($input) {
+
+global $coins_list, $btc_fiat_pairing;
+
+	$pairing_loop = 0;
+	foreach ( $coins_list['BTC']['market_pairing'][$btc_fiat_pairing] as $market_key => $market_id ) {
+		
+		// If a numeric id, return the exchange name
+		if ( is_int($input) && $pairing_loop == $input ) {
+		return $market_key;
+		}
+		// If an exchange name, return the numeric id (used in UI html forms)
+		elseif ( ctype_alnum($input) && $market_key == $input ) {
+		return $pairing_loop + 1;
+		}
+	
+	$pairing_loop = $pairing_loop + 1;
+	}
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
 function marketcap_data($symbol) {
 	
 global $btc_fiat_pairing, $marketcap_site, $coinmarketcapcom_api_key, $alert_percent, $fiat_decimals_max;
@@ -523,7 +549,7 @@ function asset_charts_and_alerts($asset_data, $exchange, $pairing, $mode) {
 
 
 // Globals
-global $base_dir, $local_time_offset, $block_volume_error, $fiat_currencies, $coins_list, $btc_exchange, $btc_fiat_value, $charts_alerts_btc_fiat_pairing, $charts_page, $asset_price_alerts_freq, $asset_price_alerts_percent, $asset_price_alerts_minvolume, $asset_price_alerts_refresh, $fiat_decimals_max;
+global $base_dir, $local_time_offset, $block_volume_error, $fiat_currencies, $coins_list, $charts_alerts_btc_exchange, $btc_fiat_value, $charts_alerts_btc_fiat_pairing, $charts_page, $asset_price_alerts_freq, $asset_price_alerts_percent, $asset_price_alerts_minvolume, $asset_price_alerts_refresh, $fiat_decimals_max;
 
 
 
@@ -966,7 +992,7 @@ function ui_coin_data_row($asset_name, $asset_symbol, $asset_amount, $market_pai
 
 
 // Globals
-global $_POST, $theme_selected, $fiat_currencies, $coins_list, $btc_exchange, $btc_fiat_pairing, $btc_fiat_value, $marketcap_site, $marketcap_cache, $coinmarketcapcom_api_key, $alert_percent, $marketcap_ranks_max, $api_timeout, $fiat_decimals_max;
+global $_POST, $theme_selected, $fiat_market_standalone, $fiat_currencies, $coins_list, $btc_exchange, $btc_fiat_pairing, $btc_fiat_value, $marketcap_site, $marketcap_cache, $coinmarketcapcom_api_key, $alert_percent, $marketcap_ranks_max, $api_timeout, $fiat_decimals_max;
 
 
 
@@ -990,7 +1016,7 @@ $all_pairings = $coins_list[$asset_symbol]['market_pairing'];
     if ( $loop == $selected_exchange || $key == "eth_subtokens_ico" ) {
     $selected_exchange = $key;
      
-     if ( strtolower($asset_name) == 'bitcoin' ) {
+     if ( sizeof($fiat_market_standalone) != 2 && strtolower($asset_name) == 'bitcoin' ) {
      $_SESSION['btc_exchange'] = $key;
      $_SESSION['btc_fiat_pairing'] = $selected_pairing;
      
@@ -1026,11 +1052,11 @@ $all_pairings = $coins_list[$asset_symbol]['market_pairing'];
 
 
 
-if ( $_SESSION['btc_exchange'] ) {
+if ( sizeof($fiat_market_standalone) != 2 && $_SESSION['btc_exchange'] ) {
 $btc_exchange = $_SESSION['btc_exchange'];
 }
 
-if ( $_SESSION['btc_fiat_pairing'] ) {
+if ( sizeof($fiat_market_standalone) != 2 && $_SESSION['btc_fiat_pairing'] ) {
 $btc_fiat_pairing = $_SESSION['btc_fiat_pairing'];
 }
 
@@ -1088,7 +1114,7 @@ $market_pairing = $all_markets[$selected_exchange];
     else {
     $pairing_btc_value = pairing_market_value($selected_pairing);
     $coin_value_raw = $asset_market_data['last_trade'];
-    $btc_trade_eqiv = ( strtolower($asset_name) == 'bitcoin' ? NULL : number_format( ($coin_value_raw * $pairing_btc_value), 8) );
+    $btc_trade_eqiv = number_format( ($coin_value_raw * $pairing_btc_value), 8);
     $coin_value_total_raw = ($asset_amount * $coin_value_raw);
   	 $coin_fiat_worth_raw = ($coin_value_total_raw * $pairing_btc_value) *  $btc_fiat_value;
     $_SESSION['btc_worth_array'][$asset_symbol] = ( strtolower($asset_name) == 'bitcoin' ? $asset_amount : floattostr($coin_value_total_raw * $pairing_btc_value) );
@@ -1404,14 +1430,7 @@ $market_pairing = $all_markets[$selected_exchange];
 
 <?php
   
-  // Not Bitcoin
-  if ( $btc_trade_eqiv ) {
   $coin_fiat_value = ( $btc_fiat_value * $btc_trade_eqiv );
-  }
-  // Bitcoin
-  else {
-  $coin_fiat_value =  $btc_fiat_value;
-  }
 
   // UX on FIAT number values
   $coin_fiat_value = ( floattostr($coin_fiat_value) >= 1.00 ? pretty_numbers($coin_fiat_value, 2) : pretty_numbers($coin_fiat_value, $fiat_decimals_max) );

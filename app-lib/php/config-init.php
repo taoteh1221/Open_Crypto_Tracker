@@ -14,13 +14,59 @@ error_reporting(1); // If debugging is enabled, turn on all PHP error reporting 
 }
 
 
+    
+// !!BEFORE MANIPULATING ANYTHING ELSE!!, alphabetically sort all exchanges / pairings for UX
+if (is_array($coins_list) || is_object($coins_list)) {
+    
+    foreach ( $coins_list as $symbol_key => $symbol_unused ) {
+            
+            if ( $coins_list[$symbol_key] == 'MISCASSETS' ) {
+            asort($coins_list[$symbol_key]['market_pairing']);
+            }
+            else {
+            ksort($coins_list[$symbol_key]['market_pairing']);
+            }
+            
+            
+            foreach ( $coins_list[$symbol_key]['market_pairing'] as $pairing_key => $pairing_unused ) {
+            ksort($coins_list[$symbol_key]['market_pairing'][$pairing_key]);
+            }
+        
+    }
+    
+}
+    
+    
+    
+// Clean / auto-correct $btc_fiat_pairing and $btc_exchange BEFORE BELOW LOGIC
+$btc_fiat_pairing = cleanup_config($btc_fiat_pairing, 'lower');
+$btc_exchange = cleanup_config($btc_exchange, 'lower');
+
+
+
+// We NEVER change BTC / currency_market value FOR CHARTS, 
+// so move the default $btc_fiat_pairing / $btc_exchange values into their own chart-related variables,
+// before dynamic updating of $btc_fiat_pairing / $btc_exchange
+$charts_alerts_btc_fiat_pairing = $btc_fiat_pairing; 
+$charts_alerts_btc_exchange = $btc_exchange;
+
+
+
+// If Stand-Alone Fiat Currency Market has been enabled (Settings page), REPLACE/OVERWRITE Bitcoin market config defaults
+if ( $_POST['fiat_market_standalone'] || $_COOKIE['fiat_market_standalone'] ) {
+$fiat_market_standalone = explode("|", ( $_POST['fiat_market_standalone'] != '' ? $_POST['fiat_market_standalone'] : $_COOKIE['fiat_market_standalone'] ) );
+$btc_fiat_pairing = $fiat_market_standalone[0]; // MUST RUN !BEFORE! btc_market() CALL BELOW, OR INCORRECT VALUE DETERMINED FOR btc_market() CALL
+$btc_exchange = btc_market($fiat_market_standalone[1] - 1);
+}
+
+
 
 // START CONFIG CLEANUP (auto-correct any basic end user data entry errors in config.php)
 
 // Cleaning lowercase alphanumeric string values
 $debug_mode = cleanup_config($debug_mode, 'lower');
-$btc_exchange = cleanup_config($btc_exchange, 'lower');
 $btc_fiat_pairing = cleanup_config($btc_fiat_pairing, 'lower');
+$btc_exchange = cleanup_config($btc_exchange, 'lower');
 $marketcap_site = cleanup_config($marketcap_site, 'lower');
 $block_volume_error = cleanup_config($block_volume_error, 'lower');
 $api_strict_ssl = cleanup_config($api_strict_ssl, 'lower');
@@ -60,11 +106,6 @@ $crypto_to_crypto_pairing = array_merge( array('btc' => 'Ƀ ') , $crypto_to_cryp
 
 // Set BTC / currency_market dynamic value
 
-// We NEVER change BTC / currency_market value FOR CHARTS, 
-// so move the default $btc_fiat_pairing value into it's own chart-related variable,
-// before dynamic updating of $btc_fiat_pairing
-$charts_alerts_btc_fiat_pairing = $btc_fiat_pairing; 
-
 
 // Fallback for currency symbol config errors
 if ( !$fiat_currencies[$charts_alerts_btc_fiat_pairing] ) {
@@ -72,11 +113,11 @@ $fiat_currencies[$charts_alerts_btc_fiat_pairing] = strtoupper($charts_alerts_bt
 }
 
 
-if ( $_SESSION['btc_exchange'] ) {
+if ( sizeof($fiat_market_standalone) != 2 && $_SESSION['btc_exchange'] ) {
 $btc_exchange = $_SESSION['btc_exchange'];
 }
 
-if ( $_SESSION['btc_fiat_pairing'] ) {
+if ( sizeof($fiat_market_standalone) != 2 && $_SESSION['btc_fiat_pairing'] ) {
 $btc_fiat_pairing = $_SESSION['btc_fiat_pairing'];
 }
 
@@ -118,28 +159,6 @@ if ( $runtime_mode == 'ui' ) {
             foreach ( $fiat_currencies as $pairing_key => $pairing_unused ) {
             $coins_list['MISCASSETS']['market_pairing'][$pairing_key] = array('fiat_assets' => $pairing_key);
             }
-    
-    }
-    
-    
-    // Alphabetically sort all exchanges / pairings (drop-down menus) for UX
-    if (is_array($coins_list) || is_object($coins_list)) {
-    
-        foreach ( $coins_list as $symbol_key => $symbol_unused ) {
-            
-            if ( $coins_list[$symbol_key] == 'MISCASSETS' ) {
-            asort($coins_list[$symbol_key]['market_pairing']);
-            }
-            else {
-            ksort($coins_list[$symbol_key]['market_pairing']);
-            }
-            
-            
-            foreach ( $coins_list[$symbol_key]['market_pairing'] as $pairing_key => $pairing_unused ) {
-            ksort($coins_list[$symbol_key]['market_pairing'][$pairing_key]);
-            }
-        
-        }
     
     }
 

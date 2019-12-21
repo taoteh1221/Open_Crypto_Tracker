@@ -136,7 +136,7 @@ if ( !isset( $coins_list['BTC']['market_pairing'][$charts_alerts_btc_fiat_pairin
 $config_parse_error[] = 'Charts and price alerts cannot run properly, because the $btc_fiat_pairing (default Bitcoin fiat pairing) value \''.$btc_fiat_pairing.'\' in config.php is not a valid Bitcoin pairing option (valid Bitcoin pairing options are: '.$avialable_btc_pairings.')';
 
 }
-elseif ( !isset( $coins_list['BTC']['market_pairing'][$charts_alerts_btc_fiat_pairing][$btc_exchange] ) ) {
+elseif ( !isset( $coins_list['BTC']['market_pairing'][$charts_alerts_btc_fiat_pairing][$charts_alerts_btc_exchange] ) ) {
 
 	foreach ( $coins_list['BTC']['market_pairing'][$charts_alerts_btc_fiat_pairing] as $pairing_key => $unused ) {
 	$avialable_btc_exchanges .= strtolower($pairing_key) . ', ';
@@ -144,7 +144,7 @@ elseif ( !isset( $coins_list['BTC']['market_pairing'][$charts_alerts_btc_fiat_pa
 	$avialable_btc_exchanges = trim($avialable_btc_exchanges);
 	$avialable_btc_exchanges = rtrim($avialable_btc_exchanges,',');
 	
-$config_parse_error[] = 'Charts and price alerts cannot run properly, because the $btc_exchange (default Bitcoin exchange) value \''.$btc_exchange.'\' in config.php is not a valid option for \''.$charts_alerts_btc_fiat_pairing.'\' Bitcoin pairings (valid \''.$charts_alerts_btc_fiat_pairing.'\' Bitcoin pairing options are: '.$avialable_btc_exchanges.')';
+$config_parse_error[] = 'Charts and price alerts cannot run properly, because the $btc_exchange (default Bitcoin exchange) value \''.$charts_alerts_btc_exchange.'\' in config.php is not a valid option for \''.$charts_alerts_btc_fiat_pairing.'\' Bitcoin pairings (valid \''.$charts_alerts_btc_fiat_pairing.'\' Bitcoin pairing options are: '.$avialable_btc_exchanges.')';
 
 }
 
@@ -397,6 +397,31 @@ if ( $charts_page == 'on' && $charts_backup_freq > 0 && trim($from_email) != '' 
 if ( !is_array($coins_list) ) {
 app_logging('config_error', 'The coins list formatting is corrupt, or not configured yet');
 }
+
+// Check default / dynamic Bitcoin market/pairing configs
+if ( !isset( $coins_list['BTC']['market_pairing'][$btc_fiat_pairing] ) ) {
+
+	foreach ( $coins_list['BTC']['market_pairing'] as $pairing_key => $unused ) {
+	$avialable_btc_pairings .= strtolower($pairing_key) . ', ';
+	}
+	$avialable_btc_pairings = trim($avialable_btc_pairings);
+	$avialable_btc_pairings = rtrim($avialable_btc_pairings,',');
+
+app_logging('config_error', 'Portfolio cannot run properly, because the $btc_fiat_pairing (Bitcoin fiat pairing) value \''.$btc_fiat_pairing.'\' is not a valid Bitcoin pairing option (valid Bitcoin pairing options are: '.$avialable_btc_pairings.')');
+
+}
+elseif ( !isset( $coins_list['BTC']['market_pairing'][$btc_fiat_pairing][$btc_exchange] ) ) {
+
+	foreach ( $coins_list['BTC']['market_pairing'][$btc_fiat_pairing] as $pairing_key => $unused ) {
+	$avialable_btc_exchanges .= strtolower($pairing_key) . ', ';
+	}
+	$avialable_btc_exchanges = trim($avialable_btc_exchanges);
+	$avialable_btc_exchanges = rtrim($avialable_btc_exchanges,',');
+
+app_logging('config_error', 'Portfolio cannot run properly, because the $btc_exchange (Bitcoin exchange) value \''.$btc_exchange.'\' is not a valid option for \''.$btc_fiat_pairing.'\' Bitcoin pairings (valid \''.$btc_fiat_pairing.'\' Bitcoin pairing options are: '.$avialable_btc_exchanges.')');
+
+}
+
 			
 			
 			

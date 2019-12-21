@@ -611,6 +611,8 @@
 	<input type='hidden' id='use_alert_percent' name='use_alert_percent' value='<?=( $_POST['use_alert_percent'] != '' ? $_POST['use_alert_percent'] : $_COOKIE['alert_percent'] )?>' />
 	
 	<input type='hidden' id='show_charts' name='show_charts' value='<?=( $_POST['show_charts'] != '' ? $_POST['show_charts'] : $_COOKIE['show_charts'] )?>' />
+	
+	<input type='hidden' id='fiat_market_standalone' name='fiat_market_standalone' value='<?=( $_POST['fiat_market_standalone'] != '' ? $_POST['fiat_market_standalone'] : $_COOKIE['fiat_market_standalone'] )?>' />
 			
 	<p><input type='submit' value='Save Updated Assets' /></p>
 	

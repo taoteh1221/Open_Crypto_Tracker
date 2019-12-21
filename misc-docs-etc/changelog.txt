@@ -2011,6 +2011,12 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.03.0:
 
+-Code cleanup / optimization
+
+-Additional configuration scanning / error logging
+
+-Stand-Alone Mode for the Fiat Currency Market setting, on the "Settings" page
+
 -Moved spot price / volume charts to a sub-directory within the charts directory, for future chart scalability
 
 IMPORTANT NOTE: v4.00.0 and higher of this app REQUIRES DELETING YOUR PREVIOUS CHART DATA FROM ANY EARLIER VERSIONS.

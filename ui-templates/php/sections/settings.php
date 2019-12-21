@@ -103,62 +103,72 @@
 
 					<select onchange='
 					
-				    $("#btc_market_id_lists").children().hide(); 
-				    $("#" + this.value + "btcfiat_pairs").show(); 
-				    $("#btc_market_id").val( $("#" + this.value + "btcfiat_pairs option:selected").val() );
+					 fiat_currency = this.value;
+					 fiat_market = $("#" + fiat_currency + "btcfiat_pairs").val();
+					 fiat_selected_market = $("#" + fiat_currency + "BTC_pairs option:selected").val();
+					 fiat_selected_market_standalone = $("#" + fiat_currency + "btcfiat_pairs option:selected").val();
+					
+				    $("#fiat_pairing_currency").val( fiat_currency );
 				    
-				    $("#btc_pairing_name").val( this.value );
+				    $("#fiat_market_id_lists").children().hide(); 
+				    $("#" + fiat_currency + "btcfiat_pairs").show(); 
+				    $("#fiat_market_id").val( fiat_selected_market_standalone );
 				    
 				    /////////////////////////////////////////////////////////
 				    
 				    // "Update assets" tab, mirroring of settings
+				    if ( document.getElementById("standalone_fiat_enabled").checked == false ) {
+				    
+				    $("#btc_pairing").val( fiat_currency );
 				    
 				    $("#btc_market_lists").children().hide(); 
-				    $("#" + this.value + "BTC_pairs").show(); 
-				    $("#btc_market").val( $("#" + this.value + "BTC_pairs option:selected").val() );
+				    $("#" + fiat_currency + "BTC_pairs").show(); 
+				    $("#btc_market").val( fiat_selected_market );
 				    
-				    $("#btc_pairing").val( this.value );
+				    $("#btc_market").val( fiat_market ); // Set hidden field var
+				    $("#" + fiat_currency + "BTC_pairs").val( fiat_market ); // Set selected drop down choice
+				    
+				    }
+				    else {
+				    $("#fiat_market_standalone").val( fiat_currency + "|" + fiat_market );
+				    }
 				    
 				    '>
 					
 					<?php
+					
+					$exchange_field_id = btc_market($btc_exchange);
+					
 					foreach (  $coins_list['BTC']['market_pairing'] as $pairing_key => $pairing_id ) {
-					 $loop = $loop + 1;
-					 	
-					 	// Get first pairing key for further down in the logic, if no $btc_fiat_pairing value was set
-					 	if ( $loop == 1 ) {
-					 	$selected_pairing = ( $btc_fiat_pairing ? $btc_fiat_pairing : $pairing_key );
-					 	}
-						
 					?>
 					<option value='<?=$pairing_key?>' <?=( isset($btc_fiat_pairing) && $btc_fiat_pairing == $pairing_key ? ' selected ' : '' )?>> <?=strtoupper(preg_replace("/_/i", " ", $pairing_key))?> </option>
 					<?php
 					
+									
 									foreach ( $coins_list['BTC']['market_pairing'][$pairing_key] as $market_key => $market_id ) {
 									$loop2 = $loop2 + 1;
 									
-										if ( $selected_pairing == $pairing_key && $market_key == $btc_exchange ) {
-										$exhange_field_id = $loop2;
-										}
-									
-									$btc_market_list[$pairing_key] .= "\n<option value='".$loop2."'" . ( $exhange_field_id == $loop2 ? ' selected ' : '' ) . ">" . name_rendering($market_key) . " </option>\n";
+									$btc_market_list[$pairing_key] .= "\n<option value='".$loop2."'" . ( $exchange_field_id == $loop2 ? ' selected ' : '' ) . ">" . name_rendering($market_key) . " </option>\n";
 									}
 									$loop2 = NULL;
 							
-							
 					}
-					$loop = NULL;
 					?>
 				    </select> 
 				    
 				    
-				     @ <input type='hidden' id='btc_pairing_name' name='btc_pairing_name' value='<?=$selected_pairing?>' />
-				    <!-- FOR FUTURE FEATURE OF A CHECKBOX OPTION TO DECOUPLE DEFAULT CURRENCY/MARKET FROM "UPDATE ASSETS" TAB'S SETTINGS -->
-				    <input type='hidden' id='btc_market_id' name='btc_market_id' value='<?=$exhange_field_id?>' />
+				     @ 
+				    
+				    <input type='hidden' id='fiat_pairing_currency' name='fiat_pairing_currency' value='<?=$btc_fiat_pairing?>' />
+				     
+				    <input type='hidden' id='fiat_market_id' name='fiat_market_id' value='<?=$exchange_field_id?>' />
 				     
 				     
-				     <span id='btc_market_id_lists' style='display: inline;'>
-				     <!-- Selected (or first if none selected) pairing: <?=$selected_pairing?> -->
+				     <span id='fiat_market_id_lists' style='display: inline;'>
+				     <!-- Selected (or first if none selected) pairing: <?=$btc_fiat_pairing?> -->
+				     <!-- fiat_market_standalone[1]: <?=$fiat_market_standalone[1]?> -->
+				     <!-- fiat_market_standalone[0]: <?=$fiat_market_standalone[0]?> -->
+				     <!-- btc_exchange: <?=$btc_exchange?> -->
 				    <?php
 				    
 				    foreach ( $btc_market_list as $key => $value ) {
@@ -166,16 +176,23 @@
 				    
 				    <select onchange ='
 				    
-				    $("#btc_market_id").val( this.value );
+				    fiat_currency = $("#fiat_pairing_currency").val();
+					 fiat_market = this.value;
+					 
+				    $("#fiat_market_id").val( fiat_market );
 				    
 				    /////////////////////////////////////////////////////////
 				    
 				    // "Update assets" tab, mirroring of settings
+				    if ( document.getElementById("standalone_fiat_enabled").checked == false ) {
+				    $("#btc_market").val( fiat_market ); // Set hidden field var
+				    $("#" + fiat_currency + "BTC_pairs").val( fiat_market ); // Set selected drop down choice
+				    }
+				    else {
+				    $("#fiat_market_standalone").val( fiat_currency + "|" + fiat_market );
+				    }
 				    
-				    $("#btc_market").val( this.value ); // Set hidden field var
-				    $("#" + $("#btc_pairing_name").val() + "BTC_pairs").val( this.value ); // Set selected drop down choice
-				    
-				    ' id='<?=$key?>btcfiat_pairs' style='display: <?=( $selected_pairing == $key ? 'inline' : 'none' )?>;'><?=$btc_market_list[$key]?>
+				    ' id='<?=$key?>btcfiat_pairs' style='display: <?=( $btc_fiat_pairing == $key ? 'inline' : 'none' )?>;'><?=$btc_market_list[$key]?>
 				    
 				    </select>
 				    
@@ -184,8 +201,66 @@
 				    $btc_market_list = NULL;
 				    ?>
 				    
-				    </span> (determines per-token / portfolio fiat values)
-
+				    </span> <img id='fiat_info' src='ui-templates/media/images/info.png' alt='' width='30' border='0' style='position: relative; left: -5px;' /> <input type='checkbox' id='standalone_fiat_enabled' name='standalone_fiat_enabled' value='1' onchange='
+				    
+				    fiat_currency = $("#fiat_pairing_currency").val();
+				    fiat_market = $("#fiat_market_id").val();
+				    
+				    /////////////////////////////////////////////////////////
+				    
+				    // "Update assets" tab, mirroring of settings
+				    if ( this.checked == false ) {
+				    
+				    $("#btc_market_lists").children().hide(); 
+				    $("#" + fiat_currency + "BTC_pairs").show(); 
+				    $("#btc_market").val( $("#" + fiat_currency + "BTC_pairs option:selected").val() );
+				    
+				    $("#btc_pairing").val( fiat_currency );
+				    	
+				    $("#btc_market").val( fiat_market ); // Set hidden field var
+				    $("#" + fiat_currency + "BTC_pairs").val( fiat_market ); // Set selected drop down choice
+				    
+				    $("#fiat_market_standalone").val("");
+				    
+				    }
+				    else {
+				    $("#fiat_market_standalone").val( fiat_currency + "|" + fiat_market );
+				    }
+				    
+				    
+				    ' <?=( sizeof($fiat_market_standalone) == 2 ? 'checked' : '' )?> /> Stand-Alone Mode (<i>WON'T automatically change</i> Bitcoin market on "Update Assets" page)
+ <script>
+	
+			var fiat_content = '<h5 align="center" class="yellow" style="position: relative; white-space: nowrap;">Fiat Currency Market Setting:</h5>'
+			
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">The Fiat Currency Market setting allows you to change your default fiat currency for the portfolio interface (the charts / price alerts fiat currency market <i>must be changed separately in config.php</i>).</p>'
+			
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Additionally, if you check off "Stand-Alone Mode", your chosen Bitcoin market on the "Update Assets" page <i>will NOT be automatically changed to match your chosen Fiat Currency Market on the "Settings" page</i>. This is useful if you\'d like to browse through different Bitcoin markets, BUT don\'t want your default fiat curreny to change in the app.</p>'
+			
+			+'<p class="coin_info"><span class="yellow"> </span></p>';
+		
+		
+			$('#fiat_info').balloon({
+			html: true,
+			position: "right",
+			contents: fiat_content,
+			css: {
+					fontSize: ".8rem",
+					minWidth: ".8rem",
+					padding: ".3rem .7rem",
+					border: "1px solid rgba(212, 212, 212, .4)",
+					borderRadius: "6px",
+					boxShadow: "3px 3px 6px #555",
+					color: "#eee",
+					backgroundColor: "#111",
+					opacity: "0.95",
+					zIndex: "32767",
+					textAlign: "left"
+					}
+			});
+		
+		 </script>
+		 
 
 
 			    </p>

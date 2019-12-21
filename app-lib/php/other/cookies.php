@@ -104,32 +104,6 @@ elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $run_csv_i
   
    }
   
- 
- 
- 	// UI settings only (not included in any portfolio importing)
-   // Cookies expire in 1 year (31536000 seconds)
-   if ( $_POST['theme_selected'] != NULL ) {
-   store_cookie_contents("theme_selected", $_POST['theme_selected'], mktime()+31536000);
-   }
-  
-   if ( $_POST['sort_by'] != NULL ) {
-   store_cookie_contents("sort_by", $_POST['sort_by'], mktime()+31536000);
-   }
-   else {
-   store_cookie_contents("sort_by", "", time()-3600);  // Delete any existing cookie
-   unset($_COOKIE['sort_by']);  // Delete any existing cookie
-   }
-  
-   if ( $_POST['use_alert_percent'] != NULL ) {
-   store_cookie_contents("alert_percent", $_POST['use_alert_percent'], mktime()+31536000);
-   }
-   else {
-   store_cookie_contents("alert_percent", "", time()-3600);  // Delete any existing cookie
-   unset($_COOKIE['alert_percent']);  // Delete any existing cookie
-   }
-  
-  
-  
   
   }
   // File import form POST data
@@ -166,7 +140,7 @@ elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $run_csv_i
 
 // Store all cookies and redirect to app URL, to clear any POST data from any future page refreshing
 $set_coin_values = ( $set_coin_values != NULL ? $set_coin_values : ' ' ); // Initialized with some whitespace when blank
-store_all_cookies($set_coin_values, $set_pairing_values, $set_market_values, $set_paid_values, $set_leverage_values, $set_margintype_values);
+update_cookies($set_coin_values, $set_pairing_values, $set_market_values, $set_paid_values, $set_leverage_values, $set_margintype_values);
 header("Location: " . start_page($_GET['start_page'])); // Preserve any start page data
 exit;
  	

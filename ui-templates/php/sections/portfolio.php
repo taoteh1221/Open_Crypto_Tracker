@@ -385,20 +385,6 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 <?php
 
 
-	// Get exchange name
-	$coins_list_numbered = array_values($coins_list['BTC']['market_pairing'][$btc_fiat_pairing]);
-	foreach ( $coins_list['BTC']['market_pairing'][$btc_fiat_pairing] as $key => $value ) {
-	$loop = $loop + 1;
-	
-		if ( ($loop - 1) == $btc_market ) {
-		$show_exchange = $key;
-		}
-
-	}
-	$loop = NULL;
-	
-
-
 // Get portfolio summaries
 
 
@@ -615,7 +601,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 		<?php
 		}
 	
-	echo '<div class="portfolio_summary"><span class="black">(Bitcoin is trading @ ' . $fiat_currencies[$btc_fiat_pairing] . number_format( $btc_fiat_value, 2, '.', ',') . ' on ' . name_rendering($show_exchange) . ')</span></div>';
+	echo '<div class="portfolio_summary"><span class="black">(Bitcoin is trading @ ' . $fiat_currencies[$btc_fiat_pairing] . number_format( $btc_fiat_value, 2, '.', ',') . ' on ' . name_rendering( $btc_exchange ) . ')</span></div>';
 
 			
 		if ( $short_added == 1 ) {
