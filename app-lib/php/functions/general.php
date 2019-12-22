@@ -221,6 +221,24 @@ session_regenerate_id(true);
 ////////////////////////////////////////////////////////
 
 
+function convert_bytes($bytes, $round) {
+
+$type = array("", "Kilo", "Mega", "Giga", "Tera", "Peta", "Exa", "Zetta", "Yotta");
+
+  $index = 0;
+  while( $bytes >= 1024 ) {
+  $bytes/=1024;
+  $index++;
+  }
+  
+return("".round($bytes, $round)." ".$type[$index]."bytes");
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
 function delete_old_files($dir, $days, $ext) {
 	
 $files = glob($dir."*.".$ext);
@@ -1630,6 +1648,7 @@ global $base_dir, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $
 
 function system_info() {
 
+global $base_dir;
 
 	// Server stats
 	if ( is_readable('/proc/stat') ) {
@@ -1704,6 +1723,9 @@ function system_info() {
  	$temp_info = @file_get_contents('/sys/class/thermal/thermal_zone2/temp');
  	$system['temp_info'] = round($temp_info/1000);
 	}
+	
+	
+$system['free_disk_space'] = convert_bytes( disk_free_space($base_dir) , 4);
 
 
 return $system;
