@@ -2030,6 +2030,19 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 
 
+-------------------------------------------------------------------
+4.03.0:
+
+-Re-organized chart directory structure (again) for cached time period data sets (1 month / 3 month / 6 month / etc, for quicker chart loading)
+
+IMPORTANT NOTE: v4.00.0 and higher of this app REQUIRES DELETING YOUR PREVIOUS CHART DATA FROM ANY EARLIER VERSIONS.
+MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWARDS-COMPATIBLE.
+
+-------------------------------------------------------------------
+
+
+
+
 
 
 

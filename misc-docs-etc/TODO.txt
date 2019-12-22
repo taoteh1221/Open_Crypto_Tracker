@@ -5,7 +5,16 @@ TODO
 ///////////////////////////////////////////////////////
 
 
-Look into controlling the primary fiat currency ONLY ON THE SETTINGS PAGE, NOT BASED OFF THE BITCOIN PAIRING CHOICE. It may be a better UX.
+Add Google and Microsoft translate API as options to translate the portfolio interface and price alerts.
+
+
+For scalable chart data, maybe run once daily during cron runtimes creating 1 hour (or greater) time interval chart data stores, using timestamp info in the default chart data store. Then use those for the initial chart loads if the chart data is more than 3 months worth (or whatever time period).
+
+
+Create chart interval function that divides the desired chart timeline period by the number of maximum data points the chart should ever load, to get the data point time interval, then caches the corresponding timestamped data point intervals into an updated chart for that time period every 24 hours. So we'd have like 6 / 12 / 18 month charts (as examples).
+
+
+See if exchange API data arrays can be manipulated slightly to build a reusable module for every exchange's API calls.
 
 
 Buy a google home mini cheap on ebay, and develop price alerts compatibility for it.

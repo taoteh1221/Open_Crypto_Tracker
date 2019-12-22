@@ -962,11 +962,11 @@ $cached_array = explode("||", $data_file);
 		
 	// DEFAULT FIAT CONFIG charts (CRYPTO/DEFAULT FIAT CONFIG markets, 
 	// AND ALSO crypto-to-crypto pairings converted to DEFAULT FIAT CONFIG equiv value for DEFAULT FIAT CONFIG equiv charts)
-	store_file_contents($base_dir . '/cache/charts/spot_price_and_24hr_volume/'.$asset.'/'.$asset_data.'_chart_'.strtolower($charts_alerts_btc_fiat_pairing).'.dat', time() . '||' . $asset_fiat_value_raw . '||' . $volume_fiat_raw . "\n", "append"); 
+	store_file_contents($base_dir . '/cache/charts/spot_price_24hr_volume/archival/'.$asset.'/'.$asset_data.'_chart_'.strtolower($charts_alerts_btc_fiat_pairing).'.dat', time() . '||' . $asset_fiat_value_raw . '||' . $volume_fiat_raw . "\n", "append"); 
 		
 		// Crypto / secondary fiat pairing charts, volume as pairing (for UX)
 		if ( $pairing != strtolower($charts_alerts_btc_fiat_pairing) ) {
-		store_file_contents($base_dir . '/cache/charts/spot_price_and_24hr_volume/'.$asset.'/'.$asset_data.'_chart_'.$pairing.'.dat', time() . '||' . $asset_pairing_value_raw . '||' . $volume_pairing_raw . "\n", "append");
+		store_file_contents($base_dir . '/cache/charts/spot_price_24hr_volume/archival/'.$asset.'/'.$asset_data.'_chart_'.$pairing.'.dat', time() . '||' . $asset_pairing_value_raw . '||' . $volume_pairing_raw . "\n", "append");
 		}
 			
 		

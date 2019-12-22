@@ -8,7 +8,7 @@ error_reporting(0); // Turn off all PHP error reporting on production servers (0
 
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
 
-$app_version = '4.02.1';  // 2019/DECEMBER/21ST
+$app_version = '4.03.0';  // 2019/DECEMBER/22ND
 
 
 require_once("app-lib/php/loader.php");
@@ -97,7 +97,16 @@ if ( dir_structure($base_dir . '/cache/alerts/') != TRUE
 || dir_structure($base_dir . '/cache/apis/') != TRUE
 || dir_structure($base_dir . '/cache/events/') != TRUE
 || dir_structure($base_dir . '/cache/logs/') != TRUE
-|| dir_structure($base_dir . '/cache/charts/spot_price_and_24hr_volume/') != TRUE
+|| dir_structure($base_dir . '/cache/charts/spot_price_24hr_volume/archival/') != TRUE
+|| dir_structure($base_dir . '/cache/charts/spot_price_24hr_volume/lite/1_day/') != TRUE
+|| dir_structure($base_dir . '/cache/charts/spot_price_24hr_volume/lite/1_week/') != TRUE
+|| dir_structure($base_dir . '/cache/charts/spot_price_24hr_volume/lite/1_month/') != TRUE
+|| dir_structure($base_dir . '/cache/charts/spot_price_24hr_volume/lite/3_months/') != TRUE
+|| dir_structure($base_dir . '/cache/charts/spot_price_24hr_volume/lite/6_months/') != TRUE
+|| dir_structure($base_dir . '/cache/charts/spot_price_24hr_volume/lite/1_year/') != TRUE
+|| dir_structure($base_dir . '/cache/charts/spot_price_24hr_volume/lite/2_years/') != TRUE
+|| dir_structure($base_dir . '/cache/charts/spot_price_24hr_volume/lite/4_years/') != TRUE
+|| dir_structure($base_dir . '/cache/charts/spot_price_24hr_volume/lite/all/') != TRUE
 || dir_structure($base_dir . '/cache/vars/') != TRUE
 || dir_structure($base_dir . '/cache/queue/messages/') != TRUE ) {
 echo "Cannot create cache sub-directories. Please make sure the folder '/cache/' has FULL read / write permissions (chmod 777 on unix / linux systems), so the cache sub-directories can be created automatically.";

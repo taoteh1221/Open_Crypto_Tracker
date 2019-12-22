@@ -212,7 +212,7 @@ foreach ( $asset_charts_and_alerts as $key => $value ) {
 	
 	if ( $asset_cache_params[2] == 'chart' || $asset_cache_params[2] == 'both' ) {
 	
-		if ( dir_structure($base_dir . '/cache/charts/spot_price_and_24hr_volume/'.$asset_dir.'/') != TRUE ) { // Attempt to create directory if it doesn't exist
+		if ( dir_structure($base_dir . '/cache/charts/spot_price_24hr_volume/archival/'.$asset_dir.'/') != TRUE ) { // Attempt to create directory if it doesn't exist
 		$disabled_caching = 1;
 		}
 	
@@ -221,7 +221,7 @@ foreach ( $asset_charts_and_alerts as $key => $value ) {
 }
 
 if ( $disabled_caching == 1 ) {
-echo "Improper directory permissions on the '/cache/charts/spot_price_and_24hr_volume/' directory, cannot create asset sub-directories. Make sure the folder '/cache/charts/spot_price_and_24hr_volume/' itself has read / write permissions (and these sub-directories should be created automatically)";
+echo "Improper directory permissions on the '/cache/charts/spot_price_24hr_volume/archival/' directory, cannot create asset sub-directories. Make sure the folder '/cache/charts/spot_price_24hr_volume/archival/' itself has read / write permissions (and these sub-directories should be created automatically)";
 exit;
 }
 
@@ -277,7 +277,7 @@ if ( $charts_page == 'on' && update_cache_file('cache/vars/chart_interval.dat', 
 		$find_first_chart = explode("||", $value);
 
 			if ( $find_first_chart[2] == 'both' || $find_first_chart[2] == 'chart' ) {
-			$find_first_filename = 'cache/charts/spot_price_and_24hr_volume/'.$find_first_asset.'/'.$key.'_chart_'.$find_first_chart[1].'.dat';
+			$find_first_filename = 'cache/charts/spot_price_24hr_volume/archival/'.$find_first_asset.'/'.$key.'_chart_'.$find_first_chart[1].'.dat';
 			}
 
 		}
