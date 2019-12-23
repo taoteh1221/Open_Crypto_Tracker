@@ -61,7 +61,7 @@
 		
 		
 			// If this is running on a Raspberry Pi, display the load times / temperature
-    		if ( preg_match("/raspberry/i", $system_info['hardware']) ) {
+    		if ( preg_match("/raspberry/i", $system_info['model']) ) {
     		$raspi_load = preg_replace("/ \(1 min avg\)(.*)/i", "", $system_info['system_load']);
     		$raspi_temp = preg_replace("/° Celsius/i", "", $system_info['system_temp']);
     		echo '<p align="center" class="'.( $raspi_load <= 1.00 ? 'green' : 'red' ).'"> System Load is '.$system_info['system_load'].'. </p>';
@@ -85,6 +85,9 @@
 			
 		// Log system stats
 		app_logging('other_debugging', 'Stats for hardware / software', $system_telemetry);
+			
+		// Log user agent
+		app_logging('other_debugging', 'User agent', 'user_agent: "' . $_SERVER['HTTP_USER_AGENT'] . '"' );
 			
 		// Log runtime stats
 		app_logging('other_debugging', 'Stats for '.$runtime_mode.' runtime', $runtime_mode.'_runtime: runtime lasted ' . $total_runtime . ' seconds');

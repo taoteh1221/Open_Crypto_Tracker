@@ -1760,15 +1760,15 @@ $system['operating_system'] = PHP_OS;
 	$cpu['cpu_info'] = $cpu_info_array;
 	
 		if ( $cpu['cpu_info']['model_name'] ) {
-		$system['hardware'] = $cpu['cpu_info']['model_name'];
+		$system['model_name'] = $cpu['cpu_info']['model_name'];
 		}
 		
 		if ( $cpu['cpu_info']['hardware'] ) {
-		$system['hardware'] = '(' . $cpu['cpu_info']['hardware'] . ') / ' . $system['hardware'];
+		$system['hardware'] = $cpu['cpu_info']['hardware'];
 		}
 		
 		if ( $cpu['cpu_info']['model'] ) {
-		$system['hardware'] = $cpu['cpu_info']['model'] . ' ' . $system['hardware'];
+		$system['model'] = $cpu['cpu_info']['model'];
 		}
 	
 	}
