@@ -452,7 +452,13 @@
 			var average_paid_notes = '<h5 align="center" class="yellow" style="position: relative; white-space: nowrap;">Calculating Average <?=strtoupper($btc_fiat_pairing)?> Price Paid Per Token</h5>'
 			
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Total <?=strtoupper($btc_fiat_pairing)?> Paid &#247; Total Tokens Purchased = Average <?=strtoupper($btc_fiat_pairing)?> Price Paid Per Token</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="green_bright">Total <?=strtoupper($btc_fiat_pairing)?> Paid For All Tokens</span> <span class="blue">&#247;</span> <span class="yellow">Total Tokens Purchased</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($btc_fiat_pairing)?> Price Paid Per Token</span></p>'
+			
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">The RESULT of the above calculation <i>remains the same even AFTER you sell ANY amount, ONLY if you don\'t buy more between sells</i>. Everytime you buy more <i>after selling some</i>, re-calculate your Average <?=strtoupper($btc_fiat_pairing)?> Price Paid Per Token with this formula:</p>'
+			
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="green_bright">Total <?=strtoupper($btc_fiat_pairing)?> Paid For All Tokens</span> <span class="blue">-</span> <span class="red_bright">Total <?=strtoupper($btc_fiat_pairing)?> Received From All Sold Tokens</span> <span class="blue">&#247;</span> <span class="yellow">Total Remaining Tokens Still Held</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($btc_fiat_pairing)?> Price Paid Per Token</span></p>'
+			
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="yellow">PRO TIP:</span> When buying / selling, keep quick and dirty (yet clear) textual records of... <br />a) How much you bought of what<br />b) What you paid in <?=strtoupper($btc_fiat_pairing)?> value<br />c) Where you traded what <br />d) Backup to USB Stick / NAS / DropBox / GoogleDrive / OneDrive / AmazonBucket <br />e) Now you\'re ready for tax season, to create spreadsheets from this data</p>'
 			
 			+'<p class="coin_info"><span class="yellow"> </span></p>';
 		
@@ -539,7 +545,7 @@
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">To see your margin leverage stats after updating your portfolio, go to the bottom of the Portfolio page, where you\'ll find a stats section. Hovering over the "I" icon next to those summary stats will display additional stats per-asset. There is also an "I" icon in the far right table column (Subtotal) per-asset, which you can hover over for margin leverage stats too.</p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">*Current maximum margin leverage setting of <?=$margin_leverage_max?>x can be adjusted in config.php.</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="yellow">*Current maximum margin leverage setting of <?=$margin_leverage_max?>x can be adjusted in config.php.</span></p>'
 			
 			+'<p class="coin_info"><span class="yellow"> </span></p>';
 		

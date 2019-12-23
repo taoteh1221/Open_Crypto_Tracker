@@ -502,7 +502,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 				}
 			 ?>
 				
-			+'<p class="coin_info balloon_notation">*<?=( $leverage_added == 1 ? 'Leverage / ' : '' )?>Gain / Loss stats only include assets where you have set the<br />"Average Paid (per-token)" value on the Update Assets page.</p>';
+			+'<p class="coin_info balloon_notation"><span class="yellow">*<?=( $leverage_added == 1 ? 'Leverage / ' : '' )?>Gain / Loss stats only include assets where you have set the<br />"Average Paid (per-token)" value on the Update Assets page.</span></p>';
 		
 		
 			$('#portfolio_gain_loss').balloon({
@@ -574,7 +574,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 				}
 			 ?>
 				
-			+'<p class="coin_info balloon_notation"><?=( $leverage_added == 1 ? '*Does <u>not</u> adjust for any type of leverage' : '' )?><?=(  $short_added == 1 ? ', or short deposit(s) gain / loss' : '' )?><?=( $leverage_added == 1 ? '.' : '' )?></p>';
+			+'<p class="coin_info balloon_notation"><span class="yellow"><?=( $leverage_added == 1 ? '*Does <u>not</u> adjust for any type of leverage' : '' )?><?=(  $short_added == 1 ? ', or short deposit(s) gain / loss' : '' )?><?=( $leverage_added == 1 ? '.' : '' )?></span></p>';
 		
 		
 			$('#portfolio_dominance').balloon({
