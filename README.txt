@@ -37,7 +37,7 @@ For additional documentation, see HELP-FAQ.txt.
 
 FEATURES
 
--Automated and user-friendly installation / upgrade script for Raspberry Pi (an affordable low power single board computer) setup on your home / internal network.
+-Automated and user-friendly installation / upgrade script for Raspberry Pi (an affordable low power single board computer) app setup on your home / internal network (and in-app system stats for Raspberry Pi devices, like system load averages / temperature / free disk space).
 
 -Cryptocurrency portfolio subtotal summaries, and total portfolio worth (in crypto and your local fiat currency), including value gain / loss data (with tracking support for long / short margin leverages), portfolio balance data, and marketcap data.
 
@@ -65,7 +65,7 @@ FEATURES
 
 -Configuration checking, alerting, logging, and auto-correcting (where possible).
 
--Detailed error logging and debugging for in-app functions / configuration settings / networking features, to assist with troubleshooting, installation, and configuration of the app.
+-Detailed error logging and debugging for in-app functions / configuration settings / networking features, to assist with troubleshooting, installation, and configuration of the app (includes system hardware / software stats).
 
 -Chart data backup archives and app error / debugging logs sent to your email.
 
