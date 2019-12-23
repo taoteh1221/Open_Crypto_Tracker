@@ -143,17 +143,20 @@ $mobile_networks = $cleaned_mobile_networks;
 
 
 // MUST be called FIRST at runtime by the default bitcoin market, to set this var for reuse later in runtime
-$btc_fiat_value = asset_market_data('BTC', $btc_exchange, $coins_list['BTC']['market_pairing'][$btc_fiat_pairing][$btc_exchange])['last_trade'];
-$charts_alerts_btc_fiat_value = asset_market_data('BTC', $charts_alerts_btc_exchange, $coins_list['BTC']['market_pairing'][$charts_alerts_btc_fiat_pairing][$charts_alerts_btc_exchange])['last_trade'];
+$selected_pairing_id = $coins_list['BTC']['market_pairing'][$btc_fiat_pairing][$btc_exchange];
+$btc_fiat_value = asset_market_data('BTC', $btc_exchange, $selected_pairing_id)['last_trade'];
+
+$charts_alerts_selected_pairing_id = $coins_list['BTC']['market_pairing'][$charts_alerts_btc_fiat_pairing][$charts_alerts_btc_exchange];
+$charts_alerts_btc_fiat_value = asset_market_data('BTC', $charts_alerts_btc_exchange, $charts_alerts_selected_pairing_id)['last_trade'];
 
 // Log any Bitcoin market errors
 if ( !isset($btc_fiat_value) || $btc_fiat_value == 0 ) {
-app_logging('other_error', 'Bitcoin fiat value not properly set', 'pairing: ' . $btc_fiat_pairing . '; exchange: ' . $btc_exchange . '; value: ' . $btc_fiat_value );
+app_logging('other_error', 'Bitcoin fiat value not properly set', 'pairing: ' . $btc_fiat_pairing . '; exchange: ' . $btc_exchange . '; pairing_id: ' . $selected_pairing_id . '; value: ' . $btc_fiat_value );
 }
 
 // Log any charts/alerts Bitcoin market errors
 if ( !isset($charts_alerts_btc_fiat_value) || $charts_alerts_btc_fiat_value == 0 ) {
-app_logging('other_error', 'Charts / alerts Bitcoin fiat value not properly set', 'pairing: ' . $charts_alerts_btc_fiat_pairing . '; exchange: ' . $charts_alerts_btc_exchange . '; value: ' . $charts_alerts_btc_fiat_value );
+app_logging('other_error', 'Charts / alerts Bitcoin fiat value not properly set', 'pairing: ' . $charts_alerts_btc_fiat_pairing . '; exchange: ' . $charts_alerts_btc_exchange . '; pairing_id: ' . $charts_alerts_selected_pairing_id . '; value: ' . $charts_alerts_btc_fiat_value );
 }
 	
 
