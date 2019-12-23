@@ -294,10 +294,9 @@ $asset_charts_and_alerts = array(
 					'atom-4' => 'binance||tusd||chart',
 					'atom-5' => 'binance||usdc||chart',
 					'atom-6' => 'bittrex_global||btc||chart',
-					'atom-7' => 'bittrex_global||eth||chart',
-					'atom-8' => 'bittrex_global||usdt||chart',
-					'atom-9' => 'okex||btc||chart',
-					'atom-10' => 'okex||eth||chart',
+					'atom-7' => 'bittrex_global||usdt||chart',
+					'atom-8' => 'okex||btc||chart',
+					'atom-9' => 'okex||eth||chart',
 					
 					// STEEM
 					'steem' => 'bittrex||btc||chart',
@@ -1071,7 +1070,6 @@ $coins_list = array(
                                                     
                                     'eth' => array(
                                          'kraken' => 'ATOMETH',
-                                         'bittrex_global' => 'ETH-ATOM',
                                          'okex' => 'ATOM-ETH',
                                          'hotbit' => 'ATOM_ETH',
                                          'bitforex' => 'coin-eth-atom'
