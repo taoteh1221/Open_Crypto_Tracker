@@ -80,10 +80,22 @@ $time = explode(' ', $time);
 $time = $time[1] + $time[0];
 $total_runtime = round( ($time - $start_runtime) , 3);
 
+
+// If debug mode is on
 if ( $debug_mode == 'all' || $debug_mode == 'telemetry' || $debug_mode == 'stats' ) {
+		
+	foreach ( $system_info as $key => $value ) {
+	$system_telemetry .= $key . ': ' . $value . '; ';
+	}
+			
+// Log system stats
+app_logging('other_debugging', 'Stats for hardware / software', $system_telemetry);
+			
 // Log runtime stats
 app_logging('other_debugging', 'Stats for '.$runtime_mode.' runtime', $runtime_mode.'_runtime: runtime lasted ' . $total_runtime . ' seconds');
+
 }
+
 
 // Process debugging logs / destroy session data AFTER runtime stats
 debugging_logs();

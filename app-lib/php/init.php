@@ -32,11 +32,16 @@ if ( !$runtime_mode )  {
 echo 'No runtime mode set, exiting.';
 exit;
 }
-
+    	
 
 
 // Register the base directory
 $base_dir = preg_replace("/\/app-lib(.*)/i", "", dirname(__FILE__) );
+
+
+
+// Get system info for debugging / Raspberry Pi system load and temperature
+$system_info = system_info(); // MUST RUN AFTER SETTING $base_dir!
 
 
 

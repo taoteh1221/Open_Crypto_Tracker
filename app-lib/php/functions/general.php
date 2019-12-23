@@ -1648,7 +1648,56 @@ global $base_dir, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $
 
 function system_info() {
 
-global $base_dir;
+global $app_version, $base_dir;
+
+	
+	
+	// System loads
+	$loop = 1;
+	foreach ( sys_getloadavg() as $load ) {
+		
+		if ( $loop == 1 ) {
+		$time = 1;
+		}
+		elseif ( $loop == 2 ) {
+		$time = 5;
+		}
+		elseif ( $loop == 3 ) {
+		$time = 15;
+		}
+		
+	$system['system_load'] .= $load . ' (' . $time . ' min avg) ';
+	$loop = $loop + 1;
+	}
+	$system['system_load'] = trim($system['system_load']);
+	
+
+
+	// Temperature stats
+	if ( is_readable('/sys/class/thermal/thermal_zone0/temp') ) {
+ 	$temp_info = @file_get_contents('/sys/class/thermal/thermal_zone0/temp');
+ 	$system['system_temp'] = round($temp_info/1000) . '° Celsius';
+	}
+	elseif ( is_readable('/sys/class/thermal/thermal_zone1/temp') ) {
+ 	$temp_info = @file_get_contents('/sys/class/thermal/thermal_zone1/temp');
+ 	$system['system_temp'] = round($temp_info/1000) . '° Celsius';
+	}
+	elseif ( is_readable('/sys/class/thermal/thermal_zone2/temp') ) {
+ 	$temp_info = @file_get_contents('/sys/class/thermal/thermal_zone2/temp');
+ 	$system['system_temp'] = round($temp_info/1000) . '° Celsius';
+	}
+	
+
+
+// Free pace on this partition
+$system['free_partition_space'] = convert_bytes( disk_free_space($base_dir) , 4);
+	
+
+
+// OS
+$system['operating_system'] = PHP_OS;
+
+
 
 	// Server stats
 	if ( is_readable('/proc/stat') ) {
@@ -1677,8 +1726,10 @@ global $base_dir;
 		
 		}
 	
-	$system['server_info'] = $server_info_array;
+	$server['server_info'] = $server_info_array;
+	
 	}
+	
 	
 	
 	// CPU stats
@@ -1706,26 +1757,27 @@ global $base_dir;
 		
 		}
 	
-	$system['cpu_info'] = $cpu_info_array;
-	}
+	$cpu['cpu_info'] = $cpu_info_array;
 	
+		if ( $cpu['cpu_info']['model_name'] ) {
+		$system['hardware'] = $cpu['cpu_info']['model_name'];
+		}
+		
+		if ( $cpu['cpu_info']['hardware'] ) {
+		$system['hardware'] = '(' . $cpu['cpu_info']['hardware'] . ') / ' . $system['hardware'];
+		}
+		
+		if ( $cpu['cpu_info']['model'] ) {
+		$system['hardware'] = $cpu['cpu_info']['model'] . ' ' . $system['hardware'];
+		}
+	
+	}
 
-	// Temperature stats
-	if ( is_readable('/sys/class/thermal/thermal_zone0/temp') ) {
- 	$temp_info = @file_get_contents('/sys/class/thermal/thermal_zone0/temp');
- 	$system['temp_info'] = round($temp_info/1000);
-	}
-	elseif ( is_readable('/sys/class/thermal/thermal_zone1/temp') ) {
- 	$temp_info = @file_get_contents('/sys/class/thermal/thermal_zone1/temp');
- 	$system['temp_info'] = round($temp_info/1000);
-	}
-	elseif ( is_readable('/sys/class/thermal/thermal_zone2/temp') ) {
- 	$temp_info = @file_get_contents('/sys/class/thermal/thermal_zone2/temp');
- 	$system['temp_info'] = round($temp_info/1000);
-	}
-	
-	
-$system['free_disk_space'] = convert_bytes( disk_free_space($base_dir) , 4);
+
+
+// Software
+$system['software'] = 'DFD_Cryptocoin_Values/' . $app_version . ' - PHP/' . phpversion();
+
 
 
 return $system;
@@ -2325,9 +2377,15 @@ $cache_filename = preg_replace("/:/", "_", $cache_filename);
 		$cached_logs = 'runtime: ' . $runtime_mode . "; \n " . 'Proxy ' . $problem_proxy . ' checkup status = DATA REQUEST FAILED' . "; \n " . 'No connection established at test endpoint ' . $proxy_test_url . ';';
 
 		}
+		
+		
+		// Log to error logs
+		if ( $misconfigured == 1 ) {
+		app_logging('api_data_error', 'proxy '.$problem_proxy.' connection failed', $cached_logs);
+		}
+	
 
-
-		// Cache the logs
+		// Update alerts cache for this proxy (to prevent running alerts for this proxy too often)
 		store_file_contents($base_dir . '/cache/alerts/proxy-check-'.$cache_filename.'.dat', $cached_logs);
 			
       

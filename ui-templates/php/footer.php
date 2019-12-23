@@ -43,7 +43,8 @@
             	</div>
      
     <?php
-    
+    	
+    	// Proxy alerts (if setup by user, and any of them failed, test the failed proxies and log/alert if they seem offline)
 		if ( $proxy_alerts != 'none' ) {
 	
 			foreach ( $_SESSION['proxy_checkup'] as $problem_proxy ) {
@@ -59,24 +60,45 @@
 		send_notifications();
 		
 		
+			// If this is running on a Raspberry Pi, display the load times / temperature
+    		if ( preg_match("/raspberry/i", $system_info['hardware']) ) {
+    		$raspi_load = preg_replace("/ \(1 min avg\)(.*)/i", "", $system_info['system_load']);
+    		$raspi_temp = preg_replace("/° Celsius/i", "", $system_info['system_temp']);
+    		echo '<p align="center" class="'.( $raspi_load <= 1.00 ? 'green' : 'red' ).'"> System Load is '.$system_info['system_load'].'. </p>';
+    		echo '<p align="center" class="'.( $raspi_temp <= 79 ? 'green' : 'red' ).'"> Temperature is '.$system_info['system_temp'].'. </p>';
+    		}
+		
+		
 		// Calculate script runtime length
 		$time = microtime();
 		$time = explode(' ', $time);
 		$time = $time[1] + $time[0];
 		$total_runtime = round( ($time - $start_runtime) , 3);
 
+
+		// If debug mode is on
 		if ( $debug_mode == 'all' || $debug_mode == 'telemetry' || $debug_mode == 'stats' ) {
+		
+			foreach ( $system_info as $key => $value ) {
+			$system_telemetry .= $key . ': ' . $value . '; ';
+			}
+			
+		// Log system stats
+		app_logging('other_debugging', 'Stats for hardware / software', $system_telemetry);
+			
 		// Log runtime stats
 		app_logging('other_debugging', 'Stats for '.$runtime_mode.' runtime', $runtime_mode.'_runtime: runtime lasted ' . $total_runtime . ' seconds');
+		
 		}
+		
 		
 		// Process debugging logs / destroy session data AFTER runtime stats
 		debugging_logs();
 		hardy_session_clearing();
-		
+    		
+    		
     	echo '<p align="center" class="'.( $total_runtime <= 10 ? 'green' : 'red' ).'"> Page generated in '.$total_runtime.' seconds. </p>';
-    
-		// var_dump( system_info() ); // DEBUGGING ONLY
+    	
 		
     ?>
         
