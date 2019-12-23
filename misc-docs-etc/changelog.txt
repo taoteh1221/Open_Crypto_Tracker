@@ -2049,7 +2049,13 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.04.0:
 
+-Uptime stats in debug mode
+
+-Code cleanup / optimization
+
 -Better error logging for default Bitcoin market
+
+-Chart system data for Raspberry Pi devices (15 min load avg / temperature / free disk space)
 
 IMPORTANT NOTE: v4.00.0 and higher of this app REQUIRES DELETING YOUR PREVIOUS CHART DATA FROM ANY EARLIER VERSIONS.
 MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWARDS-COMPATIBLE.

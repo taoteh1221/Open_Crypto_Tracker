@@ -81,6 +81,27 @@ $time = $time[1] + $time[0];
 $total_runtime = round( ($time - $start_runtime) , 3);
 
 
+
+// If this is running on a Raspberry Pi, chart the 15 min load avg / temperature / free partition space
+if ( preg_match("/raspberry/i", $system_info['model']) ) {
+    			
+// Raspi system data
+$raspi_load = $system_info['system_load'];
+$raspi_load = preg_replace("/ \(15 min avg\)(.*)/i", "", $raspi_load);
+$raspi_load = preg_replace("/(.*)\(5 min avg\) /i", "", $raspi_load); // Use 15 minute average
+    		
+$raspi_temp = preg_replace("/° Celsius/i", "", $system_info['system_temp']);
+
+$raspi_free_space = preg_replace("/ (.*)/i", "", $system_info['free_partition_space']);
+    		
+// Store system data to chart 
+store_file_contents($base_dir . '/cache/charts/system/rasberry_pi.dat', time() . '||' . trim($raspi_load) . '||' . trim($raspi_temp) . '||' . trim($raspi_free_space) . "\n", "append");
+    		
+    		
+}
+
+		
+
 // If debug mode is on
 if ( $debug_mode == 'all' || $debug_mode == 'telemetry' || $debug_mode == 'stats' ) {
 		
@@ -92,7 +113,7 @@ if ( $debug_mode == 'all' || $debug_mode == 'telemetry' || $debug_mode == 'stats
 app_logging('other_debugging', 'Stats for hardware / software', $system_telemetry);
 			
 // Log runtime stats
-app_logging('other_debugging', 'Stats for '.$runtime_mode.' runtime', $runtime_mode.'_runtime: runtime lasted ' . $total_runtime . ' seconds');
+app_logging('other_debugging', 'Stats for '.$runtime_mode.' runtime', $runtime_mode.'_runtime: ' . $total_runtime . ' seconds');
 
 }
 

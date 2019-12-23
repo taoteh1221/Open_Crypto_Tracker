@@ -102,6 +102,7 @@ if ( dir_structure($base_dir . '/cache/alerts/') != TRUE
 || dir_structure($base_dir . '/cache/apis/') != TRUE
 || dir_structure($base_dir . '/cache/events/') != TRUE
 || dir_structure($base_dir . '/cache/logs/') != TRUE
+|| dir_structure($base_dir . '/cache/charts/system/') != TRUE
 || dir_structure($base_dir . '/cache/charts/spot_price_24hr_volume/archival/') != TRUE
 || dir_structure($base_dir . '/cache/charts/spot_price_24hr_volume/lite/1_day/') != TRUE
 || dir_structure($base_dir . '/cache/charts/spot_price_24hr_volume/lite/1_week/') != TRUE

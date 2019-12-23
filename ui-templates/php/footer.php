@@ -60,12 +60,21 @@
 		send_notifications();
 		
 		
-			// If this is running on a Raspberry Pi, display the load times / temperature
+			// If this is running on a Raspberry Pi, display the load avg / temperature / free partition space
     		if ( preg_match("/raspberry/i", $system_info['model']) ) {
-    		$raspi_load = preg_replace("/ \(1 min avg\)(.*)/i", "", $system_info['system_load']);
+    			
+    		// Raspi system data
+    		$raspi_load = $system_info['system_load'];
+    		$raspi_load = preg_replace("/ \(15 min avg\)(.*)/i", "", $raspi_load);
+    		$raspi_load = preg_replace("/(.*)\(5 min avg\) /i", "", $raspi_load); // Use 15 minute average
+    		
     		$raspi_temp = preg_replace("/° Celsius/i", "", $system_info['system_temp']);
-    		echo '<p align="center" class="'.( $raspi_load <= 1.00 ? 'green' : 'red' ).'"> System Load is '.$system_info['system_load'].'. </p>';
-    		echo '<p align="center" class="'.( $raspi_temp <= 79 ? 'green' : 'red' ).'"> Temperature is '.$system_info['system_temp'].'. </p>';
+    		
+    		// Footer output
+    		echo '<p align="center" class="'.( $raspi_load <= 1.00 ? 'green' : 'red' ).'"> System Load: '.$system_info['system_load'].'</p>';
+    		echo '<p align="center"> Free Space: '.$system_info['free_partition_space'].'</p>';
+    		echo '<p align="center" class="'.( $raspi_temp <= 79 ? 'green' : 'red' ).'"> Temperature: '.$system_info['system_temp'].'</p>';
+    		
     		}
 		
 		
@@ -100,7 +109,7 @@
 		hardy_session_clearing();
     		
     		
-    	echo '<p align="center" class="'.( $total_runtime <= 10 ? 'green' : 'red' ).'"> Page generated in '.$total_runtime.' seconds. </p>';
+    	echo '<p align="center" class="'.( $total_runtime <= 10 ? 'green' : 'red' ).'"> Runtime: '.$total_runtime.' seconds</p>';
     	
 		
     ?>

@@ -1653,6 +1653,7 @@ global $app_version, $base_dir;
 	
 	// Uptime stats
 	if ( is_readable('/proc/uptime') ) {
+		
  	$uptime_info = @file_get_contents('/proc/uptime');
  	
  	$num   = floatval($uptime_info);
@@ -1703,7 +1704,7 @@ global $app_version, $base_dir;
 	
 
 
-// Free pace on this partition
+// Free space on this partition
 $system['free_partition_space'] = convert_bytes( disk_free_space($base_dir) , 4);
 	
 
