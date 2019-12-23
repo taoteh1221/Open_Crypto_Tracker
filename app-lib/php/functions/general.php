@@ -1651,6 +1651,20 @@ function system_info() {
 global $app_version, $base_dir;
 
 	
+	// Uptime stats
+	if ( is_readable('/proc/uptime') ) {
+ 	$uptime_info = @file_get_contents('/proc/uptime');
+ 	
+ 	$num   = floatval($uptime_info);
+	$secs  = fmod($num, 60); $num = (int)($num / 60);
+	$mins  = $num % 60;      $num = (int)($num / 60);
+	$hours = $num % 24;      $num = (int)($num / 24);
+	$days  = $num;
+ 	
+ 	$system['uptime'] = $days . ' days, ' . $hours . ' hours, ' . $mins . ' minutes, and ' . round($secs) . ' seconds';
+ 	
+	}
+	
 	
 	// System loads
 	$loop = 1;
