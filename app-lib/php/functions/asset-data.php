@@ -549,7 +549,7 @@ function asset_charts_and_alerts($asset_data, $exchange, $pairing, $mode) {
 
 
 // Globals
-global $base_dir, $local_time_offset, $block_volume_error, $fiat_currencies, $coins_list, $charts_alerts_btc_exchange, $btc_fiat_value, $charts_alerts_btc_fiat_pairing, $charts_page, $asset_price_alerts_freq, $asset_price_alerts_percent, $asset_price_alerts_minvolume, $asset_price_alerts_refresh, $fiat_decimals_max;
+global $base_dir, $local_time_offset, $block_volume_error, $fiat_currencies, $coins_list, $charts_alerts_btc_exchange, $charts_alerts_btc_fiat_value, $charts_alerts_btc_fiat_pairing, $charts_page, $asset_price_alerts_freq, $asset_price_alerts_percent, $asset_price_alerts_minvolume, $asset_price_alerts_refresh, $fiat_decimals_max;
 
 
 
@@ -577,12 +577,12 @@ $asset_market_data = asset_market_data($asset, $exchange, $coins_list[$asset]['m
 	}
 	// BTC PAIRINGS CONVERTED TO DEFAULT FIAT CONFIG (EQUIV) CHARTS
 	elseif ( $pairing == 'btc' ) {
-	$asset_fiat_value_raw = number_format( $btc_fiat_value * $asset_market_data['last_trade'] , 8, '.', '');
+	$asset_fiat_value_raw = number_format( $charts_alerts_btc_fiat_value * $asset_market_data['last_trade'] , 8, '.', '');
 	}
 	// OTHER PAIRINGS CONVERTED TO DEFAULT FIAT CONFIG (EQUIV) CHARTS
 	else {
 	$pairing_btc_value = pairing_market_value($pairing); 
-	$asset_fiat_value_raw = number_format( $btc_fiat_value * ( $asset_market_data['last_trade'] * $pairing_btc_value ) , 8, '.', '');
+	$asset_fiat_value_raw = number_format( $charts_alerts_btc_fiat_value * ( $asset_market_data['last_trade'] * $pairing_btc_value ) , 8, '.', '');
 	}
 	
 	
@@ -601,8 +601,8 @@ $asset_market_data = asset_market_data($asset, $exchange, $coins_list[$asset]['m
 	
 	// Make sure we have basic values, otherwise log errors / return false
 	
-	// Return false if we have no $btc_fiat_value
-	if ( $btc_fiat_value == NULL ) {
+	// Return false if we have no $charts_alerts_btc_fiat_value
+	if ( $charts_alerts_btc_fiat_value == NULL ) {
 	app_logging( 'other_error', 'No Bitcoin '.strtoupper($charts_alerts_btc_fiat_pairing).' value set', $asset_data . ' (' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ')' );
 	$set_return = 1;
 	}
