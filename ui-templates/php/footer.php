@@ -99,7 +99,7 @@
 		app_logging('other_debugging', 'User agent', 'user_agent: "' . $_SERVER['HTTP_USER_AGENT'] . '"' );
 			
 		// Log runtime stats
-		app_logging('other_debugging', 'Stats for '.$runtime_mode.' runtime', $runtime_mode.'_runtime: runtime lasted ' . $total_runtime . ' seconds');
+		app_logging('other_debugging', 'Stats for '.$runtime_mode.' runtime', $runtime_mode.'_runtime: ' . $total_runtime . ' seconds');
 		
 		}
 		
