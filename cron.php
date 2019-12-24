@@ -93,6 +93,32 @@ $raspi_load = preg_replace("/(.*)\(5 min avg\) /i", "", $raspi_load); // Use 15 
 $raspi_temp = preg_replace("/° Celsius/i", "", $system_info['system_temp']);
 
 $raspi_free_space = preg_replace("/ (.*)/i", "", $system_info['free_partition_space']);
+
+	// Always in megabytes
+	if ( preg_match("/kilo/i", $system_info['free_partition_space']) ) {
+	$raspi_free_space = $raspi_free_space / 1000;
+	}
+	elseif ( preg_match("/mega/i", $system_info['free_partition_space']) ) {
+	$raspi_free_space = $raspi_free_space / 1;
+	}
+	elseif ( preg_match("/giga/i", $system_info['free_partition_space']) ) {
+	$raspi_free_space = $raspi_free_space / 0.001;
+	}
+	elseif ( preg_match("/tera/i", $system_info['free_partition_space']) ) {
+	$raspi_free_space = $raspi_free_space / 0.000001;
+	}
+	elseif ( preg_match("/peta/i", $system_info['free_partition_space']) ) {
+	$raspi_free_space = $raspi_free_space / 0.000000001;
+	}
+	elseif ( preg_match("/exa/i", $system_info['free_partition_space']) ) {
+	$raspi_free_space = $raspi_free_space / 0.000000000001;
+	}
+	elseif ( preg_match("/zetta/i", $system_info['free_partition_space']) ) {
+	$raspi_free_space = $raspi_free_space / 0.000000000000001;
+	}
+	elseif ( preg_match("/yotta/i", $system_info['free_partition_space']) ) {
+	$raspi_free_space = $raspi_free_space / 0.000000000000000001;
+	}
     		
 // Store system data to chart 
 store_file_contents($base_dir . '/cache/charts/system/rasberry_pi.dat', time() . '||' . trim($raspi_load) . '||' . trim($raspi_temp) . '||' . trim($raspi_free_space) . "\n", "append");

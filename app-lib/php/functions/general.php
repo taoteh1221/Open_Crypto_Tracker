@@ -226,8 +226,8 @@ function convert_bytes($bytes, $round) {
 $type = array("", "Kilo", "Mega", "Giga", "Tera", "Peta", "Exa", "Zetta", "Yotta");
 
   $index = 0;
-  while( $bytes >= 1024 ) {
-  $bytes/=1024;
+  while( $bytes >= 1000 ) { // new standard (not 1024 anymore)
+  $bytes/=1000; // new standard (not 1024 anymore)
   $index++;
   }
   

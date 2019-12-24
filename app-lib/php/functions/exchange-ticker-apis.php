@@ -11,7 +11,7 @@
 function asset_market_data($asset_symbol, $chosen_exchange, $market_id, $pairing=false) { 
 
 
-global $btc_exchange, $btc_fiat_value, $coins_list, $last_trade_cache;
+global $btc_fiat_value, $coins_list, $last_trade_cache;
  
  
  

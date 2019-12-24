@@ -144,10 +144,10 @@ $mobile_networks = $cleaned_mobile_networks;
 
 // MUST be called FIRST at runtime by the default bitcoin market, to set this var for reuse later in runtime
 $selected_pairing_id = $coins_list['BTC']['market_pairing'][$btc_fiat_pairing][$btc_exchange];
-$btc_fiat_value = asset_market_data('BTC', $btc_exchange, $selected_pairing_id)['last_trade'];
+$btc_fiat_value = asset_market_data('BTC', $btc_exchange, $selected_pairing_id, $btc_fiat_pairing)['last_trade'];
 
 $charts_alerts_selected_pairing_id = $coins_list['BTC']['market_pairing'][$charts_alerts_btc_fiat_pairing][$charts_alerts_btc_exchange];
-$charts_alerts_btc_fiat_value = asset_market_data('BTC', $charts_alerts_btc_exchange, $charts_alerts_selected_pairing_id)['last_trade'];
+$charts_alerts_btc_fiat_value = asset_market_data('BTC', $charts_alerts_btc_exchange, $charts_alerts_selected_pairing_id, $charts_alerts_btc_fiat_pairing)['last_trade'];
 
 // Log any Bitcoin market errors
 if ( !isset($btc_fiat_value) || $btc_fiat_value == 0 ) {
