@@ -151,12 +151,12 @@ $charts_alerts_btc_fiat_value = asset_market_data('BTC', $charts_alerts_btc_exch
 
 // Log any Bitcoin market errors
 if ( !isset($btc_fiat_value) || $btc_fiat_value == 0 ) {
-app_logging('other_error', 'Bitcoin fiat value not properly set', 'pairing: ' . $btc_fiat_pairing . '; exchange: ' . $btc_exchange . '; pairing_id: ' . $selected_pairing_id . '; value: ' . $btc_fiat_value );
+app_logging('other_error', 'config-init.php Bitcoin fiat value not properly set', 'pairing: ' . $btc_fiat_pairing . '; exchange: ' . $btc_exchange . '; pairing_id: ' . $selected_pairing_id . '; value: ' . $btc_fiat_value );
 }
 
 // Log any charts/alerts Bitcoin market errors
 if ( !isset($charts_alerts_btc_fiat_value) || $charts_alerts_btc_fiat_value == 0 ) {
-app_logging('other_error', 'Charts / alerts Bitcoin fiat value not properly set', 'pairing: ' . $charts_alerts_btc_fiat_pairing . '; exchange: ' . $charts_alerts_btc_exchange . '; pairing_id: ' . $charts_alerts_selected_pairing_id . '; value: ' . $charts_alerts_btc_fiat_value );
+app_logging('other_error', 'config-init.php Charts / alerts Bitcoin fiat value not properly set', 'pairing: ' . $charts_alerts_btc_fiat_pairing . '; exchange: ' . $charts_alerts_btc_exchange . '; pairing_id: ' . $charts_alerts_selected_pairing_id . '; value: ' . $charts_alerts_btc_fiat_value );
 }
 	
 
