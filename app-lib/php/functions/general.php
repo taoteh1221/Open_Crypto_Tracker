@@ -1790,6 +1790,31 @@ $system['operating_system'] = PHP_OS;
 
 
 
+	// Memory stats
+	if ( is_readable('/proc/meminfo') ) {
+		
+    $data = explode("\n", file_get_contents("/proc/meminfo"));
+    
+    	foreach ($data as $line) {
+        list($key, $val) = explode(":", $line);
+        $ram['ram_'.strtolower($key)] = trim($val);
+    	}
+   
+		if ( $ram['ram_memtotal'] ) {
+		$system['memory_total'] = $ram['ram_memtotal'];
+		}
+   
+		if ( $ram['ram_memfree'] ) {
+		$system['memory_free'] = $ram['ram_memfree'];
+		}
+   
+		if ( $ram['ram_swapcached'] ) {
+		$system['memory_swap'] = $ram['ram_swapcached'];
+		}
+	
+	}
+	
+
 // Software
 $system['software'] = 'DFD_Cryptocoin_Values/' . $app_version . ' - PHP/' . phpversion();
 

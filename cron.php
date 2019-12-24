@@ -91,6 +91,15 @@ $raspi_load = preg_replace("/ \(15 min avg\)(.*)/i", "", $raspi_load);
 $raspi_load = preg_replace("/(.*)\(5 min avg\) /i", "", $raspi_load); // Use 15 minute average
     		
 $raspi_temp = preg_replace("/° Celsius/i", "", $system_info['system_temp']);
+    		
+$raspi_memory_total = preg_replace("/ (.*)/i", "", $system_info['memory_total']);
+    		
+$raspi_memory_free = preg_replace("/ (.*)/i", "", $system_info['memory_free']);
+    		
+    		
+// Percent difference (!MUST BE! absolute value)
+$memory_percent_free = round( 100 - abs( ($raspi_memory_free - $raspi_memory_total) / abs($raspi_memory_total) * 100 ) , 2);
+
 
 $raspi_free_space = preg_replace("/ (.*)/i", "", $system_info['free_partition_space']);
 
@@ -121,7 +130,7 @@ $raspi_free_space = preg_replace("/ (.*)/i", "", $system_info['free_partition_sp
 	}
     		
 // Store system data to chart 
-store_file_contents($base_dir . '/cache/charts/system/rasberry_pi.dat', time() . '||' . trim($raspi_load) . '||' . trim($raspi_temp) . '||' . trim($raspi_free_space) . "\n", "append");
+store_file_contents($base_dir . '/cache/charts/system/rasberry_pi.dat', time() . '||' . trim($raspi_load) . '||' . trim($raspi_temp) . '||' . trim($raspi_free_space) . '||' . trim($memory_percent_free) . "\n", "append");
     		
     		
 }

@@ -70,10 +70,49 @@
     		
     		$raspi_temp = preg_replace("/° Celsius/i", "", $system_info['system_temp']);
     		
+    		$raspi_memory_total = preg_replace("/ (.*)/i", "", $system_info['memory_total']);
+    		
+    		$raspi_memory_free = preg_replace("/ (.*)/i", "", $system_info['memory_free']);
+    		
+    		
+  			// Percent difference (!MUST BE! absolute value)
+         $memory_percent_free = round( 100 - abs( ($raspi_memory_free - $raspi_memory_total) / abs($raspi_memory_total) * 100 ) , 2);
+    		
+    		
+			$raspi_free_space = preg_replace("/ (.*)/i", "", $system_info['free_partition_space']);
+			
+				// Always in megabytes
+				if ( preg_match("/kilo/i", $system_info['free_partition_space']) ) {
+				$raspi_free_space = $raspi_free_space / 1000;
+				}
+				elseif ( preg_match("/mega/i", $system_info['free_partition_space']) ) {
+				$raspi_free_space = $raspi_free_space / 1;
+				}
+				elseif ( preg_match("/giga/i", $system_info['free_partition_space']) ) {
+				$raspi_free_space = $raspi_free_space / 0.001;
+				}
+				elseif ( preg_match("/tera/i", $system_info['free_partition_space']) ) {
+				$raspi_free_space = $raspi_free_space / 0.000001;
+				}
+				elseif ( preg_match("/peta/i", $system_info['free_partition_space']) ) {
+				$raspi_free_space = $raspi_free_space / 0.000000001;
+				}
+				elseif ( preg_match("/exa/i", $system_info['free_partition_space']) ) {
+				$raspi_free_space = $raspi_free_space / 0.000000000001;
+				}
+				elseif ( preg_match("/zetta/i", $system_info['free_partition_space']) ) {
+				$raspi_free_space = $raspi_free_space / 0.000000000000001;
+				}
+				elseif ( preg_match("/yotta/i", $system_info['free_partition_space']) ) {
+				$raspi_free_space = $raspi_free_space / 0.000000000000000001;
+				}
+	
+	
     		// Footer output
-    		echo '<p align="center" class="'.( $raspi_load <= 1.00 ? 'green' : 'red' ).'"> System Load: '.$system_info['system_load'].'</p>';
-    		echo '<p align="center"> Free Space: '.$system_info['free_partition_space'].'</p>';
+    		echo '<p align="center" class="'.( $raspi_load <= 1.07 ? 'green' : 'red' ).'"> System Load: '.$system_info['system_load'].'</p>';
     		echo '<p align="center" class="'.( $raspi_temp <= 79 ? 'green' : 'red' ).'"> Temperature: '.$system_info['system_temp'].'</p>';
+    		echo '<p align="center" class="'.( $raspi_free_space >= 500 ? 'green' : 'red' ).'"> Free Space: '.$system_info['free_partition_space'].'</p>';
+    		echo '<p align="center" class="'.( $memory_percent_free >= 8.5 ? 'green' : 'red' ).'"> Free Memory: '.$system_info['memory_free'].' ('.$memory_percent_free.'%)</p>';
     		
     		}
 		

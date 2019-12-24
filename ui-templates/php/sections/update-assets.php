@@ -458,7 +458,7 @@
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="green_bright">Total <?=strtoupper($btc_fiat_pairing)?> Paid For All Tokens</span> <span class="blue">-</span> <span class="red_bright">Total <?=strtoupper($btc_fiat_pairing)?> Received From All Sold Tokens</span> <span class="blue">&#247;</span> <span class="yellow">Total Remaining Tokens Still Held</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($btc_fiat_pairing)?> Price Paid Per Token</span></p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="yellow">PRO TIP:</span> When buying / selling, keep quick and dirty (yet clear) textual records of... <br />a) How much you bought of what<br />b) What you paid in <?=strtoupper($btc_fiat_pairing)?> value<br />c) Where you traded what <br />d) Backup to USB Stick / NAS / DropBox / GoogleDrive / OneDrive / AmazonBucket <br />e) Now you\'re ready for tax season, to create spreadsheets from this data</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="yellow">PRO TIP:</span> When buying / selling, keep quick and dirty (yet clear) textual records of... <br />a) How much you bought / sold of what<br />b) What you paid / received in <?=strtoupper($btc_fiat_pairing)?> value<br />c) What / where you traded <br />d) Backup to USB Stick / NAS / DropBox / GoogleDrive / OneDrive / AmazonBucket <br />e) Now you\'re ready for tax season, to create spreadsheets from this data</p>'
 			
 			+'<p class="coin_info"><span class="yellow"> </span></p>';
 		

@@ -2055,6 +2055,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Better error logging for default Bitcoin market
 
+-System memory stats for debugging / Rapberry Pi stats
+
 -Chart system data for Raspberry Pi devices (15 min load avg / temperature / free disk space)
 
 IMPORTANT NOTE: v4.00.0 and higher of this app REQUIRES DELETING YOUR PREVIOUS CHART DATA FROM ANY EARLIER VERSIONS.

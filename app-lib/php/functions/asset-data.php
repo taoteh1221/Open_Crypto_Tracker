@@ -1316,7 +1316,7 @@ $market_pairing = $all_markets[$selected_exchange];
             ?>
         +'<p class="coin_info"><span class="yellow">App Cache Time:</span> <?=$marketcap_cache?> minute(s)</p>'
     
-        +'<p class="coin_info">*Current config setting retrieves the top <?=$marketcap_ranks_max?> rankings.</p>';
+        +'<p class="coin_info"><span class="yellow">*Current config setting retrieves the top <?=$marketcap_ranks_max?> rankings.</span></p>';
     
         <?php
         
