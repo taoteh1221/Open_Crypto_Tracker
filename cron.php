@@ -93,6 +93,8 @@ $raspi_load = preg_replace("/(.*)\(5 min avg\) /i", "", $raspi_load); // Use 15 
 $raspi_temp = preg_replace("/° Celsius/i", "", $system_info['system_temp']);
 
 $raspi_free_space_mb = in_megabytes($system_info['free_partition_space'])['in_megs'];
+         
+$app_cache_size = in_megabytes($system_info['app_cache'])['in_megs'];
     		
 $raspi_memory_total_mb = in_megabytes($system_info['memory_total'])['in_megs'];
     		
@@ -105,7 +107,7 @@ $memory_percent_free = round( 100 - $memory_percent_free, 2);
          
          
 // Store system data to chart 
-store_file_contents($base_dir . '/cache/charts/system/system_stats.dat', time() . '||' . trim($raspi_load) . '||' . trim($raspi_temp) . '||' . trim($raspi_free_space_mb) . '||' . trim($raspi_memory_free_mb) . '||' . trim($memory_percent_free) . "\n", "append");
+store_file_contents($base_dir . '/cache/charts/system/archival/system_stats.dat', time() . '||' . trim($raspi_load) . '||' . trim($raspi_temp) . '||' . trim($raspi_memory_free_mb) . '||' . trim($memory_percent_free) . '||' . trim($raspi_free_space_mb) . '||' . trim($app_cache_size) . "\n", "append");
     		
     		
 }

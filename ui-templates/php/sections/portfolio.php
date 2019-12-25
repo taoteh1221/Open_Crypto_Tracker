@@ -640,6 +640,8 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
     		$raspi_temp = preg_replace("/° Celsius/i", "", $system_info['system_temp']);
          
 			$raspi_free_space_mb = in_megabytes($system_info['free_partition_space'])['in_megs'];
+         
+			$app_cache_size = in_megabytes($system_info['app_cache'])['in_megs'];
     		
     		$raspi_memory_total_mb = in_megabytes($system_info['memory_total'])['in_megs'];
     		
@@ -660,15 +662,19 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
     		}
     		
     		if ( isset($system_info['system_temp']) ) {
-    		echo '<span class="black">Temp:</span> <span class="'.( $raspi_temp > 79 ? 'red' : 'green' ).'"> '.$system_info['system_temp'].'</span> <br />';
-    		}
-    		
-    		if ( isset($system_info['free_partition_space']) ) {
-    		echo '<span class="black">Disk:</span> <span class="'.( $raspi_free_space_mb < 500 ? 'red' : 'green' ).'"> '.$system_info['free_partition_space'].' free</span> <br />';
+    		echo '<span class="black">Temperature:</span> <span class="'.( $raspi_temp > 79 ? 'red' : 'green' ).'"> '.$system_info['system_temp'].'</span> <br />';
     		}
     		
     		if ( isset($system_info['memory_free']) ) {
-    		echo '<span class="black">Memory:</span> <span class="'.( $memory_percent_free < 9 ? 'red' : 'green' ).'"> '.$raspi_memory_free_mb.' Mb ('.$memory_percent_free.'%) free</span> <br />';
+    		echo '<span class="black">Free Memory:</span> <span class="'.( $memory_percent_free < 9 ? 'red' : 'green' ).'"> '.$raspi_memory_free_mb.' Mb ('.$memory_percent_free.'%)</span> <br />';
+    		}
+    		
+    		if ( isset($system_info['free_partition_space']) ) {
+    		echo '<span class="black">Free Space:</span> <span class="'.( $raspi_free_space_mb < 500 ? 'red' : 'green' ).'"> '.$system_info['free_partition_space'].'</span> <br />';
+    		}
+    		
+    		if ( isset($system_info['app_cache']) ) {
+    		echo '<span class="black">App Cache:</span> <span class="'.( $app_cache_size > 5000 ? 'red' : 'green' ).'"> '.$app_cache_size.' Mb</span> <br />';
     		}
     		
     		

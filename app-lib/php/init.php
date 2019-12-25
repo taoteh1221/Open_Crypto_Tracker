@@ -8,7 +8,7 @@ error_reporting(0); // Turn off all PHP error reporting on production servers (0
 
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
 
-$app_version = '4.04.0';  // 2019/DECEMBER/22ND
+$app_version = '4.05.0';  // 2019/DECEMBER/25TH
 
 
 require_once("app-lib/php/loader.php");
@@ -109,7 +109,16 @@ if ( dir_structure($base_dir . '/cache/alerts/') != TRUE
 || dir_structure($base_dir . '/cache/apis/') != TRUE
 || dir_structure($base_dir . '/cache/events/') != TRUE
 || dir_structure($base_dir . '/cache/logs/last_response/') != TRUE
-|| dir_structure($base_dir . '/cache/charts/system/') != TRUE
+|| dir_structure($base_dir . '/cache/charts/system/archival/') != TRUE
+|| dir_structure($base_dir . '/cache/charts/system/lite/1_day/') != TRUE
+|| dir_structure($base_dir . '/cache/charts/system/lite/1_week/') != TRUE
+|| dir_structure($base_dir . '/cache/charts/system/lite/1_month/') != TRUE
+|| dir_structure($base_dir . '/cache/charts/system/lite/3_months/') != TRUE
+|| dir_structure($base_dir . '/cache/charts/system/lite/6_months/') != TRUE
+|| dir_structure($base_dir . '/cache/charts/system/lite/1_year/') != TRUE
+|| dir_structure($base_dir . '/cache/charts/system/lite/2_years/') != TRUE
+|| dir_structure($base_dir . '/cache/charts/system/lite/4_years/') != TRUE
+|| dir_structure($base_dir . '/cache/charts/system/lite/all/') != TRUE
 || dir_structure($base_dir . '/cache/charts/spot_price_24hr_volume/archival/') != TRUE
 || dir_structure($base_dir . '/cache/charts/spot_price_24hr_volume/lite/1_day/') != TRUE
 || dir_structure($base_dir . '/cache/charts/spot_price_24hr_volume/lite/1_week/') != TRUE
