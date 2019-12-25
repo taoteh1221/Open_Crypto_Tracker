@@ -147,6 +147,9 @@ margin-top: 15px;
 
 .show_coin_values {
 display: none;
+position: relative;
+float: left;
+max-width: 45%;
 }
 
 .border_t {
@@ -372,6 +375,27 @@ padding: 8px;
 /* //////////////////////////////
 IDs
 ////////////////////////////// */
+
+
+#system_stats {
+position: relative;
+float: right;
+max-width: 45%;
+margin: 0px;
+font-size: 13px;
+}
+
+
+#system_stats fieldset {
+padding: 8px;
+font-size: 13px;
+}
+
+
+#system_stats fieldset legend {
+padding: 4px;
+font-size: 13px;
+}
 
 
 #loading_charts {

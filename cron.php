@@ -82,8 +82,8 @@ $total_runtime = round( ($time - $start_runtime) , 3);
 
 
 
-// If this is running on a Raspberry Pi, chart the 15 min load avg / temperature / free partition space
-if ( preg_match("/raspberry/i", $system_info['model']) ) {
+// If hardware stats are enabled, chart the 15 min load avg / temperature / free partition space / free memory [mb/percent]
+if ( $system_stats == 'on' || $system_stats == 'raspi' && $is_raspi == 1 ) {
     			
 // Raspi system data
 $raspi_load = $system_info['system_load'];
@@ -91,46 +91,21 @@ $raspi_load = preg_replace("/ \(15 min avg\)(.*)/i", "", $raspi_load);
 $raspi_load = preg_replace("/(.*)\(5 min avg\) /i", "", $raspi_load); // Use 15 minute average
     		
 $raspi_temp = preg_replace("/° Celsius/i", "", $system_info['system_temp']);
+
+$raspi_free_space_mb = in_megabytes($system_info['free_partition_space'])['in_megs'];
     		
-$raspi_memory_total = preg_replace("/ (.*)/i", "", $system_info['memory_total']);
+$raspi_memory_total_mb = in_megabytes($system_info['memory_total'])['in_megs'];
     		
-$raspi_memory_free = preg_replace("/ (.*)/i", "", $system_info['memory_free']);
+$raspi_memory_free_mb = in_megabytes($system_info['memory_free'])['in_megs'];
     		
     		
 // Percent difference (!MUST BE! absolute value)
-$memory_percent_free = round( 100 - abs( ($raspi_memory_free - $raspi_memory_total) / abs($raspi_memory_total) * 100 ) , 2);
-
-
-$raspi_free_space = preg_replace("/ (.*)/i", "", $system_info['free_partition_space']);
-
-	// Always in megabytes
-	if ( preg_match("/kilo/i", $system_info['free_partition_space']) ) {
-	$raspi_free_space = $raspi_free_space / 1000;
-	}
-	elseif ( preg_match("/mega/i", $system_info['free_partition_space']) ) {
-	$raspi_free_space = $raspi_free_space / 1;
-	}
-	elseif ( preg_match("/giga/i", $system_info['free_partition_space']) ) {
-	$raspi_free_space = $raspi_free_space / 0.001;
-	}
-	elseif ( preg_match("/tera/i", $system_info['free_partition_space']) ) {
-	$raspi_free_space = $raspi_free_space / 0.000001;
-	}
-	elseif ( preg_match("/peta/i", $system_info['free_partition_space']) ) {
-	$raspi_free_space = $raspi_free_space / 0.000000001;
-	}
-	elseif ( preg_match("/exa/i", $system_info['free_partition_space']) ) {
-	$raspi_free_space = $raspi_free_space / 0.000000000001;
-	}
-	elseif ( preg_match("/zetta/i", $system_info['free_partition_space']) ) {
-	$raspi_free_space = $raspi_free_space / 0.000000000000001;
-	}
-	elseif ( preg_match("/yotta/i", $system_info['free_partition_space']) ) {
-	$raspi_free_space = $raspi_free_space / 0.000000000000000001;
-	}
-    		
+$memory_percent_free = abs( ($raspi_memory_free_mb - $raspi_memory_total_mb) / abs($raspi_memory_total_mb) * 100 );
+$memory_percent_free = round( 100 - $memory_percent_free, 2);
+         
+         
 // Store system data to chart 
-store_file_contents($base_dir . '/cache/charts/system/rasberry_pi.dat', time() . '||' . trim($raspi_load) . '||' . trim($raspi_temp) . '||' . trim($raspi_free_space) . '||' . trim($memory_percent_free) . "\n", "append");
+store_file_contents($base_dir . '/cache/charts/system/system_stats.dat', time() . '||' . trim($raspi_load) . '||' . trim($raspi_temp) . '||' . trim($raspi_free_space_mb) . '||' . trim($raspi_memory_free_mb) . '||' . trim($memory_percent_free) . "\n", "append");
     		
     		
 }

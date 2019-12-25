@@ -402,6 +402,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	
 		
 ?>
+<br clear='all' />
 <div class="show_coin_values bold_1 green"><!-- Summary START -->
 <?php
 		
@@ -610,7 +611,82 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 		<?php
 		}
 		?>
+		
+		
 </div><!-- Summary END -->
+
+
+
+		
+	<!-- System stats (if enabled) -->
+	<div id='system_stats' align='left'>
+	
+	<?php
+	
+		
+			// If hardware stats are enabled, display the load avg / temperature / free partition space / free memory [mb/percent]
+    		if ( $system_stats == 'on' || $system_stats == 'raspi' && $is_raspi == 1 ) {
+    ?>
+	
+		<fieldset><legend> <strong class="black">System Statistics</strong> </legend>
+    
+    <?php
+    			
+    		// Raspi system data
+    		$raspi_load = $system_info['system_load'];
+    		$raspi_load = preg_replace("/ \(15 min avg\)(.*)/i", "", $raspi_load);
+    		$raspi_load = preg_replace("/(.*)\(5 min avg\) /i", "", $raspi_load); // Use 15 minute average
+    		
+    		$raspi_temp = preg_replace("/° Celsius/i", "", $system_info['system_temp']);
+         
+			$raspi_free_space_mb = in_megabytes($system_info['free_partition_space'])['in_megs'];
+    		
+    		$raspi_memory_total_mb = in_megabytes($system_info['memory_total'])['in_megs'];
+    		
+    		$raspi_memory_free_mb = in_megabytes($system_info['memory_free'])['in_megs'];
+    		
+  			// Percent difference (!MUST BE! absolute value)
+         $memory_percent_free = abs( ($raspi_memory_free_mb - $raspi_memory_total_mb) / abs($raspi_memory_total_mb) * 100 );
+         $memory_percent_free = round( 100 - $memory_percent_free, 2);
+	
+	
+    		// Output
+    		if ( isset($system_info['uptime']) ) {
+    		echo '<span class="black">Uptime:</span> <span class="'.( preg_match("/0 hours/i", $system_info['uptime']) ? 'red' : 'green' ).'"> '.$system_info['uptime'].'</span> <br />';
+    		}
+    		
+    		if ( isset($system_info['system_load']) ) {
+    		echo '<span class="black">Load:</span> <span class="'.( $raspi_load > 2 ? 'red' : 'green' ).'"> '.$system_info['system_load'].'</span> <br />';
+    		}
+    		
+    		if ( isset($system_info['system_temp']) ) {
+    		echo '<span class="black">Temp:</span> <span class="'.( $raspi_temp > 79 ? 'red' : 'green' ).'"> '.$system_info['system_temp'].'</span> <br />';
+    		}
+    		
+    		if ( isset($system_info['free_partition_space']) ) {
+    		echo '<span class="black">Disk:</span> <span class="'.( $raspi_free_space_mb < 500 ? 'red' : 'green' ).'"> '.$system_info['free_partition_space'].' free</span> <br />';
+    		}
+    		
+    		if ( isset($system_info['memory_free']) ) {
+    		echo '<span class="black">Memory:</span> <span class="'.( $memory_percent_free < 9 ? 'red' : 'green' ).'"> '.$raspi_memory_free_mb.' Mb ('.$memory_percent_free.'%) free</span> <br />';
+    		}
+    		
+    		
+    		?>
+    		
+    		<span class="black">Charts: (coming soon)</span>
+    		
+		</fieldset>
+		
+    		<?php
+    		}
+			?>
+
+
+	</div>
+<br clear='all' />
+
+
 	<?php	
 	// End outputting results
 	}

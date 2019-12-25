@@ -89,6 +89,9 @@ $purge_logs = 7; // Days to keep logs before purging (deletes logs every X days)
 // Every X days mail logs. 0 disables mailing logs. Email to / from !MUST BE SET! MAY NOT SEND IN TIMELY FASHION WITHOUT CRON JOB
 $mail_logs = 1; 
 
+// Shows system statistics in the user interface, if stats are available (system load, system temperature, free disk space, free system memory)
+$system_stats = 'raspi'; // 'off' (disabled), 'on' (enabled for ANY system), 'raspi' (enabled ONLY for raspberry pi devices)
+
 
 
 

@@ -635,6 +635,57 @@ return $date;
 ////////////////////////////////////////////////////////
 
 
+function in_megabytes($string) {
+
+$string_value = preg_replace("/ (.*)/i", "", $string);
+
+	// Always in megabytes
+	if ( preg_match("/kilo/i", $string) || preg_match("/kb/i", $string) ) {
+	$in_megs = $string_value * 0.001;
+	$type = 'Kilobytes';
+	}
+	elseif ( preg_match("/mega/i", $string) || preg_match("/mb/i", $string) ) {
+	$in_megs = $string_value * 1;
+	$type = 'Megabytes';
+	}
+	elseif ( preg_match("/giga/i", $string) || preg_match("/gb/i", $string) ) {
+	$in_megs = $string_value * 1000;
+	$type = 'Gigabytes';
+	}
+	elseif ( preg_match("/tera/i", $string) || preg_match("/tb/i", $string) ) {
+	$in_megs = $string_value * 1000000;
+	$type = 'Terabytes';
+	}
+	elseif ( preg_match("/peta/i", $string) || preg_match("/pb/i", $string) ) {
+	$in_megs = $string_value * 1000000000;
+	$type = 'Petabytes';
+	}
+	elseif ( preg_match("/exa/i", $string) || preg_match("/eb/i", $string) ) {
+	$in_megs = $string_value * 1000000000000;
+	$type = 'Exabytes';
+	}
+	elseif ( preg_match("/zetta/i", $string) || preg_match("/zb/i", $string) ) {
+	$in_megs = $string_value * 1000000000000000;
+	$type = 'Zettabytes';
+	}
+	elseif ( preg_match("/yotta/i", $string) || preg_match("/yb/i", $string) ) {
+	$in_megs = $string_value * 1000000000000000000;
+	$type = 'Yottabytes';
+	}
+
+$result['num_val'] = $string_value;
+$result['type'] = $type;
+$result['in_megs'] = round($in_megs, 3);
+
+return $result;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
 // Return the TLD only (no subdomain)
 function get_tld($url) {
 
@@ -1705,7 +1756,7 @@ global $app_version, $base_dir;
 
 
 // Free space on this partition
-$system['free_partition_space'] = convert_bytes( disk_free_space($base_dir) , 4);
+$system['free_partition_space'] = convert_bytes( disk_free_space($base_dir) , 3);
 	
 
 
@@ -1950,7 +2001,7 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 					
 					store_file_contents($base_dir . '/cache/events/notifyme-alerts-sent.dat', $_SESSION['notifyme_count']); 
 				
-					store_file_contents($base_dir . '/cache/logs/last-notifyme-response.log', $notifyme_response);
+					store_file_contents($base_dir . '/cache/logs/last_response/last-notifyme-response.log', $notifyme_response);
 					
 					unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
 					
@@ -1979,7 +2030,7 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 				
 				$message_sent = 1;
 			   
-				store_file_contents($base_dir . '/cache/logs/last-textbelt-response.log', $textbelt_response);
+				store_file_contents($base_dir . '/cache/logs/last_response/last-textbelt-response.log', $textbelt_response);
 				
 				unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
 				
@@ -2004,7 +2055,7 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 				
 				$message_sent = 1;
 			   
-				store_file_contents($base_dir . '/cache/logs/last-textlocal-response.log', $textlocal_response);
+				store_file_contents($base_dir . '/cache/logs/last_response/last-textlocal-response.log', $textlocal_response);
 				
 				unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
 				
@@ -2139,6 +2190,8 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		$check_api_endpoint = ( $mode == 'array' ? $api_server : $request );
 		$endpoint_tld = get_tld($check_api_endpoint);
 		
+		
+		// Throttled endpoints
 		if ( in_array($endpoint_tld, $limited_apis) ) {
 		
 		$tld_session_prefix = preg_replace("/\./i", "_", $endpoint_tld);
@@ -2147,8 +2200,6 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 			$_SESSION[$tld_session_prefix . '_calls'] = 1;
 			}
 			elseif ( $_SESSION[$tld_session_prefix . '_calls'] == 1 ) {
-			//echo ' --- throttled endpoint: ' . $check_api_endpoint . ' --- <br /> '; // DEBUGGING ONLY
-			//echo ' --- throttled TLD session "' . $tld_session_prefix . '_calls": ' . $endpoint_tld . ' --- <br /> '; // DEBUGGING ONLY
 			usleep(1150000); // Throttle 1.15 seconds
 			}
 
@@ -2237,8 +2288,11 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 	$data = curl_exec($ch);
 	curl_close($ch);
 
-
-		if ( !$data ) {
+		if ( isset($data) && isset($endpoint_tld) ) {
+		// Log this latest live response, ONLY IF WE DETECT AN $endpoint_tld
+		store_file_contents($base_dir . '/cache/logs/last_response/last-'.preg_replace("/\./", "_", $endpoint_tld).'-'.$hash_check.'-response.log', $data);
+		}
+		elseif ( !$data ) {
 		
 		// LOG-SAFE VERSION (no post data with API keys etc)
 		app_logging( 'api_data_error', 'connection failed for ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint request at ' . $request ), 'request attempt from: server (local timeout setting ' . $api_timeout . ' seconds); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . ';' );
@@ -2325,6 +2379,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 	}
 	
 	
+
 return $data;
 
 
