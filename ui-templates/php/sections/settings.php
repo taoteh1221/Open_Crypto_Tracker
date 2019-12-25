@@ -88,8 +88,8 @@
 			    <p class='settings_sections'><b>Theme:</b> <select onchange='
 			    $("#theme_selected").val(this.value);
 			    '>
-				<option value='light' <?=( $theme_selected == 'light' ? ' selected ' : '' )?>> Light </option>
 				<option value='dark' <?=( $theme_selected == 'dark' ? ' selected ' : '' )?>> Dark </option>
+				<option value='light' <?=( $theme_selected == 'light' ? ' selected ' : '' )?>> Light </option>
 			    </select></p>
 			    
 			    
@@ -107,7 +107,17 @@
 					 fiat_market = $("#" + fiat_currency + "btcfiat_pairs").val();
 					 fiat_selected_market = $("#" + fiat_currency + "BTC_pairs option:selected").val();
 					 fiat_selected_market_standalone = $("#" + fiat_currency + "btcfiat_pairs option:selected").val();
+					 fiat_exchanges_list = document.getElementById(fiat_currency + "BTC_pairs");
 					
+				    
+				    exchange_name_ui = fiat_exchanges_list.options[fiat_exchanges_list.selectedIndex].text;
+				    
+				    exchange_name = exchange_name_ui.toLowerCase();
+				    
+				    if ( window.limited_apis.includes(exchange_name) == true ) {
+				    alert("The " + exchange_name_ui + " exchange API is less reliable than some others (by NOT consolidating multiple / different asset price requests into one single call per session).\n\nIf you experience issues with fiat currency values NOT displaying in this app when using the " + exchange_name_ui + " exchange market, try a different exchange market for your preferred fiat currency, and the issue should go away.");
+				    }
+				    
 				    $("#fiat_pairing_currency").val( fiat_currency );
 				    
 				    $("#fiat_market_id_lists").children().hide(); 
@@ -148,7 +158,7 @@
 									foreach ( $coins_list['BTC']['market_pairing'][$pairing_key] as $market_key => $market_id ) {
 									$loop2 = $loop2 + 1;
 									
-									$btc_market_list[$pairing_key] .= "\n<option value='".$loop2."'" . ( $exchange_field_id == $loop2 ? ' selected ' : '' ) . ">" . name_rendering($market_key) . " </option>\n";
+									$btc_market_list[$pairing_key] .= "\n<option value='".$loop2."'" . ( $exchange_field_id == $loop2 ? ' selected ' : '' ) . ">" . name_rendering($market_key) . "</option>\n";
 									}
 									$loop2 = NULL;
 							
@@ -175,6 +185,14 @@
 				    ?>
 				    
 				    <select onchange ='
+				    
+				    exchange_name_ui = this.options[this.selectedIndex].text;
+				    
+				    exchange_name = exchange_name_ui.toLowerCase();
+				    
+				    if ( window.limited_apis.includes(exchange_name) == true ) {
+				    alert("The " + exchange_name_ui + " exchange API is less reliable than some others (by NOT consolidating multiple / different asset price requests into one single call per session).\n\nIf you experience issues with fiat currency values NOT displaying in this app when using the " + exchange_name_ui + " exchange market, try a different exchange market for your preferred fiat currency, and the issue should go away.");
+				    }
 				    
 				    fiat_currency = $("#fiat_pairing_currency").val();
 					 fiat_market = this.value;

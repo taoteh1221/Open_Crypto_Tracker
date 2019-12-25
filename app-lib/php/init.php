@@ -92,13 +92,32 @@ $limited_apis = array(
 						'bitforex.com',
 						'bitflyer.com',
 						'bitstamp.net',
+						'blockchain.info',
 						'btcmarkets.net',
 						'coinbase.com',
 						'cryptofresh.com',
+						'dcrdata.org',
+						'dogechain.info',
+						'etherscan.io',
 						'gemini.com',
+						'litecoin.net',
 						'okcoin.com',
 							);
 							
+
+
+// Structure of lite charts sub-directories
+$lite_charts_structure = array(
+									'1_day',
+									'1_week',
+									'1_month',
+									'3_months',
+									'6_months',
+									'1_year',
+									'2_years',
+									'4_years',
+									'all',
+									);
 
 
 
@@ -107,30 +126,14 @@ $limited_apis = array(
 // Check for cache sub-directory creation, create if needed...if it fails, alert end-user
 if ( dir_structure($base_dir . '/cache/alerts/') != TRUE
 || dir_structure($base_dir . '/cache/apis/') != TRUE
+|| dir_structure($base_dir . '/cache/charts/spot_price_24hr_volume/archival/') != TRUE
+|| dir_structure($base_dir . '/cache/charts/spot_price_24hr_volume/lite/') != TRUE
+|| dir_structure($base_dir . '/cache/charts/system/archival/') != TRUE
+|| dir_structure($base_dir . '/cache/charts/system/lite/') != TRUE
 || dir_structure($base_dir . '/cache/events/') != TRUE
 || dir_structure($base_dir . '/cache/logs/last_response/') != TRUE
-|| dir_structure($base_dir . '/cache/charts/system/archival/') != TRUE
-|| dir_structure($base_dir . '/cache/charts/system/lite/1_day/') != TRUE
-|| dir_structure($base_dir . '/cache/charts/system/lite/1_week/') != TRUE
-|| dir_structure($base_dir . '/cache/charts/system/lite/1_month/') != TRUE
-|| dir_structure($base_dir . '/cache/charts/system/lite/3_months/') != TRUE
-|| dir_structure($base_dir . '/cache/charts/system/lite/6_months/') != TRUE
-|| dir_structure($base_dir . '/cache/charts/system/lite/1_year/') != TRUE
-|| dir_structure($base_dir . '/cache/charts/system/lite/2_years/') != TRUE
-|| dir_structure($base_dir . '/cache/charts/system/lite/4_years/') != TRUE
-|| dir_structure($base_dir . '/cache/charts/system/lite/all/') != TRUE
-|| dir_structure($base_dir . '/cache/charts/spot_price_24hr_volume/archival/') != TRUE
-|| dir_structure($base_dir . '/cache/charts/spot_price_24hr_volume/lite/1_day/') != TRUE
-|| dir_structure($base_dir . '/cache/charts/spot_price_24hr_volume/lite/1_week/') != TRUE
-|| dir_structure($base_dir . '/cache/charts/spot_price_24hr_volume/lite/1_month/') != TRUE
-|| dir_structure($base_dir . '/cache/charts/spot_price_24hr_volume/lite/3_months/') != TRUE
-|| dir_structure($base_dir . '/cache/charts/spot_price_24hr_volume/lite/6_months/') != TRUE
-|| dir_structure($base_dir . '/cache/charts/spot_price_24hr_volume/lite/1_year/') != TRUE
-|| dir_structure($base_dir . '/cache/charts/spot_price_24hr_volume/lite/2_years/') != TRUE
-|| dir_structure($base_dir . '/cache/charts/spot_price_24hr_volume/lite/4_years/') != TRUE
-|| dir_structure($base_dir . '/cache/charts/spot_price_24hr_volume/lite/all/') != TRUE
-|| dir_structure($base_dir . '/cache/vars/') != TRUE
-|| dir_structure($base_dir . '/cache/queue/messages/') != TRUE ) {
+|| dir_structure($base_dir . '/cache/queue/messages/') != TRUE
+|| dir_structure($base_dir . '/cache/vars/') != TRUE ) {
 echo "Cannot create cache sub-directories. Please make sure the folder '/cache/' has FULL read / write permissions (chmod 777 on unix / linux systems), so the cache sub-directories can be created automatically.";
 exit;
 }
@@ -167,7 +170,7 @@ if ( $runtime_mode == 'ui' ) {
 	$theme_selected = $_POST['theme_selected'];
 	}
 	else {
-	$theme_selected = 'light';
+	$theme_selected = 'dark';
 	}
 	// Sanitizing $theme_selected is very important, as we are calling external files with the value
 	if ( $theme_selected != 'light' && $theme_selected != 'dark' ) {

@@ -1059,11 +1059,11 @@ $btc_fiat_pairing = $_SESSION['btc_fiat_pairing'];
 
 // Overwrite DEFAULT FIAT CONFIG / BTC market value, in case user changed preferred market IN THE UI
 $selected_pairing_id = $coins_list['BTC']['market_pairing'][$btc_fiat_pairing][$btc_exchange];
-$btc_fiat_value = asset_market_data('BTC', $btc_exchange, $selected_pairing_id, $btc_fiat_pairing)['last_trade'];
+$btc_fiat_value = asset_market_data('BTC', $btc_exchange, $selected_pairing_id)['last_trade'];
 
 	// Log any Bitcoin market errors
 	if ( !isset($btc_fiat_value) || $btc_fiat_value == 0 ) {
-	app_logging('other_error', 'ui_coin_data_row() Bitcoin fiat value not properly set', 'pairing: ' . $btc_fiat_pairing . '; exchange: ' . $btc_exchange . '; pairing_id: ' . $selected_pairing_id . '; value: ' . $btc_fiat_value );
+	app_logging('other_error', 'ui_coin_data_row() Bitcoin fiat value not properly set', 'exchange: ' . $btc_exchange . '; pairing_id: ' . $selected_pairing_id . '; value: ' . $btc_fiat_value );
 	}
 
 

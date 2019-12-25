@@ -144,19 +144,19 @@ $mobile_networks = $cleaned_mobile_networks;
 
 // MUST be called FIRST at runtime by the default bitcoin market, to set this var for reuse later in runtime
 $selected_pairing_id = $coins_list['BTC']['market_pairing'][$btc_fiat_pairing][$btc_exchange];
-$btc_fiat_value = asset_market_data('BTC', $btc_exchange, $selected_pairing_id, $btc_fiat_pairing)['last_trade'];
+$btc_fiat_value = asset_market_data('BTC', $btc_exchange, $selected_pairing_id)['last_trade'];
 
 $charts_alerts_selected_pairing_id = $coins_list['BTC']['market_pairing'][$charts_alerts_btc_fiat_pairing][$charts_alerts_btc_exchange];
-$charts_alerts_btc_fiat_value = asset_market_data('BTC', $charts_alerts_btc_exchange, $charts_alerts_selected_pairing_id, $charts_alerts_btc_fiat_pairing)['last_trade'];
+$charts_alerts_btc_fiat_value = asset_market_data('BTC', $charts_alerts_btc_exchange, $charts_alerts_selected_pairing_id)['last_trade'];
 
 // Log any Bitcoin market errors
 if ( !isset($btc_fiat_value) || $btc_fiat_value == 0 ) {
-app_logging('other_error', 'config-init.php Bitcoin fiat value not properly set', 'pairing: ' . $btc_fiat_pairing . '; exchange: ' . $btc_exchange . '; pairing_id: ' . $selected_pairing_id . '; value: ' . $btc_fiat_value );
+app_logging('other_error', 'config-init.php Bitcoin fiat value not properly set', 'exchange: ' . $btc_exchange . '; pairing_id: ' . $selected_pairing_id . '; value: ' . $btc_fiat_value );
 }
 
 // Log any charts/alerts Bitcoin market errors
 if ( !isset($charts_alerts_btc_fiat_value) || $charts_alerts_btc_fiat_value == 0 ) {
-app_logging('other_error', 'config-init.php Charts / alerts Bitcoin fiat value not properly set', 'pairing: ' . $charts_alerts_btc_fiat_pairing . '; exchange: ' . $charts_alerts_btc_exchange . '; pairing_id: ' . $charts_alerts_selected_pairing_id . '; value: ' . $charts_alerts_btc_fiat_value );
+app_logging('other_error', 'config-init.php Charts / alerts Bitcoin fiat value not properly set', 'exchange: ' . $charts_alerts_btc_exchange . '; pairing_id: ' . $charts_alerts_selected_pairing_id . '; value: ' . $charts_alerts_btc_fiat_value );
 }
 	
 
@@ -215,9 +215,11 @@ $marketcap_site = ( $alert_percent[0] != '' ? $alert_percent[0] : $marketcap_sit
 
 
 
-// Chart data caches
+// Chart data cache directory creation (if needed)
+
+// ALL CHARTS FOR SPOT PRICE / 24 HOUR VOLUME
 foreach ( $asset_charts_and_alerts as $key => $value ) {
-	
+
 	// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
 	$asset_dir = ( stristr($key, "-") == false ? $key : substr( $key, 0, strpos($key, "-") ) );
 	$asset_dir = strtoupper($asset_dir);
@@ -225,17 +227,36 @@ foreach ( $asset_charts_and_alerts as $key => $value ) {
 	$asset_cache_params = explode("||", $value);
 	
 	if ( $asset_cache_params[2] == 'chart' || $asset_cache_params[2] == 'both' ) {
-	
+		
+		// Archival charts
 		if ( dir_structure($base_dir . '/cache/charts/spot_price_24hr_volume/archival/'.$asset_dir.'/') != TRUE ) { // Attempt to create directory if it doesn't exist
 		$disabled_caching = 1;
+		}
+		
+		// Lite charts
+		foreach( $lite_charts_structure as $lite_chart ) {
+			
+			if ( dir_structure($base_dir . '/cache/charts/spot_price_24hr_volume/lite/'.$lite_chart.'/'.$asset_dir.'/') != TRUE ) { // Attempt to create directory if it doesn't exist
+			$disabled_caching = 1;
+			}
+			
 		}
 	
 	}
 	
 }
 
+// LITE CHARTS FOR SYSTEM STATS
+foreach( $lite_charts_structure as $lite_chart ) {
+			
+	if ( dir_structure($base_dir . '/cache/charts/system/lite/'.$lite_chart.'/') != TRUE ) { // Attempt to create directory if it doesn't exist
+	$disabled_caching = 1;
+	}
+			
+}
+
 if ( $disabled_caching == 1 ) {
-echo "Improper directory permissions on the '/cache/charts/spot_price_24hr_volume/archival/' directory, cannot create asset sub-directories. Make sure the folder '/cache/charts/spot_price_24hr_volume/archival/' itself has read / write permissions (and these sub-directories should be created automatically)";
+echo "Improper directory permissions on the '/cache/charts/' sub-directories, cannot create new sub-directories. Make sure the folder '/cache/charts/' AND ANY SUB-DIRECTORIES IN IT have read / write permissions (and further sub-directories WITHIN THESE should be created automatically)";
 exit;
 }
 

@@ -2071,6 +2071,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.05.0:
 
+-Minor fixes
+
 -UX revisions
 
 -App cache stats

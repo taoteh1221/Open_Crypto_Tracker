@@ -87,6 +87,18 @@ require("config.php");
 	
 	var btc_fiat_pairing = '<?=strtoupper($btc_fiat_pairing)?>';
 	
+	<?php
+	foreach ( $limited_apis as $api ) {
+	$js_limited_apis .= '"'.strtolower( preg_replace("/\.(.*)/i", "", $api) ).'", ';
+	}
+	$js_limited_apis = trim($js_limited_apis);
+	$js_limited_apis = rtrim($js_limited_apis,',');
+	$js_limited_apis = trim($js_limited_apis);
+	$js_limited_apis = '['.$js_limited_apis.']';
+	?>
+
+	var limited_apis = <?=$js_limited_apis?>;
+	
 	</script>
 
 

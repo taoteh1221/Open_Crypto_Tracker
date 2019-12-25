@@ -710,14 +710,20 @@ function get_tld($url) {
 // TLDs supported
 $urlMap = array(
 					'com', 
-					'net',
-					'org',
-					'co.uk',
-					'net.uk',
-					'org.uk',
 					'com.au',
+					'co.uk',
+					'info',
+					'io',
+					'market',
+					'net',
 					'net.au',
-					'org.au'
+					'net.uk',
+					'one',
+					'org',
+					'org.au',
+					'org.uk',
+					'pro',
+					'us',
 					);
 
 
@@ -2317,8 +2323,9 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 	$data = curl_exec($ch);
 	curl_close($ch);
 
-		if ( isset($data) && $endpoint_tld != '' ) {
-		// Log this latest live response, ONLY IF WE DETECT AN $endpoint_tld
+		if ( isset($data) && $endpoint_tld != '' && $ttl != 0 ) {
+		// Log this latest live response, 
+		// ONLY IF WE DETECT AN $endpoint_tld, AND TTL IS !NOT! ZERO (TTL==0 usually means too many unique requests that would bloat the cache)
 		store_file_contents($base_dir . '/cache/logs/last_response/last-'.preg_replace("/\./", "_", $endpoint_tld).'-'.$hash_check.'-response.log', $data);
 		}
 		elseif ( !$data ) {
