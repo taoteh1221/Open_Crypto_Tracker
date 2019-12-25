@@ -149,7 +149,7 @@ margin-top: 15px;
 display: none;
 position: relative;
 float: left;
-max-width: 45%;
+max-width: 60%;
 }
 
 .border_t {
@@ -380,7 +380,7 @@ IDs
 #system_stats {
 position: relative;
 float: right;
-max-width: 45%;
+max-width: 30%;
 margin: 0px;
 font-size: 13px;
 }
@@ -389,6 +389,7 @@ font-size: 13px;
 #system_stats fieldset {
 padding: 8px;
 font-size: 13px;
+border: 1px solid #dd7c0d; 
 }
 
 

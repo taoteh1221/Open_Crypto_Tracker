@@ -124,24 +124,24 @@ background: #343f49;
 
 
 .red, #api_error_alert {
-color: #cf3d32 !important;
+color: #ff4747 !important;
 }
 
 
 .red_dotted {
 padding: 10px;
-border: 2px dotted #cf3d32 !important;
+border: 2px dotted #ff4747 !important;
 }
 
 
 .green {
-color: #0a8e01 !important;
+color: #10d602 !important;
 }
 
 
 .green_dotted {
 padding: 10px;
-border: 2px dotted #0a8e01 !important;
+border: 2px dotted #10d602 !important;
 }
 
 
@@ -180,10 +180,4 @@ border-top: 2px solid white;
 /* //////////////////////////////
 IDs
 ////////////////////////////// */
-
-
-#system_stats fieldset {
-border: 1px solid white; 
-}
-
 

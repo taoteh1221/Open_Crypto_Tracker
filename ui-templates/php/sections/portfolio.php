@@ -628,7 +628,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
     		if ( $system_stats == 'on' || $system_stats == 'raspi' && $is_raspi == 1 ) {
     ?>
 	
-		<fieldset><legend> <strong class="black">System Statistics</strong> </legend>
+		<fieldset><legend> <strong class="bitcoin">System Statistics</strong> </legend>
     
     <?php
     			
@@ -653,34 +653,38 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	
 	
     		// Output
+    		if ( isset($system_info['model']) ) {
+    		echo '<span class="bitcoin">Model:</span> <span class="blue"> '.$system_info['model'].'</span> <br />';
+    		}
+    		
     		if ( isset($system_info['uptime']) ) {
-    		echo '<span class="black">Uptime:</span> <span class="'.( preg_match("/0 hours/i", $system_info['uptime']) ? 'red' : 'green' ).'"> '.$system_info['uptime'].'</span> <br />';
+    		echo '<span class="bitcoin">Uptime:</span> <span class="'.( preg_match("/ 0 hours/i", $system_info['uptime']) ? 'red' : 'green' ).'"> '.$system_info['uptime'].'</span> <br />';
     		}
     		
     		if ( isset($system_info['system_load']) ) {
-    		echo '<span class="black">Load:</span> <span class="'.( $raspi_load > 2 ? 'red' : 'green' ).'"> '.$system_info['system_load'].'</span> <br />';
+    		echo '<span class="bitcoin">Load:</span> <span class="'.( $raspi_load > 2 ? 'red' : 'green' ).'"> '.$system_info['system_load'].'</span> <br />';
     		}
     		
     		if ( isset($system_info['system_temp']) ) {
-    		echo '<span class="black">Temperature:</span> <span class="'.( $raspi_temp > 79 ? 'red' : 'green' ).'"> '.$system_info['system_temp'].'</span> <br />';
+    		echo '<span class="bitcoin">Temperature:</span> <span class="'.( $raspi_temp > 79 ? 'red' : 'green' ).'"> '.$system_info['system_temp'].'</span> <br />';
     		}
     		
     		if ( isset($system_info['memory_free']) ) {
-    		echo '<span class="black">Free Memory:</span> <span class="'.( $memory_percent_free < 9 ? 'red' : 'green' ).'"> '.$raspi_memory_free_mb.' Mb ('.$memory_percent_free.'%)</span> <br />';
+    		echo '<span class="bitcoin">Free Memory:</span> <span class="'.( $memory_percent_free < 9 ? 'red' : 'green' ).'"> '.$raspi_memory_free_mb.' Megabytes ('.$memory_percent_free.'%)</span> <br />';
     		}
     		
     		if ( isset($system_info['free_partition_space']) ) {
-    		echo '<span class="black">Free Space:</span> <span class="'.( $raspi_free_space_mb < 500 ? 'red' : 'green' ).'"> '.$system_info['free_partition_space'].'</span> <br />';
+    		echo '<span class="bitcoin">Free Space:</span> <span class="'.( $raspi_free_space_mb < 500 ? 'red' : 'green' ).'"> '.$system_info['free_partition_space'].'</span> <br />';
     		}
     		
     		if ( isset($system_info['app_cache']) ) {
-    		echo '<span class="black">App Cache:</span> <span class="'.( $app_cache_size > 5000 ? 'red' : 'green' ).'"> '.$app_cache_size.' Mb</span> <br />';
+    		echo '<span class="bitcoin">App Cache:</span> <span class="'.( $app_cache_size > 5000 ? 'red' : 'green' ).'"> '.$system_info['app_cache'].'</span> <br />';
     		}
     		
     		
     		?>
     		
-    		<span class="black">Charts: (coming soon)</span>
+    		<span class="bitcoin">Charts:</span> <span class="blue">(coming soon)</span>
     		
 		</fieldset>
 		
