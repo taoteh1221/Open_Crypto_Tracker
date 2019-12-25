@@ -602,8 +602,8 @@ $asset_market_data = asset_market_data($asset, $exchange, $coins_list[$asset]['m
 	// Make sure we have basic values, otherwise log errors / return false
 	
 	// Return false if we have no $charts_alerts_btc_fiat_value
-	if ( $charts_alerts_btc_fiat_value == NULL ) {
-	app_logging( 'other_error', 'No Bitcoin '.strtoupper($charts_alerts_btc_fiat_pairing).' value set', $asset_data . ' (' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ')' );
+	if ( !isset($charts_alerts_btc_fiat_value) || $charts_alerts_btc_fiat_value == 0 ) {
+	app_logging( 'other_error', 'asset_charts_and_alerts() - No Bitcoin '.strtoupper($charts_alerts_btc_fiat_pairing).' value set', $asset_data . ' (' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ')' );
 	$set_return = 1;
 	}
 	
@@ -612,7 +612,7 @@ $asset_market_data = asset_market_data($asset, $exchange, $coins_list[$asset]['m
 	// Continue
 	}
 	else {
-	app_logging( 'other_error', 'No asset '.strtoupper($charts_alerts_btc_fiat_pairing).' value set', $asset_data . ' (' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ')' );
+	app_logging( 'other_error', 'asset_charts_and_alerts() - No asset '.strtoupper($charts_alerts_btc_fiat_pairing).' value set', $asset_data . ' (' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ')' );
 	$set_return = 1;
 	}
 	
