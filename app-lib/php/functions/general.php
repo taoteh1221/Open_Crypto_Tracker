@@ -2288,7 +2288,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 	$data = curl_exec($ch);
 	curl_close($ch);
 
-		if ( isset($data) && isset($endpoint_tld) ) {
+		if ( isset($data) && $endpoint_tld != '' ) {
 		// Log this latest live response, ONLY IF WE DETECT AN $endpoint_tld
 		store_file_contents($base_dir . '/cache/logs/last_response/last-'.preg_replace("/\./", "_", $endpoint_tld).'-'.$hash_check.'-response.log', $data);
 		}
