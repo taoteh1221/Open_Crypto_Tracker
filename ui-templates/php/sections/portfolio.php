@@ -653,16 +653,20 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	
 	
     		// Output
-    		if ( isset($system_info['model']) ) {
-    		echo '<span class="bitcoin">Model:</span> <span class="blue"> '.$system_info['model'].'</span> <br />';
-    		}
-    		
     		if ( isset($system_info['uptime']) ) {
     		echo '<span class="bitcoin">Uptime:</span> <span class="'.( preg_match("/ 0 hours/i", $system_info['uptime']) ? 'red' : 'green' ).'"> '.$system_info['uptime'].'</span> <br />';
     		}
     		
     		if ( isset($system_info['system_load']) ) {
     		echo '<span class="bitcoin">Load:</span> <span class="'.( $raspi_load > 2 ? 'red' : 'green' ).'"> '.$system_info['system_load'].'</span> <br />';
+    		}
+    		
+    		if ( isset($system_info['model']) ) {
+    		echo '<span class="bitcoin">Model:</span> <span class="blue"> '.$system_info['model'].'</span> <br />';
+    		}
+    		
+    		if ( isset($system_info['model_name']) ) {
+    		echo '<span class="bitcoin">CPU:</span> <span class="blue"> '.$system_info['model_name'].'</span> <br />';
     		}
     		
     		if ( isset($system_info['system_temp']) ) {
