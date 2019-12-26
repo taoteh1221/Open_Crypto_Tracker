@@ -694,7 +694,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
     		
     		?>
     		
-    		<b><a href="javascript: return false;" class="show_system_charts bitcoin">View Charts</a></b>
+    		<b><a href="javascript: return false;" class="show_system_charts bitcoin" title="View System Statistics Charts">View Charts</a></b>
     		
 		</fieldset>
 		

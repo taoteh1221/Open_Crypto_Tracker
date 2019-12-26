@@ -5,25 +5,11 @@
 
 
 error_reporting(0); // Turn off all PHP error reporting on production servers (0), or enable (1)
-
 //apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
 
-$app_version = '4.04.1';  // 2019/DECEMBER/25TH
 
 
-require_once("app-lib/php/loader.php");
-
-
-date_default_timezone_set('UTC'); // Set time as UTC for logs etc ($local_time_offset in config.php can adjust UI / UX timestamps as needed)
-ini_set('auto_detect_line_endings',TRUE); // Mac compatibility with CSV spreadsheet importing
-
-
-
-hardy_session_clearing(); // Try to avoid edge-case bug where sessions didn't delete last runtime
-session_start(); // New session start
-
-
-$_SESSION['proxy_checkup'] = array();
+$app_version = '4.05.0';  // 2019/DECEMBER/26TH
 
 
 
@@ -32,11 +18,6 @@ if ( !$runtime_mode )  {
 echo 'No runtime mode set, exiting.';
 exit;
 }
-    	
-
-
-// Register the base directory
-$base_dir = preg_replace("/\/app-lib(.*)/i", "", dirname(__FILE__) );
 
 
 
@@ -61,18 +42,36 @@ define('CURL_VERSION_ID', str_replace(".", "", $curl_setup["version"]) );
 
 
 
-// HTTP SERVER user and system user detection variables, for cache compatibility auto-configuration
+date_default_timezone_set('UTC'); // Set time as UTC for logs etc ($local_time_offset in config.php can adjust UI / UX timestamps as needed)
+ini_set('auto_detect_line_endings',TRUE); // Mac compatibility with CSV spreadsheet importing
+
+
+
+// Load functions
+require_once("app-lib/php/loader.php");
+
+
+
+hardy_session_clearing(); // Try to avoid edge-case bug where sessions didn't delete last runtime
+session_start(); // New session start
+
+
+$_SESSION['proxy_checkup'] = array();
+    	
+
+
+// Register the base directory
+$base_dir = preg_replace("/\/app-lib(.*)/i", "", dirname(__FILE__) );
+
+
+
+// Get WEBSERVER runtime user (from cache if currently running from CLI)
+// MUST BE SET BEFORE CACHE STRUCTURE CREATION, TO RUN IN COMPATIBILITY MODE FOR THIS PARTICULAR SERVER'S SETUP
 $http_runtime_user = ( $runtime_mode == 'ui' ? posix_getpwuid(posix_geteuid())['name'] : trim( file_get_contents('cache/vars/http_runtime_user.dat') ) );
 
-$http_users = array(
-						'www-data',
-						'apache',
-						'apache2',
-						'httpd',
-						'httpd2',
-							);
 
 
+// DEVELOPER-ONLY INIT ARRAYS, !CHANGE WITH CARE!
 
 // TLD-only for each API service that requires multiple calls (for each market)
 // Used to throttle these market calls a bit, so we don't get blacklisted
@@ -127,12 +126,24 @@ $tld_map = array(
 					'pro',
 					'us',
 					);
+					
+					
+
+// HTTP SERVER user and system user detection variables, for cache compatibility auto-configuration
+$http_users = array(
+						'www-data',
+						'apache',
+						'apache2',
+						'httpd',
+						'httpd2',
+							);
 
 
 
-// We can create cache directories (if needed), with $http_runtime_user determined (for cache compatibility on certain PHP setups)
+// We can create cache directories (if needed), with $http_runtime_user determined further above 
+// (for cache compatibility on certain PHP setups)
 
-// Check for cache sub-directory creation, create if needed...if it fails, alert end-user
+// Check for cache sub-directory creation, create if needed...if it fails, exit and alert end-user
 if ( dir_structure($base_dir . '/cache/alerts/') != TRUE
 || dir_structure($base_dir . '/cache/apis/') != TRUE
 || dir_structure($base_dir . '/cache/charts/spot_price_24hr_volume/archival/') != TRUE
@@ -140,7 +151,7 @@ if ( dir_structure($base_dir . '/cache/alerts/') != TRUE
 || dir_structure($base_dir . '/cache/charts/system/archival/') != TRUE
 || dir_structure($base_dir . '/cache/charts/system/lite/') != TRUE
 || dir_structure($base_dir . '/cache/events/') != TRUE
-|| dir_structure($base_dir . '/cache/logs/last_response/') != TRUE
+|| dir_structure($base_dir . '/cache/logs/api_debugging/') != TRUE
 || dir_structure($base_dir . '/cache/queue/messages/') != TRUE
 || dir_structure($base_dir . '/cache/vars/') != TRUE ) {
 echo "Cannot create cache sub-directories. Please make sure the folder '/cache/' has FULL read / write permissions (chmod 777 on unix / linux systems), so the cache sub-directories can be created automatically.";

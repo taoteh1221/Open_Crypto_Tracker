@@ -1897,7 +1897,7 @@ return $system;
 
 function send_notifications() {
 
-global $base_dir, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $textlocal_account;
+global $base_dir, $debug_mode, $to_email, $to_text, $notifyme_accesscode, $textbelt_apikey, $textlocal_account;
 
 
 // Array of currently queued messages in the cache
@@ -2015,8 +2015,10 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 					$message_sent = 1;
 					
 					store_file_contents($base_dir . '/cache/events/notifyme-alerts-sent.dat', $_SESSION['notifyme_count']); 
-				
-					store_file_contents($base_dir . '/cache/logs/last_response/last-notifyme-response.log', $notifyme_response);
+					
+						if ( $debug_mode == 'all' || $debug_mode == 'telemetry' ) {
+						store_file_contents($base_dir . '/cache/logs/api_debugging/last-response-notifyme.log', $notifyme_response);
+						}
 					
 					unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
 					
@@ -2045,7 +2047,9 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 				
 				$message_sent = 1;
 			   
-				store_file_contents($base_dir . '/cache/logs/last_response/last-textbelt-response.log', $textbelt_response);
+			   	if ( $debug_mode == 'all' || $debug_mode == 'telemetry' ) {
+					store_file_contents($base_dir . '/cache/logs/api_debugging/last-response-textbelt.log', $textbelt_response);
+					}
 				
 				unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
 				
@@ -2070,7 +2074,9 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 				
 				$message_sent = 1;
 			   
-				store_file_contents($base_dir . '/cache/logs/last_response/last-textlocal-response.log', $textlocal_response);
+			   	if ( $debug_mode == 'all' || $debug_mode == 'telemetry' ) {
+					store_file_contents($base_dir . '/cache/logs/api_debugging/last-response-textlocal.log', $textlocal_response);
+					}
 				
 				unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
 				
@@ -2184,7 +2190,7 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 
 function api_data($mode, $request, $ttl, $api_server=null, $post_encoding=3, $test_proxy=NULL, $headers=NULL) { // Default to JSON encoding post requests (most used)
 
-global $debug_mode, $base_dir, $limited_apis, $tld_map, $user_agent, $api_timeout, $api_strict_ssl, $proxy_login, $proxy_list;
+global $base_dir, $limited_apis, $tld_map, $debug_mode, $api_timeout, $api_strict_ssl, $proxy_login, $proxy_list, $user_agent;
 
 $cookie_jar = tempnam('/tmp','cookie');
 	
@@ -2303,10 +2309,11 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 	$data = curl_exec($ch);
 	curl_close($ch);
 
-		if ( isset($data) && $endpoint_tld != '' && $ttl != 0 ) {
+		if ( isset($data) && $endpoint_tld != '' && $ttl != 0 && $debug_mode == 'all' 
+		|| isset($data) && $endpoint_tld != '' && $ttl != 0 && $debug_mode == 'telemetry' ) {
 		// Log this latest live response, 
 		// ONLY IF WE DETECT AN $endpoint_tld, AND TTL IS !NOT! ZERO (TTL==0 usually means too many unique requests that would bloat the cache)
-		store_file_contents($base_dir . '/cache/logs/last_response/last-'.preg_replace("/\./", "_", $endpoint_tld).'-'.$hash_check.'-response.log', $data);
+		store_file_contents($base_dir . '/cache/logs/api_debugging/last-response-'.preg_replace("/\./", "_", $endpoint_tld).'-'.$hash_check.'.log', $data);
 		}
 		elseif ( !$data ) {
 		
