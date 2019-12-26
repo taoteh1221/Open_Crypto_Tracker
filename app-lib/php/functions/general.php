@@ -704,27 +704,7 @@ return $result;
 
 
 // Return the TLD only (no subdomain)
-function get_tld($url) {
-
-
-// TLDs supported
-$urlMap = array(
-					'com', 
-					'com.au',
-					'co.uk',
-					'info',
-					'io',
-					'market',
-					'net',
-					'net.au',
-					'net.uk',
-					'one',
-					'org',
-					'org.au',
-					'org.uk',
-					'pro',
-					'us',
-					);
+function get_tld($url, $tld_map) {
 
 
 $urlData = parse_url($url);
@@ -732,10 +712,10 @@ $hostData = explode('.', $urlData['host']);
 $hostData = array_reverse($hostData);
 
 
-	if ( array_search($hostData[1] . '.' . $hostData[0], $urlMap) !== FALSE ) {
+	if ( array_search($hostData[1] . '.' . $hostData[0], $tld_map) !== FALSE ) {
    $host = $hostData[2] . '.' . $hostData[1] . '.' . $hostData[0];
 	} 
-	elseif ( array_search($hostData[0], $urlMap) !== FALSE ) {
+	elseif ( array_search($hostData[0], $tld_map) !== FALSE ) {
    $host = $hostData[1] . '.' . $hostData[0];
  	}
 
@@ -2204,7 +2184,7 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 
 function api_data($mode, $request, $ttl, $api_server=null, $post_encoding=3, $test_proxy=NULL, $headers=NULL) { // Default to JSON encoding post requests (most used)
 
-global $debug_mode, $base_dir, $limited_apis, $user_agent, $api_timeout, $api_strict_ssl, $proxy_login, $proxy_list;
+global $debug_mode, $base_dir, $limited_apis, $tld_map, $user_agent, $api_timeout, $api_strict_ssl, $proxy_login, $proxy_list;
 
 $cookie_jar = tempnam('/tmp','cookie');
 	
@@ -2223,7 +2203,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		// If this is an API service that requires multiple calls (for each market), 
 		// and a request to it has been made consecutively, we throttle it to avoid being blacklisted
 		$check_api_endpoint = ( $mode == 'array' ? $api_server : $request );
-		$endpoint_tld = get_tld($check_api_endpoint);
+		$endpoint_tld = get_tld($check_api_endpoint, $tld_map);
 		
 		
 		// Throttled endpoints

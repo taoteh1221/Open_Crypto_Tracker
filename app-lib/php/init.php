@@ -40,18 +40,6 @@ $base_dir = preg_replace("/\/app-lib(.*)/i", "", dirname(__FILE__) );
 
 
 
-// Get system info for debugging / Raspberry Pi system load and temperature
-$system_info = system_info(); // MUST RUN AFTER SETTING $base_dir!
-
-
-
-// Raspberry Pi device?
-if ( preg_match("/raspberry/i", $system_info['model']) ) {
-$is_raspi = 1;
-}
-
-
-
 // Make sure we have a PHP version id
 if (!defined('PHP_VERSION_ID')) {
     $version = explode('.', PHP_VERSION);
@@ -121,6 +109,27 @@ $lite_charts_structure = array(
 
 
 
+// TLDs (Top Level Domains) supported in the get_tld() function
+$tld_map = array(
+					'com', 
+					'com.au',
+					'co.uk',
+					'info',
+					'io',
+					'market',
+					'net',
+					'net.au',
+					'net.uk',
+					'one',
+					'org',
+					'org.au',
+					'org.uk',
+					'pro',
+					'us',
+					);
+
+
+
 // We can create cache directories (if needed), with $http_runtime_user determined (for cache compatibility on certain PHP setups)
 
 // Check for cache sub-directory creation, create if needed...if it fails, alert end-user
@@ -143,6 +152,18 @@ exit;
 // Recreate .htaccess to restrict web snooping of cache contents, if the cache directory was deleted / recreated
 if ( !file_exists($base_dir . '/cache/.htaccess') ) {
 store_file_contents($base_dir . '/cache/.htaccess', 'deny from all'); 
+}
+
+
+
+// Get system info for debugging / Raspberry Pi system load and temperature
+$system_info = system_info(); // MUST RUN AFTER SETTING $base_dir, AND CREATING CACHE DIRECTORY STRUCTURE!
+
+
+
+// Raspberry Pi device?
+if ( preg_match("/raspberry/i", $system_info['model']) ) {
+$is_raspi = 1;
 }
 
 
