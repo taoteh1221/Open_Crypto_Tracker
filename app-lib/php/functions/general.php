@@ -1736,6 +1736,44 @@ $system['software'] = 'DFD_Cryptocoin_Values/' . $app_version . ' - PHP/' . phpv
 	
 	
 	
+	// System loads
+	$loop = 1;
+	foreach ( sys_getloadavg() as $load ) {
+		
+		if ( $loop == 1 ) {
+		$time = 1;
+		}
+		elseif ( $loop == 2 ) {
+		$time = 5;
+		}
+		elseif ( $loop == 3 ) {
+		$time = 15;
+		}
+		
+	$system['system_load'] .= $load . ' (' . $time . ' min avg) ';
+	$loop = $loop + 1;
+	}
+	$system['system_load'] = trim($system['system_load']);
+
+
+	
+	// Uptime stats
+	if ( is_readable('/proc/uptime') ) {
+		
+ 	$uptime_info = @file_get_contents('/proc/uptime');
+ 	
+ 	$num   = floatval($uptime_info);
+	$secs  = fmod($num, 60); $num = (int)($num / 60);
+	$mins  = $num % 60;      $num = (int)($num / 60);
+	$hours = $num % 24;      $num = (int)($num / 24);
+	$days  = $num;
+ 	
+ 	$system['uptime'] = $days . ' days, ' . $hours . ' hours, ' . $mins . ' minutes, and ' . round($secs) . ' seconds';
+ 	
+	}
+	
+	
+	
 	// CPU stats
 	if ( is_readable('/proc/cpuinfo') ) {
 	$cpu_info = @file_get_contents('/proc/cpuinfo');
@@ -1809,44 +1847,6 @@ $system['software'] = 'DFD_Cryptocoin_Values/' . $app_version . ' - PHP/' . phpv
 	$server['server_info'] = $server_info_array;
 	
 	}
-
-
-	
-	// Uptime stats
-	if ( is_readable('/proc/uptime') ) {
-		
- 	$uptime_info = @file_get_contents('/proc/uptime');
- 	
- 	$num   = floatval($uptime_info);
-	$secs  = fmod($num, 60); $num = (int)($num / 60);
-	$mins  = $num % 60;      $num = (int)($num / 60);
-	$hours = $num % 24;      $num = (int)($num / 24);
-	$days  = $num;
- 	
- 	$system['uptime'] = $days . ' days, ' . $hours . ' hours, ' . $mins . ' minutes, and ' . round($secs) . ' seconds';
- 	
-	}
-	
-	
-	
-	// System loads
-	$loop = 1;
-	foreach ( sys_getloadavg() as $load ) {
-		
-		if ( $loop == 1 ) {
-		$time = 1;
-		}
-		elseif ( $loop == 2 ) {
-		$time = 5;
-		}
-		elseif ( $loop == 3 ) {
-		$time = 15;
-		}
-		
-	$system['system_load'] .= $load . ' (' . $time . ' min avg) ';
-	$loop = $loop + 1;
-	}
-	$system['system_load'] = trim($system['system_load']);
 	
 
 

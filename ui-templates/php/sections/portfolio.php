@@ -653,8 +653,12 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	
 	
     		// Output
+    		if ( isset($system_info['operating_system']) ) {
+    		echo '<span class="bitcoin">OS:</span> <span class="blue"> '.$system_info['operating_system'].'</span> <br />';
+    		}
+    		
     		if ( isset($system_info['uptime']) ) {
-    		echo '<span class="bitcoin">Uptime:</span> <span class="'.( preg_match("/ 0 hours/i", $system_info['uptime']) ? 'red' : 'green' ).'"> '.$system_info['uptime'].'</span> <br />';
+    		echo '<span class="bitcoin">Uptime:</span> <span class="'.( preg_match("/0 days, 0 hours/i", $system_info['uptime']) ? 'red' : 'green' ).'"> '.$system_info['uptime'].'</span> <br />';
     		}
     		
     		if ( isset($system_info['system_load']) ) {
@@ -679,6 +683,10 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
     		
     		if ( isset($system_info['free_partition_space']) ) {
     		echo '<span class="bitcoin">Free Space:</span> <span class="'.( $raspi_free_space_mb < 500 ? 'red' : 'green' ).'"> '.$system_info['free_partition_space'].'</span> <br />';
+    		}
+    		
+    		if ( isset($system_info['software']) ) {
+    		echo '<span class="bitcoin">Software:</span> <span class="blue"> '.$system_info['software'].'</span> <br />';
     		}
     		
     		if ( isset($system_info['app_cache']) ) {
