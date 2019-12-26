@@ -104,10 +104,60 @@ $raspi_memory_free_mb = in_megabytes($system_info['memory_free'])['in_megs'];
 // Percent difference (!MUST BE! absolute value)
 $memory_percent_free = abs( ($raspi_memory_free_mb - $raspi_memory_total_mb) / abs($raspi_memory_total_mb) * 100 );
 $memory_percent_free = round( 100 - $memory_percent_free, 2);
-         
+
+
+
+	if ( trim($raspi_load) ) {
+	$chart_data_set .= '||' . trim($raspi_load);
+	}
+	else {
+	$chart_data_set .= '||0';
+	}
+	
+	
+	if ( trim($raspi_temp) ) {
+	$chart_data_set .= '||' . trim($raspi_temp);
+	}
+	else {
+	$chart_data_set .= '||0';
+	}
+	
+	
+	if ( trim($raspi_memory_free_mb) ) {
+	$chart_data_set .= '||' . trim($raspi_memory_free_mb);
+	}
+	else {
+	$chart_data_set .= '||0';
+	}
+	
+	
+	if ( trim($memory_percent_free) ) {
+	$chart_data_set .= '||' . trim($memory_percent_free);
+	}
+	else {
+	$chart_data_set .= '||0';
+	}
+	
+	
+	if ( trim($raspi_free_space_mb) ) {
+	$chart_data_set .= '||' . trim($raspi_free_space_mb);
+	}
+	else {
+	$chart_data_set .= '||0';
+	}
+	
+	
+	if ( trim($app_cache_size) ) {
+	$chart_data_set .= '||' . trim($app_cache_size);
+	}
+	else {
+	$chart_data_set .= '||0';
+	}
+	
+
          
 // Store system data to chart 
-store_file_contents($base_dir . '/cache/charts/system/archival/system_stats.dat', time() . '||' . trim($raspi_load) . '||' . trim($raspi_temp) . '||' . trim($raspi_memory_free_mb) . '||' . trim($memory_percent_free) . '||' . trim($raspi_free_space_mb) . '||' . trim($app_cache_size) . "\n", "append");
+store_file_contents($base_dir . '/cache/charts/system/archival/system_stats.dat', time() . $chart_data_set . "\n", "append");
     		
     		
 }

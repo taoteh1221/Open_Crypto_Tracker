@@ -622,14 +622,12 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	<div id='system_stats' align='left'>
 	
 	<?php
-	
-		
 			// If hardware stats are enabled, display the load avg / temperature / free partition space / free memory [mb/percent]
     		if ( $system_stats == 'on' || $system_stats == 'raspi' && $is_raspi == 1 ) {
     ?>
 	
 		<fieldset><legend> <strong class="bitcoin">System Statistics</strong> </legend>
-    
+    		
     <?php
     			
     		// Raspi system data
@@ -654,49 +652,49 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	
     		// Output
     		if ( isset($system_info['operating_system']) ) {
-    		echo '<span class="bitcoin">OS:</span> <span class="blue"> '.$system_info['operating_system'].'</span> <br />';
-    		}
-    		
-    		if ( isset($system_info['uptime']) ) {
-    		echo '<span class="bitcoin">Uptime:</span> <span class="'.( preg_match("/0 days, 0 hours/i", $system_info['uptime']) ? 'red' : 'green' ).'"> '.$system_info['uptime'].'</span> <br />';
-    		}
-    		
-    		if ( isset($system_info['system_load']) ) {
-    		echo '<span class="bitcoin">Load:</span> <span class="'.( $raspi_load > 2 ? 'red' : 'green' ).'"> '.$system_info['system_load'].'</span> <br />';
+    		echo '<span class="bitcoin"><b>OS:</b></span> <span class="blue"> '.$system_info['operating_system'].'</span> <br />';
     		}
     		
     		if ( isset($system_info['model']) ) {
-    		echo '<span class="bitcoin">Model:</span> <span class="blue"> '.$system_info['model'].'</span> <br />';
+    		echo '<span class="bitcoin"><b>Model:</b></span> <span class="blue"> '.$system_info['model'].'</span> <br />';
     		}
     		
     		if ( isset($system_info['model_name']) ) {
-    		echo '<span class="bitcoin">CPU:</span> <span class="blue"> '.$system_info['model_name'].'</span> <br />';
+    		echo '<span class="bitcoin"><b>CPU:</b></span> <span class="blue"> '.$system_info['model_name'].'</span> <br />';
+    		}
+    		
+    		if ( isset($system_info['uptime']) ) {
+    		echo '<span class="bitcoin"><b>Uptime:</b></span> <span class="'.( preg_match("/0 days, 0 hours/i", $system_info['uptime']) ? 'red' : 'green' ).'"> '.$system_info['uptime'].'</span> <br />';
+    		}
+    		
+    		if ( isset($system_info['system_load']) ) {
+    		echo '<span class="bitcoin"><b>Load:</b></span> <span class="'.( $raspi_load > 2 ? 'red' : 'green' ).'"> '.$system_info['system_load'].'</span> <br />';
     		}
     		
     		if ( isset($system_info['system_temp']) ) {
-    		echo '<span class="bitcoin">Temperature:</span> <span class="'.( $raspi_temp > 79 ? 'red' : 'green' ).'"> '.$system_info['system_temp'].'</span> <br />';
+    		echo '<span class="bitcoin"><b>Temperature:</b></span> <span class="'.( $raspi_temp > 79 ? 'red' : 'green' ).'"> '.$system_info['system_temp'].'</span> <br />';
     		}
     		
     		if ( isset($system_info['memory_free']) ) {
-    		echo '<span class="bitcoin">Free Memory:</span> <span class="'.( $memory_percent_free < 9 ? 'red' : 'green' ).'"> '.$raspi_memory_free_mb.' Megabytes ('.$memory_percent_free.'%)</span> <br />';
+    		echo '<span class="bitcoin"><b>Free Memory:</b></span> <span class="'.( $memory_percent_free < 9 ? 'red' : 'green' ).'"> '.$raspi_memory_free_mb.' Megabytes ('.$memory_percent_free.'%)</span> <br />';
     		}
     		
     		if ( isset($system_info['free_partition_space']) ) {
-    		echo '<span class="bitcoin">Free Space:</span> <span class="'.( $raspi_free_space_mb < 500 ? 'red' : 'green' ).'"> '.$system_info['free_partition_space'].'</span> <br />';
-    		}
-    		
-    		if ( isset($system_info['software']) ) {
-    		echo '<span class="bitcoin">Software:</span> <span class="blue"> '.$system_info['software'].'</span> <br />';
+    		echo '<span class="bitcoin"><b>Free Space:</b></span> <span class="'.( $raspi_free_space_mb < 500 ? 'red' : 'green' ).'"> '.$system_info['free_partition_space'].'</span> <br />';
     		}
     		
     		if ( isset($system_info['app_cache']) ) {
-    		echo '<span class="bitcoin">App Cache:</span> <span class="'.( $app_cache_size > 5000 ? 'red' : 'green' ).'"> '.$system_info['app_cache'].'</span> <br />';
+    		echo '<span class="bitcoin"><b>Portfolio App Cache:</b></span> <span class="'.( $app_cache_size > 5000 ? 'red' : 'green' ).'"> '.$system_info['app_cache'].'</span> <br />';
+    		}
+    		
+    		if ( isset($system_info['software']) ) {
+    		echo '<span class="bitcoin"><b>Software:</b></span> <span class="blue"> '.$system_info['software'].'</span> <br />';
     		}
     		
     		
     		?>
     		
-    		<span class="bitcoin">Charts:</span> <span class="blue">(coming soon)</span>
+    		<b><a href="javascript: return false;" class="show_system_charts bitcoin">View Charts</a></b>
     		
 		</fieldset>
 		
@@ -729,7 +727,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	
 	<div align='center' style='min-height: 100px;'>
 	
-		<p><img src='ui-templates/media/images/favicon.png' alt='' border='0' style='border: 2px solid #d4d8d3; border-radius: 8px;' /></p>
+		<p><img src='ui-templates/media/images/favicon.png' alt='' border='0' style='border: 2px solid #d4d8d3; border-radius: 15px;' /></p>
 		<p class='red' style='font-weight: bold; position: relative; margin: 15px;'>No portfolio assets added yet (add them on the Update Assets page).</p>
 	</div>
 	
@@ -758,6 +756,74 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	<?php
 	}
 	?>
-                            
+   
+   
+	<?php
+		// If hardware stats are enabled, display the load avg / temperature / free partition space / free memory [mb/percent]
+    	if ( $system_stats == 'on' || $system_stats == 'raspi' && $is_raspi == 1 ) {
+    ?>
+	
+	<div id="show_system_charts">
+	
+		
+		<h3>System Statistics Charts</h3>
+	
+	<p> &nbsp; </p>
+	
+	<p> Coming Soon </p>
+	
+	<p> &nbsp; </p>
+	
+	<p> &nbsp; </p>
+	
+	<p> &nbsp; </p>
+	
+	<p> &nbsp; </p>
+	
+	<p> &nbsp; </p>
+	
+	<p> &nbsp; </p>
+	
+	<p> &nbsp; </p>
+	
+	<p> &nbsp; </p>
+	
+	<p> &nbsp; </p>
+	
+	<p> &nbsp; </p>
+	
+	<p> &nbsp; </p>
+	
+	<p> &nbsp; </p>
+	
+	<p> &nbsp; </p>
+	
+	<p> &nbsp; </p>
+	
+	<p> &nbsp; </p>
+	
+	<p> &nbsp; </p>
+	
+	<p> &nbsp; </p>
+	
+	<p> &nbsp; </p>
+	
+	<p> &nbsp; </p>
+		
+	</div>
+	
+	
+	<script>
+	$('.show_system_charts').modaal({
+		content_source: '#show_system_charts'
+	});
+	</script>
+	
+	<?php
+		}
+    ?>
+	
+	
+	
                             
                         
