@@ -622,7 +622,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	<div id='system_stats' align='left'>
 	
 	<?php
-			// If hardware stats are enabled, display the load avg / temperature / free partition space / free memory [mb/percent]
+			// If hardware / software stats are enabled, display the load avg / temperature / free partition space / free memory [mb/percent] / etc etc
     		if ( $system_stats == 'on' || $system_stats == 'raspi' && $is_raspi == 1 ) {
     ?>
 	
@@ -759,7 +759,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
    
    
 	<?php
-		// If hardware stats are enabled, display the load avg / temperature / free partition space / free memory [mb/percent]
+		// If hardware / software stats are enabled, display the charts when designated link is clicked (in a modal)
     	if ( $system_stats == 'on' || $system_stats == 'raspi' && $is_raspi == 1 ) {
     ?>
 	
