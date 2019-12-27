@@ -720,7 +720,7 @@ $hostData = array_reverse($hostData);
  	}
 
 
-return trim($host);
+return strtolower( trim($host) );
 
 }
 
@@ -2018,7 +2018,7 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 					store_file_contents($base_dir . '/cache/events/notifyme-alerts-sent.dat', $_SESSION['notifyme_count']); 
 					
 						if ( $debug_mode == 'all' || $debug_mode == 'telemetry' ) {
-						store_file_contents($base_dir . '/cache/logs/api_debugging/last-response-notifyme.log', $notifyme_response);
+						store_file_contents($base_dir . '/cache/logs/debugging/api/last-response-notifyme.log', $notifyme_response);
 						}
 					
 					unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
@@ -2049,7 +2049,7 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 				$message_sent = 1;
 			   
 			   	if ( $debug_mode == 'all' || $debug_mode == 'telemetry' ) {
-					store_file_contents($base_dir . '/cache/logs/api_debugging/last-response-textbelt.log', $textbelt_response);
+					store_file_contents($base_dir . '/cache/logs/debugging/api/last-response-textbelt.log', $textbelt_response);
 					}
 				
 				unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
@@ -2076,7 +2076,7 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 				$message_sent = 1;
 			   
 			   	if ( $debug_mode == 'all' || $debug_mode == 'telemetry' ) {
-					store_file_contents($base_dir . '/cache/logs/api_debugging/last-response-textlocal.log', $textlocal_response);
+					store_file_contents($base_dir . '/cache/logs/debugging/api/last-response-textlocal.log', $textlocal_response);
 					}
 				
 				unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
@@ -2328,18 +2328,49 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 			}
 		
 		}
-		// Data debugging telemetry
-		elseif ( $debug_mode == 'all' || $debug_mode == 'telemetry' ) {
+		// Log this latest live data response, 
+		// ONLY IF WE DETECT AN $endpoint_tld, AND TTL IS !NOT! ZERO (TTL==0 usually means too many unique requests that would bloat the cache)
+		elseif ( $endpoint_tld != '' && $ttl != 0 ) {
 		
 		
-		// LOG-SAFE VERSION (no post data with API keys etc)
-		app_logging( 'api_data_debugging', 'connection request for ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint at ' . $request ), 'request from: server (local timeout setting ' . $api_timeout . ' seconds); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . ';' );
+			// If response seems to contain an error message
+			if ( preg_match("/error/i", $data) ) {
+			
+			
+				// ATTEMPT to weed out false positives before logging as an error
+				// Needed for kraken, coinmarketcap
+				// https://www.php.net/manual/en/regexp.reference.meta.php
+				if ( $endpoint_tld == 'kraken.com' && preg_match("/\"error\":\[\],/i", $data) 
+				|| $endpoint_tld == 'coinmarketcap.com' && preg_match("/\"error_code\": 0,/i", $data) ) {
+				$false_positive = 1;
+				}
+				
+				
+				// If no false positive detected
+				if ( !$false_positive ) {
+				$error_response_log = '/cache/logs/errors/api/error-response-'.preg_replace("/\./", "_", $endpoint_tld).'-'.$hash_check.'.log';
+			
+				// LOG-SAFE VERSION (no post data with API keys etc)
+				app_logging( 'api_data_error', 'POSSIBLE error response received for ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint request at ' . $request ), 'request attempt from: server (local timeout setting ' . $api_timeout . ' seconds); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; log_file: ' . $error_response_log . ';' );
+			
+				// Log this error response from this data request
+				store_file_contents($base_dir . $error_response_log, $data);
+				
+				}
 		
 		
-			// Log this latest live data response, 
-			// ONLY IF WE DETECT AN $endpoint_tld, AND TTL IS !NOT! ZERO (TTL==0 usually means too many unique requests that would bloat the cache)
-			if ( $endpoint_tld != '' && $ttl != 0 ) {
-			store_file_contents($base_dir . '/cache/logs/api_debugging/last-response-'.preg_replace("/\./", "_", $endpoint_tld).'-'.$hash_check.'.log', $data);
+			}
+		
+		
+			// Data debugging telemetry
+			if ( $debug_mode == 'all' || $debug_mode == 'telemetry' ) {
+				
+			// LOG-SAFE VERSION (no post data with API keys etc)
+			app_logging( 'api_data_debugging', 'connection request for ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint at ' . $request ), 'request from: server (local timeout setting ' . $api_timeout . ' seconds); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . ';' );
+			
+			// Log this as the latest response from this data request
+			store_file_contents($base_dir . '/cache/logs/debugging/api/last-response-'.preg_replace("/\./", "_", $endpoint_tld).'-'.$hash_check.'.log', $data);
+			
 			}
 			
 			

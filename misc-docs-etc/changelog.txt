@@ -2089,6 +2089,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -More bug fixes
 
+-Better error logging
+
 -Code cleanup
 
 -UX revisions

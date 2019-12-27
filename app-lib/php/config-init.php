@@ -216,6 +216,19 @@ $marketcap_site = ( $alert_percent[0] != '' ? $alert_percent[0] : $marketcap_sit
 
 
 // Chart data cache directory creation (if needed)
+							
+// Structure of lite charts sub-directories
+$lite_charts_structure = array(
+									'1_day',
+									'1_week',
+									'1_month',
+									'3_months',
+									'6_months',
+									'1_year',
+									'2_years',
+									'4_years',
+									'all',
+									);
 
 // ALL CHARTS FOR SPOT PRICE / 24 HOUR VOLUME
 foreach ( $asset_charts_and_alerts as $key => $value ) {

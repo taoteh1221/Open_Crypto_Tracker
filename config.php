@@ -37,15 +37,15 @@ require_once("app-lib/php/init.php");  // REQUIRED, DON'T DELETE BY ACCIDENT
 
 
 // $debug_mode enabled runs unit tests during ui runtimes (during webpage load), errors detected are error-logged and printed as alerts in footer
-// It also logs ui / cron runtime telemetry to /cache/logs/debugging.log
+// It also logs ui / cron runtime telemetry to /cache/logs/debugging.log, AND /cache/logs/debugging/
 // 'off' (disables), 'all' (all debugging), 'charts' (chart/price alert checks), 'texts' (mobile gateway checks), 
 // 'markets' (coin market checks), 'telemetry' (logs function telemetries), 'stats' (basic hardware / software / runtime stats)
 // UNIT TESTS WILL ONLY RUN DURING WEB PAGE LOAD. MAY REQUIRE  
 // SETTING MAXIMUM ALLOWED PHP EXECUTION TIME TO 120 SECONDS TEMPORARILY, 
 // FOR ALL UNIT TESTS TO FULLY COMPLETE RUNNING, IF YOU GET AN ERROR 500.
 // OPTIONALLY, TRY RUNNING ONE TEST PER PAGE LOAD, TO AVOID THIS.
-// DON'T LEAVE DEBUGGING ENABLED AFTER USING IT, THE /cache/logs/debugging.log
-// LOG FILE !GROWS VERY QUICKLY IN SIZE! EVEN AFTER JUST A FEW RUNTIMES
+// DON'T LEAVE DEBUGGING ENABLED AFTER USING IT, THE /cache/logs/debugging.log AND /cache/logs/debugging/
+// LOG FILES !CAN GROW VERY QUICKLY IN SIZE! EVEN AFTER JUST A FEW RUNTIMES
 $debug_mode = 'off'; 
 
 // Your local time offset in hours compared to UTC time. Can be negative or positive.
@@ -63,7 +63,7 @@ $btc_fiat_pairing = 'usd';
 // 'hitbtc', 'huobi', 'kraken', 'lakebtc', 'livecoin', 'okcoin', 'okex', 'tidebit'
 // SEE THE $coins_list CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
 // MARKET PAIRING VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (to populate $btc_fiat_pairing directly below with)
-$btc_exchange = 'kraken'; 
+$btc_exchange = 'kraken'; // SEE THE $limited_apis SETTING MUCH FURTHER DOWN, FOR EXCHANGES !NOT RECOMMENDED FOR USAGE HERE!
 
 // Maximum decimal places for fiat values of coins worth under 1.00 [usd/gbp/eur/jpy/brl/rub/etc], for prettier / less-cluttered interface
 $fiat_decimals_max = 5; // IF YOU ADJUST $btc_fiat_pairing ABOVE, YOU MAY NEED TO ADJUST THIS ACCORDINGLY FOR !FUNCTIONAL! CHARTS / ALERTS
@@ -400,8 +400,9 @@ $steem_powerdown_time = 13;
 
 // POWER USER SETTINGS (ADJUST WITH CARE, OR YOU CAN BREAK THE APP!)
 
-// Currency symbols for BITCOIN/FIAT(OR STABLECOIN) pairings in $coins_list array
-// MUST BE AN EXISTING BTC/FIAT(OR STABLECOIN) MARKET PAIRING TO PROPERLY DISPLAY SYMBOLS
+// Activate support for FIAT-paired markets (like usd/ltc, eur/eth, etc)
+// EACH CURRENCY LISTED HERE !MUST HAVE! AN EXISTING BTC/FIAT(OR STABLECOIN) MARKET (within 'market_pairing') 
+// in Bitcoin's $coins_list listing (further down in this config file) TO PROPERLY ACTIVATE
 $fiat_currencies = array(
 						//'lowercase_btc_fiat_or_stablecoin_pairing' => 'CURRENCY_SYMBOL',
 						'aud' => 'A$',
@@ -424,9 +425,9 @@ $fiat_currencies = array(
 
 
 // Activate support for ALTCOIN-paired markets (like doge/ltc, dai/eth, etc)
-// ('btc' pairing support CAN BE SKIPPED HERE, as it's ALREADY BUILT-IN to this app)
 // EACH ALTCOIN LISTED HERE !MUST HAVE! AN EXISTING 'btc' MARKET (within 'market_pairing') 
 // in it's $coins_list listing (further down in this config file) TO PROPERLY ACTIVATE
+// ('btc' pairing support IS SKIPPED HERE, as it's ALREADY BUILT-IN to this app)
 $crypto_to_crypto_pairing = array(
 						//'lowercase_altcoin_abrv' => 'CRYPTO_SYMBOL',
 						'eth' => 'Ξ ',
@@ -435,6 +436,52 @@ $crypto_to_crypto_pairing = array(
 							);
 
 
+
+// DEVELOPER-ONLY CONFIGS, !CHANGE WITH EXTREME CARE!
+
+// TLD-only (Top Level Domain) for each API service that requires multiple calls (for each market)
+// Used to throttle these market calls a tiny bit (1.15 seconds), so we don't get easily blacklisted
+// (THESE EXCHANGES ARE !NOT! RECOMMENDED TO BE USED AS THE DEFAULT FIAT CURRENCY MARKET IN THIS APP,
+// AS ON OCCASION THEY CAN BE !UNRELIABLE! IF HIT WITH TOO MANY SEPARATE API CALLS FOR DIFFERENT COINS / ASSETS)
+// !MUST BE LOWERCASE!
+$limited_apis = array(
+						'bitforex.com',
+						'bitflyer.com',
+						'bitstamp.net',
+						'blockchain.info',
+						'btcmarkets.net',
+						'coinbase.com',
+						'cryptofresh.com',
+						'dcrdata.org',
+						'dogechain.info',
+						'etherscan.io',
+						'gemini.com',
+						'litecoin.net',
+						'okcoin.com',
+							);
+
+
+
+// TLD-extensions-only (Top Level Domain extensions) supported in the get_tld() function
+// (NO LEADING DOTS, !MUST BE LOWERCASE!)
+$tld_map = array(
+					'com', 
+					'com.au',
+					'co.uk',
+					'info',
+					'io',
+					'market',
+					'net',
+					'net.au',
+					'net.uk',
+					'one',
+					'org',
+					'org.au',
+					'org.uk',
+					'pro',
+					'us',
+					);
+							
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

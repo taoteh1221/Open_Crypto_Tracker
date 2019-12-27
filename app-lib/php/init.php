@@ -68,68 +68,11 @@ $base_dir = preg_replace("/\/app-lib(.*)/i", "", dirname(__FILE__) );
 // Get WEBSERVER runtime user (from cache if currently running from CLI)
 // MUST BE SET BEFORE CACHE STRUCTURE CREATION, TO RUN IN COMPATIBILITY MODE FOR THIS PARTICULAR SERVER'S SETUP
 $http_runtime_user = ( $runtime_mode == 'ui' ? posix_getpwuid(posix_geteuid())['name'] : trim( file_get_contents('cache/vars/http_runtime_user.dat') ) );
-
-
-
-// DEVELOPER-ONLY INIT ARRAYS, !CHANGE WITH CARE!
-
-// TLD-only for each API service that requires multiple calls (for each market)
-// Used to throttle these market calls a bit, so we don't get blacklisted
-$limited_apis = array(
-						'bitforex.com',
-						'bitflyer.com',
-						'bitstamp.net',
-						'blockchain.info',
-						'btcmarkets.net',
-						'coinbase.com',
-						'cryptofresh.com',
-						'dcrdata.org',
-						'dogechain.info',
-						'etherscan.io',
-						'gemini.com',
-						'litecoin.net',
-						'okcoin.com',
-							);
-							
-
-
-// Structure of lite charts sub-directories
-$lite_charts_structure = array(
-									'1_day',
-									'1_week',
-									'1_month',
-									'3_months',
-									'6_months',
-									'1_year',
-									'2_years',
-									'4_years',
-									'all',
-									);
-
-
-
-// TLDs (Top Level Domains) supported in the get_tld() function
-$tld_map = array(
-					'com', 
-					'com.au',
-					'co.uk',
-					'info',
-					'io',
-					'market',
-					'net',
-					'net.au',
-					'net.uk',
-					'one',
-					'org',
-					'org.au',
-					'org.uk',
-					'pro',
-					'us',
-					);
 					
 					
 
-// HTTP SERVER user and system user detection variables, for cache compatibility auto-configuration
+// HTTP SERVER setup detection variables (for cache compatibility auto-configuration)
+// MUST BE SET BEFORE CACHE STRUCTURE CREATION, TO RUN IN COMPATIBILITY MODE FOR THIS PARTICULAR SERVER'S SETUP
 $http_users = array(
 						'www-data',
 						'apache',
@@ -151,7 +94,8 @@ if ( dir_structure($base_dir . '/cache/alerts/') != TRUE
 || dir_structure($base_dir . '/cache/charts/system/archival/') != TRUE
 || dir_structure($base_dir . '/cache/charts/system/lite/') != TRUE
 || dir_structure($base_dir . '/cache/events/') != TRUE
-|| dir_structure($base_dir . '/cache/logs/api_debugging/') != TRUE
+|| dir_structure($base_dir . '/cache/logs/debugging/api/') != TRUE
+|| dir_structure($base_dir . '/cache/logs/errors/api/') != TRUE
 || dir_structure($base_dir . '/cache/queue/messages/') != TRUE
 || dir_structure($base_dir . '/cache/vars/') != TRUE ) {
 echo "Cannot create cache sub-directories. Please make sure the folder '/cache/' has FULL read / write permissions (chmod 777 on unix / linux systems), so the cache sub-directories can be created automatically.";
