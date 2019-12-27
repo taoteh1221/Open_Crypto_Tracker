@@ -1709,49 +1709,6 @@ global $runtime_mode, $app_version, $base_dir;
 // OS
 $system['operating_system'] = PHP_OS;
 	
-
-
-// Software
-$system['software'] = 'DFD_Cryptocoin_Values/' . $app_version . ' - PHP/' . phpversion();
-	
-	
-	
-	// System loads
-	$loop = 1;
-	foreach ( sys_getloadavg() as $load ) {
-		
-		if ( $loop == 1 ) {
-		$time = 1;
-		}
-		elseif ( $loop == 2 ) {
-		$time = 5;
-		}
-		elseif ( $loop == 3 ) {
-		$time = 15;
-		}
-		
-	$system['system_load'] .= $load . ' (' . $time . ' min avg) ';
-	$loop = $loop + 1;
-	}
-	$system['system_load'] = trim($system['system_load']);
-
-
-	
-	// Uptime stats
-	if ( is_readable('/proc/uptime') ) {
-		
- 	$uptime_info = @file_get_contents('/proc/uptime');
- 	
- 	$num   = floatval($uptime_info);
-	$secs  = fmod($num, 60); $num = (int)($num / 60);
-	$mins  = $num % 60;      $num = (int)($num / 60);
-	$hours = $num % 24;      $num = (int)($num / 24);
-	$days  = $num;
- 	
- 	$system['uptime'] = $days . ' days, ' . $hours . ' hours, ' . $mins . ' minutes, and ' . round($secs) . ' seconds';
- 	
-	}
-	
 	
 	
 	// CPU stats
@@ -1781,52 +1738,57 @@ $system['software'] = 'DFD_Cryptocoin_Values/' . $app_version . ' - PHP/' . phpv
 	
 	$cpu['cpu_info'] = $cpu_info_array;
 	
-		if ( $cpu['cpu_info']['model_name'] ) {
-		$system['model_name'] = $cpu['cpu_info']['model_name'];
+		if ( $cpu['cpu_info']['model'] ) {
+		$system['model'] = $cpu['cpu_info']['model'];
 		}
 		
 		if ( $cpu['cpu_info']['hardware'] ) {
 		$system['hardware'] = $cpu['cpu_info']['hardware'];
 		}
 		
-		if ( $cpu['cpu_info']['model'] ) {
-		$system['model'] = $cpu['cpu_info']['model'];
+		if ( $cpu['cpu_info']['model_name'] ) {
+		$system['model_name'] = $cpu['cpu_info']['model_name'];
 		}
 	
 	}
 
 
-
-	// Server stats
-	if ( is_readable('/proc/stat') ) {
-	$server_info = @file_get_contents('/proc/stat');
 	
-	$raw_server_info_array = explode("\n", $server_info);
-	
-		foreach ( $raw_server_info_array as $server_info_field ) {
+	// Uptime stats
+	if ( is_readable('/proc/uptime') ) {
 		
-			if ( trim($server_info_field) != '' ) {
-				
-			$server_info_field = preg_replace('/\s/', ':', $server_info_field, 1);
-				
-			$temp_array = explode(":", $server_info_field);
-				
-				$loop = 0;
-				foreach ( $temp_array as $key => $value ) {
-				$trimmed_value = ( $loop < 1 ? strtolower(trim($value)) : trim($value) );
-				$trimmed_value = ( $loop < 1 ? preg_replace('/\s/', '_', $trimmed_value) : $trimmed_value );
-				$temp_array_cleaned[$key] = $trimmed_value;
-				$loop = $loop + 1;
-				}
-			
-			$server_info_array[$temp_array_cleaned[0]] = $temp_array_cleaned[1];
-			}
-		
-		}
-	
-	$server['server_info'] = $server_info_array;
-	
+ 	$uptime_info = @file_get_contents('/proc/uptime');
+ 	
+ 	$num   = floatval($uptime_info);
+	$secs  = fmod($num, 60); $num = (int)($num / 60);
+	$mins  = $num % 60;      $num = (int)($num / 60);
+	$hours = $num % 24;      $num = (int)($num / 24);
+	$days  = $num;
+ 	
+ 	$system['uptime'] = $days . ' days, ' . $hours . ' hours, ' . $mins . ' minutes, and ' . round($secs) . ' seconds';
+ 	
 	}
+	
+	
+	
+	// System loads
+	$loop = 1;
+	foreach ( sys_getloadavg() as $load ) {
+		
+		if ( $loop == 1 ) {
+		$time = 1;
+		}
+		elseif ( $loop == 2 ) {
+		$time = 5;
+		}
+		elseif ( $loop == 3 ) {
+		$time = 15;
+		}
+		
+	$system['system_load'] .= $load . ' (' . $time . ' min avg) ';
+	$loop = $loop + 1;
+	}
+	$system['system_load'] = trim($system['system_load']);
 	
 
 
@@ -1879,11 +1841,50 @@ $system['free_partition_space'] = convert_bytes( disk_free_space($base_dir) , 3)
 
 	// App cache size (update hourly, or if runtime is cron)
 	if ( update_cache_file('cache/vars/cache_size.dat', (60 * 1) ) == true || $runtime_mode == 'cron' ) {  
-	$app_cache = convert_bytes( directory_size($base_dir . '/cache/') , 3);
-	store_file_contents($base_dir . '/cache/vars/cache_size.dat', $app_cache);
+	$portfolio_cache = convert_bytes( directory_size($base_dir . '/cache/') , 3);
+	store_file_contents($base_dir . '/cache/vars/cache_size.dat', $portfolio_cache);
 	}
 	
-$system['app_cache'] = ( $app_cache != '' ? $app_cache : trim( file_get_contents('cache/vars/cache_size.dat') ) );
+$system['portfolio_cache'] = ( $portfolio_cache != '' ? $portfolio_cache : trim( file_get_contents('cache/vars/cache_size.dat') ) );
+	
+
+
+// Software
+$system['software'] = 'DFD_Cryptocoin_Values/' . $app_version . ' - PHP/' . phpversion();
+
+
+
+	// Server stats
+	if ( is_readable('/proc/stat') ) {
+	$server_info = @file_get_contents('/proc/stat');
+	
+	$raw_server_info_array = explode("\n", $server_info);
+	
+		foreach ( $raw_server_info_array as $server_info_field ) {
+		
+			if ( trim($server_info_field) != '' ) {
+				
+			$server_info_field = preg_replace('/\s/', ':', $server_info_field, 1);
+				
+			$temp_array = explode(":", $server_info_field);
+				
+				$loop = 0;
+				foreach ( $temp_array as $key => $value ) {
+				$trimmed_value = ( $loop < 1 ? strtolower(trim($value)) : trim($value) );
+				$trimmed_value = ( $loop < 1 ? preg_replace('/\s/', '_', $trimmed_value) : $trimmed_value );
+				$temp_array_cleaned[$key] = $trimmed_value;
+				$loop = $loop + 1;
+				}
+			
+			$server_info_array[$temp_array_cleaned[0]] = $temp_array_cleaned[1];
+			}
+		
+		}
+	
+	$server['server_info'] = $server_info_array;
+	
+	}
+	
 
 
 return $system;

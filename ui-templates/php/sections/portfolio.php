@@ -639,7 +639,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
          
 			$raspi_free_space_mb = in_megabytes($system_info['free_partition_space'])['in_megs'];
          
-			$app_cache_size = in_megabytes($system_info['app_cache'])['in_megs'];
+			$portfolio_cache_size = in_megabytes($system_info['portfolio_cache'])['in_megs'];
     		
     		$raspi_memory_total_mb = in_megabytes($system_info['memory_total'])['in_megs'];
     		
@@ -656,7 +656,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
     		}
     		
     		if ( isset($system_info['model']) ) {
-    		echo '<span class="bitcoin"><b>Model:</b></span> <span class="blue"> '.$system_info['model'].'</span> <br />';
+    		echo '<span class="bitcoin"><b>Model:</b></span> <span class="blue"> '.$system_info['model'].( isset($system_info['hardware']) ? ' ('.$system_info['hardware'].')' : '' ).'</span> <br />';
     		}
     		
     		if ( isset($system_info['model_name']) ) {
@@ -683,8 +683,8 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
     		echo '<span class="bitcoin"><b>Free Space:</b></span> <span class="'.( $raspi_free_space_mb < 500 ? 'red' : 'green' ).'"> '.$system_info['free_partition_space'].'</span> <br />';
     		}
     		
-    		if ( isset($system_info['app_cache']) ) {
-    		echo '<span class="bitcoin"><b>Portfolio App Cache:</b></span> <span class="'.( $app_cache_size > 5000 ? 'red' : 'green' ).'"> '.$system_info['app_cache'].'</span> <br />';
+    		if ( isset($system_info['portfolio_cache']) ) {
+    		echo '<span class="bitcoin"><b>Portfolio Cache:</b></span> <span class="'.( $portfolio_cache_size > 5000 ? 'red' : 'green' ).'"> '.$system_info['portfolio_cache'].'</span> <br />';
     		}
     		
     		if ( isset($system_info['software']) ) {

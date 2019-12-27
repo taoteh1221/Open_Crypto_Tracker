@@ -94,7 +94,7 @@ $raspi_temp = preg_replace("/° Celsius/i", "", $system_info['system_temp']);
 
 $raspi_free_space_mb = in_megabytes($system_info['free_partition_space'])['in_megs'];
          
-$app_cache_size = in_megabytes($system_info['app_cache'])['in_megs'];
+$portfolio_cache_size = in_megabytes($system_info['portfolio_cache'])['in_megs'];
     		
 $raspi_memory_total_mb = in_megabytes($system_info['memory_total'])['in_megs'];
     		
@@ -147,8 +147,8 @@ $memory_percent_free = round( 100 - $memory_percent_free, 2);
 	}
 	
 	
-	if ( trim($app_cache_size) ) {
-	$chart_data_set .= '||' . trim($app_cache_size);
+	if ( trim($portfolio_cache_size) ) {
+	$chart_data_set .= '||' . trim($portfolio_cache_size);
 	}
 	else {
 	$chart_data_set .= '||0';
