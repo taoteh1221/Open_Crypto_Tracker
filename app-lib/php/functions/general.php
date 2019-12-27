@@ -2309,14 +2309,11 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 	
 	$data = curl_exec($ch);
 	curl_close($ch);
-
-		if ( isset($data) && $endpoint_tld != '' && $ttl != 0 && $debug_mode == 'all' 
-		|| isset($data) && $endpoint_tld != '' && $ttl != 0 && $debug_mode == 'telemetry' ) {
-		// Log this latest live response, 
-		// ONLY IF WE DETECT AN $endpoint_tld, AND TTL IS !NOT! ZERO (TTL==0 usually means too many unique requests that would bloat the cache)
-		store_file_contents($base_dir . '/cache/logs/api_debugging/last-response-'.preg_replace("/\./", "_", $endpoint_tld).'-'.$hash_check.'.log', $data);
-		}
-		elseif ( !$data ) {
+		
+		
+		
+		// No data error logging
+		if ( !$data ) {
 		
 		// LOG-SAFE VERSION (no post data with API keys etc)
 		app_logging( 'api_data_error', 'connection failed for ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint request at ' . $request ), 'request attempt from: server (local timeout setting ' . $api_timeout . ' seconds); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . ';' );
@@ -2331,10 +2328,20 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 			}
 		
 		}
+		// Data debugging telemetry
 		elseif ( $debug_mode == 'all' || $debug_mode == 'telemetry' ) {
+		
 		
 		// LOG-SAFE VERSION (no post data with API keys etc)
 		app_logging( 'api_data_debugging', 'connection request for ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint at ' . $request ), 'request from: server (local timeout setting ' . $api_timeout . ' seconds); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . ';' );
+		
+		
+			// Log this latest live data response, 
+			// ONLY IF WE DETECT AN $endpoint_tld, AND TTL IS !NOT! ZERO (TTL==0 usually means too many unique requests that would bloat the cache)
+			if ( $endpoint_tld != '' && $ttl != 0 ) {
+			store_file_contents($base_dir . '/cache/logs/api_debugging/last-response-'.preg_replace("/\./", "_", $endpoint_tld).'-'.$hash_check.'.log', $data);
+			}
+			
 			
 		}
 		
@@ -2346,12 +2353,15 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		}
 	
 		
+		
 		// Never cache proxy checking data
 		if ( $mode != 'proxy-check' ) {
 		$_SESSION['api_cache'][$hash_check] = ( $data ? $data : 'none' ); // Cache API data for this runtime session AFTER PERSISTENT FILE CACHE UPDATE, file cache doesn't reliably update until runtime session is ending because of file locking
 		}
 		
-		// Cache data to the file cache
+		
+		
+		// Cache data to the file cache, EVEN IF WE HAVE NO DATA, TO AVOID CONSECUTIVE TIMEOUT HANGS (during page reloads etc) FROM A NON-RESPONSIVE API ENDPOINT
 		if ( $ttl > 0 && $mode != 'proxy-check'  ) {
 		store_file_contents($base_dir . '/cache/apis/'.$hash_check.'.dat', $_SESSION['api_cache'][$hash_check]);
 		}
@@ -2359,16 +2369,18 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 
 	
 	}
-	elseif ( $ttl < 0 ) {
 	// If flagged for cache file deletion with -1 as $ttl
+	elseif ( $ttl < 0 ) {
 	unlink('cache/apis/'.$hash_check.'.dat'); // Delete cache if $ttl flagged to less than zero
 	}
+	// IF CACHE DATA WITHIN IT'S TTL EXISTS
 	else {
 	
 	
 	// Use session cache if it exists. Remember file cache doesn't update until session is nearly over because of file locking, so only reliable for persisting a cache long term
 	// If no API data was received, add error notices to UI / error logs
 	$data = ( $_SESSION['api_cache'][$hash_check] ? $_SESSION['api_cache'][$hash_check] : file_get_contents('cache/apis/'.$hash_check.'.dat') );
+		
 		
 		if ( $data == 'none' ) {
 		
