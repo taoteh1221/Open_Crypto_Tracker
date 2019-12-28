@@ -5,9 +5,6 @@ TODO
 ///////////////////////////////////////////////////////
 
 
-Create a "Stats" tab, for server stats, access stats, etc.
-
-
 Add setting to enable access stats modal, maybe include an optional password setting to require login to view it in the UI if password is set. Store access data in flat file / json format (so mulitiple values can be read back into the app before updating, then updated values saved back in json overwriting previously saved values). Last 50 unique ip addresses, showing ip address's last user agent / last visit time / total visits count. Drop any over 50 ip addresses off the list based on oldest timestamps.
 
 
@@ -27,6 +24,7 @@ Buy a google home mini cheap on ebay, and develop price alerts compatibility for
 
 
 SQL-based accounts for storing configuration settings per-user (including setting up new assets available at supported exchanges), BUT !NEVER! STORES PORTFOLIO DATA (FOR PRIVACY / SECURITY-SAKE).
+
 
 When sql host config has been set in config.php, BUT DATABASE SETUP HAS NOT RUN YET, have the UI require entering the sql user password to initiate database setup (for security)
 

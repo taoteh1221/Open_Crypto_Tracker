@@ -694,7 +694,11 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
     		
     		?>
     		
-    		<b><a href="javascript: return false;" class="show_system_charts bitcoin" title="View System Statistics Charts">View Charts</a></b>
+    		<span class="bitcoin"><b>Other:</b></span>&nbsp; 
+    		
+    		<b><a href="javascript: return false;" class="show_system_charts blue" title="View System Statistics Charts">System Statistics Charts</a></b>&nbsp;&nbsp; 
+    		
+    		<b><a href="javascript: return false;" class="show_access_stats blue" title="View Visitor Statistics">Visitor Statistics</a></b>
     		
 		</fieldset>
 		
@@ -816,6 +820,63 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	<script>
 	$('.show_system_charts').modaal({
 		content_source: '#show_system_charts'
+	});
+	</script>
+	
+	
+	<div id="show_access_stats">
+	
+		
+		<h3>Visitor Statistics</h3>
+	
+	<p> &nbsp; </p>
+	
+	<p> Coming Soon </p>
+	
+	<p> &nbsp; </p>
+	
+	<p> &nbsp; </p>
+	
+	<p> &nbsp; </p>
+	
+	<p> &nbsp; </p>
+	
+	<p> &nbsp; </p>
+	
+	<p> &nbsp; </p>
+	
+	<p> &nbsp; </p>
+	
+	<p> &nbsp; </p>
+	
+	<p> &nbsp; </p>
+	
+	<p> &nbsp; </p>
+	
+	<p> &nbsp; </p>
+	
+	<p> &nbsp; </p>
+	
+	<p> &nbsp; </p>
+	
+	<p> &nbsp; </p>
+	
+	<p> &nbsp; </p>
+	
+	<p> &nbsp; </p>
+	
+	<p> &nbsp; </p>
+	
+	<p> &nbsp; </p>
+	
+	<p> &nbsp; </p>
+		
+	</div>
+	
+	
+	<script>
+	$('.show_access_stats').modaal({
+		content_source: '#show_access_stats'
 	});
 	</script>
 	
