@@ -566,12 +566,12 @@ return $url;
 
 function dir_structure($path) {
 
-global $http_users, $http_runtime_user;
+global $possible_http_users, $http_runtime_user;
 
 	if ( !is_dir($path) ) {
 	
 		// Run cache compatibility on certain PHP setups
-		if ( !$http_runtime_user || in_array($http_runtime_user, $http_users) ) {
+		if ( !$http_runtime_user || in_array($http_runtime_user, $possible_http_users) ) {
 		$oldmask = umask(0);
 		return  mkdir($path, octdec('777'), true); // Recursively create whatever path depth desired if non-existent
 		umask($oldmask);
@@ -773,7 +773,7 @@ return $csv_rows;
 
 function store_file_contents($file, $content, $mode=false) {
 
-global $http_users, $http_runtime_user;
+global $possible_http_users, $http_runtime_user;
 
 	if ( $mode == 'append' ) {
 	$result = file_put_contents($file, $content, FILE_APPEND | LOCK_EX);
@@ -797,7 +797,7 @@ global $http_users, $http_runtime_user;
 	}
 	
 	// Run cache compatibility on certain PHP setups
-	if ( !$http_runtime_user || in_array($http_runtime_user, $http_users) ) {
+	if ( !$http_runtime_user || in_array($http_runtime_user, $possible_http_users) ) {
 	$oldmask = umask(0);
 	chmod($file, $chmod_setting);
 	umask($oldmask);

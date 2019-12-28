@@ -8,6 +8,9 @@ TODO
 Add setting to enable access stats modal, maybe include an optional password setting to require login to view it in the UI if password is set. Store access data in flat file / json format (so mulitiple values can be read back into the app before updating, then updated values saved back in json overwriting previously saved values). Last 50 unique ip addresses, showing ip address's last user agent / last visit time / total visits count. Drop any over 50 ip addresses off the list based on oldest timestamps.
 
 
+Use a password salt and php5.5 hashing password as described here, save salt to a flat file in the vars cache directory: https://www.php.net/manual/en/faq.passwords.php
+
+
 Add Google and Microsoft translate API as options to translate the portfolio interface and price alerts.
 
 

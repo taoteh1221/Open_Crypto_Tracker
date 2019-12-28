@@ -617,6 +617,8 @@ select opt in $OPTIONS; do
 				
 				rm $DOC_ROOT/.gitignore
 				
+				/bin/chmod 777 $DOC_ROOT/backups
+				
 				/bin/chmod 777 $DOC_ROOT/cache
 				
 				/bin/chmod 755 $DOC_ROOT/cron.php
