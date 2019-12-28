@@ -121,7 +121,7 @@ echo "$DOC_ROOT/config.php.BACKUP.$DATE.[random string]"
 echo "This will save any custom settings within it."
 echo "You will need to manually move any custom settings in this backup file to the new config.php file with a text editor."
 echo " "
-echo "IMPORTANT NOTE: v4.00.0 and higher of this app REQUIRES DELETING YOUR PREVIOUS CHART DATA FROM ANY EARLIER VERSIONS."
+echo "IMPORTANT NOTE: v4.03.0 and higher of this app REQUIRES DELETING YOUR PREVIOUS CHART DATA FROM ANY EARLIER VERSIONS."
 echo "MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWARDS-COMPATIBLE."
 echo " "
 fi
