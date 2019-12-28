@@ -655,8 +655,15 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
     		echo '<span class="bitcoin"><b>OS:</b></span> <span class="blue"> '.$system_info['operating_system'].'</span> <br />';
     		}
     		
-    		if ( isset($system_info['model']) ) {
-    		echo '<span class="bitcoin"><b>Model:</b></span> <span class="blue"> '.$system_info['model'].( isset($system_info['hardware']) ? ' ('.$system_info['hardware'].')' : '' ).'</span> <br />';
+    		if ( isset($system_info['model']) || isset($system_info['hardware']) ) {
+    			
+    			if ( isset($system_info['model']) ) {
+    			echo '<span class="bitcoin"><b>Model:</b></span> <span class="blue"> '.$system_info['model'].( isset($system_info['hardware']) ? ' ('.$system_info['hardware'].')' : '' ).'</span> <br />';
+    			}
+    			else {
+    			echo '<span class="bitcoin"><b>Hardware:</b></span> <span class="blue"> '.$system_info['hardware'].'</span> <br />';
+    			}
+    		
     		}
     		
     		if ( isset($system_info['model_name']) ) {
