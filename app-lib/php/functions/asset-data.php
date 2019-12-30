@@ -590,7 +590,7 @@ $asset_market_data = asset_market_data($asset, $exchange, $coins_list[$asset]['m
 	$asset_pairing_value_raw = number_format( $asset_market_data['last_trade'] , 8, '.', '');
 		
 		
-	$volume_asset_raw = $asset_market_data['24hr_asset_volume'];  // For chart values based off pairing data (not USD equiv)
+	$volume_asset_raw = $asset_market_data['24hr_asset_volume'];  // NEEDED FOR EMULATING PAIRING VOLUME, IF IT'S NOT AVAILABLE
 	$volume_pairing_raw = $asset_market_data['24hr_pairing_volume']; // If available, we'll use this for chart volume UX
 	$volume_fiat_raw = $asset_market_data['24hr_fiat_volume'];
 	
@@ -630,8 +630,8 @@ $asset_market_data = asset_market_data($asset, $exchange, $coins_list[$asset]['m
 	$volume_fiat_raw = ( isset($volume_fiat_raw) ? round($volume_fiat_raw) : NULL );		
 	
 	
-	// Round pairing volume to only keep 3 decimals max (for crypto volume etc), to save on data set / storage size
-	$volume_asset_raw = ( isset($volume_asset_raw) ? round($volume_asset_raw, 3) : NULL );	
+	// Round PAIRING volume to only keep 3 decimals max (for crypto volume etc), to save on data set / storage size
+	$volume_pairing_raw = ( isset($volume_pairing_raw) ? round($volume_pairing_raw, 3) : NULL );	
 	
 	
 	// Round DEFAULT FIAT CONFIG asset price to only keep $fiat_decimals_max decimals maximum (or only 2 decimals if worth $1 or more), to save on data set / storage size
@@ -647,10 +647,14 @@ $asset_market_data = asset_market_data($asset, $exchange, $coins_list[$asset]['m
 
 	// Remove any leading / trailing zeros from CRYPTO asset price, to save on data set / storage size
 	$asset_pairing_value_raw = floattostr($asset_pairing_value_raw);
+
+
+	// Remove any leading / trailing zeros from PAIRING VOLUME, to save on data set / storage size
+	$volume_pairing_raw = floattostr($volume_pairing_raw);
 	
 	
-	
-	$alert_cache_contents = $asset_fiat_value_raw . '||' . $volume_fiat_raw . '||' . $volume_asset_raw;
+	// WE USE PAIRING VOLUME FOR VOLUME PERCENTAGE CHANGES, FOR BETTER PERCENT CHANGE ACCURACY THAN FIAT EQUIV
+	$alert_cache_contents = $asset_fiat_value_raw . '||' . $volume_fiat_raw . '||' . $volume_pairing_raw;
 	
 	
 	
@@ -750,7 +754,7 @@ $cached_array = explode("||", $data_file);
           // Crypto volume checks
           
           // Crypto volume percent change (!MUST BE! absolute value)
-          $volume_percent_change = abs( ($volume_asset_raw - $cached_pairing_volume) / abs($cached_pairing_volume) * 100 );
+          $volume_percent_change = abs( ($volume_pairing_raw - $cached_pairing_volume) / abs($cached_pairing_volume) * 100 );
           
           $volume_percent_change = floattostr($volume_percent_change); // Better decimal support
           
@@ -759,14 +763,14 @@ $cached_array = explode("||", $data_file);
           $volume_percent_change = 0; // Skip calculating percent change if cached / live DEFAULT FIAT CONFIG volume are both zero or -1 (exchange API error)
           $volume_change_symbol = '+';
           }
-          elseif ( $cached_fiat_volume <= 0 && $volume_asset_raw >= $cached_pairing_volume ) { // ONLY DEFAULT FIAT CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
+          elseif ( $cached_fiat_volume <= 0 && $volume_pairing_raw >= $cached_pairing_volume ) { // ONLY DEFAULT FIAT CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
           $volume_percent_change = $volume_fiat_raw; // Use DEFAULT FIAT CONFIG volume value for percent up, for UX sake, if volume is up from zero or -1 (exchange API error)
           $volume_change_symbol = '+';
           }
-          elseif ( $cached_fiat_volume > 0 && $volume_asset_raw < $cached_pairing_volume ) {
+          elseif ( $cached_fiat_volume > 0 && $volume_pairing_raw < $cached_pairing_volume ) {
           $volume_change_symbol = '-';
           }
-          elseif ( $cached_fiat_volume > 0 && $volume_asset_raw > $cached_pairing_volume ) {
+          elseif ( $cached_fiat_volume > 0 && $volume_pairing_raw > $cached_pairing_volume ) {
           $volume_change_symbol = '+';
           }
           
@@ -1545,7 +1549,7 @@ echo ( $fiat_eqiv == 1 ? pretty_numbers($coin_value_raw, $coin_value_fiat_decima
 <?php
 
   if ( $selected_pairing != 'btc' && strtolower($asset_name) != 'bitcoin' ) {
-  echo '<div class="btc_worth">(' . ( $btc_trade_eqiv > 0.00000000 ? $btc_trade_eqiv : '0.00000000' ) . ' BTC)</div>';
+  echo '<div class="btc_worth">(' . pretty_numbers($btc_trade_eqiv, 8) . ' BTC)</div>';
   }
   
 ?>
@@ -1595,10 +1599,19 @@ echo ( $fiat_eqiv == 1 ? pretty_numbers($coin_value_raw, $coin_value_fiat_decima
 
 <?php
 
-echo ' <span class="blue"><span class="data app_sort_filter blue">' . number_format($coin_value_total_raw, ( $fiat_eqiv == 1 ? 2 : 8 ), '.', ',') . '</span> ' . $pairing_symbol . '</span>';
+
+	// UX on FIAT number values
+	if ( $fiat_eqiv == 1 ) {
+	$coin_value_total_fiat_decimals = ( floattostr($coin_value_total_raw) >= 1.00 ? 2 : $fiat_decimals_max );
+	}
+  
+$pretty_coin_value_total_raw = ( $fiat_eqiv == 1 ? pretty_numbers($coin_value_total_raw, $coin_value_total_fiat_decimals) : pretty_numbers($coin_value_total_raw, 8) ); 
+
+
+echo ' <span class="blue"><span class="data app_sort_filter blue">' . $pretty_coin_value_total_raw . '</span> ' . $pairing_symbol . '</span>';
 
   if ( $selected_pairing != 'btc' && strtolower($asset_name) != 'bitcoin' ) {
-  echo '<div class="btc_worth"><span>(' . number_format( $coin_value_total_raw * $pairing_btc_value , 8 ) . ' BTC)</span></div>';
+  echo '<div class="btc_worth"><span>(' . pretty_numbers( $coin_value_total_raw * $pairing_btc_value, 8 ) . ' BTC)</span></div>';
   }
 
 ?>

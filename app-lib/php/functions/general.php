@@ -507,13 +507,22 @@ global $base_dir;
 // Also removes any leading and trailing zeros for efficient storage / UX / etc
 function floattostr($val) {
 
+
 // Convert any scientific formatting to normal decimals
-// MUST BE 9 DECIMALS EXACTLY, TO COUNT WATCH-ONLY ASSETS
+// MUST ALLOW MAXIMUM OF 9 DECIMALS, TO COUNT WATCH-ONLY ASSETS
 // (ANYTHING OVER 9 DECIMALS SHOULD BE AVOIDED FOR UX)
-$val = number_format($val, 9, '.', '');
+$decimals = strlen(substr(strrchr($val, "."), 1));
+
+	if ( $decimals > 9 ) {
+	$decimals = 9;
+	}
+
+$val = number_format($val, $decimals, '.', '');
+
 
 //remove zeros from end of number ie. 140.00000 becomes 140.
 $val = rtrim($val, '0');
+
 
 //remove decimal point if an integer ie. 140. becomes 140
 $val = rtrim($val, '.');
@@ -528,7 +537,14 @@ $val = rtrim($val, '.');
 	}
 	
 	
-return $val;
+	// Always at least return zero
+	if ( $val >= 0.000000001 ) {
+	return $val;
+	}
+	else {
+	return 0;
+	}
+
 
 }
 
@@ -1159,7 +1175,14 @@ function pretty_numbers($amount_value, $num_decimals, $small_unlimited=false) {
 
 // Strip formatting, convert from scientific format, and remove leading / trailing zeros
 $raw_amount_value = remove_number_format($amount_value);
-	    
+
+// Do any rounding that may be needed now (skip WATCH-ONLY 9 decimal values)
+if ( floattostr($raw_amount_value) > 0.00000000 && $small_unlimited != TRUE ) { 
+$raw_amount_value = number_format($raw_amount_value, $num_decimals, '.', '');
+}
+
+// AFTER ROUNDING, RE-PROCESS removing leading / trailing zeros
+$raw_amount_value = remove_number_format($raw_amount_value);
 	    
 	    
 	    	if ( preg_match("/\./", $raw_amount_value) ) {
@@ -1205,7 +1228,7 @@ $raw_amount_value = remove_number_format($amount_value);
 	    	
 	    	}
 	    	else {
-	    	$amount_value = NULL;
+	    	$amount_value = 0;
 	    	}
 	    	
 	    

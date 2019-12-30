@@ -2103,11 +2103,13 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 
 -------------------------------------------------------------------
-4.05.0:
+4.04.3:
 
--System statistics charts
+-Price alerts bug fix for recent charts/alerts upgrade, to ALWAYS use pair volume (was asset volume before, for crypto/crypto markets)
 
--Basic page access stats
+-Bug fix for pretty numbers / removing trailing zeros in decimal values
+
+-Bug fix for rounding pretty numbers, BEFORE making pretty
 
 -Compatibility revisions
 
@@ -2115,8 +2117,16 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Documentation revisions
 
-IMPORTANT NOTE: v4.03.0 and higher of this app REQUIRES DELETING YOUR PREVIOUS CHART DATA FROM ANY EARLIER VERSIONS.
+-UX revisions
+
+IMPORTANT NOTES: 
+
+v4.03.0 and higher of this app REQUIRES DELETING YOUR PREVIOUS CHART DATA FROM ANY EARLIER VERSIONS.
 MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWARDS-COMPATIBLE.
+
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
+PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
 -------------------------------------------------------------------
 
