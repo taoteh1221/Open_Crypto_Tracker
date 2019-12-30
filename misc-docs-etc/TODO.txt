@@ -5,6 +5,9 @@ TODO
 ///////////////////////////////////////////////////////
 
 
+Code review ALL functions.
+
+
 Add setting to enable access stats modal, maybe include an optional password setting to require login to view it in the UI if password is set. Store access data in flat file / json format (so mulitiple values can be read back into the app before updating, then updated values saved back in json overwriting previously saved values). Last 50 unique ip addresses, showing ip address's last user agent / last visit time / total visits count. Drop any over 50 ip addresses off the list based on oldest timestamps.
 
 

@@ -121,7 +121,7 @@ $text = str_replace(" ", '', $text);
 $text = str_replace(",", "", $text);
 $text = trim($text);
 
-return floattostr($text);
+return float_to_string($text);
 
 }
 
@@ -505,31 +505,30 @@ global $base_dir;
 
 // Always display very large / small numbers in non-scientific format
 // Also removes any leading and trailing zeros for efficient storage / UX / etc
-function floattostr($val) {
+function float_to_string($val) {
 
 
 // Trim any whitespace off the ends
 $val = trim($val);
 
 
-	 // Covert scientific notation to a normal value / string
-    $to_string = (string)$val;
+	// Covert scientific notation to a normal value / string
     
-    if ( preg_match('~\.(\d+)E([+-])?(\d+)~', $to_string, $matches) ) {
-    	
-    $decimals = $matches[2] === '-' ? strlen($matches[1]) + $matches[3] : 0;
+	// MUST ALLOW MAXIMUM OF 9 DECIMALS, TO COUNT WATCH-ONLY ASSETS
+	// (ANYTHING OVER 9 DECIMALS SHOULD BE AVOIDED FOR UX)
+   $detect_decimals = (string)$val;
+   if ( preg_match('~\.(\d+)E([+-])?(\d+)~', $detect_decimals, $matches) ) {
+   $decimals = $matches[2] === '-' ? strlen($matches[1]) + $matches[3] : 0;
+   }
+   else {
+   $decimals = strpos( strrev($detect_decimals) , '.');
+   }
     
-		 // MUST ALLOW MAXIMUM OF 9 DECIMALS, TO COUNT WATCH-ONLY ASSETS
-		 // (ANYTHING OVER 9 DECIMALS SHOULD BE AVOIDED FOR UX)
-		 if ( $decimals > 9 ) {
-		 $decimals = 9;
-		 }
-
-    $to_string = number_format($val, $decimals, '.', '');
-    
-    }
-    
-    $val = $to_string;
+	if ( $decimals > 9 ) {
+	$decimals = 9;
+	}
+   
+   $val = number_format($val, $decimals, '.', '');
 
 
 	// Remove TRAILING zeros ie. 140.00000 becomes 140.
@@ -869,7 +868,7 @@ $fn = fopen($file,"r");
 		
 			// Format or round Fiat / stablecoin price depending on value (non-stablecoin crypto values are already stored in the format we want for the interface)
 			if ( $fiat_formatting == 1 ) {
-			$data['spot'] .= ( floattostr($result[1]) >= 1.00 ? number_format((float)$result[1], 2, '.', '')  :  round($result[1], $fiat_decimals_max)  ) . ',';
+			$data['spot'] .= ( float_to_string($result[1]) >= 1.00 ? number_format((float)$result[1], 2, '.', '')  :  round($result[1], $fiat_decimals_max)  ) . ',';
 			$data['volume'] .= round($result[2]) . ',';
 			}
 			// Non-fiat-or-stablecoin crypto
@@ -1184,72 +1183,76 @@ function delete_all_cookies() {
 ////////////////////////////////////////////////////////
 
 
-function pretty_numbers($amount_value, $num_decimals, $small_unlimited=false) {
+function pretty_numbers($value_to_pretty, $num_decimals, $small_unlimited=false) {
 
 
 // Pretty number formatting, while maintaining decimals
 
 
 // Strip formatting, convert from scientific format, and remove leading / trailing zeros
-$raw_amount_value = remove_number_format($amount_value);
+$raw_value_to_pretty = remove_number_format($value_to_pretty);
 
 // Do any rounding that may be needed now (skip WATCH-ONLY 9 decimal values)
-if ( floattostr($raw_amount_value) > 0.00000000 && $small_unlimited != TRUE ) { 
-$raw_amount_value = number_format($raw_amount_value, $num_decimals, '.', '');
+if ( float_to_string($raw_value_to_pretty) > 0.00000000 && $small_unlimited != TRUE ) { 
+$raw_value_to_pretty = number_format($raw_value_to_pretty, $num_decimals, '.', '');
 }
 
 // AFTER ROUNDING, RE-PROCESS removing leading / trailing zeros
-$raw_amount_value = remove_number_format($raw_amount_value);
+$raw_value_to_pretty = float_to_string($raw_value_to_pretty);
 	    
 	    
-	    	if ( preg_match("/\./", $raw_amount_value) ) {
-	    	$amount_no_decimal = preg_replace("/\.(.*)/", "", $raw_amount_value);
-	    	$amount_decimal = preg_replace("/(.*)\./", "", $raw_amount_value);
-	    	$check_amount_decimal = '0.' . $amount_decimal;
+	    // Pretty things up...
+	    
+	    
+	    	if ( preg_match("/\./", $raw_value_to_pretty) ) {
+	    	$value_no_decimal = preg_replace("/\.(.*)/", "", $raw_value_to_pretty);
+	    	$decimal_amount = preg_replace("/(.*)\./", "", $raw_value_to_pretty);
+	    	$check_decimal_amount = '0.' . $decimal_amount;
 	    	}
 	    	else {
-	    	$amount_no_decimal = $raw_amount_value;
-	    	$amount_decimal = NULL;
-	    	$check_amount_decimal = NULL;
+	    	$value_no_decimal = $raw_value_to_pretty;
+	    	$decimal_amount = NULL;
+	    	$check_decimal_amount = NULL;
 	    	}
 	    	
 	    	
-	    // Limit $amount_decimal to $num_decimals (unless it's a watch-only asset)
-	    if ( $raw_amount_value != 0.000000001 ) {
-	    $amount_decimal = ( iconv_strlen($amount_decimal, "UTF-8") > $num_decimals ? substr($amount_decimal, 0, $num_decimals) : $amount_decimal );
+	    // Limit $decimal_amount to $num_decimals (unless it's a watch-only asset)
+	    if ( $raw_value_to_pretty != 0.000000001 ) {
+	    $decimal_amount = ( iconv_strlen($decimal_amount, "UTF-8") > $num_decimals ? substr($decimal_amount, 0, $num_decimals) : $decimal_amount );
 	    }
 	    
 	    	
-	    	// Show even if low value is off the map, just for UX purposes (tracking token price only, etc)
-	    	if ( floattostr($raw_amount_value) > 0.00000000 && $small_unlimited == TRUE ) {  
+	    	// Show EVEN IF LOW VALUE IS OFF THE MAP, just for UX purposes (tracking token price only, etc)
+	    	if ( float_to_string($raw_value_to_pretty) > 0.00000000 && $small_unlimited == TRUE ) {  
 	    		
 	    		if ( $num_decimals == 2 ) {
-	    		$amount_value = number_format($raw_amount_value, 2, '.', ',');
+	    		$value_to_pretty = number_format($raw_value_to_pretty, 2, '.', ',');
 	    		}
 	    		else {
-				// $X_no_decimal stops rounding, while number_format gives us pretty numbers left of decimal
-	    		$amount_value = number_format($amount_no_decimal, 0, '.', ',') . ( floattostr($check_amount_decimal) > 0.00000000 ? '.' . $amount_decimal : '' );
+				// $value_no_decimal stops rounding, while number_format gives us pretty numbers left of decimal
+	    		$value_to_pretty = number_format($value_no_decimal, 0, '.', ',') . ( float_to_string($check_decimal_amount) > 0.00000000 ? '.' . $decimal_amount : '' );
 	    		}
 	    	
 	    	}
-	    	// Show low value only with $amount_decimal minimum
-	    	elseif ( floattostr($raw_amount_value) >= 0.00000001 && $small_unlimited == FALSE ) {  
+	    	// Show low value only with $decimal_amount minimum
+	    	elseif ( float_to_string($raw_value_to_pretty) >= 0.00000001 && $small_unlimited == FALSE ) {  
 	    		
 	    		if ( $num_decimals == 2 ) {
-	    		$amount_value = number_format($raw_amount_value, 2, '.', ',');
+	    		$value_to_pretty = number_format($raw_value_to_pretty, 2, '.', ',');
 	    		}
 	    		else {
-				// $X_no_decimal stops rounding, while number_format gives us pretty numbers left of decimal
-	    		$amount_value = number_format($amount_no_decimal, 0, '.', ',') . ( floattostr($check_amount_decimal) > 0.00000000 ? '.' . $amount_decimal : '' );
+				// $value_no_decimal stops rounding, while number_format gives us pretty numbers left of decimal
+	    		$value_to_pretty = number_format($value_no_decimal, 0, '.', ',') . ( float_to_string($check_decimal_amount) > 0.00000000 ? '.' . $decimal_amount : '' );
 	    		}
 	    	
 	    	}
 	    	else {
-	    	$amount_value = 0;
+	    	$value_to_pretty = 0;
 	    	}
 	    	
+	    	
 	    
-return $amount_value;
+return $value_to_pretty;
 
 }
 

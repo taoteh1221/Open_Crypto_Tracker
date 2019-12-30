@@ -2137,6 +2137,8 @@ PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
 -Bug fixes for floating point numbers / scientific notation to normal string value
 
+-Coding semantics cleanup
+
 IMPORTANT NOTES: 
 
 v4.03.0 and higher of this app REQUIRES DELETING YOUR PREVIOUS CHART DATA FROM ANY EARLIER VERSIONS.

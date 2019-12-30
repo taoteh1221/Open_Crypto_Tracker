@@ -327,11 +327,11 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 					
 					// Bundle all required cookie data in this final cookies parsing loop for each coin, and render the coin's data
 					// We don't need remove_number_format() for cookie data, because it was already done creating the cookies
-					$held_amount = floattostr($all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_amount']);
+					$held_amount = float_to_string($all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_amount']);
 					$selected_pairing = $all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_pairing'];
 					// Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
 					$selected_market = ($all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_market'] -1);
-					$purchase_price = floattostr($all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_paid']);
+					$purchase_price = float_to_string($all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_paid']);
 					$leverage_level = $all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_leverage'];
 					$selected_margintype = $all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_margintype'];
 					
@@ -491,7 +491,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 						}
 						
 					
-						if ( floattostr($value['coin_paid']) >= 0.00000001 ) {
+						if ( float_to_string($value['coin_paid']) >= 0.00000001 ) {
 							
 							
 				?>
@@ -529,20 +529,20 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 		 
 		<?php
 		}
-		if ( floattostr($bitcoin_dominance) >= 0.01 || floattostr($ethereum_dominance) >= 0.01 || floattostr($altcoin_dominance) >= 0.01 ) {
+		if ( float_to_string($bitcoin_dominance) >= 0.01 || float_to_string($ethereum_dominance) >= 0.01 || float_to_string($altcoin_dominance) >= 0.01 ) {
 			
 			
-			if ( floattostr($bitcoin_dominance) >= 0.01 ) {
+			if ( float_to_string($bitcoin_dominance) >= 0.01 ) {
 			$bitcoin_dominance_text = number_format($bitcoin_dominance, 2, '.', ',') . '% Bitcoin';
 			$seperator_btc = ( number_format($bitcoin_dominance, 2, '.', '') < 100 ? ' / ' : '' );
 			}
 			
-			if ( floattostr($ethereum_dominance) >= 0.01 ) {
+			if ( float_to_string($ethereum_dominance) >= 0.01 ) {
 			$ethereum_dominance_text = number_format($ethereum_dominance, 2, '.', ',') . '% Ethereum';
 			$seperator_eth = ( number_format($bitcoin_dominance, 2, '.', '') + number_format($ethereum_dominance, 2, '.', '') < 100 ? ' / ' : '' );
 			}
 			
-			if ( floattostr($altcoin_dominance) >= 0.01 ) {
+			if ( float_to_string($altcoin_dominance) >= 0.01 ) {
 			$altcoin_dominance_text = number_format($altcoin_dominance, 2, '.', ',') .'% Altcoin(s)';
 			}
 			

@@ -162,7 +162,7 @@ app_logging('other_error', 'config-init.php Charts / alerts Bitcoin fiat value n
 
 
 // Better decimal support for price change percent config
-$asset_price_alerts_percent = floattostr($asset_price_alerts_percent); 
+$asset_price_alerts_percent = float_to_string($asset_price_alerts_percent); 
 
 
 

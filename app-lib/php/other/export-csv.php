@@ -66,7 +66,7 @@ $csv_download_array[] = array(
 	    
 	  	 $asset_amount_value = pretty_numbers($asset_amount_value, $asset_amount_decimals);
 	    
-	    $coin_paid_value = ( floattostr($coin_paid_value) >= 1.00 ? pretty_numbers($coin_paid_value, 2) : pretty_numbers($coin_paid_value, $fiat_decimals_max) );
+	    $coin_paid_value = ( float_to_string($coin_paid_value) >= 1.00 ? pretty_numbers($coin_paid_value, 2) : pretty_numbers($coin_paid_value, $fiat_decimals_max) );
 	  	 
 	    
 	   	// Asset data to array for CSV export

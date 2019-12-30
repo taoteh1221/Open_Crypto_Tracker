@@ -203,7 +203,7 @@ $data = array();
  	
 	
 	// UX on number values
-	$data['price'] = ( floattostr($data['price']) >= 1.00 ? pretty_numbers($data['price'], 2) : pretty_numbers($data['price'], $fiat_decimals_max) );
+	$data['price'] = ( float_to_string($data['price']) >= 1.00 ? pretty_numbers($data['price'], 2) : pretty_numbers($data['price'], $fiat_decimals_max) );
 	
 
 return ( $data['rank'] != NULL ? $data : NULL );
@@ -603,7 +603,7 @@ $asset_market_data = asset_market_data($asset, $exchange, $coins_list[$asset]['m
 	
 	
 	// If no pair volume is available for this market, emulate it within reason with: asset value * asset volume
-	$volume_pairing_raw = ( floattostr($volume_pairing_raw) > 0 ? $volume_pairing_raw : ($asset_pairing_value_raw * $volume_asset_raw) );
+	$volume_pairing_raw = ( float_to_string($volume_pairing_raw) > 0 ? $volume_pairing_raw : ($asset_pairing_value_raw * $volume_asset_raw) );
 	
 	
 	// Make sure we have basic values, otherwise log errors / return false
@@ -615,7 +615,7 @@ $asset_market_data = asset_market_data($asset, $exchange, $coins_list[$asset]['m
 	}
 	
 	// Return false if we have no asset value
-	if ( floattostr( trim($asset_fiat_value_raw) ) >= 0.00000001 ) {
+	if ( float_to_string( trim($asset_fiat_value_raw) ) >= 0.00000001 ) {
 	// Continue
 	}
 	else {
@@ -642,22 +642,22 @@ $asset_market_data = asset_market_data($asset, $exchange, $coins_list[$asset]['m
 	
 	
 	// Round DEFAULT FIAT CONFIG asset price to only keep $fiat_decimals_max decimals maximum (or only 2 decimals if worth $1 or more), to save on data set / storage size
-	$asset_fiat_value_raw = ( floattostr($asset_fiat_value_raw) >= 1.00 ? round($asset_fiat_value_raw, 2) : round($asset_fiat_value_raw, $fiat_decimals_max) );
+	$asset_fiat_value_raw = ( float_to_string($asset_fiat_value_raw) >= 1.00 ? round($asset_fiat_value_raw, 2) : round($asset_fiat_value_raw, $fiat_decimals_max) );
 	
 	
 	// If fiat pairing format, round asset price 
 	// to only keep $fiat_decimals_max decimals maximum (or only 2 decimals if worth $1 or more), to save on data set / storage size
    if ( $fiat_eqiv == 1 ) {
-   $asset_pairing_value_raw = ( floattostr($asset_pairing_value_raw) >= 1.00 ? round($asset_pairing_value_raw, 2) : round($asset_pairing_value_raw, $fiat_decimals_max) );
+   $asset_pairing_value_raw = ( float_to_string($asset_pairing_value_raw) >= 1.00 ? round($asset_pairing_value_raw, 2) : round($asset_pairing_value_raw, $fiat_decimals_max) );
    }
 
 
 	// Remove any leading / trailing zeros from CRYPTO asset price, to save on data set / storage size
-	$asset_pairing_value_raw = floattostr($asset_pairing_value_raw);
+	$asset_pairing_value_raw = float_to_string($asset_pairing_value_raw);
 
 
 	// Remove any leading / trailing zeros from PAIRING VOLUME, to save on data set / storage size
-	$volume_pairing_raw = floattostr($volume_pairing_raw);
+	$volume_pairing_raw = float_to_string($volume_pairing_raw);
 	
 	
 	// WE USE PAIRING VOLUME FOR VOLUME PERCENTAGE CHANGES, FOR BETTER PERCENT CHANGE ACCURACY THAN FIAT EQUIV
@@ -673,13 +673,13 @@ $asset_market_data = asset_market_data($asset, $exchange, $coins_list[$asset]['m
 	
    $last_check_days = ( time() - filemtime('cache/alerts/'.$asset_data.'.dat') ) / 86400;
    
-   	if ( floattostr($last_check_days) >= 365 ) {
+   	if ( float_to_string($last_check_days) >= 365 ) {
    	$last_check_time = number_format( ($last_check_days / 365) , 2, '.', ',') . ' years';
    	}
-   	elseif ( floattostr($last_check_days) >= 30 ) {
+   	elseif ( float_to_string($last_check_days) >= 30 ) {
    	$last_check_time = number_format( ($last_check_days / 30) , 2, '.', ',') . ' months';
    	}
-   	elseif ( floattostr($last_check_days) >= 7 ) {
+   	elseif ( float_to_string($last_check_days) >= 7 ) {
    	$last_check_time = number_format( ($last_check_days / 7) , 2, '.', ',') . ' weeks';
    	}
    	else {
@@ -727,7 +727,7 @@ $cached_array = explode("||", $data_file);
 
 	////// If cached value and current value exist, run alert checking ////////////
 	
-	if ( floattostr( trim($cached_asset_fiat_value) ) >= 0.00000001 && floattostr( trim($asset_fiat_value_raw) ) >= 0.00000001 ) {
+	if ( float_to_string( trim($cached_asset_fiat_value) ) >= 0.00000001 && float_to_string( trim($asset_fiat_value_raw) ) >= 0.00000001 ) {
 	
 	
 	
@@ -737,19 +737,19 @@ $cached_array = explode("||", $data_file);
   			 // DEFAULT FIAT CONFIG price percent change (!MUST BE! absolute value)
           $percent_change = abs( ($asset_fiat_value_raw - $cached_asset_fiat_value) / abs($cached_asset_fiat_value) * 100 );
           
-          $percent_change = floattostr($percent_change); // Better decimal support
+          $percent_change = float_to_string($percent_change); // Better decimal support
   			 
   			 // Check whether we should send an alert
-          if ( floattostr($asset_fiat_value_raw) >= 0.00000001 && $percent_change >= $asset_price_alerts_percent ) {
+          if ( float_to_string($asset_fiat_value_raw) >= 0.00000001 && $percent_change >= $asset_price_alerts_percent ) {
           $send_alert = 1;
           }
           
           // UX / UI variables
-          if ( floattostr($asset_fiat_value_raw) < floattostr($cached_asset_fiat_value) ) {
+          if ( float_to_string($asset_fiat_value_raw) < float_to_string($cached_asset_fiat_value) ) {
           $change_symbol = '-';
           $increase_decrease = 'decreased';
           }
-          elseif ( floattostr($asset_fiat_value_raw) >= floattostr($cached_asset_fiat_value) ) {
+          elseif ( float_to_string($asset_fiat_value_raw) >= float_to_string($cached_asset_fiat_value) ) {
           $change_symbol = '+';
           $increase_decrease = 'increased';
           }
@@ -763,7 +763,7 @@ $cached_array = explode("||", $data_file);
           // Crypto volume percent change (!MUST BE! absolute value)
           $volume_percent_change = abs( ($volume_pairing_raw - $cached_pairing_volume) / abs($cached_pairing_volume) * 100 );
           
-          $volume_percent_change = floattostr($volume_percent_change); // Better decimal support
+          $volume_percent_change = float_to_string($volume_percent_change); // Better decimal support
           
           // UX adjustments, and UI / UX variables
           if ( $cached_fiat_volume <= 0 && $volume_fiat_raw <= 0 ) { // ONLY DEFAULT FIAT CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
@@ -845,7 +845,7 @@ $cached_array = explode("||", $data_file);
   				$exchange_text = name_rendering($exchange);
   				
   				// Pretty numbers UX on DEFAULT FIAT CONFIG asset value
-  				$asset_fiat_text = ( floattostr($asset_fiat_value_raw) >= 1.00 ? pretty_numbers($asset_fiat_value_raw, 2) : pretty_numbers($asset_fiat_value_raw, $fiat_decimals_max) );
+  				$asset_fiat_text = ( float_to_string($asset_fiat_value_raw) >= 1.00 ? pretty_numbers($asset_fiat_value_raw, 2) : pretty_numbers($asset_fiat_value_raw, $fiat_decimals_max) );
   				
   				$percent_change_text = number_format($percent_change, 2, '.', ',');
   				
@@ -952,12 +952,12 @@ $cached_array = explode("||", $data_file);
 
 	// Cache a price alert value / volumes if not already done, OR if config setting set to refresh every X days
 	
-	if ( $mode == 'both' && floattostr($asset_fiat_value_raw) >= 0.00000001 && !file_exists('cache/alerts/'.$asset_data.'.dat')
-	|| $mode == 'alert' && floattostr($asset_fiat_value_raw) >= 0.00000001 && !file_exists('cache/alerts/'.$asset_data.'.dat') ) {
+	if ( $mode == 'both' && float_to_string($asset_fiat_value_raw) >= 0.00000001 && !file_exists('cache/alerts/'.$asset_data.'.dat')
+	|| $mode == 'alert' && float_to_string($asset_fiat_value_raw) >= 0.00000001 && !file_exists('cache/alerts/'.$asset_data.'.dat') ) {
 	store_file_contents($base_dir . '/cache/alerts/'.$asset_data.'.dat', $alert_cache_contents); 
 	}
-	elseif ( $mode == 'both' && $send_alert != 1 && $asset_price_alerts_refresh >= 1 && floattostr($asset_fiat_value_raw) >= 0.00000001 && update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $asset_price_alerts_refresh * 1440 ) ) == true
-	|| $mode == 'alert' && $send_alert != 1 && $asset_price_alerts_refresh >= 1 && floattostr($asset_fiat_value_raw) >= 0.00000001 && update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $asset_price_alerts_refresh * 1440 ) ) == true ) {
+	elseif ( $mode == 'both' && $send_alert != 1 && $asset_price_alerts_refresh >= 1 && float_to_string($asset_fiat_value_raw) >= 0.00000001 && update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $asset_price_alerts_refresh * 1440 ) ) == true
+	|| $mode == 'alert' && $send_alert != 1 && $asset_price_alerts_refresh >= 1 && float_to_string($asset_fiat_value_raw) >= 0.00000001 && update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $asset_price_alerts_refresh * 1440 ) ) == true ) {
 	store_file_contents($base_dir . '/cache/alerts/'.$asset_data.'.dat', $alert_cache_contents); 
 	}
 
@@ -967,8 +967,8 @@ $cached_array = explode("||", $data_file);
 
 	// If the charts page is enabled in config.php, save latest chart data for assets with price alerts configured on them
 	
-	if ( $mode == 'both' && floattostr($asset_fiat_value_raw) >= 0.00000001 && $charts_page == 'on'
-	|| $mode == 'chart' && floattostr($asset_fiat_value_raw) >= 0.00000001 && $charts_page == 'on' ) { 
+	if ( $mode == 'both' && float_to_string($asset_fiat_value_raw) >= 0.00000001 && $charts_page == 'on'
+	|| $mode == 'chart' && float_to_string($asset_fiat_value_raw) >= 0.00000001 && $charts_page == 'on' ) { 
 	
 		
 	// DEFAULT FIAT CONFIG charts (CRYPTO/DEFAULT FIAT CONFIG markets, 
@@ -1121,7 +1121,7 @@ $market_pairing = $all_markets[$selected_exchange];
     $btc_trade_eqiv = number_format( ($coin_value_raw * $pairing_btc_value), 8);
     $coin_value_total_raw = ($asset_amount * $coin_value_raw);
   	 $coin_fiat_worth_raw = ($coin_value_total_raw * $pairing_btc_value) *  $btc_fiat_value;
-    $_SESSION['btc_worth_array'][$asset_symbol] = floattostr($coin_value_total_raw * $pairing_btc_value);  
+    $_SESSION['btc_worth_array'][$asset_symbol] = float_to_string($coin_value_total_raw * $pairing_btc_value);  
     }
     // OTHER PAIRINGS
     else {
@@ -1130,7 +1130,7 @@ $market_pairing = $all_markets[$selected_exchange];
     $btc_trade_eqiv = number_format( ($coin_value_raw * $pairing_btc_value), 8);
     $coin_value_total_raw = ($asset_amount * $coin_value_raw);
   	 $coin_fiat_worth_raw = ($coin_value_total_raw * $pairing_btc_value) *  $btc_fiat_value;
-    $_SESSION['btc_worth_array'][$asset_symbol] = ( strtolower($asset_name) == 'bitcoin' ? $asset_amount : floattostr($coin_value_total_raw * $pairing_btc_value) );
+    $_SESSION['btc_worth_array'][$asset_symbol] = ( strtolower($asset_name) == 'bitcoin' ? $asset_amount : float_to_string($coin_value_total_raw * $pairing_btc_value) );
   	 }
   	 
   	 
@@ -1446,7 +1446,7 @@ $market_pairing = $all_markets[$selected_exchange];
   $coin_fiat_value = ( $btc_fiat_value * $btc_trade_eqiv );
 
   // UX on FIAT number values
-  $coin_fiat_value = ( floattostr($coin_fiat_value) >= 1.00 ? pretty_numbers($coin_fiat_value, 2) : pretty_numbers($coin_fiat_value, $fiat_decimals_max) );
+  $coin_fiat_value = ( float_to_string($coin_fiat_value) >= 1.00 ? pretty_numbers($coin_fiat_value, 2) : pretty_numbers($coin_fiat_value, $fiat_decimals_max) );
 	
   echo $fiat_currencies[$btc_fiat_pairing] . "<span class='app_sort_filter'>" . $coin_fiat_value . "</span>";
 
@@ -1543,7 +1543,7 @@ echo "<span class='app_sort_filter blue'>" . ( $pretty_coin_amount != NULL ? $pr
 
 	// UX on FIAT number values
 	if ( $fiat_eqiv == 1 ) {
-	$coin_value_fiat_decimals = ( floattostr($coin_value_raw) >= 1.00 ? 2 : $fiat_decimals_max );
+	$coin_value_fiat_decimals = ( float_to_string($coin_value_raw) >= 1.00 ? 2 : $fiat_decimals_max );
 	}
   
 echo ( $fiat_eqiv == 1 ? pretty_numbers($coin_value_raw, $coin_value_fiat_decimals) : pretty_numbers($coin_value_raw, 8) ); 
@@ -1609,7 +1609,7 @@ echo ( $fiat_eqiv == 1 ? pretty_numbers($coin_value_raw, $coin_value_fiat_decima
 
 	// UX on FIAT number values
 	if ( $fiat_eqiv == 1 ) {
-	$coin_value_total_fiat_decimals = ( floattostr($coin_value_total_raw) >= 1.00 ? 2 : $fiat_decimals_max );
+	$coin_value_total_fiat_decimals = ( float_to_string($coin_value_total_raw) >= 1.00 ? 2 : $fiat_decimals_max );
 	}
   
 $pretty_coin_value_total_raw = ( $fiat_eqiv == 1 ? pretty_numbers($coin_value_total_raw, $coin_value_total_fiat_decimals) : pretty_numbers($coin_value_total_raw, 8) ); 

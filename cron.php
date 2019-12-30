@@ -154,6 +154,14 @@ $memory_percent_free = round( 100 - $memory_percent_free, 2);
 	$chart_data_set .= '||0';
 	}
 	
+	
+	if ( trim($total_runtime) ) {
+	$chart_data_set .= '||' . trim($total_runtime);
+	}
+	else {
+	$chart_data_set .= '||0';
+	}
+	
 
          
 // Store system data to chart 
