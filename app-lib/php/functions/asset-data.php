@@ -560,6 +560,13 @@ $asset = strtoupper($asset);
 
 
 
+// Fiat or equivelant pairing?
+if ( array_key_exists($pairing, $fiat_currencies) ) {
+$fiat_eqiv = 1;
+}
+
+
+
 	// Get any necessary variables for calculating asset's DEFAULT FIAT CONFIG value
 
 
@@ -631,7 +638,7 @@ $asset_market_data = asset_market_data($asset, $exchange, $coins_list[$asset]['m
 	
 	
 	// Round PAIRING volume to only keep 3 decimals max (for crypto volume etc), to save on data set / storage size
-	$volume_pairing_raw = ( isset($volume_pairing_raw) ? round($volume_pairing_raw, 3) : NULL );	
+	$volume_pairing_raw = ( isset($volume_pairing_raw) ? round($volume_pairing_raw, ( $fiat_eqiv == 1 ? 0 : 3 ) ) : NULL );	
 	
 	
 	// Round DEFAULT FIAT CONFIG asset price to only keep $fiat_decimals_max decimals maximum (or only 2 decimals if worth $1 or more), to save on data set / storage size
@@ -640,7 +647,7 @@ $asset_market_data = asset_market_data($asset, $exchange, $coins_list[$asset]['m
 	
 	// If fiat pairing format, round asset price 
 	// to only keep $fiat_decimals_max decimals maximum (or only 2 decimals if worth $1 or more), to save on data set / storage size
-   if ( array_key_exists($pairing, $fiat_currencies) ) {
+   if ( $fiat_eqiv == 1 ) {
    $asset_pairing_value_raw = ( floattostr($asset_pairing_value_raw) >= 1.00 ? round($asset_pairing_value_raw, 2) : round($asset_pairing_value_raw, $fiat_decimals_max) );
    }
 

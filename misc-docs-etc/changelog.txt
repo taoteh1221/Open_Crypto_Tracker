@@ -2135,7 +2135,7 @@ PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 -------------------------------------------------------------------
 4.04.4:
 
--Bug fix for removing trailing zeros (now requires that decimal point exists)
+-Bug fixes for floating point numbers / scientific notation to normal string value
 
 IMPORTANT NOTES: 
 

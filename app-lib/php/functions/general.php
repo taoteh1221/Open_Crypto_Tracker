@@ -508,36 +508,50 @@ global $base_dir;
 function floattostr($val) {
 
 
-// Convert any scientific formatting to normal decimals
-// MUST ALLOW MAXIMUM OF 9 DECIMALS, TO COUNT WATCH-ONLY ASSETS
-// (ANYTHING OVER 9 DECIMALS SHOULD BE AVOIDED FOR UX)
-$decimals = strlen(substr(strrchr($val, "."), 1));
+// Trim any whitespace off the ends
+$val = trim($val);
 
-	if ( $decimals > 9 ) {
-	$decimals = 9;
+
+	 // Covert scientific notation to a normal value / string
+    $to_string = (string)$val;
+    
+    if ( preg_match('~\.(\d+)E([+-])?(\d+)~', $to_string, $matches) ) {
+    	
+    $decimals = $matches[2] === '-' ? strlen($matches[1]) + $matches[3] : 0;
+    
+		 // MUST ALLOW MAXIMUM OF 9 DECIMALS, TO COUNT WATCH-ONLY ASSETS
+		 // (ANYTHING OVER 9 DECIMALS SHOULD BE AVOIDED FOR UX)
+		 if ( $decimals > 9 ) {
+		 $decimals = 9;
+		 }
+
+    $to_string = number_format($val, $decimals, '.', '');
+    
+    }
+    
+    $val = $to_string;
+
+
+	// Remove TRAILING zeros ie. 140.00000 becomes 140.
+	// (ONLY IF DECIMAL PLACE EXISTS)
+	if ( preg_match("/\./", $val) ) {
+	$val = rtrim($val, '0');
 	}
 
-$val = number_format($val, $decimals, '.', '');
 
-
-//remove zeros from end of number ie. 140.00000 becomes 140.
-// (ONLY IF DECIMAL PLACE EXISTS)
-if ( preg_match("/\./", $val) ) {
-$val = rtrim($val, '0');
-}
-
-
-//remove decimal point if an integer ie. 140. becomes 140
-$val = rtrim($val, '.');
-
-
-	// Remove any extra leading zeros created from above logic
+	// Remove any extra LEADING zeros 
+	// IF less than 1.00
 	if ( $val < 1 ) {
-	$val = preg_replace("/00\./", "0.", $val);
+	$val = preg_replace("/(.*)00\./", "0.", $val);
 	}
+	// IF greater than or equal to 1.00
 	elseif ( $val >= 1 ) {
 	$val = ltrim($val, '0');
 	}
+	
+
+// Remove decimal point if an integer ie. 140. becomes 140
+$val = rtrim($val, '.');
 	
 	
 	// Always at least return zero
