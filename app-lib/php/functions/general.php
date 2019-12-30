@@ -521,7 +521,10 @@ $val = number_format($val, $decimals, '.', '');
 
 
 //remove zeros from end of number ie. 140.00000 becomes 140.
+// (ONLY IF DECIMAL PLACE EXISTS)
+if ( preg_match("/\./", $val) ) {
 $val = rtrim($val, '0');
+}
 
 
 //remove decimal point if an integer ie. 140. becomes 140
