@@ -623,6 +623,8 @@ select opt in $OPTIONS; do
 				
 				rm $DOC_ROOT/.gitignore
 				
+				rm $DOC_ROOT/CODEOWNERS
+				
 				/bin/chmod 777 $DOC_ROOT/backups
 				
 				/bin/chmod 777 $DOC_ROOT/cache
