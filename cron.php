@@ -94,7 +94,7 @@ $raspi_temp = preg_replace("/° Celsius/i", "", $system_info['system_temp']);
 
 $raspi_free_space_mb = in_megabytes($system_info['free_partition_space'])['in_megs'];
          
-$portfolio_cache_size = in_megabytes($system_info['portfolio_cache'])['in_megs'];
+$portfolio_cache_size_mb = in_megabytes($system_info['portfolio_cache'])['in_megs'];
     		
 $raspi_memory_total_mb = in_megabytes($system_info['memory_total'])['in_megs'];
     		
@@ -124,7 +124,7 @@ $memory_percent_free = round( 100 - $memory_percent_free, 2);
 	
 	
 	if ( trim($raspi_memory_free_mb) ) {
-	$chart_data_set .= '||' . trim($raspi_memory_free_mb);
+	$chart_data_set .= '||' . round( trim($raspi_memory_free_mb) / 1000 , 4); // Gigabytes, for chart UX
 	}
 	else {
 	$chart_data_set .= '||0';
@@ -140,15 +140,15 @@ $memory_percent_free = round( 100 - $memory_percent_free, 2);
 	
 	
 	if ( trim($raspi_free_space_mb) ) {
-	$chart_data_set .= '||' . trim($raspi_free_space_mb);
+	$chart_data_set .= '||' . round( trim($raspi_free_space_mb) / 1000000 , 4); // Terabytes, for chart stats UX
 	}
 	else {
 	$chart_data_set .= '||0';
 	}
 	
 	
-	if ( trim($portfolio_cache_size) ) {
-	$chart_data_set .= '||' . trim($portfolio_cache_size);
+	if ( trim($portfolio_cache_size_mb) ) {
+	$chart_data_set .= '||' . round( trim($portfolio_cache_size_mb) / 1000 , 4); // Gigabytes, for chart UX
 	}
 	else {
 	$chart_data_set .= '||0';

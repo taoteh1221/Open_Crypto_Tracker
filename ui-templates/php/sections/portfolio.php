@@ -639,7 +639,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
          
 			$raspi_free_space_mb = in_megabytes($system_info['free_partition_space'])['in_megs'];
          
-			$portfolio_cache_size = in_megabytes($system_info['portfolio_cache'])['in_megs'];
+			$portfolio_cache_size_mb = in_megabytes($system_info['portfolio_cache'])['in_megs'];
     		
     		$raspi_memory_total_mb = in_megabytes($system_info['memory_total'])['in_megs'];
     		
@@ -683,15 +683,15 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
     		}
     		
     		if ( isset($system_info['memory_free']) ) {
-    		echo '<span class="bitcoin"><b>Free Memory:</b></span> <span class="'.( $memory_percent_free < 9 ? 'red' : 'green' ).'"> '.$raspi_memory_free_mb.' Megabytes ('.$memory_percent_free.'%)</span> <br />';
+    		echo '<span class="bitcoin"><b>Free Memory:</b></span> <span class="'.( $memory_percent_free < 9 ? 'red' : 'green' ).'"> '.round($raspi_memory_free_mb / 1000, 4).' Gigabytes ('.number_format($raspi_memory_free_mb, 2, '.', ',').' Megabytes / '.$memory_percent_free.'%)</span> <br />';
     		}
     		
     		if ( isset($system_info['free_partition_space']) ) {
-    		echo '<span class="bitcoin"><b>Free Space:</b></span> <span class="'.( $raspi_free_space_mb < 500 ? 'red' : 'green' ).'"> '.$system_info['free_partition_space'].'</span> <br />';
+    		echo '<span class="bitcoin"><b>Free Space:</b></span> <span class="'.( $raspi_free_space_mb < 500 ? 'red' : 'green' ).'"> '.round($raspi_free_space_mb / 1000000, 4).' Terabytes ('.number_format($raspi_free_space_mb / 1000, 2, '.', ',').' Gigabytes)</span> <br />';
     		}
     		
     		if ( isset($system_info['portfolio_cache']) ) {
-    		echo '<span class="bitcoin"><b>Portfolio Cache:</b></span> <span class="'.( $portfolio_cache_size > 5000 ? 'red' : 'green' ).'"> '.$system_info['portfolio_cache'].'</span> <br />';
+    		echo '<span class="bitcoin"><b>Portfolio Cache:</b></span> <span class="'.( $portfolio_cache_size_mb > 10000 ? 'red' : 'green' ).'"> '.round($portfolio_cache_size_mb / 1000, 4).' Gigabytes ('.number_format($portfolio_cache_size_mb, 2, '.', ',').' Megabytes)</span> <br />';
     		}
     		
     		if ( isset($system_info['software']) ) {
@@ -779,47 +779,34 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 		
 		<h3>System Statistics Charts</h3>
 	
-	<p> &nbsp; </p>
 	
-	<p> Coming Soon </p>
 	
-	<p> &nbsp; </p>
+	<div class='red' id='system_charts_error'></div>
 	
-	<p> &nbsp; </p>
 	
-	<p> &nbsp; </p>
+	<div class='chart_wrapper' id='system_stats_chart_1'><span class='loading' style='color: <?=$charts_text?>;'> &nbsp; Loading chart #1 for System Statistics...</span></div>
 	
-	<p> &nbsp; </p>
+	<script>
 	
-	<p> &nbsp; </p>
+	$(document).ready(function() {
+    $.getScript("app-lib/js/chart.js.php?type=system&key=1");
+	});
 	
-	<p> &nbsp; </p>
+	</script>
 	
-	<p> &nbsp; </p>
 	
-	<p> &nbsp; </p>
+	<br/><br/><br/>
 	
-	<p> &nbsp; </p>
 	
-	<p> &nbsp; </p>
+	<div class='chart_wrapper' id='system_stats_chart_2'><span class='loading' style='color: <?=$charts_text?>;'> &nbsp; Loading chart #2 for System Statistics...</span></div>
 	
-	<p> &nbsp; </p>
+	<script>
 	
-	<p> &nbsp; </p>
+	$(document).ready(function() {
+    $.getScript("app-lib/js/chart.js.php?type=system&key=2");
+	});
 	
-	<p> &nbsp; </p>
-	
-	<p> &nbsp; </p>
-	
-	<p> &nbsp; </p>
-	
-	<p> &nbsp; </p>
-	
-	<p> &nbsp; </p>
-	
-	<p> &nbsp; </p>
-	
-	<p> &nbsp; </p>
+	</script>
 		
 	</div>
 	

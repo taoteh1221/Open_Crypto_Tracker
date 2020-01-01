@@ -413,7 +413,7 @@ margin: 5px;
 }
 
 
-#charts_error {
+#charts_error, #system_charts_error {
 display: none;
 font-weight: bold;
 border: 4px dotted #808080;
