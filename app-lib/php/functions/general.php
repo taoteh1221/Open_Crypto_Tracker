@@ -1027,9 +1027,9 @@ $fn = fopen($file,"r");
          if ( $system_statistics_chart == 1 ) {
          
          $data['temperature_celsius'] .= trim($result[2]) . ',';
-         $data['memory_free_percentage'] .= trim($result[4]) . ',';
+         $data['free_memory_percentage'] .= trim($result[4]) . ',';
          $data['cron_runtime_seconds'] .= trim($result[7]) . ',';
-         $data['memory_free_gigabytes'] .= trim($result[3]) . ',';
+         $data['free_memory_gigabytes'] .= trim($result[3]) . ',';
          $data['load_average_15_minutes'] .= trim($result[1]) . ',';
          $data['free_space_terabtyes'] .= trim($result[5]) . ',';
          $data['portfolio_cache_gigabytes'] .= trim($result[6]) . ',';
@@ -1062,9 +1062,9 @@ $data['time'] = rtrim($data['time'],',');
 
 	if ( $system_statistics_chart == 1 ) {
 	$data['temperature_celsius'] = rtrim($data['temperature_celsius'],',');
-	$data['memory_free_percentage'] = rtrim($data['memory_free_percentage'],',');
+	$data['free_memory_percentage'] = rtrim($data['free_memory_percentage'],',');
 	$data['cron_runtime_seconds'] = rtrim($data['cron_runtime_seconds'],',');
-	$data['memory_free_gigabytes'] = rtrim($data['memory_free_gigabytes'],',');
+	$data['free_memory_gigabytes'] = rtrim($data['free_memory_gigabytes'],',');
 	$data['load_average_15_minutes'] = rtrim($data['load_average_15_minutes'],',');
 	$data['free_space_terabtyes'] = rtrim($data['free_space_terabtyes'],',');
 	$data['portfolio_cache_gigabytes'] = rtrim($data['portfolio_cache_gigabytes'],',');

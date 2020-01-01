@@ -652,7 +652,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	
     		// Output
     		if ( isset($system_info['operating_system']) ) {
-    		echo '<span class="bitcoin"><b>OS:</b></span> <span class="blue"> '.$system_info['operating_system'].'</span> <br />';
+    		echo '<span class="bitcoin"><b>Operating System:</b></span> <span class="blue"> '.$system_info['operating_system'].'</span> <br />';
     		}
     		
     		if ( isset($system_info['model']) || isset($system_info['hardware']) ) {
@@ -691,7 +691,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
     		}
     		
     		if ( isset($system_info['portfolio_cache']) ) {
-    		echo '<span class="bitcoin"><b>Portfolio Cache:</b></span> <span class="'.( $portfolio_cache_size_mb > 10000 ? 'red' : 'green' ).'"> '.round($portfolio_cache_size_mb / 1000, 4).' Gigabytes ('.number_format($portfolio_cache_size_mb, 2, '.', ',').' Megabytes)</span> <br />';
+    		echo '<span class="bitcoin"><b>Portfolio Cache Size:</b></span> <span class="'.( $portfolio_cache_size_mb > 10000 ? 'red' : 'green' ).'"> '.round($portfolio_cache_size_mb / 1000, 4).' Gigabytes ('.number_format($portfolio_cache_size_mb, 2, '.', ',').' Megabytes)</span> <br />';
     		}
     		
     		if ( isset($system_info['software']) ) {
