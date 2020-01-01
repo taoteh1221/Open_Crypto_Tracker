@@ -61,7 +61,7 @@ FEATURES
 
 -Help page in easy-to-use FAQ format, for common issues (with support / contact links if you need additional assistance).
 
--Options to add proxies for API requests / SMTP authentication for email sending / displaying system stats in the interface (uptime / load averages / temperature / free disk space / free system memory, if available on your device).
+-Options to add proxies for API requests / SMTP authentication for email sending / displaying system stats in the interface (uptime / load averages / temperature / free disk space / free system memory / portfolio cache size, if available on your device).
 
 -Configuration checking, alerting, logging, and auto-correcting (where possible).
 
