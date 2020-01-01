@@ -5,6 +5,12 @@ TODO
 ///////////////////////////////////////////////////////
 
 
+Standalone mode not changing corresponding exchange when pairing switched in IE (windows)
+
+
+No audio alert in FF (windows)
+
+
 Code review ALL functions.
 
 

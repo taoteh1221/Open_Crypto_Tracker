@@ -86,80 +86,80 @@ $total_runtime = round( ($time - $start_runtime) , 3);
 if ( $system_stats == 'on' || $system_stats == 'raspi' && $is_raspi == 1 ) {
     			
 // Raspi system data
-$raspi_load = $system_info['system_load'];
-$raspi_load = preg_replace("/ \(15 min avg\)(.*)/i", "", $raspi_load);
-$raspi_load = preg_replace("/(.*)\(5 min avg\) /i", "", $raspi_load); // Use 15 minute average
+$system_load = $system_info['system_load'];
+$system_load = preg_replace("/ \(15 min avg\)(.*)/i", "", $system_load);
+$system_load = preg_replace("/(.*)\(5 min avg\) /i", "", $system_load); // Use 15 minute average
     		
-$raspi_temp = preg_replace("/° Celsius/i", "", $system_info['system_temp']);
+$system_temp = preg_replace("/° Celsius/i", "", $system_info['system_temp']);
 
-$raspi_free_space_mb = in_megabytes($system_info['free_partition_space'])['in_megs'];
+$system_free_space_mb = in_megabytes($system_info['free_partition_space'])['in_megs'];
          
 $portfolio_cache_size_mb = in_megabytes($system_info['portfolio_cache'])['in_megs'];
     		
-$raspi_memory_total_mb = in_megabytes($system_info['memory_total'])['in_megs'];
+$system_memory_total_mb = in_megabytes($system_info['memory_total'])['in_megs'];
     		
-$raspi_memory_free_mb = in_megabytes($system_info['memory_free'])['in_megs'];
+$system_memory_free_mb = in_megabytes($system_info['memory_free'])['in_megs'];
     		
     		
 // Percent difference (!MUST BE! absolute value)
-$memory_percent_free = abs( ($raspi_memory_free_mb - $raspi_memory_total_mb) / abs($raspi_memory_total_mb) * 100 );
+$memory_percent_free = abs( ($system_memory_free_mb - $system_memory_total_mb) / abs($system_memory_total_mb) * 100 );
 $memory_percent_free = round( 100 - $memory_percent_free, 2);
 
 
 
-	if ( trim($raspi_load) ) {
-	$chart_data_set .= '||' . trim($raspi_load);
+	if ( trim($system_load) >= 0 ) {
+	$chart_data_set .= '||' . trim($system_load);
 	}
 	else {
-	$chart_data_set .= '||0';
+	$chart_data_set .= '||NO_DATA';
 	}
 	
 	
-	if ( trim($raspi_temp) ) {
-	$chart_data_set .= '||' . trim($raspi_temp);
-	}
-	else {
-	$chart_data_set .= '||0';
-	}
-	
-	
-	if ( trim($raspi_memory_free_mb) ) {
-	$chart_data_set .= '||' . round( trim($raspi_memory_free_mb) / 1000 , 4); // Gigabytes, for chart UX
+	if ( trim($system_temp) > 0 ) {
+	$chart_data_set .= '||' . trim($system_temp);
 	}
 	else {
-	$chart_data_set .= '||0';
+	$chart_data_set .= '||NO_DATA';
 	}
 	
 	
-	if ( trim($memory_percent_free) ) {
+	if ( trim($system_memory_free_mb) >= 0 ) {
+	$chart_data_set .= '||' . round( trim($system_memory_free_mb) / 1000 , 4); // Gigabytes, for chart UX
+	}
+	else {
+	$chart_data_set .= '||NO_DATA';
+	}
+	
+	
+	if ( trim($memory_percent_free) >= 0 ) {
 	$chart_data_set .= '||' . trim($memory_percent_free);
 	}
 	else {
-	$chart_data_set .= '||0';
+	$chart_data_set .= '||NO_DATA';
 	}
 	
 	
-	if ( trim($raspi_free_space_mb) ) {
-	$chart_data_set .= '||' . round( trim($raspi_free_space_mb) / 1000000 , 4); // Terabytes, for chart stats UX
+	if ( trim($system_free_space_mb) >= 0 ) {
+	$chart_data_set .= '||' . round( trim($system_free_space_mb) / 1000000 , 4); // Terabytes, for chart stats UX
 	}
 	else {
-	$chart_data_set .= '||0';
+	$chart_data_set .= '||NO_DATA';
 	}
 	
 	
-	if ( trim($portfolio_cache_size_mb) ) {
+	if ( trim($portfolio_cache_size_mb) >= 0 ) {
 	$chart_data_set .= '||' . round( trim($portfolio_cache_size_mb) / 1000 , 4); // Gigabytes, for chart UX
 	}
 	else {
-	$chart_data_set .= '||0';
+	$chart_data_set .= '||NO_DATA';
 	}
 	
 	
-	if ( trim($total_runtime) ) {
+	if ( trim($total_runtime) >= 0 ) {
 	$chart_data_set .= '||' . trim($total_runtime);
 	}
 	else {
-	$chart_data_set .= '||0';
+	$chart_data_set .= '||NO_DATA';
 	}
 	
 

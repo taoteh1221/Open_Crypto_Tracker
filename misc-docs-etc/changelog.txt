@@ -2170,6 +2170,29 @@ PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
 
 
+-------------------------------------------------------------------
+4.05.1:
+
+-UX (minor bug) revisions for system stats/charts
+
+IMPORTANT NOTES: 
+
+v4.03.0 and higher of this app REQUIRES DELETING YOUR PREVIOUS CHART DATA FROM ANY EARLIER VERSIONS.
+MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWARDS-COMPATIBLE.
+
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
+PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
+
+-------------------------------------------------------------------
+
+
+
+
+
+
+
+
 
 
 

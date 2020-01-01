@@ -845,90 +845,6 @@ return $result;
 ////////////////////////////////////////////////////////
 
 
-function chart_data($file, $chart_format) {
-
-global $fiat_decimals_max, $charts_alerts_btc_fiat_pairing, $fiat_currencies;
-
-
-	if ( array_key_exists($chart_format, $fiat_currencies) ) {
-	$fiat_formatting = 1;
-	}
-	elseif ( $chart_format == 'system' ) {
-	$system_statistics_chart = 1;
-	}
-
-
-$data = array();
-$fn = fopen($file,"r");
-  
-  while( !feof($fn) )  {
-  	
-	$result = explode("||", fgets($fn) );
-	
-		if ( trim($result[0]) != '' ) {
-			
-		$data['time'] .= trim($result[0]) . '000,';  // Zingchart wants 3 more zeros with unix time (milliseconds)
-		
-		
-         if ( $system_statistics_chart == 1 ) {
-         
-         $data['temperature_celsius'] .= trim($result[2]) . ',';
-         $data['memory_free_percentage'] .= trim($result[4]) . ',';
-         $data['runtime_seconds'] .= trim($result[7]) . ',';
-         $data['memory_free_gigabytes'] .= trim($result[3]) . ',';
-         $data['load_average_15_minutes'] .= trim($result[1]) . ',';
-         $data['free_space_terabtyes'] .= trim($result[5]) . ',';
-         $data['portfolio_cache_gigabytes'] .= trim($result[6]) . ',';
-         
-         }
-         else {
-         
-            // Format or round Fiat / stablecoin price depending on value (non-stablecoin crypto values are already stored in the format we want for the interface)
-            if ( $fiat_formatting == 1 ) {
-            $data['spot'] .= ( float_to_string($result[1]) >= 1.00 ? number_format((float)$result[1], 2, '.', '')  :  round($result[1], $fiat_decimals_max)  ) . ',';
-            $data['volume'] .= round($result[2]) . ',';
-            }
-            // Non-fiat-or-stablecoin crypto
-            else {
-            $data['spot'] .= $result[1] . ',';
-            $data['volume'] .= round($result[2], 3) . ',';
-            }
-         
-         }
-		
-		
-		}
-	
-  }
-
-fclose($fn);
-
-// Trim away extra commas
-$data['time'] = rtrim($data['time'],',');
-
-	if ( $system_statistics_chart == 1 ) {
-	$data['temperature_celsius'] = rtrim($data['temperature_celsius'],',');
-	$data['memory_free_percentage'] = rtrim($data['memory_free_percentage'],',');
-	$data['runtime_seconds'] = rtrim($data['runtime_seconds'],',');
-	$data['memory_free_gigabytes'] = rtrim($data['memory_free_gigabytes'],',');
-	$data['load_average_15_minutes'] = rtrim($data['load_average_15_minutes'],',');
-	$data['free_space_terabtyes'] = rtrim($data['free_space_terabtyes'],',');
-	$data['portfolio_cache_gigabytes'] = rtrim($data['portfolio_cache_gigabytes'],',');
-	}
-	else {
-	$data['spot'] = rtrim($data['spot'],',');
-	$data['volume'] = rtrim($data['volume'],',');
-	}
-
-return $data;
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
 function chart_time_interval($file, $linecount, $length) {
 
 
@@ -1075,6 +991,90 @@ function base_url($atRoot=FALSE, $atCore=FALSE, $parse=FALSE) {
 
 
 return $base_url;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function chart_data($file, $chart_format) {
+
+global $fiat_decimals_max, $charts_alerts_btc_fiat_pairing, $fiat_currencies;
+
+
+	if ( array_key_exists($chart_format, $fiat_currencies) ) {
+	$fiat_formatting = 1;
+	}
+	elseif ( $chart_format == 'system' ) {
+	$system_statistics_chart = 1;
+	}
+
+
+$data = array();
+$fn = fopen($file,"r");
+  
+  while( !feof($fn) )  {
+  	
+	$result = explode("||", fgets($fn) );
+	
+		if ( trim($result[0]) != '' ) {
+			
+		$data['time'] .= trim($result[0]) . '000,';  // Zingchart wants 3 more zeros with unix time (milliseconds)
+		
+		
+         if ( $system_statistics_chart == 1 ) {
+         
+         $data['temperature_celsius'] .= trim($result[2]) . ',';
+         $data['memory_free_percentage'] .= trim($result[4]) . ',';
+         $data['cron_runtime_seconds'] .= trim($result[7]) . ',';
+         $data['memory_free_gigabytes'] .= trim($result[3]) . ',';
+         $data['load_average_15_minutes'] .= trim($result[1]) . ',';
+         $data['free_space_terabtyes'] .= trim($result[5]) . ',';
+         $data['portfolio_cache_gigabytes'] .= trim($result[6]) . ',';
+         
+         }
+         else {
+         
+            // Format or round Fiat / stablecoin price depending on value (non-stablecoin crypto values are already stored in the format we want for the interface)
+            if ( $fiat_formatting == 1 ) {
+            $data['spot'] .= ( float_to_string($result[1]) >= 1.00 ? number_format((float)$result[1], 2, '.', '')  :  round($result[1], $fiat_decimals_max)  ) . ',';
+            $data['volume'] .= round($result[2]) . ',';
+            }
+            // Non-fiat-or-stablecoin crypto
+            else {
+            $data['spot'] .= $result[1] . ',';
+            $data['volume'] .= round($result[2], 3) . ',';
+            }
+         
+         }
+		
+		
+		}
+	
+  }
+
+fclose($fn);
+
+// Trim away extra commas
+$data['time'] = rtrim($data['time'],',');
+
+	if ( $system_statistics_chart == 1 ) {
+	$data['temperature_celsius'] = rtrim($data['temperature_celsius'],',');
+	$data['memory_free_percentage'] = rtrim($data['memory_free_percentage'],',');
+	$data['cron_runtime_seconds'] = rtrim($data['cron_runtime_seconds'],',');
+	$data['memory_free_gigabytes'] = rtrim($data['memory_free_gigabytes'],',');
+	$data['load_average_15_minutes'] = rtrim($data['load_average_15_minutes'],',');
+	$data['free_space_terabtyes'] = rtrim($data['free_space_terabtyes'],',');
+	$data['portfolio_cache_gigabytes'] = rtrim($data['portfolio_cache_gigabytes'],',');
+	}
+	else {
+	$data['spot'] = rtrim($data['spot'],',');
+	$data['volume'] = rtrim($data['volume'],',');
+	}
+
+return $data;
 
 }
 
@@ -1840,7 +1840,7 @@ $system['operating_system'] = PHP_OS;
 	$hours = $num % 24;      $num = (int)($num / 24);
 	$days  = $num;
  	
- 	$system['uptime'] = $days . ' days, ' . $hours . ' hours, ' . $mins . ' minutes, and ' . round($secs) . ' seconds';
+ 	$system['uptime'] = $days . ' days, ' . $hours . ' hours, ' . $mins . ' minutes, ' . round($secs) . ' seconds';
  	
 	}
 	

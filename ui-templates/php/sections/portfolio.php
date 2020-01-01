@@ -631,22 +631,22 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
     <?php
     			
     		// Raspi system data
-    		$raspi_load = $system_info['system_load'];
-    		$raspi_load = preg_replace("/ \(15 min avg\)(.*)/i", "", $raspi_load);
-    		$raspi_load = preg_replace("/(.*)\(5 min avg\) /i", "", $raspi_load); // Use 15 minute average
+    		$system_load = $system_info['system_load'];
+    		$system_load = preg_replace("/ \(15 min avg\)(.*)/i", "", $system_load);
+    		$system_load = preg_replace("/(.*)\(5 min avg\) /i", "", $system_load); // Use 15 minute average
     		
-    		$raspi_temp = preg_replace("/° Celsius/i", "", $system_info['system_temp']);
+    		$system_temp = preg_replace("/° Celsius/i", "", $system_info['system_temp']);
          
-			$raspi_free_space_mb = in_megabytes($system_info['free_partition_space'])['in_megs'];
+			$system_free_space_mb = in_megabytes($system_info['free_partition_space'])['in_megs'];
          
 			$portfolio_cache_size_mb = in_megabytes($system_info['portfolio_cache'])['in_megs'];
     		
-    		$raspi_memory_total_mb = in_megabytes($system_info['memory_total'])['in_megs'];
+    		$system_memory_total_mb = in_megabytes($system_info['memory_total'])['in_megs'];
     		
-    		$raspi_memory_free_mb = in_megabytes($system_info['memory_free'])['in_megs'];
+    		$system_memory_free_mb = in_megabytes($system_info['memory_free'])['in_megs'];
     		
   			// Percent difference (!MUST BE! absolute value)
-         $memory_percent_free = abs( ($raspi_memory_free_mb - $raspi_memory_total_mb) / abs($raspi_memory_total_mb) * 100 );
+         $memory_percent_free = abs( ($system_memory_free_mb - $system_memory_total_mb) / abs($system_memory_total_mb) * 100 );
          $memory_percent_free = round( 100 - $memory_percent_free, 2);
 	
 	
@@ -675,19 +675,19 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
     		}
     		
     		if ( isset($system_info['system_load']) ) {
-    		echo '<span class="bitcoin"><b>Load:</b></span> <span class="'.( $raspi_load > 2 ? 'red' : 'green' ).'"> '.$system_info['system_load'].'</span> <br />';
+    		echo '<span class="bitcoin"><b>Load:</b></span> <span class="'.( $system_load > 2 ? 'red' : 'green' ).'"> '.$system_info['system_load'].'</span> <br />';
     		}
     		
     		if ( isset($system_info['system_temp']) ) {
-    		echo '<span class="bitcoin"><b>Temperature:</b></span> <span class="'.( $raspi_temp > 79 ? 'red' : 'green' ).'"> '.$system_info['system_temp'].'</span> <br />';
+    		echo '<span class="bitcoin"><b>Temperature:</b></span> <span class="'.( $system_temp > 79 ? 'red' : 'green' ).'"> '.$system_info['system_temp'].'</span> <br />';
     		}
     		
     		if ( isset($system_info['memory_free']) ) {
-    		echo '<span class="bitcoin"><b>Free Memory:</b></span> <span class="'.( $memory_percent_free < 9 ? 'red' : 'green' ).'"> '.round($raspi_memory_free_mb / 1000, 4).' Gigabytes ('.number_format($raspi_memory_free_mb, 2, '.', ',').' Megabytes / '.$memory_percent_free.'%)</span> <br />';
+    		echo '<span class="bitcoin"><b>Free Memory:</b></span> <span class="'.( $memory_percent_free < 9 ? 'red' : 'green' ).'"> '.round($system_memory_free_mb / 1000, 4).' Gigabytes ('.number_format($system_memory_free_mb, 2, '.', ',').' Megabytes / '.$memory_percent_free.'%)</span> <br />';
     		}
     		
     		if ( isset($system_info['free_partition_space']) ) {
-    		echo '<span class="bitcoin"><b>Free Space:</b></span> <span class="'.( $raspi_free_space_mb < 500 ? 'red' : 'green' ).'"> '.round($raspi_free_space_mb / 1000000, 4).' Terabytes ('.number_format($raspi_free_space_mb / 1000, 2, '.', ',').' Gigabytes)</span> <br />';
+    		echo '<span class="bitcoin"><b>Free Space:</b></span> <span class="'.( $system_free_space_mb < 500 ? 'red' : 'green' ).'"> '.round($system_free_space_mb / 1000000, 4).' Terabytes ('.number_format($system_free_space_mb / 1000, 2, '.', ',').' Gigabytes)</span> <br />';
     		}
     		
     		if ( isset($system_info['portfolio_cache']) ) {

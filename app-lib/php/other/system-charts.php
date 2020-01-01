@@ -58,11 +58,16 @@ if ( $key == 1 ) {
 		
 		if ( $counted < 3 && $chart_key != 'time' ) {
 		$counted = $counted + 1;
-		?>
-var <?=$chart_key?> = [<?=$chart_value?>];
-		<?php
 		
-		$chart_config = "{
+			// If there are no data retrieval errors
+			// WE STILL COUNT THIS, SO LET COUNT RUN ABOVE
+			if ( !preg_match("/NO_DATA/i", $chart_value, $matches) ) {
+				
+			?>
+var <?=$chart_key?> = [<?=$chart_value?>];
+			<?php
+		
+			$chart_config = "{
           text: '".name_rendering($chart_key)."',
           values: ".$chart_key.",
           lineColor: '".$color_array[$counted]."',
@@ -76,6 +81,9 @@ var <?=$chart_key?> = [<?=$chart_value?>];
           }
         },
         " . $chart_config;
+        
+        	}
+        
 		}
 	
    $loop = $loop + 1;
@@ -90,6 +98,11 @@ elseif ( $key == 2 ) {
 		
 		if ( $counted >= 3 && $chart_key != 'time' ) {
 		$counted = $counted + 1;
+		
+			// If there are no data retrieval errors
+			// WE STILL COUNT THIS, SO LET COUNT RUN ABOVE
+			if ( !preg_match("/NO_DATA/i", $chart_value, $matches) ) {
+				
 		?>
 var <?=$chart_key?> = [<?=$chart_value?>];
 		<?php
@@ -108,6 +121,8 @@ var <?=$chart_key?> = [<?=$chart_value?>];
           }
         },
         " . $chart_config;
+        	
+        	}
       
 		}
 		elseif ( $chart_key != 'time' ) {
@@ -166,7 +181,11 @@ let chartConfig_<?=$key?> = {
         margin: 'dynamic'
       },
       scaleX: {
-        itemsOverlap: true,
+        guide: {
+      	visible: true,
+     		lineStyle: 'solid',
+      	lineColor: "<?=$charts_line?>"
+        },
         values: dates,
         transform: {
  	     type: 'date',
@@ -176,7 +195,9 @@ let chartConfig_<?=$key?> = {
       },
       scaleY: {
         guide: {
-          lineStyle: 'solid'
+      	visible: true,
+     		lineStyle: 'solid',
+      	lineColor: "<?=$charts_line?>"
         },
         label: {
           text: 'System Data'
