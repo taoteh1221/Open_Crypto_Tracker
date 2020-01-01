@@ -389,6 +389,45 @@ global $btc_fiat_value, $coins_list, $last_trade_cache;
 
 
 
+  elseif ( strtolower($chosen_exchange) == 'btcturk' ) {
+     
+     $json_string = 'https://api.btcturk.com/api/v2/ticker';
+     
+     $jsondata = @api_data('url', $json_string, $last_trade_cache);
+     
+     $data = json_decode($jsondata, TRUE);
+     
+     $data = $data['data'];
+     
+  
+      if (is_array($data) || is_object($data)) {
+  
+       foreach ($data as $key => $value) {
+         
+         if ( $data[$key]['pair'] == $market_id ) {
+          
+         return  array(
+    							'last_trade' => $data[$key]["last"],
+    							'24hr_asset_volume' => $data[$key]["volume"],
+    							'24hr_pairing_volume' => NULL,
+    							'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data[$key]["volume"], $data[$key]["last"])
+    						);
+          
+         }
+     
+       }
+      
+      }
+  
+  
+  }
+ 
+ 
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
   elseif ( strtolower($chosen_exchange) == 'cex' ) {
  
      

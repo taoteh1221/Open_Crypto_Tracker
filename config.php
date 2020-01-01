@@ -53,7 +53,7 @@ $debug_mode = 'off';
 $local_time_offset = -5; // example: -5 or 5
 
 // Default BITCOIN-ONLY fiat (or stablecoin equivalent) market pairing (for charts / price alert fiat-equivalent value determination)
-// 'usd', 'cad', 'aud', 'sgd', 'hkd', 'gbp', 'eur', 'chf', 'rub', 'jpy', 'usdt', 'tusd', 'usdc'
+// 'aud', 'brl', 'cad', 'chf', 'eur', 'gbp', 'hkd', 'jpy', 'rub', 'sgd', 'try', 'tusd', 'usd', 'usdc', 'usdt'
 // SEE THE $coins_list CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
 // MARKET PAIRING VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (set in $btc_exchange directly above)
 $btc_fiat_pairing = 'usd'; 
@@ -415,6 +415,7 @@ $fiat_currencies = array(
 						'jpy' => 'J¥',
 						'rub' => '₽',
 						'sgd' => 'S$',
+						'try' => '₺',
 						'tusd' => 'Ⓢ ',
 						'usd' => '$',
 						'usdc' => 'Ⓢ ',
@@ -780,6 +781,10 @@ $coins_list = array(
                                           'lakebtc' => 'btcsgd'
                                                     ),
                                                     
+                                    'try' => array(
+                                          'btcturk' => 'BTCTRY'
+                                                    ),
+                                                    
                                     'tusd' => array(
                                           'binance' => 'BTCTUSD'
                                                     ),
@@ -806,6 +811,7 @@ $coins_list = array(
                                                     
                                     'usdt' => array(
                                           'binance' => 'BTCUSDT',
+                                          'btcturk' => 'BTCUSDT',
                                           'huobi' => 'btcusdt',
                                           'okex' => 'BTC-USDT'
                                                     ),
@@ -868,6 +874,10 @@ $coins_list = array(
                                           'binance' => 'ETHTUSD'
                                                     ),
                                                     
+                                    'try' => array(
+                                          'btcturk' => 'ETHTRY'
+                                                    ),
+                                                    
                                     'usd' => array(
                                           'coinbase' => 'ETH-USD',
                                           'kraken' => 'XETHZUSD',
@@ -880,6 +890,7 @@ $coins_list = array(
                                                     
                                     'usdt' => array(
                                         	'binance' => 'ETHUSDT',
+                                          'btcturk' => 'ETHUSDT',
                                           'huobi' => 'ethusdt',
                                         	'binance_us' => 'ETHUSDT',
                                           'bittrex' => 'USDT-ETH',

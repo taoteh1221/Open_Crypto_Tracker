@@ -29,6 +29,7 @@ border-collapse: separate;
 td {
 margin: 0px;
 padding: 6px;
+white-space: nowrap;
 }
 
 th {

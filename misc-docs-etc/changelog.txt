@@ -2175,6 +2175,10 @@ PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
 -UX (minor bug) revisions for system stats/charts
 
+-BTCturk.com API support
+
+-Turkish Lira fiat support
+
 IMPORTANT NOTES: 
 
 v4.03.0 and higher of this app REQUIRES DELETING YOUR PREVIOUS CHART DATA FROM ANY EARLIER VERSIONS.
