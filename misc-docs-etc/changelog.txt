@@ -2173,7 +2173,7 @@ PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 -------------------------------------------------------------------
 4.05.1:
 
--UX (minor bug) revisions for system stats/charts
+-UX (and minor bug) revisions for system stats/charts
 
 -BTCturk.com API support
 

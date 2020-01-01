@@ -813,6 +813,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	
 	<script>
 	$('.show_system_charts').modaal({
+		fullscreen: true,
 		content_source: '#show_system_charts'
 	});
 	</script>
@@ -870,6 +871,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	
 	<script>
 	$('.show_access_stats').modaal({
+		fullscreen: true,
 		content_source: '#show_access_stats'
 	});
 	</script>

@@ -76,6 +76,9 @@ var <?=$chart_key?> = [<?=$chart_value?>];
       	 borderColor: '".$color_array[$counted]."'
     		 },
           legendItem: {
+    	      fontColor: 'white',
+      	   fontSize: 20,
+      	   fontFamily: 'Open Sans',
             backgroundColor: '".$color_array[$counted]."',
             borderRadius: '2px'
           }
@@ -116,6 +119,9 @@ var <?=$chart_key?> = [<?=$chart_value?>];
       	 borderColor: '".$color_array[$counted]."'
     		 },
           legendItem: {
+    	      fontColor: 'white',
+      	   fontSize: 20,
+      	   fontFamily: 'Open Sans',
             backgroundColor: '".$color_array[$counted]."',
             borderRadius: '2px'
           }
@@ -161,7 +167,9 @@ let chartConfig_<?=$key?> = {
         draggable: true,
         header: {
           text: 'System Data (click to hide)',
-          backgroundColor: '#f0f0f0'
+      	 fontColor: "black",
+	 		 fontSize: "20",
+      	 fontFamily: "Open Sans",
         },
         item: {
           margin: '5 17 2 0',
@@ -175,7 +183,12 @@ let chartConfig_<?=$key?> = {
         verticalAlign: 'middle'
       },
       plot: {
-        aspect: 'spline'
+    		marker:{
+      		visible: false
+    		},
+    		tooltip: {
+    			fontSize: 20
+    		}
       },
       plotarea: {
         margin: 'dynamic'
@@ -184,7 +197,7 @@ let chartConfig_<?=$key?> = {
         guide: {
       	visible: true,
      		lineStyle: 'solid',
-      	lineColor: "<?=$charts_line?>"
+      	lineColor: "#444444"
         },
         values: dates,
         transform: {
@@ -197,13 +210,14 @@ let chartConfig_<?=$key?> = {
         guide: {
       	visible: true,
      		lineStyle: 'solid',
-      	lineColor: "<?=$charts_line?>"
+      	lineColor: "#444444"
         },
         label: {
           text: 'System Data'
         }
       },
       crosshairX: {
+    	  exact: true,
         lineColor: '#555',
         marker: {
           borderColor: '#fff',
@@ -211,19 +225,37 @@ let chartConfig_<?=$key?> = {
           size: '5px'
         },
         plotLabel: {
-          backgroundColor: '#fff',
+      	 backgroundColor: "white",
+      	 fontColor: "black",
+	 		 fontSize: "20",
+      	 fontFamily: "Open Sans",
           borderRadius: '2px',
           borderWidth: '2px',
           multiple: true
-        }
+        },
+    	  scaleLabel:{
+   	  	 alpha: 1.0,
+    	    fontColor: "black",
+      	 fontSize: 20,
+      	 fontFamily: "Open Sans",
+      	 backgroundColor: "white",
+   	  }
       },
       tooltip: {
         visible: false
       },
-      preview: {
-        adjustLayout: true,
-        live: true
-      },
+  		"preview":{
+  				label: {
+   		   color: 'black',
+  		    	fontSize: '10px',
+  		    	lineWidth: '1px',
+   		   lineColor: '#444444',
+  		   	},
+ 			  live: true,
+ 			  "adjust-layout": true,
+ 			  "alpha-area": 0.5
+ 		},
+  		backgroundColor: "white",
       series: [
         <?php echo $chart_config . "\n" ?>
       ]
