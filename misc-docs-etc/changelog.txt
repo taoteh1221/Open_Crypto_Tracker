@@ -2179,6 +2179,10 @@ PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
 -Turkish Lira fiat support
 
+-Better debugging / tracing
+
+-Clearing out stale API data / error / debugging cache files
+
 IMPORTANT NOTES: 
 
 v4.03.0 and higher of this app REQUIRES DELETING YOUR PREVIOUS CHART DATA FROM ANY EARLIER VERSIONS.

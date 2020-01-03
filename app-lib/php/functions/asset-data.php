@@ -289,6 +289,12 @@ function pairing_market_value($pairing) {
 global $coins_list, $fiat_currencies, $crypto_to_crypto_pairing;
 
 
+	// Kill any ghost calls in dirty code
+	if ( trim($pairing) == '' ) {
+	return false;
+	}
+
+
 	// If session value exists
 	if ( $_SESSION[$pairing.'_btc'] ) {
 	return $_SESSION[$pairing.'_btc'];
@@ -610,7 +616,7 @@ $asset_market_data = asset_market_data($asset, $exchange, $coins_list[$asset]['m
 	
 	// Return false if we have no $charts_alerts_btc_fiat_value
 	if ( !isset($charts_alerts_btc_fiat_value) || $charts_alerts_btc_fiat_value == 0 ) {
-	app_logging( 'other_error', 'asset_charts_and_alerts() - No Bitcoin '.strtoupper($charts_alerts_btc_fiat_pairing).' value set', $asset_data . ' (' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ')' );
+	app_logging( 'other_error', 'asset_charts_and_alerts() - No Bitcoin '.strtoupper($charts_alerts_btc_fiat_pairing).' value set', $asset_data . ': ' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ';' );
 	$set_return = 1;
 	}
 	
@@ -619,7 +625,7 @@ $asset_market_data = asset_market_data($asset, $exchange, $coins_list[$asset]['m
 	// Continue
 	}
 	else {
-	app_logging( 'other_error', 'asset_charts_and_alerts() - No asset '.strtoupper($charts_alerts_btc_fiat_pairing).' value set', $asset_data . ' (' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ')' );
+	app_logging( 'other_error', 'asset_charts_and_alerts() - No asset '.strtoupper($charts_alerts_btc_fiat_pairing).' value set', $asset_data . ': ' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . '; pairing_id: ' . $coins_list[$asset]['market_pairing'][$pairing][$exchange] . ';' );
 	$set_return = 1;
 	}
 	

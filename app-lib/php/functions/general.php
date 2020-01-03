@@ -256,22 +256,47 @@ return("".round($bytes, $round)." ".$type[$index]."bytes");
 ////////////////////////////////////////////////////////
 
 
-function delete_old_files($dir, $days, $ext) {
+function delete_old_files($directory_data, $days, $ext) {
 	
-$files = glob($dir."*.".$ext);
-
-  foreach ($files as $file) {
-  	
-    if ( is_file($file) ) {
-    	
-      if ( time() - filemtime($file) >= 60 * 60 * 24 * $days ) {
-      unlink($file);
+	
+	// Support for string OR array in the calls, for directory data
+	if ( !is_array($directory_data) ) {
+	$directory_data = array($directory_data);
+	}
+	
+	
+	// Process each directory
+	foreach ( $directory_data as $dir ) {
+	
+		
+	$files = glob($dir."*.".$ext);
+	
+	
+      foreach ($files as $file) {
+       
+        if ( is_file($file) ) {
+          
+          if ( time() - filemtime($file) >= 60 * 60 * 24 * $days ) {
+          	
+          $result = unlink($file);
+          
+          	if ( $result == false ) {
+          	app_logging('other_error', 'File deletion failed for file "' . $file . '" (check permissions for "' . basename($file) . '")');
+          	}
+          
+          }
+          
+        }
+        else {
+        app_logging('other_error', 'File deletion failed, file not found: "' . $file . '"');
+        }
+        
       }
-      
-    }
-    
-  }
   
+	
+	}
+
+
  }
 
 
@@ -2266,7 +2291,8 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 
 function api_data($mode, $request, $ttl, $api_server=null, $post_encoding=3, $test_proxy=NULL, $headers=NULL) { // Default to JSON encoding post requests (most used)
 
-global $base_dir, $limited_apis, $tld_map, $debug_mode, $api_timeout, $api_strict_ssl, $proxy_login, $proxy_list, $user_agent;
+// $btc_fiat_pairing / $btc_exchange / $btc_fiat_value INCLUDED FOR TRACE DEBUGGING (TRACING)
+global $base_dir, $btc_fiat_pairing, $btc_exchange, $btc_fiat_value, $limited_apis, $tld_map, $debug_mode, $api_timeout, $api_strict_ssl, $proxy_login, $proxy_list, $user_agent;
 
 $cookie_jar = tempnam('/tmp','cookie');
 	
@@ -2426,7 +2452,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 				$error_response_log = '/cache/logs/errors/api/error-response-'.preg_replace("/\./", "_", $endpoint_tld).'-'.$hash_check.'.log';
 			
 				// LOG-SAFE VERSION (no post data with API keys etc)
-				app_logging( 'api_data_error', 'POSSIBLE error response received for ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint request at ' . $request ), 'request attempt from: server (local timeout setting ' . $api_timeout . ' seconds); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; log_file: ' . $error_response_log . ';' );
+				app_logging( 'api_data_error', 'POSSIBLE error response received for ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint request at ' . $request ), 'request attempt from: server (local timeout setting ' . $api_timeout . ' seconds); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; log_file: ' . $error_response_log . '; btc_fiat_pairing: ' . $btc_fiat_pairing . '; btc_exchange: ' . $btc_exchange . '; btc_fiat_value: ' . $btc_fiat_value . ';' );
 			
 				// Log this error response from this data request
 				store_file_contents($base_dir . $error_response_log, $data);
