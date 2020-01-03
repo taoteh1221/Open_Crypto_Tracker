@@ -938,14 +938,14 @@ app doing the data requests, not a malicious bot)
 
 -------------------------------------------------------------------
 2.3.4:
--Semantics differentiating between marketcap visual or audio alerts in the UI, and asset price alerts for email / text / alexa notifications.
+-Semantics differentiating between marketcap visual or audio alerts in the UI, and price alerts for email / text / alexa notifications.
 -------------------------------------------------------------------
 
 
 
 -------------------------------------------------------------------
 2.3.5:
--Changed minimum 'send new asset price alerts' time setting from hours to minutes
+-Changed minimum 'send new price alerts' time setting from hours to minutes
 -Added True USD (TUSD) as a base trading pair (Binance now supports this)
 -Bug fix in raw formatted numbers in price alert logic (skewed large numbers with formatting)
 -Removed bter / liqui / gatecoin.io API logic and coin data (they closed down)
@@ -956,7 +956,7 @@ app doing the data requests, not a malicious bot)
 
 -------------------------------------------------------------------
 2.3.6:
--Config setting for only allowing asset price alerts if a minimum 24 hour volume has been met
+-Config setting for only allowing price alerts if a minimum 24 hour volume has been met
 -SMTP error logging
 -Semantics
 -Minor browser compatibility revisions
@@ -2182,6 +2182,8 @@ PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 -Better debugging / tracing
 
 -Clearing out stale API data / error / debugging cache files
+
+-Minor cleanup
 
 IMPORTANT NOTES: 
 

@@ -15,6 +15,29 @@ error_reporting(1); // If debugging is enabled, turn on all PHP error reporting 
 
 
 
+// Clear stale LOGS / MARKETS / CHAIN DATA API data from cache (run daily, or if runtime is cron)
+if ( update_cache_file('cache/events/clean_cache.dat', (60 * 24) ) == true || $runtime_mode == 'cron' ) {
+	
+
+// Daily cleanup
+delete_old_files($base_dir . '/cache/apis/', 1, 'dat'); // Delete MARKETS / CHAIN DATA API cache files older than 1 day
+
+
+// $purge_logs time cleanup
+$logs_cache_cleanup = array(
+									$base_dir . '/cache/logs/debugging/api/',
+									$base_dir . '/cache/logs/errors/api/',
+									);
+									
+delete_old_files($logs_cache_cleanup, $purge_logs, 'dat'); // Delete LOGS API cache files older than $purge_logs day(s)
+
+
+store_file_contents($base_dir . '/cache/events/clean_cache.dat', time());
+
+}
+
+
+
 // Default BTC CRYPTO/CRYPTO market pairing support, BEFORE GENERATING MISCASSETS ARRAY
 // (so we activate it here instead of in config.php, for good UX adding altcoin markets dynamically there)
 // Add to beginning of the array

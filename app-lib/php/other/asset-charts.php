@@ -74,6 +74,15 @@
 		
 		$spot_price_decimals = ( $fiat_equiv == 1 ? $fiat_decimals_max : 8 );
 		
+			
+			// Force decimals under certain conditions
+			if ( $price_sample < 0.000001 ) {
+			$force_decimals = 'decimals: ' . $spot_price_decimals . ',';
+			}
+			elseif ( $price_sample > 1000 ) {
+			$force_decimals = 'decimals: ' . 2 . ',';
+			}
+		
 		
 ?>
 
@@ -122,7 +131,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
       text: "Spot Price: <?=$currency_symbol?>%v",
 	 	fontSize: "20",
       fontFamily: "Open Sans",
-      <?=( $price_sample < 0.000001 ? 'decimals: ' . $spot_price_decimals . ',' : '' )?> /* -- price_sample: <?=$price_sample?> -- */ 
+      <?=$force_decimals?> /* -- price_sample: <?=$price_sample?> -- */ 
       y:0,
       "thousands-separator":",",
     },

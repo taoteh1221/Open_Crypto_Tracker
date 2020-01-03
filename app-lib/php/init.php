@@ -177,23 +177,6 @@ $show_charts = explode(',', rtrim( ( $_POST['show_charts'] != '' ? $_POST['show_
 
 	
 }
-
-
-
-// Clear stale MARKETS / CHAIN DATA API data from cache (run daily, or if runtime is cron)
-if ( update_cache_file('cache/events/clean_cache.dat', (60 * 24) ) == true || $runtime_mode == 'cron' ) {
-	
-$api_cache_cleanup = array(
-									$base_dir . '/cache/logs/debugging/api/',
-									$base_dir . '/cache/logs/errors/api/',
-									$base_dir . '/cache/apis/',
-									);
-									
-delete_old_files($api_cache_cleanup, 1, 'dat'); // Delete MARKETS / CHAIN DATA API cache files older than 1 day
-
-store_file_contents($base_dir . '/cache/events/clean_cache.dat', time());
-
-}
 	
 
 

@@ -81,9 +81,9 @@ See below for additional details on setup, and see HELP-FAQ.txt for tips / troub
 ################################################################################################################
 
 
-Setting up a cron job for charts and asset price alerts by email / mobile phone text / amazon alexa notifications (get notifications sent to you, even when your PC / Laptop is offline): 
+Setting up a cron job for charts and price alerts by email / mobile phone text / amazon alexa notifications (get notifications sent to you, even when your PC / Laptop is offline): 
 
-If you want to take advantage of cron job based features like charts, chart data backups, asset price alerts, daily or weekly error log emails / etc, then the file cron.php (located in the primary directory of this app) must be setup as a cron job on your website's web server. 
+If you want to take advantage of cron job based features like charts, chart data backups, price alerts, daily or weekly error log emails / etc, then the file cron.php (located in the primary directory of this app) must be setup as a cron job on your website's web server. 
 
 If you run the automated setup / install script for Raspberry Pi (affordable low power single board computer) devices on home / internal networks, automatic cron job setup is offered as an option during this process. If you are using a full online website host for hosting a TLD website domain name remotely, consult your web server host's documentation or help desk for their particular method of setting up a cron job. 
 

@@ -5,6 +5,9 @@ TODO
 ///////////////////////////////////////////////////////
 
 
+Add IFTTT support (alexa / google home / whatever supported devices).
+
+
 Standalone mode not changing corresponding exchange when pairing switched in IE (windows)
 
 
@@ -32,7 +35,7 @@ Create chart interval function that divides the desired chart timeline period by
 See if exchange API data arrays can be manipulated slightly to build a reusable module for every exchange's API calls.
 
 
-Buy a google home mini cheap on ebay, and develop price alerts compatibility for it.
+Add google home support via direct connect on same network, OR via IFTTT (whichever is most feasible).
 
 
 SQL-based accounts for storing configuration settings per-user (including setting up new assets available at supported exchanges), BUT !NEVER! STORES PORTFOLIO DATA (FOR PRIVACY / SECURITY-SAKE).

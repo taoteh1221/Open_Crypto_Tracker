@@ -221,7 +221,7 @@ $asset_price_alerts_percent = 7.5; // Price percent change to send alerts for (W
 
 $asset_price_alerts_freq = 10; // Re-allow same asset price alert(s) after X minutes (per asset, set higher if issues with blacklisting...can be 0)
 
-// Minimum 24 hour volume filter. Only allows sending asset price alerts if minimum 24 hour volume reached
+// Minimum 24 hour volume filter. Only allows sending price alerts if minimum 24 hour volume reached
 // CAN BE 0 TO DISABLE MINIMUM VOLUME FILTERING, NO DECIMALS OR SEPARATORS, NUMBERS ONLY, WITHOUT the fiat prefix symbol: 250 = $250 , 4500 = $4,500 , etc
 // THIS FILTER WILL AUTO-DISABLE IF THERE IS AN ERROR RETRIEVING DATA ON A CERTAIN MARKET (WHEN NOT EVEN A ZERO IS RECEIVED)
 $asset_price_alerts_minvolume = 3000;
