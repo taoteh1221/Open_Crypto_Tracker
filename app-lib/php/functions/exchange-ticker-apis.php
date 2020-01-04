@@ -138,6 +138,29 @@ global $btc_fiat_value, $coins_list, $last_trade_cache;
  
  
  ////////////////////////////////////////////////////////////////////////////////////////////////
+  
+  
+
+  elseif ( strtolower($chosen_exchange) == 'bit2c' ) {
+  
+  $json_string = 'https://bit2c.co.il/Exchanges/'.$market_id.'/Ticker.json';
+  
+  $jsondata = @api_data('url', $json_string, $last_trade_cache);
+  
+  $data = json_decode($jsondata, TRUE);
+  
+  return  array(
+    					'last_trade' => $data["ll"],
+    					'24hr_asset_volume' => $data["a"],
+    					'24hr_pairing_volume' => NULL, // No pairing volume data for this API
+    					'24hr_fiat_volume' => trade_volume($asset_symbol, $pairing, $data["a"], $data["ll"])
+    				);
+  
+  }
+ 
+ 
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 

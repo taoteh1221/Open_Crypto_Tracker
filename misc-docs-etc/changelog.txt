@@ -2173,15 +2173,15 @@ PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 -------------------------------------------------------------------
 4.05.1:
 
--UX (and minor bug) revisions for system stats/charts
-
--BTCturk.com API support
-
--Turkish Lira fiat support
-
--Better debugging / tracing
+-UX (and minor bug) revisions for system stats/charts, and country currency support
 
 -Clearing out stale API data / error / debugging cache files
+
+-Turkish Lira / Israeli New Shekel fiat support
+
+-BTCturk.com / bit2c.co.il API support
+
+-Better debugging / tracing
 
 -Minor cleanup
 

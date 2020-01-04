@@ -136,25 +136,27 @@ global $coins_list, $btc_fiat_pairing;
 
 function marketcap_data($symbol) {
 	
-global $btc_fiat_pairing, $marketcap_site, $coinmarketcapcom_api_key, $alert_percent, $fiat_decimals_max;
+global $btc_fiat_pairing, $marketcap_site, $coinmarketcapcom_api_key, $alert_percent, $fiat_decimals_max, $marketcap_currencies;
 
 $data = array();
 
 
 	if ( $marketcap_site == 'coingecko' ) {
-	
+		
+		
+	// Consolidate function calls for runtime speed improvement
+	$coingecko_api = coingecko_api($symbol);
+		
 	// Don't overwrite global
 	$coingecko_fiat = strtolower($btc_fiat_pairing);
 	
-	
-		// Coingecko doesn't support stablecoin stats etc, so we default to USD in those cases
-		if ( $coingecko_fiat == 'usdt' || $coingecko_fiat == 'tusd' || $coingecko_fiat == 'usdc' ) {
+		
+		if ( $coingecko_api['market_data']['current_price'][$coingecko_fiat] == '' ) {
+		$app_notes = 'Coingecko.com does not support '.strtoupper($coingecko_fiat).' stats,<br />showing USD stats instead.';
 		$coingecko_fiat = 'usd';
-		$app_notes = 'Coingecko does not support stablecoin stats,<br />showing USD stats instead.';
+		$_SESSION['cap_data_null'] = 1;
 		}
-	
-	// Consolidate function calls for runtime speed improvement
-	$coingecko_api = coingecko_api($symbol);
+		
 		
 	$data['rank'] = $coingecko_api['market_data']['market_cap_rank'];
 	$data['price'] = $coingecko_api['market_data']['current_price'][$coingecko_fiat];
@@ -174,13 +176,26 @@ $data = array();
 	$data['app_notes'] = $app_notes;
 	
 	}
-	elseif ( $marketcap_site == 'coinmarketcap' ) { 
+	elseif ( $marketcap_site == 'coinmarketcap' ) {
 		
-	// Don't overwrite global
-	$coinmarketcap_fiat = strtoupper($btc_fiat_pairing);
 	
 	// Consolidate function calls for runtime speed improvement
 	$coinmarketcap_api = coinmarketcap_api($symbol);
+
+	// Don't overwrite global
+	$coinmarketcap_fiat = strtoupper($btc_fiat_pairing);
+	
+	
+		// Default to USD, if currency is not supported
+		if ( !array_key_exists($coinmarketcap_fiat, $marketcap_currencies) ) {
+		$coinmarketcap_fiat = 'USD';
+		}
+		
+		
+		if ( isset($_SESSION['cmc_notes']) ) {
+		$app_notes = $_SESSION['cmc_notes'];
+		}
+		
 		
 	$data['rank'] = $coinmarketcap_api['cmc_rank'];
 	$data['price'] = $coinmarketcap_api['quote'][$coinmarketcap_fiat]['price'];
@@ -1296,11 +1311,19 @@ $market_pairing = $all_markets[$selected_exchange];
 		
         }
         else {
+        	
+        		if ( $_SESSION['cap_data_null'] == 1 ) {
+        		$cmc_currency_symbol = '$';
+        		}
+        		else {
+        		$cmc_currency_symbol = $fiat_currencies[$btc_fiat_pairing];
+        		}
+        		
         ?> 
     
         var cmc_content = '<h5 class="yellow" style="position: relative; white-space: nowrap;"><?=ucfirst($marketcap_site)?>.com Summary For <?=$asset_name?> (<?=$asset_symbol?>):</h5>'
         +'<p class="coin_info"><span class="yellow">Marketcap Ranking:</span> #<?=$marketcap_data['rank']?></p>'
-        +'<p class="coin_info"><span class="yellow">Marketcap Value:</span> <?=$fiat_currencies[$btc_fiat_pairing]?><?=number_format($marketcap_data['market_cap'],0,".",",")?></p>'
+        +'<p class="coin_info"><span class="yellow">Marketcap Value:</span> <?=$cmc_currency_symbol?><?=number_format($marketcap_data['market_cap'],0,".",",")?></p>'
         +'<p class="coin_info"><span class="yellow">Available Supply:</span> <?=number_format($marketcap_data['circulating_supply'], 0, '.', ',')?></p>'
         <?php
             if ( $marketcap_data['total_supply'] > 0 ) {
@@ -1314,24 +1337,24 @@ $market_pairing = $all_markets[$selected_exchange];
         <?php
             }
             ?>
-        +'<p class="coin_info"><span class="yellow">Token Value (average):</span> <?=$fiat_currencies[$btc_fiat_pairing]?><?=$marketcap_data['price']?></p>'
+        +'<p class="coin_info"><span class="yellow">Token Value (average):</span> <?=$cmc_currency_symbol?><?=$marketcap_data['price']?></p>'
         +'<p class="coin_info"><span class="yellow">1 Hour Change:</span> <?=( stristr($marketcap_data['percent_change_1h'], '-') != false ? '<span class="red_bright">'.$marketcap_data['percent_change_1h'].'%</span>' : '<span class="green_bright">+'.$marketcap_data['percent_change_1h'].'%</span>' )?></p>'
         +'<p class="coin_info"><span class="yellow">24 Hour Change:</span> <?=( stristr($marketcap_data['percent_change_24h'], '-') != false ? '<span class="red_bright">'.$marketcap_data['percent_change_24h'].'%</span>' : '<span class="green_bright">+'.$marketcap_data['percent_change_24h'].'%</span>' )?></p>'
         +'<p class="coin_info"><span class="yellow">7 Day Change:</span> <?=( stristr($marketcap_data['percent_change_7d'], '-') != false ? '<span class="red_bright">'.$marketcap_data['percent_change_7d'].'%</span>' : '<span class="green_bright">+'.$marketcap_data['percent_change_7d'].'%</span>' )?></p>'
-        +'<p class="coin_info"><span class="yellow">24 Hour Volume:</span> <?=$fiat_currencies[$btc_fiat_pairing]?><?=number_format($marketcap_data['volume_24h'],0,".",",")?></p>'
+        +'<p class="coin_info"><span class="yellow">24 Hour Volume:</span> <?=$cmc_currency_symbol?><?=number_format($marketcap_data['volume_24h'],0,".",",")?></p>'
         <?php
             if ( $marketcap_data['last_updated'] != '' ) {
             ?>
         +'<p class="coin_info"><span class="yellow">Timestamp (UTC):</span> <?=gmdate("Y-M-d\ \\a\\t g:ia", $marketcap_data['last_updated'])?></p>'
+        +'<p class="coin_info"><span class="yellow">App Cache Time:</span> <?=$marketcap_cache?> minute(s)</p>'
         <?php
             }
             if ( $marketcap_data['app_notes'] != '' ) {
             ?>
-        +'<p class="coin_info"><span class="yellow">Notes:</span> <?=$marketcap_data['app_notes']?></p>'
+        +'<p class="coin_info red_bright">Notes: <?=$marketcap_data['app_notes']?></p>'
         <?php
             }
             ?>
-        +'<p class="coin_info"><span class="yellow">App Cache Time:</span> <?=$marketcap_cache?> minute(s)</p>'
     
         +'<p class="coin_info"><span class="yellow">*Current config setting retrieves the top <?=$marketcap_ranks_max?> rankings.</span></p>';
     

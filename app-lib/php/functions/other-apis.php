@@ -258,7 +258,7 @@ $array_merging = array();
 
 function coinmarketcap_api($symbol) {
 	
-global $btc_fiat_pairing, $api_timeout, $coinmarketcapcom_api_key, $marketcap_ranks_max, $marketcap_cache;
+global $btc_fiat_pairing, $api_timeout, $coinmarketcapcom_api_key, $marketcap_ranks_max, $marketcap_cache, $marketcap_currencies;
 
 
 	if ( trim($coinmarketcapcom_api_key) == NULL ) { 
@@ -275,6 +275,18 @@ global $btc_fiat_pairing, $api_timeout, $coinmarketcapcom_api_key, $marketcap_ra
 	// Don't overwrite global
 	$coinmarketcap_fiat = strtoupper($btc_fiat_pairing);
 	
+		
+		// Default to USD, if currency is not supported
+		if ( array_key_exists($coinmarketcap_fiat, $marketcap_currencies) ) {
+		$convert = $coinmarketcap_fiat;
+		}
+		else {
+		$convert = 'USD';
+		$_SESSION['cmc_notes'] = $coinmarketcap_fiat . ' is NOT supported by Coinmarketcap.com, defaulting to USD.';
+		$_SESSION['cap_data_null'] = 1;
+		}
+		
+	
 	$headers = [
   'Accepts: application/json',
   'X-CMC_PRO_API_KEY: ' . $coinmarketcapcom_api_key
@@ -283,7 +295,7 @@ global $btc_fiat_pairing, $api_timeout, $coinmarketcapcom_api_key, $marketcap_ra
 	$cmc_params = array(
 	  							'start' => '1',
 	 							'limit' => $marketcap_ranks_max,
-	  							'convert' => $coinmarketcap_fiat
+	  							'convert' => $convert
 								);
 
 	$url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest';
@@ -295,9 +307,9 @@ global $btc_fiat_pairing, $api_timeout, $coinmarketcapcom_api_key, $marketcap_ra
 	$jsondata = @api_data('url', $request, $api_timeout, NULL, NULL, NULL, $headers);
 	
 	$data = json_decode($jsondata, TRUE);
-	
-	$_SESSION['cmc_data'] = $data['data'];
-	
+        
+   $_SESSION['cmc_data'] = $data['data'];
+        
 	}
 
 	

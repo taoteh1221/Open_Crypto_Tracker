@@ -53,7 +53,7 @@ $debug_mode = 'off';
 $local_time_offset = -5; // example: -5 or 5
 
 // Default BITCOIN-ONLY fiat (or stablecoin equivalent) market pairing (for charts / price alert fiat-equivalent value determination)
-// 'aud', 'brl', 'cad', 'chf', 'eur', 'gbp', 'hkd', 'jpy', 'rub', 'sgd', 'try', 'tusd', 'usd', 'usdc', 'usdt'
+// 'aud', 'brl', 'cad', 'chf', 'eur', 'gbp', 'hkd', 'jpy', 'nis', 'rub', 'sgd', 'try', 'tusd', 'usd', 'usdc', 'usdt'
 // SEE THE $coins_list CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
 // MARKET PAIRING VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (set in $btc_exchange directly above)
 $btc_fiat_pairing = 'usd'; 
@@ -413,6 +413,7 @@ $fiat_currencies = array(
 						'gbp' => '£',
 						'hkd' => 'HK$',
 						'jpy' => 'J¥',
+						'nis' => '₪',
 						'rub' => '₽',
 						'sgd' => 'S$',
 						'try' => '₺',
@@ -446,6 +447,7 @@ $crypto_to_crypto_pairing = array(
 // AS ON OCCASION THEY CAN BE !UNRELIABLE! IF HIT WITH TOO MANY SEPARATE API CALLS FOR DIFFERENT COINS / ASSETS)
 // !MUST BE LOWERCASE!
 $limited_apis = array(
+						'bit2c.co.il',
 						'bitforex.com',
 						'bitflyer.com',
 						'bitstamp.net',
@@ -466,9 +468,10 @@ $limited_apis = array(
 // TLD-extensions-only (Top Level Domain extensions) supported in the get_tld() function
 // (NO LEADING DOTS, !MUST BE LOWERCASE!)
 $tld_map = array(
+					'co.il',
+					'co.uk',
 					'com', 
 					'com.au',
-					'co.uk',
 					'info',
 					'io',
 					'market',
@@ -773,6 +776,10 @@ $coins_list = array(
                                           'lakebtc' => 'btcjpy'
                                                     ),
                                                     
+                                    'nis' => array(
+                                          'bit2c' => 'BtcNis'
+                                                    ),
+                                                    
                                     'rub' => array(
                                           'cex' => 'BTC:RUB'
                                                     ),
@@ -868,6 +875,10 @@ $coins_list = array(
                                                     
                                     'jpy' => array(
                                           'bitflyer' => 'ETH_JPY'
+                                                    ),
+                                                    
+                                    'nis' => array(
+                                          'bit2c' => 'EthNis'
                                                     ),
                                                     
                                     'tusd' => array(
@@ -1006,6 +1017,10 @@ $coins_list = array(
                                           'coinbase' => 'LTC-GBP',
                                           'cex' => 'LTC:GBP'
                                                     ),
+                                                    
+                                    'nis' => array(
+                                          'bit2c' => 'LtcNis'
+                                                    ),
                                           			
                                     'tusd' => array(
                                          'binance' => 'LTCTUSD'
@@ -1103,6 +1118,10 @@ $coins_list = array(
                                          'hitbtc' => 'GRINETH',
                                          'hotbit' => 'GRIN_ETH',
                                          'gateio' => 'grin_eth'
+                                                    ),
+                                                    
+                                    'nis' => array(
+                                          'bit2c' => 'GrinNis'
                                                     ),
                                                     
                                     'usdc' => array(
