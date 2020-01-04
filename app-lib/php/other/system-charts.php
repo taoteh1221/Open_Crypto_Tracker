@@ -160,7 +160,16 @@ let chartConfig_<?=$key?> = {
         text: 'System Statistics Chart #<?=$key?>',
         adjustLayout: true,
         marginTop: '20px'
-      },
+      },  
+  		source: {
+  		   text: "Select an area to zoom inside the chart itself, or use the zoom grab bars in the preview area (X and Y axis zooming are both supported).",
+    		fontColor:"black",
+	      fontSize: "13",
+    		fontFamily: "Open Sans",
+    		offsetX: 60,
+    		offsetY: -1,
+    		align: 'left'
+  		},
       legend: {
         backgroundColor: 'transparent',
         borderWidth: '0px',
@@ -214,7 +223,8 @@ let chartConfig_<?=$key?> = {
         },
         label: {
           text: 'System Data'
-        }
+        },
+    	zooming: true
       },
       crosshairX: {
     	  exact: true,
