@@ -276,14 +276,14 @@ global $btc_fiat_pairing, $api_timeout, $coinmarketcapcom_api_key, $marketcap_ra
 	$coinmarketcap_fiat = strtoupper($btc_fiat_pairing);
 	
 		
-		// Default to USD, if currency is not supported
-		if ( array_key_exists($coinmarketcap_fiat, $marketcap_currencies) ) {
+		if ( in_array($coinmarketcap_fiat, $marketcap_currencies) ) {
 		$convert = $coinmarketcap_fiat;
 		}
+		// Default to USD, if currency is not supported
 		else {
+		$_SESSION['cmc_notes'] = 'Coinmarketcap.com does not support '.$coinmarketcap_fiat.' stats,<br />showing USD stats instead.';
 		$convert = 'USD';
-		$_SESSION['cmc_notes'] = $coinmarketcap_fiat . ' is NOT supported by Coinmarketcap.com, defaulting to USD.';
-		$_SESSION['cap_data_null'] = 1;
+		$_SESSION['cap_data_force'] = 1;
 		}
 		
 	

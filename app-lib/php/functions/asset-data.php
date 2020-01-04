@@ -154,7 +154,7 @@ $data = array();
 		if ( $coingecko_api['market_data']['current_price'][$coingecko_fiat] == '' ) {
 		$app_notes = 'Coingecko.com does not support '.strtoupper($coingecko_fiat).' stats,<br />showing USD stats instead.';
 		$coingecko_fiat = 'usd';
-		$_SESSION['cap_data_null'] = 1;
+		$_SESSION['cap_data_force'] = 1;
 		}
 		
 		
@@ -186,8 +186,8 @@ $data = array();
 	$coinmarketcap_fiat = strtoupper($btc_fiat_pairing);
 	
 	
-		// Default to USD, if currency is not supported
-		if ( !array_key_exists($coinmarketcap_fiat, $marketcap_currencies) ) {
+		// Default to USD, if selected fiat currency is not supported
+		if ( isset($_SESSION['cap_data_force']) ) {
 		$coinmarketcap_fiat = 'USD';
 		}
 		
@@ -1312,7 +1312,7 @@ $market_pairing = $all_markets[$selected_exchange];
         }
         else {
         	
-        		if ( $_SESSION['cap_data_null'] == 1 ) {
+        		if ( isset($_SESSION['cap_data_force']) ) {
         		$cmc_currency_symbol = '$';
         		}
         		else {

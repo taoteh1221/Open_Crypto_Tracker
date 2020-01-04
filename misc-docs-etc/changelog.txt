@@ -2199,7 +2199,9 @@ PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
 
 -------------------------------------------------------------------
-4.06.0:
+4.05.2:
+
+-Minor bug fixes
 
 -Zooming the Y axis in system charts
 
