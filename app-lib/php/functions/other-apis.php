@@ -258,7 +258,7 @@ $array_merging = array();
 
 function coinmarketcap_api($symbol) {
 	
-global $btc_fiat_pairing, $api_timeout, $coinmarketcapcom_api_key, $marketcap_ranks_max, $marketcap_cache, $marketcap_currencies;
+global $btc_primary_currency_pairing, $api_timeout, $coinmarketcapcom_api_key, $marketcap_ranks_max, $marketcap_cache, $coinmarketcap_currencies;
 
 
 	if ( trim($coinmarketcapcom_api_key) == NULL ) { 
@@ -273,15 +273,15 @@ global $btc_fiat_pairing, $api_timeout, $coinmarketcapcom_api_key, $marketcap_ra
 	if ( !$_SESSION['cmc_data'] ) {
 		
 	// Don't overwrite global
-	$coinmarketcap_fiat = strtoupper($btc_fiat_pairing);
+	$coinmarketcap_primary_currency = strtoupper($btc_primary_currency_pairing);
 	
 		
-		if ( in_array($coinmarketcap_fiat, $marketcap_currencies) ) {
-		$convert = $coinmarketcap_fiat;
+		if ( in_array($coinmarketcap_primary_currency, $coinmarketcap_currencies) ) {
+		$convert = $coinmarketcap_primary_currency;
 		}
 		// Default to USD, if currency is not supported
 		else {
-		$_SESSION['cmc_notes'] = 'Coinmarketcap.com does not support '.$coinmarketcap_fiat.' stats,<br />showing USD stats instead.';
+		$_SESSION['cmc_notes'] = 'Coinmarketcap.com does not support '.$coinmarketcap_primary_currency.' stats,<br />showing USD stats instead.';
 		$convert = 'USD';
 		$_SESSION['cap_data_force'] = 1;
 		}

@@ -1962,8 +1962,8 @@ app doing the data requests, not a malicious bot)
 
 -New Bitcoin fiat (or stablecoin) trading pairs: USDT / TUSD / USDC / GBP / EUR / CAD / AUD / SGD / HKD / GBP / EUR / CHF / JPY / RUB
 
--Dynamically changeable primary fiat currency globally (charts / alerts / token value / subtotal / total / tools / calculators), 
-based off the chosen Bitcoin market pairing (charts / alerts default fiat currency is ONLY changeable in configuration file).
+-Dynamically changeable primary primary currency globally (charts / alerts / token value / subtotal / total / tools / calculators), 
+based off the chosen Bitcoin market pairing (charts / alerts default primary currency is ONLY changeable in configuration file).
 
 IMPORTANT NOTE: v4.00.0 and higher of this app REQUIRES DELETING YOUR PREVIOUS CHART DATA FROM ANY EARLIER VERSIONS.
 MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWARDS-COMPATIBLE.
@@ -2019,7 +2019,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Additional configuration scanning / error logging
 
--Stand-Alone Mode for the Fiat Currency Market setting, on the "Settings" page
+-Stand-Alone Mode for the Currency Market setting, on the "Settings" page
 
 -Moved spot price / volume charts to a sub-directory within the charts directory, for future chart scalability
 
@@ -2201,9 +2201,15 @@ PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 -------------------------------------------------------------------
 4.05.2:
 
--Minor bug fixes
+-Bug fixes / tweaks / semantics
 
 -Zooming the Y axis in system charts
+
+-Added bitso.com / bitlish.com / coss.io / localbitcoins.com API support
+
+-Shrunk installation size (excess maintenance files removed, images optimized)
+
+-Added support for currencies: Mexican Peso / Vietnamese Dong / Pakistani Rupee / Columbian Peso / Bolivian Boliviano
 
 IMPORTANT NOTES: 
 

@@ -24,7 +24,7 @@
 		$market_parse = explode("||", $value );
 
 
-		$charted_value = ( $_GET['charted_value'] == 'pairing' ? $market_parse[1] : $charts_alerts_btc_fiat_pairing );
+		$charted_value = ( $_GET['charted_value'] == 'pairing' ? $market_parse[1] : $charts_alerts_btc_primary_currency_pairing );
 		
 		
 		// Strip non-alphanumeric characters to use in js vars, to isolate logic for each separate chart
@@ -33,8 +33,8 @@
 
 			
 			// Unicode asset symbols
-			if ( array_key_exists($charted_value, $fiat_currencies) ) {
-			$currency_symbol = $fiat_currencies[$charted_value];
+			if ( array_key_exists($charted_value, $bitcoin_market_currencies) ) {
+			$currency_symbol = $bitcoin_market_currencies[$charted_value];
 			$fiat_equiv = 1;
 			}
 			elseif ( array_key_exists($charted_value, $crypto_to_crypto_pairing) ) {
@@ -72,7 +72,7 @@
 		$price_sample = substr( $chart_data['spot'] , 0, strpos( $chart_data['spot'] , "," ) );
 		
 		
-		$spot_price_decimals = ( $fiat_equiv == 1 ? $fiat_decimals_max : 8 );
+		$spot_price_decimals = ( $fiat_equiv == 1 ? $primary_currency_decimals_max : 8 );
 		
 			
 			// Force decimals under certain conditions

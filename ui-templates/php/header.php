@@ -83,9 +83,9 @@ require("config.php");
 	
 	var charts_border = '<?=$charts_border?>';
 	
-	var btc_fiat_value = '<?=number_format( $btc_fiat_value, 2, '.', '' )?>';
+	var btc_market_value = '<?=number_format( $btc_market_value, 2, '.', '' )?>';
 	
-	var btc_fiat_pairing = '<?=strtoupper($btc_fiat_pairing)?>';
+	var btc_primary_currency_pairing = '<?=strtoupper($btc_primary_currency_pairing)?>';
 	
 	<?php
 	foreach ( $limited_apis as $api ) {

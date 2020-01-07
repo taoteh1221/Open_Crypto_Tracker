@@ -18,11 +18,20 @@
 			<?php
 			if ( $price_alert_type_text != '' ) {
           ?>
-          	<p class='settings_sections'><b><?=$price_alert_type_text?> price alerts</b> are <i>enabled</i> in the configuration file (upon <?=$asset_price_alerts_percent?>% or more <?=strtoupper($charts_alerts_btc_fiat_pairing)?> price change<?=( $asset_price_alerts_freq > 0 ? ' / max every ' . $asset_price_alerts_freq . ' minutes per-alert' : '' )?><?=( $asset_price_alerts_minvolume > 0 ? ' / ' . $fiat_currencies[$charts_alerts_btc_fiat_pairing] . number_format($asset_price_alerts_minvolume, 0, '.', ',') . ' minumum volume filter enabled' : '' )?><?=( $asset_price_alerts_refresh > 0 ? ' / comparison price auto-refreshed after ' . $asset_price_alerts_refresh . ' days' : '' )?>). 
+          	<p class='settings_sections'><b><?=$price_alert_type_text?> price alerts</b> are <i>enabled</i> in the configuration file (upon <?=$asset_price_alerts_percent?>% or more <?=strtoupper($charts_alerts_btc_primary_currency_pairing)?> price change<?=( $asset_price_alerts_freq > 0 ? ' / max every ' . $asset_price_alerts_freq . ' minutes per-alert' : '' )?><?=( $asset_price_alerts_minvolume > 0 ? ' / ' . $bitcoin_market_currencies[$charts_alerts_btc_primary_currency_pairing] . number_format($asset_price_alerts_minvolume, 0, '.', ',') . ' minumum volume filter enabled' : '' )?><?=( $asset_price_alerts_refresh > 0 ? ' / comparison price auto-refreshed after ' . $asset_price_alerts_refresh . ' days' : '' )?>). 
           	
           	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job on your web server</a>, or this feature will not work AT ALL.</i> 
           	
           		<?=( $price_change_config_alert != '' ? '<br />' . $price_change_config_alert : '' )?>
+          		
+          		<?php
+          		if ( preg_match("/text/i", $price_alert_type_text) && $smtp_login == '' && $smtp_server == '' && $textbelt_apikey == '' && $textlocal_account == '' ) {
+          		?>
+          		<br />
+          		<span class='bitcoin'>Email-to-mobile-text service gateways *MAY* work more reliably (not filter out your messages) <i>if you enable SMTP email sending</i>.</span>
+          		<?php
+          		}
+          		?>
           	
           	</p>  
                         
@@ -98,16 +107,16 @@
 			if (is_array($coins_list) || is_object($coins_list)) {
 			    
 			    ?>
-			    <p class='settings_sections'><b>Fiat Currency Market:</b> 
+			    <p class='settings_sections'><b>Primary Currency Market:</b> 
 			    
 
 					<select onchange='
 					
-					 fiat_currency = this.value;
-					 fiat_market = $("#" + fiat_currency + "btcfiat_pairs").val();
-					 fiat_selected_market = $("#" + fiat_currency + "BTC_pairs option:selected").val();
-					 fiat_selected_market_standalone = $("#" + fiat_currency + "btcfiat_pairs option:selected").val();
-					 fiat_exchanges_list = document.getElementById(fiat_currency + "BTC_pairs");
+					 fiat_primary_currency = this.value;
+					 primary_currency_market = $("#" + fiat_primary_currency + "btcfiat_pairs").val();
+					 fiat_selected_market = $("#" + fiat_primary_currency + "BTC_pairs option:selected").val();
+					 fiat_selected_market_standalone = $("#" + fiat_primary_currency + "btcfiat_pairs option:selected").val();
+					 fiat_exchanges_list = document.getElementById(fiat_primary_currency + "BTC_pairs");
 					
 				    
 				    exchange_name_ui = fiat_exchanges_list.options[fiat_exchanges_list.selectedIndex].text;
@@ -115,43 +124,43 @@
 				    exchange_name = exchange_name_ui.toLowerCase();
 				    
 				    if ( window.limited_apis.includes(exchange_name) == true ) {
-				    alert("The " + exchange_name_ui + " exchange API is less reliable than some others (by NOT consolidating multiple / different asset price requests into one single call per session).\n\nIf you experience issues with fiat currency values NOT displaying in this app when using the " + exchange_name_ui + " exchange market, try a different exchange market for your preferred fiat currency, and the issue should go away.");
+				    alert("The " + exchange_name_ui + " exchange API is less reliable than some others (by NOT consolidating multiple / different asset price requests into one single call per session).\n\nIf you experience issues with primary currency values NOT displaying in this app when using the " + exchange_name_ui + " exchange market, try a different exchange market for your preferred primary currency, and the issue should go away.");
 				    }
 				    
-				    $("#fiat_pairing_currency").val( fiat_currency );
+				    $("#fiat_primary_currency").val( fiat_primary_currency );
 				    
-				    $("#fiat_market_id_lists").children().hide(); 
-				    $("#" + fiat_currency + "btcfiat_pairs").show(); 
-				    $("#fiat_market_id").val( fiat_selected_market_standalone );
+				    $("#primary_currency_market_id_lists").children().hide(); 
+				    $("#" + fiat_primary_currency + "btcfiat_pairs").show(); 
+				    $("#primary_currency_market_id").val( fiat_selected_market_standalone );
 				    
 				    /////////////////////////////////////////////////////////
 				    
 				    // "Update assets" tab, mirroring of settings
-				    if ( document.getElementById("standalone_fiat_enabled").checked == false ) {
+				    if ( document.getElementById("standalone_primary_currency_enabled").checked == false ) {
 				    
-				    $("#btc_pairing").val( fiat_currency );
+				    $("#btc_pairing").val( fiat_primary_currency );
 				    
 				    $("#btc_market_lists").children().hide(); 
-				    $("#" + fiat_currency + "BTC_pairs").show(); 
+				    $("#" + fiat_primary_currency + "BTC_pairs").show(); 
 				    $("#btc_market").val( fiat_selected_market );
 				    
-				    $("#btc_market").val( fiat_market ); // Set hidden field var
-				    $("#" + fiat_currency + "BTC_pairs").val( fiat_market ); // Set selected drop down choice
+				    $("#btc_market").val( primary_currency_market ); // Set hidden field var
+				    $("#" + fiat_primary_currency + "BTC_pairs").val( primary_currency_market ); // Set selected drop down choice
 				    
 				    }
 				    else {
-				    $("#fiat_market_standalone").val( fiat_currency + "|" + fiat_market );
+				    $("#primary_currency_market_standalone").val( fiat_primary_currency + "|" + primary_currency_market );
 				    }
 				    
 				    '>
 					
 					<?php
 					
-					$exchange_field_id = btc_market($btc_exchange);
+					$exchange_field_id = btc_market($btc_primary_exchange);
 					
 					foreach (  $coins_list['BTC']['market_pairing'] as $pairing_key => $pairing_id ) {
 					?>
-					<option value='<?=$pairing_key?>' <?=( isset($btc_fiat_pairing) && $btc_fiat_pairing == $pairing_key ? ' selected ' : '' )?>> <?=strtoupper(preg_replace("/_/i", " ", $pairing_key))?> </option>
+					<option value='<?=$pairing_key?>' <?=( isset($btc_primary_currency_pairing) && $btc_primary_currency_pairing == $pairing_key ? ' selected ' : '' )?>> <?=strtoupper(preg_replace("/_/i", " ", $pairing_key))?> </option>
 					<?php
 					
 									
@@ -169,16 +178,16 @@
 				    
 				     @ 
 				    
-				    <input type='hidden' id='fiat_pairing_currency' name='fiat_pairing_currency' value='<?=$btc_fiat_pairing?>' />
+				    <input type='hidden' id='fiat_primary_currency' name='fiat_primary_currency' value='<?=$btc_primary_currency_pairing?>' />
 				     
-				    <input type='hidden' id='fiat_market_id' name='fiat_market_id' value='<?=$exchange_field_id?>' />
+				    <input type='hidden' id='primary_currency_market_id' name='primary_currency_market_id' value='<?=$exchange_field_id?>' />
 				     
 				     
-				     <span id='fiat_market_id_lists' style='display: inline;'>
-				     <!-- Selected (or first if none selected) pairing: <?=$btc_fiat_pairing?> -->
-				     <!-- fiat_market_standalone[1]: <?=$fiat_market_standalone[1]?> -->
-				     <!-- fiat_market_standalone[0]: <?=$fiat_market_standalone[0]?> -->
-				     <!-- btc_exchange: <?=$btc_exchange?> -->
+				     <span id='primary_currency_market_id_lists' style='display: inline;'>
+				     <!-- Selected (or first if none selected) pairing: <?=$btc_primary_currency_pairing?> -->
+				     <!-- primary_currency_market_standalone[1]: <?=$primary_currency_market_standalone[1]?> -->
+				     <!-- primary_currency_market_standalone[0]: <?=$primary_currency_market_standalone[0]?> -->
+				     <!-- btc_primary_exchange: <?=$btc_primary_exchange?> -->
 				    <?php
 				    
 				    foreach ( $btc_market_list as $key => $value ) {
@@ -191,26 +200,26 @@
 				    exchange_name = exchange_name_ui.toLowerCase();
 				    
 				    if ( window.limited_apis.includes(exchange_name) == true ) {
-				    alert("The " + exchange_name_ui + " exchange API is less reliable than some others (by NOT consolidating multiple / different asset price requests into one single call per session).\n\nIf you experience issues with fiat currency values NOT displaying in this app when using the " + exchange_name_ui + " exchange market, try a different exchange market for your preferred fiat currency, and the issue should go away.");
+				    alert("The " + exchange_name_ui + " exchange API is less reliable than some others (by NOT consolidating multiple / different asset price requests into one single call per session).\n\nIf you experience issues with primary currency values NOT displaying in this app when using the " + exchange_name_ui + " exchange market, try a different exchange market for your preferred primary currency, and the issue should go away.");
 				    }
 				    
-				    fiat_currency = $("#fiat_pairing_currency").val();
-					 fiat_market = this.value;
+				    fiat_primary_currency = $("#fiat_primary_currency").val();
+					 primary_currency_market = this.value;
 					 
-				    $("#fiat_market_id").val( fiat_market );
+				    $("#primary_currency_market_id").val( primary_currency_market );
 				    
 				    /////////////////////////////////////////////////////////
 				    
 				    // "Update assets" tab, mirroring of settings
-				    if ( document.getElementById("standalone_fiat_enabled").checked == false ) {
-				    $("#btc_market").val( fiat_market ); // Set hidden field var
-				    $("#" + fiat_currency + "BTC_pairs").val( fiat_market ); // Set selected drop down choice
+				    if ( document.getElementById("standalone_primary_currency_enabled").checked == false ) {
+				    $("#btc_market").val( primary_currency_market ); // Set hidden field var
+				    $("#" + fiat_primary_currency + "BTC_pairs").val( primary_currency_market ); // Set selected drop down choice
 				    }
 				    else {
-				    $("#fiat_market_standalone").val( fiat_currency + "|" + fiat_market );
+				    $("#primary_currency_market_standalone").val( fiat_primary_currency + "|" + primary_currency_market );
 				    }
 				    
-				    ' id='<?=$key?>btcfiat_pairs' style='display: <?=( $btc_fiat_pairing == $key ? 'inline' : 'none' )?>;'><?=$btc_market_list[$key]?>
+				    ' id='<?=$key?>btcfiat_pairs' style='display: <?=( $btc_primary_currency_pairing == $key ? 'inline' : 'none' )?>;'><?=$btc_market_list[$key]?>
 				    
 				    </select>
 				    
@@ -219,10 +228,10 @@
 				    $btc_market_list = NULL;
 				    ?>
 				    
-				    </span> <img id='fiat_info' src='ui-templates/media/images/info.png' alt='' width='30' border='0' style='position: relative; left: -5px;' /> <input type='checkbox' id='standalone_fiat_enabled' name='standalone_fiat_enabled' value='1' onchange='
+				    </span> <img id='fiat_info' src='ui-templates/media/images/info.png' alt='' width='30' border='0' style='position: relative; left: -5px;' /> <input type='checkbox' id='standalone_primary_currency_enabled' name='standalone_primary_currency_enabled' value='1' onchange='
 				    
-				    fiat_currency = $("#fiat_pairing_currency").val();
-				    fiat_market = $("#fiat_market_id").val();
+				    fiat_primary_currency = $("#fiat_primary_currency").val();
+				    primary_currency_market = $("#primary_currency_market_id").val();
 				    
 				    /////////////////////////////////////////////////////////
 				    
@@ -230,30 +239,30 @@
 				    if ( this.checked == false ) {
 				    
 				    $("#btc_market_lists").children().hide(); 
-				    $("#" + fiat_currency + "BTC_pairs").show(); 
-				    $("#btc_market").val( $("#" + fiat_currency + "BTC_pairs option:selected").val() );
+				    $("#" + fiat_primary_currency + "BTC_pairs").show(); 
+				    $("#btc_market").val( $("#" + fiat_primary_currency + "BTC_pairs option:selected").val() );
 				    
-				    $("#btc_pairing").val( fiat_currency );
+				    $("#btc_pairing").val( fiat_primary_currency );
 				    	
-				    $("#btc_market").val( fiat_market ); // Set hidden field var
-				    $("#" + fiat_currency + "BTC_pairs").val( fiat_market ); // Set selected drop down choice
+				    $("#btc_market").val( primary_currency_market ); // Set hidden field var
+				    $("#" + fiat_primary_currency + "BTC_pairs").val( primary_currency_market ); // Set selected drop down choice
 				    
-				    $("#fiat_market_standalone").val("");
+				    $("#primary_currency_market_standalone").val("");
 				    
 				    }
 				    else {
-				    $("#fiat_market_standalone").val( fiat_currency + "|" + fiat_market );
+				    $("#primary_currency_market_standalone").val( fiat_primary_currency + "|" + primary_currency_market );
 				    }
 				    
 				    
-				    ' <?=( sizeof($fiat_market_standalone) == 2 ? 'checked' : '' )?> /> Stand-Alone Mode (<i>WON'T automatically change</i> Bitcoin market on "Update Assets" page)
+				    ' <?=( sizeof($primary_currency_market_standalone) == 2 ? 'checked' : '' )?> /> Stand-Alone Mode (<i>WON'T automatically change</i> Bitcoin market on "Update Assets" page)
  <script>
 	
-			var fiat_content = '<h5 align="center" class="yellow" style="position: relative; white-space: nowrap;">Fiat Currency Market Setting:</h5>'
+			var fiat_content = '<h5 align="center" class="yellow" style="position: relative; white-space: nowrap;">Currency Market Setting:</h5>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">The Fiat Currency Market setting allows you to change your default fiat currency for the portfolio interface (the charts / price alerts fiat currency market <i>must be changed separately in config.php</i>).</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">The Currency Market setting allows you to change your default primary currency for the portfolio interface (the charts / price alerts currency market <i>must be changed separately in config.php</i>).</p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Additionally, if you check off "Stand-Alone Mode", your chosen Bitcoin market on the "Update Assets" page <i>will NOT be automatically changed to match your chosen Fiat Currency Market on the "Settings" page</i>. This is useful if you\'d like to browse through different Bitcoin markets, BUT don\'t want your default fiat curreny to change in the app.</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Additionally, if you check off "Stand-Alone Mode", your chosen Bitcoin market on the "Update Assets" page <i>will NOT be automatically changed to match your chosen Currency Market on the "Settings" page</i>. This is useful if you\'d like to browse through different Bitcoin markets, BUT don\'t want your default fiat curreny to change in the app.</p>'
 			
 			+'<p class="coin_info"><span class="yellow"> </span></p>';
 		
@@ -294,7 +303,7 @@
 			    '>
 				<option value='0' <?=( $sorted_by_col == 0 ? ' selected ' : '' )?>> # </option>
 				<option value='1' <?=( $sorted_by_col == 1 ? ' selected ' : '' )?>> Asset </option>
-				<option value='2' <?=( $sorted_by_col == 2 ? ' selected ' : '' )?>> Per-Token (<?=strtoupper($btc_fiat_pairing)?>) </option>
+				<option value='2' <?=( $sorted_by_col == 2 ? ' selected ' : '' )?>> Per-Token (<?=strtoupper($btc_primary_currency_pairing)?>) </option>
 				<option value='3' <?=( $sorted_by_col == 3 ? ' selected ' : '' )?>> Holdings </option>
 				<option value='4' <?=( $sorted_by_col == 4 ? ' selected ' : '' )?>> Symbol </option>
 				<option value='5' <?=( $sorted_by_col == 5 ? ' selected ' : '' )?>> Exchange </option>
@@ -302,7 +311,7 @@
 				<option value='7' <?=( $sorted_by_col == 7 ? ' selected ' : '' )?>> Trade Value </option>
 				<option value='8' <?=( $sorted_by_col == 8 ? ' selected ' : '' )?>> Market </option>
 				<option value='9' <?=( $sorted_by_col == 9 ? ' selected ' : '' )?>> Holdings Value </option>
-				<option value='10' <?=( $sorted_by_col == 10 ? ' selected ' : '' )?>> Subtotal (<?=strtoupper($btc_fiat_pairing)?>) </option>
+				<option value='10' <?=( $sorted_by_col == 10 ? ' selected ' : '' )?>> Subtotal (<?=strtoupper($btc_primary_currency_pairing)?>) </option>
 			    </select> 
 			     <select id='sorted_by_asc_desc' onchange='
 			    $("#sort_by").val( $("#sorted_by_col").val() + "|" + this.value );

@@ -23,11 +23,11 @@ return ($num - 1) * pow(2, ($num - 30) );
 ////////////////////////////////////////////////////////
 
 
-function powerdown_fiat($data) {
+function powerdown_primary_currency($data) {
 
-global $steem_market, $btc_exchange,  $btc_fiat_value;
+global $steem_market, $btc_primary_exchange,  $btc_market_value;
 
-return ( $data * $steem_market * $btc_fiat_value );
+return ( $data * $steem_market * $btc_market_value );
 
 }
 
@@ -110,10 +110,10 @@ return $results;
 
 function btc_market($input) {
 
-global $coins_list, $btc_fiat_pairing;
+global $coins_list, $btc_primary_currency_pairing;
 
 	$pairing_loop = 0;
-	foreach ( $coins_list['BTC']['market_pairing'][$btc_fiat_pairing] as $market_key => $market_id ) {
+	foreach ( $coins_list['BTC']['market_pairing'][$btc_primary_currency_pairing] as $market_key => $market_id ) {
 		
 		// If a numeric id, return the exchange name
 		if ( is_int($input) && $pairing_loop == $input ) {
@@ -136,34 +136,34 @@ global $coins_list, $btc_fiat_pairing;
 
 function marketcap_data($symbol) {
 	
-global $btc_fiat_pairing, $marketcap_site, $coinmarketcapcom_api_key, $alert_percent, $fiat_decimals_max, $marketcap_currencies;
+global $btc_primary_currency_pairing, $primary_marketcap_site, $coinmarketcapcom_api_key, $alert_percent, $primary_currency_decimals_max, $coinmarketcap_currencies;
 
 $data = array();
 
 
-	if ( $marketcap_site == 'coingecko' ) {
+	if ( $primary_marketcap_site == 'coingecko' ) {
 		
 		
 	// Consolidate function calls for runtime speed improvement
 	$coingecko_api = coingecko_api($symbol);
 		
 	// Don't overwrite global
-	$coingecko_fiat = strtolower($btc_fiat_pairing);
+	$coingecko_primary_currency = strtolower($btc_primary_currency_pairing);
 	
 		
-		if ( $coingecko_api['market_data']['current_price'][$coingecko_fiat] == '' ) {
-		$app_notes = 'Coingecko.com does not support '.strtoupper($coingecko_fiat).' stats,<br />showing USD stats instead.';
-		$coingecko_fiat = 'usd';
+		if ( $coingecko_api['market_data']['current_price'][$coingecko_primary_currency] == '' ) {
+		$app_notes = 'Coingecko.com does not support '.strtoupper($coingecko_primary_currency).' stats,<br />showing USD stats instead.';
+		$coingecko_primary_currency = 'usd';
 		$_SESSION['cap_data_force'] = 1;
 		}
 		
 		
 	$data['rank'] = $coingecko_api['market_data']['market_cap_rank'];
-	$data['price'] = $coingecko_api['market_data']['current_price'][$coingecko_fiat];
-	$data['market_cap'] = $coingecko_api['market_data']['market_cap'][$coingecko_fiat];
-	$data['volume_24h'] = $coingecko_api['market_data']['total_volume'][$coingecko_fiat];
+	$data['price'] = $coingecko_api['market_data']['current_price'][$coingecko_primary_currency];
+	$data['market_cap'] = $coingecko_api['market_data']['market_cap'][$coingecko_primary_currency];
+	$data['volume_24h'] = $coingecko_api['market_data']['total_volume'][$coingecko_primary_currency];
 	
-	$data['percent_change_1h'] = number_format( $coingecko_api['market_data']['price_change_percentage_1h_in_currency'][$coingecko_fiat] , 2, ".", ",");
+	$data['percent_change_1h'] = number_format( $coingecko_api['market_data']['price_change_percentage_1h_in_primary_currency'][$coingecko_primary_currency] , 2, ".", ",");
 	$data['percent_change_24h'] = number_format( $coingecko_api['market_data']['price_change_percentage_24h'] , 2, ".", ",");
 	$data['percent_change_7d'] = number_format( $coingecko_api['market_data']['price_change_percentage_7d'] , 2, ".", ",");
 	
@@ -176,19 +176,19 @@ $data = array();
 	$data['app_notes'] = $app_notes;
 	
 	}
-	elseif ( $marketcap_site == 'coinmarketcap' ) {
+	elseif ( $primary_marketcap_site == 'coinmarketcap' ) {
 		
 	
 	// Consolidate function calls for runtime speed improvement
 	$coinmarketcap_api = coinmarketcap_api($symbol);
 
 	// Don't overwrite global
-	$coinmarketcap_fiat = strtoupper($btc_fiat_pairing);
+	$coinmarketcap_primary_currency = strtoupper($btc_primary_currency_pairing);
 	
 	
-		// Default to USD, if selected fiat currency is not supported
+		// Default to USD, if selected primary currency is not supported
 		if ( isset($_SESSION['cap_data_force']) ) {
-		$coinmarketcap_fiat = 'USD';
+		$coinmarketcap_primary_currency = 'USD';
 		}
 		
 		
@@ -198,13 +198,13 @@ $data = array();
 		
 		
 	$data['rank'] = $coinmarketcap_api['cmc_rank'];
-	$data['price'] = $coinmarketcap_api['quote'][$coinmarketcap_fiat]['price'];
-	$data['market_cap'] = $coinmarketcap_api['quote'][$coinmarketcap_fiat]['market_cap'];
-	$data['volume_24h'] = $coinmarketcap_api['quote'][$coinmarketcap_fiat]['volume_24h'];
+	$data['price'] = $coinmarketcap_api['quote'][$coinmarketcap_primary_currency]['price'];
+	$data['market_cap'] = $coinmarketcap_api['quote'][$coinmarketcap_primary_currency]['market_cap'];
+	$data['volume_24h'] = $coinmarketcap_api['quote'][$coinmarketcap_primary_currency]['volume_24h'];
 	
-	$data['percent_change_1h'] = number_format( $coinmarketcap_api['quote'][$coinmarketcap_fiat]['percent_change_1h'] , 2, ".", ",");
-	$data['percent_change_24h'] = number_format( $coinmarketcap_api['quote'][$coinmarketcap_fiat]['percent_change_24h'] , 2, ".", ",");
-	$data['percent_change_7d'] = number_format( $coinmarketcap_api['quote'][$coinmarketcap_fiat]['percent_change_7d'] , 2, ".", ",");
+	$data['percent_change_1h'] = number_format( $coinmarketcap_api['quote'][$coinmarketcap_primary_currency]['percent_change_1h'] , 2, ".", ",");
+	$data['percent_change_24h'] = number_format( $coinmarketcap_api['quote'][$coinmarketcap_primary_currency]['percent_change_24h'] , 2, ".", ",");
+	$data['percent_change_7d'] = number_format( $coinmarketcap_api['quote'][$coinmarketcap_primary_currency]['percent_change_7d'] , 2, ".", ",");
 	
 	$data['circulating_supply'] = $coinmarketcap_api['circulating_supply'];
 	$data['total_supply'] = $coinmarketcap_api['total_supply'];
@@ -218,7 +218,7 @@ $data = array();
  	
 	
 	// UX on number values
-	$data['price'] = ( float_to_string($data['price']) >= 1.00 ? pretty_numbers($data['price'], 2) : pretty_numbers($data['price'], $fiat_decimals_max) );
+	$data['price'] = ( float_to_string($data['price']) >= 1.00 ? pretty_numbers($data['price'], 2) : pretty_numbers($data['price'], $primary_currency_decimals_max) );
 	
 
 return ( $data['rank'] != NULL ? $data : NULL );
@@ -232,7 +232,7 @@ return ( $data['rank'] != NULL ? $data : NULL );
 
 function trade_volume($asset_symbol, $pairing, $volume, $last_trade, $vol_in_pairing=false) {
 
-global $btc_fiat_pairing, $fiat_currencies, $btc_fiat_value;
+global $btc_primary_currency_pairing, $bitcoin_market_currencies, $btc_market_value;
 	
 	// If no pairing data, skip calculating trade volume to save on uneeded overhead
 	if ( !isset($asset_symbol) || $pairing == false || is_numeric($volume) != true && is_numeric($vol_in_pairing) != true || !isset($last_trade) || $last_trade == 0 ) {
@@ -242,11 +242,11 @@ global $btc_fiat_pairing, $fiat_currencies, $btc_fiat_value;
 
 	// WE NEED TO SET THIS (ONLY IF NOT SET ALREADY) for asset_market_data() calls, 
 	// because it is not set as a global THE FIRST RUNTIME CALL TO asset_market_data()
-	if ( strtoupper($asset_symbol) == 'BTC' && !$btc_fiat_value ) {
-	$temp_btc_fiat_value = $last_trade; // Don't overwrite global
+	if ( strtoupper($asset_symbol) == 'BTC' && !$btc_market_value ) {
+	$temp_btc_market_value = $last_trade; // Don't overwrite global
 	}
 	else {
-	$temp_btc_fiat_value = $btc_fiat_value; // Don't overwrite global
+	$temp_btc_market_value = $btc_market_value; // Don't overwrite global
 	}
 
 
@@ -254,30 +254,30 @@ global $btc_fiat_pairing, $fiat_currencies, $btc_fiat_value;
 	// Get fiat volume value
 	
 	// Fiat volume from Bitcoin's DEFAULT PAIRING volume
-	if ( $vol_in_pairing != false && $pairing == $btc_fiat_pairing ) {
-	$volume_fiat_raw = number_format( $vol_in_pairing , 0, '.', '');
+	if ( $vol_in_pairing != false && $pairing == $btc_primary_currency_pairing ) {
+	$volume_primary_currency_raw = number_format( $vol_in_pairing , 0, '.', '');
 	}
 	// Fiat volume from btc PAIRING volume
 	elseif ( $vol_in_pairing != false && $pairing == 'btc' ) {
-	$volume_fiat_raw = number_format( $temp_btc_fiat_value * $vol_in_pairing , 0, '.', '');
+	$volume_primary_currency_raw = number_format( $temp_btc_market_value * $vol_in_pairing , 0, '.', '');
 	}
 	// Fiat volume from other PAIRING volume
 	elseif ( $vol_in_pairing != false ) { 
 	$pairing_btc_value = pairing_market_value($pairing);
-	$volume_fiat_raw = number_format( $temp_btc_fiat_value * ( $vol_in_pairing * $pairing_btc_value ) , 0, '.', '');
+	$volume_primary_currency_raw = number_format( $temp_btc_market_value * ( $vol_in_pairing * $pairing_btc_value ) , 0, '.', '');
 	}
 	// Fiat volume from ASSET volume
 	else {
 		
-		if ( $pairing == $btc_fiat_pairing ) { // Volume as DEFAULT BITCOIN fiat or stablecoin pairing
-		$volume_fiat_raw = number_format( $last_trade * $volume , 0, '.', ''); 
+		if ( $pairing == $btc_primary_currency_pairing ) { // Volume as DEFAULT BITCOIN fiat or stablecoin pairing
+		$volume_primary_currency_raw = number_format( $last_trade * $volume , 0, '.', ''); 
 		}
 		elseif ( $pairing == 'btc' ) {
-		$volume_fiat_raw = number_format( $temp_btc_fiat_value * ( $last_trade * $volume ) , 0, '.', '');
+		$volume_primary_currency_raw = number_format( $temp_btc_market_value * ( $last_trade * $volume ) , 0, '.', '');
 		}
 		else {
 		$pairing_btc_value = pairing_market_value($pairing);
-		$volume_fiat_raw = number_format( $temp_btc_fiat_value * ( $last_trade * $volume ) * $pairing_btc_value , 0, '.', '');
+		$volume_primary_currency_raw = number_format( $temp_btc_market_value * ( $last_trade * $volume ) * $pairing_btc_value , 0, '.', '');
 		}
 	
 	}
@@ -285,7 +285,7 @@ global $btc_fiat_pairing, $fiat_currencies, $btc_fiat_value;
 
 	// Return negative number, if no data detected (so we know when data errors happen)
 	if ( $last_trade != '' || $vol_in_pairing != false ) {
-	return $volume_fiat_raw;
+	return $volume_primary_currency_raw;
 	}
 	else {
 	return -1;
@@ -301,7 +301,7 @@ global $btc_fiat_pairing, $fiat_currencies, $btc_fiat_value;
 
 function pairing_market_value($pairing) {
 
-global $coins_list, $fiat_currencies, $crypto_to_crypto_pairing;
+global $coins_list, $bitcoin_market_currencies, $crypto_to_crypto_pairing;
 
 
 	// Kill any ghost calls in dirty code
@@ -314,8 +314,22 @@ global $coins_list, $fiat_currencies, $crypto_to_crypto_pairing;
 	if ( $_SESSION[$pairing.'_btc'] ) {
 	return $_SESSION[$pairing.'_btc'];
 	}
-	// If we need a BITCOIN fiat (or stablecoin) market value
-	elseif ( array_key_exists($pairing, $fiat_currencies) ) {
+	// If we need an ALTCOIN/BTC market value (RUN BEFORE CURRENCIES FOR BEST MARKET DATA, AS SOME CRYPTOS ARE INCLUDED IN BOTH)
+	elseif ( $pairing != 'btc' && array_key_exists($pairing, $crypto_to_crypto_pairing) ) {
+	
+		foreach ( $coins_list[strtoupper($pairing)]['market_pairing']['btc'] as $market_key => $market_value ) {
+		
+			if ( $pair_loop != 1 ) {
+   		$_SESSION[$pairing.'_btc'] = asset_market_data(strtoupper($pairing), $market_key, $market_value)['last_trade'];
+			$pair_loop = 1;
+   		return $_SESSION[$pairing.'_btc'];
+			}
+					
+		}
+	
+	}
+	// If we need a BITCOIN/CURRENCY market value
+	elseif ( array_key_exists($pairing, $bitcoin_market_currencies) ) {
 	
 		foreach ( $coins_list['BTC']['market_pairing'] as $pair_key => $pair_unused ) {
 		
@@ -336,20 +350,6 @@ global $coins_list, $fiat_currencies, $crypto_to_crypto_pairing;
 		}
 	
 	}
-	// If we need an ALTCOIN/BTC market value
-	elseif ( $pairing != 'btc' && array_key_exists($pairing, $crypto_to_crypto_pairing) ) {
-	
-		foreach ( $coins_list[strtoupper($pairing)]['market_pairing']['btc'] as $market_key => $market_value ) {
-		
-			if ( $pair_loop != 1 ) {
-   		$_SESSION[$pairing.'_btc'] = asset_market_data(strtoupper($pairing), $market_key, $market_value)['last_trade'];
-			$pair_loop = 1;
-   		return $_SESSION[$pairing.'_btc'];
-			}
-					
-		}
-	
-	}
    else {
    return false;
    }
@@ -364,7 +364,7 @@ global $coins_list, $fiat_currencies, $crypto_to_crypto_pairing;
 
 function steempower_time($time) {
     
-global $_POST, $steem_market, $btc_exchange, $btc_fiat_value, $fiat_currencies, $btc_fiat_pairing, $steem_powerdown_time, $steempower_yearly_interest;
+global $_POST, $steem_market, $btc_primary_exchange, $btc_market_value, $bitcoin_market_currencies, $btc_primary_currency_pairing, $steem_powerdown_time, $steempower_yearly_interest;
 
 $powertime = NULL;
 $powertime = NULL;
@@ -400,10 +400,10 @@ $speed = ($_POST['sp_total'] * $decimal_yearly_interest) / 525600;  // Interest 
     $powertime = ($speed * 60 * 24 * 365);
     }
     
-    $powertime_fiat = ( $powertime * $steem_market * $btc_fiat_value );
+    $powertime_primary_currency = ( $powertime * $steem_market * $btc_market_value );
     
     $steem_total = ( $powertime + $_POST['sp_total'] );
-    $fiat_total = ( $steem_total * $steem_market * $btc_fiat_value );
+    $fiat_total = ( $steem_total * $steem_market * $btc_market_value );
     
     $power_purchased = ( $_POST['sp_purchased'] / $steem_total );
     $power_earned = ( $_POST['sp_earned'] / $steem_total );
@@ -420,9 +420,9 @@ $speed = ($_POST['sp_total'] * $decimal_yearly_interest) / 525600;  // Interest 
     <h2> Interest Per <?=ucfirst($time)?> </h2>
     <ul>
         
-        <li><b><?=number_format( $powertime, 3, '.', ',')?> STEEM</b> <i>in interest</i> (after a <?=$time?> time period) = <b><?=$fiat_currencies[$btc_fiat_pairing]?><?=number_format( $powertime_fiat, 2, '.', ',')?></b></li>
+        <li><b><?=number_format( $powertime, 3, '.', ',')?> STEEM</b> <i>in interest</i> (after a <?=$time?> time period) = <b><?=$bitcoin_market_currencies[$btc_primary_currency_pairing]?><?=number_format( $powertime_primary_currency, 2, '.', ',')?></b></li>
         
-        <li><b><?=number_format( $steem_total, 3, '.', ',')?> STEEM</b> <i>in total</i> (including original vested amount) = <b><?=$fiat_currencies[$btc_fiat_pairing]?><?=number_format( $fiat_total, 2, '.', ',')?></b></li>
+        <li><b><?=number_format( $steem_total, 3, '.', ',')?> STEEM</b> <i>in total</i> (including original vested amount) = <b><?=$bitcoin_market_currencies[$btc_primary_currency_pairing]?><?=number_format( $fiat_total, 2, '.', ',')?></b></li>
     
     </ul>
 
@@ -436,10 +436,10 @@ $speed = ($_POST['sp_total'] * $decimal_yearly_interest) / 525600;  // Interest 
             </tr>
                 <tr>
 
-                <td> <?=number_format( $powerdown_purchased, 3, '.', ',')?> STEEM = <?=$fiat_currencies[$btc_fiat_pairing]?><?=number_format( powerdown_fiat($powerdown_purchased), 2, '.', ',')?> </td>
-                <td> <?=number_format( $powerdown_earned, 3, '.', ',')?> STEEM = <?=$fiat_currencies[$btc_fiat_pairing]?><?=number_format( powerdown_fiat($powerdown_earned), 2, '.', ',')?> </td>
-                <td> <?=number_format( $powerdown_interest, 3, '.', ',')?> STEEM = <?=$fiat_currencies[$btc_fiat_pairing]?><?=number_format( powerdown_fiat($powerdown_interest), 2, '.', ',')?> </td>
-                <td> <b><?=number_format( $powerdown_total, 3, '.', ',')?> STEEM</b> = <b><?=$fiat_currencies[$btc_fiat_pairing]?><?=number_format( powerdown_fiat($powerdown_total), 2, '.', ',')?></b> </td>
+                <td> <?=number_format( $powerdown_purchased, 3, '.', ',')?> STEEM = <?=$bitcoin_market_currencies[$btc_primary_currency_pairing]?><?=number_format( powerdown_primary_currency($powerdown_purchased), 2, '.', ',')?> </td>
+                <td> <?=number_format( $powerdown_earned, 3, '.', ',')?> STEEM = <?=$bitcoin_market_currencies[$btc_primary_currency_pairing]?><?=number_format( powerdown_primary_currency($powerdown_earned), 2, '.', ',')?> </td>
+                <td> <?=number_format( $powerdown_interest, 3, '.', ',')?> STEEM = <?=$bitcoin_market_currencies[$btc_primary_currency_pairing]?><?=number_format( powerdown_primary_currency($powerdown_interest), 2, '.', ',')?> </td>
+                <td> <b><?=number_format( $powerdown_total, 3, '.', ',')?> STEEM</b> = <b><?=$bitcoin_market_currencies[$btc_primary_currency_pairing]?><?=number_format( powerdown_primary_currency($powerdown_total), 2, '.', ',')?></b> </td>
 
                 </tr>
            
@@ -458,7 +458,7 @@ $speed = ($_POST['sp_total'] * $decimal_yearly_interest) / 525600;  // Interest 
 
 function mining_calc_form($calculation_form_data, $network_measure, $hash_unit='hash') {
 
-global $_POST, $mining_rewards, $fiat_currencies, $btc_fiat_pairing;
+global $_POST, $mining_rewards, $bitcoin_market_currencies, $btc_primary_currency_pairing;
 
 ?>
 
@@ -544,7 +544,7 @@ global $_POST, $mining_rewards, $fiat_currencies, $btc_fiat_pairing;
 				<p><b>Watts Used:</b> <input type='text' value='<?=( isset($_POST['watts_used']) && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? $_POST['watts_used'] : '300' )?>' name='watts_used' /></p>
 				
 				
-				<p><b>kWh Rate (<?=$fiat_currencies[$btc_fiat_pairing]?>/kWh):</b> <input type='text' value='<?=( isset($_POST['watts_rate']) && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? $_POST['watts_rate'] : '0.1000' )?>' name='watts_rate' /></p>
+				<p><b>kWh Rate (<?=$bitcoin_market_currencies[$btc_primary_currency_pairing]?>/kWh):</b> <input type='text' value='<?=( isset($_POST['watts_rate']) && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? $_POST['watts_rate'] : '0.1000' )?>' name='watts_rate' /></p>
 				
 				
 				<p><b>Pool Fee:</b> <input type='text' value='<?=( isset($_POST['pool_fee']) && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? $_POST['pool_fee'] : '1' )?>' size='4' name='pool_fee' />%</p>
@@ -570,7 +570,7 @@ function asset_charts_and_alerts($asset_data, $exchange, $pairing, $mode) {
 
 
 // Globals
-global $base_dir, $local_time_offset, $block_volume_error, $fiat_currencies, $coins_list, $charts_alerts_btc_exchange, $charts_alerts_btc_fiat_value, $charts_alerts_btc_fiat_pairing, $charts_page, $asset_price_alerts_freq, $asset_price_alerts_percent, $asset_price_alerts_minvolume, $asset_price_alerts_refresh, $fiat_decimals_max;
+global $base_dir, $local_time_offset, $block_volume_error, $bitcoin_market_currencies, $coins_list, $charts_alerts_btc_primary_exchange, $charts_alerts_btc_market_value, $charts_alerts_btc_primary_currency_pairing, $charts_page, $asset_price_alerts_freq, $asset_price_alerts_percent, $asset_price_alerts_minvolume, $asset_price_alerts_refresh, $primary_currency_decimals_max;
 
 
 
@@ -582,7 +582,7 @@ $asset = strtoupper($asset);
 
 
 // Fiat or equivelant pairing?
-if ( array_key_exists($pairing, $fiat_currencies) ) {
+if ( array_key_exists($pairing, $bitcoin_market_currencies) ) {
 $fiat_eqiv = 1;
 }
 
@@ -600,17 +600,17 @@ $asset_market_data = asset_market_data($asset, $exchange, $coins_list[$asset]['m
 
 
 	// DEFAULT FIAT CONFIG CHARTS
-	if ( $pairing == strtolower($charts_alerts_btc_fiat_pairing) ) {
-	$asset_fiat_value_raw = $asset_market_data['last_trade']; 
+	if ( $pairing == strtolower($charts_alerts_btc_primary_currency_pairing) ) {
+	$asset_primary_currency_value_raw = $asset_market_data['last_trade']; 
 	}
 	// BTC PAIRINGS CONVERTED TO DEFAULT FIAT CONFIG (EQUIV) CHARTS
 	elseif ( $pairing == 'btc' ) {
-	$asset_fiat_value_raw = number_format( $charts_alerts_btc_fiat_value * $asset_market_data['last_trade'] , 8, '.', '');
+	$asset_primary_currency_value_raw = number_format( $charts_alerts_btc_market_value * $asset_market_data['last_trade'] , 8, '.', '');
 	}
 	// OTHER PAIRINGS CONVERTED TO DEFAULT FIAT CONFIG (EQUIV) CHARTS
 	else {
 	$pairing_btc_value = pairing_market_value($pairing); 
-	$asset_fiat_value_raw = number_format( $charts_alerts_btc_fiat_value * ( $asset_market_data['last_trade'] * $pairing_btc_value ) , 8, '.', '');
+	$asset_primary_currency_value_raw = number_format( $charts_alerts_btc_market_value * ( $asset_market_data['last_trade'] * $pairing_btc_value ) , 8, '.', '');
 	}
 	
 	
@@ -620,7 +620,7 @@ $asset_market_data = asset_market_data($asset, $exchange, $coins_list[$asset]['m
 		
 	$volume_asset_raw = $asset_market_data['24hr_asset_volume'];  // NEEDED FOR EMULATING PAIRING VOLUME, IF IT'S NOT AVAILABLE
 	$volume_pairing_raw = $asset_market_data['24hr_pairing_volume']; // If available, we'll use this for chart volume UX
-	$volume_fiat_raw = $asset_market_data['24hr_fiat_volume'];
+	$volume_primary_currency_raw = $asset_market_data['24hr_primary_currency_volume'];
 	
 	
 	// If no pair volume is available for this market, emulate it within reason with: asset value * asset volume
@@ -629,18 +629,18 @@ $asset_market_data = asset_market_data($asset, $exchange, $coins_list[$asset]['m
 	
 	// Make sure we have basic values, otherwise log errors / return false
 	
-	// Return false if we have no $charts_alerts_btc_fiat_value
-	if ( !isset($charts_alerts_btc_fiat_value) || $charts_alerts_btc_fiat_value == 0 ) {
-	app_logging( 'other_error', 'asset_charts_and_alerts() - No Bitcoin '.strtoupper($charts_alerts_btc_fiat_pairing).' value set', $asset_data . ': ' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ';' );
+	// Return false if we have no $charts_alerts_btc_market_value
+	if ( !isset($charts_alerts_btc_market_value) || $charts_alerts_btc_market_value == 0 ) {
+	app_logging( 'other_error', 'asset_charts_and_alerts() - No Bitcoin '.strtoupper($charts_alerts_btc_primary_currency_pairing).' value set', $asset_data . ': ' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ';' );
 	$set_return = 1;
 	}
 	
 	// Return false if we have no asset value
-	if ( float_to_string( trim($asset_fiat_value_raw) ) >= 0.00000001 ) {
+	if ( float_to_string( trim($asset_primary_currency_value_raw) ) >= 0.00000001 ) {
 	// Continue
 	}
 	else {
-	app_logging( 'other_error', 'asset_charts_and_alerts() - No asset '.strtoupper($charts_alerts_btc_fiat_pairing).' value set', $asset_data . ': ' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . '; pairing_id: ' . $coins_list[$asset]['market_pairing'][$pairing][$exchange] . ';' );
+	app_logging( 'other_error', 'asset_charts_and_alerts() - No asset '.strtoupper($charts_alerts_btc_primary_currency_pairing).' value set', $asset_data . ': ' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . '; pairing_id: ' . $coins_list[$asset]['market_pairing'][$pairing][$exchange] . ';' );
 	$set_return = 1;
 	}
 	
@@ -655,21 +655,21 @@ $asset_market_data = asset_market_data($asset, $exchange, $coins_list[$asset]['m
 	// Optimizing storage size needed for charts data
 	
 	// Round DEFAULT FIAT CONFIG volume to nullify insignificant decimal amounts / for prettier numbers UX, and to save on data set / storage size
-	$volume_fiat_raw = ( isset($volume_fiat_raw) ? round($volume_fiat_raw) : NULL );		
+	$volume_primary_currency_raw = ( isset($volume_primary_currency_raw) ? round($volume_primary_currency_raw) : NULL );		
 	
 	
 	// Round PAIRING volume to only keep 3 decimals max (for crypto volume etc), to save on data set / storage size
 	$volume_pairing_raw = ( isset($volume_pairing_raw) ? round($volume_pairing_raw, ( $fiat_eqiv == 1 ? 0 : 3 ) ) : NULL );	
 	
 	
-	// Round DEFAULT FIAT CONFIG asset price to only keep $fiat_decimals_max decimals maximum (or only 2 decimals if worth $1 or more), to save on data set / storage size
-	$asset_fiat_value_raw = ( float_to_string($asset_fiat_value_raw) >= 1.00 ? round($asset_fiat_value_raw, 2) : round($asset_fiat_value_raw, $fiat_decimals_max) );
+	// Round DEFAULT FIAT CONFIG asset price to only keep $primary_currency_decimals_max decimals maximum (or only 2 decimals if worth $1 or more), to save on data set / storage size
+	$asset_primary_currency_value_raw = ( float_to_string($asset_primary_currency_value_raw) >= 1.00 ? round($asset_primary_currency_value_raw, 2) : round($asset_primary_currency_value_raw, $primary_currency_decimals_max) );
 	
 	
 	// If fiat pairing format, round asset price 
-	// to only keep $fiat_decimals_max decimals maximum (or only 2 decimals if worth $1 or more), to save on data set / storage size
+	// to only keep $primary_currency_decimals_max decimals maximum (or only 2 decimals if worth $1 or more), to save on data set / storage size
    if ( $fiat_eqiv == 1 ) {
-   $asset_pairing_value_raw = ( float_to_string($asset_pairing_value_raw) >= 1.00 ? round($asset_pairing_value_raw, 2) : round($asset_pairing_value_raw, $fiat_decimals_max) );
+   $asset_pairing_value_raw = ( float_to_string($asset_pairing_value_raw) >= 1.00 ? round($asset_pairing_value_raw, 2) : round($asset_pairing_value_raw, $primary_currency_decimals_max) );
    }
 
 
@@ -682,7 +682,7 @@ $asset_market_data = asset_market_data($asset, $exchange, $coins_list[$asset]['m
 	
 	
 	// WE USE PAIRING VOLUME FOR VOLUME PERCENTAGE CHANGES, FOR BETTER PERCENT CHANGE ACCURACY THAN FIAT EQUIV
-	$alert_cache_contents = $asset_fiat_value_raw . '||' . $volume_fiat_raw . '||' . $volume_pairing_raw;
+	$alert_cache_contents = $asset_primary_currency_value_raw . '||' . $volume_primary_currency_raw . '||' . $volume_pairing_raw;
 	
 	
 	
@@ -731,13 +731,13 @@ $cached_array = explode("||", $data_file);
 	// Backwards compatibility
 	
 	if ( $cached_array[0] == NULL ) {
-	$cached_asset_fiat_value = $data_file;
-	$cached_fiat_volume = -1;
+	$cached_asset_primary_currency_value = $data_file;
+	$cached_primary_currency_volume = -1;
 	$cached_pairing_volume = -1;
 	}
 	else {
-	$cached_asset_fiat_value = $cached_array[0];  // DEFAULT FIAT CONFIG token value
-	$cached_fiat_volume = round($cached_array[1]); // DEFAULT FIAT CONFIG volume value (round DEFAULT FIAT CONFIG volume to nullify insignificant decimal amounts skewing checks)
+	$cached_asset_primary_currency_value = $cached_array[0];  // DEFAULT FIAT CONFIG token value
+	$cached_primary_currency_volume = round($cached_array[1]); // DEFAULT FIAT CONFIG volume value (round DEFAULT FIAT CONFIG volume to nullify insignificant decimal amounts skewing checks)
 	$cached_pairing_volume = $cached_array[2]; // Crypto volume value (more accurate percent increase / decrease stats than DEFAULT FIAT CONFIG value fluctuations)
 	}
 
@@ -748,7 +748,7 @@ $cached_array = explode("||", $data_file);
 
 	////// If cached value and current value exist, run alert checking ////////////
 	
-	if ( float_to_string( trim($cached_asset_fiat_value) ) >= 0.00000001 && float_to_string( trim($asset_fiat_value_raw) ) >= 0.00000001 ) {
+	if ( float_to_string( trim($cached_asset_primary_currency_value) ) >= 0.00000001 && float_to_string( trim($asset_primary_currency_value_raw) ) >= 0.00000001 ) {
 	
 	
 	
@@ -756,21 +756,21 @@ $cached_array = explode("||", $data_file);
   			 // Price checks
   			 
   			 // DEFAULT FIAT CONFIG price percent change (!MUST BE! absolute value)
-          $percent_change = abs( ($asset_fiat_value_raw - $cached_asset_fiat_value) / abs($cached_asset_fiat_value) * 100 );
+          $percent_change = abs( ($asset_primary_currency_value_raw - $cached_asset_primary_currency_value) / abs($cached_asset_primary_currency_value) * 100 );
           
           $percent_change = float_to_string($percent_change); // Better decimal support
   			 
   			 // Check whether we should send an alert
-          if ( float_to_string($asset_fiat_value_raw) >= 0.00000001 && $percent_change >= $asset_price_alerts_percent ) {
+          if ( float_to_string($asset_primary_currency_value_raw) >= 0.00000001 && $percent_change >= $asset_price_alerts_percent ) {
           $send_alert = 1;
           }
           
           // UX / UI variables
-          if ( float_to_string($asset_fiat_value_raw) < float_to_string($cached_asset_fiat_value) ) {
+          if ( float_to_string($asset_primary_currency_value_raw) < float_to_string($cached_asset_primary_currency_value) ) {
           $change_symbol = '-';
           $increase_decrease = 'decreased';
           }
-          elseif ( float_to_string($asset_fiat_value_raw) >= float_to_string($cached_asset_fiat_value) ) {
+          elseif ( float_to_string($asset_primary_currency_value_raw) >= float_to_string($cached_asset_primary_currency_value) ) {
           $change_symbol = '+';
           $increase_decrease = 'increased';
           }
@@ -787,24 +787,24 @@ $cached_array = explode("||", $data_file);
           $volume_percent_change = float_to_string($volume_percent_change); // Better decimal support
           
           // UX adjustments, and UI / UX variables
-          if ( $cached_fiat_volume <= 0 && $volume_fiat_raw <= 0 ) { // ONLY DEFAULT FIAT CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
+          if ( $cached_primary_currency_volume <= 0 && $volume_primary_currency_raw <= 0 ) { // ONLY DEFAULT FIAT CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
           $volume_percent_change = 0; // Skip calculating percent change if cached / live DEFAULT FIAT CONFIG volume are both zero or -1 (exchange API error)
           $volume_change_symbol = '+';
           }
-          elseif ( $cached_fiat_volume <= 0 && $volume_pairing_raw >= $cached_pairing_volume ) { // ONLY DEFAULT FIAT CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
-          $volume_percent_change = $volume_fiat_raw; // Use DEFAULT FIAT CONFIG volume value for percent up, for UX sake, if volume is up from zero or -1 (exchange API error)
+          elseif ( $cached_primary_currency_volume <= 0 && $volume_pairing_raw >= $cached_pairing_volume ) { // ONLY DEFAULT FIAT CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
+          $volume_percent_change = $volume_primary_currency_raw; // Use DEFAULT FIAT CONFIG volume value for percent up, for UX sake, if volume is up from zero or -1 (exchange API error)
           $volume_change_symbol = '+';
           }
-          elseif ( $cached_fiat_volume > 0 && $volume_pairing_raw < $cached_pairing_volume ) {
+          elseif ( $cached_primary_currency_volume > 0 && $volume_pairing_raw < $cached_pairing_volume ) {
           $volume_change_symbol = '-';
           }
-          elseif ( $cached_fiat_volume > 0 && $volume_pairing_raw > $cached_pairing_volume ) {
+          elseif ( $cached_primary_currency_volume > 0 && $volume_pairing_raw > $cached_pairing_volume ) {
           $volume_change_symbol = '+';
           }
           
           
           // We disallow alerts where minimum 24 hour trade DEFAULT FIAT CONFIG volume has NOT been met, ONLY if an API request doesn't fail to retrieve volume data
-          if ( $volume_fiat_raw >= 0 && $volume_fiat_raw < $asset_price_alerts_minvolume ) {
+          if ( $volume_primary_currency_raw >= 0 && $volume_primary_currency_raw < $asset_price_alerts_minvolume ) {
           $send_alert = NULL;
           }
   
@@ -821,7 +821,7 @@ $cached_array = explode("||", $data_file);
   
           // We disallow alerts if $block_volume_error is on, and there is a volume retrieval error
           // ONLY DEFAULT FIAT CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
-          if ( $volume_fiat_raw == -1 && $block_volume_error == 'on' ) {
+          if ( $volume_primary_currency_raw == -1 && $block_volume_error == 'on' ) {
           $send_alert = NULL;
           }
           
@@ -844,14 +844,14 @@ $cached_array = explode("||", $data_file);
           	
           	// IF DEFAULT FIAT CONFIG volume was zero last alert / refresh, for UX sake 
           	// we use current DEFAULT FIAT CONFIG volume instead of current pair volume (for percent up, so it's not up 70,000% for altcoins lol)
-          	if ( $cached_fiat_volume == 0 ) {
-          	$volume_describe = strtoupper($charts_alerts_btc_fiat_pairing) . ' volume was $0 last price ' . $desc_alert_type . ', and ';
-          	$volume_describe_mobile = strtoupper($charts_alerts_btc_fiat_pairing) . ' vol up from $0 last ' . $desc_alert_type;
+          	if ( $cached_primary_currency_volume == 0 ) {
+          	$volume_describe = strtoupper($charts_alerts_btc_primary_currency_pairing) . ' volume was $0 last price ' . $desc_alert_type . ', and ';
+          	$volume_describe_mobile = strtoupper($charts_alerts_btc_primary_currency_pairing) . ' vol up from $0 last ' . $desc_alert_type;
           	}
           	// Best we can do feasibly for UX on volume reporting errors
-          	elseif ( $cached_fiat_volume == -1 ) { // ONLY DEFAULT FIAT CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
-          	$volume_describe = strtoupper($charts_alerts_btc_fiat_pairing) . ' volume was NULL last price ' . $desc_alert_type . ', and ';
-          	$volume_describe_mobile = strtoupper($charts_alerts_btc_fiat_pairing) . ' vol up from NULL last ' . $desc_alert_type;
+          	elseif ( $cached_primary_currency_volume == -1 ) { // ONLY DEFAULT FIAT CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
+          	$volume_describe = strtoupper($charts_alerts_btc_primary_currency_pairing) . ' volume was NULL last price ' . $desc_alert_type . ', and ';
+          	$volume_describe_mobile = strtoupper($charts_alerts_btc_primary_currency_pairing) . ' vol up from NULL last ' . $desc_alert_type;
           	}
           	else {
           	$volume_describe = 'pair volume ';
@@ -866,13 +866,13 @@ $cached_array = explode("||", $data_file);
   				$exchange_text = name_rendering($exchange);
   				
   				// Pretty numbers UX on DEFAULT FIAT CONFIG asset value
-  				$asset_fiat_text = ( float_to_string($asset_fiat_value_raw) >= 1.00 ? pretty_numbers($asset_fiat_value_raw, 2) : pretty_numbers($asset_fiat_value_raw, $fiat_decimals_max) );
+  				$asset_primary_currency_text = ( float_to_string($asset_primary_currency_value_raw) >= 1.00 ? pretty_numbers($asset_primary_currency_value_raw, 2) : pretty_numbers($asset_primary_currency_value_raw, $primary_currency_decimals_max) );
   				
   				$percent_change_text = number_format($percent_change, 2, '.', ',');
   				
-  				$volume_fiat_text = $fiat_currencies[$charts_alerts_btc_fiat_pairing] . number_format($volume_fiat_raw, 0, '.', ',');
+  				$volume_primary_currency_text = $bitcoin_market_currencies[$charts_alerts_btc_primary_currency_pairing] . number_format($volume_primary_currency_raw, 0, '.', ',');
   				
-  				$volume_change_text = 'has ' . ( $volume_change_symbol == '+' ? 'increased ' : 'decreased ' ) . $volume_change_symbol . number_format($volume_percent_change, 2, '.', ',') . '% to a ' . strtoupper($charts_alerts_btc_fiat_pairing) . ' value of';
+  				$volume_change_text = 'has ' . ( $volume_change_symbol == '+' ? 'increased ' : 'decreased ' ) . $volume_change_symbol . number_format($volume_percent_change, 2, '.', ',') . '% to a ' . strtoupper($charts_alerts_btc_primary_currency_pairing) . ' value of';
   				
   				$volume_change_text_mobile = '(' . $volume_change_symbol . number_format($volume_percent_change, 2, '.', ',') . '% ' . $volume_describe_mobile . ')';
   				
@@ -882,7 +882,7 @@ $cached_array = explode("||", $data_file);
   				
   				// If -1 from exchange API error not reporting any volume data (not even zero)
   				// ONLY DEFAULT FIAT CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
-  				if ( $cached_fiat_volume == -1 || $volume_fiat_raw == -1 ) {
+  				if ( $cached_primary_currency_volume == -1 || $volume_primary_currency_raw == -1 ) {
   				$volume_change_text = NULL;
   				$volume_change_text_mobile = NULL;
   				}
@@ -893,7 +893,7 @@ $cached_array = explode("||", $data_file);
           	// Format trade volume data
           	
           	// Minimum volume filter skipped message, only if filter enabled and error getting trade volume data (otherwise is NULL)
-          	if ( $volume_fiat_raw == NULL && $asset_price_alerts_minvolume > 0 || $volume_fiat_raw < 1 && $asset_price_alerts_minvolume > 0 ) {
+          	if ( $volume_primary_currency_raw == NULL && $asset_price_alerts_minvolume > 0 || $volume_primary_currency_raw < 1 && $asset_price_alerts_minvolume > 0 ) {
           	$volume_filter_skipped_text = ', so enabled minimum volume filter was skipped';
           	}
           	else {
@@ -902,21 +902,21 @@ $cached_array = explode("||", $data_file);
           	
           	
           	// Successfully received > 0 volume data, at or above an enabled minimum volume filter
-  				if ( $volume_fiat_raw > 0 && $asset_price_alerts_minvolume > 0 && $volume_fiat_raw >= $asset_price_alerts_minvolume ) {
-          	$email_volume_summary = '24 hour ' . $volume_describe . $volume_change_text . ' ' . $volume_fiat_text . ' (minimum volume filter set at ' . $fiat_currencies[$charts_alerts_btc_fiat_pairing] . number_format($asset_price_alerts_minvolume, 0, '.', ',') . ').';
+  				if ( $volume_primary_currency_raw > 0 && $asset_price_alerts_minvolume > 0 && $volume_primary_currency_raw >= $asset_price_alerts_minvolume ) {
+          	$email_volume_summary = '24 hour ' . $volume_describe . $volume_change_text . ' ' . $volume_primary_currency_text . ' (minimum volume filter set at ' . $bitcoin_market_currencies[$charts_alerts_btc_primary_currency_pairing] . number_format($asset_price_alerts_minvolume, 0, '.', ',') . ').';
           	}
           	// NULL if not setup to get volume, negative number returned if no data received from API, therefore skipping any enabled volume filter
           	// ONLY DEFAULT FIAT CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
-  				elseif ( $volume_fiat_raw == -1 ) { 
+  				elseif ( $volume_primary_currency_raw == -1 ) { 
           	$email_volume_summary = 'No data received for 24 hour volume' . $volume_filter_skipped_text . '.';
-          	$volume_fiat_text = 'No data';
+          	$volume_primary_currency_text = 'No data';
           	}
           	// If volume is zero or greater in successfully received volume data, without an enabled volume filter (or filter skipped)
           	// IF exchange DEFAULT FIAT CONFIG value price goes up/down and triggers alert, 
           	// BUT current reported volume is zero (temporary error on exchange side etc, NOT on our app's side),
           	// inform end-user of this probable volume discrepancy being detected.
-          	elseif ( $volume_fiat_raw >= 0 ) {
-          	$email_volume_summary = '24 hour ' . $volume_describe . $volume_change_text . ' ' . $volume_fiat_text . ( $volume_fiat_raw == 0 ? ' (probable volume discrepancy detected' . $volume_filter_skipped_text . ')' : '' ) . '.'; 
+          	elseif ( $volume_primary_currency_raw >= 0 ) {
+          	$email_volume_summary = '24 hour ' . $volume_describe . $volume_change_text . ' ' . $volume_primary_currency_text . ( $volume_primary_currency_raw == 0 ? ' (probable volume discrepancy detected' . $volume_filter_skipped_text . ')' : '' ) . '.'; 
           	}
   				
   				
@@ -925,12 +925,12 @@ $cached_array = explode("||", $data_file);
   				
   				// Build the different messages, configure comm methods, and send messages
 				
-  				$email_message = 'The ' . $asset . ' trade value in the ' . strtoupper($pairing) . ' market at the ' . $exchange_text . ' exchange has ' . $increase_decrease . ' ' . $change_symbol . $percent_change_text . '% in ' . strtoupper($charts_alerts_btc_fiat_pairing) . ' value to ' . $fiat_currencies[$charts_alerts_btc_fiat_pairing] . $asset_fiat_text . ' over the past ' . $last_check_time . ' since the last price ' . $desc_alert_type . '. ' . $email_volume_summary;
+  				$email_message = 'The ' . $asset . ' trade value in the ' . strtoupper($pairing) . ' market at the ' . $exchange_text . ' exchange has ' . $increase_decrease . ' ' . $change_symbol . $percent_change_text . '% in ' . strtoupper($charts_alerts_btc_primary_currency_pairing) . ' value to ' . $bitcoin_market_currencies[$charts_alerts_btc_primary_currency_pairing] . $asset_primary_currency_text . ' over the past ' . $last_check_time . ' since the last price ' . $desc_alert_type . '. ' . $email_volume_summary;
   				
   				// Were're just adding a human-readable timestamp to smart home (audio) alerts
   				$notifyme_message = $email_message . ' Timestamp is ' . time_date_format($local_time_offset, 'pretty_time') . '.';
   				
-  				$text_message = $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange_text . ' ' . $increase_decrease . ' ' . $change_symbol . $percent_change_text . '% in ' . strtoupper($charts_alerts_btc_fiat_pairing) . ' value to ' . $fiat_currencies[$charts_alerts_btc_fiat_pairing] . $asset_fiat_text . ' over ' . $last_check_time . '. 24hr ' . strtoupper($charts_alerts_btc_fiat_pairing) . ' Vol: ' . $volume_fiat_text . ' ' . $volume_change_text_mobile;
+  				$text_message = $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange_text . ' ' . $increase_decrease . ' ' . $change_symbol . $percent_change_text . '% in ' . strtoupper($charts_alerts_btc_primary_currency_pairing) . ' value to ' . $bitcoin_market_currencies[$charts_alerts_btc_primary_currency_pairing] . $asset_primary_currency_text . ' over ' . $last_check_time . '. 24hr ' . strtoupper($charts_alerts_btc_primary_currency_pairing) . ' Vol: ' . $volume_primary_currency_text . ' ' . $volume_change_text_mobile;
   				
   				
   				
@@ -973,12 +973,12 @@ $cached_array = explode("||", $data_file);
 
 	// Cache a price alert value / volumes if not already done, OR if config setting set to refresh every X days
 	
-	if ( $mode == 'both' && float_to_string($asset_fiat_value_raw) >= 0.00000001 && !file_exists('cache/alerts/'.$asset_data.'.dat')
-	|| $mode == 'alert' && float_to_string($asset_fiat_value_raw) >= 0.00000001 && !file_exists('cache/alerts/'.$asset_data.'.dat') ) {
+	if ( $mode == 'both' && float_to_string($asset_primary_currency_value_raw) >= 0.00000001 && !file_exists('cache/alerts/'.$asset_data.'.dat')
+	|| $mode == 'alert' && float_to_string($asset_primary_currency_value_raw) >= 0.00000001 && !file_exists('cache/alerts/'.$asset_data.'.dat') ) {
 	store_file_contents($base_dir . '/cache/alerts/'.$asset_data.'.dat', $alert_cache_contents); 
 	}
-	elseif ( $mode == 'both' && $send_alert != 1 && $asset_price_alerts_refresh >= 1 && float_to_string($asset_fiat_value_raw) >= 0.00000001 && update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $asset_price_alerts_refresh * 1440 ) ) == true
-	|| $mode == 'alert' && $send_alert != 1 && $asset_price_alerts_refresh >= 1 && float_to_string($asset_fiat_value_raw) >= 0.00000001 && update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $asset_price_alerts_refresh * 1440 ) ) == true ) {
+	elseif ( $mode == 'both' && $send_alert != 1 && $asset_price_alerts_refresh >= 1 && float_to_string($asset_primary_currency_value_raw) >= 0.00000001 && update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $asset_price_alerts_refresh * 1440 ) ) == true
+	|| $mode == 'alert' && $send_alert != 1 && $asset_price_alerts_refresh >= 1 && float_to_string($asset_primary_currency_value_raw) >= 0.00000001 && update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $asset_price_alerts_refresh * 1440 ) ) == true ) {
 	store_file_contents($base_dir . '/cache/alerts/'.$asset_data.'.dat', $alert_cache_contents); 
 	}
 
@@ -988,16 +988,16 @@ $cached_array = explode("||", $data_file);
 
 	// If the charts page is enabled in config.php, save latest chart data for assets with price alerts configured on them
 	
-	if ( $mode == 'both' && float_to_string($asset_fiat_value_raw) >= 0.00000001 && $charts_page == 'on'
-	|| $mode == 'chart' && float_to_string($asset_fiat_value_raw) >= 0.00000001 && $charts_page == 'on' ) { 
+	if ( $mode == 'both' && float_to_string($asset_primary_currency_value_raw) >= 0.00000001 && $charts_page == 'on'
+	|| $mode == 'chart' && float_to_string($asset_primary_currency_value_raw) >= 0.00000001 && $charts_page == 'on' ) { 
 	
 		
 	// DEFAULT FIAT CONFIG charts (CRYPTO/DEFAULT FIAT CONFIG markets, 
 	// AND ALSO crypto-to-crypto pairings converted to DEFAULT FIAT CONFIG equiv value for DEFAULT FIAT CONFIG equiv charts)
-	store_file_contents($base_dir . '/cache/charts/spot_price_24hr_volume/archival/'.$asset.'/'.$asset_data.'_chart_'.strtolower($charts_alerts_btc_fiat_pairing).'.dat', time() . '||' . $asset_fiat_value_raw . '||' . $volume_fiat_raw . "\n", "append"); 
+	store_file_contents($base_dir . '/cache/charts/spot_price_24hr_volume/archival/'.$asset.'/'.$asset_data.'_chart_'.strtolower($charts_alerts_btc_primary_currency_pairing).'.dat', time() . '||' . $asset_primary_currency_value_raw . '||' . $volume_primary_currency_raw . "\n", "append"); 
 		
 		// Crypto / secondary fiat pairing charts, volume as pairing (for UX)
-		if ( $pairing != strtolower($charts_alerts_btc_fiat_pairing) ) {
+		if ( $pairing != strtolower($charts_alerts_btc_primary_currency_pairing) ) {
 		store_file_contents($base_dir . '/cache/charts/spot_price_24hr_volume/archival/'.$asset.'/'.$asset_data.'_chart_'.$pairing.'.dat', time() . '||' . $asset_pairing_value_raw . '||' . $volume_pairing_raw . "\n", "append");
 		}
 			
@@ -1024,7 +1024,7 @@ function ui_coin_data_row($asset_name, $asset_symbol, $asset_amount, $market_pai
 
 
 // Globals
-global $_POST, $theme_selected, $fiat_market_standalone, $fiat_currencies, $coins_list, $btc_exchange, $btc_fiat_pairing, $btc_fiat_value, $marketcap_site, $marketcap_cache, $coinmarketcapcom_api_key, $alert_percent, $marketcap_ranks_max, $api_timeout, $fiat_decimals_max;
+global $_POST, $theme_selected, $primary_currency_market_standalone, $bitcoin_market_currencies, $coins_list, $btc_primary_exchange, $btc_primary_currency_pairing, $btc_market_value, $primary_marketcap_site, $marketcap_cache, $coinmarketcapcom_api_key, $alert_percent, $marketcap_ranks_max, $api_timeout, $primary_currency_decimals_max;
 
 
 
@@ -1048,9 +1048,9 @@ $all_pairings = $coins_list[$asset_symbol]['market_pairing'];
     if ( $loop == $selected_exchange || $key == "eth_subtokens_ico" ) {
     $selected_exchange = $key;
      
-     if ( sizeof($fiat_market_standalone) != 2 && strtolower($asset_name) == 'bitcoin' ) {
-     $_SESSION['btc_exchange'] = $key;
-     $_SESSION['btc_fiat_pairing'] = $selected_pairing;
+     if ( sizeof($primary_currency_market_standalone) != 2 && strtolower($asset_name) == 'bitcoin' ) {
+     $_SESSION['btc_primary_exchange'] = $key;
+     $_SESSION['btc_primary_currency_pairing'] = $selected_pairing;
      
      		// Dynamically modify MISCASSETS in $coins_list
 			// ONLY IF USER HASN'T MESSED UP $coins_list, AS WE DON'T WANT TO CANCEL OUT ANY
@@ -1062,9 +1062,9 @@ $all_pairings = $coins_list[$asset_symbol]['market_pairing'];
      ?>
      
      <script>
-     window.btc_fiat_value = '<?=asset_market_data('BTC', $key, $coins_list['BTC']['market_pairing'][$selected_pairing][$key])['last_trade']?>';
+     window.btc_market_value = '<?=asset_market_data('BTC', $key, $coins_list['BTC']['market_pairing'][$selected_pairing][$key])['last_trade']?>';
      
-     window.btc_fiat_pairing = '<?=strtoupper($selected_pairing)?>';
+     window.btc_primary_currency_pairing = '<?=strtoupper($selected_pairing)?>';
      </script>
      
      <?php
@@ -1079,23 +1079,23 @@ $all_pairings = $coins_list[$asset_symbol]['market_pairing'];
 
 
 
-if ( sizeof($fiat_market_standalone) != 2 && $_SESSION['btc_exchange'] ) {
-$btc_exchange = $_SESSION['btc_exchange'];
+if ( sizeof($primary_currency_market_standalone) != 2 && $_SESSION['btc_primary_exchange'] ) {
+$btc_primary_exchange = $_SESSION['btc_primary_exchange'];
 }
 
-if ( sizeof($fiat_market_standalone) != 2 && $_SESSION['btc_fiat_pairing'] ) {
-$btc_fiat_pairing = $_SESSION['btc_fiat_pairing'];
+if ( sizeof($primary_currency_market_standalone) != 2 && $_SESSION['btc_primary_currency_pairing'] ) {
+$btc_primary_currency_pairing = $_SESSION['btc_primary_currency_pairing'];
 }
 
 
 
 // Overwrite DEFAULT FIAT CONFIG / BTC market value, in case user changed preferred market IN THE UI
-$selected_pairing_id = $coins_list['BTC']['market_pairing'][$btc_fiat_pairing][$btc_exchange];
-$btc_fiat_value = asset_market_data('BTC', $btc_exchange, $selected_pairing_id)['last_trade'];
+$selected_pairing_id = $coins_list['BTC']['market_pairing'][$btc_primary_currency_pairing][$btc_primary_exchange];
+$btc_market_value = asset_market_data('BTC', $btc_primary_exchange, $selected_pairing_id)['last_trade'];
 
 	// Log any Bitcoin market errors
-	if ( !isset($btc_fiat_value) || $btc_fiat_value == 0 ) {
-	app_logging('other_error', 'ui_coin_data_row() Bitcoin fiat value not properly set', 'exchange: ' . $btc_exchange . '; pairing_id: ' . $selected_pairing_id . '; value: ' . $btc_fiat_value );
+	if ( !isset($btc_market_value) || $btc_market_value == 0 ) {
+	app_logging('other_error', 'ui_coin_data_row() Bitcoin fiat value not properly set', 'exchange: ' . $btc_primary_exchange . '; pairing_id: ' . $selected_pairing_id . '; value: ' . $btc_market_value );
 	}
 
 
@@ -1132,7 +1132,7 @@ $market_pairing = $all_markets[$selected_exchange];
     $coin_value_raw = $asset_market_data['last_trade'];
     $btc_trade_eqiv = number_format($coin_value_raw, 8);
     $coin_value_total_raw = ($asset_amount * $coin_value_raw);
-  	 $coin_fiat_worth_raw = $coin_value_total_raw *  $btc_fiat_value;
+  	 $coin_primary_currency_worth_raw = $coin_value_total_raw *  $btc_market_value;
     $_SESSION['btc_worth_array'][$asset_symbol] = $coin_value_total_raw;
     }
     // ETH ICOS
@@ -1141,7 +1141,7 @@ $market_pairing = $all_markets[$selected_exchange];
     $coin_value_raw = get_sub_token_price($selected_exchange, $market_pairing);
     $btc_trade_eqiv = number_format( ($coin_value_raw * $pairing_btc_value), 8);
     $coin_value_total_raw = ($asset_amount * $coin_value_raw);
-  	 $coin_fiat_worth_raw = ($coin_value_total_raw * $pairing_btc_value) *  $btc_fiat_value;
+  	 $coin_primary_currency_worth_raw = ($coin_value_total_raw * $pairing_btc_value) *  $btc_market_value;
     $_SESSION['btc_worth_array'][$asset_symbol] = float_to_string($coin_value_total_raw * $pairing_btc_value);  
     }
     // OTHER PAIRINGS
@@ -1150,7 +1150,7 @@ $market_pairing = $all_markets[$selected_exchange];
     $coin_value_raw = $asset_market_data['last_trade'];
     $btc_trade_eqiv = number_format( ($coin_value_raw * $pairing_btc_value), 8);
     $coin_value_total_raw = ($asset_amount * $coin_value_raw);
-  	 $coin_fiat_worth_raw = ($coin_value_total_raw * $pairing_btc_value) *  $btc_fiat_value;
+  	 $coin_primary_currency_worth_raw = ($coin_value_total_raw * $pairing_btc_value) *  $btc_market_value;
     $_SESSION['btc_worth_array'][$asset_symbol] = ( strtolower($asset_name) == 'bitcoin' ? $asset_amount : float_to_string($coin_value_total_raw * $pairing_btc_value) );
   	 }
   	 
@@ -1158,7 +1158,7 @@ $market_pairing = $all_markets[$selected_exchange];
   	 
   	 
     // FLAG SELECTED PAIRING IF FIAT OR EQUIVALENT, AS SUCH
-    if ( array_key_exists($selected_pairing, $fiat_currencies) ) {
+    if ( array_key_exists($selected_pairing, $bitcoin_market_currencies) ) {
 	 $fiat_eqiv = 1;
     }
     
@@ -1170,7 +1170,7 @@ $market_pairing = $all_markets[$selected_exchange];
 	 	
 	 $coin_paid_total_raw = ($asset_amount * $purchase_price);
 	 
-	 $gain_loss = $coin_fiat_worth_raw - $coin_paid_total_raw;
+	 $gain_loss = $coin_primary_currency_worth_raw - $coin_paid_total_raw;
 	 	 
 	 	 
 	 	// Convert $gain_loss for shorts with leverage
@@ -1180,18 +1180,18 @@ $market_pairing = $all_markets[$selected_exchange];
  			
  			if ( $prev_gain_loss_val >= 0 ) {
  	 		$gain_loss = $prev_gain_loss_val - ( $prev_gain_loss_val * 2 );
- 	 		$coin_fiat_worth_raw = $coin_fiat_worth_raw - ( $prev_gain_loss_val * 2 );
+ 	 		$coin_primary_currency_worth_raw = $coin_primary_currency_worth_raw - ( $prev_gain_loss_val * 2 );
  		 	}
  	 		else {
  		 	$gain_loss = $prev_gain_loss_val + ( abs($prev_gain_loss_val) * 2 );
- 			$coin_fiat_worth_raw = $coin_fiat_worth_raw + ( abs($prev_gain_loss_val) * 2 );
+ 			$coin_primary_currency_worth_raw = $coin_primary_currency_worth_raw + ( abs($prev_gain_loss_val) * 2 );
  	 		}
 
  	 	}
 	 
 	 
 	 // Gain / loss percent (!MUST NOT BE! absolute value)
-	 $gain_loss_percent = ($coin_fiat_worth_raw - $coin_paid_total_raw) / abs($coin_paid_total_raw) * 100;
+	 $gain_loss_percent = ($coin_primary_currency_worth_raw - $coin_paid_total_raw) / abs($coin_paid_total_raw) * 100;
 	 
 	 // Check for any leverage gain / loss
 	 $only_leverage_gain_loss = ( $leverage_level >= 2 ? ($gain_loss * ($leverage_level - 1) ) : 0 );
@@ -1213,8 +1213,8 @@ $market_pairing = $all_markets[$selected_exchange];
     													'coin_symbol' => $asset_symbol, 
     													'coin_leverage' => $leverage_level,
     													'selected_margintype' => $selected_margintype,
-    													'coin_worth_total' => $coin_fiat_worth_raw,
-    													'coin_total_worth_if_purchase_price' => ($no_purchase_price == 1 ? NULL : $coin_fiat_worth_raw),
+    													'coin_worth_total' => $coin_primary_currency_worth_raw,
+    													'coin_total_worth_if_purchase_price' => ($no_purchase_price == 1 ? NULL : $coin_primary_currency_worth_raw),
     													'coin_paid' => $purchase_price,
     													'coin_paid_total' => $coin_paid_total_raw,
     													'gain_loss_only_leverage' => $only_leverage_gain_loss,
@@ -1227,7 +1227,7 @@ $market_pairing = $all_markets[$selected_exchange];
 
 
   // Get trade volume
-  $trade_volume = $asset_market_data['24hr_fiat_volume'];
+  $trade_volume = $asset_market_data['24hr_primary_currency_volume'];
   
   
   
@@ -1268,10 +1268,10 @@ $market_pairing = $all_markets[$selected_exchange];
 	if ( $mkcap_render_data != '' ) {
  	
  
- 		if ( $marketcap_site == 'coinmarketcap' ) {
+ 		if ( $primary_marketcap_site == 'coinmarketcap' ) {
  		$asset_pagebase = 'coinmarketcap.com/currencies/';
  		}
- 		elseif ( $marketcap_site == 'coingecko' ) {
+ 		elseif ( $primary_marketcap_site == 'coingecko' ) {
  		$asset_pagebase = 'coingecko.com/en/coins/';
  		}
  	
@@ -1284,17 +1284,17 @@ $market_pairing = $all_markets[$selected_exchange];
 		<?php
 		if ( !$marketcap_data['rank'] ) {
 			
-			if ( $marketcap_site == 'coinmarketcap' && trim($coinmarketcapcom_api_key) == NULL ) {
+			if ( $primary_marketcap_site == 'coinmarketcap' && trim($coinmarketcapcom_api_key) == NULL ) {
 			?>
 
-			var cmc_content = '<h5 style="color: #e5f1ff;"><?=ucfirst($marketcap_site)?> API key is required. <br />Configuration adjustments can be made in config.php.</h5>';
+			var cmc_content = '<h5 style="color: #e5f1ff;"><?=ucfirst($primary_marketcap_site)?> API key is required. <br />Configuration adjustments can be made in config.php.</h5>';
 	
 			<?php
 			}
 			else {
 			?>
 
-			var cmc_content = '<h5 style="color: #e5f1ff;"><?=ucfirst($marketcap_site)?> API may be offline / under heavy load, <br />marketcap range not set high enough (current range is top <?=$marketcap_ranks_max?> marketcaps), <br />or API timeout set too low (current timeout is <?=$api_timeout?> seconds). <br />Configuration adjustments can be made in config.php.</h5>';
+			var cmc_content = '<h5 style="color: #e5f1ff;"><?=ucfirst($primary_marketcap_site)?> API may be offline / under heavy load, <br />marketcap range not set high enough (current range is top <?=$marketcap_ranks_max?> marketcaps), <br />or API timeout set too low (current timeout is <?=$api_timeout?> seconds). <br />Configuration adjustments can be made in config.php.</h5>';
 	
 			<?php
 			}
@@ -1313,17 +1313,17 @@ $market_pairing = $all_markets[$selected_exchange];
         else {
         	
         		if ( isset($_SESSION['cap_data_force']) ) {
-        		$cmc_currency_symbol = '$';
+        		$cmc_primary_currency_symbol = '$';
         		}
         		else {
-        		$cmc_currency_symbol = $fiat_currencies[$btc_fiat_pairing];
+        		$cmc_primary_currency_symbol = $bitcoin_market_currencies[$btc_primary_currency_pairing];
         		}
         		
         ?> 
     
-        var cmc_content = '<h5 class="yellow" style="position: relative; white-space: nowrap;"><?=ucfirst($marketcap_site)?>.com Summary For <?=$asset_name?> (<?=$asset_symbol?>):</h5>'
+        var cmc_content = '<h5 class="yellow" style="position: relative; white-space: nowrap;"><?=ucfirst($primary_marketcap_site)?>.com Summary For <?=$asset_name?> (<?=$asset_symbol?>):</h5>'
         +'<p class="coin_info"><span class="yellow">Marketcap Ranking:</span> #<?=$marketcap_data['rank']?></p>'
-        +'<p class="coin_info"><span class="yellow">Marketcap Value:</span> <?=$cmc_currency_symbol?><?=number_format($marketcap_data['market_cap'],0,".",",")?></p>'
+        +'<p class="coin_info"><span class="yellow">Marketcap Value:</span> <?=$cmc_primary_currency_symbol?><?=number_format($marketcap_data['market_cap'],0,".",",")?></p>'
         +'<p class="coin_info"><span class="yellow">Available Supply:</span> <?=number_format($marketcap_data['circulating_supply'], 0, '.', ',')?></p>'
         <?php
             if ( $marketcap_data['total_supply'] > 0 ) {
@@ -1337,11 +1337,11 @@ $market_pairing = $all_markets[$selected_exchange];
         <?php
             }
             ?>
-        +'<p class="coin_info"><span class="yellow">Token Value (average):</span> <?=$cmc_currency_symbol?><?=$marketcap_data['price']?></p>'
+        +'<p class="coin_info"><span class="yellow">Token Value (average):</span> <?=$cmc_primary_currency_symbol?><?=$marketcap_data['price']?></p>'
         +'<p class="coin_info"><span class="yellow">1 Hour Change:</span> <?=( stristr($marketcap_data['percent_change_1h'], '-') != false ? '<span class="red_bright">'.$marketcap_data['percent_change_1h'].'%</span>' : '<span class="green_bright">+'.$marketcap_data['percent_change_1h'].'%</span>' )?></p>'
         +'<p class="coin_info"><span class="yellow">24 Hour Change:</span> <?=( stristr($marketcap_data['percent_change_24h'], '-') != false ? '<span class="red_bright">'.$marketcap_data['percent_change_24h'].'%</span>' : '<span class="green_bright">+'.$marketcap_data['percent_change_24h'].'%</span>' )?></p>'
         +'<p class="coin_info"><span class="yellow">7 Day Change:</span> <?=( stristr($marketcap_data['percent_change_7d'], '-') != false ? '<span class="red_bright">'.$marketcap_data['percent_change_7d'].'%</span>' : '<span class="green_bright">+'.$marketcap_data['percent_change_7d'].'%</span>' )?></p>'
-        +'<p class="coin_info"><span class="yellow">24 Hour Volume:</span> <?=$cmc_currency_symbol?><?=number_format($marketcap_data['volume_24h'],0,".",",")?></p>'
+        +'<p class="coin_info"><span class="yellow">24 Hour Volume:</span> <?=$cmc_primary_currency_symbol?><?=number_format($marketcap_data['volume_24h'],0,".",",")?></p>'
         <?php
             if ( $marketcap_data['last_updated'] != '' ) {
             ?>
@@ -1438,7 +1438,7 @@ $market_pairing = $all_markets[$selected_exchange];
  $('#<?=$rand_id?>').balloon({
   html: true,
   position: "right",
-  contents: '<h5 style="color: #e5f1ff;">No <?=ucfirst($marketcap_site)?>.com data for <?=$asset_name?> (<?=$asset_symbol?>) has been configured yet.</h5>'
+  contents: '<h5 style="color: #e5f1ff;">No <?=ucfirst($primary_marketcap_site)?>.com data for <?=$asset_name?> (<?=$asset_symbol?>) has been configured yet.</h5>'
 });
 
 		<?php
@@ -1472,12 +1472,12 @@ $market_pairing = $all_markets[$selected_exchange];
 
 <?php
   
-  $coin_fiat_value = ( $btc_fiat_value * $btc_trade_eqiv );
+  $coin_primary_currency_value = ( $btc_market_value * $btc_trade_eqiv );
 
   // UX on FIAT number values
-  $coin_fiat_value = ( float_to_string($coin_fiat_value) >= 1.00 ? pretty_numbers($coin_fiat_value, 2) : pretty_numbers($coin_fiat_value, $fiat_decimals_max) );
+  $coin_primary_currency_value = ( float_to_string($coin_primary_currency_value) >= 1.00 ? pretty_numbers($coin_primary_currency_value, 2) : pretty_numbers($coin_primary_currency_value, $primary_currency_decimals_max) );
 	
-  echo $fiat_currencies[$btc_fiat_pairing] . "<span class='app_sort_filter'>" . $coin_fiat_value . "</span>";
+  echo $bitcoin_market_currencies[$btc_primary_currency_pairing] . "<span class='app_sort_filter'>" . $coin_primary_currency_value . "</span>";
 
 ?>
 
@@ -1542,7 +1542,7 @@ echo "<span class='app_sort_filter blue'>" . ( $pretty_coin_amount != NULL ? $pr
 
 <td class='data border_b'>
 
-<span class='white'><?=$fiat_currencies[$btc_fiat_pairing]?></span><span class='app_sort_filter'>
+<span class='white'><?=$bitcoin_market_currencies[$btc_primary_currency_pairing]?></span><span class='app_sort_filter'>
 
 
 <?php 
@@ -1572,10 +1572,10 @@ echo "<span class='app_sort_filter blue'>" . ( $pretty_coin_amount != NULL ? $pr
 
 	// UX on FIAT number values
 	if ( $fiat_eqiv == 1 ) {
-	$coin_value_fiat_decimals = ( float_to_string($coin_value_raw) >= 1.00 ? 2 : $fiat_decimals_max );
+	$coin_value_primary_currency_decimals = ( float_to_string($coin_value_raw) >= 1.00 ? 2 : $primary_currency_decimals_max );
 	}
   
-echo ( $fiat_eqiv == 1 ? pretty_numbers($coin_value_raw, $coin_value_fiat_decimals) : pretty_numbers($coin_value_raw, 8) ); 
+echo ( $fiat_eqiv == 1 ? pretty_numbers($coin_value_raw, $coin_value_primary_currency_decimals) : pretty_numbers($coin_value_raw, 8) ); 
 
 ?>
 
@@ -1638,10 +1638,10 @@ echo ( $fiat_eqiv == 1 ? pretty_numbers($coin_value_raw, $coin_value_fiat_decima
 
 	// UX on FIAT number values
 	if ( $fiat_eqiv == 1 ) {
-	$coin_value_total_fiat_decimals = ( float_to_string($coin_value_total_raw) >= 1.00 ? 2 : $fiat_decimals_max );
+	$coin_value_total_primary_currency_decimals = ( float_to_string($coin_value_total_raw) >= 1.00 ? 2 : $primary_currency_decimals_max );
 	}
   
-$pretty_coin_value_total_raw = ( $fiat_eqiv == 1 ? pretty_numbers($coin_value_total_raw, $coin_value_total_fiat_decimals) : pretty_numbers($coin_value_total_raw, 8) ); 
+$pretty_coin_value_total_raw = ( $fiat_eqiv == 1 ? pretty_numbers($coin_value_total_raw, $coin_value_total_primary_currency_decimals) : pretty_numbers($coin_value_total_raw, 8) ); 
 
 
 echo ' <span class="blue"><span class="data app_sort_filter blue">' . $pretty_coin_value_total_raw . '</span> ' . $pairing_symbol . '</span>';
@@ -1663,20 +1663,20 @@ echo ' <span class="blue"><span class="data app_sort_filter blue">' . $pretty_co
 <?php
 
 
-echo '<span class="' . ( $purchase_price >= 0.00000001 && $leverage_level >= 2 && $selected_margintype == 'short' ? 'short">★ ' : 'blue">' ) . '<span class="blue">' . $fiat_currencies[$btc_fiat_pairing] . '</span><span class="app_sort_filter blue">' . number_format($coin_fiat_worth_raw, 2, '.', ',') . '</span></span>';
+echo '<span class="' . ( $purchase_price >= 0.00000001 && $leverage_level >= 2 && $selected_margintype == 'short' ? 'short">★ ' : 'blue">' ) . '<span class="blue">' . $bitcoin_market_currencies[$btc_primary_currency_pairing] . '</span><span class="app_sort_filter blue">' . number_format($coin_primary_currency_worth_raw, 2, '.', ',') . '</span></span>';
 
   if ( $purchase_price >= 0.00000001 && $leverage_level >= 2 ) {
 
-  $coin_worth_inc_leverage = $coin_fiat_worth_raw + $only_leverage_gain_loss;
+  $coin_worth_inc_leverage = $coin_primary_currency_worth_raw + $only_leverage_gain_loss;
   
   echo ' <span class="extra_data">(' . $leverage_level . 'x ' . $selected_margintype . ')</span>';
 
   // Here we parse out negative symbols
-  $parsed_gain_loss = preg_replace("/-/", "-" . $fiat_currencies[$btc_fiat_pairing], number_format( $gain_loss, 2, '.', ',' ) );
+  $parsed_gain_loss = preg_replace("/-/", "-" . $bitcoin_market_currencies[$btc_primary_currency_pairing], number_format( $gain_loss, 2, '.', ',' ) );
   
-  $parsed_inc_leverage_gain_loss = preg_replace("/-/", "-" . $fiat_currencies[$btc_fiat_pairing], number_format( $inc_leverage_gain_loss, 2, '.', ',' ) );
+  $parsed_inc_leverage_gain_loss = preg_replace("/-/", "-" . $bitcoin_market_currencies[$btc_primary_currency_pairing], number_format( $inc_leverage_gain_loss, 2, '.', ',' ) );
   
-  $parsed_only_leverage_gain_loss = preg_replace("/-/", "-" . $fiat_currencies[$btc_fiat_pairing], number_format($only_leverage_gain_loss, 2, '.', ',' ) );
+  $parsed_only_leverage_gain_loss = preg_replace("/-/", "-" . $bitcoin_market_currencies[$btc_primary_currency_pairing], number_format($only_leverage_gain_loss, 2, '.', ',' ) );
   
   // Here we can go negative 'total worth' with the margin leverage (unlike with the margin deposit)
   // We only want a negative sign here in the UI for 'total worth' clarity (if applicable), NEVER a plus sign
@@ -1685,13 +1685,13 @@ echo '<span class="' . ( $purchase_price >= 0.00000001 && $leverage_level >= 2 &
   
   
   // Pretty format, but no need to parse out anything here
-  $pretty_coin_fiat_worth_raw = number_format( ($coin_fiat_worth_raw) , 2, '.', ',' );
+  $pretty_coin_primary_currency_worth_raw = number_format( ($coin_primary_currency_worth_raw) , 2, '.', ',' );
   $pretty_leverage_gain_loss_percent = number_format( $inc_leverage_gain_loss_percent, 2, '.', ',' );
   
   
   		// Formatting
   		$gain_loss_span_color = ( $gain_loss >= 0 ? 'green_bright' : 'red_bright' );
-  		$gain_loss_fiat = ( $gain_loss >= 0 ? '+' . $fiat_currencies[$btc_fiat_pairing] : '' );
+  		$gain_loss_primary_currency = ( $gain_loss >= 0 ? '+' . $bitcoin_market_currencies[$btc_primary_currency_pairing] : '' );
   		
 		?> 
 		<img id='<?=$rand_id?>_leverage' src='ui-templates/media/images/info.png' alt='' width='30' border='0' style='position: relative; left: -5px;' />
@@ -1699,11 +1699,11 @@ echo '<span class="' . ( $purchase_price >= 0.00000001 && $leverage_level >= 2 &
 	
 			var leverage_content = '<h5 class="yellow" style="position: relative; white-space: nowrap;"><?=$leverage_level?>x <?=ucfirst($selected_margintype)?> For <?=$asset_name?> (<?=$asset_symbol?>):</h5>'
 			
-			+'<p class="coin_info"><span class="yellow">Deposit (1x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_fiat?><?=$parsed_gain_loss?></span> (<?=$fiat_currencies[$btc_fiat_pairing]?><?=$pretty_coin_fiat_worth_raw?>)</p>'
+			+'<p class="coin_info"><span class="yellow">Deposit (1x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_primary_currency?><?=$parsed_gain_loss?></span> (<?=$bitcoin_market_currencies[$btc_primary_currency_pairing]?><?=$pretty_coin_primary_currency_worth_raw?>)</p>'
 			
-			+'<p class="coin_info"><span class="yellow">Margin (<?=($leverage_level - 1)?>x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_fiat?><?=$parsed_only_leverage_gain_loss?></span></p>'
+			+'<p class="coin_info"><span class="yellow">Margin (<?=($leverage_level - 1)?>x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_primary_currency?><?=$parsed_only_leverage_gain_loss?></span></p>'
 			
-			+'<p class="coin_info"><span class="yellow">Total (<?=($leverage_level)?>x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_fiat?><?=$parsed_inc_leverage_gain_loss?> / <?=( $gain_loss >= 0 ? '+' : '' )?><?=$pretty_leverage_gain_loss_percent?>%</span> (<?=( $coin_worth_inc_leverage >= 0 ? '' : '-' )?><?=$fiat_currencies[$btc_fiat_pairing]?><?=$parsed_coin_worth_inc_leverage?>)</p>'
+			+'<p class="coin_info"><span class="yellow">Total (<?=($leverage_level)?>x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_primary_currency?><?=$parsed_inc_leverage_gain_loss?> / <?=( $gain_loss >= 0 ? '+' : '' )?><?=$pretty_leverage_gain_loss_percent?>%</span> (<?=( $coin_worth_inc_leverage >= 0 ? '' : '-' )?><?=$bitcoin_market_currencies[$btc_primary_currency_pairing]?><?=$parsed_coin_worth_inc_leverage?>)</p>'
 			
 				
 			+'<p class="coin_info"><span class="yellow"> </span></p>';

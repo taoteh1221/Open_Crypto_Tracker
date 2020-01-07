@@ -15,6 +15,23 @@
 	
 	$other_error_logs .= $_SESSION['other_error'];
 	
+	
+	if ( $debug_mode != 'off' ) {
+	
+	
+		foreach ( $_SESSION['cache_debugging'] as $error ) {
+		$other_error_logs .= $error;
+		}
+		
+		$other_error_logs .= $_SESSION['security_debugging'];
+		
+		$other_error_logs .= $_SESSION['cmc_config_debugging'];
+		
+		$other_error_logs .= $_SESSION['other_debugging'];
+		
+	
+	}
+
 
 ?>
             	

@@ -52,6 +52,36 @@
 	  </div>
 	  
 	  
+	
+	
+	<?php
+	$accord_var = 6;
+	?>
+	
+	  <div class="card z-depth-0 bordered">
+	    <div class="card-header" id="heading_<?=$accord_var?>">
+	      <h5 class="mb-0">
+	        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse_<?=$accord_var?>"
+	          aria-expanded="false" aria-controls="collapse_<?=$accord_var?>">
+	          
+	          Installing On Your Raspberry Pi Or Website, And Adding Your Own Coins
+	          
+	        </button>
+	      </h5>
+	    </div>
+	    <div id="collapse_<?=$accord_var?>" class="collapse" aria-labelledby="heading_<?=$accord_var?>"
+	      data-parent="#accordionHelp">
+	      <div class="card-body">
+	      
+	      
+	        If you install this application on your Raspberry Pi or website, you can add / delete / edit the coin list very easily. Instructions can be found in the <a href='README.txt' target='_blank'>README.txt file</a> (an automatic install script is available for setup on Raspberry Pi devices). 
+	        
+	        
+	      </div>
+	    </div>
+	  </div>
+	  
+	  
 	  
 	
 	
@@ -114,7 +144,7 @@
 	      
 	      
 	        
-	        You can setup charts or price alerts in your app install. Price alerts can be sent to email, mobile phone text, and amazon alexa notifications. You will be alerted when the <?=strtoupper($charts_alerts_btc_fiat_pairing)?> price of an asset goes up or down a certain percent or more (whatever percent you choose in the settings), for specific exchange / base pairing combinations for that asset. You can even setup alerts for multiple exchanges / base pairings for the same asset.
+	        You can setup charts or price alerts in your app install. Price alerts can be sent to email, mobile phone text, and amazon alexa notifications. You will be alerted when the <?=strtoupper($charts_alerts_btc_primary_currency_pairing)?> price of an asset goes up or down a certain percent or more (whatever percent you choose in the settings), for specific exchange / base pairing combinations for that asset. You can even setup alerts for multiple exchanges / base pairings for the same asset.
 	    <br /><br />
 	      Running charts or price alerts requires setting up a cron job on your Raspberry Pi or website server (this is automated for Raspberry Pi users who use the automated setup / install script), otherwise charts / alerts will not work. See the required settings in config.php, and instructions on cron job setup in the <a href='README.txt' target='_blank'>README.txt file</a>. Once setup, there is no need to keep your PC / Laptop turned on. The charts and price alerts run automatically from your website server. If you encounter errors or the charts / alerts don't work during setup, check the error logs file at /cache/logs/errors.log for errors in your configuration setup. Basic checks are performed and errors are reported there, and on the Settings page. 
 	        
@@ -176,36 +206,6 @@
 	      
 	       
 	        Either the asset has not been added to <a href='https://coinmarketcap.com' target='_blank'>coinmarketcap.com</a> yet, you forgot to add the URL slug in it's config section, or you need to increase the number of rankings to fetch in config.php in the settings section (200 rankings is the safe maximum to avoid getting your API requests throttled / blocked). 
-	        
-	        
-	      </div>
-	    </div>
-	  </div>
-	  
-	  
-	
-	
-	<?php
-	$accord_var = 6;
-	?>
-	
-	  <div class="card z-depth-0 bordered">
-	    <div class="card-header" id="heading_<?=$accord_var?>">
-	      <h5 class="mb-0">
-	        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse_<?=$accord_var?>"
-	          aria-expanded="false" aria-controls="collapse_<?=$accord_var?>">
-	          
-	          Installing On Your Raspberry Pi Or Website, And Adding Your Own Coins
-	          
-	        </button>
-	      </h5>
-	    </div>
-	    <div id="collapse_<?=$accord_var?>" class="collapse" aria-labelledby="heading_<?=$accord_var?>"
-	      data-parent="#accordionHelp">
-	      <div class="card-body">
-	      
-	      
-	        If you install this application on your Raspberry Pi or website, you can add / delete / edit the coin list very easily. Instructions can be found in the <a href='README.txt' target='_blank'>README.txt file</a> (an automatic install script is available for setup on Raspberry Pi devices). 
 	        
 	        
 	      </div>

@@ -171,19 +171,19 @@ var sat_target = Number(document.getElementById("sat_target").value);
 	}
 
 
-var target_fiat = ( num_total * btc_fiat_value );
+var target_primary_currency = ( num_total * btc_market_value );
 
-var target_total_fiat = ( (to_trade_amount * num_total) * btc_fiat_value );
+var target_total_primary_currency = ( (to_trade_amount * num_total) * btc_market_value );
 
 
-document.getElementById("target_fiat").innerHTML = target_fiat.toLocaleString(undefined, {
+document.getElementById("target_primary_currency").innerHTML = target_primary_currency.toLocaleString(undefined, {
   minimumFractionDigits: 8,
   maximumFractionDigits: 8
 });
 
 document.getElementById("target_btc").innerHTML = num_total;
 
-document.getElementById("target_total_fiat").innerHTML = target_total_fiat.toLocaleString(undefined, {
+document.getElementById("target_total_primary_currency").innerHTML = target_total_primary_currency.toLocaleString(undefined, {
   minimumFractionDigits: 2,
   maximumFractionDigits: 2
 });

@@ -417,6 +417,7 @@ $words = explode(" ",$string);
 
 $pretty_string = preg_replace("/btc/i", 'BTC', $pretty_string);
 $pretty_string = preg_replace("/coin/i", 'Coin', $pretty_string);
+$pretty_string = preg_replace("/bitcoin/i", 'Bitcoin', $pretty_string);
 $pretty_string = preg_replace("/exchange/i", 'Exchange', $pretty_string);
 $pretty_string = preg_replace("/market/i", 'Market', $pretty_string);
 $pretty_string = preg_replace("/forex/i", 'Forex', $pretty_string);
@@ -1026,10 +1027,10 @@ return $base_url;
 
 function chart_data($file, $chart_format) {
 
-global $fiat_decimals_max, $charts_alerts_btc_fiat_pairing, $fiat_currencies;
+global $primary_currency_decimals_max, $charts_alerts_btc_primary_currency_pairing, $bitcoin_market_currencies;
 
 
-	if ( array_key_exists($chart_format, $fiat_currencies) ) {
+	if ( array_key_exists($chart_format, $bitcoin_market_currencies) ) {
 	$fiat_formatting = 1;
 	}
 	elseif ( $chart_format == 'system' ) {
@@ -1064,7 +1065,7 @@ $fn = fopen($file,"r");
          
             // Format or round Fiat / stablecoin price depending on value (non-stablecoin crypto values are already stored in the format we want for the interface)
             if ( $fiat_formatting == 1 ) {
-            $data['spot'] .= ( float_to_string($result[1]) >= 1.00 ? number_format((float)$result[1], 2, '.', '')  :  round($result[1], $fiat_decimals_max)  ) . ',';
+            $data['spot'] .= ( float_to_string($result[1]) >= 1.00 ? number_format((float)$result[1], 2, '.', '')  :  round($result[1], $primary_currency_decimals_max)  ) . ',';
             $data['volume'] .= round($result[2]) . ',';
             }
             // Non-fiat-or-stablecoin crypto
@@ -1159,12 +1160,12 @@ function update_cookies($set_coin_values, $set_pairing_values, $set_market_value
                unset($_COOKIE['alert_percent']);  // Delete any existing cookies
                }
               
-               if ( $_POST['fiat_market_standalone'] != NULL ) {
-               store_cookie_contents("fiat_market_standalone", $_POST['fiat_market_standalone'], mktime()+31536000);
+               if ( $_POST['primary_currency_market_standalone'] != NULL ) {
+               store_cookie_contents("primary_currency_market_standalone", $_POST['primary_currency_market_standalone'], mktime()+31536000);
                }
                else {
-               store_cookie_contents("fiat_market_standalone", "", time()-3600);  // Delete any existing cookies
-               unset($_COOKIE['fiat_market_standalone']);  // Delete any existing cookies
+               store_cookie_contents("primary_currency_market_standalone", "", time()-3600);  // Delete any existing cookies
+               unset($_COOKIE['primary_currency_market_standalone']);  // Delete any existing cookies
                }
               
            	
@@ -1208,7 +1209,7 @@ function delete_all_cookies() {
   store_cookie_contents("theme_selected", "", time()-3600);  
   store_cookie_contents("sort_by", "", time()-3600);  
   store_cookie_contents("alert_percent", "", time()-3600); 
-  store_cookie_contents("fiat_market_standalone", "", time()-3600); 
+  store_cookie_contents("primary_currency_market_standalone", "", time()-3600); 
   
   
   // --------------------------
@@ -1230,7 +1231,7 @@ function delete_all_cookies() {
   unset($_COOKIE['theme_selected']);  
   unset($_COOKIE['sort_by']);  
   unset($_COOKIE['alert_percent']);  
-  unset($_COOKIE['fiat_market_standalone']);  
+  unset($_COOKIE['primary_currency_market_standalone']);  
  
  
 }
@@ -2291,8 +2292,8 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 
 function api_data($mode, $request, $ttl, $api_server=null, $post_encoding=3, $test_proxy=NULL, $headers=NULL) { // Default to JSON encoding post requests (most used)
 
-// $btc_fiat_pairing / $btc_exchange / $btc_fiat_value INCLUDED FOR TRACE DEBUGGING (TRACING)
-global $base_dir, $btc_fiat_pairing, $btc_exchange, $btc_fiat_value, $limited_apis, $tld_map, $debug_mode, $api_timeout, $api_strict_ssl, $proxy_login, $proxy_list, $user_agent;
+// $btc_primary_currency_pairing / $btc_primary_exchange / $btc_market_value INCLUDED FOR TRACE DEBUGGING (TRACING)
+global $base_dir, $btc_primary_currency_pairing, $btc_primary_exchange, $btc_market_value, $limited_apis, $tld_map, $debug_mode, $api_timeout, $api_strict_ssl, $proxy_login, $proxy_list, $user_agent;
 
 $cookie_jar = tempnam('/tmp','cookie');
 	
@@ -2323,7 +2324,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 			$_SESSION[$tld_session_prefix . '_calls'] = 1;
 			}
 			elseif ( $_SESSION[$tld_session_prefix . '_calls'] == 1 ) {
-			usleep(1150000); // Throttle 1.15 seconds
+			usleep(1550000); // Throttle 1.55 seconds
 			}
 
 		}
@@ -2452,7 +2453,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 				$error_response_log = '/cache/logs/errors/api/error-response-'.preg_replace("/\./", "_", $endpoint_tld).'-'.$hash_check.'.log';
 			
 				// LOG-SAFE VERSION (no post data with API keys etc)
-				app_logging( 'api_data_error', 'POSSIBLE error response received for ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint request at ' . $request ), 'request attempt from: server (local timeout setting ' . $api_timeout . ' seconds); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; log_file: ' . $error_response_log . '; btc_fiat_pairing: ' . $btc_fiat_pairing . '; btc_exchange: ' . $btc_exchange . '; btc_fiat_value: ' . $btc_fiat_value . ';' );
+				app_logging( 'api_data_error', 'POSSIBLE error response received for ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint request at ' . $request ), 'request attempt from: server (local timeout setting ' . $api_timeout . ' seconds); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; log_file: ' . $error_response_log . '; btc_primary_currency_pairing: ' . $btc_primary_currency_pairing . '; btc_primary_exchange: ' . $btc_primary_exchange . '; btc_market_value: ' . $btc_market_value . ';' );
 			
 				// Log this error response from this data request
 				store_file_contents($base_dir . $error_response_log, $data);

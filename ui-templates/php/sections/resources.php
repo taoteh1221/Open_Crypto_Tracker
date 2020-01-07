@@ -26,7 +26,7 @@
 						<i>LITERALLY nearly 99% of all tokens</i> listed on Coinmarketcap.com (OR any other site) are either scams, garbage, or dead ends. Tread VERY carefully when investing, and RESEARCH AT LENGTH BEFOREHAND (that does NOT included listening to some CEO or founder sweet talk their own token, tell you how competing systems suck and their system is better, or explain how them owning over 50% of the total coin supply is not out of greed). :-o
 	
 
-						<br /><br /><a href="https://twitter.com/taoteh1221/status/1191548821752438784" target="_blank"><img src='ui-templates/media/images/twitter-1191548821752438784.png' width='414' border='0' /></a>
+						<br /><br /><a href="https://twitter.com/taoteh1221/status/1191548821752438784" target="_blank"><img src='ui-templates/media/images/twitter-1191548821752438784.jpg' width='414' border='0' /></a>
 						
 						</p>
 		

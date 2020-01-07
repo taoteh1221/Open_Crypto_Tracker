@@ -12,7 +12,7 @@ $(".chart_wrapper").css({ "border": '2px solid ' + window.charts_border });
 
 
 // Dynamic table header updating
-$("span.btc_fiat_pairing").html(window.btc_fiat_pairing); 
+$("span.btc_primary_currency_pairing").html(window.btc_primary_currency_pairing); 
 
 
 	////////////////////////////////////////////////////////

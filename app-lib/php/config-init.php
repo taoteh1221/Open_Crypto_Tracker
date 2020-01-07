@@ -14,104 +14,8 @@ error_reporting(1); // If debugging is enabled, turn on all PHP error reporting 
 }
 
 
-
-// Currencies SUPPORTED BY coinmarketcap.com (coingecko.com can be determined differently)
-$marketcap_currencies = array(
-                                'USD',
-                                'ALL',
-                                'DZD',
-                                'ARS',
-                                'AMD',
-                                'AUD',
-                                'AZN',
-                                'BHD',
-                                'BDT',
-                                'BYN',
-                                'BMD',
-                                'BOB',
-                                'BAM',
-                                'BRL',
-                                'BGN',
-                                'KHR',
-                                'CAD',
-                                'CLP',
-                                'CNY',
-                                'COP',
-                                'CRC',
-                                'HRK',
-                                'CUP',
-                                'CZK',
-                                'DKK',
-                                'DOP',
-                                'EGP',
-                                'EUR',
-                                'GEL',
-                                'GHS',
-                                'GTQ',
-                                'HNL',
-                                'HKD',
-                                'HUF',
-                                'ISK',
-                                'INR',
-                                'IDR',
-                                'IRR',
-                                'IQD',
-                                'ILS',
-                                'JMD',
-                                'JPY',
-                                'JOD',
-                                'KZT',
-                                'KES',
-                                'KWD',
-                                'KGS',
-                                'LBP',
-                                'MKD',
-                                'MYR',
-                                'MUR',
-                                'MXN',
-                                'MDL',
-                                'MNT',
-                                'MAD',
-                                'MMK',
-                                'NAD',
-                                'NPR',
-                                'TWD',
-                                'NZD',
-                                'NIO',
-                                'NGN',
-                                'NOK',
-                                'OMR',
-                                'PKR',
-                                'PAB',
-                                'PEN',
-                                'PHP',
-                                'PLN',
-                                'GBP',
-                                'QAR',
-                                'RON',
-                                'RUB',
-                                'SAR',
-                                'RSD',
-                                'SGD',
-                                'ZAR',
-                                'KRW',
-                                'SSP',
-                                'VES',
-                                'LKR',
-                                'SEK',
-                                'CHF',
-                                'THB',
-                                'TTD',
-                                'TND',
-                                'TRY',
-                                'UGX',
-                                'UAH',
-                                'AED',
-                                'UYU',
-                                'UZS',
-                                'VND',
-										);
-
+// Load coinmarketcap supported currencies
+require_once("app-lib/php/other/coinmarketcap-currencies.php");
 
 
 // Clear stale LOGS / MARKETS / CHAIN DATA API data from cache (run daily, or if runtime is cron)
@@ -150,7 +54,7 @@ $crypto_to_crypto_pairing = array_merge( array('btc' => 'Ƀ ') , $crypto_to_cryp
 if (is_array($coins_list) || is_object($coins_list)) {
     
     $coins_list['MISCASSETS'] = array(
-                                        'coin_name' => 'Misc. '.strtoupper($btc_fiat_pairing).' Value',
+                                        'coin_name' => 'Misc. '.strtoupper($btc_primary_currency_pairing).' Value',
                                         'marketcap_website_slug' => '',
                                         'market_pairing' => array()
                                         );
@@ -160,7 +64,7 @@ if (is_array($coins_list) || is_object($coins_list)) {
             $coins_list['MISCASSETS']['market_pairing'][$pairing_key] = array('fiat_assets' => $pairing_key);
             }
             
-            foreach ( $fiat_currencies as $pairing_key => $pairing_unused ) {
+            foreach ( $bitcoin_market_currencies as $pairing_key => $pairing_unused ) {
             $coins_list['MISCASSETS']['market_pairing'][$pairing_key] = array('fiat_assets' => $pairing_key);
             }
     
@@ -191,38 +95,43 @@ if (is_array($coins_list) || is_object($coins_list)) {
     
     
     
-// Clean / auto-correct $btc_fiat_pairing and $btc_exchange BEFORE BELOW CHARTS/ALERTS LOGIC
-$btc_fiat_pairing = cleanup_config($btc_fiat_pairing, 'lower');
-$btc_exchange = cleanup_config($btc_exchange, 'lower');
+// Clean / auto-correct $btc_primary_currency_pairing and $btc_primary_exchange BEFORE BELOW CHARTS/ALERTS LOGIC
+$btc_primary_currency_pairing = cleanup_config($btc_primary_currency_pairing, 'lower');
+$btc_primary_exchange = cleanup_config($btc_primary_exchange, 'lower');
 
 
 
 // Get chart/alert defaults before default Bitcoin market is dynamically manipulated
 // We NEVER change BTC / currency_market value FOR CHARTS/ALERTS, 
-// so move the default $btc_fiat_pairing / $btc_exchange values into their own chart/alerts related variables,
-// before dynamic updating of $btc_fiat_pairing / $btc_exchange
-$charts_alerts_btc_fiat_pairing = $btc_fiat_pairing; 
-$charts_alerts_btc_exchange = $btc_exchange;
+// so move the default $btc_primary_currency_pairing / $btc_primary_exchange values into their own chart/alerts related variables,
+// before dynamic updating of $btc_primary_currency_pairing / $btc_primary_exchange
+$charts_alerts_btc_primary_currency_pairing = $btc_primary_currency_pairing; 
+$charts_alerts_btc_primary_exchange = $btc_primary_exchange;
 
 
 
-// If Stand-Alone Fiat Currency Market has been enabled (Settings page), REPLACE/OVERWRITE Bitcoin market config defaults
-if ( $_POST['fiat_market_standalone'] || $_COOKIE['fiat_market_standalone'] ) {
-$fiat_market_standalone = explode("|", ( $_POST['fiat_market_standalone'] != '' ? $_POST['fiat_market_standalone'] : $_COOKIE['fiat_market_standalone'] ) );
-$btc_fiat_pairing = $fiat_market_standalone[0]; // MUST RUN !BEFORE! btc_market() CALL BELOW, OR INCORRECT VALUE DETERMINED FOR btc_market() CALL
-$btc_exchange = btc_market($fiat_market_standalone[1] - 1);
+// If Stand-Alone Currency Market has been enabled (Settings page), REPLACE/OVERWRITE Bitcoin market config defaults
+if ( $_POST['primary_currency_market_standalone'] || $_COOKIE['primary_currency_market_standalone'] ) {
+$primary_currency_market_standalone = explode("|", ( $_POST['primary_currency_market_standalone'] != '' ? $_POST['primary_currency_market_standalone'] : $_COOKIE['primary_currency_market_standalone'] ) );
+$btc_primary_currency_pairing = $primary_currency_market_standalone[0]; // MUST RUN !BEFORE! btc_market() CALL BELOW, OR INCORRECT VALUE DETERMINED FOR btc_market() CALL
+$btc_primary_exchange = btc_market($primary_currency_market_standalone[1] - 1);
+
+	if (is_array($coins_list) || is_object($coins_list)) {
+   $coins_list['MISCASSETS']['coin_name'] = 'Misc. '.strtoupper($btc_primary_currency_pairing).' Value';
+   }
+     		
 }
 
 
 
-// Set BTC / currency_market dynamic value, IF $fiat_market_standalone NOT SET
+// Set BTC / currency_market dynamic value, IF $primary_currency_market_standalone NOT SET
 
-if ( sizeof($fiat_market_standalone) != 2 && $_SESSION['btc_fiat_pairing'] ) {
-$btc_fiat_pairing = $_SESSION['btc_fiat_pairing'];
+if ( sizeof($primary_currency_market_standalone) != 2 && $_SESSION['btc_primary_currency_pairing'] ) {
+$btc_primary_currency_pairing = $_SESSION['btc_primary_currency_pairing'];
 }
 
-if ( sizeof($fiat_market_standalone) != 2 && $_SESSION['btc_exchange'] ) {
-$btc_exchange = $_SESSION['btc_exchange'];
+if ( sizeof($primary_currency_market_standalone) != 2 && $_SESSION['btc_primary_exchange'] ) {
+$btc_primary_exchange = $_SESSION['btc_primary_exchange'];
 }
 
 
@@ -231,9 +140,9 @@ $btc_exchange = $_SESSION['btc_exchange'];
 
 // Cleaning lowercase alphanumeric string values
 $debug_mode = cleanup_config($debug_mode, 'lower');
-$btc_fiat_pairing = cleanup_config($btc_fiat_pairing, 'lower');
-$btc_exchange = cleanup_config($btc_exchange, 'lower');
-$marketcap_site = cleanup_config($marketcap_site, 'lower');
+$btc_primary_currency_pairing = cleanup_config($btc_primary_currency_pairing, 'lower');
+$btc_primary_exchange = cleanup_config($btc_primary_exchange, 'lower');
+$primary_marketcap_site = cleanup_config($primary_marketcap_site, 'lower');
 $block_volume_error = cleanup_config($block_volume_error, 'lower');
 $api_strict_ssl = cleanup_config($api_strict_ssl, 'lower');
 $charts_page = cleanup_config($charts_page, 'lower');
@@ -265,20 +174,36 @@ $mobile_networks = $cleaned_mobile_networks;
 
 
 // MUST be called FIRST at runtime by the default bitcoin market, to set this var for reuse later in runtime
-$selected_pairing_id = $coins_list['BTC']['market_pairing'][$btc_fiat_pairing][$btc_exchange];
-$btc_fiat_value = asset_market_data('BTC', $btc_exchange, $selected_pairing_id)['last_trade'];
+$selected_pairing_id = $coins_list['BTC']['market_pairing'][$btc_primary_currency_pairing][$btc_primary_exchange];
+$btc_market_value = asset_market_data('BTC', $btc_primary_exchange, $selected_pairing_id)['last_trade'];
 
-$charts_alerts_selected_pairing_id = $coins_list['BTC']['market_pairing'][$charts_alerts_btc_fiat_pairing][$charts_alerts_btc_exchange];
-$charts_alerts_btc_fiat_value = asset_market_data('BTC', $charts_alerts_btc_exchange, $charts_alerts_selected_pairing_id)['last_trade'];
+$charts_alerts_selected_pairing_id = $coins_list['BTC']['market_pairing'][$charts_alerts_btc_primary_currency_pairing][$charts_alerts_btc_primary_exchange];
+$charts_alerts_btc_market_value = asset_market_data('BTC', $charts_alerts_btc_primary_exchange, $charts_alerts_selected_pairing_id)['last_trade'];
+
 
 // Log any Bitcoin market errors
-if ( !isset($btc_fiat_value) || $btc_fiat_value == 0 ) {
-app_logging('other_error', 'config-init.php Bitcoin fiat value not properly set', 'exchange: ' . $btc_exchange . '; pairing_id: ' . $selected_pairing_id . '; value: ' . $btc_fiat_value );
+if ( !$coins_list['BTC']['market_pairing'][$btc_primary_currency_pairing] ) {
+app_logging('other_error', 'config-init.php btc_primary_currency_pairing variable not properly set', 'btc_primary_currency_pairing: ' . $btc_primary_currency_pairing . ';' );
+}
+elseif ( !$coins_list['BTC']['market_pairing'][$btc_primary_currency_pairing][$btc_primary_exchange] ) {
+app_logging('other_error', 'config-init.php btc_primary_exchange variable not properly set', 'btc_primary_exchange: ' . $btc_primary_exchange . ';' );
 }
 
+if ( !isset($btc_market_value) || $btc_market_value == 0 ) {
+app_logging('other_error', 'config-init.php Bitcoin fiat market value not properly set', 'btc_primary_currency_pairing: ' . $btc_primary_currency_pairing . '; exchange: ' . $btc_primary_exchange . '; pairing_id: ' . $selected_pairing_id . '; value: ' . $btc_market_value );
+}
+
+
 // Log any charts/alerts Bitcoin market errors
-if ( !isset($charts_alerts_btc_fiat_value) || $charts_alerts_btc_fiat_value == 0 ) {
-app_logging('other_error', 'config-init.php Charts / alerts Bitcoin fiat value not properly set', 'exchange: ' . $charts_alerts_btc_exchange . '; pairing_id: ' . $charts_alerts_selected_pairing_id . '; value: ' . $charts_alerts_btc_fiat_value );
+if ( !$coins_list['BTC']['market_pairing'][$charts_alerts_btc_primary_currency_pairing] ) {
+app_logging('other_error', 'config-init.php Charts / alerts btc_primary_currency_pairing variable not properly set', 'btc_primary_currency_pairing: ' . $charts_alerts_btc_primary_currency_pairing . ';' );
+}
+elseif ( !$coins_list['BTC']['market_pairing'][$charts_alerts_btc_primary_currency_pairing][$charts_alerts_btc_primary_exchange] ) {
+app_logging('other_error', 'config-init.php Charts / alerts btc_primary_exchange variable not properly set', 'btc_primary_exchange: ' . $charts_alerts_btc_primary_exchange . ';' );
+}
+
+if ( !isset($charts_alerts_btc_market_value) || $charts_alerts_btc_market_value == 0 ) {
+app_logging('other_error', 'config-init.php Charts / alerts Bitcoin fiat market value not properly set', 'btc_primary_currency_pairing: ' . $charts_alerts_btc_primary_currency_pairing . '; exchange: ' . $charts_alerts_btc_primary_exchange . '; pairing_id: ' . $charts_alerts_selected_pairing_id . '; value: ' . $charts_alerts_btc_market_value );
 }
 	
 
@@ -329,7 +254,7 @@ if ( $runtime_mode == 'ui' ) {
 require_once( $base_dir . "/app-lib/php/other/cookies.php");
 
 
-$marketcap_site = ( $alert_percent[0] != '' ? $alert_percent[0] : $marketcap_site );
+$primary_marketcap_site = ( $alert_percent[0] != '' ? $alert_percent[0] : $primary_marketcap_site );
 
 
 }
@@ -471,6 +396,7 @@ $charts_update_freq = ( $charts_update_freq != '' ? $charts_update_freq : trim( 
 // Unit tests to run in debug mode, !AFTER! loading init / config-init logic
 if ( $debug_mode != 'off' ) {
 require_once("app-lib/php/debugging/tests.php");
+require_once("app-lib/php/debugging/exchange-and-pairing-info.php");
 }
 
 

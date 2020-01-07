@@ -34,7 +34,7 @@ if ( $runtime_mode == 'ui' ) {
 			app_logging( 'other_error', 'No chart / alert price data available', 'chart_key: ' . $key . '; market: ' . $check_asset . ' / ' . strtoupper($check_asset_params[1]) . ' @ ' . ucfirst($check_asset_params[0]) );
 			}
 			
-			if ( $charts_test_data['24hr_fiat_volume'] == NULL || $charts_test_data['24hr_fiat_volume'] < 1 ) {
+			if ( $charts_test_data['24hr_primary_currency_volume'] == NULL || $charts_test_data['24hr_primary_currency_volume'] < 1 ) {
 			app_logging( 'other_error', 'No chart / alert volume data available', 'chart_key: ' . $key . '; market: ' . $check_asset . ' / ' . strtoupper($check_asset_params[1]) . ' @ ' . ucfirst($check_asset_params[0]) );
 			}
 				
@@ -88,7 +88,7 @@ if ( $runtime_mode == 'ui' ) {
 						app_logging( 'other_error', 'No market price data available', strtoupper($coin_key) . ' / ' . strtoupper($pairing_key) . ' @ ' . name_rendering($key) );
 						}
 					
-						if ( $markets_test_data['24hr_fiat_volume'] == NULL || $markets_test_data['24hr_fiat_volume'] < 1 ) {
+						if ( $markets_test_data['24hr_primary_currency_volume'] == NULL || $markets_test_data['24hr_primary_currency_volume'] < 1 ) {
 						app_logging( 'other_error', 'No market volume data available', strtoupper($coin_key) . ' / ' . strtoupper($pairing_key) . ' @ ' . name_rendering($key) );
 						}
 					
