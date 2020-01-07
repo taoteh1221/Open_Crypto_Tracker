@@ -1434,7 +1434,7 @@ global $btc_primary_currency_value, $coins_list, $last_trade_cache;
 
 
 
-  elseif ( strtolower($chosen_exchange) == 'btc_market_assets' ) {
+  elseif ( strtolower($chosen_exchange) == 'misc_assets' ) {
 	
   // BTC value of 1 unit of the default primary currency
   $currency_to_btc = ( 1 / $btc_primary_currency_value );		

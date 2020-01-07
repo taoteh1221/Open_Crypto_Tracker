@@ -61,11 +61,11 @@ if (is_array($coins_list) || is_object($coins_list)) {
             
             
             foreach ( $crypto_to_crypto_pairing as $pairing_key => $pairing_unused ) {
-            $coins_list['MISCASSETS']['market_pairing'][$pairing_key] = array('btc_market_assets' => $pairing_key);
+            $coins_list['MISCASSETS']['market_pairing'][$pairing_key] = array('misc_assets' => $pairing_key);
             }
             
             foreach ( $bitcoin_market_currencies as $pairing_key => $pairing_unused ) {
-            $coins_list['MISCASSETS']['market_pairing'][$pairing_key] = array('btc_market_assets' => $pairing_key);
+            $coins_list['MISCASSETS']['market_pairing'][$pairing_key] = array('misc_assets' => $pairing_key);
             }
     
 }

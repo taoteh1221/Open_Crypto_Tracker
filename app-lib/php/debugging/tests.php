@@ -79,7 +79,7 @@ if ( $runtime_mode == 'ui' ) {
 			
 				foreach ( $pairing_value as $key => $value ) {
 				
-					if ( $key != 'btc_market_assets' ) {
+					if ( $key != 'misc_assets' ) {
 					
 					// Consolidate function calls for runtime speed improvement
 					$markets_test_data = asset_market_data( strtoupper($coin_key) , $key, $value, $pairing_key);
