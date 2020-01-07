@@ -9,7 +9,7 @@
 				<br />
 				Current <?=$calculation_form_data[0]?> Value Per Coin: 
 				<?php
-				echo ( $calculation_form_data[1] == 'btc' ? number_format($btc_market_value, 2) . ' ' . strtoupper($btc_primary_currency_pairing) : number_format($mined_coin_value, 8) . ' BTC (' . $bitcoin_market_currencies[$btc_primary_currency_pairing] . round( $mined_coin_value * $btc_market_value , 8) . ' '.strtoupper($btc_primary_currency_pairing).')' );
+				echo ( $calculation_form_data[1] == 'btc' ? number_format($btc_primary_currency_value, 2) . ' ' . strtoupper($btc_primary_currency_pairing) : number_format($mined_coin_value, 8) . ' BTC (' . $bitcoin_market_currencies[$btc_primary_currency_pairing] . round( $mined_coin_value * $btc_primary_currency_value , 8) . ' '.strtoupper($btc_primary_currency_pairing).')' );
 				?>
 				
 				<br />

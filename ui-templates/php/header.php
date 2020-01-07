@@ -83,7 +83,7 @@ require("config.php");
 	
 	var charts_border = '<?=$charts_border?>';
 	
-	var btc_market_value = '<?=number_format( $btc_market_value, 2, '.', '' )?>';
+	var btc_primary_currency_value = '<?=number_format( $btc_primary_currency_value, 2, '.', '' )?>';
 	
 	var btc_primary_currency_pairing = '<?=strtoupper($btc_primary_currency_pairing)?>';
 	

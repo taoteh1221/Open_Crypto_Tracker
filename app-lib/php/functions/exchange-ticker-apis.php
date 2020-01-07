@@ -16,7 +16,7 @@
 function asset_market_data($asset_symbol, $chosen_exchange, $market_id, $pairing=false) { 
 
 
-global $btc_market_value, $coins_list, $last_trade_cache;
+global $btc_primary_currency_value, $coins_list, $last_trade_cache;
  
  
  
@@ -1438,7 +1438,7 @@ global $btc_market_value, $coins_list, $last_trade_cache;
   elseif ( strtolower($chosen_exchange) == 'fiat_assets' ) {
 	
   // BTC value of 1 unit of the default primary currency
-  $fiat_to_btc = ( 1 / $btc_market_value );		
+  $fiat_to_btc = ( 1 / $btc_primary_currency_value );		
 	
 	  // BTC pairing
 	  if ( $market_id == 'btc' ) {

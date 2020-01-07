@@ -5,15 +5,12 @@
 
 
 
-// UNIT TESTS
 
-
-// ONLY RUN THESE UNIT TESTS IF RUNTIME IS UI (web page loading)
 if ( $runtime_mode == 'ui' ) {
 
 
 
-	// Print out exchange config
+	// Print out bitcoin markets configuration
 	if ( $debug_mode == 'all' || $debug_mode == 'btc_markets_config' ) {
 		
 		

@@ -278,12 +278,13 @@ global $btc_primary_currency_pairing, $api_timeout, $coinmarketcapcom_api_key, $
 		
 		if ( in_array($coinmarketcap_primary_currency, $coinmarketcap_currencies) ) {
 		$convert = $coinmarketcap_primary_currency;
+		$_SESSION['cap_data_force_usd'] = NULL;
 		}
 		// Default to USD, if currency is not supported
 		else {
 		$_SESSION['cmc_notes'] = 'Coinmarketcap.com does not support '.$coinmarketcap_primary_currency.' stats,<br />showing USD stats instead.';
 		$convert = 'USD';
-		$_SESSION['cap_data_force'] = 1;
+		$_SESSION['cap_data_force_usd'] = 1;
 		}
 		
 	

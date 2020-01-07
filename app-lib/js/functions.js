@@ -171,9 +171,9 @@ var sat_target = Number(document.getElementById("sat_target").value);
 	}
 
 
-var target_primary_currency = ( num_total * btc_market_value );
+var target_primary_currency = ( num_total * btc_primary_currency_value );
 
-var target_total_primary_currency = ( (to_trade_amount * num_total) * btc_market_value );
+var target_total_primary_currency = ( (to_trade_amount * num_total) * btc_primary_currency_value );
 
 
 document.getElementById("target_primary_currency").innerHTML = target_primary_currency.toLocaleString(undefined, {

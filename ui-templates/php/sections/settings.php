@@ -112,11 +112,11 @@
 
 					<select onchange='
 					
-					 fiat_primary_currency = this.value;
-					 primary_currency_market = $("#" + fiat_primary_currency + "btcfiat_pairs").val();
-					 fiat_selected_market = $("#" + fiat_primary_currency + "BTC_pairs option:selected").val();
-					 fiat_selected_market_standalone = $("#" + fiat_primary_currency + "btcfiat_pairs option:selected").val();
-					 fiat_exchanges_list = document.getElementById(fiat_primary_currency + "BTC_pairs");
+					 btc_primary_currency = this.value;
+					 primary_currency_market = $("#" + btc_primary_currency + "btcfiat_pairs").val();
+					 fiat_selected_market = $("#" + btc_primary_currency + "BTC_pairs option:selected").val();
+					 fiat_selected_market_standalone = $("#" + btc_primary_currency + "btcfiat_pairs option:selected").val();
+					 fiat_exchanges_list = document.getElementById(btc_primary_currency + "BTC_pairs");
 					
 				    
 				    exchange_name_ui = fiat_exchanges_list.options[fiat_exchanges_list.selectedIndex].text;
@@ -127,10 +127,10 @@
 				    alert("The " + exchange_name_ui + " exchange API is less reliable than some others (by NOT consolidating multiple / different asset price requests into one single call per session).\n\nIf you experience issues with primary currency values NOT displaying in this app when using the " + exchange_name_ui + " exchange market, try a different exchange market for your preferred primary currency, and the issue should go away.");
 				    }
 				    
-				    $("#fiat_primary_currency").val( fiat_primary_currency );
+				    $("#btc_primary_currency").val( btc_primary_currency );
 				    
 				    $("#primary_currency_market_id_lists").children().hide(); 
-				    $("#" + fiat_primary_currency + "btcfiat_pairs").show(); 
+				    $("#" + btc_primary_currency + "btcfiat_pairs").show(); 
 				    $("#primary_currency_market_id").val( fiat_selected_market_standalone );
 				    
 				    /////////////////////////////////////////////////////////
@@ -138,18 +138,18 @@
 				    // "Update assets" tab, mirroring of settings
 				    if ( document.getElementById("standalone_primary_currency_enabled").checked == false ) {
 				    
-				    $("#btc_pairing").val( fiat_primary_currency );
+				    $("#btc_pairing").val( btc_primary_currency );
 				    
 				    $("#btc_market_lists").children().hide(); 
-				    $("#" + fiat_primary_currency + "BTC_pairs").show(); 
+				    $("#" + btc_primary_currency + "BTC_pairs").show(); 
 				    $("#btc_market").val( fiat_selected_market );
 				    
 				    $("#btc_market").val( primary_currency_market ); // Set hidden field var
-				    $("#" + fiat_primary_currency + "BTC_pairs").val( primary_currency_market ); // Set selected drop down choice
+				    $("#" + btc_primary_currency + "BTC_pairs").val( primary_currency_market ); // Set selected drop down choice
 				    
 				    }
 				    else {
-				    $("#primary_currency_market_standalone").val( fiat_primary_currency + "|" + primary_currency_market );
+				    $("#primary_currency_market_standalone").val( btc_primary_currency + "|" + primary_currency_market );
 				    }
 				    
 				    '>
@@ -178,7 +178,7 @@
 				    
 				     @ 
 				    
-				    <input type='hidden' id='fiat_primary_currency' name='fiat_primary_currency' value='<?=$btc_primary_currency_pairing?>' />
+				    <input type='hidden' id='btc_primary_currency' name='btc_primary_currency' value='<?=$btc_primary_currency_pairing?>' />
 				     
 				    <input type='hidden' id='primary_currency_market_id' name='primary_currency_market_id' value='<?=$exchange_field_id?>' />
 				     
@@ -203,7 +203,7 @@
 				    alert("The " + exchange_name_ui + " exchange API is less reliable than some others (by NOT consolidating multiple / different asset price requests into one single call per session).\n\nIf you experience issues with primary currency values NOT displaying in this app when using the " + exchange_name_ui + " exchange market, try a different exchange market for your preferred primary currency, and the issue should go away.");
 				    }
 				    
-				    fiat_primary_currency = $("#fiat_primary_currency").val();
+				    btc_primary_currency = $("#btc_primary_currency").val();
 					 primary_currency_market = this.value;
 					 
 				    $("#primary_currency_market_id").val( primary_currency_market );
@@ -213,10 +213,10 @@
 				    // "Update assets" tab, mirroring of settings
 				    if ( document.getElementById("standalone_primary_currency_enabled").checked == false ) {
 				    $("#btc_market").val( primary_currency_market ); // Set hidden field var
-				    $("#" + fiat_primary_currency + "BTC_pairs").val( primary_currency_market ); // Set selected drop down choice
+				    $("#" + btc_primary_currency + "BTC_pairs").val( primary_currency_market ); // Set selected drop down choice
 				    }
 				    else {
-				    $("#primary_currency_market_standalone").val( fiat_primary_currency + "|" + primary_currency_market );
+				    $("#primary_currency_market_standalone").val( btc_primary_currency + "|" + primary_currency_market );
 				    }
 				    
 				    ' id='<?=$key?>btcfiat_pairs' style='display: <?=( $btc_primary_currency_pairing == $key ? 'inline' : 'none' )?>;'><?=$btc_market_list[$key]?>
@@ -230,7 +230,7 @@
 				    
 				    </span> <img id='fiat_info' src='ui-templates/media/images/info.png' alt='' width='30' border='0' style='position: relative; left: -5px;' /> <input type='checkbox' id='standalone_primary_currency_enabled' name='standalone_primary_currency_enabled' value='1' onchange='
 				    
-				    fiat_primary_currency = $("#fiat_primary_currency").val();
+				    btc_primary_currency = $("#btc_primary_currency").val();
 				    primary_currency_market = $("#primary_currency_market_id").val();
 				    
 				    /////////////////////////////////////////////////////////
@@ -239,19 +239,19 @@
 				    if ( this.checked == false ) {
 				    
 				    $("#btc_market_lists").children().hide(); 
-				    $("#" + fiat_primary_currency + "BTC_pairs").show(); 
-				    $("#btc_market").val( $("#" + fiat_primary_currency + "BTC_pairs option:selected").val() );
+				    $("#" + btc_primary_currency + "BTC_pairs").show(); 
+				    $("#btc_market").val( $("#" + btc_primary_currency + "BTC_pairs option:selected").val() );
 				    
-				    $("#btc_pairing").val( fiat_primary_currency );
+				    $("#btc_pairing").val( btc_primary_currency );
 				    	
 				    $("#btc_market").val( primary_currency_market ); // Set hidden field var
-				    $("#" + fiat_primary_currency + "BTC_pairs").val( primary_currency_market ); // Set selected drop down choice
+				    $("#" + btc_primary_currency + "BTC_pairs").val( primary_currency_market ); // Set selected drop down choice
 				    
 				    $("#primary_currency_market_standalone").val("");
 				    
 				    }
 				    else {
-				    $("#primary_currency_market_standalone").val( fiat_primary_currency + "|" + primary_currency_market );
+				    $("#primary_currency_market_standalone").val( btc_primary_currency + "|" + primary_currency_market );
 				    }
 				    
 				    

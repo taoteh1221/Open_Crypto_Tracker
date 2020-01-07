@@ -2292,8 +2292,8 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 
 function api_data($mode, $request, $ttl, $api_server=null, $post_encoding=3, $test_proxy=NULL, $headers=NULL) { // Default to JSON encoding post requests (most used)
 
-// $btc_primary_currency_pairing / $btc_primary_exchange / $btc_market_value INCLUDED FOR TRACE DEBUGGING (TRACING)
-global $base_dir, $btc_primary_currency_pairing, $btc_primary_exchange, $btc_market_value, $limited_apis, $tld_map, $debug_mode, $api_timeout, $api_strict_ssl, $proxy_login, $proxy_list, $user_agent;
+// $btc_primary_currency_pairing / $btc_primary_exchange / $btc_primary_currency_value INCLUDED FOR TRACE DEBUGGING (TRACING)
+global $base_dir, $btc_primary_currency_pairing, $btc_primary_exchange, $btc_primary_currency_value, $limited_apis, $tld_map, $debug_mode, $api_timeout, $api_strict_ssl, $proxy_login, $proxy_list, $user_agent;
 
 $cookie_jar = tempnam('/tmp','cookie');
 	
@@ -2453,7 +2453,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 				$error_response_log = '/cache/logs/errors/api/error-response-'.preg_replace("/\./", "_", $endpoint_tld).'-'.$hash_check.'.log';
 			
 				// LOG-SAFE VERSION (no post data with API keys etc)
-				app_logging( 'api_data_error', 'POSSIBLE error response received for ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint request at ' . $request ), 'request attempt from: server (local timeout setting ' . $api_timeout . ' seconds); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; log_file: ' . $error_response_log . '; btc_primary_currency_pairing: ' . $btc_primary_currency_pairing . '; btc_primary_exchange: ' . $btc_primary_exchange . '; btc_market_value: ' . $btc_market_value . ';' );
+				app_logging( 'api_data_error', 'POSSIBLE error response received for ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint request at ' . $request ), 'request attempt from: server (local timeout setting ' . $api_timeout . ' seconds); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; log_file: ' . $error_response_log . '; btc_primary_currency_pairing: ' . $btc_primary_currency_pairing . '; btc_primary_exchange: ' . $btc_primary_exchange . '; btc_primary_currency_value: ' . $btc_primary_currency_value . ';' );
 			
 				// Log this error response from this data request
 				store_file_contents($base_dir . $error_response_log, $data);
