@@ -808,6 +808,10 @@ $coins_list = array(
                                           'bitlish' => 'btcjpy'
                                                     ),
                                                     
+                                    'ltc' => array(
+                                          'localbitcoins' => 'LTC'
+                                                    ),
+                                                    
                                     'mxn' => array(
                                           'bitso' => 'btc_mxn'
                                                     ),
