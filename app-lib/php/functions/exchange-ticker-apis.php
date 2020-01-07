@@ -17,50 +17,6 @@ function asset_market_data($asset_symbol, $chosen_exchange, $market_id, $pairing
 
 
 global $btc_primary_currency_value, $coins_list, $last_trade_cache;
- 
- 
- 
- 
- ////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-  if ( strtolower($chosen_exchange) == 'coss' ) {
- 
-     
-     $json_string = 'https://trade.coss.io/v1/getmarketsummaries';
-     
-     $jsondata = @api_data('url', $json_string, $last_trade_cache);
-     
-     $data = json_decode($jsondata, TRUE);
-     
-     $data = $data['result'];
-     
-  
-      if (is_array($data) || is_object($data)) {
-  
-       foreach ($data as $key => $value) {
-    // var_dump($value);
-         
-         
-         if ( $data[$key]['MarketName'] == $market_id ) {
-          
-         return  array(
-    						'last_trade' => $data[$key]["Last"],
-    						'24hr_asset_volume' => $data[$key]["Volume"],
-    						'24hr_pairing_volume' => $data[$key]["BaseVolume"],
-    						'24hr_primary_currency_volume' => trade_volume($asset_symbol, $pairing, $data[$key]["Volume"], $data[$key]["Last"], $data[$key]["BaseVolume"])
-    						);
-
-         }
-       
-     
-       }
-      
-      }
-  
-  
-  }
   
  
  
@@ -68,7 +24,7 @@ global $btc_primary_currency_value, $coins_list, $last_trade_cache;
  
   
   
-  elseif ( strtolower($chosen_exchange) == 'bigone' ) {
+  if ( strtolower($chosen_exchange) == 'bigone' ) {
      
      $json_string = 'https://big.one/api/v2/tickers';
      
@@ -618,6 +574,49 @@ global $btc_primary_currency_value, $coins_list, $last_trade_cache;
     					'24hr_primary_currency_volume' => trade_volume($asset_symbol, $pairing, $data["volume"], $data['price'])
     					);
    
+  }
+ 
+ 
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+  elseif ( strtolower($chosen_exchange) == 'coss' ) {
+ 
+     
+     $json_string = 'https://trade.coss.io/v1/getmarketsummaries';
+     
+     $jsondata = @api_data('url', $json_string, $last_trade_cache);
+     
+     $data = json_decode($jsondata, TRUE);
+     
+     $data = $data['result'];
+     
+  
+      if (is_array($data) || is_object($data)) {
+  
+       foreach ($data as $key => $value) {
+    // var_dump($value);
+         
+         
+         if ( $data[$key]['MarketName'] == $market_id ) {
+          
+         return  array(
+    						'last_trade' => $data[$key]["Last"],
+    						'24hr_asset_volume' => $data[$key]["Volume"],
+    						'24hr_pairing_volume' => $data[$key]["BaseVolume"],
+    						'24hr_primary_currency_volume' => trade_volume($asset_symbol, $pairing, $data[$key]["Volume"], $data[$key]["Last"], $data[$key]["BaseVolume"])
+    						);
+
+         }
+       
+     
+       }
+      
+      }
+  
+  
   }
  
  

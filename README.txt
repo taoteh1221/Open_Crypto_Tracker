@@ -119,9 +119,9 @@ Below is an example for editing your assets / markets into the coin list in the 
 
 USAGE (ADDING / UPDATING COINS)
 
-Support for trading pairs (contact me to request more): AUD / BRL / BTC / CAD / CHF / ETH / EUR / GBP / HKD / JPY / NIS / LTC / RUB / SGD / TRY / TUSD (True USD) / USD / USDC / USDT (Tether) / XMR.
+Support for trading pairs (contact me to request more): AUD / BOB / BRL / CAD / CHF / COP / EUR / ETH / GBP / HKD / JPY / LTC / MXN / NIS / PKR / RUB / SGD / TRY / TUSD / USD / USDC / USDT / VND / XMR.
 
-Support for exchanges (contact me to request more): bigone / binance & binance_us / bit2c / bitfinex & ethfinex / bitforex / bitflyer / bitpanda / bitstamp  / bittrex & bittrex_global / braziliex / btcmarkets / btcturk / cex / coinbase / cryptofresh / gateio / gemini / graviex / hitbtc / hotbit / huobi / idex / kraken / kucoin / lakebtc / livecoin / okcoin / okex / poloniex / southxchange / tidebit / tradeogre / tradesatoshi / upbit.
+Support for exchanges (contact me to request more): bigone / binance & binance_us / bit2c / bitfinex & ethfinex / bitforex / bitflyer / bitlish / bitpanda / bitso / bitstamp  / bittrex & bittrex_global / braziliex / btcmarkets / btcturk / cex / coinbase / coss / cryptofresh / gateio / gemini / graviex / hitbtc / hotbit / huobi / idex / kraken / kucoin / lakebtc / livecoin / localbitcoins / okcoin / okex / poloniex / southxchange / tidebit / tradeogre / tradesatoshi / upbit.
 
 Ethereum ICO subtoken support has been built in, but values are static ICO values in ETH.
  
