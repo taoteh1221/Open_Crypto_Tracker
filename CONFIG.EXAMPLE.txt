@@ -58,7 +58,7 @@ $btc_primary_currency_pairing = 'usd';
 // MARKET PAIRING VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (to populate $btc_primary_currency_pairing directly above with)
 $btc_primary_exchange = 'kraken'; // SEE THE $limited_apis SETTING MUCH FURTHER DOWN, FOR EXCHANGES !NOT RECOMMENDED FOR USAGE HERE!
 
-// Maximum decimal places for fiat values of coins worth under 1.00 [usd/gbp/eur/jpy/brl/rub/etc], for prettier / less-cluttered interface
+// Maximum decimal places for [primary currency] values of coins worth under 1.00 [usd/gbp/eur/jpy/brl/rub/etc], for prettier / less-cluttered interface
 $primary_currency_decimals_max = 5; // IF YOU ADJUST $btc_primary_currency_pairing ABOVE, YOU MAY NEED TO ADJUST THIS ACCORDINGLY FOR !FUNCTIONAL! CHARTS / ALERTS
 
 // Default marketcap data source: 'coingecko', or 'coinmarketcap' (coinmarketcap requires a FREE API key, see below)
@@ -101,7 +101,7 @@ $system_stats = 'raspi'; // 'off' (disabled), 'on' (enabled for ANY system), 'ra
 
 
 // ENABLING CHARTS REQUIRES A CRON JOB SETUP (see README.txt for cron job setup information)
-// Caches the default fiat/stablecoin currency ($btc_primary_currency_pairing at top of this config) price + crypto price / volume data for charts 
+// Caches the default [primary currency] ($btc_primary_currency_pairing at top of this config) price + crypto price / volume data for charts 
 // of all assets added to $asset_charts_and_alerts (further down in this config file)
 // Enables a charts tab / page with historical charts. STILL EARLY CODE (AS OF 5/29/2019), MAY SLOW PAGE LOADS SIGNIFICANTLY UNTIL FURTHER OPTIMIZED
 // Disabling will disable EVERYTHING related to the charts features...the page, caching, even the javascript associated with the charts
@@ -176,7 +176,7 @@ $smtp_login = ''; //  CAN BE BLANK. This format MUST be used: 'username||passwor
 
 $smtp_server = ''; // CAN BE BLANK. This format MUST be used: 'domain_or_ip:port' example: 'example.com:25'
 
-$smtp_secure = ''; // CAN BE BLANK '' for no secure connection, or 'tls', or 'ssl' for secure connections. Make sure port number ABOVE corresponds
+$smtp_secure = 'tls'; // CAN BE BLANK '' for no secure connection, or 'tls', or 'ssl' for secure connections. Make sure port number ABOVE corresponds
 
 
 
@@ -215,7 +215,7 @@ $asset_price_alerts_percent = 7.5; // Price percent change to send alerts for (W
 $asset_price_alerts_freq = 10; // Re-allow same asset price alert(s) after X minutes (per asset, set higher if issues with blacklisting...can be 0)
 
 // Minimum 24 hour volume filter. Only allows sending price alerts if minimum 24 hour volume reached
-// CAN BE 0 TO DISABLE MINIMUM VOLUME FILTERING, NO DECIMALS OR SEPARATORS, NUMBERS ONLY, WITHOUT the fiat prefix symbol: 250 = $250 , 4500 = $4,500 , etc
+// CAN BE 0 TO DISABLE MINIMUM VOLUME FILTERING, NO DECIMALS OR SEPARATORS, NUMBERS ONLY, WITHOUT the [primary currency] prefix symbol: 250 = $250 , 4500 = $4,500 , etc
 // THIS FILTER WILL AUTO-DISABLE IF THERE IS AN ERROR RETRIEVING DATA ON A CERTAIN MARKET (WHEN NOT EVEN A ZERO IS RECEIVED)
 $asset_price_alerts_minvolume = 3000;
 
@@ -224,7 +224,7 @@ $asset_price_alerts_minvolume = 3000;
 $asset_price_alerts_refresh = 0; 
 
 // CHARTS / ASSET PRICE ALERTS SETUP REQUIRES A CRON JOB RUNNING ON YOUR WEBSITE SERVER (see README.txt for cron job setup information) 
-// Markets you want charts or asset price change alerts for (alerts sent when default fiat/stablecoin currency 
+// Markets you want charts or asset price change alerts for (alerts sent when default [primary currency] 
 // [$btc_primary_currency_pairing at top of this config] value change is equal to or above / below $asset_price_alerts_percent) 
 // Delete any double forward slashes from in front of each asset you want to enable charts / price alerts on (or add double slashes in front to disable it)
 // NOTE: This list must only contain assets / exchanges / trading pairs included in the primary coin list configuration further down in this config file

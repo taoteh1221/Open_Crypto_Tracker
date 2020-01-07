@@ -61,11 +61,11 @@ if (is_array($coins_list) || is_object($coins_list)) {
             
             
             foreach ( $crypto_to_crypto_pairing as $pairing_key => $pairing_unused ) {
-            $coins_list['MISCASSETS']['market_pairing'][$pairing_key] = array('fiat_assets' => $pairing_key);
+            $coins_list['MISCASSETS']['market_pairing'][$pairing_key] = array('btc_market_assets' => $pairing_key);
             }
             
             foreach ( $bitcoin_market_currencies as $pairing_key => $pairing_unused ) {
-            $coins_list['MISCASSETS']['market_pairing'][$pairing_key] = array('fiat_assets' => $pairing_key);
+            $coins_list['MISCASSETS']['market_pairing'][$pairing_key] = array('btc_market_assets' => $pairing_key);
             }
     
 }
@@ -190,7 +190,7 @@ app_logging('other_error', 'config-init.php btc_primary_exchange variable not pr
 }
 
 if ( !isset($btc_primary_currency_value) || $btc_primary_currency_value == 0 ) {
-app_logging('other_error', 'config-init.php Bitcoin fiat market value not properly set', 'btc_primary_currency_pairing: ' . $btc_primary_currency_pairing . '; exchange: ' . $btc_primary_exchange . '; pairing_id: ' . $selected_pairing_id . '; value: ' . $btc_primary_currency_value );
+app_logging('other_error', 'config-init.php Bitcoin primary currency market value not properly set', 'btc_primary_currency_pairing: ' . $btc_primary_currency_pairing . '; exchange: ' . $btc_primary_exchange . '; pairing_id: ' . $selected_pairing_id . '; value: ' . $btc_primary_currency_value );
 }
 
 
@@ -203,7 +203,7 @@ app_logging('other_error', 'config-init.php Charts / alerts btc_primary_exchange
 }
 
 if ( !isset($charts_alerts_btc_primary_currency_value) || $charts_alerts_btc_primary_currency_value == 0 ) {
-app_logging('other_error', 'config-init.php Charts / alerts Bitcoin fiat market value not properly set', 'btc_primary_currency_pairing: ' . $charts_alerts_btc_primary_currency_pairing . '; exchange: ' . $charts_alerts_btc_primary_exchange . '; pairing_id: ' . $charts_alerts_selected_pairing_id . '; value: ' . $charts_alerts_btc_primary_currency_value );
+app_logging('other_error', 'config-init.php Charts / alerts Bitcoin primary currency market value not properly set', 'btc_primary_currency_pairing: ' . $charts_alerts_btc_primary_currency_pairing . '; exchange: ' . $charts_alerts_btc_primary_exchange . '; pairing_id: ' . $charts_alerts_selected_pairing_id . '; value: ' . $charts_alerts_btc_primary_currency_value );
 }
 	
 

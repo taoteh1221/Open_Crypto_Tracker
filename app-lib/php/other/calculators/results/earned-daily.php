@@ -38,7 +38,7 @@
 				
 				Average BTC Value Earned Daily: 
 				<?php
-				echo number_format( $btc_daily_average_raw, 8 ) . ' BTC (' . $bitcoin_market_currencies[$btc_primary_currency_pairing] . number_format( $fiat_daily_average_raw , 2) . ' '.strtoupper($btc_primary_currency_pairing).')';
+				echo number_format( $btc_daily_average_raw, 8 ) . ' BTC (' . $bitcoin_market_currencies[$btc_primary_currency_pairing] . number_format( $primary_currency_daily_average_raw , 2) . ' '.strtoupper($btc_primary_currency_pairing).')';
 				?>
 				
 				<br />
@@ -62,7 +62,7 @@
 				
 				<b>Daily Profit: 
 				<?php
-				echo $bitcoin_market_currencies[$btc_primary_currency_pairing] . number_format( $fiat_daily_average_raw - $kwh_cost_daily - $pool_fee_daily , 2);
+				echo $bitcoin_market_currencies[$btc_primary_currency_pairing] . number_format( $primary_currency_daily_average_raw - $kwh_cost_daily - $pool_fee_daily , 2);
 				?></b>
 				
 				<br />
@@ -91,7 +91,7 @@
 				
 				Average BTC Value Earned Weekly: 
 				<?php
-				echo number_format( $btc_daily_average_raw * 7 , 8) . ' BTC (' . $bitcoin_market_currencies[$btc_primary_currency_pairing] . number_format( $fiat_daily_average_raw * 7 , 2) . ' '.strtoupper($btc_primary_currency_pairing).')';
+				echo number_format( $btc_daily_average_raw * 7 , 8) . ' BTC (' . $bitcoin_market_currencies[$btc_primary_currency_pairing] . number_format( $primary_currency_daily_average_raw * 7 , 2) . ' '.strtoupper($btc_primary_currency_pairing).')';
 				?>
 				
 				<br />
@@ -115,7 +115,7 @@
 				
 				<b>Weekly Profit: 
 				<?php
-				echo $bitcoin_market_currencies[$btc_primary_currency_pairing] . number_format( ( $fiat_daily_average_raw - $kwh_cost_daily - $pool_fee_daily ) * 7 , 2);
+				echo $bitcoin_market_currencies[$btc_primary_currency_pairing] . number_format( ( $primary_currency_daily_average_raw - $kwh_cost_daily - $pool_fee_daily ) * 7 , 2);
 				?></b>
 				
 				<br />

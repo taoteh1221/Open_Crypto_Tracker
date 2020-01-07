@@ -9,7 +9,7 @@ error_reporting(0); // Turn off all PHP error reporting on production servers (0
 
 
 
-$app_version = '4.05.2';  // 2020/JANUARY/4TH
+$app_version = '4.06.0';  // 2020/JANUARY/6TH
 
 
 

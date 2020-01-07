@@ -113,13 +113,13 @@
 					<select onchange='
 					
 					 btc_primary_currency = this.value;
-					 primary_currency_market = $("#" + btc_primary_currency + "btcfiat_pairs").val();
-					 fiat_selected_market = $("#" + btc_primary_currency + "BTC_pairs option:selected").val();
-					 fiat_selected_market_standalone = $("#" + btc_primary_currency + "btcfiat_pairs option:selected").val();
-					 fiat_exchanges_list = document.getElementById(btc_primary_currency + "BTC_pairs");
+					 primary_currency_market = $("#" + btc_primary_currency + "btc_currency_pairs").val();
+					 currency_selected_market = $("#" + btc_primary_currency + "BTC_pairs option:selected").val();
+					 currency_selected_market_standalone = $("#" + btc_primary_currency + "btc_currency_pairs option:selected").val();
+					 currency_exchanges_list = document.getElementById(btc_primary_currency + "BTC_pairs");
 					
 				    
-				    exchange_name_ui = fiat_exchanges_list.options[fiat_exchanges_list.selectedIndex].text;
+				    exchange_name_ui = currency_exchanges_list.options[currency_exchanges_list.selectedIndex].text;
 				    
 				    exchange_name = exchange_name_ui.toLowerCase();
 				    
@@ -130,8 +130,8 @@
 				    $("#btc_primary_currency").val( btc_primary_currency );
 				    
 				    $("#primary_currency_market_id_lists").children().hide(); 
-				    $("#" + btc_primary_currency + "btcfiat_pairs").show(); 
-				    $("#primary_currency_market_id").val( fiat_selected_market_standalone );
+				    $("#" + btc_primary_currency + "btc_currency_pairs").show(); 
+				    $("#primary_currency_market_id").val( currency_selected_market_standalone );
 				    
 				    /////////////////////////////////////////////////////////
 				    
@@ -142,7 +142,7 @@
 				    
 				    $("#btc_market_lists").children().hide(); 
 				    $("#" + btc_primary_currency + "BTC_pairs").show(); 
-				    $("#btc_market").val( fiat_selected_market );
+				    $("#btc_market").val( currency_selected_market );
 				    
 				    $("#btc_market").val( primary_currency_market ); // Set hidden field var
 				    $("#" + btc_primary_currency + "BTC_pairs").val( primary_currency_market ); // Set selected drop down choice
@@ -219,7 +219,7 @@
 				    $("#primary_currency_market_standalone").val( btc_primary_currency + "|" + primary_currency_market );
 				    }
 				    
-				    ' id='<?=$key?>btcfiat_pairs' style='display: <?=( $btc_primary_currency_pairing == $key ? 'inline' : 'none' )?>;'><?=$btc_market_list[$key]?>
+				    ' id='<?=$key?>btc_currency_pairs' style='display: <?=( $btc_primary_currency_pairing == $key ? 'inline' : 'none' )?>;'><?=$btc_market_list[$key]?>
 				    
 				    </select>
 				    
@@ -228,7 +228,7 @@
 				    $btc_market_list = NULL;
 				    ?>
 				    
-				    </span> <img id='fiat_info' src='ui-templates/media/images/info.png' alt='' width='30' border='0' style='position: relative; left: -5px;' /> <input type='checkbox' id='standalone_primary_currency_enabled' name='standalone_primary_currency_enabled' value='1' onchange='
+				    </span> <img id='currency_info' src='ui-templates/media/images/info.png' alt='' width='30' border='0' style='position: relative; left: -5px;' /> <input type='checkbox' id='standalone_primary_currency_enabled' name='standalone_primary_currency_enabled' value='1' onchange='
 				    
 				    btc_primary_currency = $("#btc_primary_currency").val();
 				    primary_currency_market = $("#primary_currency_market_id").val();
@@ -258,19 +258,19 @@
 				    ' <?=( sizeof($primary_currency_market_standalone) == 2 ? 'checked' : '' )?> /> Stand-Alone Mode (<i>WON'T automatically change</i> Bitcoin market on "Update Assets" page)
  <script>
 	
-			var fiat_content = '<h5 align="center" class="yellow" style="position: relative; white-space: nowrap;">Currency Market Setting:</h5>'
+			var currency_content = '<h5 align="center" class="yellow" style="position: relative; white-space: nowrap;">Currency Market Setting:</h5>'
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">The Currency Market setting allows you to change your default primary currency for the portfolio interface (the charts / price alerts currency market <i>must be changed separately in config.php</i>).</p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Additionally, if you check off "Stand-Alone Mode", your chosen Bitcoin market on the "Update Assets" page <i>will NOT be automatically changed to match your chosen Currency Market on the "Settings" page</i>. This is useful if you\'d like to browse through different Bitcoin markets, BUT don\'t want your default fiat curreny to change in the app.</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Additionally, if you check off "Stand-Alone Mode", your chosen Bitcoin market on the "Update Assets" page <i>will NOT be automatically changed to match your chosen Currency Market on the "Settings" page</i>. This is useful if you\'d like to browse through different Bitcoin markets, BUT don\'t want your default primary currency to change in the app.</p>'
 			
 			+'<p class="coin_info"><span class="yellow"> </span></p>';
 		
 		
-			$('#fiat_info').balloon({
+			$('#currency_info').balloon({
 			html: true,
 			position: "right",
-			contents: fiat_content,
+			contents: currency_content,
 			css: {
 					fontSize: ".8rem",
 					minWidth: ".8rem",

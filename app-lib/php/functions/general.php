@@ -1063,12 +1063,12 @@ $fn = fopen($file,"r");
          }
          else {
          
-            // Format or round Fiat / stablecoin price depending on value (non-stablecoin crypto values are already stored in the format we want for the interface)
+            // Format or round primary currency price depending on value (non-stablecoin crypto values are already stored in the format we want for the interface)
             if ( $fiat_formatting == 1 ) {
             $data['spot'] .= ( float_to_string($result[1]) >= 1.00 ? number_format((float)$result[1], 2, '.', '')  :  round($result[1], $primary_currency_decimals_max)  ) . ',';
             $data['volume'] .= round($result[2]) . ',';
             }
-            // Non-fiat-or-stablecoin crypto
+            // Non-stablecoin crypto
             else {
             $data['spot'] .= $result[1] . ',';
             $data['volume'] .= round($result[2], 3) . ',';

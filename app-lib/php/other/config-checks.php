@@ -133,7 +133,7 @@ if ( !isset( $coins_list['BTC']['market_pairing'][$charts_alerts_btc_primary_cur
 	$avialable_btc_pairings = trim($avialable_btc_pairings);
 	$avialable_btc_pairings = rtrim($avialable_btc_pairings,',');
 	
-$config_parse_error[] = 'Charts and price alerts cannot run properly, because the $btc_primary_currency_pairing (default Bitcoin fiat pairing) value \''.$btc_primary_currency_pairing.'\' in config.php is not a valid Bitcoin pairing option (valid Bitcoin pairing options are: '.$avialable_btc_pairings.')';
+$config_parse_error[] = 'Charts and price alerts cannot run properly, because the $btc_primary_currency_pairing (default Bitcoin currency pairing) value \''.$btc_primary_currency_pairing.'\' in config.php is not a valid Bitcoin pairing option (valid Bitcoin pairing options are: '.$avialable_btc_pairings.')';
 
 }
 elseif ( !isset( $coins_list['BTC']['market_pairing'][$charts_alerts_btc_primary_currency_pairing][$charts_alerts_btc_primary_exchange] ) ) {
@@ -407,7 +407,7 @@ if ( !isset( $coins_list['BTC']['market_pairing'][$btc_primary_currency_pairing]
 	$avialable_btc_pairings = trim($avialable_btc_pairings);
 	$avialable_btc_pairings = rtrim($avialable_btc_pairings,',');
 
-app_logging('config_error', 'Portfolio cannot run properly, because the $btc_primary_currency_pairing (Bitcoin fiat pairing) value \''.$btc_primary_currency_pairing.'\' is not a valid Bitcoin pairing option (valid Bitcoin pairing options are: '.$avialable_btc_pairings.')');
+app_logging('config_error', 'Portfolio cannot run properly, because the $btc_primary_currency_pairing (Bitcoin primary currency pairing) value \''.$btc_primary_currency_pairing.'\' is not a valid Bitcoin pairing option (valid Bitcoin pairing options are: '.$avialable_btc_pairings.')');
 
 }
 elseif ( !isset( $coins_list['BTC']['market_pairing'][$btc_primary_currency_pairing][$btc_primary_exchange] ) ) {

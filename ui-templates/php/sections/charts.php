@@ -53,7 +53,7 @@
 			<b><span class='blue'><?=$show_asset?></span> / <?=strtoupper($show_asset_params[1])?> @ <?=name_rendering($show_asset_params[0])?>:</b> &nbsp; &nbsp; &nbsp; 
 			
 				<?php
-				// Markets that are the same as DEFAULT FIAT CONFIG setting
+				// Markets that are the same as DEFAULT CURRENCY CONFIG setting
 				if ( $show_asset_params[1] == $charts_alerts_btc_primary_currency_pairing ) {
 				?>
 	
@@ -61,7 +61,7 @@
 	
 				<?php
 				}
-				// All other paired markets (WITH DEFAULT FIAT CONFIG EQUIV CHARTS INCLUDED)
+				// All other paired markets (WITH DEFAULT CURRENCY CONFIG EQUIV CHARTS INCLUDED)
 				else {
 				?>
 					
@@ -129,9 +129,9 @@
 		$supported_exchange_list = trim($supported_exchange_list);
 		?>
 					
-		<p class='red' style='font-weight: bold;'>The charts <i>primary fiat market</i> is set to: &nbsp; <span class='bitcoin'><?=strtoupper($charts_alerts_btc_primary_currency_pairing)?> @ <?=name_rendering($charts_alerts_btc_primary_exchange)?></span></p>
+		<p class='red' style='font-weight: bold;'>The charts <i>primary currency market</i> is set to: &nbsp; <span class='bitcoin'><?=strtoupper($charts_alerts_btc_primary_currency_pairing)?> @ <?=name_rendering($charts_alerts_btc_primary_exchange)?></span></p>
 		
-		<p class='red' style='font-weight: bold;'> Other <?=strtoupper($charts_alerts_btc_primary_currency_pairing)?>-paired exchanges supported in this app are: <?=$supported_exchange_list?>. Other fiat pairings (that are supported in config.php in the "$btc_primary_currency_pairing" setting) are: <?=$supported_primary_currency_list?>. !NOT! ALL EXCHANGES SUPPORT ALL FIAT PAIRS, double check any setting changes you make (and check the error log at /cache/logs/errors.log for any reported issues).</p>
+		<p class='red' style='font-weight: bold;'> Other <?=strtoupper($charts_alerts_btc_primary_currency_pairing)?>-paired exchanges supported in this app are: <?=$supported_exchange_list?>. Other currency pairings (that are supported in config.php in the "$btc_primary_currency_pairing" setting) are: <?=$supported_primary_currency_list?>. !NOT! ALL EXCHANGES SUPPORT ALL CURRENCY PAIRS, double check any setting changes you make (and check the error log at /cache/logs/errors.log for any reported issues).</p>
 		 
 		<p class='red' style='font-weight: bold;'>A few crypto exchanges only provide asset volume data (with no pairing volume data included). If 24 hour pair volume is NOT available for a market, it will be emulated via the asset volume multiplied by the <i>current</i> asset market value (which gives us the rough pairing volume for a better chart user experience).</p>
 		 

@@ -1434,15 +1434,15 @@ global $btc_primary_currency_value, $coins_list, $last_trade_cache;
 
 
 
-  elseif ( strtolower($chosen_exchange) == 'fiat_assets' ) {
+  elseif ( strtolower($chosen_exchange) == 'btc_market_assets' ) {
 	
   // BTC value of 1 unit of the default primary currency
-  $fiat_to_btc = ( 1 / $btc_primary_currency_value );		
+  $currency_to_btc = ( 1 / $btc_primary_currency_value );		
 	
 	  // BTC pairing
 	  if ( $market_id == 'btc' ) {
      return  array(
-    					'last_trade' => $fiat_to_btc,
+    					'last_trade' => $currency_to_btc,
     					'24hr_asset_volume' => NULL,
     					'24hr_pairing_volume' => NULL,
     					'24hr_primary_currency_volume' => NULL
@@ -1451,7 +1451,7 @@ global $btc_primary_currency_value, $coins_list, $last_trade_cache;
      // All other pairing
 	  else {
      return  array(
-    					'last_trade' => ( 1 / ( pairing_market_value($market_id) / $fiat_to_btc ) ),
+    					'last_trade' => ( 1 / ( pairing_market_value($market_id) / $currency_to_btc ) ),
     					'24hr_asset_volume' => NULL,
     					'24hr_pairing_volume' => NULL,
     					'24hr_primary_currency_volume' => NULL
