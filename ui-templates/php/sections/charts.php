@@ -53,7 +53,7 @@
 			<b><span class='blue'><?=$show_asset?></span> / <?=strtoupper($show_asset_params[1])?> @ <?=name_rendering($show_asset_params[0])?>:</b> &nbsp; &nbsp; &nbsp; 
 			
 				<?php
-				// Markets that are the same as DEFAULT CURRENCY CONFIG setting
+				// Markets that are the same as PRIMARY CURRENCY CONFIG setting
 				if ( $show_asset_params[1] == $charts_alerts_btc_primary_currency_pairing ) {
 				?>
 	
@@ -61,7 +61,7 @@
 	
 				<?php
 				}
-				// All other paired markets (WITH DEFAULT CURRENCY CONFIG EQUIV CHARTS INCLUDED)
+				// All other paired markets (WITH PRIMARY CURRENCY CONFIG EQUIV CHARTS INCLUDED)
 				else {
 				?>
 					

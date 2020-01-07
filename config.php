@@ -456,7 +456,7 @@ $crypto_to_crypto_pairing = array(
 
 // TLD-only (Top Level Domain) for each API service that requires multiple calls (for each market)
 // Used to throttle these market calls a tiny bit (1.15 seconds), so we don't get easily blacklisted
-// (THESE EXCHANGES ARE !NOT! RECOMMENDED TO BE USED AS THE DEFAULT CURRENCY MARKET IN THIS APP,
+// (THESE EXCHANGES ARE !NOT! RECOMMENDED TO BE USED AS THE PRIMARY CURRENCY MARKET IN THIS APP,
 // AS ON OCCASION THEY CAN BE !UNRELIABLE! IF HIT WITH TOO MANY SEPARATE API CALLS FOR DIFFERENT COINS / ASSETS)
 // !MUST BE LOWERCASE!
 $limited_apis = array(
