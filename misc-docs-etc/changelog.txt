@@ -2231,6 +2231,9 @@ PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
 -Modularized configuration settings
 
+-"Whale alert" notice for price alerts (does NOT affect parameters you set for triggering alerts, 
+just adds "Whale Alert" text or emoji if asset alert(s) fall within 5% price change within half a day or less)
+
 IMPORTANT NOTES: 
 
 v4.06.0 and higher modularizes the configuration settings into the new $app_config array. ALL

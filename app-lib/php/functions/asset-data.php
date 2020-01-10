@@ -762,6 +762,12 @@ $cached_array = explode("||", $data_file);
           $percent_change = abs( ($asset_primary_currency_value_raw - $cached_asset_primary_currency_value) / abs($cached_asset_primary_currency_value) * 100 );
           
           $percent_change = float_to_string($percent_change); // Better decimal support
+          
+          
+          // Whale alert (price change of 5% or greater within half a day or less )
+   		 if ( float_to_string($last_check_days) <= 0.5 && $percent_change >= 5.0 ) {
+   		 $whale_alert = 1;
+   		 }
   			 
   			 // Check whether we should send an alert
           if ( float_to_string($asset_primary_currency_value_raw) >= 0.00000001 && $percent_change >= $app_config['asset_price_alerts_percent'] ) {
@@ -928,12 +934,12 @@ $cached_array = explode("||", $data_file);
   				
   				// Build the different messages, configure comm methods, and send messages
 				
-  				$email_message = 'The ' . $asset . ' trade value in the ' . strtoupper($pairing) . ' market at the ' . $exchange_text . ' exchange has ' . $increase_decrease . ' ' . $change_symbol . $percent_change_text . '% in ' . strtoupper($config_btc_primary_currency_pairing) . ' value to ' . $app_config['bitcoin_market_currencies'][$config_btc_primary_currency_pairing] . $asset_primary_currency_text . ' over the past ' . $last_check_time . ' since the last price ' . $desc_alert_type . '. ' . $email_volume_summary;
+  				$email_message = ( $whale_alert == 1 ? 'WHALE ALERT: ' : '' ) . 'The ' . $asset . ' trade value in the ' . strtoupper($pairing) . ' market at the ' . $exchange_text . ' exchange has ' . $increase_decrease . ' ' . $change_symbol . $percent_change_text . '% in ' . strtoupper($config_btc_primary_currency_pairing) . ' value to ' . $app_config['bitcoin_market_currencies'][$config_btc_primary_currency_pairing] . $asset_primary_currency_text . ' over the past ' . $last_check_time . ' since the last price ' . $desc_alert_type . '. ' . $email_volume_summary;
   				
   				// Were're just adding a human-readable timestamp to smart home (audio) alerts
   				$notifyme_message = $email_message . ' Timestamp is ' . time_date_format($app_config['local_time_offset'], 'pretty_time') . '.';
   				
-  				$text_message = $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange_text . ' ' . $increase_decrease . ' ' . $change_symbol . $percent_change_text . '% in ' . strtoupper($config_btc_primary_currency_pairing) . ' value to ' . $app_config['bitcoin_market_currencies'][$config_btc_primary_currency_pairing] . $asset_primary_currency_text . ' over ' . $last_check_time . '. 24hr ' . strtoupper($config_btc_primary_currency_pairing) . ' Vol: ' . $volume_primary_currency_text . ' ' . $volume_change_text_mobile;
+  				$text_message = ( $whale_alert == 1 ? '🐋' : '' ) . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange_text . ' ' . $increase_decrease . ' ' . $change_symbol . $percent_change_text . '% in ' . strtoupper($config_btc_primary_currency_pairing) . ' value to ' . $app_config['bitcoin_market_currencies'][$config_btc_primary_currency_pairing] . $asset_primary_currency_text . ' over ' . $last_check_time . '. 24hr ' . strtoupper($config_btc_primary_currency_pairing) . ' Vol: ' . $volume_primary_currency_text . ' ' . $volume_change_text_mobile;
   				
   				
   				
@@ -947,7 +953,7 @@ $cached_array = explode("||", $data_file);
           								'text' => $text_message,
           								'notifyme' => $notifyme_message,
           								'email' => array(
-          														'subject' => $asset . ' Asset Value '.ucfirst($increase_decrease).' Alert',
+          														'subject' => $asset . ' Asset Value '.ucfirst($increase_decrease).' Alert' . ( $whale_alert == 1 ? ' (WHALE ALERT)' : '' ),
           														'message' => $email_message
           														)
           								);
