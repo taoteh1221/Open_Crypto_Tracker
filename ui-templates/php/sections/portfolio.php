@@ -7,7 +7,7 @@
 ?>
 
     
-			<h4 style='display: inline;'>Portfolio</h4> (<?=$last_trade_cache?> minute cache)
+			<h4 style='display: inline;'>Portfolio</h4> (<?=$app_config['last_trade_cache']?> minute cache)
 			<?php
 			if ( sizeof($alert_percent) > 1 ) {
 				
@@ -25,10 +25,10 @@
 				$text_mcap_trend = ucwords(preg_replace("/day/i", " day", $text_mcap_trend));
 				
 			?>
-			  &nbsp; &nbsp; <span class='<?=( stristr($alert_percent[1], '-') == false ? 'green' : 'orange' )?>' style='font-weight: bold;'><?=$visual_audio_alerts?> alerts (<?=ucfirst($primary_marketcap_site)?> / <?=( $alert_percent[1] > 0 ? '+' . $alert_percent[1] : $alert_percent[1] )?>% / <?=$text_mcap_trend?>)</span>
+			  &nbsp; &nbsp; <span class='<?=( stristr($alert_percent[1], '-') == false ? 'green' : 'orange' )?>' style='font-weight: bold;'><?=$visual_audio_alerts?> alerts (<?=ucfirst($app_config['primary_marketcap_site'])?> / <?=( $alert_percent[1] > 0 ? '+' . $alert_percent[1] : $alert_percent[1] )?>% / <?=$text_mcap_trend?>)</span>
 			<?php
 			}
-			?>  &nbsp; &nbsp; &nbsp; <a href='javascript:location.reload(true);' style='font-weight: bold;' title='Refreshing data too frequently may cause API request refusals, especially if request caching settings are too low. It is recommended to use this refresh feature sparingly with lower or disabled cache settings. The current real-time exchange data re-cache setting in config.php is set to <?=$last_trade_cache?> minute(s). A setting of 1 or higher assists in avoiding IP blacklisting by exchanges.'>Refresh</a>
+			?>  &nbsp; &nbsp; &nbsp; <a href='javascript:location.reload(true);' style='font-weight: bold;' title='Refreshing data too frequently may cause API request refusals, especially if request caching settings are too low. It is recommended to use this refresh feature sparingly with lower or disabled cache settings. The current real-time exchange data re-cache setting in config.php is set to <?=$app_config['last_trade_cache']?> minute(s). A setting of 1 or higher assists in avoiding IP blacklisting by exchanges.'>Refresh</a>
 			
 			 &nbsp;<select name='select_auto_refresh' id='select_auto_refresh' onchange='auto_reload(this.value);'>
 				<option value=''> Manually </option>
@@ -51,7 +51,7 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
     <tr>
 <th class='border_lt'>#</th>
 <th class='border_lt blue al_right'><span>Asset</span></th>
-<th class='border_t'>Per-Token (<span class='btc_primary_currency_pairing'><?=strtoupper($btc_primary_currency_pairing)?></span>)</th>
+<th class='border_t'>Per-Token (<span class='btc_primary_currency_pairing'><?=strtoupper($app_config['btc_primary_currency_pairing'])?></span>)</th>
 <th class='border_lt blue al_right'>Holdings</th>
 <th class='border_t'>Symbol</th>
 <th class='border_lt blue'>Exchange</th>
@@ -59,7 +59,7 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 <th class='border_t al_right'>Trade Value</th>
 <th class='border_t blue'>Market</th>
 <th class='border_lt blue'>Holdings Value</th>
-<th class='border_lrt blue'>Subtotal (<span class='btc_primary_currency_pairing'><?=strtoupper($btc_primary_currency_pairing)?></span>)</th>
+<th class='border_lrt blue'>Subtotal (<span class='btc_primary_currency_pairing'><?=strtoupper($app_config['btc_primary_currency_pairing'])?></span>)</th>
     </tr>
   </thead>
  <tbody>
@@ -88,7 +88,7 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 												
 						
 										// Render the row of coin data in the UI
-										ui_coin_data_row($coins_list[$coin_symbol]['coin_name'], $coin_symbol, $held_amount, $coins_list[$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price, $leverage_level, $selected_margintype);
+										ui_coin_data_row($app_config['portfolio_assets'][$coin_symbol]['coin_name'], $coin_symbol, $held_amount, $app_config['portfolio_assets'][$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price, $leverage_level, $selected_margintype);
 										
 										
 										
@@ -152,13 +152,13 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 										
 											
 											// Check pairing value
-											foreach ( $coins_list[$coin_symbol]['market_pairing'] as $pairing_key => $unused ) {
+											foreach ( $app_config['portfolio_assets'][$coin_symbol]['market_pairing'] as $pairing_key => $unused ) {
 					 						$ploop = 0;
 					 						
 					 							// Use first pairing key from coins config for this asset, if no pairing value was set properly in the spreadsheet
 					 							if ( $ploop == 0 ) {
 					 								
-					 								if ( $selected_pairing == NULL || !$coins_list[$coin_symbol]['market_pairing'][$selected_pairing] ) {
+					 								if ( $selected_pairing == NULL || !$app_config['portfolio_assets'][$coin_symbol]['market_pairing'][$selected_pairing] ) {
 					 								$selected_pairing = $pairing_key;
 					 								}
 					 							
@@ -176,7 +176,7 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 						
 						
 										// Render the row of coin data in the UI
-										ui_coin_data_row($coins_list[$coin_symbol]['coin_name'], $coin_symbol, $held_amount, $coins_list[$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price, $leverage_level, $selected_margintype);
+										ui_coin_data_row($app_config['portfolio_assets'][$coin_symbol]['coin_name'], $coin_symbol, $held_amount, $app_config['portfolio_assets'][$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price, $leverage_level, $selected_margintype);
 										
 										
 										
@@ -337,7 +337,7 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 					
 					
 					// Render the row of coin data in the UI
-					ui_coin_data_row($coins_list[$coin_symbol]['coin_name'], $coin_symbol, $held_amount, $coins_list[$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price, $leverage_level, $selected_margintype);
+					ui_coin_data_row($app_config['portfolio_assets'][$coin_symbol]['coin_name'], $coin_symbol, $held_amount, $app_config['portfolio_assets'][$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price, $leverage_level, $selected_margintype);
 					
 					
 						
@@ -411,7 +411,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 			
 		$gain_loss_total = coin_stats_data('gain_loss_total');
 		
-		$parsed_gain_loss_total = preg_replace("/-/", "-" . $bitcoin_market_currencies[$btc_primary_currency_pairing], number_format( $gain_loss_total, 2, '.', ',' ) );
+		$parsed_gain_loss_total = preg_replace("/-/", "-" . $app_config['bitcoin_market_currencies'][$app_config['btc_primary_currency_pairing']], number_format( $gain_loss_total, 2, '.', ',' ) );
 		
 		$original_worth = coin_stats_data('coin_paid_total');
 		
@@ -441,9 +441,9 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 		// BTC / PAIRING portfolio stats output
 		echo '<div class="portfolio_summary"><span class="black">BTC Value:</span> <span class="bitcoin">Ƀ ' . $total_btc_worth . '</span>' . $leverage_text1 . '</div>';
 		
-		echo '<div class="portfolio_summary"><span class="black">'.strtoupper($btc_primary_currency_pairing).' Value:</span> ' . $bitcoin_market_currencies[$btc_primary_currency_pairing] . number_format($total_primary_currency_worth, 2, '.', ',') . $leverage_text2 . '</div>';
+		echo '<div class="portfolio_summary"><span class="black">'.strtoupper($app_config['btc_primary_currency_pairing']).' Value:</span> ' . $app_config['bitcoin_market_currencies'][$app_config['btc_primary_currency_pairing']] . number_format($total_primary_currency_worth, 2, '.', ',') . $leverage_text2 . '</div>';
 		
-		echo ( $purchase_price_added == 1 && $leverage_added == 1 && is_numeric($gain_loss_total) == TRUE ? '<div class="portfolio_summary"><span class="black">Leverage Included: </span>' . ( $total_primary_currency_worth_inc_leverage >= 0 ? '<span class="green">' : '<span class="red">-' ) . $bitcoin_market_currencies[$btc_primary_currency_pairing] . $parsed_total_primary_currency_worth_inc_leverage . '</span>' . '</div>' : '' );
+		echo ( $purchase_price_added == 1 && $leverage_added == 1 && is_numeric($gain_loss_total) == TRUE ? '<div class="portfolio_summary"><span class="black">Leverage Included: </span>' . ( $total_primary_currency_worth_inc_leverage >= 0 ? '<span class="green">' : '<span class="red">-' ) . $app_config['bitcoin_market_currencies'][$app_config['btc_primary_currency_pairing']] . $parsed_total_primary_currency_worth_inc_leverage . '</span>' . '</div>' : '' );
 	
 
 
@@ -461,7 +461,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 		$leverage_text2 = ( $leverage_added == 1 ? ', includes leverage' : '' );
 		
 		
-		echo '<div class="portfolio_summary"><span class="black">' . ( $gain_loss_total >= 0 ? 'Gain:</span> <span class="green">+' . $bitcoin_market_currencies[$btc_primary_currency_pairing] : 'Loss:</span> <span class="red">' ) . $parsed_gain_loss_total . ' (' . ( $gain_loss_total >= 0 ? '+' : '-' ) . number_format($percent_difference_total, 2, '.', ',') . '%' . $leverage_text2 . ')</span>';
+		echo '<div class="portfolio_summary"><span class="black">' . ( $gain_loss_total >= 0 ? 'Gain:</span> <span class="green">+' . $app_config['bitcoin_market_currencies'][$app_config['btc_primary_currency_pairing']] : 'Loss:</span> <span class="red">' ) . $parsed_gain_loss_total . ' (' . ( $gain_loss_total >= 0 ? '+' : '-' ) . number_format($percent_difference_total, 2, '.', ',') . '%' . $leverage_text2 . ')</span>';
 		
 		?> 
 		
@@ -470,7 +470,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 		
 	 <script>
 	 
-		document.title = '<?=( $gain_loss_total >= 0 ? '+' . $bitcoin_market_currencies[$btc_primary_currency_pairing] : '' )?><?=$parsed_gain_loss_total?> (<?=( $gain_loss_total >= 0 ? '+' : '-' )?><?=number_format($percent_difference_total, 2, '.', ',')?>%)  ||  ' + document.title;
+		document.title = '<?=( $gain_loss_total >= 0 ? '+' . $app_config['bitcoin_market_currencies'][$app_config['btc_primary_currency_pairing']] : '' )?><?=$parsed_gain_loss_total?> (<?=( $gain_loss_total >= 0 ? '+' : '-' )?><?=number_format($percent_difference_total, 2, '.', ',')?>%)  ||  ' + document.title;
 	
 		
 			var gain_loss_content = '<h5 class="yellow" style="position: relative; white-space: nowrap;">Gain / Loss Stats:</h5>'
@@ -484,7 +484,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 					
 				foreach ( $coin_stats_array as $key => $value ) {
 					
-						$parsed_gain_loss = preg_replace("/-/", "-" . $bitcoin_market_currencies[$btc_primary_currency_pairing], number_format( $value['gain_loss_total'], 2, '.', ',' ) );
+						$parsed_gain_loss = preg_replace("/-/", "-" . $app_config['bitcoin_market_currencies'][$app_config['btc_primary_currency_pairing']], number_format( $value['gain_loss_total'], 2, '.', ',' ) );
 						
 						if ( $value['coin_leverage'] >= 2 ) {
 						$parsed_total_with_leverage = number_format( ( $value['coin_worth_total'] + $value['gain_loss_only_leverage'] ) , 2, '.', ',' );
@@ -495,7 +495,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 							
 							
 				?>
-			+'<p class="coin_info"><span class="yellow"><?=$value['coin_symbol']?>:</span> <span class="<?=( $value['gain_loss_total'] >= 0 ? 'green_bright">+' . $bitcoin_market_currencies[$btc_primary_currency_pairing] : 'red_bright">' )?><?=$parsed_gain_loss?> (<?=( $value['gain_loss_total'] >= 0 ? '+' : '' )?><?=number_format($value['gain_loss_percent_total'], 2, '.', ',')?>%<?=( $value['coin_leverage'] >= 2 ? ', ' . $value['coin_leverage'] . 'x ' . $value['selected_margintype'] : '' )?>)</span></p>'
+			+'<p class="coin_info"><span class="yellow"><?=$value['coin_symbol']?>:</span> <span class="<?=( $value['gain_loss_total'] >= 0 ? 'green_bright">+' . $app_config['bitcoin_market_currencies'][$app_config['btc_primary_currency_pairing']] : 'red_bright">' )?><?=$parsed_gain_loss?> (<?=( $value['gain_loss_total'] >= 0 ? '+' : '' )?><?=number_format($value['gain_loss_percent_total'], 2, '.', ',')?>%<?=( $value['coin_leverage'] >= 2 ? ', ' . $value['coin_leverage'] . 'x ' . $value['selected_margintype'] : '' )?>)</span></p>'
 			
 			<?php
 						}
@@ -602,7 +602,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 		<?php
 		}
 	
-	echo '<div class="portfolio_summary"><span class="black">(Bitcoin is trading @ ' . $bitcoin_market_currencies[$btc_primary_currency_pairing] . number_format( $btc_primary_currency_value, 2, '.', ',') . ' on ' . name_rendering($btc_primary_exchange) . ')</span></div>';
+	echo '<div class="portfolio_summary"><span class="black">(Bitcoin is trading @ ' . $app_config['bitcoin_market_currencies'][$app_config['btc_primary_currency_pairing']] . number_format( $btc_primary_currency_value, 2, '.', ',') . ' on ' . name_rendering($app_config['btc_primary_exchange']) . ')</span></div>';
 
 			
 		if ( $short_added == 1 ) {
@@ -623,7 +623,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	
 	<?php
 			// If hardware / software stats are enabled, display the load avg / temperature / free partition space / free memory [mb/percent] / etc etc
-    		if ( $system_stats == 'on' || $system_stats == 'raspi' && $is_raspi == 1 ) {
+    		if ( $app_config['system_stats'] == 'on' || $app_config['system_stats'] == 'raspi' && $is_raspi == 1 ) {
     ?>
 	
 		<fieldset><legend> <strong class="bitcoin">System Statistics</strong> </legend>
@@ -771,7 +771,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
    
 	<?php
 		// If hardware / software stats are enabled, display the charts when designated link is clicked (in a modal)
-    	if ( $system_stats == 'on' || $system_stats == 'raspi' && $is_raspi == 1 ) {
+    	if ( $app_config['system_stats'] == 'on' || $app_config['system_stats'] == 'raspi' && $is_raspi == 1 ) {
     ?>
 	
 	<div id="show_system_charts">
@@ -784,7 +784,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	<div class='red' id='system_charts_error'></div>
 	
 	
-	<div class='chart_wrapper' id='system_stats_chart_1'><span class='loading' style='color: <?=$charts_text?>;'> &nbsp; Loading chart #1 for System Statistics...</span></div>
+	<div class='chart_wrapper' id='system_stats_chart_1'><span class='loading' style='color: <?=$app_config['charts_text']?>;'> &nbsp; Loading chart #1 for System Statistics...</span></div>
 	
 	<script>
 	
@@ -798,7 +798,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	<br/><br/><br/>
 	
 	
-	<div class='chart_wrapper' id='system_stats_chart_2'><span class='loading' style='color: <?=$charts_text?>;'> &nbsp; Loading chart #2 for System Statistics...</span></div>
+	<div class='chart_wrapper' id='system_stats_chart_2'><span class='loading' style='color: <?=$app_config['charts_text']?>;'> &nbsp; Loading chart #2 for System Statistics...</span></div>
 	
 	<script>
 	

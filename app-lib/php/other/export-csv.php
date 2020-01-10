@@ -16,7 +16,7 @@ $csv_download_array[] = array(
 	        							);
 	    
 	    
-	foreach ( $coins_list as $coin_array_key => $coin_array_value ) {
+	foreach ( $app_config['portfolio_assets'] as $coin_array_key => $coin_array_value ) {
 		
 	    
 	    $field_var_pairing = strtolower($coin_array_key) . '_pairing';
@@ -41,13 +41,13 @@ $csv_download_array[] = array(
 	    $selected_pairing = ( $coin_pairing_id ? $coin_pairing_id : NULL );
 	    
 	    
-			foreach ( $coins_list[strtoupper($coin_array_key)]['market_pairing'] as $pairing_key => $unused ) {
+			foreach ( $app_config['portfolio_assets'][strtoupper($coin_array_key)]['market_pairing'] as $pairing_key => $unused ) {
 			$ploop = 0;
 					 						
 				// Use first pairing key from coins config for this asset, if no pairing value was set properly
 				if ( $ploop == 0 ) {
 				
-					if ( $selected_pairing == NULL || !$coins_list[strtoupper($coin_array_key)]['market_pairing'][$selected_pairing] ) {
+					if ( $selected_pairing == NULL || !$app_config['portfolio_assets'][strtoupper($coin_array_key)]['market_pairing'][$selected_pairing] ) {
 					$selected_pairing = $pairing_key;
 					}
 				
@@ -66,7 +66,7 @@ $csv_download_array[] = array(
 	    
 	  	 $asset_amount_value = pretty_numbers($asset_amount_value, $asset_amount_decimals);
 	    
-	    $coin_paid_value = ( float_to_string($coin_paid_value) >= 1.00 ? pretty_numbers($coin_paid_value, 2) : pretty_numbers($coin_paid_value, $primary_currency_decimals_max) );
+	    $coin_paid_value = ( float_to_string($coin_paid_value) >= 1.00 ? pretty_numbers($coin_paid_value, 2) : pretty_numbers($coin_paid_value, $app_config['primary_currency_decimals_max']) );
 	  	 
 	    
 	   	// Asset data to array for CSV export

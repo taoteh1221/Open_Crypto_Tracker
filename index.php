@@ -13,7 +13,7 @@ require("ui-templates/php/header.php");
 			<li class='tabli'><a href='#update_assets'>Update Assets</a></li>
 			<li class='tabli'><a href='#settings'>Settings</a></li>
 			<?php
-			if ( $charts_page == 'on' ) {
+			if ( $app_config['charts_page'] == 'on' ) {
 			?>
 			<li class='tabli'><a href='#charts'>Charts</a></li>
 			<?php
@@ -36,7 +36,7 @@ require("ui-templates/php/header.php");
 			<?php require("ui-templates/php/sections/settings.php"); ?>
 		</div>
 			<?php
-			if ( $charts_page == 'on' ) {
+			if ( $app_config['charts_page'] == 'on' ) {
 			?>
 		<div id='charts' class='tabdiv container-fluid'>
 			<?php require("ui-templates/php/sections/charts.php"); ?>

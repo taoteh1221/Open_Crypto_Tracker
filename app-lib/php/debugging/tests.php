@@ -15,9 +15,9 @@ if ( $runtime_mode == 'ui' ) {
 
 
 	// Check configured charts and price alerts
-	if ( $debug_mode == 'all' || $debug_mode == 'charts' ) {
+	if ( $app_config['debug_mode'] == 'all' || $app_config['debug_mode'] == 'charts' ) {
 		
-		foreach ( $asset_charts_and_alerts as $key => $value ) {
+		foreach ( $app_config['asset_charts_and_alerts'] as $key => $value ) {
 				
 		// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
 		$check_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, strpos($key, "-") ) );
@@ -25,7 +25,7 @@ if ( $runtime_mode == 'ui' ) {
 		
 		$check_asset_params = explode("||", $value);
 		
-		$check_pairing_name = $coins_list[$check_asset]['market_pairing'][$check_asset_params[1]][$check_asset_params[0]];
+		$check_pairing_name = $app_config['portfolio_assets'][$check_asset]['market_pairing'][$check_asset_params[1]][$check_asset_params[0]];
 		
 		// Consolidate function calls for runtime speed improvement
 		$charts_test_data = asset_market_data($check_asset, $check_asset_params[0], $check_pairing_name, $check_asset_params[1]);
@@ -47,9 +47,9 @@ if ( $runtime_mode == 'ui' ) {
 	
 	
 	// Check configured email to mobile text gateways
-	if ( $debug_mode == 'all' || $debug_mode == 'texts' ) {
+	if ( $app_config['debug_mode'] == 'all' || $app_config['debug_mode'] == 'texts' ) {
 	
-		foreach ( $mobile_networks as $key => $value ) {
+		foreach ( $app_config['mobile_network_text_gateways'] as $key => $value ) {
 			
 			if ( $key != 'skip_network_name' ) {
 			
@@ -69,9 +69,9 @@ if ( $runtime_mode == 'ui' ) {
 	
 	
 	// Check configured coin markets
-	if ( $debug_mode == 'all' || $debug_mode == 'markets' ) {
+	if ( $app_config['debug_mode'] == 'all' || $app_config['debug_mode'] == 'markets' ) {
 		
-		foreach ( $coins_list as $coin_key => $coin_value ) {
+		foreach ( $app_config['portfolio_assets'] as $coin_key => $coin_value ) {
 		
 		
 			foreach ( $coin_value['market_pairing'] as $pairing_key => $pairing_value ) {

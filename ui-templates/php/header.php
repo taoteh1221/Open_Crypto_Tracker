@@ -59,7 +59,7 @@ require("config.php");
 	<script src="app-lib/js/functions.js"></script>
 
 	<?php
-	if ( $charts_page == 'on' ) {
+	if ( $app_config['charts_page'] == 'on' ) {
 	?>
 	<script src="app-lib/js/zingchart.min.js"></script>
 	<script>
@@ -79,16 +79,16 @@ require("config.php");
 	var sorted_by_asc_desc = <?=$sorted_by_asc_desc?>;
 	var tablesort_theme = '<?=$theme_selected?>';
 	
-	var charts_background = '<?=$charts_background?>';
+	var charts_background = '<?=$app_config['charts_background']?>';
 	
-	var charts_border = '<?=$charts_border?>';
+	var charts_border = '<?=$app_config['charts_border']?>';
 	
 	var btc_primary_currency_value = '<?=number_format( $btc_primary_currency_value, 2, '.', '' )?>';
 	
-	var btc_primary_currency_pairing = '<?=strtoupper($btc_primary_currency_pairing)?>';
+	var btc_primary_currency_pairing = '<?=strtoupper($app_config['btc_primary_currency_pairing'])?>';
 	
 	<?php
-	foreach ( $limited_apis as $api ) {
+	foreach ( $app_config['limited_apis'] as $api ) {
 	$js_limited_apis .= '"'.strtolower( preg_replace("/\.(.*)/i", "", $api) ).'", ';
 	}
 	$js_limited_apis = trim($js_limited_apis);
@@ -118,7 +118,7 @@ require("config.php");
             <div align='left' style=' margin: 0px; min-width: 1200px; display: inline;'>
             
 					<?php
-					if ( $charts_page == 'on' ) {
+					if ( $app_config['charts_page'] == 'on' ) {
 					?>
             	<div align='center' id='loading_charts' class='red'>Loading charts...</div>
 					<?php

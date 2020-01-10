@@ -5,7 +5,7 @@
 
 
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// !!!!!!! MAKE SURE API'S TLD HAS SUPPORT ADDED IN $tld_map @ config.php !!!!!!!
+// !!!!!!! MAKE SURE API'S TLD HAS SUPPORT ADDED IN $app_config['top_level_domain_map'] @ config.php !!!!!!!
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
@@ -14,7 +14,7 @@
 
 function bitcoin_api($request) {
  
-global $chainstats_cache;
+global $app_config;
  		
     
 		if ( $request == 'height' ) {
@@ -28,7 +28,7 @@ global $chainstats_cache;
 		  
 		}
 		
-    $data = @api_data('url', $string, $chainstats_cache);
+    $data = @api_data('url', $string, $app_config['chainstats_cache']);
     
   return (float)$data;
   
@@ -40,7 +40,7 @@ global $chainstats_cache;
 
 function dogecoin_api($request) {
  
-global $chainstats_cache;
+global $app_config;
  		
     
 		if ( $request == 'height' ) {
@@ -54,7 +54,7 @@ global $chainstats_cache;
 		  
 		}
 		
-    $data = @api_data('url', $string, $chainstats_cache);
+    $data = @api_data('url', $string, $app_config['chainstats_cache']);
     
   return (float)$data;
   
@@ -66,11 +66,11 @@ global $chainstats_cache;
 
 function grin_api($request) {
  
-global $chainstats_cache;
+global $app_config;
  		
 $json_string = 'https://api.grinmint.com/v1/networkStats';
 
-$jsondata = @api_data('url', $json_string, $chainstats_cache);
+$jsondata = @api_data('url', $json_string, $app_config['chainstats_cache']);
     
 $data = json_decode($jsondata, TRUE);
     
@@ -84,7 +84,7 @@ return $data[$request];
 
 function litecoin_api($request) {
  
-global $chainstats_cache;
+global $app_config;
  		
     
 		if ( $request == 'height' ) {
@@ -98,7 +98,7 @@ global $chainstats_cache;
 		  
 		}
 		
-    $data = @api_data('url', $string, $chainstats_cache);
+    $data = @api_data('url', $string, $app_config['chainstats_cache']);
     
   return (float)$data;
   
@@ -111,7 +111,7 @@ global $chainstats_cache;
 
 function decred_api($type, $request) {
  
-global $chainstats_cache, $runtime_mode;
+global $app_config, $runtime_mode;
 
 	if ( $runtime_mode != 'ui' ) {
 	return false;  // We only use the block reward config file call for UI data, can skip the API request if not running the UI.
@@ -125,7 +125,7 @@ global $chainstats_cache, $runtime_mode;
  		$json_string = 'https://explorer.dcrdata.org/api/block/best/subsidy';
  		}
  		
- 		$jsondata = @api_data('url', $json_string, $chainstats_cache);
+ 		$jsondata = @api_data('url', $json_string, $app_config['chainstats_cache']);
   		
   		$data = json_decode($jsondata, TRUE);
    	 
@@ -142,10 +142,10 @@ global $chainstats_cache, $runtime_mode;
 
 function monero_api($request) {
  
-global $chainstats_cache;
+global $app_config;
  		
  	$json_string = 'https://moneroblocks.info/api/get_stats';
- 	$jsondata = @api_data('url', $json_string, $chainstats_cache);
+ 	$jsondata = @api_data('url', $json_string, $app_config['chainstats_cache']);
   	
   	$data = json_decode($jsondata, TRUE);
     
@@ -166,10 +166,10 @@ global $chainstats_cache;
 
 function etherscan_api($block_info) {
  
-global $base_dir, $chainstats_cache;
+global $base_dir, $app_config;
 
   $json_string = 'https://api.etherscan.io/api?module=proxy&action=eth_blockNumber';
-  $jsondata = @api_data('url', $json_string, $chainstats_cache);
+  $jsondata = @api_data('url', $json_string, $app_config['chainstats_cache']);
     
   $data = json_decode($jsondata, TRUE);
   
@@ -181,7 +181,7 @@ global $base_dir, $chainstats_cache;
     	else {
     		
     		// Non-dynamic cache file name, because filename would change every recache and create cache bloat
-    		if ( update_cache_file('cache/apis/eth-stats.dat', $chainstats_cache ) == true ) {
+    		if ( update_cache_file('cache/apis/eth-stats.dat', $app_config['chainstats_cache'] ) == true ) {
 			
   			$json_string = 'https://api.etherscan.io/api?module=proxy&action=eth_getBlockByNumber&tag='.$block_number.'&boolean=true';
   			$jsondata = @api_data('url', $json_string, 0); // ZERO TO NOT CACHE DATA (WOULD CREATE CACHE BLOAT)
@@ -213,7 +213,7 @@ global $base_dir, $chainstats_cache;
 
 function coingecko_api($symbol) {
 	
-global $marketcap_ranks_max, $marketcap_cache;
+global $app_config;
 
 $array_merging = array();
 
@@ -221,7 +221,7 @@ $array_merging = array();
 	if ( !$_SESSION['cgk_data'] ) {
 
 
-	$jsondata = @api_data('url', 'https://api.coingecko.com/api/v3/coins?per_page='.$marketcap_ranks_max.'&page=1', $marketcap_cache);
+	$jsondata = @api_data('url', 'https://api.coingecko.com/api/v3/coins?per_page='.$app_config['marketcap_ranks_max'].'&page=1', $app_config['marketcap_cache']);
 	   
    $_SESSION['cgk_data'] = json_decode($jsondata, TRUE);
 
@@ -258,12 +258,12 @@ $array_merging = array();
 
 function coinmarketcap_api($symbol) {
 	
-global $btc_primary_currency_pairing, $api_timeout, $coinmarketcapcom_api_key, $marketcap_ranks_max, $marketcap_cache, $coinmarketcap_currencies;
+global $app_config, $coinmarketcap_currencies;
 
 
-	if ( trim($coinmarketcapcom_api_key) == NULL ) { 
+	if ( trim($app_config['coinmarketcapcom_api_key']) == NULL ) { 
 	
-	app_logging('cmc_config_error', '"$coinmarketcapcom_api_key" is not configured in config.php', false, false, true);
+	app_logging('cmc_config_error', '"coinmarketcapcom_api_key" is not configured in config.php', false, false, true);
 	
 	return FALSE;
 	
@@ -273,7 +273,7 @@ global $btc_primary_currency_pairing, $api_timeout, $coinmarketcapcom_api_key, $
 	if ( !$_SESSION['cmc_data'] ) {
 		
 	// Don't overwrite global
-	$coinmarketcap_primary_currency = strtoupper($btc_primary_currency_pairing);
+	$coinmarketcap_primary_currency = strtoupper($app_config['btc_primary_currency_pairing']);
 	
 		
 		if ( in_array($coinmarketcap_primary_currency, $coinmarketcap_currencies) ) {
@@ -290,12 +290,12 @@ global $btc_primary_currency_pairing, $api_timeout, $coinmarketcapcom_api_key, $
 	
 	$headers = [
   'Accepts: application/json',
-  'X-CMC_PRO_API_KEY: ' . $coinmarketcapcom_api_key
+  'X-CMC_PRO_API_KEY: ' . $app_config['coinmarketcapcom_api_key']
 	];
 
 	$cmc_params = array(
 	  							'start' => '1',
-	 							'limit' => $marketcap_ranks_max,
+	 							'limit' => $app_config['marketcap_ranks_max'],
 	  							'convert' => $convert
 								);
 
@@ -305,7 +305,7 @@ global $btc_primary_currency_pairing, $api_timeout, $coinmarketcapcom_api_key, $
 	
 	$request = "{$url}?{$qs}"; // create the request URL
 
-	$jsondata = @api_data('url', $request, $api_timeout, NULL, NULL, NULL, $headers);
+	$jsondata = @api_data('url', $request, $app_config['api_timeout'], NULL, NULL, NULL, $headers);
 	
 	$data = json_decode($jsondata, TRUE);
         

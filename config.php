@@ -36,7 +36,7 @@ require_once("app-lib/php/init.php");  // REQUIRED, DON'T DELETE BY ACCIDENT
 
 
 
-// $debug_mode enabled runs unit tests during ui runtimes (during webpage load), errors detected are error-logged and printed as alerts in footer
+// $app_config['debug_mode'] enabled runs unit tests during ui runtimes (during webpage load), errors detected are error-logged and printed as alerts in footer
 // It also logs ui / cron runtime telemetry to /cache/logs/debugging.log, AND /cache/logs/debugging/
 // 'off' (disables), 'all' (all debugging), 'charts' (chart/price alert checks), 'texts' (mobile gateway checks), 
 // 'markets' (coin market checks), 'telemetry' (logs function telemetries), 'stats' (basic hardware / software / runtime stats),
@@ -47,135 +47,135 @@ require_once("app-lib/php/init.php");  // REQUIRED, DON'T DELETE BY ACCIDENT
 // OPTIONALLY, TRY RUNNING ONE TEST PER PAGE LOAD, TO AVOID THIS.
 // DON'T LEAVE DEBUGGING ENABLED AFTER USING IT, THE /cache/logs/debugging.log AND /cache/logs/debugging/
 // LOG FILES !CAN GROW VERY QUICKLY IN SIZE! EVEN AFTER JUST A FEW RUNTIMES
-$debug_mode = 'off'; 
+$app_config['debug_mode'] = 'off'; 
 
 // Your local time offset in hours compared to UTC time. Can be negative or positive.
 // (Used for user experience 'pretty' timestamping only, will not change or screw up UTC log times etc if you change this)
-$local_time_offset = -5; // example: -5 or 5
+$app_config['local_time_offset'] = -5; // example: -5 or 5
 
 // Default BITCOIN-ONLY currency market pairing 
 // (set for charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
 // 'aud' / 'bob' / 'brl' / 'cad' / 'chf' / 'cop' / 'eur' / 'eth' / 'gbp' / 'hkd' / 'jpy' / 'ltc' / 'mxn'
 // 'nis' / 'pkr' / 'rub' / 'sgd' / 'try' / 'tusd' / 'usd' / 'usdc' / 'usdt' / 'vnd'
-// SEE THE $coins_list CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
-// CURRENCY PAIRING VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (set in $btc_primary_exchange directly below)
-$btc_primary_currency_pairing = 'usd'; 
+// SEE THE $app_config['portfolio_assets'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
+// CURRENCY PAIRING VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (set in $app_config['btc_primary_exchange'] directly below)
+$app_config['btc_primary_currency_pairing'] = 'usd'; 
 
 // Default BITCOIN-ONLY exchanges 
 // (set for charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
 // 'btcmarkets' / 'lakebtc' / 'localbitcoins' / 'braziliex' / 'kraken' / 'bitflyer' / 'bitlish' / 'bitpanda' / 'bitstamp'
 // 'cex' / 'coinbase' / 'coss' / 'bitfinex' / 'tidebit' / 'bitso' / 'bit2c' / 'btcturk' / 'binance' / 'binance_us'
 // 'gemini' / 'hitbtc' / 'livecoin' / 'okcoin' / 'southxchange' / 'huobi' / 'okex'
-// SEE THE $coins_list CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
-// MARKET PAIRING VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (to populate $btc_primary_currency_pairing directly above with)
-$btc_primary_exchange = 'kraken'; // SEE THE $limited_apis SETTING MUCH FURTHER DOWN, FOR EXCHANGES !NOT RECOMMENDED FOR USAGE HERE!
+// SEE THE $app_config['portfolio_assets'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
+// MARKET PAIRING VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (to populate $app_config['btc_primary_currency_pairing'] directly above with)
+$app_config['btc_primary_exchange'] = 'kraken'; // SEE THE $app_config['limited_apis'] SETTING MUCH FURTHER DOWN, FOR EXCHANGES !NOT RECOMMENDED FOR USAGE HERE!
 
 // Maximum decimal places for [primary currency] values of coins worth under 1.00 [usd/gbp/eur/jpy/brl/rub/etc], for prettier / less-cluttered interface
-$primary_currency_decimals_max = 5; // IF YOU ADJUST $btc_primary_currency_pairing ABOVE, YOU MAY NEED TO ADJUST THIS ACCORDINGLY FOR !FUNCTIONAL! CHARTS / ALERTS
+$app_config['primary_currency_decimals_max'] = 5; // IF YOU ADJUST $app_config['btc_primary_currency_pairing'] ABOVE, YOU MAY NEED TO ADJUST THIS ACCORDINGLY FOR !FUNCTIONAL! CHARTS / ALERTS
 
 // Default marketcap data source: 'coingecko', or 'coinmarketcap' (coinmarketcap requires a FREE API key, see below)
-$primary_marketcap_site = 'coingecko'; 
+$app_config['primary_marketcap_site'] = 'coingecko'; 
 
 // API key for coinmarketcap.com Pro API (required unfortunately, but a FREE level is available): https://coinmarketcap.com/api
-$coinmarketcapcom_api_key = '';
+$app_config['coinmarketcapcom_api_key'] = '';
 
 // Number of marketcap rankings to request from API. Ranks are grabbed 100 per request
-$marketcap_ranks_max = 200; // 200 rankings is a safe maximum to start with, it avoids getting your API requests throttled / blocked
+$app_config['marketcap_ranks_max'] = 200; // 200 rankings is a safe maximum to start with, it avoids getting your API requests throttled / blocked
 
-$margin_leverage_max = 125; // Maximum margin leverage available in the user interface ('Update Assets' page, etc)
+$app_config['margin_leverage_max'] = 125; // Maximum margin leverage available in the user interface ('Update Assets' page, etc)
 
 // Block an asset price alert if price retrieved, BUT failed retrieving pair volume (not even a zero was retrieved, nothing)
 // Good for blocking questionable exchanges bugging you with price alerts, especially when used in combination with the minimum volume filter
-$block_volume_error = 'on'; // 'on' / 'off' 
+$app_config['block_volume_error'] = 'on'; // 'on' / 'off' 
 
-$marketcap_cache = 20; // Minutes to cache above-mentioned marketcap rankings...start high and test lower, it can be strict
+$app_config['marketcap_cache'] = 20; // Minutes to cache above-mentioned marketcap rankings...start high and test lower, it can be strict
 
 // Minutes to cache real-time exchange data...can be zero to skip cache, but set to at least 1 minute to avoid your IP getting blocked
-$last_trade_cache = 3; 
+$app_config['last_trade_cache'] = 3; 
 
-$chainstats_cache = 30; // Minutes to cache blockchain stats (for mining calculators). Set high initially, can be strict
+$app_config['chainstats_cache'] = 30; // Minutes to cache blockchain stats (for mining calculators). Set high initially, can be strict
 
-$api_timeout = 15; // Seconds to wait for response from API endpoints (exchange data, etc). Don't set too low, or you won't get data
+$app_config['api_timeout'] = 15; // Seconds to wait for response from API endpoints (exchange data, etc). Don't set too low, or you won't get data
 
-$api_strict_ssl = 'on'; // 'on' verifies ALL SSL certificates for HTTPS API servers, 'off' verifies NOTHING (NOT RECOMMENDED in production environment)
+$app_config['api_strict_ssl'] = 'on'; // 'on' verifies ALL SSL certificates for HTTPS API servers, 'off' verifies NOTHING (NOT RECOMMENDED in production environment)
 
-$delete_old_backups = 7; // Days until old zip archive backups should be deleted (chart data archives, etc)
+$app_config['delete_old_backups'] = 7; // Days until old zip archive backups should be deleted (chart data archives, etc)
 
-$purge_logs = 7; // Days to keep logs before purging (deletes logs every X days) start low, especially when using proxies
+$app_config['purge_logs'] = 7; // Days to keep logs before purging (deletes logs every X days) start low, especially when using proxies
 
 // Every X days mail logs. 0 disables mailing logs. Email to / from !MUST BE SET! MAY NOT SEND IN TIMELY FASHION WITHOUT CRON JOB
-$mail_logs = 1; 
+$app_config['mail_logs'] = 1; 
 
 // Shows system statistics in the user interface, if stats are available (system load, system temperature, free disk space, free system memory)
-$system_stats = 'raspi'; // 'off' (disabled), 'on' (enabled for ANY system), 'raspi' (enabled ONLY for raspberry pi devices)
+$app_config['system_stats'] = 'raspi'; // 'off' (disabled), 'on' (enabled for ANY system), 'raspi' (enabled ONLY for raspberry pi devices)
 
 
 
 
 // ENABLING CHARTS REQUIRES A CRON JOB SETUP (see README.txt for cron job setup information)
-// Caches the default [primary currency] ($btc_primary_currency_pairing at top of this config) price + crypto price / volume data for charts 
-// of all assets added to $asset_charts_and_alerts (further down in this config file)
+// Caches the default [primary currency] ($app_config['btc_primary_currency_pairing'] at top of this config) price + crypto price / volume data for charts 
+// of all assets added to $app_config['asset_charts_and_alerts'] (further down in this config file)
 // Enables a charts tab / page with historical charts. STILL EARLY CODE (AS OF 5/29/2019), MAY SLOW PAGE LOADS SIGNIFICANTLY UNTIL FURTHER OPTIMIZED
 // Disabling will disable EVERYTHING related to the charts features...the page, caching, even the javascript associated with the charts
-$charts_page = 'on'; // 'on' / 'off'
+$app_config['charts_page'] = 'on'; // 'on' / 'off'
 
 // Chart colors (https://www.w3schools.com/colors/colors_picker.asp)
 
 // Charts border color
-$charts_border = '#808080';  
+$app_config['charts_border'] = '#808080';  
 
 // Charts background color
-$charts_background = '#515050';  
+$app_config['charts_background'] = '#515050';  
 
 // Charts line color
-$charts_line = '#444444';  
+$app_config['charts_line'] = '#444444';  
 
 // Charts text color
-$charts_text = '#dddddd';  
+$app_config['charts_text'] = '#dddddd';  
 
 // Charts link color
-$charts_link = '#b5b5b5';  
+$app_config['charts_link'] = '#b5b5b5';  
 
 // Charts price (base) gradient color
-$charts_price_gradient = '#000000'; 
+$app_config['charts_price_gradient'] = '#000000'; 
 
 // Charts tooltip background color
-$charts_tooltip_background = '#bbbbbb';
+$app_config['charts_tooltip_background'] = '#bbbbbb';
 
 // Charts tooltip text color
-$charts_tooltip_text = '#222222';
+$app_config['charts_tooltip_text'] = '#222222';
 
-// Backup chart data in a zip file in the 'backups' subdirectory (with a secure random 32 character hexadecimal suffix for privacy), only used if $charts_page above is on
-$charts_backup_freq = 1; // Every X days backup chart data. 0 disables backups. Email to / from !MUST BE SET! (a download link is emailed to you of the chart data archive)
+// Backup chart data in a zip file in the 'backups' subdirectory (with a secure random 32 character hexadecimal suffix for privacy), only used if $app_config['charts_page'] above is on
+$app_config['charts_backup_freq'] = 1; // Every X days backup chart data. 0 disables backups. Email to / from !MUST BE SET! (a download link is emailed to you of the chart data archive)
 
 
 
 
 // IF SMTP EMAIL SENDING --NOT-- USED, FROM email should be REAL address on the website domain, or risk having email blacklisted / sent to junk folder
 // IF SMTP EMAIL SENDING --IS-- USED, FROM EMAIL MUST MATCH EMAIL ADDRESS associated with SMTP login (SMTP Email settings are further down below this setting)
-$from_email = ''; // MUST BE SET for price alerts and other email features
+$app_config['from_email'] = ''; // MUST BE SET for price alerts and other email features
 
-$to_email = ''; // MUST BE SET for price alerts and other email features
+$app_config['to_email'] = ''; // MUST BE SET for price alerts and other email features
 
 // For asset price alert texts to mobile phone numbers. 
 // Attempts to email the text if a SUPPORTED MOBILE TEXTING NETWORK name is set, AND no textbelt / textlocal config is setup.
 // SMTP-authenticated email sending MAY GET THROUGH TEXTING SERVICE CONTENT FILTERS BETTER THAN USING PHP'S BUILT-IN EMAILING FUNCTION
 // SEE FURTHER DOWN IN THIS CONFIG FILE, FOR A LIST OF SUPPORTED MOBILE TEXTING NETWORK PROVIDER NAMES 
-// IN THE EMAIL-TO-MOBILE-TEXT CONFIG SECTION (the "network name keys" in the $mobile_networks variables array)
+// IN THE EMAIL-TO-MOBILE-TEXT CONFIG SECTION (the "network name keys" in the $app_config['mobile_network_text_gateways'] variables array)
 // CAN BE BLANK. Country code format MAY NEED TO BE USED (depending on your mobile network)
-$to_text = ''; // 'phone_number||network_name_key' (example: '12223334444||virgin_us')
+$app_config['to_text'] = ''; // 'phone_number||network_name_key' (example: '12223334444||virgin_us')
 
 // For asset price alert notifyme alexa notifications (sending Alexa devices notifications for free). 
 // CAN BE BLANK. Setup: http://www.thomptronics.com/notify-me
-$notifyme_accesscode = '';
+$app_config['notifyme_accesscode'] = '';
 
 // Do NOT use textbelt AND textlocal together. Leave one setting blank, or it will disable using both.
 
 // CAN BE BLANK. For asset price alert textbelt notifications. Setup: https://textbelt.com/
-$textbelt_apikey = '';
+$app_config['textbelt_apikey'] = '';
 
 // CAN BE BLANK. For asset price alert textlocal notifications. Setup: https://www.textlocal.com/integrations/api/
-$textlocal_account = ''; // This format MUST be used: 'username||hash_code'
+$app_config['textlocal_account'] = ''; // This format MUST be used: 'username||hash_code'
 
 
 
@@ -184,11 +184,11 @@ $textlocal_account = ''; // This format MUST be used: 'username||hash_code'
 // !!USE A THROWAWAY ACCOUNT ONLY!! If web server is hacked, HACKER WOULD THEN HAVE ACCESS YOUR EMAIL LOGIN FROM THIS FILE!!
 // If SMTP credentials / settings are filled in, BUT not setup properly, APP EMAILING WILL FAIL
 // CAN BE BLANK (PHP's built-in mail function will be automatically used to send email instead)
-$smtp_login = ''; //  CAN BE BLANK. This format MUST be used: 'username||password'
+$app_config['smtp_login'] = ''; //  CAN BE BLANK. This format MUST be used: 'username||password'
 
-$smtp_server = ''; // CAN BE BLANK. This format MUST be used: 'domain_or_ip:port' example: 'example.com:25'
+$app_config['smtp_server'] = ''; // CAN BE BLANK. This format MUST be used: 'domain_or_ip:port' example: 'example.com:25'
 
-$smtp_secure = 'tls'; // CAN BE BLANK '' for no secure connection, or 'tls', or 'ssl' for secure connections. Make sure port number ABOVE corresponds
+$app_config['smtp_secure'] = 'tls'; // CAN BE BLANK '' for no secure connection, or 'tls', or 'ssl' for secure connections. Make sure port number ABOVE corresponds
 
 
 
@@ -196,11 +196,11 @@ $smtp_secure = 'tls'; // CAN BE BLANK '' for no secure connection, or 'tls', or 
 // If using proxies and login is required
 // Adding a user / pass here will automatically send login details for proxy connections
 // CAN BE BLANK. IF using ip address whitelisting instead, MUST BE LEFT BLANK
-$proxy_login = ''; // Use format: 'username||password'
+$app_config['proxy_login'] = ''; // Use format: 'username||password'
 
 // If using proxies, add the ip address / port number here for each one, like examples below (without the double slashes in front)
 // CAN BE BLANK. Adding proxies here will automatically choose one randomly for each API request
-$proxy_list = array(
+$app_config['proxy_list'] = array(
 					// 'ipaddress1:portnumber1',
 					// 'ipaddress2:portnumber2',
 					);
@@ -208,41 +208,41 @@ $proxy_list = array(
 
 // Additional proxy configuration settings (only used if proxies are enabled above)
 
-$proxy_alerts = 'email'; // Alerts for failed proxy data connections. 'none', 'email', 'text', 'notifyme', 'all'
+$app_config['proxy_alerts'] = 'email'; // Alerts for failed proxy data connections. 'none', 'email', 'text', 'notifyme', 'all'
 
-$proxy_alerts_runtime = 'cron'; // Which runtime mode should allow proxy alerts? Options: 'cron', 'ui', 'all'
+$app_config['proxy_alerts_runtime'] = 'cron'; // Which runtime mode should allow proxy alerts? Options: 'cron', 'ui', 'all'
 
-$proxy_checkup_ok = 'include'; // 'include', or 'ignore' Proxy alerts sent to you even if proxy checkup went OK? (after flagged, started working again when checked) 
+$app_config['proxy_checkup_ok'] = 'include'; // 'include', or 'ignore' Proxy alerts sent to you even if proxy checkup went OK? (after flagged, started working again when checked) 
 
-$proxy_alerts_freq = 1; // Re-allow same proxy alert(s) after X hours (per ip/port pair, can be 0)
+$app_config['proxy_alerts_freq'] = 1; // Re-allow same proxy alert(s) after X hours (per ip/port pair, can be 0)
 
 
 
 
 // Asset price alert settings
-// Only used if $asset_charts_and_alerts is filled in properly below, AND a cron job is setup (see README.txt for cron job setup information) 
+// Only used if $app_config['asset_charts_and_alerts'] is filled in properly below, AND a cron job is setup (see README.txt for cron job setup information) 
 
-$asset_price_alerts_percent = 7.5; // Price percent change to send alerts for (WITHOUT percent sign: 15 = 15%). Sends alerts when percent change reached (up or down)
+$app_config['asset_price_alerts_percent'] = 7.5; // Price percent change to send alerts for (WITHOUT percent sign: 15 = 15%). Sends alerts when percent change reached (up or down)
 
-$asset_price_alerts_freq = 10; // Re-allow same asset price alert(s) after X minutes (per asset, set higher if issues with blacklisting...can be 0)
+$app_config['asset_price_alerts_freq'] = 10; // Re-allow same asset price alert(s) after X minutes (per asset, set higher if issues with blacklisting...can be 0)
 
 // Minimum 24 hour volume filter. Only allows sending price alerts if minimum 24 hour volume reached
 // CAN BE 0 TO DISABLE MINIMUM VOLUME FILTERING, NO DECIMALS OR SEPARATORS, NUMBERS ONLY, WITHOUT the [primary currency] prefix symbol: 250 = $250 , 4500 = $4,500 , etc
 // THIS FILTER WILL AUTO-DISABLE IF THERE IS AN ERROR RETRIEVING DATA ON A CERTAIN MARKET (WHEN NOT EVEN A ZERO IS RECEIVED)
-$asset_price_alerts_minvolume = 3000;
+$app_config['asset_price_alerts_min_volume'] = 3000;
 
 // Refresh cached comparison prices every X days (since last refresh / alert) with latest prices
 // Can be 0 to disable refreshing (until price alert triggers a refresh)
-$asset_price_alerts_refresh = 0; 
+$app_config['asset_price_alerts_refresh'] = 0; 
 
 // CHARTS / ASSET PRICE ALERTS SETUP REQUIRES A CRON JOB RUNNING ON YOUR WEBSITE SERVER (see README.txt for cron job setup information) 
 // Markets you want charts or asset price change alerts for (alerts sent when default [primary currency] 
-// [$btc_primary_currency_pairing at top of this config] value change is equal to or above / below $asset_price_alerts_percent) 
+// [$app_config['btc_primary_currency_pairing'] at top of this config] value change is equal to or above / below $app_config['asset_price_alerts_percent']) 
 // Delete any double forward slashes from in front of each asset you want to enable charts / price alerts on (or add double slashes in front to disable it)
 // NOTE: This list must only contain assets / exchanges / trading pairs included in the primary coin list configuration further down in this config file
 // TO ADD MULTIPLE CHARTS / ALERTS FOR SAME ASSET (FOR DIFFERENT EXCHANGES / TRADE PAIRINGS), FORMAT LIKE SO: symbol, symbol-1, symbol-2, symbol-3, etc.
 // TO ENABLE CHART AND ALERT = both, TO ENABLE CHART ONLY = chart, TO ENABLE ALERT ONLY = alert
-$asset_charts_and_alerts = array(
+$app_config['asset_charts_and_alerts'] = array(
 
 					// SYMBOL
 				// 'symbol' => 'exchange||trade_pairing||both',
@@ -363,13 +363,13 @@ $asset_charts_and_alerts = array(
 					
 					);
 					
-// END $asset_charts_and_alerts
+// END $app_config['asset_charts_and_alerts']
 
 
 
 
 // Static values in ETH for Ethereum subtokens, like during crowdsale periods etc
-$eth_subtokens_ico_values = array(
+$app_config['eth_subtokens_ico_values'] = array(
                         'ETHSUBTOKENNAME' => '0.15',
                         'GOLEM' => '0.001',
                         'ARAGON' => '0.01',
@@ -380,7 +380,7 @@ $eth_subtokens_ico_values = array(
 
 
 // Mining rewards for different platforms (to prefill editable mining calculator forms)
-$mining_rewards = array(
+$app_config['mining_rewards'] = array(
 					'btc' => '12.5',
 					'eth' => '2',
 					'xmr' => monero_reward(),  // (2^64 - 1 - current_supply * 10^12) * 2^-19 * 10^-12
@@ -395,10 +395,10 @@ $mining_rewards = array(
 
 // STEEM Power yearly interest rate START 11/29/2016 (1.425%, decreasing every year by roughly 0.075% until it hits a minimum of 0.075% and stays there)
 // 1.425 (DO NOT INCLUDE PERCENT SIGN) the first year at 11/29/2016 refactored rates, see above for manual yearly adjustment
-$steempower_yearly_interest = 1.425;
+$app_config['steempower_yearly_interest'] = 1.425;
 
 // Weeks to power down all STEEM Power holdings
-$steem_powerdown_time = 13; 
+$app_config['steem_powerdown_time'] = 13; 
 
 
 
@@ -407,9 +407,9 @@ $steem_powerdown_time = 13;
 
 // Activate support for CURRENCY-paired markets (like usd/ltc, eur/eth, etc)
 // EACH CURRENCY LISTED HERE !MUST HAVE! AN EXISTING BTC/CURRENCY MARKET (within 'market_pairing') 
-// in Bitcoin's $coins_list listing (further down in this config file) TO PROPERLY ACTIVATE
+// in Bitcoin's $app_config['portfolio_assets'] listing (further down in this config file) TO PROPERLY ACTIVATE
 // (CAN BE A CRYPTO, !AS LONG AS THERE IS A BITCOIN PAIRING CONFIGURED!)
-$bitcoin_market_currencies = array(
+$app_config['bitcoin_market_currencies'] = array(
 						//'lowercase_btc_market_or_stablecoin_pairing' => 'CURRENCY_SYMBOL',
 						'aud' => 'A$',
 						'bob' => 'Bs ',
@@ -441,9 +441,9 @@ $bitcoin_market_currencies = array(
 
 // Activate support for ALTCOIN-paired markets (like doge/ltc, dai/eth, etc)
 // EACH ALTCOIN LISTED HERE !MUST HAVE! AN EXISTING 'btc' MARKET (within 'market_pairing') 
-// in it's $coins_list listing (further down in this config file) TO PROPERLY ACTIVATE
+// in it's $app_config['portfolio_assets'] listing (further down in this config file) TO PROPERLY ACTIVATE
 // ('btc' pairing support IS SKIPPED HERE, as it's ALREADY BUILT-IN to this app)
-$crypto_to_crypto_pairing = array(
+$app_config['crypto_to_crypto_pairing'] = array(
 						//'lowercase_altcoin_abrv' => 'CRYPTO_SYMBOL',
 						'eth' => 'Ξ ',
 						'ltc' => 'Ł ',
@@ -459,7 +459,7 @@ $crypto_to_crypto_pairing = array(
 // (THESE EXCHANGES ARE !NOT! RECOMMENDED TO BE USED AS THE PRIMARY CURRENCY MARKET IN THIS APP,
 // AS ON OCCASION THEY CAN BE !UNRELIABLE! IF HIT WITH TOO MANY SEPARATE API CALLS FOR DIFFERENT COINS / ASSETS)
 // !MUST BE LOWERCASE!
-$limited_apis = array(
+$app_config['limited_apis'] = array(
 						'bit2c.co.il',
 						'bitforex.com',
 						'bitflyer.com',
@@ -481,7 +481,7 @@ $limited_apis = array(
 
 // TLD-extensions-only (Top Level Domain extensions) supported in the get_tld() function
 // (NO LEADING DOTS, !MUST BE LOWERCASE!)
-$tld_map = array(
+$app_config['top_level_domain_map'] = array(
 					'co.il',
 					'co.uk',
 					'com', 
@@ -521,7 +521,7 @@ $tld_map = array(
 Below are the mobile networks supported by DFD Cryptocoin Value's email-to-mobile-text functionality. 
 
 Using your corresponding "Network Name Key" (case-sensitive) listed below, 
-add that EXACT name in this config file further above within the $to_text setting as the text network name variable,
+add that EXACT name in this config file further above within the $app_config['to_text'] setting as the text network name variable,
 to enable email-to-text alerts to your network's mobile phone number.
 
 PLEASE REPORT ANY MISSING / INCORRECT / NON-FUNCTIONAL GATEWAYS HERE, AND I WILL FIX THEM:
@@ -538,7 +538,7 @@ https://github.com/taoteh1221/DFD_Cryptocoin_Values/issues
 // DUPLICATE NETWORK NAME KEYS --WILL CANCEL EACH OTHER OUT--, !!USE A UNIQUE NAME FOR EACH KEY!!
 
 
-$mobile_networks = array(
+$app_config['mobile_network_text_gateways'] = array(
                         
                         
                         // [EXAMPLE]
@@ -736,7 +736,7 @@ $mobile_networks = array(
 
 
 
-$coins_list = array(
+$app_config['portfolio_assets'] = array(
 
                     
                     
@@ -749,32 +749,32 @@ $coins_list = array(
                         
                         				'aud' => array(
                                     		'btcmarkets' => 'BTC/AUD',
-                                          'lakebtc' => 'btcaud'
+                                          'lakebtc' => 'btcaud',
                                                     ),
                                                     
                                     'bob' => array(
-                                          'localbitcoins' => 'BOB'
+                                          'localbitcoins' => 'BOB',
                                                     ),
                                                     
                                     'brl' => array(
-                                          'braziliex' => 'btc_brl'
+                                          'braziliex' => 'btc_brl',
                                                     ),
                                                     
                                     'cad' => array(
                                           'kraken' => 'XXBTZCAD',
-                                          'lakebtc' => 'btccad'
+                                          'lakebtc' => 'btccad',
                                                     ),
                                                     
                                     'chf' => array(
-                                          'lakebtc' => 'btcchf'
+                                          'lakebtc' => 'btcchf',
                                                     ),
                                                     
                                     'cop' => array(
-                                          'localbitcoins' => 'COP'
+                                          'localbitcoins' => 'COP',
                                                     ),
                                                     
                                     'eth' => array(
-                                          'localbitcoins' => 'ETH'
+                                          'localbitcoins' => 'ETH',
                                                     ),
                                                     
                                     'eur' => array(
@@ -786,7 +786,7 @@ $coins_list = array(
                                           'lakebtc' => 'btceur',
                                           'cex' => 'BTC:EUR',
                                           'bitlish' => 'btceur',
-                                          'coss' => 'BTC-EUR'
+                                          'coss' => 'BTC-EUR',
                                                     ),
                                                     
                                     'gbp' => array(
@@ -795,7 +795,7 @@ $coins_list = array(
                                           'lakebtc' => 'btcgbp',
                                           'cex' => 'BTC:GBP',
                                           'bitlish' => 'btcgbp',
-                                          'coss' => 'BTC-GBP'
+                                          'coss' => 'BTC-GBP',
                                                     ),
                                                     
                                     'hkd' => array(
@@ -805,40 +805,40 @@ $coins_list = array(
                                     'jpy' => array(
                                           'bitflyer' => 'BTC_JPY',
                                           'lakebtc' => 'btcjpy',
-                                          'bitlish' => 'btcjpy'
+                                          'bitlish' => 'btcjpy',
                                                     ),
                                                     
                                     'ltc' => array(
-                                          'localbitcoins' => 'LTC'
+                                          'localbitcoins' => 'LTC',
                                                     ),
                                                     
                                     'mxn' => array(
-                                          'bitso' => 'btc_mxn'
+                                          'bitso' => 'btc_mxn',
                                                     ),
                                                     
                                     'nis' => array(
-                                          'bit2c' => 'BtcNis'
+                                          'bit2c' => 'BtcNis',
                                                     ),
                                                     
                                     'pkr' => array(
-                                          'localbitcoins' => 'PKR'
+                                          'localbitcoins' => 'PKR',
                                                     ),
                                                     
                                     'rub' => array(
                                           'cex' => 'BTC:RUB',
-                                          'bitlish' => 'btcrub'
+                                          'bitlish' => 'btcrub',
                                                     ),
                                                     
                                     'sgd' => array(
-                                          'lakebtc' => 'btcsgd'
+                                          'lakebtc' => 'btcsgd',
                                                     ),
                                                     
                                     'try' => array(
-                                          'btcturk' => 'BTCTRY'
+                                          'btcturk' => 'BTCTRY',
                                                     ),
                                                     
                                     'tusd' => array(
-                                          'binance' => 'BTCTUSD'
+                                          'binance' => 'BTCTUSD',
                                                     ),
                                                     
                                     'usd' => array(
@@ -857,27 +857,27 @@ $coins_list = array(
                                           'cex' => 'BTC:USD',
                                           'southxchange' => 'BTC/USD',
                                           'bitlish' => 'btcusd',
-                                          'coss' => 'BTC-USD'
+                                          'coss' => 'BTC-USD',
                                                     ),
                                                     
                                     'usdc' => array(
-                                          'binance' => 'BTCUSDC'
+                                          'binance' => 'BTCUSDC',
                                                     ),
                                                     
                                     'usdt' => array(
                                           'binance' => 'BTCUSDT',
                                           'btcturk' => 'BTCUSDT',
                                           'huobi' => 'btcusdt',
-                                          'okex' => 'BTC-USDT'
+                                          'okex' => 'BTC-USDT',
                                                     ),
                                                     
                                     'vnd' => array(
-                                          'localbitcoins' => 'VND'
+                                          'localbitcoins' => 'VND',
                                                     ),
                                                     
                                         ) // market_pairing END
                         
-                    ), // Coin END
+                    ), // Asset END
                     
                     
                     // ETH
@@ -888,7 +888,7 @@ $coins_list = array(
                         'market_pairing' => array(
                                                     
                                     'brl' => array(
-                                          'braziliex' => 'eth_brl'
+                                          'braziliex' => 'eth_brl',
                                                     ),
                                                     
                                     'btc' => array(
@@ -910,49 +910,49 @@ $coins_list = array(
                                           'cryptofresh' => 'OPEN.ETH',
                                           'bitso' => 'eth_btc',
                                           'braziliex' => 'eth_btc',
-                                          'bitlish' => 'ethbtc'
+                                          'bitlish' => 'ethbtc',
                                                     ),
                                                     
                                     'eur' => array(
                                           'coinbase' => 'ETH-EUR',
                                           'bitstamp' => 'etheur',
                                           'cex' => 'ETH:EUR',
-                                          'bitlish' => 'etheur'
+                                          'bitlish' => 'etheur',
                                                     ),
                                                     
                                     'gbp' => array(
                                           'coinbase' => 'ETH-GBP',
                                           'cex' => 'BTC:GBP',
-                                          'bitlish' => 'ethgbp'
+                                          'bitlish' => 'ethgbp',
                                                     ),
                                                     
                                     'hkd' => array(
-                                          'tidebit' => 'ethhkd'
+                                          'tidebit' => 'ethhkd',
                                                     ),
                                                     
                                     'jpy' => array(
                                           'bitflyer' => 'ETH_JPY',
-                                          'bitlish' => 'ethjpy'
+                                          'bitlish' => 'ethjpy',
                                                     ),
                                                     
                                     'mxn' => array(
-                                          'bitso' => 'eth_mxn'
+                                          'bitso' => 'eth_mxn',
                                                     ),
                                                     
                                     'nis' => array(
-                                          'bit2c' => 'EthNis'
+                                          'bit2c' => 'EthNis',
                                                     ),
                                                     
                                     'rub' => array(
-                                          'bitlish' => 'ethrub'
+                                          'bitlish' => 'ethrub',
                                                     ),
                                                     
                                     'tusd' => array(
-                                          'binance' => 'ETHTUSD'
+                                          'binance' => 'ETHTUSD',
                                                     ),
                                                     
                                     'try' => array(
-                                          'btcturk' => 'ETHTRY'
+                                          'btcturk' => 'ETHTRY',
                                                     ),
                                                     
                                     'usd' => array(
@@ -964,7 +964,7 @@ $coins_list = array(
                                           'okcoin' => 'eth_usd',
                                           'cex' => 'ETH:USD',
                                           'bitlish' => 'ethusd',
-                                          'coss' => 'ETH-USD'
+                                          'coss' => 'ETH-USD',
                                                     ),
                                                     
                                     'usdt' => array(
@@ -977,19 +977,19 @@ $coins_list = array(
                                           'upbit' => 'USDT-ETH',
                                        	'kucoin' => 'ETH-USDT',
                                           'okex' => 'ETH-USDT',
-                                          'poloniex' => 'USDT_ETH'
+                                          'poloniex' => 'USDT_ETH',
                                                     ),
                                                     
                                     'usdc' => array(
                                           'binance' => 'ETHUSDC',
                                           'coinbase' => 'ETH-USDC',
                                           'kucoin' => 'ETH-USDC',
-                                          'poloniex' => 'USDC_ETH'
+                                          'poloniex' => 'USDC_ETH',
                                                     ),
                                                     
                                         ) // market_pairing END
                         
-                    ), // Coin END
+                    ), // Asset END
                     
                     
                     // XMR
@@ -1009,7 +1009,7 @@ $coins_list = array(
                                         	'upbit' => 'BTC-XMR',
                                           'okex' => 'XMR-BTC',
                                           'poloniex' => 'BTC_XMR',
-                                          'bitlish' => 'xmrbtc'
+                                          'bitlish' => 'xmrbtc',
                                                     ),
                                                     
                                     'eth' => array(
@@ -1017,7 +1017,7 @@ $coins_list = array(
                                           'huobi' => 'xmreth',
                                           'bittrex' => 'ETH-XMR',
                                           'hitbtc' => 'XMRETH',
-                                          'upbit' => 'ETH-XMR'
+                                          'upbit' => 'ETH-XMR',
                                                     ),
                                                     
                                     'usdt' => array(
@@ -1025,16 +1025,16 @@ $coins_list = array(
                                           'bittrex' => 'USDT-XMR',
                                           'upbit' => 'USDT-XMR',
                                           'okex' => 'XMR-USDT',
-                                          'poloniex' => 'USDT_XMR'
+                                          'poloniex' => 'USDT_XMR',
                                                     ),
                                                     
                                     'usdc' => array(
-                                          'poloniex' => 'USDC_XMR'
+                                          'poloniex' => 'USDC_XMR',
                                                     ),
                                                     
                                         ) // market_pairing END
                         
-                    ), // Coin END
+                    ), // Asset END
                     
                     
                     // LTC
@@ -1045,7 +1045,7 @@ $coins_list = array(
                         'market_pairing' => array(
                         
                                     'brl' => array(
-                                          'braziliex' => 'ltc_brl'
+                                          'braziliex' => 'ltc_brl',
                                                     ),
                                                     
                                     'btc' => array(
@@ -1067,7 +1067,7 @@ $coins_list = array(
                                         'tradesatoshi' => 'LTC_BTC',
                                         'bitso' => 'ltc_btc',
                                         'braziliex' => 'ltc_btc',
-                                        'bitlish' => 'ltcbtc'
+                                        'bitlish' => 'ltcbtc',
                                                     ),
                                                     
                                     'eth' => array(
@@ -1076,30 +1076,30 @@ $coins_list = array(
                                         'hitbtc' => 'LTCETH',
                                         'kucoin' => 'LTC-ETH',
                                         'upbit' => 'ETH-LTC',
-                                    	 'okex' => 'LTC-ETH'
+                                    	 'okex' => 'LTC-ETH',
                                                     ),
                                                     
                                     'eur' => array(
                                           'coinbase' => 'LTC-EUR',
                                           'bitstamp' => 'ltceur',
-                                          'cex' => 'LTC:EUR'
+                                          'cex' => 'LTC:EUR',
                                                     ),
                                                     
                                     'gbp' => array(
                                           'coinbase' => 'LTC-GBP',
-                                          'cex' => 'LTC:GBP'
+                                          'cex' => 'LTC:GBP',
                                                     ),
                                                     
                                     'mxn' => array(
-                                          'bitso' => 'ltc_mxn'
+                                          'bitso' => 'ltc_mxn',
                                                     ),
                                                     
                                     'nis' => array(
-                                          'bit2c' => 'LtcNis'
+                                          'bit2c' => 'LtcNis',
                                                     ),
                                           			
                                     'tusd' => array(
-                                         'binance' => 'LTCTUSD'
+                                         'binance' => 'LTCTUSD',
                                                     ),
                                                     
                                     'usd' => array(
@@ -1109,12 +1109,12 @@ $coins_list = array(
                                           'gemini' => 'ltcusd',
                                           'bitfinex' => 'tLTCUSD',
                                           'okcoin' => 'ltc_usd',
-                                          'cex' => 'LTC:USD'
+                                          'cex' => 'LTC:USD',
                                                     ),
                                           			
                                     'usdc' => array(
                                          'binance' => 'LTCUSDC',
-                                         'poloniex' => 'USDC_LTC'
+                                         'poloniex' => 'USDC_LTC',
                                                     ),
                                                     
                                     'usdt' => array(
@@ -1126,12 +1126,12 @@ $coins_list = array(
                                         'kucoin' => 'LTC-USDT',
                                         'upbit' => 'USDT-LTC',
                                         'okex' => 'LTC-USDT',
-                                        'poloniex' => 'USDT_LTC'
+                                        'poloniex' => 'USDT_LTC',
                                           			),
                                                     
                                         ) // market_pairing END
                                         
-                    ), // Coin END
+                    ), // Asset END
                     
                     
                     // DCR
@@ -1152,22 +1152,22 @@ $coins_list = array(
                                           'upbit' => 'BTC-DCR',
                                           'okex' => 'DCR-BTC',
                                           'gateio' => 'dcr_btc',
-                                          'braziliex' => 'dcr_btc'
+                                          'braziliex' => 'dcr_btc',
                                                     ),
                                                     
                                 		'eth' => array(
-                                        	'kucoin' => 'DCR-ETH'
+                                        	'kucoin' => 'DCR-ETH',
                                                     ),
                                                     
                                     'usdt' => array(
                                           'bittrex' => 'USDT-DCR',
                                           'okex' => 'DCR-USDT',
-                                          'gateio' => 'dcr_usdt'
+                                          'gateio' => 'dcr_usdt',
                                           			),
                                           			
                                         ) // market_pairing END
                         
-                    ), // Coin END
+                    ), // Asset END
                     
                     
                     // GRIN
@@ -1186,22 +1186,22 @@ $coins_list = array(
                                          'poloniex' => 'BTC_GRIN',
                                          'bitforex' => 'coin-btc-grin',
                                          'tradeogre' => 'BTC-GRIN',
-                                         'bigone' => 'GRIN-BTC'
+                                         'bigone' => 'GRIN-BTC',
                                                     ),
                                                     
                                     'eth' => array(
                                     	  'kucoin' => 'GRIN-ETH',
                                          'hitbtc' => 'GRINETH',
                                          'hotbit' => 'GRIN_ETH',
-                                         'gateio' => 'grin_eth'
+                                         'gateio' => 'grin_eth',
                                                     ),
                                                     
                                     'nis' => array(
-                                          'bit2c' => 'GrinNis'
+                                          'bit2c' => 'GrinNis',
                                                     ),
                                                     
                                     'usdc' => array(
-                                         'poloniex' => 'USDC_GRIN'
+                                         'poloniex' => 'USDC_GRIN',
                                                     ),
                                                     
                                     'usdt' => array(
@@ -1210,12 +1210,12 @@ $coins_list = array(
                                          'hotbit' => 'GRIN_USDT',
                                          'gateio' => 'grin_usdt',
                                          'bitforex' => 'coin-usdt-grin',
-                                         'bigone' => 'GRIN-USDT'
+                                         'bigone' => 'GRIN-USDT',
                                                     ),
                                                     
                                         ) // market_pairing END
                                         
-                    ), // Coin END
+                    ), // Asset END
                     
                     
                     // ATOM
@@ -1232,34 +1232,34 @@ $coins_list = array(
                                          'okex' => 'ATOM-BTC',
                                          'hotbit' => 'ATOM_BTC',
                                          'poloniex' => 'BTC_ATOM',
-                                         'bitforex' => 'coin-btc-atom'
+                                         'bitforex' => 'coin-btc-atom',
                                                     ),
                                                     
                                     'eth' => array(
                                          'kraken' => 'ATOMETH',
                                          'okex' => 'ATOM-ETH',
                                          'hotbit' => 'ATOM_ETH',
-                                         'bitforex' => 'coin-eth-atom'
+                                         'bitforex' => 'coin-eth-atom',
                                                     ),
                                                     
                                     'tusd' => array(
-                                         'binance' => 'ATOMTUSD'
+                                         'binance' => 'ATOMTUSD',
                                                     ),
                                                     
                                     'usdc' => array(
                                          'binance' => 'ATOMUSDC',
-                                         'poloniex' => 'USDC_ATOM'
+                                         'poloniex' => 'USDC_ATOM',
                                                     ),
                                                     
                                     'usdt' => array(
                                          'hotbit' => 'ATOM_USDT',
                                          'poloniex' => 'USDT_ATOM',
-                                         'bitforex' => 'coin-usdt-atom'
+                                         'bitforex' => 'coin-usdt-atom',
                                                     ),
                                                     
                                         ) // market_pairing END
                                         
-                    ), // Coin END
+                    ), // Asset END
                     
                     
                     // STEEM
@@ -1274,16 +1274,16 @@ $coins_list = array(
                                           'bittrex' => 'BTC-STEEM',
                                           'hitbtc' => 'STEEMBTC',
                                           'upbit' => 'BTC-STEEM',
-                                          'cryptofresh' => 'OPEN.STEEM'
+                                          'cryptofresh' => 'OPEN.STEEM',
                                                     ),
                                                     
                                     'eth' => array(
-                                        	'binance' => 'STEEMETH'
+                                        	'binance' => 'STEEMETH',
                                                     ),
                                                     
                                         ) // market_pairing END
                         
-                    ), // Coin END
+                    ), // Asset END
                     
                     
                     // DOGE
@@ -1303,18 +1303,18 @@ $coins_list = array(
                                           'gateio' => 'doge_btc',
                                           'livecoin' => 'DOGE/BTC',
                                           'poloniex' => 'BTC_DOGE',
-                                        	'tradesatoshi' => 'DOGE_BTC'
+                                        	'tradesatoshi' => 'DOGE_BTC',
                                                     ),
                                                     
                                     'eth' => array(
                                         	'hotbit' => 'DOGE_ETH',
                                           'hitbtc' => 'DOGEETH',
                                         	'tradesatoshi' => 'DOGE_ETH',
-                                         	'bitforex' => 'coin-eth-doge'
+                                         	'bitforex' => 'coin-eth-doge',
                                                     ),
                                                     
                                     'usdc' => array(
-                                        	'poloniex' => 'USDC_DOGE'
+                                        	'poloniex' => 'USDC_DOGE',
                                                     ),
                                                     
                                     'usdt' => array(
@@ -1324,12 +1324,12 @@ $coins_list = array(
                                           'hitbtc' => 'DOGEUSD',
                                           'okex' => 'DOGE-USDT',
                                           'poloniex' => 'USDT_DOGE',
-                                         	'bitforex' => 'coin-usdt-doge'
+                                         	'bitforex' => 'coin-usdt-doge',
                                                     ),
                                                     
                                         ) // market_pairing END
                         
-                    ), // Coin END
+                    ), // Asset END
                     
                     
                     // ANT
@@ -1343,17 +1343,17 @@ $coins_list = array(
                                           'bittrex_global' => 'BTC-ANT',
                                         	'ethfinex' => 'tANTBTC',
                                           'hitbtc' => 'ANTBTC',
-                                        	'upbit' => 'BTC-ANT'
+                                        	'upbit' => 'BTC-ANT',
                                                     ),
                                                     
                                     'eth' => array(
                                         	'ethfinex' => 'tANTETH',
-                                          'upbit' => 'ETH-ANT'
+                                          'upbit' => 'ETH-ANT',
                                                     ),
                                                     
                                         ) // market_pairing END
                         
-                    ), // Coin END
+                    ), // Asset END
                     
                     
                     // MANA
@@ -1371,7 +1371,7 @@ $coins_list = array(
                                         	'upbit' => 'BTC-MANA',
                                           'okex' => 'MANA-BTC',
                                           'bitso' => 'mana_btc',
-                                          'poloniex' => 'BTC_MANA'
+                                          'poloniex' => 'BTC_MANA',
                                                     ),
                                                     
                                     'eth' => array(
@@ -1381,25 +1381,25 @@ $coins_list = array(
                                           'hitbtc' => 'MANAETH',
                                           'kucoin' => 'MANA-ETH',
                                         	'upbit' => 'ETH-MANA',
-                                          'okex' => 'MANA-ETH'
+                                          'okex' => 'MANA-ETH',
                                                     ),
                                                     
                                     'mxn' => array(
-                                          'bitso' => 'mana_mxn'
+                                          'bitso' => 'mana_mxn',
                                                     ),
                                                     
                                     'usdc' => array(
-                                          'coinbase' => 'MANA-USDC'
+                                          'coinbase' => 'MANA-USDC',
                                                     ),
                                                     
                                     'usdt' => array(
                                           'hitbtc' => 'MANAUSD',
-                                          'okex' => 'MANA-USDT'
+                                          'okex' => 'MANA-USDT',
                                                     ),
                                                     
                                         ) // market_pairing END
                         
-                    ), // Coin END
+                    ), // Asset END
                     
                     
                     // GNT
@@ -1417,30 +1417,30 @@ $coins_list = array(
                                         	'okex' => 'GNT-BTC',
                                           'bitso' => 'gnt_btc',
                                           'poloniex' => 'BTC_GNT',
-                                          'braziliex' => 'gnt_btc'
+                                          'braziliex' => 'gnt_btc',
                                                     ),
                                                     
                                     'eth' => array(
                                           'bittrex' => 'ETH-GNT',
                                         	'ethfinex' => 'tGNTETH',
-                                          'upbit' => 'ETH-GNT'
+                                          'upbit' => 'ETH-GNT',
                                                     ),
                                                     
                                     'mxn' => array(
-                                          'bitso' => 'gnt_mxn'
+                                          'bitso' => 'gnt_mxn',
                                                     ),
                                                     
                                     'usdc' => array(
-                                          'coinbase' => 'GNT-USDC'
+                                          'coinbase' => 'GNT-USDC',
                                                     ),
                                                     
                                     'usdt' => array(
-                                        	'okex' => 'GNT-USDT'
+                                        	'okex' => 'GNT-USDT',
                                                     ),
                                                     
                                         ) // market_pairing END
                         
-                    ), // Coin END
+                    ), // Asset END
                     
                     
                     // DATA
@@ -1453,7 +1453,7 @@ $coins_list = array(
                                     'btc' => array(
                                         'binance' => 'DATABTC',
                                         'ethfinex' => 'tDATBTC',
-                                        'hitbtc' => 'DATABTC'
+                                        'hitbtc' => 'DATABTC',
                                                     ),
                                                     
                                     'eth' => array(
@@ -1461,17 +1461,17 @@ $coins_list = array(
                                         'ethfinex' => 'tDATETH',
                                   		 'hitbtc' => 'DATAETH',
                                         'gateio' => 'data_eth',
-                                        'idex' => 'ETH_DATA'
+                                        'idex' => 'ETH_DATA',
                                                     ),
                                                     
                                     'usdt' => array(
                                          'hitbtc' => 'DATAUSD',
-                                         'gateio' => 'data_usdt'
+                                         'gateio' => 'data_usdt',
                                                     ),
                                                     
                                         ) // market_pairing END
                         
-                    ), // Coin END
+                    ), // Asset END
                     
                     
                     // DAG
@@ -1484,19 +1484,19 @@ $coins_list = array(
                                     'btc' => array(
                                         'kucoin' => 'DAG-BTC',
                                         'hotbit' => 'DAG_BTC',
-                                        'hitbtc' => 'DAGBTC'
+                                        'hitbtc' => 'DAGBTC',
                                                     ),
                                                     
                                     'eth' => array(
                                         'kucoin' => 'DAG-ETH',
                                         'hotbit' => 'DAG_ETH',
                                         'hitbtc' => 'DAGETH',
-                                        'idex' => 'ETH_DAG'
+                                        'idex' => 'ETH_DAG',
                                                     ),
                                                     
                                         ) // market_pairing END
                         
-                    ), // Coin END
+                    ), // Asset END
                     
                     
                     // MYST
@@ -1507,17 +1507,17 @@ $coins_list = array(
                         'market_pairing' => array(
                         
                                     'btc' => array(
-                                          'hitbtc' => 'MYSTBTC'
+                                          'hitbtc' => 'MYSTBTC',
                                                     ),
                                                     
                                     'eth' => array(
                                           'hitbtc' => 'MYSTETH',
-                                          'idex' => 'ETH_MYST'
+                                          'idex' => 'ETH_MYST',
                                                     ),
                                                     
                                         ) // market_pairing END
                         
-                    ), // Coin END
+                    ), // Asset END
                     
                     
                     // DAI
@@ -1529,31 +1529,31 @@ $coins_list = array(
                         
                                     'btc' => array(
                                         'bittrex' => 'BTC-DAI',
-                                        'upbit' => 'BTC-DAI'
+                                        'upbit' => 'BTC-DAI',
                                                     ),
                                                     
                                     'eth' => array(
                                         'bittrex' => 'ETH-DAI',
-                                    	 'bitfinex' => 'tDAIETH'
+                                    	 'bitfinex' => 'tDAIETH',
                                                     ),
                                                     
                                     'usd' => array(
                                     	 'kraken' => 'DAIUSD',
-                                    	 'bitfinex' => 'tDAIUSD'
+                                    	 'bitfinex' => 'tDAIUSD',
                                                     ),
                                                     
                                     'usdc' => array(
                                     	 'coinbase' => 'DAI-USDC',
-                                        'hitbtc' => 'DAIUSDC'
+                                        'hitbtc' => 'DAIUSDC',
                                                     ),
                                                     
                                     'usdt' => array(
-                                    	 'kraken' => 'DAIUSDT'
+                                    	 'kraken' => 'DAIUSDT',
                                                     ),
                                                     
                                         ) // market_pairing END
                                         
-                    ), // Coin END
+                    ), // Asset END
                     
                     
                     // TUSD
@@ -1565,26 +1565,26 @@ $coins_list = array(
                         
                                     'btc' => array(
                                         'bittrex' => 'BTC-TUSD',
-                                        'upbit' => 'BTC-TUSD'
+                                        'upbit' => 'BTC-TUSD',
                                                     ),
                                                     
                                     'eth' => array(
                                         'bittrex' => 'ETH-TUSD',
-                                        'upbit' => 'ETH-TUSD'
+                                        'upbit' => 'ETH-TUSD',
                                                     ),
                                                     
                                     'usdt' => array(
                                     	 'binance' => 'TUSDUSDT',
-                                        'bittrex' => 'USDT-TUSD'
+                                        'bittrex' => 'USDT-TUSD',
                                                     ),
                                                     
                                         ) // market_pairing END
                                         
-                    ), // Coin END
+                    ), // Asset END
                     
                 
                 
-); // coins_list END
+); // portfolio_assets END
 
 
 

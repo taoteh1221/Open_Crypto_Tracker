@@ -26,17 +26,17 @@ require("config.php");
 
 
 // Delete ANY old zip archive backups
-delete_old_files($base_dir . '/backups/', $delete_old_backups, 'zip');
+delete_old_files($base_dir . '/backups/', $app_config['delete_old_backups'], 'zip');
 
 
 // Chart backups...run before any price checks to avoid any potential file lock issues
-if ( $charts_page == 'on' && $charts_backup_freq > 0 ) {
-backup_archive('charts-data', $base_dir . '/cache/charts/', $charts_backup_freq);
+if ( $app_config['charts_page'] == 'on' && $app_config['charts_backup_freq'] > 0 ) {
+backup_archive('charts-data', $base_dir . '/cache/charts/', $app_config['charts_backup_freq']);
 }
 
 
 // Charts and price alerts
-foreach ( $asset_charts_and_alerts as $key => $value ) {
+foreach ( $app_config['asset_charts_and_alerts'] as $key => $value ) {
 	
 // Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
 $asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, strpos($key, "-") ) );
@@ -59,7 +59,7 @@ $result = asset_charts_and_alerts($key, $exchange, $pairing, $mode);
 
 
 // Checkup on each failed proxy
-if ( $proxy_alerts != 'none' ) {
+if ( $app_config['proxy_alerts'] != 'none' ) {
 	
 	foreach ( $_SESSION['proxy_checkup'] as $problem_proxy ) {
 	test_proxy($problem_proxy);
@@ -83,7 +83,7 @@ $total_runtime = round( ($time - $start_runtime) , 3);
 
 
 // If hardware stats are enabled, chart the 15 min load avg / temperature / free partition space / free memory [mb/percent]
-if ( $system_stats == 'on' || $system_stats == 'raspi' && $is_raspi == 1 ) {
+if ( $app_config['system_stats'] == 'on' || $app_config['system_stats'] == 'raspi' && $is_raspi == 1 ) {
     			
 // Raspi system data
 $system_load = $system_info['system_load'];
@@ -173,7 +173,7 @@ store_file_contents($base_dir . '/cache/charts/system/archival/system_stats.dat'
 		
 
 // If debug mode is on
-if ( $debug_mode == 'all' || $debug_mode == 'telemetry' || $debug_mode == 'stats' ) {
+if ( $app_config['debug_mode'] == 'all' || $app_config['debug_mode'] == 'telemetry' || $app_config['debug_mode'] == 'stats' ) {
 		
 	foreach ( $system_info as $key => $value ) {
 	$system_telemetry .= $key . ': ' . $value . '; ';

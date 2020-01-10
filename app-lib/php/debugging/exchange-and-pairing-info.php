@@ -11,10 +11,10 @@ if ( $runtime_mode == 'ui' ) {
 
 
 	// Print out bitcoin markets configuration
-	if ( $debug_mode == 'all' || $debug_mode == 'btc_markets_config' ) {
+	if ( $app_config['debug_mode'] == 'all' || $app_config['debug_mode'] == 'btc_markets_config' ) {
 		
 		
-		foreach ( $bitcoin_market_currencies as $key => $unused ) {
+		foreach ( $app_config['bitcoin_market_currencies'] as $key => $unused ) {
 		$supported_primary_currency_list .= strtolower($key) . ' / ';
 		}
 		$supported_primary_currency_list = "'" . implode("' / '",array_unique(explode(' / ', $supported_primary_currency_list)));
@@ -24,9 +24,9 @@ if ( $runtime_mode == 'ui' ) {
 		$supported_primary_currency_list = rtrim($supported_primary_currency_list,'/');
 		$supported_primary_currency_list = trim($supported_primary_currency_list);
 		
-		foreach ( $coins_list['BTC']['market_pairing'] as $pairing_key => $unused ) {
+		foreach ( $app_config['portfolio_assets']['BTC']['market_pairing'] as $pairing_key => $unused ) {
 			
-				foreach ( $coins_list['BTC']['market_pairing'][$pairing_key] as $key => $unused ) {
+				foreach ( $app_config['portfolio_assets']['BTC']['market_pairing'][$pairing_key] as $key => $unused ) {
 				$supported_exchange_list .= strtolower($key) . ' / ';
 				}
 				

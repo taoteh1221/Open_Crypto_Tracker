@@ -6,12 +6,12 @@
 
 	
 	// Have this script not load any code if asset charts are not turned on
-	if ( $charts_page != 'on' ) {
+	if ( $app_config['charts_page'] != 'on' ) {
 	exit;
 	}
 
 
-	foreach ( $asset_charts_and_alerts as $key => $value ) {
+	foreach ( $app_config['asset_charts_and_alerts'] as $key => $value ) {
 		
  
 		if ( $_GET['asset_data'] == $key ) {
@@ -24,7 +24,7 @@
 		$market_parse = explode("||", $value );
 
 
-		$charted_value = ( $_GET['charted_value'] == 'pairing' ? $market_parse[1] : $charts_alerts_btc_primary_currency_pairing );
+		$charted_value = ( $_GET['charted_value'] == 'pairing' ? $market_parse[1] : $config_btc_primary_currency_pairing );
 		
 		
 		// Strip non-alphanumeric characters to use in js vars, to isolate logic for each separate chart
@@ -33,12 +33,12 @@
 
 			
 			// Unicode asset symbols
-			if ( array_key_exists($charted_value, $bitcoin_market_currencies) ) {
-			$currency_symbol = $bitcoin_market_currencies[$charted_value];
+			if ( array_key_exists($charted_value, $app_config['bitcoin_market_currencies']) ) {
+			$currency_symbol = $app_config['bitcoin_market_currencies'][$charted_value];
 			$fiat_equiv = 1;
 			}
-			elseif ( array_key_exists($charted_value, $crypto_to_crypto_pairing) ) {
-			$currency_symbol = $crypto_to_crypto_pairing[$charted_value];
+			elseif ( array_key_exists($charted_value, $app_config['crypto_to_crypto_pairing']) ) {
+			$currency_symbol = $app_config['crypto_to_crypto_pairing'][$charted_value];
 			}
 			// Fallback for currency symbol config errors
 			else {
@@ -72,7 +72,7 @@
 		$price_sample = substr( $chart_data['spot'] , 0, strpos( $chart_data['spot'] , "," ) );
 		
 		
-		$spot_price_decimals = ( $fiat_equiv == 1 ? $primary_currency_decimals_max : 8 );
+		$spot_price_decimals = ( $fiat_equiv == 1 ? $app_config['primary_currency_decimals_max'] : 8 );
 		
 			
 			// Force decimals under certain conditions
@@ -104,30 +104,30 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
   type: 'area',
   "preview":{
   		label: {
-      color: '<?=$charts_text?>',
+      color: '<?=$app_config['charts_text']?>',
       fontSize: '10px',
       lineWidth: '1px',
-      lineColor: '<?=$charts_line?>',
+      lineColor: '<?=$app_config['charts_line']?>',
      	},
  	  live: true,
  	  "adjust-layout": true,
  	  "alpha-area": 0.5,
  	  	height: 30
   },
-  backgroundColor: "<?=$charts_background?>",
+  backgroundColor: "<?=$app_config['charts_background']?>",
   height: 420,
   x: 0, 
   y: 0,
   globals: {
   	fontSize: 20,
-  	fontColor: "<?=$charts_text?>"
+  	fontColor: "<?=$app_config['charts_text']?>"
   },
   crosshairX:{
     shared: true,
     exact: true,
     plotLabel:{
-      backgroundColor: "<?=$charts_tooltip_background?>",
-      fontColor: "<?=$charts_tooltip_text?>",
+      backgroundColor: "<?=$app_config['charts_tooltip_background']?>",
+      fontColor: "<?=$app_config['charts_tooltip_text']?>",
       text: "Spot Price: <?=$currency_symbol?>%v",
 	 	fontSize: "20",
       fontFamily: "Open Sans",
@@ -137,15 +137,15 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
     },
     scaleLabel:{
     	alpha: 1.0,
-      fontColor: "<?=$charts_tooltip_text?>",
+      fontColor: "<?=$app_config['charts_tooltip_text']?>",
       fontSize: 20,
       fontFamily: "Open Sans",
-      backgroundColor: "<?=$charts_tooltip_background?>",
+      backgroundColor: "<?=$app_config['charts_tooltip_background']?>",
     }
   },
   title: {
     text: "<?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=name_rendering($market_parse[0])?> (<?=strtoupper($charted_value)?> Chart)",
-    fontColor: "<?=$charts_text?>",
+    fontColor: "<?=$app_config['charts_text']?>",
     fontFamily: 'Open Sans',
     fontSize: 23,
     align: 'right',
@@ -168,9 +168,9 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
   },
   tooltip:{
     text: "Spot Price: <?=$currency_symbol?>%v",
-    fontColor: "<?=$charts_tooltip_text?>",
+    fontColor: "<?=$app_config['charts_tooltip_text']?>",
 	 fontSize: "20",
-    backgroundColor: "<?=$charts_tooltip_background?>",
+    backgroundColor: "<?=$app_config['charts_tooltip_background']?>",
     "thousands-separator":","
   },
   scaleY: {
@@ -179,10 +179,10 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
     guide: {
       visible: true,
       lineStyle: 'solid',
-      lineColor: "<?=$charts_line?>"
+      lineColor: "<?=$app_config['charts_line']?>"
     },
     item: {
-      fontColor: "<?=$charts_text?>",
+      fontColor: "<?=$app_config['charts_text']?>",
       fontFamily: "Open Sans",
       fontSize: "14",
     }
@@ -191,7 +191,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
     guide: {
       visible: true,
       lineStyle: 'solid',
-      lineColor: "<?=$charts_line?>"
+      lineColor: "<?=$app_config['charts_line']?>"
     },
     values: dates,
  	  transform: {
@@ -203,19 +203,19 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
     },
     item: {
 	 fontSize: "14",
-      fontColor: "<?=$charts_text?>",
+      fontColor: "<?=$app_config['charts_text']?>",
       fontFamily: "Open Sans"
     }
   },
 	series : [
 		{
 			values: values,
-			lineColor: "<?=$charts_text?>",
+			lineColor: "<?=$app_config['charts_text']?>",
 			lineWidth: 1,
-			backgroundColor:"<?=$charts_text?> <?=$charts_price_gradient?>", /* background gradient on graphed price area in main chart (NOT the chart background) */
+			backgroundColor:"<?=$app_config['charts_text']?> <?=$app_config['charts_price_gradient']?>", /* background gradient on graphed price area in main chart (NOT the chart background) */
 			alpha: 0.5,
 				previewState: {
-      		backgroundColor: "<?=$charts_price_gradient?>" /* background color on graphed price area in preview below chart (NOT the preview area background) */
+      		backgroundColor: "<?=$app_config['charts_price_gradient']?>" /* background color on graphed price area in preview below chart (NOT the preview area background) */
 				}
 		}
 	],
@@ -224,7 +224,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
 	    x: 80,
 	    y: 10,
 	    id: '1D',
-	    fontColor: (current === '1D') ? "<?=$charts_text?>" : "<?=$charts_link?>",
+	    fontColor: (current === '1D') ? "<?=$app_config['charts_text']?>" : "<?=$app_config['charts_link']?>",
 	    fontSize: "21",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
@@ -234,7 +234,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
 	    x: 130,
 	    y: 10,
 	    id: '1W',
-	    fontColor: (current === '1W') ? "<?=$charts_text?>" : "<?=$charts_link?>",
+	    fontColor: (current === '1W') ? "<?=$app_config['charts_text']?>" : "<?=$app_config['charts_link']?>",
 	    fontSize: "21",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
@@ -244,7 +244,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
 	    x: 180,
 	    y: 10,
 	    id: '1M',
-	    fontColor: (current === '1M') ? "<?=$charts_text?>" : "<?=$charts_link?>",
+	    fontColor: (current === '1M') ? "<?=$app_config['charts_text']?>" : "<?=$app_config['charts_link']?>",
 	    fontSize: "21",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
@@ -254,7 +254,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
 	    x: 230,
 	    y: 10,
 	    id: '3M',
-	    fontColor: (current === '3M') ? "<?=$charts_text?>" : "<?=$charts_link?>",
+	    fontColor: (current === '3M') ? "<?=$app_config['charts_text']?>" : "<?=$app_config['charts_link']?>",
 	    fontSize: "21",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
@@ -264,7 +264,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
 	    x: 280,
 	    y: 10,
 	    id: '6M',
-	    fontColor: (current === '6M') ? "<?=$charts_text?>" : "<?=$charts_link?>",
+	    fontColor: (current === '6M') ? "<?=$app_config['charts_text']?>" : "<?=$app_config['charts_link']?>",
 	    fontSize: "21",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
@@ -274,7 +274,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
 	    x: 330,
 	    y: 10,
 	    id: '1Y',
-	    fontColor: (current === '1Y') ? "<?=$charts_text?>" : "<?=$charts_link?>",
+	    fontColor: (current === '1Y') ? "<?=$app_config['charts_text']?>" : "<?=$app_config['charts_link']?>",
 	    fontSize: "21",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
@@ -284,7 +284,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
 	    x: 380,
 	    y: 10,
 	    id: '2Y',
-	    fontColor: (current === '2Y') ? "<?=$charts_text?>" : "<?=$charts_link?>",
+	    fontColor: (current === '2Y') ? "<?=$app_config['charts_text']?>" : "<?=$app_config['charts_link']?>",
 	    fontSize: "21",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
@@ -294,7 +294,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
 	    x: 430,
 	    y: 10,
 	    id: '4Y',
-	    fontColor: (current === '4Y') ? "<?=$charts_text?>" : "<?=$charts_link?>",
+	    fontColor: (current === '4Y') ? "<?=$app_config['charts_text']?>" : "<?=$app_config['charts_link']?>",
 	    fontSize: "21",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
@@ -304,7 +304,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
 	    x: 480,
 	    y: 10,
 	    id: 'ALL',
-	    fontColor: (current === 'ALL') ? "<?=$charts_text?>" : "<?=$charts_link?>",
+	    fontColor: (current === 'ALL') ? "<?=$app_config['charts_text']?>" : "<?=$app_config['charts_link']?>",
 	    fontSize: "21",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
@@ -314,7 +314,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
 	    x: 547,
 	    y: 10,
 	    id: 'RESET',
-	    fontColor: "<?=$charts_link?>",
+	    fontColor: "<?=$app_config['charts_link']?>",
 	    fontSize: "21",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
@@ -330,7 +330,7 @@ function getVolumeConfig_<?=$js_key?>(dates, values) {
   height: 70,
   x: 0, 
   y: 400,
-  backgroundColor: "<?=$charts_background?>",
+  backgroundColor: "<?=$app_config['charts_background']?>",
   plotarea: {
     margin: "11 63 5 112"
   },
@@ -341,7 +341,7 @@ function getVolumeConfig_<?=$js_key?>(dates, values) {
   },
   source: {
     text: "24 Hour Volume",
-    fontColor:"<?=$charts_text?>",
+    fontColor:"<?=$app_config['charts_text']?>",
 	 fontSize: "13",
     fontFamily: "Open Sans",
     offsetX: 106,
@@ -351,9 +351,9 @@ function getVolumeConfig_<?=$js_key?>(dates, values) {
   tooltip:{
     visible: false,
     text: "24 Hour Volume: <?=$currency_symbol?>%v",
-    fontColor: "<?=$charts_tooltip_text?>",
+    fontColor: "<?=$app_config['charts_tooltip_text']?>",
 	 fontSize: "20",
-    backgroundColor: "<?=$charts_tooltip_background?>",
+    backgroundColor: "<?=$app_config['charts_tooltip_background']?>",
     fontFamily: "Open Sans",
     "thousands-separator":","
   },
@@ -367,8 +367,8 @@ function getVolumeConfig_<?=$js_key?>(dates, values) {
       visible: false
     },
     plotLabel:{
-      backgroundColor: "<?=$charts_tooltip_background?>",
-      fontColor: "<?=$charts_tooltip_text?>",
+      backgroundColor: "<?=$app_config['charts_tooltip_background']?>",
+      fontColor: "<?=$app_config['charts_tooltip_text']?>",
       fontFamily: "Open Sans",
       text: "24 Hour Volume: <?=$currency_symbol?>%v",
 	 	fontSize: "20",
@@ -386,10 +386,10 @@ function getVolumeConfig_<?=$js_key?>(dates, values) {
     guide: {
       visible: true,
       lineStyle: 'solid',
-      lineColor: "<?=$charts_line?>"
+      lineColor: "<?=$app_config['charts_line']?>"
     },
     item: {
-      fontColor: "<?=$charts_text?>",
+      fontColor: "<?=$app_config['charts_text']?>",
       fontFamily: "Open Sans",
       fontSize: "12",
     }
@@ -398,7 +398,7 @@ function getVolumeConfig_<?=$js_key?>(dates, values) {
 		{
 			values: values,
 			text: "24hr Volume",
-			backgroundColor: "<?=$charts_text?>",
+			backgroundColor: "<?=$app_config['charts_text']?>",
     		offsetX: 0
 		}
 	]

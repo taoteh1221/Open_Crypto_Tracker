@@ -16,7 +16,7 @@
 	$other_error_logs .= $_SESSION['other_error'];
 	
 	
-	if ( $debug_mode != 'off' ) {
+	if ( $app_config['debug_mode'] != 'off' ) {
 	
 	
 		foreach ( $_SESSION['cache_debugging'] as $error ) {
@@ -62,7 +62,7 @@
     <?php
     	
     	// Proxy alerts (if setup by user, and any of them failed, test the failed proxies and log/alert if they seem offline)
-		if ( $proxy_alerts != 'none' ) {
+		if ( $app_config['proxy_alerts'] != 'none' ) {
 	
 			foreach ( $_SESSION['proxy_checkup'] as $problem_proxy ) {
 			test_proxy($problem_proxy);
@@ -85,7 +85,7 @@
 
 
 		// If debug mode is on
-		if ( $debug_mode == 'all' || $debug_mode == 'telemetry' || $debug_mode == 'stats' ) {
+		if ( $app_config['debug_mode'] == 'all' || $app_config['debug_mode'] == 'telemetry' || $app_config['debug_mode'] == 'stats' ) {
 		
 			foreach ( $system_info as $key => $value ) {
 			$system_telemetry .= $key . ': ' . $value . '; ';

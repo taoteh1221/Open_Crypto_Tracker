@@ -105,7 +105,7 @@
 	      <div class="card-body">
 	      
 	      
-	        If the coins list settings are re-configured or re-ordered in config.php, reload / refresh the page before updating any coin values, or the submission form may not be configured properly and may not submit or display data correctly. Also, you may need to uncheck "Use cookie data to save values between sessions" on the Settings page, to temporarily clear out old cookie data that may conflict with the new configuration...then you can re-enable cookies again afterwards. 
+	        If the portfolio assets settings are re-configured or re-ordered in config.php, reload / refresh the page before updating any coin values, or the submission form may not be configured properly and may not submit or display data correctly. Also, you may need to uncheck "Use cookie data to save values between sessions" on the Settings page, to temporarily clear out old cookie data that may conflict with the new configuration...then you can re-enable cookies again afterwards. 
 	    <br /><br />
 	    If you recently upgraded to a newer version of this app, and layout or features don't work properly anymore, you may need to clear your browser cache (temporary files) and restart you browser / refresh the page afterwards. This will assure your browser is loading any newly-updated layout styling or javascript-based features.
 	    <br /><br />
@@ -144,7 +144,7 @@
 	      
 	      
 	        
-	        You can setup charts or price alerts in your app install. Price alerts can be sent to email, mobile phone text, and amazon alexa notifications. You will be alerted when the <?=strtoupper($charts_alerts_btc_primary_currency_pairing)?> price of an asset goes up or down a certain percent or more (whatever percent you choose in the settings), for specific exchange / base pairing combinations for that asset. You can even setup alerts for multiple exchanges / base pairings for the same asset.
+	        You can setup charts or price alerts in your app install. Price alerts can be sent to email, mobile phone text, and amazon alexa notifications. You will be alerted when the <?=strtoupper($config_btc_primary_currency_pairing)?> price of an asset goes up or down a certain percent or more (whatever percent you choose in the settings), for specific exchange / base pairing combinations for that asset. You can even setup alerts for multiple exchanges / base pairings for the same asset.
 	    <br /><br />
 	      Running charts or price alerts requires setting up a cron job on your Raspberry Pi or website server (this is automated for Raspberry Pi users who use the automated setup / install script), otherwise charts / alerts will not work. See the required settings in config.php, and instructions on cron job setup in the <a href='README.txt' target='_blank'>README.txt file</a>. Once setup, there is no need to keep your PC / Laptop turned on. The charts and price alerts run automatically from your website server. If you encounter errors or the charts / alerts don't work during setup, check the error logs file at /cache/logs/errors.log for errors in your configuration setup. Basic checks are performed and errors are reported there, and on the Settings page. 
 	        

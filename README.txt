@@ -112,7 +112,7 @@ IMPORTANT CRON JOB NOTES: MAKE SURE YOU ONLY USE EITHER /etc/cron.d/, or 'cronta
 ################################################################################################################
 
 
-Adding / editing / deleting assets and markets in the coins list:
+Adding / editing / deleting assets and markets in the portfolio assets:
 
 Below is an example for editing your assets / markets into the coin list in the file config.php (located in the primary directory of this app). It's very quick / easy to do (after you get the hang of it, lol). Also see the text file CONFIG.EXAMPLE.txt, for a pre-configured set of default settings and example assets / markets. Contact any supported exchange's help desk if you are unaware of the correct formatting of the trading pair naming you are adding in the configuration file (examples: Kraken has arbitrary Xs inserted in SOME older pair names, HitBTC sometimes has tether pairing without the "T" in the symbol name).
 
@@ -138,19 +138,19 @@ Ethereum ICO subtoken support has been built in, but values are static ICO value
                                     'lowercase_pairing_abrv' => array(
                                           'lowercase_exchange1' => 'MARKETIDHERE',
                                           'lowercase_exchange2' => 'pairing/COINSYMBOLHERE',
-                                          'lowercase_exchange3' => 'PAIRING-COINSYMBOLHERE'
+                                          'lowercase_exchange3' => 'PAIRING-COINSYMBOLHERE',
                                                     ),
                                                     
                                     'eth' => array(
                                           'lowercase_exchange1' => 'MARKETIDHERE',
                                           'lowercase_exchange2' => 'eth/COINSYMBOLHERE',
                                           'lowercase_exchange3' => 'ETH-COINSYMBOLHERE',
-                                          'eth_subtokens_ico' => 'ETHSUBTOKENNAME' // Must be defined in $eth_subtokens_ico_values in config.php
+                                          'eth_subtokens_ico' => 'ETHSUBTOKENNAME', // Must be defined in $app_config['eth_subtokens_ico_values'] in config.php
                                                     ),
                                                     
                                           ) // market_pairing END
                         
-                    ), // Coin END
+                    ), // Asset END
                     
       
  

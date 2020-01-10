@@ -120,11 +120,11 @@
 	
 	<?php
 	
-	if (is_array($coins_list) || is_object($coins_list)) {
+	if (is_array($app_config['portfolio_assets']) || is_object($app_config['portfolio_assets'])) {
 
 	    
 	    $zebra_stripe = 'long_list_odd';
-	    foreach ( $coins_list as $coin_array_key => $coin_array_value ) {
+	    foreach ( $app_config['portfolio_assets'] as $coin_array_key => $coin_array_value ) {
 		
 		 $rand_id = rand(10000000,100000000);
 	    
@@ -340,7 +340,7 @@
 	  	 $asset_amount_value = pretty_numbers($asset_amount_value, $asset_amount_decimals, TRUE); // TRUE = Show even if low value is off the map, just for UX purposes tracking token price only, etc
 	    
 	    
-	    $coin_paid_value = ( float_to_string($coin_paid_value) >= 1.00 ? pretty_numbers($coin_paid_value, 2) : pretty_numbers($coin_paid_value, $primary_currency_decimals_max) );
+	    $coin_paid_value = ( float_to_string($coin_paid_value) >= 1.00 ? pretty_numbers($coin_paid_value, 2) : pretty_numbers($coin_paid_value, $app_config['primary_currency_decimals_max']) );
 	  	 
 	    	
 	    ?>
@@ -381,7 +381,7 @@
 									$html_market_list[$pairing_key] .= "\n<option value='".$loop2."'" . ( 
 									isset($_POST[$field_var_market]) && ($_POST[$field_var_market]) == $loop2 
 									|| isset($coin_market_id) && ($coin_market_id) == $loop2 
-									|| !isset($coin_market_id) && !isset($_POST[$field_var_market]) && strtolower($coin_array_value['coin_name']) == 'bitcoin' && $market_key == $btc_primary_exchange ? ' selected ' : '' ) . ">" . name_rendering($market_key) . " </option>\n";
+									|| !isset($coin_market_id) && !isset($_POST[$field_var_market]) && strtolower($coin_array_value['coin_name']) == 'bitcoin' && $market_key == $app_config['btc_primary_exchange'] ? ' selected ' : '' ) . ">" . name_rendering($market_key) . " </option>\n";
 								
 									}
 									$loop2 = NULL;
@@ -443,22 +443,22 @@
 	     ' <?=( remove_number_format($asset_amount_value) > 0 && remove_number_format($asset_amount_value) <= '0.000000001' ? 'readonly' : '' )?> /> <span class='blue'><?=strtoupper($coin_array_key)?></span>  &nbsp;  &nbsp; 
 			    
 			
-	     <b>Average Paid (per-token):</b> <?=$bitcoin_market_currencies[$btc_primary_currency_pairing]?><input type='text' size='10' id='<?=$field_var_paid?>' name='<?=$field_var_paid?>' value='<?=$coin_paid_value?>' /> 
+	     <b>Average Paid (per-token):</b> <?=$app_config['bitcoin_market_currencies'][$app_config['btc_primary_currency_pairing']]?><input type='text' size='10' id='<?=$field_var_paid?>' name='<?=$field_var_paid?>' value='<?=$coin_paid_value?>' /> 
 	     
 	     
 		<img id='average_paid_notes_<?=$rand_id?>' src='ui-templates/media/images/info.png' alt='' width='30' border='0' style='position: relative; left: -5px;' /> 
 	 <script>
 	
-			var average_paid_notes = '<h5 align="center" class="yellow" style="position: relative; white-space: nowrap;">Calculating Average <?=strtoupper($btc_primary_currency_pairing)?> Price Paid Per Token</h5>'
+			var average_paid_notes = '<h5 align="center" class="yellow" style="position: relative; white-space: nowrap;">Calculating Average <?=strtoupper($app_config['btc_primary_currency_pairing'])?> Price Paid Per Token</h5>'
 			
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="green_bright">Total <?=strtoupper($btc_primary_currency_pairing)?> Paid For All Tokens</span> <span class="blue">&#247;</span> <span class="yellow">Total Tokens Purchased</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($btc_primary_currency_pairing)?> Price Paid Per Token</span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="green_bright">Total <?=strtoupper($app_config['btc_primary_currency_pairing'])?> Paid For All Tokens</span> <span class="blue">&#247;</span> <span class="yellow">Total Tokens Purchased</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($app_config['btc_primary_currency_pairing'])?> Price Paid Per Token</span></p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">The RESULT of the above calculation <i>remains the same even AFTER you sell ANY amount, ONLY if you don\'t buy more between sells</i>. Everytime you buy more <i>after selling some</i>, re-calculate your Average <?=strtoupper($btc_primary_currency_pairing)?> Price Paid Per Token with this formula:</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">The RESULT of the above calculation <i>remains the same even AFTER you sell ANY amount, ONLY if you don\'t buy more between sells</i>. Everytime you buy more <i>after selling some</i>, re-calculate your Average <?=strtoupper($app_config['btc_primary_currency_pairing'])?> Price Paid Per Token with this formula:</p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="green_bright">Total <?=strtoupper($btc_primary_currency_pairing)?> Paid For All Tokens</span> <span class="blue">-</span> <span class="red_bright">Total <?=strtoupper($btc_primary_currency_pairing)?> Received From All Sold Tokens</span> <span class="blue">&#247;</span> <span class="yellow">Total Remaining Tokens Still Held</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($btc_primary_currency_pairing)?> Price Paid Per Token</span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="green_bright">Total <?=strtoupper($app_config['btc_primary_currency_pairing'])?> Paid For All Tokens</span> <span class="blue">-</span> <span class="red_bright">Total <?=strtoupper($app_config['btc_primary_currency_pairing'])?> Received From All Sold Tokens</span> <span class="blue">&#247;</span> <span class="yellow">Total Remaining Tokens Still Held</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($app_config['btc_primary_currency_pairing'])?> Price Paid Per Token</span></p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="yellow">PRO TIP:</span> When buying / selling, keep quick and dirty (yet clear) textual records of... <br />a) How much you bought / sold of what<br />b) What you paid / received in <?=strtoupper($btc_primary_currency_pairing)?> value<br />c) What / where you traded <br />d) Backup to USB Stick / NAS / DropBox / GoogleDrive / OneDrive / AmazonBucket <br />e) Now you\'re ready for tax season, to create spreadsheets from this data</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="yellow">PRO TIP:</span> When buying / selling, keep quick and dirty (yet clear) textual records of... <br />a) How much you bought / sold of what<br />b) What you paid / received in <?=strtoupper($app_config['btc_primary_currency_pairing'])?> value<br />c) What / where you traded <br />d) Backup to USB Stick / NAS / DropBox / GoogleDrive / OneDrive / AmazonBucket <br />e) Now you\'re ready for tax season, to create spreadsheets from this data</p>'
 			
 			+'<p class="coin_info"><span class="yellow"> </span></p>';
 		
@@ -515,7 +515,7 @@
 	     <option value='0' <?=( $coin_leverage_value == 0 ? 'selected' : '' )?>> None </option>
 	     <?php
 	     $leverage_count = 2;
-	     while ( $margin_leverage_max > 1 && $leverage_count <= $margin_leverage_max ) {
+	     while ( $app_config['margin_leverage_max'] > 1 && $leverage_count <= $app_config['margin_leverage_max'] ) {
 	     ?>	     
 	     <option value='<?=$leverage_count?>' <?=( $coin_leverage_value == $leverage_count ? 'selected' : '' )?>> <?=$leverage_count?>x </option>
 	     <?php
@@ -541,11 +541,11 @@
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Set the "Asset / Pairing @ Exchange" drop-down menus for the asset to any markets you prefer. It doesn\'t matter which ones you choose, as long as the price discovery closely matches the exchange where you are margin trading this asset.</p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Set the "Holdings" field to match your margin leverage deposit (example: buying 1 BTC @ 5x leverage would be 0.2 BTC in the "Holdings" field in this app). You\'ll also need to fill in the "Average Paid (per-token)" field with the average price paid in <?=strtoupper($btc_primary_currency_pairing)?> per-token. Finally, set the "Margin Leverage" fields to match your leverage and whether you are long or short. When you are done, click "Save Updated Assets".</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Set the "Holdings" field to match your margin leverage deposit (example: buying 1 BTC @ 5x leverage would be 0.2 BTC in the "Holdings" field in this app). You\'ll also need to fill in the "Average Paid (per-token)" field with the average price paid in <?=strtoupper($app_config['btc_primary_currency_pairing'])?> per-token. Finally, set the "Margin Leverage" fields to match your leverage and whether you are long or short. When you are done, click "Save Updated Assets".</p>'
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">To see your margin leverage stats after updating your portfolio, go to the bottom of the Portfolio page, where you\'ll find a stats section. Hovering over the "I" icon next to those summary stats will display additional stats per-asset. There is also an "I" icon in the far right table column (Subtotal) per-asset, which you can hover over for margin leverage stats too.</p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="yellow">*Current maximum margin leverage setting of <?=$margin_leverage_max?>x can be adjusted in config.php.</span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="yellow">*Current maximum margin leverage setting of <?=$app_config['margin_leverage_max']?>x can be adjusted in config.php.</span></p>'
 			
 			+'<p class="coin_info"><span class="yellow"> </span></p>';
 		

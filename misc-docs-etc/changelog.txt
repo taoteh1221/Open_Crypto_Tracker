@@ -25,7 +25,7 @@ Interface readability enhancements
 0.9.4:
 Complete overhaul of coin adding / updating system - Every coin is
 now added / updated in config.php, so it is much easier to update
-your coins list quickly.
+your portfolio assets quickly.
 -------------------------------------------------------------------
 
 -------------------------------------------------------------------
@@ -526,7 +526,7 @@ Minor GUI tweaks
 -------------------------------------------------------------------
 1.7.8:
 -Added Mercatox market support
--Updated example coins lists
+-Updated example portfolio assetss
 -------------------------------------------------------------------
 
 -------------------------------------------------------------------
@@ -1031,7 +1031,7 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 2.4.3:
 -Completed all previously-unfinished (feasible) config formatting checks
--More readable coins list configuration with extra spacing
+-More readable portfolio assets configuration with extra spacing
 -Blockchain explorers section on external resources page
 -Removed extra carriage returns from error logging
 -Clarify SMTP setting usage
@@ -2229,14 +2229,20 @@ PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
 -Semantics cleanup
 
+-Modularized configuration settings
+
 IMPORTANT NOTES: 
 
-v4.03.0 and higher of this app REQUIRES DELETING YOUR PREVIOUS CHART DATA FROM ANY EARLIER VERSIONS.
-MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWARDS-COMPATIBLE.
+v4.06.0 and higher modularizes the configuration settings into the new $app_config array. ALL
+CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
+AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
 
 v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
 OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
 PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
+
+v4.03.0 and higher of this app REQUIRES DELETING YOUR PREVIOUS CHART DATA FROM ANY EARLIER VERSIONS.
+MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWARDS-COMPATIBLE.
 
 -------------------------------------------------------------------
 

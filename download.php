@@ -17,7 +17,7 @@ require_once( $base_dir . "/app-lib/php/other/example-csv.php");
 exit;
 }
 // Portfolio export download
-elseif ( $_POST['submit_check'] == 1 && is_array($coins_list) || $_POST['submit_check'] == 1 && is_object($coins_list) ) {
+elseif ( $_POST['submit_check'] == 1 && is_array($app_config['portfolio_assets']) || $_POST['submit_check'] == 1 && is_object($app_config['portfolio_assets']) ) {
 require_once( $base_dir . "/app-lib/php/other/export-csv.php");
 exit;
 }

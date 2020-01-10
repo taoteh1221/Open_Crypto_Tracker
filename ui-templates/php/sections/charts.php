@@ -36,7 +36,7 @@
 	<?php
 	
 	$zebra_stripe = 'long_list_odd';
-	foreach ( $asset_charts_and_alerts as $key => $value ) {
+	foreach ( $app_config['asset_charts_and_alerts'] as $key => $value ) {
 		
 		// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
 		$show_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, strpos($key, "-") ) );
@@ -54,7 +54,7 @@
 			
 				<?php
 				// Markets that are the same as PRIMARY CURRENCY CONFIG setting
-				if ( $show_asset_params[1] == $charts_alerts_btc_primary_currency_pairing ) {
+				if ( $show_asset_params[1] == $config_btc_primary_currency_pairing ) {
 				?>
 	
 			   <input type='checkbox' value='<?=$key?>_<?=$show_asset_params[1]?>' onchange='chart_toggle(this);' <?=( in_array("[".$key . '_' . $show_asset_params[1]."]", $show_charts) ? 'checked' : '' )?> /> <?=strtoupper($show_asset_params[1])?> Chart 
@@ -65,7 +65,7 @@
 				else {
 				?>
 					
-				<input type='checkbox' value='<?=$key?>' onchange='chart_toggle(this);' <?=( in_array("[".$key."]", $show_charts) ? 'checked' : '' )?> /> <?=strtoupper($charts_alerts_btc_primary_currency_pairing)?> Chart &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+				<input type='checkbox' value='<?=$key?>' onchange='chart_toggle(this);' <?=( in_array("[".$key."]", $show_charts) ? 'checked' : '' )?> /> <?=strtoupper($config_btc_primary_currency_pairing)?> Chart &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
 				
 			   <input type='checkbox' value='<?=$key?>_<?=$show_asset_params[1]?>' onchange='chart_toggle(this);' <?=( in_array("[".$key . '_' . $show_asset_params[1]."]", $show_charts) ? 'checked' : '' )?> /> <?=strtoupper($show_asset_params[1])?> Chart 
 	
@@ -114,14 +114,14 @@
 	<div style='display: none;' class='show_chartsnotice' align='left'>
 		
 		<?php
-		foreach ( $bitcoin_market_currencies as $key => $unused ) {
+		foreach ( $app_config['bitcoin_market_currencies'] as $key => $unused ) {
 		$supported_primary_currency_list .= strtoupper($key) . ' / ';
 		}
 		$supported_primary_currency_list = trim($supported_primary_currency_list);
 		$supported_primary_currency_list = rtrim($supported_primary_currency_list,'/');
 		$supported_primary_currency_list = trim($supported_primary_currency_list);
 		
-		foreach ( $coins_list['BTC']['market_pairing'][$charts_alerts_btc_primary_currency_pairing] as $key => $unused ) {
+		foreach ( $app_config['portfolio_assets']['BTC']['market_pairing'][$config_btc_primary_currency_pairing] as $key => $unused ) {
 		$supported_exchange_list .= name_rendering($key) . ' / ';
 		}
 		$supported_exchange_list = trim($supported_exchange_list);
@@ -129,9 +129,9 @@
 		$supported_exchange_list = trim($supported_exchange_list);
 		?>
 					
-		<p class='red' style='font-weight: bold;'>The charts <i>primary currency market</i> is set to: &nbsp; <span class='bitcoin'><?=strtoupper($charts_alerts_btc_primary_currency_pairing)?> @ <?=name_rendering($charts_alerts_btc_primary_exchange)?></span></p>
+		<p class='red' style='font-weight: bold;'>The charts <i>primary currency market</i> is set to: &nbsp; <span class='bitcoin'><?=strtoupper($config_btc_primary_currency_pairing)?> @ <?=name_rendering($config_btc_primary_exchange)?></span></p>
 		
-		<p class='red' style='font-weight: bold;'> Other <?=strtoupper($charts_alerts_btc_primary_currency_pairing)?>-paired exchanges supported in this app are: <?=$supported_exchange_list?>. Other currency pairings (that are supported in config.php in the "$btc_primary_currency_pairing" setting) are: <?=$supported_primary_currency_list?>. !NOT! ALL EXCHANGES SUPPORT ALL CURRENCY PAIRS, double check any setting changes you make (and check the error log at /cache/logs/errors.log for any reported issues).</p>
+		<p class='red' style='font-weight: bold;'> Other <?=strtoupper($config_btc_primary_currency_pairing)?>-paired exchanges supported in this app are: <?=$supported_exchange_list?>. Other currency pairings (that are supported in config.php in the "btc_primary_currency_pairing" setting) are: <?=$supported_primary_currency_list?>. !NOT! ALL EXCHANGES SUPPORT ALL CURRENCY PAIRS, double check any setting changes you make (and check the error log at /cache/logs/errors.log for any reported issues).</p>
 		 
 		<p class='red' style='font-weight: bold;'>A few crypto exchanges only provide asset volume data (with no pairing volume data included). If 24 hour pair volume is NOT available for a market, it will be emulated via the asset volume multiplied by the <i>current</i> asset market value (which gives us the rough pairing volume for a better chart user experience).</p>
 		 
@@ -147,7 +147,7 @@
 	<?php
 	
 	// Render the charts
-	foreach ( $asset_charts_and_alerts as $key => $value ) {
+	foreach ( $app_config['asset_charts_and_alerts'] as $key => $value ) {
 		
 		$chart_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, strpos($key, "-") ) );
 		$chart_asset = strtoupper($chart_asset);
@@ -160,12 +160,12 @@
 		$charts_shown = 1;
 	?>
 	
-	<div class='chart_wrapper' id='<?=$key?>_<?=strtolower($charts_alerts_btc_primary_currency_pairing)?>_chart'><span class='loading' style='color: <?=$charts_text?>;'> &nbsp; Loading chart for <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=name_rendering($alerts_market_parse[0])?> (<?=strtoupper($charts_alerts_btc_primary_currency_pairing)?> Chart)...</span></div>
+	<div class='chart_wrapper' id='<?=$key?>_<?=strtolower($config_btc_primary_currency_pairing)?>_chart'><span class='loading' style='color: <?=$app_config['charts_text']?>;'> &nbsp; Loading chart for <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=name_rendering($alerts_market_parse[0])?> (<?=strtoupper($config_btc_primary_currency_pairing)?> Chart)...</span></div>
 	
 	<script>
 	
 	$(document).ready(function() {
-    $.getScript("app-lib/js/chart.js.php?type=asset&asset_data=<?=urlencode($key)?>&charted_value=<?=strtolower($charts_alerts_btc_primary_currency_pairing)?>");
+    $.getScript("app-lib/js/chart.js.php?type=asset&asset_data=<?=urlencode($key)?>&charted_value=<?=strtolower($config_btc_primary_currency_pairing)?>");
 	});
 	
 	</script>
@@ -178,7 +178,7 @@
 		$charts_shown = 1;
 	?>
 	
-	<div class='chart_wrapper' id='<?=$key?>_<?=$alerts_market_parse[1]?>_chart'><span class='loading' style='color: <?=$charts_text?>;'> &nbsp; Loading chart for <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=name_rendering($alerts_market_parse[0])?> (<?=strtoupper($alerts_market_parse[1])?> Chart)...</span></div>
+	<div class='chart_wrapper' id='<?=$key?>_<?=$alerts_market_parse[1]?>_chart'><span class='loading' style='color: <?=$app_config['charts_text']?>;'> &nbsp; Loading chart for <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=name_rendering($alerts_market_parse[0])?> (<?=strtoupper($alerts_market_parse[1])?> Chart)...</span></div>
 	
 	<script>
 	

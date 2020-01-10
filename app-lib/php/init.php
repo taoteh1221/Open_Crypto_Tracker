@@ -42,9 +42,9 @@ define('CURL_VERSION_ID', str_replace(".", "", $curl_setup["version"]) );
 
 
 
-date_default_timezone_set('UTC'); // Set time as UTC for logs etc ($local_time_offset in config.php can adjust UI / UX timestamps as needed)
+date_default_timezone_set('UTC'); // Set time as UTC for logs etc ($app_config['local_time_offset'] in config.php can adjust UI / UX timestamps as needed)
 ini_set('auto_detect_line_endings',TRUE); // Mac compatibility with CSV spreadsheet importing
-
+$app_config = array();
 
 
 // Load functions
@@ -57,7 +57,7 @@ session_start(); // New session start
 
 
 $_SESSION['proxy_checkup'] = array();
-    	
+
 
 
 // Register the base directory
