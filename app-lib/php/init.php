@@ -9,7 +9,7 @@ error_reporting(0); // Turn off all PHP error reporting on production servers (0
 
 
 
-$app_version = '4.06.0';  // 2020/JANUARY/6TH
+$app_version = '4.06.0 BETA 1';  // 2020/JANUARY/11TH
 
 
 
@@ -28,6 +28,12 @@ if (!defined('PHP_VERSION_ID')) {
     define('PHP_VERSION_ID', ($version[0] * 10000 + $version[1] * 100 + $version[2]));
 }
 
+
+// PHP v5.4 or higher required for this app
+if (PHP_VERSION_ID < 50400) {
+echo 'PHP version 5.4 or higher is required. Please upgrade your PHP version to run this application.';
+exit;
+}
 
 
 // Check for curl
@@ -97,16 +103,10 @@ if ( dir_structure($base_dir . '/cache/alerts/') != TRUE
 || dir_structure($base_dir . '/cache/logs/debugging/api/') != TRUE
 || dir_structure($base_dir . '/cache/logs/errors/api/') != TRUE
 || dir_structure($base_dir . '/cache/queue/messages/') != TRUE
+|| dir_structure($base_dir . '/cache/secured/') != TRUE
 || dir_structure($base_dir . '/cache/vars/') != TRUE ) {
 echo "Cannot create cache sub-directories. Please make sure the folder '/cache/' has FULL read / write permissions (chmod 777 on unix / linux systems), so the cache sub-directories can be created automatically.";
 exit;
-}
-
-
-
-// Recreate .htaccess to restrict web snooping of cache contents, if the cache directory was deleted / recreated
-if ( !file_exists($base_dir . '/cache/.htaccess') ) {
-store_file_contents($base_dir . '/cache/.htaccess', 'deny from all'); 
 }
 
 

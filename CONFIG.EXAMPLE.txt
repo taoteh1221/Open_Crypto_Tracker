@@ -371,11 +371,11 @@ $app_config['eth_subtokens_ico_values'] = array(
 $app_config['mining_rewards'] = array(
 					'btc' => '12.5',
 					'eth' => '2',
-					'xmr' => monero_reward(),  // (2^64 - 1 - current_supply * 10^12) * 2^-19 * 10^-12
 					'ltc' => '12.5',
-					'dcr' => ( decred_api('subsidy', 'work_reward') / 100000000 ),
 					'grin' => '60',
 					'doge' => '10000',
+					'xmr' => NULL,  // WE DYNAMICALLY UPDATE THIS IN CONFIG-INIT.PHP
+					'dcr' => NULL,  // WE DYNAMICALLY UPDATE THIS IN CONFIG-INIT.PHP
 					);
 
 

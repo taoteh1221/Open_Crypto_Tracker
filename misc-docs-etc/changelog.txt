@@ -2227,12 +2227,21 @@ PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 -------------------------------------------------------------------
 4.06.0:
 
+-Tighter security
+
 -Semantics cleanup
 
 -Modularized configuration settings
 
+-Secured cache section (for high security cache values)
+
+-Password storage and check functions (for upcoming easy-to-use admin configuration page)
+
+-Secured password pepper (high security password encryption) caching / app_config caching support (for upcoming easy-to-use admin configuration page)
+
 -"Whale alert" notice for price alerts (does NOT affect parameters you set for triggering alerts, 
-just adds "Whale Alert" text or emoji if asset alert(s) fall within 5% price change within half a day or less)
+just adds "Whale Alert" text or emoji if asset alert(s) fall within 5% price change within half a day or less,
+and pair volume has changed at least 25% with minimum currency volume of 10,000)
 
 IMPORTANT NOTES: 
 

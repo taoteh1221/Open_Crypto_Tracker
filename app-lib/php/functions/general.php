@@ -256,6 +256,64 @@ return("".round($bytes, $round)." ".$type[$index]."bytes");
 ////////////////////////////////////////////////////////
 
 
+function pepper_hashed_password($password) {
+
+global $password_pepper;
+
+	if ( !$password_pepper ) {
+	app_logging('other_error', '$password_pepper not set properly');
+	return false;
+	}
+	else {
+		
+	$password_pepper_hashed = hash_hmac("sha256", $password, $password_pepper);
+	
+		if ( $password_pepper_hashed == false ) {
+		app_logging('other_error', 'hash_hmac() returned false in the pepper_hashed_password() function');
+		return false;
+		}
+		else {
+		return password_hash($password_pepper_hashed);
+		}
+	
+	}
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function check_pepper_hashed_password($input_password, $stored_hashed_password) {
+
+global $password_pepper;
+
+	if ( !$password_pepper ) {
+	app_logging('other_error', '$password_pepper not set properly');
+	return false;
+	}
+	else {
+		
+	$input_password_pepper_hashed = hash_hmac("sha256", $input_password, $password_pepper);
+	
+		if ( $password_pepper_hashed == false ) {
+		app_logging('other_error', 'hash_hmac() returned false in the check_pepper_hashed_password() function');
+		return false;
+		}
+		else {
+		return password_verify($input_password_pepper_hashed, $stored_hashed_password);
+		}
+		
+	}
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
 function delete_old_files($directory_data, $days, $ext) {
 	
 	
@@ -844,7 +902,8 @@ global $possible_http_users, $http_runtime_user;
 	
 	
 	if ( $result == FALSE ) {
-	app_logging('other_error', 'File write failed for file "' . $file . '" (check permissions for "' . basename($file) . '")');
+	$path_parts = pathinfo($file);
+	app_logging('other_error', 'File write failed for file "' . $file . '" (check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")');
 	}
 	
 	

@@ -14,6 +14,10 @@ error_reporting(1); // If debugging is enabled, turn on all PHP error reporting 
 }
 
 
+// Security (MUST run AFTER directory structure creation check, and AFTER config file)
+require_once($base_dir . '/app-lib/php/other/security.php');
+
+
 // Load coinmarketcap supported currencies
 require_once("app-lib/php/other/coinmarketcap-currencies.php");
 
@@ -68,6 +72,14 @@ if (is_array($app_config['portfolio_assets']) || is_object($app_config['portfoli
             $app_config['portfolio_assets']['MISCASSETS']['market_pairing'][$pairing_key] = array('misc_assets' => $pairing_key);
             }
     
+}
+
+
+
+// Update dynamic mining rewards (UI only), if we are using the json config in the secured cache
+if ( $runtime_mode == 'ui' && is_array($app_config['mining_rewards']) || $runtime_mode == 'ui' && is_object($app_config['mining_rewards']) ) {
+$app_config['mining_rewards']['xmr'] = monero_reward(); // (2^64 - 1 - current_supply * 10^12) * 2^-19 * 10^-12
+$app_config['mining_rewards']['dcr'] = ( decred_api('subsidy', 'work_reward') / 100000000 );      
 }
 
 

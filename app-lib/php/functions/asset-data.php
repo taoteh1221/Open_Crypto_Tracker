@@ -763,11 +763,6 @@ $cached_array = explode("||", $data_file);
           
           $percent_change = float_to_string($percent_change); // Better decimal support
           
-          
-          // Whale alert (price change of 5% or greater within half a day or less )
-   		 if ( float_to_string($last_check_days) <= 0.5 && $percent_change >= 5.0 ) {
-   		 $whale_alert = 1;
-   		 }
   			 
   			 // Check whether we should send an alert
           if ( float_to_string($asset_primary_currency_value_raw) >= 0.00000001 && $percent_change >= $app_config['asset_price_alerts_percent'] ) {
@@ -812,12 +807,18 @@ $cached_array = explode("||", $data_file);
           }
           
           
+          
+          // Whale alert (price change of 5% or greater within half a day or less, with 25% pair volume change that is at least a 10,000 primary currency volume change)
+   		 if ( float_to_string($last_check_days) <= 0.5 && $percent_change >= 5.0 && $volume_percent_change >= 25.00 && abs($volume_primary_currency_raw - $cached_primary_currency_volume) >= 10000 ) {
+   		 $whale_alert = 1;
+   		 }
+   		 
+   		 
+          
           // We disallow alerts where minimum 24 hour trade PRIMARY CURRENCY CONFIG volume has NOT been met, ONLY if an API request doesn't fail to retrieve volume data
           if ( $volume_primary_currency_raw >= 0 && $volume_primary_currency_raw < $app_config['asset_price_alerts_min_volume'] ) {
           $send_alert = NULL;
           }
-  
-  
   
   
   
