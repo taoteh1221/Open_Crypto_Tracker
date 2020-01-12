@@ -196,13 +196,18 @@ Class SMTPMailer
 			]]
 			);
 
+        if ( $this->secure == 'tls' || $this->secure == 'ssl' ) {
         $this->sock = stream_socket_client($this->hostname.':'.$this->port, $enum, $estr, 30, STREAM_CLIENT_CONNECT, $stream_context);
+        }
+        else {
+        $this->sock = stream_socket_client($this->hostname.':'.$this->port, $enum, $estr, 30, STREAM_CLIENT_CONNECT);
+        }
         if (!$this->sock) {
         	$this->log[] = 'Socket connection error for host: ' . $this->hostname.':'.$this->port . '. Make sure your hostname and firewall settings are correct.';
          $this->LogFile();
          return;
         	}
-        $this->log[] = 'CONNECTION: fsockopen('.$this->hostname.', '.$this->port.')';
+        $this->log[] = 'CONNECTION: '.$this->hostname.':'.$this->port;
         $this->response('220');
         $this->logreq('EHLO '.$this->local, '250');
 
