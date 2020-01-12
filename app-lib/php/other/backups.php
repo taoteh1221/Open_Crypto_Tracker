@@ -38,11 +38,11 @@ if ($fd = fopen ($fullPath, "r")) {
     switch ($ext) {
         case "pdf":
         header("Content-type: application/pdf"); // add here more headers for diff. extensions
-        header("Content-Disposition: attachment; filename=\"".$path_parts["basename"]."\""); // use 'attachment' to force a download
+        header("Content-disposition: attachment; filename=\"".$path_parts["basename"]."\""); // use 'attachment' to force a download
         break;
         default;
         header("Content-type: application/octet-stream");
-        header("Content-Disposition: filename=\"".$path_parts["basename"]."\"");
+        header("Content-disposition: filename=\"".$path_parts["basename"]."\"");
     }
     
     header("Content-length: $fsize");

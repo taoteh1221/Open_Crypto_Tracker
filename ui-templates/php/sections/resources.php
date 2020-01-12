@@ -185,6 +185,8 @@
 	        
 	        <li class='links_list'><a href='https://download.mycrypto.com/' target='_blank'>Mycrypto Desktop App</a> (Ethereum software wallet with hardware wallet support)</li>
 	        
+	        <li class='links_list'><a href='https://zap.jackmallers.com/download' target='_blank'>Zap (Bitcoin Lightning network on multiple devices [WARNING: Lightning network is still VERY EXPERIMENTAL, AND MAY STILL HAVE SIGNIFICANT BUGS])</a></li>
+	        
 	        
 	        
 	    </ul>
@@ -333,7 +335,7 @@
 	
 	
 	
-	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Blockchain Developer Links</strong> </legend>
+	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Blockchain Developer Resources</strong> </legend>
 	    <ul>
 	        
 	        
@@ -355,6 +357,25 @@
 	        
 	        <li class='links_list'><a href='https://notes.ethereum.org/c/Sk8Zs--CQ' target='_blank'>What’s new in ETH 2.0</a></li>
 	        
+	        
+	        
+	    </ul>
+	    </fieldset>
+	
+	
+	
+	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Intermediate / Professional Server Software</strong> </legend>
+	    <ul>
+	        
+	        
+	        <li class='links_list'><a href='https://btcpayserver.org/' target='_blank'>BTCPay Server (Bitcoin payment processor)</a></li>
+	        
+	        <li class='links_list'><a href='https://grid.ethereum.org/' target='_blank'>Grid (Ethereum nodes and tools)</a></li>
+	        
+	        <li class='links_list'><a href='https://github.com/rootzoll/raspiblitz' target='_blank'>RaspiBlitz (Bitcoin Lightning node on a Raspberry Pi w/LCD screen)</a></li>
+	        
+	        <li class='links_list'><a href='https://zap.jackmallers.com/download' target='_blank'>Zap (Bitcoin Lightning node on multiple devices)</a></li>
+	      
 	        
 	        
 	    </ul>

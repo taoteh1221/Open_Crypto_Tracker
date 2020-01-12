@@ -160,7 +160,7 @@ Class SMTPMailer
     // Log to file
     public function LogFile()
     {
-    		$format = date('Y-m-d H:i:s') . " UTC | smtp_error: \n =========SMTP error log START================================================== \n ".print_r($this->log, true)." \n =========SMTP error log END================================================== \n ";
+    		$format = "\n" . date('Y-m-d H:i:s') . " UTC | smtp_error: \n =========SMTP error log START================================================== \n ".print_r($this->log, true)." \n =========SMTP error log END================================================== \n\n";
     		$format = strip_tags($format);
     		file_put_contents($this->logfile, $format, FILE_APPEND | LOCK_EX);
     }
@@ -185,20 +185,30 @@ Class SMTPMailer
             $mailto[] = '<'.$address[0].'>';  
 
         // Open server connection and run transfers
-        $this->sock = fsockopen($this->hostname, $this->port, $enum, $estr, 30);
+		  $stream_context = stream_context_create(
+		  [ 'ssl' => [
+				'local_cert'        => '/etc/ssl/certs/ssl-cert-snakeoil.pem',
+				//'peer_fingerprint'  => openssl_x509_fingerprint(file_get_contents('/path/to/key.crt')),
+				'verify_peer'       => false,
+				'verify_peer_name'  => false,
+				'allow_self_signed' => true,
+				'verify_depth'      => 0 
+			]]
+			);
+
+        $this->sock = stream_socket_client($this->hostname.':'.$this->port, $enum, $estr, 30, STREAM_CLIENT_CONNECT, $stream_context);
         if (!$this->sock) {
-        	$this->log[] = 'Socket connection error for hostname: ' . $this->hostname . '. Make sure your hostname and firewall settings are correct.';
+        	$this->log[] = 'Socket connection error for host: ' . $this->hostname.':'.$this->port . '. Make sure your hostname and firewall settings are correct.';
          $this->LogFile();
          return;
         	}
-        $this->log[] = 'CONNECTION: fsockopen('.$this->hostname.')';
+        $this->log[] = 'CONNECTION: fsockopen('.$this->hostname.', '.$this->port.')';
         $this->response('220');
         $this->logreq('EHLO '.$this->local, '250');
 
         if ($this->secure == 'tls') {
             $this->logreq('STARTTLS', '220');
-            stream_socket_enable_crypto($this->sock, true, 
-                                        STREAM_CRYPTO_METHOD_TLS_CLIENT);
+            stream_socket_enable_crypto($this->sock, true, STREAM_CRYPTO_METHOD_TLS_CLIENT);
             $this->logreq('EHLO '.$this->local, '250');
         }
 
@@ -244,7 +254,7 @@ Class SMTPMailer
         $meta = stream_get_meta_data($this->sock);
         if ($meta['timed_out'] === true) {
             fclose($this->sock);
-            $this->log[] = '<b>Was a timeout in Server response</b>';
+            $this->log[] = "\n Was a timeout in Server response \n";
             $this->LogFile();            
             print_r($meta);
             return;
@@ -253,7 +263,13 @@ Class SMTPMailer
         if (substr($result, 0, 3) == $code)
             return;
         fclose($this->sock);
-        $this->log[] = '<b>SMTP Server response Error</b>';
+        $this->log[] = "\n SMTP Server response Error: \n";
+        	foreach ( $meta as $info_key => $info_value ) {
+        	$this->log[] = $info_key . ' => ' . $info_value;
+        	}
+        	foreach ( $this->ahead as $header ) {
+        	$this->log[] = $header;
+        	}
         $this->LogFile();
         return;
     }

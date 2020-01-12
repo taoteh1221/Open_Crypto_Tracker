@@ -5,6 +5,9 @@ TODO
 ///////////////////////////////////////////////////////
 
 
+Check that htaccess security is enabled by doing an http and https call to /vars/access_test.dat to see if the data is readable.
+
+
 Add IFTTT support (alexa / google home / whatever supported devices).
 
 
@@ -14,13 +17,16 @@ Standalone mode not changing corresponding exchange when pairing switched in IE 
 No audio alert in FF (windows)
 
 
+Investigate unchecking standalone mode AFTER page reload...may be messing up the "update assets" page field for BTC.
+
+
 Code review ALL functions.
 
 
 Add setting to enable access stats modal, maybe include an optional password setting to require login to view it in the UI if password is set. Store access data in flat file / json format (so mulitiple values can be read back into the app before updating, then updated values saved back in json overwriting previously saved values). Last 50 unique ip addresses, showing ip address's last user agent / last visit time / total visits count. Drop any over 50 ip addresses off the list based on oldest timestamps. Store visitor ip address data (user agent, etc) in an array key based off ip address (json format).
 
 
-Use a password salt and php5.5 hashing password as described here, save salt to a flat file in the vars cache directory: https://www.php.net/manual/en/faq.passwords.php
+Password notes: https://www.php.net/manual/en/faq.passwords.php
 
 
 Add Google and Microsoft translate API as options to translate the portfolio interface and price alerts.
@@ -56,7 +62,7 @@ Add an alert bell icon in upcoming header login nav, and have alerts make it red
 2-way encryption option (unlocked with 6 digit PIN) for storing coin amounts (IN COOKIES ONLY, NO DATABASE STORAGE !EVER!), with "quick lock" to quickly re-hide portfolio data (staying hidden persists on page load / reload as well with a cookie).
 
 
-Add feature to restore chart data from the zip archive backups (with SQL-based admin authentication ONLY).
+Add feature to restore chart data from the zip archive backups (with admin authentication ONLY). Chart restore by prepending, so any existing data remains, BUT only if timestamp is newer than newest backups timestamp. Trigger restore from newest backups folder backup by placing a blank file named RESTORE_CHARTS in the que directory.
 
 
 Stats in UI using chart data (if available), to show and compare spot / volume percent changes over an end-user-defined time period for a number of assets (example: BTC / LTC / ETH / XMR spot price percentage changes / 24hr volume percentage changes from April 6th 2019 to November 22nd 2019). Shows trends on which assets are performing better for a certain time period.
@@ -77,6 +83,9 @@ Simple trading bot, to run from cron / cli (with SQL-based admin authentication 
 ///////////////////////////////////////////////////////
 MAYBE
 ///////////////////////////////////////////////////////
+
+
+Consider error log alerts if system load is over 2, or free memory goes under 25 megabytes?
 
 
 Alerts if NOT admin ip address visiting (admin ip stored in config setting)?

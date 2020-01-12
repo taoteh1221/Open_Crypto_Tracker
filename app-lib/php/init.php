@@ -29,9 +29,9 @@ if (!defined('PHP_VERSION_ID')) {
 }
 
 
-// PHP v5.4 or higher required for this app
-if (PHP_VERSION_ID < 50400) {
-echo 'PHP version 5.4 or higher is required. Please upgrade your PHP version to run this application.';
+// PHP v5.5 or higher required for this app
+if (PHP_VERSION_ID < 50500) {
+echo 'PHP version 5.5 or higher is required. Please upgrade your PHP version to run this application.';
 exit;
 }
 

@@ -573,7 +573,7 @@ function asset_charts_and_alerts($asset_data, $exchange, $pairing, $mode) {
 
 
 // Globals
-global $base_dir, $app_config, $config_btc_primary_exchange, $charts_alerts_btc_primary_currency_value, $config_btc_primary_currency_pairing;
+global $base_dir, $app_config, $default_btc_primary_exchange, $default_btc_primary_currency_value, $default_btc_primary_currency_pairing;
 
 
 
@@ -603,17 +603,17 @@ $asset_market_data = asset_market_data($asset, $exchange, $app_config['portfolio
 
 
 	// PRIMARY CURRENCY CONFIG CHARTS
-	if ( $pairing == strtolower($config_btc_primary_currency_pairing) ) {
+	if ( $pairing == strtolower($default_btc_primary_currency_pairing) ) {
 	$asset_primary_currency_value_raw = $asset_market_data['last_trade']; 
 	}
 	// BTC PAIRINGS CONVERTED TO PRIMARY CURRENCY CONFIG (EQUIV) CHARTS
 	elseif ( $pairing == 'btc' ) {
-	$asset_primary_currency_value_raw = number_format( $charts_alerts_btc_primary_currency_value * $asset_market_data['last_trade'] , 8, '.', '');
+	$asset_primary_currency_value_raw = number_format( $default_btc_primary_currency_value * $asset_market_data['last_trade'] , 8, '.', '');
 	}
 	// OTHER PAIRINGS CONVERTED TO PRIMARY CURRENCY CONFIG (EQUIV) CHARTS
 	else {
 	$pairing_btc_value = pairing_market_value($pairing); 
-	$asset_primary_currency_value_raw = number_format( $charts_alerts_btc_primary_currency_value * ( $asset_market_data['last_trade'] * $pairing_btc_value ) , 8, '.', '');
+	$asset_primary_currency_value_raw = number_format( $default_btc_primary_currency_value * ( $asset_market_data['last_trade'] * $pairing_btc_value ) , 8, '.', '');
 	}
 	
 	
@@ -632,9 +632,9 @@ $asset_market_data = asset_market_data($asset, $exchange, $app_config['portfolio
 	
 	// Make sure we have basic values, otherwise log errors / return false
 	
-	// Return false if we have no $charts_alerts_btc_primary_currency_value
-	if ( !isset($charts_alerts_btc_primary_currency_value) || $charts_alerts_btc_primary_currency_value == 0 ) {
-	app_logging( 'other_error', 'asset_charts_and_alerts() - No Bitcoin '.strtoupper($config_btc_primary_currency_pairing).' value set', $asset_data . ': ' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ';' );
+	// Return false if we have no $default_btc_primary_currency_value
+	if ( !isset($default_btc_primary_currency_value) || $default_btc_primary_currency_value == 0 ) {
+	app_logging( 'other_error', 'asset_charts_and_alerts() - No Bitcoin '.strtoupper($default_btc_primary_currency_pairing).' value set', $asset_data . ': ' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ';' );
 	$set_return = 1;
 	}
 	
@@ -643,7 +643,7 @@ $asset_market_data = asset_market_data($asset, $exchange, $app_config['portfolio
 	// Continue
 	}
 	else {
-	app_logging( 'other_error', 'asset_charts_and_alerts() - No asset '.strtoupper($config_btc_primary_currency_pairing).' value set', $asset_data . ': ' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . '; pairing_id: ' . $app_config['portfolio_assets'][$asset]['market_pairing'][$pairing][$exchange] . ';' );
+	app_logging( 'other_error', 'asset_charts_and_alerts() - No asset '.strtoupper($default_btc_primary_currency_pairing).' value set', $asset_data . ': ' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . '; pairing_id: ' . $app_config['portfolio_assets'][$asset]['market_pairing'][$pairing][$exchange] . ';' );
 	$set_return = 1;
 	}
 	
@@ -808,8 +808,8 @@ $cached_array = explode("||", $data_file);
           
           
           
-          // Whale alert (price change of 5% or greater within half a day or less, with 25% pair volume change that is at least a 10,000 primary currency volume change)
-   		 if ( float_to_string($last_check_days) <= 0.5 && $percent_change >= 5.0 && $volume_percent_change >= 25.00 && abs($volume_primary_currency_raw - $cached_primary_currency_volume) >= 10000 ) {
+          // Whale alert (price change of 5% or greater within half a day or less, with 20% pair volume change that is at least a 10,000 primary currency volume change)
+   		 if ( float_to_string($last_check_days) <= 0.5 && $percent_change >= 5.0 && $volume_percent_change >= 20.00 && abs($volume_primary_currency_raw - $cached_primary_currency_volume) >= 10000 ) {
    		 $whale_alert = 1;
    		 }
    		 
@@ -855,13 +855,13 @@ $cached_array = explode("||", $data_file);
           	// IF PRIMARY CURRENCY CONFIG volume was zero last alert / refresh, for UX sake 
           	// we use current PRIMARY CURRENCY CONFIG volume instead of current pair volume (for percent up, so it's not up 70,000% for altcoins lol)
           	if ( $cached_primary_currency_volume == 0 ) {
-          	$volume_describe = strtoupper($config_btc_primary_currency_pairing) . ' volume was $0 last price ' . $desc_alert_type . ', and ';
-          	$volume_describe_mobile = strtoupper($config_btc_primary_currency_pairing) . ' vol up from $0 last ' . $desc_alert_type;
+          	$volume_describe = strtoupper($default_btc_primary_currency_pairing) . ' volume was $0 last price ' . $desc_alert_type . ', and ';
+          	$volume_describe_mobile = strtoupper($default_btc_primary_currency_pairing) . ' vol up from $0 last ' . $desc_alert_type;
           	}
           	// Best we can do feasibly for UX on volume reporting errors
           	elseif ( $cached_primary_currency_volume == -1 ) { // ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
-          	$volume_describe = strtoupper($config_btc_primary_currency_pairing) . ' volume was NULL last price ' . $desc_alert_type . ', and ';
-          	$volume_describe_mobile = strtoupper($config_btc_primary_currency_pairing) . ' vol up from NULL last ' . $desc_alert_type;
+          	$volume_describe = strtoupper($default_btc_primary_currency_pairing) . ' volume was NULL last price ' . $desc_alert_type . ', and ';
+          	$volume_describe_mobile = strtoupper($default_btc_primary_currency_pairing) . ' vol up from NULL last ' . $desc_alert_type;
           	}
           	else {
           	$volume_describe = 'pair volume ';
@@ -880,9 +880,9 @@ $cached_array = explode("||", $data_file);
   				
   				$percent_change_text = number_format($percent_change, 2, '.', ',');
   				
-  				$volume_primary_currency_text = $app_config['bitcoin_market_currencies'][$config_btc_primary_currency_pairing] . number_format($volume_primary_currency_raw, 0, '.', ',');
+  				$volume_primary_currency_text = $app_config['bitcoin_market_currencies'][$default_btc_primary_currency_pairing] . number_format($volume_primary_currency_raw, 0, '.', ',');
   				
-  				$volume_change_text = 'has ' . ( $volume_change_symbol == '+' ? 'increased ' : 'decreased ' ) . $volume_change_symbol . number_format($volume_percent_change, 2, '.', ',') . '% to a ' . strtoupper($config_btc_primary_currency_pairing) . ' value of';
+  				$volume_change_text = 'has ' . ( $volume_change_symbol == '+' ? 'increased ' : 'decreased ' ) . $volume_change_symbol . number_format($volume_percent_change, 2, '.', ',') . '% to a ' . strtoupper($default_btc_primary_currency_pairing) . ' value of';
   				
   				$volume_change_text_mobile = '(' . $volume_change_symbol . number_format($volume_percent_change, 2, '.', ',') . '% ' . $volume_describe_mobile . ')';
   				
@@ -913,7 +913,7 @@ $cached_array = explode("||", $data_file);
           	
           	// Successfully received > 0 volume data, at or above an enabled minimum volume filter
   				if ( $volume_primary_currency_raw > 0 && $app_config['asset_price_alerts_min_volume'] > 0 && $volume_primary_currency_raw >= $app_config['asset_price_alerts_min_volume'] ) {
-          	$email_volume_summary = '24 hour ' . $volume_describe . $volume_change_text . ' ' . $volume_primary_currency_text . ' (minimum volume filter set at ' . $app_config['bitcoin_market_currencies'][$config_btc_primary_currency_pairing] . number_format($app_config['asset_price_alerts_min_volume'], 0, '.', ',') . ').';
+          	$email_volume_summary = '24 hour ' . $volume_describe . $volume_change_text . ' ' . $volume_primary_currency_text . ' (minimum volume filter set at ' . $app_config['bitcoin_market_currencies'][$default_btc_primary_currency_pairing] . number_format($app_config['asset_price_alerts_min_volume'], 0, '.', ',') . ').';
           	}
           	// NULL if not setup to get volume, negative number returned if no data received from API, therefore skipping any enabled volume filter
           	// ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
@@ -935,12 +935,12 @@ $cached_array = explode("||", $data_file);
   				
   				// Build the different messages, configure comm methods, and send messages
 				
-  				$email_message = ( $whale_alert == 1 ? 'WHALE ALERT: ' : '' ) . 'The ' . $asset . ' trade value in the ' . strtoupper($pairing) . ' market at the ' . $exchange_text . ' exchange has ' . $increase_decrease . ' ' . $change_symbol . $percent_change_text . '% in ' . strtoupper($config_btc_primary_currency_pairing) . ' value to ' . $app_config['bitcoin_market_currencies'][$config_btc_primary_currency_pairing] . $asset_primary_currency_text . ' over the past ' . $last_check_time . ' since the last price ' . $desc_alert_type . '. ' . $email_volume_summary;
+  				$email_message = ( $whale_alert == 1 ? 'WHALE ALERT: ' : '' ) . 'The ' . $asset . ' trade value in the ' . strtoupper($pairing) . ' market at the ' . $exchange_text . ' exchange has ' . $increase_decrease . ' ' . $change_symbol . $percent_change_text . '% in ' . strtoupper($default_btc_primary_currency_pairing) . ' value to ' . $app_config['bitcoin_market_currencies'][$default_btc_primary_currency_pairing] . $asset_primary_currency_text . ' over the past ' . $last_check_time . ' since the last price ' . $desc_alert_type . '. ' . $email_volume_summary;
   				
   				// Were're just adding a human-readable timestamp to smart home (audio) alerts
   				$notifyme_message = $email_message . ' Timestamp is ' . time_date_format($app_config['local_time_offset'], 'pretty_time') . '.';
   				
-  				$text_message = ( $whale_alert == 1 ? '🐋' : '' ) . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange_text . ' ' . $increase_decrease . ' ' . $change_symbol . $percent_change_text . '% in ' . strtoupper($config_btc_primary_currency_pairing) . ' value to ' . $app_config['bitcoin_market_currencies'][$config_btc_primary_currency_pairing] . $asset_primary_currency_text . ' over ' . $last_check_time . '. 24hr ' . strtoupper($config_btc_primary_currency_pairing) . ' Vol: ' . $volume_primary_currency_text . ' ' . $volume_change_text_mobile;
+  				$text_message = ( $whale_alert == 1 ? '🐋' : '' ) . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange_text . ' ' . $increase_decrease . ' ' . $change_symbol . $percent_change_text . '% in ' . strtoupper($default_btc_primary_currency_pairing) . ' value to ' . $app_config['bitcoin_market_currencies'][$default_btc_primary_currency_pairing] . $asset_primary_currency_text . ' over ' . $last_check_time . '. 24hr ' . strtoupper($default_btc_primary_currency_pairing) . ' Vol: ' . $volume_primary_currency_text . ' ' . $volume_change_text_mobile;
   				
   				
   				
@@ -1004,10 +1004,10 @@ $cached_array = explode("||", $data_file);
 		
 	// PRIMARY CURRENCY CONFIG charts (CRYPTO/PRIMARY CURRENCY CONFIG markets, 
 	// AND ALSO crypto-to-crypto pairings converted to PRIMARY CURRENCY CONFIG equiv value for PRIMARY CURRENCY CONFIG equiv charts)
-	store_file_contents($base_dir . '/cache/charts/spot_price_24hr_volume/archival/'.$asset.'/'.$asset_data.'_chart_'.strtolower($config_btc_primary_currency_pairing).'.dat', time() . '||' . $asset_primary_currency_value_raw . '||' . $volume_primary_currency_raw . "\n", "append"); 
+	store_file_contents($base_dir . '/cache/charts/spot_price_24hr_volume/archival/'.$asset.'/'.$asset_data.'_chart_'.strtolower($default_btc_primary_currency_pairing).'.dat', time() . '||' . $asset_primary_currency_value_raw . '||' . $volume_primary_currency_raw . "\n", "append"); 
 		
 		// Crypto / secondary currency pairing charts, volume as pairing (for UX)
-		if ( $pairing != strtolower($config_btc_primary_currency_pairing) ) {
+		if ( $pairing != strtolower($default_btc_primary_currency_pairing) ) {
 		store_file_contents($base_dir . '/cache/charts/spot_price_24hr_volume/archival/'.$asset.'/'.$asset_data.'_chart_'.$pairing.'.dat', time() . '||' . $asset_pairing_value_raw . '||' . $volume_pairing_raw . "\n", "append");
 		}
 			

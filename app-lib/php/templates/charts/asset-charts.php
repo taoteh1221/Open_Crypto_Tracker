@@ -24,7 +24,7 @@
 		$market_parse = explode("||", $value );
 
 
-		$charted_value = ( $_GET['charted_value'] == 'pairing' ? $market_parse[1] : $config_btc_primary_currency_pairing );
+		$charted_value = ( $_GET['charted_value'] == 'pairing' ? $market_parse[1] : $default_btc_primary_currency_pairing );
 		
 		
 		// Strip non-alphanumeric characters to use in js vars, to isolate logic for each separate chart
@@ -83,7 +83,9 @@
 			$force_decimals = 'decimals: ' . 2 . ',';
 			}
 		
-		
+
+header('Content-type: text/html; charset=utf-8');
+
 ?>
 
 

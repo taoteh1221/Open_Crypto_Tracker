@@ -12,10 +12,10 @@ require("config.php");
 
 
 if ( $_GET['type'] == 'asset' ) {
-require($base_dir . '/app-lib/php/other/asset-charts.php');
+require($base_dir . '/app-lib/php/templates/charts/asset-charts.php');
 }
 elseif ( $_GET['type'] == 'system' ) {
-require($base_dir . '/app-lib/php/other/system-charts.php');
+require($base_dir . '/app-lib/php/templates/charts/system-charts.php');
 }
 
 ?>

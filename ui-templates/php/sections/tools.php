@@ -22,7 +22,7 @@
 		    
 			<p class='red'>Using this QR code generator <i><u>will set this page as the start page</u>, which you can reset afterwards at top left</i>. If you have portfolio data you don't want to lose, be sure you have enabled "Use cookie data to save values between sessions" on the Settings page before using this tool.</p>
 			
-				<?php require("app-lib/php/other/qr-code-generator/qr-code-generator.php"); ?>
+				<?php require("app-lib/php/apps/qr-code-generator/qr-code-generator.php"); ?>
 				
 				
 			</fieldset>

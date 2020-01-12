@@ -13,12 +13,12 @@ require("config.php");
 
 // Example template download
 if ( $_GET['example_template'] == 1 ) {
-require_once( $base_dir . "/app-lib/php/other/example-csv.php");
+require_once( $base_dir . "/app-lib/php/other/csv/example-csv.php");
 exit;
 }
 // Portfolio export download
 elseif ( $_POST['submit_check'] == 1 && is_array($app_config['portfolio_assets']) || $_POST['submit_check'] == 1 && is_object($app_config['portfolio_assets']) ) {
-require_once( $base_dir . "/app-lib/php/other/export-csv.php");
+require_once( $base_dir . "/app-lib/php/other/csv/export-csv.php");
 exit;
 }
 // Backups download

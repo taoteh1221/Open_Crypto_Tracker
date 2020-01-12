@@ -188,7 +188,7 @@ $app_config['smtp_login'] = ''; //  CAN BE BLANK. This format MUST be used: 'use
 
 $app_config['smtp_server'] = ''; // CAN BE BLANK. This format MUST be used: 'domain_or_ip:port' example: 'example.com:25'
 
-$app_config['smtp_secure'] = 'tls'; // CAN BE BLANK '' for no secure connection, or 'tls', or 'ssl' for secure connections. Make sure port number ABOVE corresponds
+$app_config['smtp_secure'] = ''; // CAN BE BLANK '' for no secure connection, or 'tls', or 'ssl' for secure connections. Make sure port number ABOVE corresponds
 
 
 
@@ -229,7 +229,7 @@ $app_config['asset_price_alerts_freq'] = 10; // Re-allow same asset price alert(
 // Minimum 24 hour volume filter. Only allows sending price alerts if minimum 24 hour volume reached
 // CAN BE 0 TO DISABLE MINIMUM VOLUME FILTERING, NO DECIMALS OR SEPARATORS, NUMBERS ONLY, WITHOUT the [primary currency] prefix symbol: 250 = $250 , 4500 = $4,500 , etc
 // THIS FILTER WILL AUTO-DISABLE IF THERE IS AN ERROR RETRIEVING DATA ON A CERTAIN MARKET (WHEN NOT EVEN A ZERO IS RECEIVED)
-$app_config['asset_price_alerts_min_volume'] = 3000;
+$app_config['asset_price_alerts_min_volume'] = 4500;
 
 // Refresh cached comparison prices every X days (since last refresh / alert) with latest prices
 // Can be 0 to disable refreshing (until price alert triggers a refresh)

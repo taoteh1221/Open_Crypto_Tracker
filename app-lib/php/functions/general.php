@@ -566,7 +566,7 @@ global $base_dir;
 	}
 	// PHP 5 (V6 RELEASE WAS SKIPPED)
 	elseif ( PHP_VERSION_ID < 60000 ) {
-	require_once($base_dir . '/app-lib/php/other/random-compat/lib/random.php');
+	require_once($base_dir . '/app-lib/php/apps/random-compat/lib/random.php');
 	$hash = random_bytes($num_bytes);
 	}
 	// >= PHP 7
@@ -580,72 +580,6 @@ global $base_dir;
 	else {
 	return false;
 	}
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-// Always display very large / small numbers in non-scientific format
-// Also removes any leading and trailing zeros for efficient storage / UX / etc
-function float_to_string($val) {
-
-
-// Trim any whitespace off the ends
-$val = trim($val);
-
-
-	// Covert scientific notation to a normal value / string
-    
-	// MUST ALLOW MAXIMUM OF 9 DECIMALS, TO COUNT WATCH-ONLY ASSETS
-	// (ANYTHING OVER 9 DECIMALS SHOULD BE AVOIDED FOR UX)
-   $detect_decimals = (string)$val;
-   if ( preg_match('~\.(\d+)E([+-])?(\d+)~', $detect_decimals, $matches) ) {
-   $decimals = $matches[2] === '-' ? strlen($matches[1]) + $matches[3] : 0;
-   }
-   else {
-   $decimals = strpos( strrev($detect_decimals) , '.');
-   }
-    
-	if ( $decimals > 9 ) {
-	$decimals = 9;
-	}
-   
-   $val = number_format($val, $decimals, '.', '');
-
-
-	// Remove TRAILING zeros ie. 140.00000 becomes 140.
-	// (ONLY IF DECIMAL PLACE EXISTS)
-	if ( preg_match("/\./", $val) ) {
-	$val = rtrim($val, '0');
-	}
-
-
-	// Remove any extra LEADING zeros 
-	// IF less than 1.00
-	if ( $val < 1 ) {
-	$val = preg_replace("/(.*)00\./", "0.", $val);
-	}
-	// IF greater than or equal to 1.00
-	elseif ( $val >= 1 ) {
-	$val = ltrim($val, '0');
-	}
-	
-
-// Remove decimal point if an integer ie. 140. becomes 140
-$val = rtrim($val, '.');
-	
-	
-	// Always at least return zero
-	if ( $val >= 0.000000001 ) {
-	return $val;
-	}
-	else {
-	return 0;
-	}
-
 
 }
 
@@ -734,6 +668,33 @@ $network_name = trim( strtolower($string[1]) ); // Force lowercase lookups for r
 ////////////////////////////////////////////////////////
 
 
+// Return the TLD only (no subdomain)
+function get_tld($url) {
+
+global $app_config;
+
+$urlData = parse_url($url);
+$hostData = explode('.', $urlData['host']);
+$hostData = array_reverse($hostData);
+
+
+	if ( array_search($hostData[1] . '.' . $hostData[0], $app_config['top_level_domain_map']) !== FALSE ) {
+   $host = $hostData[2] . '.' . $hostData[1] . '.' . $hostData[0];
+	} 
+	elseif ( array_search($hostData[0], $app_config['top_level_domain_map']) !== FALSE ) {
+   $host = $hostData[1] . '.' . $hostData[0];
+ 	}
+
+
+return strtolower( trim($host) );
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
 function time_date_format($offset=false, $mode=false) {
 
 
@@ -812,33 +773,6 @@ $result['type'] = $type;
 $result['in_megs'] = round($in_megs, 3);
 
 return $result;
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-// Return the TLD only (no subdomain)
-function get_tld($url) {
-
-global $app_config;
-
-$urlData = parse_url($url);
-$hostData = explode('.', $urlData['host']);
-$hostData = array_reverse($hostData);
-
-
-	if ( array_search($hostData[1] . '.' . $hostData[0], $app_config['top_level_domain_map']) !== FALSE ) {
-   $host = $hostData[2] . '.' . $hostData[1] . '.' . $hostData[0];
-	} 
-	elseif ( array_search($hostData[0], $app_config['top_level_domain_map']) !== FALSE ) {
-   $host = $hostData[1] . '.' . $hostData[0];
- 	}
-
-
-return strtolower( trim($host) );
 
 }
 
@@ -977,22 +911,22 @@ function file_download($file, $save_as, $delete=true) {
 $type = pathinfo($save_as, PATHINFO_EXTENSION);
 
 	if ( $type == 'csv' ) {
-	$content_type = 'Content-type: text/csv; charset=UTF-8';
+	$content_type = 'Content-type: text/csv; charset=utf-8';
 	}
 	else {
-	$content_type = 'Content-Type: application/octet-stream';
+	$content_type = 'Content-type: application/octet-stream';
 	}
 
 
 	if ( file_exists($file) ) {
 		
-		header('Content-Description: File Transfer');
+		header('Content-description: file transfer');
 		header($content_type);
-		header('Content-Disposition: attachment; filename="'.basename($save_as).'"');
+		header('Content-disposition: attachment; filename="'.basename($save_as).'"');
 		header('Expires: 0');
-		header('Cache-Control: must-revalidate');
+		header('Cache-control: must-revalidate');
 		header('Pragma: public');
-		header('Content-Length: ' . filesize($file));
+		header('Content-length: ' . filesize($file));
 		
 		$result = readfile($file);
 		
@@ -1087,9 +1021,75 @@ return $base_url;
 ////////////////////////////////////////////////////////
 
 
+// Always display very large / small numbers in non-scientific format
+// Also removes any leading and trailing zeros for efficient storage / UX / etc
+function float_to_string($val) {
+
+
+// Trim any whitespace off the ends
+$val = trim($val);
+
+
+	// Covert scientific notation to a normal value / string
+    
+	// MUST ALLOW MAXIMUM OF 9 DECIMALS, TO COUNT WATCH-ONLY ASSETS
+	// (ANYTHING OVER 9 DECIMALS SHOULD BE AVOIDED FOR UX)
+   $detect_decimals = (string)$val;
+   if ( preg_match('~\.(\d+)E([+-])?(\d+)~', $detect_decimals, $matches) ) {
+   $decimals = $matches[2] === '-' ? strlen($matches[1]) + $matches[3] : 0;
+   }
+   else {
+   $decimals = strpos( strrev($detect_decimals) , '.');
+   }
+    
+	if ( $decimals > 9 ) {
+	$decimals = 9;
+	}
+   
+   $val = number_format($val, $decimals, '.', '');
+
+
+	// Remove TRAILING zeros ie. 140.00000 becomes 140.
+	// (ONLY IF DECIMAL PLACE EXISTS)
+	if ( preg_match("/\./", $val) ) {
+	$val = rtrim($val, '0');
+	}
+
+
+	// Remove any extra LEADING zeros 
+	// IF less than 1.00
+	if ( $val < 1 ) {
+	$val = preg_replace("/(.*)00\./", "0.", $val);
+	}
+	// IF greater than or equal to 1.00
+	elseif ( $val >= 1 ) {
+	$val = ltrim($val, '0');
+	}
+	
+
+// Remove decimal point if an integer ie. 140. becomes 140
+$val = rtrim($val, '.');
+	
+	
+	// Always at least return zero
+	if ( $val >= 0.000000001 ) {
+	return $val;
+	}
+	else {
+	return 0;
+	}
+
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
 function chart_data($file, $chart_format) {
 
-global $app_config, $config_btc_primary_currency_pairing;
+global $app_config, $default_btc_primary_currency_pairing;
 
 
 	if ( array_key_exists($chart_format, $app_config['bitcoin_market_currencies']) ) {

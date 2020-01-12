@@ -117,8 +117,8 @@ $app_config['btc_primary_exchange'] = cleanup_config($app_config['btc_primary_ex
 // We NEVER change BTC / currency_market value FOR CHARTS/ALERTS, 
 // so move the default $app_config['btc_primary_currency_pairing'] / $app_config['btc_primary_exchange'] values into their own chart/alerts related variables,
 // before dynamic updating of $app_config['btc_primary_currency_pairing'] / $app_config['btc_primary_exchange']
-$config_btc_primary_currency_pairing = $app_config['btc_primary_currency_pairing']; 
-$config_btc_primary_exchange = $app_config['btc_primary_exchange'];
+$default_btc_primary_currency_pairing = $app_config['btc_primary_currency_pairing']; 
+$default_btc_primary_exchange = $app_config['btc_primary_exchange'];
 
 
 
@@ -189,8 +189,8 @@ $app_config['mobile_network_text_gateways'] = $cleaned_mobile_networks;
 $selected_pairing_id = $app_config['portfolio_assets']['BTC']['market_pairing'][$app_config['btc_primary_currency_pairing']][$app_config['btc_primary_exchange']];
 $btc_primary_currency_value = asset_market_data('BTC', $app_config['btc_primary_exchange'], $selected_pairing_id)['last_trade'];
 
-$charts_alerts_selected_pairing_id = $app_config['portfolio_assets']['BTC']['market_pairing'][$config_btc_primary_currency_pairing][$config_btc_primary_exchange];
-$charts_alerts_btc_primary_currency_value = asset_market_data('BTC', $config_btc_primary_exchange, $charts_alerts_selected_pairing_id)['last_trade'];
+$default_btc_pairing_id = $app_config['portfolio_assets']['BTC']['market_pairing'][$default_btc_primary_currency_pairing][$default_btc_primary_exchange];
+$default_btc_primary_currency_value = asset_market_data('BTC', $default_btc_primary_exchange, $default_btc_pairing_id)['last_trade'];
 
 
 // Log any Bitcoin market errors
@@ -207,15 +207,15 @@ app_logging('other_error', 'config-init.php Bitcoin primary currency market valu
 
 
 // Log any charts/alerts Bitcoin market errors
-if ( !$app_config['portfolio_assets']['BTC']['market_pairing'][$config_btc_primary_currency_pairing] ) {
-app_logging('other_error', 'config-init.php Charts / alerts btc_primary_currency_pairing variable not properly set', 'btc_primary_currency_pairing: ' . $config_btc_primary_currency_pairing . ';' );
+if ( !$app_config['portfolio_assets']['BTC']['market_pairing'][$default_btc_primary_currency_pairing] ) {
+app_logging('other_error', 'config-init.php Charts / alerts btc_primary_currency_pairing variable not properly set', 'btc_primary_currency_pairing: ' . $default_btc_primary_currency_pairing . ';' );
 }
-elseif ( !$app_config['portfolio_assets']['BTC']['market_pairing'][$config_btc_primary_currency_pairing][$config_btc_primary_exchange] ) {
-app_logging('other_error', 'config-init.php Charts / alerts btc_primary_exchange variable not properly set', 'btc_primary_exchange: ' . $config_btc_primary_exchange . ';' );
+elseif ( !$app_config['portfolio_assets']['BTC']['market_pairing'][$default_btc_primary_currency_pairing][$default_btc_primary_exchange] ) {
+app_logging('other_error', 'config-init.php Charts / alerts btc_primary_exchange variable not properly set', 'btc_primary_exchange: ' . $default_btc_primary_exchange . ';' );
 }
 
-if ( !isset($charts_alerts_btc_primary_currency_value) || $charts_alerts_btc_primary_currency_value == 0 ) {
-app_logging('other_error', 'config-init.php Charts / alerts Bitcoin primary currency market value not properly set', 'btc_primary_currency_pairing: ' . $config_btc_primary_currency_pairing . '; exchange: ' . $config_btc_primary_exchange . '; pairing_id: ' . $charts_alerts_selected_pairing_id . '; value: ' . $charts_alerts_btc_primary_currency_value );
+if ( !isset($default_btc_primary_currency_value) || $default_btc_primary_currency_value == 0 ) {
+app_logging('other_error', 'config-init.php Charts / alerts Bitcoin primary currency market value not properly set', 'btc_primary_currency_pairing: ' . $default_btc_primary_currency_pairing . '; exchange: ' . $default_btc_primary_exchange . '; pairing_id: ' . $default_btc_pairing_id . '; value: ' . $default_btc_primary_currency_value );
 }
 	
 

@@ -125,7 +125,7 @@ $config_parse_error = NULL; // Blank it out for any other config checks
 
 
 // Check default Bitcoin market/pairing configs (used by charts/alerts)
-if ( !isset( $app_config['portfolio_assets']['BTC']['market_pairing'][$config_btc_primary_currency_pairing] ) ) {
+if ( !isset( $app_config['portfolio_assets']['BTC']['market_pairing'][$default_btc_primary_currency_pairing] ) ) {
 
 	foreach ( $app_config['portfolio_assets']['BTC']['market_pairing'] as $pairing_key => $unused ) {
 	$avialable_btc_pairings .= strtolower($pairing_key) . ', ';
@@ -136,15 +136,15 @@ if ( !isset( $app_config['portfolio_assets']['BTC']['market_pairing'][$config_bt
 $config_parse_error[] = 'Charts and price alerts cannot run properly, because the "btc_primary_currency_pairing" (default Bitcoin currency pairing) value \''.$app_config['btc_primary_currency_pairing'].'\' in config.php is not a valid Bitcoin pairing option (valid Bitcoin pairing options are: '.$avialable_btc_pairings.')';
 
 }
-elseif ( !isset( $app_config['portfolio_assets']['BTC']['market_pairing'][$config_btc_primary_currency_pairing][$config_btc_primary_exchange] ) ) {
+elseif ( !isset( $app_config['portfolio_assets']['BTC']['market_pairing'][$default_btc_primary_currency_pairing][$default_btc_primary_exchange] ) ) {
 
-	foreach ( $app_config['portfolio_assets']['BTC']['market_pairing'][$config_btc_primary_currency_pairing] as $pairing_key => $unused ) {
+	foreach ( $app_config['portfolio_assets']['BTC']['market_pairing'][$default_btc_primary_currency_pairing] as $pairing_key => $unused ) {
 	$avialable_btc_primary_exchanges .= strtolower($pairing_key) . ', ';
 	}
 	$avialable_btc_primary_exchanges = trim($avialable_btc_primary_exchanges);
 	$avialable_btc_primary_exchanges = rtrim($avialable_btc_primary_exchanges,',');
 	
-$config_parse_error[] = 'Charts and price alerts cannot run properly, because the "btc_primary_exchange" (default Bitcoin exchange) value \''.$config_btc_primary_exchange.'\' in config.php is not a valid option for \''.$config_btc_primary_currency_pairing.'\' Bitcoin pairings (valid \''.$config_btc_primary_currency_pairing.'\' Bitcoin pairing options are: '.$avialable_btc_primary_exchanges.')';
+$config_parse_error[] = 'Charts and price alerts cannot run properly, because the "btc_primary_exchange" (default Bitcoin exchange) value \''.$default_btc_primary_exchange.'\' in config.php is not a valid option for \''.$default_btc_primary_currency_pairing.'\' Bitcoin pairings (valid \''.$default_btc_primary_currency_pairing.'\' Bitcoin pairing options are: '.$avialable_btc_primary_exchanges.')';
 
 }
 
