@@ -856,16 +856,16 @@ $cached_array = explode("||", $data_file);
           	// we use current PRIMARY CURRENCY CONFIG volume instead of current pair volume (for percent up, so it's not up 70,000% for altcoins lol)
           	if ( $cached_primary_currency_volume == 0 ) {
           	$volume_describe = strtoupper($default_btc_primary_currency_pairing) . ' volume was $0 last price ' . $desc_alert_type . ', and ';
-          	$volume_describe_mobile = strtoupper($default_btc_primary_currency_pairing) . ' vol up from $0 last ' . $desc_alert_type;
+          	$volume_describe_mobile = strtoupper($default_btc_primary_currency_pairing) . ' volume up from $0 last ' . $desc_alert_type;
           	}
           	// Best we can do feasibly for UX on volume reporting errors
           	elseif ( $cached_primary_currency_volume == -1 ) { // ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
           	$volume_describe = strtoupper($default_btc_primary_currency_pairing) . ' volume was NULL last price ' . $desc_alert_type . ', and ';
-          	$volume_describe_mobile = strtoupper($default_btc_primary_currency_pairing) . ' vol up from NULL last ' . $desc_alert_type;
+          	$volume_describe_mobile = strtoupper($default_btc_primary_currency_pairing) . ' volume up from NULL last ' . $desc_alert_type;
           	}
           	else {
           	$volume_describe = 'pair volume ';
-          	$volume_describe_mobile = 'pair vol';
+          	$volume_describe_mobile = 'pair volume'; // no space
           	}
           
           
@@ -940,7 +940,7 @@ $cached_array = explode("||", $data_file);
   				// Were're just adding a human-readable timestamp to smart home (audio) alerts
   				$notifyme_message = $email_message . ' Timestamp is ' . time_date_format($app_config['local_time_offset'], 'pretty_time') . '.';
   				
-  				$text_message = ( $whale_alert == 1 ? '🐋' : '' ) . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange_text . ' ' . $increase_decrease . ' ' . $change_symbol . $percent_change_text . '% in ' . strtoupper($default_btc_primary_currency_pairing) . ' value to ' . $app_config['bitcoin_market_currencies'][$default_btc_primary_currency_pairing] . $asset_primary_currency_text . ' over ' . $last_check_time . '. 24hr ' . strtoupper($default_btc_primary_currency_pairing) . ' Vol: ' . $volume_primary_currency_text . ' ' . $volume_change_text_mobile;
+  				$text_message = ( $whale_alert == 1 ? '🐋 ' : '' ) . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange_text . ' ' . $increase_decrease . ' ' . $change_symbol . $percent_change_text . '% in ' . strtoupper($default_btc_primary_currency_pairing) . ' value to ' . $app_config['bitcoin_market_currencies'][$default_btc_primary_currency_pairing] . $asset_primary_currency_text . ' over ' . $last_check_time . '. 24hr ' . strtoupper($default_btc_primary_currency_pairing) . ' Vol: ' . $volume_primary_currency_text . ' ' . $volume_change_text_mobile;
   				
   				
   				
@@ -954,8 +954,8 @@ $cached_array = explode("||", $data_file);
           								'text' => $text_message,
           								'notifyme' => $notifyme_message,
           								'email' => array(
-          														'subject' => $asset . ' Asset Value '.ucfirst($increase_decrease).' Alert' . ( $whale_alert == 1 ? ' (WHALE ALERT)' : '' ),
-          														'message' => $email_message
+          														'subject' => $asset . ' Asset Value '.ucfirst($increase_decrease).' Alert' . ( $whale_alert == 1 ? ' (🐋 WHALE ALERT)' : '' ),
+          														'message' => ( $whale_alert == 1 ? '🐋 ' : '' ) . $email_message // Add emoji here, so it's not sent with alexa / google home alerts
           														)
           								);
           	

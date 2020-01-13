@@ -1738,6 +1738,7 @@ $debugging_logs .= strip_tags($_SESSION['other_debugging']); // Remove any HTML 
 	// Log debugging...Purge old logs before storing new logs, if it's time to...otherwise just append.
 	if ( update_cache_file('cache/events/purge-debugging-logs.dat', ( $app_config['purge_logs'] * 1440 ) ) == true ) {
 	store_file_contents($base_dir . '/cache/logs/debugging.log', $debugging_logs); // NULL if no new debugging, but that's OK because we are purging any old entries 
+	store_file_contents($base_dir . '/cache/logs/smtp_debugging.log', NULL);
 	store_file_contents('cache/events/purge-debugging-logs.dat', date('Y-m-d H:i:s'));
 	}
 	elseif ( $debugging_logs != NULL ) {
@@ -1799,6 +1800,7 @@ $error_logs .= strip_tags($_SESSION['other_error']); // Remove any HTML formatti
 	// Log errors...Purge old logs before storing new logs, if it's time to...otherwise just append.
 	if ( update_cache_file('cache/events/purge-error-logs.dat', ( $app_config['purge_logs'] * 1440 ) ) == true ) {
 	store_file_contents($base_dir . '/cache/logs/errors.log', $error_logs); // NULL if no new errors, but that's OK because we are purging any old entries 
+	store_file_contents($base_dir . '/cache/logs/smtp_errors.log', NULL);
 	store_file_contents('cache/events/purge-error-logs.dat', date('Y-m-d H:i:s'));
 	}
 	elseif ( $error_logs != NULL ) {
@@ -2482,11 +2484,11 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		// If this is an SSL connection, add SSL parameters
 		if (  preg_match("/https:\/\//i", ( $mode == 'array' ? $api_server : $request ) )  ) {
 			
-		curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, ( $app_config['strict_ssl_connect'] == 'on' ? 2 : 0 ) );
-		curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, ( $app_config['strict_ssl_connect'] == 'on' ? TRUE : FALSE ) ); 
+		curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, ( $app_config['api_strict_ssl'] == 'on' ? 2 : 0 ) );
+		curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, ( $app_config['api_strict_ssl'] == 'on' ? TRUE : FALSE ) ); 
 		
 			if ( PHP_VERSION_ID >= 70700 && CURL_VERSION_ID >= 7410 ) {
-			curl_setopt ($ch, CURLOPT_SSL_VERIFYSTATUS, ( $app_config['strict_ssl_connect'] == 'on' ? TRUE : FALSE ) ); 
+			curl_setopt ($ch, CURLOPT_SSL_VERIFYSTATUS, ( $app_config['api_strict_ssl'] == 'on' ? TRUE : FALSE ) ); 
 			}
 
 		}
