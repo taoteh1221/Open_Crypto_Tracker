@@ -33,6 +33,8 @@ Class SMTPMailer {
     private $sock;
     private $hostname;
     private $local;
+    private $result;
+    private $meta      = array();
     private $log      = array();
     private $debug      = array();
     private $logfile = '';
@@ -263,7 +265,6 @@ Class SMTPMailer {
          return false;
         }
         
-        $meta = stream_get_meta_data($this->sock);
         
         $this->log[] = 'CONNECTION: '.$this->hostname.':'.$this->port;
         $this->response('220');
@@ -297,19 +298,22 @@ Class SMTPMailer {
         		
 				$this->debug[] = "\n SMTP Server response (debugging mode [".$this->debug_mode."]): \n";
 				
-					foreach ( $meta as $info_key => $info_value ) {
+        		$this->debug[] = "\n ( Reference: https://en.wikipedia.org/wiki/List_of_SMTP_server_return_codes ) \n";
+        
+				$this->debug[] = $this->result;
+				
+					foreach ( $this->meta as $info_key => $info_value ) {
 					$this->debug[] = $info_key . ' => ' . $info_value;
 					}
 					
 					foreach ( $this->ahead as $header ) {
 						
-						$check = substr( trim($header) , 0, 30);
-						
-						if ( preg_match("/:/", $check) ) {
+						if ( !$truncate_following ) {
         				$this->debug[] = $header;
+        				$truncate_following = ( preg_match("/Content-Transfer-Encoding/i", $header) ? 1 : NULL );
 						}
-						elseif ( trim($header) != '' ) {
-						$this->debug[] = $check . '...[truncated to 30 characters max]';
+						else {
+						$this->debug[] = substr( trim($header) , 0, 45) . '...[truncated to 45 characters max]';
 						}
 						
 					}
@@ -346,22 +350,24 @@ Class SMTPMailer {
     private function response($code) {
     	
         stream_set_timeout($this->sock, 8);
-        $result = fread($this->sock, 768);
-        $meta = stream_get_meta_data($this->sock);
+        $this->result = fread($this->sock, 768);
+        $this->meta = stream_get_meta_data($this->sock);
         
         
-        if ($meta['timed_out'] === true) {
+        if ($this->meta['timed_out'] === true) {
             fclose($this->sock);
             $this->log[] = "\n Was a timeout in Server response \n";
             $this->LogFile();            
-            print_r($meta);
+            print_r($this->meta);
             return false;
         }
         
-        $this->log[] = $result;
+        $this->log[] = "\n ( Reference: https://en.wikipedia.org/wiki/List_of_SMTP_server_return_codes ) \n";
+        
+        $this->log[] = $this->result;
         
         
-        if (substr($result, 0, 3) == $code) {
+        if (substr($this->result, 0, 3) == $code) {
             return false;
         }
         
@@ -370,19 +376,18 @@ Class SMTPMailer {
         
         $this->log[] = "\n SMTP Server response Error: \n";
         
-        	foreach ( $meta as $info_key => $info_value ) {
+        	foreach ( $this->meta as $info_key => $info_value ) {
         	$this->log[] = $info_key . ' => ' . $info_value;
         	}
         	
         	foreach ( $this->ahead as $header ) {
-        		
-				$check = substr( trim($header) , 0, 30);
 						
-				if ( preg_match("/:/", $check) ) {
+				if ( !$truncate_following ) {
         		$this->log[] = $header;
+        		$truncate_following = ( preg_match("/Content-Transfer-Encoding/i", $header) ? 1 : NULL );
 				}
-				elseif ( trim($header) != '' ) {
-				$this->log[] = $check . '...[truncated to 30 characters max]';
+				else {
+				$this->log[] = substr( trim($header) , 0, 45) . '...[truncated to 45 characters max]';
 				}
 						
         	}
@@ -399,16 +404,30 @@ Class SMTPMailer {
     private function doHeaders($filedata = true) {
     	
         // Precheck. Test if we have necessary data
-        if (empty($this->username) || empty($this->password))
-            exit('We need username and password for: <b>'.$this->server.'</b>');
+        if (empty($this->username) || empty($this->password)) {
+        $this->log[] = "\n SMTP Error: \n";
+        $this->log[] = 'We need username and password for: <b>'.$this->server.'</b>';
+        $this->LogFile();
+        return false;
+        }
             
-        if (empty($this->from)) $this->from = array($this->username, '');
+        if (empty($this->from)) {
+        $this->from = array($this->username, '');
+        }
         
-        if (empty($this->to) || !filter_var($this->to[0][0], FILTER_VALIDATE_EMAIL))
-            exit('We need a valid email address to send to');
+        if (empty($this->to) || !filter_var($this->to[0][0], FILTER_VALIDATE_EMAIL)) {
+        $this->log[] = "\n SMTP Error: \n";
+        $this->log[] = 'We need a valid email address to send to';
+        $this->LogFile();
+        return false;
+        }
             
-        if (strlen(trim($this->body)) < 3 && strlen(trim($this->text)) < 3)
-            exit('We really need a message to send');
+        if (strlen(trim($this->body)) < 3 && strlen(trim($this->text)) < 3) {
+        $this->log[] = "\n SMTP Error: \n";
+        $this->log[] = 'We really need a message to send';
+        $this->LogFile();
+        return false;
+        }
 
         // Create Headers
         $headerstring = '';
