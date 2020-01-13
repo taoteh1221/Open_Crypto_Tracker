@@ -190,8 +190,7 @@ Class SMTPMailer {
 
     // Display current log file
     public function ShowLog() {
-        echo '<pre>';
-        echo '<b>SMTP Mail Transaction Log</b><br>';
+        echo "\n SMTP Mail Transaction Log \n";
         print_r($this->log);
     }
     
@@ -200,7 +199,6 @@ Class SMTPMailer {
     // Log to error file
     public function LogFile() {
     		$format = "\n" . date('Y-m-d H:i:s') . " UTC | smtp_error: \n =========SMTP error log START================================================== \n ".print_r($this->log, true)." \n =========SMTP error log END================================================== \n\n";
-    		$format = strip_tags($format);
     		file_put_contents($this->logfile, $format, FILE_APPEND | LOCK_EX);
     }
     
@@ -209,7 +207,6 @@ Class SMTPMailer {
     // Log to debugging file
     public function LogFileDebugging() {
     		$format = "\n" . date('Y-m-d H:i:s') . " UTC | smtp_debugging: \n =========SMTP debugging log START================================================== \n ".print_r($this->debug, true)." \n =========SMTP debugging log END================================================== \n\n";
-    		$format = strip_tags($format);
     		file_put_contents($this->logfile_debugging, $format, FILE_APPEND | LOCK_EX);
     }
     
@@ -217,8 +214,7 @@ Class SMTPMailer {
 
     // Display current headers
     public function ShowHeaders() {
-        echo '<pre>';
-        echo '<b>SMTP Mail Headers</b><br>';
+        echo "\n SMTP Mail Headers \n";
         echo $this->doHeaders(false);
     }
 
@@ -267,6 +263,7 @@ Class SMTPMailer {
         
         
         $this->log[] = 'CONNECTION: '.$this->hostname.':'.$this->port;
+        $this->debug[] = 'CONNECTION: '.$this->hostname.':'.$this->port;
         $this->response('220');
         $this->logreq('EHLO '.$this->local, '250');
 
@@ -300,20 +297,25 @@ Class SMTPMailer {
 				
         		$this->debug[] = "\n ( Reference: https://en.wikipedia.org/wiki/List_of_SMTP_server_return_codes ) \n";
         
-				$this->debug[] = $this->result;
+				$this->debug[] = 'SERVER RESPONSE: ' . $this->result;
+				
+				$this->debug[] = "\n META DATA: \n";
 				
 					foreach ( $this->meta as $info_key => $info_value ) {
 					$this->debug[] = $info_key . ' => ' . $info_value;
 					}
 					
+				
+				$this->debug[] = "\n HEADER DATA: \n";
+				
 					foreach ( $this->ahead as $header ) {
 						
-						if ( !$truncate_following ) {
-        				$this->debug[] = $header;
+						if ( !$truncate_following && trim($header) != '' ) {
+        				$this->debug[] = trim($header);
         				$truncate_following = ( preg_match("/Content-Transfer-Encoding/i", $header) ? 1 : NULL );
 						}
 						else {
-						$this->debug[] = substr( trim($header) , 0, 45) . '...[truncated to 45 characters max]';
+						$this->debug[] = ( strlen($header) > 45 ? substr( trim($header) , 0, 45) . '...[truncated to 45 characters max]' : trim($header) );
 						}
 						
 					}
@@ -331,6 +333,7 @@ Class SMTPMailer {
     // Log command and do request
     private function logreq($cmd, $code) {
         $this->log[] = $cmd;
+        $this->debug[] = $cmd;
         $this->request($cmd, $code);
         return;
     }    
@@ -364,7 +367,10 @@ Class SMTPMailer {
         
         $this->log[] = "\n ( Reference: https://en.wikipedia.org/wiki/List_of_SMTP_server_return_codes ) \n";
         
-        $this->log[] = $this->result;
+        
+        $this->log[] = "\n SMTP Server response error(s): \n";
+        
+        $this->log[] = 'SERVER RESPONSE: ' . $this->result;
         
         
         if (substr($this->result, 0, 3) == $code) {
@@ -374,20 +380,22 @@ Class SMTPMailer {
             
         fclose($this->sock);
         
-        $this->log[] = "\n SMTP Server response Error: \n";
+        $this->log[] = "\n META DATA: \n";
         
         	foreach ( $this->meta as $info_key => $info_value ) {
         	$this->log[] = $info_key . ' => ' . $info_value;
         	}
+        
+        $this->log[] = "\n HEADER DATA: \n";
         	
         	foreach ( $this->ahead as $header ) {
 						
-				if ( !$truncate_following ) {
-        		$this->log[] = $header;
+				if ( !$truncate_following && trim($header) != '' ) {
+        		$this->log[] = trim($header);
         		$truncate_following = ( preg_match("/Content-Transfer-Encoding/i", $header) ? 1 : NULL );
 				}
 				else {
-				$this->log[] = substr( trim($header) , 0, 45) . '...[truncated to 45 characters max]';
+				$this->log[] = ( strlen($header) > 45 ? substr( trim($header) , 0, 45) . '...[truncated to 45 characters max]' : trim($header) );
 				}
 						
         	}
