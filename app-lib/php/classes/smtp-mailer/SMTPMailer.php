@@ -6,13 +6,16 @@
  License    : MIT License  https://opensource.org/licenses/MIT
  *************************************************************/
 
-Class SMTPMailer
-{
+Class SMTPMailer {
+	
+	
     private $server = 'smtp.gmail.com';
     private $port   =  587;
     private $secure = 'tls';
     private $username = '';
     private $password = '';
+    private $debug_mode = '';  // DFD Cryptocoin Values debug mode setting
+    private $strict_ssl = '';  // DFD Cryptocoin Values strict SSL setting
     private $app_version = ''; // DFD Cryptocoin Values version
     public $to       = array();
     public $from     = array();
@@ -31,170 +34,220 @@ Class SMTPMailer
     private $hostname;
     private $local;
     private $log      = array();
+    private $debug      = array();
     private $logfile = '';
+    private $logfile_debugging = '';
 
-    public function __construct($server=false, $port=false, $secure=false)
-    {
+
+
+
+    public function __construct($server=false, $port=false, $secure=false) {
+    	
         // Setup basic configuration
         if (file_exists( dirname(__FILE__) . '/conf/config_smtp.php')) {
+        	
             include dirname(__FILE__) . '/conf/config_smtp.php';
             $this->logfile   = $cfg_log_file;
+            $this->logfile_debugging   = $cfg_log_file_debugging;
             $this->server   = $cfg_server;
             $this->port     = $cfg_port;
             $this->secure   = $cfg_secure;
             $this->username = $cfg_username;
             $this->password = $cfg_password;
+            $this->debug_mode = $cfg_debug_mode;   // DFD Cryptocoin Values debug mode setting
+            $this->strict_ssl = $cfg_strict_ssl;   // DFD Cryptocoin Values strict SSL setting
             $this->app_version = $cfg_app_version; // DFD Cryptocoin Values version
+            
         }
+        
         if ($server !== false) {
             $this->server   = $server;
             $this->username = '';
             $this->password = '';
         }
+        
         if ($port   !== false) $this->port   = $port;
+        
         if ($secure !== false) $this->secure = strtolower($secure);
 
         // Define connection hostname and localhost
         $this->hostname = $this->server;
+        
         if ($this->secure == 'tls') $this->hostname = 'tcp://'.$this->server;
+        
         if ($this->secure == 'ssl') $this->hostname = 'ssl://'.$this->server;
+        
         if (!empty($_SERVER['HTTP_HOST']))
             $this->local = $_SERVER['HTTP_HOST'];
         elseif (!empty($_SERVER['SERVER_NAME']))
             $this->local = $_SERVER['SERVER_NAME'];
         else
             $this->local = php_uname("n"); // Use CLI compatible if all else fails
+            
         if ($this->username)
             $this->from = array($this->username, '');
+            
         define("NL", "\r\n");
+        
     }
  
+ 
+ 
     // Authentication Login
-    public function Auth($user, $pass)
-    {
+    public function Auth($user, $pass) {
         $this->username = $user;
         $this->password = $pass;
     }
 
+
+
     // Set from email address
-    public function From($address, $name = '')
-    {
+    public function From($address, $name = '') {
         $this->from = array($address, $name);
     }
 
+
+
     // Add email reply to address
-    public function addReplyTo($address, $name = '')
-    {
+    public function addReplyTo($address, $name = '') {
         $this->reply_to[] = array($address, $name);
     }
 
+
+
     // Single recipient email addresses
-    public function singleTo($address, $name = '')
-    {
+    public function singleTo($address, $name = '') {
         $this->to = array(); // Clear any other recipient email addresses
         $this->to[] = array($address, $name);
     }
 
+
+
     // Add recipient email address
-    public function addTo($address, $name = '')
-    {
+    public function addTo($address, $name = '') {
         $this->to[] = array($address, $name);
     }
 
+
+
     // Add carbon copy email address
-    public function addCc($address, $name = '')
-    {
+    public function addCc($address, $name = '') {
         $this->cc[] = array($address, $name);
     }
 
+
+
     // Add blind carbon copy email address
-    public function addBcc($address, $name = '')
-    {
+    public function addBcc($address, $name = '') {
         $this->bcc[] = array($address, $name);
     }
 
+
+
     // Set email subject
-    public function Subject($subject)
-    {
+    public function Subject($subject) {
         $this->subject = $subject;
     }
 
+
+
     // Set email html body
-    public function Body($html)
-    {
+    public function Body($html) {
         $this->body = $html;
     }
 
+
+
     // Set email plain text
-    public function Text($text)
-    {
+    public function Text($text) {
         $this->text = $text;
     }
 
+
+
     // Add attachment file
-    public function File($path)
-    {
+    public function File($path) {
         $this->file[] = $path;
     }
 
+
+
     // Set charset. Default 'UTF-8'
-    public function Charset($charset)
-    {
+    public function Charset($charset) {
         $this->charset = $charset;
     }
 
+
+
     // Set Content Transfer Encoding. Default '8bit'
-    public function TransferEncoding($encode)
-    {
+    public function TransferEncoding($encode) {
         $this->transferEncoding = $encode;
     }
 
+
+
     // Display current log file
-    public function ShowLog()
-    {
+    public function ShowLog() {
         echo '<pre>';
         echo '<b>SMTP Mail Transaction Log</b><br>';
         print_r($this->log);
     }
     
-    // Log to file
-    public function LogFile()
-    {
+    
+    
+    // Log to error file
+    public function LogFile() {
     		$format = "\n" . date('Y-m-d H:i:s') . " UTC | smtp_error: \n =========SMTP error log START================================================== \n ".print_r($this->log, true)." \n =========SMTP error log END================================================== \n\n";
     		$format = strip_tags($format);
     		file_put_contents($this->logfile, $format, FILE_APPEND | LOCK_EX);
     }
+    
+    
+    
+    // Log to debugging file
+    public function LogFileDebugging() {
+    		$format = "\n" . date('Y-m-d H:i:s') . " UTC | smtp_debugging: \n =========SMTP debugging log START================================================== \n ".print_r($this->debug, true)." \n =========SMTP debugging log END================================================== \n\n";
+    		$format = strip_tags($format);
+    		file_put_contents($this->logfile_debugging, $format, FILE_APPEND | LOCK_EX);
+    }
+    
+    
 
     // Display current headers
-    public function ShowHeaders()
-    {
+    public function ShowHeaders() {
         echo '<pre>';
         echo '<b>SMTP Mail Headers</b><br>';
         echo $this->doHeaders(false);
     }
 
+
+
     // Send the SMTP Mail
-    public function Send()
-    {
+    public function Send() {
+    	
         // Prepare data for sending
         $this->headers = $this->doHeaders();
         $user64 = base64_encode($this->username);
         $pass64 = base64_encode($this->password);
         $mailfrom = '<'.$this->from[0].'>';
+        
         foreach(array_merge($this->to, $this->cc, $this->bcc) as $address)
             $mailto[] = '<'.$address[0].'>';  
 
         // Open server connection and run transfers
 		  $stream_context = stream_context_create(
-		  [ 'ssl' => [
-				'local_cert'        => '/etc/ssl/certs/ssl-cert-snakeoil.pem',
-				//'peer_fingerprint'  => openssl_x509_fingerprint(file_get_contents('/path/to/key.crt')),
-				'verify_peer'       => false,
-				'verify_peer_name'  => false,
-				'allow_self_signed' => true,
-				'verify_depth'      => 0 
-			]]
+		  [ 
+		  	'ssl' => [
+				// https://www.php.net/manual/en/context.ssl.php
+            //'ciphers' => 'DHE-RSA-AES256-SHA:DHE-DSS-AES256-SHA:AES256-SHA:KRB5-DES-CBC3-MD5:KRB5-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:EDH-DSS-DES-CBC3-SHA:DES-CBC3-SHA:DES-CBC3-MD5:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA:AES128-SHA:RC2-CBC-MD5:KRB5-RC4-MD5:KRB5-RC4-SHA:RC4-SHA:RC4-MD5:RC4-MD5:KRB5-DES-CBC-MD5:KRB5-DES-CBC-SHA:EDH-RSA-DES-CBC-SHA:EDH-DSS-DES-CBC-SHA:DES-CBC-SHA:DES-CBC-MD5:EXP-KRB5-RC2-CBC-MD5:EXP-KRB5-DES-CBC-MD5:EXP-KRB5-RC2-CBC-SHA:EXP-KRB5-DES-CBC-SHA:EXP-EDH-RSA-DES-CBC-SHA:EXP-EDH-DSS-DES-CBC-SHA:EXP-DES-CBC-SHA:EXP-RC2-CBC-MD5:EXP-RC2-CBC-MD5:EXP-KRB5-RC4-MD5:EXP-KRB5-RC4-SHA:EXP-RC4-MD5:EXP-RC4-MD5', // May help with TLS / SSL BACKWARDS COMPATIBILITY
+				'verify_peer'       => ( $this->strict_ssl == 'on' ? true : false ),
+				'verify_peer_name'  => ( $this->strict_ssl == 'on' ? true : false ),
+				'allow_self_signed' => ( $this->strict_ssl == 'on' ? false : true ),
+				'verify_depth'      => 0 // ALWAYS KEEP AS ZERO
+			 ]
+			]
 			);
+
 
         if ( $this->secure == 'tls' || $this->secure == 'ssl' ) {
         $this->sock = stream_socket_client($this->hostname.':'.$this->port, $enum, $estr, 30, STREAM_CLIENT_CONNECT, $stream_context);
@@ -202,26 +255,34 @@ Class SMTPMailer
         else {
         $this->sock = stream_socket_client($this->hostname.':'.$this->port, $enum, $estr, 30, STREAM_CLIENT_CONNECT);
         }
+        
+        
         if (!$this->sock) {
         	$this->log[] = 'Socket connection error for host: ' . $this->hostname.':'.$this->port . '. Make sure your hostname and firewall settings are correct.';
          $this->LogFile();
-         return;
-        	}
+         return false;
+        }
+        
+        $meta = stream_get_meta_data($this->sock);
+        
         $this->log[] = 'CONNECTION: '.$this->hostname.':'.$this->port;
         $this->response('220');
         $this->logreq('EHLO '.$this->local, '250');
+
 
         if ($this->secure == 'tls') {
             $this->logreq('STARTTLS', '220');
             stream_socket_enable_crypto($this->sock, true, STREAM_CRYPTO_METHOD_TLS_CLIENT);
             $this->logreq('EHLO '.$this->local, '250');
         }
+        
 
         $this->logreq('AUTH LOGIN', '334');
         $this->logreq($user64, '334');
         $this->logreq($pass64, '235');
 
         $this->logreq('MAIL FROM: '.$mailfrom, '250');
+        
         foreach ($mailto as $address)
             $this->logreq('RCPT TO: '.$address, '250');
 
@@ -231,202 +292,318 @@ Class SMTPMailer
 
         $this->logreq('QUIT', '221');
         fclose($this->sock);
-
-        return true;
+				
+				if ( $this->debug_mode == 'on' || $this->debug_mode == 'smtp' ) {
+        		
+				$this->debug[] = "\n SMTP Server response (debugging mode [".$this->debug_mode."]): \n";
+				
+					foreach ( $meta as $info_key => $info_value ) {
+					$this->debug[] = $info_key . ' => ' . $info_value;
+					}
+					
+					foreach ( $this->ahead as $header ) {
+						
+						$check = substr( trim($header) , 0, 30);
+						
+						if ( preg_match("/:/", $check) ) {
+        				$this->debug[] = $header;
+						}
+						elseif ( trim($header) != '' ) {
+						$this->debug[] = $check . '...[truncated to 30 characters max]';
+						}
+						
+					}
+					
+				$this->LogFileDebugging();
+						
+				}
+				
+        return true;  // If we get this far, return true (indicating high probability of success)
+        
     }
 
+
+
     // Log command and do request
-    private function logreq($cmd, $code)
-    {
+    private function logreq($cmd, $code) {
         $this->log[] = $cmd;
         $this->request($cmd, $code);
         return;
     }    
 
+
+
     // Send one command and test response
-    private function request($cmd, $code)
-    {
+    private function request($cmd, $code) {
         fwrite($this->sock, $cmd.NL);
         $this->response($code);
         return;
     }
 
+
+
     // Read and verify response code
-    private function response($code)
-    {
+    private function response($code) {
+    	
         stream_set_timeout($this->sock, 8);
         $result = fread($this->sock, 768);
         $meta = stream_get_meta_data($this->sock);
+        
+        
         if ($meta['timed_out'] === true) {
             fclose($this->sock);
             $this->log[] = "\n Was a timeout in Server response \n";
             $this->LogFile();            
             print_r($meta);
-            return;
+            return false;
         }
+        
         $this->log[] = $result;
-        if (substr($result, 0, 3) == $code)
-            return;
+        
+        
+        if (substr($result, 0, 3) == $code) {
+            return false;
+        }
+        
+            
         fclose($this->sock);
+        
         $this->log[] = "\n SMTP Server response Error: \n";
+        
         	foreach ( $meta as $info_key => $info_value ) {
         	$this->log[] = $info_key . ' => ' . $info_value;
         	}
+        	
         	foreach ( $this->ahead as $header ) {
-        	$this->log[] = $header;
+        		
+				$check = substr( trim($header) , 0, 30);
+						
+				if ( preg_match("/:/", $check) ) {
+        		$this->log[] = $header;
+				}
+				elseif ( trim($header) != '' ) {
+				$this->log[] = $check . '...[truncated to 30 characters max]';
+				}
+						
         	}
+        	
         $this->LogFile();
-        return;
+        
+        return false;
+        
     }
 
+
+
     // Do create headers after precheck
-    private function doHeaders($filedata = true)
-    {
+    private function doHeaders($filedata = true) {
+    	
         // Precheck. Test if we have necessary data
         if (empty($this->username) || empty($this->password))
             exit('We need username and password for: <b>'.$this->server.'</b>');
+            
         if (empty($this->from)) $this->from = array($this->username, '');
+        
         if (empty($this->to) || !filter_var($this->to[0][0], FILTER_VALIDATE_EMAIL))
             exit('We need a valid email address to send to');
+            
         if (strlen(trim($this->body)) < 3 && strlen(trim($this->text)) < 3)
             exit('We really need a message to send');
 
         // Create Headers
         $headerstring = '';
         $this->createHeaders($filedata);
+        
         foreach($this->ahead as $val) {
             $headerstring .= $val.NL;
         }
 
         return rtrim($headerstring);
+        
     }
 
+
+
     // Headers
-    private function createHeaders($filedata)
-    {
+    private function createHeaders($filedata) {
+    	
+    	
         $this->ahead = array();
         $this->ahead[] = 'Date: '.date('r');
         $this->ahead[] = 'To: '.$this->formatAddressList($this->to);
         $this->ahead[] = 'From: '.$this->formatAddress($this->from);
+        
         if (!empty($this->cc)) {
             $this->ahead[] = 'Cc: '.$this->formatAddressList($this->cc);
         }
+        
         if (!empty($this->bcc)) {
             $this->ahead[] = 'Bcc: '.$this->formatAddressList($this->bcc);
         }
+        
         if (!empty($this->reply_to)) {
             $this->ahead[] = 'Reply-To: '.$this->formatAddressList($this->reply_to);
         }
+        
         $this->ahead[] = 'Subject: '.'=?UTF-8?B?'.base64_encode($this->subject).'?=';
         $this->ahead[] = 'Message-ID: '.$this->generateMessageID();
         $this->ahead[] = 'X-Mailer: '.'DFD_Cryptocoin_Values/' . $this->app_version . ' - PHP/' . phpversion();
         $this->ahead[] = 'MIME-Version: '.'1.0';
 
         $boundary = md5(uniqid());
+        
         // Email contents
         if (empty($this->file) || !file_exists($this->file[0])) {
+        	
+        	
             if ($this->text && $this->body) {
+            	
                 // add multipart
                 $this->ahead[] = 'Content-Type: multipart/alternative; boundary="'
                                                             .$boundary.'"';
                 $this->ahead[] = '';
                 $this->ahead[] = 'This is a multi-part message in MIME format.';
                 $this->ahead[] = '--'.$boundary;
+                
                 // add text
                 $this->defContent('plain', 'text');
                 $this->ahead[] = '--'.$boundary;
+                
                 // add html
                 $this->defContent('html', 'body');
                 $this->ahead[] = '--'.$boundary.'--';
-            } elseif ($this->text) {
+                
+            }
+            elseif ($this->text) {
                 // add text
                 $this->defContent('plain', 'text');
-            } else {
+            }
+            else {
                 // add html
                 $this->defContent('html', 'body');
             }
-        } else {
+            
+            
+        }
+        else {
+        	
+        	
             // add multipart with attachment
             $this->ahead[] = 'Content-Type: multipart/mixed; boundary="'
                                                             .$boundary.'"';
             $this->ahead[] = '';
             $this->ahead[] = 'This is a multi-part message in MIME format.';
             $this->ahead[] = '--'.$boundary;
+            
             if ($this->text) {
                 // add text
                 $this->defContent('plain', 'text');
                 $this->ahead[] = '--'.$boundary;
             }
+            
             if ($this->body) {
                 // add html
                 $this->defContent('html', 'body');
                 $this->ahead[] = '--'.$boundary;
             }
+            
             // spin thru attachments...
             foreach ($this->file as $path) {
+            	
                 if (file_exists($path)) {
+                	
                     // add attachment
                     $this->ahead[] = 'Content-Type: application/octet-stream; '
                                                  .'name="'.basename($path).'"';
                     $this->ahead[] = 'Content-Transfer-Encoding: base64';
                     $this->ahead[] = 'Content-Disposition: attachment';
                     $this->ahead[] = '';
+                    
                     if ($filedata) {
                         // encode file contents
                         $contents = chunk_split(base64_encode(file_get_contents($path)));
                         $this->ahead[] = $contents;
                     }
+                    
                     $this->ahead[] = '--'.$boundary;
+                    
                 }
+                
             }   
+            
             // add last "--"
             $this->ahead[count($this->ahead)-1] .= '--';
+            
+            
         }
         // final period
         $this->ahead[] = '.';
 
         return;
+        
+        
     }
 
+
+
     // Define and code the contents
-    private function defContent($type, $msg)
-    {
+    private function defContent($type, $msg) {
+    	
         $this->ahead[] = 'Content-Type: text/'.$type.'; charset="'.$this->charset.'"';
         $this->ahead[] = 'Content-Transfer-Encoding: '.$this->transferEncoding;
         $this->ahead[] = '';
+        
         if ($this->transferEncoding == 'quoted-printable')
             $this->ahead[] = quoted_printable_encode($this->$msg);
         else
             $this->ahead[] = $this->$msg;
+            
     }
 
+
+
     // Format email address (with name)
-    private function formatAddress($address)
-    {
+    private function formatAddress($address) {
         return ($address[1] == '') ? $address[0] : '"'.$address[1].'" <'.$address[0].'>';
     }
 
+
+
     // Format email address list
-    private function formatAddressList($addresses)
-    {
+    private function formatAddressList($addresses) {
+    	
         $list = '';
+        
         foreach ($addresses as $address) {
+        	
             if ($list) {
                 $list .= ', '.NL."\t";
             }
+            
             $list .= $this->formatAddress($address);
+            
         }
+        
         return $list;
+        
     }
 
-    private function generateMessageID()
-    {
+
+
+    private function generateMessageID() {
+    	
         return sprintf(
             "<%s.%s@%s>",
             base_convert(microtime(), 10, 36),
             base_convert(bin2hex(openssl_random_pseudo_bytes(8)), 16, 36),
             $this->local
         );
+        
     }
+    
+    
 
 }
+
+
+

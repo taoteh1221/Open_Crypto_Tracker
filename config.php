@@ -39,8 +39,8 @@ require_once("app-lib/php/init.php");  // REQUIRED, DON'T DELETE BY ACCIDENT
 // $app_config['debug_mode'] enabled runs unit tests during ui runtimes (during webpage load), errors detected are error-logged and printed as alerts in footer
 // It also logs ui / cron runtime telemetry to /cache/logs/debugging.log, AND /cache/logs/debugging/
 // 'off' (disables), 'all' (all debugging), 'charts' (chart/price alert checks), 'texts' (mobile gateway checks), 
-// 'markets' (coin market checks), 'telemetry' (logs function telemetries), 'stats' (basic hardware / software / runtime stats),
-// 'btc_markets_config' (the current Bitcoin markets configuration)
+// 'markets' (coin market checks), 'telemetry' (logs in-app telemetries), 'stats' (basic hardware / software / runtime stats),
+// 'btc_markets_config' (the current Bitcoin markets configuration), 'smtp' (smtp email server response logging, if smtp emailing is enabled)
 // UNIT TESTS WILL ONLY RUN DURING WEB PAGE LOAD. MAY REQUIRE  
 // SETTING MAXIMUM ALLOWED PHP EXECUTION TIME TO 120 SECONDS TEMPORARILY, 
 // FOR ALL UNIT TESTS TO FULLY COMPLETE RUNNING, IF YOU GET AN ERROR 500.
@@ -97,7 +97,9 @@ $app_config['chainstats_cache'] = 30; // Minutes to cache blockchain stats (for 
 
 $app_config['api_timeout'] = 15; // Seconds to wait for response from API endpoints (exchange data, etc). Don't set too low, or you won't get data
 
-$app_config['api_strict_ssl'] = 'on'; // 'on' verifies ALL SSL certificates for HTTPS API servers, 'off' verifies NOTHING (NOT RECOMMENDED in production environment)
+// 'on' verifies ALL SSL certificates for HTTPS connections, 'off' verifies NOTHING (NOT RECOMMENDED in production environment)
+// Set to 'off' if some exchange's API servers have invalid certificates (stopping price data retrieval), but you still want to get data from them
+$app_config['strict_ssl_connect'] = 'on'; 
 
 $app_config['delete_old_backups'] = 7; // Days until old zip archive backups should be deleted (chart data archives, etc)
 
@@ -188,7 +190,10 @@ $app_config['smtp_login'] = ''; //  CAN BE BLANK. This format MUST be used: 'use
 
 $app_config['smtp_server'] = ''; // CAN BE BLANK. This format MUST be used: 'domain_or_ip:port' example: 'example.com:25'
 
-$app_config['smtp_secure'] = ''; // CAN BE BLANK '' for no secure connection, or 'tls', or 'ssl' for secure connections. Make sure port number ABOVE corresponds
+$app_config['smtp_secure'] = 'tls'; // CAN BE BLANK '' for no secure connection, or 'tls', or 'ssl' for secure connections. Make sure port number ABOVE corresponds
+
+// 'on' verifies ALL certificates for secure SMTP connections, 'off' verifies NOTHING 
+$app_config['smtp_strict_ssl'] = 'off'; // (DEFAULT IS 'off', TO ASSURE SMTP EMAIL SENDING WORKS ON MISCONFIGURED OR LOCAL[HOME NETWORK] MACHINES)
 
 
 

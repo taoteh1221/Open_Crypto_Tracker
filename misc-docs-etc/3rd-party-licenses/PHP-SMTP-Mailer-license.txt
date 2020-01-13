@@ -1,2 +1,7 @@
 
-No license provided by the original author (at https://github.com/halojoy/PHP-SMTP-Mailer) as of 2019/3/1.
+/*************************************************************
+ Description: PHP Class for sending SMTP Mail
+ Author     : halojoy  https://github.com/halojoy
+ Copyright  : 2018 halojoy
+ License    : MIT License  https://opensource.org/licenses/MIT
+ *************************************************************/

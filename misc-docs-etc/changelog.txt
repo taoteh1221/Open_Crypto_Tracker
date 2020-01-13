@@ -2229,11 +2229,15 @@ PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
 -Tighter security
 
+-More in-app error / debug logging
+
 -Modularized configuration settings
 
 -Semantics / directory structure cleanup
 
--Secured cache section (for high security cache values)
+-Secured cache section (for higher security cache values)
+
+-Fixed secure SMTP email sending via TLS (secure / encrypted connection)
 
 -Password storage and check functions (for upcoming easy-to-use admin configuration page)
 

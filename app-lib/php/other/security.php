@@ -52,17 +52,12 @@ foreach( $secured_cache_files as $secured_file ) {
 		
 	$cached_app_config = json_decode( trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) ) , TRUE);
 	
-		if ( $app_config_check != md5(serialize($original_app_config)) && sizeof($cached_app_config) >= sizeof($original_app_config) && $cached_app_config == true ) {
-		$app_config = $cached_app_config; // Use cached app_config if it exists, seems intact, has same number of variables in config.php version, and config.php hasn't been revised
+		if ( $app_config_check == md5(serialize($original_app_config)) && $cached_app_config == true ) {
+		$app_config = $cached_app_config; // Use cached app_config if it exists, seems intact, and config.php hasn't been revised since last check
 		$is_cached_app_config = 1;
 		}
-		
-		if ( $app_config_check != md5(serialize($original_app_config)) ) {
+		elseif ( $app_config_check != md5(serialize($original_app_config)) ) {
 		app_logging('other_error', 'Cached app_config out of date (default app_config settings updated), deleting cached app_config (refresh will happen automatically)');
-		unlink($base_dir . '/cache/secured/' . $secured_file);
-		}
-		elseif ( sizeof($cached_app_config) < sizeof($original_app_config) ) {
-		app_logging('other_error', 'Cached app_config out of date (missing newly added default app_config variables), deleting cached app_config (refresh will happen automatically)');
 		unlink($base_dir . '/cache/secured/' . $secured_file);
 		}
 		elseif ( $cached_app_config != true ) {
@@ -103,8 +98,8 @@ $secure_256bit_hash = random_hash(32); // 256-bit (32-byte) hash converted to he
 
 
 
-// If no valid cached_app_config, or it has less variables than in config.php, or if config.php variables have been changed
-if ( $app_config_check != md5(serialize($original_app_config)) || sizeof($cached_app_config) < sizeof($original_app_config) || $cached_app_config != true ) {
+// If no valid cached_app_config, or if config.php variables have been changed
+if ( $app_config_check != md5(serialize($original_app_config)) || $cached_app_config != true ) {
 	
 $secure_128bit_hash = random_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
 	

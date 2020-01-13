@@ -249,6 +249,300 @@ $type = array("", "Kilo", "Mega", "Giga", "Tera", "Peta", "Exa", "Zetta", "Yotta
   }
   
 return("".round($bytes, $round)." ".$type[$index]."bytes");
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function create_csv_file($file, $save_as, $array) {
+
+	if ( $file == 'temp' ) {
+	$file = tempnam(sys_get_temp_dir(), 'temp');
+	}
+
+$fp = fopen($file, 'w');
+
+	foreach($array as $fields) {
+	fputcsv($fp, $fields);
+	}
+
+file_download($file, $save_as); // Download file (by default deletes after download, then exits)
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+// See if $val is a whole number without decimals
+function whole_int($val) {
+	
+$val = strval($val);
+$val = str_replace('-', '', $val);
+
+    if (ctype_digit($val)) {
+    	
+        if ( $val === (string)0 ) {
+        return true;
+        }
+        elseif( ltrim($val, '0') === $val ) {
+        return true;
+        }
+            
+    }
+
+return false;
+    
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function app_logging($log_type, $log_message, $telemetry=false, $hashcheck=false, $overwrite=false) {
+
+global $runtime_mode;
+
+	if ( $hashcheck != false ) {
+	$_SESSION[$log_type][$hashcheck] = date('Y-m-d H:i:s') . ' UTC | runtime: ' . $runtime_mode . ' | ' . $log_type . ': ' . $log_message . ( $telemetry != false ? ' | telemetry: [ '  . $telemetry . ' ]' : '' ) . " <br /> \n";
+	}
+	elseif ( $overwrite != false ) {
+	$_SESSION[$log_type] = date('Y-m-d H:i:s') . ' UTC | runtime: ' . $runtime_mode . ' | ' . $log_type . ': ' . $log_message . ( $telemetry != false ? ' | telemetry: [ '  . $telemetry . ' ]' : '' ) . " <br /> \n";
+	}
+	else {
+	$_SESSION[$log_type] .= date('Y-m-d H:i:s') . ' UTC | runtime: ' . $runtime_mode . ' | ' . $log_type . ': ' . $log_message . ( $telemetry != false ? ' | telemetry: [ '  . $telemetry . ' ]' : '' ) . " <br /> \n";
+	}
+
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function store_cookie_contents($name, $value, $time) {
+
+$result = setcookie($name, $value, $time);
+	
+	
+	// Android / Safari maximum cookie size is 4093 bytes, Chrome / Firefox max is 4096
+	if ( strlen($value) > 4093 ) {  
+	app_logging('other_error', 'Cookie size is greater than 4093 bytes (' . strlen($value) . ' bytes). If saving portfolio as cookie data fails on your browser, try using CSV file import / export instead for large portfolios.');
+	}
+	
+	if ( $result == FALSE ) {
+	app_logging('other_error', 'Cookie creation failed for cookie "' . $name . '"');
+	}
+	
+	
+return $result;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function text_email($string) {
+
+global $app_config;
+
+$string = explode("||",$string);
+
+$phone_number = substr($string[0], -10); 
+$network_name = trim( strtolower($string[1]) ); // Force lowercase lookups for reliability / consistency
+
+	// Set text domain
+	if ( trim($phone_number) != '' && isset($app_config['mobile_network_text_gateways'][$network_name]) ) {
+	return trim($phone_number) . '@' . trim($app_config['mobile_network_text_gateways'][$network_name]); // Return formatted texting email address
+	}
+	else {
+	return false;
+	}
+
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+// Return the TLD only (no subdomain)
+function get_tld($url) {
+
+global $app_config;
+
+$urlData = parse_url($url);
+$hostData = explode('.', $urlData['host']);
+$hostData = array_reverse($hostData);
+
+
+	if ( array_search($hostData[1] . '.' . $hostData[0], $app_config['top_level_domain_map']) !== FALSE ) {
+   $host = $hostData[2] . '.' . $hostData[1] . '.' . $hostData[0];
+	} 
+	elseif ( array_search($hostData[0], $app_config['top_level_domain_map']) !== FALSE ) {
+   $host = $hostData[1] . '.' . $hostData[0];
+ 	}
+
+
+return strtolower( trim($host) );
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function start_page($page, $href_link=false) {
+
+	// We want to force a page reload for href links, so technically we change the URL but location remains the same
+	if ( $href_link != FALSE ) {
+	$index = './';
+	}
+	else {
+	$index = 'index.php';
+	}
+	
+	if ( $page != '' ) {
+	$url = $index . ( $page != '' ? '?start_page=' . $page . '#' . $page : '' );
+	}
+	else {
+	$url = $index;
+	}
+	
+	
+return $url;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function validate_email($email) {
+
+// Trim whitespace off ends, since we do this before attempting to send anyways in our safe_mail function
+$email = trim($email);
+
+	$address = explode("@",$email);
+	
+	$domain = $address[1];
+	
+	// Validate "To" address
+	if ( !$email || !preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)+$/", $email) ) {
+	return "Please enter a valid email address.";
+	}
+	elseif (function_exists("getmxrr") && !getmxrr($domain,$mxrecords)) {
+	return "The email domain \"$domain\" appears incorrect, no mail server records exist for this domain name.";
+	}
+	else {
+	return "valid";
+	}
+			
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function sort_files($files_dir, $extension, $sort) {
+	
+$scan_array = scandir($files_dir);
+$files = array();
+  
+  
+  foreach($scan_array as $filename) {
+    
+    if ( pathinfo($filename, PATHINFO_EXTENSION) == $extension ) {
+      $mod_time = filemtime($files_dir.'/'.$filename);
+      $files[$mod_time . '-' . $filename] = $filename;
+    }
+    
+  }
+
+
+  if ( $sort == 'asc' ) {
+  ksort($files);
+  }
+  elseif ( $sort == 'desc' ) {
+  krsort($files);
+  }
+
+
+return $files;
+  
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function random_hash($num_bytes) {
+
+global $base_dir;
+
+	// PHP 4 
+	if ( PHP_VERSION_ID < 50000 ) {
+	app_logging('security_error', 'Upgrade to PHP v5 or later to support cryptographically secure pseudo-random bytes in this application, or your application may not function properly');
+	}
+	// PHP 5 (V6 RELEASE WAS SKIPPED)
+	elseif ( PHP_VERSION_ID < 60000 ) {
+	require_once($base_dir . '/app-lib/php/apps/random-compat/lib/random.php');
+	$hash = random_bytes($num_bytes);
+	}
+	// >= PHP 7
+	elseif ( PHP_VERSION_ID >= 70000 ) {
+	$hash = random_bytes($num_bytes);
+	}
+
+	if ( strlen($hash) == $num_bytes ) {
+	return bin2hex($hash);
+	}
+	else {
+	return false;
+	}
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function dir_structure($path) {
+
+global $possible_http_users, $http_runtime_user;
+
+	if ( !is_dir($path) ) {
+	
+		// Run cache compatibility on certain PHP setups
+		if ( !$http_runtime_user || in_array($http_runtime_user, $possible_http_users) ) {
+		$oldmask = umask(0);
+		return  mkdir($path, octdec('777'), true); // Recursively create whatever path depth desired if non-existent
+		umask($oldmask);
+		}
+		else {
+		return  mkdir($path, octdec('777'), true); // Recursively create whatever path depth desired if non-existent
+		}
+	
+	}
+	else {
+	return TRUE;
+	}
+
 }
 
 
@@ -362,99 +656,6 @@ function delete_old_files($directory_data, $days, $ext) {
 ////////////////////////////////////////////////////////
 
 
-function create_csv_file($file, $save_as, $array) {
-
-	if ( $file == 'temp' ) {
-	$file = tempnam(sys_get_temp_dir(), 'temp');
-	}
-
-$fp = fopen($file, 'w');
-
-	foreach($array as $fields) {
-	fputcsv($fp, $fields);
-	}
-
-file_download($file, $save_as); // Download file (by default deletes after download, then exits)
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-// See if $val is a whole number without decimals
-function whole_int($val) {
-	
-$val = strval($val);
-$val = str_replace('-', '', $val);
-
-    if (ctype_digit($val)) {
-    	
-        if ( $val === (string)0 ) {
-        return true;
-        }
-        elseif( ltrim($val, '0') === $val ) {
-        return true;
-        }
-            
-    }
-
-return false;
-    
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function app_logging($log_type, $log_message, $telemetry=false, $hashcheck=false, $overwrite=false) {
-
-global $runtime_mode;
-
-	if ( $hashcheck != false ) {
-	$_SESSION[$log_type][$hashcheck] = date('Y-m-d H:i:s') . ' UTC | runtime: ' . $runtime_mode . ' | ' . $log_type . ': ' . $log_message . ( $telemetry != false ? ' | telemetry: [ '  . $telemetry . ' ]' : '' ) . " <br /> \n";
-	}
-	elseif ( $overwrite != false ) {
-	$_SESSION[$log_type] = date('Y-m-d H:i:s') . ' UTC | runtime: ' . $runtime_mode . ' | ' . $log_type . ': ' . $log_message . ( $telemetry != false ? ' | telemetry: [ '  . $telemetry . ' ]' : '' ) . " <br /> \n";
-	}
-	else {
-	$_SESSION[$log_type] .= date('Y-m-d H:i:s') . ' UTC | runtime: ' . $runtime_mode . ' | ' . $log_type . ': ' . $log_message . ( $telemetry != false ? ' | telemetry: [ '  . $telemetry . ' ]' : '' ) . " <br /> \n";
-	}
-
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function store_cookie_contents($name, $value, $time) {
-
-$result = setcookie($name, $value, $time);
-	
-	
-	// Android / Safari maximum cookie size is 4093 bytes, Chrome / Firefox max is 4096
-	if ( strlen($value) > 4093 ) {  
-	app_logging('other_error', 'Cookie size is greater than 4093 bytes (' . strlen($value) . ' bytes). If saving portfolio as cookie data fails on your browser, try using CSV file import / export instead for large portfolios.');
-	}
-	
-	if ( $result == FALSE ) {
-	app_logging('other_error', 'Cookie creation failed for cookie "' . $name . '"');
-	}
-	
-	
-return $result;
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
 function name_rendering($string) {
 
 
@@ -495,59 +696,41 @@ return trim($pretty_string);
 ////////////////////////////////////////////////////////
 
 
-function sort_files($files_dir, $extension, $sort) {
-	
-$scan_array = scandir($files_dir);
-$files = array();
-  
-  
-  foreach($scan_array as $filename) {
-    
-    if ( pathinfo($filename, PATHINFO_EXTENSION) == $extension ) {
-      $mod_time = filemtime($files_dir.'/'.$filename);
-      $files[$mod_time . '-' . $filename] = $filename;
-    }
-    
-  }
+function smtp_vars() {
 
+// To preserve SMTPMailer class upgrade structure, by creating a global var to be run in classes/smtp-mailer/conf/config_smtp.php
 
-  if ( $sort == 'asc' ) {
-  ksort($files);
-  }
-  elseif ( $sort == 'desc' ) {
-  krsort($files);
-  }
+global $app_version, $base_dir, $app_config;
 
+$vars = array();
 
-return $files;
-  
-}
+$log_file = $base_dir . "/cache/logs/smtp_errors.log";
+$log_file_debugging = $base_dir . "/cache/logs/smtp_debugging.log";
 
+// Don't overwrite globals
+$temp_smtp_login = explode("||", $app_config['smtp_login'] );
+$temp_smtp_server = explode(":", $app_config['smtp_server'] );
 
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
+// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
+$smtp_user = trim($temp_smtp_login[0]);
+$smtp_password = $temp_smtp_login[1];
 
+$smtp_host = trim($temp_smtp_server[0]);
+$smtp_port = trim($temp_smtp_server[1]);
 
-function validate_email($email) {
+// Port vars over to class format (so it runs out-of-the-box as much as possible)
+$vars['cfg_log_file']   = $log_file;
+$vars['cfg_log_file_debugging']   = $log_file_debugging;
+$vars['cfg_server']   = $smtp_host;
+$vars['cfg_port']     =  $smtp_port;
+$vars['cfg_secure']   = $app_config['smtp_secure'];
+$vars['cfg_username'] = $smtp_user;
+$vars['cfg_password'] = $smtp_password;
+$vars['cfg_debug_mode'] = $app_config['debug_mode']; // DFD Cryptocoin Values debug mode setting
+$vars['cfg_strict_ssl'] = $app_config['smtp_strict_ssl']; // DFD Cryptocoin Values strict SSL setting
+$vars['cfg_app_version'] = $app_version; // DFD Cryptocoin Values version
 
-// Trim whitespace off ends, since we do this before attempting to send anyways in our safe_mail function
-$email = trim($email);
-
-	$address = explode("@",$email);
-	
-	$domain = $address[1];
-	
-	// Validate "To" address
-	if ( !$email || !preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)+$/", $email) ) {
-	return "Please enter a valid email address.";
-	}
-	elseif (function_exists("getmxrr") && !getmxrr($domain,$mxrecords)) {
-	return "The email domain \"$domain\" appears incorrect, no mail server records exist for this domain name.";
-	}
-	else {
-	return "valid";
-	}
-			
+return $vars;
 
 }
 
@@ -556,137 +739,34 @@ $email = trim($email);
 ////////////////////////////////////////////////////////
 
 
-function random_hash($num_bytes) {
-
-global $base_dir;
-
-	// PHP 4 
-	if ( PHP_VERSION_ID < 50000 ) {
-	app_logging('security_error', 'Upgrade to PHP v5 or later to support cryptographically secure pseudo-random bytes in this application, or your application may not function properly');
-	}
-	// PHP 5 (V6 RELEASE WAS SKIPPED)
-	elseif ( PHP_VERSION_ID < 60000 ) {
-	require_once($base_dir . '/app-lib/php/apps/random-compat/lib/random.php');
-	$hash = random_bytes($num_bytes);
-	}
-	// >= PHP 7
-	elseif ( PHP_VERSION_ID >= 70000 ) {
-	$hash = random_bytes($num_bytes);
-	}
-
-	if ( strlen($hash) == $num_bytes ) {
-	return bin2hex($hash);
-	}
-	else {
-	return false;
-	}
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function start_page($page, $href_link=false) {
-
-	// We want to force a page reload for href links, so technically we change the URL but location remains the same
-	if ( $href_link != FALSE ) {
-	$index = './';
-	}
-	else {
-	$index = 'index.php';
-	}
+function base_url($atRoot=FALSE, $atCore=FALSE, $parse=FALSE) {
 	
-	if ( $page != '' ) {
-	$url = $index . ( $page != '' ? '?start_page=' . $page . '#' . $page : '' );
+// WARNING: THIS ONLY WORKS WELL FOR HTTP-BASED RUNTIME, ----NOT CLI---!
+// CACHE IT TO FILE DURING UI RUNTIME FOR CLI TO USE LATER ;-)
+
+	if ( isset($_SERVER['HTTP_HOST']) ) {
+        	
+   $http = isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off' ? 'https' : 'http';
+   $hostname = $_SERVER['HTTP_HOST'];
+   $dir =  str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
+
+   $core = preg_split('@/@', str_replace($_SERVER['DOCUMENT_ROOT'], '', realpath(dirname(__FILE__))), NULL, PREG_SPLIT_NO_EMPTY);
+   $core = $core[0];
+
+   $tmplt = $atRoot ? ($atCore ? "%s://%s/%s/" : "%s://%s/") : ($atCore ? "%s://%s/%s/" : "%s://%s%s");
+   $end = $atRoot ? ($atCore ? $core : $hostname) : ($atCore ? $core : $dir);
+   $base_url = sprintf( $tmplt, $http, $hostname, $end );
+            
 	}
-	else {
-	$url = $index;
-	}
-	
-	
-return $url;
+	else $base_url = 'http://localhost/';
 
-}
+   if ($parse) {
+   $base_url = parse_url($base_url);
+   	     if (isset($base_url['path'])) if ($base_url['path'] == '/') $base_url['path'] = '';
+   }
 
 
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function dir_structure($path) {
-
-global $possible_http_users, $http_runtime_user;
-
-	if ( !is_dir($path) ) {
-	
-		// Run cache compatibility on certain PHP setups
-		if ( !$http_runtime_user || in_array($http_runtime_user, $possible_http_users) ) {
-		$oldmask = umask(0);
-		return  mkdir($path, octdec('777'), true); // Recursively create whatever path depth desired if non-existent
-		umask($oldmask);
-		}
-		else {
-		return  mkdir($path, octdec('777'), true); // Recursively create whatever path depth desired if non-existent
-		}
-	
-	}
-	else {
-	return TRUE;
-	}
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function text_email($string) {
-
-global $app_config;
-
-$string = explode("||",$string);
-
-$phone_number = substr($string[0], -10); 
-$network_name = trim( strtolower($string[1]) ); // Force lowercase lookups for reliability / consistency
-
-	// Set text domain
-	if ( trim($phone_number) != '' && isset($app_config['mobile_network_text_gateways'][$network_name]) ) {
-	return trim($phone_number) . '@' . trim($app_config['mobile_network_text_gateways'][$network_name]); // Return formatted texting email address
-	}
-	else {
-	return false;
-	}
-
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-// Return the TLD only (no subdomain)
-function get_tld($url) {
-
-global $app_config;
-
-$urlData = parse_url($url);
-$hostData = explode('.', $urlData['host']);
-$hostData = array_reverse($hostData);
-
-
-	if ( array_search($hostData[1] . '.' . $hostData[0], $app_config['top_level_domain_map']) !== FALSE ) {
-   $host = $hostData[2] . '.' . $hostData[1] . '.' . $hostData[0];
-	} 
-	elseif ( array_search($hostData[0], $app_config['top_level_domain_map']) !== FALSE ) {
-   $host = $hostData[1] . '.' . $hostData[0];
- 	}
-
-
-return strtolower( trim($host) );
+return $base_url;
 
 }
 
@@ -730,49 +810,38 @@ return $date;
 ////////////////////////////////////////////////////////
 
 
-function in_megabytes($string) {
+function file_download($file, $save_as, $delete=true) {
 
-$string_value = preg_replace("/ (.*)/i", "", $string);
+$type = pathinfo($save_as, PATHINFO_EXTENSION);
 
-	// Always in megabytes
-	if ( preg_match("/kilo/i", $string) || preg_match("/kb/i", $string) ) {
-	$in_megs = $string_value * 0.001;
-	$type = 'Kilobytes';
+	if ( $type == 'csv' ) {
+	$content_type = 'Content-type: text/csv; charset=utf-8';
 	}
-	elseif ( preg_match("/mega/i", $string) || preg_match("/mb/i", $string) ) {
-	$in_megs = $string_value * 1;
-	$type = 'Megabytes';
-	}
-	elseif ( preg_match("/giga/i", $string) || preg_match("/gb/i", $string) ) {
-	$in_megs = $string_value * 1000;
-	$type = 'Gigabytes';
-	}
-	elseif ( preg_match("/tera/i", $string) || preg_match("/tb/i", $string) ) {
-	$in_megs = $string_value * 1000000;
-	$type = 'Terabytes';
-	}
-	elseif ( preg_match("/peta/i", $string) || preg_match("/pb/i", $string) ) {
-	$in_megs = $string_value * 1000000000;
-	$type = 'Petabytes';
-	}
-	elseif ( preg_match("/exa/i", $string) || preg_match("/eb/i", $string) ) {
-	$in_megs = $string_value * 1000000000000;
-	$type = 'Exabytes';
-	}
-	elseif ( preg_match("/zetta/i", $string) || preg_match("/zb/i", $string) ) {
-	$in_megs = $string_value * 1000000000000000;
-	$type = 'Zettabytes';
-	}
-	elseif ( preg_match("/yotta/i", $string) || preg_match("/yb/i", $string) ) {
-	$in_megs = $string_value * 1000000000000000000;
-	$type = 'Yottabytes';
+	else {
+	$content_type = 'Content-type: application/octet-stream';
 	}
 
-$result['num_val'] = $string_value;
-$result['type'] = $type;
-$result['in_megs'] = round($in_megs, 3);
 
-return $result;
+	if ( file_exists($file) ) {
+		
+		header('Content-description: file transfer');
+		header($content_type);
+		header('Content-disposition: attachment; filename="'.basename($save_as).'"');
+		header('Expires: 0');
+		header('Cache-control: must-revalidate');
+		header('Pragma: public');
+		header('Content-length: ' . filesize($file));
+		
+		$result = readfile($file);
+		
+			if ( $result != false && $delete == true ) {
+			unlink($file); // Delete file
+			}
+		
+		exit;
+		
+	}
+
 
 }
 
@@ -906,113 +975,49 @@ return ( $count >= 24 ? round( 60 / $average_interval ) : 1 );
 ////////////////////////////////////////////////////////
 
 
-function file_download($file, $save_as, $delete=true) {
+function in_megabytes($string) {
 
-$type = pathinfo($save_as, PATHINFO_EXTENSION);
+$string_value = preg_replace("/ (.*)/i", "", $string);
 
-	if ( $type == 'csv' ) {
-	$content_type = 'Content-type: text/csv; charset=utf-8';
+	// Always in megabytes
+	if ( preg_match("/kilo/i", $string) || preg_match("/kb/i", $string) ) {
+	$in_megs = $string_value * 0.001;
+	$type = 'Kilobytes';
 	}
-	else {
-	$content_type = 'Content-type: application/octet-stream';
+	elseif ( preg_match("/mega/i", $string) || preg_match("/mb/i", $string) ) {
+	$in_megs = $string_value * 1;
+	$type = 'Megabytes';
+	}
+	elseif ( preg_match("/giga/i", $string) || preg_match("/gb/i", $string) ) {
+	$in_megs = $string_value * 1000;
+	$type = 'Gigabytes';
+	}
+	elseif ( preg_match("/tera/i", $string) || preg_match("/tb/i", $string) ) {
+	$in_megs = $string_value * 1000000;
+	$type = 'Terabytes';
+	}
+	elseif ( preg_match("/peta/i", $string) || preg_match("/pb/i", $string) ) {
+	$in_megs = $string_value * 1000000000;
+	$type = 'Petabytes';
+	}
+	elseif ( preg_match("/exa/i", $string) || preg_match("/eb/i", $string) ) {
+	$in_megs = $string_value * 1000000000000;
+	$type = 'Exabytes';
+	}
+	elseif ( preg_match("/zetta/i", $string) || preg_match("/zb/i", $string) ) {
+	$in_megs = $string_value * 1000000000000000;
+	$type = 'Zettabytes';
+	}
+	elseif ( preg_match("/yotta/i", $string) || preg_match("/yb/i", $string) ) {
+	$in_megs = $string_value * 1000000000000000000;
+	$type = 'Yottabytes';
 	}
 
+$result['num_val'] = $string_value;
+$result['type'] = $type;
+$result['in_megs'] = round($in_megs, 3);
 
-	if ( file_exists($file) ) {
-		
-		header('Content-description: file transfer');
-		header($content_type);
-		header('Content-disposition: attachment; filename="'.basename($save_as).'"');
-		header('Expires: 0');
-		header('Cache-control: must-revalidate');
-		header('Pragma: public');
-		header('Content-length: ' . filesize($file));
-		
-		$result = readfile($file);
-		
-			if ( $result != false && $delete == true ) {
-			unlink($file); // Delete file
-			}
-		
-		exit;
-		
-	}
-
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function smtp_vars() {
-
-// To preserve SMTPMailer class upgrade structure, by creating a global var to be run in classes/smtp-mailer/conf/config_smtp.php
-
-global $app_version, $app_config;
-
-$vars = array();
-
-$log_file = preg_replace("/\/app-lib(.*)/i", "/cache/logs/errors.log", dirname(__FILE__) );
-
-// Don't overwrite globals
-$temp_smtp_login = explode("||", $app_config['smtp_login'] );
-$temp_smtp_server = explode(":", $app_config['smtp_server'] );
-
-// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-$smtp_user = trim($temp_smtp_login[0]);
-$smtp_password = $temp_smtp_login[1];
-
-$smtp_host = trim($temp_smtp_server[0]);
-$smtp_port = trim($temp_smtp_server[1]);
-
-// Port vars over to class format (so it runs out-of-the-box as much as possible)
-$vars['cfg_log_file']   = $log_file;
-$vars['cfg_server']   = $smtp_host;
-$vars['cfg_port']     =  $smtp_port;
-$vars['cfg_secure']   = $app_config['smtp_secure'];
-$vars['cfg_username'] = $smtp_user;
-$vars['cfg_password'] = $smtp_password;
-$vars['cfg_app_version'] = $app_version; // DFD Cryptocoin Values version
-
-return $vars;
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function base_url($atRoot=FALSE, $atCore=FALSE, $parse=FALSE) {
-	
-// WARNING: THIS ONLY WORKS WELL FOR HTTP-BASED RUNTIME, ----NOT CLI---!
-// CACHE IT TO FILE DURING UI RUNTIME FOR CLI TO USE LATER ;-)
-
-	if ( isset($_SERVER['HTTP_HOST']) ) {
-        	
-   $http = isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off' ? 'https' : 'http';
-   $hostname = $_SERVER['HTTP_HOST'];
-   $dir =  str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
-
-   $core = preg_split('@/@', str_replace($_SERVER['DOCUMENT_ROOT'], '', realpath(dirname(__FILE__))), NULL, PREG_SPLIT_NO_EMPTY);
-   $core = $core[0];
-
-   $tmplt = $atRoot ? ($atCore ? "%s://%s/%s/" : "%s://%s/") : ($atCore ? "%s://%s/%s/" : "%s://%s%s");
-   $end = $atRoot ? ($atCore ? $core : $hostname) : ($atCore ? $core : $dir);
-   $base_url = sprintf( $tmplt, $http, $hostname, $end );
-            
-	}
-	else $base_url = 'http://localhost/';
-
-   if ($parse) {
-   $base_url = parse_url($base_url);
-   	     if (isset($base_url['path'])) if ($base_url['path'] == '/') $base_url['path'] = '';
-   }
-
-
-return $base_url;
+return $result;
 
 }
 
@@ -1710,9 +1715,9 @@ $debugging_logs .= strip_tags($_SESSION['other_debugging']); // Remove any HTML 
 	// If it's time to email debugging logs...
 	if ( $app_config['mail_logs'] > 0 && update_cache_file('cache/events/email-debugging-logs.dat', ( $app_config['mail_logs'] * 1440 ) ) == true ) {
 		
-	$emailed_logs = file_get_contents('cache/logs/debugging.log');
+	$emailed_logs = "\n\n ------------------debugging.log------------------ \n\n" . file_get_contents('cache/logs/debugging.log') . "\n\n ------------------smtp_debugging.log------------------ \n\n" . file_get_contents('cache/logs/smtp_debugging.log');
 		
-	$message = " Here are the current debugging logs from the ".$base_dir."/cache/logs/debugging.log file: \n =========================================================================== \n \n"  . ( $emailed_logs != '' ? $emailed_logs : 'No debugging logs currently.' );
+	$message = " Here are the current debugging logs from the ".$base_dir."/cache/logs/ directory: \n =========================================================================== \n \n"  . ( $emailed_logs != '' ? $emailed_logs : 'No debugging logs currently.' );
 	
   	// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
    $send_params = array(
@@ -1771,9 +1776,9 @@ $error_logs .= strip_tags($_SESSION['other_error']); // Remove any HTML formatti
 	// If it's time to email error logs...
 	if ( $app_config['mail_logs'] > 0 && update_cache_file('cache/events/email-error-logs.dat', ( $app_config['mail_logs'] * 1440 ) ) == true ) {
 		
-	$emailed_logs = file_get_contents('cache/logs/errors.log');
+	$emailed_logs = "\n\n ------------------errors.log------------------ \n\n" . file_get_contents('cache/logs/errors.log') . "\n\n ------------------smtp_errors.log------------------ \n\n" . file_get_contents('cache/logs/smtp_errors.log');
 		
-	$message = " Here are the current error logs from the ".$base_dir."/cache/logs/errors.log file: \n =========================================================================== \n \n"  . ( $emailed_logs != '' ? $emailed_logs : 'No error logs currently.' );
+	$message = " Here are the current error logs from the ".$base_dir."/cache/logs/ directory: \n =========================================================================== \n \n"  . ( $emailed_logs != '' ? $emailed_logs : 'No error logs currently.' );
 	
   	// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
    $send_params = array(
@@ -2266,13 +2271,21 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 					$text_sleep = 1 * $_SESSION['text_count'];
 					sleep($text_sleep);
 			   
-					@safe_mail( text_email($app_config['to_text']) , $textemail_array['subject'], $textemail_array['message']);
+					$result = @safe_mail( text_email($app_config['to_text']) , $textemail_array['subject'], $textemail_array['message']);
 			   
-			   	$_SESSION['text_count'] = $_SESSION['text_count'] + 1;
+			   		if ( $result == true ) {
+			   		
+			   		$_SESSION['text_count'] = $_SESSION['text_count'] + 1;
 			   	
-					$message_sent = 1;
+						$message_sent = 1;
 					
-					unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
+						unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
+			   		
+			   		}
+			   		else {
+			   		app_logging( 'other_error', 'Email-to-mobile-text sending failed', 'to_text_email: ' . text_email($app_config['to_text']) . '; from: ' . $app_config['from_email'] . '; subject: ' . $textemail_array['subject'] . '; function_response: ' . $result . ';');
+			   		}
+					
 					
 					}
 				
@@ -2293,13 +2306,21 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 					$email_sleep = 1 * $_SESSION['email_count'];
 					sleep($email_sleep);
 			   
-					@safe_mail($app_config['to_email'], $email_array['subject'], $email_array['message']);
+					$result = @safe_mail($app_config['to_email'], $email_array['subject'], $email_array['message']);
 			   
-			   	$_SESSION['email_count'] = $_SESSION['email_count'] + 1;
+			   		if ( $result == true ) {
+			   		
+			   		$_SESSION['email_count'] = $_SESSION['email_count'] + 1;
 			   	
-					$message_sent = 1;
+						$message_sent = 1;
 					
-					unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
+						unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
+			   		
+			   		}
+			   		else {
+			   		app_logging( 'other_error', 'Email sending failed', 'to_email: ' . $app_config['to_email'] . '; from: ' . $app_config['from_email'] . '; subject: ' . $email_array['subject'] . '; function_response: ' . $result . ';');
+			   		}
+			   		
 					
 					}
 				
@@ -2461,11 +2482,11 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		// If this is an SSL connection, add SSL parameters
 		if (  preg_match("/https:\/\//i", ( $mode == 'array' ? $api_server : $request ) )  ) {
 			
-		curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, ( $app_config['api_strict_ssl'] == 'on' ? 2 : 0 ) );
-		curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, ( $app_config['api_strict_ssl'] == 'on' ? TRUE : FALSE ) ); 
+		curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, ( $app_config['strict_ssl_connect'] == 'on' ? 2 : 0 ) );
+		curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, ( $app_config['strict_ssl_connect'] == 'on' ? TRUE : FALSE ) ); 
 		
 			if ( PHP_VERSION_ID >= 70700 && CURL_VERSION_ID >= 7410 ) {
-			curl_setopt ($ch, CURLOPT_SSL_VERIFYSTATUS, ( $app_config['api_strict_ssl'] == 'on' ? TRUE : FALSE ) ); 
+			curl_setopt ($ch, CURLOPT_SSL_VERIFYSTATUS, ( $app_config['strict_ssl_connect'] == 'on' ? TRUE : FALSE ) ); 
 			}
 
 		}
