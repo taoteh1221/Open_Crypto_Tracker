@@ -199,7 +199,7 @@ select opt in $OPTIONS; do
 			
 			echo " "
 			
-			/usr/bin/apt-get install apache2 php php-curl php-gd php-zip libapache2-mod-php openssl ssl-cert -y
+			/usr/bin/apt-get install apache2 php php-mbstring php-curl php-gd php-zip libapache2-mod-php openssl ssl-cert -y
 			
 			sleep 3
 			

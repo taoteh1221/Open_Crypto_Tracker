@@ -3,7 +3,7 @@
  * Copyright 2014-2020 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
  */
 
-require("ui-templates/php/header.php");
+require("templates/interface/php/header.php");
 
 ?>
 
@@ -27,38 +27,38 @@ require("ui-templates/php/header.php");
 		
 		
 		<div id='portfolio' class='tabdiv'>
-			<?php require("ui-templates/php/sections/portfolio.php"); ?>
+			<?php require("templates/interface/php/pages/portfolio.php"); ?>
 		</div>
 		<div id='update_assets' class='tabdiv'>
-			<?php require("ui-templates/php/sections/update-assets.php"); ?>
+			<?php require("templates/interface/php/pages/update-assets.php"); ?>
 		</div>
 		<div id='settings' class='tabdiv'>
-			<?php require("ui-templates/php/sections/settings.php"); ?>
+			<?php require("templates/interface/php/pages/settings.php"); ?>
 		</div>
 			<?php
 			if ( $app_config['charts_page'] == 'on' ) {
 			?>
 		<div id='charts' class='tabdiv container-fluid'>
-			<?php require("ui-templates/php/sections/charts.php"); ?>
+			<?php require("templates/interface/php/pages/charts.php"); ?>
 		</div>
 			<?php
 			}
 			?>
 		<div id='mining_calculators' class='tabdiv'>
-			<?php require("ui-templates/php/sections/mining-calculators.php"); ?>
+			<?php require("templates/interface/php/pages/mining-calculators.php"); ?>
 		</div>
 		<div id='tools' class='tabdiv'>
-			<?php require("ui-templates/php/sections/tools.php"); ?>
+			<?php require("templates/interface/php/pages/tools.php"); ?>
 		</div>
 		<div id='resources' class='tabdiv'>
-			<?php require("ui-templates/php/sections/resources.php"); ?>
+			<?php require("templates/interface/php/pages/resources.php"); ?>
 		</div>
 		<div id='help' class='tabdiv'>
-			<?php require("ui-templates/php/sections/help.php"); ?>
+			<?php require("templates/interface/php/pages/help.php"); ?>
 		</div>
 
 
 <?php
-require("ui-templates/php/footer.php");
+require("templates/interface/php/footer.php");
 ?>
 

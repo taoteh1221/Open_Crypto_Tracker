@@ -1,0 +1,2302 @@
+
+-------------------------------------------------------------------
+0.9.0:
+Initial version
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+0.9.1:
+Added altcoin / litecoin trading markets calculation feature
+Minor tweaks
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+0.9.2:
+Cached BTC/USD value to session data, for faster load times
+Minor tweaks
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+0.9.3:
+Interface readability enhancements
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+0.9.4:
+Complete overhaul of coin adding / updating system - Every coin is
+now added / updated in config.php, so it is much easier to update
+your portfolio assets quickly.
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+0.9.5:
+Added tabbed navigation for a cleaner GUI, and added feature to
+save coin amounts data to a browser cookie.
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+0.9.6:
+Fixed small bug with bitcoin value
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+0.9.7:
+Added Cryptsy Ripple (XRP) markets support
+Added Bitcoin value information for Cryptsy Litecoin / Ripple
+market trades
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+0.9.8:
+Made GUI more understandable for primary trading
+coins like BTC / LTC / XRP
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+0.9.9:
+Adjustment of fonts / spacing to be slightly more compact
+Added marketplace data in table output
+Added config option to choose where bitcoin value is measured from
+Added table data sorting ability
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.0.0:
+Minor GUI tweaks
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.0.1:
+-Removed a few default underperforming coins
+-Explicitly set Cryptsy API server to NY server, as either the round robin on the main API domain or the secondary Amsterdam server is currently malfunctioning.
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.0.2:
+-Added support for the Poloniex trading site's public API.
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.0.3:
+-Added function to try switching between different Cryptsy API servers if no data was recieved.
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.0.4:
+-Added support for the Bittrex trading site's public API.
+-Added webpage link to coin name, that opens coinmarketcap.com's chart for that coin in a new tab
+-Updated default coins: changed Darkcoin to it's new name Dash
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.0.5:
+-Added USD value of 1 coin column
+-Minor tweaks
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.0.6:
+-Fixed server compatibility bug that may have thrown errors on servers with PHP running in a fairly strict mode.
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.0.7:
+-Suppressed PHP error if remote API files are offline
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.0.8:
+-Added Mining calculators tab
+-Added Ethereum mining calculator
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.0.9:
+-Reformatted main config file format to allow multiple markets per coin (Poloniex/Cryptsy/Etc), ONLY WITH SAME TRADING PAIR VALUE (BTC/LTC/ETC)
+-Created front end GUI for switching between markets per coin defined in new config file format
+-Created help section
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.0.10:
+-Populated all the different markets per coin for the default coin configurations (you can add / update / delete the default coins yourself, following the example in the config file).
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.0.11:
+-A few bug fixes, failsafes, and optimizations
+-Added trade pairing info in each submission form description
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.0.12:
+-Added Kraken API integration
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.1.3:
+-Changed from double-digit versioning (x.x.xx to x.x.x)
+-Poloniex API call efficiency increased
+-Page load time at bottom of page
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.1.4:
+-Fixed Bitcoin / USD price bug (many thanks to Normand for reporting it)
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.1.5:
+-Added BTS / NXT markets
+-Added README.txt for usage instructions
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.1.6:
+-Removed Cryptsy from default markets (they seem to have gone mt. gox style)
+-Added Gatecoin market capability, and added to default markets
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.1.7:
+-Fixed Gatecoin market bug
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.1.8:
+-Added auto-refresh feature
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.1.9:
+-Added etherscan.io API capability, for retrieving Ethereum network data
+-Added auto-populating Ethereum network difficulty in mining calculator
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.2.0:
+-Minor tweaks
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.2.1:
+-Updated bittrex market id for Stellar (to XLM)
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.2.2:
+-Added Maidsafecoin to default coins
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.2.3:
+-Added Synereo AMPs to default coins
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.2.4:
+-Added ability to set default Bitcoin market
+-Added Bitfinex / Bitstamp / Kraken for Bitcoin markets
+-Added Bitfinex for Litecoin markets
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.2.5:
+-Added OkCoin for Bitcoin markets
+-Added Bitfinex for Ethereum markets
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.2.6:
+-Added Cryptofresh API for Bitshares markets
+-Added Makercoin Bitshares market
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.2.7:
+-Added SSL compatibility
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.2.8:
+-Added initial support for Ethereum subtokens (static values, no APIs yet)
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.2.9:
+-Fixed issue totalling very large amounts of Bitcoin values
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.3.0:
+-Added Gemini.com API support
+-Added Gemini.com ETH and BTC markets
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.3.1:
+-Added gdax (Coinbase exchange) ETH market
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.3.2:
+-Added Lisk markets
+-Added TheDAO markets
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.3.3:
+-Revised coinmarketcap link rendering
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.3.4:
+-Overhauled feed connection function, so it timeouts if services are unavailable
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.3.5:
+-Added Steem markets
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.3.6:
+-Assets now load sorted from highest total USD value down to least total USD value
+-Switched from using a google-hosted jquery library, over to using a locally hosted jquery library, to minimize 3rd party connections to API-only
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.3.7:
+-Added Monero, Expanse, and Shift markets
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.3.8:
+-Cleaned up low volume markets / resorted markets
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.3.9:
+-Added STEEM Dollar market
+-Added Advanced STEEM Power Interest / Power Down Calculator
+-Tidied up minor things
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.4.0:
+-Fixed STEEM interest calculator bug
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.4.1:
+-Added STEEM / STEEM Dollars Poloniex markets
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.4.2:
+-Added Ethereum Classic Poloniex market
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.4.3:
+-Added Ethereum Classic Bittrex market
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.4.4:
+-Added Ethereum Classic Kraken market
+-Reduced STEEM Power Interest calculator to 3 month estimate maximum
+-Fixed bugs when toggling the cookies settings on / off
+-Optimized the configuration file format, to reduce uneeded clutter
+-Other minor optimizations
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.4.5:
+-Modularized content sections and libraries
+-Used better semantics for naming modules
+-Cleaned up code nesting / separation
+-Added Ethereum Classic Bitfinex market
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.4.6:
+-Cleaned up underperforming markets
+-Reorganized markets
+-Added additional Cryptofresh markets
+-Added LBRY (LBC) markets
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.4.7:
+-Reorganized markets
+-Added AEON Market
+-Fixed per-coin BTC value to USD. Was only using coinbase to get USD value, now it uses whichever USD market you chose for BTC for all coin subtotals.
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.4.8:
+-Added REP Markets
+-Added Shadowcash Markets
+-Removed LBRY Markets
+-Removed AEON Markets
+-Adjusted STEEM interest calculator to match real-world results closer
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.4.9:
+-Added stats tab, and stat / chart links
+-Added Blackcoin markets
+-Removed ETC and EXP
+-Reorganized markets
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.5.0:
+-Added Zcash markets
+-Added Zcoin markets
+-Fixed bug in super large BTC trade values per market
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.5.1:
+-Added Golem static value subtoken market (fixed value, no active exchange trade values yet)
+-Added Arcade City static value subtoken market (fixed value, no active exchange trade values yet)
+-Fixed bug in static value ETH subtoken markets
+-Adjusted STEEM Power calculator for upcoming power down rate, added power down time to config file
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.5.2:
+-Adjusted STEEM Power interest rate settings for hardfork 16
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.5.3:
+-Added Factom markets
+-Adjustments / comments on STEEM Power interest calculator's GUI / config setup
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.5.4:
+-Adjusted Arcade City Crowdsale price increase
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.5.5:
+-Added golem / arcade city coinmarketcap.com link slugs
+-Added Hacker Gold crowdsale token (fixed value for now)
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.5.6:
+-Corrected STEEM Power Down time period to 13 weeks
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.5.7:
+-Optimizations
+-Added Bter API support
+-Added Hacker Gold Bter market
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.5.8:
+-Added HitBTC API support and markets
+-Added additional XMR markets
+-Removed underperforming assets
+-Minor tweaks
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.5.9:
+-Added Kraken XMR market
+-Tweaks for mobile-sized screens
+-Link to report issues / feature requests.
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.6.0:
+-Fixed newly-introduced CSS bug related to minimum tab width
+-Prettied up the coin value data table to be more readable
+-Updated gatecoin API URL
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.6.1:
+-Added Golem poloniex market
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.6.2:
+-Changed Arcade City tokens to Swarm City Tokens
+-Added HKG Bittrex market
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.6.3:
+-Changed market name semantic for ICO value of Ethereum platform subtokens
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.6.4:
+-Swarm City Tokens (SWT) Bittrex market added
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.6.5:
+-Decred / PIVX / WeTrust markets added, cleaned out old markets
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.6.6:
+-Lunyr / Gnosis / TokenCard markets added
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.6.7:
+-Zclassic / Aragon markets added, cleaned up markets
+-Added cryptopia API support
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.6.8:
+-ZenCash / SingularDTV markets added
+-Updated gatecoin / HitBTC markets
+-Added liqui API / markets
+-Optimized altcoin markets function statements
+-Revised non-endoresment disclaimer (newby-freindly)
+-Added monitoring-only tip to help section
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.6.9:
+-Added livecoin API / markets
+-Updated external links section
+-Minor layout / compatibility improvements
+-Optimized Bittrex market API calls
+-Very minor server compatibility patches
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.7.0:
+-Added HitBTC SWT market
+-Update bitfinex markets
+-Added Coinmarketcap API / market(s) data feature, hovering over info icon(s)
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.7.1:
+-Added DigixDAO markets
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.7.2:
+-Revision of disclaimer / advisory for newer crypto traders
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.7.3:
+-Minimize default coin list
+-Minor CSS Tweak
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.7.4:
+-Added tradesatoshi exchange API support / markets
+-Tweaks :-)
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.7.5:
+-Added visual / audio global percentage-based alert(s)
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.7.6:
+-GUI tweaks to percentage alerts
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.7.7:
+-Tweaks
+-Updated classic / interesting coin examples (default) configuration (see README.TXT for customization)
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.7.8:
+-Added Mercatox market support
+-Updated example portfolio assetss
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.7.9:
+-Minor bug fix / tweak
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.8.0:
+-Reformatted coin configuration structure to include multiple trading pairs
+-Added Binance API support and markets
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.8.1:
+-CSS styling to center values table
+-Bug fix for LTC trading pair support
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.8.2:
+-Support for USDT trading pairs
+-Optimization for trading pairs besides BTC
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.8.3:
+-Compatibility adjustment for recent coinmarketcap.com API upgrades
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.8.4:
+-Added user agent string to broadcast server / app versions during
+API endpoint connects (letting API server admins know it's a real
+app doing the data requests, not a malicious bot)
+
+-Optimized Etherscan.io endpoint connects
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.8.5:
+-Optimized API connects to avoid duplicating requests when timeouts occur
+-Optimized API connects with automatic data caching per update session
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.8.6:
+-Moved the API connect timeout variable to the configuration file.
+-Small tweaks
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.8.7:
+-Revised auto-reload feature
+-Revised Coinmarketcap API data feature
+-Minor tweaks
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+1.8.8:
+-Back end / GUI tweaks
+-------------------------------------------------------------------
+
+
+-------------------------------------------------------------------
+1.8.9:
+-Added popular Youtube channels to the external links section
+-------------------------------------------------------------------
+
+
+-------------------------------------------------------------------
+1.9.0:
+-Added additional coinmarketcap API error warnings
+-------------------------------------------------------------------
+
+
+-------------------------------------------------------------------
+1.9.1:
+-Basic security for config.php
+-------------------------------------------------------------------
+
+
+-------------------------------------------------------------------
+1.9.2:
+-Added Upbit markets support
+-------------------------------------------------------------------
+
+
+-------------------------------------------------------------------
+1.9.3:
+-Minor semantics / GUI cleanup
+-Additional coinmarketcap data, per coin
+-------------------------------------------------------------------
+
+
+-------------------------------------------------------------------
+1.9.4:
+-Added Kucoin API support
+-------------------------------------------------------------------
+
+
+-------------------------------------------------------------------
+1.9.5:
+-Added ICO designation ability per asset in configuration file
+-Added link to SEC statement on ICOs, for ICO-designated assets
+-------------------------------------------------------------------
+
+
+-------------------------------------------------------------------
+1.9.6:
+-Added ethfinex support
+-Optimized ethfinex / bitfinex API calls
+-------------------------------------------------------------------
+
+
+-------------------------------------------------------------------
+1.9.7:
+-Added Decred mining calculator
+-Revised mining calculators to include block reward field
+-------------------------------------------------------------------
+
+
+-------------------------------------------------------------------
+1.9.8:
+-Tweaks
+-------------------------------------------------------------------
+
+
+-------------------------------------------------------------------
+1.9.9 (BETA TESTING):
+-Major semantics cleanup
+-Built front end GUI for additional LTC / ETH / USDT market pairings support (that was already built into back end)
+-Minor optimizations
+-Added newsletters section on external resource links page
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.0.0 (STABLE RELEASE):
+-Major semantics cleanup
+-Built front end GUI for additional LTC / ETH / USDT market pairings support (that was already built into back end)
+-Minor optimizations
+-Added newsletters section on external resource links page
+-------------------------------------------------------------------
+
+
+-------------------------------------------------------------------
+2.0.1:
+-Added Okex and Bitstamp markets API support
+-Added XMR market pairing support
+-Added additional USDT / XMR / LTC / ETH / BTC pairings in example assets
+-------------------------------------------------------------------
+
+
+-------------------------------------------------------------------
+2.0.2:
+-Added ability to include misc. USD assets
+-------------------------------------------------------------------
+
+
+-------------------------------------------------------------------
+2.0.3:
+-Upgraded to Coinmarketcap v2 API
+-Added electricity cost in mining calculators
+-Added Vertcoin mining calculator
+-Added Ravencoin mining calculator
+-------------------------------------------------------------------
+
+
+-------------------------------------------------------------------
+2.0.4:
+-Modularized mining calculators (for easier later additions)
+-Added pool fee calculation to mining calculators
+-------------------------------------------------------------------
+
+
+-------------------------------------------------------------------
+2.0.5:
+-Added Monero mining calculator
+-Added graviex markets API support
+-Tweaks
+-------------------------------------------------------------------
+
+
+-------------------------------------------------------------------
+2.0.6:
+-Added trading notes and reminders feature / setting
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.0.7:
+-Color coded percentage alert feature, for assets if no coinmarketcap data was retrieved
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.0.8:
+-Auto resize trading notes area based on text content
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.1.0:
+-Red info icon when CMC data not present...the proverbial "cherry on top", time to get off this crazy roller coaster. Thanks for the wild ride over the years BTC / ALTS! :-)
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.1.1:
+-Fixed Coinmarketcap settings cookie deletion, when cookies are disabled (thanks Stan for the report)
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.1.2:
+-API Cache (thanks to mickys for the idea on my Zillexplorer repo for this)
+-Configurable API cache setting
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.1.3:
+-API Cache bug fix
+-CMC cache time in config file
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.1.4:
+-Tab styling
+-Gate.io API support
+-Cron job file
+-Cron job price alerts (by email)
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.1.5:
+-Fixed bug in new price alerts by email feature
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.1.6:
+-Texting to phone support for price alerts
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.1.7:
+-Cron alerts BTC to USD bug fix
+-Semantics cleanup
+-Added notifyme support to cron job alerts
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.1.8:
+-Coingecko.com marketcap data support
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.1.9:
+-Semantics, optimization, cleanup
+-Textbelt and Textlocal API support
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.2.0:
+-Converted cron job price alerts to dynamic / percentage-based
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.2.1:
+-Optimized cron job price alerts back end / UX
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.2.2:
+-Tweaks to new price alerts feature
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.2.3:
+-Config to adjust chain stats cache time
+-Optimize API cache efficiency
+-Fixed cron alert bug related to trade pairings other than BTC
+-Allowed multiple cron job alerts per asset (different exchanges / trade pairings for same asset)
+-Tweaks
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.2.4:
+-Updated copyright year
+-Show trading pair info in cron alerts text
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.2.5:
+-Tweaks to mining calculator setups
+-Upgraded binance API to v3
+-Multi proxy support for API calls
+-Minor bug fixes / cleanup
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.2.6:
+-Alerts / checkups on proxy failure
+-Simplified / highly compatible proxy config settings
+-IDEX and HOTBIT exchange API support
+-Optimized API caching
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.2.7:
+-Proxy checkup compatibility (for CLI cron jobs)
+-Tradeogre / Bigone / Bitforex markets API support
+-Removed request params from API error notices in the UI
+-Proxy alert type setting
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.2.8:
+-Tweaks, bug fixes, optimizations
+-Quick market pairing selection change in UI
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.2.9:
+-Exchange market volume data (included in UI / alerts)
+-UI tweaks
+-Bug fixes
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.3.0:
+-UI + backend tweaks / bug fixes
+-SMTP email setting option
+-Organized / categorized back end functions, config file settings
+-Proxy user/pass option
+-Bitcoin / Litecoin mining calculators
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.3.1:
+-Tweaks and optimizations
+-Error log system, with emailing support
+-Settings page option for choosing preferred table sorting defaults
+-Check for required CURL module at runtime
+-Setting for proxy alerts to only run during specific runtime modes
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.3.2:
+-Fixed SMTP mail bug, added failsafes
+-Fixed price alert cache auto-refresh bug
+-UI tweaks
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.3.3:
+-Cleaned up a few remaining cobwebs left behind from overhaul. :-)
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.3.4:
+-Semantics differentiating between marketcap visual or audio alerts in the UI, and price alerts for email / text / alexa notifications.
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.3.5:
+-Changed minimum 'send new price alerts' time setting from hours to minutes
+-Added True USD (TUSD) as a base trading pair (Binance now supports this)
+-Bug fix in raw formatted numbers in price alert logic (skewed large numbers with formatting)
+-Removed bter / liqui / gatecoin.io API logic and coin data (they closed down)
+-Updated Kucoin API
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.3.6:
+-Config setting for only allowing price alerts if a minimum 24 hour volume has been met
+-SMTP error logging
+-Semantics
+-Minor browser compatibility revisions
+-Default settings tweaks
+-Other minor revisions
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.3.7:
+-Minor revisions
+-Fixed error logs purge bug
+-Fixed audio alerts bug
+-UX work with enabled volume filter for asset price alert messages
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.3.8:
+-Fixed minor SMTP bug (added new to address every addTo call, even if the same address)
+-Default configuration tweaks
+-Missing dollar sign in volume column, after logic overhaul
+-Minor revisions in help page
+-Cryptopia market volume API support
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.3.9:
+-Tidied up disclaimer UX
+-Added Crypto Tools section
+-Added QR code generator for addresses
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.4.0:
+-Updated Okex API to v3
+-UI, config, APIs, UX, and other tweaks
+-Semantics / consistency on filename and subdirectory structures
+-Coin config structure optimization
+-Fixed proxy checker bugs
+-Basic configuration check with error logging, and results on settings page
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.4.1:
+-Better consistency for coin config format
+-Proof of existence info in misc-docs subdirectory
+-External Tools section on 'Other Crypto Tools' page
+-Probable exchange trade volume discrepancy detection
+-Check for (and create if needed) the cache sub-directory structure
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.4.2:
+-Updated links on external resources page
+-Added additional config formatting checks (reports apparent formatting errors)
+-Better delimiter compatibility for config formatting
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.4.3:
+-Completed all previously-unfinished (feasible) config formatting checks
+-More readable portfolio assets configuration with extra spacing
+-Blockchain explorers section on external resources page
+-Removed extra carriage returns from error logging
+-Clarify SMTP setting usage
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.4.4:
+-UX / UI tweaks
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.4.5:
+-More UX / UI tweaks
+-Bug fixes
+-Further optimized config file coin list data
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.4.6:
+-Directory structure optimization
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.4.7:
+-UI content revisions
+-Config revisions
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.4.8:
+-UI content revisions
+-Error log purge bug fix
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.4.9:
+-UI content revisions
+-Modularized the email / text / notifyme (alexa) notifications logic 
+-Fixed text emailing bug
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.5.0:
+-Updated Kraken API call efficiency 
+-Tweaks
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.5.1:
+-UI content revisions
+-UI / UX enhancements
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.5.2:
+-More UI content revisions
+-More UI / UX enhancements (including cross browser and mobile compatibility)
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.5.3:
+-Even more UI content revisions
+-Default config revisions
+-Semantics
+-SSL API config setting
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+2.5.4:
+-Proxy authentication compatibility
+-Tweaks
+-Even more UI content revisions
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.00.0:
+-Major overhaul fully complete
+-Switched to proper semantic versioning (for technical clarity)
+-Even more UI content revisions
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.01.0:
+-Favorite Icon / Start screen image
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.02.0:
+-Developer maintenance
+-New releases link
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.03.0:
+-Tweaks
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.04.0:
+-Removed cryptopia exchange API support
+-Default config revisions
+-Documentation
+-Optimization
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.05.0:
+-Dev housekeeping
+-Smaller screen compatibility
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.06.0:
+-Default config revisions
+-README revisions
+-Wallets section on external resources page
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.07.0:
+-Added USD price / volume historical charts for assets with price alerts enabled
+-Optimizations
+-External resource page additions
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.08.0:
+-UX revisions
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.08.1:
+-Altcoin / BTC Trade Target Calculator, on Tools page
+-UX revision (bug fix) related to core/chart-js.php endlessly loading when no chart data is present
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.08.2:
+-Bug fix for CSS layout on main navigation tabs on large screens
+-Minor semantic re-wording
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.09.0:
+-Minor UX tweaks
+-Optional charts based on pairing values (to compliment USD values charts)
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.09.1:
+-More minor UX tweaks
+-Bug fix for activated charts list
+-Archived dev maintenance stuff
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.09.2:
+-Even more minor UX tweaks
+-Yet another bug fix for activated charts list (sorry, lol)
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.10.0:
+-Gains / losses per token (and total gains / losses)
+-Consolidated more CSS into main stylesheet file
+-Integrated bootstrap framework
+-UX / UI revisions
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.11.0:
+-UX revisions
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.11.1:
+-Bug fix for passing user agent string to API server
+-UX revisions
+-Portfolio diversification stats (BTC % / ALTS %)
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.12.0:
+-UX revisions
+-SEO for project page / README.txt on Github
+-Meta robots html tag for app installs to not be indexed by search engines
+-Updated Resources page
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.13.0:
+-Portfolio dominance stats summary info bubble for all held assets (hovering over info icon in stats summary @ bottom of portfolio page)
+-Secure backup archives system
+-Chart backups option
+-Config settings semantics
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.13.1:
+-Bug fix for chart backups config validating (and error reporting)
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.14.0:
+-Chart data archiving config switched to every X days (better UX as data size grows)
+-Backup archiving logic moved into reusable module
+-Misc. UX revisions
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.15.0:
+-UX revisions
+-Feature to enable charts and alerts separately if desired (includes config file formatting changes)
+-USDC base pairing support
+-Bittrex International market naming (semantics)
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.15.1:
+-Bug fix in Bittrex International market naming (semantics) interfacing
+-Minor UX revisions
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.16.0:
+-UX revisions
+-Chart update frequency now automatically determined (manually-adjusted $charts_update_freq in config file no longer needed / removed)
+-GRIN mining calculator
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.17.0:
+-Misc. minor revisions
+-Changed error logs config to be every X days (instead of only daily/weekly)
+-Pretty number formatting, while maintaining decimals
+-Volume percent change with price alerts
+-Select / unselect all unheld assets to view in UI as 'watch only'
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.17.1:
+-Bug fix for Microsoft Internet Explorer read-only text input field background styling
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.18.0:
+-FAQ.txt for FAQ info before installation (besides FAQ web page in-app)
+-Increased price alert checking efficiency by a factor of 2
+-Price alert UX revisions
+-Documentation / FAQ revisions
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.18.1:
+-Bug fix where BTC => USD value not passed into charts / price alerts function in weird edge cases
+-Per-asset gain / loss stats moved to info bubble next to gain / loss summary (bottom of portfolio page), percentages now included (besides USD value)
+-Error logging support in charts / price alerts function
+-Error logging support when writing files to the data cache
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.18.2:
+-Bug fixes / UX improvements on price alerts
+-Verbose error logging for chart and price alert errors
+-Gain and loss summary in page / tab title
+-Error logging support for enabling cookies in UI (detects if too much data is being stored per-cookie for very large portfolios)
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.18.3:
+-Bug fix for layout error when no portfolio added yet
+-Bug fix for chart interval detection (for chart time interval preset buttons)
+-Additions to /DOCUMENTATION-ETC/HELP-FAQ.txt / Help page
+-Import / Export portfolio from CSV file
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.18.4:
+-Bug fix for rounding error (caused by pretty numbers formatting left of decimal)
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.18.5:
+-Bug fix for pretty numbers again (zeroed out if no decimal)
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.18.6:
+-Bug fix for pretty numbers in new CSV file export feature (was rounded up if high decimal)
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.19.0:
+-Local time configuration setting
+-Timestamping for notifyme (alexa) alerts
+-Margin leverage fields / calculations / stats
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.19.1:
+-Bug fix for layout spacing with the new margin leverage fields, on the Update Assets page
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.20.0:
+-Better UI / UX for table sorting / margin leverage stats
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.20.1:
+-Bug fix for info balloons to not word wrap lines (was minimizing balloon width too much on mobile)
+-Fixed error logging for base pairings info, when chart / price alert runs for BTC / USD markets
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.20.2:
+-Bug fix for broken HTML in new code
+-HTML validation / optimizations
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.21.0:
+-Cleaned up margin trades UI / UX
+-Added margin short trade tracking
+-Minor misc. UX tweaks
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.22.0:
+-Block volume error configuration setting
+-UI / UX tweaks
+-Modularized some code into separate files / functions
+-Minor bug fixes
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.23.0:
+-UI / UX tweaks
+-More USDC markets in default config
+-Moved chart backup downloads to run from download.php
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.23.1:
+-Bug fix on Update Assets page for checkboxes
+-Compatibility CSS for charts
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.24.0:
+-Added dark color scheme, and color scheme switcher setting 
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.25.0:
+-Consolidated theme-coloring-only CSS
+-Dark theme color fixes / improvements
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.25.1:
+-Price alert bug fixes / UX improvements
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.25.2:
+-Price alert volume filter bug fix
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.26.0:
+-UX improvements
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.26.1:
+-Bug fix for countdown timer (when charts page is turned off)
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.27.0:
+-Leverage trading warning for newbies
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.28.0:
+-Dominance stats UX revision (alt and btc maximalist-friendly, lol)
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.29.0:
+-Minor UX / content revisions
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.29.1:
+-Fixed "watch only" assets bug not registering to show on portfolio page, if no held assets are included
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.29.2:
+-Fixed BTC/USD charts bug
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.30.0:
+-Leverage trading UX / UI
+-Revised default config settings
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.31.0:
+-UX revisions
+-Compatibility with new coinmarketcap API (requires an API key now in config.php)
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.31.1:
+-Timestamp bug fix for marketcap data
+-Optimizations
+-UX / UI improvements
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.31.2:
+-Minor bug fix for leveraged trades UI (when no leverage chosen)
+-Brighter green / red text within info balloons
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.32.0:
+-UX / UI improvements
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.33.0:
+-UX improvements
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.34.0:
+-Consolidated all error logging code
+-Removed excess verbosity in error logging
+-Automated webserver setup script for Raspberry Pi
+-Updated cron job setup documentation
+-UX improvements
+-System compatibility improvements
+-Zingchart upgrade
+-Minor bug fixes
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.35.0:
+-Automated install script for Raspberry Pi can now auto-install the latest version of DFD Cryptocoin Values, and configure it.
+-Better UX for install script
+-Updated install documentation
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.35.1:
+-Automated install script for Raspberry Pi now detects any previous install's config.php file, an backs it up before upgrading / re-installing.
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.35.2:
+-Automated install script for Raspberry Pi now adds a random file suffix (for security), when backing up any previous install's config.php file during upgrade / re-install.
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.36.0:
+-Security error semantics in error logging
+-Minor UI / UX revisions
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.37.0:
+-Optimized back end directory / file structure
+-Less initialization code in config.php
+-Improved UX for chart loading / cookies / raspberry pi auto-install-upgrade script
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.37.1:
+-Optimized session handling (for edge-case session destroy bug)
+-Minor bug in chart loading
+-Improved chart loading UX
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.37.2:
+-EVEN MORE optimized session deleting (for edge-case bug, where session data doesn't delete after runtime)
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.38.0:
+-Improved Raspberry PI auto-install script
+-Improved cache error logging semantics
+-Improved documentation
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.38.1:
+-Additional improved chart loading UX
+-Bug fix for auto install script (automated cron job creation routine)
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.39.0:
+-Renamed install script (for semantics)
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.40.0:
+-Improved auto-install script UX
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.40.1:
+-Fix for edge-case auto-install script error
+-Tighter security on any generated .htaccess file permissions
+-Auto-install script now supports setting up: htaccess / mod_rewrite / SSL (secure HTTPS web addresses)
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.40.2:
+-Bug fix for proper cron.d owner permissions
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.41.0:
+-Improved documentation
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.42.0:
+-UX revisions
+-Theme CSS consolidation
+-Better matching dark theme colors
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.42.1:
+-Auto-install bug fix
+-Revised TODO
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.42.2:
+-Bug fix for portfolio summary leverage stats
+-Config setting for maximum margin leverage
+-UX revisions
+-Code cleanup
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.42.3:
+-Another bug fix for portfolio summary leverage stats (newly-introduced)
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.42.4:
+-Bug fix for price alert volume change percentage (edge case / UX issue)
+-Bug fix for 'BTC worth' text color in dark theme (where base pairing isn't BTC)
+-Coding cleanup (semantics)
+-Config setting to control the maximum decimals used on coins with USD values under $1 (for cleaner interface / UX)
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.43.0:
+-Changed Bittrex Intl brand to Bittrex Global
+-Added Binance US API support
+-CSS Tweaks
+-UX on converting keyed exchange names for use in UI
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.44.0:
+-Optimizations
+-UX revisions
+-Configuration settings for chart colors (new config.php variables)
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.45.0:
+-More chart data storage / retrieval optimizations
+-Chart interface revision (timeline text in spot price preview area)
+-Charts UX (spot price / volume number formatting)
+-Error logs UX (for write errors)
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.45.1:
+-Bug fix for spot price / pairing volume percent change calculations in price alerts
+-Bug fix for gain / loss percent change calculations in portfolio interface
+-Minor code housekeeping
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.46.0:
+-UX revisions
+-Altcoin USD-based pairing markets support
+-Default config revision (includes new parameters)
+-Dogecoin mining calculator
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.46.1:
+-Bugfixes / improvements for pretty numbers and number formatting removal (input/output UX)
+-Updated API output formatting
+-Chart UX for low value crypto assets
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.47.0:
+-Coding semantics cleanup
+-Minor bugfixes
+-Added parsing of pairing volume data from market API calls (for exchanges that support it)
+-Revised resources page
+-Logs for last notifyme / text alert responses
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.48.0:
+-Alert message queuing system (to throttle sending messages, so as not to exceed notifyme alexa / mobile text API limits)
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.49.0:
+-Optimizations
+-Merged BTC markets / Altcoin markets API calls into one shared API calling function
+-Ported BTC/USD markets to new USD markets system
+-Upgraded Zingchart library (for price charts) to latest release
+-UX revisions
+-Better CSV import failure / success detection
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.49.1:
+-Bug fix for Gemini exchange markets API compatibility
+-Bug fix for BTC markets fields (from consolidating API call logic last release)
+-Better error handling when importing slightly malformed CSV spreadsheet data
+-Improved spreadsheet column names UX
+-Code cleanup
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.49.2:
+-Bug fix for viewing on mobile devices (proper width / zoom)
+-UX on spreadsheet exporting (better default download filenames)
+-UX on charts page width (charts are now 100% of browser width)
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.49.3:
+-Bug fix for text-by-email using smtp-authenticated email sending
+-Better message queue throttling
+-Debug mode toggle in configuration file (enhanced logging / alerts)
+-Removed twitter widget external javascript call / config option (to keep javascript calls local only)
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.49.4:
+-Bug fix for setting of FROM email when using SMTP authentication feature
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.50.0:
+-Refined email headers when using PHP's built-in mail() function
+-Added app name/version to X-Mailer header in emails (smtp mail, and php default mail function)
+-Portfolio data table / spreadsheet column name semantics
+-Many more email-to-text mobile carriers supported (for mobile text price alerts, etc)
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.51.0:
+-Optimizations
+-New / comprehensive email-to-mobile-text system, with scalable network provider support config (and MANY more network providers added)
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.52.0:
+-Better UX for new email-to-mobile-text system configuration
+-Preparations for upcoming additional Bitcoin markets (other than USD) support
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+3.53.0:
+-Added unit tests for charts/price alerts, text gateways, and coin markets configurations
+-Integrated unit tests with the debug mode config setting options
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+4.00.0:
+
+-Power user config section (use with care)
+
+-Bug fix of global import variable overwrites
+
+-More USD (and other fiat) markets for Bitcoin / Altcoins
+
+-Code cleanup / optimizations / bug fixes / semantics
+
+-All charts now have 24 hour volume as pairing volume (for normal UX feel charts)
+
+-Added debugging log (when debugging is enabled in config.php) to log runtime telemetry
+
+-API support for btcmarkets.net, bitpanda.com, lakebtc.com, tidebit.com, huobi.pro, cex.io
+
+-Throttling of limited APIs (to help avoid ip blacklisting by exchanges requiring a separate call for each coin)
+
+-Consolidated multiple function calls into variables where possible, for less moving parts / increased runtime speed
+
+-New Bitcoin fiat (or stablecoin) trading pairs: USDT / TUSD / USDC / GBP / EUR / CAD / AUD / SGD / HKD / GBP / EUR / CHF / JPY / RUB
+
+-Dynamically changeable primary primary currency globally (charts / alerts / token value / subtotal / total / tools / calculators), 
+based off the chosen Bitcoin market pairing (charts / alerts default primary currency is ONLY changeable in configuration file).
+
+IMPORTANT NOTE: v4.00.0 and higher of this app REQUIRES DELETING YOUR PREVIOUS CHART DATA FROM ANY EARLIER VERSIONS.
+MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWARDS-COMPATIBLE.
+
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+4.01.0:
+
+-Added dynamic modularity to MISCASSETS
+
+-Added all 13 fiat pairings (to already-existing 4 crypto pairings) within MISCASSETS as pairing options (to see what the equivalent trade / holdings value in the paired currency would be)
+
+-Auto-correct any basic end user data entry errors in config.php
+
+-UX revisions
+
+IMPORTANT NOTE: v4.00.0 and higher of this app REQUIRES DELETING YOUR PREVIOUS CHART DATA FROM ANY EARLIER VERSIONS.
+MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWARDS-COMPATIBLE.
+
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+4.02.0:
+
+-Config checks for new default Bitcoin exchange/pairing config settings
+
+-Hardware sensor(s) data included in debugging mode stats (cpu / temperature / load / etc)
+
+-Sort all exchange / pairing drop-down menus alphabetically (better user experience with large lists)
+
+-API exchange support for southxchange, braziliex, bitflyer
+
+IMPORTANT NOTE: v4.00.0 and higher of this app REQUIRES DELETING YOUR PREVIOUS CHART DATA FROM ANY EARLIER VERSIONS.
+MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWARDS-COMPATIBLE.
+
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+4.02.1:
+
+-UX revisions
+
+-Code cleanup / optimization
+
+-Misc bug fixes in new logic
+
+-Additional configuration scanning / error logging
+
+-Stand-Alone Mode for the Currency Market setting, on the "Settings" page
+
+-Moved spot price / volume charts to a sub-directory within the charts directory, for future chart scalability
+
+IMPORTANT NOTE: v4.00.0 and higher of this app REQUIRES DELETING YOUR PREVIOUS CHART DATA FROM ANY EARLIER VERSIONS.
+MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWARDS-COMPATIBLE.
+
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+4.03.0:
+
+-Raspberry PI system stats in webpage footer (if a Raspberry Pi system is detected)
+
+-Re-organized chart directory structure (again) for UPCOMING cached time period data sets (1 month / 3 month / 6 month / etc, for quicker chart loading)
+
+-Integrated new system info module into app debugging mode 'stats' (logs hardware / software / system stats to debugging log, when debugging is activated)
+
+IMPORTANT NOTE: v4.03.0 and higher of this app REQUIRES DELETING YOUR PREVIOUS CHART DATA FROM ANY EARLIER VERSIONS.
+MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWARDS-COMPATIBLE.
+
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+4.04.0:
+
+-Uptime stats
+
+-System memory stats
+
+-Better error logging
+
+-Code cleanup / optimization
+
+-Option to chart system data for devices (15 min load avg / temperature / free disk space / free memory [mb/percent], for available sensors)
+
+-Configuration option to enable viewing system stats in the user interface (available to enable for ANY system, BUT ONLY ON BY DEFAULT !FOR RASPBERRY PI DEVICES!)
+
+IMPORTANT NOTE: v4.03.0 and higher of this app REQUIRES DELETING YOUR PREVIOUS CHART DATA FROM ANY EARLIER VERSIONS.
+MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWARDS-COMPATIBLE.
+
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+4.04.1:
+
+-Bug fixes
+
+-UX revisions
+
+-Portfolio cache stats
+
+IMPORTANT NOTE: v4.03.0 and higher of this app REQUIRES DELETING YOUR PREVIOUS CHART DATA FROM ANY EARLIER VERSIONS.
+MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWARDS-COMPATIBLE.
+
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+4.04.2:
+
+-More bug fixes
+
+-Better error logging
+
+-Code cleanup
+
+-UX revisions
+
+IMPORTANT NOTE: v4.03.0 and higher of this app REQUIRES DELETING YOUR PREVIOUS CHART DATA FROM ANY EARLIER VERSIONS.
+MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWARDS-COMPATIBLE.
+
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+4.04.3:
+
+-Price alerts bug fix for recent charts/alerts upgrade, to ALWAYS use pair volume (was asset volume before, for crypto/crypto markets)
+
+-Bug fix for pretty numbers / removing trailing zeros in decimal values
+
+-Bug fix for rounding pretty numbers, BEFORE making pretty
+
+-Compatibility revisions
+
+-Code semantics / cleanup
+
+-Documentation revisions
+
+-UX revisions
+
+IMPORTANT NOTES: 
+
+v4.03.0 and higher of this app REQUIRES DELETING YOUR PREVIOUS CHART DATA FROM ANY EARLIER VERSIONS.
+MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWARDS-COMPATIBLE.
+
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
+PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
+
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+4.04.4:
+
+-Bug fixes for floating point numbers / scientific notation to normal string value
+
+-Coding semantics cleanup
+
+IMPORTANT NOTES: 
+
+v4.03.0 and higher of this app REQUIRES DELETING YOUR PREVIOUS CHART DATA FROM ANY EARLIER VERSIONS.
+MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWARDS-COMPATIBLE.
+
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
+PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
+
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+4.05.0:
+
+-Added system statistics charts
+
+IMPORTANT NOTES: 
+
+v4.03.0 and higher of this app REQUIRES DELETING YOUR PREVIOUS CHART DATA FROM ANY EARLIER VERSIONS.
+MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWARDS-COMPATIBLE.
+
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
+PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
+
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+4.05.1:
+
+-UX (and minor bug) revisions for system stats/charts, and country currency support
+
+-Clearing out stale API data / error / debugging cache files
+
+-Turkish Lira / Israeli New Shekel fiat support
+
+-BTCturk.com / bit2c.co.il API support
+
+-Better debugging / tracing
+
+-Minor cleanup
+
+IMPORTANT NOTES: 
+
+v4.03.0 and higher of this app REQUIRES DELETING YOUR PREVIOUS CHART DATA FROM ANY EARLIER VERSIONS.
+MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWARDS-COMPATIBLE.
+
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
+PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
+
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+4.05.2:
+
+-Bug fixes / tweaks / semantics
+
+-Zooming the Y axis in system charts
+
+-Added bitso.com / bitlish.com / coss.io / localbitcoins.com API support
+
+-Shrunk installation size (excess maintenance files removed, images optimized)
+
+-Added support for currencies: Mexican Peso / Vietnamese Dong / Pakistani Rupee / Columbian Peso / Bolivian Boliviano
+
+IMPORTANT NOTES: 
+
+v4.03.0 and higher of this app REQUIRES DELETING YOUR PREVIOUS CHART DATA FROM ANY EARLIER VERSIONS.
+MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWARDS-COMPATIBLE.
+
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
+PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
+
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+4.06.0:
+
+-Minor UX tweaks
+
+-Tighter security
+
+-More in-app error / debug logging
+
+-Modularized configuration settings
+
+-Semantics / directory structure cleanup
+
+-HTML message support in the emailing system
+
+-Secured cache section (for higher security cache values)
+
+-Fixed secure SMTP email sending via TLS (secure / encrypted connection)
+
+-Password storage and check functions (for upcoming easy-to-use admin configuration page)
+
+-Secured password pepper (high security password encryption) caching / app_config caching support (for upcoming easy-to-use admin configuration page)
+
+-Unicode support for the mobile text message system (ONLY ACTIVATED WHEN emojis / asian characters / any other unicode characters are detected in text message data)
+
+-"Whale alert" notice for price alerts (does NOT affect parameters you set for triggering alerts, 
+just adds "Whale Alert" text or emoji if asset alert(s) fall within 5% price change within half a day or less,
+and pair volume has changed at least 20% with minimum currency volume of 10,000)
+
+IMPORTANT NOTES: 
+
+v4.06.0 and higher modularizes the configuration settings into the new $app_config array. ALL
+CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
+AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
+
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
+PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
+
+v4.03.0 and higher of this app REQUIRES DELETING YOUR PREVIOUS CHART DATA FROM ANY EARLIER VERSIONS.
+MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWARDS-COMPATIBLE.
+
+-------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -29,11 +29,13 @@ if (!defined('PHP_VERSION_ID')) {
 }
 
 
+
 // PHP v5.5 or higher required for this app
 if (PHP_VERSION_ID < 50500) {
 echo 'PHP version 5.5 or higher is required. Please upgrade your PHP version to run this application.';
 exit;
 }
+
 
 
 // Check for curl
@@ -48,14 +50,28 @@ define('CURL_VERSION_ID', str_replace(".", "", $curl_setup["version"]) );
 
 
 
+// Check for mbstring
+if ( !extension_loaded('mbstring') ) {
+echo "PHP extension 'mbstring' not installed. 'mbstring' is required to run this application.";
+exit;
+}
+
+
+
+// PHP defaults
 date_default_timezone_set('UTC'); // Set time as UTC for logs etc ($app_config['local_time_offset'] in config.php can adjust UI / UX timestamps as needed)
 ini_set('auto_detect_line_endings',TRUE); // Mac compatibility with CSV spreadsheet importing
-$app_config = array();
+
 
 
 // Load functions
 require_once("app-lib/php/loader.php");
 
+
+
+// Create a few global runtime vars now
+$app_config = array();
+$api_cache = array();
 
 
 hardy_session_clearing(); // Try to avoid edge-case bug where sessions didn't delete last runtime
@@ -103,7 +119,7 @@ if ( dir_structure($base_dir . '/cache/alerts/') != TRUE
 || dir_structure($base_dir . '/cache/logs/debugging/api/') != TRUE
 || dir_structure($base_dir . '/cache/logs/errors/api/') != TRUE
 || dir_structure($base_dir . '/cache/queue/messages/') != TRUE
-|| dir_structure($base_dir . '/cache/secured/') != TRUE
+|| dir_structure($base_dir . '/cache/secured/backups/') != TRUE
 || dir_structure($base_dir . '/cache/vars/') != TRUE ) {
 echo "Cannot create cache sub-directories. Please make sure the folder '/cache/' has FULL read / write permissions (chmod 777 on unix / linux systems), so the cache sub-directories can be created automatically.";
 exit;

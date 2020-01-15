@@ -3,11 +3,15 @@
  * Copyright 2014-2020 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
  */
 
+
+
 // Calculate script runtime length
 $time = microtime();
 $time = explode(' ', $time);
 $time = $time[1] + $time[0];
 $start_runtime = $time;
+
+
 
 // Forbid direct INTERNET access to this file
 if ( isset($_SERVER['REQUEST_METHOD']) && realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) ) {
@@ -16,23 +20,20 @@ if ( isset($_SERVER['REQUEST_METHOD']) && realpath(__FILE__) == realpath($_SERVE
 }
 
 
+
 // Assure CLI runtime is in install directory (server compatibility required for some PHP setups)
 chdir( dirname(__FILE__) );
+
+
 
 // Runtime mode
 $runtime_mode = 'cron';
 
+
+
+// Load app config / etc
 require("config.php");
 
-
-// Delete ANY old zip archive backups
-delete_old_files($base_dir . '/backups/', $app_config['delete_old_backups'], 'zip');
-
-
-// Chart backups...run before any price checks to avoid any potential file lock issues
-if ( $app_config['charts_page'] == 'on' && $app_config['charts_backup_freq'] > 0 ) {
-backup_archive('charts-data', $base_dir . '/cache/charts/', $app_config['charts_backup_freq']);
-}
 
 
 // Charts and price alerts
@@ -58,6 +59,7 @@ $result = asset_charts_and_alerts($key, $exchange, $pairing, $mode);
 }
 
 
+
 // Checkup on each failed proxy
 if ( $app_config['proxy_alerts'] != 'none' ) {
 	
@@ -69,9 +71,11 @@ if ( $app_config['proxy_alerts'] != 'none' ) {
 }
 
 
+
 // Log errors, send notifications BEFORE runtime stats
 error_logs();
 send_notifications();
+
 
 
 // Calculate script runtime length
@@ -82,7 +86,7 @@ $total_runtime = round( ($time - $start_runtime) , 3);
 
 
 
-// If hardware stats are enabled, chart the 15 min load avg / temperature / free partition space / free memory [mb/percent]
+// If hardware stats are enabled, chart the 15 min load avg / temperature / free partition space / free memory [mb/percent] / portfolio cache size / runtime length
 if ( $app_config['system_stats'] == 'on' || $app_config['system_stats'] == 'raspi' && $is_raspi == 1 ) {
     			
 // Raspi system data

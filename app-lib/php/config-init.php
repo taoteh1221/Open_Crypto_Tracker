@@ -14,23 +14,47 @@ error_reporting(1); // If debugging is enabled, turn on all PHP error reporting 
 }
 
 
+
 // Security (MUST run AFTER directory structure creation check, and AFTER config file)
-require_once($base_dir . '/app-lib/php/other/security.php');
+require_once($base_dir . '/app-lib/php/other/security/security.php');
+
+
+
+// SECURED cache files management (MUST run AFTER directory structure creation check, and AFTER config file)
+require_once($base_dir . '/app-lib/php/other/security/secure-cache-files.php');
+
 
 
 // Load coinmarketcap supported currencies
 require_once("app-lib/php/other/coinmarketcap-currencies.php");
 
 
-// Clear stale LOGS / MARKETS / CHAIN DATA API data from cache (run daily, or if runtime is cron)
-if ( update_cache_file('cache/events/clean_cache.dat', (60 * 24) ) == true || $runtime_mode == 'cron' ) {
+
+// Scheduled maintenance (run ~daily, or ~hourly if runtime is cron)
+if ( update_cache_file('cache/events/scheduled_maintenance.dat', (60 * 24) ) == true 
+|| $runtime_mode == 'cron' && update_cache_file('cache/events/scheduled_maintenance.dat', (60 * 1) ) == true ) {
 	
 
-// Daily cleanup
+	// Stuff to run only if cron is setup and running
+	if ( $runtime_mode == 'cron' ) {
+	
+		// Chart backups...run before any price checks to avoid any potential file lock issues
+		if ( $app_config['charts_page'] == 'on' && $app_config['charts_backup_freq'] > 0 ) {
+		backup_archive('charts-data', $base_dir . '/cache/charts/', $app_config['charts_backup_freq']);
+		}
+	
+	}
+
+	
+// Delete ANY old zip archive backups scheduled to be purged
+delete_old_files($base_dir . '/cache/secured/backups/', $app_config['delete_old_backups'], 'zip');
+
+
+// Stale cache files cleanup
 delete_old_files($base_dir . '/cache/apis/', 1, 'dat'); // Delete MARKETS / CHAIN DATA API cache files older than 1 day
 
 
-// $app_config['purge_logs'] time cleanup
+// Secondary logs cleanup
 $logs_cache_cleanup = array(
 									$base_dir . '/cache/logs/debugging/api/',
 									$base_dir . '/cache/logs/errors/api/',
@@ -39,7 +63,8 @@ $logs_cache_cleanup = array(
 delete_old_files($logs_cache_cleanup, $app_config['purge_logs'], 'dat'); // Delete LOGS API cache files older than $app_config['purge_logs'] day(s)
 
 
-store_file_contents($base_dir . '/cache/events/clean_cache.dat', time());
+// Update the maintenance event tracking
+store_file_contents($base_dir . '/cache/events/scheduled_maintenance.dat', time_date_format(false, 'pretty_date_time') );
 
 }
 
@@ -407,8 +432,8 @@ $charts_update_freq = ( $charts_update_freq != '' ? $charts_update_freq : trim( 
 
 // Unit tests to run in debug mode, !AFTER! loading init / config-init logic
 if ( $app_config['debug_mode'] != 'off' ) {
-require_once("app-lib/php/debugging/tests.php");
-require_once("app-lib/php/debugging/exchange-and-pairing-info.php");
+require_once("app-lib/php/other/debugging/tests.php");
+require_once("app-lib/php/other/debugging/exchange-and-pairing-info.php");
 }
 
 

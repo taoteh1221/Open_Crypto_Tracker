@@ -25,7 +25,7 @@ die('Non-private filename request detected, download aborted.');
 }
 
 
-$path = "backups/";
+$path = "cache/secured/backups/";
 
 $fullPath = $path.$_GET['backup'];
 

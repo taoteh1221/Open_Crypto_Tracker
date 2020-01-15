@@ -4,7 +4,6 @@
  */
 
 
-
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
 
@@ -179,7 +178,39 @@ return $result;
 ////////////////////////////////////////////////////////
 
 
-function smtp_mail($to, $subject, $message) {
+function is_string_fully_utf8($string) {
+
+	if ( strlen($string) == strlen( utf8_decode($string) ) ) {
+	return true;
+	}
+	else {
+	return false;
+	}
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function split_text_message($text, $char_length) {
+
+$chunks = explode("||||", wordwrap($message, $char_length, "||||", false) );
+$total = count($chunks);
+
+	foreach($chunks as $page => $chunk) {
+	$message = sprintf("(%d/%d) %s", $page+1, $total, $chunk);
+	}
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function smtp_mail($to, $subject, $message, $content_type='text', $charset='UTF-8') {
 
 // Using 3rd party SMTP class, initiated already as global var $smtp
 global $app_config, $smtp;
@@ -187,7 +218,14 @@ global $app_config, $smtp;
 $smtp->From($app_config['from_email']); 
 $smtp->singleTo($to); 
 $smtp->Subject($subject);
-$smtp->Text($message);
+$smtp->Charset($charset);
+
+	if ( $content_type == 'text' ) {
+	$smtp->Text($message);
+	}
+	elseif ( $content_type == 'html' ) {
+	$smtp->Body($message);
+	}
 
 return $smtp->Send();
 
@@ -457,6 +495,33 @@ $email = trim($email);
 ////////////////////////////////////////////////////////
 
 
+function character_unicode_to_utf8($char, $format) {
+	
+    if ( $format == 'decimal' ) {
+    $pre = '';
+    }
+    elseif ( $format == 'hexadecimal' ) {
+    $pre = 'x';
+    }
+
+$char = trim($char);
+$char = 'PREFIX' . $char;
+$char = preg_replace('/PREFIXx/', 'PREFIX', $char);
+$char = preg_replace('/PREFIXu/', 'PREFIX', $char);
+$char = preg_replace('/PREFIX/', '', $char);
+$char = '&#' . $pre . $char . ';';
+
+$result = html_entity_decode($char, ENT_COMPAT, 'UTF-8');
+
+return $result;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
 function sort_files($files_dir, $extension, $sort) {
 	
 $scan_array = scandir($files_dir);
@@ -500,7 +565,7 @@ global $base_dir;
 	}
 	// PHP 5 (V6 RELEASE WAS SKIPPED)
 	elseif ( PHP_VERSION_ID < 60000 ) {
-	require_once($base_dir . '/app-lib/php/apps/random-compat/lib/random.php');
+	require_once($base_dir . '/app-lib/php/other/third-party/random-compat/lib/random.php');
 	$hash = random_bytes($num_bytes);
 	}
 	// >= PHP 7
@@ -600,6 +665,45 @@ global $password_pepper;
 		}
 		
 	}
+
+}
+ 
+ 
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+ 
+function character_utf8_to_unicode($char, $format) {
+	
+    if (ord($char{0}) >=0 && ord($char{0}) <= 127)
+        $result = ord($char{0});
+        
+    if (ord($char{0}) >= 192 && ord($char{0}) <= 223)
+        $result = (ord($char{0})-192)*64 + (ord($char{1})-128);
+        
+    if (ord($char{0}) >= 224 && ord($char{0}) <= 239)
+        $result = (ord($char{0})-224)*4096 + (ord($char{1})-128)*64 + (ord($char{2})-128);
+        
+    if (ord($char{0}) >= 240 && ord($char{0}) <= 247)
+        $result = (ord($char{0})-240)*262144 + (ord($char{1})-128)*4096 + (ord($char{2})-128)*64 + (ord($char{3})-128);
+        
+    if (ord($char{0}) >= 248 && ord($char{0}) <= 251)
+        $result = (ord($char{0})-248)*16777216 + (ord($char{1})-128)*262144 + (ord($char{2})-128)*4096 + (ord($char{3})-128)*64 + (ord($char{4})-128);
+        
+    if (ord($char{0}) >= 252 && ord($char{0}) <= 253)
+        $result = (ord($char{0})-252)*1073741824 + (ord($char{1})-128)*16777216 + (ord($char{2})-128)*262144 + (ord($char{3})-128)*4096 + (ord($char{4})-128)*64 + (ord($char{5})-128);
+        
+    if (ord($char{0}) >= 254 && ord($char{0}) <= 255)    //  error
+        $result = FALSE;
+        
+    if ( $format == 'decimal' ) {
+    $result = $result;
+    }
+    elseif ( $format == 'hexadecimal' ) {
+    $result = 'x'.dechex($result);
+    }
+    
+return $result;
 
 }
 
@@ -1092,6 +1196,64 @@ $val = rtrim($val, '.');
 ////////////////////////////////////////////////////////
 
 
+function content_data_encoding($content, $charset='UTF-8') { // !!DEFAULT TO UTF-8, UNLESS SPECIFIED!!
+	
+$words = explode(" ", $content);
+	
+	
+	foreach ( $words as $word_key => $word_value ) {
+		
+	$word_value = trim($word_value);
+	
+	$guess_charset = ( mb_detect_encoding($word_value, "auto") != false ? mb_detect_encoding($word_value, "auto") : NULL );
+	
+		if ( strtolower($charset) == 'utf-8' && is_string_fully_utf8($word_value) == true
+		|| isset($guess_charset) && strtolower($charset) == strtolower($guess_charset) ) {
+   	$result['debug_original_data'] .= $charset . ' ';
+   	$temp = $word_value . ' ';
+		}
+		elseif ( isset($guess_charset) && strtolower($charset) != 'utf-8' && is_string_fully_utf8($word_value) == false ) {
+   	$result['debug_original_data'] .= $charset . ' ';
+   	$temp = mb_convert_encoding($word_value . ' ', $charset, $guess_charset);
+		}
+		elseif ( strtolower($charset) != 'utf-8' && is_string_fully_utf8($word_value) == true ) {
+   	$result['debug_original_data'] .= $charset . ' ';
+   	$temp = mb_convert_encoding($word_value . ' ', $charset, "UTF-8");
+		}
+		elseif ( !isset($guess_charset) ) {
+   	$result['debug_original_data'] .= 'unknown_charset ';
+   	$temp = mb_convert_encoding($word_value . ' ', $charset);
+		}
+		
+	$result['content_output'] .= $temp;
+	
+	}
+	
+
+$result['debug_original_data'] = trim($result['debug_original_data']);
+
+$result['content_output'] = trim($result['content_output']);
+
+	if ( is_string_fully_utf8($result['content_output']) == true ) {
+	$result['length'] = strlen($result['content_output']);
+	}
+	elseif ( isset($guess_charset) ) {
+	$result['length'] = mb_strlen($result['content_output'], $guess_charset);
+	}
+	elseif ( !isset($guess_charset) ) {
+	$result['length'] = mb_strlen($result['content_output']);
+	}
+
+
+return $result;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
 function chart_data($file, $chart_format) {
 
 global $app_config, $default_btc_primary_currency_pairing;
@@ -1489,7 +1651,7 @@ function start_page_html($page) {
 ////////////////////////////////////////////////////////
 
 
-function safe_mail($to, $subject, $message) {
+function safe_mail($to, $subject, $message, $content_type='text', $charset='UTF-8') {
 	
 global $app_version, $app_config;
 
@@ -1511,7 +1673,7 @@ $to = trim($to);
 	
 	// SMTP mailing, or PHP's built-in mail() function
 	if ( $app_config['smtp_login'] != '' && $app_config['smtp_server'] != '' ) {
-	return @smtp_mail($to, $subject, $message); 
+	return @smtp_mail($to, $subject, $message, $content_type, $charset); 
 	}
 	else {
 		
@@ -1520,14 +1682,16 @@ $to = trim($to);
 	
 		$headers = array(
 	    					'From' => $app_config['from_email'],
-	    					'X-Mailer' => 'DFD_Cryptocoin_Values/' . $app_version . ' - PHP/' . phpversion()
+	    					'X-Mailer' => 'DFD_Cryptocoin_Values/' . $app_version . ' - PHP/' . phpversion(),
+	    					'Content-Type' => $content_type . '/plain; charset=' . $charset
 							);
 	
 		}
 		else {
 			
 		$headers = 'From: ' . $app_config['from_email'] . "\r\n" .
-    	'X-Mailer: DFD_Cryptocoin_Values/' . $app_version . ' - PHP/' . phpversion();
+    	'X-Mailer: DFD_Cryptocoin_Values/' . $app_version . ' - PHP/' . phpversion() .
+    	'Content-Type: ' . $content_type . '/plain; charset=' . $charset;
     	
 		}
 	
@@ -1561,7 +1725,7 @@ global $app_config, $base_dir, $base_url;
 		else {
 			
 			$backup_file = $backup_prefix . '_'.date( "Y-M-d", time() ).'_'.$secure_128bit_hash.'.zip';
-			$backup_dest = $base_dir . '/backups/' . $backup_file;
+			$backup_dest = $base_dir . '/cache/secured/backups/' . $backup_file;
 			
 			// Zip archive
 			$backup_results = zip_recursively($backup_target, $backup_dest);
@@ -1569,7 +1733,7 @@ global $app_config, $base_dir, $base_url;
 			
 				if ( $backup_results == 1 ) {
 					
-				store_file_contents($base_dir . '/cache/events/backup_'.$backup_prefix.'.dat', time());
+				store_file_contents($base_dir . '/cache/events/backup_'.$backup_prefix.'.dat', time_date_format(false, 'pretty_date_time') );
 					
 				$backup_url = 'download.php?backup=' . $backup_file;
 				
@@ -1847,7 +2011,8 @@ global $base_dir, $app_config;
 	// Only use text-to-email if other text services aren't configured
    if ( $send_params['text'] != '' && validate_email( text_email($app_config['to_text']) ) == 'valid' && trim($app_config['textbelt_apikey']) == '' && $app_config['textlocal_account'] == '' ) { 
    
-   $textemail_array = array('subject' => 'Text Notify', 'message' => $send_params['text']);
+   // If $send_params['text_charset'] is set, use it (used when we are including emojis, or other unicode characters)
+   $textemail_array = array('subject' => 'Text Notify', 'message' => $send_params['text']['message'], 'content_type' => 'text', 'charset' => ( $send_params['text']['charset'] ? $send_params['text']['charset'] : 'UTF-8' ) );
    
 	store_file_contents($base_dir . '/cache/queue/messages/textemail-' . random_hash(8) . '.queue', json_encode($textemail_array) );
 	
@@ -1856,7 +2021,7 @@ global $base_dir, $app_config;
    // Normal email
    if ( $send_params['email']['message'] != '' && validate_email($app_config['to_email']) == 'valid' ) {
    
-   $email_array = array('subject' => $send_params['email']['subject'], 'message' => $send_params['email']['message']);
+   $email_array = array('subject' => $send_params['email']['subject'], 'message' => $send_params['email']['message'], 'content_type' => ( $send_params['email']['content_type'] ? $send_params['email']['content_type'] : 'text' ), 'charset' => ( $send_params['email']['charset'] ? $send_params['email']['charset'] : 'UTF-8' ) );
    
 	store_file_contents($base_dir . '/cache/queue/messages/normalemail-' . random_hash(8) . '.queue', json_encode($email_array) );
 	
@@ -2273,7 +2438,7 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 					$text_sleep = 1 * $_SESSION['text_count'];
 					sleep($text_sleep);
 			   
-					$result = @safe_mail( text_email($app_config['to_text']) , $textemail_array['subject'], $textemail_array['message']);
+					$result = @safe_mail( text_email($app_config['to_text']) , $textemail_array['subject'], $textemail_array['message'], $textemail_array['content_type'], $textemail_array['charset']);
 			   
 			   		if ( $result == true ) {
 			   		
@@ -2308,7 +2473,7 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 					$email_sleep = 1 * $_SESSION['email_count'];
 					sleep($email_sleep);
 			   
-					$result = @safe_mail($app_config['to_email'], $email_array['subject'], $email_array['message']);
+					$result = @safe_mail($app_config['to_email'], $email_array['subject'], $email_array['message'], $email_array['content_type'], $email_array['charset']);
 			   
 			   		if ( $result == true ) {
 			   		
@@ -2378,7 +2543,7 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 function api_data($mode, $request, $ttl, $api_server=null, $post_encoding=3, $test_proxy=NULL, $headers=NULL) { // Default to JSON encoding post requests (most used)
 
 // $app_config['btc_primary_currency_pairing'] / $app_config['btc_primary_exchange'] / $btc_primary_currency_value USED FOR TRACE DEBUGGING (TRACING)
-global $base_dir, $app_config, $btc_primary_currency_value, $user_agent;
+global $base_dir, $app_config, $api_cache, $btc_primary_currency_value, $user_agent;
 
 $cookie_jar = tempnam('/tmp','cookie');
 	
@@ -2386,10 +2551,10 @@ $cookie_jar = tempnam('/tmp','cookie');
 $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 
 
-	// Cache API data if set to cache...SESSION cache is only for runtime cache (deleted at end of runtime)
+	// Cache API data if set to cache...runtime cache is only for runtime cache (deleted at end of runtime)
 	// ...persistent cache is the file cache (which only reliably updates near end of a runtime session because of file locking)
-	if ( update_cache_file('cache/apis/'.$hash_check.'.dat', $ttl) == true && $ttl > 0 && !$_SESSION['api_cache'][$hash_check] 
-	|| $ttl == 0 && !$_SESSION['api_cache'][$hash_check] ) {	
+	if ( update_cache_file('cache/apis/'.$hash_check.'.dat', $ttl) == true && $ttl > 0 && !$api_cache[$hash_check] 
+	|| $ttl == 0 && !$api_cache[$hash_check] ) {	
 	
 	$ch = curl_init( ( $mode == 'array' ? $api_server : '' ) );
 	
@@ -2574,14 +2739,14 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		
 		// Never cache proxy checking data
 		if ( $mode != 'proxy-check' ) {
-		$_SESSION['api_cache'][$hash_check] = ( $data ? $data : 'none' ); // Cache API data for this runtime session AFTER PERSISTENT FILE CACHE UPDATE, file cache doesn't reliably update until runtime session is ending because of file locking
+		$api_cache[$hash_check] = ( $data ? $data : 'none' ); // Cache API data for this runtime session AFTER PERSISTENT FILE CACHE UPDATE, file cache doesn't reliably update until runtime session is ending because of file locking
 		}
 		
 		
 		
 		// Cache data to the file cache, EVEN IF WE HAVE NO DATA, TO AVOID CONSECUTIVE TIMEOUT HANGS (during page reloads etc) FROM A NON-RESPONSIVE API ENDPOINT
 		if ( $ttl > 0 && $mode != 'proxy-check'  ) {
-		store_file_contents($base_dir . '/cache/apis/'.$hash_check.'.dat', $_SESSION['api_cache'][$hash_check]);
+		store_file_contents($base_dir . '/cache/apis/'.$hash_check.'.dat', $api_cache[$hash_check]);
 		}
 		
 
@@ -2595,10 +2760,18 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 	else {
 	
 	
-	// Use session cache if it exists. Remember file cache doesn't update until session is nearly over because of file locking, so only reliable for persisting a cache long term
-	// If no API data was received, add error notices to UI / error logs
-	$data = ( $_SESSION['api_cache'][$hash_check] ? $_SESSION['api_cache'][$hash_check] : file_get_contents('cache/apis/'.$hash_check.'.dat') );
-		
+		// Use runtime cache if it exists. Remember file cache doesn't update until session is nearly over because of file locking, so only reliable for persisting a cache long term
+		// If no API data was received, add error notices to UI / error logs (we don't try fetching the data again until cache TTL expiration, so as to NOT hang the app)
+		// Run from runtime cache if requested again (for runtime speed improvements)
+		if ( $api_cache[$hash_check] ) {
+		$data = $api_cache[$hash_check];
+		}
+		else {
+		$data = trim( file_get_contents('cache/apis/'.$hash_check.'.dat') );
+		$api_cache[$hash_check] = $data;
+		}
+	
+	
 		
 		if ( $data == 'none' ) {
 		
@@ -2749,8 +2922,12 @@ $cache_filename = preg_replace("/:/", "_", $cache_filename);
   				if ( $app_config['proxy_alerts'] == 'all' ) {
   					
           	$send_params = array(
-          								'text' => $text_alert,
           								'notifyme' => $notifyme_alert,
+          								'text' => array(
+          														// Unicode support included for text messages (emojis / asian characters / etc )
+          														'message' => ( is_string_fully_utf8($text_alert) == false ? content_data_encoding($text_alert)['content_output'] : $text_alert ),
+          														'charset' => ( is_string_fully_utf8($text_alert) == false ? 'UTF-16LE' : 'UTF-8' )
+          														),
           								'email' => array(
           														'subject' => 'A Proxy Was Unresponsive',
           														'message' => $email_alert

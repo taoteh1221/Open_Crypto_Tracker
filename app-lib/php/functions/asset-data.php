@@ -940,7 +940,7 @@ $cached_array = explode("||", $data_file);
   				// Were're just adding a human-readable timestamp to smart home (audio) alerts
   				$notifyme_message = $email_message . ' Timestamp is ' . time_date_format($app_config['local_time_offset'], 'pretty_time') . '.';
   				
-  				$text_message = ( $whale_alert == 1 ? '🐋 ' : '' ) . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange_text . ' ' . $increase_decrease . ' ' . $change_symbol . $percent_change_text . '% in ' . strtoupper($default_btc_primary_currency_pairing) . ' value to ' . $app_config['bitcoin_market_currencies'][$default_btc_primary_currency_pairing] . $asset_primary_currency_text . ' over ' . $last_check_time . '. 24 hour ' . strtoupper($default_btc_primary_currency_pairing) . ' Volume: ' . $volume_primary_currency_text . ' ' . $volume_change_text_mobile;
+  				$text_message = ( $whale_alert == 1 ? '🐳 ' : '' ) . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange_text . ' ' . $increase_decrease . ' ' . $change_symbol . $percent_change_text . '% in ' . strtoupper($default_btc_primary_currency_pairing) . ' value to ' . $app_config['bitcoin_market_currencies'][$default_btc_primary_currency_pairing] . $asset_primary_currency_text . ' over ' . $last_check_time . '. 24 hour ' . strtoupper($default_btc_primary_currency_pairing) . ' Volume: ' . $volume_primary_currency_text . ' ' . $volume_change_text_mobile;
   				
   				
   				
@@ -951,11 +951,15 @@ $cached_array = explode("||", $data_file);
           	
   				// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
           	$send_params = array(
-          								'text' => $text_message,
           								'notifyme' => $notifyme_message,
+          								'text' => array(
+          														// Unicode support included for text messages (emojis / asian characters / etc )
+          														'message' => ( is_string_fully_utf8($text_message) == false ? content_data_encoding($text_message)['content_output'] : $text_message ),
+          														'charset' => ( is_string_fully_utf8($text_message) == false ? 'UTF-16LE' : 'UTF-8' )
+          														),
           								'email' => array(
-          														'subject' => $asset . ' Asset Value '.ucfirst($increase_decrease).' Alert' . ( $whale_alert == 1 ? ' (🐋 WHALE ALERT)' : '' ),
-          														'message' => ( $whale_alert == 1 ? '🐋 ' : '' ) . $email_message // Add emoji here, so it's not sent with alexa / google home alerts
+          														'subject' => $asset . ' Asset Value '.ucfirst($increase_decrease).' Alert' . ( $whale_alert == 1 ? ' (🐳 WHALE ALERT)' : '' ),
+          														'message' => ( $whale_alert == 1 ? '🐳 ' : '' ) . $email_message // Add emoji here, so it's not sent with alexa / google home alerts
           														)
           								);
           	
@@ -1288,7 +1292,7 @@ $market_pairing = $all_markets[$selected_exchange];
  	
  		?>
  		
- <img id='<?=$mkcap_render_data?>' src='ui-templates/media/images/<?=$info_icon?>' alt='' border='0' style='position: absolute; top: 2px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <a title='' href='https://<?=$asset_pagebase?><?=$mkcap_render_data?>/' target='_blank' class='blue app_sort_filter'><?php echo $asset_name; ?></a>
+ <img id='<?=$mkcap_render_data?>' src='templates/interface/media/images/<?=$info_icon?>' alt='' border='0' style='position: absolute; top: 2px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <a title='' href='https://<?=$asset_pagebase?><?=$mkcap_render_data?>/' target='_blank' class='blue app_sort_filter'><?php echo $asset_name; ?></a>
  <script>
 
 		<?php
@@ -1443,7 +1447,7 @@ $market_pairing = $all_markets[$selected_exchange];
 	else {
   ?>
   
-  <img id='<?=$rand_id?>' src='ui-templates/media/images/<?=$info_icon?>' alt='' border='0' style='position: absolute; top: 2px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <span class='blue app_sort_filter'><?=$asset_name?></span>
+  <img id='<?=$rand_id?>' src='templates/interface/media/images/<?=$info_icon?>' alt='' border='0' style='position: absolute; top: 2px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <span class='blue app_sort_filter'><?=$asset_name?></span>
  <script>
  $('#<?=$rand_id?>').balloon({
   html: true,
@@ -1704,7 +1708,7 @@ echo '<span class="' . ( $purchase_price >= 0.00000001 && $leverage_level >= 2 &
   		$gain_loss_primary_currency = ( $gain_loss >= 0 ? '+' . $app_config['bitcoin_market_currencies'][$app_config['btc_primary_currency_pairing']] : '' );
   		
 		?> 
-		<img id='<?=$rand_id?>_leverage' src='ui-templates/media/images/info.png' alt='' width='30' border='0' style='position: relative; left: -5px;' />
+		<img id='<?=$rand_id?>_leverage' src='templates/interface/media/images/info.png' alt='' width='30' border='0' style='position: relative; left: -5px;' />
 	 <script>
 	
 			var leverage_content = '<h5 class="yellow" style="position: relative; white-space: nowrap;"><?=$leverage_level?>x <?=ucfirst($selected_margintype)?> For <?=$asset_name?> (<?=$asset_symbol?>):</h5>'

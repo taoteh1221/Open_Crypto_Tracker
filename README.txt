@@ -30,7 +30,7 @@ Follow the prompts. This automated script gives you the options to: install / se
 
 When the auto-install is completed, it will display addresses / logins to access the app (write these down / save them for future use).
 
-For additional documentation, see HELP-FAQ.txt.
+For additional documentation, see /DOCUMENTATION-ETC/HELP-FAQ.txt.
 
 ################################################################################################################
 
@@ -75,7 +75,7 @@ FEATURES
 
 Just upload this app's files to your PHP-based web server (with an FTP client like FileZilla) and you should be all set, unless your host is a strict setup related to file writing permissions, in which case the 'cache' directory permissions should be set to '777' chmod on unix / linux systems (or 'readable / writable' on windows systems). The 'backups' directory permissions MAY also need to be set the same as the 'cache' directory permissions. Your web host must have CURL modules activated on your HTTP server. Most web hosting companies provide this "out-of-the-box" already. This app will detect whether or not CURL is setup on your website server. 
 
-See below for additional details on setup, and see HELP-FAQ.txt for tips / troubleshooting FAQs.
+See below for additional details on setup, and see /DOCUMENTATION-ETC/HELP-FAQ.txt for tips / troubleshooting FAQs.
 
 
 ################################################################################################################
@@ -114,7 +114,7 @@ IMPORTANT CRON JOB NOTES: MAKE SURE YOU ONLY USE EITHER /etc/cron.d/, or 'cronta
 
 Adding / editing / deleting assets and markets in the portfolio assets:
 
-Below is an example for editing your assets / markets into the coin list in the file config.php (located in the primary directory of this app). It's very quick / easy to do (after you get the hang of it, lol). Also see the text file CONFIG.EXAMPLE.txt, for a pre-configured set of default settings and example assets / markets. Contact any supported exchange's help desk if you are unaware of the correct formatting of the trading pair naming you are adding in the configuration file (examples: Kraken has arbitrary Xs inserted in SOME older pair names, HitBTC sometimes has tether pairing without the "T" in the symbol name).
+Below is an example for editing your assets / markets into the coin list in the file config.php (located in the primary directory of this app). It's very quick / easy to do (after you get the hang of it, lol). Also see the text file /DOCUMENTATION-ETC/CONFIG.EXAMPLE.txt, for a pre-configured set of default settings and example assets / markets. Contact any supported exchange's help desk if you are unaware of the correct formatting of the trading pair naming you are adding in the configuration file (examples: Kraken has arbitrary Xs inserted in SOME older pair names, HitBTC sometimes has tether pairing without the "T" in the symbol name).
 
 
 USAGE (ADDING / UPDATING COINS)
@@ -155,7 +155,7 @@ Ethereum ICO subtoken support has been built in, but values are static ICO value
       
  
     
- // SEE CONFIG.EXAMPLE.txt FOR A FULL EXAMPLE OF THE CONFIGURATION (ESPECIALLY IF YOU MESS UP config.php, lol)
+ // SEE /DOCUMENTATION-ETC/CONFIG.EXAMPLE.txt FOR A FULL EXAMPLE OF THE CONFIGURATION (ESPECIALLY IF YOU MESS UP config.php, lol)
  
 
 
