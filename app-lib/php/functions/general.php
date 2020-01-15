@@ -1990,19 +1990,19 @@ global $base_dir, $app_config;
 	
 	// Notifyme
    if ( $send_params['notifyme'] != '' && trim($app_config['notifyme_accesscode']) != '' ) {
-	store_file_contents($base_dir . '/cache/queue/messages/notifyme-' . random_hash(8) . '.queue', $send_params['notifyme']);
+	store_file_contents($base_dir . '/cache/secured/messages/notifyme-' . random_hash(8) . '.queue', $send_params['notifyme']);
    }
   
    // Textbelt
 	// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
    if ( $send_params['text'] != '' && trim($app_config['textbelt_apikey']) != '' && $app_config['textlocal_account'] == '' ) { // Only run if textlocal API isn't being used to avoid double texts
-	store_file_contents($base_dir . '/cache/queue/messages/textbelt-' . random_hash(8) . '.queue', $send_params['text']);
+	store_file_contents($base_dir . '/cache/secured/messages/textbelt-' . random_hash(8) . '.queue', $send_params['text']);
    }
   
    // Textlocal
 	// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
    if ( $send_params['text'] != '' && $app_config['textlocal_account'] != '' && trim($app_config['textbelt_apikey']) == '' ) { // Only run if textbelt API isn't being used to avoid double texts
-	store_file_contents($base_dir . '/cache/queue/messages/textlocal-' . random_hash(8) . '.queue', $send_params['text']);
+	store_file_contents($base_dir . '/cache/secured/messages/textlocal-' . random_hash(8) . '.queue', $send_params['text']);
    }
    
            
@@ -2014,7 +2014,7 @@ global $base_dir, $app_config;
    // If $send_params['text_charset'] is set, use it (used when we are including emojis, or other unicode characters)
    $textemail_array = array('subject' => 'Text Notify', 'message' => $send_params['text']['message'], 'content_type' => 'text', 'charset' => ( $send_params['text']['charset'] ? $send_params['text']['charset'] : 'UTF-8' ) );
    
-	store_file_contents($base_dir . '/cache/queue/messages/textemail-' . random_hash(8) . '.queue', json_encode($textemail_array) );
+	store_file_contents($base_dir . '/cache/secured/messages/textemail-' . random_hash(8) . '.queue', json_encode($textemail_array) );
 	
    }
           
@@ -2023,7 +2023,7 @@ global $base_dir, $app_config;
    
    $email_array = array('subject' => $send_params['email']['subject'], 'message' => $send_params['email']['message'], 'content_type' => ( $send_params['email']['content_type'] ? $send_params['email']['content_type'] : 'text' ), 'charset' => ( $send_params['email']['charset'] ? $send_params['email']['charset'] : 'UTF-8' ) );
    
-	store_file_contents($base_dir . '/cache/queue/messages/normalemail-' . random_hash(8) . '.queue', json_encode($email_array) );
+	store_file_contents($base_dir . '/cache/secured/messages/normalemail-' . random_hash(8) . '.queue', json_encode($email_array) );
 	
    }
   
@@ -2237,7 +2237,7 @@ global $base_dir, $app_config;
 
 
 // Array of currently queued messages in the cache
-$messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc');
+$messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'asc');
 	
 //var_dump($messages_queue); // DEBUGGING ONLY
 //return false; // DEBUGGING ONLY
@@ -2327,7 +2327,7 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 				
 			
 			
-			$message_data = trim( file_get_contents($base_dir . '/cache/queue/messages/' . $queued_cache_file) );
+			$message_data = trim( file_get_contents($base_dir . '/cache/secured/messages/' . $queued_cache_file) );
 			
 			
 				
@@ -2356,7 +2356,7 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 						store_file_contents($base_dir . '/cache/logs/debugging/api/last-response-notifyme.log', $notifyme_response);
 						}
 					
-					unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
+					unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
 					
 					}
 				
@@ -2387,7 +2387,7 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 					store_file_contents($base_dir . '/cache/logs/debugging/api/last-response-textbelt.log', $textbelt_response);
 					}
 				
-				unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
+				unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
 				
 			   }
 			  
@@ -2414,7 +2414,7 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 					store_file_contents($base_dir . '/cache/logs/debugging/api/last-response-textlocal.log', $textlocal_response);
 					}
 				
-				unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
+				unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
 				
 			   }
 			   
@@ -2446,7 +2446,7 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 			   	
 						$message_sent = 1;
 					
-						unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
+						unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
 			   		
 			   		}
 			   		else {
@@ -2481,7 +2481,7 @@ $messages_queue = sort_files($base_dir . '/cache/queue/messages', 'queue', 'asc'
 			   	
 						$message_sent = 1;
 					
-						unlink($base_dir . '/cache/queue/messages/' . $queued_cache_file);
+						unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
 			   		
 			   		}
 			   		else {

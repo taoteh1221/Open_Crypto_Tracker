@@ -9,7 +9,7 @@ error_reporting(0); // Turn off all PHP error reporting on production servers (0
 
 
 
-$app_version = '4.06.0';  // 2020/JANUARY/13TH
+$app_version = '4.07.0';  // 2020/JANUARY/15TH
 
 
 
@@ -32,7 +32,7 @@ if (!defined('PHP_VERSION_ID')) {
 
 // PHP v5.5 or higher required for this app
 if (PHP_VERSION_ID < 50500) {
-echo 'PHP version 5.5 or higher is required. Please upgrade your PHP version to run this application.';
+echo 'PHP version 5.5 or higher is required (PHP 7.0 OR HIGHER IS ---HIGHLY RECOMMENDED--- FOR UNICODE SUPPORT). Please upgrade your PHP version to run this application.';
 exit;
 }
 
@@ -118,8 +118,8 @@ if ( dir_structure($base_dir . '/cache/alerts/') != TRUE
 || dir_structure($base_dir . '/cache/events/') != TRUE
 || dir_structure($base_dir . '/cache/logs/debugging/api/') != TRUE
 || dir_structure($base_dir . '/cache/logs/errors/api/') != TRUE
-|| dir_structure($base_dir . '/cache/queue/messages/') != TRUE
 || dir_structure($base_dir . '/cache/secured/backups/') != TRUE
+|| dir_structure($base_dir . '/cache/secured/messages/') != TRUE
 || dir_structure($base_dir . '/cache/vars/') != TRUE ) {
 echo "Cannot create cache sub-directories. Please make sure the folder '/cache/' has FULL read / write permissions (chmod 777 on unix / linux systems), so the cache sub-directories can be created automatically.";
 exit;
