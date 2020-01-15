@@ -9,6 +9,9 @@ Then plenty of time is spent on UX / testing / logging / debugging.
 ///////////////////////////////////////////////////////
 
 
+Color code mining profits / losses properly in the mining calculators.
+
+
 Check that htaccess security is enabled by doing an http and https call to /vars/access_test.dat to see if the data is readable.
 
 
