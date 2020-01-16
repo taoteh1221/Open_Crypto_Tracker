@@ -26,7 +26,8 @@
 // It also logs ui / cron runtime telemetry to /cache/logs/debugging.log, AND /cache/logs/debugging/
 // 'off' (disables), 'all' (all debugging), 'charts' (chart/price alert checks), 'texts' (mobile gateway checks), 
 // 'markets' (coin market checks), 'telemetry' (logs in-app telemetries), 'stats' (basic hardware / software / runtime stats),
-// 'btc_markets_config' (the current Bitcoin markets configuration), 'smtp' (smtp email server response logging, if smtp emailing is enabled)
+// 'btc_markets_config' (the current Bitcoin markets configuration), 'smtp' (smtp email server response logging, if smtp emailing is enabled),
+// 'api_live_only' (log only live API requests, not cache requests), 'api_cache_only' (log only cache requests for API data, not live API requests)
 // UNIT TESTS WILL ONLY RUN DURING WEB PAGE LOAD. MAY REQUIRE  
 // SETTING MAXIMUM ALLOWED PHP EXECUTION TIME TO 120 SECONDS TEMPORARILY, 
 // FOR ALL UNIT TESTS TO FULLY COMPLETE RUNNING, IF YOU GET AN ERROR 500.

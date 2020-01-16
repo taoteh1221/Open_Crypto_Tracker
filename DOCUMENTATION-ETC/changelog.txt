@@ -2273,7 +2273,11 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.07.0:
 
+-Additional debug modes 
+
 -More directory structure cleanup
+
+-API runtime cache optimizations (quicker app load time when using cached data)
 
 IMPORTANT NOTES: 
 
