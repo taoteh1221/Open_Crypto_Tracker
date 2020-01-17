@@ -2279,6 +2279,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -API runtime cache optimizations (quicker app load time when using cached data)
 
+-Initial code commits for google home integration (still NOT available for price alerts YET)
+
 IMPORTANT NOTES: 
 
 v4.06.0 and higher modularizes the configuration settings into the new $app_config array. ALL
