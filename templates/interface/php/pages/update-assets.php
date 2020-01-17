@@ -50,7 +50,7 @@
 	
 	
 	<div>
-	<a style='font-weight: bold;' href='README.txt' target='_blank'>Editing The Coin List, and Enabling Email / Text / Alexa Exchange Price Alerts (installation on a Raspberry Pi or website)</a>
+	<a style='font-weight: bold;' href='README.txt' target='_blank'>Editing The Coin List, and Enabling Email / Text / Alexa / Google Home Exchange Price Alerts (installation on a Raspberry Pi or website)</a>
 	</div>
 	
 			

@@ -6,7 +6,7 @@ DFD Cryptocoin Values - Developed by Michael Kilday <mike@dragonfrugal.com>, rel
 
 Copyright 2014-2020 GPLv3
 
-Open source / free private cryptocurrency investment portfolio tracker, with email / text / Alexa alerts, charts, mining calculators, leverage / gain / loss / balance stats, and other crypto tools. 
+Open source / free private cryptocurrency investment portfolio tracker, with email / text / Alexa / Google Home alerts, charts, mining calculators, leverage / gain / loss / balance stats, and other crypto tools. 
 
 Privately track your investment in Bitcoin, Ethereum, Monero, Litecoin, Grin, Cosmos, and an unlimited number of other altcoins / cryptocurrencies. Customize the coin list / alerts / charts to your favorite assets and exchange pairings. No limits, add as many coins / markets as you want. 
 
@@ -41,7 +41,7 @@ FEATURES
 
 -Cryptocurrency portfolio subtotal summaries, and total portfolio worth (in crypto and your local primary currency), including value gain / loss data (with tracking support for long / short margin leverages), portfolio balance data, and marketcap data.
 
--Price change alerts by email / text / Alexa (configurable alert parameters available).
+-Price change alerts by email / text / Alexa / Google Home (configurable alert parameters available).
 
 -Add / edit / delete your own coin list, with your favorite exchanges / market pairings.
 
@@ -81,7 +81,7 @@ See below for additional details on setup, and see /DOCUMENTATION-ETC/HELP-FAQ.t
 ################################################################################################################
 
 
-Setting up a cron job for charts and price alerts by email / mobile phone text / amazon alexa notifications (get notifications sent to you, even when your PC / Laptop is offline): 
+Setting up a cron job for charts and price alerts by email / mobile phone text / Alexa / Google Home notifications (get notifications sent to you, even when your PC / Laptop is offline): 
 
 If you want to take advantage of cron job based features like charts, chart data backups, price alerts, daily or weekly error log emails / etc, then the file cron.php (located in the primary directory of this app) must be setup as a cron job on your website's web server. 
 
