@@ -274,16 +274,16 @@ $app_config['proxy_alerts_freq'] = 1; // Re-allow same proxy alert(s) after X ho
 // Only used if $app_config['asset_charts_and_alerts'] is filled in properly below, AND a cron job is setup (see README.txt for cron job setup information) 
 
 
-$app_config['asset_price_alerts_percent'] = 7.5; // Price percent change to send alerts for (WITHOUT percent sign: 15 = 15%). Sends alerts when percent change reached (up or down)
+$app_config['asset_price_alerts_percent'] = 8.5; // Price percent change to send alerts for (WITHOUT percent sign: 15 = 15%). Sends alerts when percent change reached (up or down)
 
 
-$app_config['asset_price_alerts_freq'] = 10; // Re-allow same asset price alert(s) after X minutes (per asset, set higher if issues with blacklisting...can be 0)
+$app_config['asset_price_alerts_freq'] = 120; // Re-allow same asset price alert(s) after X minutes (per asset, set higher if issues with blacklisting...can be 0)
 
 
 // Minimum 24 hour volume filter. Only allows sending price alerts if minimum 24 hour volume reached
-// CAN BE 0 TO DISABLE MINIMUM VOLUME FILTERING, NO DECIMALS OR SEPARATORS, NUMBERS ONLY, WITHOUT the [primary currency] prefix symbol: 250 = $250 , 4500 = $4,500 , etc
+// CAN BE 0 TO DISABLE MINIMUM VOLUME FILTERING, NO DECIMALS OR SEPARATORS, NUMBERS ONLY, WITHOUT the [primary currency] prefix symbol: 4500 = $4,500 , 30000 = $30,000 , etc
 // THIS FILTER WILL AUTO-DISABLE IF THERE IS AN ERROR RETRIEVING DATA ON A CERTAIN MARKET (WHEN NOT EVEN A ZERO IS RECEIVED)
-$app_config['asset_price_alerts_min_volume'] = 4500;
+$app_config['asset_price_alerts_min_volume'] = 30000;
 
 
 // Refresh cached comparison prices every X days (since last refresh / alert) with latest prices
@@ -387,6 +387,10 @@ $app_config['asset_charts_and_alerts'] = array(
 					'atom-6' => 'bittrex_global||btc||chart',
 					'atom-7' => 'okex||btc||chart',
 					'atom-8' => 'okex||eth||chart',
+					
+					
+					// KDA
+					'kda' => 'hotbit||btc||both',
 					
 					
 					// STEEM
@@ -1358,6 +1362,27 @@ $app_config['portfolio_assets'] = array(
                                          'hotbit' => 'ATOM_USDT',
                                          'poloniex' => 'USDT_ATOM',
                                          'bitforex' => 'coin-usdt-atom',
+                                                    ),
+                                                    
+                                        ) // market_pairing END
+                                        
+                    ), // Asset END
+                    
+                    
+                    
+                    // KDA
+                    'KDA' => array(
+                        
+                        'coin_name' => 'Kadena',
+                        'marketcap_website_slug' => 'kadena',
+                        'market_pairing' => array(
+                        
+                                    'btc' => array(
+                                         'hotbit' => 'KDA_BTC',
+                                                    ),
+                                                    
+                                    'usdt' => array(
+                                         'hotbit' => 'KDA_USDT',
                                                     ),
                                                     
                                         ) // market_pairing END

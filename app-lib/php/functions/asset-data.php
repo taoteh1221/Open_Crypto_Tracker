@@ -573,7 +573,7 @@ function asset_charts_and_alerts($asset_data, $exchange, $pairing, $mode) {
 
 
 // Globals
-global $base_dir, $app_config, $default_btc_primary_exchange, $default_btc_primary_currency_value, $default_btc_primary_currency_pairing;
+global $base_dir, $app_config, $default_btc_primary_exchange, $default_btc_primary_currency_value, $default_btc_primary_currency_pairing, $text_message_charset;
 
 
 $whale_alert_thresholds = explode("||", $app_config['whale_alert_thresholds']);
@@ -965,8 +965,8 @@ $cached_array = explode("||", $data_file);
           								'notifyme' => $notifyme_message,
           								'text' => array(
           														// Unicode support included for text messages (emojis / asian characters / etc )
-          														'message' => ( is_string_fully_utf8($text_message) == false ? content_data_encoding($text_message)['content_output'] : $text_message ),
-          														'charset' => ( is_string_fully_utf8($text_message) == false ? 'UTF-16LE' : 'UTF-8' )
+          														'message' => content_data_encoding($text_message, $text_message_charset)['content_output'],
+          														'charset' => $text_message_charset
           														),
           								'email' => array(
           														'subject' => $asset . ' Asset Value '.ucfirst($increase_decrease).' Alert' . ( $whale_alert == 1 ? ' (🐳 WHALE ALERT)' : '' ),

@@ -125,9 +125,7 @@
     	
     	//$test_phrase = '🐳 ETH / USDT @ Binance increased +8.44% in USD value to $164.13 over 0.24 days. 24 hour USD Volume: $121,062,385 (+100.07% pair volume)';
     	
-    	//var_dump( content_data_encoding($test_phrase) );
-    	
-    	//echo content_data_encoding($test_phrase)['content_output'];
+    	//var_dump( content_data_encoding($test_phrase, $text_message_charset) );
     	
     ?>
         

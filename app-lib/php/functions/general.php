@@ -178,19 +178,6 @@ return $result;
 ////////////////////////////////////////////////////////
 
 
-function is_string_fully_utf8($string) {
-
-$result = mb_check_encoding($string,"UTF-8");
-
-return $result;
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
 function split_text_message($text, $char_length) {
 
 $chunks = explode("||||", wordwrap($message, $char_length, "||||", false) );
@@ -1193,8 +1180,8 @@ $val = rtrim($val, '.');
 ////////////////////////////////////////////////////////
 
 
-function content_data_encoding($content, $charset='UTF-8') { // !!DEFAULT TO UTF-8, UNLESS SPECIFIED!!
-	
+function content_data_encoding($content, $charset) {
+
 $words = explode(" ", $content);
 	
 	
@@ -1203,22 +1190,16 @@ $words = explode(" ", $content);
 	$word_value = trim($word_value);
 	
 	$guess_charset = ( mb_detect_encoding($word_value, "auto") != false ? mb_detect_encoding($word_value, "auto") : NULL );
+   
+   $result['debug_original_data'] .= ( isset($guess_charset) ? $guess_charset . ' ' : 'unknown_charset ' );
 	
-		if ( strtolower($charset) == 'utf-8' && is_string_fully_utf8($word_value) == true
-		|| isset($guess_charset) && strtolower($charset) == strtolower($guess_charset) ) {
-   	$result['debug_original_data'] .= $charset . ' ';
+		if ( isset($guess_charset) && strtolower($charset) == strtolower($guess_charset) ) {
    	$temp = $word_value . ' ';
 		}
-		elseif ( isset($guess_charset) && strtolower($charset) != 'utf-8' && is_string_fully_utf8($word_value) == false ) {
-   	$result['debug_original_data'] .= $charset . ' ';
+		elseif ( isset($guess_charset) && strtolower($charset) != strtolower($guess_charset) ) {
    	$temp = mb_convert_encoding($word_value . ' ', $charset, $guess_charset);
 		}
-		elseif ( strtolower($charset) != 'utf-8' && is_string_fully_utf8($word_value) == true ) {
-   	$result['debug_original_data'] .= $charset . ' ';
-   	$temp = mb_convert_encoding($word_value . ' ', $charset, "UTF-8");
-		}
 		elseif ( !isset($guess_charset) ) {
-   	$result['debug_original_data'] .= 'unknown_charset ';
    	$temp = mb_convert_encoding($word_value . ' ', $charset);
 		}
 		
@@ -1231,15 +1212,8 @@ $result['debug_original_data'] = trim($result['debug_original_data']);
 
 $result['content_output'] = trim($result['content_output']);
 
-	if ( is_string_fully_utf8($result['content_output']) == true ) {
-	$result['length'] = strlen($result['content_output']);
-	}
-	elseif ( isset($guess_charset) ) {
-	$result['length'] = mb_strlen($result['content_output'], $guess_charset);
-	}
-	elseif ( !isset($guess_charset) ) {
-	$result['length'] = mb_strlen($result['content_output']);
-	}
+// After above trim
+$result['length'] = mb_strlen($result['content_output'], $charset);
 
 
 return $result;
@@ -2008,8 +1982,8 @@ global $base_dir, $app_config;
 	// Only use text-to-email if other text services aren't configured
    if ( $send_params['text'] != '' && validate_email( text_email($app_config['to_text']) ) == 'valid' && trim($app_config['textbelt_apikey']) == '' && $app_config['textlocal_account'] == '' ) { 
    
-   // If $send_params['text_charset'] is set, use it (used when we are including emojis, or other unicode characters)
-   $textemail_array = array('subject' => 'Text Notify', 'message' => $send_params['text']['message'], 'content_type' => 'text', 'charset' => ( $send_params['text']['charset'] ? $send_params['text']['charset'] : 'UTF-8' ) );
+   // $send_params['text_charset'] SHOULD ALWAYS BE SET FROM THE CALL TO HERE (for emojis, or other unicode characters to send via text message properly)
+   $textemail_array = array('subject' => 'Text Notify', 'message' => $send_params['text']['message'], 'content_type' => 'text', 'charset' => $send_params['text']['charset'] );
    
 	store_file_contents($base_dir . '/cache/secured/messages/textemail-' . random_hash(8) . '.queue', json_encode($textemail_array) );
 	
@@ -2872,7 +2846,7 @@ return $data;
 
 function test_proxy($problem_proxy_array) {
 
-global $base_dir, $app_config, $runtime_mode;
+global $base_dir, $app_config, $runtime_mode, $text_message_charset;
 
 
 // Endpoint to test proxy connectivity: https://www.myip.com/api-docs/
@@ -2978,8 +2952,8 @@ $cache_filename = preg_replace("/:/", "_", $cache_filename);
           								'notifyme' => $notifyme_alert,
           								'text' => array(
           														// Unicode support included for text messages (emojis / asian characters / etc )
-          														'message' => ( is_string_fully_utf8($text_alert) == false ? content_data_encoding($text_alert)['content_output'] : $text_alert ),
-          														'charset' => ( is_string_fully_utf8($text_alert) == false ? 'UTF-16LE' : 'UTF-8' )
+          														'message' => content_data_encoding($text_alert, $text_message_charset)['content_output'],
+          														'charset' => $text_message_charset
           														),
           								'email' => array(
           														'subject' => 'A Proxy Was Unresponsive',

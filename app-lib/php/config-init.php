@@ -245,6 +245,17 @@ app_logging('other_error', 'config-init.php Charts / alerts Bitcoin primary curr
 	
 
 
+// Text message charset
+// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
+if ( trim($app_config['textbelt_apikey']) == '' && $app_config['textlocal_account'] == '' ) {
+$text_message_charset = 'UCS-2';
+}
+else {
+$text_message_charset = 'UTF-8';
+}
+
+
+
 // Better decimal support for price change percent config
 $app_config['asset_price_alerts_percent'] = float_to_string($app_config['asset_price_alerts_percent']); 
 
