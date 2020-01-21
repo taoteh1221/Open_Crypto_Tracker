@@ -573,14 +573,14 @@ function asset_charts_and_alerts($asset_data, $exchange, $pairing, $mode) {
 
 
 // Globals
-global $base_dir, $app_config, $default_btc_primary_exchange, $default_btc_primary_currency_value, $default_btc_primary_currency_pairing, $text_message_charset;
+global $base_dir, $app_config, $default_btc_primary_exchange, $default_btc_primary_currency_value, $default_btc_primary_currency_pairing;
 
 
 $whale_alert_thresholds = explode("||", $app_config['whale_alert_thresholds']);
 
 
 // Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
-$asset = ( stristr($asset_data, "-") == false ? $asset_data : substr( $asset_data, 0, strpos($asset_data, "-") ) );
+$asset = ( stristr($asset_data, "-") == false ? $asset_data : substr( $asset_data, 0, mb_strpos($asset_data, "-", 0, $app_config['charset_array']['standard']) ) );
 $asset = strtoupper($asset);
 
 
@@ -854,7 +854,7 @@ $cached_array = explode("||", $data_file);
           
           // Sending the alerts
           
-          if ( update_cache_file('cache/alerts/'.$asset_data.'.dat', $app_config['asset_price_alerts_freq']) == true && $send_alert == 1 ) {
+          if ( update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $app_config['asset_price_alerts_freq'] * 60 ) ) == true && $send_alert == 1 ) {
           
           
           
@@ -961,12 +961,16 @@ $cached_array = explode("||", $data_file);
           	
           	
   				// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
+  				
+  				// Minimize function calls
+  				$encoded_text_message = content_data_encoding($text_message);
+  				
           	$send_params = array(
           								'notifyme' => $notifyme_message,
           								'text' => array(
           														// Unicode support included for text messages (emojis / asian characters / etc )
-          														'message' => content_data_encoding($text_message, $text_message_charset)['content_output'],
-          														'charset' => $text_message_charset
+          														'message' => $encoded_text_message['content_output'],
+          														'charset' => $encoded_text_message['charset']
           														),
           								'email' => array(
           														'subject' => $asset . ' Asset Value '.ucfirst($increase_decrease).' Alert' . ( $whale_alert == 1 ? ' (🐳 WHALE ALERT)' : '' ),

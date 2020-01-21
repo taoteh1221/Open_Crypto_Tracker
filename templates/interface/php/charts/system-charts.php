@@ -30,7 +30,7 @@ $key = $_GET['key'];
 		
 $chart_data = chart_data('cache/charts/system/archival/system_stats.dat', 'system');
 
-header('Content-type: text/html; charset=utf-8');
+header('Content-type: text/html; charset=' . $app_config['charset_array']['standard']);
 
 // Colors for different data in charts
 $color_array = array(

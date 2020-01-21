@@ -2,8 +2,53 @@
 /*
  * Copyright 2014-2020 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
  */
+ 
+function unicodeMessageDecode($message, $from_charset) {
 
+global $app_config;
 
+    if (stripos($message, '@U') !== 0) {
+        return $message;
+    }
+    $message = substr($message, 2);
+    $_message = hex2bin($message);
+    $message = mb_convert_encoding($_message, $from_charset, $app_config['charset_array']['unicode']);
+    return $message;
+}
+ 
+function unicodeMessageEncode($message) {
+
+global $app_config;
+
+    return '@U' . strtoupper(bin2hex(mb_convert_encoding($message, $app_config['charset_array']['unicode'],'auto')));
+}
+ 
+// hex2bin requires PHP >= 5.4.0.
+// If, for whatever reason, you are using a legacy version of PHP, you can implement hex2bin with this function:
+ 
+if (!function_exists('hex2bin')) {
+    function hex2bin($hexstr) {
+        $n = strlen($hexstr);
+        $sbin = "";
+        $i = 0;
+        while ($i < $n) {
+            $a = substr($hexstr, $i, 2);
+            $c = pack("H*", $a);
+            if ($i == 0) {
+                $sbin = $c;
+            } else {
+               $sbin .= $c;
+            }
+            $i += 2;
+         }
+         return $sbin;
+    }
+}
+
+function utf8_to_unicode_codepoints($text, $from_charset, $to_charset) {
+     return ''.implode(unpack('H*', iconv($from_charset, $to_charset, $text)));
+ }
+ 
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
 
@@ -1118,6 +1163,7 @@ return $result;
 // Also removes any leading and trailing zeros for efficient storage / UX / etc
 function float_to_string($val) {
 
+global $app_config;
 
 // Trim any whitespace off the ends
 $val = trim($val);
@@ -1132,7 +1178,7 @@ $val = trim($val);
    $decimals = $matches[2] === '-' ? strlen($matches[1]) + $matches[3] : 0;
    }
    else {
-   $decimals = strpos( strrev($detect_decimals) , '.');
+   $decimals = mb_strpos( strrev($detect_decimals) , '.', 0, $app_config['charset_array']['standard']);
    }
     
 	if ( $decimals > 9 ) {
@@ -1180,40 +1226,71 @@ $val = rtrim($val, '.');
 ////////////////////////////////////////////////////////
 
 
-function content_data_encoding($content, $charset) {
+function content_data_encoding($content) {
+	
+global $app_config;
+
+// Changs only if non-ASCII characters are detected further down in this function
+$set_charset = $app_config['charset_array']['standard'];
 
 $words = explode(" ", $content);
+	
+	
+	foreach ( $words as $scan_key => $scan_value ) {
+		
+	$scan_value = trim($scan_value);
+	
+	$scan_charset = ( mb_detect_encoding($scan_value, "auto") != false ? mb_detect_encoding($scan_value, "auto") : NULL );
+	
+		if ( strtolower($scan_charset) != strtolower('ASCII') ) { // Even if blank value, we switch to unicode support
+		$set_charset = $app_config['charset_array']['unicode'];
+		}
+	
+	}
 	
 	
 	foreach ( $words as $word_key => $word_value ) {
 		
 	$word_value = trim($word_value);
 	
-	$guess_charset = ( mb_detect_encoding($word_value, "auto") != false ? mb_detect_encoding($word_value, "auto") : NULL );
-   
-   $result['debug_original_data'] .= ( isset($guess_charset) ? $guess_charset . ' ' : 'unknown_charset ' );
+	$word_charset = ( mb_detect_encoding($word_value, "auto") != false ? mb_detect_encoding($word_value, "auto") : NULL );
 	
-		if ( isset($guess_charset) && strtolower($charset) == strtolower($guess_charset) ) {
+   $result['debug_original_charset'] .= ( isset($word_charset) ? $word_charset . ' ' : 'unknown_charset ' );
+	
+		if ( isset($word_charset) && strtolower($word_charset) == strtolower($set_charset) ) {
    	$temp = $word_value . ' ';
 		}
-		elseif ( isset($guess_charset) && strtolower($charset) != strtolower($guess_charset) ) {
-   	$temp = mb_convert_encoding($word_value . ' ', $charset, $guess_charset);
+		elseif ( isset($word_charset) && strtolower($set_charset) != strtolower($word_charset) ) {
+   	$temp = mb_convert_encoding($word_value . ' ', $set_charset, $word_charset);
 		}
-		elseif ( !isset($guess_charset) ) {
-   	$temp = mb_convert_encoding($word_value . ' ', $charset);
+		elseif ( !isset($word_charset) ) {
+   	$temp = mb_convert_encoding($word_value . ' ', $set_charset);
 		}
 		
-	$result['content_output'] .= $temp;
+		if ( $set_charset == $app_config['charset_array']['unicode'] ) {
+		
+			for($i =0; $i < strlen($temp); $i++) {
+			$content_converted .= strtoupper(bin2hex($temp[$i]));
+			}
+		
+		}
+		else {
+		$content_converted .= $temp;
+		}
 	
 	}
 	
+	
+    
 
-$result['debug_original_data'] = trim($result['debug_original_data']);
+$result['debug_original_charset'] = trim($result['debug_original_charset']);
 
-$result['content_output'] = trim($result['content_output']);
+$result['content_output'] = trim($content_converted);
 
-// After above trim
-$result['length'] = mb_strlen($result['content_output'], $charset);
+$result['charset'] = $set_charset;
+
+// Only get length after above trim
+$result['length'] = mb_strlen($result['content_output'], $set_charset);
 
 
 return $result;
@@ -1966,24 +2043,34 @@ global $base_dir, $app_config;
   
    // Textbelt
 	// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-   if ( $send_params['text'] != '' && trim($app_config['textbelt_apikey']) != '' && $app_config['textlocal_account'] == '' ) { // Only run if textlocal API isn't being used to avoid double texts
-	store_file_contents($base_dir . '/cache/secured/messages/textbelt-' . random_hash(8) . '.queue', $send_params['text']);
+   if ( $send_params['text']['message'] != '' && trim($app_config['textbelt_apikey']) != '' && $app_config['textlocal_account'] == '' ) { // Only run if textlocal API isn't being used to avoid double texts
+	store_file_contents($base_dir . '/cache/secured/messages/textbelt-' . random_hash(8) . '.queue', $send_params['text']['message']);
    }
   
    // Textlocal
 	// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-   if ( $send_params['text'] != '' && $app_config['textlocal_account'] != '' && trim($app_config['textbelt_apikey']) == '' ) { // Only run if textbelt API isn't being used to avoid double texts
-	store_file_contents($base_dir . '/cache/secured/messages/textlocal-' . random_hash(8) . '.queue', $send_params['text']);
+   if ( $send_params['text']['message'] != '' && $app_config['textlocal_account'] != '' && trim($app_config['textbelt_apikey']) == '' ) { // Only run if textbelt API isn't being used to avoid double texts
+	store_file_contents($base_dir . '/cache/secured/messages/textlocal-' . random_hash(8) . '.queue', $send_params['text']['message']);
    }
    
            
    // Text email
 	// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
 	// Only use text-to-email if other text services aren't configured
-   if ( $send_params['text'] != '' && validate_email( text_email($app_config['to_text']) ) == 'valid' && trim($app_config['textbelt_apikey']) == '' && $app_config['textlocal_account'] == '' ) { 
+   if ( $send_params['text']['message'] != '' && validate_email( text_email($app_config['to_text']) ) == 'valid' && trim($app_config['textbelt_apikey']) == '' && $app_config['textlocal_account'] == '' ) { 
    
    // $send_params['text_charset'] SHOULD ALWAYS BE SET FROM THE CALL TO HERE (for emojis, or other unicode characters to send via text message properly)
+   // SUBJECT !!MUST BE SET!! OR SOME TEXT SERVICES WILL NOT ACCEPT THE MESSAGE!
    $textemail_array = array('subject' => 'Text Notify', 'message' => $send_params['text']['message'], 'content_type' => 'text', 'charset' => $send_params['text']['charset'] );
+   
+   	// json_encode() only accepts UTF-8, SO TEMPORARILY CONVERT TO THAT FOR MESSAGE QUEUE STORAGE
+   	if ( strtolower($send_params['text']['charset']) != 'utf-8' ) {
+   		
+   		foreach( $textemail_array as $textemail_key => $textemail_value ) {
+   		$textemail_array[$textemail_key] = mb_convert_encoding($textemail_value, 'UTF-8', mb_detect_encoding($textemail_value, "auto") );
+   		}
+   	
+   	}
    
 	store_file_contents($base_dir . '/cache/secured/messages/textemail-' . random_hash(8) . '.queue', json_encode($textemail_array) );
 	
@@ -1993,6 +2080,15 @@ global $base_dir, $app_config;
    if ( $send_params['email']['message'] != '' && validate_email($app_config['to_email']) == 'valid' ) {
    
    $email_array = array('subject' => $send_params['email']['subject'], 'message' => $send_params['email']['message'], 'content_type' => ( $send_params['email']['content_type'] ? $send_params['email']['content_type'] : 'text' ), 'charset' => ( $send_params['email']['charset'] ? $send_params['email']['charset'] : 'UTF-8' ) );
+   
+   	// json_encode() only accepts UTF-8, SO TEMPORARILY CONVERT TO THAT FOR MESSAGE QUEUE STORAGE
+   	if ( strtolower($send_params['email']['charset']) != 'utf-8' ) {
+   		
+   		foreach( $email_array as $email_key => $email_value ) {
+   		$email_array[$email_key] = mb_convert_encoding($email_value, 'UTF-8', mb_detect_encoding($email_value, "auto") );
+   		}
+   	
+   	}
    
 	store_file_contents($base_dir . '/cache/secured/messages/normalemail-' . random_hash(8) . '.queue', json_encode($email_array) );
 	
@@ -2402,6 +2498,18 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 			   
 			   $textemail_array = json_decode($message_data, true);
 			   
+			   $restore_text_charset = $textemail_array['charset'];
+			   
+   				// json_encode() only accepts UTF-8, SO CONVERT BACK TO ORIGINAL CHARSET
+   				if ( strtolower($restore_text_charset) != 'utf-8' ) {
+   					
+   					foreach( $textemail_array as $textemail_key => $textemail_value ) {
+   					// Leave charset / content_type vars UTF-8
+   					$textemail_array[$textemail_key] = ( $textemail_key == 'charset' || $textemail_key == 'content_type' ? $textemail_value : mb_convert_encoding($textemail_value, $restore_text_charset, 'UTF-8') );
+   					}
+   	
+   				}
+   
 			   
 					if ( $textemail_array['subject'] != '' && $textemail_array['message'] != '' ) {
 						
@@ -2436,6 +2544,18 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 			   if ( validate_email($app_config['to_email']) == 'valid' && preg_match("/normalemail/i", $queued_cache_file) ) {
 			   
 			   $email_array = json_decode($message_data, true);
+			   
+			   $restore_email_charset = $email_array['charset'];
+			   
+   				// json_encode() only accepts UTF-8, SO CONVERT BACK TO ORIGINAL CHARSET
+   				if ( strtolower($restore_email_charset) != 'utf-8' ) {
+   					
+   					foreach( $email_array as $email_key => $email_value ) {
+   					// Leave charset / content_type vars UTF-8
+   					$email_array[$email_key] = ( $email_key == 'charset' || $email_key == 'content_type' ? $email_value : mb_convert_encoding($email_value, $restore_email_charset, 'UTF-8') );
+   					}
+   	
+   				}
 			   
 			   
 					if ( $email_array['subject'] != '' && $email_array['message'] != '' ) {
@@ -2846,7 +2966,7 @@ return $data;
 
 function test_proxy($problem_proxy_array) {
 
-global $base_dir, $app_config, $runtime_mode, $text_message_charset;
+global $base_dir, $app_config, $runtime_mode;
 
 
 // Endpoint to test proxy connectivity: https://www.myip.com/api-docs/
@@ -2947,13 +3067,16 @@ $cache_filename = preg_replace("/:/", "_", $cache_filename);
                     
   				// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
   				if ( $app_config['proxy_alerts'] == 'all' ) {
+  				
+  				// Minimize function calls
+  				$encoded_text_alert = content_data_encoding($text_alert);
   					
           	$send_params = array(
           								'notifyme' => $notifyme_alert,
           								'text' => array(
           														// Unicode support included for text messages (emojis / asian characters / etc )
-          														'message' => content_data_encoding($text_alert, $text_message_charset)['content_output'],
-          														'charset' => $text_message_charset
+          														'message' => $encoded_text_alert['content_output'],
+          														'charset' => $encoded_text_alert['charset']
           														),
           								'email' => array(
           														'subject' => 'A Proxy Was Unresponsive',

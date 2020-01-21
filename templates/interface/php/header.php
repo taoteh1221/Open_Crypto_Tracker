@@ -11,7 +11,7 @@ $runtime_mode = 'ui';
 
 require("config.php");
 
-header('Content-type: text/html; charset=utf-8');
+header('Content-type: text/html; charset=' . $app_config['charset_array']['standard']);
 
 ?><!DOCTYPE html>
 <html lang="en">

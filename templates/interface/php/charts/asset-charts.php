@@ -18,7 +18,7 @@
 			
  
 		// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
-		$chart_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, strpos($key, "-") ) );
+		$chart_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, mb_strpos($key, "-", 0, $app_config['charset_array']['standard']) ) );
 		$chart_asset = strtoupper($chart_asset);
 		
 		$market_parse = explode("||", $value );
@@ -69,7 +69,7 @@
 		$chart_data = chart_data('cache/charts/spot_price_24hr_volume/archival/'.$chart_asset.'/'.$key.'_chart_'.$charted_value.'.dat', $market_parse[1]);
 		
 		
-		$price_sample = substr( $chart_data['spot'] , 0, strpos( $chart_data['spot'] , "," ) );
+		$price_sample = substr( $chart_data['spot'] , 0, mb_strpos( $chart_data['spot'] , ",", 0, $app_config['charset_array']['standard'] ) );
 		
 		
 		$spot_price_decimals = ( $fiat_equiv == 1 ? $app_config['primary_currency_decimals_max'] : 8 );
@@ -84,7 +84,7 @@
 			}
 		
 
-header('Content-type: text/html; charset=utf-8');
+header('Content-type: text/html; charset=' . $app_config['charset_array']['standard']);
 
 ?>
 

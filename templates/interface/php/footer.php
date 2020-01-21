@@ -71,6 +71,56 @@
 
 		}
 
+      
+      ////START DEBUGGING ///////////////////////////////////////////////////////////////
+          	
+    	// DEBUGGING UNICODE EMAIL-TO-MOBILE-TEXT GATEWAY MESSAGE FORMATTING
+    	
+    	//echo '<br /> ------ <br />';
+    	
+    	//echo character_unicode_to_utf8('x1f433', 'hexadecimal');
+    	
+    	//echo '<br /> ------ <br />';
+    	
+    	//echo character_utf8_to_unicode('🐳', 'hexadecimal');
+    	
+    	//echo '<br /> ------ <br />';
+    	
+    	//$test_phrase = 'UNICODE MESSAGE SUPPORT TEST ONLY: Твоје зелене очи су ми памет помутиле... 🐳... END';
+    	
+    	//$test_phrase = 'ASCII MESSAGE SUPPORT TEST ONLY... END';
+          	
+  				// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
+  				
+  				// Minimize function calls
+  				/*
+  				$encoded_text_message = content_data_encoding($test_phrase);
+  				
+          	$send_params = array(
+          								'text' => array(
+          														// Unicode support included for text messages (emojis / asian characters / etc )
+          														'message' => $encoded_text_message['content_output'],
+          														'charset' => $encoded_text_message['charset']
+          														),
+          								'email' => array(
+          														'subject' => 'UNICODE SUPPORT TEST',
+          														'message' => $encoded_text_message['content_output'],
+          														'charset' => $encoded_text_message['charset'] 
+          														)
+          								);
+          	
+          	*/
+          	
+          	// Send notifications
+          	//@queue_notifications($send_params);
+          	
+    	
+    	//var_dump($encoded_text_message);
+    	
+          	
+      ////END DEBUGGING ///////////////////////////////////////////////////////////////
+          	
+          	
 
 		// Log errors, send notifications BEFORE runtime stats
 		error_logs();
@@ -111,21 +161,7 @@
     	echo '<p align="center" class="'.( $total_runtime > 10 ? 'red' : 'green' ).'"> Interface Runtime: '.$total_runtime.' seconds</p>';
     	
     	
-    	// DEBUGGING UNICODE EMAIL-TO-MOBILE-TEXT GATEWAY MESSAGE FORMATTING
-    	
-    	//echo '<br /> ------ <br />';
-    	
-    	//echo character_unicode_to_utf8('x1f433', 'hexadecimal');
-    	
-    	//echo '<br /> ------ <br />';
-    	
-    	//echo character_utf8_to_unicode('🐳', 'hexadecimal');
-    	
-    	//echo '<br /> ------ <br />';
-    	
-    	//$test_phrase = '🐳 ETH / USDT @ Binance increased +8.44% in USD value to $164.13 over 0.24 days. 24 hour USD Volume: $121,062,385 (+100.07% pair volume)';
-    	
-    	//var_dump( content_data_encoding($test_phrase, $text_message_charset) );
+  
     	
     ?>
         

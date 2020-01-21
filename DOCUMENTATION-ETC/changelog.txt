@@ -2301,7 +2301,9 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.07.1:
 
--Bug fixes for unicode support in mobile text messages
+-Bug fixes for unicode support in mobile text messages (work in progress)
+
+-Changed config setting 'asset_price_alerts_freq' time units to hours (instead of minutes)
 
 IMPORTANT NOTES: 
 

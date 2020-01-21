@@ -242,17 +242,6 @@ app_logging('other_error', 'config-init.php Charts / alerts btc_primary_exchange
 if ( !isset($default_btc_primary_currency_value) || $default_btc_primary_currency_value == 0 ) {
 app_logging('other_error', 'config-init.php Charts / alerts Bitcoin primary currency market value not properly set', 'btc_primary_currency_pairing: ' . $default_btc_primary_currency_pairing . '; exchange: ' . $default_btc_primary_exchange . '; pairing_id: ' . $default_btc_pairing_id . '; value: ' . $default_btc_primary_currency_value );
 }
-	
-
-
-// Text message charset
-// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-if ( trim($app_config['textbelt_apikey']) == '' && $app_config['textlocal_account'] == '' ) {
-$text_message_charset = 'UCS-2';
-}
-else {
-$text_message_charset = 'UTF-8';
-}
 
 
 
@@ -329,7 +318,7 @@ $lite_charts_structure = array(
 foreach ( $app_config['asset_charts_and_alerts'] as $key => $value ) {
 
 	// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
-	$asset_dir = ( stristr($key, "-") == false ? $key : substr( $key, 0, strpos($key, "-") ) );
+	$asset_dir = ( stristr($key, "-") == false ? $key : substr( $key, 0, mb_strpos($key, "-", 0, $app_config['charset_array']['standard']) ) );
 	$asset_dir = strtoupper($asset_dir);
 		
 	$asset_cache_params = explode("||", $value);
@@ -414,7 +403,7 @@ if ( $app_config['charts_page'] == 'on' && update_cache_file('cache/vars/chart_i
 		if ( trim($find_first_filename) == '' ) {
 			
 		// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
-		$find_first_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, strpos($key, "-") ) );
+		$find_first_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, mb_strpos($key, "-", 0, $app_config['charset_array']['standard']) ) );
 		$find_first_asset = strtoupper($find_first_asset);
 	
 		$find_first_chart = explode("||", $value);

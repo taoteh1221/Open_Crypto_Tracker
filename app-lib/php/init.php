@@ -71,6 +71,7 @@ require_once("app-lib/php/loader.php");
 
 // Create a few global runtime vars now
 $app_config = array();
+$app_config['charset_array'] = array();
 $api_cache = array();
 
 
