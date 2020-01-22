@@ -1212,6 +1212,8 @@ function content_data_encoding($content) {
 	
 global $app_config;
 
+
+// Charsets we want to try and detect here
 $charset_array = array(
 								'ASCII',
 								'UCS-2',
@@ -1222,7 +1224,8 @@ $charset_array = array(
 								'UTF-8',
 								);
 
-// Changs only if non-ASCII characters are detected further down in this function
+
+// Changs only if non-UTF-8 / non-ASCII characters are detected further down in this function
 $set_charset = $app_config['charset_standard'];
 
 $words = explode(" ", $content);
@@ -1245,7 +1248,7 @@ $words = explode(" ", $content);
 		
 	$word_value = trim($word_value);
 	
-	$word_charset = ( mb_detect_encoding($word_value, "auto") != false ? mb_detect_encoding($word_value, "auto") : NULL );
+	$word_charset = ( mb_detect_encoding($word_value, $charset_array) != false ? mb_detect_encoding($word_value, $charset_array) : NULL );
 	
    $result['debug_original_charset'] .= ( isset($word_charset) ? $word_charset . ' ' : 'unknown_charset ' );
 	

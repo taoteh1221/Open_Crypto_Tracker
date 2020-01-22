@@ -2303,6 +2303,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Code cleanup
 
+-Bug fixes for new text message queue format
+
 -Whale alert parameters now go by daily averages
 
 -Bug fixes for unicode support in mobile text messages (WORK IN PROGRESS)

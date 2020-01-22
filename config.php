@@ -300,7 +300,7 @@ $app_config['asset_price_alerts_refresh'] = 0;
 // Whale alert (adds "WHALE ALERT" to beginning of alexa / google home / email alert text, and spouting whale emoji to email / text)
 // Format: 'maximum_days_to_average_over||minimum_price_percent_change_average||minimum_volume_percent_change_average||minimum_volume_currency_change_average'
 // DECIMALS ARE SUPPORTED, USE NUMBERS ONLY (NO CURRENCY SYMBOLS / COMMAS, ETC)
-$app_config['whale_alert_thresholds'] = '2.6||6.5||12.5||9500';
+$app_config['whale_alert_thresholds'] = '3.15||9.5||17.5||18500';
 
 
 // CHARTS / ASSET PRICE ALERTS SETUP REQUIRES A CRON JOB RUNNING ON YOUR WEBSITE SERVER (see README.txt for cron job setup information) 
