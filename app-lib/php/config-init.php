@@ -318,7 +318,7 @@ $lite_charts_structure = array(
 foreach ( $app_config['asset_charts_and_alerts'] as $key => $value ) {
 
 	// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
-	$asset_dir = ( stristr($key, "-") == false ? $key : substr( $key, 0, mb_strpos($key, "-", 0, $app_config['charset_array']['standard']) ) );
+	$asset_dir = ( stristr($key, "-") == false ? $key : substr( $key, 0, mb_strpos($key, "-", 0, $app_config['charset_standard']) ) );
 	$asset_dir = strtoupper($asset_dir);
 		
 	$asset_cache_params = explode("||", $value);
@@ -403,7 +403,7 @@ if ( $app_config['charts_page'] == 'on' && update_cache_file('cache/vars/chart_i
 		if ( trim($find_first_filename) == '' ) {
 			
 		// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
-		$find_first_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, mb_strpos($key, "-", 0, $app_config['charset_array']['standard']) ) );
+		$find_first_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, mb_strpos($key, "-", 0, $app_config['charset_standard']) ) );
 		$find_first_asset = strtoupper($find_first_asset);
 	
 		$find_first_chart = explode("||", $value);

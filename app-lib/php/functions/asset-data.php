@@ -580,7 +580,7 @@ $whale_alert_thresholds = explode("||", $app_config['whale_alert_thresholds']);
 
 
 // Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
-$asset = ( stristr($asset_data, "-") == false ? $asset_data : substr( $asset_data, 0, mb_strpos($asset_data, "-", 0, $app_config['charset_array']['standard']) ) );
+$asset = ( stristr($asset_data, "-") == false ? $asset_data : substr( $asset_data, 0, mb_strpos($asset_data, "-", 0, $app_config['charset_standard']) ) );
 $asset = strtoupper($asset);
 
 
@@ -715,6 +715,7 @@ $asset_market_data = asset_market_data($asset, $exchange, $app_config['portfolio
 	}
 	
 
+$last_check_days = float_to_string($last_check_days); // Better decimal support for whale alerts etc
 
 
 $data_file = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
@@ -810,17 +811,17 @@ $cached_array = explode("||", $data_file);
           
           
           
-          // Whale alert (price change of X or greater within X day(s) or less, with X percent pair volume change that is at least a X primary currency volume change)
+          // Whale alert (price change average of X or greater within X day(s) or less, with X percent pair volume change average that is at least a X primary currency volume change average)
           
-          $whale_max_days = float_to_string( trim($whale_alert_thresholds[0]) );
+          $whale_max_days_to_average = float_to_string( trim($whale_alert_thresholds[0]) );
           
-          $whale_min_price_change_percent = float_to_string( trim($whale_alert_thresholds[1]) );
+          $whale_min_price_change_percent_average = float_to_string( trim($whale_alert_thresholds[1]) );
           
-          $whale_min_volume_change_percent = float_to_string( trim($whale_alert_thresholds[2]) );
+          $whale_min_volume_change_percent_average = float_to_string( trim($whale_alert_thresholds[2]) );
           
-          $whale_min_volume_change_currency = float_to_string( trim($whale_alert_thresholds[3]) );
+          $whale_min_volume_change_currency_average = float_to_string( trim($whale_alert_thresholds[3]) );
           
-   		 if ( float_to_string($last_check_days) <= $whale_max_days && $percent_change >= $whale_min_price_change_percent && $volume_percent_change >= $whale_min_volume_change_percent && abs($volume_primary_currency_raw - $cached_primary_currency_volume) >= $whale_min_volume_change_currency ) {
+   		 if ( $last_check_days <= $whale_max_days_to_average && float_to_string( $percent_change / $last_check_days ) >= $whale_min_price_change_percent_average && float_to_string( $volume_percent_change / $last_check_days ) >= $whale_min_volume_change_percent_average && float_to_string( abs($volume_primary_currency_raw - $cached_primary_currency_volume) / $last_check_days ) >= $whale_min_volume_change_currency_average ) {
    		 $whale_alert = 1;
    		 }
    		 

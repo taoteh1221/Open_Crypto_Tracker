@@ -88,14 +88,16 @@
     	
     	//$test_phrase = 'UNICODE MESSAGE SUPPORT TEST ONLY: Твоје зелене очи су ми памет помутиле... 🐳... END';
     	
+    	//$test_phrase = '🐳';
+    	
     	//$test_phrase = 'ASCII MESSAGE SUPPORT TEST ONLY... END';
           	
   				// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
   				
   				// Minimize function calls
-  				/*
-  				$encoded_text_message = content_data_encoding($test_phrase);
+  				//$encoded_text_message = content_data_encoding($test_phrase);
   				
+  				/*
           	$send_params = array(
           								'text' => array(
           														// Unicode support included for text messages (emojis / asian characters / etc )
@@ -109,11 +111,11 @@
           														)
           								);
           	
-          	*/
+          	
           	
           	// Send notifications
-          	//@queue_notifications($send_params);
-          	
+          	@queue_notifications($send_params);
+          	*/
     	
     	//var_dump($encoded_text_message);
     	

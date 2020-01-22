@@ -3,51 +3,6 @@
  * Copyright 2014-2020 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
  */
  
-function unicodeMessageDecode($message, $from_charset) {
-
-global $app_config;
-
-    if (stripos($message, '@U') !== 0) {
-        return $message;
-    }
-    $message = substr($message, 2);
-    $_message = hex2bin($message);
-    $message = mb_convert_encoding($_message, $from_charset, $app_config['charset_array']['unicode']);
-    return $message;
-}
- 
-function unicodeMessageEncode($message) {
-
-global $app_config;
-
-    return '@U' . strtoupper(bin2hex(mb_convert_encoding($message, $app_config['charset_array']['unicode'],'auto')));
-}
- 
-// hex2bin requires PHP >= 5.4.0.
-// If, for whatever reason, you are using a legacy version of PHP, you can implement hex2bin with this function:
- 
-if (!function_exists('hex2bin')) {
-    function hex2bin($hexstr) {
-        $n = strlen($hexstr);
-        $sbin = "";
-        $i = 0;
-        while ($i < $n) {
-            $a = substr($hexstr, $i, 2);
-            $c = pack("H*", $a);
-            if ($i == 0) {
-                $sbin = $c;
-            } else {
-               $sbin .= $c;
-            }
-            $i += 2;
-         }
-         return $sbin;
-    }
-}
-
-function utf8_to_unicode_codepoints($text, $from_charset, $to_charset) {
-     return ''.implode(unpack('H*', iconv($from_charset, $to_charset, $text)));
- }
  
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
@@ -462,6 +417,33 @@ $hostData = array_reverse($hostData);
 
 return strtolower( trim($host) );
 
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+// hex2bin requires PHP >= 5.4.0.
+// If, for whatever reason, you are using a legacy version of PHP, you can implement hex2bin with this function:
+ 
+if (!function_exists('hex2bin')) {
+    function hex2bin($hexstr) {
+        $n = strlen($hexstr);
+        $sbin = "";
+        $i = 0;
+        while ($i < $n) {
+            $a = substr($hexstr, $i, 2);
+            $c = pack("H*", $a);
+            if ($i == 0) {
+                $sbin = $c;
+            } else {
+               $sbin .= $c;
+            }
+            $i += 2;
+         }
+         return $sbin;
+    }
 }
 
 
@@ -1178,7 +1160,7 @@ $val = trim($val);
    $decimals = $matches[2] === '-' ? strlen($matches[1]) + $matches[3] : 0;
    }
    else {
-   $decimals = mb_strpos( strrev($detect_decimals) , '.', 0, $app_config['charset_array']['standard']);
+   $decimals = mb_strpos( strrev($detect_decimals) , '.', 0, $app_config['charset_standard']);
    }
     
 	if ( $decimals > 9 ) {
@@ -1230,8 +1212,18 @@ function content_data_encoding($content) {
 	
 global $app_config;
 
+$charset_array = array(
+								'ASCII',
+								'UCS-2',
+								'UCS-2BE',
+								'UTF-16BE',
+								'UTF-16LE',
+								'UTF-16',
+								'UTF-8',
+								);
+
 // Changs only if non-ASCII characters are detected further down in this function
-$set_charset = $app_config['charset_array']['standard'];
+$set_charset = $app_config['charset_standard'];
 
 $words = explode(" ", $content);
 	
@@ -1240,14 +1232,14 @@ $words = explode(" ", $content);
 		
 	$scan_value = trim($scan_value);
 	
-	$scan_charset = ( mb_detect_encoding($scan_value, "auto") != false ? mb_detect_encoding($scan_value, "auto") : NULL );
+	$scan_charset = ( mb_detect_encoding($scan_value, $charset_array) != false ? mb_detect_encoding($scan_value, $charset_array) : NULL );
 	
-		if ( strtolower($scan_charset) != strtolower('ASCII') ) { // Even if blank value, we switch to unicode support
-		$set_charset = $app_config['charset_array']['unicode'];
+		if ( isset($scan_charset) && !preg_match("/UTF-8/i", $scan_charset) && !preg_match("/ASCII/i", $scan_charset) ) {
+		$set_charset = $app_config['charset_unicode'];
 		}
 	
 	}
-	
+
 	
 	foreach ( $words as $word_key => $word_value ) {
 		
@@ -1267,31 +1259,35 @@ $words = explode(" ", $content);
    	$temp = mb_convert_encoding($word_value . ' ', $set_charset);
 		}
 		
-		if ( $set_charset == $app_config['charset_array']['unicode'] ) {
+		$temp_converted .= $temp;
 		
-			for($i =0; $i < strlen($temp); $i++) {
-			$content_converted .= strtoupper(bin2hex($temp[$i]));
-			}
-		
-		}
-		else {
-		$content_converted .= $temp;
-		}
-	
 	}
 	
-	
-    
 
+$temp_converted = trim($temp_converted);
+	
 $result['debug_original_charset'] = trim($result['debug_original_charset']);
 
-$result['content_output'] = trim($content_converted);
+$result['debug_temp_converted'] = $temp_converted;
 
 $result['charset'] = $set_charset;
-
-// Only get length after above trim
-$result['length'] = mb_strlen($result['content_output'], $set_charset);
-
+	
+$result['length'] = mb_strlen($temp_converted, $set_charset); // Get character length AFTER trim() / BEFORE bin2hex() processing
+		
+	
+	if ( $set_charset == $app_config['charset_unicode'] ) {
+		
+		for($i =0; $i < strlen($temp_converted); $i++) {
+		//$content_converted .= ' ' . strtoupper(bin2hex($temp_converted[$i])); // Spacing between characters
+		$content_converted .= strtoupper(bin2hex($temp_converted[$i])); // No spacing
+		}
+	
+	$result['content_output'] = trim($content_converted);
+	}
+	else {
+	$result['content_output'] = $temp_converted;
+	}
+	
 
 return $result;
 
@@ -2634,7 +2630,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 function api_data($mode, $request, $ttl, $api_server=null, $post_encoding=3, $test_proxy=NULL, $headers=NULL) { // Default to JSON encoding post requests (most used)
 
 // $app_config['btc_primary_currency_pairing'] / $app_config['btc_primary_exchange'] / $btc_primary_currency_value USED FOR TRACE DEBUGGING (TRACING)
-global $base_dir, $app_config, $api_cache, $btc_primary_currency_value, $user_agent;
+global $base_dir, $app_config, $api_runtime_cache, $btc_primary_currency_value, $user_agent;
 
 $cookie_jar = tempnam('/tmp','cookie');
 	
@@ -2651,9 +2647,9 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 	// FIRST, see if we have data in the RUNTIME cache (the MEMORY cache, NOT the FILE cache), for the quickest data retrieval time
 	//////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////
-	if ( $api_cache[$hash_check] ) {
+	if ( $api_runtime_cache[$hash_check] ) {
 	
-	$data = $api_cache[$hash_check];
+	$data = $api_runtime_cache[$hash_check];
 	
 		
 		if ( $data == 'none' ) {
@@ -2700,8 +2696,8 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 	// Live data retrieval 
 	//////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////
-	elseif ( update_cache_file('cache/apis/'.$hash_check.'.dat', $ttl) == true && $ttl > 0 && !$api_cache[$hash_check] 
-	|| $ttl == 0 && !$api_cache[$hash_check] ) {	
+	elseif ( update_cache_file('cache/apis/'.$hash_check.'.dat', $ttl) == true && $ttl > 0 && !$api_runtime_cache[$hash_check] 
+	|| $ttl == 0 && !$api_runtime_cache[$hash_check] ) {	
 	
 	$ch = curl_init( ( $mode == 'array' ? $api_server : '' ) );
 	
@@ -2886,14 +2882,14 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		
 		// Never cache proxy checking data
 		if ( $mode != 'proxy-check' ) {
-		$api_cache[$hash_check] = ( $data ? $data : 'none' ); // Cache API data for this runtime session AFTER PERSISTENT FILE CACHE UPDATE, file cache doesn't reliably update until runtime session is ending because of file locking
+		$api_runtime_cache[$hash_check] = ( $data ? $data : 'none' ); // Cache API data for this runtime session AFTER PERSISTENT FILE CACHE UPDATE, file cache doesn't reliably update until runtime session is ending because of file locking
 		}
 		
 		
 		
 		// Cache data to the file cache, EVEN IF WE HAVE NO DATA, TO AVOID CONSECUTIVE TIMEOUT HANGS (during page reloads etc) FROM A NON-RESPONSIVE API ENDPOINT
 		if ( $ttl > 0 && $mode != 'proxy-check'  ) {
-		store_file_contents($base_dir . '/cache/apis/'.$hash_check.'.dat', $api_cache[$hash_check]);
+		store_file_contents($base_dir . '/cache/apis/'.$hash_check.'.dat', $api_runtime_cache[$hash_check]);
 		}
 		
 
@@ -2910,12 +2906,12 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		// Use runtime cache if it exists. Remember file cache doesn't update until session is nearly over because of file locking, so only reliable for persisting a cache long term
 		// If no API data was received, add error notices to UI / error logs (we don't try fetching the data again until cache TTL expiration, so as to NOT hang the app)
 		// Run from runtime cache if requested again (for runtime speed improvements)
-		if ( $api_cache[$hash_check] ) {
-		$data = $api_cache[$hash_check];
+		if ( $api_runtime_cache[$hash_check] ) {
+		$data = $api_runtime_cache[$hash_check];
 		}
 		else {
 		$data = trim( file_get_contents('cache/apis/'.$hash_check.'.dat') );
-		$api_cache[$hash_check] = $data;
+		$api_runtime_cache[$hash_check] = $data;
 		}
 	
 	

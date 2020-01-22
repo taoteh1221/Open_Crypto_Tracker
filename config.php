@@ -203,6 +203,12 @@ $app_config['to_text'] = ''; // 'phone_number||network_name_key' (example: '1222
 $app_config['notifyme_accesscode'] = '';
 
 
+// Google Home settings (WORK IN PROGRESS, NOT FUNCTIONAL)
+$app_config['google_home_client_id'] = '';
+
+$app_config['google_home_client_secret'] = '';
+
+
 // Do NOT use textbelt AND textlocal together. Leave one setting blank, or it will disable using both.
 
 
@@ -277,13 +283,13 @@ $app_config['proxy_alerts_freq'] = 1; // Re-allow same proxy alert(s) after X ho
 $app_config['asset_price_alerts_percent'] = 7.75; // Price percent change to send alerts for (WITHOUT percent sign: 15 = 15%). Sends alerts when percent change reached (up or down)
 
 
-$app_config['asset_price_alerts_freq'] = 12; // Re-allow same asset price alert(s) after X hours (per asset, set higher if issues with blacklisting...can be 0)
+$app_config['asset_price_alerts_freq'] = 8; // Re-allow same asset price alert(s) after X hours (per asset, set higher if issues with blacklisting...can be 0)
 
 
 // Minimum 24 hour volume filter. Only allows sending price alerts if minimum 24 hour volume reached
 // CAN BE 0 TO DISABLE MINIMUM VOLUME FILTERING, NO DECIMALS OR SEPARATORS, NUMBERS ONLY, WITHOUT the [primary currency] prefix symbol: 4500 = $4,500 , 30000 = $30,000 , etc
 // THIS FILTER WILL AUTO-DISABLE IF THERE IS AN ERROR RETRIEVING DATA ON A CERTAIN MARKET (WHEN NOT EVEN A ZERO IS RECEIVED)
-$app_config['asset_price_alerts_min_volume'] = 9500;
+$app_config['asset_price_alerts_min_volume'] = 12500;
 
 
 // Refresh cached comparison prices every X days (since last refresh / alert) with latest prices
@@ -292,9 +298,9 @@ $app_config['asset_price_alerts_refresh'] = 0;
 
 
 // Whale alert (adds "WHALE ALERT" to beginning of alexa / google home / email alert text, and spouting whale emoji to email / text)
-// Format: 'maximum_days||minimum_price_percent_change||minimum_volume_percent_change||minimum_volume_currency_change'
+// Format: 'maximum_days_to_average_over||minimum_price_percent_change_average||minimum_volume_percent_change_average||minimum_volume_currency_change_average'
 // DECIMALS ARE SUPPORTED, USE NUMBERS ONLY (NO CURRENCY SYMBOLS / COMMAS, ETC)
-$app_config['whale_alert_thresholds'] = '1.35||6.5||12.5||12500';
+$app_config['whale_alert_thresholds'] = '2.6||6.5||12.5||9500';
 
 
 // CHARTS / ASSET PRICE ALERTS SETUP REQUIRES A CRON JOB RUNNING ON YOUR WEBSITE SERVER (see README.txt for cron job setup information) 
@@ -498,12 +504,12 @@ $app_config['steem_powerdown_time'] = 13;
 
 
 // Standard (default) app charset
-$app_config['charset_array']['standard'] = 'UTF-8'; 
+$app_config['charset_standard'] = 'UTF-8'; 
 
 // Unicode charset
 // UCS-2 is outdated as it only covers 65536 characters of Unicode
-// UTF-16LE / UTF-16 / UCS-2BE can represent ALL Unicode characters
-$app_config['charset_array']['unicode'] = 'UCS-2BE'; 
+// UTF-16BE / UTF-16LE / UTF-16 / UCS-2BE can represent ALL Unicode characters
+$app_config['charset_unicode'] = 'UTF-16'; 
 
 
 

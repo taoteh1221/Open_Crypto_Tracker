@@ -2301,7 +2301,11 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.07.1:
 
--Bug fixes for unicode support in mobile text messages (work in progress)
+-Code cleanup
+
+-Whale alert parameters now go by daily averages
+
+-Bug fixes for unicode support in mobile text messages (WORK IN PROGRESS)
 
 -Changed config setting 'asset_price_alerts_freq' time units to hours (instead of minutes)
 

@@ -71,8 +71,7 @@ require_once("app-lib/php/loader.php");
 
 // Create a few global runtime vars now
 $app_config = array();
-$app_config['charset_array'] = array();
-$api_cache = array();
+$api_runtime_cache = array();
 
 
 hardy_session_clearing(); // Try to avoid edge-case bug where sessions didn't delete last runtime
