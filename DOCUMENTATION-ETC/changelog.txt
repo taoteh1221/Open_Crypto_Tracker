@@ -2307,6 +2307,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Whale alert parameters now go by daily averages
 
+-Minimized Google API / SDK libraries to bare-bones (work in progress)
+
 -Bug fixes for unicode support in mobile text messages (WORK IN PROGRESS)
 
 -Changed config setting 'asset_price_alerts_freq' time units to hours (instead of minutes)
