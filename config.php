@@ -48,6 +48,15 @@ require_once("app-lib/php/init.php");  // REQUIRED, DON'T DELETE BY ACCIDENT
 $app_config['debug_mode'] = 'off'; 
 
 
+// Htaccess password protection (password required to view this portfolio app's web interface)
+// Username MUST BE at least 4 characters, beginning with ONLY LOWERCASE letters (may contain numbers AFTER first letter), NO SPACES
+// Password MUST BE at least 13 characters, AND contain one number, one UPPER AND LOWER CASE letter, and one symbol, NO SPACES
+// (enables automatically, when a valid username / password are filled in here)
+// (disables automatically, when username / password are blank '')
+$app_config['htaccess_username'] = ''; // Leave blank to keep disabled
+$app_config['htaccess_password'] = ''; // Leave blank to keep disabled
+
+
 // Your local time offset in hours compared to UTC time. Can be negative or positive.
 // (Used for user experience 'pretty' timestamping only, will not change or screw up UTC log times etc if you change this)
 $app_config['local_time_offset'] = -5; // example: -5 or 5

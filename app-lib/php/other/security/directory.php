@@ -47,7 +47,5 @@ store_file_contents($base_dir . '/cache/secured/messages/index.php', file_get_co
 
 
 
-
-
  
 ?>

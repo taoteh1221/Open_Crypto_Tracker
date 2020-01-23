@@ -629,9 +629,9 @@ select opt in $OPTIONS; do
 				
 				rm $DOC_ROOT/CODEOWNERS
 				
-				/bin/chmod 777 $DOC_ROOT/backups
-				
 				/bin/chmod 777 $DOC_ROOT/cache
+				
+				/bin/chmod 666 $DOC_ROOT/.htaccess
 				
 				/bin/chmod 755 $DOC_ROOT/cron.php
 				

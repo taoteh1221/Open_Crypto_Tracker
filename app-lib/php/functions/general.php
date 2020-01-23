@@ -2,8 +2,8 @@
 /*
  * Copyright 2014-2020 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
  */
- 
- 
+
+
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
 
@@ -683,6 +683,42 @@ global $password_pepper;
 
 }
  
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function valid_username($username) {
+
+global $app_config;
+
+    if ( mb_strlen($username, $app_config['charset_standard']) < 4 ) {
+    $error .= "requires 4 minimum characters; ";
+    }
+    
+    if ( mb_strlen($username, $app_config['charset_standard']) > 30 ) {
+    $error .= "requires 30 maximum characters; ";
+    }
+    
+	 if ( !preg_match("/^[a-z]([a-z0-9]+)$/", $username) ) {
+    $error .= "lowercase letters / numbers only (lowercase letters first, then optionally numbers, no spaces); ";
+	 }
+	 
+	 if ( preg_match('/\s/',$username) ) {
+    $error .= "no spaces allowed; ";
+	 }
+
+
+    if( $error ){
+    return 'valid_username_error: ' . $error;
+    }
+    else {
+    return 'valid';
+    }
+
+
+}
+ 
  
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
@@ -720,6 +756,98 @@ function character_utf8_to_unicode($char, $format) {
     
 return $result;
 
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function password_strength($password) {
+
+global $app_config;
+
+    if ( mb_strlen($password, $app_config['charset_standard']) < 13 ) {
+    $error .= "requires 13 minimum characters; ";
+    }
+    
+    if ( mb_strlen($password, $app_config['charset_standard']) > 30 ) {
+    $error .= "requires 30 maximum characters; ";
+    }
+    
+    if ( !preg_match("#[0-9]+#", $password) ) {
+    $error .= "include one number; ";
+    }
+    
+    if ( !preg_match("#[a-z]+#", $password) ) {
+    $error .= "include one LOWERCASE letter; ";
+    }
+    
+    if ( !preg_match("#[A-Z]+#", $password) ) {
+    $error .= "include one UPPERCASE letter; ";
+    }
+    
+    if ( !preg_match("#\W+#", $password) ) {
+    $error .= "include one symbol; ";
+    }
+	 
+	 if ( preg_match('/\s/',$password) ) {
+    $error .= "no spaces allowed; ";
+	 }
+    
+    
+    if( $error ){
+    return 'password_strength_error: ' . $error;
+    }
+    else {
+    return 'valid';
+    }
+
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function htaccess_directory_protection() {
+
+global $base_dir, $app_config;
+
+$htaccess_username = trim($app_config['htaccess_username']);
+
+$htaccess_password = trim($app_config['htaccess_password']);
+
+
+    if ( $htaccess_username == '' || $htaccess_password == '' ) {
+    return false;
+    }
+    elseif ( valid_username($htaccess_username) != 'valid' ) {
+    app_logging('security_error', 'app_config\'s "htaccess_username" value does not meet minimum valid username requirements' , valid_username($htaccess_username) );
+    return false;
+    }
+    elseif ( password_strength($htaccess_password) != 'valid' ) {
+    app_logging('security_error', 'app_config\'s "htaccess_password" value does not meet minimum password strength requirements' , password_strength($htaccess_password) );
+    return false;
+    }
+    else {
+    
+    $htaccess_password = crypt( $htaccess_password, base64_encode($htaccess_password) );
+    
+    store_file_contents($base_dir . '/cache/secured/.htpasswd', $htaccess_username . ':' . $htaccess_password);
+    
+    $htaccess_contents = '# REQUIRED FOR HTACCESS PASSWORD PROTECTION
+AuthType Basic
+AuthName "Password Protected Area"
+AuthUserFile '.$base_dir.'/cache/secured/.htpasswd
+Require valid-user';
+    
+    store_file_contents($base_dir . '/.htaccess', $htaccess_contents);
+    
+    }
+
+ 
 }
 
 

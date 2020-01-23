@@ -16,12 +16,17 @@ error_reporting(1); // If debugging is enabled, turn on all PHP error reporting 
 
 
 // Security (MUST run AFTER directory structure creation check, and AFTER config file)
-require_once($base_dir . '/app-lib/php/other/security/security.php');
+require_once($base_dir . '/app-lib/php/other/security/directory.php');
 
 
 
 // SECURED cache files management (MUST run AFTER directory structure creation check, and AFTER config file)
 require_once($base_dir . '/app-lib/php/other/security/secure-cache-files.php');
+
+
+
+// Password protection management (MUST run AFTER directory structure creation check, and AFTER config file)
+require_once($base_dir . '/app-lib/php/other/security/password-protection.php');
 
 
 
