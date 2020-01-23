@@ -194,10 +194,14 @@ $total = count($chunks);
 ////////////////////////////////////////////////////////
 
 
-function smtp_mail($to, $subject, $message, $content_type='text', $charset='UTF-8') {
+function smtp_mail($to, $subject, $message, $content_type='text', $charset=null) {
 
 // Using 3rd party SMTP class, initiated already as global var $smtp
 global $app_config, $smtp;
+
+	if ( $charset == null ) {
+	$charset = $app_config['charset_standard'];
+	}
 
 $smtp->From($app_config['from_email']); 
 $smtp->singleTo($to); 
@@ -926,11 +930,13 @@ return $date;
 
 
 function file_download($file, $save_as, $delete=true) {
+	
+global $app_config;
 
 $type = pathinfo($save_as, PATHINFO_EXTENSION);
 
 	if ( $type == 'csv' ) {
-	$content_type = 'Content-type: text/csv; charset=utf-8';
+	$content_type = 'Content-type: text/csv; charset=' . $app_config['charset_standard'];
 	}
 	else {
 	$content_type = 'Content-type: application/octet-stream';
@@ -1237,7 +1243,7 @@ $words = explode(" ", $content);
 	
 	$scan_charset = ( mb_detect_encoding($scan_value, $charset_array) != false ? mb_detect_encoding($scan_value, $charset_array) : NULL );
 	
-		if ( isset($scan_charset) && !preg_match("/UTF-8/i", $scan_charset) && !preg_match("/ASCII/i", $scan_charset) ) {
+		if ( isset($scan_charset) && !preg_match("/" . $app_config['charset_standard'] . "/i", $scan_charset) && !preg_match("/ASCII/i", $scan_charset) ) {
 		$set_charset = $app_config['charset_unicode'];
 		}
 	
@@ -1519,6 +1525,7 @@ function delete_all_cookies() {
 
 function pretty_numbers($value_to_pretty, $num_decimals, $small_unlimited=false) {
 
+global $app_config;
 
 // Pretty number formatting, while maintaining decimals
 
@@ -1552,7 +1559,7 @@ $raw_value_to_pretty = float_to_string($raw_value_to_pretty);
 	    	
 	    // Limit $decimal_amount to $num_decimals (unless it's a watch-only asset)
 	    if ( $raw_value_to_pretty != 0.000000001 ) {
-	    $decimal_amount = ( iconv_strlen($decimal_amount, "UTF-8") > $num_decimals ? substr($decimal_amount, 0, $num_decimals) : $decimal_amount );
+	    $decimal_amount = ( iconv_strlen($decimal_amount, $app_config['charset_standard']) > $num_decimals ? substr($decimal_amount, 0, $num_decimals) : $decimal_amount );
 	    }
 	    
 	    	
@@ -1698,9 +1705,13 @@ function start_page_html($page) {
 ////////////////////////////////////////////////////////
 
 
-function safe_mail($to, $subject, $message, $content_type='text', $charset='UTF-8') {
+function safe_mail($to, $subject, $message, $content_type='text', $charset=null) {
 	
 global $app_version, $app_config;
+
+	if ( $charset == null ) {
+	$charset = $app_config['charset_standard'];
+	}
 
 // Stop injection vulnerability
 $app_config['from_email'] = str_replace("\r\n", "", $app_config['from_email']); // windows -> unix
@@ -2078,7 +2089,7 @@ global $base_dir, $app_config;
    // Normal email
    if ( $send_params['email']['message'] != '' && validate_email($app_config['to_email']) == 'valid' ) {
    
-   $email_array = array('subject' => $send_params['email']['subject'], 'message' => $send_params['email']['message'], 'content_type' => ( $send_params['email']['content_type'] ? $send_params['email']['content_type'] : 'text' ), 'charset' => ( $send_params['email']['charset'] ? $send_params['email']['charset'] : 'UTF-8' ) );
+   $email_array = array('subject' => $send_params['email']['subject'], 'message' => $send_params['email']['message'], 'content_type' => ( $send_params['email']['content_type'] ? $send_params['email']['content_type'] : 'text' ), 'charset' => ( $send_params['email']['charset'] ? $send_params['email']['charset'] : $app_config['charset_standard'] ) );
    
    	// json_encode() only accepts UTF-8, SO TEMPORARILY CONVERT TO THAT FOR MESSAGE QUEUE STORAGE
    	if ( strtolower($send_params['email']['charset']) != 'utf-8' ) {
