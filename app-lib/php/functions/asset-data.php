@@ -813,15 +813,15 @@ $cached_array = explode("||", $data_file);
           
           // Whale alert (price change average of X or greater within X day(s) or less, with X percent pair volume change average that is at least a X primary currency volume change average)
           
-          $whale_max_days_to_average = float_to_string( trim($whale_alert_thresholds[0]) );
+          $whale_max_days_to_24hr_average = float_to_string( trim($whale_alert_thresholds[0]) );
           
-          $whale_min_price_change_percent_average = float_to_string( trim($whale_alert_thresholds[1]) );
+          $whale_min_price_change_percent_24hr_average = float_to_string( trim($whale_alert_thresholds[1]) );
           
-          $whale_min_volume_change_percent_average = float_to_string( trim($whale_alert_thresholds[2]) );
+          $whale_min_volume_change_percent_24hr_average = float_to_string( trim($whale_alert_thresholds[2]) );
           
-          $whale_min_volume_change_currency_average = float_to_string( trim($whale_alert_thresholds[3]) );
+          $whale_min_volume_change_currency_24hr_average = float_to_string( trim($whale_alert_thresholds[3]) );
           
-   		 if ( $last_check_days <= $whale_max_days_to_average && float_to_string( $percent_change / $last_check_days ) >= $whale_min_price_change_percent_average && float_to_string( $volume_percent_change / $last_check_days ) >= $whale_min_volume_change_percent_average && float_to_string( abs($volume_primary_currency_raw - $cached_primary_currency_volume) / $last_check_days ) >= $whale_min_volume_change_currency_average ) {
+   		 if ( $last_check_days <= $whale_max_days_to_24hr_average && float_to_string( $percent_change / $last_check_days ) >= $whale_min_price_change_percent_24hr_average && float_to_string( $volume_percent_change / $last_check_days ) >= $whale_min_volume_change_percent_24hr_average && float_to_string( abs($volume_primary_currency_raw - $cached_primary_currency_volume) / $last_check_days ) >= $whale_min_volume_change_currency_24hr_average ) {
    		 $whale_alert = 1;
    		 }
    		 
@@ -841,9 +841,9 @@ $cached_array = explode("||", $data_file);
           }
   
   
-          // We disallow alerts if $app_config['block_volume_error'] is on, and there is a volume retrieval error
+          // We disallow alerts if $app_config['block_alerts_volume_error'] is on, and there is a volume retrieval error
           // ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
-          if ( $volume_primary_currency_raw == -1 && $app_config['block_volume_error'] == 'on' ) {
+          if ( $volume_primary_currency_raw == -1 && $app_config['block_alerts_volume_error'] == 'on' ) {
           $send_alert = NULL;
           }
           
@@ -1376,7 +1376,7 @@ $market_pairing = $all_markets[$selected_exchange];
             if ( $marketcap_data['last_updated'] != '' ) {
             ?>
         +'<p class="coin_info"><span class="yellow">Timestamp (UTC):</span> <?=gmdate("Y-M-d\ \\a\\t g:ia", $marketcap_data['last_updated'])?></p>'
-        +'<p class="coin_info"><span class="yellow">App Cache Time:</span> <?=$app_config['marketcap_cache']?> minute(s)</p>'
+        +'<p class="coin_info"><span class="yellow">App Cache Time:</span> <?=$app_config['marketcap_cache_time']?> minute(s)</p>'
         <?php
             }
             if ( $marketcap_data['app_notes'] != '' ) {

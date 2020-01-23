@@ -82,17 +82,17 @@ $app_config['margin_leverage_max'] = 125; // Maximum margin leverage available i
 
 // Block an asset price alert if price retrieved, BUT failed retrieving pair volume (not even a zero was retrieved, nothing)
 // Good for blocking questionable exchanges bugging you with price alerts, especially when used in combination with the minimum volume filter
-$app_config['block_volume_error'] = 'on'; // 'on' / 'off' 
+$app_config['block_alerts_volume_error'] = 'on'; // 'on' / 'off' 
 
 
-$app_config['marketcap_cache'] = 20; // Minutes to cache above-mentioned marketcap rankings...start high and test lower, it can be strict
+$app_config['marketcap_cache_time'] = 20; // Minutes to cache above-mentioned marketcap rankings...start high and test lower, it can be strict
 
 
 // Minutes to cache real-time exchange data...can be zero to skip cache, but set to at least 1 minute to avoid your IP getting blocked
-$app_config['last_trade_cache'] = 3; 
+$app_config['last_trade_cache_time'] = 3; 
 
 
-$app_config['chainstats_cache'] = 30; // Minutes to cache blockchain stats (for mining calculators). Set high initially, can be strict
+$app_config['chainstats_cache_time'] = 30; // Minutes to cache blockchain stats (for mining calculators). Set high initially, can be strict
 
 
 $app_config['api_timeout'] = 15; // Seconds to wait for response from API endpoints (exchange data, etc). Don't set too low, or you won't get data
@@ -287,7 +287,7 @@ $app_config['asset_price_alerts_refresh'] = 0;
 
 
 // Whale alert (adds "WHALE ALERT" to beginning of alexa / google home / email alert text, and spouting whale emoji to email / text)
-// Format: 'maximum_days_to_average_over||minimum_price_percent_change_average||minimum_volume_percent_change_average||minimum_volume_currency_change_average'
+// Format: 'maximum_days_to_24hr_average_over||minimum_price_percent_change_24hr_average||minimum_volume_percent_change_24hr_average||minimum_volume_currency_change_24hr_average'
 // DECIMALS ARE SUPPORTED, USE NUMBERS ONLY (NO CURRENCY SYMBOLS / COMMAS, ETC)
 $app_config['whale_alert_thresholds'] = '3.15||9.5||17.5||18500';
 

@@ -28,7 +28,7 @@ global $app_config;
 		  
 		}
 		
-    $data = @api_data('url', $string, $app_config['chainstats_cache']);
+    $data = @api_data('url', $string, $app_config['chainstats_cache_time']);
     
   return (float)$data;
   
@@ -54,7 +54,7 @@ global $app_config;
 		  
 		}
 		
-    $data = @api_data('url', $string, $app_config['chainstats_cache']);
+    $data = @api_data('url', $string, $app_config['chainstats_cache_time']);
     
   return (float)$data;
   
@@ -70,7 +70,7 @@ global $app_config;
  		
 $json_string = 'https://api.grinmint.com/v1/networkStats';
 
-$jsondata = @api_data('url', $json_string, $app_config['chainstats_cache']);
+$jsondata = @api_data('url', $json_string, $app_config['chainstats_cache_time']);
     
 $data = json_decode($jsondata, TRUE);
     
@@ -98,7 +98,7 @@ global $app_config;
 		  
 		}
 		
-    $data = @api_data('url', $string, $app_config['chainstats_cache']);
+    $data = @api_data('url', $string, $app_config['chainstats_cache_time']);
     
   return (float)$data;
   
@@ -125,7 +125,7 @@ global $app_config, $runtime_mode;
  		$json_string = 'https://explorer.dcrdata.org/api/block/best/subsidy';
  		}
  		
- 		$jsondata = @api_data('url', $json_string, $app_config['chainstats_cache']);
+ 		$jsondata = @api_data('url', $json_string, $app_config['chainstats_cache_time']);
   		
   		$data = json_decode($jsondata, TRUE);
    	 
@@ -145,7 +145,7 @@ function monero_api($request) {
 global $app_config;
  		
  	$json_string = 'https://moneroblocks.info/api/get_stats';
- 	$jsondata = @api_data('url', $json_string, $app_config['chainstats_cache']);
+ 	$jsondata = @api_data('url', $json_string, $app_config['chainstats_cache_time']);
   	
   	$data = json_decode($jsondata, TRUE);
     
@@ -169,7 +169,7 @@ function etherscan_api($block_info) {
 global $base_dir, $app_config;
 
   $json_string = 'https://api.etherscan.io/api?module=proxy&action=eth_blockNumber';
-  $jsondata = @api_data('url', $json_string, $app_config['chainstats_cache']);
+  $jsondata = @api_data('url', $json_string, $app_config['chainstats_cache_time']);
     
   $data = json_decode($jsondata, TRUE);
   
@@ -181,7 +181,7 @@ global $base_dir, $app_config;
     	else {
     		
     		// Non-dynamic cache file name, because filename would change every recache and create cache bloat
-    		if ( update_cache_file('cache/apis/eth-stats.dat', $app_config['chainstats_cache'] ) == true ) {
+    		if ( update_cache_file('cache/apis/eth-stats.dat', $app_config['chainstats_cache_time'] ) == true ) {
 			
   			$json_string = 'https://api.etherscan.io/api?module=proxy&action=eth_getBlockByNumber&tag='.$block_number.'&boolean=true';
   			$jsondata = @api_data('url', $json_string, 0); // ZERO TO NOT CACHE DATA (WOULD CREATE CACHE BLOAT)
@@ -221,7 +221,7 @@ $array_merging = array();
 	if ( !$_SESSION['cgk_data'] ) {
 
 
-	$jsondata = @api_data('url', 'https://api.coingecko.com/api/v3/coins?per_page='.$app_config['marketcap_ranks_max'].'&page=1', $app_config['marketcap_cache']);
+	$jsondata = @api_data('url', 'https://api.coingecko.com/api/v3/coins?per_page='.$app_config['marketcap_ranks_max'].'&page=1', $app_config['marketcap_cache_time']);
 	   
    $_SESSION['cgk_data'] = json_decode($jsondata, TRUE);
 
