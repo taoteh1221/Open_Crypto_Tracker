@@ -9,6 +9,12 @@ Then plenty of time is spent on UX / testing / logging / debugging.
 ///////////////////////////////////////////////////////
 
 
+Add configuration to enable / disable forcing ssl connections for the interface (if ssl capability detected).
+
+
+For each key => value loop json admin config to automate generating new admin settings page...selects for arrays, text feilds for strings. Maybe certain key names get checkbox / radio button fields.
+
+
 Color code mining profits / losses properly in the mining calculators.
 
 
@@ -90,6 +96,9 @@ Simple trading bot, to run from cron / cli (with SQL-based admin authentication 
 ///////////////////////////////////////////////////////
 MAYBE
 ///////////////////////////////////////////////////////
+
+
+Maybe add feature to detect new / removed markets?
 
 
 Consider error log alerts if system load is over 2, or free memory goes under 25 megabytes?
