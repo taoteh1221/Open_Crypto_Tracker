@@ -33,10 +33,12 @@ foreach( $secured_cache_files as $secured_file ) {
 		elseif ( $app_config_check != md5(serialize($original_app_config)) ) {
 		app_logging('other_error', 'Cached app_config out of date (default app_config settings updated), deleting cached app_config (refresh will happen automatically)');
 		unlink($base_dir . '/cache/secured/' . $secured_file);
+		$refresh_cached_app_config = 1;
 		}
 		elseif ( $cached_app_config != true ) {
 		app_logging('config_error', 'Cached app_config data appears corrupted, deleting cached app_config (refresh will happen automatically)');
 		unlink($base_dir . '/cache/secured/' . $secured_file);
+		$refresh_cached_app_config = 1;
 		}
 	
 	}
@@ -81,7 +83,7 @@ $secure_256bit_hash = random_hash(32); // 256-bit (32-byte) hash converted to he
 
 
 // If no valid cached_app_config, or if config.php variables have been changed
-if ( $app_config_check != md5(serialize($original_app_config)) || $cached_app_config != true ) {
+if ( $refresh_cached_app_config == 1 || $is_cached_app_config != 1 ) {
 	
 $secure_128bit_hash = random_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
 	

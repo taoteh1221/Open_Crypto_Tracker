@@ -611,11 +611,12 @@ global $possible_http_users, $http_runtime_user;
 		// Run cache compatibility on certain PHP setups
 		if ( !$http_runtime_user || in_array($http_runtime_user, $possible_http_users) ) {
 		$oldmask = umask(0);
-		return  mkdir($path, octdec('777'), true); // Recursively create whatever path depth desired if non-existent
+		$result = mkdir($path, octdec('0777'), true); // Recursively create whatever path depth desired if non-existent
 		umask($oldmask);
+		return $result;
 		}
 		else {
-		return  mkdir($path, octdec('777'), true); // Recursively create whatever path depth desired if non-existent
+		return  mkdir($path, octdec('0777'), true); // Recursively create whatever path depth desired if non-existent
 		}
 	
 	}
@@ -835,15 +836,14 @@ $htaccess_password = trim($app_config['htaccess_password']);
     
     $htaccess_password = crypt( $htaccess_password, base64_encode($htaccess_password) );
     
-    store_file_contents($base_dir . '/cache/secured/.htpasswd', $htaccess_username . ':' . $htaccess_password);
+    store_file_contents($base_dir . '/cache/secured/.app_htpasswd', $htaccess_username . ':' . $htaccess_password);
     
-    $htaccess_contents = '# REQUIRED FOR HTACCESS PASSWORD PROTECTION
-AuthType Basic
-AuthName "Password Protected Area"
-AuthUserFile '.$base_dir.'/cache/secured/.htpasswd
-Require valid-user';
+    $htaccess_contents = file_get_contents($base_dir . '/templates/back-end/root-app-directory-htaccess.template') . 
+preg_replace("/\[BASE_DIR\]/i", $base_dir, file_get_contents($base_dir . '/templates/back-end/enable-password-htaccess.template') );
     
     store_file_contents($base_dir . '/.htaccess', $htaccess_contents);
+    
+    return true;
     
     }
 
@@ -1143,8 +1143,39 @@ return $csv_rows;
 
 function store_file_contents($file, $content, $mode=false) {
 
-global $possible_http_users, $http_runtime_user;
+global $app_config, $possible_http_users, $http_runtime_user;
+	
+$path_parts = pathinfo($file);
+	
+	
+	// We ALWAYS set .htaccess files to a more secure 664 permission AFTER EDITING, 
+	// so we TEMPORARILY set .htaccess to 666 for NEW EDITING...
+	if ( strstr($file, 'htaccess') != false ) {
+		
+	$chmod_setting = octdec('0666');
+	
+	
+		// Run chmod compatibility on certain PHP setups
+		if ( !$http_runtime_user || in_array($http_runtime_user, $possible_http_users) ) {
+			
+		$oldmask = umask(0);
+		
+		$did_chmod = chmod($file, $chmod_setting);
+		
+			if ( !$did_chmod && $app_config['debug_mode'] == 'all' || !$did_chmod && $app_config['debug_mode'] == 'telemetry' ) {
+			app_logging('other_debugging', 'Chmod failed for file "' . $file . '" (check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")', 'chmod_setting: ' . $chmod_setting . '; http_runtime_user: ' . $http_runtime_user . ';');
+			}
+		
+		umask($oldmask);
+		
+		}
+	
+	}
+	
 
+
+
+	// Write to the file
 	if ( $mode == 'append' ) {
 	$result = file_put_contents($file, $content, FILE_APPEND | LOCK_EX);
 	}
@@ -1152,27 +1183,38 @@ global $possible_http_users, $http_runtime_user;
 	$result = file_put_contents($file, $content, LOCK_EX);
 	}
 	
-	
-	if ( $result == FALSE ) {
-	$path_parts = pathinfo($file);
+	// Log any error
+	if ( $result == false ) {
 	app_logging('other_error', 'File write failed for file "' . $file . '" (check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")');
 	}
 	
 	
-	// For security, never make an .htaccess file writable by any user not in the group
-	if ( strstr($file, 'htaccess') != FALSE ) {
-	$chmod_setting = octdec('664');
+	
+	
+	// For security, NEVER make an .htaccess file writable by any user not in the group
+	if ( strstr($file, 'htaccess') != false ) {
+	$chmod_setting = octdec('0664');
 	}
+	// All other files
 	else {
-	$chmod_setting = octdec('666');
+	$chmod_setting = octdec('0666');
 	}
 	
-	// Run cache compatibility on certain PHP setups
+	// Run chmod compatibility on certain PHP setups
 	if ( !$http_runtime_user || in_array($http_runtime_user, $possible_http_users) ) {
+		
 	$oldmask = umask(0);
-	chmod($file, $chmod_setting);
+	
+	$did_chmod = chmod($file, $chmod_setting);
+		
+		if ( !$did_chmod && $app_config['debug_mode'] == 'all' || !$did_chmod && $app_config['debug_mode'] == 'telemetry' ) {
+		app_logging('other_debugging', 'Chmod failed for file "' . $file . '" (check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")', 'chmod_setting: ' . $chmod_setting . '; http_runtime_user: ' . $http_runtime_user . ';');
+		}
+		
 	umask($oldmask);
+	
 	}
+	
 	
 	
 return $result;
@@ -1294,7 +1336,7 @@ $val = trim($val);
    $decimals = $matches[2] === '-' ? strlen($matches[1]) + $matches[3] : 0;
    }
    else {
-   $decimals = mb_strpos( strrev($detect_decimals) , '.', 0, $app_config['charset_standard']);
+   $decimals = mb_strpos( strrev($detect_decimals) , '.', 0, 'utf-8');
    }
     
 	if ( $decimals > 9 ) {
@@ -1348,6 +1390,7 @@ global $app_config;
 
 
 // Charsets we want to try and detect here
+// (SAVE HERE FOR POSSIBLE FUTURE USE)
 $charset_array = array(
 								'ASCII',
 								'UCS-2',
@@ -1369,7 +1412,7 @@ $words = explode(" ", $content);
 		
 	$scan_value = trim($scan_value);
 	
-	$scan_charset = ( mb_detect_encoding($scan_value, $charset_array) != false ? mb_detect_encoding($scan_value, $charset_array) : NULL );
+	$scan_charset = ( mb_detect_encoding($scan_value, 'auto') != false ? mb_detect_encoding($scan_value, 'auto') : NULL );
 	
 		if ( isset($scan_charset) && !preg_match("/" . $app_config['charset_standard'] . "/i", $scan_charset) && !preg_match("/ASCII/i", $scan_charset) ) {
 		$set_charset = $app_config['charset_unicode'];
@@ -1382,7 +1425,7 @@ $words = explode(" ", $content);
 		
 	$word_value = trim($word_value);
 	
-	$word_charset = ( mb_detect_encoding($word_value, $charset_array) != false ? mb_detect_encoding($word_value, $charset_array) : NULL );
+	$word_charset = ( mb_detect_encoding($word_value, 'auto') != false ? mb_detect_encoding($word_value, 'auto') : NULL );
 	
    $result['debug_original_charset'] .= ( isset($word_charset) ? $word_charset . ' ' : 'unknown_charset ' );
 	

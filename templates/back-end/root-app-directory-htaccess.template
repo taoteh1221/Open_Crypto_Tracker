@@ -1,2 +1,26 @@
 
-# REQUIRED FOR HTACCESS PASSWORD PROTECTION
+
+###########################################################
+# HTACCESS REQUIRED FOR MOD REWRITE / HTACCESS PASSWORD PROTECTION / ETC
+###########################################################
+
+
+###########################################################
+# ENABLE FORCING SSL CONNECTIONS FOR ALL TRAFFIC 
+#(IF THE PROPER APACHE MODULES EXIST)
+###########################################################
+
+<IfModule mod_rewrite.c>
+RewriteEngine on
+
+  <IfModule mod_ssl.c>
+  RewriteCond %{HTTPS} !=on
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+  </IfModule>
+
+</IfModule>
+
+###########################################################
+# END FORCE SSL
+###########################################################
+

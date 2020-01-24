@@ -580,7 +580,7 @@ $whale_alert_thresholds = explode("||", $app_config['whale_alert_thresholds']);
 
 
 // Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
-$asset = ( stristr($asset_data, "-") == false ? $asset_data : substr( $asset_data, 0, mb_strpos($asset_data, "-", 0, $app_config['charset_standard']) ) );
+$asset = ( stristr($asset_data, "-") == false ? $asset_data : substr( $asset_data, 0, mb_strpos($asset_data, "-", 0, 'utf-8') ) );
 $asset = strtoupper($asset);
 
 

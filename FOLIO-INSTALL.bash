@@ -62,6 +62,7 @@ fi
 			
 echo "Enter the FULL SYSTEM PATH to the document root of the web server:"
 echo "(this does NOT automate setting apache's document root, you would need to do that manually)"
+echo "(DO !NOT! INCLUDE A #TRAILING# FORWARD SLASH)"
 echo "(leave blank / hit enter to use the default value: /var/www/html)"
 echo " "
 
@@ -508,12 +509,27 @@ else
 echo "Using username: $SYS_USER"
 fi
 
-/bin/chown -R $SYS_USER:$SYS_USER /var/www/*
 
 /usr/sbin/usermod -a -G $CUSTOM_GROUP $SYS_USER
 
+/usr/sbin/usermod -a -G $SYS_USER $CUSTOM_GROUP
+
+/bin/chmod 775 $DOC_ROOT
+
+BASE_HTDOC="$(dirname $DOC_ROOT)"
+
+RECURSIVE_CHOWN="${SYS_USER}:$SYS_USER ${BASE_HTDOC}/*"
+
+#$RECURSIVE_CHOWN must be in double quotes to escape the asterisk at the end
+/bin/chown -R "$RECURSIVE_CHOWN"
+
+
 echo " "
 echo "Web server editing access for user name '$SYS_USER', in web server user group '$CUSTOM_GROUP', is completed."
+echo " "
+echo "Web server editing access for web server user name '$CUSTOM_GROUP', in user group '$SYS_USER', is completed."
+echo " "
+echo "Root web directory group permissions setup (chmod 775, owner/group set to username '$SYS_USER') is completed."
 echo " "
 
 
@@ -631,7 +647,7 @@ select opt in $OPTIONS; do
 				
 				/bin/chmod 777 $DOC_ROOT/cache
 				
-				/bin/chmod 666 $DOC_ROOT/.htaccess
+				/bin/chmod 664 $DOC_ROOT/.htaccess
 				
 				/bin/chmod 755 $DOC_ROOT/cron.php
 				

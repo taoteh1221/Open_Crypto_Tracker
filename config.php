@@ -4,6 +4,7 @@
  * Copyright 2014-2020 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
  */
 
+
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // Forbid direct INTERNET access to this file
@@ -11,8 +12,9 @@ if ( isset($_SERVER['REQUEST_METHOD']) && realpath(__FILE__) == realpath($_SERVE
     header('HTTP/1.0 403 Forbidden', TRUE, 403);
     exit;
 }
-//
-require_once("app-lib/php/init.php");  // REQUIRED, DON'T DELETE BY ACCIDENT
+error_reporting(0); // Turn off all PHP error reporting on production servers (0), or enable (1)
+//apc_clear_cache(); apcu_clear_cache(); opcache_reset();  // DEBUGGING ONLY
+$app_config = array(); require_once("app-lib/php/loader.php");  // REQUIRED, DON'T DELETE BY ACCIDENT
 // WHEN RE-CONFIGURING APP, LEAVE THIS CODE ABOVE HERE, DON'T DELETE ABOVE THESE LINES
 ///////////////////////////////////////////////////////////////////////////////////////////////
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -109,7 +111,7 @@ $app_config['marketcap_cache_time'] = 20; // Minutes to cache above-mentioned ma
 
 
 // Minutes to cache real-time exchange data...can be zero to skip cache, but set to at least 1 minute to avoid your IP getting blocked
-$app_config['last_trade_cache_time'] = 3; 
+$app_config['last_trade_cache_time'] = 4; 
 
 
 $app_config['chainstats_cache_time'] = 30; // Minutes to cache blockchain stats (for mining calculators). Set high initially, can be strict
@@ -487,8 +489,8 @@ $app_config['mining_rewards'] = array(
 					'ltc' => '12.5',
 					'grin' => '60',
 					'doge' => '10000',
-					'xmr' => NULL,  // WE DYNAMICALLY UPDATE THIS IN CONFIG-INIT.PHP
-					'dcr' => NULL,  // WE DYNAMICALLY UPDATE THIS IN CONFIG-INIT.PHP
+					'xmr' => NULL,  // WE DYNAMICALLY UPDATE THIS IN INIT.PHP
+					'dcr' => NULL,  // WE DYNAMICALLY UPDATE THIS IN INIT.PHP
 					);
 
 
@@ -1767,7 +1769,7 @@ $app_config['portfolio_assets'] = array(
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // WHEN RE-CONFIGURING APP, LEAVE THIS CODE BELOW HERE, DON'T DELETE BELOW THESE LINES
-require_once("app-lib/php/config-init.php");  // REQUIRED, DON'T DELETE BY ACCIDENT
+require_once("app-lib/php/init.php");  // REQUIRED, DON'T DELETE BY ACCIDENT
 ///////////////////////////////////////////////////////////////////////////////////////////////
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 

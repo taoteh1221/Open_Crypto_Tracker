@@ -40,7 +40,7 @@ require("config.php");
 foreach ( $app_config['asset_charts_and_alerts'] as $key => $value ) {
 	
 // Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
-$asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, mb_strpos($key, "-", 0, $app_config['charset_standard']) ) );
+$asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, mb_strpos($key, "-", 0, 'utf-8') ) );
 $asset = strtoupper($asset);
 
 $value = explode("||",$value); // Convert $value into an array

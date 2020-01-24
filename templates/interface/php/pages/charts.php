@@ -39,7 +39,7 @@
 	foreach ( $app_config['asset_charts_and_alerts'] as $key => $value ) {
 		
 		// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
-		$show_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, mb_strpos($key, "-", 0, $app_config['charset_standard']) ) );
+		$show_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, mb_strpos($key, "-", 0, 'utf-8') ) );
 		$show_asset = strtoupper($show_asset);
 		
 		$show_asset_params = explode("||", $value);
@@ -149,7 +149,7 @@
 	// Render the charts
 	foreach ( $app_config['asset_charts_and_alerts'] as $key => $value ) {
 		
-		$chart_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, mb_strpos($key, "-", 0, $app_config['charset_standard']) ) );
+		$chart_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, mb_strpos($key, "-", 0, 'utf-8') ) );
 		$chart_asset = strtoupper($chart_asset);
 		
 		$charts_available = 1;

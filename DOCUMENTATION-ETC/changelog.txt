@@ -2331,11 +2331,15 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 
 -------------------------------------------------------------------
-4.08.0:
+4.07.2:
 
 -Code cleanup
 
--Htaccess password protection config settings (username / password required to view web interface)
+-Mandatory HTTPS (SSL) connection for the web interface
+
+-Bug fix for auto-install script using custom document root
+
+-Htaccess password protection config settings (enable / disable username and password required to view web interface)
 
 IMPORTANT NOTES: 
 

@@ -20,7 +20,7 @@ if ( $runtime_mode == 'ui' ) {
 		foreach ( $app_config['asset_charts_and_alerts'] as $key => $value ) {
 				
 		// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
-		$check_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, mb_strpos($key, "-", 0, $app_config['charset_standard']) ) );
+		$check_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, mb_strpos($key, "-", 0, 'utf-8') ) );
 		$check_asset = strtoupper($check_asset);
 		
 		$check_asset_params = explode("||", $value);

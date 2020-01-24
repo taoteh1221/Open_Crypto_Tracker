@@ -8,20 +8,10 @@ Then plenty of time is spent on UX / testing / logging / debugging.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ///////////////////////////////////////////////////////
 
-
-Add configuration to enable / disable forcing ssl connections for the interface (if ssl capability detected).
-
-
-For each key => value loop json admin config to automate generating new admin settings page...selects for arrays, text feilds for strings. Maybe certain key names get checkbox / radio button fields.
+Investigate store_file_contents() having chmod() fail, EVEN THOUGH files still write ok (code cleanup sometime, no real functional benefit seen)
 
 
-Color code mining profits / losses properly in the mining calculators.
-
-
-Check that htaccess security is enabled by doing an http and https call to /vars/access_test.dat to see if the data is readable.
-
-
-Add IFTTT support (alexa / google home / whatever supported devices).
+Re-test modified bash install script
 
 
 Standalone mode not changing corresponding exchange when pairing switched in IE (windows). May be how the CSS selector runs in IE? Works on the update assets page in IE, just not settings page.
@@ -33,13 +23,28 @@ No audio alert in FF (windows) Maybe the OGG OR MP3 file needs to load the oppos
 Investigate unchecking standalone mode AFTER page reload...may be messing up the "update assets" page field for BTC.
 
 
-Code review ALL functions.
+One LAST unicode text message test with no space in front of encoded data (forgot to try that, coded and ready to go now).
 
 
-Add setting to enable access stats modal, maybe include an optional password setting to require login to view it in the UI if password is set. Store access data in flat file / json format (so mulitiple values can be read back into the app before updating, then updated values saved back in json overwriting previously saved values). Last 50 unique ip addresses, showing ip address's last user agent / last visit time / total visits count. Drop any over 50 ip addresses off the list based on oldest timestamps. Store visitor ip address data (user agent, etc) in an array key based off ip address (json format).
+Color code mining profits / losses properly in the mining calculators.
 
 
-Password notes: https://www.php.net/manual/en/faq.passwords.php
+Check that htaccess security is enabled by doing an http and https call to /cache/access_test.dat to see if the data is readable.
+
+
+Mod rewrite rules for future RESTFUL API system
+
+
+See if exchange API data arrays can be manipulated slightly to build a reusable module for every exchange's API calls.
+
+
+For each key => value loop json admin config to automate generating new admin settings page...selects for arrays, text feilds for strings. Maybe certain key names get checkbox / radio button fields.
+
+
+Add IFTTT support (alexa / google home / whatever supported devices).
+
+
+Add google home support via direct connect on same network, OR via IFTTT (whichever is most feasible).
 
 
 Add Google and Microsoft translate API as options to translate the portfolio interface and price alerts.
@@ -51,10 +56,19 @@ For scalable chart data, maybe run once daily during cron runtimes creating 1 ho
 Create chart interval function that divides the desired chart timeline period by the number of maximum data points the chart should ever load, to get the data point time interval, then caches the corresponding timestamped data point intervals into an updated chart for that time period every 24 hours. So we'd have like 6 / 12 / 18 month charts (as examples).
 
 
-See if exchange API data arrays can be manipulated slightly to build a reusable module for every exchange's API calls.
+Add feature to restore chart data from the zip archive backups (with admin authentication ONLY). Chart restore by prepending, so any existing data remains, BUT only if timestamp is newer than newest backups timestamp. Trigger restore from newest backups folder backup by placing a blank file named RESTORE_CHARTS in the que directory.
 
 
-Add google home support via direct connect on same network, OR via IFTTT (whichever is most feasible).
+Add setting to enable access stats modal, maybe include an optional password setting to require login to view it in the UI if password is set. Store access data in flat file / json format (so mulitiple values can be read back into the app before updating, then updated values saved back in json overwriting previously saved values). Last 50 unique ip addresses, showing ip address's last user agent / last visit time / total visits count. Drop any over 50 ip addresses off the list based on oldest timestamps. Store visitor ip address data (user agent, etc) in an array key based off ip address (json format).
+
+
+Check out cryptocompare.com API.
+
+
+Code review ALL functions.
+
+
+Password notes: https://www.php.net/manual/en/faq.passwords.php
 
 
 SQL-based accounts for storing configuration settings per-user (including setting up new assets available at supported exchanges), BUT !NEVER! STORES PORTFOLIO DATA (FOR PRIVACY / SECURITY-SAKE).
@@ -73,9 +87,6 @@ Add an alert bell icon in upcoming header login nav, and have alerts make it red
 
 
 2-way encryption option (unlocked with 6 digit PIN) for storing coin amounts (IN COOKIES ONLY, NO DATABASE STORAGE !EVER!), with "quick lock" to quickly re-hide portfolio data (staying hidden persists on page load / reload as well with a cookie).
-
-
-Add feature to restore chart data from the zip archive backups (with admin authentication ONLY). Chart restore by prepending, so any existing data remains, BUT only if timestamp is newer than newest backups timestamp. Trigger restore from newest backups folder backup by placing a blank file named RESTORE_CHARTS in the que directory.
 
 
 Stats in UI using chart data (if available), to show and compare spot / volume percent changes over an end-user-defined time period for a number of assets (example: BTC / LTC / ETH / XMR spot price percentage changes / 24hr volume percentage changes from April 6th 2019 to November 22nd 2019). Shows trends on which assets are performing better for a certain time period.
@@ -110,10 +121,7 @@ Alerts if NOT admin ip address visiting (admin ip stored in config setting)?
 See if at all feasible to fully modularize mining calculators to be added via config settings?
 
 
-Using primary chart data files as the source, dynamically create and cache extra chart data files for 1week / 1month / 3month / 6month / 1year / 2year / 4year charts (every hour?), using different minimum time intervals, to improve scaling UI integration (UI load times, as more chart data is collected)?
-
-
-Add security nonce to thwart CSRF attacks on cookie portfolio data / SQL-based (authenticated) admin pages?
+Add security nonce to thwart CSRF attacks on cookie portfolio data / (authenticated) admin pages?
 
 
 Look into graceful 'loading...' placeholder until page is fully loaded?
