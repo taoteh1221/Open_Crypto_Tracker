@@ -37,6 +37,8 @@ For additional documentation, see /DOCUMENTATION-ETC/HELP-FAQ.txt.
 
 FEATURES
 
+-Username / password protection for the portfolio interface.
+
 -Automated and user-friendly installation / upgrade script for Raspberry Pi (an affordable low power single board computer) app setup on your home / internal network.
 
 -Cryptocurrency portfolio subtotal summaries, and total portfolio worth (in crypto and your local primary currency), including value gain / loss data (with tracking support for long / short margin leverages), portfolio balance data, and marketcap data.
