@@ -1091,7 +1091,6 @@ global $btc_primary_currency_value, $app_config;
 
 
   elseif ( strtolower($chosen_exchange) == 'localbitcoins' ) {
- 
      
      $json_string = 'https://localbitcoins.com/bitcoinaverage/ticker-all-currencies/';
      
@@ -1108,7 +1107,7 @@ global $btc_primary_currency_value, $app_config;
          if ( $key == $market_id ) {
           
          return  array(
-    						'last_trade' => $data[$key]["rates"]["last"],
+    						'last_trade' => float_to_string($data[$key]["rates"]["last"]), // Handle large / small values better with float_to_string()
     						'24hr_asset_volume' => $data[$key]["volume_btc"],
     						'24hr_pairing_volume' => NULL,
     						'24hr_primary_currency_volume' => trade_volume($asset_symbol, $pairing, $data[$key]["volume_btc"], $data[$key]["rates"]["last"])

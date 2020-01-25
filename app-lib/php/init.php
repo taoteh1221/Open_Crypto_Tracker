@@ -5,7 +5,7 @@
 
 
 
-$app_version = '4.07.2';  // 2020/JANUARY/25TH
+$app_version = '4.07.3';  // 2020/JANUARY/25TH
 
 
 
@@ -117,20 +117,10 @@ $api_runtime_cache = array();
 
 $_SESSION['proxy_checkup'] = array();
 
+$original_app_config = $app_config; // SET BEFORE dynamic app config management
 
 // Register the base directory
 $base_dir = preg_replace("/\/app-lib(.*)/i", "", dirname(__FILE__) );
-
-
-$original_app_config = $app_config; // SET BEFORE dynamic app config management
-
-
-// Coinmarketcap supported currencies
-require_once("app-lib/php/other/coinmarketcap-currencies.php");
-
-
-// Dynamic app config management
-require_once("app-lib/php/other/app-config-management.php");
 
 
 
@@ -171,8 +161,29 @@ echo "Cannot create cache sub-directories. Please make sure the folder '/cache/'
 exit;
 }
 
-// Chart data cache directory creation (if needed)
-							
+
+
+// Security (MUST run AFTER directory structure creation check)
+require_once($base_dir . '/app-lib/php/other/security/directory.php');
+
+// SECURED cache files management (MUST RUN AFTER directory structure creation check)
+require_once($base_dir . '/app-lib/php/other/security/secure-cache-files.php');
+
+// Password protection management (MUST RUN AFTER directory structure creation check, and AFTER secure cache files)
+require_once($base_dir . '/app-lib/php/other/security/password-protection.php');
+
+// Dynamic app config management (MUST RUN AFTER secure cache files)
+require_once("app-lib/php/other/app-config-management.php");
+
+// Coinmarketcap supported currencies
+require_once("app-lib/php/other/coinmarketcap-currencies.php");
+
+
+
+
+///////////////////////////////////////////////////////////////////////////
+// Chart data cache directory creation (if needed...MUST RUN AFTER dynamic app config management)
+///////////////////////////////////////////////////////////////////////////
 // Structure of lite charts sub-directories
 $lite_charts_structure = array(
 									'1_day',
@@ -228,21 +239,10 @@ if ( $disabled_caching == 1 ) {
 echo "Improper directory permissions on the '/cache/charts/' sub-directories, cannot create new sub-directories. Make sure the folder '/cache/charts/' AND ANY SUB-DIRECTORIES IN IT have read / write permissions (and further sub-directories WITHIN THESE should be created automatically)";
 exit;
 }
+///////////////////////////////////////////////////////////////////////////
+// END Chart data cache directory creation
+///////////////////////////////////////////////////////////////////////////
 
-
-
-// Security (MUST run AFTER directory structure creation check)
-require_once($base_dir . '/app-lib/php/other/security/directory.php');
-
-
-
-// SECURED cache files management (MUST run AFTER directory structure creation check)
-require_once($base_dir . '/app-lib/php/other/security/secure-cache-files.php');
-
-
-
-// Password protection management (MUST run AFTER directory structure creation check, and AFTER secure cache files)
-require_once($base_dir . '/app-lib/php/other/security/password-protection.php');
 
 
 
@@ -367,7 +367,7 @@ $app_config['primary_marketcap_site'] = ( $alert_percent[0] != '' ? $alert_perce
 
 
 
-// Base URL, that even works during CLI runtime (horray), SET BEFORE SCHEDULED MAINTENANCE 
+// Base URL, that even works during CLI runtime (horray), SET AFTER UI-ONLY INIT / BEFORE SCHEDULED MAINTENANCE INIT
 $base_url = ( $base_url != '' ? $base_url : trim( file_get_contents('cache/vars/app_url.dat') ) );
 
 

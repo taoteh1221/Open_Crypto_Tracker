@@ -53,7 +53,7 @@ $app_config['local_time_offset'] = -5; // example: -5 or 5
 
 // Default BITCOIN-ONLY currency market pairing 
 // (set for charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
-// 'aud' / 'bob' / 'brl' / 'cad' / 'chf' / 'cop' / 'eur' / 'eth' / 'gbp' / 'hkd' / 'jpy' / 'ltc' / 'mxn'
+// 'aud' / 'bob' / 'brl' / 'cad' / 'chf' / 'cop' / 'eur' / 'eth' / 'gbp' / 'hkd' / 'inr' / 'jpy' / 'ltc' / 'mxn'
 // 'nis' / 'pkr' / 'rub' / 'sgd' / 'try' / 'tusd' / 'usd' / 'usdc' / 'usdt' / 'vnd'
 // SEE THE $app_config['portfolio_assets'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
 // CURRENCY PAIRING VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (set in $app_config['btc_primary_exchange'] directly below)
@@ -528,6 +528,7 @@ $app_config['bitcoin_market_currencies'] = array(
 						'eth' => 'Ξ ',
 						'gbp' => '£',
 						'hkd' => 'HK$',
+						'inr' => '₹',
 						'jpy' => 'J¥',
 						'ltc' => 'Ł ',
 						'mxn' => 'Mex$',
@@ -918,6 +919,10 @@ $app_config['portfolio_assets'] = array(
                                                     
                                     'hkd' => array(
                                           'tidebit' => 'btchkd'
+                                                    ),
+                                                    
+                                    'inr' => array(
+                                          'localbitcoins' => 'INR',
                                                     ),
                                                     
                                     'jpy' => array(
