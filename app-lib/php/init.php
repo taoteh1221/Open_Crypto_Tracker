@@ -5,7 +5,7 @@
 
 
 
-$app_version = '4.08.0';  // 2020/JANUARY/23RD
+$app_version = '4.07.2';  // 2020/JANUARY/25TH
 
 
 
