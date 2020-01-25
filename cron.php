@@ -4,7 +4,6 @@
  */
 
 
-
 // Calculate script runtime length
 $time = microtime();
 $time = explode(' ', $time);
@@ -25,15 +24,12 @@ if ( isset($_SERVER['REQUEST_METHOD']) && realpath(__FILE__) == realpath($_SERVE
 chdir( dirname(__FILE__) );
 
 
-
 // Runtime mode
 $runtime_mode = 'cron';
 
 
-
 // Load app config / etc
 require("config.php");
-
 
 
 // Charts and price alerts

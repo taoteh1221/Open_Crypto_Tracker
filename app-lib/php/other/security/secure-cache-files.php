@@ -10,8 +10,6 @@ $secured_cache_files = sort_files($base_dir . '/cache/secured', 'dat', 'desc');
 
 $app_config_check = trim( file_get_contents($base_dir . '/cache/vars/app_config_md5.dat') );
 
-$original_app_config = $app_config;
-
 
 foreach( $secured_cache_files as $secured_file ) {
 

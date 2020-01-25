@@ -2335,9 +2335,9 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Code cleanup
 
--Mandatory HTTPS (SSL) connection for the web interface
+-Bug fixes for auto-install script
 
--Bug fix for auto-install script using custom document root
+-Mandatory secure HTTPS (SSL) connection for the web interface
 
 -Htaccess password protection config settings (enable / disable username and password required to view web interface)
 

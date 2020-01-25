@@ -836,14 +836,22 @@ $htaccess_password = trim($app_config['htaccess_password']);
     
     $htaccess_password = crypt( $htaccess_password, base64_encode($htaccess_password) );
     
-    store_file_contents($base_dir . '/cache/secured/.app_htpasswd', $htaccess_username . ':' . $htaccess_password);
+    $password_set = store_file_contents($base_dir . '/cache/secured/.app_htpasswd', $htaccess_username . ':' . $htaccess_password);
     
-    $htaccess_contents = file_get_contents($base_dir . '/templates/back-end/root-app-directory-htaccess.template') . 
+    	if ( $password_set == true ) {
+    	
+    	$htaccess_contents = file_get_contents($base_dir . '/templates/back-end/root-app-directory-htaccess.template') . 
 preg_replace("/\[BASE_DIR\]/i", $base_dir, file_get_contents($base_dir . '/templates/back-end/enable-password-htaccess.template') );
     
-    store_file_contents($base_dir . '/.htaccess', $htaccess_contents);
+    	$htaccess_set = store_file_contents($base_dir . '/.htaccess', $htaccess_contents);
     
-    return true;
+    	return $htaccess_set;
+    	
+    	}
+    	else {
+    	return false;
+    	}
+    
     
     }
 
