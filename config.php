@@ -111,7 +111,7 @@ $app_config['marketcap_cache_time'] = 20; // Minutes to cache above-mentioned ma
 
 
 // Minutes to cache real-time exchange data...can be zero to skip cache, but set to at least 1 minute to avoid your IP getting blocked
-$app_config['last_trade_cache_time'] = 4; 
+$app_config['last_trade_cache_time'] = 3; 
 
 
 $app_config['chainstats_cache_time'] = 30; // Minutes to cache blockchain stats (for mining calculators). Set high initially, can be strict
