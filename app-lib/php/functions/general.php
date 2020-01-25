@@ -1738,7 +1738,7 @@ $raw_value_to_pretty = float_to_string($raw_value_to_pretty);
 	    	
 	    // Limit $decimal_amount to $num_decimals (unless it's a watch-only asset)
 	    if ( $raw_value_to_pretty != 0.000000001 ) {
-	    $decimal_amount = ( iconv_strlen($decimal_amount, $app_config['charset_standard']) > $num_decimals ? substr($decimal_amount, 0, $num_decimals) : $decimal_amount );
+	    $decimal_amount = ( iconv_strlen($decimal_amount, 'utf-8') > $num_decimals ? substr($decimal_amount, 0, $num_decimals) : $decimal_amount );
 	    }
 	    
 	    	

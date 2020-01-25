@@ -2339,6 +2339,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Mandatory secure HTTPS (SSL) connection for the web interface
 
+-Bug fix for cached app config data auto-refresh (for upcoming admin settings page)
+
 -Htaccess password protection config settings (enable / disable username and password required to view web interface)
 
 IMPORTANT NOTES: 

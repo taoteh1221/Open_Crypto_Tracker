@@ -522,7 +522,7 @@ $user_agent = 'Mozilla/5.0 ('.( isset($system_info['operating_system']) ? $syste
 // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
 if ( $app_config['smtp_login'] != '' && $app_config['smtp_server'] != '' ) {
 
-require_once( dirname(__FILE__) . '/classes/smtp-mailer/SMTPMailer.php');
+require_once($base_dir . '/app-lib/php/classes/smtp-mailer/SMTPMailer.php');
 
 // Passing smtp server login vars to config file structure used by the 3rd party SMTP class, to maintain ease with any future upgrade compatibility
 // Must be loaded as a global var before class instance is created
@@ -537,14 +537,14 @@ $smtp = new SMTPMailer();
 
 
 // Configuration checks
-require_once( $base_dir . "/app-lib/php/other/config-checks.php");
+require_once($base_dir . "/app-lib/php/other/config-checks.php");
 
 
 
 // Unit tests to run in debug mode, !AFTER! loading init logic
 if ( $app_config['debug_mode'] != 'off' ) {
-require_once("app-lib/php/other/debugging/tests.php");
-require_once("app-lib/php/other/debugging/exchange-and-pairing-info.php");
+require_once($base_dir . "/app-lib/php/other/debugging/tests.php");
+require_once($base_dir . "/app-lib/php/other/debugging/exchange-and-pairing-info.php");
 }
 
 
