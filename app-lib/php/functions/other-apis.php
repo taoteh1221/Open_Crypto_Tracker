@@ -72,7 +72,7 @@ $json_string = 'https://api.grinmint.com/v1/networkStats';
 
 $jsondata = @api_data('url', $json_string, $app_config['chainstats_cache_time']);
     
-$data = json_decode($jsondata, TRUE);
+$data = json_decode($jsondata, true);
     
 return $data[$request];
   
@@ -127,7 +127,7 @@ global $app_config, $runtime_mode;
  		
  		$jsondata = @api_data('url', $json_string, $app_config['chainstats_cache_time']);
   		
-  		$data = json_decode($jsondata, TRUE);
+  		$data = json_decode($jsondata, true);
    	 
 		return $data[$request];
 			  
@@ -147,7 +147,7 @@ global $app_config;
  	$json_string = 'https://moneroblocks.info/api/get_stats';
  	$jsondata = @api_data('url', $json_string, $app_config['chainstats_cache_time']);
   	
-  	$data = json_decode($jsondata, TRUE);
+  	$data = json_decode($jsondata, true);
     
 		if ( !$data ) {
 		return;
@@ -171,7 +171,7 @@ global $base_dir, $app_config;
   $json_string = 'https://api.etherscan.io/api?module=proxy&action=eth_blockNumber';
   $jsondata = @api_data('url', $json_string, $app_config['chainstats_cache_time']);
     
-  $data = json_decode($jsondata, TRUE);
+  $data = json_decode($jsondata, true);
   
   $block_number = $data['result'];
     
@@ -188,7 +188,7 @@ global $base_dir, $app_config;
     		
     		store_file_contents($base_dir . '/cache/apis/eth-stats.dat', $jsondata);
     		
-    		$data = json_decode($jsondata, TRUE);
+    		$data = json_decode($jsondata, true);
     		
     		return $data['result'][$block_info];
     		
@@ -197,7 +197,7 @@ global $base_dir, $app_config;
     			
     		$cached_data = trim( file_get_contents('cache/apis/eth-stats.dat') );
     		
-    		$data = json_decode($cached_data, TRUE);
+    		$data = json_decode($cached_data, true);
     		
     		return $data['result'][$block_info];
 
@@ -223,7 +223,7 @@ $array_merging = array();
 
 	$jsondata = @api_data('url', 'https://api.coingecko.com/api/v3/coins?per_page='.$app_config['marketcap_ranks_max'].'&page=1', $app_config['marketcap_cache_time']);
 	   
-   $_SESSION['cgk_data'] = json_decode($jsondata, TRUE);
+   $_SESSION['cgk_data'] = json_decode($jsondata, true);
 
 	}
 
@@ -261,11 +261,11 @@ function coinmarketcap_api($symbol) {
 global $app_config, $coinmarketcap_currencies;
 
 
-	if ( trim($app_config['coinmarketcapcom_api_key']) == NULL ) { 
+	if ( trim($app_config['coinmarketcapcom_api_key']) == null ) { 
 	
 	app_logging('cmc_config_error', '"coinmarketcapcom_api_key" is not configured in config.php', false, false, true);
 	
-	return FALSE;
+	return false;
 	
 	}
 	
@@ -278,7 +278,7 @@ global $app_config, $coinmarketcap_currencies;
 		
 		if ( in_array($coinmarketcap_primary_currency, $coinmarketcap_currencies) ) {
 		$convert = $coinmarketcap_primary_currency;
-		$_SESSION['cap_data_force_usd'] = NULL;
+		$_SESSION['cap_data_force_usd'] = null;
 		}
 		// Default to USD, if currency is not supported
 		else {
@@ -305,9 +305,9 @@ global $app_config, $coinmarketcap_currencies;
 	
 	$request = "{$url}?{$qs}"; // create the request URL
 
-	$jsondata = @api_data('url', $request, $app_config['api_timeout'], NULL, NULL, NULL, $headers);
+	$jsondata = @api_data('url', $request, $app_config['api_timeout'], null, null, null, $headers);
 	
-	$data = json_decode($jsondata, TRUE);
+	$data = json_decode($jsondata, true);
         
    $_SESSION['cmc_data'] = $data['data'];
         

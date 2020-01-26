@@ -362,7 +362,7 @@ $result = setcookie($name, $value, $time);
 	app_logging('other_error', 'Cookie size is greater than 4093 bytes (' . strlen($value) . ' bytes). If saving portfolio as cookie data fails on your browser, try using CSV file import / export instead for large portfolios.');
 	}
 	
-	if ( $result == FALSE ) {
+	if ( $result == false ) {
 	app_logging('other_error', 'Cookie creation failed for cookie "' . $name . '"');
 	}
 	
@@ -411,10 +411,10 @@ $hostData = explode('.', $urlData['host']);
 $hostData = array_reverse($hostData);
 
 
-	if ( array_search($hostData[1] . '.' . $hostData[0], $app_config['top_level_domain_map']) !== FALSE ) {
+	if ( array_search($hostData[1] . '.' . $hostData[0], $app_config['top_level_domain_map']) !== false ) {
    $host = $hostData[2] . '.' . $hostData[1] . '.' . $hostData[0];
 	} 
-	elseif ( array_search($hostData[0], $app_config['top_level_domain_map']) !== FALSE ) {
+	elseif ( array_search($hostData[0], $app_config['top_level_domain_map']) !== false ) {
    $host = $hostData[1] . '.' . $hostData[0];
  	}
 
@@ -431,11 +431,14 @@ return strtolower( trim($host) );
 // hex2bin requires PHP >= 5.4.0.
 // If, for whatever reason, you are using a legacy version of PHP, you can implement hex2bin with this function:
  
-if (!function_exists('hex2bin')) {
+if ( !function_exists('hex2bin') ) {
+	
     function hex2bin($hexstr) {
+    	
         $n = strlen($hexstr);
         $sbin = "";
         $i = 0;
+        
         while ($i < $n) {
             $a = substr($hexstr, $i, 2);
             $c = pack("H*", $a);
@@ -446,8 +449,11 @@ if (!function_exists('hex2bin')) {
             }
             $i += 2;
          }
+         
          return $sbin;
+         
     }
+    
 }
 
 
@@ -458,7 +464,7 @@ if (!function_exists('hex2bin')) {
 function start_page($page, $href_link=false) {
 
 	// We want to force a page reload for href links, so technically we change the URL but location remains the same
-	if ( $href_link != FALSE ) {
+	if ( $href_link != false ) {
 	$index = './';
 	}
 	else {
@@ -746,7 +752,7 @@ function character_utf8_to_unicode($char, $format) {
         $result = (ord($char{0})-252)*1073741824 + (ord($char{1})-128)*16777216 + (ord($char{2})-128)*262144 + (ord($char{3})-128)*4096 + (ord($char{4})-128)*64 + (ord($char{5})-128);
         
     if (ord($char{0}) >= 254 && ord($char{0}) <= 255)    //  error
-        $result = FALSE;
+        $result = false;
         
     if ( $format == 'decimal' ) {
     $result = $result;
@@ -768,12 +774,8 @@ function password_strength($password) {
 
 global $app_config;
 
-    if ( mb_strlen($password, $app_config['charset_standard']) < 13 ) {
-    $error .= "requires 13 minimum characters; ";
-    }
-    
-    if ( mb_strlen($password, $app_config['charset_standard']) > 30 ) {
-    $error .= "requires 30 maximum characters; ";
+    if ( mb_strlen($password, $app_config['charset_standard']) != 8 ) {
+    $error .= "requires EXACTLY 8 characters; ";
     }
     
     if ( !preg_match("#[0-9]+#", $password) ) {
@@ -816,20 +818,23 @@ function htaccess_directory_protection() {
 
 global $base_dir, $app_config;
 
-$htaccess_username = trim($app_config['htaccess_username']);
+// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
+$htaccess_login_array = explode("||", $app_config['htaccess_login']);
 
-$htaccess_password = trim($app_config['htaccess_password']);
+$htaccess_username = $htaccess_login_array[0];
+
+$htaccess_password = $htaccess_login_array[1];
 
 
     if ( $htaccess_username == '' || $htaccess_password == '' ) {
     return false;
     }
     elseif ( valid_username($htaccess_username) != 'valid' ) {
-    app_logging('security_error', 'app_config\'s "htaccess_username" value does not meet minimum valid username requirements' , valid_username($htaccess_username) );
+    app_logging('security_error', 'app_config\'s "htaccess_login" username value does not meet minimum valid username requirements' , valid_username($htaccess_username) );
     return false;
     }
     elseif ( password_strength($htaccess_password) != 'valid' ) {
-    app_logging('security_error', 'app_config\'s "htaccess_password" value does not meet minimum password strength requirements' , password_strength($htaccess_password) );
+    app_logging('security_error', 'app_config\'s "htaccess_login" password value does not meet minimum password strength requirements' , password_strength($htaccess_password) );
     return false;
     }
     else {
@@ -841,7 +846,7 @@ $htaccess_password = trim($app_config['htaccess_password']);
     	if ( $password_set == true ) {
     	
     	$htaccess_contents = file_get_contents($base_dir . '/templates/back-end/root-app-directory-htaccess.template') . 
-preg_replace("/\[BASE_DIR\]/i", $base_dir, file_get_contents($base_dir . '/templates/back-end/enable-password-htaccess.template') );
+		preg_replace("/\[BASE_DIR\]/i", $base_dir, file_get_contents($base_dir . '/templates/back-end/enable-password-htaccess.template') );
     
     	$htaccess_set = store_file_contents($base_dir . '/.htaccess', $htaccess_contents);
     
@@ -994,7 +999,7 @@ return $vars;
 ////////////////////////////////////////////////////////
 
 
-function base_url($atRoot=FALSE, $atCore=FALSE, $parse=FALSE) {
+function base_url($atRoot=false, $atCore=false, $parse=false) {
 	
 // WARNING: THIS ONLY WORKS WELL FOR HTTP-BASED RUNTIME, ----NOT CLI---!
 // CACHE IT TO FILE DURING UI RUNTIME FOR CLI TO USE LATER ;-)
@@ -1005,7 +1010,7 @@ function base_url($atRoot=FALSE, $atCore=FALSE, $parse=FALSE) {
    $hostname = $_SERVER['HTTP_HOST'];
    $dir =  str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
 
-   $core = preg_split('@/@', str_replace($_SERVER['DOCUMENT_ROOT'], '', realpath(dirname(__FILE__))), NULL, PREG_SPLIT_NO_EMPTY);
+   $core = preg_split('@/@', str_replace($_SERVER['DOCUMENT_ROOT'], '', realpath(dirname(__FILE__))), null, PREG_SPLIT_NO_EMPTY);
    $core = $core[0];
 
    $tmplt = $atRoot ? ($atCore ? "%s://%s/%s/" : "%s://%s/") : ($atCore ? "%s://%s/%s/" : "%s://%s%s");
@@ -1033,7 +1038,7 @@ return $base_url;
 function time_date_format($offset=false, $mode=false) {
 
 
-	if ( $offset == FALSE ) {
+	if ( $offset == false ) {
 	$time = time();
 	}
 	else {
@@ -1041,7 +1046,7 @@ function time_date_format($offset=false, $mode=false) {
 	}
 
 
-	if ( $mode == FALSE ) {
+	if ( $mode == false ) {
 	$date = date("Y-m-d H:i:s", $time); // Format: 2001-03-10 17:16:18 (the MySQL DATETIME format)
 	}
 	elseif ( $mode == 'pretty_date_time' ) {
@@ -1110,9 +1115,9 @@ $type = pathinfo($save_as, PATHINFO_EXTENSION);
 function csv_file_array($file) {
 	
 	$row = 0;
-	if ( ( $handle = fopen($file, "r") ) != FALSE ) {
+	if ( ( $handle = fopen($file, "r") ) != false ) {
 		
-		while ( ( $data = fgetcsv($handle, 0, ",") ) != FALSE ) {
+		while ( ( $data = fgetcsv($handle, 0, ",") ) != false ) {
 			
 		$num = count($data);
 		
@@ -1420,7 +1425,7 @@ $words = explode(" ", $content);
 		
 	$scan_value = trim($scan_value);
 	
-	$scan_charset = ( mb_detect_encoding($scan_value, 'auto') != false ? mb_detect_encoding($scan_value, 'auto') : NULL );
+	$scan_charset = ( mb_detect_encoding($scan_value, 'auto') != false ? mb_detect_encoding($scan_value, 'auto') : null );
 	
 		if ( isset($scan_charset) && !preg_match("/" . $app_config['charset_standard'] . "/i", $scan_charset) && !preg_match("/ASCII/i", $scan_charset) ) {
 		$set_charset = $app_config['charset_unicode'];
@@ -1433,7 +1438,7 @@ $words = explode(" ", $content);
 		
 	$word_value = trim($word_value);
 	
-	$word_charset = ( mb_detect_encoding($word_value, 'auto') != false ? mb_detect_encoding($word_value, 'auto') : NULL );
+	$word_charset = ( mb_detect_encoding($word_value, 'auto') != false ? mb_detect_encoding($word_value, 'auto') : null );
 	
    $result['debug_original_charset'] .= ( isset($word_charset) ? $word_charset . ' ' : 'unknown_charset ' );
 	
@@ -1589,7 +1594,7 @@ function update_cookies($set_coin_values, $set_pairing_values, $set_market_value
            if ( $_POST['submit_check'] == 1 ) {
            	
                
-               if ( $_POST['show_charts'] != NULL ) {
+               if ( $_POST['show_charts'] != null ) {
                store_cookie_contents("show_charts", $_POST['show_charts'], mktime()+31536000);
                }
                else {
@@ -1597,7 +1602,7 @@ function update_cookies($set_coin_values, $set_pairing_values, $set_market_value
                unset($_COOKIE['show_charts']);  // Delete any existing cookies
                }
               
-               if ( $_POST['theme_selected'] != NULL ) {
+               if ( $_POST['theme_selected'] != null ) {
                store_cookie_contents("theme_selected", $_POST['theme_selected'], mktime()+31536000);
                }
                else {
@@ -1605,7 +1610,7 @@ function update_cookies($set_coin_values, $set_pairing_values, $set_market_value
                unset($_COOKIE['theme_selected']);  // Delete any existing cookies
                }
                
-               if ( $_POST['sort_by'] != NULL ) {
+               if ( $_POST['sort_by'] != null ) {
                store_cookie_contents("sort_by", $_POST['sort_by'], mktime()+31536000);
                }
                else {
@@ -1613,7 +1618,7 @@ function update_cookies($set_coin_values, $set_pairing_values, $set_market_value
                unset($_COOKIE['sort_by']);  // Delete any existing cookies
                }
               
-               if ( $_POST['use_alert_percent'] != NULL ) {
+               if ( $_POST['use_alert_percent'] != null ) {
                store_cookie_contents("alert_percent", $_POST['use_alert_percent'], mktime()+31536000);
                }
                else {
@@ -1621,7 +1626,7 @@ function update_cookies($set_coin_values, $set_pairing_values, $set_market_value
                unset($_COOKIE['alert_percent']);  // Delete any existing cookies
                }
               
-               if ( $_POST['primary_currency_market_standalone'] != NULL ) {
+               if ( $_POST['primary_currency_market_standalone'] != null ) {
                store_cookie_contents("primary_currency_market_standalone", $_POST['primary_currency_market_standalone'], mktime()+31536000);
                }
                else {
@@ -1731,8 +1736,8 @@ $raw_value_to_pretty = float_to_string($raw_value_to_pretty);
 	    	}
 	    	else {
 	    	$value_no_decimal = $raw_value_to_pretty;
-	    	$decimal_amount = NULL;
-	    	$check_decimal_amount = NULL;
+	    	$decimal_amount = null;
+	    	$check_decimal_amount = null;
 	    	}
 	    	
 	    	
@@ -1743,7 +1748,7 @@ $raw_value_to_pretty = float_to_string($raw_value_to_pretty);
 	    
 	    	
 	    	// Show EVEN IF LOW VALUE IS OFF THE MAP, just for UX purposes (tracking token price only, etc)
-	    	if ( float_to_string($raw_value_to_pretty) > 0.00000000 && $small_unlimited == TRUE ) {  
+	    	if ( float_to_string($raw_value_to_pretty) > 0.00000000 && $small_unlimited == true ) {  
 	    		
 	    		if ( $num_decimals == 2 ) {
 	    		$value_to_pretty = number_format($raw_value_to_pretty, 2, '.', ',');
@@ -1755,7 +1760,7 @@ $raw_value_to_pretty = float_to_string($raw_value_to_pretty);
 	    	
 	    	}
 	    	// Show low value only with $decimal_amount minimum
-	    	elseif ( float_to_string($raw_value_to_pretty) >= 0.00000001 && $small_unlimited == FALSE ) {  
+	    	elseif ( float_to_string($raw_value_to_pretty) >= 0.00000001 && $small_unlimited == false ) {  
 	    		
 	    		if ( $num_decimals == 2 ) {
 	    		$value_to_pretty = number_format($raw_value_to_pretty, 2, '.', ',');
@@ -2139,10 +2144,10 @@ $debugging_logs .= strip_tags($_SESSION['other_debugging']); // Remove any HTML 
 	// Log debugging...Purge old logs before storing new logs, if it's time to...otherwise just append.
 	if ( update_cache_file('cache/events/purge-debugging-logs.dat', ( $app_config['purge_logs'] * 1440 ) ) == true ) {
 	store_file_contents($base_dir . '/cache/logs/debugging.log', $debugging_logs); // NULL if no new debugging, but that's OK because we are purging any old entries 
-	store_file_contents($base_dir . '/cache/logs/smtp_debugging.log', NULL);
+	store_file_contents($base_dir . '/cache/logs/smtp_debugging.log', null);
 	store_file_contents('cache/events/purge-debugging-logs.dat', date('Y-m-d H:i:s'));
 	}
-	elseif ( $debugging_logs != NULL ) {
+	elseif ( $debugging_logs != null ) {
 	store_file_contents($base_dir . '/cache/logs/debugging.log', $debugging_logs, "append");
 	}
 	
@@ -2201,10 +2206,10 @@ $error_logs .= strip_tags($_SESSION['other_error']); // Remove any HTML formatti
 	// Log errors...Purge old logs before storing new logs, if it's time to...otherwise just append.
 	if ( update_cache_file('cache/events/purge-error-logs.dat', ( $app_config['purge_logs'] * 1440 ) ) == true ) {
 	store_file_contents($base_dir . '/cache/logs/errors.log', $error_logs); // NULL if no new errors, but that's OK because we are purging any old entries 
-	store_file_contents($base_dir . '/cache/logs/smtp_errors.log', NULL);
+	store_file_contents($base_dir . '/cache/logs/smtp_errors.log', null);
 	store_file_contents('cache/events/purge-error-logs.dat', date('Y-m-d H:i:s'));
 	}
-	elseif ( $error_logs != NULL ) {
+	elseif ( $error_logs != null ) {
 	store_file_contents($base_dir . '/cache/logs/errors.log', $error_logs, "append");
 	}
 	
@@ -2298,7 +2303,7 @@ global $runtime_mode, $app_version, $base_dir;
 
 
 // OS
-$system['operating_system'] = PHP_OS;
+$system['operating_system'] = php_uname();
 	
 	
 	
@@ -2556,20 +2561,20 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 		
 		
 		$notifyme_params = array(
-									 'notification' => NULL, // Setting this right before sending
+									 'notification' => null, // Setting this right before sending
 									 'accessCode' => $app_config['notifyme_accesscode']
 									   );
 						
 						
 		$textbelt_params = array(
-									 'message' => NULL, // Setting this right before sending
+									 'message' => null, // Setting this right before sending
 									 'phone' => text_number($app_config['to_text']),
 									 'key' => $app_config['textbelt_apikey']
 									);
 						
 						
 		$textlocal_params = array(
-									  'message' => NULL, // Setting this right before sending
+									  'message' => null, // Setting this right before sending
 									  'username' => string_to_array($app_config['textlocal_account'])[0],
 									  'hash' => string_to_array($app_config['textlocal_account'])[1],
 									  'numbers' => text_number($app_config['to_text'])
@@ -2820,7 +2825,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 ////////////////////////////////////////////////////////
 
 
-function api_data($mode, $request, $ttl, $api_server=null, $post_encoding=3, $test_proxy=NULL, $headers=NULL) { // Default to JSON encoding post requests (most used)
+function api_data($mode, $request, $ttl, $api_server=null, $post_encoding=3, $test_proxy=null, $headers=null) { // Default to JSON encoding post requests (most used)
 
 // $app_config['btc_primary_currency_pairing'] / $app_config['btc_primary_exchange'] / $btc_primary_currency_value USED FOR TRACE DEBUGGING (TRACING)
 global $base_dir, $app_config, $api_runtime_cache, $btc_primary_currency_value, $user_agent;
@@ -2917,7 +2922,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		
 		
 		// If header data is being passed in
-		if ( $headers != NULL ) {
+		if ( $headers != null ) {
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 		}
 		
@@ -2925,7 +2930,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		// If proxies are configured
 		if ( sizeof($app_config['proxy_list']) > 0 ) {
 			
-		$current_proxy = ( $mode == 'proxy-check' && $test_proxy != NULL ? $test_proxy : random_proxy() );
+		$current_proxy = ( $mode == 'proxy-check' && $test_proxy != null ? $test_proxy : random_proxy() );
 		
 		// Check for valid proxy config
 		$ip_port = explode(':', $current_proxy);
@@ -2936,12 +2941,12 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 			// If no ip/port detected in data string, cancel and continue runtime
 			if ( !$ip || !$port ) {
 			app_logging('api_data_error', 'proxy '.$current_proxy.' is not a valid format');
-			return FALSE;
+			return false;
 			}
 
 		
 		curl_setopt($ch, CURLOPT_PROXY, trim($current_proxy) );     
-		curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, TRUE);  
+		curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, true);  
 		
 			// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
 			if ( $app_config['proxy_login'] != ''  ) {
@@ -2959,24 +2964,24 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		}
 		
 		if ( $mode == 'array' && $post_encoding == 1 ) {
-		curl_setopt($ch, CURLOPT_POST, TRUE);
+		curl_setopt($ch, CURLOPT_POST, true);
 		curl_setopt( $ch, CURLOPT_POSTFIELDS, $request );
 		}
 		elseif ( $mode == 'array' && $post_encoding == 2 ) {
-		curl_setopt($ch, CURLOPT_POST, TRUE);
+		curl_setopt($ch, CURLOPT_POST, true);
 		curl_setopt( $ch, CURLOPT_POSTFIELDS,  http_build_query($request) );
 		}
 		elseif ( $mode == 'array' && $post_encoding == 3 ) {
-		curl_setopt($ch, CURLOPT_POST, TRUE);
+		curl_setopt($ch, CURLOPT_POST, true);
 		curl_setopt( $ch, CURLOPT_POSTFIELDS, json_encode($request) );
 		}
 		elseif ( $mode == 'url' || $mode == 'proxy-check' ) {
 		curl_setopt($ch, CURLOPT_URL, $request);
 		}
 	
-	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 	curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $app_config['api_timeout']);
 	curl_setopt($ch, CURLOPT_TIMEOUT, $app_config['api_timeout']);
 	curl_setopt($ch, CURLOPT_USERAGENT, $user_agent);
@@ -2986,10 +2991,10 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		if (  preg_match("/https:\/\//i", ( $mode == 'array' ? $api_server : $request ) )  ) {
 			
 		curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, ( $app_config['api_strict_ssl'] == 'on' ? 2 : 0 ) );
-		curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, ( $app_config['api_strict_ssl'] == 'on' ? TRUE : FALSE ) ); 
+		curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, ( $app_config['api_strict_ssl'] == 'on' ? true : false ) ); 
 		
 			if ( PHP_VERSION_ID >= 70700 && CURL_VERSION_ID >= 7410 ) {
-			curl_setopt ($ch, CURLOPT_SSL_VERIFYSTATUS, ( $app_config['api_strict_ssl'] == 'on' ? TRUE : FALSE ) ); 
+			curl_setopt ($ch, CURLOPT_SSL_VERIFYSTATUS, ( $app_config['api_strict_ssl'] == 'on' ? true : false ) ); 
 			}
 
 		}
@@ -3068,7 +3073,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		
 		// Don't log cmc throttle notices, BUT nullify $data since we're getting no API data (just a throttle notice)
 		if ( preg_match("/coinmarketcap/i", $request) && !preg_match("/last_updated/i", $data) ) {
-		$data = NULL;
+		$data = null;
 		}
 	
 		
@@ -3173,7 +3178,7 @@ $port = $ip_port[1];
 	// If no ip/port detected in data string, cancel and continue runtime
 	if ( !$ip || !$port ) {
 	app_logging('api_data_error', 'proxy '.$problem_proxy.' is not a valid format');
-	return FALSE;
+	return false;
 	}
 
 // Create cache filename / session var
@@ -3191,7 +3196,7 @@ $cache_filename = preg_replace("/:/", "_", $cache_filename);
 	$run_alerts = 1;
 	}
 	else {
-	$run_alerts = NULL;
+	$run_alerts = null;
 	}
 
 	if ( $run_alerts == 1 && update_cache_file('cache/alerts/proxy-check-'.$cache_filename.'.dat', ( $app_config['proxy_alerts_freq'] * 60 ) ) == true
@@ -3203,7 +3208,7 @@ $cache_filename = preg_replace("/:/", "_", $cache_filename);
 		
 	$jsondata = @api_data('proxy-check', $proxy_test_url, 0, '', '', $problem_proxy);
 	
-	$data = json_decode($jsondata, TRUE);
+	$data = json_decode($jsondata, true);
 	
 		if ( sizeof($data) > 0 ) {
 

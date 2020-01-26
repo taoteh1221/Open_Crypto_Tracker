@@ -50,13 +50,8 @@ $app_config = array(); // REQUIRED, DON'T DELETE BY ACCIDENT
 $app_config['debug_mode'] = 'off'; 
 
 
-// Htaccess password protection (password required to view this portfolio app's web interface)
-// Username MUST BE at least 4 characters, beginning with ONLY LOWERCASE letters (may contain numbers AFTER first letter), NO SPACES
-// Password MUST BE at least 13 characters, AND contain one number, one UPPER AND LOWER CASE letter, and one symbol, NO SPACES
-// (enables / updates automatically, when a valid username / password are filled in here)
-// (disables automatically, when username / password are blank '' OR invalid)
-$app_config['htaccess_username'] = ''; // Leave blank to keep disabled
-$app_config['htaccess_password'] = ''; // Leave blank to keep disabled
+// Shows system statistics in the user interface, if stats are available (system load, system temperature, free disk space, free system memory)
+$app_config['system_stats'] = 'raspi'; // 'off' (disabled), 'on' (enabled for ANY system), 'raspi' (enabled ONLY for raspberry pi devices)
 
 
 // Your local time offset in hours compared to UTC time. Can be negative or positive.
@@ -83,11 +78,32 @@ $app_config['btc_primary_currency_pairing'] = 'usd';
 $app_config['btc_primary_exchange'] = 'kraken'; // SEE THE $app_config['limited_apis'] SETTING MUCH FURTHER DOWN, FOR EXCHANGES !NOT RECOMMENDED FOR USAGE HERE!
 
 
+// Htaccess password protection (password required to view this portfolio app's web interface)
+// Username MUST BE at least 4 characters, beginning with ONLY LOWERCASE letters (may contain numbers AFTER first letter), NO SPACES
+// Password MUST BE EXACTLY 8 characters, AND contain one number, one UPPER AND LOWER CASE letter, and one symbol, NO SPACES
+// (ENABLES / UPDATES automatically, when a valid username / password are filled in or updated here)
+// (DISABLES automatically, when username / password are blank '' OR invalid) 
+// (!ONLY #UPDATES OR DISABLES# AUTOMATICALLY #AFTER# LOGGING IN ONCE WITH YOUR #OLD LOGIN# [or if a cron job runs with the new config]!)
+$app_config['htaccess_login'] = ''; // Leave blank to disable. This format MUST be used: 'username||password'
+
+
+// Seconds to wait for response from API endpoints (exchange data, etc). 
+// Set too low you won't get data, set too high the interface can take a long time loading if an API server hangs up
+$app_config['api_timeout'] = 15; 
+
+
+// Minutes to cache real-time exchange data...can be zero to skip cache, but set to at least 1 minute TO AVOID YOUR IP GETTING BLOCKED
+$app_config['last_trade_cache_time'] = 3; 
+
+
+$app_config['margin_leverage_max'] = 125; // Maximum margin leverage available in the user interface ('Update Assets' page, etc)
+
+
 // Maximum decimal places for [primary currency] values of coins worth under 1.00 [usd/gbp/eur/jpy/brl/rub/etc], for prettier / less-cluttered interface
 $app_config['primary_currency_decimals_max'] = 5; // IF YOU ADJUST $app_config['btc_primary_currency_pairing'] ABOVE, YOU MAY NEED TO ADJUST THIS ACCORDINGLY FOR !FUNCTIONAL! CHARTS / ALERTS
 
 
-// Default marketcap data source: 'coingecko', or 'coinmarketcap' (coinmarketcap requires a FREE API key, see below)
+// Default marketcap data source: 'coingecko', or 'coinmarketcap' (COINMARKETCAP REQUIRES A #FREE# API KEY, see below)
 $app_config['primary_marketcap_site'] = 'coingecko'; 
 
 
@@ -99,25 +115,10 @@ $app_config['coinmarketcapcom_api_key'] = '';
 $app_config['marketcap_ranks_max'] = 200; // 200 rankings is a safe maximum to start with, it avoids getting your API requests throttled / blocked
 
 
-$app_config['margin_leverage_max'] = 125; // Maximum margin leverage available in the user interface ('Update Assets' page, etc)
-
-
-// Block an asset price alert if price retrieved, BUT failed retrieving pair volume (not even a zero was retrieved, nothing)
-// Good for blocking questionable exchanges bugging you with price alerts, especially when used in combination with the minimum volume filter
-$app_config['block_alerts_volume_error'] = 'on'; // 'on' / 'off' 
-
-
 $app_config['marketcap_cache_time'] = 20; // Minutes to cache above-mentioned marketcap rankings...start high and test lower, it can be strict
 
 
-// Minutes to cache real-time exchange data...can be zero to skip cache, but set to at least 1 minute to avoid your IP getting blocked
-$app_config['last_trade_cache_time'] = 3; 
-
-
 $app_config['chainstats_cache_time'] = 30; // Minutes to cache blockchain stats (for mining calculators). Set high initially, can be strict
-
-
-$app_config['api_timeout'] = 15; // Seconds to wait for response from API endpoints (exchange data, etc). Don't set too low, or you won't get data
 
 
 // 'on' verifies ALL certificates for secure API connections, 'off' verifies NOTHING 
@@ -135,10 +136,6 @@ $app_config['purge_logs'] = 7; // Days to keep logs before purging (deletes logs
 $app_config['mail_logs'] = 1; 
 
 
-// Shows system statistics in the user interface, if stats are available (system load, system temperature, free disk space, free system memory)
-$app_config['system_stats'] = 'raspi'; // 'off' (disabled), 'on' (enabled for ANY system), 'raspi' (enabled ONLY for raspberry pi devices)
-
-
 
 
 
@@ -149,41 +146,31 @@ $app_config['system_stats'] = 'raspi'; // 'off' (disabled), 'on' (enabled for AN
 // Disabling will disable EVERYTHING related to the charts features...the page, caching, even the javascript associated with the charts
 $app_config['charts_page'] = 'on'; // 'on' / 'off'
 
-
 // Chart colors (https://www.w3schools.com/colors/colors_picker.asp)
-
 
 // Charts border color
 $app_config['charts_border'] = '#808080';  
 
-
 // Charts background color
 $app_config['charts_background'] = '#515050';  
-
 
 // Charts line color
 $app_config['charts_line'] = '#444444';  
 
-
 // Charts text color
 $app_config['charts_text'] = '#dddddd';  
-
 
 // Charts link color
 $app_config['charts_link'] = '#b5b5b5';  
 
-
 // Charts price (base) gradient color
 $app_config['charts_price_gradient'] = '#000000'; 
-
 
 // Charts tooltip background color
 $app_config['charts_tooltip_background'] = '#bbbbbb';
 
-
 // Charts tooltip text color
 $app_config['charts_tooltip_text'] = '#222222';
-
 
 // Backup chart data in a zip file in the 'backups' subdirectory (with a secure random 32 character hexadecimal suffix for privacy), only used if $app_config['charts_page'] above is on
 $app_config['charts_backup_freq'] = 1; // Every X days backup chart data. 0 disables backups. Email to / from !MUST BE SET! (a download link is emailed to you of the chart data archive)
@@ -260,7 +247,6 @@ $app_config['smtp_strict_ssl'] = 'off'; // (DEFAULT IS 'off', TO ASSURE SMTP EMA
 // CAN BE BLANK. IF using ip address whitelisting instead, MUST BE LEFT BLANK
 $app_config['proxy_login'] = ''; // Use format: 'username||password'
 
-
 // If using proxies, add the ip address / port number here for each one, like examples below (without the double slashes in front)
 // CAN BE BLANK. Adding proxies here will automatically choose one randomly for each API request
 $app_config['proxy_list'] = array(
@@ -268,18 +254,13 @@ $app_config['proxy_list'] = array(
 					// 'ipaddress2:portnumber2',
 					);
 
-
 // Additional proxy configuration settings (only used if proxies are enabled above)
-
 
 $app_config['proxy_alerts'] = 'email'; // Alerts for failed proxy data connections. 'none', 'email', 'text', 'notifyme', 'all'
 
-
 $app_config['proxy_alerts_runtime'] = 'cron'; // Which runtime mode should allow proxy alerts? Options: 'cron', 'ui', 'all'
 
-
 $app_config['proxy_checkup_ok'] = 'include'; // 'include', or 'ignore' Proxy alerts sent to you even if proxy checkup went OK? (after flagged, started working again when checked) 
-
 
 $app_config['proxy_alerts_freq'] = 1; // Re-allow same proxy alert(s) after X hours (per ip/port pair, can be 0)
 
@@ -290,29 +271,27 @@ $app_config['proxy_alerts_freq'] = 1; // Re-allow same proxy alert(s) after X ho
 // Asset price alert settings
 // Only used if $app_config['asset_charts_and_alerts'] is filled in properly below, AND a cron job is setup (see README.txt for cron job setup information) 
 
-
 $app_config['asset_price_alerts_percent'] = 7.75; // Price percent change to send alerts for (WITHOUT percent sign: 15 = 15%). Sends alerts when percent change reached (up or down)
 
-
 $app_config['asset_price_alerts_freq'] = 8; // Re-allow same asset price alert(s) after X hours (per asset, set higher if issues with blacklisting...can be 0)
-
 
 // Minimum 24 hour volume filter. Only allows sending price alerts if minimum 24 hour volume reached
 // CAN BE 0 TO DISABLE MINIMUM VOLUME FILTERING, NO DECIMALS OR SEPARATORS, NUMBERS ONLY, WITHOUT the [primary currency] prefix symbol: 4500 = $4,500 , 30000 = $30,000 , etc
 // THIS FILTER WILL AUTO-DISABLE IF THERE IS AN ERROR RETRIEVING DATA ON A CERTAIN MARKET (WHEN NOT EVEN A ZERO IS RECEIVED)
 $app_config['asset_price_alerts_min_volume'] = 12500;
 
+// Block an asset price alert if price retrieved, BUT failed retrieving pair volume (not even a zero was retrieved, nothing)
+// Good for blocking questionable exchanges bugging you with price alerts, especially when used in combination with the above minimum volume filter
+$app_config['block_alerts_volume_error'] = 'on'; // 'on' / 'off' 
 
 // Refresh cached comparison prices every X days (since last refresh / alert) with latest prices
 // Can be 0 to disable refreshing (until price alert triggers a refresh)
 $app_config['asset_price_alerts_refresh'] = 0; 
 
-
 // Whale alert (adds "WHALE ALERT" to beginning of alexa / google home / email alert text, and spouting whale emoji to email / text)
 // Format: 'maximum_days_to_24hr_average_over||minimum_price_percent_change_24hr_average||minimum_volume_percent_change_24hr_average||minimum_volume_currency_change_24hr_average'
 // DECIMALS ARE SUPPORTED, USE NUMBERS ONLY (NO CURRENCY SYMBOLS / COMMAS, ETC)
 $app_config['whale_alert_thresholds'] = '3.15||9.5||17.5||18500';
-
 
 // CHARTS / ASSET PRICE ALERTS SETUP REQUIRES A CRON JOB RUNNING ON YOUR WEBSITE SERVER (see README.txt for cron job setup information) 
 // Markets you want charts or asset price change alerts for (alerts sent when default [primary currency] 
@@ -501,7 +480,6 @@ $app_config['mining_rewards'] = array(
 // 1.425 (DO NOT INCLUDE PERCENT SIGN) the first year at 11/29/2016 refactored rates, see above for manual yearly adjustment
 $app_config['steempower_yearly_interest'] = 1.425;
 
-
 // Weeks to power down all STEEM Power holdings
 $app_config['steem_powerdown_time'] = 13; 
 
@@ -509,9 +487,9 @@ $app_config['steem_powerdown_time'] = 13;
 
 
 
+/////////////////////////////////////////////////////////////////////////////
 // POWER USER SETTINGS (ADJUST WITH CARE, OR YOU CAN BREAK THE APP!)
-
-
+/////////////////////////////////////////////////////////////////////////////
 
 
 // Standard (default) app charset
@@ -575,7 +553,9 @@ $app_config['crypto_to_crypto_pairing'] = array(
 
 
 
+/////////////////////////////////////////////////////////////////////////////
 // DEVELOPER-ONLY CONFIGS, !CHANGE WITH EXTREME CARE!
+/////////////////////////////////////////////////////////////////////////////
 
 
 // TLD-only (Top Level Domain) for each API service that requires multiple calls (for each market)
@@ -627,11 +607,9 @@ $app_config['top_level_domain_map'] = array(
 							
 
 
-
 ///////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////// GENERAL CONFIG -END- //////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
-
 
 
 
@@ -851,11 +829,9 @@ $app_config['mobile_network_text_gateways'] = array(
 
 
 
-
 ///////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////// COIN MARKETS CONFIG -START- ///////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
-
 
 
 
@@ -864,7 +840,6 @@ $app_config['mobile_network_text_gateways'] = array(
 // SEE /DOCUMENTATION-ETC/CONFIG.EXAMPLE.txt FOR A FULL EXAMPLE OF THE CONFIGURATION (ESPECIALLY IF YOU MESS UP config.php, lol)
 
 // TYPOS LIKE MISSED COMMAS / MISSED QUOTES / ETC WILL BREAK THE APP, BE CAREFUL EDITING THIS CONFIG FILE
-
 
 
 
@@ -1017,6 +992,7 @@ $app_config['portfolio_assets'] = array(
                     
                     
                     
+                    
                     // ETH
                     'ETH' => array(
                         
@@ -1130,6 +1106,7 @@ $app_config['portfolio_assets'] = array(
                     
                     
                     
+                    
                     // XMR
                     'XMR' => array(
                         
@@ -1173,6 +1150,7 @@ $app_config['portfolio_assets'] = array(
                                         ) // market_pairing END
                         
                     ), // Asset END
+                    
                     
                     
                     
@@ -1274,6 +1252,7 @@ $app_config['portfolio_assets'] = array(
                     
                     
                     
+                    
                     // DCR
                     'DCR' => array(
                         
@@ -1308,6 +1287,7 @@ $app_config['portfolio_assets'] = array(
                                         ) // market_pairing END
                         
                     ), // Asset END
+                    
                     
                     
                     
@@ -1360,6 +1340,7 @@ $app_config['portfolio_assets'] = array(
                     
                     
                     
+                    
                     // ATOM
                     'ATOM' => array(
                         
@@ -1405,6 +1386,7 @@ $app_config['portfolio_assets'] = array(
                     
                     
                     
+                    
                     // KDA
                     'KDA' => array(
                         
@@ -1423,6 +1405,7 @@ $app_config['portfolio_assets'] = array(
                                         ) // market_pairing END
                                         
                     ), // Asset END
+                    
                     
                     
                     
@@ -1448,6 +1431,7 @@ $app_config['portfolio_assets'] = array(
                                         ) // market_pairing END
                         
                     ), // Asset END
+                    
                     
                     
                     
@@ -1498,6 +1482,7 @@ $app_config['portfolio_assets'] = array(
                     
                     
                     
+                    
                     // ANT
                     'ANT' => array(
                         
@@ -1520,6 +1505,7 @@ $app_config['portfolio_assets'] = array(
                                         ) // market_pairing END
                         
                     ), // Asset END
+                    
                     
                     
                     
@@ -1570,6 +1556,7 @@ $app_config['portfolio_assets'] = array(
                     
                     
                     
+                    
                     // GNT
                     'GNT' => array(
                         
@@ -1612,6 +1599,7 @@ $app_config['portfolio_assets'] = array(
                     
                     
                     
+                    
                     // DATA
                     'DATA' => array(
                         
@@ -1644,6 +1632,7 @@ $app_config['portfolio_assets'] = array(
                     
                     
                     
+                    
                     // DAG
                     'DAG' => array(
                         
@@ -1670,6 +1659,7 @@ $app_config['portfolio_assets'] = array(
                     
                     
                     
+                    
                     // MYST
                     'MYST' => array(
                         
@@ -1689,6 +1679,7 @@ $app_config['portfolio_assets'] = array(
                                         ) // market_pairing END
                         
                     ), // Asset END
+                    
                     
                     
                     
@@ -1726,6 +1717,7 @@ $app_config['portfolio_assets'] = array(
                                         ) // market_pairing END
                                         
                     ), // Asset END
+                    
                     
                     
                     

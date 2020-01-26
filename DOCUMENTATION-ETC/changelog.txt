@@ -2363,6 +2363,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.07.3:
 
+-More code cleanup
+
 -Added new primary currencies: INR (Indian Rupee)
 
 -Bug fix for primary currency setting (broke from previous code cleanup, sorry)

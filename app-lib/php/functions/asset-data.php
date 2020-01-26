@@ -157,7 +157,7 @@ $data = array();
 		$_SESSION['cap_data_force_usd'] = 1;
 		}
 		else {
-		$_SESSION['cap_data_force_usd'] = NULL;
+		$_SESSION['cap_data_force_usd'] = null;
 		}
 		
 		
@@ -172,7 +172,7 @@ $data = array();
 	
 	$data['circulating_supply'] = $coingecko_api['market_data']['circulating_supply'];
 	$data['total_supply'] = $coingecko_api['market_data']['total_supply'];
-	$data['max_supply'] = NULL;
+	$data['max_supply'] = null;
 	
 	$data['last_updated'] = strtotime( $coingecko_api['last_updated'] );
 	
@@ -224,7 +224,7 @@ $data = array();
 	$data['price'] = ( float_to_string($data['price']) >= 1.00 ? pretty_numbers($data['price'], 2) : pretty_numbers($data['price'], $app_config['primary_currency_decimals_max']) );
 	
 
-return ( $data['rank'] != NULL ? $data : NULL );
+return $data['rank'];
 
 }
 
@@ -369,10 +369,10 @@ function steempower_time($time) {
     
 global $_POST, $steem_market, $app_config, $btc_primary_currency_value;
 
-$powertime = NULL;
-$powertime = NULL;
-$steem_total = NULL;
-$primary_currency_total = NULL;
+$powertime = null;
+$powertime = null;
+$steem_total = null;
+$primary_currency_total = null;
 
 $decimal_yearly_interest = $app_config['steempower_yearly_interest'] / 100;  // Convert APR in config to decimal representation
 
@@ -660,11 +660,11 @@ $asset_market_data = asset_market_data($asset, $exchange, $app_config['portfolio
 	// Optimizing storage size needed for charts data
 	
 	// Round PRIMARY CURRENCY CONFIG volume to nullify insignificant decimal amounts / for prettier numbers UX, and to save on data set / storage size
-	$volume_primary_currency_raw = ( isset($volume_primary_currency_raw) ? round($volume_primary_currency_raw) : NULL );		
+	$volume_primary_currency_raw = ( isset($volume_primary_currency_raw) ? round($volume_primary_currency_raw) : null );		
 	
 	
 	// Round PAIRING volume to only keep 3 decimals max (for crypto volume etc), to save on data set / storage size
-	$volume_pairing_raw = ( isset($volume_pairing_raw) ? round($volume_pairing_raw, ( $fiat_eqiv == 1 ? 0 : 3 ) ) : NULL );	
+	$volume_pairing_raw = ( isset($volume_pairing_raw) ? round($volume_pairing_raw, ( $fiat_eqiv == 1 ? 0 : 3 ) ) : null );	
 	
 	
 	// Round PRIMARY CURRENCY CONFIG asset price to only keep $app_config['primary_currency_decimals_max'] decimals maximum (or only 2 decimals if worth $1 or more), to save on data set / storage size
@@ -736,7 +736,7 @@ $cached_array = explode("||", $data_file);
 
 	// Backwards compatibility
 	
-	if ( $cached_array[0] == NULL ) {
+	if ( $cached_array[0] == null ) {
 	$cached_asset_primary_currency_value = $data_file;
 	$cached_primary_currency_volume = -1;
 	$cached_pairing_volume = -1;
@@ -829,7 +829,7 @@ $cached_array = explode("||", $data_file);
           
           // We disallow alerts where minimum 24 hour trade PRIMARY CURRENCY CONFIG volume has NOT been met, ONLY if an API request doesn't fail to retrieve volume data
           if ( $volume_primary_currency_raw >= 0 && $volume_primary_currency_raw < $app_config['asset_price_alerts_min_volume'] ) {
-          $send_alert = NULL;
+          $send_alert = null;
           }
   
   
@@ -837,14 +837,14 @@ $cached_array = explode("||", $data_file);
   
           // We disallow alerts if they are not activated
           if ( $mode != 'both' && $mode != 'alert' ) {
-          $send_alert = NULL;
+          $send_alert = null;
           }
   
   
           // We disallow alerts if $app_config['block_alerts_volume_error'] is on, and there is a volume retrieval error
           // ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
           if ( $volume_primary_currency_raw == -1 && $app_config['block_alerts_volume_error'] == 'on' ) {
-          $send_alert = NULL;
+          $send_alert = null;
           }
           
           
@@ -905,8 +905,8 @@ $cached_array = explode("||", $data_file);
   				// If -1 from exchange API error not reporting any volume data (not even zero)
   				// ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
   				if ( $cached_primary_currency_volume == -1 || $volume_primary_currency_raw == -1 ) {
-  				$volume_change_text = NULL;
-  				$volume_change_text_mobile = NULL;
+  				$volume_change_text = null;
+  				$volume_change_text_mobile = null;
   				}
           	
           	
@@ -915,11 +915,11 @@ $cached_array = explode("||", $data_file);
           	// Format trade volume data
           	
           	// Minimum volume filter skipped message, only if filter enabled and error getting trade volume data (otherwise is NULL)
-          	if ( $volume_primary_currency_raw == NULL && $app_config['asset_price_alerts_min_volume'] > 0 || $volume_primary_currency_raw < 1 && $app_config['asset_price_alerts_min_volume'] > 0 ) {
+          	if ( $volume_primary_currency_raw == null && $app_config['asset_price_alerts_min_volume'] > 0 || $volume_primary_currency_raw < 1 && $app_config['asset_price_alerts_min_volume'] > 0 ) {
           	$volume_filter_skipped_text = ', so enabled minimum volume filter was skipped';
           	}
           	else {
-          	$volume_filter_skipped_text = NULL;
+          	$volume_filter_skipped_text = null;
           	}
           	
           	
@@ -1104,7 +1104,7 @@ $all_pairings = $app_config['portfolio_assets'][$asset_symbol]['market_pairing']
    
    $loop = $loop + 1;
    }
-  $loop = NULL; 
+  $loop = null; 
 
 
 
@@ -1244,7 +1244,7 @@ $market_pairing = $all_markets[$selected_exchange];
     													'coin_leverage' => $leverage_level,
     													'selected_margintype' => $selected_margintype,
     													'coin_worth_total' => $coin_primary_currency_worth_raw,
-    													'coin_total_worth_if_purchase_price' => ($no_purchase_price == 1 ? NULL : $coin_primary_currency_worth_raw),
+    													'coin_total_worth_if_purchase_price' => ($no_purchase_price == 1 ? null : $coin_primary_currency_worth_raw),
     													'coin_paid' => $purchase_price,
     													'coin_paid_total' => $coin_paid_total_raw,
     													'gain_loss_only_leverage' => $only_leverage_gain_loss,
@@ -1314,7 +1314,7 @@ $market_pairing = $all_markets[$selected_exchange];
 		<?php
 		if ( !$marketcap_data['rank'] ) {
 			
-			if ( $app_config['primary_marketcap_site'] == 'coinmarketcap' && trim($app_config['coinmarketcapcom_api_key']) == NULL ) {
+			if ( $app_config['primary_marketcap_site'] == 'coinmarketcap' && trim($app_config['coinmarketcapcom_api_key']) == null ) {
 			?>
 
 			var cmc_content = '<h5 style="color: #e5f1ff;"><?=ucfirst($app_config['primary_marketcap_site'])?> API key is required. <br />Configuration adjustments can be made in config.php.</h5>';
@@ -1532,7 +1532,7 @@ $market_pairing = $all_markets[$selected_exchange];
 	
 $pretty_coin_amount = pretty_numbers($asset_amount, $asset_amount_decimals);
 
-echo "<span class='app_sort_filter blue'>" . ( $pretty_coin_amount != NULL ? $pretty_coin_amount : 0 ) . "</span>";
+echo "<span class='app_sort_filter blue'>" . ( $pretty_coin_amount != null ? $pretty_coin_amount : 0 ) . "</span>";
 
 ?>
 
@@ -1562,7 +1562,7 @@ echo "<span class='app_sort_filter blue'>" . ( $pretty_coin_amount != NULL ? $pr
         <option value='<?=($loop)?>' <?=( $original_market == ($loop -1) ? ' selected ' : '' )?>> <?=name_rendering($market_key)?> </option>
         <?php
         }
-        $loop = NULL;
+        $loop = null;
         ?>
     </select>
 
@@ -1647,7 +1647,7 @@ echo ( $fiat_eqiv == 1 ? pretty_numbers($coin_value_raw, $coin_value_primary_cur
 	        <?php
 	        }
         
-        $loop = NULL;
+        $loop = null;
         
         ?>
         
