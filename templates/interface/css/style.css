@@ -382,6 +382,7 @@ IDs
 
 
 #system_stats {
+display: none;
 position: relative;
 float: right;
 max-width: 30%;

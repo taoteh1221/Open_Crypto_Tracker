@@ -726,7 +726,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	?>
 	
 	<style>
-	.show_coin_values {
+	.show_coin_values, #system_stats {
 	display: block;
 	}
 	</style>

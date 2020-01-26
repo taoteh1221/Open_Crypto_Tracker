@@ -224,7 +224,8 @@ $data = array();
 	$data['price'] = ( float_to_string($data['price']) >= 1.00 ? pretty_numbers($data['price'], 2) : pretty_numbers($data['price'], $app_config['primary_currency_decimals_max']) );
 	
 
-return $data['rank'];
+// Return null if we don't even detect a rank
+return ( $data['rank'] != NULL ? $data : NULL );
 
 }
 
