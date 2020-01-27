@@ -118,7 +118,7 @@ $possible_http_users = array(
 
 // Check for cache directory path creation, create if needed...if it fails, exit and alert end-user
 if ( dir_structure('cache/alerts/') != TRUE
-|| dir_structure('cache/cache/apis/') != TRUE
+|| dir_structure('cache/apis/') != TRUE
 || dir_structure('cache/charts/spot_price_24hr_volume/archival/') != TRUE
 || dir_structure('cache/charts/spot_price_24hr_volume/lite/') != TRUE
 || dir_structure('cache/charts/system/archival/') != TRUE
@@ -127,7 +127,7 @@ if ( dir_structure('cache/alerts/') != TRUE
 || dir_structure('cache/logs/debugging/api/') != TRUE
 || dir_structure('cache/logs/errors/api/') != TRUE
 || dir_structure('cache/secured/backups/') != TRUE
-|| dir_structure('cache/cache/secured/messages/') != TRUE
+|| dir_structure('cache/secured/messages/') != TRUE
 || dir_structure('cache/vars/') != TRUE ) {
 echo "Cannot create cache sub-directories. Please make sure the folder '/cache/' has FULL read / write permissions (chmod 777 on unix / linux systems), so the cache sub-directories can be created automatically.";
 exit;
