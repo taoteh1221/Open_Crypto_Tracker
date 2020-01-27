@@ -2367,6 +2367,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Added new primary currencies: INR (Indian Rupee)
 
+-Additional config settings for currencies / system stats chart rendering
+
 -Bug fix for primary currency setting (broke from previous code cleanup, sorry)
 
 IMPORTANT NOTES: 

@@ -340,7 +340,7 @@
 	  	 $asset_amount_value = pretty_numbers($asset_amount_value, $asset_amount_decimals, TRUE); // TRUE = Show even if low value is off the map, just for UX purposes tracking token price only, etc
 	    
 	    
-	    $coin_paid_value = ( float_to_string($coin_paid_value) >= 1.00 ? pretty_numbers($coin_paid_value, 2) : pretty_numbers($coin_paid_value, $app_config['primary_currency_decimals_max']) );
+	    $coin_paid_value = ( float_to_string($coin_paid_value) >= $app_config['primary_currency_decimals_max_threshold'] ? pretty_numbers($coin_paid_value, 2) : pretty_numbers($coin_paid_value, $app_config['primary_currency_decimals_max']) );
 	  	 
 	    	
 	    ?>
@@ -379,7 +379,7 @@
 							
 									$html_market_list[$pairing_key] .= "\n<option value='".$loop2."'" . ( 
 									isset($coin_market_id) && ($coin_market_id) == $loop2 
-									|| !isset($coin_market_id) && strtolower($coin_array_value['coin_name']) == 'bitcoin' && $loop2 == btc_market($app_config['btc_primary_exchange']) ? ' selected ' : '' ) . ">" . name_rendering($market_key) . " </option>\n";
+									|| !isset($coin_market_id) && strtolower($coin_array_value['coin_name']) == 'bitcoin' && $loop2 == btc_market($app_config['btc_primary_exchange']) ? ' selected ' : '' ) . ">" . snake_case_to_name($market_key) . " </option>\n";
 								
 									}
 									$loop2 = NULL;

@@ -166,7 +166,7 @@
 									
 									foreach ( $app_config['portfolio_assets']['BTC']['market_pairing'][$pairing_key] as $market_key => $market_id ) {
 									$loop2 = $loop2 + 1;
-									$btc_market_list[$pairing_key] .= "\n<option value='".$loop2."'" . ( $exchange_field_id == $loop2 ? ' selected ' : '' ) . ">" . name_rendering($market_key) . "</option>\n";
+									$btc_market_list[$pairing_key] .= "\n<option value='".$loop2."'" . ( $exchange_field_id == $loop2 ? ' selected ' : '' ) . ">" . snake_case_to_name($market_key) . "</option>\n";
 									}
 									$loop2 = NULL;
 							

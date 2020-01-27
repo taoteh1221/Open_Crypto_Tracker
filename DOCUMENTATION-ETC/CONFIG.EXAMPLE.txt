@@ -41,6 +41,11 @@ $app_config['debug_mode'] = 'off';
 $app_config['system_stats'] = 'raspi'; // 'off' (disabled), 'on' (enabled for ANY system), 'raspi' (enabled ONLY for raspberry pi devices)
 
 
+// Highest numeric value sensor data to include in the FIRST system statistics chart (out of two)
+// (higher sensor data is moved into the second chart, to keep ranges easily readable between both charts...only used if stats are enabled above)
+$app_config['system_stats_first_chart_highest_value'] = 3.5; // Can be a decimal (example: 0.5 or 7.5 etc)
+
+
 // Your local time offset in hours compared to UTC time. Can be negative or positive.
 // (Used for user experience 'pretty' timestamping only, will not change or screw up UTC log times etc if you change this)
 $app_config['local_time_offset'] = -5; // example: -5 or 5
@@ -86,8 +91,15 @@ $app_config['last_trade_cache_time'] = 3;
 $app_config['margin_leverage_max'] = 125; // Maximum margin leverage available in the user interface ('Update Assets' page, etc)
 
 
-// Maximum decimal places for [primary currency] values of coins worth under 1.00 [usd/gbp/eur/jpy/brl/rub/etc], for prettier / less-cluttered interface
-$app_config['primary_currency_decimals_max'] = 5; // IF YOU ADJUST $app_config['btc_primary_currency_pairing'] ABOVE, YOU MAY NEED TO ADJUST THIS ACCORDINGLY FOR !FUNCTIONAL! CHARTS / ALERTS
+// Maximum decimal places for [primary currency] values,
+// of coins worth under 'primary_currency_decimals_max_threshold' [usd/gbp/eur/jpy/brl/rub/etc] (below this setting),
+// for prettier / less-cluttered interface. IF YOU ADJUST $app_config['btc_primary_currency_pairing'] ABOVE, 
+// YOU MAY NEED TO ADJUST THIS ACCORDINGLY FOR !PRETTY / FUNCTIONAL! CHARTS / ALERTS FOR YOUR PRIMARY CURRENCY
+$app_config['primary_currency_decimals_max'] = 5; // Whole numbers only (represents number of decimals maximum to use)
+
+
+// Below what currency amount do we switch from 2 decimals, over to using the above 'primary_currency_decimals_max' setting
+$app_config['primary_currency_decimals_max_threshold'] = 0.25; // Can be decimals, NO SYMBOLS, NUMBERS ONLY
 
 
 // Default marketcap data source: 'coingecko', or 'coinmarketcap' (COINMARKETCAP REQUIRES A #FREE# API KEY, see below)

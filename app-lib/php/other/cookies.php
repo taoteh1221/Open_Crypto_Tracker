@@ -38,7 +38,7 @@ elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $run_csv_i
   
       if ( preg_match("/_amount/i", $key) ) {
       
-      $_POST[$key] = strip_price_formatting($value);
+      $_POST[$key] = strip_formatting($value);
       
          if ( isset($_POST[$key]) ) {
             $set_coin_values .= $key.'-'. remove_number_format($_POST[$key]) . '#';
@@ -49,7 +49,7 @@ elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $run_csv_i
   
       if ( preg_match("/_pairing/i", $key) ) {
       
-      $_POST[$key] = strip_price_formatting($value);
+      $_POST[$key] = strip_formatting($value);
       
          if ( isset($_POST[$key]) ) {
             $set_pairing_values .= $key.'-'. $_POST[$key] . '#';
@@ -60,7 +60,7 @@ elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $run_csv_i
   
       if ( preg_match("/_market/i", $key) ) {
       
-      $_POST[$key] = strip_price_formatting($value);
+      $_POST[$key] = strip_formatting($value);
       
          if ( isset($_POST[$key]) ) {
             $set_market_values .= $key.'-'. $_POST[$key] . '#';
@@ -71,7 +71,7 @@ elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $run_csv_i
   
       if ( preg_match("/_paid/i", $key) ) {
       
-      $_POST[$key] = strip_price_formatting($value);
+      $_POST[$key] = strip_formatting($value);
       
          if ( isset($_POST[$key]) ) {
             $set_paid_values .= $key.'-'. remove_number_format($_POST[$key]) . '#';
@@ -82,7 +82,7 @@ elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $run_csv_i
   
       if ( preg_match("/_leverage/i", $key) ) {
       
-      $_POST[$key] = strip_price_formatting($value);
+      $_POST[$key] = strip_formatting($value);
       
          if ( isset($_POST[$key]) ) {
             $set_leverage_values .= $key.'-'. $_POST[$key] . '#';
@@ -93,7 +93,7 @@ elseif ( $_POST['submit_check'] == 1 && $_POST['use_cookies'] == 1 || $run_csv_i
   
       if ( preg_match("/_margintype/i", $key) ) {
       
-      $_POST[$key] = strip_price_formatting($value);
+      $_POST[$key] = strip_formatting($value);
       
          if ( isset($_POST[$key]) ) {
             $set_margintype_values .= $key.'-'. $_POST[$key] . '#';

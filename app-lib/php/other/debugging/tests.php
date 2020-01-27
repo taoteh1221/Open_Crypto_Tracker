@@ -85,11 +85,11 @@ if ( $runtime_mode == 'ui' ) {
 					$markets_test_data = asset_market_data( strtoupper($coin_key) , $key, $value, $pairing_key);
 				
 						if ( $markets_test_data['last_trade'] == NULL ) {
-						app_logging( 'other_error', 'No market price data available', strtoupper($coin_key) . ' / ' . strtoupper($pairing_key) . ' @ ' . name_rendering($key) );
+						app_logging( 'other_error', 'No market price data available', strtoupper($coin_key) . ' / ' . strtoupper($pairing_key) . ' @ ' . snake_case_to_name($key) );
 						}
 					
 						if ( $markets_test_data['24hr_primary_currency_volume'] == NULL || $markets_test_data['24hr_primary_currency_volume'] < 1 ) {
-						app_logging( 'other_error', 'No market volume data available', strtoupper($coin_key) . ' / ' . strtoupper($pairing_key) . ' @ ' . name_rendering($key) );
+						app_logging( 'other_error', 'No market volume data available', strtoupper($coin_key) . ' / ' . strtoupper($pairing_key) . ' @ ' . snake_case_to_name($key) );
 						}
 					
 					}

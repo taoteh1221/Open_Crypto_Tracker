@@ -5,29 +5,29 @@
     <!-- footer START -->
 <?php
 
-	foreach ( $_SESSION['cache_error'] as $error ) {
+	foreach ( $logs_array['cache_error'] as $error ) {
 	$other_error_logs .= $error;
 	}
 	
-	$other_error_logs .= $_SESSION['security_error'];
+	$other_error_logs .= $logs_array['security_error'];
 	
-	$other_error_logs .= $_SESSION['cmc_config_error'];
+	$other_error_logs .= $logs_array['cmc_config_error'];
 	
-	$other_error_logs .= $_SESSION['other_error'];
+	$other_error_logs .= $logs_array['other_error'];
 	
 	
 	if ( $app_config['debug_mode'] != 'off' ) {
 	
 	
-		foreach ( $_SESSION['cache_debugging'] as $error ) {
+		foreach ( $logs_array['cache_debugging'] as $error ) {
 		$other_error_logs .= $error;
 		}
 		
-		$other_error_logs .= $_SESSION['security_debugging'];
+		$other_error_logs .= $logs_array['security_debugging'];
 		
-		$other_error_logs .= $_SESSION['cmc_config_debugging'];
+		$other_error_logs .= $logs_array['cmc_config_debugging'];
 		
-		$other_error_logs .= $_SESSION['other_debugging'];
+		$other_error_logs .= $logs_array['other_debugging'];
 		
 	
 	}
@@ -35,7 +35,7 @@
 
 ?>
             	
-    <div id="api_error_alert"><?php echo $_SESSION['config_error'] . $_SESSION['api_data_error'] . $other_error_logs . $_SESSION['cmc_error']; ?></div>
+    <div id="api_error_alert"><?php echo $logs_array['config_error'] . $logs_array['api_data_error'] . $other_error_logs . $logs_array['cmc_error']; ?></div>
             	
     <p align='center'><a href='https://dfd-cryptocoin-values.sourceforge.io/' target='_blank' title='Download the latest version here.'>Latest Releases (running v<?=$app_version?>)</a>
     
@@ -64,7 +64,7 @@
     	// Proxy alerts (if setup by user, and any of them failed, test the failed proxies and log/alert if they seem offline)
 		if ( $app_config['proxy_alerts'] != 'none' ) {
 	
-			foreach ( $_SESSION['proxy_checkup'] as $problem_proxy ) {
+			foreach ( $proxy_checkup as $problem_proxy ) {
 			test_proxy($problem_proxy);
 			sleep(1);
 			}

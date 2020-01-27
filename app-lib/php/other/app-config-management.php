@@ -71,8 +71,8 @@ if (is_array($app_config['portfolio_assets']) || is_object($app_config['portfoli
     
     
 // Clean / auto-correct $app_config['btc_primary_currency_pairing'] and $app_config['btc_primary_exchange'] BEFORE BELOW CHARTS/ALERTS LOGIC
-$app_config['btc_primary_currency_pairing'] = cleanup_config($app_config['btc_primary_currency_pairing'], 'lower');
-$app_config['btc_primary_exchange'] = cleanup_config($app_config['btc_primary_exchange'], 'lower');
+$app_config['btc_primary_currency_pairing'] = cleanup_string($app_config['btc_primary_currency_pairing'], 'lower');
+$app_config['btc_primary_exchange'] = cleanup_string($app_config['btc_primary_exchange'], 'lower');
 
 
 
@@ -101,12 +101,12 @@ $app_config['btc_primary_exchange'] = btc_market($primary_currency_market_standa
 
 // Set BTC / currency_market dynamic value, IF $primary_currency_market_standalone NOT SET
 
-if ( sizeof($primary_currency_market_standalone) != 2 && $_SESSION['btc_primary_currency_pairing'] ) {
-$app_config['btc_primary_currency_pairing'] = $_SESSION['btc_primary_currency_pairing'];
+if ( sizeof($primary_currency_market_standalone) != 2 && isset($selected_btc_primary_currency_pairing) ) {
+$app_config['btc_primary_currency_pairing'] = $selected_btc_primary_currency_pairing;
 }
 
-if ( sizeof($primary_currency_market_standalone) != 2 && $_SESSION['btc_primary_exchange'] ) {
-$app_config['btc_primary_exchange'] = $_SESSION['btc_primary_exchange'];
+if ( sizeof($primary_currency_market_standalone) != 2 && isset($selected_btc_primary_exchange) ) {
+$app_config['btc_primary_exchange'] = $selected_btc_primary_exchange;
 }
 
 
@@ -114,23 +114,23 @@ $app_config['btc_primary_exchange'] = $_SESSION['btc_primary_exchange'];
 // START CONFIG CLEANUP (auto-correct any basic end user data entry errors in config.php)
 
 // Cleaning lowercase alphanumeric string values
-$app_config['debug_mode'] = cleanup_config($app_config['debug_mode'], 'lower');
-$app_config['btc_primary_currency_pairing'] = cleanup_config($app_config['btc_primary_currency_pairing'], 'lower');
-$app_config['btc_primary_exchange'] = cleanup_config($app_config['btc_primary_exchange'], 'lower');
-$app_config['primary_marketcap_site'] = cleanup_config($app_config['primary_marketcap_site'], 'lower');
-$app_config['block_alerts_volume_error'] = cleanup_config($app_config['block_alerts_volume_error'], 'lower');
-$app_config['api_strict_ssl'] = cleanup_config($app_config['api_strict_ssl'], 'lower');
-$app_config['charts_page'] = cleanup_config($app_config['charts_page'], 'lower');
-$app_config['smtp_secure'] = cleanup_config($app_config['smtp_secure'], 'lower');
-$app_config['proxy_alerts'] = cleanup_config($app_config['proxy_alerts'], 'lower');
-$app_config['proxy_alerts_runtime'] = cleanup_config($app_config['proxy_alerts_runtime'], 'lower');
-$app_config['proxy_checkup_ok'] = cleanup_config($app_config['proxy_checkup_ok'], 'lower');
+$app_config['debug_mode'] = cleanup_string($app_config['debug_mode'], 'lower');
+$app_config['btc_primary_currency_pairing'] = cleanup_string($app_config['btc_primary_currency_pairing'], 'lower');
+$app_config['btc_primary_exchange'] = cleanup_string($app_config['btc_primary_exchange'], 'lower');
+$app_config['primary_marketcap_site'] = cleanup_string($app_config['primary_marketcap_site'], 'lower');
+$app_config['block_alerts_volume_error'] = cleanup_string($app_config['block_alerts_volume_error'], 'lower');
+$app_config['api_strict_ssl'] = cleanup_string($app_config['api_strict_ssl'], 'lower');
+$app_config['charts_page'] = cleanup_string($app_config['charts_page'], 'lower');
+$app_config['smtp_secure'] = cleanup_string($app_config['smtp_secure'], 'lower');
+$app_config['proxy_alerts'] = cleanup_string($app_config['proxy_alerts'], 'lower');
+$app_config['proxy_alerts_runtime'] = cleanup_string($app_config['proxy_alerts_runtime'], 'lower');
+$app_config['proxy_checkup_ok'] = cleanup_string($app_config['proxy_checkup_ok'], 'lower');
 
 // Cleaning charts/alerts array
 $cleaned_asset_charts_and_alerts = array();
 foreach ( $app_config['asset_charts_and_alerts'] as $key => $value ) {
-$cleaned_key = cleanup_config($key, 'lower');
-$cleaned_value = cleanup_config($value, 'lower');
+$cleaned_key = cleanup_string($key, 'lower');
+$cleaned_value = cleanup_string($value, 'lower');
 $cleaned_asset_charts_and_alerts[$cleaned_key] = $cleaned_value;
 }
 $app_config['asset_charts_and_alerts'] = $cleaned_asset_charts_and_alerts;
@@ -138,16 +138,19 @@ $app_config['asset_charts_and_alerts'] = $cleaned_asset_charts_and_alerts;
 // Cleaning mobile networks array
 $cleaned_mobile_networks = array();
 foreach ( $app_config['mobile_network_text_gateways'] as $key => $value ) {
-$cleaned_key = cleanup_config($key, 'lower');
-$cleaned_value = cleanup_config($value, 'lower');
+$cleaned_key = cleanup_string($key, 'lower');
+$cleaned_value = cleanup_string($value, 'lower');
 $cleaned_mobile_networks[$cleaned_key] = $cleaned_value;
 }
 $app_config['mobile_network_text_gateways'] = $cleaned_mobile_networks;
 
 // END CONFIG CLEANUP
 
-// Better decimal support for price change percent config
+// Better decimal support for these vars...
+$app_config['system_stats_first_chart_highest_value'] = float_to_string($app_config['system_stats_first_chart_highest_value']); 
+$app_config['primary_currency_decimals_max_threshold'] = float_to_string($app_config['primary_currency_decimals_max_threshold']); 
 $app_config['asset_price_alerts_percent'] = float_to_string($app_config['asset_price_alerts_percent']); 
+$app_config['steempower_yearly_interest'] = float_to_string($app_config['steempower_yearly_interest']); 
 
 //////////////////////////////////////////////////////////////////
 // END APP CONFIG DYNAMIC MANAGEMENT

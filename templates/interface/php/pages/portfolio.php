@@ -394,9 +394,9 @@ $total_btc_worth = ( $total_btc_worth_raw >= 0.00000001 ? pretty_numbers($total_
 
 $total_primary_currency_worth = coin_stats_data('coin_worth_total');
 
-$bitcoin_dominance = ( $_SESSION['btc_worth_array']['BTC'] / $total_btc_worth_raw ) * 100;
+$bitcoin_dominance = ( $btc_worth_array['BTC'] / $total_btc_worth_raw ) * 100;
 
-$ethereum_dominance = ( $_SESSION['btc_worth_array']['ETH'] / $total_btc_worth_raw ) * 100;
+$ethereum_dominance = ( $btc_worth_array['ETH'] / $total_btc_worth_raw ) * 100;
 
 $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	
@@ -478,7 +478,6 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 			<?php
 					
 					// Sort descending gains
-					$coin_stats_array = $_SESSION['coin_stats_array'];
 					$columns_array = array_column($coin_stats_array, 'gain_loss_total');
 					array_multisort($columns_array, SORT_DESC, $coin_stats_array);
 					
@@ -560,9 +559,9 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 			<?php
 					
 					// Sort by most dominant first
-					arsort($_SESSION['btc_worth_array']);
+					arsort($btc_worth_array);
 					
-				foreach ( $_SESSION['btc_worth_array'] as $key => $value ) {
+				foreach ( $btc_worth_array as $key => $value ) {
 					$dominance = ( $value / $total_btc_worth_raw ) * 100;
 					
 						if ( $dominance >= 0.01 ) {
@@ -602,7 +601,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 		<?php
 		}
 	
-	echo '<div class="portfolio_summary"><span class="black">(Bitcoin is trading @ ' . $app_config['bitcoin_market_currencies'][$app_config['btc_primary_currency_pairing']] . number_format( $btc_primary_currency_value, 2, '.', ',') . ' on ' . name_rendering($app_config['btc_primary_exchange']) . ')</span></div>';
+	echo '<div class="portfolio_summary"><span class="black">(Bitcoin is trading @ ' . $app_config['bitcoin_market_currencies'][$app_config['btc_primary_currency_pairing']] . number_format( $btc_primary_currency_value, 2, '.', ',') . ' on ' . snake_case_to_name($app_config['btc_primary_exchange']) . ')</span></div>';
 
 			
 		if ( $short_added == 1 ) {

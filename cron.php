@@ -59,7 +59,7 @@ $result = asset_charts_and_alerts($key, $exchange, $pairing, $mode);
 // Checkup on each failed proxy
 if ( $app_config['proxy_alerts'] != 'none' ) {
 	
-	foreach ( $_SESSION['proxy_checkup'] as $problem_proxy ) {
+	foreach ( $proxy_checkup as $problem_proxy ) {
 	test_proxy($problem_proxy);
 	sleep(1);
 	}

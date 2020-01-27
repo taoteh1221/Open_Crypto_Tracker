@@ -215,40 +215,24 @@ function coingecko_api($symbol) {
 	
 global $app_config;
 
-$array_merging = array();
 
-
-	if ( !$_SESSION['cgk_data'] ) {
-
-
-	$jsondata = @api_data('url', 'https://api.coingecko.com/api/v3/coins?per_page='.$app_config['marketcap_ranks_max'].'&page=1', $app_config['marketcap_cache_time']);
+$jsondata = @api_data('url', 'https://api.coingecko.com/api/v3/coins?per_page='.$app_config['marketcap_ranks_max'].'&page=1', $app_config['marketcap_cache_time']);
 	   
-   $_SESSION['cgk_data'] = json_decode($jsondata, true);
-
-	}
+$data = json_decode($jsondata, true);
 
 
-
-   if ( is_array($_SESSION['cgk_data']) || is_object($_SESSION['cgk_data']) ) {
+   if ( is_array($data) || is_object($data) ) {
   		
-  	   	foreach ($_SESSION['cgk_data'] as $key => $value) {
+  	  foreach ($data as $key => $value) {
      	  	
-  	     	
-        		if ( $_SESSION['cgk_data'][$key]['symbol'] == strtolower($symbol) ) {
-  	      		
-
-        		return $_SESSION['cgk_data'][$key];
-        
-        
-     	  		}
-    	 
+        if ( $data[$key]['symbol'] == strtolower($symbol) ) {
+        return $data[$key];
+     	  }
     
-  	   	}
+  	  }
       	
-     
-  	 }
+  	}
 		  
-
   
 }
 
@@ -258,7 +242,7 @@ $array_merging = array();
 
 function coinmarketcap_api($symbol) {
 	
-global $app_config, $coinmarketcap_currencies;
+global $app_config, $coinmarketcap_currencies, $cap_data_force_usd, $cmc_notes;
 
 
 	if ( trim($app_config['coinmarketcapcom_api_key']) == null ) { 
@@ -270,21 +254,19 @@ global $app_config, $coinmarketcap_currencies;
 	}
 	
 
-	if ( !$_SESSION['cmc_data'] ) {
-		
 	// Don't overwrite global
 	$coinmarketcap_primary_currency = strtoupper($app_config['btc_primary_currency_pairing']);
 	
 		
 		if ( in_array($coinmarketcap_primary_currency, $coinmarketcap_currencies) ) {
 		$convert = $coinmarketcap_primary_currency;
-		$_SESSION['cap_data_force_usd'] = null;
+		$cap_data_force_usd = null;
 		}
 		// Default to USD, if currency is not supported
 		else {
-		$_SESSION['cmc_notes'] = 'Coinmarketcap.com does not support '.$coinmarketcap_primary_currency.' stats,<br />showing USD stats instead.';
+		$cmc_notes = 'Coinmarketcap.com does not support '.$coinmarketcap_primary_currency.' stats,<br />showing USD stats instead.';
 		$convert = 'USD';
-		$_SESSION['cap_data_force_usd'] = 1;
+		$cap_data_force_usd = 1;
 		}
 		
 	
@@ -309,33 +291,23 @@ global $app_config, $coinmarketcap_currencies;
 	
 	$data = json_decode($jsondata, true);
         
-   $_SESSION['cmc_data'] = $data['data'];
+   $data = $data['data'];
         
-	}
-
 	
 
-    if ( is_array($_SESSION['cmc_data']) || is_object($_SESSION['cmc_data']) ) {
+    if ( is_array($data) || is_object($data) ) {
   		
-  		
-  	   	foreach ($_SESSION['cmc_data'] as $key => $value) {
+  	   	foreach ($data as $key => $value) {
      	  	
-  	     	
-        		if ( $_SESSION['cmc_data'][$key]['symbol'] == strtoupper($symbol) ) {
-  	      	
-        		return $_SESSION['cmc_data'][$key];
-        
-        
+        		if ( $data[$key]['symbol'] == strtoupper($symbol) ) {
+        		return $data[$key];
      	  		}
     	 
-    
   	   	}
       	
-     
  	 }
 
 		  
-  
 }
 
 

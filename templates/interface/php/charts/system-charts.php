@@ -50,14 +50,28 @@ asort($chart_data);
 
 //var_dump($chart_data); // DEBUGGING ONLY
 
-		
+
+
+// Determine how many data sensors to include in first chart
+$num_in_first_chart = 0;
+foreach ( $chart_data as $chart_key => $chart_value ) {
+	
+	if ( float_to_string( array_pop(explode(',', $chart_value)) ) <= $app_config['system_stats_first_chart_highest_value'] ) {
+	$num_in_first_chart = $num_in_first_chart + 1;
+	}
+
+}
+
+
+
+// Render chart data
 if ( $key == 1 ) {
 	
 	$loop = 1;
 	$counted = 0;
 	foreach ( $chart_data as $chart_key => $chart_value ) {
 		
-		if ( $counted < 3 && $chart_key != 'time' ) {
+		if ( $counted < $num_in_first_chart && $chart_key != 'time' ) {
 		$counted = $counted + 1;
 		
 			// If there are no data retrieval errors
@@ -69,7 +83,7 @@ var <?=$chart_key?> = [<?=$chart_value?>];
 			<?php
 		
 			$chart_config = "{
-          text: '".name_rendering($chart_key)."',
+          text: '".snake_case_to_name($chart_key)."',
           values: ".$chart_key.",
           lineColor: '".$color_array[$counted]."',
     		 marker: {
@@ -100,7 +114,7 @@ elseif ( $key == 2 ) {
 	$counted = 0;
 	foreach ( $chart_data as $chart_key => $chart_value ) {
 		
-		if ( $counted >= 3 && $chart_key != 'time' ) {
+		if ( $counted >= $num_in_first_chart && $chart_key != 'time' ) {
 		$counted = $counted + 1;
 		
 			// If there are no data retrieval errors
@@ -112,7 +126,7 @@ var <?=$chart_key?> = [<?=$chart_value?>];
 		<?php
 		
 		$chart_config = "{
-          text: '".name_rendering($chart_key)."',
+          text: '".snake_case_to_name($chart_key)."',
           values: ".$chart_key.",
           lineColor: '".$color_array[$counted]."',
     		 marker: {

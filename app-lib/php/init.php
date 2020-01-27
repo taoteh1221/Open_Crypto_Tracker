@@ -21,7 +21,7 @@ define('PHP_VERSION_ID', ($version[0] * 10000 + $version[1] * 100 + $version[2])
 require_once('app-lib/php/loader.php');
 
 
-// System checks
+// Basic system checks (before allowing app to run)
 require_once('app-lib/php/other/system-checks.php');
 
 
@@ -55,12 +55,46 @@ $base_dir = preg_replace("/\/app-lib(.*)/i", "", dirname(__FILE__) );
 //////////////////////////////////////////////////////////////////
 
 
+// Arrays
+$logs_array = array();
+
+$proxy_checkup = array();
+
+$proxies_checked = array();
+
+$btc_worth_array = array();
+
+$coin_stats_array = array();
+
 $api_runtime_cache = array();
 
-$_SESSION['proxy_checkup'] = array();
+$limited_api_calls = array();
+
+$processed_messages = array();
+
+$btc_pairing_markets = array();
+
+// Vars
+$cmc_notes = null;
+
+$td_color_zebra = null;
+
+$cap_data_force_usd = null;
+
+$selected_btc_primary_exchange = null;
+
+$selected_btc_primary_currency_pairing = null;
 
 // SET BEFORE dynamic app config management
 $original_app_config = $app_config; 
+
+// Get system info for debugging / stats
+$system_info = system_info(); // MUST RUN AFTER SETTING $base_dir
+
+// Raspberry Pi device?
+if ( preg_match("/raspberry/i", $system_info['model']) ) {
+$is_raspi = 1;
+}
 
 
 // Get WEBSERVER runtime user (from cache if currently running from CLI)
@@ -100,10 +134,6 @@ exit;
 }
 
 
-// Get system info for debugging / stats
-$system_info = system_info(); // MUST RUN AFTER SETTING $base_dir, AND AFTER CREATING CACHE DIRECTORY STRUCTURE!
-
-
 // Security (MUST run AFTER directory structure creation check)
 require_once('app-lib/php/other/security/directory.php');
 
@@ -141,6 +171,15 @@ require_once('app-lib/php/other/primary-bitcoin-markets.php');
 require_once('app-lib/php/other/coinmarketcap-currencies.php');
 
 
+// App configuration checks, !AFTER! loading primary init logic
+require_once('app-lib/php/other/config-checks.php');
+
+
+
+// Chart update frequency (SET AFTER SCHEDULED MAINTENANCE)
+$charts_update_freq = ( $charts_update_freq != '' ? $charts_update_freq : trim( file_get_contents('cache/vars/chart_interval.dat') ) );
+
+
 
 // SMTP email setup
 // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
@@ -168,20 +207,6 @@ else {
 $user_agent = 'Mozilla/5.0 ('.( isset($system_info['operating_system']) ? $system_info['operating_system'] : 'compatible' ).'; ' . $_SERVER['SERVER_SOFTWARE'] . '; PHP/' .phpversion(). '; Curl/' .$curl_setup["version"]. '; DFD_Cryptocoin_Values/' . $app_version . '; API_Endpoint_Parser; +https://github.com/taoteh1221/DFD_Cryptocoin_Values) Gecko Firefox';
 }
 
-
-
-// Raspberry Pi device?
-if ( preg_match("/raspberry/i", $system_info['model']) ) {
-$is_raspi = 1;
-}
-
-
-// Chart update frequency (SET AFTER SCHEDULED MAINTENANCE)
-$charts_update_freq = ( $charts_update_freq != '' ? $charts_update_freq : trim( file_get_contents('cache/vars/chart_interval.dat') ) );
-
-
-// Configuration checks, !AFTER! loading ALL init logic
-require_once('app-lib/php/other/config-checks.php');
 
 
 // Unit tests to run in debug mode, !AFTER! loading ALL init logic

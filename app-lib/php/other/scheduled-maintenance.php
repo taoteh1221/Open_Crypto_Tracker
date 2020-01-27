@@ -5,12 +5,16 @@
 
 
 //////////////////////////////////////////////////////////////////
-// Scheduled maintenance (run ~daily, or ~hourly if runtime is cron)
+// Scheduled maintenance (run ~hourly, or if runtime is cron)
 //////////////////////////////////////////////////////////////////
-if ( update_cache_file('cache/events/scheduled_maintenance.dat', (60 * 24) ) == true 
-|| $runtime_mode == 'cron' && update_cache_file('cache/events/scheduled_maintenance.dat', (60 * 1) ) == true ) {
+if ( update_cache_file('cache/events/scheduled_maintenance.dat', (60 * 1) ) == true || $runtime_mode == 'cron' ) {
 //////////////////////////////////////////////////////////////////
-	
+
+
+
+// Determine / store portfolio cache size
+store_file_contents($base_dir . '/cache/vars/cache_size.dat', convert_bytes( directory_size($base_dir . '/cache/') , 3) );
+
 
 
 	// Stuff to run only if cron is setup and running

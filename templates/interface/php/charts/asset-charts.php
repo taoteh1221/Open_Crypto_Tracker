@@ -51,7 +51,7 @@
 			|| $market_parse[2] != 'chart' && $market_parse[2] != 'both' ) {
 			?>
 			
-			$("#<?=$key?>_<?=$charted_value?>_chart span.loading").html(' &nbsp; No chart data activated for: <?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=name_rendering($market_parse[0])?> \(<?=strtoupper($charted_value)?> Chart\)');
+			$("#<?=$key?>_<?=$charted_value?>_chart span.loading").html(' &nbsp; No chart data activated for: <?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=snake_case_to_name($market_parse[0])?> \(<?=strtoupper($charted_value)?> Chart\)');
 			
 			$("#charts_error").show();
 			
@@ -69,18 +69,22 @@
 		$chart_data = chart_data('cache/charts/spot_price_24hr_volume/archival/'.$chart_asset.'/'.$key.'_chart_'.$charted_value.'.dat', $market_parse[1]);
 		
 		
-		$price_sample = substr( $chart_data['spot'] , 0, mb_strpos($chart_data['spot'], ",", 0, 'utf-8') );
+		$price_sample_oldest = substr( $chart_data['spot'] , 0, mb_strpos($chart_data['spot'], ",", 0, 'utf-8') );
+		
+		$price_sample_newest = float_to_string( array_pop(explode(',', $chart_data['spot'])) );
+		
+		$price_sample_average = ( $price_sample_oldest + $price_sample_newest ) / 2;
 		
 		
 		$spot_price_decimals = ( $fiat_equiv == 1 ? $app_config['primary_currency_decimals_max'] : 8 );
 		
 			
 			// Force decimals under certain conditions
-			if ( float_to_string($price_sample) < 0.000001 ) {
-			$force_decimals = 'decimals: ' . $spot_price_decimals . ',';
-			}
-			elseif ( float_to_string($price_sample) >= 1.00 ) {
+			if ( float_to_string($price_sample_average) >= $app_config['primary_currency_decimals_max_threshold'] ) {
 			$force_decimals = 'decimals: ' . 2 . ',';
+			}
+			elseif ( float_to_string($price_sample_average) < $app_config['primary_currency_decimals_max_threshold'] ) {
+			$force_decimals = 'decimals: ' . $spot_price_decimals . ',';
 			}
 		
 
@@ -133,7 +137,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
       text: "Spot Price: <?=$currency_symbol?>%v",
 	 	fontSize: "20",
       fontFamily: "Open Sans",
-      <?=$force_decimals?> /* -- price_sample: <?=$price_sample?> -- */ 
+      <?=$force_decimals?> /* -- price_sample_average: <?=$price_sample_average?> -- */ 
       y:0,
       "thousands-separator":",",
     },
@@ -146,7 +150,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
     }
   },
   title: {
-    text: "<?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=name_rendering($market_parse[0])?> (<?=strtoupper($charted_value)?> Chart)",
+    text: "<?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=snake_case_to_name($market_parse[0])?> (<?=strtoupper($charted_value)?> Chart)",
     fontColor: "<?=$app_config['charts_text']?>",
     fontFamily: 'Open Sans',
     fontSize: 23,
