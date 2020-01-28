@@ -69,9 +69,9 @@
 		$chart_data = chart_data('cache/charts/spot_price_24hr_volume/archival/'.$chart_asset.'/'.$key.'_chart_'.$charted_value.'.dat', $market_parse[1]);
 		
 		
-		$price_sample_oldest = substr( $chart_data['spot'] , 0, mb_strpos($chart_data['spot'], ",", 0, 'utf-8') );
+		$price_sample_oldest = float_to_string( delimited_string_sample($chart_data['spot'], ',', 'first') );
 		
-		$price_sample_newest = float_to_string( array_pop(explode(',', $chart_data['spot'])) );
+		$price_sample_newest = float_to_string( delimited_string_sample($chart_data['spot'], ',', 'last') );
 		
 		$price_sample_average = ( $price_sample_oldest + $price_sample_newest ) / 2;
 		
@@ -137,7 +137,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
       text: "Spot Price: <?=$currency_symbol?>%v",
 	 	fontSize: "20",
       fontFamily: "Open Sans",
-      <?=$force_decimals?> /* -- price_sample_average: <?=$price_sample_average?> -- */ 
+      <?=$force_decimals?> /* -- price_sample_average: <?=$price_sample_average?> [(<?=$price_sample_oldest?> + <?=$price_sample_newest?>) / 2] -- */ 
       y:0,
       "thousands-separator":",",
     },

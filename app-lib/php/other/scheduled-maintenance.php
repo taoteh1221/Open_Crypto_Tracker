@@ -7,13 +7,101 @@
 //////////////////////////////////////////////////////////////////
 // Scheduled maintenance (run ~hourly, or if runtime is cron)
 //////////////////////////////////////////////////////////////////
-if ( update_cache_file('cache/events/scheduled_maintenance.dat', (60 * 1) ) == true || $runtime_mode == 'cron' ) {
+if ( update_cache_file($base_dir . '/cache/events/scheduled_maintenance.dat', (60 * 1) ) == true || $runtime_mode == 'cron' ) {
 //////////////////////////////////////////////////////////////////
 
 
 
 // Determine / store portfolio cache size
 store_file_contents($base_dir . '/cache/vars/cache_size.dat', convert_bytes( directory_size($base_dir . '/cache/') , 3) );
+
+
+	
+	// If upgrade check is enabled, check daily for upgrades
+	if ( isset($app_config['upgrade_check']) && $app_config['upgrade_check'] != 'off' && update_cache_file('cache/vars/upgrade_check_latest_version.dat', (60 * 24) ) == true ) {
+	
+	
+	$upgrade_check_jsondata = @api_data('url', 'https://api.github.com/repos/taoteh1221/DFD_Cryptocoin_Values/releases/latest', 0); // Don't cache API data
+	
+	$upgrade_check_data = json_decode($upgrade_check_jsondata, true);
+	
+	$upgrade_check_latest_version = $upgrade_check_data["tag_name"];
+	
+	store_file_contents($base_dir . '/cache/vars/upgrade_check_latest_version.dat', $upgrade_check_latest_version);
+	
+
+	$bug_fix_check_array = explode('.', $upgrade_check_latest_version);
+	
+		if ( $bug_fix_check_array[2] > 0 ) {
+		$is_bug_fix = 1;
+		}
+	
+	
+		// Email / text / alexa notification reminders
+		if ( update_cache_file($base_dir . '/cache/events/upgrade_check_reminder.dat', ( $app_config['upgrade_check_remind'] * 1440 ) ) == true ) {
+		
+
+		$upgrade_check_message = 'An upgrade for DFD Cryptocoin Values to version ' . $upgrade_check_latest_version . ' is available. You are running version ' . $app_version . '.' . ( $is_bug_fix == 1 ? ' This latest version is a bug fix release.' : '');
+
+
+                    
+  				// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
+  				if ( $app_config['upgrade_check'] == 'all' ) {
+  				
+  				// Minimize function calls
+  				$encoded_text_alert = content_data_encoding($upgrade_check_message);
+  					
+          	$upgrade_check_send_params = array(
+          								'notifyme' => $upgrade_check_message,
+          								'text' => array(
+          														// Unicode support included for text messages (emojis / asian characters / etc )
+          														'message' => $encoded_text_alert['content_output'],
+          														'charset' => $encoded_text_alert['charset']
+          														),
+          								'email' => array(
+          														'subject' => 'DFD Cryptocoin Values Upgrade Available',
+          														'message' => $upgrade_check_message
+          														)
+          								);
+          	
+          	}
+  				elseif ( $app_config['upgrade_check'] == 'email' ) {
+  					
+          	$upgrade_check_send_params['email'] = array(
+          											'subject' => 'DFD Cryptocoin Values Upgrade Available',
+          											'message' => $upgrade_check_message
+          											);
+          	
+          	}
+  				elseif ( $app_config['upgrade_check'] == 'text' ) {
+  				
+  				// Minimize function calls
+  				$encoded_text_alert = content_data_encoding($upgrade_check_message);
+  				
+          	$upgrade_check_send_params['text'] = array(
+          											// Unicode support included for text messages (emojis / asian characters / etc )
+          											'message' => $encoded_text_alert['content_output'],
+          											'charset' => $encoded_text_alert['charset']
+          											
+          											);
+          	
+          	}
+  				elseif ( $app_config['upgrade_check'] == 'notifyme' ) {
+          	$upgrade_check_send_params['notifyme'] = $upgrade_check_message;
+          	}
+          	
+          	
+          	// Send notifications
+          	@queue_notifications($upgrade_check_send_params);
+          	
+
+		
+		store_file_contents($base_dir . '/cache/events/upgrade_check_reminder.dat', time_date_format(false, 'pretty_date_time') );
+		
+		}
+		
+	
+	}
 
 
 

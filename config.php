@@ -50,6 +50,15 @@ $app_config = array(); // REQUIRED, DON'T DELETE BY ACCIDENT
 $app_config['debug_mode'] = 'off'; 
 
 
+// Enable / disable daily upgrade checks (DEFAULT IS DISABLED)
+// (Checks latest release version via github.com API endpoint value "tag_name" 
+// @ https://api.github.com/repos/taoteh1221/DFD_Cryptocoin_Values/releases/latest)
+$app_config['upgrade_check'] = 'off'; // 'off' (disabled) / 'all' / 'ui' (web interface) / 'email' / 'text' / 'notifyme'
+
+// Days to wait between upgrade reminders (email / text / alexa notification)
+$app_config['upgrade_check_remind'] = 7; // (only used if upgrade check is enabled above)
+
+
 // Shows system statistics in the user interface, if stats are available (system load, system temperature, free disk space, free system memory)
 $app_config['system_stats'] = 'raspi'; // 'off' (disabled), 'on' (enabled for ANY system), 'raspi' (enabled ONLY for raspberry pi devices)
 
@@ -112,7 +121,7 @@ $app_config['primary_currency_decimals_max'] = 5; // Whole numbers only (represe
 
 
 // Below what currency amount do we switch from 2 decimals, over to using the above 'primary_currency_decimals_max' setting
-$app_config['primary_currency_decimals_max_threshold'] = 0.25; // Can be decimals, NO SYMBOLS, NUMBERS ONLY
+$app_config['primary_currency_decimals_max_threshold'] = 0.70; // Can be decimals, NO SYMBOLS, NUMBERS ONLY
 
 
 // Default marketcap data source: 'coingecko', or 'coinmarketcap' (COINMARKETCAP REQUIRES A #FREE# API KEY, see below)
@@ -294,7 +303,7 @@ $app_config['asset_price_alerts_min_volume'] = 12500;
 
 // Block an asset price alert if price retrieved, BUT failed retrieving pair volume (not even a zero was retrieved, nothing)
 // Good for blocking questionable exchanges bugging you with price alerts, especially when used in combination with the above minimum volume filter
-$app_config['block_alerts_volume_error'] = 'on'; // 'on' / 'off' 
+$app_config['asset_price_alerts_block_volume_error'] = 'on'; // 'on' / 'off' 
 
 // Refresh cached comparison prices every X days (since last refresh / alert) with latest prices
 // Can be 0 to disable refreshing (until price alert triggers a refresh)
@@ -609,6 +618,7 @@ $app_config['top_level_domain_map'] = array(
 					'net',
 					'net.au',
 					'net.uk',
+					'network', // internal intranet, etc
 					'one',
 					'org',
 					'org.au',

@@ -914,26 +914,27 @@ fi
 
 
 
-echo "INTERNAL NETWORK HTTP web address (viewing web pages in web browser, on home / internal network) is:"
-echo "http://$IP"
-echo " "
-
-echo "INTERNAL NETWORK SSL / HTTPS (secure / private SSL connection) web address is:"
+echo "NETWORK SSL / HTTPS (secure / private SSL connection) web address is:"
 echo "https://$IP"
 echo " "
 
 echo "IMPORTANT SSL / HTTPS NOTE:"
-echo "The SSL certificate installed on this web server is SELF-SIGNED,"
-echo "so your browser ---will give you a warning message--- when you visit"
-echo "the above HTTPS address. This is normal behavior for self-signed"
-echo "certificates, no need to get worried about it. Google search"
-echo "with 'self-signed https' for more information on the topic."
+echo "The SSL certificate created on this web server has been SELF-SIGNED (not issued by a CA),"
+echo "so your browser ---will give you a warning message--- when you visit the above HTTPS address."
+echo "This is --normal behavior for self-signed certificates--. Google search for"
+echo "'self-signed ssl certificate' for more information on the topic."
+echo "THAT SAID, ONLY TRUST SELF-SIGNED CERTIFICATES #IF YOUR COMPUTER CREATED THE CERTIFICATE#."
+echo "!NEVER! TRUST SELF-SIGNED CERTIFICATES SIGNED BY THIRD PARTIES!"
 echo " "
 
 echo "If you wish to allow internet access (when not on your home / internal network),"
-echo "port forwarding on your router needs to be setup (preferably with strict router firewall rules,"
-echo "to disallow this device to request access to other machines on your home / internal network,"
-echo "and only allow it to route outbound through the internet gateway)."
+echo "port forwarding on your router needs to be setup (preferably with strict firewall"
+echo "rules, routing through a dedicated minipc running pfsense / ipfire / etc, to"
+echo "disallow this device requesting access to other machines on your home / internal"
+echo "network, and only allow it a forwarding route through the internet gateway)."
+echo " "
+echo "A #VERY HIGH# port number is recommended (greater than 100,000), to help avoid"
+echo "port scanning bots detecting it (and then making hack attempts on it)."
 echo " "
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"

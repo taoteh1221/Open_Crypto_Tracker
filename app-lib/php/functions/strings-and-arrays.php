@@ -117,6 +117,24 @@ return $string;
 ////////////////////////////////////////////////////////
 
 
+function delimited_string_sample($string, $delimiter, $position, $charset='utf-8') {
+	
+	if ( $position == 'first' ) {
+	$result = substr($string, 0, mb_strpos($string, $delimiter, 0, $charset) );
+	}
+	elseif ( $position == 'last' ) {
+	$result = array_pop( explode(',', $string) );
+	}
+
+return $result;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
 function snake_case_to_name($string) {
 
 

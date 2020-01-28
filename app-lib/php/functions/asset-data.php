@@ -839,9 +839,9 @@ $cached_array = explode("||", $data_file);
           }
   
   
-          // We disallow alerts if $app_config['block_alerts_volume_error'] is on, and there is a volume retrieval error
+          // We disallow alerts if $app_config['asset_price_alerts_block_volume_error'] is on, and there is a volume retrieval error
           // ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
-          if ( $volume_primary_currency_raw == -1 && $app_config['block_alerts_volume_error'] == 'on' ) {
+          if ( $volume_primary_currency_raw == -1 && $app_config['asset_price_alerts_block_volume_error'] == 'on' ) {
           $send_alert = null;
           }
           

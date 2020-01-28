@@ -430,6 +430,172 @@ global $base_dir, $app_config;
 ////////////////////////////////////////////////////////
 
 
+function test_proxy($problem_proxy_array) {
+
+global $base_dir, $app_config, $runtime_mode, $proxies_checked;
+
+
+// Endpoint to test proxy connectivity: https://www.myip.com/api-docs/
+$proxy_test_url = 'https://api.myip.com/';
+
+
+$problem_endpoint = $problem_proxy_array['endpoint'];
+$problem_proxy = $problem_proxy_array['proxy'];
+
+$ip_port = explode(':', $problem_proxy);
+
+$ip = $ip_port[0];
+$port = $ip_port[1];
+
+	// If no ip/port detected in data string, cancel and continue runtime
+	if ( !$ip || !$port ) {
+	app_logging('api_data_error', 'proxy '.$problem_proxy.' is not a valid format');
+	return false;
+	}
+
+// Create cache filename / session var
+$cache_filename = $problem_proxy;
+$cache_filename = preg_replace("/\./", "-", $cache_filename);
+$cache_filename = preg_replace("/:/", "_", $cache_filename);
+
+	if ( $app_config['proxy_alerts_runtime'] == 'all' ) {
+	$run_alerts = 1;
+	}
+	elseif ( $app_config['proxy_alerts_runtime'] == 'cron' && $runtime_mode == 'cron' ) {
+	$run_alerts = 1;
+	}
+	elseif ( $app_config['proxy_alerts_runtime'] == 'ui' && $runtime_mode == 'ui' ) {
+	$run_alerts = 1;
+	}
+	else {
+	$run_alerts = null;
+	}
+
+	if ( $run_alerts == 1 && update_cache_file('cache/alerts/proxy-check-'.$cache_filename.'.dat', ( $app_config['proxy_alerts_freq'] * 60 ) ) == true
+	&& in_array($cache_filename, $proxies_checked) == false ) {
+	
+		
+	// SESSION VAR first, to avoid duplicate alerts at runtime (and longer term cache file locked for writing further down, after logs creation)
+	$proxies_checked[] = $cache_filename;
+		
+	$jsondata = @api_data('proxy-check', $proxy_test_url, 0, '', '', $problem_proxy);
+	
+	$data = json_decode($jsondata, true);
+	
+		if ( sizeof($data) > 0 ) {
+
+			
+			// Look for the IP in the response
+			if ( strstr($data['ip'], $ip) == false ) {
+				
+			$misconfigured = 1;
+			
+			$notifyme_alert = 'A checkup on proxy ' . $ip . ', port ' . $port . ' detected a misconfiguration. Remote address ' . $data['ip'] . ' does not match the proxy address. Runtime mode is ' . $runtime_mode . '.';
+			
+			$text_alert = 'Proxy ' . $problem_proxy . ' remote address mismatch (detected as: ' . $data['ip'] . '). runtime: ' . $runtime_mode;
+		
+			}
+			
+			
+		$cached_logs = ( $misconfigured == 1 ? 'runtime: ' . $runtime_mode . "; \n " . 'Proxy ' . $problem_proxy . ' checkup status = MISCONFIGURED (test endpoint ' . $proxy_test_url . ' detected the incoming ip as: ' . $data['ip'] . ')' . "; \n " . 'Remote address DOES NOT match proxy address;' : 'runtime: ' . $runtime_mode . "; \n " . 'Proxy ' . $problem_proxy . ' checkup status = OK (test endpoint ' . $proxy_test_url . ' detected the incoming ip as: ' . $data['ip'] . ');' );
+		
+		
+		}
+		else {
+			
+		$misconfigured = 1;
+		
+		$notifyme_alert = 'A checkup on proxy ' . $ip . ', port ' . $port . ' resulted in a failed data request. No endpoint connection could be established. Runtime mode is ' . $runtime_mode . '.';
+			
+		$text_alert = 'Proxy ' . $problem_proxy . ' failed, no endpoint connection. runtime: ' . $runtime_mode;
+		
+		$cached_logs = 'runtime: ' . $runtime_mode . "; \n " . 'Proxy ' . $problem_proxy . ' checkup status = DATA REQUEST FAILED' . "; \n " . 'No connection established at test endpoint ' . $proxy_test_url . ';';
+
+		}
+		
+		
+		// Log to error logs
+		if ( $misconfigured == 1 ) {
+		app_logging('api_data_error', 'proxy '.$problem_proxy.' connection failed', $cached_logs);
+		}
+	
+
+		// Update alerts cache for this proxy (to prevent running alerts for this proxy too often)
+		store_file_contents($base_dir . '/cache/alerts/proxy-check-'.$cache_filename.'.dat', $cached_logs);
+			
+      
+      $email_alert = " The proxy " . $problem_proxy . " recently did not receive data when accessing this endpoint: \n " . $problem_endpoint . " \n \n A check on this proxy was performed at " . $proxy_test_url . ", and results logged: \n ============================================================== \n " . $cached_logs . " \n ============================================================== \n \n ";
+                    
+		
+		// Send out alerts
+		if ( $misconfigured == 1 || $app_config['proxy_checkup_ok'] == 'include' ) {
+                    
+                    
+  				// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
+  				if ( $app_config['proxy_alerts'] == 'all' ) {
+  				
+  				// Minimize function calls
+  				$encoded_text_alert = content_data_encoding($text_alert);
+  					
+          	$send_params = array(
+          								'notifyme' => $notifyme_alert,
+          								'text' => array(
+          														// Unicode support included for text messages (emojis / asian characters / etc )
+          														'message' => $encoded_text_alert['content_output'],
+          														'charset' => $encoded_text_alert['charset']
+          														),
+          								'email' => array(
+          														'subject' => 'A Proxy Was Unresponsive',
+          														'message' => $email_alert
+          														)
+          								);
+          	
+          	}
+  				elseif ( $app_config['proxy_alerts'] == 'email' ) {
+  					
+          	$send_params['email'] = array(
+          											'subject' => 'A Proxy Was Unresponsive',
+          											'message' => $email_alert
+          											);
+          	
+          	}
+  				elseif ( $app_config['proxy_alerts'] == 'text' ) {
+  				
+  				// Minimize function calls
+  				$encoded_text_alert = content_data_encoding($text_alert);
+  				
+          	$send_params['text'] = array(
+          											// Unicode support included for text messages (emojis / asian characters / etc )
+          											'message' => $encoded_text_alert['content_output'],
+          											'charset' => $encoded_text_alert['charset']
+          											
+          											);
+          	
+          	}
+  				elseif ( $app_config['proxy_alerts'] == 'notifyme' ) {
+          	$send_params['notifyme'] = $notifyme_alert;
+          	}
+          	
+          	
+          	// Send notifications
+          	@queue_notifications($send_params);
+          	
+           
+       }
+          
+          
+		
+	}
+
+
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
 function send_notifications() {
 
 global $base_dir, $app_config, $processed_messages;
@@ -766,9 +932,11 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 function api_data($mode, $request, $ttl, $api_server=null, $post_encoding=3, $test_proxy=null, $headers=null) { // Default to JSON encoding post requests (most used)
 
 // $app_config['btc_primary_currency_pairing'] / $app_config['btc_primary_exchange'] / $btc_primary_currency_value USED FOR TRACE DEBUGGING (TRACING)
-global $base_dir, $proxy_checkup, $logs_array, $limited_api_calls, $app_config, $api_runtime_cache, $btc_primary_currency_value, $user_agent;
+global $base_dir, $proxy_checkup, $logs_array, $limited_api_calls, $app_config, $api_runtime_cache, $btc_primary_currency_value, $user_agent, $base_url, $htaccess_username, $htaccess_password;
+
 
 $cookie_jar = tempnam('/tmp','cookie');
+	
 	
 // To cache duplicate requests based on a data hash, during runtime update session (AND persist cache to flat files)
 $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
@@ -835,14 +1003,15 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 	elseif ( update_cache_file('cache/apis/'.$hash_check.'.dat', $ttl) == true && $ttl > 0 && !$api_runtime_cache[$hash_check] 
 	|| $ttl == 0 && !$api_runtime_cache[$hash_check] ) {	
 	
+	
 	$ch = curl_init( ( $mode == 'array' ? $api_server : '' ) );
+	
+	$api_endpoint = ( $mode == 'array' ? $api_server : $request );
 	
 	
 		// If this is an API service that requires multiple calls (for each market), 
 		// and a request to it has been made consecutively, we throttle it to avoid being blacklisted
-		$check_api_endpoint = ( $mode == 'array' ? $api_server : $request );
-		$endpoint_tld = get_tld($check_api_endpoint);
-		
+		$endpoint_tld = get_tld($api_endpoint);
 		
 		// Throttled endpoints
 		if ( in_array($endpoint_tld, $app_config['limited_apis']) ) {
@@ -926,16 +1095,34 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 	
 	
 		// If this is an SSL connection, add SSL parameters
-		if (  preg_match("/https:\/\//i", ( $mode == 'array' ? $api_server : $request ) )  ) {
+		if ( preg_match("/https:\/\//i", $api_endpoint) ) {
+		
+			// We don't want strict SSL checks if this is our app calling itself (as we may be running our own self-signed certificate)
+			// (app running an external check on its htaccess, etc)
+			if ( preg_match("/".get_tld($base_url)."/i", $api_endpoint) ) {
+				
+				// If we have password protection on in the app
+				if ( $htaccess_username != '' && $htaccess_password != '' ) {
+				curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
+				curl_setopt($ch, CURLOPT_USERPWD, $htaccess_username . ':' . $htaccess_password);
+				}
+				
+			$api_strict_ssl = 'off';
 			
-		curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, ( $app_config['api_strict_ssl'] == 'on' ? 2 : 0 ) );
-		curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, ( $app_config['api_strict_ssl'] == 'on' ? true : false ) ); 
+			}
+			else {
+			$api_strict_ssl = $app_config['api_strict_ssl'];
+			}
+		
+		curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, ( $api_strict_ssl == 'on' ? 2 : 0 ) );
+		curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, ( $api_strict_ssl == 'on' ? true : false ) ); 
 		
 			if ( PHP_VERSION_ID >= 70700 && CURL_VERSION_ID >= 7410 ) {
-			curl_setopt ($ch, CURLOPT_SSL_VERIFYSTATUS, ( $app_config['api_strict_ssl'] == 'on' ? true : false ) ); 
+			curl_setopt ($ch, CURLOPT_SSL_VERIFYSTATUS, ( $api_strict_ssl == 'on' ? true : false ) ); 
 			}
 
 		}
+		
 		
 	
 	$data = curl_exec($ch);
@@ -1087,162 +1274,6 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 	
 
 return $data;
-
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function test_proxy($problem_proxy_array) {
-
-global $base_dir, $app_config, $runtime_mode, $proxies_checked;
-
-
-// Endpoint to test proxy connectivity: https://www.myip.com/api-docs/
-$proxy_test_url = 'https://api.myip.com/';
-
-
-$problem_endpoint = $problem_proxy_array['endpoint'];
-$problem_proxy = $problem_proxy_array['proxy'];
-
-$ip_port = explode(':', $problem_proxy);
-
-$ip = $ip_port[0];
-$port = $ip_port[1];
-
-	// If no ip/port detected in data string, cancel and continue runtime
-	if ( !$ip || !$port ) {
-	app_logging('api_data_error', 'proxy '.$problem_proxy.' is not a valid format');
-	return false;
-	}
-
-// Create cache filename / session var
-$cache_filename = $problem_proxy;
-$cache_filename = preg_replace("/\./", "-", $cache_filename);
-$cache_filename = preg_replace("/:/", "_", $cache_filename);
-
-	if ( $app_config['proxy_alerts_runtime'] == 'all' ) {
-	$run_alerts = 1;
-	}
-	elseif ( $app_config['proxy_alerts_runtime'] == 'cron' && $runtime_mode == 'cron' ) {
-	$run_alerts = 1;
-	}
-	elseif ( $app_config['proxy_alerts_runtime'] == 'ui' && $runtime_mode == 'ui' ) {
-	$run_alerts = 1;
-	}
-	else {
-	$run_alerts = null;
-	}
-
-	if ( $run_alerts == 1 && update_cache_file('cache/alerts/proxy-check-'.$cache_filename.'.dat', ( $app_config['proxy_alerts_freq'] * 60 ) ) == true
-	&& in_array($cache_filename, $proxies_checked) == false ) {
-	
-		
-	// SESSION VAR first, to avoid duplicate alerts at runtime (and longer term cache file locked for writing further down, after logs creation)
-	$proxies_checked[] = $cache_filename;
-		
-	$jsondata = @api_data('proxy-check', $proxy_test_url, 0, '', '', $problem_proxy);
-	
-	$data = json_decode($jsondata, true);
-	
-		if ( sizeof($data) > 0 ) {
-
-			
-			// Look for the IP in the response
-			if ( strstr($data['ip'], $ip) == false ) {
-				
-			$misconfigured = 1;
-			
-			$notifyme_alert = 'A checkup on proxy ' . $ip . ', port ' . $port . ' detected a misconfiguration. Remote address ' . $data['ip'] . ' does not match the proxy address. Runtime mode is ' . $runtime_mode . '.';
-			
-			$text_alert = 'Proxy ' . $problem_proxy . ' remote address mismatch (detected as: ' . $data['ip'] . '). runtime: ' . $runtime_mode;
-		
-			}
-			
-			
-		$cached_logs = ( $misconfigured == 1 ? 'runtime: ' . $runtime_mode . "; \n " . 'Proxy ' . $problem_proxy . ' checkup status = MISCONFIGURED (test endpoint ' . $proxy_test_url . ' detected the incoming ip as: ' . $data['ip'] . ')' . "; \n " . 'Remote address DOES NOT match proxy address;' : 'runtime: ' . $runtime_mode . "; \n " . 'Proxy ' . $problem_proxy . ' checkup status = OK (test endpoint ' . $proxy_test_url . ' detected the incoming ip as: ' . $data['ip'] . ');' );
-		
-		
-		}
-		else {
-			
-		$misconfigured = 1;
-		
-		$notifyme_alert = 'A checkup on proxy ' . $ip . ', port ' . $port . ' resulted in a failed data request. No endpoint connection could be established. Runtime mode is ' . $runtime_mode . '.';
-			
-		$text_alert = 'Proxy ' . $problem_proxy . ' failed, no endpoint connection. runtime: ' . $runtime_mode;
-		
-		$cached_logs = 'runtime: ' . $runtime_mode . "; \n " . 'Proxy ' . $problem_proxy . ' checkup status = DATA REQUEST FAILED' . "; \n " . 'No connection established at test endpoint ' . $proxy_test_url . ';';
-
-		}
-		
-		
-		// Log to error logs
-		if ( $misconfigured == 1 ) {
-		app_logging('api_data_error', 'proxy '.$problem_proxy.' connection failed', $cached_logs);
-		}
-	
-
-		// Update alerts cache for this proxy (to prevent running alerts for this proxy too often)
-		store_file_contents($base_dir . '/cache/alerts/proxy-check-'.$cache_filename.'.dat', $cached_logs);
-			
-      
-      $email_alert = " The proxy " . $problem_proxy . " recently did not receive data when accessing this endpoint: \n " . $problem_endpoint . " \n \n A check on this proxy was performed at " . $proxy_test_url . ", and results logged: \n ============================================================== \n " . $cached_logs . " \n ============================================================== \n \n ";
-                    
-		
-		// Send out alerts
-		if ( $misconfigured == 1 || $app_config['proxy_checkup_ok'] == 'include' ) {
-                    
-                    
-  				// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
-  				if ( $app_config['proxy_alerts'] == 'all' ) {
-  				
-  				// Minimize function calls
-  				$encoded_text_alert = content_data_encoding($text_alert);
-  					
-          	$send_params = array(
-          								'notifyme' => $notifyme_alert,
-          								'text' => array(
-          														// Unicode support included for text messages (emojis / asian characters / etc )
-          														'message' => $encoded_text_alert['content_output'],
-          														'charset' => $encoded_text_alert['charset']
-          														),
-          								'email' => array(
-          														'subject' => 'A Proxy Was Unresponsive',
-          														'message' => $email_alert
-          														)
-          								);
-          	
-          	}
-  				elseif ( $app_config['proxy_alerts'] == 'email' ) {
-  					
-          	$send_params['email'] = array(
-          											'subject' => 'A Proxy Was Unresponsive',
-          											'message' => $email_alert
-          											);
-          	
-          	}
-  				elseif ( $app_config['proxy_alerts'] == 'text' ) {
-          	$send_params['text'] = $text_alert;
-          	}
-  				elseif ( $app_config['proxy_alerts'] == 'notifyme' ) {
-          	$send_params['notifyme'] = $notifyme_alert;
-          	}
-          	
-          	
-          	// Send notifications
-          	@queue_notifications($send_params);
-          	
-           
-       }
-          
-          
-		
-	}
-
 
 
 }

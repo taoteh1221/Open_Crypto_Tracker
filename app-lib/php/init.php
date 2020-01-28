@@ -4,7 +4,7 @@
  */
 
 
-$app_version = '4.07.3';  // 2020/JANUARY/26TH
+$app_version = '4.07.4';  // 2020/JANUARY/28TH
 
 
 // Make sure we have a PHP version id
@@ -17,12 +17,31 @@ define('PHP_VERSION_ID', ($version[0] * 10000 + $version[1] * 100 + $version[2])
 ///////////////////// I N I T /////////////////////////////////////////////////
 
 
+// Register the base directory of this app (MUST BE SET BEFORE !ANY! Init logic)
+$base_dir = preg_replace("/\/app-lib(.*)/i", "", dirname(__FILE__) );
+
+
+// Base URL FOR UI, that even works during CLI runtime (horray)
+// !MUST BE AVAILABLE FOR OTHER RUNTIMES! (CRON ETC), SO INCLUDE HERE
+$base_url = trim( file_get_contents('cache/vars/app_url.dat') );
+
+
+// If upgrade check enabled, set the var for any configured alerts
+$upgrade_check_latest_version = trim( file_get_contents('cache/vars/upgrade_check_latest_version.dat') );
+
+
+// htaccess login...SET BEFORE system checks
+$htaccess_login_array = explode("||", $app_config['htaccess_login']);
+$htaccess_username = $htaccess_login_array[0];
+$htaccess_password = $htaccess_login_array[1];
+
+
 // Load app functions
 require_once('app-lib/php/loader.php');
 
 
 // Basic system checks (before allowing app to run)
-require_once('app-lib/php/other/system-checks.php');
+require_once('app-lib/php/other/debugging/system-checks.php');
 
 
 // If debugging is enabled, turn on all PHP error reporting
@@ -44,9 +63,6 @@ ini_set('auto_detect_line_endings', true);
 // Session start
 hardy_session_clearing(); // Try to avoid edge-case bug where sessions didn't delete last runtime
 session_start(); // New session start
-
-// Register the base directory of this app
-$base_dir = preg_replace("/\/app-lib(.*)/i", "", dirname(__FILE__) );
 
 
 
@@ -90,6 +106,16 @@ $original_app_config = $app_config;
 
 // Get system info for debugging / stats
 $system_info = system_info(); // MUST RUN AFTER SETTING $base_dir
+
+
+// User agent (MUST BE SET EARLY [BUT AFTER SYSTEM INFO VAR], FOR ANY API CALLS WHERE USER AGENT IS REQUIRED BY THE API SERVER)
+if ( sizeof($app_config['proxy_list']) > 0 ) {
+$user_agent = 'Mozilla/5.0 (compatible; API_Endpoint_Parser;) Gecko Firefox';  // If proxies in use, preserve some privacy
+}
+else {
+$user_agent = 'Mozilla/5.0 ('.( isset($system_info['operating_system']) ? $system_info['operating_system'] : 'compatible' ).'; ' . $_SERVER['SERVER_SOFTWARE'] . '; PHP/' .phpversion(). '; Curl/' .$curl_setup["version"]. '; DFD_Cryptocoin_Values/' . $app_version . '; API_Endpoint_Parser; +https://github.com/taoteh1221/DFD_Cryptocoin_Values) Gecko Firefox';
+}
+
 
 // Raspberry Pi device?
 if ( preg_match("/raspberry/i", $system_info['model']) ) {
@@ -172,7 +198,7 @@ require_once('app-lib/php/other/coinmarketcap-currencies.php');
 
 
 // App configuration checks, !AFTER! loading primary init logic
-require_once('app-lib/php/other/config-checks.php');
+require_once('app-lib/php/other/debugging/config-checks.php');
 
 
 
@@ -195,16 +221,6 @@ global $smtp_vars; // Needed for class compatibility (along with second instance
 // Initiation of the 3rd party SMTP class
 $smtp = new SMTPMailer();
 
-}
-
-
-
-// User agent
-if ( sizeof($app_config['proxy_list']) > 0 ) {
-$user_agent = 'Mozilla/5.0 (compatible; API_Endpoint_Parser;) Gecko Firefox';  // If proxies in use, preserve some privacy
-}
-else {
-$user_agent = 'Mozilla/5.0 ('.( isset($system_info['operating_system']) ? $system_info['operating_system'] : 'compatible' ).'; ' . $_SERVER['SERVER_SOFTWARE'] . '; PHP/' .phpversion(). '; Curl/' .$curl_setup["version"]. '; DFD_Cryptocoin_Values/' . $app_version . '; API_Endpoint_Parser; +https://github.com/taoteh1221/DFD_Cryptocoin_Values) Gecko Firefox';
 }
 
 

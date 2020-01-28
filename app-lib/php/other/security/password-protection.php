@@ -4,15 +4,9 @@
  */
 
 
-// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-$htaccess_login_array = explode("||", $app_config['htaccess_login']);
-
-$htaccess_username = $htaccess_login_array[0];
-
-$htaccess_password = $htaccess_login_array[1];
-
 
 // Htaccess password-protection
+// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
 if ( $htaccess_username != '' && $htaccess_password != '' ) {
 
 $htaccess_protection_check = file_get_contents($base_dir . '/.htaccess');

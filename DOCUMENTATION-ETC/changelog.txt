@@ -2390,6 +2390,33 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 
 
+-------------------------------------------------------------------
+4.07.4:
+
+-Misc minor bug fixes
+
+-Optin upgrade alerts feature (checks github.com for latest version, disabled by default in configuration settings, MUST BE TURNED ON BY USER)
+
+IMPORTANT NOTES: 
+
+v4.06.0 and higher modularizes the configuration settings into the new $app_config array. ALL
+CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
+AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
+
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
+PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
+
+v4.03.0 and higher of this app REQUIRES DELETING YOUR PREVIOUS CHART DATA FROM ANY EARLIER VERSIONS.
+MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWARDS-COMPATIBLE.
+
+-------------------------------------------------------------------
+
+
+
+
+
+
 
 
 

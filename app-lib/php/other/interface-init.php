@@ -109,10 +109,6 @@ $app_config['primary_marketcap_site'] = ( $alert_percent[0] != '' ? $alert_perce
 // END UI-ONLY VAR SETTINGS
 //////////////////////////////////////////////////////////////////
 
-
-// Base URL FOR UI, that even works during CLI runtime (horray)
-// !MUST BE AVAILABLE FOR OTHER RUNTIMES! (CRON ETC), SO INCLUDE HERE (OUTSIDE ABOVE STATEMENT)
-$base_url = ( $base_url != '' ? $base_url : trim( file_get_contents('cache/vars/app_url.dat') ) );
   
  
  ?>

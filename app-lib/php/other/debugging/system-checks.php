@@ -48,13 +48,22 @@ $apache_modules = apache_get_modules(); // Minimize function calls
 
 // Check for mod_rewrite
 if ( is_array($apache_modules) && !in_array('mod_rewrite', $apache_modules) ) {
-echo "HTTP server Apache module 'mod_rewrite' not installed. 'mod_rewrite' is required to run this application. <br /><br />";
+echo "HTTP server Apache module 'mod_rewrite' is not installed on this web server. 'mod_rewrite' is required to run this application ( debian install command: a2enmod rewrite;/etc/init.d/apache2 restart ). <br /><br />";
 $force_exit = 1;
 }
 
 // Check for mod_ssl
 if ( is_array($apache_modules) && !in_array('mod_ssl', $apache_modules) ) {
-echo "HTTP server Apache module 'mod_ssl' not installed. 'mod_ssl' is required to run this application. <br /><br />";
+echo "HTTP server Apache module 'mod_ssl' is not installed on this web server. 'mod_ssl' is required to run this application ( debian install command: a2enmod ssl;a2ensite default-ssl;/etc/init.d/apache2 restart ). <br /><br />";
+$force_exit = 1;
+}
+
+// Check for htaccess
+$htaccess_test_url = $base_url . 'cache/access_test.dat';
+$htaccess_test_1 = trim( @api_data('url', $htaccess_test_url, 0) ); // HTTPS CHECK, Don't cache API data
+$htaccess_test_2 = trim( @api_data('url', preg_replace("/https:/i", "http:", $htaccess_test_url), 0) ); // HTTP CHECK, Don't cache API data
+if ( is_array($apache_modules) && preg_match("/TEST_HTACCESS_PROTECTION/i", $htaccess_test_1) || is_array($apache_modules) && preg_match("/TEST_HTACCESS_PROTECTION/i", $htaccess_test_2) ) {
+echo "HTTP server Apache 'htaccess' support has not been enabled on this web server. 'htaccess' support is required to SAFELY run this application. <br /><br />";
 $force_exit = 1;
 }
 
