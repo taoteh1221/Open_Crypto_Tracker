@@ -11,12 +11,22 @@
 ###########################################################
 
 <IfModule mod_rewrite.c>
+
 RewriteEngine on
 
+
   <IfModule mod_ssl.c>
-  RewriteCond %{HTTPS} !=on
-  RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+  
+  # Normal server node
+  RewriteCond %{HTTPS} off
+  
+  # Load balancer node(s)
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+  
   </IfModule>
+
 
 </IfModule>
 

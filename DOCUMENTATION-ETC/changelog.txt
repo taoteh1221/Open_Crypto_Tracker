@@ -2415,11 +2415,13 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 
 -------------------------------------------------------------------
-4.08.0:
+4.07.5:
 
 -Misc minor code cleanup
 
 -Config setting for default theme
+
+-Bug fix for detecting HTTPS (secure SSL) connections on load balancer setups
 
 IMPORTANT NOTES: 
 
