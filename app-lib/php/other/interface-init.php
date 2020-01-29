@@ -109,6 +109,5 @@ $app_config['primary_marketcap_site'] = ( $alert_percent[0] != '' ? $alert_perce
 // END UI-ONLY VAR SETTINGS
 //////////////////////////////////////////////////////////////////
 
-  
  
  ?>

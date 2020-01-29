@@ -57,6 +57,10 @@ else
 fi
 
 
+# For setting user agent header in curl, since some API servers !REQUIRE! a set user agent OR THEY BLOCK YOU
+CUSTOM_CURL_USER_AGENT_HEADER="User-Agent: Curl (${OS}/$VER; API_Endpoint_Parser;)"
+
+
 ######################################
 
 			
@@ -579,6 +583,9 @@ select opt in $OPTIONS; do
 				mkdir DFD-Cryptocoin-Values
 				
 				cd DFD-Cryptocoin-Values
+				
+				# Set curl user agent, as the github API REQUIRES ONE
+				/usr/bin/curl -H "$CUSTOM_CURL_USER_AGENT_HEADER"
 				
 				ZIP_DL=$(/usr/bin/curl -s 'https://api.github.com/repos/taoteh1221/DFD_Cryptocoin_Values/releases/latest' | /usr/bin/jq -r '.zipball_url')
 				

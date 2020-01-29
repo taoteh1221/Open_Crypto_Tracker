@@ -4,7 +4,6 @@
  */
 
 
-
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
 
@@ -87,6 +86,23 @@ $string = explode("||",$string);
 $number = trim($string[0]);
 
 return $number;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function regex_compat_url($url) {
+	
+$regex_url = trim($url);
+
+$regex_url = preg_replace("/(http|https|ftp|tcp|ssl):\/\//i", "", $regex_url);
+
+$regex_url = preg_replace("/\//i", "\/", $regex_url);
+
+return $regex_url;
 
 }
 

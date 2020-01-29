@@ -4,17 +4,98 @@
  */
 
 
-$app_version = '4.07.4';  // 2020/JANUARY/28TH
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////// S Y S T E M   I N I T   S E T T I N G S ///////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-// Make sure we have a PHP version id
+// If debugging is enabled, turn on all PHP error reporting (BEFORE ANYTHING ELSE RUNS)
+if ( $app_config['debug_mode'] != 'off' ) {
+error_reporting(1); 
+}
+
+
+// Make sure we have a PHP version id set EARLY
 if (!defined('PHP_VERSION_ID')) {
 $version = explode('.', PHP_VERSION);
 define('PHP_VERSION_ID', ($version[0] * 10000 + $version[1] * 100 + $version[2]));
 }
 
 
-///////////////////// I N I T /////////////////////////////////////////////////
+// Set curl version var EARLY (for user agent, etc)
+if ( function_exists('curl_version') ) {
+$curl_setup = curl_version();
+define('CURL_VERSION_ID', str_replace(".", "", $curl_setup["version"]) );
+}
+
+
+// Apache modules that are activated (avoids calling this function more than once / further down in system checks)
+if ( function_exists('apache_get_modules') ) {
+$apache_modules = apache_get_modules(); 
+}
+
+
+// Mac compatibility with CSV spreadsheet importing / exporting
+if (  preg_match("/darwin/i", php_uname()) || preg_match("/webkit/i", $_SERVER['HTTP_USER_AGENT']) ) {
+ini_set('auto_detect_line_endings', true); 
+}
+
+
+// Set time as UTC for logs etc ($app_config['local_time_offset'] in config.php can adjust UI / UX timestamps as needed)
+date_default_timezone_set('UTC'); 
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////// APP   I N I T   S E T T I N G S /////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// Application version
+$app_version = '4.07.4';  // 2020/JANUARY/28TH
+
+
+// Load app functions
+require_once('app-lib/php/loader.php');
+
+
+// Session start
+hardy_session_clearing(); // Try to avoid edge-case bug where sessions didn't delete last runtime
+session_start(); // New session start
+
+
+// Set global runtime app vars...
+
+
+// Initial null arrays
+$logs_array = array();
+
+$proxy_checkup = array();
+
+$proxies_checked = array();
+
+$btc_worth_array = array();
+
+$coin_stats_array = array();
+
+$api_runtime_cache = array();
+
+$limited_api_calls = array();
+
+$processed_messages = array();
+
+$btc_pairing_markets = array();
+
+
+// Initial null vars
+$cmc_notes = null;
+
+$td_color_zebra = null;
+
+$cap_data_force_usd = null;
+
+$selected_btc_primary_exchange = null;
+
+$selected_btc_primary_currency_pairing = null;
 
 
 // Register the base directory of this app (MUST BE SET BEFORE !ANY! Init logic)
@@ -36,85 +117,12 @@ $htaccess_username = $htaccess_login_array[0];
 $htaccess_password = $htaccess_login_array[1];
 
 
-// Load app functions
-require_once('app-lib/php/loader.php');
-
-
-// Basic system checks (before allowing app to run)
-require_once('app-lib/php/other/debugging/system-checks.php');
-
-
-// If debugging is enabled, turn on all PHP error reporting
-if ( $app_config['debug_mode'] != 'off' ) {
-error_reporting(1); 
-}
-
-
-// App defaults
-
-// Set time as UTC for logs etc ($app_config['local_time_offset'] in config.php can adjust UI / UX timestamps as needed)
-date_default_timezone_set('UTC'); 
-
-// Mac compatibility with CSV spreadsheet importing
-if (  preg_match("/darwin/i", php_uname())  ) {
-ini_set('auto_detect_line_endings', true); 
-}
-
-// Session start
-hardy_session_clearing(); // Try to avoid edge-case bug where sessions didn't delete last runtime
-session_start(); // New session start
-
-
-
-//////////////////////////////////////////////////////////////////
-// Set global runtime app vars now...
-//////////////////////////////////////////////////////////////////
-
-
-// Arrays
-$logs_array = array();
-
-$proxy_checkup = array();
-
-$proxies_checked = array();
-
-$btc_worth_array = array();
-
-$coin_stats_array = array();
-
-$api_runtime_cache = array();
-
-$limited_api_calls = array();
-
-$processed_messages = array();
-
-$btc_pairing_markets = array();
-
-// Vars
-$cmc_notes = null;
-
-$td_color_zebra = null;
-
-$cap_data_force_usd = null;
-
-$selected_btc_primary_exchange = null;
-
-$selected_btc_primary_currency_pairing = null;
-
-// SET BEFORE dynamic app config management
+// SET original app_config BEFORE dynamic app config management
 $original_app_config = $app_config; 
+
 
 // Get system info for debugging / stats
 $system_info = system_info(); // MUST RUN AFTER SETTING $base_dir
-
-
-// User agent (MUST BE SET EARLY [BUT AFTER SYSTEM INFO VAR], FOR ANY API CALLS WHERE USER AGENT IS REQUIRED BY THE API SERVER)
-if ( sizeof($app_config['proxy_list']) > 0 ) {
-$user_agent = 'Mozilla/5.0 (compatible; API_Endpoint_Parser;) Gecko Firefox';  // If proxies in use, preserve some privacy
-}
-else {
-$user_agent = 'Mozilla/5.0 ('.( isset($system_info['operating_system']) ? $system_info['operating_system'] : 'compatible' ).'; ' . $_SERVER['SERVER_SOFTWARE'] . '; PHP/' .phpversion(). '; Curl/' .$curl_setup["version"]. '; DFD_Cryptocoin_Values/' . $app_version . '; API_Endpoint_Parser; +https://github.com/taoteh1221/DFD_Cryptocoin_Values) Gecko Firefox';
-}
 
 
 // Raspberry Pi device?
@@ -139,75 +147,36 @@ $possible_http_users = array(
 							);
 
 
-// Create cache directories (if needed), with $http_runtime_user determined further above 
-// (for cache compatibility on certain PHP setups)
 
-// Check for cache directory path creation, create if needed...if it fails, exit and alert end-user
-if ( dir_structure('cache/alerts/') != TRUE
-|| dir_structure('cache/apis/') != TRUE
-|| dir_structure('cache/charts/spot_price_24hr_volume/archival/') != TRUE
-|| dir_structure('cache/charts/spot_price_24hr_volume/lite/') != TRUE
-|| dir_structure('cache/charts/system/archival/') != TRUE
-|| dir_structure('cache/charts/system/lite/') != TRUE
-|| dir_structure('cache/events/') != TRUE
-|| dir_structure('cache/logs/debugging/api/') != TRUE
-|| dir_structure('cache/logs/errors/api/') != TRUE
-|| dir_structure('cache/secured/backups/') != TRUE
-|| dir_structure('cache/secured/messages/') != TRUE
-|| dir_structure('cache/vars/') != TRUE ) {
-echo "Cannot create cache sub-directories. Please make sure the folder '/cache/' has FULL read / write permissions (chmod 777 on unix / linux systems), so the cache sub-directories can be created automatically.";
-exit;
+// User agent (MUST BE SET EARLY [BUT AFTER SYSTEM INFO VAR], FOR ANY API CALLS WHERE USER AGENT IS REQUIRED BY THE API SERVER)
+if ( sizeof($app_config['proxy_list']) > 0 ) {
+$user_agent = 'Mozilla/5.0 (compatible; API_Endpoint_Parser;) Gecko Firefox';  // If proxies in use, preserve some privacy
+}
+else {
+$user_agent = 'Mozilla/5.0 ('.( isset($system_info['operating_system']) ? $system_info['operating_system'] : 'compatible' ).'; ' . $_SERVER['SERVER_SOFTWARE'] . '; PHP/' .phpversion(). '; Curl/' .$curl_setup["version"]. '; DFD_Cryptocoin_Values/' . $app_version . '; API_Endpoint_Parser; +https://github.com/taoteh1221/DFD_Cryptocoin_Values) Gecko Firefox';
 }
 
 
-// Security (MUST run AFTER directory structure creation check)
-require_once('app-lib/php/other/security/directory.php');
 
+// Basic system checks (before allowing app to run ANY FURTHER, MUST RUN AFTER http server user vars / user agent var)
+require_once('app-lib/php/other/debugging/system-checks.php');
 
-// SECURED cache files management (MUST RUN AFTER directory structure creation check)
+// SECURED cache files management (MUST RUN AFTER system checks)
 require_once('app-lib/php/other/security/secure-cache-files.php');
-
 
 // Dynamic app config management (MUST RUN AFTER secure cache files)
 require_once('app-lib/php/other/app-config-management.php');
 
+// Password protection management 
+// (MUST RUN AFTER system checks / secure cache files / dynamic app config management)
+require_once('app-lib/php/other/security/password-protection.php');
 
 // Chart sub-directory creation (if needed...MUST RUN AFTER dynamic app config management)
 require_once('app-lib/php/other/chart-directories.php');
 
 
-// Password protection management 
-// (MUST RUN AFTER directory structure creation check / secure cache files / dynamic app config management)
-require_once('app-lib/php/other/security/password-protection.php');
 
-
-// Interface vars
-require_once('app-lib/php/other/interface-init.php');
-
-
-// Scheduled maintenance 
-require_once('app-lib/php/other/scheduled-maintenance.php');
-
-
-// Primary Bitcoin markets
-require_once('app-lib/php/other/primary-bitcoin-markets.php');
-
-
-// Coinmarketcap supported currencies
-require_once('app-lib/php/other/coinmarketcap-currencies.php');
-
-
-// App configuration checks, !AFTER! loading primary init logic
-require_once('app-lib/php/other/debugging/config-checks.php');
-
-
-
-// Chart update frequency (SET AFTER SCHEDULED MAINTENANCE)
-$charts_update_freq = ( $charts_update_freq != '' ? $charts_update_freq : trim( file_get_contents('cache/vars/chart_interval.dat') ) );
-
-
-
-// SMTP email setup
+// SMTP email setup (if needed...MUST RUN AFTER dynamic app config management)
 // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
 if ( $app_config['smtp_login'] != '' && $app_config['smtp_server'] != '' ) {
 
@@ -225,11 +194,35 @@ $smtp = new SMTPMailer();
 
 
 
-// Unit tests to run in debug mode, !AFTER! loading ALL init logic
+// Run AFTER above...
+
+
+// Interface vars
+require_once('app-lib/php/other/interface-init.php');
+
+// Scheduled maintenance 
+require_once('app-lib/php/other/scheduled-maintenance.php');
+
+// Chart update frequency (SET AFTER SCHEDULED MAINTENANCE)
+$charts_update_freq = ( $charts_update_freq != '' ? $charts_update_freq : trim( file_get_contents('cache/vars/chart_interval.dat') ) );
+
+// Primary Bitcoin markets
+require_once('app-lib/php/other/primary-bitcoin-markets.php');
+
+// Coinmarketcap supported currencies
+require_once('app-lib/php/other/coinmarketcap-currencies.php');
+
+// App configuration checks (!RUN AFTER! loading ALL primary init.php logic)
+require_once('app-lib/php/other/debugging/config-checks.php');
+
+
+
+// Unit tests to run in debug mode (!RUN AFTER! loading ALL primary init.php logic)
 if ( $app_config['debug_mode'] != 'off' ) {
 require_once('app-lib/php/other/debugging/tests.php');
 require_once('app-lib/php/other/debugging/exchange-and-pairing-info.php');
 }
+
 
 
 ?>

@@ -1097,9 +1097,15 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		// If this is an SSL connection, add SSL parameters
 		if ( preg_match("/https:\/\//i", $api_endpoint) ) {
 		
+		
 			// We don't want strict SSL checks if this is our app calling itself (as we may be running our own self-signed certificate)
 			// (app running an external check on its htaccess, etc)
-			if ( preg_match("/".get_tld($base_url)."/i", $api_endpoint) ) {
+			$regex_base_url = regex_compat_url($base_url);
+			
+			// Secure random hash to nullify any preg_match() below, as we are submitting out htaccess user/pass if setup
+			$scan_base_url = ( $regex_base_url != '' ? $regex_base_url : random_hash(8) );
+			
+			if ( isset($scan_base_url) && preg_match("/".$scan_base_url."/i", $api_endpoint) ) {
 				
 				// If we have password protection on in the app
 				if ( $htaccess_username != '' && $htaccess_password != '' ) {
@@ -1113,13 +1119,16 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 			else {
 			$api_strict_ssl = $app_config['api_strict_ssl'];
 			}
+			
 		
 		curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, ( $api_strict_ssl == 'on' ? 2 : 0 ) );
 		curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, ( $api_strict_ssl == 'on' ? true : false ) ); 
 		
+		
 			if ( PHP_VERSION_ID >= 70700 && CURL_VERSION_ID >= 7410 ) {
 			curl_setopt ($ch, CURLOPT_SSL_VERIFYSTATUS, ( $api_strict_ssl == 'on' ? true : false ) ); 
 			}
+
 
 		}
 		
