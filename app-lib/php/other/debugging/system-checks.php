@@ -80,8 +80,13 @@ $force_exit = 1;
 
 // Check for htaccess
 if ( is_array($apache_modules) ) {
+	
+	// If base url is not set yet, and we are ui runtime
+	if ( $runtime_mode == 'ui' ) {
+	$temp_base_url = ( trim($base_url) != '' ? $base_url : base_url() );
+	}
 
-$htaccess_test_url = $base_url . 'cache/access_test.dat';
+$htaccess_test_url = $temp_base_url . 'cache/access_test.dat';
 
 $htaccess_test_1 = trim( @api_data('url', $htaccess_test_url, 0) ); // HTTPS CHECK, Don't cache API data
 

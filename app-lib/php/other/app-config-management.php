@@ -115,6 +115,7 @@ $app_config['btc_primary_exchange'] = $selected_btc_primary_exchange;
 
 // Cleaning lowercase alphanumeric string values
 $app_config['debug_mode'] = cleanup_string($app_config['debug_mode'], 'lower');
+$app_config['default_theme'] = cleanup_string($app_config['default_theme'], 'lower');
 $app_config['btc_primary_currency_pairing'] = cleanup_string($app_config['btc_primary_currency_pairing'], 'lower');
 $app_config['btc_primary_exchange'] = cleanup_string($app_config['btc_primary_exchange'], 'lower');
 $app_config['primary_marketcap_site'] = cleanup_string($app_config['primary_marketcap_site'], 'lower');

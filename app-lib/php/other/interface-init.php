@@ -71,7 +71,7 @@ require_once( $base_dir . "/app-lib/php/other/cookies.php");
 	$theme_selected = $_POST['theme_selected'];
 	}
 	else {
-	$theme_selected = 'dark';
+	$theme_selected = $app_config['default_theme'];
 	}
 	// Sanitizing $theme_selected is very important, as we are calling external files with the value
 	if ( $theme_selected != 'light' && $theme_selected != 'dark' ) {

@@ -60,6 +60,10 @@ $app_config['system_stats_first_chart_highest_value'] = 3.5; // Can be a decimal
 $app_config['local_time_offset'] = -5; // example: -5 or 5
 
 
+// Set which interface theme you want as the default theme (also can be manually switched on the settings page in the interface)
+$app_config['default_theme'] = 'dark'; // 'dark' or 'light'
+
+
 // Default BITCOIN-ONLY currency market pairing 
 // (set for charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
 // 'aud' / 'bob' / 'brl' / 'cad' / 'chf' / 'cop' / 'eur' / 'eth' / 'gbp' / 'hkd' / 'inr' / 'jpy' / 'ltc' / 'mxn'
