@@ -47,6 +47,9 @@ FEATURES SECTION
 ///////////////////////////////////////////////////////
 
 
+Add twilio.com mobile text messaging support
+
+
 Look into an auto-update feature like WordPress has (downloads a zip file upgrade, and exctracts it overwriting the old app files).
 
 
