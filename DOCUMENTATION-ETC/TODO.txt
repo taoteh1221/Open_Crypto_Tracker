@@ -8,7 +8,19 @@ Then plenty of time is spent on UX / testing / logging / debugging.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ///////////////////////////////////////////////////////
 
-Investigate store_file_contents() having chmod() fail, EVEN THOUGH files still write ok (code cleanup sometime, no real functional benefit seen)
+
+Just add rest of localbitcoins currencies, and run tests / patch bugs at top of this TODO list, until the github Arctic code vault snapshot on 2/2/2020.
+
+
+///////////////////////////////////////////////////////
+BUGS / TESTS SECTION
+///////////////////////////////////////////////////////
+
+
+Test app in webkit browser Epiphany (also used by safari on Apple devices)
+
+
+One LAST unicode text message test with no space in front of encoded data (forgot to try that, coded and ready to go now).
 
 
 Re-test modified bash install script
@@ -23,13 +35,22 @@ No audio alert in FF (windows) Maybe the OGG OR MP3 file needs to load the oppos
 Investigate unchecking standalone mode AFTER page reload...may be messing up the "update assets" page field for BTC.
 
 
-One LAST unicode text message test with no space in front of encoded data (forgot to try that, coded and ready to go now).
-
-
 Color code mining profits / losses properly in the mining calculators.
 
 
-Check that htaccess security is enabled by doing an http and https call to /cache/access_test.dat to see if the data is readable.
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
+
+
+///////////////////////////////////////////////////////
+FEATURES SECTION
+///////////////////////////////////////////////////////
+
+
+Look into an auto-update feature like WordPress has (downloads a zip file upgrade, and exctracts it overwriting the old app files).
+
+
+Investigate store_file_contents() having chmod() fail, EVEN THOUGH files still write ok (code cleanup sometime, no real functional benefit seen)
 
 
 Mod rewrite rules for future RESTFUL API system
@@ -105,7 +126,11 @@ Simple trading bot, to run from cron / cli (with SQL-based admin authentication 
 
 
 ///////////////////////////////////////////////////////
-MAYBE
+///////////////////////////////////////////////////////
+
+
+///////////////////////////////////////////////////////
+MAYBE SECTION
 ///////////////////////////////////////////////////////
 
 
