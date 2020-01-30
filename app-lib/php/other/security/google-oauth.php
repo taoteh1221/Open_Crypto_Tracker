@@ -12,6 +12,7 @@ require_once($base_dir . '/app-lib/php/other/third-party/google-api-php-client-m
  
  
 // Set config params to acces Google API
+ $application_name = $app_config['google_home_application_name'];
  $client_id = $app_config['google_home_client_id'];
  $client_secret = $app_config['google_home_client_secret'];
  $redirect_uri = $base_url . 'oauth.php';
@@ -24,7 +25,7 @@ require_once($base_dir . '/app-lib/php/other/third-party/google-api-php-client-m
 // https://developers.google.com/assistant/engagement/notifications
 // https://www.reddit.com/r/GoogleAssistantDev/comments/eptoha/need_google_home_api_authentication_locally_for/
 $client = new Google_Client();
-$client->setApplicationName("Google Home Push Notifications");
+$client->setApplicationName($application_name);
 $client->setClientId($client_id);
 $client->setClientSecret($client_secret);
 $client->setRedirectUri($redirect_uri);

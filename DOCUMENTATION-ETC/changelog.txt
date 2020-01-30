@@ -2417,13 +2417,17 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.07.5:
 
--Misc minor code cleanup
-
 -Config setting for default theme
+
+-Misc minor code cleanup / bug fixes
 
 -Config setting for custom user agent
 
 -Bug fix for detecting HTTPS (secure SSL) connections on load balancer setups
+
+-Log detail level setting in configuration, allowing normal or verbose logging 
+
+-Bug fix for file permissions on message queue lock file (prevented sending on some server setups under certain conditions)
 
 IMPORTANT NOTES: 
 

@@ -188,18 +188,25 @@ return false;
 ////////////////////////////////////////////////////////
 
 
-function app_logging($log_type, $log_message, $telemetry=false, $hashcheck=false, $overwrite=false) {
+function app_logging($log_type, $log_message, $verbose_tracing=false, $hashcheck=false, $overwrite=false) {
 
-global $runtime_mode, $logs_array;
+global $runtime_mode, $app_config, $logs_array;
+
+
+	// Disable logging verbose tracing, if log detail level config is set to normal
+	if ( $app_config['log_detail_level'] == 'normal' ) {
+	$verbose_tracing = false;
+	}
+
 
 	if ( $hashcheck != false ) {
-	$logs_array[$log_type][$hashcheck] = date('Y-m-d H:i:s') . ' UTC | runtime: ' . $runtime_mode . ' | ' . $log_type . ': ' . $log_message . ( $telemetry != false ? ' | telemetry: [ '  . $telemetry . ' ]' : '' ) . " <br /> \n";
+	$logs_array[$log_type][$hashcheck] = date('Y-m-d H:i:s') . ' UTC | runtime: ' . $runtime_mode . ' | ' . $log_type . ': ' . $log_message . ( $verbose_tracing != false ? ' | verbose_tracing: [ '  . $verbose_tracing . ' ]' : '' ) . " <br /> \n";
 	}
 	elseif ( $overwrite != false ) {
-	$logs_array[$log_type] = date('Y-m-d H:i:s') . ' UTC | runtime: ' . $runtime_mode . ' | ' . $log_type . ': ' . $log_message . ( $telemetry != false ? ' | telemetry: [ '  . $telemetry . ' ]' : '' ) . " <br /> \n";
+	$logs_array[$log_type] = date('Y-m-d H:i:s') . ' UTC | runtime: ' . $runtime_mode . ' | ' . $log_type . ': ' . $log_message . ( $verbose_tracing != false ? ' | verbose_tracing: [ '  . $verbose_tracing . ' ]' : '' ) . " <br /> \n";
 	}
 	else {
-	$logs_array[$log_type] .= date('Y-m-d H:i:s') . ' UTC | runtime: ' . $runtime_mode . ' | ' . $log_type . ': ' . $log_message . ( $telemetry != false ? ' | telemetry: [ '  . $telemetry . ' ]' : '' ) . " <br /> \n";
+	$logs_array[$log_type] .= date('Y-m-d H:i:s') . ' UTC | runtime: ' . $runtime_mode . ' | ' . $log_type . ': ' . $log_message . ( $verbose_tracing != false ? ' | verbose_tracing: [ '  . $verbose_tracing . ' ]' : '' ) . " <br /> \n";
 	}
 
 

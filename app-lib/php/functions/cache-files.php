@@ -111,7 +111,7 @@ $file_owner_info = posix_getpwuid(fileowner($file));
 		
 		$did_chmod = chmod($file, $chmod_setting);
 		
-			if ( !$did_chmod && $app_config['debug_mode'] == 'all' || !$did_chmod && $app_config['debug_mode'] == 'telemetry' ) {
+			if ( !$did_chmod ) {
 			app_logging('other_error', 'Chmod failed for file "' . $file . '" (check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")', 'chmod_setting: ' . $chmod_setting . '; current_runtime_user: ' . $current_runtime_user . '; file_owner: ' . $file_owner_info['name'] . ';');
 			}
 		
@@ -154,7 +154,7 @@ $file_owner_info = posix_getpwuid(fileowner($file));
 	
 	$did_chmod = chmod($file, $chmod_setting);
 		
-		if ( !$did_chmod && $app_config['debug_mode'] == 'all' || !$did_chmod && $app_config['debug_mode'] == 'telemetry' ) {
+		if ( !$did_chmod ) {
 		app_logging('other_error', 'Chmod failed for file "' . $file . '" (check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")', 'chmod_setting: ' . $chmod_setting . '; current_runtime_user: ' . $current_runtime_user . '; file_owner: ' . $file_owner_info['name'] . ';');
 		}
 		
@@ -606,7 +606,7 @@ $cache_filename = preg_replace("/:/", "_", $cache_filename);
 
 function send_notifications() {
 
-global $base_dir, $app_config, $processed_messages;
+global $base_dir, $app_config, $processed_messages, $possible_http_users, $http_runtime_user, $current_runtime_user;
 
 
 // Array of currently queued messages in the cache
@@ -632,13 +632,13 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 		// and no session count is set, set session count to zero
 		// Don't update the file-cached count here, that will happen automatically from resetting the session count to zero 
 		// (if there are notifyme messages queued to send)
-		if ( !isset($processed_messages['notifyme_count']) && update_cache_file($base_dir . '/cache/events/notifyme-alerts-sent.dat', 6 ) == true ) {
+		if ( !isset($processed_messages['notifyme_count']) && update_cache_file($base_dir . '/cache/events/notifyme-alerts-sent.dat', 6) == true ) {
 		$processed_messages['notifyme_count'] = 0;
 		}
 		// If it hasn't been well over 5 minutes since the last notifyme send
 		// (we use 6 minutes, safely over the 5 minute limit for the maximum 5 requests), and there is no session count, 
 		// use the file-cached count for the session count starting point
-		elseif ( !isset($processed_messages['notifyme_count']) && update_cache_file($base_dir . '/cache/events/notifyme-alerts-sent.dat', 6 ) == false ) {
+		elseif ( !isset($processed_messages['notifyme_count']) && update_cache_file($base_dir . '/cache/events/notifyme-alerts-sent.dat', 6) == false ) {
 		$processed_messages['notifyme_count'] = trim( file_get_contents($base_dir . '/cache/events/notifyme-alerts-sent.dat') );
 		}
 		
@@ -658,9 +658,12 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 	
 		// ONLY process queued messages IF they are NOT already being processed by another runtime instance
 		// Use file locking with flock() to do this
-		$fp = fopen($base_dir . '/cache/events/notifications-queue-processing.dat', "w+");
-		if ( flock($fp, LOCK_EX) ) {  // If we are allowed a file lock, we can proceed
 		
+		$queued_messages_processing_lock_file = $base_dir . '/cache/events/notifications-queue-processing.dat';
+		
+		$fp = fopen($queued_messages_processing_lock_file, "w+");
+		
+		if ( flock($fp, LOCK_EX) ) {  // If we are allowed a file lock, we can proceed
 		
 		////////////START//////////////////////
 		
@@ -912,16 +915,43 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 	   fwrite($fp, time_date_format(false, 'pretty_date_time'). " UTC (with file lock)\n");
 	   fflush($fp);            // flush output before releasing the lock
 	   flock($fp, LOCK_UN);    // release the lock
-		return true;
-		
+		$result = true;
 		} 
 		else {
 	   fwrite($fp, time_date_format(false, 'pretty_date_time'). " UTC (no file lock)\n");
-	   return false; // Another runtime instance was already processing the queue, so skip processing and return false
+	   $result = false; // Another runtime instance was already processing the queue, so skip processing and return false
 		}
+		
 		fclose($fp);
 	
 	
+	   // MAKE SURE we have good chmod file permissions for less-sophisticated server setups
+	   $path_parts = pathinfo($queued_messages_processing_lock_file);
+	   $file_owner_info = posix_getpwuid(fileowner($queued_messages_processing_lock_file));
+	   
+	   // Does the current runtime user own this file?
+		if ( isset($current_runtime_user) && $current_runtime_user == $file_owner_info['name'] ) {
+		
+		$chmod_setting = octdec('0666');
+		
+			// Run chmod compatibility on certain PHP setups
+			if ( !$http_runtime_user || isset($http_runtime_user) && in_array($http_runtime_user, $possible_http_users) ) {
+				
+			$oldmask = umask(0);
+			
+			$did_chmod = chmod($queued_messages_processing_lock_file, $chmod_setting);
+		
+				if ( !$did_chmod ) {
+				app_logging('other_error', 'Chmod failed for file "' . $queued_messages_processing_lock_file . '" (check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")', 'chmod_setting: ' . $chmod_setting . '; current_runtime_user: ' . $current_runtime_user . '; file_owner: ' . $file_owner_info['name'] . ';');
+				}
+		
+			umask($oldmask);
+			
+			}
+		
+		}
+	   
+	return $result;
 	
 	}
 	else {
