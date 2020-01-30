@@ -26,9 +26,9 @@ if ( $force_exit != 1 ) {
     store_file_contents($base_dir . '/cache/index.php', file_get_contents($base_dir . '/templates/back-end/403-directory-index.template')); 
     }
     
-    // Recreate /cache/access_test.dat to test htaccess activation, if the cache directory was deleted / recreated
-    if ( !file_exists($base_dir . '/cache/access_test.dat') ) {
-    store_file_contents($base_dir . '/cache/access_test.dat', file_get_contents($base_dir . '/templates/back-end/access_test.template')); 
+    // Recreate /cache/htaccess_security_check.dat to test htaccess activation, if the cache directory was deleted / recreated
+    if ( !file_exists($base_dir . '/cache/htaccess_security_check.dat') ) {
+    store_file_contents($base_dir . '/cache/htaccess_security_check.dat', file_get_contents($base_dir . '/templates/back-end/access_test.template')); 
     }
     
     ///////////////////////////////////////////

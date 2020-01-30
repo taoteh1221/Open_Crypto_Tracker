@@ -2421,6 +2421,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Config setting for default theme
 
+-Config setting for custom user agent
+
 -Bug fix for detecting HTTPS (secure SSL) connections on load balancer setups
 
 IMPORTANT NOTES: 

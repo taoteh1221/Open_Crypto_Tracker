@@ -78,24 +78,31 @@ $force_exit = 1;
 }
 
 
-// Check for htaccess
-if ( is_array($apache_modules) ) {
+// Check htaccess security (checked once per minute maximum)
+if ( is_array($apache_modules) && update_cache_file($base_dir . '/cache/events/scan_htaccess_security.dat', 1) == true ) {
+	
 	
 	// If base url is not set yet, and we are ui runtime
 	if ( $runtime_mode == 'ui' ) {
 	$temp_base_url = ( trim($base_url) != '' ? $base_url : base_url() );
 	}
 
-$htaccess_test_url = $temp_base_url . 'cache/access_test.dat';
+
+$htaccess_test_url = $temp_base_url . 'cache/htaccess_security_check.dat';
 
 $htaccess_test_1 = trim( @api_data('url', $htaccess_test_url, 0) ); // HTTPS CHECK, Don't cache API data
 
 $htaccess_test_2 = trim( @api_data('url', preg_replace("/https:/i", "http:", $htaccess_test_url), 0) ); // HTTP CHECK, Don't cache API data
 	
-	if ( preg_match("/TEST_HTACCESS_PROTECTION/i", $htaccess_test_1) || preg_match("/TEST_HTACCESS_PROTECTION/i", $htaccess_test_2) ) {
-	echo "HTTP server Apache 'htaccess' support has not been enabled on this web server. 'htaccess' support is required to SAFELY run this application. <br /><br />";
+	
+	if ( preg_match("/TEST_HTACCESS_SECURITY_123_TEST/i", $htaccess_test_1) || preg_match("/TEST_HTACCESS_SECURITY_123_TEST/i", $htaccess_test_2) ) {
+	echo "HTTP server Apache 'htaccess' support has not been enabled on this web server. 'htaccess' support is required to SAFELY run this application. Please wait at least one minute AFTER FIXING THIS ISSUE before running the application again (htaccess security checks are throttled to a maximum of once per minute). <br /><br />";
 	$force_exit = 1;
 	}
+	
+	
+// Update the htaccess security scan event tracking
+store_file_contents($base_dir . '/cache/events/scan_htaccess_security.dat', time_date_format(false, 'pretty_date_time') );
 
 }
 

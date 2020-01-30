@@ -82,27 +82,36 @@ $htaccess_password = $htaccess_login_array[1];
 
 function store_file_contents($file, $content, $mode=false) {
 
-global $app_config, $possible_http_users, $http_runtime_user;
-	
+global $app_config, $current_runtime_user, $possible_http_users, $http_runtime_user;
+
 $path_parts = pathinfo($file);
+
+$file_owner_info = posix_getpwuid(fileowner($file));
+
+
+	// Does the current runtime user own this file (or will they own it after creating a non-existent file)?
+	if ( file_exists($file) == false || isset($current_runtime_user) && $current_runtime_user == $file_owner_info['name'] ) {
+	$is_file_owner = 1;
+	}
 	
 	
 	// We ALWAYS set .htaccess files to a more secure 664 permission AFTER EDITING, 
 	// so we TEMPORARILY set .htaccess to 666 for NEW EDITING...
-	if ( strstr($file, 'htaccess') != false ) {
+	if ( strstr($file, '.htaccess') != false ) {
 		
 	$chmod_setting = octdec('0666');
 	
 	
-		// Run chmod compatibility on certain PHP setups
-		if ( !$http_runtime_user || in_array($http_runtime_user, $possible_http_users) ) {
+		// Run chmod compatibility on certain PHP setups (if we can because we are running as the file owner)
+		// In this case only if the file exists, as we are chmod BEFORE editing it (.htaccess files)
+		if ( file_exists($file) == true && $is_file_owner == 1 && in_array($http_runtime_user, $possible_http_users) ) {
 			
 		$oldmask = umask(0);
 		
 		$did_chmod = chmod($file, $chmod_setting);
 		
 			if ( !$did_chmod && $app_config['debug_mode'] == 'all' || !$did_chmod && $app_config['debug_mode'] == 'telemetry' ) {
-			app_logging('other_debugging', 'Chmod failed for file "' . $file . '" (check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")', 'chmod_setting: ' . $chmod_setting . '; http_runtime_user: ' . $http_runtime_user . ';');
+			app_logging('other_error', 'Chmod failed for file "' . $file . '" (check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")', 'chmod_setting: ' . $chmod_setting . '; current_runtime_user: ' . $current_runtime_user . '; file_owner: ' . $file_owner_info['name'] . ';');
 			}
 		
 		umask($oldmask);
@@ -111,7 +120,6 @@ $path_parts = pathinfo($file);
 	
 	}
 	
-
 
 
 	// Write to the file
@@ -124,14 +132,13 @@ $path_parts = pathinfo($file);
 	
 	// Log any error
 	if ( $result == false ) {
-	app_logging('other_error', 'File write failed for file "' . $file . '" (check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")');
+	app_logging('other_debugging', 'File write failed for file "' . $file . '" (check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")');
 	}
 	
 	
 	
-	
 	// For security, NEVER make an .htaccess file writable by any user not in the group
-	if ( strstr($file, 'htaccess') != false ) {
+	if ( strstr($file, '.htaccess') != false ) {
 	$chmod_setting = octdec('0664');
 	}
 	// All other files
@@ -139,15 +146,15 @@ $path_parts = pathinfo($file);
 	$chmod_setting = octdec('0666');
 	}
 	
-	// Run chmod compatibility on certain PHP setups
-	if ( !$http_runtime_user || in_array($http_runtime_user, $possible_http_users) ) {
+	// Run chmod compatibility on certain PHP setups (if we can because we are running as the file owner)
+	if ( $is_file_owner == 1 && in_array($http_runtime_user, $possible_http_users) ) {
 		
 	$oldmask = umask(0);
 	
 	$did_chmod = chmod($file, $chmod_setting);
 		
 		if ( !$did_chmod && $app_config['debug_mode'] == 'all' || !$did_chmod && $app_config['debug_mode'] == 'telemetry' ) {
-		app_logging('other_debugging', 'Chmod failed for file "' . $file . '" (check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")', 'chmod_setting: ' . $chmod_setting . '; http_runtime_user: ' . $http_runtime_user . ';');
+		app_logging('other_debugging', 'Chmod failed for file "' . $file . '" (check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")', 'chmod_setting: ' . $chmod_setting . '; current_runtime_user: ' . $current_runtime_user . '; file_owner: ' . $file_owner_info['name'] . ';');
 		}
 		
 	umask($oldmask);

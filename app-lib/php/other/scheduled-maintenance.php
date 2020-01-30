@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////
 // Scheduled maintenance (run ~hourly, or if runtime is cron)
 //////////////////////////////////////////////////////////////////
-if ( update_cache_file($base_dir . '/cache/events/scheduled_maintenance.dat', (60 * 1) ) == true || $runtime_mode == 'cron' ) {
+if ( update_cache_file($base_dir . '/cache/events/scheduled_maintenance.dat', 60) == true || $runtime_mode == 'cron' ) {
 //////////////////////////////////////////////////////////////////
 
 
@@ -31,7 +31,7 @@ if ( update_cache_file($base_dir . '/cache/events/scheduled_maintenance.dat', (6
    // If we just started collecting data, check frequently
    // (placeholder is always set to 1 to keep chart buttons from acting weird until we have enough data)
 	////////////////////////////////////////////////////////////
-   if ( $app_config['charts_page'] == 'on' || !is_numeric(trim(file_get_contents('cache/vars/chart_interval.dat'))) || trim(file_get_contents('cache/vars/chart_interval.dat')) == 1 ) {
+   if ( $app_config['charts_page'] == 'on' || !is_numeric(trim(file_get_contents($base_dir . '/cache/vars/chart_interval.dat'))) || trim(file_get_contents($base_dir . '/cache/vars/chart_interval.dat')) == 1 ) {
         
         foreach ( $app_config['asset_charts_and_alerts'] as $key => $value ) {
         
@@ -44,7 +44,7 @@ if ( update_cache_file($base_dir . '/cache/events/scheduled_maintenance.dat', (6
             $find_first_chart = explode("||", $value);
     
                 if ( $find_first_chart[2] == 'both' || $find_first_chart[2] == 'chart' ) {
-                $find_first_filename = 'cache/charts/spot_price_24hr_volume/archival/'.$find_first_asset.'/'.$key.'_chart_'.$find_first_chart[1].'.dat';
+                $find_first_filename = $base_dir . '/cache/charts/spot_price_24hr_volume/archival/'.$find_first_asset.'/'.$key.'_chart_'.$find_first_chart[1].'.dat';
                 }
     
             }
@@ -63,7 +63,7 @@ if ( update_cache_file($base_dir . '/cache/events/scheduled_maintenance.dat', (6
 	////////////////////////////////////////////////////////////
 	// If upgrade check is enabled, check daily for upgrades
 	////////////////////////////////////////////////////////////
-	if ( isset($app_config['upgrade_check']) && $app_config['upgrade_check'] != 'off' && update_cache_file('cache/vars/upgrade_check_latest_version.dat', (60 * 24) ) == true ) {
+	if ( isset($app_config['upgrade_check']) && $app_config['upgrade_check'] != 'off' && update_cache_file($base_dir . '/cache/vars/upgrade_check_latest_version.dat', 1440) == true ) {
 	
 	
 	$upgrade_check_jsondata = @api_data('url', 'https://api.github.com/repos/taoteh1221/DFD_Cryptocoin_Values/releases/latest', 0); // Don't cache API data

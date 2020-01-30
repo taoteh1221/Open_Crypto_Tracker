@@ -43,17 +43,20 @@ Color code mining profits / losses properly in the mining calculators.
 
 
 ///////////////////////////////////////////////////////
-FEATURES SECTION
+FEATURES AND STRUCTURING SECTION
 ///////////////////////////////////////////////////////
+
+
+Add configuration setting for log verbosity, 'normal' and 'verbose' as options. 'verbose' enables the telemetry section in the logging (if any is included in the tracing).
+
+
+Eventually turn string / array manipulations function file into a class.
 
 
 Add twilio.com mobile text messaging support
 
 
 Look into an auto-update feature like WordPress has (downloads a zip file upgrade, and exctracts it overwriting the old app files).
-
-
-Investigate store_file_contents() having chmod() fail, EVEN THOUGH files still write ok (code cleanup sometime, no real functional benefit seen)
 
 
 Mod rewrite rules for future RESTFUL API system

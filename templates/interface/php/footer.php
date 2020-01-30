@@ -5,6 +5,7 @@
     <!-- footer START -->
 <?php
 
+
 	foreach ( $logs_array['cache_error'] as $error ) {
 	$other_error_logs .= $error;
 	}

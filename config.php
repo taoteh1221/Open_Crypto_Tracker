@@ -517,6 +517,11 @@ $app_config['steem_powerdown_time'] = 13;
 /////////////////////////////////////////////////////////////////////////////
 
 
+// If you want to override the default user agent string (sent with API requests, etc)
+// Adding a string here automatically enables that as the custom user agent
+$app_config['override_default_user_agent'] = ''; // Leave blank '' to disable
+
+
 // Standard (default) app charset
 $app_config['charset_standard'] = 'UTF-8'; 
 
@@ -671,6 +676,8 @@ https://github.com/taoteh1221/DFD_Cryptocoin_Values/issues
 
 
 // DUPLICATE NETWORK NAME KEYS --WILL CANCEL EACH OTHER OUT--, !!USE A UNIQUE NAME FOR EACH KEY!!
+
+// WHEN ADDING YOUR OWN GATEWAYS, ONLY INCLUDE THE DOMAIN (THIS APP WILL AUTOMATICALLY FORMAT TO your_phone_number@your_gateway)
 
 
 $app_config['mobile_network_text_gateways'] = array(

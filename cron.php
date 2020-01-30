@@ -48,7 +48,7 @@ $mode = $value[2];
 	
 $result = asset_charts_and_alerts($key, $exchange, $pairing, $mode);
 
-	if ( $result == FALSE ) {
+	if ( $result == false ) {
 	app_logging( 'other_error', 'Charts / alerts update failure', $key . ' (' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ')' );
 	}
 
