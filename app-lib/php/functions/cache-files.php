@@ -104,7 +104,8 @@ $file_owner_info = posix_getpwuid(fileowner($file));
 	
 		// Run chmod compatibility on certain PHP setups (if we can because we are running as the file owner)
 		// In this case only if the file exists, as we are chmod BEFORE editing it (.htaccess files)
-		if ( file_exists($file) == true && $is_file_owner == 1 && in_array($http_runtime_user, $possible_http_users) ) {
+		if ( file_exists($file) == true && $is_file_owner == 1 && !$http_runtime_user 
+		|| file_exists($file) == true && $is_file_owner == 1 && isset($http_runtime_user) && in_array($http_runtime_user, $possible_http_users) ) {
 			
 		$oldmask = umask(0);
 		
@@ -147,7 +148,7 @@ $file_owner_info = posix_getpwuid(fileowner($file));
 	}
 	
 	// Run chmod compatibility on certain PHP setups (if we can because we are running as the file owner)
-	if ( $is_file_owner == 1 && in_array($http_runtime_user, $possible_http_users) ) {
+	if ( $is_file_owner == 1 && !$http_runtime_user || $is_file_owner == 1 && isset($http_runtime_user) && in_array($http_runtime_user, $possible_http_users) ) {
 		
 	$oldmask = umask(0);
 	
