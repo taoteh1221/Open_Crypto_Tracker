@@ -132,7 +132,7 @@ $file_owner_info = posix_getpwuid(fileowner($file));
 	
 	// Log any error
 	if ( $result == false ) {
-	app_logging('other_debugging', 'File write failed for file "' . $file . '" (check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")');
+	app_logging('other_error', 'File write failed for file "' . $file . '" (check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")');
 	}
 	
 	
@@ -154,7 +154,7 @@ $file_owner_info = posix_getpwuid(fileowner($file));
 	$did_chmod = chmod($file, $chmod_setting);
 		
 		if ( !$did_chmod && $app_config['debug_mode'] == 'all' || !$did_chmod && $app_config['debug_mode'] == 'telemetry' ) {
-		app_logging('other_debugging', 'Chmod failed for file "' . $file . '" (check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")', 'chmod_setting: ' . $chmod_setting . '; current_runtime_user: ' . $current_runtime_user . '; file_owner: ' . $file_owner_info['name'] . ';');
+		app_logging('other_error', 'Chmod failed for file "' . $file . '" (check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")', 'chmod_setting: ' . $chmod_setting . '; current_runtime_user: ' . $current_runtime_user . '; file_owner: ' . $file_owner_info['name'] . ';');
 		}
 		
 	umask($oldmask);
