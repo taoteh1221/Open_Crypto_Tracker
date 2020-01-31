@@ -607,10 +607,13 @@ $app_config['charset_unicode'] = 'UTF-16';
 
 // Cache files / .htaccess files permissions (change with EXTREME care, to tighten security further for your PARTICULAR setup)
 // THESE PERMISSIONS ARE !ALREADY! CALLED THROUGH THE octdec() FUNCTION WITHIN THE APP WHEN USED
-// Cache file permissions
+// Cache directories permissions
+$app_config['chmod_permission_cache_directories'] = '0777';
+////
+// Cache files permissions
 $app_config['chmod_permission_cache_files'] = '0666';
 ////
-// .htaccess file permissions
+// .htaccess files permissions
 $app_config['chmod_permission_htaccess_files'] = '0664';
 
 

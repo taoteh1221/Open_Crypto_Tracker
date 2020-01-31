@@ -475,19 +475,19 @@ global $base_dir;
 
 function dir_structure($path) {
 
-global $possible_http_users, $http_runtime_user;
+global $app_config, $possible_http_users, $http_runtime_user;
 
 	if ( !is_dir($path) ) {
 	
 		// Run cache compatibility on certain PHP setups
 		if ( !$http_runtime_user || in_array($http_runtime_user, $possible_http_users) ) {
 		$oldmask = umask(0);
-		$result = mkdir($path, octdec('0777'), true); // Recursively create whatever path depth desired if non-existent
+		$result = mkdir($path, octdec($app_config['chmod_permission_cache_directories']), true); // Recursively create whatever path depth desired if non-existent
 		umask($oldmask);
 		return $result;
 		}
 		else {
-		return  mkdir($path, octdec('0777'), true); // Recursively create whatever path depth desired if non-existent
+		return  mkdir($path, octdec($app_config['chmod_permission_cache_directories']), true); // Recursively create whatever path depth desired if non-existent
 		}
 	
 	}
