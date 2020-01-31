@@ -2417,6 +2417,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.07.5:
 
+-API support for zebpay / buyucoin / bitbns markets
+
 -Config setting for default theme
 
 -Misc minor code cleanup / bug fixes

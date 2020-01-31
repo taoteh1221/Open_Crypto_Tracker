@@ -47,6 +47,9 @@ FEATURES AND STRUCTURING SECTION
 ///////////////////////////////////////////////////////
 
 
+Dynamically add an 'app_version' value to $app_config when processing it, so when we are updating the cached config with a newly-changed config.php config, we not only can see if any new config settings exist / have changed, but we can see if the app was upgraded since the previous cached config update.
+
+
 Add configuration setting for log verbosity, 'normal' and 'verbose' as options. 'verbose' enables the telemetry section in the logging (if any is included in the tracing).
 
 

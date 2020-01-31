@@ -137,8 +137,8 @@ $app_config['btc_primary_currency_pairing'] = 'usd';
 // Default BITCOIN-ONLY exchanges 
 // (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
 // 'btcmarkets' / 'lakebtc' / 'localbitcoins' / 'braziliex' / 'kraken' / 'bitflyer' / 'bitlish' / 'bitpanda' / 'bitstamp'
-// 'cex' / 'coinbase' / 'coss' / 'bitfinex' / 'tidebit' / 'bitso' / 'bit2c' / 'btcturk' / 'binance' / 'binance_us'
-// 'gemini' / 'hitbtc' / 'livecoin' / 'okcoin' / 'southxchange' / 'huobi' / 'okex'
+// 'cex' / 'coinbase' / 'coss' / 'bitfinex' / 'tidebit' / 'bitso' / 'bit2c' / 'bitbns' / 'btcturk' / 'binance' / 'binance_us' / 'buyucoin'
+// 'gemini' / 'hitbtc' / 'livecoin' / 'okcoin' / 'southxchange' / 'huobi' / 'okex' / 'zebpay'
 // SEE THE $app_config['portfolio_assets'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
 // MARKET PAIRING VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (to populate $app_config['btc_primary_currency_pairing'] directly above with)
 $app_config['btc_primary_exchange'] = 'kraken'; // SEE THE $app_config['limited_apis'] SETTING MUCH FURTHER DOWN, FOR EXCHANGES !NOT RECOMMENDED FOR USAGE HERE!
@@ -211,7 +211,7 @@ $app_config['delete_old_backups'] = 7; // Days until old zip archive backups sho
 
 
 // Level of detail / verbosity in log files. 'normal' logs minimal details (basic information), 
-// 'verbose' logs maximum details (all information, for heavy debugging / tracing / etc)
+// 'verbose' logs maximum details (additional information IF AVAILABLE, for heavy debugging / tracing / etc)
 $app_config['log_detail_level'] = 'normal'; // 'normal' / 'verbose'
 ////
 $app_config['purge_logs'] = 7; // Days to keep logs before purging (deletes logs every X days). Start low (especially when using proxies)
@@ -983,6 +983,8 @@ $app_config['portfolio_assets'] = array(
                                                     
                                     'inr' => array(
                                           'localbitcoins' => 'INR',
+                                          'bitbns' => 'BTC',
+                                          'buyucoin' => 'btc_inr',
                                                     ),
                                                     
                                     'jpy' => array(
@@ -1022,6 +1024,7 @@ $app_config['portfolio_assets'] = array(
                                                     
                                     'tusd' => array(
                                           'binance' => 'BTCTUSD',
+                                          'zebpay' => 'BTC-TUSD',
                                                     ),
                                                     
                                     'usd' => array(
@@ -1052,6 +1055,7 @@ $app_config['portfolio_assets'] = array(
                                           'btcturk' => 'BTCUSDT',
                                           'huobi' => 'btcusdt',
                                           'okex' => 'BTC-USDT',
+                                          'bitbns' => 'BTCUSDT',
                                                     ),
                                                     
                                     'vnd' => array(
@@ -1097,6 +1101,7 @@ $app_config['portfolio_assets'] = array(
                                           'bitso' => 'eth_btc',
                                           'braziliex' => 'eth_btc',
                                           'bitlish' => 'ethbtc',
+                                          'zebpay' => 'ETH-BTC',
                                                     ),
                                                     
                                     'eur' => array(
@@ -1114,6 +1119,11 @@ $app_config['portfolio_assets'] = array(
                                                     
                                     'hkd' => array(
                                           'tidebit' => 'ethhkd',
+                                                    ),
+                                                    
+                                    'inr' => array(
+                                          'bitbns' => 'ETH',
+                                          'buyucoin' => 'eth_inr',
                                                     ),
                                                     
                                     'jpy' => array(
@@ -1164,6 +1174,7 @@ $app_config['portfolio_assets'] = array(
                                        	'kucoin' => 'ETH-USDT',
                                           'okex' => 'ETH-USDT',
                                           'poloniex' => 'USDT_ETH',
+                                          'bitbns' => 'ETHUSDT',
                                                     ),
                                                     
                                     'usdc' => array(
@@ -1207,6 +1218,11 @@ $app_config['portfolio_assets'] = array(
                                           'bittrex' => 'ETH-XMR',
                                           'hitbtc' => 'XMRETH',
                                           'upbit' => 'ETH-XMR',
+                                                    ),
+                                                    
+                                    'inr' => array(
+                                          'bitbns' => 'XMR',
+                                          'buyucoin' => 'xmr_inr',
                                                     ),
                                                     
                                     'usdt' => array(
@@ -1260,6 +1276,7 @@ $app_config['portfolio_assets'] = array(
                                         'bitso' => 'ltc_btc',
                                         'braziliex' => 'ltc_btc',
                                         'bitlish' => 'ltcbtc',
+                                        'zebpay' => 'LTC-BTC',
                                                     ),
                                                     
                                     'eth' => array(
@@ -1280,6 +1297,11 @@ $app_config['portfolio_assets'] = array(
                                     'gbp' => array(
                                           'coinbase' => 'LTC-GBP',
                                           'cex' => 'LTC:GBP',
+                                                    ),
+                                                    
+                                    'inr' => array(
+                                          'bitbns' => 'LTC',
+                                          'buyucoin' => 'ltc_inr',
                                                     ),
                                                     
                                     'mxn' => array(
@@ -1319,6 +1341,7 @@ $app_config['portfolio_assets'] = array(
                                         'upbit' => 'USDT-LTC',
                                         'okex' => 'LTC-USDT',
                                         'poloniex' => 'USDT_LTC',
+                                        'bitbns' => 'LTCUSDT',
                                           			),
                                                     
                                         ) // market_pairing END
@@ -1508,6 +1531,10 @@ $app_config['portfolio_assets'] = array(
                                         	'binance' => 'STEEMETH',
                                                     ),
                                                     
+                                    'inr' => array(
+                                          'buyucoin' => 'steem_inr',
+                                                    ),
+                                                    
                                         ) // market_pairing END
                         
                     ), // Asset END
@@ -1541,6 +1568,11 @@ $app_config['portfolio_assets'] = array(
                                           'hitbtc' => 'DOGEETH',
                                         	'tradesatoshi' => 'DOGE_ETH',
                                          	'bitforex' => 'coin-eth-doge',
+                                                    ),
+                                                    
+                                    'inr' => array(
+                                          'bitbns' => 'DOGE',
+                                          'buyucoin' => 'doge_inr',
                                                     ),
                                                     
                                     'usdc' => array(
@@ -1657,12 +1689,18 @@ $app_config['portfolio_assets'] = array(
                                           'bitso' => 'gnt_btc',
                                           'poloniex' => 'BTC_GNT',
                                           'braziliex' => 'gnt_btc',
+                                          'zebpay' => 'GNT-BTC',
                                                     ),
                                                     
                                     'eth' => array(
                                           'bittrex' => 'ETH-GNT',
                                         	'ethfinex' => 'tGNTETH',
                                           'upbit' => 'ETH-GNT',
+                                                    ),
+                                                    
+                                    'inr' => array(
+                                          'bitbns' => 'GNT',
+                                          'buyucoin' => 'gnt_inr',
                                                     ),
                                                     
                                     'mxn' => array(

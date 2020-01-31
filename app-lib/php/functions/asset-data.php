@@ -1495,8 +1495,6 @@ $market_pairing = $all_markets[$selected_exchange];
 
 <td class='data border_b'>
 
-<span class='app_sort_filter'>
-
 
 <?php
   
@@ -1505,12 +1503,9 @@ $market_pairing = $all_markets[$selected_exchange];
   // UX on FIAT EQUIV number values
   $coin_primary_currency_value = ( float_to_string($coin_primary_currency_value) >= $app_config['primary_currency_decimals_max_threshold'] ? pretty_numbers($coin_primary_currency_value, 2) : pretty_numbers($coin_primary_currency_value, $app_config['primary_currency_decimals_max']) );
 	
-  echo $app_config['bitcoin_market_currencies'][$app_config['btc_primary_currency_pairing']] . "<span class='app_sort_filter'>" . $coin_primary_currency_value . "</span>";
+  echo "<span class='white'>" . $app_config['bitcoin_market_currencies'][$app_config['btc_primary_currency_pairing']] . "</span>" . "<span class='app_sort_filter'>" . $coin_primary_currency_value . "</span>";
 
 ?>
-
-
-</span>
 
 </td>
 
@@ -1570,10 +1565,7 @@ echo "<span class='app_sort_filter blue'>" . ( $pretty_coin_amount != null ? $pr
 
 <td class='data border_b'>
 
-<span class='white'><?=$app_config['bitcoin_market_currencies'][$app_config['btc_primary_currency_pairing']]?></span><span class='app_sort_filter'>
-
-
-<?php 
+<span class='white'><?=$app_config['bitcoin_market_currencies'][$app_config['btc_primary_currency_pairing']]?></span><span class='app_sort_filter'><?php 
 
   // NULL if not setup to get volume, negative number returned if no data received from API
   if ( $trade_volume == NULL || $trade_volume == -1 ) {
@@ -1583,10 +1575,7 @@ echo "<span class='app_sort_filter blue'>" . ( $pretty_coin_amount != null ? $pr
   echo number_format($trade_volume, 0, '.', ',');
   }
 
-?>
-
-
-</span>
+?></span>
 
 </td>
 

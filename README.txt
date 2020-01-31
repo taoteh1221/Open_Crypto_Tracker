@@ -123,7 +123,7 @@ USAGE (ADDING / UPDATING COINS)
 
 Support for trading pairs (contact me to request more): AUD / BOB / BRL / CAD / CHF / COP / EUR / ETH / GBP / HKD / INR / JPY / LTC / MXN / NIS / PKR / RUB / SGD / TRY / TUSD / USD / USDC / USDT / VND / XMR.
 
-Support for exchanges (contact me to request more): bigone / binance & binance_us / bit2c / bitfinex & ethfinex / bitforex / bitflyer / bitlish / bitpanda / bitso / bitstamp  / bittrex & bittrex_global / braziliex / btcmarkets / btcturk / cex / coinbase / coss / cryptofresh / gateio / gemini / graviex / hitbtc / hotbit / huobi / idex / kraken / kucoin / lakebtc / livecoin / localbitcoins / okcoin / okex / poloniex / southxchange / tidebit / tradeogre / tradesatoshi / upbit.
+Support for exchanges (contact me to request more): bigone / binance & binance_us / bit2c / bitbns / bitfinex & ethfinex / bitforex / bitflyer / bitlish / bitpanda / bitso / bitstamp  / bittrex & bittrex_global / braziliex / btcmarkets / btcturk / buyucoin / cex / coinbase / coss / cryptofresh / gateio / gemini / graviex / hitbtc / hotbit / huobi / idex / kraken / kucoin / lakebtc / livecoin / localbitcoins / okcoin / okex / poloniex / southxchange / tidebit / tradeogre / tradesatoshi / upbit / zebpay.
 
 Ethereum ICO subtoken support has been built in, but values are static ICO values in ETH.
  

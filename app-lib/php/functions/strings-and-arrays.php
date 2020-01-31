@@ -180,6 +180,7 @@ $pretty_string = preg_replace("/finex/i", 'Finex', $pretty_string);
 $pretty_string = preg_replace("/stamp/i", 'Stamp', $pretty_string);
 $pretty_string = preg_replace("/flyer/i", 'Flyer', $pretty_string);
 $pretty_string = preg_replace("/panda/i", 'Panda', $pretty_string);
+$pretty_string = preg_replace("/pay/i", 'Pay', $pretty_string);
 
 return trim($pretty_string);
 

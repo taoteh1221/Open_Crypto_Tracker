@@ -161,6 +161,46 @@ global $btc_primary_currency_value, $app_config;
  
  
  ////////////////////////////////////////////////////////////////////////////////////////////////
+  
+  
+
+  elseif ( strtolower($chosen_exchange) == 'bitbns' ) {
+  	
+     
+     $json_string = 'https://bitbns.com/order/getTickerWithVolume/';
+     
+     $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+     
+     $data = json_decode($jsondata, true);
+     
+  
+      if (is_array($data) || is_object($data)) {
+  
+       foreach ($data as $key => $value) {
+         
+         
+         if ( $key == $market_id ) {
+          
+         return  array(
+    						'last_trade' => $data[$key]["last_traded_price"],
+    						'24hr_asset_volume' => $data[$key]["volume"]["volume"],
+    						'24hr_pairing_volume' => null,
+    						'24hr_primary_currency_volume' => trade_volume($asset_symbol, $pairing, $data[$key]["volume"]["volume"], $data[$key]["last_traded_price"])
+    						);
+
+         }
+       
+     
+       }
+      
+      }
+  
+  
+  }
+ 
+ 
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -261,7 +301,6 @@ global $btc_primary_currency_value, $app_config;
       if (is_array($data) || is_object($data)) {
   
        foreach ($data as $key => $value) {
-    // var_dump($value);
          
          
          if ( $key == $market_id ) {
@@ -498,6 +537,45 @@ global $btc_primary_currency_value, $app_config;
          return  array(
     							'last_trade' => $data[$key]["last"],
     							'24hr_asset_volume' => $data[$key]["volume"],
+    							'24hr_pairing_volume' => null,
+    							'24hr_primary_currency_volume' => trade_volume($asset_symbol, $pairing, $data[$key]["volume"], $data[$key]["last"])
+    						);
+          
+         }
+     
+       }
+      
+      }
+  
+  
+  }
+ 
+ 
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+  elseif ( strtolower($chosen_exchange) == 'buyucoin' ) {
+     
+     $json_string = 'https://www.buyucoin.com/api/v1.2/currency/markets';
+     
+     $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+     
+     $data = json_decode($jsondata, true);
+     
+     $data = $data['data'];
+     
+  
+      if (is_array($data) || is_object($data)) {
+  
+       foreach ($data as $key => $value) {
+         
+         if ( $key == $market_id ) {
+          
+         return  array(
+    							'last_trade' => $data[$key]["last_trade"],
+    							'24hr_asset_volume' => 0, // 24 HOUR VOLUME NOT SUPPORTED IN THIS API, MUST BE ZERO INSTEAD OF NULL FOR COMPATIBILITY WITH THIS APP
     							'24hr_pairing_volume' => null,
     							'24hr_primary_currency_volume' => trade_volume($asset_symbol, $pairing, $data[$key]["volume"], $data[$key]["last"])
     						);
@@ -1416,6 +1494,42 @@ global $btc_primary_currency_value, $app_config;
     							'24hr_asset_volume' => $data[$key]["acc_trade_volume_24h"],
     							'24hr_pairing_volume' => null, // No 24 hour trade volume going by array keynames, skipping
     							'24hr_primary_currency_volume' => trade_volume($asset_symbol, $pairing, $data[$key]["acc_trade_volume_24h"], $data[$key]["trade_price"])
+    						);
+          
+         }
+     
+       }
+      
+      }
+  
+  
+  }
+ 
+ 
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+  elseif ( strtolower($chosen_exchange) == 'zebpay' ) {
+
+     $json_string = 'https://www.zebapi.com/api/v1/market';
+     
+     $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+     
+     $data = json_decode($jsondata, true);
+  
+      if (is_array($data) || is_object($data)) {
+  
+       foreach ($data as $key => $value) {
+         
+         if ( $data[$key]['pair'] == $market_id ) {
+          
+         return  array(
+    							'last_trade' => $data[$key]["market"],
+    							'24hr_asset_volume' => $data[$key]["volume"],
+    							'24hr_pairing_volume' => null,
+    							'24hr_primary_currency_volume' => trade_volume($asset_symbol, $pairing, $data[$key]["volume"], $data[$key]["market"])
     						);
           
          }

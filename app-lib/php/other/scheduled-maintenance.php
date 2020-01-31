@@ -89,10 +89,17 @@ if ( update_cache_file($base_dir . '/cache/events/scheduled_maintenance.dat', 60
 			// Email / text / alexa notification reminders (if it's been $app_config['upgrade_check_remind'] days since any previous reminder)
 			if ( update_cache_file($base_dir . '/cache/events/upgrade_check_reminder.dat', ( $app_config['upgrade_check_remind'] * 1440 ) ) == true ) {
 			
+			
+				if ( file_exists($base_dir . '/cache/events/upgrade_check_reminder.dat') ) {
+				$another_reminder = 'Reminder: ';
+				}
+				
 	
-			$upgrade_check_message = 'An upgrade for DFD Cryptocoin Values to version ' . $upgrade_check_latest_version . ' is available. You are running version ' . $app_version . '.' . ( $is_upgrade_bug_fix == 1 ? ' This latest version is a bug fix release.' : '');
-	
-	
+			$upgrade_check_message = $another_reminder . 'An upgrade for DFD Cryptocoin Values to version ' . $upgrade_check_latest_version . ' is available. You are running version ' . $app_version . '.' . ( $is_upgrade_bug_fix == 1 ? ' This latest version is a bug fix release.' : '');
+			
+			
+			$reminder_setting_notice = ' (you have upgrade reminders sent out every '.$app_config['upgrade_check_remind'].' days in the configuration settings)';
+			
 						
 					// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
 					if ( $app_config['upgrade_check'] == 'all' ) {
@@ -101,7 +108,7 @@ if ( update_cache_file($base_dir . '/cache/events/scheduled_maintenance.dat', 60
 					$encoded_text_alert = content_data_encoding($upgrade_check_message);
 						
 					$upgrade_check_send_params = array(
-											'notifyme' => $upgrade_check_message,
+											'notifyme' => $upgrade_check_message . $reminder_setting_notice,
 											'text' => array(
 																	// Unicode support included for text messages (emojis / asian characters / etc )
 																	'message' => $encoded_text_alert['content_output'],
@@ -109,7 +116,7 @@ if ( update_cache_file($base_dir . '/cache/events/scheduled_maintenance.dat', 60
 																	),
 											'email' => array(
 																	'subject' => 'DFD Cryptocoin Values Upgrade Available',
-																	'message' => $upgrade_check_message
+																	'message' => $upgrade_check_message . $reminder_setting_notice
 																	)
 											);
 				
@@ -144,7 +151,7 @@ if ( update_cache_file($base_dir . '/cache/events/scheduled_maintenance.dat', 60
 			// Send notifications
 			@queue_notifications($upgrade_check_send_params);
 			
-			// Track upgrade check event occurrence			
+			// Track upgrade check reminder event occurrence			
 			store_file_contents($base_dir . '/cache/events/upgrade_check_reminder.dat', time_date_format(false, 'pretty_date_time') );
 			
 			} // END sending reminder 
@@ -152,6 +159,10 @@ if ( update_cache_file($base_dir . '/cache/events/scheduled_maintenance.dat', 60
 		
 		
 		} // END latest release notice
+		// Delete any old upgrade reminder event, if user has now upgraded
+		else {
+		unlink($base_dir . '/cache/events/upgrade_check_reminder.dat');  
+		}
 	
 
 	
