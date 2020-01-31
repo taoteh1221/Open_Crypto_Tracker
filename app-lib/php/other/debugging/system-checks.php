@@ -65,15 +65,21 @@ $force_exit = 1;
 
 // Check for required Apache modules (if on Apache)
 
+// Check for apache
+if ( $runtime_mode == 'ui' && !is_array($apache_modules) ) {
+echo "HTTP web server Apache and it's accompanying security modules are required for security features in this application. For your privacy / safety, this application will NOT run without the Apache web server. <br /><br />";
+$force_exit = 1;
+}
+
 // Check for mod_rewrite
 if ( is_array($apache_modules) && !in_array('mod_rewrite', $apache_modules) ) {
-echo "HTTP server Apache module 'mod_rewrite' is not installed on this web server. 'mod_rewrite' is required to run this application ( debian install command: a2enmod rewrite;/etc/init.d/apache2 restart ). <br /><br />";
+echo "HTTP web server Apache module 'mod_rewrite' is not installed on this web server. 'mod_rewrite' is required to run this application ( debian install command: a2enmod rewrite;/etc/init.d/apache2 restart ). <br /><br />";
 $force_exit = 1;
 }
 
 // Check for mod_ssl
 if ( is_array($apache_modules) && !in_array('mod_ssl', $apache_modules) ) {
-echo "HTTP server Apache module 'mod_ssl' is not installed on this web server. 'mod_ssl' is required to run this application ( debian install command: a2enmod ssl;a2ensite default-ssl;/etc/init.d/apache2 restart ). <br /><br />";
+echo "HTTP web server Apache module 'mod_ssl' is not installed on this web server. 'mod_ssl' is required to run this application ( debian install command: a2enmod ssl;a2ensite default-ssl;/etc/init.d/apache2 restart ). <br /><br />";
 $force_exit = 1;
 }
 

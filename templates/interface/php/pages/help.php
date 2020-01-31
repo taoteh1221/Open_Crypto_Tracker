@@ -74,7 +74,7 @@
 	      <div class="card-body">
 	      
 	      
-	        If you install this application on your Raspberry Pi or website, you can add / delete / edit the coin list very easily. Instructions can be found in the <a href='README.txt' target='_blank'>README.txt file</a> (an automatic install script is available for setup on Raspberry Pi devices). 
+	        If you install this application on your Raspberry Pi or website, you can add / delete / edit the portfolio assets list very easily. Instructions can be found in the <a href='README.txt' target='_blank'>README.txt file</a> (an automatic install script is available for setup on Raspberry Pi devices). 
 	        
 	        
 	      </div>

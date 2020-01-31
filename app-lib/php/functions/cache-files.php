@@ -95,11 +95,11 @@ $file_owner_info = posix_getpwuid(fileowner($file));
 	}
 	
 	
-	// We ALWAYS set .htaccess files to a more secure 664 permission AFTER EDITING, 
-	// so we TEMPORARILY set .htaccess to 666 for NEW EDITING...
+	// We ALWAYS set .htaccess files to a more secure $app_config['chmod_permission_htaccess_files'] permission AFTER EDITING, 
+	// so we TEMPORARILY set .htaccess to $app_config['chmod_permission_cache_files'] for NEW EDITING...
 	if ( strstr($file, '.htaccess') != false ) {
 		
-	$chmod_setting = octdec('0666');
+	$chmod_setting = octdec($app_config['chmod_permission_cache_files']);
 	
 	
 		// Run chmod compatibility on certain PHP setups (if we can because we are running as the file owner)
@@ -140,11 +140,11 @@ $file_owner_info = posix_getpwuid(fileowner($file));
 	
 	// For security, NEVER make an .htaccess file writable by any user not in the group
 	if ( strstr($file, '.htaccess') != false ) {
-	$chmod_setting = octdec('0664');
+	$chmod_setting = octdec($app_config['chmod_permission_htaccess_files']);
 	}
 	// All other files
 	else {
-	$chmod_setting = octdec('0666');
+	$chmod_setting = octdec($app_config['chmod_permission_cache_files']);
 	}
 	
 	// Run chmod compatibility on certain PHP setups (if we can because we are running as the file owner)
@@ -393,7 +393,7 @@ global $base_dir, $app_config;
    // Text email
 	// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
 	// Only use text-to-email if other text services aren't configured
-   if ( $send_params['text']['message'] != '' && validate_email( text_email($app_config['to_text']) ) == 'valid' && trim($app_config['textbelt_apikey']) == '' && $app_config['textlocal_account'] == '' ) { 
+   if ( $send_params['text']['message'] != '' && validate_email( text_email($app_config['to_mobile_text']) ) == 'valid' && trim($app_config['textbelt_apikey']) == '' && $app_config['textlocal_account'] == '' ) { 
    
    // $send_params['text_charset'] SHOULD ALWAYS BE SET FROM THE CALL TO HERE (for emojis, or other unicode characters to send via text message properly)
    // SUBJECT !!MUST BE SET!! OR SOME TEXT SERVICES WILL NOT ACCEPT THE MESSAGE!
@@ -683,7 +683,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 						
 		$textbelt_params = array(
 									 'message' => null, // Setting this right before sending
-									 'phone' => text_number($app_config['to_text']),
+									 'phone' => text_number($app_config['to_mobile_text']),
 									 'key' => $app_config['textbelt_apikey']
 									);
 						
@@ -692,7 +692,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 									  'message' => null, // Setting this right before sending
 									  'username' => string_to_array($app_config['textlocal_account'])[0],
 									  'hash' => string_to_array($app_config['textlocal_account'])[1],
-									  'numbers' => text_number($app_config['to_text'])
+									  'numbers' => text_number($app_config['to_mobile_text'])
 									   );
 		
 		
@@ -803,7 +803,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 			   // Text email
 				// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
 				// Only use text-to-email if other text services aren't configured
-			   if ( validate_email( text_email($app_config['to_text']) ) == 'valid' && trim($app_config['textbelt_apikey']) == '' && $app_config['textlocal_account'] == '' && preg_match("/textemail/i", $queued_cache_file) ) { 
+			   if ( validate_email( text_email($app_config['to_mobile_text']) ) == 'valid' && trim($app_config['textbelt_apikey']) == '' && $app_config['textlocal_account'] == '' && preg_match("/textemail/i", $queued_cache_file) ) { 
 			   
 			   $textemail_array = json_decode($message_data, true);
 			   
@@ -826,7 +826,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 					$text_sleep = 1 * $processed_messages['text_count'];
 					sleep($text_sleep);
 			   
-					$result = @safe_mail( text_email($app_config['to_text']) , $textemail_array['subject'], $textemail_array['message'], $textemail_array['content_type'], $textemail_array['charset']);
+					$result = @safe_mail( text_email($app_config['to_mobile_text']) , $textemail_array['subject'], $textemail_array['message'], $textemail_array['content_type'], $textemail_array['charset']);
 			   
 			   		if ( $result == true ) {
 			   		
@@ -838,7 +838,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 			   		
 			   		}
 			   		else {
-			   		app_logging( 'other_error', 'Email-to-mobile-text sending failed', 'to_text_email: ' . text_email($app_config['to_text']) . '; from: ' . $app_config['from_email'] . '; subject: ' . $textemail_array['subject'] . '; function_response: ' . $result . ';');
+			   		app_logging( 'other_error', 'Email-to-mobile-text sending failed', 'to_text_email: ' . text_email($app_config['to_mobile_text']) . '; from: ' . $app_config['from_email'] . '; subject: ' . $textemail_array['subject'] . '; function_response: ' . $result . ';');
 			   		}
 					
 					
@@ -932,7 +932,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 	   // Does the current runtime user own this file?
 		if ( isset($current_runtime_user) && $current_runtime_user == $file_owner_info['name'] ) {
 		
-		$chmod_setting = octdec('0666');
+		$chmod_setting = octdec($app_config['chmod_permission_cache_files']);
 		
 			// Run chmod compatibility on certain PHP setups
 			if ( !$http_runtime_user || isset($http_runtime_user) && in_array($http_runtime_user, $possible_http_users) ) {

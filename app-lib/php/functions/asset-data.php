@@ -572,7 +572,7 @@ function asset_charts_and_alerts($asset_data, $exchange, $pairing, $mode) {
 global $base_dir, $app_config, $default_btc_primary_exchange, $default_btc_primary_currency_value, $default_btc_primary_currency_pairing;
 
 
-$whale_alert_thresholds = explode("||", $app_config['whale_alert_thresholds']);
+$whale_alert_thresholds = explode("||", $app_config['asset_price_alerts_whale_alert_thresholds']);
 
 
 // Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)

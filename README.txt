@@ -8,7 +8,7 @@ Copyright 2014-2020 GPLv3
 
 Open source / free private cryptocurrency investment portfolio tracker, with email / text / Alexa / Google Home alerts, charts, mining calculators, leverage / gain / loss / balance stats, and other crypto tools. 
 
-Privately track your investment in Bitcoin, Ethereum, Monero, Litecoin, Grin, Cosmos, and an unlimited number of other altcoins / cryptocurrencies. Customize the coin list / alerts / charts to your favorite assets and exchange pairings. No limits, add as many coins / markets as you want. 
+Privately track your investment in Bitcoin, Ethereum, Monero, Litecoin, Grin, Cosmos, and an unlimited number of other altcoins / cryptocurrencies. Customize the portfolio assets list / alerts / charts to your favorite assets and exchange pairings. No limits, add as many coins / markets as you want. 
 
 Project Website: https://dfd-cryptocoin-values.sourceforge.io
 
@@ -37,7 +37,7 @@ For additional documentation, see /DOCUMENTATION-ETC/HELP-FAQ.txt.
 
 FEATURES
 
--Username / password protection for the portfolio interface.
+-Secure HTTPS (SSL) and Username / password protection in the portfolio interface for privacy / security.
 
 -Automated and user-friendly installation / upgrade script for Raspberry Pi (an affordable low power single board computer) app setup on your home / internal network.
 
@@ -45,7 +45,7 @@ FEATURES
 
 -Price change alerts by email / text / Alexa / Google Home (configurable alert parameters available).
 
--Add / edit / delete your own coin list, with your favorite exchanges / market pairings.
+-Add / edit / delete your own portfolio assets list, with your favorite exchanges / market pairings.
 
 -Add / edit / delete your own price alerts and charts for assets / exchanges / market pairings (supports multiple exchanges / market pairings per asset).
 
@@ -116,7 +116,7 @@ IMPORTANT CRON JOB NOTES: MAKE SURE YOU ONLY USE EITHER /etc/cron.d/, or 'cronta
 
 Adding / editing / deleting assets and markets in the portfolio assets:
 
-Below is an example for editing your assets / markets into the coin list in the file config.php (located in the primary directory of this app). It's very quick / easy to do (after you get the hang of it, lol). Also see the text file /DOCUMENTATION-ETC/CONFIG.EXAMPLE.txt, for a pre-configured set of default settings and example assets / markets. Contact any supported exchange's help desk if you are unaware of the correct formatting of the trading pair naming you are adding in the configuration file (examples: Kraken has arbitrary Xs inserted in SOME older pair names, HitBTC sometimes has tether pairing without the "T" in the symbol name).
+Below is an example for editing your assets / markets into the portfolio assets in the file config.php (located in the primary directory of this app). It's very quick / easy to do (after you get the hang of it, lol). Also see the text file /DOCUMENTATION-ETC/CONFIG.EXAMPLE.txt, for a pre-configured set of default settings and example assets / markets. Contact any supported exchange's help desk if you are unaware of the correct formatting of the trading pair naming you are adding in the configuration file (examples: Kraken has arbitrary Xs inserted in SOME older pair names, HitBTC sometimes has tether pairing without the "T" in the symbol name).
 
 
 USAGE (ADDING / UPDATING COINS)

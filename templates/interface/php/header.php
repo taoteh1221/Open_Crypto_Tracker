@@ -61,9 +61,13 @@ header('Content-type: text/html; charset=' . $app_config['charset_standard']);
 	<script src="app-lib/js/functions.js"></script>
 
 	<?php
-	if ( $app_config['charts_page'] == 'on' ) {
+	if ( $app_config['charts_page'] == 'on' || $app_config['system_stats'] != 'off' ) {
 	?>
 	<script src="app-lib/js/zingchart.min.js"></script>
+	<?php
+	}
+	if ( $app_config['charts_page'] == 'on' ) {
+	?>
 	<script>
 	var charts_num = <?=( sizeof($show_charts) > 0 ? sizeof($show_charts) : 0 )?>;
 	var charts_loaded = new Array();

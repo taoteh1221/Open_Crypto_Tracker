@@ -57,7 +57,7 @@ if ( sizeof($app_config['proxy_list']) > 0 ) {
       	$proxy_parse_errors = $proxy_parse_errors + 1;
          }
           		
-         if ( $text_parse[1] != 'skip_network_name' && validate_email( text_email($app_config['to_text']) ) != 'valid' ) {
+         if ( $text_parse[1] != 'skip_network_name' && validate_email( text_email($app_config['to_mobile_text']) ) != 'valid' ) {
          $config_parse_error[] = 'Mobile text services carrier name (for email-to-text) not configured properly for proxy alerts.';
       	$proxy_parse_errors = $proxy_parse_errors + 1;
          }
@@ -149,7 +149,7 @@ $config_parse_error[] = 'Charts and price alerts cannot run properly, because th
 }
 
 
-$text_parse = explode("||", trim($app_config['to_text']) );
+$text_parse = explode("||", trim($app_config['to_mobile_text']) );
           
           
 // Check other charts/price alerts configs
@@ -190,7 +190,7 @@ if ( trim($app_config['from_email']) != '' && trim($app_config['to_email']) != '
          $config_parse_error[] = 'Number for text email not configured properly for price alerts.';
          }
           		
-         if ( $text_parse[1] != 'skip_network_name' && validate_email( text_email($app_config['to_text']) ) != 'valid' ) {
+         if ( $text_parse[1] != 'skip_network_name' && validate_email( text_email($app_config['to_mobile_text']) ) != 'valid' ) {
          $config_parse_error[] = 'Mobile text services carrier name (for email-to-text) not configured properly for price alerts.';
          }
           	
