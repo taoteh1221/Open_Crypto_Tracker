@@ -1,24 +1,26 @@
 
 
-///////////////////////////////////////////////////////
-TODO
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+############################################################################################################################
+TO-DO NOTES
+############################################################################################################################
 Try sticking with small infrastructure changes, and breaking up large changes into small milestones. 
 Then plenty of time is spent on UX / testing / logging / debugging.
 Always test in a WebKit-based browser [Epiphany|Safari], Firefox, and Chromium
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Password notes: https://www.php.net/manual/en/faq.passwords.php
+############################################################################################################################
+############################################################################################################################
+
+
+///////////////////////////////////////////////////////
+"NEXT ON THE LIST" SUMMARY SECTION
 ///////////////////////////////////////////////////////
 
-
-Just add rest of localbitcoins currencies, and run tests / patch bugs at top of this TODO list, until the github Arctic code vault snapshot on 2/2/2020.
+Add the rest of the localbitcoins country currencies, and run tests / patch bugs (in the bugs / tests section of this list).
 
 
 ///////////////////////////////////////////////////////
 BUGS / TESTS SECTION
 ///////////////////////////////////////////////////////
-
-
-Make get_apache_modules() logic compatible with nginx etc (in init.php and system-checks.php).
 
 
 Re-test modified bash install script
@@ -37,6 +39,9 @@ Investigate mining calculators not calculating same RELATIVE profit when switchi
 
 
 Test unicode text message with no space in front of hex-encoded data (forgot to try that, coded and ready to go now...see content_data_encoding() and /DOCUMENTATION-ETC/Developing-maintaining/DEBUGGING.txt).
+
+
+Code review ALL functions.
 
 
 ///////////////////////////////////////////////////////
@@ -58,9 +63,6 @@ Use SQLite for any data storage that needs query capability (can also be used in
 
 
 Dynamically add an 'app_version' value to $app_config when processing it, so when we are updating the cached config with a newly-changed config.php config, we not only can see if any new config settings exist / have changed, but we can see if the app was upgraded since the previous cached config update.
-
-
-Add configuration setting for log verbosity, 'normal' and 'verbose' as options. 'verbose' enables the telemetry section in the logging (if any is included in the tracing).
 
 
 Eventually turn string / array manipulations function file into a class.
@@ -103,12 +105,6 @@ Add setting to enable access stats modal, maybe include an optional password set
 
 
 Check out cryptocompare.com API.
-
-
-Code review ALL functions.
-
-
-Password notes: https://www.php.net/manual/en/faq.passwords.php
 
 
 SQL-based accounts for storing configuration settings per-user (including setting up new assets available at supported exchanges), BUT !NEVER! STORES PORTFOLIO DATA (FOR PRIVACY / SECURITY-SAKE).

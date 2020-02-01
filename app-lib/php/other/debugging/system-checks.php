@@ -63,29 +63,47 @@ $force_exit = 1;
 
 
 
-// Check for required Apache modules (if on Apache)
-
-// Check for apache
-if ( $runtime_mode == 'ui' && !is_array($apache_modules) ) {
-echo "HTTP web server Apache and it's accompanying security modules are required for security features in this application. For your privacy / safety, this application will NOT run without the Apache web server. <br /><br />";
-$force_exit = 1;
-}
+// Check for required Apache modules (if running on Apache)
 
 // Check for mod_rewrite
 if ( is_array($apache_modules) && !in_array('mod_rewrite', $apache_modules) ) {
-echo "HTTP web server Apache module 'mod_rewrite' is not installed on this web server. 'mod_rewrite' is required to run this application ( debian install command: a2enmod rewrite;/etc/init.d/apache2 restart ). <br /><br />";
+echo "HTTP web server Apache module 'mod_rewrite' is NOT installed on this web server. 'mod_rewrite' is required to run this application ( debian install command: a2enmod rewrite;/etc/init.d/apache2 restart ). <br /><br />";
 $force_exit = 1;
 }
 
 // Check for mod_ssl
 if ( is_array($apache_modules) && !in_array('mod_ssl', $apache_modules) ) {
-echo "HTTP web server Apache module 'mod_ssl' is not installed on this web server. 'mod_ssl' is required to run this application ( debian install command: a2enmod ssl;a2ensite default-ssl;/etc/init.d/apache2 restart ). <br /><br />";
+echo "HTTP web server Apache module 'mod_ssl' is NOT installed on this web server. 'mod_ssl' is required to SAFELY run this application ( debian install command: a2enmod ssl;a2ensite default-ssl;/etc/init.d/apache2 restart ). <br /><br />";
 $force_exit = 1;
 }
 
 
+
+// IF WE ARE RUNNING THE INTERFACE, detect if we are running on a secure HTTPS (SSL) connection
+if ( $runtime_mode == 'ui' ) {
+
+	if ( isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ) {
+	$is_https_secure = true;
+	}
+	elseif ( !empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' || !empty($_SERVER['HTTP_X_FORWARDED_SSL']) && $_SERVER['HTTP_X_FORWARDED_SSL'] == 'on' ) {
+	$is_https_secure = true;
+	}
+	else {
+	$is_https_secure = false;
+	}
+	
+	// Schedule app exit, if we are not on a secure connection
+	if ( $is_https_secure != true ) {
+	echo "HTTP web server secure HTTPS (SSL) connection NOT detected. A secure HTTPS (SSL) connection is required to SAFELY run this application. <br /><br />";
+	$force_exit = 1;
+	}
+
+}
+
+
+
 // Check htaccess security (checked once every 5 minutes maximum)
-if ( is_array($apache_modules) && update_cache_file($base_dir . '/cache/events/scan_htaccess_security.dat', 5) == true ) {
+if ( update_cache_file($base_dir . '/cache/events/scan_htaccess_security.dat', 5) == true ) {
 	
 	
 	// If base url is not set yet, and we are ui runtime
@@ -102,7 +120,7 @@ $htaccess_test_2 = trim( @api_data('url', preg_replace("/https:/i", "http:", $ht
 	
 	
 	if ( preg_match("/TEST_HTACCESS_SECURITY_123_TEST/i", $htaccess_test_1) || preg_match("/TEST_HTACCESS_SECURITY_123_TEST/i", $htaccess_test_2) ) {
-	echo "HTTP server Apache 'htaccess' support has not been enabled on this web server. 'htaccess' support is required to SAFELY run this application. Please wait at least five minutes AFTER FIXING THIS ISSUE before running the application again (htaccess security checks are throttled to a maximum of once every five minutes). <br /><br />";
+	echo "HTTP server 'htaccess' support has NOT been enabled on this web server. 'htaccess' support is required to SAFELY run this application. Please wait at least five minutes AFTER FIXING THIS ISSUE before running the application again (htaccess security checks are throttled to a maximum of once every five minutes). <br /><br />";
 	$force_exit = 1;
 	}
 	
