@@ -60,9 +60,22 @@
 				<br />
 				<br />
 				
-				<b>Daily Profit: 
 				<?php
-				echo $app_config['bitcoin_market_currencies'][$app_config['btc_primary_currency_pairing']] . number_format( $primary_currency_daily_average_raw - $kwh_cost_daily - $pool_fee_daily , 2);
+				
+				$mining_daily_profit = number_to_string($primary_currency_daily_average_raw - $kwh_cost_daily - $pool_fee_daily); // Better decimal support
+				
+				if ( $mining_daily_profit >= 0 ) {
+				$mining_daily_profit_span = 'green';
+				}
+				else {
+				$mining_daily_profit_span = 'red';
+				}
+				
+				?>
+				
+				<b><span class="<?=$mining_daily_profit_span?>">Daily Profit:</span> 
+				<?php
+				echo '<span class="'.$mining_daily_profit_span.'">' . $app_config['bitcoin_market_currencies'][$app_config['btc_primary_currency_pairing']] . number_format($mining_daily_profit, 2) . '</span>';
 				?></b>
 				
 				<br />
@@ -113,9 +126,9 @@
 				<br />
 				<br />
 				
-				<b>Weekly Profit: 
+				<b><span class="<?=$mining_daily_profit_span?>">Weekly Profit:</span> 
 				<?php
-				echo $app_config['bitcoin_market_currencies'][$app_config['btc_primary_currency_pairing']] . number_format( ( $primary_currency_daily_average_raw - $kwh_cost_daily - $pool_fee_daily ) * 7 , 2);
+				echo '<span class="'.$mining_daily_profit_span.'">' . $app_config['bitcoin_market_currencies'][$app_config['btc_primary_currency_pairing']] . number_format( ($mining_daily_profit * 7) , 2) . '</span>';
 				?></b>
 				
 				<br />

@@ -239,7 +239,7 @@
 		    
 		    		// We don't need remove_number_format() for cookie data, because it was already done creating the cookies
 					if ( $coin_symbol == strtoupper($coin_array_key) ) {
-					$asset_amount_value = float_to_string($single_coin_amounts_cookie_array[1]);
+					$asset_amount_value = number_to_string($single_coin_amounts_cookie_array[1]);
 					}
 		    
 		    
@@ -265,7 +265,7 @@
 		    		
 		    		// We don't need remove_number_format() for cookie data, because it was already done creating the cookies
 					if ( $coin_symbol == strtoupper($coin_array_key) ) {
-					$coin_paid_value = float_to_string($single_coin_paid_cookie_array[1]);
+					$coin_paid_value = number_to_string($single_coin_paid_cookie_array[1]);
 					}
 		    
 		    
@@ -340,7 +340,7 @@
 	  	 $asset_amount_value = pretty_numbers($asset_amount_value, $asset_amount_decimals, TRUE); // TRUE = Show even if low value is off the map, just for UX purposes tracking token price only, etc
 	    
 	    
-	    $coin_paid_value = ( float_to_string($coin_paid_value) >= $app_config['primary_currency_decimals_max_threshold'] ? pretty_numbers($coin_paid_value, 2) : pretty_numbers($coin_paid_value, $app_config['primary_currency_decimals_max']) );
+	    $coin_paid_value = ( number_to_string($coin_paid_value) >= $app_config['primary_currency_decimals_max_threshold'] ? pretty_numbers($coin_paid_value, 2) : pretty_numbers($coin_paid_value, $app_config['primary_currency_decimals_max']) );
 	  	 
 	    	
 	    ?>

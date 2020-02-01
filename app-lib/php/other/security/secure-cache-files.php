@@ -44,7 +44,7 @@ foreach( $secured_cache_files as $secured_file ) {
 	if ( preg_match("/pepper_var_/i", $secured_file) ) {
 		
 		// If $password_pepper already is set, delete any older instances (since we sort by timestamp desc here)
-		if ( $password_pepper ) {
+		if ( isset($password_pepper) ) {
 		unlink($base_dir . '/cache/secured/' . $secured_file);
 		}
 		else {

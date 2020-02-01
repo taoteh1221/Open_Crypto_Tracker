@@ -83,6 +83,8 @@ if ( update_cache_file($base_dir . '/cache/events/scheduled_maintenance.dat', 60
 			$bug_fix_check_array = explode('.', $upgrade_check_latest_version);
 			if ( $bug_fix_check_array[2] > 0 ) {
 			$is_upgrade_bug_fix = 1;
+			$bug_fix_subject_extension = ' (bug fix release)';
+			$bug_fix_message_extension = ' This latest version is a bug fix release.';
 			}
 
 		
@@ -95,10 +97,10 @@ if ( update_cache_file($base_dir . '/cache/events/scheduled_maintenance.dat', 60
 				}
 				
 	
-			$upgrade_check_message = $another_reminder . 'An upgrade for DFD Cryptocoin Values to version ' . $upgrade_check_latest_version . ' is available. You are running version ' . $app_version . '.' . ( $is_upgrade_bug_fix == 1 ? ' This latest version is a bug fix release.' : '');
+			$upgrade_check_message = $another_reminder . 'An upgrade for DFD Cryptocoin Values to version ' . $upgrade_check_latest_version . ' is available. You are running version ' . $app_version . '.' . $bug_fix_message_extension;
 			
 			
-			$reminder_setting_notice = ' (you have upgrade reminders sent out every '.$app_config['upgrade_check_remind'].' days in the configuration settings)';
+			$email_notifyme_message = $upgrade_check_message . ' (you have upgrade reminders sent out every '.$app_config['upgrade_check_remind'].' days in the configuration settings)';
 			
 						
 					// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
@@ -108,15 +110,15 @@ if ( update_cache_file($base_dir . '/cache/events/scheduled_maintenance.dat', 60
 					$encoded_text_alert = content_data_encoding($upgrade_check_message);
 						
 					$upgrade_check_send_params = array(
-											'notifyme' => $upgrade_check_message . $reminder_setting_notice,
+											'notifyme' => $email_notifyme_message,
 											'text' => array(
 																	// Unicode support included for text messages (emojis / asian characters / etc )
 																	'message' => $encoded_text_alert['content_output'],
 																	'charset' => $encoded_text_alert['charset']
 																	),
 											'email' => array(
-																	'subject' => 'DFD Cryptocoin Values Upgrade Available',
-																	'message' => $upgrade_check_message . $reminder_setting_notice
+																	'subject' => $another_reminder . 'DFD Cryptocoin Values v'.$upgrade_check_latest_version.' Upgrade Available' . $bug_fix_subject_extension,
+																	'message' => $email_notifyme_message
 																	)
 											);
 				
@@ -124,8 +126,8 @@ if ( update_cache_file($base_dir . '/cache/events/scheduled_maintenance.dat', 60
 					elseif ( $app_config['upgrade_check'] == 'email' ) {
 						
 					$upgrade_check_send_params['email'] = array(
-														'subject' => 'DFD Cryptocoin Values Upgrade Available',
-														'message' => $upgrade_check_message
+														'subject' => $another_reminder . 'DFD Cryptocoin Values v'.$upgrade_check_latest_version.' Upgrade Available' . $bug_fix_subject_extension,
+														'message' => $email_notifyme_message
 														);
 				
 					}
@@ -143,7 +145,7 @@ if ( update_cache_file($base_dir . '/cache/events/scheduled_maintenance.dat', 60
 				
 					}
 					elseif ( $app_config['upgrade_check'] == 'notifyme' ) {
-					$upgrade_check_send_params['notifyme'] = $upgrade_check_message;
+					$upgrade_check_send_params['notifyme'] = $email_notifyme_message;
 					}
 				
 				
@@ -171,6 +173,9 @@ if ( update_cache_file($base_dir . '/cache/events/scheduled_maintenance.dat', 60
 	// END upgrade check
 	////////////////////////////////////////////////////////////
 	
+
+// Current app version stored to flat file (for the bash auto-install/upgrade script to easily determine the currently-installed version)
+store_file_contents($base_dir . '/cache/app_version.dat', $app_version);
 
 
 // Determine / store portfolio cache size

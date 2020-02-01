@@ -216,7 +216,7 @@ $data = array();
  	
 	
 	// UX on number values
-	$data['price'] = ( float_to_string($data['price']) >= $app_config['primary_currency_decimals_max_threshold'] ? pretty_numbers($data['price'], 2) : pretty_numbers($data['price'], $app_config['primary_currency_decimals_max']) );
+	$data['price'] = ( number_to_string($data['price']) >= $app_config['primary_currency_decimals_max_threshold'] ? pretty_numbers($data['price'], 2) : pretty_numbers($data['price'], $app_config['primary_currency_decimals_max']) );
 	
 
 // Return null if we don't even detect a rank
@@ -625,7 +625,7 @@ $asset_market_data = asset_market_data($asset, $exchange, $app_config['portfolio
 	
 	
 	// If no pair volume is available for this market, emulate it within reason with: asset value * asset volume
-	$volume_pairing_raw = ( float_to_string($volume_pairing_raw) > 0 ? $volume_pairing_raw : ($asset_pairing_value_raw * $volume_asset_raw) );
+	$volume_pairing_raw = ( number_to_string($volume_pairing_raw) > 0 ? $volume_pairing_raw : ($asset_pairing_value_raw * $volume_asset_raw) );
 	
 	
 	// Make sure we have basic values, otherwise log errors / return false
@@ -637,7 +637,7 @@ $asset_market_data = asset_market_data($asset, $exchange, $app_config['portfolio
 	}
 	
 	// Return false if we have no asset value
-	if ( float_to_string( trim($asset_primary_currency_value_raw) ) >= 0.00000001 ) {
+	if ( number_to_string( trim($asset_primary_currency_value_raw) ) >= 0.00000001 ) {
 	// Continue
 	}
 	else {
@@ -665,23 +665,23 @@ $asset_market_data = asset_market_data($asset, $exchange, $app_config['portfolio
 	
 	// Round PRIMARY CURRENCY CONFIG asset price to only keep $app_config['primary_currency_decimals_max'] decimals maximum 
 	// (or only 2 decimals if worth $app_config['primary_currency_decimals_max_threshold'] or more), to save on data set / storage size
-	$asset_primary_currency_value_raw = ( float_to_string($asset_primary_currency_value_raw) >= $app_config['primary_currency_decimals_max_threshold'] ? round($asset_primary_currency_value_raw, 2) : round($asset_primary_currency_value_raw, $app_config['primary_currency_decimals_max']) );
+	$asset_primary_currency_value_raw = ( number_to_string($asset_primary_currency_value_raw) >= $app_config['primary_currency_decimals_max_threshold'] ? round($asset_primary_currency_value_raw, 2) : round($asset_primary_currency_value_raw, $app_config['primary_currency_decimals_max']) );
 	
 	
 	// If fiat equivalent format, round asset price 
 	// to only keep $app_config['primary_currency_decimals_max'] decimals maximum 
 	// (or only 2 decimals if worth $app_config['primary_currency_decimals_max_threshold'] or more), to save on data set / storage size
    if ( $fiat_eqiv == 1 ) {
-   $asset_pairing_value_raw = ( float_to_string($asset_pairing_value_raw) >= $app_config['primary_currency_decimals_max_threshold'] ? round($asset_pairing_value_raw, 2) : round($asset_pairing_value_raw, $app_config['primary_currency_decimals_max']) );
+   $asset_pairing_value_raw = ( number_to_string($asset_pairing_value_raw) >= $app_config['primary_currency_decimals_max_threshold'] ? round($asset_pairing_value_raw, 2) : round($asset_pairing_value_raw, $app_config['primary_currency_decimals_max']) );
    }
 
 
 	// Remove any leading / trailing zeros from CRYPTO asset price, to save on data set / storage size
-	$asset_pairing_value_raw = float_to_string($asset_pairing_value_raw);
+	$asset_pairing_value_raw = number_to_string($asset_pairing_value_raw);
 
 
 	// Remove any leading / trailing zeros from PAIRING VOLUME, to save on data set / storage size
-	$volume_pairing_raw = float_to_string($volume_pairing_raw);
+	$volume_pairing_raw = number_to_string($volume_pairing_raw);
 	
 	
 	// WE USE PAIRING VOLUME FOR VOLUME PERCENTAGE CHANGES, FOR BETTER PERCENT CHANGE ACCURACY THAN FIAT EQUIV
@@ -697,13 +697,13 @@ $asset_market_data = asset_market_data($asset, $exchange, $app_config['portfolio
 	
    $last_check_days = ( time() - filemtime('cache/alerts/'.$asset_data.'.dat') ) / 86400;
    
-   	if ( float_to_string($last_check_days) >= 365 ) {
+   	if ( number_to_string($last_check_days) >= 365 ) {
    	$last_check_time = number_format( ($last_check_days / 365) , 2, '.', ',') . ' years';
    	}
-   	elseif ( float_to_string($last_check_days) >= 30 ) {
+   	elseif ( number_to_string($last_check_days) >= 30 ) {
    	$last_check_time = number_format( ($last_check_days / 30) , 2, '.', ',') . ' months';
    	}
-   	elseif ( float_to_string($last_check_days) >= 7 ) {
+   	elseif ( number_to_string($last_check_days) >= 7 ) {
    	$last_check_time = number_format( ($last_check_days / 7) , 2, '.', ',') . ' weeks';
    	}
    	else {
@@ -713,7 +713,7 @@ $asset_market_data = asset_market_data($asset, $exchange, $app_config['portfolio
 	}
 	
 
-$last_check_days = float_to_string($last_check_days); // Better decimal support for whale alerts etc
+$last_check_days = number_to_string($last_check_days); // Better decimal support for whale alerts etc
 
 
 $data_file = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
@@ -752,7 +752,7 @@ $cached_array = explode("||", $data_file);
 
 	////// If cached value and current value exist, run alert checking ////////////
 	
-	if ( float_to_string( trim($cached_asset_primary_currency_value) ) >= 0.00000001 && float_to_string( trim($asset_primary_currency_value_raw) ) >= 0.00000001 ) {
+	if ( number_to_string( trim($cached_asset_primary_currency_value) ) >= 0.00000001 && number_to_string( trim($asset_primary_currency_value_raw) ) >= 0.00000001 ) {
 	
 	
 	
@@ -762,20 +762,20 @@ $cached_array = explode("||", $data_file);
   			 // PRIMARY CURRENCY CONFIG price percent change (!MUST BE! absolute value)
           $percent_change = abs( ($asset_primary_currency_value_raw - $cached_asset_primary_currency_value) / abs($cached_asset_primary_currency_value) * 100 );
           
-          $percent_change = float_to_string($percent_change); // Better decimal support
+          $percent_change = number_to_string($percent_change); // Better decimal support
           
   			 
   			 // Check whether we should send an alert
-          if ( float_to_string($asset_primary_currency_value_raw) >= 0.00000001 && $percent_change >= $app_config['asset_price_alerts_percent'] ) {
+          if ( number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && $percent_change >= $app_config['asset_price_alerts_percent'] ) {
           $send_alert = 1;
           }
           
           // UX / UI variables
-          if ( float_to_string($asset_primary_currency_value_raw) < float_to_string($cached_asset_primary_currency_value) ) {
+          if ( number_to_string($asset_primary_currency_value_raw) < number_to_string($cached_asset_primary_currency_value) ) {
           $change_symbol = '-';
           $increase_decrease = 'decreased';
           }
-          elseif ( float_to_string($asset_primary_currency_value_raw) >= float_to_string($cached_asset_primary_currency_value) ) {
+          elseif ( number_to_string($asset_primary_currency_value_raw) >= number_to_string($cached_asset_primary_currency_value) ) {
           $change_symbol = '+';
           $increase_decrease = 'increased';
           }
@@ -789,7 +789,7 @@ $cached_array = explode("||", $data_file);
           // Crypto volume percent change (!MUST BE! absolute value)
           $volume_percent_change = abs( ($volume_pairing_raw - $cached_pairing_volume) / abs($cached_pairing_volume) * 100 );
           
-          $volume_percent_change = float_to_string($volume_percent_change); // Better decimal support
+          $volume_percent_change = number_to_string($volume_percent_change); // Better decimal support
           
           // UX adjustments, and UI / UX variables
           if ( $cached_primary_currency_volume <= 0 && $volume_primary_currency_raw <= 0 ) { // ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
@@ -811,15 +811,15 @@ $cached_array = explode("||", $data_file);
           
           // Whale alert (price change average of X or greater within X day(s) or less, with X percent pair volume change average that is at least a X primary currency volume change average)
           
-          $whale_max_days_to_24hr_average = float_to_string( trim($whale_alert_thresholds[0]) );
+          $whale_max_days_to_24hr_average = number_to_string( trim($whale_alert_thresholds[0]) );
           
-          $whale_min_price_change_percent_24hr_average = float_to_string( trim($whale_alert_thresholds[1]) );
+          $whale_min_price_change_percent_24hr_average = number_to_string( trim($whale_alert_thresholds[1]) );
           
-          $whale_min_volume_change_percent_24hr_average = float_to_string( trim($whale_alert_thresholds[2]) );
+          $whale_min_volume_change_percent_24hr_average = number_to_string( trim($whale_alert_thresholds[2]) );
           
-          $whale_min_volume_change_currency_24hr_average = float_to_string( trim($whale_alert_thresholds[3]) );
+          $whale_min_volume_change_currency_24hr_average = number_to_string( trim($whale_alert_thresholds[3]) );
           
-   		 if ( $last_check_days <= $whale_max_days_to_24hr_average && float_to_string( $percent_change / $last_check_days ) >= $whale_min_price_change_percent_24hr_average && float_to_string( $volume_percent_change / $last_check_days ) >= $whale_min_volume_change_percent_24hr_average && float_to_string( abs($volume_primary_currency_raw - $cached_primary_currency_volume) / $last_check_days ) >= $whale_min_volume_change_currency_24hr_average ) {
+   		 if ( $last_check_days <= $whale_max_days_to_24hr_average && number_to_string( $percent_change / $last_check_days ) >= $whale_min_price_change_percent_24hr_average && number_to_string( $volume_percent_change / $last_check_days ) >= $whale_min_volume_change_percent_24hr_average && number_to_string( abs($volume_primary_currency_raw - $cached_primary_currency_volume) / $last_check_days ) >= $whale_min_volume_change_currency_24hr_average ) {
    		 $whale_alert = 1;
    		 }
    		 
@@ -886,7 +886,7 @@ $cached_array = explode("||", $data_file);
   				$exchange_text = snake_case_to_name($exchange);
   				
   				// Pretty numbers UX on PRIMARY CURRENCY CONFIG asset value
-  				$asset_primary_currency_text = ( float_to_string($asset_primary_currency_value_raw) >= $app_config['primary_currency_decimals_max_threshold'] ? pretty_numbers($asset_primary_currency_value_raw, 2) : pretty_numbers($asset_primary_currency_value_raw, $app_config['primary_currency_decimals_max']) );
+  				$asset_primary_currency_text = ( number_to_string($asset_primary_currency_value_raw) >= $app_config['primary_currency_decimals_max_threshold'] ? pretty_numbers($asset_primary_currency_value_raw, 2) : pretty_numbers($asset_primary_currency_value_raw, $app_config['primary_currency_decimals_max']) );
   				
   				$percent_change_text = number_format($percent_change, 2, '.', ',');
   				
@@ -1001,12 +1001,12 @@ $cached_array = explode("||", $data_file);
 
 	// Cache a price alert value / volumes if not already done, OR if config setting set to refresh every X days
 	
-	if ( $mode == 'both' && float_to_string($asset_primary_currency_value_raw) >= 0.00000001 && !file_exists('cache/alerts/'.$asset_data.'.dat')
-	|| $mode == 'alert' && float_to_string($asset_primary_currency_value_raw) >= 0.00000001 && !file_exists('cache/alerts/'.$asset_data.'.dat') ) {
+	if ( $mode == 'both' && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && !file_exists('cache/alerts/'.$asset_data.'.dat')
+	|| $mode == 'alert' && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && !file_exists('cache/alerts/'.$asset_data.'.dat') ) {
 	store_file_contents($base_dir . '/cache/alerts/'.$asset_data.'.dat', $alert_cache_contents); 
 	}
-	elseif ( $mode == 'both' && $send_alert != 1 && $app_config['asset_price_alerts_refresh'] >= 1 && float_to_string($asset_primary_currency_value_raw) >= 0.00000001 && update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $app_config['asset_price_alerts_refresh'] * 1440 ) ) == true
-	|| $mode == 'alert' && $send_alert != 1 && $app_config['asset_price_alerts_refresh'] >= 1 && float_to_string($asset_primary_currency_value_raw) >= 0.00000001 && update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $app_config['asset_price_alerts_refresh'] * 1440 ) ) == true ) {
+	elseif ( $mode == 'both' && $send_alert != 1 && $app_config['asset_price_alerts_refresh'] >= 1 && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $app_config['asset_price_alerts_refresh'] * 1440 ) ) == true
+	|| $mode == 'alert' && $send_alert != 1 && $app_config['asset_price_alerts_refresh'] >= 1 && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $app_config['asset_price_alerts_refresh'] * 1440 ) ) == true ) {
 	store_file_contents($base_dir . '/cache/alerts/'.$asset_data.'.dat', $alert_cache_contents); 
 	}
 
@@ -1016,8 +1016,8 @@ $cached_array = explode("||", $data_file);
 
 	// If the charts page is enabled in config.php, save latest chart data for assets with price alerts configured on them
 	
-	if ( $mode == 'both' && float_to_string($asset_primary_currency_value_raw) >= 0.00000001 && $app_config['charts_page'] == 'on'
-	|| $mode == 'chart' && float_to_string($asset_primary_currency_value_raw) >= 0.00000001 && $app_config['charts_page'] == 'on' ) { 
+	if ( $mode == 'both' && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && $app_config['charts_page'] == 'on'
+	|| $mode == 'chart' && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && $app_config['charts_page'] == 'on' ) { 
 	
 		
 	// PRIMARY CURRENCY CONFIG charts (CRYPTO/PRIMARY CURRENCY CONFIG markets, 
@@ -1170,7 +1170,7 @@ $market_pairing = $all_markets[$selected_exchange];
     $btc_trade_eqiv = number_format( ($coin_value_raw * $pairing_btc_value), 8);
     $coin_value_total_raw = ($asset_amount * $coin_value_raw);
   	 $coin_primary_currency_worth_raw = ($coin_value_total_raw * $pairing_btc_value) *  $btc_primary_currency_value;
-    $btc_worth_array[$asset_symbol] = float_to_string($coin_value_total_raw * $pairing_btc_value);  
+    $btc_worth_array[$asset_symbol] = number_to_string($coin_value_total_raw * $pairing_btc_value);  
     }
     // OTHER PAIRINGS
     else {
@@ -1179,7 +1179,7 @@ $market_pairing = $all_markets[$selected_exchange];
     $btc_trade_eqiv = number_format( ($coin_value_raw * $pairing_btc_value), 8);
     $coin_value_total_raw = ($asset_amount * $coin_value_raw);
   	 $coin_primary_currency_worth_raw = ($coin_value_total_raw * $pairing_btc_value) *  $btc_primary_currency_value;
-    $btc_worth_array[$asset_symbol] = ( strtolower($asset_name) == 'bitcoin' ? $asset_amount : float_to_string($coin_value_total_raw * $pairing_btc_value) );
+    $btc_worth_array[$asset_symbol] = ( strtolower($asset_name) == 'bitcoin' ? $asset_amount : number_to_string($coin_value_total_raw * $pairing_btc_value) );
   	 }
   	 
   	 
@@ -1501,7 +1501,7 @@ $market_pairing = $all_markets[$selected_exchange];
   $coin_primary_currency_value = ( $btc_primary_currency_value * $btc_trade_eqiv );
 
   // UX on FIAT EQUIV number values
-  $coin_primary_currency_value = ( float_to_string($coin_primary_currency_value) >= $app_config['primary_currency_decimals_max_threshold'] ? pretty_numbers($coin_primary_currency_value, 2) : pretty_numbers($coin_primary_currency_value, $app_config['primary_currency_decimals_max']) );
+  $coin_primary_currency_value = ( number_to_string($coin_primary_currency_value) >= $app_config['primary_currency_decimals_max_threshold'] ? pretty_numbers($coin_primary_currency_value, 2) : pretty_numbers($coin_primary_currency_value, $app_config['primary_currency_decimals_max']) );
 	
   echo "<span class='white'>" . $app_config['bitcoin_market_currencies'][$app_config['btc_primary_currency_pairing']] . "</span>" . "<span class='app_sort_filter'>" . $coin_primary_currency_value . "</span>";
 
@@ -1589,7 +1589,7 @@ echo "<span class='app_sort_filter blue'>" . ( $pretty_coin_amount != null ? $pr
 
 	// UX on FIAT EQUIV number values
 	if ( $fiat_eqiv == 1 ) {
-	$coin_value_primary_currency_decimals = ( float_to_string($coin_value_raw) >= $app_config['primary_currency_decimals_max_threshold'] ? 2 : $app_config['primary_currency_decimals_max'] );
+	$coin_value_primary_currency_decimals = ( number_to_string($coin_value_raw) >= $app_config['primary_currency_decimals_max_threshold'] ? 2 : $app_config['primary_currency_decimals_max'] );
 	}
   
 echo ( $fiat_eqiv == 1 ? pretty_numbers($coin_value_raw, $coin_value_primary_currency_decimals) : pretty_numbers($coin_value_raw, 8) ); 
@@ -1655,7 +1655,7 @@ echo ( $fiat_eqiv == 1 ? pretty_numbers($coin_value_raw, $coin_value_primary_cur
 
 	// UX on FIAT EQUIV number values
 	if ( $fiat_eqiv == 1 ) {
-	$coin_value_total_primary_currency_decimals = ( float_to_string($coin_value_total_raw) >= $app_config['primary_currency_decimals_max_threshold'] ? 2 : $app_config['primary_currency_decimals_max'] );
+	$coin_value_total_primary_currency_decimals = ( number_to_string($coin_value_total_raw) >= $app_config['primary_currency_decimals_max_threshold'] ? 2 : $app_config['primary_currency_decimals_max'] );
 	}
   
 $pretty_coin_value_total_raw = ( $fiat_eqiv == 1 ? pretty_numbers($coin_value_total_raw, $coin_value_total_primary_currency_decimals) : pretty_numbers($coin_value_total_raw, 8) ); 

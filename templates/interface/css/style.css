@@ -167,6 +167,16 @@ line-height: 25px;
 }
 
 
+.start_page_menu {
+padding: 5px;
+}
+
+
+.start_page_menu_red {
+padding: 8px;
+}
+
+
 .subsection_fieldset {
 border: 1px solid #808080;
 margin: 25px;

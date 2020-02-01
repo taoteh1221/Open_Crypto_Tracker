@@ -62,6 +62,7 @@
      
     <?php
     	
+    	
     	// Proxy alerts (if setup by user, and any of them failed, test the failed proxies and log/alert if they seem offline)
 		if ( $app_config['proxy_alerts'] != 'none' ) {
 	
@@ -71,63 +72,13 @@
 			}
 
 		}
-
-      
-      ////START DEBUGGING ///////////////////////////////////////////////////////////////
-          	
-    	// DEBUGGING UNICODE EMAIL-TO-MOBILE-TEXT GATEWAY MESSAGE FORMATTING
-    	
-    	//echo '<br /> ------ <br />';
-    	
-    	//echo character_unicode_to_utf8('x1f433', 'hexadecimal');
-    	
-    	//echo '<br /> ------ <br />';
-    	
-    	//echo character_utf8_to_unicode('🐳', 'hexadecimal');
-    	
-    	//echo '<br /> ------ <br />';
-    	
-    	//$test_phrase = 'UNICODE MESSAGE SUPPORT TEST ONLY: Твоје зелене очи су ми памет помутиле... 🐳... END';
-    	
-    	//$test_phrase = '🐳';
-    	
-    	//$test_phrase = 'ASCII MESSAGE SUPPORT TEST ONLY... END';
-          	
-  				// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
-  				
-  				// Minimize function calls
-  				//$encoded_text_message = content_data_encoding($test_phrase);
-  				
-  				/*
-          	$send_params = array(
-          								'text' => array(
-          														// Unicode support included for text messages (emojis / asian characters / etc )
-          														'message' => $encoded_text_message['content_output'],
-          														'charset' => $encoded_text_message['charset']
-          														),
-          								'email' => array(
-          														'subject' => 'UNICODE SUPPORT TEST',
-          														'message' => $encoded_text_message['content_output'],
-          														'charset' => $encoded_text_message['charset'] 
-          														)
-          								);
           	
           	
           	
-          	// Send notifications
-          	@queue_notifications($send_params);
-          	*/
-    	
-    	//var_dump($encoded_text_message);
-    	
-          	
-      ////END DEBUGGING ///////////////////////////////////////////////////////////////
-          	
-          	
-
 		// Log errors, send notifications BEFORE runtime stats
 		error_logs();
 		send_notifications();
+		
 		
 		
 		// Calculate script runtime length
@@ -135,6 +86,7 @@
 		$time = explode(' ', $time);
 		$time = $time[1] + $time[0];
 		$total_runtime = round( ($time - $start_runtime) , 3);
+
 
 
 		// If debug mode is on
@@ -163,9 +115,7 @@
     		
     	echo '<p align="center" class="'.( $total_runtime > 10 ? 'red' : 'green' ).'"> Interface Runtime: '.$total_runtime.' seconds</p>';
     	
-    	
-  
-    	
+    
     ?>
         
         
@@ -175,7 +125,6 @@
      <br /> <br />
      
  
-
 
 <!-- https://v4-alpha.getbootstrap.com/getting-started/introduction/#starter-template -->
 <script src="app-lib/js/jquery/bootstrap.min.js"></script>

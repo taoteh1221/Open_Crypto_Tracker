@@ -166,6 +166,11 @@ border: 2px dotted white;
 }
 
 
+.start_page_menu_red {
+border: 3px dotted #ff4747; 
+}
+
+
 .activate_chart_sections {
 border-top: 2px solid white;
 }

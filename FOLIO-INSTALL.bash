@@ -128,6 +128,9 @@ echo "You will need to manually move any custom settings in this backup file to 
 echo " "
 echo "IMPORTANT NOTES: "
 echo " "
+echo "v4.06.0 AND HIGHER HAS MAJOR DIRECTORY STRUCTURE CHANGES. FOR CLEAN UPGRADES, THIS AUTO-INSTALL SCRIPT"
+echo "WILL DELETE #EVERY PREVIOUSLY-USED SUB-DIRECTORY NAME# EXCEPT FOR THE 'CACHE' DIRECTORY BEFOREHAND."
+echo " "
 echo "v4.06.0 and higher modularizes the configuration settings into the new app_config array. ALL"
 echo "CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,"
 echo "AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT."
@@ -637,6 +640,20 @@ select opt in $OPTIONS; do
   					fi
   				
   				
+  				# Delete old directory / file structures (overhauled in v4.06.0 higher), for a clean upgrade
+  				# Directories
+  				rm -rf $DOC_ROOT/app-lib
+  				rm -rf $DOC_ROOT/backups
+  				rm -rf $DOC_ROOT/cache/queue
+  				rm -rf $DOC_ROOT/misc-docs-etc
+  				rm -rf $DOC_ROOT/ui-templates
+  				# Files
+				rm $DOC_ROOT/DOCUMENTATION-ETC/CONFIG.EXAMPLE.txt # (Renamed CONFIG-EXAMPLE.txt in v4.07.5)
+				rm $DOC_ROOT/CONFIG.EXAMPLE.txt
+				rm $DOC_ROOT/HELP-FAQ.txt
+				rm $DOC_ROOT/PORTFOLIO-IMPORT-EXAMPLE-SPREADSHEET.csv
+  				
+  				# Copy over the upgrade install files to the install directory
 				# No trailing forward slash here
 				\cp -r ./ $DOC_ROOT
 				

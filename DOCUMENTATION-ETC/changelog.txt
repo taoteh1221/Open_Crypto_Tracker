@@ -2417,13 +2417,15 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.07.5:
 
--API support for zebpay / buyucoin / bitbns markets
-
 -Config setting for default theme
 
 -Misc minor code cleanup / bug fixes
 
 -Config setting for custom user agent
+
+-API support for zebpay / buyucoin / bitbns markets
+
+-Bug fix for custom number_to_string() function handling negative numbers
 
 -Bug fix for detecting HTTPS (secure SSL) connections on load balancer setups
 
@@ -2432,6 +2434,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -Bug fix for file permissions on message queue lock file (prevented sending on some server setups under certain conditions)
 
 IMPORTANT NOTES: 
+
+v4.06.0 AND HIGHER HAS MAJOR DIRECTORY STRUCTURE CHANGES. FOR CLEAN UPGRADES, FIRST DELETE EVERY SUB-DIRECTORY EXCEPT FOR THE 'CACHE' DIRECTORY BEFOREHAND.
 
 v4.06.0 and higher modularizes the configuration settings into the new $app_config array. ALL
 CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,

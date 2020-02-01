@@ -56,7 +56,7 @@ asort($chart_data);
 $num_in_first_chart = 0;
 foreach ( $chart_data as $chart_key => $chart_value ) {
 	
-$check_chart_value = float_to_string( delimited_string_sample($chart_value, ',', 'last') );
+$check_chart_value = number_to_string( delimited_string_sample($chart_value, ',', 'last') );
 	
 	if ( $check_chart_value > 0.00000 && $check_chart_value <= $app_config['system_stats_first_chart_highest_value'] ) {
 	$num_in_first_chart = $num_in_first_chart + 1;

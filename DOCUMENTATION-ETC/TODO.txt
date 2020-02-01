@@ -5,6 +5,7 @@ TODO
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Try sticking with small infrastructure changes, and breaking up large changes into small milestones. 
 Then plenty of time is spent on UX / testing / logging / debugging.
+Always test in a WebKit-based browser [Epiphany|Safari], Firefox, and Chromium
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ///////////////////////////////////////////////////////
 
@@ -17,25 +18,25 @@ BUGS / TESTS SECTION
 ///////////////////////////////////////////////////////
 
 
-Test app in webkit browser Epiphany (also used by safari on Apple devices)
-
-
-One LAST unicode text message test with no space in front of encoded data (forgot to try that, coded and ready to go now).
+Make get_apache_modules() logic compatible with nginx etc (in init.php and system-checks.php).
 
 
 Re-test modified bash install script
 
 
-Standalone mode not changing corresponding exchange when pairing switched in IE (windows). May be how the CSS selector runs in IE? Works on the update assets page in IE, just not settings page.
+Investigate unchecking standalone mode AFTER page reload...may be messing up the "update assets" page field for BTC (hiding exchanges list).
 
 
 No audio alert in FF (windows) Maybe the OGG OR MP3 file needs to load the opposite file for FF?
 
 
-Investigate unchecking standalone mode AFTER page reload...may be messing up the "update assets" page field for BTC.
+Standalone mode not changing corresponding exchange when pairing switched in IE (windows). May be how the CSS selector runs in IE? Works on the update assets page in IE, just not settings page.
 
 
-Color code mining profits / losses properly in the mining calculators.
+Investigate mining calculators not calculating same RELATIVE profit when switching primary currencies (maybe [primary currency]/kWh is the issue?)
+
+
+Test unicode text message with no space in front of hex-encoded data (forgot to try that, coded and ready to go now...see content_data_encoding() and /DOCUMENTATION-ETC/Developing-maintaining/DEBUGGING.txt).
 
 
 ///////////////////////////////////////////////////////
@@ -43,8 +44,17 @@ Color code mining profits / losses properly in the mining calculators.
 
 
 ///////////////////////////////////////////////////////
-FEATURES AND STRUCTURING SECTION
+FEATURES / STRUCTURING CYCLE SECTION
 ///////////////////////////////////////////////////////
+
+
+Add drop-down menu feature next to "update assets" buttons for "save as": cookie data | session data | only post data.
+
+
+Create a "Desktop Edition" using PHPDesktop (https://github.com/cztomczak/phpdesktop/wiki), call the hosted version "Server Edition".
+
+
+Use SQLite for any data storage that needs query capability (can also be used in PHPDesktop version, as it supports SQLite). 
 
 
 Dynamically add an 'app_version' value to $app_config when processing it, so when we are updating the cached config with a newly-changed config.php config, we not only can see if any new config settings exist / have changed, but we can see if the app was upgraded since the previous cached config update.
@@ -141,6 +151,9 @@ Simple trading bot, to run from cron / cli (with SQL-based admin authentication 
 ///////////////////////////////////////////////////////
 MAYBE SECTION
 ///////////////////////////////////////////////////////
+
+
+Create a github Wiki for this app?
 
 
 Maybe add feature to detect new / removed markets?

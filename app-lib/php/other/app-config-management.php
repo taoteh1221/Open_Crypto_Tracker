@@ -149,10 +149,10 @@ $app_config['mobile_network_text_gateways'] = $cleaned_mobile_networks;
 // END CONFIG CLEANUP
 
 // Better decimal support for these vars...
-$app_config['system_stats_first_chart_highest_value'] = float_to_string($app_config['system_stats_first_chart_highest_value']); 
-$app_config['primary_currency_decimals_max_threshold'] = float_to_string($app_config['primary_currency_decimals_max_threshold']); 
-$app_config['asset_price_alerts_percent'] = float_to_string($app_config['asset_price_alerts_percent']); 
-$app_config['steempower_yearly_interest'] = float_to_string($app_config['steempower_yearly_interest']); 
+$app_config['system_stats_first_chart_highest_value'] = number_to_string($app_config['system_stats_first_chart_highest_value']); 
+$app_config['primary_currency_decimals_max_threshold'] = number_to_string($app_config['primary_currency_decimals_max_threshold']); 
+$app_config['asset_price_alerts_percent'] = number_to_string($app_config['asset_price_alerts_percent']); 
+$app_config['steempower_yearly_interest'] = number_to_string($app_config['steempower_yearly_interest']); 
 
 //////////////////////////////////////////////////////////////////
 // END APP CONFIG DYNAMIC MANAGEMENT

@@ -27,7 +27,7 @@ $app_config = array(); // REQUIRED, DON'T DELETE BY ACCIDENT
 
 // SEE README.txt FOR HOW TO ADD / EDIT / DELETE COINS IN THIS CONFIG
 
-// SEE /DOCUMENTATION-ETC/CONFIG.EXAMPLE.txt FOR A FULL EXAMPLE OF THE CONFIGURATION (ESPECIALLY IF YOU MESS UP config.php, lol)
+// SEE /DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt FOR A FULL EXAMPLE OF THE CONFIGURATION (ESPECIALLY IF YOU MESS UP config.php, lol)
 
 // TYPOS LIKE MISSED COMMAS / MISSED QUOTES / ETC !!!!WILL BREAK THE APP!!!!, BE CAREFUL EDITING THIS CONFIG FILE
 
@@ -53,10 +53,6 @@ $app_config['smtp_login'] = ''; //  CAN BE BLANK. This format MUST be used: 'use
 $app_config['smtp_server'] = ''; // CAN BE BLANK. This format MUST be used: 'domain_or_ip:port' example: 'example.com:25'
 ////
 $app_config['smtp_secure'] = 'tls'; // CAN BE 'off' FOR NO SECURE CONNECTION, or 'tls', or 'ssl' for secure connections. MAKE SURE PORT NUMBER ABOVE CORRESPONDS
-////
-// 'on' verifies ALL SMTP server certificates for secure SMTP connections, 'off' verifies NOTHING 
-// Set to 'off' if the SMTP server has an invalid certificate setup (which stops email sending, but you still want to send email through that server)
-$app_config['smtp_strict_ssl'] = 'off'; // (DEFAULT IS 'off', TO ASSURE SMTP EMAIL SENDING STILL WORKS THROUGH MISCONFIGURED SMTP SERVERS)
 
 
 // For asset price alert texts to mobile phone numbers. 
@@ -107,6 +103,19 @@ $app_config['google_home_client_secret'] = '';
 ////////////////////////////////////////
 
 
+// Set which interface theme you want as the default theme (also can be manually switched later, on the settings page in the interface)
+$app_config['default_theme'] = 'dark'; // 'dark' or 'light'
+
+
+// Your local time offset in hours compared to UTC time. Can be negative or positive.
+// (Used for user experience 'pretty' timestamping ONLY, WILL NOT change or screw up UTC log times etc if you change this)
+$app_config['local_time_offset'] = -5; // example: -5 or 5
+
+
+// Minutes to cache real-time exchange price data...can be zero to skip cache, but set to at least 1 minute TO AVOID YOUR IP GETTING BLOCKED
+$app_config['last_trade_cache_time'] = 3; 
+
+
 // Enable / disable daily upgrade checks (DEFAULT IS DISABLED)
 // (Checks latest release version via github.com API endpoint value "tag_name" 
 // @ https://api.github.com/repos/taoteh1221/DFD_Cryptocoin_Values/releases/latest)
@@ -123,6 +132,26 @@ $app_config['upgrade_check_remind'] = 7; // (only used if upgrade check is enabl
 // (DISABLES automatically, when username / password are blank '' OR invalid) 
 // (!ONLY #UPDATES OR DISABLES# AUTOMATICALLY #AFTER# LOGGING IN ONCE WITH YOUR #OLD LOGIN# [or if a cron job runs with the new config]!)
 $app_config['htaccess_login'] = ''; // Leave blank to disable. This format MUST be used: 'username||password'
+
+
+// Shows system statistics in the user interface, if stats are available (system load, system temperature, free disk space, free system memory, etc)
+$app_config['system_stats'] = 'raspi'; // 'off' (disabled), 'on' (enabled for ANY system), 'raspi' (enabled ONLY for raspberry pi devices)
+////
+// Highest numeric value sensor data to include in the FIRST system statistics chart (out of two)
+// (higher sensor data is moved into the second chart, to keep ranges easily readable between both charts...only used if stats are enabled above)
+$app_config['system_stats_first_chart_highest_value'] = 3.5; // Can be a decimal (example: 0.5 or 7.5 etc)
+
+
+// Default marketcap data source: 'coingecko', or 'coinmarketcap' (COINMARKETCAP REQUIRES A #FREE# API KEY, see below)
+$app_config['primary_marketcap_site'] = 'coingecko'; 
+
+
+// API key for coinmarketcap.com Pro API (required unfortunately, but a FREE level is available): https://coinmarketcap.com/api
+$app_config['coinmarketcapcom_api_key'] = '';
+
+
+// Number of marketcap rankings to request from API. Ranks are grabbed 100 per request
+$app_config['marketcap_ranks_max'] = 200; // 200 rankings is a safe maximum to start with, it avoids getting your API requests throttled / blocked
 
 
 // Default BITCOIN-ONLY currency market pairing 
@@ -155,89 +184,16 @@ $app_config['primary_currency_decimals_max'] = 5; // Whole numbers only (represe
 $app_config['primary_currency_decimals_max_threshold'] = 0.70; // Can be decimals, NO SYMBOLS, NUMBERS ONLY
 
 
-// Default marketcap data source: 'coingecko', or 'coinmarketcap' (COINMARKETCAP REQUIRES A #FREE# API KEY, see below)
-$app_config['primary_marketcap_site'] = 'coingecko'; 
-
-
-// API key for coinmarketcap.com Pro API (required unfortunately, but a FREE level is available): https://coinmarketcap.com/api
-$app_config['coinmarketcapcom_api_key'] = '';
-
-
-// Number of marketcap rankings to request from API. Ranks are grabbed 100 per request
-$app_config['marketcap_ranks_max'] = 200; // 200 rankings is a safe maximum to start with, it avoids getting your API requests throttled / blocked
-
-
-// Set which interface theme you want as the default theme (also can be manually switched later, on the settings page in the interface)
-$app_config['default_theme'] = 'dark'; // 'dark' or 'light'
-
-
-// Your local time offset in hours compared to UTC time. Can be negative or positive.
-// (Used for user experience 'pretty' timestamping ONLY, WILL NOT change or screw up UTC log times etc if you change this)
-$app_config['local_time_offset'] = -5; // example: -5 or 5
-
-
-// Minutes to cache real-time exchange price data...can be zero to skip cache, but set to at least 1 minute TO AVOID YOUR IP GETTING BLOCKED
-$app_config['last_trade_cache_time'] = 3; 
-
-
 $app_config['margin_leverage_max'] = 125; // Maximum margin leverage available in the user interface ('Update Assets' page, etc)
-
-
-// Shows system statistics in the user interface, if stats are available (system load, system temperature, free disk space, free system memory, etc)
-$app_config['system_stats'] = 'raspi'; // 'off' (disabled), 'on' (enabled for ANY system), 'raspi' (enabled ONLY for raspberry pi devices)
-////
-// Highest numeric value sensor data to include in the FIRST system statistics chart (out of two)
-// (higher sensor data is moved into the second chart, to keep ranges easily readable between both charts...only used if stats are enabled above)
-$app_config['system_stats_first_chart_highest_value'] = 3.5; // Can be a decimal (example: 0.5 or 7.5 etc)
-
-
-// Seconds to wait for response from API endpoints (exchange data, etc). 
-// Set too low you won't get data, set too high the interface can take a long time loading if an API server hangs up
-$app_config['api_timeout'] = 15; // (default = 15)
-
-
-// 'on' verifies ALL certificates for secure API connections, 'off' verifies NOTHING 
-// Set to 'off' if some exchange's API servers have invalid certificates (which stops price data retrieval...but you still want to get price data from them)
-$app_config['api_strict_ssl'] = 'on'; // (default = 'on')
-
-
-$app_config['marketcap_cache_time'] = 20; // Minutes to cache marketcap rankings...start high and test lower, it can be strict
 
 
 $app_config['chainstats_cache_time'] = 30; // Minutes to cache blockchain stats (for mining calculators). Set high initially, it can be strict
 
 
+$app_config['marketcap_cache_time'] = 20; // Minutes to cache marketcap rankings...start high and test lower, it can be strict
+
+
 $app_config['delete_old_backups'] = 7; // Days until old zip archive backups should be deleted (chart data archives, etc)
-
-
-// Level of detail / verbosity in log files. 'normal' logs minimal details (basic information), 
-// 'verbose' logs maximum details (additional information IF AVAILABLE, for heavy debugging / tracing / etc)
-$app_config['log_detail_level'] = 'normal'; // 'normal' / 'verbose'
-////
-$app_config['purge_logs'] = 7; // Days to keep logs before purging (deletes logs every X days). Start low (especially when using proxies)
-////
-// Every X days mail logs. 0 disables mailing logs. Email to / from !MUST BE SET!, MAY NOT SEND IN TIMELY FASHION WITHOUT A CRON JOB
-$app_config['mail_logs'] = 1; 
-
-
-// $app_config['debug_mode'] enabled runs unit tests during ui runtimes (during webpage load),
-// errors detected are error-logged and printed as alerts in footer
-// It also logs ui / cron runtime telemetry to /cache/logs/debugging.log, AND /cache/logs/debugging/
-////////////////////////////////////////////////////////////////////////////////////////////
-// 'off' (disables), 'all' (all debugging), 'charts' (chart/price alert checks),
-// 'texts' (mobile gateway checks), 'markets' (coin market checks),
-// 'telemetry' (logs in-app telemetries), 'stats' (basic hardware / software / runtime stats),
-// 'btc_markets_config' (the current Bitcoin markets configuration),
-// 'smtp' (smtp email server response logging, if smtp emailing is enabled),
-// 'api_live_only' (log only live API requests, not cache requests),
-// 'api_cache_only' (log only cache requests for API data, not live API requests)
-////////////////////////////////////////////////////////////////////////////////////////////
-// UNIT TESTS WILL ONLY RUN DURING WEB PAGE LOAD. MAY REQUIRE SETTING MAXIMUM ALLOWED 
-// PHP EXECUTION TIME TO 120 SECONDS TEMPORARILY, FOR ALL UNIT TESTS TO FULLY COMPLETE RUNNING, 
-// IF YOU GET AN ERROR 500. OPTIONALLY, TRY RUNNING ONE TEST PER PAGE LOAD, TO AVOID THIS.
-// DON'T LEAVE DEBUGGING ENABLED AFTER USING IT, THE /cache/logs/debugging.log AND /cache/logs/debugging/
-// LOG FILES !CAN GROW VERY QUICKLY IN SIZE! EVEN AFTER JUST A FEW RUNTIMES
-$app_config['debug_mode'] = 'off'; 
 
 
 ////////////////////////////////////////
@@ -518,16 +474,22 @@ $app_config['asset_charts_and_alerts'] = array(
 /////////////////////////////////////////////////////////////////////////////
 
 
+// Days to keep logs before purging (deletes logs every X days). Start low (especially when using proxies)
+$app_config['purge_logs'] = 7; 
+////
+// Every X days mail logs. 0 disables mailing logs. Email to / from !MUST BE SET!, MAY NOT SEND IN TIMELY FASHION WITHOUT A CRON JOB
+$app_config['mail_logs'] = 1; 
+
 
 // Mining rewards for different platforms (to prefill editable mining calculator forms)
 $app_config['mining_rewards'] = array(
 					'btc' => '12.5',
-					'eth' => '2',
-					'ltc' => '12.5',
-					'grin' => '60',
 					'doge' => '10000',
-					'xmr' => NULL,  // WE DYNAMICALLY UPDATE THIS IN INIT.PHP
 					'dcr' => NULL,  // WE DYNAMICALLY UPDATE THIS IN INIT.PHP
+					'eth' => '2',
+					'grin' => '60',
+					'ltc' => '12.5',
+					'xmr' => NULL,  // WE DYNAMICALLY UPDATE THIS IN INIT.PHP
 					);
 
 
@@ -608,6 +570,45 @@ $app_config['steem_powerdown_time'] = 13;
 /////////////////////////////////////////////////////////////////////////////
 
 
+// Level of detail / verbosity in log files. 'normal' logs minimal details (basic information), 
+// 'verbose' logs maximum details (additional information IF AVAILABLE, for heavy debugging / tracing / etc)
+$app_config['log_detail_level'] = 'normal'; // 'normal' / 'verbose'
+////
+// $app_config['debug_mode'] enabled runs unit tests during ui runtimes (during webpage load),
+// errors detected are error-logged and printed as alerts in footer
+// It also logs ui / cron runtime telemetry to /cache/logs/debugging.log, AND /cache/logs/debugging/
+////////////////////////////////////////////////////////////////////////////////////////////
+// 'off' (disables), 'all' (all debugging), 'charts' (chart/price alert checks),
+// 'texts' (mobile gateway checks), 'markets' (coin market checks),
+// 'telemetry' (logs in-app telemetries), 'stats' (basic hardware / software / runtime stats),
+// 'btc_markets_config' (the current Bitcoin markets configuration),
+// 'smtp' (smtp email server response logging, if smtp emailing is enabled),
+// 'api_live_only' (log only live API requests, not cache requests),
+// 'api_cache_only' (log only cache requests for API data, not live API requests)
+////////////////////////////////////////////////////////////////////////////////////////////
+// UNIT TESTS WILL ONLY RUN DURING WEB PAGE LOAD. MAY REQUIRE SETTING MAXIMUM ALLOWED 
+// PHP EXECUTION TIME TO 120 SECONDS TEMPORARILY, FOR ALL UNIT TESTS TO FULLY COMPLETE RUNNING, 
+// IF YOU GET AN ERROR 500. OPTIONALLY, TRY RUNNING ONE TEST PER PAGE LOAD, TO AVOID THIS.
+// DON'T LEAVE DEBUGGING ENABLED AFTER USING IT, THE /cache/logs/debugging.log AND /cache/logs/debugging/
+// LOG FILES !CAN GROW VERY QUICKLY IN SIZE! EVEN AFTER JUST A FEW RUNTIMES
+$app_config['debug_mode'] = 'off'; 
+
+
+// 'on' verifies ALL SMTP server certificates for secure SMTP connections, 'off' verifies NOTHING 
+// Set to 'off' if the SMTP server has an invalid certificate setup (which stops email sending, but you still want to send email through that server)
+$app_config['smtp_strict_ssl'] = 'off'; // (DEFAULT IS 'off', TO ASSURE SMTP EMAIL SENDING STILL WORKS THROUGH MISCONFIGURED SMTP SERVERS)
+
+
+// 'on' verifies ALL certificates for secure API connections, 'off' verifies NOTHING 
+// Set to 'off' if some exchange's API servers have invalid certificates (which stops price data retrieval...but you still want to get price data from them)
+$app_config['api_strict_ssl'] = 'on'; // (default = 'on')
+
+
+// Seconds to wait for response from API endpoints (exchange data, etc). 
+// Set too low you won't get data, set too high the interface can take a long time loading if an API server hangs up
+$app_config['api_timeout'] = 15; // (default = 15)
+
+
 // Standard (default) app charset
 $app_config['charset_standard'] = 'UTF-8'; 
 ////
@@ -617,16 +618,16 @@ $app_config['charset_standard'] = 'UTF-8';
 $app_config['charset_unicode'] = 'UTF-16'; 
 
 
-// Cache files / .htaccess files permissions (change with EXTREME care, to tighten security further for your PARTICULAR setup)
+// Cache files / .htaccess files permissions (change with EXTREME care, to adjust security for your PARTICULAR setup)
 // THESE PERMISSIONS ARE !ALREADY! CALLED THROUGH THE octdec() FUNCTION WITHIN THE APP WHEN USED
 // Cache directories permissions
-$app_config['chmod_permission_cache_directories'] = '0777';
+$app_config['chmod_permission_cache_directories'] = '0777'; // (default = '0777')
 ////
 // Cache files permissions
-$app_config['chmod_permission_cache_files'] = '0666';
+$app_config['chmod_permission_cache_files'] = '0666'; // (default = '0666')
 ////
-// .htaccess files permissions
-$app_config['chmod_permission_htaccess_files'] = '0664';
+// .htaccess / index.php security files permissions
+$app_config['chmod_permission_index_security'] = '0664'; // (default = '0664')
 
 
 // If you want to override the default user agent string (sent with API requests, etc)
@@ -911,7 +912,7 @@ $app_config['mobile_network_text_gateways'] = array(
 
 // SEE README.txt FOR HOW TO ADD / EDIT / DELETE COINS IN THIS CONFIG
 
-// SEE /DOCUMENTATION-ETC/CONFIG.EXAMPLE.txt FOR A FULL EXAMPLE OF THE CONFIGURATION (ESPECIALLY IF YOU MESS UP config.php, lol)
+// SEE /DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt FOR A FULL EXAMPLE OF THE CONFIGURATION (ESPECIALLY IF YOU MESS UP config.php, lol)
 
 // TYPOS LIKE MISSED COMMAS / MISSED QUOTES / ETC !!!!WILL BREAK THE APP!!!!, BE CAREFUL EDITING THIS CONFIG FILE
 

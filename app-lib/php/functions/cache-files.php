@@ -95,9 +95,9 @@ $file_owner_info = posix_getpwuid(fileowner($file));
 	}
 	
 	
-	// We ALWAYS set .htaccess files to a more secure $app_config['chmod_permission_htaccess_files'] permission AFTER EDITING, 
+	// We ALWAYS set .htaccess files to a more secure $app_config['chmod_permission_index_security'] permission AFTER EDITING, 
 	// so we TEMPORARILY set .htaccess to $app_config['chmod_permission_cache_files'] for NEW EDITING...
-	if ( strstr($file, '.htaccess') != false ) {
+	if ( strstr($file, '.htaccess') != false || strstr($file, 'index.php') != false ) {
 		
 	$chmod_setting = octdec($app_config['chmod_permission_cache_files']);
 	
@@ -139,8 +139,8 @@ $file_owner_info = posix_getpwuid(fileowner($file));
 	
 	
 	// For security, NEVER make an .htaccess file writable by any user not in the group
-	if ( strstr($file, '.htaccess') != false ) {
-	$chmod_setting = octdec($app_config['chmod_permission_htaccess_files']);
+	if ( strstr($file, '.htaccess') != false || strstr($file, 'index.php') != false ) {
+	$chmod_setting = octdec($app_config['chmod_permission_index_security']);
 	}
 	// All other files
 	else {

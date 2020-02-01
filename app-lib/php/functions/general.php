@@ -1150,7 +1150,7 @@ $fn = fopen($file,"r");
          
             // Format or round primary currency price depending on value (non-stablecoin crypto values are already stored in the format we want for the interface)
             if ( $fiat_formatting == 1 ) {
-            $data['spot'] .= ( float_to_string($result[1]) >= $app_config['primary_currency_decimals_max_threshold'] ? number_format((float)$result[1], 2, '.', '')  :  round($result[1], $app_config['primary_currency_decimals_max'])  ) . ',';
+            $data['spot'] .= ( number_to_string($result[1]) >= $app_config['primary_currency_decimals_max_threshold'] ? number_format((float)$result[1], 2, '.', '')  :  round($result[1], $app_config['primary_currency_decimals_max'])  ) . ',';
             $data['volume'] .= round($result[2]) . ',';
             }
             // Non-stablecoin crypto
@@ -1382,10 +1382,16 @@ function zip_recursively($source, $destination) {
 
 
 function start_page_html($page) {
-?>
-<span class='start_page_menu'> 
 	
-	<select onchange='
+	if ( $_GET['start_page'] != '' ) {
+	$border_highlight = '_red';
+	$text_class = 'red';
+	}
+	
+?>
+<span class='start_page_menu<?=$border_highlight?>'> 
+	
+	<select class='<?=$text_class?>' onchange='
 	
 		if ( this.value == "index.php?start_page=<?=$page?>" ) {
 		var anchor = "#<?=$page?>";
@@ -1417,7 +1423,13 @@ function start_page_html($page) {
 	<?php
 	if ( $another_set == 1 ) {
 	?>
-	<span class='red'>&nbsp;(another secondary page is currently the start page)</span>
+	<span class='red'>&nbsp;(this other secondary page is currently the start page)</span>
+	 <br clear='all' />
+	<?php
+	}
+	elseif ( $_GET['start_page'] == $page ) {
+	?>
+	<span class='red'>&nbsp;(this page is currently the start page)</span>
 	 <br clear='all' />
 	<?php
 	}
@@ -1712,7 +1724,7 @@ $system['free_partition_space'] = convert_bytes( disk_free_space($base_dir) , 3)
 
 // Portfolio cache size (cached for efficiency)
 $portfolio_cache = trim( file_get_contents($base_dir . '/cache/vars/cache_size.dat') );
-$system['portfolio_cache'] = ( float_to_string($portfolio_cache) > 0 ? $portfolio_cache : 0 );
+$system['portfolio_cache'] = ( number_to_string($portfolio_cache) > 0 ? $portfolio_cache : 0 );
 	
 
 
