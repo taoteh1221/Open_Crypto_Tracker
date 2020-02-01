@@ -175,7 +175,7 @@ if ( update_cache_file($base_dir . '/cache/events/scheduled_maintenance.dat', 60
 	
 
 // Current app version stored to flat file (for the bash auto-install/upgrade script to easily determine the currently-installed version)
-store_file_contents($base_dir . '/cache/app_version.dat', $app_version);
+store_file_contents($base_dir . '/cache/vars/app_version.dat', $app_version);
 
 
 // Determine / store portfolio cache size
