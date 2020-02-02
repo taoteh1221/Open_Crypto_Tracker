@@ -961,6 +961,9 @@ echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 ######################################
 
+
+echo " "
+echo "BE SURE TO SAVE ALL THE ACCESS DETAILS PRINTED OUT ABOVE, BEFORE YOU SIGN OFF FROM THIS TERMINAL SESSION."
 echo " "
 echo "See my other cryptocurrency-related free / private / open source software at:"
 echo "https://sourceforge.net/u/taoteh1221/profile"
