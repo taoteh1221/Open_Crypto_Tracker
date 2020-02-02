@@ -171,9 +171,11 @@
 		
 	    <ul>
 	        
-	        <li class='links_list'><a href='https://www.ledger.com/' target='_blank'>Ledger</a> (proprietary multi-coin hardware wallet, with bank grade security chip)</li>
+	        <li class='links_list'><a href='https://www.ledger.com/' target='_blank'>Ledger</a> (proprietary multi-coin hardware wallet, with isolated bank grade security chip)</li>
 	        
 	        <li class='links_list'><a href='https://trezor.io/' target='_blank'>Trezor</a> (open source multi-coin hardware wallet)</li>
+	        
+	        <li class='links_list'><a href='https://coldcardwallet.com/' target='_blank'>Coldcard</a> (open source Bitcoin hardware wallet)</li>
 	        
 	        <li class='links_list'><a href='https://greenaddress.it/' target='_blank'>Bitcoin GreenAddress Wallet</a> (Bitcoin software wallet with hardware wallet support)</li>
 	        
