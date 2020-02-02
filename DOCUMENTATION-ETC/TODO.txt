@@ -53,6 +53,15 @@ FEATURES / STRUCTURING CYCLE SECTION
 ///////////////////////////////////////////////////////
 
 
+Sections / pages for upcoming admin config interface.
+
+
+CSRF nounce protection for admin AND user interface updates/viewing (session based).
+
+
+"Delete session data" button, that runs the "hardy session clearing" logic.
+
+
 Add drop-down menu feature next to "update assets" buttons for "save as": cookie data | session data | only post data.
 
 
@@ -149,6 +158,9 @@ MAYBE SECTION
 ///////////////////////////////////////////////////////
 
 
+Add auto-install script option to install NGINX (https://www.raspberrypi.org/documentation/remote-access/web-server/nginx.md)?
+
+
 Create a github Wiki for this app?
 
 
@@ -162,9 +174,6 @@ Alerts if NOT admin ip address visiting (admin ip stored in config setting)?
 
 
 See if at all feasible to fully modularize mining calculators to be added via config settings?
-
-
-Add security nonce to thwart CSRF attacks on cookie portfolio data / (authenticated) admin pages?
 
 
 Look into graceful 'loading...' placeholder until page is fully loaded?

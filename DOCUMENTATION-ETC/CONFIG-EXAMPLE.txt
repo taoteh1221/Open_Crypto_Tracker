@@ -15,7 +15,7 @@
 
 // SEE README.txt FOR HOW TO ADD / EDIT / DELETE COINS IN THIS CONFIG
 
-// SEE /DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt FOR A FULL EXAMPLE OF THE CONFIGURATION (ESPECIALLY IF YOU MESS UP config.php, lol)
+// SEE /DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt FOR A FULL EXAMPLE OF THE SETTINGS / ASSETS CONFIGURATION (ESPECIALLY IF YOU MESS UP config.php, lol)
 
 // TYPOS LIKE MISSED COMMAS / MISSED QUOTES / ETC !!!!WILL BREAK THE APP!!!!, BE CAREFUL EDITING THIS CONFIG FILE
 
@@ -333,6 +333,7 @@ $app_config['asset_charts_and_alerts'] = array(
 					'btc-10' => 'coinbase||gbp||chart',
 					'btc-11' => 'kraken||cad||chart',
 					'btc-12' => 'btcmarkets||aud||chart',
+					'btc-13' => 'bitbns||inr||chart',
 					
 					
 					// ETH
@@ -348,6 +349,7 @@ $app_config['asset_charts_and_alerts'] = array(
 					'eth-10' => 'coinbase||gbp||chart',
 					'eth-11' => 'coinbase||eur||chart',
 					'eth-12' => 'bittrex||usdt||chart',
+					'eth-13' => 'bitbns||inr||chart',
 					
 					
 					// XMR
@@ -462,30 +464,11 @@ $app_config['asset_charts_and_alerts'] = array(
 /////////////////////////////////////////////////////////////////////////////
 
 
-// Days to keep logs before purging (deletes logs every X days). Start low (especially when using proxies)
-$app_config['purge_logs'] = 7; 
-////
-// Every X days mail logs. 0 disables mailing logs. Email to / from !MUST BE SET!, MAY NOT SEND IN TIMELY FASHION WITHOUT A CRON JOB
-$app_config['mail_logs'] = 1; 
 
-
-// Mining rewards for different platforms (to prefill editable mining calculator forms)
-$app_config['mining_rewards'] = array(
-					'btc' => '12.5',
-					'doge' => '10000',
-					'dcr' => NULL,  // WE DYNAMICALLY UPDATE THIS IN INIT.PHP
-					'eth' => '2',
-					'grin' => '60',
-					'ltc' => '12.5',
-					'xmr' => NULL,  // WE DYNAMICALLY UPDATE THIS IN INIT.PHP
-					);
-
-
-
-// Activate support for CURRENCY-paired markets (like usd/ltc, eur/eth, etc)
-// EACH CURRENCY LISTED HERE !MUST HAVE! AN EXISTING BTC/CURRENCY MARKET (within 'market_pairing') 
+// Activate support for PRIMARY CURRENCY MARKETS (to use as your preferred local currency in the app)
+// EACH CURRENCY LISTED HERE !MUST HAVE! AN EXISTING BITCOIN ASSET MARKET (within 'market_pairing') 
 // in Bitcoin's $app_config['portfolio_assets'] listing (further down in this config file) TO PROPERLY ACTIVATE
-// (CAN BE A CRYPTO, !AS LONG AS THERE IS A BITCOIN PAIRING CONFIGURED!)
+// (CAN BE A CRYPTO, !AS LONG AS THERE IS A PAIRING CONFIGURED WITHIN THE BITCOIN ASSET SETUP!)
 $app_config['bitcoin_market_currencies'] = array(
 						//'lowercase_btc_market_or_stablecoin_pairing' => 'CURRENCY_SYMBOL',
 						'aud' => 'A$',
@@ -516,10 +499,10 @@ $app_config['bitcoin_market_currencies'] = array(
 
 
 
-// Activate support for ALTCOIN-paired markets (like doge/ltc, dai/eth, etc)
+// Activate support for ALTCOIN PAIRED MARKETS (like doge/eth, dai/eth, etc)
 // EACH ALTCOIN LISTED HERE !MUST HAVE! AN EXISTING 'btc' MARKET (within 'market_pairing') 
 // in it's $app_config['portfolio_assets'] listing (further down in this config file) TO PROPERLY ACTIVATE
-// ('btc' pairing support IS SKIPPED HERE, as it's ALREADY BUILT-IN to this app)
+// ('btc' pairing support IS SKIPPED HERE, as it's ALREADY BUILT-IN to this app's core logic)
 $app_config['crypto_to_crypto_pairing'] = array(
 						//'lowercase_altcoin_abrv' => 'CRYPTO_SYMBOL',
 						'eth' => 'Ξ ',
@@ -529,7 +512,7 @@ $app_config['crypto_to_crypto_pairing'] = array(
 
 
 
-// Static values in ETH for Ethereum subtokens, like during crowdsale periods etc
+// Static values in ETH for Ethereum subtokens, like during crowdsale periods etc (before exchange listings)
 $app_config['eth_subtokens_ico_values'] = array(
                         'ETHSUBTOKENNAME' => '0.15',
                         'GOLEM' => '0.001',
@@ -537,6 +520,26 @@ $app_config['eth_subtokens_ico_values'] = array(
                         'DECENTRALAND' => '0.00008',
                         );
 
+
+
+// Mining rewards for different crypto networks (to prefill the editable mining calculator forms)
+$app_config['mining_rewards'] = array(
+					'btc' => '12.5',
+					'doge' => '10000',
+					'dcr' => NULL,  // WE DYNAMICALLY UPDATE THIS IN INIT.PHP
+					'eth' => '2',
+					'grin' => '60',
+					'ltc' => '12.5',
+					'xmr' => NULL,  // WE DYNAMICALLY UPDATE THIS IN INIT.PHP
+					);
+
+
+
+// Days to keep logs before purging (deletes logs every X days). Start low (especially when using proxies)
+$app_config['purge_logs'] = 7; 
+////
+// Every X days mail logs. 0 disables mailing logs. Email to / from !MUST BE SET!, MAY NOT SEND IN TIMELY FASHION WITHOUT A CRON JOB
+$app_config['mail_logs'] = 1; 
 
 
 // STEEM Power yearly interest rate START 11/29/2016 (1.425%, decreasing every year by roughly 0.075% until it hits a minimum of 0.075% and stays there)
@@ -582,14 +585,10 @@ $app_config['log_detail_level'] = 'normal'; // 'normal' / 'verbose'
 $app_config['debug_mode'] = 'off'; 
 
 
-// 'on' verifies ALL SMTP server certificates for secure SMTP connections, 'off' verifies NOTHING 
-// Set to 'off' if the SMTP server has an invalid certificate setup (which stops email sending, but you still want to send email through that server)
-$app_config['smtp_strict_ssl'] = 'off'; // (DEFAULT IS 'off', TO ASSURE SMTP EMAIL SENDING STILL WORKS THROUGH MISCONFIGURED SMTP SERVERS)
-
-
-// 'on' verifies ALL certificates for secure API connections, 'off' verifies NOTHING 
-// Set to 'off' if some exchange's API servers have invalid certificates (which stops price data retrieval...but you still want to get price data from them)
-$app_config['api_strict_ssl'] = 'on'; // (default = 'on')
+// If you want to override the default user agent string (sent with API requests, etc)
+// Adding a string here automatically enables that as the custom user agent
+// Leaving blank '' USES THE DEFAULT USER AGENT LOGIC BUILT-IN TO THIS APP (INCLUDES BASIC SYSTEM CONFIGURATION STATS)
+$app_config['override_default_user_agent'] = ''; 
 
 
 // Seconds to wait for response from API endpoints (exchange data, etc). 
@@ -608,23 +607,28 @@ $app_config['charset_unicode'] = 'UTF-16';
 
 // Cache files / .htaccess files permissions (change with EXTREME care, to adjust security for your PARTICULAR setup)
 // THESE PERMISSIONS ARE !ALREADY! CALLED THROUGH THE octdec() FUNCTION WITHIN THE APP WHEN USED
+// .htaccess / index.php index security files permissions
+$app_config['chmod_permission_index_security'] = '0664'; // (default = '0664')
+////
 // Cache directories permissions
 $app_config['chmod_permission_cache_directories'] = '0777'; // (default = '0777')
 ////
 // Cache files permissions
 $app_config['chmod_permission_cache_files'] = '0666'; // (default = '0666')
-////
-// .htaccess / index.php security files permissions
-$app_config['chmod_permission_index_security'] = '0664'; // (default = '0664')
 
 
-// If you want to override the default user agent string (sent with API requests, etc)
-// Adding a string here automatically enables that as the custom user agent
-$app_config['override_default_user_agent'] = ''; // Leave blank '' to disable
+// 'on' verifies ALL API server certificates for secure API connections, 'off' verifies NOTHING 
+// Set to 'off' if some exchange's API servers have invalid certificates (which stops price data retrieval...but you still want to get price data from them)
+$app_config['api_strict_ssl'] = 'on'; // (default = 'on')
+
+
+// 'on' verifies ALL SMTP server certificates for secure SMTP connections, 'off' verifies NOTHING 
+// Set to 'off' if the SMTP server has an invalid certificate setup (which stops email sending, but you still want to send email through that server)
+$app_config['smtp_strict_ssl'] = 'off'; // (DEFAULT IS 'off', TO ASSURE SMTP EMAIL SENDING STILL WORKS THROUGH MISCONFIGURED SMTP SERVERS)
 
 
 
-// TLD-only (Top Level Domain) for each API service that requires multiple calls (for each market / data set)
+// TLD-only (Top Level Domain only, NO SUBDOMAINS) for each API service that requires multiple calls (for each market / data set)
 // Used to throttle these market calls a tiny bit (1.15 seconds), so we don't get easily blacklisted
 // (ANY EXCHANGES LISTED HERE ARE !NOT! RECOMMENDED TO BE USED AS THE PRIMARY CURRENCY MARKET IN THIS APP,
 // AS ON OCCASION THEY CAN BE !UNRELIABLE! IF HIT WITH TOO MANY SEPARATE API CALLS FOR DIFFERENT COINS / ASSETS)
@@ -649,7 +653,8 @@ $app_config['limited_apis'] = array(
 
 
 
-// TLD-extensions-only (Top Level Domain extensions) supported in the get_tld() function (which removes subdomains for tld checks)
+// TLD-extensions-only (Top Level Domain extensions only, supported in the get_tld() function, which removes subdomains for tld checks)
+// IF YOU ADD A NEW API, !MAKE SURE IT'S DOMAIN EXTENSION EXISTS HERE!
 // (NO LEADING DOTS, !MUST BE LOWERCASE!)
 $app_config['top_level_domain_map'] = array(
 					'co.il',
@@ -706,6 +711,8 @@ https://github.com/taoteh1221/DFD_Cryptocoin_Values/issues
 // All supported mobile network email-to-text gateway (domain name) configurations
 // Network name keys MUST BE LOWERCASE (for reliability / consistency, 
 // as these name keys are always called from (forced) lowercase name key lookups)
+
+// SEE /DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt FOR A FULL EXAMPLE OF THE SETTINGS / ASSETS CONFIGURATION (ESPECIALLY IF YOU MESS UP config.php, lol)
 
 // TYPOS LIKE MISSED COMMAS / MISSED QUOTES / ETC !!!!WILL BREAK THE APP!!!!, BE CAREFUL EDITING THIS CONFIG FILE
 
@@ -900,7 +907,7 @@ $app_config['mobile_network_text_gateways'] = array(
 
 // SEE README.txt FOR HOW TO ADD / EDIT / DELETE COINS IN THIS CONFIG
 
-// SEE /DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt FOR A FULL EXAMPLE OF THE CONFIGURATION (ESPECIALLY IF YOU MESS UP config.php, lol)
+// SEE /DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt FOR A FULL EXAMPLE OF THE SETTINGS / ASSETS CONFIGURATION (ESPECIALLY IF YOU MESS UP config.php, lol)
 
 // TYPOS LIKE MISSED COMMAS / MISSED QUOTES / ETC !!!!WILL BREAK THE APP!!!!, BE CAREFUL EDITING THIS CONFIG FILE
 

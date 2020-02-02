@@ -17,10 +17,10 @@ RewriteEngine on
 
   <IfModule mod_ssl.c>
   
-  # Normal server node
+  # Normal server node (Apache etc)
   RewriteCond %{HTTPS} off
   
-  # Load balancer node(s)
+  # Load balancer node(s) (NGINX etc)
   RewriteCond %{HTTP:X-Forwarded-Proto} !https
   
   RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]

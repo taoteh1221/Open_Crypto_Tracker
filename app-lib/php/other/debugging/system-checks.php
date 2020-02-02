@@ -81,10 +81,12 @@ $force_exit = 1;
 
 // IF WE ARE RUNNING THE INTERFACE, detect if we are running on a secure HTTPS (SSL) connection
 if ( $runtime_mode == 'ui' ) {
-
+	
+	// Apache / etc
 	if ( isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ) {
 	$is_https_secure = true;
 	}
+	// NGINX etc
 	elseif ( !empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' || !empty($_SERVER['HTTP_X_FORWARDED_SSL']) && $_SERVER['HTTP_X_FORWARDED_SSL'] == 'on' ) {
 	$is_https_secure = true;
 	}

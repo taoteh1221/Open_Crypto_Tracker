@@ -65,9 +65,9 @@ FEATURES
 
 -Options to add proxies for API requests / SMTP authentication for email sending / displaying system stats in the interface (uptime / load averages / temperature / free disk space / free system memory / portfolio cache size, if available on your device).
 
--Configuration checking, alerting, logging, and auto-correcting (where possible).
+-System / configuration checking, alerting, logging, and auto-correcting (where possible).
 
--Detailed error logging and debugging for in-app functions / configuration settings / networking features, to assist with troubleshooting, installation, and configuration of the app (includes any available system hardware / software stats).
+-Detailed error logging and debugging (with adjustable verbosity / debug modes) for in-app functions / configuration settings / networking features, to assist with troubleshooting, installation, and configuration of the app (includes any available system hardware / software stats).
 
 -Chart data backup archives and app error / debugging logs sent to your email.
 
@@ -75,7 +75,7 @@ FEATURES
 ################################################################################################################
 
 
-Just upload this app's files to your PHP-based web server (with an FTP client like FileZilla) and you should be all set, unless your host is a strict setup related to file writing permissions, in which case the 'cache' directory permissions should be set to '777' chmod on unix / linux systems (or 'readable / writable' on windows systems). The 'backups' directory permissions MAY also need to be set the same as the 'cache' directory permissions. Your web host must have CURL modules activated on your HTTP server. Most web hosting companies provide this "out-of-the-box" already. This app will detect whether or not CURL is setup on your website server. 
+Just upload this app's files to your PHP-based web server (with an FTP client like FileZilla) and you should be all set, unless your host is a strict setup related to file writing permissions, in which case the 'cache' directory permissions should be set to '777' chmod on unix / linux systems (or 'readable / writable' on windows systems). Your web host must have CURL modules activated on your HTTP server. Most web hosting companies provide this "out-of-the-box" already. This app will detect whether or not CURL is setup on your website server (and also alert you to any other missing required system components / configurations). 
 
 See below for additional details on setup, and see /DOCUMENTATION-ETC/HELP-FAQ.txt for tips / troubleshooting FAQs.
 
@@ -85,14 +85,14 @@ See below for additional details on setup, and see /DOCUMENTATION-ETC/HELP-FAQ.t
 
 Setting up a cron job for charts and price alerts by email / mobile phone text / Alexa / Google Home notifications (get notifications sent to you, even when your PC / Laptop is offline): 
 
-If you want to take advantage of cron job based features like charts, chart data backups, price alerts, daily or weekly error log emails / etc, then the file cron.php (located in the primary directory of this app) must be setup as a cron job on your website's web server. 
+If you want to take advantage of cron job based features like charts, chart data backups, price alerts, daily or weekly error log emails / etc, then the file cron.php (located in the primary directory of this app) must be setup as a cron job on your Raspberry Pi or website web server. 
 
-If you run the automated setup / install script for Raspberry Pi (affordable low power single board computer) devices on home / internal networks, automatic cron job setup is offered as an option during this process. If you are using a full online website host for hosting a TLD website domain name remotely, consult your web server host's documentation or help desk for their particular method of setting up a cron job. 
+If you run the automated setup / install script for Raspberry Pi (affordable low power single board computer) devices on home / internal networks, automatic cron job setup is offered as an option during this process. If you are using a full stack website host for hosting a TLD website domain name remotely, consult your web server host's documentation or help desk for their particular method of setting up a cron job. 
 
-Note that you should have the cron job run every 5, 10, 15, 20, or 30 minutes 24/7, based on how often you want alerts / any other cron based features to run. Setting up the cron job to run every 15 minutes is the recommended lowest time interval (if set any lower, the free exchange APIs may throttle / block your data requests temporarily on occasion for requesting data too frequently, which can negatively affect your alerts / charts). 
+Note that you should have the cron job run every 5, 10, 15, 20, or 30 minutes 24/7, based on how often you want chart data points / alerts / any other cron based features to run. Setting up the cron job to run every 15 minutes is the RECOMMENDED lowest time interval (if set any lower, the free exchange APIs may throttle / block your data requests temporarily on occasion for requesting data too frequently, which can negatively affect your alerts / charts). 
 
 
-Here is an example cron job command line for reference below (not including any cron parameters your host interface may require), to setup as the "command" within a cron job. Replace system paths in the example with the correct ones for your server (TIP - A very common path to PHP on a server is /usr/bin/php):
+Here is an example cron job command line for reference below (NOT including any cron parameters your host interface may require), to setup as the "command" within a cron job. Replace system paths in the example with the correct ones for your server (TIP - A very common path to PHP on a server is /usr/bin/php):
 
 /path/to/php -q /home/username/path/to/website/this_app/cron.php
 
@@ -108,7 +108,7 @@ If your system DOES NOT have /etc/cron.d/ on it, then NEARLY the same format (mi
 
 
 
-IMPORTANT CRON JOB NOTES: MAKE SURE YOU ONLY USE EITHER /etc/cron.d/, or 'crontab -e', NOT BOTH...ANY OLD DUPLICATE ENTRIES WILL RUN YOUR CRON JOB TOO OFTEN. If everything is setup properly and the cron job still does NOT run, your particular server may require the cron.php file permissions to be set as 'executable' ('755' chmod on unix / linux systems) to allow running it.
+IMPORTANT CRON JOB NOTES: MAKE SURE YOU ONLY USE EITHER /etc/cron.d/, or 'crontab -e', NOT BOTH...ANY OLD DUPLICATE CRONTAB ENTRIES WILL RUN YOUR CRON JOB TOO OFTEN. If everything is setup properly, and the cron job still does NOT run, your particular server may require the cron.php file permissions to be set as 'executable' ('755' chmod on unix / linux systems) to allow running it.
 
 
 ################################################################################################################
@@ -125,7 +125,8 @@ Support for trading pairs (contact me to request more): AUD / BOB / BRL / CAD / 
 
 Support for exchanges (contact me to request more): bigone / binance & binance_us / bit2c / bitbns / bitfinex & ethfinex / bitforex / bitflyer / bitlish / bitpanda / bitso / bitstamp  / bittrex & bittrex_global / braziliex / btcmarkets / btcturk / buyucoin / cex / coinbase / coss / cryptofresh / gateio / gemini / graviex / hitbtc / hotbit / huobi / idex / kraken / kucoin / lakebtc / livecoin / localbitcoins / okcoin / okex / poloniex / southxchange / tidebit / tradeogre / tradesatoshi / upbit / zebpay.
 
-Ethereum ICO subtoken support has been built in, but values are static ICO values in ETH.
+
+Ethereum ICO subtoken support (pre-exchange listing) has been built in, but values are static ICO values in ETH.
  
  
  
@@ -157,7 +158,7 @@ Ethereum ICO subtoken support has been built in, but values are static ICO value
       
  
     
- // SEE /DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt FOR A FULL EXAMPLE OF THE CONFIGURATION (ESPECIALLY IF YOU MESS UP config.php, lol)
+ // SEE /DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt FOR A FULL EXAMPLE OF THE SETTINGS / ASSETS CONFIGURATION (ESPECIALLY IF YOU MESS UP config.php, lol)
  
 
 

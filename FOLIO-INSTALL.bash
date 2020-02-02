@@ -764,11 +764,6 @@ select opt in $OPTIONS; do
         echo "$CRONJOB"
         echo " "
         
-        echo "IMPORTANT NOTE:"
-        echo "If everything is setup properly and the cron job still does NOT run,"
-        echo "your particular server may require the cron.php file permissions to be set"
-        echo "as 'executable' ('755' chmod on unix / linux systems) to allow running it."
-        
         CRON_SETUP=1
         
         break
