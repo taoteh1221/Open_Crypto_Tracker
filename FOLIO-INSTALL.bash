@@ -525,10 +525,10 @@ fi
 
 BASE_HTDOC="$(dirname $DOC_ROOT)"
 
-RECURSIVE_CHOWN="${SYS_USER}:$SYS_USER ${BASE_HTDOC}/*"
+RECURSIVE_CHOWN="-R ${SYS_USER}:$SYS_USER ${BASE_HTDOC}/*"
 
 #$RECURSIVE_CHOWN must be in double quotes to escape the asterisk at the end
-/bin/chown -R "$RECURSIVE_CHOWN"
+/bin/chown $RECURSIVE_CHOWN
 
 
 echo " "
