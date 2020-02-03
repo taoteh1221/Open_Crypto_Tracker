@@ -48,7 +48,7 @@
           }
 			if ( $app_config['mail_logs'] > 0 && trim($app_config['from_email']) != '' && trim($app_config['to_email']) != '' ) {
           ?>
-          	<p class='settings_sections'><b>Emailing logs</b> is <i>enabled</i> in the configuration file (sent out every <?=$app_config['mail_logs']?> days, log file(s) purged every <?=$app_config['purge_logs']?> days).
+          	<p class='settings_sections'><b>Emailing logs</b> is <i>enabled</i> in the configuration file (sent out every <?=$app_config['mail_logs']?> days, log files purged every <?=$app_config['purge_logs']?> days).
           	
           	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job on your web server</a>, or this feature will not work RELIABLY.</i> 
           	

@@ -7,7 +7,43 @@
 ?>
 
 <div class='update_assets_wrapper'>
+
+
+<!--  !START! RE-USED INFO BUBBLE DATA  -->
+<script>
+
+		var average_paid_notes = '<h5 align="center" class="yellow" style="position: relative; white-space: nowrap;">Calculating Average <?=strtoupper($app_config['btc_primary_currency_pairing'])?> Price Paid Per Token</h5>'
+			
+			
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="green_bright">Total <?=strtoupper($app_config['btc_primary_currency_pairing'])?> Paid For All Tokens</span> <span class="blue">&#247;</span> <span class="yellow">Total Tokens Purchased</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($app_config['btc_primary_currency_pairing'])?> Price Paid Per Token</span></p>'
+			
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">The RESULT of the above calculation <i>remains the same even AFTER you sell ANY amount, ONLY if you don\'t buy more between sells</i>. Everytime you buy more <i>after selling some</i>, re-calculate your Average <?=strtoupper($app_config['btc_primary_currency_pairing'])?> Price Paid Per Token with this formula:</p>'
+			
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="green_bright">Total <?=strtoupper($app_config['btc_primary_currency_pairing'])?> Paid For All Tokens</span> <span class="blue">-</span> <span class="red_bright">Total <?=strtoupper($app_config['btc_primary_currency_pairing'])?> Received From All Sold Tokens</span> <span class="blue">&#247;</span> <span class="yellow">Total Remaining Tokens Still Held</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($app_config['btc_primary_currency_pairing'])?> Price Paid Per Token</span></p>'
+			
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="yellow">PRO TIP:</span> <br /> When buying / selling, keep quick and dirty (yet clear) textual records of... <br />a) How much you bought / sold of what<br />b) What you paid / received in <?=strtoupper($app_config['btc_primary_currency_pairing'])?> value<br />c) What / where you traded <br />d) Backup to USB Stick / NAS / DropBox / GoogleDrive / OneDrive / AmazonBucket <br />e) Now you\'re ready for tax season, to create spreadsheets from this data <br /><span class="yellow">There is also an <i>open source / free</i> app called <a href="https://rotki.com" target="_blank">Rotki</a> that can help you <i>PRIVATELY</i> track your tax data.</span></p>'
+			
+			+'<p class="coin_info"><span class="yellow"> </span></p>';
+
 	
+			var leverage_trading_notes = '<h5 align="center" class="yellow" style="position: relative; white-space: nowrap;">Tracking Long / Short Margin Leverage Trades</h5>'
+			
+			
+			+'<p class="coin_info extra_margins red" style="white-space: normal; max-width: 600px; font-size: 13px;"><b>*Leverage trading is <u>EXTREMELY RISKY</u> (and even more so in crypto markets). Never put more than ~5% of your total investment worth into leverage trades, or you will <u>RISK LOSING EVERYTHING</u>!</b></p>'
+			
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Set the "Asset / Pairing @ Exchange" drop-down menus for the asset to any markets you prefer. It doesn\'t matter which ones you choose, as long as the price discovery closely matches the exchange where you are margin trading this asset.</p>'
+			
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Set the "Holdings" field to match your margin leverage deposit (example: buying 1 BTC @ 5x leverage would be 0.2 BTC in the "Holdings" field in this app). You\'ll also need to fill in the "Average Paid (per-token)" field with the average price paid in <?=strtoupper($app_config['btc_primary_currency_pairing'])?> per-token. Finally, set the "Margin Leverage" fields to match your leverage and whether you are long or short. When you are done, click "Save Updated Assets".</p>'
+			
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">To see your margin leverage stats after updating your portfolio, go to the bottom of the Portfolio page, where you\'ll find a stats section. Hovering over the "I" icon next to those summary stats will display additional stats per-asset. There is also an "I" icon in the far right table column (Subtotal) per-asset, which you can hover over for margin leverage stats too.</p>'
+			
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="yellow">*Current maximum margin leverage setting of <?=$app_config['margin_leverage_max']?>x can be adjusted in config.php.</span></p>'
+			
+			+'<p class="coin_info"><span class="yellow"> </span></p>';
+			
+</script>
+<!--  !END! RE-USED INFO BUBBLE DATA  -->
+				
 				
 	
 				<h4 style='display: inline;'>Update Assets</h4>
@@ -446,20 +482,6 @@
 		<img id='average_paid_notes_<?=$rand_id?>' src='templates/interface/media/images/info.png' alt='' width='30' border='0' style='position: relative; left: -5px;' /> 
 	 <script>
 	
-			var average_paid_notes = '<h5 align="center" class="yellow" style="position: relative; white-space: nowrap;">Calculating Average <?=strtoupper($app_config['btc_primary_currency_pairing'])?> Price Paid Per Token</h5>'
-			
-			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="green_bright">Total <?=strtoupper($app_config['btc_primary_currency_pairing'])?> Paid For All Tokens</span> <span class="blue">&#247;</span> <span class="yellow">Total Tokens Purchased</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($app_config['btc_primary_currency_pairing'])?> Price Paid Per Token</span></p>'
-			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">The RESULT of the above calculation <i>remains the same even AFTER you sell ANY amount, ONLY if you don\'t buy more between sells</i>. Everytime you buy more <i>after selling some</i>, re-calculate your Average <?=strtoupper($app_config['btc_primary_currency_pairing'])?> Price Paid Per Token with this formula:</p>'
-			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="green_bright">Total <?=strtoupper($app_config['btc_primary_currency_pairing'])?> Paid For All Tokens</span> <span class="blue">-</span> <span class="red_bright">Total <?=strtoupper($app_config['btc_primary_currency_pairing'])?> Received From All Sold Tokens</span> <span class="blue">&#247;</span> <span class="yellow">Total Remaining Tokens Still Held</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($app_config['btc_primary_currency_pairing'])?> Price Paid Per Token</span></p>'
-			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="yellow">PRO TIP:</span> <br /> When buying / selling, keep quick and dirty (yet clear) textual records of... <br />a) How much you bought / sold of what<br />b) What you paid / received in <?=strtoupper($app_config['btc_primary_currency_pairing'])?> value<br />c) What / where you traded <br />d) Backup to USB Stick / NAS / DropBox / GoogleDrive / OneDrive / AmazonBucket <br />e) Now you\'re ready for tax season, to create spreadsheets from this data <br /><span class="yellow">There is also an <i>open source / free</i> app called <a href="https://rotki.com" target="_blank">Rotki</a> that can help you <i>PRIVATELY</i> track your tax data.</span></p>'
-			
-			+'<p class="coin_info"><span class="yellow"> </span></p>';
-		
-		
 			$('#average_paid_notes_<?=$rand_id?>').balloon({
 			html: true,
 			position: "left",
@@ -530,22 +552,6 @@
 	     
 		<img id='leverage_trading_notes_<?=$rand_id?>' src='templates/interface/media/images/info.png' alt='' width='30' border='0' style='position: relative; left: -5px;' /> 
 	 <script>
-	
-			var leverage_trading_notes = '<h5 align="center" class="yellow" style="position: relative; white-space: nowrap;">Tracking Long / Short Margin Leverage Trades</h5>'
-			
-			
-			+'<p class="coin_info extra_margins red" style="white-space: normal; max-width: 600px; font-size: 13px;"><b>*Leverage trading is <u>EXTREMELY RISKY</u> (and even more so in crypto markets). Never put more than ~5% of your total investment worth into leverage trades, or you will <u>RISK LOSING EVERYTHING</u>!</b></p>'
-			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Set the "Asset / Pairing @ Exchange" drop-down menus for the asset to any markets you prefer. It doesn\'t matter which ones you choose, as long as the price discovery closely matches the exchange where you are margin trading this asset.</p>'
-			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Set the "Holdings" field to match your margin leverage deposit (example: buying 1 BTC @ 5x leverage would be 0.2 BTC in the "Holdings" field in this app). You\'ll also need to fill in the "Average Paid (per-token)" field with the average price paid in <?=strtoupper($app_config['btc_primary_currency_pairing'])?> per-token. Finally, set the "Margin Leverage" fields to match your leverage and whether you are long or short. When you are done, click "Save Updated Assets".</p>'
-			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">To see your margin leverage stats after updating your portfolio, go to the bottom of the Portfolio page, where you\'ll find a stats section. Hovering over the "I" icon next to those summary stats will display additional stats per-asset. There is also an "I" icon in the far right table column (Subtotal) per-asset, which you can hover over for margin leverage stats too.</p>'
-			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="yellow">*Current maximum margin leverage setting of <?=$app_config['margin_leverage_max']?>x can be adjusted in config.php.</span></p>'
-			
-			+'<p class="coin_info"><span class="yellow"> </span></p>';
-		
 		
 			$('#leverage_trading_notes_<?=$rand_id?>').balloon({
 			html: true,
