@@ -112,7 +112,7 @@ $file_owner_info = posix_getpwuid(fileowner($file));
 		$did_chmod = chmod($file, $chmod_setting);
 		
 			if ( !$did_chmod ) {
-			app_logging('other_error', 'Chmod failed for file "' . $file . '" (check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")', 'chmod_setting: ' . $chmod_setting . '; current_runtime_user: ' . $current_runtime_user . '; file_owner: ' . $file_owner_info['name'] . ';');
+			app_logging('system_error', 'Chmod failed for file "' . $file . '" (check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")', 'chmod_setting: ' . $chmod_setting . '; current_runtime_user: ' . $current_runtime_user . '; file_owner: ' . $file_owner_info['name'] . ';');
 			}
 		
 		umask($oldmask);
@@ -133,7 +133,7 @@ $file_owner_info = posix_getpwuid(fileowner($file));
 	
 	// Log any error
 	if ( $result == false ) {
-	app_logging('other_error', 'File write failed for file "' . $file . '" (check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")');
+	app_logging('system_error', 'File write failed for file "' . $file . '" (check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")');
 	}
 	
 	
@@ -155,7 +155,7 @@ $file_owner_info = posix_getpwuid(fileowner($file));
 	$did_chmod = chmod($file, $chmod_setting);
 		
 		if ( !$did_chmod ) {
-		app_logging('other_error', 'Chmod failed for file "' . $file . '" (check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")', 'chmod_setting: ' . $chmod_setting . '; current_runtime_user: ' . $current_runtime_user . '; file_owner: ' . $file_owner_info['name'] . ';');
+		app_logging('system_error', 'Chmod failed for file "' . $file . '" (check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")', 'chmod_setting: ' . $chmod_setting . '; current_runtime_user: ' . $current_runtime_user . '; file_owner: ' . $file_owner_info['name'] . ';');
 		}
 		
 	umask($oldmask);
@@ -218,7 +218,7 @@ global $app_config, $base_dir, $base_url;
 				
 				}
 				else {
-				app_logging('other_error', 'Backup zip archive creation failed with ' . $backup_results);
+				app_logging('system_error', 'Backup zip archive creation failed with ' . $backup_results);
 				}
 				
 		
@@ -244,13 +244,13 @@ global $app_config, $base_dir, $logs_array;
 	}
 
 // Combine all debugging logged
-$debugging_logs .= strip_tags($logs_array['api_data_debugging']); // Remove any HTML formatting used in UI alerts
+$debugging_logs .= strip_tags($logs_array['system_debugging']); // Remove any HTML formatting used in UI alerts
 
 $debugging_logs .= strip_tags($logs_array['config_debugging']); // Remove any HTML formatting used in UI alerts
 
 $debugging_logs .= strip_tags($logs_array['security_debugging']); // Remove any HTML formatting used in UI alerts
 
-$debugging_logs .= strip_tags($logs_array['cmc_config_debugging']); // Remove any HTML formatting used in UI alerts
+$debugging_logs .= strip_tags($logs_array['api_debugging']); // Remove any HTML formatting used in UI alerts
 
 $debugging_logs .= strip_tags($logs_array['other_debugging']); // Remove any HTML formatting used in UI alerts
 
@@ -306,13 +306,13 @@ function error_logs() {
 global $app_config, $base_dir, $logs_array;
 
 // Combine all errors logged
-$error_logs .= strip_tags($logs_array['api_data_error']); // Remove any HTML formatting used in UI alerts
+$error_logs .= strip_tags($logs_array['system_error']); // Remove any HTML formatting used in UI alerts
 
 $error_logs .= strip_tags($logs_array['config_error']); // Remove any HTML formatting used in UI alerts
 
 $error_logs .= strip_tags($logs_array['security_error']); // Remove any HTML formatting used in UI alerts
 
-$error_logs .= strip_tags($logs_array['cmc_config_error']); // Remove any HTML formatting used in UI alerts
+$error_logs .= strip_tags($logs_array['api_error']); // Remove any HTML formatting used in UI alerts
 
 $error_logs .= strip_tags($logs_array['other_error']); // Remove any HTML formatting used in UI alerts
 
@@ -457,7 +457,7 @@ $port = $ip_port[1];
 
 	// If no ip/port detected in data string, cancel and continue runtime
 	if ( !$ip || !$port ) {
-	app_logging('api_data_error', 'proxy '.$problem_proxy.' is not a valid format');
+	app_logging('api_error', 'proxy '.$problem_proxy.' is not a valid format');
 	return false;
 	}
 
@@ -524,7 +524,7 @@ $cache_filename = preg_replace("/:/", "_", $cache_filename);
 		
 		// Log to error logs
 		if ( $misconfigured == 1 ) {
-		app_logging('api_data_error', 'proxy '.$problem_proxy.' connection failed', $cached_logs);
+		app_logging('api_error', 'proxy '.$problem_proxy.' connection failed', $cached_logs);
 		}
 	
 
@@ -838,7 +838,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 			   		
 			   		}
 			   		else {
-			   		app_logging( 'other_error', 'Email-to-mobile-text sending failed', 'to_text_email: ' . text_email($app_config['to_mobile_text']) . '; from: ' . $app_config['from_email'] . '; subject: ' . $textemail_array['subject'] . '; function_response: ' . $result . ';');
+			   		app_logging( 'system_error', 'Email-to-mobile-text sending failed', 'to_text_email: ' . text_email($app_config['to_mobile_text']) . '; from: ' . $app_config['from_email'] . '; subject: ' . $textemail_array['subject'] . '; function_response: ' . $result . ';');
 			   		}
 					
 					
@@ -885,7 +885,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 			   		
 			   		}
 			   		else {
-			   		app_logging( 'other_error', 'Email sending failed', 'to_email: ' . $app_config['to_email'] . '; from: ' . $app_config['from_email'] . '; subject: ' . $email_array['subject'] . '; function_response: ' . $result . ';');
+			   		app_logging( 'system_error', 'Email sending failed', 'to_email: ' . $app_config['to_email'] . '; from: ' . $app_config['from_email'] . '; subject: ' . $email_array['subject'] . '; function_response: ' . $result . ';');
 			   		}
 			   		
 					
@@ -942,7 +942,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 			$did_chmod = chmod($queued_messages_processing_lock_file, $chmod_setting);
 		
 				if ( !$did_chmod ) {
-				app_logging('other_error', 'Chmod failed for file "' . $queued_messages_processing_lock_file . '" (check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")', 'chmod_setting: ' . $chmod_setting . '; current_runtime_user: ' . $current_runtime_user . '; file_owner: ' . $file_owner_info['name'] . ';');
+				app_logging('system_error', 'Chmod failed for file "' . $queued_messages_processing_lock_file . '" (check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")', 'chmod_setting: ' . $chmod_setting . '; current_runtime_user: ' . $current_runtime_user . '; file_owner: ' . $file_owner_info['name'] . ';');
 				}
 		
 			umask($oldmask);
@@ -1049,12 +1049,12 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 	
 		// If this is an API service that requires multiple calls (for each market), 
 		// and a request to it has been made consecutively, we throttle it to avoid being blacklisted
-		$endpoint_tld = get_tld($api_endpoint);
+		$endpoint_tld_or_ip = get_tld_or_ip($api_endpoint);
 		
 		// Throttled endpoints
-		if ( in_array($endpoint_tld, $app_config['limited_apis']) ) {
+		if ( in_array($endpoint_tld_or_ip, $app_config['limited_apis']) ) {
 		
-		$tld_session_prefix = preg_replace("/\./i", "_", $endpoint_tld);
+		$tld_session_prefix = preg_replace("/\./i", "_", $endpoint_tld_or_ip);
 		
 			if ( !$limited_api_calls[$tld_session_prefix . '_calls'] ) {
 			$limited_api_calls[$tld_session_prefix . '_calls'] = 1;
@@ -1085,7 +1085,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 
 			// If no ip/port detected in data string, cancel and continue runtime
 			if ( !$ip || !$port ) {
-			app_logging('api_data_error', 'proxy '.$current_proxy.' is not a valid format');
+			app_logging('api_error', 'proxy '.$current_proxy.' is not a valid format');
 			return false;
 			}
 
@@ -1183,7 +1183,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		if ( !$data && $is_self_security_test !=1 ) {
 		
 		// LOG-SAFE VERSION (no post data with API keys etc)
-		app_logging( 'api_data_error', 'connection failed for ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint request at ' . $request ), 'request attempt from: server (local timeout setting ' . $app_config['api_timeout'] . ' seconds); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';' );
+		app_logging( 'api_error', 'connection failed for ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint request at ' . $request ), 'request attempt from: server (local timeout setting ' . $app_config['api_timeout'] . ' seconds); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';' );
 		
 			if ( sizeof($app_config['proxy_list']) > 0 && $current_proxy != '' && $mode != 'proxy-check' ) { // Avoid infinite loops doing proxy checks
 
@@ -1196,9 +1196,8 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		
 		}
 		// Log this latest live data response, 
-		// ONLY IF WE DETECT AN $endpoint_tld, AND TTL IS !NOT! ZERO (TTL==0 usually means too many unique requests that would bloat the cache)
-		// AND ONLY IF THIS IS #NOT# A SELF SECURITY TEST
-		elseif ( $endpoint_tld != '' && $ttl != 0 && $is_self_security_test !=1 ) {
+		// ONLY IF WE DETECT AN $endpoint_tld_or_ip, AND TTL IS !NOT! ZERO (TTL==0 usually means too many unique requests that would bloat the cache)
+		elseif ( $endpoint_tld_or_ip != '' && $ttl != 0 ) {
 		
 		
 			// If response seems to contain an error message
@@ -1208,18 +1207,18 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 				// ATTEMPT to weed out false positives before logging as an error
 				// Needed for kraken, coinmarketcap
 				// https://www.php.net/manual/en/regexp.reference.meta.php
-				if ( $endpoint_tld == 'kraken.com' && preg_match("/\"error\":\[\],/i", $data) 
-				|| $endpoint_tld == 'coinmarketcap.com' && preg_match("/\"error_code\": 0,/i", $data) ) {
+				if ( $endpoint_tld_or_ip == 'kraken.com' && preg_match("/\"error\":\[\],/i", $data) 
+				|| $endpoint_tld_or_ip == 'coinmarketcap.com' && preg_match("/\"error_code\": 0,/i", $data) ) {
 				$false_positive = 1;
 				}
 				
 				
 				// If no false positive detected
 				if ( !$false_positive ) {
-				$error_response_log = '/cache/logs/errors/api/error-response-'.preg_replace("/\./", "_", $endpoint_tld).'-'.$hash_check.'.log';
+				$error_response_log = '/cache/logs/errors/api/error-response-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-'.$hash_check.'.log';
 			
 				// LOG-SAFE VERSION (no post data with API keys etc)
-				app_logging( 'api_data_error', 'POSSIBLE error response received for ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint request at ' . $request ), 'request attempt from: server (local timeout setting ' . $app_config['api_timeout'] . ' seconds); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; log_file: ' . $error_response_log . '; btc_primary_currency_pairing: ' . $app_config['btc_primary_currency_pairing'] . '; btc_primary_exchange: ' . $app_config['btc_primary_exchange'] . '; btc_primary_currency_value: ' . $btc_primary_currency_value . '; hash_check: ' . $hash_check . ';' );
+				app_logging( 'api_error', 'POSSIBLE error response received for ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint request at ' . $request ), 'request attempt from: server (local timeout setting ' . $app_config['api_timeout'] . ' seconds); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; log_file: ' . $error_response_log . '; btc_primary_currency_pairing: ' . $app_config['btc_primary_currency_pairing'] . '; btc_primary_exchange: ' . $app_config['btc_primary_exchange'] . '; btc_primary_currency_value: ' . $btc_primary_currency_value . '; hash_check: ' . $hash_check . ';' );
 			
 				// Log this error response from this data request
 				store_file_contents($base_dir . $error_response_log, $data);
@@ -1234,10 +1233,10 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 			if ( $app_config['debug_mode'] == 'all' || $app_config['debug_mode'] == 'telemetry' || $app_config['debug_mode'] == 'api_live_only' ) {
 				
 			// LOG-SAFE VERSION (no post data with API keys etc)
-			app_logging( 'api_data_debugging', 'connection request for ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint at ' . $request ), 'request from: server (local timeout setting ' . $app_config['api_timeout'] . ' seconds); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';' );
+			app_logging( 'api_debugging', 'connection request for ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint at ' . $request ), 'request from: server (local timeout setting ' . $app_config['api_timeout'] . ' seconds); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';' );
 			
 			// Log this as the latest response from this data request
-			store_file_contents($base_dir . '/cache/logs/debugging/api/last-response-'.preg_replace("/\./", "_", $endpoint_tld).'-'.$hash_check.'.log', $data);
+			store_file_contents($base_dir . '/cache/logs/debugging/api/last-response-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-'.$hash_check.'.log', $data);
 			
 			}
 			

@@ -38,7 +38,7 @@ if ( $runtime_mode == 'ui' ) {
 		$supported_exchange_list = rtrim($supported_exchange_list,'/');
 		$supported_exchange_list = trim($supported_exchange_list);
 	
-	app_logging('other_debugging', 'Bitcoin markets configuration information', 'supported_primary_currency_list: ' . $supported_primary_currency_list . '; supported_exchange_list: ' . $supported_exchange_list . ';' );
+	app_logging('config_debugging', 'Bitcoin markets configuration information', 'supported_primary_currency_list: ' . $supported_primary_currency_list . '; supported_exchange_list: ' . $supported_exchange_list . ';' );
 	
 	}
 

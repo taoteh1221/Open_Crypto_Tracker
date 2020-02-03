@@ -247,7 +247,7 @@ global $app_config, $coinmarketcap_currencies, $cap_data_force_usd, $cmc_notes;
 
 	if ( trim($app_config['coinmarketcapcom_api_key']) == null ) { 
 	
-	app_logging('cmc_config_error', '"coinmarketcapcom_api_key" is not configured in config.php', false, false, true);
+	app_logging('config_error', '"coinmarketcapcom_api_key" is not configured in config.php', false, false, true);
 	
 	return false;
 	

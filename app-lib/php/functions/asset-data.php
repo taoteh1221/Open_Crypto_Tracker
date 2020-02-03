@@ -632,7 +632,7 @@ $asset_market_data = asset_market_data($asset, $exchange, $app_config['portfolio
 	
 	// Return false if we have no $default_btc_primary_currency_value
 	if ( !isset($default_btc_primary_currency_value) || $default_btc_primary_currency_value == 0 ) {
-	app_logging( 'other_error', 'asset_charts_and_alerts() - No Bitcoin '.strtoupper($default_btc_primary_currency_pairing).' value set', $asset_data . ': ' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ';' );
+	app_logging('other_error', 'asset_charts_and_alerts() - No Bitcoin '.strtoupper($default_btc_primary_currency_pairing).' value set', $asset_data . ': ' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ';' );
 	$set_return = 1;
 	}
 	
@@ -641,7 +641,7 @@ $asset_market_data = asset_market_data($asset, $exchange, $app_config['portfolio
 	// Continue
 	}
 	else {
-	app_logging( 'other_error', 'asset_charts_and_alerts() - No asset '.strtoupper($default_btc_primary_currency_pairing).' value set', $asset_data . ': ' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . '; pairing_id: ' . $app_config['portfolio_assets'][$asset]['market_pairing'][$pairing][$exchange] . ';' );
+	app_logging('other_error', 'asset_charts_and_alerts() - No asset '.strtoupper($default_btc_primary_currency_pairing).' value set', $asset_data . ': ' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . '; pairing_id: ' . $app_config['portfolio_assets'][$asset]['market_pairing'][$pairing][$exchange] . ';' );
 	$set_return = 1;
 	}
 	

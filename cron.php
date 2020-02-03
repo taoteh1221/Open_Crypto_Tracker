@@ -49,7 +49,7 @@ $mode = $value[2];
 $result = asset_charts_and_alerts($key, $exchange, $pairing, $mode);
 
 	if ( $result != true ) {
-	app_logging( 'other_error', 'asset_charts_and_alerts() update failure', $key . ' (' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ')' );
+	app_logging('other_error', 'asset_charts_and_alerts() update failure', $key . ' (' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ')' );
 	}
 
 }
@@ -180,10 +180,10 @@ if ( $app_config['debug_mode'] == 'all' || $app_config['debug_mode'] == 'telemet
 	}
 			
 // Log system stats
-app_logging('other_debugging', 'Stats for hardware / software', $system_telemetry);
+app_logging('system_debugging', 'Stats for hardware / software', $system_telemetry);
 			
 // Log runtime stats
-app_logging('other_debugging', 'Stats for '.$runtime_mode.' runtime', $runtime_mode.'_runtime: ' . $total_runtime . ' seconds');
+app_logging('system_debugging', 'Stats for '.$runtime_mode.' runtime', $runtime_mode.'_runtime: ' . $total_runtime . ' seconds');
 
 }
 

@@ -2457,7 +2457,11 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Optimizations
 
+-Minor bug fixes
+
 -Updated documentation 
+
+-Code / semantics cleanup
 
 -Bug fix for auto-install script dynamically setting htdocs permissions
 

@@ -653,7 +653,7 @@ $app_config['limited_apis'] = array(
 
 
 
-// TLD-extensions-only (Top Level Domain extensions only, supported in the get_tld() function, which removes subdomains for tld checks)
+// TLD-extensions-only (Top Level Domain extensions only, supported in the get_tld_or_ip() function, which removes subdomains for tld checks)
 // IF YOU ADD A NEW API, !MAKE SURE IT'S DOMAIN EXTENSION EXISTS HERE!
 // (NO LEADING DOTS, !MUST BE LOWERCASE!)
 $app_config['top_level_domain_map'] = array(

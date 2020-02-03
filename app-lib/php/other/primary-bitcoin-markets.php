@@ -19,10 +19,10 @@ $default_btc_primary_currency_value = asset_market_data('BTC', $default_btc_prim
 
 // Log any Bitcoin market errors
 if ( !$app_config['portfolio_assets']['BTC']['market_pairing'][$app_config['btc_primary_currency_pairing']] ) {
-app_logging('other_error', 'init.php btc_primary_currency_pairing variable not properly set', 'btc_primary_currency_pairing: ' . $app_config['btc_primary_currency_pairing'] . ';' );
+app_logging('config_error', 'init.php btc_primary_currency_pairing variable not properly set', 'btc_primary_currency_pairing: ' . $app_config['btc_primary_currency_pairing'] . ';' );
 }
 elseif ( !$app_config['portfolio_assets']['BTC']['market_pairing'][$app_config['btc_primary_currency_pairing']][$app_config['btc_primary_exchange']] ) {
-app_logging('other_error', 'init.php btc_primary_exchange variable not properly set', 'btc_primary_exchange: ' . $app_config['btc_primary_exchange'] . ';' );
+app_logging('config_error', 'init.php btc_primary_exchange variable not properly set', 'btc_primary_exchange: ' . $app_config['btc_primary_exchange'] . ';' );
 }
 
 if ( !isset($btc_primary_currency_value) || $btc_primary_currency_value == 0 ) {
@@ -32,10 +32,10 @@ app_logging('other_error', 'init.php Bitcoin primary currency market value not p
 
 // Log any charts/alerts Bitcoin market errors
 if ( !$app_config['portfolio_assets']['BTC']['market_pairing'][$default_btc_primary_currency_pairing] ) {
-app_logging('other_error', 'init.php Charts / alerts btc_primary_currency_pairing variable not properly set', 'btc_primary_currency_pairing: ' . $default_btc_primary_currency_pairing . ';' );
+app_logging('config_error', 'init.php Charts / alerts btc_primary_currency_pairing variable not properly set', 'btc_primary_currency_pairing: ' . $default_btc_primary_currency_pairing . ';' );
 }
 elseif ( !$app_config['portfolio_assets']['BTC']['market_pairing'][$default_btc_primary_currency_pairing][$default_btc_primary_exchange] ) {
-app_logging('other_error', 'init.php Charts / alerts btc_primary_exchange variable not properly set', 'btc_primary_exchange: ' . $default_btc_primary_exchange . ';' );
+app_logging('config_error', 'init.php Charts / alerts btc_primary_exchange variable not properly set', 'btc_primary_exchange: ' . $default_btc_primary_exchange . ';' );
 }
 
 if ( !isset($default_btc_primary_currency_value) || $default_btc_primary_currency_value == 0 ) {

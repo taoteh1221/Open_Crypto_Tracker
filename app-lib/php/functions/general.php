@@ -9,6 +9,27 @@
 ////////////////////////////////////////////////////////
 
 
+function test_ipv4($str) {
+$ret = filter_var($str, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
+return $ret;
+}
+
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function test_ipv6($str) {
+$ret = filter_var($str, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6);
+return $ret;
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
 function directory_size($dir) {
 
 $size = 0;
@@ -267,11 +288,17 @@ $network_name = trim( strtolower($string[1]) ); // Force lowercase lookups for r
 
 
 // Return the TLD only (no subdomain)
-function get_tld($url) {
+function get_tld_or_ip($url) {
 
 global $app_config;
 
 $urlData = parse_url($url);
+	
+	// If this is an ip address, then we can return that as the result now
+	if ( test_ipv4($urlData['host']) != false || test_ipv6($urlData['host']) != false ) {
+	return $urlData['host'];
+	}
+
 $hostData = explode('.', $urlData['host']);
 $hostData = array_reverse($hostData);
 
@@ -507,7 +534,7 @@ function pepper_hashed_password($password) {
 global $password_pepper;
 
 	if ( !$password_pepper ) {
-	app_logging('other_error', '$password_pepper not set properly');
+	app_logging('config_error', '$password_pepper not set properly');
 	return false;
 	}
 	else {
@@ -515,7 +542,7 @@ global $password_pepper;
 	$password_pepper_hashed = hash_hmac("sha256", $password, $password_pepper);
 	
 		if ( $password_pepper_hashed == false ) {
-		app_logging('other_error', 'hash_hmac() returned false in the pepper_hashed_password() function');
+		app_logging('config_error', 'hash_hmac() returned false in the pepper_hashed_password() function');
 		return false;
 		}
 		else {
@@ -536,7 +563,7 @@ function check_pepper_hashed_password($input_password, $stored_hashed_password) 
 global $password_pepper;
 
 	if ( !$password_pepper ) {
-	app_logging('other_error', '$password_pepper not set properly');
+	app_logging('config_error', '$password_pepper not set properly');
 	return false;
 	}
 	else {
@@ -544,7 +571,7 @@ global $password_pepper;
 	$input_password_pepper_hashed = hash_hmac("sha256", $input_password, $password_pepper);
 	
 		if ( $password_pepper_hashed == false ) {
-		app_logging('other_error', 'hash_hmac() returned false in the check_pepper_hashed_password() function');
+		app_logging('config_error', 'hash_hmac() returned false in the check_pepper_hashed_password() function');
 		return false;
 		}
 		else {
@@ -704,14 +731,14 @@ function delete_old_files($directory_data, $days, $ext) {
           $result = unlink($file);
           
           	if ( $result == false ) {
-          	app_logging('other_error', 'File deletion failed for file "' . $file . '" (check permissions for "' . basename($file) . '")');
+          	app_logging('system_error', 'File deletion failed for file "' . $file . '" (check permissions for "' . basename($file) . '")');
           	}
           
           }
           
         }
         else {
-        app_logging('other_error', 'File deletion failed, file not found: "' . $file . '"');
+        app_logging('system_error', 'File deletion failed, file not found: "' . $file . '"');
         }
         
       }

@@ -7,28 +7,36 @@
 
 
 	foreach ( $logs_array['cache_error'] as $error ) {
-	$other_error_logs .= $error;
+	$bundle_error_logs .= $error;
 	}
 	
-	$other_error_logs .= $logs_array['security_error'];
+	$bundle_error_logs .= $logs_array['system_error'];
 	
-	$other_error_logs .= $logs_array['cmc_config_error'];
+	$bundle_error_logs .= $logs_array['config_error'];
 	
-	$other_error_logs .= $logs_array['other_error'];
+	$bundle_error_logs .= $logs_array['security_error'];
+	
+	$bundle_error_logs .= $logs_array['api_error'];
+	
+	$bundle_error_logs .= $logs_array['other_error'];
 	
 	
 	if ( $app_config['debug_mode'] != 'off' ) {
 	
 	
 		foreach ( $logs_array['cache_debugging'] as $error ) {
-		$other_error_logs .= $error;
+		$bundle_error_logs .= $error;
 		}
-		
-		$other_error_logs .= $logs_array['security_debugging'];
-		
-		$other_error_logs .= $logs_array['cmc_config_debugging'];
-		
-		$other_error_logs .= $logs_array['other_debugging'];
+	
+	$bundle_error_logs .= $logs_array['system_debugging'];
+	
+	$bundle_error_logs .= $logs_array['config_debugging'];
+	
+	$bundle_error_logs .= $logs_array['security_debugging'];
+	
+	$bundle_error_logs .= $logs_array['api_debugging'];
+	
+	$bundle_error_logs .= $logs_array['other_debugging'];
 		
 	
 	}
@@ -36,7 +44,7 @@
 
 ?>
             	
-    <div id="api_error_alert"><?php echo $logs_array['config_error'] . $logs_array['api_data_error'] . $other_error_logs . $logs_array['cmc_error']; ?></div>
+    <div id="api_error_alert"><?=$bundle_error_logs?></div>
             	
     <p align='center'><a href='https://dfd-cryptocoin-values.sourceforge.io/' target='_blank' title='Download the latest version here.'>Latest Releases (running v<?=$app_version?>)</a>
     
@@ -97,13 +105,13 @@
 			}
 			
 		// Log system stats
-		app_logging('other_debugging', 'Stats for hardware / software', $system_telemetry);
+		app_logging('system_debugging', 'Stats for hardware / software', $system_telemetry);
 			
 		// Log user agent
-		app_logging('other_debugging', 'User agent', 'user_agent: "' . $_SERVER['HTTP_USER_AGENT'] . '"' );
+		app_logging('system_debugging', 'User agent', 'user_agent: "' . $_SERVER['HTTP_USER_AGENT'] . '"' );
 			
 		// Log runtime stats
-		app_logging('other_debugging', 'Stats for '.$runtime_mode.' runtime', $runtime_mode.'_runtime: ' . $total_runtime . ' seconds');
+		app_logging('system_debugging', 'Stats for '.$runtime_mode.' runtime', $runtime_mode.'_runtime: ' . $total_runtime . ' seconds');
 		
 		}
 		

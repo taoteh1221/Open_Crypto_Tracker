@@ -46,7 +46,7 @@ $color_array = array(
 
 
 // Sort array keys by lowest numeric value to highest
-asort($chart_data);
+//asort($chart_data);
 
 //var_dump($chart_data); // DEBUGGING ONLY
 
@@ -61,9 +61,15 @@ $check_chart_value = number_to_string( delimited_string_sample($chart_value, ','
 	if ( $check_chart_value > 0.00000 && $check_chart_value <= $app_config['system_stats_first_chart_highest_value'] ) {
 	$num_in_first_chart = $num_in_first_chart + 1;
 	}
+	
+$sorted_by_last_chart_data['key_sort_' . preg_replace("/\./", "_", $check_chart_value)] = array($chart_key => $chart_value);
 
 }
 
+
+// Sort array keys by lowest numeric value to highest 
+// (newest/last chart sensors data sorts lowest value to highest, for populating the 2 shared charts)
+ksort($sorted_by_last_chart_data);
 
 
 // Render chart data
@@ -71,41 +77,45 @@ if ( $key == 1 ) {
 	
 	$loop = 1;
 	$counted = 0;
-	foreach ( $chart_data as $chart_key => $chart_value ) {
+	foreach ( $sorted_by_last_chart_data as $chart_array ) {
 		
-		if ( $counted < $num_in_first_chart && $chart_key != 'time' ) {
-		$counted = $counted + 1;
+		foreach ( $chart_array as $chart_key => $chart_value ) {
 		
-			// If there are no data retrieval errors
-			// WE STILL COUNT THIS, SO LET COUNT RUN ABOVE
-			if ( !preg_match("/NO_DATA/i", $chart_value, $matches) ) {
-				
-			?>
-var <?=$chart_key?> = [<?=$chart_value?>];
-			<?php
-		
-			$chart_config = "{
-          text: '".snake_case_to_name($chart_key)."',
-          values: ".$chart_key.",
-          lineColor: '".$color_array[$counted]."',
-    		 marker: {
-      	 backgroundColor: '".$color_array[$counted]."',
-      	 borderColor: '".$color_array[$counted]."'
-    		 },
-          legendItem: {
-    	      fontColor: 'white',
-      	   fontSize: 20,
-      	   fontFamily: 'Open Sans',
-            backgroundColor: '".$color_array[$counted]."',
-            borderRadius: '2px'
-          }
-        },
-        " . $chart_config;
-        
-        	}
-        
-		}
+			if ( $counted < $num_in_first_chart && $chart_key != 'time' ) {
+			$counted = $counted + 1;
+			
+				// If there are no data retrieval errors
+				// WE STILL COUNT THIS, SO LET COUNT RUN ABOVE
+				if ( !preg_match("/NO_DATA/i", $chart_value, $matches) ) {
+					
+				?>
+	var <?=$chart_key?> = [<?=$chart_value?>];
+				<?php
+			
+				$chart_config = "{
+			  text: '".snake_case_to_name($chart_key)."',
+			  values: ".$chart_key.",
+			  lineColor: '".$color_array[$counted]."',
+				 marker: {
+			 backgroundColor: '".$color_array[$counted]."',
+			 borderColor: '".$color_array[$counted]."'
+				 },
+			  legendItem: {
+				  fontColor: 'white',
+			   fontSize: 20,
+			   fontFamily: 'Open Sans',
+				backgroundColor: '".$color_array[$counted]."',
+				borderRadius: '2px'
+			  }
+			},
+			" . $chart_config;
+			
+				}
+			
+			}
 	
+		}
+		
    $loop = $loop + 1;
 	}
 
@@ -114,44 +124,48 @@ elseif ( $key == 2 ) {
 	
 	$loop = 1;
 	$counted = 0;
-	foreach ( $chart_data as $chart_key => $chart_value ) {
+	foreach ( $sorted_by_last_chart_data as $chart_array ) {
 		
-		if ( $counted >= $num_in_first_chart && $chart_key != 'time' ) {
-		$counted = $counted + 1;
+		foreach ( $chart_array as $chart_key => $chart_value ) {
 		
-			// If there are no data retrieval errors
-			// WE STILL COUNT THIS, SO LET COUNT RUN ABOVE
-			if ( !preg_match("/NO_DATA/i", $chart_value, $matches) ) {
+			if ( $counted >= $num_in_first_chart && $chart_key != 'time' ) {
+			$counted = $counted + 1;
+			
+				// If there are no data retrieval errors
+				// WE STILL COUNT THIS, SO LET COUNT RUN ABOVE
+				if ( !preg_match("/NO_DATA/i", $chart_value, $matches) ) {
+					
+			?>
+	var <?=$chart_key?> = [<?=$chart_value?>];
+			<?php
+			
+			$chart_config = "{
+			  text: '".snake_case_to_name($chart_key)."',
+			  values: ".$chart_key.",
+			  lineColor: '".$color_array[$counted]."',
+				 marker: {
+			 backgroundColor: '".$color_array[$counted]."',
+			 borderColor: '".$color_array[$counted]."'
+				 },
+			  legendItem: {
+				  fontColor: 'white',
+			   fontSize: 20,
+			   fontFamily: 'Open Sans',
+				backgroundColor: '".$color_array[$counted]."',
+				borderRadius: '2px'
+			  }
+			},
+			" . $chart_config;
 				
-		?>
-var <?=$chart_key?> = [<?=$chart_value?>];
-		<?php
-		
-		$chart_config = "{
-          text: '".snake_case_to_name($chart_key)."',
-          values: ".$chart_key.",
-          lineColor: '".$color_array[$counted]."',
-    		 marker: {
-      	 backgroundColor: '".$color_array[$counted]."',
-      	 borderColor: '".$color_array[$counted]."'
-    		 },
-          legendItem: {
-    	      fontColor: 'white',
-      	   fontSize: 20,
-      	   fontFamily: 'Open Sans',
-            backgroundColor: '".$color_array[$counted]."',
-            borderRadius: '2px'
-          }
-        },
-        " . $chart_config;
-        	
-        	}
-      
-		}
-		elseif ( $chart_key != 'time' ) {
-		$counted = $counted + 1;
-		}
+				}
+		  
+			}
+			elseif ( $chart_key != 'time' ) {
+			$counted = $counted + 1;
+			}
 	
+		}
+		
    $loop = $loop + 1;
 	}
 

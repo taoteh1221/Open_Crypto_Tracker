@@ -29,7 +29,7 @@ foreach( $secured_cache_files as $secured_file ) {
 		$is_cached_app_config = 1;
 		}
 		elseif ( $app_config_check != md5(serialize($original_app_config)) ) {
-		app_logging('other_error', 'Cached app_config out of date (default app_config settings updated), deleting cached app_config (refresh will happen automatically)');
+		app_logging('config_error', 'Cached app_config out of date (default app_config settings updated), deleting cached app_config (refresh will happen automatically)');
 		unlink($base_dir . '/cache/secured/' . $secured_file);
 		$refresh_cached_app_config = 1;
 		}
@@ -95,7 +95,7 @@ $secure_128bit_hash = random_hash(16); // 128-bit (16-byte) hash converted to he
 	$store_cached_app_config = json_encode($app_config, JSON_PRETTY_PRINT);
 	
 		if ( $store_cached_app_config == false ) {
-		app_logging('other_error', 'app_config data could not be saved (to secured cache storage) in json format');
+		app_logging('config_error', 'app_config data could not be saved (to secured cache storage) in json format');
 		}
 		else {
 		store_file_contents($base_dir . '/cache/secured/app_config_'.$secure_128bit_hash.'.dat',$store_cached_app_config);
