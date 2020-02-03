@@ -1144,6 +1144,8 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 			$scan_base_url = ( $regex_base_url != '' ? $regex_base_url : random_hash(8) );
 			
 			if ( isset($scan_base_url) && preg_match("/".$scan_base_url."/i", $api_endpoint) ) {
+			
+			$is_self_security_test = 1;
 				
 				// If we have password protection on in the app
 				if ( $htaccess_username != '' && $htaccess_password != '' ) {
@@ -1177,8 +1179,8 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		
 		
 		
-		// No data error logging
-		if ( !$data ) {
+		// No data error logging, ONLY IF THIS IS #NOT# A SELF SECURITY TEST
+		if ( !$data && $is_self_security_test !=1 ) {
 		
 		// LOG-SAFE VERSION (no post data with API keys etc)
 		app_logging( 'api_data_error', 'connection failed for ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint request at ' . $request ), 'request attempt from: server (local timeout setting ' . $app_config['api_timeout'] . ' seconds); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';' );
@@ -1195,7 +1197,8 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		}
 		// Log this latest live data response, 
 		// ONLY IF WE DETECT AN $endpoint_tld, AND TTL IS !NOT! ZERO (TTL==0 usually means too many unique requests that would bloat the cache)
-		elseif ( $endpoint_tld != '' && $ttl != 0 ) {
+		// AND ONLY IF THIS IS #NOT# A SELF SECURITY TEST
+		elseif ( $endpoint_tld != '' && $ttl != 0 && $is_self_security_test !=1 ) {
 		
 		
 			// If response seems to contain an error message
