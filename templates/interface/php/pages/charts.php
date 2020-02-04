@@ -131,9 +131,9 @@
 		$supported_exchange_list = trim($supported_exchange_list);
 		?>
 					
-		<p class='red' style='font-weight: bold;'>The charts <i>primary currency market</i> is set to: &nbsp; <span class='bitcoin'><?=strtoupper($default_btc_primary_currency_pairing)?> @ <?=snake_case_to_name($default_btc_primary_exchange)?></span></p>
+		<p class='red' style='font-weight: bold;'>The charts <i>primary currency market</i> (lets you see the <i>equivalent</i> market value in this currency) is set to: &nbsp; <span class='bitcoin'><?=strtoupper($default_btc_primary_currency_pairing)?> @ <?=snake_case_to_name($default_btc_primary_exchange)?></span></p>
 		
-		<p class='red' style='font-weight: bold;'> Other <?=strtoupper($default_btc_primary_currency_pairing)?>-paired exchanges supported in this app are: <?=$supported_exchange_list?>. Other currency pairings (that are supported in config.php in the "btc_primary_currency_pairing" setting) are: <?=$supported_primary_currency_list?>. !NOT! ALL EXCHANGES SUPPORT ALL CURRENCY PAIRS, double check any setting changes you make (and check the error log at /cache/logs/errors.log for any reported issues).</p>
+		<p class='red' style='font-weight: bold;'><?=strtoupper($default_btc_primary_currency_pairing)?>-paired exchanges supported in this app are: <?=$supported_exchange_list?>. Currency pairings (that are supported in config.php in the "btc_primary_currency_pairing" setting) are: <?=$supported_primary_currency_list?>. !NOT! ALL EXCHANGES SUPPORT ALL CURRENCY PAIRS, double check any setting changes you make (and check the error log at /cache/logs/errors.log for any reported issues).</p>
 		 
 		<p class='red' style='font-weight: bold;'>A few crypto exchanges only provide asset volume data (with no pairing volume data included). If 24 hour pair volume is NOT available for a market, it will be emulated via the asset volume multiplied by the <i>current</i> asset market value (which gives us the rough pairing volume for a better chart user experience).</p>
 		 

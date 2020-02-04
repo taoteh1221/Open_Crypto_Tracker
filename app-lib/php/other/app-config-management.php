@@ -91,9 +91,11 @@ if ( $default_btc_primary_currency_pairing != trim( file_get_contents($base_dir 
 // Delete all alerts cache data
 delete_all_files($base_dir . '/cache/alerts'); 
 
-// Delete show_charts cookie
-store_cookie_contents("show_charts", "", time()-3600);  
-unset($_COOKIE['show_charts']);  
+	// Delete show_charts cookie
+	if ( isset($_COOKIE['show_charts']) ) {
+	store_cookie_contents("show_charts", "", time()-3600);  
+	unset($_COOKIE['show_charts']);  
+	}
 
 // Update cache var
 store_file_contents($base_dir . '/cache/vars/default_btc_primary_currency_pairing.dat', $default_btc_primary_currency_pairing);

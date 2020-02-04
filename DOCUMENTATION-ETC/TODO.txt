@@ -46,8 +46,11 @@ Code review ALL functions.
 
 
 ///////////////////////////////////////////////////////
-FEATURES / STRUCTURING CYCLE SECTION
+FEATURES / STRUCTURING SECTION
 ///////////////////////////////////////////////////////
+
+
+Once an admin config interface web page is built, only update the cached app_config when new configuration variables are added to config.php, and skip overwriting any pre-existing variables (so we don't revert end-user configuration changes).
 
 
 Sections / pages for upcoming admin config interface.

@@ -1197,7 +1197,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		}
 		// Log this latest live data response, 
 		// ONLY IF WE DETECT AN $endpoint_tld_or_ip, AND TTL IS !NOT! ZERO (TTL==0 usually means too many unique requests that would bloat the cache)
-		elseif ( $endpoint_tld_or_ip != '' && $ttl != 0 ) {
+		elseif ( isset($data) && $endpoint_tld_or_ip != '' && $ttl != 0 ) {
 		
 		
 			// If response seems to contain an error message
@@ -1230,7 +1230,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 			// If response is from localbitcoins.com, and they are updating their data
 			elseif ( $endpoint_tld_or_ip == 'localbitcoins.com' ) {
 			
-				if ( preg_match("/will be available shortly/i", $data) ) {
+				if ( !preg_match("/avg_12h/i", $data) ) {
 					
 					if ( $api_runtime_cache[$hash_check] ) {
 					$data = $api_runtime_cache[$hash_check];
