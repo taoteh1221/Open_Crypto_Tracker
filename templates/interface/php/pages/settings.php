@@ -123,8 +123,8 @@
 				    
 				    exchange_name = exchange_name_ui.toLowerCase();
 				    
-				    if ( window.preferred_bitcoin_markets[btc_primary_currency] && window.preferred_bitcoin_markets[btc_primary_currency].length > 0 && window.preferred_bitcoin_markets[btc_primary_currency] != exchange_name ) {
-				    alert("The " + exchange_name_ui + " exchange price discovery is NOT as reliable as " + render_names(window.preferred_bitcoin_markets[btc_primary_currency]) + ".");
+					 if ( window.preferred_bitcoin_markets[btc_primary_currency] && window.preferred_bitcoin_markets[btc_primary_currency].length > 0 && window.preferred_bitcoin_markets[btc_primary_currency] != exchange_name ) {
+				    alert("The " + exchange_name_ui + " exchange " + btc_primary_currency.toUpperCase() + " market price discovery is NOT as reliable as " + render_names(window.preferred_bitcoin_markets[btc_primary_currency]) + ".");
 				    }
 				    else if ( window.limited_apis.includes(exchange_name) == true ) {
 				    alert("The " + exchange_name_ui + " exchange API is less reliable than some others (by NOT consolidating multiple / different asset price requests into one single call per session).\n\nIf you experience issues with primary currency values NOT displaying in this app when using the " + exchange_name_ui + " exchange market, try a different exchange market for your preferred primary currency, and the issue should go away.");
@@ -206,7 +206,7 @@
 					 primary_currency_market = this.value;
 				    
 					 if ( window.preferred_bitcoin_markets[btc_primary_currency] && window.preferred_bitcoin_markets[btc_primary_currency].length > 0 && window.preferred_bitcoin_markets[btc_primary_currency] != exchange_name ) {
-				    alert("The " + exchange_name_ui + " exchange price discovery is NOT as reliable as " + render_names(window.preferred_bitcoin_markets[btc_primary_currency]) + ".");
+				    alert("The " + exchange_name_ui + " exchange " + btc_primary_currency.toUpperCase() + " market price discovery is NOT as reliable as " + render_names(window.preferred_bitcoin_markets[btc_primary_currency]) + ".");
 				    }
 				    else if ( window.limited_apis.includes(exchange_name) == true ) {
 				    alert("The " + exchange_name_ui + " exchange API is less reliable than some others (by NOT consolidating multiple / different asset price requests into one single call per session).\n\nIf you experience issues with primary currency values NOT displaying in this app when using the " + exchange_name_ui + " exchange market, try a different exchange market for your preferred primary currency, and the issue should go away.");

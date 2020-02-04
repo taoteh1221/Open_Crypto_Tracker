@@ -58,12 +58,16 @@ foreach ( $chart_data as $chart_key => $chart_value ) {
 	
 $check_chart_value = number_to_string( delimited_string_sample($chart_value, ',', 'last') );
 	
-	if ( $check_chart_value > 0.00000 && $check_chart_value <= $app_config['system_stats_first_chart_highest_value'] ) {
-	$num_in_first_chart = $num_in_first_chart + 1;
+	if ( $check_chart_value != 'NO_DATA' && $check_chart_value > 0.00000 ) {
+		
+	$sorted_by_last_chart_data['key_sort_' . preg_replace("/\./", "_", $check_chart_value)] = array($chart_key => $chart_value);
+	
+		if ( $check_chart_value <= $app_config['system_stats_first_chart_highest_value'] ) {
+		$num_in_first_chart = $num_in_first_chart + 1;
+		}
+	
 	}
 	
-$sorted_by_last_chart_data['key_sort_' . preg_replace("/\./", "_", $check_chart_value)] = array($chart_key => $chart_value);
-
 }
 
 
@@ -71,6 +75,7 @@ $sorted_by_last_chart_data['key_sort_' . preg_replace("/\./", "_", $check_chart_
 // (newest/last chart sensors data sorts lowest value to highest, for populating the 2 shared charts)
 ksort($sorted_by_last_chart_data);
 
+//var_dump($sorted_by_last_chart_data); // DEBUGGING ONLY
 
 // Render chart data
 if ( $key == 1 ) {
