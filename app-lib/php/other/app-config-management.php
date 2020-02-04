@@ -31,7 +31,7 @@ if (is_array($app_config['portfolio_assets']) || is_object($app_config['portfoli
             $app_config['portfolio_assets']['MISCASSETS']['market_pairing'][$pairing_key] = array('misc_assets' => $pairing_key);
             }
             
-            foreach ( $app_config['bitcoin_market_currencies'] as $pairing_key => $pairing_unused ) {
+            foreach ( $app_config['bitcoin_currency_markets'] as $pairing_key => $pairing_unused ) {
             $app_config['portfolio_assets']['MISCASSETS']['market_pairing'][$pairing_key] = array('misc_assets' => $pairing_key);
             }
     

@@ -35,9 +35,6 @@ No audio alert in FF (windows) Maybe the OGG OR MP3 file needs to load the oppos
 Standalone mode not changing corresponding exchange when pairing switched in IE (windows). May be how the CSS selector runs in IE? Works on the update assets page in IE, just not settings page.
 
 
-Investigate mining calculators not calculating same RELATIVE profit when switching primary currencies (maybe [primary currency]/kWh is the issue?)
-
-
 Test unicode text message with no space in front of hex-encoded data (forgot to try that, coded and ready to go now...see content_data_encoding() and /DOCUMENTATION-ETC/Developing-maintaining/DEBUGGING.txt).
 
 

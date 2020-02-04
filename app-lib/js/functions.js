@@ -3,6 +3,28 @@
 
 /////////////////////////////////////////////////////////////
 
+function render_names(name) {
+	
+render = name.charAt(0).toUpperCase() + name.slice(1);
+
+render = render.replace(/btc/gi, "BTC");
+render = render.replace(/coin/gi, "Coin");
+render = render.replace(/bitcoin/gi, "Bitcoin");
+render = render.replace(/exchange/gi, "Exchange");
+render = render.replace(/market/gi, "Market");
+render = render.replace(/forex/gi, "Forex");
+render = render.replace(/finex/gi, "Finex");
+render = render.replace(/stamp/gi, "Stamp");
+render = render.replace(/flyer/gi, "Flyer");
+render = render.replace(/panda/gi, "Panda");
+render = render.replace(/pay/gi, "Pay");
+
+return render;
+
+}
+
+/////////////////////////////////////////////////////////////
+
 function charts_loading_check(charts_loaded) {
 	
 	//console.log('loaded charts = ' + window.charts_loaded.length + ', all charts = ' + window.charts_num);

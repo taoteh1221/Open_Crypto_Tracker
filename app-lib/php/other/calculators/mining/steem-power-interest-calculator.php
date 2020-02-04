@@ -42,7 +42,7 @@ if ( $_POST['steem_submitted'] ) {
 
 <p class='red' style='font-weight: bold;'>Your <i>current</i> STEEM Power interest rate results (<i><u><?=strtoupper($app_config['btc_primary_currency_pairing'])?> values may change significantly over long periods of time</u></i>):</p>
 
-<p class='green' style='font-weight: bold;'>1 STEEM = <?=$steem_market?> BTC (<?=$app_config['bitcoin_market_currencies'][$app_config['btc_primary_currency_pairing']]?><?php echo number_format( ( $steem_market * $btc_primary_currency_value ), 8, '.', ','); ?>)</p>
+<p class='green' style='font-weight: bold;'>1 STEEM = <?=$steem_market?> BTC (<?=$app_config['bitcoin_currency_markets'][$app_config['btc_primary_currency_pairing']]?><?php echo number_format( ( $steem_market * $btc_primary_currency_value ), 8, '.', ','); ?>)</p>
 
 
 <?php

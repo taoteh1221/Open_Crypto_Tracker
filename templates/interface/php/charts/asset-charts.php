@@ -33,8 +33,8 @@
 
 			
 			// Unicode asset symbols
-			if ( array_key_exists($charted_value, $app_config['bitcoin_market_currencies']) ) {
-			$currency_symbol = $app_config['bitcoin_market_currencies'][$charted_value];
+			if ( array_key_exists($charted_value, $app_config['bitcoin_currency_markets']) ) {
+			$currency_symbol = $app_config['bitcoin_currency_markets'][$charted_value];
 			$fiat_equiv = 1;
 			}
 			elseif ( array_key_exists($charted_value, $app_config['crypto_to_crypto_pairing']) ) {

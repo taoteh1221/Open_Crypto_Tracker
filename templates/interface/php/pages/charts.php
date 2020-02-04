@@ -116,7 +116,7 @@
 	<div style='display: none;' class='show_chartsnotice' align='left'>
 		
 		<?php
-		foreach ( $app_config['bitcoin_market_currencies'] as $key => $unused ) {
+		foreach ( $app_config['bitcoin_currency_markets'] as $key => $unused ) {
 		$supported_primary_currency_list .= strtoupper($key) . ' / ';
 		}
 		$supported_primary_currency_list = trim($supported_primary_currency_list);

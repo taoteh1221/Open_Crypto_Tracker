@@ -105,6 +105,15 @@ header('Content-type: text/html; charset=' . $app_config['charset_standard']);
 
 	var limited_apis = <?=$js_limited_apis?>;
 	
+	var preferred_bitcoin_markets = [];
+	<?php
+	foreach ( $app_config['preferred_bitcoin_markets'] as $preferred_bitcoin_markets_key => $preferred_bitcoin_markets_value ) {
+	?>
+	preferred_bitcoin_markets["<?=strtolower( $preferred_bitcoin_markets_key )?>"] = "<?=strtolower( $preferred_bitcoin_markets_value )?>";
+	<?php
+	}
+	?>
+	
 	</script>
 
 

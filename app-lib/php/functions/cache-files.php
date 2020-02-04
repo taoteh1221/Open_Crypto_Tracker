@@ -1226,6 +1226,22 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 				}
 		
 		
+			}			
+			// If response is from localbitcoins.com, and they are updating their data
+			elseif ( $endpoint_tld_or_ip == 'localbitcoins.com' ) {
+			
+				if ( preg_match("/will be available shortly/i", $data) ) {
+					
+					if ( $api_runtime_cache[$hash_check] ) {
+					$data = $api_runtime_cache[$hash_check];
+					}
+					else {
+					$data = trim( file_get_contents('cache/apis/'.$hash_check.'.dat') );
+					$api_runtime_cache[$hash_check] = $data; // Create a runtime cache from the file cache, for any additional requests during runtime for this data set
+					}
+					
+				}
+		
 			}
 		
 		

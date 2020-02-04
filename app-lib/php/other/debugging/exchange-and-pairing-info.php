@@ -14,7 +14,7 @@ if ( $runtime_mode == 'ui' ) {
 	if ( $app_config['debug_mode'] == 'all' || $app_config['debug_mode'] == 'btc_markets_config' ) {
 		
 		
-		foreach ( $app_config['bitcoin_market_currencies'] as $key => $unused ) {
+		foreach ( $app_config['bitcoin_currency_markets'] as $key => $unused ) {
 		$supported_primary_currency_list .= strtolower($key) . ' / ';
 		}
 		$supported_primary_currency_list = "'" . implode("' / '",array_unique(explode(' / ', $supported_primary_currency_list)));

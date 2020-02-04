@@ -18,7 +18,7 @@
 			<?php
 			if ( $price_alert_type_text != '' ) {
           ?>
-          	<p class='settings_sections'><b><?=$price_alert_type_text?> price alerts</b> are <i>enabled</i> in the configuration file (upon <?=$app_config['asset_price_alerts_percent']?>% or more <?=strtoupper($default_btc_primary_currency_pairing)?> price change<?=( $app_config['asset_price_alerts_freq'] > 0 ? ' / max every ' . $app_config['asset_price_alerts_freq'] . ' hours per-alert' : '' )?><?=( $app_config['asset_price_alerts_min_volume'] > 0 ? ' / ' . $app_config['bitcoin_market_currencies'][$default_btc_primary_currency_pairing] . number_format($app_config['asset_price_alerts_min_volume'], 0, '.', ',') . ' minumum volume filter enabled' : '' )?><?=( $app_config['asset_price_alerts_refresh'] > 0 ? ' / comparison price auto-refreshed after ' . $app_config['asset_price_alerts_refresh'] . ' days' : '' )?>). 
+          	<p class='settings_sections'><b><?=$price_alert_type_text?> price alerts</b> are <i>enabled</i> in the configuration file (upon <?=$app_config['asset_price_alerts_percent']?>% or more <?=strtoupper($default_btc_primary_currency_pairing)?> price change<?=( $app_config['asset_price_alerts_freq'] > 0 ? ' / max every ' . $app_config['asset_price_alerts_freq'] . ' hours per-alert' : '' )?><?=( $app_config['asset_price_alerts_min_volume'] > 0 ? ' / ' . $app_config['bitcoin_currency_markets'][$default_btc_primary_currency_pairing] . number_format($app_config['asset_price_alerts_min_volume'], 0, '.', ',') . ' minumum volume filter enabled' : '' )?><?=( $app_config['asset_price_alerts_refresh'] > 0 ? ' / comparison price auto-refreshed after ' . $app_config['asset_price_alerts_refresh'] . ' days' : '' )?>). 
           	
           	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job on your web server</a>, or this feature will not work AT ALL.</i> 
           	
@@ -123,9 +123,13 @@
 				    
 				    exchange_name = exchange_name_ui.toLowerCase();
 				    
-				    if ( window.limited_apis.includes(exchange_name) == true ) {
+				    if ( window.preferred_bitcoin_markets[btc_primary_currency] && window.preferred_bitcoin_markets[btc_primary_currency].length > 0 && window.preferred_bitcoin_markets[btc_primary_currency] != exchange_name ) {
+				    alert("The " + exchange_name_ui + " exchange price discovery is NOT as reliable as " + render_names(window.preferred_bitcoin_markets[btc_primary_currency]) + ".");
+				    }
+				    else if ( window.limited_apis.includes(exchange_name) == true ) {
 				    alert("The " + exchange_name_ui + " exchange API is less reliable than some others (by NOT consolidating multiple / different asset price requests into one single call per session).\n\nIf you experience issues with primary currency values NOT displaying in this app when using the " + exchange_name_ui + " exchange market, try a different exchange market for your preferred primary currency, and the issue should go away.");
 				    }
+				    
 				    
 				    $("#btc_primary_currency").val( btc_primary_currency );
 				    
@@ -192,18 +196,21 @@
 				    foreach ( $btc_market_list as $key => $value ) {
 				    ?>
 				    
-				    <select onchange ='
+				    <select onchange='
 				    
 				    exchange_name_ui = this.options[this.selectedIndex].text;
 				    
 				    exchange_name = exchange_name_ui.toLowerCase();
 				    
-				    if ( window.limited_apis.includes(exchange_name) == true ) {
-				    alert("The " + exchange_name_ui + " exchange API is less reliable than some others (by NOT consolidating multiple / different asset price requests into one single call per session).\n\nIf you experience issues with primary currency values NOT displaying in this app when using the " + exchange_name_ui + " exchange market, try a different exchange market for your preferred primary currency, and the issue should go away.");
-				    }
-				    
 				    btc_primary_currency = $("#btc_primary_currency").val();
 					 primary_currency_market = this.value;
+				    
+					 if ( window.preferred_bitcoin_markets[btc_primary_currency] && window.preferred_bitcoin_markets[btc_primary_currency].length > 0 && window.preferred_bitcoin_markets[btc_primary_currency] != exchange_name ) {
+				    alert("The " + exchange_name_ui + " exchange price discovery is NOT as reliable as " + render_names(window.preferred_bitcoin_markets[btc_primary_currency]) + ".");
+				    }
+				    else if ( window.limited_apis.includes(exchange_name) == true ) {
+				    alert("The " + exchange_name_ui + " exchange API is less reliable than some others (by NOT consolidating multiple / different asset price requests into one single call per session).\n\nIf you experience issues with primary currency values NOT displaying in this app when using the " + exchange_name_ui + " exchange market, try a different exchange market for your preferred primary currency, and the issue should go away.");
+				    }
 					 
 				    $("#primary_currency_market_id").val( primary_currency_market );
 				    

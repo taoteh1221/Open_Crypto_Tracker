@@ -1160,7 +1160,7 @@ function chart_data($file, $chart_format) {
 global $app_config, $default_btc_primary_currency_pairing;
 
 
-	if ( array_key_exists($chart_format, $app_config['bitcoin_market_currencies']) ) {
+	if ( array_key_exists($chart_format, $app_config['bitcoin_currency_markets']) ) {
 	$fiat_formatting = 1;
 	}
 	elseif ( $chart_format == 'system' ) {

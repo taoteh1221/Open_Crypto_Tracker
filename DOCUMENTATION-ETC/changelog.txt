@@ -2487,7 +2487,11 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.07.7:
 
+-Better charts UX for the primary currency's charts (equivalent value in the primary currency for ANY market)
+
 -Bug fix for data mismatch if the primary currency is changed in config.php (clears any previous show_charts cookie / price alert cache data)
+
+-Config setting / UX for preferred Bitcoin market(s), for getting a certain currency's value (when alternate markets have poor volume / price discovery / etc)
 
 IMPORTANT NOTES: 
 

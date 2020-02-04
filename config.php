@@ -112,10 +112,6 @@ $app_config['default_theme'] = 'dark'; // 'dark' or 'light'
 $app_config['local_time_offset'] = -5; // example: -5 or 5
 
 
-// Minutes to cache real-time exchange price data...can be zero to skip cache, but set to at least 1 minute TO AVOID YOUR IP GETTING BLOCKED
-$app_config['last_trade_cache_time'] = 3; 
-
-
 // Enable / disable daily upgrade checks (DEFAULT IS DISABLED)
 // (Checks latest release version via github.com API endpoint value "tag_name" 
 // @ https://api.github.com/repos/taoteh1221/DFD_Cryptocoin_Values/releases/latest)
@@ -148,10 +144,6 @@ $app_config['primary_marketcap_site'] = 'coingecko';
 
 // API key for coinmarketcap.com Pro API (required unfortunately, but a FREE level is available): https://coinmarketcap.com/api
 $app_config['coinmarketcapcom_api_key'] = '';
-
-
-// Number of marketcap rankings to request from API. Ranks are grabbed 100 per request
-$app_config['marketcap_ranks_max'] = 200; // 200 rankings is a safe maximum to start with, it avoids getting your API requests throttled / blocked
 
 
 // Default BITCOIN-ONLY currency market pairing 
@@ -187,13 +179,11 @@ $app_config['primary_currency_decimals_max_threshold'] = 0.70; // Can be decimal
 $app_config['margin_leverage_max'] = 125; // Maximum margin leverage available in the user interface ('Update Assets' page, etc)
 
 
-$app_config['chainstats_cache_time'] = 30; // Minutes to cache blockchain stats (for mining calculators). Set high initially, it can be strict
-
-
-$app_config['marketcap_cache_time'] = 20; // Minutes to cache marketcap rankings...start high and test lower, it can be strict
-
-
 $app_config['delete_old_backups'] = 7; // Days until old zip archive backups should be deleted (chart data archives, etc)
+
+
+// Every X days mail logs. 0 disables mailing logs. Email to / from !MUST BE SET!, MAY NOT SEND IN TIMELY FASHION WITHOUT A CRON JOB
+$app_config['mail_logs'] = 1; 
 
 
 ////////////////////////////////////////
@@ -346,6 +336,7 @@ $app_config['asset_charts_and_alerts'] = array(
 					'btc-11' => 'kraken||cad||chart',
 					'btc-12' => 'btcmarkets||aud||chart',
 					'btc-13' => 'bitbns||inr||chart',
+					'btc-14' => 'localbitcoins||inr||chart',
 					
 					
 					// ETH
@@ -476,12 +467,11 @@ $app_config['asset_charts_and_alerts'] = array(
 /////////////////////////////////////////////////////////////////////////////
 
 
-
 // Activate support for PRIMARY CURRENCY MARKETS (to use as your preferred local currency in the app)
 // EACH CURRENCY LISTED HERE !MUST HAVE! AN EXISTING BITCOIN ASSET MARKET (within 'market_pairing') 
 // in Bitcoin's $app_config['portfolio_assets'] listing (further down in this config file) TO PROPERLY ACTIVATE
 // (CAN BE A CRYPTO, !AS LONG AS THERE IS A PAIRING CONFIGURED WITHIN THE BITCOIN ASSET SETUP!)
-$app_config['bitcoin_market_currencies'] = array(
+$app_config['bitcoin_currency_markets'] = array(
 						//'lowercase_btc_market_or_stablecoin_pairing' => 'CURRENCY_SYMBOL',
 						'aud' => 'A$',
 						'bob' => 'Bs ',
@@ -511,6 +501,15 @@ $app_config['bitcoin_market_currencies'] = array(
 
 
 
+// Preferred BITCOIN market(s) for getting a certain currency's value
+// (when other exchanges for this currency have poor volume / price discovery / etc)
+$app_config['preferred_bitcoin_markets'] = array(
+						//'lowercase_btc_market_or_stablecoin_pairing' => 'PREFERRED_MARKET',
+							'inr' => 'localbitcoins',  // WAY MORE volume , WAY BETTER price discovery
+							);
+							
+							
+							
 // Activate support for ALTCOIN PAIRED MARKETS (like doge/eth, dai/eth, etc)
 // EACH ALTCOIN LISTED HERE !MUST HAVE! AN EXISTING 'btc' MARKET (within 'market_pairing') 
 // in it's $app_config['portfolio_assets'] listing (further down in this config file) TO PROPERLY ACTIVATE
@@ -547,11 +546,19 @@ $app_config['mining_rewards'] = array(
 
 
 
-// Days to keep logs before purging (deletes logs every X days). Start low (especially when using proxies)
-$app_config['purge_logs'] = 7; 
-////
-// Every X days mail logs. 0 disables mailing logs. Email to / from !MUST BE SET!, MAY NOT SEND IN TIMELY FASHION WITHOUT A CRON JOB
-$app_config['mail_logs'] = 1; 
+// Minutes to cache real-time exchange price data...can be zero to skip cache, but set to at least 1 minute TO AVOID YOUR IP GETTING BLOCKED
+// SOME APIS PREFER THIS SET TO AT LEAST A FEW MINUTES, SO HIGHLY RECOMMENDED TO KEEP FAIRLY HIGH
+$app_config['last_trade_cache_time'] = 3; // (default = 3)
+
+
+// Number of marketcap rankings to request from API. Ranks are grabbed 100 per request
+$app_config['marketcap_ranks_max'] = 200; // 200 rankings is a safe maximum to start with, it avoids getting your API requests throttled / blocked
+
+
+$app_config['chainstats_cache_time'] = 30; // Minutes to cache blockchain stats (for mining calculators). Set high initially, it can be strict
+
+
+$app_config['marketcap_cache_time'] = 30; // Minutes to cache marketcap rankings...start high and test lower, it can be strict
 
 
 // STEEM Power yearly interest rate START 11/29/2016 (1.425%, decreasing every year by roughly 0.075% until it hits a minimum of 0.075% and stays there)
@@ -576,6 +583,9 @@ $app_config['steem_powerdown_time'] = 13;
 // Level of detail / verbosity in log files. 'normal' logs minimal details (basic information), 
 // 'verbose' logs maximum details (additional information IF AVAILABLE, for heavy debugging / tracing / etc)
 $app_config['log_detail_level'] = 'normal'; // 'normal' / 'verbose'
+////
+// Days to keep logs before purging (deletes logs every X days). Start low (especially when using proxies)
+$app_config['purge_logs'] = 7; 
 ////
 // $app_config['debug_mode'] enabled runs unit tests during ui runtimes (during webpage load),
 // errors detected are error-logged and printed as alerts in footer

@@ -60,9 +60,9 @@
     				
     			</p>
     			
-    			<p class='green' style='font-weight: bold;'>Per-Token (<?=strtoupper($app_config['btc_primary_currency_pairing'])?>): <?=$app_config['bitcoin_market_currencies'][$app_config['btc_primary_currency_pairing']]?><span id='target_primary_currency'>0.00</span> (<span id='target_btc'>0.00</span> BTC) </p>
+    			<p class='green' style='font-weight: bold;'>Per-Token (<?=strtoupper($app_config['btc_primary_currency_pairing'])?>): <?=$app_config['bitcoin_currency_markets'][$app_config['btc_primary_currency_pairing']]?><span id='target_primary_currency'>0.00</span> (<span id='target_btc'>0.00</span> BTC) </p>
     			
-    			<p class='green' style='font-weight: bold;'>Total: <?=$app_config['bitcoin_market_currencies'][$app_config['btc_primary_currency_pairing']]?><span id='target_total_primary_currency'>0.00</span> (<span id='target_total_btc'>0.00</span> BTC) </p>
+    			<p class='green' style='font-weight: bold;'>Total: <?=$app_config['bitcoin_currency_markets'][$app_config['btc_primary_currency_pairing']]?><span id='target_total_primary_currency'>0.00</span> (<span id='target_total_btc'>0.00</span> BTC) </p>
     			
     			<script>
     			
