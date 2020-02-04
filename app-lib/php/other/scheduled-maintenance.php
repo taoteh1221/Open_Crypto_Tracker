@@ -174,6 +174,10 @@ if ( update_cache_file($base_dir . '/cache/events/scheduled_maintenance.dat', 60
 	////////////////////////////////////////////////////////////
 	
 
+// Current default primary currency stored to flat file (for checking if we need to reconfigure things for a changed value here)
+store_file_contents($base_dir . '/cache/vars/default_btc_primary_currency_pairing.dat', $default_btc_primary_currency_pairing);
+	
+
 // Current app version stored to flat file (for the bash auto-install/upgrade script to easily determine the currently-installed version)
 store_file_contents($base_dir . '/cache/vars/app_version.dat', $app_version);
 

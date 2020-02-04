@@ -4,7 +4,6 @@
  */
 
 
-
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
 
@@ -86,6 +85,25 @@ $total = count($chunks);
 
 	foreach($chunks as $page => $chunk) {
 	$message = sprintf("(%d/%d) %s", $page+1, $total, $chunk);
+	}
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function delete_all_files($dir) {
+
+$files = glob($dir . '/*'); // get all file names
+
+	foreach($files as $file) { // iterate files
+	
+  		if( is_file($file) ) {
+    	unlink($file); // delete file
+  		}
+  		
 	}
 
 }

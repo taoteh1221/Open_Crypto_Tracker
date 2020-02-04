@@ -51,25 +51,25 @@
 	?>
 	
 		<div class='<?=$zebra_stripe?> long_list <?=( $last_rendered != $show_asset ? 'activate_chart_sections' : '' )?>'>
-		
-			<b><span class='blue'><?=$show_asset?></span> / <?=strtoupper($show_asset_params[1])?> @ <?=snake_case_to_name($show_asset_params[0])?>:</b> &nbsp; &nbsp; &nbsp; 
 			
 				<?php
 				// Markets that are the same as PRIMARY CURRENCY CONFIG setting
 				if ( $show_asset_params[1] == $default_btc_primary_currency_pairing ) {
 				?>
 	
-			   <input type='checkbox' value='<?=$key?>_<?=$show_asset_params[1]?>' onchange='chart_toggle(this);' <?=( in_array("[".$key . '_' . $show_asset_params[1]."]", $show_charts) ? 'checked' : '' )?> /> <?=strtoupper($show_asset_params[1])?> Chart 
+			   <input type='checkbox' value='<?=$key?>_<?=$show_asset_params[1]?>' onchange='chart_toggle(this);' <?=( in_array("[".$key . '_' . $show_asset_params[1]."]", $show_charts) ? 'checked' : '' )?> /> <span class='blue'><?=$show_asset?></span> / <?=strtoupper($show_asset_params[1])?> @ <?=snake_case_to_name($show_asset_params[0])?>
 	
 				<?php
 				}
 				// All other paired markets (WITH PRIMARY CURRENCY CONFIG EQUIV CHARTS INCLUDED)
 				else {
 				?>
-					
-				<input type='checkbox' value='<?=$key?>' onchange='chart_toggle(this);' <?=( in_array("[".$key."]", $show_charts) ? 'checked' : '' )?> /> <?=strtoupper($default_btc_primary_currency_pairing)?> Chart &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
 				
-			   <input type='checkbox' value='<?=$key?>_<?=$show_asset_params[1]?>' onchange='chart_toggle(this);' <?=( in_array("[".$key . '_' . $show_asset_params[1]."]", $show_charts) ? 'checked' : '' )?> /> <?=strtoupper($show_asset_params[1])?> Chart 
+				<input type='checkbox' value='<?=$key?>_<?=$show_asset_params[1]?>' onchange='chart_toggle(this);' <?=( in_array("[".$key . '_' . $show_asset_params[1]."]", $show_charts) ? 'checked' : '' )?> /> <span class='blue'><?=$show_asset?></span> / <?=strtoupper($show_asset_params[1])?> @ <?=snake_case_to_name($show_asset_params[0])?> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+					
+				<input type='checkbox' value='<?=$key?>' onchange='chart_toggle(this);' <?=( in_array("[".$key."]", $show_charts) ? 'checked' : '' )?> /> <?=strtoupper($default_btc_primary_currency_pairing)?> Value
+				
+			   
 	
 				<?php
 				}?>
@@ -159,17 +159,16 @@
 		$charts_available = 1;
 		$alerts_market_parse = explode("||", $value );	
 		
-		if ( in_array('['.$key.']', $show_charts) && $alerts_market_parse[2] == 'chart' 
-		|| in_array('['.$key.']', $show_charts) && $alerts_market_parse[2] == 'both'  ) {
+		if ( in_array('['.$key.'_'.$alerts_market_parse[1].']', $show_charts) ) {
 		$charts_shown = 1;
 	?>
 	
-	<div class='chart_wrapper' id='<?=$key?>_<?=strtolower($default_btc_primary_currency_pairing)?>_chart'><span class='loading' style='color: <?=$app_config['charts_text']?>;'> &nbsp; Loading chart for <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=snake_case_to_name($alerts_market_parse[0])?> (<?=strtoupper($default_btc_primary_currency_pairing)?> Chart)...</span></div>
+	<div class='chart_wrapper' id='<?=$key?>_<?=$alerts_market_parse[1]?>_chart'><span class='loading' style='color: <?=$app_config['charts_text']?>;'> &nbsp; Loading chart for <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=snake_case_to_name($alerts_market_parse[0])?>...</span></div>
 	
 	<script>
 	
 	$(document).ready(function() {
-    $.getScript("app-lib/js/chart-js.php?type=asset&asset_data=<?=urlencode($key)?>&charted_value=<?=strtolower($default_btc_primary_currency_pairing)?>");
+    $.getScript("app-lib/js/chart-js.php?type=asset&asset_data=<?=urlencode($key)?>&charted_value=pairing");
 	});
 	
 	</script>
@@ -178,16 +177,18 @@
 	
 	<?php
 		}
-		if ( in_array('['.$key.'_'.$alerts_market_parse[1].']', $show_charts) ) {
+		
+		if ( in_array('['.$key.']', $show_charts) && $alerts_market_parse[2] == 'chart' 
+		|| in_array('['.$key.']', $show_charts) && $alerts_market_parse[2] == 'both'  ) {
 		$charts_shown = 1;
 	?>
 	
-	<div class='chart_wrapper' id='<?=$key?>_<?=$alerts_market_parse[1]?>_chart'><span class='loading' style='color: <?=$app_config['charts_text']?>;'> &nbsp; Loading chart for <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=snake_case_to_name($alerts_market_parse[0])?> (<?=strtoupper($alerts_market_parse[1])?> Chart)...</span></div>
+	<div class='chart_wrapper' id='<?=$key?>_<?=strtolower($default_btc_primary_currency_pairing)?>_chart'><span class='loading' style='color: <?=$app_config['charts_text']?>;'> &nbsp; Loading chart for <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=snake_case_to_name($alerts_market_parse[0])?> (<?=strtoupper($default_btc_primary_currency_pairing)?> Value)...</span></div>
 	
 	<script>
 	
 	$(document).ready(function() {
-    $.getScript("app-lib/js/chart-js.php?type=asset&asset_data=<?=urlencode($key)?>&charted_value=pairing");
+    $.getScript("app-lib/js/chart-js.php?type=asset&asset_data=<?=urlencode($key)?>&charted_value=<?=strtolower($default_btc_primary_currency_pairing)?>");
 	});
 	
 	</script>

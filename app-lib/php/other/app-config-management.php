@@ -85,6 +85,24 @@ $default_btc_primary_exchange = $app_config['btc_primary_exchange'];
 
 
 
+// If $default_btc_primary_currency_pairing has changed, delete all mismatched data
+if ( file_exists($base_dir . '/cache/vars/default_btc_primary_currency_pairing.dat') 
+&& $default_btc_primary_currency_pairing != trim( file_get_contents($base_dir . '/cache/vars/default_btc_primary_currency_pairing.dat') ) ) {
+
+// Delete all alerts cache data
+delete_all_files($base_dir . '/cache/alerts'); 
+
+// Delete show_charts cookie
+store_cookie_contents("show_charts", "", time()-3600);  
+unset($_COOKIE['show_charts']);  
+
+// Update cache var
+store_file_contents($base_dir . '/cache/vars/default_btc_primary_currency_pairing.dat', $default_btc_primary_currency_pairing);
+
+}
+
+
+
 // If Stand-Alone Currency Market has been enabled (Settings page), REPLACE/OVERWRITE Bitcoin market config defaults
 if ( $_POST['primary_currency_market_standalone'] || $_COOKIE['primary_currency_market_standalone'] ) {
 $primary_currency_market_standalone = explode("|", ( $_POST['primary_currency_market_standalone'] != '' ? $_POST['primary_currency_market_standalone'] : $_COOKIE['primary_currency_market_standalone'] ) );
