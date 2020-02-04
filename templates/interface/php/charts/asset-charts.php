@@ -51,11 +51,13 @@
 			|| $market_parse[2] != 'chart' && $market_parse[2] != 'both' ) {
 			?>
 			
-			$("#<?=$key?>_<?=$charted_value?>_chart span.loading").html(' &nbsp; No chart data activated for: <?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=snake_case_to_name($market_parse[0])?> <?=( $_GET['charted_value'] != 'pairing' ? '\(' . strtoupper($charted_value) . ' Value\)' : '' )?>');
+			$("#<?=$key?>_<?=$charted_value?>_chart span.loading").html(' &nbsp; No chart data activated yet for: <?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=snake_case_to_name($market_parse[0])?> <?=( $_GET['charted_value'] != 'pairing' ? '\(' . strtoupper($charted_value) . ' Value\)' : '' )?>');
+			
+			$("#<?=$key?>_<?=$charted_value?>_chart").css({ "background-color": "#9b4b26" });
 			
 			$("#charts_error").show();
 			
-			$("#charts_error").html('One or more charts could not be loaded. Please make sure you have a cron job running (see <a href="README.txt" target="_blank">README.txt</a> for how-to setup a cron job), or charts cannot be activated. Check app error logs too, for write errors (which would indicate improper cache directory permissions).');
+			$("#charts_error").html('One or more charts could not be loaded. If you recently updated the charts or primary currency settings in the admin configuration, it may take a few minutes for changes to appear. Please make sure you have a cron job running (see <a href="README.txt" target="_blank">README.txt</a> for how-to setup a cron job), or charts cannot be activated. Check app error logs too, for write errors (which would indicate improper cache directory permissions).');
 			
 			window.charts_loaded.push("chart_<?=$js_key?>");
 			
