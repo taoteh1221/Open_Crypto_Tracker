@@ -85,9 +85,8 @@ $default_btc_primary_exchange = $app_config['btc_primary_exchange'];
 
 
 
-// If $default_btc_primary_currency_pairing has changed, delete all mismatched data
-if ( file_exists($base_dir . '/cache/vars/default_btc_primary_currency_pairing.dat') 
-&& $default_btc_primary_currency_pairing != trim( file_get_contents($base_dir . '/cache/vars/default_btc_primary_currency_pairing.dat') ) ) {
+// If $default_btc_primary_currency_pairing has changed, or never been set in cache vars, delete all potentially mismatched data and set in cache vars
+if ( $default_btc_primary_currency_pairing != trim( file_get_contents($base_dir . '/cache/vars/default_btc_primary_currency_pairing.dat') ) ) {
 
 // Delete all alerts cache data
 delete_all_files($base_dir . '/cache/alerts'); 
