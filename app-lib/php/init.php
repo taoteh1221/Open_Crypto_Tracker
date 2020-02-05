@@ -185,7 +185,7 @@ require_once('app-lib/php/other/chart-directories.php');
 
 // SMTP email setup (if needed...MUST RUN AFTER dynamic app config management)
 // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-if ( $app_config['smtp_login'] != '' && $app_config['smtp_server'] != '' ) {
+if ( $app_config['smtp_email_login'] != '' && $app_config['smtp_email_server'] != '' ) {
 
 require_once('app-lib/php/classes/smtp-mailer/SMTPMailer.php');
 

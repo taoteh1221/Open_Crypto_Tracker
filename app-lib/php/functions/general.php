@@ -119,7 +119,7 @@ function smtp_mail($to, $subject, $message, $content_type='text', $charset=null)
 global $app_config, $smtp;
 
 	if ( $charset == null ) {
-	$charset = $app_config['charset_standard'];
+	$charset = $app_config['charset_default'];
 	}
 
 $smtp->From($app_config['from_email']); 
@@ -609,11 +609,11 @@ function valid_username($username) {
 
 global $app_config;
 
-    if ( mb_strlen($username, $app_config['charset_standard']) < 4 ) {
+    if ( mb_strlen($username, $app_config['charset_default']) < 4 ) {
     $error .= "requires 4 minimum characters; ";
     }
     
-    if ( mb_strlen($username, $app_config['charset_standard']) > 30 ) {
+    if ( mb_strlen($username, $app_config['charset_default']) > 30 ) {
     $error .= "requires 30 maximum characters; ";
     }
     
@@ -684,7 +684,7 @@ function password_strength($password) {
 
 global $app_config;
 
-    if ( mb_strlen($password, $app_config['charset_standard']) != 8 ) {
+    if ( mb_strlen($password, $app_config['charset_default']) != 8 ) {
     $error .= "requires EXACTLY 8 characters; ";
     }
     
@@ -737,7 +737,7 @@ function delete_old_files($directory_data, $days, $ext) {
 	foreach ( $directory_data as $dir ) {
 	
 		
-	$files = glob($dir."*.".$ext);
+	$files = glob($dir."/*.".$ext);
 	
 	
       foreach ($files as $file) {
@@ -784,22 +784,22 @@ $log_file = $base_dir . "/cache/logs/smtp_errors.log";
 $log_file_debugging = $base_dir . "/cache/logs/smtp_debugging.log";
 
 // Don't overwrite globals
-$temp_smtp_login = explode("||", $app_config['smtp_login'] );
-$temp_smtp_server = explode(":", $app_config['smtp_server'] );
+$temp_smtp_email_login = explode("||", $app_config['smtp_email_login'] );
+$temp_smtp_email_server = explode(":", $app_config['smtp_email_server'] );
 
 // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-$smtp_user = trim($temp_smtp_login[0]);
-$smtp_password = $temp_smtp_login[1];
+$smtp_user = trim($temp_smtp_email_login[0]);
+$smtp_password = $temp_smtp_email_login[1];
 
-$smtp_host = trim($temp_smtp_server[0]);
-$smtp_port = trim($temp_smtp_server[1]);
+$smtp_host = trim($temp_smtp_email_server[0]);
+$smtp_port = trim($temp_smtp_email_server[1]);
 
 // Port vars over to class format (so it runs out-of-the-box as much as possible)
 $vars['cfg_log_file']   = $log_file;
 $vars['cfg_log_file_debugging']   = $log_file_debugging;
 $vars['cfg_server']   = $smtp_host;
 $vars['cfg_port']     =  $smtp_port;
-$vars['cfg_secure']   = $app_config['smtp_secure'];
+$vars['cfg_secure']   = $app_config['smtp_email_secure'];
 $vars['cfg_username'] = $smtp_user;
 $vars['cfg_password'] = $smtp_password;
 $vars['cfg_debug_mode'] = $app_config['debug_mode']; // DFD Cryptocoin Values debug mode setting
@@ -893,7 +893,7 @@ global $app_config;
 $type = pathinfo($save_as, PATHINFO_EXTENSION);
 
 	if ( $type == 'csv' ) {
-	$content_type = 'Content-type: text/csv; charset=' . $app_config['charset_standard'];
+	$content_type = 'Content-type: text/csv; charset=' . $app_config['charset_default'];
 	}
 	else {
 	$content_type = 'Content-type: application/octet-stream';
@@ -1080,7 +1080,7 @@ $charset_array = array(
 
 
 // Changs only if non-UTF-8 / non-ASCII characters are detected further down in this function
-$set_charset = $app_config['charset_standard'];
+$set_charset = $app_config['charset_default'];
 
 $words = explode(" ", $content);
 	
@@ -1091,7 +1091,7 @@ $words = explode(" ", $content);
 	
 	$scan_charset = ( mb_detect_encoding($scan_value, 'auto') != false ? mb_detect_encoding($scan_value, 'auto') : null );
 	
-		if ( isset($scan_charset) && !preg_match("/" . $app_config['charset_standard'] . "/i", $scan_charset) && !preg_match("/ASCII/i", $scan_charset) ) {
+		if ( isset($scan_charset) && !preg_match("/" . $app_config['charset_default'] . "/i", $scan_charset) && !preg_match("/ASCII/i", $scan_charset) ) {
 		$set_charset = $app_config['charset_unicode'];
 		}
 	
@@ -1491,7 +1491,7 @@ function safe_mail($to, $subject, $message, $content_type='text', $charset=null)
 global $app_version, $app_config;
 
 	if ( $charset == null ) {
-	$charset = $app_config['charset_standard'];
+	$charset = $app_config['charset_default'];
 	}
 
 // Stop injection vulnerability
@@ -1511,7 +1511,7 @@ $to = trim($to);
 	
 	
 	// SMTP mailing, or PHP's built-in mail() function
-	if ( $app_config['smtp_login'] != '' && $app_config['smtp_server'] != '' ) {
+	if ( $app_config['smtp_email_login'] != '' && $app_config['smtp_email_server'] != '' ) {
 	return @smtp_mail($to, $subject, $message, $content_type, $charset); 
 	}
 	else {

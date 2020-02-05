@@ -359,8 +359,17 @@ function row_alert(tr_id, alert_type, color, theme) {
 	
 	// Audio, if chosen in settings
 	if ( !window.is_alerted && alert_type == 'visual_audio' ) {
+		
+	audio_alert = document.getElementById('audio_alert');
 	  
-	  document.getElementById('audio_alert').play();
+		if ( audio_alert.canPlayType('audio/mpeg') ) {
+  		audio_alert.setAttribute('src','templates/interface/media/audio/Smoke-Alarm-SoundBible-1551222038.mp3');
+		}
+		else if ( audio_alert.canPlayType('audio/ogg') ) {
+  		audio_alert.setAttribute('src','templates/interface/media/audio/Smoke-Alarm-SoundBible-1551222038.ogg');
+		}
+		
+	  audio_alert.play();
 	  
 	window.is_alerted = 1;
 	}

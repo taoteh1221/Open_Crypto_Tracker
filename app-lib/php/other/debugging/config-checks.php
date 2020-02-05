@@ -214,13 +214,13 @@ if ( trim($app_config['from_email']) != '' && trim($app_config['to_email']) != '
           		
           		
 
-			// Check $app_config['asset_charts_and_alerts'] config
-			if ( !is_array($app_config['asset_charts_and_alerts']) ) {
+			// Check $app_config['charts_and_price_alerts'] config
+			if ( !is_array($app_config['charts_and_price_alerts']) ) {
 			$config_parse_error[] = 'The asset / exchange / pairing price alert formatting is corrupt, or not configured yet.';
 			}
 			
 			
-			foreach ( $app_config['asset_charts_and_alerts'] as $key => $value ) {
+			foreach ( $app_config['charts_and_price_alerts'] as $key => $value ) {
    		       		
 			$alerts_string = explode("||",$value);
    		       	
@@ -265,18 +265,18 @@ if ( trim($app_config['from_email']) != '' && trim($app_config['to_email']) != '
 
 // Check SMTP configs
 // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-if ( $app_config['smtp_login'] != '' && $app_config['smtp_server'] != '' ) {
+if ( $app_config['smtp_email_login'] != '' && $app_config['smtp_email_server'] != '' ) {
 	
 	
 // SMTP configuration check
-$smtp_login_parse = explode("||", $app_config['smtp_login'] );
-$smtp_server_parse = explode(":", $app_config['smtp_server'] );
+$smtp_email_login_parse = explode("||", $app_config['smtp_email_login'] );
+$smtp_email_server_parse = explode(":", $app_config['smtp_email_server'] );
 
-	if ( sizeof($smtp_login_parse) < 2 || trim($smtp_login_parse[0]) == '' || $smtp_login_parse[1] == '' ) {
+	if ( sizeof($smtp_email_login_parse) < 2 || trim($smtp_email_login_parse[0]) == '' || $smtp_email_login_parse[1] == '' ) {
    $config_parse_error[] = 'SMTP username / password not formatted properly.';
 	}
 	
-	if ( sizeof($smtp_server_parse) < 2 || trim($smtp_server_parse[0]) == '' || !is_numeric( trim($smtp_server_parse[1]) ) ) {
+	if ( sizeof($smtp_email_server_parse) < 2 || trim($smtp_email_server_parse[0]) == '' || !is_numeric( trim($smtp_email_server_parse[1]) ) ) {
    $config_parse_error[] = 'SMTP server domain_or_ip / port not formatted properly.';
 	}
 	
@@ -312,7 +312,7 @@ $smtp_server_parse = explode(":", $app_config['smtp_server'] );
 
 
 // Email logs configs
-if ( $app_config['mail_logs'] > 0 && trim($app_config['from_email']) != '' && trim($app_config['to_email']) != '' ) {
+if ( $app_config['email_logs'] > 0 && trim($app_config['from_email']) != '' && trim($app_config['to_email']) != '' ) {
 					
 	// Config error check(s)
    if ( validate_email($app_config['from_email']) != 'valid' ) {

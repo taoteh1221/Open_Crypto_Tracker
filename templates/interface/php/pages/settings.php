@@ -18,14 +18,14 @@
 			<?php
 			if ( $price_alert_type_text != '' ) {
           ?>
-          	<p class='settings_sections'><b><?=$price_alert_type_text?> price alerts</b> are <i>enabled</i> in the configuration file (upon <?=$app_config['asset_price_alerts_percent']?>% or more <?=strtoupper($default_btc_primary_currency_pairing)?> price change<?=( $app_config['asset_price_alerts_freq'] > 0 ? ' / max every ' . $app_config['asset_price_alerts_freq'] . ' hours per-alert' : '' )?><?=( $app_config['asset_price_alerts_min_volume'] > 0 ? ' / ' . $app_config['bitcoin_currency_markets'][$default_btc_primary_currency_pairing] . number_format($app_config['asset_price_alerts_min_volume'], 0, '.', ',') . ' minumum volume filter enabled' : '' )?><?=( $app_config['asset_price_alerts_refresh'] > 0 ? ' / comparison price auto-refreshed after ' . $app_config['asset_price_alerts_refresh'] . ' days' : '' )?>). 
+          	<p class='settings_sections'><b><?=$price_alert_type_text?> price alerts</b> are <i>enabled</i> in the configuration file (upon <?=$app_config['price_alerts_threshold']?>% or more <?=strtoupper($default_btc_primary_currency_pairing)?> price change<?=( $app_config['price_alerts_freq_max'] > 0 ? ' / max every ' . $app_config['price_alerts_freq_max'] . ' hours per-alert' : '' )?><?=( $app_config['price_alerts_min_volume'] > 0 ? ' / ' . $app_config['bitcoin_currency_markets'][$default_btc_primary_currency_pairing] . number_format($app_config['price_alerts_min_volume'], 0, '.', ',') . ' minumum volume filter enabled' : '' )?><?=( $app_config['price_alerts_refresh'] > 0 ? ' / comparison price auto-refreshed after ' . $app_config['price_alerts_refresh'] . ' days' : '' )?>). 
           	
           	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job on your web server</a>, or this feature will not work AT ALL.</i> 
           	
           		<?=( $price_change_config_alert != '' ? '<br />' . $price_change_config_alert : '' )?>
           		
           		<?php
-          		if ( preg_match("/text/i", $price_alert_type_text) && $app_config['smtp_login'] == '' && $app_config['smtp_server'] == '' && $app_config['textbelt_apikey'] == '' && $app_config['textlocal_account'] == '' ) {
+          		if ( preg_match("/text/i", $price_alert_type_text) && $app_config['smtp_email_login'] == '' && $app_config['smtp_email_server'] == '' && $app_config['textbelt_apikey'] == '' && $app_config['textlocal_account'] == '' ) {
           		?>
           		<br />
           		<span class='bitcoin'>Email-to-mobile-text service gateways *MAY* work more reliably (not filter out your messages) <i>if you enable SMTP email sending</i>.</span>
@@ -46,9 +46,9 @@
           	</p>      
           <?php
           }
-			if ( $app_config['mail_logs'] > 0 && trim($app_config['from_email']) != '' && trim($app_config['to_email']) != '' ) {
+			if ( $app_config['email_logs'] > 0 && trim($app_config['from_email']) != '' && trim($app_config['to_email']) != '' ) {
           ?>
-          	<p class='settings_sections'><b>Emailing logs</b> is <i>enabled</i> in the configuration file (sent out every <?=$app_config['mail_logs']?> days, log files purged every <?=$app_config['purge_logs']?> days).
+          	<p class='settings_sections'><b>Emailing logs</b> is <i>enabled</i> in the configuration file (sent out every <?=$app_config['email_logs']?> days, log files purged every <?=$app_config['log_purge']?> days).
           	
           	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job on your web server</a>, or this feature will not work RELIABLY.</i> 
           	
@@ -71,7 +71,7 @@
 			<?php
 			}
 			// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-			if ( $app_config['smtp_login'] != '' && $app_config['smtp_server'] != '' ) {
+			if ( $app_config['smtp_email_login'] != '' && $app_config['smtp_email_server'] != '' ) {
           ?>
           	<p class='settings_sections'><b>SMTP email sending</b> (by account login) is <i>enabled</i> in the configuration file.
           	
@@ -124,9 +124,9 @@
 				    exchange_name = exchange_name_ui.toLowerCase();
 				    
 					 if ( window.preferred_bitcoin_markets[btc_primary_currency] && window.preferred_bitcoin_markets[btc_primary_currency].length > 0 && window.preferred_bitcoin_markets[btc_primary_currency] != exchange_name ) {
-				    alert("The " + exchange_name_ui + " exchange " + btc_primary_currency.toUpperCase() + " market price discovery is NOT as reliable as " + render_names(window.preferred_bitcoin_markets[btc_primary_currency]) + ".");
+				    alert("It is highly recommended to use the " + render_names(window.preferred_bitcoin_markets[btc_primary_currency]) + " marketplace instead of " + exchange_name_ui + ", as there MAY be occasional issues with other " + btc_primary_currency.toUpperCase() + " marketplaces.");
 				    }
-				    else if ( window.limited_apis.includes(exchange_name) == true ) {
+				    else if ( window.limited_apis.indexOf(exchange_name) != -1 ) { // MSIE-compatible
 				    alert("The " + exchange_name_ui + " exchange API is less reliable than some others (by NOT consolidating multiple / different asset price requests into one single call per session).\n\nIf you experience issues with primary currency values NOT displaying in this app when using the " + exchange_name_ui + " exchange market, try a different exchange market for your preferred primary currency, and the issue should go away.");
 				    }
 				    
@@ -206,9 +206,9 @@
 					 primary_currency_market = this.value;
 				    
 					 if ( window.preferred_bitcoin_markets[btc_primary_currency] && window.preferred_bitcoin_markets[btc_primary_currency].length > 0 && window.preferred_bitcoin_markets[btc_primary_currency] != exchange_name ) {
-				    alert("The " + exchange_name_ui + " exchange " + btc_primary_currency.toUpperCase() + " market price discovery is NOT as reliable as " + render_names(window.preferred_bitcoin_markets[btc_primary_currency]) + ".");
+				    alert("It is highly recommended to use the " + render_names(window.preferred_bitcoin_markets[btc_primary_currency]) + " marketplace instead of " + exchange_name_ui + ", as there MAY be occasional issues with other " + btc_primary_currency.toUpperCase() + " marketplaces.");
 				    }
-				    else if ( window.limited_apis.includes(exchange_name) == true ) {
+				    else if ( window.limited_apis.indexOf(exchange_name) != -1 ) { // MSIE-compatible
 				    alert("The " + exchange_name_ui + " exchange API is less reliable than some others (by NOT consolidating multiple / different asset price requests into one single call per session).\n\nIf you experience issues with primary currency values NOT displaying in this app when using the " + exchange_name_ui + " exchange market, try a different exchange market for your preferred primary currency, and the issue should go away.");
 				    }
 					 
@@ -236,8 +236,8 @@
 				    
 				    </span> <img id='currency_info' src='templates/interface/media/images/info.png' alt='' width='30' border='0' style='position: relative; left: -5px;' /> <input type='checkbox' id='standalone_primary_currency_enabled' name='standalone_primary_currency_enabled' value='1' onchange='
 				    
-				    btc_primary_currency = $("#btc_primary_currency").val();
-				    primary_currency_market = $("#primary_currency_market_id").val();
+				    btc_primary_currency = $("#btc_primary_currency").val() ? $("#btc_primary_currency").val() : "<?=$app_config['btc_primary_currency_pairing']?>";
+				    primary_currency_market = $("#primary_currency_market_id").val() ? $("#primary_currency_market_id").val() : <?=btc_market($app_config['btc_primary_exchange'])?>;
 				    
 				    /////////////////////////////////////////////////////////
 				    

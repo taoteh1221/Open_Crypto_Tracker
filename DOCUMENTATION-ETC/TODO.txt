@@ -23,18 +23,6 @@ BUGS / TESTS SECTION
 ///////////////////////////////////////////////////////
 
 
-Re-test modified bash install script
-
-
-Investigate unchecking standalone mode AFTER page reload...may be messing up the "update assets" page field for BTC (hiding exchanges list).
-
-
-No audio alert in FF (windows) Maybe the OGG OR MP3 file needs to load the opposite file for FF?
-
-
-Standalone mode not changing corresponding exchange when pairing switched in IE (windows). May be how the CSS selector runs in IE? Works on the update assets page in IE, just not settings page.
-
-
 Test unicode text message with no space in front of hex-encoded data (forgot to try that, coded and ready to go now...see content_data_encoding() and /DOCUMENTATION-ETC/Developing-maintaining/DEBUGGING.txt).
 
 
@@ -50,46 +38,19 @@ FEATURES / STRUCTURING SECTION
 ///////////////////////////////////////////////////////
 
 
-Once an admin config interface web page is built, only update the cached app_config when new configuration variables are added to config.php, and skip overwriting any pre-existing variables (so we don't revert end-user configuration changes).
-
-
-Sections / pages for upcoming admin config interface.
-
-
-CSRF nounce protection for admin AND user interface updates/viewing (session based).
-
-
-"Delete session data" button, that runs the "hardy session clearing" logic.
-
-
-Add drop-down menu feature next to "update assets" buttons for "save as": cookie data | session data | only post data.
-
-
-Create a "Desktop Edition" using PHPDesktop (https://github.com/cztomczak/phpdesktop/wiki), call the hosted version "Server Edition".
-
-
-Use SQLite for any data storage that needs query capability (can also be used in PHPDesktop version, as it supports SQLite). 
-
-
-Dynamically add an 'app_version' value to $app_config when processing it, so when we are updating the cached config with a newly-changed config.php config, we not only can see if any new config settings exist / have changed, but we can see if the app was upgraded since the previous cached config update.
-
-
-Eventually turn string / array manipulations function file into a class.
-
-
-Add twilio.com mobile text messaging support
-
-
-Look into an auto-update feature like WordPress has (downloads a zip file upgrade, and exctracts it overwriting the old app files).
+Check out cryptocompare.com API.
 
 
 Mod rewrite rules for future RESTFUL API system
 
 
+Dynamically add an 'app_version' value to $app_config when processing it, so when we are updating the cached config with a newly-changed config.php config, we not only can see if any new config settings exist / have changed, but we can see if the app was upgraded since the previous cached config update.
+
+
+CSRF nounce protection for admin AND user interface updates/viewing (session based).
+
+
 See if exchange API data arrays can be manipulated slightly to build a reusable module for every exchange's API calls.
-
-
-For each key => value loop json admin config to automate generating new admin settings page...selects for arrays, text feilds for strings. Maybe certain key names get checkbox / radio button fields.
 
 
 Add IFTTT support (alexa / google home / whatever supported devices).
@@ -98,7 +59,13 @@ Add IFTTT support (alexa / google home / whatever supported devices).
 Add google home support via direct connect on same network, OR via IFTTT (whichever is most feasible).
 
 
-Add Google and Microsoft translate API as options to translate the portfolio interface and price alerts.
+Add twilio.com mobile text messaging support
+
+
+Add drop-down menu feature next to "update assets" buttons for "save as": cookie data | session data | only post data.
+
+
+"Delete session data" button, that runs the "hardy session clearing" logic.
 
 
 For scalable chart data, maybe run once daily during cron runtimes creating 1 hour (or greater) time interval chart data stores, using timestamp info in the default chart data store. Then use those for the initial chart loads if the chart data is more than 3 months worth (or whatever time period).
@@ -107,13 +74,46 @@ For scalable chart data, maybe run once daily during cron runtimes creating 1 ho
 Create chart interval function that divides the desired chart timeline period by the number of maximum data points the chart should ever load, to get the data point time interval, then caches the corresponding timestamped data point intervals into an updated chart for that time period every 24 hours. So we'd have like 6 / 12 / 18 month charts (as examples).
 
 
-Add feature to restore chart data from the zip archive backups (with admin authentication ONLY). Chart restore by prepending, so any existing data remains, BUT only if timestamp is newer than newest backups timestamp. Trigger restore from newest backups folder backup by placing a blank file named RESTORE_CHARTS in the que directory.
-
-
 Add setting to enable access stats modal, maybe include an optional password setting to require login to view it in the UI if password is set. Store access data in flat file / json format (so mulitiple values can be read back into the app before updating, then updated values saved back in json overwriting previously saved values). Last 50 unique ip addresses, showing ip address's last user agent / last visit time / total visits count. Drop any over 50 ip addresses off the list based on oldest timestamps. Store visitor ip address data (user agent, etc) in an array key based off ip address (json format).
 
 
-Check out cryptocompare.com API.
+2-way encryption option (unlocked with 6 digit PIN) for storing coin amounts (IN COOKIES ONLY, NO DATABASE STORAGE !EVER!), with "quick lock" to quickly re-hide portfolio data (staying hidden persists on page load / reload as well with a cookie).
+
+
+Add header login nav like prototype for zilliqa block explorer (use the developed account system structure too).
+
+
+Add an alert bell icon in upcoming header login nav, and have alerts make it red and be a drop-down info bubble clicking it, rather than alerts printed in the footer.
+
+
+Once an admin config interface web page is built, only update the cached app_config when new configuration variables are added to config.php, and skip overwriting any pre-existing variables (so we don't revert end-user configuration changes).
+
+
+Sections / pages for upcoming admin config interface.
+
+
+For each key => value loop json admin config to automate generating new admin settings page...selects for arrays, text fields for strings. Maybe certain key names get checkbox / radio button fields.
+
+
+Add feature to restore chart data from the zip archive backups (with admin authentication ONLY). Chart restore by prepending, so any existing data remains, BUT only if timestamp is newer than newest backups timestamp. Trigger restore from newest backups folder backup by placing a blank file named RESTORE_CHARTS in the queue directory.
+
+
+Build Decred staking calculator.
+
+
+Look into an auto-update feature like WordPress has (downloads a zip file upgrade, and exctracts it overwriting the old app files).
+
+
+Add Google and Microsoft translate API as options to translate the portfolio interface and price alerts.
+
+
+Create a "Desktop Edition" using PHPDesktop (https://github.com/cztomczak/phpdesktop/wiki), call the hosted version "Server Edition".
+
+
+Use SQLite for any data storage that needs query capability (can also be used in PHPDesktop version, as it supports SQLite). 
+
+
+Eventually turn string / array manipulations function file into a class.
 
 
 SQL-based accounts for storing configuration settings per-user (including setting up new assets available at supported exchanges), BUT !NEVER! STORES PORTFOLIO DATA (FOR PRIVACY / SECURITY-SAKE).
@@ -123,15 +123,6 @@ When sql host config has been set in config.php, BUT DATABASE SETUP HAS NOT RUN 
 
 
 Maintain sql-based config as completely separate module(s) from the file-based config (config.php), except for the sql host connection / authentication details (put those at the top of the config.php configurations).
-
-
-Add header login nav like prototype for zilliqa block explorer (use the developed account system structure too).
-
-
-Add an alert bell icon in upcoming header login nav, and have alerts make it red and be a drop-down info bubble clicking it, rather than alerts printed in the footer.
-
-
-2-way encryption option (unlocked with 6 digit PIN) for storing coin amounts (IN COOKIES ONLY, NO DATABASE STORAGE !EVER!), with "quick lock" to quickly re-hide portfolio data (staying hidden persists on page load / reload as well with a cookie).
 
 
 Stats in UI using chart data (if available), to show and compare spot / volume percent changes over an end-user-defined time period for a number of assets (example: BTC / LTC / ETH / XMR spot price percentage changes / 24hr volume percentage changes from April 6th 2019 to November 22nd 2019). Shows trends on which assets are performing better for a certain time period.

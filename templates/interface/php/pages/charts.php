@@ -38,7 +38,7 @@
 	<?php
 	
 	$zebra_stripe = 'long_list_odd';
-	foreach ( $app_config['asset_charts_and_alerts'] as $key => $value ) {
+	foreach ( $app_config['charts_and_price_alerts'] as $key => $value ) {
 		
 		// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
 		$show_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, mb_strpos($key, "-", 0, 'utf-8') ) );
@@ -151,7 +151,7 @@
 	<?php
 	
 	// Render the charts
-	foreach ( $app_config['asset_charts_and_alerts'] as $key => $value ) {
+	foreach ( $app_config['charts_and_price_alerts'] as $key => $value ) {
 		
 		$chart_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, mb_strpos($key, "-", 0, 'utf-8') ) );
 		$chart_asset = strtoupper($chart_asset);

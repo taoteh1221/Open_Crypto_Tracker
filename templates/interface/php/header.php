@@ -11,7 +11,7 @@ $runtime_mode = 'ui';
 
 require("config.php");
 
-header('Content-type: text/html; charset=' . $app_config['charset_standard']);
+header('Content-type: text/html; charset=' . $app_config['charset_default']);
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -24,7 +24,7 @@ header('Content-type: text/html; charset=' . $app_config['charset_standard']);
 
 	<title>DFD Cryptocoin Values - Open source / free private cryptocurrency investment portfolio tracker, with email / text / Alexa / Google Home alerts, charts, mining calculators, leverage / gain / loss / balance stats, and other crypto tools</title>
     
-    <meta charset="<?=$app_config['charset_standard']?>">
+    <meta charset="<?=$app_config['charset_default']?>">
     <meta name="viewport" content="width=device-width">
 	<meta name="robots" content="noindex,nofollow"> <!-- Keeps this URL private (search engines won't add this URL to their search indexes) -->
     

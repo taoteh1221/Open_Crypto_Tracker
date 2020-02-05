@@ -59,7 +59,7 @@ function get_sub_token_price($chosen_market, $market_pairing) {
 global $app_config;
 
   if ( strtolower($chosen_market) == 'eth_subtokens_ico' ) {
-  return $app_config['eth_subtokens_ico_values'][$market_pairing];
+  return $app_config['ethereum_subtoken_ico_values'][$market_pairing];
   }
  
 }
@@ -114,11 +114,10 @@ global $app_config;
 		if ( is_int($input) && $pairing_loop == $input ) {
 		return $market_key;
 		}
-		// If an exchange name, return the numeric id (used in UI html forms)
-		elseif ( ctype_alnum($input) && $market_key == $input ) {
+		// If an exchange name (alphnumeric with possible underscores), return the numeric id (used in UI html forms)
+		elseif ( preg_match("/^[A-Za-z0-9_]+$/", $input) && $market_key == $input ) {
 		return $pairing_loop + 1;
 		}
-	
 	$pairing_loop = $pairing_loop + 1;
 	}
 
@@ -570,14 +569,14 @@ global $_POST, $app_config;
 ////////////////////////////////////////////////////////
 
 
-function asset_charts_and_alerts($asset_data, $exchange, $pairing, $mode) {
+function charts_and_price_alerts($asset_data, $exchange, $pairing, $mode) {
 
 
 // Globals
 global $base_dir, $app_config, $default_btc_primary_exchange, $default_btc_primary_currency_value, $default_btc_primary_currency_pairing;
 
 
-$whale_alert_thresholds = explode("||", $app_config['asset_price_alerts_whale_alert_thresholds']);
+$whale_alert_threshold = explode("||", $app_config['price_alerts_whale_alert_threshold']);
 
 
 // Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
@@ -637,7 +636,7 @@ $asset_market_data = asset_market_data($asset, $exchange, $app_config['portfolio
 	
 	// Return false if we have no $default_btc_primary_currency_value
 	if ( !isset($default_btc_primary_currency_value) || $default_btc_primary_currency_value == 0 ) {
-	app_logging('other_error', 'asset_charts_and_alerts() - No Bitcoin '.strtoupper($default_btc_primary_currency_pairing).' value set', $asset_data . ': ' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ';' );
+	app_logging('other_error', 'charts_and_price_alerts() - No Bitcoin '.strtoupper($default_btc_primary_currency_pairing).' value set', $asset_data . ': ' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ';' );
 	$set_return = 1;
 	}
 	
@@ -646,7 +645,7 @@ $asset_market_data = asset_market_data($asset, $exchange, $app_config['portfolio
 	// Continue
 	}
 	else {
-	app_logging('other_error', 'asset_charts_and_alerts() - No asset '.strtoupper($default_btc_primary_currency_pairing).' value set', $asset_data . ': ' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . '; pairing_id: ' . $app_config['portfolio_assets'][$asset]['market_pairing'][$pairing][$exchange] . ';' );
+	app_logging('other_error', 'charts_and_price_alerts() - No asset '.strtoupper($default_btc_primary_currency_pairing).' value set', $asset_data . ': ' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . '; pairing_id: ' . $app_config['portfolio_assets'][$asset]['market_pairing'][$pairing][$exchange] . ';' );
 	$set_return = 1;
 	}
 	
@@ -771,7 +770,7 @@ $cached_array = explode("||", $data_file);
           
   			 
   			 // Check whether we should send an alert
-          if ( number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && $percent_change >= $app_config['asset_price_alerts_percent'] ) {
+          if ( number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && $percent_change >= $app_config['price_alerts_threshold'] ) {
           $send_alert = 1;
           }
           
@@ -815,23 +814,26 @@ $cached_array = explode("||", $data_file);
           
           
           // Whale alert (price change average of X or greater within X day(s) or less, with X percent pair volume change average that is at least a X primary currency volume change average)
+          if ( trim($whale_alert_threshold[0]) != '' && trim($whale_alert_threshold[1]) != '' && trim($whale_alert_threshold[2]) != '' && trim($whale_alert_threshold[3]) != '' ) {
           
-          $whale_max_days_to_24hr_average = number_to_string( trim($whale_alert_thresholds[0]) );
+          $whale_max_days_to_24hr_average = number_to_string( trim($whale_alert_threshold[0]) );
           
-          $whale_min_price_change_percent_24hr_average = number_to_string( trim($whale_alert_thresholds[1]) );
+          $whale_min_price_change_percent_24hr_average = number_to_string( trim($whale_alert_threshold[1]) );
           
-          $whale_min_volume_change_percent_24hr_average = number_to_string( trim($whale_alert_thresholds[2]) );
+          $whale_min_volume_change_percent_24hr_average = number_to_string( trim($whale_alert_threshold[2]) );
           
-          $whale_min_volume_change_currency_24hr_average = number_to_string( trim($whale_alert_thresholds[3]) );
+          $whale_min_volume_change_currency_24hr_average = number_to_string( trim($whale_alert_threshold[3]) );
           
-   		 if ( $last_check_days <= $whale_max_days_to_24hr_average && number_to_string( $percent_change / $last_check_days ) >= $whale_min_price_change_percent_24hr_average && number_to_string( $volume_percent_change / $last_check_days ) >= $whale_min_volume_change_percent_24hr_average && number_to_string( abs($volume_primary_currency_raw - $cached_primary_currency_volume) / $last_check_days ) >= $whale_min_volume_change_currency_24hr_average ) {
-   		 $whale_alert = 1;
+   		 	if ( $last_check_days <= $whale_max_days_to_24hr_average && number_to_string( $percent_change / $last_check_days ) >= $whale_min_price_change_percent_24hr_average && number_to_string( $volume_percent_change / $last_check_days ) >= $whale_min_volume_change_percent_24hr_average && number_to_string( abs($volume_primary_currency_raw - $cached_primary_currency_volume) / $last_check_days ) >= $whale_min_volume_change_currency_24hr_average ) {
+   		 	$whale_alert = 1;
+   		 	}
+   		 
    		 }
    		 
    		 
           
           // We disallow alerts where minimum 24 hour trade PRIMARY CURRENCY CONFIG volume has NOT been met, ONLY if an API request doesn't fail to retrieve volume data
-          if ( $volume_primary_currency_raw >= 0 && $volume_primary_currency_raw < $app_config['asset_price_alerts_min_volume'] ) {
+          if ( $volume_primary_currency_raw >= 0 && $volume_primary_currency_raw < $app_config['price_alerts_min_volume'] ) {
           $send_alert = null;
           }
   
@@ -844,9 +846,9 @@ $cached_array = explode("||", $data_file);
           }
   
   
-          // We disallow alerts if $app_config['asset_price_alerts_block_volume_error'] is on, and there is a volume retrieval error
+          // We disallow alerts if $app_config['price_alerts_block_volume_error'] is on, and there is a volume retrieval error
           // ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
-          if ( $volume_primary_currency_raw == -1 && $app_config['asset_price_alerts_block_volume_error'] == 'on' ) {
+          if ( $volume_primary_currency_raw == -1 && $app_config['price_alerts_block_volume_error'] == 'on' ) {
           $send_alert = null;
           }
           
@@ -858,14 +860,14 @@ $cached_array = explode("||", $data_file);
           
           // Sending the alerts
           
-          if ( update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $app_config['asset_price_alerts_freq'] * 60 ) ) == true && $send_alert == 1 ) {
+          if ( update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $app_config['price_alerts_freq_max'] * 60 ) ) == true && $send_alert == 1 ) {
           
           
           
           
   				// Message formatting for display to end user
           	
-          	$desc_alert_type = ( $app_config['asset_price_alerts_refresh'] > 0 ? 'refresh' : 'alert' );
+          	$desc_alert_type = ( $app_config['price_alerts_refresh'] > 0 ? 'refresh' : 'alert' );
           	
           	// IF PRIMARY CURRENCY CONFIG volume was zero last alert / refresh, for UX sake 
           	// we use current PRIMARY CURRENCY CONFIG volume instead of current pair volume (for percent up, so it's not up 70,000% for altcoins lol)
@@ -918,7 +920,7 @@ $cached_array = explode("||", $data_file);
           	// Format trade volume data
           	
           	// Minimum volume filter skipped message, only if filter enabled and error getting trade volume data (otherwise is NULL)
-          	if ( $volume_primary_currency_raw == null && $app_config['asset_price_alerts_min_volume'] > 0 || $volume_primary_currency_raw < 1 && $app_config['asset_price_alerts_min_volume'] > 0 ) {
+          	if ( $volume_primary_currency_raw == null && $app_config['price_alerts_min_volume'] > 0 || $volume_primary_currency_raw < 1 && $app_config['price_alerts_min_volume'] > 0 ) {
           	$volume_filter_skipped_text = ', so enabled minimum volume filter was skipped';
           	}
           	else {
@@ -927,8 +929,8 @@ $cached_array = explode("||", $data_file);
           	
           	
           	// Successfully received > 0 volume data, at or above an enabled minimum volume filter
-  				if ( $volume_primary_currency_raw > 0 && $app_config['asset_price_alerts_min_volume'] > 0 && $volume_primary_currency_raw >= $app_config['asset_price_alerts_min_volume'] ) {
-          	$email_volume_summary = '24 hour ' . $volume_describe . $volume_change_text . ' ' . $volume_primary_currency_text . ' (minimum volume filter set at ' . $app_config['bitcoin_currency_markets'][$default_btc_primary_currency_pairing] . number_format($app_config['asset_price_alerts_min_volume'], 0, '.', ',') . ').';
+  				if ( $volume_primary_currency_raw > 0 && $app_config['price_alerts_min_volume'] > 0 && $volume_primary_currency_raw >= $app_config['price_alerts_min_volume'] ) {
+          	$email_volume_summary = '24 hour ' . $volume_describe . $volume_change_text . ' ' . $volume_primary_currency_text . ' (minimum volume filter set at ' . $app_config['bitcoin_currency_markets'][$default_btc_primary_currency_pairing] . number_format($app_config['price_alerts_min_volume'], 0, '.', ',') . ').';
           	}
           	// NULL if not setup to get volume, negative number returned if no data received from API, therefore skipping any enabled volume filter
           	// ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
@@ -1010,8 +1012,8 @@ $cached_array = explode("||", $data_file);
 	|| $mode == 'alert' && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && !file_exists('cache/alerts/'.$asset_data.'.dat') ) {
 	store_file_contents($base_dir . '/cache/alerts/'.$asset_data.'.dat', $alert_cache_contents); 
 	}
-	elseif ( $mode == 'both' && $send_alert != 1 && $app_config['asset_price_alerts_refresh'] >= 1 && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $app_config['asset_price_alerts_refresh'] * 1440 ) ) == true
-	|| $mode == 'alert' && $send_alert != 1 && $app_config['asset_price_alerts_refresh'] >= 1 && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $app_config['asset_price_alerts_refresh'] * 1440 ) ) == true ) {
+	elseif ( $mode == 'both' && $send_alert != 1 && $app_config['price_alerts_refresh'] >= 1 && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $app_config['price_alerts_refresh'] * 1440 ) ) == true
+	|| $mode == 'alert' && $send_alert != 1 && $app_config['price_alerts_refresh'] >= 1 && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $app_config['price_alerts_refresh'] * 1440 ) ) == true ) {
 	store_file_contents($base_dir . '/cache/alerts/'.$asset_data.'.dat', $alert_cache_contents); 
 	}
 

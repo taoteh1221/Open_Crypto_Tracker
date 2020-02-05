@@ -11,7 +11,7 @@
 	}
 
 
-	foreach ( $app_config['asset_charts_and_alerts'] as $key => $value ) {
+	foreach ( $app_config['charts_and_price_alerts'] as $key => $value ) {
 		
  
 		if ( $_GET['asset_data'] == $key ) {
@@ -90,7 +90,7 @@
 			}
 		
 
-header('Content-type: text/html; charset=' . $app_config['charset_standard']);
+header('Content-type: text/html; charset=' . $app_config['charset_default']);
 
 ?>
 

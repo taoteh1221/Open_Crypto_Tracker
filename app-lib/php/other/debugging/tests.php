@@ -17,7 +17,7 @@ if ( $runtime_mode == 'ui' ) {
 	// Check configured charts and price alerts
 	if ( $app_config['debug_mode'] == 'all' || $app_config['debug_mode'] == 'charts' ) {
 		
-		foreach ( $app_config['asset_charts_and_alerts'] as $key => $value ) {
+		foreach ( $app_config['charts_and_price_alerts'] as $key => $value ) {
 				
 		// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
 		$check_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, mb_strpos($key, "-", 0, 'utf-8') ) );

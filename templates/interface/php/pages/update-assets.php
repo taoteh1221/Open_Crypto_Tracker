@@ -12,6 +12,8 @@
 <!--  !START! RE-USED INFO BUBBLE DATA  -->
 <script>
 
+
+
 		var average_paid_notes = '<h5 align="center" class="yellow" style="position: relative; white-space: nowrap;">Calculating Average <?=strtoupper($app_config['btc_primary_currency_pairing'])?> Price Paid Per Token</h5>'
 			
 			
@@ -25,6 +27,7 @@
 			
 			+'<p class="coin_info"><span class="yellow"> </span></p>';
 
+	
 	
 			var leverage_trading_notes = '<h5 align="center" class="yellow" style="position: relative; white-space: nowrap;">Tracking Long / Short Margin Leverage Trades</h5>'
 			
@@ -40,6 +43,8 @@
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="yellow">*Current maximum margin leverage setting of <?=$app_config['margin_leverage_max']?>x can be adjusted in config.php.</span></p>'
 			
 			+'<p class="coin_info"><span class="yellow"> </span></p>';
+			
+			
 			
 </script>
 <!--  !END! RE-USED INFO BUBBLE DATA  -->
@@ -400,11 +405,21 @@
 				    ' id='<?=$field_var_pairing?>' name='<?=$field_var_pairing?>'>
 					<?php
 					
-					// Get default Bitcoin pairing key for further down in the logic, if no $coin_pairing_id value was set
-					$selected_pairing = ( $coin_pairing_id ? $coin_pairing_id : $app_config['btc_primary_currency_pairing'] );
+					// Get default BITCOIN pairing key for further down in the logic, if no $coin_pairing_id value was set FOR BITCOIN
+					if ( strtolower($coin_array_value['coin_name']) == 'bitcoin' ) {
+					$selected_pairing = ( isset($coin_pairing_id) ? $coin_pairing_id : $app_config['btc_primary_currency_pairing'] );
+					}
+					else {
+					$selected_pairing = $coin_pairing_id;
+					}
+					
 					
 					foreach ( $coin_array_value['market_pairing'] as $pairing_key => $pairing_id ) {
 					 	
+					 	// Set pairing key if not set yet (values not yet populated etc)
+					 	if ( !isset($selected_pairing) ) {
+					 	$selected_pairing = $pairing_key;
+					 	}
 						
 					?>
 					<option value='<?=$pairing_key?>' <?=( $selected_pairing == $pairing_key ? ' selected ' : '' )?>> <?=strtoupper(preg_replace("/_/i", " ", $pairing_key))?> </option>

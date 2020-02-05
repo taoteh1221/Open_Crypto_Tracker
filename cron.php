@@ -33,7 +33,7 @@ require("config.php");
 
 
 // Charts and price alerts
-foreach ( $app_config['asset_charts_and_alerts'] as $key => $value ) {
+foreach ( $app_config['charts_and_price_alerts'] as $key => $value ) {
 	
 // Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
 $asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, mb_strpos($key, "-", 0, 'utf-8') ) );
@@ -46,10 +46,10 @@ $pairing = $value[1];
 $mode = $value[2];
 	
 	
-$result = asset_charts_and_alerts($key, $exchange, $pairing, $mode);
+$result = charts_and_price_alerts($key, $exchange, $pairing, $mode);
 
 	if ( $result != true ) {
-	app_logging('other_error', 'asset_charts_and_alerts() update failure', $key . ' (' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ')' );
+	app_logging('other_error', 'charts_and_price_alerts() update failure', $key . ' (' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ')' );
 	}
 
 }

@@ -261,7 +261,7 @@ $debugging_logs .= strip_tags($logs_array['other_debugging']); // Remove any HTM
 
 
 	// If it's time to email debugging logs...
-	if ( $app_config['mail_logs'] > 0 && update_cache_file('cache/events/email-debugging-logs.dat', ( $app_config['mail_logs'] * 1440 ) ) == true ) {
+	if ( $app_config['email_logs'] > 0 && update_cache_file('cache/events/email-debugging-logs.dat', ( $app_config['email_logs'] * 1440 ) ) == true ) {
 		
 	$emailed_logs = "\n\n ------------------debugging.log------------------ \n\n" . file_get_contents('cache/logs/debugging.log') . "\n\n ------------------smtp_debugging.log------------------ \n\n" . file_get_contents('cache/logs/smtp_debugging.log');
 		
@@ -284,7 +284,7 @@ $debugging_logs .= strip_tags($logs_array['other_debugging']); // Remove any HTM
 	
 	
 	// Log debugging...Purge old logs before storing new logs, if it's time to...otherwise just append.
-	if ( update_cache_file('cache/events/purge-debugging-logs.dat', ( $app_config['purge_logs'] * 1440 ) ) == true ) {
+	if ( update_cache_file('cache/events/purge-debugging-logs.dat', ( $app_config['log_purge'] * 1440 ) ) == true ) {
 	store_file_contents($base_dir . '/cache/logs/debugging.log', $debugging_logs); // NULL if no new debugging, but that's OK because we are purging any old entries 
 	store_file_contents($base_dir . '/cache/logs/smtp_debugging.log', null);
 	store_file_contents('cache/events/purge-debugging-logs.dat', date('Y-m-d H:i:s'));
@@ -323,7 +323,7 @@ $error_logs .= strip_tags($logs_array['other_error']); // Remove any HTML format
 
 
 	// If it's time to email error logs...
-	if ( $app_config['mail_logs'] > 0 && update_cache_file('cache/events/email-error-logs.dat', ( $app_config['mail_logs'] * 1440 ) ) == true ) {
+	if ( $app_config['email_logs'] > 0 && update_cache_file('cache/events/email-error-logs.dat', ( $app_config['email_logs'] * 1440 ) ) == true ) {
 		
 	$emailed_logs = "\n\n ------------------errors.log------------------ \n\n" . file_get_contents('cache/logs/errors.log') . "\n\n ------------------smtp_errors.log------------------ \n\n" . file_get_contents('cache/logs/smtp_errors.log');
 		
@@ -346,7 +346,7 @@ $error_logs .= strip_tags($logs_array['other_error']); // Remove any HTML format
 	
 	
 	// Log errors...Purge old logs before storing new logs, if it's time to...otherwise just append.
-	if ( update_cache_file('cache/events/purge-error-logs.dat', ( $app_config['purge_logs'] * 1440 ) ) == true ) {
+	if ( update_cache_file('cache/events/purge-error-logs.dat', ( $app_config['log_purge'] * 1440 ) ) == true ) {
 	store_file_contents($base_dir . '/cache/logs/errors.log', $error_logs); // NULL if no new errors, but that's OK because we are purging any old entries 
 	store_file_contents($base_dir . '/cache/logs/smtp_errors.log', null);
 	store_file_contents('cache/events/purge-error-logs.dat', date('Y-m-d H:i:s'));
@@ -415,7 +415,7 @@ global $base_dir, $app_config;
    // Normal email
    if ( $send_params['email']['message'] != '' && validate_email($app_config['to_email']) == 'valid' ) {
    
-   $email_array = array('subject' => $send_params['email']['subject'], 'message' => $send_params['email']['message'], 'content_type' => ( $send_params['email']['content_type'] ? $send_params['email']['content_type'] : 'text' ), 'charset' => ( $send_params['email']['charset'] ? $send_params['email']['charset'] : $app_config['charset_standard'] ) );
+   $email_array = array('subject' => $send_params['email']['subject'], 'message' => $send_params['email']['message'], 'content_type' => ( $send_params['email']['content_type'] ? $send_params['email']['content_type'] : 'text' ), 'charset' => ( $send_params['email']['charset'] ? $send_params['email']['charset'] : $app_config['charset_default'] ) );
    
    	// json_encode() only accepts UTF-8, SO TEMPORARILY CONVERT TO THAT FOR MESSAGE QUEUE STORAGE
    	if ( strtolower($send_params['email']['charset']) != 'utf-8' ) {

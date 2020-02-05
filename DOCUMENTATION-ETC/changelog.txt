@@ -2311,7 +2311,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Bug fixes for unicode support in mobile text messages (WORK IN PROGRESS)
 
--Changed config setting 'asset_price_alerts_freq' time units to hours (instead of minutes)
+-Changed config setting 'price_alerts_freq_max' time units to hours (instead of minutes)
 
 IMPORTANT NOTES: 
 
@@ -2487,6 +2487,12 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.07.7:
 
+-Misc bug fixes and optimizations
+
+-Browser compatibility fixes for Firefox / Internet Explorer
+
+-UX on configuration setting semantics / organization / categorization
+
 -Better charts UX for the primary currency's charts (equivalent value in the primary currency for ANY market)
 
 -Bug fix for data mismatch if the primary currency is changed in config.php (clears any previous show_charts cookie / price alert cache data)
@@ -2494,6 +2500,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -Config setting / UX for preferred Bitcoin market(s), for getting a certain currency's value (when alternate markets have poor volume / price discovery / etc)
 
 IMPORTANT NOTES: 
+
+v4.07.7 AND HIGHER HAVE A MAJOR OVERHAUL TO CONFIGURATION VARIABLE NAMES (FOR EASY-TO-UNDERSTAND NAMES), MIGRATE YOUR CUSTOM CONFIG SETTINGS TO THE #NEW# VARIABLE NAMES
 
 v4.06.0 AND HIGHER HAS MAJOR DIRECTORY STRUCTURE CHANGES. FOR CLEAN UPGRADES, FIRST DELETE EVERY SUB-DIRECTORY EXCEPT FOR THE 'CACHE' DIRECTORY BEFOREHAND.
 

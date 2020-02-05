@@ -33,7 +33,7 @@ if ( update_cache_file($base_dir . '/cache/events/scheduled_maintenance.dat', 60
 	////////////////////////////////////////////////////////////
    if ( $app_config['charts_page'] == 'on' || !is_numeric(trim(file_get_contents($base_dir . '/cache/vars/chart_interval.dat'))) || trim(file_get_contents($base_dir . '/cache/vars/chart_interval.dat')) == 1 ) {
         
-        foreach ( $app_config['asset_charts_and_alerts'] as $key => $value ) {
+        foreach ( $app_config['charts_and_price_alerts'] as $key => $value ) {
         
             if ( trim($find_first_filename) == '' ) {
                 
@@ -88,8 +88,8 @@ if ( update_cache_file($base_dir . '/cache/events/scheduled_maintenance.dat', 60
 			}
 
 		
-			// Email / text / alexa notification reminders (if it's been $app_config['upgrade_check_remind'] days since any previous reminder)
-			if ( update_cache_file($base_dir . '/cache/events/upgrade_check_reminder.dat', ( $app_config['upgrade_check_remind'] * 1440 ) ) == true ) {
+			// Email / text / alexa notification reminders (if it's been $app_config['upgrade_check_reminder'] days since any previous reminder)
+			if ( update_cache_file($base_dir . '/cache/events/upgrade_check_reminder.dat', ( $app_config['upgrade_check_reminder'] * 1440 ) ) == true ) {
 			
 			
 				if ( file_exists($base_dir . '/cache/events/upgrade_check_reminder.dat') ) {
@@ -100,7 +100,7 @@ if ( update_cache_file($base_dir . '/cache/events/scheduled_maintenance.dat', 60
 			$upgrade_check_message = $another_reminder . 'An upgrade for DFD Cryptocoin Values to version ' . $upgrade_check_latest_version . ' is available. You are running version ' . $app_version . '.' . $bug_fix_message_extension;
 			
 			
-			$email_notifyme_message = $upgrade_check_message . ' (you have upgrade reminders sent out every '.$app_config['upgrade_check_remind'].' days in the configuration settings)';
+			$email_notifyme_message = $upgrade_check_message . ' (you have upgrade reminders sent out every '.$app_config['upgrade_check_reminder'].' days in the configuration settings)';
 			
 						
 					// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
@@ -187,20 +187,20 @@ store_file_contents($base_dir . '/cache/vars/cache_size.dat', convert_bytes( dir
 
 
 // Delete ANY old zip archive backups scheduled to be purged
-delete_old_files($base_dir . '/cache/secured/backups/', $app_config['delete_old_backups'], 'zip');
+delete_old_files($base_dir . '/cache/secured/backups', $app_config['delete_old_backups'], 'zip');
 
 
 // Stale cache files cleanup
-delete_old_files($base_dir . '/cache/apis/', 1, 'dat'); // Delete MARKETS / CHAIN DATA API cache files older than 1 day
+delete_old_files($base_dir . '/cache/apis', 1, 'dat'); // Delete MARKETS / CHAIN DATA API cache files older than 1 day
 
 
 // Secondary logs cleanup
 $logs_cache_cleanup = array(
-									$base_dir . '/cache/logs/debugging/api/',
-									$base_dir . '/cache/logs/errors/api/',
+									$base_dir . '/cache/logs/debugging/api',
+									$base_dir . '/cache/logs/errors/api',
 									);
 									
-delete_old_files($logs_cache_cleanup, $app_config['purge_logs'], 'dat'); // Delete LOGS API cache files older than $app_config['purge_logs'] day(s)
+delete_old_files($logs_cache_cleanup, $app_config['log_purge'], 'dat'); // Delete LOGS API cache files older than $app_config['log_purge'] day(s)
 
 
 // Update the maintenance event tracking

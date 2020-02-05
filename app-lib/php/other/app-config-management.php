@@ -8,10 +8,10 @@
 // APP CONFIG DYNAMIC MANAGEMENT
 //////////////////////////////////////////////////////////////////
 
+
 // Default BTC CRYPTO/CRYPTO market pairing support, BEFORE GENERATING MISCASSETS ARRAY
-// (so we activate it here instead of in config.php, for good UX adding altcoin markets dynamically there)
-// Add to beginning of the array
-$app_config['crypto_to_crypto_pairing'] = array_merge( array('btc' => 'Ƀ ') , $app_config['crypto_to_crypto_pairing']);
+// (so we activate it here instead of in config.php, for good UX adding ONLY altcoin markets dynamically there)
+$app_config['crypto_to_crypto_pairing']['btc'] = 'Ƀ ';
 
 
 
@@ -70,13 +70,22 @@ if (is_array($app_config['portfolio_assets']) || is_object($app_config['portfoli
     
     
     
-// Clean / auto-correct $app_config['btc_primary_currency_pairing'] and $app_config['btc_primary_exchange'] BEFORE BELOW CHARTS/ALERTS LOGIC
+// Clean / auto-correct $app_config['btc_primary_currency_pairing'] and $app_config['btc_primary_exchange'] 
+// BEFORE DEFAULT BITCOIN MARKET IS DYNAMICALLY MANIPULATED
 $app_config['btc_primary_currency_pairing'] = cleanup_string($app_config['btc_primary_currency_pairing'], 'lower');
 $app_config['btc_primary_exchange'] = cleanup_string($app_config['btc_primary_exchange'], 'lower');
 
 
+// Re-set default primary currency 'preferred_bitcoin_markets' value, ONLY IF THIS VALUE #EXISTS ALREADY#
+// (for UX, to override the pre-existing value, as we have set this as the global default currency market, so we obviously prefer it)
+// BEFORE DEFAULT BITCOIN MARKET IS DYNAMICALLY MANIPULATED
+if ( isset($app_config['preferred_bitcoin_markets'][$app_config['btc_primary_currency_pairing']]) ) {
+$app_config['preferred_bitcoin_markets'][$app_config['btc_primary_currency_pairing']] = $app_config['btc_primary_exchange'];
+}
 
-// Get chart/alert defaults before default Bitcoin market is dynamically manipulated
+
+// Set chart/alert defaults 
+// BEFORE DEFAULT BITCOIN MARKET IS DYNAMICALLY MANIPULATED
 // We NEVER change BTC / currency_market value FOR CHARTS/ALERTS, 
 // so move the default $app_config['btc_primary_currency_pairing'] / $app_config['btc_primary_exchange'] values into their own chart/alerts related variables,
 // before dynamic updating of $app_config['btc_primary_currency_pairing'] / $app_config['btc_primary_exchange']
@@ -91,10 +100,15 @@ if ( $default_btc_primary_currency_pairing != trim( file_get_contents($base_dir 
 // Delete all alerts cache data
 delete_all_files($base_dir . '/cache/alerts'); 
 
-	// Delete show_charts cookie
+	// Delete show_charts cookie data
 	if ( isset($_COOKIE['show_charts']) ) {
 	store_cookie_contents("show_charts", "", time()-3600);  
 	unset($_COOKIE['show_charts']);  
+	}
+
+	// Delete show_charts post data
+	if ( isset($_POST['show_charts']) ) {
+	$_POST['show_charts'] = null;  
 	}
 
 // Update cache var
@@ -139,22 +153,22 @@ $app_config['default_theme'] = cleanup_string($app_config['default_theme'], 'low
 $app_config['btc_primary_currency_pairing'] = cleanup_string($app_config['btc_primary_currency_pairing'], 'lower');
 $app_config['btc_primary_exchange'] = cleanup_string($app_config['btc_primary_exchange'], 'lower');
 $app_config['primary_marketcap_site'] = cleanup_string($app_config['primary_marketcap_site'], 'lower');
-$app_config['asset_price_alerts_block_volume_error'] = cleanup_string($app_config['asset_price_alerts_block_volume_error'], 'lower');
+$app_config['price_alerts_block_volume_error'] = cleanup_string($app_config['price_alerts_block_volume_error'], 'lower');
 $app_config['api_strict_ssl'] = cleanup_string($app_config['api_strict_ssl'], 'lower');
 $app_config['charts_page'] = cleanup_string($app_config['charts_page'], 'lower');
-$app_config['smtp_secure'] = cleanup_string($app_config['smtp_secure'], 'lower');
+$app_config['smtp_email_secure'] = cleanup_string($app_config['smtp_email_secure'], 'lower');
 $app_config['proxy_alerts'] = cleanup_string($app_config['proxy_alerts'], 'lower');
 $app_config['proxy_alerts_runtime'] = cleanup_string($app_config['proxy_alerts_runtime'], 'lower');
 $app_config['proxy_checkup_ok'] = cleanup_string($app_config['proxy_checkup_ok'], 'lower');
 
 // Cleaning charts/alerts array
-$cleaned_asset_charts_and_alerts = array();
-foreach ( $app_config['asset_charts_and_alerts'] as $key => $value ) {
+$cleaned_charts_and_price_alerts = array();
+foreach ( $app_config['charts_and_price_alerts'] as $key => $value ) {
 $cleaned_key = cleanup_string($key, 'lower');
 $cleaned_value = cleanup_string($value, 'lower');
-$cleaned_asset_charts_and_alerts[$cleaned_key] = $cleaned_value;
+$cleaned_charts_and_price_alerts[$cleaned_key] = $cleaned_value;
 }
-$app_config['asset_charts_and_alerts'] = $cleaned_asset_charts_and_alerts;
+$app_config['charts_and_price_alerts'] = $cleaned_charts_and_price_alerts;
 
 // Cleaning mobile networks array
 $cleaned_mobile_networks = array();
@@ -170,7 +184,7 @@ $app_config['mobile_network_text_gateways'] = $cleaned_mobile_networks;
 // Better decimal support for these vars...
 $app_config['system_stats_first_chart_highest_value'] = number_to_string($app_config['system_stats_first_chart_highest_value']); 
 $app_config['primary_currency_decimals_max_threshold'] = number_to_string($app_config['primary_currency_decimals_max_threshold']); 
-$app_config['asset_price_alerts_percent'] = number_to_string($app_config['asset_price_alerts_percent']); 
+$app_config['price_alerts_threshold'] = number_to_string($app_config['price_alerts_threshold']); 
 $app_config['steempower_yearly_interest'] = number_to_string($app_config['steempower_yearly_interest']); 
 
 //////////////////////////////////////////////////////////////////
