@@ -131,7 +131,7 @@
 		$supported_exchange_list = trim($supported_exchange_list);
 		?>
 					
-		<p class='red' style='font-weight: bold;'>The charts <i>primary currency market</i> (lets you see the <i>equivalent</i> market value in this currency) is set to: &nbsp; <span class='bitcoin'><?=strtoupper($default_btc_primary_currency_pairing)?> @ <?=snake_case_to_name($default_btc_primary_exchange)?></span></p>
+		<p class='red' style='font-weight: bold;'>The charts <i>primary currency market</i> (lets you see <i>optional / additional</i> "<?=strtoupper($default_btc_primary_currency_pairing)?> Value" charts, showing the <i><?=strtoupper($default_btc_primary_currency_pairing)?>-equivalent</i> market values) is set to: &nbsp; <span class='bitcoin'><?=strtoupper($default_btc_primary_currency_pairing)?> @ <?=snake_case_to_name($default_btc_primary_exchange)?></span></p>
 		
 		<p class='red' style='font-weight: bold;'><?=strtoupper($default_btc_primary_currency_pairing)?>-paired exchanges supported in this app are: <?=$supported_exchange_list?>. Currency pairings (that are supported in config.php in the "btc_primary_currency_pairing" setting) are: <?=$supported_primary_currency_list?>. !NOT! ALL EXCHANGES SUPPORT ALL CURRENCY PAIRS, double check any setting changes you make (and check the error log at /cache/logs/errors.log for any reported issues).</p>
 		 
