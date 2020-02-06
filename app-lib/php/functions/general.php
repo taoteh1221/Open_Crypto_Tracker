@@ -1160,7 +1160,8 @@ function chart_data($file, $chart_format) {
 global $app_config, $default_btc_primary_currency_pairing;
 
 
-	if ( array_key_exists($chart_format, $app_config['bitcoin_currency_markets']) ) {
+	// #FOR CLEAN CODE#, RUN CHECK TO MAKE SURE IT'S NOT A CRYPTO AS WELL...WE HAVE A COUPLE SUPPORTED, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
+	if ( array_key_exists($chart_format, $app_config['bitcoin_currency_markets']) && !array_key_exists($chart_format, $app_config['crypto_to_crypto_pairing']) ) {
 	$fiat_formatting = 1;
 	}
 	elseif ( $chart_format == 'system' ) {

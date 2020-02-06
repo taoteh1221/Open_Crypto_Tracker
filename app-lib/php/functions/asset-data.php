@@ -326,8 +326,9 @@ global $app_config, $btc_pairing_markets;
 		}
 	
 	}
-	// If we need a BITCOIN/CURRENCY market value
-	elseif ( array_key_exists($pairing, $app_config['bitcoin_currency_markets']) ) {
+	// If we need a BITCOIN/CURRENCY market value 
+	// #FOR CLEAN CODE#, RUN CHECK TO MAKE SURE IT'S NOT A CRYPTO AS WELL...WE HAVE A COUPLE SUPPORTED, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
+	elseif ( array_key_exists($pairing, $app_config['bitcoin_currency_markets']) && !array_key_exists($pairing, $app_config['crypto_to_crypto_pairing']) ) {
 	
 		foreach ( $app_config['portfolio_assets']['BTC']['market_pairing'] as $pair_key => $pair_unused ) {
 		
@@ -587,7 +588,8 @@ $asset = strtoupper($asset);
 
 
 // Fiat or equivalent pairing?
-if ( array_key_exists($pairing, $app_config['bitcoin_currency_markets']) ) {
+// #FOR CLEAN CODE#, RUN CHECK TO MAKE SURE IT'S NOT A CRYPTO AS WELL...WE HAVE A COUPLE SUPPORTED, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
+if ( array_key_exists($pairing, $app_config['bitcoin_currency_markets']) && !array_key_exists($pairing, $app_config['crypto_to_crypto_pairing']) ) {
 $fiat_eqiv = 1;
 }
 
@@ -1193,7 +1195,8 @@ $market_pairing = $all_markets[$selected_exchange];
   	 
   	 
     // FLAG SELECTED PAIRING IF FIAT EQUIVALENT formatting should be used, AS SUCH
-    if ( array_key_exists($selected_pairing, $app_config['bitcoin_currency_markets']) ) {
+    // #FOR CLEAN CODE#, RUN CHECK TO MAKE SURE IT'S NOT A CRYPTO AS WELL...WE HAVE A COUPLE SUPPORTED, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
+    if ( array_key_exists($selected_pairing, $app_config['bitcoin_currency_markets']) && !array_key_exists($selected_pairing, $app_config['crypto_to_crypto_pairing']) ) {
 	 $fiat_eqiv = 1;
     }
     

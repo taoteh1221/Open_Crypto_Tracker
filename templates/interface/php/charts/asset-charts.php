@@ -33,12 +33,15 @@
 
 			
 			// Unicode asset symbols
-			if ( array_key_exists($charted_value, $app_config['bitcoin_currency_markets']) ) {
+			// Crypto
+			if ( array_key_exists($charted_value, $app_config['crypto_to_crypto_pairing']) ) {
+			$currency_symbol = $app_config['crypto_to_crypto_pairing'][$charted_value];
+			}
+			// Fiat-equiv
+			// #FOR CLEAN CODE#, RUN CHECK TO MAKE SURE IT'S NOT A CRYPTO AS WELL...WE HAVE A COUPLE SUPPORTED, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
+			elseif ( array_key_exists($charted_value, $app_config['bitcoin_currency_markets']) && !array_key_exists($charted_value, $app_config['crypto_to_crypto_pairing']) ) {
 			$currency_symbol = $app_config['bitcoin_currency_markets'][$charted_value];
 			$fiat_equiv = 1;
-			}
-			elseif ( array_key_exists($charted_value, $app_config['crypto_to_crypto_pairing']) ) {
-			$currency_symbol = $app_config['crypto_to_crypto_pairing'][$charted_value];
 			}
 			// Fallback for currency symbol config errors
 			else {
