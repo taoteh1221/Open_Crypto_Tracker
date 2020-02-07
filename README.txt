@@ -6,7 +6,7 @@ DFD Cryptocoin Values - Developed by Michael Kilday <mike@dragonfrugal.com>, rel
 
 Copyright 2014-2020 GPLv3
 
-Open source / free private cryptocurrency investment portfolio tracker, with email / text / Alexa / Google Home alerts, charts, mining calculators, leverage / gain / loss / balance stats, and other crypto tools. 
+Open source / free private cryptocurrency investment portfolio tracker, with email / text / Alexa / Google Home / Telegram alerts, charts, mining calculators, leverage / gain / loss / balance stats, and other crypto tools. 
 
 Privately track your investment in Bitcoin, Ethereum, Monero, Litecoin, Grin, Cosmos, and an unlimited number of other altcoins / cryptocurrencies. Customize the portfolio assets list / alerts / charts to your favorite assets and exchange pairings. No limits, add as many coins / markets as you want. 
 
@@ -43,7 +43,7 @@ FEATURES
 
 -Cryptocurrency portfolio subtotal summaries, and total portfolio worth (in crypto and your local primary currency), including value gain / loss data (with tracking support for long / short margin leverages), portfolio balance data, and marketcap data.
 
--Price change alerts by email / text / Alexa / Google Home (configurable alert parameters available).
+-Price change alerts by email / text / Alexa / Google Home / Telegram (configurable alert parameters available).
 
 -Add / edit / delete your own portfolio assets list, with your favorite exchanges / market pairings.
 
