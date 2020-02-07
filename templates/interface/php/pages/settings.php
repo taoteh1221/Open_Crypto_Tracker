@@ -39,7 +39,7 @@
 			}
 			if ( sizeof($app_config['proxy_list']) > 0 ) {
 			?>
-          <p class='settings_sections'><b><?=( trim($app_config['proxy_login']) != '' ? 'Password-based' : 'IP whitelisting' )?> proxy mode</b> is <i>enabled</i> in the configuration file for API connections (<?=sizeof($app_config['proxy_list'])?> proxies randomly used<?=( $app_config['proxy_alerts'] != 'none' ? ' / proxy alerts enabled for ' . $app_config['proxy_alerts'] . ' alert method(s), every ' . $app_config['proxy_alerts_freq'] . ' hours max per-proxy at ' . $app_config['proxy_alerts_runtime'] . ' runtimes / ' .$app_config['proxy_checkup_ok']. ' sending proxy alerts on proxy checks that tested OK after acting up' : '' )?>). 
+          <p class='settings_sections'><b><?=( trim($app_config['proxy_login']) != '' ? 'Password-based' : 'IP whitelisting' )?> proxy mode</b> is <i>enabled</i> in the configuration file for API connections (<?=sizeof($app_config['proxy_list'])?> proxies randomly used<?=( $app_config['proxy_alerts'] != 'off' ? ' / proxy alerts enabled for ' . $app_config['proxy_alerts'] . ' alert method(s), every ' . $app_config['proxy_alerts_freq_max'] . ' hours max per-proxy at ' . $app_config['proxy_alerts_runtime'] . ' runtimes / ' .$app_config['proxy_alerts_checkup_ok']. ' sending proxy alerts on proxy checks that tested OK after acting up' : '' )?>). 
           	
           		<?=( $proxy_config_alert != '' ? '<br />' . $proxy_config_alert : '' )?>
           	

@@ -975,6 +975,7 @@ $cached_array = explode("||", $data_file);
   				
           	$send_params = array(
           								'notifyme' => $notifyme_message,
+          								'telegram' => ( $whale_alert == 1 ? '🐳 ' : '' ) . $email_message, // Add emoji here, so it's not sent with alexa / google home alerts
           								'text' => array(
           														// Unicode support included for text messages (emojis / asian characters / etc )
           														'message' => $encoded_text_message['content_output'],

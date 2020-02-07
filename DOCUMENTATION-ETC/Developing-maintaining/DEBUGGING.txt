@@ -30,6 +30,7 @@ Add to /templates/interface/php/footer.php when testing unicode mobile text supp
   				
   				/*
           	$send_params = array(
+          								'telegram' => $encoded_text_message['content_output'],
           								'text' => array(
           														// Unicode support included for text messages (emojis / asian characters / etc )
           														'message' => $encoded_text_message['content_output'],

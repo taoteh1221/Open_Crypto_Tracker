@@ -388,6 +388,11 @@ global $base_dir, $app_config;
    if ( $send_params['text']['message'] != '' && $app_config['textlocal_account'] != '' && trim($app_config['textbelt_apikey']) == '' ) { // Only run if textbelt API isn't being used to avoid double texts
 	store_file_contents($base_dir . '/cache/secured/messages/textlocal-' . random_hash(8) . '.queue', $send_params['text']['message']);
    }
+	
+	// Notifyme
+   if ( $send_params['telegram'] != '' && $app_config['telegram_bot_name'] != '' && $app_config['telegram_bot_username'] != '' && $app_config['telegram_bot_token'] != '' ) {
+	store_file_contents($base_dir . '/cache/secured/messages/telegram-' . random_hash(8) . '.queue', $send_params['telegram']);
+   }
    
            
    // Text email
@@ -479,7 +484,7 @@ $cache_filename = preg_replace("/:/", "_", $cache_filename);
 	$run_alerts = null;
 	}
 
-	if ( $run_alerts == 1 && update_cache_file('cache/alerts/proxy-check-'.$cache_filename.'.dat', ( $app_config['proxy_alerts_freq'] * 60 ) ) == true
+	if ( $run_alerts == 1 && update_cache_file('cache/alerts/proxy-check-'.$cache_filename.'.dat', ( $app_config['proxy_alerts_freq_max'] * 60 ) ) == true
 	&& in_array($cache_filename, $proxies_checked) == false ) {
 	
 		
@@ -536,7 +541,7 @@ $cache_filename = preg_replace("/:/", "_", $cache_filename);
                     
 		
 		// Send out alerts
-		if ( $misconfigured == 1 || $app_config['proxy_checkup_ok'] == 'include' ) {
+		if ( $misconfigured == 1 || $app_config['proxy_alerts_checkup_ok'] == 'include' ) {
                     
                     
   				// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
@@ -547,6 +552,7 @@ $cache_filename = preg_replace("/:/", "_", $cache_filename);
   					
           	$send_params = array(
           								'notifyme' => $notifyme_alert,
+          								'telegram' => $email_alert,
           								'text' => array(
           														// Unicode support included for text messages (emojis / asian characters / etc )
           														'message' => $encoded_text_alert['content_output'],
@@ -583,6 +589,9 @@ $cache_filename = preg_replace("/:/", "_", $cache_filename);
   				elseif ( $app_config['proxy_alerts'] == 'notifyme' ) {
           	$send_params['notifyme'] = $notifyme_alert;
           	}
+  				elseif ( $app_config['proxy_alerts'] == 'telegram' ) {
+          	$send_params['telegram'] = $email_alert;
+          	}
           	
           	
           	// Send notifications
@@ -606,7 +615,7 @@ $cache_filename = preg_replace("/:/", "_", $cache_filename);
 
 function send_notifications() {
 
-global $base_dir, $app_config, $processed_messages, $possible_http_users, $http_runtime_user, $current_runtime_user;
+global $base_dir, $app_config, $processed_messages, $possible_http_users, $http_runtime_user, $current_runtime_user, $telegram_chat_id;
 
 
 // Array of currently queued messages in the cache
@@ -646,6 +655,12 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 		
 		if ( !isset($processed_messages['text_count']) ) {
 		$processed_messages['text_count'] = 0;
+		}
+		
+		
+		
+		if ( !isset($processed_messages['telegram_count']) ) {
+		$processed_messages['telegram_count'] = 0;
 		}
 		
 		
@@ -791,6 +806,41 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 					}
 				
 				unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
+				
+			   }
+			  
+			  
+			  
+			   // Telegram
+				// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
+			   if ( $message_data != '' && $app_config['telegram_bot_name'] != '' && $app_config['telegram_bot_username'] != '' && $app_config['telegram_bot_token'] != '' && preg_match("/telegram/i", $queued_cache_file) ) {  
+			   
+				// Sleep for 1 second EXTRA on EACH consecutive telegram message, to throttle MANY outgoing messages, to help avoid being blacklisted
+				$telegram_sleep = 1 * $processed_messages['telegram_count'];
+				sleep($telegram_sleep);
+			   
+			   
+			   $telegram_response = telegram_message($message_data, $telegram_chat_id);
+				
+				
+			   	if ( $telegram_response != false ) {
+			   		
+			   	$processed_messages['telegram_count'] = $processed_messages['telegram_count'] + 1;
+			   	
+					$message_sent = 1;
+					
+					unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
+			   		
+			   	}
+			   	else {
+			   	app_logging( 'system_error', 'Telegram sending failed', $telegram_response);
+			   	}
+			   		
+			   
+			   	if ( $app_config['debug_mode'] == 'all' || $app_config['debug_mode'] == 'telemetry' ) {
+					store_file_contents($base_dir . '/cache/logs/debugging/api/last-response-telegram.log', $telegram_response);
+					}
+				
 				
 			   }
 			   

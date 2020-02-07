@@ -148,6 +148,7 @@ $app_config['btc_primary_exchange'] = $selected_btc_primary_exchange;
 
 // Cleaning lowercase alphanumeric string values
 $app_config['debug_mode'] = cleanup_string($app_config['debug_mode'], 'lower');
+$app_config['upgrade_check'] = cleanup_string($app_config['upgrade_check'], 'lower');
 $app_config['log_detail_level'] = cleanup_string($app_config['log_detail_level'], 'lower');
 $app_config['default_theme'] = cleanup_string($app_config['default_theme'], 'lower');
 $app_config['btc_primary_currency_pairing'] = cleanup_string($app_config['btc_primary_currency_pairing'], 'lower');
@@ -159,7 +160,7 @@ $app_config['charts_page'] = cleanup_string($app_config['charts_page'], 'lower')
 $app_config['smtp_email_secure'] = cleanup_string($app_config['smtp_email_secure'], 'lower');
 $app_config['proxy_alerts'] = cleanup_string($app_config['proxy_alerts'], 'lower');
 $app_config['proxy_alerts_runtime'] = cleanup_string($app_config['proxy_alerts_runtime'], 'lower');
-$app_config['proxy_checkup_ok'] = cleanup_string($app_config['proxy_checkup_ok'], 'lower');
+$app_config['proxy_alerts_checkup_ok'] = cleanup_string($app_config['proxy_alerts_checkup_ok'], 'lower');
 
 // Cleaning charts/alerts array
 $cleaned_charts_and_price_alerts = array();

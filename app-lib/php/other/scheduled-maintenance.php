@@ -111,6 +111,7 @@ if ( update_cache_file($base_dir . '/cache/events/scheduled_maintenance.dat', 60
 						
 					$upgrade_check_send_params = array(
 											'notifyme' => $email_notifyme_message,
+											'telegram' => $email_notifyme_message,
 											'text' => array(
 																	// Unicode support included for text messages (emojis / asian characters / etc )
 																	'message' => $encoded_text_alert['content_output'],
@@ -146,6 +147,9 @@ if ( update_cache_file($base_dir . '/cache/events/scheduled_maintenance.dat', 60
 					}
 					elseif ( $app_config['upgrade_check'] == 'notifyme' ) {
 					$upgrade_check_send_params['notifyme'] = $email_notifyme_message;
+					}
+					elseif ( $app_config['upgrade_check'] == 'telegram' ) {
+					$upgrade_check_send_params['telegram'] = $email_notifyme_message;
 					}
 				
 				

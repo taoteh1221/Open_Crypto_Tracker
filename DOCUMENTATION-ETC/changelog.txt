@@ -2523,7 +2523,9 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.07.8:
 
--Misc minor bug fixes
+-Misc minor bug fixes / semantics / code cleanup
+
+-Support for sending alerts to your own telegram bot chatroom (USEFUL IF YOU HAVE ISSUES SETTING UP MOBILE TEXT ALERTS)
 
 IMPORTANT NOTES: 
 

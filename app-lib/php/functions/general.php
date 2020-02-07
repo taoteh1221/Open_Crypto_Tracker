@@ -4,6 +4,7 @@
  */
 
 
+
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
 
@@ -86,6 +87,24 @@ $total = count($chunks);
 	foreach($chunks as $page => $chunk) {
 	$message = sprintf("(%d/%d) %s", $page+1, $total, $chunk);
 	}
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function telegram_message($message, $chat_id=null) {
+
+// Using 3rd party Telegram class, initiated already as global var $telegram_messaging
+global $app_config, $telegram_chat_id, $telegram_messaging;
+
+	if ( $chat_id == null ) {
+	$chat_id = $telegram_chat_id;
+	}
+
+return $telegram_messaging->send->chat($chat_id)->text($message)->send();
 
 }
 

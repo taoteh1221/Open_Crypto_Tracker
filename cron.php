@@ -57,7 +57,7 @@ $result = charts_and_price_alerts($key, $exchange, $pairing, $mode);
 
 
 // Checkup on each failed proxy
-if ( $app_config['proxy_alerts'] != 'none' ) {
+if ( $app_config['proxy_alerts'] != 'off' ) {
 	
 	foreach ( $proxy_checkup as $problem_proxy ) {
 	test_proxy($problem_proxy);

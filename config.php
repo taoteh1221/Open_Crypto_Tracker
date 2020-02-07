@@ -55,7 +55,23 @@ $app_config['smtp_email_server'] = ''; // CAN BE BLANK. This format MUST be used
 $app_config['smtp_email_secure'] = 'tls'; // CAN BE 'off' FOR NO SECURE CONNECTION, or 'tls', or 'ssl' for secure connections. MAKE SURE PORT NUMBER ABOVE CORRESPONDS
 
 
-// For asset price alert texts to mobile phone numbers. 
+// Sending alerts to your own telegram bot chatroom. 
+// (USEFUL IF YOU HAVE ISSUES SETTING UP MOBILE TEXT ALERTS, FURTHER DOWN BELOW)
+// Setup: https://core.telegram.org/bots , OR JUST SEARCH / VISIT "BotFather" in telegram
+// AFTER SETTING UP YOUR BOT AND SAVING YOUR BOT NAME, USERNAME, AND ACCESS TOKEN, 
+// VISIT THE BOT CHATROOM LINK PROVIDED BY BotFather, AND TO SIGNUP TO ADD IT TO YOU CHATROOMS LIST, 
+// #SEND THE MESSAGE "/start" TO THIS BOT CHATROOM# (THIS WILL SET THE CHATROOM'S CHAT ID)
+// THE CHAT ID #IS REQUIRED FOR THIS APP TO KNOW WHAT CHATROOM TO SEND MESSAGES TO#
+// ###DO NOT DELETE YOUR "/start" MESSAGE###, THIS ADDS THE CHATROOM TO YOUR CHATROOM LIST
+// ###DO NOT FILL IN BELOW UNTIL AFTER FOLLOWING THE ABOVE INSTRUCTIONS, AS WE ONLY RE-CACHE THE CHAT ID DAILY###
+$app_config['telegram_bot_name'] = '';
+////
+$app_config['telegram_bot_username'] = '';
+////
+$app_config['telegram_bot_token'] = '';
+
+
+// For alert texts to mobile phone numbers. 
 // Attempts to email the text if a SUPPORTED MOBILE TEXTING NETWORK name is set, AND no textbelt / textlocal config is setup.
 // SMTP-authenticated email sending MAY GET THROUGH TEXTING SERVICE CONTENT FILTERS #BETTER# THAN USING PHP'S BUILT-IN EMAILING FUNCTION
 // SEE FURTHER DOWN IN THIS CONFIG FILE, FOR A LIST OF SUPPORTED MOBILE TEXTING NETWORK PROVIDER NAMES 
@@ -79,7 +95,7 @@ $app_config['textlocal_account'] = ''; // This format MUST be used: 'username||h
 
 // Smart home notifications
 
-// For asset price alert notifyme alexa notifications (sending Alexa devices notifications for free). 
+// For notifyme / alexa notifications (sending Alexa devices notifications for free). 
 // CAN BE BLANK. Setup: http://www.thomptronics.com/notify-me
 $app_config['notifyme_accesscode'] = '';
 
@@ -93,16 +109,32 @@ $app_config['google_home_client_id'] = '';
 $app_config['google_home_client_secret'] = '';
 
 
-// Wait X days between upgrade reminders sent by email / text / notifyme
+// Enable / disable daily upgrade checks and alerts (DEFAULT IS DISABLED)
+// (Checks latest release version via github.com API endpoint value "tag_name" 
+// @ https://api.github.com/repos/taoteh1221/DFD_Cryptocoin_Values/releases/latest)
+$app_config['upgrade_check'] = 'off'; // 'off' (disabled) / 'all' / 'ui' (web interface) / 'email' / 'text' / 'notifyme' / 'telegram'
+////
+// Wait X days between upgrade reminders (sent by email / text / notifyme / telegram)
 $app_config['upgrade_check_reminder'] = 10; // (only used if upgrade check is enabled in general settings)
+
+
+// Email logs every X days. 0 disables mailing logs. Email to / from !MUST BE SET!, MAY NOT SEND IN TIMELY FASHION WITHOUT A CRON JOB
+$app_config['email_logs'] = 3; 
 
 
 // Re-allow SAME asset price alert(s) messages after X hours (per asset, set higher if issues with blacklisting...can be 0)
 $app_config['price_alerts_freq_max'] = 8; 
 
 
-// Email logs every X days. 0 disables mailing logs. Email to / from !MUST BE SET!, MAY NOT SEND IN TIMELY FASHION WITHOUT A CRON JOB
-$app_config['email_logs'] = 3; 
+// Alerts for failed proxy data connections (if proxies are enabled further down in this config). 
+$app_config['proxy_alerts'] = 'email'; // 'off' (disabled) / 'all' / 'email' / 'text' / 'notifyme' / 'telegram'
+////
+$app_config['proxy_alerts_freq_max'] = 1; // Re-allow same proxy alert(s) after X hours (per ip/port pair, can be 0)
+////
+$app_config['proxy_alerts_runtime'] = 'cron'; // Which runtime mode should allow proxy alerts? Options: 'cron', 'ui', 'all' 
+////
+// 'include', or 'ignore' proxy alerts sent to you even if proxy checkup went OK? (after flagged, started working again when checked)
+$app_config['proxy_alerts_checkup_ok'] = 'include'; 
 
 
 ////////////////////////////////////////
@@ -113,12 +145,6 @@ $app_config['email_logs'] = 3;
 ////////////////////////////////////////
 // !START! GENERAL SETTINGS
 ////////////////////////////////////////
-
-
-// Enable / disable daily upgrade checks (DEFAULT IS DISABLED)
-// (Checks latest release version via github.com API endpoint value "tag_name" 
-// @ https://api.github.com/repos/taoteh1221/DFD_Cryptocoin_Values/releases/latest)
-$app_config['upgrade_check'] = 'off'; // 'off' (disabled) / 'all' / 'ui' (web interface) / 'email' / 'text' / 'notifyme'
 
 
 // Your local time offset IN HOURS, COMPARED TO UTC TIME. Can be negative or positive.
@@ -439,16 +465,6 @@ $app_config['proxy_list'] = array(
 					// 'ipaddress1:portnumber1',
 					// 'ipaddress2:portnumber2',
 					);
-////
-// Additional proxy configuration settings (only used if proxies are enabled above)
-////
-$app_config['proxy_alerts'] = 'email'; // Alerts for failed proxy data connections. 'none', 'email', 'text', 'notifyme', 'all'
-////
-$app_config['proxy_alerts_runtime'] = 'cron'; // Which runtime mode should allow proxy alerts? Options: 'cron', 'ui', 'all'
-////
-$app_config['proxy_alerts_freq'] = 1; // Re-allow same proxy alert(s) after X hours (per ip/port pair, can be 0)
-////
-$app_config['proxy_checkup_ok'] = 'include'; // 'include', or 'ignore' Proxy alerts sent to you even if proxy checkup went OK? (after flagged, started working again when checked) 
 
 
 ////////////////////////////////////////
@@ -466,14 +482,14 @@ $app_config['proxy_checkup_ok'] = 'include'; // 'include', or 'ignore' Proxy ale
 $app_config['last_trade_cache_time'] = 4; // (default = 4)
 
 
-// Number of marketcap rankings to request from API. Ranks are grabbed 100 per request
-$app_config['marketcap_ranks_max'] = 200; // 200 rankings is a safe maximum to start with, it avoids getting your API requests throttled / blocked
-
-
 $app_config['chainstats_cache_time'] = 30; // Minutes to cache blockchain stats (for mining calculators). Set high initially, it can be strict
 
 
 $app_config['marketcap_cache_time'] = 30; // Minutes to cache marketcap rankings...start high and test lower, it can be strict
+
+
+// Number of marketcap rankings to request from API. Ranks are grabbed 100 per request
+$app_config['marketcap_ranks_max'] = 200; // 200 rankings is a safe maximum to start with, it avoids getting your API requests throttled / blocked
 							
 							
 							
@@ -814,7 +830,6 @@ $app_config['mobile_network_text_gateways'] = array(
                         
                         
                         // [EUROPE]
-                        'freebie_sms' => 'smssturen.com',
                         'tellus_talk' => 'esms.nu',
                         
                         
@@ -871,7 +886,6 @@ $app_config['mobile_network_text_gateways'] = array(
                         
                         // [UNITED KINGDOM]
                         'media_burst' => 'sms.mediaburst.co.uk',
-                        'tmobile_uk' => 't-mobile.uk.net',
                         'txt_local' => 'txtlocal.co.uk',
                         'virgin_uk' => 'vxtras.com',
                         'vodafone_uk' => 'vodafone.net',

@@ -201,6 +201,29 @@ $smtp = new SMTPMailer();
 
 
 
+// Sending messages to your telegram username, with a telegram bot (if needed...MUST RUN AFTER dynamic app config management)
+// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
+if ( $app_config['telegram_bot_name'] != '' && $app_config['telegram_bot_username'] != '' && $app_config['telegram_bot_token'] != '' ) {
+
+// Load class files
+require_once('app-lib/php/classes/telegram-php/src/Autoloader.php');
+
+// Get chatroom data
+$telegram_chatroom_data = telegram_chatroom_data(); // Minimize function calls
+
+$telegram_chatroom_data_latest = sizeof($telegram_chatroom_data) - 1;
+
+// Get LATEST chat id, so we know what chatroom to send messages to
+$telegram_chat_id = $telegram_chatroom_data[$telegram_chatroom_data_latest]['message']['chat']['id'];
+
+// Initiate the bot for this chatroom
+$telegram_bot = new Telegram\Bot($app_config['telegram_bot_token'], $app_config['telegram_bot_username'], $app_config['telegram_bot_name']);
+$telegram_messaging = new Telegram\Receiver($telegram_bot);
+
+}
+
+
+
 // Run AFTER above...
 
 

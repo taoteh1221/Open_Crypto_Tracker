@@ -164,6 +164,34 @@ global $app_config;
 //////////////////////////////////////////////////////////
 
 
+function telegram_chatroom_data() {
+	
+global $app_config, $base_dir;
+
+	if (  update_cache_file($base_dir . '/cache/vars/telegram_chatroom_data.dat', 1440) == true ) { // Update daily
+	
+	// Don't cache data, we are storing it as a specific cache var instead
+	$get_telegram_chatroom_data = @api_data('url', 'https://api.telegram.org/bot'.$app_config['telegram_bot_token'].'/getUpdates', 0); 
+
+   // Current telegram chatroom data stored to flat file (for sending messages to the telegram bot's chat room, etc)
+	store_file_contents($base_dir . '/cache/vars/telegram_chatroom_data.dat', $get_telegram_chatroom_data);
+	
+	}
+	else {
+	$get_telegram_chatroom_data = trim( file_get_contents('cache/vars/telegram_chatroom_data.dat') );
+	}
+
+     
+$telegram_chatroom_data = json_decode($get_telegram_chatroom_data, true);
+   
+return $telegram_chatroom_data['result'];
+
+}
+
+
+//////////////////////////////////////////////////////////
+
+
 function etherscan_api($block_info) {
  
 global $base_dir, $app_config;

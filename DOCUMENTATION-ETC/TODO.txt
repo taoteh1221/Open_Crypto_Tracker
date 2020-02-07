@@ -19,8 +19,14 @@ Add the rest of the localbitcoins country currencies, and run tests / patch bugs
 
 
 ///////////////////////////////////////////////////////
-BUGS / TESTS SECTION
+OPTIMIZATIONS / BUGS / TESTS SECTION
 ///////////////////////////////////////////////////////
+
+
+Add "preferred markets" setting for the "crypto_to_crypto" list too.
+
+
+Add fallback protection for pairing value function (including for preferred markets) to try another market in that pairing if no trade data is returned (from api / network / etc errors).
 
 
 Test unicode text message with no space in front of hex-encoded data (forgot to try that, coded and ready to go now...see content_data_encoding() and /DOCUMENTATION-ETC/Developing-maintaining/DEBUGGING.txt).
@@ -59,7 +65,7 @@ Add IFTTT support (alexa / google home / whatever supported devices).
 Add google home support via direct connect on same network, OR via IFTTT (whichever is most feasible).
 
 
-Add twilio.com mobile text messaging support
+Add twilio.com and clicksend.com mobile text messaging support
 
 
 Add drop-down menu feature next to "update assets" buttons for "save as": cookie data | session data | only post data.
