@@ -23,6 +23,9 @@ OPTIMIZATIONS / BUGS / TESTS SECTION
 ///////////////////////////////////////////////////////
 
 
+Add Telegram to list of detected scanned configs in system checks / settings page.
+
+
 Add "preferred markets" setting for the "crypto_to_crypto" list too.
 
 
