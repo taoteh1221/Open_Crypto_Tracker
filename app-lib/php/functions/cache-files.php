@@ -389,7 +389,7 @@ global $base_dir, $app_config;
 	store_file_contents($base_dir . '/cache/secured/messages/textlocal-' . random_hash(8) . '.queue', $send_params['text']['message']);
    }
 	
-	// Notifyme
+	// Telegram
    if ( $send_params['telegram'] != '' && $app_config['telegram_bot_name'] != '' && $app_config['telegram_bot_username'] != '' && $app_config['telegram_bot_token'] != '' ) {
 	store_file_contents($base_dir . '/cache/secured/messages/telegram-' . random_hash(8) . '.queue', $send_params['telegram']);
    }
