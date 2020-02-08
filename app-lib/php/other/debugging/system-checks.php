@@ -4,34 +4,6 @@
  */
 
 
-// Create cache directories (if needed), with $http_runtime_user determined further above 
-// (for cache compatibility on certain PHP setups)
-
-// Check for cache directory path creation, create if needed...if it fails, exit and alert end-user
-if ( dir_structure($base_dir . '/cache/alerts/') != true
-|| dir_structure($base_dir . '/cache/apis/') != true
-|| dir_structure($base_dir . '/cache/charts/spot_price_24hr_volume/archival/') != true
-|| dir_structure($base_dir . '/cache/charts/spot_price_24hr_volume/lite/') != true
-|| dir_structure($base_dir . '/cache/charts/system/archival/') != true
-|| dir_structure($base_dir . '/cache/charts/system/lite/') != true
-|| dir_structure($base_dir . '/cache/events/') != true
-|| dir_structure($base_dir . '/cache/logs/debugging/api/') != true
-|| dir_structure($base_dir . '/cache/logs/errors/api/') != true
-|| dir_structure($base_dir . '/cache/secured/backups/') != true
-|| dir_structure($base_dir . '/cache/secured/messages/') != true
-|| dir_structure($base_dir . '/cache/vars/') != true ) {
-$system_error = 'Cannot create cache sub-directories. Please make sure the folder "/cache/" has FULL read / write permissions (chmod 777 on unix / linux systems), so the cache sub-directories can be created automatically. <br /><br />';
-app_logging('system_error', $system_error);
-echo $system_error;
-$force_exit = 1;
-}
-
-
-
-// Directory security check (MUST run AFTER directory structure creation check, AND BEFORE htaccess check)
-require_once('app-lib/php/other/security/directory.php');
-
-
 
 // Check for runtime mode
 if ( !$runtime_mode )  {
@@ -120,32 +92,28 @@ if ( $runtime_mode == 'ui' ) {
 
 
 
-// Check htaccess security (checked once every 5 minutes maximum)
-if ( update_cache_file($base_dir . '/cache/events/scan_htaccess_security.dat', 5) == true ) {
+// Check htaccess security (checked once every 10 minutes maximum)
+if ( update_cache_file($base_dir . '/cache/events/scan_htaccess_security.dat', 10) == true ) {
 	
 	
-	// If base url is not set yet, and we are ui runtime
-	if ( $runtime_mode == 'ui' ) {
-	$temp_base_url = ( trim($base_url) != '' ? $base_url : base_url() );
-	}
-	// Other runtimes
-	else {
-	$temp_base_url = trim($base_url);
-	}
+	// Only run the check if the base url is set (runs every ~10 minutes, so we'll be checking again anyway, and it should set AFTER first UI run)
+	if ( trim($base_url) != '' ) {
+	
+	$htaccess_test_url = $base_url . 'cache/htaccess_security_check.dat';
 
+	$htaccess_test_1 = trim( @api_data('url', $htaccess_test_url, 0) ); // HTTPS CHECK, Don't cache API data
 
-$htaccess_test_url = $temp_base_url . 'cache/htaccess_security_check.dat';
-
-$htaccess_test_1 = trim( @api_data('url', $htaccess_test_url, 0) ); // HTTPS CHECK, Don't cache API data
-
-$htaccess_test_2 = trim( @api_data('url', preg_replace("/https:/i", "http:", $htaccess_test_url), 0) ); // HTTP CHECK, Don't cache API data
+	$htaccess_test_2 = trim( @api_data('url', preg_replace("/https:/i", "http:", $htaccess_test_url), 0) ); // HTTP CHECK, Don't cache API data
 	
 	
-	if ( preg_match("/TEST_HTACCESS_SECURITY_123_TEST/i", $htaccess_test_1) || preg_match("/TEST_HTACCESS_SECURITY_123_TEST/i", $htaccess_test_2) ) {
-	$system_error = "HTTP server 'htaccess' support has NOT been enabled on this web server. 'htaccess' support is required to SAFELY run this application. Please wait at least five minutes AFTER FIXING THIS ISSUE before running the application again (htaccess security checks are throttled to a maximum of once every five minutes). <br /><br />";
-	app_logging('system_error', $system_error);
-	echo $system_error;
-	$force_exit = 1;
+		if ( preg_match("/TEST_HTACCESS_SECURITY_123_TEST/i", $htaccess_test_1) || preg_match("/TEST_HTACCESS_SECURITY_123_TEST/i", $htaccess_test_2) ) {
+		$system_error = "HTTP server 'htaccess' support has NOT been enabled on this web server. 'htaccess' support is required to SAFELY run this application. Please wait at least five minutes AFTER FIXING THIS ISSUE before running the application again (htaccess security checks are throttled to a maximum of once every five minutes). <br /><br />";
+		app_logging('system_error', $system_error);
+		echo $system_error;
+		$force_exit = 1;
+		}
+	
+	
 	}
 	
 	

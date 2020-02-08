@@ -649,6 +649,7 @@ select opt in $OPTIONS; do
   				rm -rf $DOC_ROOT/ui-templates
   				# Files
 				rm $DOC_ROOT/DOCUMENTATION-ETC/CONFIG.EXAMPLE.txt # (Renamed CONFIG-EXAMPLE.txt in v4.07.5)
+				rm $DOC_ROOT/app-lib/php/loader.php # (Renamed functions-loader.php in v4.07.8)
 				rm $DOC_ROOT/CONFIG.EXAMPLE.txt
 				rm $DOC_ROOT/HELP-FAQ.txt
 				rm $DOC_ROOT/PORTFOLIO-IMPORT-EXAMPLE-SPREADSHEET.csv

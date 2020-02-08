@@ -11,6 +11,65 @@
 
 //////////////////////////////////////////////////////////
 
+// https://core.telegram.org/bots/api#making-requests
+function telegram_chatroom_data() {
+	
+global $app_config;
+
+// Don't cache data, we are storing it as a specific (secured) cache var instead
+$get_telegram_chatroom_data = @api_data('url', 'https://api.telegram.org/bot'.$app_config['telegram_bot_token'].'/getUpdates', 0);
+		
+$telegram_chatroom = json_decode($get_telegram_chatroom_data, true);
+
+return $telegram_chatroom['result'];
+
+}
+
+
+//////////////////////////////////////////////////////////
+
+
+function grin_api($request) {
+ 
+global $app_config;
+ 		
+$json_string = 'https://api.grinmint.com/v1/networkStats';
+
+$jsondata = @api_data('url', $json_string, $app_config['chainstats_cache_time']);
+    
+$data = json_decode($jsondata, true);
+    
+return $data[$request];
+  
+}
+
+
+//////////////////////////////////////////////////////////
+
+
+function monero_api($request) {
+ 
+global $app_config;
+ 		
+ 	$json_string = 'https://moneroblocks.info/api/get_stats';
+ 	$jsondata = @api_data('url', $json_string, $app_config['chainstats_cache_time']);
+  	
+  	$data = json_decode($jsondata, true);
+    
+		if ( !$data ) {
+		return;
+		}
+		else {
+		
+		return $data[$request];
+		  
+		}
+  
+}
+
+
+//////////////////////////////////////////////////////////
+
 
 function bitcoin_api($request) {
  
@@ -57,24 +116,6 @@ global $app_config;
     $data = @api_data('url', $string, $app_config['chainstats_cache_time']);
     
   return (float)$data;
-  
-}
-
-
-//////////////////////////////////////////////////////////
-
-
-function grin_api($request) {
- 
-global $app_config;
- 		
-$json_string = 'https://api.grinmint.com/v1/networkStats';
-
-$jsondata = @api_data('url', $json_string, $app_config['chainstats_cache_time']);
-    
-$data = json_decode($jsondata, true);
-    
-return $data[$request];
   
 }
 
@@ -134,58 +175,6 @@ global $app_config, $runtime_mode;
 			
 	}
   
-}
-
-
-//////////////////////////////////////////////////////////
-
-
-function monero_api($request) {
- 
-global $app_config;
- 		
- 	$json_string = 'https://moneroblocks.info/api/get_stats';
- 	$jsondata = @api_data('url', $json_string, $app_config['chainstats_cache_time']);
-  	
-  	$data = json_decode($jsondata, true);
-    
-		if ( !$data ) {
-		return;
-		}
-		else {
-		
-		return $data[$request];
-		  
-		}
-  
-}
-
-
-//////////////////////////////////////////////////////////
-
-
-function telegram_chatroom_data() {
-	
-global $app_config, $base_dir;
-
-	if (  update_cache_file($base_dir . '/cache/vars/telegram_chatroom_data.dat', 1440) == true ) { // Update daily
-	
-	// Don't cache data, we are storing it as a specific cache var instead
-	$get_telegram_chatroom_data = @api_data('url', 'https://api.telegram.org/bot'.$app_config['telegram_bot_token'].'/getUpdates', 0); 
-
-   // Current telegram chatroom data stored to flat file (for sending messages to the telegram bot's chat room, etc)
-	store_file_contents($base_dir . '/cache/vars/telegram_chatroom_data.dat', $get_telegram_chatroom_data);
-	
-	}
-	else {
-	$get_telegram_chatroom_data = trim( file_get_contents('cache/vars/telegram_chatroom_data.dat') );
-	}
-
-     
-$telegram_chatroom_data = json_decode($get_telegram_chatroom_data, true);
-   
-return $telegram_chatroom_data['result'];
-
 }
 
 

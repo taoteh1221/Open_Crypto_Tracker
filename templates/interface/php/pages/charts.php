@@ -31,7 +31,15 @@
 	document.coin_amounts.submit();
 	'>Update Activated Charts</button></p>
 	
-	<p><input type='checkbox' onclick='selectAll(this, "activate_charts");' /> Select / Unselect All</p>
+	<p><input type='checkbox' onclick='
+	
+		selectAll(this, "activate_charts");
+		
+		if ( this.checked == false ) {
+		$("#show_charts").val("");
+		}
+		
+	' /> Select / Unselect All &nbsp;&nbsp; <span class='red'>(if "loading charts" notice freezes, check / uncheck this box, then click "Update Activated Charts")</span></p>
 		
 		<form id='activate_charts' name='activate_charts'>
 		

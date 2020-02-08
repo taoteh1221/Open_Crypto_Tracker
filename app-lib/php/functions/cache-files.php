@@ -390,7 +390,7 @@ global $base_dir, $app_config;
    }
 	
 	// Telegram
-   if ( $send_params['telegram'] != '' && $app_config['telegram_bot_name'] != '' && $app_config['telegram_bot_username'] != '' && $app_config['telegram_bot_token'] != '' ) {
+   if ( $send_params['telegram'] != '' && trim($app_config['telegram_bot_name']) != '' && trim($app_config['telegram_bot_username']) != '' && $app_config['telegram_bot_token'] != '' ) {
 	store_file_contents($base_dir . '/cache/secured/messages/telegram-' . random_hash(8) . '.queue', $send_params['telegram']);
    }
    
@@ -615,7 +615,7 @@ $cache_filename = preg_replace("/:/", "_", $cache_filename);
 
 function send_notifications() {
 
-global $base_dir, $app_config, $processed_messages, $possible_http_users, $http_runtime_user, $current_runtime_user, $telegram_chat_id;
+global $base_dir, $app_config, $processed_messages, $possible_http_users, $http_runtime_user, $current_runtime_user, $telegram_chatroom_latest;
 
 
 // Array of currently queued messages in the cache
@@ -813,14 +813,14 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 			  
 			   // Telegram
 				// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-			   if ( $message_data != '' && $app_config['telegram_bot_name'] != '' && $app_config['telegram_bot_username'] != '' && $app_config['telegram_bot_token'] != '' && preg_match("/telegram/i", $queued_cache_file) ) {  
+			   if ( $message_data != '' && trim($app_config['telegram_bot_name']) != '' && trim($app_config['telegram_bot_username']) != '' && $app_config['telegram_bot_token'] != '' && preg_match("/telegram/i", $queued_cache_file) ) {  
 			   
 				// Sleep for 1 second EXTRA on EACH consecutive telegram message, to throttle MANY outgoing messages, to help avoid being blacklisted
 				$telegram_sleep = 1 * $processed_messages['telegram_count'];
 				sleep($telegram_sleep);
 			   
 			   
-			   $telegram_response = telegram_message($message_data, $telegram_chat_id);
+			   $telegram_response = telegram_message($message_data, $telegram_chatroom_latest['message']['chat']['id']);
 				
 				
 			   	if ( $telegram_response != false ) {
@@ -1230,10 +1230,13 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		
 		
 		// No data error logging, ONLY IF THIS IS #NOT# A SELF SECURITY TEST
+		// NEW INSTALLS WILL RUN
 		if ( !$data && $is_self_security_test !=1 ) {
+	
 		
 		// LOG-SAFE VERSION (no post data with API keys etc)
 		app_logging( 'api_error', 'connection failed for ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint request at ' . $request ), 'request attempt from: server (local timeout setting ' . $app_config['api_timeout'] . ' seconds); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';' );
+		
 		
 			if ( sizeof($app_config['proxy_list']) > 0 && $current_proxy != '' && $mode != 'proxy-check' ) { // Avoid infinite loops doing proxy checks
 
@@ -1244,12 +1247,26 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 															
 			}
 		
+		
+			// FALLBACK TO CACHE DATA, IF AVAILABLE (WE CLEAR API CACHE FILES OLDER THAN 1 DAY AS A MAINTENANCE TASK, SO THIS IS FINE / WILL NOT CREATE AN ENDLESS USAGE OF SAME DATA)
+			// Use runtime cache if it exists. Remember file cache doesn't update until session is nearly over because of file locking, so only reliable for persisting a cache long term
+			// Run from runtime cache if requested again (for runtime speed improvements)
+			if ( $api_runtime_cache[$hash_check] ) {
+			$data = $api_runtime_cache[$hash_check];
+			}
+			else {
+			$data = trim( file_get_contents('cache/apis/'.$hash_check.'.dat') );
+			$api_runtime_cache[$hash_check] = $data; // Create a runtime cache from the file cache, for any additional requests during runtime for this data set
+			}
+			
+		
 		}
 		// Log this latest live data response, 
 		// ONLY IF WE DETECT AN $endpoint_tld_or_ip, AND TTL IS !NOT! ZERO (TTL==0 usually means too many unique requests that would bloat the cache)
 		elseif ( isset($data) && $endpoint_tld_or_ip != '' && $ttl != 0 ) {
 		
 		
+			////////////////////////////////////////////////////////////////
 			// If response seems to contain an error message
 			if ( preg_match("/error/i", $data) ) {
 			
@@ -1277,7 +1294,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		
 		
 			}			
-			// If response is from localbitcoins.com, and they are updating their data
+			// If response is from localbitcoins.com, and they are updating their data (but still sending a response), use any available cached data instead
 			elseif ( $endpoint_tld_or_ip == 'localbitcoins.com' ) {
 			
 				if ( !preg_match("/avg_12h/i", $data) ) {
@@ -1293,6 +1310,24 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 				}
 		
 			}
+			// If response is from coinmarketcap.com, and they are throttling us (but still sending a response), use any available cached data instead
+			elseif ( $endpoint_tld_or_ip == 'coinmarketcap.com' ) {
+			
+				if ( !preg_match("/last_updated/i", $data) ) {
+					
+					if ( $api_runtime_cache[$hash_check] ) {
+					$data = $api_runtime_cache[$hash_check];
+					}
+					else {
+					$data = trim( file_get_contents('cache/apis/'.$hash_check.'.dat') );
+					$api_runtime_cache[$hash_check] = $data; // Create a runtime cache from the file cache, for any additional requests during runtime for this data set
+					}
+					
+				}
+		
+			}
+			////////////////////////////////////////////////////////////////
+			
 		
 		
 			// Data debugging telemetry
@@ -1308,26 +1343,19 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 			
 			
 		}
-		
-		
-		
-		// Don't log cmc throttle notices, BUT nullify $data since we're getting no API data (just a throttle notice)
-		if ( preg_match("/coinmarketcap/i", $request) && !preg_match("/last_updated/i", $data) ) {
-		$data = null;
-		}
 	
-		
-		
-		// Never cache proxy checking data
-		if ( $mode != 'proxy-check' ) {
-		$api_runtime_cache[$hash_check] = ( $data ? $data : 'none' ); // Cache API data for this runtime session AFTER PERSISTENT FILE CACHE UPDATE, file cache doesn't reliably update until runtime session is ending because of file locking
-		}
 		
 		
 		
 		// Cache data to the file cache, EVEN IF WE HAVE NO DATA, TO AVOID CONSECUTIVE TIMEOUT HANGS (during page reloads etc) FROM A NON-RESPONSIVE API ENDPOINT
+		// Cache API data for this runtime session AFTER PERSISTENT FILE CACHE UPDATE, file cache doesn't reliably update until runtime session is ending because of file locking
 		if ( $ttl > 0 && $mode != 'proxy-check'  ) {
+		$api_runtime_cache[$hash_check] = ( $data ? $data : 'none' ); 
 		store_file_contents($base_dir . '/cache/apis/'.$hash_check.'.dat', $api_runtime_cache[$hash_check]);
+		}
+		// NEVER cache proxy checking data, OR TTL == 0
+		elseif ( $mode == 'proxy-check' || $ttl == 0 ) {
+		$api_runtime_cache[$hash_check] = null; 
 		}
 		
 

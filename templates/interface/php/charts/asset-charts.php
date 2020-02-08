@@ -38,7 +38,7 @@
 			$currency_symbol = $app_config['crypto_to_crypto_pairing'][$charted_value];
 			}
 			// Fiat-equiv
-			// #FOR CLEAN CODE#, RUN CHECK TO MAKE SURE IT'S NOT A CRYPTO AS WELL...WE HAVE A COUPLE SUPPORTED, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
+			// RUN AFTER CRYPTO MARKETS...WE HAVE A COUPLE CRYPTOS SUPPORTED HERE, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
 			elseif ( array_key_exists($charted_value, $app_config['bitcoin_currency_markets']) && !array_key_exists($charted_value, $app_config['crypto_to_crypto_pairing']) ) {
 			$currency_symbol = $app_config['bitcoin_currency_markets'][$charted_value];
 			$fiat_equiv = 1;

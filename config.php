@@ -56,19 +56,18 @@ $app_config['smtp_email_secure'] = 'tls'; // CAN BE 'off' FOR NO SECURE CONNECTI
 
 
 // Sending alerts to your own telegram bot chatroom. 
-// (USEFUL IF YOU HAVE ISSUES SETTING UP MOBILE TEXT ALERTS, FURTHER DOWN BELOW)
+// (USEFUL IF YOU HAVE ISSUES SETTING UP MOBILE TEXT ALERTS, INCLUDING EMOJI / UNICODE CHARACTER ENCODING)
 // Setup: https://core.telegram.org/bots , OR JUST SEARCH / VISIT "BotFather" in telegram
-// AFTER SETTING UP YOUR BOT AND SAVING YOUR BOT NAME, USERNAME, AND ACCESS TOKEN, 
-// VISIT THE BOT CHATROOM LINK PROVIDED BY BotFather, AND TO SIGNUP TO ADD IT TO YOU CHATROOMS LIST, 
-// #SEND THE MESSAGE "/start" TO THIS BOT CHATROOM# (THIS WILL SET THE CHATROOM'S CHAT ID)
-// THE CHAT ID #IS REQUIRED FOR THIS APP TO KNOW WHAT CHATROOM TO SEND MESSAGES TO#
-// ###DO NOT DELETE YOUR "/start" MESSAGE###, THIS ADDS THE CHATROOM TO YOUR CHATROOM LIST
-// ###DO NOT FILL IN BELOW UNTIL AFTER FOLLOWING THE ABOVE INSTRUCTIONS, AS WE ONLY RE-CACHE THE CHAT ID DAILY###
-$app_config['telegram_bot_name'] = '';
+// SET UP YOUR BOT WITH "BotFather", AND SAVE YOUR BOT NAME / USERNAME / ACCESS TOKEN / BOT CHATROOM LINK
+// VISIT THE BOT CHATROOM, #SEND THE MESSAGE "/start" TO THIS CHATROOM# (THIS WILL CREATE THE CHATROOM DATA)
+// THE CHATROOM DATA #IS REQUIRED FOR THIS APP TO KNOW WHAT CHATROOM TO SEND MESSAGES TO
+// ###THIS APP FETCHES THE LATEST CHATROOM DATA A MAXIMUM OF EVERY ~20 MINUTES (WHENEVER THIS APP RUNS)###
+// ###DO NOT DELETE YOUR "/start" MESSAGE IN THE CHATROOM (THIS ACTIVATES THE CHATROOM)###
+$app_config['telegram_bot_name'] = ''; // Your bot's human-readable name (example: 'My Alerts Bot')
 ////
-$app_config['telegram_bot_username'] = '';
+$app_config['telegram_bot_username'] = '';  // Your bot's username
 ////
-$app_config['telegram_bot_token'] = '';
+$app_config['telegram_bot_token'] = '';  // Your bot's access token
 
 
 // For alert texts to mobile phone numbers. 
@@ -422,11 +421,6 @@ $app_config['charts_and_price_alerts'] = array(
 					'data-2' => 'binance||btc||chart',
 					
 					
-					// DAG
-					'dag' => 'kucoin||btc||chart',
-					'dag-2' => 'hitbtc||btc||chart',
-					
-					
 					//MYST
 					'myst' => 'hitbtc||btc||both',
 					'myst-2' => 'hitbtc||eth||alert',
@@ -496,12 +490,26 @@ $app_config['marketcap_ranks_max'] = 200; // 200 rankings is a safe maximum to s
 // Activate support for ALTCOIN PAIRED MARKETS (like doge/eth, dai/eth, etc)
 // EACH ALTCOIN LISTED HERE !MUST HAVE! AN EXISTING 'btc' MARKET (within 'market_pairing') 
 // in it's $app_config['portfolio_assets'] listing (further down in this config file) TO PROPERLY ACTIVATE
-// ('btc' pairing support IS SKIPPED HERE, as it's ALREADY BUILT-IN to this app's core logic)
 $app_config['crypto_to_crypto_pairing'] = array(
 						//'lowercase_altcoin_abrv' => 'CRYPTO_SYMBOL',
 						'eth' => 'Ξ ',
 						'ltc' => 'Ł ',
 						'xmr' => 'ɱ ',
+							);
+
+
+
+// Preferred ALTCOIN PAIRED MARKETS market(s) for getting a certain crypto's value
+// EACH ALTCOIN LISTED HERE MUST EXIST IN $app_config['crypto_to_crypto_pairing'] ABOVE,
+// AND !MUST HAVE! AN EXISTING 'btc' MARKET (within 'market_pairing') in it's 
+// $app_config['portfolio_assets'] listing (further down in this config file),
+// AND #THE EXCHANGE NAME MUST BE IN THAT 'btc' LIST#
+// #USE VERY LIBERALLY#, AS YOU WANT THE BEST PRICE DISCOVERY FOR THIS CRYPTO'S VALUE
+$app_config['preferred_altcoin_markets'] = array(
+						//'lowercase_btc_market_or_stablecoin_pairing' => 'PREFERRED_MARKET',
+							'eth' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
+							'ltc' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
+							'xmr' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							);
 
 
@@ -542,6 +550,7 @@ $app_config['bitcoin_currency_markets'] = array(
 
 // Preferred BITCOIN market(s) for getting a certain currency's value
 // (when other exchanges for this currency have poor api / volume / price discovery / etc)
+// EACH CURRENCY LISTED HERE MUST EXIST IN $app_config['bitcoin_currency_markets'] ABOVE
 // #USE VERY CONSERVATIVELY#, AS YOU'LL BE RECOMMENDING IN THE INTERFACE TO END-USERS TO AVOID USING ANY OTHER MARKETS FOR THIS CURRENCY
 $app_config['preferred_bitcoin_markets'] = array(
 						//'lowercase_btc_market_or_stablecoin_pairing' => 'PREFERRED_MARKET',
@@ -1777,34 +1786,6 @@ $app_config['portfolio_assets'] = array(
                                     'usdt' => array(
                                          'hitbtc' => 'DATAUSD',
                                          'gateio' => 'data_usdt',
-                                                    ),
-                                                    
-                                        ) // market_pairing END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // DAG
-                    'DAG' => array(
-                        
-                        'coin_name' => 'Constellation',
-                        'marketcap_website_slug' => 'constellation',
-                        'market_pairing' => array(
-                        
-                                    'btc' => array(
-                                        'kucoin' => 'DAG-BTC',
-                                        'hotbit' => 'DAG_BTC',
-                                        'hitbtc' => 'DAGBTC',
-                                                    ),
-                                                    
-                                    'eth' => array(
-                                        'kucoin' => 'DAG-ETH',
-                                        'hotbit' => 'DAG_ETH',
-                                        'hitbtc' => 'DAGETH',
-                                        'idex' => 'ETH_DAG',
                                                     ),
                                                     
                                         ) // market_pairing END

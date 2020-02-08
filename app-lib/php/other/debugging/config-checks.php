@@ -203,6 +203,20 @@ if ( trim($app_config['from_email']) != '' && trim($app_config['to_email']) != '
       }
           	
           	
+      // Google Home
+		// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
+      if ( trim($app_config['google_home_application_name']) != '' && trim($app_config['google_home_client_id']) != '' && $app_config['google_home_client_secret'] != '' ) {
+      $alerts_enabled_types[] = 'Google Home';
+      }
+          	
+          	
+      // Telegram
+		// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
+      if ( trim($app_config['telegram_bot_name']) != '' && trim($app_config['telegram_bot_username']) != '' && $app_config['telegram_bot_token'] != '' ) {
+      $alerts_enabled_types[] = 'Telegram';
+      }
+          	
+          	
       // Our alert types
       if ( sizeof($alerts_enabled_types) > 0 ) {
           		

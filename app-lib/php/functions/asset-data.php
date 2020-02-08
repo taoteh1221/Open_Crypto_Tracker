@@ -299,7 +299,7 @@ global $app_config, $btc_primary_currency_value;
 
 function pairing_market_value($pairing) {
 
-global $app_config, $btc_pairing_markets;
+global $app_config, $btc_pairing_markets, $btc_pairing_markets_blacklist;
 
 
 	// Kill any ghost calls in dirty code
@@ -307,32 +307,63 @@ global $app_config, $btc_pairing_markets;
 	return false;
 	}
 
-
+	
+	// Safeguard
+	if ( $pairing == 'btc' ) {
+	return false;
+	}
 	// If session value exists
-	if ( $btc_pairing_markets[$pairing.'_btc'] ) {
+	elseif ( $btc_pairing_markets[$pairing.'_btc'] ) {
 	return $btc_pairing_markets[$pairing.'_btc'];
 	}
 	// If we need an ALTCOIN/BTC market value (RUN BEFORE CURRENCIES FOR BEST MARKET DATA, AS SOME CRYPTOS ARE INCLUDED IN BOTH)
-	elseif ( $pairing != 'btc' && array_key_exists($pairing, $app_config['crypto_to_crypto_pairing']) ) {
+	elseif ( array_key_exists($pairing, $app_config['crypto_to_crypto_pairing']) ) {
+		
+		// Include a basic array check, since we want valid data to avoid an endless loop in our fallback support
+		if ( !is_array($app_config['portfolio_assets'][strtoupper($pairing)]['market_pairing']['btc']) ) {
+		return false;
+		}
 	
 		foreach ( $app_config['portfolio_assets'][strtoupper($pairing)]['market_pairing']['btc'] as $market_key => $market_value ) {
-		
-			if ( $pair_loop != 1 ) {
+					
+			// Preferred BITCOIN market(s) for getting a certain currency's value, if in config and more than one market exists
+			if ( sizeof($app_config['portfolio_assets'][strtoupper($pairing)]['market_pairing']['btc']) > 1 && array_key_exists($pairing, $app_config['preferred_altcoin_markets']) ) {
+			$whitelist = $app_config['preferred_altcoin_markets'][$pairing];
+			}
+					
+			if ( isset($whitelist) && $whitelist == $market_key && !array_key_exists($market_key, $btc_pairing_markets_blacklist)
+			|| !isset($whitelist) && !array_key_exists($market_key, $btc_pairing_markets_blacklist) ) {
+				
    		$btc_pairing_markets[$pairing.'_btc'] = asset_market_data(strtoupper($pairing), $market_key, $market_value)['last_trade'];
-			$pair_loop = 1;
-   		return $btc_pairing_markets[$pairing.'_btc'];
+   		
+   		$result = $btc_pairing_markets[$pairing.'_btc'];
+   		
+   			// Fallback support, if no data returned
+   			if ( !isset($result) || number_to_string($result) < 0.00000001 || !is_numeric($result) ) {
+   			$btc_pairing_markets_blacklist[] = $market_key;
+   			return pairing_market_value($pairing);
+   			}
+   			else {
+   			return $result;
+   			}
+   		
 			}
 					
 		}
 	
 	}
 	// If we need a BITCOIN/CURRENCY market value 
-	// #FOR CLEAN CODE#, RUN CHECK TO MAKE SURE IT'S NOT A CRYPTO AS WELL...WE HAVE A COUPLE SUPPORTED, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
-	elseif ( array_key_exists($pairing, $app_config['bitcoin_currency_markets']) && !array_key_exists($pairing, $app_config['crypto_to_crypto_pairing']) ) {
+	// RUN AFTER CRYPTO MARKETS...WE HAVE A COUPLE CRYPTOS SUPPORTED HERE, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
+	elseif ( array_key_exists($pairing, $app_config['bitcoin_currency_markets']) ) {
 	
 		foreach ( $app_config['portfolio_assets']['BTC']['market_pairing'] as $pair_key => $pair_unused ) {
 		
 			if ( $pairing == $pair_key ) {
+		
+				// Include a basic array check, since we want valid data to avoid an endless loop in our fallback support
+				if ( !is_array($app_config['portfolio_assets']['BTC']['market_pairing'][$pair_key]) ) {
+				return false;
+				}
 				
 				foreach ( $app_config['portfolio_assets']['BTC']['market_pairing'][$pair_key] as $market_key => $market_value ) {
 					
@@ -341,10 +372,23 @@ global $app_config, $btc_pairing_markets;
 					$whitelist = $app_config['preferred_bitcoin_markets'][$pairing];
 					}
 					
-					if ( isset($whitelist) && $market_key == $whitelist && $pair_loop != 1 || !isset($whitelist) && $pair_loop != 1 ) {
+					if ( isset($whitelist) && $whitelist == $market_key && !array_key_exists($market_key, $btc_pairing_markets_blacklist)
+					|| !isset($whitelist) && !array_key_exists($market_key, $btc_pairing_markets_blacklist) ) {
+						
    				$btc_pairing_markets[$pairing.'_btc'] = number_format( (1 /  asset_market_data(strtoupper($pair_key), $market_key, $market_value)['last_trade'] ), 8, '.', '');
-					$pair_loop = 1;
-   				return $btc_pairing_markets[$pairing.'_btc'];
+   				
+   				$result = $btc_pairing_markets[$pairing.'_btc'];
+   					
+   					// Fallback support, if no data returned
+   					if ( !isset($result) || number_to_string($result) < 0.00000001 || !is_numeric($result) ) {
+   					$btc_pairing_markets_blacklist[] = $market_key;
+   					return pairing_market_value($pairing);
+   					}
+   					else {
+   					return $result;
+   					}
+   		
+   				
 					}
 					
 				}

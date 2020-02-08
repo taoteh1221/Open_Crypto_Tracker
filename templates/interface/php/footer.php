@@ -69,8 +69,7 @@
             	</div>
      
     <?php
-    	
-    	
+          
     	
     	// Proxy alerts (if setup by user, and any of them failed, test the failed proxies and log/alert if they seem offline)
 		if ( $app_config['proxy_alerts'] != 'off' ) {

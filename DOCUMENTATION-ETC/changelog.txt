@@ -2523,9 +2523,13 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.07.8:
 
--Misc minor bug fixes / semantics / code cleanup
+-New power user config settings
 
--Support for sending alerts to your own telegram bot chatroom (USEFUL IF YOU HAVE ISSUES SETTING UP MOBILE TEXT ALERTS)
+-Misc bug fixes / semantics / code cleanup / UX
+
+-Added some fallback modes for the API cache and altcoin paired market values
+
+-Support for sending alerts to your own telegram bot chatroom (USEFUL IF YOU HAVE ISSUES SETTING UP MOBILE TEXT ALERTS, INCLUDING EMOJI / UNICODE CHARACTER ENCODING)
 
 IMPORTANT NOTES: 
 

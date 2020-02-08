@@ -15,7 +15,7 @@ Password notes: https://www.php.net/manual/en/faq.passwords.php
 "NEXT ON THE LIST" SUMMARY SECTION
 ///////////////////////////////////////////////////////
 
-Add the rest of the localbitcoins country currencies, and run tests / patch bugs (in the bugs / tests section of this list).
+Add the rest of the localbitcoins country currencies, and do everything in the optimizations / bugs / tests section of this list.
 
 
 ///////////////////////////////////////////////////////
@@ -23,16 +23,7 @@ OPTIMIZATIONS / BUGS / TESTS SECTION
 ///////////////////////////////////////////////////////
 
 
-Add Telegram to list of detected scanned configs in system checks / settings page.
-
-
-Add "preferred markets" setting for the "crypto_to_crypto" list too.
-
-
-Add fallback protection for pairing value function (including for preferred markets) to try another market in that pairing if no trade data is returned (from api / network / etc errors).
-
-
-Test unicode text message with no space in front of hex-encoded data (forgot to try that, coded and ready to go now...see content_data_encoding() and /DOCUMENTATION-ETC/Developing-maintaining/DEBUGGING.txt).
+Test unicode mobile text message with no space in front of hex-encoded data (forgot to try that, coded and ready to go now...see content_data_encoding() and /DOCUMENTATION-ETC/Developing-maintaining/DEBUGGING.txt).
 
 
 Code review ALL functions.
@@ -45,6 +36,9 @@ Code review ALL functions.
 ///////////////////////////////////////////////////////
 FEATURES / STRUCTURING SECTION
 ///////////////////////////////////////////////////////
+
+
+Add additional ability to do telegram webhooks, to query asset prices at different exchanges through telegram chat with the chat bot. Example: "/price ETH/USDT @ Binance"
 
 
 Check out cryptocompare.com API.

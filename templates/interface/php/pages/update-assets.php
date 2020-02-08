@@ -446,8 +446,11 @@
 				     if ( $_POST[$field_var_market] ) {
 				     echo $_POST[$field_var_market];
 				     }
-				     elseif ( $coin_market_id ) {
+				     elseif ( isset($coin_market_id) ) {
 				     echo $coin_market_id;
+				     }
+				     elseif ( !isset($coin_market_id) && strtolower($coin_array_value['coin_name']) == 'bitcoin' ) {
+				     echo btc_market($app_config['btc_primary_exchange']);
 				     }
 				     else {
 						echo '1';
