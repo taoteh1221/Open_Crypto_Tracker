@@ -23,6 +23,9 @@ OPTIMIZATIONS / BUGS / TESTS SECTION
 ///////////////////////////////////////////////////////
 
 
+External network test if price data retrieval fails in the pairing value function, to avoid a major re-loop cycle (although likely not an endless loop via the blacklist), OR just give up after X number of tries and assume a network error.
+
+
 Test unicode mobile text message with no space in front of hex-encoded data (forgot to try that, coded and ready to go now...see content_data_encoding() and /DOCUMENTATION-ETC/Developing-maintaining/DEBUGGING.txt).
 
 
