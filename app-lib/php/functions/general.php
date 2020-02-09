@@ -30,12 +30,12 @@ return $ret;
 ////////////////////////////////////////////////////////
 
 
-function telegram_message($message, $chat_id_or_user) {
+function telegram_message($message, $chat_id) {
 
 // Using 3rd party Telegram class, initiated already as global var $telegram_messaging
 global $telegram_messaging;
 
-return $telegram_messaging->send->chat($chat_id_or_user)->text($message)->send();
+return $telegram_messaging->send->chat($chat_id)->text($message)->send();
 
 }
 
