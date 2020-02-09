@@ -261,8 +261,15 @@ global $app_config, $btc_primary_currency_value;
 	}
 	// Currency volume from other PAIRING volume
 	elseif ( $vol_in_pairing != false ) { 
+	
 	$pairing_btc_value = pairing_market_value($pairing);
+
+		if ( $pairing_btc_value == false ) {
+		app_logging('other_error', 'pairing_market_value() returned false in trade_volume()', 'pairing: ' . $pairing);
+		}
+	
 	$volume_primary_currency_raw = number_format( $temp_btc_primary_currency_value * ( $vol_in_pairing * $pairing_btc_value ) , 0, '.', '');
+	
 	}
 	// Currency volume from ASSET volume
 	else {
@@ -274,15 +281,17 @@ global $app_config, $btc_primary_currency_value;
 		$volume_primary_currency_raw = number_format( $temp_btc_primary_currency_value * ( $last_trade * $volume ) , 0, '.', '');
 		}
 		else {
+			
 		$pairing_btc_value = pairing_market_value($pairing);
+
+			if ( $pairing_btc_value == false ) {
+			app_logging('other_error', 'pairing_market_value() returned false in trade_volume()', 'pairing: ' . $pairing);
+			}
+	
 		$volume_primary_currency_raw = number_format( $temp_btc_primary_currency_value * ( $last_trade * $volume ) * $pairing_btc_value , 0, '.', '');
+		
 		}
 	
-	}
-
-	
-	if ( $pairing_btc_value == false ) {
-	app_logging('other_error', 'pairing_market_value() returned false', 'pairing: ' . $pairing);
 	}
 	
 
@@ -313,8 +322,8 @@ global $app_config, $btc_pairing_markets, $btc_pairing_markets_blacklist;
 	}
 
 	
-	// Safeguard
-	if ( $pairing == 'btc' ) {
+	// Safeguard / cut down on runtime
+	if ( trim($pairing) == '' || $pairing == 'btc' ) {
 	return false;
 	}
 	// If session value exists
@@ -667,13 +676,15 @@ $asset_market_data = asset_market_data($asset, $exchange, $app_config['portfolio
 	}
 	// OTHER PAIRINGS CONVERTED TO PRIMARY CURRENCY CONFIG (EQUIV) CHARTS
 	else {
+		
 	$pairing_btc_value = pairing_market_value($pairing); 
+	
+		if ( $pairing_btc_value == false ) {
+		app_logging('other_error', 'pairing_market_value() returned false in charts_and_price_alerts()', 'pairing: ' . $pairing);
+		}
+	
 	$asset_primary_currency_value_raw = number_format( $default_btc_primary_currency_value * ( $asset_market_data['last_trade'] * $pairing_btc_value ) , 8, '.', '');
-	}
 	
-	
-	if ( $pairing_btc_value == false ) {
-	app_logging('other_error', 'pairing_market_value() returned false', 'pairing: ' . $pairing);
 	}
 	
 	
@@ -1232,6 +1243,9 @@ $market_pairing = $all_markets[$selected_exchange];
     // ETH ICOS
     elseif ( $selected_pairing == 'eth' && $selected_exchange == 'eth_subtokens_ico' ) {
     $pairing_btc_value = pairing_market_value($selected_pairing);
+		if ( $pairing_btc_value == false ) {
+		app_logging('other_error', 'pairing_market_value() returned false in ui_coin_data_row()', 'pairing: ' . $pairing);
+		}
     $coin_value_raw = get_sub_token_price($selected_exchange, $market_pairing);
     $btc_trade_eqiv = number_format( ($coin_value_raw * $pairing_btc_value), 8);
     $coin_value_total_raw = ($asset_amount * $coin_value_raw);
@@ -1241,18 +1255,15 @@ $market_pairing = $all_markets[$selected_exchange];
     // OTHER PAIRINGS
     else {
     $pairing_btc_value = pairing_market_value($selected_pairing);
+		if ( $pairing_btc_value == false ) {
+		app_logging('other_error', 'pairing_market_value() returned false in ui_coin_data_row()', 'pairing: ' . $pairing);
+		}
     $coin_value_raw = $asset_market_data['last_trade'];
     $btc_trade_eqiv = number_format( ($coin_value_raw * $pairing_btc_value), 8);
     $coin_value_total_raw = ($asset_amount * $coin_value_raw);
   	 $coin_primary_currency_worth_raw = ($coin_value_total_raw * $pairing_btc_value) *  $btc_primary_currency_value;
     $btc_worth_array[$asset_symbol] = ( strtolower($asset_name) == 'bitcoin' ? $asset_amount : number_to_string($coin_value_total_raw * $pairing_btc_value) );
   	 }
-  	 
-  	 
-	
-	if ( $pairing_btc_value == false ) {
-	app_logging('other_error', 'pairing_market_value() returned false', 'pairing: ' . $pairing);
-	}
 	
   	 
   	 
