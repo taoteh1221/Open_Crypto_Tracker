@@ -228,7 +228,7 @@ function auto_reload(time) {
 		
 		if ( document.getElementById("set_use_cookies").checked == false ) {
 			
-		var use_cookies = confirm(' You must enable "Use cookie data to save values between sessions" on the "Settings" page before using this auto-refresh feature. \n \n Click OK below to enable "Use cookie data to save values between sessions" automatically NOW, or click CANCEL to NOT enable cookie data storage for this app.');
+		var use_cookies = confirm(' You must enable "Use cookies to save data between browser sessions" on the "Settings" page before using this auto-refresh feature. \n \n Click OK below to enable "Use cookies to save data between browser sessions" automatically NOW, or click CANCEL to NOT enable cookie data storage for this app.');
 		
 			if ( use_cookies == true ) {
 				

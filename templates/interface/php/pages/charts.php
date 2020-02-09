@@ -22,7 +22,7 @@
 		
 		<h3>Activate Charts</h3>
 	
-	<p class='red'>*Charts are not activated by default to increase page loading speed / responsiveness. It's recommended to avoid activating too many charts at the same time, to keep your page load times quick. You can enable "Use cookie data to save values between sessions" on the Settings page <i>before activating your charts</i>, if you want them to stay activated between browser sessions.</p>
+	<p class='red'>*Charts are not activated by default to increase page loading speed / responsiveness. It's recommended to avoid activating too many charts at the same time, to keep your page load times quick. You can enable "Use cookies to save data between browser sessions" on the Settings page <i>before activating your charts</i>, if you want them to stay activated between browser sessions.</p>
 	
 	<p class='red'>v4.03.0 and higher charts are NOT backwards-compatible, as the 24 hour volume format was completely changed over to always be based off pairing volume data only (24 hour asset volume is no longer supported).</p>
 	

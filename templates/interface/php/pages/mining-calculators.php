@@ -17,9 +17,9 @@
 
 			<p style='margin-top: 15px; margin-bottom: 15px;'><?=start_page_html('mining_calculators')?></p>			
 			
-			<p style='font-weight: bold;'>Chain data (block height, difficulty, etc) on this page is cached for <?=$app_config['chainstats_cache_time']?> minute(s).</p>
+			<p style='font-weight: bold;'>Chain data (block height, difficulty, etc) in this app is cached for <?=$app_config['chainstats_cache_time']?> minute(s).</p>
 			
-			<p class='red'>Using these mining calculators <i><u>will set this page as the start page</u>, which you can reset afterwards at top left</i>. If you have portfolio data you don't want to lose, be sure you have enabled "Use cookie data to save values between sessions" on the Settings page before using these mining calculators.</p>
+			<p class='red'>Using these mining calculators <i><u>will set this page as the start page</u>, which you can reset afterwards at top left</i>. If you have portfolio data you don't want to lose, be sure you have enabled "Use cookies to save data between browser sessions" on the Settings page before using these mining calculators.</p>
 			  
 			<fieldset class='subsection_fieldset'>
 				<legend class='subsection_legend'> <b>Bitcoin Mining Calculator</b> </legend>
