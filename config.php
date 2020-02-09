@@ -286,9 +286,9 @@ $app_config['price_alerts_block_volume_error'] = 'on'; // 'on' / 'off'
 $app_config['price_alerts_refresh'] = 0; 
 ////
 // Whale alert (adds "WHALE ALERT" to beginning of alexa / google home / email alert text, and spouting whale emoji to email / text)
-// Format: 'maximum_days_to_24hr_average_over||minimum_price_percent_change_24hr_average||minimum_volume_percent_change_24hr_average||minimum_volume_currency_change_24hr_average'
+// Format: 'max_days_to_24hr_average_over||min_price_percent_change_24hr_average||min_volume_percent_increase_24hr_average||min_volume_currency_increase_24hr_average'
 // Leave BLANK '' TO DISABLE. DECIMALS ARE SUPPORTED, USE NUMBERS ONLY (NO CURRENCY SYMBOLS / COMMAS, ETC)
-$app_config['price_alerts_whale_alert_threshold'] = '2.55||7.75||9.25||12750';
+$app_config['price_alerts_whale_alert_threshold'] = '2.3||7.75||9.25||12750';
 
 
 // CHARTS / PRICE ALERTS SETUP REQUIRES A CRON JOB RUNNING ON YOUR WEBSITE SERVER (see README.txt for cron job setup information) 

@@ -2557,6 +2557,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Code cleanup / improvements
 
+-Bug fix for whale alert threshold detection (extra feature included in price alerts)
+
 -Bug fix for new telegram messaging feature (requires username now, and permanently caches associated username chat id in the "secured" cache subdirectory)
 
 IMPORTANT NOTES: 

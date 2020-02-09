@@ -637,13 +637,9 @@ function charts_and_price_alerts($asset_data, $exchange, $pairing, $mode) {
 global $base_dir, $app_config, $default_btc_primary_exchange, $default_btc_primary_currency_value, $default_btc_primary_currency_pairing;
 
 
-$whale_alert_threshold = explode("||", $app_config['price_alerts_whale_alert_threshold']);
-
-
 // Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
 $asset = ( stristr($asset_data, "-") == false ? $asset_data : substr( $asset_data, 0, mb_strpos($asset_data, "-", 0, 'utf-8') ) );
 $asset = strtoupper($asset);
-
 
 
 
@@ -658,8 +654,8 @@ $fiat_eqiv = 1;
 	// Get any necessary variables for calculating asset's PRIMARY CURRENCY CONFIG value
 
 
-// Consolidate function calls for runtime speed improvement
-$asset_market_data = asset_market_data($asset, $exchange, $app_config['portfolio_assets'][$asset]['market_pairing'][$pairing][$exchange], $pairing);
+	// Consolidate function calls for runtime speed improvement
+	$asset_market_data = asset_market_data($asset, $exchange, $app_config['portfolio_assets'][$asset]['market_pairing'][$pairing][$exchange], $pairing);
    
    
 	// Get asset PRIMARY CURRENCY CONFIG value
@@ -697,8 +693,10 @@ $asset_market_data = asset_market_data($asset, $exchange, $app_config['portfolio
 	$volume_primary_currency_raw = $asset_market_data['24hr_primary_currency_volume'];
 	
 	
+	
 	// If no pair volume is available for this market, emulate it within reason with: asset value * asset volume
 	$volume_pairing_raw = ( number_to_string($volume_pairing_raw) > 0 ? $volume_pairing_raw : ($asset_pairing_value_raw * $volume_asset_raw) );
+	
 	
 	
 	// Make sure we have basic values, otherwise log errors / return false
@@ -709,6 +707,7 @@ $asset_market_data = asset_market_data($asset, $exchange, $app_config['portfolio
 	$set_return = 1;
 	}
 	
+	
 	// Return false if we have no asset value
 	if ( number_to_string( trim($asset_primary_currency_value_raw) ) >= 0.00000001 ) {
 	// Continue
@@ -717,6 +716,7 @@ $asset_market_data = asset_market_data($asset, $exchange, $app_config['portfolio
 	app_logging('other_error', 'charts_and_price_alerts() - No asset '.strtoupper($default_btc_primary_currency_pairing).' value set', $asset_data . ': ' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . '; pairing_id: ' . $app_config['portfolio_assets'][$asset]['market_pairing'][$pairing][$exchange] . ';' );
 	$set_return = 1;
 	}
+	
 	
 	if ( $set_return == 1 ) {
 	return false;
@@ -822,7 +822,6 @@ $cached_array = explode("||", $data_file);
 
 
 
-
 	////// If cached value and current value exist, run alert checking ////////////
 	
 	if ( number_to_string( trim($cached_asset_primary_currency_value) ) >= 0.00000001 && number_to_string( trim($asset_primary_currency_value_raw) ) >= 0.00000001 ) {
@@ -856,7 +855,6 @@ $cached_array = explode("||", $data_file);
           
           
           
-          
           // Crypto volume checks
           
           // Crypto volume percent change (!MUST BE! absolute value)
@@ -882,20 +880,29 @@ $cached_array = explode("||", $data_file);
           
           
           
-          // Whale alert (price change average of X or greater within X day(s) or less, with X percent pair volume change average that is at least a X primary currency volume change average)
+
+          // Whale alert (price change average of X or greater over X day(s) or less, with X percent pair volume increase average that is at least a X primary currency volume increase average)
+			 $whale_alert_threshold = explode("||", $app_config['price_alerts_whale_alert_threshold']);
+
           if ( trim($whale_alert_threshold[0]) != '' && trim($whale_alert_threshold[1]) != '' && trim($whale_alert_threshold[2]) != '' && trim($whale_alert_threshold[3]) != '' ) {
           
-          $whale_max_days_to_24hr_average = number_to_string( trim($whale_alert_threshold[0]) );
+          $whale_max_days_to_24hr_average_over = number_to_string( trim($whale_alert_threshold[0]) );
           
-          $whale_min_price_change_percent_24hr_average = number_to_string( trim($whale_alert_threshold[1]) );
+          $whale_min_price_percent_change_24hr_average = number_to_string( trim($whale_alert_threshold[1]) );
           
-          $whale_min_volume_change_percent_24hr_average = number_to_string( trim($whale_alert_threshold[2]) );
+          $whale_min_volume_percent_increase_24hr_average = number_to_string( trim($whale_alert_threshold[2]) );
           
-          $whale_min_volume_change_currency_24hr_average = number_to_string( trim($whale_alert_threshold[3]) );
+          $whale_min_volume_currency_increase_24hr_average = number_to_string( trim($whale_alert_threshold[3]) );
           
-   		 	if ( $last_check_days <= $whale_max_days_to_24hr_average && number_to_string( $percent_change / $last_check_days ) >= $whale_min_price_change_percent_24hr_average && number_to_string( $volume_percent_change / $last_check_days ) >= $whale_min_volume_change_percent_24hr_average && number_to_string( abs($volume_primary_currency_raw - $cached_primary_currency_volume) / $last_check_days ) >= $whale_min_volume_change_currency_24hr_average ) {
+          
+          	// WE ONLY WANT PRICE CHANGE PERCENT AS AN ABSOLUTE VALUE HERE, ALL OTHER VALUES SHOULD BE ALLOWED TO BE NEGATIVE IF THEY ARE NEGATIVE
+   		 	if ( $last_check_days <= $whale_max_days_to_24hr_average_over 
+   		 	&& number_to_string($percent_change / $last_check_days) >= $whale_min_price_percent_change_24hr_average 
+   		 	&& number_to_string($volume_change_symbol . $volume_percent_change / $last_check_days) >= $whale_min_volume_percent_increase_24hr_average 
+   		 	&& number_to_string( ($volume_primary_currency_raw - $cached_primary_currency_volume) / $last_check_days ) >= $whale_min_volume_currency_increase_24hr_average ) {
    		 	$whale_alert = 1;
    		 	}
+   		 	
    		 
    		 }
    		 
@@ -920,7 +927,6 @@ $cached_array = explode("||", $data_file);
           if ( $volume_primary_currency_raw == -1 && $app_config['price_alerts_block_volume_error'] == 'on' ) {
           $send_alert = null;
           }
-          
           
           
           
@@ -997,6 +1003,7 @@ $cached_array = explode("||", $data_file);
           	}
           	
           	
+          	
           	// Successfully received > 0 volume data, at or above an enabled minimum volume filter
   				if ( $volume_primary_currency_raw > 0 && $app_config['price_alerts_min_volume'] > 0 && $volume_primary_currency_raw >= $app_config['price_alerts_min_volume'] ) {
           	$email_volume_summary = '24 hour ' . $volume_describe . $volume_change_text . ' ' . $volume_primary_currency_text . ' (minimum volume filter set at ' . $app_config['bitcoin_currency_markets'][$default_btc_primary_currency_pairing] . number_format($app_config['price_alerts_min_volume'], 0, '.', ',') . ').';
@@ -1030,8 +1037,10 @@ $cached_array = explode("||", $data_file);
   				
   				
   				
+  				
   				// Cache the new lower / higher value + volume data
           	store_file_contents($base_dir . '/cache/alerts/'.$asset_data.'.dat', $alert_cache_contents); 
+          	
           	
           	
           	
@@ -1060,13 +1069,12 @@ $cached_array = explode("||", $data_file);
           	@queue_notifications($send_params);
   
           
-          
+     		 
           }
           
           
           
           
-  
   
 	}
 	////// END alert checking //////////////
@@ -1184,6 +1192,7 @@ $all_pairings = $app_config['portfolio_assets'][$asset_symbol]['market_pairing']
 
 
 
+
 if ( sizeof($primary_currency_market_standalone) != 2 && isset($selected_btc_primary_exchange) ) {
 $app_config['btc_primary_exchange'] = $selected_btc_primary_exchange;
 }
@@ -1194,9 +1203,11 @@ $app_config['btc_primary_currency_pairing'] = $selected_btc_primary_currency_pai
 
 
 
+
 // Overwrite PRIMARY CURRENCY CONFIG / BTC market value, in case user changed preferred market IN THE UI
 $selected_pairing_id = $app_config['portfolio_assets']['BTC']['market_pairing'][$app_config['btc_primary_currency_pairing']][$app_config['btc_primary_exchange']];
 $btc_primary_currency_value = asset_market_data('BTC', $app_config['btc_primary_exchange'], $selected_pairing_id)['last_trade'];
+
 
 	// Log any Bitcoin market errors
 	if ( !isset($btc_primary_currency_value) || $btc_primary_currency_value == 0 ) {
@@ -1229,8 +1240,10 @@ $market_pairing = $all_markets[$selected_exchange];
 	 
     $pairing_symbol = strtoupper($selected_pairing);
     
+    
     // Consolidate function calls for runtime speed improvement
     $asset_market_data = asset_market_data($asset_symbol, $selected_exchange, $market_pairing, $selected_pairing);
+	 
 	 
 	 // BTC PAIRINGS
     if ( $selected_pairing == 'btc' ) {
@@ -1265,6 +1278,7 @@ $market_pairing = $all_markets[$selected_exchange];
     $btc_worth_array[$asset_symbol] = ( strtolower($asset_name) == 'bitcoin' ? $asset_amount : number_to_string($coin_value_total_raw * $pairing_btc_value) );
   	 }
 	
+  	 
   	 
   	 
     // FLAG SELECTED PAIRING IF FIAT EQUIVALENT formatting should be used, AS SUCH
@@ -1320,6 +1334,7 @@ $market_pairing = $all_markets[$selected_exchange];
 	 
 	 
 	 
+	 
     $coin_stats_array[] = array(
     													'coin_symbol' => $asset_symbol, 
     													'coin_leverage' => $leverage_level,
@@ -1342,7 +1357,6 @@ $market_pairing = $all_markets[$selected_exchange];
   
   
   
-  
   // START rendering webpage UI output
   
   ?>
@@ -1351,7 +1365,6 @@ $market_pairing = $all_markets[$selected_exchange];
 <!-- Coin data row START -->
 <tr id='<?=strtolower($asset_symbol)?>_row'>
   
-
 
 
 <td class='data border_lb'>
@@ -1596,7 +1609,6 @@ $market_pairing = $all_markets[$selected_exchange];
 
 <td class='data border_lb blue' align='right'>
 
-
 <?php
 
 	if ( strtoupper($asset_symbol) == 'MISCASSETS' ) {
@@ -1611,7 +1623,6 @@ $pretty_coin_amount = pretty_numbers($asset_amount, $asset_amount_decimals);
 echo "<span class='app_sort_filter blue'>" . ( $pretty_coin_amount != null ? $pretty_coin_amount : 0 ) . "</span>";
 
 ?>
-
 
 </td>
 
@@ -1681,7 +1692,6 @@ echo ( $fiat_eqiv == 1 ? pretty_numbers($coin_value_raw, $coin_value_primary_cur
 
 </span>
 
-
 <?php
 
   if ( $selected_pairing != 'btc' && strtolower($asset_name) != 'bitcoin' ) {
@@ -1689,7 +1699,6 @@ echo ( $fiat_eqiv == 1 ? pretty_numbers($coin_value_raw, $coin_value_primary_cur
   }
   
 ?>
-
 
 </td>
 
@@ -1731,7 +1740,6 @@ echo ( $fiat_eqiv == 1 ? pretty_numbers($coin_value_raw, $coin_value_primary_cur
 
 
 <td class='data border_lb blue'>
-
 
 <?php
 
