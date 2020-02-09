@@ -280,6 +280,11 @@ global $app_config, $btc_primary_currency_value;
 	
 	}
 
+	
+	if ( $pairing_btc_value == false ) {
+	app_logging('other_error', 'pairing_market_value() returned false', 'pairing: ' . $pairing);
+	}
+	
 
 	// Return negative number, if no data detected (so we know when data errors happen)
 	if ( $last_trade != '' || $vol_in_pairing != false ) {
@@ -340,7 +345,7 @@ global $app_config, $btc_pairing_markets, $btc_pairing_markets_blacklist;
    		
    			// Fallback support, if no data returned
    			if ( !isset($result) || number_to_string($result) < 0.00000001 || !is_numeric($result) ) {
-   			$btc_pairing_markets_blacklist[] = $market_key;
+   			$btc_pairing_markets_blacklist[] = $market_key; // Blacklist getting pairing data from this exchange IN ANY PAIRING, for this runtime only
    			return pairing_market_value($pairing);
    			}
    			else {
@@ -348,8 +353,9 @@ global $app_config, $btc_pairing_markets, $btc_pairing_markets_blacklist;
    			}
    		
 			}
-					
+			
 		}
+		return false; // If we made it this deep in the logic, no data was found	
 	
 	}
 	// If we need a BITCOIN/CURRENCY market value 
@@ -381,7 +387,7 @@ global $app_config, $btc_pairing_markets, $btc_pairing_markets_blacklist;
    					
    					// Fallback support, if no data returned
    					if ( !isset($result) || number_to_string($result) < 0.00000001 || !is_numeric($result) ) {
-   					$btc_pairing_markets_blacklist[] = $market_key;
+   					$btc_pairing_markets_blacklist[] = $market_key; // Blacklist getting pairing data from this exchange IN ANY PAIRING, for this runtime only
    					return pairing_market_value($pairing);
    					}
    					else {
@@ -390,8 +396,9 @@ global $app_config, $btc_pairing_markets, $btc_pairing_markets_blacklist;
    		
    				
 					}
-					
+						
 				}
+				return false; // If we made it this deep in the logic, no data was found	
    		
    		}
 		
@@ -662,6 +669,11 @@ $asset_market_data = asset_market_data($asset, $exchange, $app_config['portfolio
 	else {
 	$pairing_btc_value = pairing_market_value($pairing); 
 	$asset_primary_currency_value_raw = number_format( $default_btc_primary_currency_value * ( $asset_market_data['last_trade'] * $pairing_btc_value ) , 8, '.', '');
+	}
+	
+	
+	if ( $pairing_btc_value == false ) {
+	app_logging('other_error', 'pairing_market_value() returned false', 'pairing: ' . $pairing);
 	}
 	
 	
@@ -1237,6 +1249,11 @@ $market_pairing = $all_markets[$selected_exchange];
   	 }
   	 
   	 
+	
+	if ( $pairing_btc_value == false ) {
+	app_logging('other_error', 'pairing_market_value() returned false', 'pairing: ' . $pairing);
+	}
+	
   	 
   	 
     // FLAG SELECTED PAIRING IF FIAT EQUIVALENT formatting should be used, AS SUCH

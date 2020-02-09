@@ -1563,8 +1563,15 @@ global $btc_primary_currency_value, $app_config;
      }
      // All other pairing
 	  else {
+	  
+	  $pairing_btc_value = pairing_market_value($market_id);
+	
+			if ( $pairing_btc_value == false ) {
+			app_logging('other_error', 'pairing_market_value() returned false', 'market_id: ' . $market_id);
+			}
+	
      return  array(
-    					'last_trade' => ( 1 / ( pairing_market_value($market_id) / $currency_to_btc ) ),
+    					'last_trade' => ( 1 / ( $pairing_btc_value / $currency_to_btc ) ),
     					'24hr_asset_volume' => null,
     					'24hr_pairing_volume' => null,
     					'24hr_primary_currency_volume' => null

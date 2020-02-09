@@ -644,6 +644,7 @@ select opt in $OPTIONS; do
   				# Directories
   				rm -rf $DOC_ROOT/app-lib
   				rm -rf $DOC_ROOT/backups
+  				rm -rf $DOC_ROOT/cache/apis
   				rm -rf $DOC_ROOT/cache/queue
   				rm -rf $DOC_ROOT/misc-docs-etc
   				rm -rf $DOC_ROOT/ui-templates

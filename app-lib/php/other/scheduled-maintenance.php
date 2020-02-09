@@ -195,7 +195,7 @@ delete_old_files($base_dir . '/cache/secured/backups', $app_config['delete_old_b
 
 
 // Stale cache files cleanup
-delete_old_files($base_dir . '/cache/apis', 1, 'dat'); // Delete API cache files older than 1 day
+delete_old_files($base_dir . '/cache/secured/apis', 1, 'dat'); // Delete API cache files older than 1 day
 
 
 // Secondary logs cleanup

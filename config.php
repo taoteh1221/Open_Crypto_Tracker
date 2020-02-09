@@ -57,12 +57,13 @@ $app_config['smtp_email_secure'] = 'tls'; // CAN BE 'off' FOR NO SECURE CONNECTI
 
 // Sending alerts to your own telegram bot chatroom. 
 // (USEFUL IF YOU HAVE ISSUES SETTING UP MOBILE TEXT ALERTS, INCLUDING EMOJI / UNICODE CHARACTER ENCODING)
-// Setup: https://core.telegram.org/bots , OR JUST SEARCH / VISIT "BotFather" in telegram
+// Setup: https://core.telegram.org/bots , OR JUST SEARCH / VISIT "BotFather" in the telegram app
+// YOU MUST SETUP A TELEGRAM USERNAME #FIRST / BEFORE SETTING UP THE BOT#, IF YOU HAVEN'T ALREADY (IN THE TELEGRAM APP SETTINGS)
 // SET UP YOUR BOT WITH "BotFather", AND SAVE YOUR BOT NAME / USERNAME / ACCESS TOKEN / BOT CHATROOM LINK
-// VISIT THE BOT CHATROOM, #SEND THE MESSAGE "/start" TO THIS CHATROOM# (THIS WILL CREATE THE CHATROOM DATA)
-// THE CHATROOM DATA #IS REQUIRED FOR THIS APP TO KNOW WHAT CHATROOM TO SEND MESSAGES TO
-// ###THIS APP FETCHES THE LATEST CHATROOM DATA A MAXIMUM OF EVERY ~20 MINUTES (WHENEVER THIS APP RUNS)###
-// ###DO NOT DELETE YOUR "/start" MESSAGE IN THE CHATROOM (THIS ACTIVATES THE CHATROOM)###
+// VISIT THE BOT CHATROOM, #SEND THE MESSAGE "/start" TO THIS CHATROOM# (THIS WILL CREATE USER CHAT DATA THE APP NEEDS)
+// THE USER CHAT DATA #IS REQUIRED# FOR THIS APP TO INITIALLY DETERMINE AND SECURELY SAVE YOU TELEGRAM USER'S CHAT ID
+$app_config['telegram_your_username'] = ''; // Your telegram username (REQUIRED, setup in telegram app settings)
+////
 $app_config['telegram_bot_name'] = ''; // Your bot's human-readable name (example: 'My Alerts Bot')
 ////
 $app_config['telegram_bot_username'] = '';  // Your bot's username
@@ -111,6 +112,7 @@ $app_config['google_home_client_secret'] = '';
 // Enable / disable daily upgrade checks and alerts (DEFAULT IS DISABLED)
 // (Checks latest release version via github.com API endpoint value "tag_name" 
 // @ https://api.github.com/repos/taoteh1221/DFD_Cryptocoin_Values/releases/latest)
+// Choosing 'all' will send to all properly-configured communication channels, and automatically skip any not properly setup
 $app_config['upgrade_check'] = 'off'; // 'off' (disabled) / 'all' / 'ui' (web interface) / 'email' / 'text' / 'notifyme' / 'telegram'
 ////
 // Wait X days between upgrade reminders (sent by email / text / notifyme / telegram)
@@ -122,10 +124,12 @@ $app_config['email_logs'] = 3;
 
 
 // Re-allow SAME asset price alert(s) messages after X hours (per asset, set higher if issues with blacklisting...can be 0)
+// Price alerts AUTOMATICALLY will send to all properly-configured communication channels, and automatically skip any not properly setup
 $app_config['price_alerts_freq_max'] = 8; 
 
 
 // Alerts for failed proxy data connections (if proxies are enabled further down in this config). 
+// Choosing 'all' will send to all properly-configured communication channels, and automatically skip any not properly setup
 $app_config['proxy_alerts'] = 'email'; // 'off' (disabled) / 'all' / 'email' / 'text' / 'notifyme' / 'telegram'
 ////
 $app_config['proxy_alerts_freq_max'] = 1; // Re-allow same proxy alert(s) after X hours (per ip/port pair, can be 0)

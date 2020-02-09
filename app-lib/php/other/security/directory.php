@@ -45,6 +45,18 @@ if ( $force_exit != 1 ) {
     
     ///////////////////////////////////////////
     
+    // Recreate /cache/secured/apis/.htaccess to restrict web snooping of cache contents, if the apis directory was deleted / recreated
+    if ( !file_exists($base_dir . '/cache/secured/apis/.htaccess') ) {
+    store_file_contents($base_dir . '/cache/secured/apis/.htaccess', file_get_contents($base_dir . '/templates/back-end/deny-all-htaccess.template') ); 
+    }
+    
+    // Recreate /cache/secured/apis/index.php to restrict web snooping of backup contents, if the apis directory was deleted / recreated
+    if ( !file_exists($base_dir . '/cache/secured/apis/index.php') ) {
+    store_file_contents($base_dir . '/cache/secured/apis/index.php', file_get_contents($base_dir . '/templates/back-end/403-directory-index.template')); 
+    }
+    
+    ///////////////////////////////////////////
+    
     // Recreate /cache/secured/backups/.htaccess to restrict web snooping of cache contents, if the backups directory was deleted / recreated
     if ( !file_exists($base_dir . '/cache/secured/backups/.htaccess') ) {
     store_file_contents($base_dir . '/cache/secured/backups/.htaccess', file_get_contents($base_dir . '/templates/back-end/deny-all-htaccess.template') ); 
@@ -62,7 +74,7 @@ if ( $force_exit != 1 ) {
     store_file_contents($base_dir . '/cache/secured/messages/.htaccess', file_get_contents($base_dir . '/templates/back-end/deny-all-htaccess.template') ); 
     }
     
-    // Recreate /cache/secured/backups/index.php to restrict web snooping of backup contents, if the messages directory was deleted / recreated
+    // Recreate /cache/secured/messages/index.php to restrict web snooping of backup contents, if the messages directory was deleted / recreated
     if ( !file_exists($base_dir . '/cache/secured/messages/index.php') ) {
     store_file_contents($base_dir . '/cache/secured/messages/index.php', file_get_contents($base_dir . '/templates/back-end/403-directory-index.template')); 
     }

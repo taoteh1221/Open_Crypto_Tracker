@@ -51,7 +51,7 @@ date_default_timezone_set('UTC');
 
 
 // Application version
-$app_version = '4.07.8';  // 2020/FEBRUARY/5TH
+$app_version = '4.07.9';  // 2020/FEBRUARY/8TH
 
 
 // Load app functions
@@ -165,7 +165,6 @@ $user_agent = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; ' . $_SERVER['SERV
 
 // Check for cache directory path creation, create if needed...if it fails, flag a force exit and alert end-user
 if ( dir_structure('cache/alerts/') != true
-|| dir_structure('cache/apis/') != true
 || dir_structure('cache/charts/spot_price_24hr_volume/archival/') != true
 || dir_structure('cache/charts/spot_price_24hr_volume/lite/') != true
 || dir_structure('cache/charts/system/archival/') != true
@@ -173,6 +172,7 @@ if ( dir_structure('cache/alerts/') != true
 || dir_structure('cache/events/') != true
 || dir_structure('cache/logs/debugging/api/') != true
 || dir_structure('cache/logs/errors/api/') != true
+|| dir_structure('cache/secured/apis/') != true
 || dir_structure('cache/secured/backups/') != true
 || dir_structure('cache/secured/messages/') != true
 || dir_structure('cache/vars/') != true ) {

@@ -11,23 +11,6 @@
 
 //////////////////////////////////////////////////////////
 
-// https://core.telegram.org/bots/api#making-requests
-function telegram_chatroom_data() {
-	
-global $app_config;
-
-// Don't cache data, we are storing it as a specific (secured) cache var instead
-$get_telegram_chatroom_data = @api_data('url', 'https://api.telegram.org/bot'.$app_config['telegram_bot_token'].'/getUpdates', 0);
-		
-$telegram_chatroom = json_decode($get_telegram_chatroom_data, true);
-
-return $telegram_chatroom['result'];
-
-}
-
-
-//////////////////////////////////////////////////////////
-
 
 function grin_api($request) {
  
@@ -180,6 +163,34 @@ global $app_config, $runtime_mode;
 
 //////////////////////////////////////////////////////////
 
+// https://core.telegram.org/bots/api#making-requests
+function telegram_user_data() {
+	
+global $app_config;
+
+// Don't cache data, we are storing it as a specific (secured) cache var instead
+$get_telegram_chatroom_data = @api_data('url', 'https://api.telegram.org/bot'.$app_config['telegram_bot_token'].'/getUpdates', 0);
+		
+$telegram_chatroom = json_decode($get_telegram_chatroom_data, true);
+
+$telegram_chatroom = $telegram_chatroom['result']; 
+
+	foreach( $telegram_chatroom as $chat_key => $chat_unused ) {
+	
+		// Overwrites any earlier value while looping, so we have the latest data
+		if ( $telegram_chatroom[$chat_key]['message']['chat']['username'] == trim($app_config['telegram_your_username']) ) {
+		$telegram_user_data = $telegram_chatroom[$chat_key];
+		}
+	
+	}
+
+return $telegram_user_data;
+
+}
+
+
+//////////////////////////////////////////////////////////
+
 
 function etherscan_api($block_info) {
  
@@ -198,12 +209,12 @@ global $base_dir, $app_config;
     	else {
     		
     		// Non-dynamic cache file name, because filename would change every recache and create cache bloat
-    		if ( update_cache_file('cache/apis/eth-stats.dat', $app_config['chainstats_cache_time'] ) == true ) {
+    		if ( update_cache_file('cache/secured/apis/eth-stats.dat', $app_config['chainstats_cache_time'] ) == true ) {
 			
   			$json_string = 'https://api.etherscan.io/api?module=proxy&action=eth_getBlockByNumber&tag='.$block_number.'&boolean=true';
   			$jsondata = @api_data('url', $json_string, 0); // ZERO TO NOT CACHE DATA (WOULD CREATE CACHE BLOAT)
     		
-    		store_file_contents($base_dir . '/cache/apis/eth-stats.dat', $jsondata);
+    		store_file_contents($base_dir . '/cache/secured/apis/eth-stats.dat', $jsondata);
     		
     		$data = json_decode($jsondata, true);
     		
@@ -212,7 +223,7 @@ global $base_dir, $app_config;
     		}
     		else {
     			
-    		$cached_data = trim( file_get_contents('cache/apis/eth-stats.dat') );
+    		$cached_data = trim( file_get_contents('cache/secured/apis/eth-stats.dat') );
     		
     		$data = json_decode($cached_data, true);
     		

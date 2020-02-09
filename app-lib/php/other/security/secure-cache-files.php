@@ -43,30 +43,25 @@ foreach( $secured_cache_files as $secured_file ) {
 	}
 
 
-	if ( preg_match("/telegram_chatroom_/i", $secured_file) ) {
+	if ( preg_match("/telegram_user_data_/i", $secured_file) ) {
 		
-		// If $cached_telegram_chatroom already is set, delete any older instances (since we sort by timestamp desc here)
-		if ( $cached_telegram_chatroom == true ) {
+		// If $cached_telegram_user_data already is set, delete any older instances (since we sort by timestamp desc here)
+		if ( $cached_telegram_user_data == true ) {
 		unlink($base_dir . '/cache/secured/' . $secured_file);
 		}
 		else {
-		$cached_telegram_chatroom = json_decode( trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) ) , TRUE);
+		$cached_telegram_user_data = json_decode( trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) ) , TRUE);
 		}
 		
 		
-		if ( $cached_telegram_chatroom == true && update_cache_file($base_dir . '/cache/events/refresh_telegram_chatroom_data.dat', 10) == false ) {
-		$telegram_chatroom = $cached_telegram_chatroom;
-		$is_cached_telegram_chatroom = 1;
+		if ( $cached_telegram_user_data == true ) {
+		$telegram_user_data = $cached_telegram_user_data;
+		$is_cached_telegram_user_data = 1;
 		}
-		elseif ( $cached_telegram_chatroom != true ) {
-		app_logging('config_error', 'Cached telegram_chatroom data appears corrupted, deleting cached telegram_chatroom (refresh will happen automatically)');
+		elseif ( $cached_telegram_user_data != true ) {
+		app_logging('config_error', 'Cached telegram_user_data appears corrupted, deleting cached telegram_user_data (refresh will happen automatically)');
 		unlink($base_dir . '/cache/secured/' . $secured_file);
-		$refresh_cached_telegram_chatroom = 1;
-		}
-		// We flag refreshing the telegram_chatroom data if it's older than 10 minutes
-		else {
-		unlink($base_dir . '/cache/secured/' . $secured_file);
-		$refresh_cached_telegram_chatroom = 1; 
+		$refresh_cached_telegram_user_data = 1;
 		}
 		
 	
@@ -143,30 +138,29 @@ $secure_128bit_hash = random_hash(16); // 128-bit (16-byte) hash converted to he
 
 
 
-// If telegram messaging is activated, and there is no valid cached_telegram_chatroom
+// If telegram messaging is activated, and there is no valid cached_telegram_user_data
 // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-if ( trim($app_config['telegram_bot_name']) != '' && trim($app_config['telegram_bot_username']) != '' && $app_config['telegram_bot_token'] != '' && $refresh_cached_telegram_chatroom == 1 
-|| trim($app_config['telegram_bot_name']) != '' && trim($app_config['telegram_bot_username']) != '' && $app_config['telegram_bot_token'] != '' && $is_cached_telegram_chatroom != 1 ) {
+if ( trim($app_config['telegram_your_username']) != '' && trim($app_config['telegram_bot_name']) != '' && trim($app_config['telegram_bot_username']) != '' && $app_config['telegram_bot_token'] != '' && $refresh_cached_telegram_user_data == 1 
+|| trim($app_config['telegram_your_username']) != '' && trim($app_config['telegram_bot_name']) != '' && trim($app_config['telegram_bot_username']) != '' && $app_config['telegram_bot_token'] != '' && $is_cached_telegram_user_data != 1 ) {
 	
 $secure_128bit_hash = random_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
 	
 	
 	// Halt the process if an issue is detected safely creating a random hash
 	if ( $secure_128bit_hash == false ) {
-	app_logging('security_error', 'Cryptographically secure pseudo-random bytes could not be generated for cached telegram_chatroom array (secured cache storage) suffix, cached telegram_chatroom array creation aborted to preserve security');
+	app_logging('security_error', 'Cryptographically secure pseudo-random bytes could not be generated for cached telegram_user_data array (secured cache storage) suffix, cached telegram_user_data array creation aborted to preserve security');
 	}
 	else {
 	
-	$telegram_chatroom = telegram_chatroom_data();
+	$telegram_user_data = telegram_user_data();
 		
-	$store_cached_telegram_chatroom = json_encode($telegram_chatroom, JSON_PRETTY_PRINT);
+	$store_cached_telegram_user_data = json_encode($telegram_user_data, JSON_PRETTY_PRINT);
 	
-		if ( $store_cached_telegram_chatroom == false ) {
-		app_logging('config_error', 'telegram_chatroom data could not be saved (to secured cache storage) in json format');
+		if ( $store_cached_telegram_user_data == false ) {
+		app_logging('config_error', 'telegram_user_data could not be saved (to secured cache storage) in json format, MAKE SURE YOU ENTER "/start" IN THE BOT CHATROOM IN THE TELEGRAM APP, TO CREATE THE REQUIRED USER DATA THIS APP NEEDS TO INITIATE TELEGRAM MESSAGING');
 		}
 		else {
-		store_file_contents($base_dir . '/cache/secured/telegram_chatroom_'.$secure_128bit_hash.'.dat', $store_cached_telegram_chatroom);
-		store_file_contents($base_dir . '/cache/events/refresh_telegram_chatroom_data.dat', time_date_format(false, 'pretty_date_time') );
+		store_file_contents($base_dir . '/cache/secured/telegram_user_data_'.$secure_128bit_hash.'.dat', $store_cached_telegram_user_data);
 		}
 	
 	}
