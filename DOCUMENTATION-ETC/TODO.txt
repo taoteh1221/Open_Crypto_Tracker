@@ -19,12 +19,24 @@ Add the rest of the localbitcoins country currencies, and do everything in the o
 
 
 ///////////////////////////////////////////////////////
-OPTIMIZATIONS / BUGS / TESTS SECTION
+OPTIMIZATIONS / BUGS / TESTS / OTHER SECTION
 ///////////////////////////////////////////////////////
 
+Text styling for info bubble when no marketcap data is available, consistent with normal text styling for that info bubble.
+
+Do new screenshots.
+
+Create telegram help chatroom.
+
+Review YouTube channels list for dead channels.
+
+Review readme, landing page, and SF page.
+
+Review help FAQ.
+
+Review config.php settings documentation.
 
 Test unicode mobile text message with no space in front of hex-encoded data (forgot to try that, coded and ready to go now...see content_data_encoding() and /DOCUMENTATION-ETC/Developing-maintaining/DEBUGGING.txt).
-
 
 Code review ALL functions / logic.
 
@@ -36,6 +48,9 @@ Code review ALL functions / logic.
 ///////////////////////////////////////////////////////
 FEATURES / STRUCTURING SECTION
 ///////////////////////////////////////////////////////
+
+
+Audio / Visual Alerts setting: add new drop-down parameter, with values increase | decrease | both
 
 
 Add additional ability to do telegram webhooks, to query asset prices at different exchanges through telegram chat with the chat bot. Example: "/price ETH/USDT @ Binance"
