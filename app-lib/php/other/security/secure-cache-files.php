@@ -13,71 +13,101 @@ $app_config_check = trim( file_get_contents($base_dir . '/cache/vars/app_config_
 
 foreach( $secured_cache_files as $secured_file ) {
 
-
+	// App config
 	if ( preg_match("/app_config_/i", $secured_file) ) {
 		
-		// If $cached_app_config already is set, delete any older instances (since we sort by timestamp desc here)
-		if ( $cached_app_config == true ) {
+		
+		// If we already loaded the newest modified file, delete any stale ones
+		if ( $newest_cached_app_config == 1 ) {
 		unlink($base_dir . '/cache/secured/' . $secured_file);
 		}
 		else {
+		
+		$newest_cached_app_config = 1;
+			
 		$cached_app_config = json_decode( trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) ) , TRUE);
-		}
+			
 		
-	
-		if ( $app_config_check == md5(serialize($original_app_config)) && $cached_app_config == true ) {
-		$app_config = $cached_app_config; // Use cached app_config if it exists, seems intact, and config.php hasn't been revised since last check
-		$is_cached_app_config = 1;
-		}
-		elseif ( $app_config_check != md5(serialize($original_app_config)) ) {
-		app_logging('config_error', 'Cached app_config out of date (default app_config settings updated), deleting cached app_config (refresh will happen automatically)');
-		unlink($base_dir . '/cache/secured/' . $secured_file);
-		$refresh_cached_app_config = 1;
-		}
-		elseif ( $cached_app_config != true ) {
-		app_logging('config_error', 'Cached app_config data appears corrupted, deleting cached app_config (refresh will happen automatically)');
-		unlink($base_dir . '/cache/secured/' . $secured_file);
-		$refresh_cached_app_config = 1;
-		}
-	
-	}
-
-
-	if ( preg_match("/telegram_user_data_/i", $secured_file) ) {
-		
-		// If $cached_telegram_user_data already is set, delete any older instances (since we sort by timestamp desc here)
-		if ( $cached_telegram_user_data == true ) {
-		unlink($base_dir . '/cache/secured/' . $secured_file);
-		}
-		else {
-		$cached_telegram_user_data = json_decode( trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) ) , TRUE);
-		}
-		
-		
-		if ( $cached_telegram_user_data == true ) {
-		$telegram_user_data = $cached_telegram_user_data;
-		$is_cached_telegram_user_data = 1;
-		}
-		elseif ( $cached_telegram_user_data != true ) {
-		app_logging('config_error', 'Cached telegram_user_data appears corrupted, deleting cached telegram_user_data (refresh will happen automatically)');
-		unlink($base_dir . '/cache/secured/' . $secured_file);
-		$refresh_cached_telegram_user_data = 1;
+			if ( $app_config_check == md5(serialize($original_app_config)) && $cached_app_config == true ) {
+			$app_config = $cached_app_config; // Use cached app_config if it exists, seems intact, and config.php hasn't been revised since last check
+			$is_cached_app_config = 1;
+			}
+			elseif ( $app_config_check != md5(serialize($original_app_config)) ) {
+			app_logging('config_error', 'Cached app_config out of date (default app_config settings updated), deleting cached app_config (refresh will happen automatically)');
+			unlink($base_dir . '/cache/secured/' . $secured_file);
+			$refresh_cached_app_config = 1;
+			}
+			elseif ( $cached_app_config != true ) {
+			app_logging('config_error', 'Cached app_config data appears corrupted, deleting cached app_config (refresh will happen automatically)');
+			unlink($base_dir . '/cache/secured/' . $secured_file);
+			$refresh_cached_app_config = 1;
+			}
+			
+			
 		}
 		
 	
 	}
+
 	
-	
-	if ( preg_match("/pepper_var_/i", $secured_file) ) {
+	// Telegram user data
+	elseif ( preg_match("/telegram_user_data_/i", $secured_file) ) {
 		
-		// If $password_pepper already is set, delete any older instances (since we sort by timestamp desc here)
-		if ( isset($password_pepper) ) {
+		
+		// If we already loaded the newest modified file, delete any stale ones
+		if ( $newest_cached_telegram_user_data == 1 ) {
 		unlink($base_dir . '/cache/secured/' . $secured_file);
 		}
 		else {
+		
+		$newest_cached_telegram_user_data = 1;
+			
+			// If $cached_telegram_user_data already is set, delete any older instances (since we sort by timestamp desc here)
+			if ( $cached_telegram_user_data == true ) {
+			unlink($base_dir . '/cache/secured/' . $secured_file);
+			}
+			else {
+			$cached_telegram_user_data = json_decode( trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) ) , TRUE);
+			}
+			
+			
+			if ( $cached_telegram_user_data == true ) {
+			$telegram_user_data = $cached_telegram_user_data;
+			$is_cached_telegram_user_data = 1;
+			}
+			elseif ( $cached_telegram_user_data != true ) {
+			app_logging('config_error', 'Cached telegram_user_data appears corrupted, deleting cached telegram_user_data (refresh will happen automatically)');
+			unlink($base_dir . '/cache/secured/' . $secured_file);
+			$refresh_cached_telegram_user_data = 1;
+			}
+		
+		
+		}
+	
+	
+	}
+	
+	
+	// Pepper var (for secure hashed password storage)
+	elseif ( preg_match("/pepper_var_/i", $secured_file) ) {
+		
+		
+		// If we already loaded the newest modified file, delete any stale ones
+		if ( $newest_cached_pepper_var == 1 ) {
+		unlink($base_dir . '/cache/secured/' . $secured_file);
+		}
+		else {
+		$newest_cached_pepper_var = 1;
 		$password_pepper = trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) );
 		}
 	
+	
+	}
+	
+	
+	// Any outdated var names we no longer use are safe to delete
+	else {
+	unlink($base_dir . '/cache/secured/' . $secured_file);
 	}
 	
 

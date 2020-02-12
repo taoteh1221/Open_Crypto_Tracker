@@ -355,6 +355,7 @@ global $app_config, $btc_pairing_markets, $btc_pairing_markets_blacklist;
    			// Fallback support, if no data returned
    			if ( !isset($result) || number_to_string($result) < 0.00000001 || !is_numeric($result) ) {
    			$btc_pairing_markets_blacklist[] = $market_key; // Blacklist getting pairing data from this exchange IN ANY PAIRING, for this runtime only
+   			app_logging('other_error', 'pairing_market_value() update failure', 'pairing: ' . $pairing . '; blacklisted_exchange: ' . $market_key . ';');
    			return pairing_market_value($pairing);
    			}
    			else {
@@ -397,6 +398,7 @@ global $app_config, $btc_pairing_markets, $btc_pairing_markets_blacklist;
    					// Fallback support, if no data returned
    					if ( !isset($result) || number_to_string($result) < 0.00000001 || !is_numeric($result) ) {
    					$btc_pairing_markets_blacklist[] = $market_key; // Blacklist getting pairing data from this exchange IN ANY PAIRING, for this runtime only
+   					app_logging('other_error', 'pairing_market_value() update failure', 'pairing: ' . $pairing . '; blacklisted_exchange: ' . $market_key . ';');
    					return pairing_market_value($pairing);
    					}
    					else {

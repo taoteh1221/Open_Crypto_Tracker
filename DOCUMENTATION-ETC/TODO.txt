@@ -17,6 +17,7 @@ Password notes: https://www.php.net/manual/en/faq.passwords.php
 
 Add the rest of the localbitcoins country currencies, and do everything in the optimizations / bugs / tests section of this list.
 
+south african rand support ( https://www.luno.com/trade/XBTZAR ) look for other markets too.
 
 ///////////////////////////////////////////////////////
 OPTIMIZATIONS / BUGS / TESTS / OTHER SECTION

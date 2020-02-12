@@ -390,6 +390,10 @@ $app_config['charts_and_price_alerts'] = array(
 					'kda' => 'hotbit||btc||both',
 					
 					
+					// HNS
+					'hns' => 'namebase||btc||both',
+					
+					
 					// STEEM
 					'steem' => 'bittrex||btc||chart',
 					'steem-2' => 'binance||btc||chart',
@@ -1546,6 +1550,25 @@ $app_config['portfolio_assets'] = array(
                                     'usdt' => array(
                                          'hotbit' => 'KDA_USDT',
                                                     ),
+                                                    
+                                        ) // market_pairing END
+                                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // HNS
+                    'HNS' => array(
+                        
+                        'coin_name' => 'Handshake',
+                        'marketcap_website_slug' => 'handshake',
+                        'market_pairing' => array(
+                        
+                                    'btc' => array(
+                                         'namebase' => 'HNSBTC',
+                                                    )
                                                     
                                         ) // market_pairing END
                                         
