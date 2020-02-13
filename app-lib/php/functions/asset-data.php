@@ -1413,14 +1413,14 @@ $market_pairing = $all_markets[$selected_exchange];
 			if ( $app_config['primary_marketcap_site'] == 'coinmarketcap' && trim($app_config['coinmarketcapcom_api_key']) == null ) {
 			?>
 
-			var cmc_content = '<h5 style="color: #e5f1ff;"><?=ucfirst($app_config['primary_marketcap_site'])?> API key is required. <br />Configuration adjustments can be made in config.php.</h5>';
+			var cmc_content = '<p class="coin_info"><span class="yellow"><?=ucfirst($app_config['primary_marketcap_site'])?> API key is required. <br />Configuration adjustments can be made in config.php.</span></p>';
 	
 			<?php
 			}
 			else {
 			?>
 
-			var cmc_content = '<h5 style="color: #e5f1ff;"><?=ucfirst($app_config['primary_marketcap_site'])?> API may be offline / under heavy load, <br />marketcap range not set high enough (current range is top <?=$app_config['marketcap_ranks_max']?> marketcaps), <br />or API timeout set too low (current timeout is <?=$app_config['api_timeout']?> seconds). <br />Configuration adjustments can be made in config.php.</h5>';
+			var cmc_content = '<p class="coin_info"><span class="yellow"><?=ucfirst($app_config['primary_marketcap_site'])?> API may be offline / under heavy load, <br />marketcap range not set high enough (current range is top <?=$app_config['marketcap_ranks_max']?> marketcaps), <br />or API timeout set too low (current timeout is <?=$app_config['api_timeout']?> seconds). <br />Configuration adjustments can be made in config.php.</span></p>';
 	
 			<?php
 			}
@@ -1564,7 +1564,7 @@ $market_pairing = $all_markets[$selected_exchange];
  $('#<?=$rand_id?>').balloon({
   html: true,
   position: "right",
-  contents: '<h5 style="color: #e5f1ff;">No <?=ucfirst($app_config['primary_marketcap_site'])?>.com data for <?=$asset_name?> (<?=$asset_symbol?>) has been configured yet.</h5>'
+  contents: '<p class="coin_info"><span class="yellow">No <?=ucfirst($app_config['primary_marketcap_site'])?>.com data for <?=$asset_name?> (<?=$asset_symbol?>) has been configured yet.</span></p>'
 });
 
 		<?php

@@ -2585,9 +2585,9 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.08.0:
 
--Code cleanup / improvements
-
 -Namebase.io markets API support
+
+-Code and UX / UI cleanup and improvements
 
 IMPORTANT NOTES: 
 

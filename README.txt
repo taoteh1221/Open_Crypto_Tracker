@@ -1,14 +1,15 @@
 
-################################################################################################################
+############################################################################################################################
 
+DFD Cryptocoin Values - Developed by Michael Kilday <mike@dragonfrugal.com> (Copyright 2014-2020 GPLv3)
 
-DFD Cryptocoin Values - Developed by Michael Kilday <mike@dragonfrugal.com>, released free / open source (under GPL v3)
-
-Copyright 2014-2020 GPLv3
 
 Open source / free private cryptocurrency investment portfolio tracker, with email / text / Alexa / Google Home / Telegram alerts, charts, mining calculators, leverage / gain / loss / balance stats, and other crypto tools. 
 
 Privately track your investment in Bitcoin, Ethereum, Monero, Litecoin, Grin, Cosmos, and an unlimited number of other altcoins / cryptocurrencies. Customize the portfolio assets list / alerts / charts to your favorite assets and exchange pairings. No limits, add as many coins / markets as you want. 
+
+Web server setup / install is available for $30 hourly if needed (try the auto-install bash script first). PM me on Twitter / Skype @ taoteh1221, or get a hold of me using the below-listed contact methods.
+
 
 Project Website: https://dfd-cryptocoin-values.sourceforge.io
 
@@ -16,23 +17,29 @@ LIVE PUBLIC DEMO: https://dragonfrugal.com/coin-prices
 
 Download Latest Version: https://github.com/taoteh1221/DFD_Cryptocoin_Values/releases
 
+Issue Reporting (Features / Issues / Help): https://github.com/taoteh1221/DFD_Cryptocoin_Values/issues
 
-################################################################################################################
+Discord Chat: https://discord.gg/WZVK2nm
+
+Telegram Chat: https://t.me/joinchat/Oo2XZRS2HsOXSMGejgSO0A
+
+Private Contact: https://dragonfrugal.com/contact/
 
 
-To install / upgrade everything automatically on a Raspberry Pi (an affordable low power single board computer), copy / paste / run the command below in a terminal program while logged in on the Raspberry Pi:
+Donations support further development... 
+
+Github Sponsors:  https://github.com/sponsors/taoteh1221
+
+Patreon:   https://www.patreon.com/dragonfrugal
+
+PayPal:    https://www.paypal.me/dragonfrugal
+
+Coinbase:  https://commerce.coinbase.com/checkout/5e72fe35-752e-4a65-a4c3-2d49d73f2c36
+
+Monero (XMR): 47mWWjuwPFiPD6t2MaWcMEfejtQpMuz9oj5hJq18f7nvagcmoJwxudKHUppaWnTMPaMWshMWUTPAUX623KyEtukbSMdmpqu
 
 
-wget -O FOLIO-INSTALL.bash https://git.io/JeWWE;chmod +x FOLIO-INSTALL.bash;sudo ./FOLIO-INSTALL.bash
-
-
-Follow the prompts. This automated script gives you the options to: install / setup a PHP web server automatically, download / setup / configure the latest version of the DFD Cryptocoin Values app automatically, setup a cron job automatically (for price alerts / charts), and setup SSH (to update / install web site files remotely to the web server via SFTP) automatically. 
-
-When the auto-install is completed, it will display addresses / logins to access the app (write these down / save them for future use).
-
-For additional documentation, see /DOCUMENTATION-ETC/HELP-FAQ.txt.
-
-################################################################################################################
+############################################################################################################################
 
 
 FEATURES
@@ -72,18 +79,34 @@ FEATURES
 -Chart data backup archives and app error / debugging logs sent to your email.
 
 
-################################################################################################################
+############################################################################################################################
 
+
+INSTALLATION AND SETUP
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Command to install / upgrade everything automatically on a Raspberry Pi (an affordable low power single board computer):
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+wget -O FOLIO-INSTALL.bash https://git.io/JeWWE;chmod +x FOLIO-INSTALL.bash;sudo ./FOLIO-INSTALL.bash
+
+Follow the prompts. This automated script gives you the options to: install / setup a PHP web server automatically, download / setup / configure the latest version of the DFD Cryptocoin Values app automatically, setup a cron job automatically (for price alerts / charts), and setup SSH (to update / install web site files remotely to the web server via SFTP) automatically. 
+
+When the auto-install is completed, it will display addresses / logins to access the app (write these down / save them for future use).
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Manual installation:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Just upload this app's files to your PHP-based web server (with an FTP client like FileZilla) and you should be all set, unless your host is a strict setup related to file writing permissions, in which case the 'cache' directory permissions should be set to '777' chmod on unix / linux systems (or 'readable / writable' on windows systems). Your web host must have CURL modules activated on your HTTP server. Most web hosting companies provide this "out-of-the-box" already. This app will detect whether or not CURL is setup on your website server (and also alert you to any other missing required system components / configurations). 
 
-See below for additional details on setup, and see /DOCUMENTATION-ETC/HELP-FAQ.txt for tips / troubleshooting FAQs.
 
-
-################################################################################################################
-
-
-Setting up a cron job for charts and price alerts by email / mobile phone text / Alexa / Google Home notifications (get notifications sent to you, even when your PC / Laptop is offline): 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Setting up a cron job for charts and price alerts by email / mobile phone text / Alexa / Google Home / Telegram notifications 
+(get notifications sent to you, even when your PC / Laptop is offline): 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If you want to take advantage of cron job based features like charts, chart data backups, price alerts, daily or weekly error log emails / etc, then the file cron.php (located in the primary directory of this app) must be setup as a cron job on your Raspberry Pi or website web server. 
 
@@ -107,14 +130,12 @@ If your system DOES NOT have /etc/cron.d/ on it, then NEARLY the same format (mi
 */15 * * * * /usr/bin/php -q /var/www/html/cron.php > /dev/null 2>&1
 
 
-
 IMPORTANT CRON JOB NOTES: MAKE SURE YOU ONLY USE EITHER /etc/cron.d/, or 'crontab -e', NOT BOTH...ANY OLD DUPLICATE CRONTAB ENTRIES WILL RUN YOUR CRON JOB TOO OFTEN. If everything is setup properly, and the cron job still does NOT run, your particular server may require the cron.php file permissions to be set as 'executable' ('755' chmod on unix / linux systems) to allow running it.
 
 
-################################################################################################################
-
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Adding / editing / deleting assets and markets in the portfolio assets:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Below is an example for editing your assets / markets into the portfolio assets in the file config.php (located in the primary directory of this app). It's very quick / easy to do (after you get the hang of it, lol). Also see the text file /DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt, for a pre-configured set of default settings and example assets / markets. Contact any supported exchange's help desk if you are unaware of the correct formatting of the trading pair naming you are adding in the configuration file (examples: Kraken has arbitrary Xs inserted in SOME older pair names, HitBTC sometimes has tether pairing without the "T" in the symbol name).
 
@@ -159,39 +180,10 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in, but valu
  
     
  // SEE /DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt FOR A FULL EXAMPLE OF THE SETTINGS / ASSETS CONFIGURATION (ESPECIALLY IF YOU MESS UP config.php, lol)
- 
+ // See /DOCUMENTATION-ETC/HELP-FAQ.txt for tips / troubleshooting FAQs.
 
 
 ################################################################################################################
-
-
-Questions, feature requests, and bug reports can be filed at the following URLS:
-
-https://github.com/taoteh1221/DFD_Cryptocoin_Values/issues
-
-https://dragonfrugal.com/contact/
-
-Web server setup / install is available for $30 hourly if needed (try the auto-install bash script first). PM me on Twitter / Skype @ taoteh1221, or contact me using above contact links.
-
-
-################################################################################################################
-
-
-Donations support further development... 
-
-GITHUB:    https://github.com/sponsors/taoteh1221
-
-COINBASE:  https://commerce.coinbase.com/checkout/5e72fe35-752e-4a65-a4c3-2d49d73f2c36
-
-PAYPAL:    https://www.paypal.me/dragonfrugal
-
-PATREON:   https://www.patreon.com/dragonfrugal
-
-Monero (XMR): 47mWWjuwPFiPD6t2MaWcMEfejtQpMuz9oj5hJq18f7nvagcmoJwxudKHUppaWnTMPaMWshMWUTPAUX623KyEtukbSMdmpqu
-
-      
-################################################################################################################              
-
 
 
 
