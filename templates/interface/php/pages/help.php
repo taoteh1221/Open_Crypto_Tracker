@@ -37,13 +37,17 @@
 	      <div class="card-body">
 	      
 	      
-	        Have a question, feature you'd like to see added, or an issue to report? You can do that at the following URLs:<br /><br />
+	        Have a question, feature you'd like to see added, or an issue to report? You can do that at the following URLs...<br /><br />
 	        
-	        <a href='https://github.com/taoteh1221/DFD_Cryptocoin_Values/issues' target='_blank'>https://github.com/taoteh1221/DFD_Cryptocoin_Values/issues</a><br /><br />
+	        Issue Reporting (Features / Issues / Help): <a href='https://github.com/taoteh1221/DFD_Cryptocoin_Values/issues' target='_blank'>https://github.com/taoteh1221/DFD_Cryptocoin_Values/issues</a><br /><br />
 	        
-	        <a href='https://dragonfrugal.com/contact/' target='_blank'>https://dragonfrugal.com/contact/</a><br /><br />
+	        Discord Chat: <a href='https://discord.gg/WZVK2nm' target='_blank'>https://discord.gg/WZVK2nm</a><br /><br />
 	        
-				Web server setup / install is available for $30 hourly if needed (try the auto-install bash script first). PM me on Twitter / Skype @ taoteh1221, or contact me using above contact links.
+	        Telegram Chat: <a href='https://t.me/joinchat/Oo2XZRS2HsOXSMGejgSO0A' target='_blank'>https://t.me/joinchat/Oo2XZRS2HsOXSMGejgSO0A</a><br /><br />
+	        
+	        Private Contact: <a href='https://dragonfrugal.com/contact/' target='_blank'>https://dragonfrugal.com/contact/</a><br /><br />
+	        
+			  Web server setup / install is available for $30 hourly if needed (try the auto-install bash script first). PM me on Twitter / Skype @ taoteh1221, or contact me using above contact links.
 												
 	        
 	        

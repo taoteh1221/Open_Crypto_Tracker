@@ -119,15 +119,6 @@ if (is_array($app_config['portfolio_assets']) || is_object($app_config['portfoli
 
 
 
-// Re-set default primary currency 'preferred_bitcoin_markets' value, ONLY IF THIS VALUE #EXISTS ALREADY#
-// (for UX, to override the pre-existing value, as we have set this as the global default currency market, so we obviously prefer it)
-// BEFORE DEFAULT BITCOIN MARKET IS DYNAMICALLY MANIPULATED
-if ( isset($app_config['preferred_bitcoin_markets'][$app_config['btc_primary_currency_pairing']]) ) {
-$app_config['preferred_bitcoin_markets'][$app_config['btc_primary_currency_pairing']] = $app_config['btc_primary_exchange'];
-}
-
-
-
 // Better decimal support for these vars...
 $app_config['system_stats_first_chart_highest_value'] = number_to_string($app_config['system_stats_first_chart_highest_value']); 
 $app_config['primary_currency_decimals_max_threshold'] = number_to_string($app_config['primary_currency_decimals_max_threshold']); 

@@ -10,9 +10,19 @@
 //////////////////////////////////////////////////////////////////
 
 
+
+// Re-set default primary currency 'preferred_bitcoin_markets' value, ONLY IF THIS VALUE #EXISTS ALREADY#
+// (for UX, to override the pre-existing value, as we have set this as the global default currency market, so we obviously prefer it)
+// BEFORE DEFAULT BITCOIN MARKET IS DYNAMICALLY MANIPULATED (during UI runtime)
+if ( isset($app_config['preferred_bitcoin_markets'][$app_config['btc_primary_currency_pairing']]) ) {
+$app_config['preferred_bitcoin_markets'][$app_config['btc_primary_currency_pairing']] = $app_config['btc_primary_exchange'];
+}
+
+
+
 // Set chart/alert default Bitcoin markets
-// BEFORE DEFAULT BITCOIN MARKET IS DYNAMICALLY MANIPULATED
-// We NEVER change BTC / currency_market value FOR CHARTS/ALERTS, 
+// BEFORE DEFAULT BITCOIN MARKET IS DYNAMICALLY MANIPULATED (during UI runtime)
+// We NEVER change BTC / currency_market value FOR CHARTS/ALERTS (during cron runtime), 
 // so move the default $app_config['btc_primary_currency_pairing'] / $app_config['btc_primary_exchange'] values into their own chart/alerts related variables,
 // before dynamic updating of $app_config['btc_primary_currency_pairing'] / $app_config['btc_primary_exchange']
 $default_btc_primary_currency_pairing = $app_config['btc_primary_currency_pairing']; 
@@ -20,6 +30,7 @@ $default_btc_primary_exchange = $app_config['btc_primary_exchange'];
 
 
 
+// RUN AFTER SETTING $default_btc_primary_currency_pairing ABOVE
 // If $default_btc_primary_currency_pairing has changed, or never been set in cache vars, delete all potentially mismatched data and set in cache vars
 if ( $default_btc_primary_currency_pairing != trim( file_get_contents($base_dir . '/cache/vars/default_btc_primary_currency_pairing.dat') ) ) {
 

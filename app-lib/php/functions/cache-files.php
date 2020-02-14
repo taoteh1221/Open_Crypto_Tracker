@@ -1297,9 +1297,9 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 			// FALLBACK TO CACHE DATA, IF AVAILABLE (WE CLEAR API CACHE FILES OLDER THAN 1 DAY AS A MAINTENANCE TASK, SO THIS IS FINE / WILL NOT CREATE AN ENDLESS USAGE OF SAME DATA)
 			// If response is seen to NOT contain USUAL data, use cache if available
 			elseif ( preg_match("/cf-error-type/i", $data) // Cloudflare (DDOS protection service)
-			|| preg_match("/\"result\":{}/i", $data) // Kraken / generic
-			|| preg_match("/site is down/i", $data) // Hotbit / generic
-			|| preg_match("/temporarily unavailable/i", $data) // Bitfinex / generic
+			|| preg_match("/\"result\":{}/i", $data) // Kraken.com / generic
+			|| preg_match("/site is down/i", $data) // Blockchain.info / generic
+			|| preg_match("/temporarily unavailable/i", $data) // Bitfinex.com / generic
 			|| $endpoint_tld_or_ip == 'localbitcoins.com' && !preg_match("/avg_12h/i", $data)
 			|| $endpoint_tld_or_ip == 'coinmarketcap.com' && !preg_match("/last_updated/i", $data) ) {
 			

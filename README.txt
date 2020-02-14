@@ -4,9 +4,7 @@
 DFD Cryptocoin Values - Developed by Michael Kilday <mike@dragonfrugal.com> (Copyright 2014-2020 GPLv3)
 
 
-Open source / free private cryptocurrency investment portfolio tracker, with email / text / Alexa / Google Home / Telegram alerts, charts, mining calculators, leverage / gain / loss / balance stats, and other crypto tools. 
-
-Privately track your investment in Bitcoin, Ethereum, Monero, Litecoin, Grin, Cosmos, and an unlimited number of other altcoins / cryptocurrencies. Customize the portfolio assets list / alerts / charts to your favorite assets and exchange pairings. No limits, add as many coins / markets as you want. 
+Open source / free cryptocurrency investment portfolio tracker, with email / text / Alexa / Ghome / Telegram alerts, charts,  mining calculators, leverage / gain / loss / balance stats, and other tools. Privately track Bitcoin, Ethereum, and unlimited other cryptocurrencies. Customize assets list / alerts / charts / exchange pairings. Add as many assets / markets as you want. 
 
 Web server setup / install is available for $30 hourly if needed (try the auto-install bash script first). PM me on Twitter / Skype @ taoteh1221, or get a hold of me using the below-listed contact methods.
 
@@ -142,9 +140,9 @@ Below is an example for editing your assets / markets into the portfolio assets 
 
 USAGE (ADDING / UPDATING COINS)
 
-Support for trading pairs (contact me to request more): AUD / BOB / BRL / CAD / CHF / COP / EUR / ETH / GBP / HKD / INR / JPY / LTC / MXN / NIS / PKR / RUB / SGD / TRY / TUSD / USD / USDC / USDT / VND / XMR.
+Support for trading pairs (contact me to request more): AUD / BOB / BRL / BTC / CAD / CHF / COP / EUR / ETH / GBP / HKD / INR / JPY / LTC / MXN / NIS / PKR / RUB / SGD / TRY / TUSD / USD / USDC / USDT / VND / XMR.
 
-Support for exchanges (contact me to request more): bigone / binance & binance_us / bit2c / bitbns / bitfinex & ethfinex / bitforex / bitflyer / bitlish / bitpanda / bitso / bitstamp  / bittrex & bittrex_global / braziliex / btcmarkets / btcturk / buyucoin / cex / coinbase / coss / cryptofresh / gateio / gemini / graviex / hitbtc / hotbit / huobi / idex / kraken / kucoin / lakebtc / livecoin / localbitcoins / okcoin / okex / poloniex / southxchange / tidebit / tradeogre / tradesatoshi / upbit / zebpay.
+Support for exchanges (contact me to request more): bigone / binance & binance_us / bit2c / bitbns / bitfinex & ethfinex / bitforex / bitflyer / bitlish / bitpanda / bitso / bitstamp  / bittrex & bittrex_global / braziliex / btcmarkets / btcturk / buyucoin / cex / coinbase / coss / cryptofresh / gateio / gemini / graviex / hitbtc / hotbit / huobi / idex / kraken / kucoin / lakebtc / livecoin / localbitcoins / namebase / okcoin / okex / poloniex / southxchange / tidebit / tradeogre / tradesatoshi / upbit / zebpay.
 
 
 Ethereum ICO subtoken support (pre-exchange listing) has been built in, but values are static ICO values in ETH.

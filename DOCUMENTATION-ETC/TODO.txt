@@ -19,13 +19,13 @@ Add the rest of the localbitcoins country currencies, and do everything in the o
 
 south african rand support ( https://www.luno.com/trade/XBTZAR ) look for other markets too.
 
+Youtube channels on the resources page, that MAY BE DYING (keep an eye on them): Crypto Trader, Crypto Bobby, and IMineBlocks.
+
 ///////////////////////////////////////////////////////
 OPTIMIZATIONS / BUGS / TESTS / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 Do new screenshots.
-
-Review YouTube channels list for dead channels.
 
 Review readme, landing page, and SF page.
 
@@ -50,13 +50,16 @@ FEATURES / STRUCTURING SECTION
 Audio / Visual Alerts setting: add new drop-down parameter, with values increase | decrease | both
 
 
-Add additional ability to do telegram webhooks, to query asset prices at different exchanges through telegram chat with the chat bot. Example: "/price ETH/USDT @ Binance"
+For scalable chart data, maybe run once daily during cron runtimes creating 1 hour (or greater) time interval chart data stores, using timestamp info in the default chart data store. Then use those for the initial chart loads if the chart data is more than 3 months worth (or whatever time period).
 
 
-Check out cryptocompare.com API.
+Create chart interval function that divides the desired chart timeline period by the number of maximum data points the chart should ever load, to get the data point time interval, then caches the corresponding timestamped data point intervals into an updated chart for that time period every 24 hours. So we'd have like 6 / 12 / 18 month charts (as examples).
 
 
-Mod rewrite rules for future RESTFUL API system
+Add IFTTT support (alexa / google home / whatever supported devices).
+
+
+Add google home support via direct connect on same network, OR via IFTTT (whichever is most feasible).
 
 
 Dynamically add an 'app_version' value to $app_config when processing it, so when we are updating the cached config with a newly-changed config.php config, we not only can see if any new config settings exist / have changed, but we can see if the app was upgraded since the previous cached config update.
@@ -65,13 +68,19 @@ Dynamically add an 'app_version' value to $app_config when processing it, so whe
 CSRF nounce protection for admin AND user interface updates/viewing (session based).
 
 
-See if exchange API data arrays can be manipulated slightly to build a reusable module for every exchange's API calls.
+Add header login nav like prototype for zilliqa block explorer (use the developed account system structure too).
 
 
-Add IFTTT support (alexa / google home / whatever supported devices).
+Add an alert bell icon in upcoming header login nav, and have alerts make it red and be a drop-down info bubble clicking it, rather than alerts printed in the footer.
 
 
-Add google home support via direct connect on same network, OR via IFTTT (whichever is most feasible).
+Sections / pages for upcoming admin config interface.
+
+
+For each key => value loop json admin config to automate generating new admin settings page...selects for arrays, text fields for strings. Maybe certain key names get checkbox / radio button fields.
+
+
+Once an admin config interface web page is built, only update the cached app_config when new configuration variables are added to config.php, and skip overwriting any pre-existing variables (so we don't revert end-user configuration changes).
 
 
 Add twilio.com and clicksend.com mobile text messaging support
@@ -83,52 +92,43 @@ Add drop-down menu feature next to "update assets" buttons for "save as": cookie
 "Delete session data" button, that runs the "hardy session clearing" logic.
 
 
-For scalable chart data, maybe run once daily during cron runtimes creating 1 hour (or greater) time interval chart data stores, using timestamp info in the default chart data store. Then use those for the initial chart loads if the chart data is more than 3 months worth (or whatever time period).
+2-way encryption option (unlocked with 6 digit PIN) for storing coin amounts (IN COOKIES ONLY, NO DATABASE STORAGE !EVER!), with "quick lock" to quickly re-hide portfolio data (staying hidden persists on page load / reload as well with a cookie).
 
 
-Create chart interval function that divides the desired chart timeline period by the number of maximum data points the chart should ever load, to get the data point time interval, then caches the corresponding timestamped data point intervals into an updated chart for that time period every 24 hours. So we'd have like 6 / 12 / 18 month charts (as examples).
+See if exchange API data arrays can be manipulated slightly to build a reusable module for every exchange's API calls.
+
+
+Turn string / array manipulations function file into a class.
+
+
+Add admin settings feature to restore chart data from the zip archive backups (with admin authentication ONLY). Chart restore by prepending, so any existing data remains, BUT only if timestamp is newer than newest backups timestamp. Trigger restore from newest backups folder backup by placing a blank file named RESTORE_CHARTS in the queue directory.
 
 
 Add setting to enable access stats modal, maybe include an optional password setting to require login to view it in the UI if password is set. Store access data in flat file / json format (so mulitiple values can be read back into the app before updating, then updated values saved back in json overwriting previously saved values). Last 50 unique ip addresses, showing ip address's last user agent / last visit time / total visits count. Drop any over 50 ip addresses off the list based on oldest timestamps. Store visitor ip address data (user agent, etc) in an array key based off ip address (json format).
 
 
-2-way encryption option (unlocked with 6 digit PIN) for storing coin amounts (IN COOKIES ONLY, NO DATABASE STORAGE !EVER!), with "quick lock" to quickly re-hide portfolio data (staying hidden persists on page load / reload as well with a cookie).
-
-
-Add header login nav like prototype for zilliqa block explorer (use the developed account system structure too).
-
-
-Add an alert bell icon in upcoming header login nav, and have alerts make it red and be a drop-down info bubble clicking it, rather than alerts printed in the footer.
-
-
-Once an admin config interface web page is built, only update the cached app_config when new configuration variables are added to config.php, and skip overwriting any pre-existing variables (so we don't revert end-user configuration changes).
-
-
-Sections / pages for upcoming admin config interface.
-
-
-For each key => value loop json admin config to automate generating new admin settings page...selects for arrays, text fields for strings. Maybe certain key names get checkbox / radio button fields.
-
-
-Add feature to restore chart data from the zip archive backups (with admin authentication ONLY). Chart restore by prepending, so any existing data remains, BUT only if timestamp is newer than newest backups timestamp. Trigger restore from newest backups folder backup by placing a blank file named RESTORE_CHARTS in the queue directory.
-
-
-Build Decred staking calculator.
-
-
 Look into an auto-update feature like WordPress has (downloads a zip file upgrade, and exctracts it overwriting the old app files).
 
 
+Add additional ability to do telegram webhooks, to query asset prices at different exchanges through telegram chat with the chat bot. Example: "/price ETH/USDT @ Binance"
+
+
 Add Google and Microsoft translate API as options to translate the portfolio interface and price alerts.
+
+
+Mod rewrite rules for future RESTFUL API system
+
+
+Check out cryptocompare.com API.
+
+
+Build Decred staking calculator.
 
 
 Create a "Desktop Edition" using PHPDesktop (https://github.com/cztomczak/phpdesktop/wiki), call the hosted version "Server Edition".
 
 
 Use SQLite for any data storage that needs query capability (can also be used in PHPDesktop version, as it supports SQLite). 
-
-
-Eventually turn string / array manipulations function file into a class.
 
 
 SQL-based accounts for storing configuration settings per-user (including setting up new assets available at supported exchanges), BUT !NEVER! STORES PORTFOLIO DATA (FOR PRIVACY / SECURITY-SAKE).
@@ -162,6 +162,9 @@ Simple trading bot, to run from cron / cli (with SQL-based admin authentication 
 ///////////////////////////////////////////////////////
 MAYBE SECTION
 ///////////////////////////////////////////////////////
+
+
+Comparison chart(s) showing historical asset price vs what you paid per-token?
 
 
 Add auto-install script option to install NGINX (https://www.raspberrypi.org/documentation/remote-access/web-server/nginx.md)?

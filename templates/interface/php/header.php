@@ -22,7 +22,7 @@ header('Content-type: text/html; charset=' . $app_config['charset_default']);
 
 <head>
 
-	<title>DFD Cryptocoin Values - Open source / free private cryptocurrency investment portfolio tracker, with email / text / Alexa / Google Home alerts, charts, mining calculators, leverage / gain / loss / balance stats, and other crypto tools</title>
+	<title>DFD Cryptocoin Values - Open source / free private cryptocurrency investment portfolio tracker, with email / text / Alexa / Google Home / Telegram alerts, charts, mining calculators, leverage / gain / loss / balance stats, and other crypto tools.</title>
     
     <meta charset="<?=$app_config['charset_default']?>">
     <meta name="viewport" content="width=device-width">

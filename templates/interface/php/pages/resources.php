@@ -449,8 +449,6 @@
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCt_oM56Ui0BCCgi0Yc-Wh3Q/featured' target='_blank'>Crypto Bobby</a></li>
 	        
-	        <li class='links_list'><a href='https://www.youtube.com/channel/UCrNytueyuavn5mVVt89epDA/featured' target='_blank'>CryptoCandor</a></li>
-	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCu7Sre5A1NMV8J3s2FhluCw' target='_blank'>Crypto Love</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/user/PrisonOrFreedom/featured' target='_blank'>Cryptocurrency Market</a></li>
@@ -480,8 +478,6 @@
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCbiWJYRg8luWHnmNkJRZEnw/featured' target='_blank'>Tone Vays</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCWiiMnsnw5Isc2PP1to9nNw/featured' target='_blank'>Unchained Podcast</a></li>
-	        
-	        <li class='links_list'><a href='https://www.youtube.com/channel/UCHSzEP58zZC0WBPmJ9gmkkw/featured' target='_blank'>Understanding Bitcoin</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCT44w6854K62cSiwA1aiXfw' target='_blank'>VoskCoin</a> (POW mining channel)</li>
 	        
