@@ -1232,10 +1232,33 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		// No data error logging, ONLY IF THIS IS #NOT# A SELF SECURITY TEST
 		// NEW INSTALLS WILL RUN
 		if ( !$data && $is_self_security_test !=1 ) {
+			
+			
+			// FALLBACK TO CACHE DATA, IF AVAILABLE (WE CLEAR API CACHE FILES OLDER THAN 1 DAY AS A MAINTENANCE TASK, SO THIS IS FINE / WILL NOT CREATE AN ENDLESS USAGE OF SAME DATA)
+			// Use runtime cache if it exists. Remember file cache doesn't update until session is nearly over because of file locking, so only reliable for persisting a cache long term
+			// Run from runtime cache if requested again (for runtime speed improvements)
+			if ( $api_runtime_cache[$hash_check] ) {
+			$data = $api_runtime_cache[$hash_check];
+			$found_cache_data = 1;
+			}
+			else {
+			$data = trim( file_get_contents('cache/secured/apis/'.$hash_check.'.dat') );
+				if ( isset($data) ) {
+				$api_runtime_cache[$hash_check] = $data; // Create a runtime cache from the file cache, for any additional requests during runtime for this data set
+				$found_cache_data = 1;
+				}
+			}
+			
+			if ( isset($found_cache_data) ) {
+			$log_append = ' (fallback to cached data SUCCEEDED)';
+			}
+			else {
+			$log_append = ' (fallback to cached data FAILED)';
+			}
 	
 		
 		// LOG-SAFE VERSION (no post data with API keys etc)
-		app_logging( 'api_error', 'connection failed for ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint request at ' . $request ), 'request attempt from: server (local timeout setting ' . $app_config['api_timeout'] . ' seconds); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';' );
+		app_logging( 'api_error', 'connection failed for ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint request at ' . $request ) . $log_append, 'request attempt from: server (local timeout setting ' . $app_config['api_timeout'] . ' seconds); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';' );
 		
 		
 			if ( sizeof($app_config['proxy_list']) > 0 && $current_proxy != '' && $mode != 'proxy-check' ) { // Avoid infinite loops doing proxy checks
@@ -1248,18 +1271,6 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 			}
 		
 		
-			// FALLBACK TO CACHE DATA, IF AVAILABLE (WE CLEAR API CACHE FILES OLDER THAN 1 DAY AS A MAINTENANCE TASK, SO THIS IS FINE / WILL NOT CREATE AN ENDLESS USAGE OF SAME DATA)
-			// Use runtime cache if it exists. Remember file cache doesn't update until session is nearly over because of file locking, so only reliable for persisting a cache long term
-			// Run from runtime cache if requested again (for runtime speed improvements)
-			if ( $api_runtime_cache[$hash_check] ) {
-			$data = $api_runtime_cache[$hash_check];
-			}
-			else {
-			$data = trim( file_get_contents('cache/secured/apis/'.$hash_check.'.dat') );
-			$api_runtime_cache[$hash_check] = $data; // Create a runtime cache from the file cache, for any additional requests during runtime for this data set
-			}
-			
-		
 		}
 		// Log this latest live data response, 
 		// ONLY IF WE DETECT AN $endpoint_tld_or_ip, AND TTL IS !NOT! ZERO (TTL==0 usually means too many unique requests that would bloat the cache)
@@ -1268,6 +1279,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		
 			////////////////////////////////////////////////////////////////
 			// If response seems to contain an error message
+			// MUST RUN BEFORE FALLBACK ATTEMPT TO CACHED DATA
 			if ( preg_match("/error/i", $data) ) {
 			
 			
@@ -1293,10 +1305,13 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 				}
 		
 		
-			}			
-			// FALLBACK TO CACHE DATA, IF AVAILABLE (WE CLEAR API CACHE FILES OLDER THAN 1 DAY AS A MAINTENANCE TASK, SO THIS IS FINE / WILL NOT CREATE AN ENDLESS USAGE OF SAME DATA)
+			}
+			////////////////////////////////////////////////////////////////
+			
+			////////////////////////////////////////////////////////////////
+			// FALLBACK ATTEMPT TO CACHED DATA, IF AVAILABLE (WE CLEAR API CACHE FILES OLDER THAN 1 DAY AS A MAINTENANCE TASK, SO THIS IS FINE / WILL NOT CREATE AN ENDLESS USAGE OF SAME DATA)
 			// If response is seen to NOT contain USUAL data, use cache if available
-			elseif ( preg_match("/cf-error-type/i", $data) // Cloudflare (DDOS protection service)
+			if ( preg_match("/cf-error-type/i", $data) // Cloudflare (DDOS protection service)
 			|| preg_match("/\"result\":{}/i", $data) // Kraken.com / generic
 			|| preg_match("/site is down/i", $data) // Blockchain.info / generic
 			|| preg_match("/temporarily unavailable/i", $data) // Bitfinex.com / generic
@@ -1305,11 +1320,27 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 			
 				if ( $api_runtime_cache[$hash_check] ) {
 				$data = $api_runtime_cache[$hash_check];
+				$found_cache_data = 1;
 				}
 				else {
 				$data = trim( file_get_contents('cache/secured/apis/'.$hash_check.'.dat') );
-				$api_runtime_cache[$hash_check] = $data; // Create a runtime cache from the file cache, for any additional requests during runtime for this data set
+					if ( isset($data) ) {
+					$api_runtime_cache[$hash_check] = $data; // Create a runtime cache from the file cache, for any additional requests during runtime for this data set
+					$found_cache_data = 1;
+					}
 				}
+			
+				if ( isset($found_cache_data) ) {
+				$log_append = ' (fallback to cached data SUCCEEDED)';
+				}
+				else {
+				$log_append = ' (fallback to cached data FAILED)';
+				}
+				
+				
+			// LOG-SAFE VERSION (no post data with API keys etc)
+			app_logging( 'api_error', 'CONFIRMED error response received for ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint request at ' . $request ) . $log_append, 'request attempt from: server (local timeout setting ' . $app_config['api_timeout'] . ' seconds); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; log_file: ' . $error_response_log . '; btc_primary_currency_pairing: ' . $app_config['btc_primary_currency_pairing'] . '; btc_primary_exchange: ' . $app_config['btc_primary_exchange'] . '; btc_primary_currency_value: ' . $btc_primary_currency_value . '; hash_check: ' . $hash_check . ';' );
+				
 		
 			}
 			////////////////////////////////////////////////////////////////
@@ -1360,15 +1391,19 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		// Run from runtime cache if requested again (for runtime speed improvements)
 		if ( $api_runtime_cache[$hash_check] ) {
 		$data = $api_runtime_cache[$hash_check];
+		$found_cache_data = 1;
 		}
 		else {
 		$data = trim( file_get_contents('cache/secured/apis/'.$hash_check.'.dat') );
-		$api_runtime_cache[$hash_check] = $data; // Create a runtime cache from the file cache, for any additional requests during runtime for this data set
+			if ( isset($data) ) {
+			$api_runtime_cache[$hash_check] = $data; // Create a runtime cache from the file cache, for any additional requests during runtime for this data set
+			$found_cache_data = 1;
+			}
 		}
 	
 	
 		
-		if ( $data == 'none' ) {
+		if ( $data == 'none' || !isset($found_cache_data) ) {
 		
 			if ( !$logs_array['error_duplicates'][$hash_check] ) {
 			$logs_array['error_duplicates'][$hash_check] = 1; 

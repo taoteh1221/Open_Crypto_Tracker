@@ -33,6 +33,8 @@ So you should have this so far (for the path to the cron plugin file):
 Now you are ready to write your custom plugin code in PHP, inside the new plugin file /cron-plugins/YOUR_PLUGIN_NAME/YOUR_PLUGIN_NAME.php, which will run everytime a normally-scheduled cron job runs for this app. See the example code in the included example cron plugin "hns-airdrop" inside the /cron-plugins/ directory.
 
 
-IMPORTANT NOTE:
+IMPORTANT NOTES:
+
+NEVER ADD A CRON PLUGIN SOMEBODY ELSE WROTE, UNLESS YOU OR SOMEONE YOU TRUST HAVE REVIEWED THE CODE AND ARE ABSOLUTELY SURE IT IS NOT MALICIOUS!!
 
 ALWAYS TEST YOUR CODE, TO MAKE SURE IT DOESN'T CRASH THE CRON JOB. CUSTOM CRON PLUGINS DO RUN LAST WITHIN THE CRON RUNTIME THOUGH (AND THEREFORE ARE NOT INCLUDED IN RUNTIME STATS DATA LIKE HOW MANY SECONDS IT RAN), SO EVEN IF YOUR CUSTOM PLUGIN CRASHES, EVERYTHING ELSE IMPORTANT RAN BEFOREHAND ANYWAY.
