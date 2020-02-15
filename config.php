@@ -682,6 +682,15 @@ $app_config['chmod_permission_cache_files'] = '0666'; // (default = '0666')
 $app_config['chmod_permission_index_security'] = '0664'; // (default = '0664')
 
 
+// Activate any custom cron plugins you've created (that run during cron jobs, from the /cron-plugins/ directory)
+// REMOVE ANY DOUBLE FORWARD SLASHES FROM IN FRONT OF THE PLUGIN YOU WANT ACTIVATED
+// ADD ANY NEW CRON PLUGIN HERE BY USING THE FOLDER NAME THE NEW PLUGIN IS LOCATED IN
+$app_config['activate_cron_plugins'] = array(
+						//'PLUGIN_FOLDER_NAME', // (your plugin folder in /cron-plugins/)
+						//'hns-airdrop',  // HNS Airdrop example plugin (detects when you receive HNS tokens at a new / unused address)
+							);
+							
+
 // TLD-only (Top Level Domain only, NO SUBDOMAINS) for each API service that requires multiple calls (for each market / data set)
 // Used to throttle these market calls a tiny bit (1.15 seconds), so we don't get easily blacklisted
 // (ANY EXCHANGES LISTED HERE ARE !NOT! RECOMMENDED TO BE USED AS THE PRIMARY CURRENCY MARKET IN THIS APP,

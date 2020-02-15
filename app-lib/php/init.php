@@ -175,8 +175,9 @@ if ( dir_structure('cache/alerts/') != true
 || dir_structure('cache/secured/apis/') != true
 || dir_structure('cache/secured/backups/') != true
 || dir_structure('cache/secured/messages/') != true
-|| dir_structure('cache/vars/') != true ) {
-$system_error = 'Cannot create cache sub-directories. Please make sure the folder "/cache/" has FULL read / write permissions (chmod 777 on unix / linux systems), so the cache sub-directories can be created automatically. <br /><br />';
+|| dir_structure('cache/vars/') != true
+|| dir_structure('cron-plugins/') != true ) {
+$system_error = 'Cannot create cache or cron-plugin sub-directories. Please make sure the primary sub-directories "/cache/" and "/cron-plugins/" are created, and have FULL read / write permissions (chmod 777 on unix / linux systems), so the required files and secondary sub-directories can be created automatically. <br /><br />';
 app_logging('system_error', $system_error);
 echo $system_error;
 $force_exit = 1;

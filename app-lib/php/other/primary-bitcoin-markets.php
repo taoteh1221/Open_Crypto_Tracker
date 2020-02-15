@@ -77,6 +77,13 @@ if ( $runtime_mode == 'cron' ) {
     }
 
 
+// Set bitcoin market configs THAT ARE USUALLY DYNAMIC IN THE INTERFACE, to be the static default values during cron runtimes
+// (may change these to be dynamic in cron runtimes someday for a currently unforseen reason,
+// so let's keep dynamic and default bitcoin market variables as separate entities for now)
+$selected_pairing_id = $default_btc_pairing_id;
+$btc_primary_currency_value = $default_btc_primary_currency_value;
+
+
 }
 // UI etc
 else {

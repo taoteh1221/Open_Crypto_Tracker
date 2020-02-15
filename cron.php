@@ -68,7 +68,8 @@ if ( $app_config['proxy_alerts'] != 'off' ) {
 
 
 
-// Log errors, send notifications BEFORE runtime stats
+// Log errors, send notifications
+// RUN BEFORE cron plugins (in case custom plugin crashes)
 error_logs();
 send_notifications();
 
@@ -83,6 +84,7 @@ $total_runtime = round( ($time - $start_runtime) , 3);
 
 
 // If hardware stats are enabled, chart the 15 min load avg / temperature / free partition space / free memory [mb/percent] / portfolio cache size / runtime length
+// RUN BEFORE cron plugins (in case custom plugin crashes)
 if ( $app_config['system_stats'] == 'on' || $app_config['system_stats'] == 'raspi' && $is_raspi == 1 ) {
     			
 // Raspi system data
@@ -173,6 +175,7 @@ store_file_contents($base_dir . '/cache/charts/system/archival/system_stats.dat'
 		
 
 // If debug mode is on
+// RUN BEFORE cron plugins (in case custom plugin crashes)
 if ( $app_config['debug_mode'] == 'all' || $app_config['debug_mode'] == 'telemetry' || $app_config['debug_mode'] == 'stats' ) {
 		
 	foreach ( $system_info as $key => $value ) {
@@ -188,8 +191,38 @@ app_logging('system_debugging', 'Stats for '.$runtime_mode.' runtime', $runtime_
 }
 
 
-// Process debugging logs / destroy session data AFTER runtime stats
+
+// Process debugging logs 
+// RUN BEFORE cron plugins (in case custom plugin crashes)
 debugging_logs();
+
+
+
+// Run any cron plugins activated in app_config
+if ( sizeof($app_config['activate_cron_plugins']) > 0 ) {
+
+	foreach ( $app_config['activate_cron_plugins'] as $cron_plugin ) {
+	$cron_plugin = trim($cron_plugin);
+	$cron_plugin_file = $base_dir . '/cron-plugins/' . $cron_plugin . '/' . $cron_plugin . '.php';
+	
+		if ( file_exists($cron_plugin_file) ) {
+		require_once($cron_plugin_file);
+		}
+	
+	}
+
+// Run again after cron plugins
+error_logs();
+debugging_logs();
+send_notifications();
+
+}
+
+
+
+// Destroy session data AFTER runtime stats AND cron plugins 
+// (we run hardy_session_clearing() again upon a new runtime init anyway, 
+// so it's safe if a custom plugin crashes the runtime BEFOREHAND)
 hardy_session_clearing();
 
 

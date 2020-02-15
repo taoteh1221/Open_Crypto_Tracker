@@ -99,15 +99,26 @@ if ( update_cache_file($base_dir . '/cache/events/scan_htaccess_security.dat', 6
 	// Only run the check if the base url is set (runs every ~10 minutes, so we'll be checking again anyway, and it should set AFTER first UI run)
 	if ( trim($base_url) != '' ) {
 	
-	$htaccess_test_url = $base_url . 'cache/htaccess_security_check.dat';
+	// cache check
+	$htaccess_cache_test_url = $base_url . 'cache/htaccess_security_check.dat';
 
-	$htaccess_test_1 = trim( @api_data('url', $htaccess_test_url, 0) ); // HTTPS CHECK, Don't cache API data
+	$htaccess_cache_test_1 = trim( @api_data('url', $htaccess_cache_test_url, 0) ); // HTTPS CHECK, Don't cache API data
 
-	$htaccess_test_2 = trim( @api_data('url', preg_replace("/https:/i", "http:", $htaccess_test_url), 0) ); // HTTP CHECK, Don't cache API data
+	$htaccess_cache_test_2 = trim( @api_data('url', preg_replace("/https:/i", "http:", $htaccess_cache_test_url), 0) ); // HTTP CHECK, Don't cache API data
+	
+	// cron-plugins check
+	$htaccess_plugins_test_url = $base_url . 'cron-plugins/htaccess_security_check.dat';
+
+	$htaccess_plugins_test_1 = trim( @api_data('url', $htaccess_plugins_test_url, 0) ); // HTTPS CHECK, Don't cache API data
+
+	$htaccess_plugins_test_2 = trim( @api_data('url', preg_replace("/https:/i", "http:", $htaccess_plugins_test_url), 0) ); // HTTP CHECK, Don't cache API data
 	
 	
-		if ( preg_match("/TEST_HTACCESS_SECURITY_123_TEST/i", $htaccess_test_1) || preg_match("/TEST_HTACCESS_SECURITY_123_TEST/i", $htaccess_test_2) ) {
-		$system_error = "HTTP server 'htaccess' support has NOT been enabled on this web server. 'htaccess' support is required to SAFELY run this application. Please wait at least five minutes AFTER FIXING THIS ISSUE before running the application again (htaccess security checks are throttled to a maximum of once every five minutes). <br /><br />";
+		if ( preg_match("/TEST_HTACCESS_SECURITY_123_TEST/i", $htaccess_cache_test_1)
+		|| preg_match("/TEST_HTACCESS_SECURITY_123_TEST/i", $htaccess_cache_test_2)
+		|| preg_match("/TEST_HTACCESS_SECURITY_123_TEST/i", $htaccess_plugins_test_1)
+		|| preg_match("/TEST_HTACCESS_SECURITY_123_TEST/i", $htaccess_plugins_test_2) ) {
+		$system_error = "HTTP server 'htaccess' support has NOT been enabled on this web server for the 'cache' and 'cron-plugins' sub-directories. 'htaccess' support is required to SAFELY run this application (htaccess security checks are throttled to a maximum of once every hour). <br /><br />";
 		app_logging('system_error', $system_error);
 		echo $system_error;
 		$force_exit = 1;
