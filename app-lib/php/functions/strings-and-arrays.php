@@ -175,6 +175,7 @@ $pretty_string = preg_replace("/coin/i", 'Coin', $pretty_string);
 $pretty_string = preg_replace("/bitcoin/i", 'Bitcoin', $pretty_string);
 $pretty_string = preg_replace("/exchange/i", 'Exchange', $pretty_string);
 $pretty_string = preg_replace("/market/i", 'Market', $pretty_string);
+$pretty_string = preg_replace("/base/i", 'Base', $pretty_string);
 $pretty_string = preg_replace("/forex/i", 'Forex', $pretty_string);
 $pretty_string = preg_replace("/finex/i", 'Finex', $pretty_string);
 $pretty_string = preg_replace("/stamp/i", 'Stamp', $pretty_string);

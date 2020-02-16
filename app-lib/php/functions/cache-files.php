@@ -1366,8 +1366,9 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		
 		// Cache data to the file cache, EVEN IF WE HAVE NO DATA, TO AVOID CONSECUTIVE TIMEOUT HANGS (during page reloads etc) FROM A NON-RESPONSIVE API ENDPOINT
 		// Cache API data for this runtime session AFTER PERSISTENT FILE CACHE UPDATE, file cache doesn't reliably update until runtime session is ending because of file locking
-		if ( $ttl > 0 && $mode != 'proxy-check'  ) {
-		$api_runtime_cache[$hash_check] = ( $data ? $data : 'none' ); 
+		// DON'T RE-CACHE DATA IF THIS WAS A FALLBACK TO CACHED DATA
+		if ( $ttl > 0 && $mode != 'proxy-check' && !isset($found_cache_data) ) {
+		$api_runtime_cache[$hash_check] = ( isset($data) ? $data : 'none' ); 
 		store_file_contents($base_dir . '/cache/secured/apis/'.$hash_check.'.dat', $api_runtime_cache[$hash_check]);
 		}
 		// NEVER cache proxy checking data, OR TTL == 0
