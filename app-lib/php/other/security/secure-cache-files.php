@@ -185,9 +185,10 @@ $secure_128bit_hash = random_hash(16); // 128-bit (16-byte) hash converted to he
 	$telegram_user_data = telegram_user_data();
 		
 	$store_cached_telegram_user_data = json_encode($telegram_user_data, JSON_PRETTY_PRINT);
-	
-		if ( $store_cached_telegram_user_data == false ) {
-		app_logging('config_error', 'telegram_user_data could not be saved (to secured cache storage) in json format, MAKE SURE YOU ENTER "/start" IN THE BOT CHATROOM IN THE TELEGRAM APP, TO CREATE THE REQUIRED USER DATA THIS APP NEEDS TO INITIATE TELEGRAM MESSAGING');
+		
+		// Need to check a few different possible results for no data found
+		if ( $store_cached_telegram_user_data == false || $store_cached_telegram_user_data == null || $store_cached_telegram_user_data == "null" ) {
+		app_logging('config_error', 'telegram_user_data could not be saved (to secured cache storage) in json format, MAKE SURE YOU ENTER / RE-ENTER "/start" IN THE BOT CHATROOM IN THE TELEGRAM APP, TO CREATE / RE-CREATE THE REQUIRED USER DATA THIS APP NEEDS TO STORE AND INITIATE TELEGRAM MESSAGING WITH');
 		}
 		else {
 		store_file_contents($base_dir . '/cache/secured/telegram_user_data_'.$secure_128bit_hash.'.dat', $store_cached_telegram_user_data);

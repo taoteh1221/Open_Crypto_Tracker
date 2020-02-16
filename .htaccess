@@ -34,3 +34,38 @@ RewriteEngine on
 # END FORCE SSL
 ###########################################################
 
+
+###########################################################
+# START PHP INI SETTINGS
+###########################################################
+
+#PHP5
+<IfModule mod_php5.c>
+
+php_value upload_max_filesize 8M
+
+php_value post_max_size 20M
+
+php_value max_input_time 100
+
+php_value max_execution_time 100
+
+</IfModule>
+
+#PHP7
+<IfModule mod_php7.c>
+
+php_value upload_max_filesize 8M
+
+php_value post_max_size 20M
+
+php_value max_input_time 100
+
+php_value max_execution_time 100
+
+</IfModule>
+
+###########################################################
+# END PHP INI SETTINGS
+###########################################################
+

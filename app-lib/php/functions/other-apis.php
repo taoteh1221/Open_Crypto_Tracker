@@ -239,15 +239,15 @@ global $base_dir, $app_config;
 //////////////////////////////////////////////////////////
 
 
-function coingecko_api($symbol) {
+function coingecko_api($symbol, $force_currency=null) {
 	
 global $app_config;
 
+$coingecko_primary_currency = ( $force_currency == null ? strtolower($app_config['btc_primary_currency_pairing']) : $force_currency );
 
-$jsondata = @api_data('url', 'https://api.coingecko.com/api/v3/coins?per_page='.$app_config['marketcap_ranks_max'].'&page=1', $app_config['marketcap_cache_time']);
+$jsondata = @api_data('url', 'https://api.coingecko.com/api/v3/coins/markets?per_page='.$app_config['marketcap_ranks_max'].'&page=1&vs_currency=' . $coingecko_primary_currency, $app_config['marketcap_cache_time']);
 	   
 $data = json_decode($jsondata, true);
-
 
    if ( is_array($data) || is_object($data) ) {
   		

@@ -145,9 +145,10 @@ $data = array();
 	$coingecko_primary_currency = strtolower($app_config['btc_primary_currency_pairing']);
 	
 		
-		if ( $coingecko_api['market_data']['current_price'][$coingecko_primary_currency] == '' ) {
+		if ( $coingecko_api['market_cap_rank'] == '' ) {
 		$app_notes = 'Coingecko.com does not support '.strtoupper($coingecko_primary_currency).' stats,<br />showing USD stats instead.';
 		$coingecko_primary_currency = 'usd';
+		$coingecko_api = coingecko_api($symbol, $coingecko_primary_currency);
 		$cap_data_force_usd = 1;
 		}
 		else {
@@ -155,17 +156,18 @@ $data = array();
 		}
 		
 		
-	$data['rank'] = $coingecko_api['market_data']['market_cap_rank'];
-	$data['price'] = $coingecko_api['market_data']['current_price'][$coingecko_primary_currency];
-	$data['market_cap'] = $coingecko_api['market_data']['market_cap'][$coingecko_primary_currency];
-	$data['volume_24h'] = $coingecko_api['market_data']['total_volume'][$coingecko_primary_currency];
+	$data['rank'] = $coingecko_api['market_cap_rank'];
+	$data['price'] = $coingecko_api['current_price'];
+	$data['market_cap'] = $coingecko_api['market_cap'];
+	$data['volume_24h'] = $coingecko_api['total_volume'];
 	
-	$data['percent_change_1h'] = number_format( $coingecko_api['market_data']['price_change_percentage_1h_in_primary_currency'][$coingecko_primary_currency] , 2, ".", ",");
-	$data['percent_change_24h'] = number_format( $coingecko_api['market_data']['price_change_percentage_24h'] , 2, ".", ",");
-	$data['percent_change_7d'] = number_format( $coingecko_api['market_data']['price_change_percentage_7d'] , 2, ".", ",");
+	$data['percent_change_1h'] = null; // NO LONGER SUPPORTED
+	$data['percent_change_24h'] = number_format( $coingecko_api['price_change_percentage_24h'] , 2, ".", ",");
+	$data['percent_change_ath'] = number_format( $coingecko_api['ath_change_percentage'] , 2, ".", ",");
+	$data['percent_change_7d'] = null; // NO LONGER SUPPORTED
 	
-	$data['circulating_supply'] = $coingecko_api['market_data']['circulating_supply'];
-	$data['total_supply'] = $coingecko_api['market_data']['total_supply'];
+	$data['circulating_supply'] = $coingecko_api['circulating_supply'];
+	$data['total_supply'] = $coingecko_api['total_supply'];
 	$data['max_supply'] = null;
 	
 	$data['last_updated'] = strtotime( $coingecko_api['last_updated'] );
@@ -1464,9 +1466,26 @@ $market_pairing = $all_markets[$selected_exchange];
             }
             ?>
         +'<p class="coin_info"><span class="yellow">Token Value (average):</span> <?=$cmc_primary_currency_symbol?><?=$marketcap_data['price']?></p>'
+        <?php
+            if ( $marketcap_data['percent_change_1h'] != null ) {
+            ?>
         +'<p class="coin_info"><span class="yellow">1 Hour Change:</span> <?=( stristr($marketcap_data['percent_change_1h'], '-') != false ? '<span class="red_bright">'.$marketcap_data['percent_change_1h'].'%</span>' : '<span class="green_bright">+'.$marketcap_data['percent_change_1h'].'%</span>' )?></p>'
+        <?php
+            }
+            ?>
         +'<p class="coin_info"><span class="yellow">24 Hour Change:</span> <?=( stristr($marketcap_data['percent_change_24h'], '-') != false ? '<span class="red_bright">'.$marketcap_data['percent_change_24h'].'%</span>' : '<span class="green_bright">+'.$marketcap_data['percent_change_24h'].'%</span>' )?></p>'
+        <?php
+            if ( $marketcap_data['percent_change_7d'] != null ) {
+            ?>
         +'<p class="coin_info"><span class="yellow">7 Day Change:</span> <?=( stristr($marketcap_data['percent_change_7d'], '-') != false ? '<span class="red_bright">'.$marketcap_data['percent_change_7d'].'%</span>' : '<span class="green_bright">+'.$marketcap_data['percent_change_7d'].'%</span>' )?></p>'
+        <?php
+            }
+            if ( $marketcap_data['percent_change_ath'] != null ) {
+            ?>
+        +'<p class="coin_info"><span class="yellow">All Time High Change:</span> <?=( stristr($marketcap_data['percent_change_ath'], '-') != false ? '<span class="red_bright">'.$marketcap_data['percent_change_ath'].'%</span>' : '<span class="green_bright">+'.$marketcap_data['percent_change_ath'].'%</span>' )?></p>'
+        <?php
+            }
+            ?>
         +'<p class="coin_info"><span class="yellow">24 Hour Volume:</span> <?=$cmc_primary_currency_symbol?><?=number_format($marketcap_data['volume_24h'],0,".",",")?></p>'
         <?php
             if ( $marketcap_data['last_updated'] != '' ) {

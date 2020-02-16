@@ -1029,6 +1029,15 @@ $cookie_jar = tempnam('/tmp','cookie');
 // To cache duplicate requests based on a data hash, during runtime update session (AND persist cache to flat files)
 $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 
+	
+$api_endpoint = ( $mode == 'array' ? $api_server : $request );
+	
+$api_endpoint_parts = parse_url($api_endpoint);
+
+
+// NOT USED NOW, BUT LEAVE IN CASE WE NEED ENCODING ON LONG URLs ETC (IT HELPED WITH THAT WHEN TESTING)
+$api_endpoint_encoded = $api_endpoint_parts['scheme'] . '://' . $api_endpoint_parts['host'] . ( $api_endpoint_parts['port'] ? ':' . $api_endpoint_parts['port'] : '' ) . $api_endpoint_parts['path'] . ( $api_endpoint_parts['query'] ? '?' . urlencode($api_endpoint_parts['query']) : '' );
+	
 
 	// Cache API data if set to cache...runtime cache is only for runtime cache (deleted at end of runtime)
 	// ...persistent cache is the file cache (which only reliably updates near end of a runtime session because of file locking)
@@ -1064,7 +1073,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 			
 		// Don't log this error again during THIS runtime, as it would be a duplicate...just overwrite same error message, BUT update the error count in it
 		
-		app_logging( 'cache_error', 'no data in RUNTIME cache from connection failure with ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint request at ' . $request ), 'request attempt(s) from: cache ('.$logs_array['error_duplicates'][$hash_check].' runtime instances); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';', $hash_check );
+		app_logging( 'cache_error', 'no data in RUNTIME cache from connection failure with ' . ( $mode == 'array' ? 'API server at ' : 'endpoint request at ' ) . $api_endpoint, 'request attempt(s) from: cache ('.$logs_array['error_duplicates'][$hash_check].' runtime instances); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';', $hash_check );
 			
 		}
 		elseif ( $app_config['debug_mode'] == 'all' || $app_config['debug_mode'] == 'telemetry' || $app_config['debug_mode'] == 'api_cache_only' ) {
@@ -1078,7 +1087,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 			
 		// Don't log this debugging again during THIS runtime, as it would be a duplicate...just overwrite same debugging message, BUT update the debugging count in it
 		
-		app_logging( 'cache_debugging', 'RUNTIME cache data request for ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint at ' . $request ), 'request(s) from: cache ('.$logs_array['debugging_duplicates'][$hash_check].' runtime instances); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';', $hash_check );
+		app_logging( 'cache_debugging', 'RUNTIME cache data request for ' . ( $mode == 'array' ? 'API server at ' : 'endpoint request at ' ) . $api_endpoint, 'request(s) from: cache ('.$logs_array['debugging_duplicates'][$hash_check].' runtime instances); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';', $hash_check );
 		
 		}
 	
@@ -1092,9 +1101,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 	elseif ( update_cache_file('cache/secured/apis/'.$hash_check.'.dat', $ttl) == true || $ttl == 0 ) {
 	
 	
-	$ch = curl_init( ( $mode == 'array' ? $api_server : '' ) );
-	
-	$api_endpoint = ( $mode == 'array' ? $api_server : $request );
+	$ch = curl_init( ( $mode == 'array' ? $api_endpoint : '' ) );
 	
 	
 		// If this is an API service that requires multiple calls (for each market), 
@@ -1160,18 +1167,18 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		
 		if ( $mode == 'array' && $post_encoding == 1 ) {
 		curl_setopt($ch, CURLOPT_POST, true);
-		curl_setopt( $ch, CURLOPT_POSTFIELDS, $request );
+		curl_setopt( $ch, CURLOPT_POSTFIELDS, $request ); // Works fine so far not encoded
 		}
 		elseif ( $mode == 'array' && $post_encoding == 2 ) {
 		curl_setopt($ch, CURLOPT_POST, true);
-		curl_setopt( $ch, CURLOPT_POSTFIELDS,  http_build_query($request) );
+		curl_setopt( $ch, CURLOPT_POSTFIELDS,  http_build_query($request) ); // Encode post data with http_build_query()
 		}
 		elseif ( $mode == 'array' && $post_encoding == 3 ) {
 		curl_setopt($ch, CURLOPT_POST, true);
-		curl_setopt( $ch, CURLOPT_POSTFIELDS, json_encode($request) );
+		curl_setopt( $ch, CURLOPT_POSTFIELDS, json_encode($request) ); // json encoded
 		}
 		elseif ( $mode == 'url' || $mode == 'proxy-check' ) {
-		curl_setopt($ch, CURLOPT_URL, $request);
+		curl_setopt($ch, CURLOPT_URL, $request); // Works fine so far not encoded
 		}
 	
 	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
@@ -1231,19 +1238,19 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		
 		// No data error logging, ONLY IF THIS IS #NOT# A SELF SECURITY TEST
 		// NEW INSTALLS WILL RUN
-		if ( !$data && $is_self_security_test !=1 ) {
+		if ( $data == '' && $is_self_security_test !=1 ) {
 			
 			
 			// FALLBACK TO CACHE DATA, IF AVAILABLE (WE CLEAR API CACHE FILES OLDER THAN 1 DAY AS A MAINTENANCE TASK, SO THIS IS FINE / WILL NOT CREATE AN ENDLESS USAGE OF SAME DATA)
 			// Use runtime cache if it exists. Remember file cache doesn't update until session is nearly over because of file locking, so only reliable for persisting a cache long term
 			// Run from runtime cache if requested again (for runtime speed improvements)
-			if ( $api_runtime_cache[$hash_check] ) {
+			if ( $api_runtime_cache[$hash_check] != '' && $api_runtime_cache[$hash_check] != 'none' ) {
 			$data = $api_runtime_cache[$hash_check];
 			$found_cache_data = 1;
 			}
 			else {
 			$data = trim( file_get_contents('cache/secured/apis/'.$hash_check.'.dat') );
-				if ( isset($data) ) {
+				if ( $data != '' && $data != 'none' ) {
 				$api_runtime_cache[$hash_check] = $data; // Create a runtime cache from the file cache, for any additional requests during runtime for this data set
 				$found_cache_data = 1;
 				}
@@ -1258,13 +1265,13 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 	
 		
 		// LOG-SAFE VERSION (no post data with API keys etc)
-		app_logging( 'api_error', 'connection failed for ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint request at ' . $request ) . $log_append, 'request attempt from: server (local timeout setting ' . $app_config['api_timeout'] . ' seconds); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';' );
+		app_logging( 'api_error', 'connection failed for ' . ( $mode == 'array' ? 'API server at ' : 'endpoint request at ' ) . $api_endpoint . $log_append, 'request attempt from: server (local timeout setting ' . $app_config['api_timeout'] . ' seconds); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';' );
 		
 		
 			if ( sizeof($app_config['proxy_list']) > 0 && $current_proxy != '' && $mode != 'proxy-check' ) { // Avoid infinite loops doing proxy checks
 
 			$proxy_checkup[] = array(
-															'endpoint' => ( $mode == 'array' ? 'API server at ' . $api_server : 'Request URL at ' . $request ),
+															'endpoint' => ( $mode == 'array' ? 'API server at ' : 'endpoint request at ' ) . $api_endpoint,
 															'proxy' => $current_proxy
 															);
 															
@@ -1297,7 +1304,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 				$error_response_log = '/cache/logs/errors/api/error-response-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-'.$hash_check.'.log';
 			
 				// LOG-SAFE VERSION (no post data with API keys etc)
-				app_logging( 'api_error', 'POSSIBLE error response received for ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint request at ' . $request ), 'request attempt from: server (local timeout setting ' . $app_config['api_timeout'] . ' seconds); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; log_file: ' . $error_response_log . '; btc_primary_currency_pairing: ' . $app_config['btc_primary_currency_pairing'] . '; btc_primary_exchange: ' . $app_config['btc_primary_exchange'] . '; btc_primary_currency_value: ' . $btc_primary_currency_value . '; hash_check: ' . $hash_check . ';' );
+				app_logging( 'api_error', 'POSSIBLE error response received for ' . ( $mode == 'array' ? 'API server at ' : 'endpoint request at ' ) . $api_endpoint, 'request attempt from: server (local timeout setting ' . $app_config['api_timeout'] . ' seconds); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; log_file: ' . $error_response_log . '; btc_primary_currency_pairing: ' . $app_config['btc_primary_currency_pairing'] . '; btc_primary_exchange: ' . $app_config['btc_primary_exchange'] . '; btc_primary_currency_value: ' . $btc_primary_currency_value . '; hash_check: ' . $hash_check . ';' );
 			
 				// Log this error response from this data request
 				store_file_contents($base_dir . $error_response_log, $data);
@@ -1318,13 +1325,13 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 			|| $endpoint_tld_or_ip == 'localbitcoins.com' && !preg_match("/avg_12h/i", $data)
 			|| $endpoint_tld_or_ip == 'coinmarketcap.com' && !preg_match("/last_updated/i", $data) ) {
 			
-				if ( $api_runtime_cache[$hash_check] ) {
+				if ( $api_runtime_cache[$hash_check] != '' && $api_runtime_cache[$hash_check] != 'none' ) {
 				$data = $api_runtime_cache[$hash_check];
 				$found_cache_data = 1;
 				}
 				else {
 				$data = trim( file_get_contents('cache/secured/apis/'.$hash_check.'.dat') );
-					if ( isset($data) ) {
+					if ( $data != '' && $data != 'none' ) {
 					$api_runtime_cache[$hash_check] = $data; // Create a runtime cache from the file cache, for any additional requests during runtime for this data set
 					$found_cache_data = 1;
 					}
@@ -1339,7 +1346,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 				
 				
 			// LOG-SAFE VERSION (no post data with API keys etc)
-			app_logging( 'api_error', 'CONFIRMED error response received for ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint request at ' . $request ) . $log_append, 'request attempt from: server (local timeout setting ' . $app_config['api_timeout'] . ' seconds); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; log_file: ' . $error_response_log . '; btc_primary_currency_pairing: ' . $app_config['btc_primary_currency_pairing'] . '; btc_primary_exchange: ' . $app_config['btc_primary_exchange'] . '; btc_primary_currency_value: ' . $btc_primary_currency_value . '; hash_check: ' . $hash_check . ';' );
+			app_logging( 'api_error', 'CONFIRMED error response received for ' . ( $mode == 'array' ? 'API server at ' : 'endpoint request at ' ) . $api_endpoint . $log_append, 'request attempt from: server (local timeout setting ' . $app_config['api_timeout'] . ' seconds); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; log_file: ' . $error_response_log . '; btc_primary_currency_pairing: ' . $app_config['btc_primary_currency_pairing'] . '; btc_primary_exchange: ' . $app_config['btc_primary_exchange'] . '; btc_primary_currency_value: ' . $btc_primary_currency_value . '; hash_check: ' . $hash_check . ';' );
 				
 		
 			}
@@ -1351,7 +1358,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 			if ( $app_config['debug_mode'] == 'all' || $app_config['debug_mode'] == 'telemetry' || $app_config['debug_mode'] == 'api_live_only' ) {
 				
 			// LOG-SAFE VERSION (no post data with API keys etc)
-			app_logging( 'api_debugging', 'connection request for ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint at ' . $request ), 'request from: server (local timeout setting ' . $app_config['api_timeout'] . ' seconds); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';' );
+			app_logging( 'api_debugging', 'connection request for ' . ( $mode == 'array' ? 'API server at ' : 'endpoint request at ' ) . $api_endpoint, 'request from: server (local timeout setting ' . $app_config['api_timeout'] . ' seconds); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';' );
 			
 			// Log this as the latest response from this data request
 			store_file_contents($base_dir . '/cache/logs/debugging/api/last-response-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-'.$hash_check.'.log', $data);
@@ -1390,18 +1397,17 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 		// Use runtime cache if it exists. Remember file cache doesn't update until session is nearly over because of file locking, so only reliable for persisting a cache long term
 		// If no API data was received, add error notices to UI / error logs (we don't try fetching the data again until cache TTL expiration, so as to NOT hang the app)
 		// Run from runtime cache if requested again (for runtime speed improvements)
-		if ( $api_runtime_cache[$hash_check] ) {
+		if ( $api_runtime_cache[$hash_check] != '' && $api_runtime_cache[$hash_check] != 'none' ) {
 		$data = $api_runtime_cache[$hash_check];
 		$found_cache_data = 1;
 		}
 		else {
 		$data = trim( file_get_contents('cache/secured/apis/'.$hash_check.'.dat') );
-			if ( isset($data) ) {
+			if ( $data != '' && $data != 'none' ) {
 			$api_runtime_cache[$hash_check] = $data; // Create a runtime cache from the file cache, for any additional requests during runtime for this data set
 			$found_cache_data = 1;
 			}
 		}
-	
 	
 		
 		if ( $data == 'none' || !isset($found_cache_data) ) {
@@ -1415,7 +1421,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 			
 		// Don't log this error again during THIS runtime, as it would be a duplicate...just overwrite same error message, BUT update the error count in it
 		
-		app_logging( 'cache_error', 'no data in FILE cache from connection failure with ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint request at ' . $request ), 'request attempt(s) from: cache ('.$logs_array['error_duplicates'][$hash_check].' runtime instances); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';', $hash_check );
+		app_logging( 'cache_error', 'no data in FILE cache from connection failure with ' . ( $mode == 'array' ? 'API server at ' : 'endpoint request at ' ) . $api_endpoint, 'request attempt(s) from: cache ('.$logs_array['error_duplicates'][$hash_check].' runtime instances); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';', $hash_check );
 			
 		}
 		elseif ( $app_config['debug_mode'] == 'all' || $app_config['debug_mode'] == 'telemetry' || $app_config['debug_mode'] == 'api_cache_only' ) {
@@ -1429,7 +1435,7 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 			
 		// Don't log this debugging again during THIS runtime, as it would be a duplicate...just overwrite same debugging message, BUT update the debugging count in it
 		
-		app_logging( 'cache_debugging', 'FILE cache data request for ' . ( $mode == 'array' ? 'API server at ' . $api_server : 'endpoint at ' . $request ), 'request(s) from: cache ('.$logs_array['debugging_duplicates'][$hash_check].' runtime instances); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';', $hash_check );
+		app_logging( 'cache_debugging', 'FILE cache data request for ' . ( $mode == 'array' ? 'API server at ' : 'endpoint request at ' ) . $api_endpoint, 'request(s) from: cache ('.$logs_array['debugging_duplicates'][$hash_check].' runtime instances); proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';', $hash_check );
 		
 		}
 	

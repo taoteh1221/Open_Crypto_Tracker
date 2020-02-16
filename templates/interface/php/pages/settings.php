@@ -353,12 +353,18 @@
 			     
 			     
 			    <select name='alert_source' id='alert_source' onchange='
+			    
 			    if ( document.getElementById("alert_percent").value == "yes" ) {
 			    document.getElementById("use_alert_percent").value = document.getElementById("alert_source").value + "|" + document.getElementById("percent_change_amount").value + "|" + document.getElementById("percent_change_time").value + "|" + document.getElementById("percent_change_alert_type").value;
 			    }
 			    else {
 			    document.getElementById("use_alert_percent").value = "";
 			    }
+			    
+			    if ( this.value == "coingecko" ) {
+			    alert("Coingecko.com NO LONGER supports 1 hour / 7 day price change percentages (only 24 hour / all time high changes).");
+			    }
+			    
 			    '>
 			    <option value='coingecko' <?=( $alert_percent[0] == 'coingecko' ? ' selected ' : '' )?>> Coingecko.com </option>
 			    <option value='coinmarketcap' <?=( $alert_percent[0] == 'coinmarketcap' ? ' selected ' : '' )?>> Coinmarketcap.com </option>
