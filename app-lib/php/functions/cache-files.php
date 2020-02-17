@@ -1244,17 +1244,17 @@ $api_endpoint = ( $mode == 'array' ? $api_server : $request );
 			// Run from runtime cache if requested again (for runtime speed improvements)
 			if ( $api_runtime_cache[$hash_check] != '' && $api_runtime_cache[$hash_check] != 'none' ) {
 			$data = $api_runtime_cache[$hash_check];
-			$found_cache_data = 1;
+			$fallback_cache_data = 1;
 			}
 			else {
 			$data = trim( file_get_contents('cache/secured/apis/'.$hash_check.'.dat') );
 				if ( $data != '' && $data != 'none' ) {
 				$api_runtime_cache[$hash_check] = $data; // Create a runtime cache from the file cache, for any additional requests during runtime for this data set
-				$found_cache_data = 1;
+				$fallback_cache_data = 1;
 				}
 			}
 			
-			if ( isset($found_cache_data) ) {
+			if ( isset($fallback_cache_data) ) {
 			$log_append = ' (fallback to cached data SUCCEEDED)';
 			}
 			else {
@@ -1326,17 +1326,17 @@ $api_endpoint = ( $mode == 'array' ? $api_server : $request );
 			
 				if ( $api_runtime_cache[$hash_check] != '' && $api_runtime_cache[$hash_check] != 'none' ) {
 				$data = $api_runtime_cache[$hash_check];
-				$found_cache_data = 1;
+				$fallback_cache_data = 1;
 				}
 				else {
 				$data = trim( file_get_contents('cache/secured/apis/'.$hash_check.'.dat') );
 					if ( $data != '' && $data != 'none' ) {
 					$api_runtime_cache[$hash_check] = $data; // Create a runtime cache from the file cache, for any additional requests during runtime for this data set
-					$found_cache_data = 1;
+					$fallback_cache_data = 1;
 					}
 				}
 			
-				if ( isset($found_cache_data) ) {
+				if ( isset($fallback_cache_data) ) {
 				$log_append = ' (fallback to cached data SUCCEEDED)';
 				}
 				else {
@@ -1373,7 +1373,7 @@ $api_endpoint = ( $mode == 'array' ? $api_server : $request );
 		// Cache data to the file cache, EVEN IF WE HAVE NO DATA, TO AVOID CONSECUTIVE TIMEOUT HANGS (during page reloads etc) FROM A NON-RESPONSIVE API ENDPOINT
 		// Cache API data for this runtime session AFTER PERSISTENT FILE CACHE UPDATE, file cache doesn't reliably update until runtime session is ending because of file locking
 		// DON'T RE-CACHE DATA IF THIS WAS A FALLBACK TO CACHED DATA
-		if ( $ttl > 0 && $mode != 'proxy-check' && !isset($found_cache_data) ) {
+		if ( $ttl > 0 && $mode != 'proxy-check' && !isset($fallback_cache_data) ) {
 		$api_runtime_cache[$hash_check] = ( isset($data) ? $data : 'none' ); 
 		store_file_contents($base_dir . '/cache/secured/apis/'.$hash_check.'.dat', $api_runtime_cache[$hash_check]);
 		}
@@ -1398,18 +1398,18 @@ $api_endpoint = ( $mode == 'array' ? $api_server : $request );
 		// Run from runtime cache if requested again (for runtime speed improvements)
 		if ( $api_runtime_cache[$hash_check] != '' && $api_runtime_cache[$hash_check] != 'none' ) {
 		$data = $api_runtime_cache[$hash_check];
-		$found_cache_data = 1;
+		$fallback_cache_data = 1;
 		}
 		else {
 		$data = trim( file_get_contents('cache/secured/apis/'.$hash_check.'.dat') );
 			if ( $data != '' && $data != 'none' ) {
 			$api_runtime_cache[$hash_check] = $data; // Create a runtime cache from the file cache, for any additional requests during runtime for this data set
-			$found_cache_data = 1;
+			$fallback_cache_data = 1;
 			}
 		}
 	
 		
-		if ( $data == 'none' || !isset($found_cache_data) ) {
+		if ( $data == 'none' || !isset($fallback_cache_data) ) {
 		
 			if ( !$logs_array['error_duplicates'][$hash_check] ) {
 			$logs_array['error_duplicates'][$hash_check] = 1; 
