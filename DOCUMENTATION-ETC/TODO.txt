@@ -15,6 +15,8 @@ Password notes: https://www.php.net/manual/en/faq.passwords.php
 "NEXT ON THE LIST" SUMMARY SECTION
 ///////////////////////////////////////////////////////
 
+FULL feature freeze until springtime, review ALL code / UI / UX and smooth all rough edges (find every flaming turd before we start a dumpster fire).
+
 Add the rest of the localbitcoins country currencies, and do everything in the optimizations / bugs / tests section of this list.
 
 south african rand support ( https://www.luno.com/trade/XBTZAR ) look for other markets too.
@@ -27,7 +29,7 @@ OPTIMIZATIONS / BUGS / TESTS / OTHER SECTION
 
 Do new screenshots.
 
-Review readme, landing page, and SF page.
+Review landing page, and SF page.
 
 Review help FAQ.
 

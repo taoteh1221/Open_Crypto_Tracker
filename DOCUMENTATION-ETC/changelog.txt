@@ -2613,13 +2613,13 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 
 -------------------------------------------------------------------
-4.09.0:
+4.08.1:
 
 -More misc optimizations / bug fixes
 
--Support for new coingecko.com API changes
+-Fix to re-enable coingecko.com marketcap data (coingecko API format changes lead to dropped data)
 
--PHP ini settings in the primary .htaccess file (for better app compatibility / experience)
+-PHP ini settings in the primary .htaccess file for better app compatibility / user experience (only ran when htaccesss php module detected)
 
 IMPORTANT NOTES: 
 

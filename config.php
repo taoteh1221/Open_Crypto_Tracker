@@ -396,11 +396,6 @@ $app_config['charts_and_price_alerts'] = array(
 					'hns' => 'namebase||btc||both',
 					
 					
-					// STEEM
-					'steem' => 'bittrex||btc||chart',
-					'steem-2' => 'binance||btc||chart',
-					
-					
 					// DOGE
 					'doge' => 'bittrex||btc||chart',
 					'doge-2' => 'binance||btc||both',
@@ -1589,37 +1584,6 @@ $app_config['portfolio_assets'] = array(
                                                     
                                         ) // market_pairing END
                                         
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // STEEM
-                    'STEEM' => array(
-                        
-                        'coin_name' => 'Steem',
-                        'marketcap_website_slug' => 'steem',
-                        'market_pairing' => array(
-                        
-                                    'btc' => array(
-                                        	'binance' => 'STEEMBTC',
-                                          'bittrex' => 'BTC-STEEM',
-                                          'hitbtc' => 'STEEMBTC',
-                                          'upbit' => 'BTC-STEEM',
-                                          'cryptofresh' => 'OPEN.STEEM',
-                                                    ),
-                                                    
-                                    'eth' => array(
-                                        	'binance' => 'STEEMETH',
-                                                    ),
-                                                    
-                                    'inr' => array(
-                                          'buyucoin' => 'steem_inr',
-                                                    ),
-                                                    
-                                        ) // market_pairing END
-                        
                     ), // Asset END
                     
                     

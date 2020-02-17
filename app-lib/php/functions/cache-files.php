@@ -1032,11 +1032,9 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 	
 $api_endpoint = ( $mode == 'array' ? $api_server : $request );
 	
-$api_endpoint_parts = parse_url($api_endpoint);
-
-
 // NOT USED NOW, BUT LEAVE IN CASE WE NEED ENCODING ON LONG URLs ETC (IT HELPED WITH THAT WHEN TESTING)
-$api_endpoint_encoded = $api_endpoint_parts['scheme'] . '://' . $api_endpoint_parts['host'] . ( $api_endpoint_parts['port'] ? ':' . $api_endpoint_parts['port'] : '' ) . $api_endpoint_parts['path'] . ( $api_endpoint_parts['query'] ? '?' . urlencode($api_endpoint_parts['query']) : '' );
+//$api_endpoint_parts = parse_url($api_endpoint);
+//$api_endpoint_encoded = $api_endpoint_parts['scheme'] . '://' . $api_endpoint_parts['host'] . ( $api_endpoint_parts['port'] ? ':' . $api_endpoint_parts['port'] : '' ) . $api_endpoint_parts['path'] . ( $api_endpoint_parts['query'] ? '?' . urlencode($api_endpoint_parts['query']) : '' );
 	
 
 	// Cache API data if set to cache...runtime cache is only for runtime cache (deleted at end of runtime)
@@ -1322,6 +1320,7 @@ $api_endpoint_encoded = $api_endpoint_parts['scheme'] . '://' . $api_endpoint_pa
 			|| preg_match("/\"result\":{}/i", $data) // Kraken.com / generic
 			|| preg_match("/site is down/i", $data) // Blockchain.info / generic
 			|| preg_match("/temporarily unavailable/i", $data) // Bitfinex.com / generic
+			|| preg_match("/something went wrong/i", $data) // Bitbns.com / generic
 			|| $endpoint_tld_or_ip == 'localbitcoins.com' && !preg_match("/avg_12h/i", $data)
 			|| $endpoint_tld_or_ip == 'coinmarketcap.com' && !preg_match("/last_updated/i", $data) ) {
 			
