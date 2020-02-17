@@ -128,7 +128,12 @@ If your system DOES NOT have /etc/cron.d/ on it, then NEARLY the same format (mi
 */15 * * * * /usr/bin/php -q /var/www/html/cron.php > /dev/null 2>&1
 
 
-IMPORTANT CRON JOB NOTES: MAKE SURE YOU ONLY USE EITHER /etc/cron.d/, or 'crontab -e', NOT BOTH...ANY OLD DUPLICATE CRONTAB ENTRIES WILL RUN YOUR CRON JOB TOO OFTEN. If everything is setup properly, and the cron job still does NOT run, your particular server may require the cron.php file permissions to be set as 'executable' ('755' chmod on unix / linux systems) to allow running it.
+SEE /DOCUMENTATION-ETC/CRON_PLUGINS_README.txt ON CREATING YOUR OWN CUSTOM CRON PLUGINS (custom code that runs during regularly-scheduled cron jobs)
+
+
+IMPORTANT CRON JOB NOTES: 
+
+MAKE SURE YOU ONLY USE EITHER /etc/cron.d/, or 'crontab -e', NOT BOTH...ANY OLD DUPLICATE CRONTAB ENTRIES WILL RUN YOUR CRON JOB TOO OFTEN. If everything is setup properly, and the cron job still does NOT run, your particular server may require the cron.php file permissions to be set as 'executable' ('755' chmod on unix / linux systems) to allow running it.
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -178,10 +183,15 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in, but valu
  
     
  // SEE /DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt FOR A FULL EXAMPLE OF THE SETTINGS / ASSETS CONFIGURATION (ESPECIALLY IF YOU MESS UP config.php, lol)
- // See /DOCUMENTATION-ETC/HELP-FAQ.txt for tips / troubleshooting FAQs.
-
 
 ################################################################################################################
+
+
+See /DOCUMENTATION-ETC/HELP-FAQ.txt for additional tips / troubleshooting FAQs.
+
+
+
+
 
 
 
