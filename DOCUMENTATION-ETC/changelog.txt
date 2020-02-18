@@ -2651,7 +2651,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -memory_limit PHP ini setting for better app compatibility / user experience (only ran when htaccesss php module detected)
 
--Bug fix: increase default api timeout to 60 seconds (to restore using heavier coingecko data set endpoint that includes 1 hour / 7 day stats)
+-Bug fix: increase default api timeout to 90 seconds (was set too low for some slower home internet connections)
 
 IMPORTANT NOTES: 
 
