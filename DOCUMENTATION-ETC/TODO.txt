@@ -27,8 +27,6 @@ Youtube channels on the resources page, that MAY BE DYING (keep an eye on them):
 OPTIMIZATIONS / BUGS / TESTS / OTHER SECTION
 ///////////////////////////////////////////////////////
 
-Try reverting back to old coingecko endpoint https://api.coingecko.com/api/v3/coins?per_page=200&page=1 , make sure api timeout is high enough.
-
 Do new screenshots.
 
 Review landing page, and SF page.
