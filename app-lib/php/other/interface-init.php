@@ -8,6 +8,11 @@
 // Only need below logic during UI runtime
 //////////////////////////////////////////////////////////////////
 if ( $runtime_mode == 'ui' ) {
+	
+
+// Consolidate function calls for runtime speed improvement
+$coingecko_api = coingecko_api();
+$coinmarketcap_api = coinmarketcap_api();
 
 
 $alert_percent = explode("|", ( $_POST['use_alert_percent'] != '' ? $_POST['use_alert_percent'] : $_COOKIE['alert_percent'] ) );

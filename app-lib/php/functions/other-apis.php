@@ -239,13 +239,13 @@ global $base_dir, $app_config;
 //////////////////////////////////////////////////////////
 
 
-function coingecko_api($symbol, $force_currency=null) {
+function coingecko_api() {
 	
 global $app_config;
 
-$coingecko_primary_currency = ( $force_currency == null ? strtolower($app_config['btc_primary_currency_pairing']) : $force_currency );
+$result = array();
 
-$jsondata = @api_data('url', 'https://api.coingecko.com/api/v3/coins/markets?per_page='.$app_config['marketcap_ranks_max'].'&page=1&vs_currency=' . $coingecko_primary_currency, $app_config['marketcap_cache_time']);
+$jsondata = @api_data('url', 'https://api.coingecko.com/api/v3/coins?per_page='.$app_config['marketcap_ranks_max'].'&page=1', $app_config['marketcap_cache_time']);
 	   
 $data = json_decode($jsondata, true);
 
@@ -253,12 +253,13 @@ $data = json_decode($jsondata, true);
   		
   	  foreach ($data as $key => $value) {
      	  	
-        if ( $data[$key]['symbol'] == strtolower($symbol) ) {
-        return $data[$key];
+        if ( $data[$key]['symbol'] != '' ) {
+        $result[strtolower($data[$key]['symbol'])] = $data[$key];
      	  }
     
   	  }
-      	
+  	  
+	return $result;
   	}
 		  
   
@@ -268,17 +269,16 @@ $data = json_decode($jsondata, true);
 //////////////////////////////////////////////////////////
 
 
-function coinmarketcap_api($symbol) {
+function coinmarketcap_api() {
 	
 global $app_config, $coinmarketcap_currencies, $cap_data_force_usd, $cmc_notes;
 
+$result = array();
+
 
 	if ( trim($app_config['coinmarketcapcom_api_key']) == null ) { 
-	
 	app_logging('config_error', '"coinmarketcapcom_api_key" is not configured in config.php', false, false, true);
-	
 	return false;
-	
 	}
 	
 
@@ -327,12 +327,13 @@ global $app_config, $coinmarketcap_currencies, $cap_data_force_usd, $cmc_notes;
   		
   	   	foreach ($data as $key => $value) {
      	  	
-        		if ( $data[$key]['symbol'] == strtoupper($symbol) ) {
-        		return $data[$key];
+        		if ( $data[$key]['symbol'] != '' ) {
+        		$result[strtolower($data[$key]['symbol'])] = $data[$key];
      	  		}
     	 
   	   	}
-      	
+     
+    return $result;
  	 }
 
 		  

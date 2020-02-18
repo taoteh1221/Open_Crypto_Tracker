@@ -2642,6 +2642,40 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 
 
+-------------------------------------------------------------------
+4.08.2:
+
+-Added coingecko stats for 14 day / 30 day / 90 day / 200 day / 1 year 
+
+-Optimized marketcap data calls, for speed increase in interface runtime
+
+-memory_limit PHP ini setting for better app compatibility / user experience (only ran when htaccesss php module detected)
+
+-Bug fix: increase default api timeout to 60 seconds (to restore using heavier coingecko data set endpoint that includes 1 hour / 7 day stats)
+
+IMPORTANT NOTES: 
+
+v4.07.7 AND HIGHER HAVE A MAJOR OVERHAUL TO CONFIGURATION VARIABLE NAMES (FOR EASY-TO-UNDERSTAND NAMES), MIGRATE YOUR CUSTOM CONFIG SETTINGS TO THE #NEW# VARIABLE NAMES
+
+v4.06.0 AND HIGHER HAS MAJOR DIRECTORY STRUCTURE CHANGES. FOR CLEAN UPGRADES, FIRST DELETE EVERY SUB-DIRECTORY EXCEPT FOR THE 'CACHE' DIRECTORY BEFOREHAND.
+
+v4.06.0 and higher modularizes the configuration settings into the new $app_config array. ALL
+CONFIGURATION SETTING VARIABLE NAMES ARE NOW DIFFERENT, USE THE LATEST/UPGRADED CONFIG.PHP,
+AND MIGRATE YOUR EXISTING SETTINGS TO THE NEW FORMAT.
+
+v4.04.3 and higher of this app RESETS PRICE ALERT VOLUME STORED TO USE PAIRING VOLUME INSTEAD 
+OF ASSET VOLUME, SO !FIRST! PRICE ALERTS AFTER UPGRADING WILL HAVE INCORRECT VOLUME CHANGE 
+PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
+
+v4.03.0 and higher of this app REQUIRES DELETING YOUR PREVIOUS CHART DATA FROM ANY EARLIER VERSIONS.
+MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWARDS-COMPATIBLE.
+
+-------------------------------------------------------------------
+
+
+
+
+
 
 
 

@@ -361,10 +361,6 @@
 			    document.getElementById("use_alert_percent").value = "";
 			    }
 			    
-			    if ( this.value == "coingecko" ) {
-			    alert("Coingecko.com NO LONGER supports 1 hour / 7 day price change percentages (only 24 hour / all time high changes).");
-			    }
-			    
 			    '>
 			    <option value='coingecko' <?=( $alert_percent[0] == 'coingecko' ? ' selected ' : '' )?>> Coingecko.com </option>
 			    <option value='coinmarketcap' <?=( $alert_percent[0] == 'coinmarketcap' ? ' selected ' : '' )?>> Coinmarketcap.com </option>
