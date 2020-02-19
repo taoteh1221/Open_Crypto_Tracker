@@ -148,6 +148,9 @@ Stats in UI using chart data (if available), to show and compare spot / volume p
 Add chart sorting by crypto and usd price / volume percentage change over 1 hour / 1 day / 1 week / 1 month / 90 days / 6 months / 1 year.
 
 
+Look into X day moving average overlay for charts.
+
+
 Add market stats summaries from chart data, like pie charts for exchange volume on certain pairs, etc.
 
 

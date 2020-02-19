@@ -103,6 +103,9 @@ echo "Your operating system has been detected as:"
 echo "$OS v$VER"
 echo " "
 
+echo "Raspberry Pi recommended minimum hardware specs are v3 or higher, and minimum 1 GB of RAM."
+echo " "
+
 echo "This script may work on other Debian-based systems as well, but it has not been tested for that purpose."
 echo "If you already have unrelated web site files located at $DOC_ROOT on your system, they may be affected."
 echo "Please back up any important pre-existing files in that directory before proceeding."
