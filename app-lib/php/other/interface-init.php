@@ -10,20 +10,21 @@
 if ( $runtime_mode == 'ui' ) {
 	
 
-// Consolidate function calls for runtime speed improvement
-$coingecko_api = coingecko_api();
-
-	if ( $app_config['coinmarketcapcom_api_key'] != '' ) {
-	$coinmarketcap_api = coinmarketcap_api();
-	}
-
-
 $alert_percent = explode("|", ( $_POST['use_alert_percent'] != '' ? $_POST['use_alert_percent'] : $_COOKIE['alert_percent'] ) );
 
 $show_charts = explode(',', rtrim( ( $_POST['show_charts'] != '' ? $_POST['show_charts'] : $_COOKIE['show_charts'] ) , ',') );
 
 $app_config['primary_marketcap_site'] = ( $alert_percent[0] != '' ? $alert_percent[0] : $app_config['primary_marketcap_site'] );
-	
+
+
+	// Consolidate function calls for runtime speed improvement
+	if ( $app_config['primary_marketcap_site'] == 'coingecko' ) {
+	$coingecko_api = coingecko_api();
+	}
+	elseif ( $app_config['primary_marketcap_site'] == 'coinmarketcap' ) {
+	$coinmarketcap_api = coinmarketcap_api();
+	}
+
 
 $sort_settings = ( $_COOKIE['sort_by'] ? $_COOKIE['sort_by'] : $_POST['sort_by'] );
 $sort_settings = explode("|",$sort_settings);

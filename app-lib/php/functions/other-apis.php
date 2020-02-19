@@ -245,23 +245,34 @@ global $app_config;
 
 $result = array();
 
-$jsondata = @api_data('url', 'https://api.coingecko.com/api/v3/coins?per_page='.$app_config['marketcap_ranks_max'].'&page=1', $app_config['marketcap_cache_time']);
+$num_requests = ceil($app_config['marketcap_ranks_max'] / 50);
+	
+	$count = 0;
+	while ( $count < $num_requests ) {
+	
+	$count = $count + 1;
+	
+	$jsondata = @api_data('url', 'https://api.coingecko.com/api/v3/coins?per_page=50&page=' . $count, $app_config['marketcap_cache_time']);
 	   
-$data = json_decode($jsondata, true);
+	$data = json_decode($jsondata, true);
 
-   if ( is_array($data) || is_object($data) ) {
+   	if ( is_array($data) || is_object($data) ) {
   		
-  	  foreach ($data as $key => $value) {
+  	  		foreach ($data as $key => $value) {
      	  	
-        if ( $data[$key]['symbol'] != '' ) {
-        $result[strtolower($data[$key]['symbol'])] = $data[$key];
-     	  }
+        		if ( $data[$key]['symbol'] != '' ) {
+        		$result[strtolower($data[$key]['symbol'])] = $data[$key];
+     	  		}
     
-  	  }
+  	  		}
   	  
-	return $result;
-  	}
+  		}
+  		
+	
+	}
 		  
+		  
+return $result;
   
 }
 
