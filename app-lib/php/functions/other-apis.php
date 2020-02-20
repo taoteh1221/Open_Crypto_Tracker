@@ -245,6 +245,8 @@ global $app_config;
 
 $result = array();
 
+// STILL ~750KB PER REQUEST @ 50 ASSETS PER REQUEST :o
+// DROP LOWER THAN 50, IF REQUESTS START FAILING AGAIN
 $assets_per_request = 50;
 
 $num_requests = ceil($app_config['marketcap_ranks_max'] / $assets_per_request);
