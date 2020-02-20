@@ -17,15 +17,21 @@ Password notes: https://www.php.net/manual/en/faq.passwords.php
 
 FULL feature freeze until springtime, review ALL code / UI / UX and smooth all rough edges (find every flaming turd before we start a dumpster fire).
 
-Add the rest of the localbitcoins country currencies, and do everything in the optimizations / bugs / tests section of this list.
-
-south african rand support ( https://www.luno.com/trade/XBTZAR ) look for other markets too.
+ALWAYS do everything in the optimizations / bugs / tests / other section of this list FIRST, before adding ANY new features.
 
 Youtube channels on the resources page, that MAY BE DYING (keep an eye on them): Crypto Trader, Crypto Bobby, and IMineBlocks.
 
 ///////////////////////////////////////////////////////
 OPTIMIZATIONS / BUGS / TESTS / OTHER SECTION
 ///////////////////////////////////////////////////////
+
+Don't include beneficial / unused yet cached memory in memory usage stats
+
+Add localcryptos API support
+
+South African rand support ( https://www.luno.com/trade/XBTZAR ) look for other markets too.
+
+Add the rest of the localbitcoins country currencies
 
 Do new screenshots.
 
