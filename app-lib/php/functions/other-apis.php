@@ -245,7 +245,7 @@ global $app_config;
 
 $result = array();
 
-$assets_per_request = 100;
+$assets_per_request = 50;
 
 $num_requests = ceil($app_config['marketcap_ranks_max'] / $assets_per_request);
 	

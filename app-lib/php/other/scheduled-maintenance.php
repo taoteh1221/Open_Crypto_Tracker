@@ -168,7 +168,7 @@ if ( $runtime_mode != 'cron' && update_cache_file($base_dir . '/cache/events/sch
 			// Track upgrade check reminder event occurrence			
 			store_file_contents($base_dir . '/cache/events/upgrade_check_reminder.dat', time_date_format(false, 'pretty_date_time') );
 			
-			} // END sending reminder 
+			} // END sending reminder (NEVER DELETE REMINDER EVENT, FOR UX NOT BUGGING ABOUT UPGRADES MORE THAN DESIRED IN THE SETTINGS)
 			
 		
 		
