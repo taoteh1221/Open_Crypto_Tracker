@@ -245,7 +245,9 @@ global $app_config;
 
 $result = array();
 
-$num_requests = ceil($app_config['marketcap_ranks_max'] / 50);
+$assets_per_request = 100;
+
+$num_requests = ceil($app_config['marketcap_ranks_max'] / $assets_per_request);
 	
 	$count = 0;
 	while ( $count < $num_requests ) {
@@ -256,7 +258,7 @@ $num_requests = ceil($app_config['marketcap_ranks_max'] / 50);
 		sleep(1); // Sleep 1 second on consecutive API calls
 		}
 	
-	$jsondata = @api_data('url', 'https://api.coingecko.com/api/v3/coins?per_page=50&page=' . $count, $app_config['marketcap_cache_time']);
+	$jsondata = @api_data('url', 'https://api.coingecko.com/api/v3/coins?per_page='.$assets_per_request.'&page=' . $count, $app_config['marketcap_cache_time']);
 	   
 	$data = json_decode($jsondata, true);
 

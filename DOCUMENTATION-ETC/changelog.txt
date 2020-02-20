@@ -2677,9 +2677,11 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.08.3:
 
--Bug fix for reliable coingecko API data retrieval
+-Optimizations
 
--Optimizations / better debug tracing on api_data() function
+-Better debug tracing on api_data() function
+
+-Bug fix for reliable coingecko API data retrieval
 
 IMPORTANT NOTES: 
 

@@ -91,6 +91,9 @@ if ( $runtime_mode != 'cron' && update_cache_file($base_dir . '/cache/events/sch
 			$bug_fix_subject_extension = ' (bug fix release)';
 			$bug_fix_message_extension = ' This latest version is a bug fix release.';
 			}
+			
+		
+		// EVENTUALLY PUT UI ALERT LOGIC HERE
 
 		
 			// Email / text / alexa notification reminders (if it's been $app_config['upgrade_check_reminder'] days since any previous reminder)
@@ -170,10 +173,6 @@ if ( $runtime_mode != 'cron' && update_cache_file($base_dir . '/cache/events/sch
 		
 		
 		} // END latest release notice
-		// Delete any old upgrade reminder event, if user has now upgraded
-		else {
-		unlink($base_dir . '/cache/events/upgrade_check_reminder.dat');  
-		}
 	
 
 	
