@@ -25,7 +25,7 @@ Youtube channels on the resources page, that MAY BE DYING (keep an eye on them):
 OPTIMIZATIONS / BUGS / TESTS / OTHER SECTION
 ///////////////////////////////////////////////////////
 
-Don't include beneficial / unused yet cached memory in memory usage stats
+Remove tradesatoshi support, they are shutting down.
 
 Add localcryptos API support
 

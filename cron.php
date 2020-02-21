@@ -97,16 +97,6 @@ $system_temp = preg_replace("/° Celsius/i", "", $system_info['system_temp']);
 $system_free_space_mb = in_megabytes($system_info['free_partition_space'])['in_megs'];
          
 $portfolio_cache_size_mb = in_megabytes($system_info['portfolio_cache'])['in_megs'];
-    		
-$system_memory_total_mb = in_megabytes($system_info['memory_total'])['in_megs'];
-    		
-$system_memory_free_mb = in_megabytes($system_info['memory_free'])['in_megs'];
-    		
-    		
-// Percent difference (!MUST BE! absolute value)
-$memory_percent_free = abs( ($system_memory_free_mb - $system_memory_total_mb) / abs($system_memory_total_mb) * 100 );
-$memory_percent_free = round( 100 - $memory_percent_free, 2);
-
 
 
 	if ( trim($system_load) >= 0 ) {
@@ -125,16 +115,16 @@ $memory_percent_free = round( 100 - $memory_percent_free, 2);
 	}
 	
 	
-	if ( trim($system_memory_free_mb) >= 0 ) {
-	$chart_data_set .= '||' . round( trim($system_memory_free_mb) / 1000 , 4); // Gigabytes, for chart UX
+	if ( $system_info['memory_used_megabytes'] >= 0 ) {
+	$chart_data_set .= '||' . round( $system_info['memory_used_megabytes'] / 1000 , 4); // Gigabytes, for chart UX
 	}
 	else {
 	$chart_data_set .= '||NO_DATA';
 	}
 	
 	
-	if ( trim($memory_percent_free) >= 0 ) {
-	$chart_data_set .= '||' . trim($memory_percent_free);
+	if ( $system_info['memory_used_percent'] >= 0 ) {
+	$chart_data_set .= '||' . $system_info['memory_used_percent'];
 	}
 	else {
 	$chart_data_set .= '||NO_DATA';

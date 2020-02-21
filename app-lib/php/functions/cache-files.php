@@ -1343,6 +1343,7 @@ $api_endpoint = ( $mode == 'array' ? $api_server : $request );
 			|| preg_match("/site is down/i", $data) // Blockchain.info / generic
 			|| preg_match("/temporarily unavailable/i", $data) // Bitfinex.com / generic
 			|| preg_match("/something went wrong/i", $data) // Bitbns.com / generic
+			|| preg_match("/\"reason\":\"Maintenance\"/i", $data) // Gemini.com / generic
 			|| $endpoint_tld_or_ip == 'localbitcoins.com' && !preg_match("/avg_12h/i", $data)
 			|| $endpoint_tld_or_ip == 'coinmarketcap.com' && !preg_match("/last_updated/i", $data) ) {
 			

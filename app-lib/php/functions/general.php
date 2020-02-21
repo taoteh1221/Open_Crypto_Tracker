@@ -1199,12 +1199,12 @@ $fn = fopen($file,"r");
          if ( $system_statistics_chart == 1 ) {
          
          $data['temperature_celsius'] .= trim($result[2]) . ',';
-         $data['free_memory_percentage'] .= trim($result[4]) . ',';
+         $data['used_memory_percentage'] .= trim($result[4]) . ',';
          $data['cron_runtime_seconds'] .= trim($result[7]) . ',';
-         $data['free_memory_gigabytes'] .= trim($result[3]) . ',';
+         $data['used_memory_gigabytes'] .= trim($result[3]) . ',';
          $data['load_average_15_minutes'] .= trim($result[1]) . ',';
-         $data['free_space_terabtyes'] .= trim($result[5]) . ',';
-         $data['portfolio_cache_gigabytes'] .= trim($result[6]) . ',';
+         $data['free_disk_space_terabtyes'] .= trim($result[5]) . ',';
+         $data['portfolio_cache_size_gigabytes'] .= trim($result[6]) . ',';
          
          }
          else {
@@ -1234,12 +1234,12 @@ $data['time'] = rtrim($data['time'],',');
 
 	if ( $system_statistics_chart == 1 ) {
 	$data['temperature_celsius'] = rtrim($data['temperature_celsius'],',');
-	$data['free_memory_percentage'] = rtrim($data['free_memory_percentage'],',');
+	$data['used_memory_percentage'] = rtrim($data['used_memory_percentage'],',');
 	$data['cron_runtime_seconds'] = rtrim($data['cron_runtime_seconds'],',');
-	$data['free_memory_gigabytes'] = rtrim($data['free_memory_gigabytes'],',');
+	$data['used_memory_gigabytes'] = rtrim($data['used_memory_gigabytes'],',');
 	$data['load_average_15_minutes'] = rtrim($data['load_average_15_minutes'],',');
-	$data['free_space_terabtyes'] = rtrim($data['free_space_terabtyes'],',');
-	$data['portfolio_cache_gigabytes'] = rtrim($data['portfolio_cache_gigabytes'],',');
+	$data['free_disk_space_terabtyes'] = rtrim($data['free_disk_space_terabtyes'],',');
+	$data['portfolio_cache_size_gigabytes'] = rtrim($data['portfolio_cache_size_gigabytes'],',');
 	}
 	else {
 	$data['spot'] = rtrim($data['spot'],',');
@@ -1755,25 +1755,38 @@ $system['operating_system'] = php_uname();
 	// Memory stats
 	if ( is_readable('/proc/meminfo') ) {
 		
-    $data = explode("\n", file_get_contents("/proc/meminfo"));
+   $data = explode("\n", file_get_contents("/proc/meminfo"));
     
     	foreach ($data as $line) {
         list($key, $val) = explode(":", $line);
         $ram['ram_'.strtolower($key)] = trim($val);
     	}
-   
-		if ( $ram['ram_memtotal'] ) {
-		$system['memory_total'] = $ram['ram_memtotal'];
-		}
-   
-		if ( $ram['ram_memfree'] ) {
-		$system['memory_free'] = $ram['ram_memfree'];
-		}
-   
-		if ( $ram['ram_swapcached'] ) {
-		$system['memory_swap'] = $ram['ram_swapcached'];
-		}
+    	
 	
+	
+	$memory_applications_mb = in_megabytes($ram['ram_memtotal'])['in_megs'] - in_megabytes($ram['ram_memfree'])['in_megs'] - in_megabytes($ram['ram_buffers'])['in_megs'] - in_megabytes($ram['ram_cached'])['in_megs'];
+	
+	$system_memory_total_mb = in_megabytes($ram['ram_memtotal'])['in_megs'];
+	
+	$memory_applications_percent = abs( ( $memory_applications_mb - $system_memory_total_mb ) / abs($system_memory_total_mb) * 100 );
+	$memory_applications_percent = round( 100 - $memory_applications_percent, 2);
+	
+    	
+	$system['memory_total'] = $ram['ram_memtotal'];
+	
+	$system['memory_buffers'] = $ram['ram_buffers'];
+	
+	$system['memory_cached'] = $ram['ram_cached'];
+	
+	$system['memory_free'] = $ram['ram_memfree'];
+	
+	$system['memory_swap'] = $ram['ram_swapcached'];
+	
+	$system['memory_used_megabytes'] = $memory_applications_mb;
+	
+	$system['memory_used_percent'] = $memory_applications_percent;
+
+
 	}
 	
 

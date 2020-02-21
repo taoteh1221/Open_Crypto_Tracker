@@ -651,7 +651,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	
     		// Output
     		if ( isset($system_info['operating_system']) ) {
-    		echo '<span class="bitcoin"><b>Operating System:</b></span> <span class="blue"> '.$system_info['operating_system'].'</span> <br />';
+    		echo '<span class="bitcoin"><b>Operating System:</b></span> <br /><span class="blue"> '.$system_info['operating_system'].'</span> <br />';
     		}
     		
     		if ( isset($system_info['model']) || isset($system_info['hardware']) ) {
@@ -681,12 +681,12 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
     		echo '<span class="bitcoin"><b>Temperature:</b></span> <span class="'.( $system_temp > 79 ? 'red' : 'green' ).'"> '.$system_info['system_temp'].'</span> <br />';
     		}
     		
-    		if ( isset($system_info['memory_free']) ) {
-    		echo '<span class="bitcoin"><b>Free Memory:</b></span> <span class="'.( $memory_percent_free < 9 ? 'red' : 'green' ).'"> '.round($system_memory_free_mb / 1000, 4).' Gigabytes <span class="black">('.number_format($system_memory_free_mb, 2, '.', ',').' Megabytes / '.$memory_percent_free.'%)</span></span> <br />';
+    		if ( isset($system_info['memory_used_megabytes']) ) {
+    		echo '<span class="bitcoin"><b>Used Memory (*not* including buffers / cache):</b></span> <br /><span class="'.( $system_info['memory_used_percent'] > 91 ? 'red' : 'green' ).'"> '.round($system_info['memory_used_megabytes'] / 1000, 4).' Gigabytes <span class="black">('.number_format($system_info['memory_used_megabytes'], 2, '.', ',').' Megabytes / '.$system_info['memory_used_percent'].'%)</span></span> <br />';
     		}
     		
     		if ( isset($system_info['free_partition_space']) ) {
-    		echo '<span class="bitcoin"><b>Free Space:</b></span> <span class="'.( $system_free_space_mb < 500 ? 'red' : 'green' ).'"> '.round($system_free_space_mb / 1000000, 4).' Terabytes <span class="black">('.number_format($system_free_space_mb / 1000, 2, '.', ',').' Gigabytes)</span></span> <br />';
+    		echo '<span class="bitcoin"><b>Free Disk Space:</b></span> <span class="'.( $system_free_space_mb < 500 ? 'red' : 'green' ).'"> '.round($system_free_space_mb / 1000000, 4).' Terabytes <span class="black">('.number_format($system_free_space_mb / 1000, 2, '.', ',').' Gigabytes)</span></span> <br />';
     		}
     		
     		if ( isset($system_info['portfolio_cache']) ) {
