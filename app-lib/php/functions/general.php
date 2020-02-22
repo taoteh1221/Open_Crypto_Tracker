@@ -247,8 +247,8 @@ function app_logging($log_type, $log_message, $verbose_tracing=false, $hashcheck
 global $runtime_mode, $app_config, $logs_array;
 
 
-	// Disable logging verbose tracing, if log detail level config is set to normal
-	if ( $app_config['log_detail_level'] == 'normal' ) {
+	// Disable logging any included verbose tracing, if log detail level config is set to normal, AND debug mode is off
+	if ( $app_config['debug_mode'] == 'off' && $app_config['log_detail_level'] == 'normal' ) {
 	$verbose_tracing = false;
 	}
 

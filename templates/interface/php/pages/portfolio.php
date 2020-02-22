@@ -470,7 +470,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 		
 	 <script>
 	 
-		document.title = '<?=( $gain_loss_total >= 0 ? '+' . $app_config['bitcoin_currency_markets'][$app_config['btc_primary_currency_pairing']] : '' )?><?=$parsed_gain_loss_total?> (<?=( $gain_loss_total >= 0 ? '+' : '-' )?><?=number_format($percent_difference_total, 2, '.', ',')?>%)  ||  ' + document.title;
+		document.title = '<?=( $gain_loss_total >= 0 ? '+' . $app_config['bitcoin_currency_markets'][$app_config['btc_primary_currency_pairing']] : '' )?><?=$parsed_gain_loss_total?> (<?=( $gain_loss_total >= 0 ? '+' : '-' )?><?=number_format($percent_difference_total, 2, '.', ',')?>%)';
 	
 		
 			var gain_loss_content = '<h5 class="yellow" style="position: relative; white-space: nowrap;">Gain / Loss Stats:</h5>'

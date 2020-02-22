@@ -8,15 +8,39 @@
 
 if ( $runtime_mode == 'ui' ) {
 
-
+$exchange_count = 0;
+$currency_count = 0;
 
 	// Print out bitcoin markets configuration
 	if ( $app_config['debug_mode'] == 'all' || $app_config['debug_mode'] == 'btc_markets_config' ) {
 		
 		
 		foreach ( $app_config['bitcoin_currency_markets'] as $key => $unused ) {
-		$supported_primary_currency_list .= strtolower($key) . ' / ';
+			
+			if( !preg_match("/".$key."/i", $supported_primary_currency_list) ) {
+			$currency_count = $currency_count + 1;
+			$supported_primary_currency_list .= strtolower($key) . ' / ';
+			}
+			
+		
 		}
+		
+		$pairings_count = $currency_count;
+		$all_supported_pairings_list = $supported_primary_currency_list;
+		
+		foreach ( $app_config['crypto_to_crypto_pairing'] as $key => $unused ) {
+			
+			if( !preg_match("/".$key."/i", $all_supported_pairings_list) ) {
+			$pairings_count = $pairings_count + 1;
+			$all_supported_pairings_list .= strtolower($key) . ' / ';
+			}
+			
+		
+		}
+		
+		
+		
+		
 		$supported_primary_currency_list = "'" . implode("' / '",array_unique(explode(' / ', $supported_primary_currency_list)));
 		$supported_primary_currency_list = trim($supported_primary_currency_list);
 		$supported_primary_currency_list = rtrim($supported_primary_currency_list,"'");
@@ -24,21 +48,61 @@ if ( $runtime_mode == 'ui' ) {
 		$supported_primary_currency_list = rtrim($supported_primary_currency_list,'/');
 		$supported_primary_currency_list = trim($supported_primary_currency_list);
 		
+		
 		foreach ( $app_config['portfolio_assets']['BTC']['market_pairing'] as $pairing_key => $unused ) {
 			
-				foreach ( $app_config['portfolio_assets']['BTC']['market_pairing'][$pairing_key] as $key => $unused ) {
-				$supported_exchange_list .= strtolower($key) . ' / ';
+				foreach ( $app_config['portfolio_assets']['BTC']['market_pairing'][$pairing_key] as $exchange_key => $unused ) {
+					
+					if( !preg_match("/".$exchange_key."/i", $supported_btc_exchange_list) ) {
+					$exchange_count = $exchange_count + 1;
+					$supported_btc_exchange_list .= strtolower($exchange_key) . ' / ';
+					}
+			
+				
 				}
 				
 		}
 		
-		$supported_exchange_list = "'" . implode("' / '",array_unique(explode(' / ', $supported_exchange_list)));
-		$supported_exchange_list = trim($supported_exchange_list);
-		$supported_exchange_list = rtrim($supported_exchange_list,"'");
-		$supported_exchange_list = rtrim($supported_exchange_list,'/');
-		$supported_exchange_list = trim($supported_exchange_list);
+		$all_exchange_count = $exchange_count;
+		$all_exchanges_list = $supported_btc_exchange_list;
+		
+		foreach ( $app_config['portfolio_assets'] as $asset_key => $unused ) {
+			
+			if ( $asset_key != 'BTC' ) {
+			
+				foreach ( $app_config['portfolio_assets'][$asset_key]['market_pairing'] as $pairing_key => $unused ) {
+					
+					foreach ( $app_config['portfolio_assets'][$asset_key]['market_pairing'][$pairing_key] as $exchange_key => $unused ) {
+					
+						if( !preg_match("/".$exchange_key."/i", $all_exchanges_list) && !preg_match("/misc_assets/i", $exchange_key) ) {
+						$all_exchange_count = $all_exchange_count + 1;
+						$all_exchanges_list .= strtolower($exchange_key) . ' / ';
+						}
+			
+					
+					}
+				
+				}
+				
+			}
+				
+		}
+		
+		
+		
+		$supported_btc_exchange_list = "'" . implode("' / '",array_unique(explode(' / ', $supported_btc_exchange_list)));
+		$supported_btc_exchange_list = trim($supported_btc_exchange_list);
+		$supported_btc_exchange_list = rtrim($supported_btc_exchange_list,"'");
+		$supported_btc_exchange_list = rtrim($supported_btc_exchange_list,'/');
+		$supported_btc_exchange_list = trim($supported_btc_exchange_list);
 	
-	app_logging('config_debugging', 'Bitcoin markets configuration information', 'supported_primary_currency_list: ' . $supported_primary_currency_list . '; supported_exchange_list: ' . $supported_exchange_list . ';' );
+	
+	app_logging('config_debugging', 'Bitcoin markets configuration information (for config.php documentation) supported_btc_primary_currencies_list['.$currency_count.']: ' . $supported_primary_currency_list . '; supported_btc_exchanges_list['.$exchange_count.']: ' . $supported_btc_exchange_list . ';' );
+	
+	
+	
+	app_logging('config_debugging', 'ALL markets configuration information (for README.txt documentation) supported_all_pairings_list['.$pairings_count.']: ' . strtoupper($all_supported_pairings_list) . '; supported_all_exchanges_list['.$all_exchange_count.']: ' . strtolower($all_exchanges_list) . ';' );
+	
 	
 	}
 

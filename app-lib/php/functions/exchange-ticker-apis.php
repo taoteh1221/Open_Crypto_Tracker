@@ -1206,6 +1206,46 @@ global $btc_primary_currency_value, $app_config;
  ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+
+  elseif ( strtolower($chosen_exchange) == 'luno' ) {
+     
+     $json_string = 'https://api.mybitx.com/api/1/tickers';
+     
+     $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+     
+     $data = json_decode($jsondata, true);
+     
+     $data = $data['tickers'];
+  
+      if (is_array($data) || is_object($data)) {
+  
+       foreach ($data as $key => $value) {
+         
+         
+         if ( $data[$key]["pair"] == $market_id ) {
+          
+         return  array(
+    						'last_trade' => number_to_string($data[$key]["last_trade"]), // Handle large / small values better with number_to_string()
+    						'24hr_asset_volume' => $data[$key]["rolling_24_hour_volume"],
+    						'24hr_pairing_volume' => null,
+    						'24hr_primary_currency_volume' => trade_volume($asset_symbol, $pairing, $data[$key]["rolling_24_hour_volume"], $data[$key]["last_trade"])
+    						);
+
+         }
+       
+     
+       }
+      
+      }
+  
+  
+  }
+ 
+ 
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 // https://github.com/namebasehq/exchange-api-documentation/blob/master/rest-api.md
   elseif ( strtolower($chosen_exchange) == 'namebase' ) {
   
@@ -1425,45 +1465,6 @@ global $btc_primary_currency_value, $app_config;
     							'24hr_asset_volume' => null, // No asset volume data for this API
     							'24hr_pairing_volume' => $data[$key][$market_id]["volume"],
     							'24hr_primary_currency_volume' => trade_volume($asset_symbol, $pairing, NULL, $data[$key][$market_id]["price"], $data[$key][$market_id]["volume"]) 
-    						);
-          
-         }
-     
-       }
-      
-      }
-  
-  
-  }
- 
- 
- 
- ////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-  elseif ( strtolower($chosen_exchange) == 'tradesatoshi' ) {
-
-     $json_string = 'https://tradesatoshi.com/api/public/getmarketsummaries';
-     
-     $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
-     
-     $data = json_decode($jsondata, true);
-  
-  		$data = $data['result'];
-  
-      if (is_array($data) || is_object($data)) {
-  
-       foreach ($data as $key => $value) {
-         
-         if ( $data[$key]['market'] == $market_id ) {
-          
-         return  array(
-    							'last_trade' => $data[$key]["last"],
-    							// ARRAY KEY SEMANTICS BACKWARDS COMPARED TO OTHER EXCHANGES
-    							'24hr_asset_volume' => $data[$key]["volume"],
-    							'24hr_pairing_volume' => $data[$key]["baseVolume"],
-    							'24hr_primary_currency_volume' => trade_volume($asset_symbol, $pairing, $data[$key]["volume"], $data[$key]["last"], $data[$key]["baseVolume"])
     						);
           
          }

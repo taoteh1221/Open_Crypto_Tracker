@@ -2707,6 +2707,14 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.08.4:
 
+-Developer optimizations / UX
+
+-Removed tradesatoshi API support (they are closing down)
+
+-Luno.com markets API support (44 exchanges are supported now)
+
+-Added ALL country / primary currencies available in already-supported APIs (79 primary currencies within 30 bitcoin markets are supported now)
+
 -Bug fix for system stats charts (sorting by last data value low to high, when rendering the charts, is now reliable)
 
 -Bug fix / UX on system memory usage stats (does not count memory cache / buffers anymore, which speed up the system and can clear out as much as needed)

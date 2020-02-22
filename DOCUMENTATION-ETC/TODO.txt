@@ -25,13 +25,11 @@ Youtube channels on the resources page, that MAY BE DYING (keep an eye on them):
 OPTIMIZATIONS / BUGS / TESTS / OTHER SECTION
 ///////////////////////////////////////////////////////
 
-Remove tradesatoshi support, they are shutting down.
+Alphabetically order printout from .../debugging/exchange-and-pairing-info.php
 
-Add localcryptos API support
+Cross-browser test RTL (right to left) effects from middle eastern currency symbols being injected into the interface output for those currencies
 
-South African rand support ( https://www.luno.com/trade/XBTZAR ) look for other markets too.
-
-Add the rest of the localbitcoins country currencies
+Add localcryptos API support?
 
 Do new screenshots.
 
@@ -53,6 +51,9 @@ Code review ALL functions / logic.
 ///////////////////////////////////////////////////////
 FEATURES / STRUCTURING SECTION
 ///////////////////////////////////////////////////////
+
+
+Build tool that finds localbitcoins markets not added yet
 
 
 Audio / Visual Alerts setting: add new drop-down parameter, with values increase | decrease | both
