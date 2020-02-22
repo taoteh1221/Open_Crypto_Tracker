@@ -58,12 +58,15 @@ foreach ( $chart_data as $chart_key => $chart_value ) {
 	
 $check_chart_value = number_to_string( delimited_string_sample($chart_value, ',', 'last') );
 	
-	if ( $check_chart_value != 'NO_DATA' && $check_chart_value > 0.00000 ) {
+	if ( $chart_key != 'time' && $check_chart_value != 'NO_DATA' && number_to_string($check_chart_value) > 0.000000 ) {
 		
-	$sorted_by_last_chart_data['key_sort_' . preg_replace("/\./", "_", $check_chart_value)] = array($chart_key => $chart_value);
+	$check_chart_value_key = $check_chart_value * 100000000; // To RELIABLY sort integers AND decimals, via ksort()
+		
+	$sorted_by_last_chart_data[number_to_string($check_chart_value_key)] = array($chart_key => $chart_value);
 	
-		if ( $check_chart_value <= $app_config['system_stats_first_chart_highest_value'] ) {
+		if ( number_to_string($check_chart_value) <= number_to_string($app_config['system_stats_first_chart_highest_value']) ) {
 		$num_in_first_chart = $num_in_first_chart + 1;
+		//echo $check_chart_value . ' --- '; // DEBUGGING ONLY
 		}
 	
 	}

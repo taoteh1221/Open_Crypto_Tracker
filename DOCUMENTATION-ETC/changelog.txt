@@ -2705,9 +2705,11 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 
 -------------------------------------------------------------------
-4.09.0:
+4.08.4:
 
--Better UX on system memory usage stats (does not count memory cache / buffers anymore)
+-Bug fix for system stats charts (sorting by last data value low to high, when rendering the charts, is now reliable)
+
+-Bug fix / UX on system memory usage stats (does not count memory cache / buffers anymore, which speed up the system and can clear out as much as needed)
 
 IMPORTANT NOTES: 
 
