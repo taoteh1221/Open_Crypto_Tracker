@@ -42,6 +42,8 @@ Monero (XMR): 47mWWjuwPFiPD6t2MaWcMEfejtQpMuz9oj5hJq18f7nvagcmoJwxudKHUppaWnTMPa
 
 FEATURES
 
+-Support for 44 exchanges, and 81 market pairings (country fiat currency or secondary crypto).
+
 -Secure HTTPS (SSL) and Username / password protection in the portfolio interface for privacy / security.
 
 -Automated and user-friendly installation / upgrade script for Raspberry Pi (an affordable low power single board computer) app setup on your home / internal network.
@@ -148,7 +150,7 @@ Below is an example for editing your assets / markets into the portfolio assets 
 USAGE (ADDING / UPDATING COINS)
 
 
-Support for 81 trading pairs (contact me to request more): 
+Support for 81 trading pairs (country fiat currency or secondary crypto, contact me to request more): 
 
 AED / ARS / AUD / BAM / BDT / BOB / BRL / BWP / BYN / CAD / CHF / CLP / CNY / COP / CRC / CZK / DKK / DOP / EGP / ETH / EUR / GBP / GEL / GHS / GTQ / HKD / HUF / IDR / ILS / INR / IRR / JMD / JOD / JPY / KES / KRW / KWD / KZT / LKR / LTC / MAD / MUR / MWK / MXN / MYR / NGN / NIS / NOK / NZD / PAB / PEN / PHP / PKR / PLN / PYG / QAR / RON / RSD / RUB / RWF / SAR / SEK / SGD / THB / TRY / TUSD / TWD / TZS / UAH / UGX / USDC / USDT / UYU / VND / VES / XAF / XOF / ZAR / ZMW / XMR / BTC.
 

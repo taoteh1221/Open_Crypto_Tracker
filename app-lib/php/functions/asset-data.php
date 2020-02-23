@@ -355,12 +355,23 @@ global $app_config, $btc_pairing_markets, $btc_pairing_markets_blacklist;
    		
    			// Fallback support, if no data returned
    			if ( !isset($result) || number_to_string($result) < 0.00000001 || !is_numeric($result) ) {
+   				
    			$btc_pairing_markets_blacklist[] = $market_key; // Blacklist getting pairing data from this exchange IN ANY PAIRING, for this runtime only
-   			app_logging('other_error', 'pairing_market_value() update failure', 'pairing: ' . $pairing . '; blacklisted_exchange: ' . $market_key . ';');
+   			
+   			app_logging('other_error', 'pairing_market_value() update failure for ' . $pairing, 'blacklisted_exchange: ' . $market_key);
+   			
    			return pairing_market_value($pairing);
+   			
    			}
    			else {
+   				
+   				// Data debugging telemetry
+					if ( $app_config['debug_mode'] == 'all' || $app_config['debug_mode'] == 'telemetry' ) {
+					app_logging('other_debugging', 'pairing_market_value() update succeeded for ' . $pairing, 'exchange: ' . $market_key);
+					}		
+   					
    			return $result;
+   			
    			}
    		
 			}
@@ -398,12 +409,23 @@ global $app_config, $btc_pairing_markets, $btc_pairing_markets_blacklist;
    					
    					// Fallback support, if no data returned
    					if ( !isset($result) || number_to_string($result) < 0.00000001 || !is_numeric($result) ) {
+   						
    					$btc_pairing_markets_blacklist[] = $market_key; // Blacklist getting pairing data from this exchange IN ANY PAIRING, for this runtime only
-   					app_logging('other_error', 'pairing_market_value() update failure', 'pairing: ' . $pairing . '; blacklisted_exchange: ' . $market_key . ';');
+   					
+   					app_logging('other_error', 'pairing_market_value() update failure for ' . $pairing, 'blacklisted_exchange: ' . $market_key);
+   					
    					return pairing_market_value($pairing);
+   					
    					}
    					else {
+   						
+   						// Data debugging telemetry
+							if ( $app_config['debug_mode'] == 'all' || $app_config['debug_mode'] == 'telemetry' ) {
+							app_logging('other_debugging', 'pairing_market_value() update succeeded for ' . $pairing, 'exchange: ' . $market_key);
+							}
+							
    					return $result;
+   					
    					}
    		
    				
