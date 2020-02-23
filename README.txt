@@ -9,7 +9,7 @@ Open source / free cryptocurrency investment portfolio tracker, with email / tex
 Web server setup / install is available for $30 hourly if needed (try the auto-install bash script first). PM me on Twitter / Skype @ taoteh1221, or get a hold of me using the below-listed contact methods.
 
 
-Project Website: https://dfd-cryptocoin-values.sourceforge.io
+Project Website: https://taoteh1221.github.io
 
 LIVE PUBLIC DEMO: https://dragonfrugal.com/coin-prices
 
@@ -21,7 +21,7 @@ Discord Chat: https://discord.gg/WZVK2nm
 
 Telegram Chat: https://t.me/joinchat/Oo2XZRS2HsOXSMGejgSO0A
 
-Private Contact: https://dragonfrugal.com/contact/
+Private Contact: https://dragonfrugal.com/contact
 
 
 Donations support further development... 

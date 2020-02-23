@@ -46,7 +46,7 @@
             	
     <div id="api_error_alert"><?=$bundle_error_logs?></div>
             	
-    <p align='center'><a href='https://dfd-cryptocoin-values.sourceforge.io/' target='_blank' title='Download the latest version here.'>Latest Releases (running v<?=$app_version?>)</a>
+    <p align='center'><a href='https://taoteh1221.github.io' target='_blank' title='Download the latest version here.'>Latest Releases (running v<?=$app_version?>)</a>
     
 
     <p align='center'><a class='show' id='donate' href='#show_donation_addresses' title='Click to show donation addresses.' onclick='return false;'>Donations Support Development</a></p>
