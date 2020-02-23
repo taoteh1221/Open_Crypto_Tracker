@@ -15,34 +15,58 @@ Password notes: https://www.php.net/manual/en/faq.passwords.php
 "NEXT ON THE LIST" SUMMARY SECTION
 ///////////////////////////////////////////////////////
 
-ALWAYS do everything in the optimizations / bugs / tests / qa / other section of this list FIRST, before adding ANY new features.
+ALWAYS do everything in the optimizations / bugs / tests / ux/qa / other section of this list FIRST, before adding ANY new features.
 
 FULL feature freeze until springtime, review ALL code / UI / UX and smooth all rough edges (find every flaming turd before we start a dumpster fire).
 
 Youtube channels on the resources page, that MAY BE DYING (keep an eye on them): Crypto Trader, Crypto Bobby, and IMineBlocks.
 
 ///////////////////////////////////////////////////////
-OPTIMIZATIONS / BUGS / TESTS / QA / OTHER SECTION
+OPTIMIZATIONS / BUGS / TESTS / UX/QA / OTHER SECTION
 ///////////////////////////////////////////////////////
+
+
+Interface alert for upgrades.
+
+
+Check optimization by enabling "telemetry" debug mode, and reviewing debugging logs.
+
+
+Change readme / webpage / sf page features section from "free memory" to "used memory".
+
+
+Convert wrapper classes that should be ids into ids, and any other classes that should be ids.
+
+
+Make sure all kraken currency markets and other markets are added.
 
 
 Add localcryptos API support?
 
+
 Do new screenshots.
+
 
 Review landing page, SF page, help FAQ, and config.php settings documentation.
 
+
 Cross-browser test RTL (right to left) effects from middle eastern currency symbols being injected into the interface output for those currencies
+
 
 Make default btc exchange in config.php optional, and auto-configure if invalid or left blank, based off the default primary currency setting (still log errors though). Additionally, consider defaulting to USD if the primary currency setting is invalid / blank as well (as long as we also error log any detected issues there too)??
 
-Wrap all interface English within a lang_translate() function call. Then from a developer perspective you can still fully see the interface logic. 
+
+Wrap all interface English within a "placeholder" lang_translate() function call. Then from a developer perspective you can still fully see the interface logic, and build out translation logic over time later. 
+
 
 Create help page modal for explanations on all config.php settings. Then we can run this through the upcoming lang_translate() function.
 
+
 Alphabetically order printout from .../debugging/exchange-and-pairing-info.php
 
+
 Test unicode mobile text message with no space in front of hex-encoded data (forgot to try that, coded and ready to go now...see content_data_encoding() and /DOCUMENTATION-ETC/Developing-maintaining/DEBUGGING.txt).
+
 
 Code review ALL functions / logic.
 
