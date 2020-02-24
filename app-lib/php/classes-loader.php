@@ -24,8 +24,7 @@ $smtp = new SMTPMailer();
 
 
 // Sending yourself telegram messages (alerts etc), with a telegram bot (if needed...MUST RUN AFTER dynamic app config management)
-// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-if ( trim($app_config['telegram_your_username']) != '' && trim($app_config['telegram_bot_name']) != '' && trim($app_config['telegram_bot_username']) != '' && $app_config['telegram_bot_token'] != '' ) {
+if ( $telegram_activated == 1 ) {
 
 // Load class files
 require_once($base_dir . '/app-lib/php/classes/telegram-php/src/Autoloader.php');

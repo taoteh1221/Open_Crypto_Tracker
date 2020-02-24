@@ -10,6 +10,11 @@ $secured_cache_files = sort_files($base_dir . '/cache/secured', 'dat', 'desc');
 
 $app_config_check = trim( file_get_contents($base_dir . '/cache/vars/app_config_md5.dat') );
 
+// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
+if ( trim($app_config['telegram_your_username']) != '' && trim($app_config['telegram_bot_name']) != '' && trim($app_config['telegram_bot_username']) != '' && $app_config['telegram_bot_token'] != '' ) {
+$telegram_activated = 1;
+}
+
 
 foreach( $secured_cache_files as $secured_file ) {
 
@@ -53,9 +58,8 @@ foreach( $secured_cache_files as $secured_file ) {
 	// Telegram user data
 	elseif ( preg_match("/telegram_user_data_/i", $secured_file) ) {
 		
-		
-		// If we already loaded the newest modified file, delete any stale ones
-		if ( $newest_cached_telegram_user_data == 1 ) {
+		// If we already loaded the newest modified telegram config file, or we are refreshing / creating the app_config, delete any stale telegram config
+		if ( $newest_cached_telegram_user_data == 1 || $refresh_cached_app_config == 1 || $is_cached_app_config != 1 ) {
 		unlink($base_dir . '/cache/secured/' . $secured_file);
 		}
 		else {
@@ -169,9 +173,11 @@ $secure_128bit_hash = random_hash(16); // 128-bit (16-byte) hash converted to he
 
 
 // If telegram messaging is activated, and there is no valid cached_telegram_user_data
-// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-if ( trim($app_config['telegram_your_username']) != '' && trim($app_config['telegram_bot_name']) != '' && trim($app_config['telegram_bot_username']) != '' && $app_config['telegram_bot_token'] != '' && $refresh_cached_telegram_user_data == 1 
-|| trim($app_config['telegram_your_username']) != '' && trim($app_config['telegram_bot_name']) != '' && trim($app_config['telegram_bot_username']) != '' && $app_config['telegram_bot_token'] != '' && $is_cached_telegram_user_data != 1 ) {
+// OR if cached app_config was updated
+if ( $telegram_activated == 1 && $refresh_cached_telegram_user_data == 1 
+|| $telegram_activated == 1 && $is_cached_telegram_user_data != 1
+|| $telegram_activated == 1 && $refresh_cached_app_config == 1 
+|| $telegram_activated == 1 && $is_cached_app_config != 1 ) {
 	
 $secure_128bit_hash = random_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
 	

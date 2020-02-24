@@ -113,6 +113,9 @@ Add an alert bell icon in upcoming header login nav, and have alerts make it red
 Sections / pages for upcoming admin config interface.
 
 
+On admin config page, have "reset to default settings" button (with js confirm alert when pushed) that refreshes the cached app_config from config.php settings.
+
+
 For each key => value loop json admin config to automate generating new admin settings page...selects for arrays, text fields for strings. Maybe certain key names get checkbox / radio button fields.
 
 

@@ -2743,9 +2743,11 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 
 -------------------------------------------------------------------
-4.09.0:
+4.08.5:
 
 -More developer optimizations / UX
+
+-Bug fix for refreshing securely cached telegram chat config (if you change your telegram bot config) 
 
 IMPORTANT NOTES: 
 

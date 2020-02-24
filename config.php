@@ -64,6 +64,7 @@ $app_config['smtp_email_secure'] = 'tls'; // CAN BE 'off' FOR NO SECURE CONNECTI
 // SET UP YOUR BOT WITH "BotFather", AND SAVE YOUR BOT NAME / USERNAME / ACCESS TOKEN / BOT CHATROOM LINK
 // VISIT THE BOT CHATROOM, #SEND THE MESSAGE "/start" TO THIS CHATROOM# (THIS WILL CREATE USER CHAT DATA THE APP NEEDS)
 // THE USER CHAT DATA #IS REQUIRED# FOR THIS APP TO INITIALLY DETERMINE AND SECURELY SAVE YOU TELEGRAM USER'S CHAT ID
+// #DO NOT DELETE THE BOT CHATROOM IN THE TELEGRAM APP, OR YOU WILL STOP RECEIVING MESSAGES FROM THE BOT#
 $app_config['telegram_your_username'] = ''; // Your telegram username (REQUIRED, setup in telegram app settings)
 ////
 $app_config['telegram_bot_name'] = ''; // Your bot's human-readable name (example: 'My Alerts Bot')

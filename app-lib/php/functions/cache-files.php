@@ -365,7 +365,7 @@ $error_logs .= strip_tags($logs_array['other_error']); // Remove any HTML format
 
 function queue_notifications($send_params) {
 
-global $base_dir, $app_config;
+global $base_dir, $app_config, $telegram_activated;
 
 
 	// Queue messages
@@ -390,7 +390,7 @@ global $base_dir, $app_config;
    }
 	
 	// Telegram
-   if ( $send_params['telegram'] != '' && trim($app_config['telegram_your_username']) != '' && trim($app_config['telegram_bot_name']) != '' && trim($app_config['telegram_bot_username']) != '' && $app_config['telegram_bot_token'] != '' ) {
+   if ( $telegram_activated == 1 ) {
 	store_file_contents($base_dir . '/cache/secured/messages/telegram-' . random_hash(8) . '.queue', $send_params['telegram']);
    }
    
@@ -615,7 +615,7 @@ $cache_filename = preg_replace("/:/", "_", $cache_filename);
 
 function send_notifications() {
 
-global $base_dir, $app_config, $processed_messages, $possible_http_users, $http_runtime_user, $current_runtime_user, $telegram_user_data;
+global $base_dir, $app_config, $processed_messages, $possible_http_users, $http_runtime_user, $current_runtime_user, $telegram_user_data, $telegram_activated;
 
 
 // Array of currently queued messages in the cache
@@ -812,8 +812,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 			  
 			  
 			   // Telegram
-				// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-			   if ( $message_data != '' && trim($app_config['telegram_your_username']) != '' && trim($app_config['telegram_bot_name']) != '' && trim($app_config['telegram_bot_username']) != '' && $app_config['telegram_bot_token'] != '' && preg_match("/telegram/i", $queued_cache_file) ) {  
+			   if ( $telegram_activated == 1 && preg_match("/telegram/i", $queued_cache_file) ) {  
 			   
 				// Sleep for 1 second EXTRA on EACH consecutive telegram message, to throttle MANY outgoing messages, to help avoid being blacklisted
 				$telegram_sleep = 1 * $processed_messages['telegram_count'];

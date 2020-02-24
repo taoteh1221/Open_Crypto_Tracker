@@ -211,8 +211,7 @@ if ( trim($app_config['from_email']) != '' && trim($app_config['to_email']) != '
           	
           	
       // Telegram
-		// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-      if ( trim($app_config['telegram_your_username']) != '' && trim($app_config['telegram_bot_name']) != '' && trim($app_config['telegram_bot_username']) != '' && $app_config['telegram_bot_token'] != '' ) {
+      if ( $telegram_activated == 1 ) {
       $alerts_enabled_types[] = 'Telegram';
       }
           	
