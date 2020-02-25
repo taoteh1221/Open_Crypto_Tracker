@@ -49,7 +49,7 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 <table border='0' cellpadding='10' cellspacing='0' id="coins_table" class='show_coin_values'>
  <thead>
     <tr>
-<th class='border_lt'>#</th>
+<th class='border_lt'>Sort</th>
 <th class='border_lt blue al_right'><span>Asset</span></th>
 <th class='border_t'>Per-Token (<span class='btc_primary_currency_pairing'><?=strtoupper($app_config['btc_primary_currency_pairing'])?></span>)</th>
 <th class='border_lt blue al_right'>Holdings</th>

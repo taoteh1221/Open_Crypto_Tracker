@@ -722,8 +722,12 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 			
 			
 				
+				// If 0 bytes from system / network issues, just delete it to keep the directory contents clean
+				if ( filesize($base_dir . '/cache/secured/messages/' . $queued_cache_file) == 0 ) {
+				unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
+				}
 				// Notifyme
-			   if ( $message_data != '' && trim($app_config['notifyme_accesscode']) != '' && preg_match("/notifyme/i", $queued_cache_file) ) { 
+			   elseif ( $message_data != '' && trim($app_config['notifyme_accesscode']) != '' && preg_match("/notifyme/i", $queued_cache_file) ) { 
 			   
 			   $notifyme_params['notification'] = $message_data;
 			   
