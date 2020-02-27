@@ -42,7 +42,7 @@ Monero (XMR): 47mWWjuwPFiPD6t2MaWcMEfejtQpMuz9oj5hJq18f7nvagcmoJwxudKHUppaWnTMPa
 
 FEATURES
 
--Support for 44 exchanges, and 81 market pairings (country fiat currency or secondary crypto).
+-Support for 45 exchanges, and 81 market pairings (country fiat currency or secondary crypto).
 
 -Secure HTTPS (SSL) and Username / password protection in the portfolio interface for privacy / security.
 
