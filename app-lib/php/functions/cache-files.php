@@ -1343,6 +1343,7 @@ $api_endpoint = ( $mode == 'array' ? $api_server : $request );
 			// If response is seen to NOT contain USUAL data, use cache if available
 			if ( preg_match("/cf-error-type/i", $data) // Cloudflare (DDOS protection service)
 			|| preg_match("/\"result\":{}/i", $data) // Kraken.com / generic
+			|| preg_match("/EService:Unavailable/i", $data) // Kraken.com / generic
 			|| preg_match("/site is down/i", $data) // Blockchain.info / generic
 			|| preg_match("/temporarily unavailable/i", $data) // Bitfinex.com / generic
 			|| preg_match("/something went wrong/i", $data) // Bitbns.com / generic
