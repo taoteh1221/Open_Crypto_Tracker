@@ -102,6 +102,12 @@ CLASSES
 ////////////////////////////// */
 
 
+.image_border {
+border: 2px solid #d4d8d3; 
+border-radius: 15px;
+}
+
+
 .chart_wrapper span.loading {
 font-weight: bold;
 font-size: 18px;

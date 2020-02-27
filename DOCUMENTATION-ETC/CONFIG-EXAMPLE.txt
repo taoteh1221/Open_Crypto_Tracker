@@ -275,9 +275,9 @@ $app_config['price_alerts_min_volume'] = 12500;
 // Good for blocking questionable exchanges bugging you with price alerts, especially when used in combination with the above minimum volume filter
 $app_config['price_alerts_block_volume_error'] = 'on'; // 'on' / 'off' 
 ////
-// Refresh cached comparison prices every X days (since last refresh / alert) with latest prices
-// Can be 0 to disable refreshing (until the next price alert triggers a refresh)
-$app_config['price_alerts_refresh'] = 0; 
+// Refresh cached comparison asset prices every X days (since last price refresh / alert) with the current latest spot prices
+// Can be 0 to disable refreshing (until the next price alert triggers an automatic refresh)
+$app_config['price_alerts_refresh'] = 0; // (default = 0, [disabled] only refreshes after every new price alert)
 ////
 // Whale alert (adds "WHALE ALERT" to beginning of alexa / google home / email alert text, and spouting whale emoji to email / text)
 // Format: 'max_days_to_24hr_average_over||min_price_percent_change_24hr_average||min_volume_percent_increase_24hr_average||min_volume_currency_increase_24hr_average'

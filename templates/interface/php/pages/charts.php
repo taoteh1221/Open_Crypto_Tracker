@@ -212,7 +212,7 @@
 	?>
 	<div align='center' style='min-height: 100px;'>
 	
-		<p><img src='templates/interface/media/images/favicon.png' alt='' border='0' style='border: 2px solid #d4d8d3; border-radius: 15px;' /></p>
+		<p><img src='templates/interface/media/images/favicon.png' alt='' border='0' class='image_border' /></p>
 		<p class='red' style='font-weight: bold; position: relative; margin: 15px;'>Click the Activate Charts button (top left) to add charts.</p>
 	</div>
 	<?php

@@ -16,17 +16,17 @@
 	
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Coinmarketcap.com Stats</strong> </legend>
 	        
-			<p><a style='font-weight: bold;' class='show red' id='newbiewarning' href='#show_newbiewarning' title='Click to show newbie warning.' onclick='return false;'><b>Newbie Warning</b></a></p>
+			<p><a style='font-weight: bold;' class='show red' id='newbiewarning' href='#show_newbiewarning' title='Click to show newbie warning.' onclick='return false;'><b>Newbie Warning!</b></a></p>
 	    
 		<div style='display: none;' class='show_newbiewarning' align='left'>
 			
 	     
 						<p class='red'>
 						
-						<i>LITERALLY nearly 99% of all tokens</i> listed on Coinmarketcap.com (OR any other site) are either scams, garbage, or dead ends. Tread VERY carefully when investing, and RESEARCH AT LENGTH BEFOREHAND (that does NOT included listening to some CEO or founder sweet talk their own token, tell you how competing systems suck and their system is better, or explain how them owning over 50% of the total coin supply is not out of greed). :-o
+						<i>LITERALLY nearly 99% of all tokens</i> listed on Coinmarketcap.com (OR any other site) are either scams, garbage, or dead ends. Tread VERY carefully when investing, and RESEARCH AT LENGTH BEFOREHAND (that does NOT included listening to some CEO / founder / influencer sweet talk their own token, tell you how competing systems suck and their system is better, or explain how them owning over 50% of the total coin supply is not out of greed). :-o
 	
 
-						<br /><br /><a href="https://twitter.com/taoteh1221/status/1191548821752438784" target="_blank"><img src='templates/interface/media/images/twitter-1191548821752438784.jpg' width='414' border='0' /></a>
+						<br /><br /><a href="https://twitter.com/taoteh1221/status/1191548821752438784" target="_blank"><img src='templates/interface/media/images/twitter-1191548821752438784.jpg' width='414' border='0' class='image_border' /></a>
 						
 						</p>
 		
@@ -96,12 +96,12 @@
 	
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Exchanges</strong> </legend>
 	    
-			<p><a style='font-weight: bold;' class='show red' id='newbiewarning2' href='#show_newbiewarning2' title='Click to show newbie warning.' onclick='return false;'><b>Newbie Warning</b></a></p>
+			<p><a style='font-weight: bold;' class='show red' id='newbiewarning2' href='#show_newbiewarning2' title='Click to show newbie warning.' onclick='return false;'><b>Newbie Warning!</b></a></p>
 	    
 		<div style='display: none;' class='show_newbiewarning2' align='left'>
 			
 	     
-						<p class='red'>Store your coins in your own wallet (<i>hardware wallets allow this safely and easily</i>), do NOT store large holdings on an exchange. If an exchange is hacked, and your coins are stored on that exchange, <u>you easily can loose your coins with no recourse</u>. :-o Also, ALWAYS enable 2-factor-authentication ("2FA" with Google Authenticator, Authy, etc) in your exchange account for logins / withdrawals, and NEVER USE 2FA VIA MOBILE TEXT MESSAGE, OR YOU COULD GET SIM-SWAP HACKED AND LOOSE ALL YOUR COINS!</p>
+						<p class='red'>Store your coins in your own wallet (<i>hardware wallets allow this safely and easily</i>), do NOT store large holdings on an exchange. If an exchange is hacked, and your coins are stored on that exchange, <u>you easily can loose your coins with no recourse</u>. :-o Also, ALWAYS enable 2-factor-authentication ("2FA" with Google Authenticator, Authy, etc, <i>preferably</i> on a device with no sim card / phone number) in your exchange account for logins / withdrawals, and NEVER USE 2FA VIA MOBILE TEXT MESSAGE, OR YOU COULD GET SIM-SWAP HACKED AND LOOSE ALL YOUR COINS!</p>
 	 
 		
 		</div>
@@ -159,7 +159,7 @@
 	
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Crypto Wallets</strong> </legend>
 	        
-			<p><a style='font-weight: bold;' class='show red' id='newbiewarning3' href='#show_newbiewarning3' title='Click to show newbie warning.' onclick='return false;'><b>Newbie Warning</b></a></p>
+			<p><a style='font-weight: bold;' class='show red' id='newbiewarning3' href='#show_newbiewarning3' title='Click to show newbie warning.' onclick='return false;'><b>Newbie Warning!</b></a></p>
 	    
 		<div style='display: none;' class='show_newbiewarning3' align='left'>
 			

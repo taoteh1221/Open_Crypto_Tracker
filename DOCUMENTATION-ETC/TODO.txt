@@ -24,6 +24,9 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+Run tests creating the directory structure and initial cache files, with a default app_config, and with a custom app_config.
+
+
 Make landing page screenshot lightbox modal full screen mode.
 
 
@@ -202,6 +205,9 @@ Simple trading bot, to run from cron / cli (with SQL-based admin authentication 
 ///////////////////////////////////////////////////////
 MAYBE SECTION
 ///////////////////////////////////////////////////////
+
+
+Cron plugin example app to send a custom reminder notice every X days?
 
 
 Comparison chart(s) showing historical asset price vs what you paid per-token?
