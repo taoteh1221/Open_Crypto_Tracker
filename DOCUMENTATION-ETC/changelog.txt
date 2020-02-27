@@ -2745,6 +2745,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.08.5:
 
+-Added Coinex.com markets API support
+
 -More small bug fixes, UX revisions, developer optimizations
 
 -Bug fix for refreshing securely cached telegram chat config (if you change your telegram bot config) 

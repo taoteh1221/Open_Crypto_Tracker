@@ -660,6 +660,49 @@ global $btc_primary_currency_value, $app_config;
 
 
 
+  elseif ( strtolower($chosen_exchange) == 'coinex' ) {
+ 
+     
+     $json_string = 'https://api.coinex.com/v1/market/ticker/all';
+     
+     $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+     
+     $data = json_decode($jsondata, true);
+     
+     $data = $data['data']['ticker'];
+     
+  
+      if (is_array($data) || is_object($data)) {
+  
+       foreach ($data as $key => $value) {
+    // var_dump($value);
+         
+         
+         if ( $key == $market_id ) {
+          
+         return  array(
+    						'last_trade' => $data[$key]["last"],
+    						'24hr_asset_volume' => $data[$key]["vol"],
+    						'24hr_pairing_volume' => null,
+    						'24hr_primary_currency_volume' => trade_volume($asset_symbol, $pairing, $data[$key]["vol"], $data[$key]["last"])
+    						);
+
+         }
+       
+     
+       }
+      
+      }
+  
+  
+  }
+ 
+ 
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
   elseif ( strtolower($chosen_exchange) == 'coss' ) {
  
      

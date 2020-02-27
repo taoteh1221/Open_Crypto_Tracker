@@ -70,7 +70,7 @@ FEATURES
 
 -Help page in easy-to-use FAQ format, for common issues (with support / contact links if you need additional assistance).
 
--Options to add proxies for API requests / SMTP authentication for email sending / displaying system stats in the interface (uptime / load averages / temperature / free disk space / free system memory / portfolio cache size, if available on your device).
+-Options to add proxies for API requests / SMTP authentication for email sending / displaying system stats in the interface (uptime / load averages / temperature / free disk space / used system memory / portfolio cache size, if available on your device).
 
 -System / configuration checking, alerting, logging, and auto-correcting (where possible).
 
@@ -155,9 +155,9 @@ Support for 81 trading pairs (country fiat currency or secondary crypto, contact
 AED / ARS / AUD / BAM / BDT / BOB / BRL / BWP / BYN / CAD / CHF / CLP / CNY / COP / CRC / CZK / DKK / DOP / EGP / ETH / EUR / GBP / GEL / GHS / GTQ / HKD / HUF / IDR / ILS / INR / IRR / JMD / JOD / JPY / KES / KRW / KWD / KZT / LKR / LTC / MAD / MUR / MWK / MXN / MYR / NGN / NIS / NOK / NZD / PAB / PEN / PHP / PKR / PLN / PYG / QAR / RON / RSD / RUB / RWF / SAR / SEK / SGD / THB / TRY / TUSD / TWD / TZS / UAH / UGX / USDC / USDT / UYU / VND / VES / XAF / XOF / ZAR / ZMW / XMR / BTC.
 
 
-Support for 44 exchanges (contact me to request more): 
+Support for 45 exchanges (contact me to request more): 
 
-localbitcoins / btcmarkets / lakebtc / braziliex / kraken / bitflyer / bitlish / bitpanda / bitstamp / cex / coinbase / coss / luno / bitfinex / tidebit / bitbns / buyucoin / bitso / bit2c / btcturk / binance / zebpay / binance_us / gemini / hitbtc / livecoin / okcoin / southxchange / huobi / okex / bittrex / cryptofresh / kucoin / poloniex / upbit / gateio / bigone / bitforex / bittrex_global / hotbit / tradeogre / namebase / ethfinex / idex.
+localbitcoins / btcmarkets / lakebtc / braziliex / kraken / bitflyer / bitlish / bitpanda / bitstamp / cex / coinbase / coinex / coss / luno / bitfinex / tidebit / bitbns / buyucoin / bitso / bit2c / btcturk / binance / zebpay / binance_us / gemini / hitbtc / livecoin / okcoin / southxchange / huobi / okex / bittrex / cryptofresh / kucoin / poloniex / upbit / gateio / bigone / bitforex / bittrex_global / hotbit / tradeogre / namebase / ethfinex / idex.
 
 
 Ethereum ICO subtoken support (pre-exchange listing) has been built in, but values are static ICO values in ETH.

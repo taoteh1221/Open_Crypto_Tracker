@@ -119,7 +119,7 @@ $app_config['google_home_client_secret'] = '';
 $app_config['upgrade_check'] = 'off'; // 'off' (disabled) / 'all' / 'ui' (web interface) / 'email' / 'text' / 'notifyme' / 'telegram'
 ////
 // Wait X days between upgrade reminders (sent by email / text / notifyme / telegram)
-$app_config['upgrade_check_reminder'] = 10; // (only used if upgrade check is enabled in general settings)
+$app_config['upgrade_check_reminder'] = 14; // (only used if upgrade check is enabled in general settings)
 
 
 // Email logs every X days. 0 disables mailing logs. Email to / from !MUST BE SET!, MAY NOT SEND IN TIMELY FASHION WITHOUT A CRON JOB
@@ -394,6 +394,7 @@ $app_config['charts_and_price_alerts'] = array(
 					
 					// KDA
 					'kda' => 'hotbit||btc||both',
+					'kda-2' => 'coinex||btc||chart',
 					
 					
 					// HNS
@@ -1860,10 +1861,12 @@ $app_config['portfolio_assets'] = array(
                         
                                     'btc' => array(
                                          'hotbit' => 'KDA_BTC',
+                                         'coinex' => 'KDABTC',
                                                     ),
                                                     
                                     'usdt' => array(
                                          'hotbit' => 'KDA_USDT',
+                                         'coinex' => 'KDAUSDT',
                                                     ),
                                                     
                                         ) // market_pairing END

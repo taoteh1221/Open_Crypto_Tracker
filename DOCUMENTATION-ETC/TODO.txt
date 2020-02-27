@@ -30,9 +30,6 @@ Make landing page screenshot lightbox modal full screen mode.
 Check optimization by enabling "telemetry" debug mode, and reviewing debugging logs.
 
 
-Change readme / webpage / sf page features section from "free memory" to "used memory".
-
-
 Convert wrapper classes that should be ids into ids, and any other classes that should be ids.
 
 
