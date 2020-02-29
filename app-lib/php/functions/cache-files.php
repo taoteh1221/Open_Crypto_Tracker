@@ -1322,9 +1322,9 @@ $api_endpoint = ( $mode == 'array' ? $api_server : $request );
 				}
 				
 				
-				// If no false positive detected
+				// If no false positive detected, log full results to file, WITH UNIQUE TIMESTAMP IN FILENAME TO AVOID OVERWRITES (FOR ADEQUATE DEBUGGING REVIEW)
 				if ( !$false_positive ) {
-				$error_response_log = '/cache/logs/errors/api/error-response-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-'.$hash_check.'.log';
+				$error_response_log = '/cache/logs/errors/api/error-response-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-hash-'.$hash_check.'-timestamp-'.time().'.log';
 			
 				// LOG-SAFE VERSION (no post data with API keys etc)
 				app_logging( 'api_error', 'POSSIBLE error response received for ' . ( $mode == 'array' ? 'API server at ' : 'endpoint request at ' ) . $api_endpoint, 'request attempt from: server (local timeout setting ' . $app_config['api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; log_file: ' . $error_response_log . '; btc_primary_currency_pairing: ' . $app_config['btc_primary_currency_pairing'] . '; btc_primary_exchange: ' . $app_config['btc_primary_exchange'] . '; btc_primary_currency_value: ' . $btc_primary_currency_value . '; hash_check: ' . $hash_check . ';' );

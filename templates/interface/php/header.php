@@ -128,7 +128,7 @@ header('Content-type: text/html; charset=' . $app_config['charset_default']);
       <source src="templates/interface/media/audio/Smoke-Alarm-SoundBible-1551222038.ogg">
     </audio>
 
-    <div align='center' style='width: 100%; min-width: 1200px; margin: auto;'>
+    <div align='center' id='body_wrapper'>
     <h2>DFD Cryptocoin Values - Cryptocurrency Portfolio Tracker</h2>
             <div align='left' style=' margin: 0px; min-width: 1200px; display: inline;'>
             

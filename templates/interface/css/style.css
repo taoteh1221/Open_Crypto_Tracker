@@ -397,6 +397,14 @@ IDs
 ////////////////////////////// */
 
 
+#body_wrapper {
+width: 100%; 
+min-width: 1200px; 
+margin: auto;
+background: inherit;
+}
+
+
 #system_stats {
 display: none;
 position: relative;
