@@ -6,7 +6,7 @@
 
 ?>
 
-<div class='update_assets_wrapper'>
+<div class='full_width_wrapper'>
 
 
 <!--  !START! RE-USED INFO BUBBLE DATA  -->
@@ -61,7 +61,7 @@
 	    
 	    
 	    
-		<div style='display: none;' class='show_disclaimer' align='left'>
+		<div style='display: none;' class='align_left show_disclaimer'>
 			
 	     
 						<p class='red' style='font-weight: bold;'>
@@ -111,7 +111,7 @@
 						<span class='red'>Best of luck, be careful out there in this cryptoland frontier <i>full of garbage coins, scam coins, and greedy <u>glorified</u> (and NOT so glorified) crooks</i> and their silver tongues (wolves in sheep's clothing)! 😮</span>
 
 						
-						<br /><br /><a href="https://twitter.com/taoteh1221/status/1192997965952094208" target="_blank"><img src='templates/interface/media/images/twitter-1192997965952094208.jpg' width='425' border='0' class='image_border' /></a>
+						<br /><br /><a href="https://twitter.com/taoteh1221/status/1192997965952094208" target="_blank"><img src='templates/interface/media/images/twitter-1192997965952094208.jpg' width='425' class='image_border' alt='' /></a>
 						
 						</p>
 	
@@ -120,13 +120,12 @@
 			
 	
 	
-	
-	<div>
+	<br class='clear_both' />
 	<a style='font-weight: bold;' href='README.txt' target='_blank'>Editing The Portfolio Assets List, and Enabling Email / Text / Alexa / Google Home Exchange Price Alerts (installation on a Raspberry Pi or website)</a>
-	</div>
+	<br class='clear_both' />
 	
 			
-	<div align='left' style='margin-top: 30px; margin-bottom: 15px;'>
+	<div class='align_left' style='margin-top: 30px; margin-bottom: 15px;'>
 	
 		
 		<!-- Submit button must be OUTSIDE form tags here, or it submits the target form improperly and loses data -->
@@ -156,7 +155,7 @@
 		
 	<div style='display: inline-block; border: 2px dotted black; padding: 7px; margin-left: 0px; margin-top: 15px; margin-bottom: 15px;'>
 	
-		<div align='center' style='font-weight: bold;'>Watch Only</div>
+		<div class='align_center' style='font-weight: bold;'>Watch Only</div>
 	
 		<div style='margin-left: 6px;'><input type='checkbox' onclick='selectAll(this, "coin_amounts");' /> Select / Unselect All <i><u>Unheld</u> Assets</i>	</div>
 		
@@ -164,7 +163,7 @@
 	</div>
 	
 	
-	<br clear='all' />	
+	<br class='clear_both' />	
 	
 	 <?php
 	 if ( $csv_import_fail != NULL ) {
@@ -528,7 +527,7 @@
 	     <b>Average Paid (per-token):</b> <?=$app_config['bitcoin_currency_markets'][$app_config['btc_primary_currency_pairing']]?><input type='text' size='10' id='<?=$field_var_paid?>' name='<?=$field_var_paid?>' value='<?=$coin_paid_value?>' /> 
 	     
 	     
-		<img id='average_paid_notes_<?=$rand_id?>' src='templates/interface/media/images/info.png' alt='' width='30' border='0' style='position: relative; left: -5px;' /> 
+		<img id='average_paid_notes_<?=$rand_id?>' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' /> 
 	 <script>
 	
 			$('#average_paid_notes_<?=$rand_id?>').balloon({
@@ -599,7 +598,7 @@
 	     </select> 
 	     
 	     
-		<img id='leverage_trading_notes_<?=$rand_id?>' src='templates/interface/media/images/info.png' alt='' width='30' border='0' style='position: relative; left: -5px;' /> 
+		<img id='leverage_trading_notes_<?=$rand_id?>' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' /> 
 	 <script>
 		
 			$('#leverage_trading_notes_<?=$rand_id?>').balloon({
@@ -679,7 +678,7 @@
 	
 			    
 			    
-</div> <!-- force_1200px_wrapper END -->
+</div> <!-- full_width_wrapper END -->
 
 
 

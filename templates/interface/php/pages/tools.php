@@ -6,7 +6,7 @@
 
 ?>
 
-<div class='force_1200px_wrapper'>
+<div class='max_1200px_wrapper'>
 
 			
 			<h4 style='display: inline;'>Tools</h4>
@@ -99,7 +99,7 @@
 			
 		    
 		    
-</div> <!-- force_1200px_wrapper END -->
+</div> <!-- max_1200px_wrapper END -->
 
 
 

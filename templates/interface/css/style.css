@@ -21,6 +21,11 @@ width: auto;
 }
 
 
+img { 
+border: 0; 
+}
+
+
 table {
 border-collapse: separate;
 }
@@ -100,6 +105,26 @@ legend {
 /* //////////////////////////////
 CLASSES
 ////////////////////////////// */
+
+
+.clear_both {
+clear: both;
+}
+
+
+.align_left {
+text-align: left;
+}
+
+
+.align_center {
+text-align: center;
+}
+
+
+.align_right {
+text-align: right;
+}
 
 
 .image_border {
@@ -205,9 +230,10 @@ margin: 20px;
 
 
 .long_linebreak { 
-display: block;
-width: 350px;
+display: inline-block;
+max-width: 350px;
 word-wrap: break-word;
+text-align: center;
 }
 
 
@@ -356,19 +382,13 @@ text-decoration: none;
 }
 
 
-.force_1200px_wrapper {
+.max_1200px_wrapper {
 position: relative;
 max-width: 1200px;
 }
 
 
-.update_assets_wrapper {
-position: relative;
-max-width: 100%;
-}
-
-
-.charts_page_wrapper {
+.full_width_wrapper {
 position: relative;
 width: 100%;
 }
@@ -401,7 +421,6 @@ IDs
 width: 100%; 
 min-width: 1200px; 
 margin: auto;
-background: inherit;
 }
 
 

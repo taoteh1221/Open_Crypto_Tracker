@@ -1485,13 +1485,13 @@ function start_page_html($page) {
 	if ( $another_set == 1 ) {
 	?>
 	<span class='red'>&nbsp;(this other secondary page is currently the start page)</span>
-	 <br clear='all' />
+	 <br class='clear_both' />
 	<?php
 	}
 	elseif ( $_GET['start_page'] == $page ) {
 	?>
 	<span class='red'>&nbsp;(this page is currently the start page)</span>
-	 <br clear='all' />
+	 <br class='clear_both' />
 	<?php
 	}
 	

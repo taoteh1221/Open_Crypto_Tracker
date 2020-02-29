@@ -402,7 +402,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	
 		
 ?>
-<br clear='all' />
+<br class='clear_both' />
 <div class="show_coin_values bold_1 green"><!-- Summary START -->
 <?php
 		
@@ -465,7 +465,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 		
 		?> 
 		
-		<img id='portfolio_gain_loss' src='templates/interface/media/images/info.png' alt='' width='30' border='0' style='position: relative; left: -5px;' /> </div>
+		<img id='portfolio_gain_loss' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' /> </div>
 		
 		
 	 <script>
@@ -551,7 +551,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 			
 		?>
 		
-		<img id='portfolio_dominance' src='templates/interface/media/images/info.png' alt='' width='30' border='0' style='position: relative; left: -5px;' /> </div>
+		<img id='portfolio_dominance' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' /> </div>
 	 <script>
 	
 			var dominance_content = '<h5 class="yellow" style="position: relative; white-space: nowrap;">Portfolio Balance Stats:</h5>'
@@ -618,7 +618,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 
 		
 	<!-- System stats (if enabled) -->
-	<div id='system_stats' align='left'>
+	<div id='system_stats' class='align_left'>
 	
 	<?php
 			// If hardware / software stats are enabled, display the os / hardware / load avg / temperature / free partition space / free memory [mb/percent] / portfolio cache size / software stats
@@ -714,7 +714,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 
 
 	</div>
-<br clear='all' />
+<br class='clear_both' />
 
 
 	<?php	
@@ -735,9 +735,9 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	else {
 	?>
 	
-	<div align='center' style='min-height: 100px;'>
+	<div class='align_center' style='min-height: 100px;'>
 	
-		<p><img src='templates/interface/media/images/favicon.png' alt='' border='0' class='image_border' /></p>
+		<p><img src='templates/interface/media/images/favicon.png' alt='' class='image_border' /></p>
 		<p class='red' style='font-weight: bold; position: relative; margin: 15px;'>No portfolio assets added yet (add them on the Update Assets page).</p>
 	</div>
 	

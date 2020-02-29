@@ -1426,7 +1426,7 @@ $market_pairing = $all_markets[$selected_exchange];
  	
  		?>
  		
- <img id='<?=$mkcap_render_data?>' src='templates/interface/media/images/<?=$info_icon?>' alt='' border='0' style='position: absolute; top: 2px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <a title='' href='https://<?=$asset_pagebase?><?=$mkcap_render_data?>/' target='_blank' class='blue app_sort_filter'><?php echo $asset_name; ?></a>
+ <img id='<?=$mkcap_render_data?>' src='templates/interface/media/images/<?=$info_icon?>' alt='' style='position: absolute; top: 2px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <a title='' href='https://<?=$asset_pagebase?><?=$mkcap_render_data?>/' target='_blank' class='blue app_sort_filter'><?php echo $asset_name; ?></a>
  <script>
 
 		<?php
@@ -1618,7 +1618,7 @@ $market_pairing = $all_markets[$selected_exchange];
 	else {
   ?>
   
-  <img id='<?=$rand_id?>' src='templates/interface/media/images/<?=$info_icon?>' alt='' border='0' style='position: absolute; top: 2px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <span class='blue app_sort_filter'><?=$asset_name?></span>
+  <img id='<?=$rand_id?>' src='templates/interface/media/images/<?=$info_icon?>' alt='' style='position: absolute; top: 2px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <span class='blue app_sort_filter'><?=$asset_name?></span>
  <script>
  $('#<?=$rand_id?>').balloon({
   html: true,
@@ -1863,7 +1863,7 @@ echo '<span class="' . ( $purchase_price >= 0.00000001 && $leverage_level >= 2 &
   		$gain_loss_primary_currency = ( $gain_loss >= 0 ? '+' . $app_config['bitcoin_currency_markets'][$app_config['btc_primary_currency_pairing']] : '' );
   		
 		?> 
-		<img id='<?=$rand_id?>_leverage' src='templates/interface/media/images/info.png' alt='' width='30' border='0' style='position: relative; left: -5px;' />
+		<img id='<?=$rand_id?>_leverage' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' />
 	 <script>
 	
 			var leverage_content = '<h5 class="yellow" style="position: relative; white-space: nowrap;"><?=$leverage_level?>x <?=ucfirst($selected_margintype)?> For <?=$asset_name?> (<?=$asset_symbol?>):</h5>'

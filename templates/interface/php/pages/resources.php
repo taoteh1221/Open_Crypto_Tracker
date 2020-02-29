@@ -6,7 +6,7 @@
 
 ?>
 
-<div class='force_1200px_wrapper'>
+<div class='max_1200px_wrapper'>
 	
 				
 				<h4 style='display: inline;'>Resources</h4>
@@ -18,7 +18,7 @@
 	        
 			<p><a style='font-weight: bold;' class='show red' id='newbiewarning' href='#show_newbiewarning' title='Click to show newbie warning.' onclick='return false;'><b>Newbie Warning!</b></a></p>
 	    
-		<div style='display: none;' class='show_newbiewarning' align='left'>
+		<div style='display: none;' class='align_left show_newbiewarning'>
 			
 	     
 						<p class='red'>
@@ -26,7 +26,7 @@
 						<i>LITERALLY nearly 99% of all tokens</i> listed on Coinmarketcap.com (OR any other site) are either scams, garbage, or dead ends. Tread VERY carefully when investing, and RESEARCH AT LENGTH BEFOREHAND (that does NOT included listening to some CEO / founder / influencer sweet talk their own token, tell you how competing systems suck and their system is better, or explain how them owning over 50% of the total coin supply is not out of greed). 😮
 	
 
-						<br /><br /><a href="https://twitter.com/taoteh1221/status/1191548821752438784" target="_blank"><img src='templates/interface/media/images/twitter-1191548821752438784.jpg' width='425' border='0' class='image_border' /></a>
+						<br /><br /><a href="https://twitter.com/taoteh1221/status/1191548821752438784" target="_blank"><img src='templates/interface/media/images/twitter-1191548821752438784.jpg' width='425' class='image_border' alt='' /></a>
 						
 						</p>
 		
@@ -98,7 +98,7 @@
 	    
 			<p><a style='font-weight: bold;' class='show red' id='newbiewarning2' href='#show_newbiewarning2' title='Click to show newbie warning.' onclick='return false;'><b>Newbie Warning!</b></a></p>
 	    
-		<div style='display: none;' class='show_newbiewarning2' align='left'>
+		<div style='display: none;' class='align_left show_newbiewarning2'>
 			
 	     
 						<p class='red'>Store your coins in your own wallet (<i>hardware wallets allow this safely and easily</i>), do NOT store large holdings on an exchange. If an exchange is hacked, and your coins are stored on that exchange, <u>you easily can loose your coins with no recourse</u>. 😮 Also, ALWAYS enable 2-factor-authentication ("2FA" with Google Authenticator, Authy, etc, <i>preferably</i> on a device with no sim card / phone number) in your exchange account for logins / withdrawals, and NEVER USE 2FA VIA MOBILE TEXT MESSAGE, OR YOU COULD GET SIM-SWAP HACKED AND LOOSE ALL YOUR COINS!</p>
@@ -161,10 +161,12 @@
 	        
 			<p><a style='font-weight: bold;' class='show red' id='newbiewarning3' href='#show_newbiewarning3' title='Click to show newbie warning.' onclick='return false;'><b>Newbie Warning!</b></a></p>
 	    
-		<div style='display: none;' class='show_newbiewarning3' align='left'>
+		<div style='display: none;' class='align_left show_newbiewarning3'>
 			
 	     
-						<p class='red'>ALWAYS backup your HD wallet recovery seed, and never store it in (unencrypted) plain text on a computer or the cloud. If you use Bitcoin Core always backup your wallet.dat file after every transaction, if you use a paper wallet always transfer the ENTIRE amount out in the first transaction out...otherwise you will lose your coins.</p>
+						<p class='red'>ALWAYS <a href='https://en.wikipedia.org/wiki/Cut,_copy,_and_paste' target='_blank'>copy / paste</a> wallet addresses, NEVER type them by hand, or you risk losing coins! 😮 If you are looking to copy a wallet address to somebody's phone, try the QR Code Generator on the Tools page. ALWAYS verify your wallet address copies over correctly, for ANY method you use.</p>
+	     
+						<p class='red'>ALWAYS backup your HD wallet recovery seed, and never store it in (unencrypted) plain text on a computer or the cloud. If you use Bitcoin Core always backup your wallet.dat file after every transaction, if you use a paper wallet always transfer the ENTIRE amount out in the first transaction out...otherwise you will lose your coins! 😮</p>
 	
 		
 		</div>
@@ -492,6 +494,6 @@
 	
 			    
 			    
-</div> <!-- force_1200px_wrapper END -->
+</div> <!-- max_1200px_wrapper END -->
 
 

@@ -6,7 +6,7 @@
 
 ?>
 
-<div class='force_1200px_wrapper'>
+<div class='max_1200px_wrapper'>
 
 			
 
@@ -86,6 +86,6 @@
 			</fieldset>
 		    
 		    
-</div> <!-- force_1200px_wrapper END -->
+</div> <!-- max_1200px_wrapper END -->
 
 

@@ -1,5 +1,5 @@
 
-<p align='center' style='margin: 15px;'><a href='javascript:scroll(0,0);'>Back To Top</a></p>
+<p class='align_center' style='margin: 15px;'><a href='javascript:scroll(0,0);'>Back To Top</a></p>
 
 
     <!-- footer START -->
@@ -46,12 +46,12 @@
             	
     <div id="api_error_alert"><?=$bundle_error_logs?></div>
             	
-    <p align='center'><a href='https://taoteh1221.github.io' target='_blank' title='Download the latest version here.'>Latest Releases (running v<?=$app_version?>)</a>
+    <p class='align_center'><a href='https://taoteh1221.github.io' target='_blank' title='Download the latest version here.'>Latest Releases (running v<?=$app_version?>)</a>
     
 
-    <p align='center'><a class='show' id='donate' href='#show_donation_addresses' title='Click to show donation addresses.' onclick='return false;'>Donations Support Development</a></p>
+    <p class='align_center'><a class='show' id='donate' href='#show_donation_addresses' title='Click to show donation addresses.' onclick='return false;'>Donations Support Development</a></p>
     
-            	<div style='display: none;' class='show_donate' align='center'>
+            	<div style='display: none;' class='align_center show_donate'>
             	
             	<b>Github:</b> <br /><a href='https://github.com/sponsors/taoteh1221' target='_blank'>https://github.com/sponsors/taoteh1221</a>
             	
@@ -61,9 +61,9 @@
             	
             	<br /><br /><b>Patreon:</b> <br /><a href='https://www.patreon.com/dragonfrugal' target='_blank'>https://www.patreon.com/dragonfrugal</a>
             	
-            	<br /><br /><b>Monero (XMR):</b> <br /><span class='long_linebreak'>47mWWjuwPFiPD6t2MaWcMEfejtQpMuz9oj5hJq18f7nvagcmoJwxudKHUppaWnTMPaMWshMWUTPAUX623KyEtukbSMdmpqu</span>
+            	<br /><br /><b>Monero (XMR):</b> <br /><span class='align_center long_linebreak'>47mWWjuwPFiPD6t2MaWcMEfejtQpMuz9oj5hJq18f7nvagcmoJwxudKHUppaWnTMPaMWshMWUTPAUX623KyEtukbSMdmpqu</span>
             	
-            	<br /><b>Monero Address QR Code (for phones)</b><br /><img src='templates/interface/media/images/xmr-donations-qr-code.png' border='0' />
+            	<br /><br /><b>Monero Address QR Code (for phones)</b><br /><img src='templates/interface/media/images/xmr-donations-qr-code.png' alt='' />
             	
             	<br /><br />
             	</div>
@@ -121,7 +121,7 @@
 		hardy_session_clearing();
     		
     		
-    	echo '<p align="center" class="'.( $total_runtime > 10 ? 'red' : 'green' ).'"> Interface Runtime: '.$total_runtime.' seconds</p>';
+    	echo '<p class="align_center '.( $total_runtime > 10 ? 'red' : 'green' ).'"> Interface Runtime: '.$total_runtime.' seconds</p>';
     	
     
     ?>

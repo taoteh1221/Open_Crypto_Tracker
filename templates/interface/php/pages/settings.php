@@ -6,7 +6,7 @@
 
 ?>
 
-<div class='force_1200px_wrapper'>
+<div class='max_1200px_wrapper'>
 
 			
 			<h4 style='display: inline;'>Settings</h4>
@@ -234,7 +234,7 @@
 				    $btc_market_list = NULL;
 				    ?>
 				    
-				    </span> <img id='currency_info' src='templates/interface/media/images/info.png' alt='' width='30' border='0' style='position: relative; left: -5px;' /> <input type='checkbox' id='standalone_primary_currency_enabled' name='standalone_primary_currency_enabled' value='1' onchange='
+				    </span> <img id='currency_info' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' /> <input type='checkbox' id='standalone_primary_currency_enabled' name='standalone_primary_currency_enabled' value='1' onchange='
 				    
 				    btc_primary_currency = $("#btc_primary_currency").val() ? $("#btc_primary_currency").val() : "<?=$app_config['btc_primary_currency_pairing']?>";
 				    primary_currency_market = $("#primary_currency_market_id").val() ? $("#primary_currency_market_id").val() : <?=btc_market($app_config['btc_primary_exchange'])?>;
@@ -475,7 +475,7 @@
                         
 		    
 		    
-</div> <!-- force_1200px_wrapper END -->
+</div> <!-- max_1200px_wrapper END -->
 
 
 

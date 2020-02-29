@@ -5,7 +5,7 @@
 
 ?>
 
-<div class='charts_page_wrapper'>
+<div class='full_width_wrapper'>
 	
 	<h4 style='display: inline;'>Charts</h4>
 				
@@ -121,7 +121,7 @@
 	<p><a style='font-weight: bold;' class='red show' id='chartsnotice' href='#show_chartsnotice' title='Click to show charts notice.' onclick='return false;'><b>Charts Notice / Information</b></a></p>
 		
 		
-	<div style='display: none;' class='show_chartsnotice' align='left'>
+	<div style='display: none;' class='align_left show_chartsnotice'>
 		
 		<?php
 		foreach ( $app_config['bitcoin_currency_markets'] as $key => $unused ) {
@@ -210,9 +210,9 @@
 	
 	if ( $charts_available == 1 && $charts_shown != 1 ) {
 	?>
-	<div align='center' style='min-height: 100px;'>
+	<div class='align_center' style='min-height: 100px;'>
 	
-		<p><img src='templates/interface/media/images/favicon.png' alt='' border='0' class='image_border' /></p>
+		<p><img src='templates/interface/media/images/favicon.png' alt='' class='image_border' /></p>
 		<p class='red' style='font-weight: bold; position: relative; margin: 15px;'>Click the Activate Charts button (top left) to add charts.</p>
 	</div>
 	<?php
