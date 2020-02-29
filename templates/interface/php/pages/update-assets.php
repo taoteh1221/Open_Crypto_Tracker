@@ -83,7 +83,7 @@
 							</li>
 						
 							<li class='red'>
-								<i>NEVER</i> buy an asset because of somebody's opinion of it
+								<i>NEVER</i> buy an asset because of somebody's opinion of it (only buy based on <i>YOUR</i> opinion of it)
 							</li>
 							
 							<li class='red'>
@@ -108,7 +108,7 @@
 						
 						</ul>
 						
-						<span class='red'>Best of luck, be careful out there in this cryptoland frontier <i>full of garbage coins, scam coins, and greedy <u>glorified</u> (and NOT so glorified) crooks</i> and their silver tongues! :-o</span>
+						<span class='red'>Best of luck, be careful out there in this cryptoland frontier <i>full of garbage coins, scam coins, and greedy <u>glorified</u> (and NOT so glorified) crooks</i> and their silver tongues (wolves in sheep's clothing)! 😮</span>
 
 						
 						<br /><br /><a href="https://twitter.com/taoteh1221/status/1192997965952094208" target="_blank"><img src='templates/interface/media/images/twitter-1192997965952094208.jpg' width='425' border='0' class='image_border' /></a>
