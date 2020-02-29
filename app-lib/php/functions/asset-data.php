@@ -969,11 +969,11 @@ $cached_array = explode("||", $data_file);
           	
           	$desc_alert_type = ( $app_config['price_alerts_refresh'] > 0 ? 'refresh' : 'alert' );
           	
-          	// IF PRIMARY CURRENCY CONFIG volume was 1 or less last alert / refresh, for UX sake 
+          	// IF PRIMARY CURRENCY CONFIG volume was between 0 and 1 last alert / refresh, for UX sake 
           	// we use current PRIMARY CURRENCY CONFIG volume instead of pair volume (for percent up, so it's not up 70,000% for altcoins lol)
-          	if ( $cached_primary_currency_volume <= 1 ) {
-          	$volume_describe = strtoupper($default_btc_primary_currency_pairing) . ' volume was '.$app_config['bitcoin_currency_markets'][$default_btc_primary_currency_pairing].'0 last price ' . $desc_alert_type . ', and ';
-          	$volume_describe_mobile = strtoupper($default_btc_primary_currency_pairing) . ' volume up from '.$app_config['bitcoin_currency_markets'][$default_btc_primary_currency_pairing].'0 last ' . $desc_alert_type;
+          	if ( $cached_primary_currency_volume >= 0 && $cached_primary_currency_volume <= 1 ) {
+          	$volume_describe = strtoupper($default_btc_primary_currency_pairing) . ' volume was ' . $app_config['bitcoin_currency_markets'][$default_btc_primary_currency_pairing] . $cached_primary_currency_volume . ' last price ' . $desc_alert_type . ', and ';
+          	$volume_describe_mobile = strtoupper($default_btc_primary_currency_pairing) . ' volume up from ' . $app_config['bitcoin_currency_markets'][$default_btc_primary_currency_pairing] . $cached_primary_currency_volume . ' last ' . $desc_alert_type;
           	}
           	// Best we can do feasibly for UX on volume reporting errors
           	elseif ( $cached_primary_currency_volume == -1 ) { // ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
