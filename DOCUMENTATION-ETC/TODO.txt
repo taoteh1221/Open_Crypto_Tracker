@@ -204,9 +204,6 @@ MAYBE SECTION
 ///////////////////////////////////////////////////////
 
 
-Cron plugin example app to send a custom reminder notice every X days?
-
-
 Comparison chart(s) showing historical asset price vs what you paid per-token?
 
 
