@@ -735,6 +735,7 @@ $app_config['chmod_permission_index_security'] = '0664'; // (default = '0664')
 $app_config['activate_cron_plugins'] = array(
 						//'PLUGIN_FOLDER_NAME', // (your plugin folder in /cron-plugins/)
 						//'hns-airdrop',  // HNS Airdrop example plugin (detects when you receive HNS tokens at a new / unused address)
+						//'recurring-reminder',  // Recurring Reminder example plugin (remind yourself every X days to do something)
 							);
 							
 

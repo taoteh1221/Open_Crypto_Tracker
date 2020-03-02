@@ -63,7 +63,7 @@ $hns_message = 'Your have received ' . number_format($hns_amount, 6, '.', ',') .
   				
           	$send_params = array(
           								'notifyme' => $hns_message,
-          								'telegram' => $hns_message, // Add emoji here, so it's not sent with alexa / google home alerts
+          								'telegram' => $hns_message,
           								'text' => array(
           														// Unicode support included for text messages (emojis / asian characters / etc )
           														'message' => $encoded_text_message['content_output'],

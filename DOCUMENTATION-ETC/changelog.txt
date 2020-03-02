@@ -2777,9 +2777,13 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.08.6:
 
+-More example cron plugins
+
 -Review / optimization of all CSS code
 
 -Yet more small bug fixes, UX revisions
+
+-Bug fix for telegram alerts chatroom settings not being retained
 
 IMPORTANT NOTES: 
 

@@ -58,8 +58,10 @@ foreach( $secured_cache_files as $secured_file ) {
 	// Telegram user data
 	elseif ( preg_match("/telegram_user_data_/i", $secured_file) ) {
 		
-		// If we already loaded the newest modified telegram config file, or we are refreshing / creating the app_config, delete any stale telegram config
-		if ( $newest_cached_telegram_user_data == 1 || $refresh_cached_app_config == 1 || $is_cached_app_config != 1 ) {
+		// If we already loaded the newest modified telegram config file
+		// DON'T WORRY ABOUT REFRESHING TELEGRAM DATA WHEN APP CONFIG IS REFRESHING, AS WE CAN'T DO THAT RELIABLY IN THIS LOOP
+		// AND IT'S DONE AFTER THE LOOP ANYWAY (WE JUST CLEANUP ANY STALE TELEGRAM CONFIGS IN THIS LOOP)
+		if ( $newest_cached_telegram_user_data == 1 ) {
 		unlink($base_dir . '/cache/secured/' . $secured_file);
 		}
 		else {
@@ -173,7 +175,7 @@ $secure_128bit_hash = random_hash(16); // 128-bit (16-byte) hash converted to he
 
 
 // If telegram messaging is activated, and there is no valid cached_telegram_user_data
-// OR if cached app_config was updated
+// OR if cached app_config was flagged to be updated
 if ( $telegram_activated == 1 && $refresh_cached_telegram_user_data == 1 
 || $telegram_activated == 1 && $is_cached_telegram_user_data != 1
 || $telegram_activated == 1 && $refresh_cached_app_config == 1 

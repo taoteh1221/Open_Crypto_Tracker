@@ -93,7 +93,7 @@ if ( $runtime_mode == 'ui' ) {
 
 
 // Check htaccess security (checked once every 60 minutes maximum)
-if ( update_cache_file($base_dir . '/cache/events/scan_htaccess_security.dat', 60) == true ) {
+if ( update_cache_file($base_dir . '/cache/events/scan-htaccess-security.dat', 60) == true ) {
 	
 	
 	// Only run the check if the base url is set (runs every ~10 minutes, so we'll be checking again anyway, and it should set AFTER first UI run)
@@ -129,7 +129,7 @@ if ( update_cache_file($base_dir . '/cache/events/scan_htaccess_security.dat', 6
 	
 	
 // Update the htaccess security scan event tracking
-store_file_contents($base_dir . '/cache/events/scan_htaccess_security.dat', time_date_format(false, 'pretty_date_time') );
+store_file_contents($base_dir . '/cache/events/scan-htaccess-security.dat', time_date_format(false, 'pretty_date_time') );
 
 }
 

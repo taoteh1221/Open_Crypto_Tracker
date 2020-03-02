@@ -6,7 +6,7 @@
 
 ?>
 
-<div class='full_width_wrapper'>
+<div class='max_full_width_wrapper'>
 
 
 <!--  !START! RE-USED INFO BUBBLE DATA  -->

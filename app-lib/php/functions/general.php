@@ -739,54 +739,6 @@ global $app_config;
 ////////////////////////////////////////////////////////
 
 
-function delete_old_files($directory_data, $days, $ext) {
-	
-	
-	// Support for string OR array in the calls, for directory data
-	if ( !is_array($directory_data) ) {
-	$directory_data = array($directory_data);
-	}
-	
-	
-	// Process each directory
-	foreach ( $directory_data as $dir ) {
-	
-		
-	$files = glob($dir."/*.".$ext);
-	
-	
-      foreach ($files as $file) {
-       
-        if ( is_file($file) ) {
-          
-          if ( time() - filemtime($file) >= 60 * 60 * 24 * $days ) {
-          	
-          $result = unlink($file);
-          
-          	if ( $result == false ) {
-          	app_logging('system_error', 'File deletion failed for file "' . $file . '" (check permissions for "' . basename($file) . '")');
-          	}
-          
-          }
-          
-        }
-        else {
-        app_logging('system_error', 'File deletion failed, file not found: "' . $file . '"');
-        }
-        
-      }
-  
-	
-	}
-
-
- }
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
 function smtp_vars() {
 
 // To preserve SMTPMailer class upgrade structure, by creating a global var to be run in classes/smtp-mailer/conf/config_smtp.php

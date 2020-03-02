@@ -22,6 +22,55 @@ function update_cache_file($cache_file, $minutes) {
 }
 
 
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function delete_old_files($directory_data, $days, $ext) {
+	
+	
+	// Support for string OR array in the calls, for directory data
+	if ( !is_array($directory_data) ) {
+	$directory_data = array($directory_data);
+	}
+	
+	
+	// Process each directory
+	foreach ( $directory_data as $dir ) {
+	
+		
+	$files = glob($dir."/*.".$ext);
+	
+	
+      foreach ($files as $file) {
+       
+        if ( is_file($file) ) {
+          
+          if ( time() - filemtime($file) >= 60 * 60 * 24 * $days ) {
+          	
+          $result = unlink($file);
+          
+          	if ( $result == false ) {
+          	app_logging('system_error', 'File deletion failed for file "' . $file . '" (check permissions for "' . basename($file) . '")');
+          	}
+          
+          }
+          
+        }
+        else {
+        app_logging('system_error', 'File deletion failed, file not found: "' . $file . '"');
+        }
+        
+      }
+  
+	
+	}
+
+
+ }
+ 
+
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
 
@@ -178,7 +227,7 @@ function backup_archive($backup_prefix, $backup_target, $interval) {
 global $app_config, $base_dir, $base_url;
 
 
-	if ( update_cache_file('cache/events/backup_'.$backup_prefix.'.dat', ( $interval * 1440 ) ) == true ) {
+	if ( update_cache_file('cache/events/backup-'.$backup_prefix.'.dat', ( $interval * 1440 ) ) == true ) {
 
 	$secure_128bit_hash = random_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
 	
@@ -199,7 +248,7 @@ global $app_config, $base_dir, $base_url;
 			
 				if ( $backup_results == 1 ) {
 					
-				store_file_contents($base_dir . '/cache/events/backup_'.$backup_prefix.'.dat', time_date_format(false, 'pretty_date_time') );
+				store_file_contents($base_dir . '/cache/events/backup-'.$backup_prefix.'.dat', time_date_format(false, 'pretty_date_time') );
 					
 				$backup_url = 'download.php?backup=' . $backup_file;
 				
@@ -1340,6 +1389,8 @@ $api_endpoint = ( $mode == 'array' ? $api_server : $request );
 			
 			////////////////////////////////////////////////////////////////
 			// FALLBACK ATTEMPT TO CACHED DATA, IF AVAILABLE (WE STILL LOG THE FAILURE, SO THIS OS OK)
+			// ONLY ADD ERROR FALLBACKS AND FALLBACKS FOR "IFFY" / HISTORICALLY UNRELIABLE API ENDPOINTS (like localbitcoins / cmc),
+			// AS WE DON'T WANT TO SLOW DOWN THE RUNTIME TOO MUCH BY NIT-PICKING ON FALLBACKS HERE
 			// If response is seen to NOT contain USUAL data, use cache if available
 			if ( preg_match("/cf-error-type/i", $data) // Cloudflare (DDOS protection service)
 			|| preg_match("/\"result\":{}/i", $data) // Kraken.com / generic

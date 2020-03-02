@@ -7,8 +7,8 @@
 //////////////////////////////////////////////////////////////////
 // Scheduled maintenance (run every ~3 hours if NOT cron runtime, OR if runtime is cron every ~1 hours)
 //////////////////////////////////////////////////////////////////
-if ( $runtime_mode != 'cron' && update_cache_file($base_dir . '/cache/events/scheduled_maintenance.dat', (60 * 3) ) == true 
-|| $runtime_mode == 'cron' && update_cache_file($base_dir . '/cache/events/scheduled_maintenance.dat', (60 * 1) ) == true  ) {
+if ( $runtime_mode != 'cron' && update_cache_file($base_dir . '/cache/events/scheduled-maintenance.dat', (60 * 3) ) == true 
+|| $runtime_mode == 'cron' && update_cache_file($base_dir . '/cache/events/scheduled-maintenance.dat', (60 * 1) ) == true  ) {
 //////////////////////////////////////////////////////////////////
 
 
@@ -212,7 +212,7 @@ delete_old_files($logs_cache_cleanup, $app_config['log_purge'], 'dat'); // Delet
 
 
 // Update the maintenance event tracking
-store_file_contents($base_dir . '/cache/events/scheduled_maintenance.dat', time_date_format(false, 'pretty_date_time') );
+store_file_contents($base_dir . '/cache/events/scheduled-maintenance.dat', time_date_format(false, 'pretty_date_time') );
 
 
 }
