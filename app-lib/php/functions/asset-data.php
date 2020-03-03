@@ -334,6 +334,7 @@ global $app_config, $btc_pairing_markets, $btc_pairing_markets_blacklist;
 		
 		// Include a basic array check, since we want valid data to avoid an endless loop in our fallback support
 		if ( !is_array($app_config['portfolio_assets'][strtoupper($pairing)]['market_pairing']['btc']) ) {
+   	app_logging('other_error', 'pairing_market_value() update failure for ' . $pairing, 'non_existant_crypto_pairing: ' . $pairing);
 		return false;
 		}
 		// Preferred BITCOIN market(s) for getting a certain currency's value, if in config and more than one market exists
@@ -390,6 +391,7 @@ global $app_config, $btc_pairing_markets, $btc_pairing_markets_blacklist;
 	
 		// Include a basic array check, since we want valid data to avoid an endless loop in our fallback support
 		if ( !is_array($app_config['portfolio_assets']['BTC']['market_pairing'][$pairing]) ) {
+   	app_logging('other_error', 'pairing_market_value() update failure for ' . $pairing, 'non_existant_btc_pairing: ' . $pairing);
 		return false;
 		}
 		// Preferred BITCOIN market(s) for getting a certain currency's value, if in config and more than one market exists
