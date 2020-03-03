@@ -239,45 +239,30 @@ global $base_dir, $app_config;
 //////////////////////////////////////////////////////////
 
 
-function coingecko_api() {
+function coingecko_api($force_primary_currency=null) {
 	
 global $app_config;
 
 $result = array();
 
-// STILL ~750KB PER REQUEST @ 50 ASSETS PER REQUEST :o
-// DROP LOWER THAN 50, IF REQUESTS START FAILING AGAIN
-$assets_per_request = 50;
+// Don't overwrite global
+$coingecko_primary_currency = ( $force_primary_currency != null ? strtolower($force_primary_currency) : strtolower($app_config['btc_primary_currency_pairing']) );
 
-$num_requests = ceil($app_config['marketcap_ranks_max'] / $assets_per_request);
-	
-	$count = 0;
-	while ( $count < $num_requests ) {
-	
-	$count = $count + 1;
-	
-		if ( $count > 1 ) {
-		sleep(1); // Sleep 1 second on consecutive API calls
-		}
-	
-	$jsondata = @api_data('url', 'https://api.coingecko.com/api/v3/coins?per_page='.$assets_per_request.'&page=' . $count, $app_config['marketcap_cache_time']);
+$jsondata = @api_data('url', 'https://api.coingecko.com/api/v3/coins/markets?per_page='.$app_config['marketcap_ranks_max'].'&page=1&vs_currency='.$coingecko_primary_currency.'&price_change_percentage=1h,24h,7d,14d,30d,200d,1y', $app_config['marketcap_cache_time']);
 	   
-	$data = json_decode($jsondata, true);
+$data = json_decode($jsondata, true);
 
-   	if ( is_array($data) || is_object($data) ) {
+   if ( is_array($data) || is_object($data) ) {
   		
-  	  		foreach ($data as $key => $value) {
+  	 	foreach ($data as $key => $value) {
      	  	
-        		if ( $data[$key]['symbol'] != '' ) {
-        		$result[strtolower($data[$key]['symbol'])] = $data[$key];
-     	  		}
+        	if ( $data[$key]['symbol'] != '' ) {
+        	$result[strtolower($data[$key]['symbol'])] = $data[$key];
+     	  	}
     
-  	  		}
+  	  	}
   	  
-  		}
-  		
-	
-	}
+  	}
 		  
 		  
 return $result;

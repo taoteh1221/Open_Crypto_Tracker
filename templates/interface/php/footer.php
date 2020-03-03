@@ -121,7 +121,7 @@
 		hardy_session_clearing();
     		
     		
-    	echo '<p class="align_center '.( $total_runtime > 10 ? 'red' : 'green' ).'"> Interface Runtime: '.$total_runtime.' seconds</p>';
+    	echo '<p class="align_center '.( $total_runtime > 15 ? 'red' : 'green' ).'"> Interface Runtime: '.$total_runtime.' seconds</p>';
     	
     
     ?>

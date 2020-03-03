@@ -138,32 +138,29 @@ $data = array();
 
 
 	if ( $app_config['primary_marketcap_site'] == 'coingecko' ) {
-		
-	// Don't overwrite global
-	$coingecko_primary_currency = strtolower($app_config['btc_primary_currency_pairing']);
 	
 		
-		if ( $coingecko_api[$symbol]['market_data']['current_price'][$coingecko_primary_currency] == '' ) {
-		$app_notes = 'Coingecko.com does not support '.strtoupper($coingecko_primary_currency).' stats,<br />showing USD stats instead.';
-		$coingecko_primary_currency = 'usd';
+		if ( !isset($coingecko_api[$symbol]['current_price']) ) {
+		$app_notes = 'Coingecko.com does not support '.strtoupper($app_config['btc_primary_currency_pairing']).' stats,<br />showing USD stats instead.';
 		$cap_data_force_usd = 1;
+		$coingecko_api = coingecko_api('usd');
 		}
-		else {
-		$cap_data_force_usd = null;
+		elseif ( $cap_data_force_usd == 1 ) {
+		$app_notes = 'Coingecko.com does not support '.strtoupper($app_config['btc_primary_currency_pairing']).' stats,<br />showing USD stats instead.';
 		}
 		
 		
-	$data['rank'] = $coingecko_api[$symbol]['market_data']['market_cap_rank'];
-	$data['price'] = $coingecko_api[$symbol]['market_data']['current_price'][$coingecko_primary_currency];
-	$data['market_cap'] = $coingecko_api[$symbol]['market_data']['market_cap'][$coingecko_primary_currency];
-	$data['volume_24h'] = $coingecko_api[$symbol]['market_data']['total_volume'][$coingecko_primary_currency];
+	$data['rank'] = $coingecko_api[$symbol]['market_cap_rank'];
+	$data['price'] = $coingecko_api[$symbol]['current_price'];
+	$data['market_cap'] = $coingecko_api[$symbol]['market_cap'];
+	$data['volume_24h'] = $coingecko_api[$symbol]['total_volume'];
 	
-	$data['percent_change_1h'] = number_format( $coingecko_api[$symbol]['market_data']['price_change_percentage_1h_in_currency'][$coingecko_primary_currency] , 2, ".", ",");
-	$data['percent_change_24h'] = number_format( $coingecko_api[$symbol]['market_data']['price_change_percentage_24h_in_currency'][$coingecko_primary_currency] , 2, ".", ",");
-	$data['percent_change_7d'] = number_format( $coingecko_api[$symbol]['market_data']['price_change_percentage_7d_in_currency'][$coingecko_primary_currency] , 2, ".", ",");
+	$data['percent_change_1h'] = number_format( $coingecko_api[$symbol]['price_change_percentage_1h_in_currency'] , 2, ".", ",");
+	$data['percent_change_24h'] = number_format( $coingecko_api[$symbol]['price_change_percentage_24h_in_currency'] , 2, ".", ",");
+	$data['percent_change_7d'] = number_format( $coingecko_api[$symbol]['price_change_percentage_7d_in_currency'] , 2, ".", ",");
 	
-	$data['circulating_supply'] = $coingecko_api[$symbol]['market_data']['circulating_supply'];
-	$data['total_supply'] = $coingecko_api[$symbol]['market_data']['total_supply'];
+	$data['circulating_supply'] = $coingecko_api[$symbol]['circulating_supply'];
+	$data['total_supply'] = $coingecko_api[$symbol]['total_supply'];
 	$data['max_supply'] = null;
 	
 	$data['last_updated'] = strtotime( $coingecko_api[$symbol]['last_updated'] );
@@ -171,11 +168,11 @@ $data = array();
 	$data['app_notes'] = $app_notes;
 	
 	// Coingecko-only
-	$data['percent_change_14d'] = number_format( $coingecko_api[$symbol]['market_data']['price_change_percentage_14d_in_currency'][$coingecko_primary_currency] , 2, ".", ",");
-	$data['percent_change_30d'] = number_format( $coingecko_api[$symbol]['market_data']['price_change_percentage_30d_in_currency'][$coingecko_primary_currency] , 2, ".", ",");
-	$data['percent_change_60d'] = number_format( $coingecko_api[$symbol]['market_data']['price_change_percentage_60d_in_currency'][$coingecko_primary_currency] , 2, ".", ",");
-	$data['percent_change_200d'] = number_format( $coingecko_api[$symbol]['market_data']['price_change_percentage_200d_in_currency'][$coingecko_primary_currency] , 2, ".", ",");
-	$data['percent_change_1y'] = number_format( $coingecko_api[$symbol]['market_data']['price_change_percentage_1y_in_currency'][$coingecko_primary_currency] , 2, ".", ",");
+	$data['percent_change_14d'] = number_format( $coingecko_api[$symbol]['price_change_percentage_14d_in_currency'] , 2, ".", ",");
+	$data['percent_change_30d'] = number_format( $coingecko_api[$symbol]['price_change_percentage_30d_in_currency'] , 2, ".", ",");
+	$data['percent_change_60d'] = number_format( $coingecko_api[$symbol]['price_change_percentage_60d_in_currency'] , 2, ".", ",");
+	$data['percent_change_200d'] = number_format( $coingecko_api[$symbol]['price_change_percentage_200d_in_currency'] , 2, ".", ",");
+	$data['percent_change_1y'] = number_format( $coingecko_api[$symbol]['price_change_percentage_1y_in_currency'] , 2, ".", ",");
 	
 	}
 	elseif ( $app_config['primary_marketcap_site'] == 'coinmarketcap' ) {
@@ -334,17 +331,20 @@ global $app_config, $btc_pairing_markets, $btc_pairing_markets_blacklist;
 	// If we need an ALTCOIN/BTC market value (RUN BEFORE CURRENCIES FOR BEST MARKET DATA, AS SOME CRYPTOS ARE INCLUDED IN BOTH)
 	elseif ( array_key_exists($pairing, $app_config['crypto_to_crypto_pairing']) ) {
 		
+		
 		// Include a basic array check, since we want valid data to avoid an endless loop in our fallback support
 		if ( !is_array($app_config['portfolio_assets'][strtoupper($pairing)]['market_pairing']['btc']) ) {
 		return false;
 		}
+		// Preferred BITCOIN market(s) for getting a certain currency's value, if in config and more than one market exists
+		elseif ( sizeof($app_config['portfolio_assets'][strtoupper($pairing)]['market_pairing']['btc']) > 1 && array_key_exists($pairing, $app_config['preferred_altcoin_markets']) ) {
+		$whitelist = $app_config['preferred_altcoin_markets'][$pairing];
+		}
 	
+	
+		// Loop until we find a whitelisted / non-blacklisted pairing market
 		foreach ( $app_config['portfolio_assets'][strtoupper($pairing)]['market_pairing']['btc'] as $market_key => $market_value ) {
 					
-			// Preferred BITCOIN market(s) for getting a certain currency's value, if in config and more than one market exists
-			if ( sizeof($app_config['portfolio_assets'][strtoupper($pairing)]['market_pairing']['btc']) > 1 && array_key_exists($pairing, $app_config['preferred_altcoin_markets']) ) {
-			$whitelist = $app_config['preferred_altcoin_markets'][$pairing];
-			}
 					
 			if ( isset($whitelist) && $whitelist == $market_key && !array_key_exists($market_key, $btc_pairing_markets_blacklist)
 			|| !isset($whitelist) && !array_key_exists($market_key, $btc_pairing_markets_blacklist) ) {
@@ -355,6 +355,8 @@ global $app_config, $btc_pairing_markets, $btc_pairing_markets_blacklist;
    		
    			// Fallback support, if no data returned
    			if ( !isset($result) || number_to_string($result) < 0.00000001 || !is_numeric($result) ) {
+   				
+   			$btc_pairing_markets[$pairing.'_btc'] = null; // Reset
    				
    			$btc_pairing_markets_blacklist[] = $market_key; // Blacklist getting pairing data from this exchange IN ANY PAIRING, for this runtime only
    			
@@ -376,6 +378,7 @@ global $app_config, $btc_pairing_markets, $btc_pairing_markets_blacklist;
    		
 			}
 			
+			
 		}
 		return false; // If we made it this deep in the logic, no data was found	
 	
@@ -384,63 +387,62 @@ global $app_config, $btc_pairing_markets, $btc_pairing_markets_blacklist;
 	// RUN AFTER CRYPTO MARKETS...WE HAVE A COUPLE CRYPTOS SUPPORTED HERE, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
 	elseif ( array_key_exists($pairing, $app_config['bitcoin_currency_markets']) ) {
 	
-		foreach ( $app_config['portfolio_assets']['BTC']['market_pairing'] as $pair_key => $pair_unused ) {
-		
-			if ( $pairing == $pair_key ) {
-		
-				// Include a basic array check, since we want valid data to avoid an endless loop in our fallback support
-				if ( !is_array($app_config['portfolio_assets']['BTC']['market_pairing'][$pair_key]) ) {
-				return false;
-				}
-				
-				foreach ( $app_config['portfolio_assets']['BTC']['market_pairing'][$pair_key] as $market_key => $market_value ) {
-					
-					// Preferred BITCOIN market(s) for getting a certain currency's value, if in config and more than one market exists
-					if ( sizeof($app_config['portfolio_assets']['BTC']['market_pairing'][$pair_key]) > 1 && array_key_exists($pairing, $app_config['preferred_bitcoin_markets']) ) {
-					$whitelist = $app_config['preferred_bitcoin_markets'][$pairing];
-					}
-					
-					if ( isset($whitelist) && $whitelist == $market_key && !array_key_exists($market_key, $btc_pairing_markets_blacklist)
-					|| !isset($whitelist) && !array_key_exists($market_key, $btc_pairing_markets_blacklist) ) {
-						
-   				$btc_pairing_markets[$pairing.'_btc'] = number_format( (1 /  asset_market_data(strtoupper($pair_key), $market_key, $market_value)['last_trade'] ), 8, '.', '');
-   				
-   				$result = $btc_pairing_markets[$pairing.'_btc'];
-   					
-   					// Fallback support, if no data returned
-   					if ( !isset($result) || number_to_string($result) < 0.00000001 || !is_numeric($result) ) {
-   						
-   					$btc_pairing_markets_blacklist[] = $market_key; // Blacklist getting pairing data from this exchange IN ANY PAIRING, for this runtime only
-   					
-   					app_logging('other_error', 'pairing_market_value() update failure for ' . $pairing, 'blacklisted_exchange: ' . $market_key);
-   					
-   					return pairing_market_value($pairing);
-   					
-   					}
-   					else {
-   						
-   						// Data debugging telemetry
-							if ( $app_config['debug_mode'] == 'all' || $app_config['debug_mode'] == 'telemetry' ) {
-							app_logging('other_debugging', 'pairing_market_value() update succeeded for ' . $pairing, 'exchange: ' . $market_key);
-							}
-							
-   					return $result;
-   					
-   					}
-   		
-   				
-					}
-						
-				}
-				return false; // If we made it this deep in the logic, no data was found	
-   		
-   		}
-		
-		}
 	
+		// Include a basic array check, since we want valid data to avoid an endless loop in our fallback support
+		if ( !is_array($app_config['portfolio_assets']['BTC']['market_pairing'][$pairing]) ) {
+		return false;
+		}
+		// Preferred BITCOIN market(s) for getting a certain currency's value, if in config and more than one market exists
+		elseif ( sizeof($app_config['portfolio_assets']['BTC']['market_pairing'][$pairing]) > 1 && array_key_exists($pairing, $app_config['preferred_bitcoin_markets']) ) {
+		$whitelist = $app_config['preferred_bitcoin_markets'][$pairing];
+		}
+				
+				
+		// Loop until we find a whitelisted / non-blacklisted pairing market
+		foreach ( $app_config['portfolio_assets']['BTC']['market_pairing'][$pairing] as $market_key => $market_value ) {
+					
+					
+			if ( isset($whitelist) && $whitelist == $market_key && !array_key_exists($market_key, $btc_pairing_markets_blacklist)
+			|| !isset($whitelist) && !array_key_exists($market_key, $btc_pairing_markets_blacklist) ) {
+						
+   		$btc_pairing_markets[$pairing.'_btc'] = number_format( (1 /  asset_market_data(strtoupper($pairing), $market_key, $market_value)['last_trade'] ), 8, '.', '');
+   				
+   		$result = $btc_pairing_markets[$pairing.'_btc'];
+   					
+   			// Fallback support, if no data returned
+   			if ( !isset($result) || number_to_string($result) < 0.00000001 || !is_numeric($result) ) {
+   			
+   			$btc_pairing_markets[$pairing.'_btc'] = null; // Reset
+   						
+   			$btc_pairing_markets_blacklist[] = $market_key; // Blacklist getting pairing data from this exchange IN ANY PAIRING, for this runtime only
+   					
+   			app_logging('other_error', 'pairing_market_value() update failure for ' . $pairing, 'blacklisted_exchange: ' . $market_key);
+   					
+   			return pairing_market_value($pairing);
+   					
+   			}
+   			else {
+   						
+   				// Data debugging telemetry
+					if ( $app_config['debug_mode'] == 'all' || $app_config['debug_mode'] == 'telemetry' ) {
+					app_logging('other_debugging', 'pairing_market_value() update succeeded for ' . $pairing, 'exchange: ' . $market_key);
+					}
+							
+   			return $result;
+   					
+   			}
+   		
+   				
+			}
+					
+						
+		}
+		return false; // If we made it this deep in the logic, no data was found	
+   		
+		
 	}
    else {
-   return false;
+   return false; // If we made it this deep in the logic, no data was found
    }
    
    

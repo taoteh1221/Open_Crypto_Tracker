@@ -685,9 +685,9 @@ $app_config['log_purge'] = 10;
 
 
 // Seconds to wait for response from API endpoints (exchange data, etc). 
-// Set too low you won't get ALL data, set too high the interface can take a long time loading if an API server hangs up
+// Set too low you won't get ALL data (partial or zero bytes), set too high the interface can take a long time loading if an API server hangs up
 // RECOMMENDED MINIMUM OF 60, #ESPECIALLY# FOR INSTALLS BEHIND LOW BANDWIDTH / HOME INTERNET NETWORKS
-$app_config['api_timeout'] = 60; // (default = 60)
+$app_config['api_timeout'] = 30; // (default = 30)
 
 
 // 'on' verifies ALL API server certificates for secure API connections, 'off' verifies NOTHING 
