@@ -15,6 +15,8 @@ Password notes: https://www.php.net/manual/en/faq.passwords.php
 "NEXT ON THE LIST" SUMMARY SECTION
 ///////////////////////////////////////////////////////
 
+Post on telegram, discord, Twitter, and Facebook whenever there is a new release of the app.
+
 ALWAYS do everything in the optimizations / bugs / tests / ux / qa / other section of this list FIRST, before adding ANY new features (find every flaming turd before we start a dumpster fire).
 
 Youtube channels on the resources page, that MAY BE DYING (keep an eye on them): Crypto Trader, Crypto Bobby, and IMineBlocks.
@@ -202,6 +204,9 @@ Simple trading bot, to run from cron / cli (with SQL-based admin authentication 
 ///////////////////////////////////////////////////////
 MAYBE SECTION
 ///////////////////////////////////////////////////////
+
+
+Maybe do a gains pie chart and a separate losses pie chart for the gains / losses summary?
 
 
 Comparison chart(s) showing historical asset price vs what you paid per-token?

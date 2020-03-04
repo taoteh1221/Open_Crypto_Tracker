@@ -78,6 +78,12 @@ header('Content-type: text/html; charset=' . $app_config['charset_default']);
 	
 	<script>
 	
+	// Preload ajax placeholder image
+	var my_image = new Image();
+	my_image.src = 'templates/interface/media/images/loader.gif';
+	
+	var ajax_placeholder = '<div class="align_center" style="min-width: 50px;"><img src="templates/interface/media/images/loader.gif" height="50" alt="Loading..." /></div>';
+	
 	var sorted_by_col = <?=$sorted_by_col?>;
 	var sorted_by_asc_desc = <?=$sorted_by_asc_desc?>;
 	var tablesort_theme = '<?=$theme_selected?>';
@@ -89,8 +95,6 @@ header('Content-type: text/html; charset=' . $app_config['charset_default']);
 	var btc_primary_currency_value = '<?=number_format( $btc_primary_currency_value, 2, '.', '' )?>';
 	
 	var btc_primary_currency_pairing = '<?=strtoupper($app_config['btc_primary_currency_pairing'])?>';
-	
-	var ajax_placeholder = '<div class="align_center" style="min-width: 200px;"><img src="templates/interface/media/images/loader.gif" alt="loading..." /></div>';
 	
 	<?php
 	foreach ( $app_config['limited_apis'] as $api ) {
@@ -134,7 +138,7 @@ header('Content-type: text/html; charset=' . $app_config['charset_default']);
 					<?php
 					if ( $app_config['charts_page'] == 'on' ) {
 					?>
-            	<div id='loading_charts' class='align_center red'>Loading charts...</div>
+            	<div id='loading_charts' class='align_center red'><img src="templates/interface/media/images/loader.gif" height='20' alt="loading..." style='vertical-align: middle;' /> Loading charts...</div>
 					<?php
 					}
 					?>
