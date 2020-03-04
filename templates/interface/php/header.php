@@ -90,6 +90,8 @@ header('Content-type: text/html; charset=' . $app_config['charset_default']);
 	
 	var btc_primary_currency_pairing = '<?=strtoupper($app_config['btc_primary_currency_pairing'])?>';
 	
+	var ajax_placeholder = '<div class="align_center" style="min-width: 200px;"><img src="templates/interface/media/images/loader.gif" alt="loading..." /></div>';
+	
 	<?php
 	foreach ( $app_config['limited_apis'] as $api ) {
 	$js_limited_apis .= '"'.strtolower( preg_replace("/\.(.*)/i", "", $api) ).'", ';

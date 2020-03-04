@@ -140,10 +140,21 @@ $data = array();
 	if ( $app_config['primary_marketcap_site'] == 'coingecko' ) {
 	
 		
-		if ( !isset($coingecko_api[$symbol]['market_cap_rank']) && strtoupper($app_config['btc_primary_currency_pairing']) != 'USD' ) {
+		// Check for currency support, fallback to USD if needed
+		if ( !isset($coingecko_api['btc']['market_cap_rank']) && strtoupper($app_config['btc_primary_currency_pairing']) != 'USD' ) {
+			
 		$app_notice = 'Coingecko.com does not seem to support '.strtoupper($app_config['btc_primary_currency_pairing']).' stats,<br />showing USD stats instead.';
+		
 		$cap_data_force_usd = 1;
+		
 		$coingecko_api = coingecko_api('usd');
+			
+			// Overwrite previous app notice and unset force usd flag, if this appears to be a data error rather than an unsupported language
+			if ( !isset($coingecko_api['btc']['market_cap_rank']) ) {
+			$cap_data_force_usd = null;
+			$app_notice = 'Coingecko.com API data error, check the error logs for more information.';
+			}
+		
 		}
 		elseif ( $cap_data_force_usd == 1 ) {
 		$app_notice = 'Coingecko.com does not seem to support '.strtoupper($app_config['btc_primary_currency_pairing']).' stats,<br />showing USD stats instead.';
