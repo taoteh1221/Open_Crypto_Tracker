@@ -59,13 +59,10 @@ header('Content-type: text/html; charset=' . $app_config['charset_default']);
 	<script src="app-lib/js/modaal.js"></script>
 
 	<script src="app-lib/js/functions.js"></script>
-
-	<?php
-	if ( $app_config['charts_page'] == 'on' || $app_config['system_stats'] != 'off' ) {
-	?>
+	
 	<script src="app-lib/js/zingchart.min.js"></script>
+	
 	<?php
-	}
 	if ( $app_config['charts_page'] == 'on' ) {
 	?>
 	<script>

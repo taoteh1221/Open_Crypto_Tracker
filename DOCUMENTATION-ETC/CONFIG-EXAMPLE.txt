@@ -228,7 +228,7 @@ $app_config['primary_currency_decimals_max_threshold'] = 0.70; // Can be decimal
 // Enables a charts tab / page with historical charts
 // Caches the default [primary currency] ($app_config['btc_primary_currency_pairing'] at top of this config)
 // price / crypto price / volume data for charts of all assets added to $app_config['charts_and_price_alerts'] (further down in this config file)
-// Disabling will disable EVERYTHING related to the charts features (unless system charts are enabled)
+// Disabling will disable EVERYTHING related to the price charts (price charts tab / page, and price chart data caching)
 $app_config['charts_page'] = 'on'; // 'on' / 'off'
 ////
 // Chart colors (https://www.w3schools.com/colors/colors_picker.asp)

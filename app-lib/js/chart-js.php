@@ -17,5 +17,8 @@ require($base_dir . '/templates/interface/php/charts/asset-charts.php');
 elseif ( $_GET['type'] == 'system' ) {
 require($base_dir . '/templates/interface/php/charts/system-charts.php');
 }
+elseif ( $_GET['type'] == 'balance_stats' ) {
+require($base_dir . '/templates/interface/php/charts/balance-stats-charts.php');
+}
 
 ?>

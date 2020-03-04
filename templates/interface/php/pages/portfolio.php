@@ -528,6 +528,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 		 
 		<?php
 		}
+		
 		if ( number_to_string($bitcoin_dominance) >= 0.01 || number_to_string($ethereum_dominance) >= 0.01 || number_to_string($altcoin_dominance) >= 0.01 ) {
 			
 			
@@ -542,7 +543,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 			}
 			
 			if ( number_to_string($altcoin_dominance) >= 0.01 ) {
-			$altcoin_dominance_text = number_format($altcoin_dominance, 2, '.', ',') .'% Altcoin(s)';
+			$altcoin_dominance_text = number_format($altcoin_dominance, 2, '.', ',') .'% Alt(s)';
 			}
 			
 			
@@ -551,36 +552,32 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 			
 		?>
 		
-		<img id='portfolio_dominance' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' /> </div>
+		<img id='balance_stats' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' /> </div>
+		
 	 <script>
 	
-			var dominance_content = '<h5 class="yellow" style="position: relative; white-space: nowrap;">Portfolio Balance Stats:</h5>'
-			
 			<?php
 					
-					// Sort by most dominant first
-					arsort($btc_worth_array);
+				// Sort by most dominant first
+				arsort($btc_worth_array);
 					
 				foreach ( $btc_worth_array as $key => $value ) {
-					$dominance = ( $value / $total_btc_worth_raw ) * 100;
 					
-						if ( $dominance >= 0.01 ) {
-				?>
-			+'<p class="coin_info"><span class="yellow"><?=$key?>:</span> <?=number_format($dominance, 2, '.', ',')?>%</p>'
-			
-			<?php
+					$balance_stats = ( $value / $total_btc_worth_raw ) * 100;
+					
+						if ( $balance_stats >= 0.01 ) {
+						$balance_stats_encoded .= '&' . strtolower($key) . '=' . number_format($balance_stats, 2, '.', ',');
 						}
 							
 				}
-			 ?>
 				
-			+'<p class="coin_info balloon_notation"><span class="yellow"><?=( $leverage_added == 1 ? '*Does <u>not</u> adjust for any type of leverage' : '' )?><?=(  $short_added == 1 ? ', or short deposit(s) gain / loss' : '' )?><?=( $leverage_added == 1 ? '.' : '' )?></span></p>';
+			 ?>
 		
 		
-			$('#portfolio_dominance').balloon({
+			$('#balance_stats').balloon({
 			html: true,
 			position: "right",
-			contents: dominance_content,
+  			url: 'app-lib/js/chart-js.php?type=balance_stats&leverage_added=<?=$leverage_added?>&short_added=<?=$short_added?><?=$balance_stats_encoded?>',
 			css: {
 					fontSize: ".8rem",
 					minWidth: ".8rem",
@@ -595,7 +592,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 					textAlign: "left"
 					}
 			});
-		
+	
 		 </script>
 		 
 		<?php

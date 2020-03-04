@@ -145,7 +145,7 @@
 		 
 		<p class='red' style='font-weight: bold;'>A few crypto exchanges only provide asset volume data (with no pairing volume data included). If 24 hour pair volume is NOT available for a market, it will be emulated via the asset volume multiplied by the <i>current</i> asset market value (which gives us the rough pairing volume for a better chart user experience).</p>
 		 
-		<p class='red' style='font-weight: bold;'>Charts are only available to show for each asset properly configured in the charts / price alerts configuration section in the file config.php (located in the primary directory of this app). Charts (and price alerts) must be <a href='README.txt' target='_blank'>setup as a cron job on your web server</a>, or <i>they will not work</i>. The chart's tab, page, caching, and javascript can be disabled in config.php if you choose to not setup a cron job.</p>
+		<p class='red' style='font-weight: bold;'>Charts are only available to show for each asset properly configured in the charts / price alerts configuration section in the file config.php (located in the primary directory of this app). Charts (and price alerts) must be <a href='README.txt' target='_blank'>setup as a cron job on your web server</a>, or <i>they will not work</i>. The chart's tab / page, and chart data caching can be disabled in config.php if you choose to not setup a cron job.</p>
 		 
 		<p class='red' style='font-weight: bold;'>v4.03.0 and higher charts are NOT backwards-compatible, as the 24 hour volume format was completely changed over to always be based off pairing volume data only (24 hour asset volume is no longer supported).</p>
 	
