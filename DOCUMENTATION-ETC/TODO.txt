@@ -38,9 +38,6 @@ Check optimization by enabling "telemetry" debug mode, and reviewing debugging l
 Make sure all kraken currency markets and other markets are added.
 
 
-Do new screenshots.
-
-
 Review landing page, SF page, help FAQ, and config.php settings documentation.
 
 
