@@ -50,6 +50,9 @@ Test unicode mobile text message with no space in front of hex-encoded data (for
 Code review ALL functions / logic (especially loops, for efficiency).
 
 
+Test on a Raspberry Pi Zero
+
+
 ///////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////
 

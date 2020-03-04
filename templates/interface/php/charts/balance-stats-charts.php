@@ -6,7 +6,7 @@
  ?>
  <h5 class="align_center yellow" style="position: relative; white-space: nowrap;">Portfolio Balance Stats:</h5>
  
-  <div id='balance_chart' class='chart_wrapper' style='min-width: 700px;'></div>
+  <div id='balance_chart' class='chart_wrapper' style='min-width: 700px; background: white; border: 2px solid #918e8e;'></div>
   
   <script>
     var balance_chart_config = {
