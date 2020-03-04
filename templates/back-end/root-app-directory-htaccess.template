@@ -42,11 +42,11 @@ RewriteEngine on
 #PHP5
 <IfModule mod_php5.c>
 
-php_value memory_limit 150M
+php_value memory_limit 100M
 
-php_value upload_max_filesize 15M
+php_value upload_max_filesize 8M
 
-php_value post_max_size 45M
+php_value post_max_size 15M
 
 php_value max_input_time 200
 
@@ -57,11 +57,11 @@ php_value max_execution_time 200
 #PHP7
 <IfModule mod_php7.c>
 
-php_value memory_limit 150M
+php_value memory_limit 100M
 
-php_value upload_max_filesize 15M
+php_value upload_max_filesize 8M
 
-php_value post_max_size 45M
+php_value post_max_size 15M
 
 php_value max_input_time 200
 
