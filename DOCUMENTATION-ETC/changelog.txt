@@ -2811,6 +2811,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.08.7:
 
+-Minor misc. bug fixes and UX revisions
+
 -Pie chart included in portfolio balance stats
 
 -Misc. optimizations for faster interface / cron runtimes

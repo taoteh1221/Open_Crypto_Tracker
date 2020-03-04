@@ -140,13 +140,13 @@ $data = array();
 	if ( $app_config['primary_marketcap_site'] == 'coingecko' ) {
 	
 		
-		if ( !isset($coingecko_api[$symbol]['current_price']) ) {
-		$app_notes = 'Coingecko.com does not support '.strtoupper($app_config['btc_primary_currency_pairing']).' stats,<br />showing USD stats instead.';
+		if ( !isset($coingecko_api[$symbol]['market_cap_rank']) && strtoupper($app_config['btc_primary_currency_pairing']) != 'USD' ) {
+		$app_notice = 'Coingecko.com does not seem to support '.strtoupper($app_config['btc_primary_currency_pairing']).' stats,<br />showing USD stats instead.';
 		$cap_data_force_usd = 1;
 		$coingecko_api = coingecko_api('usd');
 		}
 		elseif ( $cap_data_force_usd == 1 ) {
-		$app_notes = 'Coingecko.com does not support '.strtoupper($app_config['btc_primary_currency_pairing']).' stats,<br />showing USD stats instead.';
+		$app_notice = 'Coingecko.com does not seem to support '.strtoupper($app_config['btc_primary_currency_pairing']).' stats,<br />showing USD stats instead.';
 		}
 		
 		
@@ -165,7 +165,7 @@ $data = array();
 	
 	$data['last_updated'] = strtotime( $coingecko_api[$symbol]['last_updated'] );
 	
-	$data['app_notes'] = $app_notes;
+	$data['app_notice'] = $app_notice;
 	
 	// Coingecko-only
 	$data['percent_change_14d'] = number_format( $coingecko_api[$symbol]['price_change_percentage_14d_in_currency'] , 2, ".", ",");
@@ -188,7 +188,7 @@ $data = array();
 		
 		
 		if ( isset($cmc_notes) ) {
-		$app_notes = $cmc_notes;
+		$app_notice = $cmc_notes;
 		}
 		
 		
@@ -207,7 +207,7 @@ $data = array();
 	
 	$data['last_updated'] = strtotime( $coinmarketcap_api[$symbol]['last_updated'] );
 	
-	$data['app_notes'] = $app_notes;
+	$data['app_notice'] = $app_notice;
 	
 	}
  	
@@ -1474,9 +1474,19 @@ $market_pairing = $all_markets[$selected_exchange];
         ?> 
     
         var cmc_content = '<h5 class="yellow" style="position: relative; white-space: nowrap;"><?=ucfirst($app_config['primary_marketcap_site'])?>.com Summary For <?=$asset_name?> (<?=$asset_symbol?>):</h5>'
+        
+        		<?php
+            if ( $marketcap_data['app_notice'] != '' ) {
+        		?>
+        +'<p class="coin_info red_bright">Notice: <?=$marketcap_data['app_notice']?></p>'
+        		<?php
+            }
+        		?>
+        
         +'<p class="coin_info"><span class="yellow">Marketcap Ranking:</span> #<?=$marketcap_data['rank']?></p>'
         +'<p class="coin_info"><span class="yellow">Marketcap Value:</span> <?=$cmc_primary_currency_symbol?><?=number_format($marketcap_data['market_cap'],0,".",",")?></p>'
         +'<p class="coin_info"><span class="yellow">Available Supply:</span> <?=number_format($marketcap_data['circulating_supply'], 0, '.', ',')?></p>'
+        
         <?php
             if ( $marketcap_data['total_supply'] > 0 ) {
             ?>
@@ -1536,11 +1546,6 @@ $market_pairing = $all_markets[$selected_exchange];
             ?>
         +'<p class="coin_info"><span class="yellow">Timestamp (UTC):</span> <?=gmdate("Y-M-d\ \\a\\t g:ia", $marketcap_data['last_updated'])?></p>'
         +'<p class="coin_info"><span class="yellow">App Cache Time:</span> <?=$app_config['marketcap_cache_time']?> minute(s)</p>'
-        <?php
-            }
-            if ( $marketcap_data['app_notes'] != '' ) {
-            ?>
-        +'<p class="coin_info red_bright">Notes: <?=$marketcap_data['app_notes']?></p>'
         <?php
             }
             ?>
