@@ -29,7 +29,7 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 Run tests creating the directory structure and initial cache files, with a default app_config, and with a custom app_config.
 
 
-Make landing page screenshot lightbox modal full screen mode.
+Replace landing page screenshot lightbox modal with one that is a reliable mobile full screen mode (current one has poor mobile support).
 
 
 Check optimization by enabling "telemetry" debug mode, and reviewing debugging logs.
