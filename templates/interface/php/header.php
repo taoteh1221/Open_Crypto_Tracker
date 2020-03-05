@@ -79,10 +79,8 @@ header('Content-type: text/html; charset=' . $app_config['charset_default']);
 	<script>
 	
 	// Preload ajax placeholder image
-	var my_image = new Image();
-	my_image.src = 'templates/interface/media/images/loader.gif';
-	
-	var ajax_placeholder = '<div class="align_center" style="min-width: 50px;"><img src="templates/interface/media/images/loader.gif" height="50" alt="Loading..." /></div>';
+	var loader_image = new Image();
+	loader_image.src = 'templates/interface/media/images/loader.gif';
 	
 	var sorted_by_col = <?=$sorted_by_col?>;
 	var sorted_by_asc_desc = <?=$sorted_by_asc_desc?>;

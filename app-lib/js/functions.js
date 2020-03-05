@@ -1,7 +1,127 @@
 
 // Copyright 2014-2020 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
 
+	
 /////////////////////////////////////////////////////////////
+
+
+function ajax_placeholder(px_size){
+return '<div class="align_center" style="min-width: ' + px_size + 'px;"><img src="templates/interface/media/images/loader.gif" height="' + px_size + '" alt="Loading..." /></div>';
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function set_target_action(obj_id, set_target, set_action) {
+	
+document.getElementById(obj_id).target = set_target;
+document.getElementById(obj_id).action = set_action;
+	
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function delete_cookie( name ) {
+  document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires="+d.toUTCString();
+    document.cookie = cname + "=" + cvalue + "; " + expires;
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+    }
+    return "";
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+var sort_extraction = function(node) {
+
+// Sort with the .app_sort_filter CSS class as the primary sorter
+var sort_target = $(node).find(".app_sort_filter").text();
+
+// Remove any commas from number sorting
+return sort_target.replace(/,/g, '');
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function validateForm(form_id, feild) {
+	
+  var x = document.forms[form_id][feild].value;
+  if (x == "") {
+    alert(feild + " must be populated.");
+    return false;
+  }
+  else {
+  document.forms[form_id].submit();
+  }
+  
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function charts_loading_check(charts_loaded) {
+	
+	//console.log('loaded charts = ' + window.charts_loaded.length + ', all charts = ' + window.charts_num);
+
+	if ( window.charts_loaded.length >= window.charts_num ) {
+	$("#loading_charts").hide();
+	}
+	else {
+	$("#loading_charts").show();
+	}
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function chart_toggle(obj_var) {
+  
+	var show_charts = $("#show_charts").val();
+	
+		if ( obj_var.checked == true ) {
+		$("#show_charts").val("[" + obj_var.value + "]" + "," + show_charts);
+		}
+		else {
+		$("#show_charts").val( show_charts.replace("[" + obj_var.value + "],", "") );
+		}
+	
+}
+	
+	
+/////////////////////////////////////////////////////////////
+
 
 function render_names(name) {
 	
@@ -23,58 +143,36 @@ return render;
 
 }
 
+
 /////////////////////////////////////////////////////////////
 
-function charts_loading_check(charts_loaded) {
+
+function selectAll(toggle, form_name) {
 	
-	//console.log('loaded charts = ' + window.charts_loaded.length + ', all charts = ' + window.charts_num);
-
-	if ( window.charts_loaded.length >= window.charts_num ) {
-	$("#loading_charts").hide();
-	}
-	else {
-	$("#loading_charts").show();
-	}
-
+    var checkbox, i=0;
+    while ( checkbox=document.getElementById(form_name).elements[i++] ) {
+    	
+        if ( checkbox.type == "checkbox" ) {
+            
+            if ( form_name == 'activate_charts' && checkbox.checked != toggle.checked ) {
+        		checkbox.checked = toggle.checked;
+            chart_toggle(checkbox);
+            }
+            
+            else if ( form_name == 'coin_amounts' && checkbox.checked != toggle.checked ) {
+        		checkbox.checked = toggle.checked;
+            watch_toggle(checkbox);
+            }
+            
+        }
+        
+    }
+     
 }
 
-/////////////////////////////////////////////////////////////
-
-var sort_extraction = function(node) {
-
-// Sort with the .app_sort_filter CSS class as the primary sorter
-var sort_target = $(node).find(".app_sort_filter").text();
-
-// Remove any commas from number sorting
-return sort_target.replace(/,/g, '');
-
-}
 
 /////////////////////////////////////////////////////////////
 
-function validateForm(form_id, feild) {
-	
-  var x = document.forms[form_id][feild].value;
-  if (x == "") {
-    alert(feild + " must be populated.");
-    return false;
-  }
-  else {
-  document.forms[form_id].submit();
-  }
-  
-}
-
-/////////////////////////////////////////////////////////////
-
-function set_target_action(obj_id, set_target, set_action) {
-	
-document.getElementById(obj_id).target = set_target;
-document.getElementById(obj_id).action = set_action;
-	
-}
-
-/////////////////////////////////////////////////////////////
 
 function watch_toggle(obj_var) {
 	
@@ -104,76 +202,9 @@ function watch_toggle(obj_var) {
 	
 }
 
-/////////////////////////////////////////////////////////////
-
-function chart_toggle(obj_var) {
-  
-	var show_charts = $("#show_charts").val();
-	
-		if ( obj_var.checked == true ) {
-		$("#show_charts").val("[" + obj_var.value + "]" + "," + show_charts);
-		}
-		else {
-		$("#show_charts").val( show_charts.replace("[" + obj_var.value + "],", "") );
-		}
-	
-}
 
 /////////////////////////////////////////////////////////////
 
-function selectAll(toggle, form_name) {
-	
-    var checkbox, i=0;
-    while ( checkbox=document.getElementById(form_name).elements[i++] ) {
-    	
-        if ( checkbox.type == "checkbox" ) {
-            
-            if ( form_name == 'activate_charts' && checkbox.checked != toggle.checked ) {
-        		checkbox.checked = toggle.checked;
-            chart_toggle(checkbox);
-            }
-            
-            else if ( form_name == 'coin_amounts' && checkbox.checked != toggle.checked ) {
-        		checkbox.checked = toggle.checked;
-            watch_toggle(checkbox);
-            }
-            
-        }
-        
-    }
-     
-}
-
-/////////////////////////////////////////////////////////////
-
-function delete_cookie( name ) {
-  document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-}
-
-/////////////////////////////////////////////////////////////
-
-function setCookie(cname, cvalue, exdays) {
-    var d = new Date();
-    d.setTime(d.getTime() + (exdays*24*60*60*1000));
-    var expires = "expires="+d.toUTCString();
-    document.cookie = cname + "=" + cvalue + "; " + expires;
-}
-
-/////////////////////////////////////////////////////////////
-
-function getCookie(cname) {
-    var name = cname + "=";
-    var ca = document.cookie.split(';');
-    for(var i=0; i<ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0)==' ') c = c.substring(1);
-        if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
-    }
-    return "";
-}
-
-
-/////////////////////////////////////////////////////////////
 
 function satoshi_value(sat_increase) {
 
@@ -216,6 +247,7 @@ document.getElementById("target_total_btc").innerHTML = (to_trade_amount * num_t
 
 
 /////////////////////////////////////////////////////////////
+
 
 function auto_reload(time) {
 	
@@ -269,7 +301,9 @@ function auto_reload(time) {
 
 }
 
+
 /////////////////////////////////////////////////////////////
+
 
 function count_down(i, toggle) {
 	
@@ -318,7 +352,9 @@ function count_down(i, toggle) {
     
 }
 
+
 /////////////////////////////////////////////////////////////
+
 
 function row_alert(tr_id, alert_type, color, theme) {
 
@@ -382,6 +418,7 @@ function row_alert(tr_id, alert_type, color, theme) {
     
 
 }
+
 
 /////////////////////////////////////////////////////////////
 
