@@ -338,12 +338,12 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
 function getVolumeConfig_<?=$js_key?>(dates, values) {
   return {
   type: 'bar',
-  height: 70,
+  height: 75,
   x: 0, 
   y: 400,
   backgroundColor: "<?=$app_config['charts_background']?>",
   plotarea: {
-    margin: "11 63 5 112"
+    margin: "11 63 20 112"
   },
   plot: {
   	barSpace: "0px",
@@ -356,7 +356,7 @@ function getVolumeConfig_<?=$js_key?>(dates, values) {
 	 fontSize: "13",
     fontFamily: "Open Sans",
     offsetX: 106,
-    offsetY: 13,
+    offsetY: -2,
     align: 'left'
   },
   tooltip:{

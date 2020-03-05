@@ -180,9 +180,16 @@ $file_owner_info = posix_getpwuid(fileowner($file));
 	$result = file_put_contents($file, $content, LOCK_EX);
 	}
 	
-	// Log any error
+	// Log any write error
 	if ( $result == false ) {
+		
 	app_logging('system_error', 'File write failed for file "' . $file . '" (check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")');
+	
+		// API timeouts are a confirmed cause for write errors of 0 bytes, so we want to alert end users that they may need to adjust their API timeout settings to get associated API data
+		if ( preg_match("/cache\/secured\/apis/i", $file) ) {
+		app_logging('api_error', 'POSSIBLE api timeout issue for cache file "' . $file . '" (TRY INCREASING "api_timeout" IN THE DEVELOPER CONFIG SETTINGS)', 'file_size: '.filesize($file).' bytes; api_timeout: '.$app_config['api_timeout'].' seconds;');
+		}
+	
 	}
 	
 	

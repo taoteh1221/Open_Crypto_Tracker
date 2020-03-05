@@ -62,6 +62,9 @@ FEATURES / STRUCTURING SECTION
 ///////////////////////////////////////////////////////
 
 
+Create install / uninstall dialog for bash auto install
+
+
 Alphabetically order printout from .../debugging/exchange-and-pairing-info.php
 
 
