@@ -368,13 +368,17 @@
 	
 	
 	
-	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Intermediate / Professional Server Software</strong> </legend>
+	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Intermediate / Professional Server Software and Services</strong> </legend>
 	    <ul>
 	        
 	        
-	        <li class='links_list'><a href='https://btcpayserver.org/' target='_blank'>BTCPay Server (Bitcoin payment processor)</a></li>
+	        <li class='links_list'><a href='https://btcpayserver.org/' target='_blank'>BTCPay Server (Self-hosted Bitcoin payment processor)</a></li>
 	        
-	        <li class='links_list'><a href='https://grid.ethereum.org/' target='_blank'>Grid (Ethereum nodes and tools)</a></li>
+	        <li class='links_list'><a href='https://grid.ethereum.org/' target='_blank'>Grid (Ethereum node implementations and tools)</a></li>
+	        
+	        <li class='links_list'><a href='https://mynodebtc.com/' target='_blank'>MyNode (Bitcoin / Lightning nodes and tools)</a></li>
+	        
+	        <li class='links_list'><a href='https://www.opennode.com/' target='_blank'>OpenNode (Bitcoin / Lightning ecommerce gateway services)</a></li>
 	        
 	        <li class='links_list'><a href='https://github.com/rootzoll/raspiblitz' target='_blank'>RaspiBlitz (Bitcoin Lightning node on a Raspberry Pi w/LCD screen)</a></li>
 	        
