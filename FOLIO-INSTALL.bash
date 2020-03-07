@@ -103,7 +103,7 @@ echo "Your operating system has been detected as:"
 echo "$OS v$VER"
 echo " "
 
-echo "Raspberry Pi recommended minimum hardware specs are v3 or higher, and minimum 1 GB of RAM."
+echo "Raspberry Pi recommended minimum hardware specs are a Raspberry Pi Zero or higher, and minimum 512 megabytes of RAM."
 echo " "
 
 echo "This script may work on other Debian-based systems as well, but it has not been tested for that purpose."
