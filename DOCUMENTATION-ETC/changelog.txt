@@ -2845,7 +2845,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.09.0:
 
--More minor misc. UX revisions
+-More minor misc. bug fixes / UX revisions
 
 IMPORTANT NOTES: 
 

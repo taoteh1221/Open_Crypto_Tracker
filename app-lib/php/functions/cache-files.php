@@ -446,7 +446,7 @@ global $base_dir, $app_config, $telegram_activated;
    }
 	
 	// Telegram
-   if ( $telegram_activated == 1 ) {
+   if ( $send_params['telegram'] != '' && $telegram_activated == 1 ) {
 	store_file_contents($base_dir . '/cache/secured/messages/telegram-' . random_hash(8) . '.queue', $send_params['telegram']);
    }
    
