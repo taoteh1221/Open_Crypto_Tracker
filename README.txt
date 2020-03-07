@@ -89,7 +89,7 @@ INSTALLATION AND SETUP
 Command to install / upgrade everything automatically on a Raspberry Pi (an affordable low power single board computer):
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Raspberry Pi recommended minimum hardware specs are a Raspberry Pi Zero or higher, and minimum 512 megabytes of RAM.
+Recommended minimum hardware specs are a Raspberry Pi Zero, and 512 megabytes of RAM.
 
 wget -O FOLIO-INSTALL.bash https://git.io/JeWWE;chmod +x FOLIO-INSTALL.bash;sudo ./FOLIO-INSTALL.bash
 
