@@ -103,7 +103,7 @@ echo "Your operating system has been detected as:"
 echo "$OS v$VER"
 echo " "
 
-echo "Recommended minimum hardware specs are a Raspberry Pi Zero, and 512 megabytes of RAM."
+echo "Recommended minimum system specs: Raspbian Lite / Raspberry Pi Zero / 512 megabytes of RAM"
 echo " "
 
 echo "This script may work on other Debian-based systems as well, but it has not been tested for that purpose."
@@ -461,7 +461,12 @@ echo " "
 ######################################
 
 
+# Give the new HTTP server system user a chance to exist for a few seconds, before trying to determine the name / group automatically
 echo "We need to find out what user group the web server belongs to."
+echo " "
+echo "Pausing 5 seconds before detecting the new web server user group automatically, please wait..."
+sleep 5
+
 echo " "
 
 echo "Attempting to auto-detect the web server's user group..."
