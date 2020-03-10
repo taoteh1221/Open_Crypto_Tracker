@@ -196,7 +196,7 @@ echo " "
 ######################################
 
 
-echo "Select 1 or 2 to choose whether to auto-install / remove the PHP web server, or skip."
+echo "Select 1, 2, or 3 to choose whether to auto-install / remove the PHP web server, or skip."
 echo " "
 
 OPTIONS="install_webserver remove_webserver skip"
@@ -340,7 +340,6 @@ EOF
             else
             
             echo " "
-            
             echo "Htaccess was already enabled for HTTP (port 80)."
             echo " "
             
@@ -386,7 +385,6 @@ EOF
             if [ "$SKIP_HTTPS_HTACCESS" != "1" ] && [[ $CHECK_HTTPS != *"cryptocoin_htaccess_443"* ]]; then
             
             echo " "
-            
             echo "Enabling htaccess for HTTPS (port 443)..."
             echo " "
             
@@ -444,6 +442,7 @@ EOF
 			
 			echo " "
 			echo "PHP web server installation is complete."
+         echo " "
 			
 			
          ######################################
@@ -575,7 +574,7 @@ echo "Do you want this script to automatically download the latest version of"
 echo "DFD Cryptocoin Values from Github.com, and install / configure it?"
 echo " "
 
-echo "Select 1 or 2 to choose whether to auto-install / remove DFD Cryptocoin Values, or skip."
+echo "Select 1, 2, or 3 to choose whether to auto-install / remove DFD Cryptocoin Values, or skip."
 echo "(!WARNING!: REMOVING DFD Cryptocoin Values WILL DELETE *EVERYTHING* IN $DOC_ROOT !!)"
 echo " "
 
@@ -784,13 +783,14 @@ select opt in $OPTIONS; do
                     
                     break
                    elif [ "$opt" = "skip" ]; then
+                   
                     echo " "
                     echo "Skipping cron job setup."
+            		  echo " "
+            
                     break
                    fi
             done
-            
-            echo " "
             
             
             ######################################
