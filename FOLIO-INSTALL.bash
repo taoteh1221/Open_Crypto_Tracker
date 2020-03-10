@@ -196,10 +196,10 @@ echo " "
 ######################################
 
 
-echo "Select 1 or 2 to choose whether to install the PHP web server, or skip."
+echo "Select 1 or 2 to choose whether to auto-install / remove the PHP web server, or skip."
 echo " "
 
-OPTIONS="install_webserver skip"
+OPTIONS="install_webserver remove_webserver skip"
 
 select opt in $OPTIONS; do
         if [ "$opt" = "install_webserver" ]; then
@@ -536,12 +536,25 @@ EOF
         	echo " "
         
 			echo " "
-			echo " "
 			echo "PHP web server configuration is complete."
         
         	######################################
          
          
+        break
+       elif [ "$opt" = "remove_webserver" ]; then
+       
+        echo " "
+        echo "Removing PHP web server..."
+        
+        # Skip removing openssl / ssl-cert, in case they were already on the system
+        /usr/bin/apt-get remove apache2 php php-mbstring php-curl php-gd php-zip libapache2-mod-php -y
+        
+		  sleep 2
+			
+		  echo " "
+		  echo "PHP web server has been removed from the system."
+        
         break
        elif [ "$opt" = "skip" ]; then
        
@@ -562,13 +575,14 @@ echo "Do you want this script to automatically download the latest version of"
 echo "DFD Cryptocoin Values from Github.com, and install / configure it?"
 echo " "
 
-echo "Select 1 or 2 to choose whether to auto-install DFD Cryptocoin Values, or skip it."
+echo "Select 1 or 2 to choose whether to auto-install / remove DFD Cryptocoin Values, or skip."
+echo "(!WARNING!: REMOVING DFD Cryptocoin Values WILL DELETE *EVERYTHING* IN $DOC_ROOT !!)"
 echo " "
 
-OPTIONS="auto_install_coin_app skip"
+OPTIONS="install_coin_app remove_coin_app skip"
 
 select opt in $OPTIONS; do
-        if [ "$opt" = "auto_install_coin_app" ]; then
+        if [ "$opt" = "install_coin_app" ]; then
         
         		if [ ! -d "$DOC_ROOT" ]; then
         		
@@ -694,7 +708,6 @@ select opt in $OPTIONS; do
 				# No trailing forward slash here
 				/bin/chown -R $SYS_USER:$SYS_USER $DOC_ROOT
 				
-            echo " "
 				echo " "
 				echo "DFD Cryptocoin Values has been installed."
 				echo " "
@@ -783,7 +796,6 @@ select opt in $OPTIONS; do
             ######################################
 
 				
-            echo " "
 				echo " "
 				echo "DFD Cryptocoin Values has been configured."
 				
@@ -791,6 +803,19 @@ select opt in $OPTIONS; do
    	     	
   				fi
 
+        break
+       elif [ "$opt" = "remove_coin_app" ]; then
+       
+        echo " "
+        echo "Removing DFD Cryptocoin Values..."
+        
+        rm /etc/cron.d/cryptocoin
+        
+        rm -rf $DOC_ROOT/*
+        
+		  echo " "
+		  echo "DFD Cryptocoin Values has been removed from the system."
+        
         break
        elif [ "$opt" = "skip" ]; then
        

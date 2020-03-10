@@ -58,9 +58,6 @@ Test unicode mobile text message with no space in front of hex-encoded data (for
 Code review ALL functions / logic (especially loops, for efficiency).
 
 
-Test on a Raspberry Pi Zero
-
-
 ///////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////
 
@@ -80,9 +77,6 @@ In the "loading charts" logic, add a timer that logs the time it takes to load a
 
 
 Always prune system stats chart data (during scheduled maintenance) to never save chart data over 90 days old.
-
-
-Create install / uninstall dialog for bash auto install
 
 
 Alphabetically order printout from .../debugging/exchange-and-pairing-info.php
