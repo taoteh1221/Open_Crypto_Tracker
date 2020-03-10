@@ -433,7 +433,6 @@ EOF
             else
             
             echo " "
-            
             echo "Htaccess was already enabled for HTTPS (port 443)."
             echo " "
             
@@ -444,107 +443,115 @@ EOF
 			
 			
 			echo " "
-			
 			echo "PHP web server installation is complete."
-
+			
+			
+         ######################################
+            
+            
+         # Give the new HTTP server system user a chance to exist for a few seconds, before trying to determine the name / group automatically
+         echo "We need to find out what user group the web server belongs to."
+         echo " "
+         echo "Pausing 5 seconds before detecting the new web server user group automatically, please wait..."
+         sleep 5
+            
+         echo " "
+            
+         echo "Attempting to auto-detect the web server's user group..."
+         echo " "
+            
+         #WWW_GROUP=$(/bin/ps -ef | /bin/egrep '(httpd|httpd2|apache|apache2)' | /bin/grep -v `whoami` | /bin/grep -v root | /usr/bin/head -n1 | /usr/bin/awk '{print $1}')
+         WWW_GROUP=$(/bin/ps axo user,group,comm | /bin/egrep '(httpd|httpd2|apache|apache2)' | /bin/grep -v ^root | /usr/bin/cut -d\  -f 2 | /usr/bin/uniq)
+            
+         echo "The web server's user group has been detected as:"
+            
+            if [ -z "$WWW_GROUP" ]; then
+            WWW_GROUP="www-data"
+            echo "User group NOT detected, using default group 'www-data'"
+            else
+            echo "$WWW_GROUP"
+            fi
+            
+         echo " "
+         echo "Enter the web server's user group:"
+         echo "(leave blank / hit enter to use default group '$WWW_GROUP')"
+         echo " "
+            
+         read CUSTOM_GROUP
+                    
+            if [ -z "$CUSTOM_GROUP" ]; then
+            CUSTOM_GROUP=${1:-$WWW_GROUP}
+            echo "Using default user group: $WWW_GROUP"
+            else
+            echo "Using custom user group: $CUSTOM_GROUP"
+            fi
+            
+         echo " "
+         echo "The web server's user group has been declared as:"
+         echo "$CUSTOM_GROUP"
+         echo " "
+            
+            
+         ######################################
+         
+        
+        	echo "We need to add the username you'll be logging in as,"
+        	echo "to the '$CUSTOM_GROUP' web server user group to allow proper editing permissions..."
+        	echo " "
+        
+        	echo "Enter the system username to allow web server editing access for:"
+        	echo "(leave blank / hit enter for default of username 'pi')"
+        	echo " "
+        
+        	read SYS_USER
+                
+        		if [ -z "$SYS_USER" ]; then
+        		SYS_USER=${1:-pi}
+        		echo "Using default username: $SYS_USER"
+        		else
+        		echo "Using username: $SYS_USER"
+        		fi
+        
+        
+        	/usr/sbin/usermod -a -G $CUSTOM_GROUP $SYS_USER
+        
+        	/usr/sbin/usermod -a -G $SYS_USER $CUSTOM_GROUP
+        
+        	/bin/chmod 775 $DOC_ROOT
+        
+        	BASE_HTDOC="$(dirname $DOC_ROOT)"
+        
+        	RECURSIVE_CHOWN="-R ${SYS_USER}:$SYS_USER ${BASE_HTDOC}/*"
+        
+        	#$RECURSIVE_CHOWN must be in double quotes to escape the asterisk at the end
+        	/bin/chown $RECURSIVE_CHOWN
+        
+        
+        	echo " "
+        	echo "Web server editing access for user name '$SYS_USER', in web server user group '$CUSTOM_GROUP', is completed."
+        	echo " "
+        	echo "Web server editing access for web server user name '$CUSTOM_GROUP', in user group '$SYS_USER', is completed."
+        	echo " "
+        	echo "Root web directory group permissions setup (chmod 775, owner/group set to username '$SYS_USER') is completed."
+        	echo " "
+        
+			echo " "
+			echo " "
+			echo "PHP web server configuration is complete."
+        
+        	######################################
+         
+         
         break
        elif [ "$opt" = "skip" ]; then
+       
         echo " "
         echo "Skipping PHP web server setup..."
+        
         break
        fi
 done
 
-echo " "
-
-
-######################################
-
-
-# Give the new HTTP server system user a chance to exist for a few seconds, before trying to determine the name / group automatically
-echo "We need to find out what user group the web server belongs to."
-echo " "
-echo "Pausing 5 seconds before detecting the new web server user group automatically, please wait..."
-sleep 5
-
-echo " "
-
-echo "Attempting to auto-detect the web server's user group..."
-echo " "
-
-#WWW_GROUP=$(/bin/ps -ef | /bin/egrep '(httpd|httpd2|apache|apache2)' | /bin/grep -v `whoami` | /bin/grep -v root | /usr/bin/head -n1 | /usr/bin/awk '{print $1}')
-WWW_GROUP=$(/bin/ps axo user,group,comm | /bin/egrep '(httpd|httpd2|apache|apache2)' | /bin/grep -v ^root | /usr/bin/cut -d\  -f 2 | /usr/bin/uniq)
-
-echo "The web server's user group has been detected as:"
-
-if [ -z "$WWW_GROUP" ]; then
-WWW_GROUP="www-data"
-echo "User group NOT detected, using default group 'www-data'"
-else
-echo "$WWW_GROUP"
-fi
-
-echo " "
-echo "Enter the web server's user group:"
-echo "(leave blank / hit enter to use default group '$WWW_GROUP')"
-echo " "
-
-read CUSTOM_GROUP
-        
-if [ -z "$CUSTOM_GROUP" ]; then
-CUSTOM_GROUP=${1:-$WWW_GROUP}
-echo "Using default user group: $WWW_GROUP"
-else
-echo "Using custom user group: $CUSTOM_GROUP"
-fi
-
-echo " "
-echo "The web server's user group has been declared as:"
-echo "$CUSTOM_GROUP"
-echo " "
-
-
-######################################
-
-
-echo "We need to add the username you'll be logging in as,"
-echo "to the '$CUSTOM_GROUP' web server user group to allow proper editing permissions..."
-echo " "
-
-echo "Enter the system username to allow web server editing access for:"
-echo "(leave blank / hit enter for default of username 'pi')"
-echo " "
-
-read SYS_USER
-        
-if [ -z "$SYS_USER" ]; then
-SYS_USER=${1:-pi}
-echo "Using default username: $SYS_USER"
-else
-echo "Using username: $SYS_USER"
-fi
-
-
-/usr/sbin/usermod -a -G $CUSTOM_GROUP $SYS_USER
-
-/usr/sbin/usermod -a -G $SYS_USER $CUSTOM_GROUP
-
-/bin/chmod 775 $DOC_ROOT
-
-BASE_HTDOC="$(dirname $DOC_ROOT)"
-
-RECURSIVE_CHOWN="-R ${SYS_USER}:$SYS_USER ${BASE_HTDOC}/*"
-
-#$RECURSIVE_CHOWN must be in double quotes to escape the asterisk at the end
-/bin/chown $RECURSIVE_CHOWN
-
-
-echo " "
-echo "Web server editing access for user name '$SYS_USER', in web server user group '$CUSTOM_GROUP', is completed."
-echo " "
-echo "Web server editing access for web server user name '$CUSTOM_GROUP', in user group '$SYS_USER', is completed."
-echo " "
-echo "Root web directory group permissions setup (chmod 775, owner/group set to username '$SYS_USER') is completed."
 echo " "
 
 
@@ -687,9 +694,98 @@ select opt in $OPTIONS; do
 				# No trailing forward slash here
 				/bin/chown -R $SYS_USER:$SYS_USER $DOC_ROOT
 				
+            echo " "
+				echo " "
+				echo "DFD Cryptocoin Values has been installed."
 				echo " "
 				
-				echo "DFD Cryptocoin Values has been installed / configured."
+				
+            ######################################
+            
+            
+            echo "If you want to use price alerts or charts, you'll need to setup a cron job for that."
+            echo " "
+            
+            echo "Select 1 or 2 to choose whether to setup a cron job for price alerts / charts, or skip it."
+            echo " "
+            
+            OPTIONS="auto_setup_cron skip"
+            
+            select opt in $OPTIONS; do
+                    if [ "$opt" = "auto_setup_cron" ]; then
+                    
+                    echo " "
+                    echo "Enter the FULL system path to cron.php:"
+                    echo "(leave blank / hit enter for default of $DOC_ROOT/cron.php)"
+                    echo " "
+                    
+                    read PATH
+                    
+                        if [ -z "$PATH" ]; then
+                        PATH=${1:-$DOC_ROOT/cron.php}
+                    echo "Using default system path to cron.php:"
+                    echo "$PATH"
+                        else
+                    echo "System path set to cron.php:"
+                    echo "$PATH"
+                        fi
+                    
+                    echo " "
+                    echo "Enter the time interval in minutes to run this cron job:"
+                    echo "(must be 5, 10, 15, 20, or 30...leave blank / hit enter for default of 15)"
+                    echo " "
+                    
+                    read INTERVAL
+                    
+                        if [ -z "$INTERVAL" ]; then
+                        INTERVAL=${2:-15}
+                    echo "Using default time interval of $INTERVAL minutes."
+                        else
+                    echo "Time interval set to $INTERVAL minutes."
+                        fi
+                    
+                            
+                      # Setup cron (to check logs after install: tail -f /var/log/syslog | grep cron -i)
+                            
+                      /usr/bin/touch /etc/cron.d/cryptocoin
+                            
+                    CRONJOB="*/$INTERVAL * * * * $SYS_USER /usr/bin/php -q $PATH > /dev/null 2>&1"
+            
+                      # Play it safe and be sure their is a newline after this job entry
+                      echo -e "$CRONJOB\n" > /etc/cron.d/cryptocoin
+                      
+                      # cron.d entries must be a permission of 644
+                      /bin/chmod 644 /etc/cron.d/cryptocoin
+                      
+                      # cron.d entries MUST BE OWNED BY ROOT
+                      /bin/chown root:root /etc/cron.d/cryptocoin
+                      
+                    
+                    echo " "
+                    echo "A cron job has been setup for user '$SYS_USER',"
+                    echo "as a command in /etc/cron.d/cryptocoin:"
+                    echo "$CRONJOB"
+                    echo " "
+                    
+                    CRON_SETUP=1
+                    
+                    break
+                   elif [ "$opt" = "skip" ]; then
+                    echo " "
+                    echo "Skipping cron job setup."
+                    break
+                   fi
+            done
+            
+            echo " "
+            
+            
+            ######################################
+
+				
+            echo " "
+				echo " "
+				echo "DFD Cryptocoin Values has been configured."
 				
 	        	APP_SETUP=1
    	     	
@@ -697,88 +793,10 @@ select opt in $OPTIONS; do
 
         break
        elif [ "$opt" = "skip" ]; then
+       
         echo " "
         echo "Skipping auto-install of DFD Cryptocoin Values."
-        break
-       fi
-done
-
-echo " "
-
-
-######################################
-
-
-echo "If you want to use price alerts or charts, you'll need to setup a cron job for that."
-echo " "
-
-echo "Select 1 or 2 to choose whether to setup a cron job for price alerts / charts, or skip it."
-echo " "
-
-OPTIONS="auto_setup_cron skip"
-
-select opt in $OPTIONS; do
-        if [ "$opt" = "auto_setup_cron" ]; then
         
-        echo " "
-        echo "Enter the FULL system path to cron.php:"
-        echo "(leave blank / hit enter for default of $DOC_ROOT/cron.php)"
-        echo " "
-        
-        read PATH
-        
-        	if [ -z "$PATH" ]; then
-			PATH=${1:-$DOC_ROOT/cron.php}
-      	echo "Using default system path to cron.php:"
-      	echo "$PATH"
-			else
-      	echo "System path set to cron.php:"
-      	echo "$PATH"
-			fi
-        
-        echo " "
-        echo "Enter the time interval in minutes to run this cron job:"
-        echo "(must be 5, 10, 15, 20, or 30...leave blank / hit enter for default of 15)"
-        echo " "
-        
-        read INTERVAL
-        
-        	if [ -z "$INTERVAL" ]; then
-			INTERVAL=${2:-15}
-      	echo "Using default time interval of $INTERVAL minutes."
-			else
-      	echo "Time interval set to $INTERVAL minutes."
-			fi
-        
-				
-		  # Setup cron (to check logs after install: tail -f /var/log/syslog | grep cron -i)
-				
-		  /usr/bin/touch /etc/cron.d/cryptocoin
-				
-        CRONJOB="*/$INTERVAL * * * * $SYS_USER /usr/bin/php -q $PATH > /dev/null 2>&1"
-
-		  # Play it safe and be sure their is a newline after this job entry
-		  echo -e "$CRONJOB\n" > /etc/cron.d/cryptocoin
-		  
-		  # cron.d entries must be a permission of 644
-		  /bin/chmod 644 /etc/cron.d/cryptocoin
-		  
-		  # cron.d entries MUST BE OWNED BY ROOT
-		  /bin/chown root:root /etc/cron.d/cryptocoin
-		  
-        
-        echo " "
-        echo "A cron job has been setup for user '$SYS_USER',"
-        echo "as a command in /etc/cron.d/cryptocoin:"
-        echo "$CRONJOB"
-        echo " "
-        
-        CRON_SETUP=1
-        
-        break
-       elif [ "$opt" = "skip" ]; then
-        echo " "
-        echo "Skipping cron job setup."
         break
        fi
 done
@@ -874,6 +892,33 @@ echo "You may now optionally edit the DFD Cryptocoin Values configuration file"
 echo "(config.php) remotely via SFTP, or by editing app files locally."
 echo " "
 
+
+    if [ "$CONFIG_BACKUP" = "1" ]; then
+    
+    echo "The previously-installed DFD Cryptocoin Values configuration"
+    echo "file $DOC_ROOT/config.php has been backed up to:"
+    echo "$DOC_ROOT/config.php.BACKUP.$DATE.$RAND_STRING"
+    echo "You will need to manually move any custom settings in this backup file to the new config.php file with a text editor."
+    echo " "
+    
+    fi
+    
+    
+    if [ "$CRON_SETUP" = "1" ]; then
+    
+    echo "A cron job has been setup for user '$SYS_USER',"
+    echo "as a command in /etc/cron.d/cryptocoin:"
+    echo "$CRONJOB"
+    echo " "
+    
+    echo "Double-check that the command 'crontab -e' does not have any OLD MATCHING entries"
+    echo "pointing to the same cron job, OR YOUR CRON JOB WILL RUN TOO OFTEN."
+    echo "(when /etc/cron.d/ is used, then 'crontab -e' should NOT BE USED for the same cron job)"
+    echo " "
+    
+    fi
+
+
 else
 
 echo "Web server setup should now be complete (if you chose that option),"
@@ -887,34 +932,6 @@ echo " "
 echo "If web server setup has completed successfully, DFD Cryptocoin Values"
 echo "can now be installed (if you haven't already) in $DOC_ROOT remotely via SFTP,"
 echo "or by copying over app files locally."
-echo " "
-
-fi
-
-
-
-if [ "$CONFIG_BACKUP" = "1" ]; then
-
-echo "The previously-installed DFD Cryptocoin Values configuration"
-echo "file $DOC_ROOT/config.php has been backed up to:"
-echo "$DOC_ROOT/config.php.BACKUP.$DATE.$RAND_STRING"
-echo "You will need to manually move any custom settings in this backup file to the new config.php file with a text editor."
-echo " "
-
-fi
-
-
-
-if [ "$CRON_SETUP" = "1" ]; then
-
-echo "A cron job has been setup for user '$SYS_USER',"
-echo "as a command in /etc/cron.d/cryptocoin:"
-echo "$CRONJOB"
-echo " "
-
-echo "Double-check that the command 'crontab -e' does not have any OLD MATCHING entries"
-echo "pointing to the same cron job, OR YOUR CRON JOB WILL RUN TOO OFTEN."
-echo "(when /etc/cron.d/ is used, then 'crontab -e' should NOT BE USED for the same cron job)"
 echo " "
 
 fi
@@ -947,7 +964,7 @@ echo "https://$IP"
 echo " "
 
 echo "IMPORTANT SSL / HTTPS NOTE:"
-echo "The SSL certificate created on this web server has been SELF-SIGNED (not issued by a CA),"
+echo "The SSL certificate created on this web server is SELF-SIGNED (not issued by a CA),"
 echo "so your browser ---will give you a warning message--- when you visit the above HTTPS address."
 echo "This is --normal behavior for self-signed certificates--. Google search for"
 echo "'self-signed ssl certificate' for more information on the topic."

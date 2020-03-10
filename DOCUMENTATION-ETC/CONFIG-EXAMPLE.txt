@@ -143,7 +143,7 @@ $app_config['proxy_alerts_checkup_ok'] = 'include';
 
 // Your local time offset IN HOURS, COMPARED TO UTC TIME. Can be negative or positive.
 // (Used for user experience 'pretty' timestamping in interface logic ONLY, WILL NOT change or screw up UTC log times etc if you change this)
-$app_config['local_time_offset'] = -5; // example: -5 or 5
+$app_config['local_time_offset'] = -4; // example: -5 or 5
 
 
 // Set which interface theme you want as the default theme (also can be manually switched later, on the settings page in the interface)
@@ -321,6 +321,18 @@ $app_config['charts_and_price_alerts'] = array(
 					'btc-12' => 'btcmarkets||aud||chart',
 					'btc-13' => 'bitbns||inr||chart',
 					'btc-14' => 'localbitcoins||inr||chart',
+					'btc-15' => 'localbitcoins||cny||chart',
+					'btc-16' => 'localbitcoins||jpy||chart',
+					'btc-17' => 'localbitcoins||hkd||chart',
+					'btc-18' => 'localbitcoins||chf||chart',
+					'btc-19' => 'localbitcoins||krw||chart',
+					'btc-20' => 'localbitcoins||mxn||chart',
+					'btc-21' => 'localbitcoins||nzd||chart',
+					'btc-22' => 'localbitcoins||rub||chart',
+					'btc-23' => 'localbitcoins||sgd||chart',
+					'btc-24' => 'localbitcoins||try||chart',
+					'btc-25' => 'localbitcoins||twd||chart',
+					'btc-26' => 'localbitcoins||zar||chart',
 					
 					
 					// ETH
