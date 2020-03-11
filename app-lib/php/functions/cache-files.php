@@ -198,7 +198,7 @@ $file_owner_info = posix_getpwuid(fileowner($file));
 	
 	// Log any write error
 	if ( $result == false ) {
-	app_logging('system_error', 'File write failed for file "' . $file . '" (check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")');
+	app_logging('system_error', 'File write failed for file "' . $file . '" (MAKE SURE YOUR DISK ISN\'T FULL. Check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")');
 	}
 	
 	
@@ -350,14 +350,38 @@ $debugging_logs .= strip_tags($logs_array['other_debugging']); // Remove any HTM
 	
 	// Log debugging...Purge old logs before storing new logs, if it's time to...otherwise just append.
 	if ( update_cache_file('cache/events/purge-debugging-logs.dat', ( $app_config['log_purge'] * 1440 ) ) == true ) {
-	store_file_contents($base_dir . '/cache/logs/debugging.log', $debugging_logs); // NULL if no new debugging, but that's OK because we are purging any old entries 
+		
 	store_file_contents($base_dir . '/cache/logs/smtp_debugging.log', null);
+	
 	store_file_contents('cache/events/purge-debugging-logs.dat', date('Y-m-d H:i:s'));
+	
+	$store_file_contents = store_file_contents($base_dir . '/cache/logs/debugging.log', $debugging_logs); // NULL if no new debugging, but that's OK because we are purging any old entries 
+		
+			if ( $store_file_contents != true ) {
+			return 'Debugging logs write error for "' . $base_dir . '/cache/logs/debugging.log" (MAKE SURE YOUR DISK ISN\'T FULL), data_size_bytes: ' . strlen($debugging_logs) . ' bytes';
+			}
+			// DEBUGGING ONLY (rules out issues other than full disk)
+			else {
+			//return 'Debugging logs write success for "' . $base_dir . '/cache/logs/debugging.log", data_size_bytes: ' . strlen($debugging_logs) . ' bytes';
+			}
+	
 	}
 	elseif ( $debugging_logs != null ) {
-	store_file_contents($base_dir . '/cache/logs/debugging.log', $debugging_logs, "append");
+		
+	$store_file_contents = store_file_contents($base_dir . '/cache/logs/debugging.log', $debugging_logs, "append");
+		
+			if ( $store_file_contents != true ) {
+			return 'Debugging logs write error for "' . $base_dir . '/cache/logs/debugging.log" (MAKE SURE YOUR DISK ISN\'T FULL), data_size_bytes: ' . strlen($debugging_logs) . ' bytes';
+			}
+			// DEBUGGING ONLY (rules out issues other than full disk)
+			else {
+			//return 'Debugging logs write success for "' . $base_dir . '/cache/logs/debugging.log", data_size_bytes: ' . strlen($debugging_logs) . ' bytes';
+			}
+		
 	}
 	
+	
+return true;
 
 }
 
@@ -412,14 +436,38 @@ $error_logs .= strip_tags($logs_array['other_error']); // Remove any HTML format
 	
 	// Log errors...Purge old logs before storing new logs, if it's time to...otherwise just append.
 	if ( update_cache_file('cache/events/purge-error-logs.dat', ( $app_config['log_purge'] * 1440 ) ) == true ) {
-	store_file_contents($base_dir . '/cache/logs/errors.log', $error_logs); // NULL if no new errors, but that's OK because we are purging any old entries 
+		
 	store_file_contents($base_dir . '/cache/logs/smtp_errors.log', null);
+	
 	store_file_contents('cache/events/purge-error-logs.dat', date('Y-m-d H:i:s'));
+	
+	$store_file_contents = store_file_contents($base_dir . '/cache/logs/errors.log', $error_logs); // NULL if no new errors, but that's OK because we are purging any old entries 
+		
+			if ( $store_file_contents != true ) {
+			return 'Error logs write error for "' . $base_dir . '/cache/logs/errors.log" (MAKE SURE YOUR DISK ISN\'T FULL), data_size_bytes: ' . strlen($error_logs) . ' bytes';
+			}
+			// DEBUGGING ONLY (rules out issues other than full disk)
+			else {
+			//return 'Error logs write success for "' . $base_dir . '/cache/logs/errors.log", data_size_bytes: ' . strlen($error_logs) . ' bytes';
+			}
+	
 	}
 	elseif ( $error_logs != null ) {
-	store_file_contents($base_dir . '/cache/logs/errors.log', $error_logs, "append");
+		
+	$store_file_contents = store_file_contents($base_dir . '/cache/logs/errors.log', $error_logs, "append");
+		
+			if ( $store_file_contents != true ) {
+			return 'Error logs write error for "' . $base_dir . '/cache/logs/errors.log" (MAKE SURE YOUR DISK ISN\'T FULL), data_size_bytes: ' . strlen($error_logs) . ' bytes';
+			}
+			// DEBUGGING ONLY (rules out issues other than full disk)
+			else {
+			//return 'Error logs write success for "' . $base_dir . '/cache/logs/errors.log", data_size_bytes: ' . strlen($error_logs) . ' bytes';
+			}
+	
 	}
 	
+	
+return true;
 
 }
 

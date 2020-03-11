@@ -84,8 +84,14 @@
           	
           	
 		// Log errors, send notifications BEFORE runtime stats
-		error_logs();
+		$error_logs = error_logs();
 		send_notifications();
+		
+		if ( $error_logs != true ) {
+		?>
+		<div class="red" style='font-weight: bold;'><?=$error_logs?></div>
+		<?php
+		}
 		
 		
 		
@@ -117,9 +123,14 @@
 		
 		
 		// Process debugging logs / destroy session data AFTER runtime stats
-		debugging_logs();
+		$debugging_logs = debugging_logs();
 		hardy_session_clearing();
     		
+		if ( $app_config['debug_mode'] != 'off' && $debugging_logs != true ) {
+		?>
+		<div class="red" style='font-weight: bold;'><?=$debugging_logs?></div>
+		<?php
+		}
     		
     	echo '<p class="align_center '.( $total_runtime > 20 ? 'red' : 'green' ).'"> Interface Runtime: '.$total_runtime.' seconds</p>';
     	
