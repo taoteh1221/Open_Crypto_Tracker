@@ -219,7 +219,6 @@ select opt in $OPTIONS; do
 			mv -v $DOC_ROOT/index.html $DOC_ROOT/index.php
 
 
-
 			######################################
 			
 
@@ -236,11 +235,15 @@ select opt in $OPTIONS; do
 			# Enable SSL (for secure HTTPS web pages)
 			/usr/sbin/a2enmod ssl
 			/usr/sbin/a2ensite default-ssl
+
+			sleep 1
 			
 			echo " "
 
 			# Enable mod-rewrite, for upcoming REST API features
-			/usr/sbin/a2enmod rewrite
+			/usr/sbin/a2enmod rewrite	
+
+			sleep 1
 			
 			echo " "
 				
@@ -322,6 +325,8 @@ EOF
             
             # Install the new HTTP config
             echo -e "$NEW_HTTP_CONFIG" > $HTTP_CONFIG
+
+				sleep 1
                             
                             
                 # Restart Apache
@@ -345,6 +350,8 @@ EOF
             
             fi
             
+
+			sleep 2
             
          ######################################
                         
@@ -413,6 +420,8 @@ EOF
             
             # Install the new HTTPS config
             echo -e "$NEW_HTTPS_CONFIG" > $HTTPS_CONFIG
+
+				sleep 1
                             
                             
                 # Restart Apache
@@ -435,7 +444,9 @@ EOF
             echo " "
             
             fi
-            
+
+
+			sleep 2
 
 			######################################
 			
@@ -451,8 +462,9 @@ EOF
          # Give the new HTTP server system user a chance to exist for a few seconds, before trying to determine the name / group automatically
          echo "We need to find out what user group the web server belongs to."
          echo " "
-         echo "Pausing 5 seconds before detecting the new web server user group automatically, please wait..."
-         sleep 5
+         echo "Pausing 3 seconds before detecting the new web server user group automatically, please wait..."
+         
+         sleep 3
             
          echo " "
             
@@ -513,10 +525,25 @@ EOF
         
         
         	/usr/sbin/usermod -a -G $CUSTOM_GROUP $SYS_USER
+
+			sleep 1
+        
+        	echo " "
+        	echo "Web server editing access for user name '$SYS_USER', in web server user group '$CUSTOM_GROUP', is completed."
         
         	/usr/sbin/usermod -a -G $SYS_USER $CUSTOM_GROUP
+
+			sleep 1
+			
+        	echo " "
+        	echo "Web server editing access for web server user name '$CUSTOM_GROUP', in user group '$SYS_USER', is completed."
         
         	/bin/chmod 775 $DOC_ROOT
+
+			sleep 1
+			
+        	echo " "
+        	echo "Root web directory group permissions setup (chmod 775, owner/group set to username '$SYS_USER') is completed."
         
         	BASE_HTDOC="$(dirname $DOC_ROOT)"
         
@@ -524,15 +551,8 @@ EOF
         
         	#$RECURSIVE_CHOWN must be in double quotes to escape the asterisk at the end
         	/bin/chown $RECURSIVE_CHOWN
-        
-        
-        	echo " "
-        	echo "Web server editing access for user name '$SYS_USER', in web server user group '$CUSTOM_GROUP', is completed."
-        	echo " "
-        	echo "Web server editing access for web server user name '$CUSTOM_GROUP', in user group '$SYS_USER', is completed."
-        	echo " "
-        	echo "Root web directory group permissions setup (chmod 775, owner/group set to username '$SYS_USER') is completed."
-        	echo " "
+
+			sleep 3
         
 			echo " "
 			echo "PHP web server configuration is complete."
@@ -549,7 +569,7 @@ EOF
         # Skip removing openssl / ssl-cert, in case they were already on the system
         /usr/bin/apt-get remove apache2 php php-mbstring php-curl php-gd php-zip libapache2-mod-php -y
         
-		  sleep 2
+		  sleep 3
 			
 		  echo " "
 		  echo "PHP web server has been removed from the system."
@@ -592,24 +612,19 @@ select opt in $OPTIONS; do
 				else
 				
 				echo " "
-				
 				echo "Proceeding with required component installation..."
 				
 				echo " "
 				
 				/usr/bin/apt-get install curl jq bsdtar pwgen openssl -y
-				
-				echo " "
-				
-				echo "Required component installation completed."
-				
+
 				sleep 3
 				
 				echo " "
-				
-				echo "Downloading and installing the latest version of DFD Cryptocoin Values, from Github.com..."
+				echo "Required component installation completed."
 				
 				echo " "
+				echo "Downloading and installing the latest version of DFD Cryptocoin Values, from Github.com..."
 				
 				mkdir DFD-Cryptocoin-Values
 				
@@ -622,7 +637,15 @@ select opt in $OPTIONS; do
 				
 				/usr/bin/wget -O DFD-Cryptocoin-Values.zip $ZIP_DL
 				
+				sleep 2
+				
+				echo " "
+				echo "Extracting download archive..."
+				echo " "
+				
 				/usr/bin/bsdtar --strip-components=1 -xvf DFD-Cryptocoin-Values.zip
+
+				sleep 3
 				
 				rm DFD-Cryptocoin-Values.zip
 				
@@ -668,6 +691,9 @@ select opt in $OPTIONS; do
   					fi
   				
   				
+				echo " "
+				echo "Cleaning any previous install..."
+				
   				# Delete old directory / file structures (overhauled in v4.06.0 higher), for a clean upgrade
   				# Directories
   				rm -rf $DOC_ROOT/app-lib
@@ -681,16 +707,25 @@ select opt in $OPTIONS; do
 				rm $DOC_ROOT/CONFIG.EXAMPLE.txt
 				rm $DOC_ROOT/HELP-FAQ.txt
 				rm $DOC_ROOT/PORTFOLIO-IMPORT-EXAMPLE-SPREADSHEET.csv
+
+				sleep 3
+				
+				echo " "
+				echo "Installing DFD Cryptocoin Values..."
   				
   				# Copy over the upgrade install files to the install directory
 				# No trailing forward slash here
 				\cp -r ./ $DOC_ROOT
+
+				sleep 3
 				
 				cd ../
 				
 				rm -rf DFD-Cryptocoin-Values
 				
 				rm -rf $DOC_ROOT/.github
+
+				sleep 3
 				
 				rm $DOC_ROOT/.gitattributes
 				
@@ -703,18 +738,22 @@ select opt in $OPTIONS; do
 				/bin/chmod 664 $DOC_ROOT/.htaccess
 				
 				/bin/chmod 755 $DOC_ROOT/cron.php
+
+				sleep 1
 				
 				# No trailing forward slash here
 				/bin/chown -R $SYS_USER:$SYS_USER $DOC_ROOT
+
+				sleep 3
 				
 				echo " "
 				echo "DFD Cryptocoin Values has been installed."
-				echo " "
 				
 				
             ######################################
             
             
+				echo " "
             echo "If you want to use price alerts or charts, you'll need to setup a cron job for that."
             echo " "
             
@@ -765,9 +804,13 @@ select opt in $OPTIONS; do
             
                       # Play it safe and be sure their is a newline after this job entry
                       echo -e "$CRONJOB\n" > /etc/cron.d/cryptocoin
+
+							 sleep 1
                       
                       # cron.d entries must be a permission of 644
                       /bin/chmod 644 /etc/cron.d/cryptocoin
+
+							 sleep 1
                       
                       # cron.d entries MUST BE OWNED BY ROOT
                       /bin/chown root:root /etc/cron.d/cryptocoin
@@ -810,8 +853,12 @@ select opt in $OPTIONS; do
         echo "Removing DFD Cryptocoin Values..."
         
         rm /etc/cron.d/cryptocoin
+		  
+        rm $DOC_ROOT/.htaccess
         
         rm -rf $DOC_ROOT/*
+
+		  sleep 3
         
 		  echo " "
 		  echo "DFD Cryptocoin Values has been removed from the system."
@@ -872,6 +919,8 @@ select opt in $OPTIONS; do
 				echo " "
 				
 				/usr/bin/apt-get install openssh-server -y
+				
+				sleep 3
 				
 				echo " "
 				
