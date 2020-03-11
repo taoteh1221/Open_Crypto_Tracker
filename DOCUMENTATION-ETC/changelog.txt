@@ -2877,6 +2877,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Minor misc. bug fixes
 
+-Better tracing for write errors
+
 -Uninstall options in auto-install bash script
 
 -Decreased input / execution time for interface
