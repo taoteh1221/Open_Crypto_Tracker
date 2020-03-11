@@ -129,15 +129,15 @@ $htaccess_password = $htaccess_login_array[1];
 ////////////////////////////////////////////////////////
 
 
-function store_file_contents($file, $content, $mode=false) {
+function store_file_contents($file, $data, $mode=false) {
 
 global $app_config, $current_runtime_user, $possible_http_users, $http_runtime_user;
 
 
 	// If no data was passed on to write to file, log it and return false early for runtime speed sake
-	if ( $content == null ) {
+	if ( strlen($data) == 0 ) {
 		
-	app_logging('other_error', 'No data received to write to file "' . $file . '" (aborting useless file write)');
+	app_logging('other_error', 'No bytes of data received to write to file "' . $file . '" (aborting useless file write)');
 	
 		// API timeouts are a confirmed cause for write errors of 0 bytes, so we want to alert end users that they may need to adjust their API timeout settings to get associated API data
 		if ( preg_match("/cache\/secured\/apis/i", $file) ) {
@@ -190,10 +190,10 @@ $file_owner_info = posix_getpwuid(fileowner($file));
 
 	// Write to the file
 	if ( $mode == 'append' ) {
-	$result = file_put_contents($file, $content, FILE_APPEND | LOCK_EX);
+	$result = file_put_contents($file, $data, FILE_APPEND | LOCK_EX);
 	}
 	else {
-	$result = file_put_contents($file, $content, LOCK_EX);
+	$result = file_put_contents($file, $data, LOCK_EX);
 	}
 	
 	// Log any write error
@@ -1468,8 +1468,15 @@ $api_endpoint = ( $mode == 'array' ? $api_server : $request );
 		// Cache API data for this runtime session AFTER PERSISTENT FILE CACHE UPDATE, file cache doesn't reliably update until runtime session is ending because of file locking
 		// WE RE-CACHE DATA EVEN IF THIS WAS A FALLBACK TO CACHED DATA, AS WE WANT TO RESET THE TTL UNTIL NEXT LIVE API CHECK
 		if ( $ttl > 0 && $mode != 'proxy-check' ) {
+			
 		$api_runtime_cache[$hash_check] = ( isset($data) ? $data : 'none' ); 
-		store_file_contents($base_dir . '/cache/secured/apis/'.$hash_check.'.dat', $api_runtime_cache[$hash_check]);
+		
+		$store_file_contents = store_file_contents($base_dir . '/cache/secured/apis/'.$hash_check.'.dat', $api_runtime_cache[$hash_check]);
+		
+			if ( $store_file_contents == false ) {
+			app_logging( 'api_error', 'Cache file write error for ' . ( $mode == 'array' ? 'API server at ' : 'endpoint request at ' ) . $api_endpoint, 'data_size_bytes: ' . strlen($api_runtime_cache[$hash_check]) . ' bytes');
+			}
+		
 		}
 		// NEVER cache proxy checking data, OR TTL == 0
 		elseif ( $mode == 'proxy-check' || $ttl == 0 ) {
