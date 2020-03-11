@@ -18,6 +18,7 @@
 			
 			///////////////////////////////////////////////////////////////////////////
 			
+			echo ( etherscan_api('number') == false ? '<p><a class="red" href="https://etherscan.io/apis/" target="_blank"><b>EtherScan.io (free) API key is required.</b></a></p>' : '' );
 			echo '<p><b>Block height:</b> ' . number_format( $calculation_form_data[2] ) . '</p>';
 			echo '<p><b>Gas limit:</b> ' . number_format( hexdec( etherscan_api('gasLimit') ) ) . '</p>'; // Custom for this Ethereum mining calculator
 				

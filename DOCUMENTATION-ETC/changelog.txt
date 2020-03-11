@@ -2873,11 +2873,13 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 
 -------------------------------------------------------------------
-4.09.0:
-
--Minor misc. bug fixes
+4.08.9:
 
 -Better tracing for write errors
+
+-Etherscan.io API key config setting
+
+-Minor misc. bug fixes / UX improvements
 
 -Uninstall options in auto-install bash script
 

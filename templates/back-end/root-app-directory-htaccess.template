@@ -42,30 +42,30 @@ RewriteEngine on
 #PHP5
 <IfModule mod_php5.c>
 
-php_value memory_limit 100M
+php_value memory_limit 70M
 
-php_value upload_max_filesize 8M
+php_value upload_max_filesize 7M
 
 php_value post_max_size 15M
 
-php_value max_input_time 90
+php_value max_input_time 50
 
-php_value max_execution_time 90
+php_value max_execution_time 100
 
 </IfModule>
 
 #PHP7
 <IfModule mod_php7.c>
 
-php_value memory_limit 100M
+php_value memory_limit 70M
 
-php_value upload_max_filesize 8M
+php_value upload_max_filesize 7M
 
 php_value post_max_size 15M
 
-php_value max_input_time 90
+php_value max_input_time 50
 
-php_value max_execution_time 90
+php_value max_execution_time 100
 
 </IfModule>
 

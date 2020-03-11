@@ -196,7 +196,13 @@ function etherscan_api($block_info) {
  
 global $base_dir, $app_config;
 
-  $json_string = 'https://api.etherscan.io/api?module=proxy&action=eth_blockNumber';
+
+	if ( $app_config['etherscanio_api_key'] == '' ) {
+	return false;
+	}
+
+
+  $json_string = 'https://api.etherscan.io/api?module=proxy&action=eth_blockNumber&apikey=' . $app_config['etherscanio_api_key'];
   $jsondata = @api_data('url', $json_string, $app_config['chainstats_cache_time']);
     
   $data = json_decode($jsondata, true);
@@ -211,7 +217,7 @@ global $base_dir, $app_config;
     		// Non-dynamic cache file name, because filename would change every recache and create cache bloat
     		if ( update_cache_file('cache/secured/apis/eth-stats.dat', $app_config['chainstats_cache_time'] ) == true ) {
 			
-  			$json_string = 'https://api.etherscan.io/api?module=proxy&action=eth_getBlockByNumber&tag='.$block_number.'&boolean=true';
+  			$json_string = 'https://api.etherscan.io/api?module=proxy&action=eth_getBlockByNumber&tag='.$block_number.'&boolean=true&apikey=' . $app_config['etherscanio_api_key'];
   			$jsondata = @api_data('url', $json_string, 0); // ZERO TO NOT CACHE DATA (WOULD CREATE CACHE BLOAT)
     		
     		store_file_contents($base_dir . '/cache/secured/apis/eth-stats.dat', $jsondata);
@@ -281,7 +287,7 @@ $result = array();
 
 
 	if ( trim($app_config['coinmarketcapcom_api_key']) == null ) { 
-	app_logging('config_error', '"coinmarketcapcom_api_key" is not configured in config.php', false, false, true);
+	app_logging('config_error', '"coinmarketcapcom_api_key" (free API key) is not configured in config.php', false, false, true);
 	return false;
 	}
 	

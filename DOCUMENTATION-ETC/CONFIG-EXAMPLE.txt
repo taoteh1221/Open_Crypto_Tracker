@@ -181,6 +181,10 @@ $app_config['primary_marketcap_site'] = 'coingecko';
 $app_config['coinmarketcapcom_api_key'] = '';
 
 
+// API key for etherscan.io (required unfortunately, but a FREE level is available): https://etherscan.io/apis
+$app_config['etherscanio_api_key'] = '';
+
+
 // Default BITCOIN-ONLY currency market pairings (79 primary currencies supported)
 // (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
 // 'aed' / 'ars' / 'aud' / 'bam' / 'bdt' / 'bob' / 'brl' / 'bwp' / 'byn' / 'cad' / 'chf' / 'clp' / 'cny' / 'cop' / 'crc' / 'czk' / 
@@ -322,17 +326,17 @@ $app_config['charts_and_price_alerts'] = array(
 					'btc-13' => 'bitbns||inr||chart',
 					'btc-14' => 'localbitcoins||inr||chart',
 					'btc-15' => 'localbitcoins||cny||chart',
-					'btc-16' => 'localbitcoins||jpy||chart',
-					'btc-17' => 'localbitcoins||hkd||chart',
+					'btc-16' => 'bitflyer||jpy||chart',
+					'btc-17' => 'tidebit||hkd||chart',
 					'btc-18' => 'localbitcoins||chf||chart',
-					'btc-19' => 'localbitcoins||krw||chart',
-					'btc-20' => 'localbitcoins||mxn||chart',
+					'btc-19' => 'upbit||krw||chart',
+					'btc-20' => 'bitso||mxn||chart',
 					'btc-21' => 'localbitcoins||nzd||chart',
 					'btc-22' => 'localbitcoins||rub||chart',
-					'btc-23' => 'localbitcoins||sgd||chart',
-					'btc-24' => 'localbitcoins||try||chart',
+					'btc-23' => 'lakebtc||sgd||chart',
+					'btc-24' => 'btcturk||try||chart',
 					'btc-25' => 'localbitcoins||twd||chart',
-					'btc-26' => 'localbitcoins||zar||chart',
+					'btc-26' => 'luno||zar||chart',
 					
 					
 					// ETH
@@ -698,8 +702,8 @@ $app_config['log_purge'] = 10;
 
 // Seconds to wait for response from API endpoints (exchange data, etc). 
 // Set too low you won't get ALL data (partial or zero bytes), set too high the interface can take a long time loading if an API server hangs up
-// RECOMMENDED MINIMUM OF 60, #ESPECIALLY# FOR INSTALLS BEHIND LOW BANDWIDTH / HOME INTERNET NETWORKS
-$app_config['api_timeout'] = 30; // (default = 30)
+// RECOMMENDED MINIMUM OF 45, #ESPECIALLY# FOR INSTALLS BEHIND LOW BANDWIDTH / HOME INTERNET NETWORKS
+$app_config['api_timeout'] = 45; // (default = 45)
 
 
 // 'on' verifies ALL API server certificates for secure API connections, 'off' verifies NOTHING 
@@ -1218,6 +1222,7 @@ $app_config['portfolio_assets'] = array(
                                                     
                                     'krw' => array(
                                           'localbitcoins' => 'KRW',
+                                          'upbit' => 'KRW-BTC',
                                                     ),
                                                     
                                     'kwd' => array(
