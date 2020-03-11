@@ -2875,6 +2875,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.09.0:
 
+-Minor misc. bug fixes
+
 -Uninstall options in auto-install bash script
 
 -Decreased input / execution time for interface
