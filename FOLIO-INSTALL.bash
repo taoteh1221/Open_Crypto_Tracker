@@ -460,17 +460,11 @@ EOF
             
             
          # Give the new HTTP server system user a chance to exist for a few seconds, before trying to determine the name / group automatically
-         echo "We need to find out what user group the web server belongs to."
+         echo "Attempting to auto-detect the web server's user group, please wait..."
          echo " "
-         echo "Pausing 3 seconds before detecting the new web server user group automatically, please wait..."
          
          /bin/sleep 3
-            
-         echo " "
-            
-         echo "Attempting to auto-detect the web server's user group..."
-         echo " "
-            
+           
          #WWW_GROUP=$(/bin/ps -ef | /bin/egrep '(httpd|httpd2|apache|apache2)' | /bin/grep -v `whoami` | /bin/grep -v root | /usr/bin/head -n1 | /usr/bin/awk '{print $1}')
          WWW_GROUP=$(/bin/ps axo user,group,comm | /bin/egrep '(httpd|httpd2|apache|apache2)' | /bin/grep -v ^root | /usr/bin/cut -d\  -f 2 | /usr/bin/uniq)
             
@@ -492,14 +486,11 @@ EOF
                     
             if [ -z "$CUSTOM_GROUP" ]; then
             CUSTOM_GROUP=${1:-$WWW_GROUP}
-            echo "Using default user group: $WWW_GROUP"
+            echo "The web server's user group has been declared as: $WWW_GROUP"
             else
-            echo "Using custom user group: $CUSTOM_GROUP"
+            echo "The web server's user group has been declared as: $CUSTOM_GROUP"
             fi
             
-         echo " "
-         echo "The web server's user group has been declared as:"
-         echo "$CUSTOM_GROUP"
          echo " "
             
             
@@ -525,25 +516,25 @@ EOF
         
         
         	/usr/sbin/usermod -a -G $CUSTOM_GROUP $SYS_USER
-
-			/bin/sleep 1
         
         	echo " "
         	echo "Web server editing access for user name '$SYS_USER', in web server user group '$CUSTOM_GROUP', is completed."
+
+			/bin/sleep 1
         
         	/usr/sbin/usermod -a -G $SYS_USER $CUSTOM_GROUP
+        	
+        	echo " "
+        	echo "Web server editing access for web server user name '$CUSTOM_GROUP', in user group '$SYS_USER', is completed."
 
 			/bin/sleep 1
 			
-        	echo " "
-        	echo "Web server editing access for web server user name '$CUSTOM_GROUP', in user group '$SYS_USER', is completed."
-        
         	/bin/chmod 775 $DOC_ROOT
-
-			/bin/sleep 1
 			
         	echo " "
         	echo "Root web directory group permissions setup (chmod 775, owner/group set to username '$SYS_USER') is completed."
+
+			/bin/sleep 1
         
         	BASE_HTDOC="$(dirname $DOC_ROOT)"
         
@@ -693,6 +684,7 @@ select opt in $OPTIONS; do
   				
 				echo " "
 				echo "Cleaning any previous install..."
+				echo " "
 				
   				# Delete old directory / file structures (overhauled in v4.06.0 higher), for a clean upgrade
   				# Directories
@@ -983,11 +975,6 @@ echo " "
     echo "A cron job has been setup for user '$SYS_USER',"
     echo "as a command in /etc/cron.d/cryptocoin:"
     echo "$CRONJOB"
-    echo " "
-    
-    echo "Double-check that the command 'crontab -e' does not have any OLD MATCHING entries"
-    echo "pointing to the same cron job, OR YOUR CRON JOB WILL RUN TOO OFTEN."
-    echo "(when /etc/cron.d/ is used, then 'crontab -e' should NOT BE USED for the same cron job)"
     echo " "
     
     fi

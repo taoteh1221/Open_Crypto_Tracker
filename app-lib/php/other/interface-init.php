@@ -9,6 +9,8 @@
 //////////////////////////////////////////////////////////////////
 if ( $runtime_mode == 'ui' ) {
 	
+// Set a max execution time for interface, TO AVOID RUNAWAY PROCESSES FREEZING THE SERVER
+ini_set('max_execution_time', $app_config['ui_max_execution_time']);
 
 $alert_percent = explode("|", ( $_POST['use_alert_percent'] != '' ? $_POST['use_alert_percent'] : $_COOKIE['alert_percent'] ) );
 

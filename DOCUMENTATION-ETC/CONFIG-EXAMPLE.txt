@@ -700,6 +700,14 @@ $app_config['log_detail_level'] = 'normal'; // 'normal' / 'verbose'
 $app_config['log_purge'] = 10; 
 
 
+// Maximum execution time for interface in seconds (how long it's allowed to run before automatically killing the process)
+$app_config['ui_max_execution_time'] = 100; // (default = 100)
+
+
+// Maximum execution time for cron jobs in seconds (how long it's allowed to run before automatically killing the process)
+$app_config['cron_max_execution_time'] = 300; // (default = 300)
+
+
 // Seconds to wait for response from API endpoints (exchange data, etc). 
 // Set too low you won't get ALL data (partial or zero bytes), set too high the interface can take a long time loading if an API server hangs up
 // RECOMMENDED MINIMUM OF 45, #ESPECIALLY# FOR INSTALLS BEHIND LOW BANDWIDTH / HOME INTERNET NETWORKS
