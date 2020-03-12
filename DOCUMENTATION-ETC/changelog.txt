@@ -2875,6 +2875,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.08.9:
 
+-Execution time config settings
+
 -Better tracing for write errors
 
 -Etherscan.io API key config setting
