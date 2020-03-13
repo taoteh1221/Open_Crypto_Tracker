@@ -616,6 +616,7 @@ select opt in $OPTIONS; do
 				
 				echo " "
 				echo "Downloading and installing the latest version of DFD Cryptocoin Values, from Github.com..."
+            echo " "
 				
 				mkdir DFD-Cryptocoin-Values
 				

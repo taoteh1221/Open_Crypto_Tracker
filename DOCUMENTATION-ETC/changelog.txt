@@ -2875,6 +2875,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.08.9:
 
+-!CRITICAL! bug fix in the pairing_market_value() function (web server get overloaded and crashes)
+
 -Execution time config settings
 
 -Better tracing for write errors
