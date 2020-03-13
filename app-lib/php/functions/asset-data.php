@@ -359,6 +359,7 @@ global $app_config, $btc_pairing_markets, $btc_pairing_markets_blacklist;
 					
 					
 			if ( isset($whitelist) && $whitelist == $market_key && !array_key_exists($market_key, $btc_pairing_markets_blacklist)
+			|| isset($whitelist) && $whitelist != $market_key && array_key_exists($whitelist, $btc_pairing_markets_blacklist) && !array_key_exists($market_key, $btc_pairing_markets_blacklist)
 			|| !isset($whitelist) && !array_key_exists($market_key, $btc_pairing_markets_blacklist) ) {
 				
    		$btc_pairing_markets[$pairing.'_btc'] = asset_market_data(strtoupper($pairing), $market_key, $market_value)['last_trade'];
@@ -416,6 +417,7 @@ global $app_config, $btc_pairing_markets, $btc_pairing_markets_blacklist;
 					
 					
 			if ( isset($whitelist) && $whitelist == $market_key && !array_key_exists($market_key, $btc_pairing_markets_blacklist)
+			|| isset($whitelist) && $whitelist != $market_key && array_key_exists($whitelist, $btc_pairing_markets_blacklist) && !array_key_exists($market_key, $btc_pairing_markets_blacklist)
 			|| !isset($whitelist) && !array_key_exists($market_key, $btc_pairing_markets_blacklist) ) {
 						
    		$btc_pairing_markets[$pairing.'_btc'] = number_format( (1 /  asset_market_data(strtoupper($pairing), $market_key, $market_value)['last_trade'] ), 8, '.', '');

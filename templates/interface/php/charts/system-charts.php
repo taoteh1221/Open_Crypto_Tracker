@@ -56,7 +56,7 @@ $color_array = array(
 $num_in_first_chart = 0;
 foreach ( $chart_data as $chart_key => $chart_value ) {
 	
-$check_chart_value = number_to_string( delimited_string_sample($chart_value, ',', 'last') );
+$check_chart_value = number_to_string( delimited_string_sample($chart_value, ',', 'first') + delimited_string_sample($chart_value, ',', 'last') / 2 );
 	
 	if ( $chart_key != 'time' && $check_chart_value != 'NO_DATA' && number_to_string($check_chart_value) > 0.000000 ) {
 		
