@@ -556,6 +556,7 @@ EOF
        
         echo " "
         echo "Removing PHP web server..."
+        echo " "
         
         # Skip removing openssl / ssl-cert, in case they were already on the system
         /usr/bin/apt-get remove apache2 php php-mbstring php-curl php-gd php-zip libapache2-mod-php -y
