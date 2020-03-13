@@ -228,7 +228,6 @@ $file_owner_info = posix_getpwuid(fileowner($file));
 	}
 	
 	
-	
 return $result;
 
 }

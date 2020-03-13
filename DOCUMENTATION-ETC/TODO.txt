@@ -21,6 +21,8 @@ ALWAYS do everything in the optimizations / bugs / tests / ux / qa / other secti
 
 Youtube channels on the resources page, that MAY BE DYING (keep an eye on them): Crypto Trader, Crypto Bobby, and IMineBlocks.
 
+Keep an eye on the usleep time in pairing_market_value() right before fallback looping. If it's not enough to stop endless loops freezing the system (by giving global vars time to update before looping), then up it in 0.05 second increments.
+
 ///////////////////////////////////////////////////////
 OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
