@@ -1,0 +1,41 @@
+
+
+=======================================================
+Disabling On-Board Bluetooth On Raspberry PI
+=======================================================
+
+
+1) Login to a terminal on the Pi
+
+
+2) Run this command to open the config file: 
+
+sudo nano /boot/config.txt
+
+
+3) At the bottom of that file, add these lines:
+
+# Disable on-board bluetooth
+dtoverlay=pi3-disable-bt
+
+
+4) Save and exit the config file
+
+
+5) Run the following commands:
+
+sudo systemctl disable hciuart.service
+
+sudo systemctl disable bluealsa.service
+
+sudo systemctl disable bluetooth.service
+
+
+6) Reboot the Pi:
+
+sudo reboot
+
+
+=======================================================
+
+

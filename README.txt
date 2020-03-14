@@ -97,6 +97,7 @@ Follow the prompts. This automated script gives you the options to: install / se
 
 When the auto-install is completed, it will display addresses / logins to access the app (write these down / save them for future use).
 
+SEE /DOCUMENTATION-ETC/RASPBERRY-PI-SECURITY.txt for additional setup related to securing your Raspberry Pi (disabling bluetooth, etc).
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Manual installation:
@@ -132,7 +133,7 @@ If your system DOES NOT have /etc/cron.d/ on it, then NEARLY the same format (mi
 */15 * * * * /usr/bin/php -q /var/www/html/cron.php > /dev/null 2>&1
 
 
-SEE /DOCUMENTATION-ETC/CRON_PLUGINS_README.txt ON CREATING YOUR OWN CUSTOM CRON PLUGINS (custom code that runs during regularly-scheduled cron jobs)
+SEE /DOCUMENTATION-ETC/CRON-PLUGINS-README.txt for creating your own custom cron plugins (custom code that runs during regularly-scheduled cron jobs)
 
 
 IMPORTANT CRON JOB NOTES: 

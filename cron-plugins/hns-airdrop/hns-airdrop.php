@@ -5,7 +5,7 @@
 
 
 // ###########################################################################################
-// SEE /DOCUMENTATION-ETC/CRON_PLUGINS_README.txt ON CREATING YOUR OWN CUSTOM PLUGINS
+// SEE /DOCUMENTATION-ETC/CRON-PLUGINS-README.txt FOR CREATING YOUR OWN CUSTOM PLUGINS
 // ###########################################################################################
 
 
