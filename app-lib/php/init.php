@@ -95,7 +95,7 @@ require_once('app-lib/php/other/coinmarketcap-currencies.php');
 // SET original app_config array BEFORE dynamic app config management
 $original_app_config = $app_config; 
 
-$htaccess_login_array = explode("||", $app_config['htaccess_login']);
+$interface_login_array = explode("||", $app_config['interface_login']);
 					
 // HTTP SERVER setup detection variables (for cache compatibility auto-configuration)
 // MUST BE SET BEFORE CACHE STRUCTURE CREATION, TO RUN IN COMPATIBILITY MODE FOR THIS PARTICULAR SERVER'S SETUP
@@ -120,8 +120,8 @@ $selected_btc_primary_exchange = null;
 $selected_btc_primary_currency_pairing = null;
 
 // htaccess login...SET BEFORE system checks
-$htaccess_username = $htaccess_login_array[0];
-$htaccess_password = $htaccess_login_array[1];
+$htaccess_username = $interface_login_array[0];
+$htaccess_password = $interface_login_array[1];
 
 // Register the base directory of this app (MUST BE SET BEFORE !ANY! Init logic)
 $base_dir = preg_replace("/\/app-lib(.*)/i", "", dirname(__FILE__) );

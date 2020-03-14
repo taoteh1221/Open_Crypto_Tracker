@@ -695,12 +695,15 @@ return $result;
 ////////////////////////////////////////////////////////
 
 
-function password_strength($password) {
+function password_strength($password, $min_length, $fixed_length=false) {
 
 global $app_config;
 
-    if ( mb_strlen($password, $app_config['charset_default']) != 8 ) {
-    $error .= "requires EXACTLY 8 characters; ";
+    if ( $fixed_length == false && mb_strlen($password, $app_config['charset_default']) < $min_length ) {
+    $error .= "requires AT LEAST ".$min_length." characters; ";
+    }
+    elseif ( $fixed_length == true && mb_strlen($password, $app_config['charset_default']) != $min_length ) {
+    $error .= "requires EXACTLY ".$min_length." characters; ";
     }
     
     if ( !preg_match("#[0-9]+#", $password) ) {

@@ -10,6 +10,9 @@ $start_runtime = $time;
 $runtime_mode = 'ui';
 
 require("config.php");
+	
+// Set a max execution time for interface, TO AVOID RUNAWAY PROCESSES FREEZING THE SERVER
+ini_set('max_execution_time', $app_config['ui_max_execution_time']);
 
 header('Content-type: text/html; charset=' . $app_config['charset_default']);
 
@@ -24,8 +27,10 @@ header('Content-type: text/html; charset=' . $app_config['charset_default']);
 
 	<title>DFD Cryptocoin Values</title>
     
-    <meta charset="<?=$app_config['charset_default']?>">
-    <meta name="viewport" content="width=device-width">
+   <meta charset="<?=$app_config['charset_default']?>">
+   
+   <meta name="viewport" content="width=device-width">
+   
 	<meta name="robots" content="noindex,nofollow"> <!-- Keeps this URL private (search engines won't add this URL to their search indexes) -->
     
 	<link rel="stylesheet" href="templates/interface/css/bootstrap/bootstrap.min.css" type="text/css" />
@@ -34,6 +39,7 @@ header('Content-type: text/html; charset=' . $app_config['charset_default']);
 	
 	<!-- Load theme styling last to over rule -->
 	<link rel="stylesheet" href="templates/interface/css/style.css" type="text/css" />
+	
 	<link rel="stylesheet" href="templates/interface/css/<?=$theme_selected?>.style.css" type="text/css" />
 
 

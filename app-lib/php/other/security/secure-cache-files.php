@@ -111,6 +111,23 @@ foreach( $secured_cache_files as $secured_file ) {
 	}
 	
 	
+	// Webhook key (for secure webhook communications)
+	elseif ( preg_match("/webhook_key_/i", $secured_file) ) {
+		
+		
+		// If we already loaded the newest modified file, delete any stale ones
+		if ( $newest_cached_webhook_key == 1 ) {
+		unlink($base_dir . '/cache/secured/' . $secured_file);
+		}
+		else {
+		$newest_cached_webhook_key = 1;
+		$webhook_key = trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) );
+		}
+	
+	
+	}
+	
+	
 	// Any outdated var names we no longer use are safe to delete
 	else {
 	unlink($base_dir . '/cache/secured/' . $secured_file);
@@ -126,16 +143,38 @@ foreach( $secured_cache_files as $secured_file ) {
 if ( !$password_pepper ) {
 	
 $secure_128bit_hash = random_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
-$secure_256bit_hash = random_hash(32); // 256-bit (32-byte) hash converted to hexadecimal, used for suffix
+$secure_256bit_hash = random_hash(32); // 256-bit (32-byte) hash converted to hexadecimal, used for var
 	
 	
 	// Halt the process if an issue is detected safely creating a random hash
 	if ( $secure_128bit_hash == false || $secure_256bit_hash == false ) {
-	app_logging('security_error', 'Cryptographically secure pseudo-random bytes could not be generated for pepper var (secured cache storage) suffix, pepper var creation aborted to preserve security');
+	app_logging('security_error', 'Cryptographically secure pseudo-random bytes could not be generated for pepper var (in secured cache storage), pepper var creation aborted to preserve security');
 	}
 	else {
 	store_file_contents($base_dir . '/cache/secured/pepper_var_'.$secure_128bit_hash.'.dat', $secure_256bit_hash);
 	$password_pepper = $secure_256bit_hash;
+	}
+
+
+}
+
+
+
+
+// If no webhook key
+if ( !$webhook_key ) {
+	
+$secure_128bit_hash = random_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
+$secure_64bit_hash = random_hash(8); // 64-bit (8-byte) hash converted to hexadecimal, used for var
+	
+	
+	// Halt the process if an issue is detected safely creating a random hash
+	if ( $secure_128bit_hash == false || $secure_64bit_hash == false ) {
+	app_logging('security_error', 'Cryptographically secure pseudo-random bytes could not be generated for webhook key (in secured cache storage), webhook key creation aborted to preserve security');
+	}
+	else {
+	store_file_contents($base_dir . '/cache/secured/webhook_key_'.$secure_128bit_hash.'.dat', $secure_64bit_hash);
+	$webhook_key = $secure_64bit_hash;
 	}
 
 

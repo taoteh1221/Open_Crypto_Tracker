@@ -80,22 +80,27 @@ function htaccess_directory_protection() {
 global $base_dir, $app_config;
 
 // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-$htaccess_login_array = explode("||", $app_config['htaccess_login']);
+$interface_login_array = explode("||", $app_config['interface_login']);
 
-$htaccess_username = $htaccess_login_array[0];
+$htaccess_username = $interface_login_array[0];
 
-$htaccess_password = $htaccess_login_array[1];
+$htaccess_password = $interface_login_array[1];
+
+$valid_username = valid_username($htaccess_username);
+
+// Password must be exactly 8 characters long for good htaccess security (htaccess only checks the first 8 characters for a match)
+$password_strength = password_strength($htaccess_password, 8, true); 
 
 
     if ( $htaccess_username == '' || $htaccess_password == '' ) {
     return false;
     }
-    elseif ( valid_username($htaccess_username) != 'valid' ) {
-    app_logging('security_error', 'app_config\'s "htaccess_login" username value does not meet minimum valid username requirements' , valid_username($htaccess_username) );
+    elseif ( $valid_username != 'valid' ) {
+    app_logging('security_error', 'app_config\'s "interface_login" username value does not meet minimum valid username requirements' , $valid_username);
     return false;
     }
-    elseif ( password_strength($htaccess_password) != 'valid' ) {
-    app_logging('security_error', 'app_config\'s "htaccess_login" password value does not meet minimum password strength requirements' , password_strength($htaccess_password) );
+    elseif ( $password_strength != 'valid' ) {
+    app_logging('security_error', 'app_config\'s "interface_login" password value does not meet minimum password strength requirements' , $password_strength);
     return false;
     }
     else {

@@ -141,6 +141,31 @@ $app_config['proxy_alerts_checkup_ok'] = 'include';
 ////////////////////////////////////////
 
 
+// Admin area interface login protection
+$app_config['admin_login'] = ''; // Leave blank to disable the admin interface. This format MUST be used: 'username||password'
+
+
+// Interface login protection (htaccess user/password required to view this portfolio app's web interface)
+// Username MUST BE at least 4 characters, beginning with ONLY LOWERCASE letters (may contain numbers AFTER first letter), NO SPACES
+// Password MUST BE EXACTLY 8 characters, AND contain one number, one UPPER AND LOWER CASE letter, and one symbol, NO SPACES
+// (ENABLES / UPDATES automatically, when a valid username / password are filled in or updated here)
+// (DISABLES automatically, when username / password are blank '' OR invalid) 
+// (!ONLY #UPDATES OR DISABLES# AUTOMATICALLY #AFTER# LOGGING IN ONCE WITH YOUR #OLD LOGIN# [or if a cron job runs with the new config]!)
+$app_config['interface_login'] = ''; // Leave blank to disable. This format MUST be used: 'username||password'
+
+
+// API key for etherscan.io (required unfortunately, but a FREE level is available): https://etherscan.io/apis
+$app_config['etherscanio_api_key'] = '';
+
+
+// API key for coinmarketcap.com Pro API (required unfortunately, but a FREE level is available): https://coinmarketcap.com/api
+$app_config['coinmarketcapcom_api_key'] = '';
+
+
+// Default marketcap data source: 'coingecko', or 'coinmarketcap' (COINMARKETCAP REQUIRES A #FREE# API KEY, see below)
+$app_config['primary_marketcap_site'] = 'coingecko'; 
+
+
 // Your local time offset IN HOURS, COMPARED TO UTC TIME. Can be negative or positive.
 // (Used for user experience 'pretty' timestamping in interface logic ONLY, WILL NOT change or screw up UTC log times etc if you change this)
 $app_config['local_time_offset'] = -4; // example: -5 or 5
@@ -156,33 +181,12 @@ $app_config['margin_leverage_max'] = 150; // Maximum margin leverage available i
 $app_config['delete_old_backups'] = 10; // Days until old zip archive backups should be deleted (chart data archives, etc)
 
 
-// Htaccess password protection (password required to view this portfolio app's web interface)
-// Username MUST BE at least 4 characters, beginning with ONLY LOWERCASE letters (may contain numbers AFTER first letter), NO SPACES
-// Password MUST BE EXACTLY 8 characters, AND contain one number, one UPPER AND LOWER CASE letter, and one symbol, NO SPACES
-// (ENABLES / UPDATES automatically, when a valid username / password are filled in or updated here)
-// (DISABLES automatically, when username / password are blank '' OR invalid) 
-// (!ONLY #UPDATES OR DISABLES# AUTOMATICALLY #AFTER# LOGGING IN ONCE WITH YOUR #OLD LOGIN# [or if a cron job runs with the new config]!)
-$app_config['htaccess_login'] = ''; // Leave blank to disable. This format MUST be used: 'username||password'
-
-
 // Shows system statistics in the user interface, if stats are available (system load, system temperature, free disk space, free system memory, etc)
 $app_config['system_stats'] = 'raspi'; // 'off' (disabled), 'on' (enabled for ANY system), 'raspi' (enabled ONLY for raspberry pi devices)
 ////
 // Highest numeric value sensor data to include in the FIRST system statistics chart (out of two)
 // (higher sensor data is moved into the second chart, to keep ranges easily readable between both charts...only used if stats are enabled above)
 $app_config['system_stats_first_chart_highest_value'] = 3.5; // Can be a decimal (example: 0.5 or 7.5 etc)
-
-
-// Default marketcap data source: 'coingecko', or 'coinmarketcap' (COINMARKETCAP REQUIRES A #FREE# API KEY, see below)
-$app_config['primary_marketcap_site'] = 'coingecko'; 
-
-
-// API key for coinmarketcap.com Pro API (required unfortunately, but a FREE level is available): https://coinmarketcap.com/api
-$app_config['coinmarketcapcom_api_key'] = '';
-
-
-// API key for etherscan.io (required unfortunately, but a FREE level is available): https://etherscan.io/apis
-$app_config['etherscanio_api_key'] = '';
 
 
 // Default BITCOIN-ONLY currency market pairings (79 primary currencies supported)
@@ -700,12 +704,16 @@ $app_config['log_detail_level'] = 'normal'; // 'normal' / 'verbose'
 $app_config['log_purge'] = 10; 
 
 
-// Maximum execution time for interface in seconds (how long it's allowed to run before automatically killing the process)
+// Maximum execution time for interface runtime in seconds (how long it's allowed to run before automatically killing the process)
 $app_config['ui_max_execution_time'] = 100; // (default = 100)
 
 
-// Maximum execution time for cron jobs in seconds (how long it's allowed to run before automatically killing the process)
+// Maximum execution time for cron job runtime in seconds (how long it's allowed to run before automatically killing the process)
 $app_config['cron_max_execution_time'] = 300; // (default = 300)
+
+
+// Maximum execution time for webhook runtime in seconds (how long it's allowed to run before automatically killing the process)
+$app_config['webhook_max_execution_time'] = 60; // (default = 60)
 
 
 // Seconds to wait for response from API endpoints (exchange data, etc). 
@@ -751,7 +759,8 @@ $app_config['chmod_permission_cache_files'] = '0666'; // (default = '0666')
 $app_config['chmod_permission_index_security'] = '0664'; // (default = '0664')
 
 
-// Activate any custom cron plugins you've created (that run during cron jobs, from the /cron-plugins/ directory)
+// Activate any custom cron plugins you've created (that runs during cron jobs, from the /cron-plugins/ directory)
+// SEE /DOCUMENTATION-ETC/CRON-PLUGINS-README.txt for creating your own custom cron plugins
 // REMOVE ANY DOUBLE FORWARD SLASHES FROM IN FRONT OF THE PLUGIN YOU WANT ACTIVATED
 // ADD ANY NEW CRON PLUGIN HERE BY USING THE FOLDER NAME THE NEW PLUGIN IS LOCATED IN
 // NEVER ADD A CRON PLUGIN SOMEBODY ELSE WROTE, UNLESS YOU OR SOMEONE YOU TRUST 
