@@ -17,21 +17,7 @@ $("span.btc_primary_currency_pairing").html(window.btc_primary_currency_pairing)
 
 	////////////////////////////////////////////////////////
 	
-	$.each($('textarea[data-autoresize]'), function() {
-    var offset = this.offsetHeight - this.clientHeight;
- 
-    var resizeTextarea = function(el) {
-        $(el).css('height', 'auto').css('height', el.scrollHeight + offset);
-    };
-    
-    $(this).each(function() { resizeTextarea(this); }).removeAttr('data-autoresize');  // Onload
-    
-    $(this).change(function() { resizeTextarea(this); }).removeAttr('data-autoresize');  // Onchange
-    
-    $(this).on('keyup input', function() { resizeTextarea(this); }).removeAttr('data-autoresize'); // On keyup
-    
-});
-
+	autosize(document.querySelector('textarea[data-autoresize]'));
 
 	//////////////////////////////////////////////////////////
   

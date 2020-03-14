@@ -55,6 +55,27 @@ border: 1px solid #808080;
 }
 
 
+textarea[data-autoresize] {
+	border: 1px solid #808080;
+	width:100%;
+	box-sizing:border-box;
+	display:block;
+	max-width:100%;
+	line-height: 1;
+	padding: 10px 10px 10px;
+	border-radius: 8px;
+	font-size: 16px;
+	transition:box-shadow 0.5s ease;
+	box-shadow:0 4px 6px rgba(0,0,0,0.1);
+	font-smoothing:subpixel-antialiased;
+	background:linear-gradient(#e5e3e3, #f2f2f2);
+	background:-o-linear-gradient(#e5e3e3, #f2f2f2);
+	background:-ms-linear-gradient(#e5e3e3, #f2f2f2);
+	background:-moz-linear-gradient(#e5e3e3, #f2f2f2);
+	background:-webkit-linear-gradient(#e5e3e3, #f2f2f2);
+}
+
+
 html, p, td.data, td.data span.data, td select, td.data span, input, select, textarea, input[type=submit], input[type=button], .force_button_style, .btn-link, .btn-link a, .btn-link:hover {	
 font-family: sans-serif;
 font-size: 15px;

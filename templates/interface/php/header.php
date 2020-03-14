@@ -58,6 +58,8 @@ header('Content-type: text/html; charset=' . $app_config['charset_default']);
 
 	<script src="app-lib/js/modaal.js"></script>
 
+	<script src="app-lib/js/autosize.min.js"></script>
+
 	<script src="app-lib/js/functions.js"></script>
 	
 	<script src="app-lib/js/zingchart.min.js"></script>

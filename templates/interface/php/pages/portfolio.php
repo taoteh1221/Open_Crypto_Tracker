@@ -746,7 +746,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	if ( $_COOKIE['notes_reminders'] != '' ) {
 	?>
 	
-	<div style='margin-top: 10px;'>
+	<div style='margin-top: 10px; height: auto;'>
 	
 		<form action='<?=start_page($_GET['start_page'])?>' method='post'>
 	
