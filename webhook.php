@@ -12,7 +12,7 @@ $runtime_mode = 'webhook';
 require("config.php");
 
 
-// Set a max execution time for interface, TO AVOID RUNAWAY PROCESSES FREEZING THE SERVER
+// Set a max execution time, TO AVOID RUNAWAY PROCESSES FREEZING THE SERVER
 ini_set('max_execution_time', $app_config['webhook_max_execution_time']);
 
 

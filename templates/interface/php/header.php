@@ -11,7 +11,7 @@ $runtime_mode = 'ui';
 
 require("config.php");
 	
-// Set a max execution time for interface, TO AVOID RUNAWAY PROCESSES FREEZING THE SERVER
+// Set a max execution time, TO AVOID RUNAWAY PROCESSES FREEZING THE SERVER
 ini_set('max_execution_time', $app_config['ui_max_execution_time']);
 
 header('Content-type: text/html; charset=' . $app_config['charset_default']);

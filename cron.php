@@ -32,7 +32,7 @@ $runtime_mode = 'cron';
 require("config.php");
 
 
-// Set a max execution time for cron (CLI runtime), TO AVOID RUNAWAY PROCESSES FREEZING THE SERVER
+// Set a max execution time, TO AVOID RUNAWAY PROCESSES FREEZING THE SERVER
 ini_set('max_execution_time', $app_config['cron_max_execution_time']);
 
 
