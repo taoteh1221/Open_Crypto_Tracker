@@ -28,15 +28,9 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
-Firefox > v68 CSS issues on Linux may have to do with htaccess password protection...try FF with password protection turned off.
-
-
 Fresh AUTO install on a raspberry pi throws this INTERFACE error, even though we chowned every file as owner 'pi', and chmod 664 on the root .htaccess file:
 runtime: ui | system_error: File write failed for file "/var/www/html/.htaccess" (check permissions for the path "/var/www/html", and the file ".htaccess")
-Deleting it, and running the INTERFACE to auto-recreate as the runtime user fixes this, BUT why is this happening? Permissions look good and apache user / user pi are added to each others groups?
-
-
-Run tests creating the directory structure and initial cache files, with a default app_config, and with a custom app_config.
+Only happens during THE VERY FIRST RUN after install, reloading the web page after causes no error log messages.
 
 
 Replace landing page screenshot lightbox modal with one that is a reliable mobile full screen mode (current one has poor mobile support).
