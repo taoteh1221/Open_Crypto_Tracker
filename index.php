@@ -28,34 +28,34 @@ require("templates/interface/php/header.php");
 		
 		
 		<div id='portfolio' class='tabdiv'>
-			<?php require("templates/interface/php/user/sections/portfolio.php"); ?>
+			<?php require("templates/interface/php/user/user-sections/portfolio.php"); ?>
 		</div>
 		<div id='update_assets' class='tabdiv'>
-			<?php require("templates/interface/php/user/sections/update-assets.php"); ?>
+			<?php require("templates/interface/php/user/user-sections/update-assets.php"); ?>
 		</div>
 		<div id='settings' class='tabdiv'>
-			<?php require("templates/interface/php/user/sections/settings.php"); ?>
+			<?php require("templates/interface/php/user/user-sections/settings.php"); ?>
 		</div>
 			<?php
 			if ( $app_config['charts_page'] == 'on' ) {
 			?>
 		<div id='charts' class='tabdiv container-fluid'>
-			<?php require("templates/interface/php/user/sections/charts.php"); ?>
+			<?php require("templates/interface/php/user/user-sections/charts.php"); ?>
 		</div>
 			<?php
 			}
 			?>
 		<div id='mining_calculators' class='tabdiv'>
-			<?php require("templates/interface/php/user/sections/mining-calculators.php"); ?>
+			<?php require("templates/interface/php/user/user-sections/mining-calculators.php"); ?>
 		</div>
 		<div id='tools' class='tabdiv'>
-			<?php require("templates/interface/php/user/sections/tools.php"); ?>
+			<?php require("templates/interface/php/user/user-sections/tools.php"); ?>
 		</div>
 		<div id='resources' class='tabdiv'>
-			<?php require("templates/interface/php/user/sections/resources.php"); ?>
+			<?php require("templates/interface/php/user/user-sections/resources.php"); ?>
 		</div>
 		<div id='help' class='tabdiv'>
-			<?php require("templates/interface/php/user/sections/help.php"); ?>
+			<?php require("templates/interface/php/user/user-sections/help.php"); ?>
 		</div>
 
 

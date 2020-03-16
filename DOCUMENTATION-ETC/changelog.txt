@@ -2915,6 +2915,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.08.10:
 
+-Additional !CRITICAL! bug fix for pairing_market_value() function overloading the server (SHOULD BE GOOD NOW, SORRY!)
+
 -Bug fix for trading notes text area auto-resize
 
 -Initial webhook support structuring (in-progress)

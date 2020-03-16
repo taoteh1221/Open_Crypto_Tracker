@@ -324,6 +324,8 @@ function pairing_market_value($pairing) {
 
 global $app_config, $btc_pairing_markets, $btc_pairing_markets_blacklist;
 
+$pairing = strtolower($pairing);
+
 
 	// Safeguard / cut down on runtime
 	if ( $pairing == null || $pairing == 'btc' ) {
@@ -352,9 +354,9 @@ global $app_config, $btc_pairing_markets, $btc_pairing_markets_blacklist;
 		foreach ( $app_config['portfolio_assets'][strtoupper($pairing)]['market_pairing']['btc'] as $market_key => $market_value ) {
 					
 					
-			if ( isset($whitelist) && $whitelist == $market_key && !array_key_exists($market_key, $btc_pairing_markets_blacklist)
-			|| isset($whitelist) && $whitelist != $market_key && array_key_exists($whitelist, $btc_pairing_markets_blacklist) && !array_key_exists($market_key, $btc_pairing_markets_blacklist)
-			|| !isset($whitelist) && !array_key_exists($market_key, $btc_pairing_markets_blacklist) ) {
+			if ( isset($whitelist) && $whitelist == $market_key && !array_key_exists($market_key, $btc_pairing_markets_blacklist[$pairing])
+			|| isset($whitelist) && $whitelist != $market_key && array_key_exists($whitelist, $btc_pairing_markets_blacklist[$pairing]) && !array_key_exists($market_key, $btc_pairing_markets_blacklist[$pairing])
+			|| !isset($whitelist) && !array_key_exists($market_key, $btc_pairing_markets_blacklist[$pairing]) ) {
 				
    		$btc_pairing_markets[$pairing.'_btc'] = asset_market_data(strtoupper($pairing), $market_key, $market_value)['last_trade'];
    		
@@ -369,15 +371,16 @@ global $app_config, $btc_pairing_markets, $btc_pairing_markets_blacklist;
    			return $btc_pairing_markets[$pairing.'_btc'];
    			
    			}
-   			else {
+   			// We only want to fallback 3 consecutive times max per pairing / runtime
+   			elseif ( sizeof($btc_pairing_markets_blacklist[$pairing]) < 3 ) {
    			
    			$btc_pairing_markets[$pairing.'_btc'] = null; // Reset
    				
-   			$btc_pairing_markets_blacklist[] = $market_key; // Blacklist getting pairing data from this exchange IN ANY PAIRING, for this runtime only
+   			$btc_pairing_markets_blacklist[$pairing][] = $market_key; // Blacklist getting pairing data from this exchange IN ANY PAIRING, for this runtime only
    			
    			app_logging('other_error', 'pairing_market_value() update failure for ' . $pairing, 'blacklisted_exchange: ' . $market_key);
    			
-   			usleep(100000); // 0.10 seconds to update imported global vars and log the error, before we loop de loop
+   			usleep(150000); // 0.15 seconds to update imported global vars and log the error, before we loop de loop
    			
    			return pairing_market_value($pairing);
    			
@@ -410,9 +413,9 @@ global $app_config, $btc_pairing_markets, $btc_pairing_markets_blacklist;
 		foreach ( $app_config['portfolio_assets']['BTC']['market_pairing'][$pairing] as $market_key => $market_value ) {
 					
 					
-			if ( isset($whitelist) && $whitelist == $market_key && !array_key_exists($market_key, $btc_pairing_markets_blacklist)
-			|| isset($whitelist) && $whitelist != $market_key && array_key_exists($whitelist, $btc_pairing_markets_blacklist) && !array_key_exists($market_key, $btc_pairing_markets_blacklist)
-			|| !isset($whitelist) && !array_key_exists($market_key, $btc_pairing_markets_blacklist) ) {
+			if ( isset($whitelist) && $whitelist == $market_key && !array_key_exists($market_key, $btc_pairing_markets_blacklist[$pairing])
+			|| isset($whitelist) && $whitelist != $market_key && array_key_exists($whitelist, $btc_pairing_markets_blacklist[$pairing]) && !array_key_exists($market_key, $btc_pairing_markets_blacklist[$pairing])
+			|| !isset($whitelist) && !array_key_exists($market_key, $btc_pairing_markets_blacklist[$pairing]) ) {
 						
    		$btc_pairing_markets[$pairing.'_btc'] = number_format( (1 /  asset_market_data(strtoupper($pairing), $market_key, $market_value)['last_trade'] ), 8, '.', '');
    					
@@ -427,15 +430,16 @@ global $app_config, $btc_pairing_markets, $btc_pairing_markets_blacklist;
    			return $btc_pairing_markets[$pairing.'_btc'];
    					
    			}
-   			else {
+   			// We only want to fallback 3 consecutive times max per pairing / runtime
+   			elseif ( sizeof($btc_pairing_markets_blacklist[$pairing]) < 3 ) {
    				
    			$btc_pairing_markets[$pairing.'_btc'] = null; // Reset
    						
-   			$btc_pairing_markets_blacklist[] = $market_key; // Blacklist getting pairing data from this exchange IN ANY PAIRING, for this runtime only
+   			$btc_pairing_markets_blacklist[$pairing][] = $market_key; // Blacklist getting pairing data from this exchange IN ANY PAIRING, for this runtime only
    					
    			app_logging('other_error', 'pairing_market_value() update failure for ' . $pairing, 'blacklisted_exchange: ' . $market_key);
    			
-   			usleep(100000); // 0.10 seconds to update imported global vars and log the error, before we loop de loop
+   			usleep(150000); // 0.15 seconds to update imported global vars and log the error, before we loop de loop
    					
    			return pairing_market_value($pairing);
    					
@@ -1506,7 +1510,7 @@ $market_pairing = $all_markets[$selected_exchange];
         <?php
             }
             ?>
-        +'<p class="coin_info"><span class="yellow">Token Value (average):</span> <?=$cmc_primary_currency_symbol?><?=$marketcap_data['price']?></p>'
+        +'<p class="coin_info"><span class="yellow">Token Value (global average):</span> <?=$cmc_primary_currency_symbol?><?=$marketcap_data['price']?></p>'
         <?php
             if ( $marketcap_data['percent_change_1h'] != null ) {
             ?>
