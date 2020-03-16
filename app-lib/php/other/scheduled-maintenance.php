@@ -79,14 +79,30 @@ if ( $runtime_mode != 'cron' && update_cache_file($base_dir . '/cache/events/sch
 	
 	store_file_contents($base_dir . '/cache/vars/upgrade_check_latest_version.dat', $upgrade_check_latest_version);
 	
+	
+	// Parse latest version
+	$latest_version_array = explode(".", $upgrade_check_latest_version);
+	
+	$latest_major_minor = $latest_version_array[0] . $latest_version_array[1];
+	
+	$latest_bug_fixes = $latest_version_array[2];
+	
+	
+	// Parse currently installed version
+	$app_version_array = explode(".", $app_version);
+	
+	$app_major_minor = $app_version_array[0] . $app_version_array[1];
+	
+	$app_bug_fixes = $app_version_array[2];
+	
+	
 		
 		// If the latest release is a newer version then what we are running
-		if ( preg_replace("/\./", "", $upgrade_check_latest_version) > preg_replace("/\./", "", $app_version) ) {
+		if ( $latest_major_minor > $app_major_minor || $latest_major_minor == $app_major_minor && $latest_bug_fixes > $app_bug_fixes ) {
 		
 		
 			// Is this a bug fix release?
-			$bug_fix_check_array = explode('.', $upgrade_check_latest_version);
-			if ( $bug_fix_check_array[2] > 0 ) {
+			if ( $latest_bug_fixes > 0 ) {
 			$is_upgrade_bug_fix = 1;
 			$bug_fix_subject_extension = ' (bug fix release)';
 			$bug_fix_message_extension = ' This latest version is a bug fix release.';
