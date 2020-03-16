@@ -94,6 +94,21 @@ return $number;
 ////////////////////////////////////////////////////////
 
 
+function obfuscated_url_data($url) {
+
+$url = preg_replace("/apikey(.*)/i", "apikey=[OBFUSCATED]", $url); // Etherscan
+
+$url = preg_replace("/bot(.*)getUpdates/i", "bot[OBFUSCATED]/getUpdates", $url); // Telegram
+
+return $url;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
 function regex_compat_url($url) {
 	
 $regex_url = trim($url);
