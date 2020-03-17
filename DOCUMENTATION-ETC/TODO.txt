@@ -28,6 +28,12 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+Timestamp AFTER the v4.08.11 release, we now have some serious crypto folio tech to maintain proof as gplv3 here.
+
+
+Retest password strength function after the modification.
+
+
 Fresh AUTO install on a raspberry pi throws this INTERFACE error, even though we chowned every file as owner 'pi', and chmod 664 on the root .htaccess file:
 runtime: ui | system_error: File write failed for file "/var/www/html/.htaccess" (check permissions for the path "/var/www/html", and the file ".htaccess")
 Only happens during THE VERY FIRST RUN after install, reloading the web page after causes no error log messages.
@@ -61,6 +67,12 @@ Code review ALL functions / logic (especially loops, for efficiency).
 ///////////////////////////////////////////////////////
 FEATURES / STRUCTURING SECTION
 ///////////////////////////////////////////////////////
+
+
+Create github wiki with the current documentation for the portfolio app.
+
+
+Prune system stats chart data older than 120 days, via the scheduled maintenance logic.
 
 
 For scalable chart data, maybe run once daily during cron runtimes creating 1 hour (or greater) time interval chart data stores, using timestamp info in the default chart data store. Then use those for the initial chart loads if the chart data is more than 3 months worth (or whatever time period).
@@ -213,6 +225,12 @@ MAYBE SECTION
 ///////////////////////////////////////////////////////
 
 
+Consider adding an optional parameter for the pairing value function, to force using a specific exchange (if it exists for that market), to possibly use in charts / alerts if the asset is also a crypto-to-crypto pairing?
+
+
+Add memory limit to all runtimes?
+
+
 Maybe do a gains pie chart and a separate losses pie chart for the gains / losses summary?
 
 
@@ -220,9 +238,6 @@ Comparison chart(s) showing historical asset price vs what you paid per-token?
 
 
 Add auto-install script option to install NGINX (https://www.raspberrypi.org/documentation/remote-access/web-server/nginx.md)?
-
-
-Create a github Wiki for this app?
 
 
 Maybe add feature to detect new / removed markets?
