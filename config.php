@@ -153,7 +153,7 @@ $app_config['proxy_alerts_checkup_ok'] = 'include';
 ////////////////////////////////////////
 
 
-// Admin area interface login protection
+// Admin area interface login protection (WORK IN PROGRESS, !!NOT FUNCTIONAL!!)
 $app_config['admin_login'] = ''; // Leave blank to disable the admin interface. This format MUST be used: 'username||password'
 
 

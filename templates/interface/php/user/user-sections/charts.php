@@ -14,13 +14,13 @@
 	
 	<p style='margin-top: 15px; margin-bottom: 15px;'><?=start_page_html('charts')?></p>			
 				
-	<p><button class="show_chart_settings force_button_style">Activate Charts</button></p>
+	<p><button class="show_chart_settings force_button_style">Show Charts</button></p>
 	
 	
 	<div id="show_chart_settings">
 	
 		
-		<h3>Activate Charts</h3>
+		<h3>Show Charts</h3>
 	
 	<p class='red'>*Charts are not activated by default to increase page loading speed / responsiveness. It's recommended to avoid activating too many charts at the same time, to keep your page load times quick. You can enable "Use cookies to save data between browser sessions" on the Settings page <i>before activating your charts</i>, if you want them to stay activated between browser sessions.</p>
 	
@@ -29,7 +29,7 @@
 	<!-- Submit button must be OUTSIDE form tags here, or it submits the target form improperly and loses data -->
 	<p><button class='force_button_style' onclick='
 	document.coin_amounts.submit();
-	'>Update Activated Charts</button></p>
+	'>Update Shown Charts</button></p>
 	
 	<p><input type='checkbox' onclick='
 	
@@ -39,7 +39,7 @@
 		$("#show_charts").val("");
 		}
 		
-	' /> Select / Unselect All &nbsp;&nbsp; <span class='red'>(if "loading charts" notice freezes, check / uncheck this box, then click "Update Activated Charts")</span></p>
+	' /> Select / Unselect All &nbsp;&nbsp; <span class='red'>(if "loading charts" notice freezes, check / uncheck this box, then click "Update Shown Charts")</span></p>
 		
 		<form id='activate_charts' name='activate_charts'>
 		
@@ -106,7 +106,7 @@
 		<!-- Submit button must be OUTSIDE form tags here, or it submits the target form improperly and loses data -->
 		<p><button class='force_button_style' onclick='
 		document.coin_amounts.submit();
-		'>Update Activated Charts</button></p>
+		'>Update Shown Charts</button></p>
 		
 	</div>
 	
@@ -213,7 +213,7 @@
 	<div class='align_center' style='min-height: 100px;'>
 	
 		<p><img src='templates/interface/media/images/favicon.png' alt='' class='image_border' /></p>
-		<p class='red' style='font-weight: bold; position: relative; margin: 15px;'>Click the Activate Charts button (top left) to add charts.</p>
+		<p class='red' style='font-weight: bold; position: relative; margin: 15px;'>Click the Show Charts button (top left) to add charts.</p>
 	</div>
 	<?php
 	}

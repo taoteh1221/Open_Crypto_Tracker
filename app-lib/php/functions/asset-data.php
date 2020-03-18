@@ -378,7 +378,7 @@ $pairing = strtolower($pairing);
    				
    			$btc_pairing_markets_blacklist[$pairing][] = $market_key; // Blacklist getting pairing data from this exchange IN ANY PAIRING, for this runtime only
    			
-   			app_logging('other_error', 'pairing_market_value() update failure for ' . $pairing, 'blacklisted_exchange: ' . $market_key);
+   			app_logging('other_error', 'pairing_market_value() update failure for ' . $pairing . ' / btc @ ' . $market_key, $pairing . '_blacklisted_count: ' . sizeof($btc_pairing_markets_blacklist[$pairing]) );
    			
    			usleep(150000); // 0.15 seconds to update imported global vars and log the error, before we loop de loop
    			
@@ -437,7 +437,7 @@ $pairing = strtolower($pairing);
    						
    			$btc_pairing_markets_blacklist[$pairing][] = $market_key; // Blacklist getting pairing data from this exchange IN ANY PAIRING, for this runtime only
    					
-   			app_logging('other_error', 'pairing_market_value() update failure for ' . $pairing, 'blacklisted_exchange: ' . $market_key);
+   			app_logging('other_error', 'pairing_market_value() update failure for btc / ' . $pairing . ' @ ' . $market_key, $pairing . '_blacklisted_count: ' . sizeof($btc_pairing_markets_blacklist[$pairing]) );
    			
    			usleep(150000); // 0.15 seconds to update imported global vars and log the error, before we loop de loop
    					

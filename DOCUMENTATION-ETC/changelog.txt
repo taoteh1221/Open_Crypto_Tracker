@@ -1231,7 +1231,7 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 3.09.1:
 -More minor UX tweaks
--Bug fix for activated charts list
+-Bug fix for Shown Charts list
 -Archived dev maintenance stuff
 -------------------------------------------------------------------
 
@@ -1240,7 +1240,7 @@ app doing the data requests, not a malicious bot)
 -------------------------------------------------------------------
 3.09.2:
 -Even more minor UX tweaks
--Yet another bug fix for activated charts list (sorry, lol)
+-Yet another bug fix for Shown Charts list (sorry, lol)
 -------------------------------------------------------------------
 
 
@@ -2951,7 +2951,9 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.08.11:
 
--Yet another !CRITICAL! bug fix: Obfuscate sensitive URL data in logs / UI alerts (etherscan / telegram urls containing API keys are now obfuscated in UI alerts and logs)
+-!CRITICAL! security fix: Obfuscate sensitive URL data in logs / UI alerts (etherscan / telegram urls containing API keys are now obfuscated in UI alerts and logs)
+
+-Minor UX changes
 
 IMPORTANT NOTES: 
 

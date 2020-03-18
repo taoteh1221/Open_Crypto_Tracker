@@ -81,7 +81,7 @@ For scalable chart data, maybe run once daily during cron runtimes creating 1 ho
 Create chart interval function that divides the desired chart timeline period by the number of maximum data points the chart should ever load, to get the data point time interval, then caches the corresponding timestamped data point intervals into an updated chart for that time period every 24 hours. So we'd have like 6 / 12 / 18 month charts (as examples).
 
 
-In the "loading charts" logic, add a timer that logs the time it takes to load all activated charts, and prints results to the console log.
+In the "loading charts" logic, add a timer that logs the time it takes to load all Shown Charts, and prints results to the console log.
 
 
 Always prune system stats chart data (during scheduled maintenance) to never save chart data over 90 days old.

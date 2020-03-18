@@ -179,7 +179,7 @@
 	      <div class="card-body">
 	      
 	       
-	        If you have the Charts page enabled in config.php, and page load times are slow after activating your favorite charts, go to the Charts page and click the "Activate Charts" button. Uncheck all charts, and click "Update Activated Charts". If the page load times are faster afterwards, the issue may have been that you were loading too many charts at once. Try loading only a few charts instead, this may help page load times. 
+	        If you have the Charts page enabled in config.php, and page load times are slow after activating your favorite charts, go to the Charts page and click the "Show Charts" button. Uncheck all charts, and click "Update Shown Charts". If the page load times are faster afterwards, the issue may have been that you were loading too many charts at once. Try loading only a few charts instead, this may help page load times. 
 	        
 	        
 	      </div>
