@@ -13,7 +13,12 @@ require("config.php");
 
 
 // Set a max execution time, TO AVOID RUNAWAY PROCESSES FREEZING THE SERVER
+if ( $app_config['debug_mode'] != 'off' ) {
+ini_set('max_execution_time', 350);
+}
+else {
 ini_set('max_execution_time', $app_config['webhook_max_execution_time']);
+}
 
 
 // Webhook security check (key request var must match our stored webhook key, or we abort runtime)

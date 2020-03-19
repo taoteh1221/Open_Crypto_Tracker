@@ -705,14 +705,17 @@ $app_config['log_purge'] = 10;
 
 
 // Maximum execution time for interface runtime in seconds (how long it's allowed to run before automatically killing the process)
+// (ALL execution times are automatically 350 IN DEBUG MODE)
 $app_config['ui_max_execution_time'] = 100; // (default = 100)
 
 
 // Maximum execution time for cron job runtime in seconds (how long it's allowed to run before automatically killing the process)
+// (ALL execution times are automatically 350 IN DEBUG MODE)
 $app_config['cron_max_execution_time'] = 300; // (default = 300)
 
 
 // Maximum execution time for webhook runtime in seconds (how long it's allowed to run before automatically killing the process)
+// (ALL execution times are automatically 350 IN DEBUG MODE)
 $app_config['webhook_max_execution_time'] = 60; // (default = 60)
 
 
