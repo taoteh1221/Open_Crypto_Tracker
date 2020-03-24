@@ -28,7 +28,8 @@
 	
 	<!-- Submit button must be OUTSIDE form tags here, or it submits the target form improperly and loses data -->
 	<p><button class='force_button_style' onclick='
-	document.coin_amounts.submit();
+	$(".show_chart_settings").modaal("close");
+	$("#coin_amounts").submit();
 	'>Update Shown Charts</button></p>
 	
 	<p><input type='checkbox' onclick='
@@ -105,7 +106,8 @@
 	
 		<!-- Submit button must be OUTSIDE form tags here, or it submits the target form improperly and loses data -->
 		<p><button class='force_button_style' onclick='
-		document.coin_amounts.submit();
+		$(".show_chart_settings").modaal("close");
+		$("#coin_amounts").submit();
 		'>Update Shown Charts</button></p>
 		
 	</div>

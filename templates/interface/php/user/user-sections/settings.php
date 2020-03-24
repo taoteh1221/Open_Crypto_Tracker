@@ -467,7 +467,7 @@
 			
 			
                         <p class='settings_sections'><input type='button' value='Save Updated Settings' onclick='
-                        document.coin_amounts.submit();
+                        $("#coin_amounts").submit();
                         ' /></p>
                         
                         

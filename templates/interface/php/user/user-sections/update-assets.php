@@ -130,7 +130,7 @@
 		
 		<!-- Submit button must be OUTSIDE form tags here, or it submits the target form improperly and loses data -->
 		<button class='force_button_style' onclick='
-		document.coin_amounts.submit();
+		$("#coin_amounts").submit();
 		'>Save Updated Assets</button>
 	
 		<form style='display: inline;' name='csv_import' id='csv_import' enctype="multipart/form-data" action="<?=start_page($_GET['start_page'])?>" method="post">
@@ -145,7 +145,7 @@
 		
 		<button style='margin-left: 75px;' class='force_button_style' onclick='
 		set_target_action("coin_amounts", "_blank", "download.php");
-		document.coin_amounts.submit();
+		document.coin_amounts.submit(); // USE NON-JQUERY METHOD SO "APP LOADING..." DOES #NOT# SHOW
 		set_target_action("coin_amounts", "_self", "<?=start_page($_GET['start_page'])?>");
 		'>Export Portfolio To CSV File</button>
 		

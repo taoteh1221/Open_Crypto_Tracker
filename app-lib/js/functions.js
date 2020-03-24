@@ -91,7 +91,7 @@ function validateForm(form_id, feild) {
     return false;
   }
   else {
-  document.forms[form_id].submit();
+  $("#" + form_id).submit();
   }
   
 }
@@ -278,8 +278,6 @@ function auto_reload(time) {
 			setCookie("coin_reload", time, 365);
 			
 			$("#use_cookies").val(1);
-			
-    		app_reloading_placeholder();
 			
 				setTimeout(function () {
     			$("#coin_amounts").submit();

@@ -149,7 +149,7 @@ header('Content-type: text/html; charset=' . $app_config['charset_default']);
     <h2>DFD Cryptocoin Values - Cryptocurrency Portfolio Tracker</h2>
 	 </div>
 	 
-	 <div class='align_center red' id='body_loading'>
+	 <div class='align_center loading red' id='body_loading'>
 	 <img src="templates/interface/media/images/loader.gif" height='30' alt="loading..." style='vertical-align: middle;' /> <span id='body_loading_span'>Loading App...</span>
 	 </div>
 	 
@@ -161,7 +161,7 @@ header('Content-type: text/html; charset=' . $app_config['charset_default']);
 					<?php
 					if ( $app_config['charts_page'] == 'on' ) {
 					?>
-            	<div id='loading_subsections' class='align_center red'><img src="templates/interface/media/images/loader.gif" height='20' alt="loading..." style='vertical-align: middle;' /> Loading Charts...</div>
+            	<div id='loading_subsections' class='align_center loading red'><img src="templates/interface/media/images/loader.gif" height='20' alt="loading..." style='vertical-align: middle;' /> Loading Charts...</div>
 					<?php
 					}
 					?>

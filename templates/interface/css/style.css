@@ -439,21 +439,32 @@ padding: 8px;
 }
 
 
+.loading {
+width: 100%; 
+font-weight: bold;
+background-color: #a8a6a6;
+opacity: 0.8;
+border: 2px dotted #808080;
+border-radius: 8px;
+padding: 5px;
+margin: auto;
+}
+
+
 /* //////////////////////////////
 IDs
 ////////////////////////////// */
 
 
+#loading_subsections {
+display: none;
+font-size: 19px;
+}
+
+
 #body_loading {
 display: block;
-width: 100%; 
-min-width: 1200px; 
-margin: auto;
-font-weight: bold;
 font-size: 29px;
-background-color: #a8a6a6;
-border: 2px dotted #808080;
-padding: 5px;
 }
 
 
@@ -485,17 +496,6 @@ border: 1px solid #dd7c0d;
 #system_stats fieldset legend {
 padding: 4px;
 font-size: 11px;
-}
-
-
-#loading_subsections {
-display: none;
-font-weight: bold;
-font-size: 19px;
-background-color: #a8a6a6;
-border: 2px dotted #808080;
-padding: 5px;
-margin: auto;
 }
 
 

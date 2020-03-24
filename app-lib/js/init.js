@@ -4,6 +4,13 @@
 
 // Wait until the DOM has loaded before querying the document
 $(document).ready(function(){
+	
+
+// Show "app loading" placeholder when submitting ANY form JQUERY SUBMIT METHOD, OR CLICKING A SUBMIT BUTTON
+// (does NOT affect a standard javascript ELEMENT.submit() call)
+$("form").submit(function() { 
+app_reloading_placeholder();
+});
 
 
 // Render interface after loading

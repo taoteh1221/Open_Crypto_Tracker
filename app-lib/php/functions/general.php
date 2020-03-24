@@ -1419,7 +1419,7 @@ function start_page_html($page) {
 	// This start page method saves portfolio data during the session, even without cookie data enabled
 	var set_action = this.value + anchor;
 	set_target_action("coin_amounts", "_self", set_action);
-	document.coin_amounts.submit();
+	$("#coin_amounts").submit();
 	
 	'>
 		<option value='index.php'> Show Portfolio Page First </option>
