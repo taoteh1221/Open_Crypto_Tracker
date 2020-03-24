@@ -67,7 +67,7 @@ FEATURES / STRUCTURING SECTION
 Create github wiki with the current documentation for the portfolio app.
 
 
-Prune system stats chart data older than 120 days, via the scheduled maintenance logic.
+Prune system stats chart data older than 90 days, via the scheduled maintenance logic.
 
 
 For scalable chart data, maybe run once daily during cron runtimes creating 1 hour (or greater) time interval chart data stores, using timestamp info in the default chart data store. Then use those for the initial chart loads if the chart data is more than 3 months worth (or whatever time period).

@@ -4,6 +4,11 @@
 
 // Wait until the DOM has loaded before querying the document
 $(document).ready(function(){
+
+
+// Render interface after loading
+$("#body_loading").css({ "display": 'none' });
+$("#body_wrapper").css({ "display": 'block' });
 	
 	
 // Charts background / border

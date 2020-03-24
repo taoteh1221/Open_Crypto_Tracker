@@ -1,12 +1,12 @@
 
 // Copyright 2014-2020 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
 
-	
+
 /////////////////////////////////////////////////////////////
 
 
 function ajax_placeholder(px_size){
-return '<div class="align_center" style="min-width: ' + px_size + 'px;"><img src="templates/interface/media/images/loader.gif" height="' + px_size + '" alt="Loading..." /></div>';
+return '<span class="align_center" style="min-width: ' + px_size + 'px;"><img src="templates/interface/media/images/loader.gif" height="' + px_size + '" alt="Loading..." /></span>';
 }
 
 
@@ -20,6 +20,17 @@ document.getElementById(obj_id).action = set_action;
 	
 }
 
+	
+/////////////////////////////////////////////////////////////
+
+function app_reloading_placeholder() {
+
+$("#body_loading_span").html(" Re-Loading App...");
+$("#body_wrapper").hide();
+$("#body_loading").show();
+
+}
+	
 
 /////////////////////////////////////////////////////////////
 
@@ -94,10 +105,10 @@ function charts_loading_check(charts_loaded) {
 	//console.log('loaded charts = ' + window.charts_loaded.length + ', all charts = ' + window.charts_num);
 
 	if ( window.charts_loaded.length >= window.charts_num ) {
-	$("#loading_charts").hide();
+	$("#loading_subsections").hide();
 	}
 	else {
-	$("#loading_charts").show();
+	$("#loading_subsections").show();
 	}
 
 }
@@ -268,7 +279,7 @@ function auto_reload(time) {
 			
 			$("#use_cookies").val(1);
 			
-			document.getElementById("reload_countdown").innerHTML = "(reloading settings, please wait...)";
+    		app_reloading_placeholder();
 			
 				setTimeout(function () {
     			$("#coin_amounts").submit();
@@ -288,7 +299,10 @@ function auto_reload(time) {
 	
 	
 	window.reload_function = setInterval(function() {
+			
+    			app_reloading_placeholder();
 				location.reload(true);
+				
 				}, (time * 1000));
 		
 	

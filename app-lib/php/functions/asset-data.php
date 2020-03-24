@@ -1721,6 +1721,7 @@ echo "<span class='app_sort_filter blue'>" . ( $pretty_coin_amount != null ? $pr
  
     <select class='app_sort_filter' name='change_<?=strtolower($asset_symbol)?>_market' onchange='
     $("#<?=strtolower($asset_symbol)?>_market").val(this.value);
+    app_reloading_placeholder();
     document.coin_amounts.submit();
     '>
         <?php
@@ -1792,6 +1793,7 @@ echo ( $fiat_eqiv == 1 ? pretty_numbers($coin_value_raw, $coin_value_primary_cur
     <select name='change_<?=strtolower($asset_symbol)?>_pairing' onchange='
     $("#<?=strtolower($asset_symbol)?>_pairing").val(this.value); 
     $("#<?=strtolower($asset_symbol)?>_market").val(1); // Just reset to first listed market for this pairing
+    app_reloading_placeholder();
     document.coin_amounts.submit();
     '>
     
