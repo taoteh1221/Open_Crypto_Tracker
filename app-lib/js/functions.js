@@ -26,9 +26,17 @@ document.getElementById(obj_id).action = set_action;
 function app_reloading_placeholder() {
 
 $("#body_loading_span").html(" Re-Loading App...");
+
 // Transition effects
-$("#body_wrapper").hide(700);
-$("#body_loading").show(700);
+$("#body_wrapper").hide(300, 'linear');
+
+// SAFELY emulate sleeping for 0.3 seconds (to allow above animations to fully run / display before reloading)
+setTimeout(function(){ console.log("setTimeout for 0.3 seconds..."); }, 300);
+
+$("#body_loading").show(300, 'linear');
+
+// SAFELY emulate sleeping for 0.3 seconds (to allow above animations to fully run / display before reloading)
+setTimeout(function(){ console.log("setTimeout for 0.3 seconds..."); }, 300);
 
 }
 	

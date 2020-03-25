@@ -14,9 +14,14 @@ app_reloading_placeholder();
 
 
 // Render interface after loading (with transition effects)
-$("#body_loading").hide(700);
-$("#body_wrapper").show(700);
-	
+$("#body_loading").hide(300, 'linear');
+
+// SAFELY emulate sleeping for 0.3 seconds (to allow above animations to fully run / display before reloading)
+setTimeout(function(){ console.log("setTimeout for 0.3 seconds..."); }, 300);
+
+$("#body_wrapper").show(300, 'linear');
+  
+  
 	
 // Charts background / border
 $(".chart_wrapper").css({ "background-color": window.charts_background });
