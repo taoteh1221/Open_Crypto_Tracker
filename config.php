@@ -289,7 +289,7 @@ $app_config['price_alerts_threshold'] = 9.35; // Price percent change to send al
 // Minimum 24 hour volume filter. Only allows sending price alerts if minimum 24 hour volume reached
 // CAN BE 0 TO DISABLE MINIMUM VOLUME FILTERING, NO DECIMALS OR SEPARATORS, NUMBERS ONLY, WITHOUT the [primary currency] prefix symbol: 4500 = $4,500 , 30000 = $30,000 , etc
 // THIS FILTER WILL AUTO-DISABLE IF THERE IS ANY ERROR RETRIEVING DATA ON A CERTAIN MARKET (WHEN NOT EVEN A ZERO IS RECEIVED)
-$app_config['price_alerts_min_volume'] = 15000;
+$app_config['price_alerts_min_volume'] = 13000;
 ////
 // Block an asset price alert if price retrieved, BUT failed retrieving pair volume (not even a zero was retrieved, nothing)
 // Good for blocking questionable exchanges bugging you with price alerts, especially when used in combination with the above minimum volume filter
