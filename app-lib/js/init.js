@@ -13,9 +13,9 @@ app_reloading_placeholder();
 });
 
 
-// Render interface after loading
-$("#body_loading").css({ "display": 'none' });
-$("#body_wrapper").css({ "display": 'block' });
+// Render interface after loading (with transition effects)
+$("#body_loading").hide(700);
+$("#body_wrapper").show(700);
 	
 	
 // Charts background / border

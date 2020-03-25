@@ -284,7 +284,7 @@ $app_config['charts_backup_freq'] = 1; // Every X days backup chart data. 0 disa
 // Asset price alert settings
 // Only used if $app_config['charts_and_price_alerts'] is filled in properly below, AND a cron job is setup (see README.txt for cron job setup information) 
 ////
-$app_config['price_alerts_threshold'] = 8.75; // Price percent change to send alerts for (WITHOUT percent sign: 15 = 15%). Sends alerts when percent change reached (up or down)
+$app_config['price_alerts_threshold'] = 9.35; // Price percent change to send alerts for (WITHOUT percent sign: 15 = 15%). Sends alerts when percent change reached (up or down)
 ////
 // Minimum 24 hour volume filter. Only allows sending price alerts if minimum 24 hour volume reached
 // CAN BE 0 TO DISABLE MINIMUM VOLUME FILTERING, NO DECIMALS OR SEPARATORS, NUMBERS ONLY, WITHOUT the [primary currency] prefix symbol: 4500 = $4,500 , 30000 = $30,000 , etc
@@ -301,8 +301,9 @@ $app_config['price_alerts_refresh'] = 0; // (default = 0, [disabled] only refres
 ////
 // Whale alert (adds "WHALE ALERT" to beginning of alexa / google home / email alert text, and spouting whale emoji to email / text)
 // Format: 'max_days_to_24hr_average_over||min_price_percent_change_24hr_average||min_volume_percent_increase_24hr_average||min_volume_currency_increase_24hr_average'
+// ("min_price_percent_change_24hr_average" should be the same value or higher as $app_config['price_alerts_threshold'] to work properly)
 // Leave BLANK '' TO DISABLE. DECIMALS ARE SUPPORTED, USE NUMBERS ONLY (NO CURRENCY SYMBOLS / COMMAS, ETC)
-$app_config['price_alerts_whale_alert_threshold'] = '2.15||8.75||9.75||15000';
+$app_config['price_alerts_whale_alert_threshold'] = '1.85||9.65||9.15||14500';
 
 
 // CHARTS / PRICE ALERTS SETUP REQUIRES A CRON JOB RUNNING ON YOUR WEBSITE SERVER (see README.txt for cron job setup information) 

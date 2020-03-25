@@ -441,13 +441,16 @@ padding: 8px;
 
 .loading {
 width: 100%; 
+max-width: 1200px;
 font-weight: bold;
-background-color: #a8a6a6;
-opacity: 0.8;
-border: 2px dotted #808080;
-border-radius: 8px;
+background-color: #5b5b5b;
+opacity: 0.75;
+border: 3px dotted #dd7c0d;
+border-radius: 15px;
 padding: 5px;
 margin: auto;
+margin-top: 15px;
+margin-bottom: 15px;
 }
 
 
@@ -464,7 +467,10 @@ font-size: 19px;
 
 #body_loading {
 display: block;
-font-size: 29px;
+font-size: 59px;
+margin: auto;
+margin-top: 85px;
+margin-bottom: 85px;
 }
 
 

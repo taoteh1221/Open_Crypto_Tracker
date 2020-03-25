@@ -250,9 +250,6 @@ Alerts if NOT admin ip address visiting (admin ip stored in config setting)?
 See if at all feasible to fully modularize mining calculators to be added via config settings?
 
 
-Look into graceful 'loading...' placeholder until page is fully loaded?
-
-
 
 
 

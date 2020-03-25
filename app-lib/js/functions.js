@@ -26,8 +26,9 @@ document.getElementById(obj_id).action = set_action;
 function app_reloading_placeholder() {
 
 $("#body_loading_span").html(" Re-Loading App...");
-$("#body_wrapper").hide();
-$("#body_loading").show();
+// Transition effects
+$("#body_wrapper").hide(700);
+$("#body_loading").show(700);
 
 }
 	
@@ -105,10 +106,10 @@ function charts_loading_check(charts_loaded) {
 	//console.log('loaded charts = ' + window.charts_loaded.length + ', all charts = ' + window.charts_num);
 
 	if ( window.charts_loaded.length >= window.charts_num ) {
-	$("#loading_subsections").hide();
+	$("#loading_subsections").hide(700);
 	}
 	else {
-	$("#loading_subsections").show();
+	$("#loading_subsections").show(700);
 	}
 
 }

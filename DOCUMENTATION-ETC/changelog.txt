@@ -2983,6 +2983,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Misc. UX revisions
 
+-Graceful app loading / reloading placeholders
+
 -Proof-of-existence timestamps for previous version (on Bitcoin / Decred chains)
 
 IMPORTANT NOTES: 
