@@ -1,8 +1,9 @@
 
+    <!-- footer.php START -->
+    
 <p class='align_center' style='margin: 15px;'><a href='javascript:scroll(0,0);'>Back To Top</a></p>
 
 
-    <!-- footer START -->
 <?php
 
 

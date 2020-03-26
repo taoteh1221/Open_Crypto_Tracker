@@ -158,15 +158,9 @@ header('Content-type: text/html; charset=' . $app_config['charset_default']);
     
             <div class='align_left' style=' margin: 0px; min-width: 1200px; display: inline;'>
             
-					<?php
-					if ( $app_config['charts_page'] == 'on' ) {
-					?>
             	<div id='loading_subsections' class='align_center loading bitcoin'><img src="templates/interface/media/images/loader.gif" height='20' alt="" style='vertical-align: middle;' /> <span id='loading_subsections_span'></span></div>
-					<?php
-					}
-					?>
-					
-        <!-- header END -->
+            	
+        <!-- header.php END -->
         
 
 
