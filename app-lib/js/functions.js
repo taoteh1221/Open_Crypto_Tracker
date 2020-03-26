@@ -2,11 +2,29 @@
 // Copyright 2014-2020 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
 
 
+
 /////////////////////////////////////////////////////////////
 
 
-function ajax_placeholder(px_size){
-return '<span class="align_center" style="min-width: ' + px_size + 'px;"><img src="templates/interface/media/images/loader.gif" height="' + px_size + '" alt="Loading..." /></span>';
+var fake_sleep = (milliseconds) => {
+  return new Promise(resolve => setTimeout(resolve, milliseconds))
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function ajax_placeholder(px_size, message='none'){
+
+	if ( message != 'none' ) {
+	font_size = px_size - 1;
+	return '<span class="align_center" style="min-width: ' + px_size + 'px;"><img src="templates/interface/media/images/loader.gif" height="' + px_size + '" alt="" style="vertical-align: middle;" /> <span style="font-size: ' + font_size + 'px;">' + message + '</span>';
+	}
+	else {
+	return '<span class="align_center" style="min-width: ' + px_size + 'px;"><img src="templates/interface/media/images/loader.gif" height="' + px_size + '" alt="" /></span>';
+	}
+	
+
 }
 
 
@@ -25,18 +43,13 @@ document.getElementById(obj_id).action = set_action;
 
 function app_reloading_placeholder() {
 
-$("#body_loading_span").html(" Re-Loading App...");
+$("#body_loading_span").html("Re-Loading App...");
 
 // Transition effects
-$("#body_wrapper").hide(300, 'linear');
 
-// SAFELY emulate sleeping for 0.3 seconds (to allow above animations to fully run / display before reloading)
-setTimeout(function(){ console.log("setTimeout for 0.3 seconds..."); }, 300);
+$("#body_wrapper").hide(250, 'linear'); // 0.25 seconds
 
-$("#body_loading").show(300, 'linear');
-
-// SAFELY emulate sleeping for 0.3 seconds (to allow above animations to fully run / display before reloading)
-setTimeout(function(){ console.log("setTimeout for 0.3 seconds..."); }, 300);
+$("#body_loading").show(250, 'linear'); // 0.25 seconds
 
 }
 	
@@ -114,10 +127,11 @@ function charts_loading_check(charts_loaded) {
 	//console.log('loaded charts = ' + window.charts_loaded.length + ', all charts = ' + window.charts_num);
 
 	if ( window.charts_loaded.length >= window.charts_num ) {
-	$("#loading_subsections").hide(700);
+	$("#loading_subsections").hide(250); // 0.25 seconds
 	}
 	else {
-	$("#loading_subsections").show(700);
+	$("#loading_subsections_span").html("Loading Charts...");
+	$("#loading_subsections").show(250); // 0.25 seconds
 	}
 
 }

@@ -465,12 +465,24 @@ font-size: 19px;
 }
 
 
+#body_top_nav {
+display: block;
+width: 100%; 
+min-width: 1200px; 
+white-space: nowrap;
+margin: auto;
+}
+
+
 #body_loading {
 display: block;
+width: 100%; 
+min-width: 1200px; 
+white-space: nowrap;
 font-size: 59px;
 margin: auto;
-margin-top: 85px;
-margin-bottom: 85px;
+margin-top: 60px;
+margin-bottom: 60px;
 }
 
 

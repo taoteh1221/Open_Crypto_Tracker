@@ -8,18 +8,16 @@ $(document).ready(function(){
 
 // Show "app loading" placeholder when submitting ANY form JQUERY SUBMIT METHOD, OR CLICKING A SUBMIT BUTTON
 // (does NOT affect a standard javascript ELEMENT.submit() call)
-$("form").submit(function() { 
+$("form").submit(function(event) { 
 app_reloading_placeholder();
 });
 
 
 // Render interface after loading (with transition effects)
-$("#body_loading").hide(300, 'linear');
+$("#body_loading").hide(250, 'linear'); // 0.25 seconds
 
-// SAFELY emulate sleeping for 0.3 seconds (to allow above animations to fully run / display before reloading)
-setTimeout(function(){ console.log("setTimeout for 0.3 seconds..."); }, 300);
+$("#body_wrapper").show(250, 'linear'); // 0.25 seconds
 
-$("#body_wrapper").show(300, 'linear');
   
   
 	
