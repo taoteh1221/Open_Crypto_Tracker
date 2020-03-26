@@ -183,6 +183,8 @@
 	        
 	        <li class='links_list'><a href='https://bitcoin.org/en/choose-your-wallet' target='_blank'>Bitcoin Wallets</a> (Bitcoin hardware / software wallets)</li>
 	        
+	        <li class='links_list'><a href='https://github.com/gnosis/MultiSigWallet/releases' target='_blank'>Gnosis Multisig Wallet</a> (Ethereum software wallet with hardware wallet support)</li>
+	        
 	        <li class='links_list'><a href='https://metamask.io/' target='_blank'>Metamask</a> (Ethereum software wallet browser extension)</li>
 	        
 	        <li class='links_list'><a href='https://mycrypto.com/' target='_blank'>Mycrypto.com</a> (Ethereum online wallet with hardware wallet support)</li>
