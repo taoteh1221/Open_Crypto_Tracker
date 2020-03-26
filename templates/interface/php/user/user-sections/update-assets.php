@@ -54,7 +54,7 @@
 				<h4 style='display: inline;'>Update Assets</h4>
 				
 				
-				<span id='reload_countdown2' class='red countdown_notice'></span>
+				<span class='red countdown_notice'></span>
 				
 				
 	<p style='margin-top: 10px;'><a style='font-weight: bold;' class='show red' id='disclaimer' href='#show_disclaimer' title='Click to show disclaimer.' onclick='return false;'>Disclaimer!</a></p>

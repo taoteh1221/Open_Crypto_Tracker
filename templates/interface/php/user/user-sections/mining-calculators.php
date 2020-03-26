@@ -12,7 +12,7 @@
 
 			<h4 style='display: inline;'>Mining Calculators</h4>
 				
-				<span id='reload_countdown5' class='red countdown_notice'></span>
+				<span class='red countdown_notice'></span>
 			
 
 			<p style='margin-top: 15px; margin-bottom: 15px;'><?=start_page_html('mining_calculators')?></p>			

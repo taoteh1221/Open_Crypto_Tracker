@@ -3013,6 +3013,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.09.1:
 
+-More misc. UX revisions
+
 -Bug fixes for graceful (ajax-styled) loading / reloading placeholders
 
 IMPORTANT NOTES: 

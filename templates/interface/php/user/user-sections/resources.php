@@ -11,7 +11,7 @@
 				
 				<h4 style='display: inline;'>Resources</h4>
 				
-				<span id='reload_countdown7' class='red countdown_notice'></span>
+				<span class='red countdown_notice'></span>
 			
 	
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Coinmarketcap.com Stats</strong> </legend>

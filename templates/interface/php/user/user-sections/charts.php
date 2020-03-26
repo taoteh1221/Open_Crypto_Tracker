@@ -9,7 +9,7 @@
 	
 	<h4 style='display: inline;'>Charts</h4>
 				
-				<span id='reload_countdown4' class='red countdown_notice'></span>
+				<span class='red countdown_notice'></span>
 			
 	
 	<p style='margin-top: 15px; margin-bottom: 15px;'><?=start_page_html('charts')?></p>			
@@ -21,6 +21,9 @@
 	
 		
 		<h3>Show Charts</h3>
+	
+				<span style='margin: 35px;' class='red countdown_notice'></span>
+			
 	
 	<p class='red'>*Charts are not activated by default to increase page loading speed / responsiveness. It's recommended to avoid activating too many charts at the same time, to keep your page load times quick. You can enable "Use cookies to save data between browser sessions" on the Settings page <i>before activating your charts</i>, if you want them to stay activated between browser sessions.</p>
 	

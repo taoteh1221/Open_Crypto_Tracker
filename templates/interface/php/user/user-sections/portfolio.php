@@ -776,6 +776,8 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 		
 		<h3>System Statistics Charts</h3>
 	
+				<span style='margin-top: 25px; margin-right: 85px;' class='red countdown_notice'></span>
+			
 	
 	
 	<div class='red' id='system_charts_error'></div>
@@ -820,6 +822,9 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	
 		
 		<h3>Visitor Statistics</h3>
+	
+				<span style='margin-top: 25px; margin-right: 85px;' class='red countdown_notice'></span>
+			
 	
 	<p> &nbsp; </p>
 	

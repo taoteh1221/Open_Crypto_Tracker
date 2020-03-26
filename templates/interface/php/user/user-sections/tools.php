@@ -11,7 +11,7 @@
 			
 			<h4 style='display: inline;'>Tools</h4>
 				
-				<span id='reload_countdown6' class='red countdown_notice'></span>
+				<span class='red countdown_notice'></span>
 			
 
 			<p style='margin-top: 15px; margin-bottom: 15px;'><?=start_page_html('tools')?></p>			

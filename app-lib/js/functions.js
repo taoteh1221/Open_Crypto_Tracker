@@ -43,7 +43,7 @@ document.getElementById(obj_id).action = set_action;
 
 function app_reloading_placeholder() {
 
-$("#body_loading_span").html("Re-Loading App...");
+$("#body_loading_span").html("Reloading App...");
 
 // Transition effects
 
@@ -360,14 +360,14 @@ function count_down(i, toggle) {
 	    	var sec = ( i - (round_min*60) );
 	    	
 	    	$("#reload_countdown").html("(" + round_min + " minutes " + sec + " seconds)"); // Portfolio page
-	    	$("span.countdown_notice").html("(page reload in " + round_min + " minutes " + sec + " seconds)"); // Secondary pages
+	    	$("span.countdown_notice").html("(app reload in " + round_min + " minutes " + sec + " seconds)"); // Secondary pages
 	    		
 	    		
 	    	}
 	    	else {
 	    		
 	    	$("#reload_countdown").html("(" + i + " seconds)"); // Portfolio page
-	    	$("span.countdown_notice").html("(page reload in " + i + " seconds)"); // Secondary pages
+	    	$("span.countdown_notice").html("(app reload in " + i + " seconds)"); // Secondary pages
 	    		
 	    	
 	    	}
