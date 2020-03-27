@@ -6,22 +6,16 @@
 /////////////////////////////////////////////////////////////
 
 
-var fake_sleep = (milliseconds) => {
-  return new Promise(resolve => setTimeout(resolve, milliseconds))
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
 function ajax_placeholder(px_size, message='none'){
+
+div_min_height = px_size + 10;
 
 	if ( message != 'none' ) {
 	font_size = px_size - 1;
-	return '<span class="align_center" style="min-width: ' + px_size + 'px;"><img src="templates/interface/media/images/loader.gif" height="' + px_size + '" alt="" style="vertical-align: middle;" /> <span style="font-size: ' + font_size + 'px;">' + message + '</span>';
+	return '<div style="min-height: ' + div_min_height + 'px;"><span class="align_center" style="min-width: ' + px_size + 'px;"><img src="templates/interface/media/images/loader.gif" height="' + px_size + '" alt="" style="vertical-align: middle;" /> <span style="font-size: ' + font_size + 'px;">' + message + '</span></div>';
 	}
 	else {
-	return '<span class="align_center" style="min-width: ' + px_size + 'px;"><img src="templates/interface/media/images/loader.gif" height="' + px_size + '" alt="" /></span>';
+	return '<div style="min-height: ' + div_min_height + 'px;"><span class="align_center" style="min-width: ' + px_size + 'px;"><img src="templates/interface/media/images/loader.gif" height="' + px_size + '" alt="" /></span></div>';
 	}
 	
 
@@ -202,6 +196,30 @@ function selectAll(toggle, form_name) {
         
     }
      
+}
+
+
+/////////////////////////////////////////////////////////////
+
+/*
+
+	USAGE
+
+fake_sleep(500).then(() => {
+  //do stuff
+});
+
+const doSomething = async () => {
+  await fake_sleep(2000)
+  //do stuff
+};
+
+doSomething();
+
+*/
+
+var fake_sleep = (milliseconds) => {
+  return new Promise(resolve => setTimeout(resolve, milliseconds))
 }
 
 

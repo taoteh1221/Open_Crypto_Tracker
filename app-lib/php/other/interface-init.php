@@ -17,15 +17,6 @@ $show_charts = explode(',', rtrim( ( $_POST['show_charts'] != '' ? $_POST['show_
 $app_config['primary_marketcap_site'] = ( $alert_percent[0] != '' ? $alert_percent[0] : $app_config['primary_marketcap_site'] );
 
 
-	// Consolidate function calls for runtime speed improvement
-	if ( $app_config['primary_marketcap_site'] == 'coingecko' ) {
-	$coingecko_api = coingecko_api();
-	}
-	elseif ( $app_config['primary_marketcap_site'] == 'coinmarketcap' ) {
-	$coinmarketcap_api = coinmarketcap_api();
-	}
-
-
 $sort_settings = ( $_COOKIE['sort_by'] ? $_COOKIE['sort_by'] : $_POST['sort_by'] );
 $sort_settings = explode("|",$sort_settings);
 

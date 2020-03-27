@@ -367,14 +367,6 @@ $app_config['charts_and_price_alerts'] = array(
 					'xmr-5' => 'binance||eth||chart',
 					
 					
-					// LTC
-					'ltc' => 'bittrex||btc||chart',
-					'ltc-2' => 'bittrex||eth||chart',
-					'ltc-3' => 'binance||usdt||both',
-					'ltc-4' => 'binance||eth||chart',
-					'ltc-5' => 'binance_us||btc||chart',
-					
-					
 					// DCR
 					'dcr' => 'bittrex||btc||chart',
 					'dcr-2' => 'bittrex||usdt||chart',
@@ -383,12 +375,23 @@ $app_config['charts_and_price_alerts'] = array(
 					'dcr-5' => 'kucoin||eth||chart',
 					
 					
-					// GRIN
-					'grin-2' => 'bittrex_global||btc||chart',
-					'grin-3' => 'gateio||usdt||chart',
-					'grin-4' => 'kucoin||btc||both',
-					'grin-5' => 'hitbtc||btc||chart',
-					'grin-6' => 'hotbit||btc||chart',
+					// LTC
+					'ltc' => 'bittrex||btc||chart',
+					'ltc-2' => 'bittrex||eth||chart',
+					'ltc-3' => 'binance||usdt||both',
+					'ltc-4' => 'binance||eth||chart',
+					'ltc-5' => 'binance_us||btc||chart',
+					
+					
+					//TUSD
+					'tusd' => 'binance||usdt||both',
+					'tusd-2' => 'bittrex||btc||chart',
+					
+					
+					//DAI
+					'dai' => 'coinbase||usdc||both',
+					'dai-2' => 'kraken||usd||both',
+					'dai-3' => 'bittrex||btc||chart',
 					
 					
 					// ATOM
@@ -399,22 +402,6 @@ $app_config['charts_and_price_alerts'] = array(
 					'atom-6' => 'bittrex_global||btc||chart',
 					'atom-7' => 'okex||btc||chart',
 					'atom-8' => 'okex||eth||chart',
-					
-					
-					// KDA
-					'kda' => 'hotbit||btc||both',
-					'kda-2' => 'coinex||btc||chart',
-					
-					
-					// HNS
-					'hns' => 'namebase||btc||both',
-					
-					
-					// DOGE
-					'doge' => 'bittrex||btc||chart',
-					'doge-2' => 'binance||btc||both',
-					'doge-3' => 'binance_us||usdt||chart',
-					'doge-4' => 'kraken||btc||chart',
 					
 					
 					// ANT
@@ -430,6 +417,13 @@ $app_config['charts_and_price_alerts'] = array(
 					'mana-4' => 'ethfinex||btc||chart',
 					
 					
+					// DOGE
+					'doge' => 'bittrex||btc||chart',
+					'doge-2' => 'binance||btc||both',
+					'doge-3' => 'binance_us||usdt||chart',
+					'doge-4' => 'kraken||btc||chart',
+					
+					
 					// GNT
 					'gnt' => 'bittrex||btc||both',
 					'gnt-2' => 'ethfinex||btc||chart',
@@ -440,16 +434,27 @@ $app_config['charts_and_price_alerts'] = array(
 					'data-2' => 'binance||btc||chart',
 					
 					
+					// KDA
+					'kda' => 'hotbit||btc||both',
+					'kda-2' => 'coinex||btc||chart',
+					
+					
+					// GRIN
+					'grin-2' => 'bittrex_global||btc||chart',
+					'grin-3' => 'gateio||usdt||chart',
+					'grin-4' => 'kucoin||btc||both',
+					'grin-5' => 'hitbtc||btc||chart',
+					'grin-6' => 'hotbit||btc||chart',
+					
+					
+					// HNS
+					'hns' => 'namebase||btc||both',
+					
+					
 					//MYST
 					'myst' => 'hitbtc||btc||both',
 					'myst-2' => 'hitbtc||eth||alert',
 					'myst-3' => 'idex||eth||alert',
-					
-					
-					//DAI
-					'dai' => 'coinbase||usdc||both',
-					'dai-2' => 'kraken||usd||both',
-					'dai-3' => 'bittrex||btc||chart',
 					
 					
 					);
@@ -1636,6 +1641,45 @@ $app_config['portfolio_assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
+                    // DCR
+                    'DCR' => array(
+                        
+                        'coin_name' => 'Decred',
+                        'marketcap_website_slug' => 'decred',
+                        'market_pairing' => array(
+                        
+                                    'brl' => array(
+                                          'braziliex' => 'dcr_brl'
+                                                    ),
+                                                    
+                                    'btc' => array(
+                                        	'binance' => 'DCRBTC',
+                                          'bittrex' => 'BTC-DCR',
+                                       	'kucoin' => 'DCR-BTC',
+                                          'upbit' => 'BTC-DCR',
+                                          'okex' => 'DCR-BTC',
+                                          'gateio' => 'dcr_btc',
+                                          'braziliex' => 'dcr_btc',
+                                                    ),
+                                                    
+                                		'eth' => array(
+                                        	'kucoin' => 'DCR-ETH',
+                                                    ),
+                                                    
+                                    'usdt' => array(
+                                          'bittrex' => 'USDT-DCR',
+                                          'okex' => 'DCR-USDT',
+                                          'gateio' => 'dcr_usdt',
+                                          			),
+                                          			
+                                        ) // market_pairing END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
                     // LTC
                     'LTC' => array(
                         
@@ -1742,86 +1786,74 @@ $app_config['portfolio_assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // DCR
-                    'DCR' => array(
+                    // MISCASSETS 
+                    // (KEY PLACED HERE FOR ORDERING ONLY, DYNAMICALLY POPULATED BY THE APP AT RUNTIME)
+                    'MISCASSETS' => array(), 
+                    // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // TUSD
+                    'TUSD' => array(
                         
-                        'coin_name' => 'Decred',
-                        'marketcap_website_slug' => 'decred',
+                        'coin_name' => 'True USD',
+                        'marketcap_website_slug' => 'true-usd',
                         'market_pairing' => array(
                         
-                                    'brl' => array(
-                                          'braziliex' => 'dcr_brl'
-                                                    ),
-                                                    
                                     'btc' => array(
-                                        	'binance' => 'DCRBTC',
-                                          'bittrex' => 'BTC-DCR',
-                                       	'kucoin' => 'DCR-BTC',
-                                          'upbit' => 'BTC-DCR',
-                                          'okex' => 'DCR-BTC',
-                                          'gateio' => 'dcr_btc',
-                                          'braziliex' => 'dcr_btc',
+                                        'bittrex' => 'BTC-TUSD',
+                                        'upbit' => 'BTC-TUSD',
                                                     ),
                                                     
-                                		'eth' => array(
-                                        	'kucoin' => 'DCR-ETH',
+                                    'eth' => array(
+                                        'bittrex' => 'ETH-TUSD',
+                                        'upbit' => 'ETH-TUSD',
                                                     ),
                                                     
                                     'usdt' => array(
-                                          'bittrex' => 'USDT-DCR',
-                                          'okex' => 'DCR-USDT',
-                                          'gateio' => 'dcr_usdt',
-                                          			),
-                                          			
+                                    	 'binance' => 'TUSDUSDT',
+                                        'bittrex' => 'USDT-TUSD',
+                                                    ),
+                                                    
                                         ) // market_pairing END
-                        
+                                        
                     ), // Asset END
                     
                     
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // GRIN
-                    'GRIN' => array(
+                    // DAI
+                    'DAI' => array(
                         
-                        'coin_name' => 'Grin',
-                        'marketcap_website_slug' => 'grin',
-                        'market_pairing' => array( 
+                        'coin_name' => 'Dai',
+                        'marketcap_website_slug' => 'dai',
+                        'market_pairing' => array(
                         
                                     'btc' => array(
-                                         'bittrex_global' => 'BTC-GRIN',
-                                    	  'kucoin' => 'GRIN-BTC',
-                                         'hitbtc' => 'GRINBTC',
-                                         'hotbit' => 'GRIN_BTC',
-                                         'gateio' => 'grin_btc',
-                                         'poloniex' => 'BTC_GRIN',
-                                         'bitforex' => 'coin-btc-grin',
-                                         'tradeogre' => 'BTC-GRIN',
-                                         'bigone' => 'GRIN-BTC',
+                                        'bittrex' => 'BTC-DAI',
+                                        'upbit' => 'BTC-DAI',
                                                     ),
                                                     
                                     'eth' => array(
-                                    	  'kucoin' => 'GRIN-ETH',
-                                         'hitbtc' => 'GRINETH',
-                                         'hotbit' => 'GRIN_ETH',
-                                         'gateio' => 'grin_eth',
+                                        'bittrex' => 'ETH-DAI',
+                                    	 'bitfinex' => 'tDAIETH',
                                                     ),
                                                     
-                                    'nis' => array(
-                                          'bit2c' => 'GrinNis',
+                                    'usd' => array(
+                                    	 'kraken' => 'DAIUSD',
+                                    	 'bitfinex' => 'tDAIUSD',
                                                     ),
                                                     
                                     'usdc' => array(
-                                         'poloniex' => 'USDC_GRIN',
+                                    	 'coinbase' => 'DAI-USDC',
+                                        'hitbtc' => 'DAIUSDC',
                                                     ),
                                                     
                                     'usdt' => array(
-                                    	  'kucoin' => 'GRIN-USDT',
-                                         'hitbtc' => 'GRINUSD',
-                                         'hotbit' => 'GRIN_USDT',
-                                         'gateio' => 'grin_usdt',
-                                         'bitforex' => 'coin-usdt-grin',
-                                         'bigone' => 'GRIN-USDT',
+                                    	 'kraken' => 'DAIUSDT',
                                                     ),
                                                     
                                         ) // market_pairing END
@@ -1873,102 +1905,6 @@ $app_config['portfolio_assets'] = array(
                                                     
                                         ) // market_pairing END
                                         
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // KDA
-                    'KDA' => array(
-                        
-                        'coin_name' => 'Kadena',
-                        'marketcap_website_slug' => 'kadena',
-                        'market_pairing' => array(
-                        
-                                    'btc' => array(
-                                         'hotbit' => 'KDA_BTC',
-                                         'coinex' => 'KDABTC',
-                                                    ),
-                                                    
-                                    'usdt' => array(
-                                         'hotbit' => 'KDA_USDT',
-                                         'coinex' => 'KDAUSDT',
-                                                    ),
-                                                    
-                                        ) // market_pairing END
-                                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // HNS
-                    'HNS' => array(
-                        
-                        'coin_name' => 'Handshake',
-                        'marketcap_website_slug' => 'handshake',
-                        'market_pairing' => array(
-                        
-                                    'btc' => array(
-                                         'namebase' => 'HNSBTC',
-                                                    )
-                                                    
-                                        ) // market_pairing END
-                                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // DOGE
-                    'DOGE' => array(
-                        
-                        'coin_name' => 'Dogecoin',
-                        'marketcap_website_slug' => 'dogecoin',
-                        'market_pairing' => array(
-                        
-                                    'btc' => array(
-                                        	'binance' => 'DOGEBTC',
-                                        	'kraken' => 'XXDGXXBT',
-                                          'bittrex' => 'BTC-DOGE',
-                                          'upbit' => 'BTC-DOGE',
-                                          'hitbtc' => 'DOGEBTC',
-                                          'hotbit' => 'DOGE_BTC',
-                                          'gateio' => 'doge_btc',
-                                          'livecoin' => 'DOGE/BTC',
-                                          'poloniex' => 'BTC_DOGE',
-                                                    ),
-                                                    
-                                    'eth' => array(
-                                        	'hotbit' => 'DOGE_ETH',
-                                          'hitbtc' => 'DOGEETH',
-                                         	'bitforex' => 'coin-eth-doge',
-                                                    ),
-                                                    
-                                    'inr' => array(
-                                          'bitbns' => 'DOGE',
-                                          'buyucoin' => 'doge_inr',
-                                                    ),
-                                                    
-                                    'usdc' => array(
-                                        	'poloniex' => 'USDC_DOGE',
-                                                    ),
-                                                    
-                                    'usdt' => array(
-                                        	'binance' => 'DOGEUSDT',
-                                        	'binance_us' => 'DOGEUSDT',
-                                          'bittrex' => 'USDT-DOGE',
-                                          'hitbtc' => 'DOGEUSD',
-                                          'okex' => 'DOGE-USDT',
-                                          'poloniex' => 'USDT_DOGE',
-                                         	'bitforex' => 'coin-usdt-doge',
-                                                    ),
-                                                    
-                                        ) // market_pairing END
-                        
                     ), // Asset END
                     
                     
@@ -2041,6 +1977,58 @@ $app_config['portfolio_assets'] = array(
                                     'usdt' => array(
                                           'hitbtc' => 'MANAUSD',
                                           'okex' => 'MANA-USDT',
+                                                    ),
+                                                    
+                                        ) // market_pairing END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // DOGE
+                    'DOGE' => array(
+                        
+                        'coin_name' => 'Dogecoin',
+                        'marketcap_website_slug' => 'dogecoin',
+                        'market_pairing' => array(
+                        
+                                    'btc' => array(
+                                        	'binance' => 'DOGEBTC',
+                                        	'kraken' => 'XXDGXXBT',
+                                          'bittrex' => 'BTC-DOGE',
+                                          'upbit' => 'BTC-DOGE',
+                                          'hitbtc' => 'DOGEBTC',
+                                          'hotbit' => 'DOGE_BTC',
+                                          'gateio' => 'doge_btc',
+                                          'livecoin' => 'DOGE/BTC',
+                                          'poloniex' => 'BTC_DOGE',
+                                                    ),
+                                                    
+                                    'eth' => array(
+                                        	'hotbit' => 'DOGE_ETH',
+                                          'hitbtc' => 'DOGEETH',
+                                         	'bitforex' => 'coin-eth-doge',
+                                                    ),
+                                                    
+                                    'inr' => array(
+                                          'bitbns' => 'DOGE',
+                                          'buyucoin' => 'doge_inr',
+                                                    ),
+                                                    
+                                    'usdc' => array(
+                                        	'poloniex' => 'USDC_DOGE',
+                                                    ),
+                                                    
+                                    'usdt' => array(
+                                        	'binance' => 'DOGEUSDT',
+                                        	'binance_us' => 'DOGEUSDT',
+                                          'bittrex' => 'USDT-DOGE',
+                                          'hitbtc' => 'DOGEUSD',
+                                          'okex' => 'DOGE-USDT',
+                                          'poloniex' => 'USDT_DOGE',
+                                         	'bitforex' => 'coin-usdt-doge',
                                                     ),
                                                     
                                         ) // market_pairing END
@@ -2135,6 +2123,101 @@ $app_config['portfolio_assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
+                    // KDA
+                    'KDA' => array(
+                        
+                        'coin_name' => 'Kadena',
+                        'marketcap_website_slug' => 'kadena',
+                        'market_pairing' => array(
+                        
+                                    'btc' => array(
+                                         'hotbit' => 'KDA_BTC',
+                                         'coinex' => 'KDABTC',
+                                                    ),
+                                                    
+                                    'usdt' => array(
+                                         'hotbit' => 'KDA_USDT',
+                                         'coinex' => 'KDAUSDT',
+                                                    ),
+                                                    
+                                        ) // market_pairing END
+                                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // GRIN
+                    'GRIN' => array(
+                        
+                        'coin_name' => 'Grin',
+                        'marketcap_website_slug' => 'grin',
+                        'market_pairing' => array( 
+                        
+                                    'btc' => array(
+                                         'bittrex_global' => 'BTC-GRIN',
+                                    	  'kucoin' => 'GRIN-BTC',
+                                         'hitbtc' => 'GRINBTC',
+                                         'hotbit' => 'GRIN_BTC',
+                                         'gateio' => 'grin_btc',
+                                         'poloniex' => 'BTC_GRIN',
+                                         'bitforex' => 'coin-btc-grin',
+                                         'tradeogre' => 'BTC-GRIN',
+                                         'bigone' => 'GRIN-BTC',
+                                                    ),
+                                                    
+                                    'eth' => array(
+                                    	  'kucoin' => 'GRIN-ETH',
+                                         'hitbtc' => 'GRINETH',
+                                         'hotbit' => 'GRIN_ETH',
+                                         'gateio' => 'grin_eth',
+                                                    ),
+                                                    
+                                    'nis' => array(
+                                          'bit2c' => 'GrinNis',
+                                                    ),
+                                                    
+                                    'usdc' => array(
+                                         'poloniex' => 'USDC_GRIN',
+                                                    ),
+                                                    
+                                    'usdt' => array(
+                                    	  'kucoin' => 'GRIN-USDT',
+                                         'hitbtc' => 'GRINUSD',
+                                         'hotbit' => 'GRIN_USDT',
+                                         'gateio' => 'grin_usdt',
+                                         'bitforex' => 'coin-usdt-grin',
+                                         'bigone' => 'GRIN-USDT',
+                                                    ),
+                                                    
+                                        ) // market_pairing END
+                                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // HNS
+                    'HNS' => array(
+                        
+                        'coin_name' => 'Handshake',
+                        'marketcap_website_slug' => 'handshake',
+                        'market_pairing' => array(
+                        
+                                    'btc' => array(
+                                         'namebase' => 'HNSBTC',
+                                                    )
+                                                    
+                                        ) // market_pairing END
+                                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
                     // MYST
                     'MYST' => array(
                         
@@ -2153,75 +2236,6 @@ $app_config['portfolio_assets'] = array(
                                                     
                                         ) // market_pairing END
                         
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // DAI
-                    'DAI' => array(
-                        
-                        'coin_name' => 'Dai',
-                        'marketcap_website_slug' => 'dai',
-                        'market_pairing' => array(
-                        
-                                    'btc' => array(
-                                        'bittrex' => 'BTC-DAI',
-                                        'upbit' => 'BTC-DAI',
-                                                    ),
-                                                    
-                                    'eth' => array(
-                                        'bittrex' => 'ETH-DAI',
-                                    	 'bitfinex' => 'tDAIETH',
-                                                    ),
-                                                    
-                                    'usd' => array(
-                                    	 'kraken' => 'DAIUSD',
-                                    	 'bitfinex' => 'tDAIUSD',
-                                                    ),
-                                                    
-                                    'usdc' => array(
-                                    	 'coinbase' => 'DAI-USDC',
-                                        'hitbtc' => 'DAIUSDC',
-                                                    ),
-                                                    
-                                    'usdt' => array(
-                                    	 'kraken' => 'DAIUSDT',
-                                                    ),
-                                                    
-                                        ) // market_pairing END
-                                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // TUSD
-                    'TUSD' => array(
-                        
-                        'coin_name' => 'True USD',
-                        'marketcap_website_slug' => 'true-usd',
-                        'market_pairing' => array(
-                        
-                                    'btc' => array(
-                                        'bittrex' => 'BTC-TUSD',
-                                        'upbit' => 'BTC-TUSD',
-                                                    ),
-                                                    
-                                    'eth' => array(
-                                        'bittrex' => 'ETH-TUSD',
-                                        'upbit' => 'ETH-TUSD',
-                                                    ),
-                                                    
-                                    'usdt' => array(
-                                    	 'binance' => 'TUSDUSDT',
-                                        'bittrex' => 'USDT-TUSD',
-                                                    ),
-                                                    
-                                        ) // market_pairing END
-                                        
                     ), // Asset END
                     
                 

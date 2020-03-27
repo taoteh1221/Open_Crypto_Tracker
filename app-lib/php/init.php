@@ -79,6 +79,10 @@ $btc_worth_array = array();
 
 $coin_stats_array = array();
 
+$coingecko_api = array();
+
+$coinmarketcap_api = array();
+
 $api_runtime_cache = array();
 
 $limited_api_calls = array();

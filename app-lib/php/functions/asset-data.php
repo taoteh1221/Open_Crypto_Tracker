@@ -1177,7 +1177,7 @@ function ui_coin_data_row($asset_name, $asset_symbol, $asset_amount, $market_pai
 
 
 // Globals
-global $_POST, $btc_worth_array, $coin_stats_array, $td_color_zebra, $cap_data_force_usd, $selected_btc_primary_exchange, $selected_btc_primary_currency_pairing, $theme_selected, $primary_currency_market_standalone, $app_config, $btc_primary_currency_value, $alert_percent;
+global $_POST, $btc_worth_array, $coin_stats_array, $td_color_zebra, $cap_data_force_usd, $selected_btc_primary_exchange, $selected_btc_primary_currency_pairing, $theme_selected, $primary_currency_market_standalone, $app_config, $btc_primary_currency_value, $alert_percent, $coingecko_api, $coinmarketcap_api;
 
 
 
@@ -1265,6 +1265,16 @@ $market_pairing = $all_markets[$selected_exchange];
   if ( $asset_amount > 0.00000000 ) { // Show even if decimal is off the map, just for UX purposes tracking token price only
     
     
+
+	 // Consolidate function calls for runtime speed improvement
+	 // (called here so first runtime with NO SELECTED ASSETS RUNS SIGNIFICANTLY QUICKER)
+	 if ( $app_config['primary_marketcap_site'] == 'coingecko' && sizeof($coingecko_api) < 1 ) {
+	 $coingecko_api = coingecko_api();
+	 }
+	 elseif ( $app_config['primary_marketcap_site'] == 'coinmarketcap' && sizeof($coinmarketcap_api) < 1 ) {
+	 $coinmarketcap_api = coinmarketcap_api();
+	 }
+	
     
     // UI table coloring
     if ( !$td_color_zebra || $td_color_zebra == '#e8e8e8' ) {
