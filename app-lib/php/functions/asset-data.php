@@ -25,9 +25,9 @@ return ($num - 1) * pow(2, ($num - 30) );
 
 function powerdown_primary_currency($data) {
 
-global $steem_market, $app_config,  $btc_primary_currency_value;
+global $hive_market, $app_config,  $btc_primary_currency_value;
 
-return ( $data * $steem_market * $btc_primary_currency_value );
+return ( $data * $hive_market * $btc_primary_currency_value );
 
 }
 
@@ -466,18 +466,18 @@ $pairing = strtolower($pairing);
 ////////////////////////////////////////////////////////
 
 
-function steempower_time($time) {
+function hivepower_time($time) {
     
-global $_POST, $steem_market, $app_config, $btc_primary_currency_value;
+global $_POST, $hive_market, $app_config, $btc_primary_currency_value;
 
 $powertime = null;
 $powertime = null;
-$steem_total = null;
+$hive_total = null;
 $primary_currency_total = null;
 
-$decimal_yearly_interest = $app_config['steempower_yearly_interest'] / 100;  // Convert APR in config to decimal representation
+$decimal_yearly_interest = $app_config['hivepower_yearly_interest'] / 100;  // Convert APR in config to decimal representation
 
-$speed = ($_POST['sp_total'] * $decimal_yearly_interest) / 525600;  // Interest per minute
+$speed = ($_POST['hp_total'] * $decimal_yearly_interest) / 525600;  // Interest per minute
 
     if ( $time == 'day' ) {
     $powertime = ($speed * 60 * 24);
@@ -504,16 +504,16 @@ $speed = ($_POST['sp_total'] * $decimal_yearly_interest) / 525600;  // Interest 
     $powertime = ($speed * 60 * 24 * 365);
     }
     
-    $powertime_primary_currency = ( $powertime * $steem_market * $btc_primary_currency_value );
+    $powertime_primary_currency = ( $powertime * $hive_market * $btc_primary_currency_value );
     
-    $steem_total = ( $powertime + $_POST['sp_total'] );
-    $primary_currency_total = ( $steem_total * $steem_market * $btc_primary_currency_value );
+    $hive_total = ( $powertime + $_POST['hp_total'] );
+    $primary_currency_total = ( $hive_total * $hive_market * $btc_primary_currency_value );
     
-    $power_purchased = ( $_POST['sp_purchased'] / $steem_total );
-    $power_earned = ( $_POST['sp_earned'] / $steem_total );
+    $power_purchased = ( $_POST['hp_purchased'] / $hive_total );
+    $power_earned = ( $_POST['hp_earned'] / $hive_total );
     $power_interest = 1 - ( $power_purchased + $power_earned );
     
-    $powerdown_total = ( $steem_total / $app_config['steem_powerdown_time'] );
+    $powerdown_total = ( $hive_total / $app_config['hive_powerdown_time'] );
     $powerdown_purchased = ( $powerdown_total * $power_purchased );
     $powerdown_earned = ( $powerdown_total * $power_earned );
     $powerdown_interest = ( $powerdown_total * $power_interest );
@@ -524,9 +524,9 @@ $speed = ($_POST['sp_total'] * $decimal_yearly_interest) / 525600;  // Interest 
     <h2> Interest Per <?=ucfirst($time)?> </h2>
     <ul>
         
-        <li><b><?=number_format( $powertime, 3, '.', ',')?> STEEM</b> <i>in interest</i> (after a <?=$time?> time period) = <b><?=$app_config['bitcoin_currency_markets'][$app_config['btc_primary_currency_pairing']]?><?=number_format( $powertime_primary_currency, 2, '.', ',')?></b></li>
+        <li><b><?=number_format( $powertime, 3, '.', ',')?> HIVE</b> <i>in interest</i> (after a <?=$time?> time period) = <b><?=$app_config['bitcoin_currency_markets'][$app_config['btc_primary_currency_pairing']]?><?=number_format( $powertime_primary_currency, 2, '.', ',')?></b></li>
         
-        <li><b><?=number_format( $steem_total, 3, '.', ',')?> STEEM</b> <i>in total</i> (including original vested amount) = <b><?=$app_config['bitcoin_currency_markets'][$app_config['btc_primary_currency_pairing']]?><?=number_format( $primary_currency_total, 2, '.', ',')?></b></li>
+        <li><b><?=number_format( $hive_total, 3, '.', ',')?> HIVE</b> <i>in total</i> (including original vested amount) = <b><?=$app_config['bitcoin_currency_markets'][$app_config['btc_primary_currency_pairing']]?><?=number_format( $primary_currency_total, 2, '.', ',')?></b></li>
     
     </ul>
 
@@ -540,10 +540,10 @@ $speed = ($_POST['sp_total'] * $decimal_yearly_interest) / 525600;  // Interest 
             </tr>
                 <tr>
 
-                <td> <?=number_format( $powerdown_purchased, 3, '.', ',')?> STEEM = <?=$app_config['bitcoin_currency_markets'][$app_config['btc_primary_currency_pairing']]?><?=number_format( powerdown_primary_currency($powerdown_purchased), 2, '.', ',')?> </td>
-                <td> <?=number_format( $powerdown_earned, 3, '.', ',')?> STEEM = <?=$app_config['bitcoin_currency_markets'][$app_config['btc_primary_currency_pairing']]?><?=number_format( powerdown_primary_currency($powerdown_earned), 2, '.', ',')?> </td>
-                <td> <?=number_format( $powerdown_interest, 3, '.', ',')?> STEEM = <?=$app_config['bitcoin_currency_markets'][$app_config['btc_primary_currency_pairing']]?><?=number_format( powerdown_primary_currency($powerdown_interest), 2, '.', ',')?> </td>
-                <td> <b><?=number_format( $powerdown_total, 3, '.', ',')?> STEEM</b> = <b><?=$app_config['bitcoin_currency_markets'][$app_config['btc_primary_currency_pairing']]?><?=number_format( powerdown_primary_currency($powerdown_total), 2, '.', ',')?></b> </td>
+                <td> <?=number_format( $powerdown_purchased, 3, '.', ',')?> HIVE = <?=$app_config['bitcoin_currency_markets'][$app_config['btc_primary_currency_pairing']]?><?=number_format( powerdown_primary_currency($powerdown_purchased), 2, '.', ',')?> </td>
+                <td> <?=number_format( $powerdown_earned, 3, '.', ',')?> HIVE = <?=$app_config['bitcoin_currency_markets'][$app_config['btc_primary_currency_pairing']]?><?=number_format( powerdown_primary_currency($powerdown_earned), 2, '.', ',')?> </td>
+                <td> <?=number_format( $powerdown_interest, 3, '.', ',')?> HIVE = <?=$app_config['bitcoin_currency_markets'][$app_config['btc_primary_currency_pairing']]?><?=number_format( powerdown_primary_currency($powerdown_interest), 2, '.', ',')?> </td>
+                <td> <b><?=number_format( $powerdown_total, 3, '.', ',')?> HIVE</b> = <b><?=$app_config['bitcoin_currency_markets'][$app_config['btc_primary_currency_pairing']]?><?=number_format( powerdown_primary_currency($powerdown_total), 2, '.', ',')?></b> </td>
 
                 </tr>
            

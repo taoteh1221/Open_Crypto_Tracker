@@ -434,6 +434,10 @@ $app_config['charts_and_price_alerts'] = array(
 					'data-2' => 'binance||btc||chart',
 					
 					
+					// HIVE
+					'hive' => 'bittrex||btc||both',
+					
+					
 					// KDA
 					'kda' => 'hotbit||btc||both',
 					'kda-2' => 'coinex||btc||chart',
@@ -662,12 +666,12 @@ $app_config['ethereum_subtoken_ico_values'] = array(
                         
 
 
-// Weeks to power down all STEEM Power holdings
-$app_config['steem_powerdown_time'] = 13; 
+// Weeks to power down all HIVE Power holdings
+$app_config['hive_powerdown_time'] = 13; 
 ////
-// STEEM Power yearly interest rate START 11/29/2016 (1.425%, decreasing every year by roughly 0.075% until it hits a minimum of 0.075% and stays there)
-// 1.425 (DO NOT INCLUDE PERCENT SIGN) the first year at 11/29/2016 refactored rates, see above for manual yearly adjustment
-$app_config['steempower_yearly_interest'] = 1.425;
+// HIVE Power yearly interest rate START 11/29/2019 (1.2%, decreasing every year by roughly 0.075% until it hits a minimum of 0.075% and stays there)
+// 1.2 (DO NOT INCLUDE PERCENT SIGN) the first year at 11/29/2019 refactored rates, see above for manual yearly adjustment
+$app_config['hivepower_yearly_interest'] = 1.2;
 
 
 
@@ -2113,6 +2117,25 @@ $app_config['portfolio_assets'] = array(
                                     'usdt' => array(
                                          'hitbtc' => 'DATAUSD',
                                          'gateio' => 'data_usdt',
+                                                    ),
+                                                    
+                                        ) // market_pairing END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // HIVE
+                    'HIVE' => array(
+                        
+                        'coin_name' => 'Hive',
+                        'marketcap_website_slug' => 'hive-blockchain',
+                        'market_pairing' => array(
+                        
+                                    'btc' => array(
+                                        'bittrex' => 'BTC-HIVE',
                                                     ),
                                                     
                                         ) // market_pairing END

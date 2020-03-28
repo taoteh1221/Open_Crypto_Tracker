@@ -123,7 +123,7 @@ if (is_array($app_config['portfolio_assets']) || is_object($app_config['portfoli
 $app_config['system_stats_first_chart_highest_value'] = number_to_string($app_config['system_stats_first_chart_highest_value']); 
 $app_config['primary_currency_decimals_max_threshold'] = number_to_string($app_config['primary_currency_decimals_max_threshold']); 
 $app_config['price_alerts_threshold'] = number_to_string($app_config['price_alerts_threshold']); 
-$app_config['steempower_yearly_interest'] = number_to_string($app_config['steempower_yearly_interest']); 
+$app_config['hivepower_yearly_interest'] = number_to_string($app_config['hivepower_yearly_interest']); 
 
 
 //////////////////////////////////////////////////////////////////

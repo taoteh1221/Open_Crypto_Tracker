@@ -12,7 +12,7 @@ div_min_height = px_size + 10;
 
 	if ( message != 'none' ) {
 	font_size = px_size - 1;
-	return '<div style="min-height: ' + div_min_height + 'px;"><span class="align_center" style="min-width: ' + px_size + 'px;"><img src="templates/interface/media/images/loader.gif" height="' + px_size + '" alt="" style="vertical-align: middle;" /> <span style="font-size: ' + font_size + 'px;">' + message + '</span></div>';
+	return '<div style="white-space: nowrap; min-height: ' + div_min_height + 'px;"><span class="align_center" style="min-width: ' + px_size + 'px;"><img src="templates/interface/media/images/loader.gif" height="' + px_size + '" alt="" style="position: relative; top: -5px;" /> <span style="font-size: ' + font_size + 'px;"> ' + message + '</span></div>';
 	}
 	else {
 	return '<div style="min-height: ' + div_min_height + 'px;"><span class="align_center" style="min-width: ' + px_size + 'px;"><img src="templates/interface/media/images/loader.gif" height="' + px_size + '" alt="" /></span></div>';
