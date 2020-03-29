@@ -220,6 +220,9 @@ MAYBE SECTION
 ///////////////////////////////////////////////////////
 
 
+Save trading notes via the new ajax-js.php logic (rather than reload the entire app)?
+
+
 Should GRIN mining difficulty be different for each cuckoo level in the mining calculator?
 
 

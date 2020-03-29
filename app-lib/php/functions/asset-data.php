@@ -1180,89 +1180,95 @@ function ui_coin_data_row($asset_name, $asset_symbol, $asset_amount, $market_pai
 global $_POST, $btc_worth_array, $coin_stats_array, $td_color_zebra, $cap_data_force_usd, $selected_btc_primary_exchange, $selected_btc_primary_currency_pairing, $theme_selected, $primary_currency_market_standalone, $app_config, $btc_primary_currency_value, $alert_percent, $coingecko_api, $coinmarketcap_api;
 
 
-
-$rand_id = rand(10000000,100000000);
-  
-$sort_order = ( array_search($asset_symbol, array_keys($app_config['portfolio_assets'])) + 1);
-
-$original_market = $selected_exchange;
-
-$all_markets = $market_pairing_array;  // All markets for this pairing
-
-$all_pairings = $app_config['portfolio_assets'][$asset_symbol]['market_pairing'];
+  //  For faster runtimes, minimize runtime usage here to held / watched amount is > 0, OR we are setting end-user (interface) preferred Bitcoin market settings
+  if ( number_to_string($asset_amount) > 0.00000000 || strtolower($asset_name) == 'bitcoin' ) {
 
 
-
-  // Update, get the selected market name
-  
-  $loop = 0;
-   foreach ( $all_markets as $key => $value ) {
-   
-    if ( $loop == $selected_exchange || $key == "eth_subtokens_ico" ) {
-    $selected_exchange = $key;
-     
-     if ( sizeof($primary_currency_market_standalone) != 2 && strtolower($asset_name) == 'bitcoin' ) {
-     $selected_btc_primary_exchange = $key;
-     $selected_btc_primary_currency_pairing = $selected_pairing;
-     
-     		// Dynamically modify MISCASSETS in $app_config['portfolio_assets']
-			// ONLY IF USER HASN'T MESSED UP $app_config['portfolio_assets'], AS WE DON'T WANT TO CANCEL OUT ANY
-			// CONFIG CHECKS CREATING ERROR LOG ENTRIES / UI ALERTS INFORMING THEM OF THAT
-			if (is_array($app_config['portfolio_assets']) || is_object($app_config['portfolio_assets'])) {
-     		$app_config['portfolio_assets']['MISCASSETS']['coin_name'] = 'Misc. '.strtoupper($selected_pairing).' Value';
-     		}
-
-     ?>
-     
-     <script>
-     window.btc_primary_currency_value = '<?=asset_market_data('BTC', $key, $app_config['portfolio_assets']['BTC']['market_pairing'][$selected_pairing][$key])['last_trade']?>';
-     
-     window.btc_primary_currency_pairing = '<?=strtoupper($selected_pairing)?>';
-     </script>
-     
-     <?php
-     }
-     
+  $rand_id = rand(10000000,100000000);
+      
+  $sort_order = ( array_search($asset_symbol, array_keys($app_config['portfolio_assets'])) + 1);
+    
+  $original_market = $selected_exchange;
+    
+  $all_markets = $market_pairing_array;  // All markets for this pairing
+    
+  $all_pairings = $app_config['portfolio_assets'][$asset_symbol]['market_pairing'];
+    
+    
+    
+      // Update, get the selected market name
+      
+    $loop = 0;
+    foreach ( $all_markets as $key => $value ) {
+       
+        if ( $loop == $selected_exchange || $key == "eth_subtokens_ico" ) {
+        $selected_exchange = $key;
+         
+         if ( sizeof($primary_currency_market_standalone) != 2 && strtolower($asset_name) == 'bitcoin' ) {
+         $selected_btc_primary_exchange = $key;
+         $selected_btc_primary_currency_pairing = $selected_pairing;
+         
+                // Dynamically modify MISCASSETS in $app_config['portfolio_assets']
+                // ONLY IF USER HASN'T MESSED UP $app_config['portfolio_assets'], AS WE DON'T WANT TO CANCEL OUT ANY
+                // CONFIG CHECKS CREATING ERROR LOG ENTRIES / UI ALERTS INFORMING THEM OF THAT
+                if (is_array($app_config['portfolio_assets']) || is_object($app_config['portfolio_assets'])) {
+                $app_config['portfolio_assets']['MISCASSETS']['coin_name'] = 'Misc. '.strtoupper($selected_pairing).' Value';
+                }
+    
+         ?>
+         
+         <script>
+         window.btc_primary_currency_value = '<?=asset_market_data('BTC', $key, $app_config['portfolio_assets']['BTC']['market_pairing'][$selected_pairing][$key])['last_trade']?>';
+         
+         window.btc_primary_currency_pairing = '<?=strtoupper($selected_pairing)?>';
+         </script>
+         
+         <?php
+         }
+         
+        }
+       
+    $loop = $loop + 1;
     }
-   
-   $loop = $loop + 1;
-   }
-  $loop = null; 
+    $loop = null; 
+    
+    
+    
+    
+    
+    if ( sizeof($primary_currency_market_standalone) != 2 && isset($selected_btc_primary_exchange) ) {
+    $app_config['btc_primary_exchange'] = $selected_btc_primary_exchange;
+    }
+    
+    if ( sizeof($primary_currency_market_standalone) != 2 && isset($selected_btc_primary_currency_pairing) ) {
+    $app_config['btc_primary_currency_pairing'] = $selected_btc_primary_currency_pairing;
+    }
+    
+    
+    
+    
+  // Overwrite PRIMARY CURRENCY CONFIG / BTC market value, in case user changed preferred market IN THE UI
+  $selected_pairing_id = $app_config['portfolio_assets']['BTC']['market_pairing'][$app_config['btc_primary_currency_pairing']][$app_config['btc_primary_exchange']];
+  $btc_primary_currency_value = asset_market_data('BTC', $app_config['btc_primary_exchange'], $selected_pairing_id)['last_trade'];
+    
+    
+    // Log any Bitcoin market errors
+    if ( !isset($btc_primary_currency_value) || $btc_primary_currency_value == 0 ) {
+    app_logging('other_error', 'ui_coin_data_row() Bitcoin primary currency value not properly set', 'exchange: ' . $app_config['btc_primary_exchange'] . '; pairing_id: ' . $selected_pairing_id . '; value: ' . $btc_primary_currency_value );
+    }
+    
+    
+    
+  $market_pairing = $all_markets[$selected_exchange];
 
 
+  }
+  
+  
+  
 
-
-
-if ( sizeof($primary_currency_market_standalone) != 2 && isset($selected_btc_primary_exchange) ) {
-$app_config['btc_primary_exchange'] = $selected_btc_primary_exchange;
-}
-
-if ( sizeof($primary_currency_market_standalone) != 2 && isset($selected_btc_primary_currency_pairing) ) {
-$app_config['btc_primary_currency_pairing'] = $selected_btc_primary_currency_pairing;
-}
-
-
-
-
-// Overwrite PRIMARY CURRENCY CONFIG / BTC market value, in case user changed preferred market IN THE UI
-$selected_pairing_id = $app_config['portfolio_assets']['BTC']['market_pairing'][$app_config['btc_primary_currency_pairing']][$app_config['btc_primary_exchange']];
-$btc_primary_currency_value = asset_market_data('BTC', $app_config['btc_primary_exchange'], $selected_pairing_id)['last_trade'];
-
-
-	// Log any Bitcoin market errors
-	if ( !isset($btc_primary_currency_value) || $btc_primary_currency_value == 0 ) {
-	app_logging('other_error', 'ui_coin_data_row() Bitcoin primary currency value not properly set', 'exchange: ' . $app_config['btc_primary_exchange'] . '; pairing_id: ' . $selected_pairing_id . '; value: ' . $btc_primary_currency_value );
-	}
-
-
-
-$market_pairing = $all_markets[$selected_exchange];
-
-
-
-
-  // Start rendering table row, if value set
-  if ( $asset_amount > 0.00000000 ) { // Show even if decimal is off the map, just for UX purposes tracking token price only
+  // Start rendering table row in the interface, if value set
+  if ( number_to_string($asset_amount) > 0.00000000 ) { // Show even if decimal is off the map, just for UX purposes tracking token price only
     
     
 

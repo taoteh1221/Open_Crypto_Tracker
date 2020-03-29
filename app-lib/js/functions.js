@@ -320,6 +320,8 @@ function auto_reload(time) {
 			
 			$("#use_cookies").val(1);
 			
+			document.getElementById("reload_countdown").innerHTML = "(reloading app, please wait...)";
+			
 				setTimeout(function () {
     			$("#coin_amounts").submit();
 				}, 2000);
