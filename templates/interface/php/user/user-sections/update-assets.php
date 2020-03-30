@@ -74,36 +74,44 @@
 	
 						<p class='red' style='font-weight: bold;'>
 						
-						<i><u>Semi-simplified version of above IMPORTANT disclaimer / advisory</u>:</i> 
+						<i><u>Expanded-upon version of above IMPORTANT disclaimer / advisory</u>:</i> 
 						
 						<ul>
 						
 							<li class='red'>
-								<i>NEVER</i> invest more than you can afford to lose
+								<i>NEVER</i> invest more than you can afford to lose.
+							</li>
+							
+							<li class='red'>
+								<i>ALWAYS <u>buy low</u> AND <u>sell high</u></i>. (NOT the other way around!)
+							</li>
+							
+							<li class='red'>
+								<i>ALWAYS</i> diversify and balance your portfolio with <i>mostly oldest / largest marketcap</i> assets (which are <i>relatively</i> less volatile), for you <i>and yours safety and sanity</i>.
+							</li>
+							
+							<li class='red'>
+								<i><u>ALWAYS AVOID</u></i> <a href='https://twitter.com/hashtag/pumpndump?src=hash' target='_blank'>#pumpndump</a> / <a href='https://twitter.com/hashtag/fomo?src=hash' target='_blank'>#fomo</a> / <a href='https://twitter.com/hashtag/shitcoin?src=hash' target='_blank'>#shxtcoin</a> trading.
 							</li>
 						
 							<li class='red'>
-								<i>NEVER</i> buy an asset because of somebody's opinion of it (only buy based on <i>YOUR</i> opinion of it)
+								<i>LITERALLY</i> nearly 99% of all tokens</i> are either scams, garbage, or dead ends.
+							</li>
+						
+							<li class='red'>
+								<i>NEVER</i> buy an asset because of somebody's opinion of it (only buy based on <i>YOUR</i> opinion of it).
 							</li>
 							
 							<li class='red'>
-								<i>ALWAYS <u>fully research</u></i> your planned investment beforehand (fundamentals are just as important as long term chart TA, <i>and any short term chart TA is pure BS to be ignored</i>)
+								<i>ALWAYS <u>fully research</u></i> your planned investment beforehand (fundamentals are just as important as long term chart TA, <i>and any short term chart TA is pure BS to be ignored</i>).
+							</li>
+							
+							 <li class='red'>
+								"Fully research" does NOT included listening to some CEO / founder / influencer sweet talk their own token, tell you how competing systems suck and their system is better, or explain how them owning over 50% of the total coin supply is not out of greed.
 							</li>
 							
 							<li class='red'>
-								<i>ALWAYS</i> diversify and balance your portfolio with <i>mostly oldest / largest marketcap</i> assets (which are <i>relatively</i> less volatile) for you <i>and yours safety and sanity</i>
-							</li>
-							
-							<li class='red'>
-								<i>ALWAYS <u>buy low</u> AND <u>sell high</u></i> (NOT the other way around)
-							</li>
-							
-							<li class='red'>
-								<i><u>ALWAYS AVOID</u></i> <a href='https://twitter.com/hashtag/pumpndump?src=hash' target='_blank'>#pumpndump</a> / <a href='https://twitter.com/hashtag/fomo?src=hash' target='_blank'>#fomo</a> / <a href='https://twitter.com/hashtag/shitcoin?src=hash' target='_blank'>#shxtcoin</a> trading
-							</li>
-							
-							<li class='red'>
-								<i>Hang on tight</i> until you can't stand fully holding anymore / want to or must make a position exit (percentage) official
+								<i>Hang on tight</i> until you can't stand fully holding anymore / want to or must make a position exit percentage <i><u>OFFICIAL</u></i>. (YOU HAVEN'T "LOST" <i><u>OR</u></i> "MADE" <i><u>ANYTHING</u></i> UNTIL YOU SELL A PERCENTAGE OF IT!)
 							</li>
 						
 						</ul>

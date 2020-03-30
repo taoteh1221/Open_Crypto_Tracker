@@ -1179,21 +1179,15 @@ function ui_coin_data_row($asset_name, $asset_symbol, $asset_amount, $market_pai
 // Globals
 global $_POST, $btc_worth_array, $coin_stats_array, $td_color_zebra, $cap_data_force_usd, $selected_btc_primary_exchange, $selected_btc_primary_currency_pairing, $theme_selected, $primary_currency_market_standalone, $app_config, $btc_primary_currency_value, $alert_percent, $coingecko_api, $coinmarketcap_api;
 
+    
+$original_market = $selected_exchange;
+
 
   //  For faster runtimes, minimize runtime usage here to held / watched amount is > 0, OR we are setting end-user (interface) preferred Bitcoin market settings
   if ( number_to_string($asset_amount) > 0.00000000 || strtolower($asset_name) == 'bitcoin' ) {
-
-
-  $rand_id = rand(10000000,100000000);
-      
-  $sort_order = ( array_search($asset_symbol, array_keys($app_config['portfolio_assets'])) + 1);
-    
-  $original_market = $selected_exchange;
+  	
     
   $all_markets = $market_pairing_array;  // All markets for this pairing
-    
-  $all_pairings = $app_config['portfolio_assets'][$asset_symbol]['market_pairing'];
-    
     
     
       // Update, get the selected market name
@@ -1233,6 +1227,7 @@ global $_POST, $btc_worth_array, $coin_stats_array, $td_color_zebra, $cap_data_f
     $loop = null; 
     
     
+  $market_pairing = $all_markets[$selected_exchange];
     
     
     
@@ -1243,7 +1238,6 @@ global $_POST, $btc_worth_array, $coin_stats_array, $td_color_zebra, $cap_data_f
     if ( sizeof($primary_currency_market_standalone) != 2 && isset($selected_btc_primary_currency_pairing) ) {
     $app_config['btc_primary_currency_pairing'] = $selected_btc_primary_currency_pairing;
     }
-    
     
     
     
@@ -1258,9 +1252,6 @@ global $_POST, $btc_worth_array, $coin_stats_array, $td_color_zebra, $cap_data_f
     }
     
     
-    
-  $market_pairing = $all_markets[$selected_exchange];
-
 
   }
   
@@ -1269,7 +1260,13 @@ global $_POST, $btc_worth_array, $coin_stats_array, $td_color_zebra, $cap_data_f
 
   // Start rendering table row in the interface, if value set
   if ( number_to_string($asset_amount) > 0.00000000 ) { // Show even if decimal is off the map, just for UX purposes tracking token price only
+
+
+  $rand_id = rand(10000000,100000000);
+      
+  $sort_order = ( array_search($asset_symbol, array_keys($app_config['portfolio_assets'])) + 1);
     
+  $all_pairings = $app_config['portfolio_assets'][$asset_symbol]['market_pairing'];
     
 
 	 // Consolidate function calls for runtime speed improvement

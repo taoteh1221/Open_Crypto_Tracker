@@ -52,9 +52,11 @@ $app_config['to_email'] = ''; // MUST BE SET for price alerts and other email fe
 // CAN BE BLANK (PHP's built-in mail function will be automatically used to send email instead)
 $app_config['smtp_email_login'] = ''; //  CAN BE BLANK. This format MUST be used: 'username||password'
 ////
-$app_config['smtp_email_server'] = ''; // CAN BE BLANK. This format MUST be used: 'domain_or_ip:port' example: 'example.com:25'
+// Examples: 'example.com:25' (non-encrypted), 'example.com:465' (ssl-encrypted), 'example.com:587' (tls-encrypted)
+$app_config['smtp_email_server'] = ''; // CAN BE BLANK. This format MUST be used: 'domain_or_ip:port_number' 
 ////
-$app_config['smtp_email_secure'] = 'tls'; // CAN BE 'off' FOR NO SECURE CONNECTION, or 'tls', or 'ssl' for secure connections. MAKE SURE PORT NUMBER ABOVE CORRESPONDS
+// MAKE SURE PORT NUMBER ABOVE CORRESPONDS
+$app_config['smtp_email_secure'] = 'tls'; // CAN BE 'off' FOR NO SECURE CONNECTION, or 'tls', or 'ssl' for secure connections. 
 
 
 // Sending alerts to your own telegram bot chatroom. 
@@ -743,8 +745,9 @@ $app_config['webhook_max_execution_time'] = 60; // (default = 60)
 
 // Seconds to wait for response from API endpoints (exchange data, etc). 
 // Set too low you won't get ALL data (partial or zero bytes), set too high the interface can take a long time loading if an API server hangs up
-// RECOMMENDED MINIMUM OF 45, #ESPECIALLY# FOR INSTALLS BEHIND LOW BANDWIDTH / HOME INTERNET NETWORKS
-$app_config['api_timeout'] = 45; // (default = 45)
+// RECOMMENDED MINIMUM OF 45 FOR INSTALLS BEHIND #LOW BANDWIDTH# / HOME INTERNET NETWORKS 
+// (which may need an even higher timeout of 60 or more if data still isn't received from all APIs)
+$app_config['api_timeout'] = 20; // (default = 20)
 
 
 // 'on' verifies ALL API server certificates for secure API connections, 'off' verifies NOTHING 
