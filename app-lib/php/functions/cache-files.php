@@ -1467,6 +1467,7 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 			// AS WE DON'T WANT TO SLOW DOWN THE RUNTIME TOO MUCH BY NIT-PICKING ON FALLBACKS HERE
 			// If response is seen to NOT contain USUAL data, use cache if available
 			if ( preg_match("/cf-error-type/i", $data) // Cloudflare (DDOS protection service)
+			|| preg_match("/cf-browser-verification/i", $data) // Cloudflare (DDOS protection service)
 			|| preg_match("/\"result\":{}/i", $data) // Kraken.com / generic
 			|| preg_match("/EService:Unavailable/i", $data) // Kraken.com / generic
 			|| preg_match("/site is down/i", $data) // Blockchain.info / generic
