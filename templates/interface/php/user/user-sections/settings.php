@@ -335,6 +335,7 @@
 			    if ( this.value == "yes" ) {
 			    document.getElementById("alert_source").style.display = "inline";
 			    document.getElementById("percent_change_amount").style.display = "inline";
+			    document.getElementById("percent_change_filter").style.display = "inline";
 			    document.getElementById("percent_change_time").style.display = "inline";
 			    document.getElementById("percent_change_alert_type").style.display = "inline";
 			    document.getElementById("use_alert_percent").value = document.getElementById("alert_source").value + "|" + document.getElementById("percent_change_amount").value + "|" + document.getElementById("percent_change_time").value + "|" + document.getElementById("percent_change_alert_type").value;
@@ -342,93 +343,64 @@
 			    else {
 			    document.getElementById("alert_source").style.display = "none";
 			    document.getElementById("percent_change_amount").style.display = "none";
+			    document.getElementById("percent_change_filter").style.display = "none";
 			    document.getElementById("percent_change_time").style.display = "none";
 			    document.getElementById("percent_change_alert_type").style.display = "none";
 			    document.getElementById("use_alert_percent").value = "";
 			    }
 			    '>
 			    <option value='no' <?=( !$alert_percent ? ' selected ' : '' )?>> No </option>
-			    <option value='yes' <?=( sizeof($alert_percent) > 1 ? ' selected ' : '' )?>> Yes </option>
+			    <option value='yes' <?=( sizeof($alert_percent) > 4 ? ' selected ' : '' )?>> Yes </option> <!-- Backwards compatibility (dynamic PHP reset, if user data is not the current feature set number of array values) -->
 			    </select>
 			     
 			     
-			    <select name='alert_source' id='alert_source' onchange='
-			    
-			    if ( document.getElementById("alert_percent").value == "yes" ) {
-			    document.getElementById("use_alert_percent").value = document.getElementById("alert_source").value + "|" + document.getElementById("percent_change_amount").value + "|" + document.getElementById("percent_change_time").value + "|" + document.getElementById("percent_change_alert_type").value;
-			    }
-			    else {
-			    document.getElementById("use_alert_percent").value = "";
-			    }
-			    
-			    '>
+			    <select name='alert_source' id='alert_source' onchange='update_alert_percent();'>
 			    <option value='coingecko' <?=( $alert_percent[0] == 'coingecko' ? ' selected ' : '' )?>> Coingecko.com </option>
 			    <option value='coinmarketcap' <?=( $alert_percent[0] == 'coinmarketcap' ? ' selected ' : '' )?>> Coinmarketcap.com </option>
 			    </select>  
 			    
-			    <select name='percent_change_amount' id='percent_change_amount' onchange='
-			    if ( document.getElementById("alert_percent").value == "yes" ) {
-			    document.getElementById("use_alert_percent").value = document.getElementById("alert_source").value + "|" + document.getElementById("percent_change_amount").value + "|" + document.getElementById("percent_change_time").value + "|" + document.getElementById("percent_change_alert_type").value;
-			    }
-			    else {
-			    document.getElementById("use_alert_percent").value = "";
-			    }
-			    '>
-			    <option value='-50' <?=( $alert_percent[1] == '-50' ? ' selected ' : '' )?>> -50% </option>
-			    <option value='-45' <?=( $alert_percent[1] == '-45' ? ' selected ' : '' )?>> -45% </option>
-			    <option value='-40' <?=( $alert_percent[1] == '-40' ? ' selected ' : '' )?>> -40% </option>
-			    <option value='-35' <?=( $alert_percent[1] == '-35' ? ' selected ' : '' )?>> -35% </option>
-			    <option value='-30' <?=( $alert_percent[1] == '-30' ? ' selected ' : '' )?>> -30% </option>
-			    <option value='-25' <?=( $alert_percent[1] == '-25' ? ' selected ' : '' )?>> -25% </option>
-			    <option value='-20' <?=( $alert_percent[1] == '-20' ? ' selected ' : '' )?>> -20% </option>
-			    <option value='-15' <?=( $alert_percent[1] == '-15' ? ' selected ' : '' )?>> -15% </option>
-			    <option value='-10' <?=( $alert_percent[1] == '-10' ? ' selected ' : '' )?>> -10% </option>
-			    <option value='-5' <?=( $alert_percent[1] == '-5' ? ' selected ' : '' )?>> -5% </option>
-			    <option value='5' <?=( !$alert_percent[1] || $alert_percent[1] == 5 ? ' selected ' : '' )?>> +5% </option>
-			    <option value='10' <?=( $alert_percent[1] == 10 ? ' selected ' : '' )?>> +10% </option>
-			    <option value='15' <?=( $alert_percent[1] == 15 ? ' selected ' : '' )?>> +15% </option>
-			    <option value='20' <?=( $alert_percent[1] == 20 ? ' selected ' : '' )?>> +20% </option>
-			    <option value='25' <?=( $alert_percent[1] == 25 ? ' selected ' : '' )?>> +25% </option>
-			    <option value='30' <?=( $alert_percent[1] == 30 ? ' selected ' : '' )?>> +30% </option>
-			    <option value='35' <?=( $alert_percent[1] == 35 ? ' selected ' : '' )?>> +35% </option>
-			    <option value='40' <?=( $alert_percent[1] == 40 ? ' selected ' : '' )?>> +40% </option>
-			    <option value='45' <?=( $alert_percent[1] == 45 ? ' selected ' : '' )?>> +45% </option>
-			    <option value='50' <?=( $alert_percent[1] == 50 ? ' selected ' : '' )?>> +50% </option>
+			    
+			    <select name='percent_change_amount' id='percent_change_amount' onchange='update_alert_percent();'>
+			    <option value='5' <?=( $alert_percent[1] == 5 ? ' selected ' : '' )?>> 5% </option>
+			    <option value='10' <?=( $alert_percent[1] == 10 ? ' selected ' : '' )?>> 10% </option>
+			    <option value='15' <?=( $alert_percent[1] == 15 ? ' selected ' : '' )?>> 15% </option>
+			    <option value='20' <?=( $alert_percent[1] == 20 ? ' selected ' : '' )?>> 20% </option>
+			    <option value='25' <?=( $alert_percent[1] == 25 ? ' selected ' : '' )?>> 25% </option>
+			    <option value='30' <?=( $alert_percent[1] == 30 ? ' selected ' : '' )?>> 30% </option>
+			    <option value='35' <?=( $alert_percent[1] == 35 ? ' selected ' : '' )?>> 35% </option>
+			    <option value='40' <?=( $alert_percent[1] == 40 ? ' selected ' : '' )?>> 40% </option>
+			    <option value='45' <?=( $alert_percent[1] == 45 ? ' selected ' : '' )?>> 45% </option>
+			    <option value='50' <?=( $alert_percent[1] == 50 ? ' selected ' : '' )?>> 50% </option>
 			    </select> 
 			     
-			    <select name='percent_change_time' id='percent_change_time' onchange='
-			    if ( document.getElementById("alert_percent").value == "yes" ) {
-			    document.getElementById("use_alert_percent").value = document.getElementById("alert_source").value + "|" + document.getElementById("percent_change_amount").value + "|" + document.getElementById("percent_change_time").value + "|" + document.getElementById("percent_change_alert_type").value;
-			    }
-			    else {
-			    document.getElementById("use_alert_percent").value = "";
-			    }
-			    '>
-			    <option value='1hour' <?=( $alert_percent[2] == '1hour' ? ' selected ' : '' )?>> 1 Hour </option>
-			    <option value='24hour' <?=( $alert_percent[2] == '24hour' ? ' selected ' : '' )?>> 24 Hour </option>
-			    <option value='7day' <?=( $alert_percent[2] == '7day' ? ' selected ' : '' )?>> 7 Day </option>
+			     
+			    <select name='percent_change_filter' id='percent_change_filter' onchange='update_alert_percent();'>
+			    <option value='both' <?=( $alert_percent[2] == 'both' ? ' selected ' : '' )?>> Gain or Loss </option>
+			    <option value='gain' <?=( $alert_percent[2] == 'gain' ? ' selected ' : '' )?>> Gain </option>
+			    <option value='loss' <?=( $alert_percent[2] == 'loss' ? ' selected ' : '' )?>> Loss </option>
 			    </select>  
 			     
-			    <select name='percent_change_alert_type' id='percent_change_alert_type' onchange='
-			    if ( document.getElementById("alert_percent").value == "yes" ) {
-			    document.getElementById("use_alert_percent").value = document.getElementById("alert_source").value + "|" + document.getElementById("percent_change_amount").value + "|" + document.getElementById("percent_change_time").value + "|" + document.getElementById("percent_change_alert_type").value;
-			    }
-			    else {
-			    document.getElementById("use_alert_percent").value = "";
-			    }
-			    '>
-			    <option value='visual_only' <?=( $alert_percent[3] == 'visual_only' ? ' selected ' : '' )?>> Visual Only </option>
-			    <option value='visual_audio' <?=( $alert_percent[3] == 'visual_audio' ? ' selected ' : '' )?>> Visual and Audio </option>
+			     
+			    <select name='percent_change_time' id='percent_change_time' onchange='update_alert_percent();'>
+			    <option value='1hour' <?=( $alert_percent[3] == '1hour' ? ' selected ' : '' )?>> 1 Hour </option>
+			    <option value='24hour' <?=( $alert_percent[3] == '24hour' ? ' selected ' : '' )?>> 24 Hour </option>
+			    <option value='7day' <?=( $alert_percent[3] == '7day' ? ' selected ' : '' )?>> 7 Day </option>
+			    </select>  
+			     
+			     
+			    <select name='percent_change_alert_type' id='percent_change_alert_type' onchange='update_alert_percent();'>
+			    <option value='visual_only' <?=( $alert_percent[4] == 'visual_only' ? ' selected ' : '' )?>> Visual Only </option>
+			    <option value='visual_audio' <?=( $alert_percent[4] == 'visual_audio' ? ' selected ' : '' )?>> Visual and Audio </option>
 			    </select>
 			
 			</p>
 			
 			<?php
-			if ( sizeof($alert_percent) > 1 ) {
+			if ( sizeof($alert_percent) > 4 ) { // Backwards compatibility (reset if user data is not this many array values)
 			?>
 			
 			<style>
-			#alert_source, #percent_change_amount, #percent_change_time, #percent_change_alert_type {
+			#alert_source, #percent_change_amount, #percent_change_filter, #percent_change_time, #percent_change_alert_type {
 			display: inline;
 			}
 			</style>

@@ -6,6 +6,21 @@
 /////////////////////////////////////////////////////////////
 
 
+function update_alert_percent() {
+
+	if ( document.getElementById("alert_percent").value == "yes" ) {
+	document.getElementById("use_alert_percent").value = document.getElementById("alert_source").value + "|" + document.getElementById("percent_change_amount").value + "|" + document.getElementById("percent_change_filter").value + "|" + document.getElementById("percent_change_time").value + "|" + document.getElementById("percent_change_alert_type").value;
+	}
+	else {
+	document.getElementById("use_alert_percent").value = "";
+	}
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function ajax_placeholder(px_size, message='none'){
 
 div_min_height = px_size + 10;
@@ -414,59 +429,81 @@ function count_down(i, toggle) {
 function row_alert(tr_id, alert_type, color, theme) {
 
 
-    
     $( document ).ready(function() {
+    	
       
-	if ( color == 'yellow' ) {
-	var zebra_odd = ( theme == 'light' ? '#efd362' : '#705d29' );
-	var zebra_even = ( theme == 'light' ? '#d3bb5b' : '#564a1e' );
-	}
-	else if ( color == 'green' ) {
-	var zebra_odd = ( theme == 'light' ? '#7dc67d' : '#3d603d' );
-	var zebra_even = ( theme == 'light' ? '#93ea93' : '#2d492d' );
-	}
-      
- if ( color != 'no_cmc' ) {
- 	
-	if ( !window.alert_color ) {
-	window.alert_color = zebra_odd;
-	}
-      
-      
-      $('.tablesorter tr#' + tr_id).css("background", window.alert_color);
-      $('.tablesorter tr#' + tr_id + ' td').css("background", window.alert_color);
-      $('.tablesorter tr#' + tr_id).css("background-color", window.alert_color);
-      $('.tablesorter tr#' + tr_id + ' td').css("background-color", window.alert_color);
-      
-      
-	// Zebra stripes
-	if ( window.alert_color == zebra_odd ) {
-	window.alert_color = zebra_even;
-	}
-	else if ( window.alert_color == zebra_even ) {
-	window.alert_color = zebra_odd;
-	}
-      
-	
-	// Audio, if chosen in settings
-	if ( !window.is_alerted && alert_type == 'visual_audio' ) {
-		
-	audio_alert = document.getElementById('audio_alert');
-	  
-		if ( audio_alert.canPlayType('audio/mpeg') ) {
-  		audio_alert.setAttribute('src','templates/interface/media/audio/Smoke-Alarm-SoundBible-1551222038.mp3');
-		}
-		else if ( audio_alert.canPlayType('audio/ogg') ) {
-  		audio_alert.setAttribute('src','templates/interface/media/audio/Smoke-Alarm-SoundBible-1551222038.ogg');
-		}
-		
-	  audio_alert.play();
-	  
-	window.is_alerted = 1;
-	}
-	
-	
- }
+			if ( color == 'yellow' ) {
+			var zebra_odd_loss = ( theme == 'light' ? '#efd362' : '#705d29' );
+			var zebra_even_loss = ( theme == 'light' ? '#d3bb5b' : '#564a1e' );
+			}
+			else if ( color == 'green' ) {
+			var zebra_odd_gain = ( theme == 'light' ? '#7dc67d' : '#3d603d' );
+			var zebra_even_gain = ( theme == 'light' ? '#93ea93' : '#2d492d' );
+			}
+					
+		 
+			if ( color != 'no_cmc' ) {
+			
+				if ( color == 'yellow' && !window.alert_color_loss ) {
+				window.alert_color_loss = zebra_odd_loss;
+				}
+				else if ( color == 'green' && !window.alert_color_gain ) {
+				window.alert_color_gain = zebra_odd_gain;
+				}
+					
+				
+				if ( color == 'yellow' ) {
+				
+				$('.tablesorter tr#' + tr_id).css("background", window.alert_color_loss);
+				$('.tablesorter tr#' + tr_id + ' td').css("background", window.alert_color_loss);
+				$('.tablesorter tr#' + tr_id).css("background-color", window.alert_color_loss);
+				$('.tablesorter tr#' + tr_id + ' td').css("background-color", window.alert_color_loss);
+				
+				}
+				else if ( color == 'green' ) {
+				
+				$('.tablesorter tr#' + tr_id).css("background", window.alert_color_gain);
+				$('.tablesorter tr#' + tr_id + ' td').css("background", window.alert_color_gain);
+				$('.tablesorter tr#' + tr_id).css("background-color", window.alert_color_gain);
+				$('.tablesorter tr#' + tr_id + ' td').css("background-color", window.alert_color_gain);
+				
+				}
+					
+					
+				// Zebra stripes
+				if ( window.alert_color_loss == zebra_odd_loss ) {
+				window.alert_color = zebra_even_loss;
+				}
+				else if ( window.alert_color_loss == zebra_even_loss ) {
+				window.alert_color = zebra_odd_loss;
+				}
+				else if ( window.alert_color_gain == zebra_odd_gain ) {
+				window.alert_color = zebra_even_gain;
+				}
+				else if ( window.alert_color_gain == zebra_even_gain ) {
+				window.alert_color = zebra_odd_gain;
+				}
+					
+			
+				// Audio, if chosen in settings
+				if ( !window.is_alerted && alert_type == 'visual_audio' ) {
+				
+				audio_alert = document.getElementById('audio_alert');
+				
+					if ( audio_alert.canPlayType('audio/mpeg') ) {
+						audio_alert.setAttribute('src','templates/interface/media/audio/Smoke-Alarm-SoundBible-1551222038.mp3');
+					}
+					else if ( audio_alert.canPlayType('audio/ogg') ) {
+						audio_alert.setAttribute('src','templates/interface/media/audio/Smoke-Alarm-SoundBible-1551222038.ogg');
+					}
+				
+					audio_alert.play();
+				
+				window.is_alerted = 1;
+				}
+			
+			
+			}
 
     
     });

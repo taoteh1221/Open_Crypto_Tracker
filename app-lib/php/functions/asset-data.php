@@ -1475,7 +1475,7 @@ $original_market = $selected_exchange;
 			<?php
 			}
 
-			if ( sizeof($alert_percent) > 1 ) {
+			if ( sizeof($alert_percent) > 4 ) { // Backwards compatibility (reset if user data is not this many array values)
 			?>
 			
 			setTimeout(function() {
@@ -1604,25 +1604,27 @@ $original_market = $selected_exchange;
     <?php
     
     
-        if ( sizeof($alert_percent) > 1 ) {
+        if ( sizeof($alert_percent) > 4 ) { // Backwards compatibility (reset if user data is not this many array values)
+        	
+        $percent_alert_filter = $alert_percent[2]; // gain / loss / both
     
         $percent_change_alert = $alert_percent[1];
     
-        $percent_alert_type = $alert_percent[3];
+        $percent_alert_type = $alert_percent[4];
     
     
-            if ( $alert_percent[2] == '1hour' ) {
+            if ( $alert_percent[3] == '1hour' ) {
             $percent_change = $marketcap_data['percent_change_1h'];
             }
-            elseif ( $alert_percent[2] == '24hour' ) {
+            elseif ( $alert_percent[3] == '24hour' ) {
             $percent_change = $marketcap_data['percent_change_24h'];
             }
-            elseif ( $alert_percent[2] == '7day' ) {
+            elseif ( $alert_percent[3] == '7day' ) {
             $percent_change = $marketcap_data['percent_change_7d'];
             }
           
          
-            if ( stristr($percent_change_alert, '-') != false && $percent_change_alert >= $percent_change && is_numeric($percent_change) ) {
+            if ( $percent_alert_filter != 'gain' && stristr($percent_change, '-') != false && abs($percent_change) >= abs($percent_change_alert) && is_numeric($percent_change) ) {
             ?>
          
             setTimeout(function() {
@@ -1631,7 +1633,7 @@ $original_market = $selected_exchange;
             
             <?php
             }
-            elseif ( stristr($percent_change_alert, '-') == false && $percent_change_alert <= $percent_change && is_numeric($percent_change) ) {
+            elseif ( $percent_alert_filter != 'loss' && stristr($percent_change, '-') == false && abs($percent_change) >= abs($percent_change_alert) && is_numeric($percent_change) ) {
             ?>
             
             setTimeout(function() {
@@ -1660,7 +1662,7 @@ $original_market = $selected_exchange;
 });
 
 		<?php
-		if ( sizeof($alert_percent) > 1 ) {
+		if ( sizeof($alert_percent) > 4 ) { // Backwards compatibility (reset if user data is not this many array values)
 		?>
 		
 		setTimeout(function() {
