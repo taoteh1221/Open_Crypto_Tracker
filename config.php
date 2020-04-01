@@ -206,7 +206,7 @@ $app_config['system_stats_first_chart_highest_value'] = 3.5; // Can be a decimal
 // Default BITCOIN-ONLY currency market pairings (79 primary currencies supported)
 // (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
 // 'aed' / 'ars' / 'aud' / 'bam' / 'bdt' / 'bob' / 'brl' / 'bwp' / 'byn' / 'cad' / 'chf' / 'clp' / 'cny' / 'cop' / 'crc' / 'czk' / 
-// 'dkk' / 'dop' / 'egp' / 'eth' / 'eur' / 'gbp' / 'gel' / 'ghs' / 'gtq' / 'hkd' / 'huf' / 'idr' / 'ils' / 'inr' / 'irr' / 'jmd' / 
+// 'dai' / 'dkk' / 'dop' / 'egp' / 'eth' / 'eur' / 'gbp' / 'gel' / 'ghs' / 'gtq' / 'hkd' / 'huf' / 'idr' / 'ils' / 'inr' / 'irr' / 'jmd' / 
 // 'jod' / 'jpy' / 'kes' / 'krw' / 'kwd' / 'kzt' / 'lkr' / 'ltc' / 'mad' / 'mur' / 'mwk' / 'mxn' / 'myr' / 'ngn' / 'nis' / 'nok' / 
 // 'nzd' / 'pab' / 'pen' / 'php' / 'pkr' / 'pln' / 'pyg' / 'qar' / 'ron' / 'rsd' / 'rub' / 'rwf' / 'sar' / 'sek' / 'sgd' / 'thb' / 
 // 'try' / 'tusd' / 'twd' / 'tzs' / 'uah' / 'ugx' / 'usd' / 'usdc' / 'usdt' / 'uyu' / 'vnd' / 'ves' / 'xaf' / 'xof' / 'zar' / 'zmw'
@@ -219,7 +219,7 @@ $app_config['btc_primary_currency_pairing'] = 'usd';
 // (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
 // 'localbitcoins' / 'btcmarkets' / 'lakebtc' / 'braziliex' / 'kraken' / 'bitflyer' / 'bitlish' / 'bitpanda' / 'bitstamp' / 'cex' / 
 // 'coinbase' / 'coss' / 'luno' / 'bitfinex' / 'tidebit' / 'bitbns' / 'buyucoin' / 'bitso' / 'bit2c' / 'btcturk' / 'binance' / 
-// 'zebpay' / 'binance_us' / 'gemini' / 'hitbtc' / 'livecoin' / 'okcoin' / 'southxchange' / 'huobi' / 'okex'
+// 'zebpay' / 'binance_us' / 'gemini' / 'hitbtc' / 'livecoin' / 'okcoin' / 'southxchange' / 'huobi' / 'okex' / 'korbit'
 // SEE THE $app_config['portfolio_assets'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
 // MARKET PAIRING VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (to populate $app_config['btc_primary_currency_pairing'] directly above with)
 $app_config['btc_primary_exchange'] = 'kraken'; // SEE THE $app_config['limited_apis'] SETTING MUCH FURTHER DOWN, FOR EXCHANGES !NOT RECOMMENDED FOR USAGE HERE!
@@ -356,6 +356,7 @@ $app_config['charts_and_price_alerts'] = array(
 					'btc-24' => 'btcturk||try||chart',
 					'btc-25' => 'localbitcoins||twd||chart',
 					'btc-26' => 'luno||zar||chart',
+					'btc-27' => 'kraken||dai||chart',
 					
 					
 					// ETH
@@ -379,6 +380,11 @@ $app_config['charts_and_price_alerts'] = array(
 					'xmr-2' => 'bittrex||eth||chart',
 					'xmr-4' => 'binance||btc||both',
 					'xmr-5' => 'binance||eth||chart',
+					
+					
+					// MKR
+					'mkr' => 'okex||btc||chart',
+					'mkr-2' => 'kucoin||btc||both',
 					
 					
 					// DCR
@@ -532,6 +538,7 @@ $app_config['marketcap_ranks_max'] = 200; // 200 rankings is a safe maximum to s
 // Activate support for ALTCOIN PAIRED MARKETS (like doge/eth, dai/eth, etc)
 // EACH ALTCOIN LISTED HERE !MUST HAVE! AN EXISTING 'btc' MARKET (within 'market_pairing') 
 // in it's $app_config['portfolio_assets'] listing (further down in this config file) TO PROPERLY ACTIVATE
+// TRY TO #NOT# ADD STABLECOINS HERE, ATTEMPT TO USE $app_config['bitcoin_currency_markets'] INSTEAD (TO AUTO-CLIP UNEEDED DECIMAL POINTS IN THE UI)
 $app_config['crypto_to_crypto_pairing'] = array(
 						//'lowercase_altcoin_abrv' => 'CRYPTO_SYMBOL',
 						'eth' => 'Ξ ',
@@ -578,6 +585,7 @@ $app_config['bitcoin_currency_markets'] = array(
 						'cop' => 'Col$',
 						'crc' => '₡',
 						'czk' => 'Kč ',
+						'dai' => 'Đ ',
 						'dkk' => 'Kr. ',
 						'dop' => 'RD$',
 						'egp' => 'ج.م',
@@ -653,6 +661,7 @@ $app_config['bitcoin_currency_markets'] = array(
 $app_config['preferred_bitcoin_markets'] = array(
 						//'lowercase_btc_market_or_stablecoin_pairing' => 'PREFERRED_MARKET',
 							'inr' => 'localbitcoins',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
+							'dai' => 'kraken',  // WAY MORE reputable than hitBTC
 							);
 
 
@@ -1167,6 +1176,12 @@ $app_config['portfolio_assets'] = array(
                                           'localbitcoins' => 'CZK',
                                                     ),
                                                     
+                                    'dai' => array(
+                                        'hitbtc' => 'BTCDAI',
+                                    	 'kraken' => 'XBTDAI',
+                                        'okex' => 'BTC-DAI',
+                                                    ),
+                                                    
                                     'dkk' => array(
                                           'localbitcoins' => 'DKK',
                                                     ),
@@ -1268,6 +1283,7 @@ $app_config['portfolio_assets'] = array(
                                     'krw' => array(
                                           'localbitcoins' => 'KRW',
                                           'upbit' => 'KRW-BTC',
+                                        	'korbit' => 'btc_krw',
                                                     ),
                                                     
                                     'kwd' => array(
@@ -1433,6 +1449,7 @@ $app_config['portfolio_assets'] = array(
                                                     
                                     'usdc' => array(
                                           'binance' => 'BTCUSDC',
+                                        	'korbit' => 'btc_usdc',
                                                     ),
                                                     
                                     'usdt' => array(
@@ -1515,6 +1532,11 @@ $app_config['portfolio_assets'] = array(
                                           'luno' => 'ETHXBT',
                                                     ),
                                                     
+                                    'dai' => array(
+                                          'coinbase' => 'ETH-DAI',
+                                          'hitbtc' => 'ETHDAI',
+                                                    ),
+                                                    
                                     'eur' => array(
                                           'coinbase' => 'ETH-EUR',
                                           'bitstamp' => 'etheur',
@@ -1540,6 +1562,11 @@ $app_config['portfolio_assets'] = array(
                                     'jpy' => array(
                                           'bitflyer' => 'ETH_JPY',
                                           'bitlish' => 'ethjpy',
+                                                    ),
+                                                    
+                                    'krw' => array(
+                                          'upbit' => 'KRW-ETH',
+                                        	'korbit' => 'eth_krw',
                                                     ),
                                                     
                                     'mxn' => array(
@@ -1660,6 +1687,57 @@ $app_config['portfolio_assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
+                    // MKR
+                    'MKR' => array(
+                        
+                        'coin_name' => 'Maker',
+                        'marketcap_website_slug' => 'maker',
+                        'market_pairing' => array(
+                        
+                                    'btc' => array(
+                                       	'kucoin' => 'MKR-BTC',
+                                          'okex' => 'MKR-BTC',
+                                          'bitfinex' => 'tMKRBTC',
+                                        	'hitbtc' => 'MKRBTC',
+                                          'coss' => 'MKR-BTC',
+                                          'coinex' => 'MKRBTC',
+                                                    ),
+                                                    
+                                		'dai' => array(
+                                        	'kucoin' => 'MKR-DAI',
+                                        	'hitbtc' => 'MKRDAI',
+                                                    ),
+                                                    
+                                		'eth' => array(
+                                        	'kucoin' => 'MKR-ETH',
+                                          'okex' => 'MKR-ETH',
+                                          'bitfinex' => 'tMKRETH',
+                                        	'hitbtc' => 'MKRETH',
+                                          'gateio' => 'mkr_eth',
+                                          'idex' => 'ETH_MKR',
+                                          'coss' => 'MKR-ETH',
+                                                    ),
+                                                    
+                                		'krw' => array(
+                                        	'korbit' => 'mkr_krw',
+                                                    ),
+                                                    
+                                    'usdt' => array(
+                                          'okex' => 'MKR-USDT',
+                                        	'hitbtc' => 'MKRUSDT',
+                                          'gateio' => 'mkr_usdt',
+                                          'coinex' => 'MKRUSDT',
+                                          'coss' => 'MKR-USDT',
+                                          			),
+                                          			
+                                        ) // market_pairing END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
                     // DCR
                     'DCR' => array(
                         
@@ -1755,6 +1833,10 @@ $app_config['portfolio_assets'] = array(
                                     'inr' => array(
                                           'bitbns' => 'LTC',
                                           'buyucoin' => 'ltc_inr',
+                                                    ),
+                                                    
+                                		'krw' => array(
+                                        	'korbit' => 'ltc_krw',
                                                     ),
                                                     
                                     'mxn' => array(
@@ -1854,6 +1936,7 @@ $app_config['portfolio_assets'] = array(
                                     'btc' => array(
                                         'bittrex' => 'BTC-DAI',
                                         'upbit' => 'BTC-DAI',
+                                        'bitfinex' => 'tDAIBTC',
                                                     ),
                                                     
                                     'eth' => array(
@@ -1861,9 +1944,18 @@ $app_config['portfolio_assets'] = array(
                                     	 'bitfinex' => 'tDAIETH',
                                                     ),
                                                     
+                                    'eur' => array(
+                                    	 'kraken' => 'DAIEUR',
+                                                    ),
+                                                    
+                                    'krw' => array(
+                                        	'korbit' => 'dai_krw',
+                                                    ),
+                                                    
                                     'usd' => array(
                                     	 'kraken' => 'DAIUSD',
                                     	 'bitfinex' => 'tDAIUSD',
+                                        'bittrex' => 'USD-DAI',
                                                     ),
                                                     
                                     'usdc' => array(
@@ -1873,6 +1965,8 @@ $app_config['portfolio_assets'] = array(
                                                     
                                     'usdt' => array(
                                     	 'kraken' => 'DAIUSDT',
+                                        'bittrex' => 'USDT-DAI',
+                                        'okex' => 'DAI-USDT',
                                                     ),
                                                     
                                         ) // market_pairing END

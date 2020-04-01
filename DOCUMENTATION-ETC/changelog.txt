@@ -3043,13 +3043,17 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.10.0:
 
+-Visual price alerts now can optionally show gain / loss simultaneously
+
 -Speed optimizations
 
 -Default config changes
 
+-korbit.co.kr API support
+
 -HIVE interest calculator
 
--Visual price alerts now can optionally show gain / loss simultaneously
+-DAI crypto market pairing 
 
 IMPORTANT NOTES: 
 

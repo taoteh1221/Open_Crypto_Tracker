@@ -26,6 +26,7 @@ global $btc_primary_currency_value, $app_config;
   
   if ( strtolower($chosen_exchange) == 'bigone' ) {
      
+     
      $json_string = 'https://big.one/api/v2/tickers';
      
      $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
@@ -64,6 +65,7 @@ global $btc_primary_currency_value, $app_config;
 
 
   elseif ( strtolower($chosen_exchange) == 'binance' ) {
+     
      
      $json_string = 'https://www.binance.com/api/v1/ticker/24hr';
      
@@ -104,6 +106,7 @@ global $btc_primary_currency_value, $app_config;
 
   elseif ( strtolower($chosen_exchange) == 'binance_us' ) {
      
+     
      $json_string = 'https://api.binance.us/api/v3/ticker/24hr';
      
      $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
@@ -142,6 +145,7 @@ global $btc_primary_currency_value, $app_config;
   
 
   elseif ( strtolower($chosen_exchange) == 'bit2c' ) {
+  
   
   $json_string = 'https://bit2c.co.il/Exchanges/'.$market_id.'/Ticker.json';
   
@@ -244,6 +248,7 @@ global $btc_primary_currency_value, $app_config;
 
   elseif ( strtolower($chosen_exchange) == 'bitforex' ) {
   
+  
   $json_string = 'https://api.bitforex.com/api/v1/market/ticker?symbol=' . $market_id;
   
   $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
@@ -266,6 +271,7 @@ global $btc_primary_currency_value, $app_config;
   
 
   elseif ( strtolower($chosen_exchange) == 'bitflyer' ) {
+  
   
   $json_string = 'https://api.bitflyer.com/v1/getticker?product_code=' . $market_id;
   
@@ -370,6 +376,7 @@ global $btc_primary_currency_value, $app_config;
 
   elseif ( strtolower($chosen_exchange) == 'bitso' ) {
   
+  
   $json_string = 'https://api.bitso.com/v3/ticker/?book='.$market_id;
   
   $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
@@ -419,6 +426,7 @@ global $btc_primary_currency_value, $app_config;
 
   elseif ( strtolower($chosen_exchange) == 'bittrex' || strtolower($chosen_exchange) == 'bittrex_global' ) {
      
+     
      $json_string = 'https://bittrex.com/api/v1.1/public/getmarketsummaries';
      
      $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
@@ -457,6 +465,7 @@ global $btc_primary_currency_value, $app_config;
 
 
   elseif ( strtolower($chosen_exchange) == 'braziliex' ) {
+     
      
      $json_string = 'https://braziliex.com/api/v1/public/ticker';
      
@@ -519,6 +528,7 @@ global $btc_primary_currency_value, $app_config;
 
   elseif ( strtolower($chosen_exchange) == 'btcturk' ) {
      
+     
      $json_string = 'https://api.btcturk.com/api/v2/ticker';
      
      $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
@@ -557,6 +567,7 @@ global $btc_primary_currency_value, $app_config;
 
 
   elseif ( strtolower($chosen_exchange) == 'buyucoin' ) {
+     
      
      $json_string = 'https://www.buyucoin.com/api/v1.2/currency/markets';
      
@@ -639,6 +650,7 @@ global $btc_primary_currency_value, $app_config;
 
   elseif ( strtolower($chosen_exchange) == 'coinbase' ) {
   
+  
      $json_string = 'https://api.pro.coinbase.com/products/'.$market_id.'/ticker';
      
      $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
@@ -651,6 +663,7 @@ global $btc_primary_currency_value, $app_config;
     					'24hr_pairing_volume' => null, // No pairing volume data for this API
     					'24hr_primary_currency_volume' => trade_volume($asset_symbol, $pairing, $data["volume"], $data['price'])
     					);
+   
    
   }
  
@@ -748,6 +761,7 @@ global $btc_primary_currency_value, $app_config;
 
   elseif ( strtolower($chosen_exchange) == 'cryptofresh' ) {
   
+  
   $json_string = 'https://cryptofresh.com/api/asset/markets?asset=' . $market_id;
   
     $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
@@ -771,9 +785,6 @@ global $btc_primary_currency_value, $app_config;
     					);
 		}
   
-    
-    
-    
   
   }
  
@@ -784,6 +795,7 @@ global $btc_primary_currency_value, $app_config;
 
 
   elseif ( strtolower($chosen_exchange) == 'gateio' ) {
+
 
      $json_string = 'https://data.gate.io/api2/1/tickers';
      
@@ -822,6 +834,7 @@ global $btc_primary_currency_value, $app_config;
 
   elseif ( strtolower($chosen_exchange) == 'gemini' ) {
   
+  
   $json_string = 'https://api.gemini.com/v1/pubticker/' . $market_id;
   
     $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
@@ -835,6 +848,7 @@ global $btc_primary_currency_value, $app_config;
     					'24hr_primary_currency_volume' => trade_volume($asset_symbol, $pairing, $data['volume'][strtoupper($asset_symbol)], $data['last'], $data['volume'][strtoupper($pairing)])
     					);
   
+  
   }
  
  
@@ -844,6 +858,7 @@ global $btc_primary_currency_value, $app_config;
   
   
   elseif ( strtolower($chosen_exchange) == 'graviex' ) {
+
 
      $json_string = 'https://graviex.net//api/v2/tickers.json';
      
@@ -882,6 +897,7 @@ global $btc_primary_currency_value, $app_config;
 
   elseif ( strtolower($chosen_exchange) == 'hitbtc' ) {
 
+
      $json_string = 'https://api.hitbtc.com/api/1/public/ticker';
      
      $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
@@ -917,6 +933,7 @@ global $btc_primary_currency_value, $app_config;
 
 
   elseif ( strtolower($chosen_exchange) == 'hotbit' ) {
+
 
      $json_string = 'https://api.hotbit.io/api/v1/allticker';
      
@@ -999,6 +1016,7 @@ global $btc_primary_currency_value, $app_config;
 
   elseif ( strtolower($chosen_exchange) == 'idex' ) {
      
+     
      $json_string = 'https://api.idex.market/returnTicker';
      
      $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
@@ -1032,6 +1050,47 @@ global $btc_primary_currency_value, $app_config;
  
  
  
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+  elseif ( strtolower($chosen_exchange) == 'korbit' ) {
+     
+     
+     $json_string = 'https://api.korbit.co.kr/v1/ticker/detailed/all';
+     
+     $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+     
+     $data = json_decode($jsondata, true);
+  
+  
+      if (is_array($data) || is_object($data)) {
+  
+       foreach ($data as $key => $value) {
+         
+         if ( $key == $market_id ) {
+         	
+         return  array(
+    							'last_trade' => $data[$key]["last"],
+    							// ARRAY KEY SEMANTICS BACKWARDS COMPARED TO OTHER EXCHANGES
+    							'24hr_asset_volume' => $data[$key]["volume"],
+    							'24hr_pairing_volume' => null, // No pairing volume data for this API
+    							'24hr_primary_currency_volume' => trade_volume($asset_symbol, $pairing, $data[$key]["volume"], $data[$key]["last"])
+    						);
+          
+         }
+       
+     
+       }
+      
+      }
+  
+  
+  }
+ 
+ 
+ 
  ////////////////////////////////////////////////////////////////////////////////////////////////
   
 
@@ -1039,11 +1098,12 @@ global $btc_primary_currency_value, $app_config;
   elseif ( strtolower($chosen_exchange) == 'kraken' ) {
    	
    	
+   	$kraken_pairs = null; // In case user messes up the config file, this helps
   		foreach ( $app_config['portfolio_assets'] as $markets ) {
   		
   			foreach ( $markets['market_pairing'] as $exchange_pairs ) {
   			
-  				if ( $exchange_pairs['kraken'] != '' ) {
+  				if ( isset($exchange_pairs['kraken']) && $exchange_pairs['kraken'] != '' ) { // In case user messes up the config file, this helps
 				
 				$kraken_pairs .= $exchange_pairs['kraken'] . ',';
 				  				
@@ -1054,8 +1114,9 @@ global $btc_primary_currency_value, $app_config;
   		}
 
 		$kraken_pairs = substr($kraken_pairs, 0, -1);
+		
    
-   $json_string = 'https://api.kraken.com/0/public/Ticker?pair=' . $kraken_pairs;
+  $json_string = 'https://api.kraken.com/0/public/Ticker?pair=' . $kraken_pairs;
   
   $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
   
@@ -1098,6 +1159,7 @@ global $btc_primary_currency_value, $app_config;
 
 
   elseif ( strtolower($chosen_exchange) == 'kucoin' ) {
+
 
      $json_string = 'https://api.kucoin.com/api/v1/market/allTickers';
      
@@ -1177,6 +1239,7 @@ global $btc_primary_currency_value, $app_config;
 
   elseif ( strtolower($chosen_exchange) == 'livecoin' ) {
 
+
      $json_string = 'https://api.livecoin.net/exchange/ticker';
      
      $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
@@ -1212,6 +1275,7 @@ global $btc_primary_currency_value, $app_config;
 
 
   elseif ( strtolower($chosen_exchange) == 'localbitcoins' ) {
+     
      
      $json_string = 'https://localbitcoins.com/bitcoinaverage/ticker-all-currencies/';
      
@@ -1251,6 +1315,7 @@ global $btc_primary_currency_value, $app_config;
 
 
   elseif ( strtolower($chosen_exchange) == 'luno' ) {
+     
      
      $json_string = 'https://api.mybitx.com/api/1/tickers';
      
@@ -1292,6 +1357,7 @@ global $btc_primary_currency_value, $app_config;
 // https://github.com/namebasehq/exchange-api-documentation/blob/master/rest-api.md
   elseif ( strtolower($chosen_exchange) == 'namebase' ) {
   
+  
     $json_string = 'https://www.namebase.io/api/v0/ticker/day?symbol=' . $market_id;
     
     $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
@@ -1305,6 +1371,7 @@ global $btc_primary_currency_value, $app_config;
     					'24hr_primary_currency_volume' => trade_volume($asset_symbol, $pairing, $data['volume'], $data['closePrice'], $data['quoteVolume'])
     					);
     
+    
   }
  
  
@@ -1314,6 +1381,7 @@ global $btc_primary_currency_value, $app_config;
 
 
   elseif ( strtolower($chosen_exchange) == 'okcoin' ) {
+  
   
     $json_string = 'https://www.okcoin.com/api/v1/ticker.do?symbol=' . $market_id;
     
@@ -1328,6 +1396,7 @@ global $btc_primary_currency_value, $app_config;
     					'24hr_primary_currency_volume' => trade_volume($asset_symbol, $pairing, $data['ticker']['vol'], number_format( $data['ticker']['last'], 2, '.', ''))
     					);
     
+    
   }
  
  
@@ -1341,9 +1410,9 @@ global $btc_primary_currency_value, $app_config;
   
   $json_string = 'https://www.okex.com/api/spot/v3/instruments/ticker';
   
-    $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+  $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
     
-    $data = json_decode($jsondata, true);
+  $data = json_decode($jsondata, true);
    
   
       if (is_array($data) || is_object($data)) {
@@ -1377,6 +1446,7 @@ global $btc_primary_currency_value, $app_config;
 
 
   elseif ( strtolower($chosen_exchange) == 'poloniex' ) {
+
 
      $json_string = 'https://poloniex.com/public?command=returnTicker';
      
@@ -1414,6 +1484,7 @@ global $btc_primary_currency_value, $app_config;
 
 
   elseif ( strtolower($chosen_exchange) == 'southxchange' ) {
+
 
      $json_string = 'https://www.southxchange.com/api/prices';
      
@@ -1491,6 +1562,7 @@ global $btc_primary_currency_value, $app_config;
   
   elseif ( strtolower($chosen_exchange) == 'tradeogre' ) {
 
+
      $json_string = 'https://tradeogre.com/api/v1/markets';
      
      $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
@@ -1528,11 +1600,12 @@ global $btc_primary_currency_value, $app_config;
   elseif ( strtolower($chosen_exchange) == 'upbit' ) {
   	
   	
+  		$upbit_pairs = null; // In case user messes up the config file, this helps
   		foreach ( $app_config['portfolio_assets'] as $markets ) {
   		
   			foreach ( $markets['market_pairing'] as $exchange_pairs ) {
   			
-  				if ( $exchange_pairs['upbit'] != '' ) {
+  				if ( isset($exchange_pairs['upbit']) && $exchange_pairs['upbit'] != '' ) { // In case user messes up the config file, this helps
 				
 				$upbit_pairs .= $exchange_pairs['upbit'] . ',';
 				  				
@@ -1543,6 +1616,7 @@ global $btc_primary_currency_value, $app_config;
   		}
 
 		$upbit_pairs = substr($upbit_pairs, 0, -1);
+
 
      $json_string = 'https://api.upbit.com/v1/ticker?markets=' . $upbit_pairs;
      
@@ -1580,6 +1654,7 @@ global $btc_primary_currency_value, $app_config;
 
   elseif ( strtolower($chosen_exchange) == 'zebpay' ) {
 
+
      $json_string = 'https://www.zebapi.com/api/v1/market';
      
      $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
@@ -1615,6 +1690,7 @@ global $btc_primary_currency_value, $app_config;
 
 
   elseif ( strtolower($chosen_exchange) == 'misc_assets' ) {
+	
 	
   // BTC value of 1 unit of the default primary currency
   $currency_to_btc = ( 1 / $btc_primary_currency_value );		

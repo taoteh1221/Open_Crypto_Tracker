@@ -797,7 +797,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	<div class='red' id='system_charts_error'></div>
 	
 	
-	<div class='chart_wrapper' id='system_stats_chart_1'><span class='loading' style='color: <?=$app_config['charts_text']?>;'> &nbsp; Loading chart #1 for System Statistics...</span></div>
+	<div class='chart_wrapper' id='system_stats_chart_1'><span class='chart_loading' style='color: <?=$app_config['charts_text']?>;'> &nbsp; Loading chart #1 for System Statistics...</span></div>
 	
 	<script>
 	
@@ -811,7 +811,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	<br/><br/><br/>
 	
 	
-	<div class='chart_wrapper' id='system_stats_chart_2'><span class='loading' style='color: <?=$app_config['charts_text']?>;'> &nbsp; Loading chart #2 for System Statistics...</span></div>
+	<div class='chart_wrapper' id='system_stats_chart_2'><span class='chart_loading' style='color: <?=$app_config['charts_text']?>;'> &nbsp; Loading chart #2 for System Statistics...</span></div>
 	
 	<script>
 	

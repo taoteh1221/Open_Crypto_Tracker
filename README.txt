@@ -42,7 +42,7 @@ Monero (XMR): 47mWWjuwPFiPD6t2MaWcMEfejtQpMuz9oj5hJq18f7nvagcmoJwxudKHUppaWnTMPa
 
 FEATURES
 
--Support for 45 exchanges, and 81 market pairings (country fiat currency or secondary crypto).
+-Support for 46 exchanges, and 82 market pairings (country fiat currency or secondary crypto).
 
 -Secure HTTPS (SSL) and Username / password protection in the portfolio interface for privacy / security.
 
@@ -151,14 +151,14 @@ Below is an example for editing your assets / markets into the portfolio assets 
 USAGE (ADDING / UPDATING COINS)
 
 
-Support for 81 trading pairs (country fiat currency or secondary crypto, contact me to request more): 
+Support for 82 trading pairs (country fiat currency or secondary crypto, contact me to request more): 
 
-AED / ARS / AUD / BAM / BDT / BOB / BRL / BWP / BYN / CAD / CHF / CLP / CNY / COP / CRC / CZK / DKK / DOP / EGP / ETH / EUR / GBP / GEL / GHS / GTQ / HKD / HUF / IDR / ILS / INR / IRR / JMD / JOD / JPY / KES / KRW / KWD / KZT / LKR / LTC / MAD / MUR / MWK / MXN / MYR / NGN / NIS / NOK / NZD / PAB / PEN / PHP / PKR / PLN / PYG / QAR / RON / RSD / RUB / RWF / SAR / SEK / SGD / THB / TRY / TUSD / TWD / TZS / UAH / UGX / USDC / USDT / UYU / VND / VES / XAF / XOF / ZAR / ZMW / XMR / BTC.
+AED / ARS / AUD / BAM / BDT / BOB / BRL / BWP / BYN / CAD / CHF / CLP / CNY / COP / CRC / CZK / DAI / DKK / DOP / EGP / ETH / EUR / GBP / GEL / GHS / GTQ / HKD / HUF / IDR / ILS / INR / IRR / JMD / JOD / JPY / KES / KRW / KWD / KZT / LKR / LTC / MAD / MUR / MWK / MXN / MYR / NGN / NIS / NOK / NZD / PAB / PEN / PHP / PKR / PLN / PYG / QAR / RON / RSD / RUB / RWF / SAR / SEK / SGD / THB / TRY / TUSD / TWD / TZS / UAH / UGX / USDC / USDT / UYU / VND / VES / XAF / XOF / ZAR / ZMW / XMR / BTC.
 
 
-Support for 45 exchanges (contact me to request more): 
+Support for 46 exchanges (contact me to request more): 
 
-localbitcoins / btcmarkets / lakebtc / braziliex / kraken / bitflyer / bitlish / bitpanda / bitstamp / cex / coinbase / coinex / coss / luno / bitfinex / tidebit / bitbns / buyucoin / bitso / bit2c / btcturk / binance / zebpay / binance_us / gemini / hitbtc / livecoin / okcoin / southxchange / huobi / okex / bittrex / cryptofresh / kucoin / poloniex / upbit / gateio / bigone / bitforex / bittrex_global / hotbit / tradeogre / namebase / ethfinex / idex.
+localbitcoins / btcmarkets / lakebtc / braziliex / kraken / bitflyer / bitlish / bitpanda / bitstamp / cex / coinbase / coinex / coss / luno / bitfinex / tidebit / bitbns / buyucoin / bitso / bit2c / btcturk / binance / zebpay / binance_us / gemini / hitbtc / livecoin / okcoin / southxchange / huobi / okex / bittrex / cryptofresh / korbit / kucoin / poloniex / upbit / gateio / bigone / bitforex / bittrex_global / hotbit / tradeogre / namebase / ethfinex / idex.
 
 
 Ethereum ICO subtoken support (pre-exchange listing) has been built in, but values are static ICO values in ETH.
