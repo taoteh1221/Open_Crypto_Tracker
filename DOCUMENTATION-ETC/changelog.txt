@@ -3041,7 +3041,11 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 
 -------------------------------------------------------------------
-4.10.0:
+4.09.2:
+
+-UX revisions
+
+-Bug fix for chart container CSS
 
 -Visual price alerts now can optionally show gain / loss simultaneously
 

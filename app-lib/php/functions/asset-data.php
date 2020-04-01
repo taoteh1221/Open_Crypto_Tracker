@@ -1034,9 +1034,9 @@ $cached_array = explode("||", $data_file);
           	
           	// Format trade volume data
           	
-          	// Minimum volume filter skipped message, only if filter enabled and error getting trade volume data (otherwise is NULL)
+          	// Volume filter skipped message, only if filter is on and error getting trade volume data (otherwise is NULL)
           	if ( $volume_primary_currency_raw == null && $app_config['price_alerts_min_volume'] > 0 || $volume_primary_currency_raw < 1 && $app_config['price_alerts_min_volume'] > 0 ) {
-          	$volume_filter_skipped_text = ', so enabled minimum volume filter was skipped';
+          	$volume_filter_skipped_text = ', so volume filter was skipped';
           	}
           	else {
           	$volume_filter_skipped_text = null;
@@ -1044,9 +1044,9 @@ $cached_array = explode("||", $data_file);
           	
           	
           	
-          	// Successfully received > 0 volume data, at or above an enabled minimum volume filter
+          	// Successfully received > 0 volume data, at or above an enabled volume filter
   				if ( $volume_primary_currency_raw > 0 && $app_config['price_alerts_min_volume'] > 0 && $volume_primary_currency_raw >= $app_config['price_alerts_min_volume'] ) {
-          	$email_volume_summary = '24 hour ' . $volume_describe . $volume_change_text . ' ' . $volume_primary_currency_text . ' (minimum volume filter set at ' . $app_config['bitcoin_currency_markets'][$default_btc_primary_currency_pairing] . number_format($app_config['price_alerts_min_volume'], 0, '.', ',') . ').';
+          	$email_volume_summary = '24 hour ' . $volume_describe . $volume_change_text . ' ' . $volume_primary_currency_text . ' (volume filter is on).';
           	}
           	// NULL if not setup to get volume, negative number returned if no data received from API, therefore skipping any enabled volume filter
           	// ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
