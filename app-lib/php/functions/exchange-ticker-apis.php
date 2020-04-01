@@ -1073,7 +1073,6 @@ global $btc_primary_currency_value, $app_config;
          	
          return  array(
     							'last_trade' => $data[$key]["last"],
-    							// ARRAY KEY SEMANTICS BACKWARDS COMPARED TO OTHER EXCHANGES
     							'24hr_asset_volume' => $data[$key]["volume"],
     							'24hr_pairing_volume' => null, // No pairing volume data for this API
     							'24hr_primary_currency_volume' => trade_volume($asset_symbol, $pairing, $data[$key]["volume"], $data[$key]["last"])
