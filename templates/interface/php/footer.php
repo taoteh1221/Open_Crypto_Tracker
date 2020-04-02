@@ -133,7 +133,7 @@
 		<?php
 		}
     		
-    	echo '<p class="align_center '.( $total_runtime > 20 ? 'red' : 'green' ).'"> Interface Runtime: '.$total_runtime.' seconds</p>';
+    	echo '<p class="align_center '.( $total_runtime > 25 ? 'red' : 'green' ).'"> Interface Runtime: '.$total_runtime.' seconds</p>';
     	
     
     ?>

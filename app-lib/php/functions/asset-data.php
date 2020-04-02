@@ -1260,7 +1260,13 @@ $original_market = $selected_exchange;
 
   // Start rendering table row in the interface, if value set
   if ( number_to_string($asset_amount) > 0.00000000 ) { // Show even if decimal is off the map, just for UX purposes tracking token price only
-
+  	
+  		
+  		// For watch-only, we always want only zero to show here in the UI (with no decimals)
+  		if ( number_to_string($asset_amount) == 0.000000001 ) {
+  		$asset_amount = 0;
+  		}
+  		
 
   $rand_id = rand(10000000,100000000);
       

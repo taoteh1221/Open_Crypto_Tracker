@@ -51,7 +51,7 @@ date_default_timezone_set('UTC');
 
 
 // Application version
-$app_version = '4.09.2';  // 2020/APRIL/1ST
+$app_version = '4.09.3';  // 2020/APRIL/2ND
 
 
 // Load app functions
