@@ -295,6 +295,9 @@ let chartConfig_<?=$key?> = {
       	 backgroundColor: "white",
    	  }
       },
+      crosshairY: {
+    	  exact: true
+      },
       tooltip: {
         visible: false
       },
