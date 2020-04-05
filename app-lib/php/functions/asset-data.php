@@ -797,350 +797,10 @@ $fiat_eqiv = 1;
 	$volume_pairing_raw = number_to_string($volume_pairing_raw);
 	
 	
-	// WE USE PAIRING VOLUME FOR VOLUME PERCENTAGE CHANGES, FOR BETTER PERCENT CHANGE ACCURACY THAN FIAT EQUIV
-	$alert_cache_contents = $asset_primary_currency_value_raw . '||' . $volume_primary_currency_raw . '||' . $volume_pairing_raw;
-	
-	
-	
-	
-	
-	// Check for a file modified time !!!BEFORE ANY!!! file creation / updating happens (to calculate time elapsed between updates)
-	
-	if ( file_exists('cache/alerts/'.$asset_data.'.dat') ) {
-	
-   $last_check_days = ( time() - filemtime('cache/alerts/'.$asset_data.'.dat') ) / 86400;
-   
-   	if ( number_to_string($last_check_days) >= 365 ) {
-   	$last_check_time = number_format( ($last_check_days / 365) , 2, '.', ',') . ' years';
-   	}
-   	elseif ( number_to_string($last_check_days) >= 30 ) {
-   	$last_check_time = number_format( ($last_check_days / 30) , 2, '.', ',') . ' months';
-   	}
-   	elseif ( number_to_string($last_check_days) >= 7 ) {
-   	$last_check_time = number_format( ($last_check_days / 7) , 2, '.', ',') . ' weeks';
-   	}
-   	else {
-   	$last_check_time = number_format($last_check_days, 2, '.', ',') . ' days';
-   	}
-   
-	}
 	
 
-$last_check_days = number_to_string($last_check_days); // Better decimal support for whale alerts etc
-
-
-$data_file = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
-
-$cached_array = explode("||", $data_file);
-
-
-
-
-	// Make sure numbers are cleanly pulled from cache file
-	
-	foreach ( $cached_array as $key => $value ) {
-	$cached_array[$key] = remove_number_format($value);
-	}
-
-
-
-
-	// Backwards compatibility
-	
-	if ( $cached_array[0] == null ) {
-	$cached_asset_primary_currency_value = $data_file;
-	$cached_primary_currency_volume = -1;
-	$cached_pairing_volume = -1;
-	}
-	else {
-	$cached_asset_primary_currency_value = $cached_array[0];  // PRIMARY CURRENCY CONFIG token value
-	$cached_primary_currency_volume = round($cached_array[1]); // PRIMARY CURRENCY CONFIG volume value (round PRIMARY CURRENCY CONFIG volume to nullify insignificant decimal amounts skewing checks)
-	$cached_pairing_volume = $cached_array[2]; // Crypto volume value (more accurate percent increase / decrease stats than PRIMARY CURRENCY CONFIG value fluctuations)
-	}
-
-
-
-
-
-	////// If cached value and current value exist, run alert checking ////////////
-	
-	if ( number_to_string( trim($cached_asset_primary_currency_value) ) >= 0.00000001 && number_to_string( trim($asset_primary_currency_value_raw) ) >= 0.00000001 ) {
-	
-	
-	
-	
-  			 // Price checks
-  			 
-  			 // PRIMARY CURRENCY CONFIG price percent change (!MUST BE! absolute value)
-          $percent_change = abs( ($asset_primary_currency_value_raw - $cached_asset_primary_currency_value) / abs($cached_asset_primary_currency_value) * 100 );
-          
-          $percent_change = number_to_string($percent_change); // Better decimal support
-          
-  			 
-  			 // Check whether we should send an alert
-          if ( number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && $percent_change >= $app_config['price_alerts_threshold'] ) {
-          $send_alert = 1;
-          }
-          
-          // UX / UI variables
-          if ( number_to_string($asset_primary_currency_value_raw) < number_to_string($cached_asset_primary_currency_value) ) {
-          $change_symbol = '-';
-          $increase_decrease = 'decreased';
-          }
-          elseif ( number_to_string($asset_primary_currency_value_raw) >= number_to_string($cached_asset_primary_currency_value) ) {
-          $change_symbol = '+';
-          $increase_decrease = 'increased';
-          }
-          
-          
-          
-          
-          // Crypto volume checks
-          
-          // Crypto volume percent change (!MUST BE! absolute value)
-          $volume_percent_change = abs( ($volume_pairing_raw - $cached_pairing_volume) / abs($cached_pairing_volume) * 100 );
-          
-          $volume_percent_change = number_to_string($volume_percent_change); // Better decimal support
-          
-          // UX adjustments, and UI / UX variables
-          if ( $cached_primary_currency_volume <= 0 && $volume_primary_currency_raw <= 0 ) { // ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
-          $volume_percent_change = 0; // Skip calculating percent change if cached / live PRIMARY CURRENCY CONFIG volume are both zero or -1 (exchange API error)
-          $volume_change_symbol = '+';
-          }
-          elseif ( $cached_primary_currency_volume <= 0 && $volume_pairing_raw >= $cached_pairing_volume ) { // ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
-          $volume_percent_change = $volume_primary_currency_raw; // Use PRIMARY CURRENCY CONFIG volume value for percent up, for UX sake, if volume is up from zero or -1 (exchange API error)
-          $volume_change_symbol = '+';
-          }
-          elseif ( $cached_primary_currency_volume > 0 && $volume_pairing_raw < $cached_pairing_volume ) {
-          $volume_change_symbol = '-';
-          }
-          elseif ( $cached_primary_currency_volume > 0 && $volume_pairing_raw > $cached_pairing_volume ) {
-          $volume_change_symbol = '+';
-          }
-          
-          
-          
-
-          // Whale alert (price change average of X or greater over X day(s) or less, with X percent pair volume increase average that is at least a X primary currency volume increase average)
-			 $whale_alert_threshold = explode("||", $app_config['price_alerts_whale_alert_threshold']);
-
-          if ( trim($whale_alert_threshold[0]) != '' && trim($whale_alert_threshold[1]) != '' && trim($whale_alert_threshold[2]) != '' && trim($whale_alert_threshold[3]) != '' ) {
-          
-          $whale_max_days_to_24hr_average_over = number_to_string( trim($whale_alert_threshold[0]) );
-          
-          $whale_min_price_percent_change_24hr_average = number_to_string( trim($whale_alert_threshold[1]) );
-          
-          $whale_min_volume_percent_increase_24hr_average = number_to_string( trim($whale_alert_threshold[2]) );
-          
-          $whale_min_volume_currency_increase_24hr_average = number_to_string( trim($whale_alert_threshold[3]) );
-          
-          
-          	// WE ONLY WANT PRICE CHANGE PERCENT AS AN ABSOLUTE VALUE HERE, ALL OTHER VALUES SHOULD BE ALLOWED TO BE NEGATIVE IF THEY ARE NEGATIVE
-   		 	if ( $last_check_days <= $whale_max_days_to_24hr_average_over 
-   		 	&& number_to_string($percent_change / $last_check_days) >= $whale_min_price_percent_change_24hr_average 
-   		 	&& number_to_string($volume_change_symbol . $volume_percent_change / $last_check_days) >= $whale_min_volume_percent_increase_24hr_average 
-   		 	&& number_to_string( ($volume_primary_currency_raw - $cached_primary_currency_volume) / $last_check_days ) >= $whale_min_volume_currency_increase_24hr_average ) {
-   		 	$whale_alert = 1;
-   		 	}
-   		 	
-   		 
-   		 }
-   		 
-   		 
-          
-          // We disallow alerts where minimum 24 hour trade PRIMARY CURRENCY CONFIG volume has NOT been met, ONLY if an API request doesn't fail to retrieve volume data
-          if ( $volume_primary_currency_raw >= 0 && $volume_primary_currency_raw < $app_config['price_alerts_min_volume'] ) {
-          $send_alert = null;
-          }
-  
-  
-  
-  
-          // We disallow alerts if they are not activated
-          if ( $mode != 'both' && $mode != 'alert' ) {
-          $send_alert = null;
-          }
-  
-  
-          // We disallow alerts if $app_config['price_alerts_block_volume_error'] is on, and there is a volume retrieval error
-          // ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
-          if ( $volume_primary_currency_raw == -1 && $app_config['price_alerts_block_volume_error'] == 'on' ) {
-          $send_alert = null;
-          }
-          
-          
-          
-          
-          
-          
-          // Sending the alerts
-          
-          if ( update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $app_config['price_alerts_freq_max'] * 60 ) ) == true && $send_alert == 1 ) {
-          
-          
-          
-          
-  				// Message formatting for display to end user
-          	
-          	$desc_alert_type = ( $app_config['price_alerts_refresh'] > 0 ? 'refresh' : 'alert' );
-          	
-          	// IF PRIMARY CURRENCY CONFIG volume was between 0 and 1 last alert / refresh, for UX sake 
-          	// we use current PRIMARY CURRENCY CONFIG volume instead of pair volume (for percent up, so it's not up 70,000% for altcoins lol)
-          	if ( $cached_primary_currency_volume >= 0 && $cached_primary_currency_volume <= 1 ) {
-          	$volume_describe = strtoupper($default_btc_primary_currency_pairing) . ' volume was ' . $app_config['bitcoin_currency_markets'][$default_btc_primary_currency_pairing] . $cached_primary_currency_volume . ' last price ' . $desc_alert_type . ', and ';
-          	$volume_describe_mobile = strtoupper($default_btc_primary_currency_pairing) . ' volume up from ' . $app_config['bitcoin_currency_markets'][$default_btc_primary_currency_pairing] . $cached_primary_currency_volume . ' last ' . $desc_alert_type;
-          	}
-          	// Best we can do feasibly for UX on volume reporting errors
-          	elseif ( $cached_primary_currency_volume == -1 ) { // ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
-          	$volume_describe = strtoupper($default_btc_primary_currency_pairing) . ' volume was NULL last price ' . $desc_alert_type . ', and ';
-          	$volume_describe_mobile = strtoupper($default_btc_primary_currency_pairing) . ' volume up from NULL last ' . $desc_alert_type;
-          	}
-          	else {
-          	$volume_describe = 'pair volume ';
-          	$volume_describe_mobile = 'pair volume'; // no space
-          	}
-          
-          
-          
-          
-          	// Pretty up textual output to end-user (convert raw numbers to have separators, remove underscores in names, etc)
-          	
-  				$exchange_text = snake_case_to_name($exchange);
-  				
-  				// Pretty numbers UX on PRIMARY CURRENCY CONFIG asset value
-  				$asset_primary_currency_text = ( number_to_string($asset_primary_currency_value_raw) >= $app_config['primary_currency_decimals_max_threshold'] ? pretty_numbers($asset_primary_currency_value_raw, 2) : pretty_numbers($asset_primary_currency_value_raw, $app_config['primary_currency_decimals_max']) );
-  				
-  				$percent_change_text = number_format($percent_change, 2, '.', ',');
-  				
-  				$volume_primary_currency_text = $app_config['bitcoin_currency_markets'][$default_btc_primary_currency_pairing] . number_format($volume_primary_currency_raw, 0, '.', ',');
-  				
-  				$volume_change_text = 'has ' . ( $volume_change_symbol == '+' ? 'increased ' : 'decreased ' ) . $volume_change_symbol . number_format($volume_percent_change, 2, '.', ',') . '% to a ' . strtoupper($default_btc_primary_currency_pairing) . ' value of';
-  				
-  				$volume_change_text_mobile = '(' . $volume_change_symbol . number_format($volume_percent_change, 2, '.', ',') . '% ' . $volume_describe_mobile . ')';
-  				
-  				
-  				
-  				
-  				
-  				// If -1 from exchange API error not reporting any volume data (not even zero)
-  				// ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
-  				if ( $cached_primary_currency_volume == -1 || $volume_primary_currency_raw == -1 ) {
-  				$volume_change_text = null;
-  				$volume_change_text_mobile = null;
-  				}
-          	
-          	
-          	
-          	
-          	// Format trade volume data
-          	
-          	// Volume filter skipped message, only if filter is on and error getting trade volume data (otherwise is NULL)
-          	if ( $volume_primary_currency_raw == null && $app_config['price_alerts_min_volume'] > 0 || $volume_primary_currency_raw < 1 && $app_config['price_alerts_min_volume'] > 0 ) {
-          	$volume_filter_skipped_text = ', so volume filter was skipped';
-          	}
-          	else {
-          	$volume_filter_skipped_text = null;
-          	}
-          	
-          	
-          	
-          	// Successfully received > 0 volume data, at or above an enabled volume filter
-  				if ( $volume_primary_currency_raw > 0 && $app_config['price_alerts_min_volume'] > 0 && $volume_primary_currency_raw >= $app_config['price_alerts_min_volume'] ) {
-          	$email_volume_summary = '24 hour ' . $volume_describe . $volume_change_text . ' ' . $volume_primary_currency_text . ' (volume filter is on).';
-          	}
-          	// NULL if not setup to get volume, negative number returned if no data received from API, therefore skipping any enabled volume filter
-          	// ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
-  				elseif ( $volume_primary_currency_raw == -1 ) { 
-          	$email_volume_summary = 'No data received for 24 hour volume' . $volume_filter_skipped_text . '.';
-          	$volume_primary_currency_text = 'No data';
-          	}
-          	// If volume is zero or greater in successfully received volume data, without an enabled volume filter (or filter skipped)
-          	// IF exchange PRIMARY CURRENCY CONFIG value price goes up/down and triggers alert, 
-          	// BUT current reported volume is zero (temporary error on exchange side etc, NOT on our app's side),
-          	// inform end-user of this probable volume discrepancy being detected.
-          	elseif ( $volume_primary_currency_raw >= 0 ) {
-          	$email_volume_summary = '24 hour ' . $volume_describe . $volume_change_text . ' ' . $volume_primary_currency_text . ( $volume_primary_currency_raw == 0 ? ' (probable volume discrepancy detected' . $volume_filter_skipped_text . ')' : '' ) . '.'; 
-          	}
-  				
-  				
-  				
-  				
-  				
-  				// Build the different messages, configure comm methods, and send messages
-				
-  				$email_message = ( $whale_alert == 1 ? 'WHALE ALERT: ' : '' ) . 'The ' . $asset . ' trade value in the ' . strtoupper($pairing) . ' market at the ' . $exchange_text . ' exchange has ' . $increase_decrease . ' ' . $change_symbol . $percent_change_text . '% in ' . strtoupper($default_btc_primary_currency_pairing) . ' value to ' . $app_config['bitcoin_currency_markets'][$default_btc_primary_currency_pairing] . $asset_primary_currency_text . ' over the past ' . $last_check_time . ' since the last price ' . $desc_alert_type . '. ' . $email_volume_summary;
-  				
-  				// Were're just adding a human-readable timestamp to smart home (audio) alerts
-  				$notifyme_message = $email_message . ' Timestamp is ' . time_date_format($app_config['local_time_offset'], 'pretty_time') . '.';
-  				
-  				$text_message = ( $whale_alert == 1 ? '🐳 ' : '' ) . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange_text . ' ' . $increase_decrease . ' ' . $change_symbol . $percent_change_text . '% in ' . strtoupper($default_btc_primary_currency_pairing) . ' value to ' . $app_config['bitcoin_currency_markets'][$default_btc_primary_currency_pairing] . $asset_primary_currency_text . ' over ' . $last_check_time . '. 24 Hour ' . strtoupper($default_btc_primary_currency_pairing) . ' Volume: ' . $volume_primary_currency_text . ' ' . $volume_change_text_mobile;
-  				
-  				
-  				
-  				
-  				// Cache the new lower / higher value + volume data
-          	store_file_contents($base_dir . '/cache/alerts/'.$asset_data.'.dat', $alert_cache_contents); 
-          	
-          	
-          	
-          	
-  				// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
-  				
-  				// Minimize function calls
-  				$encoded_text_message = content_data_encoding($text_message);
-  				
-          	$send_params = array(
-          								'notifyme' => $notifyme_message,
-          								'telegram' => ( $whale_alert == 1 ? '🐳 ' : '' ) . $email_message, // Add emoji here, so it's not sent with alexa / google home alerts
-          								'text' => array(
-          														// Unicode support included for text messages (emojis / asian characters / etc )
-          														'message' => $encoded_text_message['content_output'],
-          														'charset' => $encoded_text_message['charset']
-          														),
-          								'email' => array(
-          														'subject' => $asset . ' Asset Value '.ucfirst($increase_decrease).' Alert' . ( $whale_alert == 1 ? ' (🐳 WHALE ALERT)' : '' ),
-          														'message' => ( $whale_alert == 1 ? '🐳 ' : '' ) . $email_message // Add emoji here, so it's not sent with alexa / google home alerts
-          														)
-          								);
-          	
-          	
-          	
-          	// Send notifications
-          	@queue_notifications($send_params);
-  
-          
-     		 
-          }
-          
-          
-          
-          
-  
-	}
-	////// END alert checking //////////////
-	
-	
-	
-	
-
-
-	// Cache a price alert value / volumes if not already done, OR if config setting set to refresh every X days
-	
-	if ( $mode == 'both' && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && !file_exists('cache/alerts/'.$asset_data.'.dat')
-	|| $mode == 'alert' && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && !file_exists('cache/alerts/'.$asset_data.'.dat') ) {
-	store_file_contents($base_dir . '/cache/alerts/'.$asset_data.'.dat', $alert_cache_contents); 
-	}
-	elseif ( $mode == 'both' && $send_alert != 1 && $app_config['price_alerts_refresh'] >= 1 && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $app_config['price_alerts_refresh'] * 1440 ) ) == true
-	|| $mode == 'alert' && $send_alert != 1 && $app_config['price_alerts_refresh'] >= 1 && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $app_config['price_alerts_refresh'] * 1440 ) ) == true ) {
-	store_file_contents($base_dir . '/cache/alerts/'.$asset_data.'.dat', $alert_cache_contents); 
-	}
-
-
-
-
-
+	// Charts
 	// If the charts page is enabled in config.php, save latest chart data for assets with price alerts configured on them
-	
 	if ( $mode == 'both' && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && $app_config['charts_page'] == 'on'
 	|| $mode == 'chart' && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && $app_config['charts_page'] == 'on' ) { 
 	
@@ -1159,10 +819,338 @@ $cached_array = explode("||", $data_file);
 	
 	
 	
+	
+	// Alert checking START
+	if ( $mode == 'alert' || $mode == 'both' ) {
+        
+        
+   // WE USE PAIRING VOLUME FOR VOLUME PERCENTAGE CHANGES, FOR BETTER PERCENT CHANGE ACCURACY THAN FIAT EQUIV
+   $alert_cache_contents = $asset_primary_currency_value_raw . '||' . $volume_primary_currency_raw . '||' . $volume_pairing_raw;
+        
+        
+      // Check for a file modified time !!!BEFORE ANY!!! file creation / updating happens (to calculate time elapsed between updates)
+        
+      if ( file_exists('cache/alerts/'.$asset_data.'.dat') ) {
+        
+       $last_check_days = ( time() - filemtime('cache/alerts/'.$asset_data.'.dat') ) / 86400;
+       
+        if ( number_to_string($last_check_days) >= 365 ) {
+        $last_check_time = number_format( ($last_check_days / 365) , 2, '.', ',') . ' years';
+        }
+        elseif ( number_to_string($last_check_days) >= 30 ) {
+        $last_check_time = number_format( ($last_check_days / 30) , 2, '.', ',') . ' months';
+        }
+        elseif ( number_to_string($last_check_days) >= 7 ) {
+        $last_check_time = number_format( ($last_check_days / 7) , 2, '.', ',') . ' weeks';
+        }
+        else {
+        $last_check_time = number_format($last_check_days, 2, '.', ',') . ' days';
+        }
+       
+      }
+        
+    
+    $last_check_days = number_to_string($last_check_days); // Better decimal support for whale alerts etc
+    
+    
+    $data_file = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
+    
+    $cached_array = explode("||", $data_file);
+    
+    
+    
+    
+      // Make sure numbers are cleanly pulled from cache file
+      foreach ( $cached_array as $key => $value ) {
+      $cached_array[$key] = remove_number_format($value);
+      }
+    
+    
+    
+    
+      // Backwards compatibility
+      if ( $cached_array[0] == null ) {
+      $cached_asset_primary_currency_value = $data_file;
+      $cached_primary_currency_volume = -1;
+      $cached_pairing_volume = -1;
+      }
+      else {
+      $cached_asset_primary_currency_value = $cached_array[0];  // PRIMARY CURRENCY CONFIG token value
+      $cached_primary_currency_volume = round($cached_array[1]); // PRIMARY CURRENCY CONFIG volume value (round PRIMARY CURRENCY CONFIG volume to nullify insignificant decimal amounts skewing checks)
+      $cached_pairing_volume = $cached_array[2]; // Crypto volume value (more accurate percent increase / decrease stats than PRIMARY CURRENCY CONFIG value fluctuations)
+      }
+    
+    
+    
+    
+    
+      ////// If cached value and current value exist, run alert checking //////////// 
+      if ( number_to_string( trim($cached_asset_primary_currency_value) ) >= 0.00000001 && number_to_string( trim($asset_primary_currency_value_raw) ) >= 0.00000001 ) {
+        
+        
+        
+      // Price checks
+                 
+      // PRIMARY CURRENCY CONFIG price percent change (!MUST BE! absolute value)
+      $percent_change = abs( ($asset_primary_currency_value_raw - $cached_asset_primary_currency_value) / abs($cached_asset_primary_currency_value) * 100 );
+              
+      $percent_change = number_to_string($percent_change); // Better decimal support
+              
+                 
+              // Check whether we should send an alert
+              if ( number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && $percent_change >= $app_config['price_alerts_threshold'] ) {
+              $send_alert = 1;
+              }
+              
+              // UX / UI variables
+              if ( number_to_string($asset_primary_currency_value_raw) < number_to_string($cached_asset_primary_currency_value) ) {
+              $change_symbol = '-';
+              $increase_decrease = 'decreased';
+              }
+              elseif ( number_to_string($asset_primary_currency_value_raw) >= number_to_string($cached_asset_primary_currency_value) ) {
+              $change_symbol = '+';
+              $increase_decrease = 'increased';
+              }
+              
+              
+              
+              
+              // Crypto volume checks
+              
+              // Crypto volume percent change (!MUST BE! absolute value)
+              $volume_percent_change = abs( ($volume_pairing_raw - $cached_pairing_volume) / abs($cached_pairing_volume) * 100 );
+              
+              $volume_percent_change = number_to_string($volume_percent_change); // Better decimal support
+              
+              // UX adjustments, and UI / UX variables
+              if ( $cached_primary_currency_volume <= 0 && $volume_primary_currency_raw <= 0 ) { // ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
+              $volume_percent_change = 0; // Skip calculating percent change if cached / live PRIMARY CURRENCY CONFIG volume are both zero or -1 (exchange API error)
+              $volume_change_symbol = '+';
+              }
+              elseif ( $cached_primary_currency_volume <= 0 && $volume_pairing_raw >= $cached_pairing_volume ) { // ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
+              $volume_percent_change = $volume_primary_currency_raw; // Use PRIMARY CURRENCY CONFIG volume value for percent up, for UX sake, if volume is up from zero or -1 (exchange API error)
+              $volume_change_symbol = '+';
+              }
+              elseif ( $cached_primary_currency_volume > 0 && $volume_pairing_raw < $cached_pairing_volume ) {
+              $volume_change_symbol = '-';
+              }
+              elseif ( $cached_primary_currency_volume > 0 && $volume_pairing_raw > $cached_pairing_volume ) {
+              $volume_change_symbol = '+';
+              }
+              
+              
+              
+    
+              // Whale alert (price change average of X or greater over X day(s) or less, with X percent pair volume increase average that is at least a X primary currency volume increase average)
+              $whale_alert_threshold = explode("||", $app_config['price_alerts_whale_alert_threshold']);
+    
+              if ( trim($whale_alert_threshold[0]) != '' && trim($whale_alert_threshold[1]) != '' && trim($whale_alert_threshold[2]) != '' && trim($whale_alert_threshold[3]) != '' ) {
+              
+              $whale_max_days_to_24hr_average_over = number_to_string( trim($whale_alert_threshold[0]) );
+              
+              $whale_min_price_percent_change_24hr_average = number_to_string( trim($whale_alert_threshold[1]) );
+              
+              $whale_min_volume_percent_increase_24hr_average = number_to_string( trim($whale_alert_threshold[2]) );
+              
+              $whale_min_volume_currency_increase_24hr_average = number_to_string( trim($whale_alert_threshold[3]) );
+              
+              
+                // WE ONLY WANT PRICE CHANGE PERCENT AS AN ABSOLUTE VALUE HERE, ALL OTHER VALUES SHOULD BE ALLOWED TO BE NEGATIVE IF THEY ARE NEGATIVE
+                if ( $last_check_days <= $whale_max_days_to_24hr_average_over 
+                && number_to_string($percent_change / $last_check_days) >= $whale_min_price_percent_change_24hr_average 
+                && number_to_string($volume_change_symbol . $volume_percent_change / $last_check_days) >= $whale_min_volume_percent_increase_24hr_average 
+                && number_to_string( ($volume_primary_currency_raw - $cached_primary_currency_volume) / $last_check_days ) >= $whale_min_volume_currency_increase_24hr_average ) {
+                $whale_alert = 1;
+                }
+                
+             
+              }
+             
+             
+              
+              // We disallow alerts where minimum 24 hour trade PRIMARY CURRENCY CONFIG volume has NOT been met, ONLY if an API request doesn't fail to retrieve volume data
+              if ( $volume_primary_currency_raw >= 0 && $volume_primary_currency_raw < $app_config['price_alerts_min_volume'] ) {
+              $send_alert = null;
+              }
+      
+      
+      
+      
+              // We disallow alerts if they are not activated
+              if ( $mode != 'both' && $mode != 'alert' ) {
+              $send_alert = null;
+              }
+      
+      
+              // We disallow alerts if $app_config['price_alerts_block_volume_error'] is on, and there is a volume retrieval error
+              // ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
+              if ( $volume_primary_currency_raw == -1 && $app_config['price_alerts_block_volume_error'] == 'on' ) {
+              $send_alert = null;
+              }
+              
+              
+              
+              
+              
+              // Sending the alerts
+              if ( update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $app_config['price_alerts_freq_max'] * 60 ) ) == true && $send_alert == 1 ) {
+              
+                            
+              // Message formatting for display to end user
+                
+              $desc_alert_type = ( $app_config['price_alerts_refresh'] > 0 ? 'refresh' : 'alert' );
+              
+                
+                // IF PRIMARY CURRENCY CONFIG volume was between 0 and 1 last alert / refresh, for UX sake 
+                // we use current PRIMARY CURRENCY CONFIG volume instead of pair volume (for percent up, so it's not up 70,000% for altcoins lol)
+                if ( $cached_primary_currency_volume >= 0 && $cached_primary_currency_volume <= 1 ) {
+                $volume_describe = strtoupper($default_btc_primary_currency_pairing) . ' volume was ' . $app_config['bitcoin_currency_markets'][$default_btc_primary_currency_pairing] . $cached_primary_currency_volume . ' last price ' . $desc_alert_type . ', and ';
+                $volume_describe_mobile = strtoupper($default_btc_primary_currency_pairing) . ' volume up from ' . $app_config['bitcoin_currency_markets'][$default_btc_primary_currency_pairing] . $cached_primary_currency_volume . ' last ' . $desc_alert_type;
+                }
+                // Best we can do feasibly for UX on volume reporting errors
+                elseif ( $cached_primary_currency_volume == -1 ) { // ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
+                $volume_describe = strtoupper($default_btc_primary_currency_pairing) . ' volume was NULL last price ' . $desc_alert_type . ', and ';
+                $volume_describe_mobile = strtoupper($default_btc_primary_currency_pairing) . ' volume up from NULL last ' . $desc_alert_type;
+                }
+                else {
+                $volume_describe = 'pair volume ';
+                $volume_describe_mobile = 'pair volume'; // no space
+                }
+              
+              
+              
+              
+              // Pretty up textual output to end-user (convert raw numbers to have separators, remove underscores in names, etc)
+                
+              $exchange_text = snake_case_to_name($exchange);
+                    
+              // Pretty numbers UX on PRIMARY CURRENCY CONFIG asset value
+              $asset_primary_currency_text = ( number_to_string($asset_primary_currency_value_raw) >= $app_config['primary_currency_decimals_max_threshold'] ? pretty_numbers($asset_primary_currency_value_raw, 2) : pretty_numbers($asset_primary_currency_value_raw, $app_config['primary_currency_decimals_max']) );
+                    
+              $percent_change_text = number_format($percent_change, 2, '.', ',');
+                    
+              $volume_primary_currency_text = $app_config['bitcoin_currency_markets'][$default_btc_primary_currency_pairing] . number_format($volume_primary_currency_raw, 0, '.', ',');
+                    
+              $volume_change_text = 'has ' . ( $volume_change_symbol == '+' ? 'increased ' : 'decreased ' ) . $volume_change_symbol . number_format($volume_percent_change, 2, '.', ',') . '% to a ' . strtoupper($default_btc_primary_currency_pairing) . ' value of';
+                    
+              $volume_change_text_mobile = '(' . $volume_change_symbol . number_format($volume_percent_change, 2, '.', ',') . '% ' . $volume_describe_mobile . ')';
+                    
+                    
+                    
+                    
+                    
+                // If -1 from exchange API error not reporting any volume data (not even zero)
+                // ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
+                if ( $cached_primary_currency_volume == -1 || $volume_primary_currency_raw == -1 ) {
+                $volume_change_text = null;
+                $volume_change_text_mobile = null;
+                }
+                
+                
+                
+                
+                // Format trade volume data
+                
+                // Volume filter skipped message, only if filter is on and error getting trade volume data (otherwise is NULL)
+                if ( $volume_primary_currency_raw == null && $app_config['price_alerts_min_volume'] > 0 || $volume_primary_currency_raw < 1 && $app_config['price_alerts_min_volume'] > 0 ) {
+                $volume_filter_skipped_text = ', so volume filter was skipped';
+                }
+                else {
+                $volume_filter_skipped_text = null;
+                }
+                
+                
+                
+                // Successfully received > 0 volume data, at or above an enabled volume filter
+                    if ( $volume_primary_currency_raw > 0 && $app_config['price_alerts_min_volume'] > 0 && $volume_primary_currency_raw >= $app_config['price_alerts_min_volume'] ) {
+                $email_volume_summary = '24 hour ' . $volume_describe . $volume_change_text . ' ' . $volume_primary_currency_text . ' (volume filter is on).';
+                }
+                // NULL if not setup to get volume, negative number returned if no data received from API, therefore skipping any enabled volume filter
+                // ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
+                    elseif ( $volume_primary_currency_raw == -1 ) { 
+                $email_volume_summary = 'No data received for 24 hour volume' . $volume_filter_skipped_text . '.';
+                $volume_primary_currency_text = 'No data';
+                }
+                // If volume is zero or greater in successfully received volume data, without an enabled volume filter (or filter skipped)
+                // IF exchange PRIMARY CURRENCY CONFIG value price goes up/down and triggers alert, 
+                // BUT current reported volume is zero (temporary error on exchange side etc, NOT on our app's side),
+                // inform end-user of this probable volume discrepancy being detected.
+                elseif ( $volume_primary_currency_raw >= 0 ) {
+                $email_volume_summary = '24 hour ' . $volume_describe . $volume_change_text . ' ' . $volume_primary_currency_text . ( $volume_primary_currency_raw == 0 ? ' (probable volume discrepancy detected' . $volume_filter_skipped_text . ')' : '' ) . '.'; 
+                }
+                    
+                    
+                    
+                    
+                    
+              // Build the different messages, configure comm methods, and send messages
+                    
+              $email_message = ( $whale_alert == 1 ? 'WHALE ALERT: ' : '' ) . 'The ' . $asset . ' trade value in the ' . strtoupper($pairing) . ' market at the ' . $exchange_text . ' exchange has ' . $increase_decrease . ' ' . $change_symbol . $percent_change_text . '% in ' . strtoupper($default_btc_primary_currency_pairing) . ' value to ' . $app_config['bitcoin_currency_markets'][$default_btc_primary_currency_pairing] . $asset_primary_currency_text . ' over the past ' . $last_check_time . ' since the last price ' . $desc_alert_type . '. ' . $email_volume_summary;
+                    
+              // Were're just adding a human-readable timestamp to smart home (audio) alerts
+              $notifyme_message = $email_message . ' Timestamp is ' . time_date_format($app_config['local_time_offset'], 'pretty_time') . '.';
+                    
+              $text_message = ( $whale_alert == 1 ? '🐳 ' : '' ) . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange_text . ' ' . $increase_decrease . ' ' . $change_symbol . $percent_change_text . '% in ' . strtoupper($default_btc_primary_currency_pairing) . ' value to ' . $app_config['bitcoin_currency_markets'][$default_btc_primary_currency_pairing] . $asset_primary_currency_text . ' over ' . $last_check_time . '. 24 Hour ' . strtoupper($default_btc_primary_currency_pairing) . ' Volume: ' . $volume_primary_currency_text . ' ' . $volume_change_text_mobile;
+                    
+                    
+                    
+                    
+              // Cache the new lower / higher value + volume data
+              store_file_contents($base_dir . '/cache/alerts/'.$asset_data.'.dat', $alert_cache_contents); 
+                
+                
+                
+                
+              // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
+                    
+              // Minimize function calls
+              $encoded_text_message = content_data_encoding($text_message);
+                    
+              $send_params = array(
+                                            'notifyme' => $notifyme_message,
+                                            'telegram' => ( $whale_alert == 1 ? '🐳 ' : '' ) . $email_message, // Add emoji here, so it's not sent with alexa / google home alerts
+                                            'text' => array(
+                                                                    // Unicode support included for text messages (emojis / asian characters / etc )
+                                                                    'message' => $encoded_text_message['content_output'],
+                                                                    'charset' => $encoded_text_message['charset']
+                                                                    ),
+                                            'email' => array(
+                                                                    'subject' => $asset . ' Asset Value '.ucfirst($increase_decrease).' Alert' . ( $whale_alert == 1 ? ' (🐳 WHALE ALERT)' : '' ),
+                                                                    'message' => ( $whale_alert == 1 ? '🐳 ' : '' ) . $email_message // Add emoji here, so it's not sent with alexa / google home alerts
+                                                                    )
+                                            );
+                
+                
+                
+              // Send notifications
+              @queue_notifications($send_params);
+      
+              
+                 
+              }
+              
+              
+      
+      }
+        
+   
+   
+		// Cache a price alert value / volumes if not already done, OR if config setting set to refresh every X days
+		if ( number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && !file_exists('cache/alerts/'.$asset_data.'.dat') ) {
+		store_file_contents($base_dir . '/cache/alerts/'.$asset_data.'.dat', $alert_cache_contents); 
+		}
+		elseif ( $send_alert != 1 && $app_config['price_alerts_refresh'] >= 1 && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $app_config['price_alerts_refresh'] * 1440 ) ) == true ) {
+		store_file_contents($base_dir . '/cache/alerts/'.$asset_data.'.dat', $alert_cache_contents); 
+		}
 
+
+   
+	////// Alert checking END //////////////
+	}
+	
+	
 
 // If we haven't returned false yet because of any issues being detected, return TRUE to indicate all seems ok
-
 return true;
 
 

@@ -286,7 +286,7 @@ $app_config['charts_backup_freq'] = 1; // Every X days backup chart data. 0 disa
 // Asset price alert settings
 // Only used if $app_config['charts_and_price_alerts'] is filled in properly below, AND a cron job is setup (see README.txt for cron job setup information) 
 ////
-$app_config['price_alerts_threshold'] = 9.35; // Price percent change to send alerts for (WITHOUT percent sign: 15 = 15%). Sends alerts when percent change reached (up or down)
+$app_config['price_alerts_threshold'] = 8.85; // Price percent change to send alerts for (WITHOUT percent sign: 15 = 15%). Sends alerts when percent change reached (up or down)
 ////
 // Minimum 24 hour volume filter. Only allows sending price alerts if minimum 24 hour volume reached
 // CAN BE 0 TO DISABLE MINIMUM VOLUME FILTERING, NO DECIMALS OR SEPARATORS, NUMBERS ONLY, WITHOUT the [primary currency] prefix symbol: 4500 = $4,500 , 30000 = $30,000 , etc
