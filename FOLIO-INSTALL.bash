@@ -210,7 +210,7 @@ select opt in $OPTIONS; do
 			
 			echo " "
 			
-			/usr/bin/apt-get install apache2 php php-mbstring php-curl php-gd php-zip libapache2-mod-php openssl ssl-cert -y
+			/usr/bin/apt-get install apache2 php php-mbstring php-curl php-gd php-zip libapache2-mod-php openssl ssl-cert avahi-daemon -y
 			
 			/bin/sleep 3
 			
@@ -1025,8 +1025,9 @@ fi
 
 
 
-echo "NETWORK SSL / HTTPS (secure / private SSL connection) web address is:"
-echo "https://$IP"
+echo "#INTERNAL# NETWORK SSL / HTTPS (secure / private SSL connection) web address is..."
+echo "IP ADDRESS: https://$IP"
+echo "HOST ADDRESS: https://${HOSTNAME}.local"
 echo " "
 
 echo "IMPORTANT SSL / HTTPS NOTE:"
