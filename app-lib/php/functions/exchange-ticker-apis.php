@@ -294,46 +294,6 @@ global $btc_primary_currency_value, $app_config;
 
 
 
-  elseif ( strtolower($chosen_exchange) == 'bitlish' ) {
- 
-     
-     $json_string = 'https://bitlish.com/api/v1/tickers';
-     
-     $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
-     
-     $data = json_decode($jsondata, true);
-     
-  
-      if (is_array($data) || is_object($data)) {
-  
-       foreach ($data as $key => $value) {
-         
-         
-         if ( $key == $market_id ) {
-          
-         return  array(
-    						'last_trade' => $data[$key]["last"],
-    						'24hr_asset_volume' => $data[$key]["sum"],
-    						'24hr_pairing_volume' => null,
-    						'24hr_primary_currency_volume' => trade_volume($asset_symbol, $pairing, $data[$key]["sum"], $data[$key]["last"])
-    						);
-
-         }
-       
-     
-       }
-      
-      }
-  
-  
-  }
- 
- 
- 
- ////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
   elseif ( strtolower($chosen_exchange) == 'bitpanda' ) {
  
      

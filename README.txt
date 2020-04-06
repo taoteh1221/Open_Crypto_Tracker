@@ -158,7 +158,7 @@ AED / ARS / AUD / BAM / BDT / BOB / BRL / BWP / BYN / CAD / CHF / CLP / CNY / CO
 
 Support for 46 exchanges (contact me to request more): 
 
-localbitcoins / btcmarkets / lakebtc / braziliex / kraken / bitflyer / bitlish / bitpanda / bitstamp / cex / coinbase / coinex / coss / luno / bitfinex / tidebit / bitbns / buyucoin / bitso / bit2c / btcturk / binance / zebpay / binance_us / gemini / hitbtc / livecoin / okcoin / southxchange / huobi / okex / bittrex / cryptofresh / korbit / kucoin / poloniex / upbit / gateio / bigone / bitforex / bittrex_global / hotbit / tradeogre / namebase / ethfinex / idex.
+localbitcoins / btcmarkets / lakebtc / braziliex / kraken / bitflyer / bitpanda / bitstamp / cex / coinbase / coinex / coss / luno / bitfinex / tidebit / bitbns / buyucoin / bitso / bit2c / btcturk / binance / zebpay / binance_us / gemini / hitbtc / livecoin / okcoin / southxchange / huobi / okex / bittrex / cryptofresh / korbit / kucoin / poloniex / upbit / gateio / bigone / bitforex / bittrex_global / hotbit / tradeogre / namebase / ethfinex / idex.
 
 
 Ethereum ICO subtoken support (pre-exchange listing) has been built in, but values are static ICO values in ETH.

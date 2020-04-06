@@ -217,7 +217,7 @@ $app_config['btc_primary_currency_pairing'] = 'usd';
 
 // Default BITCOIN-ONLY exchanges (30 bitcoin exchanges supported)
 // (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
-// 'localbitcoins' / 'btcmarkets' / 'lakebtc' / 'braziliex' / 'kraken' / 'bitflyer' / 'bitlish' / 'bitpanda' / 'bitstamp' / 'cex' / 
+// 'localbitcoins' / 'btcmarkets' / 'lakebtc' / 'braziliex' / 'kraken' / 'bitflyer' / 'bitpanda' / 'bitstamp' / 'cex' / 
 // 'coinbase' / 'coss' / 'luno' / 'bitfinex' / 'tidebit' / 'bitbns' / 'buyucoin' / 'bitso' / 'bit2c' / 'btcturk' / 'binance' / 
 // 'zebpay' / 'binance_us' / 'gemini' / 'hitbtc' / 'livecoin' / 'okcoin' / 'southxchange' / 'huobi' / 'okex' / 'korbit'
 // SEE THE $app_config['portfolio_assets'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
@@ -660,8 +660,9 @@ $app_config['bitcoin_currency_markets'] = array(
 // #USE VERY CONSERVATIVELY#, AS YOU'LL BE RECOMMENDING IN THE INTERFACE TO END-USERS TO AVOID USING ANY OTHER MARKETS FOR THIS CURRENCY
 $app_config['preferred_bitcoin_markets'] = array(
 						//'lowercase_btc_market_or_stablecoin_pairing' => 'PREFERRED_MARKET',
-							'inr' => 'localbitcoins',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							'dai' => 'kraken',  // WAY MORE reputable than hitBTC
+							'inr' => 'localbitcoins',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
+							'rub' => 'localbitcoins',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							);
 
 
@@ -1204,7 +1205,6 @@ $app_config['portfolio_assets'] = array(
                                           'bitstamp' => 'btceur',
                                           'bitpanda' => 'BTC_EUR',
                                           'bitflyer' => 'BTC_EUR',
-                                          'bitlish' => 'btceur',
                                           'coss' => 'BTC-EUR',
                                           'cex' => 'BTC:EUR',
                                           'lakebtc' => 'btceur',
@@ -1215,7 +1215,6 @@ $app_config['portfolio_assets'] = array(
                                     'gbp' => array(
                                           'coinbase' => 'BTC-GBP',
                                           'bitfinex' => 'tBTCGBP',
-                                          'bitlish' => 'btcgbp',
                                           'coss' => 'BTC-GBP',
                                           'cex' => 'BTC:GBP',
                                           'lakebtc' => 'btcgbp',
@@ -1271,7 +1270,6 @@ $app_config['portfolio_assets'] = array(
                                                     
                                     'jpy' => array(
                                           'bitflyer' => 'BTC_JPY',
-                                          'bitlish' => 'btcjpy',
                                           'lakebtc' => 'btcjpy',
                                           'localbitcoins' => 'JPY',
                                                     ),
@@ -1377,7 +1375,6 @@ $app_config['portfolio_assets'] = array(
                                                     
                                     'rub' => array(
                                           'cex' => 'BTC:RUB',
-                                          'bitlish' => 'btcrub',
                                           'localbitcoins' => 'RUB',
                                                     ),
                                                     
@@ -1443,7 +1440,6 @@ $app_config['portfolio_assets'] = array(
                                           'livecoin' => 'BTC/USD',
                                           'cex' => 'BTC:USD',
                                           'southxchange' => 'BTC/USD',
-                                          'bitlish' => 'btcusd',
                                           'coss' => 'BTC-USD',
                                                     ),
                                                     
@@ -1527,7 +1523,6 @@ $app_config['portfolio_assets'] = array(
                                           'cryptofresh' => 'OPEN.ETH',
                                           'bitso' => 'eth_btc',
                                           'braziliex' => 'eth_btc',
-                                          'bitlish' => 'ethbtc',
                                           'zebpay' => 'ETH-BTC',
                                           'luno' => 'ETHXBT',
                                                     ),
@@ -1541,13 +1536,11 @@ $app_config['portfolio_assets'] = array(
                                           'coinbase' => 'ETH-EUR',
                                           'bitstamp' => 'etheur',
                                           'cex' => 'ETH:EUR',
-                                          'bitlish' => 'etheur',
                                                     ),
                                                     
                                     'gbp' => array(
                                           'coinbase' => 'ETH-GBP',
                                           'cex' => 'BTC:GBP',
-                                          'bitlish' => 'ethgbp',
                                                     ),
                                                     
                                     'hkd' => array(
@@ -1561,7 +1554,6 @@ $app_config['portfolio_assets'] = array(
                                                     
                                     'jpy' => array(
                                           'bitflyer' => 'ETH_JPY',
-                                          'bitlish' => 'ethjpy',
                                                     ),
                                                     
                                     'krw' => array(
@@ -1575,10 +1567,6 @@ $app_config['portfolio_assets'] = array(
                                                     
                                     'nis' => array(
                                           'bit2c' => 'EthNis',
-                                                    ),
-                                                    
-                                    'rub' => array(
-                                          'bitlish' => 'ethrub',
                                                     ),
                                                     
                                     'tusd' => array(
@@ -1597,7 +1585,6 @@ $app_config['portfolio_assets'] = array(
                                           'bitfinex' => 'tETHUSD',
                                           'okcoin' => 'eth_usd',
                                           'cex' => 'ETH:USD',
-                                          'bitlish' => 'ethusd',
                                           'coss' => 'ETH-USD',
                                                     ),
                                                     
@@ -1651,7 +1638,6 @@ $app_config['portfolio_assets'] = array(
                                         	'upbit' => 'BTC-XMR',
                                           'okex' => 'XMR-BTC',
                                           'poloniex' => 'BTC_XMR',
-                                          'bitlish' => 'xmrbtc',
                                                     ),
                                                     
                                     'eth' => array(
@@ -1806,7 +1792,6 @@ $app_config['portfolio_assets'] = array(
                                         'cryptofresh' => 'OPEN.LTC',
                                         'bitso' => 'ltc_btc',
                                         'braziliex' => 'ltc_btc',
-                                        'bitlish' => 'ltcbtc',
                                         'zebpay' => 'LTC-BTC',
                                                     ),
                                                     
