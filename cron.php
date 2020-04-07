@@ -77,6 +77,10 @@ if ( $app_config['proxy_alerts'] != 'off' ) {
 
 
 
+// Queue notifications if there were any price alert resets, BEFORE send_notifications() runs
+reset_price_alerts_notice();
+
+
 // Log errors, send notifications
 // RUN BEFORE cron plugins (in case custom plugin crashes)
 error_logs();

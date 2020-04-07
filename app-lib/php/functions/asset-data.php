@@ -674,7 +674,7 @@ function charts_and_price_alerts($asset_data, $exchange, $pairing, $mode) {
 
 
 // Globals
-global $base_dir, $app_config, $default_btc_primary_exchange, $default_btc_primary_currency_value, $default_btc_primary_currency_pairing;
+global $base_dir, $app_config, $default_btc_primary_exchange, $default_btc_primary_currency_value, $default_btc_primary_currency_pairing, $price_alerts_reset_array;
 
 
 // Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
@@ -998,10 +998,10 @@ $fiat_eqiv = 1;
                             
               // Message formatting for display to end user
                 
-              $desc_alert_type = ( $app_config['price_alerts_refresh'] > 0 ? 'refresh' : 'alert' );
+              $desc_alert_type = ( $app_config['price_alerts_reset'] > 0 ? 'reset' : 'alert' );
               
                 
-                // IF PRIMARY CURRENCY CONFIG volume was between 0 and 1 last alert / refresh, for UX sake 
+                // IF PRIMARY CURRENCY CONFIG volume was between 0 and 1 last alert / reset, for UX sake 
                 // we use current PRIMARY CURRENCY CONFIG volume instead of pair volume (for percent up, so it's not up 70,000% for altcoins lol)
                 if ( $cached_primary_currency_volume >= 0 && $cached_primary_currency_volume <= 1 ) {
                 $volume_describe = strtoupper($default_btc_primary_currency_pairing) . ' volume was ' . $app_config['bitcoin_currency_markets'][$default_btc_primary_currency_pairing] . $cached_primary_currency_volume . ' last price ' . $desc_alert_type . ', and ';
@@ -1135,12 +1135,13 @@ $fiat_eqiv = 1;
         
    
    
-		// Cache a price alert value / volumes if not already done, OR if config setting set to refresh every X days
+		// Cache a price alert value / volumes if not already done, OR if config setting set to reset every X days
 		if ( number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && !file_exists('cache/alerts/'.$asset_data.'.dat') ) {
 		store_file_contents($base_dir . '/cache/alerts/'.$asset_data.'.dat', $alert_cache_contents); 
 		}
-		elseif ( $send_alert != 1 && $app_config['price_alerts_refresh'] >= 1 && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $app_config['price_alerts_refresh'] * 1440 ) ) == true ) {
+		elseif ( $send_alert != 1 && $app_config['price_alerts_reset'] >= 1 && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $app_config['price_alerts_reset'] * 1440 ) ) == true ) {
 		store_file_contents($base_dir . '/cache/alerts/'.$asset_data.'.dat', $alert_cache_contents); 
+		$price_alerts_reset_array[strtolower($asset)][] = $asset_data; // Comms data (for one alert message, including data on all resets per runtime)
 		}
 
 

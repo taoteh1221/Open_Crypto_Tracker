@@ -91,6 +91,8 @@ $processed_messages = array();
 
 $btc_pairing_markets = array();
 
+$price_alerts_reset_array = array();
+
 $btc_pairing_markets_blacklist = array();
 
 // Coinmarketcap supported currencies array

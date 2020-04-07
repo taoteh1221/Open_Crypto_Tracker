@@ -4,7 +4,6 @@
  */
 
 
-
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
 
@@ -1023,6 +1022,79 @@ $result['type'] = $type;
 $result['in_megs'] = round($in_megs, 3);
 
 return $result;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function reset_price_alerts_notice() {
+
+global $app_config, $price_alerts_reset_array;
+
+
+// Alphabetical asset sort, for message UX 
+ksort($price_alerts_reset_array);
+
+
+	$count = 0;
+	foreach( $price_alerts_reset_array as $asset_key => $asset_value ) {
+	
+		foreach( $asset_value as $alert_key ) {
+			
+		$reset_data = explode("||", $app_config['charts_and_price_alerts'][$alert_key]);
+		
+		$reset_list .= strtoupper($asset_key) . ' / ' . strtoupper($reset_data[1]) . ' @ ' . strtoupper($reset_data[0]) . ', ';
+		
+		$count = $count + 1;
+		
+		}
+	
+	}
+	
+	// Trim results
+	$reset_list = trim($reset_list);
+	$reset_list = rtrim($reset_list, ',');
+
+	
+	// Return if no resets occurred
+	if ( $count < 1 ) {
+	return;
+	}
+
+
+$text_message = 'Price Alert Data Reset ('.$count.'): ' . $reset_list;
+
+$email_message = 'The following ' . $count . ' price alert(s) have been reset, with the latest price data: ' . $reset_list;
+
+// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
+                    
+// Minimize function calls
+$encoded_text_message = content_data_encoding($text_message);
+                    
+$send_params = array(
+
+                     'notifyme' => $email_message,
+                     'telegram' => $email_message,
+                     'text' => array(
+                                     // Unicode support included for text messages (emojis / asian characters / etc )
+                                     'message' => $encoded_text_message['content_output'],
+                                     'charset' => $encoded_text_message['charset']
+                                     ),
+                     'email' => array(
+                                      'subject' => 'Price Alert Data Reset For ' . $count . ' Alert(s)',
+                                      'message' => $email_message 
+                                      )
+                                      
+                       );
+                
+                
+                
+// Send notifications
+@queue_notifications($send_params);
+      
 
 }
 

@@ -3087,6 +3087,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Misc. minor bug fixes / UX / optimization revisions
 
+-Semantics (naming) change for 'price_alerts_refresh' config setting, over to 'price_alerts_reset'
+
 -Dead exchange removal (bitlish)
 
 IMPORTANT NOTES: 
