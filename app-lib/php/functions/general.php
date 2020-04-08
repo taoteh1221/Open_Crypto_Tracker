@@ -1032,7 +1032,7 @@ return $result;
 
 function reset_price_alerts_notice() {
 
-global $app_config, $price_alerts_reset_array;
+global $price_alerts_reset_array;
 
 
 // Alphabetical asset sort, for message UX 
@@ -1040,13 +1040,11 @@ ksort($price_alerts_reset_array);
 
 
 	$count = 0;
-	foreach( $price_alerts_reset_array as $asset_key => $asset_value ) {
+	foreach( $price_alerts_reset_array as $reset_data ) {
 	
-		foreach( $asset_value as $alert_key ) {
-			
-		$reset_data = explode("||", $app_config['charts_and_price_alerts'][$alert_key]);
+		foreach( $reset_data as $asset_alert ) {
 		
-		$reset_list .= strtoupper($asset_key) . ' / ' . strtoupper($reset_data[1]) . ' @ ' . strtoupper($reset_data[0]) . ', ';
+		$reset_list .= $asset_alert . ', ';
 		
 		$count = $count + 1;
 		

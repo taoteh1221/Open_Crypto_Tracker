@@ -682,7 +682,6 @@ $asset = ( stristr($asset_data, "-") == false ? $asset_data : substr( $asset_dat
 $asset = strtoupper($asset);
 
 
-
 // Fiat or equivalent pairing?
 // #FOR CLEAN CODE#, RUN CHECK TO MAKE SURE IT'S NOT A CRYPTO AS WELL...WE HAVE A COUPLE SUPPORTED, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
 if ( array_key_exists($pairing, $app_config['bitcoin_currency_markets']) && !array_key_exists($pairing, $app_config['crypto_to_crypto_pairing']) ) {
@@ -822,6 +821,10 @@ $fiat_eqiv = 1;
 	
 	// Alert checking START
 	if ( $mode == 'alert' || $mode == 'both' ) {
+
+
+	// Pretty exchange name (defined early for any price alert resets)
+	$exchange_text = snake_case_to_name($exchange);
         
         
    // WE USE PAIRING VOLUME FOR VOLUME PERCENTAGE CHANGES, FOR BETTER PERCENT CHANGE ACCURACY THAN FIAT EQUIV
@@ -1022,7 +1025,6 @@ $fiat_eqiv = 1;
               
               // Pretty up textual output to end-user (convert raw numbers to have separators, remove underscores in names, etc)
                 
-              $exchange_text = snake_case_to_name($exchange);
                     
               // Pretty numbers UX on PRIMARY CURRENCY CONFIG asset value
               $asset_primary_currency_text = ( number_to_string($asset_primary_currency_value_raw) >= $app_config['primary_currency_decimals_max_threshold'] ? pretty_numbers($asset_primary_currency_value_raw, 2) : pretty_numbers($asset_primary_currency_value_raw, $app_config['primary_currency_decimals_max']) );
@@ -1141,7 +1143,7 @@ $fiat_eqiv = 1;
 		}
 		elseif ( $send_alert != 1 && $app_config['price_alerts_reset'] >= 1 && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $app_config['price_alerts_reset'] * 1440 ) ) == true ) {
 		store_file_contents($base_dir . '/cache/alerts/'.$asset_data.'.dat', $alert_cache_contents); 
-		$price_alerts_reset_array[strtolower($asset)][] = $asset_data; // Comms data (for one alert message, including data on all resets per runtime)
+		$price_alerts_reset_array[strtolower($asset)][$asset_data] = $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange_text; // Comms data (for one alert message, including data on all resets per runtime)
 		}
 
 
