@@ -1025,9 +1025,12 @@ fi
 
 
 
-echo "#INTERNAL# NETWORK SSL / HTTPS (secure / private SSL connection) web address is..."
-echo "IP ADDRESS: https://$IP"
-echo "HOST ADDRESS: https://${HOSTNAME}.local"
+echo "#INTERNAL# NETWORK SSL / HTTPS (secure / private SSL connection) web addresses are..."
+echo "IP ADDRESS (may change, unless set as static for this device within the router):"
+echo "https://$IP"
+echo " "
+echo "HOST ADDRESS (ONLY works on linux / mac / windows, NOT android):"
+echo "https://${HOSTNAME}.local"
 echo " "
 
 echo "IMPORTANT SSL / HTTPS NOTE:"

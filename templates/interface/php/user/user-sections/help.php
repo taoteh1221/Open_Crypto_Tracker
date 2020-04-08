@@ -367,7 +367,7 @@ Running a google search for "set permanently ulimit -n linux", you'll find tons 
 	      <div class="card-body">
 	      
 	         
-	        If you installed this application on a device on your home network, or on any other network WITH A SLOW INTERNET CONNECTION, you may need to increase the default timeout for retrieving API data IF YOU RECEIVE PARTIAL OR NO API DATA IN THE APP FOR SOME API DATA SETS. To adjust the API timeout, open config.php and find the DEVELOPER-ONLY SETTINGS. Adjust the 'api_timeout' setting much higher, save the new config.php setup in the app, and run the app to see if this fixes the issue. Adjust higher again if the issue still occurs.
+	        If you installed this application on a device on your home network, or on any other network WITH A SLOW INTERNET CONNECTION, you may need to increase the default timeout for retrieving API data IF YOU RECEIVE PARTIAL OR NO API DATA IN THE APP FOR SOME API DATA SETS. To adjust the API timeout, open config.php and find the POWER USER SECTION. Adjust the 'api_timeout' setting much higher, save the new config.php setup in the app, and run the app to see if this fixes the issue. Adjust higher again if the issue still occurs.
 	        
 	        
 	      </div>

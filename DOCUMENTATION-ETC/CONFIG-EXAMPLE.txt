@@ -47,23 +47,6 @@ $app_config['smtp_email_server'] = ''; // CAN BE BLANK. This format MUST be used
 $app_config['smtp_email_secure'] = 'tls'; // CAN BE 'off' FOR NO SECURE CONNECTION, or 'tls', or 'ssl' for secure connections. 
 
 
-// Sending alerts to your own telegram bot chatroom. 
-// (USEFUL IF YOU HAVE ISSUES SETTING UP MOBILE TEXT ALERTS, INCLUDING EMOJI / UNICODE CHARACTER ENCODING)
-// Setup: https://core.telegram.org/bots , OR JUST SEARCH / VISIT "BotFather" in the telegram app
-// YOU MUST SETUP A TELEGRAM USERNAME #FIRST / BEFORE SETTING UP THE BOT#, IF YOU HAVEN'T ALREADY (IN THE TELEGRAM APP SETTINGS)
-// SET UP YOUR BOT WITH "BotFather", AND SAVE YOUR BOT NAME / USERNAME / ACCESS TOKEN / BOT CHATROOM LINK
-// VISIT THE BOT CHATROOM, #SEND THE MESSAGE "/start" TO THIS CHATROOM# (THIS WILL CREATE USER CHAT DATA THE APP NEEDS)
-// THE USER CHAT DATA #IS REQUIRED# FOR THIS APP TO INITIALLY DETERMINE AND SECURELY SAVE YOU TELEGRAM USER'S CHAT ID
-// #DO NOT DELETE THE BOT CHATROOM IN THE TELEGRAM APP, OR YOU WILL STOP RECEIVING MESSAGES FROM THE BOT#
-$app_config['telegram_your_username'] = ''; // Your telegram username (REQUIRED, setup in telegram app settings)
-////
-$app_config['telegram_bot_name'] = ''; // Your bot's human-readable name (example: 'My Alerts Bot')
-////
-$app_config['telegram_bot_username'] = '';  // Your bot's username
-////
-$app_config['telegram_bot_token'] = '';  // Your bot's access token
-
-
 // For alert texts to mobile phone numbers. 
 // Attempts to email the text if a SUPPORTED MOBILE TEXTING NETWORK name is set, AND no textbelt / textlocal config is setup.
 // SMTP-authenticated email sending MAY GET THROUGH TEXTING SERVICE CONTENT FILTERS #BETTER# THAN USING PHP'S BUILT-IN EMAILING FUNCTION
@@ -84,6 +67,23 @@ $app_config['textbelt_apikey'] = '';
 
 // CAN BE BLANK. For asset price alert textlocal notifications. Setup: https://www.textlocal.com/integrations/api/
 $app_config['textlocal_account'] = ''; // This format MUST be used: 'username||hash_code'
+
+
+// Sending alerts to your own telegram bot chatroom. 
+// (USEFUL IF YOU HAVE ISSUES SETTING UP MOBILE TEXT ALERTS, INCLUDING EMOJI / UNICODE CHARACTER ENCODING)
+// Setup: https://core.telegram.org/bots , OR JUST SEARCH / VISIT "BotFather" in the telegram app
+// YOU MUST SETUP A TELEGRAM USERNAME #FIRST / BEFORE SETTING UP THE BOT#, IF YOU HAVEN'T ALREADY (IN THE TELEGRAM APP SETTINGS)
+// SET UP YOUR BOT WITH "BotFather", AND SAVE YOUR BOT NAME / USERNAME / ACCESS TOKEN / BOT CHATROOM LINK
+// VISIT THE BOT CHATROOM, #SEND THE MESSAGE "/start" TO THIS CHATROOM# (THIS WILL CREATE USER CHAT DATA THE APP NEEDS)
+// THE USER CHAT DATA #IS REQUIRED# FOR THIS APP TO INITIALLY DETERMINE AND SECURELY SAVE YOU TELEGRAM USER'S CHAT ID
+// #DO NOT DELETE THE BOT CHATROOM IN THE TELEGRAM APP, OR YOU WILL STOP RECEIVING MESSAGES FROM THE BOT#
+$app_config['telegram_your_username'] = ''; // Your telegram username (REQUIRED, setup in telegram app settings)
+////
+$app_config['telegram_bot_name'] = ''; // Your bot's human-readable name (example: 'My Alerts Bot')
+////
+$app_config['telegram_bot_username'] = '';  // Your bot's username
+////
+$app_config['telegram_bot_token'] = '';  // Your bot's access token
 
 
 // Smart home notifications
@@ -116,12 +116,25 @@ $app_config['upgrade_check_reminder'] = 14; // (only used if upgrade check is en
 $app_config['email_logs'] = 3; 
 
 
+// Price percent change to send alerts for (WITHOUT percent sign: 15 = 15%). Sends alerts when percent change reached (up or down)
+// Price alerts will send to all properly-configured communication channels, and automatically skip any not properly setup
+$app_config['price_alerts_threshold'] = 8.85; 
+////
 // Re-allow SAME asset price alert(s) messages after X hours (per asset, set higher if issues with blacklisting...can be 0)
 // Price alerts AUTOMATICALLY will send to all properly-configured communication channels, and automatically skip any not properly setup
 $app_config['price_alerts_freq_max'] = 8; 
+////
+// Block an asset price alert if price retrieved, BUT failed retrieving pair volume (not even a zero was retrieved, nothing)
+// Good for blocking questionable exchanges bugging you with price alerts, especially when used in combination with the minimum volume filter
+$app_config['price_alerts_block_volume_error'] = 'on'; // 'on' / 'off' 
+////
+// Minimum 24 hour volume filter. Only allows sending price alerts if minimum 24 hour volume reached
+// CAN BE 0 TO DISABLE MINIMUM VOLUME FILTERING, NO DECIMALS OR SEPARATORS, NUMBERS ONLY, WITHOUT the [primary currency] prefix symbol: 4500 = $4,500 , 30000 = $30,000 , etc
+// THIS FILTER WILL AUTO-DISABLE IF THERE IS ANY ERROR RETRIEVING DATA ON A CERTAIN MARKET (WHEN NOT EVEN A ZERO IS RECEIVED)
+$app_config['price_alerts_min_volume'] = 14000;
 
 
-// Alerts for failed proxy data connections (if proxies are enabled further down in this config). 
+// Alerts for failed proxy data connections (if proxies are enabled further down in PROXY SETTINGS). 
 // Choosing 'all' will send to all properly-configured communication channels, and automatically skip any not properly setup
 $app_config['proxy_alerts'] = 'email'; // 'off' (disabled) / 'all' / 'email' / 'text' / 'notifyme' / 'telegram'
 ////
@@ -153,7 +166,7 @@ $app_config['admin_login'] = ''; // Leave blank to disable the admin interface. 
 // (ENABLES / UPDATES automatically, when a valid username / password are filled in or updated here)
 // (DISABLES automatically, when username / password are blank '' OR invalid) 
 // (!ONLY #UPDATES OR DISABLES# AUTOMATICALLY #AFTER# LOGGING IN ONCE WITH YOUR #OLD LOGIN# [or if a cron job runs with the new config]!)
-$app_config['interface_login'] = ''; // Leave blank to disable. This format MUST be used: 'username||password'
+$app_config['interface_login'] = ''; // Leave blank to disable requiring an interface login. This format MUST be used: 'username||password'
 
 
 // API key for etherscan.io (required unfortunately, but a FREE level is available): https://etherscan.io/apis
@@ -166,6 +179,14 @@ $app_config['coinmarketcapcom_api_key'] = '';
 
 // Default marketcap data source: 'coingecko', or 'coinmarketcap' (COINMARKETCAP REQUIRES A #FREE# API KEY, see below)
 $app_config['primary_marketcap_site'] = 'coingecko'; 
+
+
+// ENABLING CHARTS REQUIRES A CRON JOB SETUP (see README.txt for cron job setup information)
+// Enables a charts tab / page with historical charts
+// Caches the default [primary currency] ($app_config['btc_primary_currency_pairing'] further down in GENERAL SETTINGS)
+// default [primary currency] price / crypto price / volume data for charts of all assets added to $app_config['charts_and_price_alerts'] (further down in CHART AND PRICE ALERT SETTINGS)
+// Disabling will disable EVERYTHING related to the price charts (price charts tab / page, and price chart data caching)
+$app_config['charts_page'] = 'on'; // 'on' / 'off'
 
 
 // Your local time offset IN HOURS, COMPARED TO UTC TIME. Can be negative or positive.
@@ -230,17 +251,33 @@ $app_config['primary_currency_decimals_max_threshold'] = 0.70; // Can be decimal
 
 
 ////////////////////////////////////////
+// !START! PROXY SETTINGS
+////////////////////////////////////////
+
+
+// If using proxies and login is required
+// Adding a user / pass here will automatically send login details for proxy connections
+// CAN BE BLANK. IF using ip address whitelisting instead, MUST BE LEFT BLANK
+$app_config['proxy_login'] = ''; // Use format: 'username||password'
+////
+// If using proxies, add the ip address / port number here for each one, like examples below (without the double slashes in front enables the code)
+// CAN BE BLANK. Adding proxies here will automatically choose one randomly for each API request
+$app_config['proxy_list'] = array(
+					// 'ipaddress1:portnumber1',
+					// 'ipaddress2:portnumber2',
+					);
+
+
+////////////////////////////////////////
+// !END! PROXY SETTINGS
+////////////////////////////////////////
+
+
+////////////////////////////////////////
 // !START! CHART AND PRICE ALERT SETTINGS
 ////////////////////////////////////////
 
 
-// ENABLING CHARTS REQUIRES A CRON JOB SETUP (see README.txt for cron job setup information)
-// Enables a charts tab / page with historical charts
-// Caches the default [primary currency] ($app_config['btc_primary_currency_pairing'] at top of this config)
-// price / crypto price / volume data for charts of all assets added to $app_config['charts_and_price_alerts'] (further down in this config file)
-// Disabling will disable EVERYTHING related to the price charts (price charts tab / page, and price chart data caching)
-$app_config['charts_page'] = 'on'; // 'on' / 'off'
-////
 // Chart colors (https://www.w3schools.com/colors/colors_picker.asp)
 ////
 // Charts border color
@@ -267,29 +304,18 @@ $app_config['charts_tooltip_background'] = '#bbbbbb';
 // Charts tooltip text color
 $app_config['charts_tooltip_text'] = '#222222';
 ////
-// Backup chart data in a zip file in the 'backups' subdirectory (with a secure random 32 character hexadecimal suffix for privacy), only used if $app_config['charts_page'] above is on
+// Backup chart data in a zip file in the 'backups' subdirectory (with a secure random suffix for privacy), only used if $app_config['charts_page'] (IN GENERAL SETTINGS) is on
 $app_config['charts_backup_freq'] = 1; // Every X days backup chart data. 0 disables backups. Email to / from !MUST BE SET! (a download link is emailed to you of the chart data archive)
 
 
 // Asset price alert settings
 // Only used if $app_config['charts_and_price_alerts'] is filled in properly below, AND a cron job is setup (see README.txt for cron job setup information) 
 ////
-$app_config['price_alerts_threshold'] = 8.85; // Price percent change to send alerts for (WITHOUT percent sign: 15 = 15%). Sends alerts when percent change reached (up or down)
-////
-// Minimum 24 hour volume filter. Only allows sending price alerts if minimum 24 hour volume reached
-// CAN BE 0 TO DISABLE MINIMUM VOLUME FILTERING, NO DECIMALS OR SEPARATORS, NUMBERS ONLY, WITHOUT the [primary currency] prefix symbol: 4500 = $4,500 , 30000 = $30,000 , etc
-// THIS FILTER WILL AUTO-DISABLE IF THERE IS ANY ERROR RETRIEVING DATA ON A CERTAIN MARKET (WHEN NOT EVEN A ZERO IS RECEIVED)
-$app_config['price_alerts_min_volume'] = 14000;
-////
-// Block an asset price alert if price retrieved, BUT failed retrieving pair volume (not even a zero was retrieved, nothing)
-// Good for blocking questionable exchanges bugging you with price alerts, especially when used in combination with the above minimum volume filter
-$app_config['price_alerts_block_volume_error'] = 'on'; // 'on' / 'off' 
-////
 // Reset cached comparison asset prices every X days (since last price reset / alert) with the current latest spot prices
-// Can be 0 to disable resetting (until the next price alert triggers an automatic reset)
-$app_config['price_alerts_reset'] = 0; // (default = 0, [disabled] only resets after every new price alert)
+// Can be 0 to disable fixed interval resetting (IN WHICH CASE IT WILL STILL RESET, BUT ONLY when the next price alert triggers an automatic reset)
+$app_config['price_alerts_reset'] = 0; // (default = 0)
 ////
-// Whale alert (adds "WHALE ALERT" to beginning of alexa / google home / email alert text, and spouting whale emoji to email / text)
+// Whale alert (adds "WHALE ALERT" to beginning of alexa / google home / email / telegram alert text, and spouting whale emoji to email / text / telegram)
 // Format: 'max_days_to_24hr_average_over||min_price_percent_change_24hr_average||min_volume_percent_increase_24hr_average||min_volume_currency_increase_24hr_average'
 // ("min_price_percent_change_24hr_average" should be the same value or higher as $app_config['price_alerts_threshold'] to work properly)
 // Leave BLANK '' TO DISABLE. DECIMALS ARE SUPPORTED, USE NUMBERS ONLY (NO CURRENCY SYMBOLS / COMMAS, ETC)
@@ -479,32 +505,26 @@ $app_config['charts_and_price_alerts'] = array(
 ////////////////////////////////////////
 
 
-////////////////////////////////////////
-// !START! PROXY SETTINGS
-////////////////////////////////////////
-
-
-// If using proxies and login is required
-// Adding a user / pass here will automatically send login details for proxy connections
-// CAN BE BLANK. IF using ip address whitelisting instead, MUST BE LEFT BLANK
-$app_config['proxy_login'] = ''; // Use format: 'username||password'
-////
-// If using proxies, add the ip address / port number here for each one, like examples below (without the double slashes in front enables the code)
-// CAN BE BLANK. Adding proxies here will automatically choose one randomly for each API request
-$app_config['proxy_list'] = array(
-					// 'ipaddress1:portnumber1',
-					// 'ipaddress2:portnumber2',
-					);
-
-
-////////////////////////////////////////
-// !END! PROXY SETTINGS
-////////////////////////////////////////
-
-
 /////////////////////////////////////////////////////////////////////////////
 // !START! POWER USER SETTINGS (ADJUST WITH CARE, OR YOU CAN BREAK THE APP!)
 /////////////////////////////////////////////////////////////////////////////
+
+
+// 'on' verifies ALL API server certificates for secure API connections, 'off' verifies NOTHING 
+// Set to 'off' if some exchange's API servers have invalid certificates (which stops price data retrieval...but you still want to get price data from them)
+$app_config['api_strict_ssl'] = 'on'; // (default = 'on')
+
+
+// 'on' verifies ALL SMTP server certificates for secure SMTP connections, 'off' verifies NOTHING 
+// Set to 'off' if the SMTP server has an invalid certificate setup (which stops email sending, but you still want to send email through that server)
+$app_config['smtp_strict_ssl'] = 'off'; // (DEFAULT IS 'off', TO ASSURE SMTP EMAIL SENDING STILL WORKS THROUGH MISCONFIGURED SMTP SERVERS)
+
+
+// Seconds to wait for response from API endpoints (exchange data, etc). 
+// Set too low you won't get ALL data (partial or zero bytes), set too high the interface can take a long time loading if an API server hangs up
+// RECOMMENDED MINIMUM OF 45 FOR INSTALLS BEHIND #LOW BANDWIDTH# / HOME INTERNET NETWORKS 
+// (which may need an even higher timeout of 60 or more if data still isn't received from all APIs)
+$app_config['api_timeout'] = 20; // (default = 20)
 
 
 // Minutes to cache real-time exchange price data...can be zero to skip cache, but set to at least 1 minute TO AVOID YOUR IP GETTING BLOCKED
@@ -512,14 +532,15 @@ $app_config['proxy_list'] = array(
 $app_config['last_trade_cache_time'] = 4; // (default = 4)
 
 
-$app_config['chainstats_cache_time'] = 30; // Minutes to cache blockchain stats (for mining calculators). Set high initially, it can be strict
+$app_config['chainstats_cache_time'] = 70; // Minutes to cache blockchain stats (for mining calculators). Set high initially, it can be strict
 
 
-$app_config['marketcap_cache_time'] = 30; // Minutes to cache marketcap rankings...start high and test lower, it can be strict
+$app_config['marketcap_cache_time'] = 40; // Minutes to cache marketcap rankings...start high and test lower, it can be strict
 
 
-// Number of marketcap rankings to request from API. Ranks are grabbed 100 per request
-$app_config['marketcap_ranks_max'] = 200; // 200 rankings is a safe maximum to start with, it avoids getting your API requests throttled / blocked
+// Number of marketcap rankings to request from API.
+// 250 rankings is a safe maximum to start with, to avoid getting your API requests throttled / blocked
+$app_config['marketcap_ranks_max'] = 250; 
 							
 							
 							
@@ -686,6 +707,19 @@ $app_config['hive_powerdown_time'] = 13;
 $app_config['hivepower_yearly_interest'] = 1.2;
 
 
+// Activate any custom cron plugins you've created (that runs during cron jobs, from the /cron-plugins/ directory)
+// SEE /DOCUMENTATION-ETC/CRON-PLUGINS-README.txt for creating your own custom cron plugins
+// REMOVE ANY DOUBLE FORWARD SLASHES FROM IN FRONT OF THE PLUGIN YOU WANT ACTIVATED
+// ADD ANY NEW CRON PLUGIN HERE BY USING THE FOLDER NAME THE NEW PLUGIN IS LOCATED IN
+// NEVER ADD A CRON PLUGIN SOMEBODY ELSE WROTE, UNLESS YOU OR SOMEONE YOU TRUST 
+// HAVE REVIEWED THE CODE AND ARE ABSOLUTELY SURE IT IS NOT MALICIOUS!!
+$app_config['activate_cron_plugins'] = array(
+						//'PLUGIN_FOLDER_NAME', // (your plugin folder in /cron-plugins/)
+						//'hns-airdrop',  // HNS Airdrop example plugin (detects when you receive HNS tokens at a new / unused address)
+						//'recurring-reminder',  // Recurring Reminder example plugin (remind yourself every X days to do something)
+							);
+
+
 
 ////////////////////////////////////////
 // !END! POWER USER SETTINGS
@@ -741,23 +775,6 @@ $app_config['cron_max_execution_time'] = 300; // (default = 300)
 $app_config['webhook_max_execution_time'] = 60; // (default = 60)
 
 
-// Seconds to wait for response from API endpoints (exchange data, etc). 
-// Set too low you won't get ALL data (partial or zero bytes), set too high the interface can take a long time loading if an API server hangs up
-// RECOMMENDED MINIMUM OF 45 FOR INSTALLS BEHIND #LOW BANDWIDTH# / HOME INTERNET NETWORKS 
-// (which may need an even higher timeout of 60 or more if data still isn't received from all APIs)
-$app_config['api_timeout'] = 20; // (default = 20)
-
-
-// 'on' verifies ALL API server certificates for secure API connections, 'off' verifies NOTHING 
-// Set to 'off' if some exchange's API servers have invalid certificates (which stops price data retrieval...but you still want to get price data from them)
-$app_config['api_strict_ssl'] = 'on'; // (default = 'on')
-
-
-// 'on' verifies ALL SMTP server certificates for secure SMTP connections, 'off' verifies NOTHING 
-// Set to 'off' if the SMTP server has an invalid certificate setup (which stops email sending, but you still want to send email through that server)
-$app_config['smtp_strict_ssl'] = 'off'; // (DEFAULT IS 'off', TO ASSURE SMTP EMAIL SENDING STILL WORKS THROUGH MISCONFIGURED SMTP SERVERS)
-
-
 // If you want to override the default user agent string (sent with API requests, etc)
 // Adding a string here automatically enables that as the custom user agent
 // LEAVING BLANK '' USES THE DEFAULT USER AGENT LOGIC BUILT-IN TO THIS APP (INCLUDES BASIC SYSTEM CONFIGURATION STATS)
@@ -783,19 +800,6 @@ $app_config['chmod_permission_cache_files'] = '0666'; // (default = '0666')
 ////
 // .htaccess / index.php index security files permissions
 $app_config['chmod_permission_index_security'] = '0664'; // (default = '0664')
-
-
-// Activate any custom cron plugins you've created (that runs during cron jobs, from the /cron-plugins/ directory)
-// SEE /DOCUMENTATION-ETC/CRON-PLUGINS-README.txt for creating your own custom cron plugins
-// REMOVE ANY DOUBLE FORWARD SLASHES FROM IN FRONT OF THE PLUGIN YOU WANT ACTIVATED
-// ADD ANY NEW CRON PLUGIN HERE BY USING THE FOLDER NAME THE NEW PLUGIN IS LOCATED IN
-// NEVER ADD A CRON PLUGIN SOMEBODY ELSE WROTE, UNLESS YOU OR SOMEONE YOU TRUST 
-// HAVE REVIEWED THE CODE AND ARE ABSOLUTELY SURE IT IS NOT MALICIOUS!!
-$app_config['activate_cron_plugins'] = array(
-						//'PLUGIN_FOLDER_NAME', // (your plugin folder in /cron-plugins/)
-						//'hns-airdrop',  // HNS Airdrop example plugin (detects when you receive HNS tokens at a new / unused address)
-						//'recurring-reminder',  // Recurring Reminder example plugin (remind yourself every X days to do something)
-							);
 							
 
 // TLD-only (Top Level Domain only, NO SUBDOMAINS) for each API service that requires multiple calls (for each market / data set)
