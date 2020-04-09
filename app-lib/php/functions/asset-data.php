@@ -885,36 +885,36 @@ $fiat_eqiv = 1;
     
     
     
+        
+    // Price checks (done early for including with price alert reset data)
+    
+    // PRIMARY CURRENCY CONFIG price percent change (!MUST BE! absolute value)
+    $percent_change = abs( ($asset_primary_currency_value_raw - $cached_asset_primary_currency_value) / abs($cached_asset_primary_currency_value) * 100 );
+    $percent_change = number_to_string($percent_change); // Better decimal support
+              
+              
+      // UX / UI variables
+      if ( number_to_string($asset_primary_currency_value_raw) < number_to_string($cached_asset_primary_currency_value) ) {
+      $change_symbol = '-';
+      $increase_decrease = 'decreased';
+      }
+      elseif ( number_to_string($asset_primary_currency_value_raw) >= number_to_string($cached_asset_primary_currency_value) ) {
+      $change_symbol = '+';
+      $increase_decrease = 'increased';
+      }
+              
+    
     
     
       ////// If cached value and current value exist, run alert checking //////////// 
       if ( number_to_string( trim($cached_asset_primary_currency_value) ) >= 0.00000001 && number_to_string( trim($asset_primary_currency_value_raw) ) >= 0.00000001 ) {
         
-        
-        
-      // Price checks
                  
-      // PRIMARY CURRENCY CONFIG price percent change (!MUST BE! absolute value)
-      $percent_change = abs( ($asset_primary_currency_value_raw - $cached_asset_primary_currency_value) / abs($cached_asset_primary_currency_value) * 100 );
               
-      $percent_change = number_to_string($percent_change); // Better decimal support
-              
-                 
-              // Check whether we should send an alert
+              // FIRST check whether we should send an alert (we check for a few different conditions further down)
               if ( number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && $percent_change >= $app_config['price_alerts_threshold'] ) {
               $send_alert = 1;
               }
-              
-              // UX / UI variables
-              if ( number_to_string($asset_primary_currency_value_raw) < number_to_string($cached_asset_primary_currency_value) ) {
-              $change_symbol = '-';
-              $increase_decrease = 'decreased';
-              }
-              elseif ( number_to_string($asset_primary_currency_value_raw) >= number_to_string($cached_asset_primary_currency_value) ) {
-              $change_symbol = '+';
-              $increase_decrease = 'increased';
-              }
-              
               
               
               
@@ -1141,9 +1141,14 @@ $fiat_eqiv = 1;
 		if ( number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && !file_exists('cache/alerts/'.$asset_data.'.dat') ) {
 		store_file_contents($base_dir . '/cache/alerts/'.$asset_data.'.dat', $alert_cache_contents); 
 		}
-		elseif ( $send_alert != 1 && $app_config['price_alerts_reset'] >= 1 && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $app_config['price_alerts_reset'] * 1440 ) ) == true ) {
+		elseif ( $send_alert != 1 && $app_config['price_alerts_reset'] >= 1 && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 
+		&& update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $app_config['price_alerts_reset'] * 1440 ) ) == true ) {
+			
 		store_file_contents($base_dir . '/cache/alerts/'.$asset_data.'.dat', $alert_cache_contents); 
-		$price_alerts_reset_array[strtolower($asset)][$asset_data] = $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange_text; // Comms data (for one alert message, including data on all resets per runtime)
+		
+		// Comms data (for one alert message, including data on all resets per runtime)
+		$price_alerts_reset_array[strtolower($asset)][$asset_data] = $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange_text . '(' . $change_symbol . $percent_change . ')';
+		
 		}
 
 

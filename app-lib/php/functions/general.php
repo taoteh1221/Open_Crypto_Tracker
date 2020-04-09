@@ -1032,7 +1032,7 @@ return $result;
 
 function reset_price_alerts_notice() {
 
-global $price_alerts_reset_array;
+global $price_alerts_reset_array, $default_btc_primary_currency_pairing;
 
 
 // Alphabetical asset sort, for message UX 
@@ -1063,9 +1063,9 @@ ksort($price_alerts_reset_array);
 	}
 
 
-$text_message = 'Price Alert Data Reset ('.$count.'): ' . $reset_list;
+$text_message = strtoupper($default_btc_primary_currency_pairing) . ' Price Alert Data Reset ('.$count.'): ' . $reset_list;
 
-$email_message = 'The following ' . $count . ' price alert(s) have been reset, with the latest price data: ' . $reset_list;
+$email_message = 'The following ' . $count . ' ' . strtoupper($default_btc_primary_currency_pairing) . ' price alert(s) have been reset, with the latest price data: ' . $reset_list;
 
 // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
                     

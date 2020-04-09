@@ -220,6 +220,9 @@ MAYBE SECTION
 ///////////////////////////////////////////////////////
 
 
+Admin import / export of settings (consider security implications)?
+
+
 Convert all long hand javascript to jquery?
 
 
