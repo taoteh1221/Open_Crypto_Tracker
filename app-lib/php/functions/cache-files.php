@@ -146,7 +146,7 @@ global $app_config, $current_runtime_user, $possible_http_users, $http_runtime_u
 	
 		// API timeouts are a confirmed cause for write errors of 0 bytes, so we want to alert end users that they may need to adjust their API timeout settings to get associated API data
 		if ( preg_match("/cache\/secured\/apis/i", $file) ) {
-		app_logging('api_error', 'POSSIBLE api timeout issue for cache file "' . $file . '" (TRY INCREASING "api_timeout" IN THE POWER USER SECTION in config.php)', 'api_timeout: '.$app_config['api_timeout'].' seconds;');
+		app_logging('api_error', 'POSSIBLE api timeout issue for cache file "' . $file . '" (IF THIS ISSUE PERSISTS #LONG TERM#, TRY INCREASING "api_timeout" IN THE POWER USER SECTION in config.php)', 'api_timeout: '.$app_config['api_timeout'].' seconds;');
 		}
 	
 	return false;
