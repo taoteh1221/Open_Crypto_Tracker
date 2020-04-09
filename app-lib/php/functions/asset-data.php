@@ -672,35 +672,33 @@ global $_POST, $app_config;
 
 function charts_and_price_alerts($asset_data, $exchange, $pairing, $mode) {
 
-
 // Globals
-global $base_dir, $app_config, $default_btc_primary_exchange, $default_btc_primary_currency_value, $default_btc_primary_currency_pairing, $price_alerts_reset_array;
+global $base_dir, $app_config, $default_btc_primary_exchange, $default_btc_primary_currency_value, $default_btc_primary_currency_pairing, $price_alerts_fixed_reset_array;
 
 
+/////////////////////////////////////////////////////////////////
 // Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
 $asset = ( stristr($asset_data, "-") == false ? $asset_data : substr( $asset_data, 0, mb_strpos($asset_data, "-", 0, 'utf-8') ) );
 $asset = strtoupper($asset);
 
 
-// Fiat or equivalent pairing?
-// #FOR CLEAN CODE#, RUN CHECK TO MAKE SURE IT'S NOT A CRYPTO AS WELL...WE HAVE A COUPLE SUPPORTED, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
-if ( array_key_exists($pairing, $app_config['bitcoin_currency_markets']) && !array_key_exists($pairing, $app_config['crypto_to_crypto_pairing']) ) {
-$fiat_eqiv = 1;
-}
+	// Fiat or equivalent pairing?
+	// #FOR CLEAN CODE#, RUN CHECK TO MAKE SURE IT'S NOT A CRYPTO AS WELL...WE HAVE A COUPLE SUPPORTED, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
+	if ( array_key_exists($pairing, $app_config['bitcoin_currency_markets']) && !array_key_exists($pairing, $app_config['crypto_to_crypto_pairing']) ) {
+	$fiat_eqiv = 1;
+	}
+/////////////////////////////////////////////////////////////////
 
 
 
-	// Get any necessary variables for calculating asset's PRIMARY CURRENCY CONFIG value
+// Get any necessary variables for calculating asset's PRIMARY CURRENCY CONFIG value
 
-
-	// Consolidate function calls for runtime speed improvement
-	$asset_market_data = asset_market_data($asset, $exchange, $app_config['portfolio_assets'][$asset]['market_pairing'][$pairing][$exchange], $pairing);
+// Consolidate function calls for runtime speed improvement
+$asset_market_data = asset_market_data($asset, $exchange, $app_config['portfolio_assets'][$asset]['market_pairing'][$pairing][$exchange], $pairing);
    
    
 	// Get asset PRIMARY CURRENCY CONFIG value
-	
-
-
+	/////////////////////////////////////////////////////////////////
 	// PRIMARY CURRENCY CONFIG CHARTS
 	if ( $pairing == strtolower($default_btc_primary_currency_pairing) ) {
 	$asset_primary_currency_value_raw = $asset_market_data['last_trade']; 
@@ -721,25 +719,25 @@ $fiat_eqiv = 1;
 	$asset_primary_currency_value_raw = number_format( $default_btc_primary_currency_value * ( $asset_market_data['last_trade'] * $pairing_btc_value ) , 8, '.', '');
 	
 	}
+	/////////////////////////////////////////////////////////////////
 	
 	
-	
-	$asset_pairing_value_raw = number_format( $asset_market_data['last_trade'] , 8, '.', '');
 		
+/////////////////////////////////////////////////////////////////
+$volume_asset_raw = $asset_market_data['24hr_asset_volume'];  // NEEDED FOR EMULATING PAIRING VOLUME, IF IT'S NOT AVAILABLE
+$volume_pairing_raw = $asset_market_data['24hr_pairing_volume']; // If available, we'll use this for chart volume UX
+$volume_primary_currency_raw = $asset_market_data['24hr_primary_currency_volume'];
 		
-	$volume_asset_raw = $asset_market_data['24hr_asset_volume'];  // NEEDED FOR EMULATING PAIRING VOLUME, IF IT'S NOT AVAILABLE
-	$volume_pairing_raw = $asset_market_data['24hr_pairing_volume']; // If available, we'll use this for chart volume UX
-	$volume_primary_currency_raw = $asset_market_data['24hr_primary_currency_volume'];
+$asset_pairing_value_raw = number_format( $asset_market_data['last_trade'] , 8, '.', '');
+	
+// If no pair volume is available for this market, emulate it within reason with: asset value * asset volume
+$volume_pairing_raw = ( number_to_string($volume_pairing_raw) > 0 ? $volume_pairing_raw : ($asset_pairing_value_raw * $volume_asset_raw) );
+/////////////////////////////////////////////////////////////////
 	
 	
 	
-	// If no pair volume is available for this market, emulate it within reason with: asset value * asset volume
-	$volume_pairing_raw = ( number_to_string($volume_pairing_raw) > 0 ? $volume_pairing_raw : ($asset_pairing_value_raw * $volume_asset_raw) );
-	
-	
-	
+	/////////////////////////////////////////////////////////////////
 	// Make sure we have basic values, otherwise log errors / return false
-	
 	// Return false if we have no $default_btc_primary_currency_value
 	if ( !isset($default_btc_primary_currency_value) || $default_btc_primary_currency_value == 0 ) {
 	app_logging('other_error', 'charts_and_price_alerts() - No Bitcoin '.strtoupper($default_btc_primary_currency_pairing).' value set for chart/alert "' . $asset_data . '"', $asset_data . ': ' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ';' );
@@ -760,24 +758,22 @@ $fiat_eqiv = 1;
 	if ( $set_return == 1 ) {
 	return false;
 	}
+	/////////////////////////////////////////////////////////////////
 	
 	
-   
+	
+// Optimizing storage size needed for charts data
+/////////////////////////////////////////////////////////////////
+// Round PRIMARY CURRENCY CONFIG volume to nullify insignificant decimal amounts / for prettier numbers UX, and to save on data set / storage size
+$volume_primary_currency_raw = ( isset($volume_primary_currency_raw) ? round($volume_primary_currency_raw) : null );		
+	
+// Round PAIRING volume to only keep 3 decimals max (for crypto volume etc), to save on data set / storage size
+$volume_pairing_raw = ( isset($volume_pairing_raw) ? round($volume_pairing_raw, ( $fiat_eqiv == 1 ? 0 : 3 ) ) : null );	
 	
 	
-	// Optimizing storage size needed for charts data
-	
-	// Round PRIMARY CURRENCY CONFIG volume to nullify insignificant decimal amounts / for prettier numbers UX, and to save on data set / storage size
-	$volume_primary_currency_raw = ( isset($volume_primary_currency_raw) ? round($volume_primary_currency_raw) : null );		
-	
-	
-	// Round PAIRING volume to only keep 3 decimals max (for crypto volume etc), to save on data set / storage size
-	$volume_pairing_raw = ( isset($volume_pairing_raw) ? round($volume_pairing_raw, ( $fiat_eqiv == 1 ? 0 : 3 ) ) : null );	
-	
-	
-	// Round PRIMARY CURRENCY CONFIG asset price to only keep $app_config['primary_currency_decimals_max'] decimals maximum 
-	// (or only 2 decimals if worth $app_config['primary_currency_decimals_max_threshold'] or more), to save on data set / storage size
-	$asset_primary_currency_value_raw = ( number_to_string($asset_primary_currency_value_raw) >= $app_config['primary_currency_decimals_max_threshold'] ? round($asset_primary_currency_value_raw, 2) : round($asset_primary_currency_value_raw, $app_config['primary_currency_decimals_max']) );
+// Round PRIMARY CURRENCY CONFIG asset price to only keep $app_config['primary_currency_decimals_max'] decimals maximum 
+// (or only 2 decimals if worth $app_config['primary_currency_decimals_max_threshold'] or more), to save on data set / storage size
+$asset_primary_currency_value_raw = ( number_to_string($asset_primary_currency_value_raw) >= $app_config['primary_currency_decimals_max_threshold'] ? round($asset_primary_currency_value_raw, 2) : round($asset_primary_currency_value_raw, $app_config['primary_currency_decimals_max']) );
 	
 	
 	// If fiat equivalent format, round asset price 
@@ -788,20 +784,21 @@ $fiat_eqiv = 1;
    }
 
 
-	// Remove any leading / trailing zeros from CRYPTO asset price, to save on data set / storage size
-	$asset_pairing_value_raw = number_to_string($asset_pairing_value_raw);
+// Remove any leading / trailing zeros from CRYPTO asset price, to save on data set / storage size
+$asset_pairing_value_raw = number_to_string($asset_pairing_value_raw);
 
-
-	// Remove any leading / trailing zeros from PAIRING VOLUME, to save on data set / storage size
-	$volume_pairing_raw = number_to_string($volume_pairing_raw);
+// Remove any leading / trailing zeros from PAIRING VOLUME, to save on data set / storage size
+$volume_pairing_raw = number_to_string($volume_pairing_raw);
+/////////////////////////////////////////////////////////////////
 	
 	
 	
 
 	// Charts
+	/////////////////////////////////////////////////////////////////
 	// If the charts page is enabled in config.php, save latest chart data for assets with price alerts configured on them
 	if ( $mode == 'both' && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && $app_config['charts_page'] == 'on'
-	|| $mode == 'chart' && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && $app_config['charts_page'] == 'on' ) { 
+	|| $mode == 'chart' && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && $app_config['charts_page'] == 'on' ) {
 	
 		
 	// PRIMARY CURRENCY CONFIG charts (CRYPTO/PRIMARY CURRENCY CONFIG markets, 
@@ -815,60 +812,29 @@ $fiat_eqiv = 1;
 			
 		
 	}
+	/////////////////////////////////////////////////////////////////
 	
 	
 	
 	
 	// Alert checking START
+	/////////////////////////////////////////////////////////////////
 	if ( $mode == 'alert' || $mode == 'both' ) {
 
-
-	// Pretty exchange name (defined early for any price alert resets)
-	$exchange_text = snake_case_to_name($exchange);
-        
         
    // WE USE PAIRING VOLUME FOR VOLUME PERCENTAGE CHANGES, FOR BETTER PERCENT CHANGE ACCURACY THAN FIAT EQUIV
    $alert_cache_contents = $asset_primary_currency_value_raw . '||' . $volume_primary_currency_raw . '||' . $volume_pairing_raw;
-        
-        
-      // Check for a file modified time !!!BEFORE ANY!!! file creation / updating happens (to calculate time elapsed between updates)
-        
-      if ( file_exists('cache/alerts/'.$asset_data.'.dat') ) {
-        
-       $last_check_days = ( time() - filemtime('cache/alerts/'.$asset_data.'.dat') ) / 86400;
-       
-        if ( number_to_string($last_check_days) >= 365 ) {
-        $last_check_time = number_format( ($last_check_days / 365) , 2, '.', ',') . ' years';
-        }
-        elseif ( number_to_string($last_check_days) >= 30 ) {
-        $last_check_time = number_format( ($last_check_days / 30) , 2, '.', ',') . ' months';
-        }
-        elseif ( number_to_string($last_check_days) >= 7 ) {
-        $last_check_time = number_format( ($last_check_days / 7) , 2, '.', ',') . ' weeks';
-        }
-        else {
-        $last_check_time = number_format($last_check_days, 2, '.', ',') . ' days';
-        }
-       
-      }
-        
+   	
+	// Grab any cached price alert data
+   $data_file = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
     
-    $last_check_days = number_to_string($last_check_days); // Better decimal support for whale alerts etc
-    
-    
-    $data_file = trim( file_get_contents('cache/alerts/'.$asset_data.'.dat') );
-    
-    $cached_array = explode("||", $data_file);
-    
-    
-    
+   $cached_array = explode("||", $data_file);
+   
     
       // Make sure numbers are cleanly pulled from cache file
       foreach ( $cached_array as $key => $value ) {
       $cached_array[$key] = remove_number_format($value);
       }
-    
-    
     
     
       // Backwards compatibility
@@ -885,45 +851,74 @@ $fiat_eqiv = 1;
     
     
     
+    	// Price checks (done early for including with price alert reset logic)
+    	// If cached and current price exist
+    	if ( number_to_string( trim($cached_asset_primary_currency_value) ) >= 0.00000001 && number_to_string( trim($asset_primary_currency_value_raw) ) >= 0.00000001 ) {
+    	
+    	
+    	// PRIMARY CURRENCY CONFIG price percent change (!MUST BE! absolute value)
+    	$percent_change = abs( ($asset_primary_currency_value_raw - $cached_asset_primary_currency_value) / abs($cached_asset_primary_currency_value) * 100 );
+    	$percent_change = number_to_string($percent_change); // Better decimal support
+              
+                    
+		// Pretty exchange name / percent change for UI / UX (defined early for any price alert reset logic)
+      $percent_change_text = number_format($percent_change, 2, '.', ',');
+		$exchange_text = snake_case_to_name($exchange);
+		
+              
+      	// UX / UI variables
+      	if ( number_to_string($asset_primary_currency_value_raw) < number_to_string($cached_asset_primary_currency_value) ) {
+      	$change_symbol = '-';
+      	$increase_decrease = 'decreased';
+      	}
+      	elseif ( number_to_string($asset_primary_currency_value_raw) >= number_to_string($cached_asset_primary_currency_value) ) {
+      	$change_symbol = '+';
+      	$increase_decrease = 'increased';
+      	}
+              
+    	
+      	// INITIAL check whether we should send an alert (we ALSO check for a few different conditions further down, and UPDATE THIS VAR AS NEEDED THEN)
+      	if ( $percent_change >= number_to_string($app_config['price_alerts_threshold']) ) {
+      	$send_alert = 1;
+      	}
+              
+              
+    	}
+              
+    
+    
+      ////// If flagged to run alerts //////////// 
+      if ( $send_alert == 1 ) {
         
-    // Price checks (done early for including with price alert reset data)
-    
-    // PRIMARY CURRENCY CONFIG price percent change (!MUST BE! absolute value)
-    $percent_change = abs( ($asset_primary_currency_value_raw - $cached_asset_primary_currency_value) / abs($cached_asset_primary_currency_value) * 100 );
-    $percent_change = number_to_string($percent_change); // Better decimal support
-              
-              
-      // UX / UI variables
-      if ( number_to_string($asset_primary_currency_value_raw) < number_to_string($cached_asset_primary_currency_value) ) {
-      $change_symbol = '-';
-      $increase_decrease = 'decreased';
-      }
-      elseif ( number_to_string($asset_primary_currency_value_raw) >= number_to_string($cached_asset_primary_currency_value) ) {
-      $change_symbol = '+';
-      $increase_decrease = 'increased';
-      }
-              
-    
-    
-    
-      ////// If cached value and current value exist, run alert checking //////////// 
-      if ( number_to_string( trim($cached_asset_primary_currency_value) ) >= 0.00000001 && number_to_string( trim($asset_primary_currency_value_raw) ) >= 0.00000001 ) {
+   	
+      // Check for a file modified time !!!BEFORE ANY!!! file creation / updating happens (to calculate time elapsed between updates)
         
-                 
+      $last_check_days = ( time() - filemtime('cache/alerts/'.$asset_data.'.dat') ) / 86400;
+    	$last_check_days = number_to_string($last_check_days); // Better decimal support for whale alerts etc
+       
+       
+        		  if ( $last_check_days >= 365 ) {
+        		  $last_check_time = number_format( ($last_check_days / 365) , 2, '.', ',') . ' years';
+        		  }
+        		  elseif ( $last_check_days >= 30 ) {
+        		  $last_check_time = number_format( ($last_check_days / 30) , 2, '.', ',') . ' months';
+        		  }
+        		  elseif ( $last_check_days >= 7 ) {
+        		  $last_check_time = number_format( ($last_check_days / 7) , 2, '.', ',') . ' weeks';
+        		  }
+        		  else {
+        		  $last_check_time = number_format($last_check_days, 2, '.', ',') . ' days';
+        		  }
+       
+        
+               
+      // Crypto volume checks
               
-              // FIRST check whether we should send an alert (we check for a few different conditions further down)
-              if ( number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && $percent_change >= $app_config['price_alerts_threshold'] ) {
-              $send_alert = 1;
-              }
+      // Crypto volume percent change (!MUST BE! absolute value)
+      $volume_percent_change = abs( ($volume_pairing_raw - $cached_pairing_volume) / abs($cached_pairing_volume) * 100 );        
+      $volume_percent_change = number_to_string($volume_percent_change); // Better decimal support
+      
               
-              
-              
-              // Crypto volume checks
-              
-              // Crypto volume percent change (!MUST BE! absolute value)
-              $volume_percent_change = abs( ($volume_pairing_raw - $cached_pairing_volume) / abs($cached_pairing_volume) * 100 );
-              
-              $volume_percent_change = number_to_string($volume_percent_change); // Better decimal support
               
               // UX adjustments, and UI / UX variables
               if ( $cached_primary_currency_volume <= 0 && $volume_primary_currency_raw <= 0 ) { // ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
@@ -943,7 +938,6 @@ $fiat_eqiv = 1;
               
               
               
-    
               // Whale alert (price change average of X or greater over X day(s) or less, with X percent pair volume increase average that is at least a X primary currency volume increase average)
               $whale_alert_threshold = explode("||", $app_config['price_alerts_whale_alert_threshold']);
     
@@ -1001,7 +995,7 @@ $fiat_eqiv = 1;
                             
               // Message formatting for display to end user
                 
-              $desc_alert_type = ( $app_config['price_alerts_reset'] > 0 ? 'reset' : 'alert' );
+              $desc_alert_type = ( $app_config['price_alerts_fixed_reset'] > 0 ? 'reset' : 'alert' );
               
                 
                 // IF PRIMARY CURRENCY CONFIG volume was between 0 and 1 last alert / reset, for UX sake 
@@ -1029,14 +1023,11 @@ $fiat_eqiv = 1;
               // Pretty numbers UX on PRIMARY CURRENCY CONFIG asset value
               $asset_primary_currency_text = ( number_to_string($asset_primary_currency_value_raw) >= $app_config['primary_currency_decimals_max_threshold'] ? pretty_numbers($asset_primary_currency_value_raw, 2) : pretty_numbers($asset_primary_currency_value_raw, $app_config['primary_currency_decimals_max']) );
                     
-              $percent_change_text = number_format($percent_change, 2, '.', ',');
-                    
               $volume_primary_currency_text = $app_config['bitcoin_currency_markets'][$default_btc_primary_currency_pairing] . number_format($volume_primary_currency_raw, 0, '.', ',');
                     
               $volume_change_text = 'has ' . ( $volume_change_symbol == '+' ? 'increased ' : 'decreased ' ) . $volume_change_symbol . number_format($volume_percent_change, 2, '.', ',') . '% to a ' . strtoupper($default_btc_primary_currency_pairing) . ' value of';
                     
               $volume_change_text_mobile = '(' . $volume_change_symbol . number_format($volume_percent_change, 2, '.', ',') . '% ' . $volume_describe_mobile . ')';
-                    
                     
                     
                     
@@ -1047,7 +1038,6 @@ $fiat_eqiv = 1;
                 $volume_change_text = null;
                 $volume_change_text_mobile = null;
                 }
-                
                 
                 
                 
@@ -1084,7 +1074,6 @@ $fiat_eqiv = 1;
                     
                     
                     
-                    
               // Build the different messages, configure comm methods, and send messages
                     
               $email_message = ( $whale_alert == 1 ? 'WHALE ALERT: ' : '' ) . 'The ' . $asset . ' trade value in the ' . strtoupper($pairing) . ' market at the ' . $exchange_text . ' exchange has ' . $increase_decrease . ' ' . $change_symbol . $percent_change_text . '% in ' . strtoupper($default_btc_primary_currency_pairing) . ' value to ' . $app_config['bitcoin_currency_markets'][$default_btc_primary_currency_pairing] . $asset_primary_currency_text . ' over the past ' . $last_check_time . ' since the last price ' . $desc_alert_type . '. ' . $email_volume_summary;
@@ -1099,7 +1088,6 @@ $fiat_eqiv = 1;
                     
               // Cache the new lower / higher value + volume data
               store_file_contents($base_dir . '/cache/alerts/'.$asset_data.'.dat', $alert_cache_contents); 
-                
                 
                 
                 
@@ -1127,7 +1115,6 @@ $fiat_eqiv = 1;
               // Send notifications
               @queue_notifications($send_params);
       
-              
                  
               }
               
@@ -1141,13 +1128,13 @@ $fiat_eqiv = 1;
 		if ( number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && !file_exists('cache/alerts/'.$asset_data.'.dat') ) {
 		store_file_contents($base_dir . '/cache/alerts/'.$asset_data.'.dat', $alert_cache_contents); 
 		}
-		elseif ( $send_alert != 1 && $app_config['price_alerts_reset'] >= 1 && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 
-		&& update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $app_config['price_alerts_reset'] * 1440 ) ) == true ) {
+		elseif ( $send_alert != 1 && $app_config['price_alerts_fixed_reset'] >= 1 && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 
+		&& update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $app_config['price_alerts_fixed_reset'] * 1440 ) ) == true ) {
 			
 		store_file_contents($base_dir . '/cache/alerts/'.$asset_data.'.dat', $alert_cache_contents); 
 		
 		// Comms data (for one alert message, including data on all resets per runtime)
-		$price_alerts_reset_array[strtolower($asset)][$asset_data] = $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange_text . '(' . $change_symbol . $percent_change . ')';
+		$price_alerts_fixed_reset_array[strtolower($asset)][$asset_data] = $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange_text . '(' . $change_symbol . $percent_change_text . ')';
 		
 		}
 
@@ -1155,6 +1142,7 @@ $fiat_eqiv = 1;
    
 	////// Alert checking END //////////////
 	}
+	/////////////////////////////////////////////////////////////////
 	
 	
 

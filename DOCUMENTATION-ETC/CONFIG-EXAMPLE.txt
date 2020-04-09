@@ -311,9 +311,9 @@ $app_config['charts_backup_freq'] = 1; // Every X days backup chart data. 0 disa
 // Asset price alert settings
 // Only used if $app_config['charts_and_price_alerts'] is filled in properly below, AND a cron job is setup (see README.txt for cron job setup information) 
 ////
-// Reset cached comparison asset prices every X days (since last price reset / alert) with the current latest spot prices
-// Can be 0 to disable fixed interval resetting (IN WHICH CASE IT WILL STILL RESET, BUT ONLY when the next price alert triggers an automatic reset)
-$app_config['price_alerts_reset'] = 0; // (default = 0)
+// Fixed reset of cached comparison asset prices every X days (since last price reset / alert) with the current latest spot prices
+// Can be 0 to disable fixed resetting (IN WHICH CASE RESETS WILL ONLY OCCUR dynamically whenever the next price alert is triggered)
+$app_config['price_alerts_fixed_reset'] = 0; // (default = 0)
 ////
 // Whale alert (adds "WHALE ALERT" to beginning of alexa / google home / email / telegram alert text, and spouting whale emoji to email / text / telegram)
 // Format: 'max_days_to_24hr_average_over||min_price_percent_change_24hr_average||min_volume_percent_increase_24hr_average||min_volume_currency_increase_24hr_average'
