@@ -1559,7 +1559,7 @@ $original_market = $selected_exchange;
             if ( $marketcap_data['last_updated'] != '' ) {
             ?>
         +'<p class="coin_info"><span class="yellow">Timestamp (UTC):</span> <?=gmdate("Y-M-d\ \\a\\t g:ia", $marketcap_data['last_updated'])?></p>'
-        +'<p class="coin_info"><span class="yellow">App Cache Time:</span> <?=$app_config['marketcap_cache_time']?> minute(s)</p>'
+        +'<p class="coin_info"><span class="yellow">App Cache Time:</span> <span class="bitcoin"><?=$app_config['marketcap_cache_time']?> minute(s)</span></p>'
         <?php
             }
             ?>

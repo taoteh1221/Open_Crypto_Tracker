@@ -128,8 +128,9 @@ $app_config['upgrade_check_reminder'] = 14; // (only used if upgrade check is en
 $app_config['email_logs'] = 3; 
 
 
-// Price percent change to send alerts for (WITHOUT percent sign: 15 = 15%). Sends alerts when percent change reached (up or down)
+// PRICE ALERTS SETUP REQUIRES A CRON JOB RUNNING ON YOUR WEBSITE SERVER (see README.txt for cron job setup information) 
 // Price alerts will send to all properly-configured communication channels, and automatically skip any not properly setup
+// Price percent change to send alerts for (WITHOUT percent sign: 15 = 15%). Sends alerts when percent change reached (up or down)
 $app_config['price_alerts_threshold'] = 8.85; 
 ////
 // Re-allow SAME asset price alert(s) messages after X hours (per asset, set higher if issues with blacklisting...can be 0)
@@ -290,6 +291,8 @@ $app_config['proxy_list'] = array(
 ////////////////////////////////////////
 
 
+// CHARTS / PRICE ALERTS SETUP REQUIRES A CRON JOB RUNNING ON YOUR WEBSITE SERVER (see README.txt for cron job setup information) 
+
 // Chart colors (https://www.w3schools.com/colors/colors_picker.asp)
 ////
 // Charts border color
@@ -334,7 +337,6 @@ $app_config['price_alerts_fixed_reset'] = 0; // (default = 0)
 $app_config['price_alerts_whale_alert_threshold'] = '1.65||8.85||9.1||16000';
 
 
-// CHARTS / PRICE ALERTS SETUP REQUIRES A CRON JOB RUNNING ON YOUR WEBSITE SERVER (see README.txt for cron job setup information) 
 // Markets you want charts or asset price change alerts for (alerts sent when default [primary currency] 
 // [$app_config['btc_primary_currency_pairing'] at top of this config] value change is equal to or above / below $app_config['price_alerts_threshold']) 
 // Delete any double forward slashes from in front of each asset you want to enable charts / price alerts on (or add double slashes in front to disable it)

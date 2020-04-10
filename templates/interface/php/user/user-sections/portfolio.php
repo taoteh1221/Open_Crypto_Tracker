@@ -7,7 +7,7 @@
 ?>
 
     
-			<h4 style='display: inline;'>Portfolio</h4> (<?=$app_config['last_trade_cache_time']?> minute cache)
+			<h4 style='display: inline;'>Portfolio</h4> <span class='bitcoin'>(<?=$app_config['last_trade_cache_time']?> minute cache)</span>
 			<?php
 			if ( sizeof($alert_percent) > 4 ) { // Backwards compatibility (reset if user data is not this many array values)
 				
