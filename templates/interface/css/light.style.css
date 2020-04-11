@@ -171,6 +171,12 @@ border-top: 2px solid black;
 }
 
 
+.modaal-container, .accordion .card {
+    color: #000 !important;
+    background: #ededea !important;
+}
+
+
 /* //////////////////////////////
 IDs
 ////////////////////////////// */
