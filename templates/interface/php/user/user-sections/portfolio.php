@@ -417,7 +417,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 		
 ?>
 <br class='clear_both' />
-<div class="show_coin_values bold_1 green"><!-- Summary START -->
+<div class="show_coin_values bold_1 blue"><!-- Summary START -->
 <?php
 		
 		// Run BEFORE output of BTC / PAIRING portfolio values, to include any margin / leverage summaries in parentheses NEXT TO THEM (NOT in the actual BTC / PAIRING amounts, for UX's sake)

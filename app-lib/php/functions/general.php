@@ -1032,7 +1032,7 @@ return $result;
 
 function reset_price_alerts_notice() {
 
-global $price_alerts_fixed_reset_array, $default_btc_primary_currency_pairing;
+global $app_config, $price_alerts_fixed_reset_array, $default_btc_primary_currency_pairing;
 
 
 // Alphabetical asset sort, for message UX 
@@ -1067,6 +1067,9 @@ $text_message = strtoupper($default_btc_primary_currency_pairing) . ' Price Aler
 
 $email_message = 'The following ' . $count . ' ' . strtoupper($default_btc_primary_currency_pairing) . ' price alert fixed reset(s) have been processed, with the latest spot price data: ' . $reset_list;
 
+$notifyme_message = $email_message . ' Timestamp is ' . time_date_format($app_config['local_time_offset'], 'pretty_time') . '.';
+
+
 // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
                     
 // Minimize function calls
@@ -1074,7 +1077,7 @@ $encoded_text_message = content_data_encoding($text_message);
                     
 $send_params = array(
 
-                     'notifyme' => $email_message,
+                     'notifyme' => $notifyme_message,
                      'telegram' => $email_message,
                      'text' => array(
                                      // Unicode support included for text messages (emojis / asian characters / etc )

@@ -1134,7 +1134,7 @@ $volume_pairing_raw = number_to_string($volume_pairing_raw);
 		store_file_contents($base_dir . '/cache/alerts/'.$asset_data.'.dat', $alert_cache_contents); 
 		
 		// Comms data (for one alert message, including data on all resets per runtime)
-		$price_alerts_fixed_reset_array[strtolower($asset)][$asset_data] = $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange_text . '(' . $change_symbol . $percent_change_text . ')';
+		$price_alerts_fixed_reset_array[strtolower($asset)][$asset_data] = $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange_text . ' (' . $change_symbol . $percent_change_text . ')';
 		
 		}
 
