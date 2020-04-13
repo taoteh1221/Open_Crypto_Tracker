@@ -74,7 +74,7 @@ FEATURES
 
 -System / configuration checking, alerting, logging, and auto-correcting (where possible).
 
--Detailed error logging and debugging (with adjustable verbosity / debug modes) for in-app functions / configuration settings / networking features, to assist with troubleshooting, installation, and configuration of the app (includes any available system hardware / software stats).
+-Detailed error logging and debugging (with adjustable verbosity / debug modes) for in-app functions / configuration settings / networking features, to assist with troubleshooting / installation / configuration of the app (includes any available system hardware / software stats).
 
 -Chart data backup archives and app error / debugging logs sent to your email.
 
@@ -151,14 +151,17 @@ Below is an example for editing your assets / markets into the portfolio assets 
 USAGE (ADDING / UPDATING COINS)
 
 
-Support for 82 trading pairs (country fiat currency or secondary crypto, contact me to request more): 
+Support for over 80 trading pairs (country fiat currency or secondary crypto, contact me to request more): 
 
 AED / ARS / AUD / BAM / BDT / BOB / BRL / BWP / BYN / CAD / CHF / CLP / CNY / COP / CRC / CZK / DAI / DKK / DOP / EGP / ETH / EUR / GBP / GEL / GHS / GTQ / HKD / HUF / IDR / ILS / INR / IRR / JMD / JOD / JPY / KES / KRW / KWD / KZT / LKR / LTC / MAD / MUR / MWK / MXN / MYR / NGN / NIS / NOK / NZD / PAB / PEN / PHP / PKR / PLN / PYG / QAR / RON / RSD / RUB / RWF / SAR / SEK / SGD / THB / TRY / TUSD / TWD / TZS / UAH / UGX / USDC / USDT / UYU / VND / VES / XAF / XOF / ZAR / ZMW / XMR / BTC.
 
 
-Support for 46 exchanges (contact me to request more): 
+Support for over 40 exchanges (contact me to request more): 
 
 localbitcoins / btcmarkets / lakebtc / braziliex / kraken / bitflyer / bitpanda / bitstamp / cex / coinbase / coinex / coss / luno / bitfinex / tidebit / bitbns / buyucoin / bitso / bit2c / btcturk / binance / zebpay / binance_us / gemini / hitbtc / livecoin / okcoin / southxchange / huobi / okex / bittrex / cryptofresh / korbit / kucoin / poloniex / upbit / gateio / bigone / bitforex / bittrex_global / hotbit / tradeogre / namebase / ethfinex / idex.
+
+
+Nearly Unlimited Assets Supported (whatever assets exist on supported exchanges).
 
 
 Ethereum ICO subtoken support (pre-exchange listing) has been built in, but values are static ICO values in ETH.

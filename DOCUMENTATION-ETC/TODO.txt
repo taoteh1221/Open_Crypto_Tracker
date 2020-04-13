@@ -43,7 +43,7 @@ Check optimization by enabling "telemetry" debug mode, and reviewing debugging l
 Make sure all kraken currency markets and other markets are added.
 
 
-Review landing page, SF page, help FAQ, and config.php settings documentation.
+Review Help FAQ, and config.php settings documentation.
 
 
 Cross-browser test RTL (right to left) effects from middle eastern currency symbols being injected into the interface output for those currencies
