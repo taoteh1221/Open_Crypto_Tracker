@@ -1476,6 +1476,8 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 			|| preg_match("/\"reason\":\"Maintenance\"/i", $data) // Gemini.com / generic
 			|| preg_match("/\"data\":null/i", $data) // Bitflyer.com / generic
 			|| preg_match("/\"success\":false/i", $data) // BTCturk.com / generic
+			|| $endpoint_tld_or_ip == 'bittrex.com' && !preg_match("/Volume/i", $data)
+			|| $endpoint_tld_or_ip == 'lakebtc.com' && !preg_match("/volume/i", $data)
 			|| $endpoint_tld_or_ip == 'localbitcoins.com' && !preg_match("/avg_12h/i", $data)
 			|| $endpoint_tld_or_ip == 'coinmarketcap.com' && !preg_match("/last_updated/i", $data) ) {
 			
