@@ -8,7 +8,7 @@
 
 
 //Google API PHP Library includes
-require_once($base_dir . '/app-lib/php/other/third-party/google-api-php-client-minimal/vendor/autoload.php');
+require_once($base_dir . '/app-lib/php/classes/google-api/vendor/autoload.php');
  
  
 // Set config params to acces Google API
