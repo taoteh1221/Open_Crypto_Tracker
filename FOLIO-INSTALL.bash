@@ -713,6 +713,7 @@ select opt in $OPTIONS; do
 				rm $DOC_ROOT/HELP-FAQ.txt
 				rm $DOC_ROOT/PORTFOLIO-IMPORT-EXAMPLE-SPREADSHEET.csv
 				rm $DOC_ROOT/oauth.php
+				rm $DOC_ROOT/webhook.php
 
 				/bin/sleep 3
 				

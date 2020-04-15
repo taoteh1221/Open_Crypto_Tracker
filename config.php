@@ -789,6 +789,11 @@ $app_config['cron_max_execution_time'] = 300; // (default = 300)
 $app_config['webhook_max_execution_time'] = 60; // (default = 60)
 
 
+// Maximum execution time for API runtime in seconds (how long it's allowed to run before automatically killing the process)
+// (ALL execution times are automatically 350 IN DEBUG MODE)
+$app_config['api_max_execution_time'] = 60; // (default = 60)
+
+
 // If you want to override the default user agent string (sent with API requests, etc)
 // Adding a string here automatically enables that as the custom user agent
 // LEAVING BLANK '' USES THE DEFAULT USER AGENT LOGIC BUILT-IN TO THIS APP (INCLUDES BASIC SYSTEM CONFIGURATION STATS)

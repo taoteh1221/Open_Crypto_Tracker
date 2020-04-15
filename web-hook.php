@@ -22,9 +22,15 @@ ini_set('max_execution_time', $app_config['webhook_max_execution_time']);
 
 
 // Webhook security check (key request var must match our stored webhook key, or we abort runtime)
-if ( $_REQUEST['key'] != $webhook_key ) {
-echo "Incorrect security key."
+if ( $_GET['webhook_key'] != $webhook_key ) {
+echo "Incorrect webhook key: " . $_GET['webhook_key'];
 exit;
+}
+
+
+// Google 0auth
+if ( $_GET['webhook_mode'] == 'goog_0auth' ) {
+require_once($base_dir . '/app-lib/php/other/security/google-0auth.php');
 }
 
 
