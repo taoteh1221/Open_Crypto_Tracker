@@ -34,11 +34,11 @@ RewriteEngine on
 
 # Webhooks
 RewriteCond %{REQUEST_URI} hook/(.*) [NC]
-RewriteRule hook/(.*)/(.*)$ web-hook.php?webhook_mode=$1&webhook_key=$2 [NC,L]
+RewriteRule hook/([^\.]+)$ web-hook.php?webhook_hash=$1 [NC,L]
 
 # API
 RewriteCond %{REQUEST_URI} api/(.*) [NC]
-RewriteRule api/(.*)/(.*)$ web-api.php?data_set=$1&data_selection=$2 [NC,L]
+RewriteRule api/([^\.]+)$ web-api.php?data_set=$1 [NC,L]
 
 ####~~~~~~Pretty links END~~~~~~####
 

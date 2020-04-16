@@ -1293,31 +1293,31 @@ $original_market = $selected_exchange;
     $coin_value_raw = $asset_market_data['last_trade'];
     $btc_trade_eqiv = number_format($coin_value_raw, 8);
     $coin_value_total_raw = ($asset_amount * $coin_value_raw);
-  	 $coin_primary_currency_worth_raw = $coin_value_total_raw *  $btc_primary_currency_value;
+  	 $coin_primary_currency_worth_raw = $coin_value_total_raw * $btc_primary_currency_value;
     $btc_worth_array[$asset_symbol] = $coin_value_total_raw;
     }
     // ETH ICOS
     elseif ( $selected_pairing == 'eth' && $selected_exchange == 'eth_subtokens_ico' ) {
     $pairing_btc_value = pairing_market_value($selected_pairing);
 		if ( $pairing_btc_value == null ) {
-		app_logging('other_error', 'pairing_market_value() returned null in ui_coin_data_row()', 'pairing: ' . $pairing);
+		app_logging('other_error', 'pairing_market_value() returned null in ui_coin_data_row()', 'pairing: ' . $selected_pairing);
 		}
     $coin_value_raw = get_sub_token_price($selected_exchange, $market_pairing);
     $btc_trade_eqiv = number_format( ($coin_value_raw * $pairing_btc_value), 8);
     $coin_value_total_raw = ($asset_amount * $coin_value_raw);
-  	 $coin_primary_currency_worth_raw = ($coin_value_total_raw * $pairing_btc_value) *  $btc_primary_currency_value;
+  	 $coin_primary_currency_worth_raw = ($coin_value_total_raw * $pairing_btc_value) * $btc_primary_currency_value;
     $btc_worth_array[$asset_symbol] = number_to_string($coin_value_total_raw * $pairing_btc_value);  
     }
     // OTHER PAIRINGS
     else {
     $pairing_btc_value = pairing_market_value($selected_pairing);
 		if ( $pairing_btc_value == null ) {
-		app_logging('other_error', 'pairing_market_value() returned null in ui_coin_data_row()', 'pairing: ' . $pairing);
+		app_logging('other_error', 'pairing_market_value() returned null in ui_coin_data_row()', 'pairing: ' . $selected_pairing);
 		}
     $coin_value_raw = $asset_market_data['last_trade'];
     $btc_trade_eqiv = number_format( ($coin_value_raw * $pairing_btc_value), 8);
     $coin_value_total_raw = ($asset_amount * $coin_value_raw);
-  	 $coin_primary_currency_worth_raw = ($coin_value_total_raw * $pairing_btc_value) *  $btc_primary_currency_value;
+  	 $coin_primary_currency_worth_raw = ($coin_value_total_raw * $pairing_btc_value) * $btc_primary_currency_value;
     $btc_worth_array[$asset_symbol] = ( strtolower($asset_name) == 'bitcoin' ? $asset_amount : number_to_string($coin_value_total_raw * $pairing_btc_value) );
   	 }
 	
