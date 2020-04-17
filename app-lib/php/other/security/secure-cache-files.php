@@ -128,6 +128,23 @@ foreach( $secured_cache_files as $secured_file ) {
 	}
 	
 	
+	// API key (for secure API communications)
+	elseif ( preg_match("/api_key_/i", $secured_file) ) {
+		
+		
+		// If we already loaded the newest modified file, delete any stale ones
+		if ( $newest_cached_api_key == 1 ) {
+		unlink($base_dir . '/cache/secured/' . $secured_file);
+		}
+		else {
+		$newest_cached_api_key = 1;
+		$api_key = trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) );
+		}
+	
+	
+	}
+	
+	
 	// Any outdated var names we no longer use are safe to delete
 	else {
 	unlink($base_dir . '/cache/secured/' . $secured_file);
@@ -165,16 +182,38 @@ $secure_256bit_hash = random_hash(32); // 256-bit (32-byte) hash converted to he
 if ( !$webhook_key ) {
 	
 $secure_128bit_hash = random_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
-$secure_64bit_hash = random_hash(8); // 64-bit (8-byte) hash converted to hexadecimal, used for var
+$secure_256bit_hash = random_hash(32); // 256-bit (32-byte) hash converted to hexadecimal, used for var
 	
 	
 	// Halt the process if an issue is detected safely creating a random hash
-	if ( $secure_128bit_hash == false || $secure_64bit_hash == false ) {
+	if ( $secure_128bit_hash == false || $secure_256bit_hash == false ) {
 	app_logging('security_error', 'Cryptographically secure pseudo-random bytes could not be generated for webhook key (in secured cache storage), webhook key creation aborted to preserve security');
 	}
 	else {
-	store_file_contents($base_dir . '/cache/secured/webhook_key_'.$secure_128bit_hash.'.dat', $secure_64bit_hash);
-	$webhook_key = $secure_64bit_hash;
+	store_file_contents($base_dir . '/cache/secured/webhook_key_'.$secure_128bit_hash.'.dat', $secure_256bit_hash);
+	$webhook_key = $secure_256bit_hash;
+	}
+
+
+}
+
+
+
+
+// If no API key
+if ( !$api_key ) {
+	
+$secure_128bit_hash = random_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
+$secure_256bit_hash = random_hash(32); // 256-bit (32-byte) hash converted to hexadecimal, used for var
+	
+	
+	// Halt the process if an issue is detected safely creating a random hash
+	if ( $secure_128bit_hash == false || $secure_256bit_hash == false ) {
+	app_logging('security_error', 'Cryptographically secure pseudo-random bytes could not be generated for API key (in secured cache storage), API key creation aborted to preserve security');
+	}
+	else {
+	store_file_contents($base_dir . '/cache/secured/api_key_'.$secure_128bit_hash.'.dat', $secure_256bit_hash);
+	$api_key = $secure_256bit_hash;
 	}
 
 
@@ -229,7 +268,7 @@ $secure_128bit_hash = random_hash(16); // 128-bit (16-byte) hash converted to he
 	}
 	else {
 	
-	$telegram_user_data = telegram_user_data();
+	$telegram_user_data = telegram_user_data('updates');
 		
 	$store_cached_telegram_user_data = json_encode($telegram_user_data, JSON_PRETTY_PRINT);
 		

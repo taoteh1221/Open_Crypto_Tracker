@@ -163,29 +163,53 @@ global $app_config, $runtime_mode;
 
 //////////////////////////////////////////////////////////
 
+// https://core.telegram.org/bots/api
+
 // https://core.telegram.org/bots/api#making-requests
-function telegram_user_data() {
+
+// https://api.telegram.org/bot{my_bot_token}/setWebhook?url={url_to_send_updates_to}
+
+// https://api.telegram.org/bot{my_bot_token}/deleteWebhook
+
+// https://api.telegram.org/bot{my_bot_token}/getWebhookInfo
+
+function telegram_user_data($mode) {
 	
 global $app_config;
 
-// Don't cache data, we are storing it as a specific (secured) cache var instead
-$get_telegram_chatroom_data = @api_data('url', 'https://api.telegram.org/bot'.$app_config['telegram_bot_token'].'/getUpdates', 0);
-		
-$telegram_chatroom = json_decode($get_telegram_chatroom_data, true);
-
-$telegram_chatroom = $telegram_chatroom['result']; 
-
-	foreach( $telegram_chatroom as $chat_key => $chat_unused ) {
+	if ( $mode == 'updates' ) {
 	
-		// Overwrites any earlier value while looping, so we have the latest data
-		if ( $telegram_chatroom[$chat_key]['message']['chat']['username'] == trim($app_config['telegram_your_username']) ) {
-		$telegram_user_data = $telegram_chatroom[$chat_key];
+	// Don't cache data, we are storing it as a specific (secured) cache var instead
+	$get_telegram_chatroom_data = @api_data('url', 'https://api.telegram.org/bot'.$app_config['telegram_bot_token'].'/getUpdates', 0);
+		
+	$telegram_chatroom = json_decode($get_telegram_chatroom_data, true);
+
+	$telegram_chatroom = $telegram_chatroom['result']; 
+
+		foreach( $telegram_chatroom as $chat_key => $chat_unused ) {
+	
+			// Overwrites any earlier value while looping, so we have the latest data
+			if ( $telegram_chatroom[$chat_key]['message']['chat']['username'] == trim($app_config['telegram_your_username']) ) {
+			$telegram_user_data = $telegram_chatroom[$chat_key];
+			}
+	
 		}
+
+	return $telegram_user_data;
 	
 	}
-
-return $telegram_user_data;
-
+	elseif ( $mode == 'webhook' ) {
+		
+	// Don't cache data, we are storing it as a specific (secured) cache var instead
+	$get_telegram_webhook_data = @api_data('url', 'https://api.telegram.org/bot'.$app_config['telegram_bot_token'].'/getWebhookInfo', 0);
+		
+	$telegram_webhook = json_decode($get_telegram_webhook_data, true);
+	
+	// logic here
+	
+	}
+	
+	
 }
 
 

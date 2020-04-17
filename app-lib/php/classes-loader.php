@@ -27,6 +27,18 @@ $smtp = new SMTPMailer();
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Sending yourself telegram messages (alerts etc), with a telegram bot (if needed...MUST RUN AFTER dynamic app config management)
+
+// https://core.telegram.org/bots/api
+
+// https://core.telegram.org/bots/api#making-requests
+
+// https://api.telegram.org/bot{my_bot_token}/setWebhook?url={url_to_send_updates_to}
+
+// https://api.telegram.org/bot{my_bot_token}/deleteWebhook
+
+// https://api.telegram.org/bot{my_bot_token}/getWebhookInfo
+
+
 if ( $telegram_activated == 1 ) {
 
 // Load class files
