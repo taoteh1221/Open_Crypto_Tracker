@@ -121,7 +121,7 @@ $app_config['google_home_client_secret'] = '';
 $app_config['upgrade_check'] = 'off'; // 'off' (disabled) / 'all' / 'ui' (web interface) / 'email' / 'text' / 'notifyme' / 'telegram'
 ////
 // Wait X days between upgrade reminders (sent by email / text / notifyme / telegram)
-$app_config['upgrade_check_reminder'] = 14; // (only used if upgrade check is enabled in general settings)
+$app_config['upgrade_check_reminder'] = 14; // (only used if upgrade check is enabled above)
 
 
 // Email logs every X days. 0 disables mailing logs. Email to / from !MUST BE SET!, MAY NOT SEND IN TIMELY FASHION WITHOUT A CRON JOB
@@ -225,26 +225,26 @@ $app_config['system_stats'] = 'raspi'; // 'off' (disabled), 'on' (enabled for AN
 $app_config['system_stats_first_chart_highest_value'] = 3.5; // Can be a decimal (example: 0.5 or 7.5 etc)
 
 
-// Default BITCOIN-ONLY currency market pairings (79 primary currencies supported)
+// Default BITCOIN-ONLY currency market pairings (80+ primary currencies supported)
 // (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
-// 'aed' / 'ars' / 'aud' / 'bam' / 'bdt' / 'bob' / 'brl' / 'bwp' / 'byn' / 'cad' / 'chf' / 'clp' / 'cny' / 'cop' / 'crc' / 'czk' / 
-// 'dai' / 'dkk' / 'dop' / 'egp' / 'eth' / 'eur' / 'gbp' / 'gel' / 'ghs' / 'gtq' / 'hkd' / 'huf' / 'idr' / 'ils' / 'inr' / 'irr' / 'jmd' / 
-// 'jod' / 'jpy' / 'kes' / 'krw' / 'kwd' / 'kzt' / 'lkr' / 'ltc' / 'mad' / 'mur' / 'mwk' / 'mxn' / 'myr' / 'ngn' / 'nis' / 'nok' / 
-// 'nzd' / 'pab' / 'pen' / 'php' / 'pkr' / 'pln' / 'pyg' / 'qar' / 'ron' / 'rsd' / 'rub' / 'rwf' / 'sar' / 'sek' / 'sgd' / 'thb' / 
-// 'try' / 'tusd' / 'twd' / 'tzs' / 'uah' / 'ugx' / 'usd' / 'usdc' / 'usdt' / 'uyu' / 'vnd' / 'ves' / 'xaf' / 'xof' / 'zar' / 'zmw'
+// aed / ars / aud / bam / bdt / bob / brl / bwp / byn / cad / chf / clp / cny / cop / crc / czk / dai / dkk / dop / egp / 
+// eth / eur / gbp / gel / ghs / gtq / hkd / huf / idr / ils / inr / irr / jmd / jod / jpy / kes / krw / kwd / kzt / lkr / 
+// ltc / mad / mur / mwk / mxn / myr / ngn / nis / nok / nzd / pab / pen / php / pkr / pln / pyg / qar / ron / rsd / rub / 
+// rwf / sar / sek / sgd / thb / try / tusd / twd / tzs / uah / ugx / usdc / usdt / uyu / ves / vnd / xaf / xof / zar / zmw
 // SEE THE $app_config['portfolio_assets'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
 // CURRENCY PAIRING VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (set in $app_config['btc_primary_exchange'] directly below)
-$app_config['btc_primary_currency_pairing'] = 'usd'; 
+$app_config['btc_primary_currency_pairing'] = 'usd'; // PUT INSIDE SINGLE QUOTES ('selection')
 
 
-// Default BITCOIN-ONLY exchanges (30 bitcoin exchanges supported)
+// Default BITCOIN-ONLY exchanges (30+ bitcoin exchanges supported)
 // (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
-// 'localbitcoins' / 'btcmarkets' / 'lakebtc' / 'braziliex' / 'kraken' / 'bitflyer' / 'bitpanda' / 'bitstamp' / 'cex' / 
-// 'coinbase' / 'coss' / 'luno' / 'bitfinex' / 'tidebit' / 'bitbns' / 'buyucoin' / 'bitso' / 'bit2c' / 'btcturk' / 'binance' / 
-// 'zebpay' / 'binance_us' / 'gemini' / 'hitbtc' / 'livecoin' / 'okcoin' / 'southxchange' / 'huobi' / 'okex' / 'korbit'
+// binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitpanda / bitso / bitstamp / braziliex / btcmarkets / 
+// btcturk / buyucoin / cex / coinbase / coss / gemini / hitbtc / huobi / korbit / kraken / lakebtc / livecoin / 
+// localbitcoins / luno / okcoin / okex / southxchange / tidebit / upbit / zebpay
 // SEE THE $app_config['portfolio_assets'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
 // MARKET PAIRING VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (to populate $app_config['btc_primary_currency_pairing'] directly above with)
-$app_config['btc_primary_exchange'] = 'kraken'; // SEE THE $app_config['limited_apis'] SETTING MUCH FURTHER DOWN, FOR EXCHANGES !NOT RECOMMENDED FOR USAGE HERE!
+// SEE THE $app_config['limited_apis'] SETTING MUCH FURTHER DOWN, FOR EXCHANGES !NOT RECOMMENDED FOR USAGE HERE!
+$app_config['btc_primary_exchange'] = 'kraken';  // PUT INSIDE SINGLE QUOTES ('selection')
 
 
 // Maximum decimal places for [primary currency] values,

@@ -26,6 +26,9 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+Documentation for API / Webhook features
+
+
 Retest password strength function after the modification.
 
 
@@ -64,6 +67,9 @@ FEATURES / STRUCTURING SECTION
 ///////////////////////////////////////////////////////
 
 
+Add additional ability to do telegram webhooks, to query asset prices at different exchanges through telegram chat with the chat bot. Example: "/price ETH/USDT @ Binance"
+
+
 Create github wiki with the current documentation for the portfolio app.
 
 
@@ -80,9 +86,6 @@ In the "loading charts" logic, add a timer that logs the time it takes to load a
 
 
 Always prune system stats chart data (during scheduled maintenance) to never save chart data over 90 days old.
-
-
-Alphabetically order printout from .../debugging/exchange-and-pairing-info.php
 
 
 Add localcryptos API support?
@@ -163,13 +166,7 @@ Add setting to enable access stats modal, maybe include an optional password set
 Look into an auto-update feature like WordPress has (downloads a zip file upgrade, and exctracts it overwriting the old app files).
 
 
-Add additional ability to do telegram webhooks, to query asset prices at different exchanges through telegram chat with the chat bot. Example: "/price ETH/USDT @ Binance"
-
-
 Add Google and Microsoft translate API as options to translate the portfolio interface and price alerts.
-
-
-Mod rewrite rules for future RESTFUL API system
 
 
 Check out cryptocompare.com API.
@@ -203,9 +200,6 @@ Look into X day moving average overlay for charts.
 
 
 Add market stats summaries from chart data, like pie charts for exchange volume on certain pairs, etc.
-
-
-RESTFUL API system for requesting asset attributes (USD spot price / vol , etc)
 
 
 Simple trading bot, to run from cron / cli (with SQL-based admin authentication / web UI for configuration)

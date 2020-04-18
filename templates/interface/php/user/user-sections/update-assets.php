@@ -32,7 +32,7 @@
 			var leverage_trading_notes = '<h5 align="center" class="yellow" style="position: relative; white-space: nowrap;">Tracking Long / Short Margin Leverage Trades</h5>'
 			
 			
-			+'<p class="coin_info extra_margins red" style="white-space: normal; max-width: 600px; font-size: 13px;"><b>*Leverage trading is <u>EXTREMELY RISKY</u> (and even more so in crypto markets). Never put more than ~5% of your total investment worth into leverage trades, or you will <u>RISK LOSING EVERYTHING</u>!</b></p>'
+			+'<p class="coin_info extra_margins red_bright" style="white-space: normal; max-width: 600px;"><b>*Leverage trading is <u>EXTREMELY RISKY</u> (and even more so in crypto markets). Never put more than ~5% of your total investment worth into leverage trades, or you will <u>RISK LOSING EVERYTHING</u>!</b></p>'
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Set the "Asset / Pairing @ Exchange" drop-down menus for the asset to any markets you prefer. It doesn\'t matter which ones you choose, as long as the price discovery closely matches the exchange where you are margin trading this asset.</p>'
 			
@@ -41,6 +41,26 @@
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">To see your margin leverage stats after updating your portfolio, go to the bottom of the Portfolio page, where you\'ll find a stats section. Hovering over the "I" icon next to those summary stats will display additional stats per-asset. There is also an "I" icon in the far right table column (Subtotal) per-asset, which you can hover over for margin leverage stats too.</p>'
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="yellow">*Current maximum margin leverage setting of <?=$app_config['margin_leverage_max']?>x can be adjusted in config.php.</span></p>'
+			
+			+'<p class="coin_info"><span class="yellow"> </span></p>';
+
+	
+	
+			var portfolio_data_privacy = '<h5 align="center" class="red_bright" style="position: relative; white-space: nowrap;">How is my portfolio data stored within this app?</h5>'
+			
+			
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Portfolio data you enter into this app <i class="red_bright"><u>by default</u> is NEVER stored or saved</i> within this app.</p>'
+			
+			
+			
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><i class="red_bright"><u>By default</u></i>, your portfolio data needs to be re-entered to calculate your portfolio value, <i class="red_bright">every time you fully close / re-open your web browser</i> to use this app.</p>'
+			
+			
+			
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><i class="red_bright"><u>By default</u></i>, your portfolio data is only saved <i class="red_bright">temporarily on your computer within your web browser</i> (a default behavior of all modern web browsers), for re-submitting / refreshing / reloading app price data <i class="red_bright">until you fully close your web browser</i>.</p>'
+			
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">If you prefer to store your portfolio data <i class="red_bright">semi-permanently on your computer within your web browser as cookie data (to save between browser sessions)</i>, <i class="red_bright"><u>you must manually enable</u></i> "Use cookies to save data between browser sessions" on the Settings page. </p>'
+			
 			
 			+'<p class="coin_info"><span class="yellow"> </span></p>';
 			
@@ -56,6 +76,35 @@
 				
 				<span class='red countdown_notice'></span>
 				
+				
+	<p style='margin-top: 15px; margin-bottom: 15px;'><span style='font-weight: bold;' class='show red'>How is my portfolio data stored within this app?</span> 
+	     
+		<img id='portfolio_data_privacy' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative; left: -5px;' /> 
+		
+	 <script>
+		
+			$('#portfolio_data_privacy').balloon({
+			html: true,
+			position: "right",
+			contents: portfolio_data_privacy,
+			css: {
+					fontSize: ".8rem",
+					minWidth: ".8rem",
+					padding: ".3rem .7rem",
+					border: "1px solid rgba(212, 212, 212, .4)",
+					borderRadius: "6px",
+					boxShadow: "3px 3px 6px #555",
+					color: "#eee",
+					backgroundColor: "#111",
+					opacity: "0.95",
+					zIndex: "32767",
+					textAlign: "left"
+					}
+			});
+		
+		 </script>
+		 
+	    
 				
 	<p style='margin-top: 10px;'><a style='font-weight: bold;' class='show red' id='disclaimer' href='#show_disclaimer' title='Click to show disclaimer.' onclick='return false;'>Disclaimer!</a></p>
 	    
@@ -126,6 +175,7 @@
 		
 		</div>
 			
+				
 	
 	
 	<br class='clear_both' />
