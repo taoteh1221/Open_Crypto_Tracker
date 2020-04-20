@@ -3115,11 +3115,13 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 
 -------------------------------------------------------------------
-4.10.0:
+4.09.4:
 
--Misc. minor UX revisions
+-Bug fixes and optimizations for trade volume
 
--Initial API / Webhook support
+-Initial API / Webhook support (see documentation on usage)
+
+-Misc. UX revisions
 
 IMPORTANT UPGRADE NOTES: 
 

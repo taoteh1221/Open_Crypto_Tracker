@@ -56,7 +56,7 @@ store_file_contents($base_dir . '/cache/vars/default_btc_primary_currency_pairin
 
 
 // Charts / alerts / etc
-if ( $runtime_mode == 'cron' ) {
+if ( $runtime_mode == 'cron' || $runtime_mode == 'api' || $runtime_mode == 'webhook' ) {
 
 
     // MUST be called FIRST at runtime by the default bitcoin market, to set this var for reuse later in runtime
@@ -80,7 +80,7 @@ if ( $runtime_mode == 'cron' ) {
 // Set bitcoin market configs THAT ARE USUALLY DYNAMIC IN THE INTERFACE, to be the static default values during cron runtimes
 // (may change these to be dynamic in cron runtimes someday for a currently unforseen reason,
 // so let's keep dynamic and default bitcoin market variables as separate entities for now)
-$selected_pairing_id = $default_btc_pairing_id;
+$selected_btc_pairing_id = $default_btc_pairing_id;
 $btc_primary_currency_value = $default_btc_primary_currency_value;
 
 
@@ -116,8 +116,8 @@ else {
     
     
     // MUST be called FIRST at runtime by the default bitcoin market, to set this var for reuse later in runtime
-    $selected_pairing_id = $app_config['portfolio_assets']['BTC']['market_pairing'][$app_config['btc_primary_currency_pairing']][$app_config['btc_primary_exchange']];
-    $btc_primary_currency_value = asset_market_data('BTC', $app_config['btc_primary_exchange'], $selected_pairing_id)['last_trade'];
+    $selected_btc_pairing_id = $app_config['portfolio_assets']['BTC']['market_pairing'][$app_config['btc_primary_currency_pairing']][$app_config['btc_primary_exchange']];
+    $btc_primary_currency_value = asset_market_data('BTC', $app_config['btc_primary_exchange'], $selected_btc_pairing_id)['last_trade'];
     
     
     // Log any Bitcoin market errors
@@ -129,7 +129,7 @@ else {
     }
     
     if ( !isset($btc_primary_currency_value) || $btc_primary_currency_value == 0 ) {
-    app_logging('other_error', 'init.php Bitcoin primary currency market value not properly set', 'btc_primary_currency_pairing: ' . $app_config['btc_primary_currency_pairing'] . '; exchange: ' . $app_config['btc_primary_exchange'] . '; pairing_id: ' . $selected_pairing_id . '; value: ' . $btc_primary_currency_value );
+    app_logging('other_error', 'init.php Bitcoin primary currency market value not properly set', 'btc_primary_currency_pairing: ' . $app_config['btc_primary_currency_pairing'] . '; exchange: ' . $app_config['btc_primary_exchange'] . '; pairing_id: ' . $selected_btc_pairing_id . '; value: ' . $btc_primary_currency_value );
     }
 
 

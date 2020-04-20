@@ -683,6 +683,7 @@ $app_config['bitcoin_currency_markets'] = array(
 // #USE VERY CONSERVATIVELY#, AS YOU'LL BE RECOMMENDING IN THE INTERFACE TO END-USERS TO AVOID USING ANY OTHER MARKETS FOR THIS CURRENCY
 $app_config['preferred_bitcoin_markets'] = array(
 						//'lowercase_btc_market_or_stablecoin_pairing' => 'PREFERRED_MARKET',
+							'eur' => 'kraken',  // WAY BETTER api, WAY BETTER price discovery than ALL alternatives
 							'dai' => 'kraken',  // WAY MORE reputable than hitBTC
 							'inr' => 'localbitcoins',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							'rub' => 'localbitcoins',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives

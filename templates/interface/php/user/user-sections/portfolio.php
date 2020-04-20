@@ -69,7 +69,7 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 <th class='border_lt blue al_right'>Holdings</th>
 <th class='border_t'>Symbol</th>
 <th class='border_lt blue'>Exchange</th>
-<th class='border_t'>Trade Volume</th>
+<th class='border_t'>Trade Volume (<span class='btc_primary_currency_pairing'><?=strtoupper($app_config['btc_primary_currency_pairing'])?></span>)</th>
 <th class='border_t al_right'>Trade Value</th>
 <th class='border_t blue'>Market</th>
 <th class='border_lt blue'>Holdings Value</th>

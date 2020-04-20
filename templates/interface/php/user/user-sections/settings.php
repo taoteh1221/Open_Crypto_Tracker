@@ -313,7 +313,7 @@
 				<option value='3' <?=( $sorted_by_col == 3 ? ' selected ' : '' )?>> Holdings </option>
 				<option value='4' <?=( $sorted_by_col == 4 ? ' selected ' : '' )?>> Symbol </option>
 				<option value='5' <?=( $sorted_by_col == 5 ? ' selected ' : '' )?>> Exchange </option>
-				<option value='6' <?=( $sorted_by_col == 6 ? ' selected ' : '' )?>> Trade Volume </option>
+				<option value='6' <?=( $sorted_by_col == 6 ? ' selected ' : '' )?>> Trade Volume (<?=strtoupper($app_config['btc_primary_currency_pairing'])?>) </option>
 				<option value='7' <?=( $sorted_by_col == 7 ? ' selected ' : '' )?>> Trade Value </option>
 				<option value='8' <?=( $sorted_by_col == 8 ? ' selected ' : '' )?>> Market </option>
 				<option value='9' <?=( $sorted_by_col == 9 ? ' selected ' : '' )?>> Holdings Value </option>

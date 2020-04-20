@@ -614,45 +614,6 @@ global $password_pepper;
 	}
 
 }
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function list_sort($list_string, $delimiter, $mode, $delimiter_space=false) {
-
-$list_array = explode('/', $list_string);
-
-// Trim
-$list_array = array_map('trim', $list_array);
-
-	if ( $mode == 'asort' ) {
-	asort($list_array);
-	}
-	elseif ( $mode == 'ksort' ) {
-	ksort($list_array);
-	}
-
-	foreach( $list_array as $value ) {
-		
-		if ( $delimiter_space == true ) {
-		$result .= $value . ' '.$delimiter.' ';
-		}
-		else {
-		$result .= $value . $delimiter;
-		}
-	
-	}
-
-// Trim
-$result = trim($result);
-$result = trim($result, $delimiter);
-$result = trim($result);
-
-return $result;
-
-}
  
 
 ////////////////////////////////////////////////////////

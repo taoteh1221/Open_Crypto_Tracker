@@ -60,13 +60,12 @@ elseif ( $webhook_hash[0] == hash('ripemd160', 'telegram' . $webhook_key) ) {
 // Test only
 elseif ( $webhook_hash[0] == hash('ripemd160', 'test-only' . $webhook_key) ) {
 
-$test_params = array(
-							'api_key' => $api_key
-							);
+$test_params = array('api_key' => $api_key);
 						
-$test_response = @api_data('array', $test_params, 0, $base_url . 'api/usd/binance-ltc-usdt,binance-xmr-btc,binance-eth-usdt,coinbase-btc-usd,coinbase-dai-usdc,coinbase-mana-usdc,bittrex-dcr-btc', 2);
+$test_data = @api_data('array', $test_params, 0, $base_url . 'api/market_conversion/eur/coinbase-btc-usd,coinbase-ltc-usd', 2);
 
-var_dump($test_response);
+// Already json-encoded
+echo $test_data;
 
 }
 ///////////////////////////////////////////////////////////////////////////////
