@@ -16,7 +16,7 @@
 function asset_market_data($asset_symbol, $chosen_exchange, $market_id, $pairing=false) { 
 
 
-global $btc_primary_currency_value, $app_config;
+global $selected_btc_primary_currency_value, $app_config;
   
  
  
@@ -1611,7 +1611,7 @@ global $btc_primary_currency_value, $app_config;
 	
 	
   // BTC value of 1 unit of the default primary currency
-  $currency_to_btc = ( 1 / $btc_primary_currency_value );		
+  $currency_to_btc = ( 1 / $selected_btc_primary_currency_value );		
 	
 	  // BTC pairing
 	  if ( $market_id == 'btc' ) {
@@ -1649,7 +1649,7 @@ global $btc_primary_currency_value, $app_config;
 		}
 	
 	// Set primary currency volume value
-	$result['24hr_primary_currency_volume'] = trade_volume($asset_symbol, $pairing, $result['last_trade'], $result['24hr_pairing_volume']);
+	$result['24hr_primary_currency_volume'] = primary_currency_trade_volume($asset_symbol, $pairing, $result['last_trade'], $result['24hr_pairing_volume']);
 	
 	}
 

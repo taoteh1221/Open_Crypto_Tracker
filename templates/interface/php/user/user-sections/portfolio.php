@@ -613,7 +613,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 		<?php
 		}
 	
-	echo '<div class="portfolio_summary"><span class="black">(Bitcoin is trading @ ' . $app_config['bitcoin_currency_markets'][$app_config['btc_primary_currency_pairing']] . number_format( $btc_primary_currency_value, 2, '.', ',') . ' on ' . snake_case_to_name($app_config['btc_primary_exchange']) . ')</span></div>';
+	echo '<div class="portfolio_summary"><span class="black">(Bitcoin is trading @ ' . $app_config['bitcoin_currency_markets'][$app_config['btc_primary_currency_pairing']] . number_format( $selected_btc_primary_currency_value, 2, '.', ',') . ' on ' . snake_case_to_name($app_config['btc_primary_exchange']) . ')</span></div>';
 
 			
 		if ( $short_added == 1 ) {

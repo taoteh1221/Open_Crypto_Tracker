@@ -105,7 +105,7 @@ header('Content-type: text/html; charset=' . $app_config['charset_default']);
 	
 	var charts_border = '<?=$app_config['charts_border']?>';
 	
-	var btc_primary_currency_value = '<?=number_format( $btc_primary_currency_value, 2, '.', '' )?>';
+	var btc_primary_currency_value = '<?=number_format( $selected_btc_primary_currency_value, 2, '.', '' )?>';
 	
 	var btc_primary_currency_pairing = '<?=strtoupper($app_config['btc_primary_currency_pairing'])?>';
 	

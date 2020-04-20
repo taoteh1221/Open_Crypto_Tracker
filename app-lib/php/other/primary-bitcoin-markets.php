@@ -81,7 +81,7 @@ if ( $runtime_mode == 'cron' || $runtime_mode == 'api' || $runtime_mode == 'webh
 // (may change these to be dynamic in cron runtimes someday for a currently unforseen reason,
 // so let's keep dynamic and default bitcoin market variables as separate entities for now)
 $selected_btc_pairing_id = $default_btc_pairing_id;
-$btc_primary_currency_value = $default_btc_primary_currency_value;
+$selected_btc_primary_currency_value = $default_btc_primary_currency_value;
 
 
 }
@@ -117,7 +117,7 @@ else {
     
     // MUST be called FIRST at runtime by the default bitcoin market, to set this var for reuse later in runtime
     $selected_btc_pairing_id = $app_config['portfolio_assets']['BTC']['market_pairing'][$app_config['btc_primary_currency_pairing']][$app_config['btc_primary_exchange']];
-    $btc_primary_currency_value = asset_market_data('BTC', $app_config['btc_primary_exchange'], $selected_btc_pairing_id)['last_trade'];
+    $selected_btc_primary_currency_value = asset_market_data('BTC', $app_config['btc_primary_exchange'], $selected_btc_pairing_id)['last_trade'];
     
     
     // Log any Bitcoin market errors
@@ -128,8 +128,8 @@ else {
     app_logging('config_error', 'primary-bitcoin-markets.php btc_primary_exchange variable not properly set', 'btc_primary_exchange: ' . $app_config['btc_primary_exchange'] . ';' );
     }
     
-    if ( !isset($btc_primary_currency_value) || $btc_primary_currency_value == 0 ) {
-    app_logging('other_error', 'init.php Bitcoin primary currency market value not properly set', 'btc_primary_currency_pairing: ' . $app_config['btc_primary_currency_pairing'] . '; exchange: ' . $app_config['btc_primary_exchange'] . '; pairing_id: ' . $selected_btc_pairing_id . '; value: ' . $btc_primary_currency_value );
+    if ( !isset($selected_btc_primary_currency_value) || $selected_btc_primary_currency_value == 0 ) {
+    app_logging('other_error', 'init.php Bitcoin primary currency market value not properly set', 'btc_primary_currency_pairing: ' . $app_config['btc_primary_currency_pairing'] . '; exchange: ' . $app_config['btc_primary_exchange'] . '; pairing_id: ' . $selected_btc_pairing_id . '; value: ' . $selected_btc_primary_currency_value );
     }
 
 

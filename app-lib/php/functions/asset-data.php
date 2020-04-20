@@ -24,9 +24,9 @@ return ($num - 1) * pow(2, ($num - 30) );
 
 function powerdown_primary_currency($data) {
 
-global $hive_market, $app_config,  $btc_primary_currency_value;
+global $hive_market, $app_config,  $selected_btc_primary_currency_value;
 
-return ( $data * $hive_market * $btc_primary_currency_value );
+return ( $data * $hive_market * $selected_btc_primary_currency_value );
 
 }
 
@@ -236,9 +236,9 @@ return ( $data['rank'] != NULL ? $data : NULL );
 ////////////////////////////////////////////////////////
 
 
-function trade_volume($asset_symbol, $pairing, $last_trade, $vol_in_pairing) {
+function primary_currency_trade_volume($asset_symbol, $pairing, $last_trade, $vol_in_pairing) {
 
-global $app_config, $btc_primary_currency_value;
+global $app_config, $selected_btc_primary_currency_pairing, $selected_btc_primary_currency_value;
 	
 	
 	// Return negative number, if no volume data detected (so we know when data errors happen)
@@ -253,17 +253,21 @@ global $app_config, $btc_primary_currency_value;
 
 	// WE NEED TO SET THIS (ONLY IF NOT SET ALREADY) for asset_market_data() calls, 
 	// because it is not set as a global THE FIRST RUNTIME CALL TO asset_market_data()
-	if ( strtoupper($asset_symbol) == 'BTC' && !$btc_primary_currency_value ) {
+	if ( strtoupper($asset_symbol) == 'BTC' && !$selected_btc_primary_currency_value ) {
 	$temp_btc_primary_currency_value = $last_trade; // Don't overwrite global
 	}
 	else {
-	$temp_btc_primary_currency_value = $btc_primary_currency_value; // Don't overwrite global
+	$temp_btc_primary_currency_value = $selected_btc_primary_currency_value; // Don't overwrite global
 	}
 
 
-	// Get primary currency volume value
+	// Get primary currency volume value	
+	// Currency volume from Bitcoin's DEFAULT PAIRING volume
+	if ( $pairing == $selected_btc_primary_currency_pairing ) {
+	$volume_primary_currency_raw = number_format( $vol_in_pairing , 0, '.', '');
+	}
 	// Currency volume from btc PAIRING volume
-	if ( $pairing == 'btc' ) {
+	elseif ( $pairing == 'btc' ) {
 	$volume_primary_currency_raw = number_format( $temp_btc_primary_currency_value * $vol_in_pairing , 0, '.', '');
 	}
 	// Currency volume from other PAIRING volume
@@ -272,7 +276,7 @@ global $app_config, $btc_primary_currency_value;
 	$pairing_btc_value = pairing_market_value($pairing);
 
 		if ( $pairing_btc_value == null ) {
-		app_logging('other_error', 'pairing_market_value() returned null in trade_volume()', 'pairing: ' . $pairing);
+		app_logging('other_error', 'pairing_market_value() returned null in primary_currency_trade_volume()', 'pairing: ' . $pairing);
 		}
 	
 	$volume_primary_currency_raw = number_format( $temp_btc_primary_currency_value * ( $vol_in_pairing * $pairing_btc_value ) , 0, '.', '');
@@ -291,7 +295,7 @@ return $volume_primary_currency_raw;
 
 function market_conversion_api($market_conversion, $all_markets_data_array) {
 
-global $app_config, $btc_primary_currency_value;
+global $app_config, $selected_btc_primary_currency_pairing, $selected_btc_primary_exchange, $selected_btc_primary_currency_value;
 
 $result = array();
 
@@ -315,6 +319,10 @@ $result = array();
     // Loop through each set of market data
     foreach( $all_markets_data_array as $market_data ) {
     
+    // Cleanup
+    $market_conversion = trim( strtolower($market_conversion) );
+    $market_data = trim( strtolower($market_data) );
+    
     $market_data_array = explode("-", $market_data); // Market data array
     
     
@@ -325,7 +333,7 @@ $result = array();
               // GET BTC MARKET CONVERSION VALUE #BEFORE ANYTHING ELSE#, OR WE WON'T GET PROPER VOLUME IN CURRENCY ETC
               // IF NOT SET YET, get bitcoin market data (if we are getting converted fiat currency values)
               if ( $market_conversion != 'market_only' && !isset($btc_exchange) && !isset($market_conversion_btc_value) ) {
-              	
+              
               	
               		  // If a preferred bitcoin market is set in app config, use it...otherwise use first array key
               		  if ( isset($app_config['preferred_bitcoin_markets'][$market_conversion]) ) {
@@ -361,8 +369,15 @@ $result = array();
               		  }
         
         		  
+              // OVERWRITE SELECTED BITCOIN CURRENCY MARKET GLOBALS
+              $selected_btc_primary_currency_pairing = $market_conversion;
+              $selected_btc_primary_exchange = $btc_exchange;
+              
+              $app_config['btc_primary_currency_pairing'] = $selected_btc_primary_currency_pairing;
+    			  $app_config['btc_primary_exchange'] = $selected_btc_primary_exchange;
+              
         		  // OVERWRITE #GLOBAL# BTC PRIMARY CURRENCY VALUE (so we get correct values for volume in currency etc)
-        		  $btc_primary_currency_value = $market_conversion_btc_value;
+        		  $selected_btc_primary_currency_value = $market_conversion_btc_value;
         		  
               }
               
@@ -623,7 +638,7 @@ $pairing = strtolower($pairing);
 
 function hivepower_time($time) {
     
-global $_POST, $hive_market, $app_config, $btc_primary_currency_value;
+global $_POST, $hive_market, $app_config, $selected_btc_primary_currency_value;
 
 $powertime = null;
 $powertime = null;
@@ -659,10 +674,10 @@ $speed = ($_POST['hp_total'] * $decimal_yearly_interest) / 525600;  // Interest 
     $powertime = ($speed * 60 * 24 * 365);
     }
     
-    $powertime_primary_currency = ( $powertime * $hive_market * $btc_primary_currency_value );
+    $powertime_primary_currency = ( $powertime * $hive_market * $selected_btc_primary_currency_value );
     
     $hive_total = ( $powertime + $_POST['hp_total'] );
-    $primary_currency_total = ( $hive_total * $hive_market * $btc_primary_currency_value );
+    $primary_currency_total = ( $hive_total * $hive_market * $selected_btc_primary_currency_value );
     
     $power_purchased = ( $_POST['hp_purchased'] / $hive_total );
     $power_earned = ( $_POST['hp_earned'] / $hive_total );
@@ -1312,7 +1327,7 @@ function ui_coin_data_row($asset_name, $asset_symbol, $asset_amount, $all_pairin
 
 
 // Globals
-global $_POST, $btc_worth_array, $coin_stats_array, $td_color_zebra, $cap_data_force_usd, $selected_btc_primary_exchange, $selected_btc_primary_currency_pairing, $theme_selected, $primary_currency_market_standalone, $app_config, $btc_primary_currency_value, $alert_percent, $coingecko_api, $coinmarketcap_api;
+global $_POST, $btc_worth_array, $coin_stats_array, $td_color_zebra, $cap_data_force_usd, $selected_btc_primary_exchange, $selected_btc_primary_currency_pairing, $theme_selected, $primary_currency_market_standalone, $app_config, $selected_btc_primary_currency_value, $alert_percent, $coingecko_api, $coinmarketcap_api;
 
     
 $original_market = $selected_exchange;
@@ -1375,12 +1390,12 @@ $original_market = $selected_exchange;
     
   // Overwrite PRIMARY CURRENCY CONFIG / BTC market value, in case user changed preferred market IN THE UI
   $selected_btc_pairing_id = $app_config['portfolio_assets']['BTC']['market_pairing'][$app_config['btc_primary_currency_pairing']][$app_config['btc_primary_exchange']];
-  $btc_primary_currency_value = asset_market_data('BTC', $app_config['btc_primary_exchange'], $selected_btc_pairing_id)['last_trade'];
+  $selected_btc_primary_currency_value = asset_market_data('BTC', $app_config['btc_primary_exchange'], $selected_btc_pairing_id)['last_trade'];
     
     
     // Log any Bitcoin market errors
-    if ( !isset($btc_primary_currency_value) || $btc_primary_currency_value == 0 ) {
-    app_logging('other_error', 'ui_coin_data_row() Bitcoin primary currency value not properly set', 'exchange: ' . $app_config['btc_primary_exchange'] . '; pairing_id: ' . $selected_btc_pairing_id . '; value: ' . $btc_primary_currency_value );
+    if ( !isset($selected_btc_primary_currency_value) || $selected_btc_primary_currency_value == 0 ) {
+    app_logging('other_error', 'ui_coin_data_row() Bitcoin primary currency value not properly set', 'exchange: ' . $app_config['btc_primary_exchange'] . '; pairing_id: ' . $selected_btc_pairing_id . '; value: ' . $selected_btc_primary_currency_value );
     }
     
     
@@ -1447,7 +1462,7 @@ $original_market = $selected_exchange;
     $coin_value_raw = $asset_market_data['last_trade'];
     $btc_trade_eqiv = number_format($coin_value_raw, 8);
     $coin_value_total_raw = ($asset_amount * $coin_value_raw);
-  	 $coin_primary_currency_worth_raw = $coin_value_total_raw * $btc_primary_currency_value;
+  	 $coin_primary_currency_worth_raw = $coin_value_total_raw * $selected_btc_primary_currency_value;
     $btc_worth_array[$asset_symbol] = $coin_value_total_raw;
     }
     // ETH ICOS
@@ -1459,7 +1474,7 @@ $original_market = $selected_exchange;
     $coin_value_raw = get_sub_token_price($selected_exchange, $market_id);
     $btc_trade_eqiv = number_format( ($coin_value_raw * $pairing_btc_value), 8);
     $coin_value_total_raw = ($asset_amount * $coin_value_raw);
-  	 $coin_primary_currency_worth_raw = ($coin_value_total_raw * $pairing_btc_value) * $btc_primary_currency_value;
+  	 $coin_primary_currency_worth_raw = ($coin_value_total_raw * $pairing_btc_value) * $selected_btc_primary_currency_value;
     $btc_worth_array[$asset_symbol] = number_to_string($coin_value_total_raw * $pairing_btc_value);  
     }
     // OTHER PAIRINGS
@@ -1471,7 +1486,7 @@ $original_market = $selected_exchange;
     $coin_value_raw = $asset_market_data['last_trade'];
     $btc_trade_eqiv = number_format( ($coin_value_raw * $pairing_btc_value), 8);
     $coin_value_total_raw = ($asset_amount * $coin_value_raw);
-  	 $coin_primary_currency_worth_raw = ($coin_value_total_raw * $pairing_btc_value) * $btc_primary_currency_value;
+  	 $coin_primary_currency_worth_raw = ($coin_value_total_raw * $pairing_btc_value) * $selected_btc_primary_currency_value;
     $btc_worth_array[$asset_symbol] = ( strtolower($asset_name) == 'bitcoin' ? $asset_amount : number_to_string($coin_value_total_raw * $pairing_btc_value) );
   	 }
 	
@@ -1834,7 +1849,7 @@ $original_market = $selected_exchange;
 
 <?php
   
-  $coin_primary_currency_value = ( $btc_primary_currency_value * $btc_trade_eqiv );
+  $coin_primary_currency_value = ( $selected_btc_primary_currency_value * $btc_trade_eqiv );
 
   // UX on FIAT EQUIV number values
   $coin_primary_currency_value = ( number_to_string($coin_primary_currency_value) >= $app_config['primary_currency_decimals_max_threshold'] ? pretty_numbers($coin_primary_currency_value, 2) : pretty_numbers($coin_primary_currency_value, $app_config['primary_currency_decimals_max']) );

@@ -7,7 +7,7 @@
 				
 				$btc_daily_average_raw = ( $calculation_form_data[1] == 'btc' ? $daily_average : $daily_average * $mined_coin_value );
 
-				$primary_currency_daily_average_raw = $btc_daily_average_raw * $btc_primary_currency_value;
+				$primary_currency_daily_average_raw = $btc_daily_average_raw * $selected_btc_primary_currency_value;
 				
 				$kwh_cost_daily = ( ( trim($_POST['watts_used']) / 1000 ) * 24 ) * trim($_POST['watts_rate']);
 				
