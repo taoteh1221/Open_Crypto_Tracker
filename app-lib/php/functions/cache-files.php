@@ -146,7 +146,7 @@ global $app_config, $current_runtime_user, $possible_http_users, $http_runtime_u
 	
 		// API timeouts are a confirmed cause for write errors of 0 bytes, so we want to alert end users that they may need to adjust their API timeout settings to get associated API data
 		if ( preg_match("/cache\/secured\/apis/i", $file) ) {
-		app_logging('api_error', 'POSSIBLE api timeout issue for cache file "' . $file . '" (IF THIS ISSUE PERSISTS #LONG TERM#, TRY INCREASING "api_timeout" IN THE POWER USER SECTION in config.php)', 'api_timeout: '.$app_config['api_timeout'].' seconds;');
+		app_logging('api_error', 'POSSIBLE api timeout issue for cache file "' . $file . '" (IF THIS ISSUE PERSISTS #LONG TERM#, TRY INCREASING "remote_api_timeout" IN THE POWER USER SECTION in config.php)', 'remote_api_timeout: '.$app_config['remote_api_timeout'].' seconds;');
 		}
 	
 	return false;
@@ -761,14 +761,14 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 		// and no session count is set, set session count to zero
 		// Don't update the file-cached count here, that will happen automatically from resetting the session count to zero 
 		// (if there are notifyme messages queued to send)
-		if ( !isset($processed_messages['notifyme_count']) && update_cache_file($base_dir . '/cache/events/notifyme-alerts-sent.dat', 6) == true ) {
+		if ( !isset($processed_messages['notifyme_count']) && update_cache_file($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat', 6) == true ) {
 		$processed_messages['notifyme_count'] = 0;
 		}
 		// If it hasn't been well over 5 minutes since the last notifyme send
 		// (we use 6 minutes, safely over the 5 minute limit for the maximum 5 requests), and there is no session count, 
 		// use the file-cached count for the session count starting point
-		elseif ( !isset($processed_messages['notifyme_count']) && update_cache_file($base_dir . '/cache/events/notifyme-alerts-sent.dat', 6) == false ) {
-		$processed_messages['notifyme_count'] = trim( file_get_contents($base_dir . '/cache/events/notifyme-alerts-sent.dat') );
+		elseif ( !isset($processed_messages['notifyme_count']) && update_cache_file($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat', 6) == false ) {
+		$processed_messages['notifyme_count'] = trim( file_get_contents($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat') );
 		}
 		
 		
@@ -865,7 +865,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 					
 					$message_sent = 1;
 					
-					store_file_contents($base_dir . '/cache/events/notifyme-alerts-sent.dat', $processed_messages['notifyme_count']); 
+					store_file_contents($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat', $processed_messages['notifyme_count']); 
 					
 						if ( $app_config['debug_mode'] == 'all' || $app_config['debug_mode'] == 'telemetry' ) {
 						store_file_contents($base_dir . '/cache/logs/debugging/api/last-response-notifyme.log', $notifyme_response);
@@ -1323,8 +1323,8 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 	curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $app_config['api_timeout']);
-	curl_setopt($ch, CURLOPT_TIMEOUT, $app_config['api_timeout']);
+	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $app_config['remote_api_timeout']);
+	curl_setopt($ch, CURLOPT_TIMEOUT, $app_config['remote_api_timeout']);
 	curl_setopt($ch, CURLOPT_USERAGENT, $user_agent);
 	
 	
@@ -1349,20 +1349,20 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 				curl_setopt($ch, CURLOPT_USERPWD, $htaccess_username . ':' . $htaccess_password);
 				}
 				
-			$api_strict_ssl = 'off';
+			$remote_api_strict_ssl = 'off';
 			
 			}
 			else {
-			$api_strict_ssl = $app_config['api_strict_ssl'];
+			$remote_api_strict_ssl = $app_config['remote_api_strict_ssl'];
 			}
 			
 		
-		curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, ( $api_strict_ssl == 'on' ? 2 : 0 ) );
-		curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, ( $api_strict_ssl == 'on' ? true : false ) ); 
+		curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, ( $remote_api_strict_ssl == 'on' ? 2 : 0 ) );
+		curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, ( $remote_api_strict_ssl == 'on' ? true : false ) ); 
 		
 		
 			if ( PHP_VERSION_ID >= 70700 && CURL_VERSION_ID >= 7410 ) {
-			curl_setopt ($ch, CURLOPT_SSL_VERIFYSTATUS, ( $api_strict_ssl == 'on' ? true : false ) ); 
+			curl_setopt ($ch, CURLOPT_SSL_VERIFYSTATUS, ( $remote_api_strict_ssl == 'on' ? true : false ) ); 
 			}
 
 
@@ -1411,7 +1411,7 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 	
 		
 		// LOG-SAFE VERSION (no post data with API keys etc)
-		app_logging( 'api_error', 'connection failed for ' . ( $mode == 'array' ? 'API server at ' : 'endpoint request at ' ) . $obfuscated_url_data . $log_append, 'request attempt from: server (local timeout setting ' . $app_config['api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';' );
+		app_logging( 'api_error', 'connection failed for ' . ( $mode == 'array' ? 'API server at ' : 'endpoint request at ' ) . $obfuscated_url_data . $log_append, 'request attempt from: server (local timeout setting ' . $app_config['remote_api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';' );
 		
 		
 			if ( sizeof($app_config['proxy_list']) > 0 && $current_proxy != '' && $mode != 'proxy-check' ) { // Avoid infinite loops doing proxy checks
@@ -1450,7 +1450,7 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 				$error_response_log = '/cache/logs/errors/api/error-response-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-hash-'.$hash_check.'-timestamp-'.time().'.log';
 			
 				// LOG-SAFE VERSION (no post data with API keys etc)
-				app_logging( 'api_error', 'POSSIBLE error response received for ' . ( $mode == 'array' ? 'API server at ' : 'endpoint request at ' ) . $obfuscated_url_data, 'request attempt from: server (local timeout setting ' . $app_config['api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; log_file: ' . $error_response_log . '; btc_primary_currency_pairing: ' . $app_config['btc_primary_currency_pairing'] . '; btc_primary_exchange: ' . $app_config['btc_primary_exchange'] . '; btc_primary_currency_value: ' . $selected_btc_primary_currency_value . '; hash_check: ' . $hash_check . ';' );
+				app_logging( 'api_error', 'POSSIBLE error response received for ' . ( $mode == 'array' ? 'API server at ' : 'endpoint request at ' ) . $obfuscated_url_data, 'request attempt from: server (local timeout setting ' . $app_config['remote_api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; log_file: ' . $error_response_log . '; btc_primary_currency_pairing: ' . $app_config['btc_primary_currency_pairing'] . '; btc_primary_exchange: ' . $app_config['btc_primary_exchange'] . '; btc_primary_currency_value: ' . $selected_btc_primary_currency_value . '; hash_check: ' . $hash_check . ';' );
 			
 				// Log this error response from this data request
 				store_file_contents($base_dir . $error_response_log, $data);
@@ -1503,7 +1503,7 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 				
 				
 			// LOG-SAFE VERSION (no post data with API keys etc)
-			app_logging( 'api_error', 'CONFIRMED error response received for ' . ( $mode == 'array' ? 'API server at ' : 'endpoint request at ' ) . $obfuscated_url_data . $log_append, 'request attempt from: server (local timeout setting ' . $app_config['api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; log_file: ' . $error_response_log . '; btc_primary_currency_pairing: ' . $app_config['btc_primary_currency_pairing'] . '; btc_primary_exchange: ' . $app_config['btc_primary_exchange'] . '; btc_primary_currency_value: ' . $selected_btc_primary_currency_value . '; hash_check: ' . $hash_check . ';' );
+			app_logging( 'api_error', 'CONFIRMED error response received for ' . ( $mode == 'array' ? 'API server at ' : 'endpoint request at ' ) . $obfuscated_url_data . $log_append, 'request attempt from: server (local timeout setting ' . $app_config['remote_api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; log_file: ' . $error_response_log . '; btc_primary_currency_pairing: ' . $app_config['btc_primary_currency_pairing'] . '; btc_primary_exchange: ' . $app_config['btc_primary_exchange'] . '; btc_primary_currency_value: ' . $selected_btc_primary_currency_value . '; hash_check: ' . $hash_check . ';' );
 				
 		
 			}
@@ -1515,7 +1515,7 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 			if ( $app_config['debug_mode'] == 'all' || $app_config['debug_mode'] == 'telemetry' || $app_config['debug_mode'] == 'api_live_only' ) {
 				
 			// LOG-SAFE VERSION (no post data with API keys etc)
-			app_logging( 'api_debugging', 'connection request for ' . ( $mode == 'array' ? 'API server at ' : 'endpoint request at ' ) . $obfuscated_url_data, 'request from: server (local timeout setting ' . $app_config['api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';' );
+			app_logging( 'api_debugging', 'connection request for ' . ( $mode == 'array' ? 'API server at ' : 'endpoint request at ' ) . $obfuscated_url_data, 'request from: server (local timeout setting ' . $app_config['remote_api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';' );
 			
 			// Log this as the latest response from this data request
 			store_file_contents($base_dir . '/cache/logs/debugging/api/last-response-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-'.$hash_check.'.log', $data);

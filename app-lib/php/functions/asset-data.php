@@ -298,6 +298,8 @@ function market_conversion_api($market_conversion, $all_markets_data_array) {
 global $app_config, $selected_btc_primary_currency_pairing, $selected_btc_primary_exchange, $selected_btc_primary_currency_value;
 
 $result = array();
+    
+$possible_dos_attack = 0;
 
 
 	 // Return if there are missing parameters
@@ -318,15 +320,34 @@ $result = array();
 
     // Loop through each set of market data
     foreach( $all_markets_data_array as $market_data ) {
+
+    	
+    	  // Stop processing output and return an error message, if this is a possible dos attack
+    	  if ( $possible_dos_attack > 5 ) {
+    	  $result = array(); // reset for no output other than error notice
+    	  $result['error'] = 'Too many non-existent markets requested.';
+    	  return $result;
+    	  }
+    	  
     
     // Cleanup
     $market_conversion = trim( strtolower($market_conversion) );
     $market_data = trim( strtolower($market_data) );
     
     $market_data_array = explode("-", $market_data); // Market data array
+                
+    $exchange = strtolower($market_data_array[0]);
+        
+    $asset = strtoupper($market_data_array[1]);
+        
+    $market_pairing = strtolower($market_data_array[2]);
+        
+    $pairing_id = $app_config['portfolio_assets'][$asset]['market_pairing'][$market_pairing][$exchange];
+        
     
     
-        if ( sizeof($market_data_array) == 3 ) {
+    	  // If market exists, get latest data
+        if ( $pairing_id != '' ) {
         
               
               
@@ -383,14 +404,6 @@ $result = array();
               
                 
                 
-        $exchange = strtolower($market_data_array[0]);
-        
-        $asset = strtoupper($market_data_array[1]);
-        
-        $market_pairing = strtolower($market_data_array[2]);
-        
-        $pairing_id = $app_config['portfolio_assets'][$asset]['market_pairing'][$market_pairing][$exchange];
-        
         $asset_market_data = asset_market_data($asset, $exchange, $pairing_id, $market_pairing);
         
         $coin_value_raw = $asset_market_data['last_trade'];
@@ -459,8 +472,13 @@ $result = array();
         
         
         }
-        else {
+        elseif ( sizeof($market_data_array) < 3 ) {
         $result['market_conversion'][strtolower($market_data)] = array('error' => "Missing all 3 REQUIRED sub-parameters: [exchange-asset-pairing]");
+        $possible_dos_attack = $possible_dos_attack + 1;
+        }
+        elseif ( $pairing_id == '' ) {
+        $result['market_conversion'][strtolower($market_data)] = array('error' => "Market does not exist: [" . $exchange . "-" . strtolower($asset) . "-" . $market_pairing . "]");
+        $possible_dos_attack = $possible_dos_attack + 1;
         }
     
     
@@ -1629,7 +1647,7 @@ $original_market = $selected_exchange;
 			else {
 			?>
 
-			var cmc_content = '<p class="coin_info"><span class="yellow"><?=ucfirst($app_config['primary_marketcap_site'])?> API may be offline / under heavy load, <br />marketcap range not set high enough (current range is top <?=$app_config['marketcap_ranks_max']?> marketcaps), <br />or API timeout set too low (current timeout is <?=$app_config['api_timeout']?> seconds). <br />Configuration adjustments can be made in config.php.</span></p>';
+			var cmc_content = '<p class="coin_info"><span class="yellow"><?=ucfirst($app_config['primary_marketcap_site'])?> API may be offline / under heavy load, <br />marketcap range not set high enough (current range is top <?=$app_config['marketcap_ranks_max']?> marketcaps), <br />or API timeout set too low (current timeout is <?=$app_config['remote_api_timeout']?> seconds). <br />Configuration adjustments can be made in config.php.</span></p>';
 	
 			<?php
 			}

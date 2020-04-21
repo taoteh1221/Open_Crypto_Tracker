@@ -512,9 +512,9 @@ $app_config['charts_and_price_alerts'] = array(
 /////////////////////////////////////////////////////////////////////////////
 
 
-// 'on' verifies ALL API server certificates for secure API connections, 'off' verifies NOTHING 
+// 'on' verifies ALL REMOTE API server certificates for secure API connections, 'off' verifies NOTHING 
 // Set to 'off' if some exchange's API servers have invalid certificates (which stops price data retrieval...but you still want to get price data from them)
-$app_config['api_strict_ssl'] = 'on'; // (default = 'on')
+$app_config['remote_api_strict_ssl'] = 'on'; // (default = 'on')
 
 
 // 'on' verifies ALL SMTP server certificates for secure SMTP connections, 'off' verifies NOTHING 
@@ -522,11 +522,15 @@ $app_config['api_strict_ssl'] = 'on'; // (default = 'on')
 $app_config['smtp_strict_ssl'] = 'off'; // (DEFAULT IS 'off', TO ASSURE SMTP EMAIL SENDING STILL WORKS THROUGH MISCONFIGURED SMTP SERVERS)
 
 
-// Seconds to wait for response from API endpoints (exchange data, etc). 
+// Seconds to wait for response from REMOTE API endpoints (exchange data, etc). 
 // Set too low you won't get ALL data (partial or zero bytes), set too high the interface can take a long time loading if an API server hangs up
 // RECOMMENDED MINIMUM OF 45 FOR INSTALLS BEHIND #LOW BANDWIDTH# / HOME INTERNET NETWORKS 
 // (which may need an even higher timeout of 60 or more if data still isn't received from all APIs)
-$app_config['api_timeout'] = 20; // (default = 20)
+$app_config['remote_api_timeout'] = 20; // (default = 20)
+
+
+// Local / internal API rate limit (maximum of once every X seconds, per ip address) for accepting remote requests
+$app_config['local_api_rate_limit'] = 10; // (default = 10)
 
 
 // Minutes to cache real-time exchange price data...can be zero to skip cache, but set to at least 1 minute TO AVOID YOUR IP GETTING BLOCKED

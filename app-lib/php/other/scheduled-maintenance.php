@@ -214,7 +214,12 @@ store_file_contents($base_dir . '/cache/vars/cache_size.dat', convert_bytes( dir
 delete_old_files($base_dir . '/cache/secured/backups', $app_config['delete_old_backups'], 'zip');
 
 
-// Stale cache files cleanup
+// Stale cache files cleanup...
+
+delete_old_files($base_dir . '/cache/events/throttling', 1, 'dat'); // Delete throttling cache files older than 1 day
+
+
+
 delete_old_files($base_dir . '/cache/secured/apis', 1, 'dat'); // Delete API cache files older than 1 day
 
 

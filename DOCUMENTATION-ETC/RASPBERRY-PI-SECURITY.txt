@@ -78,6 +78,11 @@ sudo ufw allow PORT_NUMER_HERE
 sudo ufw enable
 
 
+4) Review the current firewall status and rules:
+
+sudo ufw status
+
+
 =======================================================
 
 

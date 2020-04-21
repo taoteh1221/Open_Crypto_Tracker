@@ -21,9 +21,23 @@ ini_set('max_execution_time', $app_config['api_max_execution_time']);
 }
 
 
+// Ip address information
+$store_ip = preg_replace("/\./", "_", $_SERVER['REMOTE_ADDR']);
+$ip_access = trim( file_get_contents($base_dir . '/cache/events/throttling/local_api_incoming_ip_' . $store_ip . '.dat') );
+
+
+// Throttle ip addresses reconnecting before $app_config['local_api_rate_limit'] interval passes
+if ( update_cache_file($base_dir . '/cache/events/throttling/local_api_incoming_ip_' . $store_ip . '.dat', ($app_config['local_api_rate_limit'] / 60) ) == false ) {
+
+$result = array('error' => "Rate limit (maximum of once every " . $app_config['local_api_rate_limit'] . " seconds) reached for ip address: " . $_SERVER['REMOTE_ADDR']);
+
+echo json_encode($result, JSON_PRETTY_PRINT);
+exit;
+
+}
 // API security check (key request var must match our stored API key, or we abort runtime)
-// POST DATA #ONLY#, FOR HIGH SECURITY OF API KEY TRANSMISSION
-if ( !isset($_POST['api_key']) || isset($_POST['api_key']) && $_POST['api_key'] != $api_key ) {
+// (POST DATA #ONLY#, FOR HIGH SECURITY OF API KEY TRANSMISSION)
+elseif ( !isset($_POST['api_key']) || isset($_POST['api_key']) && $_POST['api_key'] != $api_key ) {
 	
 	if ( isset($_POST['api_key']) ) {
 	$result = array('error' => "Incorrect API key: " . $_POST['api_key']);
@@ -58,6 +72,9 @@ $all_markets_data_array = explode(",", $data_set_array[2]); // Market data array
 	$result = array('error' => 'No matches / results found.');
 	}
 	
+
+// Log access event for this ip address (for throttling)
+store_file_contents($base_dir . '/cache/events/throttling/local_api_incoming_ip_' . $store_ip . '.dat', time_date_format(false, 'pretty_date_time') );
 	
 // Return in json format
 echo json_encode($result, JSON_PRETTY_PRINT);

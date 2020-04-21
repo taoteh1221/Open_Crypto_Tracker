@@ -349,7 +349,7 @@ $result = array();
 	
 	$request = "{$url}?{$qs}"; // create the request URL
 
-	$jsondata = @api_data('url', $request, $app_config['api_timeout'], null, null, null, $headers);
+	$jsondata = @api_data('url', $request, $app_config['remote_api_timeout'], null, null, null, $headers);
 	
 	$data = json_decode($jsondata, true);
         

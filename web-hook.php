@@ -62,7 +62,7 @@ elseif ( $webhook_hash[0] == hash('ripemd160', 'test-only' . $webhook_key) ) {
 
 $test_params = array('api_key' => $api_key);
 						
-$test_data = @api_data('array', $test_params, 0, $base_url . 'api/market_conversion/eur/coinbase-btc-usd,coinbase-ltc-usd', 2);
+$test_data = @api_data('array', $test_params, 0, $base_url . 'api/market_conversion/usd/kraken-btc-usd,coinbase-dai-usdc,coinbase-eth-usd,binance-mana-btc,bittrex-hive-btc,kucoin-grin-btc,kraken-atom-btc,binance-dcr-btc', 2);
 
 // Already json-encoded
 echo $test_data;
