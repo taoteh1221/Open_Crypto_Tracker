@@ -119,7 +119,7 @@ $app_config['email_logs'] = 3;
 // PRICE ALERTS SETUP REQUIRES A CRON JOB RUNNING ON YOUR WEBSITE SERVER (see README.txt for cron job setup information) 
 // Price alerts will send to all properly-configured communication channels, and automatically skip any not properly setup
 // Price percent change to send alerts for (WITHOUT percent sign: 15 = 15%). Sends alerts when percent change reached (up or down)
-$app_config['price_alerts_threshold'] = 8.85; 
+$app_config['price_alerts_threshold'] = 8.85; // CAN BE 0 TO DISABLE PRICE ALERTS
 ////
 // Re-allow SAME asset price alert(s) messages after X hours (per asset, set higher if issues with blacklisting...can be 0)
 // Price alerts AUTOMATICALLY will send to all properly-configured communication channels, and automatically skip any not properly setup
@@ -530,7 +530,12 @@ $app_config['remote_api_timeout'] = 20; // (default = 20)
 
 
 // Local / internal API rate limit (maximum of once every X seconds, per ip address) for accepting remote requests
+// Can be 0 to disable rate limiting (unlimited)
 $app_config['local_api_rate_limit'] = 10; // (default = 10)
+
+
+// Local / internal API market limit (maximum number of markets requested per call)
+$app_config['local_api_market_limit'] = 20; // (default = 20)
 
 
 // Minutes to cache real-time exchange price data...can be zero to skip cache, but set to at least 1 minute TO AVOID YOUR IP GETTING BLOCKED
@@ -2370,6 +2375,7 @@ $app_config['portfolio_assets'] = array(
 ///////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////// COIN MARKETS CONFIG -END- /////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
+
 
 
 

@@ -302,19 +302,26 @@ $result = array();
 $possible_dos_attack = 0;
 
 
-	 // Return if there are missing parameters
+	 // Return error message if there are missing parameters
 	 if ( $market_conversion == '' || $all_markets_data_array[0] == '' ) {
 			
 			if ( $market_conversion == '' ) {
-			$result['error'][] = 'Missing parameter: [currency_symbol|market_only]';
+			$result['error'] .= 'Missing parameter: [currency_symbol|market_only]; ';
 			}
 			
 			if ( $all_markets_data_array[0] == '' ) {
-			$result['error'][] = 'Missing parameter: [exchange-asset-pairing]';
+			$result['error'] .= 'Missing parameter: [exchange-asset-pairing]; ';
 			}
 		
 	 return $result;
 	 
+	 }
+	 
+	 
+	 // Return error message if the markets lists is more markets than allowed by $app_config['local_api_market_limit']
+	 if ( sizeof($all_markets_data_array) > $app_config['local_api_market_limit'] ) {
+	 $result['error'] = 'Exceeded maximum of ' . $app_config['local_api_market_limit'] . ' markets allowed per request (' . sizeof($all_markets_data_array) . ').';
+	 return $result;
 	 }
 
 
@@ -863,6 +870,12 @@ function charts_and_price_alerts($asset_data, $exchange, $pairing, $mode) {
 // Globals
 global $base_dir, $app_config, $default_btc_primary_exchange, $default_btc_primary_currency_value, $default_btc_primary_currency_pairing, $price_alerts_fixed_reset_array;
 
+	
+	// Return true (no errors) if alert-only, and alerts are disabled
+	if ( $mode == 'alert' && $app_config['price_alerts_threshold'] == 0 ) {
+	return true;
+	}
+
 
 /////////////////////////////////////////////////////////////////
 // Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
@@ -1003,7 +1016,7 @@ $volume_pairing_raw = number_to_string($volume_pairing_raw);
 	
 	// Alert checking START
 	/////////////////////////////////////////////////////////////////
-	if ( $mode == 'alert' || $mode == 'both' ) {
+	if ( $mode == 'alert' && $app_config['price_alerts_threshold'] > 0 || $mode == 'both' && $app_config['price_alerts_threshold'] > 0 ) {
 
         
    // WE USE PAIRING VOLUME FOR VOLUME PERCENTAGE CHANGES, FOR BETTER PERCENT CHANGE ACCURACY THAN FIAT EQUIV
@@ -1062,7 +1075,7 @@ $volume_pairing_raw = number_to_string($volume_pairing_raw);
               
     	
       	// INITIAL check whether we should send an alert (we ALSO check for a few different conditions further down, and UPDATE THIS VAR AS NEEDED THEN)
-      	if ( $percent_change >= number_to_string($app_config['price_alerts_threshold']) ) {
+      	if ( $percent_change >= $app_config['price_alerts_threshold'] ) {
       	$send_alert = 1;
       	}
               
@@ -1330,7 +1343,7 @@ $volume_pairing_raw = number_to_string($volume_pairing_raw);
 	
 	
 
-// If we haven't returned false yet because of any issues being detected, return TRUE to indicate all seems ok
+// If we haven't returned false yet because of any issues being detected, return true to indicate all seems ok
 return true;
 
 

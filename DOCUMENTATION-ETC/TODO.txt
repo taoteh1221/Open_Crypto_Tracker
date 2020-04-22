@@ -29,6 +29,18 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 Documentation for API / Webhook features
 
 
+Add api key and webhook keys on admin page.
+
+
+Admin page authentication.
+
+
+Vertical tabs on admin page.
+
+
+Header from zilliqa block explorer for admin page link / alerts bell.
+
+
 Retest password strength function after the modification.
 
 
@@ -160,7 +172,7 @@ Turn string / array manipulations function file into a class.
 Add admin settings feature to restore chart data from the zip archive backups (with admin authentication ONLY). Chart restore by prepending, so any existing data remains, BUT only if timestamp is newer than newest backups timestamp. Trigger restore from newest backups folder backup by placing a blank file named RESTORE_CHARTS in the queue directory.
 
 
-Add setting to enable access stats modal, maybe include an optional password setting to require login to view it in the UI if password is set. Store access data in flat file / json format (so mulitiple values can be read back into the app before updating, then updated values saved back in json overwriting previously saved values). Last 50 unique ip addresses, showing ip address's last user agent / last visit time / total visits count. Drop any over 50 ip addresses off the list based on oldest timestamps. Store visitor ip address data (user agent, etc) in an array key based off ip address (json format).
+Add setting to enable access stats modal, maybe include an optional password setting to require login to view it in the UI if password is set. Store access data in flat file / json format (so mulitiple values can be read back into the app before updating, then updated values saved back in json overwriting previously saved values). Last 50 unique ip addresses, showing ip address's last user agent / last visit time / total visits count. Drop any over 50 ip addresses off the list based on oldest timestamps. Store visitor ip address data (user agent, etc) in an array key based off ip address (json format). Add visitor stats for API and webhook visits (whenever the stats logic is built out for the interface).
 
 
 Look into an auto-update feature like WordPress has (downloads a zip file upgrade, and exctracts it overwriting the old app files).

@@ -16,7 +16,7 @@
 			
 			
 			<?php
-			if ( $price_alert_type_text != '' ) {
+			if ( $price_alert_type_text != '' && $app_config['price_alerts_threshold'] > 0 ) {
           ?>
           	<p class='settings_sections'><b><?=$price_alert_type_text?> price alerts</b> are <i>enabled</i> in the configuration file (upon <?=$app_config['price_alerts_threshold']?>% or more <?=strtoupper($default_btc_primary_currency_pairing)?> price change<?=( $app_config['price_alerts_freq_max'] > 0 ? ' / max every ' . $app_config['price_alerts_freq_max'] . ' hours per-alert' : '' )?><?=( $app_config['price_alerts_min_volume'] > 0 ? ' / ' . $app_config['bitcoin_currency_markets'][$default_btc_primary_currency_pairing] . number_format($app_config['price_alerts_min_volume'], 0, '.', ',') . ' minumum volume filter enabled' : '' )?><?=( $app_config['price_alerts_fixed_reset'] > 0 ? ' / comparison price fixed-reset after ' . $app_config['price_alerts_fixed_reset'] . ' days' : '' )?>). 
           	

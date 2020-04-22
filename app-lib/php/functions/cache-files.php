@@ -1440,6 +1440,7 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 				// Needed for kraken, coinmarketcap
 				// https://www.php.net/manual/en/regexp.reference.meta.php
 				if ( $endpoint_tld_or_ip == 'kraken.com' && preg_match("/\"error\":\[\],/i", $data) 
+				|| $endpoint_tld_or_ip == 'coinmarketcap.com' && preg_match("/\"error_code\":0,/i", $data)
 				|| $endpoint_tld_or_ip == 'coinmarketcap.com' && preg_match("/\"error_code\": 0,/i", $data) ) {
 				$false_positive = 1;
 				}
