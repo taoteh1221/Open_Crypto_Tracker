@@ -1,0 +1,34 @@
+/*
+ * Copyright 2014-2020 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
+ */
+
+
+/* //////////////////////////////
+ELEMENTS
+////////////////////////////// */
+
+
+
+
+/* //////////////////////////////
+CLASSES
+////////////////////////////// */
+
+
+.tab-content>.active {
+background-color: #fff;
+color: #000;
+}
+
+
+.nav-tabs-vertical .nav-link.active {
+color: #000;
+background-color: #fff;
+text-decoration: none;
+}
+
+
+/* //////////////////////////////
+IDs
+////////////////////////////// */
+

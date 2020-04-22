@@ -6,9 +6,6 @@ $time = explode(' ', $time);
 $time = $time[1] + $time[0];
 $start_runtime = $time;
 
-// Runtime mode
-$runtime_mode = 'ui';
-
 require("config.php");
 	
 	
@@ -32,7 +29,7 @@ header('Content-type: text/html; charset=' . $app_config['charset_default']);
 
 <head>
 
-	<title>DFD Cryptocoin Values</title>
+	<title>DFD Cryptocoin Values - <?=( $is_admin == 1 ? 'Admin Settings' : 'Cryptocurrency Portfolio Tracker' )?></title>
     
    <meta charset="<?=$app_config['charset_default']?>">
    
@@ -48,7 +45,16 @@ header('Content-type: text/html; charset=' . $app_config['charset_default']);
 	<link rel="stylesheet" href="templates/interface/css/style.css" type="text/css" />
 	
 	<link rel="stylesheet" href="templates/interface/css/<?=$theme_selected?>.style.css" type="text/css" />
-
+	
+	<?php
+	if ( $is_admin == 1 ) {
+	?>
+	<link rel="stylesheet" href="templates/interface/css/admin.css" type="text/css" />
+	
+	<link rel="stylesheet" href="templates/interface/css/<?=$theme_selected?>.admin.css" type="text/css" />
+	<?php
+	}
+	?>
 
 	<style>
 
@@ -146,7 +152,7 @@ header('Content-type: text/html; charset=' . $app_config['charset_default']);
     
     
     <div class='align_center' id='body_top_nav'>
-    <h2>DFD Cryptocoin Values - Cryptocurrency Portfolio Tracker</h2>
+    <h2>DFD Cryptocoin Values - <?=( $is_admin == 1 ? 'Admin Settings' : 'Cryptocurrency Portfolio Tracker' )?></h2>
 	 </div>
 	 
 	 <div class='align_center loading bitcoin' id='body_loading'>

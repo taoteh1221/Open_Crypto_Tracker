@@ -42,72 +42,80 @@ $("span.btc_primary_currency_pairing").html(window.btc_primary_currency_pairing)
 
 	//////////////////////////////////////////////////////////
 	
-	if ( getCookie("coin_reload").length > 0 ) {
+	if ( getCookie("coin_reload") ) {
+		
+		if ( getCookie("coin_reload").length > 0 ) {
 	
         //console.log('auto reload function triggered...');
 	
-	auto_reload(getCookie("coin_reload"));
-    
+		auto_reload(getCookie("coin_reload"));
+	
+   	}
+   
 	}
 	
 	//////////////////////////////////////////////////////////
 	
+	if ( document.getElementById("coins_table") ) {
+		
+		$("#coins_table").tablesorter({
+			
+			sortList: [[sorted_by_col,sorted_by_asc_desc]],
+			theme : tablesort_theme, // theme "jui" and "bootstrap" override the uitheme widget option in v2.7+
+			textExtraction: sort_extraction,
+			widgets: ['zebra'],
+		  headers: {
 				
-	$("#coins_table").tablesorter({
+			// disable sorting of the first column (we can use zero or the header class name)
+			  '.no-sort' : {
+			  // disable it by setting the property sorter to false
+			  sorter: false
+			  },
+					0: { 
+					sorter:'sortprices' 
+					},
+					2: { 
+					sorter:'sortprices' 
+					},
+					3: { 
+					sorter:'sortprices' 
+					},
+					6: { 
+					sorter:'sortprices' 
+					},
+					7: { 
+					sorter:'sortprices' 
+					},
+					9: { 
+					sorter:'sortprices' 
+					},
+					10: { 
+					sorter:'sortprices' 
+					}
+			
+			}
+			
+		});
 		
-		sortList: [[sorted_by_col,sorted_by_asc_desc]],
-    	theme : tablesort_theme, // theme "jui" and "bootstrap" override the uitheme widget option in v2.7+
-  		textExtraction: sort_extraction,
-		widgets: ['zebra'],
-      headers: {
-		    
-		// disable sorting of the first column (we can use zero or the header class name)
-		  '.no-sort' : {
-		  // disable it by setting the property sorter to false
-		  sorter: false
-		  },
-			    0: { 
-				sorter:'sortprices' 
-			    },
-			    2: { 
-				sorter:'sortprices' 
-			    },
-			    3: { 
-				sorter:'sortprices' 
-			    },
-			    6: { 
-				sorter:'sortprices' 
-			    },
-			    7: { 
-				sorter:'sortprices' 
-			    },
-			    9: { 
-				sorter:'sortprices' 
-			    },
-			    10: { 
-				sorter:'sortprices' 
-			    }
 		
-        }
-		
-    });
+		// add parser through the tablesorter addParser method 
+		$.tablesorter.addParser({ 
+			// set a unique id 
+			id: 'sortprices', 
+			is: function(s) { 
+			// return false so this parser is not auto detected 
+			return false; 
+			}, 
+			format: function(s) { 
+			// format your data for normalization 
+			return s.toLowerCase().replace(/\,/,'').replace(/ggggg/,'').replace(/\W+/,''); 
+			}, 
+			// set type, either numeric or text 
+			type: 'numeric' 
+		}); 
 	
 	
-	// add parser through the tablesorter addParser method 
-	$.tablesorter.addParser({ 
-	    // set a unique id 
-	    id: 'sortprices', 
-	    is: function(s) { 
-		// return false so this parser is not auto detected 
-		return false; 
-	    }, 
-	    format: function(s) { 
-		// format your data for normalization 
-		return s.toLowerCase().replace(/\,/,'').replace(/ggggg/,'').replace(/\W+/,''); 
-	    }, 
-	    // set type, either numeric or text 
-	    type: 'numeric' 
-	}); 
+	}
 	    
 	//////////////////////////////////////////////////////////
   

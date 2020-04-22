@@ -318,56 +318,63 @@ document.getElementById("target_total_btc").innerHTML = (to_trade_amount * num_t
 
 function auto_reload(time) {
 	
-	if ( window.reload_function ) {
-	clearInterval(window.reload_function);
-	}
-	
-	if ( time >= 1 ) {
+
+	if ( document.getElementById("set_use_cookies") ) {
 		
+		if ( window.reload_function ) {
+		clearInterval(window.reload_function);
+		}
 		
-		if ( document.getElementById("set_use_cookies").checked == false ) {
+		if ( time >= 1 ) {
 			
-		var use_cookies = confirm(' You must enable "Use cookies to save data between browser sessions" on the "Settings" page before using this auto-refresh feature. \n \n Click OK below to enable "Use cookies to save data between browser sessions" automatically NOW, or click CANCEL to NOT enable cookie data storage for this app.');
-		
-			if ( use_cookies == true ) {
+			
+			if ( document.getElementById("set_use_cookies").checked == false ) {
 				
+			var use_cookies = confirm(' You must enable "Use cookies to save data between browser sessions" on the "Settings" page before using this auto-refresh feature. \n \n Click OK below to enable "Use cookies to save data between browser sessions" automatically NOW, or click CANCEL to NOT enable cookie data storage for this app.');
+			
+				if ( use_cookies == true ) {
+					
+				setCookie("coin_reload", time, 365);
+				
+				$("#use_cookies").val(1);
+				
+				document.getElementById("reload_countdown").innerHTML = "(reloading app, please wait...)";
+				
+					setTimeout(function () {
+						$("#coin_amounts").submit();
+					}, 2000);
+				
+				}
+				else{
+				$("#select_auto_refresh").val('');
+				return false;
+				}
+			
+			}
+			else {
 			setCookie("coin_reload", time, 365);
-			
-			$("#use_cookies").val(1);
-			
-			document.getElementById("reload_countdown").innerHTML = "(reloading app, please wait...)";
-			
-				setTimeout(function () {
-    			$("#coin_amounts").submit();
-				}, 2000);
-			
+			count_down(time, 1);
 			}
-			else{
-			$("#select_auto_refresh").val('');
-			return false;
-			}
+		
+		
+		window.reload_function = setInterval(function() {
+				
+						app_reloading_placeholder();
+					location.reload(true);
+					
+					}, (time * 1000));
+			
+		
 		
 		}
 		else {
-		setCookie("coin_reload", time, 365);
-		count_down(time, 1);
+		count_down(time, 0);
+		setCookie("coin_reload", '', 365);
 		}
 	
 	
-	window.reload_function = setInterval(function() {
-			
-    			app_reloading_placeholder();
-				location.reload(true);
-				
-				}, (time * 1000));
-		
-	
-	
 	}
-	else {
-	count_down(time, 0);
-	setCookie("coin_reload", '', 365);
-	}
+
 
 }
 

@@ -1,6 +1,8 @@
 
     <!-- footer.php START -->
     
+<br class='clear_both' />
+
 <p class='align_center' style='margin: 15px;'><a href='javascript:scroll(0,0);'>Back To Top</a></p>
 
 

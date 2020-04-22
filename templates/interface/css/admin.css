@@ -1,0 +1,85 @@
+/*
+ * Copyright 2014-2020 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
+ */
+
+
+/* //////////////////////////////
+ELEMENTS
+////////////////////////////// */
+
+
+
+
+/* //////////////////////////////
+CLASSES
+////////////////////////////// */
+
+
+.tab-content {
+    float: left;
+    width: 85%;
+}
+
+
+.tab-content div {
+padding: 25px;
+}
+
+
+.tab-content>.active {
+    border-top: 2px solid #808080;
+    border-left: 2px solid #808080;
+    border-right: 2px solid #808080;
+    border-bottom: 2px solid #808080;
+	 border-top-right-radius: 8px;
+	 border-bottom-right-radius: 8px;
+	 border-bottom-left-radius: 8px;
+    display: block;
+    min-height: 650px;
+}
+
+
+.nav.nav-tabs-vertical {
+    float: left;
+    width: 15%;
+    display: block;
+    border-bottom:0;
+    border-right: 0px;
+    padding-right: 0px;
+    margin-right: 0px;
+}
+
+
+.nav-tabs-vertical .nav-link.active {
+text-decoration: none;
+    border-top: 2px solid #808080;
+    border-left: 2px solid #808080;
+    border-bottom: 2px solid #808080;
+}
+
+
+.nav-tabs-vertical .nav-link {
+	 font-size: 19px;
+    background: #909396;
+color: #000;
+text-decoration: none;
+margin: auto;
+   text-align: center;
+}
+
+
+/* //////////////////////////////
+IDs
+////////////////////////////// */
+
+
+#admin_tabs li a {
+	position: relative;
+	left: 2px;
+	 margin-bottom: 7px;
+	 border-top-left-radius: 8px;
+	 border-bottom-left-radius: 8px;
+}
+
+
+

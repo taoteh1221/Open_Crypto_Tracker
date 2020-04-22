@@ -3117,6 +3117,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.10.0:
 
+-Administration Settings Interface
+
 -Initial API / Webhook support (see README.txt on usage)
 
 -Misc. Optimizations / UX revisions

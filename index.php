@@ -4,6 +4,9 @@
  */
 
 
+// Runtime mode
+$runtime_mode = 'ui';
+
 require("templates/interface/php/header.php");
 
 ?>
