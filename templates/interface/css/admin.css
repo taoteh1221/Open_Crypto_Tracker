@@ -22,7 +22,10 @@ CLASSES
 
 
 .tab-content div {
-padding: 25px;
+padding-top: 3px;
+padding-left: 13px;
+padding-right: 15px;
+padding-bottom: 15px;
 }
 
 
@@ -59,7 +62,7 @@ text-decoration: none;
 
 
 .nav-tabs-vertical .nav-link {
-	 font-size: 19px;
+	 font-size: 21px;
     background: #909396;
 color: #000;
 text-decoration: none;

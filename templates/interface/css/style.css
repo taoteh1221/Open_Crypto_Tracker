@@ -416,6 +416,12 @@ max-width: 1200px;
 }
 
 
+.max_1700px_wrapper {
+position: relative;
+max-width: 1700px;
+}
+
+
 .max_full_width_wrapper {
 position: relative;
 max-width: 100%;
