@@ -59,7 +59,7 @@ require("templates/interface/php/header.php");
 		
 		<div class="tab-content align_left">
 		
-		  <div class="tab-pane active" id="admin_comms" role="tabpanel">
+		  <div class="tab-pane" id="admin_comms" role="tabpanel">
 			<?php require("templates/interface/php/admin/admin-sections/communications.php"); ?>
 		  </div>
 		  
@@ -91,7 +91,7 @@ require("templates/interface/php/header.php");
 			<?php require("templates/interface/php/admin/admin-sections/portfolio-assets.php"); ?>
 		  </div>
 		  
-		  <div class="tab-pane" id="admin_api_webook" role="tabpanel">
+		  <div class="tab-pane active" id="admin_api_webook" role="tabpanel">
 			<?php require("templates/interface/php/admin/admin-sections/api-webhook.php"); ?>
 		  </div>
 		  
