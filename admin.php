@@ -17,7 +17,7 @@ require("templates/interface/php/header.php");
 
 <div class='full_width_wrapper align_center'>
 
-	<div class='max_1700px_wrapper align_center' style='margin: auto;'>
+	<div class='max_1350px_wrapper align_center' style='margin: auto;'>
 	
 
 		<ul class="nav nav-tabs-vertical align_center" id="admin_tabs" role="tablist">
@@ -107,7 +107,7 @@ require("templates/interface/php/header.php");
 
 
 
-	</div> <!-- max_1700px_wrapper END -->
+	</div> <!-- max_1350px_wrapper END -->
 	
 </div> <!-- admin index full_width_wrapper END -->
 

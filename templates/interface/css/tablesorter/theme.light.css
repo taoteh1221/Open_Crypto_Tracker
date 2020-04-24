@@ -79,7 +79,7 @@ Default Theme
 
 /* Zebra Widget - row alternating colors */
 .tablesorter-light tr.odd td {
-	background-color: #e8e8e8;
+	background-color: #d6d4d4;
 }
 .tablesorter-light tr.even td {
 	background-color: white;

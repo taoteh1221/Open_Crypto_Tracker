@@ -11,7 +11,6 @@
 				<h4 class='align_center'>Proxy</h4>
 				
 	
-	<p> &nbsp; </p>
 	
 	<p> Coming Soon&trade; </p>
 				

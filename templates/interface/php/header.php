@@ -29,7 +29,7 @@ header('Content-type: text/html; charset=' . $app_config['charset_default']);
 
 <head>
 
-	<title>DFD Cryptocoin Values - <?=( $is_admin == 1 ? 'Admin Settings' : 'Cryptocurrency Portfolio Tracker' )?></title>
+	<title>DFD Cryptocoin Values - <?=( $is_admin == 1 ? 'Admin Configuration' : 'Portfolio Tracker' )?></title>
     
    <meta charset="<?=$app_config['charset_default']?>">
    
@@ -152,8 +152,30 @@ header('Content-type: text/html; charset=' . $app_config['charset_default']);
     
     
     <div class='align_center' id='body_top_nav'>
-    <h2>DFD Cryptocoin Values - <?=( $is_admin == 1 ? 'Admin Settings' : 'Cryptocurrency Portfolio Tracker' )?></h2>
+    
+    
+	<!-- START #topnav-content -->
+   <nav id='topnav' class="navbar navbar-expand-lg align_center">
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav">
+      <li class="nav-item dropdown align_center">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src='templates/interface/media/images/login-<?=$theme_selected?>-theme.png' width='30' border='0' /></a>
+        <div class="dropdown-menu shadow-lg p-3 mb-5 bg-white rounded" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item<?=( preg_match("/admin.php/i", $_SERVER['REQUEST_URI']) ? ' active' : '' )?>" href="admin.php">Admin Configuration</a>
+          <a class="dropdown-item<?=( !preg_match("/admin.php/i", $_SERVER['REQUEST_URI']) ? ' active' : '' )?>" href="index.php">Portfolio Tracker</a>
+        </div>
+      </li>
+    </ul>
+    <h2>DFD Cryptocoin Values - <?=( $is_admin == 1 ? 'Admin Configuration' : 'Portfolio Tracker' )?></h2>
+  </div>
+	
+	</nav>
+    <!-- END #topnav-content -->
+    
+    
 	 </div>
+	 
 	 
 	 <div class='align_center loading bitcoin' id='body_loading'>
 	 <img src="templates/interface/media/images/loader.gif" height='60' alt="" style='vertical-align: middle;' /> <span id='body_loading_span'>Loading App...</span>

@@ -9,13 +9,13 @@ ELEMENTS
 
 
 body {
-background-color: #ededea;
+background-color: #d6d6d6;
 color: #000;
 }
 
 
 table, .long_list_even, div.tabdiv, .tabs a.active {
-background-color: #fff;
+background-color: #f2f2f2;
 color: #000;
 }
 
@@ -114,7 +114,7 @@ border-bottom: 2px solid #ccc;
 
 
 .long_list_odd {
-background: #e8e8e8;
+background: #d6d4d4;
 }
 
 
@@ -171,9 +171,20 @@ border-top: 2px solid black;
 }
 
 
-.modaal-container, .accordion .card {
+.modaal-container {
     color: #000 !important;
-    background: #ededea !important;
+    background: #f2f2f2 !important;
+}
+
+
+.card-body {
+    color: #000 !important;
+    background: #fff !important;
+}
+
+
+.card-header {
+    background: #eaeaea !important;
 }
 
 
@@ -181,6 +192,29 @@ border-top: 2px solid black;
 IDs
 ////////////////////////////// */
 
+
+#body_top_nav .navbar-nav .dropdown-menu {
+background: #545353 !important;
+border: 2px solid black !important;
+}
+
+
+#body_top_nav .navbar-nav .dropdown-menu a:link, #body_top_nav .navbar-nav .dropdown-menu a:visited {
+color: white;
+}
+
+
+#body_top_nav .navbar-nav .dropdown-item:hover {
+background-color: #545353 !important;
+color: #cecccc !important;
+}
+
+
+#body_top_nav .navbar-nav .dropdown-item.active {
+background-color: #cecccc !important;
+color: black !important;
+border-radius: 3px;
+}
 
 
 

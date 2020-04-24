@@ -1464,11 +1464,11 @@ $original_market = $selected_exchange;
 	
     
     // UI table coloring
-    if ( !$td_color_zebra || $td_color_zebra == '#e8e8e8' ) {
+    if ( !$td_color_zebra || $td_color_zebra == '#d6d4d4' ) {
     $td_color_zebra = 'white';
     }
     else {
-    $td_color_zebra = '#e8e8e8';
+    $td_color_zebra = '#d6d4d4';
     }
 
 	

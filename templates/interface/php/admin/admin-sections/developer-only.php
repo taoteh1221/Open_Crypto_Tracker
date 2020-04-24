@@ -11,7 +11,6 @@
 				<h4 class='align_center'>Developer Only</h4>
 				
 	
-	<p> &nbsp; </p>
 	
 	<p> Coming Soon&trade; </p>
 				

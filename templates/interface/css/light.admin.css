@@ -28,6 +28,12 @@ text-decoration: none;
 }
 
 
+.nav-tabs-vertical .nav-link {
+color: #fff;
+background: #808080;
+}
+
+
 /* //////////////////////////////
 IDs
 ////////////////////////////// */

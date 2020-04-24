@@ -11,8 +11,6 @@
 				<h4 class='align_center'>Reset</h4>
 				
 	
-	<p> &nbsp; </p>
-	
 	<p> Coming Soon&trade; </p>
 				
 	

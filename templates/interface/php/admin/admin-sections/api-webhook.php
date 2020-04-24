@@ -11,11 +11,9 @@
 				<h4 class='align_center'>API / Webhook</h4>
 				
 	
-	<p> &nbsp; </p>
-	
 	<p> Coming Soon&trade; </p>
 				
-	
+			    
 			    
 			    
 </div> <!-- full_width_wrapper END -->

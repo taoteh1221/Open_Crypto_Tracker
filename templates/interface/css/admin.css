@@ -25,7 +25,7 @@ CLASSES
 padding-top: 3px;
 padding-left: 13px;
 padding-right: 15px;
-padding-bottom: 15px;
+padding-bottom: 10px;
 }
 
 
@@ -38,7 +38,13 @@ padding-bottom: 15px;
 	 border-bottom-right-radius: 8px;
 	 border-bottom-left-radius: 8px;
     display: block;
-    min-height: 650px;
+    min-height: 750px;
+}
+
+
+.tab-content>.active h4 {
+margin-top: 4px;
+margin-bottom: 20px;
 }
 
 
@@ -63,8 +69,7 @@ text-decoration: none;
 
 .nav-tabs-vertical .nav-link {
 	 font-size: 21px;
-    background: #909396;
-color: #000;
+padding: 10px;
 text-decoration: none;
 margin: auto;
    text-align: center;
@@ -80,8 +85,8 @@ IDs
 	position: relative;
 	left: 2px;
 	 margin-bottom: 7px;
-	 border-top-left-radius: 8px;
-	 border-bottom-left-radius: 8px;
+	 border-top-left-radius: 10px;
+	 border-bottom-left-radius: 10px;
 }
 
 
