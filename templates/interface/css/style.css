@@ -584,7 +584,7 @@ display: none;
 
 
 #body_top_nav .navbar-expand-lg {
-width: fit-content;
+display: inline-block;
 margin: auto;
 }
 
