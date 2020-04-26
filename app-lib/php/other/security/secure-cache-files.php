@@ -10,11 +10,6 @@ $secured_cache_files = sort_files($base_dir . '/cache/secured', 'dat', 'desc');
 
 $app_config_check = trim( file_get_contents($base_dir . '/cache/vars/app_config_md5.dat') );
 
-// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-if ( trim($app_config['telegram_your_username']) != '' && trim($app_config['telegram_bot_name']) != '' && trim($app_config['telegram_bot_username']) != '' && $app_config['telegram_bot_token'] != '' ) {
-$telegram_activated = 1;
-}
-
 
 foreach( $secured_cache_files as $secured_file ) {
 
@@ -145,6 +140,23 @@ foreach( $secured_cache_files as $secured_file ) {
 	}
 	
 	
+	// API key (for secure API communications)
+	elseif ( preg_match("/admin_login_/i", $secured_file) ) {
+		
+		
+		// If we already loaded the newest modified file, delete any stale ones
+		if ( $newest_cached_admin_login == 1 ) {
+		unlink($base_dir . '/cache/secured/' . $secured_file);
+		}
+		else {
+		$newest_cached_admin_login = 1;
+		$admin_login = explode("||", trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) ) );
+		}
+	
+	
+	}
+	
+	
 	// Any outdated var names we no longer use are safe to delete
 	else {
 	unlink($base_dir . '/cache/secured/' . $secured_file);
@@ -214,6 +226,35 @@ $secure_256bit_hash = random_hash(32); // 256-bit (32-byte) hash converted to he
 	else {
 	store_file_contents($base_dir . '/cache/secured/api_key_'.$secure_128bit_hash.'.dat', $secure_256bit_hash);
 	$api_key = $secure_256bit_hash;
+	}
+
+
+}
+
+
+
+
+// If no admin login, valid user / pass are submitted, AND CAPTCHA MATCHES, store the new admin login
+if ( !$admin_login 
+&& valid_username( trim($_POST['set_username']) ) == 'valid' 
+&& password_strength($_POST['set_password'], 12, 40) == 'valid' 
+&& isset($_POST['captcha_code']) && $securimage->check( $_POST['captcha_code'] ) == true ) {
+	
+$secure_128bit_hash = random_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
+$secure_password_hash = pepper_hashed_password($_POST['set_password']); // Peppered password hash
+	
+	
+	// (random hash) Halt the process if an issue is detected safely creating a random hash
+	if ( $secure_128bit_hash == false ) {
+	app_logging('security_error', 'Cryptographically secure pseudo-random bytes could not be generated for admin login (in secured cache storage), admin login creation aborted to preserve security');
+	}
+	// (peppered password) Halt the process if an issue is detected safely creating a random hash
+	elseif ( $secure_password_hash == false ) {
+	app_logging('security_error', 'A peppered password hash could not be generated for admin login, admin login creation aborted to preserve security');
+	}
+	else {
+	store_file_contents($base_dir . '/cache/secured/admin_login_'.$secure_128bit_hash.'.dat', $_POST['set_username'] . '||' . $secure_password_hash);
+	$admin_login = array($_POST['set_username'], $secure_password_hash);
 	}
 
 

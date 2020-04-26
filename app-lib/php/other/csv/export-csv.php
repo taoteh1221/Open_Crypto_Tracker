@@ -97,7 +97,6 @@ $csv_download_array[] = array(
 error_logs();
 debugging_logs();
 send_notifications();
-hardy_session_clearing();
 
 // Run last, as it exits when completed
 create_csv_file('temp', 'Crypto_Portfolio.csv', $csv_download_array); 

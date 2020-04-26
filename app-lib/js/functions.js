@@ -273,6 +273,132 @@ function watch_toggle(obj_var) {
 /////////////////////////////////////////////////////////////
 
 
+function check_pass(doc_id_alert, doc_id_pass1, doc_id_pass2) {
+	
+var pass1 = document.getElementById(doc_id_pass1);
+var pass2 = document.getElementById(doc_id_pass2);
+var message = document.getElementById(doc_id_alert);
+
+
+var regex_has_space = /\s/;
+var regex_has_number = /\d+/;
+var regex_has_lowercase = /[a-z]/;
+var regex_has_uppercase = /[A-Z]/;
+var regex_has_symbol = /[!@#$%^&*]/;
+    
+var goodColor = "#10d602";
+var badColor = "#ff4747";
+    
+    // Check length / compare values
+   if ( !pass1 ) {
+        message.style.color = badColor;
+        message.innerHTML = "Enter your password."
+        return false;
+    }
+   else if ( pass1.value.match(regex_has_space) ) {
+        pass1.style.backgroundColor = badColor;
+        message.style.color = badColor;
+        message.innerHTML = "Password MUST NOT not contain any spaces."
+        return false;
+    }
+	else if ( pass1.value.length < 12 || pass1 && pass1.value.length > 40 ) {
+        pass1.style.backgroundColor = badColor;
+        message.style.color = badColor;
+        message.innerHTML = "Password must be between 12 and 40 characters long."
+        return false;
+	}
+   else if ( !pass1.value.match(regex_has_number) ) {
+        pass1.style.backgroundColor = badColor;
+        message.style.color = badColor;
+        message.innerHTML = "Password MUST contain at least 1 number."
+        return false;
+    }
+   else if ( !pass1.value.match(regex_has_lowercase) ) {
+        pass1.style.backgroundColor = badColor;
+        message.style.color = badColor;
+        message.innerHTML = "Password MUST contain at least 1 LOWERCASE letter."
+        return false;
+    }
+   else if ( !pass1.value.match(regex_has_uppercase) ) {
+        pass1.style.backgroundColor = badColor;
+        message.style.color = badColor;
+        message.innerHTML = "Password MUST contain at least 1 UPPERCASE letter."
+        return false;
+    }
+   else if ( !pass1.value.match(regex_has_symbol) ) {
+        pass1.style.backgroundColor = badColor;
+        message.style.color = badColor;
+        message.innerHTML = "Password MUST contain at least 1 symbol."
+        return false;
+    }
+   else if ( !pass2 || pass1 && pass2 && pass1.value != pass2.value ) {
+        pass1.style.backgroundColor = goodColor;
+        pass2.style.backgroundColor = badColor;
+        message.style.color = badColor;
+        message.innerHTML = "Passwords do not match."
+        return false;
+    }
+   else {
+        pass1.style.backgroundColor = goodColor;
+        pass2.style.backgroundColor = goodColor;
+        message.style.color = goodColor;
+        message.innerHTML = "Password OK."
+        return true;
+   }
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function alphanumeric(doc_id_alert, elm_id, ui_name) { 
+
+var regex_is_lowercase_alphanumeric = /^[0-9a-z]+$/;
+var regex_starts_letter = /^[a-z]/;
+
+var var1 = document.getElementById(elm_id);
+var message = document.getElementById(doc_id_alert);
+    
+var goodColor = "#10d602";
+var badColor = "#ff4747";
+
+	if ( !var1 ) {
+   message.style.color = badColor;
+   message.innerHTML = "Enter " + ui_name + "."
+   return false;
+	}
+	else if( !var1.value.match(regex_is_lowercase_alphanumeric) ) {
+   var1.style.backgroundColor = badColor;
+   message.style.color = badColor;
+	message.innerHTML = ui_name + ' MUST contain ONLY LOWERCASE alphanumeric characters.';
+	return false;
+	}
+	else if( !var1.value.match(regex_starts_letter) ) {
+   var1.style.backgroundColor = badColor;
+   message.style.color = badColor;
+	message.innerHTML = ui_name + ' MUST START with a letter.';
+	return false;
+	}
+	else if ( var1.value.length < 4 || var1.value.length > 30 ) {
+   var1.style.backgroundColor = badColor;
+   message.style.color = badColor;
+   message.innerHTML = ui_name + ' MUST be between 4 and 30 characters long.';
+   return false;
+	}
+	else {
+   var1.style.backgroundColor = goodColor;
+   message.style.color = goodColor;
+   message.innerHTML = ui_name + " OK.";
+	return true;
+	}
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function satoshi_value(sat_increase) {
 
 var to_trade_amount = Number(document.getElementById("to_trade_amount").value);

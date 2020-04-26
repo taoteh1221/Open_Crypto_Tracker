@@ -58,8 +58,13 @@ $app_version = '4.10.0';  // 2020/APRIL/20TH
 require_once('app-lib/php/functions-loader.php');
 
 
+// Clear session data if we logged out
+if ( $_POST['logout'] == 1 ) {
+hardy_session_clearing(); // Try to avoid edge-case bug where sessions don't delete, using our hardened function logic
+}
+
+
 // Session start
-hardy_session_clearing(); // Try to avoid edge-case bug where sessions didn't delete last runtime
 session_start(); // New session start
 
 
@@ -150,6 +155,11 @@ if ( preg_match("/raspberry/i", $system_info['model']) ) {
 $is_raspi = 1;
 }
 
+// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
+if ( trim($app_config['telegram_your_username']) != '' && trim($app_config['telegram_bot_name']) != '' && trim($app_config['telegram_bot_username']) != '' && $app_config['telegram_bot_token'] != '' ) {
+$telegram_activated = 1;
+}
+
 // User agent (MUST BE SET EARLY [BUT AFTER SYSTEM INFO VAR], FOR ANY API CALLS WHERE USER AGENT IS REQUIRED BY THE API SERVER)
 if ( trim($app_config['override_default_user_agent']) != '' ) {
 $user_agent = $app_config['override_default_user_agent'];  // Custom user agent
@@ -212,6 +222,8 @@ $base_url = trim( file_get_contents('cache/vars/base_url.dat') );
 }
 
 
+// Load any activated classes (MUST RUN AS EARLY AS POSSIBLE)
+require_once('app-lib/php/classes-loader.php');
 
 // Directory security check (MUST run AFTER directory structure creation check, AND BEFORE system checks)
 require_once('app-lib/php/other/security/directory.php');
@@ -222,7 +234,7 @@ require_once('app-lib/php/other/debugging/system-checks.php');
 // SECURED cache files management (MUST RUN AFTER system checks)
 require_once('app-lib/php/other/security/secure-cache-files.php');
 
-// Dynamic app config management (MUST RUN AFTER secure cache files)
+// Dynamic app config management (MUST RUN AFTER secure cache files FOR CACHED / config.php app_config comparison)
 require_once('app-lib/php/other/app-config-management.php');
 
 // Primary Bitcoin markets (MUST RUN AFTER app config management)
@@ -239,9 +251,6 @@ require_once('app-lib/php/other/security/password-protection.php');
 
 // Chart sub-directory creation (if needed...MUST RUN AFTER app config management)
 require_once('app-lib/php/other/chart-directories.php');
-
-// Load any activated classes (MUST RUN AFTER app config management)
-require_once('app-lib/php/classes-loader.php');
 
 // Scheduled maintenance  (MUST RUN AFTER EVERYTHING IN INIT.PHP)
 require_once('app-lib/php/other/scheduled-maintenance.php');

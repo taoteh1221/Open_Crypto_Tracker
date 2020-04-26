@@ -64,7 +64,6 @@ if ($fd = fopen ($fullPath, "r")) {
 error_logs();
 debugging_logs();
 send_notifications();
-hardy_session_clearing();
 
 fclose ($fd);
 exit;

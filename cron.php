@@ -4,14 +4,6 @@
  */
 
 
-// Calculate script runtime length
-$time = microtime();
-$time = explode(' ', $time);
-$time = $time[1] + $time[0];
-$start_runtime = $time;
-
-
-
 // Forbid direct INTERNET access to this file
 if ( isset($_SERVER['REQUEST_METHOD']) && realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) ) {
 header('HTTP/1.0 403 Forbidden', TRUE, 403);
@@ -19,13 +11,19 @@ exit;
 }
 
 
-
-// Assure CLI runtime is in install directory (server compatibility required for some PHP setups)
-chdir( dirname(__FILE__) );
+// Calculate script runtime length
+$time = microtime();
+$time = explode(' ', $time);
+$time = $time[1] + $time[0];
+$start_runtime = $time;
 
 
 // Runtime mode
 $runtime_mode = 'cron';
+
+
+// Assure CLI runtime is in install directory (server compatibility required for some PHP setups)
+chdir( dirname(__FILE__) );
 
 
 // Load app config / etc
@@ -221,12 +219,6 @@ send_notifications();
 
 }
 
-
-
-// Destroy session data AFTER runtime stats AND cron plugins 
-// (we run hardy_session_clearing() again upon a new runtime init anyway, 
-// so it's safe if a custom plugin crashes the runtime BEFOREHAND)
-hardy_session_clearing();
 
 
 ?>

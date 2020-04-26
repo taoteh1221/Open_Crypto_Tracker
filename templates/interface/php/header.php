@@ -1,13 +1,5 @@
 <?php
 
-// Calculate script runtime length
-$time = microtime();
-$time = explode(' ', $time);
-$time = $time[1] + $time[0];
-$start_runtime = $time;
-
-require("config.php");
-	
 	
 // Set a max execution time, TO AVOID RUNAWAY PROCESSES FREEZING THE SERVER
 if ( $app_config['debug_mode'] != 'off' ) {
@@ -19,6 +11,7 @@ ini_set('max_execution_time', $app_config['ui_max_execution_time']);
 
 
 header('Content-type: text/html; charset=' . $app_config['charset_default']);
+
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -190,5 +183,4 @@ header('Content-type: text/html; charset=' . $app_config['charset_default']);
             	
         <!-- header.php END -->
         
-
 

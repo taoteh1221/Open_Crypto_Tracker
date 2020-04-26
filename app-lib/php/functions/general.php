@@ -579,7 +579,7 @@ global $password_pepper;
 		return false;
 		}
 		else {
-		return password_hash($password_pepper_hashed);
+		return password_hash($password_pepper_hashed, PASSWORD_DEFAULT);
 		}
 	
 	}
@@ -633,7 +633,7 @@ global $app_config;
     }
     
 	 if ( !preg_match("/^[a-z]([a-z0-9]+)$/", $username) ) {
-    $error .= "lowercase letters / numbers only (lowercase letters first, then optionally numbers, no spaces); ";
+    $error .= "lowercase letters and numbers only (lowercase letters first, then optionally numbers, no spaces); ";
 	 }
 	 
 	 if ( preg_match('/\s/',$username) ) {
@@ -695,15 +695,15 @@ return $result;
 ////////////////////////////////////////////////////////
 
 
-function password_strength($password, $min_length, $fixed_length=false) {
+function password_strength($password, $min_length, $max_length) {
 
 global $app_config;
 
-    if ( $fixed_length == false && mb_strlen($password, $app_config['charset_default']) < $min_length ) {
+    if ( mb_strlen($password, $app_config['charset_default']) < $min_length ) {
     $error .= "requires AT LEAST ".$min_length." characters; ";
     }
-    elseif ( $fixed_length == true && mb_strlen($password, $app_config['charset_default']) != $min_length ) {
-    $error .= "requires EXACTLY ".$min_length." characters; ";
+    elseif ( mb_strlen($password, $app_config['charset_default']) > $max_length ) {
+    $error .= "requires NO MORE THAN ".$max_length." characters; ";
     }
     
     if ( !preg_match("#[0-9]+#", $password) ) {

@@ -31,7 +31,6 @@ else {
 error_logs();
 debugging_logs();
 send_notifications();
-hardy_session_clearing();
 exit;
 }
 

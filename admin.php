@@ -4,12 +4,30 @@
  */
 
 
+// Calculate script runtime length
+$time = microtime();
+$time = explode(' ', $time);
+$time = $time[1] + $time[0];
+$start_runtime = $time;
+
+
 // Runtime mode
 $runtime_mode = 'ui';
 
 $is_admin = 1;
 
+require("config.php");
+	
+
+// If no admin login has been set yet, force user to create an admin user / passs
+if ( !$admin_login ) {
+require("templates/interface/php/admin/admin-login/register.php");
+exit;
+}
+else {
 require("templates/interface/php/header.php");
+}
+
 
 // ADD AUTHENTICATION LOGIC HERE
 

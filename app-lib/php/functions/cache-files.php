@@ -89,7 +89,7 @@ $htaccess_password = $interface_login_array[1];
 $valid_username = valid_username($htaccess_username);
 
 // Password must be exactly 8 characters long for good htaccess security (htaccess only checks the first 8 characters for a match)
-$password_strength = password_strength($htaccess_password, 8, true); 
+$password_strength = password_strength($htaccess_password, 8, 8); 
 
 
     if ( $htaccess_username == '' || $htaccess_password == '' ) {

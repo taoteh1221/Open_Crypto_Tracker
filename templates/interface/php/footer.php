@@ -125,9 +125,8 @@
 		}
 		
 		
-		// Process debugging logs / destroy session data AFTER runtime stats
+		// Process debugging logs AFTER runtime stats
 		$debugging_logs = debugging_logs();
-		hardy_session_clearing();
     		
 		if ( $app_config['debug_mode'] != 'off' && $debugging_logs != true ) {
 		?>
