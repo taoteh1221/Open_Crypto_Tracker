@@ -58,12 +58,6 @@ $app_version = '4.10.0';  // 2020/APRIL/20TH
 require_once('app-lib/php/functions-loader.php');
 
 
-// Clear session data if we logged out
-if ( $_POST['logout'] == 1 ) {
-hardy_session_clearing(); // Try to avoid edge-case bug where sessions don't delete, using our hardened function logic
-}
-
-
 // Session start
 session_start(); // New session start
 
@@ -71,6 +65,22 @@ session_start(); // New session start
 //////////////////////////////////////////////////////////////
 // Set global runtime app arrays / vars...
 //////////////////////////////////////////////////////////////
+
+
+// Session data
+
+// Nonce for secured login session logic
+if ( !isset($_SESSION['nonce']) ) {
+$_SESSION['nonce'] = random_hash(32);
+}
+
+
+// If user is logging out (run immediately after setting session vars, for quick runtime)
+if ( $_GET['logout'] == 1 && isset($_GET['nonce']) && $_GET['nonce'] == $_SESSION['nonce'] ) {
+hardy_session_clearing(); // Try to avoid edge-case bug where sessions don't delete, using our hardened function logic
+header("Location: index.php");
+exit;
+}
 
 
 // Initial arrays

@@ -6,7 +6,7 @@
 
 $register_result = array();
 
-if ( $_POST['submit_registration'] ) {
+if ( $_POST['admin_submit_registration'] ) {
 
 	// Run checks...
 	
@@ -93,7 +93,10 @@ if ( !$_POST['submit_registration'] || sizeof($register_result['error']) > 0 ) {
   
   	 <div class='align_center' style='display: inline-block;'>
   	 
-  	 <p><img src='templates/interface/media/images/captcha.php' alt='' class='image_border' /></p>
+  	 <p><img id='captcha_image' src='templates/interface/media/images/captcha.php' alt='' class='image_border' />
+  	 <br />
+  	 <a href='javascript: refreshImage("captcha_image", "templates/interface/media/images/captcha.php");' class='bitcoin' style='font-weight: bold;'>Get A Different Image</a>
+  	 </p>
   	 
   	 </div>
   
@@ -103,7 +106,7 @@ if ( !$_POST['submit_registration'] || sizeof($register_result['error']) > 0 ) {
 
   	 <div style="display: inline-block; text-align: right; width: 350px;">
   
-  	 <p><b>Enter the text above:</b> <input type='text' name='captcha_code' id='captcha_code' value='' /></p>
+  	 <p><b>Enter Text In Image:</b> <input type='text' name='captcha_code' id='captcha_code' value='' /></p>
 	
 	<p class='align_left' style='font-size: 19px; font-weight: bold; color: #ff4747;' id='captcha_alert'></p>
   
@@ -113,7 +116,7 @@ if ( !$_POST['submit_registration'] || sizeof($register_result['error']) > 0 ) {
   	 <br clear='all' />
   
   
-<input type='hidden' name='submit_registration' value='1' />
+<input type='hidden' name='admin_submit_registration' value='1' />
 
 </form>
   

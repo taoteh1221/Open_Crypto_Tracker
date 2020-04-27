@@ -26,6 +26,12 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+https://stackoverflow.com/questions/14206736/creating-own-audio-captcha-in-php
+
+
+Test login / register / reset with light theme.
+
+
 See why new header nav isn't showing in Chrome on Android.
 
 

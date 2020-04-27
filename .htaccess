@@ -30,17 +30,22 @@ RewriteEngine on
 
 ####~~~~~~Pretty links START~~~~~~####
 
+
 # (#IN CASE 'MultiViews' IS ENABLED#, WE ARE USING COMPLETELY DIFFERENT NAME(S) COMPARED TO EXISTING FILES / DIRECTORIES)
+
 
 # Webhooks
 RewriteCond %{REQUEST_URI} hook/(.*) [NC]
 RewriteRule hook/([^\.]+)$ web-hook.php?webhook_hash=$1 [NC,L]
 
+
 # API
 RewriteCond %{REQUEST_URI} api/(.*) [NC]
 RewriteRule api/([^\.]+)$ rest-api.php?data_set=$1 [NC,L]
 
+
 ####~~~~~~Pretty links END~~~~~~####
+
 
 
 </IfModule>

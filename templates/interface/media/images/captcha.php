@@ -7,7 +7,7 @@
  
 session_start();
  
-$permitted_chars = 'CFHMNPRY49';
+$permitted_chars = 'ACEFMNPRXY3478';
   
 function generate_string($input, $strength=10) {
 	
@@ -18,8 +18,9 @@ function generate_string($input, $strength=10) {
         
         $count = 0;
         	while ( $count < $strength ) {
-        		
-        		   if( $count % 2 == 0 ){ 
+        			
+        			$rand_case = rand(1, 2);
+        		   if( $rand_case % 2 == 0 ){ 
         			// Even number  
         			$random_character = strtoupper( $input[mt_rand(0, $input_length - 1)] );
     				} 
@@ -45,7 +46,7 @@ $captcha_text_length = 6;
 
 $width = 430;
 
-$height = 80;
+$height = 130;
 
 $text_size = 50;
 
@@ -98,15 +99,15 @@ $_SESSION['captcha_code'] = strtolower($captcha_string);
 for($i = 0; $i < $captcha_text_length; $i++) {
 	
 // Random off black/white
-$black_rand = rand(26, 33);
-$white_rand = rand(190, 205);
+$black_rand = rand(37, 46);
+$white_rand = rand(173, 181);
  
 $black = imagecolorallocate($image, $black_rand, $black_rand, $black_rand);
 $white = imagecolorallocate($image, $white_rand, $white_rand, $white_rand);
 $textcolors = [$black, $white];
 	
   $letter_space = round( ( $width - ($text_margin * 2) ) / $captcha_text_length  ) + 1;
-  $initial = rand($text_margin, ($text_margin * 2) ) + $text_margin;
+  $initial = rand($text_margin, ($text_margin * 2) ) + $text_margin + 2;
    
   imagettftext($image, $text_size, rand(0, 10), $initial + round($i * $letter_space), rand( ($text_size + ($text_margin * 4) ), ($height - ($text_margin * 5) ) ), $textcolors[rand(0, 1)], $fonts[array_rand($fonts)], $captcha_string[$i]);
 }

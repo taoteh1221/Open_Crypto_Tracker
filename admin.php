@@ -19,17 +19,21 @@ $is_admin = 1;
 require("config.php");
 	
 
-// If no admin login has been set yet, force user to create an admin user / passs
-if ( !$admin_login ) {
+// If no admin login has been set yet, force user to create an admin user / pass
+if ( !isset($admin_login) ) {
 require("templates/interface/php/admin/admin-login/register.php");
 exit;
 }
-else {
+// If not logged in
+elseif ( isset($admin_login) && !isset($_SESSION['admin_login']) ) {
+require("templates/interface/php/admin/admin-login/login.php");
+exit;
+}
+// If logged in
+elseif ( isset($admin_login) && isset($_SESSION['admin_login']) ) {
 require("templates/interface/php/header.php");
 }
 
-
-// ADD AUTHENTICATION LOGIC HERE
 
 ?>
 

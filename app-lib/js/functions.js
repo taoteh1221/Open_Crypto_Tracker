@@ -6,6 +6,22 @@
 /////////////////////////////////////////////////////////////
 
 
+function refreshImage(imgElement, imgURL) {   
+     
+// create a new timestamp, to force-refresh image
+var timestamp = new Date().getTime();        
+var el = document.getElementById(imgElement);        
+var queryString = "?t=" + timestamp;           
+el.src = imgURL + queryString;    
+
+return false;
+ 
+}    
+
+
+/////////////////////////////////////////////////////////////
+
+
 function update_alert_percent() {
 
 	if ( document.getElementById("alert_percent").value == "yes" ) {

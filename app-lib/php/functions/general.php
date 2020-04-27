@@ -603,7 +603,7 @@ global $password_pepper;
 		
 	$input_password_pepper_hashed = hash_hmac("sha256", $input_password, $password_pepper);
 	
-		if ( $password_pepper_hashed == false ) {
+		if ( $input_password_pepper_hashed == false ) {
 		app_logging('config_error', 'hash_hmac() returned false in the check_pepper_hashed_password() function');
 		return false;
 		}

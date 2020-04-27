@@ -148,7 +148,7 @@ header('Content-type: text/html; charset=' . $app_config['charset_default']);
     
     
 	<!-- START #topnav-content -->
-   <nav id='topnav' class="navbar navbar-expand-lg align_center">
+   <nav id='topnav' class="navbar navbar-expand align_center">
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav">
@@ -157,6 +157,13 @@ header('Content-type: text/html; charset=' . $app_config['charset_default']);
         <div class="dropdown-menu shadow-lg p-3 mb-5 bg-white rounded" aria-labelledby="navbarDropdown">
           <a class="dropdown-item<?=( preg_match("/admin.php/i", $_SERVER['REQUEST_URI']) ? ' active' : '' )?>" href="admin.php">Admin Configuration</a>
           <a class="dropdown-item<?=( !preg_match("/admin.php/i", $_SERVER['REQUEST_URI']) ? ' active' : '' )?>" href="index.php">Portfolio Tracker</a>
+          <?php
+          if ( isset($admin_login) && isset($_SESSION['admin_login']) ) {
+          ?>
+          <a class="dropdown-item" href="?logout=1&nonce=<?=$_SESSION['nonce']?>">Logout</a>
+          <?php
+          }
+          ?>
         </div>
       </li>
     </ul>
