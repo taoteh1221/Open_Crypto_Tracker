@@ -26,13 +26,11 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
-https://stackoverflow.com/questions/14206736/creating-own-audio-captcha-in-php
-
 
 Test login / register / reset with light theme.
 
 
-See why new header nav isn't showing in Chrome on Android.
+See why new header nav aligns left in Chrome on Android.
 
 
 Test in all major browsers.
@@ -54,12 +52,6 @@ Documentation for API / Webhook features
 
 
 Add api key and webhook keys on admin page.
-
-
-Admin page authentication.
-
-
-Vertical tabs on admin page.
 
 
 Alerts bell in header.
@@ -157,13 +149,7 @@ Dynamically add an 'app_version' value to $app_config when processing it, so whe
 CSRF nounce protection for admin AND user interface updates/viewing (session based).
 
 
-Add header login nav like prototype for zilliqa block explorer (use the developed account system structure too).
-
-
 Add an alert bell icon in upcoming header login nav, and have alerts make it red and be a drop-down info bubble clicking it, rather than alerts printed in the footer.
-
-
-Sections / pages for upcoming admin config interface SHOULD BE VERTICAL LEFT-SIDE-BAR MENU TABS (RATHER THAN HORIZONTAL TOP NAV TABS), TO DIFFERENTIATE BETWEEN ADMIN AND USER INTERFACE...IT ALSO LETS US ADD #WAY MORE TABS# FOR ADMIN SETTINGS. CONSIDER WHETHER THE TABS SHOULD ALL BE LOADED AT ONCE, OR LOAD AS SEPARATE PAGES VIA A "admin.php?section=XXXX" GET REQUEST URI / TEMPLATE SYSTEM (PUTTING EVERYTHING IN AN /admin/ SUBDIRECTORY IS WAAAAAAAAAY MORE COMPLEX / ISN'T AS FEASIBLE, DUE TO THE CURRENT TEMPLATE AND config.php APP LOADING SYSTEM...IT ALSO MAKES CONTROLLING AUTHENTICATION SIMPLER [everything goes through admin.php]). 
 
 
 On admin config page, have "reset to default settings" button (with js confirm alert when pushed) that refreshes the cached app_config from config.php settings.
@@ -217,15 +203,6 @@ Create a "Desktop Edition" using PHPDesktop (https://github.com/cztomczak/phpdes
 Use SQLite for any data storage that needs query capability (can also be used in PHPDesktop version, as it supports SQLite). 
 
 
-SQL-based accounts for storing configuration settings per-user (including setting up new assets available at supported exchanges), BUT !NEVER! STORES PORTFOLIO DATA (FOR PRIVACY / SECURITY-SAKE).
-
-
-When sql host config has been set in config.php, BUT DATABASE SETUP HAS NOT RUN YET, have the UI require entering the sql user password to initiate database setup (for security)
-
-
-Maintain sql-based config as completely separate module(s) from the file-based config (config.php), except for the sql host connection / authentication details (put those at the top of the config.php configurations).
-
-
 Stats in UI using chart data (if available), to show and compare spot / volume percent changes over an end-user-defined time period for a number of assets (example: BTC / LTC / ETH / XMR spot price percentage changes / 24hr volume percentage changes from April 6th 2019 to November 22nd 2019). Shows trends on which assets are performing better for a certain time period.
 
 
@@ -250,6 +227,15 @@ MAYBE SECTION
 ///////////////////////////////////////////////////////
 
 
+SQL-based accounts for storing configuration settings per-user (including setting up new assets available at supported exchanges), BUT !NEVER! STORES PORTFOLIO DATA (FOR PRIVACY / SECURITY-SAKE).
+
+
+When sql host config has been set in config.php, BUT DATABASE SETUP HAS NOT RUN YET, have the UI require entering the sql user password to initiate database setup (for security)
+
+
+Maintain sql-based config as completely separate module(s) from the file-based config (config.php), except for the sql host connection / authentication details (put those at the top of the config.php configurations).
+
+
 Maybe hashed password can be re-hashed with a unique per-browser install semi-constant or constant (like machine name or user agent), to securely store a persistent / semi-persisent login cookie (that hackers cannot steal and run on another machine to auto login easily)?
 
 
@@ -263,9 +249,6 @@ Save trading notes via the new ajax-js.php logic (rather than reload the entire 
 
 
 Should GRIN mining difficulty be different for each cuckoo level in the mining calculator?
-
-
-Consider adding an optional parameter for the pairing value function, to force using a specific exchange (if it exists for that market), to possibly use in charts / alerts if the asset is also a crypto-to-crypto pairing?
 
 
 Add memory limit to all runtimes?
