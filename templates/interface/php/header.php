@@ -137,6 +137,7 @@ header('Content-type: text/html; charset=' . $app_config['charset_default']);
 
 </head>
 <body>
+
     
     <audio preload="metadata" id="audio_alert">
       <source src="templates/interface/media/audio/Smoke-Alarm-SoundBible-1551222038.mp3">
@@ -149,14 +150,17 @@ header('Content-type: text/html; charset=' . $app_config['charset_default']);
     
 	<!-- START #topnav-content -->
    <nav id='topnav' class="navbar navbar-expand align_center">
-
+	<?php
+	// Filename info, to dynamically render active menu link displaying
+   $script_file_info = pathinfo($_SERVER['SCRIPT_FILENAME']);
+	?>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav">
       <li class="nav-item dropdown align_center">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src='templates/interface/media/images/login-<?=$theme_selected?>-theme.png' width='30' border='0' /></a>
         <div class="dropdown-menu shadow-lg p-3 mb-5 bg-white rounded" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item<?=( preg_match("/admin.php/i", $_SERVER['REQUEST_URI']) ? ' active' : '' )?>" href="admin.php">Admin Configuration</a>
-          <a class="dropdown-item<?=( !preg_match("/admin.php/i", $_SERVER['REQUEST_URI']) ? ' active' : '' )?>" href="index.php">Portfolio Tracker</a>
+          <a class="dropdown-item<?=( $script_file_info['basename'] == 'admin.php' ? ' active' : '' )?>" href="admin.php">Admin Configuration</a>
+          <a class="dropdown-item<?=( $script_file_info['basename'] == 'index.php' ? ' active' : '' )?>" href="index.php">Portfolio Tracker</a>
           <?php
           if ( isset($admin_login) && isset($_SESSION['admin_login']) ) {
           ?>
