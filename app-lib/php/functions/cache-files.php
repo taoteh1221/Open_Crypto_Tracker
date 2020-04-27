@@ -242,7 +242,7 @@ return $result;
 ////////////////////////////////////////////////////////
 
 
-function backup_archive($backup_prefix, $backup_target, $interval) {
+function backup_archive($backup_prefix, $backup_target, $interval, $password=false) {
 
 global $app_config, $base_dir, $base_url;
 
@@ -263,7 +263,7 @@ global $app_config, $base_dir, $base_url;
 			$backup_dest = $base_dir . '/cache/secured/backups/' . $backup_file;
 			
 			// Zip archive
-			$backup_results = zip_recursively($backup_target, $backup_dest);
+			$backup_results = zip_recursively($backup_target, $backup_dest, $password);
 			
 			
 				if ( $backup_results == 1 ) {
@@ -272,7 +272,7 @@ global $app_config, $base_dir, $base_url;
 					
 				$backup_url = 'download.php?backup=' . $backup_file;
 				
-				$message = "A backup archive has been created for: ".$backup_prefix."\n\nHere is a link to download the backup to your computer: " . $base_url . $backup_url . "\n\n(backup archives are purged after " . $app_config['delete_old_backups'] . " days)";
+				$message = "A backup archive has been created for: ".$backup_prefix."\n\nHere is a link to download the backup to your computer: " . $base_url . $backup_url . "\n\n(backup archives are purged after " . $app_config['backup_archive_delete_old'] . " days)";
 				
 				// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
 				$send_params = array(

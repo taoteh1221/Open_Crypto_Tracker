@@ -169,10 +169,6 @@ $app_config['proxy_alerts_checkup_ok'] = 'include';
 ////////////////////////////////////////
 
 
-// Admin area interface login protection (WORK IN PROGRESS, !!NOT FUNCTIONAL!!)
-$app_config['admin_login'] = ''; // Leave blank to disable the admin interface. This format MUST be used: 'username||password'
-
-
 // Interface login protection (htaccess user/password required to view this portfolio app's web interface)
 // Username MUST BE at least 4 characters, beginning with ONLY LOWERCASE letters (may contain numbers AFTER first letter), NO SPACES
 // Password MUST BE EXACTLY 8 characters, AND contain one number, one UPPER AND LOWER CASE letter, and one symbol, NO SPACES
@@ -194,17 +190,17 @@ $app_config['coinmarketcapcom_api_key'] = '';
 $app_config['primary_marketcap_site'] = 'coingecko'; 
 
 
+// Your local time offset IN HOURS, COMPARED TO UTC TIME. Can be negative or positive.
+// (Used for user experience 'pretty' timestamping in interface logic ONLY, WILL NOT change or screw up UTC log times etc if you change this)
+$app_config['local_time_offset'] = -4; // example: -5 or 5
+
+
 // ENABLING CHARTS REQUIRES A CRON JOB SETUP (see README.txt for cron job setup information)
 // Enables a charts tab / page with historical charts
 // Caches the default [primary currency] ($app_config['btc_primary_currency_pairing'] further down in GENERAL SETTINGS)
 // default [primary currency] price / crypto price / volume data for charts of all assets added to $app_config['charts_and_price_alerts'] (further down in CHART AND PRICE ALERT SETTINGS)
 // Disabling will disable EVERYTHING related to the price charts (price charts tab / page, and price chart data caching)
 $app_config['charts_page'] = 'on'; // 'on' / 'off'
-
-
-// Your local time offset IN HOURS, COMPARED TO UTC TIME. Can be negative or positive.
-// (Used for user experience 'pretty' timestamping in interface logic ONLY, WILL NOT change or screw up UTC log times etc if you change this)
-$app_config['local_time_offset'] = -4; // example: -5 or 5
 
 
 // Set which interface theme you want as the default theme (also can be manually switched later, on the settings page in the interface)
@@ -214,7 +210,11 @@ $app_config['default_theme'] = 'dark'; // 'dark' or 'light'
 $app_config['margin_leverage_max'] = 150; // Maximum margin leverage available in the user interface ('Update Assets' page, etc)
 
 
-$app_config['delete_old_backups'] = 10; // Days until old zip archive backups should be deleted (chart data archives, etc)
+$app_config['backup_archive_delete_old'] = 10; // Days until old backup archives should be deleted (chart data archives, etc)
+
+
+// Password protection / encryption security for backup archives (chart data archives, etc)
+$app_config['backup_archive_password'] = ''; // LEAVE BLANK TO DISABLE
 
 
 // Shows system statistics in the user interface, if stats are available (system load, system temperature, free disk space, free system memory, etc)
@@ -2251,6 +2251,11 @@ $app_config['portfolio_assets'] = array(
                         
                                     'btc' => array(
                                         'bittrex' => 'BTC-HIVE',
+                                        'huobi' => 'hivebtc',
+                                                    ),
+                        
+                                    'usdt' => array(
+                                        'huobi' => 'hiveusdt',
                                                     ),
                                                     
                                         ) // market_pairing END

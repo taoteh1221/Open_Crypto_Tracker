@@ -10,7 +10,7 @@ if ( $_POST['submit_registration'] ) {
 
 	// Run checks...
 	
-	if ( isset($_POST['captcha_code']) && $securimage->check( $_POST['captcha_code'] ) == false ) {
+	if ( trim($_POST['captcha_code']) != '' && strtolower($_POST['captcha_code']) != strtolower($_SESSION['captcha_code']) ) {
 	$register_result['error'][] = "Captcha code was not correct.";
 	}
 	
@@ -61,10 +61,8 @@ require("templates/interface/php/header.php");
 
 <h3 class='bitcoin'>Admin Login Creation</h3>
 
-<p class='red'>(<u>for security of this app</u>, please create a username / password for the Admin Configuration area)</p>
+<p class='red' style='font-size: 19px;'><u>For security of this app</u>, please create a username / password for the Admin Configuration area.</p>
 
-
-    <div style="display: inline-block; text-align: right; width: 350px;">
 
 <?php
 
@@ -73,40 +71,62 @@ if ( !$_POST['submit_registration'] || sizeof($register_result['error']) > 0 ) {
 
 <form name='set_admin' action='' method='post'>
 
-<p><b>Username:</b> <input type='text' id='set_username' name='set_username' value='<?=$_POST['set_username']?>' /></p>
 
-<p><b>Password:</b> <input type='password' id='set_password' name='set_password' value='<?=$_POST['set_password']?>' /></p>
+    <div style="display: inline-block; text-align: right; width: 350px;">
+    
+	 <p><b>Username:</b> <input type='text' id='set_username' name='set_username' value='<?=$_POST['set_username']?>' /></p>
 
-<p><b>Repeat Password:</b> <input type='password' id='set_password2' name='set_password2' value='<?=$_POST['set_password2']?>' /></p>
+	 <p><b>Password:</b> <input type='password' id='set_password' name='set_password' value='<?=$_POST['set_password']?>' /></p>
+
+	 <p><b>Repeat Password:</b> <input type='password' id='set_password2' name='set_password2' value='<?=$_POST['set_password2']?>' /></p>
+    	
+    	
+		<p class='align_left' style='font-size: 19px; font-weight: bold; color: #ff4747;' id='user_alert'></p>
+	
+		<p class='align_left' style='font-size: 19px; font-weight: bold; color: #ff4747;' id='pass_alert'></p>
+		
+    </div>
+  	 
+  	 
+  	 <br clear='all' />
+  
+  
+  	 <div class='align_center' style='display: inline-block;'>
+  	 
+  	 <p><img src='templates/interface/media/images/captcha.php' alt='' class='image_border' /></p>
+  	 
+  	 </div>
+  
+  	 
+  	 <br clear='all' />
 
 
-  <div>
-    <?php
-    	// Captcha
-      $options = array();
-      $options['input_name'] = 'captcha_code'; // change name of input element for form post
-      $options['disable_flash_fallback'] = false; // allow flash fallback
-
-      if (!empty($_SESSION['ctform']['captcha_error'])) {
-        // error html to show in captcha output
-        $options['error_html'] = $_SESSION['ctform']['captcha_error'];
-      }
-
-      echo "<div class='captcha_container'>\n";
-      echo $securimage->getCaptchaHtml($options);
-      echo "\n</div>\n";
-
-    ?>
-  </div>
+  	 <div style="display: inline-block; text-align: right; width: 350px;">
+  
+  	 <p><b>Enter the text above:</b> <input type='text' name='captcha_code' id='captcha_code' value='' /></p>
+	
+	<p class='align_left' style='font-size: 19px; font-weight: bold; color: #ff4747;' id='captcha_alert'></p>
+  
+  	 </div>
+  	 
+  
+  	 <br clear='all' />
+  
+  
 <input type='hidden' name='submit_registration' value='1' />
 
 </form>
   
-<p style='padding: 20px;'>
+    
+<p id='admin_register_button' style='padding: 20px;'>
 
 <button class='force_button_style' onclick='
 
-if ( check_pass("pass_alert", "set_password", "set_password2") == true && alphanumeric("user_alert", "set_username", "Username") == true ) {
+
+// Remove any previous submission error notices (captcha error etc)
+document.getElementById("login_alert").style.display = "none";
+
+if ( alphanumeric("user_alert", "set_username", "Username") == true && check_pass("pass_alert", "set_password", "set_password2") == true ) {
 
 var captcha_code = document.getElementById("captcha_code");
 var captcha_alert = document.getElementById("captcha_alert");
@@ -117,14 +137,14 @@ var badColor = "#ff4747";
 	if ( captcha_code.value != "" ) {
 		
 	//console.log("OK to submit.");
-	
-	document.getElementById("login_alert").style.display = "none";
 	document.getElementById("submit_alert").style.display = "inline-block";
 	document.getElementById("submit_alert").innerHTML = "Creating your new admin login, please wait...";
 	
    captcha_code.style.backgroundColor = goodColor;
    captcha_alert.style.color = goodColor;
    captcha_alert.innerHTML = "Captcha code included."
+   
+   document.getElementById("admin_register_button").innerHTML = ajax_placeholder(30, "Submitting...");
    
 	document.set_admin.submit();
 	}
@@ -148,14 +168,6 @@ var badColor = "#ff4747";
 
 ?>
 
-    </div>
-    	
-    	
-	<div style='font-weight: bold; color: #ff4747;' id='user_alert'></div>
-	
-	<div style='font-weight: bold; color: #ff4747;' id='pass_alert'></div>
-	
-	<div style='font-weight: bold; color: #ff4747;' id='captcha_alert'></div>
 
 </div>
 

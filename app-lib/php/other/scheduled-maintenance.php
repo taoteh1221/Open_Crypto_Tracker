@@ -20,7 +20,7 @@ if ( $runtime_mode != 'cron' && update_cache_file($base_dir . '/cache/events/sch
 	
 		// Chart backups...run before any price checks to avoid any potential file lock issues
 		if ( $app_config['charts_page'] == 'on' && $app_config['charts_backup_freq'] > 0 ) {
-		backup_archive('charts-data', $base_dir . '/cache/charts/', $app_config['charts_backup_freq']);
+		backup_archive('charts-data', $base_dir . '/cache/charts/', $app_config['charts_backup_freq'], $backup_archive_password);
 		}
 
 
@@ -211,7 +211,7 @@ store_file_contents($base_dir . '/cache/vars/cache_size.dat', convert_bytes( dir
 
 
 // Delete ANY old zip archive backups scheduled to be purged
-delete_old_files($base_dir . '/cache/secured/backups', $app_config['delete_old_backups'], 'zip');
+delete_old_files($base_dir . '/cache/secured/backups', $app_config['backup_archive_delete_old'], 'zip');
 
 
 // Stale cache files cleanup...

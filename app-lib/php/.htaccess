@@ -1,10 +1,11 @@
 deny from all
 
-# Leave captcha directory files accessible (for captcha images etc)
+# DISABLED example of leaving only SPECIFIC directory files accessible (for captcha images etc)
+# Add no directory listing logic too (if ever used)
 <IfModule mod_rewrite.c>
 
-SetEnvIf Request_URI "(.*)app-lib/php/classes/securimage/(.*)" captcha_uri
+#SetEnvIf Request_URI "(.*)app-lib/php/classes/TEST-ONLY78528/(.*)" allowed_uri
 
-Allow from env=captcha_uri
+#Allow from env=allowed_uri
 
 </IfModule>

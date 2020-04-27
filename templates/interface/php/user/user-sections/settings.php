@@ -60,7 +60,7 @@
 			}
 			if ( $app_config['charts_page'] == 'on' && $app_config['charts_backup_freq'] > 0 && trim($app_config['from_email']) != '' && trim($app_config['to_email']) != '' ) {
           ?>
-          	<p class='settings_sections'><b>Chart Backups</b> are <i>enabled</i> in the configuration file (run every <?=$app_config['charts_backup_freq']?> days, purged after <?=$app_config['delete_old_backups']?> days old).
+          	<p class='settings_sections'><b>Chart Backups</b> are <i>enabled</i> in the configuration file (run every <?=$app_config['charts_backup_freq']?> days, purged after <?=$app_config['backup_archive_delete_old']?> days old).
           	
           	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job on your web server</a>, or this feature will not work AT ALL.</i> 
           	

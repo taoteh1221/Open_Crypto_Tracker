@@ -238,7 +238,7 @@ $secure_256bit_hash = random_hash(32); // 256-bit (32-byte) hash converted to he
 if ( !$admin_login 
 && valid_username( trim($_POST['set_username']) ) == 'valid' 
 && password_strength($_POST['set_password'], 12, 40) == 'valid' 
-&& isset($_POST['captcha_code']) && $securimage->check( $_POST['captcha_code'] ) == true ) {
+&& trim($_POST['captcha_code']) != '' && strtolower($_POST['captcha_code']) == strtolower($_SESSION['captcha_code']) ) {
 	
 $secure_128bit_hash = random_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
 $secure_password_hash = pepper_hashed_password($_POST['set_password']); // Peppered password hash
@@ -257,6 +257,10 @@ $secure_password_hash = pepper_hashed_password($_POST['set_password']); // Peppe
 	$admin_login = array($_POST['set_username'], $secure_password_hash);
 	}
 
+
+// Redirect, to avoid quirky page reloads
+header("Location: " . start_page($_GET['start_page']));
+exit;
 
 }
 

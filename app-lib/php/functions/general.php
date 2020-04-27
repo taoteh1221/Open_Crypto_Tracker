@@ -1416,7 +1416,7 @@ function delete_all_cookies() {
 ////////////////////////////////////////////////////////
 
 
-function zip_recursively($source, $destination) {
+function zip_recursively($source, $destination, $password=false) {
 	
 		
 		if ( !extension_loaded('zip') ) {
@@ -1426,12 +1426,23 @@ function zip_recursively($source, $destination) {
 			return 'no_source';
 		}
 	
+	
 		$zip = new ZipArchive();
+		
+		
 		if ( !$zip->open($destination, ZIPARCHIVE::CREATE) ) {
 			return 'no_open_dest';
 		}
+		
+		
+		// If we are password-protecting
+		if ( $password != false ) {
+		$zip->setPassword($password);
+		}
+	
 	
 		$source = str_replace('\\', '/', realpath($source));
+	
 	
 		if ( is_dir($source) === true ) {
 			
@@ -1448,17 +1459,31 @@ function zip_recursively($source, $destination) {
 				$file = realpath($file);
 	
 				if (is_dir($file) === true) {
-					$zip->addEmptyDir(str_replace($source . '/', '', $file . '/'));
+				$zip->addEmptyDir(str_replace($source . '/', '', $file . '/'));
 				}
 				elseif (is_file($file) === true) {
-					$zip->addFromString(str_replace($source . '/', '', $file), file_get_contents($file));
+					
+				$zip->addFromString(str_replace($source . '/', '', $file), file_get_contents($file));
+					
+					// If we are password-protecting
+					if ( $password != false ) {
+					$zip->setEncryptionName(str_replace($source . '/', '', $file), ZipArchive::EM_AES_256);
+					}
+					
 				}
 				
 			}
 			
 		}
 		elseif ( is_file($source) === true ) {
-			$zip->addFromString(basename($source), file_get_contents($source));
+			
+		$zip->addFromString(basename($source), file_get_contents($source));
+			
+			// If we are password-protecting
+			if ( $password != false ) {
+			$zip->setEncryptionName(basename($source), ZipArchive::EM_AES_256);
+			}
+			
 		}
 	
 		return $zip->close();

@@ -126,6 +126,15 @@ $app_config['price_alerts_threshold'] = number_to_string($app_config['price_aler
 $app_config['hivepower_yearly_interest'] = number_to_string($app_config['hivepower_yearly_interest']); 
 
 
+// Backup archive password protection / encryption
+if ( $app_config['backup_archive_password'] != '' ) {
+$backup_archive_password = $app_config['backup_archive_password'];
+}
+else {
+$backup_archive_password = false;
+}
+
+
 //////////////////////////////////////////////////////////////////
 // END APP CONFIG DYNAMIC MANAGEMENT
 //////////////////////////////////////////////////////////////////

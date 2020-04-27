@@ -15,7 +15,7 @@ Password notes: https://www.php.net/manual/en/faq.passwords.php
 "NEXT ON THE LIST" SUMMARY SECTION
 ///////////////////////////////////////////////////////
 
-Post on telegram, discord, Twitter, and Facebook whenever there is a new release of the app.
+Post on hive, telegram, discord, Twitter, and Facebook whenever there is a new release of the app.
 
 ALWAYS do everything in the optimizations / bugs / tests / ux / qa / other section of this list FIRST, before adding ANY new features (find every flaming turd before we start a dumpster fire).
 
@@ -24,6 +24,24 @@ Youtube channels on the resources page, that MAY BE DYING (keep an eye on them):
 ///////////////////////////////////////////////////////
 OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
+
+
+See why new header nav isn't showing in Chrome on Android.
+
+
+Test in all major browsers.
+
+
+Create a recursive function that calls itself and checks if the item(s) in an array are strings or sub-arrays, to only add non-existent variables to the CACHED app config only if they only exist in config.php (for upgrades). For removing depreciated variables, create a static list to be safe.
+
+
+On login page, add a "reset password" link if a user has set to / from emails.
+
+
+Auto correct app config vars at the top of the file, IF the file is called before app config management.
+
+
+Make sure we can load classes before loading secure cached vars like telegram bot chat id, etc.
 
 
 Documentation for API / Webhook features
@@ -38,7 +56,7 @@ Admin page authentication.
 Vertical tabs on admin page.
 
 
-Header from zilliqa block explorer for admin page link / alerts bell.
+Alerts bell in header.
 
 
 Retest password strength function after the modification.
@@ -224,6 +242,9 @@ Simple trading bot, to run from cron / cli (with SQL-based admin authentication 
 ///////////////////////////////////////////////////////
 MAYBE SECTION
 ///////////////////////////////////////////////////////
+
+
+Maybe hashed password can be re-hashed with a unique per-browser install semi-constant or constant (like machine name or user agent), to securely store a persistent / semi-persisent login cookie (that hackers cannot steal and run on another machine to auto login easily)?
 
 
 Admin import / export of settings (consider security implications)?

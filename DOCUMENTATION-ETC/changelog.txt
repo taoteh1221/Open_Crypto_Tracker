@@ -3117,9 +3117,11 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.10.0:
 
--Administration Settings Interface
+-Admin configuration interface, with login authentication
 
 -Initial API / Webhook support (see README.txt on usage)
+
+-Optional password protection / encryption for zip file archives
 
 -Misc. Optimizations / UX revisions
 
