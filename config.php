@@ -186,13 +186,20 @@ $app_config['etherscanio_api_key'] = '';
 $app_config['coinmarketcapcom_api_key'] = '';
 
 
-// Default marketcap data source: 'coingecko', or 'coinmarketcap' (COINMARKETCAP REQUIRES A #FREE# API KEY, see below)
-$app_config['primary_marketcap_site'] = 'coingecko'; 
+// Password protection / encryption security for backup archives (chart data archives, etc)
+$app_config['backup_archive_password'] = ''; // LEAVE BLANK TO DISABLE
+
+
+$app_config['backup_archive_delete_old'] = 10; // Days until old backup archives should be deleted (chart data archives, etc)
 
 
 // Your local time offset IN HOURS, COMPARED TO UTC TIME. Can be negative or positive.
 // (Used for user experience 'pretty' timestamping in interface logic ONLY, WILL NOT change or screw up UTC log times etc if you change this)
 $app_config['local_time_offset'] = -4; // example: -5 or 5
+
+
+// Default marketcap data source: 'coingecko', or 'coinmarketcap' (COINMARKETCAP REQUIRES A #FREE# API KEY, see below)
+$app_config['primary_marketcap_site'] = 'coingecko'; 
 
 
 // ENABLING CHARTS REQUIRES A CRON JOB SETUP (see README.txt for cron job setup information)
@@ -208,13 +215,6 @@ $app_config['default_theme'] = 'dark'; // 'dark' or 'light'
 
 
 $app_config['margin_leverage_max'] = 150; // Maximum margin leverage available in the user interface ('Update Assets' page, etc)
-
-
-$app_config['backup_archive_delete_old'] = 10; // Days until old backup archives should be deleted (chart data archives, etc)
-
-
-// Password protection / encryption security for backup archives (chart data archives, etc)
-$app_config['backup_archive_password'] = ''; // LEAVE BLANK TO DISABLE
 
 
 // Shows system statistics in the user interface, if stats are available (system load, system temperature, free disk space, free system memory, etc)
@@ -2252,10 +2252,12 @@ $app_config['portfolio_assets'] = array(
                                     'btc' => array(
                                         'bittrex' => 'BTC-HIVE',
                                         'huobi' => 'hivebtc',
+                                        'hotbit' => 'HIVE_BTC',
                                                     ),
                         
                                     'usdt' => array(
                                         'huobi' => 'hiveusdt',
+                                        'hotbit' => 'HIVE_USDT',
                                                     ),
                                                     
                                         ) // market_pairing END

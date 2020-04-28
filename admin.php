@@ -19,8 +19,8 @@ $is_admin = 1;
 require("config.php");
 	
 
-// If no admin login has been set yet, force user to create an admin user / pass
-if ( !isset($admin_login) ) {
+// If an activated password reset is in progress or no admin login has been set yet, prompt user to create an admin user / pass
+if ( $password_reset_activated || !$admin_login ) {
 require("templates/interface/php/admin/admin-login/register.php");
 exit;
 }

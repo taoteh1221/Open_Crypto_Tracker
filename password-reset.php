@@ -23,7 +23,14 @@ $is_password_reset = 1;
 require("config.php");
 
 
+// If an activated password reset is in progress or no admin login has been set yet, prompt user to create an admin user / pass
+if ( $password_reset_activated || !$admin_login ) {
+require($base_dir . '/templates/interface/php/admin/admin-login/register.php');
+exit;
+}
+else {
 require($base_dir . '/templates/interface/php/admin/admin-login/reset.php'); 
+}
 	
 
 ?>

@@ -14,10 +14,10 @@ app_reloading_placeholder();
 
 
 // Render interface after loading (with transition effects)
-$("#body_loading").hide(250, 'linear'); // 0.25 seconds
+$("#app_loading").hide(250, 'linear'); // 0.25 seconds
 
-$("#body_wrapper").show(250, 'linear'); // 0.25 seconds
-
+$("#content_wrapper").show(250, 'linear'); // 0.25 seconds
+$("#content_wrapper").css('display','inline'); // MUST display inline to center itself cross-browser
   
   
 	

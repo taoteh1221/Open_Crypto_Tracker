@@ -6,7 +6,7 @@
 
 ?>
 
-<div class='max_1200px_wrapper'>
+<div class='max_1350px_wrapper'>
 	
 				<h4 style='display: inline;'>Help?</h4>
 				
@@ -384,7 +384,7 @@ Running a google search for "set permanently ulimit -n linux", you'll find tons 
 	
 			    
 			    
-</div> <!-- max_1200px_wrapper END -->
+</div> <!-- max_1350px_wrapper END -->
 
 
 

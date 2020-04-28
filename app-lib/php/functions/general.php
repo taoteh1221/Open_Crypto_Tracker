@@ -136,11 +136,23 @@ global $app_config, $smtp;
 	if ( $charset == null ) {
 	$charset = $app_config['charset_default'];
 	}
+	
+	
+	// Fallback, if no From email set in app config
+	if ( validate_email($app_config['from_email']) == 'valid' ) {
+	$from_email = $app_config['from_email'];
+	}
+	else {
+	$temp_data = explode("||", $app_config['smtp_email_login']);
+	$from_email = $temp_data[0];
+	}
 
-$smtp->From($app_config['from_email']); 
+
+$smtp->From($from_email); 
 $smtp->singleTo($to); 
 $smtp->Subject($subject);
 $smtp->Charset($charset);
+
 
 	if ( $content_type == 'text' ) {
 	$smtp->Text($message);
@@ -148,6 +160,7 @@ $smtp->Charset($charset);
 	elseif ( $content_type == 'html' ) {
 	$smtp->Body($message);
 	}
+
 
 return $smtp->Send();
 
@@ -1588,19 +1601,43 @@ $to = trim($to);
 		
 		// Use array for safety from header injection >= PHP 7.2 
 		if ( PHP_VERSION_ID >= 70200 ) {
-	
-		$headers = array(
+			
+			// Fallback, if no From email set in app config
+			if ( validate_email($app_config['from_email']) == 'valid' ) {
+			
+			$headers = array(
 	    					'From' => $app_config['from_email'],
 	    					'X-Mailer' => 'DFD_Cryptocoin_Values/' . $app_version . ' - PHP/' . phpversion(),
 	    					'Content-Type' => $content_type . '/plain; charset=' . $charset
-							);
+								);
+			
+			}
+			else {
+			
+			$headers = array(
+	    					'X-Mailer' => 'DFD_Cryptocoin_Values/' . $app_version . ' - PHP/' . phpversion(),
+	    					'Content-Type' => $content_type . '/plain; charset=' . $charset
+								);
+			
+			}
 	
 		}
 		else {
 			
-		$headers = 'From: ' . $app_config['from_email'] . "\r\n" .
-    	'X-Mailer: DFD_Cryptocoin_Values/' . $app_version . ' - PHP/' . phpversion() .
+			// Fallback, if no From email set in app config
+			if ( validate_email($app_config['from_email']) == 'valid' ) {
+			
+			$headers = 'From: ' . $app_config['from_email'] . "\r\n" .
+    	'X-Mailer: DFD_Cryptocoin_Values/' . $app_version . ' - PHP/' . phpversion() . "\r\n" .
     	'Content-Type: ' . $content_type . '/plain; charset=' . $charset;
+    	
+			}
+			else {
+			
+			$headers = 'X-Mailer: DFD_Cryptocoin_Values/' . $app_version . ' - PHP/' . phpversion() . "\r\n" .
+    	'Content-Type: ' . $content_type . '/plain; charset=' . $charset;
+    	
+			}
     	
 		}
 	

@@ -144,54 +144,57 @@ header('Content-type: text/html; charset=' . $app_config['charset_default']);
       <source src="templates/interface/media/audio/Smoke-Alarm-SoundBible-1551222038.ogg">
     </audio>
     
-    
-    <div class='align_center' id='body_top_nav'>
-    
-    
-	<!-- START #topnav-content -->
-   <nav id='topnav' class="navbar navbar-expand align_center">
-	<?php
-	// Filename info, to dynamically render active menu link displaying
-   $script_file_info = pathinfo($_SERVER['SCRIPT_FILENAME']);
-	?>
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav">
-      <li class="nav-item dropdown align_center">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src='templates/interface/media/images/login-<?=$theme_selected?>-theme.png' width='30' border='0' /></a>
-        <div class="dropdown-menu shadow-lg p-3 mb-5 bg-white rounded" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item<?=( $script_file_info['basename'] == 'admin.php' ? ' active' : '' )?>" href="admin.php">Admin Configuration</a>
-          <a class="dropdown-item<?=( $script_file_info['basename'] == 'index.php' ? ' active' : '' )?>" href="index.php">Portfolio Tracker</a>
-          <?php
-          if ( isset($admin_login) && isset($_SESSION['admin_login']) ) {
-          ?>
-          <a class="dropdown-item" href="?logout=1&nonce=<?=$_SESSION['nonce']?>">Logout</a>
-          <?php
-          }
-          ?>
-        </div>
-      </li>
-    </ul>
-    <h2>DFD Cryptocoin Values - <?=( $is_admin == 1 ? 'Admin Configuration' : 'Portfolio Tracker' )?></h2>
-  </div>
-	
-	</nav>
-    <!-- END #topnav-content -->
-    
-    
-	 </div>
-	 
-	 
-	 <div class='align_center loading bitcoin' id='body_loading'>
-	 <img src="templates/interface/media/images/loader.gif" height='60' alt="" style='vertical-align: middle;' /> <span id='body_loading_span'>Loading App...</span>
-	 </div>
-	 
 	 
     <div class='align_center' id='body_wrapper'>
     
-            <div class='align_left' style=' margin: 0px; min-width: 1200px; display: inline;'>
-            
-            	<div id='loading_subsections' class='align_center loading bitcoin'><img src="templates/interface/media/images/loader.gif" height='20' alt="" style='vertical-align: middle;' /> <span id='loading_subsections_span'></span></div>
-            	
-        <!-- header.php END -->
-        
-
+    
+		<div class='align_center' id='body_top_nav'>
+		
+		
+				<!-- START #topnav-content -->
+			   <nav id='topnav' class="navbar navbar-expand align_center">
+				<?php
+				// Filename info, to dynamically render active menu link displaying
+			   $script_file_info = pathinfo($_SERVER['SCRIPT_FILENAME']);
+				?>
+			  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav">
+				  <li class="nav-item dropdown align_center">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src='templates/interface/media/images/login-<?=$theme_selected?>-theme.png' width='30' border='0' /></a>
+					<div class="dropdown-menu shadow-lg p-3 mb-5 bg-white rounded" aria-labelledby="navbarDropdown">
+					  <a class="dropdown-item<?=( $script_file_info['basename'] == 'admin.php' ? ' active' : '' )?>" href="admin.php">Admin Configuration</a>
+					  <a class="dropdown-item<?=( $script_file_info['basename'] == 'index.php' ? ' active' : '' )?>" href="index.php">Portfolio Tracker</a>
+					  <?php
+					  if ( isset($admin_login) && isset($_SESSION['admin_login']) ) {
+					  ?>
+					  <a class="dropdown-item" href="?logout=1&nonce=<?=$_SESSION['nonce']?>">Logout</a>
+					  <?php
+					  }
+					  ?>
+					</div>
+				  </li>
+				</ul>
+				<h2>DFD Cryptocoin Values - <?=( $is_admin == 1 ? 'Admin Configuration' : 'Portfolio Tracker' )?></h2>
+			  </div>
+				
+				</nav>
+				<!-- END #topnav-content -->
+		
+		
+		</div>
+		 
+    
+	 	<div class='align_center loading bitcoin' id='app_loading'>
+	 	<img src="templates/interface/media/images/loader.gif" height='60' alt="" style='vertical-align: middle;' /> <span id='app_loading_span'>Loading App...</span>
+	 	</div>
+	 
+		
+		<div class='align_left' id='content_wrapper'>
+				
+		 
+				<div id='loading_subsections' class='align_center loading bitcoin'><img src="templates/interface/media/images/loader.gif" height='20' alt="" style='vertical-align: middle;' /> <span id='loading_subsections_span'></span></div>
+		
+					
+		<!-- header.php END -->
+			
+	

@@ -9,7 +9,8 @@ $login_result = array();
 if ( $_POST['admin_submit_login'] ) {
 	
 	if ( trim($_POST['captcha_code']) == '' || trim($_POST['captcha_code']) != '' && strtolower($_POST['captcha_code']) != strtolower($_SESSION['captcha_code']) )	{
-	$login_result['error'][] = "Captcha code was not correct.";
+	$login_result['error'][] = "Captcha image code was not correct.";
+	$captcha_field_color = '#ff4747';
 	}
 	else {
 		
@@ -41,7 +42,7 @@ require("templates/interface/php/header.php");
 	<div style='font-weight: bold;' id='login_alert'>
 <?php
 	foreach ( $login_result['error'] as $error ) {
-	echo "<div class='red_bright' style='display: inline-block;  font-weight: bold; padding: 15px; margin: 15px; font-size: 21px; border: 4px dotted #ff4747;'> $error </div>";
+	echo "<br clear='all' /><div class='red_bright' style='display: inline-block;  font-weight: bold; padding: 15px; margin: 15px; font-size: 21px; border: 4px dotted #ff4747;'> $error </div>";
 	}
 ?>
 	</div>
@@ -93,7 +94,7 @@ if ( !$_POST['submit_login'] || sizeof($login_result['error']) > 0 ) {
 
   	 <div style="display: inline-block; text-align: right; width: 350px;">
   
-  	 <p><b>Enter Text In Image:</b> <input type='text' name='captcha_code' id='captcha_code' value='' /></p>
+  	 <p><b>Enter Text In Image:</b> <input type='text' name='captcha_code' id='captcha_code' value='' style='<?=( $captcha_field_color ? 'background: ' . $captcha_field_color : '' )?>' /></p>
 	
 	<p class='align_left' style='font-size: 19px; font-weight: bold; color: #ff4747;' id='captcha_alert'></p>
   
@@ -113,6 +114,8 @@ if ( !$_POST['submit_login'] || sizeof($login_result['error']) > 0 ) {
 }
 
 ?>
+
+<p> <a href='<?=$base_url?>'>Return To The Portfolio Main Page</a> </p>
 
 </div>
 

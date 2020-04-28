@@ -30,16 +30,10 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 Test login / register / reset with light theme.
 
 
-See why new header nav aligns left in Chrome on Android.
-
-
 Test in all major browsers.
 
 
 Create a recursive function that calls itself and checks if the item(s) in an array are strings or sub-arrays, to only add non-existent variables to the CACHED app config only if they only exist in config.php (for upgrades). For removing depreciated variables, create a static list to be safe.
-
-
-On login page, add a "reset password" link if a user has set to / from emails.
 
 
 Auto correct app config vars at the top of the file, IF the file is called before app config management.
@@ -93,6 +87,9 @@ Code review ALL functions / logic (especially loops, for efficiency).
 ///////////////////////////////////////////////////////
 FEATURES / STRUCTURING SECTION
 ///////////////////////////////////////////////////////
+
+
+Option to use new zip file encryption password feature to encrypt portfolio spreadsheet exports when downloading exported portfolio data.
 
 
 Add additional ability to do telegram webhooks, to query asset prices at different exchanges through telegram chat with the chat bot. Example: "/price ETH/USDT @ Binance"

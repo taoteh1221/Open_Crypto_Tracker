@@ -45,6 +45,18 @@ if ( $force_exit != 1 ) {
     
     ///////////////////////////////////////////
     
+    // Recreate /cache/secured/activation/.htaccess to restrict web snooping of cache contents, if the activation directory was deleted / recreated
+    if ( !file_exists($base_dir . '/cache/secured/activation/.htaccess') ) {
+    store_file_contents($base_dir . '/cache/secured/activation/.htaccess', file_get_contents($base_dir . '/templates/back-end/deny-all-htaccess.template') ); 
+    }
+    
+    // Recreate /cache/secured/activation/index.php to restrict web snooping of backup contents, if the activation directory was deleted / recreated
+    if ( !file_exists($base_dir . '/cache/secured/activation/index.php') ) {
+    store_file_contents($base_dir . '/cache/secured/activation/index.php', file_get_contents($base_dir . '/templates/back-end/403-directory-index.template')); 
+    }
+    
+    ///////////////////////////////////////////
+    
     // Recreate /cache/secured/apis/.htaccess to restrict web snooping of cache contents, if the apis directory was deleted / recreated
     if ( !file_exists($base_dir . '/cache/secured/apis/.htaccess') ) {
     store_file_contents($base_dir . '/cache/secured/apis/.htaccess', file_get_contents($base_dir . '/templates/back-end/deny-all-htaccess.template') ); 

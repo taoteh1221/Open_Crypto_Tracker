@@ -128,6 +128,12 @@ CLASSES
 ////////////////////////////// */
 
 
+.random_tip a {
+color: #dd7c0d !important;
+text-decoration-style: dotted;
+}
+
+
 .captcha_container {
 margin-top: 25px;
 margin-top: 25px;
@@ -235,7 +241,6 @@ margin-top: 15px;
 display: none;
 position: relative;
 float: left;
-max-width: 60%;
 }
 
 .border_t {
@@ -345,7 +350,7 @@ margin: 0px;
 
 div.tabdiv {
 padding: 15px;
-min-width: 1200px;
+min-width: 1350px;
 max-width: 1700px;
 min-height: 150px;
 display: inline-block;
@@ -437,12 +442,6 @@ text-decoration: none;
 }
 
 
-.max_1200px_wrapper {
-position: relative;
-max-width: 1200px;
-}
-
-
 .max_1350px_wrapper {
 position: relative;
 max-width: 1350px;
@@ -481,7 +480,7 @@ padding: 8px;
 
 .loading {
 width: 100%; 
-max-width: 1200px;
+max-width: 1350px;
 font-weight: bold;
 background-color: #5b5b5b;
 opacity: 0.75;
@@ -503,6 +502,8 @@ IDs
 display: none;
 margin-top: 0px;
 font-size: 19px;
+width: 100%;
+min-width: 1350px; 
 }
 
 
@@ -510,17 +511,17 @@ font-size: 19px;
 position: relative;
 display: block;
 width: 100%; 
-min-width: 1200px; 
+min-width: 1350px; 
 white-space: nowrap;
 margin: auto;
 padding-top: 8px;
 }
 
 
-#body_loading {
+#app_loading {
 display: block;
 width: 100%; 
-min-width: 1200px; 
+min-width: 1350px; 
 white-space: nowrap;
 font-size: 59px;
 margin: auto;
@@ -530,12 +531,18 @@ margin-bottom: 60px;
 
 
 #body_wrapper {
-display: none;
 width: 100%; 
-min-width: 1200px; 
+min-width: 1350px; 
 margin: auto;
 padding: 15px;
 padding-top: 0px;
+}
+
+
+#content_wrapper {
+display: none;
+margin: 0px; 
+min-width: 1350px;
 }
 
 
@@ -545,6 +552,7 @@ position: relative;
 float: right;
 max-width: 30%;
 margin: 0px;
+margin-right: 11px;
 font-size: 11px;
 }
 
@@ -583,7 +591,8 @@ color: black;
 
 #coins_table {
 position: relative;
-min-width: 1200px;
+width: 100%;
+min-width: 1320px;
 }
 
 

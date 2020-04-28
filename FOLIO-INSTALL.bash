@@ -156,8 +156,15 @@ echo "MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! 
 echo " "
 fi
   				
+
+echo "IMPORTANT SECURITY NOTES:"
+echo "YOU WILL BE PROMPTED TO CREATE AN ADMIN LOGIN (FOR SECURITY OF THE ADMIN AREA),"
+echo "#WHEN YOU FIRST RUN THIS APP AFTER INSTALLATION#. IT'S #HIGHLY RECOMMENDED TO DO THIS IMMEDIATELY#,"
+echo "ESPECIALLY ON PUBLIC FACING / KNOWN SERVERS, #OR SOMEBODY ELSE MAY BEAT YOU TO IT#."
+echo " "
+
   				
-echo "Select 1 or 2 to choose whether to continue, or quit."
+echo "Select 1 or 2 to choose whether to continue with installation, or quit."
 echo " "
 
 OPTIONS="continue quit"

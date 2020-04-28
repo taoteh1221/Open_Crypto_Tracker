@@ -4,8 +4,45 @@
  */
 
 
+// Activating an existing admin password reset session
+if ( trim($_GET['pass_reset_activate']) != '' ) {
 
-// Secured cache files data
+// Secured activation code data
+$activation_files = sort_files($base_dir . '/cache/secured/activation', 'dat', 'desc');
+
+
+	foreach( $activation_files as $activation_file ) {
+	
+		if ( preg_match("/password_reset_/i", $activation_file) ) {
+		
+			// If we already loaded the newest modified file, delete any stale ones
+			if ( $newest_cached_password_reset == 1 ) {
+			unlink($base_dir . '/cache/secured/activation/' . $activation_file);
+			}
+			else {
+			$newest_cached_password_reset = 1;
+			$password_reset = trim( file_get_contents($base_dir . '/cache/secured/activation/' . $activation_file) );
+			}
+	
+		}
+	
+	}
+
+
+	// If reset security key checks pass, flag as an activated reset in progress (to trigger logic later in runtime)
+	if ( $_GET['pass_reset_activate'] == $password_reset ) {
+	$password_reset_activated = 1;
+	}
+	else {
+	$password_reset_denied = 1; // For reset page UI
+	}
+	
+
+}
+
+
+
+// Secured cache files global variables
 $secured_cache_files = sort_files($base_dir . '/cache/secured', 'dat', 'desc');
 
 $app_config_check = trim( file_get_contents($base_dir . '/cache/vars/app_config_md5.dat') );
@@ -151,6 +188,7 @@ foreach( $secured_cache_files as $secured_file ) {
 		else {
 		$newest_cached_admin_login = 1;
 		$admin_login = explode("||", trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) ) );
+		$active_admin_login_file = $secured_file; // To easily delete, if we are resetting the login
 		}
 	
 	
@@ -234,34 +272,59 @@ $secure_256bit_hash = random_hash(32); // 256-bit (32-byte) hash converted to he
 
 
 
-// If no admin login, valid user / pass are submitted, AND CAPTCHA MATCHES, store the new admin login
-if ( !$admin_login 
-&& valid_username( trim($_POST['set_username']) ) == 'valid' 
+// If no admin login or an activated reset, valid user / pass are submitted, AND CAPTCHA MATCHES, store the new admin login
+if ( $password_reset_activated || !$admin_login ) {
+	
+
+	if ( valid_username( trim($_POST['set_username']) ) == 'valid' 
 && password_strength($_POST['set_password'], 12, 40) == 'valid' 
 && trim($_POST['captcha_code']) != '' && strtolower($_POST['captcha_code']) == strtolower($_SESSION['captcha_code']) ) {
 	
-$secure_128bit_hash = random_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
-$secure_password_hash = pepper_hashed_password($_POST['set_password']); // Peppered password hash
+	
+	$secure_128bit_hash = random_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
+	$secure_password_hash = pepper_hashed_password($_POST['set_password']); // Peppered password hash
 	
 	
-	// (random hash) Halt the process if an issue is detected safely creating a random hash
-	if ( $secure_128bit_hash == false ) {
-	app_logging('security_error', 'Cryptographically secure pseudo-random bytes could not be generated for admin login (in secured cache storage), admin login creation aborted to preserve security');
-	}
-	// (peppered password) Halt the process if an issue is detected safely creating a random hash
-	elseif ( $secure_password_hash == false ) {
-	app_logging('security_error', 'A peppered password hash could not be generated for admin login, admin login creation aborted to preserve security');
-	}
-	else {
-	store_file_contents($base_dir . '/cache/secured/admin_login_'.$secure_128bit_hash.'.dat', $_POST['set_username'] . '||' . $secure_password_hash);
-	$admin_login = array($_POST['set_username'], $secure_password_hash);
-	}
+		// (random hash) Halt the process if an issue is detected safely creating a random hash
+		if ( $secure_128bit_hash == false ) {
+		app_logging('security_error', 'Cryptographically secure pseudo-random bytes could not be generated for admin login (in secured cache storage), admin login creation aborted to preserve security');
+		}
+		// (peppered password) Halt the process if an issue is detected safely creating a random hash
+		elseif ( $secure_password_hash == false ) {
+		app_logging('security_error', 'A peppered password hash could not be generated for admin login, admin login creation aborted to preserve security');
+		}
+		else {
+		store_file_contents($base_dir . '/cache/secured/admin_login_'.$secure_128bit_hash.'.dat', $_POST['set_username'] . '||' . $secure_password_hash);
+		$admin_login = array($_POST['set_username'], $secure_password_hash);
+		$admin_login_updated = 1;
+		}
 
+		
+		
+		// If the admin login update was a success, delete old data file / login / redirect
+		if ( $admin_login_updated ) {
+		
+			// Delete any previous active admin login data file
+			if ( $active_admin_login_file ) {
+			unlink($base_dir . '/cache/secured/' . $active_admin_login_file);
+			}
+	
+		// Login now, before redirect
+		$_SESSION['admin_login'] = $admin_login;
+		
+		// Redirect to avoid quirky page reloads later on, AND preset the admin login page for good UX
+		header("Location: admin.php");
+		exit;
+		
+		}
+		else {
+		app_logging('security_error', 'Admin login could not be updated', 'remote_address: ' . $_SERVER['REMOTE_ADDR']);
+		}
+	
 
-// Redirect, to avoid quirky page reloads
-header("Location: " . start_page($_GET['start_page']));
-exit;
-
+	}
+	
+	
 }
 
 

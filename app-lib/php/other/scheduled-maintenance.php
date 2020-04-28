@@ -20,7 +20,7 @@ if ( $runtime_mode != 'cron' && update_cache_file($base_dir . '/cache/events/sch
 	
 		// Chart backups...run before any price checks to avoid any potential file lock issues
 		if ( $app_config['charts_page'] == 'on' && $app_config['charts_backup_freq'] > 0 ) {
-		backup_archive('charts-data', $base_dir . '/cache/charts/', $app_config['charts_backup_freq'], $backup_archive_password);
+		backup_archive('charts-data', $base_dir . '/cache/charts/', $app_config['charts_backup_freq']); // No $backup_archive_password extra param here (waste of time / energy to encrypt charts data backups)
 		}
 
 
@@ -218,7 +218,7 @@ delete_old_files($base_dir . '/cache/secured/backups', $app_config['backup_archi
 
 delete_old_files($base_dir . '/cache/events/throttling', 1, 'dat'); // Delete throttling cache files older than 1 day
 
-
+delete_old_files($base_dir . '/cache/secured/activation', 1, 'dat'); // Delete activation cache files older than 1 day
 
 delete_old_files($base_dir . '/cache/secured/apis', 1, 'dat'); // Delete API cache files older than 1 day
 

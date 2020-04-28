@@ -106,11 +106,11 @@
 		 
 	    
 				
-	<p style='margin-top: 10px;'><a style='font-weight: bold;' class='show red' id='disclaimer' href='#show_disclaimer' title='Click to show disclaimer.' onclick='return false;'>Disclaimer!</a></p>
+	<p style='margin-top: 10px;'><a style='font-weight: bold;' class='show red clear_both' id='disclaimer' href='#show_disclaimer' title='Click to show disclaimer.' onclick='return false;'>Disclaimer!</a></p>
 	    
 	    
 	    
-		<div style='display: none;' class='align_left show_disclaimer'>
+		<div style='display: none;' class='align_left show_disclaimer clear_both'>
 			
 	     
 						<p class='red' style='font-weight: bold;'>
@@ -176,14 +176,13 @@
 		</div>
 			
 				
+	<p><a style='font-weight: bold;' href='README.txt' target='_blank'>Editing The Portfolio Assets List, and Enabling Email / Text / Alexa / Google Home Exchange Price Alerts (installation on a Raspberry Pi or website)</a></p>
 	
 	
-	<br class='clear_both' />
-	<a style='font-weight: bold;' href='README.txt' target='_blank'>Editing The Portfolio Assets List, and Enabling Email / Text / Alexa / Google Home Exchange Price Alerts (installation on a Raspberry Pi or website)</a>
-	<br class='clear_both' />
+	<p class='bitcoin random_tip'><b>Random Tip</b>: <?=random_array_var($random_tips)?></p>
 	
 			
-	<div class='align_left' style='margin-top: 30px; margin-bottom: 15px;'>
+	<div class='align_left clear_both' style='margin-top: 30px; margin-bottom: 15px;'>
 	
 		
 		<!-- Submit button must be OUTSIDE form tags here, or it submits the target form improperly and loses data -->

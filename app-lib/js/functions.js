@@ -68,13 +68,13 @@ document.getElementById(obj_id).action = set_action;
 
 function app_reloading_placeholder() {
 
-$("#body_loading_span").html("Reloading App...");
+$("#app_loading_span").html("Reloading App...");
 
 // Transition effects
 
-$("#body_wrapper").hide(250, 'linear'); // 0.25 seconds
+$("#content_wrapper").hide(250, 'linear'); // 0.25 seconds
 
-$("#body_loading").show(250, 'linear'); // 0.25 seconds
+$("#app_loading").show(250, 'linear'); // 0.25 seconds
 
 }
 	
@@ -130,11 +130,11 @@ return sort_target.replace(/,/g, '');
 /////////////////////////////////////////////////////////////
 
 
-function validateForm(form_id, feild) {
+function validateForm(form_id, field) {
 	
-  var x = document.forms[form_id][feild].value;
+  var x = document.forms[form_id][field].value;
   if (x == "") {
-    alert(feild + " must be populated.");
+    alert(field + " must be populated.");
     return false;
   }
   else {

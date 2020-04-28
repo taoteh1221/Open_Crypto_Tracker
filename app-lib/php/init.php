@@ -113,6 +113,9 @@ $btc_pairing_markets_blacklist = array();
 // Coinmarketcap supported currencies array
 require_once('app-lib/php/other/coinmarketcap-currencies.php');
 
+// Random tips array
+require_once('app-lib/php/other/random-tips.php');
+
 // SET original app_config array BEFORE dynamic app config management
 $original_app_config = $app_config; 
 
@@ -198,6 +201,7 @@ if ( dir_structure('cache/alerts/') != true
 || dir_structure('cache/events/throttling/') != true
 || dir_structure('cache/logs/debugging/api/') != true
 || dir_structure('cache/logs/errors/api/') != true
+|| dir_structure('cache/secured/activation/') != true
 || dir_structure('cache/secured/apis/') != true
 || dir_structure('cache/secured/backups/') != true
 || dir_structure('cache/secured/messages/') != true
@@ -224,6 +228,9 @@ if ( $runtime_mode == 'ui' ) {
 	if ( update_cache_file('cache/vars/base_url.dat', (60 * 24) ) == true ) {
 	$base_url = base_url();
 	store_file_contents('cache/vars/base_url.dat', $base_url);
+	}
+	else {
+	$base_url = trim( file_get_contents('cache/vars/base_url.dat') );
 	}
 
 }

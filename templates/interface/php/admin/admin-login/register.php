@@ -6,20 +6,22 @@
 
 $register_result = array();
 
+	
+if ( $admin_login && !$password_reset_activated ) {
+$register_result['error'][] = "An admin login already exists. If you have added your to / from emails in the communications configuration, try <a href='password-reset.php' class='red_bright'>resetting your password</a> instead.";
+}
+	
+	
 if ( $_POST['admin_submit_registration'] ) {
 
 	// Run checks...
 	
 	if ( trim($_POST['captcha_code']) != '' && strtolower($_POST['captcha_code']) != strtolower($_SESSION['captcha_code']) ) {
-	$register_result['error'][] = "Captcha code was not correct.";
+	$register_result['error'][] = "Captcha image code was not correct.";
+	$captcha_field_color = '#ff4747';
 	}
 	
 	//////////////
-	
-	if ( $admin_login ) {
-	$register_result['error'][] = "An admin login already exists. If you have added your to / from emails in the communications configuration, try resetting your password instead.";
-	}
-	
 	
 	////////////////
 	
@@ -47,21 +49,38 @@ require("templates/interface/php/header.php");
 	<div id='login_alert'>
 <?php
 	foreach ( $register_result['error'] as $error ) {
-	echo "<div class='red_bright' style='display: inline-block;  font-weight: bold; padding: 15px; margin: 15px; font-size: 21px; border: 4px dotted #ff4747;'> $error </div>";
+	echo "<br clear='all' /><div class='red_bright' style='display: inline-block;  font-weight: bold; padding: 15px; margin: 15px; font-size: 21px; border: 4px dotted #ff4747;'> $error </div>";
 	}
 
 
 	foreach ( $register_result['success'] as $success ) {
-	echo "<div class='green_bright' style='display: inline-block;  font-weight: bold; padding: 15px; margin: 15px; font-size: 21px; border: 4px dotted #10d602;'> $success </div>";
+	echo "<br clear='all' /><div class='green_bright' style='display: inline-block;  font-weight: bold; padding: 15px; margin: 15px; font-size: 21px; border: 4px dotted #10d602;'> $success </div>";
 	}
 ?>
 	</div>
 	
 	<div class='green_bright' style='display: none; font-weight: bold; padding: 15px; margin: 15px; font-size: 21px; border: 4px dotted #10d602;' id='submit_alert'></div>
 
+<?php
+if ( $_GET['pass_reset_activate'] ) {
+?>
+
+<h3 class='bitcoin'>Admin Login Reset</h3>
+
+<p class='red' style='font-size: 19px;'>Reset your username / password for the Admin Configuration area.</p>
+
+<?php
+}
+else {
+?>
+
 <h3 class='bitcoin'>Admin Login Creation</h3>
 
-<p class='red' style='font-size: 19px;'><u>For security of this app</u>, please create a username / password for the Admin Configuration area.</p>
+<p class='red' style='font-size: 19px;'>Create a username / password to secure the Admin Configuration area.</p>
+
+<?php
+}
+?>
 
 
 <?php
@@ -69,14 +88,99 @@ require("templates/interface/php/header.php");
 if ( !$_POST['submit_registration'] || sizeof($register_result['error']) > 0 ) {
 ?>
 
+<script>
+
+
+		var username_notes = '<h5 align="center" class="red_bright" style="position: relative; white-space: nowrap;">Username Format Requirements</h5>'
+			
+			
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="red_bright">All lower case<br />Starts with a letter<br />Numbers allowed <br />No symbols <br />Between 4 - 30 characters <br /></span></p>'
+			
+			+'<p class="coin_info"><span class="yellow"> </span></p>';
+
+
+
+		var password_notes = '<h5 align="center" class="red_bright" style="position: relative; white-space: nowrap;">Password Format Requirements</h5>'
+			
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="red_bright">At least one upper case letter<br />At least one lower case letter<br />At least one number <br />At least one symbol <br />Between 4 - 30 characters <br /></span></p>'
+			
+			+'<p class="coin_info"><span class="yellow"> </span></p>';
+
+
+</script>
+
 <form name='set_admin' action='' method='post'>
 
 
     <div style="display: inline-block; text-align: right; width: 350px;">
     
-	 <p><b>Username:</b> <input type='text' id='set_username' name='set_username' value='<?=$_POST['set_username']?>' /></p>
+	 <p>
+	 
+	 <img id='username_notes' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative;' />  
+	 
+	 <b>Username:</b> 
+	 
+	 <input type='text' id='set_username' name='set_username' value='<?=$_POST['set_username']?>' />
+	 
+		
+	 <script>
+	
+			$('#username_notes').balloon({
+			html: true,
+			position: "left",
+			contents: username_notes,
+			css: {
+					fontSize: ".8rem",
+					minWidth: ".8rem",
+					padding: ".3rem .7rem",
+					border: "1px solid rgba(212, 212, 212, .4)",
+					borderRadius: "6px",
+					boxShadow: "3px 3px 6px #555",
+					color: "#eee",
+					backgroundColor: "#111",
+					opacity: "0.95",
+					zIndex: "32767",
+					textAlign: "left"
+					}
+			});
+		
+		 </script>
+		 
+	 </p>
 
-	 <p><b>Password:</b> <input type='password' id='set_password' name='set_password' value='<?=$_POST['set_password']?>' /></p>
+	 <p>
+	 
+	 <img id='password_notes' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative;' /> 
+	 
+	 <b>Password:</b> 
+	 	 
+	 <input type='password' id='set_password' name='set_password' value='<?=$_POST['set_password']?>' />
+	 
+		
+	 <script>
+	
+			$('#password_notes').balloon({
+			html: true,
+			position: "left",
+			contents: password_notes,
+			css: {
+					fontSize: ".8rem",
+					minWidth: ".8rem",
+					padding: ".3rem .7rem",
+					border: "1px solid rgba(212, 212, 212, .4)",
+					borderRadius: "6px",
+					boxShadow: "3px 3px 6px #555",
+					color: "#eee",
+					backgroundColor: "#111",
+					opacity: "0.95",
+					zIndex: "32767",
+					textAlign: "left"
+					}
+			});
+		
+		 </script>
+		 
+	 </p>
 
 	 <p><b>Repeat Password:</b> <input type='password' id='set_password2' name='set_password2' value='<?=$_POST['set_password2']?>' /></p>
     	
@@ -106,7 +210,7 @@ if ( !$_POST['submit_registration'] || sizeof($register_result['error']) > 0 ) {
 
   	 <div style="display: inline-block; text-align: right; width: 350px;">
   
-  	 <p><b>Enter Text In Image:</b> <input type='text' name='captcha_code' id='captcha_code' value='' /></p>
+  	 <p><b>Enter Text In Image:</b> <input type='text' name='captcha_code' id='captcha_code' value='' style='<?=( $captcha_field_color ? 'background: ' . $captcha_field_color : '' )?>' /></p>
 	
 	<p class='align_left' style='font-size: 19px; font-weight: bold; color: #ff4747;' id='captcha_alert'></p>
   
@@ -161,7 +265,7 @@ var badColor = "#ff4747";
 
 }
 
-'>Create Admin Login</button>
+'><?=( $_GET['pass_reset_activate'] ? 'Reset' : 'Create' )?> Admin Login</button>
 
 </p>
 
