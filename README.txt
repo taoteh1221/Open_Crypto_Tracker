@@ -193,7 +193,7 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in, but valu
                                           'lowercase_exchange1' => 'MARKETIDHERE',
                                           'lowercase_exchange2' => 'eth/COINSYMBOLHERE',
                                           'lowercase_exchange3' => 'ETH-COINSYMBOLHERE',
-                                          'eth_subtokens_ico' => 'ETHSUBTOKENNAME', // Must be defined in $app_config['ethereum_subtoken_ico_values'] in config.php
+                                          'eth_subtokens_ico' => 'ETHSUBTOKENNAME', // Must be defined in $app_config['power_user']['ethereum_subtoken_ico_values'] in config.php
                                                     ),
                                                     
                                           ) // market_pairing END

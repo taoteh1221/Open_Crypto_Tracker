@@ -112,7 +112,7 @@ if ( !$_POST['submit_registration'] || sizeof($register_result['error']) > 0 ) {
 <form name='set_admin' action='' method='post'>
 
 
-    <div style="display: inline-block; text-align: right; width: 350px;">
+    <div style="display: inline-block; text-align: right; width: 400px;">
     
 	 <p>
 	 
@@ -133,12 +133,12 @@ if ( !$_POST['submit_registration'] || sizeof($register_result['error']) > 0 ) {
 					fontSize: ".8rem",
 					minWidth: ".8rem",
 					padding: ".3rem .7rem",
-					border: "1px solid rgba(212, 212, 212, .4)",
+					border: "2px solid rgba(212, 212, 212, .4)",
 					borderRadius: "6px",
 					boxShadow: "3px 3px 6px #555",
 					color: "#eee",
 					backgroundColor: "#111",
-					opacity: "0.95",
+					opacity: "0.99",
 					zIndex: "32767",
 					textAlign: "left"
 					}
@@ -167,12 +167,12 @@ if ( !$_POST['submit_registration'] || sizeof($register_result['error']) > 0 ) {
 					fontSize: ".8rem",
 					minWidth: ".8rem",
 					padding: ".3rem .7rem",
-					border: "1px solid rgba(212, 212, 212, .4)",
+					border: "2px solid rgba(212, 212, 212, .4)",
 					borderRadius: "6px",
 					boxShadow: "3px 3px 6px #555",
 					color: "#eee",
 					backgroundColor: "#111",
-					opacity: "0.95",
+					opacity: "0.99",
 					zIndex: "32767",
 					textAlign: "left"
 					}
@@ -199,7 +199,7 @@ if ( !$_POST['submit_registration'] || sizeof($register_result['error']) > 0 ) {
   	 
   	 <p><img id='captcha_image' src='templates/interface/media/images/captcha.php' alt='' class='image_border' />
   	 <br />
-  	 <a href='javascript: refreshImage("captcha_image", "templates/interface/media/images/captcha.php");' class='bitcoin' style='font-weight: bold;'>Get A Different Image</a>
+  	 <a href='javascript: return false;' onclick='refreshImage("captcha_image", "templates/interface/media/images/captcha.php");' class='bitcoin' style='font-weight: bold;'>Get A Different Image</a>
   	 </p>
   	 
   	 </div>
@@ -208,9 +208,9 @@ if ( !$_POST['submit_registration'] || sizeof($register_result['error']) > 0 ) {
   	 <br clear='all' />
 
 
-  	 <div style="display: inline-block; text-align: right; width: 350px;">
+  	 <div style="display: inline-block; text-align: right; width: 400px;">
   
-  	 <p><b>Enter Text In Image:</b> <input type='text' name='captcha_code' id='captcha_code' value='' style='<?=( $captcha_field_color ? 'background: ' . $captcha_field_color : '' )?>' /></p>
+  	 <p><b>Enter Image Text:</b> <input type='text' name='captcha_code' id='captcha_code' value='' style='<?=( $captcha_field_color ? 'background: ' . $captcha_field_color : '' )?>' /></p>
 	
 	<p class='align_left' style='font-size: 19px; font-weight: bold; color: #ff4747;' id='captcha_alert'></p>
   

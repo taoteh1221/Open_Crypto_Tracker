@@ -29,22 +29,22 @@
 
 // IF SMTP EMAIL SENDING --NOT-- USED, FROM email should be REAL address on the website domain, or risk having email blacklisted / sent to junk folder
 // IF SMTP EMAIL SENDING --IS-- USED, FROM EMAIL MUST MATCH EMAIL ADDRESS associated with SMTP login (SMTP Email settings are below this setting)
-$app_config['from_email'] = ''; // MUST BE SET for price alerts and other email features
+$app_config['comms']['from_email'] = ''; // MUST BE SET for price alerts and other email features
 ////
-$app_config['to_email'] = ''; // MUST BE SET for price alerts and other email features
+$app_config['comms']['to_email'] = ''; // MUST BE SET for price alerts and other email features
 
 
 // OPTIONALLY use SMTP authentication TO SEND EMAIL, if you have no reverse lookup that matches domain name (on your home network etc)
 // !!USE A THROWAWAY ACCOUNT ONLY!! If web server is hacked, HACKER WOULD THEN HAVE ACCESS YOUR EMAIL LOGIN FROM THIS FILE!!
 // If SMTP credentials / settings are filled in, BUT not setup properly, APP EMAILING WILL FAIL
 // CAN BE BLANK (PHP's built-in mail function will be automatically used to send email instead)
-$app_config['smtp_email_login'] = ''; //  CAN BE BLANK. This format MUST be used: 'username||password'
+$app_config['comms']['smtp_email_login'] = ''; //  CAN BE BLANK. This format MUST be used: 'username||password'
 ////
 // Examples: 'example.com:25' (non-encrypted), 'example.com:465' (ssl-encrypted), 'example.com:587' (tls-encrypted)
-$app_config['smtp_email_server'] = ''; // CAN BE BLANK. This format MUST be used: 'domain_or_ip:port_number' 
+$app_config['comms']['smtp_email_server'] = ''; // CAN BE BLANK. This format MUST be used: 'domain_or_ip:port_number' 
 ////
 // MAKE SURE PORT NUMBER ABOVE CORRESPONDS
-$app_config['smtp_email_secure'] = 'tls'; // CAN BE 'off' FOR NO SECURE CONNECTION, or 'tls', or 'ssl' for secure connections. 
+$app_config['comms']['smtp_email_secure'] = 'tls'; // CAN BE 'off' FOR NO SECURE CONNECTION, or 'tls', or 'ssl' for secure connections. 
 
 
 // For alert texts to mobile phone numbers. 
@@ -55,18 +55,18 @@ $app_config['smtp_email_secure'] = 'tls'; // CAN BE 'off' FOR NO SECURE CONNECTI
 // CAN BE BLANK. Country code format MAY NEED TO BE USED (depending on your mobile network)
 // skip_network_name SHOULD BE USED IF USING textbelt / textlocal BELOW
 // 'phone_number||network_name_key' (examples: '12223334444||virgin_us' / '12223334444||skip_network_name')
-$app_config['to_mobile_text'] = '';
+$app_config['comms']['to_mobile_text'] = '';
 
 
 // Do NOT use textbelt AND textlocal together. Leave one setting blank, OR IT WILL DISABLE USING BOTH.
 // LEAVE textbelt AND textlocal BOTH BLANK to use a mobile text gateway set ABOVE
 
 // CAN BE BLANK. For asset price alert textbelt notifications. Setup: https://textbelt.com/
-$app_config['textbelt_apikey'] = '';
+$app_config['comms']['textbelt_apikey'] = '';
 
 
 // CAN BE BLANK. For asset price alert textlocal notifications. Setup: https://www.textlocal.com/integrations/api/
-$app_config['textlocal_account'] = ''; // This format MUST be used: 'username||hash_code'
+$app_config['comms']['textlocal_account'] = ''; // This format MUST be used: 'username||hash_code'
 
 
 // Sending alerts to your own telegram bot chatroom. 
@@ -77,74 +77,74 @@ $app_config['textlocal_account'] = ''; // This format MUST be used: 'username||h
 // VISIT THE BOT CHATROOM, #SEND THE MESSAGE "/start" TO THIS CHATROOM# (THIS WILL CREATE USER CHAT DATA THE APP NEEDS)
 // THE USER CHAT DATA #IS REQUIRED# FOR THIS APP TO INITIALLY DETERMINE AND SECURELY SAVE YOU TELEGRAM USER'S CHAT ID
 // #DO NOT DELETE THE BOT CHATROOM IN THE TELEGRAM APP, OR YOU WILL STOP RECEIVING MESSAGES FROM THE BOT#
-$app_config['telegram_your_username'] = ''; // Your telegram username (REQUIRED, setup in telegram app settings)
+$app_config['comms']['telegram_your_username'] = ''; // Your telegram username (REQUIRED, setup in telegram app settings)
 ////
-$app_config['telegram_bot_name'] = ''; // Your bot's human-readable name (example: 'My Alerts Bot')
+$app_config['comms']['telegram_bot_name'] = ''; // Your bot's human-readable name (example: 'My Alerts Bot')
 ////
-$app_config['telegram_bot_username'] = '';  // Your bot's username
+$app_config['comms']['telegram_bot_username'] = '';  // Your bot's username
 ////
-$app_config['telegram_bot_token'] = '';  // Your bot's access token
+$app_config['comms']['telegram_bot_token'] = '';  // Your bot's access token
 
 
 // Smart home notifications
 
 // For notifyme / alexa notifications (sending Alexa devices notifications for free). 
 // CAN BE BLANK. Setup: http://www.thomptronics.com/notify-me
-$app_config['notifyme_accesscode'] = '';
+$app_config['comms']['notifyme_accesscode'] = '';
 
 
 // Google Home alert settings (WORK IN PROGRESS, !!NOT FUNCTIONAL!!)
 // CAN BE BLANK. Setup: https://developers.google.com/assistant/engagement/notifications
-$app_config['google_home_application_name'] = '';
+$app_config['comms']['google_home_application_name'] = '';
 ////
-$app_config['google_home_client_id'] = '';
+$app_config['comms']['google_home_client_id'] = '';
 ////
-$app_config['google_home_client_secret'] = '';
+$app_config['comms']['google_home_client_secret'] = '';
 
 
 // Enable / disable daily upgrade checks and alerts (DEFAULT IS DISABLED)
 // (Checks latest release version via github.com API endpoint value "tag_name" 
 // @ https://api.github.com/repos/taoteh1221/DFD_Cryptocoin_Values/releases/latest)
 // Choosing 'all' will send to all properly-configured communication channels, and automatically skip any not properly setup
-$app_config['upgrade_check'] = 'off'; // 'off' (disabled) / 'all' / 'ui' (web interface) / 'email' / 'text' / 'notifyme' / 'telegram'
+$app_config['comms']['upgrade_check'] = 'off'; // 'off' (disabled) / 'all' / 'ui' (web interface) / 'email' / 'text' / 'notifyme' / 'telegram'
 ////
 // Wait X days between upgrade reminders (sent by email / text / notifyme / telegram)
-$app_config['upgrade_check_reminder'] = 14; // (only used if upgrade check is enabled above)
+$app_config['comms']['upgrade_check_reminder'] = 14; // (only used if upgrade check is enabled above)
 
 
 // Email logs every X days. 0 disables mailing logs. Email to / from !MUST BE SET!, MAY NOT SEND IN TIMELY FASHION WITHOUT A CRON JOB
-$app_config['email_logs'] = 3; 
+$app_config['comms']['email_logs'] = 3; 
 
 
 // PRICE ALERTS SETUP REQUIRES A CRON JOB RUNNING ON YOUR WEBSITE SERVER (see README.txt for cron job setup information) 
 // Price alerts will send to all properly-configured communication channels, and automatically skip any not properly setup
 // Price percent change to send alerts for (WITHOUT percent sign: 15 = 15%). Sends alerts when percent change reached (up or down)
-$app_config['price_alerts_threshold'] = 8.85; // CAN BE 0 TO DISABLE PRICE ALERTS
+$app_config['comms']['price_alerts_threshold'] = 8.85; // CAN BE 0 TO DISABLE PRICE ALERTS
 ////
 // Re-allow SAME asset price alert(s) messages after X hours (per asset, set higher if issues with blacklisting...can be 0)
 // Price alerts AUTOMATICALLY will send to all properly-configured communication channels, and automatically skip any not properly setup
-$app_config['price_alerts_freq_max'] = 8; 
+$app_config['comms']['price_alerts_freq_max'] = 8; 
 ////
 // Block an asset price alert if price retrieved, BUT failed retrieving pair volume (not even a zero was retrieved, nothing)
 // Good for blocking questionable exchanges bugging you with price alerts, especially when used in combination with the minimum volume filter
-$app_config['price_alerts_block_volume_error'] = 'on'; // 'on' / 'off' 
+$app_config['comms']['price_alerts_block_volume_error'] = 'on'; // 'on' / 'off' 
 ////
 // Minimum 24 hour volume filter. Only allows sending price alerts if minimum 24 hour volume reached
 // CAN BE 0 TO DISABLE MINIMUM VOLUME FILTERING, NO DECIMALS OR SEPARATORS, NUMBERS ONLY, WITHOUT the [primary currency] prefix symbol: 4500 = $4,500 , 30000 = $30,000 , etc
 // THIS FILTER WILL AUTO-DISABLE IF THERE IS ANY ERROR RETRIEVING DATA ON A CERTAIN MARKET (WHEN NOT EVEN A ZERO IS RECEIVED)
-$app_config['price_alerts_min_volume'] = 14000;
+$app_config['comms']['price_alerts_min_volume'] = 14000;
 
 
 // Alerts for failed proxy data connections (if proxies are enabled further down in PROXY SETTINGS). 
 // Choosing 'all' will send to all properly-configured communication channels, and automatically skip any not properly setup
-$app_config['proxy_alerts'] = 'email'; // 'off' (disabled) / 'all' / 'email' / 'text' / 'notifyme' / 'telegram'
+$app_config['comms']['proxy_alerts'] = 'email'; // 'off' (disabled) / 'all' / 'email' / 'text' / 'notifyme' / 'telegram'
 ////
-$app_config['proxy_alerts_freq_max'] = 1; // Re-allow same proxy alert(s) after X hours (per ip/port pair, can be 0)
+$app_config['comms']['proxy_alerts_freq_max'] = 1; // Re-allow same proxy alert(s) after X hours (per ip/port pair, can be 0)
 ////
-$app_config['proxy_alerts_runtime'] = 'cron'; // Which runtime mode should allow proxy alerts? Options: 'cron', 'ui', 'all' 
+$app_config['comms']['proxy_alerts_runtime'] = 'cron'; // Which runtime mode should allow proxy alerts? Options: 'cron', 'ui', 'all' 
 ////
-// 'include', or 'ignore' proxy alerts sent to you even if proxy checkup went OK? (after flagged, started working again when checked)
-$app_config['proxy_alerts_checkup_ok'] = 'include'; 
+// 'include' or 'ignore' proxy alerts, if proxy checkup went OK? (after flagged, started working again when checked)
+$app_config['comms']['proxy_alerts_checkup_ok'] = 'include'; 
 
 
 ////////////////////////////////////////
@@ -163,54 +163,54 @@ $app_config['proxy_alerts_checkup_ok'] = 'include';
 // (ENABLES / UPDATES automatically, when a valid username / password are filled in or updated here)
 // (DISABLES automatically, when username / password are blank '' OR invalid) 
 // (!ONLY #UPDATES OR DISABLES# AUTOMATICALLY #AFTER# LOGGING IN ONCE WITH YOUR #OLD LOGIN# [or if a cron job runs with the new config]!)
-$app_config['interface_login'] = ''; // Leave blank to disable requiring an interface login. This format MUST be used: 'username||password'
+$app_config['general']['interface_login'] = ''; // Leave blank to disable requiring an interface login. This format MUST be used: 'username||password'
 
 
 // API key for etherscan.io (required unfortunately, but a FREE level is available): https://etherscan.io/apis
-$app_config['etherscanio_api_key'] = '';
+$app_config['general']['etherscanio_api_key'] = '';
 
 
 // API key for coinmarketcap.com Pro API (required unfortunately, but a FREE level is available): https://coinmarketcap.com/api
-$app_config['coinmarketcapcom_api_key'] = '';
+$app_config['general']['coinmarketcapcom_api_key'] = '';
 
 
 // Password protection / encryption security for backup archives (chart data archives, etc)
-$app_config['backup_archive_password'] = ''; // LEAVE BLANK TO DISABLE
+$app_config['general']['backup_archive_password'] = ''; // LEAVE BLANK TO DISABLE
 
 
-$app_config['backup_archive_delete_old'] = 10; // Days until old backup archives should be deleted (chart data archives, etc)
+$app_config['general']['backup_archive_delete_old'] = 10; // Days until old backup archives should be deleted (chart data archives, etc)
 
 
 // Your local time offset IN HOURS, COMPARED TO UTC TIME. Can be negative or positive.
 // (Used for user experience 'pretty' timestamping in interface logic ONLY, WILL NOT change or screw up UTC log times etc if you change this)
-$app_config['local_time_offset'] = -4; // example: -5 or 5
+$app_config['general']['local_time_offset'] = -4; // example: -5 or 5
 
 
 // Default marketcap data source: 'coingecko', or 'coinmarketcap' (COINMARKETCAP REQUIRES A #FREE# API KEY, see below)
-$app_config['primary_marketcap_site'] = 'coingecko'; 
+$app_config['general']['primary_marketcap_site'] = 'coingecko'; 
 
 
 // ENABLING CHARTS REQUIRES A CRON JOB SETUP (see README.txt for cron job setup information)
 // Enables a charts tab / page with historical charts
-// Caches the default [primary currency] ($app_config['btc_primary_currency_pairing'] further down in GENERAL SETTINGS)
-// default [primary currency] price / crypto price / volume data for charts of all assets added to $app_config['charts_and_price_alerts'] (further down in CHART AND PRICE ALERT SETTINGS)
+// Caches the default [primary currency] ($app_config['general']['btc_primary_currency_pairing'] further down in GENERAL SETTINGS)
+// default [primary currency] price / crypto price / volume data for charts of all assets added to $app_config['charts_price_alerts']['markets'] (further down in CHART AND PRICE ALERT SETTINGS)
 // Disabling will disable EVERYTHING related to the price charts (price charts tab / page, and price chart data caching)
-$app_config['charts_page'] = 'on'; // 'on' / 'off'
+$app_config['general']['charts_toggle'] = 'on'; // 'on' / 'off'
 
 
 // Set which interface theme you want as the default theme (also can be manually switched later, on the settings page in the interface)
-$app_config['default_theme'] = 'dark'; // 'dark' or 'light'
+$app_config['general']['default_theme'] = 'dark'; // 'dark' or 'light'
 
 
-$app_config['margin_leverage_max'] = 150; // Maximum margin leverage available in the user interface ('Update Assets' page, etc)
+$app_config['general']['margin_leverage_max'] = 150; // Maximum margin leverage available in the user interface ('Update Assets' page, etc)
 
 
 // Shows system statistics in the user interface, if stats are available (system load, system temperature, free disk space, free system memory, etc)
-$app_config['system_stats'] = 'raspi'; // 'off' (disabled), 'on' (enabled for ANY system), 'raspi' (enabled ONLY for raspberry pi devices)
+$app_config['general']['system_stats'] = 'raspi'; // 'off' (disabled), 'on' (enabled for ANY system), 'raspi' (enabled ONLY for raspberry pi devices)
 ////
 // Highest numeric value sensor data to include in the FIRST system statistics chart (out of two)
 // (higher sensor data is moved into the second chart, to keep ranges easily readable between both charts...only used if stats are enabled above)
-$app_config['system_stats_first_chart_highest_value'] = 3.5; // Can be a decimal (example: 0.5 or 7.5 etc)
+$app_config['general']['system_stats_first_chart_highest_value'] = 3.5; // Can be a decimal (example: 0.5 or 7.5 etc)
 
 
 // Default BITCOIN-ONLY currency market pairings (80+ primary currencies supported)
@@ -220,8 +220,8 @@ $app_config['system_stats_first_chart_highest_value'] = 3.5; // Can be a decimal
 // ltc / mad / mur / mwk / mxn / myr / ngn / nis / nok / nzd / pab / pen / php / pkr / pln / pyg / qar / ron / rsd / rub / 
 // rwf / sar / sek / sgd / thb / try / tusd / twd / tzs / uah / ugx / usdc / usdt / uyu / ves / vnd / xaf / xof / zar / zmw
 // SEE THE $app_config['portfolio_assets'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
-// CURRENCY PAIRING VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (set in $app_config['btc_primary_exchange'] directly below)
-$app_config['btc_primary_currency_pairing'] = 'usd'; // PUT INSIDE SINGLE QUOTES ('selection')
+// CURRENCY PAIRING VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (set in $app_config['general']['btc_primary_exchange'] directly below)
+$app_config['general']['btc_primary_currency_pairing'] = 'usd'; // PUT INSIDE SINGLE QUOTES ('selection')
 
 
 // Default BITCOIN-ONLY exchanges (30+ bitcoin exchanges supported)
@@ -230,20 +230,20 @@ $app_config['btc_primary_currency_pairing'] = 'usd'; // PUT INSIDE SINGLE QUOTES
 // btcturk / buyucoin / cex / coinbase / coss / gemini / hitbtc / huobi / korbit / kraken / lakebtc / livecoin / 
 // localbitcoins / luno / okcoin / okex / southxchange / tidebit / upbit / zebpay
 // SEE THE $app_config['portfolio_assets'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
-// MARKET PAIRING VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (to populate $app_config['btc_primary_currency_pairing'] directly above with)
-// SEE THE $app_config['limited_apis'] SETTING MUCH FURTHER DOWN, FOR EXCHANGES !NOT RECOMMENDED FOR USAGE HERE!
-$app_config['btc_primary_exchange'] = 'kraken';  // PUT INSIDE SINGLE QUOTES ('selection')
+// MARKET PAIRING VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (to populate $app_config['general']['btc_primary_currency_pairing'] directly above with)
+// SEE THE $app_config['developer']['limited_apis'] SETTING MUCH FURTHER DOWN, FOR EXCHANGES !NOT RECOMMENDED FOR USAGE HERE!
+$app_config['general']['btc_primary_exchange'] = 'kraken';  // PUT INSIDE SINGLE QUOTES ('selection')
 
 
 // Maximum decimal places for [primary currency] values,
 // of coins worth under 'primary_currency_decimals_max_threshold' [usd/gbp/eur/jpy/brl/rub/etc] (below this setting),
-// for prettier / less-cluttered interface. IF YOU ADJUST $app_config['btc_primary_currency_pairing'] ABOVE, 
+// for prettier / less-cluttered interface. IF YOU ADJUST $app_config['general']['btc_primary_currency_pairing'] ABOVE, 
 // YOU MAY NEED TO ADJUST THIS ACCORDINGLY FOR !PRETTY / FUNCTIONAL! CHARTS / ALERTS FOR YOUR PRIMARY CURRENCY
-$app_config['primary_currency_decimals_max'] = 5; // Whole numbers only (represents number of decimals maximum to use)
+$app_config['general']['primary_currency_decimals_max'] = 5; // Whole numbers only (represents number of decimals maximum to use)
 
 
 // Below what currency amount do we switch from 2 decimals, over to using the above 'primary_currency_decimals_max' setting
-$app_config['primary_currency_decimals_max_threshold'] = 0.70; // Can be decimals, NO SYMBOLS, NUMBERS ONLY
+$app_config['general']['primary_currency_decimals_max_threshold'] = 0.70; // Can be decimals, NO SYMBOLS, NUMBERS ONLY
 
 
 ////////////////////////////////////////
@@ -259,11 +259,11 @@ $app_config['primary_currency_decimals_max_threshold'] = 0.70; // Can be decimal
 // If using proxies and login is required
 // Adding a user / pass here will automatically send login details for proxy connections
 // CAN BE BLANK. IF using ip address whitelisting instead, MUST BE LEFT BLANK
-$app_config['proxy_login'] = ''; // Use format: 'username||password'
+$app_config['proxy']['proxy_login'] = ''; // Use format: 'username||password'
 ////
 // If using proxies, add the ip address / port number here for each one, like examples below (without the double slashes in front enables the code)
 // CAN BE BLANK. Adding proxies here will automatically choose one randomly for each API request
-$app_config['proxy_list'] = array(
+$app_config['proxy']['proxy_list'] = array(
 					// 'ipaddress1:portnumber1',
 					// 'ipaddress2:portnumber2',
 					);
@@ -284,54 +284,54 @@ $app_config['proxy_list'] = array(
 // Chart colors (https://www.w3schools.com/colors/colors_picker.asp)
 ////
 // Charts border color
-$app_config['charts_border'] = '#808080';  
+$app_config['charts_price_alerts']['charts_border'] = '#808080';  
 ////
 // Charts background color
-$app_config['charts_background'] = '#515050';  
+$app_config['charts_price_alerts']['charts_background'] = '#515050';  
 ////
 // Charts line color
-$app_config['charts_line'] = '#444444';  
+$app_config['charts_price_alerts']['charts_line'] = '#444444';  
 ////
 // Charts text color
-$app_config['charts_text'] = '#dddddd';  
+$app_config['charts_price_alerts']['charts_text'] = '#dddddd';  
 ////
 // Charts link color
-$app_config['charts_link'] = '#b5b5b5';  
+$app_config['charts_price_alerts']['charts_link'] = '#b5b5b5';  
 ////
 // Charts price (base) gradient color
-$app_config['charts_price_gradient'] = '#000000'; 
+$app_config['charts_price_alerts']['charts_price_gradient'] = '#000000'; 
 ////
 // Charts tooltip background color
-$app_config['charts_tooltip_background'] = '#bbbbbb';
+$app_config['charts_price_alerts']['charts_tooltip_background'] = '#bbbbbb';
 ////
 // Charts tooltip text color
-$app_config['charts_tooltip_text'] = '#222222';
+$app_config['charts_price_alerts']['charts_tooltip_text'] = '#222222';
 ////
-// Backup chart data in a zip file in the 'backups' subdirectory (with a secure random suffix for privacy), only used if $app_config['charts_page'] (IN GENERAL SETTINGS) is on
-$app_config['charts_backup_freq'] = 1; // Every X days backup chart data. 0 disables backups. Email to / from !MUST BE SET! (a download link is emailed to you of the chart data archive)
+// Backup chart data in a zip file in the 'backups' subdirectory (with a secure random suffix for privacy), only used if $app_config['general']['charts_toggle'] (IN GENERAL SETTINGS) is on
+$app_config['charts_price_alerts']['charts_backup_freq'] = 1; // Every X days backup chart data. 0 disables backups. Email to / from !MUST BE SET! (a download link is emailed to you of the chart data archive)
 
 
 // Asset price alert settings
-// Only used if $app_config['charts_and_price_alerts'] is filled in properly below, AND a cron job is setup (see README.txt for cron job setup information) 
+// Only used if $app_config['charts_price_alerts']['markets'] is filled in properly below, AND a cron job is setup (see README.txt for cron job setup information) 
 ////
 // Fixed reset of cached comparison asset prices every X days (since last price reset / alert) with the current latest spot prices
 // Can be 0 to disable fixed resetting (IN WHICH CASE RESETS WILL ONLY OCCUR dynamically whenever the next price alert is triggered)
-$app_config['price_alerts_fixed_reset'] = 0; // (default = 0)
+$app_config['charts_price_alerts']['price_alerts_fixed_reset'] = 0; // (default = 0)
 ////
 // Whale alert (adds "WHALE ALERT" to beginning of alexa / google home / email / telegram alert text, and spouting whale emoji to email / text / telegram)
 // Format: 'max_days_to_24hr_average_over||min_price_percent_change_24hr_average||min_volume_percent_increase_24hr_average||min_volume_currency_increase_24hr_average'
-// ("min_price_percent_change_24hr_average" should be the same value or higher as $app_config['price_alerts_threshold'] to work properly)
+// ("min_price_percent_change_24hr_average" should be the same value or higher as $app_config['comms']['price_alerts_threshold'] to work properly)
 // Leave BLANK '' TO DISABLE. DECIMALS ARE SUPPORTED, USE NUMBERS ONLY (NO CURRENCY SYMBOLS / COMMAS, ETC)
-$app_config['price_alerts_whale_alert_threshold'] = '1.65||8.85||9.1||16000';
+$app_config['charts_price_alerts']['price_alerts_whale_alert_threshold'] = '1.65||8.85||9.1||16000';
 
 
 // Markets you want charts or asset price change alerts for (alerts sent when default [primary currency] 
-// [$app_config['btc_primary_currency_pairing'] at top of this config] value change is equal to or above / below $app_config['price_alerts_threshold']) 
+// [$app_config['general']['btc_primary_currency_pairing'] at top of this config] value change is equal to or above / below $app_config['comms']['price_alerts_threshold']) 
 // Delete any double forward slashes from in front of each asset you want to enable charts / price alerts on (or add double slashes in front to disable it)
 // NOTE: This list must only contain assets / exchanges / trading pairs included in the primary portfolio assets list configuration further down in this config file
 // TO ADD MULTIPLE CHARTS / ALERTS FOR SAME ASSET (FOR DIFFERENT EXCHANGES / TRADE PAIRINGS), FORMAT LIKE SO: symbol, symbol-1, symbol-2, symbol-3, etc.
 // TO ENABLE CHART AND ALERT = both, TO ENABLE CHART ONLY = chart, TO ENABLE ALERT ONLY = alert
-$app_config['charts_and_price_alerts'] = array(
+$app_config['charts_price_alerts']['markets'] = array(
 
 
 					// SYMBOL
@@ -499,7 +499,7 @@ $app_config['charts_and_price_alerts'] = array(
 					
 					);
 					
-// END $app_config['charts_and_price_alerts']
+// END $app_config['charts_price_alerts']['markets']
 
 
 ////////////////////////////////////////
@@ -514,52 +514,52 @@ $app_config['charts_and_price_alerts'] = array(
 
 // 'on' verifies ALL REMOTE API server certificates for secure API connections, 'off' verifies NOTHING 
 // Set to 'off' if some exchange's API servers have invalid certificates (which stops price data retrieval...but you still want to get price data from them)
-$app_config['remote_api_strict_ssl'] = 'on'; // (default = 'on')
+$app_config['power_user']['remote_api_strict_ssl'] = 'on'; // (default = 'on')
 
 
 // 'on' verifies ALL SMTP server certificates for secure SMTP connections, 'off' verifies NOTHING 
 // Set to 'off' if the SMTP server has an invalid certificate setup (which stops email sending, but you still want to send email through that server)
-$app_config['smtp_strict_ssl'] = 'off'; // (DEFAULT IS 'off', TO ASSURE SMTP EMAIL SENDING STILL WORKS THROUGH MISCONFIGURED SMTP SERVERS)
+$app_config['power_user']['smtp_strict_ssl'] = 'off'; // (DEFAULT IS 'off', TO ASSURE SMTP EMAIL SENDING STILL WORKS THROUGH MISCONFIGURED SMTP SERVERS)
 
 
 // Seconds to wait for response from REMOTE API endpoints (exchange data, etc). 
 // Set too low you won't get ALL data (partial or zero bytes), set too high the interface can take a long time loading if an API server hangs up
 // RECOMMENDED MINIMUM OF 45 FOR INSTALLS BEHIND #LOW BANDWIDTH# / HOME INTERNET NETWORKS 
 // (which may need an even higher timeout of 60 or more if data still isn't received from all APIs)
-$app_config['remote_api_timeout'] = 20; // (default = 20)
+$app_config['power_user']['remote_api_timeout'] = 20; // (default = 20)
 
 
 // Local / internal API rate limit (maximum of once every X seconds, per ip address) for accepting remote requests
 // Can be 0 to disable rate limiting (unlimited)
-$app_config['local_api_rate_limit'] = 10; // (default = 10)
+$app_config['power_user']['local_api_rate_limit'] = 10; // (default = 10)
 
 
 // Local / internal API market limit (maximum number of markets requested per call)
-$app_config['local_api_market_limit'] = 20; // (default = 20)
+$app_config['power_user']['local_api_market_limit'] = 20; // (default = 20)
 
 
 // Minutes to cache real-time exchange price data...can be zero to skip cache, but set to at least 1 minute TO AVOID YOUR IP GETTING BLOCKED
 // SOME APIS PREFER THIS SET TO AT LEAST A FEW MINUTES, SO HIGHLY RECOMMENDED TO KEEP FAIRLY HIGH
-$app_config['last_trade_cache_time'] = 4; // (default = 4)
+$app_config['power_user']['last_trade_cache_time'] = 4; // (default = 4)
 
 
-$app_config['chainstats_cache_time'] = 70; // Minutes to cache blockchain stats (for mining calculators). Set high initially, it can be strict
+$app_config['power_user']['chainstats_cache_time'] = 70; // Minutes to cache blockchain stats (for mining calculators). Set high initially, it can be strict
 
 
-$app_config['marketcap_cache_time'] = 40; // Minutes to cache marketcap rankings...start high and test lower, it can be strict
+$app_config['power_user']['marketcap_cache_time'] = 40; // Minutes to cache marketcap rankings...start high and test lower, it can be strict
 
 
 // Number of marketcap rankings to request from API.
 // 250 rankings is a safe maximum to start with, to avoid getting your API requests throttled / blocked
-$app_config['marketcap_ranks_max'] = 250; 
+$app_config['power_user']['marketcap_ranks_max'] = 250; 
 							
 							
 							
 // Activate support for ALTCOIN PAIRED MARKETS (like doge/eth, dai/eth, etc)
 // EACH ALTCOIN LISTED HERE !MUST HAVE! AN EXISTING 'btc' MARKET (within 'market_pairing') 
 // in it's $app_config['portfolio_assets'] listing (further down in this config file) TO PROPERLY ACTIVATE
-// TRY TO #NOT# ADD STABLECOINS HERE, ATTEMPT TO USE $app_config['bitcoin_currency_markets'] INSTEAD (TO AUTO-CLIP UNEEDED DECIMAL POINTS IN THE UI)
-$app_config['crypto_to_crypto_pairing'] = array(
+// TRY TO #NOT# ADD STABLECOINS HERE, ATTEMPT TO USE $app_config['power_user']['bitcoin_currency_markets'] INSTEAD (TO AUTO-CLIP UNEEDED DECIMAL POINTS IN THE UI)
+$app_config['power_user']['crypto_to_crypto_pairing'] = array(
 						//'lowercase_altcoin_abrv' => 'CRYPTO_SYMBOL',
 						'eth' => 'Ξ ',
 						'ltc' => 'Ł ',
@@ -569,12 +569,12 @@ $app_config['crypto_to_crypto_pairing'] = array(
 
 
 // Preferred ALTCOIN PAIRED MARKETS market(s) for getting a certain crypto's value
-// EACH ALTCOIN LISTED HERE MUST EXIST IN $app_config['crypto_to_crypto_pairing'] ABOVE,
+// EACH ALTCOIN LISTED HERE MUST EXIST IN $app_config['power_user']['crypto_to_crypto_pairing'] ABOVE,
 // AND !MUST HAVE! AN EXISTING 'btc' MARKET (within 'market_pairing') in it's 
 // $app_config['portfolio_assets'] listing (further down in this config file),
 // AND #THE EXCHANGE NAME MUST BE IN THAT 'btc' LIST#
 // #USE VERY LIBERALLY#, AS YOU WANT THE BEST PRICE DISCOVERY FOR THIS CRYPTO'S VALUE
-$app_config['preferred_altcoin_markets'] = array(
+$app_config['power_user']['preferred_altcoin_markets'] = array(
 						//'lowercase_btc_market_or_stablecoin_pairing' => 'PREFERRED_MARKET',
 							'eth' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							'ltc' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
@@ -587,7 +587,7 @@ $app_config['preferred_altcoin_markets'] = array(
 // EACH CURRENCY LISTED HERE !MUST HAVE! AN EXISTING BITCOIN ASSET MARKET (within 'market_pairing') 
 // in Bitcoin's $app_config['portfolio_assets'] listing (further down in this config file) TO PROPERLY ACTIVATE
 // (CAN BE A CRYPTO, !AS LONG AS THERE IS A PAIRING CONFIGURED WITHIN THE BITCOIN ASSET SETUP!)
-$app_config['bitcoin_currency_markets'] = array(
+$app_config['power_user']['bitcoin_currency_markets'] = array(
 						//'lowercase_btc_market_or_stablecoin_pairing' => 'CURRENCY_SYMBOL',
 						'aed' => 'د.إ',
 						'ars' => 'ARS$',
@@ -676,9 +676,9 @@ $app_config['bitcoin_currency_markets'] = array(
 
 // Preferred BITCOIN market(s) for getting a certain currency's value
 // (when other exchanges for this currency have poor api / volume / price discovery / etc)
-// EACH CURRENCY LISTED HERE MUST EXIST IN $app_config['bitcoin_currency_markets'] ABOVE
+// EACH CURRENCY LISTED HERE MUST EXIST IN $app_config['power_user']['bitcoin_currency_markets'] ABOVE
 // #USE VERY CONSERVATIVELY#, AS YOU'LL BE RECOMMENDING IN THE INTERFACE TO END-USERS TO AVOID USING ANY OTHER MARKETS FOR THIS CURRENCY
-$app_config['preferred_bitcoin_markets'] = array(
+$app_config['power_user']['bitcoin_preferred_currency_markets'] = array(
 						//'lowercase_btc_market_or_stablecoin_pairing' => 'PREFERRED_MARKET',
 							'eur' => 'kraken',  // WAY BETTER api, WAY BETTER price discovery than ALL alternatives
 							'dai' => 'kraken',  // WAY MORE reputable than hitBTC
@@ -689,7 +689,7 @@ $app_config['preferred_bitcoin_markets'] = array(
 
 
 // Mining rewards for different crypto networks (to prefill the editable mining calculator forms)
-$app_config['mining_rewards'] = array(
+$app_config['power_user']['mining_rewards'] = array(
 					'btc' => '12.5',
 					'doge' => '10000',
 					'dcr' => NULL,  // WE DYNAMICALLY UPDATE THIS IN INIT.PHP
@@ -702,7 +702,7 @@ $app_config['mining_rewards'] = array(
 
 
 // Static values in ETH for Ethereum subtokens, like during crowdsale periods etc (before exchange listings)
-$app_config['ethereum_subtoken_ico_values'] = array(
+$app_config['power_user']['ethereum_subtoken_ico_values'] = array(
                         'ETHSUBTOKENNAME' => '0.15',
                         'GOLEM' => '0.001',
                         'ARAGON' => '0.01',
@@ -712,11 +712,11 @@ $app_config['ethereum_subtoken_ico_values'] = array(
 
 
 // Weeks to power down all HIVE Power holdings
-$app_config['hive_powerdown_time'] = 13; 
+$app_config['power_user']['hive_powerdown_time'] = 13; 
 ////
 // HIVE Power yearly interest rate START 11/29/2019 (1.2%, decreasing every year by roughly 0.075% until it hits a minimum of 0.075% and stays there)
 // 1.2 (DO NOT INCLUDE PERCENT SIGN) the first year at 11/29/2019 refactored rates, see above for manual yearly adjustment
-$app_config['hivepower_yearly_interest'] = 1.2;
+$app_config['power_user']['hivepower_yearly_interest'] = 1.2;
 
 
 // Activate any custom cron plugins you've created (that runs during cron jobs, from the /cron-plugins/ directory)
@@ -725,12 +725,28 @@ $app_config['hivepower_yearly_interest'] = 1.2;
 // ADD ANY NEW CRON PLUGIN HERE BY USING THE FOLDER NAME THE NEW PLUGIN IS LOCATED IN
 // NEVER ADD A CRON PLUGIN SOMEBODY ELSE WROTE, UNLESS YOU OR SOMEONE YOU TRUST 
 // HAVE REVIEWED THE CODE AND ARE ABSOLUTELY SURE IT IS NOT MALICIOUS!!
-$app_config['activate_cron_plugins'] = array(
+$app_config['power_user']['activate_cron_plugins'] = array(
 						//'PLUGIN_FOLDER_NAME', // (your plugin folder in /cron-plugins/)
 						//'hns-airdrop',  // HNS Airdrop example plugin (detects when you receive HNS tokens at a new / unused address)
 						//'recurring-reminder',  // Recurring Reminder example plugin (remind yourself every X days to do something)
 							);
 
+
+// Settings for the CAPTCHA image on all admin login / reset pages
+$app_config['power_user']['captcha_permitted_chars'] = 'ACEFMNPRXY3478'; // Characters allowed for use in captcha image
+////
+$app_config['power_user']['captcha_chars_length'] = 6; // Number of characters in captcha image (default = 6)
+////
+$app_config['power_user']['captcha_image_width'] = 430; // Image width (default = 430)
+////
+$app_config['power_user']['captcha_image_height'] = 130; // Image height (default = 130)
+////
+$app_config['power_user']['captcha_text_size'] = 50; // Text size (default = 50)
+////
+$app_config['power_user']['captcha_text_margin'] = 4; // MINIMUM margin of text from edge of image (approximate / average) (default = 4)
+////
+// Contrast of text against background...0 for default, positive for extra contrast, negative for less contrast (maximum of +-35)
+$app_config['power_user']['captcha_text_contrast'] = 0; // example: -5 or 5 (default = 0)
 
 
 ////////////////////////////////////////
@@ -743,7 +759,7 @@ $app_config['activate_cron_plugins'] = array(
 /////////////////////////////////////////////////////////////////////////////
 
 
-// $app_config['debug_mode'] enabled runs unit tests during ui runtimes (during webpage load),
+// $app_config['developer']['debug_mode'] enabled runs unit tests during ui runtimes (during webpage load),
 // errors detected are error-logged and printed as alerts in footer
 // It also logs ui / cron runtime telemetry to /cache/logs/debugging.log, AND /cache/logs/debugging/
 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -760,63 +776,63 @@ $app_config['activate_cron_plugins'] = array(
 // IF YOU GET AN ERROR 500. OPTIONALLY, TRY RUNNING ONE TEST PER PAGE LOAD, TO AVOID THIS.
 // DON'T LEAVE DEBUGGING ENABLED AFTER USING IT, THE /cache/logs/debugging.log AND /cache/logs/debugging/
 // LOG FILES !CAN GROW VERY QUICKLY IN SIZE! EVEN AFTER JUST A FEW RUNTIMES
-$app_config['debug_mode'] = 'off'; 
+$app_config['developer']['debug_mode'] = 'off'; 
 
 
 // Level of detail / verbosity in log files. 'normal' logs minimal details (basic information), 
 // 'verbose' logs maximum details (additional information IF AVAILABLE, for heavy debugging / tracing / etc)
 // IF DEBUGGING IS ENABLED ABOVE, LOGS ARE AUTOMATICALLY VERBOSE #WITHOUT THE NEED TO ADJUST THIS SETTING#
-$app_config['log_detail_level'] = 'normal'; // 'normal' / 'verbose'
+$app_config['developer']['log_detail_level'] = 'normal'; // 'normal' / 'verbose'
 ////
 // Keep logs X days before purging (fully deletes logs every X days). Start low (especially when using proxies)
-$app_config['log_purge'] = 10; 
+$app_config['developer']['log_purge'] = 10; 
 
 
 // Maximum execution time for interface runtime in seconds (how long it's allowed to run before automatically killing the process)
 // (ALL execution times are automatically 350 IN DEBUG MODE)
-$app_config['ui_max_execution_time'] = 100; // (default = 100)
+$app_config['developer']['ui_max_execution_time'] = 100; // (default = 100)
 
 
 // Maximum execution time for cron job runtime in seconds (how long it's allowed to run before automatically killing the process)
 // (ALL execution times are automatically 350 IN DEBUG MODE)
-$app_config['cron_max_execution_time'] = 300; // (default = 300)
+$app_config['developer']['cron_max_execution_time'] = 300; // (default = 300)
 
 
 // Maximum execution time for webhook runtime in seconds (how long it's allowed to run before automatically killing the process)
 // (ALL execution times are automatically 350 IN DEBUG MODE)
-$app_config['webhook_max_execution_time'] = 60; // (default = 60)
+$app_config['developer']['webhook_max_execution_time'] = 60; // (default = 60)
 
 
 // Maximum execution time for API runtime in seconds (how long it's allowed to run before automatically killing the process)
 // (ALL execution times are automatically 350 IN DEBUG MODE)
-$app_config['api_max_execution_time'] = 60; // (default = 60)
+$app_config['developer']['api_max_execution_time'] = 60; // (default = 60)
 
 
 // If you want to override the default user agent string (sent with API requests, etc)
 // Adding a string here automatically enables that as the custom user agent
 // LEAVING BLANK '' USES THE DEFAULT USER AGENT LOGIC BUILT-IN TO THIS APP (INCLUDES BASIC SYSTEM CONFIGURATION STATS)
-$app_config['override_default_user_agent'] = ''; 
+$app_config['developer']['override_default_user_agent'] = ''; 
 
 
 // Default charset used
-$app_config['charset_default'] = 'UTF-8'; 
+$app_config['developer']['charset_default'] = 'UTF-8'; 
 ////
 // Unicode charset used (if needed)
 // UCS-2 is outdated as it only covers 65536 characters of Unicode
 // UTF-16BE / UTF-16LE / UTF-16 / UCS-2BE can represent ALL Unicode characters
-$app_config['charset_unicode'] = 'UTF-16'; 
+$app_config['developer']['charset_unicode'] = 'UTF-16'; 
 
 
 // Cache directories / files and .htaccess / index.php files permissions (CHANGE WITH #EXTREME# CARE, to adjust security for your PARTICULAR setup)
 // THESE PERMISSIONS ARE !ALREADY! CALLED THROUGH THE octdec() FUNCTION WITHIN THE APP WHEN USED
 // Cache directories permissions
-$app_config['chmod_permission_cache_directories'] = '0777'; // (default = '0777')
+$app_config['developer']['chmod_permission_cache_directories'] = '0777'; // (default = '0777')
 ////
 // Cache files permissions
-$app_config['chmod_permission_cache_files'] = '0666'; // (default = '0666')
+$app_config['developer']['chmod_permission_cache_files'] = '0666'; // (default = '0666')
 ////
 // .htaccess / index.php index security files permissions
-$app_config['chmod_permission_index_security'] = '0664'; // (default = '0664')
+$app_config['developer']['chmod_permission_index_security'] = '0664'; // (default = '0664')
 							
 
 // TLD-only (Top Level Domain only, NO SUBDOMAINS) for each API service that requires multiple calls (for each market / data set)
@@ -824,7 +840,7 @@ $app_config['chmod_permission_index_security'] = '0664'; // (default = '0664')
 // (ANY EXCHANGES LISTED HERE ARE !NOT! RECOMMENDED TO BE USED AS THE PRIMARY CURRENCY MARKET IN THIS APP,
 // AS ON OCCASION THEY CAN BE !UNRELIABLE! IF HIT WITH TOO MANY SEPARATE API CALLS FOR DIFFERENT COINS / ASSETS)
 // !MUST BE LOWERCASE!
-$app_config['limited_apis'] = array(
+$app_config['developer']['limited_apis'] = array(
 						'bit2c.co.il',
 						'bitforex.com',
 						'bitflyer.com',
@@ -846,7 +862,7 @@ $app_config['limited_apis'] = array(
 // TLD-extensions-only (Top Level Domain extensions only, supported in the get_tld_or_ip() function, which removes subdomains for tld checks)
 // IF YOU ADD A NEW API, !MAKE SURE IT'S DOMAIN EXTENSION EXISTS HERE!
 // (NO LEADING DOTS, !MUST BE LOWERCASE!)
-$app_config['top_level_domain_map'] = array(
+$app_config['developer']['top_level_domain_map'] = array(
 					'co.il',
 					'co.uk',
 					'com', 
@@ -887,7 +903,7 @@ $app_config['top_level_domain_map'] = array(
 Below are the mobile networks supported by DFD Cryptocoin Value's email-to-mobile-text functionality. 
 
 Using your corresponding "Network Name Key" (case-sensitive) listed below, 
-add that EXACT name in this config file further above within the $app_config['to_mobile_text'] setting as the text network name variable,
+add that EXACT name in this config file further above within the $app_config['comms']['to_mobile_text'] setting as the text network name variable,
 to enable email-to-text alerts to your network's mobile phone number.
 
 PLEASE REPORT ANY MISSING / INCORRECT / NON-FUNCTIONAL GATEWAYS HERE, AND I WILL FIX THEM:

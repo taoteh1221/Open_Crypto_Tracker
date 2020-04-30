@@ -10,7 +10,7 @@
 
 
 // If debugging is enabled, turn on all PHP error reporting (BEFORE ANYTHING ELSE RUNS)
-if ( $app_config['debug_mode'] != 'off' ) {
+if ( $app_config['developer']['debug_mode'] != 'off' ) {
 error_reporting(1); 
 }
 
@@ -41,7 +41,7 @@ ini_set('auto_detect_line_endings', true);
 }
 
 
-// Set time as UTC for logs etc ($app_config['local_time_offset'] in config.php can adjust UI / UX timestamps as needed)
+// Set time as UTC for logs etc ($app_config['general']['local_time_offset'] in config.php can adjust UI / UX timestamps as needed)
 date_default_timezone_set('UTC'); 
 
 
@@ -60,6 +60,17 @@ require_once('app-lib/php/functions-loader.php');
 
 // Session start
 session_start(); // New session start
+
+
+// Register the base directory of this app (MUST BE SET BEFORE !ANY! Init logic)
+$base_dir = preg_replace("/\/app-lib(.*)/i", "", dirname(__FILE__) );
+
+
+// If we are just running a captcha image, run captcha library ONLY for runtime speed (exit after)
+if (  $runtime_mode == 'captcha' ) {
+require_once('app-lib/php/other/captcha-lib.php');
+exit;
+}
 
 
 //////////////////////////////////////////////////////////////
@@ -119,7 +130,7 @@ require_once('app-lib/php/other/random-tips.php');
 // SET original app_config array BEFORE dynamic app config management
 $original_app_config = $app_config; 
 
-$interface_login_array = explode("||", $app_config['interface_login']);
+$interface_login_array = explode("||", $app_config['general']['interface_login']);
 					
 // HTTP SERVER setup detection variables (for cache compatibility auto-configuration)
 // MUST BE SET BEFORE CACHE STRUCTURE CREATION, TO RUN IN COMPATIBILITY MODE FOR THIS PARTICULAR SERVER'S SETUP
@@ -147,9 +158,6 @@ $selected_btc_primary_currency_pairing = null;
 $htaccess_username = $interface_login_array[0];
 $htaccess_password = $interface_login_array[1];
 
-// Register the base directory of this app (MUST BE SET BEFORE !ANY! Init logic)
-$base_dir = preg_replace("/\/app-lib(.*)/i", "", dirname(__FILE__) );
-
 // Get system info for debugging / stats
 $system_info = system_info(); // MUST RUN AFTER SETTING $base_dir
 
@@ -169,15 +177,15 @@ $is_raspi = 1;
 }
 
 // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-if ( trim($app_config['telegram_your_username']) != '' && trim($app_config['telegram_bot_name']) != '' && trim($app_config['telegram_bot_username']) != '' && $app_config['telegram_bot_token'] != '' ) {
+if ( trim($app_config['comms']['telegram_your_username']) != '' && trim($app_config['comms']['telegram_bot_name']) != '' && trim($app_config['comms']['telegram_bot_username']) != '' && $app_config['comms']['telegram_bot_token'] != '' ) {
 $telegram_activated = 1;
 }
 
 // User agent (MUST BE SET EARLY [BUT AFTER SYSTEM INFO VAR], FOR ANY API CALLS WHERE USER AGENT IS REQUIRED BY THE API SERVER)
-if ( trim($app_config['override_default_user_agent']) != '' ) {
-$user_agent = $app_config['override_default_user_agent'];  // Custom user agent
+if ( trim($app_config['developer']['override_default_user_agent']) != '' ) {
+$user_agent = $app_config['developer']['override_default_user_agent'];  // Custom user agent
 }
-elseif ( sizeof($app_config['proxy_list']) > 0 ) {
+elseif ( sizeof($app_config['proxy']['proxy_list']) > 0 ) {
 $user_agent = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; compatible;)';  // If proxies in use, preserve some privacy
 }
 else {
@@ -277,7 +285,7 @@ $charts_update_freq = ( $charts_update_freq != '' ? $charts_update_freq : trim( 
 
 
 // Unit tests to run in debug mode (MUST RUN AFTER EVERYTHING IN INIT.PHP)
-if ( $app_config['debug_mode'] != 'off' ) {
+if ( $app_config['developer']['debug_mode'] != 'off' ) {
 require_once('app-lib/php/other/debugging/tests.php');
 require_once('app-lib/php/other/debugging/exchange-and-pairing-info.php');
 }

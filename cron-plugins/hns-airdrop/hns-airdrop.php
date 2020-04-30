@@ -53,7 +53,7 @@ $hns_amount_currency = $default_btc_primary_currency_value * $hns_amount_btc;
 
 
 // Send alerts
-$hns_message = 'Your have received ' . number_format($hns_amount, 6, '.', ',') . ' HNS airdrop tokens, worth ' . $app_config['bitcoin_currency_markets'][$default_btc_primary_currency_pairing] . number_format($hns_amount_currency, 2, '.', ',') . ' (' . number_format($hns_amount_btc, 8, '.', ',') . ' BTC).';
+$hns_message = 'Your have received ' . number_format($hns_amount, 6, '.', ',') . ' HNS airdrop tokens, worth ' . $app_config['power_user']['bitcoin_currency_markets'][$default_btc_primary_currency_pairing] . number_format($hns_amount_currency, 2, '.', ',') . ' (' . number_format($hns_amount_btc, 8, '.', ',') . ' BTC).';
 
 
   				// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)

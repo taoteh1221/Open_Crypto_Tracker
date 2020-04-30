@@ -6,7 +6,7 @@
 
 	
 // Have this script not load any code if system stats are not turned on, or key GET request corrupt
-if ( $app_config['system_stats'] == 'off' || !is_numeric($_GET['key']) ) {
+if ( $app_config['general']['system_stats'] == 'off' || !is_numeric($_GET['key']) ) {
 exit;
 }
 
@@ -30,7 +30,7 @@ $key = $_GET['key'];
 		
 $chart_data = chart_data('cache/charts/system/archival/system_stats.dat', 'system');
 
-header('Content-type: text/html; charset=' . $app_config['charset_default']);
+header('Content-type: text/html; charset=' . $app_config['developer']['charset_default']);
 
 // Colors for different data in charts
 $color_array = array(
@@ -69,7 +69,7 @@ $check_chart_value = number_to_string( delimited_string_sample($chart_value, ','
 		
 	$sorted_by_last_chart_data[number_to_string($check_chart_value_key)] = array($chart_key => $chart_value);
 	
-		if ( number_to_string($check_chart_value) <= number_to_string($app_config['system_stats_first_chart_highest_value']) ) {
+		if ( number_to_string($check_chart_value) <= number_to_string($app_config['general']['system_stats_first_chart_highest_value']) ) {
 		$num_in_first_chart = $num_in_first_chart + 1;
 		//echo $check_chart_value . ' --- '; // DEBUGGING ONLY
 		}

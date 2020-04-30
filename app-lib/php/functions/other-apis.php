@@ -5,7 +5,7 @@
 
 
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// !!!!!!! MAKE SURE API'S TLD HAS SUPPORT ADDED IN $app_config['top_level_domain_map'] @ config.php !!!!!!!
+// !!!!!!! MAKE SURE API'S TLD HAS SUPPORT ADDED IN $app_config['developer']['top_level_domain_map'] @ config.php !!!!!!!
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
@@ -18,7 +18,7 @@ global $app_config;
  		
 $json_string = 'https://api.grinmint.com/v1/networkStats';
 
-$jsondata = @api_data('url', $json_string, $app_config['chainstats_cache_time']);
+$jsondata = @api_data('url', $json_string, $app_config['power_user']['chainstats_cache_time']);
     
 $data = json_decode($jsondata, true);
     
@@ -35,7 +35,7 @@ function monero_api($request) {
 global $app_config;
  		
  	$json_string = 'https://moneroblocks.info/api/get_stats';
- 	$jsondata = @api_data('url', $json_string, $app_config['chainstats_cache_time']);
+ 	$jsondata = @api_data('url', $json_string, $app_config['power_user']['chainstats_cache_time']);
   	
   	$data = json_decode($jsondata, true);
     
@@ -70,7 +70,7 @@ global $app_config;
 		  
 		}
 		
-    $data = @api_data('url', $string, $app_config['chainstats_cache_time']);
+    $data = @api_data('url', $string, $app_config['power_user']['chainstats_cache_time']);
     
   return (float)$data;
   
@@ -96,7 +96,7 @@ global $app_config;
 		  
 		}
 		
-    $data = @api_data('url', $string, $app_config['chainstats_cache_time']);
+    $data = @api_data('url', $string, $app_config['power_user']['chainstats_cache_time']);
     
   return (float)$data;
   
@@ -122,7 +122,7 @@ global $app_config;
 		  
 		}
 		
-    $data = @api_data('url', $string, $app_config['chainstats_cache_time']);
+    $data = @api_data('url', $string, $app_config['power_user']['chainstats_cache_time']);
     
   return (float)$data;
   
@@ -149,7 +149,7 @@ global $app_config, $runtime_mode;
  		$json_string = 'https://explorer.dcrdata.org/api/block/best/subsidy';
  		}
  		
- 		$jsondata = @api_data('url', $json_string, $app_config['chainstats_cache_time']);
+ 		$jsondata = @api_data('url', $json_string, $app_config['power_user']['chainstats_cache_time']);
   		
   		$data = json_decode($jsondata, true);
    	 
@@ -180,7 +180,7 @@ global $app_config;
 	if ( $mode == 'updates' ) {
 	
 	// Don't cache data, we are storing it as a specific (secured) cache var instead
-	$get_telegram_chatroom_data = @api_data('url', 'https://api.telegram.org/bot'.$app_config['telegram_bot_token'].'/getUpdates', 0);
+	$get_telegram_chatroom_data = @api_data('url', 'https://api.telegram.org/bot'.$app_config['comms']['telegram_bot_token'].'/getUpdates', 0);
 		
 	$telegram_chatroom = json_decode($get_telegram_chatroom_data, true);
 
@@ -189,7 +189,7 @@ global $app_config;
 		foreach( $telegram_chatroom as $chat_key => $chat_unused ) {
 	
 			// Overwrites any earlier value while looping, so we have the latest data
-			if ( $telegram_chatroom[$chat_key]['message']['chat']['username'] == trim($app_config['telegram_your_username']) ) {
+			if ( $telegram_chatroom[$chat_key]['message']['chat']['username'] == trim($app_config['comms']['telegram_your_username']) ) {
 			$telegram_user_data = $telegram_chatroom[$chat_key];
 			}
 	
@@ -201,7 +201,7 @@ global $app_config;
 	elseif ( $mode == 'webhook' ) {
 		
 	// Don't cache data, we are storing it as a specific (secured) cache var instead
-	$get_telegram_webhook_data = @api_data('url', 'https://api.telegram.org/bot'.$app_config['telegram_bot_token'].'/getWebhookInfo', 0);
+	$get_telegram_webhook_data = @api_data('url', 'https://api.telegram.org/bot'.$app_config['comms']['telegram_bot_token'].'/getWebhookInfo', 0);
 		
 	$telegram_webhook = json_decode($get_telegram_webhook_data, true);
 	
@@ -221,13 +221,13 @@ function etherscan_api($block_info) {
 global $base_dir, $app_config;
 
 
-	if ( $app_config['etherscanio_api_key'] == '' ) {
+	if ( $app_config['general']['etherscanio_api_key'] == '' ) {
 	return false;
 	}
 
 
-  $json_string = 'https://api.etherscan.io/api?module=proxy&action=eth_blockNumber&apikey=' . $app_config['etherscanio_api_key'];
-  $jsondata = @api_data('url', $json_string, $app_config['chainstats_cache_time']);
+  $json_string = 'https://api.etherscan.io/api?module=proxy&action=eth_blockNumber&apikey=' . $app_config['general']['etherscanio_api_key'];
+  $jsondata = @api_data('url', $json_string, $app_config['power_user']['chainstats_cache_time']);
     
   $data = json_decode($jsondata, true);
   
@@ -239,9 +239,9 @@ global $base_dir, $app_config;
     	else {
     		
     		// Non-dynamic cache file name, because filename would change every recache and create cache bloat
-    		if ( update_cache_file('cache/secured/apis/eth-stats.dat', $app_config['chainstats_cache_time'] ) == true ) {
+    		if ( update_cache_file('cache/secured/apis/eth-stats.dat', $app_config['power_user']['chainstats_cache_time'] ) == true ) {
 			
-  			$json_string = 'https://api.etherscan.io/api?module=proxy&action=eth_getBlockByNumber&tag='.$block_number.'&boolean=true&apikey=' . $app_config['etherscanio_api_key'];
+  			$json_string = 'https://api.etherscan.io/api?module=proxy&action=eth_getBlockByNumber&tag='.$block_number.'&boolean=true&apikey=' . $app_config['general']['etherscanio_api_key'];
   			$jsondata = @api_data('url', $json_string, 0); // ZERO TO NOT CACHE DATA (WOULD CREATE CACHE BLOAT)
     		
     		store_file_contents($base_dir . '/cache/secured/apis/eth-stats.dat', $jsondata);
@@ -276,9 +276,9 @@ global $app_config;
 $result = array();
 
 // Don't overwrite global
-$coingecko_primary_currency = ( $force_primary_currency != null ? strtolower($force_primary_currency) : strtolower($app_config['btc_primary_currency_pairing']) );
+$coingecko_primary_currency = ( $force_primary_currency != null ? strtolower($force_primary_currency) : strtolower($app_config['general']['btc_primary_currency_pairing']) );
 
-$jsondata = @api_data('url', 'https://api.coingecko.com/api/v3/coins/markets?per_page='.$app_config['marketcap_ranks_max'].'&page=1&vs_currency='.$coingecko_primary_currency.'&price_change_percentage=1h,24h,7d,14d,30d,200d,1y', $app_config['marketcap_cache_time']);
+$jsondata = @api_data('url', 'https://api.coingecko.com/api/v3/coins/markets?per_page='.$app_config['power_user']['marketcap_ranks_max'].'&page=1&vs_currency='.$coingecko_primary_currency.'&price_change_percentage=1h,24h,7d,14d,30d,200d,1y', $app_config['power_user']['marketcap_cache_time']);
 	   
 $data = json_decode($jsondata, true);
 
@@ -310,14 +310,14 @@ global $app_config, $coinmarketcap_currencies, $cap_data_force_usd, $cmc_notes;
 $result = array();
 
 
-	if ( trim($app_config['coinmarketcapcom_api_key']) == null ) { 
+	if ( trim($app_config['general']['coinmarketcapcom_api_key']) == null ) { 
 	app_logging('config_error', '"coinmarketcapcom_api_key" (free API key) is not configured in config.php', false, false, true);
 	return false;
 	}
 	
 
 	// Don't overwrite global
-	$coinmarketcap_primary_currency = strtoupper($app_config['btc_primary_currency_pairing']);
+	$coinmarketcap_primary_currency = strtoupper($app_config['general']['btc_primary_currency_pairing']);
 	
 		
 		if ( in_array($coinmarketcap_primary_currency, $coinmarketcap_currencies) ) {
@@ -334,12 +334,12 @@ $result = array();
 	
 	$headers = [
   'Accepts: application/json',
-  'X-CMC_PRO_API_KEY: ' . $app_config['coinmarketcapcom_api_key']
+  'X-CMC_PRO_API_KEY: ' . $app_config['general']['coinmarketcapcom_api_key']
 	];
 
 	$cmc_params = array(
 	  							'start' => '1',
-	 							'limit' => $app_config['marketcap_ranks_max'],
+	 							'limit' => $app_config['power_user']['marketcap_ranks_max'],
 	  							'convert' => $convert
 								);
 
@@ -349,7 +349,7 @@ $result = array();
 	
 	$request = "{$url}?{$qs}"; // create the request URL
 
-	$jsondata = @api_data('url', $request, $app_config['remote_api_timeout'], null, null, null, $headers);
+	$jsondata = @api_data('url', $request, $app_config['power_user']['remote_api_timeout'], null, null, null, $headers);
 	
 	$data = json_decode($jsondata, true);
         

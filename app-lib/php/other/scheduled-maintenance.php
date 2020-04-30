@@ -19,8 +19,8 @@ if ( $runtime_mode != 'cron' && update_cache_file($base_dir . '/cache/events/sch
 	if ( $runtime_mode == 'cron' ) {
 	
 		// Chart backups...run before any price checks to avoid any potential file lock issues
-		if ( $app_config['charts_page'] == 'on' && $app_config['charts_backup_freq'] > 0 ) {
-		backup_archive('charts-data', $base_dir . '/cache/charts/', $app_config['charts_backup_freq']); // No $backup_archive_password extra param here (waste of time / energy to encrypt charts data backups)
+		if ( $app_config['general']['charts_toggle'] == 'on' && $app_config['charts_price_alerts']['charts_backup_freq'] > 0 ) {
+		backup_archive('charts-data', $base_dir . '/cache/charts/', $app_config['charts_price_alerts']['charts_backup_freq']); // No $backup_archive_password extra param here (waste of time / energy to encrypt charts data backups)
 		}
 
 
@@ -30,9 +30,9 @@ if ( $runtime_mode != 'cron' && update_cache_file($base_dir . '/cache/events/sch
 	   // If we just started collecting data, check frequently
 	   // (placeholder is always set to 1 to keep chart buttons from acting weird until we have enough data)
 		////////////////////////////////////////////////////////////
-	   if ( $app_config['charts_page'] == 'on' || !is_numeric(trim(file_get_contents($base_dir . '/cache/vars/chart_interval.dat'))) || trim(file_get_contents($base_dir . '/cache/vars/chart_interval.dat')) == 1 ) {
+	   if ( $app_config['general']['charts_toggle'] == 'on' || !is_numeric(trim(file_get_contents($base_dir . '/cache/vars/chart_interval.dat'))) || trim(file_get_contents($base_dir . '/cache/vars/chart_interval.dat')) == 1 ) {
 			
-			foreach ( $app_config['charts_and_price_alerts'] as $key => $value ) {
+			foreach ( $app_config['charts_price_alerts']['markets'] as $key => $value ) {
 			
 				if ( trim($find_first_filename) == '' ) {
 					
@@ -68,7 +68,7 @@ if ( $runtime_mode != 'cron' && update_cache_file($base_dir . '/cache/events/sch
 	////////////////////////////////////////////////////////////
 	// If upgrade check is enabled, check daily for upgrades
 	////////////////////////////////////////////////////////////
-	if ( isset($app_config['upgrade_check']) && $app_config['upgrade_check'] != 'off' && update_cache_file($base_dir . '/cache/vars/upgrade_check_latest_version.dat', 1440) == true ) {
+	if ( isset($app_config['comms']['upgrade_check']) && $app_config['comms']['upgrade_check'] != 'off' && update_cache_file($base_dir . '/cache/vars/upgrade_check_latest_version.dat', 1440) == true ) {
 	
 	
 	$upgrade_check_jsondata = @api_data('url', 'https://api.github.com/repos/taoteh1221/DFD_Cryptocoin_Values/releases/latest', 0); // Don't cache API data
@@ -112,8 +112,8 @@ if ( $runtime_mode != 'cron' && update_cache_file($base_dir . '/cache/events/sch
 		// EVENTUALLY PUT UI ALERT LOGIC HERE
 
 		
-			// Email / text / alexa notification reminders (if it's been $app_config['upgrade_check_reminder'] days since any previous reminder)
-			if ( update_cache_file($base_dir . '/cache/events/upgrade_check_reminder.dat', ( $app_config['upgrade_check_reminder'] * 1440 ) ) == true ) {
+			// Email / text / alexa notification reminders (if it's been $app_config['comms']['upgrade_check_reminder'] days since any previous reminder)
+			if ( update_cache_file($base_dir . '/cache/events/upgrade_check_reminder.dat', ( $app_config['comms']['upgrade_check_reminder'] * 1440 ) ) == true ) {
 			
 			
 				if ( file_exists($base_dir . '/cache/events/upgrade_check_reminder.dat') ) {
@@ -124,11 +124,11 @@ if ( $runtime_mode != 'cron' && update_cache_file($base_dir . '/cache/events/sch
 			$upgrade_check_message = $another_reminder . 'An upgrade for DFD Cryptocoin Values to version ' . $upgrade_check_latest_version . ' is available. You are running version ' . $app_version . '.' . $bug_fix_message_extension;
 			
 			
-			$email_notifyme_message = $upgrade_check_message . ' (you have upgrade reminders sent out every '.$app_config['upgrade_check_reminder'].' days in the configuration settings)';
+			$email_notifyme_message = $upgrade_check_message . ' (you have upgrade reminders sent out every '.$app_config['comms']['upgrade_check_reminder'].' days in the configuration settings)';
 			
 						
 					// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
-					if ( $app_config['upgrade_check'] == 'all' ) {
+					if ( $app_config['comms']['upgrade_check'] == 'all' ) {
 					
 					// Minimize function calls
 					$encoded_text_alert = content_data_encoding($upgrade_check_message);
@@ -148,7 +148,7 @@ if ( $runtime_mode != 'cron' && update_cache_file($base_dir . '/cache/events/sch
 											);
 				
 					}
-					elseif ( $app_config['upgrade_check'] == 'email' ) {
+					elseif ( $app_config['comms']['upgrade_check'] == 'email' ) {
 						
 					$upgrade_check_send_params['email'] = array(
 														'subject' => $another_reminder . 'DFD Cryptocoin Values v'.$upgrade_check_latest_version.' Upgrade Available' . $bug_fix_subject_extension,
@@ -156,7 +156,7 @@ if ( $runtime_mode != 'cron' && update_cache_file($base_dir . '/cache/events/sch
 														);
 				
 					}
-					elseif ( $app_config['upgrade_check'] == 'text' ) {
+					elseif ( $app_config['comms']['upgrade_check'] == 'text' ) {
 					
 					// Minimize function calls
 					$encoded_text_alert = content_data_encoding($upgrade_check_message);
@@ -169,10 +169,10 @@ if ( $runtime_mode != 'cron' && update_cache_file($base_dir . '/cache/events/sch
 														);
 				
 					}
-					elseif ( $app_config['upgrade_check'] == 'notifyme' ) {
+					elseif ( $app_config['comms']['upgrade_check'] == 'notifyme' ) {
 					$upgrade_check_send_params['notifyme'] = $email_notifyme_message;
 					}
-					elseif ( $app_config['upgrade_check'] == 'telegram' ) {
+					elseif ( $app_config['comms']['upgrade_check'] == 'telegram' ) {
 					$upgrade_check_send_params['telegram'] = $email_notifyme_message;
 					}
 				
@@ -211,7 +211,7 @@ store_file_contents($base_dir . '/cache/vars/cache_size.dat', convert_bytes( dir
 
 
 // Delete ANY old zip archive backups scheduled to be purged
-delete_old_files($base_dir . '/cache/secured/backups', $app_config['backup_archive_delete_old'], 'zip');
+delete_old_files($base_dir . '/cache/secured/backups', $app_config['general']['backup_archive_delete_old'], 'zip');
 
 
 // Stale cache files cleanup...
@@ -229,7 +229,7 @@ $logs_cache_cleanup = array(
 									$base_dir . '/cache/logs/errors/api',
 									);
 									
-delete_old_files($logs_cache_cleanup, $app_config['log_purge'], 'dat'); // Delete LOGS API cache files older than $app_config['log_purge'] day(s)
+delete_old_files($logs_cache_cleanup, $app_config['developer']['log_purge'], 'dat'); // Delete LOGS API cache files older than $app_config['developer']['log_purge'] day(s)
 
 
 // Update the maintenance event tracking

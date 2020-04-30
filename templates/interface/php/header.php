@@ -2,15 +2,15 @@
 
 	
 // Set a max execution time, TO AVOID RUNAWAY PROCESSES FREEZING THE SERVER
-if ( $app_config['debug_mode'] != 'off' ) {
+if ( $app_config['developer']['debug_mode'] != 'off' ) {
 ini_set('max_execution_time', 350);
 }
 else {
-ini_set('max_execution_time', $app_config['ui_max_execution_time']);
+ini_set('max_execution_time', $app_config['developer']['ui_max_execution_time']);
 }
 
 
-header('Content-type: text/html; charset=' . $app_config['charset_default']);
+header('Content-type: text/html; charset=' . $app_config['developer']['charset_default']);
 
 
 ?><!DOCTYPE html>
@@ -24,7 +24,7 @@ header('Content-type: text/html; charset=' . $app_config['charset_default']);
 
 	<title>DFD Cryptocoin Values - <?=( $is_admin == 1 ? 'Admin Configuration' : 'Portfolio Tracker' )?></title>
     
-   <meta charset="<?=$app_config['charset_default']?>">
+   <meta charset="<?=$app_config['developer']['charset_default']?>">
    
    <meta name="viewport" content="width=device-width">
    
@@ -77,7 +77,7 @@ header('Content-type: text/html; charset=' . $app_config['charset_default']);
 	<script src="app-lib/js/zingchart.min.js"></script>
 	
 	<?php
-	if ( $app_config['charts_page'] == 'on' ) {
+	if ( $app_config['general']['charts_toggle'] == 'on' ) {
 	?>
 	<script>
 	var charts_num = <?=( sizeof($show_charts) > 0 ? sizeof($show_charts) : 0 )?>;
@@ -100,16 +100,16 @@ header('Content-type: text/html; charset=' . $app_config['charset_default']);
 	var sorted_by_asc_desc = <?=$sorted_by_asc_desc?>;
 	var tablesort_theme = '<?=$theme_selected?>';
 	
-	var charts_background = '<?=$app_config['charts_background']?>';
+	var charts_background = '<?=$app_config['charts_price_alerts']['charts_background']?>';
 	
-	var charts_border = '<?=$app_config['charts_border']?>';
+	var charts_border = '<?=$app_config['charts_price_alerts']['charts_border']?>';
 	
 	var btc_primary_currency_value = '<?=number_format( $selected_btc_primary_currency_value, 2, '.', '' )?>';
 	
-	var btc_primary_currency_pairing = '<?=strtoupper($app_config['btc_primary_currency_pairing'])?>';
+	var btc_primary_currency_pairing = '<?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?>';
 	
 	<?php
-	foreach ( $app_config['limited_apis'] as $api ) {
+	foreach ( $app_config['developer']['limited_apis'] as $api ) {
 	$js_limited_apis .= '"'.strtolower( preg_replace("/\.(.*)/i", "", $api) ).'", ';
 	}
 	$js_limited_apis = trim($js_limited_apis);
@@ -122,7 +122,7 @@ header('Content-type: text/html; charset=' . $app_config['charset_default']);
 	
 	var preferred_bitcoin_markets = [];
 	<?php
-	foreach ( $app_config['preferred_bitcoin_markets'] as $preferred_bitcoin_markets_key => $preferred_bitcoin_markets_value ) {
+	foreach ( $app_config['power_user']['bitcoin_preferred_currency_markets'] as $preferred_bitcoin_markets_key => $preferred_bitcoin_markets_value ) {
 	?>
 	preferred_bitcoin_markets["<?=strtolower( $preferred_bitcoin_markets_key )?>"] = "<?=strtolower( $preferred_bitcoin_markets_value )?>";
 	<?php

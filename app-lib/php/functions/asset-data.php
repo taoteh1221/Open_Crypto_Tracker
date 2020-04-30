@@ -58,7 +58,7 @@ function get_sub_token_price($chosen_market, $market_pairing) {
 global $app_config;
 
   if ( strtolower($chosen_market) == 'eth_subtokens_ico' ) {
-  return $app_config['ethereum_subtoken_ico_values'][$market_pairing];
+  return $app_config['power_user']['ethereum_subtoken_ico_values'][$market_pairing];
   }
  
 }
@@ -107,7 +107,7 @@ function btc_market($input) {
 global $app_config;
 
 	$pairing_loop = 0;
-	foreach ( $app_config['portfolio_assets']['BTC']['market_pairing'][$app_config['btc_primary_currency_pairing']] as $market_key => $market_id ) {
+	foreach ( $app_config['portfolio_assets']['BTC']['market_pairing'][$app_config['general']['btc_primary_currency_pairing']] as $market_key => $market_id ) {
 		
 		// If a numeric id, return the exchange name
 		if ( is_int($input) && $pairing_loop == $input ) {
@@ -136,13 +136,13 @@ $symbol = strtolower($symbol);
 $data = array();
 
 
-	if ( $app_config['primary_marketcap_site'] == 'coingecko' ) {
+	if ( $app_config['general']['primary_marketcap_site'] == 'coingecko' ) {
 	
 		
 		// Check for currency support, fallback to USD if needed
-		if ( !isset($coingecko_api['btc']['market_cap_rank']) && strtoupper($app_config['btc_primary_currency_pairing']) != 'USD' ) {
+		if ( !isset($coingecko_api['btc']['market_cap_rank']) && strtoupper($app_config['general']['btc_primary_currency_pairing']) != 'USD' ) {
 			
-		$app_notice = 'Coingecko.com does not seem to support '.strtoupper($app_config['btc_primary_currency_pairing']).' stats,<br />showing USD stats instead.';
+		$app_notice = 'Coingecko.com does not seem to support '.strtoupper($app_config['general']['btc_primary_currency_pairing']).' stats,<br />showing USD stats instead.';
 		
 		$cap_data_force_usd = 1;
 		
@@ -156,7 +156,7 @@ $data = array();
 		
 		}
 		elseif ( $cap_data_force_usd == 1 ) {
-		$app_notice = 'Coingecko.com does not seem to support '.strtoupper($app_config['btc_primary_currency_pairing']).' stats,<br />showing USD stats instead.';
+		$app_notice = 'Coingecko.com does not seem to support '.strtoupper($app_config['general']['btc_primary_currency_pairing']).' stats,<br />showing USD stats instead.';
 		}
 		
 		
@@ -185,10 +185,10 @@ $data = array();
 	$data['percent_change_1y'] = number_format( $coingecko_api[$symbol]['price_change_percentage_1y_in_currency'] , 2, ".", ",");
 	
 	}
-	elseif ( $app_config['primary_marketcap_site'] == 'coinmarketcap' ) {
+	elseif ( $app_config['general']['primary_marketcap_site'] == 'coinmarketcap' ) {
 
 	// Don't overwrite global
-	$coinmarketcap_primary_currency = strtoupper($app_config['btc_primary_currency_pairing']);
+	$coinmarketcap_primary_currency = strtoupper($app_config['general']['btc_primary_currency_pairing']);
 	
 	
 		// Default to USD, if selected primary currency is not supported
@@ -223,7 +223,7 @@ $data = array();
  	
 	
 	// UX on number values
-	$data['price'] = ( number_to_string($data['price']) >= $app_config['primary_currency_decimals_max_threshold'] ? pretty_numbers($data['price'], 2) : pretty_numbers($data['price'], $app_config['primary_currency_decimals_max']) );
+	$data['price'] = ( number_to_string($data['price']) >= $app_config['general']['primary_currency_decimals_max_threshold'] ? pretty_numbers($data['price'], 2) : pretty_numbers($data['price'], $app_config['general']['primary_currency_decimals_max']) );
 	
 
 // Return null if we don't even detect a rank
@@ -318,9 +318,9 @@ $possible_dos_attack = 0;
 	 }
 	 
 	 
-	 // Return error message if the markets lists is more markets than allowed by $app_config['local_api_market_limit']
-	 if ( sizeof($all_markets_data_array) > $app_config['local_api_market_limit'] ) {
-	 $result['error'] = 'Exceeded maximum of ' . $app_config['local_api_market_limit'] . ' markets allowed per request (' . sizeof($all_markets_data_array) . ').';
+	 // Return error message if the markets lists is more markets than allowed by $app_config['power_user']['local_api_market_limit']
+	 if ( sizeof($all_markets_data_array) > $app_config['power_user']['local_api_market_limit'] ) {
+	 $result['error'] = 'Exceeded maximum of ' . $app_config['power_user']['local_api_market_limit'] . ' markets allowed per request (' . sizeof($all_markets_data_array) . ').';
 	 return $result;
 	 }
 
@@ -364,8 +364,8 @@ $possible_dos_attack = 0;
               
               	
               		  // If a preferred bitcoin market is set in app config, use it...otherwise use first array key
-              		  if ( isset($app_config['preferred_bitcoin_markets'][$market_conversion]) ) {
-              		  $btc_exchange = $app_config['preferred_bitcoin_markets'][$market_conversion];
+              		  if ( isset($app_config['power_user']['bitcoin_preferred_currency_markets'][$market_conversion]) ) {
+              		  $btc_exchange = $app_config['power_user']['bitcoin_preferred_currency_markets'][$market_conversion];
 						  }
 						  else {
 						  $btc_exchange = key($app_config['portfolio_assets']['BTC']['market_pairing'][$market_conversion]);
@@ -401,8 +401,8 @@ $possible_dos_attack = 0;
               $selected_btc_primary_currency_pairing = $market_conversion;
               $selected_btc_primary_exchange = $btc_exchange;
               
-              $app_config['btc_primary_currency_pairing'] = $selected_btc_primary_currency_pairing;
-    			  $app_config['btc_primary_exchange'] = $selected_btc_primary_exchange;
+              $app_config['general']['btc_primary_currency_pairing'] = $selected_btc_primary_currency_pairing;
+    			  $app_config['general']['btc_primary_exchange'] = $selected_btc_primary_exchange;
               
         		  // OVERWRITE #GLOBAL# BTC PRIMARY CURRENCY VALUE (so we get correct values for volume in currency etc)
         		  $selected_btc_primary_currency_value = $market_conversion_btc_value;
@@ -424,8 +424,8 @@ $possible_dos_attack = 0;
         
         
               // More pretty numbers formatting
-              if ( array_key_exists($market_pairing, $app_config['bitcoin_currency_markets']) ) {
-              $coin_value_raw = ( number_to_string($coin_value_raw) >= $app_config['primary_currency_decimals_max_threshold'] ? round($coin_value_raw, 2) : round($coin_value_raw, $app_config['primary_currency_decimals_max']) );
+              if ( array_key_exists($market_pairing, $app_config['power_user']['bitcoin_currency_markets']) ) {
+              $coin_value_raw = ( number_to_string($coin_value_raw) >= $app_config['general']['primary_currency_decimals_max_threshold'] ? round($coin_value_raw, 2) : round($coin_value_raw, $app_config['general']['primary_currency_decimals_max']) );
               $volume_pairing_rounded = round($volume_pairing_raw);
               }
               else {
@@ -450,7 +450,7 @@ $possible_dos_attack = 0;
                     }
               
               // Pretty numbers for fiat currency
-              $coin_primary_market_worth_raw = ( number_to_string($coin_primary_market_worth_raw) >= $app_config['primary_currency_decimals_max_threshold'] ? round($coin_primary_market_worth_raw, 2) : round($coin_primary_market_worth_raw, $app_config['primary_currency_decimals_max']) );
+              $coin_primary_market_worth_raw = ( number_to_string($coin_primary_market_worth_raw) >= $app_config['general']['primary_currency_decimals_max_threshold'] ? round($coin_primary_market_worth_raw, 2) : round($coin_primary_market_worth_raw, $app_config['general']['primary_currency_decimals_max']) );
               
               }
         
@@ -531,7 +531,7 @@ $pairing = strtolower($pairing);
 	return $btc_pairing_markets[$pairing.'_btc'];
 	}
 	// If we need an ALTCOIN/BTC market value (RUN BEFORE CURRENCIES FOR BEST MARKET DATA, AS SOME CRYPTOS ARE INCLUDED IN BOTH)
-	elseif ( array_key_exists($pairing, $app_config['crypto_to_crypto_pairing']) ) {
+	elseif ( array_key_exists($pairing, $app_config['power_user']['crypto_to_crypto_pairing']) ) {
 		
 		
 		// Include a basic array check, since we want valid data to avoid an endless loop in our fallback support
@@ -540,8 +540,8 @@ $pairing = strtolower($pairing);
 		return null;
 		}
 		// Preferred BITCOIN market(s) for getting a certain currency's value, if in config and more than one market exists
-		elseif ( sizeof($app_config['portfolio_assets'][strtoupper($pairing)]['market_pairing']['btc']) > 1 && array_key_exists($pairing, $app_config['preferred_altcoin_markets']) ) {
-		$whitelist = $app_config['preferred_altcoin_markets'][$pairing];
+		elseif ( sizeof($app_config['portfolio_assets'][strtoupper($pairing)]['market_pairing']['btc']) > 1 && array_key_exists($pairing, $app_config['power_user']['preferred_altcoin_markets']) ) {
+		$whitelist = $app_config['power_user']['preferred_altcoin_markets'][$pairing];
 		}
 	
 	
@@ -559,7 +559,7 @@ $pairing = strtolower($pairing);
    			if ( number_to_string($btc_pairing_markets[$pairing.'_btc']) >= 0.00000001 ) {
    				
    				// Data debugging telemetry
-					if ( $app_config['debug_mode'] == 'all' || $app_config['debug_mode'] == 'telemetry' ) {
+					if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' ) {
 					app_logging('other_debugging', 'pairing_market_value() update succeeded for ' . $pairing, 'exchange: ' . $market_key);
 					}		
    					
@@ -590,7 +590,7 @@ $pairing = strtolower($pairing);
 	}
 	// If we need a BITCOIN/CURRENCY market value 
 	// RUN AFTER CRYPTO MARKETS...WE HAVE A COUPLE CRYPTOS SUPPORTED HERE, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
-	elseif ( array_key_exists($pairing, $app_config['bitcoin_currency_markets']) ) {
+	elseif ( array_key_exists($pairing, $app_config['power_user']['bitcoin_currency_markets']) ) {
 	
 	
 		// Include a basic array check, since we want valid data to avoid an endless loop in our fallback support
@@ -599,8 +599,8 @@ $pairing = strtolower($pairing);
 		return null;
 		}
 		// Preferred BITCOIN market(s) for getting a certain currency's value, if in config and more than one market exists
-		elseif ( sizeof($app_config['portfolio_assets']['BTC']['market_pairing'][$pairing]) > 1 && array_key_exists($pairing, $app_config['preferred_bitcoin_markets']) ) {
-		$whitelist = $app_config['preferred_bitcoin_markets'][$pairing];
+		elseif ( sizeof($app_config['portfolio_assets']['BTC']['market_pairing'][$pairing]) > 1 && array_key_exists($pairing, $app_config['power_user']['bitcoin_preferred_currency_markets']) ) {
+		$whitelist = $app_config['power_user']['bitcoin_preferred_currency_markets'][$pairing];
 		}
 				
 				
@@ -618,7 +618,7 @@ $pairing = strtolower($pairing);
    			if ( number_to_string($btc_pairing_markets[$pairing.'_btc']) >= 0.00000001 ) {
    						
    				// Data debugging telemetry
-					if ( $app_config['debug_mode'] == 'all' || $app_config['debug_mode'] == 'telemetry' ) {
+					if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' ) {
 					app_logging('other_debugging', 'pairing_market_value() update succeeded for ' . $pairing, 'exchange: ' . $market_key);
 					}
 							
@@ -670,7 +670,7 @@ $powertime = null;
 $hive_total = null;
 $primary_currency_total = null;
 
-$decimal_yearly_interest = $app_config['hivepower_yearly_interest'] / 100;  // Convert APR in config to decimal representation
+$decimal_yearly_interest = $app_config['power_user']['hivepower_yearly_interest'] / 100;  // Convert APR in config to decimal representation
 
 $speed = ($_POST['hp_total'] * $decimal_yearly_interest) / 525600;  // Interest per minute
 
@@ -708,7 +708,7 @@ $speed = ($_POST['hp_total'] * $decimal_yearly_interest) / 525600;  // Interest 
     $power_earned = ( $_POST['hp_earned'] / $hive_total );
     $power_interest = 1 - ( $power_purchased + $power_earned );
     
-    $powerdown_total = ( $hive_total / $app_config['hive_powerdown_time'] );
+    $powerdown_total = ( $hive_total / $app_config['power_user']['hive_powerdown_time'] );
     $powerdown_purchased = ( $powerdown_total * $power_purchased );
     $powerdown_earned = ( $powerdown_total * $power_earned );
     $powerdown_interest = ( $powerdown_total * $power_interest );
@@ -719,9 +719,9 @@ $speed = ($_POST['hp_total'] * $decimal_yearly_interest) / 525600;  // Interest 
     <h2> Interest Per <?=ucfirst($time)?> </h2>
     <ul>
         
-        <li><b><?=number_format( $powertime, 3, '.', ',')?> HIVE</b> <i>in interest</i> (after a <?=$time?> time period) = <b><?=$app_config['bitcoin_currency_markets'][$app_config['btc_primary_currency_pairing']]?><?=number_format( $powertime_primary_currency, 2, '.', ',')?></b></li>
+        <li><b><?=number_format( $powertime, 3, '.', ',')?> HIVE</b> <i>in interest</i> (after a <?=$time?> time period) = <b><?=$app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']]?><?=number_format( $powertime_primary_currency, 2, '.', ',')?></b></li>
         
-        <li><b><?=number_format( $hive_total, 3, '.', ',')?> HIVE</b> <i>in total</i> (including original vested amount) = <b><?=$app_config['bitcoin_currency_markets'][$app_config['btc_primary_currency_pairing']]?><?=number_format( $primary_currency_total, 2, '.', ',')?></b></li>
+        <li><b><?=number_format( $hive_total, 3, '.', ',')?> HIVE</b> <i>in total</i> (including original vested amount) = <b><?=$app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']]?><?=number_format( $primary_currency_total, 2, '.', ',')?></b></li>
     
     </ul>
 
@@ -735,10 +735,10 @@ $speed = ($_POST['hp_total'] * $decimal_yearly_interest) / 525600;  // Interest 
             </tr>
                 <tr>
 
-                <td> <?=number_format( $powerdown_purchased, 3, '.', ',')?> HIVE = <?=$app_config['bitcoin_currency_markets'][$app_config['btc_primary_currency_pairing']]?><?=number_format( powerdown_primary_currency($powerdown_purchased), 2, '.', ',')?> </td>
-                <td> <?=number_format( $powerdown_earned, 3, '.', ',')?> HIVE = <?=$app_config['bitcoin_currency_markets'][$app_config['btc_primary_currency_pairing']]?><?=number_format( powerdown_primary_currency($powerdown_earned), 2, '.', ',')?> </td>
-                <td> <?=number_format( $powerdown_interest, 3, '.', ',')?> HIVE = <?=$app_config['bitcoin_currency_markets'][$app_config['btc_primary_currency_pairing']]?><?=number_format( powerdown_primary_currency($powerdown_interest), 2, '.', ',')?> </td>
-                <td> <b><?=number_format( $powerdown_total, 3, '.', ',')?> HIVE</b> = <b><?=$app_config['bitcoin_currency_markets'][$app_config['btc_primary_currency_pairing']]?><?=number_format( powerdown_primary_currency($powerdown_total), 2, '.', ',')?></b> </td>
+                <td> <?=number_format( $powerdown_purchased, 3, '.', ',')?> HIVE = <?=$app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']]?><?=number_format( powerdown_primary_currency($powerdown_purchased), 2, '.', ',')?> </td>
+                <td> <?=number_format( $powerdown_earned, 3, '.', ',')?> HIVE = <?=$app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']]?><?=number_format( powerdown_primary_currency($powerdown_earned), 2, '.', ',')?> </td>
+                <td> <?=number_format( $powerdown_interest, 3, '.', ',')?> HIVE = <?=$app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']]?><?=number_format( powerdown_primary_currency($powerdown_interest), 2, '.', ',')?> </td>
+                <td> <b><?=number_format( $powerdown_total, 3, '.', ',')?> HIVE</b> = <b><?=$app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']]?><?=number_format( powerdown_primary_currency($powerdown_total), 2, '.', ',')?></b> </td>
 
                 </tr>
            
@@ -837,13 +837,13 @@ global $_POST, $app_config;
 				</p>
 				
 				
-				<p><b>Block Reward:</b> <input type='text' value='<?=( $_POST['block_reward'] && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? $_POST['block_reward'] : $app_config['mining_rewards'][$calculation_form_data[1]] )?>' name='block_reward' /> (may be static from config.php file, verify current block reward manually)</p>
+				<p><b>Block Reward:</b> <input type='text' value='<?=( $_POST['block_reward'] && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? $_POST['block_reward'] : $app_config['power_user']['mining_rewards'][$calculation_form_data[1]] )?>' name='block_reward' /> (may be static from config.php file, verify current block reward manually)</p>
 				
 				
 				<p><b>Watts Used:</b> <input type='text' value='<?=( isset($_POST['watts_used']) && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? $_POST['watts_used'] : '300' )?>' name='watts_used' /></p>
 				
 				
-				<p><b>kWh Rate (<?=$app_config['bitcoin_currency_markets'][$app_config['btc_primary_currency_pairing']]?>/kWh):</b> <input type='text' value='<?=( isset($_POST['watts_rate']) && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? $_POST['watts_rate'] : '0.1000' )?>' name='watts_rate' /></p>
+				<p><b>kWh Rate (<?=$app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']]?>/kWh):</b> <input type='text' value='<?=( isset($_POST['watts_rate']) && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? $_POST['watts_rate'] : '0.1000' )?>' name='watts_rate' /></p>
 				
 				
 				<p><b>Pool Fee:</b> <input type='text' value='<?=( isset($_POST['pool_fee']) && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? $_POST['pool_fee'] : '1' )?>' size='4' name='pool_fee' />%</p>
@@ -872,7 +872,7 @@ global $base_dir, $app_config, $default_btc_primary_exchange, $default_btc_prima
 
 	
 	// Return true (no errors) if alert-only, and alerts are disabled
-	if ( $mode == 'alert' && $app_config['price_alerts_threshold'] == 0 ) {
+	if ( $mode == 'alert' && $app_config['comms']['price_alerts_threshold'] == 0 ) {
 	return true;
 	}
 
@@ -885,7 +885,7 @@ $asset = strtoupper($asset);
 
 	// Fiat or equivalent pairing?
 	// #FOR CLEAN CODE#, RUN CHECK TO MAKE SURE IT'S NOT A CRYPTO AS WELL...WE HAVE A COUPLE SUPPORTED, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
-	if ( array_key_exists($pairing, $app_config['bitcoin_currency_markets']) && !array_key_exists($pairing, $app_config['crypto_to_crypto_pairing']) ) {
+	if ( array_key_exists($pairing, $app_config['power_user']['bitcoin_currency_markets']) && !array_key_exists($pairing, $app_config['power_user']['crypto_to_crypto_pairing']) ) {
 	$fiat_eqiv = 1;
 	}
 /////////////////////////////////////////////////////////////////
@@ -968,16 +968,16 @@ $volume_primary_currency_raw = ( isset($volume_primary_currency_raw) ? round($vo
 $volume_pairing_raw = ( isset($volume_pairing_raw) ? round($volume_pairing_raw, ( $fiat_eqiv == 1 ? 0 : 3 ) ) : null );	
 	
 	
-// Round PRIMARY CURRENCY CONFIG asset price to only keep $app_config['primary_currency_decimals_max'] decimals maximum 
-// (or only 2 decimals if worth $app_config['primary_currency_decimals_max_threshold'] or more), to save on data set / storage size
-$asset_primary_currency_value_raw = ( number_to_string($asset_primary_currency_value_raw) >= $app_config['primary_currency_decimals_max_threshold'] ? round($asset_primary_currency_value_raw, 2) : round($asset_primary_currency_value_raw, $app_config['primary_currency_decimals_max']) );
+// Round PRIMARY CURRENCY CONFIG asset price to only keep $app_config['general']['primary_currency_decimals_max'] decimals maximum 
+// (or only 2 decimals if worth $app_config['general']['primary_currency_decimals_max_threshold'] or more), to save on data set / storage size
+$asset_primary_currency_value_raw = ( number_to_string($asset_primary_currency_value_raw) >= $app_config['general']['primary_currency_decimals_max_threshold'] ? round($asset_primary_currency_value_raw, 2) : round($asset_primary_currency_value_raw, $app_config['general']['primary_currency_decimals_max']) );
 	
 	
 	// If fiat equivalent format, round asset price 
-	// to only keep $app_config['primary_currency_decimals_max'] decimals maximum 
-	// (or only 2 decimals if worth $app_config['primary_currency_decimals_max_threshold'] or more), to save on data set / storage size
+	// to only keep $app_config['general']['primary_currency_decimals_max'] decimals maximum 
+	// (or only 2 decimals if worth $app_config['general']['primary_currency_decimals_max_threshold'] or more), to save on data set / storage size
    if ( $fiat_eqiv == 1 ) {
-   $asset_pairing_value_raw = ( number_to_string($asset_pairing_value_raw) >= $app_config['primary_currency_decimals_max_threshold'] ? round($asset_pairing_value_raw, 2) : round($asset_pairing_value_raw, $app_config['primary_currency_decimals_max']) );
+   $asset_pairing_value_raw = ( number_to_string($asset_pairing_value_raw) >= $app_config['general']['primary_currency_decimals_max_threshold'] ? round($asset_pairing_value_raw, 2) : round($asset_pairing_value_raw, $app_config['general']['primary_currency_decimals_max']) );
    }
 
 
@@ -994,8 +994,8 @@ $volume_pairing_raw = number_to_string($volume_pairing_raw);
 	// Charts
 	/////////////////////////////////////////////////////////////////
 	// If the charts page is enabled in config.php, save latest chart data for assets with price alerts configured on them
-	if ( $mode == 'both' && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && $app_config['charts_page'] == 'on'
-	|| $mode == 'chart' && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && $app_config['charts_page'] == 'on' ) {
+	if ( $mode == 'both' && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && $app_config['general']['charts_toggle'] == 'on'
+	|| $mode == 'chart' && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && $app_config['general']['charts_toggle'] == 'on' ) {
 	
 		
 	// PRIMARY CURRENCY CONFIG charts (CRYPTO/PRIMARY CURRENCY CONFIG markets, 
@@ -1016,7 +1016,7 @@ $volume_pairing_raw = number_to_string($volume_pairing_raw);
 	
 	// Alert checking START
 	/////////////////////////////////////////////////////////////////
-	if ( $mode == 'alert' && $app_config['price_alerts_threshold'] > 0 || $mode == 'both' && $app_config['price_alerts_threshold'] > 0 ) {
+	if ( $mode == 'alert' && $app_config['comms']['price_alerts_threshold'] > 0 || $mode == 'both' && $app_config['comms']['price_alerts_threshold'] > 0 ) {
 
         
    // WE USE PAIRING VOLUME FOR VOLUME PERCENTAGE CHANGES, FOR BETTER PERCENT CHANGE ACCURACY THAN FIAT EQUIV
@@ -1075,7 +1075,7 @@ $volume_pairing_raw = number_to_string($volume_pairing_raw);
               
     	
       	// INITIAL check whether we should send an alert (we ALSO check for a few different conditions further down, and UPDATE THIS VAR AS NEEDED THEN)
-      	if ( $percent_change >= $app_config['price_alerts_threshold'] ) {
+      	if ( $percent_change >= $app_config['comms']['price_alerts_threshold'] ) {
       	$send_alert = 1;
       	}
               
@@ -1136,7 +1136,7 @@ $volume_pairing_raw = number_to_string($volume_pairing_raw);
               
               
               // Whale alert (price change average of X or greater over X day(s) or less, with X percent pair volume increase average that is at least a X primary currency volume increase average)
-              $whale_alert_threshold = explode("||", $app_config['price_alerts_whale_alert_threshold']);
+              $whale_alert_threshold = explode("||", $app_config['charts_price_alerts']['price_alerts_whale_alert_threshold']);
     
               if ( trim($whale_alert_threshold[0]) != '' && trim($whale_alert_threshold[1]) != '' && trim($whale_alert_threshold[2]) != '' && trim($whale_alert_threshold[3]) != '' ) {
               
@@ -1163,7 +1163,7 @@ $volume_pairing_raw = number_to_string($volume_pairing_raw);
              
               
               // We disallow alerts where minimum 24 hour trade PRIMARY CURRENCY CONFIG volume has NOT been met, ONLY if an API request doesn't fail to retrieve volume data
-              if ( $volume_primary_currency_raw >= 0 && $volume_primary_currency_raw < $app_config['price_alerts_min_volume'] ) {
+              if ( $volume_primary_currency_raw >= 0 && $volume_primary_currency_raw < $app_config['comms']['price_alerts_min_volume'] ) {
               $send_alert = null;
               }
       
@@ -1176,9 +1176,9 @@ $volume_pairing_raw = number_to_string($volume_pairing_raw);
               }
       
       
-              // We disallow alerts if $app_config['price_alerts_block_volume_error'] is on, and there is a volume retrieval error
+              // We disallow alerts if $app_config['comms']['price_alerts_block_volume_error'] is on, and there is a volume retrieval error
               // ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
-              if ( $volume_primary_currency_raw == -1 && $app_config['price_alerts_block_volume_error'] == 'on' ) {
+              if ( $volume_primary_currency_raw == -1 && $app_config['comms']['price_alerts_block_volume_error'] == 'on' ) {
               $send_alert = null;
               }
               
@@ -1187,19 +1187,19 @@ $volume_pairing_raw = number_to_string($volume_pairing_raw);
               
               
               // Sending the alerts
-              if ( update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $app_config['price_alerts_freq_max'] * 60 ) ) == true && $send_alert == 1 ) {
+              if ( update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $app_config['comms']['price_alerts_freq_max'] * 60 ) ) == true && $send_alert == 1 ) {
               
                             
               // Message formatting for display to end user
                 
-              $desc_alert_type = ( $app_config['price_alerts_fixed_reset'] > 0 ? 'reset' : 'alert' );
+              $desc_alert_type = ( $app_config['charts_price_alerts']['price_alerts_fixed_reset'] > 0 ? 'reset' : 'alert' );
               
                 
                 // IF PRIMARY CURRENCY CONFIG volume was between 0 and 1 last alert / reset, for UX sake 
                 // we use current PRIMARY CURRENCY CONFIG volume instead of pair volume (for percent up, so it's not up 70,000% for altcoins lol)
                 if ( $cached_primary_currency_volume >= 0 && $cached_primary_currency_volume <= 1 ) {
-                $volume_describe = strtoupper($default_btc_primary_currency_pairing) . ' volume was ' . $app_config['bitcoin_currency_markets'][$default_btc_primary_currency_pairing] . $cached_primary_currency_volume . ' last price ' . $desc_alert_type . ', and ';
-                $volume_describe_mobile = strtoupper($default_btc_primary_currency_pairing) . ' volume up from ' . $app_config['bitcoin_currency_markets'][$default_btc_primary_currency_pairing] . $cached_primary_currency_volume . ' last ' . $desc_alert_type;
+                $volume_describe = strtoupper($default_btc_primary_currency_pairing) . ' volume was ' . $app_config['power_user']['bitcoin_currency_markets'][$default_btc_primary_currency_pairing] . $cached_primary_currency_volume . ' last price ' . $desc_alert_type . ', and ';
+                $volume_describe_mobile = strtoupper($default_btc_primary_currency_pairing) . ' volume up from ' . $app_config['power_user']['bitcoin_currency_markets'][$default_btc_primary_currency_pairing] . $cached_primary_currency_volume . ' last ' . $desc_alert_type;
                 }
                 // Best we can do feasibly for UX on volume reporting errors
                 elseif ( $cached_primary_currency_volume == -1 ) { // ONLY PRIMARY CURRENCY CONFIG VOLUME CALCULATION RETURNS -1 ON EXCHANGE VOLUME ERROR
@@ -1218,9 +1218,9 @@ $volume_pairing_raw = number_to_string($volume_pairing_raw);
                 
                     
               // Pretty numbers UX on PRIMARY CURRENCY CONFIG asset value
-              $asset_primary_currency_text = ( number_to_string($asset_primary_currency_value_raw) >= $app_config['primary_currency_decimals_max_threshold'] ? pretty_numbers($asset_primary_currency_value_raw, 2) : pretty_numbers($asset_primary_currency_value_raw, $app_config['primary_currency_decimals_max']) );
+              $asset_primary_currency_text = ( number_to_string($asset_primary_currency_value_raw) >= $app_config['general']['primary_currency_decimals_max_threshold'] ? pretty_numbers($asset_primary_currency_value_raw, 2) : pretty_numbers($asset_primary_currency_value_raw, $app_config['general']['primary_currency_decimals_max']) );
                     
-              $volume_primary_currency_text = $app_config['bitcoin_currency_markets'][$default_btc_primary_currency_pairing] . number_format($volume_primary_currency_raw, 0, '.', ',');
+              $volume_primary_currency_text = $app_config['power_user']['bitcoin_currency_markets'][$default_btc_primary_currency_pairing] . number_format($volume_primary_currency_raw, 0, '.', ',');
                     
               $volume_change_text = 'has ' . ( $volume_change_symbol == '+' ? 'increased ' : 'decreased ' ) . $volume_change_symbol . number_format($volume_percent_change, 2, '.', ',') . '% to a ' . strtoupper($default_btc_primary_currency_pairing) . ' value of';
                     
@@ -1241,7 +1241,7 @@ $volume_pairing_raw = number_to_string($volume_pairing_raw);
                 // Format trade volume data
                 
                 // Volume filter skipped message, only if filter is on and error getting trade volume data (otherwise is NULL)
-                if ( $volume_primary_currency_raw == null && $app_config['price_alerts_min_volume'] > 0 || $volume_primary_currency_raw < 1 && $app_config['price_alerts_min_volume'] > 0 ) {
+                if ( $volume_primary_currency_raw == null && $app_config['comms']['price_alerts_min_volume'] > 0 || $volume_primary_currency_raw < 1 && $app_config['comms']['price_alerts_min_volume'] > 0 ) {
                 $volume_filter_skipped_text = ', so volume filter was skipped';
                 }
                 else {
@@ -1251,7 +1251,7 @@ $volume_pairing_raw = number_to_string($volume_pairing_raw);
                 
                 
                 // Successfully received > 0 volume data, at or above an enabled volume filter
-                    if ( $volume_primary_currency_raw > 0 && $app_config['price_alerts_min_volume'] > 0 && $volume_primary_currency_raw >= $app_config['price_alerts_min_volume'] ) {
+                    if ( $volume_primary_currency_raw > 0 && $app_config['comms']['price_alerts_min_volume'] > 0 && $volume_primary_currency_raw >= $app_config['comms']['price_alerts_min_volume'] ) {
                 $email_volume_summary = '24 hour ' . $volume_describe . $volume_change_text . ' ' . $volume_primary_currency_text . ' (volume filter is on).';
                 }
                 // NULL if not setup to get volume, negative number returned if no data received from API, therefore skipping any enabled volume filter
@@ -1273,12 +1273,12 @@ $volume_pairing_raw = number_to_string($volume_pairing_raw);
                     
               // Build the different messages, configure comm methods, and send messages
                     
-              $email_message = ( $whale_alert == 1 ? 'WHALE ALERT: ' : '' ) . 'The ' . $asset . ' trade value in the ' . strtoupper($pairing) . ' market at the ' . $exchange_text . ' exchange has ' . $increase_decrease . ' ' . $change_symbol . $percent_change_text . '% in ' . strtoupper($default_btc_primary_currency_pairing) . ' value to ' . $app_config['bitcoin_currency_markets'][$default_btc_primary_currency_pairing] . $asset_primary_currency_text . ' over the past ' . $last_check_time . ' since the last price ' . $desc_alert_type . '. ' . $email_volume_summary;
+              $email_message = ( $whale_alert == 1 ? 'WHALE ALERT: ' : '' ) . 'The ' . $asset . ' trade value in the ' . strtoupper($pairing) . ' market at the ' . $exchange_text . ' exchange has ' . $increase_decrease . ' ' . $change_symbol . $percent_change_text . '% in ' . strtoupper($default_btc_primary_currency_pairing) . ' value to ' . $app_config['power_user']['bitcoin_currency_markets'][$default_btc_primary_currency_pairing] . $asset_primary_currency_text . ' over the past ' . $last_check_time . ' since the last price ' . $desc_alert_type . '. ' . $email_volume_summary;
                     
               // Were're just adding a human-readable timestamp to smart home (audio) alerts
-              $notifyme_message = $email_message . ' Timestamp is ' . time_date_format($app_config['local_time_offset'], 'pretty_time') . '.';
+              $notifyme_message = $email_message . ' Timestamp is ' . time_date_format($app_config['general']['local_time_offset'], 'pretty_time') . '.';
                     
-              $text_message = ( $whale_alert == 1 ? '🐳 ' : '' ) . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange_text . ' ' . $increase_decrease . ' ' . $change_symbol . $percent_change_text . '% in ' . strtoupper($default_btc_primary_currency_pairing) . ' value to ' . $app_config['bitcoin_currency_markets'][$default_btc_primary_currency_pairing] . $asset_primary_currency_text . ' over ' . $last_check_time . '. 24 Hour ' . strtoupper($default_btc_primary_currency_pairing) . ' Volume: ' . $volume_primary_currency_text . ' ' . $volume_change_text_mobile;
+              $text_message = ( $whale_alert == 1 ? '🐳 ' : '' ) . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange_text . ' ' . $increase_decrease . ' ' . $change_symbol . $percent_change_text . '% in ' . strtoupper($default_btc_primary_currency_pairing) . ' value to ' . $app_config['power_user']['bitcoin_currency_markets'][$default_btc_primary_currency_pairing] . $asset_primary_currency_text . ' over ' . $last_check_time . '. 24 Hour ' . strtoupper($default_btc_primary_currency_pairing) . ' Volume: ' . $volume_primary_currency_text . ' ' . $volume_change_text_mobile;
                     
                     
                     
@@ -1325,8 +1325,8 @@ $volume_pairing_raw = number_to_string($volume_pairing_raw);
 		if ( number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && !file_exists('cache/alerts/'.$asset_data.'.dat') ) {
 		store_file_contents($base_dir . '/cache/alerts/'.$asset_data.'.dat', $alert_cache_contents); 
 		}
-		elseif ( $send_alert != 1 && $app_config['price_alerts_fixed_reset'] >= 1 && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 
-		&& update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $app_config['price_alerts_fixed_reset'] * 1440 ) ) == true ) {
+		elseif ( $send_alert != 1 && $app_config['charts_price_alerts']['price_alerts_fixed_reset'] >= 1 && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 
+		&& update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $app_config['charts_price_alerts']['price_alerts_fixed_reset'] * 1440 ) ) == true ) {
 			
 		store_file_contents($base_dir . '/cache/alerts/'.$asset_data.'.dat', $alert_cache_contents); 
 		
@@ -1410,23 +1410,23 @@ $original_market = $selected_exchange;
     
     
     if ( sizeof($primary_currency_market_standalone) != 2 && isset($selected_btc_primary_exchange) ) {
-    $app_config['btc_primary_exchange'] = $selected_btc_primary_exchange;
+    $app_config['general']['btc_primary_exchange'] = $selected_btc_primary_exchange;
     }
     
     if ( sizeof($primary_currency_market_standalone) != 2 && isset($selected_btc_primary_currency_pairing) ) {
-    $app_config['btc_primary_currency_pairing'] = $selected_btc_primary_currency_pairing;
+    $app_config['general']['btc_primary_currency_pairing'] = $selected_btc_primary_currency_pairing;
     }
     
     
     
   // Overwrite PRIMARY CURRENCY CONFIG / BTC market value, in case user changed preferred market IN THE UI
-  $selected_btc_pairing_id = $app_config['portfolio_assets']['BTC']['market_pairing'][$app_config['btc_primary_currency_pairing']][$app_config['btc_primary_exchange']];
-  $selected_btc_primary_currency_value = asset_market_data('BTC', $app_config['btc_primary_exchange'], $selected_btc_pairing_id)['last_trade'];
+  $selected_btc_pairing_id = $app_config['portfolio_assets']['BTC']['market_pairing'][$app_config['general']['btc_primary_currency_pairing']][$app_config['general']['btc_primary_exchange']];
+  $selected_btc_primary_currency_value = asset_market_data('BTC', $app_config['general']['btc_primary_exchange'], $selected_btc_pairing_id)['last_trade'];
     
     
     // Log any Bitcoin market errors
     if ( !isset($selected_btc_primary_currency_value) || $selected_btc_primary_currency_value == 0 ) {
-    app_logging('other_error', 'ui_coin_data_row() Bitcoin primary currency value not properly set', 'exchange: ' . $app_config['btc_primary_exchange'] . '; pairing_id: ' . $selected_btc_pairing_id . '; value: ' . $selected_btc_primary_currency_value );
+    app_logging('other_error', 'ui_coin_data_row() Bitcoin primary currency value not properly set', 'exchange: ' . $app_config['general']['btc_primary_exchange'] . '; pairing_id: ' . $selected_btc_pairing_id . '; value: ' . $selected_btc_primary_currency_value );
     }
     
     
@@ -1455,10 +1455,10 @@ $original_market = $selected_exchange;
 
 	 // Consolidate function calls for runtime speed improvement
 	 // (called here so first runtime with NO SELECTED ASSETS RUNS SIGNIFICANTLY QUICKER)
-	 if ( $app_config['primary_marketcap_site'] == 'coingecko' && sizeof($coingecko_api) < 1 ) {
+	 if ( $app_config['general']['primary_marketcap_site'] == 'coingecko' && sizeof($coingecko_api) < 1 ) {
 	 $coingecko_api = coingecko_api();
 	 }
-	 elseif ( $app_config['primary_marketcap_site'] == 'coinmarketcap' && sizeof($coinmarketcap_api) < 1 ) {
+	 elseif ( $app_config['general']['primary_marketcap_site'] == 'coinmarketcap' && sizeof($coinmarketcap_api) < 1 ) {
 	 $coinmarketcap_api = coinmarketcap_api();
 	 }
 	
@@ -1526,7 +1526,7 @@ $original_market = $selected_exchange;
   	 
     // FLAG SELECTED PAIRING IF FIAT EQUIVALENT formatting should be used, AS SUCH
     // #FOR CLEAN CODE#, RUN CHECK TO MAKE SURE IT'S NOT A CRYPTO AS WELL...WE HAVE A COUPLE SUPPORTED, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
-    if ( array_key_exists($selected_pairing, $app_config['bitcoin_currency_markets']) && !array_key_exists($selected_pairing, $app_config['crypto_to_crypto_pairing']) ) {
+    if ( array_key_exists($selected_pairing, $app_config['power_user']['bitcoin_currency_markets']) && !array_key_exists($selected_pairing, $app_config['power_user']['crypto_to_crypto_pairing']) ) {
 	 $fiat_eqiv = 1;
     }
     
@@ -1634,10 +1634,10 @@ $original_market = $selected_exchange;
 	if ( $mkcap_render_data != '' ) {
  	
  
- 		if ( $app_config['primary_marketcap_site'] == 'coinmarketcap' ) {
+ 		if ( $app_config['general']['primary_marketcap_site'] == 'coinmarketcap' ) {
  		$asset_pagebase = 'coinmarketcap.com/currencies/';
  		}
- 		elseif ( $app_config['primary_marketcap_site'] == 'coingecko' ) {
+ 		elseif ( $app_config['general']['primary_marketcap_site'] == 'coingecko' ) {
  		$asset_pagebase = 'coingecko.com/en/coins/';
  		}
  	
@@ -1650,17 +1650,17 @@ $original_market = $selected_exchange;
 		<?php
 		if ( !$marketcap_data['rank'] ) {
 			
-			if ( $app_config['primary_marketcap_site'] == 'coinmarketcap' && trim($app_config['coinmarketcapcom_api_key']) == null ) {
+			if ( $app_config['general']['primary_marketcap_site'] == 'coinmarketcap' && trim($app_config['general']['coinmarketcapcom_api_key']) == null ) {
 			?>
 
-			var cmc_content = '<p class="coin_info"><span class="yellow"><?=ucfirst($app_config['primary_marketcap_site'])?> API key is required. <br />Configuration adjustments can be made in config.php.</span></p>';
+			var cmc_content = '<p class="coin_info"><span class="yellow"><?=ucfirst($app_config['general']['primary_marketcap_site'])?> API key is required. <br />Configuration adjustments can be made in config.php.</span></p>';
 	
 			<?php
 			}
 			else {
 			?>
 
-			var cmc_content = '<p class="coin_info"><span class="yellow"><?=ucfirst($app_config['primary_marketcap_site'])?> API may be offline / under heavy load, <br />marketcap range not set high enough (current range is top <?=$app_config['marketcap_ranks_max']?> marketcaps), <br />or API timeout set too low (current timeout is <?=$app_config['remote_api_timeout']?> seconds). <br />Configuration adjustments can be made in config.php.</span></p>';
+			var cmc_content = '<p class="coin_info"><span class="yellow"><?=ucfirst($app_config['general']['primary_marketcap_site'])?> API may be offline / under heavy load, <br />marketcap range not set high enough (current range is top <?=$app_config['power_user']['marketcap_ranks_max']?> marketcaps), <br />or API timeout set too low (current timeout is <?=$app_config['power_user']['remote_api_timeout']?> seconds). <br />Configuration adjustments can be made in config.php.</span></p>';
 	
 			<?php
 			}
@@ -1682,12 +1682,12 @@ $original_market = $selected_exchange;
         		$cmc_primary_currency_symbol = '$';
         		}
         		else {
-        		$cmc_primary_currency_symbol = $app_config['bitcoin_currency_markets'][$app_config['btc_primary_currency_pairing']];
+        		$cmc_primary_currency_symbol = $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']];
         		}
         		
         ?> 
     
-        var cmc_content = '<h5 class="yellow" style="position: relative; white-space: nowrap;"><?=ucfirst($app_config['primary_marketcap_site'])?>.com Summary For <?=$asset_name?> (<?=$asset_symbol?>):</h5>'
+        var cmc_content = '<h5 class="yellow" style="position: relative; white-space: nowrap;"><?=ucfirst($app_config['general']['primary_marketcap_site'])?>.com Summary For <?=$asset_name?> (<?=$asset_symbol?>):</h5>'
         
         		<?php
             if ( $marketcap_data['app_notice'] != '' ) {
@@ -1759,12 +1759,12 @@ $original_market = $selected_exchange;
             if ( $marketcap_data['last_updated'] != '' ) {
             ?>
         +'<p class="coin_info"><span class="yellow">Timestamp (UTC):</span> <?=gmdate("Y-M-d\ \\a\\t g:ia", $marketcap_data['last_updated'])?></p>'
-        +'<p class="coin_info"><span class="yellow">App Cache Time:</span> <span class="bitcoin"><?=$app_config['marketcap_cache_time']?> minute(s)</span></p>'
+        +'<p class="coin_info"><span class="yellow">App Cache Time:</span> <span class="bitcoin"><?=$app_config['power_user']['marketcap_cache_time']?> minute(s)</span></p>'
         <?php
             }
             ?>
     
-        +'<p class="coin_info"><span class="yellow">*Current config setting retrieves the top <?=$app_config['marketcap_ranks_max']?> rankings.</span></p>';
+        +'<p class="coin_info"><span class="yellow">*Current config setting retrieves the top <?=$app_config['power_user']['marketcap_ranks_max']?> rankings.</span></p>';
     
         <?php
         
@@ -1779,12 +1779,12 @@ $original_market = $selected_exchange;
                 fontSize: ".8rem",
                 minWidth: ".8rem",
                 padding: ".3rem .7rem",
-                border: "1px solid rgba(212, 212, 212, .4)",
+                border: "2px solid rgba(212, 212, 212, .4)",
                 borderRadius: "6px",
                 boxShadow: "3px 3px 6px #555",
                 color: "#eee",
                 backgroundColor: "#111",
-                opacity: "0.95",
+                opacity: "0.99",
                 zIndex: "32767",
                 textAlign: "left"
                 }
@@ -1848,7 +1848,7 @@ $original_market = $selected_exchange;
  $('#<?=$rand_id?>').balloon({
   html: true,
   position: "right",
-  contents: '<p class="coin_info"><span class="yellow">No <?=ucfirst($app_config['primary_marketcap_site'])?>.com data for <?=$asset_name?> (<?=$asset_symbol?>) has been configured yet.</span></p>'
+  contents: '<p class="coin_info"><span class="yellow">No <?=ucfirst($app_config['general']['primary_marketcap_site'])?>.com data for <?=$asset_name?> (<?=$asset_symbol?>) has been configured yet.</span></p>'
 });
 
 		<?php
@@ -1883,9 +1883,9 @@ $original_market = $selected_exchange;
   $coin_primary_currency_value = ( $selected_btc_primary_currency_value * $btc_trade_eqiv );
 
   // UX on FIAT EQUIV number values
-  $coin_primary_currency_value = ( number_to_string($coin_primary_currency_value) >= $app_config['primary_currency_decimals_max_threshold'] ? pretty_numbers($coin_primary_currency_value, 2) : pretty_numbers($coin_primary_currency_value, $app_config['primary_currency_decimals_max']) );
+  $coin_primary_currency_value = ( number_to_string($coin_primary_currency_value) >= $app_config['general']['primary_currency_decimals_max_threshold'] ? pretty_numbers($coin_primary_currency_value, 2) : pretty_numbers($coin_primary_currency_value, $app_config['general']['primary_currency_decimals_max']) );
 	
-  echo "<span class='white'>" . $app_config['bitcoin_currency_markets'][$app_config['btc_primary_currency_pairing']] . "</span>" . "<span class='app_sort_filter'>" . $coin_primary_currency_value . "</span>";
+  echo "<span class='white'>" . $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] . "</span>" . "<span class='app_sort_filter'>" . $coin_primary_currency_value . "</span>";
 
 ?>
 
@@ -1945,7 +1945,7 @@ echo "<span class='app_sort_filter blue'>" . ( $pretty_coin_amount != null ? $pr
 
 <td class='data border_b'>
 
-<span class='white'><?=$app_config['bitcoin_currency_markets'][$app_config['btc_primary_currency_pairing']]?></span><span class='app_sort_filter'><?php 
+<span class='white'><?=$app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']]?></span><span class='app_sort_filter'><?php 
 
   // NULL if not setup to get volume, negative number returned if no data received from API
   if ( $trade_volume == NULL || $trade_volume == -1 ) {
@@ -1969,7 +1969,7 @@ echo "<span class='app_sort_filter blue'>" . ( $pretty_coin_amount != null ? $pr
 
 	// UX on FIAT EQUIV number values
 	if ( $fiat_eqiv == 1 ) {
-	$coin_value_primary_currency_decimals = ( number_to_string($coin_value_raw) >= $app_config['primary_currency_decimals_max_threshold'] ? 2 : $app_config['primary_currency_decimals_max'] );
+	$coin_value_primary_currency_decimals = ( number_to_string($coin_value_raw) >= $app_config['general']['primary_currency_decimals_max_threshold'] ? 2 : $app_config['general']['primary_currency_decimals_max'] );
 	}
   
 echo ( $fiat_eqiv == 1 ? pretty_numbers($coin_value_raw, $coin_value_primary_currency_decimals) : pretty_numbers($coin_value_raw, 8) ); 
@@ -2032,7 +2032,7 @@ echo ( $fiat_eqiv == 1 ? pretty_numbers($coin_value_raw, $coin_value_primary_cur
 
 	// UX on FIAT EQUIV number values
 	if ( $fiat_eqiv == 1 ) {
-	$coin_value_total_primary_currency_decimals = ( number_to_string($coin_value_total_raw) >= $app_config['primary_currency_decimals_max_threshold'] ? 2 : $app_config['primary_currency_decimals_max'] );
+	$coin_value_total_primary_currency_decimals = ( number_to_string($coin_value_total_raw) >= $app_config['general']['primary_currency_decimals_max_threshold'] ? 2 : $app_config['general']['primary_currency_decimals_max'] );
 	}
   
 $pretty_coin_value_total_raw = ( $fiat_eqiv == 1 ? pretty_numbers($coin_value_total_raw, $coin_value_total_primary_currency_decimals) : pretty_numbers($coin_value_total_raw, 8) ); 
@@ -2057,7 +2057,7 @@ echo ' <span class="blue"><span class="data app_sort_filter blue">' . $pretty_co
 <?php
 
 
-echo '<span class="' . ( $purchase_price >= 0.00000001 && $leverage_level >= 2 && $selected_margintype == 'short' ? 'short">★ ' : 'blue">' ) . '<span class="blue">' . $app_config['bitcoin_currency_markets'][$app_config['btc_primary_currency_pairing']] . '</span><span class="app_sort_filter blue">' . number_format($coin_primary_currency_worth_raw, 2, '.', ',') . '</span></span>';
+echo '<span class="' . ( $purchase_price >= 0.00000001 && $leverage_level >= 2 && $selected_margintype == 'short' ? 'short">★ ' : 'blue">' ) . '<span class="blue">' . $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] . '</span><span class="app_sort_filter blue">' . number_format($coin_primary_currency_worth_raw, 2, '.', ',') . '</span></span>';
 
   if ( $purchase_price >= 0.00000001 && $leverage_level >= 2 ) {
 
@@ -2066,11 +2066,11 @@ echo '<span class="' . ( $purchase_price >= 0.00000001 && $leverage_level >= 2 &
   echo ' <span class="extra_data">(' . $leverage_level . 'x ' . $selected_margintype . ')</span>';
 
   // Here we parse out negative symbols
-  $parsed_gain_loss = preg_replace("/-/", "-" . $app_config['bitcoin_currency_markets'][$app_config['btc_primary_currency_pairing']], number_format( $gain_loss, 2, '.', ',' ) );
+  $parsed_gain_loss = preg_replace("/-/", "-" . $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']], number_format( $gain_loss, 2, '.', ',' ) );
   
-  $parsed_inc_leverage_gain_loss = preg_replace("/-/", "-" . $app_config['bitcoin_currency_markets'][$app_config['btc_primary_currency_pairing']], number_format( $inc_leverage_gain_loss, 2, '.', ',' ) );
+  $parsed_inc_leverage_gain_loss = preg_replace("/-/", "-" . $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']], number_format( $inc_leverage_gain_loss, 2, '.', ',' ) );
   
-  $parsed_only_leverage_gain_loss = preg_replace("/-/", "-" . $app_config['bitcoin_currency_markets'][$app_config['btc_primary_currency_pairing']], number_format($only_leverage_gain_loss, 2, '.', ',' ) );
+  $parsed_only_leverage_gain_loss = preg_replace("/-/", "-" . $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']], number_format($only_leverage_gain_loss, 2, '.', ',' ) );
   
   // Here we can go negative 'total worth' with the margin leverage (unlike with the margin deposit)
   // We only want a negative sign here in the UI for 'total worth' clarity (if applicable), NEVER a plus sign
@@ -2085,7 +2085,7 @@ echo '<span class="' . ( $purchase_price >= 0.00000001 && $leverage_level >= 2 &
   
   		// Formatting
   		$gain_loss_span_color = ( $gain_loss >= 0 ? 'green_bright' : 'red_bright' );
-  		$gain_loss_primary_currency = ( $gain_loss >= 0 ? '+' . $app_config['bitcoin_currency_markets'][$app_config['btc_primary_currency_pairing']] : '' );
+  		$gain_loss_primary_currency = ( $gain_loss >= 0 ? '+' . $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] : '' );
   		
 		?> 
 		<img id='<?=$rand_id?>_leverage' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' />
@@ -2093,11 +2093,11 @@ echo '<span class="' . ( $purchase_price >= 0.00000001 && $leverage_level >= 2 &
 	
 			var leverage_content = '<h5 class="yellow" style="position: relative; white-space: nowrap;"><?=$leverage_level?>x <?=ucfirst($selected_margintype)?> For <?=$asset_name?> (<?=$asset_symbol?>):</h5>'
 			
-			+'<p class="coin_info"><span class="yellow">Deposit (1x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_primary_currency?><?=$parsed_gain_loss?></span> (<?=$app_config['bitcoin_currency_markets'][$app_config['btc_primary_currency_pairing']]?><?=$pretty_coin_primary_currency_worth_raw?>)</p>'
+			+'<p class="coin_info"><span class="yellow">Deposit (1x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_primary_currency?><?=$parsed_gain_loss?></span> (<?=$app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']]?><?=$pretty_coin_primary_currency_worth_raw?>)</p>'
 			
 			+'<p class="coin_info"><span class="yellow">Margin (<?=($leverage_level - 1)?>x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_primary_currency?><?=$parsed_only_leverage_gain_loss?></span></p>'
 			
-			+'<p class="coin_info"><span class="yellow">Total (<?=($leverage_level)?>x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_primary_currency?><?=$parsed_inc_leverage_gain_loss?> / <?=( $gain_loss >= 0 ? '+' : '' )?><?=$pretty_leverage_gain_loss_percent?>%</span> (<?=( $coin_worth_inc_leverage >= 0 ? '' : '-' )?><?=$app_config['bitcoin_currency_markets'][$app_config['btc_primary_currency_pairing']]?><?=$parsed_coin_worth_inc_leverage?>)</p>'
+			+'<p class="coin_info"><span class="yellow">Total (<?=($leverage_level)?>x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_primary_currency?><?=$parsed_inc_leverage_gain_loss?> / <?=( $gain_loss >= 0 ? '+' : '' )?><?=$pretty_leverage_gain_loss_percent?>%</span> (<?=( $coin_worth_inc_leverage >= 0 ? '' : '-' )?><?=$app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']]?><?=$parsed_coin_worth_inc_leverage?>)</p>'
 			
 				
 			+'<p class="coin_info"><span class="yellow"> </span></p>';
@@ -2111,12 +2111,12 @@ echo '<span class="' . ( $purchase_price >= 0.00000001 && $leverage_level >= 2 &
 					fontSize: ".8rem",
 					minWidth: ".8rem",
 					padding: ".3rem .7rem",
-					border: "1px solid rgba(212, 212, 212, .4)",
+					border: "2px solid rgba(212, 212, 212, .4)",
 					borderRadius: "6px",
 					boxShadow: "3px 3px 6px #555",
 					color: "#eee",
 					backgroundColor: "#111",
-					opacity: "0.95",
+					opacity: "0.99",
 					zIndex: "32767",
 					textAlign: "left"
 					}

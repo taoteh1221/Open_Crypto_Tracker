@@ -5,7 +5,7 @@
 
 
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// !!!!!!! MAKE SURE API'S TLD HAS SUPPORT ADDED IN $app_config['top_level_domain_map'] @ config.php !!!!!!!
+// !!!!!!! MAKE SURE API'S TLD HAS SUPPORT ADDED IN $app_config['developer']['top_level_domain_map'] @ config.php !!!!!!!
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
@@ -29,7 +29,7 @@ global $selected_btc_primary_currency_value, $app_config;
      
      $json_string = 'https://big.one/api/v2/tickers';
      
-     $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+     $jsondata = @api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
      
      $data = json_decode($jsondata, true);
    
@@ -68,7 +68,7 @@ global $selected_btc_primary_currency_value, $app_config;
      
      $json_string = 'https://www.binance.com/api/v1/ticker/24hr';
      
-     $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+     $jsondata = @api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
      
      $data = json_decode($jsondata, true);
    
@@ -107,7 +107,7 @@ global $selected_btc_primary_currency_value, $app_config;
      
      $json_string = 'https://api.binance.us/api/v3/ticker/24hr';
      
-     $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+     $jsondata = @api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
      
      $data = json_decode($jsondata, true);
    
@@ -146,7 +146,7 @@ global $selected_btc_primary_currency_value, $app_config;
   
   $json_string = 'https://bit2c.co.il/Exchanges/'.$market_id.'/Ticker.json';
   
-  $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+  $jsondata = @api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
   
   $data = json_decode($jsondata, true);
   
@@ -169,7 +169,7 @@ global $selected_btc_primary_currency_value, $app_config;
      
      $json_string = 'https://bitbns.com/order/getTickerWithVolume/';
      
-     $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+     $jsondata = @api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
      
      $data = json_decode($jsondata, true);
      
@@ -208,7 +208,7 @@ global $selected_btc_primary_currency_value, $app_config;
      
      $json_string = 'https://api-pub.bitfinex.com/v2/tickers?symbols=ALL';
      
-     $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+     $jsondata = @api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
      
      $data = json_decode($jsondata, true);
   
@@ -245,7 +245,7 @@ global $selected_btc_primary_currency_value, $app_config;
   
   $json_string = 'https://api.bitforex.com/api/v1/market/ticker?symbol=' . $market_id;
   
-  $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+  $jsondata = @api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
   
   $data = json_decode($jsondata, true);
   
@@ -268,7 +268,7 @@ global $selected_btc_primary_currency_value, $app_config;
   
   $json_string = 'https://api.bitflyer.com/v1/getticker?product_code=' . $market_id;
   
-  $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+  $jsondata = @api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
   
   $data = json_decode($jsondata, true);
   
@@ -291,7 +291,7 @@ global $selected_btc_primary_currency_value, $app_config;
      
      $json_string = 'https://api.exchange.bitpanda.com/public/v1/market-ticker';
      
-     $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+     $jsondata = @api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
      
      $data = json_decode($jsondata, true);
    
@@ -330,7 +330,7 @@ global $selected_btc_primary_currency_value, $app_config;
   
   $json_string = 'https://api.bitso.com/v3/ticker/?book='.$market_id;
   
-  $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+  $jsondata = @api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
   
   $data = json_decode($jsondata, true);
   
@@ -355,7 +355,7 @@ global $selected_btc_primary_currency_value, $app_config;
   
   $json_string = 'https://www.bitstamp.net/api/v2/ticker/' . $market_id;
   
-    $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+    $jsondata = @api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
     
     $data = json_decode($jsondata, true);
     
@@ -378,7 +378,7 @@ global $selected_btc_primary_currency_value, $app_config;
      
      $json_string = 'https://bittrex.com/api/v1.1/public/getmarketsummaries';
      
-     $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+     $jsondata = @api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
      
      $data = json_decode($jsondata, true);
   
@@ -417,7 +417,7 @@ global $selected_btc_primary_currency_value, $app_config;
      
      $json_string = 'https://braziliex.com/api/v1/public/ticker';
      
-     $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+     $jsondata = @api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
      
      $data = json_decode($jsondata, true);
      
@@ -454,7 +454,7 @@ global $selected_btc_primary_currency_value, $app_config;
   
      $json_string = 'https://api.btcmarkets.net/market/'.$market_id.'/tick';
      
-     $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+     $jsondata = @api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
      
      $data = json_decode($jsondata, true);
 
@@ -477,7 +477,7 @@ global $selected_btc_primary_currency_value, $app_config;
      
      $json_string = 'https://api.btcturk.com/api/v2/ticker';
      
-     $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+     $jsondata = @api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
      
      $data = json_decode($jsondata, true);
      
@@ -516,7 +516,7 @@ global $selected_btc_primary_currency_value, $app_config;
      
      $json_string = 'https://www.buyucoin.com/api/v1.2/currency/markets';
      
-     $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+     $jsondata = @api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
      
      $data = json_decode($jsondata, true);
      
@@ -555,7 +555,7 @@ global $selected_btc_primary_currency_value, $app_config;
      
      $json_string = 'https://cex.io/api/tickers/BTC/USD/USDT/RUB/EUR/GBP';
      
-     $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+     $jsondata = @api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
      
      $data = json_decode($jsondata, true);
      
@@ -596,7 +596,7 @@ global $selected_btc_primary_currency_value, $app_config;
   
      $json_string = 'https://api.pro.coinbase.com/products/'.$market_id.'/ticker';
      
-     $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+     $jsondata = @api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
      
      $data = json_decode($jsondata, true);
 
@@ -620,7 +620,7 @@ global $selected_btc_primary_currency_value, $app_config;
      
      $json_string = 'https://api.coinex.com/v1/market/ticker/all';
      
-     $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+     $jsondata = @api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
      
      $data = json_decode($jsondata, true);
      
@@ -662,7 +662,7 @@ global $selected_btc_primary_currency_value, $app_config;
      
      $json_string = 'https://trade.coss.io/v1/getmarketsummaries';
      
-     $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+     $jsondata = @api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
      
      $data = json_decode($jsondata, true);
      
@@ -704,7 +704,7 @@ global $selected_btc_primary_currency_value, $app_config;
   
   $json_string = 'https://cryptofresh.com/api/asset/markets?asset=' . $market_id;
   
-    $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+    $jsondata = @api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
     
     $data = json_decode($jsondata, true);
 	
@@ -741,7 +741,7 @@ global $selected_btc_primary_currency_value, $app_config;
 
      $json_string = 'https://data.gate.io/api2/1/tickers';
      
-     $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+     $jsondata = @api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
      
      $data = json_decode($jsondata, true);
   
@@ -778,7 +778,7 @@ global $selected_btc_primary_currency_value, $app_config;
   
   $json_string = 'https://api.gemini.com/v1/pubticker/' . $market_id;
   
-    $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+    $jsondata = @api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
     
     $data = json_decode($jsondata, true);
     
@@ -802,7 +802,7 @@ global $selected_btc_primary_currency_value, $app_config;
 
      $json_string = 'https://graviex.net//api/v2/tickers.json';
      
-     $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+     $jsondata = @api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
      
      $data = json_decode($jsondata, true);
   
@@ -839,7 +839,7 @@ global $selected_btc_primary_currency_value, $app_config;
 
      $json_string = 'https://api.hitbtc.com/api/1/public/ticker';
      
-     $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+     $jsondata = @api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
      
      $data = json_decode($jsondata, true);
   
@@ -875,7 +875,7 @@ global $selected_btc_primary_currency_value, $app_config;
 
      $json_string = 'https://api.hotbit.io/api/v1/allticker';
      
-     $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+     $jsondata = @api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
      
      $data = json_decode($jsondata, true);
    
@@ -913,7 +913,7 @@ global $selected_btc_primary_currency_value, $app_config;
      
      $json_string = 'https://api.huobi.pro/market/tickers';
      
-     $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+     $jsondata = @api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
      
      $data = json_decode($jsondata, true);
      
@@ -955,7 +955,7 @@ global $selected_btc_primary_currency_value, $app_config;
      
      $json_string = 'https://api.idex.market/returnTicker';
      
-     $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+     $jsondata = @api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
      
      $data = json_decode($jsondata, true);
   
@@ -995,7 +995,7 @@ global $selected_btc_primary_currency_value, $app_config;
      
      $json_string = 'https://api.korbit.co.kr/v1/ticker/detailed/all';
      
-     $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+     $jsondata = @api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
      
      $data = json_decode($jsondata, true);
   
@@ -1051,7 +1051,7 @@ global $selected_btc_primary_currency_value, $app_config;
    
   $json_string = 'https://api.kraken.com/0/public/Ticker?pair=' . $kraken_pairs;
   
-  $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+  $jsondata = @api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
   
   $data = json_decode($jsondata, true);
   
@@ -1095,7 +1095,7 @@ global $selected_btc_primary_currency_value, $app_config;
 
      $json_string = 'https://api.kucoin.com/api/v1/market/allTickers';
      
-     $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+     $jsondata = @api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
      
      $data = json_decode($jsondata, true);
   
@@ -1133,7 +1133,7 @@ global $selected_btc_primary_currency_value, $app_config;
      
      $json_string = 'https://api.lakebtc.com/api_v2/ticker';
      
-     $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+     $jsondata = @api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
      
      $data = json_decode($jsondata, true);
      
@@ -1172,7 +1172,7 @@ global $selected_btc_primary_currency_value, $app_config;
 
      $json_string = 'https://api.livecoin.net/exchange/ticker';
      
-     $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+     $jsondata = @api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
      
      $data = json_decode($jsondata, true);
   
@@ -1208,7 +1208,7 @@ global $selected_btc_primary_currency_value, $app_config;
      
      $json_string = 'https://localbitcoins.com/bitcoinaverage/ticker-all-currencies/';
      
-     $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+     $jsondata = @api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
      
      $data = json_decode($jsondata, true);
      
@@ -1247,7 +1247,7 @@ global $selected_btc_primary_currency_value, $app_config;
      
      $json_string = 'https://api.mybitx.com/api/1/tickers';
      
-     $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+     $jsondata = @api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
      
      $data = json_decode($jsondata, true);
      
@@ -1287,7 +1287,7 @@ global $selected_btc_primary_currency_value, $app_config;
   
     $json_string = 'https://www.namebase.io/api/v0/ticker/day?symbol=' . $market_id;
     
-    $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+    $jsondata = @api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
     
     $data = json_decode($jsondata, true);
     
@@ -1311,7 +1311,7 @@ global $selected_btc_primary_currency_value, $app_config;
   
     $json_string = 'https://www.okcoin.com/api/v1/ticker.do?symbol=' . $market_id;
     
-    $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+    $jsondata = @api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
     
     $data = json_decode($jsondata, true);
     
@@ -1335,7 +1335,7 @@ global $selected_btc_primary_currency_value, $app_config;
   
   $json_string = 'https://www.okex.com/api/spot/v3/instruments/ticker';
   
-  $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+  $jsondata = @api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
     
   $data = json_decode($jsondata, true);
    
@@ -1374,7 +1374,7 @@ global $selected_btc_primary_currency_value, $app_config;
 
      $json_string = 'https://poloniex.com/public?command=returnTicker';
      
-     $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+     $jsondata = @api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
      
      $data = json_decode($jsondata, true);
   
@@ -1411,7 +1411,7 @@ global $selected_btc_primary_currency_value, $app_config;
 
      $json_string = 'https://www.southxchange.com/api/prices';
      
-     $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+     $jsondata = @api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
      
      $data = json_decode($jsondata, true);
   
@@ -1447,7 +1447,7 @@ global $selected_btc_primary_currency_value, $app_config;
      
      $json_string = 'https://www.tidebit.com/api/v2/tickers';
      
-     $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+     $jsondata = @api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
      
      $data = json_decode($jsondata, true);
      
@@ -1486,7 +1486,7 @@ global $selected_btc_primary_currency_value, $app_config;
 
      $json_string = 'https://tradeogre.com/api/v1/markets';
      
-     $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+     $jsondata = @api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
      
      $data = json_decode($jsondata, true);
   
@@ -1540,7 +1540,7 @@ global $selected_btc_primary_currency_value, $app_config;
 
      $json_string = 'https://api.upbit.com/v1/ticker?markets=' . $upbit_pairs;
      
-     $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+     $jsondata = @api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
      
      $data = json_decode($jsondata, true);
   
@@ -1576,7 +1576,7 @@ global $selected_btc_primary_currency_value, $app_config;
 
      $json_string = 'https://www.zebapi.com/api/v1/market';
      
-     $jsondata = @api_data('url', $json_string, $app_config['last_trade_cache_time']);
+     $jsondata = @api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
      
      $data = json_decode($jsondata, true);
   

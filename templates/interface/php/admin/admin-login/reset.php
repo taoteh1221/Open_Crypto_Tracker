@@ -10,8 +10,8 @@ $reset_result = array();
 // If we are not activating an existing reset session, run checks before rendering anything...
 if ( !$_GET['pass_reset_activate'] ) {
 	
-	if ( validate_email($app_config['from_email']) != 'valid' || validate_email($app_config['to_email']) != 'valid'  ) {
-	$reset_result['error'][] = "To / From Emails have NOT been set in the admin configuration, therefore the password CANNOT be reset. Alternatively, you can delete the file '/cache/secured/admin_login_XXXXXXXXXXXXX.dat' in the app directory. This will prompt you to create a new admin login, the next time you use the app.";
+	if ( validate_email($app_config['comms']['to_email']) != 'valid'  ) {
+	$reset_result['error'][] = "Admin's 'To' Email has NOT been set in the admin configuration, therefore the password CANNOT be reset. Alternatively, you can delete the file '/cache/secured/admin_login_XXXXXXXXXXXXX.dat' in the app directory. This will prompt you to create a new admin login, the next time you use the app.";
 	$no_password_reset = 1;
 	}
 	
@@ -127,9 +127,9 @@ if ( !$_POST['submit_reset'] && !$no_password_reset || sizeof($reset_result['err
 
 				<form action='' method ='post'>
 				
-    <div style="display: inline-block; text-align: right; width: 350px;">
+    <div style="display: inline-block; text-align: right; width: 400px;">
 
-				<p><b>Admin Username:</b> <input type='text' name='reset_username' value='<?=$_POST['reset_username']?>' style='<?=( $username_field_color ? 'background: ' . $username_field_color : '' )?>' /></p>
+				<p><b>Username:</b> <input type='text' name='reset_username' value='<?=$_POST['reset_username']?>' style='<?=( $username_field_color ? 'background: ' . $username_field_color : '' )?>' /></p>
 				
     </div>
 
@@ -142,7 +142,7 @@ if ( !$_POST['submit_reset'] && !$no_password_reset || sizeof($reset_result['err
   	 
   	 <p><img id='captcha_image' src='templates/interface/media/images/captcha.php' alt='' class='image_border' />
   	 <br />
-  	 <a href='javascript: refreshImage("captcha_image", "templates/interface/media/images/captcha.php");' class='bitcoin' style='font-weight: bold;'>Get A Different Image</a>
+  	 <a href='javascript: return false;' onclick='refreshImage("captcha_image", "templates/interface/media/images/captcha.php");' class='bitcoin' style='font-weight: bold;'>Get A Different Image</a>
   	 </p>
   	 
   	 </div>
@@ -151,9 +151,9 @@ if ( !$_POST['submit_reset'] && !$no_password_reset || sizeof($reset_result['err
   	 <br clear='all' />
 
 
-  	 <div style="display: inline-block; text-align: right; width: 350px;">
+  	 <div style="display: inline-block; text-align: right; width: 400px;">
   
-  	 <p><b>Enter Text In Image:</b> <input type='text' name='captcha_code' id='captcha_code' value='' style='<?=( $captcha_field_color ? 'background: ' . $captcha_field_color : '' )?>' /></p>
+  	 <p><b>Enter Image Text:</b> <input type='text' name='captcha_code' id='captcha_code' value='' style='<?=( $captcha_field_color ? 'background: ' . $captcha_field_color : '' )?>' /></p>
 	
 	<p class='align_left' style='font-size: 19px; font-weight: bold; color: #ff4747;' id='captcha_alert'></p>
   

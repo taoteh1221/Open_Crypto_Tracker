@@ -29,8 +29,8 @@ $activation_files = sort_files($base_dir . '/cache/secured/activation', 'dat', '
 	}
 
 
-	// If reset security key checks pass, flag as an activated reset in progress (to trigger logic later in runtime)
-	if ( $_GET['pass_reset_activate'] == $password_reset ) {
+	// If reset security key checks pass and a valid admin 'to' email exists, flag as an activated reset in progress (to trigger logic later in runtime)
+	if ( $_GET['pass_reset_activate'] == $password_reset && validate_email($app_config['comms']['to_email']) == 'valid' ) {
 	$password_reset_activated = 1;
 	}
 	else {

@@ -13,8 +13,6 @@ var timestamp = new Date().getTime();
 var el = document.getElementById(imgElement);        
 var queryString = "?t=" + timestamp;           
 el.src = imgURL + queryString;    
-
-return false;
  
 }    
 

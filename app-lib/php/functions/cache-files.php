@@ -80,7 +80,7 @@ function htaccess_directory_protection() {
 global $base_dir, $app_config;
 
 // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-$interface_login_array = explode("||", $app_config['interface_login']);
+$interface_login_array = explode("||", $app_config['general']['interface_login']);
 
 $htaccess_username = $interface_login_array[0];
 
@@ -146,7 +146,7 @@ global $app_config, $current_runtime_user, $possible_http_users, $http_runtime_u
 	
 		// API timeouts are a confirmed cause for write errors of 0 bytes, so we want to alert end users that they may need to adjust their API timeout settings to get associated API data
 		if ( preg_match("/cache\/secured\/apis/i", $file) ) {
-		app_logging('api_error', 'POSSIBLE api timeout issue for cache file "' . $file . '" (IF THIS ISSUE PERSISTS #LONG TERM#, TRY INCREASING "remote_api_timeout" IN THE POWER USER SECTION in config.php)', 'remote_api_timeout: '.$app_config['remote_api_timeout'].' seconds;');
+		app_logging('api_error', 'POSSIBLE api timeout issue for cache file "' . $file . '" (IF THIS ISSUE PERSISTS #LONG TERM#, TRY INCREASING "remote_api_timeout" IN THE POWER USER SECTION in config.php)', 'remote_api_timeout: '.$app_config['power_user']['remote_api_timeout'].' seconds;');
 		}
 	
 	return false;
@@ -165,11 +165,11 @@ $file_owner_info = posix_getpwuid(fileowner($file));
 	}
 	
 	
-	// We ALWAYS set .htaccess files to a more secure $app_config['chmod_permission_index_security'] permission AFTER EDITING, 
-	// so we TEMPORARILY set .htaccess to $app_config['chmod_permission_cache_files'] for NEW EDITING...
+	// We ALWAYS set .htaccess files to a more secure $app_config['developer']['chmod_permission_index_security'] permission AFTER EDITING, 
+	// so we TEMPORARILY set .htaccess to $app_config['developer']['chmod_permission_cache_files'] for NEW EDITING...
 	if ( strstr($file, '.htaccess') != false || strstr($file, 'index.php') != false ) {
 		
-	$chmod_setting = octdec($app_config['chmod_permission_cache_files']);
+	$chmod_setting = octdec($app_config['developer']['chmod_permission_cache_files']);
 	
 	
 		// Run chmod compatibility on certain PHP setups (if we can because we are running as the file owner)
@@ -210,11 +210,11 @@ $file_owner_info = posix_getpwuid(fileowner($file));
 	
 	// For security, NEVER make an .htaccess file writable by any user not in the group
 	if ( strstr($file, '.htaccess') != false || strstr($file, 'index.php') != false ) {
-	$chmod_setting = octdec($app_config['chmod_permission_index_security']);
+	$chmod_setting = octdec($app_config['developer']['chmod_permission_index_security']);
 	}
 	// All other files
 	else {
-	$chmod_setting = octdec($app_config['chmod_permission_cache_files']);
+	$chmod_setting = octdec($app_config['developer']['chmod_permission_cache_files']);
 	}
 	
 	// Run chmod compatibility on certain PHP setups (if we can because we are running as the file owner)
@@ -272,7 +272,7 @@ global $app_config, $base_dir, $base_url;
 					
 				$backup_url = 'download.php?backup=' . $backup_file;
 				
-				$message = "A backup archive has been created for: ".$backup_prefix."\n\nHere is a link to download the backup to your computer: " . $base_url . $backup_url . "\n\n(backup archives are purged after " . $app_config['backup_archive_delete_old'] . " days)";
+				$message = "A backup archive has been created for: ".$backup_prefix."\n\nHere is a link to download the backup to your computer: " . $base_url . $backup_url . "\n\n(backup archives are purged after " . $app_config['general']['backup_archive_delete_old'] . " days)";
 				
 				// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
 				$send_params = array(
@@ -308,7 +308,7 @@ function debugging_logs() {
 
 global $app_config, $base_dir, $logs_array;
 
-	if ( $app_config['debug_mode'] == 'off' ) {
+	if ( $app_config['developer']['debug_mode'] == 'off' ) {
 	return false;
 	}
 
@@ -330,7 +330,7 @@ $debugging_logs .= strip_tags($logs_array['other_debugging']); // Remove any HTM
 
 
 	// If it's time to email debugging logs...
-	if ( $app_config['email_logs'] > 0 && update_cache_file('cache/events/email-debugging-logs.dat', ( $app_config['email_logs'] * 1440 ) ) == true ) {
+	if ( $app_config['comms']['email_logs'] > 0 && update_cache_file('cache/events/email-debugging-logs.dat', ( $app_config['comms']['email_logs'] * 1440 ) ) == true ) {
 		
 	$emailed_logs = "\n\n ------------------debugging.log------------------ \n\n" . file_get_contents('cache/logs/debugging.log') . "\n\n ------------------smtp_debugging.log------------------ \n\n" . file_get_contents('cache/logs/smtp_debugging.log');
 		
@@ -353,7 +353,7 @@ $debugging_logs .= strip_tags($logs_array['other_debugging']); // Remove any HTM
 	
 	
 	// Log debugging...Purge old logs before storing new logs, if it's time to...otherwise just append.
-	if ( update_cache_file('cache/events/purge-debugging-logs.dat', ( $app_config['log_purge'] * 1440 ) ) == true ) {
+	if ( update_cache_file('cache/events/purge-debugging-logs.dat', ( $app_config['developer']['log_purge'] * 1440 ) ) == true ) {
 		
 	store_file_contents($base_dir . '/cache/logs/smtp_debugging.log', null);
 	
@@ -365,7 +365,7 @@ $debugging_logs .= strip_tags($logs_array['other_debugging']); // Remove any HTM
 			return 'Debugging logs write error for "' . $base_dir . '/cache/logs/debugging.log" (MAKE SURE YOUR DISK ISN\'T FULL), data_size_bytes: ' . strlen($debugging_logs) . ' bytes';
 			}
 			// DEBUGGING ONLY (rules out issues other than full disk)
-			elseif ( $app_config['debug_mode'] == 'all' || $app_config['debug_mode'] == 'telemetry' ) {
+			elseif ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' ) {
 			return 'Debugging logs write success for "' . $base_dir . '/cache/logs/debugging.log", data_size_bytes: ' . strlen($debugging_logs) . ' bytes';
 			}
 	
@@ -378,7 +378,7 @@ $debugging_logs .= strip_tags($logs_array['other_debugging']); // Remove any HTM
 			return 'Debugging logs write error for "' . $base_dir . '/cache/logs/debugging.log" (MAKE SURE YOUR DISK ISN\'T FULL), data_size_bytes: ' . strlen($debugging_logs) . ' bytes';
 			}
 			// DEBUGGING ONLY (rules out issues other than full disk)
-			elseif ( $app_config['debug_mode'] == 'all' || $app_config['debug_mode'] == 'telemetry' ) {
+			elseif ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' ) {
 			return 'Debugging logs write success for "' . $base_dir . '/cache/logs/debugging.log", data_size_bytes: ' . strlen($debugging_logs) . ' bytes';
 			}
 		
@@ -416,7 +416,7 @@ $error_logs .= strip_tags($logs_array['other_error']); // Remove any HTML format
 
 
 	// If it's time to email error logs...
-	if ( $app_config['email_logs'] > 0 && update_cache_file('cache/events/email-error-logs.dat', ( $app_config['email_logs'] * 1440 ) ) == true ) {
+	if ( $app_config['comms']['email_logs'] > 0 && update_cache_file('cache/events/email-error-logs.dat', ( $app_config['comms']['email_logs'] * 1440 ) ) == true ) {
 		
 	$emailed_logs = "\n\n ------------------errors.log------------------ \n\n" . file_get_contents('cache/logs/errors.log') . "\n\n ------------------smtp_errors.log------------------ \n\n" . file_get_contents('cache/logs/smtp_errors.log');
 		
@@ -439,7 +439,7 @@ $error_logs .= strip_tags($logs_array['other_error']); // Remove any HTML format
 	
 	
 	// Log errors...Purge old logs before storing new logs, if it's time to...otherwise just append.
-	if ( update_cache_file('cache/events/purge-error-logs.dat', ( $app_config['log_purge'] * 1440 ) ) == true ) {
+	if ( update_cache_file('cache/events/purge-error-logs.dat', ( $app_config['developer']['log_purge'] * 1440 ) ) == true ) {
 		
 	store_file_contents($base_dir . '/cache/logs/smtp_errors.log', null);
 	
@@ -451,7 +451,7 @@ $error_logs .= strip_tags($logs_array['other_error']); // Remove any HTML format
 			return 'Error logs write error for "' . $base_dir . '/cache/logs/errors.log" (MAKE SURE YOUR DISK ISN\'T FULL), data_size_bytes: ' . strlen($error_logs) . ' bytes';
 			}
 			// DEBUGGING ONLY (rules out issues other than full disk)
-			elseif ( $app_config['debug_mode'] == 'all' || $app_config['debug_mode'] == 'telemetry' ) {
+			elseif ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' ) {
 			return 'Error logs write success for "' . $base_dir . '/cache/logs/errors.log", data_size_bytes: ' . strlen($error_logs) . ' bytes';
 			}
 	
@@ -464,7 +464,7 @@ $error_logs .= strip_tags($logs_array['other_error']); // Remove any HTML format
 			return 'Error logs write error for "' . $base_dir . '/cache/logs/errors.log" (MAKE SURE YOUR DISK ISN\'T FULL), data_size_bytes: ' . strlen($error_logs) . ' bytes';
 			}
 			// DEBUGGING ONLY (rules out issues other than full disk)
-			elseif ( $app_config['debug_mode'] == 'all' || $app_config['debug_mode'] == 'telemetry' ) {
+			elseif ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' ) {
 			return 'Error logs write success for "' . $base_dir . '/cache/logs/errors.log", data_size_bytes: ' . strlen($error_logs) . ' bytes';
 			}
 	
@@ -490,19 +490,19 @@ global $base_dir, $app_config, $telegram_activated;
 	// RANDOM HASH SHOULD BE CALLED PER-STATEMENT, OTHERWISE FOR SOME REASON SEEMS TO REUSE SAME HASH FOR THE WHOLE RUNTIME INSTANCE (if set as a variable beforehand)
 	
 	// Notifyme
-   if ( $send_params['notifyme'] != '' && trim($app_config['notifyme_accesscode']) != '' ) {
+   if ( $send_params['notifyme'] != '' && trim($app_config['comms']['notifyme_accesscode']) != '' ) {
 	store_file_contents($base_dir . '/cache/secured/messages/notifyme-' . random_hash(8) . '.queue', $send_params['notifyme']);
    }
   
    // Textbelt
 	// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-   if ( $send_params['text']['message'] != '' && trim($app_config['textbelt_apikey']) != '' && $app_config['textlocal_account'] == '' ) { // Only run if textlocal API isn't being used to avoid double texts
+   if ( $send_params['text']['message'] != '' && trim($app_config['comms']['textbelt_apikey']) != '' && $app_config['comms']['textlocal_account'] == '' ) { // Only run if textlocal API isn't being used to avoid double texts
 	store_file_contents($base_dir . '/cache/secured/messages/textbelt-' . random_hash(8) . '.queue', $send_params['text']['message']);
    }
   
    // Textlocal
 	// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-   if ( $send_params['text']['message'] != '' && $app_config['textlocal_account'] != '' && trim($app_config['textbelt_apikey']) == '' ) { // Only run if textbelt API isn't being used to avoid double texts
+   if ( $send_params['text']['message'] != '' && $app_config['comms']['textlocal_account'] != '' && trim($app_config['comms']['textbelt_apikey']) == '' ) { // Only run if textbelt API isn't being used to avoid double texts
 	store_file_contents($base_dir . '/cache/secured/messages/textlocal-' . random_hash(8) . '.queue', $send_params['text']['message']);
    }
 	
@@ -515,7 +515,7 @@ global $base_dir, $app_config, $telegram_activated;
    // Text email
 	// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
 	// Only use text-to-email if other text services aren't configured
-   if ( $send_params['text']['message'] != '' && validate_email( text_email($app_config['to_mobile_text']) ) == 'valid' && trim($app_config['textbelt_apikey']) == '' && $app_config['textlocal_account'] == '' ) { 
+   if ( $send_params['text']['message'] != '' && validate_email( text_email($app_config['comms']['to_mobile_text']) ) == 'valid' && trim($app_config['comms']['textbelt_apikey']) == '' && $app_config['comms']['textlocal_account'] == '' ) { 
    
    // $send_params['text_charset'] SHOULD ALWAYS BE SET FROM THE CALL TO HERE (for emojis, or other unicode characters to send via text message properly)
    // SUBJECT !!MUST BE SET!! OR SOME TEXT SERVICES WILL NOT ACCEPT THE MESSAGE!
@@ -535,9 +535,9 @@ global $base_dir, $app_config, $telegram_activated;
    }
           
    // Normal email
-   if ( $send_params['email']['message'] != '' && validate_email($app_config['to_email']) == 'valid' ) {
+   if ( $send_params['email']['message'] != '' && validate_email($app_config['comms']['to_email']) == 'valid' ) {
    
-   $email_array = array('subject' => $send_params['email']['subject'], 'message' => $send_params['email']['message'], 'content_type' => ( $send_params['email']['content_type'] ? $send_params['email']['content_type'] : 'text' ), 'charset' => ( $send_params['email']['charset'] ? $send_params['email']['charset'] : $app_config['charset_default'] ) );
+   $email_array = array('subject' => $send_params['email']['subject'], 'message' => $send_params['email']['message'], 'content_type' => ( $send_params['email']['content_type'] ? $send_params['email']['content_type'] : 'text' ), 'charset' => ( $send_params['email']['charset'] ? $send_params['email']['charset'] : $app_config['developer']['charset_default'] ) );
    
    	// json_encode() only accepts UTF-8, SO TEMPORARILY CONVERT TO THAT FOR MESSAGE QUEUE STORAGE
    	if ( strtolower($send_params['email']['charset']) != 'utf-8' ) {
@@ -591,20 +591,20 @@ $cache_filename = $problem_proxy;
 $cache_filename = preg_replace("/\./", "-", $cache_filename);
 $cache_filename = preg_replace("/:/", "_", $cache_filename);
 
-	if ( $app_config['proxy_alerts_runtime'] == 'all' ) {
+	if ( $app_config['comms']['proxy_alerts_runtime'] == 'all' ) {
 	$run_alerts = 1;
 	}
-	elseif ( $app_config['proxy_alerts_runtime'] == 'cron' && $runtime_mode == 'cron' ) {
+	elseif ( $app_config['comms']['proxy_alerts_runtime'] == 'cron' && $runtime_mode == 'cron' ) {
 	$run_alerts = 1;
 	}
-	elseif ( $app_config['proxy_alerts_runtime'] == 'ui' && $runtime_mode == 'ui' ) {
+	elseif ( $app_config['comms']['proxy_alerts_runtime'] == 'ui' && $runtime_mode == 'ui' ) {
 	$run_alerts = 1;
 	}
 	else {
 	$run_alerts = null;
 	}
 
-	if ( $run_alerts == 1 && update_cache_file('cache/alerts/proxy-check-'.$cache_filename.'.dat', ( $app_config['proxy_alerts_freq_max'] * 60 ) ) == true
+	if ( $run_alerts == 1 && update_cache_file('cache/alerts/proxy-check-'.$cache_filename.'.dat', ( $app_config['comms']['proxy_alerts_freq_max'] * 60 ) ) == true
 	&& in_array($cache_filename, $proxies_checked) == false ) {
 	
 		
@@ -661,11 +661,11 @@ $cache_filename = preg_replace("/:/", "_", $cache_filename);
                     
 		
 		// Send out alerts
-		if ( $misconfigured == 1 || $app_config['proxy_alerts_checkup_ok'] == 'include' ) {
+		if ( $misconfigured == 1 || $app_config['comms']['proxy_alerts_checkup_ok'] == 'include' ) {
                     
                     
   				// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
-  				if ( $app_config['proxy_alerts'] == 'all' ) {
+  				if ( $app_config['comms']['proxy_alerts'] == 'all' ) {
   				
   				// Minimize function calls
   				$encoded_text_alert = content_data_encoding($text_alert);
@@ -685,7 +685,7 @@ $cache_filename = preg_replace("/:/", "_", $cache_filename);
           								);
           	
           	}
-  				elseif ( $app_config['proxy_alerts'] == 'email' ) {
+  				elseif ( $app_config['comms']['proxy_alerts'] == 'email' ) {
   					
           	$send_params['email'] = array(
           											'subject' => 'A Proxy Was Unresponsive',
@@ -693,7 +693,7 @@ $cache_filename = preg_replace("/:/", "_", $cache_filename);
           											);
           	
           	}
-  				elseif ( $app_config['proxy_alerts'] == 'text' ) {
+  				elseif ( $app_config['comms']['proxy_alerts'] == 'text' ) {
   				
   				// Minimize function calls
   				$encoded_text_alert = content_data_encoding($text_alert);
@@ -706,10 +706,10 @@ $cache_filename = preg_replace("/:/", "_", $cache_filename);
           											);
           	
           	}
-  				elseif ( $app_config['proxy_alerts'] == 'notifyme' ) {
+  				elseif ( $app_config['comms']['proxy_alerts'] == 'notifyme' ) {
           	$send_params['notifyme'] = $notifyme_alert;
           	}
-  				elseif ( $app_config['proxy_alerts'] == 'telegram' ) {
+  				elseif ( $app_config['comms']['proxy_alerts'] == 'telegram' ) {
           	$send_params['telegram'] = $email_alert;
           	}
           	
@@ -812,22 +812,22 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 		
 		$notifyme_params = array(
 									 'notification' => null, // Setting this right before sending
-									 'accessCode' => $app_config['notifyme_accesscode']
+									 'accessCode' => $app_config['comms']['notifyme_accesscode']
 									   );
 						
 						
 		$textbelt_params = array(
 									 'message' => null, // Setting this right before sending
-									 'phone' => text_number($app_config['to_mobile_text']),
-									 'key' => $app_config['textbelt_apikey']
+									 'phone' => text_number($app_config['comms']['to_mobile_text']),
+									 'key' => $app_config['comms']['textbelt_apikey']
 									);
 						
 						
 		$textlocal_params = array(
 									  'message' => null, // Setting this right before sending
-									  'username' => string_to_array($app_config['textlocal_account'])[0],
-									  'hash' => string_to_array($app_config['textlocal_account'])[1],
-									  'numbers' => text_number($app_config['to_mobile_text'])
+									  'username' => string_to_array($app_config['comms']['textlocal_account'])[0],
+									  'hash' => string_to_array($app_config['comms']['textlocal_account'])[1],
+									  'numbers' => text_number($app_config['comms']['to_mobile_text'])
 									   );
 		
 		
@@ -847,7 +847,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 				unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
 				}
 				// Notifyme
-			   elseif ( $message_data != '' && trim($app_config['notifyme_accesscode']) != '' && preg_match("/notifyme/i", $queued_cache_file) ) { 
+			   elseif ( $message_data != '' && trim($app_config['comms']['notifyme_accesscode']) != '' && preg_match("/notifyme/i", $queued_cache_file) ) { 
 			   
 			   $notifyme_params['notification'] = $message_data;
 			   
@@ -867,7 +867,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 					
 					store_file_contents($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat', $processed_messages['notifyme_count']); 
 					
-						if ( $app_config['debug_mode'] == 'all' || $app_config['debug_mode'] == 'telemetry' ) {
+						if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' ) {
 						store_file_contents($base_dir . '/cache/logs/debugging/api/last-response-notifyme.log', $notifyme_response);
 						}
 					
@@ -884,7 +884,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 			   // Textbelt
 				// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
 				// Only run if textlocal API isn't being used to avoid double texts
-			   if ( $message_data != '' && trim($app_config['textbelt_apikey']) != '' && $app_config['textlocal_account'] == '' && preg_match("/textbelt/i", $queued_cache_file) ) {  
+			   if ( $message_data != '' && trim($app_config['comms']['textbelt_apikey']) != '' && $app_config['comms']['textlocal_account'] == '' && preg_match("/textbelt/i", $queued_cache_file) ) {  
 			   
 			   $textbelt_params['message'] = $message_data;
 			   
@@ -898,7 +898,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 				
 				$message_sent = 1;
 			   
-			   	if ( $app_config['debug_mode'] == 'all' || $app_config['debug_mode'] == 'telemetry' ) {
+			   	if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' ) {
 					store_file_contents($base_dir . '/cache/logs/debugging/api/last-response-textbelt.log', $textbelt_response);
 					}
 				
@@ -911,7 +911,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 			   // Textlocal
 				// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
 				// Only run if textbelt API isn't being used to avoid double texts
-			   if ( $message_data != '' && $app_config['textlocal_account'] != '' && trim($app_config['textbelt_apikey']) == '' && preg_match("/textlocal/i", $queued_cache_file) ) {  
+			   if ( $message_data != '' && $app_config['comms']['textlocal_account'] != '' && trim($app_config['comms']['textbelt_apikey']) == '' && preg_match("/textlocal/i", $queued_cache_file) ) {  
 			   
 			   $textlocal_params['message'] = $message_data;
 			   
@@ -925,7 +925,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 				
 				$message_sent = 1;
 			   
-			   	if ( $app_config['debug_mode'] == 'all' || $app_config['debug_mode'] == 'telemetry' ) {
+			   	if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' ) {
 					store_file_contents($base_dir . '/cache/logs/debugging/api/last-response-textlocal.log', $textlocal_response);
 					}
 				
@@ -960,7 +960,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 			   	}
 			   		
 			   
-			   	if ( $app_config['debug_mode'] == 'all' || $app_config['debug_mode'] == 'telemetry' ) {
+			   	if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' ) {
 					store_file_contents($base_dir . '/cache/logs/debugging/api/last-response-telegram.log', $telegram_response);
 					}
 				
@@ -976,7 +976,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 			   // Text email
 				// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
 				// Only use text-to-email if other text services aren't configured
-			   if ( validate_email( text_email($app_config['to_mobile_text']) ) == 'valid' && trim($app_config['textbelt_apikey']) == '' && $app_config['textlocal_account'] == '' && preg_match("/textemail/i", $queued_cache_file) ) { 
+			   if ( validate_email( text_email($app_config['comms']['to_mobile_text']) ) == 'valid' && trim($app_config['comms']['textbelt_apikey']) == '' && $app_config['comms']['textlocal_account'] == '' && preg_match("/textemail/i", $queued_cache_file) ) { 
 			   
 			   $textemail_array = json_decode($message_data, true);
 			   
@@ -999,7 +999,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 					$text_sleep = 1 * $processed_messages['text_count'];
 					sleep($text_sleep);
 			   
-					$result = @safe_mail( text_email($app_config['to_mobile_text']) , $textemail_array['subject'], $textemail_array['message'], $textemail_array['content_type'], $textemail_array['charset']);
+					$result = @safe_mail( text_email($app_config['comms']['to_mobile_text']) , $textemail_array['subject'], $textemail_array['message'], $textemail_array['content_type'], $textemail_array['charset']);
 			   
 			   		if ( $result == true ) {
 			   		
@@ -1011,7 +1011,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 			   		
 			   		}
 			   		else {
-			   		app_logging( 'system_error', 'Email-to-mobile-text sending failed', 'to_text_email: ' . text_email($app_config['to_mobile_text']) . '; from: ' . $app_config['from_email'] . '; subject: ' . $textemail_array['subject'] . '; function_response: ' . $result . ';');
+			   		app_logging( 'system_error', 'Email-to-mobile-text sending failed', 'to_text_email: ' . text_email($app_config['comms']['to_mobile_text']) . '; from: ' . $app_config['comms']['from_email'] . '; subject: ' . $textemail_array['subject'] . '; function_response: ' . $result . ';');
 			   		}
 					
 					
@@ -1023,7 +1023,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 					  
 					  
 			   // Normal email
-			   if ( validate_email($app_config['to_email']) == 'valid' && preg_match("/normalemail/i", $queued_cache_file) ) {
+			   if ( validate_email($app_config['comms']['to_email']) == 'valid' && preg_match("/normalemail/i", $queued_cache_file) ) {
 			   
 			   $email_array = json_decode($message_data, true);
 			   
@@ -1046,7 +1046,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 					$email_sleep = 1 * $processed_messages['email_count'];
 					sleep($email_sleep);
 			   
-					$result = @safe_mail($app_config['to_email'], $email_array['subject'], $email_array['message'], $email_array['content_type'], $email_array['charset']);
+					$result = @safe_mail($app_config['comms']['to_email'], $email_array['subject'], $email_array['message'], $email_array['content_type'], $email_array['charset']);
 			   
 			   		if ( $result == true ) {
 			   		
@@ -1058,7 +1058,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 			   		
 			   		}
 			   		else {
-			   		app_logging( 'system_error', 'Email sending failed', 'to_email: ' . $app_config['to_email'] . '; from: ' . $app_config['from_email'] . '; subject: ' . $email_array['subject'] . '; function_response: ' . $result . ';');
+			   		app_logging( 'system_error', 'Email sending failed', 'to_email: ' . $app_config['comms']['to_email'] . '; from: ' . $app_config['comms']['from_email'] . '; subject: ' . $email_array['subject'] . '; function_response: ' . $result . ';');
 			   		}
 			   		
 					
@@ -1105,7 +1105,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 	   // Does the current runtime user own this file?
 		if ( isset($current_runtime_user) && $current_runtime_user == $file_owner_info['name'] ) {
 		
-		$chmod_setting = octdec($app_config['chmod_permission_cache_files']);
+		$chmod_setting = octdec($app_config['developer']['chmod_permission_cache_files']);
 		
 			// Run chmod compatibility on certain PHP setups
 			if ( !$http_runtime_user || isset($http_runtime_user) && in_array($http_runtime_user, $possible_http_users) ) {
@@ -1142,7 +1142,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 
 function api_data($mode, $request, $ttl, $api_server=null, $post_encoding=3, $test_proxy=null, $headers=null) { // Default to JSON encoding post requests (most used)
 
-// $app_config['btc_primary_currency_pairing'] / $app_config['btc_primary_exchange'] / $selected_btc_primary_currency_value USED FOR TRACE DEBUGGING (TRACING)
+// $app_config['general']['btc_primary_currency_pairing'] / $app_config['general']['btc_primary_exchange'] / $selected_btc_primary_currency_value USED FOR TRACE DEBUGGING (TRACING)
 global $base_dir, $proxy_checkup, $logs_array, $limited_api_calls, $app_config, $api_runtime_cache, $selected_btc_primary_currency_value, $user_agent, $base_url, $htaccess_username, $htaccess_password;
 
 
@@ -1206,7 +1206,7 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 		app_logging( 'cache_error', 'no data in RUNTIME cache from connection failure with ' . ( $mode == 'array' ? 'API server at ' : 'endpoint request at ' ) . $obfuscated_url_data, 'request attempt(s) from: cache ('.$logs_array['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';', $hash_check );
 			
 		}
-		elseif ( $app_config['debug_mode'] == 'all' || $app_config['debug_mode'] == 'telemetry' || $app_config['debug_mode'] == 'api_cache_only' ) {
+		elseif ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'api_cache_only' ) {
 		
 			if ( !$logs_array['debugging_duplicates'][$hash_check] ) {
 			$logs_array['debugging_duplicates'][$hash_check] = 1; 
@@ -1244,7 +1244,7 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 		$endpoint_tld_or_ip = get_tld_or_ip($api_endpoint);
 		
 		// Throttled endpoints
-		if ( in_array($endpoint_tld_or_ip, $app_config['limited_apis']) ) {
+		if ( in_array($endpoint_tld_or_ip, $app_config['developer']['limited_apis']) ) {
 		
 		$tld_session_prefix = preg_replace("/\./i", "_", $endpoint_tld_or_ip);
 		
@@ -1265,9 +1265,9 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 		
 		
 		// If proxies are configured
-		if ( sizeof($app_config['proxy_list']) > 0 ) {
+		if ( sizeof($app_config['proxy']['proxy_list']) > 0 ) {
 			
-		$current_proxy = ( $mode == 'proxy-check' && $test_proxy != null ? $test_proxy : random_array_var($app_config['proxy_list']) );
+		$current_proxy = ( $mode == 'proxy-check' && $test_proxy != null ? $test_proxy : random_array_var($app_config['proxy']['proxy_list']) );
 		
 		// Check for valid proxy config
 		$ip_port = explode(':', $current_proxy);
@@ -1286,9 +1286,9 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 		curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, true);  
 		
 			// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-			if ( $app_config['proxy_login'] != ''  ) {
+			if ( $app_config['proxy']['proxy_login'] != ''  ) {
 		
-			$user_pass = explode('||', $app_config['proxy_login']);
+			$user_pass = explode('||', $app_config['proxy']['proxy_login']);
 				
 			curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
 			curl_setopt($ch, CURLOPT_PROXYUSERPWD, $user_pass[0] . ':' . $user_pass[1] );  
@@ -1323,8 +1323,8 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 	curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $app_config['remote_api_timeout']);
-	curl_setopt($ch, CURLOPT_TIMEOUT, $app_config['remote_api_timeout']);
+	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $app_config['power_user']['remote_api_timeout']);
+	curl_setopt($ch, CURLOPT_TIMEOUT, $app_config['power_user']['remote_api_timeout']);
 	curl_setopt($ch, CURLOPT_USERAGENT, $user_agent);
 	
 	
@@ -1353,7 +1353,7 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 			
 			}
 			else {
-			$remote_api_strict_ssl = $app_config['remote_api_strict_ssl'];
+			$remote_api_strict_ssl = $app_config['power_user']['remote_api_strict_ssl'];
 			}
 			
 		
@@ -1411,10 +1411,10 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 	
 		
 		// LOG-SAFE VERSION (no post data with API keys etc)
-		app_logging( 'api_error', 'connection failed for ' . ( $mode == 'array' ? 'API server at ' : 'endpoint request at ' ) . $obfuscated_url_data . $log_append, 'request attempt from: server (local timeout setting ' . $app_config['remote_api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';' );
+		app_logging( 'api_error', 'connection failed for ' . ( $mode == 'array' ? 'API server at ' : 'endpoint request at ' ) . $obfuscated_url_data . $log_append, 'request attempt from: server (local timeout setting ' . $app_config['power_user']['remote_api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';' );
 		
 		
-			if ( sizeof($app_config['proxy_list']) > 0 && $current_proxy != '' && $mode != 'proxy-check' ) { // Avoid infinite loops doing proxy checks
+			if ( sizeof($app_config['proxy']['proxy_list']) > 0 && $current_proxy != '' && $mode != 'proxy-check' ) { // Avoid infinite loops doing proxy checks
 
 			$proxy_checkup[] = array(
 															'endpoint' => ( $mode == 'array' ? 'API server at ' : 'endpoint request at ' ) . $obfuscated_url_data,
@@ -1451,7 +1451,7 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 				$error_response_log = '/cache/logs/errors/api/error-response-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-hash-'.$hash_check.'-timestamp-'.time().'.log';
 			
 				// LOG-SAFE VERSION (no post data with API keys etc)
-				app_logging( 'api_error', 'POSSIBLE error response received for ' . ( $mode == 'array' ? 'API server at ' : 'endpoint request at ' ) . $obfuscated_url_data, 'request attempt from: server (local timeout setting ' . $app_config['remote_api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; log_file: ' . $error_response_log . '; btc_primary_currency_pairing: ' . $app_config['btc_primary_currency_pairing'] . '; btc_primary_exchange: ' . $app_config['btc_primary_exchange'] . '; btc_primary_currency_value: ' . $selected_btc_primary_currency_value . '; hash_check: ' . $hash_check . ';' );
+				app_logging( 'api_error', 'POSSIBLE error response received for ' . ( $mode == 'array' ? 'API server at ' : 'endpoint request at ' ) . $obfuscated_url_data, 'request attempt from: server (local timeout setting ' . $app_config['power_user']['remote_api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; log_file: ' . $error_response_log . '; btc_primary_currency_pairing: ' . $app_config['general']['btc_primary_currency_pairing'] . '; btc_primary_exchange: ' . $app_config['general']['btc_primary_exchange'] . '; btc_primary_currency_value: ' . $selected_btc_primary_currency_value . '; hash_check: ' . $hash_check . ';' );
 			
 				// Log this error response from this data request
 				store_file_contents($base_dir . $error_response_log, $data);
@@ -1504,7 +1504,7 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 				
 				
 			// LOG-SAFE VERSION (no post data with API keys etc)
-			app_logging( 'api_error', 'CONFIRMED error response received for ' . ( $mode == 'array' ? 'API server at ' : 'endpoint request at ' ) . $obfuscated_url_data . $log_append, 'request attempt from: server (local timeout setting ' . $app_config['remote_api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; log_file: ' . $error_response_log . '; btc_primary_currency_pairing: ' . $app_config['btc_primary_currency_pairing'] . '; btc_primary_exchange: ' . $app_config['btc_primary_exchange'] . '; btc_primary_currency_value: ' . $selected_btc_primary_currency_value . '; hash_check: ' . $hash_check . ';' );
+			app_logging( 'api_error', 'CONFIRMED error response received for ' . ( $mode == 'array' ? 'API server at ' : 'endpoint request at ' ) . $obfuscated_url_data . $log_append, 'request attempt from: server (local timeout setting ' . $app_config['power_user']['remote_api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; log_file: ' . $error_response_log . '; btc_primary_currency_pairing: ' . $app_config['general']['btc_primary_currency_pairing'] . '; btc_primary_exchange: ' . $app_config['general']['btc_primary_exchange'] . '; btc_primary_currency_value: ' . $selected_btc_primary_currency_value . '; hash_check: ' . $hash_check . ';' );
 				
 		
 			}
@@ -1513,10 +1513,10 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 		
 		
 			// Data debugging telemetry
-			if ( $app_config['debug_mode'] == 'all' || $app_config['debug_mode'] == 'telemetry' || $app_config['debug_mode'] == 'api_live_only' ) {
+			if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'api_live_only' ) {
 				
 			// LOG-SAFE VERSION (no post data with API keys etc)
-			app_logging( 'api_debugging', 'connection request for ' . ( $mode == 'array' ? 'API server at ' : 'endpoint request at ' ) . $obfuscated_url_data, 'request from: server (local timeout setting ' . $app_config['remote_api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';' );
+			app_logging( 'api_debugging', 'connection request for ' . ( $mode == 'array' ? 'API server at ' : 'endpoint request at ' ) . $obfuscated_url_data, 'request from: server (local timeout setting ' . $app_config['power_user']['remote_api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';' );
 			
 			// Log this as the latest response from this data request
 			store_file_contents($base_dir . '/cache/logs/debugging/api/last-response-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-'.$hash_check.'.log', $data);
@@ -1589,7 +1589,7 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 		app_logging( 'cache_error', 'no data in FILE cache from connection failure with ' . ( $mode == 'array' ? 'API server at ' : 'endpoint request at ' ) . $obfuscated_url_data, 'request attempt(s) from: cache ('.$logs_array['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';', $hash_check );
 			
 		}
-		elseif ( $app_config['debug_mode'] == 'all' || $app_config['debug_mode'] == 'telemetry' || $app_config['debug_mode'] == 'api_cache_only' ) {
+		elseif ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'api_cache_only' ) {
 		
 			if ( !$logs_array['debugging_duplicates'][$hash_check] ) {
 			$logs_array['debugging_duplicates'][$hash_check] = 1; 

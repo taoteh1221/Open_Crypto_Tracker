@@ -3123,6 +3123,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Optional password protection / encryption for zip file archives
 
+-Configuration settings for CAPTCHA image login protection (in power user settings)
+
 -Misc. Optimizations / UX revisions
 
 IMPORTANT UPGRADE NOTES: 

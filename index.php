@@ -35,7 +35,7 @@ require("templates/interface/php/header.php");
 			<li class='tabli'><a href='#update_assets'>Update Assets</a></li>
 			<li class='tabli'><a href='#settings'>Settings</a></li>
 			<?php
-			if ( $app_config['charts_page'] == 'on' ) {
+			if ( $app_config['general']['charts_toggle'] == 'on' ) {
 			?>
 			<li class='tabli'><a href='#charts'>Charts</a></li>
 			<?php
@@ -58,7 +58,7 @@ require("templates/interface/php/header.php");
 			<?php require("templates/interface/php/user/user-sections/settings.php"); ?>
 		</div>
 			<?php
-			if ( $app_config['charts_page'] == 'on' ) {
+			if ( $app_config['general']['charts_toggle'] == 'on' ) {
 			?>
 		<div id='charts' class='tabdiv container-fluid'>
 			<?php require("templates/interface/php/user/user-sections/charts.php"); ?>

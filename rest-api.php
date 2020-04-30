@@ -13,11 +13,11 @@ require("config.php");
 
 
 // Set a max execution time, TO AVOID RUNAWAY PROCESSES FREEZING THE SERVER
-if ( $app_config['debug_mode'] != 'off' ) {
+if ( $app_config['developer']['debug_mode'] != 'off' ) {
 ini_set('max_execution_time', 350);
 }
 else {
-ini_set('max_execution_time', $app_config['api_max_execution_time']);
+ini_set('max_execution_time', $app_config['developer']['api_max_execution_time']);
 }
 
 
@@ -26,10 +26,10 @@ $store_ip = preg_replace("/\./", "_", $_SERVER['REMOTE_ADDR']);
 $ip_access = trim( file_get_contents($base_dir . '/cache/events/throttling/local_api_incoming_ip_' . $store_ip . '.dat') );
 
 
-// Throttle ip addresses reconnecting before $app_config['local_api_rate_limit'] interval passes
-if ( update_cache_file($base_dir . '/cache/events/throttling/local_api_incoming_ip_' . $store_ip . '.dat', ($app_config['local_api_rate_limit'] / 60) ) == false ) {
+// Throttle ip addresses reconnecting before $app_config['power_user']['local_api_rate_limit'] interval passes
+if ( update_cache_file($base_dir . '/cache/events/throttling/local_api_incoming_ip_' . $store_ip . '.dat', ($app_config['power_user']['local_api_rate_limit'] / 60) ) == false ) {
 
-$result = array('error' => "Rate limit (maximum of once every " . $app_config['local_api_rate_limit'] . " seconds) reached for ip address: " . $_SERVER['REMOTE_ADDR']);
+$result = array('error' => "Rate limit (maximum of once every " . $app_config['power_user']['local_api_rate_limit'] . " seconds) reached for ip address: " . $_SERVER['REMOTE_ADDR']);
 
 echo json_encode($result, JSON_PRETTY_PRINT);
 exit;

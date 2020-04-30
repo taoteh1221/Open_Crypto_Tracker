@@ -66,11 +66,11 @@ if ( !$_POST['submit_login'] || sizeof($login_result['error']) > 0 ) {
 
 <form action='' method='post'>
 
-    <div style="display: inline-block; text-align: right; width: 350px;">
+    <div style="display: inline-block; text-align: right; width: 400px;">
 
-<p><b>Admin Username:</b> <input type='text' name='admin_username' value='<?=$_POST['admin_username']?>' /></p>
+<p><b>Username:</b> <input type='text' name='admin_username' value='<?=$_POST['admin_username']?>' /></p>
 
-<p><b>Admin Password:</b> <input type='password' name='admin_password' value='<?=$_POST['admin_password']?>' /></p>
+<p><b>Password:</b> <input type='password' name='admin_password' value='<?=$_POST['admin_password']?>' /></p>
 
     </div>
 
@@ -83,7 +83,7 @@ if ( !$_POST['submit_login'] || sizeof($login_result['error']) > 0 ) {
   	 
   	 <p><img id='captcha_image' src='templates/interface/media/images/captcha.php' alt='' class='image_border' />
   	 <br />
-  	 <a href='javascript: refreshImage("captcha_image", "templates/interface/media/images/captcha.php");' class='bitcoin' style='font-weight: bold;'>Get A Different Image</a>
+  	 <a href='javascript: return false;' onclick='refreshImage("captcha_image", "templates/interface/media/images/captcha.php");' class='bitcoin' style='font-weight: bold;'>Get A Different Image</a>
   	 </p>
   	 
   	 </div>
@@ -92,9 +92,9 @@ if ( !$_POST['submit_login'] || sizeof($login_result['error']) > 0 ) {
   	 <br clear='all' />
 
 
-  	 <div style="display: inline-block; text-align: right; width: 350px;">
+  	 <div style="display: inline-block; text-align: right; width: 400px;">
   
-  	 <p><b>Enter Text In Image:</b> <input type='text' name='captcha_code' id='captcha_code' value='' style='<?=( $captcha_field_color ? 'background: ' . $captcha_field_color : '' )?>' /></p>
+  	 <p><b>Enter Image Text:</b> <input type='text' name='captcha_code' id='captcha_code' value='' style='<?=( $captcha_field_color ? 'background: ' . $captcha_field_color : '' )?>' /></p>
 	
 	<p class='align_left' style='font-size: 19px; font-weight: bold; color: #ff4747;' id='captcha_alert'></p>
   

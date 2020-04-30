@@ -12,10 +12,10 @@ $exchange_count = 0;
 $currency_count = 0;
 
 	// Print out bitcoin markets configuration
-	if ( $app_config['debug_mode'] == 'all' || $app_config['debug_mode'] == 'btc_markets_config' ) {
+	if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'btc_markets_config' ) {
 		
 		
-		foreach ( $app_config['bitcoin_currency_markets'] as $key => $unused ) {
+		foreach ( $app_config['power_user']['bitcoin_currency_markets'] as $key => $unused ) {
 			
 			if( !preg_match("/".$key." /i", $supported_primary_currency_list) ) {
 			$currency_count = $currency_count + 1;
@@ -28,7 +28,7 @@ $currency_count = 0;
 		$pairings_count = $currency_count;
 		$all_supported_pairings_list = $supported_primary_currency_list;
 		
-		foreach ( $app_config['crypto_to_crypto_pairing'] as $key => $unused ) {
+		foreach ( $app_config['power_user']['crypto_to_crypto_pairing'] as $key => $unused ) {
 			
 			if( !preg_match("/".$key." /i", $all_supported_pairings_list) ) {
 			$pairings_count = $pairings_count + 1;

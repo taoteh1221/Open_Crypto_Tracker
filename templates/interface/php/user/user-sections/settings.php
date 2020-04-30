@@ -16,16 +16,16 @@
 			
 			
 			<?php
-			if ( $price_alert_type_text != '' && $app_config['price_alerts_threshold'] > 0 ) {
+			if ( $price_alert_type_text != '' && $app_config['comms']['price_alerts_threshold'] > 0 ) {
           ?>
-          	<p class='settings_sections'><b><?=$price_alert_type_text?> price alerts</b> are <i>enabled</i> in the configuration file (upon <?=$app_config['price_alerts_threshold']?>% or more <?=strtoupper($default_btc_primary_currency_pairing)?> price change<?=( $app_config['price_alerts_freq_max'] > 0 ? ' / max every ' . $app_config['price_alerts_freq_max'] . ' hours per-alert' : '' )?><?=( $app_config['price_alerts_min_volume'] > 0 ? ' / ' . $app_config['bitcoin_currency_markets'][$default_btc_primary_currency_pairing] . number_format($app_config['price_alerts_min_volume'], 0, '.', ',') . ' minumum volume filter enabled' : '' )?><?=( $app_config['price_alerts_fixed_reset'] > 0 ? ' / comparison price fixed-reset after ' . $app_config['price_alerts_fixed_reset'] . ' days' : '' )?>). 
+          	<p class='settings_sections'><b><?=$price_alert_type_text?> price alerts</b> are <i>enabled</i> in the configuration file (upon <?=$app_config['comms']['price_alerts_threshold']?>% or more <?=strtoupper($default_btc_primary_currency_pairing)?> price change<?=( $app_config['comms']['price_alerts_freq_max'] > 0 ? ' / max every ' . $app_config['comms']['price_alerts_freq_max'] . ' hours per-alert' : '' )?><?=( $app_config['comms']['price_alerts_min_volume'] > 0 ? ' / ' . $app_config['power_user']['bitcoin_currency_markets'][$default_btc_primary_currency_pairing] . number_format($app_config['comms']['price_alerts_min_volume'], 0, '.', ',') . ' minumum volume filter enabled' : '' )?><?=( $app_config['charts_price_alerts']['price_alerts_fixed_reset'] > 0 ? ' / comparison price fixed-reset after ' . $app_config['charts_price_alerts']['price_alerts_fixed_reset'] . ' days' : '' )?>). 
           	
           	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job on your web server</a>, or this feature will not work AT ALL.</i> 
           	
           		<?=( $price_change_config_alert != '' ? '<br />' . $price_change_config_alert : '' )?>
           		
           		<?php
-          		if ( preg_match("/text/i", $price_alert_type_text) && $app_config['smtp_email_login'] == '' && $app_config['smtp_email_server'] == '' && $app_config['textbelt_apikey'] == '' && $app_config['textlocal_account'] == '' ) {
+          		if ( preg_match("/text/i", $price_alert_type_text) && $app_config['comms']['smtp_email_login'] == '' && $app_config['comms']['smtp_email_server'] == '' && $app_config['comms']['textbelt_apikey'] == '' && $app_config['comms']['textlocal_account'] == '' ) {
           		?>
           		<br />
           		<span class='bitcoin'>Email-to-mobile-text service gateways *MAY* work more reliably (not filter out your messages) <i>if you enable SMTP email sending</i>.</span>
@@ -37,18 +37,18 @@
                         
 			<?php
 			}
-			if ( sizeof($app_config['proxy_list']) > 0 ) {
+			if ( sizeof($app_config['proxy']['proxy_list']) > 0 ) {
 			?>
-          <p class='settings_sections'><b><?=( trim($app_config['proxy_login']) != '' ? 'Password-based' : 'IP whitelisting' )?> proxy mode</b> is <i>enabled</i> in the configuration file for API connections (<?=sizeof($app_config['proxy_list'])?> proxies randomly used<?=( $app_config['proxy_alerts'] != 'off' ? ' / proxy alerts enabled for ' . $app_config['proxy_alerts'] . ' alert method(s), every ' . $app_config['proxy_alerts_freq_max'] . ' hours max per-proxy at ' . $app_config['proxy_alerts_runtime'] . ' runtimes / ' .$app_config['proxy_alerts_checkup_ok']. ' sending proxy alerts on proxy checks that tested OK after acting up' : '' )?>). 
+          <p class='settings_sections'><b><?=( trim($app_config['proxy']['proxy_login']) != '' ? 'Password-based' : 'IP whitelisting' )?> proxy mode</b> is <i>enabled</i> in the configuration file for API connections (<?=sizeof($app_config['proxy']['proxy_list'])?> proxies randomly used<?=( $app_config['comms']['proxy_alerts'] != 'off' ? ' / proxy alerts enabled for ' . $app_config['comms']['proxy_alerts'] . ' alert method(s), every ' . $app_config['comms']['proxy_alerts_freq_max'] . ' hours max per-proxy at ' . $app_config['comms']['proxy_alerts_runtime'] . ' runtimes / ' .$app_config['comms']['proxy_alerts_checkup_ok']. ' sending proxy alerts on proxy checks that tested OK after acting up' : '' )?>). 
           	
           		<?=( $proxy_config_alert != '' ? '<br />' . $proxy_config_alert : '' )?>
           	
           	</p>      
           <?php
           }
-			if ( $app_config['email_logs'] > 0 && trim($app_config['from_email']) != '' && trim($app_config['to_email']) != '' ) {
+			if ( $app_config['comms']['email_logs'] > 0 && trim($app_config['comms']['from_email']) != '' && trim($app_config['comms']['to_email']) != '' ) {
           ?>
-          	<p class='settings_sections'><b>Emailing logs</b> is <i>enabled</i> in the configuration file (sent out every <?=$app_config['email_logs']?> days, log files purged every <?=$app_config['log_purge']?> days).
+          	<p class='settings_sections'><b>Emailing logs</b> is <i>enabled</i> in the configuration file (sent out every <?=$app_config['comms']['email_logs']?> days, log files purged every <?=$app_config['developer']['log_purge']?> days).
           	
           	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job on your web server</a>, or this feature will not work RELIABLY.</i> 
           	
@@ -58,9 +58,9 @@
                         
 			<?php
 			}
-			if ( $app_config['charts_page'] == 'on' && $app_config['charts_backup_freq'] > 0 && trim($app_config['from_email']) != '' && trim($app_config['to_email']) != '' ) {
+			if ( $app_config['general']['charts_toggle'] == 'on' && $app_config['charts_price_alerts']['charts_backup_freq'] > 0 && trim($app_config['comms']['from_email']) != '' && trim($app_config['comms']['to_email']) != '' ) {
           ?>
-          	<p class='settings_sections'><b>Chart Backups</b> are <i>enabled</i> in the configuration file (run every <?=$app_config['charts_backup_freq']?> days, purged after <?=$app_config['backup_archive_delete_old']?> days old).
+          	<p class='settings_sections'><b>Chart Backups</b> are <i>enabled</i> in the configuration file (run every <?=$app_config['charts_price_alerts']['charts_backup_freq']?> days, purged after <?=$app_config['general']['backup_archive_delete_old']?> days old).
           	
           	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job on your web server</a>, or this feature will not work AT ALL.</i> 
           	
@@ -71,7 +71,7 @@
 			<?php
 			}
 			// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-			if ( $app_config['smtp_email_login'] != '' && $app_config['smtp_email_server'] != '' ) {
+			if ( $app_config['comms']['smtp_email_login'] != '' && $app_config['comms']['smtp_email_server'] != '' ) {
           ?>
           	<p class='settings_sections'><b>SMTP email sending</b> (by account login) is <i>enabled</i> in the configuration file.
           	
@@ -81,11 +81,11 @@
                         
 			<?php
 			}
-			if ( $app_config['debug_mode'] != 'off' ) {
+			if ( $app_config['developer']['debug_mode'] != 'off' ) {
           ?>
           	<p class='settings_sections'><b>Debug Mode</b> is <i>enabled</i> in the configuration file.
           	
-          		<br /><span class='bitcoin'>Debug Mode: <?=$app_config['debug_mode']?></span>
+          		<br /><span class='bitcoin'>Debug Mode: <?=$app_config['developer']['debug_mode']?></span>
           	
           	</p>  
                         
@@ -160,11 +160,11 @@
 					
 					<?php
 					
-					$exchange_field_id = btc_market($app_config['btc_primary_exchange']);
+					$exchange_field_id = btc_market($app_config['general']['btc_primary_exchange']);
 					
 					foreach (  $app_config['portfolio_assets']['BTC']['market_pairing'] as $pairing_key => $pairing_id ) {
 					?>
-					<option value='<?=$pairing_key?>' <?=( $app_config['btc_primary_currency_pairing'] == $pairing_key ? ' selected ' : '' )?>> <?=strtoupper(preg_replace("/_/i", " ", $pairing_key))?> </option>
+					<option value='<?=$pairing_key?>' <?=( $app_config['general']['btc_primary_currency_pairing'] == $pairing_key ? ' selected ' : '' )?>> <?=strtoupper(preg_replace("/_/i", " ", $pairing_key))?> </option>
 					<?php
 					
 									
@@ -181,16 +181,16 @@
 				    
 				     @ 
 				    
-				    <input type='hidden' id='btc_primary_currency' name='btc_primary_currency' value='<?=$app_config['btc_primary_currency_pairing']?>' />
+				    <input type='hidden' id='btc_primary_currency' name='btc_primary_currency' value='<?=$app_config['general']['btc_primary_currency_pairing']?>' />
 				     
 				    <input type='hidden' id='primary_currency_market_id' name='primary_currency_market_id' value='<?=$exchange_field_id?>' />
 				     
 				     
 				     <span id='primary_currency_market_id_lists' style='display: inline;'>
-				     <!-- Selected (or first if none selected) pairing: <?=$app_config['btc_primary_currency_pairing']?> -->
+				     <!-- Selected (or first if none selected) pairing: <?=$app_config['general']['btc_primary_currency_pairing']?> -->
 				     <!-- primary_currency_market_standalone[1]: <?=$primary_currency_market_standalone[1]?> -->
 				     <!-- primary_currency_market_standalone[0]: <?=$primary_currency_market_standalone[0]?> -->
-				     <!-- btc_primary_exchange: <?=$app_config['btc_primary_exchange']?> -->
+				     <!-- btc_primary_exchange: <?=$app_config['general']['btc_primary_exchange']?> -->
 				    <?php
 				    
 				    foreach ( $btc_market_list as $key => $value ) {
@@ -225,7 +225,7 @@
 				    $("#primary_currency_market_standalone").val( btc_primary_currency + "|" + primary_currency_market );
 				    }
 				    
-				    ' id='<?=$key?>btc_currency_pairs' style='display: <?=( $app_config['btc_primary_currency_pairing'] == $key ? 'inline' : 'none' )?>;'><?=$btc_market_list[$key]?>
+				    ' id='<?=$key?>btc_currency_pairs' style='display: <?=( $app_config['general']['btc_primary_currency_pairing'] == $key ? 'inline' : 'none' )?>;'><?=$btc_market_list[$key]?>
 				    
 				    </select>
 				    
@@ -236,8 +236,8 @@
 				    
 				    </span> <img id='currency_info' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' /> <input type='checkbox' id='standalone_primary_currency_enabled' name='standalone_primary_currency_enabled' value='1' onchange='
 				    
-				    btc_primary_currency = $("#btc_primary_currency").val() ? $("#btc_primary_currency").val() : "<?=$app_config['btc_primary_currency_pairing']?>";
-				    primary_currency_market = $("#primary_currency_market_id").val() ? $("#primary_currency_market_id").val() : <?=btc_market($app_config['btc_primary_exchange'])?>;
+				    btc_primary_currency = $("#btc_primary_currency").val() ? $("#btc_primary_currency").val() : "<?=$app_config['general']['btc_primary_currency_pairing']?>";
+				    primary_currency_market = $("#primary_currency_market_id").val() ? $("#primary_currency_market_id").val() : <?=btc_market($app_config['general']['btc_primary_exchange'])?>;
 				    
 				    /////////////////////////////////////////////////////////
 				    
@@ -281,12 +281,12 @@
 					fontSize: ".8rem",
 					minWidth: ".8rem",
 					padding: ".3rem .7rem",
-					border: "1px solid rgba(212, 212, 212, .4)",
+					border: "2px solid rgba(212, 212, 212, .4)",
 					borderRadius: "6px",
 					boxShadow: "3px 3px 6px #555",
 					color: "#eee",
 					backgroundColor: "#111",
-					opacity: "0.95",
+					opacity: "0.99",
 					zIndex: "32767",
 					textAlign: "left"
 					}
@@ -309,15 +309,15 @@
 			    '>
 				<option value='0' <?=( $sorted_by_col == 0 ? ' selected ' : '' )?>> Sort </option>
 				<option value='1' <?=( $sorted_by_col == 1 ? ' selected ' : '' )?>> Asset </option>
-				<option value='2' <?=( $sorted_by_col == 2 ? ' selected ' : '' )?>> Per-Token (<?=strtoupper($app_config['btc_primary_currency_pairing'])?>) </option>
+				<option value='2' <?=( $sorted_by_col == 2 ? ' selected ' : '' )?>> Per-Token (<?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?>) </option>
 				<option value='3' <?=( $sorted_by_col == 3 ? ' selected ' : '' )?>> Holdings </option>
 				<option value='4' <?=( $sorted_by_col == 4 ? ' selected ' : '' )?>> Symbol </option>
 				<option value='5' <?=( $sorted_by_col == 5 ? ' selected ' : '' )?>> Exchange </option>
-				<option value='6' <?=( $sorted_by_col == 6 ? ' selected ' : '' )?>> Trade Volume (<?=strtoupper($app_config['btc_primary_currency_pairing'])?>) </option>
+				<option value='6' <?=( $sorted_by_col == 6 ? ' selected ' : '' )?>> Trade Volume (<?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?>) </option>
 				<option value='7' <?=( $sorted_by_col == 7 ? ' selected ' : '' )?>> Trade Value </option>
 				<option value='8' <?=( $sorted_by_col == 8 ? ' selected ' : '' )?>> Market </option>
 				<option value='9' <?=( $sorted_by_col == 9 ? ' selected ' : '' )?>> Holdings Value </option>
-				<option value='10' <?=( $sorted_by_col == 10 ? ' selected ' : '' )?>> Subtotal (<?=strtoupper($app_config['btc_primary_currency_pairing'])?>) </option>
+				<option value='10' <?=( $sorted_by_col == 10 ? ' selected ' : '' )?>> Subtotal (<?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?>) </option>
 			    </select> 
 			     <select id='sorted_by_asc_desc' onchange='
 			    $("#sort_by").val( $("#sorted_by_col").val() + "|" + this.value );

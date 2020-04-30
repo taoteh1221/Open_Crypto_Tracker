@@ -52,7 +52,7 @@
 	<?php
 	
 	$zebra_stripe = 'long_list_odd';
-	foreach ( $app_config['charts_and_price_alerts'] as $key => $value ) {
+	foreach ( $app_config['charts_price_alerts']['markets'] as $key => $value ) {
 		
 		// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
 		$show_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, mb_strpos($key, "-", 0, 'utf-8') ) );
@@ -131,7 +131,7 @@
 	<div style='display: none;' class='align_left show_chartsnotice'>
 		
 		<?php
-		foreach ( $app_config['bitcoin_currency_markets'] as $key => $unused ) {
+		foreach ( $app_config['power_user']['bitcoin_currency_markets'] as $key => $unused ) {
 		$supported_primary_currency_list .= strtoupper($key) . ' / ';
 		}
 		$supported_primary_currency_list = trim($supported_primary_currency_list);
@@ -166,7 +166,7 @@
 	<?php
 	
 	// Render the charts
-	foreach ( $app_config['charts_and_price_alerts'] as $key => $value ) {
+	foreach ( $app_config['charts_price_alerts']['markets'] as $key => $value ) {
 		
 		$chart_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, mb_strpos($key, "-", 0, 'utf-8') ) );
 		$chart_asset = strtoupper($chart_asset);
@@ -178,7 +178,7 @@
 		$charts_shown = 1;
 	?>
 	
-	<div class='chart_wrapper' id='<?=$key?>_<?=$alerts_market_parse[1]?>_chart'><span class='chart_loading' style='color: <?=$app_config['charts_text']?>;'> &nbsp; Loading chart for <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=snake_case_to_name($alerts_market_parse[0])?>...</span></div>
+	<div class='chart_wrapper' id='<?=$key?>_<?=$alerts_market_parse[1]?>_chart'><span class='chart_loading' style='color: <?=$app_config['charts_price_alerts']['charts_text']?>;'> &nbsp; Loading chart for <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=snake_case_to_name($alerts_market_parse[0])?>...</span></div>
 	
 	<script>
 	
@@ -198,7 +198,7 @@
 		$charts_shown = 1;
 	?>
 	
-	<div class='chart_wrapper' id='<?=$key?>_<?=strtolower($default_btc_primary_currency_pairing)?>_chart'><span class='chart_loading' style='color: <?=$app_config['charts_text']?>;'> &nbsp; Loading chart for <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=snake_case_to_name($alerts_market_parse[0])?> (<?=strtoupper($default_btc_primary_currency_pairing)?> Value)...</span></div>
+	<div class='chart_wrapper' id='<?=$key?>_<?=strtolower($default_btc_primary_currency_pairing)?>_chart'><span class='chart_loading' style='color: <?=$app_config['charts_price_alerts']['charts_text']?>;'> &nbsp; Loading chart for <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=snake_case_to_name($alerts_market_parse[0])?> (<?=strtoupper($default_btc_primary_currency_pairing)?> Value)...</span></div>
 	
 	<script>
 	

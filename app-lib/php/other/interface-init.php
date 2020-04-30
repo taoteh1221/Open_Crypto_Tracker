@@ -14,7 +14,7 @@ $alert_percent = explode("|", ( $_POST['use_alert_percent'] != '' ? $_POST['use_
 
 $show_charts = explode(',', rtrim( ( $_POST['show_charts'] != '' ? $_POST['show_charts'] : $_COOKIE['show_charts'] ) , ',') );
 
-$app_config['primary_marketcap_site'] = ( $alert_percent[0] != '' ? $alert_percent[0] : $app_config['primary_marketcap_site'] );
+$app_config['general']['primary_marketcap_site'] = ( $alert_percent[0] != '' ? $alert_percent[0] : $app_config['general']['primary_marketcap_site'] );
 
 
 $sort_settings = ( $_COOKIE['sort_by'] ? $_COOKIE['sort_by'] : $_POST['sort_by'] );
@@ -45,7 +45,7 @@ $sorted_by_asc_desc = $sort_settings[1];
 	$theme_selected = $_POST['theme_selected'];
 	}
 	else {
-	$theme_selected = $app_config['default_theme'];
+	$theme_selected = $app_config['general']['default_theme'];
 	}
 	// Sanitizing $theme_selected is very important, as we are calling external files with the value
 	if ( $theme_selected != 'light' && $theme_selected != 'dark' ) {

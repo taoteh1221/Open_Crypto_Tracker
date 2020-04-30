@@ -24,10 +24,10 @@ So you should have this so far (for the path to the cron plugin file):
 3) Inside config.php (in the primary directory of this app), find the configuration section called "POWER USER SETTINGS"
 
 
-4) Find the configuration variable within this section named: $app_config['activate_cron_plugins']
+4) Find the configuration variable within this section named: $app_config['power_user']['activate_cron_plugins']
 
 
-5) To activate your new plugin, add 'YOUR_PLUGIN_NAME' as a new array value within $app_config['activate_cron_plugins']
+5) To activate your new plugin, add 'YOUR_PLUGIN_NAME' as a new array value within $app_config['power_user']['activate_cron_plugins']
 
 
 Now you are ready to write your custom plugin code in PHP, inside the new plugin file /cron-plugins/YOUR_PLUGIN_NAME/YOUR_PLUGIN_NAME.php, which will run everytime a normally-scheduled cron job runs for this app. See the example code in the included example cron plugin "hns-airdrop" inside the /cron-plugins/ directory.

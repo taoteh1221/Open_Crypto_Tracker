@@ -19,9 +19,9 @@ $hive_market = asset_market_data('HIVE', 'bittrex', 'BTC-HIVE')['last_trade'];
 <div>
     <form action='<?=start_page('mining_calculators')?>' method='post'>
         
-        <p><b>Power Down Period:</b> <?=$app_config['hive_powerdown_time']?> weeks</p>
+        <p><b>Power Down Period:</b> <?=$app_config['power_user']['hive_powerdown_time']?> weeks</p>
 	
-        <p><b>HIVE Power Interest Rate:</b> <?=($app_config['hivepower_yearly_interest'])?> percent annually (see config file for yearly adjustments)</p>
+        <p><b>HIVE Power Interest Rate:</b> <?=($app_config['power_user']['hivepower_yearly_interest'])?> percent annually (see config file for yearly adjustments)</p>
 	
         <p><b>HIVE Power Purchased:</b> <input type='text' name='hp_purchased' value='<?=$_POST['hp_purchased']?>' placeholder="(from Bittrex trading etc)" size='45' /></p>
         
@@ -40,9 +40,9 @@ $hive_market = asset_market_data('HIVE', 'bittrex', 'BTC-HIVE')['last_trade'];
 if ( $_POST['hive_submitted'] ) {
 ?>
 
-<p class='red' style='font-weight: bold;'>Your <i>current</i> HIVE Power interest rate results (<i><u><?=strtoupper($app_config['btc_primary_currency_pairing'])?> values may change significantly over long periods of time</u></i>):</p>
+<p class='red' style='font-weight: bold;'>Your <i>current</i> HIVE Power interest rate results (<i><u><?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?> values may change significantly over long periods of time</u></i>):</p>
 
-<p class='green' style='font-weight: bold;'>1 HIVE = <?=number_to_string($hive_market)?> BTC (<?=$app_config['bitcoin_currency_markets'][$app_config['btc_primary_currency_pairing']]?><?php echo number_format( number_to_string( $hive_market * $selected_btc_primary_currency_value ), 8, '.', ','); ?>)</p>
+<p class='green' style='font-weight: bold;'>1 HIVE = <?=number_to_string($hive_market)?> BTC (<?=$app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']]?><?php echo number_format( number_to_string( $hive_market * $selected_btc_primary_currency_value ), 8, '.', ','); ?>)</p>
 
 
 <?php

@@ -30,7 +30,7 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 Test login / register / reset with light theme.
 
 
-Test in all major browsers.
+Test in all major browsers (MSIE rendering seems borked in latest version, find out why).
 
 
 Create a recursive function that calls itself and checks if the item(s) in an array are strings or sub-arrays, to only add non-existent variables to the CACHED app config only if they only exist in config.php (for upgrades). For removing depreciated variables, create a static list to be safe.

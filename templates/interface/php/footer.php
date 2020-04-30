@@ -24,7 +24,7 @@
 	$bundle_error_logs .= $logs_array['other_error'];
 	
 	
-	if ( $app_config['debug_mode'] != 'off' ) {
+	if ( $app_config['developer']['debug_mode'] != 'off' ) {
 	
 	
 		foreach ( $logs_array['cache_debugging'] as $error ) {
@@ -75,7 +75,7 @@
           
     	
     	// Proxy alerts (if setup by user, and any of them failed, test the failed proxies and log/alert if they seem offline)
-		if ( $app_config['proxy_alerts'] != 'off' ) {
+		if ( $app_config['comms']['proxy_alerts'] != 'off' ) {
 	
 			foreach ( $proxy_checkup as $problem_proxy ) {
 			test_proxy($problem_proxy);
@@ -107,7 +107,7 @@
 
 
 		// If debug mode is on
-		if ( $app_config['debug_mode'] == 'all' || $app_config['debug_mode'] == 'telemetry' || $app_config['debug_mode'] == 'stats' ) {
+		if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'stats' ) {
 		
 			foreach ( $system_info as $key => $value ) {
 			$system_telemetry .= $key . ': ' . $value . '; ';
@@ -128,7 +128,7 @@
 		// Process debugging logs AFTER runtime stats
 		$debugging_logs = debugging_logs();
     		
-		if ( $app_config['debug_mode'] != 'off' && $debugging_logs != true ) {
+		if ( $app_config['developer']['debug_mode'] != 'off' && $debugging_logs != true ) {
 		?>
 		<div class="red" style='font-weight: bold;'><?=$debugging_logs?></div>
 		<?php

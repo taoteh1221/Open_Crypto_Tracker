@@ -6,12 +6,12 @@
 
 	
 	// Have this script not load any code if asset charts are not turned on
-	if ( $app_config['charts_page'] != 'on' ) {
+	if ( $app_config['general']['charts_toggle'] != 'on' ) {
 	exit;
 	}
 
 
-	foreach ( $app_config['charts_and_price_alerts'] as $key => $value ) {
+	foreach ( $app_config['charts_price_alerts']['markets'] as $key => $value ) {
 		
  
 		if ( $_GET['asset_data'] == $key ) {
@@ -34,13 +34,13 @@
 			
 			// Unicode asset symbols
 			// Crypto
-			if ( array_key_exists($charted_value, $app_config['crypto_to_crypto_pairing']) ) {
-			$currency_symbol = $app_config['crypto_to_crypto_pairing'][$charted_value];
+			if ( array_key_exists($charted_value, $app_config['power_user']['crypto_to_crypto_pairing']) ) {
+			$currency_symbol = $app_config['power_user']['crypto_to_crypto_pairing'][$charted_value];
 			}
 			// Fiat-equiv
 			// RUN AFTER CRYPTO MARKETS...WE HAVE A COUPLE CRYPTOS SUPPORTED HERE, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
-			elseif ( array_key_exists($charted_value, $app_config['bitcoin_currency_markets']) && !array_key_exists($charted_value, $app_config['crypto_to_crypto_pairing']) ) {
-			$currency_symbol = $app_config['bitcoin_currency_markets'][$charted_value];
+			elseif ( array_key_exists($charted_value, $app_config['power_user']['bitcoin_currency_markets']) && !array_key_exists($charted_value, $app_config['power_user']['crypto_to_crypto_pairing']) ) {
+			$currency_symbol = $app_config['power_user']['bitcoin_currency_markets'][$charted_value];
 			$fiat_equiv = 1;
 			}
 			// Fallback for currency symbol config errors
@@ -81,19 +81,19 @@
 		$price_sample_average = ( $price_sample_oldest + $price_sample_newest ) / 2;
 		
 		
-		$spot_price_decimals = ( $fiat_equiv == 1 ? $app_config['primary_currency_decimals_max'] : 8 );
+		$spot_price_decimals = ( $fiat_equiv == 1 ? $app_config['general']['primary_currency_decimals_max'] : 8 );
 		
 			
 			// Force decimals under certain conditions
-			if ( number_to_string($price_sample_average) >= $app_config['primary_currency_decimals_max_threshold'] ) {
+			if ( number_to_string($price_sample_average) >= $app_config['general']['primary_currency_decimals_max_threshold'] ) {
 			$force_decimals = 'decimals: ' . 2 . ',';
 			}
-			elseif ( number_to_string($price_sample_average) < $app_config['primary_currency_decimals_max_threshold'] ) {
+			elseif ( number_to_string($price_sample_average) < $app_config['general']['primary_currency_decimals_max_threshold'] ) {
 			$force_decimals = 'decimals: ' . $spot_price_decimals . ',';
 			}
 		
 
-header('Content-type: text/html; charset=' . $app_config['charset_default']);
+header('Content-type: text/html; charset=' . $app_config['developer']['charset_default']);
 
 ?>
 
@@ -115,30 +115,30 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
   type: 'area',
   "preview":{
   		label: {
-      color: '<?=$app_config['charts_text']?>',
+      color: '<?=$app_config['charts_price_alerts']['charts_text']?>',
       fontSize: '10px',
       lineWidth: '1px',
-      lineColor: '<?=$app_config['charts_line']?>',
+      lineColor: '<?=$app_config['charts_price_alerts']['charts_line']?>',
      	},
  	  live: true,
  	  "adjust-layout": true,
  	  "alpha-area": 0.5,
  	  	height: 30
   },
-  backgroundColor: "<?=$app_config['charts_background']?>",
+  backgroundColor: "<?=$app_config['charts_price_alerts']['charts_background']?>",
   height: 420,
   x: 0, 
   y: 0,
   globals: {
   	fontSize: 20,
-  	fontColor: "<?=$app_config['charts_text']?>"
+  	fontColor: "<?=$app_config['charts_price_alerts']['charts_text']?>"
   },
   crosshairX:{
     shared: true,
     exact: true,
     plotLabel:{
-      backgroundColor: "<?=$app_config['charts_tooltip_background']?>",
-      fontColor: "<?=$app_config['charts_tooltip_text']?>",
+      backgroundColor: "<?=$app_config['charts_price_alerts']['charts_tooltip_background']?>",
+      fontColor: "<?=$app_config['charts_price_alerts']['charts_tooltip_text']?>",
       text: "Spot Price: <?=$currency_symbol?>%v",
 	 	fontSize: "20",
       fontFamily: "Open Sans",
@@ -148,10 +148,10 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
     },
     scaleLabel:{
     	alpha: 1.0,
-      fontColor: "<?=$app_config['charts_tooltip_text']?>",
+      fontColor: "<?=$app_config['charts_price_alerts']['charts_tooltip_text']?>",
       fontSize: 20,
       fontFamily: "Open Sans",
-      backgroundColor: "<?=$app_config['charts_tooltip_background']?>",
+      backgroundColor: "<?=$app_config['charts_price_alerts']['charts_tooltip_background']?>",
     }
   },
   crosshairY:{
@@ -159,7 +159,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
   },
   title: {
     text: "<?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=snake_case_to_name($market_parse[0])?> <?=( $_GET['charted_value'] != 'pairing' ? '(' . strtoupper($charted_value) . ' Value)' : '' )?>",
-    fontColor: "<?=$app_config['charts_text']?>",
+    fontColor: "<?=$app_config['charts_price_alerts']['charts_text']?>",
     fontFamily: 'Open Sans',
     fontSize: 23,
     align: 'right',
@@ -182,9 +182,9 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
   },
   tooltip:{
     text: "Spot Price: <?=$currency_symbol?>%v",
-    fontColor: "<?=$app_config['charts_tooltip_text']?>",
+    fontColor: "<?=$app_config['charts_price_alerts']['charts_tooltip_text']?>",
 	 fontSize: "20",
-    backgroundColor: "<?=$app_config['charts_tooltip_background']?>",
+    backgroundColor: "<?=$app_config['charts_price_alerts']['charts_tooltip_background']?>",
     "thousands-separator":","
   },
   scaleY: {
@@ -193,10 +193,10 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
     guide: {
       visible: true,
       lineStyle: 'solid',
-      lineColor: "<?=$app_config['charts_line']?>"
+      lineColor: "<?=$app_config['charts_price_alerts']['charts_line']?>"
     },
     item: {
-      fontColor: "<?=$app_config['charts_text']?>",
+      fontColor: "<?=$app_config['charts_price_alerts']['charts_text']?>",
       fontFamily: "Open Sans",
       fontSize: "14",
     }
@@ -205,7 +205,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
     guide: {
       visible: true,
       lineStyle: 'solid',
-      lineColor: "<?=$app_config['charts_line']?>"
+      lineColor: "<?=$app_config['charts_price_alerts']['charts_line']?>"
     },
     values: dates,
  	  transform: {
@@ -217,19 +217,19 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
     },
     item: {
 	 fontSize: "14",
-      fontColor: "<?=$app_config['charts_text']?>",
+      fontColor: "<?=$app_config['charts_price_alerts']['charts_text']?>",
       fontFamily: "Open Sans"
     }
   },
 	series : [
 		{
 			values: values,
-			lineColor: "<?=$app_config['charts_text']?>",
+			lineColor: "<?=$app_config['charts_price_alerts']['charts_text']?>",
 			lineWidth: 1,
-			backgroundColor:"<?=$app_config['charts_text']?> <?=$app_config['charts_price_gradient']?>", /* background gradient on graphed price area in main chart (NOT the chart background) */
+			backgroundColor:"<?=$app_config['charts_price_alerts']['charts_text']?> <?=$app_config['charts_price_alerts']['charts_price_gradient']?>", /* background gradient on graphed price area in main chart (NOT the chart background) */
 			alpha: 0.5,
 				previewState: {
-      		backgroundColor: "<?=$app_config['charts_price_gradient']?>" /* background color on graphed price area in preview below chart (NOT the preview area background) */
+      		backgroundColor: "<?=$app_config['charts_price_alerts']['charts_price_gradient']?>" /* background color on graphed price area in preview below chart (NOT the preview area background) */
 				}
 		}
 	],
@@ -238,7 +238,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
 	    x: 80,
 	    y: 10,
 	    id: '1D',
-	    fontColor: (current === '1D') ? "<?=$app_config['charts_text']?>" : "<?=$app_config['charts_link']?>",
+	    fontColor: (current === '1D') ? "<?=$app_config['charts_price_alerts']['charts_text']?>" : "<?=$app_config['charts_price_alerts']['charts_link']?>",
 	    fontSize: "21",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
@@ -248,7 +248,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
 	    x: 130,
 	    y: 10,
 	    id: '1W',
-	    fontColor: (current === '1W') ? "<?=$app_config['charts_text']?>" : "<?=$app_config['charts_link']?>",
+	    fontColor: (current === '1W') ? "<?=$app_config['charts_price_alerts']['charts_text']?>" : "<?=$app_config['charts_price_alerts']['charts_link']?>",
 	    fontSize: "21",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
@@ -258,7 +258,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
 	    x: 180,
 	    y: 10,
 	    id: '1M',
-	    fontColor: (current === '1M') ? "<?=$app_config['charts_text']?>" : "<?=$app_config['charts_link']?>",
+	    fontColor: (current === '1M') ? "<?=$app_config['charts_price_alerts']['charts_text']?>" : "<?=$app_config['charts_price_alerts']['charts_link']?>",
 	    fontSize: "21",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
@@ -268,7 +268,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
 	    x: 230,
 	    y: 10,
 	    id: '3M',
-	    fontColor: (current === '3M') ? "<?=$app_config['charts_text']?>" : "<?=$app_config['charts_link']?>",
+	    fontColor: (current === '3M') ? "<?=$app_config['charts_price_alerts']['charts_text']?>" : "<?=$app_config['charts_price_alerts']['charts_link']?>",
 	    fontSize: "21",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
@@ -278,7 +278,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
 	    x: 280,
 	    y: 10,
 	    id: '6M',
-	    fontColor: (current === '6M') ? "<?=$app_config['charts_text']?>" : "<?=$app_config['charts_link']?>",
+	    fontColor: (current === '6M') ? "<?=$app_config['charts_price_alerts']['charts_text']?>" : "<?=$app_config['charts_price_alerts']['charts_link']?>",
 	    fontSize: "21",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
@@ -288,7 +288,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
 	    x: 330,
 	    y: 10,
 	    id: '1Y',
-	    fontColor: (current === '1Y') ? "<?=$app_config['charts_text']?>" : "<?=$app_config['charts_link']?>",
+	    fontColor: (current === '1Y') ? "<?=$app_config['charts_price_alerts']['charts_text']?>" : "<?=$app_config['charts_price_alerts']['charts_link']?>",
 	    fontSize: "21",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
@@ -298,7 +298,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
 	    x: 380,
 	    y: 10,
 	    id: '2Y',
-	    fontColor: (current === '2Y') ? "<?=$app_config['charts_text']?>" : "<?=$app_config['charts_link']?>",
+	    fontColor: (current === '2Y') ? "<?=$app_config['charts_price_alerts']['charts_text']?>" : "<?=$app_config['charts_price_alerts']['charts_link']?>",
 	    fontSize: "21",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
@@ -308,7 +308,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
 	    x: 430,
 	    y: 10,
 	    id: '4Y',
-	    fontColor: (current === '4Y') ? "<?=$app_config['charts_text']?>" : "<?=$app_config['charts_link']?>",
+	    fontColor: (current === '4Y') ? "<?=$app_config['charts_price_alerts']['charts_text']?>" : "<?=$app_config['charts_price_alerts']['charts_link']?>",
 	    fontSize: "21",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
@@ -318,7 +318,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
 	    x: 480,
 	    y: 10,
 	    id: 'ALL',
-	    fontColor: (current === 'ALL') ? "<?=$app_config['charts_text']?>" : "<?=$app_config['charts_link']?>",
+	    fontColor: (current === 'ALL') ? "<?=$app_config['charts_price_alerts']['charts_text']?>" : "<?=$app_config['charts_price_alerts']['charts_link']?>",
 	    fontSize: "21",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
@@ -328,7 +328,7 @@ function getspotConfig_<?=$js_key?>(dates, values, current) {
 	    x: 547,
 	    y: 10,
 	    id: 'RESET',
-	    fontColor: "<?=$app_config['charts_link']?>",
+	    fontColor: "<?=$app_config['charts_price_alerts']['charts_link']?>",
 	    fontSize: "21",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
@@ -344,7 +344,7 @@ function getVolumeConfig_<?=$js_key?>(dates, values) {
   height: 75,
   x: 0, 
   y: 400,
-  backgroundColor: "<?=$app_config['charts_background']?>",
+  backgroundColor: "<?=$app_config['charts_price_alerts']['charts_background']?>",
   plotarea: {
     margin: "11 63 20 112"
   },
@@ -355,7 +355,7 @@ function getVolumeConfig_<?=$js_key?>(dates, values) {
   },
   source: {
     text: "24 Hour Volume",
-    fontColor:"<?=$app_config['charts_text']?>",
+    fontColor:"<?=$app_config['charts_price_alerts']['charts_text']?>",
 	 fontSize: "13",
     fontFamily: "Open Sans",
     offsetX: 106,
@@ -365,9 +365,9 @@ function getVolumeConfig_<?=$js_key?>(dates, values) {
   tooltip:{
     visible: false,
     text: "24 Hour Volume: <?=$currency_symbol?>%v",
-    fontColor: "<?=$app_config['charts_tooltip_text']?>",
+    fontColor: "<?=$app_config['charts_price_alerts']['charts_tooltip_text']?>",
 	 fontSize: "20",
-    backgroundColor: "<?=$app_config['charts_tooltip_background']?>",
+    backgroundColor: "<?=$app_config['charts_price_alerts']['charts_tooltip_background']?>",
     fontFamily: "Open Sans",
     "thousands-separator":","
   },
@@ -381,8 +381,8 @@ function getVolumeConfig_<?=$js_key?>(dates, values) {
       visible: false
     },
     plotLabel:{
-      backgroundColor: "<?=$app_config['charts_tooltip_background']?>",
-      fontColor: "<?=$app_config['charts_tooltip_text']?>",
+      backgroundColor: "<?=$app_config['charts_price_alerts']['charts_tooltip_background']?>",
+      fontColor: "<?=$app_config['charts_price_alerts']['charts_tooltip_text']?>",
       fontFamily: "Open Sans",
       text: "24 Hour Volume: <?=$currency_symbol?>%v",
 	 	fontSize: "20",
@@ -400,10 +400,10 @@ function getVolumeConfig_<?=$js_key?>(dates, values) {
     guide: {
       visible: true,
       lineStyle: 'solid',
-      lineColor: "<?=$app_config['charts_line']?>"
+      lineColor: "<?=$app_config['charts_price_alerts']['charts_line']?>"
     },
     item: {
-      fontColor: "<?=$app_config['charts_text']?>",
+      fontColor: "<?=$app_config['charts_price_alerts']['charts_text']?>",
       fontFamily: "Open Sans",
       fontSize: "12",
     }
@@ -412,7 +412,7 @@ function getVolumeConfig_<?=$js_key?>(dates, values) {
 		{
 			values: values,
 			text: "24hr Volume",
-			backgroundColor: "<?=$app_config['charts_text']?>",
+			backgroundColor: "<?=$app_config['charts_price_alerts']['charts_text']?>",
     		offsetX: 0
 		}
 	]
