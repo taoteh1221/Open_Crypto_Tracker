@@ -247,9 +247,6 @@ $base_url = trim( file_get_contents('cache/vars/base_url.dat') );
 }
 
 
-// Load any activated classes (MUST RUN AS EARLY AS POSSIBLE)
-require_once('app-lib/php/classes-loader.php');
-
 // Directory security check (MUST run AFTER directory structure creation check, AND BEFORE system checks)
 require_once('app-lib/php/other/security/directory.php');
 
@@ -261,6 +258,9 @@ require_once('app-lib/php/other/security/secure-cache-files.php');
 
 // Dynamic app config management (MUST RUN AFTER secure cache files FOR CACHED / config.php app_config comparison)
 require_once('app-lib/php/other/app-config-management.php');
+
+// Load any activated classes (MUST RUN AS EARLY AS POSSIBLE #AFTER SECURE CACHE FILES / APP CONFIG MANAGEMENT#)
+require_once('app-lib/php/classes-loader.php');
 
 // Primary Bitcoin markets (MUST RUN AFTER app config management)
 require_once('app-lib/php/other/primary-bitcoin-markets.php');

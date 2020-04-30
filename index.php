@@ -30,7 +30,7 @@ require("templates/interface/php/header.php");
 ?>
 
 
-		<ul class='tabs' style='display: inline-block; width: 100%; text-align: center;'>
+		<ul id='top_tab_nav' class='tabs'>
 			<li class='tabli'><a href='#portfolio'>Portfolio</a></li>
 			<li class='tabli'><a href='#update_assets'>Update Assets</a></li>
 			<li class='tabli'><a href='#settings'>Settings</a></li>

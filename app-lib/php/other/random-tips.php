@@ -20,7 +20,7 @@ $random_tips = array(
                     
                     "<i><u>ALWAYS AVOID</u></i> <a href='https://twitter.com/hashtag/pumpndump?src=hash' target='_blank'>#pumpndump</a> / <a href='https://twitter.com/hashtag/fomo?src=hash' target='_blank'>#fomo</a> / <a href='https://twitter.com/hashtag/shitcoin?src=hash' target='_blank'>#shxtcoin</a> trading.",
                     
-                    "<i>LITERALLY</i> nearly 99% of all tokens</i> are either scams, garbage, or dead ends.",
+                    "<i>LITERALLY</i> nearly 99% of all tokens are either scams, garbage, or dead ends.",
                     
                     "<i>NEVER</i> buy an asset because of somebody's opinion of it (only buy based on <i>YOUR</i> opinion of it).",
                     

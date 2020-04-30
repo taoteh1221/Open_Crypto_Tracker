@@ -4,43 +4,6 @@
  */
 
 
-// Activating an existing admin password reset session
-if ( trim($_GET['pass_reset_activate']) != '' ) {
-
-// Secured activation code data
-$activation_files = sort_files($base_dir . '/cache/secured/activation', 'dat', 'desc');
-
-
-	foreach( $activation_files as $activation_file ) {
-	
-		if ( preg_match("/password_reset_/i", $activation_file) ) {
-		
-			// If we already loaded the newest modified file, delete any stale ones
-			if ( $newest_cached_password_reset == 1 ) {
-			unlink($base_dir . '/cache/secured/activation/' . $activation_file);
-			}
-			else {
-			$newest_cached_password_reset = 1;
-			$password_reset = trim( file_get_contents($base_dir . '/cache/secured/activation/' . $activation_file) );
-			}
-	
-		}
-	
-	}
-
-
-	// If reset security key checks pass and a valid admin 'to' email exists, flag as an activated reset in progress (to trigger logic later in runtime)
-	if ( $_GET['pass_reset_activate'] == $password_reset && validate_email($app_config['comms']['to_email']) == 'valid' ) {
-	$password_reset_activated = 1;
-	}
-	else {
-	$password_reset_denied = 1; // For reset page UI
-	}
-	
-
-}
-
-
 
 // Secured cache files global variables
 $secured_cache_files = sort_files($base_dir . '/cache/secured', 'dat', 'desc');
@@ -394,6 +357,47 @@ $secure_128bit_hash = random_hash(16); // 128-bit (16-byte) hash converted to he
 }
 
 
+
+
+// Activating an existing admin password reset session 
+// (MUST RUN #AFTER GETTING CACHED APP CONFIG)
+if ( trim($_GET['pass_reset_activate']) != '' ) {
+
+// Secured activation code data
+$activation_files = sort_files($base_dir . '/cache/secured/activation', 'dat', 'desc');
+
+
+	foreach( $activation_files as $activation_file ) {
+	
+		if ( preg_match("/password_reset_/i", $activation_file) ) {
+		
+			// If we already loaded the newest modified file, delete any stale ones
+			if ( $newest_cached_password_reset == 1 ) {
+			unlink($base_dir . '/cache/secured/activation/' . $activation_file);
+			}
+			else {
+			$newest_cached_password_reset = 1;
+			$password_reset = trim( file_get_contents($base_dir . '/cache/secured/activation/' . $activation_file) );
+			}
+	
+		}
+	
+	}
+
+	
+	// If reset security key checks pass and a valid admin 'to' email exists, flag as an activated reset in progress (to trigger logic later in runtime)
+	
+	$app_config['comms']['to_email'] = auto_correct_string($app_config['comms']['to_email'], 'lower'); // Clean / auto-correct
+	
+	if ( $_GET['pass_reset_activate'] == $password_reset && validate_email($app_config['comms']['to_email']) == 'valid' ) {
+	$password_reset_activated = 1;
+	}
+	else {
+	$password_reset_denied = 1; // For reset page UI
+	}
+	
+
+}
 
  
 ?>

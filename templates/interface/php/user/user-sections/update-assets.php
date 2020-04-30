@@ -144,7 +144,7 @@
 							</li>
 						
 							<li class='red'>
-								<i>LITERALLY</i> nearly 99% of all tokens</i> are either scams, garbage, or dead ends.
+								<i>LITERALLY</i> nearly 99% of all tokens are either scams, garbage, or dead ends.
 							</li>
 						
 							<li class='red'>

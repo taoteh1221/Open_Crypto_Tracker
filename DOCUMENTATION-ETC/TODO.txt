@@ -26,28 +26,13 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
-Epiphany browser trying to autoplay audio alert: [Error] Unhandled Promise Rejection: NotSupportedError: The operation is not supported.
-
-
 Have random tip display a "next tip" link...consider putting it at top of charts page too.
 
 
 New screenshots.
 
 
-1D / 1W / 1M .... chart links are broken on chrome for Android (BUT work fine on Chrome for Ubuntu). 
-
-
-Test in all major browsers (MSIE rendering seems borked in latest version, find out why).
-
-
-Create a recursive function that calls itself and checks if the item(s) in an array are strings or sub-arrays, to only add non-existent variables to the CACHED app config only if they only exist in config.php (for upgrades). For removing depreciated variables, create a static list to be safe.
-
-
-Auto correct app config vars at the top of the file, IF the file is called before app config management.
-
-
-Make sure we can load classes before loading secure cached vars like telegram bot chat id, etc.
+1D / 1W / 1M .... chart links are broken on chrome for Android (BUT work fine on Chrome for Ubuntu).
 
 
 Documentation for API / Webhook features
@@ -59,7 +44,10 @@ Add api key and webhook keys on admin page.
 Alerts bell in header.
 
 
-Retest password strength function after the modification.
+Retest password strength function after the modification. 
+
+
+Create a recursive function that calls itself and checks if the item(s) in an array are strings or sub-arrays, to only add non-existent variables to the CACHED app config only if they only exist in config.php (for upgrades). For removing depreciated variables, create a static list to be safe.
 
 
 Fresh AUTO install on a raspberry pi throws this INTERFACE error, even though we chowned every file as owner 'pi', and chmod 664 on the root .htaccess file:
@@ -86,6 +74,9 @@ Test unicode mobile text message with no space in front of hex-encoded data (for
 
 
 Code review ALL functions / logic (especially loops, for efficiency).
+
+
+Epiphany browser trying to autoplay audio alert: [Error] Unhandled Promise Rejection: NotSupportedError: The operation is not supported.
 
 
 ///////////////////////////////////////////////////////

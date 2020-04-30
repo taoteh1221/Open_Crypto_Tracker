@@ -35,7 +35,7 @@ function update_alert_percent() {
 /////////////////////////////////////////////////////////////
 
 
-function ajax_placeholder(px_size, message='none'){
+function ajax_placeholder(px_size, message){
 
 div_min_height = px_size + 10;
 
@@ -227,30 +227,6 @@ function selectAll(toggle, form_name) {
         
     }
      
-}
-
-
-/////////////////////////////////////////////////////////////
-
-/*
-
-	USAGE
-
-fake_sleep(500).then(() => {
-  //do stuff
-});
-
-const doSomething = async () => {
-  await fake_sleep(2000)
-  //do stuff
-};
-
-doSomething();
-
-*/
-
-var fake_sleep = (milliseconds) => {
-  return new Promise(resolve => setTimeout(resolve, milliseconds))
 }
 
 

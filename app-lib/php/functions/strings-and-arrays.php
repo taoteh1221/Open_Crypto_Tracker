@@ -126,7 +126,7 @@ return $regex_url;
 ////////////////////////////////////////////////////////
 
 
-function cleanup_string($string, $mode) {
+function auto_correct_string($string, $mode) {
 
 	// Upper or lower case
 	if ( $mode == 'lower' ) {

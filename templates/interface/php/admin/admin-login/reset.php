@@ -11,7 +11,7 @@ $reset_result = array();
 if ( !$_GET['pass_reset_activate'] ) {
 	
 	if ( validate_email($app_config['comms']['to_email']) != 'valid'  ) {
-	$reset_result['error'][] = "Admin's 'To' Email has NOT been set in the admin configuration, therefore the password CANNOT be reset. Alternatively, you can delete the file '/cache/secured/admin_login_XXXXXXXXXXXXX.dat' in the app directory. This will prompt you to create a new admin login, the next time you use the app.";
+	$reset_result['error'][] = "Admin's 'To' Email has NOT been set in the admin configuration yet, therefore the password CANNOT be reset by interface form submission. Alternatively, you can MANUALLY delete the file '/cache/secured/admin_login_XXXXXXXXXXXXX.dat' in the app directory. This will prompt you to create a new admin login, the next time you use the app.";
 	$no_password_reset = 1;
 	}
 	
@@ -103,7 +103,7 @@ require("templates/interface/php/header.php");
 		var reset_notes = '<h5 align="center" class="red_bright" style="position: relative; white-space: nowrap;">Reset Admin Account By Username</h5>'
 			
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="red_bright">Admin\'s \'To\' Email MUST be set in the admin configuration, otherwise the password CANNOT be reset. Alternatively, you can delete the file \'/cache/secured/admin_login_XXXXXXXXXXXXX.dat\' in the app directory. This will prompt you to create a new admin login, the next time you use the app.<br /></span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="red_bright">For security purposes you MUST know the admin username, and the admin \'To\' Email MUST be set in the admin configuration already. Otherwise the password CANNOT be reset by interface form submission. Alternatively, you can MANUALLY delete the file \'/cache/secured/admin_login_XXXXXXXXXXXXX.dat\' in the app directory. This will prompt you to create a new admin login, the next time you use the app.<br /></span></p>'
 			
 			+'<p class="coin_info"><span class="yellow"> </span></p>';
 

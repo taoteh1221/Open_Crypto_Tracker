@@ -342,6 +342,9 @@ margin-bottom: 2px;
 
 
 .tabs {
+display: inline-block; 
+width: 100%; 
+text-align: center;
 padding: 0px; 
 margin: 0px;
 }
