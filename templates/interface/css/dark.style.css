@@ -193,6 +193,11 @@ border-top: 2px solid white;
 }
 
 
+.image_border {
+border: 2px solid #d4d8d3; 
+}
+
+
 /* //////////////////////////////
 IDs
 ////////////////////////////// */

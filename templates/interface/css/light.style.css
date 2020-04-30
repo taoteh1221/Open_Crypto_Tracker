@@ -188,6 +188,11 @@ border-top: 2px solid black;
 }
 
 
+.image_border {
+border: 2px solid #606060; 
+}
+
+
 /* //////////////////////////////
 IDs
 ////////////////////////////// */
