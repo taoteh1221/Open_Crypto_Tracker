@@ -479,7 +479,7 @@
 	       <input type='checkbox' value='<?=strtolower($coin_array_key)?>' id='<?=$field_var_watchonly?>' onchange='watch_toggle(this);' <?=( remove_number_format($asset_amount_value) > 0 && remove_number_format($asset_amount_value) <= '0.000000001' ? 'checked' : '' )?> /> &nbsp;
 				    
 				    
-			<b class='blue'><?=$coin_array_value['coin_name']?> (<?=strtoupper($coin_array_key)?>)</b> /  
+			<b class='blue'><?=$coin_array_value['asset_name']?> (<?=strtoupper($coin_array_key)?>)</b> /  
 	       
 	       
 				    <select onchange='
@@ -493,7 +493,7 @@
 					<?php
 					
 					// Get default BITCOIN pairing key for further down in the logic, if no $coin_pairing_id value was set FOR BITCOIN
-					if ( strtolower($coin_array_value['coin_name']) == 'bitcoin' ) {
+					if ( strtolower($coin_array_value['asset_name']) == 'bitcoin' ) {
 					$selected_pairing = ( isset($coin_pairing_id) ? $coin_pairing_id : $app_config['general']['btc_primary_currency_pairing'] );
 					}
 					else {
@@ -517,7 +517,7 @@
 							
 									$html_market_list[$pairing_key] .= "\n<option value='".$loop2."'" . ( 
 									isset($coin_market_id) && ($coin_market_id) == $loop2 
-									|| !isset($coin_market_id) && strtolower($coin_array_value['coin_name']) == 'bitcoin' && $loop2 == btc_market($app_config['general']['btc_primary_exchange']) ? ' selected ' : '' ) . ">" . snake_case_to_name($market_key) . " </option>\n";
+									|| !isset($coin_market_id) && strtolower($coin_array_value['asset_name']) == 'bitcoin' && $loop2 == btc_market($app_config['general']['btc_primary_exchange']) ? ' selected ' : '' ) . ">" . snake_case_to_name($market_key) . " </option>\n";
 								
 									}
 									$loop2 = NULL;
@@ -536,7 +536,7 @@
 				     elseif ( isset($coin_market_id) ) {
 				     echo $coin_market_id;
 				     }
-				     elseif ( !isset($coin_market_id) && strtolower($coin_array_value['coin_name']) == 'bitcoin' ) {
+				     elseif ( !isset($coin_market_id) && strtolower($coin_array_value['asset_name']) == 'bitcoin' ) {
 				     echo btc_market($app_config['general']['btc_primary_exchange']);
 				     }
 				     else {

@@ -17,25 +17,25 @@ $app_config['developer']['debug_mode'] = cleanup_string($app_config['developer']
 $app_config['comms']['upgrade_check'] = cleanup_string($app_config['comms']['upgrade_check'], 'lower');
 $app_config['general']['btc_primary_currency_pairing'] = cleanup_string($app_config['general']['btc_primary_currency_pairing'], 'lower');
 $app_config['general']['btc_primary_exchange'] = cleanup_string($app_config['general']['btc_primary_exchange'], 'lower');
-$app_config['developer']['log_detail_level'] = cleanup_string($app_config['developer']['log_detail_level'], 'lower');
+$app_config['developer']['log_detail'] = cleanup_string($app_config['developer']['log_detail'], 'lower');
 $app_config['general']['default_theme'] = cleanup_string($app_config['general']['default_theme'], 'lower');
 $app_config['general']['primary_marketcap_site'] = cleanup_string($app_config['general']['primary_marketcap_site'], 'lower');
 $app_config['comms']['price_alerts_block_volume_error'] = cleanup_string($app_config['comms']['price_alerts_block_volume_error'], 'lower');
 $app_config['power_user']['remote_api_strict_ssl'] = cleanup_string($app_config['power_user']['remote_api_strict_ssl'], 'lower');
 $app_config['general']['charts_toggle'] = cleanup_string($app_config['general']['charts_toggle'], 'lower');
-$app_config['comms']['smtp_email_secure'] = cleanup_string($app_config['comms']['smtp_email_secure'], 'lower');
+$app_config['comms']['smtp_secure'] = cleanup_string($app_config['comms']['smtp_secure'], 'lower');
 $app_config['comms']['proxy_alerts'] = cleanup_string($app_config['comms']['proxy_alerts'], 'lower');
 $app_config['comms']['proxy_alerts_runtime'] = cleanup_string($app_config['comms']['proxy_alerts_runtime'], 'lower');
 $app_config['comms']['proxy_alerts_checkup_ok'] = cleanup_string($app_config['comms']['proxy_alerts_checkup_ok'], 'lower');
 
 // Cleaning charts/alerts array
 $cleaned_charts_and_price_alerts = array();
-foreach ( $app_config['charts_price_alerts']['markets'] as $key => $value ) {
+foreach ( $app_config['charts_alerts']['markets'] as $key => $value ) {
 $cleaned_key = cleanup_string($key, 'lower');
 $cleaned_value = cleanup_string($value, 'lower');
 $cleaned_charts_and_price_alerts[$cleaned_key] = $cleaned_value;
 }
-$app_config['charts_price_alerts']['markets'] = $cleaned_charts_and_price_alerts;
+$app_config['charts_alerts']['markets'] = $cleaned_charts_and_price_alerts;
 
 // Cleaning mobile networks array
 $cleaned_mobile_networks = array();
@@ -55,7 +55,7 @@ $app_config['mobile_network_text_gateways'] = $cleaned_mobile_networks;
 
 // Default BTC CRYPTO/CRYPTO market pairing support, BEFORE GENERATING MISCASSETS ARRAY
 // (so we activate it here instead of in config.php, for good UX adding ONLY altcoin markets dynamically there)
-$app_config['power_user']['crypto_to_crypto_pairing']['btc'] = 'Ƀ ';
+$app_config['power_user']['secondary_crypto_pairing']['btc'] = 'Ƀ ';
 
 
 
@@ -65,20 +65,20 @@ $app_config['power_user']['crypto_to_crypto_pairing']['btc'] = 'Ƀ ';
 if (is_array($app_config['portfolio_assets']) || is_object($app_config['portfolio_assets'])) {
     
     $app_config['portfolio_assets']['MISCASSETS'] = array(
-                                        'coin_name' => 'Misc. '.strtoupper($app_config['general']['btc_primary_currency_pairing']).' Value',
+                                        'asset_name' => 'Misc. '.strtoupper($app_config['general']['btc_primary_currency_pairing']).' Value',
                                         'marketcap_website_slug' => '',
                                         'market_pairing' => array()
                                         );
             
             
-            foreach ( $app_config['power_user']['crypto_to_crypto_pairing'] as $pairing_key => $pairing_unused ) {
+            foreach ( $app_config['power_user']['secondary_crypto_pairing'] as $pairing_key => $pairing_unused ) {
             $app_config['portfolio_assets']['MISCASSETS']['market_pairing'][$pairing_key] = array('misc_assets' => $pairing_key);
             }
             
             foreach ( $app_config['power_user']['bitcoin_currency_markets'] as $pairing_key => $pairing_unused ) {
             	
             	// WE HAVE A COUPLE CRYPTOS SUPPORTED HERE, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE (cryptos are added via 'crypto_to_crypto_pairing')
-            	if ( !array_key_exists($pairing_key, $app_config['power_user']['crypto_to_crypto_pairing']) ) {
+            	if ( !array_key_exists($pairing_key, $app_config['power_user']['secondary_crypto_pairing']) ) {
             	$app_config['portfolio_assets']['MISCASSETS']['market_pairing'][$pairing_key] = array('misc_assets' => $pairing_key);
             	}
             

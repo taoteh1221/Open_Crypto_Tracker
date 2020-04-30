@@ -179,7 +179,7 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in, but valu
                     // UPPERCASE_COIN_ABRV_HERE
                     'UPPERCASE_COIN_ABRV_HERE' => array(
                         
-                        'coin_name' => 'COIN_NAME_HERE',
+                        'asset_name' => 'COIN_NAME_HERE',
                         'marketcap_website_slug' => 'WEBSITE_SLUG_HERE', // Website slug (URL data) on coinmarketcap / coingecko, leave blank if not listed there
                         'market_pairing' => array(
                                                     
@@ -203,7 +203,7 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in, but valu
       
  
     
- // SEE /DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt FOR A FULL EXAMPLE OF THE SETTINGS / ASSETS CONFIGURATION (ESPECIALLY IF YOU MESS UP config.php, lol)
+ // SEE /DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt FOR A FULL EXAMPLE OF THE DEFAULT CONFIGURATION (ESPECIALLY IF YOU MESS UP config.php, lol)
 
 ################################################################################################################
 

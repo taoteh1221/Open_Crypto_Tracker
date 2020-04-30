@@ -40,7 +40,7 @@ ini_set('max_execution_time', $app_config['developer']['cron_max_execution_time'
 
 
 // Charts and price alerts
-foreach ( $app_config['charts_price_alerts']['markets'] as $key => $value ) {
+foreach ( $app_config['charts_alerts']['markets'] as $key => $value ) {
 	
 // Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
 $asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, mb_strpos($key, "-", 0, 'utf-8') ) );

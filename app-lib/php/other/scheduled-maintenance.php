@@ -19,8 +19,8 @@ if ( $runtime_mode != 'cron' && update_cache_file($base_dir . '/cache/events/sch
 	if ( $runtime_mode == 'cron' ) {
 	
 		// Chart backups...run before any price checks to avoid any potential file lock issues
-		if ( $app_config['general']['charts_toggle'] == 'on' && $app_config['charts_price_alerts']['charts_backup_freq'] > 0 ) {
-		backup_archive('charts-data', $base_dir . '/cache/charts/', $app_config['charts_price_alerts']['charts_backup_freq']); // No $backup_archive_password extra param here (waste of time / energy to encrypt charts data backups)
+		if ( $app_config['general']['charts_toggle'] == 'on' && $app_config['charts_alerts']['charts_backup_freq'] > 0 ) {
+		backup_archive('charts-data', $base_dir . '/cache/charts/', $app_config['charts_alerts']['charts_backup_freq']); // No $backup_archive_password extra param here (waste of time / energy to encrypt charts data backups)
 		}
 
 
@@ -32,7 +32,7 @@ if ( $runtime_mode != 'cron' && update_cache_file($base_dir . '/cache/events/sch
 		////////////////////////////////////////////////////////////
 	   if ( $app_config['general']['charts_toggle'] == 'on' || !is_numeric(trim(file_get_contents($base_dir . '/cache/vars/chart_interval.dat'))) || trim(file_get_contents($base_dir . '/cache/vars/chart_interval.dat')) == 1 ) {
 			
-			foreach ( $app_config['charts_price_alerts']['markets'] as $key => $value ) {
+			foreach ( $app_config['charts_alerts']['markets'] as $key => $value ) {
 			
 				if ( trim($find_first_filename) == '' ) {
 					

@@ -102,7 +102,7 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 												
 						
 										// Render the row of coin data in the UI
-										ui_coin_data_row($app_config['portfolio_assets'][$coin_symbol]['coin_name'], $coin_symbol, $held_amount, $app_config['portfolio_assets'][$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price, $leverage_level, $selected_margintype);
+										ui_coin_data_row($app_config['portfolio_assets'][$coin_symbol]['asset_name'], $coin_symbol, $held_amount, $app_config['portfolio_assets'][$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price, $leverage_level, $selected_margintype);
 										
 										
 										
@@ -190,7 +190,7 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 						
 						
 										// Render the row of coin data in the UI
-										ui_coin_data_row($app_config['portfolio_assets'][$coin_symbol]['coin_name'], $coin_symbol, $held_amount, $app_config['portfolio_assets'][$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price, $leverage_level, $selected_margintype);
+										ui_coin_data_row($app_config['portfolio_assets'][$coin_symbol]['asset_name'], $coin_symbol, $held_amount, $app_config['portfolio_assets'][$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price, $leverage_level, $selected_margintype);
 										
 										
 										
@@ -351,7 +351,7 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 					
 					
 					// Render the row of coin data in the UI
-					ui_coin_data_row($app_config['portfolio_assets'][$coin_symbol]['coin_name'], $coin_symbol, $held_amount, $app_config['portfolio_assets'][$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price, $leverage_level, $selected_margintype);
+					ui_coin_data_row($app_config['portfolio_assets'][$coin_symbol]['asset_name'], $coin_symbol, $held_amount, $app_config['portfolio_assets'][$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price, $leverage_level, $selected_margintype);
 					
 					
 						
@@ -797,7 +797,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	<div class='red' id='system_charts_error'></div>
 	
 	
-	<div class='chart_wrapper' id='system_stats_chart_1'><span class='chart_loading' style='color: <?=$app_config['charts_price_alerts']['charts_text']?>;'> &nbsp; Loading chart #1 for System Statistics...</span></div>
+	<div class='chart_wrapper' id='system_stats_chart_1'><span class='chart_loading' style='color: <?=$app_config['charts_alerts']['charts_text']?>;'> &nbsp; Loading chart #1 for System Statistics...</span></div>
 	
 	<script>
 	
@@ -811,7 +811,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	<br/><br/><br/>
 	
 	
-	<div class='chart_wrapper' id='system_stats_chart_2'><span class='chart_loading' style='color: <?=$app_config['charts_price_alerts']['charts_text']?>;'> &nbsp; Loading chart #2 for System Statistics...</span></div>
+	<div class='chart_wrapper' id='system_stats_chart_2'><span class='chart_loading' style='color: <?=$app_config['charts_alerts']['charts_text']?>;'> &nbsp; Loading chart #2 for System Statistics...</span></div>
 	
 	<script>
 	

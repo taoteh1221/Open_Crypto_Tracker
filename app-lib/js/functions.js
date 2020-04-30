@@ -149,12 +149,14 @@ function charts_loading_check(charts_loaded) {
 	
 	//console.log('loaded charts = ' + window.charts_loaded.length + ', all charts = ' + window.charts_num);
 
-	if ( window.charts_loaded.length >= window.charts_num ) {
+	if ( charts_loaded.length >= window.charts_num ) {
 	$("#loading_subsections").hide(250); // 0.25 seconds
+	return 'done';
 	}
 	else {
 	$("#loading_subsections_span").html("Loading Charts...");
 	$("#loading_subsections").show(250); // 0.25 seconds
+	return 'active';
 	}
 
 }
@@ -634,18 +636,7 @@ function row_alert(tr_id, alert_type, color, theme) {
 			
 				// Audio, if chosen in settings
 				if ( !window.is_alerted && alert_type == 'visual_audio' ) {
-				
-				audio_alert = document.getElementById('audio_alert');
-				
-					if ( audio_alert.canPlayType('audio/mpeg') ) {
-						audio_alert.setAttribute('src','templates/interface/media/audio/Smoke-Alarm-SoundBible-1551222038.mp3');
-					}
-					else if ( audio_alert.canPlayType('audio/ogg') ) {
-						audio_alert.setAttribute('src','templates/interface/media/audio/Smoke-Alarm-SoundBible-1551222038.ogg');
-					}
-				
-					audio_alert.play();
-				
+				play_audio_alert();
 				window.is_alerted = 1;
 				}
 			
@@ -661,6 +652,31 @@ function row_alert(tr_id, alert_type, color, theme) {
 
 /////////////////////////////////////////////////////////////
 
+function play_audio_alert() {
+
+audio_alert = document.getElementById('audio_alert');
+				
+	if ( audio_alert.canPlayType('audio/mpeg') ) {
+	audio_alert.setAttribute('src','templates/interface/media/audio/Intruder_Alert-SoundBible.com-867759995.mp3');
+	}
+	else if ( audio_alert.canPlayType('audio/ogg') ) {
+	audio_alert.setAttribute('src','templates/interface/media/audio/Intruder_Alert-SoundBible.com-867759995.ogg');
+	}
+				
+	
+	// If charts are still loading, wait until they are finished
+   if ( charts_loading_check(window.charts_loaded) == 'active' ) {
+   setTimeout(play_audio_alert, 700); //wait 700 millisecnds then recheck
+   return;
+   }
+   else {
+	audio_alert.autoplay = true;
+	audio_alert.play();
+   }
+    				
+
+
+}
 
 
 

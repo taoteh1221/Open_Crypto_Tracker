@@ -205,7 +205,7 @@ if ( trim($app_config['comms']['from_email']) != '' && trim($app_config['comms']
           	
       // Google Home
 		// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-      if ( trim($app_config['comms']['google_home_application_name']) != '' && trim($app_config['comms']['google_home_client_id']) != '' && $app_config['comms']['google_home_client_secret'] != '' ) {
+      if ( trim($app_config['comms']['google_application_name']) != '' && trim($app_config['comms']['google_client_id']) != '' && $app_config['comms']['google_client_secret'] != '' ) {
       $alerts_enabled_types[] = 'Google Home';
       }
           	
@@ -227,13 +227,13 @@ if ( trim($app_config['comms']['from_email']) != '' && trim($app_config['comms']
           		
           		
 
-			// Check $app_config['charts_price_alerts']['markets'] config
-			if ( !is_array($app_config['charts_price_alerts']['markets']) ) {
+			// Check $app_config['charts_alerts']['markets'] config
+			if ( !is_array($app_config['charts_alerts']['markets']) ) {
 			$config_parse_error[] = 'The asset / exchange / pairing price alert formatting is corrupt, or not configured yet.';
 			}
 			
 			
-			foreach ( $app_config['charts_price_alerts']['markets'] as $key => $value ) {
+			foreach ( $app_config['charts_alerts']['markets'] as $key => $value ) {
    		       		
 			$alerts_string = explode("||",$value);
    		       	
@@ -278,12 +278,12 @@ if ( trim($app_config['comms']['from_email']) != '' && trim($app_config['comms']
 
 // Check SMTP configs
 // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-if ( $app_config['comms']['smtp_email_login'] != '' && $app_config['comms']['smtp_email_server'] != '' ) {
+if ( $app_config['comms']['smtp_login'] != '' && $app_config['comms']['smtp_server'] != '' ) {
 	
 	
 // SMTP configuration check
-$smtp_email_login_parse = explode("||", $app_config['comms']['smtp_email_login'] );
-$smtp_email_server_parse = explode(":", $app_config['comms']['smtp_email_server'] );
+$smtp_email_login_parse = explode("||", $app_config['comms']['smtp_login'] );
+$smtp_email_server_parse = explode(":", $app_config['comms']['smtp_server'] );
 
 	if ( sizeof($smtp_email_login_parse) < 2 || trim($smtp_email_login_parse[0]) == '' || $smtp_email_login_parse[1] == '' ) {
    $config_parse_error[] = 'SMTP username / password not formatted properly.';
@@ -366,7 +366,7 @@ if ( $app_config['comms']['email_logs'] > 0 && trim($app_config['comms']['from_e
 
 
 // Email backup archives configs
-if ( $app_config['general']['charts_toggle'] == 'on' && $app_config['charts_price_alerts']['charts_backup_freq'] > 0 && trim($app_config['comms']['from_email']) != '' && trim($app_config['comms']['to_email']) != '' ) {
+if ( $app_config['general']['charts_toggle'] == 'on' && $app_config['charts_alerts']['charts_backup_freq'] > 0 && trim($app_config['comms']['from_email']) != '' && trim($app_config['comms']['to_email']) != '' ) {
 					
 	// Config error check(s)
    if ( validate_email($app_config['comms']['from_email']) != 'valid' ) {

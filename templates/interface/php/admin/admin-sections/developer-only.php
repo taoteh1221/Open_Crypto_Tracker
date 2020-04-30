@@ -8,7 +8,8 @@
 
 <div class='full_width_wrapper'>
 	
-				<h4 class='align_center'>Developer Only</h4>
+				<h4 class='align_center' style='margin-bottom: 0px;'>Developer Only</h4>
+				<div class='bitcoin align_center' style='margin-bottom: 20px;'>(advanced configuration, handle with care)</div>
 				
 	
 	

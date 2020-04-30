@@ -182,8 +182,8 @@ $telegram_activated = 1;
 }
 
 // User agent (MUST BE SET EARLY [BUT AFTER SYSTEM INFO VAR], FOR ANY API CALLS WHERE USER AGENT IS REQUIRED BY THE API SERVER)
-if ( trim($app_config['developer']['override_default_user_agent']) != '' ) {
-$user_agent = $app_config['developer']['override_default_user_agent'];  // Custom user agent
+if ( trim($app_config['developer']['override_user_agent']) != '' ) {
+$user_agent = $app_config['developer']['override_user_agent'];  // Custom user agent
 }
 elseif ( sizeof($app_config['proxy']['proxy_list']) > 0 ) {
 $user_agent = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; compatible;)';  // If proxies in use, preserve some privacy

@@ -80,9 +80,9 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 	if ( $app_config['general']['charts_toggle'] == 'on' ) {
 	?>
 	<script>
-	var charts_num = <?=( sizeof($show_charts) > 0 ? sizeof($show_charts) : 0 )?>;
+	var charts_num = <?=( $show_charts[0] != '' ? sizeof($show_charts) : 0 )?>;
 	var charts_loaded = new Array();
-	charts_loading_check(charts_loaded);
+	charts_loading_check(window.charts_loaded);
 	</script>
 	<?php
 	}
@@ -100,9 +100,9 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 	var sorted_by_asc_desc = <?=$sorted_by_asc_desc?>;
 	var tablesort_theme = '<?=$theme_selected?>';
 	
-	var charts_background = '<?=$app_config['charts_price_alerts']['charts_background']?>';
+	var charts_background = '<?=$app_config['charts_alerts']['charts_background']?>';
 	
-	var charts_border = '<?=$app_config['charts_price_alerts']['charts_border']?>';
+	var charts_border = '<?=$app_config['charts_alerts']['charts_border']?>';
 	
 	var btc_primary_currency_value = '<?=number_format( $selected_btc_primary_currency_value, 2, '.', '' )?>';
 	
@@ -140,8 +140,8 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 
     
     <audio preload="metadata" id="audio_alert">
-      <source src="templates/interface/media/audio/Smoke-Alarm-SoundBible-1551222038.mp3">
-      <source src="templates/interface/media/audio/Smoke-Alarm-SoundBible-1551222038.ogg">
+      <source src="templates/interface/media/audio/Intruder_Alert-SoundBible.com-867759995.mp3">
+      <source src="templates/interface/media/audio/Intruder_Alert-SoundBible.com-867759995.ogg">
     </audio>
     
 	 

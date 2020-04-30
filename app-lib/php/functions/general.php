@@ -143,7 +143,7 @@ global $app_config, $smtp;
 	$from_email = $app_config['comms']['from_email'];
 	}
 	else {
-	$temp_data = explode("||", $app_config['comms']['smtp_email_login']);
+	$temp_data = explode("||", $app_config['comms']['smtp_login']);
 	$from_email = $temp_data[0];
 	}
 
@@ -261,7 +261,7 @@ global $runtime_mode, $app_config, $logs_array;
 
 
 	// Disable logging any included verbose tracing, if log detail level config is set to normal, AND debug mode is off
-	if ( $app_config['developer']['debug_mode'] == 'off' && $app_config['developer']['log_detail_level'] == 'normal' ) {
+	if ( $app_config['developer']['debug_mode'] == 'off' && $app_config['developer']['log_detail'] == 'normal' ) {
 	$verbose_tracing = false;
 	}
 
@@ -555,12 +555,12 @@ global $app_config, $possible_http_users, $http_runtime_user;
 		// Run cache compatibility on certain PHP setups
 		if ( !$http_runtime_user || in_array($http_runtime_user, $possible_http_users) ) {
 		$oldmask = umask(0);
-		$result = mkdir($path, octdec($app_config['developer']['chmod_permission_cache_directories']), true); // Recursively create whatever path depth desired if non-existent
+		$result = mkdir($path, octdec($app_config['developer']['chmod_cache_directories']), true); // Recursively create whatever path depth desired if non-existent
 		umask($oldmask);
 		return $result;
 		}
 		else {
-		return  mkdir($path, octdec($app_config['developer']['chmod_permission_cache_directories']), true); // Recursively create whatever path depth desired if non-existent
+		return  mkdir($path, octdec($app_config['developer']['chmod_cache_directories']), true); // Recursively create whatever path depth desired if non-existent
 		}
 	
 	}
@@ -806,8 +806,8 @@ $log_file = $base_dir . "/cache/logs/smtp_errors.log";
 $log_file_debugging = $base_dir . "/cache/logs/smtp_debugging.log";
 
 // Don't overwrite globals
-$temp_smtp_email_login = explode("||", $app_config['comms']['smtp_email_login'] );
-$temp_smtp_email_server = explode(":", $app_config['comms']['smtp_email_server'] );
+$temp_smtp_email_login = explode("||", $app_config['comms']['smtp_login'] );
+$temp_smtp_email_server = explode(":", $app_config['comms']['smtp_server'] );
 
 // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
 $smtp_user = trim($temp_smtp_email_login[0]);
@@ -821,7 +821,7 @@ $vars['cfg_log_file']   = $log_file;
 $vars['cfg_log_file_debugging']   = $log_file_debugging;
 $vars['cfg_server']   = $smtp_host;
 $vars['cfg_port']     =  $smtp_port;
-$vars['cfg_secure']   = $app_config['comms']['smtp_email_secure'];
+$vars['cfg_secure']   = $app_config['comms']['smtp_secure'];
 $vars['cfg_username'] = $smtp_user;
 $vars['cfg_password'] = $smtp_password;
 $vars['cfg_debug_mode'] = $app_config['developer']['debug_mode']; // DFD Cryptocoin Values debug mode setting
@@ -1257,7 +1257,7 @@ global $app_config, $default_btc_primary_currency_pairing;
 
 
 	// #FOR CLEAN CODE#, RUN CHECK TO MAKE SURE IT'S NOT A CRYPTO AS WELL...WE HAVE A COUPLE SUPPORTED, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
-	if ( array_key_exists($chart_format, $app_config['power_user']['bitcoin_currency_markets']) && !array_key_exists($chart_format, $app_config['power_user']['crypto_to_crypto_pairing']) ) {
+	if ( array_key_exists($chart_format, $app_config['power_user']['bitcoin_currency_markets']) && !array_key_exists($chart_format, $app_config['power_user']['secondary_crypto_pairing']) ) {
 	$fiat_formatting = 1;
 	}
 	elseif ( $chart_format == 'system' ) {
@@ -1633,7 +1633,7 @@ $to = trim($to);
 	
 	
 	// SMTP mailing, or PHP's built-in mail() function
-	if ( $app_config['comms']['smtp_email_login'] != '' && $app_config['comms']['smtp_email_server'] != '' ) {
+	if ( $app_config['comms']['smtp_login'] != '' && $app_config['comms']['smtp_server'] != '' ) {
 	return @smtp_mail($to, $subject, $message, $content_type, $charset); 
 	}
 	else {

@@ -97,6 +97,19 @@ require("templates/interface/php/header.php");
 
 ?>
 
+<script>
+
+
+		var reset_notes = '<h5 align="center" class="red_bright" style="position: relative; white-space: nowrap;">Reset Admin Account By Username</h5>'
+			
+			
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="red_bright">Admin\'s \'To\' Email MUST be set in the admin configuration, otherwise the password CANNOT be reset. Alternatively, you can delete the file \'/cache/secured/admin_login_XXXXXXXXXXXXX.dat\' in the app directory. This will prompt you to create a new admin login, the next time you use the app.<br /></span></p>'
+			
+			+'<p class="coin_info"><span class="yellow"> </span></p>';
+
+
+</script>
+
 								
 <div style="text-align: center;">
 
@@ -129,7 +142,38 @@ if ( !$_POST['submit_reset'] && !$no_password_reset || sizeof($reset_result['err
 				
     <div style="display: inline-block; text-align: right; width: 400px;">
 
-				<p><b>Username:</b> <input type='text' name='reset_username' value='<?=$_POST['reset_username']?>' style='<?=( $username_field_color ? 'background: ' . $username_field_color : '' )?>' /></p>
+	 <p>			
+	 
+	 <img id='reset_notes' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative; left: 5px;' />  
+	 
+	 <b>Username:</b> <input type='text' name='reset_username' value='<?=$_POST['reset_username']?>' style='<?=( $username_field_color ? 'background: ' . $username_field_color : '' )?>' />
+	 
+		
+	 <script>
+	
+			$('#reset_notes').balloon({
+			html: true,
+			position: "left",
+			contents: reset_notes,
+			css: {
+					fontSize: ".8rem",
+					minWidth: ".8rem",
+					padding: ".3rem .7rem",
+					border: "2px solid rgba(212, 212, 212, .4)",
+					borderRadius: "6px",
+					boxShadow: "3px 3px 6px #555",
+					color: "#eee",
+					backgroundColor: "#111",
+					opacity: "0.99",
+					zIndex: "32767",
+					textAlign: "left"
+					}
+			});
+		
+		 </script>
+		 
+	
+	 </p>
 				
     </div>
 

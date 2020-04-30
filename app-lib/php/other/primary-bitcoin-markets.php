@@ -96,7 +96,7 @@ else {
     $app_config['general']['btc_primary_exchange'] = btc_market($primary_currency_market_standalone[1] - 1);
     
         if (is_array($app_config['portfolio_assets']) || is_object($app_config['portfolio_assets'])) {
-       $app_config['portfolio_assets']['MISCASSETS']['coin_name'] = 'Misc. '.strtoupper($app_config['general']['btc_primary_currency_pairing']).' Value';
+       $app_config['portfolio_assets']['MISCASSETS']['asset_name'] = 'Misc. '.strtoupper($app_config['general']['btc_primary_currency_pairing']).' Value';
        }
                 
     }

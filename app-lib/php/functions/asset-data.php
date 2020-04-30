@@ -531,7 +531,7 @@ $pairing = strtolower($pairing);
 	return $btc_pairing_markets[$pairing.'_btc'];
 	}
 	// If we need an ALTCOIN/BTC market value (RUN BEFORE CURRENCIES FOR BEST MARKET DATA, AS SOME CRYPTOS ARE INCLUDED IN BOTH)
-	elseif ( array_key_exists($pairing, $app_config['power_user']['crypto_to_crypto_pairing']) ) {
+	elseif ( array_key_exists($pairing, $app_config['power_user']['secondary_crypto_pairing']) ) {
 		
 		
 		// Include a basic array check, since we want valid data to avoid an endless loop in our fallback support
@@ -540,8 +540,8 @@ $pairing = strtolower($pairing);
 		return null;
 		}
 		// Preferred BITCOIN market(s) for getting a certain currency's value, if in config and more than one market exists
-		elseif ( sizeof($app_config['portfolio_assets'][strtoupper($pairing)]['market_pairing']['btc']) > 1 && array_key_exists($pairing, $app_config['power_user']['preferred_altcoin_markets']) ) {
-		$whitelist = $app_config['power_user']['preferred_altcoin_markets'][$pairing];
+		elseif ( sizeof($app_config['portfolio_assets'][strtoupper($pairing)]['market_pairing']['btc']) > 1 && array_key_exists($pairing, $app_config['power_user']['secondary_crypto_pairing_preferred_markets']) ) {
+		$whitelist = $app_config['power_user']['secondary_crypto_pairing_preferred_markets'][$pairing];
 		}
 	
 	
@@ -885,7 +885,7 @@ $asset = strtoupper($asset);
 
 	// Fiat or equivalent pairing?
 	// #FOR CLEAN CODE#, RUN CHECK TO MAKE SURE IT'S NOT A CRYPTO AS WELL...WE HAVE A COUPLE SUPPORTED, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
-	if ( array_key_exists($pairing, $app_config['power_user']['bitcoin_currency_markets']) && !array_key_exists($pairing, $app_config['power_user']['crypto_to_crypto_pairing']) ) {
+	if ( array_key_exists($pairing, $app_config['power_user']['bitcoin_currency_markets']) && !array_key_exists($pairing, $app_config['power_user']['secondary_crypto_pairing']) ) {
 	$fiat_eqiv = 1;
 	}
 /////////////////////////////////////////////////////////////////
@@ -1136,7 +1136,7 @@ $volume_pairing_raw = number_to_string($volume_pairing_raw);
               
               
               // Whale alert (price change average of X or greater over X day(s) or less, with X percent pair volume increase average that is at least a X primary currency volume increase average)
-              $whale_alert_threshold = explode("||", $app_config['charts_price_alerts']['price_alerts_whale_alert_threshold']);
+              $whale_alert_threshold = explode("||", $app_config['charts_alerts']['price_alerts_whale_alert_threshold']);
     
               if ( trim($whale_alert_threshold[0]) != '' && trim($whale_alert_threshold[1]) != '' && trim($whale_alert_threshold[2]) != '' && trim($whale_alert_threshold[3]) != '' ) {
               
@@ -1192,7 +1192,7 @@ $volume_pairing_raw = number_to_string($volume_pairing_raw);
                             
               // Message formatting for display to end user
                 
-              $desc_alert_type = ( $app_config['charts_price_alerts']['price_alerts_fixed_reset'] > 0 ? 'reset' : 'alert' );
+              $desc_alert_type = ( $app_config['charts_alerts']['price_alerts_fixed_reset'] > 0 ? 'reset' : 'alert' );
               
                 
                 // IF PRIMARY CURRENCY CONFIG volume was between 0 and 1 last alert / reset, for UX sake 
@@ -1325,8 +1325,8 @@ $volume_pairing_raw = number_to_string($volume_pairing_raw);
 		if ( number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && !file_exists('cache/alerts/'.$asset_data.'.dat') ) {
 		store_file_contents($base_dir . '/cache/alerts/'.$asset_data.'.dat', $alert_cache_contents); 
 		}
-		elseif ( $send_alert != 1 && $app_config['charts_price_alerts']['price_alerts_fixed_reset'] >= 1 && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 
-		&& update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $app_config['charts_price_alerts']['price_alerts_fixed_reset'] * 1440 ) ) == true ) {
+		elseif ( $send_alert != 1 && $app_config['charts_alerts']['price_alerts_fixed_reset'] >= 1 && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 
+		&& update_cache_file('cache/alerts/'.$asset_data.'.dat', ( $app_config['charts_alerts']['price_alerts_fixed_reset'] * 1440 ) ) == true ) {
 			
 		store_file_contents($base_dir . '/cache/alerts/'.$asset_data.'.dat', $alert_cache_contents); 
 		
@@ -1384,7 +1384,7 @@ $original_market = $selected_exchange;
                 // ONLY IF USER HASN'T MESSED UP $app_config['portfolio_assets'], AS WE DON'T WANT TO CANCEL OUT ANY
                 // CONFIG CHECKS CREATING ERROR LOG ENTRIES / UI ALERTS INFORMING THEM OF THAT
                 if (is_array($app_config['portfolio_assets']) || is_object($app_config['portfolio_assets'])) {
-                $app_config['portfolio_assets']['MISCASSETS']['coin_name'] = 'Misc. '.strtoupper($selected_pairing).' Value';
+                $app_config['portfolio_assets']['MISCASSETS']['asset_name'] = 'Misc. '.strtoupper($selected_pairing).' Value';
                 }
     
          ?>
@@ -1526,7 +1526,7 @@ $original_market = $selected_exchange;
   	 
     // FLAG SELECTED PAIRING IF FIAT EQUIVALENT formatting should be used, AS SUCH
     // #FOR CLEAN CODE#, RUN CHECK TO MAKE SURE IT'S NOT A CRYPTO AS WELL...WE HAVE A COUPLE SUPPORTED, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
-    if ( array_key_exists($selected_pairing, $app_config['power_user']['bitcoin_currency_markets']) && !array_key_exists($selected_pairing, $app_config['power_user']['crypto_to_crypto_pairing']) ) {
+    if ( array_key_exists($selected_pairing, $app_config['power_user']['bitcoin_currency_markets']) && !array_key_exists($selected_pairing, $app_config['power_user']['secondary_crypto_pairing']) ) {
 	 $fiat_eqiv = 1;
     }
     

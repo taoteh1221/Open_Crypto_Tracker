@@ -165,11 +165,11 @@ $file_owner_info = posix_getpwuid(fileowner($file));
 	}
 	
 	
-	// We ALWAYS set .htaccess files to a more secure $app_config['developer']['chmod_permission_index_security'] permission AFTER EDITING, 
-	// so we TEMPORARILY set .htaccess to $app_config['developer']['chmod_permission_cache_files'] for NEW EDITING...
+	// We ALWAYS set .htaccess files to a more secure $app_config['developer']['chmod_index_security'] permission AFTER EDITING, 
+	// so we TEMPORARILY set .htaccess to $app_config['developer']['chmod_cache_files'] for NEW EDITING...
 	if ( strstr($file, '.htaccess') != false || strstr($file, 'index.php') != false ) {
 		
-	$chmod_setting = octdec($app_config['developer']['chmod_permission_cache_files']);
+	$chmod_setting = octdec($app_config['developer']['chmod_cache_files']);
 	
 	
 		// Run chmod compatibility on certain PHP setups (if we can because we are running as the file owner)
@@ -210,11 +210,11 @@ $file_owner_info = posix_getpwuid(fileowner($file));
 	
 	// For security, NEVER make an .htaccess file writable by any user not in the group
 	if ( strstr($file, '.htaccess') != false || strstr($file, 'index.php') != false ) {
-	$chmod_setting = octdec($app_config['developer']['chmod_permission_index_security']);
+	$chmod_setting = octdec($app_config['developer']['chmod_index_security']);
 	}
 	// All other files
 	else {
-	$chmod_setting = octdec($app_config['developer']['chmod_permission_cache_files']);
+	$chmod_setting = octdec($app_config['developer']['chmod_cache_files']);
 	}
 	
 	// Run chmod compatibility on certain PHP setups (if we can because we are running as the file owner)
@@ -1105,7 +1105,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 	   // Does the current runtime user own this file?
 		if ( isset($current_runtime_user) && $current_runtime_user == $file_owner_info['name'] ) {
 		
-		$chmod_setting = octdec($app_config['developer']['chmod_permission_cache_files']);
+		$chmod_setting = octdec($app_config['developer']['chmod_cache_files']);
 		
 			// Run chmod compatibility on certain PHP setups
 			if ( !$http_runtime_user || isset($http_runtime_user) && in_array($http_runtime_user, $possible_http_users) ) {

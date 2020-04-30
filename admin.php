@@ -50,25 +50,25 @@ require("templates/interface/php/header.php");
 			<a class="nav-link" data-toggle="tab" href="#admin_general" role="tab" aria-controls="admin_general">General</a>
 		  </li>
 		  <li class="nav-item">
-			<a class="nav-link" data-toggle="tab" href="#admin_proxy" role="tab" aria-controls="admin_proxy">Proxy</a>
-		  </li>
-		  <li class="nav-item">
 			<a class="nav-link" data-toggle="tab" href="#admin_charts_alerts" role="tab" aria-controls="admin_charts_alerts">Charts and Alerts</a>
-		  </li>
-		  <li class="nav-item">
-			<a class="nav-link" data-toggle="tab" href="#admin_power_user" role="tab" aria-controls="admin_power_user">Power User</a>
-		  </li>
-		  <li class="nav-item">
-			<a class="nav-link" data-toggle="tab" href="#admin_developer_only" role="tab" aria-controls="admin_developer_only">Developer Only</a>
-		  </li>
-		  <li class="nav-item">
-			<a class="nav-link" data-toggle="tab" href="#admin_text_gateways" role="tab" aria-controls="admin_text_gateways">Text Gateways</a>
 		  </li>
 		  <li class="nav-item">
 			<a class="nav-link" data-toggle="tab" href="#admin_portfolio_assets" role="tab" aria-controls="admin_portfolio_assets">Portfolio Assets</a>
 		  </li>
 		  <li class="nav-item">
 			<a class="nav-link active" data-toggle="tab" href="#admin_api_webook" role="tab" aria-controls="admin_api_webook">API / Webhook</a>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link" data-toggle="tab" href="#admin_text_gateways" role="tab" aria-controls="admin_text_gateways">Text Gateways</a>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link" data-toggle="tab" href="#admin_proxy" role="tab" aria-controls="admin_proxy">Proxy</a>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link" data-toggle="tab" href="#admin_power_user" role="tab" aria-controls="admin_power_user">Power User</a>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link" data-toggle="tab" href="#admin_developer_only" role="tab" aria-controls="admin_developer_only">Developer Only</a>
 		  </li>
 		  <li class="nav-item">
 			<a class="nav-link" data-toggle="tab" href="#admin_backup_restore" role="tab" aria-controls="admin_backup_restore">Backup / Restore</a>
@@ -89,24 +89,8 @@ require("templates/interface/php/header.php");
 			<?php require("templates/interface/php/admin/admin-sections/general.php"); ?>
 		  </div>
 		  
-		  <div class="tab-pane" id="admin_proxy" role="tabpanel">
-			<?php require("templates/interface/php/admin/admin-sections/proxy.php"); ?>
-		  </div>
-		  
 		  <div class="tab-pane" id="admin_charts_alerts" role="tabpanel">
 			<?php require("templates/interface/php/admin/admin-sections/charts-and-alerts.php"); ?>
-		  </div>
-		  
-		  <div class="tab-pane" id="admin_power_user" role="tabpanel">
-			<?php require("templates/interface/php/admin/admin-sections/power-user.php"); ?>
-		  </div>
-		  
-		  <div class="tab-pane" id="admin_developer_only" role="tabpanel">
-			<?php require("templates/interface/php/admin/admin-sections/developer-only.php"); ?>
-		  </div>
-		  
-		  <div class="tab-pane" id="admin_text_gateways" role="tabpanel">
-			<?php require("templates/interface/php/admin/admin-sections/text-gateways.php"); ?>
 		  </div>
 		  
 		  <div class="tab-pane" id="admin_portfolio_assets" role="tabpanel">
@@ -115,6 +99,22 @@ require("templates/interface/php/header.php");
 		  
 		  <div class="tab-pane active" id="admin_api_webook" role="tabpanel">
 			<?php require("templates/interface/php/admin/admin-sections/api-webhook.php"); ?>
+		  </div>
+		  
+		  <div class="tab-pane" id="admin_text_gateways" role="tabpanel">
+			<?php require("templates/interface/php/admin/admin-sections/text-gateways.php"); ?>
+		  </div>
+		  
+		  <div class="tab-pane" id="admin_proxy" role="tabpanel">
+			<?php require("templates/interface/php/admin/admin-sections/proxy.php"); ?>
+		  </div>
+		  
+		  <div class="tab-pane" id="admin_power_user" role="tabpanel">
+			<?php require("templates/interface/php/admin/admin-sections/power-user.php"); ?>
+		  </div>
+		  
+		  <div class="tab-pane" id="admin_developer_only" role="tabpanel">
+			<?php require("templates/interface/php/admin/admin-sections/developer-only.php"); ?>
 		  </div>
 		  
 		  <div class="tab-pane" id="admin_backup_restore" role="tabpanel">

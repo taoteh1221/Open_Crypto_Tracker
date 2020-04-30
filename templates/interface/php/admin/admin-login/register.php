@@ -116,7 +116,7 @@ if ( !$_POST['submit_registration'] || sizeof($register_result['error']) > 0 ) {
     
 	 <p>
 	 
-	 <img id='username_notes' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative;' />  
+	 <img id='username_notes' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative; left: 5px;' />  
 	 
 	 <b>Username:</b> 
 	 
@@ -150,7 +150,7 @@ if ( !$_POST['submit_registration'] || sizeof($register_result['error']) > 0 ) {
 
 	 <p>
 	 
-	 <img id='password_notes' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative;' /> 
+	 <img id='password_notes' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative; left: 5px;' /> 
 	 
 	 <b>Password:</b> 
 	 	 

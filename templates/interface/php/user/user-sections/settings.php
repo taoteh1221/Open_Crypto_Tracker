@@ -18,14 +18,14 @@
 			<?php
 			if ( $price_alert_type_text != '' && $app_config['comms']['price_alerts_threshold'] > 0 ) {
           ?>
-          	<p class='settings_sections'><b><?=$price_alert_type_text?> price alerts</b> are <i>enabled</i> in the configuration file (upon <?=$app_config['comms']['price_alerts_threshold']?>% or more <?=strtoupper($default_btc_primary_currency_pairing)?> price change<?=( $app_config['comms']['price_alerts_freq_max'] > 0 ? ' / max every ' . $app_config['comms']['price_alerts_freq_max'] . ' hours per-alert' : '' )?><?=( $app_config['comms']['price_alerts_min_volume'] > 0 ? ' / ' . $app_config['power_user']['bitcoin_currency_markets'][$default_btc_primary_currency_pairing] . number_format($app_config['comms']['price_alerts_min_volume'], 0, '.', ',') . ' minumum volume filter enabled' : '' )?><?=( $app_config['charts_price_alerts']['price_alerts_fixed_reset'] > 0 ? ' / comparison price fixed-reset after ' . $app_config['charts_price_alerts']['price_alerts_fixed_reset'] . ' days' : '' )?>). 
+          	<p class='settings_sections'><b><?=$price_alert_type_text?> price alerts</b> are <i>enabled</i> in the configuration file (upon <?=$app_config['comms']['price_alerts_threshold']?>% or more <?=strtoupper($default_btc_primary_currency_pairing)?> price change<?=( $app_config['comms']['price_alerts_freq_max'] > 0 ? ' / max every ' . $app_config['comms']['price_alerts_freq_max'] . ' hours per-alert' : '' )?><?=( $app_config['comms']['price_alerts_min_volume'] > 0 ? ' / ' . $app_config['power_user']['bitcoin_currency_markets'][$default_btc_primary_currency_pairing] . number_format($app_config['comms']['price_alerts_min_volume'], 0, '.', ',') . ' minumum volume filter enabled' : '' )?><?=( $app_config['charts_alerts']['price_alerts_fixed_reset'] > 0 ? ' / comparison price fixed-reset after ' . $app_config['charts_alerts']['price_alerts_fixed_reset'] . ' days' : '' )?>). 
           	
           	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job on your web server</a>, or this feature will not work AT ALL.</i> 
           	
           		<?=( $price_change_config_alert != '' ? '<br />' . $price_change_config_alert : '' )?>
           		
           		<?php
-          		if ( preg_match("/text/i", $price_alert_type_text) && $app_config['comms']['smtp_email_login'] == '' && $app_config['comms']['smtp_email_server'] == '' && $app_config['comms']['textbelt_apikey'] == '' && $app_config['comms']['textlocal_account'] == '' ) {
+          		if ( preg_match("/text/i", $price_alert_type_text) && $app_config['comms']['smtp_login'] == '' && $app_config['comms']['smtp_server'] == '' && $app_config['comms']['textbelt_apikey'] == '' && $app_config['comms']['textlocal_account'] == '' ) {
           		?>
           		<br />
           		<span class='bitcoin'>Email-to-mobile-text service gateways *MAY* work more reliably (not filter out your messages) <i>if you enable SMTP email sending</i>.</span>
@@ -58,9 +58,9 @@
                         
 			<?php
 			}
-			if ( $app_config['general']['charts_toggle'] == 'on' && $app_config['charts_price_alerts']['charts_backup_freq'] > 0 && trim($app_config['comms']['from_email']) != '' && trim($app_config['comms']['to_email']) != '' ) {
+			if ( $app_config['general']['charts_toggle'] == 'on' && $app_config['charts_alerts']['charts_backup_freq'] > 0 && trim($app_config['comms']['from_email']) != '' && trim($app_config['comms']['to_email']) != '' ) {
           ?>
-          	<p class='settings_sections'><b>Chart Backups</b> are <i>enabled</i> in the configuration file (run every <?=$app_config['charts_price_alerts']['charts_backup_freq']?> days, purged after <?=$app_config['general']['backup_archive_delete_old']?> days old).
+          	<p class='settings_sections'><b>Chart Backups</b> are <i>enabled</i> in the configuration file (run every <?=$app_config['charts_alerts']['charts_backup_freq']?> days, purged after <?=$app_config['general']['backup_archive_delete_old']?> days old).
           	
           	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job on your web server</a>, or this feature will not work AT ALL.</i> 
           	
@@ -71,7 +71,7 @@
 			<?php
 			}
 			// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-			if ( $app_config['comms']['smtp_email_login'] != '' && $app_config['comms']['smtp_email_server'] != '' ) {
+			if ( $app_config['comms']['smtp_login'] != '' && $app_config['comms']['smtp_server'] != '' ) {
           ?>
           	<p class='settings_sections'><b>SMTP email sending</b> (by account login) is <i>enabled</i> in the configuration file.
           	
@@ -388,7 +388,12 @@
 			    </select>  
 			     
 			     
-			    <select name='percent_change_alert_type' id='percent_change_alert_type' onchange='update_alert_percent();'>
+			    <select name='percent_change_alert_type' id='percent_change_alert_type' onchange='
+			    update_alert_percent();
+			    if ( this.value == "visual_audio" ) {
+			    alert("For security, some browsers may require occasional user interaction to allow media to \"Auto-play\" (clicking on the page after loading, etc).")
+			    }
+			    '>
 			    <option value='visual_only' <?=( $alert_percent[4] == 'visual_only' ? ' selected ' : '' )?>> Visual Only </option>
 			    <option value='visual_audio' <?=( $alert_percent[4] == 'visual_audio' ? ' selected ' : '' )?>> Visual and Audio </option>
 			    </select>
