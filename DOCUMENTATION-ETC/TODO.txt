@@ -26,6 +26,8 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+Review new app config categorization semantics, to see if any variable naming can be shorter for readability.
+
 
 Test login / register / reset with light theme.
 
