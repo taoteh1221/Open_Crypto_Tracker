@@ -93,6 +93,7 @@ If you did NOT request this password reset (originating from ip address ".$_SERV
 }
 
 
+$template_admin_login = 1;
 require("templates/interface/php/header.php");
 
 ?>

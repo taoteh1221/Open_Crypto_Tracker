@@ -145,10 +145,10 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
     </audio>
     
 	 
-    <div class='align_center' id='body_wrapper'>
+    <div class='align_center' id='body_wrapper' style='<?=( $template_admin_login == 1 ? 'min-width: 800px; max-width: 800px;' : '' )?>'>
     
     
-		<div class='align_center' id='body_top_nav'>
+		<div class='align_center' id='body_top_nav' style='<?=( $template_admin_login == 1 ? 'min-width: 800px; max-width: 800px;' : '' )?>'>
 		
 		
 				<!-- START #topnav-content -->

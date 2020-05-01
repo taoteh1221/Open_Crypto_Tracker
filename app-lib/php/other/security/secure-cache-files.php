@@ -5,6 +5,53 @@
 
 
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// Activating an existing admin password reset session 
+// (MUST RUN #AFTER GETTING CACHED APP CONFIG)
+if ( trim($_GET['pass_reset_activate']) != '' ) {
+
+// Secured activation code data
+$activation_files = sort_files($base_dir . '/cache/secured/activation', 'dat', 'desc');
+
+
+	foreach( $activation_files as $activation_file ) {
+	
+		if ( preg_match("/password_reset_/i", $activation_file) ) {
+		
+			// If we already loaded the newest modified file, delete any stale ones
+			if ( $newest_cached_password_reset == 1 ) {
+			unlink($base_dir . '/cache/secured/activation/' . $activation_file);
+			}
+			else {
+			$newest_cached_password_reset = 1;
+			$password_reset = trim( file_get_contents($base_dir . '/cache/secured/activation/' . $activation_file) );
+			}
+	
+		}
+	
+	}
+
+	
+	// If reset security key checks pass and a valid admin 'to' email exists, flag as an activated reset in progress (to trigger logic later in runtime)
+	
+	$app_config['comms']['to_email'] = auto_correct_string($app_config['comms']['to_email'], 'lower'); // Clean / auto-correct
+	
+	if ( $_GET['pass_reset_activate'] == $password_reset && validate_email($app_config['comms']['to_email']) == 'valid' ) {
+	$password_reset_activated = 1;
+	}
+	else {
+	$password_reset_denied = 1; // For reset page UI
+	}
+	
+
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 // Secured cache files global variables
 $secured_cache_files = sort_files($base_dir . '/cache/secured', 'dat', 'desc');
 
@@ -167,6 +214,75 @@ foreach( $secured_cache_files as $secured_file ) {
 }
 
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// If no valid cached_app_config, or if config.php variables have been changed
+if ( $refresh_cached_app_config == 1 || $is_cached_app_config != 1 ) {
+	
+$secure_128bit_hash = random_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
+	
+	
+	// Halt the process if an issue is detected safely creating a random hash
+	if ( $secure_128bit_hash == false ) {
+	app_logging('security_error', 'Cryptographically secure pseudo-random bytes could not be generated for cached app_config array (secured cache storage) suffix, cached app_config array creation aborted to preserve security');
+	}
+	else {
+		
+	$store_cached_app_config = json_encode($app_config, JSON_PRETTY_PRINT);
+	
+		if ( $store_cached_app_config == false ) {
+		app_logging('config_error', 'app_config data could not be saved (to secured cache storage) in json format');
+		}
+		else {
+		store_file_contents($base_dir . '/cache/secured/app_config_'.$secure_128bit_hash.'.dat', $store_cached_app_config);
+		store_file_contents($base_dir . '/cache/vars/app_config_md5.dat', md5(serialize($original_app_config))); // For checking later, if config.php values are updated we save to json again
+		}
+	
+	}
+
+
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// If telegram messaging is activated, and there is no valid cached_telegram_user_data
+// OR if cached app_config was flagged to be updated
+if ( $telegram_activated == 1 && $refresh_cached_telegram_user_data == 1 
+|| $telegram_activated == 1 && $is_cached_telegram_user_data != 1
+|| $telegram_activated == 1 && $refresh_cached_app_config == 1 
+|| $telegram_activated == 1 && $is_cached_app_config != 1 ) {
+	
+$secure_128bit_hash = random_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
+	
+	
+	// Halt the process if an issue is detected safely creating a random hash
+	if ( $secure_128bit_hash == false ) {
+	app_logging('security_error', 'Cryptographically secure pseudo-random bytes could not be generated for cached telegram_user_data array (secured cache storage) suffix, cached telegram_user_data array creation aborted to preserve security');
+	}
+	else {
+	
+	$telegram_user_data = telegram_user_data('updates');
+		
+	$store_cached_telegram_user_data = json_encode($telegram_user_data, JSON_PRETTY_PRINT);
+		
+		// Need to check a few different possible results for no data found ("null" in quotes as the actual value is returned sometimes)
+		if ( $store_cached_telegram_user_data == false || $store_cached_telegram_user_data == null || $store_cached_telegram_user_data == "null" ) {
+		app_logging('config_error', 'telegram_user_data could not be saved (to secured cache storage) in json format, MAKE SURE YOU ENTER / RE-ENTER "/start" IN THE BOT CHATROOM IN THE TELEGRAM APP, TO CREATE / RE-CREATE THE REQUIRED USER DATA THIS APP NEEDS TO STORE AND INITIATE TELEGRAM MESSAGING WITH');
+		}
+		else {
+		store_file_contents($base_dir . '/cache/secured/telegram_user_data_'.$secure_128bit_hash.'.dat', $store_cached_telegram_user_data);
+		}
+	
+	}
+
+
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 // If no password pepper
@@ -189,6 +305,7 @@ $secure_256bit_hash = random_hash(32); // 256-bit (32-byte) hash converted to he
 }
 
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 // If no webhook key
@@ -211,6 +328,7 @@ $secure_256bit_hash = random_hash(32); // 256-bit (32-byte) hash converted to he
 }
 
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 // If no API key
@@ -233,6 +351,7 @@ $secure_256bit_hash = random_hash(32); // 256-bit (32-byte) hash converted to he
 }
 
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 // If no admin login or an activated reset, valid user / pass are submitted, AND CAPTCHA MATCHES, store the new admin login
@@ -291,113 +410,8 @@ if ( $password_reset_activated || !$admin_login ) {
 }
 
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-// If no valid cached_app_config, or if config.php variables have been changed
-if ( $refresh_cached_app_config == 1 || $is_cached_app_config != 1 ) {
-	
-$secure_128bit_hash = random_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
-	
-	
-	// Halt the process if an issue is detected safely creating a random hash
-	if ( $secure_128bit_hash == false ) {
-	app_logging('security_error', 'Cryptographically secure pseudo-random bytes could not be generated for cached app_config array (secured cache storage) suffix, cached app_config array creation aborted to preserve security');
-	}
-	else {
-		
-	$store_cached_app_config = json_encode($app_config, JSON_PRETTY_PRINT);
-	
-		if ( $store_cached_app_config == false ) {
-		app_logging('config_error', 'app_config data could not be saved (to secured cache storage) in json format');
-		}
-		else {
-		store_file_contents($base_dir . '/cache/secured/app_config_'.$secure_128bit_hash.'.dat', $store_cached_app_config);
-		store_file_contents($base_dir . '/cache/vars/app_config_md5.dat', md5(serialize($original_app_config))); // For checking later, if config.php values are updated we save to json again
-		}
-	
-	}
-
-
-}
-
-
-
-
-// If telegram messaging is activated, and there is no valid cached_telegram_user_data
-// OR if cached app_config was flagged to be updated
-if ( $telegram_activated == 1 && $refresh_cached_telegram_user_data == 1 
-|| $telegram_activated == 1 && $is_cached_telegram_user_data != 1
-|| $telegram_activated == 1 && $refresh_cached_app_config == 1 
-|| $telegram_activated == 1 && $is_cached_app_config != 1 ) {
-	
-$secure_128bit_hash = random_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
-	
-	
-	// Halt the process if an issue is detected safely creating a random hash
-	if ( $secure_128bit_hash == false ) {
-	app_logging('security_error', 'Cryptographically secure pseudo-random bytes could not be generated for cached telegram_user_data array (secured cache storage) suffix, cached telegram_user_data array creation aborted to preserve security');
-	}
-	else {
-	
-	$telegram_user_data = telegram_user_data('updates');
-		
-	$store_cached_telegram_user_data = json_encode($telegram_user_data, JSON_PRETTY_PRINT);
-		
-		// Need to check a few different possible results for no data found ("null" in quotes as the actual value is returned sometimes)
-		if ( $store_cached_telegram_user_data == false || $store_cached_telegram_user_data == null || $store_cached_telegram_user_data == "null" ) {
-		app_logging('config_error', 'telegram_user_data could not be saved (to secured cache storage) in json format, MAKE SURE YOU ENTER / RE-ENTER "/start" IN THE BOT CHATROOM IN THE TELEGRAM APP, TO CREATE / RE-CREATE THE REQUIRED USER DATA THIS APP NEEDS TO STORE AND INITIATE TELEGRAM MESSAGING WITH');
-		}
-		else {
-		store_file_contents($base_dir . '/cache/secured/telegram_user_data_'.$secure_128bit_hash.'.dat', $store_cached_telegram_user_data);
-		}
-	
-	}
-
-
-}
-
-
-
-
-// Activating an existing admin password reset session 
-// (MUST RUN #AFTER GETTING CACHED APP CONFIG)
-if ( trim($_GET['pass_reset_activate']) != '' ) {
-
-// Secured activation code data
-$activation_files = sort_files($base_dir . '/cache/secured/activation', 'dat', 'desc');
-
-
-	foreach( $activation_files as $activation_file ) {
-	
-		if ( preg_match("/password_reset_/i", $activation_file) ) {
-		
-			// If we already loaded the newest modified file, delete any stale ones
-			if ( $newest_cached_password_reset == 1 ) {
-			unlink($base_dir . '/cache/secured/activation/' . $activation_file);
-			}
-			else {
-			$newest_cached_password_reset = 1;
-			$password_reset = trim( file_get_contents($base_dir . '/cache/secured/activation/' . $activation_file) );
-			}
-	
-		}
-	
-	}
-
-	
-	// If reset security key checks pass and a valid admin 'to' email exists, flag as an activated reset in progress (to trigger logic later in runtime)
-	
-	$app_config['comms']['to_email'] = auto_correct_string($app_config['comms']['to_email'], 'lower'); // Clean / auto-correct
-	
-	if ( $_GET['pass_reset_activate'] == $password_reset && validate_email($app_config['comms']['to_email']) == 'valid' ) {
-	$password_reset_activated = 1;
-	}
-	else {
-	$password_reset_denied = 1; // For reset page UI
-	}
-	
-
-}
 
  
 ?>

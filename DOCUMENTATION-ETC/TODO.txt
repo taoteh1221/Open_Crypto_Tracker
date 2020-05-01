@@ -26,7 +26,7 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
-Have random tip display a "next tip" link...consider putting it at top of charts page too.
+In init.php, do as early an exit from runtime as possible (after session start) if login / registration / reset submission ocurred, and captcha is blank or not correct. Require a hidden field in each admin access form (set to 1) to assure we know when even if captcha text is left blank. So then we can check for the presence of this variable to exit early on bad captcha. Make sure to add this variable as a requirement in the logic that allows resets / registration / login too.
 
 
 New screenshots.
@@ -41,13 +41,7 @@ Documentation for API / Webhook features
 Add api key and webhook keys on admin page.
 
 
-Alerts bell in header.
-
-
 Retest password strength function after the modification. 
-
-
-Create a recursive function that calls itself and checks if the item(s) in an array are strings or sub-arrays, to only add non-existent variables to the CACHED app config only if they only exist in config.php (for upgrades). For removing depreciated variables, create a static list to be safe.
 
 
 Fresh AUTO install on a raspberry pi throws this INTERFACE error, even though we chowned every file as owner 'pi', and chmod 664 on the root .htaccess file:
@@ -88,7 +82,22 @@ FEATURES / STRUCTURING SECTION
 ///////////////////////////////////////////////////////
 
 
+Alerts bell in header.
+
+
+Mail trading notes to admin email, only if user logged in as admin.
+
+
+See if we can column sort by SELECTED exchange / market pairing (right now it sorts by first in the list?), by dynamically populating a hidden value AND running the sort filter through it instead.
+
+
+Have random tip display a "next tip" link...consider putting it at top of charts page too.
+
+
 Option to use new zip file encryption password feature to encrypt portfolio spreadsheet exports when downloading exported portfolio data.
+
+
+Create a recursive function that calls itself and checks if the item(s) in an array are strings or sub-arrays, to only add non-existent variables to the CACHED app config only if they only exist in config.php (for upgrades). For removing depreciated variables, create a static list to be safe.
 
 
 Add additional ability to do telegram webhooks, to query asset prices at different exchanges through telegram chat with the chat bot. Example: "/price ETH/USDT @ Binance"

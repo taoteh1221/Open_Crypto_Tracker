@@ -30,6 +30,7 @@ if ( $_POST['admin_submit_login'] ) {
 }
 
 
+$template_admin_login = 1;
 require("templates/interface/php/header.php");
 
 ?>
