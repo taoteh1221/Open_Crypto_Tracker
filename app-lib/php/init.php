@@ -66,6 +66,14 @@ session_start(); // New session start
 $base_dir = preg_replace("/\/app-lib(.*)/i", "", dirname(__FILE__) );
 
 
+//////////////////////////////////////////////////////////////
+// Set global runtime app arrays / vars...
+//////////////////////////////////////////////////////////////
+
+
+// Session data
+
+
 // If we are just running a captcha image, run captcha library ONLY for runtime speed (exit after)
 if (  $runtime_mode == 'captcha' ) {
 require_once('app-lib/php/other/captcha-lib.php');
@@ -73,12 +81,28 @@ exit;
 }
 
 
-//////////////////////////////////////////////////////////////
-// Set global runtime app arrays / vars...
-//////////////////////////////////////////////////////////////
+// A bit of DOS attack mitigation for bogus / bot login attempts
+// Speed up runtime SIGNIFICANTLY by checking EARLY for a bad / non-existent captcha code, and rendering the related form again...
+if ( strtolower($_POST['captcha_code']) != strtolower($_SESSION['captcha_code']) ) {
 
+	if ( $_POST['admin_submit_register'] == 1 ) {
+	$theme_selected = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $app_config['general']['default_theme'] );
+	require("templates/interface/php/admin/admin-login/register.php");
+	exit;
+	}
+	elseif ( $_POST['admin_submit_login'] == 1 ) {
+	$theme_selected = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $app_config['general']['default_theme'] );
+	require("templates/interface/php/admin/admin-login/login.php");
+	exit;
+	}
+	elseif ( $_POST['admin_submit_reset'] == 1 ) {
+	$theme_selected = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $app_config['general']['default_theme'] );
+	require("templates/interface/php/admin/admin-login/reset.php");
+	exit;
+	}
 
-// Session data
+}
+
 
 // Nonce for secured login session logic
 if ( !isset($_SESSION['nonce']) ) {

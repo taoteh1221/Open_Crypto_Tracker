@@ -12,7 +12,7 @@ $register_result['error'][] = "An admin login already exists. If you have added 
 }
 	
 	
-if ( $_POST['admin_submit_registration'] ) {
+if ( $_POST['admin_submit_register'] ) {
 
 	// Run checks...
 	
@@ -63,7 +63,7 @@ require("templates/interface/php/header.php");
 	<div class='green_bright' style='display: none; font-weight: bold; padding: 15px; margin: 15px; font-size: 21px; border: 4px dotted #10d602;' id='submit_alert'></div>
 
 <?php
-if ( $_GET['pass_reset_activate'] ) {
+if ( $_GET['new_reset_key'] ) {
 ?>
 
 <h3 class='bitcoin'>Admin Login Reset</h3>
@@ -221,7 +221,7 @@ if ( !$_POST['submit_registration'] || sizeof($register_result['error']) > 0 ) {
   	 <br clear='all' />
   
   
-<input type='hidden' name='admin_submit_registration' value='1' />
+<input type='hidden' name='admin_submit_register' value='1' />
 
 </form>
   
@@ -266,7 +266,7 @@ var badColor = "#ff4747";
 
 }
 
-'><?=( $_GET['pass_reset_activate'] ? 'Reset' : 'Create' )?> Admin Login</button>
+'><?=( $_GET['new_reset_key'] ? 'Reset' : 'Create' )?> Admin Login</button>
 
 </p>
 

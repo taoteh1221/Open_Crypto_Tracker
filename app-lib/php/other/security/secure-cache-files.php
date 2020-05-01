@@ -10,7 +10,7 @@
 
 // Activating an existing admin password reset session 
 // (MUST RUN #AFTER GETTING CACHED APP CONFIG)
-if ( trim($_GET['pass_reset_activate']) != '' ) {
+if ( trim($_GET['new_reset_key']) != '' ) {
 
 // Secured activation code data
 $activation_files = sort_files($base_dir . '/cache/secured/activation', 'dat', 'desc');
@@ -26,7 +26,7 @@ $activation_files = sort_files($base_dir . '/cache/secured/activation', 'dat', '
 			}
 			else {
 			$newest_cached_password_reset = 1;
-			$password_reset = trim( file_get_contents($base_dir . '/cache/secured/activation/' . $activation_file) );
+			$stored_reset_key = trim( file_get_contents($base_dir . '/cache/secured/activation/' . $activation_file) );
 			}
 	
 		}
@@ -38,7 +38,7 @@ $activation_files = sort_files($base_dir . '/cache/secured/activation', 'dat', '
 	
 	$app_config['comms']['to_email'] = auto_correct_string($app_config['comms']['to_email'], 'lower'); // Clean / auto-correct
 	
-	if ( $_GET['pass_reset_activate'] == $password_reset && validate_email($app_config['comms']['to_email']) == 'valid' ) {
+	if ( $_GET['new_reset_key'] == $stored_reset_key && validate_email($app_config['comms']['to_email']) == 'valid' ) {
 	$password_reset_activated = 1;
 	}
 	else {

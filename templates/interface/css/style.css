@@ -502,28 +502,17 @@ IDs
 
 #loading_subsections {
 display: none;
+width: 100%;
+max-width: 1350px; 
 margin-top: 0px;
 font-size: 19px;
-width: 100%;
-min-width: 1350px; 
-}
-
-
-#body_top_nav {
-position: relative;
-display: block;
-width: 100%; 
-min-width: 1350px; 
-white-space: nowrap;
-margin: auto;
-padding-top: 8px;
 }
 
 
 #app_loading {
 display: block;
 width: 100%; 
-min-width: 1350px; 
+max-width: 1350px; 
 white-space: nowrap;
 font-size: 59px;
 margin: auto;
@@ -538,6 +527,17 @@ min-width: 1350px;
 margin: auto;
 padding: 15px;
 padding-top: 0px;
+}
+
+
+#body_top_nav {
+position: relative;
+display: block;
+width: 100%; 
+min-width: 1350px; 
+white-space: nowrap;
+margin: auto;
+padding-top: 8px;
 }
 
 

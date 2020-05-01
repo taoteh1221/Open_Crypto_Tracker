@@ -26,9 +26,6 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
-In init.php, do as early an exit from runtime as possible (after session start) if login / registration / reset submission ocurred, and captcha is blank or not correct. Require a hidden field in each admin access form (set to 1) to assure we know when even if captcha text is left blank. So then we can check for the presence of this variable to exit early on bad captcha. Make sure to add this variable as a requirement in the logic that allows resets / registration / login too.
-
-
 New screenshots.
 
 

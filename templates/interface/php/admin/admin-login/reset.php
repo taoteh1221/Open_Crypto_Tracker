@@ -8,7 +8,7 @@ $reset_result = array();
 
 
 // If we are not activating an existing reset session, run checks before rendering anything...
-if ( !$_GET['pass_reset_activate'] ) {
+if ( !$_GET['new_reset_key'] ) {
 	
 	if ( validate_email($app_config['comms']['to_email']) != 'valid'  ) {
 	$reset_result['error'][] = "Admin's 'To' Email has NOT been set in the admin configuration yet, therefore the password CANNOT be reset by interface form submission. Alternatively, you can MANUALLY delete the file '/cache/secured/admin_login_XXXXXXXXXXXXX.dat' in the app directory. This will prompt you to create a new admin login, the next time you use the app.";
@@ -30,7 +30,7 @@ $no_password_reset = 1;
 
 
 // Submitted reset request
-if ( $_POST['submit_reset'] ) {
+if ( $_POST['admin_submit_reset'] ) {
 
 
 	// Run more checks...
@@ -51,14 +51,14 @@ if ( $_POST['submit_reset'] ) {
 	// Checks cleared, send email ////////
 	if ( sizeof($reset_result['error']) < 1 && trim($_POST['reset_username']) == $admin_login[0] ) {
 
-	$pass_reset_activate = random_hash(32);
+	$new_reset_key = random_hash(32);
 	
 	$message = "
 
 Please confirm your request to reset the admin password for username '".$admin_login[0]."', in your DFD Cryptocoin Values application.
 
 To complete resetting your admin password, please visit this link below:
-". $base_url . "password-reset.php?pass_reset_activate=".$pass_reset_activate."
+". $base_url . "password-reset.php?new_reset_key=".$new_reset_key."
 
 This link expires in 1 day.
 
@@ -77,7 +77,7 @@ If you did NOT request this password reset (originating from ip address ".$_SERV
    // Send notifications
    @queue_notifications($send_params);
           	
-	store_file_contents($base_dir . '/cache/secured/activation/password_reset_' . random_hash(16) . '.dat', $pass_reset_activate); // Store password reset activation code, to confirm via clicked email link later
+	store_file_contents($base_dir . '/cache/secured/activation/password_reset_' . random_hash(16) . '.dat', $new_reset_key); // Store password reset activation code, to confirm via clicked email link later
 
 	
 	}
@@ -136,7 +136,7 @@ require("templates/interface/php/header.php");
 
 <?php
 
-if ( !$_POST['submit_reset'] && !$no_password_reset || sizeof($reset_result['error']) > 0 && !$no_password_reset ) {
+if ( !$_POST['admin_submit_reset'] && !$no_password_reset || sizeof($reset_result['error']) > 0 && !$no_password_reset ) {
 ?>
 
 				<form action='' method ='post'>
@@ -209,7 +209,7 @@ if ( !$_POST['submit_reset'] && !$no_password_reset || sizeof($reset_result['err
 				  
 				<p style='padding: 20px;'><input type='submit' value='Reset Admin Account' /></p>
 				
-				<input type='hidden' name='submit_reset' value='1' />
+				<input type='hidden' name='admin_submit_reset' value='1' />
 				
 				</form>
 	
