@@ -751,7 +751,10 @@ function password_strength($password, $min_length, $max_length) {
 
 global $app_config;
 
-    if ( mb_strlen($password, $app_config['developer']['charset_default']) < $min_length ) {
+    if ( $min_length == $max_length && mb_strlen($password, $app_config['developer']['charset_default']) != $min_length ) {
+    $error .= "MUST BE EXACTLY ".$min_length." characters; ";
+    }
+    elseif ( mb_strlen($password, $app_config['developer']['charset_default']) < $min_length ) {
     $error .= "requires AT LEAST ".$min_length." characters; ";
     }
     elseif ( mb_strlen($password, $app_config['developer']['charset_default']) > $max_length ) {
