@@ -50,7 +50,7 @@ require("templates/interface/php/header.php");
 			<a class="nav-link" data-toggle="tab" href="#admin_general" role="tab" aria-controls="admin_general">General</a>
 		  </li>
 		  <li class="nav-item">
-			<a class="nav-link" data-toggle="tab" href="#admin_charts_alerts" role="tab" aria-controls="admin_charts_alerts"><?=( $app_config['general']['charts_toggle'] == 'on' ? 'Charts and ' : '' )?>Alerts</a>
+			<a class="nav-link" data-toggle="tab" href="#admin_charts_alerts" role="tab" aria-controls="admin_charts_alerts"><?=( $app_config['general']['charts_toggle'] == 'on' ? 'Charts and ' : 'Price ' )?>Alerts</a>
 		  </li>
 		  <li class="nav-item">
 			<a class="nav-link" data-toggle="tab" href="#admin_portfolio_assets" role="tab" aria-controls="admin_portfolio_assets">Portfolio Assets</a>
