@@ -3125,7 +3125,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Configuration settings for CAPTCHA image login protection (in power user settings)
 
--Improved small screen support (pinch / zoom now work again)
+-Improved small screen support
 
 -Misc. Optimizations / UX revisions
 

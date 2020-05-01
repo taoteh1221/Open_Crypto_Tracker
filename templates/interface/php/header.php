@@ -145,10 +145,10 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
     </audio>
     
 	 
-    <div class='align_center' id='body_wrapper' style='<?=( $template_admin_login == 1 ? 'min-width: 800px; max-width: 800px;' : '' )?>'>
+    <div class='align_center' id='body_wrapper' style='<?=( $login_template == 1 ? 'min-width: 800px; max-width: 800px;' : '' )?>'>
     
     
-		<div class='align_center' id='body_top_nav' style='<?=( $template_admin_login == 1 ? 'min-width: 800px; max-width: 800px;' : '' )?>'>
+		<div class='align_center' id='body_top_nav' style='<?=( $login_template == 1 ? 'min-width: 800px; max-width: 800px;' : '' )?>'>
 		
 		
 				<!-- START #topnav-content -->
@@ -165,7 +165,7 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 					  <a class="dropdown-item<?=( $script_file_info['basename'] == 'admin.php' ? ' active' : '' )?>" href="admin.php">Admin Configuration</a>
 					  <a class="dropdown-item<?=( $script_file_info['basename'] == 'index.php' ? ' active' : '' )?>" href="index.php">Portfolio Tracker</a>
 					  <?php
-					  if ( isset($admin_login) && isset($_SESSION['admin_login']) ) {
+					  if ( sizeof($stored_admin_login) == 2 && isset($_SESSION['admin_logged_in']) ) {
 					  ?>
 					  <a class="dropdown-item" href="?logout=1&nonce=<?=$_SESSION['nonce']?>">Logout</a>
 					  <?php

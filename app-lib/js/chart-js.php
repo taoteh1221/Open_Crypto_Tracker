@@ -15,7 +15,7 @@ if ( $_GET['type'] == 'asset' ) {
 require($base_dir . '/templates/interface/php/user/user-charts/asset-charts.php');
 }
 elseif ( $_GET['type'] == 'system' ) {
-require($base_dir . '/templates/interface/php/user/user-charts/system-charts.php');
+require($base_dir . '/templates/interface/php/admin/admin-charts/system-charts.php');
 }
 elseif ( $_GET['type'] == 'balance_stats' ) {
 require($base_dir . '/templates/interface/php/user/user-charts/balance-stats-charts.php');

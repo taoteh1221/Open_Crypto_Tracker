@@ -8,15 +8,16 @@ $login_result = array();
 		
 if ( $_POST['admin_submit_login'] ) {
 	
-	if ( trim($_POST['captcha_code']) == '' || trim($_POST['captcha_code']) != '' && strtolower($_POST['captcha_code']) != strtolower($_SESSION['captcha_code']) )	{
+	if ( trim($_POST['captcha_code']) == '' || strtolower($_POST['captcha_code']) != strtolower($_SESSION['captcha_code']) )	{
 	$login_result['error'][] = "Captcha image code was not correct.";
 	$captcha_field_color = '#ff4747';
 	}
 	else {
-		
-				if ( sizeof($admin_login) == 2 && trim($_POST['admin_username']) != '' && isset($_POST['admin_password']) 
-				&& $_POST['admin_username'] == $admin_login[0] && check_pepper_hashed_password($_POST['admin_password'], $admin_login[1]) == true ) {
-				$_SESSION['admin_login'] = $admin_login;
+				
+				// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
+				if ( sizeof($stored_admin_login) == 2 && trim($_POST['admin_username']) != '' && $_POST['admin_password'] != '' 
+				&& $_POST['admin_username'] == $stored_admin_login[0] && check_pepper_hashed_password($_POST['admin_password'], $stored_admin_login[1]) == true ) {
+				$_SESSION['admin_logged_in'] = $stored_admin_login;
 				header("Location: admin.php");
 				exit;
 				}
@@ -30,7 +31,7 @@ if ( $_POST['admin_submit_login'] ) {
 }
 
 
-$template_admin_login = 1;
+$login_template = 1;
 require("templates/interface/php/header.php");
 
 ?>

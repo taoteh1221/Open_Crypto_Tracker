@@ -6,7 +6,7 @@
 
 	
 // Have this script not load any code if system stats are not turned on, or key GET request corrupt
-if ( $app_config['general']['system_stats'] == 'off' || !is_numeric($_GET['key']) ) {
+if ( !isset($_SESSION['admin_logged_in']) || !is_numeric($_GET['key']) || $app_config['general']['system_stats'] == 'off' ) {
 exit;
 }
 

@@ -8,21 +8,21 @@ $reset_result = array();
 
 
 // If we are not activating an existing reset session, run checks before rendering anything...
-if ( !$_GET['new_reset_key'] ) {
+if ( !$_GET['new_reset_key'] && !$_POST['admin_submit_reset'] ) {
 	
 	if ( validate_email($app_config['comms']['to_email']) != 'valid'  ) {
-	$reset_result['error'][] = "Admin's 'To' Email has NOT been set in the admin configuration yet, therefore the password CANNOT be reset by interface form submission. Alternatively, you can MANUALLY delete the file '/cache/secured/admin_login_XXXXXXXXXXXXX.dat' in the app directory. This will prompt you to create a new admin login, the next time you use the app.";
+	$reset_result['error'][] = "A VALID admin's 'To' Email has NOT been properly set in the admin configuration yet, therefore the password CANNOT be reset by interface form submission. Alternatively, you can MANUALLY delete the file '/cache/secured/admin_login_XXXXXXXXXXXXX.dat' in the app directory. This will prompt you to create a new admin login, the next time you use the app.";
 	$no_password_reset = 1;
 	}
 	
-	if ( sizeof($admin_login) != 2 ) {
+	if ( sizeof($stored_admin_login) != 2 ) {
 	$reset_result['error'][] = "No admin account exists to reset.";
 	$no_password_reset = 1;
 	}
 	
 }
 elseif ( $password_reset_denied ) {
-$reset_result['error'][] = "Password reset key does not exist.";
+$reset_result['error'][] = "Password reset key does not match.";
 $no_password_reset = 1;
 }
 
@@ -48,14 +48,14 @@ if ( $_POST['admin_submit_reset'] ) {
 	
 	
 
-	// Checks cleared, send email ////////
-	if ( sizeof($reset_result['error']) < 1 && trim($_POST['reset_username']) == $admin_login[0] ) {
+	// If checks clear, send email ////////
+	if ( sizeof($reset_result['error']) < 1 && trim($_POST['reset_username']) != '' && trim($_POST['reset_username']) == $stored_admin_login[0] ) {
 
 	$new_reset_key = random_hash(32);
 	
 	$message = "
 
-Please confirm your request to reset the admin password for username '".$admin_login[0]."', in your DFD Cryptocoin Values application.
+Please confirm your request to reset the admin password for username '".$stored_admin_login[0]."', in your DFD Cryptocoin Values application.
 
 To complete resetting your admin password, please visit this link below:
 ". $base_url . "password-reset.php?new_reset_key=".$new_reset_key."
@@ -86,14 +86,14 @@ If you did NOT request this password reset (originating from ip address ".$_SERV
 
 	// Fake success message, even if the username was not found (so 3rd parties cannot hunt for a valid username)
 	if ( sizeof($reset_result['error']) < 1 ) {
-	$reset_result['success'][] = "If the username exists, a message has been sent to the registered admin email address for resetting the admin password. Please check your inbox (or spam folder, and mark as 'not spam') in a few minutes.";
+	$reset_result['success'][] = "IF THE USERNAME EXISTS, a message has been sent to the registered admin email address for resetting the admin password. Please check your inbox (or spam folder, and mark as 'not spam') in a few minutes.";
 	}
 
 
 }
 
 
-$template_admin_login = 1;
+$login_template = 1;
 require("templates/interface/php/header.php");
 
 ?>
@@ -104,7 +104,7 @@ require("templates/interface/php/header.php");
 		var reset_notes = '<h5 align="center" class="red_bright" style="position: relative; white-space: nowrap;">Reset Admin Account By Username</h5>'
 			
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="red_bright">For security purposes you MUST know the admin username, and the admin \'To\' Email MUST be set in the admin configuration already. Otherwise the password CANNOT be reset by interface form submission. Alternatively, you can MANUALLY delete the file \'/cache/secured/admin_login_XXXXXXXXXXXXX.dat\' in the app directory. This will prompt you to create a new admin login, the next time you use the app.<br /></span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="red_bright">For security purposes you MUST know the admin username, and a VALID admin \'To\' Email MUST be set in the admin configuration already. Otherwise the password CANNOT be reset by interface form submission. Alternatively, you can MANUALLY delete the file \'/cache/secured/admin_login_XXXXXXXXXXXXX.dat\' in the app directory. This will prompt you to create a new admin login, the next time you use the app.<br /></span></p>'
 			
 			+'<p class="coin_info"><span class="yellow"> </span></p>';
 

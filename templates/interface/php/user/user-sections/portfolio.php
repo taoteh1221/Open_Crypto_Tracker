@@ -629,12 +629,12 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 
 
 		
-	<!-- System stats (if enabled) -->
+	<!-- System stats (if enabled and logged in) -->
 	<div id='system_stats' class='align_left'>
 	
 	<?php
 			// If hardware / software stats are enabled, display the os / hardware / load avg / temperature / free partition space / free memory [mb/percent] / portfolio cache size / software stats
-    		if ( $app_config['general']['system_stats'] == 'on' || $app_config['general']['system_stats'] == 'raspi' && $is_raspi == 1 ) {
+    		if ( isset($_SESSION['admin_logged_in']) && $app_config['general']['system_stats'] == 'on' || isset($_SESSION['admin_logged_in']) && $app_config['general']['system_stats'] == 'raspi' && $is_raspi == 1 ) {
     ?>
 	
 		<fieldset><legend> <strong class="bitcoin">System Statistics</strong> </legend>
@@ -716,7 +716,13 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
     		
     		<b><a href="javascript: return false;" class="show_system_charts blue" title="View System Statistics Charts">System Statistics Charts</a></b>&nbsp;&nbsp; 
     		
+    		<?php
+    		if ( $app_config['general']['visitor_stats'] == 'on' ) {
+    		?>
     		<b><a href="javascript: return false;" class="show_access_stats blue" title="View Visitor Statistics">Visitor Statistics</a></b>
+    		<?php
+    		}
+    		?>
     		
 		</fieldset>
 		
@@ -782,7 +788,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
    
 	<?php
 		// If hardware / software stats are enabled, display the charts when designated link is clicked (in a modal)
-    	if ( $app_config['general']['system_stats'] == 'on' || $app_config['general']['system_stats'] == 'raspi' && $is_raspi == 1 ) {
+    	if ( isset($_SESSION['admin_logged_in']) && $app_config['general']['system_stats'] == 'on' || isset($_SESSION['admin_logged_in']) && $app_config['general']['system_stats'] == 'raspi' && $is_raspi == 1 ) {
     ?>
 	
 	<div id="show_system_charts">
@@ -830,6 +836,12 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 		content_source: '#show_system_charts'
 	});
 	</script>
+	
+	<?php
+		}
+    	// If visitor stats are enabled, display the stats when designated link is clicked (in a modal)
+    	if ( isset($_SESSION['admin_logged_in']) && $app_config['general']['visitor_stats'] == 'on' ) {
+    ?>
 	
 	
 	<div id="show_access_stats">

@@ -39,7 +39,7 @@ $activation_files = sort_files($base_dir . '/cache/secured/activation', 'dat', '
 	$app_config['comms']['to_email'] = auto_correct_string($app_config['comms']['to_email'], 'lower'); // Clean / auto-correct
 	
 	if ( $_GET['new_reset_key'] == $stored_reset_key && validate_email($app_config['comms']['to_email']) == 'valid' ) {
-	$password_reset_activated = 1;
+	$password_reset_approved = 1;
 	}
 	else {
 	$password_reset_denied = 1; // For reset page UI
@@ -197,7 +197,7 @@ foreach( $secured_cache_files as $secured_file ) {
 		}
 		else {
 		$newest_cached_admin_login = 1;
-		$admin_login = explode("||", trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) ) );
+		$stored_admin_login = explode("||", trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) ) );
 		$active_admin_login_file = $secured_file; // To easily delete, if we are resetting the login
 		}
 	
@@ -270,7 +270,7 @@ $secure_128bit_hash = random_hash(16); // 128-bit (16-byte) hash converted to he
 		
 		// Need to check a few different possible results for no data found ("null" in quotes as the actual value is returned sometimes)
 		if ( $store_cached_telegram_user_data == false || $store_cached_telegram_user_data == null || $store_cached_telegram_user_data == "null" ) {
-		app_logging('config_error', 'telegram_user_data could not be saved (to secured cache storage) in json format, MAKE SURE YOU ENTER / RE-ENTER "/start" IN THE BOT CHATROOM IN THE TELEGRAM APP, TO CREATE / RE-CREATE THE REQUIRED USER DATA THIS APP NEEDS TO STORE AND INITIATE TELEGRAM MESSAGING WITH');
+		app_logging('config_error', 'UPDATED / NEW telegram_user_data could not be saved (to secured cache storage) in json format, MAKE SURE YOU ENTER / RE-ENTER "/start" IN THE BOT CHATROOM IN THE TELEGRAM APP, TO CREATE / RE-CREATE THE REQUIRED USER DATA THIS APP NEEDS TO STORE AND INITIATE TELEGRAM MESSAGING WITH');
 		}
 		else {
 		store_file_contents($base_dir . '/cache/secured/telegram_user_data_'.$secure_128bit_hash.'.dat', $store_cached_telegram_user_data);
@@ -355,7 +355,7 @@ $secure_256bit_hash = random_hash(32); // 256-bit (32-byte) hash converted to he
 
 
 // If no admin login or an activated reset, valid user / pass are submitted, AND CAPTCHA MATCHES, store the new admin login
-if ( $password_reset_activated || !$admin_login ) {
+if ( $password_reset_approved || sizeof($stored_admin_login) != 2 ) {
 	
 
 	if ( valid_username( trim($_POST['set_username']) ) == 'valid' 
@@ -377,7 +377,7 @@ if ( $password_reset_activated || !$admin_login ) {
 		}
 		else {
 		store_file_contents($base_dir . '/cache/secured/admin_login_'.$secure_128bit_hash.'.dat', $_POST['set_username'] . '||' . $secure_password_hash);
-		$admin_login = array($_POST['set_username'], $secure_password_hash);
+		$stored_admin_login = array($_POST['set_username'], $secure_password_hash);
 		$admin_login_updated = 1;
 		}
 
@@ -392,7 +392,7 @@ if ( $password_reset_activated || !$admin_login ) {
 			}
 	
 		// Login now, before redirect
-		$_SESSION['admin_login'] = $admin_login;
+		$_SESSION['admin_logged_in'] = $stored_admin_login;
 		
 		// Redirect to avoid quirky page reloads later on, AND preset the admin login page for good UX
 		header("Location: admin.php");
