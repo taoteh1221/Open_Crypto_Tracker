@@ -81,27 +81,37 @@ exit;
 }
 
 
+
 // A bit of DOS attack mitigation for bogus / bot login attempts
 // Speed up runtime SIGNIFICANTLY by checking EARLY for a bad / non-existent captcha code, and rendering the related form again...
-if ( strtolower($_POST['captcha_code']) != strtolower($_SESSION['captcha_code']) ) {
+if ( $_POST['admin_submit_register'] || $_POST['admin_submit_login'] || $_POST['admin_submit_reset'] ) {
 
-	if ( $_POST['admin_submit_register'] == 1 ) {
-	$theme_selected = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $app_config['general']['default_theme'] );
-	require("templates/interface/php/admin/admin-login/register.php");
-	exit;
+
+	if ( !$_POST['captcha_code'] || strtolower($_POST['captcha_code']) != strtolower($_SESSION['captcha_code']) ) {
+	
+	
+		if ( $_POST['admin_submit_register'] ) {
+		$theme_selected = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $app_config['general']['default_theme'] );
+		require("templates/interface/php/admin/admin-login/register.php");
+		exit;
+		}
+		elseif ( $_POST['admin_submit_login'] ) {
+		$theme_selected = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $app_config['general']['default_theme'] );
+		require("templates/interface/php/admin/admin-login/login.php");
+		exit;
+		}
+		elseif ( $_POST['admin_submit_reset'] ) {
+		$theme_selected = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $app_config['general']['default_theme'] );
+		require("templates/interface/php/admin/admin-login/reset.php");
+		exit;
+		}
+	
+	
 	}
-	elseif ( $_POST['admin_submit_login'] == 1 ) {
-	$theme_selected = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $app_config['general']['default_theme'] );
-	require("templates/interface/php/admin/admin-login/login.php");
-	exit;
-	}
-	elseif ( $_POST['admin_submit_reset'] == 1 ) {
-	$theme_selected = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $app_config['general']['default_theme'] );
-	require("templates/interface/php/admin/admin-login/reset.php");
-	exit;
-	}
+	
 
 }
+
 
 
 // Nonce for secured login session logic
