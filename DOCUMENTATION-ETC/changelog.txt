@@ -3127,7 +3127,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Improved small screen support
 
--Misc. Optimizations / UX revisions
+-Misc. Optimizations / UX revisions / bug fixes
 
 IMPORTANT UPGRADE NOTES: 
 
