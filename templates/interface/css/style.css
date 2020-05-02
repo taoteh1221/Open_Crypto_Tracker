@@ -64,7 +64,7 @@ textarea[data-autoresize] {
 	line-height: 1;
 	padding: 10px 10px 10px;
 	border-radius: 8px;
-	font-size: 16px;
+	font-size: 15px;
 	transition:box-shadow 0.5s ease;
 	box-shadow:0 4px 6px rgba(0,0,0,0.1);
 	font-smoothing:subpixel-antialiased;
@@ -73,6 +73,8 @@ textarea[data-autoresize] {
 	background:-ms-linear-gradient(#e5e3e3, #f2f2f2);
 	background:-moz-linear-gradient(#e5e3e3, #f2f2f2);
 	background:-webkit-linear-gradient(#e5e3e3, #f2f2f2);
+	overflow: auto;
+	overflow-y: scroll;
 }
 
 

@@ -202,7 +202,7 @@ if ( !$_POST['submit_registration'] || sizeof($register_result['error']) > 0 ) {
   	 
   	 <p><img id='captcha_image' src='templates/interface/media/images/captcha.php' alt='' class='image_border' />
   	 <br />
-  	 <a href='javascript: return false;' onclick='refreshImage("captcha_image", "templates/interface/media/images/captcha.php");' class='bitcoin' style='font-weight: bold;'>Get A Different Image</a>
+  	 <a href='javascript: return false;' onclick='refreshImage("captcha_image", "templates/interface/media/images/captcha.php");' class='bitcoin' style='font-weight: bold;' title='CAPTCHA image text contrast can be adjusted in the Admin Configuration, in the "Power User" section.'>Get A Different Image</a>
   	 </p>
   	 
   	 </div>

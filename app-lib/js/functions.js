@@ -558,10 +558,11 @@ function row_alert(tr_id, alert_type, color, theme) {
     	
       
 			if ( color == 'yellow' ) {
-			var zebra_odd_loss = ( theme == 'light' ? '#efd362' : '#705d29' );
-			var zebra_even_loss = ( theme == 'light' ? '#d3bb5b' : '#564a1e' );
+			var zebra_odd_loss = ( theme == 'light' ? '#d3bb5b' : '#705d29' );
+			var zebra_even_loss = ( theme == 'light' ? '#efd362' : '#564a1e' );
 			}
-			else if ( color == 'green' ) {
+			
+			if ( color == 'green' ) {
 			var zebra_odd_gain = ( theme == 'light' ? '#7dc67d' : '#3d603d' );
 			var zebra_even_gain = ( theme == 'light' ? '#93ea93' : '#2d492d' );
 			}
@@ -569,10 +570,12 @@ function row_alert(tr_id, alert_type, color, theme) {
 		 
 			if ( color != 'no_cmc' ) {
 			
-				if ( color == 'yellow' && !window.alert_color_loss ) {
+				if ( !window.alert_color_loss ) {
 				window.alert_color_loss = zebra_odd_loss;
 				}
-				else if ( color == 'green' && !window.alert_color_gain ) {
+				
+				
+				if ( !window.alert_color_gain ) {
 				window.alert_color_gain = zebra_odd_gain;
 				}
 					
@@ -585,7 +588,9 @@ function row_alert(tr_id, alert_type, color, theme) {
 				$('.tablesorter tr#' + tr_id + ' td').css("background-color", window.alert_color_loss);
 				
 				}
-				else if ( color == 'green' ) {
+				
+				
+				if ( color == 'green' ) {
 				
 				$('.tablesorter tr#' + tr_id).css("background", window.alert_color_gain);
 				$('.tablesorter tr#' + tr_id + ' td').css("background", window.alert_color_gain);
@@ -597,16 +602,18 @@ function row_alert(tr_id, alert_type, color, theme) {
 					
 				// Zebra stripes
 				if ( window.alert_color_loss == zebra_odd_loss ) {
-				window.alert_color = zebra_even_loss;
+				window.alert_color_loss = zebra_even_loss;
 				}
 				else if ( window.alert_color_loss == zebra_even_loss ) {
-				window.alert_color = zebra_odd_loss;
+				window.alert_color_loss = zebra_odd_loss;
 				}
-				else if ( window.alert_color_gain == zebra_odd_gain ) {
-				window.alert_color = zebra_even_gain;
+				
+				
+				if ( window.alert_color_gain == zebra_odd_gain ) {
+				window.alert_color_gain = zebra_even_gain;
 				}
 				else if ( window.alert_color_gain == zebra_even_gain ) {
-				window.alert_color = zebra_odd_gain;
+				window.alert_color_gain = zebra_odd_gain;
 				}
 					
 			

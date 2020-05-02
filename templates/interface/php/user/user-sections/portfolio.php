@@ -24,18 +24,37 @@
 				
 				$text_mcap_trend = ucwords(preg_replace("/day/i", " day", $text_mcap_trend));
 				
+				if ( $theme_selected == 'dark' ) {
 				
-				if ( $alert_percent[2] == 'gain' ) {
-				$alert_filter = '+';
-				$alert_filter_css = 'green';
+					if ( $alert_percent[2] == 'gain' ) {
+					$alert_filter = '<span style="color: #7dc67d;">+</span>';
+					$alert_filter_css = 'green';
+					}
+					elseif ( $alert_percent[2] == 'loss' ) {
+					$alert_filter = '<span style="color: #efd362;">-</span>';
+					$alert_filter_css = 'orange';
+					}
+					elseif ( $alert_percent[2] == 'both' ) {
+					$alert_filter = '<span style="color: #7dc67d;">+</span><span style="color: #efd362;">-</span>';
+					$alert_filter_css = 'blue';
+					}
+				
 				}
-				elseif ( $alert_percent[2] == 'loss' ) {
-				$alert_filter = '-';
-				$alert_filter_css = 'orange';
-				}
-				elseif ( $alert_percent[2] == 'both' ) {
-				$alert_filter = '+-';
-				$alert_filter_css = 'blue';
+				elseif ( $theme_selected == 'light' ) {
+				
+					if ( $alert_percent[2] == 'gain' ) {
+					$alert_filter = '<span style="color: #6ead6e;">+</span>';
+					$alert_filter_css = 'green';
+					}
+					elseif ( $alert_percent[2] == 'loss' ) {
+					$alert_filter = '<span style="color: #dd7c0d;">-</span>';
+					$alert_filter_css = 'orange';
+					}
+					elseif ( $alert_percent[2] == 'both' ) {
+					$alert_filter = '<span style="color: #6ead6e;">+</span><span style="color: #dd7c0d;">-</span>';
+					$alert_filter_css = 'blue';
+					}
+				
 				}
 				
 			?>

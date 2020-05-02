@@ -26,6 +26,12 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+Do a thorough test of all admin authentication related forms, including temporarily turning off the JavaScript username password validation, to make sure server side does the same validation.
+
+
+Add a "Logs" tab in the admin area, that displays the current error / debugging logs (if they exist).
+
+
 New screenshots.
 
 
@@ -77,6 +83,9 @@ Epiphany browser trying to autoplay audio alert: [Error] Unhandled Promise Rejec
 ///////////////////////////////////////////////////////
 FEATURES / STRUCTURING SECTION
 ///////////////////////////////////////////////////////
+
+
+Double check that we don't need to darken up light theme loss alert data row colors (next time everything crashes in price, lol)
 
 
 Alerts bell in header.
