@@ -3115,7 +3115,9 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 
 -------------------------------------------------------------------
-4.10.0:
+4.10.1:
+
+-Misc. Optimizations / UX revisions / bug fixes
 
 -Admin configuration interface, with login authentication
 
@@ -3126,8 +3128,6 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -Configuration settings for CAPTCHA image login protection (in power user settings)
 
 -Improved small screen support
-
--Misc. Optimizations / UX revisions / bug fixes
 
 IMPORTANT UPGRADE NOTES: 
 
