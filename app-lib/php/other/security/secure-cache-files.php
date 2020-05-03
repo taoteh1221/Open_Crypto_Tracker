@@ -27,6 +27,7 @@ $activation_files = sort_files($base_dir . '/cache/secured/activation', 'dat', '
 			else {
 			$newest_cached_password_reset = 1;
 			$stored_reset_key = trim( file_get_contents($base_dir . '/cache/secured/activation/' . $activation_file) );
+			$stored_reset_key_path = $base_dir . '/cache/secured/activation/' . $activation_file; // To easily delete, if admin reset
 			}
 	
 		}
@@ -198,7 +199,7 @@ foreach( $secured_cache_files as $secured_file ) {
 		else {
 		$newest_cached_admin_login = 1;
 		$stored_admin_login = explode("||", trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) ) );
-		$active_admin_login_file = $secured_file; // To easily delete, if we are resetting the login
+		$active_admin_login_path = $base_dir . '/cache/secured/' . $secured_file; // To easily delete, if we are resetting the login
 		}
 	
 	
@@ -360,7 +361,8 @@ if ( $password_reset_approved || sizeof($stored_admin_login) != 2 ) {
 
 	if ( valid_username( trim($_POST['set_username']) ) == 'valid' 
 && password_strength($_POST['set_password'], 12, 40) == 'valid' 
-&& trim($_POST['captcha_code']) != '' && strtolower($_POST['captcha_code']) == strtolower($_SESSION['captcha_code']) ) {
+&& $_POST['set_password'] == $_POST['set_password2'] 
+&& trim($_POST['captcha_code']) != '' && strtolower( trim($_POST['captcha_code']) ) == strtolower($_SESSION['captcha_code']) ) {
 	
 	
 	$secure_128bit_hash = random_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
@@ -376,8 +378,8 @@ if ( $password_reset_approved || sizeof($stored_admin_login) != 2 ) {
 		app_logging('security_error', 'A peppered password hash could not be generated for admin login, admin login creation aborted to preserve security');
 		}
 		else {
-		store_file_contents($base_dir . '/cache/secured/admin_login_'.$secure_128bit_hash.'.dat', $_POST['set_username'] . '||' . $secure_password_hash);
-		$stored_admin_login = array($_POST['set_username'], $secure_password_hash);
+		store_file_contents($base_dir . '/cache/secured/admin_login_'.$secure_128bit_hash.'.dat', trim($_POST['set_username']) . '||' . $secure_password_hash);
+		$stored_admin_login = array( trim($_POST['set_username']), $secure_password_hash);
 		$admin_login_updated = 1;
 		}
 
@@ -387,9 +389,15 @@ if ( $password_reset_approved || sizeof($stored_admin_login) != 2 ) {
 		if ( $admin_login_updated ) {
 		
 			// Delete any previous active admin login data file
-			if ( $active_admin_login_file ) {
-			unlink($base_dir . '/cache/secured/' . $active_admin_login_file);
+			if ( $active_admin_login_path ) {
+			unlink($active_admin_login_path);
 			}
+			
+			// Delete any stored reset key
+			if ( $stored_reset_key_path ) {
+			unlink($stored_reset_key_path);
+			}
+			
 	
 		// Login now, before redirect
 		$_SESSION['admin_logged_in'] = $stored_admin_login;

@@ -26,7 +26,7 @@ if ( is_readable($filename) ) {
 
 
 if( sizeof($lines) < 1 ){
-$lines[] = 'No logs for log file: ' . $filename;
+$lines[] = 'No logs yet for log file: ' . $filename;
 }
 
 echo json_encode($lines);

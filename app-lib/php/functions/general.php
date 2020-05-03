@@ -780,6 +780,10 @@ global $app_config;
 	 if ( preg_match('/\s/',$password) ) {
     $error .= "no spaces allowed; ";
 	 }
+	 
+	 if ( preg_match('/\|\|/',$password) ) {
+    $error .= "no double pipe (||) allowed; ";
+	 }
     
     
     if( $error ){

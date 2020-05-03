@@ -93,7 +93,7 @@ exit;
 if ( $_POST['admin_submit_register'] || $_POST['admin_submit_login'] || $_POST['admin_submit_reset'] ) {
 
 
-	if ( !$_POST['captcha_code'] || strtolower($_POST['captcha_code']) != strtolower($_SESSION['captcha_code']) ) {
+	if ( trim($_POST['captcha_code']) == '' || trim($_POST['captcha_code']) != '' && strtolower( trim($_POST['captcha_code']) ) != strtolower($_SESSION['captcha_code']) ) {
 	
 	
 		if ( $_POST['admin_submit_register'] ) {

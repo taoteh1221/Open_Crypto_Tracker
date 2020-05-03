@@ -735,13 +735,9 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
     		
     		<b><a href="javascript: return false;" class="show_system_charts blue" title="View System Statistics Charts">System Statistics Charts</a></b>&nbsp;&nbsp; 
     		
-    		<?php
-    		if ( $app_config['general']['visitor_stats'] == 'on' ) {
-    		?>
-    		<b><a href="javascript: return false;" class="show_access_stats blue" title="View Visitor Statistics">Visitor Statistics</a></b>
-    		<?php
-    		}
-    		?>
+
+    		<b><a href="javascript: return false;" class="show_visitor_stats blue" title="View Visitor Statistics">Visitor Statistics</a></b>
+ 
     		
 		</fieldset>
 		
@@ -856,14 +852,8 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	});
 	</script>
 	
-	<?php
-		}
-    	// If visitor stats are enabled, display the stats when designated link is clicked (in a modal)
-    	if ( isset($_SESSION['admin_logged_in']) && $app_config['general']['visitor_stats'] == 'on' ) {
-    ?>
 	
-	
-	<div id="show_access_stats">
+	<div id="show_visitor_stats">
 	
 		
 		<h3>Visitor Statistics</h3>
@@ -917,9 +907,9 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	
 	
 	<script>
-	$('.show_access_stats').modaal({
+	$('.show_visitor_stats').modaal({
 		fullscreen: true,
-		content_source: '#show_access_stats'
+		content_source: '#show_visitor_stats'
 	});
 	</script>
 	

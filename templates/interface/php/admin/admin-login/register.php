@@ -16,9 +16,9 @@ if ( $_POST['admin_submit_register'] ) {
 
 	// Run checks...
 	
-	if ( trim($_POST['captcha_code']) != '' && strtolower($_POST['captcha_code']) != strtolower($_SESSION['captcha_code']) ) {
-	$register_result['error'][] = "Captcha image code was not correct.";
-	$captcha_field_color = '#ff4747';
+	if ( valid_username( trim($_POST['set_username']) ) != 'valid' ) {
+	$register_result['error'][] = valid_username( trim($_POST['set_username']) );
+	$username_field_color = '#ff4747';
 	}
 	
 	//////////////
@@ -28,14 +28,25 @@ if ( $_POST['admin_submit_register'] ) {
 	
 	if ( password_strength($_POST['set_password'], 12, 40) != 'valid'  ) {
 	$register_result['error'][] = password_strength($_POST['set_password'], 12, 40);
+	$password_field_color = '#ff4747';
 	}
 	
 	
 	///////////////
 	
 	
-	if ( valid_username( trim($_POST['set_username']) ) != 'valid' ) {
-	$register_result['error'][] = valid_username( trim($_POST['set_username']) );
+	if ($_POST['set_password'] != $_POST['set_password2']  ) {
+	$register_result['error'][] = "Passwords do not match.";
+	$password2_field_color = '#ff4747';
+	}
+	
+	
+	///////////////
+	
+	
+	if ( trim($_POST['captcha_code']) == '' || trim($_POST['captcha_code']) != '' && strtolower( trim($_POST['captcha_code']) ) != strtolower($_SESSION['captcha_code']) ) {
+	$register_result['error'][] = "Captcha image code was not correct.";
+	$captcha_field_color = '#ff4747';
 	}
 	
 
@@ -97,7 +108,7 @@ if ( !$_POST['submit_registration'] || sizeof($register_result['error']) > 0 ) {
 		var username_notes = '<h5 align="center" class="red_bright" style="position: relative; white-space: nowrap;">Username Format Requirements</h5>'
 			
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="red_bright">All lower case<br />Starts with a letter<br />Numbers allowed <br />No symbols <br />Between 4 - 30 characters <br /></span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="red_bright">All lower case<br />Starts with a letter<br />Numbers allowed <br />No symbols <br />No spaces <br />Between 4 - 30 characters <br /></span></p>'
 			
 			+'<p class="coin_info"><span class="yellow"> </span></p>';
 
@@ -105,7 +116,7 @@ if ( !$_POST['submit_registration'] || sizeof($register_result['error']) > 0 ) {
 
 		var password_notes = '<h5 align="center" class="red_bright" style="position: relative; white-space: nowrap;">Password Format Requirements</h5>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="red_bright">At least one upper case letter<br />At least one lower case letter<br />At least one number <br />At least one symbol <br />Between 12 - 40 characters <br /></span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="red_bright">At least one upper case letter<br />At least one lower case letter<br />At least one number <br />At least one symbol <br />No spaces <br />Between 12 - 40 characters <br /></span></p>'
 			
 			+'<p class="coin_info"><span class="yellow"> </span></p>';
 
@@ -123,7 +134,7 @@ if ( !$_POST['submit_registration'] || sizeof($register_result['error']) > 0 ) {
 	 
 	 <b>Username:</b> 
 	 
-	 <input type='text' id='set_username' name='set_username' value='<?=$_POST['set_username']?>' />
+	 <input type='text' id='set_username' name='set_username' value='<?=trim($_POST['set_username'])?>' style='<?=( $username_field_color ? 'background: ' . $username_field_color : '' )?>' />
 	 
 		
 	 <script>
@@ -157,7 +168,7 @@ if ( !$_POST['submit_registration'] || sizeof($register_result['error']) > 0 ) {
 	 
 	 <b>Password:</b> 
 	 	 
-	 <input type='password' id='set_password' name='set_password' value='<?=$_POST['set_password']?>' />
+	 <input type='password' id='set_password' name='set_password' value='<?=$_POST['set_password']?>' style='<?=( $password_field_color ? 'background: ' . $password_field_color : '' )?>' />
 	 
 		
 	 <script>
@@ -185,7 +196,7 @@ if ( !$_POST['submit_registration'] || sizeof($register_result['error']) > 0 ) {
 		 
 	 </p>
 
-	 <p><b>Repeat Password:</b> <input type='password' id='set_password2' name='set_password2' value='<?=$_POST['set_password2']?>' /></p>
+	 <p><b>Repeat Password:</b> <input type='password' id='set_password2' name='set_password2' value='<?=$_POST['set_password2']?>' style='<?=( $password2_field_color ? 'background: ' . $password2_field_color : '' )?>' /></p>
     	
     	
 		<p class='align_left' style='font-size: 19px; font-weight: bold; color: #ff4747;' id='user_alert'></p>
@@ -231,7 +242,6 @@ if ( !$_POST['submit_registration'] || sizeof($register_result['error']) > 0 ) {
 <p id='admin_register_button' style='padding: 20px;'>
 
 <button class='force_button_style' onclick='
-
 
 // Remove any previous submission error notices (captcha error etc)
 document.getElementById("login_alert").style.display = "none";

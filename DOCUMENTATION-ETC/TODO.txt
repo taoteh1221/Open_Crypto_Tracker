@@ -26,7 +26,7 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
-Do a thorough test of all admin authentication related forms, including temporarily turning off the JavaScript username password validation, to make sure server side does the same validation.
+See if we can column sort by SELECTED exchange / market pairing (right now it sorts by first in the list?), by dynamically populating a hidden value AND running the sort filter through it instead.
 
 
 New screenshots.
@@ -38,10 +38,10 @@ New screenshots.
 Look into why the portfolio balance (percent stats) summaries are off by a few pennies, compared to total USD (primary currency) portfolio value?
 
 
-Documentation for API / Webhook features
+Documentation for Webhook features
 
 
-Add api key and webhook keys on admin page.
+Add webhook keys on admin page.
 
 
 Retest password strength function after the modification. 
@@ -88,31 +88,46 @@ FEATURES / STRUCTURING SECTION
 Double check that we don't need to darken up light theme loss alert data row colors (next time everything crashes in price, lol)
 
 
-Alerts bell in header.
+Add an alert bell icon in header login nav, and have alerts make it red and be a drop-down info bubble clicking it, rather than alerts printed in the footer.
+
+
+Interface alert for upgrades.
 
 
 Mail trading notes to admin email, only if user logged in as admin.
 
 
-See if we can column sort by SELECTED exchange / market pairing (right now it sorts by first in the list?), by dynamically populating a hidden value AND running the sort filter through it instead.
+Option to use new zip file encryption password feature to encrypt portfolio spreadsheet exports when downloading exported portfolio data.
 
 
 Have random tip display a "next tip" link...consider putting it at top of charts page too.
 
 
-Option to use new zip file encryption password feature to encrypt portfolio spreadsheet exports when downloading exported portfolio data.
-
-
-Create a recursive function that calls itself and checks if the item(s) in an array are strings or sub-arrays, to only add non-existent variables to the CACHED app config only if they only exist in config.php (for upgrades). For removing depreciated variables, create a static list to be safe.
+Prune system stats chart data older than 90 days, via the scheduled maintenance logic.
 
 
 Add additional ability to do telegram webhooks, to query asset prices at different exchanges through telegram chat with the chat bot. Example: "/price ETH/USDT @ Binance"
 
 
-Create github wiki with the current documentation for the portfolio app.
+Create a recursive function that calls itself and checks if the item(s) in an array are strings or sub-arrays, to only add non-existent variables to the CACHED app config only if they only exist in config.php (for upgrades). For removing depreciated variables, create a static list to be safe.
 
 
-Prune system stats chart data older than 90 days, via the scheduled maintenance logic.
+Dynamically add an 'app_version' value to $app_config when processing it, so when we are updating the cached config with a newly-changed config.php config, we not only can see if any new config settings exist / have changed, but we can see if the app was upgraded since the previous cached config update.
+
+
+For each key => value loop json admin config to automate generating new admin settings page...selects for arrays, text fields for strings. Maybe certain key names get checkbox / radio button fields.
+
+
+Once an admin config interface web page is built, only update the cached app_config when new configuration variables are added to config.php, and skip overwriting any pre-existing variables (so we don't revert end-user configuration changes).
+
+
+Admin import / export of settings (consider security implications CAREFULLY).
+
+
+On admin config page, have "reset to default settings" button (with js confirm alert when pushed) that refreshes the cached app_config from config.php settings.
+
+
+In the "loading charts" logic, add a timer that logs the time it takes to load all Shown Charts, and prints results to the console log.
 
 
 For scalable chart data, maybe run once daily during cron runtimes creating 1 hour (or greater) time interval chart data stores, using timestamp info in the default chart data store. Then use those for the initial chart loads if the chart data is more than 3 months worth (or whatever time period).
@@ -121,16 +136,31 @@ For scalable chart data, maybe run once daily during cron runtimes creating 1 ho
 Create chart interval function that divides the desired chart timeline period by the number of maximum data points the chart should ever load, to get the data point time interval, then caches the corresponding timestamped data point intervals into an updated chart for that time period every 24 hours. So we'd have like 6 / 12 / 18 month charts (as examples).
 
 
-In the "loading charts" logic, add a timer that logs the time it takes to load all Shown Charts, and prints results to the console log.
+Add google home support via direct connect on same network, OR via IFTTT (whichever is most feasible).
 
 
-Always prune system stats chart data (during scheduled maintenance) to never save chart data over 90 days old.
+Add IFTTT support (alexa / google home / whatever supported devices).
+
+
+See if exchange API data arrays can be manipulated slightly to build a reusable module for every exchange's API calls.
+
+
+Add admin settings feature to restore chart data from the zip archive backups (with admin authentication ONLY). Chart restore by prepending, so any existing data remains, BUT only if timestamp is newer than newest backups timestamp. Trigger restore from newest backups folder backup by placing a blank file named RESTORE_CHARTS in the queue directory.
+
+
+Add setting to enable access stats modal, maybe include an optional password setting to require login to view it in the UI if password is set. Store access data in flat file / json format (so mulitiple values can be read back into the app before updating, then updated values saved back in json overwriting previously saved values). Last 50 unique ip addresses, showing ip address's last user agent / last visit time / total visits count. Drop any over 50 ip addresses off the list based on oldest timestamps. Store visitor ip address data (user agent, etc) in an array key based off ip address (json format). Add visitor stats for API and webhook visits (whenever the stats logic is built out for the interface).
+
+
+Look into an auto-update feature like WordPress has (downloads a zip file upgrade, and exctracts it overwriting the old app files).
+
+
+Add Google and Microsoft translate API as options to translate the portfolio interface and price alerts.
+
+
+Create github wiki with the current documentation for the portfolio app.
 
 
 Add localcryptos API support?
-
-
-Interface alert for upgrades.
 
 
 Make default btc exchange in config.php optional, and auto-configure if invalid or left blank, based off the default primary currency setting (still log errors though). Additionally, consider defaulting to USD if the primary currency setting is invalid / blank as well (as long as we also error log any detected issues there too)??
@@ -145,61 +175,13 @@ Create help page modal for explanations on all config.php settings. Then we can 
 Build tool that finds localbitcoins markets not added yet
 
 
-Audio / Visual Alerts setting: add new drop-down parameter, with values increase | decrease | both
-
-
-Add IFTTT support (alexa / google home / whatever supported devices).
-
-
-Add google home support via direct connect on same network, OR via IFTTT (whichever is most feasible).
-
-
-Dynamically add an 'app_version' value to $app_config when processing it, so when we are updating the cached config with a newly-changed config.php config, we not only can see if any new config settings exist / have changed, but we can see if the app was upgraded since the previous cached config update.
-
-
-CSRF nounce protection for admin AND user interface updates/viewing (session based).
-
-
-Add an alert bell icon in upcoming header login nav, and have alerts make it red and be a drop-down info bubble clicking it, rather than alerts printed in the footer.
-
-
-On admin config page, have "reset to default settings" button (with js confirm alert when pushed) that refreshes the cached app_config from config.php settings.
-
-
-For each key => value loop json admin config to automate generating new admin settings page...selects for arrays, text fields for strings. Maybe certain key names get checkbox / radio button fields.
-
-
-Once an admin config interface web page is built, only update the cached app_config when new configuration variables are added to config.php, and skip overwriting any pre-existing variables (so we don't revert end-user configuration changes).
-
-
 Add twilio.com and clicksend.com mobile text messaging support
 
 
 Add drop-down menu feature next to "update assets" buttons for "save as": cookie data | session data | only post data.
 
 
-"Delete session data" button, that runs the "hardy session clearing" logic.
-
-
 2-way encryption option (unlocked with 6 digit PIN) for storing coin amounts (IN COOKIES ONLY, NO DATABASE STORAGE !EVER!), with "quick lock" to quickly re-hide portfolio data (staying hidden persists on page load / reload as well with a cookie).
-
-
-See if exchange API data arrays can be manipulated slightly to build a reusable module for every exchange's API calls.
-
-
-Turn string / array manipulations function file into a class.
-
-
-Add admin settings feature to restore chart data from the zip archive backups (with admin authentication ONLY). Chart restore by prepending, so any existing data remains, BUT only if timestamp is newer than newest backups timestamp. Trigger restore from newest backups folder backup by placing a blank file named RESTORE_CHARTS in the queue directory.
-
-
-Add setting to enable access stats modal, maybe include an optional password setting to require login to view it in the UI if password is set. Store access data in flat file / json format (so mulitiple values can be read back into the app before updating, then updated values saved back in json overwriting previously saved values). Last 50 unique ip addresses, showing ip address's last user agent / last visit time / total visits count. Drop any over 50 ip addresses off the list based on oldest timestamps. Store visitor ip address data (user agent, etc) in an array key based off ip address (json format). Add visitor stats for API and webhook visits (whenever the stats logic is built out for the interface).
-
-
-Look into an auto-update feature like WordPress has (downloads a zip file upgrade, and exctracts it overwriting the old app files).
-
-
-Add Google and Microsoft translate API as options to translate the portfolio interface and price alerts.
 
 
 Check out cryptocompare.com API.
@@ -238,6 +220,9 @@ MAYBE SECTION
 ///////////////////////////////////////////////////////
 
 
+Turn string / array manipulations function file into a class.
+
+
 SQL-based accounts for storing configuration settings per-user (including setting up new assets available at supported exchanges), BUT !NEVER! STORES PORTFOLIO DATA (FOR PRIVACY / SECURITY-SAKE).
 
 
@@ -248,9 +233,6 @@ Maintain sql-based config as completely separate module(s) from the file-based c
 
 
 Maybe hashed password can be re-hashed with a unique per-browser install semi-constant or constant (like machine name or user agent), to securely store a persistent / semi-persisent login cookie (that hackers cannot steal and run on another machine to auto login easily)? Maybe feasible more so with a 7 day (or less) expiring cookie?
-
-
-Admin import / export of settings (consider security implications)?
 
 
 Convert all long hand javascript to jquery?

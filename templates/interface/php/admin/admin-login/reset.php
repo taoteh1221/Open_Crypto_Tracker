@@ -35,16 +35,17 @@ if ( $_POST['admin_submit_reset'] ) {
 
 	// Run more checks...
 	
-	if ( trim($_POST['captcha_code']) == '' || trim($_POST['captcha_code']) != '' && strtolower($_POST['captcha_code']) != strtolower($_SESSION['captcha_code']) )	{
-	$reset_result['error'][] = "Captcha image code was not correct.";
-	$captcha_field_color = '#ff4747';
-	}
-	
-	
 	if ( trim($_POST['reset_username']) == '' )	{
 	$reset_result['error'][] = "Please fill in the username field.";
 	$username_field_color = '#ff4747';
 	}
+	
+	
+	if ( trim($_POST['captcha_code']) == '' || trim($_POST['captcha_code']) != '' && strtolower( trim($_POST['captcha_code']) ) != strtolower($_SESSION['captcha_code']) )	{
+	$reset_result['error'][] = "Captcha image code was not correct.";
+	$captcha_field_color = '#ff4747';
+	}
+	
 	
 	
 
@@ -147,7 +148,7 @@ if ( !$_POST['admin_submit_reset'] && !$no_password_reset || sizeof($reset_resul
 	 
 	 <img id='reset_notes' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative; left: 5px;' />  
 	 
-	 <b>Username:</b> <input type='text' name='reset_username' value='<?=$_POST['reset_username']?>' style='<?=( $username_field_color ? 'background: ' . $username_field_color : '' )?>' />
+	 <b>Username:</b> <input type='text' name='reset_username' value='<?=trim($_POST['reset_username'])?>' style='<?=( $username_field_color ? 'background: ' . $username_field_color : '' )?>' />
 	 
 		
 	 <script>

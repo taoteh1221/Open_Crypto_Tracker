@@ -8,7 +8,7 @@ $login_result = array();
 		
 if ( $_POST['admin_submit_login'] ) {
 	
-	if ( trim($_POST['captcha_code']) == '' || strtolower($_POST['captcha_code']) != strtolower($_SESSION['captcha_code']) )	{
+	if ( trim($_POST['captcha_code']) == '' || trim($_POST['captcha_code']) != '' && strtolower( trim($_POST['captcha_code']) ) != strtolower($_SESSION['captcha_code']) )	{
 	$login_result['error'][] = "Captcha image code was not correct.";
 	$captcha_field_color = '#ff4747';
 	}
@@ -70,7 +70,7 @@ if ( !$_POST['submit_login'] || sizeof($login_result['error']) > 0 ) {
 
     <div style="display: inline-block; text-align: right; width: 400px;">
 
-<p><b>Username:</b> <input type='text' name='admin_username' value='<?=$_POST['admin_username']?>' /></p>
+<p><b>Username:</b> <input type='text' name='admin_username' value='<?=trim($_POST['admin_username'])?>' /></p>
 
 <p><b>Password:</b> <input type='password' name='admin_password' value='<?=$_POST['admin_password']?>' /></p>
 

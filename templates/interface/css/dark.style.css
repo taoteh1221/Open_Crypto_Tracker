@@ -193,6 +193,11 @@ border-top: 2px solid white;
 }
 
 
+.rounded {
+border: 1px solid #d4d8d3; 
+}
+
+
 .image_border {
 border: 2px solid #d4d8d3; 
 }

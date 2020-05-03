@@ -188,6 +188,11 @@ border-top: 2px solid black;
 }
 
 
+.rounded {
+border: 1px solid #606060; 
+}
+
+
 .image_border {
 border: 2px solid #606060; 
 }

@@ -77,14 +77,7 @@ function delete_old_files($directory_data, $days, $ext) {
 
 function htaccess_directory_protection() {
 
-global $base_dir, $app_config;
-
-// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-$interface_login_array = explode("||", $app_config['general']['interface_login']);
-
-$htaccess_username = $interface_login_array[0];
-
-$htaccess_password = $interface_login_array[1];
+global $base_dir, $app_config, $htaccess_username, $htaccess_password;
 
 $valid_username = valid_username($htaccess_username);
 
@@ -1302,15 +1295,15 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 		
 		if ( $mode == 'array' && $post_encoding == 1 ) {
 		curl_setopt($ch, CURLOPT_POST, true);
-		curl_setopt( $ch, CURLOPT_POSTFIELDS, $request ); // Works fine so far not encoded
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $request); // Works fine so far not encoded
 		}
 		elseif ( $mode == 'array' && $post_encoding == 2 ) {
 		curl_setopt($ch, CURLOPT_POST, true);
-		curl_setopt( $ch, CURLOPT_POSTFIELDS,  http_build_query($request) ); // Encode post data with http_build_query()
+		curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($request) ); // Encode post data with http_build_query()
 		}
 		elseif ( $mode == 'array' && $post_encoding == 3 ) {
 		curl_setopt($ch, CURLOPT_POST, true);
-		curl_setopt( $ch, CURLOPT_POSTFIELDS, json_encode($request) ); // json encoded
+		curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($request) ); // json encoded
 		}
 		elseif ( $mode == 'url' || $mode == 'proxy-check' ) {
 		curl_setopt($ch, CURLOPT_URL, $request); // Not encoded
@@ -1321,8 +1314,8 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 	
 	
 	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-	curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
 	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $app_config['power_user']['remote_api_timeout']);
 	curl_setopt($ch, CURLOPT_TIMEOUT, $app_config['power_user']['remote_api_timeout']);
 	curl_setopt($ch, CURLOPT_USERAGENT, $user_agent);
@@ -1346,7 +1339,7 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 				// If we have password protection on in the app
 				if ( $htaccess_username != '' && $htaccess_password != '' ) {
 				curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
-				curl_setopt($ch, CURLOPT_USERPWD, $htaccess_username . ':' . $htaccess_password);
+				curl_setopt($ch, CURLOPT_USERPWD, '"' . $htaccess_username . ':' . $htaccess_password . '"');
 				}
 				
 			$remote_api_strict_ssl = 'off';
@@ -1357,8 +1350,8 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 			}
 			
 		
-		curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, ( $remote_api_strict_ssl == 'on' ? 2 : 0 ) );
 		curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, ( $remote_api_strict_ssl == 'on' ? true : false ) ); 
+		curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, ( $remote_api_strict_ssl == 'on' ? 2 : 0 ) );
 		
 		
 			if ( PHP_VERSION_ID >= 70700 && CURL_VERSION_ID >= 7410 ) {
