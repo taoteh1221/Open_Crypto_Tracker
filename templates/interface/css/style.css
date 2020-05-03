@@ -125,9 +125,24 @@ legend {
 }
 
 
+/* MAKE PRE TAGS WRAP */
+pre {
+ white-space: pre-wrap;       /* css-3 */
+ white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+ white-space: -pre-wrap;      /* Opera 4-6 */
+ white-space: -o-pre-wrap;    /* Opera 7 */
+ word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+
+
 /* //////////////////////////////
 CLASSES
 ////////////////////////////// */
+
+
+.hide-x-scroll {
+overflow-x: hidden !important; /* Hide horizontal scrollbar */
+}
 
 
 .random_tip a {
@@ -446,12 +461,6 @@ text-decoration: none;
 }
 
 
-.max_1350px_wrapper {
-position: relative;
-max-width: 1350px;
-}
-
-
 .max_full_width_wrapper {
 position: relative;
 max-width: 100%;
@@ -529,6 +538,12 @@ min-width: 1350px;
 margin: auto;
 padding: 15px;
 padding-top: 0px;
+}
+
+
+#admin_wrapper, .max_1350px_wrapper {
+position: relative;
+max-width: 1350px;
 }
 
 

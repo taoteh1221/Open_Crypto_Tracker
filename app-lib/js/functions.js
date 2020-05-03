@@ -265,6 +265,52 @@ function watch_toggle(obj_var) {
 /////////////////////////////////////////////////////////////
 
 
+function system_logs(elm_id) {
+
+$('#' + elm_id + '_alert').text('Refreshing, please wait...');
+        	
+var log_area = $('#' + elm_id);
+      
+// Blank out existing logs that are showing
+log_area.text('');
+    
+var log_file = elm_id.replace(/_log/ig, '.log');
+        	
+var log_lines = $('#' + elm_id + '_lines').val();
+
+
+var not_whole_num = (log_lines - Math.floor(log_lines)) !== 0;
+
+	if ( not_whole_num ) {
+	set_lines = 100;
+	$('#' + elm_id + '_lines').val(set_lines);
+	}
+	else {
+	set_lines = log_lines;
+	}
+    	  	
+    	  	
+   // Get log data
+	$.getJSON("logs.php?logfile=" + log_file + '&lines=' + set_lines, function( data ) {
+      
+		$.each( data, function( key, val ) {
+      log_area.append( val + "\n" ); // For UX / readability, add an extra space between log lines
+      });
+              
+	});     
+    	
+   // Wait 3 seconds for it to fully load, then set scroll to bottom	
+	setTimeout(function(){
+	log_area.scrollTop(log_area[0].scrollHeight);
+	$('#' + elm_id + '_alert').text('');
+	}, 3000);	
+	
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function check_pass(doc_id_alert, doc_id_pass1, doc_id_pass2) {
 	
 var pass1 = document.getElementById(doc_id_pass1);

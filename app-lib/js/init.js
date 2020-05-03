@@ -36,9 +36,27 @@ $("span.btc_primary_currency_pairing").html(window.btc_primary_currency_pairing)
 
 	//////////////////////////////////////////////////////////
   
-  $( '.show' ).click(function() {
-      $( '.show_' + $(this).attr('id') ).toggle();
+  
+  // Disclaimer / newbie warning / etc links
+  $('.show').click(function() {
+      $('.show_' + $(this).attr('id') ).toggle();
   });
+  
+  
+  // Dynamically adjust admin tab content width
+  $('.admin_change_width').click(function() {
+  
+  	if ( $(this).attr('href') == '#admin_logs' ) {
+  	$("#admin_wrapper").css('max-width','100%');
+  	$("#admin_tab_content").css('max-width','100%');
+  	}
+  	else {
+  	$("#admin_wrapper").css('max-width','1350px');
+  	$("#admin_tab_content").css('max-width','1350px');
+  	}
+  
+  });
+
 
 	//////////////////////////////////////////////////////////
 	

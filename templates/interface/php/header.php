@@ -42,6 +42,8 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 	<?php
 	if ( $is_admin == 1 ) {
 	?>
+	<link rel="stylesheet" href="templates/interface/css/highlightjs.min.css" type="text/css" />
+	
 	<link rel="stylesheet" href="templates/interface/css/admin.css" type="text/css" />
 	
 	<link rel="stylesheet" href="templates/interface/css/<?=$theme_selected?>.admin.css" type="text/css" />
@@ -75,6 +77,22 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 	<script src="app-lib/js/functions.js"></script>
 	
 	<script src="app-lib/js/zingchart.min.js"></script>
+	
+	<?php
+	if ( $is_admin == 1 ) {
+	?>
+	
+	<script src="app-lib/js/highlight.min.js"></script>
+	
+	<script>
+	// Highlightjs configs
+	hljs.configure({useBR: false}); // Don't use  <br /> between lines
+	hljs.initHighlightingOnLoad(); // Load on page load
+	</script>
+	
+	<?php
+	}
+	?>
 	
 	<?php
 	if ( $app_config['general']['charts_toggle'] == 'on' ) {

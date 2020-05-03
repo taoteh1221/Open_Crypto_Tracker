@@ -8,7 +8,8 @@ $runtime_mode = 'captcha';
 
 // Change directory
 chdir("../../../../");
-// $runtime_mode 'captcha' only gets config vars, some init, then app config / captcha library
+
+// FOR SPEED, $runtime_mode 'captcha' only gets app config vars, some init.php, then the captcha library
 require("config.php");
 
 ?>

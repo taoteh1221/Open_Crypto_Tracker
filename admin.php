@@ -39,47 +39,50 @@ require("templates/interface/php/header.php");
 
 <div class='full_width_wrapper align_center'>
 
-	<div class='max_1350px_wrapper align_center' style='margin: auto;'>
+	<div id='admin_wrapper' class='align_center' style='margin: auto;'>
 	
 
 		<ul class="nav nav-tabs-vertical align_center" id="admin_tabs" role="tablist">
 		  <li class="nav-item">
-			<a class="nav-link" data-toggle="tab" href="#admin_comms" role="tab" aria-controls="admin_comms">Communications</a>
+			<a class="nav-link admin_change_width" data-toggle="tab" href="#admin_comms" role="tab" aria-controls="admin_comms">Communications</a>
 		  </li>
 		  <li class="nav-item">
-			<a class="nav-link" data-toggle="tab" href="#admin_general" role="tab" aria-controls="admin_general">General</a>
+			<a class="nav-link admin_change_width" data-toggle="tab" href="#admin_general" role="tab" aria-controls="admin_general">General</a>
 		  </li>
 		  <li class="nav-item">
-			<a class="nav-link" data-toggle="tab" href="#admin_charts_alerts" role="tab" aria-controls="admin_charts_alerts"><?=( $app_config['general']['charts_toggle'] == 'on' ? 'Charts and ' : 'Price ' )?>Alerts</a>
+			<a class="nav-link admin_change_width" data-toggle="tab" href="#admin_charts_alerts" role="tab" aria-controls="admin_charts_alerts"><?=( $app_config['general']['charts_toggle'] == 'on' ? 'Charts and ' : 'Price ' )?>Alerts</a>
 		  </li>
 		  <li class="nav-item">
-			<a class="nav-link" data-toggle="tab" href="#admin_portfolio_assets" role="tab" aria-controls="admin_portfolio_assets">Portfolio Assets</a>
+			<a class="nav-link admin_change_width" data-toggle="tab" href="#admin_portfolio_assets" role="tab" aria-controls="admin_portfolio_assets">Portfolio Assets</a>
 		  </li>
 		  <li class="nav-item">
-			<a class="nav-link active" data-toggle="tab" href="#admin_api_webook" role="tab" aria-controls="admin_api_webook">API / Webhook</a>
+			<a class="nav-link admin_change_width active" data-toggle="tab" href="#admin_api_webook" role="tab" aria-controls="admin_api_webook">API / Webhook</a>
 		  </li>
 		  <li class="nav-item">
-			<a class="nav-link" data-toggle="tab" href="#admin_text_gateways" role="tab" aria-controls="admin_text_gateways">Text Gateways</a>
+			<a class="nav-link admin_change_width" data-toggle="tab" href="#admin_text_gateways" role="tab" aria-controls="admin_text_gateways">Text Gateways</a>
 		  </li>
 		  <li class="nav-item">
-			<a class="nav-link" data-toggle="tab" href="#admin_proxy" role="tab" aria-controls="admin_proxy">Proxy</a>
+			<a class="nav-link admin_change_width" data-toggle="tab" href="#admin_proxy" role="tab" aria-controls="admin_proxy">Proxy</a>
 		  </li>
 		  <li class="nav-item">
-			<a class="nav-link" data-toggle="tab" href="#admin_power_user" role="tab" aria-controls="admin_power_user">Power User</a>
+			<a class="nav-link admin_change_width" data-toggle="tab" href="#admin_power_user" role="tab" aria-controls="admin_power_user">Power User</a>
 		  </li>
 		  <li class="nav-item">
-			<a class="nav-link" data-toggle="tab" href="#admin_developer_only" role="tab" aria-controls="admin_developer_only">Developer Only</a>
+			<a class="nav-link admin_change_width" data-toggle="tab" href="#admin_developer_only" role="tab" aria-controls="admin_developer_only">Developer Only</a>
 		  </li>
 		  <li class="nav-item">
-			<a class="nav-link" data-toggle="tab" href="#admin_backup_restore" role="tab" aria-controls="admin_backup_restore">Backup / Restore</a>
+			<a class="nav-link admin_change_width" data-toggle="tab" href="#admin_backup_restore" role="tab" aria-controls="admin_backup_restore">Backup / Restore</a>
 		  </li>
 		  <li class="nav-item">
-			<a class="nav-link" data-toggle="tab" href="#admin_reset" role="tab" aria-controls="admin_reset">Reset</a>
+			<a class="nav-link admin_change_width" data-toggle="tab" href="#admin_reset" role="tab" aria-controls="admin_reset">Reset</a>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link admin_change_width" data-toggle="tab" href="#admin_logs" role="tab" aria-controls="admin_logs">Logs</a>
 		  </li>
 		</ul>
 		
 		
-		<div class="tab-content align_left">
+		<div id='admin_tab_content' class="tab-content align_left">
 		
 		  <div class="tab-pane" id="admin_comms" role="tabpanel">
 			<?php require("templates/interface/php/admin/admin-sections/communications.php"); ?>
@@ -123,6 +126,10 @@ require("templates/interface/php/header.php");
 		  
 		  <div class="tab-pane" id="admin_reset" role="tabpanel">
 			<?php require("templates/interface/php/admin/admin-sections/reset.php"); ?>
+		  </div>
+		  
+		  <div class="tab-pane" id="admin_logs" role="tabpanel">
+			<?php require("templates/interface/php/admin/admin-sections/logs.php"); ?>
 		  </div>
 		  
 		</div>

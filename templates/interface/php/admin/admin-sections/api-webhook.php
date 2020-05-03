@@ -6,9 +6,9 @@
 
 ?>
 
-<div class='full_width_wrapper'>
+<div class='max_1350px_wrapper'>
 	
-				<h4 class='align_center'>API / Webhook</h4>
+				<h3 class='align_center'>API / Webhook</h3>
 				
 	
 	<p> Coming Soon&trade; </p>
@@ -16,7 +16,7 @@
 			    
 			    
 			    
-</div> <!-- full_width_wrapper END -->
+</div> <!-- max_1350px_wrapper END -->
 
 
 

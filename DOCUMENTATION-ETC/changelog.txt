@@ -3123,6 +3123,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Initial API / Webhook support (see README.txt on usage)
 
+-Log viewing in new admin area
+
 -Optional password protection / encryption for zip file archives
 
 -Configuration settings for CAPTCHA image login protection (in power user settings)

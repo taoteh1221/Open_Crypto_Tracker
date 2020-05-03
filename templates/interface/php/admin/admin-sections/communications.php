@@ -6,9 +6,9 @@
 
 ?>
 
-<div class='full_width_wrapper'>
+<div class='max_1350px_wrapper'>
 	
-				<h4 class='align_center'>Communications</h4>
+				<h3 class='align_center'>Communications</h3>
 				
 	
 	
@@ -17,7 +17,7 @@
 	
 			    
 			    
-</div> <!-- sub-template full_width_wrapper END -->
+</div> <!-- sub-template max_1350px_wrapper END -->
 
 
 

@@ -29,13 +29,13 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 Do a thorough test of all admin authentication related forms, including temporarily turning off the JavaScript username password validation, to make sure server side does the same validation.
 
 
-Add a "Logs" tab in the admin area, that displays the current error / debugging logs (if they exist).
-
-
 New screenshots.
 
 
 1D / 1W / 1M .... chart links are broken on chrome for Android (BUT work fine on Chrome for Ubuntu).
+
+
+Look into why the portfolio balance (percent stats) summaries are off by a few pennies, compared to total USD (primary currency) portfolio value?
 
 
 Documentation for API / Webhook features
@@ -247,7 +247,7 @@ When sql host config has been set in config.php, BUT DATABASE SETUP HAS NOT RUN 
 Maintain sql-based config as completely separate module(s) from the file-based config (config.php), except for the sql host connection / authentication details (put those at the top of the config.php configurations).
 
 
-Maybe hashed password can be re-hashed with a unique per-browser install semi-constant or constant (like machine name or user agent), to securely store a persistent / semi-persisent login cookie (that hackers cannot steal and run on another machine to auto login easily)?
+Maybe hashed password can be re-hashed with a unique per-browser install semi-constant or constant (like machine name or user agent), to securely store a persistent / semi-persisent login cookie (that hackers cannot steal and run on another machine to auto login easily)? Maybe feasible more so with a 7 day (or less) expiring cookie?
 
 
 Admin import / export of settings (consider security implications)?
