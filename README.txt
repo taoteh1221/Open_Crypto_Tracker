@@ -48,7 +48,7 @@ FEATURES
 
 -Secure HTTPS (SSL) and Username / password protection in the portfolio interface for privacy / security.
 
--Admin interface, to allow easily changing the app configuration (setting up alerts / charts / markets / API / backups / etc).
+-Admin interface, to allow easily viewing / changing the app configuration (alerts / charts / markets / API / backups / logs / etc).
 
 -Cryptocurrency portfolio subtotal summaries, and total portfolio worth (in crypto and your local primary currency), including value gain / loss data (with tracking support for long / short margin leverages), portfolio balance data, and marketcap data.
 
