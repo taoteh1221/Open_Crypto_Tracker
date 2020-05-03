@@ -737,6 +737,8 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
     		
 
     		<b><a href="javascript: return false;" class="show_visitor_stats blue" title="View Visitor Statistics">Visitor Statistics</a></b>
+    		
+    		<br /><br />
  
     		
 		</fieldset>
