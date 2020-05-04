@@ -289,12 +289,18 @@ var not_whole_num = (log_lines - Math.floor(log_lines)) !== 0;
 	set_lines = log_lines;
 	}
     	  	
-    	  	
    // Get log data
 	$.getJSON("logs.php?logfile=" + log_file + '&lines=' + set_lines, function( data ) {
       
-		$.each( data, function( key, val ) {
-      log_area.append( val + "\n" ); // For UX / readability, add an extra space between log lines
+		$.each( data, function(key, val) {
+			
+   		if ( $('#' + elm_id + '_space').is(":checked") ) {
+      	log_area.append(val + "\n"); // For UX / readability, add an extra space between log lines
+   		}
+   		else {
+      	log_area.append(val); // For raw log format
+   		}
+      
       });
               
 	});     

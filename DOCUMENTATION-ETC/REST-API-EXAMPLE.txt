@@ -1,0 +1,115 @@
+
+/*
+ * Copyright 2014-2020 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
+ */
+ 
+
+This app has a built-in (internal) REST API available, so other external apps can connect to it and receive market data, including conversion to country fiat currencies and secondary cryptocurrency market pairings.
+
+
+Over 80 conversion pairings are supported: AED / ARS / AUD / BAM / BDT / BOB / BRL / BWP / BYN / CAD / CHF / CLP / CNY / COP / CRC / CZK / DAI / DKK / DOP / EGP / ETH / EUR / GBP / GEL / GHS / GTQ / HKD / HUF / IDR / ILS / INR / IRR / JMD / JOD / JPY / KES / KRW / KWD / KZT / LKR / LTC / MAD / MUR / MWK / MXN / MYR / NGN / NIS / NOK / NZD / PAB / PEN / PHP / PKR / PLN / PYG / QAR / RON / RSD / RUB / RWF / SAR / SEK / SGD / THB / TRY / TUSD / TWD / TZS / UAH / UGX / USD / USDC / USDT / UYU / VND / VES / XAF / XOF / ZAR / ZMW.
+
+
+To skip conversions and just receive raw market values, you can use "/api/market_conversion/market_only/" INSTEAD OF a conversion value (like "/api/market_conversion/eur/", "/api/market_conversion/usd/", "/api/market_conversion/gbp/", etc).
+
+
+Below are examples (NOT INCLUDING your web address and auto-generated login authentication tokens), of connecting an external app with CURL command line or PHP, and Javascript...
+
+
+THE API ADMIN SECTION IN THE APP GIVES YOU MORE EXTENSIVE CODE EXAMPLES (FALLBACK CODE / AUTO-INCLUDING ANY HTACCESS USER/PASS CODING REQUIRED), 
+AND PRE-POPULATES ALL YOUR WEB ADDRESS AND LOGIN CREDENTIALS WITHIN THE CODE, SO IT'S READY TO RUN "OUT-OF-THE-BOX".
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+# CURL command line example
+# Add --insecure to the command, if your app's SSL certificate
+# is SELF-SIGNED (not CA issued), #OR THE COMMAND WON'T WORK#
+
+curl -d "api_key=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" -X POST https://YOUR-WEB-ADDRESS.COM/api/market_conversion/eur/kraken-btc-usd,coinbase-dai-usdc,coinbase-eth-usd
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// Javascript example
+// API request (API results sent to console log)
+
+var api_request = new XMLHttpRequest();
+
+api_request.open("POST", "https://YOUR-WEB-ADDRESS.COM/api/market_conversion/eur/kraken-btc-usd,coinbase-dai-usdc,coinbase-eth-usd", true);
+
+var params = "api_key=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
+
+api_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+	api_request.onload = function () {
+	console.log("api_request = " + api_request.responseText);
+	};
+
+api_request.send(params);
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// CURL PHP example (requires CURL PHP module)
+
+// PHP version
+if (!defined('PHP_VERSION_ID')) {
+$version = explode('.', PHP_VERSION);
+define('PHP_VERSION_ID', ($version[0] * 10000 + $version[1] * 100 + $version[2]));
+}
+
+// Curl version
+if ( function_exists('curl_version') ) {
+$curl_setup = curl_version();
+define('CURL_VERSION_ID', str_replace(".", "", $curl_setup["version"]) );
+}
+else {
+echo 'CURL module for PHP required.';
+exit;
+}
+
+
+// Initiate CURL
+$ch = curl_init('https://YOUR-WEB-ADDRESS.COM/api/market_conversion/eur/kraken-btc-usd,coinbase-dai-usdc,coinbase-eth-usd');
+
+$params = array('api_key' => 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
+
+curl_setopt($ch, CURLOPT_POST, true);
+curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
+curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params) ); // Encode post data with http_build_query()
+
+// Strict SSL connections, or not? (see notes next to settings)
+// If your app's SSL certificate is SELF-SIGNED (not CA issued), 
+// #CHANGE ALL OF THESE# to false / 0, #OR THE API REQUEST WILL FAIL#
+curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, true); // SET TO false to skip verifying the peer's SSL certificate
+curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, 2); // SET TO 0 to skip verifying the certificate's name against the host 
+if ( PHP_VERSION_ID >= 70700 && CURL_VERSION_ID >= 7410 ) {
+curl_setopt ($ch, CURLOPT_SSL_VERIFYSTATUS, true); // SET TO false to skip verifying the SSL certificate's status
+}
+
+
+// $json_api_data contains the API response, in JSON format
+$json_api_data = curl_exec($ch);
+curl_close($ch);
+
+// JSON data converted to a PHP array
+$api_data_array = json_decode($json_api_data, true);
+
+// Print out the array data on screen for developing / etc
+var_dump($api_data_array);
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+

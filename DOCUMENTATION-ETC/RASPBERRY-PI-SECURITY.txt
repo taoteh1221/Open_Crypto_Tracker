@@ -63,13 +63,13 @@ sudo apt install ufw
 
 2) Opening ports your servers are on BEFORE STARTING THE FIREWALL:
 
-If you connect via SSH
+If you connect via SSH (remote login)
 sudo ufw allow ssh
 
 Limit SSH attempts by hackers
 sudo ufw limit ssh/tcp
 
-Allow any other ports (80 and 443 for HTTP/HTTPS, etc, etc)
+Allow any other ports needed (80 and 443 for HTTP/HTTPS #USED BY THIS APP#, etc, etc)
 sudo ufw allow PORT_NUMER_HERE
 
 

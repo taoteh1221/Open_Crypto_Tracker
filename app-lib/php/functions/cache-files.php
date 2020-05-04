@@ -1284,7 +1284,7 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 			$user_pass = explode('||', $app_config['proxy']['proxy_login']);
 				
 			curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
-			curl_setopt($ch, CURLOPT_PROXYUSERPWD, $user_pass[0] . ':' . $user_pass[1] );  
+			curl_setopt($ch, CURLOPT_PROXYUSERPWD, $user_pass[0] . ':' . $user_pass[1]); // DO NOT ENCAPSULATE PHP USER/PASS VARS IN QUOTES, IT BREAKS THE FEATURE
 			
 			}
 		
@@ -1339,7 +1339,7 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 				// If we have password protection on in the app
 				if ( $htaccess_username != '' && $htaccess_password != '' ) {
 				curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
-				curl_setopt($ch, CURLOPT_USERPWD, '"' . $htaccess_username . ':' . $htaccess_password . '"');
+				curl_setopt($ch, CURLOPT_USERPWD, $htaccess_username . ':' . $htaccess_password); // DO NOT ENCAPSULATE PHP USER/PASS VARS IN QUOTES, IT BREAKS THE FEATURE
 				}
 				
 			$remote_api_strict_ssl = 'off';

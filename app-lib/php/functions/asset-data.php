@@ -298,15 +298,22 @@ function market_conversion_api($market_conversion, $all_markets_data_array) {
 global $app_config, $selected_btc_primary_currency_pairing, $selected_btc_primary_exchange, $selected_btc_primary_currency_value;
 
 $result = array();
+
+// To lowercase
+$market_conversion = strtolower($market_conversion);
+$all_markets_data_array = array_map('strtolower', $all_markets_data_array);
     
 $possible_dos_attack = 0;
 
 
 	 // Return error message if there are missing parameters
-	 if ( $market_conversion == '' || $all_markets_data_array[0] == '' ) {
+	 if ( $market_conversion != 'market_only' && !$app_config['power_user']['bitcoin_currency_markets'][$market_conversion] || $all_markets_data_array[0] == '' ) {
 			
 			if ( $market_conversion == '' ) {
 			$result['error'] .= 'Missing parameter: [currency_symbol|market_only]; ';
+			}
+			elseif ( $market_conversion != 'market_only' && !$app_config['power_user']['bitcoin_currency_markets'][$market_conversion] ) {
+			$result['error'] .= 'Conversion market does not exist: '.$market_conversion.'; ';
 			}
 			
 			if ( $all_markets_data_array[0] == '' ) {

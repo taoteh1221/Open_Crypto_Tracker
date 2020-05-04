@@ -90,8 +90,10 @@ border: 1px solid #808080;
 
 
 input[type=checkbox], input[type=radio] {
+position: relative;
+top: 3px;
 width: 15px !important;
-height: 15px !important;
+height: 15px !important;    
 }
 
 

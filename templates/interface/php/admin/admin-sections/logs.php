@@ -11,14 +11,18 @@
 	
 				<h3 class='align_center'>Logs</h3>
 				
+		<p class='bitcoin'>Error / debugging logs will automatically display here, if they exist (primary error log always shows, even if empty).</p>
+				
 	
-	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Error Logs</strong> </legend>
+	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> Error Log </legend>
 	        
 	        <p>
 	        
-	        <button class='force_button_style' onclick="system_logs('errors_log');">Refresh</button> 
+	        <b>Extra Spacing:</b> <input type='checkbox' id='errors_log_space' value='1' onchange="system_logs('errors_log');" />
 	        
-	        &nbsp; <b>Maximum lines shown:</b> <input type='text' id='errors_log_lines' value='100' maxlength="4" size="5" />
+	        &nbsp; <b>Maximum lines:</b> <input type='text' id='errors_log_lines' value='100' maxlength="4" size="4" />
+	        
+	        &nbsp; <button class='force_button_style' onclick="system_logs('errors_log');">Refresh</button> 
 	        
 	        &nbsp; <span id='errors_log_alert' class='red'></span>
 	        
@@ -35,13 +39,15 @@
 	<?php
 	if ( is_readable($base_dir . '/cache/logs/smtp_errors.log') ) {
 	?>
-	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>SMTP Error Logs</strong> </legend>
+	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> SMTP Error Log </legend>
 	        
 	        <p>
 	        
-	        <button class='force_button_style' onclick="system_logs('smtp_errors_log');">Refresh</button> 
+	        <b>Extra Spacing:</b> <input type='checkbox' id='smtp_errors_log_space' value='1' onchange="system_logs('smtp_errors_log');" />
 	        
-	        &nbsp; <b>Maximum lines shown:</b> <input type='text' id='smtp_errors_log_lines' value='100' maxlength="4" size="5" />
+	        &nbsp; <b>Maximum lines:</b> <input type='text' id='smtp_errors_log_lines' value='100' maxlength="4" size="4" />
+	        
+	        &nbsp; <button class='force_button_style' onclick="system_logs('smtp_errors_log');">Refresh</button> 
 	        
 	        &nbsp; <span id='smtp_errors_log_alert' class='red'></span>
 	        
@@ -58,13 +64,15 @@
 	}
 	if ( $app_config['developer']['debug_mode'] != 'off' || is_readable($base_dir . '/cache/logs/debugging.log') ) {
 	?>
-	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Debugging Logs</strong> </legend>
+	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> Debugging Log </legend>
 	        
 	        <p>
 	        
-	        <button class='force_button_style' onclick="system_logs('debugging_log');">Refresh</button> 
+	        <b>Extra Spacing:</b> <input type='checkbox' id='debugging_log_space' value='1' onchange="system_logs('debugging_log');" />
 	        
-	        &nbsp; <b>Maximum lines shown:</b> <input type='text' id='debugging_log_lines' value='100' maxlength="4" size="5" />
+	        &nbsp; <b>Maximum lines:</b> <input type='text' id='debugging_log_lines' value='100' maxlength="4" size="4" />
+	        
+	        &nbsp; <button class='force_button_style' onclick="system_logs('debugging_log');">Refresh</button> 
 	        
 	        &nbsp; <span id='debugging_log_alert' class='red'></span>
 	        
