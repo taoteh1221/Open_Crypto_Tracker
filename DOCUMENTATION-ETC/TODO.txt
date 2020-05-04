@@ -26,9 +26,6 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
-Do timestamps of the v4.10.1 release.
-
-
 See if we can column sort by SELECTED exchange / market pairing (right now it sorts by first in the list?), by dynamically populating a hidden value AND running the sort filter through it instead.
 
 
