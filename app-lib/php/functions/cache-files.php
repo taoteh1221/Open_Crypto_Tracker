@@ -1396,10 +1396,10 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 			}
 			
 			if ( isset($fallback_cache_data) ) {
-			$log_append = ' (fallback to cached data SUCCEEDED)';
+			$log_append = ' (cache fallback SUCCEEDED)';
 			}
 			else {
-			$log_append = ' (fallback to cached data FAILED)';
+			$log_append = ' (cache fallback FAILED)';
 			}
 	
 		
@@ -1444,7 +1444,7 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 				$error_response_log = '/cache/logs/errors/api/error-response-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-hash-'.$hash_check.'-timestamp-'.time().'.log';
 			
 				// LOG-SAFE VERSION (no post data with API keys etc)
-				app_logging( 'api_error', 'POSSIBLE error response received for ' . ( $mode == 'array' ? 'API server at ' : 'endpoint request at ' ) . $obfuscated_url_data, 'request attempt from: server (local timeout setting ' . $app_config['power_user']['remote_api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; log_file: ' . $error_response_log . '; btc_primary_currency_pairing: ' . $app_config['general']['btc_primary_currency_pairing'] . '; btc_primary_exchange: ' . $app_config['general']['btc_primary_exchange'] . '; btc_primary_currency_value: ' . $selected_btc_primary_currency_value . '; hash_check: ' . $hash_check . ';' );
+				app_logging( 'api_error', 'POSSIBLE error for ' . ( $mode == 'array' ? 'API server at ' : 'endpoint request at ' ) . $obfuscated_url_data, 'request attempt from: server (local timeout setting ' . $app_config['power_user']['remote_api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; log_file: ' . $error_response_log . '; btc_primary_currency_pairing: ' . $app_config['general']['btc_primary_currency_pairing'] . '; btc_primary_exchange: ' . $app_config['general']['btc_primary_exchange'] . '; btc_primary_currency_value: ' . $selected_btc_primary_currency_value . '; hash_check: ' . $hash_check . ';' );
 			
 				// Log this error response from this data request
 				store_file_contents($base_dir . $error_response_log, $data);
@@ -1489,15 +1489,15 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 				}
 			
 				if ( isset($fallback_cache_data) ) {
-				$log_append = ' (fallback to cached data SUCCEEDED)';
+				$log_append = ' (cache fallback SUCCEEDED)';
 				}
 				else {
-				$log_append = ' (fallback to cached data FAILED)';
+				$log_append = ' (cache fallback FAILED)';
 				}
 				
 				
 			// LOG-SAFE VERSION (no post data with API keys etc)
-			app_logging( 'api_error', 'CONFIRMED error response received for ' . ( $mode == 'array' ? 'API server at ' : 'endpoint request at ' ) . $obfuscated_url_data . $log_append, 'request attempt from: server (local timeout setting ' . $app_config['power_user']['remote_api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; log_file: ' . $error_response_log . '; btc_primary_currency_pairing: ' . $app_config['general']['btc_primary_currency_pairing'] . '; btc_primary_exchange: ' . $app_config['general']['btc_primary_exchange'] . '; btc_primary_currency_value: ' . $selected_btc_primary_currency_value . '; hash_check: ' . $hash_check . ';' );
+			app_logging( 'api_error', 'CONFIRMED error for ' . ( $mode == 'array' ? 'API server at ' : 'endpoint request at ' ) . $obfuscated_url_data . $log_append, 'request attempt from: server (local timeout setting ' . $app_config['power_user']['remote_api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; log_file: ' . $error_response_log . '; btc_primary_currency_pairing: ' . $app_config['general']['btc_primary_currency_pairing'] . '; btc_primary_exchange: ' . $app_config['general']['btc_primary_exchange'] . '; btc_primary_currency_value: ' . $selected_btc_primary_currency_value . '; hash_check: ' . $hash_check . ';' );
 				
 		
 			}

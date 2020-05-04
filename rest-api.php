@@ -54,12 +54,20 @@ else {
 
 $data_set_array = explode('/', $_GET['data_set']); // Data request array
 
+// Cleanup
+$data_set_array = array_map('trim', $data_set_array);
+$data_set_array = array_map('strtolower', $data_set_array);
+
 $all_markets_data_array = explode(",", $data_set_array[2]); // Market data array
+
+// Cleanup
+$all_markets_data_array = array_map('trim', $all_markets_data_array);
+$all_markets_data_array = array_map('strtolower', $all_markets_data_array);
 
 
 	// /api/price endpoint
 	if ( $data_set_array[0] == 'market_conversion' ) {
-	$result = market_conversion_api(strtolower($data_set_array[1]), $all_markets_data_array);
+	$result = market_conversion_api($data_set_array[1], $all_markets_data_array);
 	}
 	// Non-existent endpoint error message
 	else {

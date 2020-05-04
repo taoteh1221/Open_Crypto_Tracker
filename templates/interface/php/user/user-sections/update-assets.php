@@ -136,7 +136,7 @@
 							</li>
 							
 							<li class='red'>
-								<i>ALWAYS</i> diversify and balance your portfolio with <i>mostly oldest / largest marketcap</i> assets (which are <i>relatively</i> less volatile), for you <i>and yours safety and sanity</i>.
+								<i>ALWAYS</i> diversify / balance your portfolio with <i>mostly largest AND oldest marketcap</i> assets (which are <i>relatively</i> less volatile), for you <i>and yours safety and sanity</i>.
 							</li>
 							
 							<li class='red'>

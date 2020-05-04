@@ -16,7 +16,7 @@ To skip conversions and just receive raw market values, you can use "/api/market
 Below are examples (NOT INCLUDING your web address and auto-generated login authentication tokens), of connecting an external app with CURL command line or PHP, and Javascript...
 
 
-THE API ADMIN SECTION IN THE APP GIVES YOU MORE EXTENSIVE CODE EXAMPLES (FALLBACK CODE / AUTO-INCLUDING ANY HTACCESS USER/PASS CODING REQUIRED), 
+THE API ADMIN SECTION IN THE APP GIVES YOU MORE EXTENSIVE CODE EXAMPLES (AUTO-INCLUDING ANY HTACCESS USER/PASS CODING REQUIRED), 
 AND PRE-POPULATES ALL YOUR WEB ADDRESS AND LOGIN CREDENTIALS WITHIN THE CODE, SO IT'S READY TO RUN "OUT-OF-THE-BOX".
 
 
@@ -86,6 +86,10 @@ curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
 curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params) ); // Encode post data with http_build_query()
+
+// Timeout in seconds (so we don't hang if API is not responsive)
+curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
+curl_setopt($ch, CURLOPT_TIMEOUT, 30);
 
 // Strict SSL connections, or not? (see notes next to settings)
 // If your app's SSL certificate is SELF-SIGNED (not CA issued), 

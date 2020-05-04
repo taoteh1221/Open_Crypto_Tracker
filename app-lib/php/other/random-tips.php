@@ -16,7 +16,7 @@ $random_tips = array(
                     
                     "<i>ALWAYS <u>buy low</u> AND <u>sell high</u></i>. (NOT the other way around!)",
                     
-                    "<i>ALWAYS</i> diversify and balance your portfolio with <i>mostly oldest / largest marketcap</i> assets (which are <i>relatively</i> less volatile), for you <i>and yours safety and sanity</i>.",
+                    "<i>ALWAYS</i> diversify / balance your portfolio with <i>mostly largest AND oldest marketcap</i> assets (which are <i>relatively</i> less volatile), for you <i>and yours safety and sanity</i>.",
                     
                     "<i><u>ALWAYS AVOID</u></i> <a href='https://twitter.com/hashtag/pumpndump?src=hash' target='_blank'>#pumpndump</a> / <a href='https://twitter.com/hashtag/fomo?src=hash' target='_blank'>#fomo</a> / <a href='https://twitter.com/hashtag/shitcoin?src=hash' target='_blank'>#shxtcoin</a> trading.",
                     

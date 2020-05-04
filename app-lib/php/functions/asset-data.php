@@ -299,8 +299,9 @@ global $app_config, $selected_btc_primary_currency_pairing, $selected_btc_primar
 
 $result = array();
 
-// To lowercase
+// Cleanup
 $market_conversion = strtolower($market_conversion);
+$all_markets_data_array = array_map('trim', $all_markets_data_array);
 $all_markets_data_array = array_map('strtolower', $all_markets_data_array);
     
 $possible_dos_attack = 0;
@@ -344,19 +345,16 @@ $possible_dos_attack = 0;
     	  }
     	  
     
-    // Cleanup
-    $market_conversion = trim( strtolower($market_conversion) );
-    $market_data = trim( strtolower($market_data) );
     
     $market_data_array = explode("-", $market_data); // Market data array
                 
-    $exchange = strtolower($market_data_array[0]);
+    $exchange = $market_data_array[0];
         
-    $asset = strtoupper($market_data_array[1]);
+    $asset = $market_data_array[1];
         
-    $market_pairing = strtolower($market_data_array[2]);
+    $market_pairing = $market_data_array[2];
         
-    $pairing_id = $app_config['portfolio_assets'][$asset]['market_pairing'][$market_pairing][$exchange];
+    $pairing_id = $app_config['portfolio_assets'][strtoupper($asset)]['market_pairing'][$market_pairing][$exchange];
         
     
     
@@ -418,7 +416,7 @@ $possible_dos_attack = 0;
               
                 
                 
-        $asset_market_data = asset_market_data($asset, $exchange, $pairing_id, $market_pairing);
+        $asset_market_data = asset_market_data(strtoupper($asset), $exchange, $pairing_id, $market_pairing);
         
         $coin_value_raw = $asset_market_data['last_trade'];
         
@@ -469,7 +467,7 @@ $possible_dos_attack = 0;
               // Flag we are doing a price conversion
               $price_conversion = 1;
                 
-              $result['market_conversion'][strtolower($market_data)] = array(
+              $result['market_conversion'][$market_data] = array(
                                                         						'market' => array( $market_pairing => array('spot_price' => $coin_value_raw, '24hr_volume' => $volume_pairing_rounded) ),
                                                         						'conversion' => array( $market_conversion => array('spot_price' => $coin_primary_market_worth_raw, '24hr_volume' => round($asset_market_data['24hr_primary_currency_volume']) ) )
                                                     							);
@@ -477,7 +475,7 @@ $possible_dos_attack = 0;
               }
               else {
                 
-              $result['market_conversion'][strtolower($market_data)] = array(
+              $result['market_conversion'][$market_data] = array(
                                                         						'market' => array( $market_pairing => array('spot_price' => $coin_value_raw, '24hr_volume' => $volume_pairing_rounded) )
                                                     							);
                                                     
@@ -487,11 +485,11 @@ $possible_dos_attack = 0;
         
         }
         elseif ( sizeof($market_data_array) < 3 ) {
-        $result['market_conversion'][strtolower($market_data)] = array('error' => "Missing all 3 REQUIRED sub-parameters: [exchange-asset-pairing]");
+        $result['market_conversion'][$market_data] = array('error' => "Missing all 3 REQUIRED sub-parameters: [exchange-asset-pairing]");
         $possible_dos_attack = $possible_dos_attack + 1;
         }
         elseif ( $pairing_id == '' ) {
-        $result['market_conversion'][strtolower($market_data)] = array('error' => "Market does not exist: [" . $exchange . "-" . strtolower($asset) . "-" . $market_pairing . "]");
+        $result['market_conversion'][$market_data] = array('error' => "Market does not exist: [" . $exchange . "-" . $asset . "-" . $market_pairing . "]");
         $possible_dos_attack = $possible_dos_attack + 1;
         }
     
@@ -543,7 +541,7 @@ $pairing = strtolower($pairing);
 		
 		// Include a basic array check, since we want valid data to avoid an endless loop in our fallback support
 		if ( !is_array($app_config['portfolio_assets'][strtoupper($pairing)]['market_pairing']['btc']) ) {
-   	app_logging('other_error', 'pairing_market_value() update failure for ' . $pairing, 'non_existant_crypto_pairing: ' . $pairing);
+   	app_logging('other_error', 'pairing_market_value() - update failure for ' . $pairing, 'non_existant_crypto_pairing: ' . $pairing);
 		return null;
 		}
 		// Preferred BITCOIN market(s) for getting a certain currency's value, if in config and more than one market exists
@@ -580,7 +578,7 @@ $pairing = strtolower($pairing);
    				
    			$btc_pairing_markets_blacklist[$pairing][] = $market_key; // Blacklist getting pairing data from this exchange IN ANY PAIRING, for this runtime only
    			
-   			app_logging('other_error', 'pairing_market_value() update failure for ' . $pairing . ' / btc @ ' . $market_key, $pairing . '_blacklisted_count: ' . sizeof($btc_pairing_markets_blacklist[$pairing]) );
+   			app_logging('other_error', 'pairing_market_value() - update failure for ' . $pairing . ' / btc @ ' . $market_key, $pairing . '_blacklisted_count: ' . sizeof($btc_pairing_markets_blacklist[$pairing]) );
    			
    			usleep(150000); // 0.15 seconds to update imported global vars and log the error, before we loop de loop
    			
@@ -602,7 +600,7 @@ $pairing = strtolower($pairing);
 	
 		// Include a basic array check, since we want valid data to avoid an endless loop in our fallback support
 		if ( !is_array($app_config['portfolio_assets']['BTC']['market_pairing'][$pairing]) ) {
-   	app_logging('other_error', 'pairing_market_value() update failure for ' . $pairing, 'non_existant_btc_pairing: ' . $pairing);
+   	app_logging('other_error', 'pairing_market_value() - update failure for ' . $pairing, 'non_existant_btc_pairing: ' . $pairing);
 		return null;
 		}
 		// Preferred BITCOIN market(s) for getting a certain currency's value, if in config and more than one market exists
@@ -639,7 +637,7 @@ $pairing = strtolower($pairing);
    						
    			$btc_pairing_markets_blacklist[$pairing][] = $market_key; // Blacklist getting pairing data from this exchange IN ANY PAIRING, for this runtime only
    					
-   			app_logging('other_error', 'pairing_market_value() update failure for btc / ' . $pairing . ' @ ' . $market_key, $pairing . '_blacklisted_count: ' . sizeof($btc_pairing_markets_blacklist[$pairing]) );
+   			app_logging('other_error', 'pairing_market_value() - update failure for btc / ' . $pairing . ' @ ' . $market_key, $pairing . '_blacklisted_count: ' . sizeof($btc_pairing_markets_blacklist[$pairing]) );
    			
    			usleep(150000); // 0.15 seconds to update imported global vars and log the error, before we loop de loop
    					
@@ -944,7 +942,7 @@ $asset_pairing_value_raw = number_format( $asset_market_data['last_trade'] , 8, 
 	// Make sure we have basic values, otherwise log errors / return false
 	// Return false if we have no $default_btc_primary_currency_value
 	if ( !isset($default_btc_primary_currency_value) || $default_btc_primary_currency_value == 0 ) {
-	app_logging('other_error', 'charts_and_price_alerts() - No Bitcoin '.strtoupper($default_btc_primary_currency_pairing).' value set for chart/alert "' . $asset_data . '"', $asset_data . ': ' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ';' );
+	app_logging('other_error', 'charts_and_price_alerts() - No Bitcoin '.strtoupper($default_btc_primary_currency_pairing).' value for '.$mode.' "' . $asset_data . '"', $asset_data . ': ' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ';' );
 	$set_return = 1;
 	}
 	
@@ -954,7 +952,7 @@ $asset_pairing_value_raw = number_format( $asset_market_data['last_trade'] , 8, 
 	// Continue
 	}
 	else {
-	app_logging('other_error', 'charts_and_price_alerts() - No asset '.strtoupper($default_btc_primary_currency_pairing).' value set for chart/alert "' . $asset_data . '"', $asset_data . ': ' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . '; pairing_id: ' . $app_config['portfolio_assets'][$asset]['market_pairing'][$pairing][$exchange] . ';' );
+	app_logging('other_error', 'charts_and_price_alerts() - No asset '.strtoupper($default_btc_primary_currency_pairing).' value for '.$mode.' "' . $asset_data . '"', $asset_data . ': ' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . '; pairing_id: ' . $app_config['portfolio_assets'][$asset]['market_pairing'][$pairing][$exchange] . ';' );
 	$set_return = 1;
 	}
 	
