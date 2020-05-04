@@ -118,6 +118,9 @@ Create a recursive function that calls itself and checks if the item(s) in an ar
 Dynamically add an 'app_version' value to $app_config when processing it, so when we are updating the cached config with a newly-changed config.php config, we not only can see if any new config settings exist / have changed, but we can see if the app was upgraded since the previous cached config update.
 
 
+When cached app config is independent of config.php updating-wise, use the show / hide link to have an optional email field on the admin registration page, and mention it enables password resetting via email.
+
+
 For each key => value loop json admin config to automate generating new admin settings page...selects for arrays, text fields for strings. Maybe certain key names get checkbox / radio button fields.
 
 

@@ -30,7 +30,7 @@
 		
 		<p><i>To skip conversions and just receive raw market values</i>, you can use "<span class='bitcoin'>/api/market_conversion/market_only/</span>" INSTEAD OF a conversion value (like "<span class='bitcoin'>/api/market_conversion/eur/</span>", "<span class='bitcoin'>/api/market_conversion/usd/</span>", "<span class='bitcoin'>/api/market_conversion/gbp/</span>", etc).</p>
 	
-		<p>Below are <i>fully working examples (including your auto-generated login authentication tokens)</i>, of connecting an external app with CURL command line or PHP, and Javascript.</p>
+		<p>Below are <i>fully working examples <span class='bitcoin'>(including your auto-generated login authentication tokens)</span></i>, of connecting an external app with CURL command line or PHP, and Javascript.</p>
 	
 	
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> REST API Access Examples </legend>

@@ -260,6 +260,10 @@ function app_logging($log_type, $log_message, $verbose_tracing=false, $hashcheck
 global $runtime_mode, $app_config, $logs_array;
 
 
+// Less verbose log category
+$category = explode("_", $log_type);
+
+
 	// Disable logging any included verbose tracing, if log detail level config is set to normal, AND debug mode is off
 	if ( $app_config['developer']['debug_mode'] == 'off' && $app_config['developer']['log_detail'] == 'normal' ) {
 	$verbose_tracing = false;
@@ -267,13 +271,13 @@ global $runtime_mode, $app_config, $logs_array;
 
 
 	if ( $hashcheck != false ) {
-	$logs_array[$log_type][$hashcheck] = '[' . date('Y-m-d H:i:s') . ' UTC] runtime: ' . $runtime_mode . ' | ' . $log_type . ': ' . $log_message . ( $verbose_tracing != false ? '; verbose_tracing: [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+	$logs_array[$log_type][$hashcheck] = '[' . date('Y-m-d H:i:s') . ' UTC] ' . $runtime_mode . ' | ' . $category[0] . ': ' . $log_message . ( $verbose_tracing != false ? '; verbose: [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
 	}
 	elseif ( $overwrite != false ) {
-	$logs_array[$log_type] = '[' . date('Y-m-d H:i:s') . ' UTC] runtime: ' . $runtime_mode . ' | ' . $log_type . ': ' . $log_message . ( $verbose_tracing != false ? '; verbose_tracing: [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+	$logs_array[$log_type] = '[' . date('Y-m-d H:i:s') . ' UTC] ' . $runtime_mode . ' | ' . $category[0] . ': ' . $log_message . ( $verbose_tracing != false ? '; verbose: [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
 	}
 	else {
-	$logs_array[$log_type] .= '[' . date('Y-m-d H:i:s') . ' UTC] runtime: ' . $runtime_mode . ' | ' . $log_type . ': ' . $log_message . ( $verbose_tracing != false ? '; verbose_tracing: [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+	$logs_array[$log_type] .= '[' . date('Y-m-d H:i:s') . ' UTC] ' . $runtime_mode . ' | ' . $category[0] . ': ' . $log_message . ( $verbose_tracing != false ? '; verbose: [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
 	}
 
 
