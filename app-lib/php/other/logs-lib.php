@@ -18,7 +18,7 @@ $line_numbers = ( intval($_GET['lines']) > 0 ? $_GET['lines'] : 100 );
 if ( is_readable($filename) ) {
 	
 	$file = file($filename);
-	for ($i = max(0, count($file)-($line_numbers + 1)); $i < count($file); $i++) {
+	for ($i = max(0, count($file)-$line_numbers); $i < count($file); $i++) {
    $lines[] = $file[$i];
 	}
 
