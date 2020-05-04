@@ -52,12 +52,7 @@ $exchange = $value[0];
 $pairing = $value[1];
 $mode = $value[2];
 	
-	
-$result = charts_and_price_alerts($key, $exchange, $pairing, $mode);
-
-	if ( $result != true ) {
-	app_logging('other_error', 'charts_and_price_alerts() - update failure for "' . $key . '"', $key . ' (' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ')' );
-	}
+charts_and_price_alerts($key, $exchange, $pairing, $mode);
 
 }
 
