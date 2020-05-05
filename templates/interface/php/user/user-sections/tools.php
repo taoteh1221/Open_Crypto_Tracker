@@ -84,7 +84,8 @@
 				<legend class='subsection_legend'> <b>External Tools</b> </legend>
     			<ul>
 		    
-        			<li class='links_list'><a href='https://dgi.io/ots/#ots_stampverify' target='_blank'>Timestamp Proof-Of-Existence Of Files (FREE) With The Bitcoin Blockchain</a></li>
+        			<li class='links_list'><a href='https://opentimestamps.org/' target='_blank'>Timestamp Proof-Of-Existence Of Files (FREE) With The Bitcoin Blockchain</a></li>
+        			<!-- alternate if any issues occur: https://dgi.io/ots/#ots_stampverify -->
 		    
         			<li class='links_list'><a href='https://timestamp.decred.org/' target='_blank'>Timestamp Proof-Of-Existence Of Files (FREE) With The Decred Blockchain</a></li>
         

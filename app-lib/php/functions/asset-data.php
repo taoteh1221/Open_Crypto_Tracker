@@ -1929,13 +1929,16 @@ echo "<span class='app_sort_filter blue'>" . ( $pretty_coin_amount != null ? $pr
 
 <td class='data border_lb'>
  
-    <select class='app_sort_filter' name='change_<?=strtolower($asset_symbol)?>_market' onchange='
+    <select name='change_<?=strtolower($asset_symbol)?>_market' onchange='
     $("#<?=strtolower($asset_symbol)?>_market").val(this.value);
     $("#coin_amounts").submit();
     '>
         <?php
         foreach ( $all_pairing_markets as $market_key => $market_name ) {
          $loop = $loop + 1;
+         	if ( $original_market == ($loop -1) ) {
+         	$ui_selected_market = snake_case_to_name($market_key);
+         	}
         ?>
         <option value='<?=($loop)?>' <?=( $original_market == ($loop -1) ? ' selected ' : '' )?>> <?=snake_case_to_name($market_key)?> </option>
         <?php
@@ -1943,6 +1946,8 @@ echo "<span class='app_sort_filter blue'>" . ( $pretty_coin_amount != null ? $pr
         $loop = null;
         ?>
     </select>
+    
+    <div class='app_sort_filter' style='display: none;'><?=$ui_selected_market?></div>
 
 </td>
 
@@ -1997,7 +2002,6 @@ echo ( $fiat_eqiv == 1 ? pretty_numbers($coin_value_raw, $coin_value_primary_cur
 
 <td class='data border_b'> 
 
-<span class='app_sort_filter'>
  
     <select name='change_<?=strtolower($asset_symbol)?>_pairing' onchange='
     $("#<?=strtolower($asset_symbol)?>_pairing").val(this.value); 
@@ -2012,6 +2016,9 @@ echo ( $fiat_eqiv == 1 ? pretty_numbers($coin_value_raw, $coin_value_primary_cur
 
 	        foreach ( $all_pairings as $pairing_key => $pairing_name ) {
 	         $loop = $loop + 1;
+	         	if ( $selected_pairing == $pairing_key ) {
+	         	$ui_selected_pairing = $pairing_key;
+	         	}
 	        ?>
 	        <option value='<?=$pairing_key?>' <?=( $selected_pairing == $pairing_key ? ' selected ' : '' )?>> <?=strtoupper($pairing_key)?> </option>
 	        <?php
@@ -2023,8 +2030,8 @@ echo ( $fiat_eqiv == 1 ? pretty_numbers($coin_value_raw, $coin_value_primary_cur
         
         
     </select>
-
-</span>
+    
+    <div class='app_sort_filter' style='display: none;'><?=$ui_selected_pairing?></div>
 
 </td>
 

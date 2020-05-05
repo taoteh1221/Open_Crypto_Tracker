@@ -56,7 +56,10 @@ require("templates/interface/php/header.php");
 			<a class="nav-link admin_change_width" data-toggle="tab" href="#admin_portfolio_assets" role="tab" aria-controls="admin_portfolio_assets">Portfolio Assets</a>
 		  </li>
 		  <li class="nav-item">
-			<a class="nav-link admin_change_width active" data-toggle="tab" href="#admin_api_webook" role="tab" aria-controls="admin_api_webook">API / Webhook</a>
+			<a class="nav-link admin_change_width active" data-toggle="tab" href="#admin_api" role="tab" aria-controls="admin_api">API</a>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link admin_change_width" data-toggle="tab" href="#admin_webook" role="tab" aria-controls="admin_webook">Webhook</a>
 		  </li>
 		  <li class="nav-item">
 			<a class="nav-link admin_change_width" data-toggle="tab" href="#admin_text_gateways" role="tab" aria-controls="admin_text_gateways">Text Gateways</a>
@@ -101,7 +104,11 @@ require("templates/interface/php/header.php");
 		  </div>
 		  
 		  <div class="tab-pane active" id="admin_api_webook" role="tabpanel">
-			<?php require("templates/interface/php/admin/admin-sections/api-webhook.php"); ?>
+			<?php require("templates/interface/php/admin/admin-sections/api.php"); ?>
+		  </div>
+		  
+		  <div class="tab-pane" id="admin_webook" role="tabpanel">
+			<?php require("templates/interface/php/admin/admin-sections/webhook.php"); ?>
 		  </div>
 		  
 		  <div class="tab-pane" id="admin_text_gateways" role="tabpanel">

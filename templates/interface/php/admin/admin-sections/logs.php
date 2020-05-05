@@ -11,7 +11,7 @@
 	
 				<h3 class='align_center'>Logs</h3>
 				
-		<p class='bitcoin'>Error / debugging logs will automatically display here, if they exist (primary error log always shows, even if empty).</p>
+		<p class='bitcoin'>Error / debugging logs will automatically display here, if they exist (primary error log always shows, even if empty). All log timestamps are UTC time (Coordinated Universal Time).</p>
 				
 	
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> Error Log </legend>

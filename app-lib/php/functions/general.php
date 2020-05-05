@@ -271,13 +271,13 @@ $category = explode("_", $log_type);
 
 
 	if ( $hashcheck != false ) {
-	$logs_array[$log_type][$hashcheck] = '[' . date('Y-m-d H:i:s') . ' UTC] ' . $runtime_mode . ' | ' . $category[0] . ': ' . $log_message . ( $verbose_tracing != false ? '; verbose: [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+	$logs_array[$log_type][$hashcheck] = '[' . date('Y-m-d H:i:s') . '] ' . $runtime_mode . ' | ' . $category[0] . ': ' . $log_message . ( $verbose_tracing != false ? '; verbose: [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
 	}
 	elseif ( $overwrite != false ) {
-	$logs_array[$log_type] = '[' . date('Y-m-d H:i:s') . ' UTC] ' . $runtime_mode . ' | ' . $category[0] . ': ' . $log_message . ( $verbose_tracing != false ? '; verbose: [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+	$logs_array[$log_type] = '[' . date('Y-m-d H:i:s') . '] ' . $runtime_mode . ' | ' . $category[0] . ': ' . $log_message . ( $verbose_tracing != false ? '; verbose: [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
 	}
 	else {
-	$logs_array[$log_type] .= '[' . date('Y-m-d H:i:s') . ' UTC] ' . $runtime_mode . ' | ' . $category[0] . ': ' . $log_message . ( $verbose_tracing != false ? '; verbose: [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+	$logs_array[$log_type] .= '[' . date('Y-m-d H:i:s') . '] ' . $runtime_mode . ' | ' . $category[0] . ': ' . $log_message . ( $verbose_tracing != false ? '; verbose: [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
 	}
 
 

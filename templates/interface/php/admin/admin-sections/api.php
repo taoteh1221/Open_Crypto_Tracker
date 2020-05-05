@@ -8,7 +8,7 @@
 
 <div class='max_1350px_wrapper'>
 	
-				<h3 class='align_center'>API / Webhook</h3>
+				<h3 class='align_center'>API</h3>
 		
 		
 		<p>This app has a built-in (internal) REST API available, so other external apps can connect to it and receive market data, including conversion to country fiat currencies and secondary cryptocurrency market pairings.</p>
