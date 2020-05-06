@@ -89,11 +89,11 @@ $total_runtime = round( ($time - $start_runtime) , 3);
 
 
 
-// If hardware stats are enabled, chart the 15 min load avg / temperature / free partition space / free memory [mb/percent] / portfolio cache size / runtime length
+// SYSTEM STATS START
+// System stats, chart the 15 min load avg / temperature / free partition space / free memory [mb/percent] / portfolio cache size / runtime length
 // RUN BEFORE cron plugins (in case custom plugin crashes)
-if ( $app_config['general']['system_stats'] == 'on' || $app_config['general']['system_stats'] == 'raspi' && $is_raspi == 1 ) {
     			
-// Raspi system data
+// System data
 $system_load = $system_info['system_load'];
 $system_load = preg_replace("/ \(15 min avg\)(.*)/i", "", $system_load);
 $system_load = preg_replace("/(.*)\(5 min avg\) /i", "", $system_load); // Use 15 minute average
@@ -165,8 +165,7 @@ $portfolio_cache_size_mb = in_megabytes($system_info['portfolio_cache'])['in_meg
 // Store system data to chart 
 store_file_contents($base_dir . '/cache/charts/system/archival/system_stats.dat', time() . $chart_data_set . "\n", "append");
     		
-    		
-}
+// SYSTEM STATS END
 
 		
 

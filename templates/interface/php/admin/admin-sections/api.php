@@ -144,6 +144,9 @@ if ( $htaccess_username != '' && $htaccess_password != '' ) {
 curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
 curl_setopt($ch, CURLOPT_USERPWD, '<?=($htaccess_username . ':' . $htaccess_password)?>');
 
+<?php
+}
+?>
 // Strict SSL connections, or not? (see notes next to settings)
 // If your app's SSL certificate is SELF-SIGNED (not CA issued), 
 // #CHANGE ALL OF THESE# to false / 0, #OR THE API REQUEST WILL FAIL#
@@ -162,9 +165,6 @@ $api_data_array = json_decode($json_api_data, true);
 
 // Print out the array data on screen for developing / etc
 var_dump($api_data_array);
-<?php
-}
-?>
 </code></pre>
 
 

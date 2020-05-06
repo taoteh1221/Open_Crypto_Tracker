@@ -46,7 +46,7 @@ $("span.btc_primary_currency_pairing").html(window.btc_primary_currency_pairing)
   // Dynamically adjust admin tab content width
   $('.admin_change_width').click(function() {
   
-  	if ( $(this).attr('href') == '#admin_logs' ) {
+  	if ( $(this).data('width') == 'full' ) {
   	$("#admin_wrapper").css('max-width','100%');
   	$("#admin_tab_content").css('max-width','100%');
   	}

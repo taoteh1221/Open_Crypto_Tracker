@@ -276,7 +276,7 @@ global $app_config, $selected_btc_primary_currency_pairing, $selected_btc_primar
 	$pairing_btc_value = pairing_market_value($pairing);
 
 		if ( $pairing_btc_value == null ) {
-		app_logging('other_error', 'pairing_market_value() returned null in primary_currency_trade_volume()', 'pairing: ' . $pairing);
+		app_logging('market_error', 'pairing_market_value() returned null in primary_currency_trade_volume()', 'pairing: ' . $pairing);
 		}
 	
 	$volume_primary_currency_raw = number_format( $temp_btc_primary_currency_value * ( $vol_in_pairing * $pairing_btc_value ) , 0, '.', '');
@@ -449,7 +449,7 @@ $possible_dos_attack = 0;
                     else {
                     $pairing_btc_value = pairing_market_value($market_pairing);
                     		if ( $pairing_btc_value == null ) {
-                    		app_logging('other_error', 'pairing_market_value() returned null in market_data()', 'pairing: ' . $market_pairing);
+                    		app_logging('market_error', 'pairing_market_value() returned null in market_data()', 'pairing: ' . $market_pairing);
                     		}
                     $coin_primary_market_worth_raw = ($coin_value_raw * $pairing_btc_value) * $market_conversion_btc_value;
                     }
@@ -541,7 +541,7 @@ $pairing = strtolower($pairing);
 		
 		// Include a basic array check, since we want valid data to avoid an endless loop in our fallback support
 		if ( !is_array($app_config['portfolio_assets'][strtoupper($pairing)]['market_pairing']['btc']) ) {
-   	app_logging('other_error', 'pairing_market_value() - update failure for ' . $pairing, 'non_existant_crypto_pairing: ' . $pairing);
+   	app_logging('market_error', 'pairing_market_value() - update failure for ' . $pairing, 'non_existant_crypto_pairing: ' . $pairing);
 		return null;
 		}
 		// Preferred BITCOIN market(s) for getting a certain currency's value, if in config and more than one market exists
@@ -565,7 +565,7 @@ $pairing = strtolower($pairing);
    				
    				// Data debugging telemetry
 					if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' ) {
-					app_logging('other_debugging', 'pairing_market_value() update succeeded for ' . $pairing, 'exchange: ' . $market_key);
+					app_logging('market_debugging', 'pairing_market_value() update succeeded for ' . $pairing, 'exchange: ' . $market_key);
 					}		
    					
    			return $btc_pairing_markets[$pairing.'_btc'];
@@ -578,7 +578,7 @@ $pairing = strtolower($pairing);
    				
    			$btc_pairing_markets_blacklist[$pairing][] = $market_key; // Blacklist getting pairing data from this exchange IN ANY PAIRING, for this runtime only
    			
-   			app_logging('other_error', 'pairing_market_value() - update failure for ' . $pairing . ' / btc @ ' . $market_key, $pairing . '_blacklisted_count: ' . sizeof($btc_pairing_markets_blacklist[$pairing]) );
+   			app_logging('market_error', 'pairing_market_value() - update failure for ' . $pairing . ' / btc @ ' . $market_key, $pairing . '_blacklisted_count: ' . sizeof($btc_pairing_markets_blacklist[$pairing]) );
    			
    			usleep(150000); // 0.15 seconds to update imported global vars and log the error, before we loop de loop
    			
@@ -600,7 +600,7 @@ $pairing = strtolower($pairing);
 	
 		// Include a basic array check, since we want valid data to avoid an endless loop in our fallback support
 		if ( !is_array($app_config['portfolio_assets']['BTC']['market_pairing'][$pairing]) ) {
-   	app_logging('other_error', 'pairing_market_value() - update failure for ' . $pairing, 'non_existant_btc_pairing: ' . $pairing);
+   	app_logging('market_error', 'pairing_market_value() - update failure for ' . $pairing, 'non_existant_btc_pairing: ' . $pairing);
 		return null;
 		}
 		// Preferred BITCOIN market(s) for getting a certain currency's value, if in config and more than one market exists
@@ -624,7 +624,7 @@ $pairing = strtolower($pairing);
    						
    				// Data debugging telemetry
 					if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' ) {
-					app_logging('other_debugging', 'pairing_market_value() update succeeded for ' . $pairing, 'exchange: ' . $market_key);
+					app_logging('market_debugging', 'pairing_market_value() update succeeded for ' . $pairing, 'exchange: ' . $market_key);
 					}
 							
    			return $btc_pairing_markets[$pairing.'_btc'];
@@ -637,7 +637,7 @@ $pairing = strtolower($pairing);
    						
    			$btc_pairing_markets_blacklist[$pairing][] = $market_key; // Blacklist getting pairing data from this exchange IN ANY PAIRING, for this runtime only
    					
-   			app_logging('other_error', 'pairing_market_value() - update failure for btc / ' . $pairing . ' @ ' . $market_key, $pairing . '_blacklisted_count: ' . sizeof($btc_pairing_markets_blacklist[$pairing]) );
+   			app_logging('market_error', 'pairing_market_value() - update failure for btc / ' . $pairing . ' @ ' . $market_key, $pairing . '_blacklisted_count: ' . sizeof($btc_pairing_markets_blacklist[$pairing]) );
    			
    			usleep(150000); // 0.15 seconds to update imported global vars and log the error, before we loop de loop
    					
@@ -919,7 +919,7 @@ $asset_market_data = asset_market_data($asset, $exchange, $app_config['portfolio
 	$pairing_btc_value = pairing_market_value($pairing); 
 	
 		if ( $pairing_btc_value == null ) {
-		app_logging('other_error', 'pairing_market_value() returned null in charts_and_price_alerts()', 'pairing: ' . $pairing);
+		app_logging('market_error', 'pairing_market_value() returned null in charts_and_price_alerts()', 'pairing: ' . $pairing);
 		}
 	
 	$asset_primary_currency_value_raw = number_format( $default_btc_primary_currency_value * ( $asset_market_data['last_trade'] * $pairing_btc_value ) , 8, '.', '');
@@ -942,7 +942,7 @@ $asset_pairing_value_raw = number_format( $asset_market_data['last_trade'] , 8, 
 	// Make sure we have basic values, otherwise log errors / return false
 	// Return false if we have no $default_btc_primary_currency_value
 	if ( !isset($default_btc_primary_currency_value) || $default_btc_primary_currency_value == 0 ) {
-	app_logging('other_error', 'charts_and_price_alerts() - No Bitcoin '.strtoupper($default_btc_primary_currency_pairing).' value for '.$mode.' "' . $asset_data . '"', $asset_data . ': ' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ';' );
+	app_logging('market_error', 'charts_and_price_alerts() - No Bitcoin '.strtoupper($default_btc_primary_currency_pairing).' value for '.$mode.' "' . $asset_data . '"', $asset_data . ': ' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ';' );
 	$set_return = 1;
 	}
 	
@@ -952,7 +952,7 @@ $asset_pairing_value_raw = number_format( $asset_market_data['last_trade'] , 8, 
 	// Continue
 	}
 	else {
-	app_logging('other_error', 'charts_and_price_alerts() - No asset '.strtoupper($default_btc_primary_currency_pairing).' value for '.$mode.' "' . $asset_data . '"', $asset_data . ': ' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . '; pairing_id: ' . $app_config['portfolio_assets'][$asset]['market_pairing'][$pairing][$exchange] . ';' );
+	app_logging('market_error', 'charts_and_price_alerts() - No asset '.strtoupper($default_btc_primary_currency_pairing).' value for '.$mode.' "' . $asset_data . '"', $asset_data . ': ' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . '; pairing_id: ' . $app_config['portfolio_assets'][$asset]['market_pairing'][$pairing][$exchange] . ';' );
 	$set_return = 1;
 	}
 	
@@ -1431,7 +1431,7 @@ $original_market = $selected_exchange;
     
     // Log any Bitcoin market errors
     if ( !isset($selected_btc_primary_currency_value) || $selected_btc_primary_currency_value == 0 ) {
-    app_logging('other_error', 'ui_coin_data_row() Bitcoin primary currency value not properly set', 'exchange: ' . $app_config['general']['btc_primary_exchange'] . '; pairing_id: ' . $selected_btc_pairing_id . '; value: ' . $selected_btc_primary_currency_value );
+    app_logging('market_error', 'ui_coin_data_row() Bitcoin primary currency value not properly set', 'exchange: ' . $app_config['general']['btc_primary_exchange'] . '; pairing_id: ' . $selected_btc_pairing_id . '; value: ' . $selected_btc_primary_currency_value );
     }
     
     
@@ -1505,7 +1505,7 @@ $original_market = $selected_exchange;
     elseif ( $selected_pairing == 'eth' && $selected_exchange == 'eth_subtokens_ico' ) {
     $pairing_btc_value = pairing_market_value($selected_pairing);
 		if ( $pairing_btc_value == null ) {
-		app_logging('other_error', 'pairing_market_value() returned null in ui_coin_data_row()', 'pairing: ' . $selected_pairing);
+		app_logging('market_error', 'pairing_market_value() returned null in ui_coin_data_row()', 'pairing: ' . $selected_pairing);
 		}
     $coin_value_raw = get_sub_token_price($selected_exchange, $market_id);
     $btc_trade_eqiv = number_format( ($coin_value_raw * $pairing_btc_value), 8);
@@ -1517,7 +1517,7 @@ $original_market = $selected_exchange;
     else {
     $pairing_btc_value = pairing_market_value($selected_pairing);
 		if ( $pairing_btc_value == null ) {
-		app_logging('other_error', 'pairing_market_value() returned null in ui_coin_data_row()', 'pairing: ' . $selected_pairing);
+		app_logging('market_error', 'pairing_market_value() returned null in ui_coin_data_row()', 'pairing: ' . $selected_pairing);
 		}
     $coin_value_raw = $asset_market_data['last_trade'];
     $btc_trade_eqiv = number_format( ($coin_value_raw * $pairing_btc_value), 8);

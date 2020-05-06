@@ -1625,7 +1625,7 @@ global $selected_btc_primary_currency_value, $app_config;
 	  $pairing_btc_value = pairing_market_value($market_id);
 	
 			if ( $pairing_btc_value == null ) {
-			app_logging('other_error', 'pairing_market_value() returned null', 'market_id: ' . $market_id);
+			app_logging('market_error', 'pairing_market_value() returned null', 'market_id: ' . $market_id);
 			}
 	
      $result = array(

@@ -6,7 +6,7 @@
 
 	
 // Have this script not load any code if system stats are not turned on, or key GET request corrupt
-if ( !isset($_SESSION['admin_logged_in']) || !is_numeric($_GET['key']) || $app_config['general']['system_stats'] == 'off' ) {
+if ( !isset($_SESSION['admin_logged_in']) || !is_numeric($_GET['key']) ) {
 exit;
 }
 
@@ -16,7 +16,7 @@ $key = $_GET['key'];
 			if ( file_exists('cache/charts/system/archival/system_stats.dat') != 1 ) {
 			?>
 			
-			$("#system_stats_chart_<?=$key?> span.loading").html(' &nbsp; No chart data activated for: System Statistics Chart #<?=$key?>');
+			$("#system_stats_chart_<?=$key?> span.loading").html(' &nbsp; No chart data activated for: System Chart #<?=$key?>');
 			
 			$("#system_charts_error").show();
 			
@@ -201,7 +201,7 @@ let chartConfig_<?=$key?> = {
       borderRadius: '2px',
       borderWidth: '1px',
       title: {
-        text: 'System Statistics Chart #<?=$key?>',
+        text: 'System Chart #<?=$key?>',
         adjustLayout: true,
         marginTop: '20px'
       },  

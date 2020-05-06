@@ -3159,7 +3159,11 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Bug fixed for the app running a self security check, when htaccess password-protection is enabled
 
--UI / UX improvements
+-Re-organized system stats, for quick admin access anywhere (admin area, portfolio area for logged-in admin)
+
+-API / Webhook reset feature in admin area
+
+-Misc. UI / UX improvements
 
 IMPORTANT UPGRADE NOTES: 
 

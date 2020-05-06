@@ -653,14 +653,14 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	
 	<?php
 			// If hardware / software stats are enabled, display the os / hardware / load avg / temperature / free partition space / free memory [mb/percent] / portfolio cache size / software stats
-    		if ( isset($_SESSION['admin_logged_in']) && $app_config['general']['system_stats'] == 'on' || isset($_SESSION['admin_logged_in']) && $app_config['general']['system_stats'] == 'raspi' && $is_raspi == 1 ) {
+    		if ( isset($_SESSION['admin_logged_in']) ) {
     ?>
 	
-		<fieldset><legend> <strong class="bitcoin">System Statistics</strong> </legend>
+		<fieldset><legend> <strong class="bitcoin">System Information</strong> </legend>
     		
-    <?php
+    <div id='portfolio_render_system_stats'><?php
     			
-    		// Raspi system data
+    		// System data
     		$system_load = $system_info['system_load'];
     		$system_load = preg_replace("/ \(15 min avg\)(.*)/i", "", $system_load);
     		$system_load = preg_replace("/(.*)\(5 min avg\) /i", "", $system_load); // Use 15 minute average
@@ -729,14 +729,17 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
     		}
     		
     		
-    		?>
+    		?></div>
     		
     		<span class="bitcoin"><b>Other:</b></span>&nbsp; 
     		
-    		<b><a href="javascript: return false;" class="show_system_charts blue" title="View System Statistics Charts">System Statistics Charts</a></b>&nbsp;&nbsp; 
+    		<b><a href="javascript: return false;" class="show_system_charts blue" title="View System Charts">System Charts</a></b>&nbsp;&nbsp;&nbsp; 
     		
 
-    		<b><a href="javascript: return false;" class="show_visitor_stats blue" title="View Visitor Statistics">Visitor Statistics</a></b>
+    		<b><a href="javascript: return false;" class="show_visitor_stats blue" title="View Visitor Statistics">Visitor Stats</a></b>&nbsp;&nbsp;&nbsp; 
+    		
+
+    		<b><a href="javascript: return false;" class="show_logs blue" title="View Logs">App Logs</a></b>
     		
     		<br /><br />
  
@@ -805,22 +808,27 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
    
 	<?php
 		// If hardware / software stats are enabled, display the charts when designated link is clicked (in a modal)
-    	if ( isset($_SESSION['admin_logged_in']) && $app_config['general']['system_stats'] == 'on' || isset($_SESSION['admin_logged_in']) && $app_config['general']['system_stats'] == 'raspi' && $is_raspi == 1 ) {
+    	if ( isset($_SESSION['admin_logged_in']) ) {
     ?>
 	
 	<div id="show_system_charts">
 	
 		
-		<h3>System Statistics Charts</h3>
+		<h3>System Charts</h3>
 	
 				<span style='margin-top: 25px; margin-right: 85px;' class='red countdown_notice'></span>
-			
 	
+	<div id='portfolio_render_system_stats2' style='margin-bottom: 30px;'></div>
+	
+	<script>
+	// Mirror portfolio page system stats summary with javascript (without the wrapper that makes the text small)
+	$('#portfolio_render_system_stats2').html( $('#portfolio_render_system_stats').html() );
+	</script>
 	
 	<div class='red' id='system_charts_error'></div>
 	
 	
-	<div class='chart_wrapper' id='system_stats_chart_1'><span class='chart_loading' style='color: <?=$app_config['charts_alerts']['charts_text']?>;'> &nbsp; Loading chart #1 for System Statistics...</span></div>
+	<div class='chart_wrapper' id='system_stats_chart_1'><span class='chart_loading' style='color: <?=$app_config['charts_alerts']['charts_text']?>;'> &nbsp; Loading chart #1 for system data...</span></div>
 	
 	<script>
 	
@@ -834,7 +842,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	<br/><br/><br/>
 	
 	
-	<div class='chart_wrapper' id='system_stats_chart_2'><span class='chart_loading' style='color: <?=$app_config['charts_alerts']['charts_text']?>;'> &nbsp; Loading chart #2 for System Statistics...</span></div>
+	<div class='chart_wrapper' id='system_stats_chart_2'><span class='chart_loading' style='color: <?=$app_config['charts_alerts']['charts_text']?>;'> &nbsp; Loading chart #2 for system data...</span></div>
 	
 	<script>
 	
@@ -858,7 +866,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	<div id="show_visitor_stats">
 	
 		
-		<h3>Visitor Statistics</h3>
+		<h3>Visitor Stats</h3>
 	
 				<span style='margin-top: 25px; margin-right: 85px;' class='red countdown_notice'></span>
 			
@@ -912,6 +920,107 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	$('.show_visitor_stats').modaal({
 		fullscreen: true,
 		content_source: '#show_visitor_stats'
+	});
+	</script>
+	
+	
+	
+	<div id="show_logs">
+	
+		
+		<h3>App Logs</h3>
+	
+				<span style='margin-top: 25px; margin-right: 85px;' class='red countdown_notice'></span>
+			
+	
+	
+		<p class='bitcoin'>Error / debugging logs will automatically display here, if they exist (primary error log always shows, even if empty). All log timestamps are UTC time (Coordinated Universal Time).</p>
+				
+	
+	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> Error Log </legend>
+	        
+	        <p>
+	        
+	        <b>Extra Spacing:</b> <input type='checkbox' id='errors_log_space' value='1' onchange="system_logs('errors_log');" />
+	        
+	        &nbsp; <b>Maximum lines:</b> <input type='text' id='errors_log_lines' value='100' maxlength="4" size="4" />
+	        
+	        &nbsp; <button class='force_button_style' onclick="system_logs('errors_log');">Refresh</button> 
+	        
+	        &nbsp; <span id='errors_log_alert' class='red'></span>
+	        
+	        </p>
+	        
+	        <pre><code class='hide-x-scroll bash rounded' style='width: 100%; height: 750px;' id='errors_log'></code></pre>
+			  
+			  <script>
+			  system_logs('errors_log');
+			  </script>
+		
+	    </fieldset>
+				
+	<?php
+	if ( is_readable($base_dir . '/cache/logs/smtp_errors.log') ) {
+	?>
+	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> SMTP Error Log </legend>
+	        
+	        <p>
+	        
+	        <b>Extra Spacing:</b> <input type='checkbox' id='smtp_errors_log_space' value='1' onchange="system_logs('smtp_errors_log');" />
+	        
+	        &nbsp; <b>Maximum lines:</b> <input type='text' id='smtp_errors_log_lines' value='100' maxlength="4" size="4" />
+	        
+	        &nbsp; <button class='force_button_style' onclick="system_logs('smtp_errors_log');">Refresh</button> 
+	        
+	        &nbsp; <span id='smtp_errors_log_alert' class='red'></span>
+	        
+	        </p>
+	        
+	        <pre><code class='hide-x-scroll bash rounded' style='width: 100%; height: 750px;' id='smtp_errors_log'></code></pre>
+			  
+			  <script>
+			  system_logs('smtp_errors_log');
+			  </script>
+		
+	    </fieldset>
+	<?php
+	}
+	if ( $app_config['developer']['debug_mode'] != 'off' || is_readable($base_dir . '/cache/logs/debugging.log') ) {
+	?>
+	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> Debugging Log </legend>
+	        
+	        <p>
+	        
+	        <b>Extra Spacing:</b> <input type='checkbox' id='debugging_log_space' value='1' onchange="system_logs('debugging_log');" />
+	        
+	        &nbsp; <b>Maximum lines:</b> <input type='text' id='debugging_log_lines' value='100' maxlength="4" size="4" />
+	        
+	        &nbsp; <button class='force_button_style' onclick="system_logs('debugging_log');">Refresh</button> 
+	        
+	        &nbsp; <span id='debugging_log_alert' class='red'></span>
+	        
+	        </p>
+	        
+	        <pre><code class='hide-x-scroll bash rounded' style='width: 100%; height: 750px;' id='debugging_log'></code></pre>
+			  
+			  <script>
+			  system_logs('debugging_log');
+			  </script>
+		
+	    </fieldset>
+	<?php
+	}
+	?>
+	    
+			    
+		
+	</div>
+	
+	
+	<script>
+	$('.show_logs').modaal({
+		fullscreen: true,
+		content_source: '#show_logs'
 	});
 	</script>
 	

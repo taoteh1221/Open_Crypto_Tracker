@@ -135,7 +135,7 @@ global $app_config, $current_runtime_user, $possible_http_users, $http_runtime_u
 	// If no data was passed on to write to file, log it and return false early for runtime speed sake
 	if ( strlen($data) == 0 ) {
 		
-	app_logging('other_error', 'No bytes of data received to write to file "' . $file . '" (aborting useless file write)');
+	app_logging('system_error', 'No bytes of data received to write to file "' . $file . '" (aborting useless file write)');
 	
 		// API timeouts are a confirmed cause for write errors of 0 bytes, so we want to alert end users that they may need to adjust their API timeout settings to get associated API data
 		if ( preg_match("/cache\/secured\/apis/i", $file) ) {
@@ -314,6 +314,8 @@ $debugging_logs .= strip_tags($logs_array['security_debugging']); // Remove any 
 
 $debugging_logs .= strip_tags($logs_array['api_debugging']); // Remove any HTML formatting used in UI alerts
 
+$debugging_logs .= strip_tags($logs_array['market_debugging']); // Remove any HTML formatting used in UI alerts
+
 $debugging_logs .= strip_tags($logs_array['other_debugging']); // Remove any HTML formatting used in UI alerts
 
 
@@ -399,6 +401,8 @@ $error_logs .= strip_tags($logs_array['config_error']); // Remove any HTML forma
 $error_logs .= strip_tags($logs_array['security_error']); // Remove any HTML formatting used in UI alerts
 
 $error_logs .= strip_tags($logs_array['api_error']); // Remove any HTML formatting used in UI alerts
+
+$error_logs .= strip_tags($logs_array['market_error']); // Remove any HTML formatting used in UI alerts
 
 $error_logs .= strip_tags($logs_array['other_error']); // Remove any HTML formatting used in UI alerts
 

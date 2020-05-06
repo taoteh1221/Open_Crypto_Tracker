@@ -73,7 +73,7 @@ if ( $runtime_mode == 'cron' || $runtime_mode == 'api' || $runtime_mode == 'webh
     }
     
     if ( !isset($default_btc_primary_currency_value) || $default_btc_primary_currency_value == 0 ) {
-    app_logging('other_error', 'primary-bitcoin-markets.php Charts / alerts Bitcoin primary currency market value not properly set', 'btc_primary_currency_pairing: ' . $default_btc_primary_currency_pairing . '; exchange: ' . $default_btc_primary_exchange . '; pairing_id: ' . $default_btc_pairing_id . '; value: ' . $default_btc_primary_currency_value );
+    app_logging('market_error', 'primary-bitcoin-markets.php Charts / alerts Bitcoin primary currency market value not properly set', 'btc_primary_currency_pairing: ' . $default_btc_primary_currency_pairing . '; exchange: ' . $default_btc_primary_exchange . '; pairing_id: ' . $default_btc_pairing_id . '; value: ' . $default_btc_primary_currency_value );
     }
 
 
@@ -129,7 +129,7 @@ else {
     }
     
     if ( !isset($selected_btc_primary_currency_value) || $selected_btc_primary_currency_value == 0 ) {
-    app_logging('other_error', 'init.php Bitcoin primary currency market value not properly set', 'btc_primary_currency_pairing: ' . $app_config['general']['btc_primary_currency_pairing'] . '; exchange: ' . $app_config['general']['btc_primary_exchange'] . '; pairing_id: ' . $selected_btc_pairing_id . '; value: ' . $selected_btc_primary_currency_value );
+    app_logging('market_error', 'init.php Bitcoin primary currency market value not properly set', 'btc_primary_currency_pairing: ' . $app_config['general']['btc_primary_currency_pairing'] . '; exchange: ' . $app_config['general']['btc_primary_exchange'] . '; pairing_id: ' . $selected_btc_pairing_id . '; value: ' . $selected_btc_primary_currency_value );
     }
 
 

@@ -73,6 +73,21 @@ $base_dir = preg_replace("/\/app-lib(.*)/i", "", dirname(__FILE__) );
 
 // Session data
 
+
+// Nonce for secured login session logic
+if ( !isset($_SESSION['nonce']) ) {
+$_SESSION['nonce'] = random_hash(32);
+}
+
+
+// If user is logging out (run immediately after setting session vars, for quick runtime)
+if ( $_GET['logout'] == 1 && isset($_GET['admin_hashed_nonce']) && $_GET['admin_hashed_nonce'] == admin_hashed_nonce('logout') ) {
+hardy_session_clearing(); // Try to avoid edge-case bug where sessions don't delete, using our hardened function logic
+header("Location: index.php");
+exit;
+}
+
+
 // INCREASE CERTAIN RUNTIME SPEEDS
 // If we are just running a captcha image, ONLY run captcha library for runtime speed (exit after)
 if (  $runtime_mode == 'captcha' ) {
@@ -116,21 +131,6 @@ if ( $_POST['admin_submit_register'] || $_POST['admin_submit_login'] || $_POST['
 	}
 	
 
-}
-
-
-
-// Nonce for secured login session logic
-if ( !isset($_SESSION['nonce']) ) {
-$_SESSION['nonce'] = random_hash(32);
-}
-
-
-// If user is logging out (run immediately after setting session vars, for quick runtime)
-if ( $_GET['logout'] == 1 && isset($_GET['nonce']) && $_GET['nonce'] == $_SESSION['nonce'] ) {
-hardy_session_clearing(); // Try to avoid edge-case bug where sessions don't delete, using our hardened function logic
-header("Location: index.php");
-exit;
 }
 
 

@@ -9,8 +9,10 @@
 
 <div class='full_width_wrapper'>
 	
-				<h3 class='align_center'>Logs</h3>
+				<h3 class='align_center'>App Logs</h3>
 				
+	
+	
 		<p class='bitcoin'>Error / debugging logs will automatically display here, if they exist (primary error log always shows, even if empty). All log timestamps are UTC time (Coordinated Universal Time).</p>
 				
 	
@@ -89,7 +91,6 @@
 	}
 	?>
 	    
-			    
 			    
 </div> <!-- full_width_wrapper END -->
 

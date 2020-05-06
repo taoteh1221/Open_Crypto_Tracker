@@ -239,9 +239,9 @@ if ( !$_POST['submit_registration'] || sizeof($register_result['error']) > 0 ) {
 </form>
   
     
-<p id='admin_register_button' style='padding: 20px;'>
+<p style='padding: 20px;'>
 
-<button class='force_button_style' onclick='
+<button id='admin_register_button' class='force_button_style' onclick='
 
 // Remove any previous submission error notices (captcha error etc)
 document.getElementById("login_alert").style.display = "none";

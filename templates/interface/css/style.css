@@ -632,7 +632,7 @@ padding: 6px;
 }
 
 
-#alert_source, #percent_change_amount, #percent_change_filter, #percent_change_time, #percent_change_alert_type, #show_chart_settings, #show_system_charts, #show_visitor_stats {
+#alert_source, #percent_change_amount, #percent_change_filter, #percent_change_time, #percent_change_alert_type, #show_chart_settings, #show_system_charts, #show_visitor_stats, #show_logs {
 display: none;
 }
 

@@ -81,12 +81,12 @@ foreach( $secured_cache_files as $secured_file ) {
 			$is_cached_app_config = 1;
 			}
 			elseif ( $app_config_check != md5(serialize($original_app_config)) ) {
-			app_logging('config_error', 'Cached app_config out of date (default app_config settings updated), deleting cached app_config (refresh will happen automatically)');
+			app_logging('config_error', 'CACHED app_config outdated (DEFAULT app_config updated), refreshing from DEFAULT app_config');
 			unlink($base_dir . '/cache/secured/' . $secured_file);
 			$refresh_cached_app_config = 1;
 			}
 			elseif ( $cached_app_config != true ) {
-			app_logging('config_error', 'Cached app_config data appears corrupted, deleting cached app_config (refresh will happen automatically)');
+			app_logging('config_error', 'CACHED app_config appears corrupt, refreshing from DEFAULT app_config');
 			unlink($base_dir . '/cache/secured/' . $secured_file);
 			$refresh_cached_app_config = 1;
 			}
@@ -154,7 +154,7 @@ foreach( $secured_cache_files as $secured_file ) {
 	}
 	
 	
-	// Webhook key (for secure webhook communications)
+	// Webhook secret key (for secure webhook communications)
 	elseif ( preg_match("/webhook_key_/i", $secured_file) ) {
 		
 		
@@ -163,8 +163,22 @@ foreach( $secured_cache_files as $secured_file ) {
 		unlink($base_dir . '/cache/secured/' . $secured_file);
 		}
 		else {
-		$newest_cached_webhook_key = 1;
-		$webhook_key = trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) );
+			
+			// If an webhook secret key reset from authenticated admin is verified
+			if ( $_POST['reset_webhook_key'] == 1 && isset($_POST['admin_hashed_nonce']) && $_POST['admin_hashed_nonce'] == admin_hashed_nonce('reset_webhook_key') ) {
+				
+			unlink($base_dir . '/cache/secured/' . $secured_file);
+			
+			// Redirect to avoid quirky page reloads later on
+			header("Location: admin.php");
+			exit;
+			
+			}
+			else {
+			$newest_cached_webhook_key = 1;
+			$webhook_key = trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) );
+			}
+		
 		}
 	
 	
@@ -180,15 +194,29 @@ foreach( $secured_cache_files as $secured_file ) {
 		unlink($base_dir . '/cache/secured/' . $secured_file);
 		}
 		else {
-		$newest_cached_api_key = 1;
-		$api_key = trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) );
+			
+			// If an API key reset from authenticated admin is verified
+			if ( $_POST['reset_api_key'] == 1 && isset($_POST['admin_hashed_nonce']) && $_POST['admin_hashed_nonce'] == admin_hashed_nonce('reset_api_key') ) {
+				
+			unlink($base_dir . '/cache/secured/' . $secured_file);
+			
+			// Redirect to avoid quirky page reloads later on
+			header("Location: admin.php");
+			exit;
+			
+			}
+			else {
+			$newest_cached_api_key = 1;
+			$api_key = trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) );
+			}
+		
 		}
 	
 	
 	}
 	
 	
-	// API key (for secure API communications)
+	// Stored admin login user / hashed password (for admin login authentication)
 	elseif ( preg_match("/admin_login_/i", $secured_file) ) {
 		
 		
@@ -271,7 +299,7 @@ $secure_128bit_hash = random_hash(16); // 128-bit (16-byte) hash converted to he
 		
 		// Need to check a few different possible results for no data found ("null" in quotes as the actual value is returned sometimes)
 		if ( $store_cached_telegram_user_data == false || $store_cached_telegram_user_data == null || $store_cached_telegram_user_data == "null" ) {
-		app_logging('config_error', 'UPDATED / NEW telegram_user_data could not be saved (to secured cache storage) in json format, MAKE SURE YOU ENTER / RE-ENTER "/start" IN THE BOT CHATROOM IN THE TELEGRAM APP, TO CREATE / RE-CREATE THE REQUIRED USER DATA THIS APP NEEDS TO STORE AND INITIATE TELEGRAM MESSAGING WITH');
+		app_logging('config_error', 'UPDATED telegram_user_data could not be saved, PLEASE RE-ENTER "/start" IN THE BOT CHATROOM IN THE TELEGRAM APP');
 		}
 		else {
 		store_file_contents($base_dir . '/cache/secured/telegram_user_data_'.$secure_128bit_hash.'.dat', $store_cached_telegram_user_data);

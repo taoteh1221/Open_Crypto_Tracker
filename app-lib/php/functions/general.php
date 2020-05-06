@@ -4,7 +4,6 @@
  */
 
 
-
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
 
@@ -69,6 +68,22 @@ $updates_daily = $charts_update_freq * 24;
 
 return ($updates_daily * $range);
 
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+// To keep admin nonce key a secret, and make CSRF attacks harder with a different key per submission item
+function admin_hashed_nonce($key) {
+	
+	if ( !isset($_SESSION['admin_logged_in']) ) {
+	return false;
+	}
+	else {
+	return hash('ripemd160', $key . $_SESSION['nonce']);
+	}
+	
 }
 
 
@@ -299,7 +314,7 @@ $result = setcookie($name, $value, $time);
 	}
 	
 	if ( $result == false ) {
-	app_logging('other_error', 'Cookie creation failed for cookie "' . $name . '"');
+	app_logging('system_error', 'Cookie creation failed for cookie "' . $name . '"');
 	}
 	
 	

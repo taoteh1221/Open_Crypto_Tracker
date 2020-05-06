@@ -82,13 +82,19 @@ FEATURES / STRUCTURING SECTION
 ///////////////////////////////////////////////////////
 
 
-Double check that we don't need to darken up light theme loss alert data row colors (next time everything crashes in price, lol)
+Prune system stats chart data older than 90 days, via the scheduled maintenance logic.
+
+
+For lightweight charts, it's simple: count the number of lines in an archival file up to the timestamp that's an X days / weeks / months / years forward time period, get the "max data points allowed" var passed into the function, divide the total time period line numbers by max line numbers allowed (and round it) to get the "use every X lines" value for the lightweight chart. Then just loop through and grab every Xth line up until the end of that time period, add it to that lightweight chart data.
+
+
+Interface alert for upgrades.
 
 
 Add an alert bell icon in header login nav, and have alerts make it red and be a drop-down info bubble clicking it, rather than alerts printed in the footer.
 
 
-Interface alert for upgrades.
+Double check that we don't need to darken up light theme loss alert data row colors (next time everything crashes in price, lol)
 
 
 Mail trading notes to admin email, only if user logged in as admin.
@@ -98,9 +104,6 @@ Option to use new zip file encryption password feature to encrypt portfolio spre
 
 
 Have random tip display a "next tip" link...consider putting it at top of charts page too.
-
-
-Prune system stats chart data older than 90 days, via the scheduled maintenance logic.
 
 
 Add additional ability to do telegram webhooks, to query asset prices at different exchanges through telegram chat with the chat bot. Example: "/price ETH/USDT @ Binance"
@@ -130,12 +133,6 @@ On admin config page, have "reset to default settings" button (with js confirm a
 In the "loading charts" logic, add a timer that logs the time it takes to load all Shown Charts, and prints results to the console log.
 
 
-For scalable chart data, maybe run once daily during cron runtimes creating 1 hour (or greater) time interval chart data stores, using timestamp info in the default chart data store. Then use those for the initial chart loads if the chart data is more than 3 months worth (or whatever time period).
-
-
-Create chart interval function that divides the desired chart timeline period by the number of maximum data points the chart should ever load, to get the data point time interval, then caches the corresponding timestamped data point intervals into an updated chart for that time period every 24 hours. So we'd have like 6 / 12 / 18 month charts (as examples).
-
-
 Add google home support via direct connect on same network, OR via IFTTT (whichever is most feasible).
 
 
@@ -161,9 +158,6 @@ Create github wiki with the current documentation for the portfolio app.
 
 
 Add localcryptos API support?
-
-
-Make default btc exchange in config.php optional, and auto-configure if invalid or left blank, based off the default primary currency setting (still log errors though). Additionally, consider defaulting to USD if the primary currency setting is invalid / blank as well (as long as we also error log any detected issues there too)??
 
 
 Wrap all interface English within a "placeholder" lang_translate() function call. Then from a developer perspective you can still fully see the interface logic, and build out translation logic over time later. 
@@ -218,6 +212,9 @@ Simple trading bot, to run from cron / cli (with SQL-based admin authentication 
 ///////////////////////////////////////////////////////
 MAYBE SECTION
 ///////////////////////////////////////////////////////
+
+
+Make default btc exchange in config.php optional, and auto-configure if invalid or left blank, based off the default primary currency setting (still log errors though). Additionally, consider defaulting to USD if the primary currency setting is invalid / blank as well (as long as we also error log any detected issues there too)??
 
 
 Turn string / array manipulations function file into a class.

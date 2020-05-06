@@ -42,15 +42,19 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 	<?php
 	if ( $is_admin == 1 ) {
 	?>
-	<link rel="stylesheet" href="templates/interface/css/highlightjs.min.css" type="text/css" />
-	
 	<link rel="stylesheet" href="templates/interface/css/admin.css" type="text/css" />
 	
 	<link rel="stylesheet" href="templates/interface/css/<?=$theme_selected?>.admin.css" type="text/css" />
 	<?php
 	}
+	
+	if ( isset($_SESSION['admin_logged_in']) ) {
 	?>
-
+	<link rel="stylesheet" href="templates/interface/css/highlightjs.min.css" type="text/css" />
+	<?php
+	}
+	?>
+	
 	<style>
 
 	@import "templates/interface/css/tablesorter/theme.<?=$theme_selected?>.css";
@@ -79,7 +83,7 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 	<script src="app-lib/js/zingchart.min.js"></script>
 	
 	<?php
-	if ( $is_admin == 1 ) {
+	if ( isset($_SESSION['admin_logged_in']) ) {
 	?>
 	
 	<script src="app-lib/js/highlight.min.js"></script>
@@ -185,7 +189,7 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 					  <?php
 					  if ( sizeof($stored_admin_login) == 2 && isset($_SESSION['admin_logged_in']) ) {
 					  ?>
-					  <a class="dropdown-item" href="?logout=1&nonce=<?=$_SESSION['nonce']?>">Logout</a>
+					  <a class="dropdown-item" href="?logout=1&admin_hashed_nonce=<?=admin_hashed_nonce('logout')?>">Logout</a>
 					  <?php
 					  }
 					  ?>

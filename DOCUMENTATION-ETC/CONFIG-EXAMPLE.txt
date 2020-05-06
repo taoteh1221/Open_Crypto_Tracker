@@ -205,10 +205,7 @@ $app_config['general']['default_theme'] = 'dark'; // 'dark' or 'light'
 $app_config['general']['margin_leverage_max'] = 150; // Maximum margin leverage available in the user interface ('Update Assets' page, etc)
 
 
-// Shows system statistics in the interface FOR LOGGED-IN ADMIN, if stats are available (system load, system temperature, free disk space, free system memory, visitor stats, etc)
-$app_config['general']['system_stats'] = 'on'; // 'off' (disabled), 'on' (enabled for ANY system), 'raspi' (enabled ONLY for raspberry pi devices)
-////
-// Highest numeric value sensor data to include in the FIRST system statistics chart (out of two)
+// Highest numeric value sensor data to include in the FIRST system information chart (out of two)
 // (higher sensor data is moved into the second chart, to keep ranges easily readable between both charts...only used if stats are enabled above)
 $app_config['general']['system_stats_first_chart_highest_value'] = 3.5; // Can be a decimal (example: 0.5 or 7.5 etc)
 

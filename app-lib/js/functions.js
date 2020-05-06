@@ -292,6 +292,9 @@ var not_whole_num = (log_lines - Math.floor(log_lines)) !== 0;
    // Get log data
 	$.getJSON("logs.php?logfile=" + log_file + '&lines=' + set_lines, function( data ) {
       
+      
+   	var data_length = data.length;
+   	var loop = 0;
 		$.each( data, function(key, val) {
 			
    		if ( $('#' + elm_id + '_space').is(":checked") ) {
@@ -301,15 +304,23 @@ var not_whole_num = (log_lines - Math.floor(log_lines)) !== 0;
       	log_area.append(val); // For raw log format
    		}
       
+      loop = loop + 1;
+      
+      	// Finished looping
+    		if (loop == data_length) {
+   		
+   			// Wait 4 seconds for it to fully load in the html element, then set scroll to bottom	
+				setTimeout(function(){
+				log_area.scrollTop(log_area[0].scrollHeight);
+				$('#' + elm_id + '_alert').text('');
+				}, 4000);
+	
+    		}
+    		
       });
               
 	});     
-    	
-   // Wait 3 seconds for it to fully load, then set scroll to bottom	
-	setTimeout(function(){
-	log_area.scrollTop(log_area[0].scrollHeight);
-	$('#' + elm_id + '_alert').text('');
-	}, 3000);	
+    		
 	
 }
 

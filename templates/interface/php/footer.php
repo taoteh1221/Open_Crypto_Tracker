@@ -21,6 +21,8 @@
 	
 	$bundle_error_logs .= $logs_array['api_error'];
 	
+	$bundle_error_logs .= $logs_array['market_error'];
+	
 	$bundle_error_logs .= $logs_array['other_error'];
 	
 	
@@ -38,6 +40,8 @@
 	$bundle_error_logs .= $logs_array['security_debugging'];
 	
 	$bundle_error_logs .= $logs_array['api_debugging'];
+	
+	$bundle_error_logs .= $logs_array['market_debugging'];
 	
 	$bundle_error_logs .= $logs_array['other_debugging'];
 		
