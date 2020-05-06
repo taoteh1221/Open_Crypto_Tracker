@@ -7,13 +7,10 @@
 // Runtime mode
 $runtime_mode = 'logs';
 
-// FOR SPEED, $runtime_mode 'logs' only gets app config vars, some init.php, then the logs library
+// FOR SPEED, $runtime_mode 'logs' only gets app config vars, some init.php, then EXITS in the logs library
 require("config.php");
 
-// Log errors / debugging, send notifications
-error_logs();
-debugging_logs();
-send_notifications();
+// NO LOGS / DEBUGGING / MESSAGE SENDING AT RUNTIME END HERE (WE ALWAYS EXIT BEFORE HERE IN INIT.PHP, FOR DESIRED #VERY# RESPONSIVE RUNTIMES)
 
 ?>
 

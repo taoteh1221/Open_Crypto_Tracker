@@ -14,27 +14,19 @@ require("config.php");
 // Example template download
 if ( $_GET['example_template'] == 1 ) {
 require_once( $base_dir . "/app-lib/php/other/csv/example-csv.php");
-exit;
 }
 // Portfolio export download
-elseif ( $_POST['submit_check'] == 1 && is_array($app_config['portfolio_assets']) || $_POST['submit_check'] == 1 && is_object($app_config['portfolio_assets']) ) {
+elseif ( $_POST['submit_check'] == 1 && is_array($app_config['portfolio_assets']) 
+|| $_POST['submit_check'] == 1 && is_object($app_config['portfolio_assets']) ) {
 require_once( $base_dir . "/app-lib/php/other/csv/export-csv.php");
-exit;
 }
 // Backups download
 elseif ( $_GET['backup'] != NULL ) {
 require_once( $base_dir . "/app-lib/php/other/backups.php");
-exit;
-}
-else {
-// Log errors / debugging, send notifications
-error_logs();
-debugging_logs();
-send_notifications();
-exit;
 }
 
 
+// NO LOGS / DEBUGGING / MESSAGE SENDING AT RUNTIME END HERE (WE ALWAYS EXIT BEFORE HERE IN EACH REQUIRED FILE)
 
 
 ?>

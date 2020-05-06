@@ -30,13 +30,10 @@ exit;
 }
 else {
 require($base_dir . '/templates/interface/php/admin/admin-login/reset.php'); 
+exit;
 }
 
-
-// Log errors / debugging, send notifications
-error_logs();
-debugging_logs();
-send_notifications();
+// NO LOGS / DEBUGGING / MESSAGE SENDING AT RUNTIME END HERE (WE ALWAYS EXIT BEFORE HERE)
 
 ?>
 

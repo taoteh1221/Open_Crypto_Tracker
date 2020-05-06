@@ -312,6 +312,7 @@ var not_whole_num = (log_lines - Math.floor(log_lines)) !== 0;
    			// Wait 4 seconds for it to fully load in the html element, then set scroll to bottom	
 				setTimeout(function(){
 				log_area.scrollTop(log_area[0].scrollHeight);
+   			$('pre code').each(function(i, e) {hljs.highlightBlock(e)}); // Re-initialize highlighting text
 				$('#' + elm_id + '_alert').text('');
 				}, 4000);
 	
