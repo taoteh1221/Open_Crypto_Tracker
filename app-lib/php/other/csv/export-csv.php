@@ -93,7 +93,7 @@ $csv_download_array[] = array(
 
 
 
-// Log errors / debugging, send notifications, destroy session data
+// Log errors / debugging, send notifications
 error_logs();
 debugging_logs();
 send_notifications();

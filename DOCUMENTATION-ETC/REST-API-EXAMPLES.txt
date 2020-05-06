@@ -4,20 +4,26 @@
  */
  
 
-This app has a built-in (internal) REST API available, so other external apps can connect to it and receive market data, including conversion to country fiat currencies and secondary cryptocurrency market pairings.
+This app has a built-in (internal) REST API available, so other external apps can connect to it and receive market data, including market conversion (converting the market values to their equivalent value in country fiat currencies and secondary cryptocurrency market pairings).
 
+To see a list of the supported assets in the API, use the endpoint: "/api/asset_list"
 
-Over 80 conversion pairings are supported: AED / ARS / AUD / BAM / BDT / BOB / BRL / BWP / BYN / CAD / CHF / CLP / CNY / COP / CRC / CZK / DAI / DKK / DOP / EGP / ETH / EUR / GBP / GEL / GHS / GTQ / HKD / HUF / IDR / ILS / INR / IRR / JMD / JOD / JPY / KES / KRW / KWD / KZT / LKR / LTC / MAD / MUR / MWK / MXN / MYR / NGN / NIS / NOK / NZD / PAB / PEN / PHP / PKR / PLN / PYG / QAR / RON / RSD / RUB / RWF / SAR / SEK / SGD / THB / TRY / TUSD / TWD / TZS / UAH / UGX / USD / USDC / USDT / UYU / VND / VES / XAF / XOF / ZAR / ZMW.
+To see a list of the supported exchanges in the API, use the endpoint: "/api/exchange_list"
 
+To see a list of the supported markets for a particular exchange in the API, use the endpoint: "/api/market_list/[exchange name]"
 
-To skip conversions and just receive raw market values, you can use "/api/market_conversion/market_only/" INSTEAD OF a conversion value (like "/api/market_conversion/eur/", "/api/market_conversion/usd/", "/api/market_conversion/gbp/", etc).
+To see a list of the supported conversion currencies (market values converted to these currency values) in the API, use the endpoint: "/api/conversion_list"
 
+To get raw market values AND also get a market conversion to a supported conversion currency (see ALL requested market values also converted to values in this currency) in the API, use the endpoint: "/api/market_conversion/[conversion currency]/[exchange-asset-pairing],[exchange-asset2-pairing],[exchange-asset3-pairing]"
+
+To skip conversions and just receive raw market values in the API, you can use the endpoint: "/api/market_conversion/market_only/[exchange-asset-pairing],[exchange-asset2-pairing],[exchange-asset3-pairing]"
+
+For security, the API requires a key / token to access it. It must be named "api_key", and must be sent with the "POST" data method.
 
 Below are examples (NOT INCLUDING your web address and auto-generated login authentication tokens), of connecting an external app with CURL command line or PHP, and Javascript...
 
 
-THE API ADMIN SECTION IN THE APP GIVES YOU MORE EXTENSIVE CODE EXAMPLES (AUTO-INCLUDING ANY HTACCESS USER/PASS CODING REQUIRED), 
-AND PRE-POPULATES ALL YOUR WEB ADDRESS AND LOGIN CREDENTIALS WITHIN THE CODE, SO IT'S READY TO RUN "OUT-OF-THE-BOX".
+THE API ADMIN SECTION IN THE APP GIVES YOU CUSTOMIZED CODE EXAMPLES (AUTO-INCLUDING ANY HTACCESS USER / PASS CODING REQUIRED, AND YOUR  WEB ADDRESS / LOGIN CREDENTIALS), SO IT'S READY TO RUN "OUT-OF-THE-BOX".
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////

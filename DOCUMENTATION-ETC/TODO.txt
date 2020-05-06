@@ -26,6 +26,9 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+In debug mode, check the verbosity of everything, especially the system stats and too many ram stats (maybe add our new used ram stat instead, that doesn't include buffers / cached ram).
+
+
 New screenshots.
 
 

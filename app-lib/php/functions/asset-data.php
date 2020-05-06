@@ -4,6 +4,40 @@
  */
 
 
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function exchange_list_api() {
+
+global $app_config;
+
+$result = array();
+
+	foreach ( $app_config['portfolio_assets'] as $asset_key => $unused ) {
+
+		foreach ( $app_config['portfolio_assets'][$asset_key]['market_pairing'] as $pairing_key => $unused ) {
+					
+			foreach ( $app_config['portfolio_assets'][$asset_key]['market_pairing'][$pairing_key] as $exchange_key => $unused ) {
+					
+				if( !in_array(strtolower($exchange_key), $result) && !preg_match("/misc_assets/i", $exchange_key) ) {
+				//$all_exchange_count = $all_exchange_count + 1;
+				$result[] = strtolower($exchange_key);
+				}
+			
+			}
+				
+		}
+	
+	}
+
+sort($result);
+return array('exchange_list' => $result);
+
+}
+
+
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
 
@@ -102,6 +136,50 @@ return $results;
 ////////////////////////////////////////////////////////
 
 
+function asset_list_api() {
+
+global $app_config;
+
+$result = array();
+
+	foreach ( $app_config['portfolio_assets'] as $key => $unused ) {
+		
+		if ( strtolower($key) != 'miscassets' ) {
+		$result[] = strtolower($key);
+		}
+		
+	}
+	
+sort($result);
+return array('asset_list' => $result);
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function conversion_list_api() {
+
+global $app_config;
+
+$result = array();
+
+	foreach ( $app_config['power_user']['bitcoin_currency_markets'] as $key => $unused ) {
+	$result[] = $key;
+	}
+	
+sort($result);
+return array('conversion_list' => $result);
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
 function btc_market($input) {
 
 global $app_config;
@@ -118,6 +196,49 @@ global $app_config;
 		return $pairing_loop + 1;
 		}
 	$pairing_loop = $pairing_loop + 1;
+	}
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function market_list_api($exchange) {
+
+global $app_config;
+
+$exchange = strtolower($exchange);
+
+$result = array();
+
+	foreach( $app_config['portfolio_assets'] as $asset_key => $asset_value ) {
+	
+		foreach( $asset_value['market_pairing'] as $market_pairing_key => $market_pairing_value ) {
+			
+			foreach( $market_pairing_value as $exchange_key => $unused ) {
+				
+				if ( $exchange_key == $exchange ) {
+				$result[] = $exchange_key . '-' . strtolower($asset_key) . '-' . $market_pairing_key;
+				}
+				
+			}
+			
+		}
+	
+	}
+	
+	
+	if ( sizeof($result) < 1 ) {
+	return array('error' => 'No markets found for exchange: ' . $exchange);
+	}
+	else {
+	
+	return array(
+					'market_list' => array($exchange => $result)
+					);
+	
 	}
 
 }

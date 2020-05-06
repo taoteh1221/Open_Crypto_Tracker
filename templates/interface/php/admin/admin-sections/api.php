@@ -11,31 +11,28 @@
 				<h3 class='align_center'>API</h3>
 		
 		
-		<p>This app has a built-in (internal) REST API available, so other external apps can connect to it and receive market data, including conversion to country fiat currencies and secondary cryptocurrency market pairings.</p>
+		<p>This app has a built-in (internal) REST API available, so other external apps can connect to it and receive market data, including market conversion (converting the market values to their equivalent value in country fiat currencies and secondary cryptocurrency market pairings).</p>
 		
-		<?php
+		<p>To see a list of the supported assets in the API, use the endpoint: "<span class='bitcoin'>/api/asset_list</span>"</p>
 		
-		$supported_primary_currency_count = 0;
-		foreach ( $app_config['power_user']['bitcoin_currency_markets'] as $key => $unused ) {
-		$supported_primary_currency_list .= strtoupper($key) . ' / ';
-		$supported_primary_currency_count = $supported_primary_currency_count + 1;
-		}
-		$supported_primary_currency_list = trim($supported_primary_currency_list);
-		$supported_primary_currency_list = rtrim($supported_primary_currency_list,'/');
-		$supported_primary_currency_list = trim($supported_primary_currency_list);
+		<p>To see a list of the supported exchanges in the API, use the endpoint: "<span class='bitcoin'>/api/exchange_list</span>"</p>
 		
-		?>
+		<p>To see a list of the supported markets for a particular exchange in the API, use the endpoint: "<span class='bitcoin'>/api/market_list/[exchange name]</span>"</p>
 		
-		<p><span class='bitcoin'><?=$supported_primary_currency_count?> conversion pairings are supported:</span> <?=$supported_primary_currency_list?>.</p>
+		<p>To see a list of the supported conversion currencies (market values converted to these currency values) in the API, use the endpoint: "<span class='bitcoin'>/api/conversion_list</span>"</p>
 		
-		<p><i>To skip conversions and just receive raw market values</i>, you can use "<span class='bitcoin'>/api/market_conversion/market_only/</span>" INSTEAD OF a conversion value (like "<span class='bitcoin'>/api/market_conversion/eur/</span>", "<span class='bitcoin'>/api/market_conversion/usd/</span>", "<span class='bitcoin'>/api/market_conversion/gbp/</span>", etc).</p>
+		<p>To get raw market values AND also get a market conversion to a supported conversion currency (see ALL requested market values also converted to values in this currency) in the API, use the endpoint: "<span class='bitcoin'>/api/market_conversion/[conversion currency]/[exchange-asset-pairing],[exchange-asset2-pairing],[exchange-asset3-pairing]</span>"</p>
+		
+		<p><i>To skip conversions and just receive raw market values</i> in the API, you can use the endpoint: "<span class='bitcoin'>/api/market_conversion/market_only/[exchange-asset-pairing],[exchange-asset2-pairing],[exchange-asset3-pairing]</span>"</p>
+		
+		<p>For security, the API requires a key / token to access it. It must be named "api_key", and must be sent with the "POST" data method.</p>
 	
 		<p>Below are <i>fully working examples <span class='bitcoin'>(including your auto-generated login authentication tokens)</span></i>, of connecting an external app with CURL command line or PHP, and Javascript.</p>
 	
 	
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> REST API Access Examples </legend>
 	        
-	        
+	    <p class='bitcoin'>Bash / CURL example:</p>
 	        	        
 <pre><code class='hide-x-scroll bash rounded' style='width: auto; height: auto;'># CURL command line example
 # Add --insecure to the command, if your app's SSL certificate
@@ -45,6 +42,8 @@ curl<?=( $htaccess_username != '' && $htaccess_password != '' ? ' -u "' . $htacc
 </code></pre>
 	        
 	        
+	    <p class='bitcoin' style='margin-top: 45px;'>Javascript example:</p>
+	        	        	        
 	                
 <pre><code class='hide-x-scroll javascript rounded' style='width: auto; height: auto;'>// Javascript example
 
@@ -102,7 +101,8 @@ api_request.send(params);
 </code></pre>
 	        
 	        
-	        
+	    <p class='bitcoin' style='margin-top: 45px;'>PHP / CURL example:</p>
+	        	        
 	        
 <pre><code class='hide-x-scroll php rounded' style='width: auto; height: auto;'>// CURL PHP example (requires CURL PHP module)
 
@@ -173,9 +173,9 @@ var_dump($api_data_array);
 				
 			    
 	
-	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> Example API Response (JSON format) </legend>
+	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> Example API Responses (JSON format) </legend>
 	        
-	    
+	    <p class='bitcoin'>/api/market_conversion/eur/kraken-btc-usd,coinbase-dai-usdc,coinbase-eth-usd</p>
 	        	        
 <pre><code class='hide-x-scroll json rounded' style='width: auto; height: auto;'>
 {
@@ -183,14 +183,14 @@ var_dump($api_data_array);
         "kraken-btc-usd": {
             "market": {
                 "usd": {
-                    "spot_price": 9097.6,
-                    "24hr_volume": 68069122
+                    "spot_price": 9310,
+                    "24hr_volume": 92767266
                 }
             },
             "conversion": {
                 "eur": {
-                    "spot_price": 8291.94,
-                    "24hr_volume": 62041081
+                    "spot_price": 8611.49,
+                    "24hr_volume": 85807151
                 }
             }
         },
@@ -198,34 +198,283 @@ var_dump($api_data_array);
             "market": {
                 "usdc": {
                     "spot_price": 1.01,
-                    "24hr_volume": 586010
+                    "24hr_volume": 194164
                 }
             },
             "conversion": {
                 "eur": {
-                    "spot_price": 0.92,
-                    "24hr_volume": 533920
+                    "spot_price": 0.93,
+                    "24hr_volume": 179463
                 }
             }
         },
         "coinbase-eth-usd": {
             "market": {
                 "usd": {
-                    "spot_price": 216.43,
-                    "24hr_volume": 22287471
+                    "spot_price": 208.95,
+                    "24hr_volume": 25066317
                 }
             },
             "conversion": {
                 "eur": {
-                    "spot_price": 197.26,
-                    "24hr_volume": 20313745
+                    "spot_price": 193.27,
+                    "24hr_volume": 23185648
                 }
             }
         }
     },
-    "market_conversion_source": "kraken-btc-eur"
+    "market_conversion_source": "kraken-btc-eur",
+    "minutes_cached": 4
 }
+</code></pre>
 
+	    <p class='bitcoin' style='margin-top: 45px;'>/api/market_conversion/market_only/kraken-btc-usd,coinbase-dai-usdc,coinbase-eth-usd</p>
+	        	        
+<pre><code class='hide-x-scroll json rounded' style='width: auto; height: auto;'>
+{
+    "market_conversion": {
+        "kraken-btc-usd": {
+            "market": {
+                "usd": {
+                    "spot_price": 9279.4,
+                    "24hr_volume": 92642284
+                }
+            }
+        },
+        "coinbase-dai-usdc": {
+            "market": {
+                "usdc": {
+                    "spot_price": 1.01,
+                    "24hr_volume": 199527
+                }
+            }
+        },
+        "coinbase-eth-usd": {
+            "market": {
+                "usd": {
+                    "spot_price": 207.85,
+                    "24hr_volume": 25135615
+                }
+            }
+        }
+    },
+    "minutes_cached": 4
+}
+</code></pre>
+	        
+	    <p class='bitcoin' style='margin-top: 45px;'>/api/asset_list</p>
+	        	        
+<pre><code class='hide-x-scroll json rounded' style='width: auto; height: auto;'>
+{
+    "asset_list": [
+        "ant",
+        "atom",
+        "btc",
+        "dai",
+        "data",
+        "dcr",
+        "doge",
+        "eth",
+        "gnt",
+        "grin",
+        "hive",
+        "hns",
+        "kda",
+        "ltc",
+        "mana",
+        "mkr",
+        "myst",
+        "tusd",
+        "xmr"
+    ],
+    "minutes_cached": 4
+}
+</code></pre>
+	        
+	        
+	    <p class='bitcoin' style='margin-top: 45px;'>/api/exchange_list</p>
+	        	        
+<pre><code class='hide-x-scroll json rounded' style='width: auto; height: auto;'>
+{
+    "exchange_list": [
+        "bigone",
+        "binance",
+        "binance_us",
+        "bit2c",
+        "bitbns",
+        "bitfinex",
+        "bitflyer",
+        "bitforex",
+        "bitpanda",
+        "bitso",
+        "bitstamp",
+        "bittrex",
+        "bittrex_global",
+        "braziliex",
+        "btcmarkets",
+        "btcturk",
+        "buyucoin",
+        "cex",
+        "coinbase",
+        "coinex",
+        "coss",
+        "cryptofresh",
+        "ethfinex",
+        "gateio",
+        "gemini",
+        "hitbtc",
+        "hotbit",
+        "huobi",
+        "idex",
+        "korbit",
+        "kraken",
+        "kucoin",
+        "lakebtc",
+        "livecoin",
+        "localbitcoins",
+        "luno",
+        "namebase",
+        "okcoin",
+        "okex",
+        "poloniex",
+        "southxchange",
+        "tidebit",
+        "tradeogre",
+        "upbit",
+        "zebpay"
+    ],
+    "minutes_cached": 4
+}
+</code></pre>
+	        
+	        
+	    <p class='bitcoin' style='margin-top: 45px;'>/api/market_list/binance</p>
+	        	        
+<pre><code class='hide-x-scroll json rounded' style='width: auto; height: auto;'>
+{
+    "market_list": {
+        "binance": [
+            "binance-btc-tusd",
+            "binance-btc-usdc",
+            "binance-btc-usdt",
+            "binance-eth-btc",
+            "binance-eth-tusd",
+            "binance-eth-usdc",
+            "binance-eth-usdt",
+            "binance-xmr-btc",
+            "binance-xmr-eth",
+            "binance-dcr-btc",
+            "binance-ltc-btc",
+            "binance-ltc-eth",
+            "binance-ltc-tusd",
+            "binance-ltc-usdc",
+            "binance-ltc-usdt",
+            "binance-tusd-usdt",
+            "binance-atom-btc",
+            "binance-atom-tusd",
+            "binance-atom-usdc",
+            "binance-mana-btc",
+            "binance-mana-eth",
+            "binance-doge-btc",
+            "binance-doge-usdt",
+            "binance-data-btc",
+            "binance-data-eth"
+        ]
+    },
+    "minutes_cached": 4
+}
+</code></pre>
+	        
+	        
+	    <p class='bitcoin' style='margin-top: 45px;'>/api/conversion_list</p>
+	        	        
+<pre><code class='hide-x-scroll json rounded' style='width: auto; height: auto;'>
+{
+    "conversion_list": [
+        "aed",
+        "ars",
+        "aud",
+        "bam",
+        "bdt",
+        "bob",
+        "brl",
+        "bwp",
+        "byn",
+        "cad",
+        "chf",
+        "clp",
+        "cny",
+        "cop",
+        "crc",
+        "czk",
+        "dai",
+        "dkk",
+        "dop",
+        "egp",
+        "eth",
+        "eur",
+        "gbp",
+        "gel",
+        "ghs",
+        "gtq",
+        "hkd",
+        "huf",
+        "idr",
+        "ils",
+        "inr",
+        "irr",
+        "jmd",
+        "jod",
+        "jpy",
+        "kes",
+        "krw",
+        "kwd",
+        "kzt",
+        "lkr",
+        "ltc",
+        "mad",
+        "mur",
+        "mwk",
+        "mxn",
+        "myr",
+        "ngn",
+        "nis",
+        "nok",
+        "nzd",
+        "pab",
+        "pen",
+        "php",
+        "pkr",
+        "pln",
+        "pyg",
+        "qar",
+        "ron",
+        "rsd",
+        "rub",
+        "rwf",
+        "sar",
+        "sek",
+        "sgd",
+        "thb",
+        "try",
+        "tusd",
+        "twd",
+        "tzs",
+        "uah",
+        "ugx",
+        "usd",
+        "usdc",
+        "usdt",
+        "uyu",
+        "vnd",
+        "ves",
+        "xaf",
+        "xof",
+        "zar",
+        "zmw"
+    ],
+    "minutes_cached": 4
+}
 </code></pre>
 	        
 	        

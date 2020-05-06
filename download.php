@@ -27,7 +27,7 @@ require_once( $base_dir . "/app-lib/php/other/backups.php");
 exit;
 }
 else {
-// Log errors / debugging, send notifications, destroy session data
+// Log errors / debugging, send notifications
 error_logs();
 debugging_logs();
 send_notifications();

@@ -511,11 +511,15 @@ $app_config['charts_alerts']['markets'] = array(
 
 // Local / internal API rate limit (maximum of once every X seconds, per ip address) for accepting remote requests
 // Can be 0 to disable rate limiting (unlimited)
-$app_config['power_user']['local_api_rate_limit'] = 10; // (default = 10)
+$app_config['power_user']['local_api_rate_limit'] = 5; // (default = 5)
 
 
 // Local / internal API market limit (maximum number of markets requested per call)
 $app_config['power_user']['local_api_market_limit'] = 20; // (default = 20)
+
+
+// Local / internal API cache time (minutes that previous requests are cached for)
+$app_config['power_user']['local_api_cache_time'] = 4; // (default = 4)
 
 
 // Seconds to wait for response from REMOTE API endpoints (exchange data, etc). 

@@ -31,7 +31,12 @@ exit;
 else {
 require($base_dir . '/templates/interface/php/admin/admin-login/reset.php'); 
 }
-	
+
+
+// Log errors / debugging, send notifications
+error_logs();
+debugging_logs();
+send_notifications();
 
 ?>
 

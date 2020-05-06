@@ -15,7 +15,7 @@
 
 	<div style='margin: 25px;'>
 	
-	<form name='reset_api' action='' method='post'>
+	<form name='reset_api' id='reset_api' action='' method='post'>
 	
 	<input type='hidden' name='admin_hashed_nonce' value='<?=admin_hashed_nonce('reset_api_key')?>' />
 	
@@ -29,8 +29,10 @@
 	var api_key_reset = confirm("Resetting the API key will stop any external \napps from accessing the API with the current API key. \n\nPress OK to reset the API key, or CANCEL to keep the current API key. ");
 	
 		if ( api_key_reset == true ) {
-		document.getElementById("reset_api_button").innerHTML = ajax_placeholder(30, "Submitting...");
-		document.reset_api.submit();
+		document.getElementById("reset_api_button").innerHTML = ajax_placeholder(17, "Submitting...");
+		//document.reset_api.submit();
+		$("#reset_api").submit(); // Triggers "app reloading" sequence
+		document.getElementById("reset_api_button").disable.true;
 		}
 	
 	'>Reset API Key</button>
@@ -44,7 +46,7 @@
 
 	<div style='margin: 25px;'>
 	
-	<form name='reset_webhook' action='' method='post'>
+	<form name='reset_webhook' id='reset_webhook' action='' method='post'>
 	
 	<input type='hidden' name='admin_hashed_nonce' value='<?=admin_hashed_nonce('reset_webhook_key')?>' />
 	
@@ -58,8 +60,10 @@
 	var webhook_key_reset = confirm("Resetting the webhook secret key will stop \nany external apps from accessing webhooks \nwith their webhook app key. \n\nPress OK to reset the webhook secret key, or CANCEL to keep the current webhook secret key. ");
 	
 		if ( webhook_key_reset == true ) {
-		document.getElementById("reset_webhook_button").innerHTML = ajax_placeholder(30, "Submitting...");
-		document.reset_webhook.submit();
+		document.getElementById("reset_webhook_button").innerHTML = ajax_placeholder(17, "Submitting...");
+		//document.reset_webhook.submit();
+		$("#reset_webhook").submit(); // Triggers "app reloading" sequence
+		document.getElementById("reset_webhook_button").disable.true;
 		}
 	
 	'>Reset Webhook Keys</button>

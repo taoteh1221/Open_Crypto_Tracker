@@ -10,6 +10,10 @@ $runtime_mode = 'logs';
 // FOR SPEED, $runtime_mode 'logs' only gets app config vars, some init.php, then the logs library
 require("config.php");
 
+// Log errors / debugging, send notifications
+error_logs();
+debugging_logs();
+send_notifications();
 
 ?>
 

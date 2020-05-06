@@ -80,6 +80,10 @@ function admin_hashed_nonce($key) {
 	if ( !isset($_SESSION['admin_logged_in']) ) {
 	return false;
 	}
+	
+	if ( !isset($_SESSION['nonce']) ) {
+	return false;
+	}
 	else {
 	return hash('ripemd160', $key . $_SESSION['nonce']);
 	}

@@ -81,7 +81,7 @@ $_SESSION['nonce'] = random_hash(32);
 
 
 // If user is logging out (run immediately after setting session vars, for quick runtime)
-if ( $_GET['logout'] == 1 && isset($_GET['admin_hashed_nonce']) && $_GET['admin_hashed_nonce'] == admin_hashed_nonce('logout') ) {
+if ( $_GET['logout'] == 1 && admin_hashed_nonce('logout') != false && $_GET['admin_hashed_nonce'] == admin_hashed_nonce('logout') ) {
 hardy_session_clearing(); // Try to avoid edge-case bug where sessions don't delete, using our hardened function logic
 header("Location: index.php");
 exit;
@@ -249,6 +249,7 @@ if ( dir_structure('cache/alerts/') != true
 || dir_structure('cache/events/throttling/') != true
 || dir_structure('cache/logs/debugging/api/') != true
 || dir_structure('cache/logs/errors/api/') != true
+|| dir_structure('cache/rest-api/') != true
 || dir_structure('cache/secured/activation/') != true
 || dir_structure('cache/secured/apis/') != true
 || dir_structure('cache/secured/backups/') != true

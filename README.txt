@@ -124,16 +124,13 @@ If you run the automated setup / install script for Raspberry Pi (affordable low
 
 Note that you should have the cron job run every 5, 10, 15, 20, or 30 minutes 24/7, based on how often you want chart data points / alerts / any other cron based features to run. Setting up the cron job to run every 15 minutes is the RECOMMENDED lowest time interval (if set any lower, the free exchange APIs may throttle / block your data requests temporarily on occasion for requesting data too frequently, which can negatively affect your alerts / charts). 
 
-
 Here is an example cron job command line for reference below (NOT including any cron parameters your host interface may require), to setup as the "command" within a cron job. Replace system paths in the example with the correct ones for your server (TIP - A very common path to PHP on a server is /usr/bin/php):
 
 /path/to/php -q /home/username/path/to/website/this_app/cron.php
 
-
 Here is another example of a COMPLETE cron command that can be added by creating the following file (you'll need sudo/root permissions): /etc/cron.d/cryptocoin on a linux-based machine (to run every 15 minutes 24/7)...play it safe and add a newline after it as well if you install examples like these:
 
 */15 * * * * WEBSITE_USERNAME_GOES_HERE /usr/bin/php -q /var/www/html/cron.php > /dev/null 2>&1
-
 
 If your system DOES NOT have /etc/cron.d/ on it, then NEARLY the same format (minus the username) can be installed via the 'crontab -e' command (logged in as the user you want running the cron job):
 
@@ -152,7 +149,24 @@ MAKE SURE YOU ONLY USE EITHER /etc/cron.d/, or 'crontab -e', NOT BOTH...ANY OLD 
 Using the built-in (internal) REST API:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-// SEE /DOCUMENTATION-ETC/REST-API-EXAMPLE.txt FOR API DOCUMENTATION, AND EXAMPLES OF CALLING THE API WITH CURL / PHP / JAVASCRIPT
+This app has a built-in (internal) REST API available, so other external apps can connect to it and receive market data, including market conversion (converting the market values to their equivalent value in country fiat currencies and secondary cryptocurrency market pairings).
+
+To see a list of the supported assets in the API, use the endpoint: "/api/asset_list"
+
+To see a list of the supported exchanges in the API, use the endpoint: "/api/exchange_list"
+
+To see a list of the supported markets for a particular exchange in the API, use the endpoint: "/api/market_list/[exchange name]"
+
+To see a list of the supported conversion currencies (market values converted to these currency values) in the API, use the endpoint: "/api/conversion_list"
+
+To get raw market values AND also get a market conversion to a supported conversion currency (see ALL requested market values also converted to values in this currency) in the API, use the endpoint: "/api/market_conversion/[conversion currency]/[exchange-asset-pairing],[exchange-asset2-pairing],[exchange-asset3-pairing]"
+
+To skip conversions and just receive raw market values in the API, you can use the endpoint: "/api/market_conversion/market_only/[exchange-asset-pairing],[exchange-asset2-pairing],[exchange-asset3-pairing]"
+
+For security, the API requires a key / token to access it. It must be named "api_key", and must be sent with the "POST" data method.
+
+
+// SEE /DOCUMENTATION-ETC/REST-API-EXAMPLES.txt FOR EXAMPLES OF CALLING THE API WITH CURL, JAVASCRIPT, AND PHP
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

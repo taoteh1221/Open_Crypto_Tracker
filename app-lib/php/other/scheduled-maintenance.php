@@ -220,7 +220,9 @@ delete_old_files($base_dir . '/cache/events/throttling', 1, 'dat'); // Delete th
 
 delete_old_files($base_dir . '/cache/secured/activation', 1, 'dat'); // Delete activation cache files older than 1 day
 
-delete_old_files($base_dir . '/cache/secured/apis', 1, 'dat'); // Delete API cache files older than 1 day
+delete_old_files($base_dir . '/cache/secured/apis', 1, 'dat'); // Delete remote API cache files older than 1 day
+
+delete_old_files($base_dir . '/rest-api', 1, 'dat'); // Delete local API cache files older than 1 day
 
 
 // Secondary logs cleanup
