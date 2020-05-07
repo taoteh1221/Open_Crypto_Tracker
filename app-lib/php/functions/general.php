@@ -280,23 +280,25 @@ global $runtime_mode, $app_config, $logs_array;
 
 
 // Less verbose log category
-$category = explode("_", $log_type);
+$category = $log_type;
+$category = preg_replace("/_error/i", "", $category);
+$category = preg_replace("/_debugging/i", "", $category);
 
 
 	// Disable logging any included verbose tracing, if log detail level config is set to normal, AND debug mode is off
-	if ( $app_config['developer']['debug_mode'] == 'off' && $app_config['developer']['log_detail'] == 'normal' ) {
+	if ( $app_config['developer']['debug_mode'] == 'off' && $app_config['developer']['log_verbosity'] == 'normal' ) {
 	$verbose_tracing = false;
 	}
 
 
 	if ( $hashcheck != false ) {
-	$logs_array[$log_type][$hashcheck] = '[' . date('Y-m-d H:i:s') . '] ' . $runtime_mode . ' | ' . $category[0] . ': ' . $log_message . ( $verbose_tracing != false ? '; verbose: [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+	$logs_array[$log_type][$hashcheck] = '[' . date('Y-m-d H:i:s') . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_message . ( $verbose_tracing != false ? '; tracing: [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
 	}
 	elseif ( $overwrite != false ) {
-	$logs_array[$log_type] = '[' . date('Y-m-d H:i:s') . '] ' . $runtime_mode . ' | ' . $category[0] . ': ' . $log_message . ( $verbose_tracing != false ? '; verbose: [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+	$logs_array[$log_type] = '[' . date('Y-m-d H:i:s') . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_message . ( $verbose_tracing != false ? '; tracing: [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
 	}
 	else {
-	$logs_array[$log_type] .= '[' . date('Y-m-d H:i:s') . '] ' . $runtime_mode . ' | ' . $category[0] . ': ' . $log_message . ( $verbose_tracing != false ? '; verbose: [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+	$logs_array[$log_type] .= '[' . date('Y-m-d H:i:s') . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_message . ( $verbose_tracing != false ? '; tracing: [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
 	}
 
 

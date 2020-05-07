@@ -795,7 +795,7 @@ $app_config['developer']['debug_mode'] = 'off';
 // Level of detail / verbosity in log files. 'normal' logs minimal details (basic information), 
 // 'verbose' logs maximum details (additional information IF AVAILABLE, for heavy debugging / tracing / etc)
 // IF DEBUGGING IS ENABLED ABOVE, LOGS ARE AUTOMATICALLY VERBOSE #WITHOUT THE NEED TO ADJUST THIS SETTING#
-$app_config['developer']['log_detail'] = 'normal'; // 'normal' / 'verbose'
+$app_config['developer']['log_verbosity'] = 'normal'; // 'normal' / 'verbose'
 ////
 // Keep logs X days before purging (fully deletes logs every X days). Start low (especially when using proxies)
 $app_config['developer']['log_purge'] = 10; 

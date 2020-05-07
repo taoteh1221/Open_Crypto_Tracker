@@ -139,7 +139,7 @@ global $app_config, $current_runtime_user, $possible_http_users, $http_runtime_u
 	
 		// API timeouts are a confirmed cause for write errors of 0 bytes, so we want to alert end users that they may need to adjust their API timeout settings to get associated API data
 		if ( preg_match("/cache\/secured\/apis/i", $file) ) {
-		app_logging('api_error', 'POSSIBLE api timeout issue for cache file "' . $file . '" (IF THIS ISSUE PERSISTS #LONG TERM#, TRY INCREASING "remote_api_timeout" IN THE POWER USER SECTION in config.php)', 'remote_api_timeout: '.$app_config['power_user']['remote_api_timeout'].' seconds;');
+		app_logging('ext_api_error', 'POSSIBLE api timeout issue for cache file "' . $file . '" (IF THIS ISSUE PERSISTS #LONG TERM#, TRY INCREASING "remote_api_timeout" IN THE POWER USER SECTION in config.php)', 'remote_api_timeout: '.$app_config['power_user']['remote_api_timeout'].' seconds;');
 		}
 	
 	return false;
@@ -312,7 +312,7 @@ $debugging_logs .= strip_tags($logs_array['config_debugging']); // Remove any HT
 
 $debugging_logs .= strip_tags($logs_array['security_debugging']); // Remove any HTML formatting used in UI alerts
 
-$debugging_logs .= strip_tags($logs_array['api_debugging']); // Remove any HTML formatting used in UI alerts
+$debugging_logs .= strip_tags($logs_array['ext_api_debugging']); // Remove any HTML formatting used in UI alerts
 
 $debugging_logs .= strip_tags($logs_array['market_debugging']); // Remove any HTML formatting used in UI alerts
 
@@ -400,7 +400,7 @@ $error_logs .= strip_tags($logs_array['config_error']); // Remove any HTML forma
 
 $error_logs .= strip_tags($logs_array['security_error']); // Remove any HTML formatting used in UI alerts
 
-$error_logs .= strip_tags($logs_array['api_error']); // Remove any HTML formatting used in UI alerts
+$error_logs .= strip_tags($logs_array['ext_api_error']); // Remove any HTML formatting used in UI alerts
 
 $error_logs .= strip_tags($logs_array['market_error']); // Remove any HTML formatting used in UI alerts
 
@@ -579,7 +579,7 @@ $port = $ip_port[1];
 
 	// If no ip/port detected in data string, cancel and continue runtime
 	if ( !$ip || !$port ) {
-	app_logging('api_error', 'proxy '.$problem_proxy.' is not a valid format');
+	app_logging('ext_api_error', 'proxy '.$problem_proxy.' is not a valid format');
 	return false;
 	}
 
@@ -646,7 +646,7 @@ $cache_filename = preg_replace("/:/", "_", $cache_filename);
 		
 		// Log to error logs
 		if ( $misconfigured == 1 ) {
-		app_logging('api_error', 'proxy '.$problem_proxy.' connection failed', $cached_logs);
+		app_logging('ext_api_error', 'proxy '.$problem_proxy.' connection failed', $cached_logs);
 		}
 	
 
@@ -1274,7 +1274,7 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 
 			// If no ip/port detected in data string, cancel and continue runtime
 			if ( !$ip || !$port ) {
-			app_logging('api_error', 'proxy '.$current_proxy.' is not a valid format');
+			app_logging('ext_api_error', 'proxy '.$current_proxy.' is not a valid format');
 			return false;
 			}
 
@@ -1408,7 +1408,7 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 	
 		
 		// LOG-SAFE VERSION (no post data with API keys etc)
-		app_logging( 'api_error', 'connection failed for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data . $log_append, 'requested from: server (local timeout setting ' . $app_config['power_user']['remote_api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';' );
+		app_logging('ext_api_error', 'connection failed for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data . $log_append, 'requested from: server (local timeout setting ' . $app_config['power_user']['remote_api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';' );
 		
 		
 			if ( sizeof($app_config['proxy']['proxy_list']) > 0 && $current_proxy != '' && $mode != 'proxy-check' ) { // Avoid infinite loops doing proxy checks
@@ -1448,7 +1448,7 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 				$error_response_log = '/cache/logs/errors/api/error-response-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-hash-'.$hash_check.'-timestamp-'.time().'.log';
 			
 				// LOG-SAFE VERSION (no post data with API keys etc)
-				app_logging( 'api_error', 'POSSIBLE error for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data, 'requested from: server (local timeout setting ' . $app_config['power_user']['remote_api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; log_file: ' . $error_response_log . '; btc_primary_currency_pairing: ' . $app_config['general']['btc_primary_currency_pairing'] . '; btc_primary_exchange: ' . $app_config['general']['btc_primary_exchange'] . '; btc_primary_currency_value: ' . $selected_btc_primary_currency_value . '; hash_check: ' . $hash_check . ';' );
+				app_logging('ext_api_error', 'POSSIBLE error for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data, 'requested from: server (local timeout setting ' . $app_config['power_user']['remote_api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; log_file: ' . $error_response_log . '; btc_primary_currency_pairing: ' . $app_config['general']['btc_primary_currency_pairing'] . '; btc_primary_exchange: ' . $app_config['general']['btc_primary_exchange'] . '; btc_primary_currency_value: ' . $selected_btc_primary_currency_value . '; hash_check: ' . $hash_check . ';' );
 			
 				// Log this error response from this data request
 				store_file_contents($base_dir . $error_response_log, $data);
@@ -1501,7 +1501,7 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 				
 				
 			// LOG-SAFE VERSION (no post data with API keys etc)
-			app_logging( 'api_error', 'CONFIRMED error for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data . $log_append, 'requested from: server (local timeout setting ' . $app_config['power_user']['remote_api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; log_file: ' . $error_response_log . '; btc_primary_currency_pairing: ' . $app_config['general']['btc_primary_currency_pairing'] . '; btc_primary_exchange: ' . $app_config['general']['btc_primary_exchange'] . '; btc_primary_currency_value: ' . $selected_btc_primary_currency_value . '; hash_check: ' . $hash_check . ';' );
+			app_logging('ext_api_error', 'CONFIRMED error for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data . $log_append, 'requested from: server (local timeout setting ' . $app_config['power_user']['remote_api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; log_file: ' . $error_response_log . '; btc_primary_currency_pairing: ' . $app_config['general']['btc_primary_currency_pairing'] . '; btc_primary_exchange: ' . $app_config['general']['btc_primary_exchange'] . '; btc_primary_currency_value: ' . $selected_btc_primary_currency_value . '; hash_check: ' . $hash_check . ';' );
 				
 		
 			}
@@ -1513,7 +1513,7 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 			if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'api_live_only' ) {
 				
 			// LOG-SAFE VERSION (no post data with API keys etc)
-			app_logging( 'api_debugging', 'connection request for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data, 'request from: server (local timeout setting ' . $app_config['power_user']['remote_api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';' );
+			app_logging('ext_api_debugging', 'connection request for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data, 'request from: server (local timeout setting ' . $app_config['power_user']['remote_api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';' );
 			
 			// Log this as the latest response from this data request
 			store_file_contents($base_dir . '/cache/logs/debugging/api/last-response-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-'.$hash_check.'.log', $data);
@@ -1536,7 +1536,7 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 		$store_file_contents = store_file_contents($base_dir . '/cache/secured/apis/'.$hash_check.'.dat', $api_runtime_cache[$hash_check]);
 		
 			if ( $store_file_contents == false ) {
-			app_logging( 'api_error', 'Cache file write error for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data, 'data_size_bytes: ' . strlen($api_runtime_cache[$hash_check]) . ' bytes');
+			app_logging('ext_api_error', 'Cache file write error for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data, 'data_size_bytes: ' . strlen($api_runtime_cache[$hash_check]) . ' bytes');
 			}
 		
 		}

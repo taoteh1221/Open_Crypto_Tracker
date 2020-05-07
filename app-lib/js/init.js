@@ -30,12 +30,24 @@ $(".chart_wrapper").css({ "border": '2px solid ' + window.charts_border });
 $("span.btc_primary_currency_pairing").html(window.btc_primary_currency_pairing); 
 
 
-	////////////////////////////////////////////////////////
-	
-	autosize(document.querySelector('textarea[data-autoresize]'));
+//////////////////////////////////////////////////////////////////////////////
 
-	//////////////////////////////////////////////////////////
-  
+
+var today = new Date();
+var date = today.getUTCFullYear() + '-' + force_2_digits(today.getUTCMonth() + 1) + '-' + force_2_digits( today.getUTCDate() );
+var time = force_2_digits( today.getUTCHours() ) + ":" + force_2_digits( today.getUTCMinutes() ) + ":" + force_2_digits( today.getUTCSeconds() );
+
+$("span.utc_timestamp").text('[' + date + ' ' + time + ']');
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+
+autosize(document.querySelector('textarea[data-autoresize]'));
+
+
+///////////////////////////////////////////////////////////////////////////////
+
   
   // Disclaimer / newbie warning / etc links
   $('.show').click(function() {

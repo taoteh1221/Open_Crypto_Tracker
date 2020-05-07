@@ -6,6 +6,14 @@
 /////////////////////////////////////////////////////////////
 
 
+function force_2_digits(num) {
+return ("0" + num).slice(-2);
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function refreshImage(imgElement, imgURL) {   
      
 // create a new timestamp, to force-refresh image
@@ -37,14 +45,11 @@ function update_alert_percent() {
 
 function ajax_placeholder(px_size, message){
 
-div_min_height = px_size + 10;
-
 	if ( message != 'none' ) {
-	font_size = px_size - 1;
-	return '<div style="white-space: nowrap; min-height: ' + div_min_height + 'px;"><span class="align_center" style="min-width: ' + px_size + 'px;"><img src="templates/interface/media/images/loader.gif" height="' + px_size + '" alt="" style="position: relative; top: -5px;" /> <span style="font-size: ' + font_size + 'px;"> ' + message + '</span></div>';
+	return '<div class="align_center" style="white-space: nowrap; font-size: ' + px_size + 'px;"><img src="templates/interface/media/images/loader.gif" height="' + px_size + '" alt="" style="position: relative; vertical-align:middle;" /> ' + message + ' </div>';
 	}
 	else {
-	return '<div style="min-height: ' + div_min_height + 'px;"><span class="align_center" style="min-width: ' + px_size + 'px;"><img src="templates/interface/media/images/loader.gif" height="' + px_size + '" alt="" /></span></div>';
+	return '<div class="align_center"><img src="templates/interface/media/images/loader.gif" height="' + px_size + '" alt="" /></div>';
 	}
 	
 
@@ -233,6 +238,29 @@ function selectAll(toggle, form_name) {
 /////////////////////////////////////////////////////////////
 
 
+function copy_text(elm_id, alert_id) {
+	
+  if (document.selection) {
+    var range = document.body.createTextRange();
+    range.moveToElementText(document.getElementById(elm_id));
+    range.select().createTextRange();
+    document.execCommand("copy");
+  	 document.getElementById(alert_id).innerHTML = 'Text copied to clipboard.';
+  } 
+  else if (window.getSelection) {
+    var range = document.createRange();
+    range.selectNode(document.getElementById(elm_id));
+    window.getSelection().addRange(range);
+    document.execCommand("copy");
+  	 document.getElementById(alert_id).innerHTML = 'Text copied to clipboard.';
+  }
+  
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function watch_toggle(obj_var) {
 	
 		if ( obj_var.checked == true ) {
@@ -312,7 +340,7 @@ var not_whole_num = (log_lines - Math.floor(log_lines)) !== 0;
    			// Wait 4 seconds for it to fully load in the html element, then set scroll to bottom	
 				setTimeout(function(){
 				log_area.scrollTop(log_area[0].scrollHeight);
-   			$('pre code').each(function(i, e) {hljs.highlightBlock(e)}); // Re-initialize highlighting text
+   			log_area.each(function(i, e) {hljs.highlightBlock(e)}); // Re-initialize highlighting text
 				$('#' + elm_id + '_alert').text('');
 				}, 4000);
 	

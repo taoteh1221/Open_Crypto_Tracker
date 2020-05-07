@@ -56,7 +56,7 @@ store_file_contents($base_dir . '/cache/vars/default_btc_primary_currency_pairin
 
 
 // Charts / alerts / etc
-if ( $runtime_mode == 'cron' || $runtime_mode == 'api' || $runtime_mode == 'webhook' ) {
+if ( $runtime_mode == 'cron' || $runtime_mode == 'int_api' || $runtime_mode == 'webhook' ) {
 
 
     // MUST be called FIRST at runtime by the default bitcoin market, to set this var for reuse later in runtime

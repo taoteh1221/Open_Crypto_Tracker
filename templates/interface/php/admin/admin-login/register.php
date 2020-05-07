@@ -264,10 +264,9 @@ var badColor = "#ff4747";
    captcha_alert.style.color = goodColor;
    captcha_alert.innerHTML = "Captcha code included."
    
-   document.getElementById("admin_register_button").innerHTML = ajax_placeholder(17, "Submitting...");
-	//document.set_admin.submit();
+   document.getElementById("admin_register_button").innerHTML = ajax_placeholder(15, "Submitting...");
+	document.getElementById("admin_register_button").disable = true;
 	$("#set_admin").submit(); // Triggers "app reloading" sequence
-	document.getElementById("admin_register_button").disable.true;
 	}
 	else {
 		

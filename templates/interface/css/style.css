@@ -626,7 +626,7 @@ min-width: 1320px;
 }
 
 
-#api_error_alert {
+#app_error_alert {
 font-weight: bold; 
 padding: 6px;
 }

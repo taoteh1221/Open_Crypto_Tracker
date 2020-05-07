@@ -19,7 +19,7 @@
 	
 	$bundle_error_logs .= $logs_array['security_error'];
 	
-	$bundle_error_logs .= $logs_array['api_error'];
+	$bundle_error_logs .= $logs_array['ext_api_error'];
 	
 	$bundle_error_logs .= $logs_array['market_error'];
 	
@@ -39,7 +39,7 @@
 	
 	$bundle_error_logs .= $logs_array['security_debugging'];
 	
-	$bundle_error_logs .= $logs_array['api_debugging'];
+	$bundle_error_logs .= $logs_array['ext_api_debugging'];
 	
 	$bundle_error_logs .= $logs_array['market_debugging'];
 	
@@ -51,7 +51,7 @@
 
 ?>
             	
-    <div id="api_error_alert"><?=$bundle_error_logs?></div>
+    <div id="app_error_alert"><?=$bundle_error_logs?></div>
             	
     <p class='align_center'><a href='https://taoteh1221.github.io' target='_blank' title='Download the latest version here.'>Latest Releases (running v<?=$app_version?>)</a>
     

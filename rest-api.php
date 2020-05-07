@@ -5,7 +5,7 @@
 
 
 // Runtime mode
-$runtime_mode = 'api';
+$runtime_mode = 'int_api';
 
 
 // Load app config / etc

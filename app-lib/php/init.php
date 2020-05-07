@@ -51,7 +51,7 @@ date_default_timezone_set('UTC');
 
 
 // Application version
-$app_version = '4.10.2';  // 2020/MAY/3RD
+$app_version = '4.11.0';  // 2020/MAY/7TH
 
 
 // Load app functions
@@ -91,12 +91,12 @@ exit;
 // INCREASE CERTAIN RUNTIME SPEEDS
 // If we are just running a captcha image, ONLY run captcha library for runtime speed (exit after)
 if (  $runtime_mode == 'captcha' ) {
-require_once('app-lib/php/other/captcha-lib.php');
+require_once('app-lib/php/other/security/captcha-lib.php');
 exit;
 }
 // If we are just running log retrieval, ONLY run logs library for runtime speed (exit after)
 elseif (  $runtime_mode == 'logs' ) {
-require_once('app-lib/php/other/logs-lib.php');
+require_once('app-lib/php/other/debugging/logs-lib.php');
 exit;
 }
 

@@ -312,7 +312,7 @@ let chartConfig_<?=$key?> = {
  			  "adjust-layout": true,
  			  "alpha-area": 0.5
  		},
-  		backgroundColor: "white",
+  		backgroundColor: "#f2f2f2",
       series: [
         <?php echo $chart_config . "\n" ?>
       ]

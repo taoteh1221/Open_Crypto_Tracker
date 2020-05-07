@@ -118,7 +118,7 @@ background: #d6d4d4;
 }
 
 
-.red, #api_error_alert {
+.red, #app_error_alert {
 color: #D61F00 !important;
 }
 
@@ -173,7 +173,7 @@ border-top: 2px solid black;
 
 .modaal-container {
     color: #000 !important;
-    background: #f2f2f2 !important;
+    background: #ffffff !important;
 }
 
 
