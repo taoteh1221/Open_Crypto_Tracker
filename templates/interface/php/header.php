@@ -47,12 +47,6 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 	<link rel="stylesheet" href="templates/interface/css/<?=$theme_selected?>.admin.css" type="text/css" />
 	<?php
 	}
-	
-	if ( isset($_SESSION['admin_logged_in']) ) {
-	?>
-	<link rel="stylesheet" href="templates/interface/css/highlightjs.min.css" type="text/css" />
-	<?php
-	}
 	?>
 	
 	<style>
@@ -83,8 +77,11 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 	<script src="app-lib/js/zingchart.min.js"></script>
 	
 	<?php
-	if ( isset($_SESSION['admin_logged_in']) ) {
+	// MSIE doesn't like highlightjs
+	if ( is_msie() == false ) {
 	?>
+	
+	<link rel="stylesheet" href="templates/interface/css/highlightjs.min.css" type="text/css" />
 	
 	<script src="app-lib/js/highlight.min.js"></script>
 	
@@ -94,6 +91,22 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 	hljs.initHighlightingOnLoad(); // Load on page load
 	</script>
 	
+	<?php
+	}
+	// Fix some MSIE CSS stuff
+	else {
+	?>
+	<style>
+	
+	pre code {
+	color: #808080;
+	}
+
+	pre code.rounded {
+	border: 0px solid black;
+	}
+	
+	</style>
 	<?php
 	}
 	?>
@@ -207,14 +220,14 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 		 
     
 	 	<div class='align_center loading bitcoin' id='app_loading'>
-	 	<img src="templates/interface/media/images/loader.gif" height='60' alt="" style='vertical-align: middle;' /> <span id='app_loading_span'>Loading App...</span>
+	 	<img src="templates/interface/media/images/loader.gif" height='57' alt="" style='vertical-align: middle;' /> <span id='app_loading_span'>Loading App...</span>
 	 	</div>
 	 
 		
 		<div class='align_left' id='content_wrapper'>
 				
 		 
-				<div id='loading_subsections' class='align_center loading bitcoin'><img src="templates/interface/media/images/loader.gif" height='20' alt="" style='vertical-align: middle;' /> <span id='loading_subsections_span'></span></div>
+				<div id='loading_subsections' class='align_center loading bitcoin'><img src="templates/interface/media/images/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <span id='loading_subsections_span'></span></div>
 		
 					
 		<!-- header.php END -->

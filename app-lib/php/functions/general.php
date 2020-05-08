@@ -74,6 +74,22 @@ return ($updates_daily * $range);
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
 
+
+function is_msie() {
+
+	if ( preg_match("/msie/i", $_SERVER['HTTP_USER_AGENT']) || preg_match("/trident/i", $_SERVER['HTTP_USER_AGENT']) ) {
+	return true;
+	}
+	else {
+	return false;
+	}
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
 // To keep admin nonce key a secret, and make CSRF attacks harder with a different key per submission item
 function admin_hashed_nonce($key) {
 	

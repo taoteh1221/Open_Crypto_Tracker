@@ -134,8 +134,8 @@ curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
 curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params) ); // Encode post data with http_build_query()
 
 // Timeout in seconds (so we don't hang if API is not responsive)
-curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
-curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
+curl_setopt($ch, CURLOPT_TIMEOUT, 60);
 
 <?php
 if ( $htaccess_username != '' && $htaccess_password != '' ) {
@@ -354,31 +354,31 @@ var_dump($api_data_array);
 {
     "market_list": {
         "binance": [
+            "binance-atom-btc",
+            "binance-atom-tusd",
+            "binance-atom-usdc",
             "binance-btc-tusd",
             "binance-btc-usdc",
             "binance-btc-usdt",
+            "binance-data-btc",
+            "binance-data-eth",
+            "binance-dcr-btc",
+            "binance-doge-btc",
+            "binance-doge-usdt",
             "binance-eth-btc",
             "binance-eth-tusd",
             "binance-eth-usdc",
             "binance-eth-usdt",
-            "binance-xmr-btc",
-            "binance-xmr-eth",
-            "binance-dcr-btc",
             "binance-ltc-btc",
             "binance-ltc-eth",
             "binance-ltc-tusd",
             "binance-ltc-usdc",
             "binance-ltc-usdt",
-            "binance-tusd-usdt",
-            "binance-atom-btc",
-            "binance-atom-tusd",
-            "binance-atom-usdc",
             "binance-mana-btc",
             "binance-mana-eth",
-            "binance-doge-btc",
-            "binance-doge-usdt",
-            "binance-data-btc",
-            "binance-data-eth"
+            "binance-tusd-usdt",
+            "binance-xmr-btc",
+            "binance-xmr-eth"
         ]
     },
     "minutes_cached": 4

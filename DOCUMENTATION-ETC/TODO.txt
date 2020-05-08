@@ -85,6 +85,9 @@ FEATURES / STRUCTURING SECTION
 ///////////////////////////////////////////////////////
 
 
+Add php logic to grab rss feeds from major crypto news sites and reddit? Add to new tab called "news", and have each feed activated in same format as the charts page modal?
+
+
 Prune system stats chart data older than 90 days, via the scheduled maintenance logic.
 
 
@@ -104,9 +107,6 @@ Mail trading notes to admin email, only if user logged in as admin.
 
 
 Option to use new zip file encryption password feature to encrypt portfolio spreadsheet exports when downloading exported portfolio data.
-
-
-Have random tip display a "next tip" link...consider putting it at top of charts page too.
 
 
 Add additional ability to do telegram webhooks, to query asset prices at different exchanges through telegram chat with the chat bot. Example: "/price ETH/USDT @ Binance"

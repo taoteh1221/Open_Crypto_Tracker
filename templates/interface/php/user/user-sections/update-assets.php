@@ -179,6 +179,7 @@
 	<p><a style='font-weight: bold;' href='README.txt' target='_blank'>Editing The Portfolio Assets List, and Enabling Email / Text / Alexa / Google Home Exchange Price Alerts (installation on a Raspberry Pi or website)</a></p>
 	
 	
+	<!-- #DON'T# CONVERT TO JAVASCRIPT WITH 'NEXT TIP' LINK...I think tips will be better remembered if it just loads one tip per app runtime. -->
 	<p class='bitcoin random_tip'><b>Random Tip</b>: <?=random_array_var($random_tips)?></p>
 	
 			

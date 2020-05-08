@@ -2,7 +2,6 @@
 // Copyright 2014-2020 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
 
 
-
 /////////////////////////////////////////////////////////////
 
 
@@ -45,11 +44,13 @@ function update_alert_percent() {
 
 function ajax_placeholder(px_size, message){
 
-	if ( message != 'none' ) {
-	return '<div class="align_center" style="white-space: nowrap; font-size: ' + px_size + 'px;"><img src="templates/interface/media/images/loader.gif" height="' + px_size + '" alt="" style="position: relative; vertical-align:middle;" /> ' + message + ' </div>';
+	if ( message ) {
+	var img_height = px_size - 2;
+	return '<div class="align_center" style="white-space: nowrap; font-size: ' + px_size + 'px;"><img src="templates/interface/media/images/loader.gif" height="' + img_height + '" alt="" style="position: relative; vertical-align:middle;" /> ' + message + ' </div>';
 	}
 	else {
-	return '<div class="align_center"><img src="templates/interface/media/images/loader.gif" height="' + px_size + '" alt="" /></div>';
+	var img_height = px_size;
+	return '<div class="align_center"><img src="templates/interface/media/images/loader.gif" height="' + img_height + '" alt="" /></div>';
 	}
 	
 
@@ -239,21 +240,12 @@ function selectAll(toggle, form_name) {
 
 
 function copy_text(elm_id, alert_id) {
-	
-  if (document.selection) {
-    var range = document.body.createTextRange();
-    range.moveToElementText(document.getElementById(elm_id));
-    range.select().createTextRange();
-    document.execCommand("copy");
-  	 document.getElementById(alert_id).innerHTML = 'Text copied to clipboard.';
-  } 
-  else if (window.getSelection) {
-    var range = document.createRange();
-    range.selectNode(document.getElementById(elm_id));
-    window.getSelection().addRange(range);
-    document.execCommand("copy");
-  	 document.getElementById(alert_id).innerHTML = 'Text copied to clipboard.';
-  }
+    
+var range = document.createRange();
+range.selectNode(document.getElementById(elm_id));
+window.getSelection().addRange(range);
+document.execCommand("copy");
+document.getElementById(alert_id).innerHTML = 'Text copied to clipboard.';
   
 }
 
@@ -286,6 +278,45 @@ function watch_toggle(obj_var) {
 		$("#"+obj_var.value+"_amount").removeAttr("readonly");
 		$("#"+obj_var.value+"_amount").val( $("#"+obj_var.value+"_restore").val() );
 		}
+	
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function is_msie() {
+
+var ua = window.navigator.userAgent;
+var msie = ua.indexOf('MSIE ');
+
+	if (msie > 0) {
+   // IE 10 or older => return version number
+   var is_msie = parseInt(ua.substring(msie + 5, ua.indexOf('.', msie)), 10);
+   }
+
+
+	if ( !is_msie ) {
+	
+	var ua = window.navigator.userAgent;
+	var trident = ua.indexOf('Trident/');
+
+		if (trident > 0) {
+   	// IE 11 => return version number
+   	var rv = ua.indexOf('rv:');
+   	var is_msie = parseInt(ua.substring(rv + 3, ua.indexOf('.', rv)), 10);
+   	}
+
+	}
+
+
+	if ( is_msie ) {
+	return is_msie;
+	}
+	else {
+	return false;
+	}
+	
 	
 }
 
@@ -340,7 +371,12 @@ var not_whole_num = (log_lines - Math.floor(log_lines)) !== 0;
    			// Wait 4 seconds for it to fully load in the html element, then set scroll to bottom	
 				setTimeout(function(){
 				log_area.scrollTop(log_area[0].scrollHeight);
-   			log_area.each(function(i, e) {hljs.highlightBlock(e)}); // Re-initialize highlighting text
+					
+					// MSIE doesn't like highlightjs
+					if ( is_msie() == false ) {
+   				log_area.each(function(i, e) {hljs.highlightBlock(e)}); // Re-initialize highlighting text
+					}
+   			
 				$('#' + elm_id + '_alert').text('');
 				}, 4000);
 	

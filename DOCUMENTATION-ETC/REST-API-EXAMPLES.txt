@@ -94,8 +94,8 @@ curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
 curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params) ); // Encode post data with http_build_query()
 
 // Timeout in seconds (so we don't hang if API is not responsive)
-curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
-curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
+curl_setopt($ch, CURLOPT_TIMEOUT, 60);
 
 // Strict SSL connections, or not? (see notes next to settings)
 // If your app's SSL certificate is SELF-SIGNED (not CA issued), 

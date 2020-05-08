@@ -695,6 +695,7 @@ $app_config['power_user']['bitcoin_preferred_currency_markets'] = array(
 						//'lowercase_btc_market_or_stablecoin_pairing' => 'PREFERRED_MARKET',
 							'eur' => 'kraken',  // WAY BETTER api, WAY BETTER price discovery than ALL alternatives
 							'dai' => 'kraken',  // WAY MORE reputable than hitBTC
+							'chf' => 'localbitcoins',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							'inr' => 'localbitcoins',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							'rub' => 'localbitcoins',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							);
@@ -2028,12 +2029,17 @@ $app_config['portfolio_assets'] = array(
                                          'binance' => 'ATOMTUSD',
                                                     ),
                                                     
+                                    'usd' => array(
+                                         'binance_us' => 'ATOMUSD',
+                                                    ),
+                                                    
                                     'usdc' => array(
                                          'binance' => 'ATOMUSDC',
                                          'poloniex' => 'USDC_ATOM',
                                                     ),
                                                     
                                     'usdt' => array(
+                                         'binance_us' => 'ATOMUSDT',
                                          'hotbit' => 'ATOM_USDT',
                                          'poloniex' => 'USDT_ATOM',
                                          'bitforex' => 'coin-usdt-atom',

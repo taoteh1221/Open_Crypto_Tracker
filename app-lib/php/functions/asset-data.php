@@ -229,6 +229,8 @@ $result = array();
 	
 	}
 	
+	sort($result);
+	
 	
 	if ( sizeof($result) < 1 ) {
 	return array('error' => 'No markets found for exchange: ' . $exchange);

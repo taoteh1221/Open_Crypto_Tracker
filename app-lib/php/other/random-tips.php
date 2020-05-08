@@ -8,7 +8,7 @@
 // Random tips displayed in the UI
 $random_tips = array(
 
-                    "For longer shot (high risk) small marketcap assets, consider getting NO MORE THAN a 'moon bag' worth (between 1% and 5% of your total portfolio worth). If it permanently halves in value you don't lose much. If it goes up 500 to 1000 percent, rebalance it to be a smaller / more evenly distributed percentage of your portfolio, by selling some of it.",
+                    "For longer shot (#VERY# high risk) small marketcap assets, HIGHLY consider getting #NO MORE THAN# a 'moon bag' worth (#NO MORE THAN# between 1% and 5% of your portfolio PER-ASSET, AND A TOTAL OF #NO MORE THAN# 10% of your portfolio). If it goes down 50% and keeps going down, sell it and you don't lose much. If it goes up between 500% and 1000% (5x to 10x original value), rebalance it to only be between 1% and 5% of your portfolio again (by selling some of it).",
                     
                     "Leverage trading is <u>EXTREMELY RISKY</u> (and even more so in crypto markets). Never put more than ~5% of your total investment worth into leverage trades, or you will <u>RISK LOSING EVERYTHING</u>!",
                     
