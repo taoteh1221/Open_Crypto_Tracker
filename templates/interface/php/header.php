@@ -98,9 +98,8 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 	?>
 	<style>
 	
-	pre code {
+	pre {
 	color: #808080;
-	background-color: #f0f0f0;
 	}
 	
 	</style>
