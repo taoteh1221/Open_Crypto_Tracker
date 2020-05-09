@@ -20,7 +20,7 @@
 		<p class='bitcoin'>Log format: </p>
 		
 	   <!-- Looks good highlighted as: less, yaml  -->
-	   <pre class='rounded' style='display: inline-block;'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>[UTC timestamp] runtime_mode => error_type: error_message; tracing [ (if log verbosity set to verbose) ]</code></pre>
+	   <pre class='rounded' style='display: inline-block;<?=( is_msie() == false ? ' padding-top: 1em !important;' : '' )?>'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>[UTC timestamp] runtime_mode => error_type: error_message; tracing [ (if log verbosity set to verbose) ]</code></pre>
 	
 	
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> Error Log </legend>

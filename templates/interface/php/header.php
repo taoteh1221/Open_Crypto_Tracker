@@ -93,7 +93,7 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 	
 	<?php
 	}
-	// Fix some MSIE CSS stuff
+	// Fix some minor MSIE CSS stuff
 	else {
 	?>
 	<style>
