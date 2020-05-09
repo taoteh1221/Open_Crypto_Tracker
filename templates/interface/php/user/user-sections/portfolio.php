@@ -943,7 +943,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 		<p class='bitcoin'>Log format: </p>
 		
 	   <!-- Looks good highlighted as: less, yaml  -->
-	   <pre><code class='hide-x-scroll less rounded' style='white-space: nowrap; width: auto; display: inline-block;'>[UTC timestamp] runtime_mode => error_type: error_message; tracing [ (if log verbosity set to verbose) ]</code></pre>
+	   <pre class='rounded'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>[UTC timestamp] runtime_mode => error_type: error_message; tracing [ (if log verbosity set to verbose) ]</code></pre>
 	
 	
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> Error Log </legend>
@@ -963,7 +963,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	        </p>
 	        
 	        <!-- Looks good highlighted as: less, yaml  -->
-	        <pre><code class='hide-x-scroll less rounded' style='width: 100%; height: 750px;' id='errors_log'></code></pre>
+	        <pre class='rounded'><code class='hide-x-scroll less' style='width: 100%; height: 750px;' id='errors_log'></code></pre>
 			  
 			  <script>
 			  system_logs('errors_log');
@@ -991,7 +991,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	        </p>
 	        
 	        <!-- Looks good highlighted as: less, yaml  -->
-	        <pre><code class='hide-x-scroll less rounded' style='width: 100%; height: 750px;' id='smtp_errors_log'></code></pre>
+	        <pre class='rounded'><code class='hide-x-scroll less' style='width: 100%; height: 750px;' id='smtp_errors_log'></code></pre>
 			  
 			  <script>
 			  system_logs('smtp_errors_log');
@@ -1019,7 +1019,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	        </p>
 	        
 	        <!-- Looks good highlighted as: less, yaml  -->
-	        <pre><code class='hide-x-scroll less rounded' style='width: 100%; height: 750px;' id='debugging_log'></code></pre>
+	        <pre class='rounded'><code class='hide-x-scroll less' style='width: 100%; height: 750px;' id='debugging_log'></code></pre>
 			  
 			  <script>
 			  system_logs('debugging_log');

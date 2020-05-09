@@ -18,7 +18,7 @@ $hns_address = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
 // Get API data
 $url_request = 'https://api.hnscan.com/txs?address='.$hns_address.'&limit=10&offset=0';
 
-$api_data = @api_data('url', $url_request, 70); // Cache 70 minutes
+$api_data = @external_api_data('url', $url_request, 70); // Cache 70 minutes
     
 $hns_data = json_decode($api_data, true);
 

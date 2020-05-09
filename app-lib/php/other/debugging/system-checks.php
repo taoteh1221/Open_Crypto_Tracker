@@ -102,16 +102,16 @@ if ( update_cache_file($base_dir . '/cache/events/scan-htaccess-security.dat', 6
 	// cache check
 	$htaccess_cache_test_url = $base_url . 'cache/htaccess_security_check.dat';
 
-	$htaccess_cache_test_1 = trim( @api_data('url', $htaccess_cache_test_url, 0) ); // HTTPS CHECK, Don't cache API data
+	$htaccess_cache_test_1 = trim( @external_api_data('url', $htaccess_cache_test_url, 0) ); // HTTPS CHECK, Don't cache API data
 
-	$htaccess_cache_test_2 = trim( @api_data('url', preg_replace("/https:/i", "http:", $htaccess_cache_test_url), 0) ); // HTTP CHECK, Don't cache API data
+	$htaccess_cache_test_2 = trim( @external_api_data('url', preg_replace("/https:/i", "http:", $htaccess_cache_test_url), 0) ); // HTTP CHECK, Don't cache API data
 	
 	// cron-plugins check
 	$htaccess_plugins_test_url = $base_url . 'cron-plugins/htaccess_security_check.dat';
 
-	$htaccess_plugins_test_1 = trim( @api_data('url', $htaccess_plugins_test_url, 0) ); // HTTPS CHECK, Don't cache API data
+	$htaccess_plugins_test_1 = trim( @external_api_data('url', $htaccess_plugins_test_url, 0) ); // HTTPS CHECK, Don't cache API data
 
-	$htaccess_plugins_test_2 = trim( @api_data('url', preg_replace("/https:/i", "http:", $htaccess_plugins_test_url), 0) ); // HTTP CHECK, Don't cache API data
+	$htaccess_plugins_test_2 = trim( @external_api_data('url', preg_replace("/https:/i", "http:", $htaccess_plugins_test_url), 0) ); // HTTP CHECK, Don't cache API data
 	
 	
 		if ( preg_match("/TEST_HTACCESS_SECURITY_123_TEST/i", $htaccess_cache_test_1)

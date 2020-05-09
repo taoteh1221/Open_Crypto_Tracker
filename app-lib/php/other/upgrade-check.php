@@ -11,7 +11,7 @@
 	if ( isset($app_config['comms']['upgrade_check']) && $app_config['comms']['upgrade_check'] != 'off' && update_cache_file($base_dir . '/cache/vars/upgrade_check_latest_version.dat', 1440) == true ) {
 	
 	
-	$upgrade_check_jsondata = @api_data('url', 'https://api.github.com/repos/taoteh1221/DFD_Cryptocoin_Values/releases/latest', 0); // Don't cache API data
+	$upgrade_check_jsondata = @external_api_data('url', 'https://api.github.com/repos/taoteh1221/DFD_Cryptocoin_Values/releases/latest', 0); // Don't cache API data
 	
 	$upgrade_check_data = json_decode($upgrade_check_jsondata, true);
 	

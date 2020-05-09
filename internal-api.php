@@ -61,9 +61,9 @@ $hash_check = md5($_GET['data_set']);
 
 
 	// If a cache exists for this request that's NOT OUTDATED, use cache to speed things up
-	if ( update_cache_file($base_dir . '/cache/rest-api/'.$hash_check.'.dat', $app_config['power_user']['local_api_cache_time']) == false ) {
+	if ( update_cache_file($base_dir . '/cache/internal-api/'.$hash_check.'.dat', $app_config['power_user']['local_api_cache_time']) == false ) {
 		
-	$json_result = trim( file_get_contents($base_dir . '/cache/rest-api/'.$hash_check.'.dat') );
+	$json_result = trim( file_get_contents($base_dir . '/cache/internal-api/'.$hash_check.'.dat') );
 
 	// Log access event for this ip address (for throttling)
 	store_file_contents($base_dir . '/cache/events/throttling/local_api_incoming_ip_' . $store_ip . '.dat', time_date_format(false, 'pretty_date_time') );
@@ -89,16 +89,16 @@ $hash_check = md5($_GET['data_set']);
 		$result = market_conversion_api($data_set_array[1], $all_markets_data_array);
 		}
 		elseif ( $data_set_array[0] == 'asset_list' ) {
-		$result = asset_list_api();
+		$result = asset_list_internal_api();
 		}
 		elseif ( $data_set_array[0] == 'exchange_list' ) {
-		$result = exchange_list_api();
+		$result = exchange_list_internal_api();
 		}
 		elseif ( $data_set_array[0] == 'market_list' ) {
 		$result = market_list_api($data_set_array[1]);
 		}
 		elseif ( $data_set_array[0] == 'conversion_list' ) {
-		$result = conversion_list_api();
+		$result = conversion_list_internal_api();
 		}
 		// Non-existent endpoint error message
 		else {
@@ -119,7 +119,7 @@ $hash_check = md5($_GET['data_set']);
 	$json_result = json_encode($result, JSON_PRETTY_PRINT);
 	
 	// Cache the result
-	store_file_contents($base_dir . '/cache/rest-api/'.$hash_check.'.dat', $json_result);
+	store_file_contents($base_dir . '/cache/internal-api/'.$hash_check.'.dat', $json_result);
 
 	// Log access event for this ip address (for throttling)
 	store_file_contents($base_dir . '/cache/events/throttling/local_api_incoming_ip_' . $store_ip . '.dat', time_date_format(false, 'pretty_date_time') );

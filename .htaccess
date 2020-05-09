@@ -41,7 +41,7 @@ RewriteRule hook/([^\.]+)$ web-hook.php?webhook_hash=$1 [NC,L]
 
 # API
 RewriteCond %{REQUEST_URI} api/(.*) [NC]
-RewriteRule api/([^\.]+)$ rest-api.php?data_set=$1 [NC,L]
+RewriteRule api/([^\.]+)$ internal-api.php?data_set=$1 [NC,L]
 
 
 ####~~~~~~Pretty links END~~~~~~####

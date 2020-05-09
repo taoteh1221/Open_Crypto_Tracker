@@ -100,10 +100,7 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 	
 	pre code {
 	color: #808080;
-	}
-
-	pre code.rounded {
-	border: 0px solid black;
+	background-color: #f0f0f0;
 	}
 	
 	</style>

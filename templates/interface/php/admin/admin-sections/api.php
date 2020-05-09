@@ -34,7 +34,7 @@
 	        
 	    <p class='bitcoin'>Bash / CURL example:</p>
 	        	        
-<pre><code class='hide-x-scroll bash rounded' style='width: auto; height: auto;'># CURL command line example
+<pre class='rounded'><code class='hide-x-scroll bash' style='width: auto; height: auto;'># CURL command line example
 # Add --insecure to the command, if your app's SSL certificate
 # is SELF-SIGNED (not CA issued), #OR THE COMMAND WON'T WORK#
 
@@ -45,7 +45,7 @@ curl<?=( $htaccess_username != '' && $htaccess_password != '' ? ' -u "' . $htacc
 	    <p class='bitcoin' style='margin-top: 45px;'>Javascript example:</p>
 	        	        	        
 	                
-<pre><code class='hide-x-scroll javascript rounded' style='width: auto; height: auto;'>// Javascript example
+<pre class='rounded'><code class='hide-x-scroll javascript' style='width: auto; height: auto;'>// Javascript example
 
 <?php
 if ( $htaccess_username != '' && $htaccess_password != '' ) {
@@ -104,7 +104,7 @@ api_request.send(params);
 	    <p class='bitcoin' style='margin-top: 45px;'>PHP / CURL example:</p>
 	        	        
 	        
-<pre><code class='hide-x-scroll php rounded' style='width: auto; height: auto;'>// CURL PHP example (requires CURL PHP module)
+<pre class='rounded'><code class='hide-x-scroll php' style='width: auto; height: auto;'>// CURL PHP example (requires CURL PHP module)
 
 // PHP version
 if (!defined('PHP_VERSION_ID')) {
@@ -177,7 +177,7 @@ var_dump($api_data_array);
 	        
 	    <p class='bitcoin'>/api/market_conversion/eur/kraken-btc-usd,coinbase-dai-usdc,coinbase-eth-usd</p>
 	        	        
-<pre><code class='hide-x-scroll json rounded' style='width: auto; height: auto;'>
+<pre class='rounded'><code class='hide-x-scroll json' style='width: auto; height: auto;'>
 {
     "market_conversion": {
         "kraken-btc-usd": {
@@ -230,7 +230,7 @@ var_dump($api_data_array);
 
 	    <p class='bitcoin' style='margin-top: 45px;'>/api/market_conversion/market_only/kraken-btc-usd,coinbase-dai-usdc,coinbase-eth-usd</p>
 	        	        
-<pre><code class='hide-x-scroll json rounded' style='width: auto; height: auto;'>
+<pre class='rounded'><code class='hide-x-scroll json' style='width: auto; height: auto;'>
 {
     "market_conversion": {
         "kraken-btc-usd": {
@@ -264,7 +264,7 @@ var_dump($api_data_array);
 	        
 	    <p class='bitcoin' style='margin-top: 45px;'>/api/asset_list</p>
 	        	        
-<pre><code class='hide-x-scroll json rounded' style='width: auto; height: auto;'>
+<pre class='rounded'><code class='hide-x-scroll json' style='width: auto; height: auto;'>
 {
     "asset_list": [
         "ant",
@@ -294,7 +294,7 @@ var_dump($api_data_array);
 	        
 	    <p class='bitcoin' style='margin-top: 45px;'>/api/exchange_list</p>
 	        	        
-<pre><code class='hide-x-scroll json rounded' style='width: auto; height: auto;'>
+<pre class='rounded'><code class='hide-x-scroll json' style='width: auto; height: auto;'>
 {
     "exchange_list": [
         "bigone",
@@ -350,7 +350,7 @@ var_dump($api_data_array);
 	        
 	    <p class='bitcoin' style='margin-top: 45px;'>/api/market_list/binance</p>
 	        	        
-<pre><code class='hide-x-scroll json rounded' style='width: auto; height: auto;'>
+<pre class='rounded'><code class='hide-x-scroll json' style='width: auto; height: auto;'>
 {
     "market_list": {
         "binance": [
@@ -388,7 +388,7 @@ var_dump($api_data_array);
 	        
 	    <p class='bitcoin' style='margin-top: 45px;'>/api/conversion_list</p>
 	        	        
-<pre><code class='hide-x-scroll json rounded' style='width: auto; height: auto;'>
+<pre class='rounded'><code class='hide-x-scroll json' style='width: auto; height: auto;'>
 {
     "conversion_list": [
         "aed",

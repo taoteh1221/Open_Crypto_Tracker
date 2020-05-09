@@ -2679,7 +2679,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Optimizations
 
--Better debug tracing on api_data() function
+-Better debug tracing on external_api_data() function
 
 -Bug fix for reliable coingecko API data retrieval
 
@@ -3191,9 +3191,11 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 
 -------------------------------------------------------------------
-4.11.0:
+4.10.3:
 
--Misc. UI / UX improvements
+-Misc. bug fixes / UX / compatibility improvements
+
+-Code cleanup (semantics)
 
 IMPORTANT UPGRADE NOTES: 
 

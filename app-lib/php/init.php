@@ -51,7 +51,7 @@ date_default_timezone_set('UTC');
 
 
 // Application version
-$app_version = '4.11.0';  // 2020/MAY/7TH
+$app_version = '4.10.3';  // 2020/MAY/9TH
 
 
 // Load app functions
@@ -247,12 +247,12 @@ if ( dir_structure('cache/alerts/') != true
 || dir_structure('cache/charts/system/archival/') != true
 || dir_structure('cache/charts/system/lite/') != true
 || dir_structure('cache/events/throttling/') != true
-|| dir_structure('cache/logs/debugging/api/') != true
-|| dir_structure('cache/logs/errors/api/') != true
-|| dir_structure('cache/rest-api/') != true
+|| dir_structure('cache/internal-api/') != true
+|| dir_structure('cache/logs/debugging/external_api/') != true
+|| dir_structure('cache/logs/errors/external_api/') != true
 || dir_structure('cache/secured/activation/') != true
-|| dir_structure('cache/secured/apis/') != true
 || dir_structure('cache/secured/backups/') != true
+|| dir_structure('cache/secured/external_api/') != true
 || dir_structure('cache/secured/messages/') != true
 || dir_structure('cache/vars/') != true
 || dir_structure('cron-plugins/') != true ) {

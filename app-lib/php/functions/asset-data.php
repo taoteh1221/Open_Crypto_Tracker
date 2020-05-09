@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////////
 
 
-function exchange_list_api() {
+function exchange_list_internal_api() {
 
 global $app_config;
 
@@ -136,7 +136,7 @@ return $results;
 ////////////////////////////////////////////////////////
 
 
-function asset_list_api() {
+function asset_list_internal_api() {
 
 global $app_config;
 
@@ -160,7 +160,7 @@ return array('asset_list' => $result);
 ////////////////////////////////////////////////////////
 
 
-function conversion_list_api() {
+function conversion_list_internal_api() {
 
 global $app_config;
 
@@ -677,9 +677,9 @@ $pairing = strtolower($pairing);
 		foreach ( $app_config['portfolio_assets'][strtoupper($pairing)]['market_pairing']['btc'] as $market_key => $market_value ) {
 					
 					
-			if ( isset($whitelist) && $whitelist == $market_key && !array_key_exists($market_key, $btc_pairing_markets_blacklist[$pairing])
-			|| isset($whitelist) && $whitelist != $market_key && array_key_exists($whitelist, $btc_pairing_markets_blacklist[$pairing]) && !array_key_exists($market_key, $btc_pairing_markets_blacklist[$pairing])
-			|| !isset($whitelist) && !array_key_exists($market_key, $btc_pairing_markets_blacklist[$pairing]) ) {
+			if ( isset($whitelist) && $whitelist == $market_key && !in_array($market_key, $btc_pairing_markets_blacklist[$pairing])
+			|| isset($whitelist) && $whitelist != $market_key && in_array($whitelist, $btc_pairing_markets_blacklist[$pairing]) && !in_array($market_key, $btc_pairing_markets_blacklist[$pairing])
+			|| !isset($whitelist) && !in_array($market_key, $btc_pairing_markets_blacklist[$pairing]) ) {
 				
    		$btc_pairing_markets[$pairing.'_btc'] = asset_market_data(strtoupper($pairing), $market_key, $market_value)['last_trade'];
    		
@@ -723,7 +723,7 @@ $pairing = strtolower($pairing);
 	
 		// Include a basic array check, since we want valid data to avoid an endless loop in our fallback support
 		if ( !is_array($app_config['portfolio_assets']['BTC']['market_pairing'][$pairing]) ) {
-   	app_logging('market_error', 'pairing_market_value() - update failure for ' . $pairing, 'non_existant_btc_pairing: ' . $pairing);
+   	app_logging('market_error', 'pairing_market_value() - update failure for ' . $pairing . ' (non-existent pairing)');
 		return null;
 		}
 		// Preferred BITCOIN market(s) for getting a certain currency's value, if in config and more than one market exists
@@ -736,9 +736,9 @@ $pairing = strtolower($pairing);
 		foreach ( $app_config['portfolio_assets']['BTC']['market_pairing'][$pairing] as $market_key => $market_value ) {
 					
 					
-			if ( isset($whitelist) && $whitelist == $market_key && !array_key_exists($market_key, $btc_pairing_markets_blacklist[$pairing])
-			|| isset($whitelist) && $whitelist != $market_key && array_key_exists($whitelist, $btc_pairing_markets_blacklist[$pairing]) && !array_key_exists($market_key, $btc_pairing_markets_blacklist[$pairing])
-			|| !isset($whitelist) && !array_key_exists($market_key, $btc_pairing_markets_blacklist[$pairing]) ) {
+			if ( isset($whitelist) && $whitelist == $market_key && !in_array($market_key, $btc_pairing_markets_blacklist[$pairing])
+			|| isset($whitelist) && $whitelist != $market_key && in_array($whitelist, $btc_pairing_markets_blacklist[$pairing]) && !in_array($market_key, $btc_pairing_markets_blacklist[$pairing])
+			|| !isset($whitelist) && !in_array($market_key, $btc_pairing_markets_blacklist[$pairing]) ) {
 						
    		$btc_pairing_markets[$pairing.'_btc'] = number_format( (1 /  asset_market_data(strtoupper($pairing), $market_key, $market_value)['last_trade'] ), 8, '.', '');
    					

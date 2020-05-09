@@ -608,7 +608,7 @@ $cache_filename = preg_replace("/:/", "_", $cache_filename);
 	// SESSION VAR first, to avoid duplicate alerts at runtime (and longer term cache file locked for writing further down, after logs creation)
 	$proxies_checked[] = $cache_filename;
 		
-	$jsondata = @api_data('proxy-check', $proxy_test_url, 0, '', '', $problem_proxy);
+	$jsondata = @external_api_data('proxy-check', $proxy_test_url, 0, '', '', $problem_proxy);
 	
 	$data = json_decode($jsondata, true);
 	
@@ -856,7 +856,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 					// Only 5 notifyme messages allowed per minute
 					if ( $processed_messages['notifyme_count'] < 5 ) {
 					
-					$notifyme_response = @api_data('array', $notifyme_params, 0, 'https://api.notifymyecho.com/v1/NotifyMe');
+					$notifyme_response = @external_api_data('array', $notifyme_params, 0, 'https://api.notifymyecho.com/v1/NotifyMe');
 				
 					$processed_messages['notifyme_count'] = $processed_messages['notifyme_count'] + 1;
 					
@@ -865,7 +865,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 					store_file_contents($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat', $processed_messages['notifyme_count']); 
 					
 						if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' ) {
-						store_file_contents($base_dir . '/cache/logs/debugging/api/last-response-notifyme.log', $notifyme_response);
+						store_file_contents($base_dir . '/cache/logs/debugging/external_api/last-response-notifyme.log', $notifyme_response);
 						}
 					
 					unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
@@ -889,14 +889,14 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 				$text_sleep = 1 * $processed_messages['text_count'];
 				sleep($text_sleep);
 			   
-			   $textbelt_response = @api_data('array', $textbelt_params, 0, 'https://textbelt.com/text', 2);
+			   $textbelt_response = @external_api_data('array', $textbelt_params, 0, 'https://textbelt.com/text', 2);
 			   
 			   $processed_messages['text_count'] = $processed_messages['text_count'] + 1;
 				
 				$message_sent = 1;
 			   
 			   	if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' ) {
-					store_file_contents($base_dir . '/cache/logs/debugging/api/last-response-textbelt.log', $textbelt_response);
+					store_file_contents($base_dir . '/cache/logs/debugging/external_api/last-response-textbelt.log', $textbelt_response);
 					}
 				
 				unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
@@ -916,14 +916,14 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 				$text_sleep = 1 * $processed_messages['text_count'];
 				sleep($text_sleep);
 			   
-			   $textlocal_response = @api_data('array', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
+			   $textlocal_response = @external_api_data('array', $textlocal_params, 0, 'https://api.txtlocal.com/send/', 1);
 			   
 			   $processed_messages['text_count'] = $processed_messages['text_count'] + 1;
 				
 				$message_sent = 1;
 			   
 			   	if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' ) {
-					store_file_contents($base_dir . '/cache/logs/debugging/api/last-response-textlocal.log', $textlocal_response);
+					store_file_contents($base_dir . '/cache/logs/debugging/external_api/last-response-textlocal.log', $textlocal_response);
 					}
 				
 				unlink($base_dir . '/cache/secured/messages/' . $queued_cache_file);
@@ -958,7 +958,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 			   		
 			   
 			   	if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' ) {
-					store_file_contents($base_dir . '/cache/logs/debugging/api/last-response-telegram.log', $telegram_response);
+					store_file_contents($base_dir . '/cache/logs/debugging/external_api/last-response-telegram.log', $telegram_response);
 					}
 				
 				
@@ -1137,7 +1137,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 ////////////////////////////////////////////////////////
 
 
-function api_data($mode, $request, $ttl, $api_server=null, $post_encoding=3, $test_proxy=null, $headers=null) { // Default to JSON encoding post requests (most used)
+function external_api_data($mode, $request, $ttl, $api_server=null, $post_encoding=3, $test_proxy=null, $headers=null) { // Default to JSON encoding post requests (most used)
 
 // $app_config['general']['btc_primary_currency_pairing'] / $app_config['general']['btc_primary_exchange'] / $selected_btc_primary_currency_value USED FOR TRACE DEBUGGING (TRACING)
 global $base_dir, $proxy_checkup, $logs_array, $limited_api_calls, $app_config, $api_runtime_cache, $selected_btc_primary_currency_value, $user_agent, $base_url, $htaccess_username, $htaccess_password;
@@ -1176,7 +1176,7 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 	//////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////
 	if ( $ttl < 0 ) {
-	unlink('cache/secured/apis/'.$hash_check.'.dat');
+	unlink('cache/secured/external_api/'.$hash_check.'.dat');
 	}
 	//////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////
@@ -1225,7 +1225,7 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 	// Live data retrieval 
 	//////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////
-	elseif ( update_cache_file('cache/secured/apis/'.$hash_check.'.dat', $ttl) == true || $ttl == 0 ) {
+	elseif ( update_cache_file('cache/secured/external_api/'.$hash_check.'.dat', $ttl) == true || $ttl == 0 ) {
 	
 	// Time the request
 	$api_time = microtime();
@@ -1392,7 +1392,7 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 			$fallback_cache_data = 1;
 			}
 			else {
-			$data = trim( file_get_contents('cache/secured/apis/'.$hash_check.'.dat') );
+			$data = trim( file_get_contents('cache/secured/external_api/'.$hash_check.'.dat') );
 				if ( $data != '' && $data != 'none' ) {
 				$api_runtime_cache[$hash_check] = $data; // Create a runtime cache from the file cache, for any additional requests during runtime for this data set
 				$fallback_cache_data = 1;
@@ -1445,7 +1445,7 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 				
 				// If no false positive detected, log full results to file, WITH UNIQUE TIMESTAMP IN FILENAME TO AVOID OVERWRITES (FOR ADEQUATE DEBUGGING REVIEW)
 				if ( !$false_positive ) {
-				$error_response_log = '/cache/logs/errors/api/error-response-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-hash-'.$hash_check.'-timestamp-'.time().'.log';
+				$error_response_log = '/cache/logs/errors/external_api/error-response-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-hash-'.$hash_check.'-timestamp-'.time().'.log';
 			
 				// LOG-SAFE VERSION (no post data with API keys etc)
 				app_logging('ext_api_error', 'POSSIBLE error for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data, 'requested from: server (local timeout setting ' . $app_config['power_user']['remote_api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; log_file: ' . $error_response_log . '; btc_primary_currency_pairing: ' . $app_config['general']['btc_primary_currency_pairing'] . '; btc_primary_exchange: ' . $app_config['general']['btc_primary_exchange'] . '; btc_primary_currency_value: ' . $selected_btc_primary_currency_value . '; hash_check: ' . $hash_check . ';' );
@@ -1485,7 +1485,7 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 				$fallback_cache_data = 1;
 				}
 				else {
-				$data = trim( file_get_contents('cache/secured/apis/'.$hash_check.'.dat') );
+				$data = trim( file_get_contents('cache/secured/external_api/'.$hash_check.'.dat') );
 					if ( $data != '' && $data != 'none' ) {
 					$api_runtime_cache[$hash_check] = $data; // Create a runtime cache from the file cache, for any additional requests during runtime for this data set
 					$fallback_cache_data = 1;
@@ -1516,7 +1516,7 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 			app_logging('ext_api_debugging', 'connection request for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data, 'request from: server (local timeout setting ' . $app_config['power_user']['remote_api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';' );
 			
 			// Log this as the latest response from this data request
-			store_file_contents($base_dir . '/cache/logs/debugging/api/last-response-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-'.$hash_check.'.log', $data);
+			store_file_contents($base_dir . '/cache/logs/debugging/external_api/last-response-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-'.$hash_check.'.log', $data);
 			
 			}
 			
@@ -1533,7 +1533,7 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 			
 		$api_runtime_cache[$hash_check] = ( isset($data) ? $data : 'none' ); 
 		
-		$store_file_contents = store_file_contents($base_dir . '/cache/secured/apis/'.$hash_check.'.dat', $api_runtime_cache[$hash_check]);
+		$store_file_contents = store_file_contents($base_dir . '/cache/secured/external_api/'.$hash_check.'.dat', $api_runtime_cache[$hash_check]);
 		
 			if ( $store_file_contents == false ) {
 			app_logging('ext_api_error', 'Cache file write error for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data, 'data_size_bytes: ' . strlen($api_runtime_cache[$hash_check]) . ' bytes');
@@ -1564,7 +1564,7 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 		$fallback_cache_data = 1;
 		}
 		else {
-		$data = trim( file_get_contents('cache/secured/apis/'.$hash_check.'.dat') );
+		$data = trim( file_get_contents('cache/secured/external_api/'.$hash_check.'.dat') );
 			if ( $data != '' && $data != 'none' ) {
 			$api_runtime_cache[$hash_check] = $data; // Create a runtime cache from the file cache, for any additional requests during runtime for this data set
 			$fallback_cache_data = 1;

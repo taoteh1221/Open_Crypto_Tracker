@@ -287,36 +287,24 @@ function watch_toggle(obj_var) {
 
 function is_msie() {
 
+// MSIE 10 AND UNDER
 var ua = window.navigator.userAgent;
-var msie = ua.indexOf('MSIE ');
+var msie = ua.indexOf('MSIE');
 
 	if (msie > 0) {
-   // IE 10 or older => return version number
-   var is_msie = parseInt(ua.substring(msie + 5, ua.indexOf('.', msie)), 10);
+   return true;
    }
 
+// MSIE 11
+var ua = window.navigator.userAgent;
+var trident = ua.indexOf('Trident');
 
-	if ( !is_msie ) {
-	
-	var ua = window.navigator.userAgent;
-	var trident = ua.indexOf('Trident/');
+	if (trident > 0) {
+   return true;
+   }
 
-		if (trident > 0) {
-   	// IE 11 => return version number
-   	var rv = ua.indexOf('rv:');
-   	var is_msie = parseInt(ua.substring(rv + 3, ua.indexOf('.', rv)), 10);
-   	}
-
-	}
-
-
-	if ( is_msie ) {
-	return is_msie;
-	}
-	else {
-	return false;
-	}
-	
+// If we get this far, return false
+return false;
 	
 }
 

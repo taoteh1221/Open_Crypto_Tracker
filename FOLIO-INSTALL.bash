@@ -706,6 +706,10 @@ select opt in $OPTIONS; do
   				rm -rf $DOC_ROOT/backups
   				rm -rf $DOC_ROOT/cache/apis
   				rm -rf $DOC_ROOT/cache/queue
+  				rm -rf $DOC_ROOT/cache/rest-api
+  				rm -rf $DOC_ROOT/cache/secured/apis
+  				rm -rf $DOC_ROOT/cache/logs/debugging/api
+  				rm -rf $DOC_ROOT/cache/logs/errors/api
   				rm -rf $DOC_ROOT/misc-docs-etc
   				rm -rf $DOC_ROOT/ui-templates
   				rm -rf $DOC_ROOT/templates/interface/php
@@ -717,6 +721,7 @@ select opt in $OPTIONS; do
 				rm $DOC_ROOT/PORTFOLIO-IMPORT-EXAMPLE-SPREADSHEET.csv
 				rm $DOC_ROOT/oauth.php
 				rm $DOC_ROOT/webhook.php
+				rm $DOC_ROOT/rest-api.php
 
 				/bin/sleep 3
 				
