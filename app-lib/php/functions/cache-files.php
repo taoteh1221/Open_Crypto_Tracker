@@ -1474,6 +1474,7 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 			|| preg_match("/EService:Unavailable/i", $data) // Kraken.com / generic
 			|| preg_match("/site is down/i", $data) // Blockchain.info / generic
 			|| preg_match("/temporarily unavailable/i", $data) // Bitfinex.com / generic
+			|| preg_match("/Server Error/i", $data) // Kucoin.com / generic
 			|| preg_match("/something went wrong/i", $data) // Bitbns.com / generic
 			|| preg_match("/\"reason\":\"Maintenance\"/i", $data) // Gemini.com / generic
 			|| preg_match("/\"data\":null/i", $data) // Bitflyer.com / generic
