@@ -16,7 +16,9 @@ $key = $_GET['key'];
 			if ( file_exists('cache/charts/system/archival/system_stats.dat') != 1 ) {
 			?>
 			
-			$("#system_stats_chart_<?=$key?> span.loading").html(' &nbsp; No chart data activated for: System Chart #<?=$key?>');
+			$("#system_stats_chart_<?=$key?> span.chart_loading").html(' &nbsp; No chart data activated for: System Chart #<?=$key?>');
+			
+			$("#system_stats_chart_<?=$key?>").css({ "background-color": "#9b4b26" });
 			
 			$("#system_charts_error").show();
 			
