@@ -32,8 +32,10 @@ if ( update_cache_file($base_dir . '/cache/events/throttling/local_api_incoming_
 
 $result = array('error' => "Rate limit (maximum of once every " . $app_config['power_user']['local_api_rate_limit'] . " seconds) reached for ip address: " . $_SERVER['REMOTE_ADDR']);
 
-echo json_encode($result, JSON_PRETTY_PRINT);
-exit;
+app_logging('int_api_error', 'From ' . $_SERVER['REMOTE_ADDR'] . ' (Rate limit reached)');
+
+// JSON-encode results
+$json_result = json_encode($result, JSON_PRETTY_PRINT);
 
 }
 // API security check (key request var must match our stored API key, or we abort runtime)
@@ -42,13 +44,15 @@ elseif ( !isset($_POST['api_key']) || isset($_POST['api_key']) && $_POST['api_ke
 	
 	if ( isset($_POST['api_key']) ) {
 	$result = array('error' => "Incorrect API key: " . $_POST['api_key']);
+	app_logging('int_api_error', 'From ' . $_SERVER['REMOTE_ADDR'] . ' (Incorrect API key)', 'api_key: ' . $_POST['api_key'] . ';');
 	}
 	else {
 	$result = array('error' => "Missing API key.");
+	app_logging('int_api_error', 'From ' . $_SERVER['REMOTE_ADDR'] . ' (Missing API key)');
 	}
 
-echo json_encode($result, JSON_PRETTY_PRINT);
-exit;
+// JSON-encode results
+$json_result = json_encode($result, JSON_PRETTY_PRINT);
 
 }
 // Cleared to access the API
@@ -86,7 +90,7 @@ $hash_check = md5($_GET['data_set']);
 
 		// /api/price endpoint
 		if ( $data_set_array[0] == 'market_conversion' ) {
-		$result = market_conversion_api($data_set_array[1], $all_markets_data_array);
+		$result = market_conversion_internal_api($data_set_array[1], $all_markets_data_array);
 		}
 		elseif ( $data_set_array[0] == 'asset_list' ) {
 		$result = asset_list_internal_api();
@@ -95,7 +99,7 @@ $hash_check = md5($_GET['data_set']);
 		$result = exchange_list_internal_api();
 		}
 		elseif ( $data_set_array[0] == 'market_list' ) {
-		$result = market_list_api($data_set_array[1]);
+		$result = market_list_internal_api($data_set_array[1]);
 		}
 		elseif ( $data_set_array[0] == 'conversion_list' ) {
 		$result = conversion_list_internal_api();
@@ -103,12 +107,14 @@ $hash_check = md5($_GET['data_set']);
 		// Non-existent endpoint error message
 		else {
 		$result = array('error' => 'Endpoint does not exist: ' . $data_set_array[0]);
+		app_logging('int_api_error', 'From ' . $_SERVER['REMOTE_ADDR'] . ' (Endpoint does not exist: ' . $data_set_array[0] . ')');
 		}
 	
 	
 		// No matches error message
 		if ( !isset($result) ) {
 		$result = array('error' => 'No matches / results found.');
+		app_logging('int_api_error', 'From ' . $_SERVER['REMOTE_ADDR'] . ' (No matches / results found)');
 		}
 
 
@@ -127,12 +133,11 @@ $hash_check = md5($_GET['data_set']);
 
 	}
 
+}
+
 
 // Echo result in json format
 echo $json_result;
-
-}
-
 
 // Log errors / debugging, send notifications
 error_logs();

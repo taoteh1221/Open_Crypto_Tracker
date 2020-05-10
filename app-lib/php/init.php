@@ -168,7 +168,10 @@ require_once('app-lib/php/other/coinmarketcap-currencies.php');
 require_once('app-lib/php/other/random-tips.php');
 
 // SET original app_config array BEFORE dynamic app config management
-$original_app_config = $app_config; 
+$default_app_config = $app_config; 
+
+// Set as global, to update in / out of functions as needed
+$upgraded_app_config = array();
 
 $interface_login_array = explode("||", $app_config['general']['interface_login']);
 					
@@ -185,6 +188,8 @@ $possible_http_users = array(
 
 // Initial vars
 $cmc_notes = null;
+
+$config_upgraded = null;
 
 $td_color_zebra = null;
 

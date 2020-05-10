@@ -240,13 +240,28 @@ function selectAll(toggle, form_name) {
 
 
 function copy_text(elm_id, alert_id) {
-    
-var range = document.createRange();
-range.selectNode(document.getElementById(elm_id));
-window.getSelection().addRange(range);
-document.execCommand("copy");
-document.getElementById(alert_id).innerHTML = 'Text copied to clipboard.';
-  
+	
+  var elm = document.getElementById(elm_id);
+  // for Internet Explorer
+
+  if(document.body.createTextRange) {
+    var range = document.body.createTextRange();
+    range.moveToElementText(elm);
+    range.select();
+    document.execCommand("Copy");
+	 document.getElementById(alert_id).innerHTML = 'Text copied to clipboard.';
+  }
+  else if(window.getSelection) {
+    // other browsers
+
+    var selection = window.getSelection();
+    var range = document.createRange();
+    range.selectNodeContents(elm);
+    selection.removeAllRanges();
+    selection.addRange(range);
+    document.execCommand("Copy");
+	 document.getElementById(alert_id).innerHTML = 'Text copied to clipboard.';
+  }
 }
 
 

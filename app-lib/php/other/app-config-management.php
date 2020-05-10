@@ -30,12 +30,12 @@ $app_config['comms']['proxy_alerts_checkup_ok'] = auto_correct_string($app_confi
 
 // Cleaning charts/alerts array
 $cleaned_charts_and_price_alerts = array();
-foreach ( $app_config['charts_alerts']['markets'] as $key => $value ) {
+foreach ( $app_config['charts_alerts']['tracked_markets'] as $key => $value ) {
 $cleaned_key = auto_correct_string($key, 'lower');
 $cleaned_value = auto_correct_string($value, 'lower');
 $cleaned_charts_and_price_alerts[$cleaned_key] = $cleaned_value;
 }
-$app_config['charts_alerts']['markets'] = $cleaned_charts_and_price_alerts;
+$app_config['charts_alerts']['tracked_markets'] = $cleaned_charts_and_price_alerts;
 
 // Cleaning mobile networks array
 $cleaned_mobile_networks = array();
@@ -55,7 +55,7 @@ $app_config['mobile_network_text_gateways'] = $cleaned_mobile_networks;
 
 // Default BTC CRYPTO/CRYPTO market pairing support, BEFORE GENERATING MISCASSETS ARRAY
 // (so we activate it here instead of in config.php, for good UX adding ONLY altcoin markets dynamically there)
-$app_config['power_user']['secondary_crypto_pairing']['btc'] = 'Ƀ ';
+$app_config['power_user']['crypto_pairing']['btc'] = 'Ƀ ';
 
 
 
@@ -71,14 +71,14 @@ if (is_array($app_config['portfolio_assets']) || is_object($app_config['portfoli
                                         );
             
             
-            foreach ( $app_config['power_user']['secondary_crypto_pairing'] as $pairing_key => $pairing_unused ) {
+            foreach ( $app_config['power_user']['crypto_pairing'] as $pairing_key => $pairing_unused ) {
             $app_config['portfolio_assets']['MISCASSETS']['market_pairing'][$pairing_key] = array('misc_assets' => $pairing_key);
             }
             
             foreach ( $app_config['power_user']['bitcoin_currency_markets'] as $pairing_key => $pairing_unused ) {
             	
             	// WE HAVE A COUPLE CRYPTOS SUPPORTED HERE, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE (cryptos are added via 'crypto_to_crypto_pairing')
-            	if ( !array_key_exists($pairing_key, $app_config['power_user']['secondary_crypto_pairing']) ) {
+            	if ( !array_key_exists($pairing_key, $app_config['power_user']['crypto_pairing']) ) {
             	$app_config['portfolio_assets']['MISCASSETS']['market_pairing'][$pairing_key] = array('misc_assets' => $pairing_key);
             	}
             

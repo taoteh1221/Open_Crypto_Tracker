@@ -26,10 +26,19 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+See if exchange API data arrays can be manipulated slightly to build a reusable module for every exchange's API calls.
+
+
+Add force reset logic for app config, if cached app version number is non-existent or below a certain version, so we force a complete reset for non-backwards-compatible upgrades.
+
+
 In debug mode, check the verbosity of everything, especially the system stats and too many ram stats (maybe add our new used ram stat instead, that doesn't include buffers / cached ram).
 
 
 New screenshots.
+
+
+Double check that we don't need to darken up light theme loss alert data row colors (next time everything crashes in price, lol)
 
 
 1D / 1W / 1M .... chart links are broken on chrome for Android (BUT work fine on Chrome for Ubuntu).
@@ -85,7 +94,19 @@ FEATURES / STRUCTURING SECTION
 ///////////////////////////////////////////////////////
 
 
-Add php logic to grab rss feeds from major crypto news sites and reddit? Add to new tab called "news", and have each feed activated in same format as the charts page modal?
+For each category_key => category_value loop app config, to automate categorizing new admin settings tabs...selects for arrays, text fields for strings. Maybe certain key names get checkbox / radio button fields.
+
+
+Once an admin interface is fully built out, permanently switch out the app config upgrade logic for our new logic (already built, just enable in secured cache logic).
+
+
+On admin config reset tab, have "reset app config to default settings" button (with js confirm alert when pushed) that refreshes ALL the cached app_config from config.php settings.
+
+
+Admin import / export of settings (consider security implications CAREFULLY...maybe include an optional checkbox to encrypt to zip file with our new zip encryption feature).
+
+
+When cached app config is independent of config.php updating-wise, use the show / hide link to have an optional email field on the admin registration page, and mention it enables password resetting via email.
 
 
 Prune system stats chart data older than 90 days, via the scheduled maintenance logic.
@@ -94,13 +115,10 @@ Prune system stats chart data older than 90 days, via the scheduled maintenance 
 For lightweight charts, it's simple: count the number of lines in an archival file up to the timestamp that's an X days / weeks / months / years forward time period, get the "max data points allowed" var passed into the function, divide the total time period line numbers by max line numbers allowed (and round it) to get the "use every X lines" value for the lightweight chart. Then just loop through and grab every Xth line up until the end of that time period, add it to that lightweight chart data.
 
 
-Interface alert for upgrades.
-
-
 Add an alert bell icon in header login nav, and have alerts make it red and be a drop-down info bubble clicking it, rather than alerts printed in the footer.
 
 
-Double check that we don't need to darken up light theme loss alert data row colors (next time everything crashes in price, lol)
+Interface alert for upgrades.
 
 
 Mail trading notes to admin email, only if user logged in as admin.
@@ -109,28 +127,10 @@ Mail trading notes to admin email, only if user logged in as admin.
 Option to use new zip file encryption password feature to encrypt portfolio spreadsheet exports when downloading exported portfolio data.
 
 
+Add php logic to grab rss feeds from major crypto news sites and reddit? Add to new tab called "news", and have each feed activated in same format as the charts page modal?
+
+
 Add additional ability to do telegram webhooks, to query asset prices at different exchanges through telegram chat with the chat bot. Example: "/price ETH/USDT @ Binance"
-
-
-Create a recursive function that calls itself and checks if the item(s) in an array are strings or sub-arrays, to only add non-existent variables to the CACHED app config only if they only exist in config.php (for upgrades). For removing depreciated variables, create a static list to be safe.
-
-
-Dynamically add an 'app_version' value to $app_config when processing it, so when we are updating the cached config with a newly-changed config.php config, we not only can see if any new config settings exist / have changed, but we can see if the app was upgraded since the previous cached config update.
-
-
-When cached app config is independent of config.php updating-wise, use the show / hide link to have an optional email field on the admin registration page, and mention it enables password resetting via email.
-
-
-For each key => value loop json admin config to automate generating new admin settings page...selects for arrays, text fields for strings. Maybe certain key names get checkbox / radio button fields.
-
-
-Once an admin config interface web page is built, only update the cached app_config when new configuration variables are added to config.php, and skip overwriting any pre-existing variables (so we don't revert end-user configuration changes).
-
-
-Admin import / export of settings (consider security implications CAREFULLY).
-
-
-On admin config page, have "reset to default settings" button (with js confirm alert when pushed) that refreshes the cached app_config from config.php settings.
 
 
 In the "loading charts" logic, add a timer that logs the time it takes to load all Shown Charts, and prints results to the console log.
@@ -140,9 +140,6 @@ Add google home support via direct connect on same network, OR via IFTTT (whiche
 
 
 Add IFTTT support (alexa / google home / whatever supported devices).
-
-
-See if exchange API data arrays can be manipulated slightly to build a reusable module for every exchange's API calls.
 
 
 Add admin settings feature to restore chart data from the zip archive backups (with admin authentication ONLY). Chart restore by prepending, so any existing data remains, BUT only if timestamp is newer than newest backups timestamp. Trigger restore from newest backups folder backup by placing a blank file named RESTORE_CHARTS in the queue directory.

@@ -314,6 +314,8 @@ $debugging_logs .= strip_tags($logs_array['security_debugging']); // Remove any 
 
 $debugging_logs .= strip_tags($logs_array['ext_api_debugging']); // Remove any HTML formatting used in UI alerts
 
+$debugging_logs .= strip_tags($logs_array['int_api_debugging']); // Remove any HTML formatting used in UI alerts
+
 $debugging_logs .= strip_tags($logs_array['market_debugging']); // Remove any HTML formatting used in UI alerts
 
 $debugging_logs .= strip_tags($logs_array['other_debugging']); // Remove any HTML formatting used in UI alerts
@@ -401,6 +403,8 @@ $error_logs .= strip_tags($logs_array['config_error']); // Remove any HTML forma
 $error_logs .= strip_tags($logs_array['security_error']); // Remove any HTML formatting used in UI alerts
 
 $error_logs .= strip_tags($logs_array['ext_api_error']); // Remove any HTML formatting used in UI alerts
+
+$error_logs .= strip_tags($logs_array['int_api_error']); // Remove any HTML formatting used in UI alerts
 
 $error_logs .= strip_tags($logs_array['market_error']); // Remove any HTML formatting used in UI alerts
 

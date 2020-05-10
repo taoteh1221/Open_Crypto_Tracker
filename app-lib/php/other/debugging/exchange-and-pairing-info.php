@@ -28,7 +28,7 @@ $currency_count = 0;
 		$pairings_count = $currency_count;
 		$all_supported_pairings_list = $supported_primary_currency_list;
 		
-		foreach ( $app_config['power_user']['secondary_crypto_pairing'] as $key => $unused ) {
+		foreach ( $app_config['power_user']['crypto_pairing'] as $key => $unused ) {
 			
 			if( !preg_match("/".$key." /i", $all_supported_pairings_list) ) {
 			$pairings_count = $pairings_count + 1;

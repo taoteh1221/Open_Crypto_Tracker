@@ -193,7 +193,7 @@ $app_config['general']['primary_marketcap_site'] = 'coingecko';
 // ENABLING CHARTS REQUIRES A CRON JOB SETUP (see README.txt for cron job setup information)
 // Enables a charts tab / page with historical charts
 // Caches the default [primary currency] ($app_config['general']['btc_primary_currency_pairing'] further down in GENERAL CONFIGURATION)
-// default [primary currency] price / crypto price / volume data for charts of all assets added to $app_config['charts_alerts']['markets'] (further down in CHART AND PRICE ALERT CONFIGURATION)
+// default [primary currency] price / crypto price / volume data for charts of all assets added to $app_config['charts_alerts']['tracked_markets'] (further down in CHART AND PRICE ALERT CONFIGURATION)
 // Disabling will disable EVERYTHING related to the price charts (price charts tab / page, and price chart data caching)
 $app_config['general']['charts_toggle'] = 'on'; // 'on' / 'off'
 
@@ -309,7 +309,7 @@ $app_config['charts_alerts']['charts_backup_freq'] = 1; // Every X days backup c
 
 
 // Asset price alert configuration
-// Only used if $app_config['charts_alerts']['markets'] is filled in properly below, AND a cron job is setup (see README.txt for cron job setup information) 
+// Only used if $app_config['charts_alerts']['tracked_markets'] is filled in properly below, AND a cron job is setup (see README.txt for cron job setup information) 
 ////
 // Fixed reset of cached comparison asset prices every X days (since last price reset / alert) with the current latest spot prices
 // Can be 0 to disable fixed resetting (IN WHICH CASE RESETS WILL ONLY OCCUR dynamically whenever the next price alert is triggered)
@@ -328,7 +328,7 @@ $app_config['charts_alerts']['price_alerts_whale_alert_threshold'] = '1.65||8.85
 // NOTE: This list must only contain assets / exchanges / trading pairs included in the primary portfolio assets list configuration further down in this config file
 // TO ADD MULTIPLE CHARTS / ALERTS FOR SAME ASSET (FOR DIFFERENT EXCHANGES / TRADE PAIRINGS), FORMAT LIKE SO: symbol, symbol-1, symbol-2, symbol-3, etc.
 // TO ENABLE CHART AND ALERT = both, TO ENABLE CHART ONLY = chart, TO ENABLE ALERT ONLY = alert
-$app_config['charts_alerts']['markets'] = array(
+$app_config['charts_alerts']['tracked_markets'] = array(
 
 
 					// SYMBOL
@@ -496,7 +496,7 @@ $app_config['charts_alerts']['markets'] = array(
 					
 					);
 					
-// END $app_config['charts_alerts']['markets']
+// END $app_config['charts_alerts']['tracked_markets']
 
 
 ////////////////////////////////////////
@@ -560,7 +560,7 @@ $app_config['power_user']['marketcap_ranks_max'] = 250;
 // EACH ALTCOIN LISTED HERE !MUST HAVE! AN EXISTING 'btc' MARKET (within 'market_pairing') 
 // in it's $app_config['portfolio_assets'] listing (further down in this config file) TO PROPERLY ACTIVATE
 // TRY TO #NOT# ADD STABLECOINS HERE, ATTEMPT TO USE $app_config['power_user']['bitcoin_currency_markets'] INSTEAD (TO AUTO-CLIP UNEEDED DECIMAL POINTS IN THE UI)
-$app_config['power_user']['secondary_crypto_pairing'] = array(
+$app_config['power_user']['crypto_pairing'] = array(
 						//'lowercase_altcoin_abrv' => 'CRYPTO_SYMBOL',
 						'eth' => 'Ξ ',
 						'ltc' => 'Ł ',
@@ -570,12 +570,12 @@ $app_config['power_user']['secondary_crypto_pairing'] = array(
 
 
 // Preferred ALTCOIN PAIRED MARKETS market(s) for getting a certain crypto's value
-// EACH ALTCOIN LISTED HERE MUST EXIST IN $app_config['power_user']['secondary_crypto_pairing'] ABOVE,
+// EACH ALTCOIN LISTED HERE MUST EXIST IN $app_config['power_user']['crypto_pairing'] ABOVE,
 // AND !MUST HAVE! AN EXISTING 'btc' MARKET (within 'market_pairing') in it's 
 // $app_config['portfolio_assets'] listing (further down in this config file),
 // AND #THE EXCHANGE NAME MUST BE IN THAT 'btc' LIST#
 // #USE VERY LIBERALLY#, AS YOU WANT THE BEST PRICE DISCOVERY FOR THIS CRYPTO'S VALUE
-$app_config['power_user']['secondary_crypto_pairing_preferred_markets'] = array(
+$app_config['power_user']['crypto_pairing_preferred_markets'] = array(
 						//'lowercase_btc_market_or_stablecoin_pairing' => 'PREFERRED_MARKET',
 							'eth' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							'ltc' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
@@ -690,19 +690,6 @@ $app_config['power_user']['bitcoin_preferred_currency_markets'] = array(
 
 
 
-// Mining rewards for different crypto networks (to prefill the editable mining calculator forms)
-$app_config['power_user']['mining_rewards'] = array(
-					'btc' => '12.5',
-					'doge' => '10000',
-					'dcr' => NULL,  // WE DYNAMICALLY UPDATE THIS IN INIT.PHP
-					'eth' => '2',
-					'grin' => '60',
-					'ltc' => '12.5',
-					'xmr' => NULL,  // WE DYNAMICALLY UPDATE THIS IN INIT.PHP
-					);
-
-
-
 // Static values in ETH for Ethereum subtokens, like during crowdsale periods etc (before exchange listings)
 $app_config['power_user']['ethereum_subtoken_ico_values'] = array(
                         'ETHSUBTOKENNAME' => '0.15',
@@ -710,6 +697,19 @@ $app_config['power_user']['ethereum_subtoken_ico_values'] = array(
                         'ARAGON' => '0.01',
                         'DECENTRALAND' => '0.00008',
                         );
+
+
+
+// Mining rewards for different crypto networks (to prefill the editable mining calculator forms)
+$app_config['power_user']['mining_rewards'] = array(
+					'btc' => '12.5',
+					'doge' => '10000',
+					'dcr' => 'PLACEHOLDER',  // WE DYNAMICALLY UPDATE THIS IN INIT.PHP
+					'eth' => '2',
+					'grin' => '60',
+					'ltc' => '12.5',
+					'xmr' => 'PLACEHOLDER',  // WE DYNAMICALLY UPDATE THIS IN INIT.PHP
+					);
                         
 
 

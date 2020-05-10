@@ -227,13 +227,13 @@ if ( trim($app_config['comms']['from_email']) != '' && trim($app_config['comms']
           		
           		
 
-			// Check $app_config['charts_alerts']['markets'] config
-			if ( !is_array($app_config['charts_alerts']['markets']) ) {
+			// Check $app_config['charts_alerts']['tracked_markets'] config
+			if ( !is_array($app_config['charts_alerts']['tracked_markets']) ) {
 			$config_parse_error[] = 'The asset / exchange / pairing price alert formatting is corrupt, or not configured yet.';
 			}
 			
 			
-			foreach ( $app_config['charts_alerts']['markets'] as $key => $value ) {
+			foreach ( $app_config['charts_alerts']['tracked_markets'] as $key => $value ) {
    		       		
 			$alerts_string = explode("||",$value);
    		       	

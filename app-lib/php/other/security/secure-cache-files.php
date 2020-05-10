@@ -56,7 +56,7 @@ $activation_files = sort_files($base_dir . '/cache/secured/activation', 'dat', '
 // Secured cache files global variables
 $secured_cache_files = sort_files($base_dir . '/cache/secured', 'dat', 'desc');
 
-$app_config_check = trim( file_get_contents($base_dir . '/cache/vars/app_config_md5.dat') );
+$check_default_app_config = trim( file_get_contents($base_dir . '/cache/vars/default_app_config_md5.dat') );
 
 
 foreach( $secured_cache_files as $secured_file ) {
@@ -76,11 +76,11 @@ foreach( $secured_cache_files as $secured_file ) {
 		$cached_app_config = json_decode( trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) ) , TRUE);
 			
 		
-			if ( $app_config_check == md5(serialize($original_app_config)) && $cached_app_config == true ) {
+			if ( $check_default_app_config == md5(serialize($default_app_config)) && $cached_app_config == true ) {
 			$app_config = $cached_app_config; // Use cached app_config if it exists, seems intact, and config.php hasn't been revised since last check
 			$is_cached_app_config = 1;
 			}
-			elseif ( $app_config_check != md5(serialize($original_app_config)) ) {
+			elseif ( $check_default_app_config != md5(serialize($default_app_config)) ) {
 			app_logging('config_error', 'CACHED app_config outdated (DEFAULT app_config updated), refreshing from DEFAULT app_config');
 			unlink($base_dir . '/cache/secured/' . $secured_file);
 			$refresh_cached_app_config = 1;
@@ -257,16 +257,31 @@ $secure_128bit_hash = random_hash(16); // 128-bit (16-byte) hash converted to he
 	app_logging('security_error', 'Cryptographically secure pseudo-random bytes could not be generated for cached app_config array (secured cache storage) suffix, cached app_config array creation aborted to preserve security');
 	}
 	else {
-		
-	$store_cached_app_config = json_encode($app_config, JSON_PRETTY_PRINT);
 	
+	
+	// Check to see if we need to upgrade the CACHED app config (NEW / DEPRECIATED CORE VARIABLES ONLY, NOT OVERWRITING EXISTING CORE VARIABLES)
+	// WORK IN-PROGRESS, KEEP DISABLED FOR RELEASES, UNTIL ADMIN UI IS FULLY BUILT OUT / FEATURE IS FULLY TESTED AND DEBUGGED
+	//$upgraded_cached_app_config = upgraded_cached_app_config();
+	
+	// UNTIL APP CONFIG UPGRADE FEATURE / ADMIN UI ARE FULLY BUILT OUT AND TORTURE-TESTED, USE THIS INSTEAD OF ABOVE UPGRADE LOGIC
+	// (REFRESHES CACHED APP CONFIG TO EXACTLY MIRROR THE HARD-CODED VARIABLES IN CONFIG.PHP, IF CONFIG.PHP IS CHANGED IN EVEN THE SLIGHTEST WAY)
+	$upgraded_cached_app_config = $app_config;
+	
+	
+	// Check that the app config is valid / not corrupt
+	$store_cached_app_config = json_encode($upgraded_cached_app_config, JSON_PRETTY_PRINT);
+	
+		// If there was an issue updating the cached app config
 		if ( $store_cached_app_config == false ) {
 		app_logging('config_error', 'app_config data could not be saved (to secured cache storage) in json format');
 		}
+		// If cached app config updated successfully
 		else {
+		$app_config = $upgraded_cached_app_config;
 		store_file_contents($base_dir . '/cache/secured/app_config_'.$secure_128bit_hash.'.dat', $store_cached_app_config);
-		store_file_contents($base_dir . '/cache/vars/app_config_md5.dat', md5(serialize($original_app_config))); // For checking later, if config.php values are updated we save to json again
+		store_file_contents($base_dir . '/cache/vars/default_app_config_md5.dat', md5(serialize($default_app_config))); // For checking later, if config.php values are updated we save to json again
 		}
+		
 	
 	}
 

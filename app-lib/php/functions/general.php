@@ -8,6 +8,133 @@
 ////////////////////////////////////////////////////////
 
 
+function subarray_app_config_upgrade($category_key, $config_key, $skip_upgrading) {
+
+global $upgraded_app_config, $cached_app_config, $check_default_app_config, $default_app_config;
+
+	// Check for new variables, and add them
+	foreach ( $default_app_config[$category_key][$config_key] as $setting_key => $setting_value ) {
+	
+		if ( is_array($setting_value) ) {
+		app_logging('config_error', 'Sub-array depth to deep for app config upgrade parser');
+		}
+		elseif ( !in_array($setting_key, $skip_upgrading) && !isset($upgraded_app_config[$category_key][$config_key][$setting_key]) ) {
+		$upgraded_app_config[$category_key][$config_key][$setting_key] = $default_app_config[$category_key][$config_key][$setting_key];
+		app_logging('config_error', 'New app config parameter $app_config[' . $category_key . '][' . $config_key . '][' . $setting_key . '] imported (default value: ' . $default_app_config[$category_key][$config_key][$setting_key] . ')');
+		$config_upgraded = 1;
+		}
+			
+	}
+	
+	// Check for depreciated variables, and remove them
+	foreach ( $cached_app_config[$category_key][$config_key] as $setting_key => $setting_value ) {
+	
+		if ( is_array($setting_value) ) {
+		app_logging('config_error', 'Sub-array depth to deep for app config upgrade parser');
+		}
+		elseif ( !in_array($setting_key, $skip_upgrading) && !isset($default_app_config[$category_key][$config_key][$setting_key]) ) {
+		unset($upgraded_app_config[$category_key][$config_key][$setting_key]);
+		app_logging('config_error', 'Depreciated app config parameter $app_config[' . $category_key . '][' . $config_key . '][' . $setting_key . '] removed');
+		$config_upgraded = 1;
+		}
+			
+	}
+	
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+// Check to see if we need to upgrade the app config (add new primary vars / remove depreciated primary vars)
+function upgraded_cached_app_config() {
+
+global $upgraded_app_config, $cached_app_config, $check_default_app_config, $default_app_config;
+
+$upgraded_app_config = $cached_app_config;
+
+
+// WE LEAVE THE SUB-ARRAYS FOR PROXIES / CHARTS / TEXT GATEWAYS / PORTFOLIO ASSETS / ETC / ETC ALONE
+// (ANY SUB-ARRAY WHERE A USER ADDS / DELETES VARIABLES THEY WANTED DIFFERENT FROM DEFAULT VARS)
+$skip_upgrading = array(
+								'proxy',
+								'tracked_markets',
+								'crypto_pairing',
+								'crypto_pairing_preferred_markets',
+								'bitcoin_currency_markets',
+								'bitcoin_preferred_currency_markets',
+								'ethereum_subtoken_ico_values',
+								'mobile_network_text_gateways',
+								'portfolio_assets',
+								);
+
+
+	// If no cached app config or it's corrupt, just use full default app config
+	if ( $cached_app_config != true ) {
+	return $default_app_config;
+	}
+	// If the default app config has changed since last check (from upgrades / end user editing)
+	elseif ( $check_default_app_config != md5(serialize($default_app_config)) ) {
+		
+		
+		// Check for new variables, and add them
+		foreach ( $default_app_config as $category_key => $category_value ) {
+			
+			foreach ( $category_value as $config_key => $config_value ) {
+		
+				if ( !in_array($category_key, $skip_upgrading) && !in_array($config_key, $skip_upgrading) ) {
+					
+					if ( is_array($config_value) ) {
+					subarray_app_config_upgrade($category_key, $config_key, $skip_upgrading);
+					}
+					elseif ( !isset($upgraded_app_config[$category_key][$config_key]) ) {
+					$upgraded_app_config[$category_key][$config_key] = $default_app_config[$category_key][$config_key];
+					app_logging('config_error', 'New app config parameter $app_config[' . $category_key . '][' . $config_key . '] imported (default value: ' . $default_app_config[$category_key][$config_key] . ')');
+					$config_upgraded = 1;
+					}
+			
+				}
+			
+			}
+		
+		}
+		
+		
+		// Check for depreciated variables, and remove them
+		foreach ( $cached_app_config as $cached_category_key => $cached_category_value ) {
+			
+			foreach ( $cached_category_value as $cached_config_key => $cached_config_value ) {
+		
+				if ( !in_array($cached_category_key, $skip_upgrading) && !in_array($cached_config_key, $skip_upgrading) ) {
+				
+					if ( is_array($cached_config_value) ) {
+					subarray_app_config_upgrade($cached_category_key, $cached_config_key, $skip_upgrading);
+					}
+					elseif ( !isset($default_app_config[$cached_category_key][$cached_config_key]) ) {
+					unset($upgraded_app_config[$cached_category_key][$cached_config_key]);
+					app_logging('config_error', 'Depreciated app config parameter $app_config[' . $cached_category_key . '][' . $cached_config_key . '] removed');
+					$config_upgraded = 1;
+					}
+					
+				}
+				
+			}
+			
+		}
+		
+	
+	return $upgraded_app_config;
+	}
+
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
 function test_ipv4($str) {
 $ret = filter_var($str, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
 return $ret;
@@ -308,13 +435,13 @@ $category = preg_replace("/_debugging/i", "", $category);
 
 
 	if ( $hashcheck != false ) {
-	$logs_array[$log_type][$hashcheck] = '[' . date('Y-m-d H:i:s') . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_message . ( $verbose_tracing != false ? '; tracing: [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+	$logs_array[$log_type][$hashcheck] = '[' . date('Y-m-d H:i:s') . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_message . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
 	}
 	elseif ( $overwrite != false ) {
-	$logs_array[$log_type] = '[' . date('Y-m-d H:i:s') . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_message . ( $verbose_tracing != false ? '; tracing: [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+	$logs_array[$log_type] = '[' . date('Y-m-d H:i:s') . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_message . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
 	}
 	else {
-	$logs_array[$log_type] .= '[' . date('Y-m-d H:i:s') . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_message . ( $verbose_tracing != false ? '; tracing: [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+	$logs_array[$log_type] .= '[' . date('Y-m-d H:i:s') . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_message . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
 	}
 
 
@@ -1309,7 +1436,7 @@ global $app_config, $default_btc_primary_currency_pairing;
 
 
 	// #FOR CLEAN CODE#, RUN CHECK TO MAKE SURE IT'S NOT A CRYPTO AS WELL...WE HAVE A COUPLE SUPPORTED, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
-	if ( array_key_exists($chart_format, $app_config['power_user']['bitcoin_currency_markets']) && !array_key_exists($chart_format, $app_config['power_user']['secondary_crypto_pairing']) ) {
+	if ( array_key_exists($chart_format, $app_config['power_user']['bitcoin_currency_markets']) && !array_key_exists($chart_format, $app_config['power_user']['crypto_pairing']) ) {
 	$fiat_formatting = 1;
 	}
 	elseif ( $chart_format == 'system' ) {

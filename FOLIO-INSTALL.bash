@@ -718,6 +718,7 @@ select opt in $OPTIONS; do
 				rm $DOC_ROOT/DOCUMENTATION-ETC/CRON_PLUGINS_README.txt # (Renamed /DOCUMENTATION-ETC/CRON-PLUGINS-README.txt)
 				rm $DOC_ROOT/CONFIG.EXAMPLE.txt
 				rm $DOC_ROOT/HELP-FAQ.txt
+				rm $DOC_ROOT/cache/vars/app_config_md5.dat
 				rm $DOC_ROOT/PORTFOLIO-IMPORT-EXAMPLE-SPREADSHEET.csv
 				rm $DOC_ROOT/oauth.php
 				rm $DOC_ROOT/webhook.php

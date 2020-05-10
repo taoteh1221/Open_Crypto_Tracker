@@ -11,7 +11,7 @@
 	}
 
 
-	foreach ( $app_config['charts_alerts']['markets'] as $key => $value ) {
+	foreach ( $app_config['charts_alerts']['tracked_markets'] as $key => $value ) {
 		
  
 		if ( $_GET['asset_data'] == $key ) {
@@ -34,12 +34,12 @@
 			
 			// Unicode asset symbols
 			// Crypto
-			if ( array_key_exists($charted_value, $app_config['power_user']['secondary_crypto_pairing']) ) {
-			$currency_symbol = $app_config['power_user']['secondary_crypto_pairing'][$charted_value];
+			if ( array_key_exists($charted_value, $app_config['power_user']['crypto_pairing']) ) {
+			$currency_symbol = $app_config['power_user']['crypto_pairing'][$charted_value];
 			}
 			// Fiat-equiv
 			// RUN AFTER CRYPTO MARKETS...WE HAVE A COUPLE CRYPTOS SUPPORTED HERE, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
-			elseif ( array_key_exists($charted_value, $app_config['power_user']['bitcoin_currency_markets']) && !array_key_exists($charted_value, $app_config['power_user']['secondary_crypto_pairing']) ) {
+			elseif ( array_key_exists($charted_value, $app_config['power_user']['bitcoin_currency_markets']) && !array_key_exists($charted_value, $app_config['power_user']['crypto_pairing']) ) {
 			$currency_symbol = $app_config['power_user']['bitcoin_currency_markets'][$charted_value];
 			$fiat_equiv = 1;
 			}
