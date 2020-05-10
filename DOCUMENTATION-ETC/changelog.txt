@@ -3197,7 +3197,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Microsoft Internet Explorer bug fixed, where log viewing / code examples were not rendering properly
 
--Market pairing value function bug fixed, where under certain edge cases could make the cron job runtime excessively long
+-Market pairing value function bugs fixed, where under certain edge cases could make the cron job runtime excessively long
 
 -Initial app config auto-upgrading system (for cached user-customized app config in upcoming admin interface settings)
 

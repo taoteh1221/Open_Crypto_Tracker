@@ -706,8 +706,8 @@ $pairing = strtolower($pairing);
    			return $btc_pairing_markets[$pairing.'_btc'];
    			
    			}
-   			// We only want to fallback 3 consecutive times max per pairing / runtime
-   			elseif ( sizeof($btc_pairing_markets_blacklist[$pairing]) < 3 ) {
+   			// We only want to loop a fallback for the amount of available markets
+   			elseif ( sizeof($btc_pairing_markets_blacklist[$pairing]) < sizeof($app_config['portfolio_assets'][strtoupper($pairing)]['market_pairing']['btc']) ) {
    			
    			$btc_pairing_markets[$pairing.'_btc'] = null; // Reset
    				
@@ -767,8 +767,8 @@ $pairing = strtolower($pairing);
    			return $btc_pairing_markets[$pairing.'_btc'];
    					
    			}
-   			// We only want to fallback 3 consecutive times max per pairing / runtime
-   			elseif ( sizeof($btc_pairing_markets_blacklist[$pairing]) < 3 ) {
+   			// We only want to loop a fallback for the amount of available markets
+   			elseif ( sizeof($btc_pairing_markets_blacklist[$pairing]) < sizeof($app_config['portfolio_assets']['BTC']['market_pairing'][$pairing]) ) {
    				
    			$btc_pairing_markets[$pairing.'_btc'] = null; // Reset
    						
