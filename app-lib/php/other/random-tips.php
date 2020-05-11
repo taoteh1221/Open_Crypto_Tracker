@@ -7,6 +7,8 @@
 
 // Random tips displayed in the UI
 $random_tips = array(
+							
+							"For privacy / security, ALWAYS round your STORED portfolio balances to as few decimal points as is feasible (AND preferably buy / transfer cryptocurrency in nice rounded amounts too). Then hackers / snoopers cannot as easily guess and potentially follow your transaction history in block explorers online.",
 
 							"ONLY HIGHLY EXPERIENCED DAY TRADERS should attempt timing short term trade entry points (buying, to sell in a few days / weeks at a higher price). The average investor IS MUCH BETTER OFF HOLDING LONG TERM, and ".strtoupper($app_config['general']['btc_primary_currency_pairing'])."-cost averaging your cryptocurrency purchases / buys on a weekly or monthly basis (buying the same amount at regular intervals). Remember, ".strtoupper($app_config['general']['btc_primary_currency_pairing'])."-cost averaging DOES #NOT# WORK for <a href='https://twitter.com/hashtag/shitcoin?src=hash' target='_blank'>#shxtcoin</a> trading.",
 
