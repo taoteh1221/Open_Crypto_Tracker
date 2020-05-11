@@ -164,9 +164,6 @@ $btc_pairing_markets_blacklist = array();
 // Coinmarketcap supported currencies array
 require_once('app-lib/php/other/coinmarketcap-currencies.php');
 
-// Random tips array
-require_once('app-lib/php/other/random-tips.php');
-
 // SET original app_config array BEFORE dynamic app config management
 $default_app_config = $app_config; 
 
@@ -202,6 +199,8 @@ $selected_btc_primary_currency_pairing = null;
 // htaccess login...SET BEFORE system checks
 $htaccess_username = $interface_login_array[0];
 $htaccess_password = $interface_login_array[1];
+
+$remote_ip = ( isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'localhost' );
 
 // Get system info for debugging / stats
 $system_info = system_info(); // MUST RUN AFTER SETTING $base_dir

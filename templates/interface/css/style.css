@@ -671,4 +671,12 @@ padding: 7px;
 }
 
 
+#primary_currency_markets_alert {
+display: none;
+font-weight: bold;
+margin: 20px;
+}
+
+
+
 

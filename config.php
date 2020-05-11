@@ -442,7 +442,6 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					// ATOM
 					'atom-2' => 'kraken||btc||chart',
 					'atom-3' => 'binance||btc||both',
-					'atom-4' => 'binance||tusd||chart',
 					'atom-5' => 'binance||usdc||chart',
 					'atom-6' => 'bittrex_global||btc||chart',
 					'atom-7' => 'okex||btc||chart',
@@ -697,6 +696,7 @@ $app_config['power_user']['bitcoin_preferred_currency_markets'] = array(
 							'dai' => 'kraken',  // WAY MORE reputable than hitBTC
 							'chf' => 'localbitcoins',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							'inr' => 'localbitcoins',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
+							'jpy' => 'localbitcoins',  // WAY MORE reliable than ALL alternatives
 							'rub' => 'localbitcoins',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							);
 
@@ -2023,10 +2023,6 @@ $app_config['portfolio_assets'] = array(
                                          'okex' => 'ATOM-ETH',
                                          'hotbit' => 'ATOM_ETH',
                                          'bitforex' => 'coin-eth-atom',
-                                                    ),
-                                                    
-                                    'tusd' => array(
-                                         'binance' => 'ATOMTUSD',
                                                     ),
                                                     
                                     'usd' => array(

@@ -63,7 +63,7 @@ To complete resetting your admin password, please visit this link below:
 
 This link expires in 1 day.
 
-If you did NOT request this password reset (originating from ip address ".$_SERVER['REMOTE_ADDR']."), you can ignore this message, and the account WILL NOT BE RESET.
+If you did NOT request this password reset (originating from ip address ".$remote_ip."), you can ignore this message, and the account WILL NOT BE RESET.
 
 ";
 	

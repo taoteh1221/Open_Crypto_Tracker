@@ -451,7 +451,7 @@ if ( $password_reset_approved || sizeof($stored_admin_login) != 2 ) {
 		
 		}
 		else {
-		app_logging('security_error', 'Admin login could not be updated', 'remote_address: ' . $_SERVER['REMOTE_ADDR']);
+		app_logging('security_error', 'Admin login could not be updated', 'remote_address: ' . $remote_ip);
 		}
 	
 

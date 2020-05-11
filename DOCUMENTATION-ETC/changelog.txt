@@ -3199,7 +3199,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Market pairing value function bugs fixed, where under certain edge cases could make the cron job runtime excessively long
 
--Initial app config auto-upgrading system (for cached user-customized app config in upcoming admin interface settings)
+-Initial app config auto-upgrading system (NO ACTIVATED YET...for cached user-customized app config in upcoming admin interface settings)
 
 -Code cleanup (semantics)
 

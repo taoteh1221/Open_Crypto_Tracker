@@ -207,7 +207,7 @@ global $app_config;
 
 function market_list_internal_api($exchange) {
 
-global $app_config;
+global $app_config, $remote_ip;
 
 $exchange = strtolower($exchange);
 
@@ -233,11 +233,11 @@ $result = array();
 	
 	
 	if ( !$exchange ) {
-	app_logging('int_api_error', 'From ' . $_SERVER['REMOTE_ADDR'] . ' (Missing parameter: exchange)');
+	app_logging('int_api_error', 'From ' . $remote_ip . ' (Missing parameter: exchange)', 'uri: ' . $_SERVER['REQUEST_URI'] . ';');
 	return array('error' => 'Missing parameter: [exchange]; ');
 	}
 	if ( sizeof($result) < 1 ) {
-	app_logging('int_api_error', 'From ' . $_SERVER['REMOTE_ADDR'] . ' (No markets found for exchange: ' . $exchange . ')');
+	app_logging('int_api_error', 'From ' . $remote_ip . ' (No markets found for exchange: ' . $exchange . ')', 'uri: ' . $_SERVER['REQUEST_URI'] . ';');
 	return array('error' => 'No markets found for exchange: ' . $exchange);
 	}
 	else {
@@ -423,7 +423,7 @@ return $volume_primary_currency_raw;
 
 function market_conversion_internal_api($market_conversion, $all_markets_data_array) {
 
-global $app_config, $selected_btc_primary_currency_pairing, $selected_btc_primary_exchange, $selected_btc_primary_currency_value;
+global $app_config, $remote_ip, $selected_btc_primary_currency_pairing, $selected_btc_primary_exchange, $selected_btc_primary_currency_value;
 
 $result = array();
 
@@ -440,16 +440,16 @@ $possible_dos_attack = 0;
 			
 			if ( $market_conversion == '' ) {
 			$result['error'] .= 'Missing parameter: [currency_symbol|market_only]; ';
-			app_logging('int_api_error', 'From ' . $_SERVER['REMOTE_ADDR'] . ' (Missing parameter: currency_symbol|market_only)');
+			app_logging('int_api_error', 'From ' . $remote_ip . ' (Missing parameter: currency_symbol|market_only)', 'uri: ' . $_SERVER['REQUEST_URI'] . ';');
 			}
 			elseif ( $market_conversion != 'market_only' && !$app_config['power_user']['bitcoin_currency_markets'][$market_conversion] ) {
 			$result['error'] .= 'Conversion market does not exist: '.$market_conversion.'; ';
-			app_logging('int_api_error', 'From ' . $_SERVER['REMOTE_ADDR'] . ' (Conversion market does not exist: '.$market_conversion.')');
+			app_logging('int_api_error', 'From ' . $remote_ip . ' (Conversion market does not exist: '.$market_conversion.')', 'uri: ' . $_SERVER['REQUEST_URI'] . ';');
 			}
 			
 			if ( $all_markets_data_array[0] == '' ) {
 			$result['error'] .= 'Missing parameter: [exchange-asset-pairing]; ';
-			app_logging('int_api_error', 'From ' . $_SERVER['REMOTE_ADDR'] . ' (Missing parameter: exchange-asset-pairing)');
+			app_logging('int_api_error', 'From ' . $remote_ip . ' (Missing parameter: exchange-asset-pairing)', 'uri: ' . $_SERVER['REQUEST_URI'] . ';');
 			}
 		
 	 return $result;
@@ -460,7 +460,7 @@ $possible_dos_attack = 0;
 	 // Return error message if the markets lists is more markets than allowed by $app_config['power_user']['local_api_market_limit']
 	 if ( sizeof($all_markets_data_array) > $app_config['power_user']['local_api_market_limit'] ) {
 	 $result['error'] = 'Exceeded maximum of ' . $app_config['power_user']['local_api_market_limit'] . ' markets allowed per request (' . sizeof($all_markets_data_array) . ').';
-	 app_logging('int_api_error', 'From ' . $_SERVER['REMOTE_ADDR'] . ' (Exceeded maximum markets allowed per request)', 'markets_requested: ' . sizeof($all_markets_data_array) . ';');
+	 app_logging('int_api_error', 'From ' . $remote_ip . ' (Exceeded maximum markets allowed per request)', 'markets_requested: ' . sizeof($all_markets_data_array) . '; uri: ' . $_SERVER['REQUEST_URI'] . ';');
 	 return $result;
 	 }
 
@@ -473,7 +473,7 @@ $possible_dos_attack = 0;
     	  if ( $possible_dos_attack > 5 ) {
     	  $result = array(); // reset for no output other than error notice
     	  $result['error'] = 'Too many non-existent markets requested.';
-		  app_logging('int_api_error', 'From ' . $_SERVER['REMOTE_ADDR'] . ' (Too many non-existent markets requested)');
+		  app_logging('int_api_error', 'From ' . $remote_ip . ' (Too many non-existent markets requested)', 'uri: ' . $_SERVER['REQUEST_URI'] . ';');
     	  return $result;
     	  }
     	  
@@ -619,12 +619,12 @@ $possible_dos_attack = 0;
         }
         elseif ( sizeof($market_data_array) < 3 ) {
         $result['market_conversion'][$market_data] = array('error' => "Missing all 3 REQUIRED sub-parameters: [exchange-asset-pairing]");
-		  app_logging('int_api_error', 'From ' . $_SERVER['REMOTE_ADDR'] . ' (Missing all 3 REQUIRED sub-parameters: exchange-asset-pairing)');
+		  app_logging('int_api_error', 'From ' . $remote_ip . ' (Missing all 3 REQUIRED sub-parameters: exchange-asset-pairing)', 'uri: ' . $_SERVER['REQUEST_URI'] . ';');
         $possible_dos_attack = $possible_dos_attack + 1;
         }
         elseif ( $pairing_id == '' ) {
         $result['market_conversion'][$market_data] = array('error' => "Market does not exist: [" . $exchange . "-" . $asset . "-" . $market_pairing . "]");
-		  app_logging('int_api_error', 'From ' . $_SERVER['REMOTE_ADDR'] . ' (Market does not exist: ' . $exchange . "-" . $asset . "-" . $market_pairing . ')');
+		  app_logging('int_api_error', 'From ' . $remote_ip . ' (Market does not exist: ' . $exchange . "-" . $asset . "-" . $market_pairing . ')', 'uri: ' . $_SERVER['REQUEST_URI'] . ';');
         $possible_dos_attack = $possible_dos_attack + 1;
         }
     
@@ -717,7 +717,7 @@ $pairing = strtolower($pairing);
    			
    			// ONLY NEEDED THIS WHEN WE HAD OUR BLACKLIST CHECKING BUG???
    			// #OR# DOES IT KEEP ALL RUNTIMES (ESPECIALLY CRON) #MUCH# QUICKER (DURING EDGE CASES) REGARDLESS??
-   			usleep(200000); // 0.2 seconds to update imported global vars and log the error, before we loop de loop
+   			//usleep(200000); // 0.2 seconds to update imported global vars and log the error, before we loop de loop
    			
    			return pairing_market_value($pairing);
    			
@@ -778,7 +778,7 @@ $pairing = strtolower($pairing);
    			
    			// ONLY NEEDED THIS WHEN WE HAD OUR BLACKLIST CHECKING BUG???
    			// #OR# DOES IT KEEP ALL RUNTIMES (ESPECIALLY CRON) #MUCH# QUICKER (DURING EDGE CASES) REGARDLESS??
-   			usleep(200000); // 0.2 seconds to update imported global vars and log the error, before we loop de loop
+   			//usleep(200000); // 0.2 seconds to update imported global vars and log the error, before we loop de loop
    					
    			return pairing_market_value($pairing);
    					

@@ -26,6 +26,12 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+Find out why occasionally there is a rare false positive error log entry, saying email has not been set yet.
+
+
+Find out why lakebtc silently fails, capture the json response with some temporary custom code for responses from that exchange. Then we can build fallback detection.
+
+
 See if exchange API data arrays can be manipulated slightly to build a reusable module for every exchange's API calls.
 
 
@@ -119,6 +125,9 @@ Add an alert bell icon in header login nav, and have alerts make it red and be a
 
 
 Interface alert for upgrades.
+
+
+Add Uniswap API: https://thegraph.com/explorer/subgraph/graphprotocol/uniswap
 
 
 Mail trading notes to admin email, only if user logged in as admin.

@@ -151,7 +151,7 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 
 	var limited_apis = <?=$js_limited_apis?>;
 	
-	var preferred_bitcoin_markets = [];
+	var preferred_bitcoin_markets = []; // Set the array
 	<?php
 	foreach ( $app_config['power_user']['bitcoin_preferred_currency_markets'] as $preferred_bitcoin_markets_key => $preferred_bitcoin_markets_value ) {
 	?>

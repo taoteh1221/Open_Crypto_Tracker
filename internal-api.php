@@ -22,7 +22,7 @@ ini_set('max_execution_time', $app_config['developer']['api_max_execution_time']
 
 
 // Ip address information
-$store_ip = preg_replace("/\./", "_", $_SERVER['REMOTE_ADDR']);
+$store_ip = preg_replace("/\./", "_", $remote_ip);
 $ip_access = trim( file_get_contents($base_dir . '/cache/events/throttling/local_api_incoming_ip_' . $store_ip . '.dat') );
 
 
@@ -30,9 +30,9 @@ $ip_access = trim( file_get_contents($base_dir . '/cache/events/throttling/local
 // Throttle ip addresses reconnecting before $app_config['power_user']['local_api_rate_limit'] interval passes
 if ( update_cache_file($base_dir . '/cache/events/throttling/local_api_incoming_ip_' . $store_ip . '.dat', ($app_config['power_user']['local_api_rate_limit'] / 60) ) == false ) {
 
-$result = array('error' => "Rate limit (maximum of once every " . $app_config['power_user']['local_api_rate_limit'] . " seconds) reached for ip address: " . $_SERVER['REMOTE_ADDR']);
+$result = array('error' => "Rate limit (maximum of once every " . $app_config['power_user']['local_api_rate_limit'] . " seconds) reached for ip address: " . $remote_ip);
 
-app_logging('int_api_error', 'From ' . $_SERVER['REMOTE_ADDR'] . ' (Rate limit reached)');
+app_logging('int_api_error', 'From ' . $remote_ip . ' (Rate limit reached)', 'uri: ' . $_SERVER['REQUEST_URI'] . ';');
 
 // JSON-encode results
 $json_result = json_encode($result, JSON_PRETTY_PRINT);
@@ -44,11 +44,11 @@ elseif ( !isset($_POST['api_key']) || isset($_POST['api_key']) && $_POST['api_ke
 	
 	if ( isset($_POST['api_key']) ) {
 	$result = array('error' => "Incorrect API key: " . $_POST['api_key']);
-	app_logging('int_api_error', 'From ' . $_SERVER['REMOTE_ADDR'] . ' (Incorrect API key)', 'api_key: ' . $_POST['api_key'] . ';');
+	app_logging('int_api_error', 'From ' . $remote_ip . ' (Incorrect API key)', 'api_key: ' . $_POST['api_key'] . '; uri: ' . $_SERVER['REQUEST_URI'] . ';');
 	}
 	else {
 	$result = array('error' => "Missing API key.");
-	app_logging('int_api_error', 'From ' . $_SERVER['REMOTE_ADDR'] . ' (Missing API key)');
+	app_logging('int_api_error', 'From ' . $remote_ip . ' (Missing API key)', 'uri: ' . $_SERVER['REQUEST_URI'] . ';');
 	}
 
 // JSON-encode results
@@ -107,14 +107,14 @@ $hash_check = md5($_GET['data_set']);
 		// Non-existent endpoint error message
 		else {
 		$result = array('error' => 'Endpoint does not exist: ' . $data_set_array[0]);
-		app_logging('int_api_error', 'From ' . $_SERVER['REMOTE_ADDR'] . ' (Endpoint does not exist: ' . $data_set_array[0] . ')');
+		app_logging('int_api_error', 'From ' . $remote_ip . ' (Endpoint does not exist: ' . $data_set_array[0] . ')', 'uri: ' . $_SERVER['REQUEST_URI'] . ';');
 		}
 	
 	
 		// No matches error message
 		if ( !isset($result) ) {
 		$result = array('error' => 'No matches / results found.');
-		app_logging('int_api_error', 'From ' . $_SERVER['REMOTE_ADDR'] . ' (No matches / results found)');
+		app_logging('int_api_error', 'From ' . $remote_ip . ' (No matches / results found)', 'uri: ' . $_SERVER['REQUEST_URI'] . ';');
 		}
 
 

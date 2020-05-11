@@ -4,6 +4,10 @@
  */
 
 
+// Random tips array (load here so we get the end user primary currency variable to use in the random tips)
+require_once('app-lib/php/other/random-tips.php');
+
+
 ?>
 
 <div class='max_full_width_wrapper'>
