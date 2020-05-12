@@ -222,7 +222,7 @@ select opt in $OPTIONS; do
 			
 			echo " "
 			
-			/usr/bin/apt-get install apache2 php php-mbstring php-curl php-gd php-zip libapache2-mod-php openssl ssl-cert avahi-daemon -y
+			/usr/bin/apt-get install apache2 php php-mbstring php-xml php-curl php-gd php-zip libapache2-mod-php openssl ssl-cert avahi-daemon -y
 			
 			/bin/sleep 3
 			

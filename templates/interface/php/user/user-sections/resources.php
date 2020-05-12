@@ -87,6 +87,8 @@
 	        
 	        <li class='links_list'><a href='https://www.blockchain.com/charts/hash-rate?timespan=all' target='_blank'>Bitcoin Hashrate (mining)</a></li>
 	        
+	        <li class='links_list'><a href='https://studio.glassnode.com/dashboards/eth-core-on-chain' target='_blank'>Ethereum On-Chain Stats</a></li>
+	        
 	        
 	        
 	    </ul>

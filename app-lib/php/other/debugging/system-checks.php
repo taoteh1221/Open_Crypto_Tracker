@@ -26,8 +26,28 @@ $force_exit = 1;
 
 
 // Check for curl
-if ( !function_exists('curl_version') ) {
-$system_error = "Curl for PHP (version ID ".PHP_VERSION_ID.") is not installed yet. Curl is required to run this application. <br /><br />";
+if ( !extension_loaded('curl') ) {
+$system_error = "PHP extension 'php-curl' not installed. 'php-curl' is required to run this application. <br /><br />";
+app_logging('system_error', $system_error);
+echo $system_error;
+$force_exit = 1;
+}
+
+
+
+// Check for xml
+if ( !extension_loaded('xml') ) {
+$system_error = "PHP extension 'php-xml' not installed. 'php-xml' is required to run this application. <br /><br />";
+app_logging('system_error', $system_error);
+echo $system_error;
+$force_exit = 1;
+}
+
+
+
+// Check for gd
+if ( !extension_loaded('gd') ) {
+$system_error = "PHP extension 'php-gd' not installed. 'php-gd' is required to run this application. <br /><br />";
 app_logging('system_error', $system_error);
 echo $system_error;
 $force_exit = 1;
@@ -37,7 +57,17 @@ $force_exit = 1;
 
 // Check for mbstring
 if ( !extension_loaded('mbstring') ) {
-$system_error = "PHP extension 'mbstring' not installed. 'mbstring' is required to run this application. <br /><br />";
+$system_error = "PHP extension 'php-mbstring' not installed. 'php-mbstring' is required to run this application. <br /><br />";
+app_logging('system_error', $system_error);
+echo $system_error;
+$force_exit = 1;
+}
+
+
+
+// Check for zip
+if ( !extension_loaded('zip') ) {
+$system_error = "PHP extension 'php-zip' not installed. 'php-zip' is required to run this application. <br /><br />";
 app_logging('system_error', $system_error);
 echo $system_error;
 $force_exit = 1;

@@ -3193,7 +3193,11 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.10.3:
 
+-News page / tab, where you can choose (from a list) which crypto news feeds you want displayed there
+
 -Misc. small bug fixes and UX / compatibility improvements
+
+-More system compatibility tests
 
 -Microsoft Internet Explorer bug fixed, where log viewing / code examples were not rendering properly
 

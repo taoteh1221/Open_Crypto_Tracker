@@ -196,7 +196,7 @@ $file_owner_info = posix_getpwuid(fileowner($file));
 	
 	// Log any write error
 	if ( $result == false ) {
-	app_logging('system_error', 'File write failed for file "' . $file . '" (MAKE SURE YOUR DISK ISN\'T FULL. Check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")');
+	app_logging('system_error', 'File write failed storing '.strlen($data).' bytes of data to file "' . $file . '" (MAKE SURE YOUR DISK ISN\'T FULL. Check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")');
 	}
 	
 	
@@ -1396,11 +1396,14 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 			$fallback_cache_data = 1;
 			}
 			else {
+					
 			$data = trim( file_get_contents('cache/secured/external_api/'.$hash_check.'.dat') );
+				
 				if ( $data != '' && $data != 'none' ) {
 				$api_runtime_cache[$hash_check] = $data; // Create a runtime cache from the file cache, for any additional requests during runtime for this data set
 				$fallback_cache_data = 1;
 				}
+				
 			}
 			
 			if ( isset($fallback_cache_data) ) {
@@ -1434,32 +1437,39 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 			////////////////////////////////////////////////////////////////
 			// If response seems to contain an error message
 			// MUST RUN BEFORE FALLBACK ATTEMPT TO CACHED DATA
-			if ( preg_match("/error/i", $data) ) {
+			if ( preg_match("/ error/i", $data)
+			|| preg_match("/error /i", $data)
+			|| preg_match("/\"error\"/i", $data)
+			|| preg_match("/'error'/i", $data)
+			|| preg_match("/error_/i", $data) ) {
 			
+				// DON'T FLAG as a possible error, if there are other words that contain the phrase "error" within them
+				if ( !preg_match("/terror/i", $data) ) {
+				
+					// ATTEMPT to weed out false positives before logging as an error
+					// Needed for kraken, coinmarketcap
+					// https://www.php.net/manual/en/regexp.reference.meta.php
+					if ( $endpoint_tld_or_ip == 'kraken.com' && preg_match("/\"error\":\[\],/i", $data) 
+					|| $endpoint_tld_or_ip == 'coinmarketcap.com' && preg_match("/\"error_code\":0,/i", $data)
+					|| $endpoint_tld_or_ip == 'coinmarketcap.com' && preg_match("/\"error_code\": 0,/i", $data) ) {
+					$false_positive = 1;
+					}
+					
+					
+					// If no false positive detected, log full results to file, WITH UNIQUE TIMESTAMP IN FILENAME TO AVOID OVERWRITES (FOR ADEQUATE DEBUGGING REVIEW)
+					if ( !$false_positive ) {
+					$error_response_log = '/cache/logs/errors/external_api/error-response-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-hash-'.$hash_check.'-timestamp-'.time().'.log';
+				
+					// LOG-SAFE VERSION (no post data with API keys etc)
+					app_logging('ext_api_error', 'POSSIBLE error for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data, 'requested from: server (local timeout setting ' . $app_config['power_user']['remote_api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; log_file: ' . $error_response_log . '; btc_primary_currency_pairing: ' . $app_config['general']['btc_primary_currency_pairing'] . '; btc_primary_exchange: ' . $app_config['general']['btc_primary_exchange'] . '; btc_primary_currency_value: ' . $selected_btc_primary_currency_value . '; hash_check: ' . $hash_check . ';' );
+				
+					// Log this error response from this data request
+					store_file_contents($base_dir . $error_response_log, $data);
+					
+					}
 			
-				// ATTEMPT to weed out false positives before logging as an error
-				// Needed for kraken, coinmarketcap
-				// https://www.php.net/manual/en/regexp.reference.meta.php
-				if ( $endpoint_tld_or_ip == 'kraken.com' && preg_match("/\"error\":\[\],/i", $data) 
-				|| $endpoint_tld_or_ip == 'coinmarketcap.com' && preg_match("/\"error_code\":0,/i", $data)
-				|| $endpoint_tld_or_ip == 'coinmarketcap.com' && preg_match("/\"error_code\": 0,/i", $data) ) {
-				$false_positive = 1;
 				}
-				
-				
-				// If no false positive detected, log full results to file, WITH UNIQUE TIMESTAMP IN FILENAME TO AVOID OVERWRITES (FOR ADEQUATE DEBUGGING REVIEW)
-				if ( !$false_positive ) {
-				$error_response_log = '/cache/logs/errors/external_api/error-response-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-hash-'.$hash_check.'-timestamp-'.time().'.log';
 			
-				// LOG-SAFE VERSION (no post data with API keys etc)
-				app_logging('ext_api_error', 'POSSIBLE error for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data, 'requested from: server (local timeout setting ' . $app_config['power_user']['remote_api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; log_file: ' . $error_response_log . '; btc_primary_currency_pairing: ' . $app_config['general']['btc_primary_currency_pairing'] . '; btc_primary_exchange: ' . $app_config['general']['btc_primary_exchange'] . '; btc_primary_currency_value: ' . $selected_btc_primary_currency_value . '; hash_check: ' . $hash_check . ';' );
-			
-				// Log this error response from this data request
-				store_file_contents($base_dir . $error_response_log, $data);
-				
-				}
-		
-		
 			}
 			////////////////////////////////////////////////////////////////
 			
@@ -1480,6 +1490,7 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 			|| preg_match("/\"data\":null/i", $data) // Bitflyer.com / generic
 			|| preg_match("/An error has occurred/i", $data) // Bitflyer.com / generic
 			|| preg_match("/\"success\":false/i", $data) // BTCturk.com / generic
+			|| preg_match("/too many requests/i", $data) // reddit.com / generic
 			|| $endpoint_tld_or_ip == 'bittrex.com' && !preg_match("/Volume/i", $data)
 			|| $endpoint_tld_or_ip == 'lakebtc.com' && !preg_match("/volume/i", $data)
 			|| $endpoint_tld_or_ip == 'localbitcoins.com' && !preg_match("/volume_btc/i", $data)
@@ -1490,11 +1501,14 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 				$fallback_cache_data = 1;
 				}
 				else {
+					
 				$data = trim( file_get_contents('cache/secured/external_api/'.$hash_check.'.dat') );
+				
 					if ( $data != '' && $data != 'none' ) {
 					$api_runtime_cache[$hash_check] = $data; // Create a runtime cache from the file cache, for any additional requests during runtime for this data set
 					$fallback_cache_data = 1;
 					}
+					
 				}
 			
 				if ( isset($fallback_cache_data) ) {
@@ -1535,12 +1549,22 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 		// Cache API data for this runtime session AFTER PERSISTENT FILE CACHE UPDATE, file cache doesn't reliably update until runtime session is ending because of file locking
 		// WE RE-CACHE DATA EVEN IF THIS WAS A FALLBACK TO CACHED DATA, AS WE WANT TO RESET THE TTL UNTIL NEXT LIVE API CHECK
 		if ( $ttl > 0 && $mode != 'proxy-check' ) {
+		
+		// DON'T USE isset(), use != '' to store as 'none' reliably (so we don't keep hitting a server that may be throttling us, UNTIL cache TTL runs out)
+		$api_runtime_cache[$hash_check] = ( $data != '' ? $data : 'none' ); 
+		
+			if ( isset($fallback_cache_data) ) {
+			$store_file_contents = touch($base_dir . '/cache/secured/external_api/'.$hash_check.'.dat');
+			}
+			else {
+			$store_file_contents = store_file_contents($base_dir . '/cache/secured/external_api/'.$hash_check.'.dat', $api_runtime_cache[$hash_check]);
+			}
 			
-		$api_runtime_cache[$hash_check] = ( isset($data) ? $data : 'none' ); 
 		
-		$store_file_contents = store_file_contents($base_dir . '/cache/secured/external_api/'.$hash_check.'.dat', $api_runtime_cache[$hash_check]);
-		
-			if ( $store_file_contents == false ) {
+			if ( $store_file_contents == false && isset($fallback_cache_data) ) {
+			app_logging('ext_api_error', 'Cache file touch() error for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data, 'data_size_bytes: ' . strlen($api_runtime_cache[$hash_check]) . ' bytes');
+			}
+			elseif ( $store_file_contents == false && !isset($fallback_cache_data) ) {
 			app_logging('ext_api_error', 'Cache file write error for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data, 'data_size_bytes: ' . strlen($api_runtime_cache[$hash_check]) . ' bytes');
 			}
 		

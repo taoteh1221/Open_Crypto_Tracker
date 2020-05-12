@@ -183,6 +183,23 @@ function chart_toggle(obj_var) {
 		}
 	
 }
+
+
+/////////////////////////////////////////////////////////////
+
+
+function feed_toggle(obj_var) {
+  
+	var show_feeds = $("#show_feeds").val();
+	
+		if ( obj_var.checked == true ) {
+		$("#show_feeds").val("[" + obj_var.value + "]" + "," + show_feeds);
+		}
+		else {
+		$("#show_feeds").val( show_feeds.replace("[" + obj_var.value + "],", "") );
+		}
+	
+}
 	
 	
 /////////////////////////////////////////////////////////////
@@ -222,6 +239,11 @@ function selectAll(toggle, form_name) {
             if ( form_name == 'activate_charts' && checkbox.checked != toggle.checked ) {
         		checkbox.checked = toggle.checked;
             chart_toggle(checkbox);
+            }
+            
+            else if ( form_name == 'activate_feeds' && checkbox.checked != toggle.checked ) {
+        		checkbox.checked = toggle.checked;
+            feed_toggle(checkbox);
             }
             
             else if ( form_name == 'coin_amounts' && checkbox.checked != toggle.checked ) {

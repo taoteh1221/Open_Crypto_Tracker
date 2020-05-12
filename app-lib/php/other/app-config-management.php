@@ -118,6 +118,9 @@ if (is_array($app_config['portfolio_assets']) || is_object($app_config['portfoli
 }
 
 
+// Alphabetically sort news feeds
+ksort($app_config['power_user']['news_feeds']);
+
 
 // Better decimal support for these vars...
 $app_config['general']['system_stats_first_chart_highest_value'] = number_to_string($app_config['general']['system_stats_first_chart_highest_value']); 

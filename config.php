@@ -542,7 +542,7 @@ $app_config['power_user']['remote_api_timeout'] = 20; // (default = 20)
 
 // 'on' verifies ALL REMOTE API server certificates for secure API connections, 'off' verifies NOTHING 
 // Set to 'off' if some exchange's API servers have invalid certificates (which stops price data retrieval...but you still want to get price data from them)
-$app_config['power_user']['remote_api_strict_ssl'] = 'on'; // (default = 'on')
+$app_config['power_user']['remote_api_strict_ssl'] = 'off'; // (default = 'off')
 
 
 // 'on' verifies ALL SMTP server certificates for secure SMTP connections, 'off' verifies NOTHING 
@@ -558,13 +558,58 @@ $app_config['power_user']['last_trade_cache_time'] = 4; // (default = 4)
 $app_config['power_user']['chainstats_cache_time'] = 70; // Minutes to cache blockchain stats (for mining calculators). Set high initially, it can be strict
 
 
+$app_config['power_user']['rss_feed_cache_time'] = 60; // Minutes to cache RSS feeds (for News page)
+
+
 $app_config['power_user']['marketcap_cache_time'] = 40; // Minutes to cache marketcap rankings...start high and test lower, it can be strict
 
 
 // Number of marketcap rankings to request from API.
 // 250 rankings is a safe maximum to start with, to avoid getting your API requests throttled / blocked
-$app_config['power_user']['marketcap_ranks_max'] = 250; 
-							
+$app_config['power_user']['marketcap_ranks_max'] = 250;
+
+
+
+// RSS news feeds available on the News page
+$app_config['power_user']['news_feeds'] = array(
+        
+        				'coin_desk' => array(
+            			"title" => "CoinDesk",
+            			"url" => "https://coindesk.com/feed?x=1"
+        											),
+        
+        				'coin_telegraph' => array(
+            			"title" => "CoinTelegraph",
+            			"url" => "https://cointelegraph.com/feed"
+        												),
+    
+        				'week_in_ethereum' => array(
+            			"title" => "Week In Ethereum News",
+            			"url" => "https://weekinethereumnews.com/feed/"
+        													),
+    
+        				'reddit_cryptocurrency' => array(
+            			"title" => "Reddit - CryptoCurrency",
+            			"url" => "https://www.reddit.com/r/CryptoCurrency/top/.rss?format=xml"
+        													),
+    
+        				'reddit_cryptomarkets' => array(
+            			"title" => "Reddit - CryptoMarkets",
+            			"url" => "https://www.reddit.com/r/CryptoMarkets/top/.rss?format=xml"
+        													),
+    
+        				'reddit_bitcoin' => array(
+            			"title" => "Reddit - Bitcoin",
+            			"url" => "https://www.reddit.com/r/Bitcoin/top/.rss?format=xml"
+        													),
+    
+        				'reddit_ethereum' => array(
+            			"title" => "Reddit - Ethereum",
+            			"url" => "https://www.reddit.com/r/Ethereum/top/.rss?format=xml"
+        													),
+        
+    						);
+     
 							
 							
 // Activate support for ALTCOIN PAIRED MARKETS (like doge/eth, dai/eth, etc)

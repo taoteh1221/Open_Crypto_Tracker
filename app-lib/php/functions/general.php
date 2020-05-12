@@ -4,6 +4,111 @@
  */
 
 
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+// Credit: https://www.alexkras.com/simple-rss-reader-in-85-lines-of-php/
+function rss_feeds($chosen_feeds, $feed_size) {
+	
+global $app_config;
+
+$news_feeds = $app_config['power_user']['news_feeds'];
+	
+$html = "";
+
+// Alphabetically sort chosen feeds
+sort($chosen_feeds);
+    
+    foreach($chosen_feeds as $feed) {
+    	
+    $feed = str_replace(array('[',']'),'',$feed); // Remove brackets from js storage format
+    
+    	if ( is_array($news_feeds[$feed]) ) {
+    	$html .= "<fieldset class='subsection_fieldset'><legend class='subsection_legend'> ".$news_feeds[$feed]["title"].'</legend>';
+    	$html .= get_feed($news_feeds[$feed]["url"], $feed_size);
+    	$html .= "</fieldset>";    
+    	}
+    
+    }
+
+return $html;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+// Credit: https://www.alexkras.com/simple-rss-reader-in-85-lines-of-php/
+function get_feed($url, $feed_size){
+	
+global $app_config, $base_dir, $fetched_reddit_feeds;
+
+
+	if ( preg_match("/reddit\.com/i", $url) ) {
+		
+	$is_reddit = 1;
+	
+		// If it's a consecutive reddit feed request and time to refresh the cache, sleep 15 seconds 
+		// (Reddit only allows rss feed connections every 7 seconds from ip addresses ACCORDING TO THEM, BUT IT SEEMS MUCH HIGHER IN REALITY)
+		if ( $fetched_reddit_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $app_config['power_user']['rss_feed_cache_time']) == true ) {
+		sleep(15); 
+		}
+	
+		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $app_config['power_user']['rss_feed_cache_time']) == true ) {
+		$fetched_reddit_feeds = $fetched_reddit_feeds + 1;
+		}
+		
+	}
+	
+
+$xmldata = @external_api_data('url', $url, $app_config['power_user']['rss_feed_cache_time']); 
+
+$rss = simplexml_load_string($xmldata);
+        
+$html .= '<ul>';
+   
+   $count = 0;
+   // Reddit atom format
+   if ( $is_reddit == 1 ) {
+   
+		foreach($rss->entry as $item) {
+   	$count++;     
+   		if($count > $feed_size) {
+      	break;
+      	}
+   	$html .= '<li class="links_list"><a href="'.htmlspecialchars($item->link['href']).'" target="_blank">'.htmlspecialchars($item->title).'</a></li>';
+   	}
+   
+   }
+   // Standard format
+   else {
+   
+		foreach($rss->channel->item as $item) {
+   	$count++;     
+   		if($count > $feed_size) {
+      	break;
+      	}
+   	$html .= '<li class="links_list"><a href="'.htmlspecialchars($item->link).'" target="_blank">'.htmlspecialchars($item->title).'</a></li>';
+   	}
+   
+   }
+        
+$html .= '</ul>';
+
+	if ( $xmldata == 'none' ) {
+	return '<span class="red">Error retrieving feed data.</span>';
+	}
+	else {
+	return $html;
+	}
+    
+}
+    
+
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
 
@@ -1541,6 +1646,14 @@ function update_cookies($set_coin_values, $set_pairing_values, $set_market_value
                store_cookie_contents("show_charts", "", time()-3600);  // Delete any existing cookies
                unset($_COOKIE['show_charts']);  // Delete any existing cookies
                }
+               
+               if ( $_POST['show_feeds'] != null ) {
+               store_cookie_contents("show_feeds", $_POST['show_feeds'], mktime()+31536000);
+               }
+               else {
+               store_cookie_contents("show_feeds", "", time()-3600);  // Delete any existing cookies
+               unset($_COOKIE['show_feeds']);  // Delete any existing cookies
+               }
               
                if ( $_POST['theme_selected'] != null ) {
                store_cookie_contents("theme_selected", $_POST['theme_selected'], mktime()+31536000);
@@ -1611,7 +1724,8 @@ function delete_all_cookies() {
   // Settings
   store_cookie_contents("coin_reload", "", time()-3600);  
   store_cookie_contents("notes_reminders", "", time()-3600);   
-  store_cookie_contents("show_charts", "", time()-3600);  
+  store_cookie_contents("show_charts", "", time()-3600);    
+  store_cookie_contents("show_feeds", "", time()-3600);  
   store_cookie_contents("theme_selected", "", time()-3600);  
   store_cookie_contents("sort_by", "", time()-3600);  
   store_cookie_contents("alert_percent", "", time()-3600); 
@@ -1634,6 +1748,7 @@ function delete_all_cookies() {
   unset($_COOKIE['coin_reload']);  
   unset($_COOKIE['notes_reminders']);
   unset($_COOKIE['show_charts']);  
+  unset($_COOKIE['show_feeds']);  
   unset($_COOKIE['theme_selected']);  
   unset($_COOKIE['sort_by']);  
   unset($_COOKIE['alert_percent']);  

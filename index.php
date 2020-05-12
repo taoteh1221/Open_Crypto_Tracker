@@ -44,6 +44,7 @@ require("templates/interface/php/header.php");
 			<li class='tabli'><a href='#mining_calculators'>Mining Calculators</a></li>
 			<li class='tabli'><a href='#tools'>Tools</a></li>
 			<li class='tabli'><a href='#resources'>Resources</a></li>
+			<li class='tabli'><a href='#news'>News</a></li>
 			<li class='tabli'><a href='#help'>Help?</a></li>
 		</ul>
 		
@@ -74,6 +75,9 @@ require("templates/interface/php/header.php");
 		</div>
 		<div id='resources' class='tabdiv'>
 			<?php require("templates/interface/php/user/user-sections/resources.php"); ?>
+		</div>
+		<div id='news' class='tabdiv'>
+			<?php require("templates/interface/php/user/user-sections/news.php"); ?>
 		</div>
 		<div id='help' class='tabdiv'>
 			<?php require("templates/interface/php/user/user-sections/help.php"); ?>

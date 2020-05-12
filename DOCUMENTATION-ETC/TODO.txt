@@ -15,6 +15,8 @@ Password notes: https://www.php.net/manual/en/faq.passwords.php
 "NEXT ON THE LIST" SUMMARY SECTION
 ///////////////////////////////////////////////////////
 
+CREATE A NEW ERROR LOG NOTICE if file write fails, and it's the API cache, AND STRICT SSL IS ON (THAT STRICT SSL #MAY# NEED TO BE TURNED OFF IN CONFIG.PHP)
+
 Post on hive, telegram, discord, Twitter, and Facebook whenever there is a new release of the app.
 
 ALWAYS do everything in the optimizations / bugs / tests / ux / qa / other section of this list FIRST, before adding ANY new features (find every flaming turd before we start a dumpster fire).
@@ -134,9 +136,6 @@ Mail trading notes to admin email, only if user logged in as admin.
 
 
 Option to use new zip file encryption password feature to encrypt portfolio spreadsheet exports when downloading exported portfolio data.
-
-
-Add php logic to grab rss feeds from major crypto news sites and reddit? Add to new tab called "news", and have each feed activated in same format as the charts page modal?
 
 
 Add additional ability to do telegram webhooks, to query asset prices at different exchanges through telegram chat with the chat bot. Example: "/price ETH/USDT @ Binance"
