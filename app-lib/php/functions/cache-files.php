@@ -1444,7 +1444,8 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 			|| preg_match("/error_/i", $data) ) {
 			
 				// DON'T FLAG as a possible error, if there are other words that contain the phrase "error" within them
-				if ( !preg_match("/terror/i", $data) ) {
+				// Also, don't flag as possible error if the phrase 'error' appears more than twice (as it may just be textual content in a news feed, etc)
+				if ( !preg_match("/terror/i", $data) && substri_count($data, 'error') < 2 ) {
 				
 					// ATTEMPT to weed out false positives before logging as an error
 					// Needed for kraken, coinmarketcap
@@ -1554,7 +1555,8 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 		$api_runtime_cache[$hash_check] = ( $data != '' ? $data : 'none' ); 
 		
 			if ( isset($fallback_cache_data) ) {
-			$store_file_contents = touch($base_dir . '/cache/secured/external_api/'.$hash_check.'.dat');
+			//$store_file_contents = touch($base_dir . '/cache/secured/external_api/'.$hash_check.'.dat');
+			$store_file_contents = store_file_contents($base_dir . '/cache/secured/external_api/'.$hash_check.'.dat', $api_runtime_cache[$hash_check]);
 			}
 			else {
 			$store_file_contents = store_file_contents($base_dir . '/cache/secured/external_api/'.$hash_check.'.dat', $api_runtime_cache[$hash_check]);
@@ -1562,7 +1564,8 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 			
 		
 			if ( $store_file_contents == false && isset($fallback_cache_data) ) {
-			app_logging('ext_api_error', 'Cache file touch() error for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data, 'data_size_bytes: ' . strlen($api_runtime_cache[$hash_check]) . ' bytes');
+			//app_logging('ext_api_error', 'Cache file touch() error for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data, 'data_size_bytes: ' . strlen($api_runtime_cache[$hash_check]) . ' bytes');
+			app_logging('ext_api_error', 'Cache file write error for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data, 'data_size_bytes: ' . strlen($api_runtime_cache[$hash_check]) . ' bytes');
 			}
 			elseif ( $store_file_contents == false && !isset($fallback_cache_data) ) {
 			app_logging('ext_api_error', 'Cache file write error for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data, 'data_size_bytes: ' . strlen($api_runtime_cache[$hash_check]) . ' bytes');

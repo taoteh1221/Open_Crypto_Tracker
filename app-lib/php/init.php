@@ -186,6 +186,8 @@ $possible_http_users = array(
 // Initial vars
 $fetched_reddit_feeds = 0;
 
+$fetched_stackexchange_feeds = 0;
+
 $cmc_notes = null;
 
 $config_upgraded = null;

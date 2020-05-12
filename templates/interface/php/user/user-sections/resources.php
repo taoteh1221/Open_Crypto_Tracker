@@ -297,9 +297,6 @@
 	    <ul>
 	        
 	        
-	        
-	        <li class='links_list'><a href='https://www.altdex.co/news/' target='_blank'>AltDex News Feed</a></li>
-	        
 	        <li class='links_list'><a href='http://bitcoinist.com/' target='_blank'>Bitcoinist</a></li>
 	        
 	        <li class='links_list'><a href='https://bitcoinmagazine.com/' target='_blank'>Bitcoin Magazine</a></li>
@@ -313,8 +310,6 @@
 	        <li class='links_list'><a href='https://cointelegraph.com/' target='_blank'>Coin Telegraph</a></li>
 	        
 	        <li class='links_list'><a href='https://www.cointrust.com/' target='_blank'>Coin Trust</a></li>
-	        
-	        <li class='links_list'><a href='https://www.newsbtc.com/' target='_blank'>News BTC</a></li>
 	        
 	        <li class='links_list'><a href='https://www.theblockcrypto.com/' target='_blank'>The Block</a></li>
 	        

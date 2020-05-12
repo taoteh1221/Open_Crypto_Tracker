@@ -4,6 +4,14 @@
  */
 
 
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function substri_count($haystack, $needle) {
+    return substr_count(strtoupper($haystack), strtoupper($needle));
+}
+
 
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
@@ -27,7 +35,7 @@ sort($chosen_feeds);
     
     	if ( is_array($news_feeds[$feed]) ) {
     	$html .= "<fieldset class='subsection_fieldset'><legend class='subsection_legend'> ".$news_feeds[$feed]["title"].'</legend>';
-    	$html .= get_feed($news_feeds[$feed]["url"], $feed_size);
+    	$html .= get_feed($news_feeds[$feed]["url"], $feed_size, $news_feeds[$feed]["atom_format"]);
     	$html .= "</fieldset>";    
     	}
     
@@ -43,23 +51,34 @@ return $html;
 
 
 // Credit: https://www.alexkras.com/simple-rss-reader-in-85-lines-of-php/
-function get_feed($url, $feed_size){
+function get_feed($url, $feed_size, $atom_format=false){
 	
-global $app_config, $base_dir, $fetched_reddit_feeds;
+global $app_config, $base_dir, $fetched_reddit_feeds, $fetched_stackexchange_feeds;
 
 
-	if ( preg_match("/reddit\.com/i", $url) ) {
-		
-	$is_reddit = 1;
+	if ( preg_match("/reddit\.com/i", $url) || preg_match("/stackexchange\.com/i", $url) ) {
 	
 		// If it's a consecutive reddit feed request and time to refresh the cache, sleep 15 seconds 
 		// (Reddit only allows rss feed connections every 7 seconds from ip addresses ACCORDING TO THEM, BUT IT SEEMS MUCH HIGHER IN REALITY)
 		if ( $fetched_reddit_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $app_config['power_user']['rss_feed_cache_time']) == true ) {
-		sleep(15); 
+		sleep(10); 
 		}
 	
 		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $app_config['power_user']['rss_feed_cache_time']) == true ) {
 		$fetched_reddit_feeds = $fetched_reddit_feeds + 1;
+		}
+		
+	}
+	elseif ( preg_match("/stackexchange\.com/i", $url) ) {
+	
+		// If it's a consecutive reddit feed request and time to refresh the cache, sleep 15 seconds 
+		// (Reddit only allows rss feed connections every 7 seconds from ip addresses ACCORDING TO THEM, BUT IT SEEMS MUCH HIGHER IN REALITY)
+		if ( $fetched_stackexchange_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $app_config['power_user']['rss_feed_cache_time']) == true ) {
+		sleep(5); 
+		}
+	
+		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $app_config['power_user']['rss_feed_cache_time']) == true ) {
+		$fetched_stackexchange_feeds = $fetched_stackexchange_feeds + 1;
 		}
 		
 	}
@@ -71,9 +90,11 @@ $rss = simplexml_load_string($xmldata);
         
 $html .= '<ul>';
    
+   
    $count = 0;
-   // Reddit atom format
-   if ( $is_reddit == 1 ) {
+   
+   // Atom format
+   if ( $atom_format == true ) {
    
 		foreach($rss->entry as $item) {
    	$count++;     
@@ -84,7 +105,7 @@ $html .= '<ul>';
    	}
    
    }
-   // Standard format
+   // Standard RSS format
    else {
    
 		foreach($rss->channel->item as $item) {
@@ -96,6 +117,7 @@ $html .= '<ul>';
    	}
    
    }
+   
         
 $html .= '</ul>';
 
@@ -172,6 +194,7 @@ $skip_upgrading = array(
 								'ethereum_subtoken_ico_values',
 								'mobile_network_text_gateways',
 								'portfolio_assets',
+								'news_feeds',
 								);
 
 

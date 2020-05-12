@@ -15,6 +15,10 @@ Password notes: https://www.php.net/manual/en/faq.passwords.php
 "NEXT ON THE LIST" SUMMARY SECTION
 ///////////////////////////////////////////////////////
 
+
+Double-check touch() usage in external api logic, before including in a release
+
+
 Do same ui for audio alert we did for currency market alert.
 
 
