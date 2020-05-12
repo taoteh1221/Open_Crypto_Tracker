@@ -20,13 +20,13 @@
 			
 
 
-	<p><button class="show_feed_settings force_button_style">Show News Feeds</button></p>
+	<p><button class="show_feed_settings force_button_style">Select News Feeds</button></p>
 	
 	
 	<div id="show_feed_settings">
 	
 		
-		<h3>Show News Feeds</h3>
+		<h3>Select News Feeds</h3>
 	
 				<span style='margin: 35px;' class='red countdown_notice'></span>
 			
@@ -34,7 +34,7 @@
 	<p><button class='force_button_style' onclick='
 	$(".show_feed_settings").modaal("close");
 	$("#coin_amounts").submit();
-	'>Update Shown News Feeds</button></p>
+	'>Update Selected News Feeds</button></p>
 	
 	<p><input type='checkbox' onclick='
 	
@@ -84,7 +84,7 @@
 		<p><button class='force_button_style' onclick='
 		$(".show_feed_settings").modaal("close");
 		$("#coin_amounts").submit();
-		'>Update Shown News Feeds</button></p>
+		'>Update Selected News Feeds</button></p>
 		
 	</div>
 	
@@ -105,7 +105,7 @@
 	<div class='align_center' style='min-height: 100px;'>
 	
 		<p><img src='templates/interface/media/images/favicon.png' alt='' class='image_border' /></p>
-		<p class='red' style='font-weight: bold; position: relative; margin: 15px;'>Click the Show News Feeds button (top left) to add news feeds.</p>
+		<p class='red' style='font-weight: bold; position: relative; margin: 15px;'>Click the "Select News Feeds" button (top left) to add news feeds.</p>
 	</div>
 	<?php
 	}

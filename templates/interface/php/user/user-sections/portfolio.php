@@ -778,7 +778,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	<div class='align_center' style='min-height: 100px;'>
 	
 		<p><img src='templates/interface/media/images/favicon.png' alt='' class='image_border' /></p>
-		<p class='red' style='font-weight: bold; position: relative; margin: 15px;'>No portfolio assets added yet (add them on the Update Assets page).</p>
+		<p class='red' style='font-weight: bold; position: relative; margin: 15px;'>No portfolio assets added yet (add them on the "Update Assets" page).</p>
 	</div>
 	
 	<?php

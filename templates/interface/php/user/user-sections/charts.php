@@ -16,13 +16,13 @@
 			
 	<p class='bitcoin' style='font-weight: bold;'>Multiple charts may take a few seconds to fully render. If your web browser freezes for a significant period of time, try loading a few less charts until rendering time(s) are acceptable.</p>	
 				
-	<p><button class="show_chart_settings force_button_style">Show Charts</button></p>
+	<p><button class="show_chart_settings force_button_style">Select Charts</button></p>
 	
 	
 	<div id="show_chart_settings">
 	
 		
-		<h3>Show Charts</h3>
+		<h3>Select Charts</h3>
 	
 				<span style='margin: 35px;' class='red countdown_notice'></span>
 			
@@ -35,7 +35,7 @@
 	<p><button class='force_button_style' onclick='
 	$(".show_chart_settings").modaal("close");
 	$("#coin_amounts").submit();
-	'>Update Shown Charts</button></p>
+	'>Update Selected Charts</button></p>
 	
 	<p><input type='checkbox' onclick='
 	
@@ -45,7 +45,7 @@
 		$("#show_charts").val("");
 		}
 		
-	' /> Select / Unselect All &nbsp;&nbsp; <span class='red'>(if "loading charts" notice freezes, check / uncheck this box, then click "Update Shown Charts")</span></p>
+	' /> Select / Unselect All &nbsp;&nbsp; <span class='red'>(if "loading charts" notice freezes, check / uncheck this box, then click "Update Selected Charts")</span></p>
 		
 		<form id='activate_charts' name='activate_charts'>
 		
@@ -113,7 +113,7 @@
 		<p><button class='force_button_style' onclick='
 		$(".show_chart_settings").modaal("close");
 		$("#coin_amounts").submit();
-		'>Update Shown Charts</button></p>
+		'>Update Selected Charts</button></p>
 		
 	</div>
 	
@@ -224,7 +224,7 @@
 	<div class='align_center' style='min-height: 100px;'>
 	
 		<p><img src='templates/interface/media/images/favicon.png' alt='' class='image_border' /></p>
-		<p class='red' style='font-weight: bold; position: relative; margin: 15px;'>Click the Show Charts button (top left) to add charts.</p>
+		<p class='red' style='font-weight: bold; position: relative; margin: 15px;'>Click the "Select Charts" button (top left) to add charts.</p>
 	</div>
 	<?php
 	}
