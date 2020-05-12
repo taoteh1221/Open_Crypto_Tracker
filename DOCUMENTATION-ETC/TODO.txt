@@ -15,6 +15,12 @@ Password notes: https://www.php.net/manual/en/faq.passwords.php
 "NEXT ON THE LIST" SUMMARY SECTION
 ///////////////////////////////////////////////////////
 
+Do same ui for audio alert we did for currency market alert.
+
+
+Make sure "last lines" in log view ui are not the "first lines".
+
+
 CREATE A NEW ERROR LOG NOTICE if file write fails, and it's the API cache, AND STRICT SSL IS ON (THAT STRICT SSL #MAY# NEED TO BE TURNED OFF IN CONFIG.PHP)
 
 Post on hive, telegram, discord, Twitter, and Facebook whenever there is a new release of the app.
