@@ -99,7 +99,7 @@ $html .= '<ul>';
         
 $html .= '</ul>';
 
-	if ( $xmldata == 'none' ) {
+	if ( $xmldata == 'none' || $rss == false ) {
 	return '<span class="red">Error retrieving feed data.</span>';
 	}
 	else {
