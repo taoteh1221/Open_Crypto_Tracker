@@ -202,7 +202,7 @@ $app_config['general']['charts_toggle'] = 'on'; // 'on' / 'off'
 $app_config['general']['default_theme'] = 'dark'; // 'dark' or 'light'
 
 
-$app_config['general']['margin_leverage_max'] = 150; // Maximum margin leverage available in the user interface ('Update Assets' page, etc)
+$app_config['general']['margin_leverage_max'] = 150; // Maximum margin leverage available in the user interface ('Update' page, etc)
 
 
 // Highest numeric value sensor data to include in the FIRST system information chart (out of two)
@@ -546,7 +546,9 @@ $app_config['power_user']['last_trade_cache_time'] = 4; // (default = 4)
 $app_config['power_user']['chainstats_cache_time'] = 70; // Minutes to cache blockchain stats (for mining calculators). Set high initially, it can be strict
 
 
-$app_config['power_user']['rss_feed_cache_time'] = 90; // Minutes to cache RSS feeds (for News page)
+// Minutes to cache RSS feeds (for News page)
+// This time will automatically vary randomly up to 35 minutes EXTRA, to avoid all feeds updating at the same time (which slows page loads significantly)
+$app_config['power_user']['rss_feed_cache_time'] = 70; 
 
 
 $app_config['power_user']['marketcap_cache_time'] = 40; // Minutes to cache marketcap rankings...start high and test lower, it can be strict

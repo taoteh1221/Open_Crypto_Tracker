@@ -63,8 +63,8 @@ autosize(document.querySelector('textarea[data-autoresize]'));
   	$("#admin_tab_content").css('max-width','100%');
   	}
   	else {
-  	$("#admin_wrapper").css('max-width','1350px');
-  	$("#admin_tab_content").css('max-width','1350px');
+  	$("#admin_wrapper").css('max-width','1200px');
+  	$("#admin_tab_content").css('max-width','1200px');
   	}
   
   });

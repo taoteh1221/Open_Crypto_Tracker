@@ -1424,7 +1424,7 @@ app doing the data requests, not a malicious bot)
 
 -------------------------------------------------------------------
 3.19.1:
--Bug fix for layout spacing with the new margin leverage fields, on the Update Assets page
+-Bug fix for layout spacing with the new margin leverage fields, on the Update page
 -------------------------------------------------------------------
 
 
@@ -1482,7 +1482,7 @@ app doing the data requests, not a malicious bot)
 
 -------------------------------------------------------------------
 3.23.1:
--Bug fix on Update Assets page for checkboxes
+-Bug fix on Update page for checkboxes
 -Compatibility CSS for charts
 -------------------------------------------------------------------
 

@@ -83,6 +83,12 @@ border-left: 2px solid #808080;
 }
 
 
+.border_rt {
+border-top: 2px solid #808080;
+border-right: 2px solid #808080;
+}
+
+
 .border_lrt {
 border-top: 2px solid #808080;
 border-left: 2px solid #808080;
@@ -93,6 +99,12 @@ border-right: 2px solid #808080;
 .border_lb {
 border-bottom: 2px solid #808080;
 border-left: 2px solid #808080;
+}
+
+
+.border_rb {
+border-bottom: 2px solid #808080;
+border-right: 2px solid #808080;
 }
 
 

@@ -8,7 +8,7 @@
 $csv_download_array[] = array(
 	        							'Asset Symbol',
 	        							'Holdings',
-	        							'Purchase Average (per-token)',
+	        							'Average Paid (per-token)',
 	        							'Margin Leverage',
 	        							'Long or Short',
 	        							'Exchange ID',

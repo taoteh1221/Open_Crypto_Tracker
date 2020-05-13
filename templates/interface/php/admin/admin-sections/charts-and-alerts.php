@@ -6,7 +6,7 @@
 
 ?>
 
-<div class='max_1350px_wrapper'>
+<div class='max_1200px_wrapper'>
 	
 				<h3 class='align_center'><?=( $app_config['general']['charts_toggle'] == 'on' ? 'Charts and ' : 'Price ' )?>Alerts</h3>
 				
@@ -17,7 +17,7 @@
 	
 			    
 			    
-</div> <!-- max_1350px_wrapper END -->
+</div> <!-- max_1200px_wrapper END -->
 
 
 

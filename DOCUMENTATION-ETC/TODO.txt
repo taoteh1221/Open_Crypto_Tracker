@@ -16,6 +16,9 @@ Password notes: https://www.php.net/manual/en/faq.passwords.php
 ///////////////////////////////////////////////////////
 
 
+Darken up dark theme visual price alerts loss coloring (the light blue text washes out too much).
+
+
 Add bitmex API: https://www.bitmex.com/api/explorer/
 
 
@@ -190,7 +193,7 @@ Build tool that finds localbitcoins markets not added yet
 Add twilio.com and clicksend.com mobile text messaging support
 
 
-Add drop-down menu feature next to "update assets" buttons for "save as": cookie data | session data | only post data.
+Add drop-down menu feature next to "Save Updated Portfolio" buttons for "save as": cookie data | session data | only post data.
 
 
 2-way encryption option (unlocked with 6 digit PIN) for storing coin amounts (IN COOKIES ONLY, NO DATABASE STORAGE !EVER!), with "quick lock" to quickly re-hide portfolio data (staying hidden persists on page load / reload as well with a cookie).

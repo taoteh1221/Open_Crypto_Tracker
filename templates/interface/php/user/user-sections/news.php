@@ -6,7 +6,7 @@
 
 ?>
 
-<div class='max_1350px_wrapper'>
+<div class='max_1200px_wrapper'>
 
 			
 			<h4 style='display: inline;'>News</h4>
@@ -29,6 +29,9 @@
 		<h3>Select News Feeds</h3>
 	
 				<span style='margin: 35px;' class='red countdown_notice'></span>
+	
+	<p class='red'>*News feeds are not activated by default to increase page loading speed / responsiveness. It's recommended to avoid activating too many news feeds at the same time, to keep your page load times quick. You can enable "Use cookies to save data" on the Settings page <i>before activating your news feeds</i>, if you want them to stay activated between browser sessions.</p>
+	
 			
 	<!-- Submit button must be OUTSIDE form tags here, or it submits the target form improperly and loses data -->
 	<p><button class='force_button_style' onclick='
@@ -111,7 +114,7 @@
 	}
 	?>
 		    
-</div> <!-- max_1350px_wrapper END -->
+</div> <!-- max_1200px_wrapper END -->
 
 
 

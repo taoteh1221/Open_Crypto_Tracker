@@ -6,7 +6,7 @@
 
 ?>
 
-<div class='max_1350px_wrapper'>
+<div class='max_1200px_wrapper'>
 
 			
 			<h4 style='display: inline;'>Tools</h4>
@@ -20,7 +20,7 @@
 			<fieldset class='subsection_fieldset'>
 				<legend class='subsection_legend'> <b>QR Code Generator For Addresses</b> </legend>
 		    
-			<p class='red'>Using this QR code generator <i><u>will set this page as the start page</u>, which you can reset afterwards at top left</i>. If you have portfolio data you don't want to lose, be sure you have enabled "Use cookies to save data between browser sessions" on the Settings page before using this tool.</p>
+			<p class='red'>Using this QR code generator <i><u>will set this page as the start page</u>, which you can reset afterwards at top left</i>. If you have portfolio data you don't want to lose, be sure you have enabled "Use cookies to save data" on the Settings page before using this tool.</p>
 			
 				<?php require("app-lib/php/other/third-party/qr-code-generator/qr-code-generator.php"); ?>
 				
@@ -100,7 +100,7 @@
 			
 		    
 		    
-</div> <!-- max_1350px_wrapper END -->
+</div> <!-- max_1200px_wrapper END -->
 
 
 

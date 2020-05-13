@@ -216,7 +216,7 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 		 
     
 	 	<div class='align_center loading bitcoin' id='app_loading'>
-	 	<img src="templates/interface/media/images/loader.gif" height='57' alt="" style='vertical-align: middle;' /> <span id='app_loading_span'>Loading App...</span>
+	 	<img src="templates/interface/media/images/loader.gif" height='57' alt="" style='vertical-align: middle;' /> <span id='app_loading_span'>Loading...</span>
 	 	</div>
 	 
 		

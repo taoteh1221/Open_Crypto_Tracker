@@ -79,20 +79,20 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 ?>
 
 
-<table border='0' cellpadding='10' cellspacing='0' id="coins_table" class='show_coin_values'>
+<table border='0' cellpadding='10' cellspacing='0' id="coins_table">
  <thead>
     <tr>
 <th class='border_lt'>Sort</th>
 <th class='border_lt blue al_right'><span>Asset</span></th>
-<th class='border_t'>Per-Token (<span class='btc_primary_currency_pairing'><?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?></span>)</th>
+<th class='border_t'>Token Value (<span class='btc_primary_currency_pairing'><?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?></span>)</th>
+<th class='border_lt blue'>Exchange</th>
+<th class='border_t al_right'>Market Value</th>
+<th class='border_t blue'>Market</th>
+<th class='border_t'>Volume (<span class='btc_primary_currency_pairing'><?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?></span>)</th>
 <th class='border_lt blue al_right'>Holdings</th>
 <th class='border_t'>Symbol</th>
-<th class='border_lt blue'>Exchange</th>
-<th class='border_t'>Trade Volume (<span class='btc_primary_currency_pairing'><?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?></span>)</th>
-<th class='border_t al_right'>Trade Value</th>
-<th class='border_t blue'>Market</th>
-<th class='border_lt blue'>Holdings Value</th>
-<th class='border_lrt blue'>Subtotal (<span class='btc_primary_currency_pairing'><?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?></span>)</th>
+<th class='border_t blue'>Holdings Value</th>
+<th class='border_rt blue'>(<span class='btc_primary_currency_pairing'><?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?></span>)</th>
     </tr>
   </thead>
  <tbody>
@@ -537,7 +537,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 				}
 			 ?>
 				
-			+'<p class="coin_info balloon_notation"><span class="yellow">*<?=( $leverage_added == 1 ? 'Leverage / ' : '' )?>Gain / Loss stats only include assets where you have set the<br />"Average Paid (per-token)" value on the Update Assets page.</span></p>';
+			+'<p class="coin_info balloon_notation"><span class="yellow">*<?=( $leverage_added == 1 ? 'Leverage / ' : '' )?>Gain / Loss stats only include assets where you have set the<br />"Average Paid (per-token)" value on the Update page.</span></p>';
 		
 		
 			$('#portfolio_gain_loss').balloon({
@@ -765,7 +765,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	?>
 	
 	<style>
-	.show_coin_values, #system_stats {
+	.show_coin_values, #system_stats, #coins_table {
 	display: block;
 	}
 	</style>
@@ -778,7 +778,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	<div class='align_center' style='min-height: 100px;'>
 	
 		<p><img src='templates/interface/media/images/favicon.png' alt='' class='image_border' /></p>
-		<p class='red' style='font-weight: bold; position: relative; margin: 15px;'>No portfolio assets added yet (add them on the "Update Assets" page).</p>
+		<p class='red' style='font-weight: bold; position: relative; margin: 15px;'>No portfolio assets added yet (add them on the "Update" page).</p>
 	</div>
 	
 	<?php

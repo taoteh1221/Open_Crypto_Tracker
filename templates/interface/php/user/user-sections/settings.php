@@ -6,7 +6,7 @@
 
 ?>
 
-<div class='max_1350px_wrapper'>
+<div class='max_1200px_wrapper'>
 
 			
 			<h4 style='display: inline;'>Settings</h4>
@@ -144,7 +144,7 @@
 				    
 				    /////////////////////////////////////////////////////////
 				    
-				    // "Update assets" tab, mirroring of settings
+				    // "Update" tab, mirroring of settings
 				    if ( document.getElementById("standalone_primary_currency_enabled").checked == false ) {
 				    
 				    $("#btc_pairing").val( btc_primary_currency );
@@ -227,7 +227,7 @@
 				    
 				    /////////////////////////////////////////////////////////
 				    
-				    // "Update assets" tab, mirroring of settings
+				    // "Update" tab, mirroring of settings
 				    if ( document.getElementById("standalone_primary_currency_enabled").checked == false ) {
 				    $("#btc_market").val( primary_currency_market ); // Set hidden field var
 				    $("#" + btc_primary_currency + "BTC_pairs").val( primary_currency_market ); // Set selected drop down choice
@@ -254,7 +254,7 @@
 				    
 				    /////////////////////////////////////////////////////////
 				    
-				    // "Update assets" tab, mirroring of settings
+				    // "Update" tab, mirroring of settings
 				    if ( this.checked == false ) {
 				    
 				    $("#btc_market_lists").children().hide(); 
@@ -274,7 +274,7 @@
 				    }
 				    
 				    
-				    ' <?=( sizeof($primary_currency_market_standalone) == 2 ? 'checked' : '' )?> /> Stand-Alone Mode (<i>WON'T automatically change</i> Bitcoin market on "Update Assets" page)
+				    ' <?=( sizeof($primary_currency_market_standalone) == 2 ? 'checked' : '' )?> /> Stand-Alone Mode (<i>WON'T automatically change</i> Bitcoin market on "Update" page)
 				    
 				    <div id='primary_currency_markets_alert' class='red_dotted red'></div>
 				    
@@ -284,7 +284,7 @@
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">The Currency Market setting allows you to change your default primary currency for the portfolio interface (the charts / price alerts currency market <i>must be changed separately in config.php</i>).</p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Additionally, if you check off "Stand-Alone Mode", your chosen Bitcoin market on the "Update Assets" page <i>will NOT be automatically changed to match your chosen Currency Market on the "Settings" page</i>. This is useful if you\'d like to browse through different Bitcoin markets, BUT don\'t want your default primary currency to change in the app.</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Additionally, if you check off "Stand-Alone Mode", your chosen Bitcoin market on the "Update" page <i>will NOT be automatically changed to match your chosen Currency Market on the "Settings" page</i>. This is useful if you\'d like to browse through different Bitcoin markets, BUT don\'t want your default primary currency to change in the app.</p>'
 			
 			+'<p class="coin_info"><span class="yellow"> </span></p>';
 		
@@ -344,20 +344,20 @@
 			?>
 			
 			
-			    <p class='settings_sections'><b>Sort Portfolio Data By Column:</b> <select id='sorted_by_col' onchange='
+			    <p class='settings_sections'><b>Sort Portfolio Data By:</b> <select id='sorted_by_col' onchange='
 			    $("#sort_by").val( this.value + "|" + $("#sorted_by_asc_desc").val() );
 			    '>
 				<option value='0' <?=( $sorted_by_col == 0 ? ' selected ' : '' )?>> Sort </option>
 				<option value='1' <?=( $sorted_by_col == 1 ? ' selected ' : '' )?>> Asset </option>
-				<option value='2' <?=( $sorted_by_col == 2 ? ' selected ' : '' )?>> Per-Token (<?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?>) </option>
-				<option value='3' <?=( $sorted_by_col == 3 ? ' selected ' : '' )?>> Holdings </option>
-				<option value='4' <?=( $sorted_by_col == 4 ? ' selected ' : '' )?>> Symbol </option>
-				<option value='5' <?=( $sorted_by_col == 5 ? ' selected ' : '' )?>> Exchange </option>
-				<option value='6' <?=( $sorted_by_col == 6 ? ' selected ' : '' )?>> Trade Volume (<?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?>) </option>
-				<option value='7' <?=( $sorted_by_col == 7 ? ' selected ' : '' )?>> Trade Value </option>
-				<option value='8' <?=( $sorted_by_col == 8 ? ' selected ' : '' )?>> Market </option>
+				<option value='2' <?=( $sorted_by_col == 2 ? ' selected ' : '' )?>> Token Value (<?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?>) </option>
+				<option value='3' <?=( $sorted_by_col == 3 ? ' selected ' : '' )?>> Exchange </option>
+				<option value='4' <?=( $sorted_by_col == 4 ? ' selected ' : '' )?>> Market Value </option>
+				<option value='5' <?=( $sorted_by_col == 5 ? ' selected ' : '' )?>> Market </option>
+				<option value='6' <?=( $sorted_by_col == 6 ? ' selected ' : '' )?>> Volume (<?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?>) </option>
+				<option value='7' <?=( $sorted_by_col == 7 ? ' selected ' : '' )?>> Holdings </option>
+				<option value='8' <?=( $sorted_by_col == 8 ? ' selected ' : '' )?>> Symbol </option>
 				<option value='9' <?=( $sorted_by_col == 9 ? ' selected ' : '' )?>> Holdings Value </option>
-				<option value='10' <?=( $sorted_by_col == 10 ? ' selected ' : '' )?>> Subtotal (<?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?>) </option>
+				<option value='10' <?=( $sorted_by_col == 10 ? ' selected ' : '' )?>> (<?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?>) </option>
 			    </select> 
 			     <select id='sorted_by_asc_desc' onchange='
 			    $("#sort_by").val( $("#sorted_by_col").val() + "|" + this.value );
@@ -369,7 +369,7 @@
 			    
 			<p class='settings_sections'>
 				
-				<b>Visual or Audio Alerts For Price Changes:</b>
+				<b>Price Change Visual / Audio Alerts:</b>
 			     
 			    <select name='alert_percent' id='alert_percent' onchange='
 			    if ( this.value == "yes" ) {
@@ -456,7 +456,7 @@
 
 			
                         <p class='settings_sections'>
-                        <b>Use cookies to save data between browser sessions:</b> <input type='checkbox' name='set_use_cookies' id='set_use_cookies' value='1' onchange='
+                        <b>Use cookies to save data:</b> <input type='checkbox' name='set_use_cookies' id='set_use_cookies' value='1' onchange='
                         if ( this.checked == true ) {
 								document.getElementById("use_cookies").value = "1";
                         }
@@ -470,7 +470,7 @@
 			
 			
                         <p class='settings_sections'>
-                        <b>Enable trading notes (requires cookies):</b> <input type='checkbox' name='set_use_notes' id='set_use_notes' value='1' onchange='
+                        <b>Enable trading notes:</b> <input type='checkbox' name='set_use_notes' id='set_use_notes' value='1' onchange='
                         if ( this.checked == true ) {
 								document.getElementById("set_use_cookies").checked = true;
 								document.getElementById("use_cookies").value = "1";
@@ -479,7 +479,7 @@
                         else {
 								document.getElementById("use_notes").value = "";
                         }
-                        ' <?php echo ( $_COOKIE['notes_reminders'] != '' ? 'checked' : ''); ?> />
+                        ' <?php echo ( $_COOKIE['notes_reminders'] != '' ? 'checked' : ''); ?> /> <span class='red'>(requires cookies)</span>
                         </p>
 			
 			
@@ -492,7 +492,7 @@
                         
 		    
 		    
-</div> <!-- max_1350px_wrapper END -->
+</div> <!-- max_1200px_wrapper END -->
 
 
 

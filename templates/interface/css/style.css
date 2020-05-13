@@ -385,7 +385,7 @@ margin: 0px;
 
 div.tabdiv {
 padding: 15px;
-min-width: 1350px;
+min-width: 1200px;
 max-width: 1700px;
 min-height: 150px;
 display: inline-block;
@@ -509,7 +509,7 @@ padding: 8px;
 
 .loading {
 width: 100%; 
-max-width: 1350px;
+max-width: 1200px;
 font-weight: bold;
 background-color: #5b5b5b;
 opacity: 0.75;
@@ -530,7 +530,7 @@ IDs
 #loading_subsections {
 display: none;
 width: 100%;
-max-width: 1350px; 
+max-width: 1200px; 
 margin-top: 0px;
 font-size: 19px;
 }
@@ -539,7 +539,7 @@ font-size: 19px;
 #app_loading {
 display: block;
 width: 100%; 
-max-width: 1350px; 
+max-width: 1200px; 
 white-space: nowrap;
 font-size: 59px;
 margin: auto;
@@ -550,16 +550,16 @@ margin-bottom: 60px;
 
 #body_wrapper {
 width: 100%; 
-min-width: 1350px; 
+min-width: 1200px; 
 margin: auto;
 padding: 15px;
 padding-top: 0px;
 }
 
 
-#admin_wrapper, .max_1350px_wrapper {
+#admin_wrapper, .max_1200px_wrapper {
 position: relative;
-max-width: 1350px;
+max-width: 1200px;
 }
 
 
@@ -567,7 +567,7 @@ max-width: 1350px;
 position: relative;
 display: block;
 width: 100%; 
-min-width: 1350px; 
+min-width: 1200px; 
 white-space: nowrap;
 margin: auto;
 padding-top: 8px;
@@ -577,7 +577,7 @@ padding-top: 8px;
 #content_wrapper {
 display: none;
 margin: 0px; 
-min-width: 1350px;
+min-width: 1200px;
 }
 
 
@@ -587,7 +587,7 @@ position: relative;
 float: right;
 max-width: 30%;
 margin: 0px;
-margin-right: 11px;
+margin-right: 5px;
 font-size: 11px;
 }
 
@@ -626,8 +626,6 @@ color: black;
 
 #coins_table {
 position: relative;
-width: 100%;
-min-width: 1320px;
 }
 
 
@@ -641,7 +639,7 @@ padding: 6px;
 }
 
 
-#alert_source, #percent_change_amount, #percent_change_filter, #percent_change_time, #percent_change_alert_type, #show_chart_settings, #show_feed_settings, #show_system_charts, #show_visitor_stats, #show_logs {
+#alert_source, #percent_change_amount, #percent_change_filter, #percent_change_time, #percent_change_alert_type, #show_chart_settings, #show_feed_settings, #show_system_charts, #show_visitor_stats, #show_logs, #coins_table {
 display: none;
 }
 
@@ -678,5 +676,13 @@ margin: 20px;
 }
 
 
+#coins_table{
+table-layout:fixed;
+}
+
+
+#coins_table thead, #coins_table tbody {
+min-width: 1200px;
+}
 
 

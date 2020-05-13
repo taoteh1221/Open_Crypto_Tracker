@@ -6,7 +6,7 @@
 
 ?>
 
-<div class='max_1350px_wrapper'>
+<div class='max_1200px_wrapper'>
 	
 				<h4 style='display: inline;'>Help?</h4>
 				
@@ -109,7 +109,7 @@
 	      <div class="card-body">
 	      
 	      
-	        If the portfolio assets settings are re-configured or re-ordered in config.php, reload / refresh the page before updating any coin values, or the submission form may not be configured properly and may not submit or display data correctly. Also, you may need to uncheck "Use cookies to save data between browser sessions" on the Settings page, to temporarily clear out old cookie data that may conflict with the new configuration...then you can re-enable cookies again afterwards. 
+	        If the portfolio assets settings are re-configured or re-ordered in config.php, reload / refresh the page before updating any coin values, or the submission form may not be configured properly and may not submit or display data correctly. Also, you may need to uncheck "Use cookies to save data" on the Settings page, to temporarily clear out old cookie data that may conflict with the new configuration...then you can re-enable cookies again afterwards. 
 	    <br /><br />
 	    If you recently upgraded to a newer version of this app, and layout or features don't work properly anymore, you may need to clear your browser cache (temporary files) and restart you browser / refresh the page afterwards. This will assure your browser is loading any newly-updated layout styling or javascript-based features.
 	    <br /><br />
@@ -384,7 +384,7 @@ Running a google search for "set permanently ulimit -n linux", you'll find tons 
 	
 			    
 			    
-</div> <!-- max_1350px_wrapper END -->
+</div> <!-- max_1200px_wrapper END -->
 
 
 

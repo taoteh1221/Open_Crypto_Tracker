@@ -712,7 +712,7 @@ select opt in $OPTIONS; do
   				rm -rf $DOC_ROOT/cache/logs/errors/api
   				rm -rf $DOC_ROOT/misc-docs-etc
   				rm -rf $DOC_ROOT/ui-templates
-  				rm -rf $DOC_ROOT/templates/interface/php
+  				rm -rf $DOC_ROOT/templates
   				# Files
 				rm $DOC_ROOT/DOCUMENTATION-ETC/CONFIG.EXAMPLE.txt # (Renamed /DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt)
 				rm $DOC_ROOT/DOCUMENTATION-ETC/CRON_PLUGINS_README.txt # (Renamed /DOCUMENTATION-ETC/CRON-PLUGINS-README.txt)

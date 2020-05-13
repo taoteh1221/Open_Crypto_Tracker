@@ -6,7 +6,7 @@
 
 ?>
 
-<div class='max_1350px_wrapper'>
+<div class='max_1200px_wrapper'>
 	
 				
 				<h4 style='display: inline;'>Resources</h4>
@@ -497,6 +497,6 @@
 	
 			    
 			    
-</div> <!-- max_1350px_wrapper END -->
+</div> <!-- max_1200px_wrapper END -->
 
 

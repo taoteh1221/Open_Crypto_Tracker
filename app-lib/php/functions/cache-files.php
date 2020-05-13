@@ -1451,12 +1451,26 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 			|| preg_match("/'error'/i", $data)
 			|| preg_match("/error_/i", $data) ) {
 			
+			
 				// DON'T FLAG as a possible error, if there are other words that contain the phrase "error" within them
 				// Also, don't flag as possible error if the phrase 'error' appears more than twice (as it may just be textual content in a news feed, etc)
 				if ( !preg_match("/terror/i", $data) && substri_count($data, 'error') < 2 ) {
+					
+					
+					// ATTEMPT to weed out more false positives, before logging as a POSSIBLE error
+					
+					// If this is an RSS feed, see if the phrase 'error' is in the feed item descriptions. If it is, presume a false positive.
+					$rss_check = simplexml_load_string($data);
+					if ( $rss_check != false ) {
+						foreach($rss_check->channel->item as $rss_item) {
+							if ( preg_match("/error/i", $rss_item->description) ) {
+							$false_positive = 1;
+							}
+						}
+					}
 				
-					// ATTEMPT to weed out false positives before logging as an error
-					// Needed for kraken, coinmarketcap
+				
+					// Checks for kraken, coinmarketcap
 					// https://www.php.net/manual/en/regexp.reference.meta.php
 					if ( $endpoint_tld_or_ip == 'kraken.com' && preg_match("/\"error\":\[\],/i", $data) 
 					|| $endpoint_tld_or_ip == 'coinmarketcap.com' && preg_match("/\"error_code\":0,/i", $data)
@@ -1477,7 +1491,9 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 					
 					}
 			
+			
 				}
+			
 			
 			}
 			////////////////////////////////////////////////////////////////

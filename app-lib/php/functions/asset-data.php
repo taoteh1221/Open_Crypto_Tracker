@@ -905,7 +905,7 @@ global $_POST, $app_config;
 
 ?>
 
-				<form name='<?=$calculation_form_data[1]?>' action='<?=start_page('mining_calculators')?>' method='post'>
+				<form name='<?=$calculation_form_data[1]?>' action='<?=start_page('mining')?>' method='post'>
 				
 				
 				<p><b><?=ucfirst($network_measure)?>:</b> 
@@ -2037,35 +2037,6 @@ $original_market = $selected_exchange;
 
 
 
-<td class='data border_lb blue' align='right'>
-
-<?php
-
-	if ( strtoupper($asset_symbol) == 'MISCASSETS' ) {
-	$asset_amount_decimals = 2;
-	}
-	else {
-	$asset_amount_decimals = 8;
-	}
-	
-$pretty_coin_amount = pretty_numbers($asset_amount, $asset_amount_decimals);
-
-echo "<span class='app_sort_filter blue'>" . ( $pretty_coin_amount != null ? $pretty_coin_amount : 0 ) . "</span>";
-
-?>
-
-</td>
-
-
-
-<td class='data border_b'><span class='app_sort_filter'>
-
-<?php echo $asset_symbol; ?></span>
-
-</td>
-
-
-
 <td class='data border_lb'>
  
     <select name='change_<?=strtolower($asset_symbol)?>_market' onchange='
@@ -2087,24 +2058,6 @@ echo "<span class='app_sort_filter blue'>" . ( $pretty_coin_amount != null ? $pr
     </select>
     
     <div class='app_sort_filter' style='display: none;'><?=$ui_selected_market?></div>
-
-</td>
-
-
-
-<td class='data border_b'>
-
-<span class='white'><?=$app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']]?></span><span class='app_sort_filter'><?php 
-
-  // NULL if not setup to get volume, negative number returned if no data received from API
-  if ( $trade_volume == NULL || $trade_volume == -1 ) {
-  echo '0';
-  }
-  elseif ( $trade_volume >= 0 ) {
-  echo number_format($trade_volume, 0, '.', ',');
-  }
-
-?></span>
 
 </td>
 
@@ -2176,7 +2129,54 @@ echo ( $fiat_eqiv == 1 ? pretty_numbers($coin_value_raw, $coin_value_primary_cur
 
 
 
-<td class='data border_lb blue'>
+<td class='data border_b'>
+
+<span class='white'><?=$app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']]?></span><span class='app_sort_filter'><?php 
+
+  // NULL if not setup to get volume, negative number returned if no data received from API
+  if ( $trade_volume == NULL || $trade_volume == -1 ) {
+  echo '0';
+  }
+  elseif ( $trade_volume >= 0 ) {
+  echo number_format($trade_volume, 0, '.', ',');
+  }
+
+?></span>
+
+</td>
+
+
+
+<td class='data border_lb blue' align='right'>
+
+<?php
+
+	if ( strtoupper($asset_symbol) == 'MISCASSETS' ) {
+	$asset_amount_decimals = 2;
+	}
+	else {
+	$asset_amount_decimals = 8;
+	}
+	
+$pretty_coin_amount = pretty_numbers($asset_amount, $asset_amount_decimals);
+
+echo "<span class='app_sort_filter blue'>" . ( $pretty_coin_amount != null ? $pretty_coin_amount : 0 ) . "</span>";
+
+?>
+
+</td>
+
+
+
+<td class='data border_b'><span class='app_sort_filter'>
+
+<?php echo $asset_symbol; ?></span>
+
+</td>
+
+
+
+<td class='data border_b blue'>
 
 <?php
 
@@ -2201,7 +2201,7 @@ echo ' <span class="blue"><span class="data app_sort_filter blue">' . $pretty_co
 
 
 
-<td class='data border_lrb blue' style='white-space: nowrap;'>
+<td class='data border_rb blue' style='white-space: nowrap;'>
 
 
 

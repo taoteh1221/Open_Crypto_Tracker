@@ -6,7 +6,7 @@
 
 ?>
 
-<div class='max_1350px_wrapper'>
+<div class='max_1200px_wrapper'>
 	
 				<h3 class='align_center'>API</h3>
 		
@@ -483,7 +483,7 @@ var_dump($api_data_array);
 			    
 	        
 			    
-</div> <!-- max_1350px_wrapper END -->
+</div> <!-- max_1200px_wrapper END -->
 
 
 

@@ -17,7 +17,7 @@ $hive_market = asset_market_data('HIVE', 'bittrex', 'BTC-HIVE')['last_trade'];
     
 
 <div>
-    <form action='<?=start_page('mining_calculators')?>' method='post'>
+    <form action='<?=start_page('mining')?>' method='post'>
         
         <p><b>Power Down Period:</b> <?=$app_config['power_user']['hive_powerdown_time']?> weeks</p>
 	

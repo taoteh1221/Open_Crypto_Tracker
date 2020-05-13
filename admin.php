@@ -44,16 +44,16 @@ require("templates/interface/php/header.php");
 		<!-- set data-width="full", to have the tab width be 100% of the screen -->
 		<ul class="nav nav-tabs-vertical align_center" id="admin_tabs" role="tablist">
 		  <li class="nav-item">
-			<a class="nav-link admin_change_width" data-toggle="tab" data-width="fixed_max" href="#admin_comms" role="tab" aria-controls="admin_comms">Communications</a>
-		  </li>
-		  <li class="nav-item">
 			<a class="nav-link admin_change_width" data-toggle="tab" data-width="fixed_max" href="#admin_general" role="tab" aria-controls="admin_general">General</a>
 		  </li>
 		  <li class="nav-item">
-			<a class="nav-link admin_change_width" data-toggle="tab" data-width="fixed_max" href="#admin_charts_alerts" role="tab" aria-controls="admin_charts_alerts"><?=( $app_config['general']['charts_toggle'] == 'on' ? 'Charts and ' : 'Price ' )?>Alerts</a>
+			<a class="nav-link admin_change_width" data-toggle="tab" data-width="fixed_max" href="#admin_comms" role="tab" aria-controls="admin_comms">Communications</a>
 		  </li>
 		  <li class="nav-item">
 			<a class="nav-link admin_change_width" data-toggle="tab" data-width="fixed_max" href="#admin_portfolio_assets" role="tab" aria-controls="admin_portfolio_assets">Portfolio Assets</a>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link admin_change_width" data-toggle="tab" data-width="fixed_max" href="#admin_charts_alerts" role="tab" aria-controls="admin_charts_alerts"><?=( $app_config['general']['charts_toggle'] == 'on' ? 'Charts and ' : 'Price ' )?>Alerts</a>
 		  </li>
 		  <li class="nav-item">
 			<a class="nav-link admin_change_width" data-toggle="tab" data-width="fixed_max" href="#admin_power_user" role="tab" aria-controls="admin_power_user">Power User</a>
@@ -74,6 +74,12 @@ require("templates/interface/php/header.php");
 			<a class="nav-link admin_change_width" data-toggle="tab" data-width="fixed_max" href="#admin_developer_only" role="tab" aria-controls="admin_developer_only">Developer Only</a>
 		  </li>
 		  <li class="nav-item">
+			<a class="nav-link admin_change_width" data-toggle="tab" data-width="fixed_max" href="#admin_backup_restore" role="tab" aria-controls="admin_backup_restore">Backup / Restore</a>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link admin_change_width" data-toggle="tab" data-width="fixed_max" href="#admin_reset" role="tab" aria-controls="admin_reset">Reset</a>
+		  </li>
+		  <li class="nav-item">
 			<a class="nav-link admin_change_width" data-toggle="tab" data-width="full" href="#system_charts" role="tab" aria-controls="system_charts">System Charts</a>
 		  </li>
 		  <li class="nav-item">
@@ -82,31 +88,25 @@ require("templates/interface/php/header.php");
 		  <li class="nav-item">
 			<a class="nav-link admin_change_width" data-toggle="tab" data-width="full" href="#admin_logs" role="tab" aria-controls="admin_logs">App Logs</a>
 		  </li>
-		  <li class="nav-item">
-			<a class="nav-link admin_change_width" data-toggle="tab" data-width="fixed_max" href="#admin_backup_restore" role="tab" aria-controls="admin_backup_restore">Backup / Restore</a>
-		  </li>
-		  <li class="nav-item">
-			<a class="nav-link admin_change_width" data-toggle="tab" data-width="fixed_max" href="#admin_reset" role="tab" aria-controls="admin_reset">Reset</a>
-		  </li>
 		</ul>
 		
 		
 		<div id='admin_tab_content' class="tab-content align_left">
+		  
+		  <div class="tab-pane" id="admin_general" role="tabpanel">
+			<?php require("templates/interface/php/admin/admin-sections/general.php"); ?>
+		  </div>
 		
 		  <div class="tab-pane" id="admin_comms" role="tabpanel">
 			<?php require("templates/interface/php/admin/admin-sections/communications.php"); ?>
 		  </div>
 		  
-		  <div class="tab-pane" id="admin_general" role="tabpanel">
-			<?php require("templates/interface/php/admin/admin-sections/general.php"); ?>
+		  <div class="tab-pane" id="admin_portfolio_assets" role="tabpanel">
+			<?php require("templates/interface/php/admin/admin-sections/portfolio-assets.php"); ?>
 		  </div>
 		  
 		  <div class="tab-pane" id="admin_charts_alerts" role="tabpanel">
 			<?php require("templates/interface/php/admin/admin-sections/charts-and-alerts.php"); ?>
-		  </div>
-		  
-		  <div class="tab-pane" id="admin_portfolio_assets" role="tabpanel">
-			<?php require("templates/interface/php/admin/admin-sections/portfolio-assets.php"); ?>
 		  </div>
 		  
 		  <div class="tab-pane" id="admin_power_user" role="tabpanel">
@@ -133,6 +133,14 @@ require("templates/interface/php/header.php");
 			<?php require("templates/interface/php/admin/admin-sections/developer-only.php"); ?>
 		  </div>
 		  
+		  <div class="tab-pane" id="admin_backup_restore" role="tabpanel">
+			<?php require("templates/interface/php/admin/admin-sections/backup-restore.php"); ?>
+		  </div>
+		  
+		  <div class="tab-pane" id="admin_reset" role="tabpanel">
+			<?php require("templates/interface/php/admin/admin-sections/reset.php"); ?>
+		  </div>
+		  
 		  <div class="tab-pane" id="system_charts" role="tabpanel">
 			<?php require("templates/interface/php/admin/admin-sections/system-charts.php"); ?>
 		  </div>
@@ -145,19 +153,11 @@ require("templates/interface/php/header.php");
 			<?php require("templates/interface/php/admin/admin-sections/app-logs.php"); ?>
 		  </div>
 		  
-		  <div class="tab-pane" id="admin_backup_restore" role="tabpanel">
-			<?php require("templates/interface/php/admin/admin-sections/backup-restore.php"); ?>
-		  </div>
-		  
-		  <div class="tab-pane" id="admin_reset" role="tabpanel">
-			<?php require("templates/interface/php/admin/admin-sections/reset.php"); ?>
-		  </div>
-		  
 		</div>
 
 
 
-	</div> <!-- max_1350px_wrapper END -->
+	</div> <!-- wrapper END -->
 	
 </div> <!-- admin index full_width_wrapper END -->
 

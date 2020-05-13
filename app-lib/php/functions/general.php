@@ -4,6 +4,62 @@
  */
 
 
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+/* Usage: 
+
+// HTML
+$content = getTextBetweenTags('a', $html);
+
+foreach( $content as $item ) {
+    echo $item.'<br />';
+}
+
+// XML
+$content2 = getTextBetweenTags('description', $xml, 1);
+
+foreach( $content2 as $item ) {
+    echo $item.'<br />';
+}
+
+*/
+
+// Credit: https://phpro.org/examples/Get-Text-Between-Tags.html
+function getTextBetweenTags($tag, $html, $strict=0) {
+    /*** a new dom object ***/
+    $dom = new domDocument;
+
+    /*** load the html into the object ***/
+    if($strict==1)
+    {
+        $dom->loadXML($html);
+    }
+    else
+    {
+        $dom->loadHTML($html);
+    }
+
+    /*** discard white space ***/
+    $dom->preserveWhiteSpace = false;
+
+    /*** the tag by its tag name ***/
+    $content = $dom->getElementsByTagname($tag);
+
+    /*** the array to return ***/
+    $out = array();
+    foreach ($content as $item)
+    {
+        /*** add node value to the out array ***/
+        $out[] = $item->nodeValue;
+    }
+    /*** return the results ***/
+    return $out;
+}
+
+
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
 
@@ -56,15 +112,21 @@ function get_feed($url, $feed_size, $atom_format=false){
 global $app_config, $base_dir, $fetched_reddit_feeds, $fetched_stackexchange_feeds, $fetched_medium_feeds, $fetched_bitcoincore_feeds, $fetched_ethereumorg_feeds, $fetched_kraken_feeds, $fetched_firesidefm_feeds, $fetched_libsyn_feeds;
 
 
+// We don't want all feeds updating at the same time, so we randomly vary cache times a little (between 1 and 35 minutes extra)
+$rand_variance = rand(1, 35);
+
+$rss_feed_cache_time = $app_config['power_user']['rss_feed_cache_time'] + $rand_variance;
+
+
 	if ( preg_match("/reddit\.com/i", $url) || preg_match("/stackexchange\.com/i", $url) ) {
 	
 		// If it's a consecutive reddit feed request and time to refresh the cache, sleep 8 seconds (reddit is very strict on user agents)
 		// (Reddit only allows rss feed connections every 7 seconds from ip addresses ACCORDING TO THEM)
-		if ( $fetched_reddit_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $app_config['power_user']['rss_feed_cache_time']) == true ) {
+		if ( $fetched_reddit_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
 		sleep(8); 
 		}
 	
-		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $app_config['power_user']['rss_feed_cache_time']) == true ) {
+		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
 		$fetched_reddit_feeds = $fetched_reddit_feeds + 1;
 		}
 		
@@ -72,11 +134,11 @@ global $app_config, $base_dir, $fetched_reddit_feeds, $fetched_stackexchange_fee
 	elseif ( preg_match("/stackexchange\.com/i", $url) ) {
 	
 		// If it's a consecutive stackexchange feed request and time to refresh the cache, sleep 4 seconds 
-		if ( $fetched_stackexchange_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $app_config['power_user']['rss_feed_cache_time']) == true ) {
+		if ( $fetched_stackexchange_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
 		sleep(4); 
 		}
 	
-		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $app_config['power_user']['rss_feed_cache_time']) == true ) {
+		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
 		$fetched_stackexchange_feeds = $fetched_stackexchange_feeds + 1;
 		}
 		
@@ -84,11 +146,11 @@ global $app_config, $base_dir, $fetched_reddit_feeds, $fetched_stackexchange_fee
 	elseif ( preg_match("/medium\.com/i", $url) ) {
 	
 		// If it's a consecutive medium feed request and time to refresh the cache, sleep 8 seconds (medium is very strict on user agents)
-		if ( $fetched_medium_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $app_config['power_user']['rss_feed_cache_time']) == true ) {
+		if ( $fetched_medium_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
 		sleep(8); 
 		}
 	
-		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $app_config['power_user']['rss_feed_cache_time']) == true ) {
+		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
 		$fetched_medium_feeds = $fetched_medium_feeds + 1;
 		}
 		
@@ -96,11 +158,11 @@ global $app_config, $base_dir, $fetched_reddit_feeds, $fetched_stackexchange_fee
 	elseif ( preg_match("/bitcoincore\.org/i", $url) ) {
 	
 		// If it's a consecutive bitcoincore feed request and time to refresh the cache, sleep 4 seconds 
-		if ( $fetched_bitcoincore_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $app_config['power_user']['rss_feed_cache_time']) == true ) {
+		if ( $fetched_bitcoincore_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
 		sleep(4); 
 		}
 	
-		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $app_config['power_user']['rss_feed_cache_time']) == true ) {
+		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
 		$fetched_bitcoincore_feeds = $fetched_bitcoincore_feeds + 1;
 		}
 		
@@ -108,11 +170,11 @@ global $app_config, $base_dir, $fetched_reddit_feeds, $fetched_stackexchange_fee
 	elseif ( preg_match("/ethereum\.org/i", $url) ) {
 	
 		// If it's a consecutive ethereumorg feed request and time to refresh the cache, sleep 8 seconds 
-		if ( $fetched_ethereumorg_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $app_config['power_user']['rss_feed_cache_time']) == true ) {
+		if ( $fetched_ethereumorg_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
 		sleep(8); 
 		}
 	
-		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $app_config['power_user']['rss_feed_cache_time']) == true ) {
+		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
 		$fetched_ethereumorg_feeds = $fetched_ethereumorg_feeds + 1;
 		}
 		
@@ -120,11 +182,11 @@ global $app_config, $base_dir, $fetched_reddit_feeds, $fetched_stackexchange_fee
 	elseif ( preg_match("/kraken\.com/i", $url) ) {
 	
 		// If it's a consecutive kraken feed request and time to refresh the cache, sleep 4 seconds 
-		if ( $fetched_kraken_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $app_config['power_user']['rss_feed_cache_time']) == true ) {
+		if ( $fetched_kraken_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
 		sleep(4); 
 		}
 	
-		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $app_config['power_user']['rss_feed_cache_time']) == true ) {
+		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
 		$fetched_kraken_feeds = $fetched_kraken_feeds + 1;
 		}
 		
@@ -132,11 +194,11 @@ global $app_config, $base_dir, $fetched_reddit_feeds, $fetched_stackexchange_fee
 	elseif ( preg_match("/fireside\.fm/i", $url) ) {
 	
 		// If it's a consecutive firesidefm feed request and time to refresh the cache, sleep 4 seconds 
-		if ( $fetched_firesidefm_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $app_config['power_user']['rss_feed_cache_time']) == true ) {
+		if ( $fetched_firesidefm_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
 		sleep(4); 
 		}
 	
-		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $app_config['power_user']['rss_feed_cache_time']) == true ) {
+		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
 		$fetched_firesidefm_feeds = $fetched_firesidefm_feeds + 1;
 		}
 		
@@ -144,18 +206,18 @@ global $app_config, $base_dir, $fetched_reddit_feeds, $fetched_stackexchange_fee
 	elseif ( preg_match("/libsyn\.com/i", $url) ) {
 	
 		// If it's a consecutive libsyn feed request and time to refresh the cache, sleep 4 seconds 
-		if ( $fetched_libsyn_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $app_config['power_user']['rss_feed_cache_time']) == true ) {
+		if ( $fetched_libsyn_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
 		sleep(4); 
 		}
 	
-		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $app_config['power_user']['rss_feed_cache_time']) == true ) {
+		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
 		$fetched_libsyn_feeds = $fetched_libsyn_feeds + 1;
 		}
 		
 	}
 	
 
-$xmldata = @external_api_data('url', $url, $app_config['power_user']['rss_feed_cache_time']); 
+$xmldata = @external_api_data('url', $url, $rss_feed_cache_time); 
 
 $rss = simplexml_load_string($xmldata);
         

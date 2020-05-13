@@ -40,9 +40,9 @@ require_once('app-lib/php/other/random-tips.php');
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Set the "Asset / Pairing @ Exchange" drop-down menus for the asset to any markets you prefer. It doesn\'t matter which ones you choose, as long as the price discovery closely matches the exchange where you are margin trading this asset.</p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Set the "Holdings" field to match your margin leverage deposit (example: buying 1 BTC @ 5x leverage would be 0.2 BTC in the "Holdings" field in this app). You\'ll also need to fill in the "Average Paid (per-token)" field with the average price paid in <?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?> per-token. Finally, set the "Margin Leverage" fields to match your leverage and whether you are long or short. When you are done, click "Save Updated Assets".</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Set the "Holdings" field to match your margin leverage deposit (example: buying 1 BTC @ 5x leverage would be 0.2 BTC in the "Holdings" field in this app). You\'ll also need to fill in the "Average Paid (per-token)" field with the average price paid in <?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?> per-token. Finally, set the "Margin Leverage" fields to match your leverage and whether you are long or short. When you are done, click "Save Updated Portfolio".</p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">To see your margin leverage stats after updating your portfolio, go to the bottom of the Portfolio page, where you\'ll find a stats section. Hovering over the "I" icon next to those summary stats will display additional stats per-asset. There is also an "I" icon in the far right table column (Subtotal) per-asset, which you can hover over for margin leverage stats too.</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">To see your margin leverage stats after updating your portfolio, go to the bottom of the Portfolio page, where you\'ll find a stats section. Hovering over the "I" icon next to those summary stats will display additional stats per-asset. There is also an "I" icon in the far right table column (<?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?>), which you can hover over for margin leverage stats too.</p>'
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="yellow">*Current maximum margin leverage setting of <?=$app_config['general']['margin_leverage_max']?>x can be adjusted in config.php.</span></p>'
 			
@@ -63,7 +63,7 @@ require_once('app-lib/php/other/random-tips.php');
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><i class="red_bright"><u>By default</u></i>, your portfolio data is only saved <i class="red_bright">temporarily on your computer within your web browser</i> (a default behavior of all modern web browsers), for re-submitting / refreshing / reloading app price data <i class="red_bright">until you fully close your web browser</i>.</p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">If you prefer to store your portfolio data <i class="red_bright">semi-permanently on your computer within your web browser as cookie data (to save between browser sessions)</i>, <i class="red_bright"><u>you must manually enable</u></i> "Use cookies to save data between browser sessions" on the Settings page. </p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">If you prefer to store your portfolio data <i class="red_bright">semi-permanently on your computer within your web browser as cookie data (to save between browser sessions)</i>, <i class="red_bright"><u>you must manually enable</u></i> "Use cookies to save data" on the Settings page. </p>'
 			
 			
 			+'<p class="coin_info"><span class="yellow"> </span></p>';
@@ -75,7 +75,7 @@ require_once('app-lib/php/other/random-tips.php');
 				
 				
 	
-				<h4 style='display: inline;'>Update Assets</h4>
+				<h4 style='display: inline;'>Update</h4>
 				
 				
 				<span class='red countdown_notice'></span>
@@ -193,7 +193,7 @@ require_once('app-lib/php/other/random-tips.php');
 		<!-- Submit button must be OUTSIDE form tags here, or it submits the target form improperly and loses data -->
 		<button class='force_button_style' onclick='
 		$("#coin_amounts").submit();
-		'>Save Updated Assets</button>
+		'>Save Updated Portfolio</button>
 	
 		<form style='display: inline;' name='csv_import' id='csv_import' enctype="multipart/form-data" action="<?=start_page($_GET['start_page'])?>" method="post">
 		
@@ -735,7 +735,7 @@ require_once('app-lib/php/other/random-tips.php');
 	
 	<input type='hidden' id='primary_currency_market_standalone' name='primary_currency_market_standalone' value='<?=( $_POST['primary_currency_market_standalone'] != '' ? $_POST['primary_currency_market_standalone'] : $_COOKIE['primary_currency_market_standalone'] )?>' />
 			
-	<p><input type='submit' value='Save Updated Assets' /></p>
+	<p><input type='submit' value='Save Updated Portfolio' /></p>
 	
 	</form>
 	

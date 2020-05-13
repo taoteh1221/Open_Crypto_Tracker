@@ -6,7 +6,7 @@
 
 ?>
 
-<div class='max_1350px_wrapper'>
+<div class='max_1200px_wrapper'>
 	
 				<h3 class='align_center'>Text Gateways</h3>
 				
@@ -14,7 +14,7 @@
 	<p> Coming Soon&trade; </p>
 			    
 			    
-</div> <!-- max_1350px_wrapper END -->
+</div> <!-- max_1200px_wrapper END -->
 
 
 

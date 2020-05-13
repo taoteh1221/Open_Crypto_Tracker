@@ -6,20 +6,20 @@
 
 ?>
 
-<div class='max_1350px_wrapper'>
+<div class='max_1200px_wrapper'>
 
 			
 
-			<h4 style='display: inline;'>Mining Calculators</h4>
+			<h4 style='display: inline;'>Mining</h4>
 				
 				<span class='red countdown_notice'></span>
 			
 
-			<p style='margin-top: 15px; margin-bottom: 15px;'><?=start_page_html('mining_calculators')?></p>			
+			<p style='margin-top: 15px; margin-bottom: 15px;'><?=start_page_html('mining')?></p>			
 			
 			<p class='bitcoin' style='font-weight: bold;'>Chain data (block height, difficulty, etc) in this app is cached for <?=$app_config['power_user']['chainstats_cache_time']?> minute(s).</p>
 			
-			<p class='red'>Using these mining calculators <i><u>will set this page as the start page</u>, which you can reset afterwards at top left</i>. If you have portfolio data you don't want to lose, be sure you have enabled "Use cookies to save data between browser sessions" on the Settings page before using these mining calculators.</p>
+			<p class='red'>Using these mining calculators <i><u>will set this page as the start page</u>, which you can reset afterwards at top left</i>. If you have portfolio data you don't want to lose, be sure you have enabled "Use cookies to save data" on the Settings page before using these mining calculators.</p>
 			  
 			<fieldset class='subsection_fieldset'>
 				<legend class='subsection_legend'> <b>Bitcoin Mining Calculator</b> </legend>
@@ -86,6 +86,6 @@
 			</fieldset>
 		    
 		    
-</div> <!-- max_1350px_wrapper END -->
+</div> <!-- max_1200px_wrapper END -->
 
 
