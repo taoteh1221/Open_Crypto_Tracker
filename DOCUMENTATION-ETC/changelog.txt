@@ -3195,9 +3195,11 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -News page / tab, where you can choose (from a list) which crypto news feeds you want displayed there (ATOM and Standard RSS format supported)
 
--Misc. small bug fixes and UX / compatibility improvements
+-Misc. small bug fixes / compatibility improvements
 
 -More system compatibility tests
+
+-Semi-overhaul of the UI / UX
 
 -Microsoft Internet Explorer bug fixed, where log viewing / code examples were not rendering properly
 
