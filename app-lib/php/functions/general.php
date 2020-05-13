@@ -53,15 +53,15 @@ return $html;
 // Credit: https://www.alexkras.com/simple-rss-reader-in-85-lines-of-php/
 function get_feed($url, $feed_size, $atom_format=false){
 	
-global $app_config, $base_dir, $fetched_reddit_feeds, $fetched_stackexchange_feeds;
+global $app_config, $base_dir, $fetched_reddit_feeds, $fetched_stackexchange_feeds, $fetched_medium_feeds, $fetched_bitcoincore_feeds, $fetched_ethereumorg_feeds, $fetched_kraken_feeds, $fetched_firesidefm_feeds, $fetched_libsyn_feeds;
 
 
 	if ( preg_match("/reddit\.com/i", $url) || preg_match("/stackexchange\.com/i", $url) ) {
 	
-		// If it's a consecutive reddit feed request and time to refresh the cache, sleep 15 seconds 
-		// (Reddit only allows rss feed connections every 7 seconds from ip addresses ACCORDING TO THEM, BUT IT SEEMS MUCH HIGHER IN REALITY)
+		// If it's a consecutive reddit feed request and time to refresh the cache, sleep 8 seconds (reddit is very strict on user agents)
+		// (Reddit only allows rss feed connections every 7 seconds from ip addresses ACCORDING TO THEM)
 		if ( $fetched_reddit_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $app_config['power_user']['rss_feed_cache_time']) == true ) {
-		sleep(10); 
+		sleep(8); 
 		}
 	
 		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $app_config['power_user']['rss_feed_cache_time']) == true ) {
@@ -71,14 +71,85 @@ global $app_config, $base_dir, $fetched_reddit_feeds, $fetched_stackexchange_fee
 	}
 	elseif ( preg_match("/stackexchange\.com/i", $url) ) {
 	
-		// If it's a consecutive reddit feed request and time to refresh the cache, sleep 15 seconds 
-		// (Reddit only allows rss feed connections every 7 seconds from ip addresses ACCORDING TO THEM, BUT IT SEEMS MUCH HIGHER IN REALITY)
+		// If it's a consecutive stackexchange feed request and time to refresh the cache, sleep 4 seconds 
 		if ( $fetched_stackexchange_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $app_config['power_user']['rss_feed_cache_time']) == true ) {
-		sleep(5); 
+		sleep(4); 
 		}
 	
 		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $app_config['power_user']['rss_feed_cache_time']) == true ) {
 		$fetched_stackexchange_feeds = $fetched_stackexchange_feeds + 1;
+		}
+		
+	}
+	elseif ( preg_match("/medium\.com/i", $url) ) {
+	
+		// If it's a consecutive medium feed request and time to refresh the cache, sleep 8 seconds (medium is very strict on user agents)
+		if ( $fetched_medium_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $app_config['power_user']['rss_feed_cache_time']) == true ) {
+		sleep(8); 
+		}
+	
+		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $app_config['power_user']['rss_feed_cache_time']) == true ) {
+		$fetched_medium_feeds = $fetched_medium_feeds + 1;
+		}
+		
+	}
+	elseif ( preg_match("/bitcoincore\.org/i", $url) ) {
+	
+		// If it's a consecutive bitcoincore feed request and time to refresh the cache, sleep 4 seconds 
+		if ( $fetched_bitcoincore_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $app_config['power_user']['rss_feed_cache_time']) == true ) {
+		sleep(4); 
+		}
+	
+		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $app_config['power_user']['rss_feed_cache_time']) == true ) {
+		$fetched_bitcoincore_feeds = $fetched_bitcoincore_feeds + 1;
+		}
+		
+	}
+	elseif ( preg_match("/ethereum\.org/i", $url) ) {
+	
+		// If it's a consecutive ethereumorg feed request and time to refresh the cache, sleep 8 seconds 
+		if ( $fetched_ethereumorg_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $app_config['power_user']['rss_feed_cache_time']) == true ) {
+		sleep(8); 
+		}
+	
+		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $app_config['power_user']['rss_feed_cache_time']) == true ) {
+		$fetched_ethereumorg_feeds = $fetched_ethereumorg_feeds + 1;
+		}
+		
+	}
+	elseif ( preg_match("/kraken\.com/i", $url) ) {
+	
+		// If it's a consecutive kraken feed request and time to refresh the cache, sleep 4 seconds 
+		if ( $fetched_kraken_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $app_config['power_user']['rss_feed_cache_time']) == true ) {
+		sleep(4); 
+		}
+	
+		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $app_config['power_user']['rss_feed_cache_time']) == true ) {
+		$fetched_kraken_feeds = $fetched_kraken_feeds + 1;
+		}
+		
+	}
+	elseif ( preg_match("/fireside\.fm/i", $url) ) {
+	
+		// If it's a consecutive firesidefm feed request and time to refresh the cache, sleep 4 seconds 
+		if ( $fetched_firesidefm_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $app_config['power_user']['rss_feed_cache_time']) == true ) {
+		sleep(4); 
+		}
+	
+		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $app_config['power_user']['rss_feed_cache_time']) == true ) {
+		$fetched_firesidefm_feeds = $fetched_firesidefm_feeds + 1;
+		}
+		
+	}
+	elseif ( preg_match("/libsyn\.com/i", $url) ) {
+	
+		// If it's a consecutive libsyn feed request and time to refresh the cache, sleep 4 seconds 
+		if ( $fetched_libsyn_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $app_config['power_user']['rss_feed_cache_time']) == true ) {
+		sleep(4); 
+		}
+	
+		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $app_config['power_user']['rss_feed_cache_time']) == true ) {
+		$fetched_libsyn_feeds = $fetched_libsyn_feeds + 1;
 		}
 		
 	}
@@ -97,11 +168,18 @@ $html .= '<ul>';
    if ( $atom_format == true ) {
    
 		foreach($rss->entry as $item) {
-   	$count++;     
-   		if($count > $feed_size) {
-      	break;
-      	}
-   	$html .= '<li class="links_list"><a href="'.htmlspecialchars($item->link['href']).'" target="_blank">'.htmlspecialchars($item->title).'</a></li>';
+			
+			if ( trim($item->title) != '' ) {
+			
+   			$count++;     
+   			if($count > $feed_size) {
+      		break;
+      		}
+   		
+   		$html .= '<li class="links_list"><a href="'.htmlspecialchars($item->link['href']).'" target="_blank">'.htmlspecialchars($item->title).'</a></li>';
+			
+			}
+   	
    	}
    
    }
@@ -109,11 +187,18 @@ $html .= '<ul>';
    else {
    
 		foreach($rss->channel->item as $item) {
-   	$count++;     
-   		if($count > $feed_size) {
-      	break;
-      	}
-   	$html .= '<li class="links_list"><a href="'.htmlspecialchars($item->link).'" target="_blank">'.htmlspecialchars($item->title).'</a></li>';
+			
+			if ( trim($item->title) != '' ) {
+			
+   			$count++;     
+   			if($count > $feed_size) {
+      		break;
+      		}
+   		
+   		$html .= '<li class="links_list"><a href="'.htmlspecialchars($item->link).'" target="_blank">'.htmlspecialchars($item->title).'</a></li>';
+   		
+   		}
+   	
    	}
    
    }

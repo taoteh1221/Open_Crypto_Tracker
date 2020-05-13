@@ -1326,7 +1326,15 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 	curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
 	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $app_config['power_user']['remote_api_timeout']);
 	curl_setopt($ch, CURLOPT_TIMEOUT, $app_config['power_user']['remote_api_timeout']);
-	curl_setopt($ch, CURLOPT_USERAGENT, $user_agent);
+	
+	
+		// Medium / Reddit are a bit funky with allowed user agents, so we need to let them know this is a real feed parser (not just a spammy bot)
+		if ( $endpoint_tld_or_ip == 'medium.com' || $endpoint_tld_or_ip == 'reddit.com' ) {
+		curl_setopt($ch, CURLOPT_USERAGENT, 'Custom_Feed_Parser/1.0 (compatible; DFD_Cryptocoin_Values/' . $app_version . '; +https://github.com/taoteh1221/DFD_Cryptocoin_Values)');
+		}
+		else {
+		curl_setopt($ch, CURLOPT_USERAGENT, $user_agent);
+		}
 	
 	
 		// If this is an SSL connection, add SSL parameters
@@ -1555,8 +1563,8 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 		$api_runtime_cache[$hash_check] = ( $data != '' ? $data : 'none' ); 
 		
 			if ( isset($fallback_cache_data) ) {
-			//$store_file_contents = touch($base_dir . '/cache/secured/external_api/'.$hash_check.'.dat');
-			$store_file_contents = store_file_contents($base_dir . '/cache/secured/external_api/'.$hash_check.'.dat', $api_runtime_cache[$hash_check]);
+			$store_file_contents = touch($base_dir . '/cache/secured/external_api/'.$hash_check.'.dat');
+			//$store_file_contents = store_file_contents($base_dir . '/cache/secured/external_api/'.$hash_check.'.dat', $api_runtime_cache[$hash_check]);
 			}
 			else {
 			$store_file_contents = store_file_contents($base_dir . '/cache/secured/external_api/'.$hash_check.'.dat', $api_runtime_cache[$hash_check]);
@@ -1564,8 +1572,8 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 			
 		
 			if ( $store_file_contents == false && isset($fallback_cache_data) ) {
-			//app_logging('ext_api_error', 'Cache file touch() error for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data, 'data_size_bytes: ' . strlen($api_runtime_cache[$hash_check]) . ' bytes');
-			app_logging('ext_api_error', 'Cache file write error for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data, 'data_size_bytes: ' . strlen($api_runtime_cache[$hash_check]) . ' bytes');
+			app_logging('ext_api_error', 'Cache file touch() error for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data, 'data_size_bytes: ' . strlen($api_runtime_cache[$hash_check]) . ' bytes');
+			//app_logging('ext_api_error', 'Cache file write error for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data, 'data_size_bytes: ' . strlen($api_runtime_cache[$hash_check]) . ' bytes');
 			}
 			elseif ( $store_file_contents == false && !isset($fallback_cache_data) ) {
 			app_logging('ext_api_error', 'Cache file write error for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data, 'data_size_bytes: ' . strlen($api_runtime_cache[$hash_check]) . ' bytes');

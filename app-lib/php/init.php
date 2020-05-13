@@ -188,6 +188,18 @@ $fetched_reddit_feeds = 0;
 
 $fetched_stackexchange_feeds = 0;
 
+$fetched_medium_feeds = 0;
+
+$fetched_bitcoincore_feeds = 0;
+
+$fetched_ethereumorg_feeds = 0;
+
+$fetched_kraken_feeds = 0;
+
+$fetched_firesidefm_feeds = 0;
+
+$fetched_libsyn_feeds = 0;
+
 $cmc_notes = null;
 
 $config_upgraded = null;

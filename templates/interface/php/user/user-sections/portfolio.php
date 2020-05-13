@@ -952,7 +952,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	        
 	        <b>Extra Spacing:</b> <input type='checkbox' id='errors_log_space' value='1' onchange="system_logs('errors_log');" />
 	        
-	        &nbsp; <b>Maximum lines:</b> <input type='text' id='errors_log_lines' value='100' maxlength="4" size="4" />
+	        &nbsp; <b>Last lines:</b> <input type='text' id='errors_log_lines' value='100' maxlength="4" size="4" />
 	        
 	        &nbsp; <button class='force_button_style' onclick="copy_text('errors_log', 'errors_log_alert');">Copy To Clipboard</button> 
 	        
@@ -980,7 +980,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	        
 	        <b>Extra Spacing:</b> <input type='checkbox' id='smtp_errors_log_space' value='1' onchange="system_logs('smtp_errors_log');" />
 	        
-	        &nbsp; <b>Maximum lines:</b> <input type='text' id='smtp_errors_log_lines' value='100' maxlength="4" size="4" />
+	        &nbsp; <b>Last lines:</b> <input type='text' id='smtp_errors_log_lines' value='100' maxlength="4" size="4" />
 	        
 	        &nbsp; <button class='force_button_style' onclick="copy_text('smtp_errors_log', 'smtp_errors_log_alert');">Copy To Clipboard</button> 
 	        
@@ -1008,7 +1008,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	        
 	        <b>Extra Spacing:</b> <input type='checkbox' id='debugging_log_space' value='1' onchange="system_logs('debugging_log');" />
 	        
-	        &nbsp; <b>Maximum lines:</b> <input type='text' id='debugging_log_lines' value='100' maxlength="4" size="4" />
+	        &nbsp; <b>Last lines:</b> <input type='text' id='debugging_log_lines' value='100' maxlength="4" size="4" />
 	        
 	        &nbsp; <button class='force_button_style' onclick="copy_text('debugging_log', 'debugging_log_alert');">Copy To Clipboard</button> 
 	        
