@@ -15,21 +15,6 @@ Password notes: https://www.php.net/manual/en/faq.passwords.php
 "NEXT ON THE LIST" SUMMARY SECTION
 ///////////////////////////////////////////////////////
 
-
-Darken up dark theme visual price alerts loss coloring (the light blue text washes out too much).
-
-
-Add bitmex API: https://www.bitmex.com/api/explorer/
-
-
-Double-check touch() usage in external api logic, before including in a release
-
-
-Do same ui for audio alert we did for currency market alert.
-
-
-CREATE A NEW ERROR LOG NOTICE if file write fails, and it's the API cache, AND STRICT SSL IS ON (THAT STRICT SSL #MAY# NEED TO BE TURNED OFF IN CONFIG.PHP)
-
 Post on hive, telegram, discord, Twitter, and Facebook whenever there is a new release of the app.
 
 ALWAYS do everything in the optimizations / bugs / tests / ux / qa / other section of this list FIRST, before adding ANY new features (find every flaming turd before we start a dumpster fire).
@@ -41,10 +26,31 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+
+Lessen width of login page template, for mobile browsers?
+
+Hover over link title for timestamp data in feeds.
+
+Add info icon next to tips.
+
+
+
+Darken up dark theme visual price alerts loss coloring (the light blue text washes out too much).
+
+
+Do same ui for audio alert we did for currency market alert.
+
+
+CREATE A NEW ERROR LOG NOTICE if file write fails, and it's the API cache, AND STRICT SSL IS ON (THAT STRICT SSL #MAY# NEED TO BE TURNED OFF IN CONFIG.PHP)
+
+
 Find out why occasionally there is a rare false positive error log entry, saying email has not been set yet.
 
 
 Find out why lakebtc silently fails, capture the json response with some temporary custom code for responses from that exchange. Then we can build fallback detection.
+
+
+Add bitmex API: https://www.bitmex.com/api/explorer/
 
 
 See if exchange API data arrays can be manipulated slightly to build a reusable module for every exchange's API calls.

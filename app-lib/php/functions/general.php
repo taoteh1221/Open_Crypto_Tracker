@@ -74,30 +74,39 @@ function substri_count($haystack, $needle) {
 
 
 // Credit: https://www.alexkras.com/simple-rss-reader-in-85-lines-of-php/
-function rss_feeds($chosen_feeds, $feed_size) {
+function rss_feeds($chosen_feeds=false, $feed_size=10, $recache_only=false) {
 	
 global $app_config;
 
 $news_feeds = $app_config['power_user']['news_feeds'];
-	
-$html = "";
 
-// Alphabetically sort chosen feeds
-sort($chosen_feeds);
+	 // If we are just re-caching for quick use later (as cron job, for faster ui load times)
+	 if ( $recache_only == true ) {
+	 	foreach($news_feeds as $feed) {
+	 	get_feed($news_feeds[$feed]["url"], $feed_size, $news_feeds[$feed]["atom_format"]);
+	 	}
+	 }
+	 elseif ( is_array($chosen_feeds) ) {
+	 
+	 $html = "";
+
+	 // Alphabetically sort chosen feeds
+	 sort($chosen_feeds);
     
-    foreach($chosen_feeds as $feed) {
+    	foreach($chosen_feeds as $feed) {
     	
-    $feed = str_replace(array('[',']'),'',$feed); // Remove brackets from js storage format
+    	$feed = str_replace(array('[',']'),'',$feed); // Remove brackets from js storage format
     
-    	if ( is_array($news_feeds[$feed]) ) {
-    	$html .= "<fieldset class='subsection_fieldset'><legend class='subsection_legend'> ".$news_feeds[$feed]["title"].'</legend>';
-    	$html .= get_feed($news_feeds[$feed]["url"], $feed_size, $news_feeds[$feed]["atom_format"]);
-    	$html .= "</fieldset>";    
+    		if ( is_array($news_feeds[$feed]) ) {
+    		$html .= "<fieldset class='subsection_fieldset'><legend class='subsection_legend'> ".$news_feeds[$feed]["title"].'</legend>';
+    		$html .= get_feed($news_feeds[$feed]["url"], $feed_size, $news_feeds[$feed]["atom_format"]);
+    		$html .= "</fieldset>";    
+    		}
+    
     	}
-    
-    }
 
-return $html;
+	 return $html;
+	 }
 
 }
 
@@ -111,11 +120,12 @@ function get_feed($url, $feed_size, $atom_format=false){
 	
 global $app_config, $base_dir, $fetched_reddit_feeds, $fetched_stackexchange_feeds, $fetched_medium_feeds, $fetched_bitcoincore_feeds, $fetched_ethereumorg_feeds, $fetched_kraken_feeds, $fetched_firesidefm_feeds, $fetched_libsyn_feeds;
 
-
-// We don't want all feeds updating at the same time, so we randomly vary cache times a little (between 1 and 35 minutes extra)
-$rand_variance = rand(1, 35);
-
-$rss_feed_cache_time = $app_config['power_user']['rss_feed_cache_time'] + $rand_variance;
+$rss_cache_time_min_max = explode(',', $app_config['power_user']['rss_cache_time_min_max']);
+// Cleanup
+$rss_cache_time_min_max = array_map('trim', $rss_cache_time_min_max);
+	
+// We don't want all feeds updating at the same time, so we randomly vary cache times
+$rss_feed_cache_time = rand($rss_cache_time_min_max[0], $rss_cache_time_min_max[1]);
 
 
 	if ( preg_match("/reddit\.com/i", $url) || preg_match("/stackexchange\.com/i", $url) ) {

@@ -70,16 +70,7 @@ return ( $data * $hive_market * $selected_btc_primary_currency_value );
 
 
 function monero_reward() {
-	
-global $runtime_mode;
-
-	if ( $runtime_mode != 'ui' ) {
-	return false;  // We only use the block reward config file call for UI data, can skip the API request if not running the UI.
-	}
-	else {
- 	return monero_api('last_reward') / 1000000000000;
-   }
-   
+return monero_api('last_reward') / 1000000000000;
 }
 
 

@@ -437,7 +437,6 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	
 		
 ?>
-<br class='clear_both' />
 <div class="show_coin_values bold_1 blue"><!-- Summary START -->
 <?php
 		

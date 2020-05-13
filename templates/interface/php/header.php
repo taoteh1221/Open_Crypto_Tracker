@@ -176,10 +176,10 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
     </audio>
     
 	 
-    <div class='align_center' id='body_wrapper' style='<?=( $login_template == 1 ? 'min-width: 800px; max-width: 800px;' : '' )?>'>
+    <div class='align_center' id='body_wrapper' style='<?=( $login_template == 1 ? 'min-width: 720px; max-width: 800px;' : '' )?>'>
     
     
-		<div class='align_center' id='body_top_nav' style='<?=( $login_template == 1 ? 'min-width: 800px; max-width: 800px;' : '' )?>'>
+		<div class='align_center' id='body_top_nav' style='<?=( $login_template == 1 ? 'min-width: 720px; max-width: 800px;' : '' )?>'>
 		
 		
 				<!-- START #topnav-content -->

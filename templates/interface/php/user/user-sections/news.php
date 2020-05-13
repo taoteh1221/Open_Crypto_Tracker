@@ -15,8 +15,10 @@
 			
 
 			<p style='margin-top: 15px; margin-bottom: 15px;'><?=start_page_html('news')?></p>			
-			
-			<p class='bitcoin' style='font-weight: bold;'>RSS feed data in this app is cached for <?=$app_config['power_user']['rss_feed_cache_time']?> minute(s).</p>
+			<?php
+			$rss_cache_time_min_max = explode(',', $app_config['power_user']['rss_cache_time_min_max']);
+			?>
+			<p class='bitcoin' style='font-weight: bold;'>RSS feed data in this app is cached randomly between <?=$rss_cache_time_min_max[0]?> and <?=$rss_cache_time_min_max[1]?> minute(s), for quicker load times (by spreading out feed updates at different times).</p>
 			
 
 

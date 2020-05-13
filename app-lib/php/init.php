@@ -329,6 +329,9 @@ require_once('app-lib/php/other/primary-bitcoin-markets.php');
 // Misc dynamic interface vars (MUST RUN AFTER app config management)
 require_once('app-lib/php/other/interface-init.php');
 
+// Misc cron logic (MUST RUN AFTER app config management)
+require_once('app-lib/php/other/cron-init.php');
+
 // App configuration checks (MUST RUN AFTER app config management / primary bitcoin markets / interface init)
 require_once('app-lib/php/other/debugging/config-checks.php');
 

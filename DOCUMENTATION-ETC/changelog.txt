@@ -3163,6 +3163,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Re-organized system stats, for quick admin access anywhere (admin area, portfolio area for logged-in admin)
 
+-Cron jobs re-cache basic UI data (RSS feeds / marketcap data / chain stats data / etc), for faster UI runtimes
+
 -API / Webhook reset feature in admin area
 
 -Misc. UI / UX improvements
@@ -3199,7 +3201,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -More system compatibility tests
 
--Semi-overhaul of the UI / UX
+-Semi-overhaul of the UI / UX (layout compatibility, data table organizing, settings, title names, etc)
 
 -Microsoft Internet Explorer bug fixed, where log viewing / code examples were not rendering properly
 
