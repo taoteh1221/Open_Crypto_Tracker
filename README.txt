@@ -50,6 +50,8 @@ FEATURES
 
 -Admin interface, to allow easily viewing / changing the app configuration (alerts / charts / markets / API / backups / logs / etc).
 
+-Switch between light / dark (night mode) theme colors.
+
 -Cryptocurrency portfolio subtotal summaries, and total portfolio worth (in crypto and your local primary currency), including value gain / loss data (with tracking support for long / short margin leverages), portfolio balance data, and marketcap data.
 
 -Price change alerts by email / text / Alexa / Google Home / Telegram (configurable alert parameters available).
@@ -60,15 +62,15 @@ FEATURES
 
 -Import / Export your portfolio in CSV (spreadsheet) file format.
 
+-A news page with over 30 different cryptocurrency-related RSS feeds to select from, including company and organization blogs / news sites / podcasts / reddit and stackexchange forums.
+
+-External resources page, includes links to marketcap stats sites / news sites / wallets / exchanges / block explorers / developer resources / newsletters / podcasts / social media / etc.
+
 -Detailed charts (base values in crypto and your local primary currency), with spot price / 24 hour volume, zooming, and crosshair hovering.
-
--Switch between light / dark (night mode) theme colors.
-
--Mining calculators, to determine coin mining profitability (in crypto and your local primary currency, includes electricity costs and pool fees).
 
 -Crypto tools (QR code generator, altcoin trade preview / marketcap calculator in BTC and your local primary currency, etc).
 
--External resources page, includes links to marketcap stats sites / news sites / wallets / exchanges / block explorers / developer resources / newsletters / podcasts / social media / etc.
+-Mining calculators, to determine coin mining profitability (in crypto and your local primary currency, includes electricity costs and pool fees).
 
 -Help page in easy-to-use FAQ format, for common issues (with support / contact links if you need additional assistance).
 
