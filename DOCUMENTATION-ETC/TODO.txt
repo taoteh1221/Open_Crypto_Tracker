@@ -26,25 +26,13 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
-LEAVE THIS NOTE HERE FOR A FEW WEEKS: IF WE GET FALSE POSITIVES FOR ERROR DATA ON ANYMORE RSS FEEDS, ADD BETTER / MORE CHECKS FOR VALID RSS FEED FORMAT DETECTION.
-
-
-Add info icon next to tips for disclaimer info.
-
-
-Darken up dark theme visual price alerts loss coloring (the light blue text washes out too much).
-
-
-Do same ui for audio alert we did for currency market alert.
-
-
-CREATE A NEW ERROR LOG NOTICE if file write fails, and it's the API cache, AND STRICT SSL IS ON (THAT STRICT SSL #MAY# NEED TO BE TURNED OFF IN CONFIG.PHP)
+See if we can slim up the error-detection logic in external_api_data(), it looks like we may be creating a lot of extra runtime there?
 
 
 Find out why occasionally there is a rare false positive error log entry, saying email has not been set yet.
 
 
-Find out why lakebtc silently fails, capture the json response with some temporary custom code for responses from that exchange. Then we can build fallback detection.
+Find out why lakebtc silently fails.
 
 
 Add bitmex API: https://www.bitmex.com/api/explorer/
@@ -62,9 +50,6 @@ In debug mode, check the verbosity of everything, especially the system stats an
 New screenshots.
 
 
-Double check that we don't need to darken up light theme loss alert data row colors (next time everything crashes in price, lol)
-
-
 1D / 1W / 1M .... chart links are broken on chrome for Android (BUT work fine on Chrome for Ubuntu).
 
 
@@ -75,9 +60,6 @@ Documentation for Webhook features
 
 
 Add webhook keys on admin page.
-
-
-Retest password strength function after the modification. 
 
 
 Fresh AUTO install on a raspberry pi throws this INTERFACE error, even though we chowned every file as owner 'pi', and chmod 664 on the root .htaccess file:

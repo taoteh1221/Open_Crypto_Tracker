@@ -368,6 +368,12 @@ color: #dd7c0d !important;
 }
 
 
+.bitcoin_dotted {
+padding: 10px;
+border: 2px dotted #dd7c0d !important;
+}
+
+
 .portfolio_summary {
 margin-top: 2px;
 margin-bottom: 2px;
@@ -669,7 +675,7 @@ padding: 7px;
 }
 
 
-#primary_currency_markets_alert {
+#primary_currency_markets_alert, #percent_change_alert_type_alert {
 display: none;
 font-weight: bold;
 margin: 20px;

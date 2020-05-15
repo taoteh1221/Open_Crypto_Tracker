@@ -139,7 +139,7 @@ global $app_config, $current_runtime_user, $possible_http_users, $http_runtime_u
 	
 		// API timeouts are a confirmed cause for write errors of 0 bytes, so we want to alert end users that they may need to adjust their API timeout settings to get associated API data
 		if ( preg_match("/cache\/secured\/apis/i", $file) ) {
-		app_logging('ext_api_error', 'POSSIBLE api timeout issue for cache file "' . $file . '" (IF THIS ISSUE PERSISTS #LONG TERM#, TRY INCREASING "remote_api_timeout" IN THE POWER USER SECTION in config.php)', 'remote_api_timeout: '.$app_config['power_user']['remote_api_timeout'].' seconds;');
+		app_logging('ext_api_error', 'POSSIBLE api timeout' . ( $app_config['power_user']['remote_api_strict_ssl'] == 'on' ? ' or strict_ssl' : '' ) . ' issue for cache file "' . $file . '" (IF THIS ISSUE PERSISTS #LONG TERM#, TRY INCREASING "remote_api_timeout"' . ( $app_config['power_user']['remote_api_strict_ssl'] == 'on' ? ' OR SETTING "remote_api_strict_ssl" to "off"' : '' ) . ' IN THE POWER USER SECTION in config.php)', 'remote_api_timeout: '.$app_config['power_user']['remote_api_timeout'].' seconds; remote_api_strict_ssl: ' . $app_config['power_user']['remote_api_strict_ssl'] . ';');
 		}
 	
 	return false;
@@ -1408,6 +1408,10 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 		// Store to file
 		store_file_contents($base_dir . $debug_response_log, $debug_data);
 		
+		// Reset $data value to use the $debug_body value (to parse the json values out), 
+		// SINCE WE INCLUDED HEADER DATA WITH CURLOPT_HEADER FOR DEBUGGING
+		$data = $debug_body;
+		
 		}
 	
 	
@@ -1474,31 +1478,32 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 		elseif ( isset($data) && $endpoint_tld_or_ip != '' && $ttl != 0 ) {
 		
 		
-			////////////////////////////////////////////////////////////////
-			// If response seems to contain an error message
-			// MUST RUN BEFORE FALLBACK ATTEMPT TO CACHED DATA
-			if ( preg_match("/ error/i", $data)
-			|| preg_match("/error /i", $data)
-			|| preg_match("/\"error\"/i", $data)
-			|| preg_match("/'error'/i", $data)
-			|| preg_match("/error_/i", $data) ) {
-				
-				
-				// Checks for false positives
-				// https://www.php.net/manual/en/regexp.reference.meta.php
-				if ( preg_match("/rss version(.*)title/i", $data) // RSS feeds (that seem intact)
-				|| preg_match("/xml version(.*)title/i", $data) // RSS feeds (that seem intact)
-				|| preg_match("/terror/i", $data) // Words that contain the phrase "error" within them, THAT WOULDN'T BE IN AN ERROR MESSAGE
-				|| substri_count($data, 'error') > 1 // The phrase 'error' appears more than once (as this likely is textual content in data)
-				|| $endpoint_tld_or_ip == 'kraken.com' && preg_match("/\"error\":\[\],/i", $data) 
-				|| $endpoint_tld_or_ip == 'coinmarketcap.com' && preg_match("/\"error_code\":0,/i", $data)
-				|| $endpoint_tld_or_ip == 'coinmarketcap.com' && preg_match("/\"error_code\": 0,/i", $data) ) {
-				$false_positive = 1;
-				}
+			////////////////////////////////////////////////////////////////	
+			// Checks for error false positives, BEFORE CHECKING FOR A POSSIBLE ERROR
+			// https://www.php.net/manual/en/regexp.reference.meta.php
+			if ( preg_match("/rss version(.*)title/i", $data) // RSS feeds (that seem intact)
+			|| preg_match("/xml version(.*)title/i", $data) // RSS feeds (that seem intact)
+			|| preg_match("/rss xmlns(.*)title/i", $data) // RSS feeds (that seem intact)
+			|| preg_match("/terror/i", $data) // Words that contain the phrase "error" within them, THAT WOULDN'T BE IN AN ERROR MESSAGE
+			|| substri_count($data, 'error') > 1 // The phrase 'error' appears more than once (as this likely is textual content in data)
+			|| $endpoint_tld_or_ip == 'kraken.com' && preg_match("/\"error\":\[\],/i", $data) 
+			|| $endpoint_tld_or_ip == 'coinmarketcap.com' && preg_match("/\"error_code\":0,/i", $data)
+			|| $endpoint_tld_or_ip == 'coinmarketcap.com' && preg_match("/\"error_code\": 0,/i", $data) ) {
+			$false_positive = 1;
+			}
 			
 			
-				// DON'T FLAG as a possible error if detected as a false positive already
-				if ( $false_positive != 1 ) {
+			// DON'T FLAG as a possible error if detected as a false positive already
+			// (THIS LOGIC IS FOR STORING THE POSSIBLE ERROR IN /cache/logs/errors/external_api FOR REVIEW)
+			if ( $false_positive != 1 ) {
+				
+				// If response seems to contain an error message
+				// MUST RUN BEFORE FALLBACK ATTEMPT TO CACHED DATA
+				if ( preg_match("/ error/i", $data)
+				|| preg_match("/error /i", $data)
+				|| preg_match("/\"error\"/i", $data)
+				|| preg_match("/'error'/i", $data)
+				|| preg_match("/error_/i", $data) ) {
 					
 				// Log full results to file, WITH UNIQUE TIMESTAMP IN FILENAME TO AVOID OVERWRITES (FOR ADEQUATE DEBUGGING REVIEW)
 				$error_response_log = '/cache/logs/errors/external_api/error-response-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-hash-'.$hash_check.'-timestamp-'.time().'.log';
@@ -1533,10 +1538,13 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 				|| preg_match("/Server Error/i", $data) // Kucoin.com / generic
 				|| preg_match("/something went wrong/i", $data) // Bitbns.com / generic
 				|| preg_match("/\"reason\":\"Maintenance\"/i", $data) // Gemini.com / generic
+				|| preg_match("/scheduled maintenance/i", $data) // Bittrex.com / generic
 				|| preg_match("/\"data\":null/i", $data) // Bitflyer.com / generic
+				|| preg_match("/\"result\":null/i", $data) // Bittrex.com / generic
 				|| preg_match("/An error has occurred/i", $data) // Bitflyer.com / generic
-				|| preg_match("/\"success\":false/i", $data) // BTCturk.com / generic
+				|| preg_match("/\"success\":false/i", $data) // BTCturk.com / Bittrex.com / generic
 				|| preg_match("/too many requests/i", $data) // reddit.com / generic
+				|| preg_match("/error(.*)invalid/i", $data) // coingecko.com / generic
 				|| $endpoint_tld_or_ip == 'bittrex.com' && !preg_match("/Volume/i", $data)
 				|| $endpoint_tld_or_ip == 'lakebtc.com' && !preg_match("/volume/i", $data)
 				|| $endpoint_tld_or_ip == 'localbitcoins.com' && !preg_match("/volume_btc/i", $data)

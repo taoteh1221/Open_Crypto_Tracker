@@ -711,7 +711,7 @@ function row_alert(tr_id, alert_type, color, theme) {
     	
       
 			if ( color == 'yellow' ) {
-			var zebra_odd_loss = ( theme == 'light' ? '#d3bb5b' : '#705d29' );
+			var zebra_odd_loss = ( theme == 'light' ? '#d3bb5b' : '#6d5a29' );
 			var zebra_even_loss = ( theme == 'light' ? '#efd362' : '#564a1e' );
 			}
 			

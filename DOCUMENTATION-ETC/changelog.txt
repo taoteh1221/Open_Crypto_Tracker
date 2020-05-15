@@ -3197,9 +3197,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -News page / tab, where you can choose (from a list) which crypto news feeds you want displayed there (ATOM and Standard RSS format supported)
 
--Misc. small bug fixes / compatibility improvements
-
--More system compatibility tests
+-Initial app config auto-upgrading system (NO ACTIVATED YET...for cached user-customized app config in upcoming admin interface settings)
 
 -Semi-overhaul of the UI / UX (layout compatibility, data table organizing, settings, title names, etc)
 
@@ -3207,7 +3205,9 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Market pairing value function bugs fixed, where under certain edge cases could make the cron job runtime excessively long
 
--Initial app config auto-upgrading system (NO ACTIVATED YET...for cached user-customized app config in upcoming admin interface settings)
+-Misc. small bug fixes / compatibility / error fallback improvements
+
+-More system compatibility tests
 
 -Code cleanup (semantics)
 

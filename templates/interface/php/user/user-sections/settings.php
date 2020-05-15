@@ -276,13 +276,13 @@
 				    
 				    ' <?=( sizeof($primary_currency_market_standalone) == 2 ? 'checked' : '' )?> /> Stand-Alone Mode (<i>WON'T automatically change</i> Bitcoin market on "Update" page)
 				    
-				    <div id='primary_currency_markets_alert' class='red_dotted red'></div>
+				    <div id='primary_currency_markets_alert' class='bitcoin_dotted bitcoin'></div>
 				    
  <script>
 	
 			var currency_content = '<h5 align="center" class="yellow" style="position: relative; white-space: nowrap;">Currency Market Setting:</h5>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">The Currency Market setting allows you to change your default primary currency for the portfolio interface (the charts / price alerts currency market <i>must be changed separately in config.php</i>).</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">The Currency Market setting allows you to change your default primary currency (conversion) for the portfolio interface (the charts / price alerts currency market <i>must be changed separately in config.php</i>).</p>'
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Additionally, if you check off "Stand-Alone Mode", your chosen Bitcoin market on the "Update" page <i>will NOT be automatically changed to match your chosen Currency Market on the "Settings" page</i>. This is useful if you\'d like to browse through different Bitcoin markets, BUT don\'t want your default primary currency to change in the app.</p>'
 			
@@ -431,7 +431,12 @@
 			    <select name='percent_change_alert_type' id='percent_change_alert_type' onchange='
 			    update_alert_percent();
 			    if ( this.value == "visual_audio" ) {
-			    alert("For security, some browsers may require occasional user interaction to allow media to \"Auto-play\" (clicking on the page after loading, etc).")
+				 $("#percent_change_alert_type_alert").text("For security, some browsers may require occasional user interaction to allow media to \"Auto-play\" (clicking on the page after loading, etc).");
+				 $("#percent_change_alert_type_alert").show(250, "linear"); // 0.25 seconds
+			    }
+			    else {
+				 $("#percent_change_alert_type_alert").text("");
+				 $("#percent_change_alert_type_alert").hide(250, "linear"); // 0.25 seconds
 			    }
 			    '>
 			    <option value='visual_only' <?=( $alert_percent[4] == 'visual_only' ? ' selected ' : '' )?>> Visual Only </option>
@@ -440,6 +445,23 @@
 			
 			</p>
 			
+				    <div id='percent_change_alert_type_alert' class='bitcoin_dotted bitcoin'></div>
+				    
+		 <script>
+
+					 if ( $("#percent_change_alert_type").val() == "visual_audio" ) {
+				    $("#percent_change_alert_type_alert").text("For security, some browsers may require occasional user interaction to allow media to \"Auto-play\" (clicking on the page after loading, etc).");
+				    $("#percent_change_alert_type_alert").show(250, "linear"); // 0.25 seconds
+				    }
+				    else {
+				    $("#percent_change_alert_type_alert").text("");
+				    $("#percent_change_alert_type_alert").hide(250, "linear"); // 0.25 seconds
+				    }
+		
+		
+		
+		 </script>
+				    
 			<?php
 			if ( sizeof($alert_percent) > 4 ) { // Backwards compatibility (reset if user data is not this many array values)
 			?>
@@ -449,6 +471,9 @@
 			display: inline;
 			}
 			</style>
+			
+			
+			
 			
 			<?php
 			}

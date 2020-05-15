@@ -67,6 +67,19 @@ require_once('app-lib/php/other/random-tips.php');
 			
 			
 			+'<p class="coin_info"><span class="yellow"> </span></p>';
+
+	
+	
+			var random_tip_disclaimer = '<h5 align="center" class="red_bright" style="position: relative; white-space: nowrap;">Random Tips Disclaimer</h5>'
+			
+			
+			+'<p class="coin_info extra_margins red_bright" style="white-space: normal; max-width: 600px;">This "Random Tips" section SHOULD NEVER TAKE THE PLACE OF ADVICE FROM A PROFESSIONAL FINANCIAL ADVISER!</p>'
+			
+			+'<p class="coin_info extra_margins red_bright" style="white-space: normal; max-width: 600px;">"Random Tips" are only designed to provide VERY BASIC INSIGHT for people new to cryptocurrency, AND DOES NOT / CANNOT TAKE INTO ACCOUNT UNIQUE SITUATIONS INVESTORS MAY BE IN. ALWAYS CONSULT A FINANCIAL ADVISER IF YOU ARE UNAWARE OF ALL RISKS FOR YOUR PARTICULAR SITUATION!</p>'
+			
+			
+			
+			+'<p class="coin_info"><span class="yellow"> </span></p>';
 			
 			
 			
@@ -184,7 +197,28 @@ require_once('app-lib/php/other/random-tips.php');
 	
 	
 	<!-- #DON'T# CONVERT TO JAVASCRIPT WITH 'NEXT TIP' LINK...I think tips will be better remembered if it just loads one tip per app runtime. -->
-	<p class='bitcoin random_tip'><b>Random Tip</b>: <?=random_array_var($random_tips)?></p>
+	<p class='bitcoin random_tip'><img id='random_tip_disclaimer' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative;' /><script>
+		
+			$('#random_tip_disclaimer').balloon({
+			html: true,
+			position: "right",
+			contents: random_tip_disclaimer,
+			css: {
+					fontSize: ".8rem",
+					minWidth: ".8rem",
+					padding: ".3rem .7rem",
+					border: "2px solid rgba(212, 212, 212, .4)",
+					borderRadius: "6px",
+					boxShadow: "3px 3px 6px #555",
+					color: "#eee",
+					backgroundColor: "#111",
+					opacity: "0.99",
+					zIndex: "32767",
+					textAlign: "left"
+					}
+			});
+		
+		 </script><b>Random Tip:</b> <?=random_array_var($random_tips)?></p>
 	
 			
 	<div class='align_left clear_both' style='margin-top: 30px; margin-bottom: 15px;'>
