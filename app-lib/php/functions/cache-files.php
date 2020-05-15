@@ -1401,13 +1401,12 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 		$debug_body = substr($data, $debug_header_size);
 		
 		// Debugging output
-		$debug_array = array('header_size' => $debug_header_size, 'header' => $debug_header, 'body' => $debug_body);
-		$debug_json_array = json_encode($debug_array, JSON_PRETTY_PRINT);
+		$debug_data = "\n\n\n" . 'header_size: ' . $debug_header_size . ' bytes' . "\n\n\n" . 'header: ' . "\n\n\n" . $debug_header . "\n\n\n" . 'body: ' . "\n\n\n" . $debug_body . "\n\n\n";
 		
 		$debug_response_log = '/cache/logs/debugging/external_api/problem-endpoint-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-hash-'.$hash_check.'-timestamp-'.time().'.log';
 		
 		// Store to file
-		store_file_contents($base_dir . $debug_response_log, $debug_json_array);
+		store_file_contents($base_dir . $debug_response_log, $debug_data);
 		
 		}
 	
