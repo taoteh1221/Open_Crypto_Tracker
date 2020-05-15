@@ -26,6 +26,9 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+LEAVE THIS NOTE HERE FOR A FEW WEEKS: IF WE GET FALSE POSITIVES FOR ERROR DATA ON ANYMORE RSS FEEDS, ADD BETTER / MORE CHECKS FOR VALID RSS FEED FORMAT DETECTION.
+
+
 Add info icon next to tips for disclaimer info.
 
 
