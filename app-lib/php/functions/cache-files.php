@@ -1381,11 +1381,13 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 		
 		// DEBUGGING FOR PROBLEM ENDPOINT (DEVELOPER ONLY, #DISABLE THIS SECTION# AFTER DEBUGGING)
 		// USAGE: $endpoint_tld_or_ip == 'domain.com' || preg_match("/domain\.com\/endpoint\/var/i", $api_endpoint)
+		/*
 		if ( $endpoint_tld_or_ip == 'lakebtc.com' ) {
 		$debug_problem_endpoint_data = 1;
 		curl_setopt($ch, CURLOPT_VERBOSE, 1);
 		curl_setopt($ch, CURLOPT_HEADER, 1);
 		}
+		*/
 		
 	
 	// Get response data
