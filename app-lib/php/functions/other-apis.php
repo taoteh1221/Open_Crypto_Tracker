@@ -9,7 +9,8 @@
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-//////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
 
 
 function grin_api($request) {
@@ -27,7 +28,8 @@ return $data[$request];
 }
 
 
-//////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
 
 
 function monero_api($request) {
@@ -51,7 +53,8 @@ global $app_config;
 }
 
 
-//////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
 
 
 function bitcoin_api($request) {
@@ -77,7 +80,8 @@ global $app_config;
 }
 
 
-//////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
 
 
 function dogecoin_api($request) {
@@ -103,7 +107,8 @@ global $app_config;
 }
 
 
-//////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
 
 
 function litecoin_api($request) {
@@ -130,7 +135,8 @@ global $app_config;
 }
 
 
-//////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
 
 
 function decred_api($type, $request) {
@@ -155,7 +161,44 @@ return $data[$request];
 }
 
 
-//////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function coingecko_api($force_primary_currency=null) {
+	
+global $app_config;
+
+$result = array();
+
+// Don't overwrite global
+$coingecko_primary_currency = ( $force_primary_currency != null ? strtolower($force_primary_currency) : strtolower($app_config['general']['btc_primary_currency_pairing']) );
+
+$jsondata = @external_api_data('url', 'https://api.coingecko.com/api/v3/coins/markets?per_page='.$app_config['power_user']['marketcap_ranks_max'].'&page=1&vs_currency='.$coingecko_primary_currency.'&price_change_percentage=1h,24h,7d,14d,30d,200d,1y', $app_config['power_user']['marketcap_cache_time']);
+	   
+$data = json_decode($jsondata, true);
+
+   if ( is_array($data) || is_object($data) ) {
+  		
+  	 	foreach ($data as $key => $value) {
+     	  	
+        	if ( $data[$key]['symbol'] != '' ) {
+        	$result[strtolower($data[$key]['symbol'])] = $data[$key];
+     	  	}
+    
+  	  	}
+  	  
+  	}
+		  
+		  
+return $result;
+  
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
 
 // https://core.telegram.org/bots/api
 
@@ -207,7 +250,8 @@ global $app_config;
 }
 
 
-//////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
 
 
 function etherscan_api($block_info) {
@@ -260,41 +304,8 @@ global $base_dir, $app_config;
 }
 
 
-//////////////////////////////////////////////////////////
-
-
-function coingecko_api($force_primary_currency=null) {
-	
-global $app_config;
-
-$result = array();
-
-// Don't overwrite global
-$coingecko_primary_currency = ( $force_primary_currency != null ? strtolower($force_primary_currency) : strtolower($app_config['general']['btc_primary_currency_pairing']) );
-
-$jsondata = @external_api_data('url', 'https://api.coingecko.com/api/v3/coins/markets?per_page='.$app_config['power_user']['marketcap_ranks_max'].'&page=1&vs_currency='.$coingecko_primary_currency.'&price_change_percentage=1h,24h,7d,14d,30d,200d,1y', $app_config['power_user']['marketcap_cache_time']);
-	   
-$data = json_decode($jsondata, true);
-
-   if ( is_array($data) || is_object($data) ) {
-  		
-  	 	foreach ($data as $key => $value) {
-     	  	
-        	if ( $data[$key]['symbol'] != '' ) {
-        	$result[strtolower($data[$key]['symbol'])] = $data[$key];
-     	  	}
-    
-  	  	}
-  	  
-  	}
-		  
-		  
-return $result;
-  
-}
-
-
-//////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
 
 
 function coinmarketcap_api() {
@@ -368,7 +379,250 @@ $result = array();
 }
 
 
-//////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+// Credit: https://www.alexkras.com/simple-rss-reader-in-85-lines-of-php/
+function rss_feed_data($url, $feed_size, $atom_format=false){
+	
+global $app_config, $base_dir, $fetched_reddit_feeds, $fetched_stackexchange_feeds, $fetched_medium_feeds, $fetched_bitcoincore_feeds, $fetched_ethereumorg_feeds, $fetched_kraken_feeds, $fetched_firesidefm_feeds, $fetched_libsyn_feeds;
+
+$rss_cache_time_min_max = explode(',', $app_config['power_user']['rss_cache_time_min_max']);
+// Cleanup
+$rss_cache_time_min_max = array_map('trim', $rss_cache_time_min_max);
+	
+// We don't want all feeds updating at the same time, so we randomly vary cache times
+$rss_feed_cache_time = rand($rss_cache_time_min_max[0], $rss_cache_time_min_max[1]);
+
+
+	if ( preg_match("/reddit\.com/i", $url) || preg_match("/stackexchange\.com/i", $url) ) {
+	
+		// If it's a consecutive reddit feed request and time to refresh the cache, sleep 8 seconds (reddit is very strict on user agents)
+		// (Reddit only allows rss feed connections every 7 seconds from ip addresses ACCORDING TO THEM)
+		if ( $fetched_reddit_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
+		sleep(8); 
+		}
+	
+		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
+		$fetched_reddit_feeds = $fetched_reddit_feeds + 1;
+		}
+		
+	}
+	elseif ( preg_match("/stackexchange\.com/i", $url) ) {
+	
+		// If it's a consecutive stackexchange feed request and time to refresh the cache, sleep 4 seconds 
+		if ( $fetched_stackexchange_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
+		sleep(4); 
+		}
+	
+		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
+		$fetched_stackexchange_feeds = $fetched_stackexchange_feeds + 1;
+		}
+		
+	}
+	elseif ( preg_match("/medium\.com/i", $url) ) {
+	
+		// If it's a consecutive medium feed request and time to refresh the cache, sleep 8 seconds (medium is very strict on user agents)
+		if ( $fetched_medium_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
+		sleep(8); 
+		}
+	
+		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
+		$fetched_medium_feeds = $fetched_medium_feeds + 1;
+		}
+		
+	}
+	elseif ( preg_match("/bitcoincore\.org/i", $url) ) {
+	
+		// If it's a consecutive bitcoincore feed request and time to refresh the cache, sleep 4 seconds 
+		if ( $fetched_bitcoincore_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
+		sleep(4); 
+		}
+	
+		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
+		$fetched_bitcoincore_feeds = $fetched_bitcoincore_feeds + 1;
+		}
+		
+	}
+	elseif ( preg_match("/ethereum\.org/i", $url) ) {
+	
+		// If it's a consecutive ethereumorg feed request and time to refresh the cache, sleep 8 seconds 
+		if ( $fetched_ethereumorg_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
+		sleep(8); 
+		}
+	
+		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
+		$fetched_ethereumorg_feeds = $fetched_ethereumorg_feeds + 1;
+		}
+		
+	}
+	elseif ( preg_match("/kraken\.com/i", $url) ) {
+	
+		// If it's a consecutive kraken feed request and time to refresh the cache, sleep 4 seconds 
+		if ( $fetched_kraken_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
+		sleep(4); 
+		}
+	
+		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
+		$fetched_kraken_feeds = $fetched_kraken_feeds + 1;
+		}
+		
+	}
+	elseif ( preg_match("/fireside\.fm/i", $url) ) {
+	
+		// If it's a consecutive firesidefm feed request and time to refresh the cache, sleep 4 seconds 
+		if ( $fetched_firesidefm_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
+		sleep(4); 
+		}
+	
+		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
+		$fetched_firesidefm_feeds = $fetched_firesidefm_feeds + 1;
+		}
+		
+	}
+	elseif ( preg_match("/libsyn\.com/i", $url) ) {
+	
+		// If it's a consecutive libsyn feed request and time to refresh the cache, sleep 4 seconds 
+		if ( $fetched_libsyn_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
+		sleep(4); 
+		}
+	
+		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
+		$fetched_libsyn_feeds = $fetched_libsyn_feeds + 1;
+		}
+		
+	}
+	
+
+$xmldata = @external_api_data('url', $url, $rss_feed_cache_time); 
+
+$rss = simplexml_load_string($xmldata);
+        
+$html .= '<ul>';
+   
+   
+   $count = 0;
+   
+   // Atom format
+   if ( $atom_format == true ) {
+   
+   $sortable_feed = array();
+   	
+   	foreach($rss->entry as $item) {
+    	$sortable_feed[] = $item;
+  		}
+  	
+  	$usort_results = usort($sortable_feed, __NAMESPACE__ . '\timestamps_usort_newest');
+   	
+		if ( !$usort_results ) {
+		app_logging( 'other_error', 'RSS feed failed to sort by newest items (' . $url . ')');
+		}
+   
+		foreach($sortable_feed as $item) {
+			
+			
+			// If data exists, AND we aren't just caching data during a cron job
+			if ( trim($item->title) != '' && $feed_size > 0 ) {
+		
+				if ( $item->pubDate != '' ) {
+				$item_date = $item->pubDate;
+				}
+				elseif ( $item->published != '' ) {
+				$item_date = $item->published;
+				}
+				elseif ( $item->updated != '' ) {
+				$item_date = $item->updated;
+				}
+      		
+			$item_date = preg_replace("/ 00\:(.*)/i", '', $item_date);
+			
+			$date_array = date_parse($item_date);
+			
+			$month_name = date("F", mktime(0, 0, 0, $date_array['month'], 10));
+			
+			$date_ui = $month_name . ' ' . ordinal($date_array['day']) . ', ' . $date_array['year'];
+			
+   		$html .= '<li class="links_list"><a href="'.htmlspecialchars($item->link['href']).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a></li>';
+			
+   			$count++;     
+   			if($count > $feed_size) {
+      		break;
+      		}
+      		
+			}
+   	
+   	}
+   	
+   
+   }
+   // Standard RSS format
+   else {
+   
+   $sortable_feed = array();
+   	
+   	foreach($rss->channel->item as $item) {
+    	$sortable_feed[] = $item;
+  		}
+  	
+  	$usort_results = usort($sortable_feed, __NAMESPACE__ . '\timestamps_usort_newest');
+   	
+		if ( !$usort_results ) {
+		app_logging( 'other_error', 'RSS feed failed to sort by newest items (' . $url . ')');
+		}
+   
+		foreach($sortable_feed as $item) {
+			
+			
+			// If data exists, AND we aren't just caching data during a cron job
+			if ( trim($item->title) != '' && $feed_size > 0 ) {
+		
+				if ( $item->pubDate != '' ) {
+				$item_date = $item->pubDate;
+				}
+				elseif ( $item->published != '' ) {
+				$item_date = $item->published;
+				}
+				elseif ( $item->updated != '' ) {
+				$item_date = $item->updated;
+				}
+      		
+			$item_date = preg_replace("/00\:(.*)/i", '', $item_date);
+			
+			$date_array = date_parse($item_date);
+			
+			$month_name = date("F", mktime(0, 0, 0, $date_array['month'], 10));
+			
+			$date_ui = $month_name . ' ' . ordinal($date_array['day']) . ', ' . $date_array['year'];
+			
+   		$html .= '<li class="links_list"><a href="'.htmlspecialchars($item->link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a></li>';
+   		
+   			$count++;     
+   			if($count > $feed_size) {
+      		break;
+      		}
+				
+   		}
+   	
+   	
+   	}
+   
+   }
+   
+        
+$html .= '</ul>';
+
+	if ( $xmldata == 'none' || $rss == false ) {
+	return '<span class="red">Error retrieving feed data.</span>';
+	}
+	elseif ( $feed_size == 0 ) {
+	return true;
+	}
+	else {
+	return $html;
+	}
+    
+}
 
 
 ?>

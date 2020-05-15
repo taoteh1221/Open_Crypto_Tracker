@@ -18,7 +18,7 @@
 			<?php
 			$rss_cache_time_min_max = explode(',', $app_config['power_user']['rss_cache_time_min_max']);
 			?>
-			<p class='bitcoin' style='font-weight: bold;'>RSS feed data in this app is cached randomly between <?=$rss_cache_time_min_max[0]?> and <?=$rss_cache_time_min_max[1]?> minute(s), for quicker load times (by spreading out feed updates at different times).</p>
+			<p class='bitcoin' style='font-weight: bold;'>RSS feed data is cached (randomly) between <?=$rss_cache_time_min_max[0]?> and <?=$rss_cache_time_min_max[1]?> minutes for quicker load times. Feeds are sorted by newest entries first. To see the date each feed entry was published, hover over it.</p>
 			
 
 
@@ -103,7 +103,7 @@
 
 	<?php
 	if ( $show_feeds[0] != '' ) {
-	echo rss_feeds($show_feeds, 10); // Show 10 feed items per feed
+	echo get_rss_feeds($show_feeds, 20); // Show 20 feed items per feed
 	}
 	else {
 	?>

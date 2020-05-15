@@ -1327,7 +1327,7 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $app_config['power_user']['remote_api_timeout']);
 	curl_setopt($ch, CURLOPT_TIMEOUT, $app_config['power_user']['remote_api_timeout']);
 	
-	
+		
 		// Medium / Reddit are a bit funky with allowed user agents, so we need to let them know this is a real feed parser (not just a spammy bot)
 		if ( $endpoint_tld_or_ip == 'medium.com' || $endpoint_tld_or_ip == 'reddit.com' ) {
 		curl_setopt($ch, CURLOPT_USERAGENT, 'Custom_Feed_Parser/1.0 (compatible; DFD_Cryptocoin_Values/' . $app_version . '; +https://github.com/taoteh1221/DFD_Cryptocoin_Values)');
@@ -1377,9 +1377,42 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 
 		}
 		
+	
+		
+		// DEBUGGING FOR PROBLEM ENDPOINT (DEVELOPER ONLY, #DISABLE THIS SECTION# AFTER DEBUGGING)
+		// USAGE: $endpoint_tld_or_ip == 'domain.com' || preg_match("/domain\.com\/endpoint\/var/i", $api_endpoint)
+		if ( $endpoint_tld_or_ip == 'lakebtc.com' ) {
+		$debug_problem_endpoint_data = 1;
+		curl_setopt($ch, CURLOPT_VERBOSE, 1);
+		curl_setopt($ch, CURLOPT_HEADER, 1);
+		}
 		
 	
+	// Get response data
 	$data = curl_exec($ch);
+	
+	
+		// IF DEBUGGING FOR PROBLEM ENDPOINT IS ENABLED
+		if ( $debug_problem_endpoint_data ) {
+		
+		// Response data
+		$debug_header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+		$debug_header = substr($data, 0, $debug_header_size);
+		$debug_body = substr($data, $debug_header_size);
+		
+		// Debugging output
+		$debug_array = array('header_size' => $debug_header_size, 'header' => $debug_header, 'body' => $debug_body);
+		$debug_json_array = json_encode($debug_array, JSON_PRETTY_PRINT);
+		
+		$debug_response_log = '/cache/logs/debugging/external_api/problem-endpoint-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-hash-'.$hash_check.'-timestamp-'.time().'.log';
+		
+		// Store to file
+		store_file_contents($base_dir . $debug_response_log, $debug_json_array);
+		
+		}
+	
+	
+	// Close connection
 	curl_close($ch);
 		
 	
@@ -1450,48 +1483,33 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 			|| preg_match("/\"error\"/i", $data)
 			|| preg_match("/'error'/i", $data)
 			|| preg_match("/error_/i", $data) ) {
+				
+				
+				// Checks for false positives
+				// https://www.php.net/manual/en/regexp.reference.meta.php
+				if ( preg_match("/rss version(.*)title/i", $data) // RSS feeds (that seem intact)
+				|| preg_match("/xml version(.*)title/i", $data) // RSS feeds (that seem intact)
+				|| preg_match("/terror/i", $data) // Words that contain the phrase "error" within them, THAT WOULDN'T BE IN AN ERROR MESSAGE
+				|| substri_count($data, 'error') > 1 // The phrase 'error' appears more than once (as this likely is textual content in data)
+				|| $endpoint_tld_or_ip == 'kraken.com' && preg_match("/\"error\":\[\],/i", $data) 
+				|| $endpoint_tld_or_ip == 'coinmarketcap.com' && preg_match("/\"error_code\":0,/i", $data)
+				|| $endpoint_tld_or_ip == 'coinmarketcap.com' && preg_match("/\"error_code\": 0,/i", $data) ) {
+				$false_positive = 1;
+				}
 			
 			
-				// DON'T FLAG as a possible error, if there are other words that contain the phrase "error" within them
-				// Also, don't flag as possible error if the phrase 'error' appears more than twice (as it may just be textual content in a news feed, etc)
-				if ( !preg_match("/terror/i", $data) && substri_count($data, 'error') < 2 ) {
+				// DON'T FLAG as a possible error if detected as a false positive already
+				if ( $false_positive != 1 ) {
 					
-					
-					// ATTEMPT to weed out more false positives, before logging as a POSSIBLE error
-					
-					// If this is an RSS feed, see if the phrase 'error' is in the feed item descriptions. If it is, presume a false positive.
-					$rss_check = simplexml_load_string($data);
-					if ( $rss_check != false ) {
-						foreach($rss_check->channel->item as $rss_item) {
-							if ( preg_match("/error/i", $rss_item->description) ) {
-							$false_positive = 1;
-							}
-						}
-					}
+				// Log full results to file, WITH UNIQUE TIMESTAMP IN FILENAME TO AVOID OVERWRITES (FOR ADEQUATE DEBUGGING REVIEW)
+				$error_response_log = '/cache/logs/errors/external_api/error-response-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-hash-'.$hash_check.'-timestamp-'.time().'.log';
 				
-				
-					// Checks for kraken, coinmarketcap
-					// https://www.php.net/manual/en/regexp.reference.meta.php
-					if ( $endpoint_tld_or_ip == 'kraken.com' && preg_match("/\"error\":\[\],/i", $data) 
-					|| $endpoint_tld_or_ip == 'coinmarketcap.com' && preg_match("/\"error_code\":0,/i", $data)
-					|| $endpoint_tld_or_ip == 'coinmarketcap.com' && preg_match("/\"error_code\": 0,/i", $data) ) {
-					$false_positive = 1;
-					}
-					
-					
-					// If no false positive detected, log full results to file, WITH UNIQUE TIMESTAMP IN FILENAME TO AVOID OVERWRITES (FOR ADEQUATE DEBUGGING REVIEW)
-					if ( !$false_positive ) {
-					$error_response_log = '/cache/logs/errors/external_api/error-response-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-hash-'.$hash_check.'-timestamp-'.time().'.log';
-				
-					// LOG-SAFE VERSION (no post data with API keys etc)
+				// LOG-SAFE VERSION (no post data with API keys etc)
 					app_logging('ext_api_error', 'POSSIBLE error for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data, 'requested from: server (local timeout setting ' . $app_config['power_user']['remote_api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; log_file: ' . $error_response_log . '; btc_primary_currency_pairing: ' . $app_config['general']['btc_primary_currency_pairing'] . '; btc_primary_exchange: ' . $app_config['general']['btc_primary_exchange'] . '; btc_primary_currency_value: ' . $selected_btc_primary_currency_value . '; hash_check: ' . $hash_check . ';' );
 				
-					// Log this error response from this data request
-					store_file_contents($base_dir . $error_response_log, $data);
+				// Log this error response from this data request
+				store_file_contents($base_dir . $error_response_log, $data);
 					
-					}
-			
-			
 				}
 			
 			
@@ -1500,55 +1518,65 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 			
 			////////////////////////////////////////////////////////////////
 			// FALLBACK ATTEMPT TO CACHED DATA, IF AVAILABLE (WE STILL LOG THE FAILURE, SO THIS OS OK)
-			// ONLY ADD ERROR FALLBACKS AND FALLBACKS FOR "IFFY" / HISTORICALLY UNRELIABLE API ENDPOINTS (like localbitcoins / cmc),
-			// AS WE DON'T WANT TO SLOW DOWN THE RUNTIME TOO MUCH BY NIT-PICKING ON FALLBACKS HERE
+			// WE DON'T WANT TO SLOW DOWN THE RUNTIME TOO MUCH, BUT WE WANT AS MUCH FALLBACK AS IS REASONABLE
 			// If response is seen to NOT contain USUAL data, use cache if available
-			if ( preg_match("/cf-error-type/i", $data) // Cloudflare (DDOS protection service)
-			|| preg_match("/cf-browser-verification/i", $data) // Cloudflare (DDOS protection service)
-			|| preg_match("/\"result\":{}/i", $data) // Kraken.com / generic
-			|| preg_match("/EService:Unavailable/i", $data) // Kraken.com / generic
-			|| preg_match("/site is down/i", $data) // Blockchain.info / generic
-			|| preg_match("/temporarily unavailable/i", $data) // Bitfinex.com / generic
-			|| preg_match("/Server Error/i", $data) // Kucoin.com / generic
-			|| preg_match("/something went wrong/i", $data) // Bitbns.com / generic
-			|| preg_match("/\"reason\":\"Maintenance\"/i", $data) // Gemini.com / generic
-			|| preg_match("/\"data\":null/i", $data) // Bitflyer.com / generic
-			|| preg_match("/An error has occurred/i", $data) // Bitflyer.com / generic
-			|| preg_match("/\"success\":false/i", $data) // BTCturk.com / generic
-			|| preg_match("/too many requests/i", $data) // reddit.com / generic
-			|| $endpoint_tld_or_ip == 'bittrex.com' && !preg_match("/Volume/i", $data)
-			|| $endpoint_tld_or_ip == 'lakebtc.com' && !preg_match("/volume/i", $data)
-			|| $endpoint_tld_or_ip == 'localbitcoins.com' && !preg_match("/volume_btc/i", $data)
-			|| $endpoint_tld_or_ip == 'coinmarketcap.com' && !preg_match("/last_updated/i", $data) ) {
 			
-				if ( $api_runtime_cache[$hash_check] != '' && $api_runtime_cache[$hash_check] != 'none' ) {
-				$data = $api_runtime_cache[$hash_check];
-				$fallback_cache_data = 1;
-				}
-				else {
-					
-				$data = trim( file_get_contents('cache/secured/external_api/'.$hash_check.'.dat') );
+			// Check that we didn't detect as a false positive already
+			if ( $false_positive != 1 ) {
+			
 				
-					if ( $data != '' && $data != 'none' ) {
-					$api_runtime_cache[$hash_check] = $data; // Create a runtime cache from the file cache, for any additional requests during runtime for this data set
+				if ( preg_match("/cf-error-type/i", $data) // Cloudflare (DDOS protection service)
+				|| preg_match("/cf-browser-verification/i", $data) // Cloudflare (DDOS protection service)
+				|| preg_match("/\"result\":{}/i", $data) // Kraken.com / generic
+				|| preg_match("/EService:Unavailable/i", $data) // Kraken.com / generic
+				|| preg_match("/site is down/i", $data) // Blockchain.info / generic
+				|| preg_match("/temporarily unavailable/i", $data) // Bitfinex.com / generic
+				|| preg_match("/Server Error/i", $data) // Kucoin.com / generic
+				|| preg_match("/something went wrong/i", $data) // Bitbns.com / generic
+				|| preg_match("/\"reason\":\"Maintenance\"/i", $data) // Gemini.com / generic
+				|| preg_match("/\"data\":null/i", $data) // Bitflyer.com / generic
+				|| preg_match("/An error has occurred/i", $data) // Bitflyer.com / generic
+				|| preg_match("/\"success\":false/i", $data) // BTCturk.com / generic
+				|| preg_match("/too many requests/i", $data) // reddit.com / generic
+				|| $endpoint_tld_or_ip == 'bittrex.com' && !preg_match("/Volume/i", $data)
+				|| $endpoint_tld_or_ip == 'lakebtc.com' && !preg_match("/volume/i", $data)
+				|| $endpoint_tld_or_ip == 'localbitcoins.com' && !preg_match("/volume_btc/i", $data)
+				|| $endpoint_tld_or_ip == 'coinmarketcap.com' && !preg_match("/last_updated/i", $data) ) {
+				
+				
+					if ( $api_runtime_cache[$hash_check] != '' && $api_runtime_cache[$hash_check] != 'none' ) {
+					$data = $api_runtime_cache[$hash_check];
 					$fallback_cache_data = 1;
 					}
+					else {
+						
+					$data = trim( file_get_contents('cache/secured/external_api/'.$hash_check.'.dat') );
 					
-				}
+						if ( $data != '' && $data != 'none' ) {
+						$api_runtime_cache[$hash_check] = $data; // Create a runtime cache from the file cache, for any additional requests during runtime for this data set
+						$fallback_cache_data = 1;
+						}
+						
+					}
+				
+				
+					if ( isset($fallback_cache_data) ) {
+					$log_append = ' (cache fallback SUCCEEDED)';
+					}
+					else {
+					$log_append = ' (cache fallback FAILED)';
+					}
+					
+					
+				// LOG-SAFE VERSION (no post data with API keys etc)
+				app_logging('ext_api_error', 'CONFIRMED error for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data . $log_append, 'requested from: server (local timeout setting ' . $app_config['power_user']['remote_api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; log_file: ' . $error_response_log . '; btc_primary_currency_pairing: ' . $app_config['general']['btc_primary_currency_pairing'] . '; btc_primary_exchange: ' . $app_config['general']['btc_primary_exchange'] . '; btc_primary_currency_value: ' . $selected_btc_primary_currency_value . '; hash_check: ' . $hash_check . ';' );
+					
 			
-				if ( isset($fallback_cache_data) ) {
-				$log_append = ' (cache fallback SUCCEEDED)';
 				}
-				else {
-				$log_append = ' (cache fallback FAILED)';
-				}
-				
-				
-			// LOG-SAFE VERSION (no post data with API keys etc)
-			app_logging('ext_api_error', 'CONFIRMED error for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data . $log_append, 'requested from: server (local timeout setting ' . $app_config['power_user']['remote_api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; log_file: ' . $error_response_log . '; btc_primary_currency_pairing: ' . $app_config['general']['btc_primary_currency_pairing'] . '; btc_primary_exchange: ' . $app_config['general']['btc_primary_exchange'] . '; btc_primary_currency_value: ' . $selected_btc_primary_currency_value . '; hash_check: ' . $hash_check . ';' );
-				
-		
+
+			
 			}
+			
 			////////////////////////////////////////////////////////////////
 			
 		

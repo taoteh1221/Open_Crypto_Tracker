@@ -14,7 +14,7 @@
 	
 	<p style='margin-top: 15px; margin-bottom: 15px;'><?=start_page_html('charts')?></p>		
 			
-	<p class='bitcoin' style='font-weight: bold;'>Multiple charts may take a few seconds to fully render. If your web browser freezes for a significant period of time, try loading a few less charts until rendering time(s) are acceptable.</p>	
+	<p class='bitcoin' style='font-weight: bold;'>Multiple charts may take a few seconds to show. If your web browser freezes for a log time, try selecting fewer charts.</p>	
 				
 	<p><button class="show_chart_settings force_button_style">Select Charts</button></p>
 	

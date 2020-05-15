@@ -741,43 +741,43 @@ $app_config['power_user']['news_feeds'] = array(
         													),
     
         				'reddit_bitcoin' => array(
-            			"title" => "Reddit - Bitcoin",
+            			"title" => "Reddit - Bitcoin (top)",
             			"url" => "https://www.reddit.com/r/Bitcoin/top/.rss?format=xml",
             			"atom_format" => true
         													),
     
         				'reddit_cryptocurrency' => array(
-            			"title" => "Reddit - CryptoCurrency",
+            			"title" => "Reddit - CryptoCurrency (top)",
             			"url" => "https://www.reddit.com/r/CryptoCurrency/top/.rss?format=xml",
             			"atom_format" => true
         													),
     
         				'reddit_cryptomarkets' => array(
-            			"title" => "Reddit - CryptoMarkets",
+            			"title" => "Reddit - CryptoMarkets (top)",
             			"url" => "https://www.reddit.com/r/CryptoMarkets/top/.rss?format=xml",
             			"atom_format" => true
         													),
     
         				'reddit_ethereum' => array(
-            			"title" => "Reddit - Ethereum",
+            			"title" => "Reddit - Ethereum (top)",
             			"url" => "https://www.reddit.com/r/Ethereum/top/.rss?format=xml",
             			"atom_format" => true
         													),
     
         				'reddit_gpumining' => array(
-            			"title" => "Reddit - GPUMining",
+            			"title" => "Reddit - GPUMining (top)",
             			"url" => "https://www.reddit.com/r/gpumining/top/.rss?format=xml",
             			"atom_format" => true
         													),
     
         				'stackexchange_bitcoin' => array(
-            			"title" => "StackExchange - Bitcoin",
+            			"title" => "StackExchange - Bitcoin (hot)",
             			"url" => "https://bitcoin.stackexchange.com/feeds/hot",
             			"atom_format" => true
         													),
     
         				'stackexchange_ethereum' => array(
-            			"title" => "StackExchange - Ethereum",
+            			"title" => "StackExchange - Ethereum (hot)",
             			"url" => "https://ethereum.stackexchange.com/feeds/hot",
             			"atom_format" => true
         													),

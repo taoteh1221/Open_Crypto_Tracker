@@ -26,13 +26,7 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
-
-Lessen width of login page template, for mobile browsers?
-
-Hover over link title for timestamp data in feeds.
-
-Add info icon next to tips.
-
+Add info icon next to tips for disclaimer info.
 
 
 Darken up dark theme visual price alerts loss coloring (the light blue text washes out too much).

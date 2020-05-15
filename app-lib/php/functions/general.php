@@ -9,410 +9,8 @@
 ////////////////////////////////////////////////////////
 
 
-/* Usage: 
-
-// HTML
-$content = getTextBetweenTags('a', $html);
-
-foreach( $content as $item ) {
-    echo $item.'<br />';
-}
-
-// XML
-$content2 = getTextBetweenTags('description', $xml, 1);
-
-foreach( $content2 as $item ) {
-    echo $item.'<br />';
-}
-
-*/
-
-// Credit: https://phpro.org/examples/Get-Text-Between-Tags.html
-function getTextBetweenTags($tag, $html, $strict=0) {
-    /*** a new dom object ***/
-    $dom = new domDocument;
-
-    /*** load the html into the object ***/
-    if($strict==1)
-    {
-        $dom->loadXML($html);
-    }
-    else
-    {
-        $dom->loadHTML($html);
-    }
-
-    /*** discard white space ***/
-    $dom->preserveWhiteSpace = false;
-
-    /*** the tag by its tag name ***/
-    $content = $dom->getElementsByTagname($tag);
-
-    /*** the array to return ***/
-    $out = array();
-    foreach ($content as $item)
-    {
-        /*** add node value to the out array ***/
-        $out[] = $item->nodeValue;
-    }
-    /*** return the results ***/
-    return $out;
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
 function substri_count($haystack, $needle) {
     return substr_count(strtoupper($haystack), strtoupper($needle));
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-// Credit: https://www.alexkras.com/simple-rss-reader-in-85-lines-of-php/
-function rss_feeds($chosen_feeds=false, $feed_size=10, $recache_only=false) {
-	
-global $app_config;
-
-$news_feeds = $app_config['power_user']['news_feeds'];
-
-	 // If we are just re-caching for quick use later (as cron job, for faster ui load times)
-	 if ( $recache_only == true ) {
-	 	foreach($news_feeds as $feed) {
-	 	get_feed($news_feeds[$feed]["url"], $feed_size, $news_feeds[$feed]["atom_format"]);
-	 	}
-	 }
-	 elseif ( is_array($chosen_feeds) ) {
-	 
-	 $html = "";
-
-	 // Alphabetically sort chosen feeds
-	 sort($chosen_feeds);
-    
-    	foreach($chosen_feeds as $feed) {
-    	
-    	$feed = str_replace(array('[',']'),'',$feed); // Remove brackets from js storage format
-    
-    		if ( is_array($news_feeds[$feed]) ) {
-    		$html .= "<fieldset class='subsection_fieldset'><legend class='subsection_legend'> ".$news_feeds[$feed]["title"].'</legend>';
-    		$html .= get_feed($news_feeds[$feed]["url"], $feed_size, $news_feeds[$feed]["atom_format"]);
-    		$html .= "</fieldset>";    
-    		}
-    
-    	}
-
-	 return $html;
-	 }
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-// Credit: https://www.alexkras.com/simple-rss-reader-in-85-lines-of-php/
-function get_feed($url, $feed_size, $atom_format=false){
-	
-global $app_config, $base_dir, $fetched_reddit_feeds, $fetched_stackexchange_feeds, $fetched_medium_feeds, $fetched_bitcoincore_feeds, $fetched_ethereumorg_feeds, $fetched_kraken_feeds, $fetched_firesidefm_feeds, $fetched_libsyn_feeds;
-
-$rss_cache_time_min_max = explode(',', $app_config['power_user']['rss_cache_time_min_max']);
-// Cleanup
-$rss_cache_time_min_max = array_map('trim', $rss_cache_time_min_max);
-	
-// We don't want all feeds updating at the same time, so we randomly vary cache times
-$rss_feed_cache_time = rand($rss_cache_time_min_max[0], $rss_cache_time_min_max[1]);
-
-
-	if ( preg_match("/reddit\.com/i", $url) || preg_match("/stackexchange\.com/i", $url) ) {
-	
-		// If it's a consecutive reddit feed request and time to refresh the cache, sleep 8 seconds (reddit is very strict on user agents)
-		// (Reddit only allows rss feed connections every 7 seconds from ip addresses ACCORDING TO THEM)
-		if ( $fetched_reddit_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
-		sleep(8); 
-		}
-	
-		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
-		$fetched_reddit_feeds = $fetched_reddit_feeds + 1;
-		}
-		
-	}
-	elseif ( preg_match("/stackexchange\.com/i", $url) ) {
-	
-		// If it's a consecutive stackexchange feed request and time to refresh the cache, sleep 4 seconds 
-		if ( $fetched_stackexchange_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
-		sleep(4); 
-		}
-	
-		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
-		$fetched_stackexchange_feeds = $fetched_stackexchange_feeds + 1;
-		}
-		
-	}
-	elseif ( preg_match("/medium\.com/i", $url) ) {
-	
-		// If it's a consecutive medium feed request and time to refresh the cache, sleep 8 seconds (medium is very strict on user agents)
-		if ( $fetched_medium_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
-		sleep(8); 
-		}
-	
-		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
-		$fetched_medium_feeds = $fetched_medium_feeds + 1;
-		}
-		
-	}
-	elseif ( preg_match("/bitcoincore\.org/i", $url) ) {
-	
-		// If it's a consecutive bitcoincore feed request and time to refresh the cache, sleep 4 seconds 
-		if ( $fetched_bitcoincore_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
-		sleep(4); 
-		}
-	
-		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
-		$fetched_bitcoincore_feeds = $fetched_bitcoincore_feeds + 1;
-		}
-		
-	}
-	elseif ( preg_match("/ethereum\.org/i", $url) ) {
-	
-		// If it's a consecutive ethereumorg feed request and time to refresh the cache, sleep 8 seconds 
-		if ( $fetched_ethereumorg_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
-		sleep(8); 
-		}
-	
-		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
-		$fetched_ethereumorg_feeds = $fetched_ethereumorg_feeds + 1;
-		}
-		
-	}
-	elseif ( preg_match("/kraken\.com/i", $url) ) {
-	
-		// If it's a consecutive kraken feed request and time to refresh the cache, sleep 4 seconds 
-		if ( $fetched_kraken_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
-		sleep(4); 
-		}
-	
-		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
-		$fetched_kraken_feeds = $fetched_kraken_feeds + 1;
-		}
-		
-	}
-	elseif ( preg_match("/fireside\.fm/i", $url) ) {
-	
-		// If it's a consecutive firesidefm feed request and time to refresh the cache, sleep 4 seconds 
-		if ( $fetched_firesidefm_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
-		sleep(4); 
-		}
-	
-		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
-		$fetched_firesidefm_feeds = $fetched_firesidefm_feeds + 1;
-		}
-		
-	}
-	elseif ( preg_match("/libsyn\.com/i", $url) ) {
-	
-		// If it's a consecutive libsyn feed request and time to refresh the cache, sleep 4 seconds 
-		if ( $fetched_libsyn_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
-		sleep(4); 
-		}
-	
-		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
-		$fetched_libsyn_feeds = $fetched_libsyn_feeds + 1;
-		}
-		
-	}
-	
-
-$xmldata = @external_api_data('url', $url, $rss_feed_cache_time); 
-
-$rss = simplexml_load_string($xmldata);
-        
-$html .= '<ul>';
-   
-   
-   $count = 0;
-   
-   // Atom format
-   if ( $atom_format == true ) {
-   
-		foreach($rss->entry as $item) {
-			
-			if ( trim($item->title) != '' ) {
-			
-   			$count++;     
-   			if($count > $feed_size) {
-      		break;
-      		}
-   		
-   		$html .= '<li class="links_list"><a href="'.htmlspecialchars($item->link['href']).'" target="_blank">'.htmlspecialchars($item->title).'</a></li>';
-			
-			}
-   	
-   	}
-   
-   }
-   // Standard RSS format
-   else {
-   
-		foreach($rss->channel->item as $item) {
-			
-			if ( trim($item->title) != '' ) {
-			
-   			$count++;     
-   			if($count > $feed_size) {
-      		break;
-      		}
-   		
-   		$html .= '<li class="links_list"><a href="'.htmlspecialchars($item->link).'" target="_blank">'.htmlspecialchars($item->title).'</a></li>';
-   		
-   		}
-   	
-   	}
-   
-   }
-   
-        
-$html .= '</ul>';
-
-	if ( $xmldata == 'none' || $rss == false ) {
-	return '<span class="red">Error retrieving feed data.</span>';
-	}
-	else {
-	return $html;
-	}
-    
-}
-    
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function subarray_app_config_upgrade($category_key, $config_key, $skip_upgrading) {
-
-global $upgraded_app_config, $cached_app_config, $check_default_app_config, $default_app_config;
-
-	// Check for new variables, and add them
-	foreach ( $default_app_config[$category_key][$config_key] as $setting_key => $setting_value ) {
-	
-		if ( is_array($setting_value) ) {
-		app_logging('config_error', 'Sub-array depth to deep for app config upgrade parser');
-		}
-		elseif ( !in_array($setting_key, $skip_upgrading) && !isset($upgraded_app_config[$category_key][$config_key][$setting_key]) ) {
-		$upgraded_app_config[$category_key][$config_key][$setting_key] = $default_app_config[$category_key][$config_key][$setting_key];
-		app_logging('config_error', 'New app config parameter $app_config[' . $category_key . '][' . $config_key . '][' . $setting_key . '] imported (default value: ' . $default_app_config[$category_key][$config_key][$setting_key] . ')');
-		$config_upgraded = 1;
-		}
-			
-	}
-	
-	// Check for depreciated variables, and remove them
-	foreach ( $cached_app_config[$category_key][$config_key] as $setting_key => $setting_value ) {
-	
-		if ( is_array($setting_value) ) {
-		app_logging('config_error', 'Sub-array depth to deep for app config upgrade parser');
-		}
-		elseif ( !in_array($setting_key, $skip_upgrading) && !isset($default_app_config[$category_key][$config_key][$setting_key]) ) {
-		unset($upgraded_app_config[$category_key][$config_key][$setting_key]);
-		app_logging('config_error', 'Depreciated app config parameter $app_config[' . $category_key . '][' . $config_key . '][' . $setting_key . '] removed');
-		$config_upgraded = 1;
-		}
-			
-	}
-	
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-// Check to see if we need to upgrade the app config (add new primary vars / remove depreciated primary vars)
-function upgraded_cached_app_config() {
-
-global $upgraded_app_config, $cached_app_config, $check_default_app_config, $default_app_config;
-
-$upgraded_app_config = $cached_app_config;
-
-
-// WE LEAVE THE SUB-ARRAYS FOR PROXIES / CHARTS / TEXT GATEWAYS / PORTFOLIO ASSETS / ETC / ETC ALONE
-// (ANY SUB-ARRAY WHERE A USER ADDS / DELETES VARIABLES THEY WANTED DIFFERENT FROM DEFAULT VARS)
-$skip_upgrading = array(
-								'proxy',
-								'tracked_markets',
-								'crypto_pairing',
-								'crypto_pairing_preferred_markets',
-								'bitcoin_currency_markets',
-								'bitcoin_preferred_currency_markets',
-								'ethereum_subtoken_ico_values',
-								'mobile_network_text_gateways',
-								'portfolio_assets',
-								'news_feeds',
-								);
-
-
-	// If no cached app config or it's corrupt, just use full default app config
-	if ( $cached_app_config != true ) {
-	return $default_app_config;
-	}
-	// If the default app config has changed since last check (from upgrades / end user editing)
-	elseif ( $check_default_app_config != md5(serialize($default_app_config)) ) {
-		
-		
-		// Check for new variables, and add them
-		foreach ( $default_app_config as $category_key => $category_value ) {
-			
-			foreach ( $category_value as $config_key => $config_value ) {
-		
-				if ( !in_array($category_key, $skip_upgrading) && !in_array($config_key, $skip_upgrading) ) {
-					
-					if ( is_array($config_value) ) {
-					subarray_app_config_upgrade($category_key, $config_key, $skip_upgrading);
-					}
-					elseif ( !isset($upgraded_app_config[$category_key][$config_key]) ) {
-					$upgraded_app_config[$category_key][$config_key] = $default_app_config[$category_key][$config_key];
-					app_logging('config_error', 'New app config parameter $app_config[' . $category_key . '][' . $config_key . '] imported (default value: ' . $default_app_config[$category_key][$config_key] . ')');
-					$config_upgraded = 1;
-					}
-			
-				}
-			
-			}
-		
-		}
-		
-		
-		// Check for depreciated variables, and remove them
-		foreach ( $cached_app_config as $cached_category_key => $cached_category_value ) {
-			
-			foreach ( $cached_category_value as $cached_config_key => $cached_config_value ) {
-		
-				if ( !in_array($cached_category_key, $skip_upgrading) && !in_array($cached_config_key, $skip_upgrading) ) {
-				
-					if ( is_array($cached_config_value) ) {
-					subarray_app_config_upgrade($cached_category_key, $cached_config_key, $skip_upgrading);
-					}
-					elseif ( !isset($default_app_config[$cached_category_key][$cached_config_key]) ) {
-					unset($upgraded_app_config[$cached_category_key][$cached_config_key]);
-					app_logging('config_error', 'Depreciated app config parameter $app_config[' . $cached_category_key . '][' . $cached_config_key . '] removed');
-					$config_upgraded = 1;
-					}
-					
-				}
-				
-			}
-			
-		}
-		
-	
-	return $upgraded_app_config;
-	}
-
-
 }
 
 
@@ -472,6 +70,19 @@ return $size;
 ////////////////////////////////////////////////////////
 
 
+function ordinal($number) {
+    $ends = array('th','st','nd','rd','th','th','th','th','th','th');
+    if ((($number % 100) >= 11) && (($number%100) <= 13))
+        return $number. 'th';
+    else
+        return $number. $ends[$number % 10];
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
 function chart_range($range) {
 
 global $charts_update_freq;
@@ -496,26 +107,6 @@ function is_msie() {
 	return false;
 	}
 
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-// To keep admin nonce key a secret, and make CSRF attacks harder with a different key per submission item
-function admin_hashed_nonce($key) {
-	
-	if ( !isset($_SESSION['admin_logged_in']) ) {
-	return false;
-	}
-	
-	if ( !isset($_SESSION['nonce']) ) {
-	return false;
-	}
-	else {
-	return hash('ripemd160', $key . $_SESSION['nonce']);
-	}
-	
 }
 
 
@@ -575,42 +166,23 @@ $files = glob($dir . '/*'); // get all file names
 ////////////////////////////////////////////////////////
 
 
-function smtp_mail($to, $subject, $message, $content_type='text', $charset=null) {
-
-// Using 3rd party SMTP class, initiated already as global var $smtp
-global $app_config, $smtp;
-
-	if ( $charset == null ) {
-	$charset = $app_config['developer']['charset_default'];
-	}
+function timestamps_usort_newest($a, $b) {
 	
+	if ( $a->pubDate != '' ) {
+	$a = $a->pubDate;
+	$b = $b->pubDate;
+	}
+	elseif ( $a->published != '' ) {
+	$a = $a->published;
+	$b = $b->published;
+	}
+	elseif ( $a->updated != '' ) {
+	$a = $a->updated;
+	$b = $b->updated;
+	}
+
+return strtotime($b) - strtotime($a);
 	
-	// Fallback, if no From email set in app config
-	if ( validate_email($app_config['comms']['from_email']) == 'valid' ) {
-	$from_email = $app_config['comms']['from_email'];
-	}
-	else {
-	$temp_data = explode("||", $app_config['comms']['smtp_login']);
-	$from_email = $temp_data[0];
-	}
-
-
-$smtp->From($from_email); 
-$smtp->singleTo($to); 
-$smtp->Subject($subject);
-$smtp->Charset($charset);
-
-
-	if ( $content_type == 'text' ) {
-	$smtp->Text($message);
-	}
-	elseif ( $content_type == 'html' ) {
-	$smtp->Body($message);
-	}
-
-
-return $smtp->Send();
-
 }
 
 
@@ -648,6 +220,26 @@ $type = array("", "Kilo", "Mega", "Giga", "Tera", "Peta", "Exa", "Zetta", "Yotta
   
 return("".round($bytes, $round)." ".$type[$index]."bytes");
 
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+// To keep admin nonce key a secret, and make CSRF attacks harder with a different key per submission item
+function admin_hashed_nonce($key) {
+	
+	if ( !isset($_SESSION['admin_logged_in']) ) {
+	return false;
+	}
+	
+	if ( !isset($_SESSION['nonce']) ) {
+	return false;
+	}
+	else {
+	return hash('ripemd160', $key . $_SESSION['nonce']);
+	}
+	
 }
 
 
@@ -702,41 +294,6 @@ return false;
 ////////////////////////////////////////////////////////
 
 
-function app_logging($log_type, $log_message, $verbose_tracing=false, $hashcheck=false, $overwrite=false) {
-
-global $runtime_mode, $app_config, $logs_array;
-
-
-// Less verbose log category
-$category = $log_type;
-$category = preg_replace("/_error/i", "", $category);
-$category = preg_replace("/_debugging/i", "", $category);
-
-
-	// Disable logging any included verbose tracing, if log detail level config is set to normal, AND debug mode is off
-	if ( $app_config['developer']['debug_mode'] == 'off' && $app_config['developer']['log_verbosity'] == 'normal' ) {
-	$verbose_tracing = false;
-	}
-
-
-	if ( $hashcheck != false ) {
-	$logs_array[$log_type][$hashcheck] = '[' . date('Y-m-d H:i:s') . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_message . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
-	}
-	elseif ( $overwrite != false ) {
-	$logs_array[$log_type] = '[' . date('Y-m-d H:i:s') . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_message . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
-	}
-	else {
-	$logs_array[$log_type] .= '[' . date('Y-m-d H:i:s') . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_message . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
-	}
-
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
 function store_cookie_contents($name, $value, $time) {
 
 $result = setcookie($name, $value, $time);
@@ -778,39 +335,6 @@ $network_name = trim( strtolower($string[1]) ); // Force lowercase lookups for r
 	return false;
 	}
 
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-// Return the TLD only (no subdomain)
-function get_tld_or_ip($url) {
-
-global $app_config;
-
-$urlData = parse_url($url);
-	
-	// If this is an ip address, then we can return that as the result now
-	if ( test_ipv4($urlData['host']) != false || test_ipv6($urlData['host']) != false ) {
-	return $urlData['host'];
-	}
-
-$hostData = explode('.', $urlData['host']);
-$hostData = array_reverse($hostData);
-
-
-	if ( array_search($hostData[1] . '.' . $hostData[0], $app_config['developer']['top_level_domain_map']) !== false ) {
-   $host = $hostData[2] . '.' . $hostData[1] . '.' . $hostData[0];
-	} 
-	elseif ( array_search($hostData[0], $app_config['developer']['top_level_domain_map']) !== false ) {
-   $host = $hostData[1] . '.' . $hostData[0];
- 	}
-
-
-return strtolower( trim($host) );
 
 }
 
@@ -1057,6 +581,39 @@ global $password_pepper;
 ////////////////////////////////////////////////////////
 
 
+// Return the TLD only (no subdomain)
+function get_tld_or_ip($url) {
+
+global $app_config;
+
+$urlData = parse_url($url);
+	
+	// If this is an ip address, then we can return that as the result now
+	if ( test_ipv4($urlData['host']) != false || test_ipv6($urlData['host']) != false ) {
+	return $urlData['host'];
+	}
+
+$hostData = explode('.', $urlData['host']);
+$hostData = array_reverse($hostData);
+
+
+	if ( array_search($hostData[1] . '.' . $hostData[0], $app_config['developer']['top_level_domain_map']) !== false ) {
+   $host = $hostData[2] . '.' . $hostData[1] . '.' . $hostData[0];
+	} 
+	elseif ( array_search($hostData[0], $app_config['developer']['top_level_domain_map']) !== false ) {
+   $host = $hostData[1] . '.' . $hostData[0];
+ 	}
+
+
+return strtolower( trim($host) );
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
 function check_pepper_hashed_password($input_password, $stored_hashed_password) {
 
 global $password_pepper;
@@ -1078,6 +635,167 @@ global $password_pepper;
 		}
 		
 	}
+
+}
+    
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+// Credit: https://www.alexkras.com/simple-rss-reader-in-85-lines-of-php/
+function get_rss_feeds($chosen_feeds, $feed_size, $recache_only=false) {
+	
+global $app_config;
+
+$news_feeds = $app_config['power_user']['news_feeds'];
+
+	 // If we are just re-caching for quick use later (as cron job, for faster ui load times)
+	 if ( $recache_only == true ) {
+	 	foreach($news_feeds as $feed_key => $feed_unused) {
+	 		if ( trim($news_feeds[$feed_key]["url"]) != '' ) {
+	 		rss_feed_data($news_feeds[$feed_key]["url"], $feed_size, $news_feeds[$feed_key]["atom_format"]);
+	 		}
+	 	}
+	 }
+	 elseif ( is_array($chosen_feeds) ) {
+	 
+	 $html = "";
+
+	 // Alphabetically sort chosen feeds
+	 sort($chosen_feeds);
+    
+    	foreach($chosen_feeds as $feed) {
+    	
+    	$feed = str_replace(array('[',']'),'',$feed); // Remove brackets from js storage format
+    
+    		if ( is_array($news_feeds[$feed]) ) {
+    		$html .= "<fieldset class='subsection_fieldset'><legend class='subsection_legend'> ".$news_feeds[$feed]["title"].'</legend>';
+    		$html .= rss_feed_data($news_feeds[$feed]["url"], $feed_size, $news_feeds[$feed]["atom_format"]);
+    		$html .= "</fieldset>";    
+    		}
+    
+    	}
+
+	 return $html;
+	 }
+
+}
+    
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function subarray_app_config_upgrade($category_key, $config_key, $skip_upgrading) {
+
+global $upgraded_app_config, $cached_app_config, $check_default_app_config, $default_app_config;
+
+	// Check for new variables, and add them
+	foreach ( $default_app_config[$category_key][$config_key] as $setting_key => $setting_value ) {
+	
+		if ( is_array($setting_value) ) {
+		app_logging('config_error', 'Sub-array depth to deep for app config upgrade parser');
+		}
+		elseif ( !in_array($setting_key, $skip_upgrading) && !isset($upgraded_app_config[$category_key][$config_key][$setting_key]) ) {
+		$upgraded_app_config[$category_key][$config_key][$setting_key] = $default_app_config[$category_key][$config_key][$setting_key];
+		app_logging('config_error', 'New app config parameter $app_config[' . $category_key . '][' . $config_key . '][' . $setting_key . '] imported (default value: ' . $default_app_config[$category_key][$config_key][$setting_key] . ')');
+		$config_upgraded = 1;
+		}
+			
+	}
+	
+	// Check for depreciated variables, and remove them
+	foreach ( $cached_app_config[$category_key][$config_key] as $setting_key => $setting_value ) {
+	
+		if ( is_array($setting_value) ) {
+		app_logging('config_error', 'Sub-array depth to deep for app config upgrade parser');
+		}
+		elseif ( !in_array($setting_key, $skip_upgrading) && !isset($default_app_config[$category_key][$config_key][$setting_key]) ) {
+		unset($upgraded_app_config[$category_key][$config_key][$setting_key]);
+		app_logging('config_error', 'Depreciated app config parameter $app_config[' . $category_key . '][' . $config_key . '][' . $setting_key . '] removed');
+		$config_upgraded = 1;
+		}
+			
+	}
+	
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function smtp_mail($to, $subject, $message, $content_type='text', $charset=null) {
+
+// Using 3rd party SMTP class, initiated already as global var $smtp
+global $app_config, $smtp;
+
+	if ( $charset == null ) {
+	$charset = $app_config['developer']['charset_default'];
+	}
+	
+	
+	// Fallback, if no From email set in app config
+	if ( validate_email($app_config['comms']['from_email']) == 'valid' ) {
+	$from_email = $app_config['comms']['from_email'];
+	}
+	else {
+	$temp_data = explode("||", $app_config['comms']['smtp_login']);
+	$from_email = $temp_data[0];
+	}
+
+
+$smtp->From($from_email); 
+$smtp->singleTo($to); 
+$smtp->Subject($subject);
+$smtp->Charset($charset);
+
+
+	if ( $content_type == 'text' ) {
+	$smtp->Text($message);
+	}
+	elseif ( $content_type == 'html' ) {
+	$smtp->Body($message);
+	}
+
+
+return $smtp->Send();
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function app_logging($log_type, $log_message, $verbose_tracing=false, $hashcheck=false, $overwrite=false) {
+
+global $runtime_mode, $app_config, $logs_array;
+
+
+// Less verbose log category
+$category = $log_type;
+$category = preg_replace("/_error/i", "", $category);
+$category = preg_replace("/_debugging/i", "", $category);
+
+
+	// Disable logging any included verbose tracing, if log detail level config is set to normal, AND debug mode is off
+	if ( $app_config['developer']['debug_mode'] == 'off' && $app_config['developer']['log_verbosity'] == 'normal' ) {
+	$verbose_tracing = false;
+	}
+
+
+	if ( $hashcheck != false ) {
+	$logs_array[$log_type][$hashcheck] = '[' . date('Y-m-d H:i:s') . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_message . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+	}
+	elseif ( $overwrite != false ) {
+	$logs_array[$log_type] = '[' . date('Y-m-d H:i:s') . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_message . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+	}
+	else {
+	$logs_array[$log_type] .= '[' . date('Y-m-d H:i:s') . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_message . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+	}
+
 
 }
  
@@ -1192,64 +910,6 @@ function character_utf8_to_unicode($char, $format) {
     }
     
 return $result;
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function password_strength($password, $min_length, $max_length) {
-
-global $app_config;
-
-    if ( $min_length == $max_length && mb_strlen($password, $app_config['developer']['charset_default']) != $min_length ) {
-    $error .= "MUST BE EXACTLY ".$min_length." characters; ";
-    }
-    elseif ( mb_strlen($password, $app_config['developer']['charset_default']) < $min_length ) {
-    $error .= "requires AT LEAST ".$min_length." characters; ";
-    }
-    elseif ( mb_strlen($password, $app_config['developer']['charset_default']) > $max_length ) {
-    $error .= "requires NO MORE THAN ".$max_length." characters; ";
-    }
-    
-    if ( !preg_match("#[0-9]+#", $password) ) {
-    $error .= "include one number; ";
-    }
-    
-    if ( !preg_match("#[a-z]+#", $password) ) {
-    $error .= "include one LOWERCASE letter; ";
-    }
-    
-    if ( !preg_match("#[A-Z]+#", $password) ) {
-    $error .= "include one UPPERCASE letter; ";
-    }
-    
-    if ( !preg_match("#\W+#", $password) ) {
-    $error .= "include one symbol; ";
-    }
-	 
-	 if ( preg_match('/\s/',$password) ) {
-    $error .= "no spaces allowed; ";
-	 }
-	 
-	 if ( preg_match('/\|\|/',$password) ) {
-    $error .= "no double pipe (||) allowed; ";
-	 }
-	 
-	 if ( preg_match('/\:/',$password) ) {
-    $error .= "no colon (:) allowed; ";
-	 }
-    
-    
-    if( $error ){
-    return 'password_strength_error: ' . $error;
-    }
-    else {
-    return 'valid';
-    }
-
 
 }
 
@@ -1547,6 +1207,173 @@ return $result;
 ////////////////////////////////////////////////////////
 
 
+/* Usage: 
+
+// HTML
+$content = getTextBetweenTags('a', $html);
+
+foreach( $content as $item ) {
+    echo $item.'<br />';
+}
+
+// XML
+$content2 = getTextBetweenTags('description', $xml, 1);
+
+foreach( $content2 as $item ) {
+    echo $item.'<br />';
+}
+
+*/
+
+// Credit: https://phpro.org/examples/Get-Text-Between-Tags.html
+function getTextBetweenTags($tag, $html, $strict=0) {
+    /*** a new dom object ***/
+    $dom = new domDocument;
+
+    /*** load the html into the object ***/
+    if($strict==1)
+    {
+        $dom->loadXML($html);
+    }
+    else
+    {
+        $dom->loadHTML($html);
+    }
+
+    /*** discard white space ***/
+    $dom->preserveWhiteSpace = false;
+
+    /*** the tag by its tag name ***/
+    $content = $dom->getElementsByTagname($tag);
+
+    /*** the array to return ***/
+    $out = array();
+    foreach ($content as $item)
+    {
+        /*** add node value to the out array ***/
+        $out[] = $item->nodeValue;
+    }
+    /*** return the results ***/
+    return $out;
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function delete_all_cookies() {
+
+// To be safe, delete cookies using 2 methods
+  
+  // Portfolio
+  store_cookie_contents("coin_amounts", "", time()-3600);  
+  store_cookie_contents("coin_pairings", "", time()-3600);  
+  store_cookie_contents("coin_markets", "", time()-3600);   
+  store_cookie_contents("coin_paid", "", time()-3600);    
+  store_cookie_contents("coin_leverage", "", time()-3600);  
+  store_cookie_contents("coin_margintype", "", time()-3600);  
+  
+  
+  // Settings
+  store_cookie_contents("coin_reload", "", time()-3600);  
+  store_cookie_contents("notes_reminders", "", time()-3600);   
+  store_cookie_contents("show_charts", "", time()-3600);    
+  store_cookie_contents("show_feeds", "", time()-3600);  
+  store_cookie_contents("theme_selected", "", time()-3600);  
+  store_cookie_contents("sort_by", "", time()-3600);  
+  store_cookie_contents("alert_percent", "", time()-3600); 
+  store_cookie_contents("primary_currency_market_standalone", "", time()-3600); 
+  
+  
+  // --------------------------
+  
+  
+  // Portfolio
+  unset($_COOKIE['coin_amounts']); 
+  unset($_COOKIE['coin_pairings']); 
+  unset($_COOKIE['coin_markets']); 
+  unset($_COOKIE['coin_paid']); 
+  unset($_COOKIE['coin_leverage']); 
+  unset($_COOKIE['coin_margintype']); 
+  
+  
+  // Settings
+  unset($_COOKIE['coin_reload']);  
+  unset($_COOKIE['notes_reminders']);
+  unset($_COOKIE['show_charts']);  
+  unset($_COOKIE['show_feeds']);  
+  unset($_COOKIE['theme_selected']);  
+  unset($_COOKIE['sort_by']);  
+  unset($_COOKIE['alert_percent']);  
+  unset($_COOKIE['primary_currency_market_standalone']);  
+ 
+ 
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function password_strength($password, $min_length, $max_length) {
+
+global $app_config;
+
+    if ( $min_length == $max_length && mb_strlen($password, $app_config['developer']['charset_default']) != $min_length ) {
+    $error .= "MUST BE EXACTLY ".$min_length." characters; ";
+    }
+    elseif ( mb_strlen($password, $app_config['developer']['charset_default']) < $min_length ) {
+    $error .= "requires AT LEAST ".$min_length." characters; ";
+    }
+    elseif ( mb_strlen($password, $app_config['developer']['charset_default']) > $max_length ) {
+    $error .= "requires NO MORE THAN ".$max_length." characters; ";
+    }
+    
+    if ( !preg_match("#[0-9]+#", $password) ) {
+    $error .= "include one number; ";
+    }
+    
+    if ( !preg_match("#[a-z]+#", $password) ) {
+    $error .= "include one LOWERCASE letter; ";
+    }
+    
+    if ( !preg_match("#[A-Z]+#", $password) ) {
+    $error .= "include one UPPERCASE letter; ";
+    }
+    
+    if ( !preg_match("#\W+#", $password) ) {
+    $error .= "include one symbol; ";
+    }
+	 
+	 if ( preg_match('/\s/',$password) ) {
+    $error .= "no spaces allowed; ";
+	 }
+	 
+	 if ( preg_match('/\|\|/',$password) ) {
+    $error .= "no double pipe (||) allowed; ";
+	 }
+	 
+	 if ( preg_match('/\:/',$password) ) {
+    $error .= "no colon (:) allowed; ";
+	 }
+    
+    
+    if( $error ){
+    return 'password_strength_error: ' . $error;
+    }
+    else {
+    return 'valid';
+    }
+
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
 function reset_price_alerts_notice() {
 
 global $app_config, $price_alerts_fixed_reset_array, $default_btc_primary_currency_pairing;
@@ -1613,6 +1440,95 @@ $send_params = array(
 // Send notifications
 @queue_notifications($send_params);
       
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+// Check to see if we need to upgrade the app config (add new primary vars / remove depreciated primary vars)
+function upgraded_cached_app_config() {
+
+global $upgraded_app_config, $cached_app_config, $check_default_app_config, $default_app_config;
+
+$upgraded_app_config = $cached_app_config;
+
+
+// WE LEAVE THE SUB-ARRAYS FOR PROXIES / CHARTS / TEXT GATEWAYS / PORTFOLIO ASSETS / ETC / ETC ALONE
+// (ANY SUB-ARRAY WHERE A USER ADDS / DELETES VARIABLES THEY WANTED DIFFERENT FROM DEFAULT VARS)
+$skip_upgrading = array(
+								'proxy',
+								'tracked_markets',
+								'crypto_pairing',
+								'crypto_pairing_preferred_markets',
+								'bitcoin_currency_markets',
+								'bitcoin_preferred_currency_markets',
+								'ethereum_subtoken_ico_values',
+								'mobile_network_text_gateways',
+								'portfolio_assets',
+								'news_feeds',
+								);
+
+
+	// If no cached app config or it's corrupt, just use full default app config
+	if ( $cached_app_config != true ) {
+	return $default_app_config;
+	}
+	// If the default app config has changed since last check (from upgrades / end user editing)
+	elseif ( $check_default_app_config != md5(serialize($default_app_config)) ) {
+		
+		
+		// Check for new variables, and add them
+		foreach ( $default_app_config as $category_key => $category_value ) {
+			
+			foreach ( $category_value as $config_key => $config_value ) {
+		
+				if ( !in_array($category_key, $skip_upgrading) && !in_array($config_key, $skip_upgrading) ) {
+					
+					if ( is_array($config_value) ) {
+					subarray_app_config_upgrade($category_key, $config_key, $skip_upgrading);
+					}
+					elseif ( !isset($upgraded_app_config[$category_key][$config_key]) ) {
+					$upgraded_app_config[$category_key][$config_key] = $default_app_config[$category_key][$config_key];
+					app_logging('config_error', 'New app config parameter $app_config[' . $category_key . '][' . $config_key . '] imported (default value: ' . $default_app_config[$category_key][$config_key] . ')');
+					$config_upgraded = 1;
+					}
+			
+				}
+			
+			}
+		
+		}
+		
+		
+		// Check for depreciated variables, and remove them
+		foreach ( $cached_app_config as $cached_category_key => $cached_category_value ) {
+			
+			foreach ( $cached_category_value as $cached_config_key => $cached_config_value ) {
+		
+				if ( !in_array($cached_category_key, $skip_upgrading) && !in_array($cached_config_key, $skip_upgrading) ) {
+				
+					if ( is_array($cached_config_value) ) {
+					subarray_app_config_upgrade($cached_category_key, $cached_config_key, $skip_upgrading);
+					}
+					elseif ( !isset($default_app_config[$cached_category_key][$cached_config_key]) ) {
+					unset($upgraded_app_config[$cached_category_key][$cached_config_key]);
+					app_logging('config_error', 'Depreciated app config parameter $app_config[' . $cached_category_key . '][' . $cached_config_key . '] removed');
+					$config_upgraded = 1;
+					}
+					
+				}
+				
+			}
+			
+		}
+		
+	
+	return $upgraded_app_config;
+	}
+
 
 }
 
@@ -1880,60 +1796,6 @@ function update_cookies($set_coin_values, $set_pairing_values, $set_market_value
            
            }
            
- 
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function delete_all_cookies() {
-
-// To be safe, delete cookies using 2 methods
-  
-  // Portfolio
-  store_cookie_contents("coin_amounts", "", time()-3600);  
-  store_cookie_contents("coin_pairings", "", time()-3600);  
-  store_cookie_contents("coin_markets", "", time()-3600);   
-  store_cookie_contents("coin_paid", "", time()-3600);    
-  store_cookie_contents("coin_leverage", "", time()-3600);  
-  store_cookie_contents("coin_margintype", "", time()-3600);  
-  
-  
-  // Settings
-  store_cookie_contents("coin_reload", "", time()-3600);  
-  store_cookie_contents("notes_reminders", "", time()-3600);   
-  store_cookie_contents("show_charts", "", time()-3600);    
-  store_cookie_contents("show_feeds", "", time()-3600);  
-  store_cookie_contents("theme_selected", "", time()-3600);  
-  store_cookie_contents("sort_by", "", time()-3600);  
-  store_cookie_contents("alert_percent", "", time()-3600); 
-  store_cookie_contents("primary_currency_market_standalone", "", time()-3600); 
-  
-  
-  // --------------------------
-  
-  
-  // Portfolio
-  unset($_COOKIE['coin_amounts']); 
-  unset($_COOKIE['coin_pairings']); 
-  unset($_COOKIE['coin_markets']); 
-  unset($_COOKIE['coin_paid']); 
-  unset($_COOKIE['coin_leverage']); 
-  unset($_COOKIE['coin_margintype']); 
-  
-  
-  // Settings
-  unset($_COOKIE['coin_reload']);  
-  unset($_COOKIE['notes_reminders']);
-  unset($_COOKIE['show_charts']);  
-  unset($_COOKIE['show_feeds']);  
-  unset($_COOKIE['theme_selected']);  
-  unset($_COOKIE['sort_by']);  
-  unset($_COOKIE['alert_percent']);  
-  unset($_COOKIE['primary_currency_market_standalone']);  
- 
  
 }
 

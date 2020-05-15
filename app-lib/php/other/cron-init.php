@@ -11,7 +11,7 @@ if ( $runtime_mode == 'cron' ) {
 
 
 // Re-cache RSS feeds for faster UI runtimes later
-rss_feeds(false, 10, true);
+get_rss_feeds(false, 0, true); // Cache-only mode
 
 
 // Re-cache marketcap data for faster UI runtimes later
