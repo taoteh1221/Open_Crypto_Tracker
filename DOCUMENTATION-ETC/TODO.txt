@@ -47,9 +47,6 @@ Add force reset logic for app config, if cached app version number is non-existe
 In debug mode, check the verbosity of everything, especially the system stats and too many ram stats (maybe add our new used ram stat instead, that doesn't include buffers / cached ram).
 
 
-New screenshots.
-
-
 1D / 1W / 1M .... chart links are broken on chrome for Android (BUT work fine on Chrome for Ubuntu).
 
 
