@@ -22,7 +22,28 @@
 		    
 			<p class='red'>Using this QR code generator <i><u>will set this page as the start page</u>, which you can reset afterwards at top left</i>. If you have portfolio data you don't want to lose, be sure you have enabled "Use cookies to save data" on the Settings page before using this tool.</p>
 			
-				<?php require("app-lib/php/other/third-party/qr-code-generator/qr-code-generator.php"); ?>
+			<p>If you need to safely / quickly copy an address to yours or someone else's phone with a QR Code scanner app. 
+			<br /><br />NOTE: Whitespace, carriage returns, HTML, and non-alphanumeric characters are not allowed.</p>
+
+			<form method='post' action='<?=start_page('tools')?>'>
+
+			<p><input type='text' name='qr-string' placeholder="Enter address to convert to QR code here..." value='<?=trim($_POST['qr-string'])?>' style='width: 100%;' /></p>
+
+			<p><input type='submit' value='Generate QR Code Address' /></p>
+
+			</form>
+
+			<?php
+			if ( trim($_POST['qr-string']) != '' ) {
+			?>
+
+			<p style='font-weight: bold;' class='bitcoin'>Your Generated QR Code Address:</p>
+			<p><img src='templates/interface/media/images/qr-code-image.php?data=<?=urlencode(trim($_POST['qr-string']))?>' /></p>
+			<p class='red' style='font-weight: bold;'>--ALWAYS-- VERIFY YOUR ADDRESS COPIED OVER CORRECTLY</p>
+
+			<?php
+			}
+			?>
 				
 				
 			</fieldset>
