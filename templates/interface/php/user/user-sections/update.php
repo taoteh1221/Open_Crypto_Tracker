@@ -50,32 +50,32 @@ require_once('app-lib/php/other/random-tips.php');
 
 	
 	
-			var portfolio_data_privacy = '<h5 align="center" class="red_bright" style="position: relative; white-space: nowrap;">How is my portfolio data stored within this app?</h5>'
+			var portfolio_data_privacy = '<h5 align="center" class="bitcoin" style="position: relative; white-space: nowrap;">How is my portfolio data stored within this app?</h5>'
 			
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Portfolio data you enter into this app <i class="red_bright"><u>by default</u> is NEVER stored or saved</i> within this app.</p>'
-			
-			
-			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><i class="red_bright"><u>By default</u></i>, your portfolio data needs to be re-entered to calculate your portfolio value, <i class="red_bright">every time you fully close / re-open your web browser</i> to use this app.</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Portfolio data you enter into this app <i class="bitcoin"><u>by default</u> is NEVER stored or saved</i> within this app.</p>'
 			
 			
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><i class="red_bright"><u>By default</u></i>, your portfolio data is only saved <i class="red_bright">temporarily on your computer within your web browser</i> (a default behavior of all modern web browsers), for re-submitting / refreshing / reloading app price data <i class="red_bright">until you fully close your web browser</i>.</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><i class="bitcoin"><u>By default</u></i>, your portfolio data needs to be re-entered to calculate your portfolio value, <i class="bitcoin">every time you fully close / re-open your web browser</i> to use this app.</p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">If you prefer to store your portfolio data <i class="red_bright">semi-permanently on your computer within your web browser as cookie data (to save between browser sessions)</i>, <i class="red_bright"><u>you must manually enable</u></i> "Use cookies to save data" on the Settings page. </p>'
+			
+			
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><i class="bitcoin"><u>By default</u></i>, your portfolio data is only saved <i class="bitcoin">temporarily on your computer within your web browser</i> (a default behavior of all modern web browsers), for re-submitting / refreshing / reloading app price data <i class="bitcoin">until you fully close your web browser</i>.</p>'
+			
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">If you prefer to store your portfolio data <i class="bitcoin">semi-permanently on your computer within your web browser as cookie data (to save between browser sessions)</i>, <i class="bitcoin"><u>you must manually enable</u></i> "Use cookies to save data" on the Settings page. </p>'
 			
 			
 			+'<p class="coin_info"><span class="yellow"> </span></p>';
 
 	
 	
-			var random_tip_disclaimer = '<h5 align="center" class="red_bright" style="position: relative; white-space: nowrap;">Random Tips Disclaimer</h5>'
+			var random_tip_disclaimer = '<h5 align="center" class="bitcoin" style="position: relative; white-space: nowrap;">Random Tips Disclaimer</h5>'
 			
 			
-			+'<p class="coin_info extra_margins red_bright" style="white-space: normal; max-width: 600px;">This "Random Tips" section SHOULD NEVER TAKE THE PLACE OF ADVICE FROM A PROFESSIONAL FINANCIAL ADVISER!</p>'
+			+'<p class="coin_info extra_margins bitcoin" style="white-space: normal; max-width: 600px;">This "Random Tips" section SHOULD NEVER TAKE THE PLACE OF ADVICE FROM A PROFESSIONAL FINANCIAL ADVISER!</p>'
 			
-			+'<p class="coin_info extra_margins red_bright" style="white-space: normal; max-width: 600px;">"Random Tips" are only designed to provide VERY BASIC INSIGHT for people new to cryptocurrency, AND DOES NOT / CANNOT TAKE INTO ACCOUNT UNIQUE SITUATIONS INVESTORS MAY BE IN. ALWAYS CONSULT A FINANCIAL ADVISER IF YOU ARE UNAWARE OF ALL RISKS FOR YOUR PARTICULAR SITUATION!</p>'
+			+'<p class="coin_info extra_margins bitcoin" style="white-space: normal; max-width: 600px;">"Random Tips" are only designed to provide VERY BASIC INSIGHT for people new to cryptocurrency, AND DOES NOT / CANNOT TAKE INTO ACCOUNT UNIQUE SITUATIONS INVESTORS MAY BE IN. ALWAYS CONSULT A FINANCIAL ADVISER IF YOU ARE UNAWARE OF ALL RISKS FOR YOUR PARTICULAR SITUATION!</p>'
 			
 			
 			
@@ -94,35 +94,6 @@ require_once('app-lib/php/other/random-tips.php');
 				<span class='red countdown_notice'></span>
 				
 				
-	<p style='margin-top: 15px; margin-bottom: 15px;'><span style='font-weight: bold;' class='show red'>How is my portfolio data stored within this app?</span> 
-	     
-		<img id='portfolio_data_privacy' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative; left: -5px;' /> 
-		
-	 <script>
-		
-			$('#portfolio_data_privacy').balloon({
-			html: true,
-			position: "right",
-			contents: portfolio_data_privacy,
-			css: {
-					fontSize: ".8rem",
-					minWidth: ".8rem",
-					padding: ".3rem .7rem",
-					border: "2px solid rgba(212, 212, 212, .4)",
-					borderRadius: "6px",
-					boxShadow: "3px 3px 6px #555",
-					color: "#eee",
-					backgroundColor: "#111",
-					opacity: "0.99",
-					zIndex: "32767",
-					textAlign: "left"
-					}
-			});
-		
-		 </script>
-		 
-	    
-				
 	<p style='margin-top: 10px;'><a style='font-weight: bold;' class='show red clear_both' id='disclaimer' href='#show_disclaimer' title='Click to show disclaimer.' onclick='return false;'>Disclaimer!</a></p>
 	    
 	    
@@ -138,7 +109,7 @@ require_once('app-lib/php/other/random-tips.php');
 						
 						</p>
 	
-						<p class='red' style='font-weight: bold;'>
+						<div class='red' style='font-weight: bold;'>
 						
 						<i><u>Expanded-upon version of above IMPORTANT disclaimer / advisory</u>:</i> 
 						
@@ -187,17 +158,44 @@ require_once('app-lib/php/other/random-tips.php');
 						
 						<br /><br /><a href="https://twitter.com/taoteh1221/status/1192997965952094208" target="_blank"><img src='templates/interface/media/images/twitter-1192997965952094208.jpg' width='425' class='image_border' alt='' /></a>
 						
-						</p>
+						</div>
 	
 		
 		</div>
-			
-				
-	<p><a style='font-weight: bold;' href='README.txt' target='_blank'>Editing The Portfolio Assets List, and Enabling Email / Text / Alexa / Google Home Exchange Price Alerts (installation on a Raspberry Pi or website)</a></p>
-	
+		
+		
+	<p style='margin-top: 20px;'><span style='font-weight: bold;' class='bitcoin'>How is my portfolio data stored within this app?</span> 
+	     
+		<img id='portfolio_data_privacy' src='templates/interface/media/images/info-orange.png' alt='' width='30' style='position: relative; left: -5px;' /> </p>
+		
+	 <script>
+		
+			$('#portfolio_data_privacy').balloon({
+			html: true,
+			position: "right",
+			contents: portfolio_data_privacy,
+			css: {
+					fontSize: ".8rem",
+					minWidth: ".8rem",
+					padding: ".3rem .7rem",
+					border: "2px solid rgba(212, 212, 212, .4)",
+					borderRadius: "6px",
+					boxShadow: "3px 3px 6px #555",
+					color: "#eee",
+					backgroundColor: "#111",
+					opacity: "0.99",
+					zIndex: "32767",
+					textAlign: "left"
+					}
+			});
+		
+		 </script>
+		 
+	    
 	
 	<!-- #DON'T# CONVERT TO JAVASCRIPT WITH 'NEXT TIP' LINK...I think tips will be better remembered if it just loads one tip per app runtime. -->
-	<p class='bitcoin random_tip'><img id='random_tip_disclaimer' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative;' /><script>
+	<p class='bitcoin random_tip'><b>Random Tip:</b><img id='random_tip_disclaimer' src='templates/interface/media/images/info-orange.png' alt='' width='30' style='position: relative; padding: 0px; margin: 0px; vertical-align: middle;' /> <br /><?=random_array_var($random_tips)?></p>
+	<script>
 		
 			$('#random_tip_disclaimer').balloon({
 			html: true,
@@ -218,8 +216,12 @@ require_once('app-lib/php/other/random-tips.php');
 					}
 			});
 		
-		 </script><b>Random Tip:</b> <?=random_array_var($random_tips)?></p>
+		 </script>
+			
+				
+	<p><a style='font-weight: bold;' href='README.txt' target='_blank'>Editing The Portfolio Assets List, and Enabling Email / Text / Alexa / Google Home Exchange Price Alerts (installation on a Raspberry Pi or website)</a></p>
 	
+				
 			
 	<div class='align_left clear_both' style='margin-top: 30px; margin-bottom: 15px;'>
 	

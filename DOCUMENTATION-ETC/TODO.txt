@@ -26,9 +26,6 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
-See if we can slim up the error-detection logic in external_api_data(), it looks like we may be creating a lot of extra runtime there?
-
-
 Find out why occasionally there is a rare false positive error log entry, saying email has not been set yet.
 
 

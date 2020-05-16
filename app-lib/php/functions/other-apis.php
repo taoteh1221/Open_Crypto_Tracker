@@ -175,11 +175,9 @@ $result = array();
 $coingecko_primary_currency = ( $force_primary_currency != null ? strtolower($force_primary_currency) : strtolower($app_config['general']['btc_primary_currency_pairing']) );
 
 $jsondata = @external_api_data('url', 'https://api.coingecko.com/api/v3/coins/markets?per_page='.$app_config['power_user']['marketcap_ranks_max'].'&page=1&vs_currency='.$coingecko_primary_currency.'&price_change_percentage=1h,24h,7d,14d,30d,200d,1y', $app_config['power_user']['marketcap_cache_time']);
-
-	if ( preg_match("/error(.*)invalid/i", $jsondata) ) {
-	app_logging('market_error', 'coingecko_api() returned an error for '.strtoupper($coingecko_primary_currency).' currency data');
-	}
 	   
+// DON'T ADD ANY ERROR CHECKS HERE, OR RUNTIME MAY SLOW SIGNIFICANTLY!!
+
 $data = json_decode($jsondata, true);
 
    if ( is_array($data) || is_object($data) ) {

@@ -1483,14 +1483,10 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 			////////////////////////////////////////////////////////////////	
 			// Checks for error false positives, BEFORE CHECKING FOR A POSSIBLE ERROR
 			// https://www.php.net/manual/en/regexp.reference.meta.php
-			if ( preg_match("/rss version(.*)title/i", $data) // RSS feeds (that seem intact)
-			|| preg_match("/xml version(.*)title/i", $data) // RSS feeds (that seem intact)
-			|| preg_match("/rss xmlns(.*)title/i", $data) // RSS feeds (that seem intact)
-			|| preg_match("/terror/i", $data) // Words that contain the phrase "error" within them, THAT WOULDN'T BE IN AN ERROR MESSAGE
-			|| substri_count($data, 'error') > 1 // The phrase 'error' appears more than once (as this likely is textual content in data)
-			|| $endpoint_tld_or_ip == 'kraken.com' && preg_match("/\"error\":\[\],/i", $data) 
-			|| $endpoint_tld_or_ip == 'coinmarketcap.com' && preg_match("/\"error_code\":0,/i", $data)
-			|| $endpoint_tld_or_ip == 'coinmarketcap.com' && preg_match("/\"error_code\": 0,/i", $data) ) {
+			// DON'T ADD TOO MANY CHECKS HERE, OR RUNTIME WILL SLOW SIGNIFICANTLY!!
+			if ( preg_match("/xml version/i", $data) // RSS feeds (that are likely intact)
+			|| preg_match("/\"error\":\[\],/i", $data) // kraken.com / generic
+			|| preg_match("/\"error_code\":0/i", $data) ) { // coinmarketcap.com / generic
 			$false_positive = 1;
 			}
 			
@@ -1499,13 +1495,10 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 			// (THIS LOGIC IS FOR STORING THE POSSIBLE ERROR IN /cache/logs/errors/external_api FOR REVIEW)
 			if ( $false_positive != 1 ) {
 				
-				// If response seems to contain an error message
 				// MUST RUN BEFORE FALLBACK ATTEMPT TO CACHED DATA
-				if ( preg_match("/ error/i", $data)
-				|| preg_match("/error /i", $data)
-				|| preg_match("/\"error\"/i", $data)
-				|| preg_match("/'error'/i", $data)
-				|| preg_match("/error_/i", $data) ) {
+				// If response seems to contain an error message ('error' only found once, no words containing 'error')
+				// DON'T ADD TOO MANY CHECKS HERE, OR RUNTIME WILL SLOW SIGNIFICANTLY!!
+				if ( substri_count($data, 'error') == 1 && !preg_match("/terror/i", $data) ) {
 					
 				// Log full results to file, WITH UNIQUE TIMESTAMP IN FILENAME TO AVOID OVERWRITES (FOR ADEQUATE DEBUGGING REVIEW)
 				$error_response_log = '/cache/logs/errors/external_api/error-response-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-hash-'.$hash_check.'-timestamp-'.time().'.log';
@@ -1531,22 +1524,22 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 			if ( $false_positive != 1 ) {
 			
 				
+				// DON'T ADD TOO MANY CHECKS HERE, OR RUNTIME WILL SLOW SIGNIFICANTLY!!
 				if ( preg_match("/cf-error-type/i", $data) // Cloudflare (DDOS protection service)
 				|| preg_match("/cf-browser-verification/i", $data) // Cloudflare (DDOS protection service)
 				|| preg_match("/\"result\":{}/i", $data) // Kraken.com / generic
+				|| preg_match("/\"result\":null/i", $data) // Bittrex.com / generic
+				|| preg_match("/\"data\":null/i", $data) // Bitflyer.com / generic
+				|| preg_match("/\"success\":false/i", $data) // BTCturk.com / Bittrex.com / generic
 				|| preg_match("/EService:Unavailable/i", $data) // Kraken.com / generic
-				|| preg_match("/site is down/i", $data) // Blockchain.info / generic
-				|| preg_match("/temporarily unavailable/i", $data) // Bitfinex.com / generic
-				|| preg_match("/Server Error/i", $data) // Kucoin.com / generic
-				|| preg_match("/something went wrong/i", $data) // Bitbns.com / generic
 				|| preg_match("/\"reason\":\"Maintenance\"/i", $data) // Gemini.com / generic
 				|| preg_match("/scheduled maintenance/i", $data) // Bittrex.com / generic
-				|| preg_match("/\"data\":null/i", $data) // Bitflyer.com / generic
-				|| preg_match("/\"result\":null/i", $data) // Bittrex.com / generic
+				|| preg_match("/site is down/i", $data) // Blockchain.info / generic
+				|| preg_match("/something went wrong/i", $data) // Bitbns.com / generic
+				|| preg_match("/temporarily unavailable/i", $data) // Bitfinex.com / generic
+				|| preg_match("/Server Error/i", $data) // Kucoin.com / generic
 				|| preg_match("/An error has occurred/i", $data) // Bitflyer.com / generic
-				|| preg_match("/\"success\":false/i", $data) // BTCturk.com / Bittrex.com / generic
 				|| preg_match("/too many requests/i", $data) // reddit.com / generic
-				|| preg_match("/error(.*)invalid/i", $data) // coingecko.com / generic
 				|| $endpoint_tld_or_ip == 'bittrex.com' && !preg_match("/Volume/i", $data)
 				|| $endpoint_tld_or_ip == 'lakebtc.com' && !preg_match("/volume/i", $data)
 				|| $endpoint_tld_or_ip == 'localbitcoins.com' && !preg_match("/volume_btc/i", $data)
