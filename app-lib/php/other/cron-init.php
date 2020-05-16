@@ -16,7 +16,12 @@ get_rss_feeds(false, 0, true); // Cache-only mode
 
 // Re-cache marketcap data for faster UI runtimes later
 $coingecko_api = coingecko_api();
-$coinmarketcap_api = coinmarketcap_api();
+
+
+	// If coinmarketcap API key is added, cache data
+	if ( trim($app_config['general']['coinmarketcapcom_api_key']) != null ) {
+	$coinmarketcap_api = coinmarketcap_api();
+	}
 	 
 	 
 // Re-cache chain data for faster UI runtimes later

@@ -654,7 +654,7 @@ $news_feeds = $app_config['power_user']['news_feeds'];
 	 if ( $recache_only == true ) {
 	 	foreach($news_feeds as $feed_key => $feed_unused) {
 	 		if ( trim($news_feeds[$feed_key]["url"]) != '' ) {
-	 		rss_feed_data($news_feeds[$feed_key]["url"], $feed_size, $news_feeds[$feed_key]["atom_format"]);
+	 		rss_feed_data($news_feeds[$feed_key]["url"], $feed_size);
 	 		}
 	 	}
 	 }
@@ -671,7 +671,7 @@ $news_feeds = $app_config['power_user']['news_feeds'];
     
     		if ( is_array($news_feeds[$feed]) ) {
     		$html .= "<fieldset class='subsection_fieldset'><legend class='subsection_legend'> ".$news_feeds[$feed]["title"].'</legend>';
-    		$html .= rss_feed_data($news_feeds[$feed]["url"], $feed_size, $news_feeds[$feed]["atom_format"]);
+    		$html .= rss_feed_data($news_feeds[$feed]["url"], $feed_size);
     		$html .= "</fieldset>";    
     		}
     

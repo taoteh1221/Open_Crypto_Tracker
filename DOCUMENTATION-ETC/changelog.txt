@@ -3237,6 +3237,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.11.0:
 
+-RSS feed type auto-detection
+
 -Code cleanup / optimization
 
 -Runtime speed improvements

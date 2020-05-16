@@ -577,221 +577,182 @@ $app_config['power_user']['marketcap_ranks_max'] = 250;
 $app_config['power_user']['news_feeds'] = array(
     
     					/////////////////////////////////////////////////////
-    					// STANDARD RSS FORMAT ("atom_format" => false)
+    					// STANDARD RSS AND ATOM FORMAT SUPPORTED
     					/////////////////////////////////////////////////////
         
         				'blog_bitcoin_core_org' => array(
             			"title" => "Blog - BitcoinCore.org",
-            			"url" => "https://bitcoincore.org/en/rss.xml",
-            			"atom_format" => false
+            			"url" => "https://bitcoincore.org/en/rss.xml"
         												),
         
         				'blog_bitcoin_core_org_meetings' => array(
             			"title" => "Blog - BitcoinCore.org Meetings",
-            			"url" => "https://bitcoincore.org/en/meetingrss.xml",
-            			"atom_format" => false
+            			"url" => "https://bitcoincore.org/en/meetingrss.xml"
         												),
         
         				'blog_bitcoin_core_org_releases' => array(
             			"title" => "Blog - BitcoinCore.org Releases",
-            			"url" => "https://bitcoincore.org/en/releasesrss.xml",
-            			"atom_format" => false
+            			"url" => "https://bitcoincore.org/en/releasesrss.xml"
         												),
         
         				'blog_bitcoin_core_org_security' => array(
             			"title" => "Blog - BitcoinCore.org Security",
-            			"url" => "https://bitcoincore.org/en/announcements.xml",
-            			"atom_format" => false
+            			"url" => "https://bitcoincore.org/en/announcements.xml"
         												),
         
         				'blog_blockstream_engineering' => array(
             			"title" => "Blog - Blockstream Engineering",
-            			"url" => "https://medium.com/feed/blockstream",
-            			"atom_format" => false
+            			"url" => "https://medium.com/feed/blockstream"
         												),
         
         				'blog_coinbase' => array(
             			"title" => "Blog - Coinbase",
-            			"url" => "https://medium.com/feed/the-coinbase-blog",
-            			"atom_format" => false
+            			"url" => "https://medium.com/feed/the-coinbase-blog"
         												),
         
         				'blog_enterprise_ethereum_alliance' => array(
             			"title" => "Blog - Enterprise Ethereum Alliance",
-            			"url" => "https://entethalliance.org/feed/",
-            			"atom_format" => false
+            			"url" => "https://entethalliance.org/feed/"
         												),
         
         				'blog_ethereum_org' => array(
             			"title" => "Blog - Ethereum.org",
-            			"url" => "https://blog.ethereum.org/feed.xml",
-            			"atom_format" => false
+            			"url" => "https://blog.ethereum.org/feed.xml"
         												),
         
         				'blog_ethereum_eips_last_call' => array(
             			"title" => "Blog - Ethereum EIPs (Last Call Review)",
-            			"url" => "https://eips.ethereum.org/last-call.xml",
-            			"atom_format" => false
+            			"url" => "https://eips.ethereum.org/last-call.xml"
         												),
     
         				'blog_kraken' => array(
             			"title" => "Blog - Kraken",
-            			"url" => "https://blog.kraken.com/feed/",
-            			"atom_format" => false
+            			"url" => "https://blog.kraken.com/feed/"
         													),
     
         				'blog_kraken_news' => array(
             			"title" => "Blog - Kraken News",
-            			"url" => "https://blog.kraken.com/post/category/kraken-news/feed/",
-            			"atom_format" => false
+            			"url" => "https://blog.kraken.com/post/category/kraken-news/feed/"
         													),
     
         				'blog_kraken_market_reports' => array(
             			"title" => "Blog - Kraken Market Reports",
-            			"url" => "https://blog.kraken.com/post/category/market-reports/feed",
-            			"atom_format" => false
+            			"url" => "https://blog.kraken.com/post/category/market-reports/feed"
         													),
         
         				'news_bitcoinist' => array(
             			"title" => "News - Bitcoinist",
-            			"url" => "http://bitcoinist.net/feed/",
-            			"atom_format" => false
+            			"url" => "http://bitcoinist.net/feed/"
         												),
         
         				'news_bitcoin_magazine' => array(
             			"title" => "News - Bitcoin Magazine",
-            			"url" => "https://bitcoinmagazine.com/feed",
-            			"atom_format" => false
+            			"url" => "https://bitcoinmagazine.com/feed"
         												),
+    					
+        				'news_bitcoin_optech' => array(
+            			"title" => "News - Bitcoin Optech",
+            			"url" => "https://bitcoinops.org/feed.xml"
+        													),
         
         				'news_btc_manager' => array(
             			"title" => "News - BTC Manager",
-            			"url" => "https://btcmanager.com/feed/",
-            			"atom_format" => false
+            			"url" => "https://btcmanager.com/feed/"
         												),
         
         				'news_coin_desk' => array(
             			"title" => "News - CoinDesk",
-            			"url" => "https://coindesk.com/feed?x=1",
-            			"atom_format" => false
+            			"url" => "https://coindesk.com/feed?x=1"
         											),
         
         				'news_coin_telegraph' => array(
             			"title" => "News - CoinTelegraph",
-            			"url" => "https://cointelegraph.com/feed",
-            			"atom_format" => false
+            			"url" => "https://cointelegraph.com/feed"
         												),
     
         				'news_whats_new_in_eth2' => array(
             			"title" => "News - What's New In Eth2",
-            			"url" => "http://benjaminion.xyz/newineth2/rss_feed.xml",
-            			"atom_format" => false
+            			"url" => "http://benjaminion.xyz/newineth2/rss_feed.xml"
         													),
     
         				'news_week_in_ethereum' => array(
             			"title" => "News - Week In Ethereum",
-            			"url" => "https://weekinethereumnews.com/feed/",
-            			"atom_format" => false
+            			"url" => "https://weekinethereumnews.com/feed/"
         													),
         
         				'podcast_blockchain_insider' => array(
             			"title" => "Podcast - Blockchain Insider",
-            			"url" => "https://feeds.fireside.fm/bifeed/rss",
-            			"atom_format" => false
+            			"url" => "https://feeds.fireside.fm/bifeed/rss"
         												),
     
         				'podcast_into_the_ether' => array(
             			"title" => "Podcast - Into the Ether",
-            			"url" => "https://podcast.ethhub.io/rss",
-            			"atom_format" => false
+            			"url" => "https://podcast.ethhub.io/rss"
         													),
     
         				'podcast_lets_talk_bitcoin' => array(
             			"title" => "Podcast - Let's Talk Bitcoin",
-            			"url" => "https://letstalkbitcoin.com/rss/feed/blog",
-            			"atom_format" => false
+            			"url" => "https://letstalkbitcoin.com/rss/feed/blog"
         													),
         
         				'podcast_pov_crypto' => array(
             			"title" => "Podcast - POV Crypto",
-            			"url" => "http://povcryptopod.libsyn.com/rss",
-            			"atom_format" => false
+            			"url" => "http://povcryptopod.libsyn.com/rss"
         												),
     
         				'podcast_token_daily' => array(
             			"title" => "Podcast - Token Daily",
-            			"url" => "https://www.tokendaily.co/rss",
-            			"atom_format" => false
+            			"url" => "https://www.tokendaily.co/rss"
         													),
     					
         				'podcast_unchained_podcast' => array(
             			"title" => "Podcast - Unchained",
-            			"url" => "https://unchained.libsyn.com/unchained",
-            			"atom_format" => false
+            			"url" => "https://unchained.libsyn.com/unchained"
         													),
     
         				'podcast_what_bitcoin_did' => array(
             			"title" => "Podcast - What Bitcoin Did",
-            			"url" => "https://www.whatbitcoindid.com/podcast?format=RSS",
-            			"atom_format" => false
+            			"url" => "https://www.whatbitcoindid.com/podcast?format=RSS"
         													),
     
         				'podcast_zero_knowledge' => array(
             			"title" => "Podcast - Zero Knowledge",
-            			"url" => "https://feeds.fireside.fm/zeroknowledge/rss",
-            			"atom_format" => false
-        													),
-        													
-    					/////////////////////////////////////////////////////
-    					// ATOM FORMAT ("atom_format" => true)
-    					/////////////////////////////////////////////////////
-    					
-        				'news_bitcoin_optech' => array(
-            			"title" => "News - Bitcoin Optech",
-            			"url" => "https://bitcoinops.org/feed.xml",
-            			"atom_format" => true
+            			"url" => "https://feeds.fireside.fm/zeroknowledge/rss"
         													),
     
         				'reddit_bitcoin' => array(
             			"title" => "Reddit - Bitcoin (top)",
-            			"url" => "https://www.reddit.com/r/Bitcoin/top/.rss?format=xml",
-            			"atom_format" => true
+            			"url" => "https://www.reddit.com/r/Bitcoin/top/.rss?format=xml"
         													),
     
         				'reddit_cryptocurrency' => array(
             			"title" => "Reddit - CryptoCurrency (top)",
-            			"url" => "https://www.reddit.com/r/CryptoCurrency/top/.rss?format=xml",
-            			"atom_format" => true
+            			"url" => "https://www.reddit.com/r/CryptoCurrency/top/.rss?format=xml"
         													),
     
         				'reddit_cryptomarkets' => array(
             			"title" => "Reddit - CryptoMarkets (top)",
-            			"url" => "https://www.reddit.com/r/CryptoMarkets/top/.rss?format=xml",
-            			"atom_format" => true
+            			"url" => "https://www.reddit.com/r/CryptoMarkets/top/.rss?format=xml"
         													),
     
         				'reddit_ethereum' => array(
             			"title" => "Reddit - Ethereum (top)",
-            			"url" => "https://www.reddit.com/r/Ethereum/top/.rss?format=xml",
-            			"atom_format" => true
+            			"url" => "https://www.reddit.com/r/Ethereum/top/.rss?format=xml"
         													),
     
         				'reddit_gpumining' => array(
             			"title" => "Reddit - GPUMining (top)",
-            			"url" => "https://www.reddit.com/r/gpumining/top/.rss?format=xml",
-            			"atom_format" => true
+            			"url" => "https://www.reddit.com/r/gpumining/top/.rss?format=xml"
         													),
     
         				'stackexchange_bitcoin' => array(
             			"title" => "StackExchange - Bitcoin (hot)",
-            			"url" => "https://bitcoin.stackexchange.com/feeds/hot",
-            			"atom_format" => true
+            			"url" => "https://bitcoin.stackexchange.com/feeds/hot"
         													),
     
         				'stackexchange_ethereum' => array(
             			"title" => "StackExchange - Ethereum (hot)",
-            			"url" => "https://ethereum.stackexchange.com/feeds/hot",
-            			"atom_format" => true
+            			"url" => "https://ethereum.stackexchange.com/feeds/hot"
         													),
         
         

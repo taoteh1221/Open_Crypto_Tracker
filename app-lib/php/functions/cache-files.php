@@ -1328,8 +1328,14 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 	curl_setopt($ch, CURLOPT_TIMEOUT, $app_config['power_user']['remote_api_timeout']);
 	
 		
-		// Medium / Reddit are a bit funky with allowed user agents, so we need to let them know this is a real feed parser (not just a spammy bot)
-		if ( $endpoint_tld_or_ip == 'medium.com' || $endpoint_tld_or_ip == 'reddit.com' ) {
+		// Medium / Reddit (and maybe whatbitcoindid) are a bit funky with allowed user agents, so we need to let them know this is a real feed parser (not just a spammy bot)
+		$strict_feed_servers = array(
+											'medium.com',
+											'reddit.com',
+											'whatbitcoindid.com',
+											);
+		
+		if ( in_array($endpoint_tld_or_ip, $strict_feed_servers) ) {
 		curl_setopt($ch, CURLOPT_USERAGENT, 'Custom_Feed_Parser/1.0 (compatible; DFD_Cryptocoin_Values/' . $app_version . '; +https://github.com/taoteh1221/DFD_Cryptocoin_Values)');
 		}
 		else {

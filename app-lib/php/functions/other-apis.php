@@ -386,7 +386,7 @@ $result = array();
 
 
 // Credit: https://www.alexkras.com/simple-rss-reader-in-85-lines-of-php/
-function rss_feed_data($url, $feed_size, $atom_format=false){
+function rss_feed_data($url, $feed_size){
 	
 global $app_config, $base_dir, $fetched_reddit_feeds, $fetched_stackexchange_feeds, $fetched_medium_feeds, $fetched_bitcoincore_feeds, $fetched_ethereumorg_feeds, $fetched_kraken_feeds, $fetched_firesidefm_feeds, $fetched_libsyn_feeds;
 
@@ -507,7 +507,7 @@ $html .= '<ul>';
    $count = 0;
    
    // Atom format
-   if ( $atom_format == true ) {
+   if ( sizeof($rss->entry) > 0 ) {
    
    $sortable_feed = array();
    	
@@ -559,7 +559,7 @@ $html .= '<ul>';
    
    }
    // Standard RSS format
-   else {
+   elseif ( sizeof($rss->channel->item) > 0 ) {
    
    $sortable_feed = array();
    	
