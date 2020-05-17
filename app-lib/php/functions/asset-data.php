@@ -704,14 +704,13 @@ $pairing = strtolower($pairing);
    				
    			$btc_pairing_markets_blacklist[$pairing][] = $market_key; // Blacklist getting pairing data from this exchange IN ANY PAIRING, for this runtime only
    			
-   			app_logging('market_error', 'pairing_market_value() - market request failure #'.sizeof($btc_pairing_markets_blacklist[$pairing]).' for ' . $pairing . ' / btc (' . $market_key . ')', $pairing . '_blacklisted_count: ' . sizeof($btc_pairing_markets_blacklist[$pairing]) );
-   			
-   			// ONLY NEEDED THIS WHEN WE HAD OUR BLACKLIST CHECKING BUG???
-   			// #OR# DOES IT KEEP ALL RUNTIMES (ESPECIALLY CRON) #MUCH# QUICKER (DURING EDGE CASES) REGARDLESS??
-   			//usleep(200000); // 0.2 seconds to update imported global vars and log the error, before we loop de loop
-   			
    			return pairing_market_value($pairing);
    			
+   			}
+   			// ONLY LOG AN ERROR IF ALL AVAILABLE MARKETS FAIL (AND RETURN NULL)
+   			elseif ( sizeof($btc_pairing_markets_blacklist[$pairing]) == sizeof($app_config['portfolio_assets'][strtoupper($pairing)]['market_pairing']['btc']) ) {
+   			app_logging('market_error', 'pairing_market_value() - market request failure (all '.sizeof($btc_pairing_markets_blacklist[$pairing]).' markets failed) for ' . $pairing . ' / btc (' . $market_key . ')', $pairing . '_blacklisted_count: ' . sizeof($btc_pairing_markets_blacklist[$pairing]) );
+   			return null;
    			}
    		
 			}
@@ -765,14 +764,13 @@ $pairing = strtolower($pairing);
    						
    			$btc_pairing_markets_blacklist[$pairing][] = $market_key; // Blacklist getting pairing data from this exchange IN ANY PAIRING, for this runtime only
    					
-   			app_logging('market_error', 'pairing_market_value() - market request failure #'.sizeof($btc_pairing_markets_blacklist[$pairing]).' for btc / ' . $pairing . ' (' . $market_key . ')', $pairing . '_blacklisted_count: ' . sizeof($btc_pairing_markets_blacklist[$pairing]) );
-   			
-   			// ONLY NEEDED THIS WHEN WE HAD OUR BLACKLIST CHECKING BUG???
-   			// #OR# DOES IT KEEP ALL RUNTIMES (ESPECIALLY CRON) #MUCH# QUICKER (DURING EDGE CASES) REGARDLESS??
-   			//usleep(200000); // 0.2 seconds to update imported global vars and log the error, before we loop de loop
-   					
    			return pairing_market_value($pairing);
    					
+   			}
+   			// ONLY LOG AN ERROR IF ALL AVAILABLE MARKETS FAIL (AND RETURN NULL)
+   			elseif ( sizeof($btc_pairing_markets_blacklist[$pairing]) == sizeof($app_config['portfolio_assets']['BTC']['market_pairing'][$pairing]) ) {
+   			app_logging('market_error', 'pairing_market_value() - market request failure (all '.sizeof($btc_pairing_markets_blacklist[$pairing]).' markets failed) for btc / ' . $pairing . ' (' . $market_key . ')', $pairing . '_blacklisted_count: ' . sizeof($btc_pairing_markets_blacklist[$pairing]) );
+   			return null;
    			}
    		
    				
