@@ -18,7 +18,7 @@
 			<?php
 			$rss_cache_time_min_max = explode(',', $app_config['power_user']['rss_cache_time_min_max']);
 			?>
-			<p class='bitcoin' style='font-weight: bold;'>RSS feed data is cached (randomly) between <?=$rss_cache_time_min_max[0]?> and <?=$rss_cache_time_min_max[1]?> minutes for quicker load times. Feeds are sorted by newest entries first. To see the date each feed entry was published, hover over it.</p>
+			<p class='bitcoin' style='font-weight: bold;'>RSS feed data is cached (randomly) between <?=$rss_cache_time_min_max[0]?> / <?=$rss_cache_time_min_max[1]?> minutes for quicker load times. To see the date an entry was published, hover over it.</p>
 			
 
 

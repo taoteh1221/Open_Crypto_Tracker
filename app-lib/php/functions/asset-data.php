@@ -1789,14 +1789,14 @@ $original_market = $selected_exchange;
 			if ( $app_config['general']['primary_marketcap_site'] == 'coinmarketcap' && trim($app_config['general']['coinmarketcapcom_api_key']) == null ) {
 			?>
 
-			var cmc_content = '<p class="coin_info"><span class="yellow"><?=ucfirst($app_config['general']['primary_marketcap_site'])?> API key is required. <br />Configuration adjustments can be made in config.php.</span></p>';
+			var cmc_content = '<p class="coin_info"><span class="red_bright"><?=ucfirst($app_config['general']['primary_marketcap_site'])?> API key is required. <br />Configuration adjustments can be made in config.php.</span></p>';
 	
 			<?php
 			}
 			else {
 			?>
 
-			var cmc_content = '<p class="coin_info"><span class="yellow"><?=ucfirst($app_config['general']['primary_marketcap_site'])?> API may be offline / under heavy load, <br />marketcap range not set high enough (current range is top <?=$app_config['power_user']['marketcap_ranks_max']?> marketcaps), <br />or API timeout set too low (current timeout is <?=$app_config['power_user']['remote_api_timeout']?> seconds). <br />Configuration adjustments can be made in config.php.</span></p>';
+			var cmc_content = '<p class="coin_info"><span class="red_bright"><?=ucfirst($app_config['general']['primary_marketcap_site'])?> API may be offline / under heavy load, <br />marketcap range not set high enough (current range is top <?=$app_config['power_user']['marketcap_ranks_max']?> marketcaps), <br />or API timeout set too low (current timeout is <?=$app_config['power_user']['remote_api_timeout']?> seconds). <br />Configuration adjustments can be made in config.php.</span></p>';
 	
 			<?php
 			}
@@ -1984,7 +1984,7 @@ $original_market = $selected_exchange;
  $('#<?=$rand_id?>').balloon({
   html: true,
   position: "right",
-  contents: '<p class="coin_info"><span class="yellow">No <?=ucfirst($app_config['general']['primary_marketcap_site'])?>.com data for <?=$asset_name?> (<?=$asset_symbol?>) has been configured yet.</span></p>'
+  contents: '<p class="coin_info"><span class="red_bright">No <?=ucfirst($app_config['general']['primary_marketcap_site'])?>.com data for <?=$asset_name?> (<?=$asset_symbol?>) has been configured yet.</span></p>'
 });
 
 		<?php
