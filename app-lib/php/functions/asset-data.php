@@ -667,7 +667,7 @@ $pairing = strtolower($pairing);
 		
 		// Include a basic array check, since we want valid data to avoid an endless loop in our fallback support
 		if ( !is_array($app_config['portfolio_assets'][strtoupper($pairing)]['market_pairing']['btc']) ) {
-   	app_logging('market_error', 'pairing_market_value() - update failure for ' . $pairing, 'non_existant_crypto_pairing: ' . $pairing);
+   	app_logging('market_error', 'pairing_market_value() - market failure (unknown pairing) for ' . $pairing);
 		return null;
 		}
 		// Preferred BITCOIN market(s) for getting a certain currency's value, if in config and more than one market exists
@@ -691,7 +691,7 @@ $pairing = strtolower($pairing);
    				
    				// Data debugging telemetry
 					if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' ) {
-					app_logging('market_debugging', 'pairing_market_value() update succeeded for ' . $pairing, 'exchange: ' . $market_key);
+					app_logging('market_debugging', 'pairing_market_value() market request succeeded for ' . $pairing, 'exchange: ' . $market_key);
 					}		
    					
    			return $btc_pairing_markets[$pairing.'_btc'];
@@ -704,7 +704,7 @@ $pairing = strtolower($pairing);
    				
    			$btc_pairing_markets_blacklist[$pairing][] = $market_key; // Blacklist getting pairing data from this exchange IN ANY PAIRING, for this runtime only
    			
-   			app_logging('market_error', 'pairing_market_value() - update failure for ' . $pairing . ' / btc @ ' . $market_key, $pairing . '_blacklisted_count: ' . sizeof($btc_pairing_markets_blacklist[$pairing]) );
+   			app_logging('market_error', 'pairing_market_value() - market request failure #'.sizeof($btc_pairing_markets_blacklist[$pairing]).' for ' . $pairing . ' / btc (' . $market_key . ')', $pairing . '_blacklisted_count: ' . sizeof($btc_pairing_markets_blacklist[$pairing]) );
    			
    			// ONLY NEEDED THIS WHEN WE HAD OUR BLACKLIST CHECKING BUG???
    			// #OR# DOES IT KEEP ALL RUNTIMES (ESPECIALLY CRON) #MUCH# QUICKER (DURING EDGE CASES) REGARDLESS??
@@ -728,7 +728,7 @@ $pairing = strtolower($pairing);
 	
 		// Include a basic array check, since we want valid data to avoid an endless loop in our fallback support
 		if ( !is_array($app_config['portfolio_assets']['BTC']['market_pairing'][$pairing]) ) {
-   	app_logging('market_error', 'pairing_market_value() - update failure for ' . $pairing . ' (non-existent pairing)');
+   	app_logging('market_error', 'pairing_market_value() - market failure (unknown pairing) for ' . $pairing);
 		return null;
 		}
 		// Preferred BITCOIN market(s) for getting a certain currency's value, if in config and more than one market exists
@@ -752,7 +752,7 @@ $pairing = strtolower($pairing);
    						
    				// Data debugging telemetry
 					if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' ) {
-					app_logging('market_debugging', 'pairing_market_value() update succeeded for ' . $pairing, 'exchange: ' . $market_key);
+					app_logging('market_debugging', 'pairing_market_value() market request succeeded for ' . $pairing, 'exchange: ' . $market_key);
 					}
 							
    			return $btc_pairing_markets[$pairing.'_btc'];
@@ -765,7 +765,7 @@ $pairing = strtolower($pairing);
    						
    			$btc_pairing_markets_blacklist[$pairing][] = $market_key; // Blacklist getting pairing data from this exchange IN ANY PAIRING, for this runtime only
    					
-   			app_logging('market_error', 'pairing_market_value() - update failure for btc / ' . $pairing . ' @ ' . $market_key, $pairing . '_blacklisted_count: ' . sizeof($btc_pairing_markets_blacklist[$pairing]) );
+   			app_logging('market_error', 'pairing_market_value() - market request failure #'.sizeof($btc_pairing_markets_blacklist[$pairing]).' for btc / ' . $pairing . ' (' . $market_key . ')', $pairing . '_blacklisted_count: ' . sizeof($btc_pairing_markets_blacklist[$pairing]) );
    			
    			// ONLY NEEDED THIS WHEN WE HAD OUR BLACKLIST CHECKING BUG???
    			// #OR# DOES IT KEEP ALL RUNTIMES (ESPECIALLY CRON) #MUCH# QUICKER (DURING EDGE CASES) REGARDLESS??

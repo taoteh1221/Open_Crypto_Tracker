@@ -416,7 +416,7 @@ $email = trim($email);
 	if ( !$email || !preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)+$/", $email) ) {
 	return "Please enter a valid email address.";
 	}
-	elseif (function_exists("getmxrr") && !getmxrr($domain,$mxrecords)) {
+	elseif ( function_exists("getmxrr") && !getmxrr($domain, $mxrecords) ) {
 	return "The email domain \"$domain\" appears incorrect, no mail server records exist for this domain name.";
 	}
 	else {

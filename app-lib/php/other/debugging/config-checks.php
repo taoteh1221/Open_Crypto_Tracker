@@ -7,6 +7,10 @@
 
 // Run some basic configuration file checks
 
+$validate_from_email = validate_email($app_config['comms']['from_email']);
+      
+$validate_to_email = validate_email($app_config['comms']['to_email']);
+
 
 // Proxy configuration check
 if ( sizeof($app_config['proxy']['proxy_list']) > 0 ) {
@@ -22,13 +26,13 @@ if ( sizeof($app_config['proxy']['proxy_list']) > 0 ) {
       	
 					
 			// Config error check(s)
-         if ( validate_email($app_config['comms']['from_email']) != 'valid' ) {
-         $config_parse_error[] = 'FROM email not configured properly for proxy alerts.';
+         if ( $validate_from_email != 'valid' ) {
+         $config_parse_error[] = 'FROM email not configured properly for proxy alerts (' . $validate_from_email . ')';
       	$proxy_parse_errors = $proxy_parse_errors + 1;
          }
           		
-         if ( validate_email($app_config['comms']['to_email']) != 'valid' ) {
-         $config_parse_error[] = 'TO email not configured properly for proxy alerts.';
+         if ( $validate_to_email != 'valid' ) {
+         $config_parse_error[] = 'TO email not configured properly for proxy alerts (' . $validate_to_email . ')';
       	$proxy_parse_errors = $proxy_parse_errors + 1;
          }
           	
@@ -153,21 +157,21 @@ $text_parse = explode("||", trim($app_config['comms']['to_mobile_text']) );
           
           
 // Check other charts/price alerts configs
-if ( trim($app_config['comms']['from_email']) != '' && trim($app_config['comms']['to_email']) != '' || sizeof($text_parse) > 0 || trim($app_config['comms']['notifyme_accesscode']) != '' ) {
+if ( trim($app_config['comms']['from_email']) != '' || trim($app_config['comms']['to_email']) != '' || sizeof($text_parse) > 0 || trim($app_config['comms']['notifyme_accesscode']) != '' ) {
           
           
 		// Email
-      if ( trim($app_config['comms']['from_email']) != '' && trim($app_config['comms']['to_email']) != '' ) {
+      if ( trim($app_config['comms']['from_email']) != '' || trim($app_config['comms']['to_email']) != '' ) {
       	
       $alerts_enabled_types[] = 'Email';
 					
 			// Config error check(s)
-         if ( validate_email($app_config['comms']['from_email']) != 'valid' ) {
-         $config_parse_error[] = 'FROM email not configured properly for price alerts.';
+         if ( $validate_from_email != 'valid' ) {
+         $config_parse_error[] = 'FROM email not configured properly for price alerts (' . $validate_from_email . ')';
          }
           		
-         if ( validate_email($app_config['comms']['to_email']) != 'valid' ) {
-         $config_parse_error[] = 'TO email not configured properly for price alerts.';
+         if ( $validate_to_email != 'valid' ) {
+         $config_parse_error[] = 'TO email not configured properly for price alerts (' . $validate_to_email . ')';
          }
           	
 		}
@@ -328,12 +332,12 @@ $smtp_email_server_parse = explode(":", $app_config['comms']['smtp_server'] );
 if ( $app_config['comms']['email_logs'] > 0 && trim($app_config['comms']['from_email']) != '' && trim($app_config['comms']['to_email']) != '' ) {
 					
 	// Config error check(s)
-   if ( validate_email($app_config['comms']['from_email']) != 'valid' ) {
-   $config_parse_error[] = 'FROM email not configured properly for emailing error logs.';
+   if ( $validate_from_email != 'valid' ) {
+   $config_parse_error[] = 'FROM email not configured properly for emailing error logs (' . $validate_from_email . ')';
    }
           		
-   if ( validate_email($app_config['comms']['to_email']) != 'valid' ) {
-   $config_parse_error[] = 'TO email not configured properly for emailing error logs.';
+   if ( $validate_to_email != 'valid' ) {
+   $config_parse_error[] = 'TO email not configured properly for emailing error logs (' . $validate_to_email . ')';
    }
 
 
@@ -369,12 +373,12 @@ if ( $app_config['comms']['email_logs'] > 0 && trim($app_config['comms']['from_e
 if ( $app_config['general']['charts_toggle'] == 'on' && $app_config['charts_alerts']['charts_backup_freq'] > 0 && trim($app_config['comms']['from_email']) != '' && trim($app_config['comms']['to_email']) != '' ) {
 					
 	// Config error check(s)
-   if ( validate_email($app_config['comms']['from_email']) != 'valid' ) {
-   $config_parse_error[] = 'FROM email not configured properly for emailing backup archive notice / link.';
+   if ( $validate_from_email != 'valid' ) {
+   $config_parse_error[] = 'FROM email not configured properly for emailing backup archive notice / link (' . $validate_from_email . ')';
    }
           		
-   if ( validate_email($app_config['comms']['to_email']) != 'valid' ) {
-   $config_parse_error[] = 'TO email not configured properly for emailing backup archive notice / link.';
+   if ( $validate_to_email != 'valid' ) {
+   $config_parse_error[] = 'TO email not configured properly for emailing backup archive notice / link (' . $validate_to_email . ')';
    }
 
 

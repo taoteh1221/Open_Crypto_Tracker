@@ -26,12 +26,6 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
-Find out why occasionally there is a rare false positive error log entry, saying email has not been set yet.
-
-
-Find out why lakebtc silently fails.
-
-
 Add bitmex API: https://www.bitmex.com/api/explorer/
 
 

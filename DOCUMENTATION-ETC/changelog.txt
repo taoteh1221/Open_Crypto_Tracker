@@ -3239,7 +3239,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -RSS feed type auto-detection
 
--Code cleanup / optimization
+-Code cleanup / optimization / fixes
 
 -Runtime speed improvements
 
