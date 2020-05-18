@@ -125,7 +125,7 @@
 		app_logging('system_debugging', 'Hardware / software stats (requires log_verbosity set to verbose)', $system_telemetry);
 			
 		// Log user agent
-		app_logging('system_debugging', 'USER AGENT IS "' . $_SERVER['HTTP_USER_AGENT'] . '"');
+		app_logging('system_debugging', 'USER AGENT is "' . $_SERVER['HTTP_USER_AGENT'] . '"');
 			
 		// Log runtime stats
 		app_logging('system_debugging', strtoupper($runtime_mode).' runtime was ' . $total_runtime . ' seconds');

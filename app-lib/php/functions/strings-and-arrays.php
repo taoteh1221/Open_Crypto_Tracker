@@ -8,10 +8,21 @@
 ////////////////////////////////////////////////////////
 
 
-function obfuscate_string($str) {
-    $len = strlen($str);
+function obfuscate_string($str, $show=1) {
+	
+$len = strlen($str);
 
-    return substr($str, 0, 1).str_repeat('*', $len - 2).substr($str, $len - 1, 1);
+	if ( $len <= ($show * 2) ) {
+	$show = 0;
+	}
+
+	if ( $show == 0 ) {
+	return str_repeat('*', $len);
+	}
+	else {
+   return substr($str, 0, $show) . str_repeat('*', $len - (2*$show) ) . substr($str, $len - $show, $show);
+	}
+	
 }
 
 
@@ -114,18 +125,58 @@ return $number;
 ////////////////////////////////////////////////////////
 
 
+function obfuscated_path_data($path) {
+	
+global $app_config;
+
+	// Secured cache data
+	if ( preg_match("/cache\/secured/i", $path) ) {
+		
+	$subpath = preg_replace("/(.*)cache\/secured\//i", "", $path);
+	
+	$subpath_array = explode("/", $subpath);
+		
+		// Subdirectories of /secured/
+		if ( sizeof($subpath_array) > 1 ) {
+		$path = str_replace($subpath_array[0], obfuscate_string($subpath_array[0], 0), $path);
+		$path = str_replace($subpath_array[1], obfuscate_string($subpath_array[1], 5), $path);
+		}
+		// Files directly in /secured/
+		else {
+		$path = str_replace($subpath, obfuscate_string($subpath, 5), $path);
+		}
+			
+	//$path = str_replace('cache/secured', obfuscate_string('cache', 0) . '/' . obfuscate_string('secured', 0), $path);
+	
+	}
+
+return $path;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
 function obfuscated_url_data($url) {
 	
 global $app_config;
 
+// Keep our color-coded logs in the admin UI pretty, remove '//' and put in parenthesis
+$url = preg_replace("/:\/\//i", ") ", $url);
+
+	// Etherscan
 	if ( preg_match("/etherscan/i", $url) ) {
-	$url = str_replace($app_config['general']['etherscanio_api_key'], obfuscate_string($app_config['general']['etherscanio_api_key']), $url); // Etherscan
+	$url = str_replace($app_config['general']['etherscanio_api_key'], obfuscate_string($app_config['general']['etherscanio_api_key'], 2), $url); // Etherscan
 	}
+	// Telegram
 	elseif ( preg_match("/telegram/i", $url) ) {
-	$url = str_replace($app_config['comms']['telegram_bot_token'], obfuscate_string($app_config['comms']['telegram_bot_token']), $url); // Telegram
+	$url = str_replace($app_config['comms']['telegram_bot_token'], obfuscate_string($app_config['comms']['telegram_bot_token'], 2), $url); // Telegram
 	}
 
-return $url;
+// Keep our color-coded logs in the admin UI pretty, remove '//' and put in parenthesis
+return '('.$url;
 
 }
 

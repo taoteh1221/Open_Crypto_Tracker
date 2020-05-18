@@ -135,11 +135,11 @@ global $app_config, $current_runtime_user, $possible_http_users, $http_runtime_u
 	// If no data was passed on to write to file, log it and return false early for runtime speed sake
 	if ( strlen($data) == 0 ) {
 		
-	app_logging('system_error', 'No bytes of data received to write to file "' . $file . '" (aborting useless file write)');
+	app_logging('system_error', 'No bytes of data received to write to file "' . obfuscated_path_data($file) . '" (aborting useless file write)');
 	
 		// API timeouts are a confirmed cause for write errors of 0 bytes, so we want to alert end users that they may need to adjust their API timeout settings to get associated API data
 		if ( preg_match("/cache\/secured\/apis/i", $file) ) {
-		app_logging('ext_api_error', 'POSSIBLE api timeout' . ( $app_config['power_user']['remote_api_strict_ssl'] == 'on' ? ' or strict_ssl' : '' ) . ' issue for cache file "' . $file . '" (IF THIS ISSUE PERSISTS #LONG TERM#, TRY INCREASING "remote_api_timeout"' . ( $app_config['power_user']['remote_api_strict_ssl'] == 'on' ? ' OR SETTING "remote_api_strict_ssl" to "off"' : '' ) . ' IN THE POWER USER SECTION in config.php)', 'remote_api_timeout: '.$app_config['power_user']['remote_api_timeout'].' seconds; remote_api_strict_ssl: ' . $app_config['power_user']['remote_api_strict_ssl'] . ';');
+		app_logging('ext_api_error', 'POSSIBLE api timeout' . ( $app_config['power_user']['remote_api_strict_ssl'] == 'on' ? ' or strict_ssl' : '' ) . ' issue for cache file "' . obfuscated_path_data($file) . '" (IF THIS ISSUE PERSISTS #LONG TERM#, TRY INCREASING "remote_api_timeout"' . ( $app_config['power_user']['remote_api_strict_ssl'] == 'on' ? ' OR SETTING "remote_api_strict_ssl" to "off"' : '' ) . ' IN THE POWER USER SECTION in config.php)', 'remote_api_timeout: '.$app_config['power_user']['remote_api_timeout'].' seconds; remote_api_strict_ssl: ' . $app_config['power_user']['remote_api_strict_ssl'] . ';');
 		}
 	
 	return false;
@@ -175,7 +175,7 @@ $file_owner_info = posix_getpwuid(fileowner($file));
 		$did_chmod = chmod($file, $chmod_setting);
 		
 			if ( !$did_chmod ) {
-			app_logging('system_error', 'Chmod failed for file "' . $file . '" (check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")', 'chmod_setting: ' . $chmod_setting . '; current_runtime_user: ' . $current_runtime_user . '; file_owner: ' . $file_owner_info['name'] . ';');
+			app_logging('system_error', 'Chmod failed for file "' . obfuscated_path_data($file) . '" (check permissions for the path "' . obfuscated_path_data($path_parts['dirname']) . '", and the file "' . obfuscate_string($path_parts['basename'], 5) . '")', 'chmod_setting: ' . $chmod_setting . '; current_runtime_user: ' . $current_runtime_user . '; file_owner: ' . $file_owner_info['name'] . ';');
 			}
 		
 		umask($oldmask);
@@ -196,7 +196,7 @@ $file_owner_info = posix_getpwuid(fileowner($file));
 	
 	// Log any write error
 	if ( $result == false ) {
-	app_logging('system_error', 'File write failed storing '.strlen($data).' bytes of data to file "' . $file . '" (MAKE SURE YOUR DISK ISN\'T FULL. Check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")');
+	app_logging('system_error', 'File write failed storing '.strlen($data).' bytes of data to file "' . obfuscated_path_data($file) . '" (MAKE SURE YOUR DISK ISN\'T FULL. Check permissions for the path "' . obfuscated_path_data($path_parts['dirname']) . '", and the file "' . obfuscate_string($path_parts['basename'], 5) . '")');
 	}
 	
 	
@@ -218,7 +218,7 @@ $file_owner_info = posix_getpwuid(fileowner($file));
 	$did_chmod = chmod($file, $chmod_setting);
 		
 		if ( !$did_chmod ) {
-		app_logging('system_error', 'Chmod failed for file "' . $file . '" (check permissions for the path "' . $path_parts['dirname'] . '", and the file "' . $path_parts['basename'] . '")', 'chmod_setting: ' . $chmod_setting . '; current_runtime_user: ' . $current_runtime_user . '; file_owner: ' . $file_owner_info['name'] . ';');
+		app_logging('system_error', 'Chmod failed for file "' . obfuscated_path_data($file) . '" (check permissions for the path "' . obfuscated_path_data($path_parts['dirname']) . '", and the file "' . obfuscate_string($path_parts['basename'], 5) . '")', 'chmod_setting: ' . $chmod_setting . '; current_runtime_user: ' . $current_runtime_user . '; file_owner: ' . $file_owner_info['name'] . ';');
 		}
 		
 	umask($oldmask);
@@ -1155,9 +1155,6 @@ $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 
 	
 $api_endpoint = ( $mode == 'array' ? $api_server : $request );
-
-
-$obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically removes sensitive URL data
 		
 	
 	// If we are encoding the url (not sure as useful / functional, for other than debugging?)
@@ -1204,7 +1201,7 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 			
 		// Don't log this error again during THIS runtime, as it would be a duplicate...just overwrite same error message, BUT update the error count in it
 		
-		app_logging( 'cache_error', 'no RUNTIME CACHE data from failure with ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data, 'request attempt(s) from: cache ('.$logs_array['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';', $hash_check );
+		app_logging( 'cache_error', 'no RUNTIME CACHE data from failure with ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint), 'request attempt(s) from: cache ('.$logs_array['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . obfuscate_string($hash_check, 4) . ';', $hash_check );
 			
 		}
 		elseif ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'api_cache_only' ) {
@@ -1218,7 +1215,7 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 			
 		// Don't log this debugging again during THIS runtime, as it would be a duplicate...just overwrite same debugging message, BUT update the debugging count in it
 		
-		app_logging( 'cache_debugging', 'RUNTIME CACHE request for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data, 'request(s) from: cache ('.$logs_array['debugging_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';', $hash_check );
+		app_logging( 'cache_debugging', 'RUNTIME CACHE request for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint), 'request(s) from: cache ('.$logs_array['debugging_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . obfuscate_string($hash_check, 4) . ';', $hash_check );
 		
 		}
 	
@@ -1467,13 +1464,13 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 	
 		
 		// LOG-SAFE VERSION (no post data with API keys etc)
-		app_logging('ext_api_error', 'connection failed for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data . $log_append, 'requested from: server (local timeout setting ' . $app_config['power_user']['remote_api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';' );
+		app_logging('ext_api_error', 'connection failed for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint) . $log_append, 'requested from: server (remote timeout setting ' . $app_config['power_user']['remote_api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . obfuscate_string($hash_check, 4) . ';' );
 		
 		
 			if ( sizeof($app_config['proxy']['proxy_list']) > 0 && $current_proxy != '' && $mode != 'proxy-check' ) { // Avoid infinite loops doing proxy checks
 
 			$proxy_checkup[] = array(
-															'endpoint' => ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data,
+															'endpoint' => ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint),
 															'proxy' => $current_proxy
 															);
 															
@@ -1510,7 +1507,7 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 				$error_response_log = '/cache/logs/errors/external_api/error-response-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-hash-'.$hash_check.'-timestamp-'.time().'.log';
 				
 				// LOG-SAFE VERSION (no post data with API keys etc)
-					app_logging('ext_api_error', 'POSSIBLE error for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data, 'requested from: server (local timeout setting ' . $app_config['power_user']['remote_api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; log_file: ' . $error_response_log . '; btc_primary_currency_pairing: ' . $app_config['general']['btc_primary_currency_pairing'] . '; btc_primary_exchange: ' . $app_config['general']['btc_primary_exchange'] . '; btc_primary_currency_value: ' . $selected_btc_primary_currency_value . '; hash_check: ' . $hash_check . ';' );
+					app_logging('ext_api_error', 'POSSIBLE error for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint), 'requested from: server (remote timeout setting ' . $app_config['power_user']['remote_api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; log_file: ' . $error_response_log . '; btc_primary_currency_pairing: ' . $app_config['general']['btc_primary_currency_pairing'] . '; btc_primary_exchange: ' . $app_config['general']['btc_primary_exchange'] . '; btc_primary_currency_value: ' . $selected_btc_primary_currency_value . '; hash_check: ' . obfuscate_string($hash_check, 4) . ';' );
 				
 				// Log this error response from this data request
 				store_file_contents($base_dir . $error_response_log, $data);
@@ -1577,7 +1574,7 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 					
 					
 				// LOG-SAFE VERSION (no post data with API keys etc)
-				app_logging('ext_api_error', 'CONFIRMED error for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data . $log_append, 'requested from: server (local timeout setting ' . $app_config['power_user']['remote_api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; log_file: ' . $error_response_log . '; btc_primary_currency_pairing: ' . $app_config['general']['btc_primary_currency_pairing'] . '; btc_primary_exchange: ' . $app_config['general']['btc_primary_exchange'] . '; btc_primary_currency_value: ' . $selected_btc_primary_currency_value . '; hash_check: ' . $hash_check . ';' );
+				app_logging('ext_api_error', 'CONFIRMED error for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint) . $log_append, 'requested from: server (remote timeout setting ' . $app_config['power_user']['remote_api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; log_file: ' . $error_response_log . '; btc_primary_currency_pairing: ' . $app_config['general']['btc_primary_currency_pairing'] . '; btc_primary_exchange: ' . $app_config['general']['btc_primary_exchange'] . '; btc_primary_currency_value: ' . $selected_btc_primary_currency_value . '; hash_check: ' . obfuscate_string($hash_check, 4) . ';' );
 					
 			
 				}
@@ -1593,7 +1590,7 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 			if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'api_live_only' ) {
 				
 			// LOG-SAFE VERSION (no post data with API keys etc)
-			app_logging('ext_api_debugging', 'LIVE request for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data, 'request from: server (local timeout setting ' . $app_config['power_user']['remote_api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';' );
+			app_logging('ext_api_debugging', 'LIVE request for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint), 'request from: server (remote timeout setting ' . $app_config['power_user']['remote_api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . obfuscate_string($hash_check, 4) . ';' );
 			
 			// Log this as the latest response from this data request
 			store_file_contents($base_dir . '/cache/logs/debugging/external_api/last-response-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-'.$hash_check.'.log', $data);
@@ -1623,10 +1620,10 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 			
 		
 			if ( $store_file_contents == false && isset($fallback_cache_data) ) {
-			app_logging('ext_api_error', 'Cache file touch() error for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data, 'data_size_bytes: ' . strlen($api_runtime_cache[$hash_check]) . ' bytes');
+			app_logging('ext_api_error', 'Cache file touch() error for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint), 'data_size_bytes: ' . strlen($api_runtime_cache[$hash_check]) . ' bytes');
 			}
 			elseif ( $store_file_contents == false && !isset($fallback_cache_data) ) {
-			app_logging('ext_api_error', 'Cache file write error for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data, 'data_size_bytes: ' . strlen($api_runtime_cache[$hash_check]) . ' bytes');
+			app_logging('ext_api_error', 'Cache file write error for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint), 'data_size_bytes: ' . strlen($api_runtime_cache[$hash_check]) . ' bytes');
 			}
 		
 		}
@@ -1673,7 +1670,7 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 			
 		// Don't log this error again during THIS runtime, as it would be a duplicate...just overwrite same error message, BUT update the error count in it
 		
-		app_logging( 'cache_error', 'no FILE CACHE data from failure with ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data, 'request attempt(s) from: cache ('.$logs_array['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';', $hash_check );
+		app_logging( 'cache_error', 'no FILE CACHE data from failure with ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint), 'request attempt(s) from: cache ('.$logs_array['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . obfuscate_string($hash_check, 4) . ';', $hash_check );
 			
 		}
 		elseif ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'api_cache_only' ) {
@@ -1687,7 +1684,7 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 			
 		// Don't log this debugging again during THIS runtime, as it would be a duplicate...just overwrite same debugging message, BUT update the debugging count in it
 		
-		app_logging( 'cache_debugging', 'FILE CACHE request for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data, 'request(s) from: cache ('.$logs_array['debugging_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';', $hash_check );
+		app_logging( 'cache_debugging', 'FILE CACHE request for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint), 'request(s) from: cache ('.$logs_array['debugging_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . obfuscate_string($hash_check, 4) . ';', $hash_check );
 		
 		}
 	
