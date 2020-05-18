@@ -8,6 +8,26 @@
 ////////////////////////////////////////////////////////
 
 
+function obfuscate_string($str) {
+    $len = strlen($str);
+
+    return substr($str, 0, 1).str_repeat('*', $len - 2).substr($str, $len - 1, 1);
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function substri_count($haystack, $needle) {
+    return substr_count(strtoupper($haystack), strtoupper($needle));
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
 function string_to_array($string) {
 
 $string = explode("||",$string);
@@ -95,10 +115,15 @@ return $number;
 
 
 function obfuscated_url_data($url) {
+	
+global $app_config;
 
-$url = preg_replace("/apikey(.*)/i", "apikey=[OBFUSCATED]", $url); // Etherscan
-
-$url = preg_replace("/bot(.*)getUpdates/i", "bot[OBFUSCATED]/getUpdates", $url); // Telegram
+	if ( preg_match("/etherscan/i", $url) ) {
+	$url = str_replace($app_config['general']['etherscanio_api_key'], obfuscate_string($app_config['general']['etherscanio_api_key']), $url); // Etherscan
+	}
+	elseif ( preg_match("/telegram/i", $url) ) {
+	$url = str_replace($app_config['comms']['telegram_bot_token'], obfuscate_string($app_config['comms']['telegram_bot_token']), $url); // Telegram
+	}
 
 return $url;
 

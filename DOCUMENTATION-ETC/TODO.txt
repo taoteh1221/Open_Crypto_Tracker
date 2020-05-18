@@ -35,7 +35,7 @@ See if exchange API data arrays can be manipulated slightly to build a reusable 
 Add force reset logic for app config, if cached app version number is non-existent or below a certain version, so we force a complete reset for non-backwards-compatible upgrades.
 
 
-In debug mode, check the verbosity of everything, especially the system stats and too many ram stats (maybe add our new used ram stat instead, that doesn't include buffers / cached ram).
+In debug mode, maybe add our new 'used ram' stat instead (that doesn't include buffers / cached ram).
 
 
 1D / 1W / 1M .... chart links are broken on chrome for Android (BUT work fine on Chrome for Ubuntu).

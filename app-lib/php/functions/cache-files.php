@@ -1204,7 +1204,7 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 			
 		// Don't log this error again during THIS runtime, as it would be a duplicate...just overwrite same error message, BUT update the error count in it
 		
-		app_logging( 'cache_error', 'no RUNTIME cache data from failure with ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data, 'request attempt(s) from: cache ('.$logs_array['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';', $hash_check );
+		app_logging( 'cache_error', 'no RUNTIME CACHE data from failure with ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data, 'request attempt(s) from: cache ('.$logs_array['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';', $hash_check );
 			
 		}
 		elseif ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'api_cache_only' ) {
@@ -1218,7 +1218,7 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 			
 		// Don't log this debugging again during THIS runtime, as it would be a duplicate...just overwrite same debugging message, BUT update the debugging count in it
 		
-		app_logging( 'cache_debugging', 'RUNTIME cache request for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data, 'request(s) from: cache ('.$logs_array['debugging_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';', $hash_check );
+		app_logging( 'cache_debugging', 'RUNTIME CACHE request for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data, 'request(s) from: cache ('.$logs_array['debugging_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';', $hash_check );
 		
 		}
 	
@@ -1593,7 +1593,7 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 			if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'api_live_only' ) {
 				
 			// LOG-SAFE VERSION (no post data with API keys etc)
-			app_logging('ext_api_debugging', 'connection request for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data, 'request from: server (local timeout setting ' . $app_config['power_user']['remote_api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';' );
+			app_logging('ext_api_debugging', 'LIVE request for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data, 'request from: server (local timeout setting ' . $app_config['power_user']['remote_api_timeout'] . ' seconds); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';' );
 			
 			// Log this as the latest response from this data request
 			store_file_contents($base_dir . '/cache/logs/debugging/external_api/last-response-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-'.$hash_check.'.log', $data);
@@ -1673,7 +1673,7 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 			
 		// Don't log this error again during THIS runtime, as it would be a duplicate...just overwrite same error message, BUT update the error count in it
 		
-		app_logging( 'cache_error', 'no FILE cache data from failure with ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data, 'request attempt(s) from: cache ('.$logs_array['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';', $hash_check );
+		app_logging( 'cache_error', 'no FILE CACHE data from failure with ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data, 'request attempt(s) from: cache ('.$logs_array['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';', $hash_check );
 			
 		}
 		elseif ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'api_cache_only' ) {
@@ -1687,7 +1687,7 @@ $obfuscated_url_data = obfuscated_url_data($api_endpoint); // Automatically remo
 			
 		// Don't log this debugging again during THIS runtime, as it would be a duplicate...just overwrite same debugging message, BUT update the debugging count in it
 		
-		app_logging( 'cache_debugging', 'FILE cache request for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data, 'request(s) from: cache ('.$logs_array['debugging_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';', $hash_check );
+		app_logging( 'cache_debugging', 'FILE CACHE request for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . $obfuscated_url_data, 'request(s) from: cache ('.$logs_array['debugging_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $hash_check . ';', $hash_check );
 		
 		}
 	

@@ -9,15 +9,6 @@
 ////////////////////////////////////////////////////////
 
 
-function substri_count($haystack, $needle) {
-    return substr_count(strtoupper($haystack), strtoupper($needle));
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
 function test_ipv4($str) {
 $ret = filter_var($str, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
 return $ret;
@@ -417,7 +408,7 @@ $email = trim($email);
 	return "Please enter a valid email address.";
 	}
 	elseif ( function_exists("getmxrr") && !getmxrr($domain, $mxrecords) ) {
-	return "The email domain \"$domain\" appears incorrect, no mail server records exist for this domain name.";
+	return "No mail server records found for domain '" . obfuscate_string($domain) . "' [obfuscated]";
 	}
 	else {
 	return "valid";
@@ -780,8 +771,8 @@ $category = preg_replace("/_error/i", "", $category);
 $category = preg_replace("/_debugging/i", "", $category);
 
 
-	// Disable logging any included verbose tracing, if log detail level config is set to normal, AND debug mode is off
-	if ( $app_config['developer']['debug_mode'] == 'off' && $app_config['developer']['log_verbosity'] == 'normal' ) {
+	// Disable logging any included verbose tracing, if log verbosity level config is set to normal
+	if ( $app_config['developer']['log_verbosity'] == 'normal' ) {
 	$verbose_tracing = false;
 	}
 

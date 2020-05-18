@@ -178,10 +178,10 @@ if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']
 	}
 			
 // Log system stats
-app_logging('system_debugging', 'Stats for hardware / software', $system_telemetry);
+app_logging('system_debugging', 'Hardware / software stats (requires log_verbosity set to verbose)', $system_telemetry);
 			
 // Log runtime stats
-app_logging('system_debugging', 'Stats for '.$runtime_mode.' runtime', $runtime_mode.'_runtime: ' . $total_runtime . ' seconds');
+app_logging('system_debugging', strtoupper($runtime_mode).' runtime was ' . $total_runtime . ' seconds');
 
 }
 
