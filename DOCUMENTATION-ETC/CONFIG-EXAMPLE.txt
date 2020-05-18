@@ -508,6 +508,23 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 /////////////////////////////////////////////////////////////////////////////
 
 
+// 'on' verifies ALL SMTP server certificates for secure SMTP connections, 'off' verifies NOTHING 
+// Set to 'off' if the SMTP server has an invalid certificate setup (which stops email sending, but you still want to send email through that server)
+$app_config['power_user']['smtp_strict_ssl'] = 'off'; // (DEFAULT IS 'off', TO ASSURE SMTP EMAIL SENDING STILL WORKS THROUGH MISCONFIGURED SMTP SERVERS)
+
+
+// 'on' verifies ALL REMOTE API server certificates for secure API connections, 'off' verifies NOTHING 
+// Set to 'off' if some exchange's API servers have invalid certificates (which stops price data retrieval...but you still want to get price data from them)
+$app_config['power_user']['remote_api_strict_ssl'] = 'off'; // (default = 'off')
+
+
+// Seconds to wait for response from REMOTE API endpoints (exchange data, etc). 
+// Set too low you won't get ALL data (partial or zero bytes), set too high the interface can take a long time loading if an API server hangs up
+// RECOMMENDED MINIMUM OF 45 FOR INSTALLS BEHIND #LOW BANDWIDTH# / HOME INTERNET NETWORKS 
+// (which may need an even higher timeout of 60 or more if data still isn't received from all APIs)
+$app_config['power_user']['remote_api_timeout'] = 30; // (default = 30)
+
+
 // Local / internal API rate limit (maximum of once every X seconds, per ip address) for accepting remote requests
 // Can be 0 to disable rate limiting (unlimited)
 $app_config['power_user']['local_api_rate_limit'] = 5; // (default = 5)
@@ -521,23 +538,6 @@ $app_config['power_user']['local_api_market_limit'] = 20; // (default = 20)
 $app_config['power_user']['local_api_cache_time'] = 4; // (default = 4)
 
 
-// Seconds to wait for response from REMOTE API endpoints (exchange data, etc). 
-// Set too low you won't get ALL data (partial or zero bytes), set too high the interface can take a long time loading if an API server hangs up
-// RECOMMENDED MINIMUM OF 45 FOR INSTALLS BEHIND #LOW BANDWIDTH# / HOME INTERNET NETWORKS 
-// (which may need an even higher timeout of 60 or more if data still isn't received from all APIs)
-$app_config['power_user']['remote_api_timeout'] = 20; // (default = 20)
-
-
-// 'on' verifies ALL REMOTE API server certificates for secure API connections, 'off' verifies NOTHING 
-// Set to 'off' if some exchange's API servers have invalid certificates (which stops price data retrieval...but you still want to get price data from them)
-$app_config['power_user']['remote_api_strict_ssl'] = 'off'; // (default = 'off')
-
-
-// 'on' verifies ALL SMTP server certificates for secure SMTP connections, 'off' verifies NOTHING 
-// Set to 'off' if the SMTP server has an invalid certificate setup (which stops email sending, but you still want to send email through that server)
-$app_config['power_user']['smtp_strict_ssl'] = 'off'; // (DEFAULT IS 'off', TO ASSURE SMTP EMAIL SENDING STILL WORKS THROUGH MISCONFIGURED SMTP SERVERS)
-
-
 // Minutes to cache real-time exchange price data...can be zero to skip cache, but set to at least 1 minute TO AVOID YOUR IP GETTING BLOCKED
 // SOME APIS PREFER THIS SET TO AT LEAST A FEW MINUTES, SO HIGHLY RECOMMENDED TO KEEP FAIRLY HIGH
 $app_config['power_user']['last_trade_cache_time'] = 4; // (default = 4)
@@ -549,23 +549,21 @@ $app_config['power_user']['chainstats_cache_time'] = 70; // Minutes to cache blo
 $app_config['power_user']['marketcap_cache_time'] = 40; // Minutes to cache marketcap rankings...start high and test lower, it can be strict
 
 
-// Minutes to cache RSS feeds (for News page)
-// Randomly cache each RSS feed between the minimum and maximum minutes set here (so they don't refresh all at once, for faster load times)
-// THE WIDER THE GAP BETWEEN THE NUMBERS, MORE SPLIT UP / FASTER THE FEEDS WILL LOAD
-$app_config['power_user']['rss_cache_time_min_max'] = '50,125'; // 'min,max' (default = '50,125')
-
-
 // Number of marketcap rankings to request from API.
 // 250 rankings is a safe maximum to start with, to avoid getting your API requests throttled / blocked
 $app_config['power_user']['marketcap_ranks_max'] = 250;
 
 
-
+// Minutes to cache RSS feeds (for News page)
+// Randomly cache each RSS feed between the minimum and maximum minutes set here (so they don't refresh all at once, for faster load times)
+// THE WIDER THE GAP BETWEEN THE NUMBERS, MORE SPLIT UP / FASTER THE FEEDS WILL LOAD
+$app_config['power_user']['news_feeds_cache_min_max'] = '75,175'; // 'min,max' (default = '75,175')
+////
 // RSS news feeds available on the News page
 $app_config['power_user']['news_feeds'] = array(
     
     					/////////////////////////////////////////////////////
-    					// STANDARD RSS AND ATOM FORMAT SUPPORTED
+    					// STANDARD RSS #AND# ATOM FORMAT ARE SUPPORTED
     					/////////////////////////////////////////////////////
         
         				'blog_bitcoin_core_org' => array(

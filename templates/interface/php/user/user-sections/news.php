@@ -16,9 +16,9 @@
 
 			<p style='margin-top: 15px; margin-bottom: 15px;'><?=start_page_html('news')?></p>			
 			<?php
-			$rss_cache_time_min_max = explode(',', $app_config['power_user']['rss_cache_time_min_max']);
+			$news_feeds_cache_min_max = explode(',', $app_config['power_user']['news_feeds_cache_min_max']);
 			?>
-			<p class='bitcoin' style='font-weight: bold;'>RSS feed data is cached (randomly) between <?=$rss_cache_time_min_max[0]?> / <?=$rss_cache_time_min_max[1]?> minutes for quicker load times. To see the date an entry was published, hover over it.</p>
+			<p class='bitcoin' style='font-weight: bold;'>RSS feed data is cached (randomly) between <?=$news_feeds_cache_min_max[0]?> / <?=$news_feeds_cache_min_max[1]?> minutes for quicker load times. To see the date an entry was published, hover over it.</p>
 			
 
 

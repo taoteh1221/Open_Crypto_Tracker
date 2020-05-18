@@ -390,12 +390,12 @@ function rss_feed_data($url, $feed_size){
 	
 global $app_config, $base_dir, $fetched_reddit_feeds, $fetched_stackexchange_feeds, $fetched_medium_feeds, $fetched_bitcoincore_feeds, $fetched_ethereumorg_feeds, $fetched_kraken_feeds, $fetched_firesidefm_feeds, $fetched_libsyn_feeds;
 
-$rss_cache_time_min_max = explode(',', $app_config['power_user']['rss_cache_time_min_max']);
+$news_feeds_cache_min_max = explode(',', $app_config['power_user']['news_feeds_cache_min_max']);
 // Cleanup
-$rss_cache_time_min_max = array_map('trim', $rss_cache_time_min_max);
+$news_feeds_cache_min_max = array_map('trim', $news_feeds_cache_min_max);
 	
 // We don't want all feeds updating at the same time, so we randomly vary cache times
-$rss_feed_cache_time = rand($rss_cache_time_min_max[0], $rss_cache_time_min_max[1]);
+$rss_feed_cache_time = rand($news_feeds_cache_min_max[0], $news_feeds_cache_min_max[1]);
 
 
 	if ( preg_match("/reddit\.com/i", $url) || preg_match("/stackexchange\.com/i", $url) ) {
