@@ -4,7 +4,7 @@
 
 // Wait until the DOM has loaded before querying the document
 $(document).ready(function(){
-	
+	 
 
 // Show "app loading" placeholder when submitting ANY form JQUERY SUBMIT METHOD, OR CLICKING A SUBMIT BUTTON
 // (does NOT affect a standard javascript ELEMENT.submit() call)
@@ -19,7 +19,10 @@ $("#app_loading").hide(250, 'linear'); // 0.25 seconds
 $("#content_wrapper").show(250, 'linear'); // 0.25 seconds
 $("#content_wrapper").css('display','inline'); // MUST display inline to center itself cross-browser
   
-  
+
+// Run AFTER showing content
+get_scroll_position();
+
 	
 // Charts background / border
 $(".chart_wrapper").css({ "background-color": window.charts_background });

@@ -1892,6 +1892,7 @@ function start_page_html($page) {
 		}
 		else {
 		var anchor = "";
+		sessionStorage["scroll_position"] = 0;
 		}
 	
 	// This start page method saves portfolio data during the session, even without cookie data enabled

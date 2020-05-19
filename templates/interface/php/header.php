@@ -167,7 +167,7 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 	<link rel="icon" href="templates/interface/media/images/favicon.png">
 
 </head>
-<body>
+<body onbeforeunload="store_scroll_position();">
 
     
     <audio preload="metadata" id="audio_alert">

@@ -2,11 +2,41 @@
 // Copyright 2014-2020 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
 
 
+
+
+/////////////////////////////////////////////////////////////
+
+
+function app_reload() {
+// ADD ANY LOGIC HERE, TO RUN BEFORE THE APP RELOADS
+location.reload(true);
+}
+
+
 /////////////////////////////////////////////////////////////
 
 
 function force_2_digits(num) {
 return ("0" + num).slice(-2);
+}
+	
+
+/////////////////////////////////////////////////////////////
+
+
+function delete_cookie( name ) {
+  document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function set_target_action(obj_id, set_target, set_action) {
+	
+document.getElementById(obj_id).target = set_target;
+document.getElementById(obj_id).action = set_action;
+	
 }
 
 
@@ -22,6 +52,21 @@ var queryString = "?t=" + timestamp;
 el.src = imgURL + queryString;    
  
 }    
+
+
+/////////////////////////////////////////////////////////////
+
+
+function store_scroll_position() {
+
+// IN CASE we are loading / POSTING DATA ON a different start page than the portfolio page,
+// STORE the current scroll position before the page reload
+// WE ONLY CALL THIS FUNCTION ONCE PER PAGE UNLOAD (body => onbeforeunload)
+sessionStorage['scroll_position'] = window.scrollY;
+
+//console.log(' stored page scroll = ' + window.scrollY );
+
+}
 
 
 /////////////////////////////////////////////////////////////
@@ -56,19 +101,9 @@ function ajax_placeholder(px_size, message){
 
 }
 
-
-/////////////////////////////////////////////////////////////
-
-
-function set_target_action(obj_id, set_target, set_action) {
-	
-document.getElementById(obj_id).target = set_target;
-document.getElementById(obj_id).action = set_action;
-	
-}
-
 	
 /////////////////////////////////////////////////////////////
+
 
 function app_reloading_placeholder() {
 
@@ -80,14 +115,6 @@ $("#content_wrapper").hide(250, 'linear'); // 0.25 seconds
 
 $("#app_loading").show(250, 'linear'); // 0.25 seconds
 
-}
-	
-
-/////////////////////////////////////////////////////////////
-
-
-function delete_cookie( name ) {
-  document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }
 
 
@@ -199,6 +226,27 @@ function feed_toggle(obj_var) {
 		$("#show_feeds").val( show_feeds.replace("[" + obj_var.value + "],", "") );
 		}
 	
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function get_scroll_position() {
+
+	 // If we are using a different start page than the portfolio page,
+	 // RETRIEVE any stored scroll position we were at before the page reload
+    if ( $(location).attr('hash') != '' && !isNaN(sessionStorage['scroll_position']) ) {
+	 //console.log(' retrieved page scroll = ' + sessionStorage['scroll_position'] ); 
+    		$('html, body').animate({
+       	scrollTop: sessionStorage['scroll_position']
+    		}, 'slow');
+    }
+    // Reset if we're NOT starting on a secondary page
+    else {
+	 sessionStorage['scroll_position'] = 0;
+    }
+
 }
 	
 	
@@ -631,7 +679,7 @@ function auto_reload(time) {
 		window.reload_function = setInterval(function() {
 				
 						app_reloading_placeholder();
-					location.reload(true);
+						app_reload();
 					
 					}, (time * 1000));
 			
