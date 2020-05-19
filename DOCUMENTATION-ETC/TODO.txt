@@ -26,10 +26,10 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
-Add bitmex API: https://www.bitmex.com/api/explorer/
-
-
 See if exchange API data arrays can be manipulated slightly to build a reusable module for every exchange's API calls.
+
+
+Add bitmex API: https://www.bitmex.com/api/explorer/
 
 
 Add force reset logic for app config, if cached app version number is non-existent or below a certain version, so we force a complete reset for non-backwards-compatible upgrades.
@@ -50,15 +50,13 @@ Documentation for Webhook features
 Add webhook keys on admin page.
 
 
-Fresh AUTO install on a raspberry pi throws this INTERFACE error, even though we chowned every file as owner 'pi', and chmod 664 on the root .htaccess file:
-runtime: ui | system_error: File write failed for file "/var/www/html/.htaccess" (check permissions for the path "/var/www/html", and the file ".htaccess")
-Only happens during THE VERY FIRST RUN after install, reloading the web page after causes no error log messages.
-
-
-Replace landing page screenshot lightbox modal with one that is a reliable mobile full screen mode (current one has poor mobile support).
+Optimize landing page screenshot download size (convert to jpeg @ 93% possibly).
 
 
 Check optimization by enabling "telemetry" debug mode, and reviewing debugging logs.
+
+
+Check log formatting for every debug mode.
 
 
 Make sure all kraken currency markets and other markets are added.
@@ -77,6 +75,11 @@ Code review ALL functions / logic (especially loops, for efficiency).
 
 
 Epiphany browser trying to autoplay audio alert: [Error] Unhandled Promise Rejection: NotSupportedError: The operation is not supported.
+
+
+Fresh AUTO install on a raspberry pi throws this INTERFACE error, even though we chowned every file as owner 'pi', and chmod 664 on the root .htaccess file:
+runtime: ui | system_error: File write failed for file "/var/www/html/.htaccess" (check permissions for the path "/var/www/html", and the file ".htaccess")
+Only happens during THE VERY FIRST RUN after install, reloading the web page after causes no error log messages.
 
 
 ///////////////////////////////////////////////////////

@@ -1885,7 +1885,7 @@ function start_page_html($page) {
 ?>
 <span class='start_page_menu<?=$border_highlight?>'> 
 	
-	<select class='<?=$text_class?>' onchange='
+	<select title='Sets alternate start pages, and saves your scroll position on alternate start pages during reloads.' class='<?=$text_class?>' onchange='
 	
 		if ( this.value == "index.php?start_page=<?=$page?>" ) {
 		var anchor = "#<?=$page?>";

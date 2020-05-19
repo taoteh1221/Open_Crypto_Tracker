@@ -13,6 +13,9 @@
 				<span class='red countdown_notice'></span>
 			
 	
+	<p style='margin-top: 15px; margin-bottom: 15px;'><?=start_page_html('help')?></p>		
+			
+	
 	<div class="accordion" id="accordionHelp" style='margin: 20px;'> <!-- Accordion START -->
 	
 	

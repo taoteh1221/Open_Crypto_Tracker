@@ -159,6 +159,8 @@ echo "#WHEN YOU FIRST RUN THIS APP AFTER INSTALLATION#. IT'S #HIGHLY RECOMMENDED
 echo "ESPECIALLY ON PUBLIC FACING / KNOWN SERVERS, #OR SOMEBODY ELSE MAY BEAT YOU TO IT#."
 echo " "
 
+echo "Please report any issues here: https://github.com/taoteh1221/DFD_Cryptocoin_Values/issues"
+echo " "
   				
 echo "Select 1 or 2 to choose whether to continue with installation, or quit."
 echo " "
