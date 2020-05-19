@@ -3237,13 +3237,15 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.11.0:
 
--RSS feed type auto-detection
+-Saved scroll position for secondary start pages (on app reload)
 
--Code cleanup / optimization / fixes
+-RSS feed type auto-detection
 
 -Refined log data obfuscation
 
 -Runtime speed improvements
+
+-Code cleanup / optimization / fixes
 
 IMPORTANT UPGRADE NOTES: 
 
