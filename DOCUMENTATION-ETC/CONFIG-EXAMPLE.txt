@@ -656,6 +656,11 @@ $app_config['power_user']['news_feeds'] = array(
             			"url" => "https://cointelegraph.com/feed"
         												),
     
+        				'news_token_daily' => array(
+            			"title" => "News - Token Daily",
+            			"url" => "https://www.tokendaily.co/rss"
+        													),
+    
         				'news_whats_new_in_eth2' => array(
             			"title" => "News - What's New In Eth2",
             			"url" => "http://benjaminion.xyz/newineth2/rss_feed.xml"
@@ -685,11 +690,6 @@ $app_config['power_user']['news_feeds'] = array(
             			"title" => "Podcast - POV Crypto",
             			"url" => "http://povcryptopod.libsyn.com/rss"
         												),
-    
-        				'podcast_token_daily' => array(
-            			"title" => "Podcast - Token Daily",
-            			"url" => "https://www.tokendaily.co/rss"
-        													),
     					
         				'podcast_unchained_podcast' => array(
             			"title" => "Podcast - Unchained",

@@ -490,7 +490,7 @@
 								document.getElementById("use_notes").value = "";
 								document.getElementById("set_use_notes").checked = false;
                         }
-                        ' <?php echo ( $_COOKIE['coin_amounts'] != '' ? 'checked' : ''); ?> /> <span class='red'>(un-checking this box <i>deletes ALL previously-saved cookie data <u>permanently</u></i>)</span>
+                        ' <?php echo ( $_COOKIE['coin_amounts'] != '' ? 'checked' : ''); ?> /> <span class='bitcoin'>(un-checking this box <i>deletes ALL previously-saved cookie data <u>permanently</u></i>)</span>
                         </p>
 			
 			
@@ -504,7 +504,7 @@
                         else {
 								document.getElementById("use_notes").value = "";
                         }
-                        ' <?php echo ( $_COOKIE['notes_reminders'] != '' ? 'checked' : ''); ?> /> <span class='red'>(requires cookies)</span>
+                        ' <?php echo ( $_COOKIE['notes_reminders'] != '' ? 'checked' : ''); ?> /> <span class='bitcoin'>(requires cookies)</span>
                         </p>
 			
 			

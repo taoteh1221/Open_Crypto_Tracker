@@ -46,7 +46,7 @@ FEATURES
 
 -Support for over 40 exchanges, and over 80 market pairings (country fiat currency or secondary crypto).
 
--Secure HTTPS (SSL) and Username / password protection in the portfolio interface for privacy / security.
+-Secure HTTPS (SSL) and username / password protection in the portfolio interface for privacy and security.
 
 -Admin interface, to allow easily viewing / changing the app configuration (alerts / charts / markets / API / backups / logs / etc).
 
@@ -60,7 +60,7 @@ FEATURES
 
 -Add / edit / delete your own price alerts and charts for assets / exchanges / market pairings (supports multiple exchanges / market pairings per asset).
 
--Import / Export your portfolio in CSV (spreadsheet) file format.
+-Import / export your portfolio in CSV (spreadsheet) file format.
 
 -A news page with over 30 different cryptocurrency-related RSS feeds to select from, including company and organization blogs / news sites / podcasts / reddit and stackexchange forums.
 
@@ -74,11 +74,13 @@ FEATURES
 
 -Help page in easy-to-use FAQ format, for common issues (with support / contact links if you need additional assistance).
 
+-System stats in the interface and debug logs (uptime / load averages / temperature / free disk space / used system memory / portfolio cache size, if available on your device).
+
 -Secure webhook capability, allowing other external apps to communicate in real-time safely (separate keys per service, without giving away the master webhook key).
 
 -Internal restful API built-in, to allow other external apps to query real-time market data in over 80 country fiat currencies / secondary crypto pairings (raw data also available).
 
--Options to add proxies for API requests / SMTP authentication for email sending / displaying system stats in the interface (uptime / load averages / temperature / free disk space / used system memory / portfolio cache size, if available on your device).
+-Options to add proxies for API requests, and SMTP authentication for email sending.
 
 -System / configuration checking, alerting, logging, and auto-correcting (where possible).
 
@@ -102,7 +104,7 @@ Recommended minimum system specs: Raspbian Lite / Raspberry Pi Zero / 512 megaby
 
 wget -O FOLIO-INSTALL.bash https://git.io/JeWWE;chmod +x FOLIO-INSTALL.bash;sudo ./FOLIO-INSTALL.bash
 
-Follow the prompts. This automated script gives you the options to: install / setup a PHP web server automatically, download / setup / configure the latest version of the DFD Cryptocoin Values app automatically, setup a cron job automatically (for price alerts / charts), and setup SSH (to update / install web site files remotely to the web server via SFTP) automatically. 
+Follow the prompts. This automated script gives you the options to: install / uninstall a PHP web server automatically, download / install / configure / uninstall the latest version of the DFD Cryptocoin Values app automatically, setup a cron job automatically (for price alerts / charts), and setup SSH (to update / install web site files remotely to the web server via SFTP) automatically. 
 
 When the auto-install is completed, it will display addresses / logins to access the app (write these down / save them for future use).
 

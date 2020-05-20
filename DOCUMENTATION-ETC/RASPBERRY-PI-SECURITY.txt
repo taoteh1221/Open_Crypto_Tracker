@@ -54,7 +54,7 @@ Install a firewall
 =======================================================
 
 
-IMPORTANT: You must open ports after installing a firewall for any servers you have running, see step #2
+IMPORTANT: You must open ports after installing a firewall for any servers you have running, OR YOU WON'T BE ABLE TO CONNECT TO THEM...see step #2
 
 1) Install a firewall with this command:
 
