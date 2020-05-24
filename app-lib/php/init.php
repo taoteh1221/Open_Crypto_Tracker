@@ -71,12 +71,6 @@ $base_dir = preg_replace("/\/app-lib(.*)/i", "", dirname(__FILE__) );
 //////////////////////////////////////////////////////////////
 
 
-
-// DEBUGGING NEW LITE CHART LOGIC
-//lite_chart('cache/charts/spot_price_24hr_volume/archival/BTC/btc_chart_usd.dat', 7); // 7 day lite chart
-
-
-
 // Session data
 
 

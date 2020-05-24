@@ -1001,7 +1001,7 @@ global $_POST, $app_config;
 function charts_and_price_alerts($asset_data, $exchange, $pairing, $mode) {
 
 // Globals
-global $base_dir, $app_config, $default_btc_primary_exchange, $default_btc_primary_currency_value, $default_btc_primary_currency_pairing, $price_alerts_fixed_reset_array;
+global $base_dir, $app_config, $default_btc_primary_exchange, $default_btc_primary_currency_value, $default_btc_primary_currency_pairing, $price_alerts_fixed_reset_array, $lite_charts_structure;
 
 	
 	// Return true (no errors) if alert-only, and alerts are disabled
@@ -1134,13 +1134,37 @@ $volume_pairing_raw = number_to_string($volume_pairing_raw);
 		
 	// PRIMARY CURRENCY CONFIG charts (CRYPTO/PRIMARY CURRENCY CONFIG markets, 
 	// AND ALSO crypto-to-crypto pairings converted to PRIMARY CURRENCY CONFIG equiv value for PRIMARY CURRENCY CONFIG equiv charts)
-	store_file_contents($base_dir . '/cache/charts/spot_price_24hr_volume/archival/'.$asset.'/'.$asset_data.'_chart_'.strtolower($default_btc_primary_currency_pairing).'.dat', time() . '||' . $asset_primary_currency_value_raw . '||' . $volume_primary_currency_raw . "\n", "append"); 
+	
+	$primary_currency_chart_path = $base_dir . '/cache/charts/spot_price_24hr_volume/archival/'.$asset.'/'.$asset_data.'_chart_'.strtolower($default_btc_primary_currency_pairing).'.dat';
+	store_file_contents($primary_currency_chart_path, time() . '||' . $asset_primary_currency_value_raw . '||' . $volume_primary_currency_raw . "\n", "append"); 
+		
 		
 		// Crypto / secondary currency pairing charts, volume as pairing (for UX)
 		if ( $pairing != strtolower($default_btc_primary_currency_pairing) ) {
-		store_file_contents($base_dir . '/cache/charts/spot_price_24hr_volume/archival/'.$asset.'/'.$asset_data.'_chart_'.$pairing.'.dat', time() . '||' . $asset_pairing_value_raw . '||' . $volume_pairing_raw . "\n", "append");
+		$crypto_secondary_currency_chart_path = $base_dir . '/cache/charts/spot_price_24hr_volume/archival/'.$asset.'/'.$asset_data.'_chart_'.$pairing.'.dat';
+		store_file_contents($crypto_secondary_currency_chart_path, time() . '||' . $asset_pairing_value_raw . '||' . $volume_pairing_raw . "\n", "append");
 		}
+		
+		
+		// Lite charts update every 3 hours
+		if ( update_cache_file($base_dir . '/cache/events/lite-charts.dat', (60 * 3) ) == true ) {
+		
+			foreach ( $lite_charts_structure as $light_chart_days ) {
 			
+			// Primary currency lite charts
+			update_lite_chart($primary_currency_chart_path, $light_chart_days);
+				
+				// Crypto / secondary currency pairing lite charts
+				if ( $pairing != strtolower($default_btc_primary_currency_pairing) ) {
+				update_lite_chart($crypto_secondary_currency_chart_path, $light_chart_days);
+				}
+			
+			}
+		
+		// Update the lite charts event tracking
+		store_file_contents($base_dir . '/cache/events/lite-charts.dat', time_date_format(false, 'pretty_date_time') );
+		}
+		
 		
 	}
 	/////////////////////////////////////////////////////////////////

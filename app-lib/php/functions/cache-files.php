@@ -126,7 +126,7 @@ $password_strength = password_strength($htaccess_password, 8, 8);
 ////////////////////////////////////////////////////////
 
 
-function lite_chart($archive_file, $days_span) {
+function update_lite_chart($archive_file, $days_span) {
 
 global $base_dir, $app_config;
 
@@ -144,11 +144,21 @@ $file_data = array_reverse($file_data); // Save time, only loop / read last line
 	$line_array = explode("||", $line);
 	
 		if ( !$newest_timestamp ) {
+			
 		$newest_timestamp = $line_array[0];
-		$oldest_timestamp = strtotime('-'.$days_span.' day', $newest_timestamp); // Timestamp for oldest data point 
+			
+			// Time intervals in days
+			if ( is_int($days_span) ) {
+			$oldest_allowed_timestamp = strtotime('-'.$days_span.' day', $newest_timestamp); // Timestamp for oldest data point 
+			}
+			// 'all'
+			else {
+			$oldest_allowed_timestamp = 0;
+			}
+		
 		}
 	
-		if ( $line_array[0] >= $oldest_timestamp ) {
+		if ( $line_array[0] >= $oldest_allowed_timestamp ) {
 		$chart_data[] = $line;
 		}
 		
@@ -161,7 +171,7 @@ $chart_data = array_reverse($chart_data);
 	if ( sizeof($chart_data) > $app_config['power_user']['chart_data_points_max'] ) {
 	
 	// Minimum time interval between data points
-	$min_data_interval = round( ($newest_timestamp - $oldest_timestamp) / $app_config['power_user']['chart_data_points_max'] );
+	$min_data_interval = round( ($newest_timestamp - $oldest_allowed_timestamp) / $app_config['power_user']['chart_data_points_max'] );
 	
 		$loop = 0;
 		foreach ($chart_data as $data_point) {
