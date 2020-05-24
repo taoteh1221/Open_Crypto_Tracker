@@ -4,7 +4,6 @@
  */
 
 
-
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
 
@@ -120,6 +119,76 @@ $password_strength = password_strength($htaccess_password, 8, 8);
     }
 
  
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function lite_chart($archive_file, $days_span) {
+
+global $base_dir, $app_config;
+
+$lite_path = preg_replace("/archival/i", 'lite/' . $days_span . '_day', $archive_file);
+
+$chart_data = array();
+$lite_chart = null;
+
+$file_data = file($archive_file);
+$file_data = array_reverse($file_data); // Save time, only loop / read last lines needed
+
+
+	foreach($file_data as $line) {
+		
+	$line_array = explode("||", $line);
+	
+		if ( !$newest_timestamp ) {
+		$newest_timestamp = $line_array[0];
+		$oldest_timestamp = strtotime('-'.$days_span.' day', $newest_timestamp); // Timestamp for oldest data point 
+		}
+	
+		if ( $line_array[0] >= $oldest_timestamp ) {
+		$chart_data[] = $line;
+		}
+		
+	}
+	
+$chart_data = array_reverse($chart_data);
+
+	
+	// If we have more data points than permitted per lite chart
+	if ( sizeof($chart_data) > $app_config['power_user']['chart_data_points_max'] ) {
+	
+	// Minimum time interval between data points
+	$min_data_interval = round( ($newest_timestamp - $oldest_timestamp) / $app_config['power_user']['chart_data_points_max'] );
+	
+		$loop = 0;
+		foreach ($chart_data as $data_point) {
+		
+		$data_point_array = explode("||", $data_point);
+		
+			if ( !$next_timestamp && $loop < $app_config['power_user']['chart_data_points_max'] 
+			|| isset($next_timestamp) && $next_timestamp <= $data_point_array[0] && $loop < $app_config['power_user']['chart_data_points_max'] ) {
+			$lite_chart .= $data_point;
+			$next_timestamp = $data_point_array[0] + $min_data_interval;
+			$loop = $loop + 1;
+			}
+			
+		}
+	
+	}
+	else {
+		foreach ($chart_data as $data_point) {
+		$lite_chart .= $data_point;
+		}
+	}
+
+
+
+// Store the lite chart data
+store_file_contents($base_dir . '/' . $lite_path, $lite_chart);
+
 }
 
 

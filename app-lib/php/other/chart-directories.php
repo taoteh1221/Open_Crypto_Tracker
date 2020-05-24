@@ -11,13 +11,13 @@
 // Structure of lite charts sub-directories
 $lite_charts_structure = array(
 									'1_day',
-									'1_week',
-									'1_month',
-									'3_months',
-									'6_months',
-									'1_year',
-									'2_years',
-									'4_years',
+									'7_day',
+									'30_day',
+									'90_day',
+									'180_day',
+									'365_day',
+									'730_day',
+									'1460_day',
 									'all',
 									);
 

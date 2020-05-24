@@ -508,6 +508,10 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 /////////////////////////////////////////////////////////////////////////////
 
 
+// The maximum number of data points allowed in each lite chart (to speed up page / chart loading times)
+$app_config['power_user']['chart_data_points_max'] = '365'; // (default = '365')
+
+
 // 'on' verifies ALL SMTP server certificates for secure SMTP connections, 'off' verifies NOTHING 
 // Set to 'off' if the SMTP server has an invalid certificate setup (which stops email sending, but you still want to send email through that server)
 $app_config['power_user']['smtp_strict_ssl'] = 'off'; // (DEFAULT IS 'off', TO ASSURE SMTP EMAIL SENDING STILL WORKS THROUGH MISCONFIGURED SMTP SERVERS)

@@ -41,7 +41,7 @@ In debug mode, maybe add our new 'used ram' stat instead (that doesn't include b
 1D / 1W / 1M .... chart links are broken on chrome for Android (BUT work fine on Chrome for Ubuntu).
 
 
-Look into why the portfolio balance (percent stats) summaries are off by a few pennies, compared to total USD (primary currency) portfolio value?
+Look into why the portfolio balance (percent stats) summaries are off by a few pennies, compared to total USD (primary currency) portfolio value? (Maybe because we round to X.XX%)
 
 
 Documentation for Webhook features
@@ -106,10 +106,7 @@ Admin import / export of settings (consider security implications CAREFULLY...ma
 When cached app config is independent of config.php updating-wise, use the show / hide link to have an optional email field on the admin registration page, and mention it enables password resetting via email.
 
 
-Prune system stats chart data older than 90 days, via the scheduled maintenance logic.
-
-
-For lightweight charts, it's simple: count the number of lines in an archival file up to the timestamp that's an X days / weeks / months / years forward time period, get the "max data points allowed" var passed into the function, divide the total time period line numbers by max line numbers allowed (and round it) to get the "use every X lines" value for the lightweight chart. Then just loop through and grab every Xth line up until the end of that time period, add it to that lightweight chart data.
+Prune system stats chart data older than 90 days, or lite charts?
 
 
 Add an alert bell icon in header login nav, and have alerts make it red and be a drop-down info bubble clicking it, rather than alerts printed in the footer.
