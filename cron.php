@@ -39,6 +39,17 @@ ini_set('max_execution_time', $app_config['developer']['cron_max_execution_time'
 }
 
 
+// Lite charts update every 3 hours
+if ( update_cache_file($base_dir . '/cache/events/update-lite-charts.dat', (60 * 3) ) == true ) {
+$update_lite_charts = true;
+// Update the lite charts event tracking
+store_file_contents($base_dir . '/cache/events/update-lite-charts.dat', time_date_format(false, 'pretty_date_time') );
+}
+else {
+$update_lite_charts = false;
+}
+
+
 // Charts and price alerts
 foreach ( $app_config['charts_alerts']['tracked_markets'] as $key => $value ) {
 	
@@ -51,8 +62,8 @@ $value = explode("||",$value); // Convert $value into an array
 $exchange = $value[0];
 $pairing = $value[1];
 $mode = $value[2];
-	
-charts_and_price_alerts($key, $exchange, $pairing, $mode);
+
+charts_and_price_alerts($key, $exchange, $pairing, $mode, $update_lite_charts);
 
 }
 

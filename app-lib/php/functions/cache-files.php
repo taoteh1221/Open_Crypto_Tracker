@@ -128,7 +128,7 @@ $password_strength = password_strength($htaccess_password, 8, 8);
 
 function update_lite_chart($archive_file, $days_span) {
 
-global $base_dir, $app_config;
+global $app_config;
 
 $lite_path = preg_replace("/archival/i", 'lite/' . $days_span . '_day', $archive_file);
 
@@ -197,7 +197,7 @@ $chart_data = array_reverse($chart_data);
 
 
 // Store the lite chart data
-store_file_contents($base_dir . '/' . $lite_path, $lite_chart);
+store_file_contents($lite_path, $lite_chart);
 
 }
 

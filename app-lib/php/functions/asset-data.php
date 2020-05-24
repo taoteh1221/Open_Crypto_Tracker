@@ -998,7 +998,7 @@ global $_POST, $app_config;
 ////////////////////////////////////////////////////////
 
 
-function charts_and_price_alerts($asset_data, $exchange, $pairing, $mode) {
+function charts_and_price_alerts($asset_data, $exchange, $pairing, $mode, $update_lite_charts) {
 
 // Globals
 global $base_dir, $app_config, $default_btc_primary_exchange, $default_btc_primary_currency_value, $default_btc_primary_currency_pairing, $price_alerts_fixed_reset_array, $lite_charts_structure;
@@ -1146,8 +1146,11 @@ $volume_pairing_raw = number_to_string($volume_pairing_raw);
 		}
 		
 		
-		// Lite charts update every 3 hours
-		if ( update_cache_file($base_dir . '/cache/events/lite-charts.dat', (60 * 3) ) == true ) {
+		// Lite charts (update every X hours in cron.php logic)
+		if ( $update_lite_charts == true ) {
+			
+		// Try to assure file locking from archival chart updating has been released, wait 1 second before updating lite charts
+		sleep(1);
 		
 			foreach ( $lite_charts_structure as $light_chart_days ) {
 			
@@ -1161,8 +1164,6 @@ $volume_pairing_raw = number_to_string($volume_pairing_raw);
 			
 			}
 		
-		// Update the lite charts event tracking
-		store_file_contents($base_dir . '/cache/events/lite-charts.dat', time_date_format(false, 'pretty_date_time') );
 		}
 		
 		
