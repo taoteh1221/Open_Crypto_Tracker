@@ -707,14 +707,23 @@ select opt in $OPTIONS; do
   				rm -rf $DOC_ROOT/app-lib
   				rm -rf $DOC_ROOT/backups
   				rm -rf $DOC_ROOT/cache/apis
+  				rm -rf $DOC_ROOT/cache/charts/lite/1_day
+  				rm -rf $DOC_ROOT/cache/charts/lite/1_week
+  				rm -rf $DOC_ROOT/cache/charts/lite/1_month
+  				rm -rf $DOC_ROOT/cache/charts/lite/3_months
+  				rm -rf $DOC_ROOT/cache/charts/lite/6_months
+  				rm -rf $DOC_ROOT/cache/charts/lite/1_year
+  				rm -rf $DOC_ROOT/cache/charts/lite/2_years
+  				rm -rf $DOC_ROOT/cache/charts/lite/4_years
+  				rm -rf $DOC_ROOT/cache/charts/lite/all
+  				rm -rf $DOC_ROOT/cache/logs/debugging/api
+  				rm -rf $DOC_ROOT/cache/logs/errors/api
   				rm -rf $DOC_ROOT/cache/queue
   				rm -rf $DOC_ROOT/cache/rest-api
   				rm -rf $DOC_ROOT/cache/secured/apis
-  				rm -rf $DOC_ROOT/cache/logs/debugging/api
-  				rm -rf $DOC_ROOT/cache/logs/errors/api
   				rm -rf $DOC_ROOT/misc-docs-etc
-  				rm -rf $DOC_ROOT/ui-templates
   				rm -rf $DOC_ROOT/templates
+  				rm -rf $DOC_ROOT/ui-templates
   				# Files
 				rm $DOC_ROOT/DOCUMENTATION-ETC/CONFIG.EXAMPLE.txt # (Renamed /DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt)
 				rm $DOC_ROOT/DOCUMENTATION-ETC/CRON_PLUGINS_README.txt # (Renamed /DOCUMENTATION-ETC/CRON-PLUGINS-README.txt)

@@ -2,6 +2,7 @@
 /*
  * Copyright 2014-2020 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
  */
+ 
 
 
 ////////////////////////////////////////////////////////
@@ -130,10 +131,74 @@ function update_lite_chart($archive_file, $days_span) {
 
 global $app_config;
 
-$lite_path = preg_replace("/archival/i", 'lite/' . $days_span . '_day', $archive_file);
+$now = time();
+$archival_data = array();
+$new_lite_data = null;
 
-$chart_data = array();
-$lite_chart = null;
+// Lite chart file info
+$lite_path = preg_replace("/archival/i", 'lite/' . $days_span . '_day', $archive_file);
+$lite_data_modified = filemtime($lite_path);
+//var_dump($lite_data_modified);
+
+// Get FIRST line of archival chart data
+$first_archival_line = fgets(fopen($archive_file, 'r'));
+$first_archival_array = explode("||", $first_archival_line);
+//var_dump($first_archival_array);
+
+// Get LAST line of archival chart data
+$last_archival_line = tail_custom($archive_file);
+$last_archival_array = explode("||", $last_archival_line);
+//var_dump($last_archival_array);
+	
+// Determine oldest / newest timestamps
+$oldest_archival_timestamp = $first_archival_array[0];
+$newest_archival_timestamp = $last_archival_array[0];
+			
+			
+	// Time intervals
+	if ( is_int($days_span) ) {
+	$oldest_allowed_timestamp = strtotime('-'.$days_span.' day', $newest_archival_timestamp); // Timestamp for oldest data point 
+	}
+	// 'all'
+	else {
+	$oldest_allowed_timestamp = $oldest_archival_timestamp;
+	}
+	
+	
+	// Make sure we don't have an oldest allowed timestamp older than our oldest archival timestamp
+	if ( $oldest_allowed_timestamp < $oldest_archival_timestamp ) {
+	$oldest_allowed_timestamp = $oldest_archival_timestamp;
+	}
+
+		
+// Minimum time interval between data points in lite chart
+$min_data_interval = round( ($newest_archival_timestamp - $oldest_allowed_timestamp) / $app_config['power_user']['chart_data_points_max'] );
+//var_dump($min_data_interval);
+
+	// When do we need to refresh lite chart data
+	if ( $lite_data_modified == false ) {
+	$lite_data_update_threshold = 0; // (if no lite data exists yet)
+	}
+	else {
+	$lite_data_update_threshold = $lite_data_modified + $min_data_interval;
+	}
+	
+//var_dump($lite_data_update_threshold);
+//var_dump($now);
+
+// Add a random multiplier (between 1 and 4) to spread the update load across time
+$random_multiplier = rand(1,4);
+$lite_data_update_threshold = $lite_data_update_threshold * $random_multiplier;
+
+
+	// Is it time to update the lite chart data, or return false?
+	if ( number_to_string($lite_data_update_threshold) > number_to_string($now) ) {
+	return false;
+	}
+	
+	
+// If we are continuing, and updating lite chart data...
+	
 
 $file_data = file($archive_file);
 $file_data = array_reverse($file_data); // Save time, only loop / read last lines needed
@@ -143,44 +208,26 @@ $file_data = array_reverse($file_data); // Save time, only loop / read last line
 		
 	$line_array = explode("||", $line);
 	
-		if ( !$newest_timestamp ) {
-			
-		$newest_timestamp = $line_array[0];
-			
-			// Time intervals in days
-			if ( is_int($days_span) ) {
-			$oldest_allowed_timestamp = strtotime('-'.$days_span.' day', $newest_timestamp); // Timestamp for oldest data point 
-			}
-			// 'all'
-			else {
-			$oldest_allowed_timestamp = 0;
-			}
-		
-		}
-	
 		if ( $line_array[0] >= $oldest_allowed_timestamp ) {
-		$chart_data[] = $line;
+		$archival_data[] = $line;
 		}
 		
 	}
 	
-$chart_data = array_reverse($chart_data);
+$archival_data = array_reverse($archival_data);
 
 	
 	// If we have more data points than permitted per lite chart
-	if ( sizeof($chart_data) > $app_config['power_user']['chart_data_points_max'] ) {
-	
-	// Minimum time interval between data points
-	$min_data_interval = round( ($newest_timestamp - $oldest_allowed_timestamp) / $app_config['power_user']['chart_data_points_max'] );
+	if ( sizeof($archival_data) > $app_config['power_user']['chart_data_points_max'] ) {
 	
 		$loop = 0;
-		foreach ($chart_data as $data_point) {
+		foreach ($archival_data as $data_point) {
 		
 		$data_point_array = explode("||", $data_point);
 		
 			if ( !$next_timestamp && $loop < $app_config['power_user']['chart_data_points_max'] 
 			|| isset($next_timestamp) && $next_timestamp <= $data_point_array[0] && $loop < $app_config['power_user']['chart_data_points_max'] ) {
-			$lite_chart .= $data_point;
+			$new_lite_data .= $data_point;
 			$next_timestamp = $data_point_array[0] + $min_data_interval;
 			$loop = $loop + 1;
 			}
@@ -189,17 +236,97 @@ $chart_data = array_reverse($chart_data);
 	
 	}
 	else {
-		foreach ($chart_data as $data_point) {
-		$lite_chart .= $data_point;
+		foreach ($archival_data as $data_point) {
+		$new_lite_data .= $data_point;
 		}
 	}
 
 
 
 // Store the lite chart data
-store_file_contents($lite_path, $lite_chart);
+$result = store_file_contents($lite_path, $new_lite_data);
+
+	if ( $result == true ) {
+		if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'lite_chart_only' ) {
+		app_logging( 'cache_debugging', 'Lite chart refresh COMPLETED for ' . $lite_path);
+		}
+	}
+	else {
+	app_logging( 'cache_error', 'Lite chart refresh FAILED for ' . $lite_path);
+	}
+	
+	
+return $result;
 
 }
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+/**
+	 * Slightly modified version of http://www.geekality.net/2011/05/28/php-tail-tackling-large-files/
+	 * @author Torleif Berger, Lorenzo Stanco
+	 * @link http://stackoverflow.com/a/15025877/995958
+	 * @license http://creativecommons.org/licenses/by/3.0/
+	 */
+	function tail_custom($filepath, $lines = 1, $adaptive = true) {
+
+		// Open file
+		$f = @fopen($filepath, "rb");
+		if ($f === false) return false;
+
+		// Sets buffer size, according to the number of lines to retrieve.
+		// This gives a performance boost when reading a few lines from the file.
+		if (!$adaptive) $buffer = 4096;
+		else $buffer = ($lines < 2 ? 64 : ($lines < 10 ? 512 : 4096));
+
+		// Jump to last character
+		fseek($f, -1, SEEK_END);
+
+		// Read it and adjust line number if necessary
+		// (Otherwise the result would be wrong if file doesn't end with a blank line)
+		if (fread($f, 1) != "\n") $lines -= 1;
+		
+		// Start reading
+		$output = '';
+		$chunk = '';
+
+		// While we would like more
+		while (ftell($f) > 0 && $lines >= 0) {
+
+			// Figure out how far back we should jump
+			$seek = min(ftell($f), $buffer);
+
+			// Do the jump (backwards, relative to where we are)
+			fseek($f, -$seek, SEEK_CUR);
+
+			// Read a chunk and prepend it to our output
+			$output = ($chunk = fread($f, $seek)) . $output;
+
+			// Jump back to where we started reading
+			fseek($f, -mb_strlen($chunk, '8bit'), SEEK_CUR);
+
+			// Decrease our line counter
+			$lines -= substr_count($chunk, "\n");
+
+		}
+
+		// While we have too many lines
+		// (Because of buffer size we might have read too many)
+		while ($lines++ < 0) {
+
+			// Find first newline and remove all text before that
+			$output = substr($output, strpos($output, "\n") + 1);
+
+		}
+
+		// Close file and return
+		fclose($f);
+		return trim($output);
+
+	}
 
 
 ////////////////////////////////////////////////////////
@@ -1294,7 +1421,7 @@ $api_endpoint = ( $mode == 'array' ? $api_server : $request );
 			
 		// Don't log this debugging again during THIS runtime, as it would be a duplicate...just overwrite same debugging message, BUT update the debugging count in it
 		
-		app_logging( 'cache_debugging', 'RUNTIME CACHE request for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint), 'request(s) from: cache ('.$logs_array['debugging_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . obfuscate_string($hash_check, 4) . ';', $hash_check );
+		app_logging('cache_debugging', 'RUNTIME CACHE request for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint), 'request(s) from: cache ('.$logs_array['debugging_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . obfuscate_string($hash_check, 4) . ';', $hash_check );
 		
 		}
 	
@@ -1749,7 +1876,7 @@ $api_endpoint = ( $mode == 'array' ? $api_server : $request );
 			
 		// Don't log this error again during THIS runtime, as it would be a duplicate...just overwrite same error message, BUT update the error count in it
 		
-		app_logging( 'cache_error', 'no FILE CACHE data from failure with ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint), 'request attempt(s) from: cache ('.$logs_array['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . obfuscate_string($hash_check, 4) . ';', $hash_check );
+		app_logging('cache_error', 'no FILE CACHE data from failure with ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint), 'request attempt(s) from: cache ('.$logs_array['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . obfuscate_string($hash_check, 4) . ';', $hash_check );
 			
 		}
 		elseif ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'api_cache_only' ) {
@@ -1763,7 +1890,7 @@ $api_endpoint = ( $mode == 'array' ? $api_server : $request );
 			
 		// Don't log this debugging again during THIS runtime, as it would be a duplicate...just overwrite same debugging message, BUT update the debugging count in it
 		
-		app_logging( 'cache_debugging', 'FILE CACHE request for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint), 'request(s) from: cache ('.$logs_array['debugging_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . obfuscate_string($hash_check, 4) . ';', $hash_check );
+		app_logging('cache_debugging', 'FILE CACHE request for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint), 'request(s) from: cache ('.$logs_array['debugging_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . obfuscate_string($hash_check, 4) . ';', $hash_check );
 		
 		}
 	

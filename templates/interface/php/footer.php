@@ -114,7 +114,7 @@
 
 
 
-		// If debug mode is on
+		// If debug mode is 'all' / 'telemetry' / 'stats'
 		if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'stats' ) {
 		
 			foreach ( $system_info as $key => $value ) {

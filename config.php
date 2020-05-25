@@ -978,7 +978,8 @@ $app_config['power_user']['captcha_text_contrast'] = 0; // example: -5 or 5 (def
 // 'btc_markets_config' (the current Bitcoin markets configuration),
 // 'smtp' (smtp email server response logging, if smtp emailing is enabled),
 // 'api_live_only' (log only live API requests, not cache requests),
-// 'api_cache_only' (log only cache requests for API data, not live API requests)
+// 'api_cache_only' (log only cache requests for API data, not live API requests),
+// 'lite_chart_only' (log only lite chart caching routines)
 ////////////////////////////////////////////////////////////////////////////////////////////
 // UNIT TESTS WILL ONLY RUN DURING WEB PAGE LOAD. MAY REQUIRE SETTING MAXIMUM ALLOWED 
 // PHP EXECUTION TIME TO 120 SECONDS TEMPORARILY, FOR ALL UNIT TESTS TO FULLY COMPLETE RUNNING, 

@@ -780,6 +780,10 @@ $category = preg_replace("/_debugging/i", "", $category);
 	if ( $hashcheck != false ) {
 	$logs_array[$log_type][$hashcheck] = '[' . date('Y-m-d H:i:s') . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_message . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
 	}
+	// We parse cache errors as array entries (like when hashcheck is included, BUT NO ARRAY KEY)
+	elseif ( $category == 'cache' ) {
+	$logs_array[$log_type][] = '[' . date('Y-m-d H:i:s') . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_message . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
+	}
 	elseif ( $overwrite != false ) {
 	$logs_array[$log_type] = '[' . date('Y-m-d H:i:s') . '] ' . $runtime_mode . ' => ' . $category . ': ' . $log_message . ( $verbose_tracing != false ? '; [ '  . $verbose_tracing . ' ]' : ';' ) . " <br /> \n";
 	}

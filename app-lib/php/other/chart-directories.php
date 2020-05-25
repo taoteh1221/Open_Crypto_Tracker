@@ -10,7 +10,7 @@
 ///////////////////////////////////////////////////////////////////////////
 // Structure of lite charts sub-directories
 $lite_charts_structure = array(
-									1,
+									3,
 									7,
 									30,
 									90,
