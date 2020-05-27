@@ -14,7 +14,7 @@ $start_runtime = $time;
 // Runtime mode
 $runtime_mode = 'ui';
 
-$is_admin = 1;
+$is_admin = true;
 
 require("config.php");
 	

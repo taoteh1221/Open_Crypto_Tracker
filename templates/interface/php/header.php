@@ -22,7 +22,7 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 
 <head>
 
-	<title>DFD Cryptocoin Values - <?=( $is_admin == 1 ? 'Admin Configuration' : 'Portfolio Tracker' )?></title>
+	<title>DFD Cryptocoin Values - <?=( $is_admin ? 'Admin Configuration' : 'Portfolio Tracker' )?></title>
     
    <meta charset="<?=$app_config['developer']['charset_default']?>">
    
@@ -40,7 +40,7 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 	<link rel="stylesheet" href="templates/interface/css/<?=$theme_selected?>.style.css" type="text/css" />
 	
 	<?php
-	if ( $is_admin == 1 ) {
+	if ( $is_admin ) {
 	?>
 	<link rel="stylesheet" href="templates/interface/css/admin.css" type="text/css" />
 	
@@ -205,7 +205,7 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 					</div>
 				  </li>
 				</ul>
-				<h2>DFD Cryptocoin Values - <?=( $is_admin == 1 ? 'Admin Configuration' : 'Portfolio Tracker' )?></h2>
+				<h2>DFD Cryptocoin Values - <?=( $is_admin ? 'Admin Configuration' : 'Portfolio Tracker' )?></h2>
 			  </div>
 				
 				</nav>

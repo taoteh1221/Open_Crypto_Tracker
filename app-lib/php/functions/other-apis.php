@@ -388,7 +388,7 @@ $result = array();
 // Credit: https://www.alexkras.com/simple-rss-reader-in-85-lines-of-php/
 function rss_feed_data($url, $feed_size){
 	
-global $app_config, $base_dir, $fetched_reddit_feeds, $fetched_stackexchange_feeds, $fetched_medium_feeds, $fetched_bitcoincore_feeds, $fetched_ethereumorg_feeds, $fetched_kraken_feeds, $fetched_firesidefm_feeds, $fetched_libsyn_feeds;
+global $app_config, $base_dir, $fetched_reddit_feeds, $fetched_youtube_feeds, $fetched_stackexchange_feeds, $fetched_medium_feeds, $fetched_bitcoincore_feeds, $fetched_ethereumorg_feeds, $fetched_kraken_feeds, $fetched_firesidefm_feeds, $fetched_libsyn_feeds;
 
 $news_feeds_cache_min_max = explode(',', $app_config['power_user']['news_feeds_cache_min_max']);
 // Cleanup
@@ -398,7 +398,7 @@ $news_feeds_cache_min_max = array_map('trim', $news_feeds_cache_min_max);
 $rss_feed_cache_time = rand($news_feeds_cache_min_max[0], $news_feeds_cache_min_max[1]);
 
 
-	if ( preg_match("/reddit\.com/i", $url) || preg_match("/stackexchange\.com/i", $url) ) {
+	if ( preg_match("/reddit\.com/i", $url) ) {
 	
 		// If it's a consecutive reddit feed request and time to refresh the cache, sleep 8 seconds (reddit is very strict on user agents)
 		// (Reddit only allows rss feed connections every 7 seconds from ip addresses ACCORDING TO THEM)
@@ -408,6 +408,18 @@ $rss_feed_cache_time = rand($news_feeds_cache_min_max[0], $news_feeds_cache_min_
 	
 		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
 		$fetched_reddit_feeds = $fetched_reddit_feeds + 1;
+		}
+		
+	}
+	elseif ( preg_match("/youtube\.com/i", $url) ) {
+	
+		// If it's a consecutive youtube feed request and time to refresh the cache, sleep 4 seconds 
+		if ( $fetched_youtube_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
+		sleep(4); 
+		}
+	
+		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
+		$fetched_youtube_feeds = $fetched_youtube_feeds + 1;
 		}
 		
 	}

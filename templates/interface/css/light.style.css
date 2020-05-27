@@ -135,6 +135,11 @@ color: #D61F00 !important;
 }
 
 
+#charts_error, #system_charts_error {
+border: 4px dotted #D61F00;
+}
+
+
 .red_dotted {
 padding: 10px;
 border: 2px dotted #D61F00 !important;

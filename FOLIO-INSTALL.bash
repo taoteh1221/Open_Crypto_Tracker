@@ -734,6 +734,7 @@ select opt in $OPTIONS; do
 				rm $DOC_ROOT/oauth.php
 				rm $DOC_ROOT/webhook.php
 				rm $DOC_ROOT/rest-api.php
+				rm $DOC_ROOT/logs.php
 
 				/bin/sleep 3
 				

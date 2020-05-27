@@ -759,6 +759,51 @@ $app_config['power_user']['news_feeds'] = array(
             			"title" => "StackExchange - Ethereum (hot)",
             			"url" => "https://ethereum.stackexchange.com/feeds/hot"
         													),
+    
+        				'youtube_andreas_antonopoulos' => array(
+            			"title" => "Youtube - Andreas Antonopoulos",
+            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCJWCJCWOxBYSi5DhCieLOLQ"
+        													),
+    
+        				'youtube_crypt0s_news' => array(
+            			"title" => "Youtube - Crypt0's News",
+            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCdUSSt-IEUg2eq46rD7lu_g"
+        													),
+    
+        				'youtube_epicenter_podcast' => array(
+            			"title" => "Youtube - Epicenter Podcast",
+            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCh-0T48JrvvmKDX41aWB_Vg"
+        													),
+    
+        				'youtube_ivan_on_tech' => array(
+            			"title" => "Youtube - Ivan on Tech",
+            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCrYmtJBtLdtm2ov84ulV-yg"
+        													),
+    
+        				'youtube_naomi_brockwell' => array(
+            			"title" => "Youtube - Naomi Brockwell",
+            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCSuHzQ3GrHSzoBbwrIq3LLA"
+        													),
+    
+        				'youtube_nuggets_news' => array(
+            			"title" => "Youtube - Nugget's News",
+            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCLo66QVfEod0nNM_GzKNxmQ"
+        													),
+    
+        				'youtube_off_chain_jimmy_song' => array(
+            			"title" => "Youtube - Off Chain with Jimmy Song",
+            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCEFJVYNiPp8xeIUyfaPCPQw"
+        													),
+    
+        				'youtube_tone_vays' => array(
+            			"title" => "Youtube - Tone Vays",
+            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCbiWJYRg8luWHnmNkJRZEnw"
+        													),
+    
+        				'youtube_voskcoin' => array(
+            			"title" => "Youtube - VoskCoin",
+            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCT44w6854K62cSiwA1aiXfw"
+        													),
         
         
     						);
@@ -976,13 +1021,13 @@ $app_config['power_user']['captcha_text_contrast'] = 0; // example: -5 or 5 (def
 // It also logs ui / cron runtime telemetry to /cache/logs/debugging.log, AND /cache/logs/debugging/
 ////////////////////////////////////////////////////////////////////////////////////////////
 // 'off' (disables), 'all' (all debugging), 'charts' (chart/price alert checks),
-// 'texts' (mobile gateway checks), 'markets' (coin market checks),
-// 'telemetry' (logs in-app telemetries), 'stats' (basic hardware / software / runtime stats),
-// 'btc_markets_config' (the current Bitcoin markets configuration),
-// 'smtp' (smtp email server response logging, if smtp emailing is enabled),
 // 'api_live_only' (log only live API requests, not cache requests),
 // 'api_cache_only' (log only cache requests for API data, not live API requests),
-// 'lite_chart_only' (log only lite chart caching routines)
+// 'telemetry' (logs in-app telemetries), 'stats' (basic hardware / software / runtime stats),
+// 'smtp' (smtp email server response logging, if smtp emailing is enabled),
+// 'btc_markets_config' (the current Bitcoin markets configuration),
+// 'texts' (mobile gateway checks), 'markets' (coin market checks),
+// 'lite_chart' (lite chart caching routines)
 ////////////////////////////////////////////////////////////////////////////////////////////
 // UNIT TESTS WILL ONLY RUN DURING WEB PAGE LOAD. MAY REQUIRE SETTING MAXIMUM ALLOWED 
 // PHP EXECUTION TIME TO 120 SECONDS TEMPORARILY, FOR ALL UNIT TESTS TO FULLY COMPLETE RUNNING, 
@@ -1016,9 +1061,9 @@ $app_config['developer']['cron_max_execution_time'] = 500; // (default = 500)
 $app_config['developer']['webhook_max_execution_time'] = 60; // (default = 60)
 
 
-// Maximum execution time for API runtime in seconds (how long it's allowed to run before automatically killing the process)
+// Maximum execution time for AJAX runtime in seconds (how long it's allowed to run before automatically killing the process)
 // (ALL execution times are automatically 350 IN DEBUG MODE)
-$app_config['developer']['json_max_execution_time'] = 100; // (default = 100)
+$app_config['developer']['ajax_max_execution_time'] = 100; // (default = 100)
 
 
 // Maximum execution time for API runtime in seconds (how long it's allowed to run before automatically killing the process)

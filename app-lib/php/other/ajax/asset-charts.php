@@ -2,22 +2,8 @@
 /*
  * Copyright 2014-2020 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
  */
- 
-// Runtime mode
-$runtime_mode = 'json';
 
-// FOR SPEED, $runtime_mode 'logs' only gets app config vars, some init.php, then EXITS in the logs library
-require("config.php");
-
-
-// Set a max execution time, TO AVOID RUNAWAY PROCESSES FREEZING THE SERVER
-if ( $app_config['developer']['debug_mode'] != 'off' ) {
-ini_set('max_execution_time', 350);
-}
-else {
-ini_set('max_execution_time', $app_config['developer']['json_max_execution_time']);
-}
-
+// Market charts
 	
 	// Have this script not load any code if asset charts are not turned on
 	if ( $app_config['general']['charts_toggle'] != 'on' ) {
@@ -105,7 +91,7 @@ ini_set('max_execution_time', $app_config['developer']['json_max_execution_time'
 
 header('Content-type: text/html; charset=' . $app_config['developer']['charset_default']);
 
-if ( $chart_asset ) {
+			if ( $chart_asset ) {
 ?>
 
 { graphset:[
@@ -324,16 +310,6 @@ if ( $chart_asset ) {
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
 	    text: "ALL"
-	  },
-	  {
-	    x: 547,
-	    y: 10,
-	    id: 'RESET',
-	    fontColor: "<?=$app_config['charts_alerts']['charts_link']?>",
-	    fontSize: "21",
-	    fontFamily: "Open Sans",
-	    cursor: "hand",
-	    text: "RESET"
 	  }
 	]
 },
@@ -423,17 +399,12 @@ if ( $chart_asset ) {
 ] }
 
 
-<?php
-}
+			<?php
+			}
 
 		}
 	
 	}
-	
- 
-// Log errors / debugging, send notifications
-error_logs();
-debugging_logs();
-send_notifications();
 
- ?>
+
+?>

@@ -90,13 +90,13 @@ exit;
 
 // INCREASE CERTAIN RUNTIME SPEEDS
 // If we are just running a captcha image, ONLY run captcha library for runtime speed (exit after)
-if (  $runtime_mode == 'captcha' ) {
+if ( $runtime_mode == 'captcha' ) {
 require_once('app-lib/php/other/security/captcha-lib.php');
 exit;
 }
 // If we are just running log retrieval, ONLY run logs library for runtime speed (exit after)
-elseif (  $runtime_mode == 'logs' ) {
-require_once('app-lib/php/other/debugging/logs-lib.php');
+elseif ( $is_logs ) {
+require_once('app-lib/php/other/ajax/logs.php');
 exit;
 }
 
@@ -185,6 +185,8 @@ $possible_http_users = array(
 
 // Initial vars
 $fetched_reddit_feeds = 0;
+
+$fetched_youtube_feeds = 0;
 
 $fetched_stackexchange_feeds = 0;
 

@@ -26,12 +26,6 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
-Remove 'RESET' on charts, since it's the same as 'ALL'.
-
-
-Consolidate logs.php logic into json.php
-
-
 Use new internal api function calls as much as possible for the tests logic we had already built.
 
 
@@ -45,9 +39,6 @@ Add force reset logic for app config, if cached app version number is non-existe
 
 
 In debug mode, maybe add our new 'used ram' stat instead (that doesn't include buffers / cached ram).
-
-
-1D / 1W / 1M .... chart links are broken on chrome for Android (BUT work fine on Chrome for Ubuntu).
 
 
 Look into why the portfolio balance (percent stats) summaries are off by a few pennies, compared to total USD (primary currency) portfolio value? (Maybe because we round to X.XX%)

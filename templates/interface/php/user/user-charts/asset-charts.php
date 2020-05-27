@@ -42,7 +42,7 @@
 			
 			$("#charts_error").show();
 			
-			$("#charts_error").html('One or more charts could not be loaded. If you recently updated the charts or primary currency settings in the admin configuration, it may take up to 90 minutes or more for changes to appear ("lite charts" need to be created from archival chart data, so charts always load quickly regardless of time span). Please make sure you have a cron job running (see <a href="README.txt" target="_blank">README.txt</a> for how-to setup a cron job), or charts cannot be activated. Check app error logs too, for write errors (which would indicate improper cache directory permissions).');
+			$("#charts_error").html('One or more charts could not be loaded. If you recently installed this app, or updated the charts or primary currency settings in the admin configuration, it may take up to 45 minutes or more for updated charts to appear ("lite charts" need to be created from archival chart data, so charts always load quickly regardless of time span). Please make sure you have a cron job running (see <a href="README.txt" target="_blank">README.txt</a> for how-to setup a cron job), or charts cannot be activated. Check app error logs too, for write errors (which would indicate improper cache directory permissions).');
 			
 			window.charts_loaded.push("chart_<?=$js_key?>");
 			
@@ -62,19 +62,18 @@ var stockState_<?=$js_key?> = {
   current: 'ALL'
 };
  
- 
-  $("#<?=strtolower($key)?>_<?=$charted_value?>_chart div.chart_reload div").html("Loading all days chart for <?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=snake_case_to_name($market_parse[0])?><?=( $_GET['charted_value'] != 'pairing' ? ' \(' . strtoupper($charted_value) . ' Value\)' : '' )?>...");
-  $("#<?=strtolower($key)?>_<?=$charted_value?>_chart").css('min-height', '65px');
-	$("#<?=strtolower($key)?>_<?=$charted_value?>_chart div.chart_reload").show(250); // 0.25 seconds
+
+$("#<?=$key?>_<?=$charted_value?>_chart span.chart_loading").html(' &nbsp; <img src="templates/interface/media/images/loader.gif" height="16" alt="" style="vertical-align: middle;" /> Loading all days chart for <?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=snake_case_to_name($market_parse[0])?><?=( $_GET['charted_value'] != 'pairing' ? ' \(' . strtoupper($charted_value) . ' Value\)' : '' )?>...');
 	
-  zingchart.bind('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'load', function() {
-	$( "#<?=strtolower($key)?>_<?=$charted_value?>_chart div.chart_reload" ).fadeOut( "slow" );
-	});
+  
+zingchart.bind('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'load', function() {
+$("#<?=$key?>_<?=$charted_value?>_chart span").hide(); // Hide "Loading chart X..." after it loads
+});
   
 
 zingchart.TOUCHZOOM = 'pinch'; /* mobile compatibility */
 
-$.get( "json.php?asset_data=<?=$_GET['asset_data']?>&charted_value=<?=$_GET['charted_value']?>&days=all", function( json_data ) {
+$.get( "ajax.php?asset_data=<?=$_GET['asset_data']?>&charted_value=<?=$_GET['charted_value']?>&days=all", function( json_data ) {
  
 	zingchart.render({
   	id: '<?=strtolower($key)?>_<?=$charted_value?>_chart',
@@ -87,14 +86,9 @@ $.get( "json.php?asset_data=<?=$_GET['asset_data']?>&charted_value=<?=$_GET['cha
  
 zingchart.bind('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'label_click', function(e){
 	
-  if(stockState_<?=$js_key?>.current === e.labelid && e.labelid != 'RESET'){
+  if(stockState_<?=$js_key?>.current === e.labelid){
     return;
   }
-  
-  
-  	if ( e.labelid === 'RESET' ) {
-  	e.labelid = 'ALL';
-  	}
   
   var cut = 0;
   switch(e.labelid) {
@@ -143,14 +137,14 @@ zingchart.bind('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'label_click',
   
   
   $("#<?=strtolower($key)?>_<?=$charted_value?>_chart div.chart_reload div").html("Loading " + days + " days chart for <?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=snake_case_to_name($market_parse[0])?><?=( $_GET['charted_value'] != 'pairing' ? ' \(' . strtoupper($charted_value) . ' Value\)' : '' )?>...");
-	$("#<?=strtolower($key)?>_<?=$charted_value?>_chart div.chart_reload").show(250); // 0.25 seconds
+	$("#<?=strtolower($key)?>_<?=$charted_value?>_chart div.chart_reload").fadeIn(100); // 0.1 seconds
 	
   zingchart.bind('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'load', function() {
-	$( "#<?=strtolower($key)?>_<?=$charted_value?>_chart div.chart_reload" ).fadeOut( "slow" );
+	$( "#<?=strtolower($key)?>_<?=$charted_value?>_chart div.chart_reload" ).fadeOut(3500); // 3.5 seconds
 	});
   
   zingchart.exec('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'load', {
-  	dataurl: "json.php?asset_data=<?=$_GET['asset_data']?>&charted_value=<?=$_GET['charted_value']?>&days=" + days,
+  	dataurl: "ajax.php?asset_data=<?=$_GET['asset_data']?>&charted_value=<?=$_GET['charted_value']?>&days=" + days,
     cache: {
         data: true
     }
@@ -160,8 +154,6 @@ zingchart.bind('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'label_click',
   
 });
 
-
-$("#<?=$key?>_<?=$charted_value?>_chart span").hide(); // Hide "Loading chart X..." after it loads
 			
 window.charts_loaded.push("chart_<?=$js_key?>");
 
