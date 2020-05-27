@@ -528,17 +528,27 @@ margin-bottom: 21px;
 }
 
 
+.absolute_centered {
+position: absolute;
+left: 0;
+right: 0;
+margin-left: auto;
+margin-right: auto;
+}
+
+
 /* //////////////////////////////
 IDs
 ////////////////////////////// */
 
 
-#loading_subsections {
+#loading_subsections, .chart_reload {
 display: none;
 width: 100%;
 max-width: 1200px; 
 margin-top: 0px;
 font-size: 19px;
+min-height: 23px; 
 }
 
 

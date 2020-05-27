@@ -332,14 +332,17 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 
 
 					// SYMBOL
-				// 'symbol' => 'exchange||trade_pairing||both',
+				// 'symbol' => 'exchange||trade_pairing||alert',
 				// 'symbol-2' => 'exchange2||trade_pairing2||chart',
+				// 'symbol-3' => 'exchange3||trade_pairing3||both',
+				// 'symbol-4' => 'exchange4||trade_pairing4||none',
 				
 				
 					// OTHERSYMBOL
-				// 'othersymbol' => 'exchange||trade_pairing||both',
-				// 'othersymbol-2' => 'exchange2||trade_pairing2||alert',
+				// 'othersymbol' => 'exchange||trade_pairing||none',
+				// 'othersymbol-2' => 'exchange2||trade_pairing2||both',
 				// 'othersymbol-3' => 'exchange3||trade_pairing3||chart',
+				// 'othersymbol-4' => 'exchange4||trade_pairing4||alert',
 					
 					
 					// BTC
@@ -347,52 +350,52 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					'btc-2' => 'binance||usdt||both',
 					'btc-3' => 'bitstamp||usd||chart',
 					'btc-4' => 'kraken||usd||chart',
-					'btc-5' => 'gemini||usd||chart',
-					'btc-6' => 'bitfinex||usd||chart',
-					'btc-7' => 'binance_us||usd||chart',
+					'btc-5' => 'gemini||usd||none',
+					'btc-6' => 'bitfinex||usd||none',
+					'btc-7' => 'binance_us||usd||none',
 					'btc-8' => 'kraken||eur||chart',
 					'btc-9' => 'coinbase||eur||chart',
-					'btc-10' => 'coinbase||gbp||chart',
-					'btc-11' => 'kraken||cad||chart',
-					'btc-12' => 'btcmarkets||aud||chart',
-					'btc-13' => 'bitbns||inr||chart',
-					'btc-14' => 'localbitcoins||inr||chart',
+					'btc-10' => 'coinbase||gbp||none',
+					'btc-11' => 'kraken||cad||none',
+					'btc-12' => 'btcmarkets||aud||none',
+					'btc-13' => 'bitbns||inr||none',
+					'btc-14' => 'localbitcoins||inr||none',
 					'btc-15' => 'localbitcoins||cny||chart',
 					'btc-16' => 'bitflyer||jpy||chart',
-					'btc-17' => 'tidebit||hkd||chart',
-					'btc-18' => 'localbitcoins||chf||chart',
+					'btc-17' => 'tidebit||hkd||none',
+					'btc-18' => 'localbitcoins||chf||none',
 					'btc-19' => 'upbit||krw||chart',
-					'btc-20' => 'bitso||mxn||chart',
-					'btc-21' => 'localbitcoins||nzd||chart',
-					'btc-22' => 'localbitcoins||rub||chart',
-					'btc-23' => 'lakebtc||sgd||chart',
-					'btc-24' => 'btcturk||try||chart',
-					'btc-25' => 'localbitcoins||twd||chart',
+					'btc-20' => 'bitso||mxn||none',
+					'btc-21' => 'localbitcoins||nzd||none',
+					'btc-22' => 'localbitcoins||rub||none',
+					'btc-23' => 'lakebtc||sgd||none',
+					'btc-24' => 'btcturk||try||none',
+					'btc-25' => 'localbitcoins||twd||none',
 					'btc-26' => 'luno||zar||chart',
-					'btc-27' => 'kraken||dai||chart',
+					'btc-27' => 'kraken||dai||none',
 					
 					
 					// ETH
 					'eth' => 'coinbase||btc||chart',
-					'eth-2' => 'bittrex||btc||chart',
+					'eth-2' => 'bittrex||btc||none',
 					'eth-3' => 'kraken||btc||chart',
 					'eth-4' => 'binance||usdt||both',
-					'eth-5' => 'binance_us||btc||chart',
+					'eth-5' => 'binance_us||btc||none',
 					'eth-6' => 'coinbase||usd||chart',
 					'eth-7' => 'kraken||usd||chart',
 					'eth-8' => 'bitstamp||usd||chart',
-					'eth-9' => 'gemini||usd||chart',
-					'eth-10' => 'coinbase||gbp||chart',
+					'eth-9' => 'gemini||usd||none',
+					'eth-10' => 'coinbase||gbp||none',
 					'eth-11' => 'coinbase||eur||chart',
-					'eth-12' => 'bittrex||usdt||chart',
-					'eth-13' => 'bitbns||inr||chart',
+					'eth-12' => 'bittrex||usdt||none',
+					'eth-13' => 'bitbns||inr||none',
 					
 					
 					// XMR
 					'xmr' => 'bittrex||btc||chart',
-					'xmr-2' => 'bittrex||eth||chart',
+					'xmr-2' => 'bittrex||eth||none',
 					'xmr-4' => 'binance||btc||both',
-					'xmr-5' => 'binance||eth||chart',
+					'xmr-5' => 'binance||eth||none',
 					
 					
 					// MKR
@@ -402,23 +405,23 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					
 					// DCR
 					'dcr' => 'bittrex||btc||chart',
-					'dcr-2' => 'bittrex||usdt||chart',
+					'dcr-2' => 'bittrex||usdt||none',
 					'dcr-3' => 'binance||btc||both',
 					'dcr-4' => 'kucoin||btc||chart',
-					'dcr-5' => 'kucoin||eth||chart',
+					'dcr-5' => 'kucoin||eth||none',
 					
 					
 					// LTC
 					'ltc' => 'bittrex||btc||chart',
-					'ltc-2' => 'bittrex||eth||chart',
+					'ltc-2' => 'bittrex||eth||none',
 					'ltc-3' => 'binance||usdt||both',
-					'ltc-4' => 'binance||eth||chart',
-					'ltc-5' => 'binance_us||btc||chart',
+					'ltc-4' => 'binance||eth||none',
+					'ltc-5' => 'binance_us||btc||none',
 					
 					
 					//TUSD
 					'tusd' => 'binance||usdt||both',
-					'tusd-2' => 'bittrex||btc||chart',
+					'tusd-2' => 'bittrex||btc||none',
 					
 					
 					//DAI
@@ -430,30 +433,30 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					// ATOM
 					'atom-2' => 'kraken||btc||chart',
 					'atom-3' => 'binance||btc||both',
-					'atom-5' => 'binance||usdc||chart',
+					'atom-5' => 'binance||usdc||none',
 					'atom-6' => 'bittrex_global||btc||chart',
 					'atom-7' => 'okex||btc||chart',
-					'atom-8' => 'okex||eth||chart',
+					'atom-8' => 'okex||eth||none',
 					
 					
 					// ANT
 					'ant' => 'bittrex_global||btc||both',
 					'ant-2' => 'hitbtc||btc||chart',
-					'ant-3' => 'ethfinex||btc||chart',
+					'ant-3' => 'ethfinex||btc||none',
 					
 					
 					// MANA
 					'mana' => 'bittrex||btc||chart',
 					'mana-2' => 'binance||btc||both',
 					'mana-3' => 'kucoin||btc||chart',
-					'mana-4' => 'ethfinex||btc||chart',
+					'mana-4' => 'ethfinex||btc||none',
 					
 					
 					// DOGE
 					'doge' => 'bittrex||btc||chart',
 					'doge-2' => 'binance||btc||both',
-					'doge-3' => 'binance_us||usdt||chart',
-					'doge-4' => 'kraken||btc||chart',
+					'doge-3' => 'binance_us||usdt||none',
+					'doge-4' => 'kraken||btc||none',
 					
 					
 					// GNT
@@ -477,10 +480,10 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					
 					// GRIN
 					'grin-2' => 'bittrex_global||btc||chart',
-					'grin-3' => 'gateio||usdt||chart',
+					'grin-3' => 'gateio||usdt||none',
 					'grin-4' => 'kucoin||btc||both',
 					'grin-5' => 'hitbtc||btc||chart',
-					'grin-6' => 'hotbit||btc||chart',
+					'grin-6' => 'hotbit||btc||none',
 					
 					
 					// HNS
@@ -489,8 +492,8 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					
 					//MYST
 					'myst' => 'hitbtc||btc||both',
-					'myst-2' => 'hitbtc||eth||alert',
-					'myst-3' => 'idex||eth||alert',
+					'myst-2' => 'hitbtc||eth||none',
+					'myst-3' => 'idex||eth||none',
 					
 					
 					);
@@ -993,7 +996,7 @@ $app_config['developer']['ui_max_execution_time'] = 100; // (default = 100)
 
 // Maximum execution time for cron job runtime in seconds (how long it's allowed to run before automatically killing the process)
 // (ALL execution times are automatically 350 IN DEBUG MODE)
-$app_config['developer']['cron_max_execution_time'] = 300; // (default = 300)
+$app_config['developer']['cron_max_execution_time'] = 500; // (default = 500)
 
 
 // Maximum execution time for webhook runtime in seconds (how long it's allowed to run before automatically killing the process)

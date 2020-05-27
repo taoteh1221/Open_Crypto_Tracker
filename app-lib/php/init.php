@@ -344,9 +344,6 @@ require_once('app-lib/php/other/chart-directories.php');
 // Scheduled maintenance  (MUST RUN AFTER EVERYTHING IN INIT.PHP)
 require_once('app-lib/php/other/scheduled-maintenance.php');
 
-// Chart update frequency (SET AFTER SCHEDULED MAINTENANCE)
-$charts_update_freq = ( $charts_update_freq != '' ? $charts_update_freq : trim( file_get_contents('cache/vars/chart_interval.dat') ) );
-
 
 // Unit tests to run in debug mode (MUST RUN AFTER EVERYTHING IN INIT.PHP)
 if ( $app_config['developer']['debug_mode'] != 'off' ) {

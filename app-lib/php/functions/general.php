@@ -74,21 +74,6 @@ function ordinal($number) {
 ////////////////////////////////////////////////////////
 
 
-function chart_range($range) {
-
-global $charts_update_freq;
-
-$updates_daily = $charts_update_freq * 24;
-
-return ($updates_daily * $range);
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
 function is_msie() {
 
 	if ( preg_match("/msie/i", $_SERVER['HTTP_USER_AGENT']) || preg_match("/trident/i", $_SERVER['HTTP_USER_AGENT']) ) {

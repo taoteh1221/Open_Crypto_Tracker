@@ -1132,14 +1132,14 @@ $volume_pairing_raw = number_to_string($volume_pairing_raw);
 	|| $mode == 'chart' && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && $app_config['general']['charts_toggle'] == 'on' ) {
 	
 		
-	// PRIMARY CURRENCY CONFIG charts (CRYPTO/PRIMARY CURRENCY CONFIG markets, 
+	// PRIMARY CURRENCY CONFIG ARCHIVAL charts (CRYPTO/PRIMARY CURRENCY CONFIG markets, 
 	// AND ALSO crypto-to-crypto pairings converted to PRIMARY CURRENCY CONFIG equiv value for PRIMARY CURRENCY CONFIG equiv charts)
 	
 	$primary_currency_chart_path = $base_dir . '/cache/charts/spot_price_24hr_volume/archival/'.$asset.'/'.$asset_data.'_chart_'.strtolower($default_btc_primary_currency_pairing).'.dat';
 	store_file_contents($primary_currency_chart_path, time() . '||' . $asset_primary_currency_value_raw . '||' . $volume_primary_currency_raw . "\n", "append"); 
 		
 		
-		// Crypto / secondary currency pairing charts, volume as pairing (for UX)
+		// Crypto / secondary currency pairing ARCHIVAL charts, volume as pairing (for UX)
 		if ( $pairing != strtolower($default_btc_primary_currency_pairing) ) {
 		$crypto_secondary_currency_chart_path = $base_dir . '/cache/charts/spot_price_24hr_volume/archival/'.$asset.'/'.$asset_data.'_chart_'.$pairing.'.dat';
 		store_file_contents($crypto_secondary_currency_chart_path, time() . '||' . $asset_pairing_value_raw . '||' . $volume_pairing_raw . "\n", "append");

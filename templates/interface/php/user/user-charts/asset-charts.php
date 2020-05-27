@@ -30,37 +30,19 @@
 		// Strip non-alphanumeric characters to use in js vars, to isolate logic for each separate chart
 		$js_key = preg_replace("/-/", "", $key) . '_' . $charted_value;
 		
-
-			
-			// Unicode asset symbols
-			// Crypto
-			if ( array_key_exists($charted_value, $app_config['power_user']['crypto_pairing']) ) {
-			$currency_symbol = $app_config['power_user']['crypto_pairing'][$charted_value];
-			}
-			// Fiat-equiv
-			// RUN AFTER CRYPTO MARKETS...WE HAVE A COUPLE CRYPTOS SUPPORTED HERE, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
-			elseif ( array_key_exists($charted_value, $app_config['power_user']['bitcoin_currency_markets']) && !array_key_exists($charted_value, $app_config['power_user']['crypto_pairing']) ) {
-			$currency_symbol = $app_config['power_user']['bitcoin_currency_markets'][$charted_value];
-			$fiat_equiv = 1;
-			}
-			// Fallback for currency symbol config errors
-			else {
-			$currency_symbol = strtoupper($charted_value) . ' ';
-			}
-			
 		
 			// Have this script send the UI alert messages, and not load any chart code (to not leave the page endlessly loading) if cache data is not present
-			if ( file_exists('cache/charts/spot_price_24hr_volume/archival/'.$chart_asset.'/'.$key.'_chart_'.$charted_value.'.dat') != 1
+			if ( file_exists('cache/charts/spot_price_24hr_volume/lite/all_day/'.$chart_asset.'/'.$key.'_chart_'.$charted_value.'.dat') != 1
 			|| $market_parse[2] != 'chart' && $market_parse[2] != 'both' ) {
 			?>
 			
-			$("#<?=$key?>_<?=$charted_value?>_chart span.chart_loading").html(' &nbsp; No chart data activated yet for: <?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=snake_case_to_name($market_parse[0])?> <?=( $_GET['charted_value'] != 'pairing' ? '\(' . strtoupper($charted_value) . ' Value\)' : '' )?>');
+			$("#<?=$key?>_<?=$charted_value?>_chart span.chart_loading").html(' &nbsp; No chart data activated yet for: <?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=snake_case_to_name($market_parse[0])?><?=( $_GET['charted_value'] != 'pairing' ? ' \(' . strtoupper($charted_value) . ' Value\)' : '' )?>');
 			
 			$("#<?=$key?>_<?=$charted_value?>_chart").css({ "background-color": "#9b4b26" });
 			
 			$("#charts_error").show();
 			
-			$("#charts_error").html('One or more charts could not be loaded. If you recently updated the charts or primary currency settings in the admin configuration, it may take a few minutes for changes to appear. Please make sure you have a cron job running (see <a href="README.txt" target="_blank">README.txt</a> for how-to setup a cron job), or charts cannot be activated. Check app error logs too, for write errors (which would indicate improper cache directory permissions).');
+			$("#charts_error").html('One or more charts could not be loaded. If you recently updated the charts or primary currency settings in the admin configuration, it may take up to 90 minutes or more for changes to appear ("lite charts" need to be created from archival chart data, so charts always load quickly regardless of time span). Please make sure you have a cron job running (see <a href="README.txt" target="_blank">README.txt</a> for how-to setup a cron job), or charts cannot be activated. Check app error logs too, for write errors (which would indicate improper cache directory permissions).');
 			
 			window.charts_loaded.push("chart_<?=$js_key?>");
 			
@@ -70,378 +52,44 @@
 			exit;
 			}
 			
-		
-		$chart_data = chart_data('cache/charts/spot_price_24hr_volume/archival/'.$chart_asset.'/'.$key.'_chart_'.$charted_value.'.dat', $market_parse[1]);
-		
-		
-		$price_sample_oldest = number_to_string( delimited_string_sample($chart_data['spot'], ',', 'first') );
-		
-		$price_sample_newest = number_to_string( delimited_string_sample($chart_data['spot'], ',', 'last') );
-		
-		$price_sample_average = ( $price_sample_oldest + $price_sample_newest ) / 2;
-		
-		
-		$spot_price_decimals = ( $fiat_equiv == 1 ? $app_config['general']['primary_currency_decimals_max'] : 8 );
-		
-			
-			// Force decimals under certain conditions
-			if ( number_to_string($price_sample_average) >= $app_config['general']['primary_currency_decimals_max_threshold'] ) {
-			$force_decimals = 'decimals: ' . 2 . ',';
-			}
-			elseif ( number_to_string($price_sample_average) < $app_config['general']['primary_currency_decimals_max_threshold'] ) {
-			$force_decimals = 'decimals: ' . $spot_price_decimals . ',';
-			}
-		
 
 header('Content-type: text/html; charset=' . $app_config['developer']['charset_default']);
 
 ?>
 
 
-
-var dates_<?=$js_key?> = [<?=$chart_data['time']?>];
-var spots_<?=$js_key?> = [<?=$chart_data['spot']?>];
-var volumes_<?=$js_key?> = [<?=$chart_data['volume']?>];
-
 var stockState_<?=$js_key?> = {
-  current: 'ALL',
-  dates: dates_<?=$js_key?>,
-  spots: spots_<?=$js_key?>,
-  volumes: volumes_<?=$js_key?>
+  current: 'ALL'
 };
  
-function getspotConfig_<?=$js_key?>(dates, values, current) {
-  return {
-  type: 'area',
-  "preview":{
-  		label: {
-      color: '<?=$app_config['charts_alerts']['charts_text']?>',
-      fontSize: '10px',
-      lineWidth: '1px',
-      lineColor: '<?=$app_config['charts_alerts']['charts_line']?>',
-     	},
- 	  live: true,
- 	  "adjust-layout": true,
- 	  "alpha-area": 0.5,
- 	  	height: 30
-  },
-  backgroundColor: "<?=$app_config['charts_alerts']['charts_background']?>",
-  height: 420,
-  x: 0, 
-  y: 0,
-  globals: {
-  	fontSize: 20,
-  	fontColor: "<?=$app_config['charts_alerts']['charts_text']?>"
-  },
-  crosshairX:{
-    shared: true,
-    exact: true,
-    plotLabel:{
-      backgroundColor: "<?=$app_config['charts_alerts']['charts_tooltip_background']?>",
-      fontColor: "<?=$app_config['charts_alerts']['charts_tooltip_text']?>",
-      text: "Spot Price: <?=$currency_symbol?>%v",
-	 	fontSize: "20",
-      fontFamily: "Open Sans",
-      <?=$force_decimals?> /* -- price_sample_average: <?=$price_sample_average?> [(<?=$price_sample_oldest?> + <?=$price_sample_newest?>) / 2] -- */ 
-      y:0,
-      "thousands-separator":",",
-    },
-    scaleLabel:{
-    	alpha: 1.0,
-      fontColor: "<?=$app_config['charts_alerts']['charts_tooltip_text']?>",
-      fontSize: 20,
-      fontFamily: "Open Sans",
-      backgroundColor: "<?=$app_config['charts_alerts']['charts_tooltip_background']?>",
-    }
-  },
-  crosshairY:{
-    exact: true
-  },
-  title: {
-    text: "<?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=snake_case_to_name($market_parse[0])?> <?=( $_GET['charted_value'] != 'pairing' ? '(' . strtoupper($charted_value) . ' Value)' : '' )?>",
-    fontColor: "<?=$app_config['charts_alerts']['charts_text']?>",
-    fontFamily: 'Open Sans',
-    fontSize: 23,
-    align: 'right',
-    offsetX: -18,
-    offsetY: 4
-  },
-  zoom: {
-    shared: true
-  },
-  plotarea: {
-    margin: "60 65 55 115"
-  },
-  plot: {
-    marker:{
-      visible: false
-    },
-    tooltip: {
-    	fontSize: 20
-    }
-  },
-  tooltip:{
-    text: "Spot Price: <?=$currency_symbol?>%v",
-    fontColor: "<?=$app_config['charts_alerts']['charts_tooltip_text']?>",
-	 fontSize: "20",
-    backgroundColor: "<?=$app_config['charts_alerts']['charts_tooltip_background']?>",
-    "thousands-separator":","
-  },
-  scaleY: {
-    "format":"<?=$currency_symbol?>%v",
-    "thousands-separator":",",
-    guide: {
-      visible: true,
-      lineStyle: 'solid',
-      lineColor: "<?=$app_config['charts_alerts']['charts_line']?>"
-    },
-    item: {
-      fontColor: "<?=$app_config['charts_alerts']['charts_text']?>",
-      fontFamily: "Open Sans",
-      fontSize: "14",
-    }
-  },
-  scaleX: {
-    guide: {
-      visible: true,
-      lineStyle: 'solid',
-      lineColor: "<?=$app_config['charts_alerts']['charts_line']?>"
-    },
-    values: dates,
- 	  transform: {
- 	    type: 'date',
- 	    all: '%Y/%m/%d<br />%g:%i%a'
- 	  },
-   	zooming:{
-      shared: true
-    },
-    item: {
-	 fontSize: "14",
-      fontColor: "<?=$app_config['charts_alerts']['charts_text']?>",
-      fontFamily: "Open Sans"
-    }
-  },
-	series : [
-		{
-			values: values,
-			lineColor: "<?=$app_config['charts_alerts']['charts_text']?>",
-			lineWidth: 1,
-			backgroundColor:"<?=$app_config['charts_alerts']['charts_text']?> <?=$app_config['charts_alerts']['charts_price_gradient']?>", /* background gradient on graphed price area in main chart (NOT the chart background) */
-			alpha: 0.5,
-				previewState: {
-      		backgroundColor: "<?=$app_config['charts_alerts']['charts_price_gradient']?>" /* background color on graphed price area in preview below chart (NOT the preview area background) */
-				}
-		}
-	],
-	labels: [
-	  {
-	    x: 80,
-	    y: 10,
-	    id: '1D',
-	    fontColor: (current === '1D') ? "<?=$app_config['charts_alerts']['charts_text']?>" : "<?=$app_config['charts_alerts']['charts_link']?>",
-	    fontSize: "21",
-	    fontFamily: "Open Sans",
-	    cursor: "hand",
-	    text: "1D"
-	  },
-	  {
-	    x: 130,
-	    y: 10,
-	    id: '1W',
-	    fontColor: (current === '1W') ? "<?=$app_config['charts_alerts']['charts_text']?>" : "<?=$app_config['charts_alerts']['charts_link']?>",
-	    fontSize: "21",
-	    fontFamily: "Open Sans",
-	    cursor: "hand",
-	    text: "1W"
-	  },
-	  {
-	    x: 180,
-	    y: 10,
-	    id: '1M',
-	    fontColor: (current === '1M') ? "<?=$app_config['charts_alerts']['charts_text']?>" : "<?=$app_config['charts_alerts']['charts_link']?>",
-	    fontSize: "21",
-	    fontFamily: "Open Sans",
-	    cursor: "hand",
-	    text: "1M"
-	  },
-	  {
-	    x: 230,
-	    y: 10,
-	    id: '3M',
-	    fontColor: (current === '3M') ? "<?=$app_config['charts_alerts']['charts_text']?>" : "<?=$app_config['charts_alerts']['charts_link']?>",
-	    fontSize: "21",
-	    fontFamily: "Open Sans",
-	    cursor: "hand",
-	    text: "3M"
-	  },
-	  {
-	    x: 280,
-	    y: 10,
-	    id: '6M',
-	    fontColor: (current === '6M') ? "<?=$app_config['charts_alerts']['charts_text']?>" : "<?=$app_config['charts_alerts']['charts_link']?>",
-	    fontSize: "21",
-	    fontFamily: "Open Sans",
-	    cursor: "hand",
-	    text: "6M"
-	  },
-	  {
-	    x: 330,
-	    y: 10,
-	    id: '1Y',
-	    fontColor: (current === '1Y') ? "<?=$app_config['charts_alerts']['charts_text']?>" : "<?=$app_config['charts_alerts']['charts_link']?>",
-	    fontSize: "21",
-	    fontFamily: "Open Sans",
-	    cursor: "hand",
-	    text: "1Y"
-	  },
-	  {
-	    x: 380,
-	    y: 10,
-	    id: '2Y',
-	    fontColor: (current === '2Y') ? "<?=$app_config['charts_alerts']['charts_text']?>" : "<?=$app_config['charts_alerts']['charts_link']?>",
-	    fontSize: "21",
-	    fontFamily: "Open Sans",
-	    cursor: "hand",
-	    text: "2Y"
-	  },
-	  {
-	    x: 430,
-	    y: 10,
-	    id: '4Y',
-	    fontColor: (current === '4Y') ? "<?=$app_config['charts_alerts']['charts_text']?>" : "<?=$app_config['charts_alerts']['charts_link']?>",
-	    fontSize: "21",
-	    fontFamily: "Open Sans",
-	    cursor: "hand",
-	    text: "4Y"
-	  },
-	  {
-	    x: 480,
-	    y: 10,
-	    id: 'ALL',
-	    fontColor: (current === 'ALL') ? "<?=$app_config['charts_alerts']['charts_text']?>" : "<?=$app_config['charts_alerts']['charts_link']?>",
-	    fontSize: "21",
-	    fontFamily: "Open Sans",
-	    cursor: "hand",
-	    text: "ALL"
-	  },
-	  {
-	    x: 547,
-	    y: 10,
-	    id: 'RESET',
-	    fontColor: "<?=$app_config['charts_alerts']['charts_link']?>",
-	    fontSize: "21",
-	    fontFamily: "Open Sans",
-	    cursor: "hand",
-	    text: "RESET"
-	  }
-	]
-};
-}
  
-function getVolumeConfig_<?=$js_key?>(dates, values) {
-  return {
-  type: 'bar',
-  height: 75,
-  x: 0, 
-  y: 400,
-  backgroundColor: "<?=$app_config['charts_alerts']['charts_background']?>",
-  plotarea: {
-    margin: "11 63 20 112"
-  },
-  plot: {
-  	barSpace: "0px",
-  	barsSpaceLeft: "0px",
-  	barsSpaceRight: "0px"
-  },
-  source: {
-    text: "24 Hour Volume",
-    fontColor:"<?=$app_config['charts_alerts']['charts_text']?>",
-	 fontSize: "13",
-    fontFamily: "Open Sans",
-    offsetX: 106,
-    offsetY: -2,
-    align: 'left'
-  },
-  tooltip:{
-    visible: false,
-    text: "24 Hour Volume: <?=$currency_symbol?>%v",
-    fontColor: "<?=$app_config['charts_alerts']['charts_tooltip_text']?>",
-	 fontSize: "20",
-    backgroundColor: "<?=$app_config['charts_alerts']['charts_tooltip_background']?>",
-    fontFamily: "Open Sans",
-    "thousands-separator":","
-  },
-  zoom: {
-    shared: true
-  },
-  crosshairX:{
-    shared: true,
-    exact: true,
-    scaleLabel:{
-      visible: false
-    },
-    plotLabel:{
-      backgroundColor: "<?=$app_config['charts_alerts']['charts_tooltip_background']?>",
-      fontColor: "<?=$app_config['charts_alerts']['charts_tooltip_text']?>",
-      fontFamily: "Open Sans",
-      text: "24 Hour Volume: <?=$currency_symbol?>%v",
-	 	fontSize: "20",
-      y:0,
-      "thousands-separator":","
-    }
-  },
-  scaleX: {
-    visible: false,
-    zooming: true
-  },
-  scaleY: {
-    "format":"<?=$currency_symbol?>%v",
-    "thousands-separator":",",
-    guide: {
-      visible: true,
-      lineStyle: 'solid',
-      lineColor: "<?=$app_config['charts_alerts']['charts_line']?>"
-    },
-    item: {
-      fontColor: "<?=$app_config['charts_alerts']['charts_text']?>",
-      fontFamily: "Open Sans",
-      fontSize: "12",
-    }
-  },
-	series : [
-		{
-			values: values,
-			text: "24hr Volume",
-			backgroundColor: "<?=$app_config['charts_alerts']['charts_text']?>",
-    		offsetX: 0
-		}
-	]
-};
-}
+  $("#<?=strtolower($key)?>_<?=$charted_value?>_chart div.chart_reload div").html("Loading all days chart for <?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=snake_case_to_name($market_parse[0])?><?=( $_GET['charted_value'] != 'pairing' ? ' \(' . strtoupper($charted_value) . ' Value\)' : '' )?>...");
+  $("#<?=strtolower($key)?>_<?=$charted_value?>_chart").css('min-height', '65px');
+	$("#<?=strtolower($key)?>_<?=$charted_value?>_chart div.chart_reload").show(250); // 0.25 seconds
+	
+  zingchart.bind('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'load', function() {
+	$( "#<?=strtolower($key)?>_<?=$charted_value?>_chart div.chart_reload" ).fadeOut( "slow" );
+	});
+  
 
- zingchart.TOUCHZOOM = 'pinch'; /* mobile compatibility */
+zingchart.TOUCHZOOM = 'pinch'; /* mobile compatibility */
 
-zingchart.render({
-  id: '<?=strtolower($key)?>_<?=$charted_value?>_chart',
-  data: {
-    graphset:[
-      getspotConfig_<?=$js_key?>(stockState_<?=$js_key?>.dates, stockState_<?=$js_key?>.spots, 'ALL'),
-      getVolumeConfig_<?=$js_key?>(stockState_<?=$js_key?>.dates, stockState_<?=$js_key?>.volumes)
-    ]
-  },
-  height: 500, 
-	width: '100%'
+$.get( "../../json.php?asset_data=<?=$_GET['asset_data']?>&charted_value=<?=$_GET['charted_value']?>&days=all", function( json_data ) {
+ 
+	zingchart.render({
+  	id: '<?=strtolower($key)?>_<?=$charted_value?>_chart',
+  	width: '100%',
+  	data: json_data
+	});
+ 
 });
  
  
 zingchart.bind('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'label_click', function(e){
+	
   if(stockState_<?=$js_key?>.current === e.labelid && e.labelid != 'RESET'){
     return;
   }
-  
-  var windowspot_<?=$js_key?> = [];
-  var windowVolume_<?=$js_key?> = [];
-  var windowDates_<?=$js_key?> = [];
   
   
   	if ( e.labelid === 'RESET' ) {
@@ -450,51 +98,64 @@ zingchart.bind('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'label_click',
   
   var cut = 0;
   switch(e.labelid) {
-    case '1D':
-      cut = stockState_<?=$js_key?>.dates.length <= <?=chart_range(1)?> ? stockState_<?=$js_key?>.dates.length : <?=chart_range(1)?>;
+  	
+    case '3D':
+      var days = 3;
     break;
+    
     case '1W': 
-      cut = stockState_<?=$js_key?>.dates.length <= <?=chart_range(7)?> ? stockState_<?=$js_key?>.dates.length : <?=chart_range(7)?>;
+      var days = 7;
     break;
+    
     case '1M':
-      cut = stockState_<?=$js_key?>.dates.length <= <?=chart_range(30)?> ? stockState_<?=$js_key?>.dates.length : <?=chart_range(30)?>;
+      var days = 30;
     break;
+    
     case '3M':
-      cut = stockState_<?=$js_key?>.dates.length <= <?=chart_range(91)?> ? stockState_<?=$js_key?>.dates.length : <?=chart_range(91)?>;
+      var days = 90;
     break;
+    
     case '6M': 
-      cut = stockState_<?=$js_key?>.dates.length <= <?=chart_range(183)?> ? stockState_<?=$js_key?>.dates.length : <?=chart_range(183)?>;
+      var days = 180;
     break;
+    
     case '1Y': 
-      cut = stockState_<?=$js_key?>.dates.length <= <?=chart_range(365)?> ? stockState_<?=$js_key?>.dates.length : <?=chart_range(365)?>;
+      var days = 365;
     break;
+    
     case '2Y': 
-      cut = stockState_<?=$js_key?>.dates.length <= <?=chart_range(730)?> ? stockState_<?=$js_key?>.dates.length : <?=chart_range(730)?>;
+      var days = 730;
     break;
+    
     case '4Y': 
-      cut = stockState_<?=$js_key?>.dates.length <= <?=chart_range(1460)?> ? stockState_<?=$js_key?>.dates.length : <?=chart_range(1460)?>;
+      var days = 1460;
     break;
+    
     case 'ALL': 
-      cut = stockState_<?=$js_key?>.dates.length;
+      var days = 'all';
     break;
+    
     default: 
-      cut = stockState_<?=$js_key?>.dates.length;
+      var days = 'all';
     break;
+    
   }
-    windowspot_<?=$js_key?> = stockState_<?=$js_key?>.spots.slice(stockState_<?=$js_key?>.spots.length-cut);
-    windowDates_<?=$js_key?> = stockState_<?=$js_key?>.dates.slice(stockState_<?=$js_key?>.dates.length-cut);
-    windowVolume_<?=$js_key?> = stockState_<?=$js_key?>.volumes.slice(stockState_<?=$js_key?>.volumes.length-cut);
-    
-  zingchart.exec('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'setdata', {
-    
-    data: {
-      graphset:[
-        getspotConfig_<?=$js_key?>(windowDates_<?=$js_key?>, windowspot_<?=$js_key?>, e.labelid),
-        getVolumeConfig_<?=$js_key?>(windowDates_<?=$js_key?>, windowVolume_<?=$js_key?>)
-      ]
+  
+  
+  $("#<?=strtolower($key)?>_<?=$charted_value?>_chart div.chart_reload div").html("Loading " + days + " days chart for <?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=snake_case_to_name($market_parse[0])?><?=( $_GET['charted_value'] != 'pairing' ? ' \(' . strtoupper($charted_value) . ' Value\)' : '' )?>...");
+	$("#<?=strtolower($key)?>_<?=$charted_value?>_chart div.chart_reload").show(250); // 0.25 seconds
+	
+  zingchart.bind('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'load', function() {
+	$( "#<?=strtolower($key)?>_<?=$charted_value?>_chart div.chart_reload" ).fadeOut( "slow" );
+	});
+  
+  zingchart.exec('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'load', {
+  	dataurl: "../../json.php?asset_data=<?=$_GET['asset_data']?>&charted_value=<?=$_GET['charted_value']?>&days=" + days,
+    cache: {
+        data: true
     }
   });
- 	
+  
   stockState_<?=$js_key?>.current = e.labelid;
   
 });

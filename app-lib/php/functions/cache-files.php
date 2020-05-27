@@ -173,22 +173,18 @@ $newest_archival_timestamp = $last_archival_array[0];
 		
 // Minimum time interval between data points in lite chart
 $min_data_interval = round( ($newest_archival_timestamp - $oldest_allowed_timestamp) / $app_config['power_user']['chart_data_points_max'] );
-//var_dump($min_data_interval);
+	
+// Add a random multiplier to spread the update load across roughly 90 minutes (5400 seconds) of consecutive cron jobs
+$random_multiplier = rand( $min_data_interval, ($min_data_interval + 5400) );
+
 
 	// When do we need to refresh lite chart data
 	if ( $lite_data_modified == false ) {
-	$lite_data_update_threshold = 0; // (if no lite data exists yet)
+	$lite_data_update_threshold = rand(0, 5400); // (if no lite data exists yet)
 	}
 	else {
-	$lite_data_update_threshold = $lite_data_modified + $min_data_interval;
+	$lite_data_update_threshold = $lite_data_modified + $random_multiplier;
 	}
-	
-//var_dump($lite_data_update_threshold);
-//var_dump($now);
-
-// Add a random multiplier (between 1 and 4) to spread the update load across time
-$random_multiplier = rand(1,4);
-$lite_data_update_threshold = $lite_data_update_threshold * $random_multiplier;
 
 
 	// Is it time to update the lite chart data, or return false?
