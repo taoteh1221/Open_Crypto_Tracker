@@ -209,10 +209,9 @@ $file_data = array_reverse($file_data); // Save time, only loop / read last line
 		}
 		
 	}
-	
-$archival_data = array_reverse($archival_data);
 
 	
+	// We are looping IN REVERSE ODER, to ALWAYS include the latest data
 	// If we have more data points than permitted per lite chart
 	if ( sizeof($archival_data) > $app_config['power_user']['chart_data_points_max'] ) {
 	
@@ -220,11 +219,11 @@ $archival_data = array_reverse($archival_data);
 		foreach ($archival_data as $data_point) {
 		
 		$data_point_array = explode("||", $data_point);
-		
+			
 			if ( !$next_timestamp && $loop < $app_config['power_user']['chart_data_points_max'] 
-			|| isset($next_timestamp) && $next_timestamp <= $data_point_array[0] && $loop < $app_config['power_user']['chart_data_points_max'] ) {
-			$new_lite_data .= $data_point;
-			$next_timestamp = $data_point_array[0] + $min_data_interval;
+			|| isset($next_timestamp) && $data_point_array[0] <= $next_timestamp && $loop < $app_config['power_user']['chart_data_points_max'] ) {
+			$new_lite_data = $data_point . $new_lite_data;
+			$next_timestamp = $data_point_array[0] - $min_data_interval;
 			$loop = $loop + 1;
 			}
 			
@@ -233,7 +232,7 @@ $archival_data = array_reverse($archival_data);
 	}
 	else {
 		foreach ($archival_data as $data_point) {
-		$new_lite_data .= $data_point;
+		$new_lite_data = $data_point . $new_lite_data;
 		}
 	}
 

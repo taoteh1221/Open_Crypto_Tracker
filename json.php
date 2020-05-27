@@ -9,6 +9,15 @@ $runtime_mode = 'json';
 // FOR SPEED, $runtime_mode 'logs' only gets app config vars, some init.php, then EXITS in the logs library
 require("config.php");
 
+
+// Set a max execution time, TO AVOID RUNAWAY PROCESSES FREEZING THE SERVER
+if ( $app_config['developer']['debug_mode'] != 'off' ) {
+ini_set('max_execution_time', 350);
+}
+else {
+ini_set('max_execution_time', $app_config['developer']['json_max_execution_time']);
+}
+
 	
 	// Have this script not load any code if asset charts are not turned on
 	if ( $app_config['general']['charts_toggle'] != 'on' ) {
@@ -422,4 +431,9 @@ if ( $chart_asset ) {
 	}
 	
  
+// Log errors / debugging, send notifications
+error_logs();
+debugging_logs();
+send_notifications();
+
  ?>

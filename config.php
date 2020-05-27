@@ -1018,6 +1018,11 @@ $app_config['developer']['webhook_max_execution_time'] = 60; // (default = 60)
 
 // Maximum execution time for API runtime in seconds (how long it's allowed to run before automatically killing the process)
 // (ALL execution times are automatically 350 IN DEBUG MODE)
+$app_config['developer']['json_max_execution_time'] = 100; // (default = 100)
+
+
+// Maximum execution time for API runtime in seconds (how long it's allowed to run before automatically killing the process)
+// (ALL execution times are automatically 350 IN DEBUG MODE)
 $app_config['developer']['api_max_execution_time'] = 60; // (default = 60)
 
 

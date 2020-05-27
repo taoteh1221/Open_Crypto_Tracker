@@ -26,6 +26,12 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+Consolidate logs.php logic into json.php
+
+
+Use new internal api function calls as much as possible for the tests logic we had already built.
+
+
 See if exchange API data arrays can be manipulated slightly to build a reusable module for every exchange's API calls.
 
 

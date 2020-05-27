@@ -74,7 +74,7 @@ var stockState_<?=$js_key?> = {
 
 zingchart.TOUCHZOOM = 'pinch'; /* mobile compatibility */
 
-$.get( "../../json.php?asset_data=<?=$_GET['asset_data']?>&charted_value=<?=$_GET['charted_value']?>&days=all", function( json_data ) {
+$.get( "json.php?asset_data=<?=$_GET['asset_data']?>&charted_value=<?=$_GET['charted_value']?>&days=all", function( json_data ) {
  
 	zingchart.render({
   	id: '<?=strtolower($key)?>_<?=$charted_value?>_chart',
@@ -150,7 +150,7 @@ zingchart.bind('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'label_click',
 	});
   
   zingchart.exec('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'load', {
-  	dataurl: "../../json.php?asset_data=<?=$_GET['asset_data']?>&charted_value=<?=$_GET['charted_value']?>&days=" + days,
+  	dataurl: "json.php?asset_data=<?=$_GET['asset_data']?>&charted_value=<?=$_GET['charted_value']?>&days=" + days,
     cache: {
         data: true
     }
