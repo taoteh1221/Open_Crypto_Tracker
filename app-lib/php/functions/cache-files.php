@@ -22,7 +22,6 @@ function update_cache_file($cache_file, $minutes) {
 }
 
 
-
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
 
@@ -127,147 +126,13 @@ $password_strength = password_strength($htaccess_password, 8, 8);
 ////////////////////////////////////////////////////////
 
 
-function update_lite_chart($archive_file, $days_span) {
-
-global $app_config;
-
-$now = time();
-$archival_data = array();
-$new_lite_data = null;
-
-// Lite chart file info
-$lite_path = preg_replace("/archival/i", 'lite/' . $days_span . '_day', $archive_file);
-$lite_data_modified = filemtime($lite_path);
-//var_dump($lite_data_modified);
-
-// Get FIRST line of archival chart data
-$first_archival_line = fgets(fopen($archive_file, 'r'));
-$first_archival_array = explode("||", $first_archival_line);
-//var_dump($first_archival_array);
-
-// Get LAST line of archival chart data
-$last_archival_line = tail_custom($archive_file);
-$last_archival_array = explode("||", $last_archival_line);
-//var_dump($last_archival_array);
-	
-// Determine oldest / newest timestamps
-$oldest_archival_timestamp = $first_archival_array[0];
-$newest_archival_timestamp = $last_archival_array[0];
-			
-			
-	// Time intervals
-	if ( is_int($days_span) ) {
-	$oldest_allowed_timestamp = strtotime('-'.$days_span.' day', $newest_archival_timestamp); // Timestamp for oldest data point 
-	}
-	// 'all'
-	else {
-	$oldest_allowed_timestamp = $oldest_archival_timestamp;
-	}
-	
-	
-	// Make sure we don't have an oldest allowed timestamp older than our oldest archival timestamp
-	if ( $oldest_allowed_timestamp < $oldest_archival_timestamp ) {
-	$oldest_allowed_timestamp = $oldest_archival_timestamp;
-	}
-
-		
-// Minimum time interval between data points in lite chart
-$min_data_interval = round( ($newest_archival_timestamp - $oldest_allowed_timestamp) / $app_config['power_user']['chart_data_points_max'] );
-	
-// Add a random multiplier to spread the update load across roughly 90 minutes (5400 seconds) of consecutive cron jobs
-$random_multiplier = rand( $min_data_interval, ($min_data_interval + 5400) );
-
-
-	// When do we need to refresh lite chart data
-	if ( $lite_data_modified == false ) {
-	$lite_data_update_threshold = rand( ($now - 2700) , ($now + 2700) ); // (if no lite data exists yet)
-	}
-	else {
-	$lite_data_update_threshold = $lite_data_modified + $random_multiplier;
-	}
-
-
-	// Is it time to update the lite chart data, or return false?
-	if ( number_to_string($lite_data_update_threshold) > number_to_string($now) ) {
-	return false;
-	}
-	
-	
-// If we are continuing, and updating lite chart data...
-	
-
-$file_data = file($archive_file);
-$file_data = array_reverse($file_data); // Save time, only loop / read last lines needed
-
-
-	foreach($file_data as $line) {
-		
-	$line_array = explode("||", $line);
-	
-		if ( $line_array[0] >= $oldest_allowed_timestamp ) {
-		$archival_data[] = $line;
-		}
-		
-	}
-
-	
-	// We are looping IN REVERSE ODER, to ALWAYS include the latest data
-	// If we have more data points than permitted per lite chart
-	if ( sizeof($archival_data) > $app_config['power_user']['chart_data_points_max'] ) {
-	
-		$loop = 0;
-		foreach ($archival_data as $data_point) {
-		
-		$data_point_array = explode("||", $data_point);
-			
-			// $loop <= is INTENTIONAL, as we can have max data points slightly under without it
-			if ( !$next_timestamp && $loop <= $app_config['power_user']['chart_data_points_max'] 
-			|| isset($next_timestamp) && $data_point_array[0] <= $next_timestamp && $loop <= $app_config['power_user']['chart_data_points_max'] ) {
-			$new_lite_data = $data_point . $new_lite_data;
-			$next_timestamp = $data_point_array[0] - $min_data_interval;
-			$loop = $loop + 1;
-			}
-			
-		}
-	
-	}
-	else {
-		foreach ($archival_data as $data_point) {
-		$new_lite_data = $data_point . $new_lite_data;
-		}
-	}
-
-
-
-// Store the lite chart data
-$result = store_file_contents($lite_path, $new_lite_data);
-
-	if ( $result == true ) {
-		if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'lite_chart' ) {
-		app_logging( 'cache_debugging', 'Lite chart refresh COMPLETED for ' . $lite_path);
-		}
-	}
-	else {
-	app_logging( 'cache_error', 'Lite chart refresh FAILED for ' . $lite_path);
-	}
-	
-	
-return $result;
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
 /**
 	 * Slightly modified version of http://www.geekality.net/2011/05/28/php-tail-tackling-large-files/
 	 * @author Torleif Berger, Lorenzo Stanco
 	 * @link http://stackoverflow.com/a/15025877/995958
 	 * @license http://creativecommons.org/licenses/by/3.0/
 	 */
-	function tail_custom($filepath, $lines = 1, $adaptive = true) {
+function tail_custom($filepath, $lines = 1, $adaptive = true) {
 
 		// Open file
 		$f = @fopen($filepath, "rb");
@@ -321,114 +186,6 @@ return $result;
 		// Close file and return
 		fclose($f);
 		return trim($output);
-
-	}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function store_file_contents($file, $data, $mode=false) {
-
-global $app_config, $current_runtime_user, $possible_http_users, $http_runtime_user;
-
-
-	// If no data was passed on to write to file, log it and return false early for runtime speed sake
-	if ( strlen($data) == 0 ) {
-		
-	app_logging('system_error', 'No bytes of data received to write to file "' . obfuscated_path_data($file) . '" (aborting useless file write)');
-	
-		// API timeouts are a confirmed cause for write errors of 0 bytes, so we want to alert end users that they may need to adjust their API timeout settings to get associated API data
-		if ( preg_match("/cache\/secured\/apis/i", $file) ) {
-		app_logging('ext_api_error', 'POSSIBLE api timeout' . ( $app_config['power_user']['remote_api_strict_ssl'] == 'on' ? ' or strict_ssl' : '' ) . ' issue for cache file "' . obfuscated_path_data($file) . '" (IF THIS ISSUE PERSISTS #LONG TERM#, TRY INCREASING "remote_api_timeout"' . ( $app_config['power_user']['remote_api_strict_ssl'] == 'on' ? ' OR SETTING "remote_api_strict_ssl" to "off"' : '' ) . ' IN THE POWER USER SECTION in config.php)', 'remote_api_timeout: '.$app_config['power_user']['remote_api_timeout'].' seconds; remote_api_strict_ssl: ' . $app_config['power_user']['remote_api_strict_ssl'] . ';');
-		}
-	
-	return false;
-	
-	}
-
-
-$path_parts = pathinfo($file);
-
-$file_owner_info = posix_getpwuid(fileowner($file));
-
-
-	// Does the current runtime user own this file (or will they own it after creating a non-existent file)?
-	if ( file_exists($file) == false || isset($current_runtime_user) && $current_runtime_user == $file_owner_info['name'] ) {
-	$is_file_owner = 1;
-	}
-	
-	
-	// We ALWAYS set .htaccess files to a more secure $app_config['developer']['chmod_index_security'] permission AFTER EDITING, 
-	// so we TEMPORARILY set .htaccess to $app_config['developer']['chmod_cache_files'] for NEW EDITING...
-	if ( strstr($file, '.htaccess') != false || strstr($file, 'index.php') != false ) {
-		
-	$chmod_setting = octdec($app_config['developer']['chmod_cache_files']);
-	
-	
-		// Run chmod compatibility on certain PHP setups (if we can because we are running as the file owner)
-		// In this case only if the file exists, as we are chmod BEFORE editing it (.htaccess files)
-		if ( file_exists($file) == true && $is_file_owner == 1 && !$http_runtime_user 
-		|| file_exists($file) == true && $is_file_owner == 1 && isset($http_runtime_user) && in_array($http_runtime_user, $possible_http_users) ) {
-			
-		$oldmask = umask(0);
-		
-		$did_chmod = chmod($file, $chmod_setting);
-		
-			if ( !$did_chmod ) {
-			app_logging('system_error', 'Chmod failed for file "' . obfuscated_path_data($file) . '" (check permissions for the path "' . obfuscated_path_data($path_parts['dirname']) . '", and the file "' . obfuscate_string($path_parts['basename'], 5) . '")', 'chmod_setting: ' . $chmod_setting . '; current_runtime_user: ' . $current_runtime_user . '; file_owner: ' . $file_owner_info['name'] . ';');
-			}
-		
-		umask($oldmask);
-		
-		}
-	
-	}
-	
-
-
-	// Write to the file
-	if ( $mode == 'append' ) {
-	$result = file_put_contents($file, $data, FILE_APPEND | LOCK_EX);
-	}
-	else {
-	$result = file_put_contents($file, $data, LOCK_EX);
-	}
-	
-	// Log any write error
-	if ( $result == false ) {
-	app_logging('system_error', 'File write failed storing '.strlen($data).' bytes of data to file "' . obfuscated_path_data($file) . '" (MAKE SURE YOUR DISK ISN\'T FULL. Check permissions for the path "' . obfuscated_path_data($path_parts['dirname']) . '", and the file "' . obfuscate_string($path_parts['basename'], 5) . '")');
-	}
-	
-	
-	
-	// For security, NEVER make an .htaccess file writable by any user not in the group
-	if ( strstr($file, '.htaccess') != false || strstr($file, 'index.php') != false ) {
-	$chmod_setting = octdec($app_config['developer']['chmod_index_security']);
-	}
-	// All other files
-	else {
-	$chmod_setting = octdec($app_config['developer']['chmod_cache_files']);
-	}
-	
-	// Run chmod compatibility on certain PHP setups (if we can because we are running as the file owner)
-	if ( $is_file_owner == 1 && !$http_runtime_user || $is_file_owner == 1 && isset($http_runtime_user) && in_array($http_runtime_user, $possible_http_users) ) {
-		
-	$oldmask = umask(0);
-	
-	$did_chmod = chmod($file, $chmod_setting);
-		
-		if ( !$did_chmod ) {
-		app_logging('system_error', 'Chmod failed for file "' . obfuscated_path_data($file) . '" (check permissions for the path "' . obfuscated_path_data($path_parts['dirname']) . '", and the file "' . obfuscate_string($path_parts['basename'], 5) . '")', 'chmod_setting: ' . $chmod_setting . '; current_runtime_user: ' . $current_runtime_user . '; file_owner: ' . $file_owner_info['name'] . ';');
-		}
-		
-	umask($oldmask);
-	
-	}
-	
-	
-return $result;
 
 }
 
@@ -491,6 +248,86 @@ global $app_config, $base_dir, $base_url;
 
 	}
 
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function queue_notifications($send_params) {
+
+global $base_dir, $app_config, $telegram_activated;
+
+
+	// Queue messages
+	
+	// RANDOM HASH SHOULD BE CALLED PER-STATEMENT, OTHERWISE FOR SOME REASON SEEMS TO REUSE SAME HASH FOR THE WHOLE RUNTIME INSTANCE (if set as a variable beforehand)
+	
+	// Notifyme
+   if ( $send_params['notifyme'] != '' && trim($app_config['comms']['notifyme_accesscode']) != '' ) {
+	store_file_contents($base_dir . '/cache/secured/messages/notifyme-' . random_hash(8) . '.queue', $send_params['notifyme']);
+   }
+  
+   // Textbelt
+	// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
+   if ( $send_params['text']['message'] != '' && trim($app_config['comms']['textbelt_apikey']) != '' && $app_config['comms']['textlocal_account'] == '' ) { // Only run if textlocal API isn't being used to avoid double texts
+	store_file_contents($base_dir . '/cache/secured/messages/textbelt-' . random_hash(8) . '.queue', $send_params['text']['message']);
+   }
+  
+   // Textlocal
+	// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
+   if ( $send_params['text']['message'] != '' && $app_config['comms']['textlocal_account'] != '' && trim($app_config['comms']['textbelt_apikey']) == '' ) { // Only run if textbelt API isn't being used to avoid double texts
+	store_file_contents($base_dir . '/cache/secured/messages/textlocal-' . random_hash(8) . '.queue', $send_params['text']['message']);
+   }
+	
+	// Telegram
+   if ( $send_params['telegram'] != '' && $telegram_activated == 1 ) {
+	store_file_contents($base_dir . '/cache/secured/messages/telegram-' . random_hash(8) . '.queue', $send_params['telegram']);
+   }
+   
+           
+   // Text email
+	// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
+	// Only use text-to-email if other text services aren't configured
+   if ( $send_params['text']['message'] != '' && validate_email( text_email($app_config['comms']['to_mobile_text']) ) == 'valid' && trim($app_config['comms']['textbelt_apikey']) == '' && $app_config['comms']['textlocal_account'] == '' ) { 
+   
+   // $send_params['text_charset'] SHOULD ALWAYS BE SET FROM THE CALL TO HERE (for emojis, or other unicode characters to send via text message properly)
+   // SUBJECT !!MUST BE SET!! OR SOME TEXT SERVICES WILL NOT ACCEPT THE MESSAGE!
+   $textemail_array = array('subject' => 'Text Notify', 'message' => $send_params['text']['message'], 'content_type' => 'text', 'charset' => $send_params['text']['charset'] );
+   
+   	// json_encode() only accepts UTF-8, SO TEMPORARILY CONVERT TO THAT FOR MESSAGE QUEUE STORAGE
+   	if ( strtolower($send_params['text']['charset']) != 'utf-8' ) {
+   		
+   		foreach( $textemail_array as $textemail_key => $textemail_value ) {
+   		$textemail_array[$textemail_key] = mb_convert_encoding($textemail_value, 'UTF-8', mb_detect_encoding($textemail_value, "auto") );
+   		}
+   	
+   	}
+   
+	store_file_contents($base_dir . '/cache/secured/messages/textemail-' . random_hash(8) . '.queue', json_encode($textemail_array) );
+	
+   }
+          
+   // Normal email
+   if ( $send_params['email']['message'] != '' && validate_email($app_config['comms']['to_email']) == 'valid' ) {
+   
+   $email_array = array('subject' => $send_params['email']['subject'], 'message' => $send_params['email']['message'], 'content_type' => ( $send_params['email']['content_type'] ? $send_params['email']['content_type'] : 'text' ), 'charset' => ( $send_params['email']['charset'] ? $send_params['email']['charset'] : $app_config['developer']['charset_default'] ) );
+   
+   	// json_encode() only accepts UTF-8, SO TEMPORARILY CONVERT TO THAT FOR MESSAGE QUEUE STORAGE
+   	if ( strtolower($send_params['email']['charset']) != 'utf-8' ) {
+   		
+   		foreach( $email_array as $email_key => $email_value ) {
+   		$email_array[$email_key] = mb_convert_encoding($email_value, 'UTF-8', mb_detect_encoding($email_value, "auto") );
+   		}
+   	
+   	}
+   
+	store_file_contents($base_dir . '/cache/secured/messages/normalemail-' . random_hash(8) . '.queue', json_encode($email_array) );
+	
+   }
+  
 
 }
 
@@ -683,78 +520,240 @@ return true;
 ////////////////////////////////////////////////////////
 
 
-function queue_notifications($send_params) {
+function store_file_contents($file, $data, $mode=false) {
 
-global $base_dir, $app_config, $telegram_activated;
+global $app_config, $current_runtime_user, $possible_http_users, $http_runtime_user;
 
 
-	// Queue messages
+	// If no data was passed on to write to file, log it and return false early for runtime speed sake
+	if ( strlen($data) == 0 ) {
+		
+	app_logging('system_error', 'No bytes of data received to write to file "' . obfuscated_path_data($file) . '" (aborting useless file write)');
 	
-	// RANDOM HASH SHOULD BE CALLED PER-STATEMENT, OTHERWISE FOR SOME REASON SEEMS TO REUSE SAME HASH FOR THE WHOLE RUNTIME INSTANCE (if set as a variable beforehand)
+		// API timeouts are a confirmed cause for write errors of 0 bytes, so we want to alert end users that they may need to adjust their API timeout settings to get associated API data
+		if ( preg_match("/cache\/secured\/apis/i", $file) ) {
+		app_logging('ext_api_error', 'POSSIBLE api timeout' . ( $app_config['power_user']['remote_api_strict_ssl'] == 'on' ? ' or strict_ssl' : '' ) . ' issue for cache file "' . obfuscated_path_data($file) . '" (IF THIS ISSUE PERSISTS #LONG TERM#, TRY INCREASING "remote_api_timeout"' . ( $app_config['power_user']['remote_api_strict_ssl'] == 'on' ? ' OR SETTING "remote_api_strict_ssl" to "off"' : '' ) . ' IN THE POWER USER SECTION in config.php)', 'remote_api_timeout: '.$app_config['power_user']['remote_api_timeout'].' seconds; remote_api_strict_ssl: ' . $app_config['power_user']['remote_api_strict_ssl'] . ';');
+		}
 	
-	// Notifyme
-   if ( $send_params['notifyme'] != '' && trim($app_config['comms']['notifyme_accesscode']) != '' ) {
-	store_file_contents($base_dir . '/cache/secured/messages/notifyme-' . random_hash(8) . '.queue', $send_params['notifyme']);
-   }
-  
-   // Textbelt
-	// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-   if ( $send_params['text']['message'] != '' && trim($app_config['comms']['textbelt_apikey']) != '' && $app_config['comms']['textlocal_account'] == '' ) { // Only run if textlocal API isn't being used to avoid double texts
-	store_file_contents($base_dir . '/cache/secured/messages/textbelt-' . random_hash(8) . '.queue', $send_params['text']['message']);
-   }
-  
-   // Textlocal
-	// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-   if ( $send_params['text']['message'] != '' && $app_config['comms']['textlocal_account'] != '' && trim($app_config['comms']['textbelt_apikey']) == '' ) { // Only run if textbelt API isn't being used to avoid double texts
-	store_file_contents($base_dir . '/cache/secured/messages/textlocal-' . random_hash(8) . '.queue', $send_params['text']['message']);
-   }
+	return false;
 	
-	// Telegram
-   if ( $send_params['telegram'] != '' && $telegram_activated == 1 ) {
-	store_file_contents($base_dir . '/cache/secured/messages/telegram-' . random_hash(8) . '.queue', $send_params['telegram']);
-   }
-   
-           
-   // Text email
-	// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-	// Only use text-to-email if other text services aren't configured
-   if ( $send_params['text']['message'] != '' && validate_email( text_email($app_config['comms']['to_mobile_text']) ) == 'valid' && trim($app_config['comms']['textbelt_apikey']) == '' && $app_config['comms']['textlocal_account'] == '' ) { 
-   
-   // $send_params['text_charset'] SHOULD ALWAYS BE SET FROM THE CALL TO HERE (for emojis, or other unicode characters to send via text message properly)
-   // SUBJECT !!MUST BE SET!! OR SOME TEXT SERVICES WILL NOT ACCEPT THE MESSAGE!
-   $textemail_array = array('subject' => 'Text Notify', 'message' => $send_params['text']['message'], 'content_type' => 'text', 'charset' => $send_params['text']['charset'] );
-   
-   	// json_encode() only accepts UTF-8, SO TEMPORARILY CONVERT TO THAT FOR MESSAGE QUEUE STORAGE
-   	if ( strtolower($send_params['text']['charset']) != 'utf-8' ) {
-   		
-   		foreach( $textemail_array as $textemail_key => $textemail_value ) {
-   		$textemail_array[$textemail_key] = mb_convert_encoding($textemail_value, 'UTF-8', mb_detect_encoding($textemail_value, "auto") );
-   		}
-   	
-   	}
-   
-	store_file_contents($base_dir . '/cache/secured/messages/textemail-' . random_hash(8) . '.queue', json_encode($textemail_array) );
+	}
+
+
+$path_parts = pathinfo($file);
+
+$file_owner_info = posix_getpwuid(fileowner($file));
+
+
+	// Does the current runtime user own this file (or will they own it after creating a non-existent file)?
+	if ( file_exists($file) == false || isset($current_runtime_user) && $current_runtime_user == $file_owner_info['name'] ) {
+	$is_file_owner = 1;
+	}
 	
-   }
-          
-   // Normal email
-   if ( $send_params['email']['message'] != '' && validate_email($app_config['comms']['to_email']) == 'valid' ) {
-   
-   $email_array = array('subject' => $send_params['email']['subject'], 'message' => $send_params['email']['message'], 'content_type' => ( $send_params['email']['content_type'] ? $send_params['email']['content_type'] : 'text' ), 'charset' => ( $send_params['email']['charset'] ? $send_params['email']['charset'] : $app_config['developer']['charset_default'] ) );
-   
-   	// json_encode() only accepts UTF-8, SO TEMPORARILY CONVERT TO THAT FOR MESSAGE QUEUE STORAGE
-   	if ( strtolower($send_params['email']['charset']) != 'utf-8' ) {
-   		
-   		foreach( $email_array as $email_key => $email_value ) {
-   		$email_array[$email_key] = mb_convert_encoding($email_value, 'UTF-8', mb_detect_encoding($email_value, "auto") );
-   		}
-   	
-   	}
-   
-	store_file_contents($base_dir . '/cache/secured/messages/normalemail-' . random_hash(8) . '.queue', json_encode($email_array) );
 	
-   }
-  
+	// We ALWAYS set .htaccess files to a more secure $app_config['developer']['chmod_index_security'] permission AFTER EDITING, 
+	// so we TEMPORARILY set .htaccess to $app_config['developer']['chmod_cache_files'] for NEW EDITING...
+	if ( strstr($file, '.htaccess') != false || strstr($file, 'index.php') != false ) {
+		
+	$chmod_setting = octdec($app_config['developer']['chmod_cache_files']);
+	
+	
+		// Run chmod compatibility on certain PHP setups (if we can because we are running as the file owner)
+		// In this case only if the file exists, as we are chmod BEFORE editing it (.htaccess files)
+		if ( file_exists($file) == true && $is_file_owner == 1 && !$http_runtime_user 
+		|| file_exists($file) == true && $is_file_owner == 1 && isset($http_runtime_user) && in_array($http_runtime_user, $possible_http_users) ) {
+			
+		$oldmask = umask(0);
+		
+		$did_chmod = chmod($file, $chmod_setting);
+		
+			if ( !$did_chmod ) {
+			app_logging('system_error', 'Chmod failed for file "' . obfuscated_path_data($file) . '" (check permissions for the path "' . obfuscated_path_data($path_parts['dirname']) . '", and the file "' . obfuscate_string($path_parts['basename'], 5) . '")', 'chmod_setting: ' . $chmod_setting . '; current_runtime_user: ' . $current_runtime_user . '; file_owner: ' . $file_owner_info['name'] . ';');
+			}
+		
+		umask($oldmask);
+		
+		}
+	
+	}
+	
+
+
+	// Write to the file
+	if ( $mode == 'append' ) {
+	$result = file_put_contents($file, $data, FILE_APPEND | LOCK_EX);
+	}
+	else {
+	$result = file_put_contents($file, $data, LOCK_EX);
+	}
+	
+	// Log any write error
+	if ( $result == false ) {
+	app_logging('system_error', 'File write failed storing '.strlen($data).' bytes of data to file "' . obfuscated_path_data($file) . '" (MAKE SURE YOUR DISK ISN\'T FULL. Check permissions for the path "' . obfuscated_path_data($path_parts['dirname']) . '", and the file "' . obfuscate_string($path_parts['basename'], 5) . '")');
+	}
+	
+	
+	
+	// For security, NEVER make an .htaccess file writable by any user not in the group
+	if ( strstr($file, '.htaccess') != false || strstr($file, 'index.php') != false ) {
+	$chmod_setting = octdec($app_config['developer']['chmod_index_security']);
+	}
+	// All other files
+	else {
+	$chmod_setting = octdec($app_config['developer']['chmod_cache_files']);
+	}
+	
+	// Run chmod compatibility on certain PHP setups (if we can because we are running as the file owner)
+	if ( $is_file_owner == 1 && !$http_runtime_user || $is_file_owner == 1 && isset($http_runtime_user) && in_array($http_runtime_user, $possible_http_users) ) {
+		
+	$oldmask = umask(0);
+	
+	$did_chmod = chmod($file, $chmod_setting);
+		
+		if ( !$did_chmod ) {
+		app_logging('system_error', 'Chmod failed for file "' . obfuscated_path_data($file) . '" (check permissions for the path "' . obfuscated_path_data($path_parts['dirname']) . '", and the file "' . obfuscate_string($path_parts['basename'], 5) . '")', 'chmod_setting: ' . $chmod_setting . '; current_runtime_user: ' . $current_runtime_user . '; file_owner: ' . $file_owner_info['name'] . ';');
+		}
+		
+	umask($oldmask);
+	
+	}
+	
+	
+return $result;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function update_lite_chart($archive_file, $days_span) {
+
+global $app_config;
+
+$now = time();
+$archival_data = array();
+$new_lite_data = null;
+
+// Lite chart file info
+$lite_path = preg_replace("/archival/i", 'lite/' . $days_span . '_day', $archive_file);
+$lite_data_modified = filemtime($lite_path);
+//var_dump($lite_data_modified);
+
+// Get FIRST line of archival chart data
+$first_archival_line = fgets(fopen($archive_file, 'r'));
+$first_archival_array = explode("||", $first_archival_line);
+//var_dump($first_archival_array);
+
+// Get LAST line of archival chart data
+$last_archival_line = tail_custom($archive_file);
+$last_archival_array = explode("||", $last_archival_line);
+//var_dump($last_archival_array);
+	
+// Determine oldest / newest timestamps
+$oldest_archival_timestamp = $first_archival_array[0];
+$newest_archival_timestamp = $last_archival_array[0];
+			
+			
+	// Time intervals
+	if ( is_int($days_span) ) {
+	$oldest_allowed_timestamp = strtotime('-'.$days_span.' day', $newest_archival_timestamp); // Timestamp for oldest data point 
+	}
+	// 'all'
+	else {
+	$oldest_allowed_timestamp = $oldest_archival_timestamp;
+	}
+	
+	
+	// Make sure we don't have an oldest allowed timestamp older than our oldest archival timestamp
+	if ( $oldest_allowed_timestamp < $oldest_archival_timestamp ) {
+	$oldest_allowed_timestamp = $oldest_archival_timestamp;
+	}
+
+		
+// Minimum time interval between data points in lite chart
+$min_data_interval = round( ($newest_archival_timestamp - $oldest_allowed_timestamp) / $app_config['power_user']['chart_data_points_max'] );
+	
+// Add a random multiplier to spread the update load across roughly 90 minutes (5400 seconds) of consecutive cron jobs
+$random_multiplier = rand( $min_data_interval, ($min_data_interval + 5400) );
+
+
+	// When do we need to refresh lite chart data
+	if ( $lite_data_modified == false ) {
+	$lite_data_update_threshold = rand( ($now - 2700) , ($now + 2700) ); // (if no lite data exists yet)
+	}
+	else {
+	$lite_data_update_threshold = $lite_data_modified + $random_multiplier;
+	}
+
+
+	// Is it time to update the lite chart data, or return false?
+	if ( number_to_string($lite_data_update_threshold) > number_to_string($now) ) {
+	return false;
+	}
+	
+	
+// If we are continuing, and updating lite chart data...
+	
+
+$file_data = file($archive_file);
+$file_data = array_reverse($file_data); // Save time, only loop / read last lines needed
+
+
+	foreach($file_data as $line) {
+		
+	$line_array = explode("||", $line);
+	
+		if ( $line_array[0] >= $oldest_allowed_timestamp ) {
+		$archival_data[] = $line;
+		}
+		
+	}
+
+	
+	// We are looping IN REVERSE ODER, to ALWAYS include the latest data
+	// If we have more data points than permitted per lite chart
+	if ( sizeof($archival_data) > $app_config['power_user']['chart_data_points_max'] ) {
+	
+		$loop = 0;
+		foreach ($archival_data as $data_point) {
+		
+		$data_point_array = explode("||", $data_point);
+			
+			// $loop <= is INTENTIONAL, as we can have max data points slightly under without it
+			if ( !$next_timestamp && $loop <= $app_config['power_user']['chart_data_points_max'] 
+			|| isset($next_timestamp) && $data_point_array[0] <= $next_timestamp && $loop <= $app_config['power_user']['chart_data_points_max'] ) {
+			$new_lite_data = $data_point . $new_lite_data;
+			$next_timestamp = $data_point_array[0] - $min_data_interval;
+			$loop = $loop + 1;
+			}
+			
+		}
+	
+	}
+	else {
+		foreach ($archival_data as $data_point) {
+		$new_lite_data = $data_point . $new_lite_data;
+		}
+	}
+
+
+
+// Store the lite chart data
+$result = store_file_contents($lite_path, $new_lite_data);
+
+	if ( $result == true ) {
+		if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'lite_chart' ) {
+		app_logging( 'cache_debugging', 'Lite chart refresh COMPLETED for ' . $lite_path);
+		}
+	}
+	else {
+	app_logging( 'cache_error', 'Lite chart refresh FAILED for ' . $lite_path);
+	}
+	
+	
+return $result;
 
 }
 
