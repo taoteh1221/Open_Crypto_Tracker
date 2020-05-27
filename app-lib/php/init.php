@@ -353,8 +353,4 @@ require_once('app-lib/php/other/debugging/exchange-and-pairing-info.php');
 
 
 
-// DEBUGGING NEW LITE CHART LOGIC
-//update_lite_chart('cache/charts/spot_price_24hr_volume/archival/BTC/btc_chart_usd.dat', 1); // 1 day lite chart
-
-
 ?>

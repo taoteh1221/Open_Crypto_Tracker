@@ -26,6 +26,9 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+Remove 'RESET' on charts, since it's the same as 'ALL'.
+
+
 Consolidate logs.php logic into json.php
 
 
