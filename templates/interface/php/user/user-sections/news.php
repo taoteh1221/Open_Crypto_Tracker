@@ -106,7 +106,7 @@
 
 	<?php
 	if ( $show_feeds[0] != '' ) {
-	echo get_rss_feeds($show_feeds, 5); // Show 5 feed items per feed initially (the rest are hidden, and a "show more / less" link reveals / hides them)
+	echo get_rss_feeds($show_feeds, $app_config['power_user']['news_feeds_entries_show']); 
 	}
 	else {
 	?>

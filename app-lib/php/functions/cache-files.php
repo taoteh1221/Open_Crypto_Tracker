@@ -1689,6 +1689,7 @@ $api_endpoint = ( $mode == 'array' ? $api_server : $request );
 			// https://www.php.net/manual/en/regexp.reference.meta.php
 			// DON'T ADD TOO MANY CHECKS HERE, OR RUNTIME WILL SLOW SIGNIFICANTLY!!
 			if ( preg_match("/xml version/i", $data) // RSS feeds (that are likely intact)
+			|| preg_match("/invalid vs_currency/i", $data) // Coingecko (we fallback to USD in this case anyways, and error would repeat every cache refresh cluttering logs)
 			|| preg_match("/\"error\":\[\],/i", $data) // kraken.com / generic
 			|| preg_match("/\"error_code\":0/i", $data) ) { // coinmarketcap.com / generic
 			$false_positive = 1;

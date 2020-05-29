@@ -26,6 +26,9 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+Write debugging tests for rss feeds.
+
+
 Use new internal api function calls as much as possible for the tests logic we had already built.
 
 
@@ -35,19 +38,10 @@ See if exchange API data arrays can be manipulated slightly to build a reusable 
 Add bitmex API: https://www.bitmex.com/api/explorer/
 
 
-Add force reset logic for app config, if cached app version number is non-existent or below a certain version, so we force a complete reset for non-backwards-compatible upgrades.
-
-
 In debug mode, maybe add our new 'used ram' stat instead (that doesn't include buffers / cached ram).
 
 
 Look into why the portfolio balance (percent stats) summaries are off by a few pennies, compared to total USD (primary currency) portfolio value? (Maybe because we round to X.XX%)
-
-
-Documentation for Webhook features
-
-
-Add webhook keys on admin page.
 
 
 Optimize landing page screenshot download size (convert to jpeg @ 93% possibly).
@@ -94,7 +88,13 @@ FEATURES / STRUCTURING SECTION
 For each category_key => category_value loop app config, to automate categorizing new admin settings tabs...selects for arrays, text fields for strings. Maybe certain key names get checkbox / radio button fields.
 
 
+On admin config tabs, add logic to have onchange update a tracking value FOR THAT TAB ONLY, so if a user changes a setting and DOESN'T SAVE IT AND CLICKS ANOTHER TAB / LINK they get an alert to confirm leaving the tab without saving their changes.
+
+
 Once an admin interface is fully built out, permanently switch out the app config upgrade logic for our new logic (already built, just enable in secured cache logic).
+
+
+Add force reset logic for app config, if cached app version number is non-existent or below a certain version, so we force a complete reset for non-backwards-compatible upgrades.
 
 
 On admin config reset tab, have "reset app config to default settings" button (with js confirm alert when pushed) that refreshes ALL the cached app_config from config.php settings.
@@ -125,6 +125,12 @@ Option to use new zip file encryption password feature to encrypt portfolio spre
 
 
 Add additional ability to do telegram webhooks, to query asset prices at different exchanges through telegram chat with the chat bot. Example: "/price ETH/USDT @ Binance"
+
+
+Documentation for Webhook features
+
+
+Add webhook keys on admin page.
 
 
 In the "loading charts" logic, add a timer that logs the time it takes to load all Shown Charts, and prints results to the console log.

@@ -560,7 +560,11 @@ $app_config['power_user']['marketcap_cache_time'] = 40; // Minutes to cache mark
 $app_config['power_user']['marketcap_ranks_max'] = 250;
 
 
-// Minutes to cache RSS feeds (for News page)
+// RSS feed entries to show per-feed on News page (without needing to click the "show more / less" link)
+$app_config['power_user']['news_feeds_entries_show'] = 5; // (default = 5)
+
+
+// Minutes to cache RSS feeds for News page
 // Randomly cache each RSS feed between the minimum and maximum minutes set here (so they don't refresh all at once, for faster load times)
 // THE WIDER THE GAP BETWEEN THE NUMBERS, MORE SPLIT UP / FASTER THE FEEDS WILL LOAD
 $app_config['power_user']['news_feeds_cache_min_max'] = '75,175'; // 'min,max' (default = '75,175')
@@ -760,6 +764,11 @@ $app_config['power_user']['news_feeds'] = array(
         				'reddit_ethereum' => array(
             			"title" => "Reddit - Ethereum (top)",
             			"url" => "https://www.reddit.com/r/Ethereum/top/.rss?format=xml"
+        													),
+    
+        				'reddit_ethfinance' => array(
+            			"title" => "Reddit - EthFinance (top)",
+            			"url" => "https://www.reddit.com/r/EthFinance/top/.rss?format=xml"
         													),
     
         				'reddit_gpumining' => array(
