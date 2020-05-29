@@ -164,7 +164,7 @@ require_once('app-lib/php/other/random-tips.php');
 		</div>
 		
 		
-	<p style='margin-top: 20px;'><span style='font-weight: bold;' class='bitcoin'>How is my portfolio data stored within this app?</span> 
+	<p style='margin-top: 10px;'><span style='font-weight: bold;' class='bitcoin'>How is my portfolio data stored within this app?</span> 
 	     
 		<img id='portfolio_data_privacy' src='templates/interface/media/images/info-orange.png' alt='' width='30' style='position: relative; left: -5px;' /> </p>
 		
@@ -194,7 +194,7 @@ require_once('app-lib/php/other/random-tips.php');
 	    
 	
 	<!-- #DON'T# CONVERT TO JAVASCRIPT WITH 'NEXT TIP' LINK...I think tips will be better remembered if it just loads one tip per app runtime. -->
-	<p class='bitcoin random_tip'><b>Random Tip:</b><img id='random_tip_disclaimer' src='templates/interface/media/images/info-orange.png' alt='' width='30' style='position: relative; padding: 0px; margin: 0px; vertical-align: middle;' /> <br /><?=random_array_var($random_tips)?></p>
+	<p style='margin-top: 10px;' class='bitcoin random_tip'><b>Random Tip:</b><img id='random_tip_disclaimer' src='templates/interface/media/images/info-orange.png' alt='' width='30' style='position: relative; padding: 0px; margin: 0px; vertical-align: middle;' /> <br /><?=random_array_var($random_tips)?></p>
 	<script>
 		
 			$('#random_tip_disclaimer').balloon({

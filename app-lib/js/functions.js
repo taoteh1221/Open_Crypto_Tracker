@@ -2,6 +2,7 @@
 // Copyright 2014-2020 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
 
 
+
 /////////////////////////////////////////////////////////////
 
 
@@ -63,6 +64,21 @@ function store_scroll_position() {
 sessionStorage['scroll_position'] = window.scrollY;
 
 //console.log(' stored page scroll = ' + window.scrollY );
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function show_more(id) {
+	
+	if ( $("#"+id).is(":visible") ) {
+	$("#"+id).hide(250, 'linear'); // 0.25 seconds
+	}
+	else {
+	$("#"+id).show(250, 'linear'); // 0.25 seconds
+	}
 
 }
 

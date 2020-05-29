@@ -815,9 +815,12 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	<div id="show_system_charts">
 	
 		
-		<h3>System Charts</h3>
+		<h3 style='display: inline;'>System Charts</h3>
 	
-				<span style='margin-top: 25px; margin-right: 85px;' class='red countdown_notice'></span>
+				<span style='z-index: 99999; margin-right: 55px;' class='red countdown_notice'></span>
+	
+	<br clear='all' />
+	<br clear='all' />
 	
 	<div id='portfolio_render_system_stats2' style='margin-bottom: 30px;'></div>
 	
@@ -867,9 +870,12 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	<div id="show_visitor_stats">
 	
 		
-		<h3>Visitor Stats</h3>
+		<h3 style='display: inline;'>Visitor Stats</h3>
 	
-				<span style='margin-top: 25px; margin-right: 85px;' class='red countdown_notice'></span>
+				<span style='z-index: 99999; margin-right: 55px;' class='red countdown_notice'></span>
+	
+	<br clear='all' />
+	<br clear='all' />
 			
 	
 	<p> &nbsp; </p>
@@ -929,9 +935,12 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	<div id="show_logs">
 	
 		
-		<h3>App Logs</h3>
+		<h3 style='display: inline;'>App Logs</h3>
 	
-				<span style='margin-top: 25px; margin-right: 85px;' class='red countdown_notice'></span>
+				<span style='z-index: 99999; margin-right: 55px;' class='red countdown_notice'></span>
+	
+	<br clear='all' />
+	<br clear='all' />
 			
 	
 	

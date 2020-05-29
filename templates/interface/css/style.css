@@ -496,9 +496,14 @@ width: 100%;
 
 
 .countdown_notice {
-position: absolute;
-top: 0px;
+display: inline;
+float: right;
+position: absolute; /* To set top / right below, AND backwards compatibility (if browser doesn't support 'sticky') */
+top: 20px;
 right: 0px;
+z-index: 5;
+position: sticky;
+position: -webkit-sticky;
 }
 
 
@@ -539,6 +544,11 @@ margin-right: auto;
 
 .chart_reload {
 top: 150px;
+}
+
+
+.hidden {
+display: none;
 }
 
 

@@ -336,10 +336,9 @@ $app_config['charts_alerts']['price_alerts_whale_alert_threshold'] = '1.65||8.85
 
 // Markets you want charts or asset price change alerts for (alerts sent when default [primary currency] 
 // [$app_config['general']['btc_primary_currency_pairing'] at top of this config] value change is equal to or above / below $app_config['comms']['price_alerts_threshold']) 
-// Delete any double forward slashes from in front of each asset you want to enable charts / price alerts on (or add double slashes in front to disable it)
 // NOTE: This list must only contain assets / exchanges / trading pairs included in the primary portfolio assets list configuration further down in this config file
 // TO ADD MULTIPLE CHARTS / ALERTS FOR SAME ASSET (FOR DIFFERENT EXCHANGES / TRADE PAIRINGS), FORMAT LIKE SO: symbol, symbol-1, symbol-2, symbol-3, etc.
-// TO ENABLE CHART AND ALERT = both, TO ENABLE CHART ONLY = chart, TO ENABLE ALERT ONLY = alert
+// TO DISABLE CHART AND ALERT = none, TO ENABLE CHART AND ALERT = both, TO ENABLE CHART ONLY = chart, TO ENABLE ALERT ONLY = alert
 $app_config['charts_alerts']['tracked_markets'] = array(
 
 
@@ -585,6 +584,11 @@ $app_config['power_user']['news_feeds'] = array(
     					// STANDARD RSS #AND# ATOM FORMAT ARE SUPPORTED
     					/////////////////////////////////////////////////////
         
+        				'blog_binance_academy' => array(
+            			"title" => "Blog - Binance Academy",
+            			"url" => "https://api.binance.vision/api/feed"
+        												),
+        
         				'blog_bitcoin_core_org' => array(
             			"title" => "Blog - BitcoinCore.org",
             			"url" => "https://bitcoincore.org/en/rss.xml"
@@ -605,6 +609,11 @@ $app_config['power_user']['news_feeds'] = array(
             			"url" => "https://bitcoincore.org/en/announcements.xml"
         												),
         
+        				'blog_bittrex' => array(
+            			"title" => "Blog - Bittrex",
+            			"url" => "https://bittrex.com/discover/category/blog/feed"
+        												),
+        
         				'blog_blockstream_engineering' => array(
             			"title" => "Blog - Blockstream Engineering",
             			"url" => "https://medium.com/feed/blockstream"
@@ -620,7 +629,7 @@ $app_config['power_user']['news_feeds'] = array(
             			"url" => "https://entethalliance.org/feed/"
         												),
         
-        				'blog_ethereum_org' => array(
+        				'blog_ethereum' => array(
             			"title" => "Blog - Ethereum.org",
             			"url" => "https://blog.ethereum.org/feed.xml"
         												),
@@ -628,6 +637,11 @@ $app_config['power_user']['news_feeds'] = array(
         				'blog_ethereum_eips_last_call' => array(
             			"title" => "Blog - Ethereum EIPs (Last Call Review)",
             			"url" => "https://eips.ethereum.org/last-call.xml"
+        												),
+        
+        				'blog_ethereum_solidity' => array(
+            			"title" => "Blog - Ethereum Solidity (smart contract programming language)",
+            			"url" => "https://solidity.ethereum.org/feed.xml"
         												),
     
         				'blog_kraken' => array(
@@ -643,6 +657,16 @@ $app_config['power_user']['news_feeds'] = array(
         				'blog_kraken_market_reports' => array(
             			"title" => "Blog - Kraken Market Reports",
             			"url" => "https://blog.kraken.com/post/category/market-reports/feed"
+        													),
+    
+        				'blog_okcoin' => array(
+            			"title" => "Blog - OkCoin",
+            			"url" => "https://blog.okcoin.com/feed/"
+        													),
+    
+        				'blog_raiden_network' => array(
+            			"title" => "Blog - Raiden Network (Ethereum Layer 2)",
+            			"url" => "https://medium.com/feed/raiden-network"
         													),
         
         				'news_bitcoinist' => array(
@@ -693,6 +717,11 @@ $app_config['power_user']['news_feeds'] = array(
         				'podcast_blockchain_insider' => array(
             			"title" => "Podcast - Blockchain Insider",
             			"url" => "https://feeds.fireside.fm/bifeed/rss"
+        												),
+        
+        				'podcast_citizen_bitcoin' => array(
+            			"title" => "Podcast - Citizen Bitcoin",
+            			"url" => "https://feeds.simplecast.com/620_gQYv"
         												),
     
         				'podcast_into_the_ether' => array(

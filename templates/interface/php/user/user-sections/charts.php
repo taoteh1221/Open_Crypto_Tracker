@@ -14,18 +14,62 @@
 	
 	<p style='margin-top: 15px; margin-bottom: 15px;'><?=start_page_html('charts')?></p>		
 			
+	  
+	<p style='margin-top: 10px;'><a style='font-weight: bold;' class='red show' id='chartsnotice' href='#show_chartsnotice' title='Click to show charts notice.' onclick='return false;'><b>Charts Notice / Information</b></a></p>
+		
+		
+	<div style='display: none;' class='align_left show_chartsnotice'>
+		
+		<?php
+		$supported_primary_currency_count = 0;
+		foreach ( $app_config['power_user']['bitcoin_currency_markets'] as $key => $unused ) {
+		$supported_primary_currency_list .= strtoupper($key) . ' / ';
+		$supported_primary_currency_count = $supported_primary_currency_count + 1;
+		}
+		$supported_primary_currency_list = trim($supported_primary_currency_list);
+		$supported_primary_currency_list = rtrim($supported_primary_currency_list,'/');
+		$supported_primary_currency_list = trim($supported_primary_currency_list);
+		
+		foreach ( $app_config['portfolio_assets']['BTC']['market_pairing'][$default_btc_primary_currency_pairing] as $key => $unused ) {
+		$supported_exchange_list .= snake_case_to_name($key) . ' / ';
+		}
+		$supported_exchange_list = trim($supported_exchange_list);
+		$supported_exchange_list = rtrim($supported_exchange_list,'/');
+		$supported_exchange_list = trim($supported_exchange_list);
+		?>
+					
+		<p class='red' style='font-weight: bold;'>The charts <i>primary currency market</i> (lets you see <i>optional / additional</i> "<?=strtoupper($default_btc_primary_currency_pairing)?> Value" charts, showing the <i><?=strtoupper($default_btc_primary_currency_pairing)?>-equivalent</i> market values) is set to: &nbsp; <span class='bitcoin'><?=strtoupper($default_btc_primary_currency_pairing)?> @ <?=snake_case_to_name($default_btc_primary_exchange)?></span></p>
+		
+		<p class='red' style='font-weight: bold;'><?=strtoupper($default_btc_primary_currency_pairing)?>-paired exchanges supported in this app are: <?=$supported_exchange_list?>.</p>
+		
+		<p class='red' style='font-weight: bold;'><?=$supported_primary_currency_count?> primary currency pairings are supported for conversion charts (in config.php, using the "btc_primary_currency_pairing" setting): <?=$supported_primary_currency_list?>. !NOT! ALL EXCHANGES SUPPORT ALL CURRENCY PAIRS, double check any setting changes you make (and check the error log at /cache/logs/errors.log for any reported issues).</p>
+		 
+		<p class='red' style='font-weight: bold;'>A few crypto exchanges only provide asset volume data (with no pairing volume data included). If 24 hour pair volume is NOT available for a market, it will be emulated via the asset volume multiplied by the <i>current</i> asset market value (which gives us the rough pairing volume for a better chart user experience).</p>
+		 
+		<p class='red' style='font-weight: bold;'>Charts are only available to show for each asset properly configured in the charts / price alerts configuration section in the file config.php (located in the primary directory of this app). Charts (and price alerts) must be <a href='README.txt' target='_blank'>setup as a cron job on your web server</a>, or <i>they will not work</i>. The chart's tab / page, and chart data caching can be disabled in config.php if you choose to not setup a cron job.</p>
+		 
+		<p class='red' style='font-weight: bold;'>v4.03.0 and higher charts are NOT backwards-compatible, as the 24 hour volume format was completely changed over to always be based off pairing volume data only (24 hour asset volume is no longer supported).</p>
+	
+				<br /><br />
+	</div>
+	
+	
 	<p class='bitcoin' style='font-weight: bold;'>Multiple charts may take a few seconds to show. If your web browser freezes for a log time, try selecting fewer charts.</p>	
 				
 	<p><button class="show_chart_settings force_button_style">Select Charts</button></p>
+	
+	<br clear='all' />
 	
 	
 	<div id="show_chart_settings">
 	
 		
-		<h3>Select Charts</h3>
+		<h4 style='display: inline;'>Select Charts</h4>
 	
-				<span style='margin: 35px;' class='red countdown_notice'></span>
-			
+				<span style='z-index: 99999;' class='red countdown_notice'></span>
+	
+	<br clear='all' />
+	<br clear='all' />
 	
 	<p class='red'>*Charts are not activated by default to increase page loading speed / responsiveness. It's recommended to avoid activating too many charts at the same time, to keep your page load times quick. You can enable "Use cookies to save data" on the Settings page <i>before activating your charts</i>, if you want them to stay activated between browser sessions.</p>
 	
@@ -45,7 +89,7 @@
 		$("#show_charts").val("");
 		}
 		
-	' /> Select / Unselect All &nbsp;&nbsp; <span class='red'>(if "loading charts" notice freezes, check / uncheck this box, then click "Update Selected Charts")</span></p>
+	' /> Select / Unselect All &nbsp;&nbsp; <span class='bitcoin'>(if "loading charts" notice freezes, check / uncheck this box, then click "Update Selected Charts")</span></p>
 		
 		<form id='activate_charts' name='activate_charts'>
 		
@@ -123,45 +167,6 @@
 		content_source: '#show_chart_settings'
 	});
 	</script>
-	
-	  
-	<p><a style='font-weight: bold;' class='red show' id='chartsnotice' href='#show_chartsnotice' title='Click to show charts notice.' onclick='return false;'><b>Charts Notice / Information</b></a></p>
-		
-		
-	<div style='display: none;' class='align_left show_chartsnotice'>
-		
-		<?php
-		$supported_primary_currency_count = 0;
-		foreach ( $app_config['power_user']['bitcoin_currency_markets'] as $key => $unused ) {
-		$supported_primary_currency_list .= strtoupper($key) . ' / ';
-		$supported_primary_currency_count = $supported_primary_currency_count + 1;
-		}
-		$supported_primary_currency_list = trim($supported_primary_currency_list);
-		$supported_primary_currency_list = rtrim($supported_primary_currency_list,'/');
-		$supported_primary_currency_list = trim($supported_primary_currency_list);
-		
-		foreach ( $app_config['portfolio_assets']['BTC']['market_pairing'][$default_btc_primary_currency_pairing] as $key => $unused ) {
-		$supported_exchange_list .= snake_case_to_name($key) . ' / ';
-		}
-		$supported_exchange_list = trim($supported_exchange_list);
-		$supported_exchange_list = rtrim($supported_exchange_list,'/');
-		$supported_exchange_list = trim($supported_exchange_list);
-		?>
-					
-		<p class='red' style='font-weight: bold;'>The charts <i>primary currency market</i> (lets you see <i>optional / additional</i> "<?=strtoupper($default_btc_primary_currency_pairing)?> Value" charts, showing the <i><?=strtoupper($default_btc_primary_currency_pairing)?>-equivalent</i> market values) is set to: &nbsp; <span class='bitcoin'><?=strtoupper($default_btc_primary_currency_pairing)?> @ <?=snake_case_to_name($default_btc_primary_exchange)?></span></p>
-		
-		<p class='red' style='font-weight: bold;'><?=strtoupper($default_btc_primary_currency_pairing)?>-paired exchanges supported in this app are: <?=$supported_exchange_list?>.</p>
-		
-		<p class='red' style='font-weight: bold;'><?=$supported_primary_currency_count?> primary currency pairings are supported for conversion charts (in config.php, using the "btc_primary_currency_pairing" setting): <?=$supported_primary_currency_list?>. !NOT! ALL EXCHANGES SUPPORT ALL CURRENCY PAIRS, double check any setting changes you make (and check the error log at /cache/logs/errors.log for any reported issues).</p>
-		 
-		<p class='red' style='font-weight: bold;'>A few crypto exchanges only provide asset volume data (with no pairing volume data included). If 24 hour pair volume is NOT available for a market, it will be emulated via the asset volume multiplied by the <i>current</i> asset market value (which gives us the rough pairing volume for a better chart user experience).</p>
-		 
-		<p class='red' style='font-weight: bold;'>Charts are only available to show for each asset properly configured in the charts / price alerts configuration section in the file config.php (located in the primary directory of this app). Charts (and price alerts) must be <a href='README.txt' target='_blank'>setup as a cron job on your web server</a>, or <i>they will not work</i>. The chart's tab / page, and chart data caching can be disabled in config.php if you choose to not setup a cron job.</p>
-		 
-		<p class='red' style='font-weight: bold;'>v4.03.0 and higher charts are NOT backwards-compatible, as the 24 hour volume format was completely changed over to always be based off pairing volume data only (24 hour asset volume is no longer supported).</p>
-	
-				<br /><br />
-	</div>
 	
 	
 	<div class='red' id='charts_error'></div>

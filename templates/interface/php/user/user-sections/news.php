@@ -28,9 +28,12 @@
 	<div id="show_feed_settings">
 	
 		
-		<h3>Select News Feeds</h3>
+		<h4 style='display: inline;'>Select News Feeds</h4>
 	
-				<span style='margin: 35px;' class='red countdown_notice'></span>
+				<span style='z-index: 99999;' class='red countdown_notice'></span>
+	
+	<br clear='all' />
+	<br clear='all' />
 	
 	<p class='red'>*News feeds are not activated by default to increase page loading speed / responsiveness. It's recommended to avoid activating too many news feeds at the same time, to keep your page load times quick. You can enable "Use cookies to save data" on the Settings page <i>before activating your news feeds</i>, if you want them to stay activated between browser sessions.</p>
 	
@@ -103,7 +106,7 @@
 
 	<?php
 	if ( $show_feeds[0] != '' ) {
-	echo get_rss_feeds($show_feeds, 20); // Show 20 feed items per feed
+	echo get_rss_feeds($show_feeds, 5); // Show 5 feed items per feed initially (the rest are hidden, and a "show more / less" link reveals / hides them)
 	}
 	else {
 	?>

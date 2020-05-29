@@ -250,6 +250,8 @@
 	        
 	        
 	        
+	        <li class='links_list'><a href='https://open.spotify.com/show/2R9ypQf38jKV5QbYIIeZaV' target='_blank'>Citizen Bitcoin Podcast</a></li>
+	        
 	        <li class='links_list'><a href='https://open.spotify.com/show/09k4pnFm6WokaszuoeZ6yf' target='_blank'>Block Crunch Podcast</a></li>
 	        
 	        <li class='links_list'><a href='https://open.spotify.com/show/4VOhf9IRUYDMISnTSa4IR6' target='_blank'>Blockchain Insider</a></li>

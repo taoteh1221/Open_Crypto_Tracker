@@ -514,6 +514,7 @@ $xmldata = @external_api_data('url', $url, $rss_feed_cache_time);
 $rss = simplexml_load_string($xmldata);
         
 $html .= '<ul>';
+$html_hidden .= '<ul class="hidden" id="'.md5($url).'">';
    
    
    $count = 0;
@@ -557,13 +558,15 @@ $html .= '<ul>';
 			
 			$date_ui = $month_name . ' ' . ordinal($date_array['day']) . ', ' . $date_array['year'];
 			
-   		$html .= '<li class="links_list"><a href="'.htmlspecialchars($item->link['href']).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a></li>';
 			
-   			$count++;     
-   			if($count > $feed_size) {
-      		break;
+   			if ($count < $feed_size) {
+   			$html .= '<li class="links_list"><a href="'.htmlspecialchars($item->link['href']).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a></li>';
+      		}
+      		else {
+   			$html_hidden .= '<li class="links_list"><a href="'.htmlspecialchars($item->link['href']).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a></li>';
       		}
       		
+   		$count++;     
 			}
    	
    	}
@@ -609,13 +612,17 @@ $html .= '<ul>';
 			
 			$date_ui = $month_name . ' ' . ordinal($date_array['day']) . ', ' . $date_array['year'];
 			
-   		$html .= '<li class="links_list"><a href="'.htmlspecialchars($item->link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a></li>';
-   		
-   			$count++;     
-   			if($count > $feed_size) {
-      		break;
+			$item->link = preg_replace("/web\.bittrex\.com/i", "bittrex.com", $item->link); // Fix for bittrex blog links
+			
+			
+   			if ($count < $feed_size) {
+   			$html .= '<li class="links_list"><a href="'.htmlspecialchars($item->link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a></li>';
       		}
-				
+      		else {
+   			$html_hidden .= '<li class="links_list"><a href="'.htmlspecialchars($item->link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a></li>';
+      		}
+      		
+   		$count++;     
    		}
    	
    	
@@ -625,6 +632,8 @@ $html .= '<ul>';
    
         
 $html .= '</ul>';
+$html_hidden .= '</ul>';
+$show_more_less = "<ul style='list-style: none;'><li><a id='".md5($news_feeds[$feed]["url"])."_toggle' href='javascript: show_more(\"".md5($url)."\");' style='font-weight: bold;' title='Show more / less RSS feed entries.'>Show More / Less</a></li></ul>";
 
 	if ( $xmldata == 'none' || $rss == false ) {
 	return '<span class="red">Error retrieving feed data.</span>';
@@ -633,7 +642,7 @@ $html .= '</ul>';
 	return true;
 	}
 	else {
-	return $html;
+	return $html . "\n" . $show_more_less . "\n" . $html_hidden;
 	}
     
 }

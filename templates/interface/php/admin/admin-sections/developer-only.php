@@ -15,6 +15,8 @@
 	
 	<p> Coming Soon&trade; </p>
 				
+	<p class='bitcoin'> Editing these settings is <i>currently only available manually</i>, by updating the file config.php (in this app's main directory) with a text editor.</p>
+				
 	
 			    
 			    
