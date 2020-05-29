@@ -399,29 +399,31 @@
 	    <ul>
 	        
 	        
-	        <li class='links_list'><a href='https://nakamotoinstitute.org/' target='_blank'>Nakamotoinstitute.org</a></li>
-	        
-	        <li class='links_list'><a href='https://twitter.com/hashtag/cryptotwitter?src=hash' target='_blank'>#CryptoTwitter</a></li>
+	        <li class='links_list'><a href='https://bitcoin-only.com/' target='_blank'>Bitcoin-Only.com</a></li>
 	        
 	        <li class='links_list'><a href='https://www.reddit.com/r/Bitcoin/' target='_blank'>Bitcoin Subreddit</a></li>
 	        
-	        <li class='links_list'><a href='https://www.reddit.com/r/ethereum/' target='_blank'>Ethereum Subreddit</a></li>
+	        <li class='links_list'><a href='https://blocktv.com/' target='_blank'>BlockTV</a></li>
 	        
 	        <li class='links_list'><a href='https://coincenter.org/' target='_blank'>CoinCenter.org</a></li>
 	        
-	        <li class='links_list'><a href='https://blocktv.com/' target='_blank'>BlockTV</a></li>
+	        <li class='links_list'><a href='https://twitter.com/hashtag/cryptotwitter?src=hash' target='_blank'>#CryptoTwitter</a></li>
+	        
+	        <li class='links_list'><a href='https://www.reddit.com/r/ethereum/' target='_blank'>Ethereum Subreddit</a></li>
+	        
+	        <li class='links_list'><a href='http://www.maxkeiser.com/' target='_blank'>Keiser Report</a> (big Bitcoin supporter)</li>
+	        
+	        <li class='links_list'><a href='https://nakamotoinstitute.org/' target='_blank'>Nakamotoinstitute.org</a></li>
 	        
 	        <li class='links_list'><a href='https://sourceforge.net/projects/dfd-crypto-ticker/' target='_blank'>Raspberry PI Real-Time / Multi-Crypto Slideshow Price Ticker</a> (a side project of mine)</li>
+	        
+	        <li class='links_list'><a href='https://www.sec.gov/ICO' target='_blank'>SEC.gov ICO Awareness Site</a></li>
 	        
 	        <li class='links_list'><a href='https://www.omniexplorer.info/asset/31' target='_blank'>Tether (USDT) Supply On Bitcoin Network</a></li>
 	        
 	        <li class='links_list'><a href='https://etherscan.io/token/0xdac17f958d2ee523a2206206994597c13d831ec7' target='_blank'>Tether (USDT) Supply On Ethereum Network</a></li>
 	        
 	        <li class='links_list'><a href='https://whale-alert.io/' target='_blank'>Whale Alert</a></li>
-	        
-	        <li class='links_list'><a href='http://www.maxkeiser.com/' target='_blank'>Keiser Report</a> (big Bitcoin supporter)</li>
-	        
-	        <li class='links_list'><a href='https://www.sec.gov/ICO' target='_blank'>SEC.gov ICO Awareness Site</a></li>
 	        
 	        
 	        
