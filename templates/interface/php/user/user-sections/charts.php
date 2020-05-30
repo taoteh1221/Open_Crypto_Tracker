@@ -15,10 +15,10 @@
 	<p style='margin-top: 15px; margin-bottom: 15px;'><?=start_page_html('charts')?></p>		
 			
 	  
-	<p style='margin-top: 10px;'><a style='font-weight: bold;' class='red show' id='chartsnotice' href='#show_chartsnotice' title='Click to show charts notice.' onclick='return false;'><b>Charts Notice / Information</b></a></p>
+	<p style='margin-top: 10px;'><a style='font-weight: bold;' class='red' href='javascript: show_more("chartsnotice");' title='Click to show charts notice.'><b>Charts Notice / Information</b></a></p>
 		
 		
-	<div style='display: none;' class='align_left show_chartsnotice'>
+	<div id='chartsnotice' style='display: none;' class='align_left'>
 		
 		<?php
 		$supported_primary_currency_count = 0;

@@ -633,7 +633,7 @@ $html_hidden .= '<ul class="hidden" id="'.md5($url).'">';
         
 $html .= '</ul>';
 $html_hidden .= '</ul>';
-$show_more_less = "<p><a id='".md5($news_feeds[$feed]["url"])."_toggle' href='javascript: show_more(\"".md5($url)."\");' style='font-weight: bold;' title='Show more / less RSS feed entries.'>Show More / Less</a></p>";
+$show_more_less = "<p><a href='javascript: show_more(\"".md5($url)."\");' style='font-weight: bold;' title='Show more / less RSS feed entries.'>Show More</a></p>";
 
 	if ( $xmldata == 'none' || $rss == false ) {
 	return '<span class="red">Error retrieving feed data.</span>';

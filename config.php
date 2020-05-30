@@ -2010,6 +2010,7 @@ $app_config['portfolio_assets'] = array(
                         'market_pairing' => array(
                         
                                     'btc' => array(
+                                          'coinbase' => 'MKR-BTC',
                                        	'kucoin' => 'MKR-BTC',
                                           'okex' => 'MKR-BTC',
                                           'bitfinex' => 'tMKRBTC',
@@ -2036,6 +2037,10 @@ $app_config['portfolio_assets'] = array(
                                 		'krw' => array(
                                         	'korbit' => 'mkr_krw',
                                                     ),
+                                                    
+                                    'usd' => array(
+                                          'coinbase' => 'MKR-USD',
+                                          			),
                                                     
                                     'usdt' => array(
                                           'okex' => 'MKR-USDT',

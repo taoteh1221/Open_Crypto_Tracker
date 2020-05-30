@@ -41,12 +41,6 @@ Add bitmex API: https://www.bitmex.com/api/explorer/
 In debug mode, maybe add our new 'used ram' stat instead (that doesn't include buffers / cached ram).
 
 
-Look into why the portfolio balance (percent stats) summaries are off by a few pennies, compared to total USD (primary currency) portfolio value? (Maybe because we round to X.XX%)
-
-
-Optimize landing page screenshot download size (convert to jpeg @ 93% possibly).
-
-
 Check optimization by enabling "telemetry" debug mode, and reviewing debugging logs.
 
 
@@ -66,9 +60,6 @@ Test unicode mobile text message with no space in front of hex-encoded data (for
 
 
 Code review ALL functions / logic (especially loops, for efficiency).
-
-
-Epiphany browser trying to autoplay audio alert: [Error] Unhandled Promise Rejection: NotSupportedError: The operation is not supported.
 
 
 Fresh AUTO install on a raspberry pi throws this INTERFACE error, even though we chowned every file as owner 'pi', and chmod 664 on the root .htaccess file:

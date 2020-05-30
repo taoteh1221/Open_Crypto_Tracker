@@ -94,11 +94,11 @@ require_once('app-lib/php/other/random-tips.php');
 				<span class='red countdown_notice'></span>
 				
 				
-	<p style='margin-top: 10px;'><a style='font-weight: bold;' class='show red clear_both' id='disclaimer' href='#show_disclaimer' title='Click to show disclaimer.' onclick='return false;'>Disclaimer!</a></p>
+	<p style='margin-top: 10px;'><a style='font-weight: bold;' class='red clear_both' href='javascript: show_more("disclaimer");' title='Click to show disclaimer.'>Disclaimer!</a></p>
 	    
 	    
 	    
-		<div style='display: none;' class='align_left show_disclaimer clear_both'>
+		<div id='disclaimer' style='display: none;' class='align_left clear_both'>
 			
 	     
 						<p class='red' style='font-weight: bold;'>
@@ -160,6 +160,7 @@ require_once('app-lib/php/other/random-tips.php');
 						
 						</div>
 	
+		<br clear='all' />
 		
 		</div>
 		

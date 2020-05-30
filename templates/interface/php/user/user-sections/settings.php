@@ -431,7 +431,7 @@
 			    <select name='percent_change_alert_type' id='percent_change_alert_type' onchange='
 			    update_alert_percent();
 			    if ( this.value == "visual_audio" ) {
-				 $("#percent_change_alert_type_alert").text("For security, some browsers may require occasional user interaction to allow media to \"Auto-play\" (clicking on the page after loading, etc).");
+				 $("#percent_change_alert_type_alert").text("For security, some browsers may require occasional interaction to allow media auto-play (clicking on page etc), or changes to per-site auto-play preferences.");
 				 $("#percent_change_alert_type_alert").show(250, "linear"); // 0.25 seconds
 			    }
 			    else {
@@ -450,7 +450,7 @@
 		 <script>
 
 					 if ( $("#percent_change_alert_type").val() == "visual_audio" ) {
-				    $("#percent_change_alert_type_alert").text("For security, some browsers may require occasional user interaction to allow media to \"Auto-play\" (clicking on the page after loading, etc).");
+				    $("#percent_change_alert_type_alert").text("For security, some browsers may require occasional interaction to allow media auto-play (clicking on page etc), or changes to per-site auto-play preferences.");
 				    $("#percent_change_alert_type_alert").show(250, "linear"); // 0.25 seconds
 				    }
 				    else {

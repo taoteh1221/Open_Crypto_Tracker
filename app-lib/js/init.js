@@ -52,12 +52,6 @@ autosize(document.querySelector('textarea[data-autoresize]'));
 ///////////////////////////////////////////////////////////////////////////////
 
   
-  // Disclaimer / newbie warning / etc links
-  $('.show').click(function() {
-      $('.show_' + $(this).attr('id') ).toggle();
-  });
-  
-  
   // Dynamically adjust admin tab content width
   $('.admin_change_width').click(function() {
   

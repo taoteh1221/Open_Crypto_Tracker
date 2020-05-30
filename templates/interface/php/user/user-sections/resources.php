@@ -19,9 +19,9 @@
 	
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Coinmarketcap.com Stats</strong> </legend>
 	        
-			<p><a style='font-weight: bold;' class='show red' id='newbiewarning' href='#show_newbiewarning' title='Click to show newbie warning.' onclick='return false;'><b>Newbie Warning!</b></a></p>
+			<p><a style='font-weight: bold;' class='red' href='javascript: show_more("newbiewarning");' title='Click to show newbie warning.'><b>Newbie Warning!</b></a></p>
 	    
-		<div style='display: none;' class='align_left show_newbiewarning'>
+		<div id='newbiewarning' style='display: none;' class='align_left'>
 			
 	     
 						<p class='red'>
@@ -101,9 +101,9 @@
 	
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Exchanges</strong> </legend>
 	    
-			<p><a style='font-weight: bold;' class='show red' id='newbiewarning2' href='#show_newbiewarning2' title='Click to show newbie warning.' onclick='return false;'><b>Newbie Warning!</b></a></p>
+			<p><a style='font-weight: bold;' class='red' href='javascript: show_more("newbiewarning2");' title='Click to show newbie warning.'><b>Newbie Warning!</b></a></p>
 	    
-		<div style='display: none;' class='align_left show_newbiewarning2'>
+		<div id='newbiewarning2' style='display: none;' class='align_left'>
 			
 	     
 						<p class='red'>Store your coins in your own wallet (<i>hardware wallets allow this safely and easily</i>), do NOT store large holdings on an exchange. If an exchange is hacked, and your coins are stored on that exchange, <u>you easily can loose your coins with no recourse</u>. 😮 Also, ALWAYS enable 2-factor-authentication ("2FA" with Google Authenticator, Authy, etc, <i>preferably</i> on a device with no sim card / phone number) in your exchange account for logins / withdrawals, and NEVER USE 2FA VIA MOBILE TEXT MESSAGE, OR YOU COULD GET SIM-SWAP HACKED AND LOOSE ALL YOUR COINS!</p>
