@@ -131,9 +131,9 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 	var sorted_by_asc_desc = <?=$sorted_by_asc_desc?>;
 	var tablesort_theme = '<?=$theme_selected?>';
 	
-	var charts_background = '<?=$app_config['charts_alerts']['charts_background']?>';
+	var charts_background = '<?=$app_config['power_user']['charts_background']?>';
 	
-	var charts_border = '<?=$app_config['charts_alerts']['charts_border']?>';
+	var charts_border = '<?=$app_config['power_user']['charts_border']?>';
 	
 	var btc_primary_currency_value = '<?=number_format( $selected_btc_primary_currency_value, 2, '.', '' )?>';
 	

@@ -5,22 +5,6 @@
 
 
 
-///////////////////////////////////////////////////////////////////////////
-// Chart data cache sub-directory creation
-///////////////////////////////////////////////////////////////////////////
-// Structure of lite charts sub-directories
-$lite_charts_structure = array(
-									3,
-									7,
-									30,
-									90,
-									180,
-									365,
-									730,
-									1460,
-									'all',
-									);
-
 // ALL CHARTS FOR SPOT PRICE / 24 HOUR VOLUME
 foreach ( $app_config['charts_alerts']['tracked_markets'] as $key => $value ) {
 
@@ -38,9 +22,9 @@ foreach ( $app_config['charts_alerts']['tracked_markets'] as $key => $value ) {
 		}
 		
 		// Lite charts
-		foreach( $lite_charts_structure as $lite_chart_days ) {
+		foreach( $app_config['power_user']['lite_chart_day_intervals'] as $lite_chart_days ) {
 			
-			if ( dir_structure($base_dir . '/cache/charts/spot_price_24hr_volume/lite/'.$lite_chart_days.'_day/'.$asset_dir.'/') != TRUE ) { // Attempt to create directory if it doesn't exist
+			if ( dir_structure($base_dir . '/cache/charts/spot_price_24hr_volume/lite/'.$lite_chart_days.'_days/'.$asset_dir.'/') != TRUE ) { // Attempt to create directory if it doesn't exist
 			$disabled_caching = 1;
 			}
 			
@@ -51,9 +35,9 @@ foreach ( $app_config['charts_alerts']['tracked_markets'] as $key => $value ) {
 }
 
 // LITE CHARTS FOR SYSTEM STATS
-foreach( $lite_charts_structure as $lite_chart_days ) {
+foreach( $app_config['power_user']['lite_chart_day_intervals'] as $lite_chart_days ) {
 			
-	if ( dir_structure($base_dir . '/cache/charts/system/lite/'.$lite_chart_days.'_day/') != TRUE ) { // Attempt to create directory if it doesn't exist
+	if ( dir_structure($base_dir . '/cache/charts/system/lite/'.$lite_chart_days.'_days/') != TRUE ) { // Attempt to create directory if it doesn't exist
 	$disabled_caching = 1;
 	}
 			

@@ -58,6 +58,10 @@ $app_config['mobile_network_text_gateways'] = $cleaned_mobile_networks;
 $app_config['power_user']['crypto_pairing']['btc'] = 'Ƀ ';
 
 
+// Default lite chart mode 'all' (we activate it here instead of in config.php, for good UX adding ONLY day intervals there)
+$app_config['power_user']['lite_chart_day_intervals'][] = 'all';
+
+
 
 // Dynamically add MISCASSETS to $app_config['portfolio_assets'] BEFORE ALPHABETICAL SORTING
 // ONLY IF USER HASN'T MESSED UP $app_config['portfolio_assets'], AS WE DON'T WANT TO CANCEL OUT ANY
@@ -123,7 +127,7 @@ ksort($app_config['power_user']['news_feeds']);
 
 
 // Better decimal support for these vars...
-$app_config['general']['system_stats_first_chart_highest_value'] = number_to_string($app_config['general']['system_stats_first_chart_highest_value']); 
+$app_config['power_user']['system_stats_first_chart_highest_value'] = number_to_string($app_config['power_user']['system_stats_first_chart_highest_value']); 
 $app_config['general']['primary_currency_decimals_max_threshold'] = number_to_string($app_config['general']['primary_currency_decimals_max_threshold']); 
 $app_config['comms']['price_alerts_threshold'] = number_to_string($app_config['comms']['price_alerts_threshold']); 
 $app_config['power_user']['hivepower_yearly_interest'] = number_to_string($app_config['power_user']['hivepower_yearly_interest']); 

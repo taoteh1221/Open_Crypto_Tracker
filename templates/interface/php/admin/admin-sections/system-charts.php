@@ -88,7 +88,7 @@
 	<div class='red' id='system_charts_error'></div>
 	
 	
-	<div class='chart_wrapper' id='system_stats_chart_1'><span class='chart_loading' style='color: <?=$app_config['charts_alerts']['charts_text']?>;'> &nbsp; Loading chart #1 for system data...</span></div>
+	<div class='chart_wrapper' id='system_stats_chart_1'><span class='chart_loading' style='color: <?=$app_config['power_user']['charts_text']?>;'> &nbsp; Loading chart #1 for system data...</span></div>
 	
 	<script>
 	
@@ -102,7 +102,7 @@
 	<br/><br/><br/>
 	
 	
-	<div class='chart_wrapper' id='system_stats_chart_2'><span class='chart_loading' style='color: <?=$app_config['charts_alerts']['charts_text']?>;'> &nbsp; Loading chart #2 for system data...</span></div>
+	<div class='chart_wrapper' id='system_stats_chart_2'><span class='chart_loading' style='color: <?=$app_config['power_user']['charts_text']?>;'> &nbsp; Loading chart #2 for system data...</span></div>
 	
 	<script>
 	

@@ -708,6 +708,15 @@ select opt in $OPTIONS; do
   				rm -rf $DOC_ROOT/backups
   				rm -rf $DOC_ROOT/cache/apis
   				rm -rf $DOC_ROOT/cache/charts/lite/1_day
+  				rm -rf $DOC_ROOT/cache/charts/lite/3_day
+  				rm -rf $DOC_ROOT/cache/charts/lite/7_day
+  				rm -rf $DOC_ROOT/cache/charts/lite/30_day
+  				rm -rf $DOC_ROOT/cache/charts/lite/90_day
+  				rm -rf $DOC_ROOT/cache/charts/lite/180_day
+  				rm -rf $DOC_ROOT/cache/charts/lite/365_day
+  				rm -rf $DOC_ROOT/cache/charts/lite/730_day
+  				rm -rf $DOC_ROOT/cache/charts/lite/1460_day
+  				rm -rf $DOC_ROOT/cache/charts/lite/all_day
   				rm -rf $DOC_ROOT/cache/charts/lite/1_week
   				rm -rf $DOC_ROOT/cache/charts/lite/1_month
   				rm -rf $DOC_ROOT/cache/charts/lite/3_months

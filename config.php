@@ -39,11 +39,21 @@ $app_config = array(); // REQUIRED, DON'T DELETE BY ACCIDENT
 ////////////////////////////////////////
 
 
+// Enable / disable daily upgrade checks and alerts (DEFAULT IS DISABLED)
+// (Checks latest release version via github.com API endpoint value "tag_name" 
+// @ https://api.github.com/repos/taoteh1221/DFD_Cryptocoin_Values/releases/latest)
+// Choosing 'all' will send to all properly-configured communication channels, and automatically skip any not properly setup
+$app_config['comms']['upgrade_check'] = 'off'; // 'off' (disabled) / 'all' / 'ui' (web interface) / 'email' / 'text' / 'notifyme' / 'telegram'
+////
+// Wait X days between upgrade reminders (sent by email / text / notifyme / telegram)
+$app_config['comms']['upgrade_check_reminder'] = 14; // (only used if upgrade check is enabled above)
+
+
 // IF SMTP EMAIL SENDING --NOT-- USED, FROM email should be REAL address on the website domain, or risk having email blacklisted / sent to junk folder
 // IF SMTP EMAIL SENDING --IS-- USED, FROM EMAIL MUST MATCH EMAIL ADDRESS associated with SMTP login (SMTP Email configuration is below this setting)
-$app_config['comms']['from_email'] = ''; // MUST BE SET for price alerts and other email features
+$app_config['comms']['from_email'] = ''; // #SHOULD BE SET# to avoid email going to spam / junk / blacklist
 ////
-$app_config['comms']['to_email'] = ''; // MUST BE SET for price alerts and other email features
+$app_config['comms']['to_email'] = ''; // #MUST BE SET# for price alerts and other email features
 
 
 // OPTIONALLY use SMTP authentication TO SEND EMAIL, if you have no reverse lookup that matches domain name (on your home network etc)
@@ -81,6 +91,20 @@ $app_config['comms']['textbelt_apikey'] = '';
 $app_config['comms']['textlocal_account'] = ''; // This format MUST be used: 'username||hash_code'
 
 
+// Google Home alert configuration (WORK IN PROGRESS, !!NOT FUNCTIONAL!!)
+// CAN BE BLANK. Setup: https://developers.google.com/assistant/engagement/notifications
+$app_config['comms']['google_application_name'] = '';
+////
+$app_config['comms']['google_client_id'] = '';
+////
+$app_config['comms']['google_client_secret'] = '';
+
+
+// For notifyme / alexa notifications (sending Alexa devices notifications for free). 
+// CAN BE BLANK. Setup: http://www.thomptronics.com/notify-me
+$app_config['comms']['notifyme_accesscode'] = '';
+
+
 // Sending alerts to your own telegram bot chatroom. 
 // (USEFUL IF YOU HAVE ISSUES SETTING UP MOBILE TEXT ALERTS, INCLUDING EMOJI / UNICODE CHARACTER ENCODING)
 // Setup: https://core.telegram.org/bots , OR JUST SEARCH / VISIT "BotFather" in the telegram app
@@ -96,36 +120,6 @@ $app_config['comms']['telegram_bot_username'] = '';  // Your bot's username
 $app_config['comms']['telegram_bot_name'] = ''; // Your bot's human-readable name (example: 'My Alerts Bot')
 ////
 $app_config['comms']['telegram_bot_token'] = '';  // Your bot's access token
-
-
-// Smart home notifications
-
-// For notifyme / alexa notifications (sending Alexa devices notifications for free). 
-// CAN BE BLANK. Setup: http://www.thomptronics.com/notify-me
-$app_config['comms']['notifyme_accesscode'] = '';
-
-
-// Google Home alert configuration (WORK IN PROGRESS, !!NOT FUNCTIONAL!!)
-// CAN BE BLANK. Setup: https://developers.google.com/assistant/engagement/notifications
-$app_config['comms']['google_application_name'] = '';
-////
-$app_config['comms']['google_client_id'] = '';
-////
-$app_config['comms']['google_client_secret'] = '';
-
-
-// Enable / disable daily upgrade checks and alerts (DEFAULT IS DISABLED)
-// (Checks latest release version via github.com API endpoint value "tag_name" 
-// @ https://api.github.com/repos/taoteh1221/DFD_Cryptocoin_Values/releases/latest)
-// Choosing 'all' will send to all properly-configured communication channels, and automatically skip any not properly setup
-$app_config['comms']['upgrade_check'] = 'off'; // 'off' (disabled) / 'all' / 'ui' (web interface) / 'email' / 'text' / 'notifyme' / 'telegram'
-////
-// Wait X days between upgrade reminders (sent by email / text / notifyme / telegram)
-$app_config['comms']['upgrade_check_reminder'] = 14; // (only used if upgrade check is enabled above)
-
-
-// Email logs every X days. 0 disables mailing logs. Email to / from !MUST BE SET!, MAY NOT SEND IN TIMELY FASHION WITHOUT A CRON JOB
-$app_config['comms']['email_logs'] = 3; 
 
 
 // PRICE ALERTS SETUP REQUIRES A CRON JOB RUNNING ON YOUR WEBSITE SERVER (see README.txt for cron job setup information) 
@@ -147,7 +141,7 @@ $app_config['comms']['price_alerts_block_volume_error'] = 'on'; // 'on' / 'off'
 $app_config['comms']['price_alerts_min_volume'] = 14000;
 
 
-// Alerts for failed proxy data connections (if proxies are enabled further down in PROXY CONFIGURATION). 
+// Alerts for failed proxy data connections (ONLY USED IF proxies are enabled further down in PROXY CONFIGURATION). 
 // Choosing 'all' will send to all properly-configured communication channels, and automatically skip any not properly setup
 $app_config['comms']['proxy_alerts'] = 'email'; // 'off' (disabled) / 'all' / 'email' / 'text' / 'notifyme' / 'telegram'
 ////
@@ -157,6 +151,10 @@ $app_config['comms']['proxy_alerts_runtime'] = 'cron'; // Which runtime mode sho
 ////
 // 'include' or 'ignore' proxy alerts, if proxy checkup went OK? (after flagged, started working again when checked)
 $app_config['comms']['proxy_alerts_checkup_ok'] = 'include'; 
+
+
+// Email logs every X days. 0 disables mailing logs. Email to / from !MUST BE SET!, MAY NOT SEND IN TIMELY FASHION WITHOUT A CRON JOB
+$app_config['comms']['email_logs'] = 3; 
 
 
 ////////////////////////////////////////
@@ -188,38 +186,9 @@ $app_config['general']['coinmarketcapcom_api_key'] = '';
 
 // Password protection / encryption security for backup archives (chart data archives, etc)
 $app_config['general']['backup_archive_password'] = ''; // LEAVE BLANK TO DISABLE
-
-
-$app_config['general']['backup_archive_delete_old'] = 10; // Days until old backup archives should be deleted (chart data archives, etc)
-
-
-// Your local time offset IN HOURS, COMPARED TO UTC TIME. Can be negative or positive.
-// (Used for user experience 'pretty' timestamping in interface logic ONLY, WILL NOT change or screw up UTC log times etc if you change this)
-$app_config['general']['local_time_offset'] = -4; // example: -5 or 5
-
-
-// Default marketcap data source: 'coingecko', or 'coinmarketcap' (COINMARKETCAP REQUIRES A #FREE# API KEY, see below)
-$app_config['general']['primary_marketcap_site'] = 'coingecko'; 
-
-
-// ENABLING CHARTS REQUIRES A CRON JOB SETUP (see README.txt for cron job setup information)
-// Enables a charts tab / page with historical charts
-// Caches the default [primary currency] ($app_config['general']['btc_primary_currency_pairing'] further down in GENERAL CONFIGURATION)
-// default [primary currency] price / crypto price / volume data for charts of all assets added to $app_config['charts_alerts']['tracked_markets'] (further down in CHART AND PRICE ALERT CONFIGURATION)
-// Disabling will disable EVERYTHING related to the price charts (price charts tab / page, and price chart data caching)
-$app_config['general']['charts_toggle'] = 'on'; // 'on' / 'off'
-
-
-// Configure which interface theme you want as the default theme (also can be manually switched later, on the settings page in the interface)
-$app_config['general']['default_theme'] = 'dark'; // 'dark' or 'light'
-
-
-$app_config['general']['margin_leverage_max'] = 150; // Maximum margin leverage available in the user interface ('Update' page, etc)
-
-
-// Highest numeric value sensor data to include in the FIRST system information chart (out of two)
-// (higher sensor data is moved into the second chart, to keep ranges easily readable between both charts...only used if stats are enabled above)
-$app_config['general']['system_stats_first_chart_highest_value'] = 3.5; // Can be a decimal (example: 0.5 or 7.5 etc)
+////
+// Days until old backup archives should be deleted (chart data archives, etc)
+$app_config['general']['backup_archive_delete_old'] = 10; 
 
 
 // Default BITCOIN-ONLY currency market pairings (80+ primary currencies supported)
@@ -249,10 +218,33 @@ $app_config['general']['btc_primary_exchange'] = 'kraken';  // PUT INSIDE SINGLE
 // for prettier / less-cluttered interface. IF YOU ADJUST $app_config['general']['btc_primary_currency_pairing'] ABOVE, 
 // YOU MAY NEED TO ADJUST THIS ACCORDINGLY FOR !PRETTY / FUNCTIONAL! CHARTS / ALERTS FOR YOUR PRIMARY CURRENCY
 $app_config['general']['primary_currency_decimals_max'] = 5; // Whole numbers only (represents number of decimals maximum to use)
-
-
+////
 // Below what currency amount do we switch from 2 decimals, over to using the above 'primary_currency_decimals_max' setting
 $app_config['general']['primary_currency_decimals_max_threshold'] = 0.70; // Can be decimals, NO SYMBOLS, NUMBERS ONLY
+
+
+// ENABLING CHARTS REQUIRES A CRON JOB SETUP (see README.txt for cron job setup information)
+// Enables a charts tab / page with historical charts
+// Caches the default [primary currency] ($app_config['general']['btc_primary_currency_pairing'] further down in GENERAL CONFIGURATION)
+// default [primary currency] price / crypto price / volume data for charts of all assets added to $app_config['charts_alerts']['tracked_markets'] (further down in CHART AND PRICE ALERT CONFIGURATION)
+// Disabling will disable EVERYTHING related to the price charts (price charts tab / page, and price chart data caching)
+$app_config['general']['charts_toggle'] = 'on'; // 'on' / 'off'
+
+
+// Your local time offset IN HOURS, COMPARED TO UTC TIME. Can be negative or positive.
+// (Used for user experience 'pretty' timestamping in interface logic ONLY, WILL NOT change or screw up UTC log times etc if you change this)
+$app_config['general']['local_time_offset'] = -4; // example: -5 or 5
+
+
+// Configure which interface theme you want as the default theme (also can be manually switched later, on the settings page in the interface)
+$app_config['general']['default_theme'] = 'dark'; // 'dark' or 'light'
+
+
+// Default marketcap data source: 'coingecko', or 'coinmarketcap' (COINMARKETCAP REQUIRES A #FREE# API KEY, see $app_config['general']['coinmarketcapcom_api_key'] above)
+$app_config['general']['primary_marketcap_site'] = 'coingecko'; 
+
+
+$app_config['general']['margin_leverage_max'] = 150; // Maximum margin leverage available in the user interface ('Update' page, etc)
 
 
 ////////////////////////////////////////
@@ -290,40 +282,13 @@ $app_config['proxy']['proxy_list'] = array(
 
 // CHARTS / PRICE ALERTS SETUP REQUIRES A CRON JOB RUNNING ON YOUR WEBSITE SERVER (see README.txt for cron job setup information) 
 
-// Chart colors (https://www.w3schools.com/colors/colors_picker.asp)
-////
-// Charts border color
-$app_config['charts_alerts']['charts_border'] = '#808080';  
-////
-// Charts background color
-$app_config['charts_alerts']['charts_background'] = '#515050';  
-////
-// Charts line color
-$app_config['charts_alerts']['charts_line'] = '#444444';  
-////
-// Charts text color
-$app_config['charts_alerts']['charts_text'] = '#dddddd';  
-////
-// Charts link color
-$app_config['charts_alerts']['charts_link'] = '#b5b5b5';  
-////
-// Charts price (base) gradient color
-$app_config['charts_alerts']['charts_price_gradient'] = '#000000'; 
-////
-// Charts tooltip background color
-$app_config['charts_alerts']['charts_tooltip_background'] = '#bbbbbb';
-////
-// Charts tooltip text color
-$app_config['charts_alerts']['charts_tooltip_text'] = '#222222';
-////
-// Backup chart data in a zip file in the 'backups' subdirectory (with a secure random suffix for privacy), only used if $app_config['general']['charts_toggle'] (IN GENERAL CONFIGURATION) is on
-$app_config['charts_alerts']['charts_backup_freq'] = 1; // Every X days backup chart data. 0 disables backups. Email to / from !MUST BE SET! (a download link is emailed to you of the chart data archive)
-
-
 // Asset price alert configuration
 // Only used if $app_config['charts_alerts']['tracked_markets'] is filled in properly below, AND a cron job is setup (see README.txt for cron job setup information) 
 ////
-// Fixed reset of cached comparison asset prices every X days (since last price reset / alert) with the current latest spot prices
+// Backup chart data in a zip file in the 'backups' subdirectory (with a secure random suffix for privacy), only used if $app_config['general']['charts_toggle'] (IN GENERAL CONFIGURATION) is on
+$app_config['charts_alerts']['charts_backup_freq'] = 1; // Every X days backup chart data. 0 disables backups. Email to / from !MUST BE SET! (a download link is emailed to you of the chart data archive)
+////
+// Fixed time interval reset of cached comparison asset prices every X days (since last price reset / alert) with the current latest spot prices
 // Can be 0 to disable fixed resetting (IN WHICH CASE RESETS WILL ONLY OCCUR dynamically whenever the next price alert is triggered)
 $app_config['charts_alerts']['price_alerts_fixed_reset'] = 0; // (default = 0)
 ////
@@ -332,8 +297,7 @@ $app_config['charts_alerts']['price_alerts_fixed_reset'] = 0; // (default = 0)
 // ("min_price_percent_change_24hr_average" should be the same value or higher as $app_config['comms']['price_alerts_threshold'] to work properly)
 // Leave BLANK '' TO DISABLE. DECIMALS ARE SUPPORTED, USE NUMBERS ONLY (NO CURRENCY SYMBOLS / COMMAS, ETC)
 $app_config['charts_alerts']['price_alerts_whale_alert_threshold'] = '1.65||8.85||9.1||16000';
-
-
+////
 // Markets you want charts or asset price change alerts for (alerts sent when default [primary currency] 
 // [$app_config['general']['btc_primary_currency_pairing'] at top of this config] value change is equal to or above / below $app_config['comms']['price_alerts_threshold']) 
 // NOTE: This list must only contain assets / exchanges / trading pairs included in the primary portfolio assets list configuration further down in this config file
@@ -365,8 +329,8 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					'btc-6' => 'bitfinex||usd||none',
 					'btc-7' => 'binance_us||usd||none',
 					'btc-8' => 'kraken||eur||chart',
-					'btc-9' => 'coinbase||eur||chart',
-					'btc-10' => 'coinbase||gbp||none',
+					'btc-9' => 'coinbase||eur||none',
+					'btc-10' => 'coinbase||gbp||chart',
 					'btc-11' => 'kraken||cad||none',
 					'btc-12' => 'btcmarkets||aud||none',
 					'btc-13' => 'bitbns||inr||none',
@@ -375,28 +339,28 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					'btc-16' => 'bitflyer||jpy||chart',
 					'btc-17' => 'tidebit||hkd||none',
 					'btc-18' => 'localbitcoins||chf||none',
-					'btc-19' => 'upbit||krw||chart',
+					'btc-19' => 'upbit||krw||none',
 					'btc-20' => 'bitso||mxn||none',
 					'btc-21' => 'localbitcoins||nzd||none',
 					'btc-22' => 'localbitcoins||rub||none',
 					'btc-23' => 'lakebtc||sgd||none',
-					'btc-24' => 'btcturk||try||none',
+					'btc-24' => 'btcturk||try||chart',
 					'btc-25' => 'localbitcoins||twd||none',
 					'btc-26' => 'luno||zar||chart',
 					'btc-27' => 'kraken||dai||none',
 					
 					
 					// ETH
-					'eth' => 'coinbase||btc||chart',
+					'eth' => 'coinbase||btc||none',
 					'eth-2' => 'bittrex||btc||none',
 					'eth-3' => 'kraken||btc||chart',
 					'eth-4' => 'binance||usdt||both',
 					'eth-5' => 'binance_us||btc||none',
 					'eth-6' => 'coinbase||usd||chart',
 					'eth-7' => 'kraken||usd||chart',
-					'eth-8' => 'bitstamp||usd||chart',
+					'eth-8' => 'bitstamp||usd||none',
 					'eth-9' => 'gemini||usd||none',
-					'eth-10' => 'coinbase||gbp||none',
+					'eth-10' => 'coinbase||gbp||chart',
 					'eth-11' => 'coinbase||eur||chart',
 					'eth-12' => 'bittrex||usdt||none',
 					'eth-13' => 'bitbns||inr||none',
@@ -522,8 +486,233 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 /////////////////////////////////////////////////////////////////////////////
 
 
-// The maximum number of data points allowed in each lite chart (to speed up page / chart loading times)
-$app_config['power_user']['chart_data_points_max'] = '365'; // (default = '365')
+// Activate any custom cron plugins you've created (that runs during cron jobs, from the /cron-plugins/ directory)
+// SEE /DOCUMENTATION-ETC/CRON-PLUGINS-README.txt for creating your own custom cron plugins
+// REMOVE ANY DOUBLE FORWARD SLASHES FROM IN FRONT OF THE PLUGIN YOU WANT ACTIVATED
+// ADD ANY NEW CRON PLUGIN HERE BY USING THE FOLDER NAME THE NEW PLUGIN IS LOCATED IN
+// NEVER ADD A CRON PLUGIN SOMEBODY ELSE WROTE, UNLESS YOU OR SOMEONE YOU TRUST 
+// HAVE REVIEWED THE CODE AND ARE ABSOLUTELY SURE IT IS NOT MALICIOUS!!
+$app_config['power_user']['activate_cron_plugins'] = array(
+						//'PLUGIN_FOLDER_NAME', // (your plugin folder in /cron-plugins/)
+						//'hns-airdrop',  // HNS Airdrop example plugin (detects when you receive HNS tokens at a new / unused address)
+						//'recurring-reminder',  // Recurring Reminder example plugin (remind yourself every X days to do something)
+							);
+							
+
+// Minutes to cache real-time exchange price data...can be zero to skip cache, but set to at least 1 minute TO AVOID YOUR IP GETTING BLOCKED
+// SOME APIS PREFER THIS SET TO AT LEAST A FEW MINUTES, SO HIGHLY RECOMMENDED TO KEEP FAIRLY HIGH
+$app_config['power_user']['last_trade_cache_time'] = 4; // (default = 4)
+
+
+// Minutes to cache blockchain stats (for mining calculators). Set high initially, it can be strict
+$app_config['power_user']['chainstats_cache_time'] = 70;  // (default = 70)
+
+
+// Minutes to cache marketcap rankings...start high and test lower, it can be strict
+$app_config['power_user']['marketcap_cache_time'] = 40;  // (default = 40)
+////
+// Number of marketcap rankings to request from API.
+// 250 rankings is a safe maximum to start with, to avoid getting your API requests throttled / blocked
+$app_config['power_user']['marketcap_ranks_max'] = 250; // (default = 250)
+
+
+// Lite charts (load just as quickly for any time interval, 7 day / 30 day / 365 day / etc)
+////
+// The maximum number of data points allowed in each lite chart (speeds up page / chart loading times SIGNIFICANTLY #WITH A LOW NUMBER#)
+$app_config['power_user']['lite_chart_data_points_max'] = '365'; // (default = '365')
+////
+//	Lite chart updates randomly delayed up to X minutes maximum, to lower the system load / evenly spread across cron jobs
+// (THE HIGHER THE NUMBER, THE LESS LOAD ON YOUR SYSTEM / HIGHER DELAYED UPDATE TIME)
+$app_config['power_user']['lite_chart_delay_max'] = 120; // (default = 120)       
+////
+// Structure of lite charts (X days time period charts)
+// (#SHOULD BE KEPT MINIMAL# TO REDUCE RUNTIME LOAD / DISK WRITES DURING CRON JOBS)
+$app_config['power_user']['lite_chart_day_intervals'] = array(7, 30, 180, 365); // (default = 7, 30, 180, 365)
+
+																					
+// Chart colors (https://www.w3schools.com/colors/colors_picker.asp)
+////
+// Charts border color
+$app_config['power_user']['charts_border'] = '#808080';  
+////
+// Charts background color
+$app_config['power_user']['charts_background'] = '#515050';  
+////
+// Charts line color
+$app_config['power_user']['charts_line'] = '#444444';  
+////
+// Charts text color
+$app_config['power_user']['charts_text'] = '#dbdbdb';  
+////
+// Charts link color
+$app_config['power_user']['charts_link'] = '#b5b5b5';  
+////
+// Charts price (base) gradient color
+$app_config['power_user']['charts_price_gradient'] = '#000000'; 
+////
+// Charts tooltip background color
+$app_config['power_user']['charts_tooltip_background'] = '#bbbbbb';
+////
+// Charts tooltip text color
+$app_config['power_user']['charts_tooltip_text'] = '#222222';
+							
+							
+// Activate support for ALTCOIN PAIRED MARKETS (like doge/eth, dai/eth, etc)
+// EACH ALTCOIN LISTED HERE !MUST HAVE! AN EXISTING 'btc' MARKET (within 'market_pairing') 
+// in it's $app_config['portfolio_assets'] listing (further down in this config file) TO PROPERLY ACTIVATE
+// TRY TO #NOT# ADD STABLECOINS HERE, ATTEMPT TO USE $app_config['power_user']['bitcoin_currency_markets'] INSTEAD (TO AUTO-CLIP UN-NEEDED DECIMAL POINTS IN THE UI)
+$app_config['power_user']['crypto_pairing'] = array(
+						//'lowercase_altcoin_abrv' => 'CRYPTO_SYMBOL',
+						'eth' => 'Ξ ',
+						'ltc' => 'Ł ',
+						'xmr' => 'ɱ ',
+							);
+
+
+
+// Preferred ALTCOIN PAIRED MARKETS market(s) for getting a certain crypto's value
+// EACH ALTCOIN LISTED HERE MUST EXIST IN $app_config['power_user']['crypto_pairing'] ABOVE,
+// AND !MUST HAVE! AN EXISTING 'btc' MARKET (within 'market_pairing') in it's 
+// $app_config['portfolio_assets'] listing (further down in this config file),
+// AND #THE EXCHANGE NAME MUST BE IN THAT 'btc' LIST#
+// #USE VERY LIBERALLY#, AS YOU WANT THE BEST PRICE DISCOVERY FOR THIS CRYPTO'S VALUE
+$app_config['power_user']['crypto_pairing_preferred_markets'] = array(
+						//'lowercase_btc_market_or_stablecoin_pairing' => 'PREFERRED_MARKET',
+							'eth' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
+							'ltc' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
+							'xmr' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
+							);
+
+
+
+// Activate support for PRIMARY CURRENCY MARKETS (to use as your preferred local currency in the app)
+// EACH CURRENCY LISTED HERE !MUST HAVE! AN EXISTING BITCOIN ASSET MARKET (within 'market_pairing') 
+// in Bitcoin's $app_config['portfolio_assets'] listing (further down in this config file) TO PROPERLY ACTIVATE
+// (CAN BE A CRYPTO, !AS LONG AS THERE IS A PAIRING CONFIGURED WITHIN THE BITCOIN ASSET SETUP!)
+$app_config['power_user']['bitcoin_currency_markets'] = array(
+						//'lowercase_btc_market_or_stablecoin_pairing' => 'CURRENCY_SYMBOL',
+						'aed' => 'د.إ',
+						'ars' => 'ARS$',
+						'aud' => 'A$',
+						'bam' => 'KM ',
+						'bdt' => '৳',
+						'bob' => 'Bs ',
+						'brl' => 'R$',
+						'bwp' => 'P ',
+						'byn' => 'Br ',
+						'cad' => 'C$',
+						'chf' => 'CHf ',
+						'clp' => 'CLP$',
+						'cny' => 'C¥',
+						'cop' => 'Col$',
+						'crc' => '₡',
+						'czk' => 'Kč ',
+						'dai' => 'Đ ',
+						'dkk' => 'Kr. ',
+						'dop' => 'RD$',
+						'egp' => 'ج.م',
+						'eth' => 'Ξ ',
+						'eur' => '€',
+						'gbp' => '£',
+						'gel' => 'ლ',
+						'ghs' => 'GH₵',
+						'gtq' => 'Q ',
+						'hkd' => 'HK$',
+						'huf' => 'Ft ',
+						'idr' => 'Rp ',
+						'ils' => '₪',
+						'inr' => '₹',
+						'irr' => '﷼',
+						'jmd' => 'JA$',
+						'jod' => 'د.ا',
+						'jpy' => 'J¥',
+						'kes' => 'Ksh ',
+						'krw' => '₩',
+						'kwd' => 'د.ك',
+						'kzt' => '₸',
+						'lkr' => 'රු, ரூ',
+						'ltc' => 'Ł ',
+						'mad' => 'د.م.',
+						'mur' => '₨ ',
+						'mwk' => 'MK ',
+						'mxn' => 'Mex$',
+						'myr' => 'RM ',
+						'ngn' => '₦',
+						'nis' => '₪',
+						'nok' => 'kr ',
+						'nzd' => 'NZ$',
+						'pab' => 'B/. ',
+						'pen' => 'S/ ',
+						'php' => '₱',
+						'pkr' => '₨ ',
+						'pln' => 'zł ',
+						'pyg' => '₲',
+						'qar' => 'ر.ق',
+						'ron' => 'lei ',
+						'rsd' => 'din ',
+						'rub' => '₽',
+						'rwf' => 'R₣ ',
+						'sar' => '﷼',
+						'sek' => 'kr ',
+						'sgd' => 'S$',
+						'thb' => '฿',
+						'try' => '₺',
+						'tusd' => 'Ⓢ ',
+						'twd' => 'NT$',
+						'tzs' => 'TSh ',
+						'uah' => '₴',
+						'ugx' => 'USh ',
+						'usd' => '$',
+						'usdc' => 'Ⓢ ',
+						'usdt' => '₮ ',
+						'uyu' => '$U ',
+						'vnd' => '₫',
+						'ves' => 'Bs ',
+						'xaf' => 'FCFA ',
+						'xof' => 'CFA ',
+						'zar' => 'R ',
+						'zmw' => 'ZK ',
+							);
+
+
+
+// Preferred BITCOIN market(s) for getting a certain currency's value
+// (when other exchanges for this currency have poor api / volume / price discovery / etc)
+// EACH CURRENCY LISTED HERE MUST EXIST IN $app_config['power_user']['bitcoin_currency_markets'] ABOVE
+// #USE VERY CONSERVATIVELY#, AS YOU'LL BE RECOMMENDING IN THE INTERFACE TO END-USERS TO AVOID USING ANY OTHER MARKETS FOR THIS CURRENCY
+$app_config['power_user']['bitcoin_preferred_currency_markets'] = array(
+						//'lowercase_btc_market_or_stablecoin_pairing' => 'PREFERRED_MARKET',
+							'eur' => 'kraken',  // WAY BETTER api, WAY BETTER price discovery than ALL alternatives
+							'dai' => 'kraken',  // WAY MORE reputable than hitBTC
+							'chf' => 'localbitcoins',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
+							'inr' => 'localbitcoins',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
+							'jpy' => 'localbitcoins',  // WAY MORE reliable than ALL alternatives
+							'rub' => 'localbitcoins',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
+							);
+
+
+
+// Static values in ETH for Ethereum subtokens, like during crowdsale periods etc (before exchange listings)
+$app_config['power_user']['ethereum_subtoken_ico_values'] = array(
+                        'ETHSUBTOKENNAME' => '0.15',
+                        'GOLEM' => '0.001',
+                        'ARAGON' => '0.01',
+                        'DECENTRALAND' => '0.00008',
+                        );
+
+
+
+// Mining rewards for different crypto networks (to prefill the editable mining calculator forms)
+$app_config['power_user']['mining_rewards'] = array(
+					'btc' => '12.5',
+					'doge' => '10000',
+					'dcr' => 'PLACEHOLDER',  // WE DYNAMICALLY UPDATE THIS IN INIT.PHP
+					'eth' => '2',
+					'grin' => '60',
+					'ltc' => '12.5',
+					'xmr' => 'PLACEHOLDER',  // WE DYNAMICALLY UPDATE THIS IN INIT.PHP
+					);
+						
 
 
 // 'on' verifies ALL SMTP server certificates for secure SMTP connections, 'off' verifies NOTHING 
@@ -534,8 +723,7 @@ $app_config['power_user']['smtp_strict_ssl'] = 'off'; // (DEFAULT IS 'off', TO A
 // 'on' verifies ALL REMOTE API server certificates for secure API connections, 'off' verifies NOTHING 
 // Set to 'off' if some exchange's API servers have invalid certificates (which stops price data retrieval...but you still want to get price data from them)
 $app_config['power_user']['remote_api_strict_ssl'] = 'off'; // (default = 'off')
-
-
+////
 // Seconds to wait for response from REMOTE API endpoints (exchange data, etc). 
 // Set too low you won't get ALL data (partial or zero bytes), set too high the interface can take a long time loading if an API server hangs up
 // RECOMMENDED MINIMUM OF 45 FOR INSTALLS BEHIND #LOW BANDWIDTH# / HOME INTERNET NETWORKS 
@@ -546,39 +734,20 @@ $app_config['power_user']['remote_api_timeout'] = 30; // (default = 30)
 // Local / internal API rate limit (maximum of once every X seconds, per ip address) for accepting remote requests
 // Can be 0 to disable rate limiting (unlimited)
 $app_config['power_user']['local_api_rate_limit'] = 5; // (default = 5)
-
-
+////
 // Local / internal API market limit (maximum number of markets requested per call)
 $app_config['power_user']['local_api_market_limit'] = 20; // (default = 20)
-
-
+////
 // Local / internal API cache time (minutes that previous requests are cached for)
 $app_config['power_user']['local_api_cache_time'] = 4; // (default = 4)
-
-
-// Minutes to cache real-time exchange price data...can be zero to skip cache, but set to at least 1 minute TO AVOID YOUR IP GETTING BLOCKED
-// SOME APIS PREFER THIS SET TO AT LEAST A FEW MINUTES, SO HIGHLY RECOMMENDED TO KEEP FAIRLY HIGH
-$app_config['power_user']['last_trade_cache_time'] = 4; // (default = 4)
-
-
-$app_config['power_user']['chainstats_cache_time'] = 70; // Minutes to cache blockchain stats (for mining calculators). Set high initially, it can be strict
-
-
-$app_config['power_user']['marketcap_cache_time'] = 40; // Minutes to cache marketcap rankings...start high and test lower, it can be strict
-
-
-// Number of marketcap rankings to request from API.
-// 250 rankings is a safe maximum to start with, to avoid getting your API requests throttled / blocked
-$app_config['power_user']['marketcap_ranks_max'] = 250;
-
-
+			
+									
 // RSS feed entries to show per-feed on News page (without needing to click the "show more / less" link)
 $app_config['power_user']['news_feeds_entries_show'] = 5; // (default = 5)
-
-
+////
 // Minutes to cache RSS feeds for News page
 // Randomly cache each RSS feed between the minimum and maximum minutes set here (so they don't refresh all at once, for faster load times)
-// THE WIDER THE GAP BETWEEN THE NUMBERS, MORE SPLIT UP / FASTER THE FEEDS WILL LOAD
+// THE WIDER THE GAP BETWEEN THE NUMBERS, MORE SPLIT UP / FASTER THE FEEDS WILL LOAD IN THE INTERFACE
 $app_config['power_user']['news_feeds_cache_min_max'] = '75,175'; // 'min,max' (default = '75,175')
 ////
 // RSS news feeds available on the News page
@@ -846,186 +1015,7 @@ $app_config['power_user']['news_feeds'] = array(
         
     						);
      
-							
-							
-// Activate support for ALTCOIN PAIRED MARKETS (like doge/eth, dai/eth, etc)
-// EACH ALTCOIN LISTED HERE !MUST HAVE! AN EXISTING 'btc' MARKET (within 'market_pairing') 
-// in it's $app_config['portfolio_assets'] listing (further down in this config file) TO PROPERLY ACTIVATE
-// TRY TO #NOT# ADD STABLECOINS HERE, ATTEMPT TO USE $app_config['power_user']['bitcoin_currency_markets'] INSTEAD (TO AUTO-CLIP UNEEDED DECIMAL POINTS IN THE UI)
-$app_config['power_user']['crypto_pairing'] = array(
-						//'lowercase_altcoin_abrv' => 'CRYPTO_SYMBOL',
-						'eth' => 'Ξ ',
-						'ltc' => 'Ł ',
-						'xmr' => 'ɱ ',
-							);
-
-
-
-// Preferred ALTCOIN PAIRED MARKETS market(s) for getting a certain crypto's value
-// EACH ALTCOIN LISTED HERE MUST EXIST IN $app_config['power_user']['crypto_pairing'] ABOVE,
-// AND !MUST HAVE! AN EXISTING 'btc' MARKET (within 'market_pairing') in it's 
-// $app_config['portfolio_assets'] listing (further down in this config file),
-// AND #THE EXCHANGE NAME MUST BE IN THAT 'btc' LIST#
-// #USE VERY LIBERALLY#, AS YOU WANT THE BEST PRICE DISCOVERY FOR THIS CRYPTO'S VALUE
-$app_config['power_user']['crypto_pairing_preferred_markets'] = array(
-						//'lowercase_btc_market_or_stablecoin_pairing' => 'PREFERRED_MARKET',
-							'eth' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
-							'ltc' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
-							'xmr' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
-							);
-
-
-
-// Activate support for PRIMARY CURRENCY MARKETS (to use as your preferred local currency in the app)
-// EACH CURRENCY LISTED HERE !MUST HAVE! AN EXISTING BITCOIN ASSET MARKET (within 'market_pairing') 
-// in Bitcoin's $app_config['portfolio_assets'] listing (further down in this config file) TO PROPERLY ACTIVATE
-// (CAN BE A CRYPTO, !AS LONG AS THERE IS A PAIRING CONFIGURED WITHIN THE BITCOIN ASSET SETUP!)
-$app_config['power_user']['bitcoin_currency_markets'] = array(
-						//'lowercase_btc_market_or_stablecoin_pairing' => 'CURRENCY_SYMBOL',
-						'aed' => 'د.إ',
-						'ars' => 'ARS$',
-						'aud' => 'A$',
-						'bam' => 'KM ',
-						'bdt' => '৳',
-						'bob' => 'Bs ',
-						'brl' => 'R$',
-						'bwp' => 'P ',
-						'byn' => 'Br ',
-						'cad' => 'C$',
-						'chf' => 'CHf ',
-						'clp' => 'CLP$',
-						'cny' => 'C¥',
-						'cop' => 'Col$',
-						'crc' => '₡',
-						'czk' => 'Kč ',
-						'dai' => 'Đ ',
-						'dkk' => 'Kr. ',
-						'dop' => 'RD$',
-						'egp' => 'ج.م',
-						'eth' => 'Ξ ',
-						'eur' => '€',
-						'gbp' => '£',
-						'gel' => 'ლ',
-						'ghs' => 'GH₵',
-						'gtq' => 'Q ',
-						'hkd' => 'HK$',
-						'huf' => 'Ft ',
-						'idr' => 'Rp ',
-						'ils' => '₪',
-						'inr' => '₹',
-						'irr' => '﷼',
-						'jmd' => 'JA$',
-						'jod' => 'د.ا',
-						'jpy' => 'J¥',
-						'kes' => 'Ksh ',
-						'krw' => '₩',
-						'kwd' => 'د.ك',
-						'kzt' => '₸',
-						'lkr' => 'රු, ரூ',
-						'ltc' => 'Ł ',
-						'mad' => 'د.م.',
-						'mur' => '₨ ',
-						'mwk' => 'MK ',
-						'mxn' => 'Mex$',
-						'myr' => 'RM ',
-						'ngn' => '₦',
-						'nis' => '₪',
-						'nok' => 'kr ',
-						'nzd' => 'NZ$',
-						'pab' => 'B/. ',
-						'pen' => 'S/ ',
-						'php' => '₱',
-						'pkr' => '₨ ',
-						'pln' => 'zł ',
-						'pyg' => '₲',
-						'qar' => 'ر.ق',
-						'ron' => 'lei ',
-						'rsd' => 'din ',
-						'rub' => '₽',
-						'rwf' => 'R₣ ',
-						'sar' => '﷼',
-						'sek' => 'kr ',
-						'sgd' => 'S$',
-						'thb' => '฿',
-						'try' => '₺',
-						'tusd' => 'Ⓢ ',
-						'twd' => 'NT$',
-						'tzs' => 'TSh ',
-						'uah' => '₴',
-						'ugx' => 'USh ',
-						'usd' => '$',
-						'usdc' => 'Ⓢ ',
-						'usdt' => '₮ ',
-						'uyu' => '$U ',
-						'vnd' => '₫',
-						'ves' => 'Bs ',
-						'xaf' => 'FCFA ',
-						'xof' => 'CFA ',
-						'zar' => 'R ',
-						'zmw' => 'ZK ',
-							);
-
-
-
-// Preferred BITCOIN market(s) for getting a certain currency's value
-// (when other exchanges for this currency have poor api / volume / price discovery / etc)
-// EACH CURRENCY LISTED HERE MUST EXIST IN $app_config['power_user']['bitcoin_currency_markets'] ABOVE
-// #USE VERY CONSERVATIVELY#, AS YOU'LL BE RECOMMENDING IN THE INTERFACE TO END-USERS TO AVOID USING ANY OTHER MARKETS FOR THIS CURRENCY
-$app_config['power_user']['bitcoin_preferred_currency_markets'] = array(
-						//'lowercase_btc_market_or_stablecoin_pairing' => 'PREFERRED_MARKET',
-							'eur' => 'kraken',  // WAY BETTER api, WAY BETTER price discovery than ALL alternatives
-							'dai' => 'kraken',  // WAY MORE reputable than hitBTC
-							'chf' => 'localbitcoins',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
-							'inr' => 'localbitcoins',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
-							'jpy' => 'localbitcoins',  // WAY MORE reliable than ALL alternatives
-							'rub' => 'localbitcoins',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
-							);
-
-
-
-// Static values in ETH for Ethereum subtokens, like during crowdsale periods etc (before exchange listings)
-$app_config['power_user']['ethereum_subtoken_ico_values'] = array(
-                        'ETHSUBTOKENNAME' => '0.15',
-                        'GOLEM' => '0.001',
-                        'ARAGON' => '0.01',
-                        'DECENTRALAND' => '0.00008',
-                        );
-
-
-
-// Mining rewards for different crypto networks (to prefill the editable mining calculator forms)
-$app_config['power_user']['mining_rewards'] = array(
-					'btc' => '12.5',
-					'doge' => '10000',
-					'dcr' => 'PLACEHOLDER',  // WE DYNAMICALLY UPDATE THIS IN INIT.PHP
-					'eth' => '2',
-					'grin' => '60',
-					'ltc' => '12.5',
-					'xmr' => 'PLACEHOLDER',  // WE DYNAMICALLY UPDATE THIS IN INIT.PHP
-					);
-                        
-
-
-// Weeks to power down all HIVE Power holdings
-$app_config['power_user']['hive_powerdown_time'] = 13; 
-////
-// HIVE Power yearly interest rate START 11/29/2019 (1.2%, decreasing every year by roughly 0.075% until it hits a minimum of 0.075% and stays there)
-// 1.2 (DO NOT INCLUDE PERCENT SIGN) the first year at 11/29/2019 refactored rates, see above for manual yearly adjustment
-$app_config['power_user']['hivepower_yearly_interest'] = 1.2;
-
-
-// Activate any custom cron plugins you've created (that runs during cron jobs, from the /cron-plugins/ directory)
-// SEE /DOCUMENTATION-ETC/CRON-PLUGINS-README.txt for creating your own custom cron plugins
-// REMOVE ANY DOUBLE FORWARD SLASHES FROM IN FRONT OF THE PLUGIN YOU WANT ACTIVATED
-// ADD ANY NEW CRON PLUGIN HERE BY USING THE FOLDER NAME THE NEW PLUGIN IS LOCATED IN
-// NEVER ADD A CRON PLUGIN SOMEBODY ELSE WROTE, UNLESS YOU OR SOMEONE YOU TRUST 
-// HAVE REVIEWED THE CODE AND ARE ABSOLUTELY SURE IT IS NOT MALICIOUS!!
-$app_config['power_user']['activate_cron_plugins'] = array(
-						//'PLUGIN_FOLDER_NAME', // (your plugin folder in /cron-plugins/)
-						//'hns-airdrop',  // HNS Airdrop example plugin (detects when you receive HNS tokens at a new / unused address)
-						//'recurring-reminder',  // Recurring Reminder example plugin (remind yourself every X days to do something)
-							);
-
+		
 
 // Configuration for the CAPTCHA image on all admin login / reset pages
 $app_config['power_user']['captcha_permitted_chars'] = 'ACEFMNPRXY3478'; // Characters allowed for use in captcha image (default = 'ACEFMNPRXY3478')
@@ -1043,6 +1033,19 @@ $app_config['power_user']['captcha_text_margin'] = 4; // MINIMUM margin of text 
 // Contrast of text against background...0 for default, positive for extra contrast, negative for less contrast (maximum of +-35)
 $app_config['power_user']['captcha_text_contrast'] = 0; // example: -5 or 5 (default = 0)
 
+
+// Highest numeric value sensor data to include in the FIRST system information chart (out of two)
+// (higher sensor data is moved into the second chart, to keep ranges easily readable between both charts...only used if stats are enabled above)
+$app_config['power_user']['system_stats_first_chart_highest_value'] = 3.5; // Can be a decimal (example: 0.5 or 7.5 etc)
+
+
+// Weeks to power down all HIVE Power holdings
+$app_config['power_user']['hive_powerdown_time'] = 13; 
+////
+// HIVE Power yearly interest rate START 11/29/2019 (1.2%, decreasing every year by roughly 0.075% until it hits a minimum of 0.075% and stays there)
+// 1.2 (DO NOT INCLUDE PERCENT SIGN) the first year at 11/29/2019 refactored rates, see above for manual yearly adjustment
+$app_config['power_user']['hivepower_yearly_interest'] = 1.2;
+				
 
 ////////////////////////////////////////
 // !END! POWER USER CONFIGURATION

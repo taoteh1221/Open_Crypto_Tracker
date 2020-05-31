@@ -56,7 +56,7 @@
 			
 		
 			// Have this script send the UI alert messages, and not load any chart code (to not leave the page endlessly loading) if cache data is not present
-			if ( file_exists('cache/charts/spot_price_24hr_volume/lite/' . $_GET['days'] . '_day/'.$chart_asset.'/'.$key.'_chart_'.$charted_value.'.dat') != 1
+			if ( file_exists('cache/charts/spot_price_24hr_volume/lite/' . $_GET['days'] . '_days/'.$chart_asset.'/'.$key.'_chart_'.$charted_value.'.dat') != 1
 			|| $market_parse[2] != 'chart' && $market_parse[2] != 'both' ) {
 			?>
 			
@@ -67,7 +67,7 @@
 			}
 			
 		
-		$chart_data = chart_data('cache/charts/spot_price_24hr_volume/lite/' . $_GET['days'] . '_day/'.$chart_asset.'/'.$key.'_chart_'.$charted_value.'.dat', $market_parse[1]);
+		$chart_data = chart_data('cache/charts/spot_price_24hr_volume/lite/' . $_GET['days'] . '_days/'.$chart_asset.'/'.$key.'_chart_'.$charted_value.'.dat', $market_parse[1]);
 		
 		
 		$price_sample_oldest = number_to_string( delimited_string_sample($chart_data['spot'], ',', 'first') );
@@ -101,30 +101,30 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
   type: 'area',
   "preview":{
   		label: {
-      color: '<?=$app_config['charts_alerts']['charts_text']?>',
+      color: '<?=$app_config['power_user']['charts_text']?>',
       fontSize: '10px',
       lineWidth: '1px',
-      lineColor: '<?=$app_config['charts_alerts']['charts_line']?>',
+      lineColor: '<?=$app_config['power_user']['charts_line']?>',
      	},
  	  live: true,
  	  "adjust-layout": true,
  	  "alpha-area": 0.5,
  	  	height: 30
   },
-  backgroundColor: "<?=$app_config['charts_alerts']['charts_background']?>",
+  backgroundColor: "<?=$app_config['power_user']['charts_background']?>",
   height: 420,
   x: 0, 
   y: 0,
   globals: {
   	fontSize: 20,
-  	fontColor: "<?=$app_config['charts_alerts']['charts_text']?>"
+  	fontColor: "<?=$app_config['power_user']['charts_text']?>"
   },
   crosshairX:{
     shared: true,
     exact: true,
     plotLabel:{
-      backgroundColor: "<?=$app_config['charts_alerts']['charts_tooltip_background']?>",
-      fontColor: "<?=$app_config['charts_alerts']['charts_tooltip_text']?>",
+      backgroundColor: "<?=$app_config['power_user']['charts_tooltip_background']?>",
+      fontColor: "<?=$app_config['power_user']['charts_tooltip_text']?>",
       text: "Spot Price: <?=$currency_symbol?>%v",
 	 	fontSize: "20",
       fontFamily: "Open Sans",
@@ -135,10 +135,10 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
     },
     scaleLabel:{
     	alpha: 1.0,
-      fontColor: "<?=$app_config['charts_alerts']['charts_tooltip_text']?>",
+      fontColor: "<?=$app_config['power_user']['charts_tooltip_text']?>",
       fontSize: 20,
       fontFamily: "Open Sans",
-      backgroundColor: "<?=$app_config['charts_alerts']['charts_tooltip_background']?>",
+      backgroundColor: "<?=$app_config['power_user']['charts_tooltip_background']?>",
     }
   },
   crosshairY:{
@@ -146,9 +146,9 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
   },
   title: {
     text: "<?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=snake_case_to_name($market_parse[0])?> <?=( $_GET['charted_value'] != 'pairing' ? '(' . strtoupper($charted_value) . ' Value)' : '' )?>",
-    fontColor: "<?=$app_config['charts_alerts']['charts_text']?>",
+    fontColor: "<?=$app_config['power_user']['charts_text']?>",
     fontFamily: 'Open Sans',
-    fontSize: 23,
+    fontSize: 25,
     align: 'right',
     offsetX: -18,
     offsetY: 4
@@ -169,9 +169,9 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
   },
   tooltip:{
     text: "Spot Price: <?=$currency_symbol?>%v",
-    fontColor: "<?=$app_config['charts_alerts']['charts_tooltip_text']?>",
+    fontColor: "<?=$app_config['power_user']['charts_tooltip_text']?>",
 	 fontSize: "20",
-    backgroundColor: "<?=$app_config['charts_alerts']['charts_tooltip_background']?>",
+    backgroundColor: "<?=$app_config['power_user']['charts_tooltip_background']?>",
     "thousands-separator":","
   },
   scaleY: {
@@ -180,10 +180,10 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
     guide: {
       visible: true,
       lineStyle: 'solid',
-      lineColor: "<?=$app_config['charts_alerts']['charts_line']?>"
+      lineColor: "<?=$app_config['power_user']['charts_line']?>"
     },
     item: {
-      fontColor: "<?=$app_config['charts_alerts']['charts_text']?>",
+      fontColor: "<?=$app_config['power_user']['charts_text']?>",
       fontFamily: "Open Sans",
       fontSize: "14",
     }
@@ -192,7 +192,7 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
     guide: {
       visible: true,
       lineStyle: 'solid',
-      lineColor: "<?=$app_config['charts_alerts']['charts_line']?>"
+      lineColor: "<?=$app_config['power_user']['charts_line']?>"
     },
     values: [<?=$chart_data['time']?>],
  	  transform: {
@@ -204,113 +204,41 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
     },
     item: {
 	 fontSize: "14",
-      fontColor: "<?=$app_config['charts_alerts']['charts_text']?>",
+      fontColor: "<?=$app_config['power_user']['charts_text']?>",
       fontFamily: "Open Sans"
     }
   },
 	series : [
 		{
 			values: [<?=$chart_data['spot']?>],
-			lineColor: "<?=$app_config['charts_alerts']['charts_text']?>",
+			lineColor: "<?=$app_config['power_user']['charts_text']?>",
 			lineWidth: 1,
-			backgroundColor:"<?=$app_config['charts_alerts']['charts_text']?> <?=$app_config['charts_alerts']['charts_price_gradient']?>", /* background gradient on graphed price area in main chart (NOT the chart background) */
+			backgroundColor:"<?=$app_config['power_user']['charts_text']?> <?=$app_config['power_user']['charts_price_gradient']?>", /* background gradient on graphed price area in main chart (NOT the chart background) */
 			alpha: 0.5,
 				previewState: {
-      		backgroundColor: "<?=$app_config['charts_alerts']['charts_price_gradient']?>" /* background color on graphed price area in preview below chart (NOT the preview area background) */
+      		backgroundColor: "<?=$app_config['power_user']['charts_price_gradient']?>" /* background color on graphed price area in preview below chart (NOT the preview area background) */
 				}
 		}
 	],
 	labels: [
-	  {
-	    x: 80,
-	    y: 10,
-	    id: '3D',
-	    fontColor: "<?=($_GET['days'] == '3' ? $app_config['charts_alerts']['charts_text'] : $app_config['charts_alerts']['charts_link'] )?>",
-	    fontSize: "21",
+	<?php
+	$x_coord = 120;
+	foreach ($app_config['power_user']['lite_chart_day_intervals'] as $lite_chart_days) {
+	?>
+		{
+	    x: <?=$x_coord?>,
+	    y: 11,
+	    id: '<?=$lite_chart_days?> days',
+	    fontColor: "<?=($_GET['days'] == $lite_chart_days ? $app_config['power_user']['charts_text'] : $app_config['power_user']['charts_link'] )?>",
+	    fontSize: "22",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
-	    text: "3D"
-	  },
-	  {
-	    x: 130,
-	    y: 10,
-	    id: '1W',
-	    fontColor: "<?=($_GET['days'] == '7' ? $app_config['charts_alerts']['charts_text'] : $app_config['charts_alerts']['charts_link'] )?>",
-	    fontSize: "21",
-	    fontFamily: "Open Sans",
-	    cursor: "hand",
-	    text: "1W"
-	  },
-	  {
-	    x: 180,
-	    y: 10,
-	    id: '1M',
-	    fontColor: "<?=($_GET['days'] == '30' ? $app_config['charts_alerts']['charts_text'] : $app_config['charts_alerts']['charts_link'] )?>",
-	    fontSize: "21",
-	    fontFamily: "Open Sans",
-	    cursor: "hand",
-	    text: "1M"
-	  },
-	  {
-	    x: 230,
-	    y: 10,
-	    id: '3M',
-	    fontColor: "<?=($_GET['days'] == '90' ? $app_config['charts_alerts']['charts_text'] : $app_config['charts_alerts']['charts_link'] )?>",
-	    fontSize: "21",
-	    fontFamily: "Open Sans",
-	    cursor: "hand",
-	    text: "3M"
-	  },
-	  {
-	    x: 280,
-	    y: 10,
-	    id: '6M',
-	    fontColor: "<?=($_GET['days'] == '180' ? $app_config['charts_alerts']['charts_text'] : $app_config['charts_alerts']['charts_link'] )?>",
-	    fontSize: "21",
-	    fontFamily: "Open Sans",
-	    cursor: "hand",
-	    text: "6M"
-	  },
-	  {
-	    x: 330,
-	    y: 10,
-	    id: '1Y',
-	    fontColor: "<?=($_GET['days'] == '365' ? $app_config['charts_alerts']['charts_text'] : $app_config['charts_alerts']['charts_link'] )?>",
-	    fontSize: "21",
-	    fontFamily: "Open Sans",
-	    cursor: "hand",
-	    text: "1Y"
-	  },
-	  {
-	    x: 380,
-	    y: 10,
-	    id: '2Y',
-	    fontColor: "<?=($_GET['days'] == '730' ? $app_config['charts_alerts']['charts_text'] : $app_config['charts_alerts']['charts_link'] )?>",
-	    fontSize: "21",
-	    fontFamily: "Open Sans",
-	    cursor: "hand",
-	    text: "2Y"
-	  },
-	  {
-	    x: 430,
-	    y: 10,
-	    id: '4Y',
-	    fontColor: "<?=($_GET['days'] == '1460' ? $app_config['charts_alerts']['charts_text'] : $app_config['charts_alerts']['charts_link'] )?>",
-	    fontSize: "21",
-	    fontFamily: "Open Sans",
-	    cursor: "hand",
-	    text: "4Y"
-	  },
-	  {
-	    x: 480,
-	    y: 10,
-	    id: 'ALL',
-	    fontColor: "<?=($_GET['days'] == 'all' ? $app_config['charts_alerts']['charts_text'] : $app_config['charts_alerts']['charts_link'] )?>",
-	    fontSize: "21",
-	    fontFamily: "Open Sans",
-	    cursor: "hand",
-	    text: "ALL"
-	  }
+	    text: "<?=$lite_chart_days?> days"
+	  	},
+	<?php
+	$x_coord = $x_coord + 90 + ( strlen($lite_chart_days) * 22 ); // Take into account length of $lite_chart_days 21px text
+	}
+	?>
 	]
 },
         
@@ -321,7 +249,7 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
   height: 75,
   x: 0, 
   y: 400,
-  backgroundColor: "<?=$app_config['charts_alerts']['charts_background']?>",
+  backgroundColor: "<?=$app_config['power_user']['charts_background']?>",
   plotarea: {
     margin: "11 63 20 112"
   },
@@ -332,7 +260,7 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
   },
   source: {
     text: "24 Hour Volume",
-    fontColor:"<?=$app_config['charts_alerts']['charts_text']?>",
+    fontColor:"<?=$app_config['power_user']['charts_text']?>",
 	 fontSize: "13",
     fontFamily: "Open Sans",
     offsetX: 106,
@@ -342,9 +270,9 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
   tooltip:{
     visible: false,
     text: "24 Hour Volume: <?=$currency_symbol?>%v",
-    fontColor: "<?=$app_config['charts_alerts']['charts_tooltip_text']?>",
+    fontColor: "<?=$app_config['power_user']['charts_tooltip_text']?>",
 	 fontSize: "20",
-    backgroundColor: "<?=$app_config['charts_alerts']['charts_tooltip_background']?>",
+    backgroundColor: "<?=$app_config['power_user']['charts_tooltip_background']?>",
     fontFamily: "Open Sans",
     "thousands-separator":","
   },
@@ -358,8 +286,8 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
       visible: false
     },
     plotLabel:{
-      backgroundColor: "<?=$app_config['charts_alerts']['charts_tooltip_background']?>",
-      fontColor: "<?=$app_config['charts_alerts']['charts_tooltip_text']?>",
+      backgroundColor: "<?=$app_config['power_user']['charts_tooltip_background']?>",
+      fontColor: "<?=$app_config['power_user']['charts_tooltip_text']?>",
       fontFamily: "Open Sans",
       text: "24 Hour Volume: <?=$currency_symbol?>%v",
 	 	fontSize: "20",
@@ -377,10 +305,10 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
     guide: {
       visible: true,
       lineStyle: 'solid',
-      lineColor: "<?=$app_config['charts_alerts']['charts_line']?>"
+      lineColor: "<?=$app_config['power_user']['charts_line']?>"
     },
     item: {
-      fontColor: "<?=$app_config['charts_alerts']['charts_text']?>",
+      fontColor: "<?=$app_config['power_user']['charts_text']?>",
       fontFamily: "Open Sans",
       fontSize: "12",
     }
@@ -389,7 +317,7 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 		{
 			values: [<?=$chart_data['volume']?>],
 			text: "24hr Volume",
-			backgroundColor: "<?=$app_config['charts_alerts']['charts_text']?>",
+			backgroundColor: "<?=$app_config['power_user']['charts_text']?>",
     		offsetX: 0
 		}
 	]

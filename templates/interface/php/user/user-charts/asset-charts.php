@@ -32,7 +32,7 @@
 		
 		
 			// Have this script send the UI alert messages, and not load any chart code (to not leave the page endlessly loading) if cache data is not present
-			if ( file_exists('cache/charts/spot_price_24hr_volume/lite/all_day/'.$chart_asset.'/'.$key.'_chart_'.$charted_value.'.dat') != 1
+			if ( file_exists('cache/charts/spot_price_24hr_volume/lite/all_days/'.$chart_asset.'/'.$key.'_chart_'.$charted_value.'.dat') != 1
 			|| $market_parse[2] != 'chart' && $market_parse[2] != 'both' ) {
 			?>
 			
@@ -42,7 +42,7 @@
 			
 			$("#charts_error").show();
 			
-			$("#charts_error").html('One or more charts could not be loaded. If you recently installed this app, or updated the charts or primary currency settings in the admin configuration, it may take up to 45 minutes or more for updated charts to appear ("lite charts" need to be created from archival chart data, so charts always load quickly regardless of time span). Please make sure you have a cron job running (see <a href="README.txt" target="_blank">README.txt</a> for how-to setup a cron job), or charts cannot be activated. Check app error logs too, for write errors (which would indicate improper cache directory permissions).');
+			$("#charts_error").html('One or more charts could not be loaded. If you recently installed this app, or updated the charts or primary currency settings in the admin configuration, it may take up to <?=($app_config['power_user']['lite_chart_delay_max'] / 2)?> minutes or more for fully updated charts to appear ("lite charts" need to be created from archival chart data, so charts always load quickly regardless of time span). Please make sure you have a cron job running (see <a href="README.txt" target="_blank">README.txt</a> for how-to setup a cron job), or charts cannot be activated. Check app error logs too, for write errors (which would indicate improper cache directory permissions).');
 			
 			window.charts_loaded.push("chart_<?=$js_key?>");
 			
@@ -59,7 +59,7 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 
 
 var stockState_<?=$js_key?> = {
-  current: 'ALL'
+  current: 'all days'
 };
  
 
@@ -93,44 +93,31 @@ zingchart.bind('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'label_click',
   var cut = 0;
   switch(e.labelid) {
   	
-    case '3D':
-      var days = 3;
+  	<?php
+	foreach ($app_config['power_user']['lite_chart_day_intervals'] as $lite_chart_days) {
+	?>	
+	
+    case '<?=$lite_chart_days?> days':
+    	<?php
+    	if ( $lite_chart_days == 'all' ) {
+    	?>
+      var days = "<?=$lite_chart_days?>";
+    	<?php
+    	}
+    	else {
+    	?>
+      var days = <?=$lite_chart_days?>;
+    	<?php
+    	}
+    	?>
     break;
     
-    case '1W': 
-      var days = 7;
-    break;
-    
-    case '1M':
-      var days = 30;
-    break;
-    
-    case '3M':
-      var days = 90;
-    break;
-    
-    case '6M': 
-      var days = 180;
-    break;
-    
-    case '1Y': 
-      var days = 365;
-    break;
-    
-    case '2Y': 
-      var days = 730;
-    break;
-    
-    case '4Y': 
-      var days = 1460;
-    break;
-    
-    case 'ALL': 
-      var days = 'all';
-    break;
-    
+	<?php
+	}
+	?>
+	
     default: 
-      var days = 'all';
+      var days = 'all days';
     break;
     
   }

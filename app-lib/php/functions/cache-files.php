@@ -636,8 +636,10 @@ $now = time();
 $archival_data = array();
 $new_lite_data = null;
 
+$lite_chart_delay_max_seconds = $app_config['power_user']['lite_chart_delay_max'] * 60;
+
 // Lite chart file info
-$lite_path = preg_replace("/archival/i", 'lite/' . $days_span . '_day', $archive_file);
+$lite_path = preg_replace("/archival/i", 'lite/' . $days_span . '_days', $archive_file);
 $lite_data_modified = filemtime($lite_path);
 //var_dump($lite_data_modified);
 
@@ -673,15 +675,15 @@ $newest_archival_timestamp = $last_archival_array[0];
 
 		
 // Minimum time interval between data points in lite chart
-$min_data_interval = round( ($newest_archival_timestamp - $oldest_allowed_timestamp) / $app_config['power_user']['chart_data_points_max'] );
+$min_data_interval = round( ($newest_archival_timestamp - $oldest_allowed_timestamp) / $app_config['power_user']['lite_chart_data_points_max'] );
 	
-// Add a random multiplier to spread the update load across roughly 90 minutes (5400 seconds) of consecutive cron jobs
-$random_multiplier = rand( $min_data_interval, ($min_data_interval + 5400) );
+// Add a random multiplier to spread the update load across roughly X seconds of consecutive cron jobs
+$random_multiplier = rand( $min_data_interval, ($min_data_interval + $lite_chart_delay_max_seconds) );
 
 
 	// When do we need to refresh lite chart data
 	if ( $lite_data_modified == false ) {
-	$lite_data_update_threshold = rand( ($now - 2700) , ($now + 2700) ); // (if no lite data exists yet)
+	$lite_data_update_threshold = rand( ( $now - ($lite_chart_delay_max_seconds / 2) ) , ( $now + ($lite_chart_delay_max_seconds / 2) ) ); // (if no lite data exists yet)
 	}
 	else {
 	$lite_data_update_threshold = $lite_data_modified + $random_multiplier;
@@ -714,7 +716,7 @@ $file_data = array_reverse($file_data); // Save time, only loop / read last line
 	
 	// We are looping IN REVERSE ODER, to ALWAYS include the latest data
 	// If we have more data points than permitted per lite chart
-	if ( sizeof($archival_data) > $app_config['power_user']['chart_data_points_max'] ) {
+	if ( sizeof($archival_data) > $app_config['power_user']['lite_chart_data_points_max'] ) {
 	
 		$loop = 0;
 		foreach ($archival_data as $data_point) {
@@ -722,8 +724,8 @@ $file_data = array_reverse($file_data); // Save time, only loop / read last line
 		$data_point_array = explode("||", $data_point);
 			
 			// $loop <= is INTENTIONAL, as we can have max data points slightly under without it
-			if ( !$next_timestamp && $loop <= $app_config['power_user']['chart_data_points_max'] 
-			|| isset($next_timestamp) && $data_point_array[0] <= $next_timestamp && $loop <= $app_config['power_user']['chart_data_points_max'] ) {
+			if ( !$next_timestamp && $loop <= $app_config['power_user']['lite_chart_data_points_max'] 
+			|| isset($next_timestamp) && $data_point_array[0] <= $next_timestamp && $loop <= $app_config['power_user']['lite_chart_data_points_max'] ) {
 			$new_lite_data = $data_point . $new_lite_data;
 			$next_timestamp = $data_point_array[0] - $min_data_interval;
 			$loop = $loop + 1;

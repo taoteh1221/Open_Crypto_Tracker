@@ -1001,7 +1001,7 @@ global $_POST, $app_config;
 function charts_and_price_alerts($asset_data, $exchange, $pairing, $mode) {
 
 // Globals
-global $base_dir, $app_config, $default_btc_primary_exchange, $default_btc_primary_currency_value, $default_btc_primary_currency_pairing, $price_alerts_fixed_reset_array, $lite_charts_structure;
+global $base_dir, $app_config, $default_btc_primary_exchange, $default_btc_primary_currency_value, $default_btc_primary_currency_pairing, $price_alerts_fixed_reset_array;
 
 	
 	// Return true (no errors) if alert-only, and alerts are disabled
@@ -1150,7 +1150,7 @@ $volume_pairing_raw = number_to_string($volume_pairing_raw);
 	// Try to assure file locking from archival chart updating has been released, wait 1 second before updating lite charts
 	sleep(1);
 		
-		foreach ( $lite_charts_structure as $light_chart_days ) {
+		foreach ( $app_config['power_user']['lite_chart_day_intervals'] as $light_chart_days ) {
 			
 		// Primary currency lite charts
 		update_lite_chart($primary_currency_chart_path, $light_chart_days);

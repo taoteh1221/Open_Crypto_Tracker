@@ -142,13 +142,13 @@
 			 	$zebra_stripe = 'long_list_odd';
 			 	}
 		 	
+			$last_rendered = $show_asset;
 		 	}
 	
-	$last_rendered = $show_asset;
 	}
 	    
 	?>
-	<div class='long_list_end' style='border-top: 2px solid black;'> &nbsp; </div>
+	<div class='long_list_end' style='border-top: 2px solid white;'> &nbsp; </div>
 	
 		</form>
 	
@@ -188,7 +188,7 @@
 	
 	<div style='display: flex; flex-flow: column wrap; overflow: hidden;' class='chart_wrapper' id='<?=$key?>_<?=$alerts_market_parse[1]?>_chart'>
 	
-	<span class='chart_loading' style='color: <?=$app_config['charts_alerts']['charts_text']?>;'> &nbsp; Loading chart for <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=snake_case_to_name($alerts_market_parse[0])?>...</span>
+	<span class='chart_loading' style='color: <?=$app_config['power_user']['charts_text']?>;'> &nbsp; Loading chart for <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=snake_case_to_name($alerts_market_parse[0])?>...</span>
 	
 	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img src="templates/interface/media/images/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div style='display: inline;'></div></div>
 		
@@ -214,7 +214,7 @@
 	
 	<div style='display: flex; flex-flow: column wrap; overflow: hidden;' class='chart_wrapper' id='<?=$key?>_<?=strtolower($default_btc_primary_currency_pairing)?>_chart'>
 	
-	<span class='chart_loading' style='color: <?=$app_config['charts_alerts']['charts_text']?>;'> &nbsp; Loading chart for <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=snake_case_to_name($alerts_market_parse[0])?> (<?=strtoupper($default_btc_primary_currency_pairing)?> Value)...</span>
+	<span class='chart_loading' style='color: <?=$app_config['power_user']['charts_text']?>;'> &nbsp; Loading chart for <?=strtoupper($chart_asset)?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=snake_case_to_name($alerts_market_parse[0])?> (<?=strtoupper($default_btc_primary_currency_pairing)?> Value)...</span>
 	
 	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img src="templates/interface/media/images/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div style='display: inline;'></div></div>
 		
