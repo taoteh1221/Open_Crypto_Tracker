@@ -59,7 +59,7 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 
 
 var stockState_<?=$js_key?> = {
-  current: 'all days'
+  current: 'all'
 };
  
 
@@ -97,11 +97,11 @@ zingchart.bind('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'label_click',
 	foreach ($app_config['power_user']['lite_chart_day_intervals'] as $lite_chart_days) {
 	?>	
 	
-    case '<?=$lite_chart_days?> days':
+    case '<?=$lite_chart_days?>':
     	<?php
     	if ( $lite_chart_days == 'all' ) {
     	?>
-      var days = "<?=$lite_chart_days?>";
+      var days = '<?=$lite_chart_days?>';
     	<?php
     	}
     	else {
@@ -117,7 +117,7 @@ zingchart.bind('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'label_click',
 	?>
 	
     default: 
-      var days = 'all days';
+      var days = 'all';
     break;
     
   }

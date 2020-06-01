@@ -228,15 +228,15 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 		{
 	    x: <?=$x_coord?>,
 	    y: 11,
-	    id: '<?=$lite_chart_days?> days',
+	    id: '<?=$lite_chart_days?>',
 	    fontColor: "<?=($_GET['days'] == $lite_chart_days ? $app_config['power_user']['charts_text'] : $app_config['power_user']['charts_link'] )?>",
 	    fontSize: "22",
 	    fontFamily: "Open Sans",
 	    cursor: "hand",
-	    text: "<?=$lite_chart_days?> days"
+	    text: "<?=ucfirst($lite_chart_days)?> Days"
 	  	},
 	<?php
-	$x_coord = $x_coord + 90 + ( strlen($lite_chart_days) * 22 ); // Take into account length of $lite_chart_days 21px text
+	$x_coord = $x_coord + 70 + ( strlen($lite_chart_days) * 22 ); // Take into account length of $lite_chart_days 22px text
 	}
 	?>
 	]

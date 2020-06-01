@@ -57,7 +57,7 @@
             	
     <div id="app_error_alert"><?=$bundle_error_logs?></div>
             	
-    <p class='align_center'><a href='https://taoteh1221.github.io' target='_blank' title='Download the latest version here.'>Latest Releases (running v<?=$app_version?>)</a>
+    <p class='align_center'><a href='https://taoteh1221.github.io' target='_blank' title='Check for upgrades to the latest version here.'>Running <?=ucfirst($app_edition)?> Edition v<?=$app_version?></a>
     
 
     <p class='align_center'><a class='show' id='donate' href='#show_donation_addresses' title='Click to show donation addresses.' onclick='return false;'>Donations Support Development</a></p>
