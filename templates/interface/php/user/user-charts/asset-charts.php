@@ -42,7 +42,7 @@
 			
 			$("#charts_error").show();
 			
-			$("#charts_error").html('One or more charts could not be loaded. If you recently installed this app, or updated the charts or primary currency settings in the admin configuration, it may take up to <?=($app_config['power_user']['lite_chart_delay_max'] / 2)?> minutes or more for fully updated charts to appear ("lite charts" need to be created from archival chart data, so charts always load quickly regardless of time span). Please make sure you have a cron job running (see <a href="README.txt" target="_blank">README.txt</a> for how-to setup a cron job), or charts cannot be activated. Check app error logs too, for write errors (which would indicate improper cache directory permissions).');
+			$("#charts_error").html('<p>One or more charts could not be loaded.</p> <p>If you recently installed this app / enabled charts for the first time, it may take up to <?=($app_config['power_user']['lite_chart_delay_max'] / 2)?> minutes or more for fully updated charts to appear ("lite charts" need to be created from archival chart data, so charts always load quickly regardless of time span).</p> <p>If you updated the charts or primary currency settings in the admin configuration, you may need to click "Select Charts" (top left of this page) and check / uncheck "Select All" to clear old chart selections to remove this notice.</p> <p>Please make sure you have a cron job running (see <a href="README.txt" target="_blank">README.txt</a> for how-to setup a cron job), or charts cannot be activated. Check app error logs too, for write errors (which would indicate improper cache directory permissions).</p>');
 			
 			window.charts_loaded.push("chart_<?=$js_key?>");
 			
