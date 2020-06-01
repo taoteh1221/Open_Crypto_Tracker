@@ -222,8 +222,19 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 	],
 	labels: [
 	<?php
-	$x_coord = 120;
+	$x_coord = 120; // Start position (absolute)
+	$font_width = 17; // NOT MONOSPACE, SO WE GUESS AN AVERAGE
 	foreach ($app_config['power_user']['lite_chart_day_intervals'] as $lite_chart_days) {
+	
+		// Account for extra digits with absolute positioning
+		if ( strlen($last_lite_chart_days) > 0 && strlen($last_lite_chart_days) < strlen($lite_chart_days) ) {
+		$difference = $difference + ( strlen($lite_chart_days) - strlen($last_lite_chart_days) );
+		$x_coord = $x_coord + ( $difference * $font_width ); // Take into account length of $lite_chart_days text
+		}
+		elseif ( isset($difference) ) {
+		$x_coord = $x_coord + ( $difference * $font_width ); // Take into account length of $lite_chart_days text
+		}
+	
 	?>
 		{
 	    x: <?=$x_coord?>,
@@ -236,7 +247,8 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 	    text: "<?=ucfirst($lite_chart_days)?> Days"
 	  	},
 	<?php
-	$x_coord = $x_coord + 70 + ( strlen($lite_chart_days) * 22 ); // Take into account length of $lite_chart_days 22px text
+	$x_coord = $x_coord + 90;
+	$last_lite_chart_days = $lite_chart_days;
 	}
 	?>
 	]
