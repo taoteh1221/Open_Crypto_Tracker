@@ -659,19 +659,18 @@ $newest_archival_timestamp = $last_archival_array[0];
 			
 			
 	// Time intervals
-	if ( is_int($days_span) ) {
-	$oldest_allowed_timestamp = strtotime('-'.$days_span.' day', $newest_archival_timestamp); // Timestamp for oldest data point 
-	}
-	// 'all'
-	else {
+	if ( $days_span == 'all' ) {
 	$oldest_allowed_timestamp = $oldest_archival_timestamp;
+	}
+	else {
+	$oldest_allowed_timestamp = strtotime('-'.$days_span.' day', $newest_archival_timestamp); // Timestamp for oldest data point 
 	}
 	
 	
 	// Make sure we don't have an oldest allowed timestamp older than our oldest archival timestamp
-	if ( $oldest_allowed_timestamp < $oldest_archival_timestamp ) {
+	//if ( $oldest_allowed_timestamp < $oldest_archival_timestamp ) {
 	//$oldest_allowed_timestamp = $oldest_archival_timestamp; // DISABLED, AS THIS CAUSES MANY UNNECESSARY FILE WRITES WHEN STARTING FROM NO ARCHIVAL DATA
-	}
+	//}
 
 		
 // Minimum time interval between data points in lite chart
@@ -715,31 +714,22 @@ $file_data = array_reverse($file_data); // Save time, only loop / read last line
 
 	
 	// We are looping IN REVERSE ODER, to ALWAYS include the latest data
-	// If we have more data points than permitted per lite chart
-	if ( sizeof($archival_data) > $app_config['power_user']['lite_chart_data_points_max'] ) {
-	
-		$loop = 0;
-		foreach ($archival_data as $data_point) {
+	$loop = 0;
+	$data_points = 0;
+	// $data_points <= is INTENTIONAL, as we can have max data points slightly under without it
+	while ( isset($archival_data[$loop]) && $data_points <= $app_config['power_user']['lite_chart_data_points_max'] ) {
 		
-		$data_point_array = explode("||", $data_point);
+	$data_point_array = explode("||", $archival_data[$loop]);
 			
-			// $loop <= is INTENTIONAL, as we can have max data points slightly under without it
-			if ( !$next_timestamp && $loop <= $app_config['power_user']['lite_chart_data_points_max'] 
-			|| isset($next_timestamp) && $data_point_array[0] <= $next_timestamp && $loop <= $app_config['power_user']['lite_chart_data_points_max'] ) {
-			$new_lite_data = $data_point . $new_lite_data;
-			$next_timestamp = $data_point_array[0] - $min_data_interval;
-			$loop = $loop + 1;
-			}
-			
+		if ( !$next_timestamp || isset($next_timestamp) && $data_point_array[0] <= $next_timestamp ) {
+		$new_lite_data = $archival_data[$loop] . $new_lite_data;
+		$next_timestamp = $data_point_array[0] - $min_data_interval;
+		$data_points = $data_points + 1;
 		}
 	
+	$loop = $loop + 1;
 	}
-	else {
-		foreach ($archival_data as $data_point) {
-		$new_lite_data = $data_point . $new_lite_data;
-		}
-	}
-
+	
 
 
 // Store the lite chart data
