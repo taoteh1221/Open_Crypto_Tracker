@@ -15,7 +15,7 @@ Password notes: https://www.php.net/manual/en/faq.passwords.php
 "NEXT ON THE LIST" SUMMARY SECTION
 ///////////////////////////////////////////////////////
 
-Post on hive, telegram, discord, Twitter, Facebook, and r/CryptoMarkets and r/CryptoCurrency whenever there is a new release of the app.
+Post on hive, telegram, discord, Twitter, Facebook (and r/CryptoMarkets and r/CryptoCurrency on MAJOR RELEASES) whenever there is a new release of the app.
 
 ALWAYS do everything in the optimizations / bugs / tests / ux / qa / other section of this list FIRST, before adding ANY new features (find every flaming turd before we start a dumpster fire).
 

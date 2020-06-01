@@ -670,7 +670,7 @@ $newest_archival_timestamp = $last_archival_array[0];
 	
 	// Make sure we don't have an oldest allowed timestamp older than our oldest archival timestamp
 	if ( $oldest_allowed_timestamp < $oldest_archival_timestamp ) {
-	$oldest_allowed_timestamp = $oldest_archival_timestamp;
+	//$oldest_allowed_timestamp = $oldest_archival_timestamp; // DISABLED, AS THIS CAUSES MANY UNNECESSARY FILE WRITES WHEN STARTING FROM NO ARCHIVAL DATA
 	}
 
 		
