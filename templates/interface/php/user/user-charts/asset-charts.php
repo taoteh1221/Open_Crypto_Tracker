@@ -123,7 +123,42 @@ zingchart.bind('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'label_click',
   }
   
   
-  $("#<?=strtolower($key)?>_<?=$charted_value?>_chart div.chart_reload div").html("Loading " + days + " days chart for <?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=snake_case_to_name($market_parse[0])?><?=( $_GET['charted_value'] != 'pairing' ? ' \(' . strtoupper($charted_value) . ' Value\)' : '' )?>...");
+		if ( days == 'all' ) {
+		lite_chart_text = days.toUpperCase();
+		}
+		else if ( days == 7 ) {
+		lite_chart_text = '1 week';
+		}
+		else if ( days == 30 ) {
+		lite_chart_text = '1 month';
+		}
+		else if ( days == 60 ) {
+		lite_chart_text = '2 months';
+		}
+		else if ( days == 90 ) {
+		lite_chart_text = '3 months';
+		}
+		else if ( days == 180 ) {
+		lite_chart_text = '6 months';
+		}
+		else if ( days == 365 ) {
+		lite_chart_text = '1 year';
+		}
+		else if ( days == 730 ) {
+		lite_chart_text = '2 years';
+		}
+		else if ( days == 1095 ) {
+		lite_chart_text = '3 years';
+		}
+		else if ( days == 1460 ) {
+		lite_chart_text = '4 years';
+		}
+		else {
+		lite_chart_text = days + 'D';
+		}
+		
+  
+  $("#<?=strtolower($key)?>_<?=$charted_value?>_chart div.chart_reload div").html("Loading " + lite_chart_text + " chart for <?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=snake_case_to_name($market_parse[0])?><?=( $_GET['charted_value'] != 'pairing' ? ' \(' . strtoupper($charted_value) . ' Value\)' : '' )?>...");
 	$("#<?=strtolower($key)?>_<?=$charted_value?>_chart div.chart_reload").fadeIn(100); // 0.1 seconds
 	
   zingchart.bind('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'load', function() {
