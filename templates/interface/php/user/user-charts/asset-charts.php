@@ -133,25 +133,25 @@ zingchart.bind('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'label_click',
 		lite_chart_text = '1 month';
 		}
 		else if ( days == 60 ) {
-		lite_chart_text = '2 months';
+		lite_chart_text = '2 month';
 		}
 		else if ( days == 90 ) {
-		lite_chart_text = '3 months';
+		lite_chart_text = '3 month';
 		}
 		else if ( days == 180 ) {
-		lite_chart_text = '6 months';
+		lite_chart_text = '6 month';
 		}
 		else if ( days == 365 ) {
 		lite_chart_text = '1 year';
 		}
 		else if ( days == 730 ) {
-		lite_chart_text = '2 years';
+		lite_chart_text = '2 year';
 		}
 		else if ( days == 1095 ) {
-		lite_chart_text = '3 years';
+		lite_chart_text = '3 year';
 		}
 		else if ( days == 1460 ) {
-		lite_chart_text = '4 years';
+		lite_chart_text = '4 year';
 		}
 		else {
 		lite_chart_text = days + 'D';
