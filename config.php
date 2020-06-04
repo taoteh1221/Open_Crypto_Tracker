@@ -787,6 +787,11 @@ $app_config['power_user']['news_feeds'] = array(
             			"url" => "https://bittrex.com/discover/category/blog/feed"
         												),
         
+        				'blog_bitmex' => array(
+            			"title" => "Blog - Bitmex",
+            			"url" => "https://blog.bitmex.com/feed/?lang=en_us"
+        												),
+        
         				'blog_blockstream_engineering' => array(
             			"title" => "Blog - Blockstream Engineering",
             			"url" => "https://medium.com/feed/blockstream"
@@ -835,6 +840,11 @@ $app_config['power_user']['news_feeds'] = array(
         				'blog_okcoin' => array(
             			"title" => "Blog - OkCoin",
             			"url" => "https://blog.okcoin.com/feed/"
+        													),
+    
+        				'blog_open_node' => array(
+            			"title" => "Blog - Open Node (Professional Bitcoin Ecommerce Merchant Services)",
+            			"url" => "https://www.opennode.com/blog/feed/"
         													),
     
         				'blog_raiden_network' => array(
@@ -911,6 +921,11 @@ $app_config['power_user']['news_feeds'] = array(
             			"title" => "Podcast - POV Crypto",
             			"url" => "http://povcryptopod.libsyn.com/rss"
         												),
+    					
+        				'podcast_tales_from_the_crypt' => array(
+            			"title" => "Podcast - Tales From The Crypt",
+            			"url" => "http://talesfromthecrypt.libsyn.com/rss"
+        													),
     					
         				'podcast_unchained_podcast' => array(
             			"title" => "Podcast - Unchained",
@@ -1000,6 +1015,11 @@ $app_config['power_user']['news_feeds'] = array(
         				'youtube_off_chain_jimmy_song' => array(
             			"title" => "Youtube - Off Chain with Jimmy Song",
             			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCEFJVYNiPp8xeIUyfaPCPQw"
+        													),
+    
+        				'youtube_stephan_livera' => array(
+            			"title" => "Youtube - Stephan Livera",
+            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCDqPIrJSzHyyJpmH6wnxVxA"
         													),
     
         				'youtube_tone_vays' => array(

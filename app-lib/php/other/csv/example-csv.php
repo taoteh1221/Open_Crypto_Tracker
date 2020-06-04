@@ -23,7 +23,7 @@ $example_download_array[] = array(
 	        							'0',
 	        							'long',
 	        							'1',
-	        							'usd'
+	        							'usdt'
 	        							);		
 	        
 // LTC
@@ -34,7 +34,7 @@ $example_download_array[] = array(
 	        							'0',
 	        							'long',
 	        							'1',
-	        							'btc'
+	        							'usdt'
 	        							);			
 	        
 // GRIN
@@ -44,7 +44,7 @@ $example_download_array[] = array(
 	        							'2.25',
 	        							'0',
 	        							'long',
-	        							'1',
+	        							'3',
 	        							'btc'
 	        							);	
 	        
