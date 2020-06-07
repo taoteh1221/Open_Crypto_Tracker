@@ -102,6 +102,11 @@ elseif ( $is_logs ) {
 require_once('app-lib/php/other/ajax/logs.php');
 exit;
 }
+// If we are just running chart retrieval, ONLY run charts library for runtime speed (exit after)
+elseif ( $is_charts ) {
+require_once('app-lib/php/other/ajax/asset-charts.php');
+exit;
+}
 
 
 

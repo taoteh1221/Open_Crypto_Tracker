@@ -3341,6 +3341,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.13.1:
 
+
+-More RSS feeds to choose from
 -Bug fix / optimizations for lite charts excessive disk writes
 
 -Misc. UX improvements
@@ -3371,7 +3373,11 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.14.0:
 
+-Quicker chart loading
+
 -Misc. UX improvements
+
+-More RSS feeds to choose from (on News page)
 
 IMPORTANT UPGRADE NOTES: 
 

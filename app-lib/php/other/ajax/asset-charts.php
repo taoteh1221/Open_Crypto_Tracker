@@ -3,7 +3,12 @@
  * Copyright 2014-2020 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
  */
 
-// Market charts
+// Asset charts library
+
+// We don't run the full init.php for speed, so load some required sub-inits...
+require_once('app-lib/php/other/app-config-management.php');
+require_once('app-lib/php/other/primary-bitcoin-markets.php');
+	
 	
 	// Have this script not load any code if asset charts are not turned on
 	if ( $app_config['general']['charts_toggle'] != 'on' ) {
@@ -231,6 +236,9 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 		}
 		elseif ( $lite_chart_days == 7 ) {
 		$lite_chart_text = '1W';
+		}
+		elseif ( $lite_chart_days == 14 ) {
+		$lite_chart_text = '2W';
 		}
 		elseif ( $lite_chart_days == 30 ) {
 		$lite_chart_text = '1M';

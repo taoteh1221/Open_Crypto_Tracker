@@ -822,6 +822,9 @@ select opt in $OPTIONS; do
                     echo "Enter the time interval in minutes to run this cron job:"
                     echo "(must be 5, 10, 15, 20, or 30...leave blank / hit enter for default of 15)"
                     echo " "
+                    echo "IT'S HIGHLY RECOMMENDED TO GO #NO LOWER THAN# EVERY 15 MINUTES FOR CHART DATA,"
+                    echo "OTHERWISE LITE CHART DISK WRITES MAY BE EXCESSIVE FOR LOWER END HARDWARE."
+                    echo " "
                     
                     read INTERVAL
                     

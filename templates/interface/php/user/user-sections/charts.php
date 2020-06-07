@@ -53,7 +53,7 @@
 	</div>
 	
 	
-	<p class='bitcoin' style='font-weight: bold;'>Multiple charts may take a few seconds to show. If your web browser freezes for a log time, try selecting fewer charts.</p>	
+	<p class='bitcoin' style='font-weight: bold;'>There is a delay of up to <?=$app_config['power_user']['lite_chart_delay_max']?> minutes showing new chart data (updating lite charts from archival data). If your web browser freezes on this page, try selecting fewer charts.</p>	
 				
 	<p><button class="show_chart_settings force_button_style">Select Charts</button></p>
 	

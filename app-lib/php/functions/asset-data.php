@@ -58,7 +58,7 @@ return ($num - 1) * pow(2, ($num - 30) );
 
 function powerdown_primary_currency($data) {
 
-global $hive_market, $app_config,  $selected_btc_primary_currency_value;
+global $hive_market, $app_config, $selected_btc_primary_currency_value;
 
 return ( $data * $hive_market * $selected_btc_primary_currency_value );
 

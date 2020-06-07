@@ -509,13 +509,14 @@ $app_config['power_user']['marketcap_ranks_max'] = 250; // (default = 250)
 // The maximum number of data points allowed in each lite chart (speeds up page / chart loading times SIGNIFICANTLY #WITH A LOW NUMBER#)
 $app_config['power_user']['lite_chart_data_points_max'] = '365'; // (default = '365')
 ////
-//	Lite chart updates randomly delayed up to X minutes maximum, to lower the system load / evenly spread across cron jobs
-// (THE HIGHER THE NUMBER, THE LESS LOAD ON YOUR SYSTEM / HIGHER DELAYED UPDATE TIME)
-$app_config['power_user']['lite_chart_delay_max'] = 120; // (default = 120)       
-////
-// Structure of lite charts (X days time period charts)
+// Structure of lite charts IN DAYS (X days time period charts)
+// Interface will auto-detect and display days as 365 = 1Y, 180 = 6M, 7 = 1W, etc, etc
 // (#SHOULD BE KEPT MINIMAL# TO REDUCE RUNTIME LOAD / DISK WRITES DURING CRON JOBS)
 $app_config['power_user']['lite_chart_day_intervals'] = array(7, 30, 180, 365); // (default = 7, 30, 180, 365)
+////
+//	Lite chart updates randomly delayed up to X minutes maximum, to lower the system resource use / evenly spread across cron jobs
+// (THE HIGHER THE NUMBER, THE LESS LOAD ON SYSTEM / LESS FILE WRITING TO STORAGE DRIVE)
+$app_config['power_user']['lite_chart_delay_max'] = 120; // (default = 120)       
 
 																					
 // Chart colors (https://www.w3schools.com/colors/colors_picker.asp)
@@ -785,6 +786,11 @@ $app_config['power_user']['news_feeds'] = array(
             			"url" => "https://medium.com/feed/blockstream"
         												),
         
+        				'blog_btcpay_server' => array(
+            			"title" => "Blog - BTCPay Server",
+            			"url" => "https://blog.btcpayserver.org/feed/"
+        												),
+        
         				'blog_coinbase' => array(
             			"title" => "Blog - Coinbase",
             			"url" => "https://medium.com/feed/the-coinbase-blog"
@@ -910,6 +916,16 @@ $app_config['power_user']['news_feeds'] = array(
             			"url" => "http://povcryptopod.libsyn.com/rss"
         												),
     					
+        				'podcast_stephan_livera' => array(
+            			"title" => "Podcast - Stephan Livera",
+            			"url" => "https://anchor.fm/s/7d083a4/podcast/rss"
+        													),
+    					
+        				'podcast_swan_signal' => array(
+            			"title" => "Podcast - Swan Signal",
+            			"url" => "https://feeds.simplecast.com/Z1tu2Hds"
+        													),
+    					
         				'podcast_tales_from_the_crypt' => array(
             			"title" => "Podcast - Tales From The Crypt",
             			"url" => "http://talesfromthecrypt.libsyn.com/rss"
@@ -990,6 +1006,11 @@ $app_config['power_user']['news_feeds'] = array(
             			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCrYmtJBtLdtm2ov84ulV-yg"
         													),
     
+        				'youtube_ministry_of_nodes' => array(
+            			"title" => "Youtube - Ministry of Nodes",
+            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UC93aLHD4fxvLPP3KSOV0TIg"
+        													),
+    
         				'youtube_naomi_brockwell' => array(
             			"title" => "Youtube - Naomi Brockwell",
             			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCSuHzQ3GrHSzoBbwrIq3LLA"
@@ -1003,11 +1024,6 @@ $app_config['power_user']['news_feeds'] = array(
         				'youtube_off_chain_jimmy_song' => array(
             			"title" => "Youtube - Off Chain with Jimmy Song",
             			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCEFJVYNiPp8xeIUyfaPCPQw"
-        													),
-    
-        				'youtube_stephan_livera' => array(
-            			"title" => "Youtube - Stephan Livera",
-            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCDqPIrJSzHyyJpmH6wnxVxA"
         													),
     
         				'youtube_tone_vays' => array(
@@ -1108,11 +1124,6 @@ $app_config['developer']['cron_max_execution_time'] = 500; // (default = 500)
 // Maximum execution time for webhook runtime in seconds (how long it's allowed to run before automatically killing the process)
 // (ALL execution times are automatically 350 IN DEBUG MODE)
 $app_config['developer']['webhook_max_execution_time'] = 60; // (default = 60)
-
-
-// Maximum execution time for AJAX runtime in seconds (how long it's allowed to run before automatically killing the process)
-// (ALL execution times are automatically 350 IN DEBUG MODE)
-$app_config['developer']['ajax_max_execution_time'] = 100; // (default = 100)
 
 
 // Maximum execution time for API runtime in seconds (how long it's allowed to run before automatically killing the process)

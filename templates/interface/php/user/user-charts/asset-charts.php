@@ -129,6 +129,9 @@ zingchart.bind('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'label_click',
 		else if ( days == 7 ) {
 		lite_chart_text = '1 week';
 		}
+		else if ( days == 14 ) {
+		lite_chart_text = '2 week';
+		}
 		else if ( days == 30 ) {
 		lite_chart_text = '1 month';
 		}
@@ -161,8 +164,8 @@ zingchart.bind('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'label_click',
   $("#<?=strtolower($key)?>_<?=$charted_value?>_chart div.chart_reload div").html("Loading " + lite_chart_text + " chart for <?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=snake_case_to_name($market_parse[0])?><?=( $_GET['charted_value'] != 'pairing' ? ' \(' . strtoupper($charted_value) . ' Value\)' : '' )?>...");
 	$("#<?=strtolower($key)?>_<?=$charted_value?>_chart div.chart_reload").fadeIn(100); // 0.1 seconds
 	
-  zingchart.bind('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'load', function() {
-	$( "#<?=strtolower($key)?>_<?=$charted_value?>_chart div.chart_reload" ).fadeOut(3500); // 3.5 seconds
+  zingchart.bind('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'complete', function() {
+	$( "#<?=strtolower($key)?>_<?=$charted_value?>_chart div.chart_reload" ).fadeOut(2500); // 2.5 seconds
 	});
   
   zingchart.exec('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'load', {
