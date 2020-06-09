@@ -51,7 +51,7 @@ date_default_timezone_set('UTC');
 
 
 // Application version
-$app_version = '4.14.0';  // 2020/JUNE/2ND
+$app_version = '4.15.0';  // 2020/JUNE/9TH
 
 // Application edition
 $app_edition = 'server';  // server OR desktop edition
@@ -104,7 +104,7 @@ exit;
 }
 // If we are just running chart retrieval, ONLY run charts library for runtime speed (exit after)
 elseif ( $is_charts ) {
-require_once('app-lib/php/other/ajax/asset-charts.php');
+require_once('app-lib/php/other/ajax/charts.php');
 exit;
 }
 

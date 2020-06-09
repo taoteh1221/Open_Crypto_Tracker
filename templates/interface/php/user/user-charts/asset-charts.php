@@ -58,7 +58,7 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 ?>
 
 
-var stockState_<?=$js_key?> = {
+var lite_state_<?=$js_key?> = {
   current: 'all'
 };
  
@@ -73,7 +73,7 @@ $("#<?=$key?>_<?=$charted_value?>_chart span").hide(); // Hide "Loading chart X.
 
 zingchart.TOUCHZOOM = 'pinch'; /* mobile compatibility */
 
-$.get( "ajax.php?asset_data=<?=$_GET['asset_data']?>&charted_value=<?=$_GET['charted_value']?>&days=all", function( json_data ) {
+$.get( "ajax.php?type=asset&asset_data=<?=$_GET['asset_data']?>&charted_value=<?=$_GET['charted_value']?>&days=all", function( json_data ) {
  
 	zingchart.render({
   	id: '<?=strtolower($key)?>_<?=$charted_value?>_chart',
@@ -86,7 +86,7 @@ $.get( "ajax.php?asset_data=<?=$_GET['asset_data']?>&charted_value=<?=$_GET['cha
  
 zingchart.bind('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'label_click', function(e){
 	
-  if(stockState_<?=$js_key?>.current === e.labelid){
+  if(lite_state_<?=$js_key?>.current === e.labelid){
     return;
   }
   
@@ -169,13 +169,13 @@ zingchart.bind('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'label_click',
 	});
   
   zingchart.exec('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'load', {
-  	dataurl: "ajax.php?asset_data=<?=$_GET['asset_data']?>&charted_value=<?=$_GET['charted_value']?>&days=" + days,
+  	dataurl: "ajax.php?type=asset&asset_data=<?=$_GET['asset_data']?>&charted_value=<?=$_GET['charted_value']?>&days=" + days,
     cache: {
         data: true
     }
   });
   
-  stockState_<?=$js_key?>.current = e.labelid;
+  lite_state_<?=$js_key?>.current = e.labelid;
   
 });
 

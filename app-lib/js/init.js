@@ -2,7 +2,14 @@
 // Copyright 2014-2020 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
 
 
-// Wait until the DOM has loaded before querying the document
+// Set the global JSON config to asynchronous 
+// (so JSON requests run in the background, without pausing any of the page render scripting)
+$.ajaxSetup({
+    async: true
+});
+
+
+// Wait until the DOM has loaded before running DOM-related scripting
 $(document).ready(function(){
 	 
 

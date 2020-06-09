@@ -97,9 +97,6 @@ Admin import / export of settings (consider security implications CAREFULLY...ma
 When cached app config is independent of config.php updating-wise, use the show / hide link to have an optional email field on the admin registration page, and mention it enables password resetting via email.
 
 
-Prune system stats chart data older than 90 days, or lite charts?
-
-
 Add an alert bell icon in header login nav, and have alerts make it red and be a drop-down info bubble clicking it, rather than alerts printed in the footer.
 
 

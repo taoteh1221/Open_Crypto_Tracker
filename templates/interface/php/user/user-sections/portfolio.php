@@ -832,7 +832,13 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	<div class='red' id='system_charts_error'></div>
 	
 	
-	<div class='chart_wrapper' id='system_stats_chart_1'><span class='chart_loading' style='color: <?=$app_config['power_user']['charts_text']?>;'> &nbsp; Loading chart #1 for system data...</span></div>
+	<div style='display: flex; flex-flow: column wrap; overflow: hidden;' class='chart_wrapper' id='system_stats_chart_1'>
+	
+	<span class='chart_loading' style='color: <?=$app_config['power_user']['charts_text']?>;'> &nbsp; Loading chart #1 for system data...</span>
+	
+	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img src="templates/interface/media/images/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div style='display: inline;'></div></div>
+	
+	</div>
 	
 	<script>
 	
@@ -846,7 +852,13 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	<br/><br/><br/>
 	
 	
-	<div class='chart_wrapper' id='system_stats_chart_2'><span class='chart_loading' style='color: <?=$app_config['power_user']['charts_text']?>;'> &nbsp; Loading chart #2 for system data...</span></div>
+	<div style='display: flex; flex-flow: column wrap; overflow: hidden;' class='chart_wrapper' id='system_stats_chart_2'>
+	
+	<span class='chart_loading' style='color: <?=$app_config['power_user']['charts_text']?>;'> &nbsp; Loading chart #2 for system data...</span>
+	
+	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img src="templates/interface/media/images/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div style='display: inline;'></div></div>
+	
+	</div>
 	
 	<script>
 	

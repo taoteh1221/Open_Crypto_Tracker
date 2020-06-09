@@ -11,9 +11,13 @@ exit;
 }
 
 $key = $_GET['key'];
+
+// For system charts, we want the first $app_config['power_user']['lite_chart_day_intervals'] value, not 'all'
+$first_lite_chart = $app_config['power_user']['lite_chart_day_intervals'][0];
+		
 		
 			// Have this script send the UI alert messages, and not load any chart code (to not leave the page endlessly loading) if cache data is not present
-			if ( file_exists('cache/charts/system/archival/system_stats.dat') != 1 ) {
+			if ( file_exists('cache/charts/system/lite/'.$first_lite_chart.'_days/system_stats.dat') != 1 ) {
 			?>
 			
 			$("#system_stats_chart_<?=$key?> span.chart_loading").html(' &nbsp; No chart data activated for: System Chart #<?=$key?>');
@@ -22,330 +26,142 @@ $key = $_GET['key'];
 			
 			$("#system_charts_error").show();
 			
-			$("#system_charts_error").html('One or more charts could not be loaded. Please make sure you have a cron job running (see <a href="README.txt" target="_blank">README.txt</a> for how-to setup a cron job), or charts cannot be activated. Check app error logs too, for write errors (which would indicate improper cache directory permissions).');
+			$("#system_charts_error").html('<p>One or more charts could not be loaded.</p> <p>If you recently installed this app, it may take up to <?=($app_config['power_user']['lite_chart_delay_max'] / 2)?> minutes or more for fully updated charts to appear ("lite charts" need to be created from archival chart data, so charts always load quickly regardless of time span), and may take a few days to begin to populate longer time period charts.</p> <p>Please make sure you have a cron job running (see <a href="README.txt" target="_blank">README.txt</a> for how-to setup a cron job), or charts cannot be activated. Check app error logs too, for write errors (which would indicate improper cache directory permissions).</p>');
 			
 			
 			<?php
 			exit;
 			}
 			
-		
-$chart_data = chart_data('cache/charts/system/archival/system_stats.dat', 'system');
 
 header('Content-type: text/html; charset=' . $app_config['developer']['charset_default']);
 
-// Colors for different data in charts
-$color_array = array(
-							'blank',
-							'#29A2CC',
-							'#209910',
-							'#1d4ba5',
-							'#48ad9e',
-							'#D31E1E',
-							'#a73aad',
-							'#bc5210',
-							);
-
-
-// Sort array keys by lowest numeric value to highest
-//asort($chart_data);
-
-//var_dump($chart_data); // DEBUGGING ONLY
-
-
-
-// Determine how many data sensors to include in first chart
-$num_in_first_chart = 0;
-foreach ( $chart_data as $chart_key => $chart_value ) {
-
-// Average for first / last value
-//$check_chart_value = number_to_string( delimited_string_sample($chart_value, ',', 'first') + delimited_string_sample($chart_value, ',', 'last') / 2 );
-// Just last value
-$check_chart_value = number_to_string( delimited_string_sample($chart_value, ',', 'last') );
-	
-	// Include load average no matter what (it can be zero on a low-load setup, and should be supported by nearly every linux system?)
-	// Also always include free disk space (WE WANT TO KNOW IF IT'S ZERO)
-	if ( $chart_key != 'time' && $check_chart_value != 'NO_DATA' && $check_chart_value > 0.000000 || $chart_key == 'load_average_15_minutes' || $chart_key == 'free_disk_space_terabtyes' ) {
-		
-	$check_chart_value_key = $check_chart_value * 100000000; // To RELIABLY sort integers AND decimals, via ksort()
-		
-	$sorted_by_last_chart_data[number_to_string($check_chart_value_key)] = array($chart_key => $chart_value);
-	
-		if ( number_to_string($check_chart_value) <= number_to_string($app_config['power_user']['system_stats_first_chart_highest_value']) ) {
-		$num_in_first_chart = $num_in_first_chart + 1;
-		//echo $check_chart_value . ' --- '; // DEBUGGING ONLY
-		}
-	
-	}
-	
-}
-
-
-// Sort array keys by lowest numeric value to highest 
-// (newest/last chart sensors data sorts lowest value to highest, for populating the 2 shared charts)
-ksort($sorted_by_last_chart_data);
-
-//var_dump($sorted_by_last_chart_data); // DEBUGGING ONLY
-
-// Render chart data
-if ( $key == 1 ) {
-	
-	$loop = 1;
-	$counted = 0;
-	foreach ( $sorted_by_last_chart_data as $chart_array ) {
-		
-		foreach ( $chart_array as $chart_key => $chart_value ) {
-		
-			if ( $counted < $num_in_first_chart && $chart_key != 'time' ) {
-			$counted = $counted + 1;
-			
-				// If there are no data retrieval errors
-				// WE STILL COUNT THIS, SO LET COUNT RUN ABOVE
-				if ( !preg_match("/NO_DATA/i", $chart_value, $matches) ) {
-					
-				?>
-	var <?=$chart_key?> = [<?=$chart_value?>];
-				<?php
-			
-				$chart_config = "{
-			  text: '".snake_case_to_name($chart_key)."',
-			  values: ".$chart_key.",
-			  lineColor: '".$color_array[$counted]."',
-				 marker: {
-			 backgroundColor: '".$color_array[$counted]."',
-			 borderColor: '".$color_array[$counted]."'
-				 },
-			  legendItem: {
-				  fontColor: 'white',
-			   fontSize: 20,
-			   fontFamily: 'Open Sans',
-				backgroundColor: '".$color_array[$counted]."',
-				borderRadius: '2px'
-			  }
-			},
-			" . $chart_config;
-			
-				}
-			
-			}
-	
-		}
-		
-   $loop = $loop + 1;
-	}
-
-}
-elseif ( $key == 2 ) {
-	
-	$loop = 1;
-	$counted = 0;
-	foreach ( $sorted_by_last_chart_data as $chart_array ) {
-		
-		foreach ( $chart_array as $chart_key => $chart_value ) {
-		
-			if ( $counted >= $num_in_first_chart && $chart_key != 'time' ) {
-			$counted = $counted + 1;
-			
-				// If there are no data retrieval errors
-				// WE STILL COUNT THIS, SO LET COUNT RUN ABOVE
-				if ( !preg_match("/NO_DATA/i", $chart_value, $matches) ) {
-					
-			?>
-	var <?=$chart_key?> = [<?=$chart_value?>];
-			<?php
-			
-			$chart_config = "{
-			  text: '".snake_case_to_name($chart_key)."',
-			  values: ".$chart_key.",
-			  lineColor: '".$color_array[$counted]."',
-				 marker: {
-			 backgroundColor: '".$color_array[$counted]."',
-			 borderColor: '".$color_array[$counted]."'
-				 },
-			  legendItem: {
-				  fontColor: 'white',
-			   fontSize: 20,
-			   fontFamily: 'Open Sans',
-				backgroundColor: '".$color_array[$counted]."',
-				borderRadius: '2px'
-			  }
-			},
-			" . $chart_config;
-				
-				}
-		  
-			}
-			elseif ( $chart_key != 'time' ) {
-			$counted = $counted + 1;
-			}
-	
-		}
-		
-   $loop = $loop + 1;
-	}
-
-}
-
-$chart_config = trim($chart_config);
-$chart_config = rtrim($chart_config,',');
 ?>
 
 
-
-var dates = [<?=$chart_data['time']?>];
-
-let chartConfig_<?=$key?> = {
-	
-  graphset: [
-    {
-      type: 'line',
-      borderColor: '#cccccc',
-      borderRadius: '2px',
-      borderWidth: '1px',
-      title: {
-        text: 'System Chart #<?=$key?>',
-        adjustLayout: true,
-        marginTop: '20px'
-      },  
-  		source: {
-  		   text: "Select an area to zoom inside the chart itself, or use the zoom grab bars in the preview area (X and Y axis zooming are both supported).",
-    		fontColor:"black",
-	      fontSize: "13",
-    		fontFamily: "Open Sans",
-    		offsetX: 60,
-    		offsetY: -1,
-    		align: 'left'
-  		},
-      legend: {
-        backgroundColor: 'transparent',
-        borderWidth: '0px',
-        draggable: true,
-        header: {
-          text: 'System Data (click to hide)',
-      	 fontColor: "black",
-	 		 fontSize: "20",
-      	 fontFamily: "Open Sans",
-        },
-        item: {
-          margin: '5 17 2 0',
-          padding: '3 3 3 3',
-          cursor: 'hand',
-          fontColor: '#fff'
-        },
-        marker: {
-          visible: false
-        },
-        verticalAlign: 'middle'
-      },
-      plot: {
-    		marker:{
-      		visible: false
-    		},
-    		tooltip: {
-    			fontSize: 20
-    		}
-      },
-      plotarea: {
-        margin: 'dynamic'
-      },
-      scaleX: {
-        guide: {
-      	visible: true,
-     		lineStyle: 'solid',
-      	lineColor: "#444444"
-        },
-        values: dates,
-        transform: {
- 	     type: 'date',
- 	     all: '%Y/%m/%d<br />%g:%i%a'
-        },
-        zooming: true
-      },
-      scaleY: {
-        guide: {
-      	visible: true,
-     		lineStyle: 'solid',
-      	lineColor: "#444444"
-        },
-        label: {
-          text: 'System Data'
-        },
-    	zooming: true
-      },
-      crosshairX: {
-    	  exact: true,
-        lineColor: '#555',
-        marker: {
-          borderColor: '#fff',
-          borderWidth: '1px',
-          size: '5px'
-        },
-        plotLabel: {
-      	 backgroundColor: "white",
-      	 fontColor: "black",
-	 		 fontSize: "20",
-      	 fontFamily: "Open Sans",
-          borderRadius: '2px',
-          borderWidth: '2px',
-          multiple: true
-        },
-    	  scaleLabel:{
-   	  	 alpha: 1.0,
-    	    fontColor: "black",
-      	 fontSize: 20,
-      	 fontFamily: "Open Sans",
-      	 backgroundColor: "white",
-   	  }
-      },
-      crosshairY: {
-    	  exact: true
-      },
-      tooltip: {
-        visible: false
-      },
-  		"preview":{
-  				label: {
-   		   color: 'black',
-  		    	fontSize: '10px',
-  		    	lineWidth: '1px',
-   		   lineColor: '#444444',
-  		   	},
- 			  live: true,
- 			  "adjust-layout": true,
- 			  "alpha-area": 0.5
- 		},
-  		backgroundColor: "#f2f2f2",
-      series: [
-        <?php echo $chart_config . "\n" ?>
-      ]
-    }
-  ],
-  gui: {
-    contextMenu: {
-      alpha: 0.9,
-      button: {
-        visible: true
-      },
-      docked: true,
-      item: {
-        textAlpha: 1
-      },
-      position: 'right'
-    }
-  }
+var lite_state_<?=$key?> = {
+  current: '<?=$first_lite_chart?>'
 };
  
+
+$("#system_stats_chart_<?=$key?> span.chart_loading").html(' &nbsp; <img src="templates/interface/media/images/loader.gif" height="16" alt="" style="vertical-align: middle;" /> Loading all days chart for System Chart #<?=$key?>...');
+	
+  
+zingchart.bind('system_stats_chart_<?=$key?>', 'load', function() {
+$("#system_stats_chart_<?=$key?> span").hide(); // Hide "Loading chart X..." after it loads
+});
+  
+
 zingchart.TOUCHZOOM = 'pinch'; /* mobile compatibility */
 
-zingchart.render({
-  id: 'system_stats_chart_<?=$key?>',
-  data: chartConfig_<?=$key?>
+$.get( "ajax.php?type=system&key=<?=$key?>&days=<?=$first_lite_chart?>", function( json_data ) {
+ 
+	zingchart.render({
+  	id: 'system_stats_chart_<?=$key?>',
+  	width: '100%',
+  	data: json_data
+	});
+ 
+});
+ 
+ 
+zingchart.bind('system_stats_chart_<?=$key?>', 'label_click', function(e){
+	
+  if(lite_state_<?=$key?>.current === e.labelid){
+    return;
+  }
+  
+  var cut = 0;
+  switch(e.labelid) {
+  	
+  	<?php
+	foreach ($app_config['power_user']['lite_chart_day_intervals'] as $lite_chart_days) {
+	?>	
+	
+    case '<?=$lite_chart_days?>':
+    	<?php
+    	if ( $lite_chart_days == 'all' ) {
+    	?>
+      var days = '<?=$lite_chart_days?>';
+    	<?php
+    	}
+    	else {
+    	?>
+      var days = <?=$lite_chart_days?>;
+    	<?php
+    	}
+    	?>
+    break;
+    
+	<?php
+	}
+	?>
+	
+    default: 
+      var days = '<?=$first_lite_chart?>';
+    break;
+    
+  }
+  
+  
+		if ( days == 'all' ) {
+		lite_chart_text = days.toUpperCase();
+		}
+		else if ( days == 7 ) {
+		lite_chart_text = '1 week';
+		}
+		else if ( days == 14 ) {
+		lite_chart_text = '2 week';
+		}
+		else if ( days == 30 ) {
+		lite_chart_text = '1 month';
+		}
+		else if ( days == 60 ) {
+		lite_chart_text = '2 month';
+		}
+		else if ( days == 90 ) {
+		lite_chart_text = '3 month';
+		}
+		else if ( days == 180 ) {
+		lite_chart_text = '6 month';
+		}
+		else if ( days == 365 ) {
+		lite_chart_text = '1 year';
+		}
+		else if ( days == 730 ) {
+		lite_chart_text = '2 year';
+		}
+		else if ( days == 1095 ) {
+		lite_chart_text = '3 year';
+		}
+		else if ( days == 1460 ) {
+		lite_chart_text = '4 year';
+		}
+		else {
+		lite_chart_text = days + 'D';
+		}
+		
+  
+  $("#system_stats_chart_<?=$key?> div.chart_reload div").html("Loading " + lite_chart_text + " chart for System Chart #<?=$key?>...");
+	$("#system_stats_chart_<?=$key?> div.chart_reload").fadeIn(100); // 0.1 seconds
+	
+  zingchart.bind('system_stats_chart_<?=$key?>', 'complete', function() {
+	$( "#system_stats_chart_<?=$key?> div.chart_reload" ).fadeOut(2500); // 2.5 seconds
+	});
+  
+  zingchart.exec('system_stats_chart_<?=$key?>', 'load', {
+  	dataurl: "ajax.php?type=system&key=<?=$key?>&days=" + days,
+    cache: {
+        data: true
+    }
+  });
+  
+  lite_state_<?=$key?>.current = e.labelid;
+  
 });
 
 
 
 
-$("#system_stats_chart_<?=$key?> span").hide(); // Hide "Loading chart X..." after it loads
-			
 
 

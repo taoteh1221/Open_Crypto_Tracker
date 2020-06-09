@@ -3,12 +3,16 @@
  * Copyright 2014-2020 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
  */
 
-// Asset charts library
+// Charts library
 
 // We don't run the full init.php for speed, so load some required sub-inits...
 require_once('app-lib/php/other/app-config-management.php');
-require_once('app-lib/php/other/primary-bitcoin-markets.php');
-	
+
+
+// ASSET CHARTS START
+if ( $_GET['type'] == 'asset' ) {
+
+require_once('app-lib/php/other/primary-bitcoin-markets.php');	
 	
 	// Have this script not load any code if asset charts are not turned on
 	if ( $app_config['general']['charts_toggle'] != 'on' ) {
@@ -389,5 +393,390 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 	
 	}
 
+}
+// ASSET CHARTS END
 
+
+
+// SYSTEM CHARTS START
+elseif ( $_GET['type'] == 'system' ) {
+
+	
+	// Have this script not load any code if system stats are not turned on, or key GET request corrupt
+	if ( !isset($_SESSION['admin_logged_in']) || !is_numeric($_GET['key']) ) {
+	exit;
+	}
+
+$key = $_GET['key'];
+
+
+$chart_data = chart_data('cache/charts/system/lite/' . $_GET['days'] . '_days/system_stats.dat', 'system');
+
+// Colors for different data in charts
+$color_array = array(
+							'blank',
+							'#29A2CC',
+							'#209910',
+							'#1d4ba5',
+							'#48ad9e',
+							'#D31E1E',
+							'#a73aad',
+							'#bc5210',
+							);
+
+
+// Sort array keys by lowest numeric value to highest
+//asort($chart_data);
+
+//var_dump($chart_data); // DEBUGGING ONLY
+
+
+
+// Determine how many data sensors to include in first chart
+$num_in_first_chart = 0;
+foreach ( $chart_data as $chart_key => $chart_value ) {
+
+// Average for first / last value
+//$check_chart_value = number_to_string( delimited_string_sample($chart_value, ',', 'first') + delimited_string_sample($chart_value, ',', 'last') / 2 );
+// Just last value
+$check_chart_value = number_to_string( delimited_string_sample($chart_value, ',', 'last') );
+	
+	// Include load average no matter what (it can be zero on a low-load setup, and should be supported by nearly every linux system?)
+	// Also always include free disk space (WE WANT TO KNOW IF IT'S ZERO)
+	if ( $chart_key != 'time' && $check_chart_value != 'NO_DATA' && $check_chart_value > 0.000000 || $chart_key == 'load_average_15_minutes' || $chart_key == 'free_disk_space_terabtyes' ) {
+		
+	$check_chart_value_key = $check_chart_value * 100000000; // To RELIABLY sort integers AND decimals, via ksort()
+		
+	$sorted_by_last_chart_data[number_to_string($check_chart_value_key)] = array($chart_key => $chart_value);
+	
+		if ( number_to_string($check_chart_value) <= number_to_string($app_config['power_user']['system_stats_first_chart_highest_value']) ) {
+		$num_in_first_chart = $num_in_first_chart + 1;
+		//echo $check_chart_value . ' --- '; // DEBUGGING ONLY
+		}
+	
+	}
+	
+}
+
+
+// Sort array keys by lowest numeric value to highest 
+// (newest/last chart sensors data sorts lowest value to highest, for populating the 2 shared charts)
+ksort($sorted_by_last_chart_data);
+
+//var_dump($sorted_by_last_chart_data); // DEBUGGING ONLY
+
+// Render chart data
+if ( $key == 1 ) {
+	
+	$loop = 1;
+	$counted = 0;
+	foreach ( $sorted_by_last_chart_data as $chart_array ) {
+		
+		foreach ( $chart_array as $chart_key => $chart_value ) {
+		
+			if ( $counted < $num_in_first_chart && $chart_key != 'time' ) {
+			$counted = $counted + 1;
+			
+				// If there are no data retrieval errors
+				// WE STILL COUNT THIS, SO LET COUNT RUN ABOVE
+				if ( !preg_match("/NO_DATA/i", $chart_value, $matches) ) {
+					
+				$chart_config = "{
+			  text: '".snake_case_to_name($chart_key)."',
+			  values: [".$chart_value."],
+			  lineColor: '".$color_array[$counted]."',
+				 marker: {
+			 backgroundColor: '".$color_array[$counted]."',
+			 borderColor: '".$color_array[$counted]."'
+				 },
+			  legendItem: {
+				  fontColor: 'white',
+			   fontSize: 20,
+			   fontFamily: 'Open Sans',
+				backgroundColor: '".$color_array[$counted]."',
+				borderRadius: '2px'
+			  }
+			},
+			" . $chart_config;
+			
+				}
+			
+			}
+	
+		}
+		
+   $loop = $loop + 1;
+	}
+
+}
+elseif ( $key == 2 ) {
+	
+	$loop = 1;
+	$counted = 0;
+	foreach ( $sorted_by_last_chart_data as $chart_array ) {
+		
+		foreach ( $chart_array as $chart_key => $chart_value ) {
+		
+			if ( $counted >= $num_in_first_chart && $chart_key != 'time' ) {
+			$counted = $counted + 1;
+			
+				// If there are no data retrieval errors
+				// WE STILL COUNT THIS, SO LET COUNT RUN ABOVE
+				if ( !preg_match("/NO_DATA/i", $chart_value, $matches) ) {
+					
+			$chart_config = "{
+			  text: '".snake_case_to_name($chart_key)."',
+			  values: [".$chart_value."],
+			  lineColor: '".$color_array[$counted]."',
+				 marker: {
+			 backgroundColor: '".$color_array[$counted]."',
+			 borderColor: '".$color_array[$counted]."'
+				 },
+			  legendItem: {
+				  fontColor: 'white',
+			   fontSize: 20,
+			   fontFamily: 'Open Sans',
+				backgroundColor: '".$color_array[$counted]."',
+				borderRadius: '2px'
+			  }
+			},
+			" . $chart_config;
+				
+				}
+		  
+			}
+			elseif ( $chart_key != 'time' ) {
+			$counted = $counted + 1;
+			}
+	
+		}
+		
+   $loop = $loop + 1;
+	}
+
+}
+
+$chart_config = trim($chart_config);
+$chart_config = rtrim($chart_config,',');
+
+header('Content-type: text/html; charset=' . $app_config['developer']['charset_default']);
+
+?>
+
+{ graphset: [
+    {
+      type: 'line',
+      borderColor: '#cccccc',
+      borderRadius: '2px',
+      borderWidth: '1px',
+      title: {
+        text: 'System Chart #<?=$key?>',
+        adjustLayout: true,
+        marginTop: '20px'
+      },  
+  		source: {
+  		   text: "Select an area to zoom inside the chart itself, or use the zoom grab bars in the preview area (X and Y axis zooming are both supported).",
+    		fontColor:"black",
+	      fontSize: "13",
+    		fontFamily: "Open Sans",
+    		offsetX: 60,
+    		offsetY: -1,
+    		align: 'left'
+  		},
+      legend: {
+        backgroundColor: 'transparent',
+        borderWidth: '0px',
+        draggable: true,
+        header: {
+          text: 'System Data (click to hide)',
+      	 fontColor: "black",
+	 		 fontSize: "20",
+      	 fontFamily: "Open Sans",
+        },
+        item: {
+          margin: '5 17 2 0',
+          padding: '3 3 3 3',
+          cursor: 'hand',
+          fontColor: '#fff'
+        },
+        marker: {
+          visible: false
+        },
+        verticalAlign: 'middle'
+      },
+      plot: {
+    		marker:{
+      		visible: false
+    		},
+    		tooltip: {
+    			fontSize: 20
+    		}
+      },
+      plotarea: {
+        margin: 'dynamic'
+      },
+      scaleX: {
+        guide: {
+      	visible: true,
+     		lineStyle: 'solid',
+      	lineColor: "#444444"
+        },
+        values: [<?=$chart_data['time']?>],
+        transform: {
+ 	     type: 'date',
+ 	     all: '%Y/%m/%d<br />%g:%i%a'
+        },
+        zooming: true
+      },
+      scaleY: {
+        guide: {
+      	visible: true,
+     		lineStyle: 'solid',
+      	lineColor: "#444444"
+        },
+        label: {
+          text: 'System Data'
+        },
+    	zooming: true
+      },
+      crosshairX: {
+    	  exact: true,
+        lineColor: '#555',
+        marker: {
+          borderColor: '#fff',
+          borderWidth: '1px',
+          size: '5px'
+        },
+        plotLabel: {
+      	 backgroundColor: "white",
+      	 fontColor: "black",
+	 		 fontSize: "20",
+      	 fontFamily: "Open Sans",
+          borderRadius: '2px',
+          borderWidth: '2px',
+          multiple: true
+        },
+    	  scaleLabel:{
+   	  	 alpha: 1.0,
+    	    fontColor: "black",
+      	 fontSize: 20,
+      	 fontFamily: "Open Sans",
+      	 backgroundColor: "white",
+   	  }
+      },
+      crosshairY: {
+    	  exact: true
+      },
+      tooltip: {
+        visible: false
+      },
+  		"preview":{
+  				label: {
+   		   color: 'black',
+  		    	fontSize: '10px',
+  		    	lineWidth: '1px',
+   		   lineColor: '#444444',
+  		   	},
+ 			  live: true,
+ 			  "adjust-layout": true,
+ 			  "alpha-area": 0.5
+ 		},
+  		backgroundColor: "#f2f2f2",
+      series: [
+        <?php echo $chart_config . "\n" ?>
+      ],
+		labels: [
+	<?php
+	$x_coord = 90; // Start position (absolute)
+	$font_width = 17; // NOT MONOSPACE, SO WE GUESS AN AVERAGE
+	foreach ($app_config['power_user']['lite_chart_day_intervals'] as $lite_chart_days) {
+		
+		if ( $lite_chart_days == 'all' ) {
+		$lite_chart_text = strtoupper($lite_chart_days);
+		}
+		elseif ( $lite_chart_days == 7 ) {
+		$lite_chart_text = '1W';
+		}
+		elseif ( $lite_chart_days == 14 ) {
+		$lite_chart_text = '2W';
+		}
+		elseif ( $lite_chart_days == 30 ) {
+		$lite_chart_text = '1M';
+		}
+		elseif ( $lite_chart_days == 60 ) {
+		$lite_chart_text = '2M';
+		}
+		elseif ( $lite_chart_days == 90 ) {
+		$lite_chart_text = '3M';
+		}
+		elseif ( $lite_chart_days == 180 ) {
+		$lite_chart_text = '6M';
+		}
+		elseif ( $lite_chart_days == 365 ) {
+		$lite_chart_text = '1Y';
+		}
+		elseif ( $lite_chart_days == 730 ) {
+		$lite_chart_text = '2Y';
+		}
+		elseif ( $lite_chart_days == 1095 ) {
+		$lite_chart_text = '3Y';
+		}
+		elseif ( $lite_chart_days == 1460 ) {
+		$lite_chart_text = '4Y';
+		}
+		else {
+		$lite_chart_text = $lite_chart_days . 'D';
+		}
+	?>
+		{
+	    x: <?=$x_coord?>,
+	    y: 23,
+	    id: '<?=$lite_chart_days?>',
+	    fontColor: "<?=($_GET['days'] == $lite_chart_days ? '#9b9b9b' : 'black' )?>",
+	    fontSize: "22",
+	    fontFamily: "Open Sans",
+	    cursor: "hand",
+	    text: "<?=$lite_chart_text?>"
+	  	},
+	<?php
+	
+		// Account for more / less digits with absolute positioning
+		// Take into account INCREASE OR DECREASE of characters in $lite_chart_text
+		if ( strlen($last_lite_chart_text) > 0 && strlen($last_lite_chart_text) != strlen($lite_chart_text) ) {
+		$difference = $difference + ( strlen($lite_chart_text) - strlen($last_lite_chart_text) ); 
+		$x_coord = $x_coord + ( $difference * $font_width ); 
+		}
+		elseif ( isset($difference) ) {
+		$x_coord = $x_coord + ( $difference * $font_width ); 
+		}
+	
+	$x_coord = $x_coord + 70;
+	$last_lite_chart_text = $lite_chart_text;
+	}
+	?>
+	]
+    }
+  ],
+  gui: {
+    contextMenu: {
+      alpha: 0.9,
+      button: {
+        visible: true
+      },
+      docked: true,
+      item: {
+        textAlpha: 1
+      },
+      position: 'right'
+    }
+  }
+  
+}
+
+<?php
+
+
+}
+// SYSTEM CHARTS END
+	
 ?>

@@ -15,7 +15,7 @@ if ( isset($_GET['logfile']) ) {
 $is_logs = true;
 }
 // Chart retrieval
-elseif ( isset($_GET['asset_data']) ) {
+elseif ( $_GET['type'] == 'asset' || $_GET['type'] == 'system' ) {
 $is_charts = true;
 }
 

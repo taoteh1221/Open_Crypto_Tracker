@@ -162,9 +162,20 @@ $portfolio_cache_size_mb = in_megabytes($system_info['portfolio_cache'])['in_meg
 	
 
          
-// Store system data to chart 
-store_file_contents($base_dir . '/cache/charts/system/archival/system_stats.dat', time() . $chart_data_set . "\n", "append");
+// Store system data to archival / lite charts
+$system_stats_path = $base_dir . '/cache/charts/system/archival/system_stats.dat';
+
+store_file_contents($system_stats_path, time() . $chart_data_set . "\n", "append");
     		
+// Lite charts (update time dynamically determined in update_lite_chart() logic)
+// Try to assure file locking from archival chart updating has been released, wait 1 second before updating lite charts
+sleep(1);
+		
+foreach ( $app_config['power_user']['lite_chart_day_intervals'] as $light_chart_days ) {
+update_lite_chart($system_stats_path, $light_chart_days);
+}
+		
+		
 // SYSTEM STATS END
 
 		
