@@ -168,6 +168,7 @@
 	</script>
 	
 	
+	
 	<div class='red' id='charts_error'></div>
 	
 	

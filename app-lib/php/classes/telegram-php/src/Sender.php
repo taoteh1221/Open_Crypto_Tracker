@@ -12,7 +12,7 @@ class Sender {
 	private $language = "en";
 	private $timeout = 0;
 	public  $convert_emoji = TRUE; // Default
-	public  $use_internal_resolver = TRUE;
+	public  $use_internal_resolver = FALSE; // SHOULD BE FALSE, TO RESOLVE THE TELEGRAM ENDPOINT NORMALLY VIA DNS (#NOT# VIA THE HARD-CODED STATIC IPS)
 	private $_keyboard;
 	private $_inline;
 	private $_payment;

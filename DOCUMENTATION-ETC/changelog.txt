@@ -3401,7 +3401,9 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 
 -------------------------------------------------------------------
-4.15.0:
+4.14.1:
+
+-Bug fix for telegram alerts in 3rd pary PHP class (default setting was hard-coded ips for api.telegram.org, now switched to dynamic ip resolving via normal DNS)
 
 -Lite chart support for system stats
 

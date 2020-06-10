@@ -52,36 +52,80 @@ require("templates/interface/php/header.php");
 		<div id='portfolio' class='tabdiv'>
 			<?php require("templates/interface/php/user/user-sections/portfolio.php"); ?>
 		</div>
+		
+		<script>
+		//console.log("Portfolio tab loaded."); // DEBUGGING
+		</script>
+		
 		<div id='update' class='tabdiv'>
 			<?php require("templates/interface/php/user/user-sections/update.php"); ?>
 		</div>
+		
+		<script>
+		//console.log("Update tab loaded."); // DEBUGGING
+		</script>
+		
 		<div id='settings' class='tabdiv'>
 			<?php require("templates/interface/php/user/user-sections/settings.php"); ?>
 		</div>
+		
+		<script>
+		//console.log("Settings tab loaded."); // DEBUGGING
+		</script>
+		
 		<div id='news' class='tabdiv'>
 			<?php require("templates/interface/php/user/user-sections/news.php"); ?>
 		</div>
+		
+		<script>
+		//console.log("News tab loaded."); // DEBUGGING
+		</script>
+		
 		<div id='resources' class='tabdiv'>
 			<?php require("templates/interface/php/user/user-sections/resources.php"); ?>
 		</div>
+		
+		<script>
+		//console.log("Resources tab loaded."); // DEBUGGING
+		</script>
+		
 			<?php
 			if ( $app_config['general']['charts_toggle'] == 'on' ) {
 			?>
 		<div id='charts' class='tabdiv container-fluid'>
 			<?php require("templates/interface/php/user/user-sections/charts.php"); ?>
 		</div>
+		
+		<script>
+		//console.log("Charts tab loaded."); // DEBUGGING
+		</script>
 			<?php
 			}
 			?>
+			
 		<div id='tools' class='tabdiv'>
 			<?php require("templates/interface/php/user/user-sections/tools.php"); ?>
 		</div>
+		
+		<script>
+		//console.log("Tools tab loaded."); // DEBUGGING
+		</script>
+		
 		<div id='mining' class='tabdiv'>
 			<?php require("templates/interface/php/user/user-sections/mining.php"); ?>
 		</div>
+		
+		<script>
+		//console.log("Mining tab loaded."); // DEBUGGING
+		</script>
+		
 		<div id='help' class='tabdiv'>
 			<?php require("templates/interface/php/user/user-sections/help.php"); ?>
 		</div>
+		
+		<script>
+		//console.log("Help tab loaded."); // DEBUGGING
+		</script>
 
 
 <?php
