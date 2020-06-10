@@ -44,7 +44,7 @@ var lite_state_<?=$key?> = {
 };
  
 
-$("#system_stats_chart_<?=$key?> span.chart_loading").html(' &nbsp; <img src="templates/interface/media/images/loader.gif" height="16" alt="" style="vertical-align: middle;" /> Loading all days chart for System Chart #<?=$key?>...');
+$("#system_stats_chart_<?=$key?> span.chart_loading").html(' &nbsp; <img src="templates/interface/media/images/loader.gif" height="16" alt="" style="vertical-align: middle;" /> Loading <?=$first_lite_chart?> days chart for System Chart #<?=$key?>...');
 	
   
 zingchart.bind('system_stats_chart_<?=$key?>', 'load', function() {
