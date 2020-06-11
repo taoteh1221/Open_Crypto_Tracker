@@ -40,8 +40,8 @@ $currency_count = 0;
 		
 		
 		// Alphabetical sorting
-		$supported_primary_currency_list = list_sort($supported_primary_currency_list, '/', 'asort', true);
-		$all_supported_pairings_list = list_sort($all_supported_pairings_list, '/', 'asort', true);
+		$supported_primary_currency_list = list_sort($supported_primary_currency_list, '/', 'sort', true);
+		$all_supported_pairings_list = list_sort($all_supported_pairings_list, '/', 'sort', true);
 		
 		
 		foreach ( $app_config['portfolio_assets']['BTC']['market_pairing'] as $pairing_key => $unused ) {
@@ -85,8 +85,8 @@ $currency_count = 0;
 		
 		
 		// Alphabetical sorting
-		$supported_btc_exchange_list = list_sort($supported_btc_exchange_list, '/', 'asort', true);
-		$all_exchanges_list = list_sort($all_exchanges_list, '/', 'asort', true);
+		$supported_btc_exchange_list = list_sort($supported_btc_exchange_list, '/', 'sort', true);
+		$all_exchanges_list = list_sort($all_exchanges_list, '/', 'sort', true);
 	
 	
 	app_logging('config_debugging', "\n\n" . 'Bitcoin markets configuration information (for config.php documentation) supported_btc_primary_currencies_list['.$currency_count.']: ' . $supported_primary_currency_list . '; ' . "\n\n" . 'supported_btc_exchanges_list['.$exchange_count.']: ' . $supported_btc_exchange_list . ';' . "\n\n" );

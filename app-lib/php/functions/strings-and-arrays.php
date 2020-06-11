@@ -4,25 +4,14 @@
  */
 
 
+
+
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
 
 
-function obfuscate_string($str, $show=1) {
-	
-$len = strlen($str);
-
-	if ( $len <= ($show * 2) ) {
-	$show = 0;
-	}
-
-	if ( $show == 0 ) {
-	return str_repeat('*', $len);
-	}
-	else {
-   return substr($str, 0, $show) . str_repeat('*', $len - (2*$show) ) . substr($str, $len - $show, $show);
-	}
-	
+function strip_brackets($string) {
+return str_replace(array('[',']'),'',$string);
 }
 
 
@@ -118,6 +107,28 @@ $number = trim($string[0]);
 
 return $number;
 
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function obfuscate_string($str, $show=1) {
+	
+$len = strlen($str);
+
+	if ( $len <= ($show * 2) ) {
+	$show = 0;
+	}
+
+	if ( $show == 0 ) {
+	return str_repeat('*', $len);
+	}
+	else {
+   return substr($str, 0, $show) . str_repeat('*', $len - (2*$show) ) . substr($str, $len - $show, $show);
+	}
+	
 }
 
 
@@ -291,7 +302,10 @@ $list_array = explode('/', $list_string);
 // Trim
 $list_array = array_map('trim', $list_array);
 
-	if ( $mode == 'asort' ) {
+	if ( $mode == 'sort' ) {
+	sort($list_array);
+	}
+	elseif ( $mode == 'asort' ) {
 	asort($list_array);
 	}
 	elseif ( $mode == 'ksort' ) {

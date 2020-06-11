@@ -98,23 +98,60 @@
 	
 	
 	<script>
+	
 	$('.show_feed_settings').modaal({
 		content_source: '#show_feed_settings'
 	});
+  	
 	</script>
 	
-
+	
 	<?php
 	if ( $show_feeds[0] != '' ) {
-	echo get_rss_feeds($show_feeds, $app_config['power_user']['news_feeds_entries_show']); 
+	?>
+	
+	<div id='rss_feeds'>
+	
+	
+	    <fieldset class='subsection_fieldset'>
+	    
+	    <legend class='subsection_legend'> <strong>Loading News Feeds...</strong> </legend>
+	        <img src="templates/interface/media/images/loader.gif" height='50' alt="" style='vertical-align: middle;' />
+	    </fieldset>
+	
+	</div>
+	
+	<script>
+	
+	$("#loading_subsections_span").html("Loading News Feeds...");
+	$("#loading_subsections").show(250); // 0.25 seconds
+	
+	$("#rss_feeds").load("ajax.php?type=rss", function(responseTxt, statusTxt, xhr){
+		
+    if(statusTxt == "success") {
+      console.log("RSS feeds loaded successfully.");
+		$("#loading_subsections").hide(250); // 0.25 seconds
+    }
+    
+    else if(statusTxt == "error") {
+    $("#rss_feeds").html("Error: " + xhr.status + ": " + xhr.statusText);
+    }
+    
+  	});
+  	
+	</script>
+	
+	<?php
 	}
 	else {
 	?>
+	
 	<div class='align_center' style='min-height: 100px;'>
 	
 		<p><img src='templates/interface/media/images/favicon.png' alt='' class='image_border' /></p>
 		<p class='red' style='font-weight: bold; position: relative; margin: 15px;'>Click the "Select News Feeds" button (top left) to add news feeds.</p>
 	</div>
+	
 	<?php
 	}
 	?>

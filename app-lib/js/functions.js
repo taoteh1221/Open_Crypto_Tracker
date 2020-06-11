@@ -436,7 +436,7 @@ var not_whole_num = (log_lines - Math.floor(log_lines)) !== 0;
 	}
     	  	
    // Get log data
-	$.getJSON("ajax.php?logfile=" + log_file + '&lines=' + set_lines, function( data ) {
+	$.getJSON("ajax.php?type=log&logfile=" + log_file + '&lines=' + set_lines, function( data ) {
       
       
    	var data_length = data.length;

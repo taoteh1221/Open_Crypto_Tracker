@@ -425,12 +425,6 @@ $color_array = array(
 							);
 
 
-// Sort array keys by lowest numeric value to highest
-//asort($chart_data);
-
-//var_dump($chart_data); // DEBUGGING ONLY
-
-
 
 // Determine how many data sensors to include in first chart
 $num_in_first_chart = 0;

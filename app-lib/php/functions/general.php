@@ -166,6 +166,15 @@ return strtotime($b) - strtotime($a);
 ////////////////////////////////////////////////////////
 
 
+function titles_usort_alpha($a, $b) {
+return strcmp($a["title"], $b["title"]);
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
 function hardy_session_clearing() {
 
 // Deleting all session data can fail on occasion, and wreak havoc.
@@ -638,12 +647,11 @@ $news_feeds = $app_config['power_user']['news_feeds'];
 	 
 	 $html = "";
 
-	 // Alphabetically sort chosen feeds
+	 // Sort chosen feeds, AFTER STRIPPING BRACKETS
+	 $chosen_feeds = array_map('strip_brackets', $chosen_feeds);
 	 sort($chosen_feeds);
     
     	foreach($chosen_feeds as $feed) {
-    	
-    	$feed = str_replace(array('[',']'),'',$feed); // Remove brackets from js storage format
     
     		if ( is_array($news_feeds[$feed]) ) {
     		$html .= "<fieldset class='subsection_fieldset'><legend class='subsection_legend'> ".$news_feeds[$feed]["title"].'</legend>';

@@ -57,6 +57,9 @@ $app_config['mobile_network_text_gateways'] = $cleaned_mobile_networks;
 // (so we activate it here instead of in config.php, for good UX adding ONLY altcoin markets dynamically there)
 $app_config['power_user']['crypto_pairing']['btc'] = 'Ƀ ';
 
+// Numericly sort lite chart intervals (in case end user didn't do them in order)
+// DO BEFORE ADDING 'all' BELOW
+sort($app_config['power_user']['lite_chart_day_intervals']);
 
 // Default lite chart mode 'all' (we activate it here instead of in config.php, for good UX adding ONLY day intervals there)
 $app_config['power_user']['lite_chart_day_intervals'][] = 'all';
@@ -106,10 +109,10 @@ if (is_array($app_config['portfolio_assets']) || is_object($app_config['portfoli
     foreach ( $app_config['portfolio_assets'] as $symbol_key => $symbol_unused ) {
             
             if ( $app_config['portfolio_assets'][$symbol_key] == 'MISCASSETS' ) {
-            asort($app_config['portfolio_assets'][$symbol_key]['market_pairing']);
+            asort($app_config['portfolio_assets'][$symbol_key]['market_pairing']); // Sort maintaining indices
             }
             else {
-            ksort($app_config['portfolio_assets'][$symbol_key]['market_pairing']);
+            ksort($app_config['portfolio_assets'][$symbol_key]['market_pairing']); // Sort by key name
             }
             
             
@@ -123,7 +126,11 @@ if (is_array($app_config['portfolio_assets']) || is_object($app_config['portfoli
 
 
 // Alphabetically sort news feeds
-ksort($app_config['power_user']['news_feeds']);
+$usort_feeds_results = usort($app_config['power_user']['news_feeds'], __NAMESPACE__ . '\titles_usort_alpha');
+   	
+if ( !$usort_feeds_results ) {
+app_logging( 'other_error', 'RSS feeds failed to sort alphabetically');
+}
 
 
 // Better decimal support for these vars...
