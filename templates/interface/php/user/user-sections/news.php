@@ -129,8 +129,9 @@
 	$("#rss_feeds").load("ajax.php?type=rss", function(responseTxt, statusTxt, xhr){
 		
     if(statusTxt == "success") {
-      console.log("RSS feeds loaded successfully.");
-		$("#loading_subsections").hide(250); // 0.25 seconds
+    	if ( charts_loaded.length >= window.charts_num ) {
+		$("#loading_subsections").hide(250); // 0.25 seconds // Hide ONLY IF no charts are still loading
+    	}
     }
     
     else if(statusTxt == "error") {
