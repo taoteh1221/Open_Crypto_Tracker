@@ -47,6 +47,8 @@ $random_tips = array(
                     
                     "Be careful out there in this cryptoland frontier <i>full of garbage coins, scam coins, and greedy <u>glorified</u> (and NOT so glorified) crooks</i> and their silver tongues (wolves in sheep's clothing)! 😮",
                     
+                    "PATIENCE is key to trading. When you think an asset will rise in value, think in YEARS #NOT# DAYS. No matter who says it, guessing market values in days or weeks is a fools game (throwing darts at a bullseye blind-folded).",
+                    
                     
 						);
 
