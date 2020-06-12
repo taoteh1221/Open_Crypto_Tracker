@@ -916,6 +916,12 @@ $app_config['power_user']['news_feeds'] = array(
     
     
         				array(
+            			"title" => "News - The Block",
+            			"url" => "https://www.theblockcrypto.com/rss.xml"
+        						),
+    
+    
+        				array(
             			"title" => "News - Token Daily",
             			"url" => "https://www.tokendaily.co/rss"
         						),

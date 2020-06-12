@@ -103,7 +103,26 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 			if ( $chart_asset ) {
 ?>
 
-{ graphset:[
+{ 
+
+
+gui: {
+    behaviors: [
+    ],
+    contextMenu: {
+      alpha: 0.9,
+      button: {
+        visible: true
+      },
+      docked: true,
+      item: {
+        textAlpha: 1
+      },
+      position: 'left'
+    }
+},
+   
+graphset:[
 		
 		
 {
@@ -294,7 +313,7 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 		$x_coord = $x_coord + ( $difference * $font_width ); 
 		}
 	
-	$x_coord = $x_coord + 70;
+	$x_coord = $x_coord + 60;
 	$last_lite_chart_text = $lite_chart_text;
 	}
 	?>
@@ -383,7 +402,10 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 }
         
         
-] }
+] 
+
+
+}
 
 
 			<?php
@@ -566,7 +588,9 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
       title: {
         text: 'System Chart #<?=$key?>',
         adjustLayout: true,
-        marginTop: '20px'
+    	  align: 'right',
+    	  offsetX: -20,
+    	  offsetY: 9
       },  
   		source: {
   		   text: "Select an area to zoom inside the chart itself, or use the zoom grab bars in the preview area (X and Y axis zooming are both supported).",
@@ -574,15 +598,19 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 	      fontSize: "13",
     		fontFamily: "Open Sans",
     		offsetX: 60,
-    		offsetY: -1,
+    		offsetY: -3,
     		align: 'left'
   		},
       legend: {
         backgroundColor: 'transparent',
         borderWidth: '0px',
-        draggable: true,
+    	  offsetX: -40,
+    	  offsetY: -20,
+        draggable: false,
         header: {
-          text: 'System Data (click to hide)',
+          text: 'Telemetry (click to hide)',
+    		 offsetX: -8,
+    	    offsetY: -20,
       	 fontColor: "black",
 	 		 fontSize: "20",
       	 fontFamily: "Open Sans",
@@ -681,7 +709,7 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
       ],
 		labels: [
 	<?php
-	$x_coord = 90; // Start position (absolute)
+	$x_coord = 70; // Start position (absolute)
 	$font_width = 17; // NOT MONOSPACE, SO WE GUESS AN AVERAGE
 	foreach ($app_config['power_user']['lite_chart_day_intervals'] as $lite_chart_days) {
 		
@@ -724,7 +752,7 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 	?>
 		{
 	    x: <?=$x_coord?>,
-	    y: 23,
+	    y: 12,
 	    id: '<?=$lite_chart_days?>',
 	    fontColor: "<?=($_GET['days'] == $lite_chart_days ? '#9b9b9b' : 'black' )?>",
 	    fontSize: "22",
@@ -744,7 +772,7 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 		$x_coord = $x_coord + ( $difference * $font_width ); 
 		}
 	
-	$x_coord = $x_coord + 70;
+	$x_coord = $x_coord + 60;
 	$last_lite_chart_text = $lite_chart_text;
 	}
 	?>
@@ -752,6 +780,8 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
     }
   ],
   gui: {
+    behaviors: [
+    ],
     contextMenu: {
       alpha: 0.9,
       button: {
@@ -761,7 +791,7 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
       item: {
         textAlpha: 1
       },
-      position: 'right'
+      position: 'left'
     }
   }
   

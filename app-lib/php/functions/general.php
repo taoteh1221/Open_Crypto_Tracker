@@ -5,6 +5,16 @@
 
 
 
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function titles_usort_alpha($a, $b) {
+return strcmp( strtolower($a["title"]) , strtolower($b["title"]) ); // Case-insensitive equivelent comparision via strtolower()
+}
+
+
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
 
@@ -166,15 +176,6 @@ return strtotime($b) - strtotime($a);
 ////////////////////////////////////////////////////////
 
 
-function titles_usort_alpha($a, $b) {
-return strcmp($a["title"], $b["title"]);
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
 function hardy_session_clearing() {
 
 // Deleting all session data can fail on occasion, and wreak havoc.
@@ -222,7 +223,7 @@ function admin_hashed_nonce($key) {
 	return false;
 	}
 	else {
-	return hash('ripemd160', $key . $_SESSION['nonce']);
+	return get_digest($key . $_SESSION['nonce']);
 	}
 	
 }
@@ -647,15 +648,17 @@ $news_feeds = $app_config['power_user']['news_feeds'];
 	 
 	 $html = "";
 
-	 // Sort chosen feeds, AFTER STRIPPING BRACKETS
 	 $chosen_feeds = array_map('strip_brackets', $chosen_feeds);
-	 sort($chosen_feeds);
     
-    	foreach($chosen_feeds as $feed) {
+    	// $news_feeds was already alphabetically sorted in app init routines, so we loop with it to maintain alphabetical order
+    	foreach($news_feeds as $feed) {
+    		
+		// We avoid using array keys for end user config editing UX, BUT STILL UNIQUELY IDENTIFY EACH FEED
+    	$feed_id = get_digest($feed["title"], 15);
     
-    		if ( is_array($news_feeds[$feed]) ) {
-    		$html .= "<fieldset class='subsection_fieldset'><legend class='subsection_legend'> ".$news_feeds[$feed]["title"].'</legend>';
-    		$html .= rss_feed_data($news_feeds[$feed]["url"], $feed_size);
+    		if ( isset($feed["title"]) && in_array($feed_id, $chosen_feeds) ) {
+    		$html .= "<fieldset class='subsection_fieldset'><legend class='subsection_legend'> ".$feed["title"].'</legend>';
+    		$html .= rss_feed_data($feed["url"], $feed_size);
     		$html .= "</fieldset>";    
     		}
     

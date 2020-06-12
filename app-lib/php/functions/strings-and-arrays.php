@@ -114,6 +114,42 @@ return $number;
 ////////////////////////////////////////////////////////
 
 
+function get_digest($string, $max_length=false) {
+
+	if ( $max_length > 0 ) {
+	$result = substr( hash('ripemd160', $string) , 0, $max_length);
+	}
+	else {
+	$result = hash('ripemd160', $string);
+	}
+	
+return $result;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function strip_non_alpha($string, $case=false) {
+
+	if ( $case == 'lower' ) {
+	$result = strtolower(preg_replace('/[^\w\d]+/','', $string));
+	}
+	else {
+	$result = preg_replace('/[^\w\d]+/','', $string);
+	}
+	
+return $result;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
 function obfuscate_string($str, $show=1) {
 	
 $len = strlen($str);

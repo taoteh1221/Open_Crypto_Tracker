@@ -29,7 +29,7 @@ $webhook_hash = explode('/', $_GET['webhook_hash']); // Remove any data after th
 
 ///////////////////////////////////////////////////////////////////////////////
 // Google 0auth
-if ( $webhook_hash[0] == hash('ripemd160', 'google-0auth' . $webhook_key) ) {
+if ( $webhook_hash[0] == get_digest('google-0auth' . $webhook_key) ) {
 require_once($base_dir . '/app-lib/php/other/security/google-0auth.php');
 }
 ///////////////////////////////////////////////////////////////////////////////
@@ -38,7 +38,7 @@ require_once($base_dir . '/app-lib/php/other/security/google-0auth.php');
 
 ///////////////////////////////////////////////////////////////////////////////
 // Telegram
-elseif ( $webhook_hash[0] == hash('ripemd160', 'telegram' . $webhook_key) ) {
+elseif ( $webhook_hash[0] == get_digest('telegram' . $webhook_key) ) {
 
 // https://core.telegram.org/bots/api
 
@@ -58,7 +58,7 @@ elseif ( $webhook_hash[0] == hash('ripemd160', 'telegram' . $webhook_key) ) {
 
 ///////////////////////////////////////////////////////////////////////////////
 // Test only
-elseif ( $webhook_hash[0] == hash('ripemd160', 'test-only' . $webhook_key) ) {
+elseif ( $webhook_hash[0] == get_digest('test-only' . $webhook_key) ) {
 
 $test_params = array('api_key' => $api_key);
 						
@@ -86,7 +86,7 @@ if ( isset($result) ) {
 echo json_encode($result, JSON_PRETTY_PRINT);
 }
 
-//echo hash('ripemd160', 'test-only' . $webhook_key) . ' -- ';
+//echo get_digest('test-only' . $webhook_key) . ' -- ';
 
 
 // Log errors / debugging, send notifications

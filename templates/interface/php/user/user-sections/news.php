@@ -18,7 +18,7 @@
 			<?php
 			$news_feeds_cache_min_max = explode(',', $app_config['power_user']['news_feeds_cache_min_max']);
 			?>
-			<p class='bitcoin' style='font-weight: bold;'>RSS feed data is cached (randomly) between <?=$news_feeds_cache_min_max[0]?> / <?=$news_feeds_cache_min_max[1]?> minutes for quicker load times. To see the date an entry was published, hover over it.</p>
+			<p class='bitcoin' style='font-weight: bold;'>RSS feed data is cached (randomly) between <?=$news_feeds_cache_min_max[0]?> / <?=$news_feeds_cache_min_max[1]?> minutes for quicker load times. Entries are sorted newest to oldest. To see the date an entry was published, hover over it.</p>
 			
 
 
@@ -59,15 +59,17 @@
 	<?php
 	
 	$zebra_stripe = 'long_list_odd';
-	foreach ( $app_config['power_user']['news_feeds'] as $feed_key => $feed_value ) {
-		
+	foreach ( $app_config['power_user']['news_feeds'] as $feed ) {
+	
+	// We avoid using array keys for end user config editing UX, BUT STILL UNIQUELY IDENTIFY EACH FEED
+	$feed_id = get_digest($feed['title'], 15);
 				
 	?>
 	
 		<div class='<?=$zebra_stripe?> long_list <?=( $last_rendered != $show_asset ? 'activate_chart_sections' : '' )?>'>
 			
 				
-				<input type='checkbox' value='<?=$feed_key?>' onchange='feed_toggle(this);' <?=( in_array("[".$feed_key."]", $show_feeds) ? 'checked' : '' )?> /> <?=$feed_value['title']?>
+				<input type='checkbox' value='<?=$feed_id?>' onchange='feed_toggle(this);' <?=( in_array("[".$feed_id."]", $show_feeds) ? 'checked' : '' )?> /> <?=$feed['title']?>
 	
 	
 			</div>
