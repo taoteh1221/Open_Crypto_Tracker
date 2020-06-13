@@ -64,9 +64,6 @@ $app_config['comms']['smtp_login'] = ''; //  CAN BE BLANK. This format MUST be u
 ////
 // Examples: 'example.com:25' (non-encrypted), 'example.com:465' (ssl-encrypted), 'example.com:587' (tls-encrypted)
 $app_config['comms']['smtp_server'] = ''; // CAN BE BLANK. This format MUST be used: 'domain_or_ip:port_number' 
-////
-// MAKE SURE PORT NUMBER ABOVE CORRESPONDS
-$app_config['comms']['smtp_secure'] = 'tls'; // CAN BE 'off' FOR NO SECURE CONNECTION, or 'tls', or 'ssl' for secure connections. 
 
 
 // For alert texts to mobile phone numbers. 
@@ -521,10 +518,10 @@ $app_config['power_user']['marketcap_ranks_max'] = 250; // (default = 250)
 // The maximum number of data points allowed in each lite chart (speeds up page / chart loading times SIGNIFICANTLY #WITH A LOW NUMBER#)
 $app_config['power_user']['lite_chart_data_points_max'] = '365'; // (default = '365')
 ////
-// Structure of lite charts IN DAYS (X days time period charts)
+// Structure of lite charts #IN DAYS# (X days time period charts)
 // Interface will auto-detect and display days as 365 = 1Y, 180 = 6M, 7 = 1W, etc, etc
-// (#SHOULD BE KEPT MINIMAL# TO REDUCE RUNTIME LOAD / DISK WRITES DURING CRON JOBS)
-$app_config['power_user']['lite_chart_day_intervals'] = array(7, 30, 180, 365); // (default = 7, 30, 180, 365)
+// (LOWER TIME PERIODS [UNDER 180 DAYS] #SHOULD BE KEPT SOMEWHAT MINIMAL#, TO REDUCE RUNTIME LOAD / DISK WRITES DURING CRON JOBS)
+$app_config['power_user']['lite_chart_day_intervals'] = array(3, 7, 30, 180, 365, 730, 1460); // (default = 3, 7, 30, 180, 365, 730, 1460)
 ////
 //	Lite chart updates randomly delayed up to X minutes maximum, to lower the system resource use / evenly spread across cron jobs
 // (THE HIGHER THE NUMBER, THE LESS LOAD ON SYSTEM / LESS FILE WRITING TO STORAGE DRIVE)
@@ -543,10 +540,10 @@ $app_config['power_user']['charts_background'] = '#515050';
 $app_config['power_user']['charts_line'] = '#444444';  
 ////
 // Charts text color
-$app_config['power_user']['charts_text'] = '#dbdbdb';  
+$app_config['power_user']['charts_text'] = '#e8e8e8';  
 ////
 // Charts link color
-$app_config['power_user']['charts_link'] = '#b5b5b5';  
+$app_config['power_user']['charts_link'] = '#a5a5a5';  
 ////
 // Charts price (base) gradient color
 $app_config['power_user']['charts_price_gradient'] = '#000000'; 
@@ -683,12 +680,14 @@ $app_config['power_user']['bitcoin_currency_markets'] = array(
 // #USE VERY CONSERVATIVELY#, AS YOU'LL BE RECOMMENDING IN THE INTERFACE TO END-USERS TO AVOID USING ANY OTHER MARKETS FOR THIS CURRENCY
 $app_config['power_user']['bitcoin_preferred_currency_markets'] = array(
 						//'lowercase_btc_market_or_stablecoin_pairing' => 'PREFERRED_MARKET',
-							'eur' => 'kraken',  // WAY BETTER api, WAY BETTER price discovery than ALL alternatives
-							'dai' => 'kraken',  // WAY MORE reputable than hitBTC
-							'chf' => 'localbitcoins',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
-							'inr' => 'localbitcoins',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
-							'jpy' => 'localbitcoins',  // WAY MORE reliable than ALL alternatives
-							'rub' => 'localbitcoins',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
+							'chf' => 'kraken',  // WAY MORE reputable than ALL alternatives
+							'dai' => 'kraken',  // WAY MORE reputable than ALL alternatives
+							'eur' => 'kraken',  // WAY BETTER api than ALL alternatives
+							'gbp' => 'kraken',  // WAY BETTER api than ALL alternatives
+							'inr' => 'localbitcoins',  // WAY MORE volume / price discovery than ALL alternatives
+							'jpy' => 'kraken',  // WAY MORE reputable than ALL alternatives
+							'rub' => 'localbitcoins',  // WAY MORE volume / price discovery than ALL alternatives
+							'usd' => 'kraken',  // WAY BETTER api than ALL alternatives
 							);
 
 
@@ -705,13 +704,14 @@ $app_config['power_user']['ethereum_subtoken_ico_values'] = array(
 
 // Mining rewards for different crypto networks (to prefill the editable mining calculator forms)
 $app_config['power_user']['mining_rewards'] = array(
-					'btc' => '12.5',
+					'btc' => '6.25',
 					'doge' => '10000',
-					'dcr' => 'PLACEHOLDER',  // WE DYNAMICALLY UPDATE THIS IN INIT.PHP
 					'eth' => '2',
 					'grin' => '60',
 					'ltc' => '12.5',
-					'xmr' => 'PLACEHOLDER',  // WE DYNAMICALLY UPDATE THIS IN INIT.PHP
+					// WE DYNAMICALLY UPDATE THESE BELOW IN INIT.PHP
+					'xmr' => 'PLACEHOLDER',  
+					'dcr' => 'PLACEHOLDER', 
 					);
 						
 
@@ -1580,6 +1580,7 @@ $app_config['portfolio_assets'] = array(
                                                     ),
                                                     
                                     'chf' => array(
+                                          'kraken' => 'XBTCHF',
                                           'lakebtc' => 'btcchf',
                                           'localbitcoins' => 'CHF',
                                                     ),
@@ -1630,6 +1631,7 @@ $app_config['portfolio_assets'] = array(
                                           'coinbase' => 'BTC-EUR',
                                           'kraken' => 'XXBTZEUR',
                                           'bitstamp' => 'btceur',
+                                        	'bittrex_global' => 'EUR-BTC',
                                           'bitpanda' => 'BTC_EUR',
                                           'bitflyer' => 'BTC_EUR',
                                           'coss' => 'BTC-EUR',
@@ -1641,6 +1643,7 @@ $app_config['portfolio_assets'] = array(
                                                     
                                     'gbp' => array(
                                           'coinbase' => 'BTC-GBP',
+                                          'kraken' => 'XXBTZGBP',
                                           'bitfinex' => 'tBTCGBP',
                                           'coss' => 'BTC-GBP',
                                           'cex' => 'BTC:GBP',
@@ -1696,6 +1699,7 @@ $app_config['portfolio_assets'] = array(
                                                     ),
                                                     
                                     'jpy' => array(
+                                          'kraken' => 'XXBTZJPY',
                                           'bitflyer' => 'BTC_JPY',
                                           'lakebtc' => 'btcjpy',
                                           'localbitcoins' => 'JPY',
@@ -1872,11 +1876,14 @@ $app_config['portfolio_assets'] = array(
                                                     
                                     'usdc' => array(
                                           'binance' => 'BTCUSDC',
+                                          'kraken' => 'XBTUSDC',
                                         	'korbit' => 'btc_usdc',
                                                     ),
                                                     
                                     'usdt' => array(
                                           'binance' => 'BTCUSDT',
+                                    	 	'kraken' => 'XBTUSDT',
+                                        	'bittrex' => 'USDT-BTC',
                                           'btcturk' => 'BTCUSDT',
                                           'huobi' => 'btcusdt',
                                           'okex' => 'BTC-USDT',
@@ -1954,19 +1961,31 @@ $app_config['portfolio_assets'] = array(
                                           'luno' => 'ETHXBT',
                                                     ),
                                                     
+                                    'cad' => array(
+                                          'kraken' => 'XETHZCAD',
+                                                    ),
+                                                    
+                                    'chf' => array(
+                                          'kraken' => 'ETHCHF',
+                                                    ),
+                                                    
                                     'dai' => array(
                                           'coinbase' => 'ETH-DAI',
+                                          'kraken' => 'ETHDAI',
                                           'hitbtc' => 'ETHDAI',
                                                     ),
                                                     
                                     'eur' => array(
                                           'coinbase' => 'ETH-EUR',
+                                          'kraken' => 'XETHZEUR',
                                           'bitstamp' => 'etheur',
+                                        	'bittrex_global' => 'EUR-ETH',
                                           'cex' => 'ETH:EUR',
                                                     ),
                                                     
                                     'gbp' => array(
                                           'coinbase' => 'ETH-GBP',
+                                          'kraken' => 'XETHZGBP',
                                           'cex' => 'BTC:GBP',
                                                     ),
                                                     
@@ -1980,6 +1999,7 @@ $app_config['portfolio_assets'] = array(
                                                     ),
                                                     
                                     'jpy' => array(
+                                          'kraken' => 'XETHZJPY',
                                           'bitflyer' => 'ETH_JPY',
                                                     ),
                                                     
@@ -2017,6 +2037,7 @@ $app_config['portfolio_assets'] = array(
                                                     
                                     'usdt' => array(
                                         	'binance' => 'ETHUSDT',
+                                          'kraken' => 'ETHUSDT',
                                           'btcturk' => 'ETHUSDT',
                                           'huobi' => 'ethusdt',
                                         	'binance_us' => 'ETHUSDT',
@@ -2032,6 +2053,7 @@ $app_config['portfolio_assets'] = array(
                                     'usdc' => array(
                                           'binance' => 'ETHUSDC',
                                           'coinbase' => 'ETH-USDC',
+                                          'kraken' => 'ETHUSDC',
                                           'kucoin' => 'ETH-USDC',
                                           'poloniex' => 'USDC_ETH',
                                                     ),
@@ -2229,6 +2251,7 @@ $app_config['portfolio_assets'] = array(
                                                     
                                     'eth' => array(
                                         'binance' => 'LTCETH',
+                                        'kraken' => 'LTCETH',
                                         'bittrex' => 'ETH-LTC',
                                         'hitbtc' => 'LTCETH',
                                         'kucoin' => 'LTC-ETH',
@@ -2238,12 +2261,14 @@ $app_config['portfolio_assets'] = array(
                                                     
                                     'eur' => array(
                                           'coinbase' => 'LTC-EUR',
+                                          'kraken' => 'XLTCZEUR',
                                           'bitstamp' => 'ltceur',
                                           'cex' => 'LTC:EUR',
                                                     ),
                                                     
                                     'gbp' => array(
                                           'coinbase' => 'LTC-GBP',
+                                        	'kraken' => 'LTCGBP',
                                           'cex' => 'LTC:GBP',
                                                     ),
                                                     
@@ -2285,6 +2310,7 @@ $app_config['portfolio_assets'] = array(
                                                     
                                     'usdt' => array(
                                         'binance' => 'LTCUSDT',
+                                        'kraken' => 'LTCUSDT',
                                         'huobi' => 'ltcusdt',
                                         'binance_us' => 'LTCUSDT',
                                         'bittrex' => 'USDT-LTC',
@@ -2343,6 +2369,34 @@ $app_config['portfolio_assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
+                    // USDC
+                    'USDC' => array(
+                        
+                        'asset_name' => 'USD Coin',
+                        'marketcap_website_slug' => 'usd-coin',
+                        'market_pairing' => array(
+                        
+                                    'btc' => array(
+                                        'bittrex' => 'BTC-USDC',
+                                                    ),
+                                                    
+                                    'eth' => array(
+                                        'bittrex' => 'ETH-USDC',
+                                                    ),
+                                                    
+                                    'usdt' => array(
+                                    	 'binance' => 'USDCUSDT',
+                                        'bittrex' => 'USDT-USDC',
+                                                    ),
+                                                    
+                                        ) // market_pairing END
+                                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
                     // DAI
                     'DAI' => array(
                         
@@ -2359,6 +2413,7 @@ $app_config['portfolio_assets'] = array(
                                     'eth' => array(
                                         'bittrex' => 'ETH-DAI',
                                     	 'bitfinex' => 'tDAIETH',
+                                        'gemini' => 'daieth',
                                                     ),
                                                     
                                     'eur' => array(
@@ -2403,6 +2458,7 @@ $app_config['portfolio_assets'] = array(
                         
                                     'btc' => array(
                                          'binance' => 'ATOMBTC',
+                                         'coinbase' => 'ATOM-BTC',
                                          'bittrex_global' => 'BTC-ATOM',
                                          'kraken' => 'ATOMXBT',
                                          'okex' => 'ATOM-BTC',
@@ -2418,8 +2474,14 @@ $app_config['portfolio_assets'] = array(
                                          'bitforex' => 'coin-eth-atom',
                                                     ),
                                                     
+                                    'eur' => array(
+                                         'kraken' => 'ATOMEUR',
+                                                    ),
+                                                    
                                     'usd' => array(
+                                         'coinbase' => 'ATOM-USD',
                                          'binance_us' => 'ATOMUSD',
+                                         'kraken' => 'ATOMUSD',
                                                     ),
                                                     
                                     'usdc' => array(
@@ -2662,6 +2724,7 @@ $app_config['portfolio_assets'] = array(
                         'market_pairing' => array(
                         
                                     'btc' => array(
+                                        'binance' => 'HIVEBTC',
                                         'bittrex' => 'BTC-HIVE',
                                         'huobi' => 'hivebtc',
                                         'hotbit' => 'HIVE_BTC',
@@ -2765,6 +2828,7 @@ $app_config['portfolio_assets'] = array(
                         
                                     'btc' => array(
                                          'namebase' => 'HNSBTC',
+                                          'bittrex_global' => 'BTC-HNS',
                                                     )
                                                     
                                         ) // market_pairing END

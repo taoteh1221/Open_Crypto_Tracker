@@ -598,7 +598,7 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 	      fontSize: "13",
     		fontFamily: "Open Sans",
     		offsetX: 60,
-    		offsetY: -3,
+    		offsetY: -2,
     		align: 'left'
   		},
       legend: {
@@ -657,7 +657,7 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
       	lineColor: "#444444"
         },
         label: {
-          text: 'System Data'
+          text: 'Telemetry'
         },
     	zooming: true
       },

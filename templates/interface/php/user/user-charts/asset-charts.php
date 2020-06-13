@@ -157,7 +157,7 @@ zingchart.bind('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'label_click',
 		lite_chart_text = '4 year';
 		}
 		else {
-		lite_chart_text = days + 'D';
+		lite_chart_text = days + ' day';
 		}
 		
   

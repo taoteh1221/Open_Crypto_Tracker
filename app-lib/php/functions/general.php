@@ -931,12 +931,25 @@ $smtp_password = $temp_smtp_email_login[1];
 $smtp_host = trim($temp_smtp_email_server[0]);
 $smtp_port = trim($temp_smtp_email_server[1]);
 
+
+	// Set encryption type based on port number
+	if ( $smtp_port == 25 ) {
+	$smtp_secure = 'off';
+	}
+	elseif ( $smtp_port == 465 ) {
+	$smtp_secure = 'ssl';
+	}
+	elseif ( $smtp_port == 587 ) {
+	$smtp_secure = 'tls';
+	}
+
+
 // Port vars over to class format (so it runs out-of-the-box as much as possible)
 $vars['cfg_log_file']   = $log_file;
 $vars['cfg_log_file_debugging']   = $log_file_debugging;
 $vars['cfg_server']   = $smtp_host;
 $vars['cfg_port']     =  $smtp_port;
-$vars['cfg_secure']   = $app_config['comms']['smtp_secure'];
+$vars['cfg_secure']   = $smtp_secure;
 $vars['cfg_username'] = $smtp_user;
 $vars['cfg_password'] = $smtp_password;
 $vars['cfg_debug_mode'] = $app_config['developer']['debug_mode']; // DFD Cryptocoin Values debug mode setting

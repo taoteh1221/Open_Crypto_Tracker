@@ -23,7 +23,6 @@ $app_config['general']['primary_marketcap_site'] = auto_correct_string($app_conf
 $app_config['comms']['price_alerts_block_volume_error'] = auto_correct_string($app_config['comms']['price_alerts_block_volume_error'], 'lower');
 $app_config['power_user']['remote_api_strict_ssl'] = auto_correct_string($app_config['power_user']['remote_api_strict_ssl'], 'lower');
 $app_config['general']['charts_toggle'] = auto_correct_string($app_config['general']['charts_toggle'], 'lower');
-$app_config['comms']['smtp_secure'] = auto_correct_string($app_config['comms']['smtp_secure'], 'lower');
 $app_config['comms']['proxy_alerts'] = auto_correct_string($app_config['comms']['proxy_alerts'], 'lower');
 $app_config['comms']['proxy_alerts_runtime'] = auto_correct_string($app_config['comms']['proxy_alerts_runtime'], 'lower');
 $app_config['comms']['proxy_alerts_checkup_ok'] = auto_correct_string($app_config['comms']['proxy_alerts_checkup_ok'], 'lower');
@@ -64,6 +63,11 @@ sort($app_config['power_user']['lite_chart_day_intervals']);
 // Default lite chart mode 'all' (we activate it here instead of in config.php, for good UX adding ONLY day intervals there)
 $app_config['power_user']['lite_chart_day_intervals'][] = 'all';
 
+
+// Idiot-proof maximum of +-35 on captcha text contrast
+if ( abs($app_config['power_user']['captcha_text_contrast']) > 35 ) {
+$app_config['power_user']['captcha_text_contrast'] = 35;
+}
 
 
 // Dynamically add MISCASSETS to $app_config['portfolio_assets'] BEFORE ALPHABETICAL SORTING

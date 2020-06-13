@@ -1688,8 +1688,8 @@ $original_market = $selected_exchange;
   
 	 
 	 
-  	 // Calculate gain / loss if purchase price was populated
-	 if ( $purchase_price >= 0.00000001 ) {
+  	 // Calculate gain / loss if purchase price was populated, AND asset held is at least 1 satoshi
+	 if ( number_to_string($purchase_price) >= 0.00000001 && number_to_string($asset_amount) >= 0.00000001 ) {
 	 	
 	 $coin_paid_total_raw = ($asset_amount * $purchase_price);
 	 
@@ -1727,6 +1727,8 @@ $original_market = $selected_exchange;
 	 }
 	 else {
 	 $no_purchase_price = 1;
+	 $purchase_price = null;
+	 $coin_paid_total_raw = null;
 	 }
 	  
 	 

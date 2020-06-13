@@ -509,8 +509,18 @@ require_once('app-lib/php/other/random-tips.php');
 	    
 	  	 $asset_amount_value = pretty_numbers($asset_amount_value, $asset_amount_decimals, TRUE); // TRUE = Show even if low value is off the map, just for UX purposes tracking token price only, etc
 	    
+	    // Set any previously-used additional feilds to default, if 'watch only' now (no amount held)
+	    if ( remove_number_format($asset_amount_value) < 0.00000001 ) {
+	    $coin_paid_value = 0;
+	    $coin_leverage_value = 0;
+	    $coin_margintype_value = 'long';
 	    
+	    }
+	    else {
 	    $coin_paid_value = ( number_to_string($coin_paid_value) >= $app_config['general']['primary_currency_decimals_max_threshold'] ? pretty_numbers($coin_paid_value, 2) : pretty_numbers($coin_paid_value, $app_config['general']['primary_currency_decimals_max']) );
+	    }
+	    
+	    
 	  	 
 	    	
 	    ?>

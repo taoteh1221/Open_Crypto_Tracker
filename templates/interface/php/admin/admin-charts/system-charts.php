@@ -138,7 +138,7 @@ zingchart.bind('system_stats_chart_<?=$key?>', 'label_click', function(e){
 		lite_chart_text = '4 year';
 		}
 		else {
-		lite_chart_text = days + 'D';
+		lite_chart_text = days + ' day';
 		}
 		
   

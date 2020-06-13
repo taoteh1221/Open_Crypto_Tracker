@@ -128,26 +128,22 @@ if ( update_cache_file($base_dir . '/cache/events/scan-htaccess-security.dat', 6
 	
 	// Only run the check if the base url is set (runs every ~10 minutes, so we'll be checking again anyway, and it should set AFTER first UI run)
 	if ( trim($base_url) != '' ) {
+		
+	// HTTPS CHECK ONLY (for security if htaccess user/pass activated), don't cache API data
 	
 	// cache check
 	$htaccess_cache_test_url = $base_url . 'cache/htaccess_security_check.dat';
 
-	$htaccess_cache_test_1 = trim( @external_api_data('url', $htaccess_cache_test_url, 0) ); // HTTPS CHECK, Don't cache API data
-
-	$htaccess_cache_test_2 = trim( @external_api_data('url', preg_replace("/https:/i", "http:", $htaccess_cache_test_url), 0) ); // HTTP CHECK, Don't cache API data
+	$htaccess_cache_test = trim( @external_api_data('url', $htaccess_cache_test_url, 0) ); 
 	
 	// cron-plugins check
 	$htaccess_plugins_test_url = $base_url . 'cron-plugins/htaccess_security_check.dat';
 
-	$htaccess_plugins_test_1 = trim( @external_api_data('url', $htaccess_plugins_test_url, 0) ); // HTTPS CHECK, Don't cache API data
-
-	$htaccess_plugins_test_2 = trim( @external_api_data('url', preg_replace("/https:/i", "http:", $htaccess_plugins_test_url), 0) ); // HTTP CHECK, Don't cache API data
+	$htaccess_plugins_test = trim( @external_api_data('url', $htaccess_plugins_test_url, 0) ); 
 	
 	
-		if ( preg_match("/TEST_HTACCESS_SECURITY_123_TEST/i", $htaccess_cache_test_1)
-		|| preg_match("/TEST_HTACCESS_SECURITY_123_TEST/i", $htaccess_cache_test_2)
-		|| preg_match("/TEST_HTACCESS_SECURITY_123_TEST/i", $htaccess_plugins_test_1)
-		|| preg_match("/TEST_HTACCESS_SECURITY_123_TEST/i", $htaccess_plugins_test_2) ) {
+		if ( preg_match("/TEST_HTACCESS_SECURITY_123_TEST/i", $htaccess_cache_test)
+		|| preg_match("/TEST_HTACCESS_SECURITY_123_TEST/i", $htaccess_plugins_test) ) {
 		$system_error = "HTTP server 'htaccess' support has NOT been enabled on this web server for the 'cache' and 'cron-plugins' sub-directories. 'htaccess' support is required to SAFELY run this application (htaccess security checks are throttled to a maximum of once every hour). <br /><br />";
 		app_logging('system_error', $system_error);
 		echo $system_error;

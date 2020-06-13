@@ -47,7 +47,7 @@ Check optimization by enabling "telemetry" debug mode, and reviewing debugging l
 Check log formatting for every debug mode.
 
 
-Make sure all kraken currency markets and other markets are added.
+Make sure all currency markets are added (ALREADY DID THIS FOR KRAKEN).
 
 
 Review Help FAQ, and config.php settings documentation.
