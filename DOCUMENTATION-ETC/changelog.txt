@@ -3431,15 +3431,17 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 
 -------------------------------------------------------------------
-4.15.0:
+4.14.2:
+
+-Security fix (edge-case / severity LOW) for automated security self-checkups. Now only runs over secure HTTPS / SSL connections (if interface user / password set, it's no longer sent over plain-text connections when self-testing inbound connection htaccess security on the /cache/ directory [prevents cache snooping]).
 
 -Loading news feeds in the background (like charts), for quicker page loads
-
--Misc. UX improvements
 
 -More RSS feeds to choose from (on News page)
 
 -New markets for example assets
+
+-Misc. UX improvements
 
 IMPORTANT UPGRADE NOTES: 
 

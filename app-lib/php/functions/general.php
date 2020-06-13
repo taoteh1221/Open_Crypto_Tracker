@@ -654,7 +654,7 @@ $news_feeds = $app_config['power_user']['news_feeds'];
     	foreach($news_feeds as $feed) {
     		
 		// We avoid using array keys for end user config editing UX, BUT STILL UNIQUELY IDENTIFY EACH FEED
-    	$feed_id = get_digest($feed["title"], 15);
+    	$feed_id = get_digest($feed["title"], 10);
     
     		if ( isset($feed["title"]) && in_array($feed_id, $chosen_feeds) ) {
     		$html .= "<fieldset class='subsection_fieldset'><legend class='subsection_legend'> ".$feed["title"].'</legend>';
