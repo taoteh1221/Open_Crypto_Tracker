@@ -3475,6 +3475,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -More RSS feeds to choose from (on News page)
 
+-Misc. optimizations and UX improvements
+
 -Ubuntu support for auto-install script
 
 -Revised documentation
