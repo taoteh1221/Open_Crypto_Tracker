@@ -698,15 +698,17 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
     		}
     		
     		if ( isset($system_info['model_name']) ) {
-    		echo '<span class="bitcoin"><b>CPU:</b></span> <span class="blue"> '.$system_info['model_name'].'</span> <br />';
+    		echo '<span class="bitcoin"><b>CPU:</b></span> <span class="blue"> '.$system_info['model_name'].'</span> ' . ( $system_info['cpu_threads'] > 1 ? '(' . $system_info['cpu_threads'] . ' threads)' : '' ) . ' <br />';
     		}
     		
     		if ( isset($system_info['uptime']) ) {
     		echo '<span class="bitcoin"><b>Uptime:</b></span> <span class="'.( preg_match("/0 days, 0 hours/i", $system_info['uptime']) ? 'red' : 'green' ).'"> '.$system_info['uptime'].'</span> <br />';
     		}
     		
+    		$system_load_redline = ( $system_info['cpu_threads'] > 1 ? ($system_info['cpu_threads'] * 2) : 2 );
+    		
     		if ( isset($system_info['system_load']) ) {
-    		echo '<span class="bitcoin"><b>Load:</b></span> <span class="'.( $system_load > 2 ? 'red' : 'green' ).'"> '.$system_info['system_load'].'</span> <br />';
+    		echo '<span class="bitcoin"><b>Load:</b></span> <span class="'.( $system_load > $system_load_redline ? 'red' : 'green' ).'"> '.$system_info['system_load'].'</span> <br />';
     		}
     		
     		if ( isset($system_info['system_temp']) ) {

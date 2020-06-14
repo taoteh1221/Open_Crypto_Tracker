@@ -4,7 +4,7 @@
 DFD Cryptocoin Values - Developed by Michael Kilday <mike@dragonfrugal.com> (Copyright 2014-2020 GPLv3)
 
 
-Open source / free cryptocurrency investment portfolio tracker, with email / text / Alexa / Ghome / Telegram alerts, charts,  mining calculators, leverage / gain / loss / balance stats, and other tools. Privately track Bitcoin, Ethereum, and unlimited other cryptocurrencies. Customize assets list / alerts / charts / exchange pairings. Add as many assets / markets / alerts / charts as you want. 
+Open source / free cryptocurrency investment portfolio tracker, with email / text / Alexa / Ghome / Telegram alerts, charts,  mining calculators, leverage / gain / loss / balance stats, news feeds and more. Privately track Bitcoin, Ethereum, and unlimited other cryptocurrencies. Customize assets list / alerts / charts / exchange pairings. Add as many assets / markets / alerts / charts as you want. 
 
 Web server setup / install is available for $30 hourly if needed (try the auto-install bash script first). PM me on Twitter / Skype @ taoteh1221, or get a hold of me using the below-listed contact methods.
 
@@ -42,11 +42,11 @@ Monero (XMR): 47mWWjuwPFiPD6t2MaWcMEfejtQpMuz9oj5hJq18f7nvagcmoJwxudKHUppaWnTMPa
 
 FEATURES
 
--Automated and user-friendly installation / upgrade script for Raspberry Pi (an affordable low power single board computer) app setup on your home / internal network.
+-Automated and user-friendly installation / upgrade script for Ubuntu or Raspberry Pi app setup on your home / internal network or website.
 
 -Support for over 40 exchanges, and over 80 market pairings (country fiat currency or secondary crypto).
 
--Secure HTTPS (SSL) and username / password protection in the portfolio interface for privacy and security.
+-Secure HTTPS (SSL) and username / password protection in the portfolio interface, for privacy and security.
 
 -Admin interface, to allow easily viewing / changing the app configuration (alerts / charts / markets / API / backups / logs / etc).
 
@@ -62,7 +62,7 @@ FEATURES
 
 -Import / export your portfolio in CSV (spreadsheet) file format.
 
--A news page with over 30 different cryptocurrency-related RSS feeds to select from, including company and organization blogs / news sites / podcasts / reddit and stackexchange forums.
+-A news page with over 60 different cryptocurrency-related RSS feeds to select from, including company and organization blogs / news sites / podcasts / youtube channels / reddit and stackexchange forums.
 
 -External resources page, includes links to marketcap stats sites / news sites / wallets / exchanges / block explorers / developer resources / newsletters / podcasts / social media / etc.
 
@@ -84,7 +84,7 @@ FEATURES
 
 -System / configuration checking, alerting, logging, and auto-correcting (where possible).
 
--Detailed error logging and debugging (with adjustable verbosity / debug modes) for in-app functions / configuration settings / networking features, to assist with troubleshooting / installation / configuration of the app (includes any available system hardware / software stats).
+-Detailed error logging and debugging (with adjustable verbosity / debug modes), to assist with troubleshooting / installation / configuration of the app.
 
 -Chart data backup archives and app error / debugging logs sent to your email.
 
@@ -97,10 +97,10 @@ INSTALLATION AND SETUP
 IMPORTANT NOTES: YOU WILL BE PROMPTED TO CREATE AN ADMIN LOGIN (FOR SECURITY OF THE ADMIN AREA), #WHEN YOU FIRST RUN THIS APP#. IT'S #HIGHLY RECOMMENDED TO DO THIS IMMEDIATELY#, ESPECIALLY ON PUBLIC FACING / KNOWN SERVERS, #OR SOMEBODY ELSE MAY BEAT YOU TO IT#.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Command to install / upgrade everything automatically on a Raspberry Pi (an affordable low power single board computer)...
+Command to install / upgrade everything automatically on Ubuntu or Raspberry Pi (an affordable low power single board computer)...
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Recommended minimum system specs: Raspbian Lite / Raspberry Pi Zero / 512 megabytes of RAM
+Recommended minimum hardware specs: Raspberry Pi Zero / 512 megabytes of RAM
 
 wget -O FOLIO-INSTALL.bash https://git.io/JeWWE;chmod +x FOLIO-INSTALL.bash;sudo ./FOLIO-INSTALL.bash
 

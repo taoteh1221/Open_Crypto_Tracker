@@ -791,6 +791,12 @@ $app_config['power_user']['news_feeds'] = array(
         
         
         				array(
+            			"title" => "Blog - Bitfinex",
+            			"url" => "https://blog.bitfinex.com/feed/"
+        						),
+        
+        
+        				array(
             			"title" => "Blog - Bittrex",
             			"url" => "https://bittrex.com/discover/category/blog/feed"
         						),
@@ -863,6 +869,12 @@ $app_config['power_user']['news_feeds'] = array(
     
     
         				array(
+            			"title" => "Blog - Monero (community-driven privacy coin)",
+            			"url" => "https://web.getmonero.org/feed.xml"
+        						),
+    
+    
+        				array(
             			"title" => "Blog - OkCoin",
             			"url" => "https://blog.okcoin.com/feed/"
         						),
@@ -881,6 +893,24 @@ $app_config['power_user']['news_feeds'] = array(
         
         
         				array(
+            			"title" => "News - Altcoin Buzz",
+            			"url" => "https://www.altcoinbuzz.io/feed/"
+        						),
+        
+        
+        				array(
+            			"title" => "News - AMB Crypto",
+            			"url" => "https://investing-api-eng.ambcrypto.com/feed/merge_category"
+        						),
+        
+        
+        				array(
+            			"title" => "News - Ethereum World News",
+            			"url" => "https://en.ethereumworldnews.com/feed"
+        						),
+        
+        
+        				array(
             			"title" => "News - Bitcoinist",
             			"url" => "http://bitcoinist.net/feed/"
         						),
@@ -891,9 +921,16 @@ $app_config['power_user']['news_feeds'] = array(
             			"url" => "https://bitcoinmagazine.com/feed"
         						),
     					
+    					
         				array(
             			"title" => "News - Bitcoin Optech",
             			"url" => "https://bitcoinops.org/feed.xml"
+        						),
+    					
+    					
+        				array(
+            			"title" => "News - Box Mining",
+            			"url" => "https://boxmining.com/feed/"
         						),
         
         
@@ -913,11 +950,35 @@ $app_config['power_user']['news_feeds'] = array(
             			"title" => "News - CoinTelegraph",
             			"url" => "https://cointelegraph.com/feed"
         						),
+        
+        
+        				array(
+            			"title" => "News - Crypto Potato",
+            			"url" => "https://cryptopotato.com/feed"
+        						),
+        
+        
+        				array(
+            			"title" => "News - Crypto Mining Blog",
+            			"url" => "https://cryptomining-blog.com/feed/"
+        						),
+    
+    
+        				array(
+            			"title" => "News - Fork Log",
+            			"url" => "https://forklog.media/feed/"
+        						),
     
     
         				array(
             			"title" => "News - The Block",
             			"url" => "https://www.theblockcrypto.com/rss.xml"
+        						),
+    
+    
+        				array(
+            			"title" => "News - The Merkle",
+            			"url" => "https://themerkle.com/feed/"
         						),
     
     

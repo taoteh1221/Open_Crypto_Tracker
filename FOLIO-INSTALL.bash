@@ -95,8 +95,8 @@ fi
 
 
 echo "TECHNICAL NOTE:"
-echo "This script was designed to install / setup on the Raspbian operating system,"
-echo "and was developed / created on Raspbian Linux v10, for Raspberry Pi computers."
+echo "This script was designed to install / setup on Ubuntu or Raspberry Pi, and MAY also"
+echo "work on other Debian-based systems (but it has not been tested for that purpose)."
 echo " "
 
 echo "Your operating system has been detected as:"
@@ -106,7 +106,6 @@ echo " "
 echo "Recommended minimum system specs: Raspbian Lite / Raspberry Pi Zero / 512 megabytes of RAM"
 echo " "
 
-echo "This script may work on other Debian-based systems as well, but it has not been tested for that purpose."
 echo "If you already have unrelated web site files located at $DOC_ROOT on your system, they may be affected."
 echo "Please back up any important pre-existing files in that directory before proceeding."
 echo " "
@@ -206,6 +205,26 @@ echo "System update completed."
 				
 echo " "
 
+            
+######################################
+         
+        
+echo "We need to know the SYSTEM username you'll be logging in as on this operating system..."
+echo " "
+        
+echo "Enter the SYSTEM username to allow web server editing access for:"
+echo "(leave blank / hit enter for default of username 'pi')"
+echo " "
+        
+read SYS_USER
+                
+ if [ -z "$SYS_USER" ]; then
+ SYS_USER=${1:-pi}
+ echo "Using default username: $SYS_USER"
+ else
+ echo "Using username: $SYS_USER"
+ fi
+        
 
 ######################################
 
@@ -506,28 +525,6 @@ EOF
             fi
             
          echo " "
-            
-            
-         ######################################
-         
-        
-        	echo "We need to add the username you'll be logging in as,"
-        	echo "to the '$CUSTOM_GROUP' web server user group to allow proper editing permissions..."
-        	echo " "
-        
-        	echo "Enter the system username to allow web server editing access for:"
-        	echo "(leave blank / hit enter for default of username 'pi')"
-        	echo " "
-        
-        	read SYS_USER
-                
-        		if [ -z "$SYS_USER" ]; then
-        		SYS_USER=${1:-pi}
-        		echo "Using default username: $SYS_USER"
-        		else
-        		echo "Using username: $SYS_USER"
-        		fi
-        
         
         	/usr/sbin/usermod -a -G $CUSTOM_GROUP $SYS_USER
         
@@ -622,7 +619,25 @@ select opt in $OPTIONS; do
 				
 				echo " "
 				
-				/usr/bin/apt-get install curl jq bsdtar pwgen openssl -y
+				# bsdtar installs may fail (essentially the same package as libarchive-tools),
+				# SO WE RUN BOTH SEPERATELY IN CASE AN ERROR THROWS, SO OTHER PACKAGES INSTALL OK AFTERWARDS
+				
+				echo "(you can safely ignore any upcoming 'bsdtar' install errors, if 'libarchive-tools'"
+				echo "installs OK...and visa versa, as they are essentially the same package)"
+				echo " "
+				
+				# Ubuntu 16.x, and other debian-based systems
+				/usr/bin/apt-get install bsdtar -y
+				
+				/bin/sleep 3
+				
+				# Ubuntu 18.x and higher
+				/usr/bin/apt-get install libarchive-tools -y
+				
+				/bin/sleep 3
+				
+				# Safely install other packages seperately, so they aren't cancelled by 'package missing' errors
+				/usr/bin/apt-get install curl jq pwgen openssl -y
 
 				/bin/sleep 3
 				

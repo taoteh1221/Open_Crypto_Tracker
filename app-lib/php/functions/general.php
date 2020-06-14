@@ -2165,6 +2165,10 @@ $system['operating_system'] = php_uname();
 		$system['model_name'] = $cpu['cpu_info']['model_name'];
 		}
 	
+		if ( $cpu['cpu_info']['siblings'] ) {
+		$system['cpu_threads'] = $cpu['cpu_info']['siblings'];
+		}
+	
 	}
 
 

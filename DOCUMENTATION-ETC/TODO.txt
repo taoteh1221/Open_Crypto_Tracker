@@ -62,11 +62,6 @@ Test unicode mobile text message with no space in front of hex-encoded data (for
 Code review ALL functions / logic (especially loops, for efficiency).
 
 
-Fresh AUTO install on a raspberry pi throws this INTERFACE error, even though we chowned every file as owner 'pi', and chmod 664 on the root .htaccess file:
-runtime: ui | system_error: File write failed for file "/var/www/html/.htaccess" (check permissions for the path "/var/www/html", and the file ".htaccess")
-Only happens during THE VERY FIRST RUN after install, reloading the web page after causes no error log messages.
-
-
 ///////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////
 
