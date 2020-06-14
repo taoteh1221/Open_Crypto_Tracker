@@ -90,6 +90,11 @@ zingchart.bind('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'label_click',
     return;
   }
   
+  // Reset any user-adjusted zoom
+  zingchart.exec('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'viewall', {
+    graphid: 0
+  });
+  
   var cut = 0;
   switch(e.labelid) {
   	

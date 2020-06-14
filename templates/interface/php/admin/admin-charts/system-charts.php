@@ -71,6 +71,11 @@ zingchart.bind('system_stats_chart_<?=$key?>', 'label_click', function(e){
     return;
   }
   
+  // Reset any user-adjusted zoom
+  zingchart.exec('system_stats_chart_<?=$key?>', 'viewall', {
+    graphid: 0
+  });
+  
   var cut = 0;
   switch(e.labelid) {
   	

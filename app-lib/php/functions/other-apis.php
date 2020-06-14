@@ -397,117 +397,111 @@ $news_feeds_cache_min_max = array_map('trim', $news_feeds_cache_min_max);
 // We don't want all feeds updating at the same time, so we randomly vary cache times
 $rss_feed_cache_time = rand($news_feeds_cache_min_max[0], $news_feeds_cache_min_max[1]);
 
+	
+	
+	// If we will be updating the feed
+	if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
+	
 
-	if ( preg_match("/reddit\.com/i", $url) ) {
-	
-		// If it's a consecutive reddit feed request and time to refresh the cache, sleep 8 seconds (reddit is very strict on user agents)
-		// (Reddit only allows rss feed connections every 7 seconds from ip addresses ACCORDING TO THEM)
-		if ( $fetched_reddit_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
-		sleep(8); 
-		}
-	
-		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
-		$fetched_reddit_feeds = $fetched_reddit_feeds + 1;
-		}
+		// Throttling multiple requests to same server
+		if ( preg_match("/reddit\.com/i", $url) ) {
+			
+			// If it's a consecutive reddit feed request, sleep 8 seconds (reddit is very strict on user agents)
+			// (Reddit only allows rss feed connections every 7 seconds from ip addresses ACCORDING TO THEM)
+			if ( $fetched_reddit_feeds > 0 ) {
+			sleep(8);
+			}
+			
+		$fetched_reddit_feeds = $fetched_reddit_feeds + 1;	
 		
-	}
-	elseif ( preg_match("/youtube\.com/i", $url) ) {
-	
-		// If it's a consecutive youtube feed request and time to refresh the cache, sleep 3 seconds 
-		if ( $fetched_youtube_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
-		sleep(3); 
 		}
-	
-		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
+		elseif ( preg_match("/youtube\.com/i", $url) ) {
+		
+			// If it's a consecutive youtube feed request, sleep 3 seconds 
+			if ( $fetched_youtube_feeds > 0 ) {
+			sleep(3); 
+			}
+		
 		$fetched_youtube_feeds = $fetched_youtube_feeds + 1;
+			
 		}
+		elseif ( preg_match("/stackexchange\.com/i", $url) ) {
 		
-	}
-	elseif ( preg_match("/stackexchange\.com/i", $url) ) {
-	
-		// If it's a consecutive stackexchange feed request and time to refresh the cache, sleep 3 seconds 
-		if ( $fetched_stackexchange_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
-		sleep(3); 
-		}
-	
-		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
+			// If it's a consecutive stackexchange feed request, sleep 3 seconds 
+			if ( $fetched_stackexchange_feeds > 0 ) {
+			sleep(3); 
+			}
+		
 		$fetched_stackexchange_feeds = $fetched_stackexchange_feeds + 1;
+				
 		}
+		elseif ( preg_match("/medium\.com/i", $url) ) {
 		
-	}
-	elseif ( preg_match("/medium\.com/i", $url) ) {
-	
-		// If it's a consecutive medium feed request and time to refresh the cache, sleep 3 seconds (medium is very strict on user agents)
-		if ( $fetched_medium_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
-		sleep(3); 
-		}
-	
-		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
+			// If it's a consecutive medium feed request, sleep 3 seconds (medium is very strict on user agents)
+			if ( $fetched_medium_feeds > 0 ) {
+			sleep(3); 
+			}
+		
 		$fetched_medium_feeds = $fetched_medium_feeds + 1;
+				
 		}
+		elseif ( preg_match("/bitcoincore\.org/i", $url) ) {
 		
-	}
-	elseif ( preg_match("/bitcoincore\.org/i", $url) ) {
-	
-		// If it's a consecutive bitcoincore feed request and time to refresh the cache, sleep 3 seconds 
-		if ( $fetched_bitcoincore_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
-		sleep(3); 
-		}
-	
-		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
-		$fetched_bitcoincore_feeds = $fetched_bitcoincore_feeds + 1;
-		}
+			// If it's a consecutive bitcoincore feed request, sleep 3 seconds 
+			if ( $fetched_bitcoincore_feeds > 0 ) {
+			sleep(3); 
+			}
 		
-	}
-	elseif ( preg_match("/ethereum\.org/i", $url) ) {
-	
-		// If it's a consecutive ethereumorg feed request and time to refresh the cache, sleep 3 seconds 
-		if ( $fetched_ethereumorg_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
-		sleep(3); 
+		$fetched_bitcoincore_feeds = $fetched_bitcoincore_feeds + 1;	
+			
 		}
-	
-		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
+		elseif ( preg_match("/ethereum\.org/i", $url) ) {
+		
+			// If it's a consecutive ethereumorg feed request, sleep 3 seconds 
+			if ( $fetched_ethereumorg_feeds > 0 ) {
+			sleep(3); 
+			}
+		
 		$fetched_ethereumorg_feeds = $fetched_ethereumorg_feeds + 1;
+				
 		}
+		elseif ( preg_match("/kraken\.com/i", $url) ) {
 		
-	}
-	elseif ( preg_match("/kraken\.com/i", $url) ) {
-	
-		// If it's a consecutive kraken feed request and time to refresh the cache, sleep 3 seconds 
-		if ( $fetched_kraken_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
-		sleep(3); 
-		}
-	
-		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
+			// If it's a consecutive kraken feed request, sleep 3 seconds 
+			if ( $fetched_kraken_feeds > 0 ) {
+			sleep(3); 
+			}
+		
 		$fetched_kraken_feeds = $fetched_kraken_feeds + 1;
+				
 		}
+		elseif ( preg_match("/fireside\.fm/i", $url) ) {
 		
-	}
-	elseif ( preg_match("/fireside\.fm/i", $url) ) {
-	
-		// If it's a consecutive firesidefm feed request and time to refresh the cache, sleep 3 seconds 
-		if ( $fetched_firesidefm_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
-		sleep(3); 
-		}
-	
-		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
+			// If it's a consecutive firesidefm feed request, sleep 3 seconds 
+			if ( $fetched_firesidefm_feeds > 0 ) {
+			sleep(3); 
+			}
+		
 		$fetched_firesidefm_feeds = $fetched_firesidefm_feeds + 1;
+				
 		}
+		elseif ( preg_match("/libsyn\.com/i", $url) ) {
 		
-	}
-	elseif ( preg_match("/libsyn\.com/i", $url) ) {
-	
-		// If it's a consecutive libsyn feed request and time to refresh the cache, sleep 3 seconds 
-		if ( $fetched_libsyn_feeds > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
-		sleep(3); 
-		}
-	
-		if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
+			// If it's a consecutive libsyn feed request, sleep 3 seconds 
+			if ( $fetched_libsyn_feeds > 0 ) {
+			sleep(3); 
+			}
+		
 		$fetched_libsyn_feeds = $fetched_libsyn_feeds + 1;
+				
 		}
-		
-	}
+
+
+	} // END if updating feed
 	
+
+
+// Get feed data, and format output
 
 $xmldata = @external_api_data('url', $url, $rss_feed_cache_time); 
 
