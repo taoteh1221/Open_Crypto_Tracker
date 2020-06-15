@@ -42,7 +42,7 @@ Monero (XMR): 47mWWjuwPFiPD6t2MaWcMEfejtQpMuz9oj5hJq18f7nvagcmoJwxudKHUppaWnTMPa
 
 FEATURES
 
--Automated and user-friendly installation / upgrade script for Ubuntu or Raspberry Pi app setup on your home / internal network or website.
+-Automated and user-friendly installation / upgrade script for Ubuntu or Raspberry Pi OS app setup on your home / internal network or website.
 
 -Support for over 40 exchanges, and over 80 market pairings (country fiat currency or secondary crypto).
 
@@ -97,7 +97,7 @@ INSTALLATION AND SETUP
 IMPORTANT NOTES: YOU WILL BE PROMPTED TO CREATE AN ADMIN LOGIN (FOR SECURITY OF THE ADMIN AREA), #WHEN YOU FIRST RUN THIS APP#. IT'S #HIGHLY RECOMMENDED TO DO THIS IMMEDIATELY#, ESPECIALLY ON PUBLIC FACING / KNOWN SERVERS, #OR SOMEBODY ELSE MAY BEAT YOU TO IT#.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Command to install / upgrade everything automatically on Ubuntu or Raspberry Pi (an affordable low power single board computer)...
+Command to install / upgrade everything automatically on Ubuntu or Raspberry Pi OS (an affordable low power single board computer)...
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Recommended minimum hardware specs: Raspberry Pi Zero / 512 megabytes of RAM

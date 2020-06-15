@@ -95,7 +95,7 @@ fi
 
 
 echo "TECHNICAL NOTE:"
-echo "This script was designed to install / setup on Ubuntu or Raspberry Pi, and MAY also"
+echo "This script was designed to install / setup on Ubuntu or Raspberry Pi OS, and MAY also"
 echo "work on other Debian-based systems (but it has not been tested for that purpose)."
 echo " "
 
@@ -103,7 +103,7 @@ echo "Your operating system has been detected as:"
 echo "$OS v$VER"
 echo " "
 
-echo "Recommended minimum system specs: Raspbian Lite / Raspberry Pi Zero / 512 megabytes of RAM"
+echo "Recommended minimum system specs: Raspberry Pi Zero / 512 megabytes of RAM"
 echo " "
 
 echo "If you already have unrelated web site files located at $DOC_ROOT on your system, they may be affected."
@@ -122,7 +122,7 @@ fi
 				
 				
 if [ -f $DOC_ROOT/config.php ]; then
-echo "A configuration file from a previous install of DFD Cryptocoin Values has been detected on your system."
+echo "A configuration file from a previous install of DFD Cryptocoin Values (Server Edition) has been detected on your system."
 echo "During this upgrade / re-install, it will be backed up to:"
 echo "$DOC_ROOT/config.php.BACKUP.$DATE.[random string]"
 echo "This will save any custom settings within it."
@@ -597,7 +597,7 @@ echo "Do you want this script to automatically download the latest version of"
 echo "DFD Cryptocoin Values from Github.com, and install / configure it?"
 echo " "
 
-echo "Select 1, 2, or 3 to choose whether to auto-install / remove DFD Cryptocoin Values, or skip."
+echo "Select 1, 2, or 3 to choose whether to auto-install / remove DFD Cryptocoin Values (Server Edition), or skip."
 echo "(!WARNING!: REMOVING DFD Cryptocoin Values WILL DELETE *EVERYTHING* IN $DOC_ROOT !!)"
 echo " "
 
@@ -645,7 +645,7 @@ select opt in $OPTIONS; do
 				echo "Required component installation completed."
 				
 				echo " "
-				echo "Downloading and installing the latest version of DFD Cryptocoin Values, from Github.com..."
+				echo "Downloading and installing the latest version of DFD Cryptocoin Values (Server Edition), from Github.com..."
             echo " "
 				
 				mkdir DFD-Cryptocoin-Values
@@ -763,7 +763,7 @@ select opt in $OPTIONS; do
 				/bin/sleep 3
 				
 				echo " "
-				echo "Installing DFD Cryptocoin Values..."
+				echo "Installing DFD Cryptocoin Values (Server Edition)..."
   				
   				# Copy over the upgrade install files to the install directory
 				# No trailing forward slash here
@@ -799,7 +799,7 @@ select opt in $OPTIONS; do
 				/bin/sleep 3
 				
 				echo " "
-				echo "DFD Cryptocoin Values has been installed."
+				echo "DFD Cryptocoin Values (Server Edition) has been installed."
 				
 				
             ######################################
@@ -895,7 +895,7 @@ select opt in $OPTIONS; do
 
 				
 				echo " "
-				echo "DFD Cryptocoin Values has been configured."
+				echo "DFD Cryptocoin Values (Server Edition) has been configured."
 				
 	        	APP_SETUP=1
    	     	
@@ -905,7 +905,7 @@ select opt in $OPTIONS; do
        elif [ "$opt" = "remove_coin_app" ]; then
        
         echo " "
-        echo "Removing DFD Cryptocoin Values..."
+        echo "Removing DFD Cryptocoin Values (Server Edition)..."
         
         rm /etc/cron.d/cryptocoin
 		  
@@ -916,13 +916,13 @@ select opt in $OPTIONS; do
 		  /bin/sleep 3
         
 		  echo " "
-		  echo "DFD Cryptocoin Values has been removed from the system."
+		  echo "DFD Cryptocoin Values (Server Edition) has been removed from the system."
         
         break
        elif [ "$opt" = "skip" ]; then
        
         echo " "
-        echo "Skipping auto-install of DFD Cryptocoin Values."
+        echo "Skipping auto-install of DFD Cryptocoin Values (Server Edition)."
         
         break
        fi
@@ -1008,7 +1008,7 @@ echo " "
 
 if [ "$APP_SETUP" = "1" ]; then
 
-echo "Web server setup and installation / configuration of DFD Cryptocoin Values"
+echo "Web server setup and installation / configuration of DFD Cryptocoin Values (Server Edition)"
 echo "should now be complete (if you chose those options), unless you saw any"
 echo "errors on screen during setup."
 echo " "
@@ -1017,15 +1017,15 @@ echo "DFD Cryptocoin Values is located at (and can be edited) inside this folder
 echo "$DOC_ROOT"
 echo " "
 
-echo "You may now optionally edit the DFD Cryptocoin Values configuration file"
-echo "(config.php) remotely via SFTP, or by editing app files locally."
+echo "You may now optionally edit the configuration file (config.php)"
+echo "remotely via SFTP, or by editing app files locally."
 echo " "
 
 
     if [ "$CONFIG_BACKUP" = "1" ]; then
     
-    echo "The previously-installed DFD Cryptocoin Values configuration"
-    echo "file $DOC_ROOT/config.php has been backed up to:"
+    echo "The previously-installed configuration file"
+    echo "$DOC_ROOT/config.php has been backed up to:"
     echo "$DOC_ROOT/config.php.BACKUP.$DATE.$RAND_STRING"
     echo "You will need to manually move any custom settings in this backup file to the new config.php file with a text editor."
     echo " "
@@ -1053,7 +1053,7 @@ echo "Web site app files must be placed inside this folder:"
 echo "$DOC_ROOT"
 echo " "
 
-echo "If web server setup has completed successfully, DFD Cryptocoin Values"
+echo "If web server setup has completed successfully, DFD Cryptocoin Values (Server Edition)"
 echo "can now be installed (if you haven't already) in $DOC_ROOT remotely via SFTP,"
 echo "or by copying over app files locally."
 echo " "
