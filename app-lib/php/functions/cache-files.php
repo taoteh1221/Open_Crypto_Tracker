@@ -680,10 +680,12 @@ $newest_archival_timestamp = $last_archival_array[0];
 $min_data_interval = round( ($newest_archival_timestamp - $oldest_allowed_timestamp) / $app_config['power_user']['lite_chart_data_points_max'] );
 
 
+	// #INITIALLY# (if no lite data exists yet) we randomly spread the load across X minutes in multiple cron jobs
+	// THEN IT #REMAINS RANDOMLY SPREAD# ACROSS CRON JOBS #WITHOUT DOING ANYTHING AFTER# THE INITIAL RANDOMNESS
 	if ( $newest_lite_timestamp == false ) {
-	// (Randomly spread the load across X minutes in multiple cron jobs, if no lite data exists yet)
 	$lite_data_update_threshold = rand( ($now - $lite_chart_rebuild_delay_seconds) , ($now + $lite_chart_rebuild_delay_seconds) );
 	}
+	// Update threshold calculated from pre-existing lite data
 	else {
 	$lite_data_update_threshold = $newest_lite_timestamp + $min_data_interval;
 	}
@@ -752,7 +754,7 @@ $min_data_interval = round( ($newest_archival_timestamp - $oldest_allowed_timest
 
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// If the lite chart has existing data, append new data to it
+	// If the lite chart has existing data, append new data to it / trim out X first lines (if at 'lite_chart_data_points_max')
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	else {
 		
@@ -765,7 +767,7 @@ $min_data_interval = round( ($newest_archival_timestamp - $oldest_allowed_timest
 		$lite_mode_logging = 'APPEND';
 		}
 		// Overwrite if equal / more than 'lite_chart_data_points_max', AFTER dynamically 
-		// removing X first lines of current data, AND appeending the new data
+		// removing X first lines of current data, AND appending the new data
 		else {
 		$remove_lines = ($current_lite_data_lines - $app_config['power_user']['lite_chart_data_points_max']) + 1;
 		$lite_data_removed_first_lines = remove_first_lines($lite_path, $remove_lines);
