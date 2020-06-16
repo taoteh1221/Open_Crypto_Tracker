@@ -1136,13 +1136,15 @@ $volume_pairing_raw = number_to_string($volume_pairing_raw);
 	// AND ALSO crypto-to-crypto pairings converted to PRIMARY CURRENCY CONFIG equiv value for PRIMARY CURRENCY CONFIG equiv charts)
 	
 	$primary_currency_chart_path = $base_dir . '/cache/charts/spot_price_24hr_volume/archival/'.$asset.'/'.$asset_data.'_chart_'.strtolower($default_btc_primary_currency_pairing).'.dat';
-	store_file_contents($primary_currency_chart_path, time() . '||' . $asset_primary_currency_value_raw . '||' . $volume_primary_currency_raw . "\n", "append"); 
+	$primary_currency_chart_data = time() . '||' . $asset_primary_currency_value_raw . '||' . $volume_primary_currency_raw . "\n";
+	store_file_contents($primary_currency_chart_path, $primary_currency_chart_data, "append"); 
 		
 		
 		// Crypto / secondary currency pairing ARCHIVAL charts, volume as pairing (for UX)
 		if ( $pairing != strtolower($default_btc_primary_currency_pairing) ) {
 		$crypto_secondary_currency_chart_path = $base_dir . '/cache/charts/spot_price_24hr_volume/archival/'.$asset.'/'.$asset_data.'_chart_'.$pairing.'.dat';
-		store_file_contents($crypto_secondary_currency_chart_path, time() . '||' . $asset_pairing_value_raw . '||' . $volume_pairing_raw . "\n", "append");
+		$crypto_secondary_currency_chart_data = time() . '||' . $asset_pairing_value_raw . '||' . $volume_pairing_raw . "\n";
+		store_file_contents($crypto_secondary_currency_chart_path, $crypto_secondary_currency_chart_data, "append");
 		}
 		
 		
@@ -1153,11 +1155,11 @@ $volume_pairing_raw = number_to_string($volume_pairing_raw);
 		foreach ( $app_config['power_user']['lite_chart_day_intervals'] as $light_chart_days ) {
 			
 		// Primary currency lite charts
-		update_lite_chart($primary_currency_chart_path, $light_chart_days);
+		update_lite_chart($primary_currency_chart_path, $primary_currency_chart_data, $light_chart_days);
 				
 			// Crypto / secondary currency pairing lite charts
 			if ( $pairing != strtolower($default_btc_primary_currency_pairing) ) {
-			update_lite_chart($crypto_secondary_currency_chart_path, $light_chart_days);
+			update_lite_chart($crypto_secondary_currency_chart_path, $crypto_secondary_currency_chart_data, $light_chart_days);
 			}
 			
 		}

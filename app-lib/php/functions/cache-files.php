@@ -131,7 +131,9 @@ $password_strength = password_strength($htaccess_password, 8, 8);
 	 * @author Torleif Berger, Lorenzo Stanco
 	 * @link http://stackoverflow.com/a/15025877/995958
 	 * @license http://creativecommons.org/licenses/by/3.0/
-	 */
+	 Usage: $last_line = tail_custom($file_path);
+*/
+
 function tail_custom($filepath, $lines = 1, $adaptive = true) {
 
 		// Open file
@@ -628,7 +630,7 @@ return $result;
 ////////////////////////////////////////////////////////
 
 
-function update_lite_chart($archive_file, $days_span) {
+function update_lite_chart($archive_file, $newest_data=false, $days_span=1) {
 
 global $app_config;
 
@@ -641,24 +643,21 @@ $lite_chart_delay_max_seconds = $app_config['power_user']['lite_chart_delay_max'
 // Lite chart file info
 $lite_path = preg_replace("/archival/i", 'lite/' . $days_span . '_days', $archive_file);
 $lite_data_modified = filemtime($lite_path);
-//var_dump($lite_data_modified);
 
 // Get FIRST line of archival chart data
 $first_archival_line = fgets(fopen($archive_file, 'r'));
 $first_archival_array = explode("||", $first_archival_line);
-//var_dump($first_archival_array);
 
-// Get LAST line of archival chart data
-$last_archival_line = tail_custom($archive_file);
+// Get LAST line of archival chart data (we save SIGNIFICANTLY on runtime / resource usage, if this var is passed into this function already)
+$last_archival_line = ( $newest_data != false ? $newest_data : tail_custom($archive_file) );
 $last_archival_array = explode("||", $last_archival_line);
-//var_dump($last_archival_array);
 	
 // Determine oldest / newest timestamps
 $oldest_archival_timestamp = $first_archival_array[0];
 $newest_archival_timestamp = $last_archival_array[0];
 			
 			
-	// Time intervals
+	// Oldest allowed timestamp
 	if ( $days_span == 'all' ) {
 	$oldest_allowed_timestamp = $oldest_archival_timestamp;
 	}
@@ -666,82 +665,99 @@ $newest_archival_timestamp = $last_archival_array[0];
 	$oldest_allowed_timestamp = strtotime('-'.$days_span.' day', $newest_archival_timestamp); // Timestamp for oldest data point 
 	}
 	
-	
-	// Make sure we don't have an oldest allowed timestamp older than our oldest archival timestamp
-	//if ( $oldest_allowed_timestamp < $oldest_archival_timestamp ) {
-	//$oldest_allowed_timestamp = $oldest_archival_timestamp; // DISABLED, AS THIS CAUSES MANY UNNECESSARY FILE WRITES WHEN STARTING FROM NO ARCHIVAL DATA
-	//}
-
 		
 // Minimum time interval between data points in lite chart
 $min_data_interval = round( ($newest_archival_timestamp - $oldest_allowed_timestamp) / $app_config['power_user']['lite_chart_data_points_max'] );
-	
-// Add a random multiplier to spread the update load across roughly X seconds of consecutive cron jobs
-$random_multiplier = rand( $min_data_interval, ($min_data_interval + $lite_chart_delay_max_seconds) );
 
 
-	// When do we need to refresh lite chart data
 	if ( $lite_data_modified == false ) {
-	$lite_data_update_threshold = rand( ( $now - ($lite_chart_delay_max_seconds / 2) ) , ( $now + ($lite_chart_delay_max_seconds / 2) ) ); // (if no lite data exists yet)
+	// (Randomly spread the load across X minutes in multiple cron jobs, if no lite data exists yet)
+	$lite_data_update_threshold = rand( ( $now - ($lite_chart_delay_max_seconds / 2) ) , ( $now + ($lite_chart_delay_max_seconds / 2) ) );
 	}
 	else {
-	$lite_data_update_threshold = $lite_data_modified + $random_multiplier;
+	$lite_data_update_threshold = $lite_data_modified;
 	}
 
 
-	// Is it time to update the lite chart data, or return false?
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// Not time to update this lite chart yet
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	if ( number_to_string($lite_data_update_threshold) > number_to_string($now) ) {
 	return false;
 	}
-	
-	
-// If we are continuing, and updating lite chart data...
-	
-
-$file_data = file($archive_file);
-$file_data = array_reverse($file_data); // Save time, only loop / read last lines needed
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// If the lite chart has no data yet, rebuild from scratch
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	elseif ( $lite_data_modified == false ) {
 
 
-	foreach($file_data as $line) {
-		
-	$line_array = explode("||", $line);
+	$file_data = file($archive_file);
+	$file_data = array_reverse($file_data); // Save time, only loop / read last lines needed
 	
-		if ( $line_array[0] >= $oldest_allowed_timestamp ) {
-		$archival_data[] = $line;
-		}
-		
-	}
-
 	
-	// We are looping IN REVERSE ODER, to ALWAYS include the latest data
-	$loop = 0;
-	$data_points = 0;
-	// $data_points <= is INTENTIONAL, as we can have max data points slightly under without it
-	while ( isset($archival_data[$loop]) && $data_points <= $app_config['power_user']['lite_chart_data_points_max'] ) {
-		
-	$data_point_array = explode("||", $archival_data[$loop]);
+		foreach($file_data as $line) {
 			
-		if ( !$next_timestamp || isset($next_timestamp) && $data_point_array[0] <= $next_timestamp ) {
-		$new_lite_data = $archival_data[$loop] . $new_lite_data;
-		$next_timestamp = $data_point_array[0] - $min_data_interval;
-		$data_points = $data_points + 1;
+		$line_array = explode("||", $line);
+		
+			if ( $line_array[0] >= $oldest_allowed_timestamp ) {
+			$archival_data[] = $line;
+			}
+			
 		}
 	
-	$loop = $loop + 1;
-	}
-	
-
-
-// Store the lite chart data
-$result = store_file_contents($lite_path, $new_lite_data);
-
-	if ( $result == true ) {
-		if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'lite_chart' ) {
-		app_logging( 'cache_debugging', 'Lite chart refresh COMPLETED for ' . $lite_path);
+		
+		// We are looping IN REVERSE ODER, to ALWAYS include the latest data
+		$loop = 0;
+		$data_points = 0;
+		// $data_points <= is INTENTIONAL, as we can have max data points slightly under without it
+		while ( isset($archival_data[$loop]) && $data_points <= $app_config['power_user']['lite_chart_data_points_max'] ) {
+			
+		$data_point_array = explode("||", $archival_data[$loop]);
+				
+			if ( !$next_timestamp || isset($next_timestamp) && $data_point_array[0] <= $next_timestamp ) {
+			$new_lite_data = $archival_data[$loop] . $new_lite_data;
+			$next_timestamp = $data_point_array[0] - $min_data_interval;
+			$data_points = $data_points + 1;
+			}
+		
+		$loop = $loop + 1;
 		}
+		
+	
+	
+	// Store the rebuilt lite chart data (overwrite)
+	$result = store_file_contents($lite_path, $new_lite_data);
+	
+		if ( $result == true ) {
+			if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'lite_chart' ) {
+			app_logging( 'cache_debugging', 'Lite chart REBUILD COMPLETED for ' . $lite_path);
+			}
+		}
+		else {
+		app_logging( 'cache_error', 'Lite chart REBUILD FAILED for ' . $lite_path);
+		}
+
+
 	}
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// If the lite chart has existing data, append new data to it
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	else {
-	app_logging( 'cache_error', 'Lite chart refresh FAILED for ' . $lite_path);
+	
+	// Store the new lite chart data (append)
+	$result = store_file_contents($lite_path, $last_archival_line, "append");
+	
+		if ( $result == true ) {
+			if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'lite_chart' ) {
+			app_logging( 'cache_debugging', 'Lite chart APPEND COMPLETED for ' . $lite_path);
+			}
+		}
+		else {
+		app_logging( 'cache_error', 'Lite chart APPEND FAILED for ' . $lite_path);
+		}
+
+
 	}
 	
 	
