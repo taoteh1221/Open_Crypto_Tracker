@@ -30,15 +30,6 @@ chdir( dirname(__FILE__) );
 require("config.php");
 
 
-// Set a max execution time, TO AVOID RUNAWAY PROCESSES FREEZING THE SERVER
-if ( $app_config['developer']['debug_mode'] != 'off' ) {
-ini_set('max_execution_time', 350);
-}
-else {
-ini_set('max_execution_time', $app_config['developer']['cron_max_execution_time']);
-}
-
-
 // Charts and price alerts
 foreach ( $app_config['charts_alerts']['tracked_markets'] as $key => $value ) {
 	

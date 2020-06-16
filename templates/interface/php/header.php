@@ -1,18 +1,5 @@
 <?php
-
-	
-// Set a max execution time, TO AVOID RUNAWAY PROCESSES FREEZING THE SERVER
-if ( $app_config['developer']['debug_mode'] != 'off' ) {
-ini_set('max_execution_time', 350);
-}
-else {
-ini_set('max_execution_time', $app_config['developer']['ui_max_execution_time']);
-}
-
-
 header('Content-type: text/html; charset=' . $app_config['developer']['charset_default']);
-
-
 ?><!DOCTYPE html>
 <html lang="en">
 

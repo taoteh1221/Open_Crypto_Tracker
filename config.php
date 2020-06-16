@@ -522,10 +522,6 @@ $app_config['power_user']['lite_chart_data_points_max'] = '365'; // (default = '
 // Interface will auto-detect and display days as 365 = 1Y, 180 = 6M, 7 = 1W, etc, etc
 // (LOWER TIME PERIODS [UNDER 180 DAYS] #SHOULD BE KEPT SOMEWHAT MINIMAL#, TO REDUCE RUNTIME LOAD / DISK WRITES DURING CRON JOBS)
 $app_config['power_user']['lite_chart_day_intervals'] = array(3, 7, 30, 180, 365, 730, 1460); // (default = 3, 7, 30, 180, 365, 730, 1460)
-////
-//	Lite chart updates randomly delayed up to X minutes maximum, to lower the system resource use / evenly spread across cron jobs
-// (THE HIGHER THE NUMBER, THE LESS LOAD ON SYSTEM / LESS FILE WRITING TO STORAGE DRIVE)
-$app_config['power_user']['lite_chart_delay_max'] = 120; // (default = 120)       
 
 																					
 // Chart colors (https://www.w3schools.com/colors/colors_picker.asp)
@@ -1254,24 +1250,9 @@ $app_config['developer']['log_verbosity'] = 'normal'; // 'normal' / 'verbose'
 $app_config['developer']['log_purge'] = 10; 
 
 
-// Maximum execution time for interface runtime in seconds (how long it's allowed to run before automatically killing the process)
-// (ALL execution times are automatically 350 IN DEBUG MODE)
-$app_config['developer']['ui_max_execution_time'] = 100; // (default = 100)
-
-
-// Maximum execution time for cron job runtime in seconds (how long it's allowed to run before automatically killing the process)
-// (ALL execution times are automatically 350 IN DEBUG MODE)
-$app_config['developer']['cron_max_execution_time'] = 500; // (default = 500)
-
-
-// Maximum execution time for webhook runtime in seconds (how long it's allowed to run before automatically killing the process)
-// (ALL execution times are automatically 350 IN DEBUG MODE)
-$app_config['developer']['webhook_max_execution_time'] = 60; // (default = 60)
-
-
-// Maximum execution time for API runtime in seconds (how long it's allowed to run before automatically killing the process)
-// (ALL execution times are automatically 350 IN DEBUG MODE)
-$app_config['developer']['api_max_execution_time'] = 60; // (default = 60)
+//	Lite chart REBUILDS (from scratch with no lite chart data) randomly delayed up to X minutes maximum, to lower the system resource use / evenly spread across cron jobs
+// (THE HIGHER THE NUMBER, THE LESS LOAD ON SYSTEM WHEN REBUILDING)
+$app_config['developer']['lite_chart_rebuild_delay'] = 120; // (default = 120)       
 
 
 // If you want to override the default user agent string (sent with API requests, etc)

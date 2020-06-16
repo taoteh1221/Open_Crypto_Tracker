@@ -630,7 +630,7 @@ return $result;
 ////////////////////////////////////////////////////////
 
 
-function update_lite_chart($archive_file, $newest_data=false, $days_span=1) {
+function update_lite_chart($archive_path, $newest_archival_data=false, $days_span=1) {
 
 global $app_config;
 
@@ -638,18 +638,28 @@ $now = time();
 $archival_data = array();
 $new_lite_data = null;
 
-$lite_chart_delay_max_seconds = $app_config['power_user']['lite_chart_delay_max'] * 60;
+$lite_chart_rebuild_delay_seconds = $app_config['developer']['lite_chart_rebuild_delay'] * 60;
 
 // Lite chart file info
-$lite_path = preg_replace("/archival/i", 'lite/' . $days_span . '_days', $archive_file);
-$lite_data_modified = filemtime($lite_path);
+$lite_path = preg_replace("/archival/i", 'lite/' . $days_span . '_days', $archive_path);
+
+	if ( file_exists($lite_path) ) {
+	// Get LAST line of lite chart data
+	$last_lite_line = tail_custom($lite_path);
+	$last_lite_array = explode("||", $last_lite_line);
+	$newest_lite_timestamp = ( isset($last_lite_array[0]) ? $last_lite_array[0] : false );
+	}
+	else {
+	$newest_lite_timestamp = false;
+	}
+
 
 // Get FIRST line of archival chart data
-$first_archival_line = fgets(fopen($archive_file, 'r'));
+$first_archival_line = fgets(fopen($archive_path, 'r'));
 $first_archival_array = explode("||", $first_archival_line);
 
 // Get LAST line of archival chart data (we save SIGNIFICANTLY on runtime / resource usage, if this var is passed into this function already)
-$last_archival_line = ( $newest_data != false ? $newest_data : tail_custom($archive_file) );
+$last_archival_line = ( $newest_archival_data != false ? $newest_archival_data : tail_custom($archive_path) );
 $last_archival_array = explode("||", $last_archival_line);
 	
 // Determine oldest / newest timestamps
@@ -670,12 +680,12 @@ $newest_archival_timestamp = $last_archival_array[0];
 $min_data_interval = round( ($newest_archival_timestamp - $oldest_allowed_timestamp) / $app_config['power_user']['lite_chart_data_points_max'] );
 
 
-	if ( $lite_data_modified == false ) {
+	if ( $newest_lite_timestamp == false ) {
 	// (Randomly spread the load across X minutes in multiple cron jobs, if no lite data exists yet)
-	$lite_data_update_threshold = rand( ( $now - ($lite_chart_delay_max_seconds / 2) ) , ( $now + ($lite_chart_delay_max_seconds / 2) ) );
+	$lite_data_update_threshold = rand( ($now - $lite_chart_rebuild_delay_seconds) , ($now + $lite_chart_rebuild_delay_seconds) );
 	}
 	else {
-	$lite_data_update_threshold = $lite_data_modified;
+	$lite_data_update_threshold = $newest_lite_timestamp + $min_data_interval;
 	}
 
 
@@ -689,14 +699,14 @@ $min_data_interval = round( ($newest_archival_timestamp - $oldest_allowed_timest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// If the lite chart has no data yet, rebuild from scratch
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	elseif ( $lite_data_modified == false ) {
+	elseif ( $newest_lite_timestamp == false ) {
 
 
-	$file_data = file($archive_file);
-	$file_data = array_reverse($file_data); // Save time, only loop / read last lines needed
+	$archive_file_data = file($archive_path);
+	$archive_file_data = array_reverse($archive_file_data); // Save time, only loop / read last lines needed
 	
 	
-		foreach($file_data as $line) {
+		foreach($archive_file_data as $line) {
 			
 		$line_array = explode("||", $line);
 		

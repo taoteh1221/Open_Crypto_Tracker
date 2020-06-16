@@ -12,15 +12,6 @@ $runtime_mode = 'int_api';
 require("config.php");
 
 
-// Set a max execution time, TO AVOID RUNAWAY PROCESSES FREEZING THE SERVER
-if ( $app_config['developer']['debug_mode'] != 'off' ) {
-ini_set('max_execution_time', 350);
-}
-else {
-ini_set('max_execution_time', $app_config['developer']['api_max_execution_time']);
-}
-
-
 // Ip address information
 $store_ip = preg_replace("/\./", "_", $remote_ip);
 $ip_access = trim( file_get_contents($base_dir . '/cache/events/throttling/local_api_incoming_ip_' . $store_ip . '.dat') );

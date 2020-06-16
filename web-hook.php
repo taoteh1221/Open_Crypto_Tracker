@@ -12,15 +12,6 @@ $runtime_mode = 'webhook';
 require("config.php");
 
 
-// Set a max execution time, TO AVOID RUNAWAY PROCESSES FREEZING THE SERVER
-if ( $app_config['developer']['debug_mode'] != 'off' ) {
-ini_set('max_execution_time', 350);
-}
-else {
-ini_set('max_execution_time', $app_config['developer']['webhook_max_execution_time']);
-}
-
-
 // Webhook security check (hash must match our concatenated [service name + webhook key]'s hash, or we abort runtime)
 // Using the hash of the concatenated [service name + webhook key] keeps our webhook key a secret, that only we know (for security)!
 $webhook_hash = explode('/', $_GET['webhook_hash']); // Remove any data after the webhook hash
