@@ -61,7 +61,16 @@
 			  &nbsp; &nbsp; <span class='<?=$alert_filter_css?>' style='font-weight: bold;'><?=$visual_audio_alerts?> alerts (<?=ucfirst($app_config['general']['primary_marketcap_site'])?> / <?=$alert_filter?><?=$alert_percent[1]?>% / <?=$text_mcap_trend?>)</span>
 			<?php
 			}
-			?>  &nbsp; &nbsp; &nbsp; <a href='javascript:app_reloading_placeholder();app_reload();' style='font-weight: bold;' title='Refreshing data too frequently may cause API request refusals, especially if request caching settings are too low. It is recommended to use this refresh feature sparingly with lower or disabled cache settings. The current real-time exchange data re-cache setting in config.php is set to <?=$app_config['power_user']['last_trade_cache_time']?> minute(s). A setting of 1 or higher assists in avoiding IP blacklisting by exchanges.'>Refresh</a>
+			
+			// Warning (minimal, just as link title on the 'refresh' link) if price data caching set too low
+			if ( $app_config['power_user']['last_trade_cache_time'] < 4 ) {
+			$refresh_link_title = 'Refreshing data too frequently may cause API request refusals, especially if request caching settings are too low. It is recommended to use this refresh feature sparingly with lower or disabled cache settings. The current real-time exchange data re-cache (refresh from live data instead of cached data) setting in config.php is set to '. $app_config['power_user']['last_trade_cache_time'] . ' minute(s). A setting of 4 or higher assists in avoiding temporary IP blacklisting by exchanges.';
+			}
+			else {
+			$refresh_link_title = 'The current real-time exchange data re-cache (refresh from live data instead of cached data) setting in config.php is set to '. $app_config['power_user']['last_trade_cache_time'] . ' minute(s).';
+			}
+			
+			?>  &nbsp; &nbsp; &nbsp; <a href='javascript:app_reloading_placeholder();app_reload();' style='font-weight: bold;' title='<?=$refresh_link_title?>'>Refresh</a>
 			
 			 &nbsp;<select name='select_auto_refresh' id='select_auto_refresh' onchange='auto_reload(this.value);'>
 				<option value=''> Manually </option>
