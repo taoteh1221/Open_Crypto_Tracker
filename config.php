@@ -821,6 +821,12 @@ $app_config['power_user']['news_feeds'] = array(
         
         
         				array(
+            			"title" => "Blog - Decred.org (high security hybrid POS/POW coin)",
+            			"url" => "https://blog.decred.org/index.xml"
+        						),
+        
+        
+        				array(
             			"title" => "Blog - Coinbase",
             			"url" => "https://medium.com/feed/the-coinbase-blog"
         						),
@@ -833,7 +839,7 @@ $app_config['power_user']['news_feeds'] = array(
         
         
         				array(
-            			"title" => "Blog - Ethereum.org",
+            			"title" => "Blog - Ethereum.org (community-driven on-chain smart contracts)",
             			"url" => "https://blog.ethereum.org/feed.xml"
         						),
         

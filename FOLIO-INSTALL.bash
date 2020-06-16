@@ -835,16 +835,16 @@ select opt in $OPTIONS; do
                     
                     echo " "
                     echo "Enter the time interval in minutes to run this cron job:"
-                    echo "(must be 5, 10, 15, 20, or 30...leave blank / hit enter for default of 15)"
+                    echo "(must be 5, 10, 15, 20, or 30...leave blank / hit enter for default of 20)"
                     echo " "
-                    echo "IT'S HIGHLY RECOMMENDED TO GO #NO LOWER THAN# EVERY 15 MINUTES FOR CHART DATA,"
-                    echo "OTHERWISE LITE CHART DISK WRITES MAY BE EXCESSIVE FOR LOWER END HARDWARE."
+                    echo "IT'S RECOMMENDED TO GO #NO LOWER THAN# EVERY 20 MINUTES FOR CHART DATA, OTHERWISE LITE CHART"
+                    echo "DISK WRITES MAY BE EXCESSIVE FOR LOWER END HARDWARE (Raspberry PI MicroSD cards etc)."
                     echo " "
                     
                     read INTERVAL
                     
                         if [ -z "$INTERVAL" ]; then
-                        INTERVAL=${2:-15}
+                        INTERVAL=${2:-20}
                     echo "Using default time interval of $INTERVAL minutes."
                         else
                     echo "Time interval set to $INTERVAL minutes."
@@ -1115,7 +1115,7 @@ echo "port scanning bots detecting it (and then making hack attempts on it)."
 echo " "
 
 echo "SEE /DOCUMENTATION-ETC/RASPBERRY-PI-SECURITY.txt for additional setup related to"
-echo "securing your Raspberry Pi (disabling bluetooth, etc)."
+echo "securing Raspberry Pi OS (disabling bluetooth, firewall setup, etc)."
 echo " "
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
