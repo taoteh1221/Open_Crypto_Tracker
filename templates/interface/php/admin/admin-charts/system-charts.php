@@ -26,7 +26,7 @@ $first_lite_chart = $app_config['power_user']['lite_chart_day_intervals'][0];
 			
 			$("#system_charts_error").show();
 			
-			$("#system_charts_error").html('<p>One or more charts could not be loaded.</p> <p>If you recently installed this app, it may take up to <?=$app_config['developer']['lite_chart_rebuild_delay']?> minutes or more for fully updated charts to appear ("lite charts" need to be created from archival chart data, so charts always load quickly regardless of time span), and may take a few days to begin to populate longer time period charts.</p> <p>Please make sure you have a cron job running (see <a href="README.txt" target="_blank">README.txt</a> for how-to setup a cron job), or charts cannot be activated. Check app error logs too, for write errors (which would indicate improper cache directory permissions).</p>');
+			$("#system_charts_error").html('<p>One or more charts could not be loaded.</p> <p>If you recently installed this app, it may take up to <?=$app_config['developer']['lite_chart_update_cycle']?> minutes or more for fully updated charts to appear ("lite charts" need to be created from archival chart data, so charts always load quickly regardless of time span), and may take a few days to begin to populate longer time period charts.</p> <p>Please make sure you have a cron job running (see <a href="README.txt" target="_blank">README.txt</a> for how-to setup a cron job), or charts cannot be activated. Check app error logs too, for write errors (which would indicate improper cache directory permissions).</p>');
 			
 			
 			<?php

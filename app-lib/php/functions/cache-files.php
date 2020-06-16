@@ -638,8 +638,6 @@ $now = time();
 $archival_data = array();
 $new_lite_data = null;
 
-$lite_chart_rebuild_delay_seconds = $app_config['developer']['lite_chart_rebuild_delay'] * 60;
-
 // Lite chart file info
 $lite_path = preg_replace("/archival/i", 'lite/' . $days_span . '_days', $archive_path);
 
@@ -683,7 +681,8 @@ $min_data_interval = round( ($newest_archival_timestamp - $oldest_allowed_timest
 	// #INITIALLY# (if no lite data exists yet) we randomly spread the load across X minutes in multiple cron jobs
 	// THEN IT #REMAINS RANDOMLY SPREAD# ACROSS CRON JOBS #WITHOUT DOING ANYTHING AFTER# THE INITIAL RANDOMNESS
 	if ( $newest_lite_timestamp == false ) {
-	$lite_data_update_threshold = rand( ($now - $lite_chart_rebuild_delay_seconds) , ($now + $lite_chart_rebuild_delay_seconds) );
+	$half_update_cycle_seconds = ($app_config['developer']['lite_chart_update_cycle'] * 60) / 2;
+	$lite_data_update_threshold = rand( ($now - $half_update_cycle_seconds) , ($now + $half_update_cycle_seconds) );
 	}
 	// Update threshold calculated from pre-existing lite data
 	else {

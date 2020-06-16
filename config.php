@@ -1250,9 +1250,11 @@ $app_config['developer']['log_verbosity'] = 'normal'; // 'normal' / 'verbose'
 $app_config['developer']['log_purge'] = 10; 
 
 
-//	Lite chart REBUILDS (from scratch with no lite chart data) randomly delayed up to X minutes maximum, to lower the system resource use / evenly spread across cron jobs
-// (THE HIGHER THE NUMBER, THE LESS LOAD ON SYSTEM WHEN REBUILDING)
-$app_config['developer']['lite_chart_rebuild_delay'] = 120; // (default = 120)       
+//	Lite chart update cycle COMPLETION TIME set to #AN AVERAGE OF# X minutes
+// Used to lower system resource useage spikes / speed up load times, 
+// by evenly spreading system load / disk usage across multiple cron jobs
+// (THE HIGHER THE NUMBER, THE LESS LOAD SPIKES ON THE SYSTEM / QUICKER THE APP LOADS / THE LONGER THE AVERAGE WAIT FOR NEW CHART DATA)
+$app_config['developer']['lite_chart_update_cycle'] = 90; // (default = 90)       
 
 
 // If you want to override the default user agent string (sent with API requests, etc)
