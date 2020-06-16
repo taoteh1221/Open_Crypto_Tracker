@@ -737,6 +737,7 @@ $min_data_interval = round( ($newest_archival_timestamp - $oldest_allowed_timest
 	
 	
 	// Store the rebuilt lite chart data (overwrite)
+	usleep(100000); // Wait 0.1 seconds
 	$result = store_file_contents($lite_path, $new_lite_data);
 	
 		if ( $result == true ) {
@@ -754,17 +755,34 @@ $min_data_interval = round( ($newest_archival_timestamp - $oldest_allowed_timest
 	// If the lite chart has existing data, append new data to it
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	else {
+		
+	$current_lite_data_lines = get_lines($lite_path);
 	
-	// Store the new lite chart data (append)
-	$result = store_file_contents($lite_path, $last_archival_line, "append");
+		// Append if less than 'lite_chart_data_points_max'
+		if ( $current_lite_data_lines < $app_config['power_user']['lite_chart_data_points_max'] ) {
+		usleep(100000); // Wait 0.1 seconds
+		$result = store_file_contents($lite_path, $last_archival_line, "append");
+		$lite_mode_logging = 'APPEND';
+		}
+		// Overwrite if equal / more than 'lite_chart_data_points_max', AFTER dynamically 
+		// removing X first lines of current data, AND appeending the new data
+		else {
+		$remove_lines = ($current_lite_data_lines - $app_config['power_user']['lite_chart_data_points_max']) + 1;
+		$lite_data_removed_first_lines = remove_first_lines($lite_path, $remove_lines);
+		
+		usleep(100000); // Wait 0.1 seconds
+		$result = store_file_contents($lite_path, $lite_data_removed_first_lines . $last_archival_line);
+		$lite_mode_logging = 'OVERWRITE';
+		}
+	
 	
 		if ( $result == true ) {
 			if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'lite_chart' ) {
-			app_logging( 'cache_debugging', 'Lite chart APPEND COMPLETED for ' . $lite_path);
+			app_logging( 'cache_debugging', 'Lite chart ' . $lite_mode_logging . ' COMPLETED for ' . $lite_path);
 			}
 		}
 		else {
-		app_logging( 'cache_error', 'Lite chart APPEND FAILED for ' . $lite_path);
+		app_logging( 'cache_error', 'Lite chart ' . $lite_mode_logging . ' FAILED for ' . $lite_path);
 		}
 
 

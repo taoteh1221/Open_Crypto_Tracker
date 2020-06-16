@@ -5,7 +5,6 @@
 
 
 
-
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
 
@@ -145,6 +144,46 @@ $files = glob($dir . '/*'); // get all file names
   		
 	}
 
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function get_lines($file) {
+
+$f = fopen($file, 'rb');
+$lines = 0;
+
+	while (!feof($f)) {
+   $lines += substr_count(fread($f, 8192), "\n");
+   }
+
+fclose($f);
+
+return $lines;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function remove_first_lines($filename, $num) {
+
+$file = file($filename);
+
+	$loop = 0;
+	while ( $loop < $num ) {
+		if ( isset($file[$loop]) ) {
+		unset($file[$loop]);
+		}
+	$loop = $loop + 1;
+	}
+
+return $file;
 }
 
 
