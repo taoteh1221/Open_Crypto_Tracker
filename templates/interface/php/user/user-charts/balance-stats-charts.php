@@ -10,7 +10,22 @@
   
   <script>
     var balance_chart_config = {
-      "type": "pie",
+    "gui": {
+    	"behaviors": [
+    	],
+    	"contextMenu": {
+    	  "alpha": 0.9,
+    	  "button": {
+     	   "visible": true
+     	 },
+     	 "docked": true,
+     	 "item": {
+     	   "textAlpha": 1
+     	 },
+      	"position": 'left'
+    	}
+	},
+   "type": "pie",
   		backgroundColor: "none",
   		width: 700,
       "plot": {

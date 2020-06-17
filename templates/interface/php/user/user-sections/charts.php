@@ -53,7 +53,7 @@
 	</div>
 	
 	
-	<p class='bitcoin' style='font-weight: bold;'>If your web browser freezes on this page for a long time, try selecting fewer charts.</p>	
+	<p class='bitcoin' style='font-weight: bold;'>If your web browser freezes on this page for a long time, try selecting fewer charts. Charts may take awhile to update with the latest data.</p>	
 				
 	<p><button class="show_chart_settings force_button_style">Select Charts</button></p>
 	

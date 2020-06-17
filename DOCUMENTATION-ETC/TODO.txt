@@ -221,7 +221,7 @@ Maybe hashed password can be re-hashed with a unique per-browser install semi-co
 Convert all long hand javascript to jquery?
 
 
-Save trading notes via the new ajax-js.php logic (rather than reload the entire app)?
+Save trading notes via the new ajax.php logic (rather than reload the entire app)?
 
 
 Should GRIN mining difficulty be different for each cuckoo level in the mining calculator?

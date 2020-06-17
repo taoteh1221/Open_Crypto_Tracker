@@ -36,13 +36,13 @@
 			|| $market_parse[2] != 'chart' && $market_parse[2] != 'both' ) {
 			?>
 			
-			$("#<?=$key?>_<?=$charted_value?>_chart span.chart_loading").html(' &nbsp; No chart data activated yet for: <?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=snake_case_to_name($market_parse[0])?><?=( $_GET['charted_value'] != 'pairing' ? ' \(' . strtoupper($charted_value) . ' Value\)' : '' )?>');
+			$("#<?=$key?>_<?=$charted_value?>_chart span.chart_loading").html(' &nbsp; No chart data found for: <?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=snake_case_to_name($market_parse[0])?><?=( $_GET['charted_value'] != 'pairing' ? ' \(' . strtoupper($charted_value) . ' Value\)' : '' )?>');
 			
 			$("#<?=$key?>_<?=$charted_value?>_chart").css({ "background-color": "#9b4b26" });
 			
 			$("#charts_error").show();
 			
-			$("#charts_error").html('<p>One or more charts could not be loaded.</p> <p>If you recently installed this app / enabled charts for the first time, it may take up to <?=$app_config['developer']['lite_chart_update_cycle']?> minutes or more for fully updated charts to appear. "lite charts" need to be created from archival chart data, so charts always load quickly regardless of time span, and may take a few days to begin to populate longer time period charts.</p> <p>If you updated the charts or primary currency settings in the admin configuration, you may need to click "Select Charts" (top left of this page) and check / uncheck "Select All", and then click "Update Selected Charts" to clear old chart selections (which may remove this notice).</p> <p>Please make sure you have a cron job running (see <a href="README.txt" target="_blank">README.txt</a> for how-to setup a cron job), or charts cannot be activated. Check app error logs too, for write errors (which would indicate improper cache directory permissions).</p>');
+			$("#charts_error").html('<p>One or more charts could not be loaded.</p> <p>If you recently installed this app / enabled charts for the first time / re-configured your lite charts structure, it may take awhile for fully updated charts to appear. "lite charts" need to be created from archival chart data, so charts always load quickly regardless of time span, and may take a few days to begin to populate longer time period charts.</p> <p>If you updated the charts or primary currency settings in the admin configuration, you may need to click "Select Charts" (top left of this page) and check / uncheck "Select All", and then click "Update Selected Charts" to clear old chart selections (which may remove this notice).</p> <p>Please make sure you have a cron job running (see <a href="README.txt" target="_blank">README.txt</a> for how-to setup a cron job), or charts cannot be activated. Check app error logs too, for write errors (which would indicate improper cache directory permissions).</p>');
 			
 			window.charts_loaded.push("chart_<?=$js_key?>");
 			

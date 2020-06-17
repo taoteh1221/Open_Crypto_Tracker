@@ -20,13 +20,13 @@ $first_lite_chart = $app_config['power_user']['lite_chart_day_intervals'][0];
 			if ( file_exists('cache/charts/system/lite/'.$first_lite_chart.'_days/system_stats.dat') != 1 ) {
 			?>
 			
-			$("#system_stats_chart_<?=$key?> span.chart_loading").html(' &nbsp; No chart data activated for: System Chart #<?=$key?>');
+			$("#system_stats_chart_<?=$key?> span.chart_loading").html(' &nbsp; No chart data found for: System Chart #<?=$key?>');
 			
 			$("#system_stats_chart_<?=$key?>").css({ "background-color": "#9b4b26" });
 			
 			$("#system_charts_error").show();
 			
-			$("#system_charts_error").html('<p>One or more charts could not be loaded.</p> <p>If you recently installed this app, it may take up to <?=$app_config['developer']['lite_chart_update_cycle']?> minutes or more for fully updated charts to appear ("lite charts" need to be created from archival chart data, so charts always load quickly regardless of time span), and may take a few days to begin to populate longer time period charts.</p> <p>Please make sure you have a cron job running (see <a href="README.txt" target="_blank">README.txt</a> for how-to setup a cron job), or charts cannot be activated. Check app error logs too, for write errors (which would indicate improper cache directory permissions).</p>');
+			$("#system_charts_error").html('<p>One or more charts could not be loaded.</p> <p>If you recently installed this app / re-configured your lite charts structure, it may take awhile for fully updated charts to appear ("lite charts" need to be created from archival chart data, so charts always load quickly regardless of time span), and may take a few days to begin to populate longer time period charts.</p> <p>Please make sure you have a cron job running (see <a href="README.txt" target="_blank">README.txt</a> for how-to setup a cron job), or charts cannot be activated. Check app error logs too, for write errors (which would indicate improper cache directory permissions).</p>');
 			
 			
 			<?php

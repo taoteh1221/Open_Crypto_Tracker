@@ -4,6 +4,18 @@
  */
  
 
+ 
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function remove_directory($dir) { 
+  foreach(glob($dir . '/*') as $file) {
+    if(is_dir($file)) remove_directory($file); else unlink($file); 
+  }
+  rmdir($dir);
+}
+
 
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
@@ -20,7 +32,7 @@ function update_cache_file($cache_file, $minutes) {
 	}
 
 }
-
+ 
 
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
@@ -634,7 +646,6 @@ function update_lite_chart($archive_path, $newest_archival_data=false, $days_spa
 
 global $app_config;
 
-$now = time();
 $archival_data = array();
 $new_lite_data = null;
 
@@ -677,12 +688,12 @@ $newest_archival_timestamp = $last_archival_array[0];
 // Minimum time interval between data points in lite chart
 $min_data_interval = round( ($newest_archival_timestamp - $oldest_allowed_timestamp) / $app_config['power_user']['lite_chart_data_points_max'] );
 
+$now = time();
 
 	// #INITIALLY# (if no lite data exists yet) we randomly spread the load across X minutes in multiple cron jobs
 	// THEN IT #REMAINS RANDOMLY SPREAD# ACROSS CRON JOBS #WITHOUT DOING ANYTHING AFTER# THE INITIAL RANDOMNESS
 	if ( $newest_lite_timestamp == false ) {
-	$half_update_cycle_seconds = ($app_config['developer']['lite_chart_update_cycle'] * 60) / 2;
-	$lite_data_update_threshold = rand( ($now - $half_update_cycle_seconds) , ($now + $half_update_cycle_seconds) );
+	$lite_data_update_threshold = rand( ($now - 2000) , ($now + 1000) ); // 2/3 update on average, per run
 	}
 	// Update threshold calculated from pre-existing lite data
 	else {
@@ -1415,7 +1426,7 @@ $api_endpoint = ( $mode == 'array' ? $api_server : $request );
 	//////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////
 	if ( $ttl < 0 ) {
-	unlink('cache/secured/external_api/'.$hash_check.'.dat');
+	unlink($base_dir . '/cache/secured/external_api/'.$hash_check.'.dat');
 	}
 	//////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////
@@ -1464,7 +1475,7 @@ $api_endpoint = ( $mode == 'array' ? $api_server : $request );
 	// Live data retrieval 
 	//////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////
-	elseif ( update_cache_file('cache/secured/external_api/'.$hash_check.'.dat', $ttl) == true || $ttl == 0 ) {
+	elseif ( update_cache_file($base_dir . '/cache/secured/external_api/'.$hash_check.'.dat', $ttl) == true || $ttl == 0 ) {
 	
 	// Time the request
 	$api_time = microtime();
@@ -1646,10 +1657,10 @@ $api_endpoint = ( $mode == 'array' ? $api_server : $request );
 		// Debugging output
 		$debug_data = "\n\n\n" . 'header_size: ' . $debug_header_size . ' bytes' . "\n\n\n" . 'header: ' . "\n\n\n" . $debug_header . "\n\n\n" . 'body: ' . "\n\n\n" . $debug_body . "\n\n\n";
 		
-		$debug_response_log = '/cache/logs/debugging/external_api/problem-endpoint-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-hash-'.$hash_check.'-timestamp-'.time().'.log';
+		$debug_response_log = $base_dir . '/cache/logs/debugging/external_api/problem-endpoint-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-hash-'.$hash_check.'-timestamp-'.time().'.log';
 		
 		// Store to file
-		store_file_contents($base_dir . $debug_response_log, $debug_data);
+		store_file_contents($debug_response_log, $debug_data);
 		
 		// Reset $data value to use the $debug_body value (to parse the json values out), 
 		// SINCE WE INCLUDED HEADER DATA WITH CURLOPT_HEADER FOR DEBUGGING
@@ -1684,7 +1695,7 @@ $api_endpoint = ( $mode == 'array' ? $api_server : $request );
 			}
 			else {
 					
-			$data = trim( file_get_contents('cache/secured/external_api/'.$hash_check.'.dat') );
+			$data = trim( file_get_contents($base_dir . '/cache/secured/external_api/'.$hash_check.'.dat') );
 				
 				if ( $data != '' && $data != 'none' ) {
 				$api_runtime_cache[$hash_check] = $data; // Create a runtime cache from the file cache, for any additional requests during runtime for this data set
@@ -1794,7 +1805,7 @@ $api_endpoint = ( $mode == 'array' ? $api_server : $request );
 					}
 					else {
 						
-					$data = trim( file_get_contents('cache/secured/external_api/'.$hash_check.'.dat') );
+					$data = trim( file_get_contents($base_dir . '/cache/secured/external_api/'.$hash_check.'.dat') );
 					
 						if ( $data != '' && $data != 'none' ) {
 						$api_runtime_cache[$hash_check] = $data; // Create a runtime cache from the file cache, for any additional requests during runtime for this data set
@@ -1890,7 +1901,7 @@ $api_endpoint = ( $mode == 'array' ? $api_server : $request );
 		$fallback_cache_data = 1;
 		}
 		else {
-		$data = trim( file_get_contents('cache/secured/external_api/'.$hash_check.'.dat') );
+		$data = trim( file_get_contents($base_dir . '/cache/secured/external_api/'.$hash_check.'.dat') );
 			if ( $data != '' && $data != 'none' ) {
 			$api_runtime_cache[$hash_check] = $data; // Create a runtime cache from the file cache, for any additional requests during runtime for this data set
 			$fallback_cache_data = 1;

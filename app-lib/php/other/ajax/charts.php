@@ -65,11 +65,124 @@ require_once('app-lib/php/other/primary-bitcoin-markets.php');
 			
 		
 			// Have this script send the UI alert messages, and not load any chart code (to not leave the page endlessly loading) if cache data is not present
-			if ( file_exists('cache/charts/spot_price_24hr_volume/lite/' . $_GET['days'] . '_days/'.$chart_asset.'/'.$key.'_chart_'.$charted_value.'.dat') != 1
-			|| $market_parse[2] != 'chart' && $market_parse[2] != 'both' ) {
+			if ( !file_exists('cache/charts/spot_price_24hr_volume/lite/' . $_GET['days'] . '_days/'.$chart_asset.'/'.$key.'_chart_'.$charted_value.'.dat') ) {
 			?>
 			
-			{"error": "no data"}
+{
+
+	gui: {
+    	behaviors: [
+    	],
+    	contextMenu: {
+    	  alpha: 0.9,
+    	  button: {
+     	   visible: true
+     	 },
+     	 docked: true,
+     	 item: {
+     	   textAlpha: 1
+     	 },
+      	position: 'left'
+    	}
+	},
+   type: "area",
+   noData: {
+     text: "No data for the <?=$_GET['days']?> day chart yet, please check back in a few minutes.",
+  	  fontColor: "<?=$app_config['power_user']['charts_text']?>",
+     backgroundColor: "#808080",
+     fontSize: 20,
+     textAlpha: .9,
+     alpha: .6,
+     bold: true
+   },
+  	backgroundColor: "<?=$app_config['power_user']['charts_background']?>",
+  	height: 420,
+  	x: 0, 
+  	y: 0,
+  	title: {
+  	  text: "<?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=snake_case_to_name($market_parse[0])?> <?=( $_GET['charted_value'] != 'pairing' ? '(' . strtoupper($charted_value) . ' Value)' : '' )?>",
+  	  fontColor: "<?=$app_config['power_user']['charts_text']?>",
+  	  fontFamily: 'Open Sans',
+  	  fontSize: 25,
+  	  align: 'right',
+  	  offsetX: -18,
+  	  offsetY: 4
+  	},
+   series: [{
+     values: []
+   }],
+	labels: [
+	<?php
+	$x_coord = 120; // Start position (absolute)
+	$font_width = 17; // NOT MONOSPACE, SO WE GUESS AN AVERAGE
+	foreach ($app_config['power_user']['lite_chart_day_intervals'] as $lite_chart_days) {
+		
+		if ( $lite_chart_days == 'all' ) {
+		$lite_chart_text = strtoupper($lite_chart_days);
+		}
+		elseif ( $lite_chart_days == 7 ) {
+		$lite_chart_text = '1W';
+		}
+		elseif ( $lite_chart_days == 14 ) {
+		$lite_chart_text = '2W';
+		}
+		elseif ( $lite_chart_days == 30 ) {
+		$lite_chart_text = '1M';
+		}
+		elseif ( $lite_chart_days == 60 ) {
+		$lite_chart_text = '2M';
+		}
+		elseif ( $lite_chart_days == 90 ) {
+		$lite_chart_text = '3M';
+		}
+		elseif ( $lite_chart_days == 180 ) {
+		$lite_chart_text = '6M';
+		}
+		elseif ( $lite_chart_days == 365 ) {
+		$lite_chart_text = '1Y';
+		}
+		elseif ( $lite_chart_days == 730 ) {
+		$lite_chart_text = '2Y';
+		}
+		elseif ( $lite_chart_days == 1095 ) {
+		$lite_chart_text = '3Y';
+		}
+		elseif ( $lite_chart_days == 1460 ) {
+		$lite_chart_text = '4Y';
+		}
+		else {
+		$lite_chart_text = $lite_chart_days . 'D';
+		}
+	?>
+		{
+	    x: <?=$x_coord?>,
+	    y: 11,
+	    id: '<?=$lite_chart_days?>',
+	    fontColor: "<?=($_GET['days'] == $lite_chart_days ? $app_config['power_user']['charts_text'] : $app_config['power_user']['charts_link'] )?>",
+	    fontSize: "22",
+	    fontFamily: "Open Sans",
+	    cursor: "hand",
+	    text: "<?=$lite_chart_text?>"
+	  	},
+	<?php
+	
+		// Account for more / less digits with absolute positioning
+		// Take into account INCREASE OR DECREASE of characters in $lite_chart_text
+		if ( strlen($last_lite_chart_text) > 0 && strlen($last_lite_chart_text) != strlen($lite_chart_text) ) {
+		$difference = $difference + ( strlen($lite_chart_text) - strlen($last_lite_chart_text) ); 
+		$x_coord = $x_coord + ( $difference * $font_width ); 
+		}
+		elseif ( isset($difference) ) {
+		$x_coord = $x_coord + ( $difference * $font_width ); 
+		}
+	
+	$x_coord = $x_coord + 60;
+	$last_lite_chart_text = $lite_chart_text;
+	}
+	?>
+	]
+        
+}
 			
 			<?php
 			exit;
@@ -432,6 +545,132 @@ elseif ( $_GET['type'] == 'system' ) {
 $key = $_GET['key'];
 
 
+
+			
+		
+// Have this script send the UI alert messages, and not load any chart code (to not leave the page endlessly loading) if cache data is not present
+if ( !file_exists('cache/charts/system/lite/' . $_GET['days'] . '_days/system_stats.dat') ) {
+?>
+			
+{
+
+	gui: {
+    	behaviors: [
+    	],
+    	contextMenu: {
+    	  alpha: 0.9,
+    	  button: {
+     	   visible: true
+     	 },
+     	 docked: true,
+     	 item: {
+     	   textAlpha: 1
+     	 },
+      	position: 'left'
+    	}
+	},
+   type: "area",
+   noData: {
+     text: "No data for the <?=$_GET['days']?> day chart yet, please check back in a few minutes.",
+  	  fontColor: "black",
+     backgroundColor: "#808080",
+     fontSize: 20,
+     textAlpha: .9,
+     alpha: .6,
+     bold: true
+   },
+  	backgroundColor: "#f2f2f2",
+  	height: 420,
+  	x: 0, 
+  	y: 0,
+  	title: {
+        text: 'System Chart #<?=$key?>',
+        adjustLayout: true,
+    	  align: 'right',
+    	  offsetX: -20,
+    	  offsetY: 9
+  	},
+   series: [{
+     values: []
+   }],
+	labels: [
+	<?php
+	$x_coord = 70; // Start position (absolute)
+	$font_width = 17; // NOT MONOSPACE, SO WE GUESS AN AVERAGE
+	foreach ($app_config['power_user']['lite_chart_day_intervals'] as $lite_chart_days) {
+		
+		if ( $lite_chart_days == 'all' ) {
+		$lite_chart_text = strtoupper($lite_chart_days);
+		}
+		elseif ( $lite_chart_days == 7 ) {
+		$lite_chart_text = '1W';
+		}
+		elseif ( $lite_chart_days == 14 ) {
+		$lite_chart_text = '2W';
+		}
+		elseif ( $lite_chart_days == 30 ) {
+		$lite_chart_text = '1M';
+		}
+		elseif ( $lite_chart_days == 60 ) {
+		$lite_chart_text = '2M';
+		}
+		elseif ( $lite_chart_days == 90 ) {
+		$lite_chart_text = '3M';
+		}
+		elseif ( $lite_chart_days == 180 ) {
+		$lite_chart_text = '6M';
+		}
+		elseif ( $lite_chart_days == 365 ) {
+		$lite_chart_text = '1Y';
+		}
+		elseif ( $lite_chart_days == 730 ) {
+		$lite_chart_text = '2Y';
+		}
+		elseif ( $lite_chart_days == 1095 ) {
+		$lite_chart_text = '3Y';
+		}
+		elseif ( $lite_chart_days == 1460 ) {
+		$lite_chart_text = '4Y';
+		}
+		else {
+		$lite_chart_text = $lite_chart_days . 'D';
+		}
+	?>
+		{
+	    x: <?=$x_coord?>,
+	    y: 12,
+	    id: '<?=$lite_chart_days?>',
+	    fontColor: "<?=($_GET['days'] == $lite_chart_days ? '#9b9b9b' : 'black' )?>",
+	    fontSize: "22",
+	    fontFamily: "Open Sans",
+	    cursor: "hand",
+	    text: "<?=$lite_chart_text?>"
+	  	},
+	<?php
+	
+		// Account for more / less digits with absolute positioning
+		// Take into account INCREASE OR DECREASE of characters in $lite_chart_text
+		if ( strlen($last_lite_chart_text) > 0 && strlen($last_lite_chart_text) != strlen($lite_chart_text) ) {
+		$difference = $difference + ( strlen($lite_chart_text) - strlen($last_lite_chart_text) ); 
+		$x_coord = $x_coord + ( $difference * $font_width ); 
+		}
+		elseif ( isset($difference) ) {
+		$x_coord = $x_coord + ( $difference * $font_width ); 
+		}
+	
+	$x_coord = $x_coord + 60;
+	$last_lite_chart_text = $lite_chart_text;
+	}
+	?>
+	]
+        
+}
+			
+<?php
+exit;
+}
+			
+		
 $chart_data = chart_data('cache/charts/system/lite/' . $_GET['days'] . '_days/system_stats.dat', 'system');
 
 // Colors for different data in charts

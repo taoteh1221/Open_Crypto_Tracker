@@ -632,7 +632,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 					color: "#eee",
 					backgroundColor: "#111",
 					opacity: "0.99",
-					zIndex: "32767",
+					zIndex: "999",
 					textAlign: "left"
 					}
 			});

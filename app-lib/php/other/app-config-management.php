@@ -153,6 +153,26 @@ $backup_archive_password = false;
 }
 
 
+// Light chart config tracking / updating
+$config_lite_chart_structure = md5(serialize($app_config['power_user']['lite_chart_day_intervals']));
+
+if ( !file_exists($base_dir . '/cache/vars/lite_chart_structure.dat') ) {
+store_file_contents($base_dir . '/cache/vars/lite_chart_structure.dat', $config_lite_chart_structure);
+$cached_lite_chart_structure = $config_lite_chart_structure;
+}
+else {
+$cached_lite_chart_structure = trim( file_get_contents($base_dir . '/cache/vars/lite_chart_structure.dat') );
+}
+
+
+// Check if we need to rebuild lite charts from changes to their structure
+if ( $config_lite_chart_structure != $cached_lite_chart_structure ) {
+remove_directory($base_dir . '/cache/charts/spot_price_24hr_volume/lite');
+remove_directory($base_dir . '/cache/charts/system/lite');
+store_file_contents($base_dir . '/cache/vars/lite_chart_structure.dat', $config_lite_chart_structure);
+}
+
+
 //////////////////////////////////////////////////////////////////
 // END APP CONFIG DYNAMIC MANAGEMENT
 //////////////////////////////////////////////////////////////////

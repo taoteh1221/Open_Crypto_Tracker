@@ -509,7 +509,7 @@ $app_config['power_user']['lite_chart_data_points_max'] = '365'; // (default = '
 // Structure of lite charts #IN DAYS# (X days time period charts)
 // Interface will auto-detect and display days as 365 = 1Y, 180 = 6M, 7 = 1W, etc, etc
 // (LOWER TIME PERIODS [UNDER 180 DAYS] #SHOULD BE KEPT SOMEWHAT MINIMAL#, TO REDUCE RUNTIME LOAD / DISK WRITES DURING CRON JOBS)
-$app_config['power_user']['lite_chart_day_intervals'] = array(7, 30, 180, 365, 730, 1460); // (default = 7, 30, 180, 365, 730, 1460)
+$app_config['power_user']['lite_chart_day_intervals'] = array(3, 7, 30, 180, 365, 730, 1460); // (default = 3, 7, 30, 180, 365, 730, 1460)
 
 																					
 // Chart colors (https://www.w3schools.com/colors/colors_picker.asp)
@@ -733,7 +733,7 @@ $app_config['power_user']['news_feeds_entries_show'] = 5; // (default = 5)
 // Minutes to cache RSS feeds for News page
 // Randomly cache each RSS feed between the minimum and maximum minutes set here (so they don't refresh all at once, for faster load times)
 // THE WIDER THE GAP BETWEEN THE NUMBERS, MORE SPLIT UP / FASTER THE FEEDS WILL LOAD IN THE INTERFACE
-$app_config['power_user']['news_feeds_cache_min_max'] = '120,240'; // 'min,max' (default = '120,240')
+$app_config['power_user']['news_feeds_cache_min_max'] = '60,160'; // 'min,max' (default = '60,160')
 ////
 // RSS news feeds available on the News page
 $app_config['power_user']['news_feeds'] = array(
@@ -1166,6 +1166,11 @@ $app_config['power_user']['news_feeds'] = array(
         
     				);
      
+
+
+// Highest numeric value sensor data to include in the FIRST system information chart (out of two)
+// (higher sensor data is moved into the second chart, to keep ranges easily readable between both charts...only used if stats are enabled above)
+$app_config['power_user']['system_stats_first_chart_highest_value'] = 3.5; // Can be a decimal (example: 0.5 or 7.5 etc)
 		
 
 // Configuration for the CAPTCHA image on all admin login / reset pages
@@ -1183,11 +1188,6 @@ $app_config['power_user']['captcha_text_margin'] = 4; // MINIMUM margin of text 
 ////
 // Contrast of text against background...0 for default, positive for extra contrast, negative for less contrast (maximum of +-35)
 $app_config['power_user']['captcha_text_contrast'] = 0; // example: -5 or 5 (default = 0)
-
-
-// Highest numeric value sensor data to include in the FIRST system information chart (out of two)
-// (higher sensor data is moved into the second chart, to keep ranges easily readable between both charts...only used if stats are enabled above)
-$app_config['power_user']['system_stats_first_chart_highest_value'] = 3.5; // Can be a decimal (example: 0.5 or 7.5 etc)
 
 
 // Weeks to power down all HIVE Power holdings
@@ -1236,13 +1236,6 @@ $app_config['developer']['log_verbosity'] = 'normal'; // 'normal' / 'verbose'
 ////
 // Keep logs X days before purging (fully deletes logs every X days). Start low (especially when using proxies)
 $app_config['developer']['log_purge'] = 10; 
-
-
-//	Lite chart update cycle COMPLETION TIME set to #AN AVERAGE OF# X minutes
-// Used to lower system resource useage spikes / speed up load times, 
-// by evenly spreading system load / disk usage across multiple cron jobs
-// (THE HIGHER THE NUMBER, THE LESS LOAD SPIKES ON THE SYSTEM / QUICKER THE APP LOADS / THE LONGER THE AVERAGE WAIT FOR NEW CHART DATA)
-$app_config['developer']['lite_chart_update_cycle'] = 90; // (default = 90)       
 
 
 // If you want to override the default user agent string (sent with API requests, etc)
