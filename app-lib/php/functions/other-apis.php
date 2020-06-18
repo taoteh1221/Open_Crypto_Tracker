@@ -406,10 +406,10 @@ $rss_feed_cache_time = rand($news_feeds_cache_min_max[0], $news_feeds_cache_min_
 		// Throttling multiple requests to same server
 		if ( preg_match("/reddit\.com/i", $url) ) {
 			
-			// If it's a consecutive reddit feed request, sleep 8 seconds (reddit is very strict on user agents)
+			// If it's a consecutive reddit feed request, sleep 7.5 seconds (reddit is very strict on user agents)
 			// (Reddit only allows rss feed connections every 7 seconds from ip addresses ACCORDING TO THEM)
 			if ( $fetched_reddit_feeds > 0 ) {
-			sleep(8);
+			sleep(7500000);
 			}
 			
 		$fetched_reddit_feeds = $fetched_reddit_feeds + 1;	
@@ -417,9 +417,9 @@ $rss_feed_cache_time = rand($news_feeds_cache_min_max[0], $news_feeds_cache_min_
 		}
 		elseif ( preg_match("/youtube\.com/i", $url) ) {
 		
-			// If it's a consecutive youtube feed request, sleep 1.5 seconds 
+			// If it's a consecutive youtube feed request, sleep 1.2 seconds 
 			if ( $fetched_youtube_feeds > 0 ) {
-			usleep(1500000); 
+			usleep(1200000); 
 			}
 		
 		$fetched_youtube_feeds = $fetched_youtube_feeds + 1;
@@ -427,9 +427,9 @@ $rss_feed_cache_time = rand($news_feeds_cache_min_max[0], $news_feeds_cache_min_
 		}
 		elseif ( preg_match("/stackexchange\.com/i", $url) ) {
 		
-			// If it's a consecutive stackexchange feed request, sleep 1.5 seconds
+			// If it's a consecutive stackexchange feed request, sleep 1.2 seconds
 			if ( $fetched_stackexchange_feeds > 0 ) {
-			usleep(1500000);
+			usleep(1200000);
 			}
 		
 		$fetched_stackexchange_feeds = $fetched_stackexchange_feeds + 1;
@@ -437,9 +437,9 @@ $rss_feed_cache_time = rand($news_feeds_cache_min_max[0], $news_feeds_cache_min_
 		}
 		elseif ( preg_match("/medium\.com/i", $url) ) {
 		
-			// If it's a consecutive medium feed request, sleep 1.5 seconds (medium is very strict on user agents)
+			// If it's a consecutive medium feed request, sleep 1.2 seconds (medium is very strict on user agents)
 			if ( $fetched_medium_feeds > 0 ) {
-			usleep(1500000);
+			usleep(1200000);
 			}
 		
 		$fetched_medium_feeds = $fetched_medium_feeds + 1;
@@ -447,9 +447,9 @@ $rss_feed_cache_time = rand($news_feeds_cache_min_max[0], $news_feeds_cache_min_
 		}
 		elseif ( preg_match("/bitcoincore\.org/i", $url) ) {
 		
-			// If it's a consecutive bitcoincore feed request, sleep 1.5 seconds
+			// If it's a consecutive bitcoincore feed request, sleep 1.2 seconds
 			if ( $fetched_bitcoincore_feeds > 0 ) {
-			usleep(1500000);
+			usleep(1200000);
 			}
 		
 		$fetched_bitcoincore_feeds = $fetched_bitcoincore_feeds + 1;	
@@ -457,9 +457,9 @@ $rss_feed_cache_time = rand($news_feeds_cache_min_max[0], $news_feeds_cache_min_
 		}
 		elseif ( preg_match("/ethereum\.org/i", $url) ) {
 		
-			// If it's a consecutive ethereumorg feed request, sleep 1.5 seconds
+			// If it's a consecutive ethereumorg feed request, sleep 1.2 seconds
 			if ( $fetched_ethereumorg_feeds > 0 ) {
-			usleep(1500000);
+			usleep(1200000);
 			}
 		
 		$fetched_ethereumorg_feeds = $fetched_ethereumorg_feeds + 1;
@@ -467,9 +467,9 @@ $rss_feed_cache_time = rand($news_feeds_cache_min_max[0], $news_feeds_cache_min_
 		}
 		elseif ( preg_match("/kraken\.com/i", $url) ) {
 		
-			// If it's a consecutive kraken feed request, sleep 1.5 seconds
+			// If it's a consecutive kraken feed request, sleep 1.2 seconds
 			if ( $fetched_kraken_feeds > 0 ) {
-			usleep(1500000);
+			usleep(1200000);
 			}
 		
 		$fetched_kraken_feeds = $fetched_kraken_feeds + 1;
@@ -477,9 +477,9 @@ $rss_feed_cache_time = rand($news_feeds_cache_min_max[0], $news_feeds_cache_min_
 		}
 		elseif ( preg_match("/fireside\.fm/i", $url) ) {
 		
-			// If it's a consecutive firesidefm feed request, sleep 1.5 seconds
+			// If it's a consecutive firesidefm feed request, sleep 1.2 seconds
 			if ( $fetched_firesidefm_feeds > 0 ) {
-			usleep(1500000); 
+			usleep(1200000); 
 			}
 		
 		$fetched_firesidefm_feeds = $fetched_firesidefm_feeds + 1;
@@ -487,9 +487,9 @@ $rss_feed_cache_time = rand($news_feeds_cache_min_max[0], $news_feeds_cache_min_
 		}
 		elseif ( preg_match("/libsyn\.com/i", $url) ) {
 		
-			// If it's a consecutive libsyn feed request, sleep 1.5 seconds
+			// If it's a consecutive libsyn feed request, sleep 1.2 seconds
 			if ( $fetched_libsyn_feeds > 0 ) {
-			usleep(1500000);
+			usleep(1200000);
 			}
 		
 		$fetched_libsyn_feeds = $fetched_libsyn_feeds + 1;

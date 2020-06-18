@@ -749,7 +749,7 @@ $now = time();
 	
 	
 	// Store the rebuilt lite chart data (overwrite)
-	usleep(100000); // Wait 0.1 seconds
+	usleep(70000); // Wait 0.07 seconds
 	$result = store_file_contents($lite_path, $new_lite_data);
 	
 		if ( $result == true ) {
@@ -772,7 +772,7 @@ $now = time();
 	
 		// Append if less than 'lite_chart_data_points_max'
 		if ( $current_lite_data_lines < $app_config['power_user']['lite_chart_data_points_max'] ) {
-		usleep(100000); // Wait 0.1 seconds
+		usleep(70000); // Wait 0.07 seconds
 		$result = store_file_contents($lite_path, $last_archival_line, "append");
 		$lite_mode_logging = 'APPEND';
 		}
@@ -782,7 +782,7 @@ $now = time();
 		$remove_lines = ($current_lite_data_lines - $app_config['power_user']['lite_chart_data_points_max']) + 1;
 		$lite_data_removed_first_lines = remove_first_lines($lite_path, $remove_lines);
 		
-		usleep(100000); // Wait 0.1 seconds
+		usleep(70000); // Wait 0.07 seconds
 		$result = store_file_contents($lite_path, $lite_data_removed_first_lines . $last_archival_line);
 		$lite_mode_logging = 'OVERWRITE';
 		}

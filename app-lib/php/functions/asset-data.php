@@ -1150,7 +1150,7 @@ $volume_pairing_raw = number_to_string($volume_pairing_raw);
 		
 	// Lite charts (update time dynamically determined in update_lite_chart() logic)
 	// Try to assure file locking from archival chart updating has been released, wait 0.1 seconds before updating lite charts
-	usleep(100000); // Wait 0.1 seconds
+	usleep(70000); // Wait 0.07 seconds
 		
 		foreach ( $app_config['power_user']['lite_chart_day_intervals'] as $light_chart_days ) {
 			
