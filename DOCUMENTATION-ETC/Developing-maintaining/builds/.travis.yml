@@ -1,0 +1,37 @@
+language: php
+php:
+  - '7.2'
+  - '7.3'
+  - '7.4'
+#  - nightly # PHP nightly build
+# php7 compat issues  - hhvm # on Trusty only
+# php7 compat issues  - hhvm-nightly
+before_script:
+  - sudo apt-get update
+  - sudo apt-get install apache2 php php-mbstring php-xml php-curl php-gd php-zip libapache2-mod-fastcgi openssl ssl-cert avahi-daemon -y
+  - sleep 3
+  # enable php-fpm
+  - sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
+  - sudo a2enmod rewrite actions fastcgi alias
+  - echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - sudo sed -i -e "s,www-data,travis,g" /etc/apache2/envvars
+  - sudo chown -R travis:travis /var/lib/apache2/fastcgi
+  - ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
+  # configure apache virtual hosts
+ # - sudo cp -f build/travis-ci-apache /etc/apache2/sites-available/000-default.conf
+  - sudo a2ensite 000-default
+  - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/000-default.conf
+  - sudo service apache2 restart
+  - sleep 1
+  - sudo make-ssl-cert generate-default-snakeoil --force-overwrite
+  - sudo a2enmod ssl
+  - sudo a2ensite default-ssl
+  - sleep 1
+  - sudo service apache2 restart
+  - sleep 1
+  # Run script
+script:
+ - phpunit cron.php
+# After a build, send email notification with the build results
+notifications:
+ email: mike@dragonfrugal.com
