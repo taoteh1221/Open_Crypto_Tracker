@@ -693,7 +693,7 @@ $now = time();
 	// #INITIALLY# (if no lite data exists yet) we randomly spread the load across X minutes in multiple cron jobs
 	// THEN IT #REMAINS RANDOMLY SPREAD# ACROSS CRON JOBS #WITHOUT DOING ANYTHING AFTER# THE INITIAL RANDOMNESS
 	if ( $newest_lite_timestamp == false ) {
-	$lite_data_update_threshold = rand( ($now - 2000) , ($now + 1000) ); // 2/3 update on average, per run
+	$lite_data_update_threshold = rand( ($now - 3125) , ($now + 6875) ); // 5/16 of all lite charts REBUILDS update on average, per runtime
 	}
 	// Update threshold calculated from pre-existing lite data
 	else {

@@ -527,7 +527,7 @@ $app_config['power_user']['charts_line'] = '#444444';
 $app_config['power_user']['charts_text'] = '#e8e8e8';  
 ////
 // Charts link color
-$app_config['power_user']['charts_link'] = '#a5a5a5';  
+$app_config['power_user']['charts_link'] = '#939393';  
 ////
 // Charts price (base) gradient color
 $app_config['power_user']['charts_price_gradient'] = '#000000'; 
@@ -813,6 +813,18 @@ $app_config['power_user']['news_feeds'] = array(
         				array(
             			"title" => "Blog - Coinbase",
             			"url" => "https://medium.com/feed/the-coinbase-blog"
+        						),
+        
+        
+        				array(
+            			"title" => "Blog - CoinGecko",
+            			"url" => "https://blog.coingecko.com/feed/"
+        						),
+        
+        
+        				array(
+            			"title" => "Blog - CoinMarketCap",
+            			"url" => "https://blog.coinmarketcap.com/feed/"
         						),
         
         
@@ -1111,8 +1123,20 @@ $app_config['power_user']['news_feeds'] = array(
     
     
         				array(
+            			"title" => "Youtube - BitBoy Crypto",
+            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCjemQfjaXAzA-95RKoy9n_g"
+        						),
+    
+    
+        				array(
             			"title" => "Youtube - Crypt0's News",
             			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCdUSSt-IEUg2eq46rD7lu_g"
+        						),
+    
+    
+        				array(
+            			"title" => "Youtube - DataDash",
+            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCCatR7nWbYrkVXdxXb4cGXw"
         						),
     
     
@@ -1125,6 +1149,18 @@ $app_config['power_user']['news_feeds'] = array(
         				array(
             			"title" => "Youtube - Ivan on Tech",
             			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCrYmtJBtLdtm2ov84ulV-yg"
+        						),
+    
+    
+        				array(
+            			"title" => "Youtube - Kripto Emre (turkish)",
+            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UC87A7vsRlyZ68gtu-z1Q3ow"
+        						),
+    
+    
+        				array(
+            			"title" => "Youtube - Kripto Sözlük (turkish)",
+            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UC5rV0QEGbv0Y-umDwshs_HA"
         						),
     
     

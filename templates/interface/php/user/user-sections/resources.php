@@ -461,7 +461,11 @@
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/user/cointelegraph/featured' target='_blank'>Cointelegraph</a></li>
 	        
+	        <li class='links_list'><a href='https://www.youtube.com/channel/UCjemQfjaXAzA-95RKoy9n_g/featured' target='_blank'>BitBoy Crypto</a></li>
+	        
 	        <li class='links_list'><a href='https://www.youtube.com/user/obham001/featured' target='_blank'>Crypt0</a></li>
+	        
+	        <li class='links_list'><a href='https://www.youtube.com/channel/UCCatR7nWbYrkVXdxXb4cGXw/featured' target='_blank'>DataDash</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCt_oM56Ui0BCCgi0Yc-Wh3Q/featured' target='_blank'>Crypto Bobby</a></li>
 	        
@@ -482,6 +486,10 @@
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCjYHcWGAjUVqU49D2JOKD3w/featured' target='_blank'>I Mine Blocks</a> (POW mining channel)</li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/user/LiljeqvistIvan/featured' target='_blank'>Ivan on Tech</a></li>
+	        
+	        <li class='links_list'><a href='https://www.youtube.com/channel/UC87A7vsRlyZ68gtu-z1Q3ow/featured' target='_blank'>Kripto Emre (turkish)</a></li>
+	        
+	        <li class='links_list'><a href='https://www.youtube.com/channel/UC5rV0QEGbv0Y-umDwshs_HA/featured' target='_blank'>Kripto Sözlük (turkish)</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCVVDsIYJBQ_C7Bh_aI3ZMxQ/featured' target='_blank'>Magical Crypto Friends</a></li>
 	        

@@ -3471,15 +3471,17 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Bug fix for system stats (number of cpu threads were not considered when determining excessive system load [incorrectly highlighting the load values in red])
 
+-Bug fix for coutdown timer displaying correct time left until auto-reload (now waits until subsections are done loading, before starting countdown)
+
 -Bug fix for auto-install script (user-defined system user variable was only requested / set if a user chose the 'install webserver' option)
 
 -Bug fix for user-initiated chart zoom (reset user-initiated zoom before loading a new time interval chart like 1W / 1M / etc)
 
 -Lite chart scaling optimizations (less disk writes AND faster runtimes)
 
--More RSS feeds to choose from (on News page)
-
 -Misc. optimizations / UX improvements / cleanup
+
+-More RSS feeds to choose from (on News page)
 
 -Ubuntu support for auto-install script
 

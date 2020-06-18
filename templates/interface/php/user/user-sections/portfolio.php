@@ -72,8 +72,11 @@
 			
 			?>  &nbsp; &nbsp; &nbsp; <a href='javascript:app_reloading_placeholder();app_reload();' style='font-weight: bold;' title='<?=$refresh_link_title?>'>Refresh</a>
 			
-			 &nbsp;<select name='select_auto_refresh' id='select_auto_refresh' onchange='auto_reload(this.value);'>
-				<option value=''> Manually </option>
+			 &nbsp;<select name='select_auto_refresh' id='select_auto_refresh' onchange='
+			 window.reload_time = this.value;
+			 auto_reload();
+			 '>
+				<option value='0'> Manually </option>
 				<option value='300' <?=( $_COOKIE['coin_reload'] == '300' ? 'selected' : '' )?>> Every 5 Minutes </option>
 				<option value='600' <?=( $_COOKIE['coin_reload'] == '600' ? 'selected' : '' )?>> Every 10 Minutes </option>
 				<option value='900' <?=( $_COOKIE['coin_reload'] == '900' ? 'selected' : '' )?>> Every 15 Minutes </option>

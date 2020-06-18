@@ -8,6 +8,13 @@
 
 function app_reload() {
 // ADD ANY LOGIC HERE, TO RUN BEFORE THE APP RELOADS
+// Close any open modal windows
+$(".show_chart_settings").modaal("close");
+$(".show_feed_settings").modaal("close");
+$(".show_system_charts").modaal("close");
+$(".show_visitor_stats").modaal("close");
+$(".show_logs").modaal("close");
+// Reload
 location.reload(true);
 }
 
@@ -649,14 +656,27 @@ document.getElementById("target_total_btc").innerHTML = (to_trade_amount * num_t
 /////////////////////////////////////////////////////////////
 
 
-function auto_reload(time) {
+function auto_reload() {
+
+
+	if ( window.reload_time ) {
+	var time = window.reload_time;
+	}
+	else if ( getCookie("coin_reload") ) {
+	var time = getCookie("coin_reload");
+	}
+	else {
+	return;
+	}
 	
 
 	if ( document.getElementById("set_use_cookies") ) {
 		
-		if ( window.reload_function ) {
-		clearInterval(window.reload_function);
+		
+		if ( window.reload_countdown ) {
+		clearInterval(window.reload_countdown);
 		}
+
 		
 		if ( time >= 1 ) {
 			
@@ -685,81 +705,65 @@ function auto_reload(time) {
 			
 			}
 			else {
-			setCookie("coin_reload", time, 365);
-			count_down(time, 1);
-			}
-		
-		
-		window.reload_function = setInterval(function() {
 				
-						app_reloading_placeholder();
-						app_reload();
-					
-					}, (time * 1000));
+
+            // If subsections are still loading, wait until they are finished
+            if ( $("#loading_subsections").is(":visible") ) {
+            setTimeout(auto_reload, 700); // Wait 700 millisecnds then recheck
+            return;
+            }
+            else {
+               
+           	setCookie("coin_reload", time, 365);
+           	
+				i = time;
+
 			
+            	window.reload_countdown = setInterval(function () {
+                      
+                
+                	if ( i >= 60 ) {
+                
+                	var round_min = Math.floor(i/60);
+                	var sec = ( i - (round_min*60) );
+                
+               	$("#reload_countdown").html("(" + round_min + " minutes " + sec + " seconds)"); // Portfolio page
+               	$("span.countdown_notice").html("(auto-reload in " + round_min + " minutes " + sec + " seconds)"); // Secondary pages
+                  
+                	}
+                	else {
+                	$("#reload_countdown").html("(" + i + " seconds)"); // Portfolio page
+                	$("span.countdown_notice").html("(auto-reload in " + i + " seconds)"); // Secondary pages
+                	}
+        				
+        				if ( i == 0 ) {
+             		app_reloading_placeholder();
+             		app_reload();
+        				}
+            
+            
+             	i-- || clearInterval(i);  // Clear if 0 reached
+             
+             	}, 1000);
+	    
+               
+            }
+   
+   
+			}
 		
 		
 		}
 		else {
-		count_down(time, 0);
 		setCookie("coin_reload", '', 365);
+		$("#reload_countdown").html(""); // Portfolio page
+		$("span.countdown_notice").html(""); // Secondary pages
 		}
 	
 	
 	}
 
 
-}
-
-
-/////////////////////////////////////////////////////////////
-
-
-function count_down(i, toggle) {
-	
-	if ( window.reload_countdown ) {
-	clearInterval(window.reload_countdown);
-	}
-
-	if ( toggle == 1 ) {
-		
-			
-	    window.reload_countdown = setInterval(function () {
-	    	
-				    	
-	    	
-	    	if ( i >= 60 ) {
-	    	
-	    	var round_min = Math.floor(i/60);
-	    	
-	    	var sec = ( i - (round_min*60) );
-	    	
-	    	$("#reload_countdown").html("(" + round_min + " minutes " + sec + " seconds)"); // Portfolio page
-	    	$("span.countdown_notice").html("(app reload in " + round_min + " minutes " + sec + " seconds)"); // Secondary pages
-	    		
-	    		
-	    	}
-	    	else {
-	    		
-	    	$("#reload_countdown").html("(" + i + " seconds)"); // Portfolio page
-	    	$("span.countdown_notice").html("(app reload in " + i + " seconds)"); // Secondary pages
-	    		
-	    	
-	    	}
-
-		
-		
-		i-- || clearInterval(int);  //if i is 0, then stop the interval
-	    }, 1000);
-	    
-	  
-	    
-	}
-	else {
-	$("#reload_countdown").html(""); // Portfolio page
-	$("span.countdown_notice").html(""); // Secondary pages
-	}
-    
 }
 
 
@@ -854,6 +858,7 @@ function play_audio_alert() {
 
 audio_alert = document.getElementById('audio_alert');
 				
+				
 	if ( audio_alert.canPlayType('audio/mpeg') ) {
 	audio_alert.setAttribute('src','templates/interface/media/audio/Intruder_Alert-SoundBible.com-867759995.mp3');
 	}
@@ -862,9 +867,9 @@ audio_alert = document.getElementById('audio_alert');
 	}
 				
 	
-	// If charts are still loading, wait until they are finished
-   if ( charts_loading_check(window.charts_loaded) == 'active' ) {
-   setTimeout(play_audio_alert, 700); //wait 700 millisecnds then recheck
+	// If subsections are still loading, wait until they are finished
+   if ( $("#loading_subsections").is(":visible") ) {
+   setTimeout(play_audio_alert, 700); // Wait 700 millisecnds then recheck
    return;
    }
    else {

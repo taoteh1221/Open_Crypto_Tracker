@@ -77,15 +77,7 @@ autosize(document.querySelector('textarea[data-autoresize]'));
 	//////////////////////////////////////////////////////////
 	
 	if ( getCookie("coin_reload") ) {
-		
-		if ( getCookie("coin_reload").length > 0 ) {
-	
-        //console.log('auto reload function triggered...');
-	
-		auto_reload(getCookie("coin_reload"));
-	
-   	}
-   
+	auto_reload();
 	}
 	
 	//////////////////////////////////////////////////////////
