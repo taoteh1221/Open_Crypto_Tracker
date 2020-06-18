@@ -87,7 +87,7 @@ require_once('app-lib/php/other/primary-bitcoin-markets.php');
 	},
    type: "area",
    noData: {
-     text: "No data for the <?=$_GET['days']?> day chart yet, please check back in a few minutes.",
+     text: "No data for the <?=$_GET['days']?> day chart yet, please check back in awhile.",
   	  fontColor: "<?=$app_config['power_user']['charts_text']?>",
      backgroundColor: "#808080",
      fontSize: 20,
@@ -571,7 +571,7 @@ if ( !file_exists('cache/charts/system/lite/' . $_GET['days'] . '_days/system_st
 	},
    type: "area",
    noData: {
-     text: "No data for the <?=$_GET['days']?> day chart yet, please check back in a few minutes.",
+     text: "No data for the <?=$_GET['days']?> day chart yet, please check back in awhile.",
   	  fontColor: "black",
      backgroundColor: "#808080",
      fontSize: 20,

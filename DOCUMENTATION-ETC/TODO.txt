@@ -26,6 +26,9 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+Create "Export your feeds" link on News page, to XML / JSON format file download (like exporting portfolio logic).
+
+
 Write debugging tests for rss feeds.
 
 

@@ -212,7 +212,9 @@ echo " "
             
 ######################################
          
-        
+
+# WE NEED TO SET THIS OUTSIDE OF / BEFORE ANY OTHER SETUP LOGIC, 
+# AS WE'RE SETTING THE SYSTEM USER VAR
 echo "We need to know the SYSTEM username you'll be logging in as on this operating system..."
 echo " "
         
@@ -1101,7 +1103,7 @@ echo "#WHEN YOU FIRST RUN THIS APP#. IT'S #HIGHLY RECOMMENDED TO DO THIS IMMEDIA
 echo "ESPECIALLY ON PUBLIC FACING / KNOWN SERVERS, #OR SOMEBODY ELSE MAY BEAT YOU TO IT#."
 echo " "
 echo "The SSL certificate created on this web server is SELF-SIGNED (not issued by a CA),"
-echo "so your browser ---will give you a warning message--- when you visit the above HTTPS address."
+echo "so your browser ---will give you a warning message--- when you visit the above HTTPS addresses."
 echo "This is --normal behavior for self-signed certificates--. Google search for"
 echo "'self-signed ssl certificate' for more information on the topic."
 echo "THAT SAID, ONLY TRUST SELF-SIGNED CERTIFICATES #IF YOUR COMPUTER CREATED THE CERTIFICATE#."
