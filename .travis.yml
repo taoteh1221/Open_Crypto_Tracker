@@ -29,4 +29,9 @@ before_script:
   - sleep 1
   - sudo service apache2 restart
   - sleep 1
-  
+  # Run script
+script:
+ - phpunit
+# After a build, send email notification with the build results
+notifications:
+ email: mike@dragonfrugal.com
