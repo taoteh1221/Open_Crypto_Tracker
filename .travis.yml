@@ -31,7 +31,7 @@ before_script:
   - sleep 1
   # Run script
 script:
- - phpunit cron
+ - phpunit cron.php
 # After a build, send email notification with the build results
 notifications:
  email: mike@dragonfrugal.com
