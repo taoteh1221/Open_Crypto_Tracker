@@ -1,0 +1,8 @@
+language: php
+php:
+  - '7.2'
+  - '7.3'
+  - '7.4'
+  - nightly
+# php7 compat issues  - hhvm # on Trusty only
+# php7 compat issues  - hhvm-nightly
