@@ -18,7 +18,8 @@ before_script:
   - sudo chown -R travis:travis /var/lib/apache2/fastcgi
   - ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
   # configure apache virtual hosts
-  - sudo cp -f build/travis-ci-apache /etc/apache2/sites-available/000-default.conf
+ # - sudo cp -f build/travis-ci-apache /etc/apache2/sites-available/000-default.conf
+  - sudo a2ensite 000-default
   - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/000-default.conf
   - sudo service apache2 restart
   - sleep 1
