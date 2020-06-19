@@ -3,10 +3,12 @@
  * Copyright 2014-2020 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
  */
  
+
+// Split sleeps between chart / ajax external calls, AND UI runtime to randomly spread calls apart better
+usleep(100000); // Wait 0.1 seconds, so low power devices (like a raspberry pi) don't get ddos attacked by accident
+
 // Runtime mode
 $runtime_mode = 'ajax';
-
-ini_set('max_execution_time', 100);
 
 // Running BEFORE calling config.php
 

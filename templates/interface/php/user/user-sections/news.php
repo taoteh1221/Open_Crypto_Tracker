@@ -136,6 +136,11 @@
 	
 	</div>
 	
+	
+	<?php
+	// Split sleeps between chart / ajax external calls, AND UI runtime to randomly spread calls apart better
+	usleep(100000); // Wait 0.1 seconds, so low power devices (like a raspberry pi) don't get ddos attacked by accident
+	?>
 	<script>
 	
 	$("#rss_feed_<?=$feed_id?>").load("ajax.php?type=rss&feed=<?=$feed_id?>", function(responseTxt, statusTxt, xhr){
@@ -154,6 +159,7 @@
   	});
   	
 	</script>
+	
 	
     		<?php
     		}
