@@ -308,19 +308,19 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					// BTC
 					'btc' => 'coinbase||usd||chart',
 					'btc-2' => 'binance||usdt||both',
-					'btc-3' => 'bitstamp||usd||chart',
+					'btc-3' => 'bitstamp||usd||none',
 					'btc-4' => 'kraken||usd||chart',
 					'btc-5' => 'gemini||usd||none',
 					'btc-6' => 'bitfinex||usd||none',
 					'btc-7' => 'binance_us||usd||none',
 					'btc-8' => 'kraken||eur||chart',
 					'btc-9' => 'coinbase||eur||none',
-					'btc-10' => 'coinbase||gbp||chart',
+					'btc-10' => 'coinbase||gbp||none',
 					'btc-11' => 'kraken||cad||none',
 					'btc-12' => 'btcmarkets||aud||none',
 					'btc-13' => 'bitbns||inr||none',
 					'btc-14' => 'localbitcoins||inr||none',
-					'btc-15' => 'localbitcoins||cny||chart',
+					'btc-15' => 'localbitcoins||cny||none',
 					'btc-16' => 'bitflyer||jpy||chart',
 					'btc-17' => 'tidebit||hkd||none',
 					'btc-18' => 'localbitcoins||chf||none',
@@ -329,9 +329,9 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					'btc-21' => 'localbitcoins||nzd||none',
 					'btc-22' => 'localbitcoins||rub||none',
 					'btc-23' => 'lakebtc||sgd||none',
-					'btc-24' => 'btcturk||try||chart',
+					'btc-24' => 'btcturk||try||none',
 					'btc-25' => 'localbitcoins||twd||none',
-					'btc-26' => 'luno||zar||chart',
+					'btc-26' => 'luno||zar||none',
 					'btc-27' => 'kraken||dai||none',
 					
 					
@@ -342,10 +342,10 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					'eth-4' => 'binance||usdt||both',
 					'eth-5' => 'binance_us||btc||none',
 					'eth-6' => 'coinbase||usd||chart',
-					'eth-7' => 'kraken||usd||chart',
+					'eth-7' => 'kraken||usd||none',
 					'eth-8' => 'bitstamp||usd||none',
 					'eth-9' => 'gemini||usd||none',
-					'eth-10' => 'coinbase||gbp||chart',
+					'eth-10' => 'coinbase||gbp||none',
 					'eth-11' => 'coinbase||eur||chart',
 					'eth-12' => 'bittrex||usdt||none',
 					'eth-13' => 'bitbns||inr||none',
@@ -359,7 +359,7 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					
 					
 					// MKR
-					'mkr' => 'okex||btc||chart',
+					'mkr' => 'okex||btc||none',
 					'mkr-2' => 'kucoin||btc||both',
 					
 					
@@ -367,12 +367,12 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					'dcr' => 'bittrex||btc||chart',
 					'dcr-2' => 'bittrex||usdt||none',
 					'dcr-3' => 'binance||btc||both',
-					'dcr-4' => 'kucoin||btc||chart',
+					'dcr-4' => 'kucoin||btc||none',
 					'dcr-5' => 'kucoin||eth||none',
 					
 					
 					// LTC
-					'ltc' => 'bittrex||btc||chart',
+					'ltc' => 'bittrex||btc||none',
 					'ltc-2' => 'bittrex||eth||none',
 					'ltc-3' => 'binance||usdt||both',
 					'ltc-4' => 'binance||eth||none',
@@ -386,16 +386,16 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					
 					//DAI
 					'dai' => 'coinbase||usdc||both',
-					'dai-2' => 'kraken||usd||both',
-					'dai-3' => 'bittrex||btc||chart',
+					'dai-2' => 'kraken||usd||none',
+					'dai-3' => 'bittrex||btc||none',
 					
 					
 					// ATOM
 					'atom-2' => 'kraken||btc||chart',
 					'atom-3' => 'binance||btc||both',
 					'atom-5' => 'binance||usdc||none',
-					'atom-6' => 'bittrex_global||btc||chart',
-					'atom-7' => 'okex||btc||chart',
+					'atom-6' => 'bittrex_global||btc||none',
+					'atom-7' => 'okex||btc||none',
 					'atom-8' => 'okex||eth||none',
 					
 					
@@ -408,12 +408,12 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					// MANA
 					'mana' => 'bittrex||btc||chart',
 					'mana-2' => 'binance||btc||both',
-					'mana-3' => 'kucoin||btc||chart',
+					'mana-3' => 'kucoin||btc||none',
 					'mana-4' => 'ethfinex||btc||none',
 					
 					
 					// DOGE
-					'doge' => 'bittrex||btc||chart',
+					'doge' => 'bittrex||btc||none',
 					'doge-2' => 'binance||btc||both',
 					'doge-3' => 'binance_us||usdt||none',
 					'doge-4' => 'kraken||btc||none',
@@ -435,11 +435,11 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					
 					// KDA
 					'kda' => 'hotbit||btc||both',
-					'kda-2' => 'coinex||btc||chart',
+					'kda-2' => 'coinex||btc||none',
 					
 					
 					// GRIN
-					'grin-2' => 'bittrex_global||btc||chart',
+					'grin-2' => 'bittrex_global||btc||none',
 					'grin-3' => 'gateio||usdt||none',
 					'grin-4' => 'kucoin||btc||both',
 					'grin-5' => 'hitbtc||btc||chart',
@@ -509,7 +509,7 @@ $app_config['power_user']['lite_chart_data_points_max'] = '365'; // (default = '
 // Structure of lite charts #IN DAYS# (X days time period charts)
 // Interface will auto-detect and display days as 365 = 1Y, 180 = 6M, 7 = 1W, etc, etc
 // (LOWER TIME PERIODS [UNDER 180 DAYS] #SHOULD BE KEPT SOMEWHAT MINIMAL#, TO REDUCE RUNTIME LOAD / DISK WRITES DURING CRON JOBS)
-$app_config['power_user']['lite_chart_day_intervals'] = array(3, 7, 30, 180, 365, 730, 1460); // (default = 3, 7, 30, 180, 365, 730, 1460)
+$app_config['power_user']['lite_chart_day_intervals'] = array(5, 10, 30, 180, 365, 730); // (default = 5, 10, 30, 180, 365, 730)
 
 																					
 // Chart colors (https://www.w3schools.com/colors/colors_picker.asp)

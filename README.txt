@@ -100,7 +100,7 @@ IMPORTANT NOTES: YOU WILL BE PROMPTED TO CREATE AN ADMIN LOGIN (FOR SECURITY OF 
 Command to install / upgrade everything automatically on Ubuntu or Raspberry Pi OS (an affordable low power single board computer)...
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Recommended minimum hardware specs: Raspberry Pi Zero / 512 megabytes of RAM
+Recommended minimum hardware specs: Raspberry Pi Zero / 512 megabytes of RAM (running headless)
 
 wget -O FOLIO-INSTALL.bash https://git.io/JeWWE;chmod +x FOLIO-INSTALL.bash;sudo ./FOLIO-INSTALL.bash
 

@@ -693,7 +693,7 @@ $now = time();
 	// #INITIALLY# (if no lite data exists yet) we randomly spread the load across X minutes in multiple cron jobs
 	// THEN IT #REMAINS RANDOMLY SPREAD# ACROSS CRON JOBS #WITHOUT DOING ANYTHING AFTER# THE INITIAL RANDOMNESS
 	if ( $newest_lite_timestamp == false ) {
-	$lite_data_update_threshold = rand( ($now - 3125) , ($now + 6875) ); // 5/16 of all lite charts REBUILDS update on average, per runtime
+	$lite_data_update_threshold = rand( ($now - 2500) , ($now + 7500) ); // 1/4 of all lite charts REBUILDS update on average, per runtime
 	}
 	// Update threshold calculated from pre-existing lite data
 	else {
@@ -772,19 +772,40 @@ $now = time();
 	
 		// Append if less than 'lite_chart_data_points_max'
 		if ( $current_lite_data_lines < $app_config['power_user']['lite_chart_data_points_max'] ) {
-		usleep(70000); // Wait 0.07 seconds
-		$result = store_file_contents($lite_path, $last_archival_line, "append");
-		$lite_mode_logging = 'APPEND';
+		
+		// Get FIRST line of lite chart data
+		$first_lite_line = fgets(fopen($lite_path, 'r'));
+		$first_lite_array = explode("||", $first_lite_line);
+		
+		// Determine oldest timestamp
+		$oldest_lite_timestamp = $first_lite_array[0];
+			
+			// If our oldest lite timestamp is older than allowed
+			if ( $oldest_lite_timestamp < $oldest_allowed_timestamp ) {
+			$lite_data_removed_outdated_lines = prune_first_lines($lite_path, 0, $oldest_allowed_timestamp);
+			
+			usleep(70000); // Wait 0.07 seconds
+			$result = store_file_contents($lite_path, $lite_data_removed_outdated_lines . $last_archival_line);
+			$lite_mode_logging = 'PRUNED_OUTDATED_OVERWRITE';
+			}
+			// If we're clear to just append the latest data
+			else {
+			usleep(70000); // Wait 0.07 seconds
+			$result = store_file_contents($lite_path, $last_archival_line, "append");
+			$lite_mode_logging = 'APPEND';
+			}
+		
+		
 		}
 		// Overwrite if equal / more than 'lite_chart_data_points_max', AFTER dynamically 
 		// removing X first lines of current data, AND appending the new data
 		else {
 		$remove_lines = ($current_lite_data_lines - $app_config['power_user']['lite_chart_data_points_max']) + 1;
-		$lite_data_removed_first_lines = remove_first_lines($lite_path, $remove_lines);
+		$lite_data_removed_exess_lines = prune_first_lines($lite_path, $remove_lines);
 		
 		usleep(70000); // Wait 0.07 seconds
-		$result = store_file_contents($lite_path, $lite_data_removed_first_lines . $last_archival_line);
-		$lite_mode_logging = 'OVERWRITE';
+		$result = store_file_contents($lite_path, $lite_data_removed_exess_lines . $last_archival_line);
+		$lite_mode_logging = 'PRUNED_EXCESS_OVERWRITE';
 		}
 	
 	

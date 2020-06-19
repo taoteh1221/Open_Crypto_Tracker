@@ -3513,7 +3513,9 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 
 -------------------------------------------------------------------
-4.15.0:
+4.14.4:
+
+-Bug fix for lite charts (correctly pruning lite charts with low time spans / data points less than allowed maximum)
 
 -Misc. optimizations / UX improvements / cleanup
 

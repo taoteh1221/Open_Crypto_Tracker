@@ -171,26 +171,6 @@ return $lines;
 ////////////////////////////////////////////////////////
 
 
-function remove_first_lines($filename, $num) {
-
-$file = file($filename);
-
-	$loop = 0;
-	while ( $loop < $num ) {
-		if ( isset($file[$loop]) ) {
-		unset($file[$loop]);
-		}
-	$loop = $loop + 1;
-	}
-
-return $file;
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
 function timestamps_usort_newest($a, $b) {
 	
 	if ( $a->pubDate != '' ) {
@@ -996,6 +976,65 @@ $vars['cfg_strict_ssl'] = $app_config['power_user']['smtp_strict_ssl']; // DFD C
 $vars['cfg_app_version'] = $app_version; // DFD Cryptocoin Values version
 
 return $vars;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function prune_first_lines($filename, $num, $oldest_allowed_timestamp=false) {
+
+$file = file($filename);
+$size = sizeof($file);
+$loop = 0;
+
+
+	if ( $oldest_allowed_timestamp == false ) {
+	
+		while ( $loop < $num && !$stop_loop ) {
+			
+			if ( isset($file[$loop]) ) {
+			unset($file[$loop]);
+			}
+			else {
+			$stop_loop = true;
+			}
+			
+		$loop = $loop + 1;
+		}
+	
+	}
+	else {
+	
+		while( $loop < $size && !$stop_loop ) {
+		
+			if ( isset($file[$loop]) ) {
+				
+			$line_array = explode("||", $file[$loop]);
+			$line_timestamp = $line_array[0];
+			
+				// If timestamp is older than allowed, we remove the line
+				if ( $line_timestamp < $oldest_allowed_timestamp ) {
+				unset($file[$loop]);
+				}
+				else {
+				$stop_loop = true;
+				}
+			
+			}
+			else {
+			$stop_loop = true;
+			}
+			
+		$loop = $loop + 1;
+		}
+	
+	}
+	
+
+return $file;
 
 }
 
