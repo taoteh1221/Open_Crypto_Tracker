@@ -52,7 +52,7 @@
 		$("#show_feeds").val("");
 		}
 		
-	' /> Select / Unselect All</p>
+	' /> Select / Unselect All &nbsp;&nbsp; <span class='bitcoin'>(if "loading news feeds" notice freezes, check / uncheck this box, then click "Update Selected News Feeds")</span></p>
 		
 		<form id='activate_feeds' name='activate_feeds'>
 		
@@ -110,14 +110,27 @@
 	
 	<?php
 	if ( $show_feeds[0] != '' ) {
-	?>
+		
+		
+
+	 $chosen_feeds = array_map('strip_brackets', $show_feeds);
+    
+    	// $app_config['power_user']['news_feeds'] was already alphabetically sorted in app init routines, so we loop with it to maintain alphabetical order
+    	foreach($app_config['power_user']['news_feeds'] as $feed) {
+    		
+		// We avoid using array keys for end user config editing UX, BUT STILL UNIQUELY IDENTIFY EACH FEED
+    	$feed_id = get_digest($feed["title"], 10);
+    
+    		if ( isset($feed["title"]) && in_array($feed_id, $chosen_feeds) ) {
+    		?>
+    		
 	
-	<div id='rss_feeds'>
+	<div id='rss_feed_<?=$feed_id?>'>
 	
 	
 	    <fieldset class='subsection_fieldset'>
 	    
-	    <legend class='subsection_legend'> <strong>Loading News Feeds...</strong> </legend>
+	    <legend class='subsection_legend'> <strong><?=$feed["title"]?></strong> </legend>
 	        <img src="templates/interface/media/images/loader.gif" height='50' alt="" style='vertical-align: middle;' />
 	    </fieldset>
 	
@@ -125,24 +138,30 @@
 	
 	<script>
 	
-	$("#loading_subsections_span").html("Loading News Feeds...");
-	$("#loading_subsections").show(250); // 0.25 seconds
-	
-	$("#rss_feeds").load("ajax.php?type=rss", function(responseTxt, statusTxt, xhr){
+	$("#rss_feed_<?=$feed_id?>").load("ajax.php?type=rss&feed=<?=$feed_id?>", function(responseTxt, statusTxt, xhr){
 		
     if(statusTxt == "success") {
-    	if ( charts_loaded.length >= window.charts_num ) {
-		$("#loading_subsections").hide(250); // 0.25 seconds // Hide ONLY IF no charts are still loading
-    	}
+	 window.feeds_loaded.push("<?=$feed_id?>");
+	 feeds_loading_check(window.feeds_loaded);
+    }
+    else if(statusTxt == "error") {
+    $("#rss_feed_<?=$feed_id?>").html("Error: " + xhr.status + ": " + xhr.statusText);
+	 window.feeds_loaded.push("<?=$feed_id?>");
+	 feeds_loading_check(window.feeds_loaded);
     }
     
-    else if(statusTxt == "error") {
-    $("#rss_feeds").html("Error: " + xhr.status + ": " + xhr.statusText);
-    }
     
   	});
   	
 	</script>
+	
+    		<?php
+    		}
+    
+    	}
+		
+		
+	?>
 	
 	<?php
 	}
@@ -159,6 +178,7 @@
 	}
 	?>
 		    
+	
 </div> <!-- max_1200px_wrapper END -->
 
 

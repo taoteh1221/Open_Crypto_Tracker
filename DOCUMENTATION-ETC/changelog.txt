@@ -3515,6 +3515,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.14.4:
 
+-Bug fix for too many selected news feeds crashing the web server (feeds are now loaded individually in the background, like charts are)
+
 -Bug fix for lite charts (correctly pruning lite charts with low time spans / data points less than allowed maximum)
 
 -Misc. optimizations / UX improvements / cleanup

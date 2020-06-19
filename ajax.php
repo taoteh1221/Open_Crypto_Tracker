@@ -28,8 +28,7 @@ require("config.php");
 
 // RSS feed retrieval
 if ( $_GET['type'] == 'rss' ) {
-$show_feeds = explode(',', rtrim( ( $_POST['show_feeds'] != '' ? $_POST['show_feeds'] : $_COOKIE['show_feeds'] ) , ',') );
-echo get_rss_feeds($show_feeds, $app_config['power_user']['news_feeds_entries_show']); 
+echo rss_feed_data($_GET['feed'], $app_config['power_user']['news_feeds_entries_show']); 
 }
  
 // Log errors / debugging, send notifications

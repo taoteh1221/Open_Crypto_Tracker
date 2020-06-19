@@ -649,35 +649,30 @@ global $password_pepper;
 
 
 // Credit: https://www.alexkras.com/simple-rss-reader-in-85-lines-of-php/
-function get_rss_feeds($chosen_feeds, $feed_size, $recache_only=false) {
+function rss_feed_data($chosen_feed, $feed_size, $recache_only=false) {
 	
 global $app_config;
 
 $news_feeds = $app_config['power_user']['news_feeds'];
 
 	 // If we are just re-caching for quick use later (as cron job, for faster ui load times)
-	 if ( $recache_only == true ) {
+	 if ( $recache_only ) {
 	 	foreach($news_feeds as $feed_key => $feed_unused) {
 	 		if ( trim($news_feeds[$feed_key]["url"]) != '' ) {
-	 		rss_feed_data($news_feeds[$feed_key]["url"], $feed_size);
+	 		get_rss_feed($news_feeds[$feed_key]["url"], $feed_size, 1);
 	 		}
 	 	}
 	 }
-	 elseif ( is_array($chosen_feeds) ) {
+	 elseif ( isset($chosen_feed) ) {
 	 
 	 $html = "";
-
-	 $chosen_feeds = array_map('strip_brackets', $chosen_feeds);
     
-    	// $news_feeds was already alphabetically sorted in app init routines, so we loop with it to maintain alphabetical order
     	foreach($news_feeds as $feed) {
-    		
-		// We avoid using array keys for end user config editing UX, BUT STILL UNIQUELY IDENTIFY EACH FEED
-    	$feed_id = get_digest($feed["title"], 10);
     
-    		if ( isset($feed["title"]) && in_array($feed_id, $chosen_feeds) ) {
+			// We avoid using array keys for end user config editing UX, BUT STILL UNIQUELY IDENTIFY EACH FEED
+    		if ( isset($feed["title"]) && get_digest($feed["title"], 10) == $chosen_feed ) {
     		$html .= "<fieldset class='subsection_fieldset'><legend class='subsection_legend'> ".$feed["title"].'</legend>';
-    		$html .= rss_feed_data($feed["url"], $feed_size);
+    		$html .= get_rss_feed($feed["url"], $feed_size);
     		$html .= "</fieldset>";    
     		}
     

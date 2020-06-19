@@ -204,11 +204,37 @@ function charts_loading_check(charts_loaded) {
 	//console.log('loaded charts = ' + window.charts_loaded.length + ', all charts = ' + window.charts_num);
 
 	if ( charts_loaded.length >= window.charts_num ) {
-	$("#loading_subsections").hide(250); // 0.25 seconds
+		// Only hide if no feeds are loading also
+		if ( window.feeds_loaded.length >= window.feeds_num ) {
+		$("#loading_subsections").hide(250); // 0.25 seconds
+		}
 	return 'done';
 	}
 	else {
 	$("#loading_subsections_span").html("Loading Charts...");
+	$("#loading_subsections").show(250); // 0.25 seconds
+	return 'active';
+	}
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function feeds_loading_check(feeds_loaded) {
+	
+	//console.log('loaded feeds = ' + window.feeds_loaded.length + ', all feeds = ' + window.feeds_num);
+
+	if ( feeds_loaded.length >= window.feeds_num ) {
+		// Only hide if no charts are loading also
+		if ( window.charts_loaded.length >= window.charts_num ) {
+		$("#loading_subsections").hide(250); // 0.25 seconds
+		}
+	return 'done';
+	}
+	else {
+	$("#loading_subsections_span").html("Loading News Feeds...");
 	$("#loading_subsections").show(250); // 0.25 seconds
 	return 'active';
 	}

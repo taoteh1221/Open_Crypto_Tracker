@@ -386,9 +386,10 @@ $result = array();
 
 
 // Credit: https://www.alexkras.com/simple-rss-reader-in-85-lines-of-php/
-function rss_feed_data($url, $feed_size){
+function get_rss_feed($url, $feed_size, $cache_only=false){
 	
-global $app_config, $base_dir, $fetched_reddit_feeds, $fetched_youtube_feeds, $fetched_stackexchange_feeds, $fetched_medium_feeds, $fetched_bitcoincore_feeds, $fetched_ethereumorg_feeds, $fetched_kraken_feeds, $fetched_firesidefm_feeds, $fetched_libsyn_feeds;
+global $app_config, $base_dir;
+
 
 $news_feeds_cache_min_max = explode(',', $app_config['power_user']['news_feeds_cache_min_max']);
 // Cleanup
@@ -408,91 +409,118 @@ $rss_feed_cache_time = rand($news_feeds_cache_min_max[0], $news_feeds_cache_min_
 			
 			// If it's a consecutive reddit feed request, sleep 7.5 seconds (reddit is very strict on user agents)
 			// (Reddit only allows rss feed connections every 7 seconds from ip addresses ACCORDING TO THEM)
-			if ( $fetched_reddit_feeds > 0 ) {
+			if ( $_SESSION['fetched_feeds']['reddit'] > 0 ) {
 			sleep(7500000);
 			}
+			else {
+			$_SESSION['fetched_feeds']['reddit'] = 0;
+			}
 			
-		$fetched_reddit_feeds = $fetched_reddit_feeds + 1;	
+		$_SESSION['fetched_feeds']['reddit'] = $_SESSION['fetched_feeds']['reddit'] + 1;	
 		
 		}
 		elseif ( preg_match("/youtube\.com/i", $url) ) {
 		
 			// If it's a consecutive youtube feed request, sleep 1.2 seconds 
-			if ( $fetched_youtube_feeds > 0 ) {
+			if ( $_SESSION['fetched_feeds']['youtube'] > 0 ) {
 			usleep(1200000); 
 			}
+			else {
+			$_SESSION['fetched_feeds']['youtube'] = 0;
+			}
 		
-		$fetched_youtube_feeds = $fetched_youtube_feeds + 1;
+		$_SESSION['fetched_feeds']['youtube'] = $_SESSION['fetched_feeds']['youtube'] + 1;
 			
 		}
 		elseif ( preg_match("/stackexchange\.com/i", $url) ) {
 		
 			// If it's a consecutive stackexchange feed request, sleep 1.2 seconds
-			if ( $fetched_stackexchange_feeds > 0 ) {
+			if ( $_SESSION['fetched_feeds']['stackexchange'] > 0 ) {
 			usleep(1200000);
 			}
+			else {
+			$_SESSION['fetched_feeds']['stackexchange'] = 0;
+			}
 		
-		$fetched_stackexchange_feeds = $fetched_stackexchange_feeds + 1;
+		$_SESSION['fetched_feeds']['stackexchange'] = $_SESSION['fetched_feeds']['stackexchange'] + 1;
 				
 		}
 		elseif ( preg_match("/medium\.com/i", $url) ) {
 		
 			// If it's a consecutive medium feed request, sleep 1.2 seconds (medium is very strict on user agents)
-			if ( $fetched_medium_feeds > 0 ) {
+			if ( $_SESSION['fetched_feeds']['medium'] > 0 ) {
 			usleep(1200000);
 			}
+			else {
+			$_SESSION['fetched_feeds']['medium'] = 0;
+			}
 		
-		$fetched_medium_feeds = $fetched_medium_feeds + 1;
+		$_SESSION['fetched_feeds']['medium'] = $_SESSION['fetched_feeds']['medium'] + 1;
 				
 		}
 		elseif ( preg_match("/bitcoincore\.org/i", $url) ) {
 		
 			// If it's a consecutive bitcoincore feed request, sleep 1.2 seconds
-			if ( $fetched_bitcoincore_feeds > 0 ) {
+			if ( $_SESSION['fetched_feeds']['bitcoincore'] > 0 ) {
 			usleep(1200000);
 			}
+			else {
+			$_SESSION['fetched_feeds']['bitcoincore'] = 0;
+			}
 		
-		$fetched_bitcoincore_feeds = $fetched_bitcoincore_feeds + 1;	
+		$_SESSION['fetched_feeds']['bitcoincore'] = $_SESSION['fetched_feeds']['bitcoincore'] + 1;	
 			
 		}
 		elseif ( preg_match("/ethereum\.org/i", $url) ) {
 		
 			// If it's a consecutive ethereumorg feed request, sleep 1.2 seconds
-			if ( $fetched_ethereumorg_feeds > 0 ) {
+			if ( $_SESSION['fetched_feeds']['ethereumorg'] > 0 ) {
 			usleep(1200000);
 			}
+			else {
+			$_SESSION['fetched_feeds']['ethereumorg'] = 0;
+			}
 		
-		$fetched_ethereumorg_feeds = $fetched_ethereumorg_feeds + 1;
+		$_SESSION['fetched_feeds']['ethereumorg'] = $_SESSION['fetched_feeds']['ethereumorg'] + 1;
 				
 		}
 		elseif ( preg_match("/kraken\.com/i", $url) ) {
 		
 			// If it's a consecutive kraken feed request, sleep 1.2 seconds
-			if ( $fetched_kraken_feeds > 0 ) {
+			if ( $_SESSION['fetched_feeds']['kraken'] > 0 ) {
 			usleep(1200000);
 			}
+			else {
+			$_SESSION['fetched_feeds']['kraken'] = 0;
+			}
 		
-		$fetched_kraken_feeds = $fetched_kraken_feeds + 1;
+		$_SESSION['fetched_feeds']['kraken'] = $_SESSION['fetched_feeds']['kraken'] + 1;
 				
 		}
 		elseif ( preg_match("/fireside\.fm/i", $url) ) {
 		
 			// If it's a consecutive firesidefm feed request, sleep 1.2 seconds
-			if ( $fetched_firesidefm_feeds > 0 ) {
+			if ( $_SESSION['fetched_feeds']['firesidefm'] > 0 ) {
 			usleep(1200000); 
 			}
+			else {
+			$_SESSION['fetched_feeds']['firesidefm'] = 0;
+			}
 		
-		$fetched_firesidefm_feeds = $fetched_firesidefm_feeds + 1;
+		$_SESSION['fetched_feeds']['firesidefm'] = $_SESSION['fetched_feeds']['firesidefm'] + 1;
 				
 		}
 		elseif ( preg_match("/libsyn\.com/i", $url) ) {
 		
 			// If it's a consecutive libsyn feed request, sleep 1.2 seconds
-			if ( $fetched_libsyn_feeds > 0 ) {
+			if ( $_SESSION['fetched_feeds']['libsyn'] > 0 ) {
 			usleep(1200000);
 			}
+			else {
+			$_SESSION['fetched_feeds']['libsyn'] = 0;
+			}
 		
-		$fetched_libsyn_feeds = $fetched_libsyn_feeds + 1;
+		$_SESSION['fetched_feeds']['libsyn'] = $_SESSION['fetched_feeds']['libsyn'] + 1;
 				
 		}
 
@@ -500,140 +528,147 @@ $rss_feed_cache_time = rand($news_feeds_cache_min_max[0], $news_feeds_cache_min_
 	} // END if updating feed
 	
 
-
-// Get feed data, and format output
-
+	
+// Get feed data, and format output UNLESS WE ARE ONLY CACHING DATA
 $xmldata = @external_api_data('url', $url, $rss_feed_cache_time); 
+	
+	
+	if ( !$cache_only ) {
 
-$rss = simplexml_load_string($xmldata);
-        
-$html .= '<ul>';
-$html_hidden .= '<ul class="hidden" id="'.md5($url).'">';
-   
-   
-   $count = 0;
-   
-   // Atom format
-   if ( sizeof($rss->entry) > 0 ) {
-   
-   $sortable_feed = array();
-   	
-   	foreach($rss->entry as $item) {
-    	$sortable_feed[] = $item;
-  		}
-  	
-  	$usort_results = usort($sortable_feed, __NAMESPACE__ . '\timestamps_usort_newest');
-   	
-		if ( !$usort_results ) {
-		app_logging( 'other_error', 'RSS feed failed to sort by newest items (' . $url . ')');
-		}
-   
-		foreach($sortable_feed as $item) {
+	
+	$rss = simplexml_load_string($xmldata);
+					
+	$html .= '<ul>';
+	$html_hidden .= '<ul class="hidden" id="'.md5($url).'">';
+		 
+		 
+		 $count = 0;
+		 
+		 // Atom format
+		 if ( sizeof($rss->entry) > 0 ) {
+		 
+		 $sortable_feed = array();
 			
-			
-			// If data exists, AND we aren't just caching data during a cron job
-			if ( trim($item->title) != '' && $feed_size > 0 ) {
-		
-				if ( $item->pubDate != '' ) {
-				$item_date = $item->pubDate;
+			foreach($rss->entry as $item) {
+				$sortable_feed[] = $item;
 				}
-				elseif ( $item->published != '' ) {
-				$item_date = $item->published;
-				}
-				elseif ( $item->updated != '' ) {
-				$item_date = $item->updated;
-				}
-      		
-			$item_date = preg_replace("/ 00\:(.*)/i", '', $item_date);
 			
-			$date_array = date_parse($item_date);
+			$usort_results = usort($sortable_feed, __NAMESPACE__ . '\timestamps_usort_newest');
 			
-			$month_name = date("F", mktime(0, 0, 0, $date_array['month'], 10));
-			
-			$date_ui = $month_name . ' ' . ordinal($date_array['day']) . ', ' . $date_array['year'];
-			
-			
-   			if ($count < $feed_size) {
-   			$html .= '<li class="links_list"><a href="'.htmlspecialchars($item->link['href']).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a></li>';
-      		}
-      		else {
-   			$html_hidden .= '<li class="links_list"><a href="'.htmlspecialchars($item->link['href']).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a></li>';
-      		}
-      		
-   		$count++;     
+			if ( !$usort_results ) {
+			app_logging( 'other_error', 'RSS feed failed to sort by newest items (' . $url . ')');
 			}
-   	
-   	}
-   	
-   
-   }
-   // Standard RSS format
-   elseif ( sizeof($rss->channel->item) > 0 ) {
-   
-   $sortable_feed = array();
-   	
-   	foreach($rss->channel->item as $item) {
-    	$sortable_feed[] = $item;
-  		}
-  	
-  	$usort_results = usort($sortable_feed, __NAMESPACE__ . '\timestamps_usort_newest');
-   	
-		if ( !$usort_results ) {
-		app_logging( 'other_error', 'RSS feed failed to sort by newest items (' . $url . ')');
-		}
-   
-		foreach($sortable_feed as $item) {
+		 
+			foreach($sortable_feed as $item) {
+				
+				
+				// If data exists, AND we aren't just caching data during a cron job
+				if ( trim($item->title) != '' && $feed_size > 0 ) {
 			
-			
-			// If data exists, AND we aren't just caching data during a cron job
-			if ( trim($item->title) != '' && $feed_size > 0 ) {
-		
-				if ( $item->pubDate != '' ) {
-				$item_date = $item->pubDate;
+					if ( $item->pubDate != '' ) {
+					$item_date = $item->pubDate;
+					}
+					elseif ( $item->published != '' ) {
+					$item_date = $item->published;
+					}
+					elseif ( $item->updated != '' ) {
+					$item_date = $item->updated;
+					}
+						
+				$item_date = preg_replace("/ 00\:(.*)/i", '', $item_date);
+				
+				$date_array = date_parse($item_date);
+				
+				$month_name = date("F", mktime(0, 0, 0, $date_array['month'], 10));
+				
+				$date_ui = $month_name . ' ' . ordinal($date_array['day']) . ', ' . $date_array['year'];
+				
+				
+					if ($count < $feed_size) {
+					$html .= '<li class="links_list"><a href="'.htmlspecialchars($item->link['href']).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a></li>';
+						}
+						else {
+					$html_hidden .= '<li class="links_list"><a href="'.htmlspecialchars($item->link['href']).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a></li>';
+						}
+						
+				$count++;     
 				}
-				elseif ( $item->published != '' ) {
-				$item_date = $item->published;
+			
+			}
+			
+		 
+		 }
+		 // Standard RSS format
+		 elseif ( sizeof($rss->channel->item) > 0 ) {
+		 
+		 $sortable_feed = array();
+			
+			foreach($rss->channel->item as $item) {
+				$sortable_feed[] = $item;
 				}
-				elseif ( $item->updated != '' ) {
-				$item_date = $item->updated;
+			
+			$usort_results = usort($sortable_feed, __NAMESPACE__ . '\timestamps_usort_newest');
+			
+			if ( !$usort_results ) {
+			app_logging( 'other_error', 'RSS feed failed to sort by newest items (' . $url . ')');
+			}
+		 
+			foreach($sortable_feed as $item) {
+				
+				
+				// If data exists, AND we aren't just caching data during a cron job
+				if ( trim($item->title) != '' && $feed_size > 0 ) {
+			
+					if ( $item->pubDate != '' ) {
+					$item_date = $item->pubDate;
+					}
+					elseif ( $item->published != '' ) {
+					$item_date = $item->published;
+					}
+					elseif ( $item->updated != '' ) {
+					$item_date = $item->updated;
+					}
+						
+				$item_date = preg_replace("/00\:(.*)/i", '', $item_date);
+				
+				$date_array = date_parse($item_date);
+				
+				$month_name = date("F", mktime(0, 0, 0, $date_array['month'], 10));
+				
+				$date_ui = $month_name . ' ' . ordinal($date_array['day']) . ', ' . $date_array['year'];
+				
+				$item->link = preg_replace("/web\.bittrex\.com/i", "bittrex.com", $item->link); // Fix for bittrex blog links
+				
+				
+					if ($count < $feed_size) {
+					$html .= '<li class="links_list"><a href="'.htmlspecialchars($item->link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a></li>';
+						}
+						else {
+					$html_hidden .= '<li class="links_list"><a href="'.htmlspecialchars($item->link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a></li>';
+						}
+						
+				$count++;     
 				}
-      		
-			$item_date = preg_replace("/00\:(.*)/i", '', $item_date);
-			
-			$date_array = date_parse($item_date);
-			
-			$month_name = date("F", mktime(0, 0, 0, $date_array['month'], 10));
-			
-			$date_ui = $month_name . ' ' . ordinal($date_array['day']) . ', ' . $date_array['year'];
-			
-			$item->link = preg_replace("/web\.bittrex\.com/i", "bittrex.com", $item->link); // Fix for bittrex blog links
 			
 			
-   			if ($count < $feed_size) {
-   			$html .= '<li class="links_list"><a href="'.htmlspecialchars($item->link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a></li>';
-      		}
-      		else {
-   			$html_hidden .= '<li class="links_list"><a href="'.htmlspecialchars($item->link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a></li>';
-      		}
-      		
-   		$count++;     
-   		}
-   	
-   	
-   	}
-   
-   }
-   
-        
-$html .= '</ul>';
-$html_hidden .= '</ul>';
-$show_more_less = "<p><a href='javascript: show_more(\"".md5($url)."\");' style='font-weight: bold;' title='Show more / less RSS feed entries.'>Show More</a></p>";
+			}
+		 
+		 }
+		 
+					
+	$html .= '</ul>';
+	$html_hidden .= '</ul>';
+	$show_more_less = "<p><a href='javascript: show_more(\"".md5($url)."\");' style='font-weight: bold;' title='Show more / less RSS feed entries.'>Show More</a></p>";
+	
 
-	if ( $xmldata == 'none' || $rss == false ) {
-	return '<span class="red">Error retrieving feed data.</span>';
 	}
-	elseif ( $feed_size == 0 ) {
+
+	
+	if ( $feed_size == 0 || $cache_only ) {
 	return true;
+	}
+	elseif ( $xmldata == 'none' || $rss == false ) {
+	return '<span class="red">Error retrieving feed data.</span>';
 	}
 	else {
 	return $html . "\n" . $show_more_less . "\n" . $html_hidden;

@@ -108,6 +108,10 @@ require_once('app-lib/php/other/ajax/charts.php');
 exit;
 }
 
+// Reset feed fetch telemetry, if we are ui runtime
+if ( $runtime_mode == 'ui' ) {
+$_SESSION['fetched_feeds'] = false;
+}
 
 
 // A bit of DOS attack mitigation for bogus / bot login attempts
@@ -192,24 +196,6 @@ $possible_http_users = array(
 
 
 // Initial vars
-$fetched_reddit_feeds = 0;
-
-$fetched_youtube_feeds = 0;
-
-$fetched_stackexchange_feeds = 0;
-
-$fetched_medium_feeds = 0;
-
-$fetched_bitcoincore_feeds = 0;
-
-$fetched_ethereumorg_feeds = 0;
-
-$fetched_kraken_feeds = 0;
-
-$fetched_firesidefm_feeds = 0;
-
-$fetched_libsyn_feeds = 0;
-
 $cmc_notes = null;
 
 $config_upgraded = null;
