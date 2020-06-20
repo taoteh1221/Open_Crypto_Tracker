@@ -5,7 +5,7 @@
  
  
 // Split sleeps between chart / ajax external calls, AND UI runtime to randomly spread calls apart better
-usleep(150000); // Wait 0.15 seconds, so low power devices (like a raspberry pi) don't get ddos attacked by accident
+usleep(500000); // Wait 0.50 seconds, so low power devices (like a raspberry pi) don't get ddos attacked by accident
 
 $runtime_mode = 'chart_output';
 

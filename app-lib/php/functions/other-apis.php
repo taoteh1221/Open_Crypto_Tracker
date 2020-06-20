@@ -529,7 +529,7 @@ $rss_feed_cache_time = rand($news_feeds_cache_min_max[0], $news_feeds_cache_min_
 	
 
 	
-// Get feed data, and format output UNLESS WE ARE ONLY CACHING DATA
+// Get feed data, and format output (UNLESS WE ARE ONLY CACHING DATA)
 $xmldata = @external_api_data('url', $url, $rss_feed_cache_time); 
 	
 	
