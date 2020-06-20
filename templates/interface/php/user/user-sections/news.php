@@ -35,7 +35,7 @@
 	<br clear='all' />
 	<br clear='all' />
 	
-	<p class='red'>*News feeds are not activated by default to increase page loading speed / responsiveness. It's recommended to avoid activating too many news feeds at the same time, to keep your page load times quick. </p>
+	<p class='red'>*News feeds are not activated by default to increase page loading speed / responsiveness. It's recommended to avoid activating too many news feeds at the same time, to keep your page load times quick. Also, lower end hardware (Raspberry Pi etc) MAY CRASH IF YOU ACTIVATE TOO MANY NEWS FEEDS.</p>
 	
 	<p class='bitcoin'>You can enable "Use cookies to save data" on the Settings page <i>before activating your news feeds</i>, if you want them to stay activated between browser sessions.</p>
 	
