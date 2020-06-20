@@ -3,10 +3,7 @@
  * Copyright 2014-2020 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
  */
  
-
-// Split sleeps between chart / ajax external calls, AND UI runtime to randomly spread calls apart better
-usleep(500000); // Wait 0.50 seconds, so low power devices (like a raspberry pi) don't get ddos attacked by accident
-
+ 
 // Runtime mode
 $runtime_mode = 'ajax';
 
@@ -17,7 +14,7 @@ if ( $_GET['type'] == 'log' ) {
 $is_logs = true;
 }
 // Chart retrieval
-elseif ( $_GET['type'] == 'asset' || $_GET['type'] == 'system' ) {
+elseif ( $_GET['type'] == 'asset' || $_GET['type'] == 'system' || $_GET['type'] == 'balance_stats' ) {
 $is_charts = true;
 }
 
@@ -30,7 +27,13 @@ require("config.php");
 
 // RSS feed retrieval
 if ( $_GET['type'] == 'rss' ) {
-echo rss_feed_data($_GET['feed'], $app_config['power_user']['news_feeds_entries_show']); 
+	
+$feeds_array = explode(',', $_GET['feeds']);
+
+	foreach ($feeds_array as $feed_hash) {
+	echo rss_feed_data($feed_hash, $app_config['power_user']['news_feeds_entries_show']); 
+	}
+
 }
  
 // Log errors / debugging, send notifications

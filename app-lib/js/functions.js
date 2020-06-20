@@ -201,7 +201,7 @@ function validateForm(form_id, field) {
 
 function charts_loading_check(charts_loaded) {
 	
-	//console.log('loaded charts = ' + window.charts_loaded.length + ', all charts = ' + window.charts_num);
+//console.log('loaded charts = ' + window.charts_loaded.length + ', all charts = ' + window.charts_num);
 
 	if ( charts_loaded.length >= window.charts_num ) {
 		// Only hide if no feeds are loading also
@@ -224,7 +224,7 @@ function charts_loading_check(charts_loaded) {
 
 function feeds_loading_check(feeds_loaded) {
 	
-	//console.log('loaded feeds = ' + window.feeds_loaded.length + ', all feeds = ' + window.feeds_num);
+//console.log('loaded feeds = ' + window.feeds_loaded.length + ', all feeds = ' + window.feeds_num);
 
 	if ( feeds_loaded.length >= window.feeds_num ) {
 		// Only hide if no charts are loading also

@@ -4,60 +4,53 @@
  */
 
 
-	
-// Have this script not load any code if system stats are not turned on, or key GET request corrupt
-if ( !isset($_SESSION['admin_logged_in']) || !is_numeric($_GET['key']) ) {
-exit;
-}
+// Don't load any data if admin isn't logged in
+if ( isset($_SESSION['admin_logged_in']) ) {
 
-$key = $_GET['key'];
+
 
 // For system charts, we want the first $app_config['power_user']['lite_chart_day_intervals'] value, not 'all'
 $first_lite_chart = $app_config['power_user']['lite_chart_day_intervals'][0];
 		
 		
-			// Have this script send the UI alert messages, and not load any chart code (to not leave the page endlessly loading) if cache data is not present
-			if ( file_exists('cache/charts/system/lite/'.$first_lite_chart.'_days/system_stats.dat') != 1 ) {
-			?>
+	// Have this script send the UI alert messages, and not load any chart code (to not leave the page endlessly loading) if cache data is not present
+	if ( file_exists('cache/charts/system/lite/'.$first_lite_chart.'_days/system_stats.dat') != 1 ) {
+	?>
 			
-			$("#system_stats_chart_<?=$key?> span.chart_loading").html(' &nbsp; No chart data found for: System Chart #<?=$key?>');
+			$("#system_stats_chart_<?=$chart_mode?> span.chart_loading").html(' &nbsp; No chart data found for: System Chart #<?=$chart_mode?>');
 			
-			$("#system_stats_chart_<?=$key?>").css({ "background-color": "#9b4b26" });
+			$("#system_stats_chart_<?=$chart_mode?>").css({ "background-color": "#9b4b26" });
 			
 			$("#system_charts_error").show();
 			
 			$("#system_charts_error").html('<p>One or more charts could not be loaded.</p> <p>If you recently installed this app / re-configured your lite charts structure, it may take awhile for fully updated charts to appear ("lite charts" need to be created from archival chart data, so charts always load quickly regardless of time span), and may take a few days to begin to populate longer time period charts.</p> <p>Please make sure you have a cron job running (see <a href="README.txt" target="_blank">README.txt</a> for how-to setup a cron job), or charts cannot be activated. Check app error logs too, for write errors (which would indicate improper cache directory permissions).</p>');
 			
 			
-			<?php
-			exit;
-			}
-			
-
-header('Content-type: text/html; charset=' . $app_config['developer']['charset_default']);
-
-?>
+	<?php
+	}
+	else {
+	?>
 
 
-var lite_state_<?=$key?> = {
+var lite_state_<?=$chart_mode?> = {
   current: '<?=$first_lite_chart?>'
 };
  
 
-$("#system_stats_chart_<?=$key?> span.chart_loading").html(' &nbsp; <img src="templates/interface/media/images/loader.gif" height="16" alt="" style="vertical-align: middle;" /> Loading <?=$first_lite_chart?> days chart for System Chart #<?=$key?>...');
+$("#system_stats_chart_<?=$chart_mode?> span.chart_loading").html(' &nbsp; <img src="templates/interface/media/images/loader.gif" height="16" alt="" style="vertical-align: middle;" /> Loading <?=$first_lite_chart?> days chart for System Chart #<?=$chart_mode?>...');
 	
   
-zingchart.bind('system_stats_chart_<?=$key?>', 'load', function() {
-$("#system_stats_chart_<?=$key?> span").hide(); // Hide "Loading chart X..." after it loads
+zingchart.bind('system_stats_chart_<?=$chart_mode?>', 'load', function() {
+$("#system_stats_chart_<?=$chart_mode?> span").hide(); // Hide "Loading chart X..." after it loads
 });
   
 
 zingchart.TOUCHZOOM = 'pinch'; /* mobile compatibility */
 
-$.get( "ajax.php?type=system&key=<?=$key?>&days=<?=$first_lite_chart?>", function( json_data ) {
+$.get( "ajax.php?type=system&key=<?=$chart_mode?>&days=<?=$first_lite_chart?>", function( json_data ) {
  
 	zingchart.render({
-  	id: 'system_stats_chart_<?=$key?>',
+  	id: 'system_stats_chart_<?=$chart_mode?>',
   	width: '100%',
   	data: json_data
 	});
@@ -65,14 +58,14 @@ $.get( "ajax.php?type=system&key=<?=$key?>&days=<?=$first_lite_chart?>", functio
 });
  
  
-zingchart.bind('system_stats_chart_<?=$key?>', 'label_click', function(e){
+zingchart.bind('system_stats_chart_<?=$chart_mode?>', 'label_click', function(e){
 	
-  if(lite_state_<?=$key?>.current === e.labelid){
+  if(lite_state_<?=$chart_mode?>.current === e.labelid){
     return;
   }
   
   // Reset any user-adjusted zoom
-  zingchart.exec('system_stats_chart_<?=$key?>', 'viewall', {
+  zingchart.exec('system_stats_chart_<?=$chart_mode?>', 'viewall', {
     graphid: 0
   });
   
@@ -147,25 +140,32 @@ zingchart.bind('system_stats_chart_<?=$key?>', 'label_click', function(e){
 		}
 		
   
-  $("#system_stats_chart_<?=$key?> div.chart_reload div").html("Loading " + lite_chart_text + " chart for System Chart #<?=$key?>...");
-	$("#system_stats_chart_<?=$key?> div.chart_reload").fadeIn(100); // 0.1 seconds
+  $("#system_stats_chart_<?=$chart_mode?> div.chart_reload div").html("Loading " + lite_chart_text + " chart for System Chart #<?=$chart_mode?>...");
+	$("#system_stats_chart_<?=$chart_mode?> div.chart_reload").fadeIn(100); // 0.1 seconds
 	
-  zingchart.bind('system_stats_chart_<?=$key?>', 'complete', function() {
-	$( "#system_stats_chart_<?=$key?> div.chart_reload" ).fadeOut(2500); // 2.5 seconds
+  zingchart.bind('system_stats_chart_<?=$chart_mode?>', 'complete', function() {
+	$( "#system_stats_chart_<?=$chart_mode?> div.chart_reload" ).fadeOut(2500); // 2.5 seconds
 	});
   
-  zingchart.exec('system_stats_chart_<?=$key?>', 'load', {
-  	dataurl: "ajax.php?type=system&key=<?=$key?>&days=" + days,
+  zingchart.exec('system_stats_chart_<?=$chart_mode?>', 'load', {
+  	dataurl: "ajax.php?type=system&key=<?=$chart_mode?>&days=" + days,
     cache: {
         data: true
     }
   });
   
-  lite_state_<?=$key?>.current = e.labelid;
+  lite_state_<?=$chart_mode?>.current = e.labelid;
   
 });
 
 
+<?php
+	}
+
+}
+	
+$chart_mode = null; 
+?>
 
 
 

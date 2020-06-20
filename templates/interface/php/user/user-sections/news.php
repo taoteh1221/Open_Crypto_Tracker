@@ -113,57 +113,107 @@
 	<?php
 	if ( $show_feeds[0] != '' ) {
 		
-		
-
+	 
 	 $chosen_feeds = array_map('strip_brackets', $show_feeds);
+	 
+	 $batched_feeds_max = 15; // Maximum number of feeds to batch into one ajax call
+	 
+	 $batched_feeds_loops_max = ceil( sizeof($chosen_feeds) / $batched_feeds_max );
+	 
+	 // Defaults before looping
+	 
+	 $all_feeds_added = 0;
+	 
+	 $batched_feeds_added = 0;
+	 
+	 $batched_feeds_loops_added = 0;
+	 
+	 $batched_feeds_keys = null;
+    
     
     	// $app_config['power_user']['news_feeds'] was already alphabetically sorted in app init routines, so we loop with it to maintain alphabetical order
     	foreach($app_config['power_user']['news_feeds'] as $feed) {
     		
-		// We avoid using array keys for end user config editing UX, BUT STILL UNIQUELY IDENTIFY EACH FEED
-    	$feed_id = get_digest($feed["title"], 10);
-    
-    		if ( isset($feed["title"]) && in_array($feed_id, $chosen_feeds) ) {
-    		?>
+    		if ( $batched_feeds_loops_added < $batched_feeds_loops_max ) {
     		
-	
-	<div id='rss_feed_<?=$feed_id?>'>
-	
-	
-	    <fieldset class='subsection_fieldset'>
-	    
-	    <legend class='subsection_legend'> <strong><?=$feed["title"]?></strong> </legend>
-	        <img src="templates/interface/media/images/loader.gif" height='50' alt="" style='vertical-align: middle;' />
-	    </fieldset>
-	
-	</div>
-	
-	
-	<?php
-	// Split sleeps between chart / ajax external calls, AND UI runtime to randomly spread calls apart better
-	usleep(250000); // Wait 0.25 seconds, so low power devices (like a raspberry pi) don't get ddos attacked by accident
-	?>
-	<script>
-	
-	$("#rss_feed_<?=$feed_id?>").load("ajax.php?type=rss&feed=<?=$feed_id?>", function(responseTxt, statusTxt, xhr){
+    		
+			// We avoid using array keys for end user config editing UX, BUT STILL UNIQUELY IDENTIFY EACH FEED
+			$feed_id = get_digest($feed["title"], 10);
 		
-    if(statusTxt == "success") {
-	 window.feeds_loaded.push("<?=$feed_id?>");
-	 feeds_loading_check(window.feeds_loaded);
-    }
-    else if(statusTxt == "error") {
-    $("#rss_feed_<?=$feed_id?>").html("Error: " + xhr.status + ": " + xhr.statusText);
-	 window.feeds_loaded.push("<?=$feed_id?>");
-	 feeds_loading_check(window.feeds_loaded);
-    }
-    
-    
-  	});
-  	
-	</script>
-	
-	
-    		<?php
+				if ( isset($feed["title"]) && in_array($feed_id, $chosen_feeds) ) {
+				
+				$batched_feeds_added = $batched_feeds_added + 1;
+				$batched_feeds_keys .= $feed_id . ',';
+				$all_feeds_added = $all_feeds_added + 1;
+			
+					if ( $batched_feeds_added >= $batched_feeds_max || $all_feeds_added >= sizeof($chosen_feeds) ) {
+					$batched_feeds_keys = rtrim($batched_feeds_keys,',');
+					?>
+				
+		
+					<div id='rss_feeds_<?=$batched_feeds_loops_added?>'>
+					
+					
+						<fieldset class='subsection_fieldset'>
+						
+						<legend class='subsection_legend'> <strong>Batch-loading <?=$batched_feeds_added?> news feeds...</strong> </legend>
+							<img src="templates/interface/media/images/loader.gif" height='50' alt="" style='vertical-align: middle;' />
+						</fieldset>
+					
+					</div>
+					
+						
+						<script>
+						
+						$("#rss_feeds_<?=$batched_feeds_loops_added?>").load("ajax.php?type=rss&feeds=<?=$batched_feeds_keys?>", function(responseTxt, statusTxt, xhr){
+							
+							if(statusTxt == "success") {
+								
+							<?php
+							$feeds_array = explode(',', $batched_feeds_keys);
+							foreach ($feeds_array as $feed_hash) {
+							?>
+							window.feeds_loaded.push("<?=$feed_hash?>");
+							<?php
+							}
+							?>
+							 
+							feeds_loading_check(window.feeds_loaded);
+							
+							}
+							else if(statusTxt == "error") {
+								
+							$("#rss_feeds_<?=$batched_feeds_loops_added?>").html("Error: " + xhr.status + ": " + xhr.statusText);
+								
+							<?php
+							$feeds_array = explode(',', $batched_feeds_keys);
+							foreach ($feeds_array as $feed_hash) {
+							?>
+							window.feeds_loaded.push("<?=$feed_hash?>");
+							<?php
+							}
+							?>
+							 
+							feeds_loading_check(window.feeds_loaded);
+							
+							}
+						
+						
+						});
+						
+						</script>
+		
+		
+					<?php
+					// Reset
+					$batched_feeds_added = 0;
+					$batched_feeds_keys = null;
+					$batched_feeds_loops_added = $batched_feeds_loops_added + 1;
+					}
+				
+				}
+
+
     		}
     
     	}

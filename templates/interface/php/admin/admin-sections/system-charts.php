@@ -100,9 +100,10 @@
 	
 	<script>
 	
-	$(document).ready(function() {
-    $.getScript("app-lib/js/chart-js.php?type=system&key=1");
-	});
+	<?php
+	$chart_mode = 1;
+	include('templates/interface/php/admin/admin-charts/system-charts.php');
+	?>
 	
 	</script>
 	
@@ -120,9 +121,10 @@
 	
 	<script>
 	
-	$(document).ready(function() {
-    $.getScript("app-lib/js/chart-js.php?type=system&key=2");
-	});
+	<?php
+	$chart_mode = 2;
+	include('templates/interface/php/admin/admin-charts/system-charts.php');
+	?>
 	
 	</script>
 		

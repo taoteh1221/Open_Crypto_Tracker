@@ -624,7 +624,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 			html: true,
 			position: "right",
 			contents: ajax_placeholder(30, 'Loading Data...'),
-  			url: 'app-lib/js/chart-js.php?type=balance_stats&leverage_added=<?=$leverage_added?>&short_added=<?=$short_added?><?=$balance_stats_encoded?>',
+  			url: 'ajax.php?type=balance_stats&leverage_added=<?=$leverage_added?>&short_added=<?=$short_added?><?=$balance_stats_encoded?>',
 			css: {
 					fontSize: ".8rem",
 					minWidth: ".8rem",
@@ -858,9 +858,10 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	
 	<script>
 	
-	$(document).ready(function() {
-    $.getScript("app-lib/js/chart-js.php?type=system&key=1");
-	});
+	<?php
+	$chart_mode = 1;
+	include('templates/interface/php/admin/admin-charts/system-charts.php');
+	?>
 	
 	</script>
 	
@@ -878,9 +879,10 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	
 	<script>
 	
-	$(document).ready(function() {
-    $.getScript("app-lib/js/chart-js.php?type=system&key=2");
-	});
+	<?php
+	$chart_mode = 2;
+	include('templates/interface/php/admin/admin-charts/system-charts.php');
+	?>
 	
 	</script>
 		

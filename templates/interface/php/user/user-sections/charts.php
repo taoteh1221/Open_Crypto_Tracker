@@ -196,15 +196,12 @@
 	</div>
 	
 	
-	<?php
-	// Split sleeps between chart / ajax external calls, AND UI runtime to randomly spread calls apart better
-	usleep(250000); // Wait 0.25 seconds, so low power devices (like a raspberry pi) don't get ddos attacked by accident
-	?>
 	<script>
 	
-	$(document).ready(function() {
-    $.getScript("app-lib/js/chart-js.php?type=asset&asset_data=<?=urlencode($key)?>&charted_value=pairing");
-	});
+	<?php
+	$chart_mode = 'pairing';
+	include('templates/interface/php/user/user-charts/asset-charts.php');
+	?>
 	
 	</script>
 	
@@ -228,15 +225,12 @@
 	</div>
 	
 	
-	<?php
-	// Split sleeps between chart / ajax external calls, AND UI runtime to randomly spread calls apart better
-	usleep(250000); // Wait 0.25 seconds, so low power devices (like a raspberry pi) don't get ddos attacked by accident
-	?>
 	<script>
 	
-	$(document).ready(function() {
-    $.getScript("app-lib/js/chart-js.php?type=asset&asset_data=<?=urlencode($key)?>&charted_value=<?=strtolower($default_btc_primary_currency_pairing)?>");
-	});
+	<?php
+	$chart_mode = strtolower($default_btc_primary_currency_pairing);
+	include('templates/interface/php/user/user-charts/asset-charts.php');
+	?>
 	
 	</script>
 	

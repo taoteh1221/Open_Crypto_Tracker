@@ -5,38 +5,30 @@
 
 
 	
-	// Have this script not load any code if asset charts are not turned on
-	if ( $app_config['general']['charts_toggle'] != 'on' ) {
-	exit;
-	}
-
-
-	foreach ( $app_config['charts_alerts']['tracked_markets'] as $key => $value ) {
+// Have this script not load any code if asset charts are not turned on
+if ( $app_config['general']['charts_toggle'] == 'on' ) {
 		
  
-		if ( $_GET['asset_data'] == $key ) {
-			
- 
-		// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
-		$chart_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, mb_strpos($key, "-", 0, 'utf-8') ) );
-		$chart_asset = strtoupper($chart_asset);
+// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
+$chart_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, mb_strpos($key, "-", 0, 'utf-8') ) );
+$chart_asset = strtoupper($chart_asset);
 		
-		$market_parse = explode("||", $value );
+$market_parse = explode("||", $value );
 
 
-		$charted_value = ( $_GET['charted_value'] == 'pairing' ? $market_parse[1] : $default_btc_primary_currency_pairing );
+$charted_value = ( $chart_mode == 'pairing' ? $market_parse[1] : $default_btc_primary_currency_pairing );
 		
 		
-		// Strip non-alphanumeric characters to use in js vars, to isolate logic for each separate chart
-		$js_key = preg_replace("/-/", "", $key) . '_' . $charted_value;
+// Strip non-alphanumeric characters to use in js vars, to isolate logic for each separate chart
+$js_key = preg_replace("/-/", "", $key) . '_' . $charted_value;
 		
 		
-			// Have this script send the UI alert messages, and not load any chart code (to not leave the page endlessly loading) if cache data is not present
-			if ( file_exists('cache/charts/spot_price_24hr_volume/lite/all_days/'.$chart_asset.'/'.$key.'_chart_'.$charted_value.'.dat') != 1
-			|| $market_parse[2] != 'chart' && $market_parse[2] != 'both' ) {
-			?>
+	// Have this script send the UI alert messages, and not load any chart code (to not leave the page endlessly loading) if cache data is not present
+	if ( file_exists('cache/charts/spot_price_24hr_volume/lite/all_days/'.$chart_asset.'/'.$key.'_chart_'.$charted_value.'.dat') != 1
+	|| $market_parse[2] != 'chart' && $market_parse[2] != 'both' ) {
+	?>
 			
-			$("#<?=$key?>_<?=$charted_value?>_chart span.chart_loading").html(' &nbsp; No chart data found for: <?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=snake_case_to_name($market_parse[0])?><?=( $_GET['charted_value'] != 'pairing' ? ' \(' . strtoupper($charted_value) . ' Value\)' : '' )?>');
+			$("#<?=$key?>_<?=$charted_value?>_chart span.chart_loading").html(' &nbsp; No chart data found for: <?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=snake_case_to_name($market_parse[0])?><?=( $chart_mode != 'pairing' ? ' \(' . strtoupper($charted_value) . ' Value\)' : '' )?>');
 			
 			$("#<?=$key?>_<?=$charted_value?>_chart").css({ "background-color": "#9b4b26" });
 			
@@ -48,14 +40,10 @@
 			
 			charts_loading_check(window.charts_loaded);
 			
-			<?php
-			exit;
-			}
-			
-
-header('Content-type: text/html; charset=' . $app_config['developer']['charset_default']);
-
-?>
+	<?php
+	}
+	else {		
+	?>
 
 
 var lite_state_<?=$js_key?> = {
@@ -63,7 +51,7 @@ var lite_state_<?=$js_key?> = {
 };
  
 
-$("#<?=$key?>_<?=$charted_value?>_chart span.chart_loading").html(' &nbsp; <img src="templates/interface/media/images/loader.gif" height="16" alt="" style="vertical-align: middle;" /> Loading ALL chart for <?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=snake_case_to_name($market_parse[0])?><?=( $_GET['charted_value'] != 'pairing' ? ' \(' . strtoupper($charted_value) . ' Value\)' : '' )?>...');
+$("#<?=$key?>_<?=$charted_value?>_chart span.chart_loading").html(' &nbsp; <img src="templates/interface/media/images/loader.gif" height="16" alt="" style="vertical-align: middle;" /> Loading ALL chart for <?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=snake_case_to_name($market_parse[0])?><?=( $chart_mode != 'pairing' ? ' \(' . strtoupper($charted_value) . ' Value\)' : '' )?>...');
 	
   
 zingchart.bind('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'load', function() {
@@ -73,7 +61,7 @@ $("#<?=$key?>_<?=$charted_value?>_chart span").hide(); // Hide "Loading chart X.
 
 zingchart.TOUCHZOOM = 'pinch'; /* mobile compatibility */
 
-$.get( "ajax.php?type=asset&asset_data=<?=$_GET['asset_data']?>&charted_value=<?=$_GET['charted_value']?>&days=all", function( json_data ) {
+$.get( "ajax.php?type=asset&asset_data=<?=$key?>&charted_value=<?=$chart_mode?>&days=all", function( json_data ) {
  
 	zingchart.render({
   	id: '<?=strtolower($key)?>_<?=$charted_value?>_chart',
@@ -166,7 +154,7 @@ zingchart.bind('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'label_click',
 		}
 		
   
-  $("#<?=strtolower($key)?>_<?=$charted_value?>_chart div.chart_reload div").html("Loading " + lite_chart_text + " chart for <?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=snake_case_to_name($market_parse[0])?><?=( $_GET['charted_value'] != 'pairing' ? ' \(' . strtoupper($charted_value) . ' Value\)' : '' )?>...");
+  $("#<?=strtolower($key)?>_<?=$charted_value?>_chart div.chart_reload div").html("Loading " + lite_chart_text + " chart for <?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=snake_case_to_name($market_parse[0])?><?=( $chart_mode != 'pairing' ? ' \(' . strtoupper($charted_value) . ' Value\)' : '' )?>...");
 	$("#<?=strtolower($key)?>_<?=$charted_value?>_chart div.chart_reload").fadeIn(100); // 0.1 seconds
 	
   zingchart.bind('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'complete', function() {
@@ -174,7 +162,7 @@ zingchart.bind('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'label_click',
 	});
   
   zingchart.exec('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'load', {
-  	dataurl: "ajax.php?type=asset&asset_data=<?=$_GET['asset_data']?>&charted_value=<?=$_GET['charted_value']?>&days=" + days,
+  	dataurl: "ajax.php?type=asset&asset_data=<?=$key?>&charted_value=<?=$chart_mode?>&days=" + days,
     cache: {
         data: true
     }
@@ -192,11 +180,9 @@ charts_loading_check(window.charts_loaded);
 
 
 <?php
-		
-
-		}
-	
 	}
+
+}
 	
- 
+$chart_mode = null; 
  ?>
