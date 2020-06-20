@@ -198,7 +198,7 @@
 	
 	<?php
 	// Split sleeps between chart / ajax external calls, AND UI runtime to randomly spread calls apart better
-	usleep(100000); // Wait 0.1 seconds, so low power devices (like a raspberry pi) don't get ddos attacked by accident
+	usleep(250000); // Wait 0.25 seconds, so low power devices (like a raspberry pi) don't get ddos attacked by accident
 	?>
 	<script>
 	
@@ -230,7 +230,7 @@
 	
 	<?php
 	// Split sleeps between chart / ajax external calls, AND UI runtime to randomly spread calls apart better
-	usleep(100000); // Wait 0.1 seconds, so low power devices (like a raspberry pi) don't get ddos attacked by accident
+	usleep(250000); // Wait 0.25 seconds, so low power devices (like a raspberry pi) don't get ddos attacked by accident
 	?>
 	<script>
 	

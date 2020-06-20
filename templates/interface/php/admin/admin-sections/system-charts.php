@@ -83,6 +83,8 @@
     		
     		
     		?></div>
+	
+	<p class='bitcoin' style='font-weight: bold;'>Charts may take awhile to update with the latest data.</p>	
     		
 	
 	<div class='red' id='system_charts_error'></div>

@@ -662,6 +662,7 @@ $news_feeds = $app_config['power_user']['news_feeds'];
 	 		get_rss_feed($news_feeds[$feed_key]["url"], $feed_size, 1);
 	 		}
 	 	}
+	 	$_SESSION['fetched_feeds'] = false; // Reset feed fetch telemetry
 	 }
 	 elseif ( isset($chosen_feed) ) {
 	 

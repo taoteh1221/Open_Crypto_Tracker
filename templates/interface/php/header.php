@@ -94,9 +94,6 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 	}
 	?>
 	
-	<?php
-	if ( $app_config['general']['charts_toggle'] == 'on' ) {
-	?>
 	<script>
 	
 	var feeds_num = <?=( $show_feeds[0] != '' ? sizeof($show_feeds) : 0 )?>;
@@ -109,9 +106,6 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 	charts_loading_check(window.charts_loaded);
 
 	</script>
-	<?php
-	}
-	?>
 
 	<script src="app-lib/js/init.js"></script>
 	

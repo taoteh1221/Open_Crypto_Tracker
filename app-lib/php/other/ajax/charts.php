@@ -25,6 +25,9 @@ require_once('app-lib/php/other/primary-bitcoin-markets.php');
 	}
 	
 	
+$x_coord = 120; // Start position (absolute) for lite chart links
+$font_width = 10; // NOT MONOSPACE, SO WE GUESS AN AVERAGE
+	
 
 	foreach ( $app_config['charts_alerts']['tracked_markets'] as $key => $value ) {
 		
@@ -113,8 +116,6 @@ require_once('app-lib/php/other/primary-bitcoin-markets.php');
    }],
 	labels: [
 	<?php
-	$x_coord = 120; // Start position (absolute)
-	$font_width = 17; // NOT MONOSPACE, SO WE GUESS AN AVERAGE
 	foreach ($app_config['power_user']['lite_chart_day_intervals'] as $lite_chart_days) {
 		
 		if ( $lite_chart_days == 'all' ) {
@@ -363,8 +364,6 @@ graphset:[
 	],
 	labels: [
 	<?php
-	$x_coord = 120; // Start position (absolute)
-	$font_width = 17; // NOT MONOSPACE, SO WE GUESS AN AVERAGE
 	foreach ($app_config['power_user']['lite_chart_day_intervals'] as $lite_chart_days) {
 		
 		if ( $lite_chart_days == 'all' ) {
@@ -535,7 +534,6 @@ graphset:[
 
 // SYSTEM CHARTS START
 elseif ( $_GET['type'] == 'system' ) {
-
 	
 	// Have this script not load any code if system stats are not turned on, or key GET request corrupt
 	if ( !isset($_SESSION['admin_logged_in']) || !is_numeric($_GET['key']) ) {
@@ -544,8 +542,8 @@ elseif ( $_GET['type'] == 'system' ) {
 
 $key = $_GET['key'];
 
-
-
+$x_coord = 70; // Start position (absolute) for lite chart links
+$font_width = 10; // NOT MONOSPACE, SO WE GUESS AN AVERAGE
 			
 		
 // Have this script send the UI alert messages, and not load any chart code (to not leave the page endlessly loading) if cache data is not present
@@ -595,8 +593,6 @@ if ( !file_exists('cache/charts/system/lite/' . $_GET['days'] . '_days/system_st
    }],
 	labels: [
 	<?php
-	$x_coord = 70; // Start position (absolute)
-	$font_width = 17; // NOT MONOSPACE, SO WE GUESS AN AVERAGE
 	foreach ($app_config['power_user']['lite_chart_day_intervals'] as $lite_chart_days) {
 		
 		if ( $lite_chart_days == 'all' ) {
@@ -948,8 +944,6 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
       ],
 		labels: [
 	<?php
-	$x_coord = 70; // Start position (absolute)
-	$font_width = 17; // NOT MONOSPACE, SO WE GUESS AN AVERAGE
 	foreach ($app_config['power_user']['lite_chart_day_intervals'] as $lite_chart_days) {
 		
 		if ( $lite_chart_days == 'all' ) {

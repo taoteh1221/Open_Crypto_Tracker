@@ -734,15 +734,15 @@ function auto_reload() {
 				
 
             // If subsections are still loading, wait until they are finished
-            if ( $("#loading_subsections").is(":visible") ) {
-            setTimeout(auto_reload, 700); // Wait 700 millisecnds then recheck
+            if ( $("#loading_subsections").is(":visible") || window.charts_loaded.length < window.charts_num || window.feeds_loaded.length < window.feeds_num ) {
+            setTimeout(auto_reload, 700); // Wait 700 milliseconds then recheck
             return;
             }
             else {
                
            	setCookie("coin_reload", time, 365);
            	
-				i = time;
+				i = time - 1; // Remove a second for the 700 millisecond (0.7 second) recheck interval
 
 			
             	window.reload_countdown = setInterval(function () {

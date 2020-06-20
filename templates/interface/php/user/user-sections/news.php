@@ -35,7 +35,9 @@
 	<br clear='all' />
 	<br clear='all' />
 	
-	<p class='red'>*News feeds are not activated by default to increase page loading speed / responsiveness. It's recommended to avoid activating too many news feeds at the same time, to keep your page load times quick. You can enable "Use cookies to save data" on the Settings page <i>before activating your news feeds</i>, if you want them to stay activated between browser sessions.</p>
+	<p class='red'>*News feeds are not activated by default to increase page loading speed / responsiveness. It's recommended to avoid activating too many news feeds at the same time, to keep your page load times quick. </p>
+	
+	<p class='bitcoin'>You can enable "Use cookies to save data" on the Settings page <i>before activating your news feeds</i>, if you want them to stay activated between browser sessions.</p>
 	
 			
 	<!-- Submit button must be OUTSIDE form tags here, or it submits the target form improperly and loses data -->
@@ -139,7 +141,7 @@
 	
 	<?php
 	// Split sleeps between chart / ajax external calls, AND UI runtime to randomly spread calls apart better
-	usleep(100000); // Wait 0.1 seconds, so low power devices (like a raspberry pi) don't get ddos attacked by accident
+	usleep(250000); // Wait 0.25 seconds, so low power devices (like a raspberry pi) don't get ddos attacked by accident
 	?>
 	<script>
 	

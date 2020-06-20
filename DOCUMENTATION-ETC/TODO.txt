@@ -26,6 +26,9 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+Check to make sure everything like news feeds etc still run ok if charts page is turned off.
+
+
 Create "Export your feeds" link on News page, to XML / JSON format file download (like exporting portfolio logic).
 
 

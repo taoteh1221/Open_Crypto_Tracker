@@ -838,6 +838,8 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 	
 	<div id='portfolio_render_system_stats2' style='margin-bottom: 30px;'></div>
 	
+	<p class='bitcoin' style='font-weight: bold;'>Charts may take awhile to update with the latest data.</p>	
+	
 	<script>
 	// Mirror portfolio page system stats summary with javascript (without the wrapper that makes the text small)
 	$('#portfolio_render_system_stats2').html( $('#portfolio_render_system_stats').html() );

@@ -160,8 +160,8 @@ $system_stats_data = time() . $chart_data_set . "\n";
 store_file_contents($system_stats_path, $system_stats_data, "append");
     		
 // Lite charts (update time dynamically determined in update_lite_chart() logic)
-// Try to assure file locking from archival chart updating has been released, wait 0.1 seconds before updating lite charts
-usleep(70000); // Wait 0.07 seconds
+// Try to assure file locking from archival chart updating has been released, wait 0.12 seconds before updating lite charts
+usleep(120000); // Wait 0.12 seconds
 		
 foreach ( $app_config['power_user']['lite_chart_day_intervals'] as $light_chart_days ) {
 update_lite_chart($system_stats_path, $system_stats_data, $light_chart_days);
