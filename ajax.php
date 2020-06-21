@@ -30,8 +30,11 @@ if ( $_GET['type'] == 'rss' ) {
 	
 $feeds_array = explode(',', $_GET['feeds']);
 
-	foreach ($feeds_array as $feed_hash) {
-	echo rss_feed_data($feed_hash, $app_config['power_user']['news_feeds_entries_show']); 
+	// Mitigate DOS attack leverage, since we recieve extrenal calls in ajax.php
+	if ( sizeof($feeds_array) <= $app_config['developer']['batched_news_feeds_max'] ) {
+		foreach ($feeds_array as $feed_hash) {
+		echo rss_feed_data($feed_hash, $app_config['power_user']['news_feeds_entries_show']); 
+		}
 	}
 
 }

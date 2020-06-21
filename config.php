@@ -1311,6 +1311,10 @@ $app_config['developer']['chmod_cache_files'] = '0666'; // (default = '0666')
 ////
 // .htaccess / index.php index security files permissions
 $app_config['developer']['chmod_index_security'] = '0664'; // (default = '0664')
+
+
+// Maximum number of batched news feeds added per ajax call on news page (optimizing ajax call amounts, reducing server load)
+$app_config['developer']['batched_news_feeds_max'] = 15; // (default = 15)
 							
 
 // TLD-only (Top Level Domain only, NO SUBDOMAINS) for each API service that requires multiple calls (for each market / data set)
