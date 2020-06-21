@@ -26,6 +26,9 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+Have balance summary at bottom of portfolio page show percent of MISCASSETS too.
+
+
 Check to make sure everything like news feeds etc still run ok if charts page is turned off.
 
 

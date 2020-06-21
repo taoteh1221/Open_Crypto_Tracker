@@ -409,6 +409,8 @@
 	        
 	        <li class='links_list'><a href='https://www.citadel21.com/' target='_blank'>Citadel21.com</a></li>
 	        
+	        <li class='links_list'><a href='https://bitcoin.clarkmoody.com/dashboard/' target='_blank'>Clark Moody Bitcoin Dashboard</a></li>
+	        
 	        <li class='links_list'><a href='https://coincenter.org/' target='_blank'>CoinCenter.org</a></li>
 	        
 	        <li class='links_list'><a href='https://twitter.com/hashtag/cryptotwitter?src=hash' target='_blank'>#CryptoTwitter</a></li>
