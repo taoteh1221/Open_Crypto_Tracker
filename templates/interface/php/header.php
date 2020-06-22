@@ -13,9 +13,11 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
     
    <meta charset="<?=$app_config['developer']['charset_default']?>">
    
-   <meta name="viewport" content="width=device-width">
+   <meta name="viewport" content="width=device-width"> <!-- Mobile compatibility -->
    
 	<meta name="robots" content="noindex,nofollow"> <!-- Keeps this URL private (search engines won't add this URL to their search indexes) -->
+	
+	<meta name="referrer" content="same-origin"> <!-- Keeps this URL private (referral data won't be sent when clicking external links) -->
     
 	<link rel="stylesheet" href="templates/interface/css/bootstrap/bootstrap.min.css" type="text/css" />
 

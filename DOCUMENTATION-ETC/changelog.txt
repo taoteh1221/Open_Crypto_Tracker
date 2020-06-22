@@ -3581,6 +3581,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Lite chart creation logic crashing servers (missing fclose for initial archival / lite chart inspections)
 
+-Suppress web browser from sending referral data when clicking external links (meta tag, so external sites don't see where you visited them from) 
+
 -Better low power system support (Raspberry Pi Zero, etc)
 
 IMPORTANT UPGRADE NOTES: 
