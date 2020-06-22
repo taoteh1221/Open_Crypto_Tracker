@@ -649,11 +649,12 @@ global $app_config;
 $archival_data = array();
 $new_lite_data = null;
 
-// Lite chart file info
+// Lite chart file path
 $lite_path = preg_replace("/archival/i", 'lite/' . $days_span . '_days', $archive_path);
 
+
+	// Get LAST line of lite chart data (determines newest lite timestamp)
 	if ( file_exists($lite_path) ) {
-	// Get LAST line of lite chart data
 	$last_lite_line = tail_custom($lite_path);
 	$last_lite_array = explode("||", $last_lite_line);
 	$newest_lite_timestamp = ( isset($last_lite_array[0]) ? $last_lite_array[0] : false );
@@ -663,18 +664,24 @@ $lite_path = preg_replace("/archival/i", 'lite/' . $days_span . '_days', $archiv
 	}
 
 
-// Get FIRST line of archival chart data
-$first_archival_line = fgets(fopen($archive_path, 'r'));
-$first_archival_array = explode("||", $first_archival_line);
-
 // Get LAST line of archival chart data (we save SIGNIFICANTLY on runtime / resource usage, if this var is passed into this function already)
+// (determines newest archival timestamp)
 $last_archival_line = ( $newest_archival_data != false ? $newest_archival_data : tail_custom($archive_path) );
 $last_archival_array = explode("||", $last_archival_line);
-	
-// Determine oldest / newest timestamps
-$oldest_archival_timestamp = $first_archival_array[0];
 $newest_archival_timestamp = $last_archival_array[0];
 			
+			
+// Get FIRST line of archival chart data (determines oldest archival timestamp)
+$fopen_archive = fopen($archive_path, 'r');
+
+	if ($fopen_archive) {
+	$first_archival_line = fgets($fopen_archive);
+	fclose($fopen_archive);
+	}
+	
+$first_archival_array = explode("||", $first_archival_line);
+$oldest_archival_timestamp = $first_archival_array[0];
+	
 			
 	// Oldest allowed timestamp
 	if ( $days_span == 'all' ) {
@@ -689,6 +696,7 @@ $newest_archival_timestamp = $last_archival_array[0];
 $min_data_interval = round( ($newest_archival_timestamp - $oldest_allowed_timestamp) / $app_config['power_user']['lite_chart_data_points_max'] );
 
 $now = time();
+
 
 	// #INITIALLY# (if no lite data exists yet) we randomly spread the load across X minutes in multiple cron jobs
 	// THEN IT #REMAINS RANDOMLY SPREAD# ACROSS CRON JOBS #WITHOUT DOING ANYTHING AFTER# THE INITIAL RANDOMNESS
@@ -748,8 +756,7 @@ $now = time();
 		
 	
 	
-	// Store the rebuilt lite chart data (overwrite)
-	usleep(120000); // Wait 0.12 seconds
+	// Store the lite chart data (rebuild)
 	$result = store_file_contents($lite_path, $new_lite_data);
 	
 		if ( $result == true ) {
@@ -773,24 +780,26 @@ $now = time();
 		// Append if less than 'lite_chart_data_points_max'
 		if ( $current_lite_data_lines < $app_config['power_user']['lite_chart_data_points_max'] ) {
 		
-		// Get FIRST line of lite chart data
-		$first_lite_line = fgets(fopen($lite_path, 'r'));
+		// Get FIRST line of lite chart data (determines oldest lite timestamp)
+		$fopen_lite = fopen($lite_path, 'r');
+	
+			if ($fopen_lite) {
+			$first_lite_line = fgets($fopen_lite);
+			fclose($fopen_lite);
+			}
+				
 		$first_lite_array = explode("||", $first_lite_line);
-		
-		// Determine oldest timestamp
 		$oldest_lite_timestamp = $first_lite_array[0];
-			
+		
 			// If our oldest lite timestamp is older than allowed
 			if ( $oldest_lite_timestamp < $oldest_allowed_timestamp ) {
 			$lite_data_removed_outdated_lines = prune_first_lines($lite_path, 0, $oldest_allowed_timestamp);
 			
-			usleep(120000); // Wait 0.12 seconds
 			$result = store_file_contents($lite_path, $lite_data_removed_outdated_lines . $last_archival_line);
 			$lite_mode_logging = 'PRUNED_OUTDATED_OVERWRITE';
 			}
 			// If we're clear to just append the latest data
 			else {
-			usleep(120000); // Wait 0.12 seconds
 			$result = store_file_contents($lite_path, $last_archival_line, "append");
 			$lite_mode_logging = 'APPEND';
 			}

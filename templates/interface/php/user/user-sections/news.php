@@ -160,7 +160,9 @@
 					
 					</div>
 					
-						
+						<?php
+						usleep(200000); // Wait 0.2 seconds, so we don't DOS low power devices (Raspberry Pi Zero, etc)
+						?>
 						<script>
 						
 						$("#rss_feeds_<?=$batched_feeds_loops_added?>").load("ajax.php?type=rss&feeds=<?=$batched_feeds_keys?>", function(responseTxt, statusTxt, xhr){

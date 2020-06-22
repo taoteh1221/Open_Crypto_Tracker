@@ -51,7 +51,7 @@ date_default_timezone_set('UTC');
 
 
 // Application version
-$app_version = '4.14.5';  // 2020/JUNE/20TH
+$app_version = '4.14.6';  // 2020/JUNE/22ND
 
 // Application edition
 $app_edition = 'server';  // server OR desktop edition
