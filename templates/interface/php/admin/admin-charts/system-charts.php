@@ -19,7 +19,7 @@ $first_lite_chart = $app_config['power_user']['lite_chart_day_intervals'][0];
 			
 			$("#system_stats_chart_<?=$chart_mode?> span.chart_loading").html(' &nbsp; No chart data found for: System Chart #<?=$chart_mode?>');
 			
-			$("#system_stats_chart_<?=$chart_mode?>").css({ "background-color": "#9b4b26" });
+			$("#system_stats_chart_<?=$chart_mode?> span.chart_loading").css({ "background-color": "#9b4b26" });
 			
 			$("#system_charts_error").show();
 			
@@ -29,6 +29,7 @@ $first_lite_chart = $app_config['power_user']['lite_chart_day_intervals'][0];
 	<?php
 	}
 	else {
+	usleep(250000); // Wait 0.25 seconds, so we don't accidentally DOS attack-equivalent low power devices (Raspberry Pi Zero, etc) with multiple ajax requests
 	?>
 
 

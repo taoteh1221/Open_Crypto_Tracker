@@ -30,7 +30,7 @@ $js_key = preg_replace("/-/", "", $key) . '_' . $charted_value;
 			
 			$("#<?=$key?>_<?=$charted_value?>_chart span.chart_loading").html(' &nbsp; No chart data found for: <?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=snake_case_to_name($market_parse[0])?><?=( $chart_mode != 'pairing' ? ' \(' . strtoupper($charted_value) . ' Value\)' : '' )?>');
 			
-			$("#<?=$key?>_<?=$charted_value?>_chart").css({ "background-color": "#9b4b26" });
+			$("#<?=$key?>_<?=$charted_value?>_chart span.chart_loading").css({ "background-color": "#9b4b26" });
 			
 			$("#charts_error").show();
 			
@@ -43,6 +43,7 @@ $js_key = preg_replace("/-/", "", $key) . '_' . $charted_value;
 	<?php
 	}
 	else {		
+	usleep(250000); // Wait 0.25 seconds, so we don't accidentally DOS attack-equivalent low power devices (Raspberry Pi Zero, etc) with multiple ajax requests
 	?>
 
 

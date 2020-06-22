@@ -26,15 +26,6 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
-Have balance summary at bottom of portfolio page show percent of MISCASSETS too.
-
-
-Check to make sure everything like news feeds etc still run ok if charts page is turned off.
-
-
-Create "Export your feeds" link on News page, to XML / JSON format file download (like exporting portfolio logic).
-
-
 Write debugging tests for rss feeds.
 
 
@@ -78,6 +69,12 @@ Code review ALL functions / logic (especially loops, for efficiency).
 ///////////////////////////////////////////////////////
 FEATURES / STRUCTURING SECTION
 ///////////////////////////////////////////////////////
+
+
+Have balance summary at bottom of portfolio page show percent of MISCASSETS too.
+
+
+Create "Export your feeds" link on News page, to XML / JSON format file download (like exporting portfolio logic).
 
 
 For each category_key => category_value loop app config, to automate categorizing new admin settings tabs...selects for arrays, text fields for strings. Maybe certain key names get checkbox / radio button fields.

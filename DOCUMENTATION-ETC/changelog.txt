@@ -3579,9 +3579,11 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.14.6:
 
--Lite chart creation logic crashing servers (missing fclose for initial archival / lite chart inspections)
+-Bug fix for lite chart updating logic crashing servers (added missing "fclose" logic for initial archival / lite chart inspections)
 
--Suppress web browser from sending referral data when clicking external links (meta tag, so external sites don't see where you visited them from) 
+-Bug fixes (revised) for low power devices (Raspberry Pi Zero, etc) crashing when too many news feeds / price charts are chosen (increased timeout between ajax requests for data)
+
+-Suppress web browser from sending referral data when clicking external links (privacy, so external sites don't see where you visited them from) 
 
 -Better low power system support (Raspberry Pi Zero, etc)
 

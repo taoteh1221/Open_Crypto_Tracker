@@ -161,7 +161,7 @@
 					</div>
 					
 						<?php
-						usleep(200000); // Wait 0.2 seconds, so we don't DOS low power devices (Raspberry Pi Zero, etc)
+						usleep(600000); // Wait 0.6 seconds, so we don't accidentally DOS attack-equivalent low power devices (Raspberry Pi Zero, etc) with multiple ajax requests
 						?>
 						<script>
 						
