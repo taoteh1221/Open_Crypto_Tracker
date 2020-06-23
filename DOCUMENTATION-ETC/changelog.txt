@@ -3585,7 +3585,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Suppress web browser from sending referral data when clicking external links (privacy, so external sites don't see where you visited them from) 
 
--Better low power system support (Raspberry Pi Zero, etc)
+-Better low memory system support (Raspberry Pi Zero, etc)
 
 IMPORTANT UPGRADE NOTES: 
 

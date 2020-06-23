@@ -1255,7 +1255,8 @@ $app_config['power_user']['hivepower_yearly_interest'] = 1.2;
 // 'smtp' (smtp email server response logging, if smtp emailing is enabled),
 // 'btc_markets_config' (the current Bitcoin markets configuration),
 // 'texts' (mobile gateway checks), 'markets' (coin market checks),
-// 'lite_chart' (lite chart caching routines)
+// 'lite_chart' (lite chart caching routines),
+// 'memory' (script memory usage data)
 ////////////////////////////////////////////////////////////////////////////////////////////
 // UNIT TESTS WILL ONLY RUN DURING WEB PAGE LOAD. MAY REQUIRE SETTING MAXIMUM ALLOWED 
 // PHP EXECUTION TIME TO 120 SECONDS TEMPORARILY, FOR ALL UNIT TESTS TO FULLY COMPLETE RUNNING, 

@@ -31,6 +31,11 @@ require("config.php");
 
 
 // Charts and price alerts
+// Disable garbage collection (we enable it again after this loop)
+// https://tideways.com/profiler/blog/how-to-optimize-the-php-garbage-collector-usage-to-improve-memory-and-performance
+gc_disable();
+
+$_SESSION['lite_charts_updated'] = 0;
 foreach ( $app_config['charts_alerts']['tracked_markets'] as $key => $value ) {
 	
 // Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
@@ -46,6 +51,10 @@ $mode = $value[2];
 charts_and_price_alerts($key, $exchange, $pairing, $mode);
 
 }
+
+// Re-enable garbage collection (that we disabled before this loop), clean memory cache
+gc_enable();
+gc_collect_cycles();
 
 
 
@@ -163,9 +172,17 @@ store_file_contents($system_stats_path, $system_stats_data, "append");
 // Try to assure file locking from archival chart updating has been released, wait 0.12 seconds before updating lite charts
 usleep(120000); // Wait 0.12 seconds
 		
+// Disable garbage collection (we enable it again after this loop)
+// https://tideways.com/profiler/blog/how-to-optimize-the-php-garbage-collector-usage-to-improve-memory-and-performance
+gc_disable();
+
 foreach ( $app_config['power_user']['lite_chart_day_intervals'] as $light_chart_days ) {
 update_lite_chart($system_stats_path, $system_stats_data, $light_chart_days);
 }
+
+// Re-enable garbage collection (that we disabled before this loop), clean memory cache
+gc_enable();
+gc_collect_cycles();
 		
 		
 // SYSTEM STATS END
@@ -216,6 +233,9 @@ send_notifications();
 
 }
 
+
+// Clean memory cache
+gc_collect_cycles();
 
 
 ?>

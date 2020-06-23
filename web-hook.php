@@ -85,6 +85,9 @@ error_logs();
 debugging_logs();
 send_notifications();
 
+// Clean memory cache
+gc_collect_cycles();
+
 ?>
 
 

@@ -130,6 +130,7 @@
     
     
     	// $app_config['power_user']['news_feeds'] was already alphabetically sorted in app init routines, so we loop with it to maintain alphabetical order
+
     	foreach($app_config['power_user']['news_feeds'] as $feed) {
     		
     		if ( $batched_feeds_loops_added < $batched_feeds_loops_max ) {
@@ -161,7 +162,7 @@
 					</div>
 					
 						<?php
-						usleep(600000); // Wait 0.6 seconds, so we don't accidentally DOS attack-equivalent low power devices (Raspberry Pi Zero, etc) with multiple ajax requests
+						usleep(1500000); // Wait 1.5 seconds, so we don't accidentally DOS attack-equivalent low power devices (Raspberry Pi Zero, etc) with multiple ajax requests
 						?>
 						<script>
 						

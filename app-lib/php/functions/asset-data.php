@@ -1148,9 +1148,9 @@ $volume_pairing_raw = number_to_string($volume_pairing_raw);
 		}
 		
 		
-	// Lite charts (update time dynamically determined in update_lite_chart() logic)
-	// Try to assure file locking from archival chart updating has been released, wait 0.12 seconds before updating lite charts
-	usleep(120000); // Wait 0.12 seconds
+		// Lite charts (update time dynamically determined in update_lite_chart() logic)
+		// Try to assure file locking from archival chart updating has been released, wait 0.12 seconds before updating lite charts
+		usleep(120000); // Wait 0.12 seconds
 		
 		foreach ( $app_config['power_user']['lite_chart_day_intervals'] as $light_chart_days ) {
 			
@@ -1161,7 +1161,7 @@ $volume_pairing_raw = number_to_string($volume_pairing_raw);
 			if ( $pairing != strtolower($default_btc_primary_currency_pairing) ) {
 			update_lite_chart($crypto_secondary_currency_chart_path, $crypto_secondary_currency_chart_data, $light_chart_days);
 			}
-			
+		
 		}
 		
 		

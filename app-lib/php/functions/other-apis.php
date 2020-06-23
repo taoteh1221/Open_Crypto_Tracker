@@ -398,11 +398,23 @@ $news_feeds_cache_min_max = array_map('trim', $news_feeds_cache_min_max);
 // We don't want all feeds updating at the same time, so we randomly vary cache times
 $rss_feed_cache_time = rand($news_feeds_cache_min_max[0], $news_feeds_cache_min_max[1]);
 
+
+	if ( !isset($_SESSION['fetched_feeds']['all']) ) {
+	$_SESSION['fetched_feeds']['all'] = 0;
+	}
+	
 	
 	
 	// If we will be updating the feed
 	if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
 	
+	
+	$_SESSION['fetched_feeds']['all'] = $_SESSION['fetched_feeds']['all'] + 1; // Mark as a fetched feed, since it's going to update
+	
+		if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'memory' ) {
+		app_logging('system_debugging', 'News feed updating ('.$_SESSION['fetched_feeds']['all'].'), CURRENT script memory usage is ' . convert_bytes(memory_get_usage(), 1) . ', and PEAK script memory usage is ' . convert_bytes(memory_get_peak_usage(), 1) );
+		}
+
 
 		// Throttling multiple requests to same server
 		if ( preg_match("/reddit\.com/i", $url) ) {
@@ -527,8 +539,7 @@ $rss_feed_cache_time = rand($news_feeds_cache_min_max[0], $news_feeds_cache_min_
 
 	} // END if updating feed
 	
-
-	
+			
 // Get feed data, and format output (UNLESS WE ARE ONLY CACHING DATA)
 $xmldata = @external_api_data('url', $url, $rss_feed_cache_time); 
 	

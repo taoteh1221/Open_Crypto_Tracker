@@ -760,14 +760,21 @@ $now = time();
 	$result = store_file_contents($lite_path, $new_lite_data);
 	
 		if ( $result == true ) {
+		
+		$_SESSION['lite_charts_updated'] = $_SESSION['lite_charts_updated'] + 1;
+			
 			if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'lite_chart' ) {
 			app_logging( 'cache_debugging', 'Lite chart REBUILD COMPLETED for ' . $lite_path);
 			}
+			
+			if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'memory' ) {
+			app_logging('system_debugging', $_SESSION['lite_charts_updated'] . ' lite charts updated, CURRENT script memory usage is ' . convert_bytes(memory_get_usage(), 1) . ', and PEAK script memory usage is ' . convert_bytes(memory_get_peak_usage(), 1) );
+			}
+			
 		}
 		else {
 		app_logging( 'cache_error', 'Lite chart REBUILD FAILED for ' . $lite_path);
 		}
-
 
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -819,18 +826,27 @@ $now = time();
 	
 	
 		if ( $result == true ) {
+		
+		$_SESSION['lite_charts_updated'] = $_SESSION['lite_charts_updated'] + 1;
+			
 			if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'lite_chart' ) {
 			app_logging( 'cache_debugging', 'Lite chart ' . $lite_mode_logging . ' COMPLETED for ' . $lite_path);
 			}
+			
+			if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'memory' ) {
+			app_logging('system_debugging', $_SESSION['lite_charts_updated'] . ' lite charts updated, CURRENT script memory usage is ' . convert_bytes(memory_get_usage(), 1) . ', and PEAK script memory usage is ' . convert_bytes(memory_get_peak_usage(), 1) );
+			}
+			
 		}
 		else {
 		app_logging( 'cache_error', 'Lite chart ' . $lite_mode_logging . ' FAILED for ' . $lite_path);
 		}
-
+	
 
 	}
 	
 	
+
 return $result;
 
 }
