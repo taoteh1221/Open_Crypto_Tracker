@@ -43,7 +43,7 @@ $js_key = preg_replace("/-/", "", $key) . '_' . $charted_value;
 	<?php
 	}
 	else {		
-	usleep(750000); // Wait 0.75 seconds, so we don't accidentally DOS attack-equivalent low power devices (Raspberry Pi Zero, etc) with multiple ajax requests
+	usleep(200000); // Wait 0.2 seconds, so we don't accidentally DOS attack-equivalent low power devices (Raspberry Pi Zero, etc) with multiple ajax requests
 	?>
 
 
