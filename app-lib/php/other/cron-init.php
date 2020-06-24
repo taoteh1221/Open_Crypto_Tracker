@@ -14,7 +14,7 @@ if ( $runtime_mode == 'cron' ) {
 // Disable garbage collection (we enable it again after calling rss_feed_data())
 // https://tideways.com/profiler/blog/how-to-optimize-the-php-garbage-collector-usage-to-improve-memory-and-performance
 gc_disable();
-rss_feed_data(false, 0, true); // Cache-only mode
+//rss_feed_data(false, 0, true); // Cache-only mode
 // Re-enable garbage collection (that we disabled before calling rss_feed_data()), clean memory cache
 gc_enable();
 gc_collect_cycles();
