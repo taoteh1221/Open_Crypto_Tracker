@@ -11,6 +11,8 @@ if ( $runtime_mode == 'cron' ) {
 
 
 // Re-cache RSS feeds for faster UI runtimes later
+// Reset feed fetch telemetry 
+$_SESSION['fetched_feeds'] = false;
 rss_feed_data(false, 0, true); // Cache-only mode
 gc_collect_cycles(); // Clean memory cache
 

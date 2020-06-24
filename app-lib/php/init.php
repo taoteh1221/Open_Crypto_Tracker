@@ -108,11 +108,6 @@ require_once('app-lib/php/other/ajax/charts.php');
 exit;
 }
 
-// Reset feed fetch telemetry, if we are ui runtime
-if ( $runtime_mode == 'ui' ) {
-$_SESSION['fetched_feeds'] = false;
-}
-
 
 // A bit of DOS attack mitigation for bogus / bot login attempts
 // Speed up runtime SIGNIFICANTLY by checking EARLY for a bad / non-existent captcha code, and rendering the related form again...
