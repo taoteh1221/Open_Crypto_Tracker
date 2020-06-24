@@ -32,19 +32,13 @@ $feeds_array = explode(',', $_GET['feeds']);
 
 	// Mitigate DOS attack leverage, since we recieve extrenal calls in ajax.php
 	if ( sizeof($feeds_array) <= $app_config['developer']['batched_news_feeds_max'] ) {
-		
-	// Disable garbage collection (we enable it again after calling rss_feed_data())
-	// https://tideways.com/profiler/blog/how-to-optimize-the-php-garbage-collector-usage-to-improve-memory-and-performance
-	gc_disable();
 	
 		foreach ($feeds_array as $feed_hash) {
-		//echo rss_feed_data($feed_hash, $app_config['power_user']['news_feeds_entries_show']); 
+		echo rss_feed_data($feed_hash, $app_config['power_user']['news_feeds_entries_show']); 
+		flush(); // Clean memory output buffer for echo
+		gc_collect_cycles(); // Clean memory cache
 		}
-
-	// Re-enable garbage collection (that we disabled before calling rss_feed_data()), clean memory cache
-	gc_enable();
-	gc_collect_cycles();
-
+	
 	}
 
 }
@@ -54,7 +48,7 @@ error_logs();
 debugging_logs();
 send_notifications();
 
-// Clean memory cache
-gc_collect_cycles();
+flush(); // Clean memory output buffer for echo
+gc_collect_cycles(); // Clean memory cache
 
  ?>

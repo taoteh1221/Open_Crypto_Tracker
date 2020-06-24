@@ -160,7 +160,9 @@ $lines = 0;
    $lines += substr_count(fread($f, 8192), "\n");
    }
 
-fclose($f);
+fclose($f); // Close file
+
+gc_collect_cycles(); // Clean memory cache
 
 return $lines;
 
@@ -1180,6 +1182,8 @@ function csv_file_array($file) {
 			
 		}
 		fclose($handle);
+
+		gc_collect_cycles(); // Clean memory cache
 		
 	}
 
@@ -1768,6 +1772,8 @@ $fn = fopen($file,"r");
 
 fclose($fn);
 
+gc_collect_cycles(); // Clean memory cache
+
 // Trim away extra commas
 $data['time'] = rtrim($data['time'],',');
 
@@ -2172,6 +2178,8 @@ $fp = fopen($file, "r");
 	}
 
 fclose($fp);
+
+gc_collect_cycles(); // Clean memory cache
 
 
 	if ( !$lines ) {

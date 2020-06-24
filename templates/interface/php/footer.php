@@ -144,8 +144,9 @@
     		
     	echo '<p class="align_center '.( $total_runtime > 25 ? 'red' : 'green' ).'"> Runtime: '.$total_runtime.' seconds</p>';
     	
-// Clean memory cache
-gc_collect_cycles();
+
+flush(); // Clean memory output buffer for echo
+gc_collect_cycles(); // Clean memory cache
     
     ?>
         

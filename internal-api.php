@@ -135,8 +135,8 @@ error_logs();
 debugging_logs();
 send_notifications();
 
-// Clean memory cache
-gc_collect_cycles();
+flush(); // Clean memory output buffer for echo
+gc_collect_cycles(); // Clean memory cache
 
 ?>
 

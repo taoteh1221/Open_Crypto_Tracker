@@ -674,6 +674,9 @@ $xmldata = @external_api_data('url', $url, $rss_feed_cache_time);
 
 	}
 
+
+gc_collect_cycles(); // Clean memory cache
+
 	
 	if ( $feed_size == 0 || $cache_only ) {
 	return true;

@@ -66,6 +66,7 @@ debugging_logs();
 send_notifications();
 
 fclose ($fd);
+gc_collect_cycles(); // Clean memory cache
 exit;
 
 

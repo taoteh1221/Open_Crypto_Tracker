@@ -1151,4 +1151,9 @@ elseif ( $_GET['type'] == 'balance_stats' ) {
 <?php
 }
 // BALANCE CHARTS END
+
+
+flush(); // Clean memory output buffer for echo
+gc_collect_cycles(); // Clean memory cache
+
 ?>

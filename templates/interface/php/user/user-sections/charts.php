@@ -70,7 +70,48 @@
 	<br clear='all' />
 	<br clear='all' />
 	
-	<p class='red'>*Charts are not activated by default to increase page loading speed / responsiveness. It's recommended to avoid activating too many charts at the same time, to keep your page load times quick. Also, lower end hardware (Raspberry Pi etc) MAY CRASH IF YOU ACTIVATE TOO MANY CHARTS.</p>
+	<p class='red'>*Charts are not activated by default to increase page loading speed / responsiveness. It's recommended to avoid activating too many charts at the same time, to keep your page load times quick.</p>
+	
+	<p class='red'>Low memory devices (Raspberry Pi / Pine64 / etc) MAY CRASH #IF YOU ACTIVATE TOO MANY CHARTS#.
+	     
+		<img id='charts_raspi_crash' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative; left: -5px;' /> </p>
+		
+	 <script>
+	 
+			var charts_raspi_crash = '<h5 align="center" class="red" style="position: relative; white-space: nowrap;">Low Memory Devices Crashing</h5>'
+			
+			
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">If your low memory device (Raspberry PI / Pine64 / etc) crashes when you select too many news feeds OR charts, you may need to restart your device, and then delete all cookies in your browser related to the web domain you run the app from (before using the app again).</p>'
+			
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">For the more technically-inclined, try decreasing "MaxRequestWorkers" in Apache\'s prefork configuration file (10 maximum is best for low memory devices, BUT don\'t set higher than "MaxSpareServers" above it, OR SET BOTH TO 10), to help stop the web server from crashing under heavier loads. <span class="red">ALWAYS BACKUP THE CURRENT SETTINGS FIRST, IN CASE IT DOESN\'T WORK.</span></p>'
+			
+			
+			+'<p class="coin_info"><span class="yellow"> </span></p>';
+
+	
+		
+			$('#charts_raspi_crash').balloon({
+			html: true,
+			position: "left",
+			contents: charts_raspi_crash,
+			css: {
+					fontSize: ".8rem",
+					minWidth: ".8rem",
+					padding: ".3rem .7rem",
+					border: "2px solid rgba(212, 212, 212, .4)",
+					borderRadius: "6px",
+					boxShadow: "3px 3px 6px #555",
+					color: "#eee",
+					backgroundColor: "#111",
+					opacity: "0.99",
+					zIndex: "32767",
+					textAlign: "left"
+					}
+			});
+		
+		 </script>
+		 
+	    </p>
 	
 	<p class='bitcoin'>You can enable "Use cookies to save data" on the Settings page <i>before activating your charts</i>, if you want them to stay activated between browser sessions.</p>
 	

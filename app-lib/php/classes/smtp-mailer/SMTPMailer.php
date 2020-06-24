@@ -290,6 +290,7 @@ Class SMTPMailer {
 
         $this->logreq('QUIT', '221');
         fclose($this->sock);
+		  gc_collect_cycles(); // Clean memory cache
 				
 				if ( $this->debug_mode == 'on' || $this->debug_mode == 'smtp' ) {
         		
@@ -371,6 +372,7 @@ Class SMTPMailer {
         
         if ($this->meta['timed_out'] === true) {
             fclose($this->sock);
+				gc_collect_cycles(); // Clean memory cache
             $this->log[] = "\n\n Was a timeout in Server response \n";
             $this->LogFile();            
             print_r($this->meta);
@@ -391,6 +393,7 @@ Class SMTPMailer {
         
             
         fclose($this->sock);
+		  gc_collect_cycles(); // Clean memory cache
         
         $this->log[] = "\n\n META DATA: \n";
         

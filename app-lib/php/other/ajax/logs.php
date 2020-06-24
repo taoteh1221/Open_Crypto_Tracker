@@ -31,4 +31,7 @@ $lines[] = 'No logs yet for log file: ' . $filename;
 
 echo json_encode($lines);
 
+flush(); // Clean memory output buffer for echo
+gc_collect_cycles(); // Clean memory cache
+
 ?>

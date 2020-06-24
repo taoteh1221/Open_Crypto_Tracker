@@ -35,7 +35,48 @@
 	<br clear='all' />
 	<br clear='all' />
 	
-	<p class='red'>*News feeds are not activated by default to increase page loading speed / responsiveness. It's recommended to avoid activating too many news feeds at the same time, to keep your page load times quick. Also, lower end hardware (Raspberry Pi etc) MAY CRASH IF YOU ACTIVATE TOO MANY NEWS FEEDS.</p>
+	<p class='red'>*News feeds are not activated by default to increase page loading speed / responsiveness. It's recommended to avoid activating too many news feeds at the same time, to keep your page load times quick.</p>
+	
+	<p class='red'>Low memory devices (Raspberry Pi / Pine64 / etc) MAY CRASH #IF YOU ACTIVATE TOO MANY NEWS FEEDS#.
+	     
+		<img id='news_raspi_crash' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative; left: -5px;' /> </p>
+		
+	 <script>
+	 
+			var news_raspi_crash = '<h5 align="center" class="red" style="position: relative; white-space: nowrap;">Low Memory Devices Crashing</h5>'
+			
+			
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">If your low memory device (Raspberry PI / Pine64 / etc) crashes when you select too many news feeds OR charts, you may need to restart your device, and then delete all cookies in your browser related to the web domain you run the app from (before using the app again).</p>'
+			
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">For the more technically-inclined, try decreasing "MaxRequestWorkers" in Apache\'s prefork configuration file (10 maximum is best for low memory devices, BUT don\'t set higher than "MaxSpareServers" above it, OR SET BOTH TO 10), to help stop the web server from crashing under heavier loads. <span class="red">ALWAYS BACKUP THE CURRENT SETTINGS FIRST, IN CASE IT DOESN\'T WORK.</span></p>'
+			
+			
+			+'<p class="coin_info"><span class="yellow"> </span></p>';
+
+	
+		
+			$('#news_raspi_crash').balloon({
+			html: true,
+			position: "left",
+			contents: news_raspi_crash,
+			css: {
+					fontSize: ".8rem",
+					minWidth: ".8rem",
+					padding: ".3rem .7rem",
+					border: "2px solid rgba(212, 212, 212, .4)",
+					borderRadius: "6px",
+					boxShadow: "3px 3px 6px #555",
+					color: "#eee",
+					backgroundColor: "#111",
+					opacity: "0.99",
+					zIndex: "32767",
+					textAlign: "left"
+					}
+			});
+		
+		 </script>
+		 
+	    </p>
 	
 	<p class='bitcoin'>You can enable "Use cookies to save data" on the Settings page <i>before activating your news feeds</i>, if you want them to stay activated between browser sessions.</p>
 	
@@ -162,7 +203,7 @@
 					</div>
 					
 						<?php
-						usleep(2100000); // Wait 2.1 seconds, so we don't accidentally DOS attack-equivalent low power devices (Raspberry Pi Zero, etc) with multiple ajax requests
+						//usleep(300000); // Wait 0.3 seconds, so we don't accidentally DOS attack-equivalent low memory devices (Raspberry Pi Zero, etc) with multiple ajax requests
 						?>
 						<script>
 						
@@ -184,7 +225,7 @@
 							}
 							else if(statusTxt == "error") {
 								
-							$("#rss_feeds_<?=$batched_feeds_loops_added?>").html("Error: " + xhr.status + ": " + xhr.statusText);
+							$("#rss_feeds_<?=$batched_feeds_loops_added?>").html("<fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong class='bitcoin'>ERROR Batch-loading <?=$batched_feeds_added?> news feeds...</strong> </legend><span class='red'>" + xhr.status + ": " + xhr.statusText + "</span></fieldset>");
 								
 							<?php
 							$feeds_array = explode(',', $batched_feeds_keys);

@@ -197,9 +197,12 @@ function tail_custom($filepath, $lines = 1, $adaptive = true) {
 
 		}
 
-		// Close file and return
-		fclose($f);
-		return trim($output);
+
+fclose($f); // Close file
+
+gc_collect_cycles(); // Clean memory cache
+
+return trim($output);
 
 }
 
@@ -677,6 +680,7 @@ $fopen_archive = fopen($archive_path, 'r');
 	if ($fopen_archive) {
 	$first_archival_line = fgets($fopen_archive);
 	fclose($fopen_archive);
+	gc_collect_cycles(); // Clean memory cache
 	}
 	
 $first_archival_array = explode("||", $first_archival_line);
@@ -714,6 +718,7 @@ $now = time();
 	// Not time to update this lite chart yet
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	if ( number_to_string($lite_data_update_threshold) > number_to_string($now) ) {
+	gc_collect_cycles(); // Clean memory cache
 	return false;
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -793,6 +798,7 @@ $now = time();
 			if ($fopen_lite) {
 			$first_lite_line = fgets($fopen_lite);
 			fclose($fopen_lite);
+			gc_collect_cycles(); // Clean memory cache
 			}
 				
 		$first_lite_array = explode("||", $first_lite_line);
@@ -845,7 +851,7 @@ $now = time();
 
 	}
 	
-	
+gc_collect_cycles(); // Clean memory cache
 
 return $result;
 
@@ -1392,6 +1398,8 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 		}
 		
 		fclose($fp);
+
+		gc_collect_cycles(); // Clean memory cache
 	
 	
 	   // MAKE SURE we have good chmod file permissions for less-sophisticated server setups
