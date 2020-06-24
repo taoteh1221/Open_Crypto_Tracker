@@ -753,13 +753,13 @@ function auto_reload() {
                 	var round_min = Math.floor(i/60);
                 	var sec = ( i - (round_min*60) );
                 
-               	$("#reload_countdown").html("(" + round_min + " minutes " + sec + " seconds)"); // Portfolio page
-               	$("span.countdown_notice").html("(auto-reload in " + round_min + " minutes " + sec + " seconds)"); // Secondary pages
+               	$("#reload_countdown").html("<b>(" + round_min + " minutes " + sec + " seconds)</b>"); // Portfolio page
+               	$("span.countdown_notice").html("<b>(auto-reload in " + round_min + " minutes " + sec + " seconds)</b>"); // Secondary pages
                   
                 	}
                 	else {
-                	$("#reload_countdown").html("(" + i + " seconds)"); // Portfolio page
-                	$("span.countdown_notice").html("(auto-reload in " + i + " seconds)"); // Secondary pages
+                	$("#reload_countdown").html("<b>(" + i + " seconds)</b>"); // Portfolio page
+                	$("span.countdown_notice").html("<b>(auto-reload in " + i + " seconds)</b>"); // Secondary pages
                 	}
         				
         				if ( i == 0 ) {
