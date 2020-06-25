@@ -233,7 +233,32 @@ read SYS_USER
  else
  echo "Using username: $SYS_USER"
  fi
+
+echo " "
         
+
+######################################
+
+
+echo "We need to know which version of PHP-FPM (fcgi) to use..."
+echo "(PHP-FPM version 7.2 or greater is REQUIRED)"
+echo " "
+        
+echo "Enter the PHP-FPM version (numeric only):"
+echo "(leave blank / hit enter for default of '7.3')"
+echo " "
+        
+read PHP_FPM_VER
+                
+	if [ -z "$PHP_FPM_VER" ]; then
+ 	PHP_FPM_VER=${1:-7.3}
+ 	echo "Using default PHP-FPM version: $PHP_FPM_VER"
+ 	else
+ 	echo "Using custom PHP-FPM version: $PHP_FPM_VER"
+ 	fi
+        
+echo " "
+
 
 ######################################
 
@@ -249,27 +274,6 @@ select opt in $OPTIONS; do
          echo " "
 			
 			echo "Proceeding with PHP web server installation..."
-			echo " "
-
-
-			echo "We need to know which version of PHP-FPM (fcgi) to install on this operating system..."
-			echo "(PHP-FPM version 7.2 or greater is REQUIRED)"
-			echo " "
-        
-			echo "Enter the PHP-FPM version (numeric only) to install:"
-			echo "(leave blank / hit enter for default of '7.3')"
-			echo " "
-        
-			read PHP_FPM_VER
-                
- 				if [ -z "$PHP_FPM_VER" ]; then
- 				PHP_FPM_VER=${1:-7.3}
- 				echo "Installing default PHP-FPM version: $PHP_FPM_VER"
- 				else
- 				echo "Installing custom PHP-FPM version: $PHP_FPM_VER"
- 				fi
-        
-			
 			echo " "
 			
 			
@@ -626,27 +630,6 @@ EOF
         echo " "
         echo "Removing PHP web server..."
         echo " "
-
-
-		  echo "We need to know which version of PHP-FPM (fcgi) to remove from this operating system..."
-		  echo " "
-        
-		  echo "Enter the PHP-FPM version (numeric only) to remove:"
-		  echo "(leave blank / hit enter for default of '7.3')"
-		  echo " "
-        
-		  read PHP_FPM_VER
-                
- 				if [ -z "$PHP_FPM_VER" ]; then
- 				PHP_FPM_VER=${1:-7.3}
- 				echo "Removing default PHP-FPM version: $PHP_FPM_VER"
- 				else
- 				echo "Removing custom PHP-FPM version: $PHP_FPM_VER"
- 				fi
-        
-			
-        echo " "
-        
         
 		  # DEPRECIATED legacy PHP Apache setup (NOT running fcgi)
         #/usr/bin/apt-get remove apache2 php php-mbstring php-curl php-gd php-zip libapache2-mod-php -y
@@ -940,24 +923,32 @@ select opt in $OPTIONS; do
                         fi
                     
                             
-                      # Setup cron (to check logs after install: tail -f /var/log/syslog | grep cron -i)
+                    # Setup cron (to check logs after install: tail -f /var/log/syslog | grep cron -i)
                             
-                      /usr/bin/touch /etc/cron.d/cryptocoin
-                            
-                    CRONJOB="*/$INTERVAL * * * * $SYS_USER /usr/bin/php -q $PATH > /dev/null 2>&1"
+                    /usr/bin/touch /etc/cron.d/cryptocoin
+                    
+                    
+						  FPM_PATH="/usr/bin/php${PHP_FPM_VER}"
+         
+						  		if [ -f $FPM_PATH ]; then
+						  		CRONJOB="*/$INTERVAL * * * * $SYS_USER $FPM_PATH -q $PATH > /dev/null 2>&1"
+						  		else
+						  		CRONJOB="*/$INTERVAL * * * * $SYS_USER /usr/bin/php -q $PATH > /dev/null 2>&1"
+						  		fi
             
-                      # Play it safe and be sure their is a newline after this job entry
-                      echo -e "$CRONJOB\n" > /etc/cron.d/cryptocoin
+            
+                    # Play it safe and be sure their is a newline after this job entry
+                    echo -e "$CRONJOB\n" > /etc/cron.d/cryptocoin
 
-							 /bin/sleep 1
+						  /bin/sleep 1
                       
-                      # cron.d entries must be a permission of 644
-                      /bin/chmod 644 /etc/cron.d/cryptocoin
+                    # cron.d entries must be a permission of 644
+                    /bin/chmod 644 /etc/cron.d/cryptocoin
 
-							 /bin/sleep 1
+						  /bin/sleep 1
                       
-                      # cron.d entries MUST BE OWNED BY ROOT
-                      /bin/chown root:root /etc/cron.d/cryptocoin
+                    # cron.d entries MUST BE OWNED BY ROOT, OR THEY CRASH!
+                    /bin/chown root:root /etc/cron.d/cryptocoin
                       
                     
                     echo " "
