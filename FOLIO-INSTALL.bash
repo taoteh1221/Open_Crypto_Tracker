@@ -319,17 +319,22 @@ select opt in $OPTIONS; do
 
 			/bin/sleep 1
 			
-			# PHP FPM (fcgi)
+			# PHP FCGI Proxy
 			/usr/sbin/a2enmod proxy_fcgi
 			
 			/bin/sleep 1
 			
-			/usr/sbin/a2enconf php7.3-fpm
+        	CONFIG_FPM="php${PHP_FPM_VER}-fpm"
+        	
+			# Config PHP FPM (fcgi) version $PHP_FPM_VER
+        	/usr/sbin/a2enconf $CONFIG_FPM
 			
 			/bin/sleep 1
 			
 			# Suexec
 			/usr/sbin/a2enmod suexec
+			
+			#/usr/sbin/a2enmod actions
 			
 			/bin/sleep 1
 			
@@ -1215,32 +1220,6 @@ echo "See my other cryptocurrency-related free / private / open source software 
 echo "https://sourceforge.net/u/taoteh1221/profile"
 echo "https://github.com/taoteh1221"
 echo " "
-
-
-#PHP fastCGI and suexec...not yet a good automated script, so disabled for now
-
-#echo "https://cwiki.apache.org/confluence/display/httpd/PHP-FPM"
-#echo "https://geekanddummy.com/how-to-raspberry-pi-tutorial-part-3-web-file-hosting-with-webmin-virtualmin"
-
-#echo "Making sure your system is updated before installing required components..."
-				
-#/usr/bin/apt-get update
-				
-#/usr/bin/apt-get upgrade -y
-				
-#echo "Proceeding with required component installation..."
-
-#/usr/bin/apt-get install php-fpm apache2-suexec-custom -y
-
-#/bin/sleep 3
-				
-#echo "Required component installation completed."
-
-# Activates in Apache2 with following commands
-#/usr/sbin/a2enmod proxy_fcgi setenvif
-#/usr/sbin/a2enconf php7.3-fpm
-#/usr/sbin/a2enmod suexec
-#/usr/sbin/a2enmod actions
 
 
 ######################################
