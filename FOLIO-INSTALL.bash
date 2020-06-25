@@ -130,6 +130,9 @@ echo "You will need to manually move any custom settings in this backup file to 
 echo " "
 echo "IMPORTANT UPGRADE NOTES: "
 echo " "
+echo "v4.14.6 AND HIGHER REQUIRES PHP-FPM (FastCGI) v7.2 OR HIGHER"
+echo "(if you auto-installed, FULLY re-install EVERYTHING with the latest auto-install script: https://git.io/JeWWE)"
+echo " "
 echo "v4.14.3 HAS MAJOR OVERHAULS TO LITE CHART (1W / 1M / ETC) SCALING OPTIMIZATIONS, WHICH MAY SKEW A"
 echo "FEW (NOT MANY THOUGH) CHART TIME INTERVALS #INITIALLY IF YOU ARE UPGRADING FROM A PREVIOUS VERSION#"
 echo "(BUT WILL RETURN TO NORMAL IMMEDIATELY AFTER THE FIRST NEW DATA POINT #AFTER# UPGRADING)"
@@ -246,10 +249,42 @@ select opt in $OPTIONS; do
          echo " "
 			
 			echo "Proceeding with PHP web server installation..."
+			echo " "
+
+
+			echo "We need to know which version of PHP-FPM (fcgi) to install on this operating system..."
+			echo "(PHP-FPM version 7.2 or greater is REQUIRED)"
+			echo " "
+        
+			echo "Enter the PHP-FPM version (numeric only) to install:"
+			echo "(leave blank / hit enter for default of '7.3')"
+			echo " "
+        
+			read PHP_FPM_VER
+                
+ 				if [ -z "$PHP_FPM_VER" ]; then
+ 				PHP_FPM_VER=${1:-7.3}
+ 				echo "Installing default PHP-FPM version: $PHP_FPM_VER"
+ 				else
+ 				echo "Installing custom PHP-FPM version: $PHP_FPM_VER"
+ 				fi
+        
 			
 			echo " "
 			
-			/usr/bin/apt-get install apache2 php php-mbstring php-xml php-curl php-gd php-zip libapache2-mod-php openssl ssl-cert avahi-daemon -y
+			
+			# DEPRECIATED legacy PHP Apache setup (NOT running fcgi)
+			#/usr/bin/apt-get install apache2 php php-mbstring php-xml php-curl php-gd php-zip libapache2-mod-php openssl ssl-cert avahi-daemon -y
+        
+        	INSTALL_FPM="install php${PHP_FPM_VER}-fpm -y"
+        
+			# PHP FPM (fcgi) version $PHP_FPM_VER, run seperate in case it fails from package not found
+        	/usr/bin/apt-get $INSTALL_FPM
+				
+			/bin/sleep 3
+			
+			# PHP FPM (fcgi), Apache, required modules, etc
+			/usr/bin/apt-get install apache2 php php-fpm php-mbstring php-xml php-curl php-gd php-zip libapache2-mod-fcgid apache2-suexec-pristine openssl ssl-cert avahi-daemon -y
 			
 			/bin/sleep 3
 			
@@ -284,16 +319,28 @@ select opt in $OPTIONS; do
 
 			/bin/sleep 1
 			
+			# PHP FPM (fcgi)
+			/usr/sbin/a2enmod proxy_fcgi
+			
+			/bin/sleep 1
+			
+			/usr/sbin/a2enconf php7.3-fpm
+			
+			/bin/sleep 1
+			
+			# Suexec
+			/usr/sbin/a2enmod suexec
+			
+			/bin/sleep 1
+			
 			echo " "
 				
 				if [ -f /etc/init.d/apache2 ]; then
-				echo "Mod-rewrite and SSL (for secure HTTPS web pages) have been enabled,"
-				echo "restarting the Apache web server..."
+				echo "New Apache modules have been enabled, restarting the Apache web server..."
 				/etc/init.d/apache2 restart
 				echo " "
 				else
-				echo "Mod-rewrite and SSL (for secure HTTPS web pages) have been enabled."
-				echo "You must restart the Apache web server for this to take affect."
+				echo "New Apache modules have been enabled, you must restart the Apache web server for these to activate."
 				echo " "
 				fi
 
@@ -574,9 +621,40 @@ EOF
         echo " "
         echo "Removing PHP web server..."
         echo " "
+
+
+		  echo "We need to know which version of PHP-FPM (fcgi) to remove from this operating system..."
+		  echo " "
         
-        # Skip removing openssl / ssl-cert, in case they were already on the system
-        /usr/bin/apt-get remove apache2 php php-mbstring php-curl php-gd php-zip libapache2-mod-php -y
+		  echo "Enter the PHP-FPM version (numeric only) to remove:"
+		  echo "(leave blank / hit enter for default of '7.3')"
+		  echo " "
+        
+		  read PHP_FPM_VER
+                
+ 				if [ -z "$PHP_FPM_VER" ]; then
+ 				PHP_FPM_VER=${1:-7.3}
+ 				echo "Removing default PHP-FPM version: $PHP_FPM_VER"
+ 				else
+ 				echo "Removing custom PHP-FPM version: $PHP_FPM_VER"
+ 				fi
+        
+			
+        echo " "
+        
+        
+		  # DEPRECIATED legacy PHP Apache setup (NOT running fcgi)
+        #/usr/bin/apt-get remove apache2 php php-mbstring php-curl php-gd php-zip libapache2-mod-php -y
+        
+        REMOVE_FPM="remove php${PHP_FPM_VER}-fpm -y"
+        
+		  # PHP FPM (fcgi) version $PHP_FPM_VER, run seperate in case it fails from package not found
+        /usr/bin/apt-get $REMOVE_FPM
+        
+		  /bin/sleep 3
+        
+        # Skip removing openssl / ssl-cert / avahi-daemon, in case they were already on the system
+		  /usr/bin/apt-get remove apache2 php php-fpm php-mbstring php-xml php-curl php-gd php-zip libapache2-mod-fcgid apache2-suexec-pristine -y
         
 		  /bin/sleep 3
 			
@@ -720,7 +798,7 @@ select opt in $OPTIONS; do
   				
   				
 				echo " "
-				echo "Cleaning any previous install..."
+				echo "Making sure any previous install's DEPRECIATED app structuring is cleaned up..."
 				echo " "
 				
   				# Delete old directory / file structures (overhauled in v4.06.0 higher), for a clean upgrade
@@ -728,24 +806,24 @@ select opt in $OPTIONS; do
   				rm -rf $DOC_ROOT/app-lib
   				rm -rf $DOC_ROOT/backups
   				rm -rf $DOC_ROOT/cache/apis
-  				rm -rf $DOC_ROOT/cache/charts/lite/1_day
-  				rm -rf $DOC_ROOT/cache/charts/lite/3_day
-  				rm -rf $DOC_ROOT/cache/charts/lite/7_day
-  				rm -rf $DOC_ROOT/cache/charts/lite/30_day
-  				rm -rf $DOC_ROOT/cache/charts/lite/90_day
-  				rm -rf $DOC_ROOT/cache/charts/lite/180_day
-  				rm -rf $DOC_ROOT/cache/charts/lite/365_day
-  				rm -rf $DOC_ROOT/cache/charts/lite/730_day
-  				rm -rf $DOC_ROOT/cache/charts/lite/1460_day
-  				rm -rf $DOC_ROOT/cache/charts/lite/all_day
-  				rm -rf $DOC_ROOT/cache/charts/lite/1_week
-  				rm -rf $DOC_ROOT/cache/charts/lite/1_month
-  				rm -rf $DOC_ROOT/cache/charts/lite/3_months
-  				rm -rf $DOC_ROOT/cache/charts/lite/6_months
-  				rm -rf $DOC_ROOT/cache/charts/lite/1_year
-  				rm -rf $DOC_ROOT/cache/charts/lite/2_years
-  				rm -rf $DOC_ROOT/cache/charts/lite/4_years
-  				rm -rf $DOC_ROOT/cache/charts/lite/all
+  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/1_day
+  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/3_day
+  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/7_day
+  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/30_day
+  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/90_day
+  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/180_day
+  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/365_day
+  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/730_day
+  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/1460_day
+  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/all_day
+  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/1_week
+  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/1_month
+  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/3_months
+  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/6_months
+  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/1_year
+  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/2_years
+  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/4_years
+  				rm -rf $DOC_ROOT/cache/charts/spot_price_24hr_volume/lite/all
   				rm -rf $DOC_ROOT/cache/logs/debugging/api
   				rm -rf $DOC_ROOT/cache/logs/errors/api
   				rm -rf $DOC_ROOT/cache/queue
@@ -754,6 +832,9 @@ select opt in $OPTIONS; do
   				rm -rf $DOC_ROOT/misc-docs-etc
   				rm -rf $DOC_ROOT/templates
   				rm -rf $DOC_ROOT/ui-templates
+
+				/bin/sleep 3
+				
   				# Files
 				rm $DOC_ROOT/DOCUMENTATION-ETC/CONFIG.EXAMPLE.txt # (Renamed /DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt)
 				rm $DOC_ROOT/DOCUMENTATION-ETC/CRON_PLUGINS_README.txt # (Renamed /DOCUMENTATION-ETC/CRON-PLUGINS-README.txt)
@@ -765,6 +846,8 @@ select opt in $OPTIONS; do
 				rm $DOC_ROOT/webhook.php
 				rm $DOC_ROOT/rest-api.php
 				rm $DOC_ROOT/logs.php
+				rm $DOC_ROOT/.htaccess # Force-resets script timeout from config.php (automatically / dynamically re-created by app)
+				rm $DOC_ROOT/.user.ini # Force-resets script timeout from config.php (automatically / dynamically re-created by app)
 
 				/bin/sleep 3
 				
@@ -780,21 +863,16 @@ select opt in $OPTIONS; do
 				cd ../
 				
 				rm -rf DFD-Cryptocoin-Values
-				
 				rm -rf $DOC_ROOT/.github
 
 				/bin/sleep 3
 				
 				rm $DOC_ROOT/.gitattributes
-				
 				rm $DOC_ROOT/.gitignore
-				
+				rm $DOC_ROOT/.travis.yml
 				rm $DOC_ROOT/CODEOWNERS
 				
 				/bin/chmod 777 $DOC_ROOT/cache
-				
-				/bin/chmod 664 $DOC_ROOT/.htaccess
-				
 				/bin/chmod 755 $DOC_ROOT/cron.php
 
 				/bin/sleep 1

@@ -11,8 +11,14 @@ if ( $force_exit != 1 ) {
     
     // Recreate /.htaccess for optional password access restriction / mod rewrite etc
     if ( !file_exists($base_dir . '/.htaccess') ) {
-    store_file_contents($base_dir . '/.htaccess', file_get_contents($base_dir . '/templates/back-end/root-app-directory-htaccess.template') ); 
+    store_file_contents($base_dir . '/.htaccess', htaccess_directory_defaults() ); 
     }
+    
+    // Recreate /.user.ini for optional php-fpm php.ini control
+    if ( !file_exists($base_dir . '/.user.ini') ) {
+    store_file_contents($base_dir . '/.user.ini', user_ini_defaults() ); 
+    }
+    
     
     ///////////////////////////////////////////
     

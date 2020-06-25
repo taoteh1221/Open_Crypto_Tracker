@@ -3581,11 +3581,15 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Bug fix for lite chart updating logic (added missing "fclose" logic for initial chart inspections)
 
--Optimizations (revised) / documentation for low memory devices (Raspberry Pi Zero, Pine64, etc) crashing when too many news feeds / price charts are chosen
+-Bug fixes (revised) / optimizations (revised) / documentation for low memory devices (Raspberry Pi Zero, Pine64, etc) crashing when too many news feeds / price charts are chosen
+
+-PHP FastCGI mode is now REQUIRED for greater system stability (if you auto-installed, FULLY re-install EVERYTHING with the latest auto-install script: https://git.io/JeWWE)
 
 -Suppress web browser from sending referral data when clicking external links (privacy, so external sites don't see where you visited them from) 
 
 IMPORTANT UPGRADE NOTES: 
+
+v4.14.6 AND HIGHER REQUIRES PHP-FPM (FastCGI) v7.2 OR HIGHER (if you auto-installed, FULLY re-install EVERYTHING with the latest auto-install script: https://git.io/JeWWE)
 
 v4.14.3 HAS MAJOR OVERHAULS TO LITE CHART (1W / 1M / ETC) SCALING OPTIMIZATIONS, WHICH MAY SKEW A FEW (NOT MANY THOUGH) CHART TIME INTERVALS #INITIALLY IF YOU ARE UPGRADING FROM A PREVIOUS VERSION# (BUT WILL RETURN TO NORMAL IMMEDIATELY AFTER THE FIRST NEW DATA POINT #AFTER# UPGRADING)
 

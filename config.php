@@ -1287,6 +1287,30 @@ $app_config['developer']['log_verbosity'] = 'normal'; // 'normal' / 'verbose'
 $app_config['developer']['log_purge'] = 10; 
 
 
+// !!!!! BE #VERY CAREFUL# LOWERING MAXIMUM EXECUTION TIMES BELOW, #OR YOU MAY CRASH THE RUNNING PROCESSES, 
+// AND CAUSE MEMORY LEAKS THAT ALSO CRASH YOUR !ENTIRE SYSTEM!#
+////
+// Maximum execution time for interface runtime in seconds (how long it's allowed to run before automatically killing the process)
+// (ALL execution times are automatically 600 IN DEBUG MODE)
+$app_config['developer']['ui_max_execution_time'] = 120; // (default = 120)
+////
+// Maximum execution time for ajax runtime in seconds (how long it's allowed to run before automatically killing the process)
+// (ALL execution times are automatically 600 IN DEBUG MODE)
+$app_config['developer']['ajax_max_execution_time'] = 120; // (default = 120)
+////
+// Maximum execution time for cron job runtime in seconds (how long it's allowed to run before automatically killing the process)
+// (ALL execution times are automatically 600 IN DEBUG MODE)
+$app_config['developer']['cron_max_execution_time'] = 600; // (default = 600)
+////
+// Maximum execution time for internal API runtime in seconds (how long it's allowed to run before automatically killing the process)
+// (ALL execution times are automatically 600 IN DEBUG MODE)
+$app_config['developer']['int_api_max_execution_time'] = 90; // (default = 90)
+////
+// Maximum execution time for webhook runtime in seconds (how long it's allowed to run before automatically killing the process)
+// (ALL execution times are automatically 600 IN DEBUG MODE)
+$app_config['developer']['webhook_max_execution_time'] = 90; // (default = 90)
+
+
 // If you want to override the default user agent string (sent with API requests, etc)
 // Adding a string here automatically enables that as the custom user agent
 // LEAVING BLANK '' USES THE DEFAULT USER AGENT LOGIC BUILT-IN TO THIS APP (INCLUDES BASIC SYSTEM CONFIGURATION STATS)

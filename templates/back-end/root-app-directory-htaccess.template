@@ -70,7 +70,7 @@ php_value post_max_size 15M
 
 php_value max_input_time 50
 
-php_value max_execution_time 100
+php_value max_execution_time [PHP_TIMEOUT]
 
 </IfModule>
 
@@ -85,11 +85,24 @@ php_value post_max_size 15M
 
 php_value max_input_time 50
 
-php_value max_execution_time 100
+php_value max_execution_time [PHP_TIMEOUT]
 
 </IfModule>
 
 ###########################################################
 # END PHP INI SETTINGS
+###########################################################
+
+
+###########################################################
+# START FILE RESTRICTION SETTINGS
+###########################################################
+
+<Files ".user.ini"> 
+    Require all denied
+</Files>
+
+###########################################################
+# END FILE RESTRICTION SETTINGS
 ###########################################################
 

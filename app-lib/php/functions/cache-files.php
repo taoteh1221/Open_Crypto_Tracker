@@ -3,7 +3,6 @@
  * Copyright 2014-2020 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
  */
  
-
  
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
@@ -33,6 +32,46 @@ function update_cache_file($cache_file, $minutes) {
 
 }
  
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function user_ini_defaults() {
+	
+global $base_dir, $app_config;
+
+$ui_execution_time = $app_config['developer']['ui_max_execution_time']; // Don't overwrite globals
+
+	// If the UI timeout var wasn't set properly / is not a whole number 3600 or less
+	if ( !ctype_digit($ui_execution_time) || $ui_execution_time > 3600 ) {
+	$ui_execution_time = 120; // Default
+	}
+
+return preg_replace("/\[PHP_TIMEOUT\]/i", $ui_execution_time, file_get_contents($base_dir . '/templates/back-end/root-app-directory-user-ini.template') );
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function htaccess_directory_defaults() {
+	
+global $base_dir, $app_config;
+
+$ui_execution_time = $app_config['developer']['ui_max_execution_time']; // Don't overwrite globals
+
+	// If the UI timeout var wasn't set properly / is not a whole number 3600 or less
+	if ( !ctype_digit($ui_execution_time) || $ui_execution_time > 3600 ) {
+	$ui_execution_time = 120; // Default
+	}
+
+return preg_replace("/\[PHP_TIMEOUT\]/i", $ui_execution_time, file_get_contents($base_dir . '/templates/back-end/root-app-directory-htaccess.template') );
+
+}
+
 
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
@@ -115,7 +154,7 @@ $password_strength = password_strength($htaccess_password, 8, 8);
     
     	if ( $password_set == true ) {
     	
-    	$htaccess_contents = file_get_contents($base_dir . '/templates/back-end/root-app-directory-htaccess.template') . 
+    	$htaccess_contents = htaccess_directory_defaults() . 
 		preg_replace("/\[BASE_DIR\]/i", $base_dir, file_get_contents($base_dir . '/templates/back-end/enable-password-htaccess.template') );
     
     	$htaccess_set = store_file_contents($base_dir . '/.htaccess', $htaccess_contents);
@@ -570,7 +609,7 @@ $file_owner_info = posix_getpwuid(fileowner($file));
 	
 	// We ALWAYS set .htaccess files to a more secure $app_config['developer']['chmod_index_security'] permission AFTER EDITING, 
 	// so we TEMPORARILY set .htaccess to $app_config['developer']['chmod_cache_files'] for NEW EDITING...
-	if ( strstr($file, '.htaccess') != false || strstr($file, 'index.php') != false ) {
+	if ( strstr($file, '.htaccess') != false || strstr($file, '.user.ini') != false || strstr($file, 'index.php') != false ) {
 		
 	$chmod_setting = octdec($app_config['developer']['chmod_cache_files']);
 	
@@ -612,7 +651,7 @@ $file_owner_info = posix_getpwuid(fileowner($file));
 	
 	
 	// For security, NEVER make an .htaccess file writable by any user not in the group
-	if ( strstr($file, '.htaccess') != false || strstr($file, 'index.php') != false ) {
+	if ( strstr($file, '.htaccess') != false || strstr($file, '.user.ini') != false || strstr($file, 'index.php') != false ) {
 	$chmod_setting = octdec($app_config['developer']['chmod_index_security']);
 	}
 	// All other files
@@ -702,7 +741,7 @@ $min_data_interval = round( ($newest_archival_timestamp - $oldest_allowed_timest
 $now = time();
 
 
-	// #INITIALLY# (if no lite data exists yet) we randomly spread the load across X minutes in multiple cron jobs
+	// #INITIALLY# (if no lite data exists yet) we randomly spread the load across multiple cron jobs
 	// THEN IT #REMAINS RANDOMLY SPREAD# ACROSS CRON JOBS #WITHOUT DOING ANYTHING AFTER# THE INITIAL RANDOMNESS
 	if ( $newest_lite_timestamp == false ) {
 	$lite_data_update_threshold = rand( ($now - 3333) , ($now + 6666) ); // 1/3 of all lite charts REBUILDS update on average, per runtime
@@ -773,7 +812,7 @@ $now = time();
 			}
 			
 			if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'memory' ) {
-			app_logging('system_debugging', $_SESSION['lite_charts_updated'] . ' lite charts updated, CURRENT script memory usage is ' . convert_bytes(memory_get_usage(), 1) . ', and PEAK script memory usage is ' . convert_bytes(memory_get_peak_usage(), 1) );
+			app_logging('system_debugging', $_SESSION['lite_charts_updated'] . ' lite charts updated, CURRENT script memory usage is ' . convert_bytes(memory_get_usage(), 1) . ', PEAK script memory usage is ' . convert_bytes(memory_get_peak_usage(), 1) . ', php_sapi_name() returns "' . php_sapi_name() . '"' );
 			}
 			
 		}
@@ -840,7 +879,7 @@ $now = time();
 			}
 			
 			if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'memory' ) {
-			app_logging('system_debugging', $_SESSION['lite_charts_updated'] . ' lite charts updated, CURRENT script memory usage is ' . convert_bytes(memory_get_usage(), 1) . ', and PEAK script memory usage is ' . convert_bytes(memory_get_peak_usage(), 1) );
+			app_logging('system_debugging', $_SESSION['lite_charts_updated'] . ' lite charts updated, CURRENT script memory usage is ' . convert_bytes(memory_get_usage(), 1) . ', PEAK script memory usage is ' . convert_bytes(memory_get_peak_usage(), 1) . ', php_sapi_name() returns "' . php_sapi_name() . '"' );
 			}
 			
 		}

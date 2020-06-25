@@ -1,0 +1,12 @@
+
+
+memory_limit = "128M"
+
+upload_max_filesize = "7M"
+
+post_max_size = "15M"
+
+max_input_time = "50"
+
+max_execution_time = "[PHP_TIMEOUT]"
+

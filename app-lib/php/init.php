@@ -9,9 +9,53 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+// Set time as UTC for logs etc ($app_config['general']['local_time_offset'] in config.php can adjust UI / UX timestamps as needed)
+date_default_timezone_set('UTC'); 
+
+
 // If debugging is enabled, turn on all PHP error reporting (BEFORE ANYTHING ELSE RUNS)
 if ( $app_config['developer']['debug_mode'] != 'off' ) {
 error_reporting(1); 
+}
+else {
+error_reporting(0); 
+}
+
+
+// Set a max execution time (if the system lets us), TO AVOID RUNAWAY PROCESSES FREEZING THE SERVER
+if ( $app_config['developer']['debug_mode'] != 'off' ) {
+$max_execution_time = 600; // 10 minutes in debug mode
+}
+elseif ( $runtime_mode == 'ui' ) {
+$max_execution_time = $app_config['developer']['ui_max_execution_time'];
+}
+elseif ( $runtime_mode == 'ajax' ) {
+$max_execution_time = $app_config['developer']['ajax_max_execution_time'];
+}
+elseif ( $runtime_mode == 'cron' ) {
+$max_execution_time = $app_config['developer']['cron_max_execution_time'];
+}
+elseif ( $runtime_mode == 'int_api' ) {
+$max_execution_time = $app_config['developer']['int_api_max_execution_time'];
+}
+elseif ( $runtime_mode == 'webhook' ) {
+$max_execution_time = $app_config['developer']['webhook_max_execution_time'];
+}
+
+
+// If the script timeout var wasn't set properly / is not a whole number 3600 or less
+if ( !ctype_digit($max_execution_time) || $max_execution_time > 3600 ) {
+$max_execution_time = 120; // 120 seconds default
+}
+
+
+// Maximum time script can run (may OR may not be overridden by operating system values, BUT we want this if the system allows it)
+ini_set('max_execution_time', $max_execution_time);
+
+
+// Mac compatibility with CSV spreadsheet importing / exporting
+if (  preg_match("/darwin/i", php_uname()) || preg_match("/webkit/i", $_SERVER['HTTP_USER_AGENT']) ) {
+ini_set('auto_detect_line_endings', true); 
 }
 
 
@@ -33,16 +77,6 @@ define('CURL_VERSION_ID', str_replace(".", "", $curl_setup["version"]) );
 if ( function_exists('apache_get_modules') ) {
 $apache_modules = apache_get_modules(); 
 }
-
-
-// Mac compatibility with CSV spreadsheet importing / exporting
-if (  preg_match("/darwin/i", php_uname()) || preg_match("/webkit/i", $_SERVER['HTTP_USER_AGENT']) ) {
-ini_set('auto_detect_line_endings', true); 
-}
-
-
-// Set time as UTC for logs etc ($app_config['general']['local_time_offset'] in config.php can adjust UI / UX timestamps as needed)
-date_default_timezone_set('UTC'); 
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
