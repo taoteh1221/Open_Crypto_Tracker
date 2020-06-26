@@ -504,6 +504,8 @@ right: 0px;
 z-index: 5;
 position: sticky;
 position: -webkit-sticky;
+border-radius: 5px;
+padding: 2px;
 }
 
 

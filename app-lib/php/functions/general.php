@@ -661,7 +661,7 @@ $news_feeds = $app_config['power_user']['news_feeds'];
 	 if ( $recache_only ) {
 	 	foreach($news_feeds as $feed_key => $feed_unused) {
 	 		if ( trim($news_feeds[$feed_key]["url"]) != '' ) {
-	 		get_rss_feed($news_feeds[$feed_key]["url"], $feed_size, 1);
+	 		//get_rss_feed($news_feeds[$feed_key]["url"], $feed_size, 1);
 	 		}
 	 	}
 	 	$_SESSION['fetched_feeds'] = false; // Reset feed fetch telemetry
@@ -675,7 +675,7 @@ $news_feeds = $app_config['power_user']['news_feeds'];
 			// We avoid using array keys for end user config editing UX, BUT STILL UNIQUELY IDENTIFY EACH FEED
     		if ( isset($feed["title"]) && get_digest($feed["title"], 10) == $chosen_feed ) {
     		$html .= "<fieldset class='subsection_fieldset'><legend class='subsection_legend'> ".$feed["title"].'</legend>';
-    		$html .= get_rss_feed($feed["url"], $feed_size);
+    		$html .= //get_rss_feed($feed["url"], $feed_size);
     		$html .= "</fieldset>";    
     		}
     
@@ -1032,7 +1032,7 @@ $loop = 0;
 	}
 	
 
-return implode('\n', $file);
+return implode("\n", $file);
 
 }
 

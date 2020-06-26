@@ -185,7 +185,7 @@ global $app_config;
 		
 		// Subdirectories of /secured/
 		if ( sizeof($subpath_array) > 1 ) {
-		$path = str_replace($subpath_array[0], obfuscate_string($subpath_array[0], 0), $path);
+		$path = str_replace($subpath_array[0], obfuscate_string($subpath_array[0], 1), $path);
 		$path = str_replace($subpath_array[1], obfuscate_string($subpath_array[1], 5), $path);
 		}
 		// Files directly in /secured/

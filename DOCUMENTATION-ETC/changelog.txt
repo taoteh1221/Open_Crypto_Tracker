@@ -3623,6 +3623,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Auto-install script explicitly uses the chosen PHP version for the cron jobs too (charts / alerts background tasks)
 
+-Misc UX revisions
+
 IMPORTANT UPGRADE NOTES: 
 
 v4.14.6 AND HIGHER REQUIRES PHP-FPM (FastCGI) v7.2 OR HIGHER (if you auto-installed, FULLY re-install EVERYTHING with the latest auto-install script: https://git.io/JeWWE)
