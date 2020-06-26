@@ -562,6 +562,13 @@ $xmldata = @external_api_data('url', $url, $rss_feed_cache_time);
 	
 		
 	$rss = simplexml_load_string($xmldata);
+	
+	
+		if ( $xmldata == 'none' || $rss == false ) {
+		gc_collect_cycles(); // Clean memory cache
+	 	return '<span class="red">Error retrieving feed data.</span>';
+	 	}
+						
 						
 	$html .= '<ul>';
 	$html_hidden .= '<ul class="hidden" id="'.md5($url).'">';
@@ -694,12 +701,8 @@ $xmldata = @external_api_data('url', $url, $rss_feed_cache_time);
 gc_collect_cycles(); // Clean memory cache
 
 	
-	
 	 if ( $feed_size == 0 || $cache_only ) {
 	 return true;
-	 }
-	 elseif ( $xmldata == 'none' || $rss == false ) {
-	 return '<span class="red">Error retrieving feed data.</span>';
 	 }
 	 else {
 	 return $html . "\n" . $show_more_less . "\n" . $html_hidden;
