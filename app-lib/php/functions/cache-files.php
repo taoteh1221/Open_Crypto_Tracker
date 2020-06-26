@@ -751,13 +751,10 @@ $oldest_archival_timestamp = $first_archival_array[0];
 	}
 
 
-$now = time();
-
-
 	// #INITIALLY# (if no lite data exists yet) we randomly spread the load across multiple cron jobs
 	// THEN IT #REMAINS RANDOMLY SPREAD# ACROSS CRON JOBS #WITHOUT DOING ANYTHING AFTER# THE INITIAL RANDOMNESS
 	if ( $newest_lite_timestamp == false ) {
-	$lite_data_update_threshold = rand( ($now - 3333) , ($now + 6666) ); // 1/3 of all lite charts REBUILDS update on average, per runtime
+	$lite_data_update_threshold = rand( (time() - 3333) , (time() + 6666) ); // 1/3 of all lite charts REBUILDS update on average, per runtime
 	}
 	// Update threshold calculated from pre-existing lite data
 	else {
@@ -765,15 +762,20 @@ $now = time();
 	}
 
 
+// Large number support
+$lite_data_update_threshold = number_to_string($lite_data_update_threshold); 
+
 
    // If we are queued to update an existing lite chart
-   if ( isset($newest_lite_timestamp) && number_to_string($lite_data_update_threshold) <= number_to_string($now) ) {
+   if ( isset($newest_lite_timestamp) && $lite_data_update_threshold <= $newest_archival_timestamp ) {
    
     	// Since we randomly spread lite chart updates over a couple hours, see if we need to grab more than one line from archival data
-    	if ( $newest_lite_timestamp <= ( $newest_archival_timestamp - ($min_data_interval * 2) ) ) {
+    	if ( ($lite_data_update_threshold + $min_data_interval) <= $newest_archival_timestamp ) { // Check with an extra $min_data_interval
     	
-    	$tail_archival_lines = tail_custom($archive_path, 20); // Grab last 20 lines
+    	$tail_archival_lines = tail_custom($archive_path, 20); // Grab last 20 lines, to be safe
     	$tail_archival_lines_array = explode("\n", $tail_archival_lines);
+    	// Remove all null / false / empty strings, and reindex
+    	$tail_archival_lines_array = array_values( array_filter( $tail_archival_lines_array, 'strlen' ) ); 
     	
     	 	foreach( $tail_archival_lines_array as $archival_line ) {
     	 	$archival_line_array = explode('||', $archival_line);
@@ -788,7 +790,7 @@ $now = time();
     	 
     	}
     	// If we only will be adding the last archival line
-    	elseif ( $newest_lite_timestamp <= ($newest_archival_timestamp - $min_data_interval)  ) {
+    	else {
     	$queued_archival_lines[] = $last_archival_line;
     	}
     	
@@ -810,7 +812,7 @@ $now = time();
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// Not time to update / rebuild this lite chart yet
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	if ( number_to_string($lite_data_update_threshold) > number_to_string($now) ) {
+	if ( $lite_data_update_threshold > $newest_archival_timestamp ) {
 	gc_collect_cycles(); // Clean memory cache
 	return false;
 	}
@@ -876,9 +878,9 @@ $now = time();
 
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// If the lite chart has existing data, append new data to it / trim out X first lines (if at 'lite_chart_data_points_max')
+	// If the lite chart has existing data, AND we have new data to append to it / trim out X first lines (if at 'lite_chart_data_points_max')
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	else {
+	elseif ( $newest_lite_timestamp && sizeof($queued_archival_lines) > 0 ) {
 		
 	$queued_archival_data = implode('', $queued_archival_lines);
 	
@@ -904,11 +906,13 @@ $now = time();
 			if ( $oldest_lite_timestamp < $oldest_allowed_timestamp ) {
 			$lite_data_removed_outdated_lines = prune_first_lines($lite_path, 0, $oldest_allowed_timestamp);
 			
+			usleep(120000); // Wait 0.12 seconds
 			$result = store_file_contents($lite_path, $lite_data_removed_outdated_lines . $queued_archival_data);
 			$lite_mode_logging = 'PRUNED_OUTDATED_OVERWRITE' . $added_archival_mode;
 			}
 			// If we're clear to just append the latest data
 			else {
+			usleep(120000); // Wait 0.12 seconds
 			$result = store_file_contents($lite_path, $queued_archival_data, "append");
 			$lite_mode_logging = 'APPEND' . $added_archival_mode;
 			}
@@ -945,6 +949,9 @@ $now = time();
 		}
 	
 
+	}
+	else {
+	$result = false;
 	}
 	
 gc_collect_cycles(); // Clean memory cache

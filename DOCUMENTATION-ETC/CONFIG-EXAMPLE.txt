@@ -1326,8 +1326,9 @@ $app_config['developer']['chmod_cache_files'] = '0666'; // (default = '0666')
 $app_config['developer']['chmod_index_security'] = '0664'; // (default = '0664')
 
 
-// Maximum number of batched news feeds added per ajax call on news page (optimizing ajax call amounts, reducing server load)
-$app_config['developer']['batched_news_feeds_max'] = 25; // (default = 25)
+// Maximum number of batched news feed fetches / re-caches per ajax OR cron runtime 
+// (#PREVENTS RUNTIME CRASHES# ON LOW POWER DEVICES, WITH A LOWER NUMBER)
+$app_config['developer']['batched_news_feeds_max'] = 15; // (default = 15)
 							
 
 // TLD-only (Top Level Domain only, NO SUBDOMAINS) for each API service that requires multiple calls (for each market / data set)
@@ -2847,6 +2848,7 @@ $app_config['portfolio_assets'] = array(
                         'market_pairing' => array(
                         
                                     'btc' => array(
+                                         'bittrex_global' => 'BTC-KDA',
                                          'hotbit' => 'KDA_BTC',
                                          'coinex' => 'KDABTC',
                                                     ),
