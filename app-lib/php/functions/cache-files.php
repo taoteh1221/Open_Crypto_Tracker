@@ -791,6 +791,16 @@ $now = time();
     	elseif ( $newest_lite_timestamp <= ($newest_archival_timestamp - $min_data_interval)  ) {
     	$queued_archival_lines[] = $last_archival_line;
     	}
+    	
+    	
+    	// DEBUGGING data
+    	if ( sizeof($queued_archival_lines) > 0 ) {
+    	$added_archival_mode = '_ADDED_' . sizeof($queued_archival_lines);
+    	}
+    	else {
+    	$added_archival_mode = '_ADDED_0';
+    	}
+   
    
    }
 
@@ -895,12 +905,12 @@ $now = time();
 			$lite_data_removed_outdated_lines = prune_first_lines($lite_path, 0, $oldest_allowed_timestamp);
 			
 			$result = store_file_contents($lite_path, $lite_data_removed_outdated_lines . $queued_archival_data);
-			$lite_mode_logging = 'PRUNED_OUTDATED_OVERWRITE';
+			$lite_mode_logging = 'PRUNED_OUTDATED_OVERWRITE' . $added_archival_mode;
 			}
 			// If we're clear to just append the latest data
 			else {
 			$result = store_file_contents($lite_path, $queued_archival_data, "append");
-			$lite_mode_logging = 'APPEND';
+			$lite_mode_logging = 'APPEND' . $added_archival_mode;
 			}
 		
 		
@@ -913,7 +923,7 @@ $now = time();
 		
 		usleep(120000); // Wait 0.12 seconds
 		$result = store_file_contents($lite_path, $lite_data_removed_exess_lines . $queued_archival_data);
-		$lite_mode_logging = 'PRUNED_EXCESS_OVERWRITE';
+		$lite_mode_logging = 'PRUNED_EXCESS_OVERWRITE' . $added_archival_mode;
 		}
 	
 	
