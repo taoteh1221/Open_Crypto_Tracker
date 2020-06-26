@@ -100,7 +100,7 @@ IMPORTANT NOTES: YOU WILL BE PROMPTED TO CREATE AN ADMIN LOGIN (FOR SECURITY OF 
 Command to install / upgrade everything automatically on Ubuntu or Raspberry Pi OS (an affordable low power single board computer)...
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Recommended MINIMUM system specs: 1 gigahertz CPU / 512 megabytes RAM (running NGIX or Apache headless with PHP v7.2+ and FastCGI)
+Recommended MINIMUM system specs: 1 gigahertz CPU / 512 megabytes RAM (running NGIX or Apache headless with PHP-FPM v7.2+)
 
 wget -O FOLIO-INSTALL.bash https://git.io/JeWWE;chmod +x FOLIO-INSTALL.bash;sudo ./FOLIO-INSTALL.bash
 
