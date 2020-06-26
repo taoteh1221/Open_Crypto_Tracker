@@ -741,7 +741,7 @@ $oldest_archival_timestamp = $first_archival_array[0];
 	
 		
 // Minimum time interval between data points in lite chart
-$min_data_interval = round( ($newest_archival_timestamp - $oldest_allowed_timestamp) / $app_config['power_user']['lite_chart_data_points_max'] );
+$min_data_interval = round( ($newest_archival_timestamp - $base_min_timestamp) / $app_config['power_user']['lite_chart_data_points_max'] );
 
 $now = time();
 
