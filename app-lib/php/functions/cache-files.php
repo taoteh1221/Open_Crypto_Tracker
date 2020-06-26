@@ -882,7 +882,7 @@ $lite_data_update_threshold = number_to_string($lite_data_update_threshold);
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	elseif ( $newest_lite_timestamp && sizeof($queued_archival_lines) > 0 ) {
 		
-	$queued_archival_data = implode('', $queued_archival_lines);
+	$queued_archival_data = implode('\n', $queued_archival_lines);
 	
 	// Current lite chart lines, plus new archival lines queued to be added
 	$check_lite_data_lines = get_lines($lite_path) + sizeof($queued_archival_lines);
