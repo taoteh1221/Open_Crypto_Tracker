@@ -3617,7 +3617,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.14.7:
 
--Bug fix for lite chart updating logic (since we update at random intervals to spread the work load across multiple runtimes, check for multiple eligible new archival data points instead of one)
+-Bug fixes (MANY) for lite chart updating logic (too many too list)
 
 -Auto-install script explicitly uses the chosen PHP version for the cron jobs too (charts / alerts background tasks)
 

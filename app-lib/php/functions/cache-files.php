@@ -727,21 +727,29 @@ $first_archival_array = explode("||", $first_archival_line);
 $oldest_archival_timestamp = $first_archival_array[0];
 	
 			
-	// Oldest base timestamp we can use
+	// Oldest base timestamp we can use (only applies for x days charts, not 'all')
+	if ( $days_span != 'all' ) {
 	$base_min_timestamp = strtotime('-'.$days_span.' day', $newest_archival_timestamp);
+	}
 	
-	// If it's the 'all' lite chart, or the oldest archival timestamp is newer than oldest base timestamp we can use
-	if ( $days_span == 'all' || $oldest_archival_timestamp > $base_min_timestamp ) {
+	// If it's the 'all' lite chart, OR the oldest archival timestamp is newer than oldest base timestamp we can use
+	if ( $days_span == 'all' || $days_span != 'all' && $oldest_archival_timestamp > $base_min_timestamp ) {
 	$oldest_allowed_timestamp = $oldest_archival_timestamp;
 	}
-	// If it's an X period lite chart, and we have archival timestamps that are older than oldest base timestamp we can use
-	else {
+	// If it's an X days lite chart (not 'all'), and we have archival timestamps that are older than oldest base timestamp we can use
+	elseif ( $days_span != 'all' ) {
 	$oldest_allowed_timestamp = $base_min_timestamp;  
 	}
 	
-		
-// Minimum time interval between data points in lite chart
-$min_data_interval = round( ($newest_archival_timestamp - $base_min_timestamp) / $app_config['power_user']['lite_chart_data_points_max'] );
+	
+	// Minimum time interval between data points in lite chart
+	if ( $days_span == 'all' ) {
+	$min_data_interval = round( ($newest_archival_timestamp - $oldest_archival_timestamp) / $app_config['power_user']['lite_chart_data_points_max'] );
+	}
+	else {
+	$min_data_interval = round( ($newest_archival_timestamp - $base_min_timestamp) / $app_config['power_user']['lite_chart_data_points_max'] );
+	}
+
 
 $now = time();
 
