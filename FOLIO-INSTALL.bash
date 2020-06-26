@@ -103,7 +103,7 @@ echo "Your operating system has been detected as:"
 echo "$OS v$VER"
 echo " "
 
-echo "Recommended minimum system specs: Raspberry Pi Zero / 512 megabytes of RAM (running headless)"
+echo "Recommended MINIMUM system specs: 1 gigahertz CPU / 512 megabytes RAM (running Nginx or Apache headless with PHP-FPM v7.2+)"
 echo " "
 
 echo "If you already have unrelated web site files located at $DOC_ROOT on your system, they may be affected."
