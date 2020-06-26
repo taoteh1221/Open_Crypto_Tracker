@@ -928,10 +928,11 @@ select opt in $OPTIONS; do
                     /usr/bin/touch /etc/cron.d/cryptocoin
                     
                     
-						  FPM_PATH="/usr/bin/php${PHP_FPM_VER}"
-         
-						  		if [ -f $FPM_PATH ]; then
-						  		CRONJOB="*/$INTERVAL * * * * $SYS_USER $FPM_PATH -q $PATH > /dev/null 2>&1"
+						  PHP_CLI_PATH="/usr/bin/php${PHP_FPM_VER}"
+         					
+         					# If PHP $PHP_FPM_VER specific CLI binary not found, use the most common standard path
+						  		if [ -f $PHP_CLI_PATH ]; then
+						  		CRONJOB="*/$INTERVAL * * * * $SYS_USER $PHP_CLI_PATH -q $PATH > /dev/null 2>&1"
 						  		else
 						  		CRONJOB="*/$INTERVAL * * * * $SYS_USER /usr/bin/php -q $PATH > /dev/null 2>&1"
 						  		fi
