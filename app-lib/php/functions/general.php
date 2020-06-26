@@ -1032,7 +1032,7 @@ $loop = 0;
 	}
 	
 
-return $file;
+return implode('\n', $file);
 
 }
 
