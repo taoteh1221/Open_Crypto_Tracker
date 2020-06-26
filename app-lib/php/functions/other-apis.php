@@ -401,6 +401,10 @@ $rss_feed_cache_time = rand($news_feeds_cache_min_max[0], $news_feeds_cache_min_
 	if ( !isset($_SESSION['fetched_feeds']['all']) ) {
 	$_SESSION['fetched_feeds']['all'] = 0;
 	}
+	// If we have hit our fetching / re-caching limit, return true
+	elseif ( $_SESSION['fetched_feeds']['all'] > $app_config['developer']['batched_news_feeds_max'] ) {
+	return true;
+	}
 	
 
 	// #INITIALLY# (if no feed data exists yet) we randomly spread the load across multiple runtimes
