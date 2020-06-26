@@ -689,6 +689,7 @@ function update_lite_chart($archive_path, $newest_archival_data=false, $days_spa
 global $app_config;
 
 $archival_data = array();
+$queued_archival_lines = array();
 $new_lite_data = null;
 
 // Lite chart file path
@@ -726,12 +727,16 @@ $first_archival_array = explode("||", $first_archival_line);
 $oldest_archival_timestamp = $first_archival_array[0];
 	
 			
-	// Oldest allowed timestamp
-	if ( $days_span == 'all' ) {
+	// Oldest base timestamp we can use
+	$base_min_timestamp = strtotime('-'.$days_span.' day', $newest_archival_timestamp);
+	
+	// If it's the 'all' lite chart, or the oldest archival timestamp is newer than oldest base timestamp we can use
+	if ( $days_span == 'all' || $oldest_archival_timestamp > $base_min_timestamp ) {
 	$oldest_allowed_timestamp = $oldest_archival_timestamp;
 	}
+	// If it's an X period lite chart, and we have archival timestamps that are older than oldest base timestamp we can use
 	else {
-	$oldest_allowed_timestamp = strtotime('-'.$days_span.' day', $newest_archival_timestamp); // Timestamp for oldest data point 
+	$oldest_allowed_timestamp = $base_min_timestamp;  
 	}
 	
 		
@@ -753,17 +758,48 @@ $now = time();
 
 
 
+   // If we are queued to update an existing lite chart
+   if ( isset($newest_lite_timestamp) && number_to_string($lite_data_update_threshold) <= number_to_string($now) ) {
+   
+    	// Since we randomly spread lite chart updates over a couple hours, see if we need to grab more than one line from archival data
+    	if ( $newest_lite_timestamp <= ( $newest_archival_timestamp - ($min_data_interval * 2) ) ) {
+    	
+    	$tail_archival_lines = tail_custom($archive_path, 20); // Grab last 20 lines
+    	$tail_archival_lines_array = explode("\n", $tail_archival_lines);
+    	
+    	 	foreach( $tail_archival_lines_array as $archival_line ) {
+    	 	$archival_line_array = explode('||', $archival_line);
+    	 
+    	 	 	if ( !$added_archival_timestamp && $archival_line_array[0] >= ($newest_lite_timestamp + $min_data_interval)
+    	 	 	|| isset($added_archival_timestamp) && $archival_line_array[0] >= ($added_archival_timestamp + $min_data_interval) ) {
+    	 	 	$queued_archival_lines[] = $archival_line;
+    	 	 	$added_archival_timestamp = $archival_line_array[0];
+    	 	 	}
+    	 
+    	 	}
+    	 
+    	}
+    	// If we only will be adding the last archival line
+    	elseif ( $newest_lite_timestamp <= ($newest_archival_timestamp - $min_data_interval)  ) {
+    	$queued_archival_lines[] = $last_archival_line;
+    	}
+   
+   }
+
+
+
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// Not time to update this lite chart yet
+	// Not time to update / rebuild this lite chart yet
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	if ( number_to_string($lite_data_update_threshold) > number_to_string($now) ) {
 	gc_collect_cycles(); // Clean memory cache
 	return false;
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// If the lite chart has no data yet, rebuild from scratch
+	// If no lite chart exists yet, rebuild from scratch
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	elseif ( $newest_lite_timestamp == false ) {
+	elseif ( !$newest_lite_timestamp ) {
 
 
 	$archive_file_data = file($archive_path);
@@ -808,7 +844,7 @@ $now = time();
 		$_SESSION['lite_charts_updated'] = $_SESSION['lite_charts_updated'] + 1;
 			
 			if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'lite_chart' ) {
-			app_logging( 'cache_debugging', 'Lite chart REBUILD COMPLETED for ' . $lite_path);
+			app_logging( 'cache_debugging', 'Lite chart REBUILD COMPLETED ('.$_SESSION['lite_charts_updated'].') for ' . $lite_path);
 			}
 			
 			if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'memory' ) {
@@ -826,10 +862,13 @@ $now = time();
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	else {
 		
-	$current_lite_data_lines = get_lines($lite_path);
+	$queued_archival_data = implode('', $queued_archival_lines);
+	
+	// Current lite chart lines, plus new archival lines queued to be added
+	$check_lite_data_lines = get_lines($lite_path) + sizeof($queued_archival_lines);
 	
 		// Append if less than 'lite_chart_data_points_max'
-		if ( $current_lite_data_lines < $app_config['power_user']['lite_chart_data_points_max'] ) {
+		if ( $check_lite_data_lines < $app_config['power_user']['lite_chart_data_points_max'] ) {
 		
 		// Get FIRST line of lite chart data (determines oldest lite timestamp)
 		$fopen_lite = fopen($lite_path, 'r');
@@ -847,12 +886,12 @@ $now = time();
 			if ( $oldest_lite_timestamp < $oldest_allowed_timestamp ) {
 			$lite_data_removed_outdated_lines = prune_first_lines($lite_path, 0, $oldest_allowed_timestamp);
 			
-			$result = store_file_contents($lite_path, $lite_data_removed_outdated_lines . $last_archival_line);
+			$result = store_file_contents($lite_path, $lite_data_removed_outdated_lines . $queued_archival_data);
 			$lite_mode_logging = 'PRUNED_OUTDATED_OVERWRITE';
 			}
 			// If we're clear to just append the latest data
 			else {
-			$result = store_file_contents($lite_path, $last_archival_line, "append");
+			$result = store_file_contents($lite_path, $queued_archival_data, "append");
 			$lite_mode_logging = 'APPEND';
 			}
 		
@@ -861,11 +900,11 @@ $now = time();
 		// Overwrite if equal / more than 'lite_chart_data_points_max', AFTER dynamically 
 		// removing X first lines of current data, AND appending the new data
 		else {
-		$remove_lines = ($current_lite_data_lines - $app_config['power_user']['lite_chart_data_points_max']) + 1;
+		$remove_lines = ($check_lite_data_lines - $app_config['power_user']['lite_chart_data_points_max']) + 1;
 		$lite_data_removed_exess_lines = prune_first_lines($lite_path, $remove_lines);
 		
 		usleep(120000); // Wait 0.12 seconds
-		$result = store_file_contents($lite_path, $lite_data_removed_exess_lines . $last_archival_line);
+		$result = store_file_contents($lite_path, $lite_data_removed_exess_lines . $queued_archival_data);
 		$lite_mode_logging = 'PRUNED_EXCESS_OVERWRITE';
 		}
 	
@@ -875,7 +914,7 @@ $now = time();
 		$_SESSION['lite_charts_updated'] = $_SESSION['lite_charts_updated'] + 1;
 			
 			if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'lite_chart' ) {
-			app_logging( 'cache_debugging', 'Lite chart ' . $lite_mode_logging . ' COMPLETED for ' . $lite_path);
+			app_logging( 'cache_debugging', 'Lite chart ' . $lite_mode_logging . ' COMPLETED ('.$_SESSION['lite_charts_updated'].') for ' . $lite_path);
 			}
 			
 			if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'memory' ) {
