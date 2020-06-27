@@ -762,7 +762,8 @@ $oldest_archival_timestamp = $first_archival_array[0];
 	}
 
 
-// Large number support (NOT scientific format), since we manipulated it
+// Large number support (NOT scientific format), since we manipulated these
+$min_data_interval = number_to_string($min_data_interval); 
 $lite_data_update_threshold = number_to_string($lite_data_update_threshold); 
 
 
@@ -780,8 +781,8 @@ $lite_data_update_threshold = number_to_string($lite_data_update_threshold);
     	 	foreach( $tail_archival_lines_array as $archival_line ) {
     	 	$archival_line_array = explode('||', $archival_line);
     	 
-    	 	 	if ( !$added_archival_timestamp && $archival_line_array[0] >= ($newest_lite_timestamp + $min_data_interval)
-    	 	 	|| isset($added_archival_timestamp) && $archival_line_array[0] >= ($added_archival_timestamp + $min_data_interval) ) {
+    	 	 	if ( !$added_archival_timestamp && $lite_data_update_threshold <= $archival_line_array[0]
+    	 	 	|| isset($added_archival_timestamp) && ($added_archival_timestamp + $min_data_interval) <= $archival_line_array[0] ) {
     	 	 	$queued_archival_lines[] = $archival_line;
     	 	 	$added_archival_timestamp = $archival_line_array[0];
     	 	 	}
@@ -795,14 +796,8 @@ $lite_data_update_threshold = number_to_string($lite_data_update_threshold);
     	}
     	
     	
-    	// DEBUGGING data
-    	if ( sizeof($queued_archival_lines) > 0 ) {
-    	$added_archival_mode = '_ADDED_' . sizeof($queued_archival_lines);
-    	}
-    	else {
-    	$added_archival_mode = '_ADDED_0';
-    	}
-   
+   // DEBUGGING data
+   $added_archival_mode = '_ADDED_' . sizeof($queued_archival_lines);
    
    }
 
@@ -857,7 +852,7 @@ $lite_data_update_threshold = number_to_string($lite_data_update_threshold);
 	
 	
 	// Store the lite chart data (rebuild)
-	$result = store_file_contents($lite_path, $new_lite_data);
+	$result = store_file_contents($lite_path, $new_lite_data . "\n");  // WITH newline (file write)
 	
 		if ( $result == true ) {
 		
@@ -868,7 +863,7 @@ $lite_data_update_threshold = number_to_string($lite_data_update_threshold);
 			}
 			
 			if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'memory' ) {
-			app_logging('system_debugging', $_SESSION['lite_charts_updated'] . ' lite charts updated, CURRENT script memory usage is ' . convert_bytes(memory_get_usage(), 1) . ', PEAK script memory usage is ' . convert_bytes(memory_get_peak_usage(), 1) . ', php_sapi_name() returns "' . php_sapi_name() . '"' );
+			app_logging('system_debugging', $_SESSION['lite_charts_updated'] . ' lite charts updated, CURRENT script memory usage is ' . convert_bytes(memory_get_usage(), 1) . ', PEAK script memory usage is ' . convert_bytes(memory_get_peak_usage(), 1) . ', php_sapi_name is "' . php_sapi_name() . '"' );
 			}
 			
 		}
@@ -907,13 +902,13 @@ $lite_data_update_threshold = number_to_string($lite_data_update_threshold);
 			$lite_data_removed_outdated_lines = prune_first_lines($lite_path, 0, $oldest_allowed_timestamp);
 			
 			usleep(120000); // Wait 0.12 seconds
-			$result = store_file_contents($lite_path, $lite_data_removed_outdated_lines . $queued_archival_data);
+			$result = store_file_contents($lite_path, $lite_data_removed_outdated_lines . "\n" . $queued_archival_data . "\n");  // WITH newlines (file write)
 			$lite_mode_logging = 'PRUNED_OUTDATED_OVERWRITE' . $added_archival_mode;
 			}
 			// If we're clear to just append the latest data
 			else {
 			usleep(120000); // Wait 0.12 seconds
-			$result = store_file_contents($lite_path, $queued_archival_data, "append");
+			$result = store_file_contents($lite_path, $queued_archival_data . "\n", "append");  // WITH newline (file write)
 			$lite_mode_logging = 'APPEND' . $added_archival_mode;
 			}
 		
@@ -926,7 +921,7 @@ $lite_data_update_threshold = number_to_string($lite_data_update_threshold);
 		$lite_data_removed_exess_lines = prune_first_lines($lite_path, $remove_lines);
 		
 		usleep(120000); // Wait 0.12 seconds
-		$result = store_file_contents($lite_path, $lite_data_removed_exess_lines . $queued_archival_data);
+		$result = store_file_contents($lite_path, $lite_data_removed_exess_lines . "\n" . $queued_archival_data . "\n");  // WITH newlines (file write)
 		$lite_mode_logging = 'PRUNED_EXCESS_OVERWRITE' . $added_archival_mode;
 		}
 	
@@ -940,7 +935,7 @@ $lite_data_update_threshold = number_to_string($lite_data_update_threshold);
 			}
 			
 			if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'memory' ) {
-			app_logging('system_debugging', $_SESSION['lite_charts_updated'] . ' lite charts updated, CURRENT script memory usage is ' . convert_bytes(memory_get_usage(), 1) . ', PEAK script memory usage is ' . convert_bytes(memory_get_peak_usage(), 1) . ', php_sapi_name() returns "' . php_sapi_name() . '"' );
+			app_logging('system_debugging', $_SESSION['lite_charts_updated'] . ' lite charts updated, CURRENT script memory usage is ' . convert_bytes(memory_get_usage(), 1) . ', PEAK script memory usage is ' . convert_bytes(memory_get_peak_usage(), 1) . ', php_sapi_name is "' . php_sapi_name() . '"' );
 			}
 			
 		}

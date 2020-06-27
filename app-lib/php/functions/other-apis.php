@@ -426,7 +426,7 @@ $rss_feed_cache_time = rand($news_feeds_cache_min_max[0], $news_feeds_cache_min_
 	$_SESSION['fetched_feeds']['all'] = $_SESSION['fetched_feeds']['all'] + 1; // Mark as a fetched feed, since it's going to update
 		
 		if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'memory' ) {
-		app_logging('system_debugging', 'News feed updating ('.$_SESSION['fetched_feeds']['all'].'), CURRENT script memory usage is ' . convert_bytes(memory_get_usage(), 1) . ', PEAK script memory usage is ' . convert_bytes(memory_get_peak_usage(), 1) . ', php_sapi_name() returns "' . php_sapi_name() . '"' );
+		app_logging('system_debugging', 'News feed updating ('.$_SESSION['fetched_feeds']['all'].'), CURRENT script memory usage is ' . convert_bytes(memory_get_usage(), 1) . ', PEAK script memory usage is ' . convert_bytes(memory_get_peak_usage(), 1) . ', php_sapi_name is "' . php_sapi_name() . '"' );
 		}
 	
 	
