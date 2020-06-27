@@ -894,13 +894,13 @@ $lite_data_update_threshold = number_to_string($lite_data_update_threshold);
 			if ( $oldest_lite_timestamp < $oldest_allowed_timestamp ) {
 			$lite_data_removed_outdated_lines = prune_first_lines($lite_path, 0, $oldest_allowed_timestamp);
 			
-			usleep(120000); // Wait 0.12 seconds
+			usleep(100000); // Wait 0.10 seconds
 			$result = store_file_contents($lite_path, $lite_data_removed_outdated_lines['data'] . "\n" . $queued_archival_data . "\n");  // WITH newlines (file write)
 			$lite_mode_logging = 'OVERWRITE_' . $lite_data_removed_outdated_lines['lines_removed'] . '_OUTDATED_PRUNED_' . $added_archival_mode;
 			}
 			// If we're clear to just append the latest data
 			else {
-			usleep(120000); // Wait 0.12 seconds
+			usleep(100000); // Wait 0.10 seconds
 			$result = store_file_contents($lite_path, $queued_archival_data . "\n", "append");  // WITH newline (file write)
 			$lite_mode_logging = 'APPEND_' . $added_archival_mode;
 			}
@@ -913,7 +913,7 @@ $lite_data_update_threshold = number_to_string($lite_data_update_threshold);
 		$remove_lines = ($check_lite_data_lines - $app_config['power_user']['lite_chart_data_points_max']) + 1;
 		$lite_data_removed_exess_lines = prune_first_lines($lite_path, $remove_lines);
 		
-		usleep(120000); // Wait 0.12 seconds
+		usleep(100000); // Wait 0.10 seconds
 		$result = store_file_contents($lite_path, $lite_data_removed_exess_lines['data'] . "\n" . $queued_archival_data . "\n");  // WITH newlines (file write)
 		$lite_mode_logging = 'OVERWRITE_' . $lite_data_removed_exess_lines['lines_removed'] . '_EXCESS_PRUNED_' . $added_archival_mode;
 		}
