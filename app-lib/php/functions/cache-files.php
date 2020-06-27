@@ -840,7 +840,7 @@ $lite_data_update_threshold = number_to_string($lite_data_update_threshold);
 		$data_point_array = explode("||", $archival_data[$loop]);
 				
 			if ( !$next_timestamp || isset($next_timestamp) && $data_point_array[0] <= $next_timestamp ) {
-			$new_lite_data = $archival_data[$loop] . $new_lite_data;
+			$new_lite_data = $archival_data[$loop] . $new_lite_data;// WITHOUT newline, since file() maintains those by default
 			$next_timestamp = $data_point_array[0] - $min_data_interval;
 			$data_points = $data_points + 1;
 			}
@@ -850,7 +850,7 @@ $lite_data_update_threshold = number_to_string($lite_data_update_threshold);
 		
 	
 	// Store the lite chart data (rebuild)
-	$result = store_file_contents($lite_path, $new_lite_data . "\n");  // WITH newline (file write)
+	$result = store_file_contents($lite_path, $new_lite_data);  // WITHOUT newline, since file() maintains those by default (file write)
 	$lite_mode_logging = 'REBUILD';
 
 	}

@@ -1034,7 +1034,7 @@ $loop = 0;
 	
 	
 $result['lines_removed'] = $size - sizeof($file);
-$result['data'] = implode("\n", $file);
+$result['data'] = implode("", $file); // WITHOUT newline delimiting, since file() maintains those by default
 
 return $result;
 
