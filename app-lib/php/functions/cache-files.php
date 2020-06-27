@@ -691,7 +691,6 @@ global $app_config;
 $archival_data = array();
 $queued_archival_lines = array();
 $new_lite_data = null;
-
 // Lite chart file path
 $lite_path = preg_replace("/archival/i", 'lite/' . $days_span . '_days', $archive_path);
 
@@ -767,7 +766,8 @@ $min_data_interval = number_to_string($min_data_interval);
 $lite_data_update_threshold = number_to_string($lite_data_update_threshold); 
 
 
-   // If we are queued to update an existing lite chart
+   // If we are queued to update an existing lite chart, get the data points we want to add 
+   // (may be multiple data points, as we initlially seed spreading updates over a couple hours / across muliple cron runtimes)
    if ( isset($newest_lite_timestamp) && $lite_data_update_threshold <= $newest_archival_timestamp ) {
    
     	// Since we randomly spread lite chart updates over a couple hours, see if we need to grab more than one line from archival data
@@ -790,7 +790,8 @@ $lite_data_update_threshold = number_to_string($lite_data_update_threshold);
     	 	}
     	 
     	}
-    	// If we only will be adding the last archival line
+    	// If we only will be adding the last archival line, we save resource usage 
+    	// and use the last archival line passed into this function
     	else {
     	$queued_archival_lines[] = $last_archival_line;
     	}
@@ -800,7 +801,6 @@ $lite_data_update_threshold = number_to_string($lite_data_update_threshold);
    $added_archival_mode = sizeof($queued_archival_lines) . '_ADDED';
    
    }
-
 
 
 
@@ -815,7 +815,6 @@ $lite_data_update_threshold = number_to_string($lite_data_update_threshold);
 	// If no lite chart exists yet, rebuild from scratch
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	elseif ( !$newest_lite_timestamp ) {
-
 
 	$archive_file_data = file($archive_path);
 	$archive_file_data = array_reverse($archive_file_data); // Save time, only loop / read last lines needed
@@ -850,26 +849,9 @@ $lite_data_update_threshold = number_to_string($lite_data_update_threshold);
 		}
 		
 	
-	
 	// Store the lite chart data (rebuild)
 	$result = store_file_contents($lite_path, $new_lite_data . "\n");  // WITH newline (file write)
-	
-		if ( $result == true ) {
-		
-		$_SESSION['lite_charts_updated'] = $_SESSION['lite_charts_updated'] + 1;
-			
-			if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'lite_chart' ) {
-			app_logging( 'cache_debugging', 'Lite chart REBUILD COMPLETED ('.$_SESSION['lite_charts_updated'].') for ' . $lite_path);
-			}
-			
-			if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'memory' ) {
-			app_logging('system_debugging', $_SESSION['lite_charts_updated'] . ' lite charts updated, CURRENT script memory usage is ' . convert_bytes(memory_get_usage(), 1) . ', PEAK script memory usage is ' . convert_bytes(memory_get_peak_usage(), 1) . ', php_sapi_name is "' . php_sapi_name() . '"' );
-			}
-			
-		}
-		else {
-		app_logging( 'cache_error', 'Lite chart REBUILD FAILED for ' . $lite_path);
-		}
+	$lite_mode_logging = 'REBUILD';
 
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -897,7 +879,7 @@ $lite_data_update_threshold = number_to_string($lite_data_update_threshold);
 		$first_lite_array = explode("||", $first_lite_line);
 		$oldest_lite_timestamp = $first_lite_array[0];
 		
-			// If our oldest lite timestamp is older than allowed
+			// If our oldest lite timestamp is older than allowed, remove the stale data points
 			if ( $oldest_lite_timestamp < $oldest_allowed_timestamp ) {
 			$lite_data_removed_outdated_lines = prune_first_lines($lite_path, 0, $oldest_allowed_timestamp);
 			
@@ -915,7 +897,7 @@ $lite_data_update_threshold = number_to_string($lite_data_update_threshold);
 		
 		}
 		// Overwrite if equal / more than 'lite_chart_data_points_max', AFTER dynamically 
-		// removing X first lines of current data, AND appending the new data
+		// removing the stale data points, AND appending the new data
 		else {
 		$remove_lines = ($check_lite_data_lines - $app_config['power_user']['lite_chart_data_points_max']) + 1;
 		$lite_data_removed_exess_lines = prune_first_lines($lite_path, $remove_lines);
@@ -925,29 +907,33 @@ $lite_data_update_threshold = number_to_string($lite_data_update_threshold);
 		$lite_mode_logging = 'OVERWRITE_' . $lite_data_removed_exess_lines['lines_removed'] . '_EXCESS_PRUNED_' . $added_archival_mode;
 		}
 	
-	
-		if ( $result == true ) {
-		
-		$_SESSION['lite_charts_updated'] = $_SESSION['lite_charts_updated'] + 1;
-			
-			if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'lite_chart' ) {
-			app_logging( 'cache_debugging', 'Lite chart ' . $lite_mode_logging . ' COMPLETED ('.$_SESSION['lite_charts_updated'].') for ' . $lite_path);
-			}
-			
-			if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'memory' ) {
-			app_logging('system_debugging', $_SESSION['lite_charts_updated'] . ' lite charts updated, CURRENT script memory usage is ' . convert_bytes(memory_get_usage(), 1) . ', PEAK script memory usage is ' . convert_bytes(memory_get_peak_usage(), 1) . ', php_sapi_name is "' . php_sapi_name() . '"' );
-			}
-			
-		}
-		else {
-		app_logging( 'cache_error', 'Lite chart ' . $lite_mode_logging . ' FAILED for ' . $lite_path);
-		}
-	
 
 	}
+	// No lite data to update
 	else {
 	$result = false;
 	}
+	
+
+
+	// Logging results
+	if ( $result == true ) {
+		
+	$_SESSION['lite_charts_updated'] = $_SESSION['lite_charts_updated'] + 1;
+			
+		if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'lite_chart' ) {
+		app_logging( 'cache_debugging', 'Lite chart ' . $lite_mode_logging . ' COMPLETED ('.$_SESSION['lite_charts_updated'].') for ' . $lite_path);
+		}
+			
+		if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'memory' ) {
+		app_logging('system_debugging', $_SESSION['lite_charts_updated'] . ' lite charts updated, CURRENT script memory usage is ' . convert_bytes(memory_get_usage(), 1) . ', PEAK script memory usage is ' . convert_bytes(memory_get_peak_usage(), 1) . ', php_sapi_name is "' . php_sapi_name() . '"' );
+		}
+			
+	}
+	else {
+	app_logging( 'cache_error', 'Lite chart ' . $lite_mode_logging . ' FAILED for ' . $lite_path);
+	}
+
 	
 gc_collect_cycles(); // Clean memory cache
 
