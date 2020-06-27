@@ -699,7 +699,7 @@ $lite_path = preg_replace("/archival/i", 'lite/' . $days_span . '_days', $archiv
 	if ( file_exists($lite_path) ) {
 	$last_lite_line = tail_custom($lite_path);
 	$last_lite_array = explode("||", $last_lite_line);
-	$newest_lite_timestamp = ( isset($last_lite_array[0]) ? $last_lite_array[0] : false );
+	$newest_lite_timestamp = ( isset($last_lite_array[0]) ? number_to_string($last_lite_array[0]) : false );
 	}
 	else {
 	$newest_lite_timestamp = false;
@@ -710,7 +710,7 @@ $lite_path = preg_replace("/archival/i", 'lite/' . $days_span . '_days', $archiv
 // (determines newest archival timestamp)
 $last_archival_line = ( $newest_archival_data != false ? $newest_archival_data : tail_custom($archive_path) );
 $last_archival_array = explode("||", $last_archival_line);
-$newest_archival_timestamp = $last_archival_array[0];
+$newest_archival_timestamp = number_to_string($last_archival_array[0]);
 			
 			
 // Get FIRST line of archival chart data (determines oldest archival timestamp)
@@ -723,12 +723,12 @@ $fopen_archive = fopen($archive_path, 'r');
 	}
 	
 $first_archival_array = explode("||", $first_archival_line);
-$oldest_archival_timestamp = $first_archival_array[0];
+$oldest_archival_timestamp = number_to_string($first_archival_array[0]);
 	
 			
 	// Oldest base timestamp we can use (only applies for x days charts, not 'all')
 	if ( $days_span != 'all' ) {
-	$base_min_timestamp = strtotime('-'.$days_span.' day', $newest_archival_timestamp);
+	$base_min_timestamp = number_to_string( strtotime('-'.$days_span.' day', $newest_archival_timestamp) );
 	}
 	
 	// If it's the 'all' lite chart, OR the oldest archival timestamp is newer than oldest base timestamp we can use
@@ -771,7 +771,7 @@ $lite_data_update_threshold = number_to_string($lite_data_update_threshold);
    if ( isset($newest_lite_timestamp) && $lite_data_update_threshold <= $newest_archival_timestamp ) {
    
     	// Since we randomly spread lite chart updates over a couple hours, see if we need to grab more than one line from archival data
-    	if ( ($lite_data_update_threshold + $min_data_interval) <= $newest_archival_timestamp ) { // Check with an extra $min_data_interval
+    	if ( number_to_string($lite_data_update_threshold + $min_data_interval) <= $newest_archival_timestamp ) { // Check with an extra $min_data_interval
     	
     	$tail_archival_lines = tail_custom($archive_path, 20); // Grab last 20 lines, to be safe
     	$tail_archival_lines_array = explode("\n", $tail_archival_lines);
@@ -780,9 +780,10 @@ $lite_data_update_threshold = number_to_string($lite_data_update_threshold);
     	
     	 	foreach( $tail_archival_lines_array as $archival_line ) {
     	 	$archival_line_array = explode('||', $archival_line);
+    	 	$archival_line_array[0] = number_to_string($archival_line_array[0]);
     	 
     	 	 	if ( !$added_archival_timestamp && $lite_data_update_threshold <= $archival_line_array[0]
-    	 	 	|| isset($added_archival_timestamp) && ($added_archival_timestamp + $min_data_interval) <= $archival_line_array[0] ) {
+    	 	 	|| isset($added_archival_timestamp) && number_to_string($added_archival_timestamp + $min_data_interval) <= $archival_line_array[0] ) {
     	 	 	$queued_archival_lines[] = $archival_line;
     	 	 	$added_archival_timestamp = $archival_line_array[0];
     	 	 	}
@@ -823,6 +824,7 @@ $lite_data_update_threshold = number_to_string($lite_data_update_threshold);
 		foreach($archive_file_data as $line) {
 			
 		$line_array = explode("||", $line);
+		$line_array[0] = number_to_string($line_array[0]);
 		
 			if ( $line_array[0] >= $oldest_allowed_timestamp ) {
 			$archival_data[] = $line;
@@ -838,6 +840,7 @@ $lite_data_update_threshold = number_to_string($lite_data_update_threshold);
 		while ( isset($archival_data[$loop]) && $data_points <= $app_config['power_user']['lite_chart_data_points_max'] ) {
 			
 		$data_point_array = explode("||", $archival_data[$loop]);
+		$data_point_array[0] = number_to_string($data_point_array[0]);
 				
 			if ( !$next_timestamp || isset($next_timestamp) && $data_point_array[0] <= $next_timestamp ) {
 			$new_lite_data = $archival_data[$loop] . $new_lite_data;// WITHOUT newline, since file() maintains those by default
@@ -877,7 +880,7 @@ $lite_data_update_threshold = number_to_string($lite_data_update_threshold);
 			}
 				
 		$first_lite_array = explode("||", $first_lite_line);
-		$oldest_lite_timestamp = $first_lite_array[0];
+		$oldest_lite_timestamp = number_to_string($first_lite_array[0]);
 		
 			// If our oldest lite timestamp is older than allowed, remove the stale data points
 			if ( $oldest_lite_timestamp < $oldest_allowed_timestamp ) {
