@@ -984,6 +984,7 @@ return $vars;
 
 function prune_first_lines($filename, $num, $oldest_allowed_timestamp=false) {
 
+$result = array();
 $file = file($filename);
 $size = sizeof($file);
 $loop = 0;
@@ -1031,8 +1032,11 @@ $loop = 0;
 	
 	}
 	
+	
+$result['lines_removed'] = $size - sizeof($file);
+$result['data'] = implode("\n", $file);
 
-return implode("\n", $file);
+return $result;
 
 }
 
