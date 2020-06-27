@@ -1137,20 +1137,20 @@ $volume_pairing_raw = number_to_string($volume_pairing_raw);
 	
 	$primary_currency_chart_path = $base_dir . '/cache/charts/spot_price_24hr_volume/archival/'.$asset.'/'.$asset_data.'_chart_'.strtolower($default_btc_primary_currency_pairing).'.dat';
 	$primary_currency_chart_data = time() . '||' . $asset_primary_currency_value_raw . '||' . $volume_primary_currency_raw;
-	store_file_contents($primary_currency_chart_path, $primary_currency_chart_data . "\n", "append");  // WITH newline (file write)
+	store_file_contents($primary_currency_chart_path, $primary_currency_chart_data . "\n", "append", false);  // WITH newline (UNLOCKED file write)
 		
 		
 		// Crypto / secondary currency pairing ARCHIVAL charts, volume as pairing (for UX)
 		if ( $pairing != strtolower($default_btc_primary_currency_pairing) ) {
 		$crypto_secondary_currency_chart_path = $base_dir . '/cache/charts/spot_price_24hr_volume/archival/'.$asset.'/'.$asset_data.'_chart_'.$pairing.'.dat';
 		$crypto_secondary_currency_chart_data = time() . '||' . $asset_pairing_value_raw . '||' . $volume_pairing_raw;
-		store_file_contents($crypto_secondary_currency_chart_path, $crypto_secondary_currency_chart_data . "\n", "append"); // WITH newline (file write)
+		store_file_contents($crypto_secondary_currency_chart_path, $crypto_secondary_currency_chart_data . "\n", "append", false); // WITH newline (UNLOCKED file write)
 		}
 		
 		
 		// Lite charts (update time dynamically determined in update_lite_chart() logic)
 		// Try to assure file locking from archival chart updating has been released, wait 0.12 seconds before updating lite charts
-		usleep(120000); // Wait 0.12 seconds
+		usleep(200000); // Wait 0.20 seconds
 		
 		foreach ( $app_config['power_user']['lite_chart_day_intervals'] as $light_chart_days ) {
 			

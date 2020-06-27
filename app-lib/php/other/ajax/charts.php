@@ -1064,7 +1064,7 @@ elseif ( $_GET['type'] == 'balance_stats' ) {
     	}
 	},
    "type": "pie",
-  		backgroundColor: "none",
+  		backgroundColor: "white",
   		width: 700,
       "plot": {
         "tooltip": {

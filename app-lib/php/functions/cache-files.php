@@ -576,7 +576,7 @@ return true;
 ////////////////////////////////////////////////////////
 
 
-function store_file_contents($file, $data, $mode=false) {
+function store_file_contents($file, $data, $mode=false, $lock=true) {
 
 global $app_config, $current_runtime_user, $possible_http_users, $http_runtime_user;
 
@@ -636,11 +636,17 @@ $file_owner_info = posix_getpwuid(fileowner($file));
 
 
 	// Write to the file
-	if ( $mode == 'append' ) {
+	if ( $mode == 'append' && $lock ) {
 	$result = file_put_contents($file, $data, FILE_APPEND | LOCK_EX);
 	}
-	else {
+	elseif ( $mode == 'append' && !$lock ) {
+	$result = file_put_contents($file, $data, FILE_APPEND);
+	}
+	elseif ( !$mode && $lock ) {
 	$result = file_put_contents($file, $data, LOCK_EX);
+	}
+	else {
+	$result = file_put_contents($file, $data);
 	}
 	
 	// Log any write error
@@ -743,10 +749,10 @@ $oldest_archival_timestamp = number_to_string($first_archival_array[0]);
 	
 	// Minimum time interval between data points in lite chart
 	if ( $days_span == 'all' ) {
-	$min_data_interval = round( ($newest_archival_timestamp - $oldest_archival_timestamp) / $app_config['power_user']['lite_chart_data_points_max'] );
+	$min_data_interval = round( ($newest_archival_timestamp - $oldest_archival_timestamp) / $app_config['power_user']['lite_chart_data_points_max'] ); // Dynamic
 	}
 	else {
-	$min_data_interval = round( ($newest_archival_timestamp - $base_min_timestamp) / $app_config['power_user']['lite_chart_data_points_max'] );
+	$min_data_interval = round( ($days_span * 86400) / $app_config['power_user']['lite_chart_data_points_max'] ); // Fixed X days (86400 seconds per day)
 	}
 
 
@@ -767,34 +773,36 @@ $lite_data_update_threshold = number_to_string($lite_data_update_threshold);
 
 
    // If we are queued to update an existing lite chart, get the data points we want to add 
-   // (may be multiple data points, as we initlially seed spreading updates over a couple hours / across muliple cron runtimes)
+   // (may be multiple data points, if the last update had network errors / system reboot / etc)
    if ( isset($newest_lite_timestamp) && $lite_data_update_threshold <= $newest_archival_timestamp ) {
    
-    	// Since we randomly spread lite chart updates over a couple hours, see if we need to grab more than one line from archival data
-    	if ( number_to_string($lite_data_update_threshold + $min_data_interval) <= $newest_archival_timestamp ) { // Check with an extra $min_data_interval
-    	
-    	$tail_archival_lines = tail_custom($archive_path, 20); // Grab last 20 lines, to be safe
-    	$tail_archival_lines_array = explode("\n", $tail_archival_lines);
-    	// Remove all null / false / empty strings, and reindex
-    	$tail_archival_lines_array = array_values( array_filter( $tail_archival_lines_array, 'strlen' ) ); 
-    	
-    	 	foreach( $tail_archival_lines_array as $archival_line ) {
-    	 	$archival_line_array = explode('||', $archival_line);
-    	 	$archival_line_array[0] = number_to_string($archival_line_array[0]);
-    	 
-    	 	 	if ( !$added_archival_timestamp && $lite_data_update_threshold <= $archival_line_array[0]
-    	 	 	|| isset($added_archival_timestamp) && number_to_string($added_archival_timestamp + $min_data_interval) <= $archival_line_array[0] ) {
-    	 	 	$queued_archival_lines[] = $archival_line;
-    	 	 	$added_archival_timestamp = $archival_line_array[0];
-    	 	 	}
-    	 
-    	 	}
-    	 
-    	}
-    	// If we only will be adding the last archival line, we save resource usage 
-    	// and use the last archival line passed into this function
-    	else {
+    	// If we are only adding the newest archival data point (passed into this function), 
+    	// #we save BIGTIME on resource usage# (used EVERYTIME, other than very rare FALLBACKS)
+    	// CHECKS IF UPDATE THRESHOLD IS GREATER THAN NEWEST ARCHIVAL DATA POINT TIMESTAMP, 
+    	// #WHEN ADDING AN EXTRA# $min_data_interval (so we know to only add one data point)
+    	if ( number_to_string($lite_data_update_threshold + $min_data_interval) > $newest_archival_timestamp ) {
     	$queued_archival_lines[] = $last_archival_line;
+    	}
+   	// If multiple lite chart data points missing (from any very rare FALLBACK instances, like network / load / disk / runtime issues, etc)
+    	else {
+    	
+   	$tail_archival_lines = tail_custom($archive_path, 20); // Grab last 20 lines, to be safe
+   	$tail_archival_lines_array = explode("\n", $tail_archival_lines);
+   	// Remove all null / false / empty strings, and reindex
+   	$tail_archival_lines_array = array_values( array_filter( $tail_archival_lines_array, 'strlen' ) ); 
+   	 	
+   	 	foreach( $tail_archival_lines_array as $archival_line ) {
+   	 	$archival_line_array = explode('||', $archival_line);
+   	 	$archival_line_array[0] = number_to_string($archival_line_array[0]);
+   	 	 
+   	 	 	if ( !$added_archival_timestamp && $lite_data_update_threshold <= $archival_line_array[0]
+   	 	 	|| isset($added_archival_timestamp) && number_to_string($added_archival_timestamp + $min_data_interval) <= $archival_line_array[0] ) {
+   	 	 	$queued_archival_lines[] = $archival_line;
+   	 	 	$added_archival_timestamp = $archival_line_array[0];
+   	 	 	}
+   	 	 
+   	 	}
+    	 
     	}
     	
     	

@@ -3617,11 +3617,11 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.14.7:
 
--Bug fixes for lite chart updating logic (MANY fixes)
+-MANY bug fixes and optimizations for lite chart updating logic
 
--Bug fix for cron jobs ocassionally crashing, when pre-fetching / pre-caching news feeds on low power devices (Raspberry Pi, Pine64, etc)
+-Bug fix for news feeds feature crashing web server
 
--Auto-install script explicitly uses the chosen PHP version for the cron jobs too (charts / alerts background tasks)
+-Auto-install script explicitly looks for the chosen PHP version for the cron jobs too (charts / alerts background tasks), or defaults to the standard / generic path: /usr/bin/php
 
 -Misc UX revisions
 
