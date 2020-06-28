@@ -395,9 +395,10 @@ global $app_config, $base_dir;
 	if ( !isset($_SESSION['fetched_feeds']['all']) ) {
 	$_SESSION['fetched_feeds']['all'] = 0;
 	}
-	// If we have hit our fetching / re-caching limit, return true
-	elseif ( $_SESSION['fetched_feeds']['all'] > $app_config['developer']['batched_news_feeds_max'] ) {
-	return true;
+	// Never re-cache FROM LIVE more than 'batched_news_feeds_max' (even for cron runtimes), 
+	// to avoid overloading low power devices (raspi / pine64 / etc)
+	elseif ( $_SESSION['fetched_feeds']['all'] >= $app_config['developer']['batched_news_feeds_max'] ) {
+	return '<span class="red">Live data fetching limit reached (' . $_SESSION['fetched_feeds']['all'] . ').</span>';
 	}
 	
 

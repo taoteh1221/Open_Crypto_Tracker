@@ -230,6 +230,8 @@ echo " "
         
 read SYS_USER
                 
+echo " "
+
  if [ -z "$SYS_USER" ]; then
  SYS_USER=${1:-pi}
  echo "Using default username: $SYS_USER"
@@ -242,19 +244,33 @@ echo " "
 
 ######################################
 
+FPM_LIST=$(/usr/bin/apt-cache search php-fpm)
 
-echo "We need to know which version of PHP-FPM (fcgi) to use..."
+echo "We need to know which version of PHP-FPM (fcgi) to use."
+echo "Please select a PHP-FPM version NUMBER from the list below..."
 echo "(PHP-FPM version 7.2 or greater is REQUIRED)"
 echo " "
+
+echo "$FPM_LIST"
+echo " "
+
+FPM_PACKAGE=`expr match "$FPM_LIST" '.*\(php[0-9][.][0-9]-fpm\)'`
+
+FPM_PACKAGE_VER=`expr match "$FPM_PACKAGE" '.*\([0-9][.][0-9]\)'`
+
+echo "PHP-FPM package auto-detected: $FPM_PACKAGE"
+echo " "
         
-echo "Enter the PHP-FPM version (numeric only):"
-echo "(leave blank / hit enter for default of '7.3')"
+echo "Enter the PHP-FPM version (numeric only) that you want to use:"
+echo "(leave blank / hit enter for default of '$FPM_PACKAGE_VER')"
 echo " "
         
 read PHP_FPM_VER
+
+echo " "
                 
 	if [ -z "$PHP_FPM_VER" ]; then
- 	PHP_FPM_VER=${1:-7.3}
+ 	PHP_FPM_VER=${1:-$FPM_PACKAGE_VER}
  	echo "Using default PHP-FPM version: $PHP_FPM_VER"
  	else
  	echo "Using custom PHP-FPM version: $PHP_FPM_VER"
@@ -282,6 +298,11 @@ select opt in $OPTIONS; do
 			
 			# DEPRECIATED legacy PHP Apache setup (NOT running fcgi)
 			#/usr/bin/apt-get install apache2 php php-mbstring php-xml php-curl php-gd php-zip libapache2-mod-php openssl ssl-cert avahi-daemon -y
+			
+			# CLEANLY remove regular mod_php if installed
+			/usr/bin/apt-get --purge remove libapache2-mod-php
+				
+			/bin/sleep 3
         
         	INSTALL_FPM="install php${PHP_FPM_VER}-fpm -y"
         
