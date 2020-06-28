@@ -1057,6 +1057,7 @@ $lite_data_update_threshold = number_to_string($lite_data_update_threshold);
 			if ($fopen_lite) {
 			$first_lite_line = fgets($fopen_lite);
 			fclose($fopen_lite);
+			usleep(20000); // Wait 0.02 seconds, since we'll be writing data to this file momentarily
 			gc_collect_cycles(); // Clean memory cache
 			}
 				
@@ -1067,13 +1068,11 @@ $lite_data_update_threshold = number_to_string($lite_data_update_threshold);
 			if ( $oldest_lite_timestamp < $oldest_allowed_timestamp ) {
 			$lite_data_removed_outdated_lines = prune_first_lines($lite_path, 0, $oldest_allowed_timestamp);
 			
-			usleep(100000); // Wait 0.10 seconds
 			$result = store_file_contents($lite_path, $lite_data_removed_outdated_lines['data'] . "\n" . $queued_archival_data . "\n");  // WITH newlines (file write)
 			$lite_mode_logging = 'OVERWRITE_' . $lite_data_removed_outdated_lines['lines_removed'] . '_OUTDATED_PRUNED_' . $added_archival_mode;
 			}
 			// If we're clear to just append the latest data
 			else {
-			usleep(100000); // Wait 0.10 seconds
 			$result = store_file_contents($lite_path, $queued_archival_data . "\n", "append");  // WITH newline (file write)
 			$lite_mode_logging = 'APPEND_' . $added_archival_mode;
 			}
@@ -1086,7 +1085,6 @@ $lite_data_update_threshold = number_to_string($lite_data_update_threshold);
 		$remove_lines = ($check_lite_data_lines - $app_config['power_user']['lite_chart_data_points_max']) + 1;
 		$lite_data_removed_exess_lines = prune_first_lines($lite_path, $remove_lines);
 		
-		usleep(100000); // Wait 0.10 seconds
 		$result = store_file_contents($lite_path, $lite_data_removed_exess_lines['data'] . "\n" . $queued_archival_data . "\n");  // WITH newlines (file write)
 		$lite_mode_logging = 'OVERWRITE_' . $lite_data_removed_exess_lines['lines_removed'] . '_EXCESS_PRUNED_' . $added_archival_mode;
 		}
@@ -1927,22 +1925,23 @@ $api_endpoint = ( $mode == 'array' ? $api_server : $request );
 			
 				
 				// DON'T ADD TOO MANY CHECKS HERE, OR RUNTIME WILL SLOW SIGNIFICANTLY!!
-				if ( preg_match("/cf-error-type/i", $data) // Cloudflare (DDOS protection service)
-				|| preg_match("/cf-browser-verification/i", $data) // Cloudflare (DDOS protection service)
+				if ( // Errors / unavailable / null / throttled / maintenance
+				preg_match("/cf-error/i", $data) // Cloudflare (DDOS protection service)
+				|| preg_match("/cf-browser/i", $data) // Cloudflare (DDOS protection service)
 				|| preg_match("/\"result\":{}/i", $data) // Kraken.com / generic
 				|| preg_match("/\"result\":null/i", $data) // Bittrex.com / generic
 				|| preg_match("/\"data\":null/i", $data) // Bitflyer.com / generic
 				|| preg_match("/\"success\":false/i", $data) // BTCturk.com / Bittrex.com / generic
 				|| preg_match("/EService:Unavailable/i", $data) // Kraken.com / generic
+				|| preg_match("/temporarily unavailable/i", $data) // Bitfinex.com / generic
 				|| preg_match("/\"reason\":\"Maintenance\"/i", $data) // Gemini.com / generic
 				|| preg_match("/scheduled maintenance/i", $data) // Bittrex.com / generic
 				|| preg_match("/site is down/i", $data) // Blockchain.info / generic
 				|| preg_match("/something went wrong/i", $data) // Bitbns.com / generic
-				|| preg_match("/temporarily unavailable/i", $data) // Bitfinex.com / generic
 				|| preg_match("/Server Error/i", $data) // Kucoin.com / generic
 				|| preg_match("/An error has occurred/i", $data) // Bitflyer.com / generic
 				|| preg_match("/too many requests/i", $data) // reddit.com / generic
-				|| $endpoint_tld_or_ip == 'bittrex.com' && !preg_match("/Volume/i", $data)
+				// APIs famous for returning no data frequently
 				|| $endpoint_tld_or_ip == 'lakebtc.com' && !preg_match("/volume/i", $data)
 				|| $endpoint_tld_or_ip == 'localbitcoins.com' && !preg_match("/volume_btc/i", $data)
 				|| $endpoint_tld_or_ip == 'coinmarketcap.com' && !preg_match("/last_updated/i", $data) ) {

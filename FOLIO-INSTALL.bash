@@ -103,7 +103,8 @@ echo "Your operating system has been detected as:"
 echo "$OS v$VER"
 echo " "
 
-echo "Recommended MINIMUM system specs: 1 gigahertz CPU / 512 megabytes RAM (running Nginx or Apache headless with PHP-FPM v7.2+)"
+echo "Recommended MINIMUM system specs:"
+echo "1 Gigahertz CPU / 512 Megabytes RAM / HIGH QUALITY 32 Gigabyte MicroSD card (running Nginx or Apache headless with PHP v7.2+)"
 echo " "
 
 echo "If you already have unrelated web site files located at $DOC_ROOT on your system, they may be affected."
