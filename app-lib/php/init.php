@@ -110,6 +110,9 @@ $base_dir = preg_replace("/\/app-lib(.*)/i", "", dirname(__FILE__) );
 
 // Session data
 
+// Reset feed fetch telemetry 
+$_SESSION['fetched_feeds'] = false;
+
 
 // Nonce for secured login session logic
 if ( !isset($_SESSION['nonce']) ) {

@@ -26,8 +26,8 @@ $force_exit = 1;
 
 
 // Make sure we are using FastCGI
-if ( $runtime_mode != 'cron' && !stristr( php_sapi_name() , 'fcgi') ) {
-$system_error = "PHP-FPM (fcgi) mode is not running. PHP-FPM v7.2 or higher is required to run the user interface (if you auto-installed, FULLY re-install EVERYTHING with the latest auto-install script: https://git.io/JeWWE). <br /><br />";
+if ( $runtime_mode != 'cron' && !stristr( php_sapi_name() , 'fcgi') && $app_config['developer']['ignore_php_fpm_warning'] != 'yes' ) {
+$system_error = "{Set \$app_config['developer']['ignore_php_fpm_warning'] to 'yes' in config.php to disable this warning} <br /><br /> PHP-FPM (fcgi) mode is not running. PHP-FPM v7.2 or higher is HIGHLY RECOMMENDED to avoid low power devices OR high traffic installs from crashing. If you auto-installed, you can auto-upgrade if you FULLY re-install EVERYTHING with the latest auto-install script: https://git.io/JeWWE <br /><br />";
 app_logging('system_error', $system_error);
 echo $system_error;
 $force_exit = 1;

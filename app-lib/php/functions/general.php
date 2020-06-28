@@ -650,47 +650,6 @@ global $password_pepper;
 ////////////////////////////////////////////////////////
 
 
-// Credit: https://www.alexkras.com/simple-rss-reader-in-85-lines-of-php/
-function rss_feed_data($chosen_feed, $feed_size, $recache_only=false) {
-	
-global $app_config;
-
-$news_feeds = $app_config['power_user']['news_feeds'];
-
-	 // If we are just re-caching for quick use later (as cron job, for faster ui load times)
-	 if ( $recache_only ) {
-	 	foreach($news_feeds as $feed_key => $feed_unused) {
-	 		if ( trim($news_feeds[$feed_key]["url"]) != '' ) {
-	 		//get_rss_feed($news_feeds[$feed_key]["url"], $feed_size, 1);
-	 		}
-	 	}
-	 	$_SESSION['fetched_feeds'] = false; // Reset feed fetch telemetry
-	 }
-	 elseif ( isset($chosen_feed) ) {
-	 
-	 $html = "";
-    
-    	foreach($news_feeds as $feed) {
-    
-			// We avoid using array keys for end user config editing UX, BUT STILL UNIQUELY IDENTIFY EACH FEED
-    		if ( isset($feed["title"]) && get_digest($feed["title"], 10) == $chosen_feed ) {
-    		$html .= "<fieldset class='subsection_fieldset'><legend class='subsection_legend'> ".$feed["title"].'</legend>';
-    		$html .= //get_rss_feed($feed["url"], $feed_size);
-    		$html .= "</fieldset>";    
-    		}
-    
-    	}
-
-	 return $html;
-	 }
-
-}
-    
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
 function subarray_app_config_upgrade($category_key, $config_key, $skip_upgrading) {
 
 global $upgraded_app_config, $cached_app_config, $check_default_app_config, $default_app_config;

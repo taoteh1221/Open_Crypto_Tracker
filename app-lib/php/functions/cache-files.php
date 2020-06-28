@@ -690,6 +690,179 @@ return $result;
 ////////////////////////////////////////////////////////
 
 
+function test_proxy($problem_proxy_array) {
+
+global $base_dir, $app_config, $runtime_mode, $proxies_checked;
+
+
+// Endpoint to test proxy connectivity: https://www.myip.com/api-docs/
+$proxy_test_url = 'https://api.myip.com/';
+
+
+$problem_endpoint = $problem_proxy_array['endpoint'];
+
+$obfuscated_url_data = obfuscated_url_data($problem_endpoint); // Automatically removes sensitive URL data
+
+$problem_proxy = $problem_proxy_array['proxy'];
+
+$ip_port = explode(':', $problem_proxy);
+
+$ip = $ip_port[0];
+$port = $ip_port[1];
+
+	// If no ip/port detected in data string, cancel and continue runtime
+	if ( !$ip || !$port ) {
+	app_logging('ext_api_error', 'proxy '.$problem_proxy.' is not a valid format');
+	return false;
+	}
+
+// Create cache filename / session var
+$cache_filename = $problem_proxy;
+$cache_filename = preg_replace("/\./", "-", $cache_filename);
+$cache_filename = preg_replace("/:/", "_", $cache_filename);
+
+	if ( $app_config['comms']['proxy_alerts_runtime'] == 'all' ) {
+	$run_alerts = 1;
+	}
+	elseif ( $app_config['comms']['proxy_alerts_runtime'] == 'cron' && $runtime_mode == 'cron' ) {
+	$run_alerts = 1;
+	}
+	elseif ( $app_config['comms']['proxy_alerts_runtime'] == 'ui' && $runtime_mode == 'ui' ) {
+	$run_alerts = 1;
+	}
+	else {
+	$run_alerts = null;
+	}
+
+	if ( $run_alerts == 1 && update_cache_file('cache/alerts/proxy-check-'.$cache_filename.'.dat', ( $app_config['comms']['proxy_alerts_freq_max'] * 60 ) ) == true
+	&& in_array($cache_filename, $proxies_checked) == false ) {
+	
+		
+	// SESSION VAR first, to avoid duplicate alerts at runtime (and longer term cache file locked for writing further down, after logs creation)
+	$proxies_checked[] = $cache_filename;
+		
+	$jsondata = @external_api_data('proxy-check', $proxy_test_url, 0, '', '', $problem_proxy);
+	
+	$data = json_decode($jsondata, true);
+	
+		if ( sizeof($data) > 0 ) {
+
+			
+			// Look for the IP in the response
+			if ( strstr($data['ip'], $ip) == false ) {
+				
+			$misconfigured = 1;
+			
+			$notifyme_alert = 'A checkup on proxy ' . $ip . ', port ' . $port . ' detected a misconfiguration. Remote address ' . $data['ip'] . ' does not match the proxy address. Runtime mode is ' . $runtime_mode . '.';
+			
+			$text_alert = 'Proxy ' . $problem_proxy . ' remote address mismatch (detected as: ' . $data['ip'] . '). runtime: ' . $runtime_mode;
+		
+			}
+			
+			
+		$cached_logs = ( $misconfigured == 1 ? 'runtime: ' . $runtime_mode . "; \n " . 'Proxy ' . $problem_proxy . ' checkup status = MISCONFIGURED (test endpoint ' . $proxy_test_url . ' detected the incoming ip as: ' . $data['ip'] . ')' . "; \n " . 'Remote address DOES NOT match proxy address;' : 'runtime: ' . $runtime_mode . "; \n " . 'Proxy ' . $problem_proxy . ' checkup status = OK (test endpoint ' . $proxy_test_url . ' detected the incoming ip as: ' . $data['ip'] . ');' );
+		
+		
+		}
+		else {
+			
+		$misconfigured = 1;
+		
+		$notifyme_alert = 'A checkup on proxy ' . $ip . ', port ' . $port . ' resulted in a failed data request. No endpoint connection could be established. Runtime mode is ' . $runtime_mode . '.';
+			
+		$text_alert = 'Proxy ' . $problem_proxy . ' failed, no endpoint connection. runtime: ' . $runtime_mode;
+		
+		$cached_logs = 'runtime: ' . $runtime_mode . "; \n " . 'Proxy ' . $problem_proxy . ' checkup status = DATA REQUEST FAILED' . "; \n " . 'No connection established at test endpoint ' . $proxy_test_url . ';';
+
+		}
+		
+		
+		// Log to error logs
+		if ( $misconfigured == 1 ) {
+		app_logging('ext_api_error', 'proxy '.$problem_proxy.' connection failed', $cached_logs);
+		}
+	
+
+		// Update alerts cache for this proxy (to prevent running alerts for this proxy too often)
+		store_file_contents($base_dir . '/cache/alerts/proxy-check-'.$cache_filename.'.dat', $cached_logs);
+			
+      
+      $email_alert = " The proxy " . $problem_proxy . " recently did not receive data when accessing this endpoint: \n " . $obfuscated_url_data . " \n \n A check on this proxy was performed at " . $proxy_test_url . ", and results logged: \n ============================================================== \n " . $cached_logs . " \n ============================================================== \n \n ";
+                    
+		
+		// Send out alerts
+		if ( $misconfigured == 1 || $app_config['comms']['proxy_alerts_checkup_ok'] == 'include' ) {
+                    
+                    
+  				// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
+  				if ( $app_config['comms']['proxy_alerts'] == 'all' ) {
+  				
+  				// Minimize function calls
+  				$encoded_text_alert = content_data_encoding($text_alert);
+  					
+          	$send_params = array(
+          								'notifyme' => $notifyme_alert,
+          								'telegram' => $email_alert,
+          								'text' => array(
+          														// Unicode support included for text messages (emojis / asian characters / etc )
+          														'message' => $encoded_text_alert['content_output'],
+          														'charset' => $encoded_text_alert['charset']
+          														),
+          								'email' => array(
+          														'subject' => 'A Proxy Was Unresponsive',
+          														'message' => $email_alert
+          														)
+          								);
+          	
+          	}
+  				elseif ( $app_config['comms']['proxy_alerts'] == 'email' ) {
+  					
+          	$send_params['email'] = array(
+          											'subject' => 'A Proxy Was Unresponsive',
+          											'message' => $email_alert
+          											);
+          	
+          	}
+  				elseif ( $app_config['comms']['proxy_alerts'] == 'text' ) {
+  				
+  				// Minimize function calls
+  				$encoded_text_alert = content_data_encoding($text_alert);
+  				
+          	$send_params['text'] = array(
+          											// Unicode support included for text messages (emojis / asian characters / etc )
+          											'message' => $encoded_text_alert['content_output'],
+          											'charset' => $encoded_text_alert['charset']
+          											
+          											);
+          	
+          	}
+  				elseif ( $app_config['comms']['proxy_alerts'] == 'notifyme' ) {
+          	$send_params['notifyme'] = $notifyme_alert;
+          	}
+  				elseif ( $app_config['comms']['proxy_alerts'] == 'telegram' ) {
+          	$send_params['telegram'] = $email_alert;
+          	}
+          	
+          	
+          	// Send notifications
+          	@queue_notifications($send_params);
+          	
+           
+       }
+          
+          
+		
+	}
+
+
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
 function update_lite_chart($archive_path, $newest_archival_data=false, $days_span=1) {
 
 global $app_config;
@@ -949,179 +1122,6 @@ $lite_data_update_threshold = number_to_string($lite_data_update_threshold);
 gc_collect_cycles(); // Clean memory cache
 
 return $result;
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function test_proxy($problem_proxy_array) {
-
-global $base_dir, $app_config, $runtime_mode, $proxies_checked;
-
-
-// Endpoint to test proxy connectivity: https://www.myip.com/api-docs/
-$proxy_test_url = 'https://api.myip.com/';
-
-
-$problem_endpoint = $problem_proxy_array['endpoint'];
-
-$obfuscated_url_data = obfuscated_url_data($problem_endpoint); // Automatically removes sensitive URL data
-
-$problem_proxy = $problem_proxy_array['proxy'];
-
-$ip_port = explode(':', $problem_proxy);
-
-$ip = $ip_port[0];
-$port = $ip_port[1];
-
-	// If no ip/port detected in data string, cancel and continue runtime
-	if ( !$ip || !$port ) {
-	app_logging('ext_api_error', 'proxy '.$problem_proxy.' is not a valid format');
-	return false;
-	}
-
-// Create cache filename / session var
-$cache_filename = $problem_proxy;
-$cache_filename = preg_replace("/\./", "-", $cache_filename);
-$cache_filename = preg_replace("/:/", "_", $cache_filename);
-
-	if ( $app_config['comms']['proxy_alerts_runtime'] == 'all' ) {
-	$run_alerts = 1;
-	}
-	elseif ( $app_config['comms']['proxy_alerts_runtime'] == 'cron' && $runtime_mode == 'cron' ) {
-	$run_alerts = 1;
-	}
-	elseif ( $app_config['comms']['proxy_alerts_runtime'] == 'ui' && $runtime_mode == 'ui' ) {
-	$run_alerts = 1;
-	}
-	else {
-	$run_alerts = null;
-	}
-
-	if ( $run_alerts == 1 && update_cache_file('cache/alerts/proxy-check-'.$cache_filename.'.dat', ( $app_config['comms']['proxy_alerts_freq_max'] * 60 ) ) == true
-	&& in_array($cache_filename, $proxies_checked) == false ) {
-	
-		
-	// SESSION VAR first, to avoid duplicate alerts at runtime (and longer term cache file locked for writing further down, after logs creation)
-	$proxies_checked[] = $cache_filename;
-		
-	$jsondata = @external_api_data('proxy-check', $proxy_test_url, 0, '', '', $problem_proxy);
-	
-	$data = json_decode($jsondata, true);
-	
-		if ( sizeof($data) > 0 ) {
-
-			
-			// Look for the IP in the response
-			if ( strstr($data['ip'], $ip) == false ) {
-				
-			$misconfigured = 1;
-			
-			$notifyme_alert = 'A checkup on proxy ' . $ip . ', port ' . $port . ' detected a misconfiguration. Remote address ' . $data['ip'] . ' does not match the proxy address. Runtime mode is ' . $runtime_mode . '.';
-			
-			$text_alert = 'Proxy ' . $problem_proxy . ' remote address mismatch (detected as: ' . $data['ip'] . '). runtime: ' . $runtime_mode;
-		
-			}
-			
-			
-		$cached_logs = ( $misconfigured == 1 ? 'runtime: ' . $runtime_mode . "; \n " . 'Proxy ' . $problem_proxy . ' checkup status = MISCONFIGURED (test endpoint ' . $proxy_test_url . ' detected the incoming ip as: ' . $data['ip'] . ')' . "; \n " . 'Remote address DOES NOT match proxy address;' : 'runtime: ' . $runtime_mode . "; \n " . 'Proxy ' . $problem_proxy . ' checkup status = OK (test endpoint ' . $proxy_test_url . ' detected the incoming ip as: ' . $data['ip'] . ');' );
-		
-		
-		}
-		else {
-			
-		$misconfigured = 1;
-		
-		$notifyme_alert = 'A checkup on proxy ' . $ip . ', port ' . $port . ' resulted in a failed data request. No endpoint connection could be established. Runtime mode is ' . $runtime_mode . '.';
-			
-		$text_alert = 'Proxy ' . $problem_proxy . ' failed, no endpoint connection. runtime: ' . $runtime_mode;
-		
-		$cached_logs = 'runtime: ' . $runtime_mode . "; \n " . 'Proxy ' . $problem_proxy . ' checkup status = DATA REQUEST FAILED' . "; \n " . 'No connection established at test endpoint ' . $proxy_test_url . ';';
-
-		}
-		
-		
-		// Log to error logs
-		if ( $misconfigured == 1 ) {
-		app_logging('ext_api_error', 'proxy '.$problem_proxy.' connection failed', $cached_logs);
-		}
-	
-
-		// Update alerts cache for this proxy (to prevent running alerts for this proxy too often)
-		store_file_contents($base_dir . '/cache/alerts/proxy-check-'.$cache_filename.'.dat', $cached_logs);
-			
-      
-      $email_alert = " The proxy " . $problem_proxy . " recently did not receive data when accessing this endpoint: \n " . $obfuscated_url_data . " \n \n A check on this proxy was performed at " . $proxy_test_url . ", and results logged: \n ============================================================== \n " . $cached_logs . " \n ============================================================== \n \n ";
-                    
-		
-		// Send out alerts
-		if ( $misconfigured == 1 || $app_config['comms']['proxy_alerts_checkup_ok'] == 'include' ) {
-                    
-                    
-  				// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
-  				if ( $app_config['comms']['proxy_alerts'] == 'all' ) {
-  				
-  				// Minimize function calls
-  				$encoded_text_alert = content_data_encoding($text_alert);
-  					
-          	$send_params = array(
-          								'notifyme' => $notifyme_alert,
-          								'telegram' => $email_alert,
-          								'text' => array(
-          														// Unicode support included for text messages (emojis / asian characters / etc )
-          														'message' => $encoded_text_alert['content_output'],
-          														'charset' => $encoded_text_alert['charset']
-          														),
-          								'email' => array(
-          														'subject' => 'A Proxy Was Unresponsive',
-          														'message' => $email_alert
-          														)
-          								);
-          	
-          	}
-  				elseif ( $app_config['comms']['proxy_alerts'] == 'email' ) {
-  					
-          	$send_params['email'] = array(
-          											'subject' => 'A Proxy Was Unresponsive',
-          											'message' => $email_alert
-          											);
-          	
-          	}
-  				elseif ( $app_config['comms']['proxy_alerts'] == 'text' ) {
-  				
-  				// Minimize function calls
-  				$encoded_text_alert = content_data_encoding($text_alert);
-  				
-          	$send_params['text'] = array(
-          											// Unicode support included for text messages (emojis / asian characters / etc )
-          											'message' => $encoded_text_alert['content_output'],
-          											'charset' => $encoded_text_alert['charset']
-          											
-          											);
-          	
-          	}
-  				elseif ( $app_config['comms']['proxy_alerts'] == 'notifyme' ) {
-          	$send_params['notifyme'] = $notifyme_alert;
-          	}
-  				elseif ( $app_config['comms']['proxy_alerts'] == 'telegram' ) {
-          	$send_params['telegram'] = $email_alert;
-          	}
-          	
-          	
-          	// Send notifications
-          	@queue_notifications($send_params);
-          	
-           
-       }
-          
-          
-		
-	}
-
-
 
 }
 
@@ -2092,6 +2092,7 @@ $api_endpoint = ( $mode == 'array' ? $api_server : $request );
 	
 	
 
+gc_collect_cycles(); // Clean memory cache
 return $data;
 
 

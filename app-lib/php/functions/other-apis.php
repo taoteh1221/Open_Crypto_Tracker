@@ -192,7 +192,7 @@ $data = json_decode($jsondata, true);
   	  
   	}
 		  
-		  
+gc_collect_cycles(); // Clean memory cache
 return $result;
   
 }
@@ -374,6 +374,7 @@ $result = array();
     	 
   	   	}
      
+	 gc_collect_cycles(); // Clean memory cache
     return $result;
  	 }
 
@@ -391,13 +392,6 @@ function get_rss_feed($url, $feed_size, $cache_only=false){
 global $app_config, $base_dir;
 
 
-$news_feeds_cache_min_max = explode(',', $app_config['power_user']['news_feeds_cache_min_max']);
-// Cleanup
-$news_feeds_cache_min_max = array_map('trim', $news_feeds_cache_min_max);
-
-$rss_feed_cache_time = rand($news_feeds_cache_min_max[0], $news_feeds_cache_min_max[1]);
-
-
 	if ( !isset($_SESSION['fetched_feeds']['all']) ) {
 	$_SESSION['fetched_feeds']['all'] = 0;
 	}
@@ -407,154 +401,66 @@ $rss_feed_cache_time = rand($news_feeds_cache_min_max[0], $news_feeds_cache_min_
 	}
 	
 
-	// #INITIALLY# (if no feed data exists yet) we randomly spread the load across multiple runtimes
-	// THEN IT #REMAINS RANDOMLY SPREAD WITHOUT DOING ANYTHING AFTER# THE INITIAL RANDOMNESS
-	if ( !file_exists($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat') ) {
-	$rss_feed_cache_time = rand($news_feeds_cache_min_max[0], $news_feeds_cache_min_max[1]);
-	}
-	// If cached feed already exists, update threshold is the average of min and max
-	else {
-	$rss_feed_cache_time = round( ($news_feeds_cache_min_max[0] + $news_feeds_cache_min_max[1]) / 2 );
-	}
+$news_feeds_cache_min_max = explode(',', $app_config['power_user']['news_feeds_cache_min_max']);
+// Cleanup
+$news_feeds_cache_min_max = array_map('trim', $news_feeds_cache_min_max);
 	
-	
+$rss_feed_cache_time = rand($news_feeds_cache_min_max[0], $news_feeds_cache_min_max[1]);
+											
 		
 	// If we will be updating the feed
 	if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
-		
-		
+	
 	$_SESSION['fetched_feeds']['all'] = $_SESSION['fetched_feeds']['all'] + 1; // Mark as a fetched feed, since it's going to update
+	
+	$endpoint_tld_or_ip = get_tld_or_ip($url);
 		
 		if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'memory' ) {
-		app_logging('system_debugging', 'News feed updating ('.$_SESSION['fetched_feeds']['all'].'), CURRENT script memory usage is ' . convert_bytes(memory_get_usage(), 1) . ', PEAK script memory usage is ' . convert_bytes(memory_get_peak_usage(), 1) . ', php_sapi_name is "' . php_sapi_name() . '"' );
+		app_logging('system_debugging', $endpoint_tld_or_ip . ' news feed updating ('.$_SESSION['fetched_feeds']['all'].'), CURRENT script memory usage is ' . convert_bytes(memory_get_usage(), 1) . ', PEAK script memory usage is ' . convert_bytes(memory_get_peak_usage(), 1) . ', php_sapi_name is "' . php_sapi_name() . '"' );
 		}
 	
+	$multiple_feed_servers = array(
+										'reddit.com',
+										'youtube.com',
+										'stackexchange.com',
+										'medium.com',
+										'bitcoincore.org',
+										'ethereum.org',
+										'kraken.com',
+										'fireside.fm',
+										'libsyn.com',
+										);
+											
 	
 		// Throttling multiple requests to same server
-		if ( preg_match("/reddit\.com/i", $url) ) {
+		if ( in_array($endpoint_tld_or_ip, $multiple_feed_servers) ) {
+			
+		$tld_session = strtr($endpoint_tld_or_ip, ".", "");
+			
+			// If it's a consecutive feed request, sleep X seconds
+			if ( !isset($_SESSION['fetched_feeds'][$tld_session]) ) {
+			$_SESSION['fetched_feeds'][$tld_session] = 0;
+			}
+			elseif ( $_SESSION['fetched_feeds'][$tld_session] > 0 ) {
+			
+				if ( $endpoint_tld_or_ip == 'reddit.com' ) {
+				usleep(7100000); // 7.1 seconds (Reddit only allows rss feed connections every 7 seconds from ip addresses ACCORDING TO THEM)
+				}
+				else {
+				usleep(1100000); // 1.1 seconds
+				}
+			
+			}
 				
-			// If it's a consecutive reddit feed request, sleep 7.5 seconds (reddit is very strict on user agents)
-			// (Reddit only allows rss feed connections every 7 seconds from ip addresses ACCORDING TO THEM)
-			if ( $_SESSION['fetched_feeds']['reddit'] > 0 ) {
-			sleep(7500000);
-			}
-			else {
-			$_SESSION['fetched_feeds']['reddit'] = 0;
-			}
-				
-		$_SESSION['fetched_feeds']['reddit'] = $_SESSION['fetched_feeds']['reddit'] + 1;	
-			
-		}
-		elseif ( preg_match("/youtube\.com/i", $url) ) {
-			
-			// If it's a consecutive youtube feed request, sleep 1.2 seconds 
-			if ( $_SESSION['fetched_feeds']['youtube'] > 0 ) {
-			usleep(1200000); 
-			}
-			else {
-			$_SESSION['fetched_feeds']['youtube'] = 0;
-			}
-			
-		$_SESSION['fetched_feeds']['youtube'] = $_SESSION['fetched_feeds']['youtube'] + 1;
-				
-		}
-		elseif ( preg_match("/stackexchange\.com/i", $url) ) {
-			
-			// If it's a consecutive stackexchange feed request, sleep 1.2 seconds
-			if ( $_SESSION['fetched_feeds']['stackexchange'] > 0 ) {
-			usleep(1200000);
-			}
-			else {
-			$_SESSION['fetched_feeds']['stackexchange'] = 0;
-			}
-			
-		$_SESSION['fetched_feeds']['stackexchange'] = $_SESSION['fetched_feeds']['stackexchange'] + 1;
-					
-		}
-		elseif ( preg_match("/medium\.com/i", $url) ) {
-			
-			// If it's a consecutive medium feed request, sleep 1.2 seconds (medium is very strict on user agents)
-			if ( $_SESSION['fetched_feeds']['medium'] > 0 ) {
-			usleep(1200000);
-			}
-			else {
-			$_SESSION['fetched_feeds']['medium'] = 0;
-			}
-			
-		$_SESSION['fetched_feeds']['medium'] = $_SESSION['fetched_feeds']['medium'] + 1;
-					
-		}
-		elseif ( preg_match("/bitcoincore\.org/i", $url) ) {
-			
-			// If it's a consecutive bitcoincore feed request, sleep 1.2 seconds
-			if ( $_SESSION['fetched_feeds']['bitcoincore'] > 0 ) {
-			usleep(1200000);
-			}
-			else {
-			$_SESSION['fetched_feeds']['bitcoincore'] = 0;
-			}
-			
-		$_SESSION['fetched_feeds']['bitcoincore'] = $_SESSION['fetched_feeds']['bitcoincore'] + 1;	
-				
-		}
-		elseif ( preg_match("/ethereum\.org/i", $url) ) {
-			
-			// If it's a consecutive ethereumorg feed request, sleep 1.2 seconds
-			if ( $_SESSION['fetched_feeds']['ethereumorg'] > 0 ) {
-			usleep(1200000);
-			}
-			else {
-			$_SESSION['fetched_feeds']['ethereumorg'] = 0;
-			}
-			
-		$_SESSION['fetched_feeds']['ethereumorg'] = $_SESSION['fetched_feeds']['ethereumorg'] + 1;
-					
-		}
-		elseif ( preg_match("/kraken\.com/i", $url) ) {
-			
-			// If it's a consecutive kraken feed request, sleep 1.2 seconds
-			if ( $_SESSION['fetched_feeds']['kraken'] > 0 ) {
-			usleep(1200000);
-			}
-			else {
-			$_SESSION['fetched_feeds']['kraken'] = 0;
-			}
-			
-		$_SESSION['fetched_feeds']['kraken'] = $_SESSION['fetched_feeds']['kraken'] + 1;
-					
-		}
-		elseif ( preg_match("/fireside\.fm/i", $url) ) {
-			
-			// If it's a consecutive firesidefm feed request, sleep 1.2 seconds
-			if ( $_SESSION['fetched_feeds']['firesidefm'] > 0 ) {
-			usleep(1200000); 
-			}
-			else {
-			$_SESSION['fetched_feeds']['firesidefm'] = 0;
-			}
-			
-		$_SESSION['fetched_feeds']['firesidefm'] = $_SESSION['fetched_feeds']['firesidefm'] + 1;
-					
-		}
-		elseif ( preg_match("/libsyn\.com/i", $url) ) {
-			
-			// If it's a consecutive libsyn feed request, sleep 1.2 seconds
-			if ( $_SESSION['fetched_feeds']['libsyn'] > 0 ) {
-			usleep(1200000);
-			}
-			else {
-			$_SESSION['fetched_feeds']['libsyn'] = 0;
-			}
-			
-		$_SESSION['fetched_feeds']['libsyn'] = $_SESSION['fetched_feeds']['libsyn'] + 1;
-					
+		$_SESSION['fetched_feeds'][$tld_session] = $_SESSION['fetched_feeds'][$tld_session] + 1;	
+		
 		}
 	
 	
 	} // END if updating feed
 		
 				
-// Get feed data, and format output (UNLESS WE ARE ONLY CACHING DATA)
+// Get feed data (whether cached or re-caching live data), and format output (UNLESS WE ARE ONLY CACHING DATA)
 $xmldata = @external_api_data('url', $url, $rss_feed_cache_time); 
 		
 		
@@ -564,7 +470,7 @@ $xmldata = @external_api_data('url', $url, $rss_feed_cache_time);
 	$rss = simplexml_load_string($xmldata);
 	
 	
-		if ( $xmldata == 'none' || $rss == false ) {
+		if ( $rss == false ) {
 		gc_collect_cycles(); // Clean memory cache
 	 	return '<span class="red">Error retrieving feed data.</span>';
 	 	}

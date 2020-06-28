@@ -1327,8 +1327,12 @@ $app_config['developer']['chmod_index_security'] = '0664'; // (default = '0664')
 
 
 // Maximum number of batched news feed fetches / re-caches per ajax OR cron runtime 
-// (#PREVENTS RUNTIME CRASHES# ON LOW POWER DEVICES, WITH A LOWER NUMBER)
+// (#TO HELP PREVENT RUNTIME CRASHES# ON LOW POWER DEVICES OR HIGH TRAFFIC INSTALLS, WITH A LOW NUMBER OF 15 OR LESS)
 $app_config['developer']['batched_news_feeds_max'] = 15; // (default = 15)
+
+
+// Ignore warning to use PHP-FPM (#PHP-FPM HELPS PREVENT RUNTIME CRASHES# ON LOW POWER DEVICES OR HIGH TRAFFIC INSTALLS)
+$app_config['developer']['ignore_php_fpm_warning'] = 'no'; // (default = 'no', options are 'yes' / 'no')
 							
 
 // TLD-only (Top Level Domain only, NO SUBDOMAINS) for each API service that requires multiple calls (for each market / data set)

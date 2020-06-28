@@ -10,21 +10,22 @@
 if ( $runtime_mode == 'cron' ) {
 
 
-// Re-cache RSS feeds for faster UI runtimes later
-// Reset feed fetch telemetry 
-$_SESSION['fetched_feeds'] = false;
-rss_feed_data(false, 0, true); // Cache-only mode
-gc_collect_cycles(); // Clean memory cache
+	// Re-cache RSS feeds for faster UI runtimes later
+	foreach($app_config['power_user']['news_feeds'] as $cached_feed_key => $feed_unused) {
+		if ( trim($news_feeds[$cached_feed_key]["url"]) != '' ) {
+	 	get_rss_feed($news_feeds[$feed_key]["url"], $feed_size, 1);
+	 	}
+	}
 
 
-// Re-cache marketcap data for faster UI runtimes later
-$coingecko_api = coingecko_api();
-
-
-	// If coinmarketcap API key is added, cache data
+	// If coinmarketcap API key is added, cache data for faster UI runtimes later
 	if ( trim($app_config['general']['coinmarketcapcom_api_key']) != null ) {
 	$coinmarketcap_api = coinmarketcap_api();
 	}
+	 
+
+// Re-cache marketcap data for faster UI runtimes later
+$coingecko_api = coingecko_api();
 	 
 	 
 // Re-cache chain data for faster UI runtimes later
