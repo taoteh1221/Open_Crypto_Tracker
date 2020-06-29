@@ -4,9 +4,6 @@
  */
 
 
-// Random tips array (load here so we get the end user primary currency variable to use in the random tips)
-require_once('app-lib/php/other/random-tips.php');
-
 
 ?>
 
@@ -195,7 +192,7 @@ require_once('app-lib/php/other/random-tips.php');
 	    
 	
 	<!-- #DON'T# CONVERT TO JAVASCRIPT WITH 'NEXT TIP' LINK...I think tips will be better remembered if it just loads one tip per app runtime. -->
-	<p style='margin-top: 10px;' class='bitcoin random_tip'><b>Random Tip:</b><img id='random_tip_disclaimer' src='templates/interface/media/images/info-orange.png' alt='' width='30' style='position: relative; padding: 0px; margin: 0px; vertical-align: middle;' /> <br /><?=random_array_var($random_tips)?></p>
+	<div style='margin-top: 10px; max-width: 1200px;' class='bitcoin random_tip'><b>Random Tip:</b><img id='random_tip_disclaimer' src='templates/interface/media/images/info-orange.png' alt='' width='30' style='position: relative; padding: 0px; margin: 0px; vertical-align: middle;' />  <a href='javascript: random_tips();'>Show Another Tip</a> <div id='quoteContainer'></div></div>
 	<script>
 		
 			$('#random_tip_disclaimer').balloon({

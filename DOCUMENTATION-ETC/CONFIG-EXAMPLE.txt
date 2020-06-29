@@ -1327,8 +1327,8 @@ $app_config['developer']['chmod_index_security'] = '0664'; // (default = '0664')
 
 
 // Maximum number of batched news feed fetches / re-caches per ajax OR cron runtime 
-// (#TO HELP PREVENT RUNTIME CRASHES# ON LOW POWER DEVICES OR HIGH TRAFFIC INSTALLS, WITH A LOW NUMBER OF 15 OR LESS)
-$app_config['developer']['batched_news_feeds_max'] = 15; // (default = 15)
+// (#TO HELP PREVENT RUNTIME CRASHES# ON LOW POWER DEVICES OR HIGH TRAFFIC INSTALLS, WITH A LOW NUMBER OF 35 OR LESS)
+$app_config['developer']['batched_news_feeds_max'] = 35; // (default = 35)
 
 
 // Ignore warning to use PHP-FPM (#PHP-FPM HELPS PREVENT RUNTIME CRASHES# ON LOW POWER DEVICES OR HIGH TRAFFIC INSTALLS)
@@ -1784,7 +1784,7 @@ $app_config['portfolio_assets'] = array(
                                     'inr' => array(
                                           'localbitcoins' => 'INR',
                                           'bitbns' => 'BTC',
-                                          'buyucoin' => 'btc_inr',
+                                          'buyucoin' => 'INR-BTC',
                                                     ),
                                                     
                                     'irr' => array(
@@ -2096,7 +2096,7 @@ $app_config['portfolio_assets'] = array(
                                                     
                                     'inr' => array(
                                           'bitbns' => 'ETH',
-                                          'buyucoin' => 'eth_inr',
+                                          'buyucoin' => 'INR-ETH',
                                                     ),
                                                     
                                     'jpy' => array(
@@ -2200,7 +2200,7 @@ $app_config['portfolio_assets'] = array(
                                                     
                                     'inr' => array(
                                           'bitbns' => 'XMR',
-                                          'buyucoin' => 'xmr_inr',
+                                          'buyucoin' => 'INR-XMR',
                                                     ),
                                                     
                                     'usdt' => array(
@@ -2375,7 +2375,7 @@ $app_config['portfolio_assets'] = array(
                                                     
                                     'inr' => array(
                                           'bitbns' => 'LTC',
-                                          'buyucoin' => 'ltc_inr',
+                                          'buyucoin' => 'INR-LTC',
                                                     ),
                                                     
                                 		'krw' => array(
@@ -2708,7 +2708,6 @@ $app_config['portfolio_assets'] = array(
                                                     
                                     'inr' => array(
                                           'bitbns' => 'DOGE',
-                                          'buyucoin' => 'doge_inr',
                                                     ),
                                                     
                                     'usdc' => array(

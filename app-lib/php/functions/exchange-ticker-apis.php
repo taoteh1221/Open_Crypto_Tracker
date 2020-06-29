@@ -514,7 +514,7 @@ global $selected_btc_primary_currency_value, $app_config;
   elseif ( strtolower($chosen_exchange) == 'buyucoin' ) {
      
      
-     $json_string = 'https://www.buyucoin.com/api/v1.2/currency/markets';
+     $json_string = 'https://api.buyucoin.com/ticker/v1.0/liveData';
      
      $jsondata = @external_api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
      
@@ -527,12 +527,12 @@ global $selected_btc_primary_currency_value, $app_config;
   
        foreach ($data as $key => $value) {
          
-         if ( $key == $market_id ) {
+         if ( $value["marketName"] == $market_id ) {
           
          $result = array(
-    							'last_trade' => $data[$key]["last_trade"],
-    							'24hr_asset_volume' => 0, // 24 HOUR VOLUME NOT SUPPORTED IN THIS API, MUST BE ZERO INSTEAD OF NULL FOR COMPATIBILITY WITH THIS APP
-    							'24hr_pairing_volume' => null // No pairing volume data for this API
+    							'last_trade' => $value["LTRate"],
+    							'24hr_asset_volume' => $value["v24"], 
+    							'24hr_pairing_volume' => $value["tp24"] 
     						);
           
          }

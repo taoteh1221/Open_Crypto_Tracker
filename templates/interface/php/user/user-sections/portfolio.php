@@ -623,7 +623,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 			$('#balance_stats').balloon({
 			html: true,
 			position: "right",
-			contents: ajax_placeholder(30, 'Loading Data...'),
+			contents: ajax_placeholder(30, 'center', 'Loading Data...'),
   			url: 'ajax.php?type=balance_stats&leverage_added=<?=$leverage_added?>&short_added=<?=$short_added?><?=$balance_stats_encoded?>',
 			css: {
 					fontSize: ".8rem",

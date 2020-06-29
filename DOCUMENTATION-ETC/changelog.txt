@@ -3625,6 +3625,10 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Auto-install script explicitly looks for the chosen PHP version for the cron jobs too (charts / alerts background tasks), or defaults to the standard generic path: /usr/bin/php
 
+-Random tips now has a 'show another tip' button
+
+-Updated buyucoin API
+
 -Misc UX revisions
 
 IMPORTANT UPGRADE NOTES: 

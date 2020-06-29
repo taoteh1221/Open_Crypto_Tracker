@@ -3,6 +3,8 @@
 
 
 
+
+
 /////////////////////////////////////////////////////////////
 
 
@@ -108,15 +110,15 @@ function update_alert_percent() {
 /////////////////////////////////////////////////////////////
 
 
-function ajax_placeholder(px_size, message){
+function ajax_placeholder(px_size, align, message){
 
 	if ( message ) {
 	var img_height = px_size - 2;
-	return '<div class="align_center" style="white-space: nowrap; font-size: ' + px_size + 'px;"><img src="templates/interface/media/images/loader.gif" height="' + img_height + '" alt="" style="position: relative; vertical-align:middle;" /> ' + message + ' </div>';
+	return '<div class="align_' + align + '" style="white-space: nowrap; font-size: ' + px_size + 'px;"><img src="templates/interface/media/images/loader.gif" height="' + img_height + '" alt="" style="position: relative; vertical-align:middle;" /> ' + message + ' </div>';
 	}
 	else {
 	var img_height = px_size;
-	return '<div class="align_center"><img src="templates/interface/media/images/loader.gif" height="' + img_height + '" alt="" /></div>';
+	return '<div class="align_' + align + '"><img src="templates/interface/media/images/loader.gif" height="' + img_height + '" alt="" /></div>';
 	}
 	
 
@@ -438,6 +440,39 @@ var trident = ua.indexOf('Trident');
 // If we get this far, return false
 return false;
 	
+}
+
+/////////////////////////////////////////////////////////////
+
+
+// https://codepen.io/kkoutoup/pen/zxmGLE
+function random_tips() {
+   
+//define the containers of the info we target
+var quote = $('#quoteContainer p').text();
+var quoteGenius = $('#quoteGenius').text();
+			
+//getting a new random number to attach to a quote and setting a limit
+var sourceLength = quoteSource.length;
+var randomNumber= Math.floor(Math.random()*sourceLength);
+			
+//set a new quote
+
+var newQuoteText = quoteSource[randomNumber].quote;
+var newQuoteGenius = quoteSource[randomNumber].name;
+			
+var quoteContainer = $('#quoteContainer');
+      
+        quoteContainer.html( ajax_placeholder(15, 'left') );
+
+      //fade out animation with callback
+      quoteContainer.fadeOut(250, function(){
+				quoteContainer.html('<p>'+newQuoteText+'</p>'+'<p id="quoteGenius">'+'-								'+newQuoteGenius+'</p>');
+        //fadein animation.
+        quoteContainer.fadeIn(250);
+      });  
+
+
 }
 
 

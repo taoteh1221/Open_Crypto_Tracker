@@ -152,6 +152,8 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 	
 	</script>
 
+	<script src="app-lib/js/random-tips.js"></script>
+
 
 	<link rel="shortcut icon" href="templates/interface/media/images/favicon.png">
 	<link rel="icon" href="templates/interface/media/images/favicon.png">
