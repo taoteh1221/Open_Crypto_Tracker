@@ -453,14 +453,9 @@ return false;
 
 // https://codepen.io/kkoutoup/pen/zxmGLE
 function random_tips() {
-   
-//define the containers of the info we target
-var quote = $('#quoteContainer p').text();
-var quoteGenius = $('#quoteGenius').text();
 			
 //getting a new random number to attach to a quote and setting a limit
-var sourceLength = quoteSource.length;
-var randomNumber= Math.floor(Math.random()*sourceLength);
+var randomNumber= Math.floor(Math.random() * quoteSource.length);
 			
 //set a new quote
 

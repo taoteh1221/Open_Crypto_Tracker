@@ -1219,8 +1219,9 @@ echo "A #VERY HIGH# port number is recommended (greater than 100,000), to help a
 echo "port scanning bots detecting it (and then making hack attempts on it)."
 echo " "
 
-echo "SEE /DOCUMENTATION-ETC/RASPBERRY-PI-SECURITY.txt for additional setup related to"
-echo "securing Raspberry Pi OS (disabling bluetooth, firewall setup, etc)."
+echo "SEE /DOCUMENTATION-ETC/RASPBERRY-PI-SECURITY.txt and"
+echo "/DOCUMENTATION-ETC/RASPBERRY-PI-HEADLESS-WIFI-SSH.txt for additional information on"
+echo "securing and setting up Raspberry Pi OS (disabling bluetooth, firewall setup, remote login, etc)."
 echo " "
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"

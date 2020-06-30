@@ -122,12 +122,14 @@
 				    
 				    exchange_name = exchange_name_ui.toLowerCase();
 				    
-					 if ( window.preferred_bitcoin_markets[btc_primary_currency] && window.preferred_bitcoin_markets[btc_primary_currency].length > 0 && window.preferred_bitcoin_markets[btc_primary_currency] != exchange_name ) {
-				    $("#primary_currency_markets_alert").text("It is highly recommended to use the " + render_names(window.preferred_bitcoin_markets[btc_primary_currency]) + " marketplace instead of " + exchange_name_ui + ", as there MAY be occasional issues with other " + btc_primary_currency.toUpperCase() + " marketplaces.");
+				    exchange_name_check = exchange_name.replace(" ", "_");
+				    
+				    if ( window.limited_apis.indexOf(exchange_name) != -1 ) { // MSIE-compatible
+				    $("#primary_currency_markets_alert").text("The " + exchange_name_ui + " exchange API is less reliable than some others (by NOT consolidating multiple / different asset price requests into one single call per session).\n\nIf you experience issues with primary currency values NOT displaying in this app when using the " + exchange_name_ui + " exchange marketplace, try a different exchange for your preferred primary currency market, and the issue should go away.");
 				    $("#primary_currency_markets_alert").show(250, "linear"); // 0.25 seconds
 				    }
-				    else if ( window.limited_apis.indexOf(exchange_name) != -1 ) { // MSIE-compatible
-				    $("#primary_currency_markets_alert").text("The " + exchange_name_ui + " exchange API is less reliable than some others (by NOT consolidating multiple / different asset price requests into one single call per session).\n\nIf you experience issues with primary currency values NOT displaying in this app when using the " + exchange_name_ui + " exchange market, try a different exchange market for your preferred primary currency, and the issue should go away.");
+					 else if ( window.preferred_bitcoin_markets[btc_primary_currency] && window.preferred_bitcoin_markets[btc_primary_currency].length > 0 && window.preferred_bitcoin_markets[btc_primary_currency] != exchange_name_check ) {
+				    $("#primary_currency_markets_alert").text("It is recommended to use the " + render_names(window.preferred_bitcoin_markets[btc_primary_currency]) + " marketplace, as there MAY be occasional issues with other BTC / " + btc_primary_currency.toUpperCase() + " marketplaces.\n\nIf you experience issues with primary currency values NOT displaying in this app when using the " + exchange_name_ui + " exchange marketplace, try a different exchange for your preferred primary currency market, and the issue should go away.");
 				    $("#primary_currency_markets_alert").show(250, "linear"); // 0.25 seconds
 				    }
 				    else {
@@ -207,15 +209,17 @@
 				    
 				    exchange_name = exchange_name_ui.toLowerCase();
 				    
+				    exchange_name_check = exchange_name.replace(" ", "_");
+				    
 				    btc_primary_currency = $("#btc_primary_currency").val();
 					 primary_currency_market = this.value;
 				    
-					 if ( window.preferred_bitcoin_markets[btc_primary_currency] && window.preferred_bitcoin_markets[btc_primary_currency].length > 0 && window.preferred_bitcoin_markets[btc_primary_currency] != exchange_name ) {
-				    $("#primary_currency_markets_alert").text("It is highly recommended to use the " + render_names(window.preferred_bitcoin_markets[btc_primary_currency]) + " marketplace instead of " + exchange_name_ui + ", as there MAY be occasional issues with other " + btc_primary_currency.toUpperCase() + " marketplaces.");
+				    if ( window.limited_apis.indexOf(exchange_name) != -1 ) { // MSIE-compatible
+				    $("#primary_currency_markets_alert").text("The " + exchange_name_ui + " exchange API is less reliable than some others (by NOT consolidating multiple / different asset price requests into one single call per session).\n\nIf you experience issues with primary currency values NOT displaying in this app when using the " + exchange_name_ui + " exchange marketplace, try a different exchange for your preferred primary currency market, and the issue should go away.");
 				    $("#primary_currency_markets_alert").show(250, "linear"); // 0.25 seconds
 				    }
-				    else if ( window.limited_apis.indexOf(exchange_name) != -1 ) { // MSIE-compatible
-				    $("#primary_currency_markets_alert").text("The " + exchange_name_ui + " exchange API is less reliable than some others (by NOT consolidating multiple / different asset price requests into one single call per session).\n\nIf you experience issues with primary currency values NOT displaying in this app when using the " + exchange_name_ui + " exchange market, try a different exchange market for your preferred primary currency, and the issue should go away.");
+					 else if ( window.preferred_bitcoin_markets[btc_primary_currency] && window.preferred_bitcoin_markets[btc_primary_currency].length > 0 && window.preferred_bitcoin_markets[btc_primary_currency] != exchange_name_check ) {
+				    $("#primary_currency_markets_alert").text("It is recommended to use the " + render_names(window.preferred_bitcoin_markets[btc_primary_currency]) + " marketplace, as there MAY be occasional issues with other BTC / " + btc_primary_currency.toUpperCase() + " marketplaces.\n\nIf you experience issues with primary currency values NOT displaying in this app when using the " + exchange_name_ui + " exchange marketplace, try a different exchange for your preferred primary currency market, and the issue should go away.");
 				    $("#primary_currency_markets_alert").show(250, "linear"); // 0.25 seconds
 				    }
 				    else {
@@ -309,20 +313,25 @@
 			});
 		
 		
-		
+			// On page load / reload
+			
 			var settings_tab_primary_btc_exchange = document.getElementById("<?=$app_config['general']['btc_primary_currency_pairing']?>btc_currency_pairs");
 
 			exchange_name_ui = settings_tab_primary_btc_exchange.options[settings_tab_primary_btc_exchange.selectedIndex].text;
 
 			exchange_name = exchange_name_ui.toLowerCase();
+				    
+			exchange_name_check = exchange_name.replace(" ", "_");
 
+			btc_primary_currency = btc_primary_currency_pairing.toLowerCase();
+			
 
-					 if ( window.preferred_bitcoin_markets[btc_primary_currency] && window.preferred_bitcoin_markets[btc_primary_currency].length > 0 && window.preferred_bitcoin_markets[btc_primary_currency] != exchange_name ) {
-				    $('#primary_currency_markets_alert').text("It is highly recommended to use the " + render_names(window.preferred_bitcoin_markets[btc_primary_currency]) + " marketplace instead of " + exchange_name_ui + ", as there MAY be occasional issues with other " + btc_primary_currency.toUpperCase() + " marketplaces.");
+				    if ( window.limited_apis.indexOf(exchange_name) != -1 ) { // MSIE-compatible
+				    $('#primary_currency_markets_alert').text("The " + exchange_name_ui + " exchange API is less reliable than some others (by NOT consolidating multiple / different asset price requests into one single call per session).\n\nIf you experience issues with primary currency values NOT displaying in this app when using the " + exchange_name_ui + " exchange marketplace, try a different exchange for your preferred primary currency market, and the issue should go away.");
 				    $("#primary_currency_markets_alert").show(250, "linear"); // 0.25 seconds
 				    }
-				    else if ( window.limited_apis.indexOf(exchange_name) != -1 ) { // MSIE-compatible
-				    $('#primary_currency_markets_alert').text("The " + exchange_name_ui + " exchange API is less reliable than some others (by NOT consolidating multiple / different asset price requests into one single call per session).\n\nIf you experience issues with primary currency values NOT displaying in this app when using the " + exchange_name_ui + " exchange market, try a different exchange market for your preferred primary currency, and the issue should go away.");
+					 else if ( window.preferred_bitcoin_markets[btc_primary_currency] && window.preferred_bitcoin_markets[btc_primary_currency].length > 0 && window.preferred_bitcoin_markets[btc_primary_currency] != exchange_name_check ) {
+				    $("#primary_currency_markets_alert").text("It is recommended to use the " + render_names(window.preferred_bitcoin_markets[btc_primary_currency]) + " marketplace, as there MAY be occasional issues with other BTC / " + btc_primary_currency.toUpperCase() + " marketplaces.\n\nIf you experience issues with primary currency values NOT displaying in this app when using the " + exchange_name_ui + " exchange marketplace, try a different exchange for your preferred primary currency market, and the issue should go away.");
 				    $("#primary_currency_markets_alert").show(250, "linear"); // 0.25 seconds
 				    }
 				    else {

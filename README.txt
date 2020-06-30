@@ -108,7 +108,7 @@ Follow the prompts. This automated script gives you the options to: install / un
 
 When the auto-install is completed, it will display addresses / logins to access the app (write these down / save them for future use).
 
-SEE /DOCUMENTATION-ETC/RASPBERRY-PI-SECURITY.txt, and /DOCUMENTATION-ETC/RASPBERRY-PI-HEADLESS-WIFI-SSH.txt for additional setup related to securing and setting up your Raspberry Pi (disabling bluetooth, firewall setup, remote login, etc).
+SEE /DOCUMENTATION-ETC/RASPBERRY-PI-SECURITY.txt, and /DOCUMENTATION-ETC/RASPBERRY-PI-HEADLESS-WIFI-SSH.txt for additional information on securing and setting up Raspberry Pi OS (disabling bluetooth, firewall setup, remote login, etc).
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Manual installation:
@@ -124,7 +124,7 @@ Setting up a cron job for charts and price alerts by email / mobile phone text /
 
 If you want to take advantage of cron job based features like charts, chart data backups, price alerts, daily or weekly error log emails / etc, then the file cron.php (located in the primary directory of this app) must be setup as a cron job on your Raspberry Pi or website web server. 
 
-If you run the automated setup / install script for Raspberry Pi (affordable low power single board computer) devices on home / internal networks, automatic cron job setup is offered as an option during this process. If you are using a full stack website host for hosting a TLD website domain name remotely, consult your web server host's documentation or help desk for their particular method of setting up a cron job. 
+If you run the automated setup / install script for Ubuntu or Raspberry Pi (an affordable low power single board computer) devices on home / internal networks, automatic cron job setup is offered as an option during this process. If you are using a full stack website host for hosting a TLD website domain name remotely, consult your web server host's documentation or help desk for their particular method of setting up a cron job. 
 
 Note that you should have the cron job run every 5, 10, 15, 20, or 30 minutes 24/7, based on how often you want chart data points / alerts / any other cron based features to run. Setting up the cron job to run every 20 minutes is the RECOMMENDED lowest time interval. IF SET BELOW 20 MINUTES, lite chart disk writes may be excessive for lower end hardware (Raspberry PI MicroSD cards etc). IF SET #VERY LOW# (5 / 10 minutes), the free exchange APIs may throttle / block your data requests temporarily on occasion for requesting data too frequently (negatively affecting your alerts / charts). 
 

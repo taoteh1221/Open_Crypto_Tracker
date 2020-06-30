@@ -3633,7 +3633,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Changes to default config
 
--Misc UX revisions
+-Misc fixes / UX revisions
 
 IMPORTANT UPGRADE NOTES: 
 

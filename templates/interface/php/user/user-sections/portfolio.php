@@ -27,15 +27,15 @@
 				if ( $theme_selected == 'dark' ) {
 				
 					if ( $alert_percent[2] == 'gain' ) {
-					$alert_filter = '<span style="color: #7dc67d;">+</span>';
+					$alert_filter = '<span>+</span>';
 					$alert_filter_css = 'green';
 					}
 					elseif ( $alert_percent[2] == 'loss' ) {
-					$alert_filter = '<span style="color: #efd362;">-</span>';
+					$alert_filter = '<span>-</span>';
 					$alert_filter_css = 'orange';
 					}
 					elseif ( $alert_percent[2] == 'both' ) {
-					$alert_filter = '<span style="color: #7dc67d;">+</span><span style="color: #efd362;">-</span>';
+					$alert_filter = '<span style="color: #7dc67d;"><sup>+</sup></span>&frasl;<span style="color: #efd362;"><sub>-</sub></span> ';
 					$alert_filter_css = 'blue';
 					}
 				
@@ -43,22 +43,22 @@
 				elseif ( $theme_selected == 'light' ) {
 				
 					if ( $alert_percent[2] == 'gain' ) {
-					$alert_filter = '<span style="color: #6ead6e;">+</span>';
+					$alert_filter = '<span>+</span>';
 					$alert_filter_css = 'green';
 					}
 					elseif ( $alert_percent[2] == 'loss' ) {
-					$alert_filter = '<span style="color: #dd7c0d;">-</span>';
+					$alert_filter = '<span>-</span>';
 					$alert_filter_css = 'orange';
 					}
 					elseif ( $alert_percent[2] == 'both' ) {
-					$alert_filter = '<span style="color: #6ead6e;">+</span><span style="color: #dd7c0d;">-</span>';
+					$alert_filter = '<span style="color: #6ead6e;"><sup>+</sup></span>&frasl;<span style="color: #dd7c0d;"><sub>-</sub></span> ';
 					$alert_filter_css = 'blue';
 					}
 				
 				}
 				
 			?>
-			  &nbsp; &nbsp; <span class='<?=$alert_filter_css?>' style='font-weight: bold;'><?=$visual_audio_alerts?> alerts (<?=ucfirst($app_config['general']['primary_marketcap_site'])?> / <?=$alert_filter?><?=$alert_percent[1]?>% / <?=$text_mcap_trend?>)</span>
+			  &nbsp; &nbsp; <span class='<?=$alert_filter_css?>' style='font-weight: bold;'><?=$visual_audio_alerts?> alerts (<?=ucfirst($app_config['general']['primary_marketcap_site'])?> <?=$text_mcap_trend?> <?=$alert_filter?><?=$alert_percent[1]?>%)</span>
 			<?php
 			}
 			
