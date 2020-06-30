@@ -207,8 +207,11 @@ function charts_loading_check(charts_loaded) {
 
 	if ( charts_loaded.length >= window.charts_num ) {
 		// Only hide if no feeds are loading also
-		if ( window.feeds_loaded.length >= window.feeds_num ) {
+		if ( window.feeds_loaded.length >= window.feeds_num ) { // DONT USE feeds_loading_check(), WILL LOOP ENDLESSLY
 		$("#loading_subsections").hide(250); // 0.25 seconds
+		}
+		else {
+		feeds_loading_check(window.feeds_loaded);
 		}
 	return 'done';
 	}
@@ -230,8 +233,11 @@ function feeds_loading_check(feeds_loaded) {
 
 	if ( feeds_loaded.length >= window.feeds_num ) {
 		// Only hide if no charts are loading also
-		if ( window.charts_loaded.length >= window.charts_num ) {
+		if ( window.charts_loaded.length >= window.charts_num ) { // DONT USE charts_loading_check(), WILL LOOP ENDLESSLY
 		$("#loading_subsections").hide(250); // 0.25 seconds
+		}
+		else {
+		charts_loading_check(window.charts_loaded);
 		}
 	return 'done';
 	}

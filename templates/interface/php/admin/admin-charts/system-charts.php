@@ -17,7 +17,7 @@ $first_lite_chart = $app_config['power_user']['lite_chart_day_intervals'][0];
 	if ( file_exists('cache/charts/system/lite/'.$first_lite_chart.'_days/system_stats.dat') != 1 ) {
 	?>
 			
-			$("#system_stats_chart_<?=$chart_mode?> span.chart_loading").html(' &nbsp; No chart data found for: System Chart #<?=$chart_mode?>');
+			$("#system_stats_chart_<?=$chart_mode?> span.chart_loading").html(' &nbsp; No chart activated found for: System Chart #<?=$chart_mode?>');
 			
 			$("#system_stats_chart_<?=$chart_mode?> span.chart_loading").css({ "background-color": "#9b4b26" });
 			

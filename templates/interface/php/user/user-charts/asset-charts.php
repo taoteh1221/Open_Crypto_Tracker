@@ -28,7 +28,7 @@ $js_key = preg_replace("/-/", "", $key) . '_' . $charted_value;
 	|| $market_parse[2] != 'chart' && $market_parse[2] != 'both' ) {
 	?>
 			
-			$("#<?=$key?>_<?=$charted_value?>_chart span.chart_loading").html(' &nbsp; No chart data found for: <?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=snake_case_to_name($market_parse[0])?><?=( $chart_mode != 'pairing' ? ' \(' . strtoupper($charted_value) . ' Value\)' : '' )?>');
+			$("#<?=$key?>_<?=$charted_value?>_chart span.chart_loading").html(' &nbsp; No chart data activated for: <?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=snake_case_to_name($market_parse[0])?><?=( $chart_mode != 'pairing' ? ' \(' . strtoupper($charted_value) . ' Value\)' : '' )?>');
 			
 			$("#<?=$key?>_<?=$charted_value?>_chart span.chart_loading").css({ "background-color": "#9b4b26" });
 			
