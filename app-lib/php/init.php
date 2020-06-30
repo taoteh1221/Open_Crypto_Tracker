@@ -110,9 +110,6 @@ $base_dir = preg_replace("/\/app-lib(.*)/i", "", dirname(__FILE__) );
 
 // Session data
 
-// Reset feed fetch telemetry 
-$_SESSION['fetched_feeds'] = false;
-
 
 // Nonce for secured login session logic
 if ( !isset($_SESSION['nonce']) ) {
@@ -228,6 +225,9 @@ $possible_http_users = array(
 
 
 // Initial vars
+
+$fetched_feeds = 'fetched_feeds_' . $runtime_mode; // Unique feed fetch telemetry SESSION KEY (so related runtime BROWSER SESSION logic never accidentally clashes)
+
 $cmc_notes = null;
 
 $config_upgraded = null;

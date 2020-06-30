@@ -108,7 +108,7 @@ Follow the prompts. This automated script gives you the options to: install / un
 
 When the auto-install is completed, it will display addresses / logins to access the app (write these down / save them for future use).
 
-SEE /DOCUMENTATION-ETC/RASPBERRY-PI-SECURITY.txt for additional setup related to securing your Raspberry Pi (disabling bluetooth, firewall setup, etc).
+SEE /DOCUMENTATION-ETC/RASPBERRY-PI-SECURITY.txt, and /DOCUMENTATION-ETC/RASPBERRY-PI-HEADLESS-WIFI-SSH.txt for additional setup related to securing and setting up your Raspberry Pi (disabling bluetooth, firewall setup, remote login, etc).
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Manual installation:

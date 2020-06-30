@@ -389,16 +389,16 @@ $result = array();
 // Credit: https://www.alexkras.com/simple-rss-reader-in-85-lines-of-php/
 function get_rss_feed($url, $feed_size, $cache_only=false){
 	
-global $app_config, $base_dir;
+global $app_config, $base_dir, $fetched_feeds;
 
 
-	if ( !isset($_SESSION['fetched_feeds']['all']) ) {
-	$_SESSION['fetched_feeds']['all'] = 0;
+	if ( !isset($_SESSION[$fetched_feeds]['all']) ) {
+	$_SESSION[$fetched_feeds]['all'] = 0;
 	}
 	// Never re-cache FROM LIVE more than 'batched_news_feeds_max' (even for cron runtimes), 
 	// to avoid overloading low power devices (raspi / pine64 / etc)
-	elseif ( $_SESSION['fetched_feeds']['all'] >= $app_config['developer']['batched_news_feeds_max'] ) {
-	return '<span class="red">Live data fetching limit reached (' . $_SESSION['fetched_feeds']['all'] . ').</span>';
+	elseif ( $_SESSION[$fetched_feeds]['all'] >= $app_config['developer']['batched_news_feeds_max'] ) {
+	return '<span class="red">Live data fetching limit reached (' . $_SESSION[$fetched_feeds]['all'] . ').</span>';
 	}
 	
 
@@ -412,12 +412,12 @@ $rss_feed_cache_time = rand($news_feeds_cache_min_max[0], $news_feeds_cache_min_
 	// If we will be updating the feed
 	if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
 	
-	$_SESSION['fetched_feeds']['all'] = $_SESSION['fetched_feeds']['all'] + 1; // Mark as a fetched feed, since it's going to update
+	$_SESSION[$fetched_feeds]['all'] = $_SESSION[$fetched_feeds]['all'] + 1; // Mark as a fetched feed, since it's going to update
 	
 	$endpoint_tld_or_ip = get_tld_or_ip($url);
 		
 		if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'memory' ) {
-		app_logging('system_debugging', $endpoint_tld_or_ip . ' news feed updating ('.$_SESSION['fetched_feeds']['all'].'), CURRENT script memory usage is ' . convert_bytes(memory_get_usage(), 1) . ', PEAK script memory usage is ' . convert_bytes(memory_get_peak_usage(), 1) . ', php_sapi_name is "' . php_sapi_name() . '"' );
+		app_logging('system_debugging', $endpoint_tld_or_ip . ' news feed updating ('.$_SESSION[$fetched_feeds]['all'].'), CURRENT script memory usage is ' . convert_bytes(memory_get_usage(), 1) . ', PEAK script memory usage is ' . convert_bytes(memory_get_peak_usage(), 1) . ', php_sapi_name is "' . php_sapi_name() . '"' );
 		}
 	
 	$multiple_feed_servers = array(
@@ -439,10 +439,10 @@ $rss_feed_cache_time = rand($news_feeds_cache_min_max[0], $news_feeds_cache_min_
 		$tld_session = strtr($endpoint_tld_or_ip, ".", "");
 			
 			// If it's a consecutive feed request, sleep X seconds
-			if ( !isset($_SESSION['fetched_feeds'][$tld_session]) ) {
-			$_SESSION['fetched_feeds'][$tld_session] = 0;
+			if ( !isset($_SESSION[$fetched_feeds][$tld_session]) ) {
+			$_SESSION[$fetched_feeds][$tld_session] = 0;
 			}
-			elseif ( $_SESSION['fetched_feeds'][$tld_session] > 0 ) {
+			elseif ( $_SESSION[$fetched_feeds][$tld_session] > 0 ) {
 			
 				if ( $endpoint_tld_or_ip == 'reddit.com' ) {
 				usleep(7100000); // 7.1 seconds (Reddit only allows rss feed connections every 7 seconds from ip addresses ACCORDING TO THEM)
@@ -453,7 +453,7 @@ $rss_feed_cache_time = rand($news_feeds_cache_min_max[0], $news_feeds_cache_min_
 			
 			}
 				
-		$_SESSION['fetched_feeds'][$tld_session] = $_SESSION['fetched_feeds'][$tld_session] + 1;	
+		$_SESSION[$fetched_feeds][$tld_session] = $_SESSION[$fetched_feeds][$tld_session] + 1;	
 		
 		}
 	

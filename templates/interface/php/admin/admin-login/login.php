@@ -66,16 +66,15 @@ if ( !$_POST['submit_login'] || sizeof($login_result['error']) > 0 ) {
 ?>
 
 
-<form action='' method='post'>
+<form id='admin_login' action='' method='post'>
 
     <div style="display: inline-block; text-align: right; width: 400px;">
 
-<p><b>Username:</b> <input type='text' name='admin_username' value='<?=trim($_POST['admin_username'])?>' /></p>
+<p><b>Username:</b> <input type='text' name='admin_username' id='admin_username' tabindex="-1" value='<?=trim($_POST['admin_username'])?>' /></p>
 
-<p><b>Password:</b> <input type='password' name='admin_password' value='<?=$_POST['admin_password']?>' /></p>
+<p><b>Password:</b> <input type='password' name='admin_password' id='admin_password' value='<?=$_POST['admin_password']?>' /></p>
 
     </div>
-
   	 
   	 
   	 <br clear='all' />

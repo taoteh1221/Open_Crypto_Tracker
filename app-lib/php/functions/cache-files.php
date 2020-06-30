@@ -1933,6 +1933,7 @@ $api_endpoint = ( $mode == 'array' ? $api_server : $request );
 				|| preg_match("/\"data\":null/i", $data) // Bitflyer.com / generic
 				|| preg_match("/\"success\":false/i", $data) // BTCturk.com / Bittrex.com / generic
 				|| preg_match("/EService:Unavailable/i", $data) // Kraken.com / generic
+				|| preg_match("/EService:Busy/i", $data) // Kraken.com / generic
 				|| preg_match("/temporarily unavailable/i", $data) // Bitfinex.com / generic
 				|| preg_match("/\"reason\":\"Maintenance\"/i", $data) // Gemini.com / generic
 				|| preg_match("/scheduled maintenance/i", $data) // Bittrex.com / generic

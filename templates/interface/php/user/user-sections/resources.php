@@ -471,6 +471,8 @@
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCt_oM56Ui0BCCgi0Yc-Wh3Q/featured' target='_blank'>Crypto Bobby</a></li>
 	        
+	        <li class='links_list'><a href='https://www.youtube.com/c/CryptoFinally/featured' target='_blank'>Crypto Finally</a></li>
+	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCu7Sre5A1NMV8J3s2FhluCw' target='_blank'>Crypto Love</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/user/PrisonOrFreedom/featured' target='_blank'>Cryptocurrency Market</a></li>

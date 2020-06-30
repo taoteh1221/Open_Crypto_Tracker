@@ -25,19 +25,7 @@ var quoteSource=[
 	    	name:"Warren Buffett"
 	    },
 	    {
-	    	quote:"The most important thing to do if you find yourself in a hole is to stop digging.",
-	    	name:"Warren Buffett"
-	    },
-	    {
-	    	quote:"The most important investment you can make is in yourself.",
-	    	name:"Warren Buffett"
-	    },
-	    {
 	    	quote:"Half of all coin-flippers will win their first toss; none of those winners has an expectation of profit if he continues to play the game.",
-	    	name:"Warren Buffett"
-	    },
-	    {
-	    	quote:"I will tell you how to become rich. Close the doors. Be fearful when others are greedy. Be greedy when others are fearful.",
 	    	name:"Warren Buffett"
 	    },
 	    {
@@ -47,6 +35,18 @@ var quoteSource=[
 	    {
 	    	quote:"The stock market is a device for transferring money from the impatient to the patient.",
 	    	name:"Warren Buffett"
+	    },
+	    {
+	    	quote:"Bitcoin frees people from trying to operate in a modern market economy.",
+	    	name:"Tim Draper"
+	    },
+	    {
+	    	quote:"I don’t have to pay those people who wear these beautiful suits coming out of big fancy banks to hold my money for me. I can hold my money right here. I don’t have to watch all that money disappear into these big, beautiful buildings and these people with fancy suits. I’ve got my money right here on a Ledger. That is a really powerful feeling.",
+	    	name:"Tim Draper"
+	    },
+	    {
+	    	quote:"Failure hurts, but failing is a part of the free market.",
+	    	name:"Tim Draper"
 	    },
 	    {
 	    	quote:"Know what you own, and know why you own it.",
@@ -67,18 +67,6 @@ var quoteSource=[
 	    {
 	    	quote:"Invest for the long-term.",
 	    	name:"Lou Simpson"
-	    },
-	    {
-	    	quote:"Bitcoin frees people from trying to operate in a modern market economy.",
-	    	name:"Tim Draper"
-	    },
-	    {
-	    	quote:"I don’t have to pay those people who wear these beautiful suits coming out of big fancy banks to hold my money for me. I can hold my money right here. I don’t have to watch all that money disappear into these big, beautiful buildings and these people with fancy suits. I’ve got my money right here on a Ledger. That is a really powerful feeling.",
-	    	name:"Tim Draper"
-	    },
-	    {
-	    	quote:"Failure hurts, but failing is a part of the free market.",
-	    	name:"Tim Draper"
 	    },
 	    {
 	    	quote:"For privacy / security, ALWAYS round your STORED portfolio balances to as few decimal points as is feasible (AND preferably buy / transfer cryptocurrency in nice rounded amounts too). Then hackers / snoopers cannot as easily guess and potentially follow your transaction history in block explorers online.",
@@ -149,8 +137,8 @@ var quoteSource=[
 	    	name:"Mike Kilday (creator of this app)"
 	    },
 	    {
-	    	quote:"Hapiness is not something ready made. It comes from your own actions.",
-	    	name:"Dalai Lama"
+	    	quote:"A good cryptocoin ages like fine wine, while a <a href='https://twitter.com/hashtag/shitcoin?src=hash' target='_blank'>#shxtcoin</a> ages like milk.",
+	    	name:"Mike Kilday (creator of this app)"
 	    }
 
 	];

@@ -1,0 +1,59 @@
+
+
+Raspberry Pi setup that automatically enables SSH remote terminal login, AND connects to your WiFi (very useful for running headless / without a desktop interface)...
+
+
+--------------------------------------------------------------------------
+
+
+Step #1) Create a normal disk image on a MicroSD card.
+
+
+--------------------------------------------------------------------------
+
+
+Step #2) Open the 'boot' partition of the MicroSD card on your PC.
+
+
+--------------------------------------------------------------------------
+
+
+Step #3) Add a new blank file in the boot partition named: ssh
+
+
+--------------------------------------------------------------------------
+
+
+Step #4) Add a new blank file in the boot partition named: wpa_supplicant.conf
+
+
+--------------------------------------------------------------------------
+
+
+Step #5) Open the new file 'wpa_supplicant.conf' with a text editor.
+
+
+--------------------------------------------------------------------------
+
+
+Step #6) Copy / paste the following code into the file 'wpa_supplicant.conf':
+
+
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+network={
+    ssid="YOUR_WIFI_NAME"
+    psk="YOUR_WIFI_PASSWORD"
+    key_mgmt=WPA-PSK
+}
+
+
+--------------------------------------------------------------------------
+
+
+Step #7) Add your WiFi name / password in 'wpa_supplicant.conf', and save / close the file.
+
+
+--------------------------------------------------------------------------
+
+
+

@@ -372,7 +372,8 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					
 					// MKR
 					'mkr' => 'okex||btc||none',
-					'mkr-2' => 'kucoin||btc||both',
+					'mkr-2' => 'kucoin||btc||none',
+					'mkr-3' => 'coinbase||btc||both',
 					
 					
 					// DCR
@@ -424,6 +425,13 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					'mana-4' => 'ethfinex||btc||none',
 					
 					
+					// ENJ
+					'enj' => 'bittrex||btc||none',
+					'enj-2' => 'binance||btc||both',
+					'enj-3' => 'kucoin||btc||none',
+					'enj-4' => 'bitfinex||usd||none',
+					
+					
 					// DOGE
 					'doge' => 'bittrex||btc||none',
 					'doge-2' => 'binance||btc||both',
@@ -446,8 +454,9 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					
 					
 					// KDA
-					'kda' => 'hotbit||btc||both',
+					'kda' => 'hotbit||btc||none',
 					'kda-2' => 'coinex||btc||none',
+					'kda-3' => 'bittrex_global||btc||both',
 					
 					
 					// GRIN
@@ -509,8 +518,8 @@ $app_config['power_user']['chainstats_cache_time'] = 70;  // (default = 70)
 $app_config['power_user']['marketcap_cache_time'] = 40;  // (default = 40)
 ////
 // Number of marketcap rankings to request from API.
-// 250 rankings is a safe maximum to start with, to avoid getting your API requests throttled / blocked
-$app_config['power_user']['marketcap_ranks_max'] = 250; // (default = 250)
+// 300 rankings is a safe maximum to start with, to avoid getting your API requests throttled / blocked
+$app_config['power_user']['marketcap_ranks_max'] = 300; // (default = 300)
 
 
 // Lite charts (load just as quickly for any time interval, 7 day / 30 day / 365 day / etc)
@@ -1141,6 +1150,12 @@ $app_config['power_user']['news_feeds'] = array(
     
     
         				array(
+            			"title" => "Youtube - Crypto Finally",
+            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCzPaGwO9MY5_xUNuwHEzR4Q"
+        						),
+    
+    
+        				array(
             			"title" => "Youtube - Crypt0's News",
             			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCdUSSt-IEUg2eq46rD7lu_g"
         						),
@@ -1339,8 +1354,8 @@ $app_config['developer']['chmod_index_security'] = '0664'; // (default = '0664')
 
 
 // Maximum number of batched news feed fetches / re-caches per ajax OR cron runtime 
-// (#TO HELP PREVENT RUNTIME CRASHES# ON LOW POWER DEVICES OR HIGH TRAFFIC INSTALLS, WITH A LOW NUMBER OF 35 OR LESS)
-$app_config['developer']['batched_news_feeds_max'] = 35; // (default = 35)
+// (#TO HELP PREVENT RUNTIME CRASHES# ON LOW POWER DEVICES OR HIGH TRAFFIC INSTALLS, WITH A LOW NUMBER OF 25 OR LESS)
+$app_config['developer']['batched_news_feeds_max'] = 25; // (default = 25)
 
 
 // Ignore warning to use PHP-FPM (#PHP-FPM HELPS PREVENT RUNTIME CRASHES# ON LOW POWER DEVICES OR HIGH TRAFFIC INSTALLS)
@@ -2683,6 +2698,57 @@ $app_config['portfolio_assets'] = array(
                                     'usdt' => array(
                                           'hitbtc' => 'MANAUSD',
                                           'okex' => 'MANA-USDT',
+                                                    ),
+                                                    
+                                        ) // market_pairing END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // ENJ
+                    'ENJ' => array(
+                        
+                        'asset_name' => 'Enjin Coin',
+                        'marketcap_website_slug' => 'enjin-coin',
+                        'market_pairing' => array(
+                        
+                                    'btc' => array(
+                                        	'binance' => 'ENJBTC',
+                                          'bittrex' => 'BTC-ENJ',
+                                          'hitbtc' => 'ENJBTC',
+                                          'kucoin' => 'ENJ-BTC',
+                                          'coinex' => 'ENJBTC',
+                                          'liquid' => 'ENJBTC',
+                                          'livecoin' => 'ENJ/BTC',
+                                        	'upbit' => 'BTC-ENJ',
+                                                    ),
+                                                    
+                                    'eth' => array(
+                                        	'binance' => 'ENJETH',
+                                          'bittrex' => 'ETH-ENJ',
+                                          'idex' => 'ETH_ENJ',
+                                          'hitbtc' => 'ENJETH',
+                                          'kucoin' => 'ENJ-ETH',
+                                                    ),
+                                                    
+                                    'krw' => array(
+                                        	'upbit' => 'KRW-ENJ',
+                                                    ),
+                                                    
+                                    'usd' => array(
+                                        	'binance_us' => 'ENJUSD',
+                                          'bittrex' => 'USD-ENJ',
+                                        	'bitfinex' => 'tENJUSD',
+                                                    ),
+                                                    
+                                    'usdt' => array(
+                                        	'binance' => 'ENJUSDT',
+                                          'bittrex' => 'USDT-ENJ',
+                                          'hitbtc' => 'ENJUSD',
+                                          'coinex' => 'ENJUSDT',
                                                     ),
                                                     
                                         ) // market_pairing END

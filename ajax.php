@@ -32,6 +32,9 @@ $feeds_array = explode(',', $_GET['feeds']);
 
 	// Mitigate DOS attack leverage, since we recieve extrenal calls in ajax.php
 	if ( sizeof($feeds_array) <= $app_config['developer']['batched_news_feeds_max'] ) {
+    	
+	// Reset feed fetch telemetry 
+	$_SESSION[$fetched_feeds] = false;
     
     	foreach($app_config['power_user']['news_feeds'] as $feed) {
     

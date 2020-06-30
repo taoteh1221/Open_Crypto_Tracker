@@ -13,6 +13,29 @@ $.ajaxSetup({
 $(document).ready(function(){
 	 
 
+if ( $("#admin_login").length ) {
+
+	setTimeout(function(){
+    $("#admin_username").filter(':visible').focus();
+	}, 1000);
+
+}
+else if ( $("#set_admin").length ) {
+
+	setTimeout(function(){
+    $("#set_username").filter(':visible').focus();
+	}, 1000);
+
+}
+else if ( $("#reset_admin").length ) {
+
+	setTimeout(function(){
+    $("#reset_username").filter(':visible').focus();
+	}, 1000);
+
+}
+
+
 // Show "app loading" placeholder when submitting ANY form JQUERY SUBMIT METHOD, OR CLICKING A SUBMIT BUTTON
 // (does NOT affect a standard javascript ELEMENT.submit() call)
 $("form").submit(function(event) { 

@@ -140,7 +140,7 @@ require("templates/interface/php/header.php");
 if ( !$_POST['admin_submit_reset'] && !$no_password_reset || sizeof($reset_result['error']) > 0 && !$no_password_reset ) {
 ?>
 
-				<form action='' method ='post'>
+				<form id='reset_admin' action='' method ='post'>
 				
     <div style="display: inline-block; text-align: right; width: 400px;">
 
@@ -148,7 +148,7 @@ if ( !$_POST['admin_submit_reset'] && !$no_password_reset || sizeof($reset_resul
 	 
 	 <img id='reset_notes' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative; left: 5px;' />  
 	 
-	 <b>Username:</b> <input type='text' name='reset_username' value='<?=trim($_POST['reset_username'])?>' style='<?=( $username_field_color ? 'background: ' . $username_field_color : '' )?>' />
+	 <b>Username:</b> <input type='text' name='reset_username' id='reset_username' value='<?=trim($_POST['reset_username'])?>' style='<?=( $username_field_color ? 'background: ' . $username_field_color : '' )?>' />
 	 
 		
 	 <script>

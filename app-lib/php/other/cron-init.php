@@ -9,6 +9,9 @@
 //////////////////////////////////////////////////////////////////
 if ( $runtime_mode == 'cron' ) {
 
+	
+// Reset feed fetch telemetry 
+$_SESSION[$fetched_feeds] = false;
 
 	// Re-cache RSS feeds for faster UI runtimes later
 	foreach($app_config['power_user']['news_feeds'] as $cached_feed_key => $feed_unused) {

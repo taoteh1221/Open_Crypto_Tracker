@@ -3627,7 +3627,11 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Random tips now has a 'show another tip' button
 
+-Added liquid.com exchange API
+
 -Updated buyucoin API
+
+-Changes to default config
 
 -Misc UX revisions
 
