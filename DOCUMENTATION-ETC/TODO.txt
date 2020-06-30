@@ -26,6 +26,9 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+Add all liquid.com  API markets
+
+
 Store the php timeout as a cached var, and compare the CACHED app config to it at runtime. If they differ from each other, delete the root htaccess and user.ini files to trigger recreating them with an updated php timeout. Also make sure the php timeout setting and updating logic / functions are using the CACHED app config.
 
 
