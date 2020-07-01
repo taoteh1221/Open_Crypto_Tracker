@@ -176,18 +176,19 @@ $result = array();
 // Don't overwrite global
 $coingecko_primary_currency = ( $force_primary_currency != null ? strtolower($force_primary_currency) : strtolower($app_config['general']['btc_primary_currency_pairing']) );
 
+$max_fetch = 151; // So we can quickly adjust if they change API defaults again
 
-	if ( $app_config['power_user']['marketcap_ranks_max'] > 199 ) {
+	if ( $app_config['power_user']['marketcap_ranks_max'] > $max_fetch ) {
 	
 		$loop = 0;
-		$calls = ceil($app_config['power_user']['marketcap_ranks_max'] / 199);
+		$calls = ceil($app_config['power_user']['marketcap_ranks_max'] / $max_fetch);
 		while ( $loop < $calls ) {
 			
 			if ( $loop > 0 ) {
 			usleep(1250000); // Wait 1.25 seconds between consecutive calls, to avoid blacklisting
 			}
 		
-		$jsondata = @external_api_data('url', 'https://api.coingecko.com/api/v3/coins/markets?per_page=199&page='.($loop + 1).'&vs_currency='.$coingecko_primary_currency.'&price_change_percentage=1h,24h,7d,14d,30d,200d,1y', $app_config['power_user']['marketcap_cache_time']);
+		$jsondata = @external_api_data('url', 'https://api.coingecko.com/api/v3/coins/markets?per_page='.$max_fetch.'&page='.($loop + 1).'&vs_currency='.$coingecko_primary_currency.'&price_change_percentage=1h,24h,7d,14d,30d,200d,1y', $app_config['power_user']['marketcap_cache_time']);
 
 		$sub_arrays[] = json_decode($jsondata, true);
 		$loop = $loop + 1;
