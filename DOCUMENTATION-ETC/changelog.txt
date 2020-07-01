@@ -3667,6 +3667,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Bug fix for overhauled charts / news feeds loading logic, which delayed page loading times
 
+-Bug fix for coingecko not fetching more than 199 marketcap rankings
+
 IMPORTANT UPGRADE NOTES: 
 
 v4.14.6 AND HIGHER WILL #FORCEFULLY RECOMMEND# PHP-FPM (FastCGI) v7.2 OR HIGHER. This warning can be disabled in the developer settings in config.php as of v4.14.7. If you auto-installed, you can auto-upgrade if you FULLY re-install EVERYTHING with the latest auto-install script: https://git.io/JeWWE

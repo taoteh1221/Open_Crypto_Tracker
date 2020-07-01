@@ -169,16 +169,45 @@ function coingecko_api($force_primary_currency=null) {
 	
 global $app_config;
 
+$data = array();
+$sub_arrays = array();
 $result = array();
 
 // Don't overwrite global
 $coingecko_primary_currency = ( $force_primary_currency != null ? strtolower($force_primary_currency) : strtolower($app_config['general']['btc_primary_currency_pairing']) );
 
-$jsondata = @external_api_data('url', 'https://api.coingecko.com/api/v3/coins/markets?per_page='.$app_config['power_user']['marketcap_ranks_max'].'&page=1&vs_currency='.$coingecko_primary_currency.'&price_change_percentage=1h,24h,7d,14d,30d,200d,1y', $app_config['power_user']['marketcap_cache_time']);
+
+	if ( $app_config['power_user']['marketcap_ranks_max'] > 199 ) {
+	
+		$loop = 0;
+		$calls = ceil($app_config['power_user']['marketcap_ranks_max'] / 199);
+		while ( $loop < $calls ) {
+			
+			if ( $loop > 0 ) {
+			usleep(1250000); // Wait 1.25 seconds between consecutive calls, to avoid blacklisting
+			}
+		
+		$jsondata = @external_api_data('url', 'https://api.coingecko.com/api/v3/coins/markets?per_page=199&page='.($loop + 1).'&vs_currency='.$coingecko_primary_currency.'&price_change_percentage=1h,24h,7d,14d,30d,200d,1y', $app_config['power_user']['marketcap_cache_time']);
+
+		$sub_arrays[] = json_decode($jsondata, true);
+		$loop = $loop + 1;
+		}
+	
+	}
+	else {
+	$jsondata = @external_api_data('url', 'https://api.coingecko.com/api/v3/coins/markets?per_page='.$app_config['power_user']['marketcap_ranks_max'].'&page=1&vs_currency='.$coingecko_primary_currency.'&price_change_percentage=1h,24h,7d,14d,30d,200d,1y', $app_config['power_user']['marketcap_cache_time']);
+	$sub_arrays[] = json_decode($jsondata, true);
+	}
+	   
 	   
 // DON'T ADD ANY ERROR CHECKS HERE, OR RUNTIME MAY SLOW SIGNIFICANTLY!!
 
-$data = json_decode($jsondata, true);
+	
+	// Merge sub arrays
+	foreach ( $sub_arrays as $sub ) {
+	$data = array_merge($data, $sub);
+	}
+	
 
    if ( is_array($data) || is_object($data) ) {
   		
