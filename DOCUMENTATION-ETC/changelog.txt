@@ -3667,6 +3667,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Bug fix for overhauled charts / news feeds loading logic, which delayed page loading times
 
+-Bug fix for system stats lite charts (forgot to convert some logic to new optimized format)
+
 -Bug fix for coingecko not fetching more than 199 marketcap rankings
 
 IMPORTANT UPGRADE NOTES: 
