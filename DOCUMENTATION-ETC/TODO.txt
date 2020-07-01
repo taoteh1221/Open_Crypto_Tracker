@@ -26,6 +26,9 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+Print out latest list of exchanges for readme / landing page, AFTER ADDING BITMEX.
+
+
 Add all liquid.com  API markets
 
 
@@ -41,7 +44,7 @@ Use new internal api function calls as much as possible for the tests logic we h
 See if exchange API data arrays can be manipulated slightly to build a reusable module for every exchange's API calls.
 
 
-Add bitmex API: https://www.bitmex.com/api/explorer/
+Add bitmex API (and all markets): https://www.bitmex.com/api/explorer/
 
 
 In debug mode, maybe add our new 'used ram' stat instead (that doesn't include buffers / cached ram).
