@@ -42,7 +42,7 @@ Monero (XMR): 47mWWjuwPFiPD6t2MaWcMEfejtQpMuz9oj5hJq18f7nvagcmoJwxudKHUppaWnTMPa
 
 FEATURES
 
--Automated and user-friendly installation / upgrade script for Ubuntu or Raspberry Pi OS app setup on your home / internal network or website.
+-Automated and user-friendly installation / upgrade script for Ubuntu or Raspberry Pi app setup on your home / internal network or website.
 
 -Support for over 40 exchanges, and over 80 market pairings (country fiat currency or secondary crypto).
 

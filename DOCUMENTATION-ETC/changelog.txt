@@ -3673,6 +3673,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 IMPORTANT UPGRADE NOTES: 
 
+v4.14.8 AND HIGHER FIXES SYSTEM STATS LITE CHARTS NOT UPDATING IN A TIMELY MANNER. You may need to delete you system stats lite chart directory to force a lite chart rebuild (from archival data) at: /cache/charts/system/lite/
+
 v4.14.6 AND HIGHER WILL #FORCEFULLY RECOMMEND# PHP-FPM (FastCGI) v7.2 OR HIGHER. This warning can be disabled in the developer settings in config.php as of v4.14.7. If you auto-installed, you can auto-upgrade if you FULLY re-install EVERYTHING with the latest auto-install script: https://git.io/JeWWE
 
 v4.14.3 HAS MAJOR OVERHAULS TO LITE CHART (1W / 1M / ETC) SCALING OPTIMIZATIONS, WHICH MAY SKEW A FEW (NOT MANY THOUGH) CHART TIME INTERVALS #INITIALLY IF YOU ARE UPGRADING FROM A PREVIOUS VERSION# (BUT WILL RETURN TO NORMAL IMMEDIATELY AFTER THE FIRST NEW DATA POINT #AFTER# UPGRADING)
