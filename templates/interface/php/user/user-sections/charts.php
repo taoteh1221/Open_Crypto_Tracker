@@ -239,11 +239,16 @@
 	
 	<script>
 	
+	// Load AFTER page load, for quick interface loading
+	$(document).ready(function(){
+		
 	<?php
 	$chart_mode = 'pairing';
 	include('templates/interface/php/user/user-charts/asset-charts.php');
 	?>
 	
+	});
+
 	</script>
 	
 	
