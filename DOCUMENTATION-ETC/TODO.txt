@@ -29,6 +29,9 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 Add BTSE API: https://api.btse.com/spot/api/v3.2/market_summary
 
 
+Add bithumb API
+
+
 Store the php timeout as a cached var, and compare the CACHED app config to it at runtime. If they differ from each other, delete the root htaccess and user.ini files to trigger recreating them with an updated php timeout. Also make sure the php timeout setting and updating logic / functions are using the CACHED app config.
 
 
@@ -72,6 +75,9 @@ Code review ALL functions / logic (especially loops, for efficiency).
 ///////////////////////////////////////////////////////
 FEATURES / STRUCTURING SECTION
 ///////////////////////////////////////////////////////
+
+
+Create a cron plugin to let you know when a raw market value has gone below / above a certain exact value at a specific exchange (good for knowing when / if your order fills).
 
 
 Have balance summary at bottom of portfolio page show percent of MISCASSETS too.

@@ -7,17 +7,8 @@
 	
 // Have this script not load any code if asset charts are not turned on
 if ( $app_config['general']['charts_toggle'] == 'on' ) {
-		
- 
-// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
-$chart_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, mb_strpos($key, "-", 0, 'utf-8') ) );
-$chart_asset = strtoupper($chart_asset);
-		
-$market_parse = explode("||", $value );
 
-
-$charted_value = ( $chart_mode == 'pairing' ? $market_parse[1] : $default_btc_primary_currency_pairing );
-		
+$charted_value = ( $chart_mode == 'pairing' ? $alerts_market_parse[1] : $default_btc_primary_currency_pairing );
 		
 // Strip non-alphanumeric characters to use in js vars, to isolate logic for each separate chart
 $js_key = preg_replace("/-/", "", $key) . '_' . $charted_value;
@@ -25,10 +16,19 @@ $js_key = preg_replace("/-/", "", $key) . '_' . $charted_value;
 		
 	// Have this script send the UI alert messages, and not load any chart code (to not leave the page endlessly loading) if cache data is not present
 	if ( file_exists('cache/charts/spot_price_24hr_volume/lite/all_days/'.$chart_asset.'/'.$key.'_chart_'.$charted_value.'.dat') != 1
-	|| $market_parse[2] != 'chart' && $market_parse[2] != 'both' ) {
+	|| $alerts_market_parse[2] != 'chart' && $alerts_market_parse[2] != 'both' ) {
+		
+		// If we have disabled this chart AFTER adding it at some point earlier (fixes "loading charts" not closing)
+		if ( $alerts_market_parse[2] != 'chart' && $alerts_market_parse[2] != 'both' ) {
+		$chart_error_notice = 'Chart data is no longer configured for:';
+		}
+		else {
+		$chart_error_notice = 'No chart data recorded yet for:';
+		}
+	
 	?>
 			
-			$("#<?=$key?>_<?=$charted_value?>_chart span.chart_loading").html(' &nbsp; No chart data activated for: <?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=snake_case_to_name($market_parse[0])?><?=( $chart_mode != 'pairing' ? ' \(' . strtoupper($charted_value) . ' Value\)' : '' )?>');
+			$("#<?=$key?>_<?=$charted_value?>_chart span.chart_loading").html(' &nbsp; <?=$chart_error_notice?> <?=$chart_asset?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=snake_case_to_name($alerts_market_parse[0])?><?=( $chart_mode != 'pairing' ? ' \(' . strtoupper($charted_value) . ' Value\)' : '' )?>');
 			
 			$("#<?=$key?>_<?=$charted_value?>_chart span.chart_loading").css({ "background-color": "#9b4b26" });
 			
@@ -52,7 +52,7 @@ var lite_state_<?=$js_key?> = {
 };
  
 
-$("#<?=$key?>_<?=$charted_value?>_chart span.chart_loading").html(' &nbsp; <img src="templates/interface/media/images/loader.gif" height="16" alt="" style="vertical-align: middle;" /> Loading ALL chart for <?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=snake_case_to_name($market_parse[0])?><?=( $chart_mode != 'pairing' ? ' \(' . strtoupper($charted_value) . ' Value\)' : '' )?>...');
+$("#<?=$key?>_<?=$charted_value?>_chart span.chart_loading").html(' &nbsp; <img src="templates/interface/media/images/loader.gif" height="16" alt="" style="vertical-align: middle;" /> Loading ALL chart for <?=$chart_asset?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=snake_case_to_name($alerts_market_parse[0])?><?=( $chart_mode != 'pairing' ? ' \(' . strtoupper($charted_value) . ' Value\)' : '' )?>...');
 	
   
 zingchart.bind('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'load', function() {
@@ -155,7 +155,7 @@ zingchart.bind('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'label_click',
 		}
 		
   
-  $("#<?=strtolower($key)?>_<?=$charted_value?>_chart div.chart_reload div").html("Loading " + lite_chart_text + " chart for <?=$chart_asset?> / <?=strtoupper($market_parse[1])?> @ <?=snake_case_to_name($market_parse[0])?><?=( $chart_mode != 'pairing' ? ' \(' . strtoupper($charted_value) . ' Value\)' : '' )?>...");
+  $("#<?=strtolower($key)?>_<?=$charted_value?>_chart div.chart_reload div").html("Loading " + lite_chart_text + " chart for <?=$chart_asset?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=snake_case_to_name($alerts_market_parse[0])?><?=( $chart_mode != 'pairing' ? ' \(' . strtoupper($charted_value) . ' Value\)' : '' )?>...");
 	$("#<?=strtolower($key)?>_<?=$charted_value?>_chart div.chart_reload").fadeIn(100); // 0.1 seconds
 	
   zingchart.bind('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'complete', function() {

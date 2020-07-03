@@ -121,6 +121,8 @@
 	$("#coin_amounts").submit();
 	'>Update Selected Charts</button></p>
 	
+	<p class='bitcoin'>(if you see "chart data is no longer configured for" notices, check / uncheck this box, then click "Update Selected Charts")</p>
+	
 	<p><input type='checkbox' onclick='
 	
 		selectAll(this, "activate_charts");
@@ -129,7 +131,7 @@
 		$("#show_charts").val("");
 		}
 		
-	' /> Select / Unselect All &nbsp;&nbsp; <span class='bitcoin'>(if "loading charts" notice freezes, check / uncheck this box, then click "Update Selected Charts")</span></p>
+	' /> Select / Unselect All</p>
 		
 		<form id='activate_charts' name='activate_charts'>
 		
@@ -218,6 +220,7 @@
 	// Render the charts
 	foreach ( $app_config['charts_alerts']['tracked_markets'] as $key => $value ) {
 		
+		// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
 		$chart_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, mb_strpos($key, "-", 0, 'utf-8') ) );
 		$chart_asset = strtoupper($chart_asset);
 		
@@ -257,8 +260,7 @@
 	<?php
 		}
 		
-		if ( in_array('['.$key.']', $show_charts) && $alerts_market_parse[2] == 'chart' 
-		|| in_array('['.$key.']', $show_charts) && $alerts_market_parse[2] == 'both'  ) {
+		if ( in_array('['.$key.']', $show_charts) ) {
 		$charts_shown = 1;
 	?>
 	

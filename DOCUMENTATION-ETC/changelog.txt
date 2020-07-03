@@ -3673,6 +3673,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Added Bitmex API support / markets
 
+-Misc bug fixes / UX revisions
+
 -Code cleanup
 
 IMPORTANT UPGRADE NOTES: 

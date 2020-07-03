@@ -421,6 +421,11 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					'enj-4' => 'bitfinex||usd||none',
 					
 					
+					// SXP
+					'sxp' => 'bittrex_global||btc||none',
+					'sxp-2' => 'kucoin||btc||both',
+					
+					
 					// DOGE
 					'doge' => 'bittrex||btc||none',
 					'doge-2' => 'binance||btc||both',
@@ -519,7 +524,7 @@ $app_config['power_user']['lite_chart_data_points_max'] = '365'; // (default = '
 // Structure of lite charts #IN DAYS# (X days time period charts)
 // Interface will auto-detect and display days as 365 = 1Y, 180 = 6M, 7 = 1W, etc, etc
 // (LOWER TIME PERIODS [UNDER 180 DAYS] #SHOULD BE KEPT SOMEWHAT MINIMAL#, TO REDUCE RUNTIME LOAD / DISK WRITES DURING CRON JOBS)
-$app_config['power_user']['lite_chart_day_intervals'] = array(7, 30, 180, 365); // (default = 7, 30, 180, 365)
+$app_config['power_user']['lite_chart_day_intervals'] = array(10, 30, 180, 365); // (default = 10, 30, 180, 365)
 
 																					
 // Chart colors (https://www.w3schools.com/colors/colors_picker.asp)
@@ -2753,6 +2758,34 @@ $app_config['portfolio_assets'] = array(
                                           'bittrex' => 'USDT-ENJ',
                                           'hitbtc' => 'ENJUSD',
                                           'coinex' => 'ENJUSDT',
+                                                    ),
+                                                    
+                                        ) // market_pairing END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // SXP
+                    'SXP' => array(
+                        
+                        'asset_name' => 'Swipe',
+                        'marketcap_website_slug' => 'swipe',
+                        'market_pairing' => array(
+                        
+                                    'btc' => array(
+                                          'bittrex_global' => 'BTC-SXP',
+                                          'kucoin' => 'SXP-BTC',
+                                                    ),
+                                                    
+                                    'eth' => array(
+                                          'idex' => 'ETH_SXP',
+                                                    ),
+                                                    
+                                    'usdt' => array(
+                                          'kucoin' => 'SXP-USDT',
                                                     ),
                                                     
                                         ) // market_pairing END
