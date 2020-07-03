@@ -176,22 +176,23 @@ $app_config['general']['backup_archive_password'] = ''; // LEAVE BLANK TO DISABL
 $app_config['general']['backup_archive_delete_old'] = 10; 
 
 
-// Default BITCOIN-ONLY currency market pairings (80+ primary currencies supported)
+// Default BITCOIN market currencies (80+ currencies supported)
 // (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
-// aed / ars / aud / bam / bdt / bob / brl / bwp / byn / cad / chf / clp / cny / cop / crc / czk / dai / dkk / dop / egp / 
-// eth / eur / gbp / gel / ghs / gtq / hkd / huf / idr / ils / inr / irr / jmd / jod / jpy / kes / krw / kwd / kzt / lkr / 
-// ltc / mad / mur / mwk / mxn / myr / ngn / nis / nok / nzd / pab / pen / php / pkr / pln / pyg / qar / ron / rsd / rub / 
-// rwf / sar / sek / sgd / thb / try / tusd / twd / tzs / uah / ugx / usdc / usdt / uyu / ves / vnd / xaf / xof / zar / zmw
+// aed / ars / aud / bam / bdt / bob / brl / bwp / byn / cad / chf / clp / cny / cop / crc / czk / dai / dkk 
+// dop / egp / eth / eur / gbp / gel / ghs / gtq / hkd / huf / idr / ils / inr / irr / jmd / jod / jpy / kes 
+// krw / kwd / kzt / lkr / ltc / mad / mur / mwk / mxn / myr / ngn / nis / nok / nzd / pab / pen / php / pkr 
+// pln / pyg / qar / ron / rsd / rub / rwf / sar / sek / sgd / thb / try / tusd / twd / tzs / uah / ugx 
+// usdc / usdt / uyu / ves / vnd / xaf / xof / zar / zmw
 // SEE THE $app_config['portfolio_assets'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
 // CURRENCY PAIRING VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (set in $app_config['general']['btc_primary_exchange'] directly below)
 $app_config['general']['btc_primary_currency_pairing'] = 'usd'; // PUT INSIDE SINGLE QUOTES ('selection')
 
 
-// Default BITCOIN-ONLY exchanges (30+ bitcoin exchanges supported)
+// Default BITCOIN market exchanges (30+ bitcoin exchanges supported)
 // (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
-// binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitpanda / bitso / bitstamp / braziliex / btcmarkets / 
-// btcturk / buyucoin / cex / coinbase / coss / gemini / hitbtc / huobi / korbit / kraken / lakebtc / livecoin / 
-// localbitcoins / luno / okcoin / okex / southxchange / tidebit / upbit / zebpay
+// binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmex / bitpanda / bitso / bitstamp / bittrex 
+// bittrex_global / braziliex / btcmarkets / btcturk / buyucoin / cex / coinbase / coss / gemini / hitbtc / huobi 
+// korbit / kraken / lakebtc / livecoin / localbitcoins / luno / okcoin / okex / southxchange / tidebit / upbit / zebpay
 // SEE THE $app_config['portfolio_assets'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
 // MARKET PAIRING VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (to populate $app_config['general']['btc_primary_currency_pairing'] directly above with)
 // SEE THE $app_config['developer']['limited_apis'] SETTING MUCH FURTHER DOWN, FOR EXCHANGES !NOT RECOMMENDED FOR USAGE HERE!
@@ -901,6 +902,12 @@ $app_config['power_user']['news_feeds'] = array(
             			"title" => "Blog - Raiden Network (Ethereum Layer 2)",
             			"url" => "https://medium.com/feed/raiden-network"
         						),
+    
+    
+        				array(
+            			"title" => "Blog - Tari (Monero sidechain)",
+            			"url" => "https://tari.substack.com/feed"
+        						),
         
         
         				array(
@@ -1114,6 +1121,12 @@ $app_config['power_user']['news_feeds'] = array(
     
     
         				array(
+            			"title" => "Reddit - Monero (top)",
+            			"url" => "https://www.reddit.com/r/Monero/top/.rss?format=xml"
+        						),
+    
+    
+        				array(
             			"title" => "StackExchange - Bitcoin (hot)",
             			"url" => "https://bitcoin.stackexchange.com/feeds/hot"
         						),
@@ -1268,7 +1281,7 @@ $app_config['power_user']['hivepower_yearly_interest'] = 1.2;
 // 'api_cache_only' (log only cache requests for API data, not live API requests),
 // 'telemetry' (logs in-app telemetries), 'stats' (basic hardware / software / runtime stats),
 // 'smtp' (smtp email server response logging, if smtp emailing is enabled),
-// 'btc_markets_config' (the current Bitcoin markets configuration),
+// 'all_markets_config' (the current markets configuration),
 // 'texts' (mobile gateway checks), 'markets' (coin market checks),
 // 'lite_chart' (lite chart caching routines),
 // 'memory' (script memory usage data)
@@ -1978,6 +1991,7 @@ $app_config['portfolio_assets'] = array(
                                           'bitstamp' => 'btcusd',
                                           'kraken' => 'XXBTZUSD',
                                           'gemini' => 'btcusd',
+                                          'bitmex' => 'XBTUSD',
                                           'localbitcoins' => 'USD',
                                           'bitfinex' => 'tBTCUSD',
                                           'bitflyer' => 'BTC_USD',
@@ -2146,6 +2160,7 @@ $app_config['portfolio_assets'] = array(
                                           'bitstamp' => 'ethusd',
                                           'gemini' => 'ethusd',
                                           'bitfinex' => 'tETHUSD',
+                                          'bitmex' => 'ETHUSD',
                                           'okcoin' => 'eth_usd',
                                           'cex' => 'ETH:USD',
                                           'coss' => 'ETH-USD',
@@ -2353,6 +2368,7 @@ $app_config['portfolio_assets'] = array(
                                         'bitstamp' => 'ltcbtc',
                                         'bitfinex' => 'tLTCBTC',
                                         'kraken' => 'XLTCXXBT',
+                                        'bitmex' => 'LTCU20',
                                         'hitbtc' => 'LTCBTC',
                                         'kucoin' => 'LTC-BTC',
                                         'upbit' => 'BTC-LTC',

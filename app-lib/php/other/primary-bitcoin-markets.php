@@ -103,18 +103,6 @@ else {
     
     
     
-    // Set BTC / currency_market dynamic value, IF $primary_currency_market_standalone NOT SET
-    
-    if ( sizeof($primary_currency_market_standalone) != 2 && isset($selected_btc_primary_currency_pairing) ) {
-    $app_config['general']['btc_primary_currency_pairing'] = $selected_btc_primary_currency_pairing;
-    }
-    
-    if ( sizeof($primary_currency_market_standalone) != 2 && isset($selected_btc_primary_exchange) ) {
-    $app_config['general']['btc_primary_exchange'] = $selected_btc_primary_exchange;
-    }
-    
-    
-    
     // MUST be called FIRST at runtime by the default bitcoin market, to set this var for reuse later in runtime
     $selected_btc_pairing_id = $app_config['portfolio_assets']['BTC']['market_pairing'][$app_config['general']['btc_primary_currency_pairing']][$app_config['general']['btc_primary_exchange']];
     $selected_btc_primary_currency_value = asset_market_data('BTC', $app_config['general']['btc_primary_exchange'], $selected_btc_pairing_id)['last_trade'];

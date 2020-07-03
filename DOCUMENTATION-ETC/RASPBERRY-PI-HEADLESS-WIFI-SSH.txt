@@ -56,4 +56,6 @@ Step #7) Add your WiFi name / password in 'wpa_supplicant.conf', and save / clos
 --------------------------------------------------------------------------
 
 
+OPTIONAL Step #8) Once running the Pi, if you want to decrease memory usage AND you only plan to run it HEADLESS (NOT USE the desktop interface): Run "sudo raspi-config", choose "Boot Options" => "Desktop / CLI" => "Console", and reboot.
+
 

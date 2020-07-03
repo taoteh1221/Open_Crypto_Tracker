@@ -442,52 +442,40 @@ $rss_feed_cache_time = rand($news_feeds_cache_min_max[0], $news_feeds_cache_min_
 	// If we will be updating the feed
 	if ( update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $rss_feed_cache_time) == true ) {
 	
+	
 	$_SESSION[$fetched_feeds]['all'] = $_SESSION[$fetched_feeds]['all'] + 1; // Mark as a fetched feed, since it's going to update
 	
 	$endpoint_tld_or_ip = get_tld_or_ip($url);
+
 		
 		if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'memory' ) {
 		app_logging('system_debugging', $endpoint_tld_or_ip . ' news feed updating ('.$_SESSION[$fetched_feeds]['all'].'), CURRENT script memory usage is ' . convert_bytes(memory_get_usage(), 1) . ', PEAK script memory usage is ' . convert_bytes(memory_get_peak_usage(), 1) . ', php_sapi_name is "' . php_sapi_name() . '"' );
 		}
 	
-	$multiple_feed_servers = array(
-										'reddit.com',
-										'youtube.com',
-										'stackexchange.com',
-										'medium.com',
-										'bitcoincore.org',
-										'ethereum.org',
-										'kraken.com',
-										'fireside.fm',
-										'libsyn.com',
-										);
-											
 	
-		// Throttling multiple requests to same server
-		if ( in_array($endpoint_tld_or_ip, $multiple_feed_servers) ) {
+	// Throttling multiple requests to same server
+	$tld_session = strtr($endpoint_tld_or_ip, ".", "");
+
 			
-		$tld_session = strtr($endpoint_tld_or_ip, ".", "");
-			
-			// If it's a consecutive feed request, sleep X seconds
-			if ( !isset($_SESSION[$fetched_feeds][$tld_session]) ) {
-			$_SESSION[$fetched_feeds][$tld_session] = 0;
-			}
-			elseif ( $_SESSION[$fetched_feeds][$tld_session] > 0 ) {
-			
-				if ( $endpoint_tld_or_ip == 'reddit.com' ) {
-				usleep(7100000); // 7.1 seconds (Reddit only allows rss feed connections every 7 seconds from ip addresses ACCORDING TO THEM)
-				}
-				else {
-				usleep(1100000); // 1.1 seconds
-				}
-			
-			}
-				
-		$_SESSION[$fetched_feeds][$tld_session] = $_SESSION[$fetched_feeds][$tld_session] + 1;	
-		
+		if ( !isset($_SESSION[$fetched_feeds][$tld_session]) ) {
+		$_SESSION[$fetched_feeds][$tld_session] = 0;
 		}
-	
-	
+		// If it's a consecutive feed request to the same server, sleep X seconds to avoid rate limiting request denials
+		elseif ( $_SESSION[$fetched_feeds][$tld_session] > 0 ) {
+			
+			if ( $endpoint_tld_or_ip == 'reddit.com' ) {
+			usleep(7100000); // 7.1 seconds (Reddit only allows rss feed connections every 7 seconds from ip addresses ACCORDING TO THEM)
+			}
+			else {
+			usleep(1100000); // 1.1 seconds
+			}
+			
+		}
+
+				
+	$_SESSION[$fetched_feeds][$tld_session] = $_SESSION[$fetched_feeds][$tld_session] + 1;	
+
+		
 	} // END if updating feed
 		
 				

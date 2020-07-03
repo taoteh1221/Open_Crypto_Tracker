@@ -417,13 +417,15 @@
 	        
 	        <li class='links_list'><a href='https://www.reddit.com/r/ethereum/' target='_blank'>Ethereum Subreddit</a></li>
 	        
-	        <li class='links_list'><a href='http://www.maxkeiser.com/' target='_blank'>Keiser Report</a> (big Bitcoin supporter)</li>
+	        <li class='links_list'><a href='https://www.reddit.com/r/Monero/' target='_blank'>Monero Subreddit</a></li>
 	        
 	        <li class='links_list'><a href='https://nakamotoinstitute.org/' target='_blank'>Nakamotoinstitute.org</a></li>
 	        
 	        <li class='links_list'><a href='https://sourceforge.net/projects/dfd-crypto-ticker/' target='_blank'>Raspberry PI Real-Time / Multi-Crypto Slideshow Price Ticker</a> (a side project of mine)</li>
 	        
 	        <li class='links_list'><a href='https://www.sec.gov/ICO' target='_blank'>SEC.gov ICO Awareness Site</a></li>
+	        
+	        <li class='links_list'><a href='https://www.tari.com/#what-is-tari' target='_blank'>Tari</a> (Monero sidechain)</li>
 	        
 	        <li class='links_list'><a href='https://www.omniexplorer.info/asset/31' target='_blank'>Tether (USDT) Supply On Bitcoin Network</a></li>
 	        

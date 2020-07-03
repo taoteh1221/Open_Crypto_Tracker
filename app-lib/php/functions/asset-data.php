@@ -357,7 +357,7 @@ return ( $data['rank'] != NULL ? $data : NULL );
 
 function primary_currency_trade_volume($asset_symbol, $pairing, $last_trade, $vol_in_pairing) {
 
-global $app_config, $selected_btc_primary_currency_pairing, $selected_btc_primary_currency_value;
+global $app_config, $selected_btc_primary_currency_value;
 	
 	
 	// Return negative number, if no volume data detected (so we know when data errors happen)
@@ -382,7 +382,7 @@ global $app_config, $selected_btc_primary_currency_pairing, $selected_btc_primar
 
 	// Get primary currency volume value	
 	// Currency volume from Bitcoin's DEFAULT PAIRING volume
-	if ( $pairing == $selected_btc_primary_currency_pairing ) {
+	if ( $pairing == $app_config['general']['btc_primary_currency_pairing'] ) {
 	$volume_primary_currency_raw = number_format( $vol_in_pairing , 0, '.', '');
 	}
 	// Currency volume from btc PAIRING volume
@@ -414,7 +414,7 @@ return $volume_primary_currency_raw;
 
 function market_conversion_internal_api($market_conversion, $all_markets_data_array) {
 
-global $app_config, $remote_ip, $selected_btc_primary_currency_pairing, $selected_btc_primary_exchange, $selected_btc_primary_currency_value;
+global $app_config, $remote_ip, $selected_btc_primary_currency_value;
 
 $result = array();
 
@@ -527,11 +527,8 @@ $possible_dos_attack = 0;
         
         		  
               // OVERWRITE SELECTED BITCOIN CURRENCY MARKET GLOBALS
-              $selected_btc_primary_currency_pairing = $market_conversion;
-              $selected_btc_primary_exchange = $btc_exchange;
-              
-              $app_config['general']['btc_primary_currency_pairing'] = $selected_btc_primary_currency_pairing;
-    			  $app_config['general']['btc_primary_exchange'] = $selected_btc_primary_exchange;
+              $app_config['general']['btc_primary_currency_pairing'] = $market_conversion;
+    			  $app_config['general']['btc_primary_exchange'] = $btc_exchange;
               
         		  // OVERWRITE #GLOBAL# BTC PRIMARY CURRENCY VALUE (so we get correct values for volume in currency etc)
         		  $selected_btc_primary_currency_value = $market_conversion_btc_value;
@@ -1515,7 +1512,7 @@ function ui_coin_data_row($asset_name, $asset_symbol, $asset_amount, $all_pairin
 
 
 // Globals
-global $_POST, $btc_worth_array, $coin_stats_array, $td_color_zebra, $cap_data_force_usd, $selected_btc_primary_exchange, $selected_btc_primary_currency_pairing, $theme_selected, $primary_currency_market_standalone, $app_config, $selected_btc_primary_currency_value, $alert_percent, $coingecko_api, $coinmarketcap_api;
+global $_POST, $btc_worth_array, $coin_stats_array, $td_color_zebra, $cap_data_force_usd, $theme_selected, $primary_currency_market_standalone, $app_config, $selected_btc_primary_currency_value, $alert_percent, $coingecko_api, $coinmarketcap_api;
 
     
 $original_market = $selected_exchange;
@@ -1534,8 +1531,8 @@ $original_market = $selected_exchange;
         $selected_exchange = $key;
          
          if ( sizeof($primary_currency_market_standalone) != 2 && strtolower($asset_name) == 'bitcoin' ) {
-         $selected_btc_primary_exchange = $key;
-         $selected_btc_primary_currency_pairing = $selected_pairing;
+         $app_config['general']['btc_primary_exchange'] = $key;
+         $app_config['general']['btc_primary_currency_pairing'] = $selected_pairing;
          
                 // Dynamically modify MISCASSETS in $app_config['portfolio_assets']
                 // ONLY IF USER HASN'T MESSED UP $app_config['portfolio_assets'], AS WE DON'T WANT TO CANCEL OUT ANY
@@ -1563,17 +1560,6 @@ $original_market = $selected_exchange;
     
     
   $market_id = $all_pairing_markets[$selected_exchange];
-    
-    
-    
-    if ( sizeof($primary_currency_market_standalone) != 2 && isset($selected_btc_primary_exchange) ) {
-    $app_config['general']['btc_primary_exchange'] = $selected_btc_primary_exchange;
-    }
-    
-    if ( sizeof($primary_currency_market_standalone) != 2 && isset($selected_btc_primary_currency_pairing) ) {
-    $app_config['general']['btc_primary_currency_pairing'] = $selected_btc_primary_currency_pairing;
-    }
-    
     
     
   // Overwrite PRIMARY CURRENCY CONFIG / BTC market value, in case user changed preferred market IN THE UI

@@ -236,10 +236,6 @@ $td_color_zebra = null;
 
 $cap_data_force_usd = null;
 
-$selected_btc_primary_exchange = null;
-
-$selected_btc_primary_currency_pairing = null;
-
 // htaccess login...SET BEFORE system checks
 $htaccess_username = $interface_login_array[0];
 $htaccess_password = $interface_login_array[1];

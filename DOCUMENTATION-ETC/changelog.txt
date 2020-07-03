@@ -3671,6 +3671,10 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Bug fix for coingecko not fetching more than 199 marketcap rankings
 
+-Added Bitmex API support / markets
+
+-Code cleanup
+
 IMPORTANT UPGRADE NOTES: 
 
 v4.14.8 AND HIGHER FIXES SYSTEM STATS LITE CHARTS NOT UPDATING IN A TIMELY MANNER. You may need to delete you system stats lite chart directory to force a lite chart rebuild (from archival data) at: /cache/charts/system/lite/

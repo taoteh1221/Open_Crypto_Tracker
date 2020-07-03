@@ -39,11 +39,11 @@ global $selected_btc_primary_currency_value, $app_config;
   
        foreach ($data as $key => $value) {
          
-         if ( $data[$key]["market_id"] == $market_id ) {
+         if ( $value["market_id"] == $market_id ) {
          	
          $result = array(
-    							'last_trade' => $data[$key]["close"],
-    							'24hr_asset_volume' => $data[$key]["volume"],
+    							'last_trade' => $value["close"],
+    							'24hr_asset_volume' => $value["volume"],
     							'24hr_pairing_volume' => null // No pairing volume data for this API
     						);
           
@@ -78,12 +78,12 @@ global $selected_btc_primary_currency_value, $app_config;
        foreach ($data as $key => $value) {
          
          
-         if ( $data[$key]['symbol'] == $market_id ) {
+         if ( $value['symbol'] == $market_id ) {
           
          $result = array(
-    						'last_trade' => $data[$key]["lastPrice"],
-    						'24hr_asset_volume' => $data[$key]["volume"],
-    						'24hr_pairing_volume' => $data[$key]["quoteVolume"]
+    						'last_trade' => $value["lastPrice"],
+    						'24hr_asset_volume' => $value["volume"],
+    						'24hr_pairing_volume' => $value["quoteVolume"]
     						);
 
          }
@@ -117,12 +117,12 @@ global $selected_btc_primary_currency_value, $app_config;
        foreach ($data as $key => $value) {
          
          
-         if ( $data[$key]['symbol'] == $market_id ) {
+         if ( $value['symbol'] == $market_id ) {
           
          $result = array(
-    						'last_trade' => $data[$key]["lastPrice"],
-    						'24hr_asset_volume' => $data[$key]["volume"],
-    						'24hr_pairing_volume' => $data[$key]["quoteVolume"]
+    						'last_trade' => $value["lastPrice"],
+    						'24hr_asset_volume' => $value["volume"],
+    						'24hr_pairing_volume' => $value["quoteVolume"]
     						);
 
          }
@@ -182,8 +182,8 @@ global $selected_btc_primary_currency_value, $app_config;
          if ( $key == $market_id ) {
           
          $result = array(
-    						'last_trade' => $data[$key]["last_traded_price"],
-    						'24hr_asset_volume' => $data[$key]["volume"]["volume"],
+    						'last_trade' => $value["last_traded_price"],
+    						'24hr_asset_volume' => $value["volume"]["volume"],
     						'24hr_pairing_volume' => null // No pairing volume data for this API
     						);
 
@@ -286,6 +286,43 @@ global $selected_btc_primary_currency_value, $app_config;
 
 
 
+  elseif ( strtolower($chosen_exchange) == 'bitmex' ) {
+ 
+     // GET NEWEST FULL DATA SETS (FOR UX DON'T ADD IN PARTIAL DATA SETS, THAT DOESN'T MATCH THE BITMEX INTERFACE DATA WELL)
+     $json_string = 'https://www.bitmex.com/api/v1/trade/bucketed?binSize=1d&partial=false&reverse=true'; // Sort newest first
+     
+     $jsondata = @external_api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
+     
+     $data = json_decode($jsondata, true);
+   
+  
+      if (is_array($data) || is_object($data)) {
+  
+      	foreach ($data as $key => $value) {
+         
+       		// We only want the FIRST result (this API can return multiple key names that are the same, BUT sorting newset first above gives us what we want first)
+         	if ( !$result && $value['symbol'] == $market_id ) {
+         	
+     			$result = array(
+    						'last_trade' => $value['close'],
+    						'24hr_asset_volume' => $value['homeNotional'], 
+    						'24hr_pairing_volume' => $value['foreignNotional']
+    						);
+    						
+         	}
+       
+      	}
+       
+      }
+  
+  }
+ 
+ 
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
   elseif ( strtolower($chosen_exchange) == 'bitpanda' ) {
  
      
@@ -301,12 +338,12 @@ global $selected_btc_primary_currency_value, $app_config;
        foreach ($data as $key => $value) {
          
          
-         if ( $data[$key]['instrument_code'] == $market_id ) {
+         if ( $value['instrument_code'] == $market_id ) {
           
          $result = array(
-    						'last_trade' => $data[$key]["last_price"],
-    						'24hr_asset_volume' => $data[$key]["base_volume"],
-    						'24hr_pairing_volume' => $data[$key]["quote_volume"]
+    						'last_trade' => $value["last_price"],
+    						'24hr_asset_volume' => $value["base_volume"],
+    						'24hr_pairing_volume' => $value["quote_volume"]
     						);
 
          }
@@ -388,13 +425,13 @@ global $selected_btc_primary_currency_value, $app_config;
   
        foreach ($data as $key => $value) {
          
-         if ( $data[$key]['MarketName'] == $market_id ) {
+         if ( $value['MarketName'] == $market_id ) {
           
          $result = array(
-    							'last_trade' => $data[$key]["Last"],
+    							'last_trade' => $value["Last"],
     							// ARRAY KEY SEMANTICS BACKWARDS COMPARED TO OTHER EXCHANGES
-    							'24hr_asset_volume' => $data[$key]["Volume"],
-    							'24hr_pairing_volume' => $data[$key]["BaseVolume"]
+    							'24hr_asset_volume' => $value["Volume"],
+    							'24hr_pairing_volume' => $value["BaseVolume"]
     						);
           
          }
@@ -426,12 +463,12 @@ global $selected_btc_primary_currency_value, $app_config;
   
        foreach ($data as $key => $value) {
          
-         if ( $data[$key]['market'] == $market_id ) {
+         if ( $value['market'] == $market_id ) {
           
          $result = array(
-    							'last_trade' => $data[$key]["last"],
-    							'24hr_asset_volume' => $data[$key]["baseVolume24"],
-    							'24hr_pairing_volume' => $data[$key]["quoteVolume24"]
+    							'last_trade' => $value["last"],
+    							'24hr_asset_volume' => $value["baseVolume24"],
+    							'24hr_pairing_volume' => $value["quoteVolume24"]
     						);
           
          }
@@ -488,11 +525,11 @@ global $selected_btc_primary_currency_value, $app_config;
   
        foreach ($data as $key => $value) {
          
-         if ( $data[$key]['pair'] == $market_id ) {
+         if ( $value['pair'] == $market_id ) {
           
          $result = array(
-    							'last_trade' => $data[$key]["last"],
-    							'24hr_asset_volume' => $data[$key]["volume"],
+    							'last_trade' => $value["last"],
+    							'24hr_asset_volume' => $value["volume"],
     							'24hr_pairing_volume' => null // No pairing volume data for this API
     						);
           
@@ -567,11 +604,11 @@ global $selected_btc_primary_currency_value, $app_config;
        foreach ($data as $key => $value) {
          
          
-         if ( $data[$key]["pair"] == $market_id ) {
+         if ( $value["pair"] == $market_id ) {
           
          $result = array(
-    						'last_trade' => $data[$key]["last"],
-    						'24hr_asset_volume' => $data[$key]["volume"],
+    						'last_trade' => $value["last"],
+    						'24hr_asset_volume' => $value["volume"],
     						'24hr_pairing_volume' => null // No pairing volume data for this API
     						);
 
@@ -636,8 +673,8 @@ global $selected_btc_primary_currency_value, $app_config;
          if ( $key == $market_id ) {
           
          $result = array(
-    						'last_trade' => $data[$key]["last"],
-    						'24hr_asset_volume' => $data[$key]["vol"],
+    						'last_trade' => $value["last"],
+    						'24hr_asset_volume' => $value["vol"],
     						'24hr_pairing_volume' => null // No pairing volume data for this API
     						);
 
@@ -675,12 +712,12 @@ global $selected_btc_primary_currency_value, $app_config;
     // var_dump($value);
          
          
-         if ( $data[$key]['MarketName'] == $market_id ) {
+         if ( $value['MarketName'] == $market_id ) {
           
          $result = array(
-    						'last_trade' => $data[$key]["Last"],
-    						'24hr_asset_volume' => $data[$key]["Volume"],
-    						'24hr_pairing_volume' => $data[$key]["BaseVolume"]
+    						'last_trade' => $value["Last"],
+    						'24hr_asset_volume' => $value["Volume"],
+    						'24hr_pairing_volume' => $value["BaseVolume"]
     						);
 
          }
@@ -752,10 +789,10 @@ global $selected_btc_primary_currency_value, $app_config;
          if ( $key == $market_id ) {
           
          $result = array(
-    							'last_trade' => $data[$key]["last"],
+    							'last_trade' => $value["last"],
     							// ARRAY KEY SEMANTICS BACKWARDS COMPARED TO OTHER EXCHANGES
-    							'24hr_asset_volume' => $data[$key]["quoteVolume"],
-    							'24hr_pairing_volume' => $data[$key]["baseVolume"]
+    							'24hr_asset_volume' => $value["quoteVolume"],
+    							'24hr_pairing_volume' => $value["baseVolume"]
     						);
           
          }
@@ -850,9 +887,9 @@ global $selected_btc_primary_currency_value, $app_config;
          if ( $key == $market_id ) {
           
          $result = array(
-    							'last_trade' => $data[$key]["last"],
-    							'24hr_asset_volume' => $data[$key]["volume"],
-    							'24hr_pairing_volume' => $data[$key]["volume_quote"]
+    							'last_trade' => $value["last"],
+    							'24hr_asset_volume' => $value["volume"],
+    							'24hr_pairing_volume' => $value["volume_quote"]
     						);
           
          }
@@ -885,11 +922,11 @@ global $selected_btc_primary_currency_value, $app_config;
   
        foreach ($data as $key => $value) {
          
-         if ( $data[$key]["symbol"] == $market_id ) {
+         if ( $value["symbol"] == $market_id ) {
           
          $result = array(
-    							'last_trade' => $data[$key]["last"],
-    							'24hr_asset_volume' => $data[$key]["vol"],
+    							'last_trade' => $value["last"],
+    							'24hr_asset_volume' => $value["vol"],
     							'24hr_pairing_volume' => null // No pairing volume data for this API
     						);
           
@@ -925,12 +962,12 @@ global $selected_btc_primary_currency_value, $app_config;
        foreach ($data as $key => $value) {
          
          
-         if ( $data[$key]["symbol"] == $market_id ) {
+         if ( $value["symbol"] == $market_id ) {
           
          $result = array(
-    						'last_trade' => $data[$key]["close"],
-    						'24hr_asset_volume' => $data[$key]["amount"],
-    						'24hr_pairing_volume' => $data[$key]["vol"]
+    						'last_trade' => $value["close"],
+    						'24hr_asset_volume' => $value["amount"],
+    						'24hr_pairing_volume' => $value["vol"]
     						);
 
          }
@@ -967,10 +1004,10 @@ global $selected_btc_primary_currency_value, $app_config;
          if ( $key == $market_id ) {
          	
          $result = array(
-    							'last_trade' => $data[$key]["last"],
+    							'last_trade' => $value["last"],
     							// ARRAY KEY SEMANTICS BACKWARDS COMPARED TO OTHER EXCHANGES
-    							'24hr_asset_volume' => $data[$key]["quoteVolume"],
-    							'24hr_pairing_volume' => $data[$key]["baseVolume"]
+    							'24hr_asset_volume' => $value["quoteVolume"],
+    							'24hr_pairing_volume' => $value["baseVolume"]
     						);
           
          }
@@ -1007,8 +1044,8 @@ global $selected_btc_primary_currency_value, $app_config;
          if ( $key == $market_id ) {
          	
          $result = array(
-    							'last_trade' => $data[$key]["last"],
-    							'24hr_asset_volume' => $data[$key]["volume"],
+    							'last_trade' => $value["last"],
+    							'24hr_asset_volume' => $value["volume"],
     							'24hr_pairing_volume' => null // No pairing volume data for this API
     						);
           
@@ -1061,13 +1098,13 @@ global $selected_btc_primary_currency_value, $app_config;
          
          if ( $key == 'result' ) {
          
-          foreach ($data[$key] as $key2 => $value2) {
+          foreach ($value as $key2 => $value2) {
             
             if ( $key2 == $market_id ) {
              
             $result = array(
-    								'last_trade' => $data[$key][$key2]["c"][0],
-    								'24hr_asset_volume' => $data[$key][$key2]["v"][1],
+    								'last_trade' => $value[$key2]["c"][0],
+    								'24hr_asset_volume' => $value[$key2]["v"][1],
     								'24hr_pairing_volume' => null // No pairing volume data for this API
     							);
              
@@ -1105,12 +1142,12 @@ global $selected_btc_primary_currency_value, $app_config;
   
        foreach ($data as $key => $value) {
          
-         if ( $data[$key]['symbol'] == $market_id ) {
+         if ($value['symbol'] == $market_id ) {
           
          $result = array(
-    							'last_trade' => $data[$key]["last"],
-    							'24hr_asset_volume' => $data[$key]["vol"],
-    							'24hr_pairing_volume' => $data[$key]["volValue"]
+    							'last_trade' => $value["last"],
+    							'24hr_asset_volume' => $value["vol"],
+    							'24hr_pairing_volume' => $value["volValue"]
     						);
           
          }
@@ -1146,8 +1183,8 @@ global $selected_btc_primary_currency_value, $app_config;
          if ( $key == $market_id ) {
           
          $result = array(
-    						'last_trade' => $data[$key]["last"],
-    						'24hr_asset_volume' => $data[$key]["volume"],
+    						'last_trade' => $value["last"],
+    						'24hr_asset_volume' => $value["volume"],
     						'24hr_pairing_volume' => null // No pairing volume data for this API
     						);
 
@@ -1219,11 +1256,11 @@ global $selected_btc_primary_currency_value, $app_config;
   
        foreach ($data as $key => $value) {
          
-         if ( $data[$key]['symbol'] == $market_id ) {
+         if ( $value['symbol'] == $market_id ) {
           
          $result = array(
-    							'last_trade' => $data[$key]["last"],
-    							'24hr_asset_volume' => $data[$key]["volume"],
+    							'last_trade' => $value["last"],
+    							'24hr_asset_volume' => $value["volume"],
     							'24hr_pairing_volume' => null // No pairing volume data for this API
     						);
           
@@ -1260,8 +1297,8 @@ global $selected_btc_primary_currency_value, $app_config;
          if ( $key == $market_id ) {
           
          $result = array(
-    						'last_trade' => number_to_string($data[$key]["rates"]["last"]), // Handle large / small values better with number_to_string()
-    						'24hr_asset_volume' => $data[$key]["volume_btc"],
+    						'last_trade' => number_to_string($value["rates"]["last"]), // Handle large / small values better with number_to_string()
+    						'24hr_asset_volume' => $value["volume_btc"],
     						'24hr_pairing_volume' => null // No pairing volume data for this API
     						);
 
@@ -1297,11 +1334,11 @@ global $selected_btc_primary_currency_value, $app_config;
        foreach ($data as $key => $value) {
          
          
-         if ( $data[$key]["pair"] == $market_id ) {
+         if ( $value["pair"] == $market_id ) {
           
          $result = array(
-    						'last_trade' => number_to_string($data[$key]["last_trade"]), // Handle large / small values better with number_to_string()
-    						'24hr_asset_volume' => $data[$key]["rolling_24_hour_volume"],
+    						'last_trade' => number_to_string($value["last_trade"]), // Handle large / small values better with number_to_string()
+    						'24hr_asset_volume' => $value["rolling_24_hour_volume"],
     						'24hr_pairing_volume' => null // No pairing volume data for this API
     						);
 
@@ -1384,11 +1421,11 @@ global $selected_btc_primary_currency_value, $app_config;
        foreach ($data as $key => $value) {
        	
          
-         if ( $data[$key]['instrument_id'] == $market_id ) {
+         if ( $value['instrument_id'] == $market_id ) {
           
          $result = array(
-    						'last_trade' => $data[$key]["last"],
-    						'24hr_asset_volume' => $data[$key]["base_volume_24h"],
+    						'last_trade' => $value["last"],
+    						'24hr_asset_volume' => $value["base_volume_24h"],
     						'24hr_pairing_volume' => null // No pairing volume data for this API
     						);
 
@@ -1424,10 +1461,10 @@ global $selected_btc_primary_currency_value, $app_config;
          if ( $key == $market_id ) {
           
          $result = array(
-    							'last_trade' => $data[$key]["last"],
+    							'last_trade' =>$value["last"],
     							// ARRAY KEY SEMANTICS BACKWARDS COMPARED TO OTHER EXCHANGES
-    							'24hr_asset_volume' => $data[$key]["quoteVolume"],
-    							'24hr_pairing_volume' => $data[$key]["baseVolume"]
+    							'24hr_asset_volume' => $value["quoteVolume"],
+    							'24hr_pairing_volume' => $value["baseVolume"]
     						);
           
          }
@@ -1458,11 +1495,11 @@ global $selected_btc_primary_currency_value, $app_config;
   
        foreach ($data as $key => $value) {
          
-         if ( $data[$key]["Market"] == $market_id ) {
+         if ( $value["Market"] == $market_id ) {
           
          $result = array(
-    							'last_trade' => $data[$key]["Last"],
-    							'24hr_asset_volume' => $data[$key]["Volume24Hr"],
+    							'last_trade' => $value["Last"],
+    							'24hr_asset_volume' => $value["Volume24Hr"],
     							'24hr_pairing_volume' => null // No pairing volume data for this API
     						);
           
@@ -1499,8 +1536,8 @@ global $selected_btc_primary_currency_value, $app_config;
          if ( $key == $market_id ) {
           
          $result = array(
-    						'last_trade' => $data[$key]["ticker"]["last"],
-    						'24hr_asset_volume' => $data[$key]["ticker"]["vol"],
+    						'last_trade' => $value["ticker"]["last"],
+    						'24hr_asset_volume' => $value["ticker"]["vol"],
     						'24hr_pairing_volume' => null // No pairing volume data for this API
     						);
 
@@ -1533,12 +1570,12 @@ global $selected_btc_primary_currency_value, $app_config;
   
        foreach ($data as $key => $value) {
          
-         if ( $data[$key][$market_id] != '' ) {
+         if ( $value[$market_id] != '' ) {
           
          $result = array(
-    							'last_trade' => $data[$key][$market_id]["price"],
+    							'last_trade' => $value[$market_id]["price"],
     							'24hr_asset_volume' => null, // No asset volume data for this API
-    							'24hr_pairing_volume' => $data[$key][$market_id]["volume"]
+    							'24hr_pairing_volume' => $value[$market_id]["volume"]
     						);
           
          }
@@ -1587,11 +1624,11 @@ global $selected_btc_primary_currency_value, $app_config;
   
        foreach ( $data as $key => $value ) {
          
-         if ( $data[$key]["market"] == $market_id ) {
+         if ( $value["market"] == $market_id ) {
           
          $result = array(
-    							'last_trade' => $data[$key]["trade_price"],
-    							'24hr_asset_volume' => $data[$key]["acc_trade_volume_24h"],
+    							'last_trade' => $value["trade_price"],
+    							'24hr_asset_volume' => $value["acc_trade_volume_24h"],
     							'24hr_pairing_volume' => null // No 24 hour trade volume going by array keynames, skipping
     						);
           
@@ -1623,11 +1660,11 @@ global $selected_btc_primary_currency_value, $app_config;
   
        foreach ($data as $key => $value) {
          
-         if ( $data[$key]['pair'] == $market_id ) {
+         if ( $value['pair'] == $market_id ) {
           
          $result = array(
-    							'last_trade' => $data[$key]["market"],
-    							'24hr_asset_volume' => $data[$key]["volume"],
+    							'last_trade' => $value["market"],
+    							'24hr_asset_volume' => $value["volume"],
     							'24hr_pairing_volume' => null // No pairing volume data for this API
     						);
           
@@ -1687,8 +1724,13 @@ global $selected_btc_primary_currency_value, $app_config;
 		$result['24hr_pairing_volume'] = number_to_string($result['last_trade'] * $result['24hr_asset_volume']);
 		}
 	
-	// Set primary currency volume value
-	$result['24hr_primary_currency_volume'] = primary_currency_trade_volume($asset_symbol, $pairing, $result['last_trade'], $result['24hr_pairing_volume']);
+		// Set primary currency volume value
+		if ( $pairing == $app_config['general']['btc_primary_currency_pairing'] ) {
+		$result['24hr_primary_currency_volume'] = number_to_string($result['24hr_pairing_volume']); // Save on runtime, if we don't need to compute the fiat value
+		}
+		else {
+		$result['24hr_primary_currency_volume'] = number_to_string( primary_currency_trade_volume($asset_symbol, $pairing, $result['last_trade'], $result['24hr_pairing_volume']) );
+		}
 	
 	}
 
