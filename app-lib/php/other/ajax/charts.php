@@ -26,7 +26,7 @@ require_once('app-lib/php/other/primary-bitcoin-markets.php');
 	
 	
 $x_coord = 120; // Start position (absolute) for lite chart links
-$font_width = 10; // NOT MONOSPACE, SO WE GUESS AN AVERAGE
+$font_width = 8; // NOT MONOSPACE, SO WE GUESS AN AVERAGE
 	
 
 	foreach ( $app_config['charts_alerts']['tracked_markets'] as $key => $value ) {
