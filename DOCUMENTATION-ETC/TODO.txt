@@ -26,6 +26,9 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+Lite chart link spacing variable is doing the opposite of what it should when increasing it. It should increase the spacing between links, not decrease it.
+
+
 Add BTSE API: https://api.btse.com/spot/api/v3.2/market_summary
 
 
@@ -75,6 +78,9 @@ Code review ALL functions / logic (especially loops, for efficiency).
 ///////////////////////////////////////////////////////
 FEATURES / STRUCTURING SECTION
 ///////////////////////////////////////////////////////
+
+
+Give cron plugins a [plugin name]-config.php file for parameters like gui menus / content, mysql data table structure, etc. Also give cron plugins a dedicated admin page (if any are activated).
 
 
 Create a cron plugin to let you know when a raw market value has gone below / above a certain exact value at a specific exchange (good for knowing when / if your order fills).
