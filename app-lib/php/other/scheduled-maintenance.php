@@ -55,7 +55,9 @@ delete_old_files($base_dir . '/cache/secured/backups', $app_config['general']['b
 
 // Stale cache files cleanup...
 
-delete_old_files($base_dir . '/cache/events/throttling', 1, 'dat'); // Delete throttling cache files older than 1 day
+delete_old_files($base_dir . '/cache/events/throttling', 1, 'dat'); // Delete throttling event tracking cache files older than 1 day
+
+delete_old_files($base_dir . '/cache/events/lite_chart_rebuilds', 1, 'dat'); // Delete lite chart rebuild event tracking cache files older than 1 day
 
 delete_old_files($base_dir . '/cache/secured/activation', 1, 'dat'); // Delete activation cache files older than 1 day
 

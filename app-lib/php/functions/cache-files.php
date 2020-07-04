@@ -865,13 +865,20 @@ $cache_filename = preg_replace("/:/", "_", $cache_filename);
 
 function update_lite_chart($archive_path, $newest_archival_data=false, $days_span=1) {
 
-global $app_config;
+global $app_config, $base_dir;
 
 $archival_data = array();
 $queued_archival_lines = array();
 $new_lite_data = null;
 // Lite chart file path
 $lite_path = preg_replace("/archival/i", 'lite/' . $days_span . '_days', $archive_path);
+
+
+	// Hash of lite path, AND random X hours update threshold, to spread out and event-track 'all' chart rebuilding
+	if ( $days_span == 'all' ) {
+	$lite_path_hash = md5($lite_path);
+	$all_chart_rebuild_threshold = rand(6, 12); // Randomly between 6 and 12 hours (to spead the load across multiple runtimes)
+	}
 
 
 	// Get LAST line of lite chart data (determines newest lite timestamp)
@@ -994,9 +1001,10 @@ $lite_data_update_threshold = number_to_string($lite_data_update_threshold);
 	return false;
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// If no lite chart exists yet, rebuild from scratch
+	// If no lite chart exists yet OR it's time to prune the 'all' chart, rebuild from scratch
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	elseif ( !$newest_lite_timestamp ) {
+	elseif ( !$newest_lite_timestamp 
+	|| $days_span == 'all' && update_cache_file($base_dir . '/cache/events/lite_chart_rebuilds/all_days_chart_'.$lite_path_hash.'.dat', (60 * $all_chart_rebuild_threshold) ) == true ) {
 
 	$archive_file_data = file($archive_path);
 	$archive_file_data = array_reverse($archive_file_data); // Save time, only loop / read last lines needed
@@ -1036,6 +1044,12 @@ $lite_data_update_threshold = number_to_string($lite_data_update_threshold);
 	// Store the lite chart data (rebuild)
 	$result = store_file_contents($lite_path, $new_lite_data);  // WITHOUT newline, since file() maintains those by default (file write)
 	$lite_mode_logging = 'REBUILD';
+	
+		// Update the 'all' lite chart rebuild event tracking, IF THE LITE CHART UPDATED SUCESSFULLY
+		if ( $days_span == 'all' && $result == true ) {
+		store_file_contents($base_dir . '/cache/events/lite_chart_rebuilds/all_days_chart_'.$lite_path_hash.'.dat', time_date_format(false, 'pretty_date_time') );
+		}
+		
 
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////
