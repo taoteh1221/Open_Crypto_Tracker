@@ -3,10 +3,12 @@
  * Copyright 2014-2020 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
  */
 
-// Charts library
 
-// We don't run the full init.php for speed, so load some required sub-inits...
-require_once('app-lib/php/other/app-config-management.php');
+
+require_once($base_dir . '/app-lib/php/other/sub-init/minimized-sub-init.php');
+
+
+// Charts library
 
 
 // ASSET CHARTS START

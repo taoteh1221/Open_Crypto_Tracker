@@ -85,7 +85,7 @@ $apache_modules = apache_get_modules();
 
 
 // Application version
-$app_version = '4.14.8';  // 2020/JULY/1ST
+$app_version = '4.14.9';  // 2020/JULY/4TH
 
 // Application edition
 $app_edition = 'server';  // server OR desktop edition
@@ -125,20 +125,20 @@ exit;
 }
 
 
-// INCREASE CERTAIN RUNTIME SPEEDS
+// INCREASE CERTAIN RUNTIME SPEEDS (minimal inits included in libraries if needed)
 // If we are just running a captcha image, ONLY run captcha library for runtime speed (exit after)
 if ( $runtime_mode == 'captcha' ) {
 require_once('app-lib/php/other/security/captcha-lib.php');
 exit;
 }
-// If we are just running log retrieval, ONLY run logs library for runtime speed (exit after)
-elseif ( $is_logs ) {
-require_once('app-lib/php/other/ajax/logs.php');
-exit;
-}
 // If we are just running chart retrieval, ONLY run charts library for runtime speed (exit after)
 elseif ( $is_charts ) {
 require_once('app-lib/php/other/ajax/charts.php');
+exit;
+}
+// If we are just running log retrieval, ONLY run logs library for runtime speed (exit after)
+elseif ( $is_logs ) {
+require_once('app-lib/php/other/ajax/logs.php');
 exit;
 }
 
@@ -224,7 +224,7 @@ $possible_http_users = array(
 							);
 
 
-// Initial vars
+// Initial strings
 
 $fetched_feeds = 'fetched_feeds_' . $runtime_mode; // Unique feed fetch telemetry SESSION KEY (so related runtime BROWSER SESSION logic never accidentally clashes)
 
@@ -276,6 +276,7 @@ else {
 $user_agent = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; ' . $_SERVER['SERVER_SOFTWARE'] . '; PHP/' .phpversion(). '; DFD_Cryptocoin_Values/' . $app_version . '; +https://github.com/taoteh1221/DFD_Cryptocoin_Values)';
 }
 
+
 //////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////
 
@@ -283,32 +284,13 @@ $user_agent = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; ' . $_SERVER['SERV
 
 // Create cache directories (if needed), with $http_runtime_user determined further above 
 // (for cache compatibility on certain PHP setups)
+require_once('app-lib/php/other/directory-creation/cache-directories.php');
 
-// Check for cache directory path creation, create if needed...if it fails, flag a force exit and alert end-user
-if ( dir_structure('cache/alerts/') != true
-|| dir_structure('cache/charts/spot_price_24hr_volume/archival/') != true
-|| dir_structure('cache/charts/spot_price_24hr_volume/lite/') != true
-|| dir_structure('cache/charts/system/archival/') != true
-|| dir_structure('cache/charts/system/lite/') != true
-|| dir_structure('cache/events/throttling/') != true
-|| dir_structure('cache/internal-api/') != true
-|| dir_structure('cache/logs/debugging/external_api/') != true
-|| dir_structure('cache/logs/errors/external_api/') != true
-|| dir_structure('cache/secured/activation/') != true
-|| dir_structure('cache/secured/backups/') != true
-|| dir_structure('cache/secured/external_api/') != true
-|| dir_structure('cache/secured/messages/') != true
-|| dir_structure('cache/vars/') != true
-|| dir_structure('cron-plugins/') != true ) {
-$system_error = 'Cannot create cache or cron-plugin sub-directories. Please make sure the primary sub-directories "/cache/" and "/cron-plugins/" are created, and have FULL read / write permissions (chmod 777 on unix / linux systems), so the required files and secondary sub-directories can be created automatically. <br /><br />';
-app_logging('system_error', $system_error);
-echo $system_error;
-$force_exit = 1;
-}
+// Directory security check (MUST run AFTER directory structure creation check, AND BEFORE system checks)
+require_once('app-lib/php/other/security/directory-security.php');
 
 
-
-// UI-CACHED VARS THAT !MUST! BE AVAILABLE BEFORE SYSTEM CHECKS, BUT MUST RUN AFTER DIRECTORY CREATION
+// UI-CACHED VARS THAT !MUST! BE AVAILABLE BEFORE SYSTEM CHECKS, #BUT# MUST RUN AFTER DIRECTORY CREATION
 if ( $runtime_mode == 'ui' ) {
 	
 	// Have UI / HTTP runtime mode cache the runtime_user data every 24 hours, since CLI runtime cannot determine the UI / HTTP runtime_user 
@@ -332,9 +314,6 @@ $base_url = trim( file_get_contents('cache/vars/base_url.dat') );
 }
 
 
-// Directory security check (MUST run AFTER directory structure creation check, AND BEFORE system checks)
-require_once('app-lib/php/other/security/directory.php');
-
 // Basic system checks (before allowing app to run ANY FURTHER, MUST RUN AFTER directory creation check / http server user vars / user agent var)
 require_once('app-lib/php/other/debugging/system-checks.php');
 
@@ -347,29 +326,29 @@ require_once('app-lib/php/other/app-config-management.php');
 // Load any activated classes (MUST RUN AS EARLY AS POSSIBLE #AFTER SECURE CACHE FILES / APP CONFIG MANAGEMENT#)
 require_once('app-lib/php/classes-loader.php');
 
-// Primary Bitcoin markets (MUST RUN AFTER app config management)
-require_once('app-lib/php/other/primary-bitcoin-markets.php');
-
-// Misc dynamic interface vars (MUST RUN AFTER app config management)
-require_once('app-lib/php/other/interface-init.php');
-
-// Misc cron logic (MUST RUN AFTER app config management)
-require_once('app-lib/php/other/cron-init.php');
-
-// App configuration checks (MUST RUN AFTER app config management / primary bitcoin markets / interface init)
-require_once('app-lib/php/other/debugging/config-checks.php');
+// Chart sub-directory creation (if needed...MUST RUN AFTER app config management)
+require_once('app-lib/php/other/directory-creation/chart-directories.php');
 
 // Password protection management (MUST RUN AFTER system checks / secure cache files / app config management)
 require_once('app-lib/php/other/security/password-protection.php');
 
-// Chart sub-directory creation (if needed...MUST RUN AFTER app config management)
-require_once('app-lib/php/other/chart-directories.php');
+// Primary Bitcoin markets (MUST RUN AFTER app config management)
+require_once('app-lib/php/other/primary-bitcoin-markets.php');
+
+// Misc dynamic interface vars (MUST RUN AFTER app config management)
+require_once('app-lib/php/other/sub-init/interface-sub-init.php');
+
+// Misc cron logic (MUST RUN AFTER app config management)
+require_once('app-lib/php/other/sub-init/cron-sub-init.php');
+
+// App configuration checks (MUST RUN AFTER app config management / primary bitcoin markets / sub inits)
+require_once('app-lib/php/other/debugging/config-checks.php');
 
 // Scheduled maintenance  (MUST RUN AFTER EVERYTHING IN INIT.PHP)
 require_once('app-lib/php/other/scheduled-maintenance.php');
 
 
-// Unit tests to run in debug mode (MUST RUN AFTER EVERYTHING IN INIT.PHP)
+// Unit tests to run in debug mode (MUST RUN AT THE VERY END OF INIT.PHP)
 if ( $app_config['developer']['debug_mode'] != 'off' ) {
 require_once('app-lib/php/other/debugging/tests.php');
 require_once('app-lib/php/other/debugging/exchange-and-pairing-info.php');
