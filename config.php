@@ -346,6 +346,7 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					'btc-25' => 'localbitcoins||twd||none',
 					'btc-26' => 'luno||zar||none',
 					'btc-27' => 'kraken||dai||none',
+					'btc-28' => 'bitmex||usd||chart',
 					
 					
 					// ETH
@@ -362,6 +363,7 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					'eth-11' => 'coinbase||eur||chart',
 					'eth-12' => 'bittrex||usdt||none',
 					'eth-13' => 'bitbns||inr||none',
+					'eth-14' => 'bitmex||usd||chart',
 					
 					
 					// XMR
@@ -391,6 +393,7 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					'ltc-3' => 'binance||usdt||both',
 					'ltc-4' => 'binance||eth||none',
 					'ltc-5' => 'binance_us||btc||none',
+					'ltc-6' => 'bitmex||btc||chart',
 					
 					
 					//TUSD
@@ -530,13 +533,13 @@ $app_config['power_user']['marketcap_ranks_max'] = 300; // (default = 300)
 
 // Lite charts (load just as quickly for any time interval, 7 day / 30 day / 365 day / etc)
 ////
-// The maximum number of data points allowed in each lite chart (speeds up page / chart loading times SIGNIFICANTLY #WITH A LOW NUMBER#)
-$app_config['power_user']['lite_chart_data_points_max'] = '365'; // (default = '365')
+// The maximum number of data points allowed in each lite chart (speeds up page / chart loading times SIGNIFICANTLY #WITH A NUMBER UNDER 500#)
+$app_config['power_user']['lite_chart_data_points_max'] = '400'; // (default = '400')
 ////
 // Structure of lite charts #IN DAYS# (X days time period charts)
-// Interface will auto-detect and display days as 365 = 1Y, 180 = 6M, 7 = 1W, etc, etc
+// Interface will auto-detect and display days as 365 = 1Y, 180 = 6M, 7 = 1W, etc
 // (LOWER TIME PERIODS [UNDER 180 DAYS] #SHOULD BE KEPT SOMEWHAT MINIMAL#, TO REDUCE RUNTIME LOAD / DISK WRITES DURING CRON JOBS)
-$app_config['power_user']['lite_chart_day_intervals'] = array(10, 30, 180, 365); // (default = 10, 30, 180, 365)
+$app_config['power_user']['lite_chart_day_intervals'] = array(10, 30, 180, 365, 730); // (default = 10, 30, 180, 365, 730)
 
 																					
 // Chart colors (https://www.w3schools.com/colors/colors_picker.asp)

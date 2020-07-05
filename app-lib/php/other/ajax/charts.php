@@ -10,6 +10,9 @@ require_once($base_dir . '/app-lib/php/other/sub-init/minimized-sub-init.php');
 
 // Charts library
 
+$font_width = 9; // NOT MONOSPACE, SO WE GUESS AN AVERAGE
+$link_spacer = 75; // Space beetween lite chart links
+
 
 // ASSET CHARTS START
 if ( $_GET['type'] == 'asset' ) {
@@ -28,7 +31,6 @@ require_once('app-lib/php/other/primary-bitcoin-markets.php');
 	
 	
 $x_coord = 120; // Start position (absolute) for lite chart links
-$font_width = 8; // NOT MONOSPACE, SO WE GUESS AN AVERAGE
 	
 
 	foreach ( $app_config['charts_alerts']['tracked_markets'] as $key => $value ) {
@@ -179,7 +181,7 @@ $font_width = 8; // NOT MONOSPACE, SO WE GUESS AN AVERAGE
 		$x_coord = $x_coord + ( $difference * $font_width ); 
 		}
 	
-	$x_coord = $x_coord + 60;
+	$x_coord = $x_coord + $link_spacer;
 	$last_lite_chart_text = $lite_chart_text;
 	}
 	?>
@@ -427,7 +429,7 @@ graphset:[
 		$x_coord = $x_coord + ( $difference * $font_width ); 
 		}
 	
-	$x_coord = $x_coord + 60;
+	$x_coord = $x_coord + $link_spacer;
 	$last_lite_chart_text = $lite_chart_text;
 	}
 	?>
@@ -545,7 +547,6 @@ elseif ( $_GET['type'] == 'system' ) {
 $key = $_GET['key'];
 
 $x_coord = 70; // Start position (absolute) for lite chart links
-$font_width = 10; // NOT MONOSPACE, SO WE GUESS AN AVERAGE
 			
 		
 // Have this script send the UI alert messages, and not load any chart code (to not leave the page endlessly loading) if cache data is not present
@@ -656,7 +657,7 @@ if ( !file_exists('cache/charts/system/lite/' . $_GET['days'] . '_days/system_st
 		$x_coord = $x_coord + ( $difference * $font_width ); 
 		}
 	
-	$x_coord = $x_coord + 60;
+	$x_coord = $x_coord + $link_spacer;
 	$last_lite_chart_text = $lite_chart_text;
 	}
 	?>
@@ -1007,7 +1008,7 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 		$x_coord = $x_coord + ( $difference * $font_width ); 
 		}
 	
-	$x_coord = $x_coord + 60;
+	$x_coord = $x_coord + $link_spacer;
 	$last_lite_chart_text = $lite_chart_text;
 	}
 	?>

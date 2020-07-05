@@ -26,9 +26,6 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
-Lite chart link spacing variable is doing the opposite of what it should when increasing it. It should increase the spacing between links, not decrease it.
-
-
 Add BTSE API: https://api.btse.com/spot/api/v3.2/market_summary
 
 
