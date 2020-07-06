@@ -1104,6 +1104,12 @@ elseif ( $_GET['type'] == 'balance_stats' ) {
       "series": [
       <?php
       foreach ( $_GET as $asset_key => $asset_value ) {
+      	
+      	if ( stristr($asset_key, 'MISC__') != false ) {
+      	$asset_key = strtolower($asset_key);
+      	$misc_array = explode("__", $asset_key);
+      	$asset_key = $misc_array[1];
+      	}
       
       	if ( $asset_key != 'type' && $asset_key != 'leverage_added' && $asset_key != 'short_added' && $asset_value >= 0.01 ) {
       ?>
@@ -1137,6 +1143,13 @@ elseif ( $_GET['type'] == 'balance_stats' ) {
 					
 				foreach ( $_GET as $key => $value ) {
 					
+      			if ( stristr($key, 'MISC__') != false ) {
+      			$key = strtolower($key);
+      			$misc_array = explode("__", $key);
+      			$key = $misc_array[1];
+      			}
+      			
+      
 						if ( $key != 'type' && $key != 'leverage_added' && $key != 'short_added' && $value >= 0.01 ) {
 				?>
 			<p class="coin_info"><span class="yellow"><?=strtoupper($key)?>:</span> <?=$value?>%</p>

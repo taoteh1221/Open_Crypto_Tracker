@@ -288,8 +288,8 @@ global $selected_btc_primary_currency_value, $app_config;
 
   elseif ( strtolower($chosen_exchange) == 'bitmex' ) {
  
-     // GET NEWEST FULL DATA SETS (FOR UX DON'T ADD IN PARTIAL DATA SETS, THAT DOESN'T MATCH THE BITMEX INTERFACE DATA WELL)
-     $json_string = 'https://www.bitmex.com/api/v1/trade/bucketed?binSize=1d&partial=false&reverse=true'; // Sort newest first
+     // GET NEWEST DATA SETS (WE #NEED# PARTIAL DATA SETS, OTHERWISE WE DON'T GET THE LATEST TRADE VALUE)
+     $json_string = 'https://www.bitmex.com/api/v1/trade/bucketed?binSize=1d&partial=true&reverse=true'; // Sort newest first
      
      $jsondata = @external_api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
      

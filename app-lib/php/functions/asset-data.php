@@ -1773,7 +1773,7 @@ $original_market = $selected_exchange;
 // Consolidate function calls for runtime speed improvement
  $marketcap_data = marketcap_data($asset_symbol);
  
- $info_icon = ( !$marketcap_data['rank'] ? 'info-red.png' : 'info.png' );
+ $info_icon = ( !$marketcap_data['rank'] && $asset_symbol != 'MISCASSETS' ? 'info-red.png' : 'info.png' );
  
  
 	if ( $mkcap_render_data != '' ) {
@@ -1805,7 +1805,7 @@ $original_market = $selected_exchange;
 			else {
 			?>
 
-			var cmc_content = '<p class="coin_info"><span class="red_bright"><?=ucfirst($app_config['general']['primary_marketcap_site'])?> API may be offline / under heavy load, <br />marketcap range not set high enough (current range is top <?=$app_config['power_user']['marketcap_ranks_max']?> marketcaps), <br />or API timeout set too low (current timeout is <?=$app_config['power_user']['remote_api_timeout']?> seconds). <br />Configuration adjustments can be made in config.php.</span></p>';
+			var cmc_content = '<p class="coin_info"><span class="red_bright"><?=ucfirst($app_config['general']['primary_marketcap_site'])?> API may be offline / under heavy load, <br />marketcap range not set high enough (current range is top <?=$app_config['power_user']['marketcap_ranks_max']?> marketcaps), <br />or API timeout set too low (current timeout is <?=$app_config['power_user']['remote_api_timeout']?> seconds). <br /><br />Configuration adjustments can be made in config.php.</span></p>';
 	
 			<?php
 			}
@@ -1986,14 +1986,63 @@ $original_market = $selected_exchange;
  <?php
 	}
 	else {
+		
   ?>
   
   <img id='<?=$rand_id?>' src='templates/interface/media/images/<?=$info_icon?>' alt='' style='position: absolute; top: 2px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <span class='blue app_sort_filter'><?=$asset_name?></span>
  <script>
+ 
+ 			<?php
+			if ( $asset_symbol == 'MISCASSETS' ) {
+			?>
+
+			var cmc_content = '<h5 class="yellow align_center" style="position: relative; white-space: nowrap;"><?=$asset_name?> (<?=$asset_symbol?>):</h5>'
+    
+        +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="yellow">Miscellaneous <?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?> value can be included in you portfolio stats, by entering it under the "MISCASSETS" asset on the "Update" page.</span></p>'
+        
+        +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="yellow">Additionally, you can see it\'s potential market value in another asset by changing the "Market" value on the "Portfolio" page to an asset other than <?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?>.</span></p>';
+	
+			<?php
+			}
+			else {
+			?>
+,
+			css: {
+					fontSize: ".8rem",
+					minWidth: ".8rem",
+					padding: ".3rem .7rem",
+					border: "2px solid rgba(212, 212, 212, .4)",
+					borderRadius: "6px",
+					boxShadow: "3px 3px 6px #555",
+					color: "#eee",
+					backgroundColor: "#111",
+					opacity: "0.99",
+					zIndex: "32767",
+					textAlign: "left"
+					}
+			var cmc_content = '<p class="coin_info"><span class="red_bright">No <?=ucfirst($app_config['general']['primary_marketcap_site'])?>.com data for <?=$asset_name?> (<?=$asset_symbol?>) has been configured yet.</span></p>';
+	
+			<?php
+			}
+			?>
+ 
  $('#<?=$rand_id?>').balloon({
   html: true,
   position: "right",
-  contents: '<p class="coin_info"><span class="red_bright">No <?=ucfirst($app_config['general']['primary_marketcap_site'])?>.com data for <?=$asset_name?> (<?=$asset_symbol?>) has been configured yet.</span></p>'
+  contents: cmc_content,
+			css: {
+					fontSize: ".8rem",
+					minWidth: ".8rem",
+					padding: ".3rem .7rem",
+					border: "2px solid rgba(212, 212, 212, .4)",
+					borderRadius: "6px",
+					boxShadow: "3px 3px 6px #555",
+					color: "#eee",
+					backgroundColor: "#111",
+					opacity: "0.99",
+					zIndex: "32767",
+					textAlign: "left"
+					}
 });
 
 		<?php

@@ -24,38 +24,20 @@
 				
 				$text_mcap_trend = ucwords(preg_replace("/day/i", " day", $text_mcap_trend));
 				
-				if ( $theme_selected == 'dark' ) {
 				
-					if ( $alert_percent[2] == 'gain' ) {
-					$alert_filter = '<span>+</span>';
-					$alert_filter_css = 'green';
-					}
-					elseif ( $alert_percent[2] == 'loss' ) {
-					$alert_filter = '<span>-</span>';
-					$alert_filter_css = 'orange';
-					}
-					elseif ( $alert_percent[2] == 'both' ) {
-					$alert_filter = '<span style="color: #7dc67d;"><sup>+</sup></span>&frasl;<span style="color: #efd362;"><sub>-</sub></span> ';
-					$alert_filter_css = 'blue';
-					}
-				
+				if ( $alert_percent[2] == 'gain' ) {
+				$alert_filter = '<span>+</span>';
+				$alert_filter_css = 'green';
 				}
-				elseif ( $theme_selected == 'light' ) {
-				
-					if ( $alert_percent[2] == 'gain' ) {
-					$alert_filter = '<span>+</span>';
-					$alert_filter_css = 'green';
-					}
-					elseif ( $alert_percent[2] == 'loss' ) {
-					$alert_filter = '<span>-</span>';
-					$alert_filter_css = 'orange';
-					}
-					elseif ( $alert_percent[2] == 'both' ) {
-					$alert_filter = '<span style="color: #6ead6e;"><sup>+</sup></span>&frasl;<span style="color: #dd7c0d;"><sub>-</sub></span> ';
-					$alert_filter_css = 'blue';
-					}
-				
+				elseif ( $alert_percent[2] == 'loss' ) {
+				$alert_filter = '<span>-</span>';
+				$alert_filter_css = 'orange';
 				}
+				elseif ( $alert_percent[2] == 'both' ) {
+				$alert_filter = '<img src="templates/interface/media/images/plus-minus.png" height="13" alt="" style="position: relative; vertical-align:middle; bottom: 2px;" />';
+				$alert_filter_css = 'blue';
+				}
+				
 				
 			?>
 			  &nbsp; &nbsp; <span class='<?=$alert_filter_css?>' style='font-weight: bold;'><?=$visual_audio_alerts?> alerts (<?=ucfirst($app_config['general']['primary_marketcap_site'])?> <?=$text_mcap_trend?> <?=$alert_filter?><?=$alert_percent[1]?>%)</span>
@@ -441,11 +423,13 @@ $total_btc_worth = ( $total_btc_worth_raw >= 0.00000001 ? pretty_numbers($total_
 
 $total_primary_currency_worth = coin_stats_data('coin_worth_total');
 
-$bitcoin_dominance = ( $btc_worth_array['BTC'] / $total_btc_worth_raw ) * 100;
+$bitcoin_dominance = number_to_string( ( $btc_worth_array['BTC'] / $total_btc_worth_raw ) * 100 );
 
-$ethereum_dominance = ( $btc_worth_array['ETH'] / $total_btc_worth_raw ) * 100;
+$ethereum_dominance = number_to_string( ( $btc_worth_array['ETH'] / $total_btc_worth_raw ) * 100 );
 
-$altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
+$miscassets_dominance = number_to_string( ( $btc_worth_array['MISCASSETS'] / $total_btc_worth_raw ) * 100 );
+
+$altcoin_dominance = number_to_string( 100 - $bitcoin_dominance - $ethereum_dominance - $miscassets_dominance );
 	
 		
 ?>
@@ -575,17 +559,22 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 		<?php
 		}
 		
-		if ( number_to_string($bitcoin_dominance) >= 0.01 || number_to_string($ethereum_dominance) >= 0.01 || number_to_string($altcoin_dominance) >= 0.01 ) {
+		if ( number_to_string($bitcoin_dominance) >= 0.01 || number_to_string($ethereum_dominance) >= 0.01 || number_to_string($miscassets_dominance) >= 0.01 || number_to_string($altcoin_dominance) >= 0.01 ) {
 			
 			
 			if ( number_to_string($bitcoin_dominance) >= 0.01 ) {
-			$bitcoin_dominance_text = number_format($bitcoin_dominance, 2, '.', ',') . '% Bitcoin';
+			$bitcoin_dominance_text = number_format($bitcoin_dominance, 2, '.', ',') . '% BTC';
 			$seperator_btc = ( number_format($bitcoin_dominance, 2, '.', '') < 100 ? ' / ' : '' );
 			}
 			
 			if ( number_to_string($ethereum_dominance) >= 0.01 ) {
-			$ethereum_dominance_text = number_format($ethereum_dominance, 2, '.', ',') . '% Ethereum';
-			$seperator_eth = ( number_format($bitcoin_dominance, 2, '.', '') + number_format($ethereum_dominance, 2, '.', '') < 100 ? ' / ' : '' );
+			$ethereum_dominance_text = number_format($ethereum_dominance, 2, '.', ',') . '% ETH';
+			$seperator_eth = ( number_format($bitcoin_dominance, 2, '.', '') + number_format($ethereum_dominance, 2, '.', '') <= 99.99 ? ' / ' : '' );
+			}
+			
+			if ( number_to_string($miscassets_dominance) >= 0.01 ) {
+			$miscassets_dominance_text = number_format($miscassets_dominance, 2, '.', ',') . '% <span class="btc_primary_currency_pairing">' . strtoupper($app_config['general']['btc_primary_currency_pairing']) . '</span>';
+			$seperator_miscassets = ( number_format($bitcoin_dominance, 2, '.', '') + number_format($ethereum_dominance, 2, '.', '') + number_format($miscassets_dominance, 2, '.', '') <= 99.99 ? ' / ' : '' );
 			}
 			
 			if ( number_to_string($altcoin_dominance) >= 0.01 ) {
@@ -593,7 +582,7 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 			}
 			
 			
-			echo '<div class="portfolio_summary"><span class="black">Balance:</span> ' . $bitcoin_dominance_text . $seperator_btc . $ethereum_dominance_text . $seperator_eth . $altcoin_dominance_text;
+			echo '<div class="portfolio_summary"><span class="black">Balance:</span> ' . $bitcoin_dominance_text . $seperator_btc . $ethereum_dominance_text . $seperator_eth . $miscassets_dominance_text . $seperator_miscassets . $altcoin_dominance_text;
 			
 			
 		?>
@@ -609,10 +598,14 @@ $altcoin_dominance = 100 - $bitcoin_dominance - $ethereum_dominance;
 					
 				foreach ( $btc_worth_array as $key => $value ) {
 					
+					if ( $key == 'MISCASSETS' ) {
+					$key = 'Misc. ' . strtoupper($app_config['general']['btc_primary_currency_pairing']);
+					}
+					
 					$balance_stats = ( $value / $total_btc_worth_raw ) * 100;
 					
 						if ( $balance_stats >= 0.01 ) {
-						$balance_stats_encoded .= '&' . strtolower($key) . '=' . number_format($balance_stats, 2, '.', ',');
+						$balance_stats_encoded .= '&' . urlencode($key) . '=' . urlencode( number_format($balance_stats, 2, '.', ',') );
 						}
 							
 				}

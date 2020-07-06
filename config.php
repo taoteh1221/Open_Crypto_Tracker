@@ -135,7 +135,7 @@ $app_config['comms']['price_alerts_block_volume_error'] = 'on'; // 'on' / 'off'
 // Minimum 24 hour volume filter. Only allows sending price alerts if minimum 24 hour volume reached
 // CAN BE 0 TO DISABLE MINIMUM VOLUME FILTERING, NO DECIMALS OR SEPARATORS, NUMBERS ONLY, WITHOUT the [primary currency] prefix symbol: 4500 = $4,500 , 30000 = $30,000 , etc
 // THIS FILTER WILL AUTO-DISABLE IF THERE IS ANY ERROR RETRIEVING DATA ON A CERTAIN MARKET (WHEN NOT EVEN A ZERO IS RECEIVED)
-$app_config['comms']['price_alerts_min_volume'] = 14000;
+$app_config['comms']['price_alerts_min_volume'] = 20000;
 
 
 // Alerts for failed proxy data connections (ONLY USED IF proxies are enabled further down in PROXY CONFIGURATION). 
@@ -436,18 +436,6 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					'enj-4' => 'bitfinex||usd||none',
 					
 					
-					// SXP
-					'sxp' => 'bittrex_global||btc||none',
-					'sxp-2' => 'kucoin||btc||both',
-					
-					
-					// DOGE
-					'doge' => 'bittrex||btc||none',
-					'doge-2' => 'binance||btc||both',
-					'doge-3' => 'binance_us||usdt||none',
-					'doge-4' => 'kraken||btc||none',
-					
-					
 					// GNT
 					'gnt' => 'bittrex||btc||both',
 					'gnt-2' => 'ethfinex||btc||chart',
@@ -460,6 +448,13 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					
 					// HIVE
 					'hive' => 'bittrex||btc||both',
+					
+					
+					// DOGE
+					'doge' => 'bittrex||btc||none',
+					'doge-2' => 'binance||btc||both',
+					'doge-3' => 'binance_us||usdt||none',
+					'doge-4' => 'kraken||btc||none',
 					
 					
 					// KDA
@@ -476,14 +471,19 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					'grin-6' => 'hotbit||btc||none',
 					
 					
-					// HNS
-					'hns' => 'namebase||btc||both',
-					
-					
 					//MYST
 					'myst' => 'hitbtc||btc||both',
 					'myst-2' => 'hitbtc||eth||none',
 					'myst-3' => 'idex||eth||none',
+					
+					
+					// HNS
+					'hns' => 'namebase||btc||chart',
+					
+					
+					// SXP
+					'sxp' => 'bittrex_global||btc||none',
+					'sxp-2' => 'kucoin||btc||both',
 					
 					
 					);
@@ -2783,85 +2783,6 @@ $app_config['portfolio_assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // SXP
-                    'SXP' => array(
-                        
-                        'asset_name' => 'Swipe',
-                        'marketcap_website_slug' => 'swipe',
-                        'market_pairing' => array(
-                        
-                                    'btc' => array(
-                                          'bittrex_global' => 'BTC-SXP',
-                                          'kucoin' => 'SXP-BTC',
-                                                    ),
-                                                    
-                                    'eth' => array(
-                                          'idex' => 'ETH_SXP',
-                                                    ),
-                                                    
-                                    'usdt' => array(
-                                          'kucoin' => 'SXP-USDT',
-                                                    ),
-                                                    
-                                        ) // market_pairing END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // DOGE
-                    'DOGE' => array(
-                        
-                        'asset_name' => 'Dogecoin',
-                        'marketcap_website_slug' => 'dogecoin',
-                        'market_pairing' => array(
-                        
-                                    'btc' => array(
-                                        	'binance' => 'DOGEBTC',
-                                        	'kraken' => 'XXDGXXBT',
-                                          'bittrex' => 'BTC-DOGE',
-                                          'upbit' => 'BTC-DOGE',
-                                          'hitbtc' => 'DOGEBTC',
-                                          'hotbit' => 'DOGE_BTC',
-                                          'gateio' => 'doge_btc',
-                                          'livecoin' => 'DOGE/BTC',
-                                          'poloniex' => 'BTC_DOGE',
-                                                    ),
-                                                    
-                                    'eth' => array(
-                                        	'hotbit' => 'DOGE_ETH',
-                                          'hitbtc' => 'DOGEETH',
-                                         	'bitforex' => 'coin-eth-doge',
-                                                    ),
-                                                    
-                                    'inr' => array(
-                                          'bitbns' => 'DOGE',
-                                                    ),
-                                                    
-                                    'usdc' => array(
-                                        	'poloniex' => 'USDC_DOGE',
-                                                    ),
-                                                    
-                                    'usdt' => array(
-                                        	'binance' => 'DOGEUSDT',
-                                        	'binance_us' => 'DOGEUSDT',
-                                          'bittrex' => 'USDT-DOGE',
-                                          'hitbtc' => 'DOGEUSD',
-                                          'okex' => 'DOGE-USDT',
-                                          'poloniex' => 'USDT_DOGE',
-                                         	'bitforex' => 'coin-usdt-doge',
-                                                    ),
-                                                    
-                                        ) // market_pairing END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
                     // GNT
                     'GNT' => array(
                         
@@ -2973,6 +2894,57 @@ $app_config['portfolio_assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
+                    // DOGE
+                    'DOGE' => array(
+                        
+                        'asset_name' => 'Dogecoin',
+                        'marketcap_website_slug' => 'dogecoin',
+                        'market_pairing' => array(
+                        
+                                    'btc' => array(
+                                        	'binance' => 'DOGEBTC',
+                                        	'kraken' => 'XXDGXXBT',
+                                          'bittrex' => 'BTC-DOGE',
+                                          'upbit' => 'BTC-DOGE',
+                                          'hitbtc' => 'DOGEBTC',
+                                          'hotbit' => 'DOGE_BTC',
+                                          'gateio' => 'doge_btc',
+                                          'livecoin' => 'DOGE/BTC',
+                                          'poloniex' => 'BTC_DOGE',
+                                                    ),
+                                                    
+                                    'eth' => array(
+                                        	'hotbit' => 'DOGE_ETH',
+                                          'hitbtc' => 'DOGEETH',
+                                         	'bitforex' => 'coin-eth-doge',
+                                                    ),
+                                                    
+                                    'inr' => array(
+                                          'bitbns' => 'DOGE',
+                                                    ),
+                                                    
+                                    'usdc' => array(
+                                        	'poloniex' => 'USDC_DOGE',
+                                                    ),
+                                                    
+                                    'usdt' => array(
+                                        	'binance' => 'DOGEUSDT',
+                                        	'binance_us' => 'DOGEUSDT',
+                                          'bittrex' => 'USDT-DOGE',
+                                          'hitbtc' => 'DOGEUSD',
+                                          'okex' => 'DOGE-USDT',
+                                          'poloniex' => 'USDT_DOGE',
+                                         	'bitforex' => 'coin-usdt-doge',
+                                                    ),
+                                                    
+                                        ) // market_pairing END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
                     // KDA
                     'KDA' => array(
                         
@@ -3051,6 +3023,30 @@ $app_config['portfolio_assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
+                    // MYST
+                    'MYST' => array(
+                        
+                        'asset_name' => 'Mysterium',
+                        'marketcap_website_slug' => 'mysterium',
+                        'market_pairing' => array(
+                        
+                                    'btc' => array(
+                                          'hitbtc' => 'MYSTBTC',
+                                                    ),
+                                                    
+                                    'eth' => array(
+                                          'hitbtc' => 'MYSTETH',
+                                          'idex' => 'ETH_MYST',
+                                                    ),
+                                                    
+                                        ) // market_pairing END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
                     // HNS
                     'HNS' => array(
                         
@@ -3071,20 +3067,24 @@ $app_config['portfolio_assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // MYST
-                    'MYST' => array(
+                    // SXP
+                    'SXP' => array(
                         
-                        'asset_name' => 'Mysterium',
-                        'marketcap_website_slug' => 'mysterium',
+                        'asset_name' => 'Swipe',
+                        'marketcap_website_slug' => 'swipe',
                         'market_pairing' => array(
                         
                                     'btc' => array(
-                                          'hitbtc' => 'MYSTBTC',
+                                          'bittrex_global' => 'BTC-SXP',
+                                          'kucoin' => 'SXP-BTC',
                                                     ),
                                                     
                                     'eth' => array(
-                                          'hitbtc' => 'MYSTETH',
-                                          'idex' => 'ETH_MYST',
+                                          'idex' => 'ETH_SXP',
+                                                    ),
+                                                    
+                                    'usdt' => array(
+                                          'kucoin' => 'SXP-USDT',
                                                     ),
                                                     
                                         ) // market_pairing END

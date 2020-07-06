@@ -3711,6 +3711,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Bug fix for "all" time period lite charts (now they dynamically prune every 6 to 12 hours)
 
+-Bug fix for bitmex API (getting stale price data)
+
 -Default config optimizations for lite charts
 
 -Minor misc bug fixes / code cleanup
