@@ -287,33 +287,36 @@ global $selected_btc_primary_currency_value, $app_config;
 
 
   elseif ( strtolower($chosen_exchange) == 'bitmex' ) {
- 
-     // GET NEWEST DATA SETS (WE #NEED# PARTIAL DATA SETS, OTHERWISE WE DON'T GET THE LATEST TRADE VALUE)
-     $json_string = 'https://www.bitmex.com/api/v1/trade/bucketed?binSize=1d&partial=true&reverse=true'; // Sort newest first
+  
+  // GET NEWEST DATA SETS (WE #NEED# PARTIAL DATA SETS, OTHERWISE WE DON'T GET THE LATEST TRADE VALUE)
+  // WE DYNAMICALLY ADD 'startTime' TO THE END OF THE ENDPOINT REQUEST WITHIN THE external_api_data() CALL,
+  // SO WE USE THE CACHE SETTINGS AND AVOID NEW CALLS EVERY RUNTIME (BECAUSE THE ENDPOINT URL IS ALWAYS DIFFERENT WITH TIME DATA IN IT)
+  $json_string = 'https://www.bitmex.com/api/v1/trade/bucketed?binSize=1d&partial=true&reverse=true'; // Sort NEWEST first, 'startTime' added dynamically in external_api_data()
      
-     $jsondata = @external_api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
+  $jsondata = @external_api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
      
-     $data = json_decode($jsondata, true);
+  $data = json_decode($jsondata, true);
    
   
       if (is_array($data) || is_object($data)) {
   
       	foreach ($data as $key => $value) {
          
-       		// We only want the FIRST result (this API can return multiple key names that are the same, BUT sorting newset first above gives us what we want first)
+       		// We only want the FIRST data set
          	if ( !$result && $value['symbol'] == $market_id ) {
-         	
-     			$result = array(
-    						'last_trade' => $value['close'],
-    						'24hr_asset_volume' => $value['homeNotional'], 
-    						'24hr_pairing_volume' => $value['foreignNotional']
-    						);
-    						
+         		
+  				$result = array(
+    								'last_trade' => $value['close'],
+    								'24hr_asset_volume' => $value['homeNotional'],
+    								'24hr_pairing_volume' =>  $value['foreignNotional']
+    								);
+  
          	}
        
       	}
-       
+      	
       }
+      
   
   }
  

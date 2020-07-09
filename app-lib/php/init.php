@@ -85,7 +85,7 @@ $apache_modules = apache_get_modules();
 
 
 // Application version
-$app_version = '4.14.9';  // 2020/JULY/4TH
+$app_version = '4.14.10';  // 2020/JULY/9TH
 
 // Application edition
 $app_edition = 'server';  // server OR desktop edition

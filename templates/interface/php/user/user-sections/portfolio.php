@@ -564,17 +564,17 @@ $altcoin_dominance = number_to_string( 100 - $bitcoin_dominance - $ethereum_domi
 			
 			if ( number_to_string($bitcoin_dominance) >= 0.01 ) {
 			$bitcoin_dominance_text = number_format($bitcoin_dominance, 2, '.', ',') . '% BTC';
-			$seperator_btc = ( number_format($bitcoin_dominance, 2, '.', '') < 100 ? ' / ' : '' );
+			$seperator_btc = ( number_to_string($bitcoin_dominance) < 100 ? ' / ' : '' );
 			}
 			
 			if ( number_to_string($ethereum_dominance) >= 0.01 ) {
 			$ethereum_dominance_text = number_format($ethereum_dominance, 2, '.', ',') . '% ETH';
-			$seperator_eth = ( number_format($bitcoin_dominance, 2, '.', '') + number_format($ethereum_dominance, 2, '.', '') <= 99.99 ? ' / ' : '' );
+			$seperator_eth = ( number_to_string($bitcoin_dominance) + number_to_string($ethereum_dominance) <= 99.99 ? ' / ' : '' );
 			}
 			
 			if ( number_to_string($miscassets_dominance) >= 0.01 ) {
 			$miscassets_dominance_text = number_format($miscassets_dominance, 2, '.', ',') . '% <span class="btc_primary_currency_pairing">' . strtoupper($app_config['general']['btc_primary_currency_pairing']) . '</span>';
-			$seperator_miscassets = ( number_format($bitcoin_dominance, 2, '.', '') + number_format($ethereum_dominance, 2, '.', '') + number_format($miscassets_dominance, 2, '.', '') <= 99.99 ? ' / ' : '' );
+			$seperator_miscassets = ( number_to_string($bitcoin_dominance) + number_to_string($ethereum_dominance) + number_to_string($miscassets_dominance) <= 99.99 ? ' / ' : '' );
 			}
 			
 			if ( number_to_string($altcoin_dominance) >= 0.01 ) {

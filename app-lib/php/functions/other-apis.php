@@ -532,6 +532,13 @@ $xmldata = @external_api_data('url', $url, $rss_feed_cache_time);
 					elseif ( $item->updated != '' ) {
 					$item_date = $item->updated;
 					}
+				
+					if ( !$item->link['href'] && $item->enclosure['url'] ) {
+					$item_link = $item->enclosure['url'];
+					}
+					elseif ( $item->link['href'] != '' ) {
+					$item_link = $item->link['href'];
+					}
 							
 				$item_date = preg_replace("/ 00\:(.*)/i", '', $item_date);
 					
@@ -543,10 +550,10 @@ $xmldata = @external_api_data('url', $url, $rss_feed_cache_time);
 					
 					
 					if ($count < $feed_size) {
-					$html .= '<li class="links_list"><a href="'.htmlspecialchars($item->link['href']).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a></li>';
+					$html .= '<li class="links_list"><a href="'.htmlspecialchars($item_link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a></li>';
 					}
 					else {
-					$html_hidden .= '<li class="links_list"><a href="'.htmlspecialchars($item->link['href']).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a></li>';
+					$html_hidden .= '<li class="links_list"><a href="'.htmlspecialchars($item_link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a></li>';
 					}
 							
 				$count++;     
@@ -587,6 +594,13 @@ $xmldata = @external_api_data('url', $url, $rss_feed_cache_time);
 					elseif ( $item->updated != '' ) {
 					$item_date = $item->updated;
 					}
+				
+					if ( !$item->link && $item->enclosure['url'] ) {
+					$item_link = $item->enclosure['url'];
+					}
+					elseif ( $item->link != '' ) {
+					$item_link = $item->link;
+					}
 							
 				$item_date = preg_replace("/00\:(.*)/i", '', $item_date);
 					
@@ -596,14 +610,14 @@ $xmldata = @external_api_data('url', $url, $rss_feed_cache_time);
 					
 				$date_ui = $month_name . ' ' . ordinal($date_array['day']) . ', ' . $date_array['year'];
 					
-				$item->link = preg_replace("/web\.bittrex\.com/i", "bittrex.com", $item->link); // Fix for bittrex blog links
+				$item_link = preg_replace("/web\.bittrex\.com/i", "bittrex.com", $item_link); // Fix for bittrex blog links
 					
 					
 					if ($count < $feed_size) {
-					$html .= '<li class="links_list"><a href="'.htmlspecialchars($item->link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a></li>';
+					$html .= '<li class="links_list"><a href="'.htmlspecialchars($item_link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a></li>';
 					}
 					else {
-					$html_hidden .= '<li class="links_list"><a href="'.htmlspecialchars($item->link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a></li>';
+					$html_hidden .= '<li class="links_list"><a href="'.htmlspecialchars($item_link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a></li>';
 					}
 							
 				$count++;     

@@ -1644,14 +1644,24 @@ $api_endpoint = ( $mode == 'array' ? $api_server : $request );
 	$api_time = $api_time[1] + $api_time[0];
 	$api_start_time = $api_time;
 	
+	$endpoint_tld_or_ip = get_tld_or_ip($api_endpoint);
+		
+		// So we maintain our cache TTL settings even with Bitmex bucketed API calls,
+		// we only add bucketed startTime param (for 24 hour volumes) AFTER setting $hash_check
+		if ( $endpoint_tld_or_ip == 'bitmex.com' && stristr($api_endpoint, 'bucketed') != false ) {
+		$time_24hr_ago = strtotime("-1 day");
+  		$formatted_time_24hr_ago = date("Y-m-d\Th:i:s", $time_24hr_ago);
+  		$api_endpoint = $api_endpoint . '&startTime=' . $formatted_time_24hr_ago;
+		}
+		
+	
+	// Initiate the curl external data request
 	$ch = curl_init( ( $mode == 'array' ? $api_endpoint : '' ) );
 	
 	
+		// Throttled endpoints
 		// If this is an API service that requires multiple calls (for each market), 
 		// and a request to it has been made consecutively, we throttle it to avoid being blacklisted
-		$endpoint_tld_or_ip = get_tld_or_ip($api_endpoint);
-		
-		// Throttled endpoints
 		if ( in_array($endpoint_tld_or_ip, $app_config['developer']['limited_apis']) ) {
 		
 		$tld_session_prefix = preg_replace("/\./i", "_", $endpoint_tld_or_ip);

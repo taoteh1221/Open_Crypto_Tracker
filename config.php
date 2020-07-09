@@ -859,6 +859,12 @@ $app_config['power_user']['news_feeds'] = array(
         
         
         				array(
+            			"title" => "Blog - ConsenSys",
+            			"url" => "https://media.consensys.net/feed"
+        						),
+        
+        
+        				array(
             			"title" => "Blog - Enterprise Ethereum Alliance",
             			"url" => "https://entethalliance.org/feed/"
         						),
@@ -925,7 +931,7 @@ $app_config['power_user']['news_feeds'] = array(
     
     
         				array(
-            			"title" => "Blog - Tari (Monero sidechain)",
+            			"title" => "Blog - Tari (Monero's mimblewimble sidechain)",
             			"url" => "https://tari.substack.com/feed"
         						),
         
@@ -1015,6 +1021,12 @@ $app_config['power_user']['news_feeds'] = array(
     
     
         				array(
+            			"title" => "News - The Daily Gwei",
+            			"url" => "https://thedailygwei.substack.com/feed"
+        						),
+    
+    
+        				array(
             			"title" => "News - The Merkle",
             			"url" => "https://themerkle.com/feed/"
         						),
@@ -1035,6 +1047,12 @@ $app_config['power_user']['news_feeds'] = array(
         				array(
             			"title" => "News - Week In Ethereum",
             			"url" => "https://weekinethereumnews.com/feed/"
+        						),
+        
+        
+        				array(
+            			"title" => "Podcast - Bankless",
+            			"url" => "http://podcast.banklesshq.com/rss"
         						),
         
         
@@ -1083,6 +1101,12 @@ $app_config['power_user']['news_feeds'] = array(
         				array(
             			"title" => "Podcast - Tales From The Crypt",
             			"url" => "http://talesfromthecrypt.libsyn.com/rss"
+        						),
+
+    					
+        				array(
+            			"title" => "Podcast - The Scoop",
+            			"url" => "http://feeds.megaphone.fm/theblock-thescoop"
         						),
 
     					

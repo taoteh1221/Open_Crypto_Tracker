@@ -286,6 +286,8 @@
 	        
 	        <li class='links_list'><a href='https://open.spotify.com/show/16c6WR2znCZM1wveeeJoSz' target='_blank'>The Cryptoconomy Podcast</a></li>
 	        
+	        <li class='links_list'><a href='https://open.spotify.com/show/7qwrgTJ5CYDXAaVILNZuEd' target='_blank'>The Scoop</a></li>
+	        
 	        <li class='links_list'><a href='https://open.spotify.com/show/1cJrrfGY1SKBIRn5noKSAf' target='_blank'>Unchained</a></li>
 	        
 	        <li class='links_list'><a href='https://open.spotify.com/show/2SyQeKusKdS0y4eOdowCMg' target='_blank'>Untold Stories With Charlie Shrem</a></li>
@@ -425,7 +427,7 @@
 	        
 	        <li class='links_list'><a href='https://www.sec.gov/ICO' target='_blank'>SEC.gov ICO Awareness Site</a></li>
 	        
-	        <li class='links_list'><a href='https://www.tari.com/#what-is-tari' target='_blank'>Tari</a> (Monero sidechain)</li>
+	        <li class='links_list'><a href='https://www.tari.com/#what-is-tari' target='_blank'>Tari</a> (Monero's mimblewimble sidechain)</li>
 	        
 	        <li class='links_list'><a href='https://www.omniexplorer.info/asset/31' target='_blank'>Tether (USDT) Supply On Bitcoin Network</a></li>
 	        
