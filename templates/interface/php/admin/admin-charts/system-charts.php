@@ -29,7 +29,6 @@ $first_lite_chart = $app_config['power_user']['lite_chart_day_intervals'][0];
 	<?php
 	}
 	else {
-	//usleep(150000); // Wait 0.15 seconds, so we don't accidentally DOS attack-equivalent low power devices (Raspberry Pi Zero, etc) with multiple ajax requests
 	?>
 
 

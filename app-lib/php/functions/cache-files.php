@@ -1670,7 +1670,7 @@ $api_endpoint = ( $mode == 'array' ? $api_server : $request );
 			$limited_api_calls[$tld_session_prefix . '_calls'] = 1;
 			}
 			elseif ( $limited_api_calls[$tld_session_prefix . '_calls'] == 1 ) {
-			usleep(1550000); // Throttle 1.55 seconds
+			usleep(150000); // Throttle 0.15 seconds
 			}
 
 		}

@@ -185,7 +185,7 @@ $max_fetch = 151; // So we can quickly adjust if they change API defaults again
 		while ( $loop < $calls ) {
 			
 			if ( $loop > 0 ) {
-			usleep(1250000); // Wait 1.25 seconds between consecutive calls, to avoid blacklisting
+			usleep(150000); // Wait 0.15 seconds between consecutive calls, to avoid blacklisting
 			}
 		
 		$jsondata = @external_api_data('url', 'https://api.coingecko.com/api/v3/coins/markets?per_page='.$max_fetch.'&page='.($loop + 1).'&vs_currency='.$coingecko_primary_currency.'&price_change_percentage=1h,24h,7d,14d,30d,200d,1y', $app_config['power_user']['marketcap_cache_time']);
@@ -467,7 +467,7 @@ $rss_feed_cache_time = rand($news_feeds_cache_min_max[0], $news_feeds_cache_min_
 			usleep(7100000); // 7.1 seconds (Reddit only allows rss feed connections every 7 seconds from ip addresses ACCORDING TO THEM)
 			}
 			else {
-			usleep(1100000); // 1.1 seconds
+			usleep(550000); // 0.55 seconds
 			}
 			
 		}

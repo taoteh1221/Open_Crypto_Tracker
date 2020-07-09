@@ -202,9 +202,6 @@
 					
 					</div>
 					
-						<?php
-						//usleep(300000); // Wait 0.3 seconds, so we don't accidentally DOS attack-equivalent low memory devices (Raspberry Pi Zero, etc) with multiple ajax requests
-						?>
 						<script>
 	
 					// Load AFTER page load, for quick interface loading
