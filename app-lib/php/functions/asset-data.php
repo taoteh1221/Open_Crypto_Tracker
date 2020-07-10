@@ -683,8 +683,8 @@ $pairing = strtolower($pairing);
 				
    		$btc_pairing_markets[$pairing.'_btc'] = asset_market_data(strtoupper($pairing), $market_key, $market_value)['last_trade'];
    		
-   			// Fallback support, if no data returned
-   			if ( number_to_string($btc_pairing_markets[$pairing.'_btc']) >= 0.00000001 ) {
+   			// Fallback support IF THIS IS A FUTURES MARKET (we want a normal / current value), OR no data returned
+   			if ( stristr($market_key, 'bitmex_') == false && number_to_string($btc_pairing_markets[$pairing.'_btc']) >= 0.00000001 ) {
    				
    				// Data debugging telemetry
 					if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' ) {
@@ -694,20 +694,16 @@ $pairing = strtolower($pairing);
    			return number_to_string($btc_pairing_markets[$pairing.'_btc']);
    			
    			}
-   			// We only want to loop a fallback for the amount of available markets
-   			elseif ( sizeof($btc_pairing_markets_blacklist[$pairing]) < sizeof($app_config['portfolio_assets'][strtoupper($pairing)]['market_pairing']['btc']) ) {
-   			
-   			$btc_pairing_markets[$pairing.'_btc'] = null; // Reset
-   				
-   			$btc_pairing_markets_blacklist[$pairing][] = $market_key; // Blacklist getting pairing data from this exchange IN ANY PAIRING, for this runtime only
-   			
-   			return pairing_market_value($pairing);
-   			
-   			}
    			// ONLY LOG AN ERROR IF ALL AVAILABLE MARKETS FAIL (AND RETURN NULL)
+   			// We only want to loop a fallback for the amount of available markets
    			elseif ( sizeof($btc_pairing_markets_blacklist[$pairing]) == sizeof($app_config['portfolio_assets'][strtoupper($pairing)]['market_pairing']['btc']) ) {
    			app_logging('market_error', 'pairing_market_value() - market request failure (all '.sizeof($btc_pairing_markets_blacklist[$pairing]).' markets failed) for ' . $pairing . ' / btc (' . $market_key . ')', $pairing . '_blacklisted_count: ' . sizeof($btc_pairing_markets_blacklist[$pairing]) );
    			return null;
+   			}
+   			else {
+   			$btc_pairing_markets[$pairing.'_btc'] = null; // Reset
+   			$btc_pairing_markets_blacklist[$pairing][] = $market_key; // Blacklist getting pairing data from this exchange IN ANY PAIRING, for this runtime only
+   			return pairing_market_value($pairing);
    			}
    		
 			}
@@ -743,8 +739,8 @@ $pairing = strtolower($pairing);
 						
    		$btc_pairing_markets[$pairing.'_btc'] = ( 1 / asset_market_data(strtoupper($pairing), $market_key, $market_value)['last_trade'] );
    					
-   			// Fallback support, if no data returned
-   			if ( number_to_string($btc_pairing_markets[$pairing.'_btc']) >= 0.00000000000000000001 ) { // FUTURE-PROOF W/ 20 DECIMALS
+   			// Fallback support IF THIS IS A FUTURES MARKET (we want a normal / current value), OR no data returned
+   			if ( stristr($market_key, 'bitmex_') == false && number_to_string($btc_pairing_markets[$pairing.'_btc']) >= 0.0000000000000000000000001 ) { // FUTURE-PROOF W/ 25 DECIMALS, IN CASE BITCOIN MOONS HARD
    						
    				// Data debugging telemetry
 					if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' ) {
@@ -754,20 +750,16 @@ $pairing = strtolower($pairing);
    			return number_to_string($btc_pairing_markets[$pairing.'_btc']);
    					
    			}
-   			// We only want to loop a fallback for the amount of available markets
-   			elseif ( sizeof($btc_pairing_markets_blacklist[$pairing]) < sizeof($app_config['portfolio_assets']['BTC']['market_pairing'][$pairing]) ) {
-   				
-   			$btc_pairing_markets[$pairing.'_btc'] = null; // Reset
-   						
-   			$btc_pairing_markets_blacklist[$pairing][] = $market_key; // Blacklist getting pairing data from this exchange IN ANY PAIRING, for this runtime only
-   					
-   			return pairing_market_value($pairing);
-   					
-   			}
    			// ONLY LOG AN ERROR IF ALL AVAILABLE MARKETS FAIL (AND RETURN NULL)
-   			elseif ( sizeof($btc_pairing_markets_blacklist[$pairing]) == sizeof($app_config['portfolio_assets']['BTC']['market_pairing'][$pairing]) ) {
+   			// We only want to loop a fallback for the amount of available markets
+   			elseif ( sizeof($btc_pairing_markets_blacklist[$pairing]) >= sizeof($app_config['portfolio_assets']['BTC']['market_pairing'][$pairing]) ) {
    			app_logging('market_error', 'pairing_market_value() - market request failure (all '.sizeof($btc_pairing_markets_blacklist[$pairing]).' markets failed) for btc / ' . $pairing . ' (' . $market_key . ')', $pairing . '_blacklisted_count: ' . sizeof($btc_pairing_markets_blacklist[$pairing]) );
    			return null;
+   			}
+   			else {
+   			$btc_pairing_markets[$pairing.'_btc'] = null; // Reset	
+   			$btc_pairing_markets_blacklist[$pairing][] = $market_key; // Blacklist getting pairing data from this exchange IN ANY PAIRING, for this runtime only
+   			return pairing_market_value($pairing);
    			}
    		
    				
