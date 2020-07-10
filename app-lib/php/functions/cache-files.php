@@ -1563,8 +1563,20 @@ $cookie_jar = tempnam('/tmp','cookie');
 // To cache duplicate requests based on a data hash, during runtime update session (AND persist cache to flat files)
 $hash_check = ( $mode == 'array' ? md5(serialize($request)) : md5($request) );
 
-	
 $api_endpoint = ( $mode == 'array' ? $api_server : $request );
+			
+$endpoint_tld_or_ip = get_tld_or_ip($api_endpoint);
+		
+		
+	// So we maintain our cache TTL settings even with Bitmex bucketed API calls,
+	// we only add bucketed startTime param (for 24 hour volumes) AFTER setting $hash_check
+	if ( $endpoint_tld_or_ip == 'bitmex.com' && stristr($api_endpoint, 'bucketed') != false ) {
+	$now = strtotime("now");
+  	$formatted_time_now = date("Y-m-d\Th:i:s", $now);
+	$time_24hr_ago = strtotime("-1 day");
+  	$formatted_time_24hr_ago = date("Y-m-d\Th:i:s", $time_24hr_ago);
+  	$api_endpoint = $api_endpoint . '&startTime=' . $formatted_time_24hr_ago . '&endTime=' . $formatted_time_now;
+	}
 		
 	
 	// If we are encoding the url (not sure as useful / functional, for other than debugging?)
@@ -1643,16 +1655,6 @@ $api_endpoint = ( $mode == 'array' ? $api_server : $request );
 	$api_time = explode(' ', $api_time);
 	$api_time = $api_time[1] + $api_time[0];
 	$api_start_time = $api_time;
-	
-	$endpoint_tld_or_ip = get_tld_or_ip($api_endpoint);
-		
-		// So we maintain our cache TTL settings even with Bitmex bucketed API calls,
-		// we only add bucketed startTime param (for 24 hour volumes) AFTER setting $hash_check
-		if ( $endpoint_tld_or_ip == 'bitmex.com' && stristr($api_endpoint, 'bucketed') != false ) {
-		$time_24hr_ago = strtotime("-1 day");
-  		$formatted_time_24hr_ago = date("Y-m-d\Th:i:s", $time_24hr_ago);
-  		$api_endpoint = $api_endpoint . '&startTime=' . $formatted_time_24hr_ago;
-		}
 		
 	
 	// Initiate the curl external data request
@@ -1720,18 +1722,18 @@ $api_endpoint = ( $mode == 'array' ? $api_server : $request );
 		
 		if ( $mode == 'array' && $post_encoding == 1 ) {
 		curl_setopt($ch, CURLOPT_POST, true);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $request); // Works fine so far not encoded
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $api_endpoint); // Works fine so far not encoded
 		}
 		elseif ( $mode == 'array' && $post_encoding == 2 ) {
 		curl_setopt($ch, CURLOPT_POST, true);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($request) ); // Encode post data with http_build_query()
+		curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($api_endpoint) ); // Encode post data with http_build_query()
 		}
 		elseif ( $mode == 'array' && $post_encoding == 3 ) {
 		curl_setopt($ch, CURLOPT_POST, true);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($request) ); // json encoded
+		curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($api_endpoint) ); // json encoded
 		}
 		elseif ( $mode == 'url' || $mode == 'proxy-check' ) {
-		curl_setopt($ch, CURLOPT_URL, $request); // Not encoded
+		curl_setopt($ch, CURLOPT_URL, $api_endpoint); // Not encoded
 		}
 		elseif ( $mode == 'encoded_url' ) {
 		curl_setopt($ch, CURLOPT_URL, $api_endpoint_encoded); // Encoded (not sure as useful / functional, for other than debugging?)
