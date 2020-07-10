@@ -3751,7 +3751,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Bug fix for bitmex 24 hour volume
 
--Minor misc bug fixes / code cleanup
+-Minor misc bug fixes / code cleanup / optimizations
 
 -More News feeds (on news page)
 

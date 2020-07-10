@@ -11,6 +11,14 @@
 
 
 
+// If end user tries to use a FUTURES MARKET as the primary bitcoin exchange name,
+// we disable and trigger a warning (SINCE VALUES OFTEN DON'T REFLECT NORMAL MARKETS)
+if ( stristr($app_config['general']['btc_primary_exchange'], 'bitmex_') != false ) {
+app_logging('config_error', 'btc_primary_exchange variable not properly set (futures markets are not allowed)', 'btc_primary_exchange: ' . $app_config['general']['btc_primary_exchange'] . ';' );
+$app_config['general']['btc_primary_exchange'] = 'futures_markets_not_allowed';
+}
+
+
 // Re-set default primary currency 'preferred_bitcoin_markets' value, ONLY IF THIS VALUE #EXISTS ALREADY#
 // (for UX, to override the pre-existing value...if we have set this as the global default currency market, we obviously prefer it)
 // SHOULD ONLY BE STATIC, NOT MANIPULATEBLE DYNAMICALLY IN THE INTERFACE...SO WE JUST RUN EARLY HERE ONLY IN INIT.

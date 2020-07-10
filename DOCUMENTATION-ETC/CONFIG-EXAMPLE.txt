@@ -109,12 +109,12 @@ $app_config['comms']['telegram_bot_token'] = '';  // Your bot's access token
 
 // PRICE ALERTS SETUP REQUIRES A CRON JOB RUNNING ON YOUR WEBSITE SERVER (see README.txt for cron job setup information) 
 // Price alerts will send to all properly-configured communication channels, and automatically skip any not properly setup
-// Price percent change to send alerts for (WITHOUT percent sign: 15 = 15%). Sends alerts when percent change reached (up or down)
+// Price percent change to send alerts for (WITHOUT percent sign: 15.75 = 15.75%). Sends alerts when percent change reached (up or down)
 $app_config['comms']['price_alerts_threshold'] = 8.85; // CAN BE 0 TO DISABLE PRICE ALERTS
 ////
 // Re-allow SAME asset price alert(s) messages after X hours (per asset, set higher if issues with blacklisting...can be 0)
 // Price alerts AUTOMATICALLY will send to all properly-configured communication channels, and automatically skip any not properly setup
-$app_config['comms']['price_alerts_freq_max'] = 8; 
+$app_config['comms']['price_alerts_freq_max'] = 4; 
 ////
 // Block an asset price alert if price retrieved, BUT failed retrieving pair volume (not even a zero was retrieved, nothing)
 // Good for blocking questionable exchanges bugging you with price alerts, especially when used in combination with the minimum volume filter
@@ -178,11 +178,10 @@ $app_config['general']['backup_archive_delete_old'] = 10;
 
 // Default BITCOIN market currencies (80+ currencies supported)
 // (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
-// aed / ars / aud / bam / bdt / bob / brl / bwp / byn / cad / chf / clp / cny / cop / crc / czk / dai / dkk 
-// dop / egp / eth / eur / gbp / gel / ghs / gtq / hkd / huf / idr / ils / inr / irr / jmd / jod / jpy / kes 
-// krw / kwd / kzt / lkr / ltc / mad / mur / mwk / mxn / myr / ngn / nis / nok / nzd / pab / pen / php / pkr 
-// pln / pyg / qar / ron / rsd / rub / rwf / sar / sek / sgd / thb / try / tusd / twd / tzs / uah / ugx 
-// usdc / usdt / uyu / ves / vnd / xaf / xof / zar / zmw
+// aed / ars / aud / bam / bdt / bob / brl / bwp / byn / cad / chf / clp / cny / cop / crc / czk / dai / dkk / dop / egp / eth 
+// eur / gbp / gel / ghs / gtq / hkd / huf / idr / ils / inr / irr / jmd / jod / jpy / kes / krw / kwd / kzt / lkr / ltc / mad 
+// mur / mwk / mxn / myr / ngn / nis / nok / nzd / pab / pen / php / pkr / pln / pyg / qar / ron / rsd / rub / rwf / sar / sek 
+// sgd / thb / try / tusd / twd / tzs / uah / ugx / usdc / usdt / uyu / ves / vnd / xaf / xof / zar / zmw
 // SEE THE $app_config['portfolio_assets'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
 // CURRENCY PAIRING VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (set in $app_config['general']['btc_primary_exchange'] directly below)
 $app_config['general']['btc_primary_currency_pairing'] = 'usd'; // PUT INSIDE SINGLE QUOTES ('selection')
@@ -190,9 +189,9 @@ $app_config['general']['btc_primary_currency_pairing'] = 'usd'; // PUT INSIDE SI
 
 // Default BITCOIN market exchanges (30+ bitcoin exchanges supported)
 // (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
-// binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmex / bitpanda / bitso / bitstamp / bittrex 
-// bittrex_global / braziliex / btcmarkets / btcturk / buyucoin / cex / coinbase / coss / gemini / hitbtc / huobi 
-// korbit / kraken / lakebtc / livecoin / localbitcoins / luno / okcoin / okex / southxchange / tidebit / upbit / zebpay
+// binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmex / bitpanda / bitso / bitstamp / bittrex / bittrex_global 
+// braziliex / btcmarkets / btcturk / buyucoin / cex / coinbase / coss / gemini / hitbtc / huobi / korbit / kraken / kucoin 
+// lakebtc / livecoin / localbitcoins / luno / okcoin / okex / southxchange / tidebit / upbit / zebpay
 // SEE THE $app_config['portfolio_assets'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
 // MARKET PAIRING VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (to populate $app_config['general']['btc_primary_currency_pairing'] directly above with)
 // SEE THE $app_config['developer']['limited_apis'] SETTING MUCH FURTHER DOWN, FOR EXCHANGES !NOT RECOMMENDED FOR USAGE HERE!

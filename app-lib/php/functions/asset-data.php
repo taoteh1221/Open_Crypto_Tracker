@@ -740,7 +740,7 @@ $pairing = strtolower($pairing);
    		$btc_pairing_markets[$pairing.'_btc'] = ( 1 / asset_market_data(strtoupper($pairing), $market_key, $market_value)['last_trade'] );
    					
    			// Fallback support IF THIS IS A FUTURES MARKET (we want a normal / current value), OR no data returned
-   			if ( stristr($market_key, 'bitmex_') == false && number_to_string($btc_pairing_markets[$pairing.'_btc']) >= 0.0000000000000000000000001 ) { // FUTURE-PROOF W/ 25 DECIMALS, IN CASE BITCOIN MOONS HARD
+   			if ( stristr($market_key, 'bitmex_') == false && number_to_string($btc_pairing_markets[$pairing.'_btc']) >= 0.0000000000000000000000001 ) { // FUTURE-PROOF FIAT ROUNDING WITH 25 DECIMALS, IN CASE BITCOIN MOONS HARD
    						
    				// Data debugging telemetry
 					if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' ) {

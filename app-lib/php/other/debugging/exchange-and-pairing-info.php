@@ -17,9 +17,10 @@ $currency_count = 0;
 		
 		foreach ( $app_config['power_user']['bitcoin_currency_markets'] as $key => $unused ) {
 			
-			if( !preg_match("/".$key." /i", $supported_primary_currency_list) ) {
+			// Detects better with right side space included
+			if ( stristr($supported_primary_currency_list, $key . ' ') == false ) {
 			$currency_count = $currency_count + 1;
-			$supported_primary_currency_list .= strtolower($key) . ' / ';
+			$supported_primary_currency_list .= $key . ' / ';
 			}
 			
 		
@@ -30,9 +31,10 @@ $currency_count = 0;
 		
 		foreach ( $app_config['power_user']['crypto_pairing'] as $key => $unused ) {
 			
-			if( !preg_match("/".$key." /i", $all_supported_pairings_list) ) {
+			// Detects better with right side space included
+			if ( stristr($all_supported_pairings_list, $key . ' ') == false ) {
 			$pairings_count = $pairings_count + 1;
-			$all_supported_pairings_list .= strtolower($key) . ' / ';
+			$all_supported_pairings_list .= $key . ' / ';
 			}
 			
 		
@@ -48,9 +50,10 @@ $currency_count = 0;
 			
 				foreach ( $app_config['portfolio_assets']['BTC']['market_pairing'][$pairing_key] as $exchange_key => $unused ) {
 					
-					if( !preg_match("/".$exchange_key." /i", $supported_btc_exchange_list) ) {
+					// Detects better with right side space included
+					if ( stristr($supported_btc_exchange_list, $exchange_key . ' ') == false && stristr($exchange_key, 'bitmex_') == false ) { // Futures markets not allowed
 					$exchange_count = $exchange_count + 1;
-					$supported_btc_exchange_list .= strtolower($exchange_key) . ' / ';
+					$supported_btc_exchange_list .= $exchange_key . ' / ';
 					}
 			
 				
@@ -63,23 +66,19 @@ $currency_count = 0;
 		
 		foreach ( $app_config['portfolio_assets'] as $asset_key => $unused ) {
 			
-			if ( $asset_key != 'BTC' ) {
-			
 				foreach ( $app_config['portfolio_assets'][$asset_key]['market_pairing'] as $pairing_key => $unused ) {
 					
 					foreach ( $app_config['portfolio_assets'][$asset_key]['market_pairing'][$pairing_key] as $exchange_key => $unused ) {
 					
-						if( !preg_match("/".$exchange_key." /i", $all_exchanges_list) && !preg_match("/misc_assets/i", $exchange_key) ) {
+						// Detects better with right side space included
+						if ( stristr($all_exchanges_list, $exchange_key . ' ') == false && $exchange_key != 'misc_assets' ) {
 						$all_exchange_count = $all_exchange_count + 1;
-						$all_exchanges_list .= strtolower($exchange_key) . ' / ';
+						$all_exchanges_list .= $exchange_key . ' / ';
 						}
 			
-					
 					}
 				
 				}
-				
-			}
 				
 		}
 		
@@ -89,11 +88,11 @@ $currency_count = 0;
 		$all_exchanges_list = list_sort($all_exchanges_list, '/', 'sort', true);
 	
 	
-	app_logging('config_debugging', "\n\n" . 'Bitcoin markets configuration information (for config.php documentation) supported_btc_primary_currencies_list['.$currency_count.']: ' . $supported_primary_currency_list . '; ' . "\n\n" . 'supported_btc_exchanges_list['.$exchange_count.']: ' . $supported_btc_exchange_list . ';' . "\n\n" );
+	app_logging('config_debugging', "\n\n" . 'Bitcoin markets configuration information (for config.php documentation) supported_btc_primary_currencies_list['.$currency_count.']: ' . $supported_primary_currency_list . '; ' . "\n\n" . 'supported_btc_exchanges_list['.$exchange_count.']: ' . $supported_btc_exchange_list . "\n\n" );
 	
 	
 	
-	app_logging('config_debugging', "\n\n" . 'ALL markets configuration information (for README.txt documentation) supported_all_pairings_list['.$pairings_count.']: ' . strtoupper($all_supported_pairings_list) . '; ' . "\n\n" . 'supported_all_exchanges_list['.$all_exchange_count.']: ' . strtolower($all_exchanges_list) . ';' . "\n\n" );
+	app_logging('config_debugging', "\n\n" . 'ALL markets configuration information (for README.txt documentation) supported_all_pairings_list['.$pairings_count.']: ' . strtoupper($all_supported_pairings_list) . '; ' . "\n\n" . 'supported_all_exchanges_list['.$all_exchange_count.']: ' . strtolower($all_exchanges_list) . "\n\n" );
 	
 	
 	}

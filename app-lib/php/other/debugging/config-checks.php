@@ -143,7 +143,11 @@ $config_parse_error[] = 'Charts and price alerts cannot run properly, because th
 elseif ( !isset( $app_config['portfolio_assets']['BTC']['market_pairing'][$default_btc_primary_currency_pairing][$default_btc_primary_exchange] ) ) {
 
 	foreach ( $app_config['portfolio_assets']['BTC']['market_pairing'][$default_btc_primary_currency_pairing] as $pairing_key => $unused ) {
-	$avialable_btc_primary_exchanges .= strtolower($pairing_key) . ', ';
+		
+		if( stristr($pairing_key, 'bitmex_') == false ) { // Futures markets not allowed
+		$avialable_btc_primary_exchanges .= strtolower($pairing_key) . ', ';
+		}
+		
 	}
 	$avialable_btc_primary_exchanges = trim($avialable_btc_primary_exchanges);
 	$avialable_btc_primary_exchanges = rtrim($avialable_btc_primary_exchanges,',');
@@ -430,7 +434,11 @@ app_logging('config_error', 'Portfolio cannot run properly, because the "btc_pri
 elseif ( !isset( $app_config['portfolio_assets']['BTC']['market_pairing'][$app_config['general']['btc_primary_currency_pairing']][$app_config['general']['btc_primary_exchange']] ) ) {
 
 	foreach ( $app_config['portfolio_assets']['BTC']['market_pairing'][$app_config['general']['btc_primary_currency_pairing']] as $pairing_key => $unused ) {
-	$avialable_btc_primary_exchanges .= strtolower($pairing_key) . ', ';
+		
+		if( stristr($pairing_key, 'bitmex_') == false ) { // Futures markets not allowed
+		$avialable_btc_primary_exchanges .= strtolower($pairing_key) . ', ';
+		}
+		
 	}
 	$avialable_btc_primary_exchanges = trim($avialable_btc_primary_exchanges);
 	$avialable_btc_primary_exchanges = rtrim($avialable_btc_primary_exchanges,',');
