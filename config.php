@@ -320,7 +320,7 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					
 					// BTC
 					'btc' => 'coinbase||usd||chart',
-					'btc-2' => 'binance||usdt||both',
+					'btc-2' => 'binance||usdt||chart',
 					'btc-3' => 'bitstamp||usd||none',
 					'btc-4' => 'kraken||usd||chart',
 					'btc-5' => 'gemini||usd||none',
@@ -346,14 +346,14 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					'btc-25' => 'localbitcoins||twd||none',
 					'btc-26' => 'luno||zar||none',
 					'btc-27' => 'kraken||dai||none',
-					'btc-28' => 'bitmex||usd||chart',
+					'btc-28' => 'bitmex||usd||both',
 					
 					
 					// ETH
 					'eth' => 'coinbase||btc||none',
 					'eth-2' => 'bittrex||btc||none',
 					'eth-3' => 'kraken||btc||chart',
-					'eth-4' => 'binance||usdt||both',
+					'eth-4' => 'binance||usdt||chart',
 					'eth-5' => 'binance_us||btc||none',
 					'eth-6' => 'coinbase||usd||chart',
 					'eth-7' => 'kraken||usd||none',
@@ -363,7 +363,7 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					'eth-11' => 'coinbase||eur||chart',
 					'eth-12' => 'bittrex||usdt||none',
 					'eth-13' => 'bitbns||inr||none',
-					'eth-14' => 'bitmex||usd||chart',
+					'eth-14' => 'bitmex||usd||both',
 					
 					
 					// XMR
@@ -393,7 +393,7 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					'ltc-3' => 'binance||usdt||both',
 					'ltc-4' => 'binance||eth||none',
 					'ltc-5' => 'binance_us||btc||none',
-					'ltc-6' => 'bitmex||btc||chart',
+					'ltc-6' => 'bitmex_futures||btc||chart',
 					
 					
 					//TUSD
@@ -1416,6 +1416,7 @@ $app_config['developer']['limited_apis'] = array(
 						'bit2c.co.il',
 						'bitforex.com',
 						'bitflyer.com',
+						'bitmex.com',
 						'bitso.com',
 						'bitstamp.net',
 						'blockchain.info',
@@ -1782,6 +1783,7 @@ $app_config['portfolio_assets'] = array(
                                         'hitbtc' => 'BTCDAI',
                                     	 'kraken' => 'XBTDAI',
                                         'okex' => 'BTC-DAI',
+                                        'kucoin' => 'BTC-DAI',
                                                     ),
                                                     
                                     'dkk' => array(
@@ -2036,6 +2038,8 @@ $app_config['portfolio_assets'] = array(
                                           'kraken' => 'XXBTZUSD',
                                           'gemini' => 'btcusd',
                                           'bitmex' => 'XBTUSD',
+                                        	'bitmex_futures' => 'XBTU20',
+                                        	'bitmex_futures' => 'XBTZ20',
                                           'localbitcoins' => 'USD',
                                           'bitfinex' => 'tBTCUSD',
                                           'bitflyer' => 'BTC_USD',
@@ -2121,6 +2125,7 @@ $app_config['portfolio_assets'] = array(
                                           'gemini' => 'ethbtc',
                                           'kraken' => 'XETHXXBT',
                                           'bitfinex' => 'tETHBTC',
+                                        	'bitmex_futures' => 'ETHU20',
                                           'hitbtc' => 'ETHBTC',
                                           'upbit' => 'BTC-ETH',
                                           'bitflyer' => 'ETH_BTC',
@@ -2146,6 +2151,7 @@ $app_config['portfolio_assets'] = array(
                                     'dai' => array(
                                           'coinbase' => 'ETH-DAI',
                                           'kraken' => 'ETHDAI',
+                                        	'kucoin' => 'ETH-DAI',
                                           'hitbtc' => 'ETHDAI',
                                                     ),
                                                     
@@ -2205,6 +2211,7 @@ $app_config['portfolio_assets'] = array(
                                           'gemini' => 'ethusd',
                                           'bitfinex' => 'tETHUSD',
                                           'bitmex' => 'ETHUSD',
+                                        	'bitmex_futures' => 'ETHUSDU20',
                                           'okcoin' => 'eth_usd',
                                           'cex' => 'ETH:USD',
                                           'coss' => 'ETH-USD',
@@ -2412,7 +2419,7 @@ $app_config['portfolio_assets'] = array(
                                         'bitstamp' => 'ltcbtc',
                                         'bitfinex' => 'tLTCBTC',
                                         'kraken' => 'XLTCXXBT',
-                                        'bitmex' => 'LTCU20',
+                                        'bitmex_futures' => 'LTCU20',
                                         'hitbtc' => 'LTCBTC',
                                         'kucoin' => 'LTC-BTC',
                                         'upbit' => 'BTC-LTC',
@@ -2423,6 +2430,10 @@ $app_config['portfolio_assets'] = array(
                                         'bitso' => 'ltc_btc',
                                         'braziliex' => 'ltc_btc',
                                         'zebpay' => 'LTC-BTC',
+                                                    ),
+                                                    
+                                    'dai' => array(
+                                        'coinbase' => 'ETH-DAI',
                                                     ),
                                                     
                                     'eth' => array(
@@ -2601,9 +2612,11 @@ $app_config['portfolio_assets'] = array(
                                                     ),
                                                     
                                     'usd' => array(
+                                    	 'coinbase' => 'DAI-USD',
                                     	 'kraken' => 'DAIUSD',
                                     	 'bitfinex' => 'tDAIUSD',
                                         'bittrex' => 'USD-DAI',
+                                        'gemini' => 'daiusd',
                                                     ),
                                                     
                                     'usdc' => array(

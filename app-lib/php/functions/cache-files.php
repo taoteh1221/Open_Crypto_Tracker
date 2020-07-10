@@ -1567,17 +1567,6 @@ $api_endpoint = ( $mode == 'array' ? $api_server : $request );
 			
 $endpoint_tld_or_ip = get_tld_or_ip($api_endpoint);
 		
-		
-	// So we maintain our cache TTL settings even with Bitmex bucketed API calls,
-	// we only add bucketed startTime / endTime URL params (for 24 hour volumes) AFTER setting $hash_check
-	if ( $endpoint_tld_or_ip == 'bitmex.com' && stristr($api_endpoint, 'bucketed') != false ) {
-	$now = strtotime("now");
-  	$formatted_time_now = date("Y-m-d\Th:i:s", $now);
-	$time_24hr_ago = strtotime("-1 day");
-  	$formatted_time_24hr_ago = date("Y-m-d\Th:i:s", $time_24hr_ago);
-  	$api_endpoint = $api_endpoint . '&startTime=' . $formatted_time_24hr_ago . '&endTime=' . $formatted_time_now;
-	}
-		
 	
 	// If we are encoding the url (not sure as useful / functional, for other than debugging?)
 	if ( $mode == 'encoded_url' ) {
