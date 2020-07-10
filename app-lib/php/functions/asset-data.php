@@ -691,7 +691,7 @@ $pairing = strtolower($pairing);
 					app_logging('market_debugging', 'pairing_market_value() market request succeeded for ' . $pairing, 'exchange: ' . $market_key);
 					}		
    					
-   			return $btc_pairing_markets[$pairing.'_btc'];
+   			return number_to_string($btc_pairing_markets[$pairing.'_btc']);
    			
    			}
    			// We only want to loop a fallback for the amount of available markets
@@ -741,17 +741,17 @@ $pairing = strtolower($pairing);
 			|| isset($whitelist) && $whitelist != $market_key && in_array($whitelist, $btc_pairing_markets_blacklist[$pairing]) && !in_array($market_key, $btc_pairing_markets_blacklist[$pairing])
 			|| !isset($whitelist) && !in_array($market_key, $btc_pairing_markets_blacklist[$pairing]) ) {
 						
-   		$btc_pairing_markets[$pairing.'_btc'] = number_format( (1 /  asset_market_data(strtoupper($pairing), $market_key, $market_value)['last_trade'] ), 8, '.', '');
+   		$btc_pairing_markets[$pairing.'_btc'] = ( 1 / asset_market_data(strtoupper($pairing), $market_key, $market_value)['last_trade'] );
    					
    			// Fallback support, if no data returned
-   			if ( number_to_string($btc_pairing_markets[$pairing.'_btc']) >= 0.00000001 ) {
+   			if ( number_to_string($btc_pairing_markets[$pairing.'_btc']) >= 0.00000000000000000001 ) { // FUTURE-PROOF W/ 20 DECIMALS
    						
    				// Data debugging telemetry
 					if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' ) {
 					app_logging('market_debugging', 'pairing_market_value() market request succeeded for ' . $pairing, 'exchange: ' . $market_key);
 					}
 							
-   			return $btc_pairing_markets[$pairing.'_btc'];
+   			return number_to_string($btc_pairing_markets[$pairing.'_btc']);
    					
    			}
    			// We only want to loop a fallback for the amount of available markets

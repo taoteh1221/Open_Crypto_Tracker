@@ -12,8 +12,8 @@
 
 
 // Re-set default primary currency 'preferred_bitcoin_markets' value, ONLY IF THIS VALUE #EXISTS ALREADY#
-// (for UX, to override the pre-existing value, as we have set this as the global default currency market, so we obviously prefer it)
-// BEFORE DEFAULT BITCOIN MARKET IS DYNAMICALLY MANIPULATED (during UI runtime)
+// (for UX, to override the pre-existing value...if we have set this as the global default currency market, we obviously prefer it)
+// SHOULD ONLY BE STATIC, NOT MANIPULATEBLE DYNAMICALLY IN THE INTERFACE...SO WE JUST RUN EARLY HERE ONLY IN INIT.
 if ( isset($app_config['power_user']['bitcoin_preferred_currency_markets'][$app_config['general']['btc_primary_currency_pairing']]) ) {
 $app_config['power_user']['bitcoin_preferred_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] = $app_config['general']['btc_primary_exchange'];
 }

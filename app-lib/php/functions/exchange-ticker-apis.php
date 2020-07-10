@@ -286,7 +286,7 @@ global $selected_btc_primary_currency_value, $app_config;
 
 
 
-  elseif ( strtolower($chosen_exchange) == 'bitmex' || strtolower($chosen_exchange) == 'bitmex_futures' ) {
+  elseif ( strtolower($chosen_exchange) == 'bitmex' || strtolower($chosen_exchange) == 'bitmex_u20' || strtolower($chosen_exchange) == 'bitmex_z20' ) {
   
   // GET NEWEST DATA SETS (25 one hour buckets, SINCE WE #NEED# THE CURRENT PARTIAL DATA SET, 
   // OTHERWISE WE DON'T GET THE LATEST TRADE VALUE AND CAN'T CALCULATE REAL-TIME VOLUME)
@@ -301,23 +301,33 @@ global $selected_btc_primary_currency_value, $app_config;
   
       	foreach ($data as $key => $value) {
          
-       		// We only want the FIRST data set
+       		// We only want the FIRST data set for trade value
          	if ( !$last_trade && $value['symbol'] == $market_id ) {
          	$last_trade = $value['close'];
          	$asset_volume = $value['homeNotional'];
          	$pairing_volume = $value['foreignNotional'];
          	}
          	elseif ( $value['symbol'] == $market_id ) {
+         		
          	$asset_volume = number_to_string($asset_volume + $value['homeNotional']);
          	$pairing_volume = number_to_string($pairing_volume + $value['foreignNotional']);
+    			
+    			// Average of 24 hours, since we are always between 23.5 and 24.5
+    			// (least resource-intensive way to get close enough to actual 24 hour volume)
+         	// Overwrites until it's the last values
+         	$half_oldest_hour_asset_volume = round($value['homeNotional'] / 2);
+         	$half_oldest_hour_pairing_volume = round($value['foreignNotional'] / 2);
+         	
          	}
        
       	}
   		
   		$result = array(
     						'last_trade' => $last_trade,
-    						'24hr_asset_volume' => $asset_volume,
-    						'24hr_pairing_volume' =>  $pairing_volume
+    						// Average of 24 hours, since we are always between 23.5 and 24.5
+    						// (least resource-intensive way to get close enough to actual 24 hour volume)
+    						'24hr_asset_volume' => number_to_string($asset_volume - $half_oldest_hour_asset_volume),
+    						'24hr_pairing_volume' =>  number_to_string($pairing_volume - $half_oldest_hour_pairing_volume)
     						);
   
       }
@@ -1695,7 +1705,7 @@ global $selected_btc_primary_currency_value, $app_config;
 	
 	
   // BTC value of 1 unit of the default primary currency
-  $currency_to_btc = ( 1 / $selected_btc_primary_currency_value );		
+  $currency_to_btc = number_to_string(1 / $selected_btc_primary_currency_value);	
 	
 	  // BTC pairing
 	  if ( $market_id == 'btc' ) {
@@ -1713,7 +1723,7 @@ global $selected_btc_primary_currency_value, $app_config;
 			}
 	
      $result = array(
-    					'last_trade' => ( 1 / ( $pairing_btc_value / $currency_to_btc ) )
+    					'last_trade' => ( 1 / number_to_string($pairing_btc_value / $currency_to_btc) )
     					);
      }
   
@@ -1726,6 +1736,9 @@ global $selected_btc_primary_currency_value, $app_config;
 
 
 	if ( strtolower($chosen_exchange) != 'misc_assets' ) {
+		
+	// Better large / small number support
+	$result['last_trade'] = number_to_string($result['last_trade']);
 		
 		// SET FIRST...emulate pairing volume if non-existent
 		if ( is_numeric($result['24hr_pairing_volume']) != true ) {
