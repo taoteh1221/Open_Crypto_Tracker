@@ -1825,9 +1825,11 @@ $original_market = $selected_exchange;
         	
         		if ( isset($cap_data_force_usd) ) {
         		$cmc_primary_currency_symbol = '$';
+        		$cmc_primary_currency_ticker = 'USD';
         		}
         		else {
         		$cmc_primary_currency_symbol = $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']];
+        		$cmc_primary_currency_ticker = strtoupper($app_config['general']['btc_primary_currency_pairing']);
         		}
         		
         ?> 
@@ -1858,7 +1860,7 @@ $original_market = $selected_exchange;
         <?php
             }
             ?>
-        +'<p class="coin_info"><span class="yellow">Token Value (global average):</span> <?=$cmc_primary_currency_symbol?><?=$marketcap_data['price']?></p>'
+        +'<p class="coin_info"><span class="yellow">Unit Value (global average):</span> <?=$cmc_primary_currency_symbol?><?=$marketcap_data['price']?></p>'
         <?php
             if ( $marketcap_data['percent_change_1h'] != null ) {
             ?>
@@ -1899,7 +1901,7 @@ $original_market = $selected_exchange;
         <?php
             }
             ?>
-        +'<p class="coin_info"><span class="yellow">24 Hour Volume:</span> <?=$cmc_primary_currency_symbol?><?=number_format($marketcap_data['volume_24h'],0,".",",")?></p>'
+        +'<p class="coin_info"><span class="yellow">24 Hour Volume (global):</span> <?=$cmc_primary_currency_symbol?><?=number_format($marketcap_data['volume_24h'],0,".",",")?></p>'
         <?php
             if ( $marketcap_data['last_updated'] != '' ) {
             ?>

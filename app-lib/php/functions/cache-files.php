@@ -1569,7 +1569,7 @@ $endpoint_tld_or_ip = get_tld_or_ip($api_endpoint);
 		
 		
 	// So we maintain our cache TTL settings even with Bitmex bucketed API calls,
-	// we only add bucketed startTime param (for 24 hour volumes) AFTER setting $hash_check
+	// we only add bucketed startTime / endTime URL params (for 24 hour volumes) AFTER setting $hash_check
 	if ( $endpoint_tld_or_ip == 'bitmex.com' && stristr($api_endpoint, 'bucketed') != false ) {
 	$now = strtotime("now");
   	$formatted_time_now = date("Y-m-d\Th:i:s", $now);

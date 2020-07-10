@@ -77,16 +77,16 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
  <thead>
     <tr>
 <th class='border_lt'>Sort</th>
-<th class='border_lt blue al_right'><span>Asset</span></th>
-<th class='border_t'>Token Value (<span class='btc_primary_currency_pairing'><?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?></span>)</th>
+<th class='border_lt blue al_right'><span>Asset Name</span></th>
+<th class='border_t'>Unit Value</th>
 <th class='border_lt blue'>Exchange</th>
-<th class='border_t al_right'>Market Value</th>
+<th class='border_t al_right'>Trade Value</th>
 <th class='border_t blue'>Market</th>
-<th class='border_t'>Volume (<span class='btc_primary_currency_pairing'><?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?></span>)</th>
+<th class='border_t'>24 Hour Volume</th>
 <th class='border_lt blue al_right'>Holdings</th>
-<th class='border_t'>Symbol</th>
+<th class='border_t'>Ticker</th>
 <th class='border_t blue'>Holdings Value</th>
-<th class='border_rt blue'>(<span class='btc_primary_currency_pairing'><?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?></span>)</th>
+<th class='border_rt blue'>Subtotal</th>
     </tr>
   </thead>
  <tbody>

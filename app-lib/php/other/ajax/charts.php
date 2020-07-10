@@ -1162,6 +1162,8 @@ elseif ( $_GET['type'] == 'balance_stats' ) {
   
   <p class="coin_info balloon_notation"><span class="yellow"><?=( $_GET['leverage_added'] == 1 ? '*Does <u>not</u> adjust for any type of leverage' : '' )?><?=(  $_GET['short_added'] == 1 ? ', or short deposit(s) gain / loss' : '' )?><?=( $_GET['leverage_added'] == 1 ? '.' : '' )?></span></p>
   
+  <p class="coin_info balloon_notation"><span class="yellow">*All decimals are rounded to 2 places, and therefore may be slightly off up to 0.005%.</span></p>
+  
   <p class="coin_info"><span class="yellow"> &nbsp; </p>
 			 
 <?php
