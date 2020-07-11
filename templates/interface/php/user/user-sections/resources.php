@@ -270,6 +270,8 @@
 	        
 	        <li class='links_list'><a href='https://open.spotify.com/show/4OxfZixGspVVpn0mx8FPcg' target='_blank'>POV Crypto</a></li>
 	        
+	        <li class='links_list'><a href='https://open.spotify.com/show/7n1EJmK1cP3IDTVqxC03UP' target='_blank'>Proof of Talent</a></li>
+	        
 	        <li class='links_list'><a href='https://open.spotify.com/show/3ObwKoyqttA1OLNhInnrbx' target='_blank'>Rekt</a></li>
 	        
 	        <li class='links_list'><a href='https://open.spotify.com/show/3mFUF9kSYpvrCGWLbskRr8' target='_blank'>Stephan Livera</a></li>
@@ -473,8 +475,6 @@
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCCatR7nWbYrkVXdxXb4cGXw/featured' target='_blank'>DataDash</a></li>
 	        
-	        <li class='links_list'><a href='https://www.youtube.com/channel/UCt_oM56Ui0BCCgi0Yc-Wh3Q/featured' target='_blank'>Crypto Bobby</a></li>
-	        
 	        <li class='links_list'><a href='https://www.youtube.com/c/CryptoFinally/featured' target='_blank'>Crypto Finally</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCu7Sre5A1NMV8J3s2FhluCw' target='_blank'>Crypto Love</a></li>
@@ -508,6 +508,8 @@
 	        <li class='links_list'><a href='https://www.youtube.com/user/australiaalex/featured' target='_blank'>Nugget's News</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCEFJVYNiPp8xeIUyfaPCPQw/featured' target='_blank'>Off Chain with Jimmy Song</a></li>
+	        
+	        <li class='links_list'><a href='https://www.youtube.com/channel/UCt_oM56Ui0BCCgi0Yc-Wh3Q/featured' target='_blank'>Proof of Talent</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCbiWJYRg8luWHnmNkJRZEnw/featured' target='_blank'>Tone Vays</a></li>
 	        

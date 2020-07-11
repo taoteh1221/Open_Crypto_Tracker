@@ -19,11 +19,14 @@ Post on hive, telegram, discord, Twitter, Facebook (and r/CryptoMarkets and r/Cr
 
 ALWAYS do everything in the optimizations / bugs / tests / ux / qa / other section of this list FIRST, before adding ANY new features (find every flaming turd before we start a dumpster fire).
 
-Youtube channels on the resources page, that MAY BE DYING (keep an eye on them): Crypto Trader, Crypto Bobby, and IMineBlocks.
+Youtube channels on the resources page, that MAY BE DYING (keep an eye on them): CNBC Crypto Trader / IMineBlocks.
 
 ///////////////////////////////////////////////////////
 OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
+
+
+Keep an eye on the Bitcoin "Unit Value" compared to the "Trade Value". They don't need to match perfectly, BUT they should ALWAYS be pretty close to the same.
 
 
 Add BTSE API: https://api.btse.com/spot/api/v3.2/market_summary
@@ -77,6 +80,12 @@ FEATURES / STRUCTURING SECTION
 ///////////////////////////////////////////////////////
 
 
+Put alert bell icon on opposite side of the title from the admin icon (same size), move alerts from the footer into a drop down area that opens when the alert icon is clicked. Have the icon turn red when there are alerts.
+
+
+Interface alert for upgrades (triggers alert like errors do).
+
+
 Give cron plugins a [plugin name]-config.php file for parameters like gui menus / content, mysql data table structure, etc. Also give cron plugins a dedicated admin page (if any are activated).
 
 
@@ -108,12 +117,6 @@ Admin import / export of settings (consider security implications CAREFULLY...ma
 
 
 When cached app config is independent of config.php updating-wise, use the show / hide link to have an optional email field on the admin registration page, and mention it enables password resetting via email.
-
-
-Add an alert bell icon in header login nav, and have alerts make it red and be a drop-down info bubble clicking it, rather than alerts printed in the footer.
-
-
-Interface alert for upgrades.
 
 
 Add Uniswap API: https://thegraph.com/explorer/subgraph/graphprotocol/uniswap

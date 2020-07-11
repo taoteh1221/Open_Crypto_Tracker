@@ -31,7 +31,11 @@
 		$supported_primary_currency_list = trim($supported_primary_currency_list);
 		
 		foreach ( $app_config['portfolio_assets']['BTC']['market_pairing'][$default_btc_primary_currency_pairing] as $key => $unused ) {
-		$supported_exchange_list .= snake_case_to_name($key) . ' / ';
+		
+			if( stristr($key, 'bitmex_') == false ) { // Futures markets not allowed
+			$supported_exchange_list .= snake_case_to_name($key) . ' / ';
+			}
+			
 		}
 		$supported_exchange_list = trim($supported_exchange_list);
 		$supported_exchange_list = rtrim($supported_exchange_list,'/');
