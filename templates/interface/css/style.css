@@ -704,10 +704,10 @@ padding: 7px;
 #alert_bell_area {
 position:absolute;
 top: 46px;
-right: -250px;
+right: -255px;
 margin-left:auto;
 margin-right:auto;
-min-width: 1170px; 
+min-width: 1190px; 
 min-height: 45px; 
 padding: 15px;
 font-weight: bold; 
