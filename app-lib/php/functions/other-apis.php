@@ -448,7 +448,7 @@ $rss_feed_cache_time = rand($news_feeds_cache_min_max[0], $news_feeds_cache_min_
 	$endpoint_tld_or_ip = get_tld_or_ip($url);
 
 		
-		if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'memory' ) {
+		if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'all_telemetry' || $app_config['developer']['debug_mode'] == 'memory' ) {
 		app_logging('system_debugging', $endpoint_tld_or_ip . ' news feed updating ('.$_SESSION[$fetched_feeds]['all'].'), CURRENT script memory usage is ' . convert_bytes(memory_get_usage(), 1) . ', PEAK script memory usage is ' . convert_bytes(memory_get_peak_usage(), 1) . ', php_sapi_name is "' . php_sapi_name() . '"' );
 		}
 	

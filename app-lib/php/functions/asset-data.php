@@ -687,7 +687,7 @@ $pairing = strtolower($pairing);
    			if ( stristr($market_key, 'bitmex_') == false && number_to_string($btc_pairing_markets[$pairing.'_btc']) >= 0.00000001 ) {
    				
    				// Data debugging telemetry
-					if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' ) {
+					if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'all_telemetry' ) {
 					app_logging('market_debugging', 'pairing_market_value() market request succeeded for ' . $pairing, 'exchange: ' . $market_key);
 					}		
    					
@@ -743,7 +743,7 @@ $pairing = strtolower($pairing);
    			if ( stristr($market_key, 'bitmex_') == false && number_to_string($btc_pairing_markets[$pairing.'_btc']) >= 0.0000000000000000000000001 ) { // FUTURE-PROOF FIAT ROUNDING WITH 25 DECIMALS, IN CASE BITCOIN MOONS HARD
    						
    				// Data debugging telemetry
-					if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' ) {
+					if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'all_telemetry' ) {
 					app_logging('market_debugging', 'pairing_market_value() market request succeeded for ' . $pairing, 'exchange: ' . $market_key);
 					}
 							

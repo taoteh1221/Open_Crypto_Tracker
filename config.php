@@ -1083,6 +1083,12 @@ $app_config['power_user']['news_feeds'] = array(
             			"title" => "Podcast - POV Crypto",
             			"url" => "http://povcryptopod.libsyn.com/rss"
         						),
+        
+        
+        				array(
+            			"title" => "Podcast - Proof of Talent",
+            			"url" => "https://feedcdn21.podbean.com/cryptobob/feed.xml"
+        						),
     					
     					
         				array(
@@ -1322,7 +1328,8 @@ $app_config['power_user']['hivepower_yearly_interest'] = 1.2;
 // 'off' (disables), 'all' (all debugging), 'charts' (chart/price alert checks),
 // 'api_live_only' (log only live API requests, not cache requests),
 // 'api_cache_only' (log only cache requests for API data, not live API requests),
-// 'telemetry' (logs in-app telemetries), 'stats' (basic hardware / software / runtime stats),
+// 'all_telemetry' (logs ALL in-app telemetries), 'stats' (basic hardware / software / runtime stats),
+// 'comms_telemetry' (logs communications API responses to /cache/logs/debugging/external_api/last-response-[service].log),
 // 'smtp' (smtp email server response logging, if smtp emailing is enabled),
 // 'all_markets_config' (the current markets configuration),
 // 'texts' (mobile gateway checks), 'markets' (coin market checks),

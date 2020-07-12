@@ -176,7 +176,7 @@ update_lite_chart($system_stats_path, $system_stats_data, $light_chart_days); //
 
 // If debug mode is on
 // RUN BEFORE cron plugins (in case custom plugin crashes)
-if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'stats' ) {
+if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'all_telemetry' || $app_config['developer']['debug_mode'] == 'stats' ) {
 		
 	foreach ( $system_info as $key => $value ) {
 	$system_telemetry .= $key . ': ' . $value . '; ';

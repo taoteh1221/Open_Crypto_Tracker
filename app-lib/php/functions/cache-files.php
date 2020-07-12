@@ -457,7 +457,7 @@ $debugging_logs .= strip_tags($logs_array['other_debugging']); // Remove any HTM
 			return 'Debugging logs write error for "' . $base_dir . '/cache/logs/debugging.log" (MAKE SURE YOUR DISK ISN\'T FULL), data_size_bytes: ' . strlen($debugging_logs) . ' bytes';
 			}
 			// DEBUGGING ONLY (rules out issues other than full disk)
-			elseif ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' ) {
+			elseif ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'all_telemetry' ) {
 			return 'Debugging logs write success for "' . $base_dir . '/cache/logs/debugging.log", data_size_bytes: ' . strlen($debugging_logs) . ' bytes';
 			}
 	
@@ -470,7 +470,7 @@ $debugging_logs .= strip_tags($logs_array['other_debugging']); // Remove any HTM
 			return 'Debugging logs write error for "' . $base_dir . '/cache/logs/debugging.log" (MAKE SURE YOUR DISK ISN\'T FULL), data_size_bytes: ' . strlen($debugging_logs) . ' bytes';
 			}
 			// DEBUGGING ONLY (rules out issues other than full disk)
-			elseif ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' ) {
+			elseif ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'all_telemetry' ) {
 			return 'Debugging logs write success for "' . $base_dir . '/cache/logs/debugging.log", data_size_bytes: ' . strlen($debugging_logs) . ' bytes';
 			}
 		
@@ -547,7 +547,7 @@ $error_logs .= strip_tags($logs_array['other_error']); // Remove any HTML format
 			return 'Error logs write error for "' . $base_dir . '/cache/logs/errors.log" (MAKE SURE YOUR DISK ISN\'T FULL), data_size_bytes: ' . strlen($error_logs) . ' bytes';
 			}
 			// DEBUGGING ONLY (rules out issues other than full disk)
-			elseif ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' ) {
+			elseif ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'all_telemetry' ) {
 			return 'Error logs write success for "' . $base_dir . '/cache/logs/errors.log", data_size_bytes: ' . strlen($error_logs) . ' bytes';
 			}
 	
@@ -560,7 +560,7 @@ $error_logs .= strip_tags($logs_array['other_error']); // Remove any HTML format
 			return 'Error logs write error for "' . $base_dir . '/cache/logs/errors.log" (MAKE SURE YOUR DISK ISN\'T FULL), data_size_bytes: ' . strlen($error_logs) . ' bytes';
 			}
 			// DEBUGGING ONLY (rules out issues other than full disk)
-			elseif ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' ) {
+			elseif ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'all_telemetry' ) {
 			return 'Error logs write success for "' . $base_dir . '/cache/logs/errors.log", data_size_bytes: ' . strlen($error_logs) . ' bytes';
 			}
 	
@@ -1117,11 +1117,11 @@ $lite_data_update_threshold = number_to_string($lite_data_update_threshold);
 		
 	$_SESSION['lite_charts_updated'] = $_SESSION['lite_charts_updated'] + 1;
 			
-		if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'lite_chart' ) {
+		if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'all_telemetry' || $app_config['developer']['debug_mode'] == 'lite_chart' ) {
 		app_logging( 'cache_debugging', 'Lite chart ' . $lite_mode_logging . ' COMPLETED ('.$_SESSION['lite_charts_updated'].') for ' . $lite_path);
 		}
 			
-		if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'memory' ) {
+		if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'all_telemetry' || $app_config['developer']['debug_mode'] == 'memory' ) {
 		app_logging('system_debugging', $_SESSION['lite_charts_updated'] . ' lite charts updated, CURRENT script memory usage is ' . convert_bytes(memory_get_usage(), 1) . ', PEAK script memory usage is ' . convert_bytes(memory_get_peak_usage(), 1) . ', php_sapi_name is "' . php_sapi_name() . '"' );
 		}
 			
@@ -1276,7 +1276,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 					
 					store_file_contents($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat', $processed_messages['notifyme_count']); 
 					
-						if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' ) {
+						if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'all_telemetry' || $app_config['developer']['debug_mode'] == 'comms_telemetry' ) {
 						store_file_contents($base_dir . '/cache/logs/debugging/external_api/last-response-notifyme.log', $notifyme_response);
 						}
 					
@@ -1307,7 +1307,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 				
 				$message_sent = 1;
 			   
-			   	if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' ) {
+			   	if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'all_telemetry' || $app_config['developer']['debug_mode'] == 'comms_telemetry' ) {
 					store_file_contents($base_dir . '/cache/logs/debugging/external_api/last-response-textbelt.log', $textbelt_response);
 					}
 				
@@ -1334,7 +1334,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 				
 				$message_sent = 1;
 			   
-			   	if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' ) {
+			   	if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'all_telemetry' || $app_config['developer']['debug_mode'] == 'comms_telemetry' ) {
 					store_file_contents($base_dir . '/cache/logs/debugging/external_api/last-response-textlocal.log', $textlocal_response);
 					}
 				
@@ -1369,10 +1369,9 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 			   	}
 			   		
 			   
-			   	if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' ) {
+			   	if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'all_telemetry' || $app_config['developer']['debug_mode'] == 'comms_telemetry' ) {
 					store_file_contents($base_dir . '/cache/logs/debugging/external_api/last-response-telegram.log', $telegram_response);
 					}
-				
 				
 			   }
 			   
@@ -1615,7 +1614,7 @@ $endpoint_tld_or_ip = get_tld_or_ip($api_endpoint);
 		app_logging( 'cache_error', 'no RUNTIME CACHE data from failure with ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint), 'request attempt(s) from: cache ('.$logs_array['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . obfuscate_string($hash_check, 4) . ';', $hash_check );
 			
 		}
-		elseif ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'api_cache_only' ) {
+		elseif ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'all_telemetry' || $app_config['developer']['debug_mode'] == 'api_cache_only' ) {
 		
 			if ( !$logs_array['debugging_duplicates'][$hash_check] ) {
 			$logs_array['debugging_duplicates'][$hash_check] = 1; 
@@ -2001,7 +2000,7 @@ $endpoint_tld_or_ip = get_tld_or_ip($api_endpoint);
 		
 		
 			// Data debugging telemetry
-			if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'api_live_only' ) {
+			if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'all_telemetry' || $app_config['developer']['debug_mode'] == 'api_live_only' ) {
 				
 			// LOG-SAFE VERSION (no post data with API keys etc)
 			app_logging('ext_api_debugging', 'LIVE request for ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint), 'request from: server (' . $app_config['power_user']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . obfuscate_string($hash_check, 4) . ';' );
@@ -2087,7 +2086,7 @@ $endpoint_tld_or_ip = get_tld_or_ip($api_endpoint);
 		app_logging('cache_error', 'no FILE CACHE data from failure with ' . ( $mode == 'array' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint), 'request attempt(s) from: cache ('.$logs_array['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . obfuscate_string($hash_check, 4) . ';', $hash_check );
 			
 		}
-		elseif ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'telemetry' || $app_config['developer']['debug_mode'] == 'api_cache_only' ) {
+		elseif ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'all_telemetry' || $app_config['developer']['debug_mode'] == 'api_cache_only' ) {
 		
 			if ( !$logs_array['debugging_duplicates'][$hash_check] ) {
 			$logs_array['debugging_duplicates'][$hash_check] = 1; 
