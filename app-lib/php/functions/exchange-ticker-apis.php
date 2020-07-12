@@ -27,7 +27,7 @@ global $selected_btc_primary_currency_value, $app_config;
   if ( strtolower($chosen_exchange) == 'bigone' ) {
      
      
-     $json_string = 'https://big.one/api/v2/tickers';
+     $json_string = 'https://big.one/api/v3/asset_pairs/tickers';
      
      $jsondata = @external_api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
      
@@ -39,7 +39,7 @@ global $selected_btc_primary_currency_value, $app_config;
   
        foreach ($data as $key => $value) {
          
-         if ( $value["market_id"] == $market_id ) {
+         if ( $value["asset_pair_name"] == $market_id ) {
          	
          $result = array(
     							'last_trade' => $value["close"],
