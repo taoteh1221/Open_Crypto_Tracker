@@ -64,11 +64,18 @@
 			$upgrade_check_message = $another_reminder . 'An upgrade for DFD Cryptocoin Values to version ' . $upgrade_check_latest_version . ' is available. You are running version ' . $app_version . '.' . $bug_fix_message_extension;
 			
 			
-			$email_notifyme_message = $upgrade_check_message . ' (you have upgrade reminders sent out every '.$app_config['comms']['upgrade_check_reminder'].' days in the configuration settings)';
+			$email_notifyme_message = $upgrade_check_message . ' (you have upgrade reminders triggered every '.$app_config['comms']['upgrade_check_reminder'].' days in the configuration settings)';
 			
 						
 					// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
 					if ( $app_config['comms']['upgrade_check'] == 'all' ) {
+						
+					$ui_upgrade_alert = array(
+														'run' => 'yes',
+														'message' => $email_notifyme_message
+														);
+						
+					store_file_contents($base_dir . '/cache/events/ui_upgrade_alert.dat', json_encode($ui_upgrade_alert, JSON_PRETTY_PRINT) );
 					
 					// Minimize function calls
 					$encoded_text_alert = content_data_encoding($upgrade_check_message);
@@ -114,6 +121,16 @@
 					}
 					elseif ( $app_config['comms']['upgrade_check'] == 'telegram' ) {
 					$upgrade_check_send_params['telegram'] = $email_notifyme_message;
+					}
+					elseif ( $app_config['comms']['upgrade_check'] == 'ui' ) {
+						
+					$ui_upgrade_alert = array(
+														'run' => 'yes',
+														'message' => $email_notifyme_message
+														);
+						
+					store_file_contents($base_dir . '/cache/events/ui_upgrade_alert.dat', json_encode($ui_upgrade_alert, JSON_PRETTY_PRINT) );
+					
 					}
 				
 				

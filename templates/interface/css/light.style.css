@@ -225,24 +225,24 @@ IDs
 ////////////////////////////// */
 
 
-#body_top_nav .navbar-nav .dropdown-menu {
+#admin_nav .dropdown-menu {
 background: #545353 !important;
 border: 2px solid black !important;
 }
 
 
-#body_top_nav .navbar-nav .dropdown-menu a:link, #body_top_nav .navbar-nav .dropdown-menu a:visited {
+#topnav .navbar-nav .dropdown-menu a:link, #body_top_nav .navbar-nav .dropdown-menu a:visited {
 color: white;
 }
 
 
-#body_top_nav .navbar-nav .dropdown-item:hover {
+#topnav .navbar-nav .dropdown-item:hover {
 background-color: #545353 !important;
 color: #cecccc !important;
 }
 
 
-#body_top_nav .navbar-nav .dropdown-item.active {
+#topnav .navbar-nav .dropdown-item.active {
 background-color: #cecccc !important;
 color: black !important;
 border-radius: 3px;

@@ -39,11 +39,11 @@ $app_config = array(); // REQUIRED, DON'T DELETE BY ACCIDENT
 ////////////////////////////////////////
 
 
-// Enable / disable daily upgrade checks and alerts (DEFAULT IS DISABLED)
+// Enable / disable daily upgrade checks and alerts (DEFAULT IS ENABLED)
 // (Checks latest release version via github.com API endpoint value "tag_name" 
 // @ https://api.github.com/repos/taoteh1221/DFD_Cryptocoin_Values/releases/latest)
 // Choosing 'all' will send to all properly-configured communication channels, and automatically skip any not properly setup
-$app_config['comms']['upgrade_check'] = 'off'; // 'off' (disabled) / 'all' / 'ui' (web interface) / 'email' / 'text' / 'notifyme' / 'telegram'
+$app_config['comms']['upgrade_check'] = 'ui'; // 'off' (disabled) / 'all' / 'ui' (web interface) / 'email' / 'text' / 'notifyme' / 'telegram'
 ////
 // Wait X days between upgrade reminders
 $app_config['comms']['upgrade_check_reminder'] = 14; // (only used if upgrade check is enabled above)

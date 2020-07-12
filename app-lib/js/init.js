@@ -2,16 +2,22 @@
 // Copyright 2014-2020 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
 
 
-// Set the global JSON config to asynchronous 
-// (so JSON requests run in the background, without pausing any of the page render scripting)
-$.ajaxSetup({
-    async: true
-});
-
-
 // Wait until the DOM has loaded before running DOM-related scripting
 $(document).ready(function(){
-	 
+	
+
+// See if any alerts are present
+if ( $('#app_error_alert').html() == '' ) {
+$('#app_error_alert').html('No alerts yet.');
+}
+else {
+$("#alert_bell_image").attr("src","templates/interface/media/images/notification-" + theme_selected + "-fill.png");
+}
+
+// Mirror hidden errors output in the footer over to the alert bell area with javascript
+// Run AFTER check to see if alerts are present
+$('#alert_bell_area').html( $('#app_error_alert').html() );
+	
 
 if ( $("#admin_login").length ) {
 
@@ -110,7 +116,7 @@ autosize(document.querySelector('textarea[data-autoresize]'));
 		$("#coins_table").tablesorter({
 			
 			sortList: [[sorted_by_col,sorted_by_asc_desc]],
-			theme : tablesort_theme, // theme "jui" and "bootstrap" override the uitheme widget option in v2.7+
+			theme : theme_selected, // theme "jui" and "bootstrap" override the uitheme widget option in v2.7+
 			textExtraction: sort_extraction,
 			widgets: ['zebra'],
 		  headers: {

@@ -3787,11 +3787,15 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.15.0:
 
--Minor fixes / UX revisions
+-Error / debugging alerts moved into more visible header icon dropdown (bell icon turns red when error notices exist, shows new logged errors / debugging when clicked)
 
--More News feeds (on news page)
+-Interface alert for available upgrades (checks github.com for new releases, defaults = interface only / remind once every 14 days)
+
+-More News feeds
 
 -Resources page update
+
+-Minor fixes / UX revisions
 
 IMPORTANT UPGRADE NOTES: 
 

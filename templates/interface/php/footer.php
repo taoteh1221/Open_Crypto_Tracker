@@ -55,7 +55,7 @@
 
 ?>
             	
-    <div id="app_error_alert"><?=$bundle_error_logs?></div>
+    <div id="app_error_alert" style='display: none;'><?=$bundle_error_logs?></div>
             	
     <p class='align_center'><a href='https://taoteh1221.github.io' target='_blank' title='Check for upgrades to the latest version here.'>Running <?=ucfirst($app_edition)?> Edition v<?=$app_version?></a>
     

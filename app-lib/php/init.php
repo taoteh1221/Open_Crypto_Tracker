@@ -255,6 +255,9 @@ $http_runtime_user = ( $runtime_mode == 'ui' ? posix_getpwuid(posix_geteuid())['
 // If upgrade check enabled / cached var set, set the runtime var for any configured alerts
 $upgrade_check_latest_version = trim( file_get_contents('cache/vars/upgrade_check_latest_version.dat') );
 
+// If we are queued to run a UI alert that an upgrade is available
+$ui_upgrade_alert = json_decode( trim( file_get_contents($base_dir . '/cache/events/ui_upgrade_alert.dat') ) , TRUE);
+
 // Raspberry Pi device? (run after system info var)
 if ( preg_match("/raspberry/i", $system_info['model']) ) {
 $is_raspi = 1;

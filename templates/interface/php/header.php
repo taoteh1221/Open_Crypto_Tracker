@@ -97,6 +97,13 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 	?>
 	
 	<script>
+
+	// Set the global JSON config to asynchronous 
+	// (so JSON requests run in the background, without pausing any of the page render scripting)
+	$.ajaxSetup({
+    async: true
+	});
+	
 	
 	var feeds_num = <?=( $show_feeds[0] != '' ? sizeof($show_feeds) : 0 )?>;
 	var feeds_loaded = new Array();
@@ -106,20 +113,17 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 	
 	feeds_loading_check(window.feeds_loaded);
 	charts_loading_check(window.charts_loaded);
-
-	</script>
-
-	<script src="app-lib/js/init.js"></script>
-	
-	<script>
-	
-	// Preload ajax placeholder image
-	var loader_image = new Image();
-	loader_image.src = 'templates/interface/media/images/loader.gif';
 	
 	var sorted_by_col = <?=$sorted_by_col?>;
 	var sorted_by_asc_desc = <?=$sorted_by_asc_desc?>;
-	var tablesort_theme = '<?=$theme_selected?>';
+	var theme_selected = '<?=$theme_selected?>';
+
+	// Preload ajax placeholder image
+	var loader_image = new Image();
+	loader_image.src = 'templates/interface/media/images/loader.gif';
+	var loader_image_2 = new Image();
+	loader_image.src_2 = 'templates/interface/media/images/notification-' + theme_selected + '-fill.png';
+	
 	
 	var charts_background = '<?=$app_config['power_user']['charts_background']?>';
 	
@@ -152,6 +156,8 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 	
 	</script>
 
+	<script src="app-lib/js/init.js"></script>
+
 	<script src="app-lib/js/random-tips.js"></script>
 
 
@@ -181,7 +187,8 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 			   $script_file_info = pathinfo($_SERVER['SCRIPT_FILENAME']);
 				?>
 			  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav">
+			  
+				<ul id='admin_nav' class="navbar-nav">
 				  <li class="nav-item dropdown align_center">
 					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src='templates/interface/media/images/login-<?=$theme_selected?>-theme.png' width='30' border='0' /></a>
 					<div class="dropdown-menu shadow-lg p-3 mb-5 bg-white rounded" aria-labelledby="navbarDropdown">
@@ -197,7 +204,16 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 					</div>
 				  </li>
 				</ul>
+				
 				<h2>DFD Cryptocoin Values - <?=( $is_admin ? 'Admin Configuration' : 'Portfolio Tracker' )?></h2>
+				
+				<div class="navbar-nav dropleft" style='left: 4px;'>
+  <a class="nav-link" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img id='alert_bell_image' src='templates/interface/media/images/notification-<?=$theme_selected?>-line.png' width='30' border='0' /></a>
+  <div id='alert_bell_area' class="dropdown-menu red" aria-labelledby="navbarDropdown2">
+ <!-- alerts output dynamically here -->
+  </div>
+				</div>
+				
 			  </div>
 				
 				</nav>
@@ -214,6 +230,28 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 		
 		<div class='align_left' id='content_wrapper'>
 				
+				<?php
+				if ( $ui_upgrade_alert['run'] == 'yes' ) {
+				?>
+				<div class="alert alert-warning" role="alert">
+  					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    					<span aria-hidden="true">&times;</span>
+  					</button>
+				  	<strong>Upgrade Notice:</strong> <?=$ui_upgrade_alert['message']?> 
+				</div>
+				<?php
+				
+				// Set back to 'run' => 'no' 
+				// (will automatically re-activate in upgrade-check.php at a later date, if another reminder is needed after X days)
+				$ui_upgrade_alert = array(
+														'run' => 'no',
+														'message' => null
+														);
+						
+				store_file_contents($base_dir . '/cache/events/ui_upgrade_alert.dat', json_encode($ui_upgrade_alert, JSON_PRETTY_PRINT) );
+					
+				}
+				?>
 		 
 				<div id='loading_subsections' class='align_center loading bitcoin'><img src="templates/interface/media/images/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <span id='loading_subsections_span'></span></div>
 		

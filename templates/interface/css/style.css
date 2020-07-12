@@ -676,28 +676,44 @@ display: none;
 }
 
 
-#body_top_nav .navbar-expand {
+#topnav {
 display: inline-block;
 margin: auto;
 }
 
 
-#body_top_nav .navbar-nav .dropdown-menu a:link, #body_top_nav .navbar-nav .dropdown-menu a:visited {
+#topnav .navbar-nav .dropdown-menu a:link, #body_top_nav .navbar-nav .dropdown-menu a:visited {
 padding: 10px;
 font-size: 21px;
 text-decoration: none;
 }
 
 
-#body_top_nav .navbar-nav {
+#topnav .navbar-nav {
 position: relative;
 bottom: 5px;
 }
 
 
-#body_top_nav .dropdown-item {
+#topnav .dropdown-item {
 	text-align: center;
 padding: 7px;
+}
+
+
+#alert_bell_area {
+position:absolute;
+top: 46px;
+right: -250px;
+margin-left:auto;
+margin-right:auto;
+min-width: 1170px; 
+min-height: 45px; 
+padding: 15px;
+font-weight: bold; 
+line-height: 35px;
+background: #ededa6 !important;
+border: 2px solid #dd7c0d !important;
 }
 
 
