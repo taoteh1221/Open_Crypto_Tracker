@@ -1755,7 +1755,7 @@ $original_market = $selected_exchange;
 
 
 
-<td class='data border_lb' align='right' style='position: relative; padding-right: 32px; white-space: nowrap;'>
+<td class='data border_lb' align='right' style='position: relative; white-space: nowrap;'>
  
  
  <?php
@@ -1781,7 +1781,7 @@ $original_market = $selected_exchange;
  	
  		?>
  		
- <img id='<?=$mkcap_render_data?>' src='templates/interface/media/images/<?=$info_icon?>' alt='' style='position: absolute; top: 2px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <a title='' href='https://<?=$asset_pagebase?><?=$mkcap_render_data?>/' target='_blank' class='blue app_sort_filter'><?php echo $asset_name; ?></a>
+ <a title='' href='https://<?=$asset_pagebase?><?=$mkcap_render_data?>/' target='_blank' class='blue app_sort_filter'><?=$asset_name?></a> <img id='<?=$mkcap_render_data?>' src='templates/interface/media/images/<?=$info_icon?>' alt='' style='margin: 0px; height: 30px; width: 30px;' /> 
  <script>
 
 		<?php
@@ -1983,7 +1983,7 @@ $original_market = $selected_exchange;
 		
   ?>
   
-  <img id='<?=$rand_id?>' src='templates/interface/media/images/<?=$info_icon?>' alt='' style='position: absolute; top: 2px; right: 0px; margin: 0px; height: 30px; width: 30px;' /> <span class='blue app_sort_filter'><?=$asset_name?></span>
+  <span class='blue app_sort_filter'><?=$asset_name?></span> <img id='<?=$rand_id?>' src='templates/interface/media/images/<?=$info_icon?>' alt='' style='margin: 0px; height: 30px; width: 30px;' /> 
  <script>
  
  			<?php

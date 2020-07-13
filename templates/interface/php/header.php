@@ -232,6 +232,9 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 				
 				<?php
 				if ( $ui_upgrade_alert['run'] == 'yes' ) {
+					
+					// If this isn't google or bing spidering the web, show the upgrade notice one time until the next reminder period
+					if ( stristr($_SERVER['HTTP_USER_AGENT'], 'googlebot') == false && stristr($_SERVER['HTTP_USER_AGENT'], 'bingbot') == false ) {
 				?>
 				<div class="alert alert-warning" role="alert">
   					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -249,6 +252,8 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 														);
 						
 				store_file_contents($base_dir . '/cache/events/ui_upgrade_alert.dat', json_encode($ui_upgrade_alert, JSON_PRETTY_PRINT) );
+				
+					}
 					
 				}
 				?>

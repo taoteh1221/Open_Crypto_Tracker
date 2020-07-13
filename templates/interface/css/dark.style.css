@@ -26,8 +26,8 @@ background-color: #dbd9d9;
 
 
 select {
+background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3e%3cpath fill='black' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e") no-repeat right .5rem center/8px 10px !important;
 background-color: #dbd9d9 !important;
-background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3e%3cpath fill='black' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e") !important;
 }
 
 
@@ -67,20 +67,16 @@ color: #bcbaba;
 }
 
 
-/* Dark theme drop-downs (in table data only) need dark background too */
-td select {
-background-color: #3a3a3a !important;
-width: 100% !important;
-}
-
-
 /* //////////////////////////////
 CLASSES
 ////////////////////////////// */
 
 
+/* Dark theme drop-downs (in table data only) need dark background too */
 td .custom-select {
-background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3e%3cpath fill='%2328b2ed' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e") !important;
+background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3e%3cpath fill='%2328b2ed' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e") no-repeat right .5rem center/8px 10px !important;
+background-color: #3a3a3a !important;
+width: 100% !important;
 }
 
 
