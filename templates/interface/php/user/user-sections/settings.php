@@ -94,7 +94,7 @@
 			?>
 			
 			
-			    <p class='settings_sections'><b>Theme:</b> <select onchange='
+			    <p class='settings_sections'><b>Theme:</b> <select class='browser-default custom-select' onchange='
 			    $("#theme_selected").val(this.value);
 			    '>
 				<option value='dark' <?=( $theme_selected == 'dark' ? ' selected ' : '' )?>> Dark </option>
@@ -110,7 +110,7 @@
 			    <p class='settings_sections'><b>Primary Currency Market:</b> 
 			    
 
-					<select onchange='
+					<select class='browser-default custom-select' onchange='
 					
 					 btc_primary_currency = this.value;
 					 primary_currency_market = $("#" + btc_primary_currency + "btc_currency_pairs").val();
@@ -203,7 +203,7 @@
 				    foreach ( $btc_market_list as $key => $value ) {
 				    ?>
 				    
-				    <select onchange='
+				    <select class='browser-default custom-select' onchange='
 				    
 				    exchange_name_ui = $(this).find("option:selected").text();
 				    
@@ -353,7 +353,7 @@
 			?>
 			
 			
-			    <p class='settings_sections'><b>Sort Portfolio Data By:</b> <select id='sorted_by_col' onchange='
+			    <p class='settings_sections'><b>Sort Portfolio Data By:</b> <select class='browser-default custom-select' id='sorted_by_col' onchange='
 			    $("#sort_by").val( this.value + "|" + $("#sorted_by_asc_desc").val() );
 			    '>
 				<option value='0' <?=( $sorted_by_col == 0 ? ' selected ' : '' )?>> Sort </option>
@@ -368,7 +368,7 @@
 				<option value='9' <?=( $sorted_by_col == 9 ? ' selected ' : '' )?>> Holdings Value </option>
 				<option value='10' <?=( $sorted_by_col == 10 ? ' selected ' : '' )?>> Subtotal </option>
 			    </select> 
-			     <select id='sorted_by_asc_desc' onchange='
+			     <select class='browser-default custom-select' id='sorted_by_asc_desc' onchange='
 			    $("#sort_by").val( $("#sorted_by_col").val() + "|" + this.value );
 			    '>
 				<option value='0' <?=( $sorted_by_asc_desc == 0 ? ' selected ' : '' )?>> Ascending </option>
@@ -380,7 +380,7 @@
 				
 				<b>Price Change Visual / Audio Alerts:</b>
 			     
-			    <select name='alert_percent' id='alert_percent' onchange='
+			    <select class='browser-default custom-select' name='alert_percent' id='alert_percent' onchange='
 			    if ( this.value == "yes" ) {
 			    document.getElementById("alert_source").style.display = "inline";
 			    document.getElementById("percent_change_amount").style.display = "inline";
@@ -403,13 +403,13 @@
 			    </select>
 			     
 			     
-			    <select name='alert_source' id='alert_source' onchange='update_alert_percent();'>
+			    <select class='browser-default custom-select' name='alert_source' id='alert_source' onchange='update_alert_percent();'>
 			    <option value='coingecko' <?=( $alert_percent[0] == 'coingecko' ? ' selected ' : '' )?>> Coingecko.com </option>
 			    <option value='coinmarketcap' <?=( $alert_percent[0] == 'coinmarketcap' ? ' selected ' : '' )?>> Coinmarketcap.com </option>
 			    </select>  
 			    
 			    
-			    <select name='percent_change_amount' id='percent_change_amount' onchange='update_alert_percent();'>
+			    <select class='browser-default custom-select' name='percent_change_amount' id='percent_change_amount' onchange='update_alert_percent();'>
 			    <option value='5' <?=( $alert_percent[1] == 5 ? ' selected ' : '' )?>> 5% </option>
 			    <option value='10' <?=( $alert_percent[1] == 10 ? ' selected ' : '' )?>> 10% </option>
 			    <option value='15' <?=( $alert_percent[1] == 15 ? ' selected ' : '' )?>> 15% </option>
@@ -423,21 +423,21 @@
 			    </select> 
 			     
 			     
-			    <select name='percent_change_filter' id='percent_change_filter' onchange='update_alert_percent();'>
+			    <select class='browser-default custom-select' name='percent_change_filter' id='percent_change_filter' onchange='update_alert_percent();'>
 			    <option value='both' <?=( $alert_percent[2] == 'both' ? ' selected ' : '' )?>> Gain or Loss </option>
 			    <option value='gain' <?=( $alert_percent[2] == 'gain' ? ' selected ' : '' )?>> Gain </option>
 			    <option value='loss' <?=( $alert_percent[2] == 'loss' ? ' selected ' : '' )?>> Loss </option>
 			    </select>  
 			     
 			     
-			    <select name='percent_change_time' id='percent_change_time' onchange='update_alert_percent();'>
+			    <select class='browser-default custom-select' name='percent_change_time' id='percent_change_time' onchange='update_alert_percent();'>
 			    <option value='1hour' <?=( $alert_percent[3] == '1hour' ? ' selected ' : '' )?>> 1 Hour </option>
 			    <option value='24hour' <?=( $alert_percent[3] == '24hour' ? ' selected ' : '' )?>> 24 Hour </option>
 			    <option value='7day' <?=( $alert_percent[3] == '7day' ? ' selected ' : '' )?>> 7 Day </option>
 			    </select>  
 			     
 			     
-			    <select name='percent_change_alert_type' id='percent_change_alert_type' onchange='
+			    <select class='browser-default custom-select' name='percent_change_alert_type' id='percent_change_alert_type' onchange='
 			    update_alert_percent();
 			    if ( this.value == "visual_audio" ) {
 				 $("#percent_change_alert_type_alert").text("For security, some browsers may require occasional interaction to allow media auto-play (clicking on page etc), or changes to per-site auto-play preferences.");

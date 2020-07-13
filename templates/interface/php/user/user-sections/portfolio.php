@@ -54,7 +54,7 @@
 			
 			?>  &nbsp; &nbsp; &nbsp; <a href='javascript:app_reloading_placeholder();app_reload();' style='font-weight: bold;' title='<?=$refresh_link_title?>'>Refresh</a>
 			
-			 &nbsp;<select name='select_auto_refresh' id='select_auto_refresh' onchange='
+			 &nbsp;<select class='browser-default custom-select' name='select_auto_refresh' id='select_auto_refresh' onchange='
 			 window.reload_time = this.value;
 			 auto_reload();
 			 '>

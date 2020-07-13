@@ -902,7 +902,7 @@ global $_POST, $app_config;
 				
 				<input type='text' value='<?=( $_POST['network_measure'] && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? number_format($_POST['network_measure']) : number_format($calculation_form_data[3]) )?>' name='network_measure' id='network_measure_<?=$calculation_form_data[1]?>' />
 				
-				<select name='cuckoo_cycles'>
+				<select class='browser-default custom-select' name='cuckoo_cycles'>
 				<option value='29' <?=( $_POST['cuckoo_cycles'] == '29' ? 'selected' : '' )?>>Cuckoo 29 </option>
 				<option value='30' <?=( $_POST['cuckoo_cycles'] == '30' ? 'selected' : '' )?>>Cuckoo 30 </option>
 				<option value='31' <?=( $_POST['cuckoo_cycles'] == '31' ? 'selected' : '' )?>>Cuckoo 31 </option>
@@ -927,7 +927,7 @@ global $_POST, $app_config;
 				<?php
 				if ( $hash_unit == 'hash' ) {
 				?>
-				<select name='hash_level'>
+				<select class='browser-default custom-select' name='hash_level'>
 				<option value='1' <?=( $_POST['hash_level'] == '1' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Hs (hashes per second) </option>
 				<option value='1000' <?=( $_POST['hash_level'] == '1000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Khs (thousand hashes per second) </option>
 				<option value='1000000' <?=( $_POST['hash_level'] == '1000000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Mhs (million hashes per second) </option>
@@ -941,7 +941,7 @@ global $_POST, $app_config;
 				}
 				elseif ( $hash_unit == 'graph' ) {
 				?>
-				<select name='hash_level'>
+				<select class='browser-default custom-select' name='hash_level'>
 				<option value='1' <?=( $_POST['hash_level'] == '1' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Gps (graphs per second) </option>
 				<option value='1000' <?=( $_POST['hash_level'] == '1000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Kgps (thousand graphs per second) </option>
 				<option value='1000000' <?=( $_POST['hash_level'] == '1000000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Mgps (million graphs per second) </option>
@@ -2083,7 +2083,7 @@ $original_market = $selected_exchange;
 
 <td class='data border_lb'>
  
-    <select name='change_<?=strtolower($asset_symbol)?>_market' onchange='
+    <select class='browser-default custom-select' name='change_<?=strtolower($asset_symbol)?>_market' title='Choose which exchange you want.' onchange='
     $("#<?=strtolower($asset_symbol)?>_market").val(this.value);
     $("#coin_amounts").submit();
     '>
@@ -2139,7 +2139,7 @@ echo ( $fiat_eqiv == 1 ? pretty_numbers($coin_value_raw, $coin_value_primary_cur
 <td class='data border_b'> 
 
  
-    <select name='change_<?=strtolower($asset_symbol)?>_pairing' onchange='
+    <select class='browser-default custom-select' name='change_<?=strtolower($asset_symbol)?>_pairing' title='Choose which market you want.' onchange='
     $("#<?=strtolower($asset_symbol)?>_pairing").val(this.value); 
     $("#<?=strtolower($asset_symbol)?>_market").val(1); // Just reset to first listed market for this pairing
     $("#coin_amounts").submit();

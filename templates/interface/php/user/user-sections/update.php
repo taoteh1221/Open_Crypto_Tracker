@@ -531,7 +531,7 @@
 			<b class='blue'><?=$coin_array_value['asset_name']?> (<?=strtoupper($coin_array_key)?>)</b> /  
 	       
 	       
-				    <select onchange='
+				    <select class='browser-default custom-select' onchange='
 				    
 				    $("#<?=$field_var_market?>_lists").children().hide(); 
 				    $("#" + this.value + "<?=$coin_array_key?>_pairs").show(); 
@@ -602,7 +602,7 @@
 				    foreach ( $html_market_list as $key => $value ) {
 				    ?>
 				    
-				    <select onchange ='
+				    <select class='browser-default custom-select' onchange ='
 				    
 				    $("#<?=$field_var_market?>").val( this.value );
 				    
@@ -661,7 +661,7 @@
 	     
 	     <b>Margin Leverage:</b> 
 	     
-	     <select name='<?=$field_var_leverage?>' id='<?=$field_var_leverage?>' onchange='
+	     <select class='browser-default custom-select' name='<?=$field_var_leverage?>' id='<?=$field_var_leverage?>' onchange='
 	     if ( this.value <= 5 ) {
 	     var mode = "Sane";
 	     }
@@ -698,7 +698,7 @@
 	     </select> 
 	     
 	     
-	     <select name='<?=$field_var_margintype?>' id='<?=$field_var_margintype?>'>
+	     <select class='browser-default custom-select' name='<?=$field_var_margintype?>' id='<?=$field_var_margintype?>'>
 	     <option value='long' <?=( $coin_margintype_value == 'long' ? 'selected' : '' )?>> Long </option>
 	     <option value='short' <?=( $coin_leverage_value >= 2 && $coin_margintype_value == 'short' ? 'selected' : '' )?>> Short </option>
 	     </select> 

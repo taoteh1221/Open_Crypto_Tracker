@@ -3785,7 +3785,11 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 
 -------------------------------------------------------------------
-4.15.0:
+4.14.11:
+
+-Bug fix for notifyme / alexa and text service APIs (recently introduced in v4.14.10 code overhaul, sorry fixed now)
+
+-Prettier dropdown menus and text fields
 
 -Error / debugging alerts moved into more visible header icon dropdown (bell icon turns red when error notices exist, shows new logged errors / debugging when clicked)
 

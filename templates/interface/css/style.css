@@ -55,6 +55,13 @@ border: 1px solid #808080;
 }
 
 
+select {
+line-height: 15px !important;
+height: 30px !important;
+width: auto !important;
+}
+
+
 textarea[data-autoresize] {
 	border: 1px solid #808080;
 	width:100%;
@@ -79,13 +86,18 @@ textarea[data-autoresize] {
 
 
 html, p, td.data, td.data span.data, td select, td.data span, input, select, textarea, input[type=submit], input[type=button], .force_button_style, .btn-link, .btn-link a, .btn-link:hover {	
-font-family: sans-serif;
-font-size: 15px;
+font-family: sans-serif !important;
+font-size: 15px !important;
 }
 
 
 input, select, textarea {
-border: 1px solid #808080;
+border: 1px solid #808080 !important;
+}
+
+
+input[type=text], input[type=select] {
+border-radius: .25rem !important;
 }
 
 
@@ -321,6 +333,7 @@ margin: 20px;
 .long_linebreak { 
 display: inline-block;
 max-width: 350px;
+white-space: normal;
 word-wrap: break-word;
 text-align: center;
 }
@@ -704,14 +717,17 @@ padding: 7px;
 #alert_bell_area {
 position:absolute;
 top: 46px;
-right: -255px;
+right: -262px;
 margin-left:auto;
 margin-right:auto;
-min-width: 1190px; 
+min-width: 1200px; 
+max-width: 1200px; 
 min-height: 45px; 
 padding: 15px;
 font-weight: bold; 
 line-height: 35px;
+white-space: normal;
+word-wrap: break-word;
 background: #ededa6 !important;
 border: 2px solid #dd7c0d !important;
 }
