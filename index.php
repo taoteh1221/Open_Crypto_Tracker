@@ -37,7 +37,7 @@ require("templates/interface/php/header.php");
 			<li class='tabli'><a href='#news'>News</a></li>
 			<li class='tabli'><a href='#resources'>Resources</a></li>
 			<?php
-			if ( $app_config['general']['charts_toggle'] == 'on' ) {
+			if ( $app_config['general']['asset_charts_toggle'] == 'on' ) {
 			?>
 			<li class='tabli'><a href='#charts'>Charts</a></li>
 			<?php
@@ -90,7 +90,7 @@ require("templates/interface/php/header.php");
 		</script>
 		
 			<?php
-			if ( $app_config['general']['charts_toggle'] == 'on' ) {
+			if ( $app_config['general']['asset_charts_toggle'] == 'on' ) {
 			?>
 		<div id='charts' class='tabdiv container-fluid'>
 			<?php require("templates/interface/php/user/user-sections/charts.php"); ?>

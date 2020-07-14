@@ -13,7 +13,7 @@
 $reminder_recur_days = 30.4167; // Decimals supported (30.4167 days is average length of 1 month)
 
 // Reminder message
-$reminder_message = "It's time to re-balance accounts.";
+$reminder_message = "Review whether you should re-balance your portfolio (have individual assets take up a different precentage of your portfolio's total ".strtoupper($app_config['general']['btc_primary_currency_pairing'])." value).";
 
 
 /////////////////////////////////////////////////////////////////

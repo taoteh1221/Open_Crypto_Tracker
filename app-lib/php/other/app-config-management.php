@@ -14,15 +14,15 @@
 
 // Cleaning lowercase alphanumeric string values, and auto-correct minor errors
 $app_config['developer']['debug_mode'] = auto_correct_string($app_config['developer']['debug_mode'], 'lower');
-$app_config['comms']['upgrade_check'] = auto_correct_string($app_config['comms']['upgrade_check'], 'lower');
+$app_config['comms']['upgrade_alert'] = auto_correct_string($app_config['comms']['upgrade_alert'], 'lower');
 $app_config['general']['btc_primary_currency_pairing'] = auto_correct_string($app_config['general']['btc_primary_currency_pairing'], 'lower');
 $app_config['general']['btc_primary_exchange'] = auto_correct_string($app_config['general']['btc_primary_exchange'], 'lower');
 $app_config['developer']['log_verbosity'] = auto_correct_string($app_config['developer']['log_verbosity'], 'lower');
 $app_config['general']['default_theme'] = auto_correct_string($app_config['general']['default_theme'], 'lower');
 $app_config['general']['primary_marketcap_site'] = auto_correct_string($app_config['general']['primary_marketcap_site'], 'lower');
 $app_config['comms']['price_alerts_block_volume_error'] = auto_correct_string($app_config['comms']['price_alerts_block_volume_error'], 'lower');
-$app_config['power_user']['remote_api_strict_ssl'] = auto_correct_string($app_config['power_user']['remote_api_strict_ssl'], 'lower');
-$app_config['general']['charts_toggle'] = auto_correct_string($app_config['general']['charts_toggle'], 'lower');
+$app_config['developer']['remote_api_strict_ssl'] = auto_correct_string($app_config['developer']['remote_api_strict_ssl'], 'lower');
+$app_config['general']['asset_charts_toggle'] = auto_correct_string($app_config['general']['asset_charts_toggle'], 'lower');
 $app_config['comms']['proxy_alerts'] = auto_correct_string($app_config['comms']['proxy_alerts'], 'lower');
 $app_config['comms']['proxy_alerts_runtime'] = auto_correct_string($app_config['comms']['proxy_alerts_runtime'], 'lower');
 $app_config['comms']['proxy_alerts_checkup_ok'] = auto_correct_string($app_config['comms']['proxy_alerts_checkup_ok'], 'lower');

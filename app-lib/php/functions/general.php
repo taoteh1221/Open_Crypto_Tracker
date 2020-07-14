@@ -929,7 +929,7 @@ $vars['cfg_secure']   = $smtp_secure;
 $vars['cfg_username'] = $smtp_user;
 $vars['cfg_password'] = $smtp_password;
 $vars['cfg_debug_mode'] = $app_config['developer']['debug_mode']; // DFD Cryptocoin Values debug mode setting
-$vars['cfg_strict_ssl'] = $app_config['power_user']['smtp_strict_ssl']; // DFD Cryptocoin Values strict SSL setting
+$vars['cfg_strict_ssl'] = $app_config['developer']['smtp_strict_ssl']; // DFD Cryptocoin Values strict SSL setting
 $vars['cfg_app_version'] = $app_version; // DFD Cryptocoin Values version
 
 return $vars;

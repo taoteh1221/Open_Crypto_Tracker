@@ -19,8 +19,8 @@ if ( $runtime_mode != 'cron' && update_cache_file($base_dir . '/cache/events/sch
 	if ( $runtime_mode == 'cron' ) {
 	
 		// Chart backups...run before any price checks to avoid any potential file lock issues
-		if ( $app_config['general']['charts_toggle'] == 'on' && $app_config['charts_alerts']['charts_backup_freq'] > 0 ) {
-		backup_archive('charts-data', $base_dir . '/cache/charts/', $app_config['charts_alerts']['charts_backup_freq']); // No $backup_archive_password extra param here (waste of time / energy to encrypt charts data backups)
+		if ( $app_config['general']['asset_charts_toggle'] == 'on' && $app_config['power_user']['charts_backup_freq'] > 0 ) {
+		backup_archive('charts-data', $base_dir . '/cache/charts/', $app_config['power_user']['charts_backup_freq']); // No $backup_archive_password extra param here (waste of time / energy to encrypt charts data backups)
 		}
    
 	}
@@ -50,7 +50,7 @@ store_file_contents($base_dir . '/cache/vars/cache_size.dat', convert_bytes( dir
 // Cache files cleanup...
 
 // Delete ANY old zip archive backups scheduled to be purged
-delete_old_files($base_dir . '/cache/secured/backups', $app_config['general']['backup_archive_delete_old'], 'zip');
+delete_old_files($base_dir . '/cache/secured/backups', $app_config['power_user']['backup_archive_delete_old'], 'zip');
 
 
 // Stale cache files cleanup...
@@ -72,7 +72,7 @@ $logs_cache_cleanup = array(
 									$base_dir . '/cache/logs/errors/external_api',
 									);
 									
-delete_old_files($logs_cache_cleanup, $app_config['developer']['log_purge'], 'dat'); // Delete LOGS API cache files older than $app_config['developer']['log_purge'] day(s)
+delete_old_files($logs_cache_cleanup, $app_config['power_user']['log_purge'], 'dat'); // Delete LOGS API cache files older than $app_config['power_user']['log_purge'] day(s)
 
 
 // Update the maintenance event tracking

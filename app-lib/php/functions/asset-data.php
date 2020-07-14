@@ -448,9 +448,9 @@ $possible_dos_attack = 0;
 	 }
 	 
 	 
-	 // Return error message if the markets lists is more markets than allowed by $app_config['power_user']['local_api_market_limit']
-	 if ( sizeof($all_markets_data_array) > $app_config['power_user']['local_api_market_limit'] ) {
-	 $result['error'] = 'Exceeded maximum of ' . $app_config['power_user']['local_api_market_limit'] . ' markets allowed per request (' . sizeof($all_markets_data_array) . ').';
+	 // Return error message if the markets lists is more markets than allowed by $app_config['developer']['local_api_market_limit']
+	 if ( sizeof($all_markets_data_array) > $app_config['developer']['local_api_market_limit'] ) {
+	 $result['error'] = 'Exceeded maximum of ' . $app_config['developer']['local_api_market_limit'] . ' markets allowed per request (' . sizeof($all_markets_data_array) . ').';
 	 app_logging('int_api_error', 'From ' . $remote_ip . ' (Exceeded maximum markets allowed per request)', 'markets_requested: ' . sizeof($all_markets_data_array) . '; uri: ' . $_SERVER['REQUEST_URI'] . ';');
 	 return $result;
 	 }
@@ -1117,8 +1117,8 @@ $volume_pairing_raw = number_to_string($volume_pairing_raw);
 	// Charts
 	/////////////////////////////////////////////////////////////////
 	// If the charts page is enabled in config.php, save latest chart data for assets with price alerts configured on them
-	if ( $mode == 'both' && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && $app_config['general']['charts_toggle'] == 'on'
-	|| $mode == 'chart' && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && $app_config['general']['charts_toggle'] == 'on' ) {
+	if ( $mode == 'both' && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && $app_config['general']['asset_charts_toggle'] == 'on'
+	|| $mode == 'chart' && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && $app_config['general']['asset_charts_toggle'] == 'on' ) {
 	
 		
 	// PRIMARY CURRENCY CONFIG ARCHIVAL charts (CRYPTO/PRIMARY CURRENCY CONFIG markets, 
@@ -1797,7 +1797,7 @@ $original_market = $selected_exchange;
 			else {
 			?>
 
-			var cmc_content = '<p class="coin_info"><span class="red_bright"><?=ucfirst($app_config['general']['primary_marketcap_site'])?> API may be offline / under heavy load, <br />marketcap range not set high enough (current range is top <?=$app_config['power_user']['marketcap_ranks_max']?> marketcaps), <br />or API timeout set too low (current timeout is <?=$app_config['power_user']['remote_api_timeout']?> seconds). <br /><br />Configuration adjustments can be made in config.php.</span></p>';
+			var cmc_content = '<p class="coin_info"><span class="red_bright"><?=ucfirst($app_config['general']['primary_marketcap_site'])?> API may be offline / under heavy load, <br />marketcap range not set high enough (current range is top <?=$app_config['power_user']['marketcap_ranks_max']?> marketcaps), <br />or API timeout set too low (current timeout is <?=$app_config['developer']['remote_api_timeout']?> seconds). <br /><br />Configuration adjustments can be made in config.php.</span></p>';
 	
 			<?php
 			}

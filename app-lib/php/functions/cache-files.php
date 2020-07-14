@@ -280,7 +280,7 @@ global $app_config, $base_dir, $base_url;
 					
 				$backup_url = 'download.php?backup=' . $backup_file;
 				
-				$message = "A backup archive has been created for: ".$backup_prefix."\n\nHere is a link to download the backup to your computer: " . $base_url . $backup_url . "\n\n(backup archives are purged after " . $app_config['general']['backup_archive_delete_old'] . " days)";
+				$message = "A backup archive has been created for: ".$backup_prefix."\n\nHere is a link to download the backup to your computer: " . $base_url . $backup_url . "\n\n(backup archives are purged after " . $app_config['power_user']['backup_archive_delete_old'] . " days)";
 				
 				// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
 				$send_params = array(
@@ -422,7 +422,7 @@ $debugging_logs .= strip_tags($logs_array['other_debugging']); // Remove any HTM
 
 
 	// If it's time to email debugging logs...
-	if ( $app_config['comms']['email_logs'] > 0 && update_cache_file('cache/events/email-debugging-logs.dat', ( $app_config['comms']['email_logs'] * 1440 ) ) == true ) {
+	if ( $app_config['power_user']['email_logs'] > 0 && update_cache_file('cache/events/email-debugging-logs.dat', ( $app_config['power_user']['email_logs'] * 1440 ) ) == true ) {
 		
 	$emailed_logs = "\n\n ------------------debugging.log------------------ \n\n" . file_get_contents('cache/logs/debugging.log') . "\n\n ------------------smtp_debugging.log------------------ \n\n" . file_get_contents('cache/logs/smtp_debugging.log');
 		
@@ -445,7 +445,7 @@ $debugging_logs .= strip_tags($logs_array['other_debugging']); // Remove any HTM
 	
 	
 	// Log debugging...Purge old logs before storing new logs, if it's time to...otherwise just append.
-	if ( update_cache_file('cache/events/purge-debugging-logs.dat', ( $app_config['developer']['log_purge'] * 1440 ) ) == true ) {
+	if ( update_cache_file('cache/events/purge-debugging-logs.dat', ( $app_config['power_user']['log_purge'] * 1440 ) ) == true ) {
 		
 	store_file_contents($base_dir . '/cache/logs/smtp_debugging.log', null);
 	
@@ -512,7 +512,7 @@ $error_logs .= strip_tags($logs_array['other_error']); // Remove any HTML format
 
 
 	// If it's time to email error logs...
-	if ( $app_config['comms']['email_logs'] > 0 && update_cache_file('cache/events/email-error-logs.dat', ( $app_config['comms']['email_logs'] * 1440 ) ) == true ) {
+	if ( $app_config['power_user']['email_logs'] > 0 && update_cache_file('cache/events/email-error-logs.dat', ( $app_config['power_user']['email_logs'] * 1440 ) ) == true ) {
 		
 	$emailed_logs = "\n\n ------------------errors.log------------------ \n\n" . file_get_contents('cache/logs/errors.log') . "\n\n ------------------smtp_errors.log------------------ \n\n" . file_get_contents('cache/logs/smtp_errors.log');
 		
@@ -535,7 +535,7 @@ $error_logs .= strip_tags($logs_array['other_error']); // Remove any HTML format
 	
 	
 	// Log errors...Purge old logs before storing new logs, if it's time to...otherwise just append.
-	if ( update_cache_file('cache/events/purge-error-logs.dat', ( $app_config['developer']['log_purge'] * 1440 ) ) == true ) {
+	if ( update_cache_file('cache/events/purge-error-logs.dat', ( $app_config['power_user']['log_purge'] * 1440 ) ) == true ) {
 		
 	store_file_contents($base_dir . '/cache/logs/smtp_errors.log', null);
 	
@@ -588,7 +588,7 @@ global $app_config, $current_runtime_user, $possible_http_users, $http_runtime_u
 	
 		// API timeouts are a confirmed cause for write errors of 0 bytes, so we want to alert end users that they may need to adjust their API timeout settings to get associated API data
 		if ( preg_match("/cache\/secured\/apis/i", $file) ) {
-		app_logging('ext_api_error', 'POSSIBLE api timeout' . ( $app_config['power_user']['remote_api_strict_ssl'] == 'on' ? ' or strict_ssl' : '' ) . ' issue for cache file "' . obfuscated_path_data($file) . '" (IF THIS ISSUE PERSISTS #LONG TERM#, TRY INCREASING "remote_api_timeout"' . ( $app_config['power_user']['remote_api_strict_ssl'] == 'on' ? ' OR SETTING "remote_api_strict_ssl" to "off"' : '' ) . ' IN THE POWER USER SECTION in config.php)', 'remote_api_timeout: '.$app_config['power_user']['remote_api_timeout'].' seconds; remote_api_strict_ssl: ' . $app_config['power_user']['remote_api_strict_ssl'] . ';');
+		app_logging('ext_api_error', 'POSSIBLE api timeout' . ( $app_config['developer']['remote_api_strict_ssl'] == 'on' ? ' or strict_ssl' : '' ) . ' issue for cache file "' . obfuscated_path_data($file) . '" (IF THIS ISSUE PERSISTS #LONG TERM#, TRY INCREASING "remote_api_timeout"' . ( $app_config['developer']['remote_api_strict_ssl'] == 'on' ? ' OR SETTING "remote_api_strict_ssl" to "off"' : '' ) . ' IN THE DEVELOPER SECTION in config.php)', 'remote_api_timeout: '.$app_config['developer']['remote_api_timeout'].' seconds; remote_api_strict_ssl: ' . $app_config['developer']['remote_api_strict_ssl'] . ';');
 		}
 	
 	return false;
@@ -929,10 +929,10 @@ $oldest_archival_timestamp = number_to_string($first_archival_array[0]);
 	
 	// Minimum time interval between data points in lite chart
 	if ( $days_span == 'all' ) {
-	$min_data_interval = round( ($newest_archival_timestamp - $oldest_archival_timestamp) / $app_config['power_user']['lite_chart_data_points_max'] ); // Dynamic
+	$min_data_interval = round( ($newest_archival_timestamp - $oldest_archival_timestamp) / $app_config['developer']['lite_chart_data_points_max'] ); // Dynamic
 	}
 	else {
-	$min_data_interval = round( ($days_span * 86400) / $app_config['power_user']['lite_chart_data_points_max'] ); // Fixed X days (86400 seconds per day)
+	$min_data_interval = round( ($days_span * 86400) / $app_config['developer']['lite_chart_data_points_max'] ); // Fixed X days (86400 seconds per day)
 	}
 
 
@@ -1026,7 +1026,7 @@ $lite_data_update_threshold = number_to_string($lite_data_update_threshold);
 		$loop = 0;
 		$data_points = 0;
 		// $data_points <= is INTENTIONAL, as we can have max data points slightly under without it
-		while ( isset($archival_data[$loop]) && $data_points <= $app_config['power_user']['lite_chart_data_points_max'] ) {
+		while ( isset($archival_data[$loop]) && $data_points <= $app_config['developer']['lite_chart_data_points_max'] ) {
 			
 		$data_point_array = explode("||", $archival_data[$loop]);
 		$data_point_array[0] = number_to_string($data_point_array[0]);
@@ -1053,7 +1053,8 @@ $lite_data_update_threshold = number_to_string($lite_data_update_threshold);
 
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// If the lite chart has existing data, AND we have new data to append to it / trim out X first lines (if at 'lite_chart_data_points_max')
+	// If the lite chart has existing data, AND we have new data to append to it / trim out 
+	// X first lines of stale data (earlier then the X days time range)
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	elseif ( $newest_lite_timestamp && sizeof($queued_archival_lines) > 0 ) {
 		
@@ -1061,48 +1062,33 @@ $lite_data_update_threshold = number_to_string($lite_data_update_threshold);
 	
 	// Current lite chart lines, plus new archival lines queued to be added
 	$check_lite_data_lines = get_lines($lite_path) + sizeof($queued_archival_lines);
-	
-		// Append if less than 'lite_chart_data_points_max'
-		if ( $check_lite_data_lines < $app_config['power_user']['lite_chart_data_points_max'] ) {
 		
-		// Get FIRST line of lite chart data (determines oldest lite timestamp)
-		$fopen_lite = fopen($lite_path, 'r');
+	// Get FIRST line of lite chart data (determines oldest lite timestamp)
+	$fopen_lite = fopen($lite_path, 'r');
 	
-			if ($fopen_lite) {
-			$first_lite_line = fgets($fopen_lite);
-			fclose($fopen_lite);
-			usleep(20000); // Wait 0.02 seconds, since we'll be writing data to this file momentarily
-			gc_collect_cycles(); // Clean memory cache
-			}
+		if ($fopen_lite) {
+		$first_lite_line = fgets($fopen_lite);
+		fclose($fopen_lite);
+		usleep(20000); // Wait 0.02 seconds, since we'll be writing data to this file momentarily
+		gc_collect_cycles(); // Clean memory cache
+		}
 				
-		$first_lite_array = explode("||", $first_lite_line);
-		$oldest_lite_timestamp = number_to_string($first_lite_array[0]);
+	$first_lite_array = explode("||", $first_lite_line);
+	$oldest_lite_timestamp = number_to_string($first_lite_array[0]);
 		
-			// If our oldest lite timestamp is older than allowed, remove the stale data points
-			if ( $oldest_lite_timestamp < $oldest_allowed_timestamp ) {
-			$lite_data_removed_outdated_lines = prune_first_lines($lite_path, 0, $oldest_allowed_timestamp);
+		// If our oldest lite timestamp is older than allowed, remove the stale data points
+		if ( $oldest_lite_timestamp < $oldest_allowed_timestamp ) {
+		$lite_data_removed_outdated_lines = prune_first_lines($lite_path, 0, $oldest_allowed_timestamp);
 			
-			$result = store_file_contents($lite_path, $lite_data_removed_outdated_lines['data'] . "\n" . $queued_archival_data . "\n");  // WITH newlines (file write)
-			$lite_mode_logging = 'OVERWRITE_' . $lite_data_removed_outdated_lines['lines_removed'] . '_OUTDATED_PRUNED_' . $added_archival_mode;
-			}
-			// If we're clear to just append the latest data
-			else {
-			$result = store_file_contents($lite_path, $queued_archival_data . "\n", "append");  // WITH newline (file write)
-			$lite_mode_logging = 'APPEND_' . $added_archival_mode;
-			}
-		
-		
+		$result = store_file_contents($lite_path, $lite_data_removed_outdated_lines['data'] . "\n" . $queued_archival_data . "\n");  // WITH newlines (file write)
+		$lite_mode_logging = 'OVERWRITE_' . $lite_data_removed_outdated_lines['lines_removed'] . '_OUTDATED_PRUNED_' . $added_archival_mode;
 		}
-		// Overwrite if equal / more than 'lite_chart_data_points_max', AFTER dynamically 
-		// removing the stale data points, AND appending the new data
+		// If we're clear to just append the latest data
 		else {
-		$remove_lines = ($check_lite_data_lines - $app_config['power_user']['lite_chart_data_points_max']) + 1;
-		$lite_data_removed_exess_lines = prune_first_lines($lite_path, $remove_lines);
-		
-		$result = store_file_contents($lite_path, $lite_data_removed_exess_lines['data'] . "\n" . $queued_archival_data . "\n");  // WITH newlines (file write)
-		$lite_mode_logging = 'OVERWRITE_' . $lite_data_removed_exess_lines['lines_removed'] . '_EXCESS_PRUNED_' . $added_archival_mode;
+		$result = store_file_contents($lite_path, $queued_archival_data . "\n", "append");  // WITH newline (file write)
+		$lite_mode_logging = 'APPEND_' . $added_archival_mode;
 		}
-	
+		
 
 	}
 	// No lite data to update
@@ -1731,8 +1717,8 @@ $endpoint_tld_or_ip = get_tld_or_ip($api_endpoint);
 	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
-	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $app_config['power_user']['remote_api_timeout']);
-	curl_setopt($ch, CURLOPT_TIMEOUT, $app_config['power_user']['remote_api_timeout']);
+	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $app_config['developer']['remote_api_timeout']);
+	curl_setopt($ch, CURLOPT_TIMEOUT, $app_config['developer']['remote_api_timeout']);
 	
 		
 		// Medium / Reddit (and maybe whatbitcoindid) are a bit funky with allowed user agents, so we need to let them know this is a real feed parser (not just a spammy bot)
@@ -1775,7 +1761,7 @@ $endpoint_tld_or_ip = get_tld_or_ip($api_endpoint);
 			
 			}
 			else {
-			$remote_api_strict_ssl = $app_config['power_user']['remote_api_strict_ssl'];
+			$remote_api_strict_ssl = $app_config['developer']['remote_api_strict_ssl'];
 			}
 			
 		
@@ -1874,7 +1860,7 @@ $endpoint_tld_or_ip = get_tld_or_ip($api_endpoint);
 	
 		
 		// LOG-SAFE VERSION (no post data with API keys etc)
-		app_logging('ext_api_error', 'connection failed for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint) . $log_append, 'requested from: server (' . $app_config['power_user']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . obfuscate_string($hash_check, 4) . ';' );
+		app_logging('ext_api_error', 'connection failed for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint) . $log_append, 'requested from: server (' . $app_config['developer']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . obfuscate_string($hash_check, 4) . ';' );
 		
 		
 			if ( sizeof($app_config['proxy']['proxy_list']) > 0 && $current_proxy != '' && $mode != 'proxy-check' ) { // Avoid infinite loops doing proxy checks
@@ -1918,7 +1904,7 @@ $endpoint_tld_or_ip = get_tld_or_ip($api_endpoint);
 				$error_response_log = '/cache/logs/errors/external_api/error-response-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-hash-'.$hash_check.'-timestamp-'.time().'.log';
 				
 				// LOG-SAFE VERSION (no post data with API keys etc)
-					app_logging('ext_api_error', 'POSSIBLE error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint), 'requested from: server (' . $app_config['power_user']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; debug_file: ' . $error_response_log . '; btc_primary_currency_pairing: ' . $app_config['general']['btc_primary_currency_pairing'] . '; btc_primary_exchange: ' . $app_config['general']['btc_primary_exchange'] . '; btc_primary_currency_value: ' . number_to_string($selected_btc_primary_currency_value) . '; hash_check: ' . obfuscate_string($hash_check, 4) . ';' );
+					app_logging('ext_api_error', 'POSSIBLE error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint), 'requested from: server (' . $app_config['developer']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; debug_file: ' . $error_response_log . '; btc_primary_currency_pairing: ' . $app_config['general']['btc_primary_currency_pairing'] . '; btc_primary_exchange: ' . $app_config['general']['btc_primary_exchange'] . '; btc_primary_currency_value: ' . number_to_string($selected_btc_primary_currency_value) . '; hash_check: ' . obfuscate_string($hash_check, 4) . ';' );
 				
 				// Log this error response from this data request
 				store_file_contents($base_dir . $error_response_log, $data);
@@ -1987,7 +1973,7 @@ $endpoint_tld_or_ip = get_tld_or_ip($api_endpoint);
 					
 					
 				// LOG-SAFE VERSION (no post data with API keys etc)
-				app_logging('ext_api_error', 'CONFIRMED error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint) . $log_append, 'requested from: server (' . $app_config['power_user']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; btc_primary_currency_pairing: ' . $app_config['general']['btc_primary_currency_pairing'] . '; btc_primary_exchange: ' . $app_config['general']['btc_primary_exchange'] . '; btc_primary_currency_value: ' . number_to_string($selected_btc_primary_currency_value) . '; hash_check: ' . obfuscate_string($hash_check, 4) . ';' );
+				app_logging('ext_api_error', 'CONFIRMED error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint) . $log_append, 'requested from: server (' . $app_config['developer']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; btc_primary_currency_pairing: ' . $app_config['general']['btc_primary_currency_pairing'] . '; btc_primary_exchange: ' . $app_config['general']['btc_primary_exchange'] . '; btc_primary_currency_value: ' . number_to_string($selected_btc_primary_currency_value) . '; hash_check: ' . obfuscate_string($hash_check, 4) . ';' );
 					
 			
 				}
@@ -2003,7 +1989,7 @@ $endpoint_tld_or_ip = get_tld_or_ip($api_endpoint);
 			if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'all_telemetry' || $app_config['developer']['debug_mode'] == 'api_live_only' ) {
 				
 			// LOG-SAFE VERSION (no post data with API keys etc)
-			app_logging('ext_api_debugging', 'LIVE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint), 'request from: server (' . $app_config['power_user']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . obfuscate_string($hash_check, 4) . ';' );
+			app_logging('ext_api_debugging', 'LIVE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint), 'request from: server (' . $app_config['developer']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . obfuscate_string($hash_check, 4) . ';' );
 			
 			// Log this as the latest response from this data request
 			store_file_contents($base_dir . '/cache/logs/debugging/external_api/last-response-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-'.$hash_check.'.log', $data);

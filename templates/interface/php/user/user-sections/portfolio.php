@@ -429,7 +429,13 @@ $ethereum_dominance = number_to_string( ( $btc_worth_array['ETH'] / $total_btc_w
 
 $miscassets_dominance = number_to_string( ( $btc_worth_array['MISCASSETS'] / $total_btc_worth_raw ) * 100 );
 
-$altcoin_dominance = number_to_string( 100 - $bitcoin_dominance - $ethereum_dominance - $miscassets_dominance );
+$altcoin_dominance = ( $total_btc_worth_raw >= 0.00000001 ? number_to_string( 100 - $bitcoin_dominance - $ethereum_dominance - $miscassets_dominance ) : 0.00 );
+
+// Remove any slight decimal over 100 (100.01 etc)
+$bitcoin_dominance = max_100($bitcoin_dominance);
+$ethereum_dominance = max_100($ethereum_dominance);
+$miscassets_dominance = max_100($miscassets_dominance);
+$altcoin_dominance = max_100($altcoin_dominance);
 	
 		
 ?>
@@ -564,7 +570,7 @@ $altcoin_dominance = number_to_string( 100 - $bitcoin_dominance - $ethereum_domi
 			
 			if ( number_to_string($bitcoin_dominance) >= 0.01 ) {
 			$bitcoin_dominance_text = number_format($bitcoin_dominance, 2, '.', ',') . '% BTC';
-			$seperator_btc = ( number_to_string($bitcoin_dominance) < 100 ? ' / ' : '' );
+			$seperator_btc = ( number_to_string($bitcoin_dominance) <= 99.99 ? ' / ' : '' );
 			}
 			
 			if ( number_to_string($ethereum_dominance) >= 0.01 ) {
@@ -602,7 +608,8 @@ $altcoin_dominance = number_to_string( 100 - $bitcoin_dominance - $ethereum_domi
 					$key = 'Misc. ' . strtoupper($app_config['general']['btc_primary_currency_pairing']);
 					}
 					
-					$balance_stats = ( $value / $total_btc_worth_raw ) * 100;
+					// Remove any slight decimal over 100 (100.01 etc)
+					$balance_stats = max_100( ( $value / $total_btc_worth_raw ) * 100 );
 					
 						if ( $balance_stats >= 0.01 ) {
 						$balance_stats_encoded .= '&' . urlencode($key) . '=' . urlencode( number_format($balance_stats, 2, '.', ',') );

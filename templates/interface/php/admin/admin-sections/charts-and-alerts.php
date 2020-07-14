@@ -8,7 +8,7 @@
 
 <div class='max_1200px_wrapper'>
 	
-				<h3 class='align_center'><?=( $app_config['general']['charts_toggle'] == 'on' ? 'Charts and ' : 'Price ' )?>Alerts</h3>
+				<h3 class='align_center'><?=( $app_config['general']['asset_charts_toggle'] == 'on' ? 'Charts and ' : 'Price ' )?>Alerts</h3>
 				
 	
 	

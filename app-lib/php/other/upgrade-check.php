@@ -8,7 +8,7 @@
 	////////////////////////////////////////////////////////////
 	// If upgrade check is enabled, check daily for upgrades
 	////////////////////////////////////////////////////////////
-	if ( isset($app_config['comms']['upgrade_check']) && $app_config['comms']['upgrade_check'] != 'off' && update_cache_file($base_dir . '/cache/vars/upgrade_check_latest_version.dat', 1440) == true ) {
+	if ( isset($app_config['comms']['upgrade_alert']) && $app_config['comms']['upgrade_alert'] != 'off' && update_cache_file($base_dir . '/cache/vars/upgrade_check_latest_version.dat', 1440) == true ) {
 	
 	
 	$upgrade_check_jsondata = @external_api_data('url', 'https://api.github.com/repos/taoteh1221/DFD_Cryptocoin_Values/releases/latest', 0); // Don't cache API data
@@ -52,8 +52,8 @@
 		// EVENTUALLY PUT UI ALERT LOGIC HERE
 
 		
-			// Email / text / alexa notification reminders (if it's been $app_config['comms']['upgrade_check_reminder'] days since any previous reminder)
-			if ( update_cache_file($base_dir . '/cache/events/upgrade_check_reminder.dat', ( $app_config['comms']['upgrade_check_reminder'] * 1440 ) ) == true ) {
+			// Email / text / alexa notification reminders (if it's been $app_config['comms']['upgrade_alert_reminder'] days since any previous reminder)
+			if ( update_cache_file($base_dir . '/cache/events/upgrade_check_reminder.dat', ( $app_config['comms']['upgrade_alert_reminder'] * 1440 ) ) == true ) {
 			
 			
 				if ( file_exists($base_dir . '/cache/events/upgrade_check_reminder.dat') ) {
@@ -64,11 +64,11 @@
 			$upgrade_check_message = $another_reminder . 'An upgrade for DFD Cryptocoin Values to version ' . $upgrade_check_latest_version . ' is available. You are running version ' . $app_version . '.' . $bug_fix_message_extension;
 			
 			
-			$email_notifyme_message = $upgrade_check_message . ' (you have upgrade reminders triggered every '.$app_config['comms']['upgrade_check_reminder'].' days in the configuration settings)';
+			$email_notifyme_message = $upgrade_check_message . ' (you have upgrade reminders triggered every '.$app_config['comms']['upgrade_alert_reminder'].' days in the configuration settings)';
 			
 						
 					// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
-					if ( $app_config['comms']['upgrade_check'] == 'all' ) {
+					if ( $app_config['comms']['upgrade_alert'] == 'all' ) {
 						
 					$ui_upgrade_alert = array(
 														'run' => 'yes',
@@ -95,7 +95,7 @@
 											);
 				
 					}
-					elseif ( $app_config['comms']['upgrade_check'] == 'email' ) {
+					elseif ( $app_config['comms']['upgrade_alert'] == 'email' ) {
 						
 					$upgrade_check_send_params['email'] = array(
 														'subject' => $another_reminder . 'DFD Cryptocoin Values v'.$upgrade_check_latest_version.' Upgrade Available' . $bug_fix_subject_extension,
@@ -103,7 +103,7 @@
 														);
 				
 					}
-					elseif ( $app_config['comms']['upgrade_check'] == 'text' ) {
+					elseif ( $app_config['comms']['upgrade_alert'] == 'text' ) {
 					
 					// Minimize function calls
 					$encoded_text_alert = content_data_encoding($upgrade_check_message);
@@ -116,13 +116,13 @@
 														);
 				
 					}
-					elseif ( $app_config['comms']['upgrade_check'] == 'notifyme' ) {
+					elseif ( $app_config['comms']['upgrade_alert'] == 'notifyme' ) {
 					$upgrade_check_send_params['notifyme'] = $email_notifyme_message;
 					}
-					elseif ( $app_config['comms']['upgrade_check'] == 'telegram' ) {
+					elseif ( $app_config['comms']['upgrade_alert'] == 'telegram' ) {
 					$upgrade_check_send_params['telegram'] = $email_notifyme_message;
 					}
-					elseif ( $app_config['comms']['upgrade_check'] == 'ui' ) {
+					elseif ( $app_config['comms']['upgrade_alert'] == 'ui' ) {
 						
 					$ui_upgrade_alert = array(
 														'run' => 'yes',

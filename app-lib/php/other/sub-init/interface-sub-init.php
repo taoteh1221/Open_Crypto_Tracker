@@ -17,7 +17,7 @@ $app_config['general']['primary_marketcap_site'] = ( $alert_percent[0] != '' ? $
 $show_feeds = explode(',', rtrim( ( $_POST['show_feeds'] != '' ? $_POST['show_feeds'] : $_COOKIE['show_feeds'] ) , ',') );
 
 	// Only set from cookie / post values if charts are enabled
-	if ( $app_config['general']['charts_toggle'] == 'on' ) {
+	if ( $app_config['general']['asset_charts_toggle'] == 'on' ) {
 	$show_charts = explode(',', rtrim( ( $_POST['show_charts'] != '' ? $_POST['show_charts'] : $_COOKIE['show_charts'] ) , ',') );
 	}
 	else {

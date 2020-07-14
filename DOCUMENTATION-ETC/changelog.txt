@@ -3789,17 +3789,19 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Bug fix for notifyme / alexa and text service APIs (recently introduced in v4.14.10 code overhaul, sorry fixed now)
 
--Prettier dropdown menus and text fields
+-Bug fix for light charts (was not always checking for oldest lite chart timestamp before updating, and was pruning too much on occasion as a result)
 
 -Error / debugging alerts moved into more visible header icon dropdown (bell icon turns red when error notices exist, shows new logged errors / debugging when clicked)
 
 -Interface alert for available upgrades (checks github.com for new releases, defaults = interface only / remind once every 14 days)
 
--More News feeds
+-Prettier dropdown menus and text fields
+
+-Minor fixes / UX revisions
 
 -Resources page update
 
--Minor fixes / UX revisions
+-More News feeds
 
 IMPORTANT UPGRADE NOTES: 
 

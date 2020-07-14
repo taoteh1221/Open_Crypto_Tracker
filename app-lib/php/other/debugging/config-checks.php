@@ -333,7 +333,7 @@ $smtp_email_server_parse = explode(":", $app_config['comms']['smtp_server'] );
 
 
 // Email logs configs
-if ( $app_config['comms']['email_logs'] > 0 && trim($app_config['comms']['from_email']) != '' && trim($app_config['comms']['to_email']) != '' ) {
+if ( $app_config['power_user']['email_logs'] > 0 && trim($app_config['comms']['from_email']) != '' && trim($app_config['comms']['to_email']) != '' ) {
 					
 	// Config error check(s)
    if ( $validate_from_email != 'valid' ) {
@@ -374,7 +374,7 @@ if ( $app_config['comms']['email_logs'] > 0 && trim($app_config['comms']['from_e
 
 
 // Email backup archives configs
-if ( $app_config['general']['charts_toggle'] == 'on' && $app_config['charts_alerts']['charts_backup_freq'] > 0 && trim($app_config['comms']['from_email']) != '' && trim($app_config['comms']['to_email']) != '' ) {
+if ( $app_config['general']['asset_charts_toggle'] == 'on' && $app_config['power_user']['charts_backup_freq'] > 0 && trim($app_config['comms']['from_email']) != '' && trim($app_config['comms']['to_email']) != '' ) {
 					
 	// Config error check(s)
    if ( $validate_from_email != 'valid' ) {

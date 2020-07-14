@@ -386,7 +386,7 @@ $result = array();
 	
 	$request = "{$url}?{$qs}"; // create the request URL
 
-	$jsondata = @external_api_data('url', $request, $app_config['power_user']['remote_api_timeout'], null, null, null, $headers);
+	$jsondata = @external_api_data('url', $request, $app_config['developer']['remote_api_timeout'], null, null, null, $headers);
 	
 	$data = json_decode($jsondata, true);
         
@@ -432,7 +432,7 @@ global $app_config, $base_dir, $fetched_feeds;
 	}
 	
 
-$news_feeds_cache_min_max = explode(',', $app_config['power_user']['news_feeds_cache_min_max']);
+$news_feeds_cache_min_max = explode(',', $app_config['developer']['news_feeds_cache_min_max']);
 // Cleanup
 $news_feeds_cache_min_max = array_map('trim', $news_feeds_cache_min_max);
 	

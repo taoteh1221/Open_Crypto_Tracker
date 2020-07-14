@@ -46,9 +46,9 @@
           	</p>      
           <?php
           }
-			if ( $app_config['comms']['email_logs'] > 0 && trim($app_config['comms']['from_email']) != '' && trim($app_config['comms']['to_email']) != '' ) {
+			if ( $app_config['power_user']['email_logs'] > 0 && trim($app_config['comms']['from_email']) != '' && trim($app_config['comms']['to_email']) != '' ) {
           ?>
-          	<p class='settings_sections'><b>Emailing logs</b> is <i>enabled</i> in the configuration file (sent out every <?=$app_config['comms']['email_logs']?> days, log files purged every <?=$app_config['developer']['log_purge']?> days).
+          	<p class='settings_sections'><b>Emailing logs</b> is <i>enabled</i> in the configuration file (sent out every <?=$app_config['power_user']['email_logs']?> days, log files purged every <?=$app_config['power_user']['log_purge']?> days).
           	
           	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job on your web server</a>, or this feature will not work RELIABLY.</i> 
           	
@@ -58,9 +58,9 @@
                         
 			<?php
 			}
-			if ( $app_config['general']['charts_toggle'] == 'on' && $app_config['charts_alerts']['charts_backup_freq'] > 0 && trim($app_config['comms']['from_email']) != '' && trim($app_config['comms']['to_email']) != '' ) {
+			if ( $app_config['general']['asset_charts_toggle'] == 'on' && $app_config['power_user']['charts_backup_freq'] > 0 && trim($app_config['comms']['from_email']) != '' && trim($app_config['comms']['to_email']) != '' ) {
           ?>
-          	<p class='settings_sections'><b>Chart Backups</b> are <i>enabled</i> in the configuration file (run every <?=$app_config['charts_alerts']['charts_backup_freq']?> days, purged after <?=$app_config['general']['backup_archive_delete_old']?> days old).
+          	<p class='settings_sections'><b>Chart Backups</b> are <i>enabled</i> in the configuration file (run every <?=$app_config['power_user']['charts_backup_freq']?> days, purged after <?=$app_config['power_user']['backup_archive_delete_old']?> days old).
           	
           	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job on your web server</a>, or this feature will not work AT ALL.</i> 
           	

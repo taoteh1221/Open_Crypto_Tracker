@@ -27,14 +27,14 @@
 ////////////////////////////////////////
 
 
-// Enable / disable daily upgrade checks and alerts (DEFAULT IS ENABLED)
+// Enable / disable daily upgrade checks / alerts (DEFAULT: WEB INTERFACE ONLY)
 // (Checks latest release version via github.com API endpoint value "tag_name" 
 // @ https://api.github.com/repos/taoteh1221/DFD_Cryptocoin_Values/releases/latest)
 // Choosing 'all' will send to all properly-configured communication channels, and automatically skip any not properly setup
-$app_config['comms']['upgrade_check'] = 'ui'; // 'off' (disabled) / 'all' / 'ui' (web interface) / 'email' / 'text' / 'notifyme' / 'telegram'
+$app_config['comms']['upgrade_alert'] = 'ui'; // 'off' (disabled) / 'all' / 'ui' (web interface) / 'email' / 'text' / 'notifyme' / 'telegram'
 ////
 // Wait X days between upgrade reminders
-$app_config['comms']['upgrade_check_reminder'] = 14; // (only used if upgrade check is enabled above)
+$app_config['comms']['upgrade_alert_reminder'] = 7; // (only used if upgrade check is enabled above)
 
 
 // IF SMTP EMAIL SENDING --NOT-- USED, FROM email should be REAL address on the website domain, or risk having email blacklisted / sent to junk folder
@@ -110,11 +110,11 @@ $app_config['comms']['telegram_bot_token'] = '';  // Your bot's access token
 // PRICE ALERTS SETUP REQUIRES A CRON JOB RUNNING ON YOUR WEBSITE SERVER (see README.txt for cron job setup information) 
 // Price alerts will send to all properly-configured communication channels, and automatically skip any not properly setup
 // Price percent change to send alerts for (WITHOUT percent sign: 15.75 = 15.75%). Sends alerts when percent change reached (up or down)
-$app_config['comms']['price_alerts_threshold'] = 8.85; // CAN BE 0 TO DISABLE PRICE ALERTS
+$app_config['comms']['price_alerts_threshold'] = 9.25; // CAN BE 0 TO DISABLE PRICE ALERTS
 ////
 // Re-allow SAME asset price alert(s) messages after X hours (per asset, set higher if issues with blacklisting...can be 0)
 // Price alerts AUTOMATICALLY will send to all properly-configured communication channels, and automatically skip any not properly setup
-$app_config['comms']['price_alerts_freq_max'] = 4; 
+$app_config['comms']['price_alerts_freq_max'] = 2; 
 ////
 // Block an asset price alert if price retrieved, BUT failed retrieving pair volume (not even a zero was retrieved, nothing)
 // Good for blocking questionable exchanges bugging you with price alerts, especially when used in combination with the minimum volume filter
@@ -123,10 +123,10 @@ $app_config['comms']['price_alerts_block_volume_error'] = 'on'; // 'on' / 'off'
 // Minimum 24 hour volume filter. Only allows sending price alerts if minimum 24 hour volume reached
 // CAN BE 0 TO DISABLE MINIMUM VOLUME FILTERING, NO DECIMALS OR SEPARATORS, NUMBERS ONLY, WITHOUT the [primary currency] prefix symbol: 4500 = $4,500 , 30000 = $30,000 , etc
 // THIS FILTER WILL AUTO-DISABLE IF THERE IS ANY ERROR RETRIEVING DATA ON A CERTAIN MARKET (WHEN NOT EVEN A ZERO IS RECEIVED)
-$app_config['comms']['price_alerts_min_volume'] = 20000;
+$app_config['comms']['price_alerts_min_volume'] = 3500;
 
 
-// Alerts for failed proxy data connections (ONLY USED IF proxies are enabled further down in PROXY CONFIGURATION). 
+// Alerts for failed proxy data connections (#ONLY USED# IF proxies are enabled further down in PROXY CONFIGURATION). 
 // Choosing 'all' will send to all properly-configured communication channels, and automatically skip any not properly setup
 $app_config['comms']['proxy_alerts'] = 'email'; // 'off' (disabled) / 'all' / 'email' / 'text' / 'notifyme' / 'telegram'
 ////
@@ -136,10 +136,6 @@ $app_config['comms']['proxy_alerts_runtime'] = 'cron'; // Which runtime mode sho
 ////
 // 'include' or 'ignore' proxy alerts, if proxy checkup went OK? (after flagged, started working again when checked)
 $app_config['comms']['proxy_alerts_checkup_ok'] = 'include'; 
-
-
-// Email logs every X days. 0 disables mailing logs. Email to / from !MUST BE SET!, MAY NOT SEND IN TIMELY FASHION WITHOUT A CRON JOB
-$app_config['comms']['email_logs'] = 3; 
 
 
 ////////////////////////////////////////
@@ -171,9 +167,12 @@ $app_config['general']['coinmarketcapcom_api_key'] = '';
 
 // Password protection / encryption security for backup archives (chart data archives, etc)
 $app_config['general']['backup_archive_password'] = ''; // LEAVE BLANK TO DISABLE
-////
-// Days until old backup archives should be deleted (chart data archives, etc)
-$app_config['general']['backup_archive_delete_old'] = 10; 
+
+
+// ENABLING CHARTS REQUIRES A CRON JOB SETUP (see README.txt for cron job setup information)
+// Enables a charts tab / page, and caches real-time updated historical chart data on your device's storage drive
+// Disabling will disable EVERYTHING related to the price charts (price charts tab / page, and price chart data caching)
+$app_config['general']['asset_charts_toggle'] = 'on'; // 'on' / 'off'
 
 
 // Default BITCOIN market currencies (80+ currencies supported)
@@ -208,12 +207,8 @@ $app_config['general']['primary_currency_decimals_max'] = 5; // Whole numbers on
 $app_config['general']['primary_currency_decimals_max_threshold'] = 0.70; // Can be decimals, NO SYMBOLS, NUMBERS ONLY
 
 
-// ENABLING CHARTS REQUIRES A CRON JOB SETUP (see README.txt for cron job setup information)
-// Enables a charts tab / page with historical charts
-// Caches the default [primary currency] ($app_config['general']['btc_primary_currency_pairing'] further down in GENERAL CONFIGURATION)
-// default [primary currency] price / crypto price / volume data for charts of all assets added to $app_config['charts_alerts']['tracked_markets'] (further down in CHART AND PRICE ALERT CONFIGURATION)
-// Disabling will disable EVERYTHING related to the price charts (price charts tab / page, and price chart data caching)
-$app_config['general']['charts_toggle'] = 'on'; // 'on' / 'off'
+// Default marketcap data source: 'coingecko', or 'coinmarketcap' (COINMARKETCAP REQUIRES A #FREE# API KEY, see $app_config['general']['coinmarketcapcom_api_key'] above)
+$app_config['general']['primary_marketcap_site'] = 'coingecko'; 
 
 
 // Your local time offset IN HOURS, COMPARED TO UTC TIME. Can be negative or positive.
@@ -223,10 +218,6 @@ $app_config['general']['local_time_offset'] = -4; // example: -5 or 5
 
 // Configure which interface theme you want as the default theme (also can be manually switched later, on the settings page in the interface)
 $app_config['general']['default_theme'] = 'dark'; // 'dark' or 'light'
-
-
-// Default marketcap data source: 'coingecko', or 'coinmarketcap' (COINMARKETCAP REQUIRES A #FREE# API KEY, see $app_config['general']['coinmarketcapcom_api_key'] above)
-$app_config['general']['primary_marketcap_site'] = 'coingecko'; 
 
 
 $app_config['general']['margin_leverage_max'] = 150; // Maximum margin leverage available in the user interface ('Update' page, etc)
@@ -270,11 +261,8 @@ $app_config['proxy']['proxy_list'] = array(
 // Asset price alert configuration
 // Only used if $app_config['charts_alerts']['tracked_markets'] is filled in properly below, AND a cron job is setup (see README.txt for cron job setup information) 
 ////
-// Backup chart data in a zip file in the 'backups' subdirectory (with a secure random suffix for privacy), only used if $app_config['general']['charts_toggle'] (IN GENERAL CONFIGURATION) is on
-$app_config['charts_alerts']['charts_backup_freq'] = 1; // Every X days backup chart data. 0 disables backups. Email to / from !MUST BE SET! (a download link is emailed to you of the chart data archive)
-////
-// Fixed time interval reset of cached comparison asset prices every X days (since last price reset / alert) with the current latest spot prices
-// Can be 0 to disable fixed resetting (IN WHICH CASE RESETS WILL ONLY OCCUR dynamically whenever the next price alert is triggered)
+// Fixed time interval RESET of cached comparison asset prices every X days (since last price reset / alert) with the current latest spot prices
+// Can be 0 to disable fixed time interval resetting (IN WHICH CASE RESETS WILL ONLY OCCUR DYNAMICALLY when the next price alert is triggered / sent out)
 $app_config['charts_alerts']['price_alerts_fixed_reset'] = 0; // (default = 0)
 ////
 // Whale alert (adds "WHALE ALERT" to beginning of alexa / google home / email / telegram alert text, and spouting whale emoji to email / text / telegram)
@@ -501,17 +489,17 @@ $app_config['power_user']['activate_cron_plugins'] = array(
 							);
 							
 
-// Minutes to cache real-time exchange price data...can be zero to skip cache, but set to at least 1 minute TO AVOID YOUR IP GETTING BLOCKED
+// Minutes to cache real-time exchange price data...can be zero to skip cache, but set to at least 1 minute TO AVOID YOUR IP ADDRESS GETTING BLOCKED
 // SOME APIS PREFER THIS SET TO AT LEAST A FEW MINUTES, SO HIGHLY RECOMMENDED TO KEEP FAIRLY HIGH
 $app_config['power_user']['last_trade_cache_time'] = 4; // (default = 4)
 
 
 // Minutes to cache blockchain stats (for mining calculators). Set high initially, it can be strict
-$app_config['power_user']['chainstats_cache_time'] = 70;  // (default = 70)
+$app_config['power_user']['chainstats_cache_time'] = 75;  // (default = 75)
 
 
 // Minutes to cache marketcap rankings...start high and test lower, it can be strict
-$app_config['power_user']['marketcap_cache_time'] = 40;  // (default = 40)
+$app_config['power_user']['marketcap_cache_time'] = 50;  // (default = 50)
 ////
 // Number of marketcap rankings to request from API.
 // 300 rankings is a safe maximum to start with, to avoid getting your API requests throttled / blocked
@@ -519,43 +507,72 @@ $app_config['power_user']['marketcap_ranks_max'] = 300; // (default = 300)
 
 
 // Lite charts (load just as quickly for any time interval, 7 day / 30 day / 365 day / etc)
-////
-// The maximum number of data points allowed in each lite chart (speeds up page / chart loading times SIGNIFICANTLY #WITH A NUMBER UNDER 500#)
-$app_config['power_user']['lite_chart_data_points_max'] = '400'; // (default = '400')
-////
 // Structure of lite charts #IN DAYS# (X days time period charts)
 // Interface will auto-detect and display days as 365 = 1Y, 180 = 6M, 7 = 1W, etc
 // (LOWER TIME PERIODS [UNDER 180 DAYS] #SHOULD BE KEPT SOMEWHAT MINIMAL#, TO REDUCE RUNTIME LOAD / DISK WRITES DURING CRON JOBS)
 $app_config['power_user']['lite_chart_day_intervals'] = array(10, 30, 180, 365, 730); // (default = 10, 30, 180, 365, 730)
+		
+
+// Contrast of CAPTCHA IMAGE text against background...0 for default, positive for extra contrast, negative for less contrast (maximum of +-35)
+$app_config['power_user']['captcha_text_contrast'] = 0; // example: -5 or 5 (default = 0)
+
+
+// Email logs every X days. 0 disables mailing logs. Email to / from !MUST BE SET!, MAY NOT SEND IN TIMELY FASHION WITHOUT A CRON JOB
+$app_config['power_user']['email_logs'] = 0; 
+////
+// Keep logs X days before purging (fully deletes logs every X days). Start low (especially when using proxies)
+$app_config['power_user']['log_purge'] = 10; 
+
+
+// Every X days backup chart data. 0 disables backups. Email to / from !MUST BE SET! (a download link is emailed to you of the chart data archive)
+$app_config['power_user']['charts_backup_freq'] = 1; 
+
+
+// Days until old backup archives should be deleted (chart data archives, etc)
+$app_config['power_user']['backup_archive_delete_old'] = 7; 
+
+
+// Highest numeric value sensor data to include in the FIRST system information chart (out of two)
+// (higher sensor data is moved into the second chart, to keep ranges easily readable between both charts...only used IF CRON JOB IS SETUP)
+$app_config['power_user']['system_stats_first_chart_highest_value'] = 3.5; // (default = 3.5) 
+
+
+// Weeks to power down all HIVE Power holdings
+$app_config['power_user']['hive_powerdown_time'] = 13; 
+////
+// HIVE Power yearly interest rate START 11/29/2019 (1.2%, decreasing every year by roughly 0.075% until it hits a minimum of 0.075% and stays there)
+// 1.2 (DO NOT INCLUDE PERCENT SIGN) the first year at 11/29/2019 refactored rates, see above for manual yearly adjustment
+$app_config['power_user']['hivepower_yearly_interest'] = 1.2;
 
 																					
 // Chart colors (https://www.w3schools.com/colors/colors_picker.asp)
 ////
 // Charts border color
-$app_config['power_user']['charts_border'] = '#808080';  
+$app_config['power_user']['charts_border'] = '#808080'; // (default: '#808080')
 ////
 // Charts background color
-$app_config['power_user']['charts_background'] = '#515050';  
+$app_config['power_user']['charts_background'] = '#515050';   // (default: '#515050')
 ////
 // Charts line color
-$app_config['power_user']['charts_line'] = '#444444';  
+$app_config['power_user']['charts_line'] = '#444444';   // (default: '#444444')
 ////
 // Charts text color
-$app_config['power_user']['charts_text'] = '#e8e8e8';  
+$app_config['power_user']['charts_text'] = '#e8e8e8';   // (default: '#e8e8e8')
 ////
 // Charts link color
-$app_config['power_user']['charts_link'] = '#939393';  
+$app_config['power_user']['charts_link'] = '#939393';   // (default: '#939393')
 ////
 // Charts price (base) gradient color
-$app_config['power_user']['charts_price_gradient'] = '#000000'; 
+$app_config['power_user']['charts_price_gradient'] = '#000000';  // (default: '#000000')
 ////
 // Charts tooltip background color
-$app_config['power_user']['charts_tooltip_background'] = '#bbbbbb';
+$app_config['power_user']['charts_tooltip_background'] = '#bbbbbb'; // (default: '#bbbbbb')
 ////
 // Charts tooltip text color
-$app_config['power_user']['charts_tooltip_text'] = '#222222';
+$app_config['power_user']['charts_tooltip_text'] = '#222222'; // (default: '#222222')
 							
 							
+
 // Activate support for ALTCOIN PAIRED MARKETS (like doge/eth, dai/eth, etc)
 // EACH ALTCOIN LISTED HERE !MUST HAVE! AN EXISTING 'btc' MARKET (within 'market_pairing') 
 // in it's $app_config['portfolio_assets'] listing (further down in this config file) TO PROPERLY ACTIVATE
@@ -717,40 +734,8 @@ $app_config['power_user']['mining_rewards'] = array(
 						
 
 
-// 'on' verifies ALL SMTP server certificates for secure SMTP connections, 'off' verifies NOTHING 
-// Set to 'off' if the SMTP server has an invalid certificate setup (which stops email sending, but you still want to send email through that server)
-$app_config['power_user']['smtp_strict_ssl'] = 'off'; // (DEFAULT IS 'off', TO ASSURE SMTP EMAIL SENDING STILL WORKS THROUGH MISCONFIGURED SMTP SERVERS)
-
-
-// 'on' verifies ALL REMOTE API server certificates for secure API connections, 'off' verifies NOTHING 
-// Set to 'off' if some exchange's API servers have invalid certificates (which stops price data retrieval...but you still want to get price data from them)
-$app_config['power_user']['remote_api_strict_ssl'] = 'off'; // (default = 'off')
-////
-// Seconds to wait for response from REMOTE API endpoints (exchange data, etc). 
-// Set too low you won't get ALL data (partial or zero bytes), set too high the interface can take a long time loading if an API server hangs up
-// RECOMMENDED MINIMUM OF 45 FOR INSTALLS BEHIND #LOW BANDWIDTH# / HOME INTERNET NETWORKS 
-// (which may need an even higher timeout of 60 or more if data still isn't received from all APIs)
-$app_config['power_user']['remote_api_timeout'] = 30; // (default = 30)
-
-
-// Local / internal API rate limit (maximum of once every X seconds, per ip address) for accepting remote requests
-// Can be 0 to disable rate limiting (unlimited)
-$app_config['power_user']['local_api_rate_limit'] = 5; // (default = 5)
-////
-// Local / internal API market limit (maximum number of markets requested per call)
-$app_config['power_user']['local_api_market_limit'] = 20; // (default = 20)
-////
-// Local / internal API cache time (minutes that previous requests are cached for)
-$app_config['power_user']['local_api_cache_time'] = 4; // (default = 4)
-			
-									
 // RSS feed entries to show per-feed on News page (without needing to click the "show more / less" link)
 $app_config['power_user']['news_feeds_entries_show'] = 5; // (default = 5)
-////
-// Minutes to cache RSS feeds for News page
-// Randomly cache each RSS feed between the minimum and maximum minutes set here (so they don't refresh all at once, for faster load times)
-// THE WIDER THE GAP BETWEEN THE NUMBERS, MORE SPLIT UP / FASTER THE FEEDS WILL LOAD IN THE INTERFACE
-$app_config['power_user']['news_feeds_cache_min_max'] = '60,160'; // 'min,max' (default = '60,160')
 ////
 // RSS news feeds available on the News page
 $app_config['power_user']['news_feeds'] = array(
@@ -1266,37 +1251,6 @@ $app_config['power_user']['news_feeds'] = array(
         
         
     				);
-     
-
-
-// Highest numeric value sensor data to include in the FIRST system information chart (out of two)
-// (higher sensor data is moved into the second chart, to keep ranges easily readable between both charts...only used if stats are enabled above)
-$app_config['power_user']['system_stats_first_chart_highest_value'] = 3.5; // Can be a decimal (example: 0.5 or 7.5 etc)
-		
-
-// Configuration for the CAPTCHA image on all admin login / reset pages
-$app_config['power_user']['captcha_permitted_chars'] = 'ACEFMNPRXY3478'; // Characters allowed for use in captcha image (default = 'ACEFMNPRXY3478')
-////
-$app_config['power_user']['captcha_chars_length'] = 6; // Number of characters in captcha image (default = 6)
-////
-$app_config['power_user']['captcha_image_width'] = 430; // Image width (default = 430)
-////
-$app_config['power_user']['captcha_image_height'] = 130; // Image height (default = 130)
-////
-$app_config['power_user']['captcha_text_size'] = 50; // Text size (default = 50)
-////
-$app_config['power_user']['captcha_text_margin'] = 4; // MINIMUM margin of text from edge of image (approximate / average) (default = 4)
-////
-// Contrast of text against background...0 for default, positive for extra contrast, negative for less contrast (maximum of +-35)
-$app_config['power_user']['captcha_text_contrast'] = 0; // example: -5 or 5 (default = 0)
-
-
-// Weeks to power down all HIVE Power holdings
-$app_config['power_user']['hive_powerdown_time'] = 13; 
-////
-// HIVE Power yearly interest rate START 11/29/2019 (1.2%, decreasing every year by roughly 0.075% until it hits a minimum of 0.075% and stays there)
-// 1.2 (DO NOT INCLUDE PERCENT SIGN) the first year at 11/29/2019 refactored rates, see above for manual yearly adjustment
-$app_config['power_user']['hivepower_yearly_interest'] = 1.2;
 				
 
 ////////////////////////////////////////
@@ -1336,11 +1290,80 @@ $app_config['developer']['debug_mode'] = 'off';
 // 'verbose' logs maximum details (additional information IF AVAILABLE, for heavy debugging / tracing / etc)
 // IF DEBUGGING IS ENABLED ABOVE, LOGS ARE AUTOMATICALLY VERBOSE #WITHOUT THE NEED TO ADJUST THIS SETTING#
 $app_config['developer']['log_verbosity'] = 'normal'; // 'normal' / 'verbose'
+
+
+// 'on' verifies ALL SMTP server certificates for secure SMTP connections, 'off' verifies NOTHING 
+// Set to 'off' if the SMTP server has an invalid certificate setup (which stops email sending, but you still want to send email through that server)
+$app_config['developer']['smtp_strict_ssl'] = 'off'; // (DEFAULT IS 'off', TO ASSURE SMTP EMAIL SENDING STILL WORKS THROUGH MISCONFIGURED SMTP SERVERS)
+
+
+// 'on' verifies ALL REMOTE API server certificates for secure API connections, 'off' verifies NOTHING 
+// Set to 'off' if some exchange's API servers have invalid certificates (which stops price data retrieval...but you still want to get price data from them)
+$app_config['developer']['remote_api_strict_ssl'] = 'off'; // (default = 'off')
 ////
-// Keep logs X days before purging (fully deletes logs every X days). Start low (especially when using proxies)
-$app_config['developer']['log_purge'] = 10; 
+// Seconds to wait for response from REMOTE API endpoints (exchange data, etc). 
+// Set too low you won't get ALL data (partial or zero bytes), set too high the interface can take a long time loading if an API server hangs up
+// RECOMMENDED MINIMUM OF 45 TO 60 FOR INSTALLS BEHIND #LOW BANDWIDTH# / HOME INTERNET NETWORKS 
+// (which may need an even higher timeout of 60 or more if data still isn't received from all APIs)
+$app_config['developer']['remote_api_timeout'] = 30; // (default = 30)
 
 
+// Local / internal API rate limit (maximum of once every X seconds, per ip address) for accepting remote requests
+// Can be 0 to disable rate limiting (unlimited)
+$app_config['developer']['local_api_rate_limit'] = 5; // (default = 5)
+////
+// Local / internal API market limit (maximum number of markets requested per call)
+$app_config['developer']['local_api_market_limit'] = 20; // (default = 20)
+////
+// Local / internal API cache time (minutes that previous requests are cached for)
+$app_config['developer']['local_api_cache_time'] = 4; // (default = 4)
+
+
+// The maximum number of data points allowed in each lite chart (speeds up page / chart loading times SIGNIFICANTLY #WITH A NUMBER UNDER 500#)
+$app_config['developer']['lite_chart_data_points_max'] = '400'; // (default = '400'), ADJUST WITH CARE!
+
+
+// Minutes to cache RSS feeds for News page
+// Randomly cache each RSS feed between the minimum and maximum minutes set here (so they don't refresh all at once, for faster load times)
+// THE WIDER THE GAP BETWEEN THE NUMBERS, MORE SPLIT UP / FASTER THE FEEDS WILL LOAD IN THE INTERFACE
+$app_config['developer']['news_feeds_cache_min_max'] = '60,160'; // 'min,max' (default = '60,160'), ADJUST WITH CARE!
+////
+// Maximum number of batched news feed fetches / re-caches per ajax OR cron runtime 
+// (#TO HELP PREVENT RUNTIME CRASHES# ON LOW POWER DEVICES OR HIGH TRAFFIC INSTALLS, WITH A LOW NUMBER OF 25 OR LESS)
+$app_config['developer']['batched_news_feeds_max'] = 25; // (default = 25), ADJUST WITH CARE!
+
+
+// If you want to override the default user agent string (sent with API requests, etc)
+// Adding a string here automatically enables that as the custom user agent
+// LEAVING BLANK '' USES THE DEFAULT USER AGENT LOGIC BUILT-IN TO THIS APP (INCLUDES BASIC SYSTEM CONFIGURATION STATS)
+$app_config['developer']['override_user_agent'] = ''; 
+
+
+// Ignore warning to use PHP-FPM (#PHP-FPM HELPS PREVENT RUNTIME CRASHES# ON LOW POWER DEVICES OR HIGH TRAFFIC INSTALLS)
+$app_config['developer']['ignore_php_fpm_warning'] = 'no'; // (default = 'no', options are 'yes' / 'no')
+
+
+// Default charset used
+$app_config['developer']['charset_default'] = 'UTF-8'; 
+////
+// Unicode charset used (if needed)
+// UCS-2 is outdated as it only covers 65536 characters of Unicode
+// UTF-16BE / UTF-16LE / UTF-16 / UCS-2BE can represent ALL Unicode characters
+$app_config['developer']['charset_unicode'] = 'UTF-16'; 
+
+
+// Cache directories / files and .htaccess / index.php files permissions (CHANGE WITH #EXTREME# CARE, to adjust security for your PARTICULAR setup)
+// THESE PERMISSIONS ARE !ALREADY! CALLED THROUGH THE octdec() FUNCTION WITHIN THE APP WHEN USED
+// Cache directories permissions
+$app_config['developer']['chmod_cache_directories'] = '0777'; // (default = '0777')
+////
+// Cache files permissions
+$app_config['developer']['chmod_cache_files'] = '0666'; // (default = '0666')
+////
+// .htaccess / index.php index security files permissions
+$app_config['developer']['chmod_index_security'] = '0664'; // (default = '0664')
+			
+									
 // !!!!! BE #VERY CAREFUL# LOWERING MAXIMUM EXECUTION TIMES BELOW, #OR YOU MAY CRASH THE RUNNING PROCESSES, 
 // AND CAUSE MEMORY LEAKS THAT ALSO CRASH YOUR !ENTIRE SYSTEM!#
 ////
@@ -1363,42 +1386,20 @@ $app_config['developer']['int_api_max_execution_time'] = 90; // (default = 90)
 // Maximum execution time for webhook runtime in seconds (how long it's allowed to run before automatically killing the process)
 // (ALL execution times are automatically 600 IN DEBUG MODE)
 $app_config['developer']['webhook_max_execution_time'] = 90; // (default = 90)
-
-
-// If you want to override the default user agent string (sent with API requests, etc)
-// Adding a string here automatically enables that as the custom user agent
-// LEAVING BLANK '' USES THE DEFAULT USER AGENT LOGIC BUILT-IN TO THIS APP (INCLUDES BASIC SYSTEM CONFIGURATION STATS)
-$app_config['developer']['override_user_agent'] = ''; 
-
-
-// Default charset used
-$app_config['developer']['charset_default'] = 'UTF-8'; 
+			
+			
+// Configuration for advanced CAPTCHA image settings on all admin login / reset pages
+$app_config['developer']['captcha_permitted_chars'] = 'ACEFMNPRXY3478'; // Characters allowed for use in captcha image (default = 'ACEFMNPRXY3478')
 ////
-// Unicode charset used (if needed)
-// UCS-2 is outdated as it only covers 65536 characters of Unicode
-// UTF-16BE / UTF-16LE / UTF-16 / UCS-2BE can represent ALL Unicode characters
-$app_config['developer']['charset_unicode'] = 'UTF-16'; 
-
-
-// Cache directories / files and .htaccess / index.php files permissions (CHANGE WITH #EXTREME# CARE, to adjust security for your PARTICULAR setup)
-// THESE PERMISSIONS ARE !ALREADY! CALLED THROUGH THE octdec() FUNCTION WITHIN THE APP WHEN USED
-// Cache directories permissions
-$app_config['developer']['chmod_cache_directories'] = '0777'; // (default = '0777')
+$app_config['developer']['captcha_chars_length'] = 6; // Number of characters in captcha image (default = 6)
 ////
-// Cache files permissions
-$app_config['developer']['chmod_cache_files'] = '0666'; // (default = '0666')
+$app_config['developer']['captcha_image_width'] = 430; // Image width (default = 430)
 ////
-// .htaccess / index.php index security files permissions
-$app_config['developer']['chmod_index_security'] = '0664'; // (default = '0664')
-
-
-// Maximum number of batched news feed fetches / re-caches per ajax OR cron runtime 
-// (#TO HELP PREVENT RUNTIME CRASHES# ON LOW POWER DEVICES OR HIGH TRAFFIC INSTALLS, WITH A LOW NUMBER OF 25 OR LESS)
-$app_config['developer']['batched_news_feeds_max'] = 25; // (default = 25)
-
-
-// Ignore warning to use PHP-FPM (#PHP-FPM HELPS PREVENT RUNTIME CRASHES# ON LOW POWER DEVICES OR HIGH TRAFFIC INSTALLS)
-$app_config['developer']['ignore_php_fpm_warning'] = 'no'; // (default = 'no', options are 'yes' / 'no')
+$app_config['developer']['captcha_image_height'] = 130; // Image height (default = 130)
+////
+$app_config['developer']['captcha_text_size'] = 50; // Text size (default = 50)
+////
+$app_config['developer']['captcha_text_margin'] = 4; // MINIMUM margin of text from edge of image (approximate / average) (default = 4)
 							
 
 // TLD-only (Top Level Domain only, NO SUBDOMAINS) for each API service that requires multiple calls (for each market / data set)
@@ -1451,7 +1452,7 @@ $app_config['developer']['top_level_domain_map'] = array(
 					'us',
 					'xyz',
 					);
-							
+				
 
 ////////////////////////////////////////
 // !END! DEVELOPER-ONLY CONFIGURATION

@@ -6,7 +6,7 @@
 
 	
 // Have this script not load any code if asset charts are not turned on
-if ( $app_config['general']['charts_toggle'] == 'on' ) {
+if ( $app_config['general']['asset_charts_toggle'] == 'on' ) {
 
 $charted_value = ( $chart_mode == 'pairing' ? $alerts_market_parse[1] : $default_btc_primary_currency_pairing );
 		
