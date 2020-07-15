@@ -4,7 +4,6 @@
  */
 
 
-
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
 
@@ -165,6 +164,34 @@ fclose($f); // Close file
 gc_collect_cycles(); // Clean memory cache
 
 return $lines;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function timestamp_with_fallback() {
+
+$now = time();
+	
+	// If a rare error occured from power outage / corrupt memory / etc, ATTEMPT fallback to $_SERVER['REQUEST_TIME']
+	if ( is_timestamp($now) != true ) {
+		
+	$fallback = $_SERVER['REQUEST_TIME'];
+		
+		if ( is_timestamp($fallback) != true ) {
+		return false;
+		}
+		else {
+		return $fallback; 
+		}
+		
+	}
+	else {
+	return $now;
+	}
 
 }
 

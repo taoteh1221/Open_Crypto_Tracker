@@ -154,10 +154,15 @@ $portfolio_cache_size_mb = in_megabytes($system_info['portfolio_cache'])['in_meg
 	}
 	
 
-         
+// If a rare error occured from power outage / corrupt memory / etc, ATTEMPT timestamp fallback logic
+$timestamp_with_fallback = timestamp_with_fallback();
+
+// (WE DON'T WANT TO STORE DATA WITH A CORRUPT TIMESTAMP)
+if ( $timestamp_with_fallback != false ) {
+
 // Store system data to archival / lite charts
 $system_stats_path = $base_dir . '/cache/charts/system/archival/system_stats.dat';
-$system_stats_data = time() . $chart_data_set;
+$system_stats_data = $timestamp_with_fallback . $chart_data_set;
 
 store_file_contents($system_stats_path, $system_stats_data . "\n", "append", false); // WITH newline (UNLOCKED file write)
     		
@@ -165,10 +170,11 @@ store_file_contents($system_stats_path, $system_stats_data . "\n", "append", fal
 // Try to assure file locking from archival chart updating has been released, wait 0.12 seconds before updating lite charts
 usleep(120000); // Wait 0.12 seconds
 		
-foreach ( $app_config['power_user']['lite_chart_day_intervals'] as $light_chart_days ) {
-update_lite_chart($system_stats_path, $system_stats_data, $light_chart_days); // WITHOUT newline (var passing)
-}
+	foreach ( $app_config['power_user']['lite_chart_day_intervals'] as $light_chart_days ) {
+	update_lite_chart($system_stats_path, $system_stats_data, $light_chart_days); // WITHOUT newline (var passing)
+	}
 		
+}
 		
 // SYSTEM STATS END
 

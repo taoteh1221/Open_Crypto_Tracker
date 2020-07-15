@@ -1219,8 +1219,8 @@ echo "rules, routing through a dedicated minipc running pfsense / ipfire / etc, 
 echo "disallow this device requesting access to other machines on your home / internal"
 echo "network, and only allow it a forwarding route through the internet gateway)."
 echo " "
-echo "A #VERY HIGH# port number is recommended (greater than 100,000), to help avoid"
-echo "port scanning bots detecting it (and then making hack attempts on it)."
+echo "A #VERY HIGH# port number is recommended (allowed range is 1 to 65,535), to help avoid"
+echo "port scanning bots from detecting your machine (and then starting hack attempts on your open port)."
 echo " "
 
 echo "SEE /DOCUMENTATION-ETC/RASPBERRY-PI-SECURITY.txt and"

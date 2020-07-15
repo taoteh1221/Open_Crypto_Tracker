@@ -202,7 +202,7 @@ $app_config['general']['btc_primary_currency_pairing'] = 'usd'; // PUT INSIDE SI
 // (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
 // binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmex / bitpanda / bitso / bitstamp / bittrex / bittrex_global 
 // braziliex / btcmarkets / btcturk / buyucoin / cex / coinbase / coss / gemini / hitbtc / huobi / korbit / kraken / kucoin 
-// lakebtc / livecoin / localbitcoins / luno / okcoin / okex / southxchange / tidebit / upbit / zebpay
+// livecoin / localbitcoins / luno / okcoin / okex / southxchange / tidebit / upbit / zebpay
 // SEE THE $app_config['portfolio_assets'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
 // MARKET PAIRING VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (to populate $app_config['general']['btc_primary_currency_pairing'] directly above with)
 // SEE THE $app_config['developer']['limited_apis'] SETTING MUCH FURTHER DOWN, FOR EXCHANGES !NOT RECOMMENDED FOR USAGE HERE!
@@ -328,7 +328,6 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					'btc-20' => 'bitso||mxn||none',
 					'btc-21' => 'localbitcoins||nzd||none',
 					'btc-22' => 'localbitcoins||rub||none',
-					'btc-23' => 'lakebtc||sgd||none',
 					'btc-24' => 'btcturk||try||none',
 					'btc-25' => 'localbitcoins||twd||none',
 					'btc-26' => 'luno||zar||none',
@@ -471,6 +470,7 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					// SXP
 					'sxp' => 'bittrex_global||btc||none',
 					'sxp-2' => 'kucoin||btc||both',
+					'sxp-3' => 'binance||btc||none',
 					
 					
 					);
@@ -1725,7 +1725,6 @@ $app_config['portfolio_assets'] = array(
                         
                         				'aud' => array(
                                     		'btcmarkets' => 'BTC/AUD',
-                                          'lakebtc' => 'btcaud',
                                           'localbitcoins' => 'AUD',
                                                     ),
                                                     
@@ -1756,13 +1755,11 @@ $app_config['portfolio_assets'] = array(
                                                     
                                     'cad' => array(
                                           'kraken' => 'XXBTZCAD',
-                                          'lakebtc' => 'btccad',
                                           'localbitcoins' => 'CAD',
                                                     ),
                                                     
                                     'chf' => array(
                                           'kraken' => 'XBTCHF',
-                                          'lakebtc' => 'btcchf',
                                           'localbitcoins' => 'CHF',
                                                     ),
                                                     
@@ -1818,7 +1815,6 @@ $app_config['portfolio_assets'] = array(
                                           'bitflyer' => 'BTC_EUR',
                                           'coss' => 'BTC-EUR',
                                           'cex' => 'BTC:EUR',
-                                          'lakebtc' => 'btceur',
                                           'localbitcoins' => 'EUR',
                                           'luno' => 'XBTEUR',
                                                     ),
@@ -1829,7 +1825,6 @@ $app_config['portfolio_assets'] = array(
                                           'bitfinex' => 'tBTCGBP',
                                           'coss' => 'BTC-GBP',
                                           'cex' => 'BTC:GBP',
-                                          'lakebtc' => 'btcgbp',
                                           'localbitcoins' => 'GBP',
                                                     ),
                                                     
@@ -1883,7 +1878,6 @@ $app_config['portfolio_assets'] = array(
                                     'jpy' => array(
                                           'kraken' => 'XXBTZJPY',
                                           'bitflyer' => 'BTC_JPY',
-                                          'lakebtc' => 'btcjpy',
                                           'localbitcoins' => 'JPY',
                                                     ),
                                                     
@@ -2004,7 +1998,6 @@ $app_config['portfolio_assets'] = array(
                                                     ),
                                                     
                                     'sgd' => array(
-                                          'lakebtc' => 'btcsgd',
                                           'localbitcoins' => 'SGD',
                                                     ),
                                                     
@@ -2050,7 +2043,6 @@ $app_config['portfolio_assets'] = array(
                                           'localbitcoins' => 'USD',
                                           'bitfinex' => 'tBTCUSD',
                                           'bitflyer' => 'BTC_USD',
-                                          'lakebtc' => 'btcusd',
                                           'hitbtc' => 'BTCUSD',
                                           'okcoin' => 'btc_usd',
                                           'livecoin' => 'BTC/USD',
@@ -3119,6 +3111,7 @@ $app_config['portfolio_assets'] = array(
                         'market_pairing' => array(
                         
                                     'btc' => array(
+                                        	'binance' => 'SXPBTC',
                                           'bittrex_global' => 'BTC-SXP',
                                           'kucoin' => 'SXP-BTC',
                                                     ),
