@@ -3837,7 +3837,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Bug fix for excessive system resource usage during cron jobs
 
--Bug fix for news feeds page restoring current vertical scroll position on reload (if set as the start page)
+-Bug fix for news and charts pages correctly restoring current vertical scroll position on reload (if set as the start page)
 
 -Minor fixes / UX revisions
 

@@ -232,7 +232,7 @@ function charts_loading_check(charts_loaded) {
 		
 		// Run setting scroll position AGAIN if we are on the charts page,
 		// as we start out with no scroll height before the charts load
-		if ( $(location).attr('hash') == 'charts' ) {
+		if ( $(location).attr('hash') == '#charts' ) {
 		get_scroll_position(); 
 		}
 	
@@ -267,7 +267,7 @@ function feeds_loading_check(feeds_loaded) {
 		
 		// Run setting scroll position AGAIN if we are on the news page,
 		// as we start out with no scroll height before the news feeds load
-		if ( $(location).attr('hash') == 'news' ) {
+		if ( $(location).attr('hash') == '#news' ) {
 		get_scroll_position(); 
 		}
 	

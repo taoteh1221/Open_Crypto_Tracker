@@ -37,7 +37,6 @@ $js_key = preg_replace("/-/", "", $key) . '_' . $charted_value;
 			$("#charts_error").html('<p>One or more charts could not be loaded.</p> <p>If you recently installed this app / enabled charts for the first time / re-configured your lite charts structure, it may take awhile for fully updated charts to appear. "lite charts" need to be created from archival chart data, so charts always load quickly regardless of time span, and may take a few days to begin to populate longer time period charts.</p> <p>If you updated the charts or primary currency settings in the admin configuration, you may need to click "Select Charts" (top left of this page) and check / uncheck "Select All", and then click "Update Selected Charts" to clear old chart selections (which may remove this notice).</p> <p>Please make sure you have a cron job running (see <a href="README.txt" target="_blank">README.txt</a> for how-to setup a cron job), or charts cannot be activated. Check app error logs too, for write errors (which would indicate improper cache directory permissions).</p>');
 			
 			window.charts_loaded.push("chart_<?=$js_key?>");
-			
 			charts_loading_check(window.charts_loaded);
 			
 	<?php
@@ -63,15 +62,24 @@ zingchart.TOUCHZOOM = 'pinch'; /* mobile compatibility */
 
 $.get( "ajax.php?type=asset&asset_data=<?=$key?>&charted_value=<?=$chart_mode?>&days=all", function( json_data ) {
  
+
+	// Mark chart as loaded after it has rendered
+	zingchart.bind('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'complete', function() {
+	$("#<?=$key?>_<?=$charted_value?>_chart span").hide(); // Hide "Loading chart X..." after it loads
+	window.charts_loaded.push("chart_<?=$js_key?>");
+	charts_loading_check(window.charts_loaded);
+	});
+
 	zingchart.render({
   	id: '<?=strtolower($key)?>_<?=$charted_value?>_chart',
   	width: '100%',
   	data: json_data
 	});
+
  
 });
- 
- 
+
+
 zingchart.bind('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'label_click', function(e){
 	
   if(lite_state_<?=$js_key?>.current === e.labelid){
@@ -155,6 +163,7 @@ zingchart.bind('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'label_click',
 		
   
   $("#<?=strtolower($key)?>_<?=$charted_value?>_chart div.chart_reload div").html("Loading " + lite_chart_text + " chart for <?=$chart_asset?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=snake_case_to_name($alerts_market_parse[0])?><?=( $chart_mode != 'pairing' ? ' \(' . strtoupper($charted_value) . ' Value\)' : '' )?>...");
+  
 	$("#<?=strtolower($key)?>_<?=$charted_value?>_chart div.chart_reload").fadeIn(100); // 0.1 seconds
 	
   zingchart.bind('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'complete', function() {
@@ -171,11 +180,6 @@ zingchart.bind('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'label_click',
   lite_state_<?=$js_key?>.current = e.labelid;
   
 });
-
-			
-window.charts_loaded.push("chart_<?=$js_key?>");
-
-charts_loading_check(window.charts_loaded);
 
 
 

@@ -66,11 +66,14 @@ $("span.btc_primary_currency_pairing").html(window.btc_primary_currency_pairing)
 //////////////////////////////////////////////////////////////////////////////
 
 
+// We only want to load our vertical scroll position on secondary start pages that are't background-loading AFTER page load
+if ( $(location).attr('hash') != '' && $(location).attr('hash') != '#news' && $(location).attr('hash') != '#charts' ) {
+get_scroll_position(); // Run AFTER showing content
+}
+
 random_tips(); // https://codepen.io/kkoutoup/pen/zxmGLE
 
 start_utc_time();
-
-get_scroll_position(); // Run AFTER showing content
 
 autosize(document.querySelector('textarea[data-autoresize]'));
 
