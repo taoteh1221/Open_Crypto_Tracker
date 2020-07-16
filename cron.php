@@ -154,12 +154,12 @@ $portfolio_cache_size_mb = in_megabytes($system_info['portfolio_cache'])['in_meg
 	}
 	
 
-// In case a rare error occured from power outage / corrupt memory / etc, we'll check the timestamp
+// In case a rare error occured from power outage / corrupt memory / etc, we'll check the timestamp (in a non-resource-intensive way)
 // (#SEEMED# TO BE A REAL ISSUE ON A RASPI ZERO AFTER MULTIPLE POWER OUTAGES [ONE TIMESTAMP HAD PREPENDED CORRUPT DATA])
 $now = time();
 
 // (WE DON'T WANT TO STORE DATA WITH A CORRUPT TIMESTAMP)
-if ( ctype_digit($now) ) {
+if ( $now > 0 ) {
 
 // Store system data to archival / lite charts
 $system_stats_path = $base_dir . '/cache/charts/system/archival/system_stats.dat';

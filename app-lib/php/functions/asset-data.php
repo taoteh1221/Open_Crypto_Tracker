@@ -1112,15 +1112,15 @@ $volume_pairing_raw = number_to_string($volume_pairing_raw);
 /////////////////////////////////////////////////////////////////
 
 	
-// In case a rare error occured from power outage / corrupt memory / etc, we'll check the timestamp
+// In case a rare error occured from power outage / corrupt memory / etc, we'll check the timestamp (in a non-resource-intensive way)
 // (#SEEMED# TO BE A REAL ISSUE ON A RASPI ZERO AFTER MULTIPLE POWER OUTAGES [ONE TIMESTAMP HAD PREPENDED CORRUPT DATA])
 $now = time();
 
 	// Charts (WE DON'T WANT TO STORE DATA WITH A CORRUPT TIMESTAMP)
 	/////////////////////////////////////////////////////////////////
 	// If the charts page is enabled in config.php, save latest chart data for assets with price alerts configured on them
-	if ( ctype_digit($now) && $mode == 'both' && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && $app_config['general']['asset_charts_toggle'] == 'on'
-	|| ctype_digit($now) && $mode == 'chart' && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && $app_config['general']['asset_charts_toggle'] == 'on' ) {
+	if ( $now > 0 && $mode == 'both' && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && $app_config['general']['asset_charts_toggle'] == 'on'
+	|| $now > 0 && $mode == 'chart' && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && $app_config['general']['asset_charts_toggle'] == 'on' ) {
 	
 		
 	// PRIMARY CURRENCY CONFIG ARCHIVAL charts (CRYPTO/PRIMARY CURRENCY CONFIG markets, 
