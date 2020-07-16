@@ -203,6 +203,9 @@ Add market stats summaries from chart data, like pie charts for exchange volume 
 Simple trading bot, to run from cron / cli (with SQL-based admin authentication / web UI for configuration)
 
 
+Add a "calculate current portfolio's performance in BTC and [fiat currency] over X time period" feature, which uses the currently-cached asset markets charts to create a downloadable chart showing what you current potfolio assets have been worth in BTC / Fiat over X time period. This would help to more easily determine non-performant assets, and aid in efficient portfolio rebalancing.
+
+
 ///////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////
 
