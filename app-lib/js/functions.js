@@ -221,6 +221,7 @@ function charts_loading_check(charts_loaded) {
 //console.log('loaded charts = ' + window.charts_loaded.length + ', all charts = ' + window.charts_num);
 
 	if ( charts_loaded.length >= window.charts_num ) {
+		
 		// Only hide if no feeds are loading also
 		if ( window.feeds_loaded.length >= window.feeds_num ) { // DONT USE feeds_loading_check(), WILL LOOP ENDLESSLY
 		$("#loading_subsections").hide(250); // 0.25 seconds
@@ -228,7 +229,15 @@ function charts_loading_check(charts_loaded) {
 		else {
 		feeds_loading_check(window.feeds_loaded);
 		}
+		
+		// Run setting scroll position AGAIN if we are on the charts page,
+		// as we start out with no scroll height before the charts load
+		if ( $(location).attr('hash') == 'charts' ) {
+		get_scroll_position(); 
+		}
+	
 	return 'done';
+	
 	}
 	else {
 	$("#loading_subsections_span").html("Loading Charts...");
