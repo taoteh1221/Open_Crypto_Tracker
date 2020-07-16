@@ -1119,9 +1119,17 @@ $now = time();
 	// Charts (WE DON'T WANT TO STORE DATA WITH A CORRUPT TIMESTAMP)
 	/////////////////////////////////////////////////////////////////
 	// If the charts page is enabled in config.php, save latest chart data for assets with price alerts configured on them
-	if ( $now > 0 && $mode == 'both' && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && $app_config['general']['asset_charts_toggle'] == 'on'
-	|| $now > 0 && $mode == 'chart' && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && $app_config['general']['asset_charts_toggle'] == 'on' ) {
+	if ( $mode == 'both' && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && $app_config['general']['asset_charts_toggle'] == 'on'
+	|| $mode == 'chart' && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && $app_config['general']['asset_charts_toggle'] == 'on' ) {
 	
+		if ( $now > 0 ) {
+		// Continue
+		}
+		else {
+		// Return
+		app_logging('system_error', 'time() returned a corrupt value (from power outage / corrupt memory / etc), chart updating canceled', 'chart_type: asset market');
+		return false;
+		}
 		
 	// PRIMARY CURRENCY CONFIG ARCHIVAL charts (CRYPTO/PRIMARY CURRENCY CONFIG markets, 
 	// AND ALSO crypto-to-crypto pairings converted to PRIMARY CURRENCY CONFIG equiv value for PRIMARY CURRENCY CONFIG equiv charts)

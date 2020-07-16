@@ -176,6 +176,9 @@ usleep(120000); // Wait 0.12 seconds
 	}
 		
 }
+else {
+app_logging('system_error', 'time() returned a corrupt value (from power outage / corrupt memory / etc), chart updating canceled', 'chart_type: system stats');
+}
 		
 // SYSTEM STATS END
 
