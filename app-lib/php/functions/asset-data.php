@@ -1112,29 +1112,29 @@ $volume_pairing_raw = number_to_string($volume_pairing_raw);
 /////////////////////////////////////////////////////////////////
 
 	
-// If a rare error occured from power outage / corrupt memory / etc, ATTEMPT timestamp fallback logic
-$timestamp_with_fallback = timestamp_with_fallback();
-
+// In case a rare error occured from power outage / corrupt memory / etc, we'll check the timestamp
+// (#SEEMED# TO BE A REAL ISSUE ON A RASPI ZERO AFTER MULTIPLE POWER OUTAGES [ONE TIMESTAMP HAD PREPENDED CORRUPT DATA])
+$now = time();
 
 	// Charts (WE DON'T WANT TO STORE DATA WITH A CORRUPT TIMESTAMP)
 	/////////////////////////////////////////////////////////////////
 	// If the charts page is enabled in config.php, save latest chart data for assets with price alerts configured on them
-	if ( $timestamp_with_fallback != false && $mode == 'both' && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && $app_config['general']['asset_charts_toggle'] == 'on'
-	|| $timestamp_with_fallback != false && $mode == 'chart' && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && $app_config['general']['asset_charts_toggle'] == 'on' ) {
+	if ( ctype_digit($now) && $mode == 'both' && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && $app_config['general']['asset_charts_toggle'] == 'on'
+	|| ctype_digit($now) && $mode == 'chart' && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && $app_config['general']['asset_charts_toggle'] == 'on' ) {
 	
 		
 	// PRIMARY CURRENCY CONFIG ARCHIVAL charts (CRYPTO/PRIMARY CURRENCY CONFIG markets, 
 	// AND ALSO crypto-to-crypto pairings converted to PRIMARY CURRENCY CONFIG equiv value for PRIMARY CURRENCY CONFIG equiv charts)
 	
 	$primary_currency_chart_path = $base_dir . '/cache/charts/spot_price_24hr_volume/archival/'.$asset.'/'.$asset_data.'_chart_'.strtolower($default_btc_primary_currency_pairing).'.dat';
-	$primary_currency_chart_data = $timestamp_with_fallback . '||' . $asset_primary_currency_value_raw . '||' . $volume_primary_currency_raw;
+	$primary_currency_chart_data = $now . '||' . $asset_primary_currency_value_raw . '||' . $volume_primary_currency_raw;
 	store_file_contents($primary_currency_chart_path, $primary_currency_chart_data . "\n", "append", false);  // WITH newline (UNLOCKED file write)
 		
 		
 		// Crypto / secondary currency pairing ARCHIVAL charts, volume as pairing (for UX)
 		if ( $pairing != strtolower($default_btc_primary_currency_pairing) ) {
 		$crypto_secondary_currency_chart_path = $base_dir . '/cache/charts/spot_price_24hr_volume/archival/'.$asset.'/'.$asset_data.'_chart_'.$pairing.'.dat';
-		$crypto_secondary_currency_chart_data = $timestamp_with_fallback . '||' . $asset_pairing_value_raw . '||' . $volume_pairing_raw;
+		$crypto_secondary_currency_chart_data = $now . '||' . $asset_pairing_value_raw . '||' . $volume_pairing_raw;
 		store_file_contents($crypto_secondary_currency_chart_path, $crypto_secondary_currency_chart_data . "\n", "append", false); // WITH newline (UNLOCKED file write)
 		}
 		

@@ -154,15 +154,16 @@ $portfolio_cache_size_mb = in_megabytes($system_info['portfolio_cache'])['in_meg
 	}
 	
 
-// If a rare error occured from power outage / corrupt memory / etc, ATTEMPT timestamp fallback logic
-$timestamp_with_fallback = timestamp_with_fallback();
+// In case a rare error occured from power outage / corrupt memory / etc, we'll check the timestamp
+// (#SEEMED# TO BE A REAL ISSUE ON A RASPI ZERO AFTER MULTIPLE POWER OUTAGES [ONE TIMESTAMP HAD PREPENDED CORRUPT DATA])
+$now = time();
 
 // (WE DON'T WANT TO STORE DATA WITH A CORRUPT TIMESTAMP)
-if ( $timestamp_with_fallback != false ) {
+if ( ctype_digit($now) ) {
 
 // Store system data to archival / lite charts
 $system_stats_path = $base_dir . '/cache/charts/system/archival/system_stats.dat';
-$system_stats_data = $timestamp_with_fallback . $chart_data_set;
+$system_stats_data = $now . $chart_data_set;
 
 store_file_contents($system_stats_path, $system_stats_data . "\n", "append", false); // WITH newline (UNLOCKED file write)
     		
