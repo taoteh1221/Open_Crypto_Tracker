@@ -4,23 +4,6 @@
 
 
 
-
-/////////////////////////////////////////////////////////////
-
-
-function app_reload() {
-// ADD ANY LOGIC HERE, TO RUN BEFORE THE APP RELOADS
-// Close any open modal windows
-$(".show_chart_settings").modaal("close");
-$(".show_feed_settings").modaal("close");
-$(".show_system_charts").modaal("close");
-$(".show_visitor_stats").modaal("close");
-$(".show_logs").modaal("close");
-// Reload
-location.reload(true);
-}
-
-
 /////////////////////////////////////////////////////////////
 
 
@@ -201,6 +184,38 @@ function validateForm(form_id, field) {
 /////////////////////////////////////////////////////////////
 
 
+function start_utc_time() {
+
+var today = new Date();
+var date = today.getUTCFullYear() + '-' + force_2_digits(today.getUTCMonth() + 1) + '-' + force_2_digits( today.getUTCDate() );
+var time = force_2_digits( today.getUTCHours() ) + ":" + force_2_digits( today.getUTCMinutes() ) + ":" + force_2_digits( today.getUTCSeconds() );
+
+$("span.utc_timestamp").text('[' + date + ' ' + time + ']');
+
+var utc_time = setTimeout(start_utc_time, 500);
+
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
+function app_reload() {
+// ADD ANY LOGIC HERE, TO RUN BEFORE THE APP RELOADS
+// Close any open modal windows
+$(".show_chart_settings").modaal("close");
+$(".show_feed_settings").modaal("close");
+$(".show_system_charts").modaal("close");
+$(".show_visitor_stats").modaal("close");
+$(".show_logs").modaal("close");
+// Reload
+location.reload(true);
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function charts_loading_check(charts_loaded) {
 	
 //console.log('loaded charts = ' + window.charts_loaded.length + ', all charts = ' + window.charts_num);
@@ -232,6 +247,7 @@ function feeds_loading_check(feeds_loaded) {
 //console.log('loaded feeds = ' + window.feeds_loaded.length + ', all feeds = ' + window.feeds_num);
 
 	if ( feeds_loaded.length >= window.feeds_num ) {
+		
 		// Only hide if no charts are loading also
 		if ( window.charts_loaded.length >= window.charts_num ) { // DONT USE charts_loading_check(), WILL LOOP ENDLESSLY
 		$("#loading_subsections").hide(250); // 0.25 seconds
@@ -239,7 +255,15 @@ function feeds_loading_check(feeds_loaded) {
 		else {
 		charts_loading_check(window.charts_loaded);
 		}
+		
+		// Run setting scroll position AGAIN if we are on the news page,
+		// as we start out with no scroll height before the news feeds load
+		if ( $(location).attr('hash') == 'news' ) {
+		get_scroll_position(); 
+		}
+	
 	return 'done';
+	
 	}
 	else {
 	$("#loading_subsections_span").html("Loading News Feeds...");

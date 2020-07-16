@@ -16,7 +16,7 @@ $("#alert_bell_image").attr("src","templates/interface/media/images/notification
 
 // Mirror hidden errors output in the footer over to the alert bell area with javascript
 // Run AFTER check to see if alerts are present
-$('#alert_bell_area').html( $('#app_error_alert').html() );
+$('#alert_bell_area').html( "<span class='bitcoin'>Current UTC time:</span> <span class='utc_timestamp red'></span><br />" + $('#app_error_alert').html() );
 	
 
 if ( $("#admin_login").length ) {
@@ -55,15 +55,9 @@ $("#app_loading").hide(250, 'linear'); // 0.25 seconds
 $("#content_wrapper").show(250, 'linear'); // 0.25 seconds
 $("#content_wrapper").css('display','inline'); // MUST display inline to center itself cross-browser
   
-
-// Run AFTER showing content
-get_scroll_position();
-
-	
 // Charts background / border
 $(".chart_wrapper").css({ "background-color": window.charts_background });
 $(".chart_wrapper").css({ "border": '2px solid ' + window.charts_border });
-
 
 // Dynamic table header updating
 $("span.btc_primary_currency_pairing").html(window.btc_primary_currency_pairing); 
@@ -72,15 +66,11 @@ $("span.btc_primary_currency_pairing").html(window.btc_primary_currency_pairing)
 //////////////////////////////////////////////////////////////////////////////
 
 
-var today = new Date();
-var date = today.getUTCFullYear() + '-' + force_2_digits(today.getUTCMonth() + 1) + '-' + force_2_digits( today.getUTCDate() );
-var time = force_2_digits( today.getUTCHours() ) + ":" + force_2_digits( today.getUTCMinutes() ) + ":" + force_2_digits( today.getUTCSeconds() );
+random_tips(); // https://codepen.io/kkoutoup/pen/zxmGLE
 
-$("span.utc_timestamp").text('[' + date + ' ' + time + ']');
+start_utc_time();
 
-
-///////////////////////////////////////////////////////////////////////////////
-
+get_scroll_position(); // Run AFTER showing content
 
 autosize(document.querySelector('textarea[data-autoresize]'));
 
@@ -214,12 +204,6 @@ autosize(document.querySelector('textarea[data-autoresize]'));
 	
 	});
 	
-	//////////////////////////////////////////////////////////
-
-
-// https://codepen.io/kkoutoup/pen/zxmGLE
-random_tips();
-		
 	
 	//////////////////////////////////////////////////////////
 
