@@ -548,16 +548,8 @@ $app_config['power_user']['backup_archive_delete_old'] = 7;
 // (higher sensor data is moved into the second chart, to keep ranges easily readable between both charts...only used IF CRON JOB IS SETUP)
 $app_config['power_user']['system_stats_first_chart_highest_value'] = 3.5; // (default = 3.5) 
 
-
-// Weeks to power down all HIVE Power holdings
-$app_config['power_user']['hive_powerdown_time'] = 13; 
-////
-// HIVE Power yearly interest rate START 11/29/2019 (1.2%, decreasing every year by roughly 0.075% until it hits a minimum of 0.075% and stays there)
-// 1.2 (DO NOT INCLUDE PERCENT SIGN) the first year at 11/29/2019 refactored rates, see above for manual yearly adjustment
-$app_config['power_user']['hivepower_yearly_interest'] = 1.2;
-
 																					
-// Chart colors (https://www.w3schools.com/colors/colors_picker.asp)
+// ASSET MARKETS chart colors (https://www.w3schools.com/colors/colors_picker.asp)
 ////
 // Charts border color
 $app_config['power_user']['charts_border'] = '#808080'; // (default: '#808080')
@@ -722,16 +714,6 @@ $app_config['power_user']['bitcoin_preferred_currency_markets'] = array(
 
 
 
-// Static values in ETH for Ethereum subtokens, like during crowdsale periods etc (before exchange listings)
-$app_config['power_user']['ethereum_subtoken_ico_values'] = array(
-                        'ETHSUBTOKENNAME' => '0.15',
-                        'GOLEM' => '0.001',
-                        'ARAGON' => '0.01',
-                        'DECENTRALAND' => '0.00008',
-                        );
-
-
-
 // Mining rewards for different crypto networks (to prefill the editable mining calculator forms)
 $app_config['power_user']['mining_rewards'] = array(
 					'btc' => '6.25',
@@ -743,7 +725,25 @@ $app_config['power_user']['mining_rewards'] = array(
 					'xmr' => 'PLACEHOLDER',  
 					'dcr' => 'PLACEHOLDER', 
 					);
+
+
+
+// Static values in ETH for Ethereum subtokens, like during crowdsale periods etc (before exchange listings)
+$app_config['power_user']['ethereum_subtoken_ico_values'] = array(
+                        'ETHSUBTOKENNAME' => '0.15',
+                        'GOLEM' => '0.001',
+                        'ARAGON' => '0.01',
+                        'DECENTRALAND' => '0.00008',
+                        );
 						
+
+
+// Weeks to power down all HIVE Power holdings
+$app_config['power_user']['hive_powerdown_time'] = 13; 
+////
+// HIVE Power yearly interest rate START 11/29/2019 (1.2%, decreasing every year by roughly 0.075% until it hits a minimum of 0.075% and stays there)
+// 1.2 (DO NOT INCLUDE PERCENT SIGN) the first year at 11/29/2019 refactored rates, see above for manual yearly adjustment
+$app_config['power_user']['hivepower_yearly_interest'] = 1.2;
 
 
 // RSS feed entries to show per-feed on News page (without needing to click the "show more / less" link)
@@ -1315,9 +1315,9 @@ $app_config['developer']['remote_api_strict_ssl'] = 'off'; // (default = 'off')
 ////
 // Seconds to wait for response from REMOTE API endpoints (exchange data, etc). 
 // Set too low you won't get ALL data (partial or zero bytes), set too high the interface can take a long time loading if an API server hangs up
-// RECOMMENDED MINIMUM OF 45 TO 60 FOR INSTALLS BEHIND #LOW BANDWIDTH# / HOME INTERNET NETWORKS 
-// (which may need an even higher timeout of 60 or more if data still isn't received from all APIs)
-$app_config['developer']['remote_api_timeout'] = 30; // (default = 30)
+// RECOMMENDED MINIMUM OF 45 TO 60 FOR INSTALLS BEHIND #VERY LOW BANDWIDTH# NETWORKS 
+// (which may need an even higher timeout above 60 if data still isn't FULLY received from all APIs)
+$app_config['developer']['remote_api_timeout'] = 35; // (default = 35)
 
 
 // Local / internal API rate limit (maximum of once every X seconds, per ip address) for accepting remote requests
@@ -1335,14 +1335,14 @@ $app_config['developer']['local_api_cache_time'] = 4; // (default = 4)
 $app_config['developer']['lite_chart_data_points_max'] = '400'; // (default = '400'), ADJUST WITH CARE!
 
 
+// Maximum number of batched news feed fetches / re-caches per ajax OR cron runtime 
+// (#TO HELP PREVENT RUNTIME CRASHES# ON LOW POWER DEVICES OR HIGH TRAFFIC INSTALLS, WITH A LOW NUMBER OF 25 OR LESS)
+$app_config['developer']['batched_news_feeds_max'] = 25; // (default = 25), ADJUST WITH CARE!
+////
 // Minutes to cache RSS feeds for News page
 // Randomly cache each RSS feed between the minimum and maximum minutes set here (so they don't refresh all at once, for faster load times)
 // THE WIDER THE GAP BETWEEN THE NUMBERS, MORE SPLIT UP / FASTER THE FEEDS WILL LOAD IN THE INTERFACE
 $app_config['developer']['news_feeds_cache_min_max'] = '60,160'; // 'min,max' (default = '60,160'), ADJUST WITH CARE!
-////
-// Maximum number of batched news feed fetches / re-caches per ajax OR cron runtime 
-// (#TO HELP PREVENT RUNTIME CRASHES# ON LOW POWER DEVICES OR HIGH TRAFFIC INSTALLS, WITH A LOW NUMBER OF 25 OR LESS)
-$app_config['developer']['batched_news_feeds_max'] = 25; // (default = 25), ADJUST WITH CARE!
 
 
 // If you want to override the default user agent string (sent with API requests, etc)
@@ -1401,17 +1401,17 @@ $app_config['developer']['webhook_max_execution_time'] = 90; // (default = 90)
 			
 			
 // Configuration for advanced CAPTCHA image settings on all admin login / reset pages
-$app_config['developer']['captcha_permitted_chars'] = 'ACEFMNPRXY3478'; // Characters allowed for use in captcha image (default = 'ACEFMNPRXY3478')
-////
-$app_config['developer']['captcha_chars_length'] = 6; // Number of characters in captcha image (default = 6)
-////
 $app_config['developer']['captcha_image_width'] = 430; // Image width (default = 430)
 ////
 $app_config['developer']['captcha_image_height'] = 130; // Image height (default = 130)
 ////
+$app_config['developer']['captcha_text_margin'] = 4; // MINIMUM margin of text from edge of image (approximate / average) (default = 4)
+////
 $app_config['developer']['captcha_text_size'] = 50; // Text size (default = 50)
 ////
-$app_config['developer']['captcha_text_margin'] = 4; // MINIMUM margin of text from edge of image (approximate / average) (default = 4)
+$app_config['developer']['captcha_chars_length'] = 6; // Number of characters in captcha image (default = 6)
+////
+$app_config['developer']['captcha_permitted_chars'] = 'ACEFHMNPRTUWXY234567'; // Characters allowed for use in captcha image (default = 'ACEFHMNPRTUWXY234567')
 							
 
 // TLD-only (Top Level Domain only, NO SUBDOMAINS) for each API service that requires multiple calls (for each market / data set)
