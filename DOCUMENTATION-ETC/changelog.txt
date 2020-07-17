@@ -3837,6 +3837,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Bug fix for excessive system resource usage during cron jobs
 
+-Bug fix for lite charts creating too many lines breaks in the data file
+
 -Bug fix for news and charts pages correctly restoring current vertical scroll position on reload (if set as the start page)
 
 -Minor fixes / UX revisions

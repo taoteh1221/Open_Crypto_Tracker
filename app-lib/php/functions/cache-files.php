@@ -1079,8 +1079,9 @@ $lite_data_update_threshold = number_to_string($lite_data_update_threshold);
 		// If our oldest lite timestamp is older than allowed, remove the stale data points
 		if ( $oldest_lite_timestamp < $oldest_allowed_timestamp ) {
 		$lite_data_removed_outdated_lines = prune_first_lines($lite_path, 0, $oldest_allowed_timestamp);
-			
-		$result = store_file_contents($lite_path, $lite_data_removed_outdated_lines['data'] . "\n" . $queued_archival_data . "\n");  // WITH newlines (file write)
+		
+		// ONLY APPEND A LINE BREAK TO THE NEW ARCHIVAL DATA, since prune_first_lines() maintains the existing line breaks
+		$result = store_file_contents($lite_path, $lite_data_removed_outdated_lines['data'] . $queued_archival_data . "\n");  // WITH newline for NEW data (file write)
 		$lite_mode_logging = 'OVERWRITE_' . $lite_data_removed_outdated_lines['lines_removed'] . '_OUTDATED_PRUNED_' . $added_archival_mode;
 		}
 		// If we're clear to just append the latest data

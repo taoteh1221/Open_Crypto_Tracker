@@ -522,7 +522,7 @@ $app_config['power_user']['marketcap_ranks_max'] = 300; // (default = 300)
 // Structure of lite charts #IN DAYS# (X days time period charts)
 // Interface will auto-detect and display days as 365 = 1Y, 180 = 6M, 7 = 1W, etc
 // (LOWER TIME PERIODS [UNDER 180 DAYS] #SHOULD BE KEPT SOMEWHAT MINIMAL#, TO REDUCE RUNTIME LOAD / DISK WRITES DURING CRON JOBS)
-$app_config['power_user']['lite_chart_day_intervals'] = array(10, 30, 180, 365, 730); // (default = 10, 30, 180, 365, 730)
+$app_config['power_user']['lite_chart_day_intervals'] = array(10, 30, 180, 365, 730, 1460); // (default = 10, 30, 180, 365, 730, 1460)
 		
 
 // Contrast of CAPTCHA IMAGE text against background...0 for default, positive for extra contrast, negative for less contrast (maximum of +-35)
