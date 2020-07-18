@@ -1728,6 +1728,7 @@ $endpoint_tld_or_ip = get_tld_or_ip($api_endpoint);
 											'medium.com',
 											'reddit.com',
 											'whatbitcoindid.com',
+											'simplecast.com',
 											);
 		
 		if ( in_array($endpoint_tld_or_ip, $strict_feed_servers) ) {

@@ -1083,6 +1083,12 @@ $app_config['power_user']['news_feeds'] = array(
 
     					
         				array(
+            			"title" => "Podcast - The Bitcoin Podcast Network",
+            			"url" => "https://feeds.simplecast.com/xCQr3ykc"
+        						),
+
+    					
+        				array(
             			"title" => "Podcast - The Scoop",
             			"url" => "http://feeds.megaphone.fm/theblock-thescoop"
         						),

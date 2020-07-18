@@ -492,6 +492,7 @@ $xmldata = @external_api_data('url', $url, $rss_feed_cache_time);
 		if ( $rss == false ) {
 		gc_collect_cycles(); // Clean memory cache
 	 	return '<span class="red">Error retrieving feed data.</span>';
+	 	//return $xmldata; // DEBUGGING
 	 	}
 						
 						
