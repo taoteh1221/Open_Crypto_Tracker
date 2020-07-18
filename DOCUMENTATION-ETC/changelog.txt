@@ -3875,6 +3875,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.15.0:
 
+-Custom privacy notice added to zingchart context menus, explaining the zingchart 'Download [filetype]' exporting feature (and mentioning privacy-enhancing alternitives).
+
 -Optimizations
 
 IMPORTANT UPGRADE NOTES: 

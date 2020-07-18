@@ -77,21 +77,32 @@ $x_coord = 120; // Start position (absolute) for lite chart links
 			
 {
 
-	gui: {
-    	behaviors: [
-    	],
-    	contextMenu: {
-    	  alpha: 0.9,
-    	  button: {
-     	   visible: true
-     	 },
-     	 docked: true,
-     	 item: {
-     	   textAlpha: 1
-     	 },
-      	position: 'left'
-    	}
-	},
+gui: {
+    contextMenu: {
+      customItems: [
+        {
+          text: 'PRIVACY ALERT!',
+          function: 'zingAlert()',
+          id: 'showAlert'
+        }
+      ],
+      alpha: 0.9,
+      button: {
+        visible: true
+      },
+      docked: true,
+      item: {
+        textAlpha: 1
+      },
+      position: 'left'
+    },
+    behaviors: [
+      {
+        id: 'showAlert',
+        enabled: 'all'
+      }
+    ]
+},
    type: "area",
    noData: {
      text: "No data for the <?=$_GET['days']?> day chart yet, please check back in awhile.",
@@ -225,9 +236,14 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 
 
 gui: {
-    behaviors: [
-    ],
     contextMenu: {
+      customItems: [
+        {
+          text: 'PRIVACY ALERT!',
+          function: 'zingAlert()',
+          id: 'showAlert'
+        }
+      ],
       alpha: 0.9,
       button: {
         visible: true
@@ -237,7 +253,13 @@ gui: {
         textAlpha: 1
       },
       position: 'left'
-    }
+    },
+    behaviors: [
+      {
+        id: 'showAlert',
+        enabled: 'all'
+      }
+    ]
 },
    
 graphset:[
@@ -555,21 +577,32 @@ if ( !file_exists('cache/charts/system/lite/' . $_GET['days'] . '_days/system_st
 			
 {
 
-	gui: {
-    	behaviors: [
-    	],
-    	contextMenu: {
-    	  alpha: 0.9,
-    	  button: {
-     	   visible: true
-     	 },
-     	 docked: true,
-     	 item: {
-     	   textAlpha: 1
-     	 },
-      	position: 'left'
-    	}
-	},
+gui: {
+    contextMenu: {
+      customItems: [
+        {
+          text: 'PRIVACY ALERT!',
+          function: 'zingAlert()',
+          id: 'showAlert'
+        }
+      ],
+      alpha: 0.9,
+      button: {
+        visible: true
+      },
+      docked: true,
+      item: {
+        textAlpha: 1
+      },
+      position: 'left'
+    },
+    behaviors: [
+      {
+        id: 'showAlert',
+        enabled: 'all'
+      }
+    ]
+},
    type: "area",
    noData: {
      text: "No data for the <?=$_GET['days']?> day chart yet, please check back in awhile.",
@@ -817,7 +850,36 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 
 ?>
 
-{ graphset: [
+{ 
+
+gui: {
+    contextMenu: {
+      customItems: [
+        {
+          text: 'PRIVACY ALERT!',
+          function: 'zingAlert()',
+          id: 'showAlert'
+        }
+      ],
+      alpha: 0.9,
+      button: {
+        visible: true
+      },
+      docked: true,
+      item: {
+        textAlpha: 1
+      },
+      position: 'left'
+    },
+    behaviors: [
+      {
+        id: 'showAlert',
+        enabled: 'all'
+      }
+    ]
+},
+   
+   graphset: [
     {
       type: 'line',
       borderColor: '#cccccc',
@@ -1014,22 +1076,7 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 	?>
 	]
     }
-  ],
-  gui: {
-    behaviors: [
-    ],
-    contextMenu: {
-      alpha: 0.9,
-      button: {
-        visible: true
-      },
-      docked: true,
-      item: {
-        textAlpha: 1
-      },
-      position: 'left'
-    }
-  }
+  ]
   
 }
 
@@ -1055,6 +1102,13 @@ elseif ( $_GET['type'] == 'balance_stats' ) {
     	"behaviors": [
     	],
     	"contextMenu": {
+      	"customItems": [
+        	{
+          	"text": 'PRIVACY ALERT!',
+          	"function": 'zingAlert()',
+          	"id": 'showAlert'
+        	}
+      	],
     	  "alpha": 0.9,
     	  "button": {
      	   "visible": true
@@ -1064,7 +1118,13 @@ elseif ( $_GET['type'] == 'balance_stats' ) {
      	   "textAlpha": 1
      	 },
       	"position": 'left'
-    	}
+    	},
+    	"behaviors": [
+     	 {
+        	"id": 'showAlert',
+        	"enabled": 'all'
+      	}
+    	]
 	},
    "type": "pie",
   		backgroundColor: "white",
