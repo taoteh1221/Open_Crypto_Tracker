@@ -1001,10 +1001,11 @@ $lite_data_update_threshold = number_to_string($lite_data_update_threshold);
 	return false;
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// If no lite chart exists yet OR it's time to prune the 'all' chart, rebuild from scratch
+	// If no lite chart exists yet, OR it's time to RESET intervals in the 'all' chart, rebuild from scratch
+	// (we STILL check $queued_archival_lines for new data, to see if we should SKIP an 'all' charts full rebuild now)
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	elseif ( !$newest_lite_timestamp 
-	|| $days_span == 'all' && update_cache_file($base_dir . '/cache/events/lite_chart_rebuilds/all_days_chart_'.$lite_path_hash.'.dat', (60 * $all_chart_rebuild_threshold) ) == true ) {
+	|| $days_span == 'all' && sizeof($queued_archival_lines) > 0 && update_cache_file($base_dir . '/cache/events/lite_chart_rebuilds/all_days_chart_'.$lite_path_hash.'.dat', (60 * $all_chart_rebuild_threshold) ) == true ) {
 
 	$archive_file_data = file($archive_path);
 	$archive_file_data = array_reverse($archive_file_data); // Save time, only loop / read last lines needed
@@ -1053,10 +1054,10 @@ $lite_data_update_threshold = number_to_string($lite_data_update_threshold);
 
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// If the lite chart has existing data, AND we have new data to append to it / trim out 
-	// X first lines of stale data (earlier then the X days time range)
+	// If the lite chart has existing data, then $queued_archival_lines should be populated (IF we have new data to append to it).
+	// We also trim out X first lines of stale data (earlier then the X days time range)
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	elseif ( $newest_lite_timestamp && sizeof($queued_archival_lines) > 0 ) {
+	elseif ( sizeof($queued_archival_lines) > 0 ) {
 		
 	$queued_archival_data = implode("\n", $queued_archival_lines);
 	
