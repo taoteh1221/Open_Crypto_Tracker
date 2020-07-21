@@ -164,9 +164,9 @@
 	
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Crypto Wallets</strong> </legend>
 	        
-			<p><a style='font-weight: bold;' class='show red' id='newbiewarning3' href='#show_newbiewarning3' title='Click to show newbie warning.' onclick='return false;'><b>Newbie Warning!</b></a></p>
+			<p><a style='font-weight: bold;' class='red' title='Click to show newbie warning.' href='javascript: show_more("newbiewarning3");'><b>Newbie Warning!</b></a></p>
 	    
-		<div style='display: none;' class='align_left show_newbiewarning3'>
+		<div style='display: none;' id='newbiewarning3' class='align_left'>
 			
 	     
 						<p class='red'>ALWAYS <a href='https://en.wikipedia.org/wiki/Cut,_copy,_and_paste' target='_blank'>copy / paste</a> wallet addresses, NEVER type them by hand, or you risk losing coins! 😮 If you are looking to copy a wallet address to somebody's phone, try the QR Code Generator on the Tools page. ALWAYS verify your wallet address copies over correctly, for ANY method you use.</p>
