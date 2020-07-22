@@ -80,7 +80,7 @@ FEATURES
 
 -Internal restful API built-in, to allow other external apps to query real-time market data in over 80 country fiat currencies / secondary crypto pairings (raw data also available).
 
--Options to add proxies for API requests, and SMTP authentication for email sending.
+-Option to use proxies for external API requests, and SMTP authentication for email sending.
 
 -System / configuration checking, alerting, logging, and auto-correcting (where possible).
 
