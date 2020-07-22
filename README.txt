@@ -122,7 +122,7 @@ Setting up a cron job for charts and price alerts by email / mobile phone text /
 (get notifications sent to you, even when your PC / Laptop is offline): 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you want to take advantage of cron job based features like charts, chart data backups, price alerts, daily or weekly error log emails / etc, then the file cron.php (located in the primary directory of this app) must be setup as a cron job on your Raspberry Pi or website web server. 
+If you want to take advantage of cron job based features like charts, chart data backups, price alerts, daily or weekly error log emails / etc, then the file cron.php (located in the primary directory of this app) must be setup as a cron job on your Ubuntu / Raspberry Pi / website server device. 
 
 If you run the automated setup / install script for Ubuntu or Raspberry Pi (an affordable low power single board computer) devices on home / internal networks, automatic cron job setup is offered as an option during this process. If you are using a full stack website host for hosting a TLD website domain name remotely, consult your web server host's documentation or help desk for their particular method of setting up a cron job. 
 
@@ -132,16 +132,16 @@ Here is an example cron job command line for reference below (NOT including any 
 
 /path/to/php -q /home/username/path/to/website/this_app/cron.php
 
-Here is another example of a COMPLETE cron command that can be added by creating the following file (you'll need sudo/root permissions): /etc/cron.d/cryptocoin on a linux-based machine (to run every 20 minutes 24/7)...play it safe and add a newline after it as well if you install examples like these:
+Here is another example of a COMPLETE cron command that can be added by creating the following file (you'll need sudo/root permissions): /etc/cron.d/cryptocoin on a linux-based machine with systemd (to run every 20 minutes 24/7)...play it safe and add a newline after it as well if you install examples like these:
 
 */20 * * * * WEBSITE_USERNAME_GOES_HERE /usr/bin/php -q /var/www/html/cron.php > /dev/null 2>&1
 
-If your system DOES NOT have /etc/cron.d/ on it, then NEARLY the same format (minus the username) can be installed via the 'crontab -e' command (logged in as the user you want running the cron job):
+If your system DOES NOT have the directory /etc/cron.d/ on it, then NEARLY the same format (minus the username) can be installed via the legacy 'crontab -e' command (YOU MUST BE logged in as the user you want running the cron job):
 
 */20 * * * * /usr/bin/php -q /var/www/html/cron.php > /dev/null 2>&1
 
 
-SEE /DOCUMENTATION-ETC/CRON-PLUGINS-README.txt for creating your own custom cron plugins (custom code that runs during regularly-scheduled cron jobs)
+SEE /DOCUMENTATION-ETC/CRON-PLUGINS-README.txt for creating your own custom cron plugins (custom code that runs at the end of regularly-scheduled cron jobs)
 
 
 IMPORTANT CRON JOB NOTES: 
@@ -163,11 +163,11 @@ To see a list of the supported markets for a particular exchange in the API, use
 
 To see a list of the supported conversion currencies (market values converted to these currency values) in the API, use the endpoint: "/api/conversion_list"
 
-To get raw market values AND also get a market conversion to a supported conversion currency (see ALL requested market values also converted to values in this currency) in the API, use the endpoint: "/api/market_conversion/[conversion currency]/[exchange-asset-pairing],[exchange-asset2-pairing],[exchange-asset3-pairing]"
+To get raw market values AND also get a market conversion to a supported conversion currency (see ALL requested market values also converted to values in this currency) in the API, use the endpoint: "/api/market_conversion/[conversion currency]/[exchange1-asset1-pairing1],[exchange2-asset2-pairing2],[exchange3-asset3-pairing3]"
 
-To skip conversions and just receive raw market values in the API, you can use the endpoint: "/api/market_conversion/market_only/[exchange-asset-pairing],[exchange-asset2-pairing],[exchange-asset3-pairing]"
+To skip conversions and just receive raw market values in the API, you can use the endpoint: "/api/market_conversion/market_only/[exchange1-asset1-pairing1],[exchange2-asset2-pairing2],[exchange3-asset3-pairing3]"
 
-For security, the API requires a key / token to access it. It must be named "api_key", and must be sent with the "POST" data method.
+For security, the API requires a key / token to access it. This key must be named "api_key", and must be sent with the "POST" data method.
 
 
 // SEE /DOCUMENTATION-ETC/REST-API-EXAMPLES.txt FOR EXAMPLES OF CALLING THE API WITH CURL, JAVASCRIPT, AND PHP
@@ -196,7 +196,7 @@ bigone / binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitforex 
 Nearly Unlimited Assets Supported (whatever assets exist on supported exchanges).
 
 
-Ethereum ICO subtoken support (pre-exchange listing) has been built in, but values are static ICO values in ETH.
+Ethereum ICO subtoken support (pre-exchange listing) has been built in (values are static ICO values in ETH).
  
  
  
@@ -207,7 +207,9 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in, but valu
                         'asset_name' => 'COIN_NAME_HERE',
                         'marketcap_website_slug' => 'WEBSITE_SLUG_HERE', // Website slug (URL data) on coinmarketcap / coingecko, leave blank if not listed there
                         'market_pairing' => array(
-                                                    
+                                    
+                                    // MARKET IDS / PAIRING NAMES ARE CASE-SENSITIVE!
+                                    
                                     'lowercase_pairing_abrv' => array(
                                           'lowercase_exchange1' => 'MARKETIDHERE',
                                           'lowercase_exchange2' => 'pairing/COINSYMBOLHERE',

@@ -21,11 +21,11 @@
 		
 		<p>To see a list of the supported conversion currencies (market values converted to these currency values) in the API, use the endpoint: "<span class='bitcoin'>/api/conversion_list</span>"</p>
 		
-		<p>To get raw market values AND also get a market conversion to a supported conversion currency (see ALL requested market values also converted to values in this currency) in the API, use the endpoint: "<span class='bitcoin'>/api/market_conversion/[conversion currency]/[exchange-asset-pairing],[exchange-asset2-pairing],[exchange-asset3-pairing]</span>"</p>
+		<p>To get raw market values AND also get a market conversion to a supported conversion currency (see ALL requested market values also converted to values in this currency) in the API, use the endpoint: "<span class='bitcoin'>/api/market_conversion/[conversion currency]/[exchange1-asset1-pairing1],[exchange2-asset2-pairing2],[exchange3-asset3-pairing3]</span>"</p>
 		
-		<p><i>To skip conversions and just receive raw market values</i> in the API, you can use the endpoint: "<span class='bitcoin'>/api/market_conversion/market_only/[exchange-asset-pairing],[exchange-asset2-pairing],[exchange-asset3-pairing]</span>"</p>
+		<p><i>To skip conversions and just receive raw market values</i> in the API, you can use the endpoint: "<span class='bitcoin'>/api/market_conversion/market_only/[exchange1-asset1-pairing1],[exchange2-asset2-pairing2],[exchange3-asset3-pairing3]</span>"</p>
 		
-		<p>For security, the API requires a key / token to access it. It must be named "api_key", and must be sent with the "POST" data method.</p>
+		<p>For security, the API requires a key / token to access it. This key must be named "api_key", and must be sent with the "POST" data method.</p>
 	
 		<p>Below are <i>fully working examples <span class='bitcoin'>(including your auto-generated login authentication tokens)</span></i>, of connecting an external app with CURL command line or PHP, and Javascript.</p>
 	
