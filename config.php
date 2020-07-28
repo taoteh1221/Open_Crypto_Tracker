@@ -1185,12 +1185,6 @@ $app_config['power_user']['news_feeds'] = array(
     
     
         				array(
-            			"title" => "Youtube - BitBoy Crypto",
-            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCjemQfjaXAzA-95RKoy9n_g"
-        						),
-    
-    
-        				array(
             			"title" => "Youtube - Crypto Finally",
             			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCzPaGwO9MY5_xUNuwHEzR4Q"
         						),
@@ -1229,12 +1223,6 @@ $app_config['power_user']['news_feeds'] = array(
         				array(
             			"title" => "Youtube - Kripto Sözlük (turkish)",
             			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UC5rV0QEGbv0Y-umDwshs_HA"
-        						),
-    
-    
-        				array(
-            			"title" => "Youtube - Ministry of Nodes",
-            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UC93aLHD4fxvLPP3KSOV0TIg"
         						),
     
     

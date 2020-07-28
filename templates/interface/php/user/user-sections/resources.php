@@ -461,15 +461,11 @@
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCxODjeUwZHk3p-7TU-IsDOA/featured' target='_blank'>Boxmining</a></li>
 	        
-	        <li class='links_list'><a href='https://www.youtube.com/channel/UCN9Nj4tjXbVTLYWN0EKly_Q' target='_blank'>CNBC Crypto Trader</a></li>
-	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCofTOFX4QuhT8OY-3-fFRFw' target='_blank'>Coinbase</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/user/CoinDesk/featured' target='_blank'>CoinDesk</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/user/cointelegraph/featured' target='_blank'>Cointelegraph</a></li>
-	        
-	        <li class='links_list'><a href='https://www.youtube.com/channel/UCjemQfjaXAzA-95RKoy9n_g/featured' target='_blank'>BitBoy Crypto</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/user/obham001/featured' target='_blank'>Crypt0</a></li>
 	        
@@ -500,8 +496,6 @@
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UC5rV0QEGbv0Y-umDwshs_HA/featured' target='_blank'>Kripto Sözlük (turkish)</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCVVDsIYJBQ_C7Bh_aI3ZMxQ/featured' target='_blank'>Magical Crypto Friends</a></li>
-	        
-	        <li class='links_list'><a href='https://www.youtube.com/channel/UC93aLHD4fxvLPP3KSOV0TIg' target='_blank'>Ministry of Nodes</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCSuHzQ3GrHSzoBbwrIq3LLA' target='_blank'>Naomi Brockwell</a></li>
 	        
