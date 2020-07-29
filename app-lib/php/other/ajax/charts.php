@@ -511,6 +511,9 @@ graphset:[
       "thousands-separator":","
     }
   },
+  crosshairY:{
+    exact: true
+  },
   scaleX: {
     visible: false,
     zooming: true
