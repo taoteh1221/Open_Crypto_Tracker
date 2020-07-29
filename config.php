@@ -201,7 +201,7 @@ $app_config['general']['btc_primary_currency_pairing'] = 'usd'; // PUT INSIDE SI
 // Default BITCOIN market exchanges (30+ bitcoin exchanges supported)
 // (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
 // binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmex / bitpanda / bitso / bitstamp / bittrex / bittrex_global 
-// braziliex / btcmarkets / btcturk / buyucoin / cex / coinbase / coss / gemini / hitbtc / huobi / korbit / kraken / kucoin 
+// braziliex / btcmarkets / btcturk / buyucoin / cex / coinbase / gemini / hitbtc / huobi / korbit / kraken / kucoin 
 // livecoin / localbitcoins / luno / okcoin / okex / southxchange / tidebit / upbit / zebpay
 // SEE THE $app_config['portfolio_assets'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
 // MARKET PAIRING VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (to populate $app_config['general']['btc_primary_currency_pairing'] directly above with)
@@ -1245,6 +1245,12 @@ $app_config['power_user']['news_feeds'] = array(
     
     
         				array(
+            			"title" => "Youtube - Tales From The Crypt",
+            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCtdbWsnfA08KhSUO4amVLaQ"
+        						),
+    
+    
+        				array(
             			"title" => "Youtube - Tone Vays",
             			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCbiWJYRg8luWHnmNkJRZEnw"
         						),
@@ -1807,7 +1813,6 @@ $app_config['portfolio_assets'] = array(
                                         	'bittrex_global' => 'EUR-BTC',
                                           'bitpanda' => 'BTC_EUR',
                                           'bitflyer' => 'BTC_EUR',
-                                          'coss' => 'BTC-EUR',
                                           'cex' => 'BTC:EUR',
                                           'localbitcoins' => 'EUR',
                                           'luno' => 'XBTEUR',
@@ -1817,7 +1822,6 @@ $app_config['portfolio_assets'] = array(
                                           'coinbase' => 'BTC-GBP',
                                           'kraken' => 'XXBTZGBP',
                                           'bitfinex' => 'tBTCGBP',
-                                          'coss' => 'BTC-GBP',
                                           'cex' => 'BTC:GBP',
                                           'localbitcoins' => 'GBP',
                                                     ),
@@ -2042,7 +2046,6 @@ $app_config['portfolio_assets'] = array(
                                           'livecoin' => 'BTC/USD',
                                           'cex' => 'BTC:USD',
                                           'southxchange' => 'BTC/USD',
-                                          'coss' => 'BTC-USD',
                                                     ),
                                                     
                                     'usdc' => array(
@@ -2207,7 +2210,6 @@ $app_config['portfolio_assets'] = array(
                                         	'bitmex_u20' => 'ETHUSDU20',
                                           'okcoin' => 'eth_usd',
                                           'cex' => 'ETH:USD',
-                                          'coss' => 'ETH-USD',
                                                     ),
                                                     
                                     'usdt' => array(
@@ -2310,7 +2312,6 @@ $app_config['portfolio_assets'] = array(
                                           'okex' => 'MKR-BTC',
                                           'bitfinex' => 'tMKRBTC',
                                         	'hitbtc' => 'MKRBTC',
-                                          'coss' => 'MKR-BTC',
                                           'coinex' => 'MKRBTC',
                                                     ),
                                                     
@@ -2326,7 +2327,6 @@ $app_config['portfolio_assets'] = array(
                                         	'hitbtc' => 'MKRETH',
                                           'gateio' => 'mkr_eth',
                                           'idex' => 'ETH_MKR',
-                                          'coss' => 'MKR-ETH',
                                                     ),
                                                     
                                 		'krw' => array(
@@ -2342,7 +2342,6 @@ $app_config['portfolio_assets'] = array(
                                         	'hitbtc' => 'MKRUSDT',
                                           'gateio' => 'mkr_usdt',
                                           'coinex' => 'MKRUSDT',
-                                          'coss' => 'MKR-USDT',
                                           			),
                                           			
                                         ) // market_pairing END

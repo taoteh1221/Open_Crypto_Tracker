@@ -80,6 +80,9 @@ FEATURES / STRUCTURING SECTION
 ///////////////////////////////////////////////////////
 
 
+Option to use new zip file encryption password feature to encrypt portfolio spreadsheet exports when downloading exported portfolio data.
+
+
 Give cron plugins a [plugin name]-config.php file for parameters like gui menus / content, mysql data table structure, etc. Also give cron plugins a dedicated admin page (if any are activated).
 
 
@@ -117,9 +120,6 @@ Add Uniswap API: https://thegraph.com/explorer/subgraph/graphprotocol/uniswap
 
 
 Mail trading notes to admin email, only if user logged in as admin.
-
-
-Option to use new zip file encryption password feature to encrypt portfolio spreadsheet exports when downloading exported portfolio data.
 
 
 Add additional ability to do telegram webhooks, to query asset prices at different exchanges through telegram chat with the chat bot. Example: "/price ETH/USDT @ Binance"

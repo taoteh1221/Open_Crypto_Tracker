@@ -317,7 +317,6 @@ var_dump($api_data_array);
         "cex",
         "coinbase",
         "coinex",
-        "coss",
         "cryptofresh",
         "ethfinex",
         "gateio",
