@@ -3915,6 +3915,10 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Illiquid markets / exchanges removal 
 
+-24 hour volume horizontal crosshair support in asset charts
+
+-Wazirx exchange API support
+
 -More news feeds
 
 IMPORTANT UPGRADE NOTES: 
