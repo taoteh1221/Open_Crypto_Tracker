@@ -77,11 +77,11 @@ var quoteSource=[
 	    	name:"Mike Kilday (creator of this app)"
 	    },
 	    {
-	    	quote:"For longer shot (#VERY# high risk) small marketcap assets, HIGHLY consider getting #NO MORE THAN# a 'moon bag' worth (#NO MORE THAN# between 1% and 5% of your portfolio PER-ASSET, AND A TOTAL OF #NO MORE THAN# 10% of your portfolio). If it goes down 50% and keeps going down, sell it and you don't lose much. If it goes up between 400% and 800% (4x to 8x original value) or higher, rebalance it to only be between 1% and 5% of your portfolio again (by selling some of it). CAREFULLY TRACK YOUR SUCCESS RATE. If you are no good at picking long shots, stick to the largest and oldest marketcaps instead.",
+	    	quote:"For longer shot (#VERY# high risk) small marketcap assets, HIGHLY consider getting #NO MORE THAN# a 'moon bag' worth (#NO MORE THAN# between 1% and 5% of your portfolio PER-ASSET, AND A TOTAL OF #NO MORE THAN# 10% of your portfolio). If it goes down 50% and keeps going down, sell it and you don't lose much. If it goes up between 400% and 800% (4x to 8x original value) or higher, REBALANCE it to not be more than between 1% and 10% of your portfolio again (by selling a significant portion of it). CAREFULLY TRACK YOUR SUCCESS RATE. If you are no good at picking long shots, stick to the largest and oldest marketcaps instead.",
 	    	name:"Mike Kilday (creator of this app)"
 	    },
 	    {
-	    	quote:"Leverage trading is <u>EXTREMELY RISKY</u> (and even more so in crypto markets). Never put more than ~5% of your total investment worth into leverage trades, or you will <u>RISK LOSING EVERYTHING</u>!",
+	    	quote:"Leverage trading is <u>EXTREMELY RISKY</u> (and even more so in crypto markets). <i>NEVER</i> put more than ~5% of your total investment worth into leverage trades, or you will <u>RISK LOSING EVERYTHING</u>!",
 	    	name:"Mike Kilday (creator of this app)"
 	    },
 	    {
@@ -93,7 +93,7 @@ var quoteSource=[
 	    	name:"Mike Kilday (creator of this app)"
 	    },
 	    {
-	    	quote:"<i>ALWAYS</i> diversify / balance your portfolio with <i>mostly largest AND oldest marketcap</i> assets (which are <i>relatively</i> less volatile), for you <i>and yours safety and sanity</i>.",
+	    	quote:"<i>ALWAYS</i> diversify / balance your portfolio with <i>mostly largest AND oldest marketcap</i> assets (which are <i>relatively</i> less volatile), for you <i>and yours</i> safety and sanity.",
 	    	name:"Mike Kilday (creator of this app)"
 	    },
 	    {
