@@ -150,7 +150,7 @@
 	    <ul>
 	        
 	        
-	        <li class='links_list'><a href='https://www.blockchain.com/explorer' target='_blank'>Blockchain.com Bitcoin Explorer</a></li>
+	        <li class='links_list'><a href='https://live.blockcypher.com/btc/' target='_blank'>Blockcypher Bitcoin Explorer</a></li>
 	        
 	        <li class='links_list'><a href='https://etherscan.io/' target='_blank'>Etherscan.io Ethereum Explorer</a></li>
 	        
