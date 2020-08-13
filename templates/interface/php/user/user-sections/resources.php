@@ -171,7 +171,7 @@
 	     
 						<p class='red'>ALWAYS <a href='https://en.wikipedia.org/wiki/Cut,_copy,_and_paste' target='_blank'>copy / paste</a> wallet addresses, NEVER type them by hand, or you risk losing coins! 😮 If you are looking to copy a wallet address to somebody's phone, try the QR Code Generator on the Tools page. ALWAYS verify your wallet address copies over correctly, for ANY method you use.</p>
 	     
-						<p class='red'>ALWAYS backup your HD wallet recovery seed, and never store it in (unencrypted) plain text on a computer or the cloud. If you use Bitcoin Core always backup your wallet.dat file after every transaction, if you use a paper wallet always transfer the ENTIRE amount out in the first transaction out...otherwise you will lose your coins! 😮</p>
+						<p class='red'>ALWAYS backup your HD wallet recovery seed, NEVER store it in plain text (unencrypted) on a computer or the cloud, AND NEVER ENTER IT INTO ANY WEBPAGE OR UNVERIFIED WALLET! If you use Bitcoin Core, always backup your wallet.dat file after every transaction. If you use a paper wallet ALWAYS transfer the ENTIRE amount out in the first transaction out. Otherwise you will lose your coins! 😮</p>
 	
 		
 		</div>
