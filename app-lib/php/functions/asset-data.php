@@ -9,46 +9,8 @@
 ////////////////////////////////////////////////////////
 
 
-function exchange_list_internal_api() {
-
-global $app_config;
-
-$result = array();
-
-	foreach ( $app_config['portfolio_assets'] as $asset_key => $unused ) {
-
-		foreach ( $app_config['portfolio_assets'][$asset_key]['market_pairing'] as $pairing_key => $unused ) {
-					
-			foreach ( $app_config['portfolio_assets'][$asset_key]['market_pairing'][$pairing_key] as $exchange_key => $unused ) {
-					
-				if( !in_array(strtolower($exchange_key), $result) && !preg_match("/misc_assets/i", $exchange_key) ) {
-				//$all_exchange_count = $all_exchange_count + 1;
-				$result[] = strtolower($exchange_key);
-				}
-			
-			}
-				
-		}
-	
-	}
-
-sort($result);
-return array('exchange_list' => $result);
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function cuckoo_scaling_level($num) {
-
-// https://github.com/mimblewimble/docs/wiki/FAQ
-// scale = (N-1) * 2^(N-30) for cuckooN cycles
-
-return ($num - 1) * pow(2, ($num - 30) );
-
+function monero_reward() {
+return monero_api('last_reward') / 1000000000000;
 }
 
 
@@ -62,15 +24,6 @@ global $hive_market, $app_config, $selected_btc_primary_currency_value;
 
 return ( $data * $hive_market * $selected_btc_primary_currency_value );
 
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function monero_reward() {
-return monero_api('last_reward') / 1000000000000;
 }
 
 
@@ -188,6 +141,39 @@ global $app_config;
 		}
 	$pairing_loop = $pairing_loop + 1;
 	}
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function exchange_list_internal_api() {
+
+global $app_config;
+
+$result = array();
+
+	foreach ( $app_config['portfolio_assets'] as $asset_key => $unused ) {
+
+		foreach ( $app_config['portfolio_assets'][$asset_key]['market_pairing'] as $pairing_key => $unused ) {
+					
+			foreach ( $app_config['portfolio_assets'][$asset_key]['market_pairing'][$pairing_key] as $exchange_key => $unused ) {
+					
+				if( !in_array(strtolower($exchange_key), $result) && !preg_match("/misc_assets/i", $exchange_key) ) {
+				//$all_exchange_count = $all_exchange_count + 1;
+				$result[] = strtolower($exchange_key);
+				}
+			
+			}
+				
+		}
+	
+	}
+
+sort($result);
+return array('exchange_list' => $result);
 
 }
 
@@ -897,24 +883,6 @@ global $_POST, $app_config;
 				
 				<?php
 				}
-				elseif ( $hash_unit == 'graph' ) {
-				?>
-				
-				<input type='text' value='<?=( $_POST['network_measure'] && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? number_format($_POST['network_measure']) : number_format($calculation_form_data[3]) )?>' name='network_measure' id='network_measure_<?=$calculation_form_data[1]?>' />
-				
-				<select class='browser-default custom-select' name='cuckoo_cycles'>
-				<option value='29' <?=( $_POST['cuckoo_cycles'] == '29' ? 'selected' : '' )?>>Cuckoo 29 </option>
-				<option value='30' <?=( $_POST['cuckoo_cycles'] == '30' ? 'selected' : '' )?>>Cuckoo 30 </option>
-				<option value='31' <?=( $_POST['cuckoo_cycles'] == '31' ? 'selected' : '' )?>>Cuckoo 31 </option>
-				<option value='32' <?=( $_POST['cuckoo_cycles'] == '32' ? 'selected' : '' )?>>Cuckoo 32 </option>
-				<option value='33' <?=( $_POST['cuckoo_cycles'] == '33' ? 'selected' : '' )?>>Cuckoo 33 </option>
-				<option value='34' <?=( $_POST['cuckoo_cycles'] == '34' ? 'selected' : '' )?>>Cuckoo 34 </option>
-				</select> 
-				
-				(uses <a href='<?=$calculation_form_data[4]?>' target='_blank'><?=$calculation_form_data[5]?></a>)
-				
-				<?php
-				}
 				?>
 				</p>
 				
@@ -935,20 +903,6 @@ global $_POST, $app_config;
 				<option value='1000000000000' <?=( $_POST['hash_level'] == '1000000000000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Ths (trillion hashes per second) </option>
 				<option value='1000000000000000' <?=( $_POST['hash_level'] == '1000000000000000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Phs (quadrillion hashes per second) </option>
 				<option value='1000000000000000000' <?=( $_POST['hash_level'] == '1000000000000000000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Ehs (quintillion hashes per second) </option>
-				</select>
-				
-				<?php
-				}
-				elseif ( $hash_unit == 'graph' ) {
-				?>
-				<select class='browser-default custom-select' name='hash_level'>
-				<option value='1' <?=( $_POST['hash_level'] == '1' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Gps (graphs per second) </option>
-				<option value='1000' <?=( $_POST['hash_level'] == '1000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Kgps (thousand graphs per second) </option>
-				<option value='1000000' <?=( $_POST['hash_level'] == '1000000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Mgps (million graphs per second) </option>
-				<option value='1000000000' <?=( $_POST['hash_level'] == '1000000000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Ggps (billion graphs per second) </option>
-				<option value='1000000000000' <?=( $_POST['hash_level'] == '1000000000000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Tgps (trillion graphs per second) </option>
-				<option value='1000000000000000' <?=( $_POST['hash_level'] == '1000000000000000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Pgps (quadrillion graphs per second) </option>
-				<option value='1000000000000000000' <?=( $_POST['hash_level'] == '1000000000000000000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Egps (quintillion graphs per second) </option>
 				</select>
 				
 				<?php

@@ -63,7 +63,7 @@ return $price;
 ////////////////////////////////////////////////////////
 
 
-function trim_array($data) {
+function clean_array($data) {
 
    foreach ( $data as $key => $value ) {
    $data[$key] = trim(strip_formatting($value));
@@ -157,6 +157,63 @@ return $result;
 ////////////////////////////////////////////////////////
 
 
+function regex_compat_url($url) {
+	
+$regex_url = trim($url);
+
+$regex_url = preg_replace("/(http|https|ftp|tcp|ssl):\/\//i", "", $regex_url);
+
+$regex_url = preg_replace("/\//i", "\/", $regex_url);
+
+return $regex_url;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function delimited_string_sample($string, $delimiter, $position, $charset='utf-8') {
+	
+	if ( $position == 'first' ) {
+	$result = substr($string, 0, mb_strpos($string, $delimiter, 0, $charset) );
+	}
+	elseif ( $position == 'last' ) {
+	$result = array_pop( explode(',', $string) );
+	}
+
+return $result;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function auto_correct_string($string, $mode) {
+
+	// Upper or lower case
+	if ( $mode == 'lower' ) {
+	$string = strtolower($string);
+	}
+	elseif ( $mode == 'upper' ) {
+	$string = strtoupper($string);
+	}
+
+// Remove all whitespace
+$string = preg_replace('/\s/', '', $string);
+
+return $string;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
 function obfuscate_string($str, $show=1) {
 	
 $len = strlen($str);
@@ -231,63 +288,6 @@ $url = preg_replace("/:\/\//i", ") ", $url);
 
 // Keep our color-coded logs in the admin UI pretty, remove '//' and put in parenthesis
 return '('.$url;
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function regex_compat_url($url) {
-	
-$regex_url = trim($url);
-
-$regex_url = preg_replace("/(http|https|ftp|tcp|ssl):\/\//i", "", $regex_url);
-
-$regex_url = preg_replace("/\//i", "\/", $regex_url);
-
-return $regex_url;
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function auto_correct_string($string, $mode) {
-
-	// Upper or lower case
-	if ( $mode == 'lower' ) {
-	$string = strtolower($string);
-	}
-	elseif ( $mode == 'upper' ) {
-	$string = strtoupper($string);
-	}
-
-// Remove all whitespace
-$string = preg_replace('/\s/', '', $string);
-
-return $string;
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function delimited_string_sample($string, $delimiter, $position, $charset='utf-8') {
-	
-	if ( $position == 'first' ) {
-	$result = substr($string, 0, mb_strpos($string, $delimiter, 0, $charset) );
-	}
-	elseif ( $position == 'last' ) {
-	$result = array_pop( explode(',', $string) );
-	}
-
-return $result;
 
 }
 

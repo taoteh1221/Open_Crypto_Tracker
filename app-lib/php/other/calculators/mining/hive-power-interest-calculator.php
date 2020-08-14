@@ -7,7 +7,7 @@
 
 // Trim whitespace
 if ( $_POST['hive_submitted'] ) {
-$_POST = trim_array($_POST);
+$_POST = clean_array($_POST);
 }
 
 // Get HIVE value
