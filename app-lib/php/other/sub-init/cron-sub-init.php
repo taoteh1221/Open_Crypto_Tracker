@@ -46,25 +46,8 @@ monero_api('height');
 monero_api('hashrate');
 monero_reward();
 
-// Decred
-decred_api('block', 'height');
-decred_api('block', 'difficulty');
-decred_api('subsidy', 'work_reward');
-
-// Dogecoin
-dogecoin_api('height');
-dogecoin_api('difficulty');
-
-// Grin
-grin_api('height');
-grin_api('target_difficulty');
-
 // Hive
 asset_market_data('HIVE', 'bittrex', 'BTC-HIVE');
-
-// Litecoin
-litecoin_api('height');
-litecoin_api('difficulty');
 
 // Chain data END
 

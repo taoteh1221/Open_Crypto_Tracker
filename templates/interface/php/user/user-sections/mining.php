@@ -45,38 +45,6 @@
 				
 			</fieldset>
 			
-			<fieldset class='subsection_fieldset'>
-				<legend class='subsection_legend'> <b>Litecoin Mining Calculator</b> </legend>
-		    
-				<?php require("app-lib/php/other/calculators/mining/litecoin-mining-calculator.php"); ?>
-				
-				
-			</fieldset>
-			
-			<fieldset class='subsection_fieldset'>
-				<legend class='subsection_legend'> <b>Decred Mining Calculator</b> </legend>
-		    
-				<?php require("app-lib/php/other/calculators/mining/decred-mining-calculator.php"); ?>
-				
-				
-			</fieldset>
-			
-			<fieldset class='subsection_fieldset'>
-				<legend class='subsection_legend'> <b>Grin Mining Calculator</b> </legend>
-		    
-				<?php require("app-lib/php/other/calculators/mining/grin-mining-calculator.php"); ?>
-				
-				
-			</fieldset>
-			
-			<fieldset class='subsection_fieldset'>
-				<legend class='subsection_legend'> <b>Dogecoin Mining Calculator</b> </legend>
-		    
-				<?php require("app-lib/php/other/calculators/mining/dogecoin-mining-calculator.php"); ?>
-				
-				
-			</fieldset>
-			
 			
 			<fieldset class='subsection_fieldset'>
 				<legend class='subsection_legend'> <b>HIVE Power Interest Rate / Power Down Weekly Payout Calculator</b> </legend>

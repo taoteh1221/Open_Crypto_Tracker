@@ -3950,6 +3950,24 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 
 
+-------------------------------------------------------------------
+4.17.0:
+
+-Revised default config 
+
+-Resource page revisions
+
+-------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
 
 
 

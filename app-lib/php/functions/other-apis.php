@@ -13,25 +13,6 @@
 ////////////////////////////////////////////////////////
 
 
-function grin_api($request) {
- 
-global $app_config;
- 		
-$json_string = 'https://api.grinmint.com/v1/networkStats';
-
-$jsondata = @external_api_data('url', $json_string, $app_config['power_user']['chainstats_cache_time']);
-    
-$data = json_decode($jsondata, true);
-    
-return $data[$request];
-  
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
 function monero_api($request) {
  
 global $app_config;
@@ -77,87 +58,6 @@ global $app_config;
     
   return (float)$data;
   
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function dogecoin_api($request) {
- 
-global $app_config;
- 		
-    
-		if ( $request == 'height' ) {
-		
-    	$string = 'https://dogechain.info/chain/Dogecoin/q/getblockcount';
-		  
-		}
-		elseif ( $request == 'difficulty' ) {
-		
-    	$string = 'https://dogechain.info/chain/Dogecoin/q/getdifficulty';
-		  
-		}
-		
-    $data = @external_api_data('url', $string, $app_config['power_user']['chainstats_cache_time']);
-    
-  return (float)$data;
-  
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function litecoin_api($request) {
- 
-global $app_config;
- 		
-    
-		if ( $request == 'height' ) {
-		
-    	$string = 'http://explorer.litecoin.net/chain/Litecoin/q/getblockcount';
-		  
-		}
-		elseif ( $request == 'difficulty' ) {
-		
-    	$string = 'http://explorer.litecoin.net/chain/Litecoin/q/getdifficulty';
-		  
-		}
-		
-    $data = @external_api_data('url', $string, $app_config['power_user']['chainstats_cache_time']);
-    
-  return (float)$data;
-  
-  
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function decred_api($type, $request) {
- 
-global $app_config, $runtime_mode;
-
-
- 	if ( $type == 'block' ) {
- 	$json_string = 'https://explorer.dcrdata.org/api/block/best/verbose';
- 	}
-	elseif ( $type == 'subsidy' ) {
- 	$json_string = 'https://explorer.dcrdata.org/api/block/best/subsidy';
- 	}
-
- 		
-$jsondata = @external_api_data('url', $json_string, $app_config['power_user']['chainstats_cache_time']);
-  		
-$data = json_decode($jsondata, true);
-   	 
-return $data[$request];
-			  
 }
 
 

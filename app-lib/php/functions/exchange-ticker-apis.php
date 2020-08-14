@@ -1294,30 +1294,6 @@ global $selected_btc_primary_currency_value, $app_config;
  ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-// https://github.com/namebasehq/exchange-api-documentation/blob/master/rest-api.md
-  elseif ( strtolower($chosen_exchange) == 'namebase' ) {
-  
-  
-    $json_string = 'https://www.namebase.io/api/v0/ticker/day?symbol=' . $market_id;
-    
-    $jsondata = @external_api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
-    
-    $data = json_decode($jsondata, true);
-    
-    $result = array(
-    					'last_trade' => $data['closePrice'],
-    					'24hr_asset_volume' => $data['volume'],
-    					'24hr_pairing_volume' => $data['quoteVolume']
-    					);
-    
-    
-  }
- 
- 
- 
- ////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 
   elseif ( strtolower($chosen_exchange) == 'okcoin' ) {
   

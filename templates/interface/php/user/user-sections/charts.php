@@ -125,7 +125,7 @@
 	$("#coin_amounts").submit();
 	'>Update Selected Charts</button></p>
 	
-	<p class='bitcoin'>(if you see "chart data is no longer configured for" notices, check / uncheck this box, then click "Update Selected Charts")</p>
+	<p class='bitcoin'>(if you see "chart data is no longer configured for" notices OR the "loading charts" notice freezes, check / uncheck this box, then click "Update Selected Charts")</p>
 	
 	<p><input type='checkbox' onclick='
 	

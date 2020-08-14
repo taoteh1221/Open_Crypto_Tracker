@@ -28,7 +28,7 @@ $example_download_array[] = array(
 	        
 // LTC
 $example_download_array[] = array(
-	        							'LTC',
+	        							'ETH',
 	        							'7.255',
 	        							'120.50',
 	        							'0',
@@ -39,9 +39,9 @@ $example_download_array[] = array(
 	        
 // GRIN
 $example_download_array[] = array(
-	        							'GRIN',
+	        							'XMR',
 	        							'45.755',
-	        							'2.25',
+	        							'65.25',
 	        							'0',
 	        							'long',
 	        							'3',

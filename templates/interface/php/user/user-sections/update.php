@@ -100,7 +100,7 @@
 	     
 						<p class='red' style='font-weight: bold;'>
 						
-						Assets in the default examples / demo list DO NOT indicate ANY endorsement of these assets (AND removal indicates NO anti-endorsement). These crypto-assets are merely either interesting, historically popular, or (at time off addition) good ROI or returns for cryptocurrency mining hardware / staking / community grants. They are only used as <i>examples for demoing feasibility of features</i> in this application, <a href='README.txt' target='_blank'>before you install it on your Ubuntu / Raspberry Pi device or website server, and change the list to your favorite assets</a>. 
+						Assets in the default examples / demo list DO NOT indicate ANY endorsement of these assets (AND removal indicates NO anti-endorsement). These crypto-assets are merely either interesting, historically popular, or (at time off addition) good ROI or returns for cryptocurrency mining / staking. They are only used as <i>examples for demoing feasibility of features</i> in this application, <a href='README.txt' target='_blank'>before you install it on your Ubuntu / Raspberry Pi device or website server, and change the list to your favorite assets</a>. 
 						
 						<br /><br />Always do your due diligence investigating whether you are engaging in trading within acceptable risk levels for your <i>NET</i> worth, and consider consulting a professional if you are unaware of what risks are present.
 						
