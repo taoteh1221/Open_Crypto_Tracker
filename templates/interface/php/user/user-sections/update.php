@@ -498,9 +498,11 @@
 	    
 	    	if ( strtoupper($coin_array_key) == 'MISCASSETS' ) {
 	    	$asset_amount_decimals = 2;
+	    	$disable_fields = 'disabled';
 	    	}
 	    	else {
 	    	$asset_amount_decimals = 8;
+	    	$disable_fields = null;
 	    	}
 	    
 	    
@@ -630,7 +632,7 @@
 	     ' <?=( remove_number_format($asset_amount_value) > 0 && remove_number_format($asset_amount_value) <= '0.000000001' ? 'readonly' : '' )?> /> <span class='blue'><?=strtoupper($coin_array_key)?></span>  &nbsp;  &nbsp; 
 			    
 			
-	     <b>Average Paid (per-token):</b> <?=$app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']]?><input type='text' size='10' id='<?=$field_var_paid?>' name='<?=$field_var_paid?>' value='<?=$coin_paid_value?>' /> 
+	     <b>Average Paid (per-token):</b> <?=$app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']]?><input type='text' size='10' id='<?=$field_var_paid?>' name='<?=$field_var_paid?>' value='<?=$coin_paid_value?>' <?=$disable_fields?> /> 
 	     
 	     
 		<img id='average_paid_notes_<?=$rand_id?>' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' /> 
@@ -684,7 +686,7 @@
 	     var mode = "Beyond Batshit Crazy";
 	     }
 	     alert(" " + this.value + "x (" + mode + " Mode) \n Leverage trading in crypto assets is \n EXTREMELY RISKY. NEVER put more \n than ~5% of your crypto investments \n in leveraged trades EVER, OR YOU \n ###COULD LOSE EVERYTHING###. ");
-	     '>
+	     ' <?=$disable_fields?> >
 	     <option value='0' <?=( $coin_leverage_value == 0 ? 'selected' : '' )?>> None </option>
 	     <?php
 	     $leverage_count = 2;
@@ -698,7 +700,7 @@
 	     </select> 
 	     
 	     
-	     <select class='browser-default custom-select' name='<?=$field_var_margintype?>' id='<?=$field_var_margintype?>'>
+	     <select class='browser-default custom-select' name='<?=$field_var_margintype?>' id='<?=$field_var_margintype?>' <?=$disable_fields?> >
 	     <option value='long' <?=( $coin_margintype_value == 'long' ? 'selected' : '' )?>> Long </option>
 	     <option value='short' <?=( $coin_leverage_value >= 2 && $coin_margintype_value == 'short' ? 'selected' : '' )?>> Short </option>
 	     </select> 

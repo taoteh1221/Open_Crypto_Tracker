@@ -102,6 +102,7 @@ if (is_array($app_config['portfolio_assets']) || is_object($app_config['portfoli
 // Update dynamic mining rewards (UI only), if we are using the json config in the secured cache
 if ( $runtime_mode == 'ui' && is_array($app_config['power_user']['mining_rewards']) || $runtime_mode == 'ui' && is_object($app_config['power_user']['mining_rewards']) ) {
 $app_config['power_user']['mining_rewards']['xmr'] = monero_reward(); // (2^64 - 1 - current_supply * 10^12) * 2^-19 * 10^-12
+$app_config['power_user']['mining_rewards']['dcr'] = ( decred_api('subsidy', 'work_reward') / 100000000 );      
 }
 
 

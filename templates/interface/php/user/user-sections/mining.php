@@ -45,6 +45,14 @@
 				
 			</fieldset>
 			
+			<fieldset class='subsection_fieldset'>
+				<legend class='subsection_legend'> <b>Decred Mining Calculator</b> </legend>
+		    
+				<?php require("app-lib/php/other/calculators/mining/decred-mining-calculator.php"); ?>
+				
+				
+			</fieldset>
+			
 			
 			<fieldset class='subsection_fieldset'>
 				<legend class='subsection_legend'> <b>HIVE Power Interest Rate / Power Down Weekly Payout Calculator</b> </legend>

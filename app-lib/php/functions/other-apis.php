@@ -65,6 +65,32 @@ global $app_config;
 ////////////////////////////////////////////////////////
 
 
+function decred_api($type, $request) {
+ 
+global $app_config, $runtime_mode;
+
+
+ 	if ( $type == 'block' ) {
+ 	$json_string = 'https://explorer.dcrdata.org/api/block/best/verbose';
+ 	}
+	elseif ( $type == 'subsidy' ) {
+ 	$json_string = 'https://explorer.dcrdata.org/api/block/best/subsidy';
+ 	}
+
+ 		
+$jsondata = @external_api_data('url', $json_string, $app_config['power_user']['chainstats_cache_time']);
+  		
+$data = json_decode($jsondata, true);
+   	 
+return $data[$request];
+			  
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
 function coingecko_api($force_primary_currency=null) {
 	
 global $app_config;

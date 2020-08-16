@@ -46,6 +46,11 @@ monero_api('height');
 monero_api('hashrate');
 monero_reward();
 
+// Decred
+decred_api('block', 'height');
+decred_api('block', 'difficulty');
+decred_api('subsidy', 'work_reward');
+
 // Hive
 asset_market_data('HIVE', 'bittrex', 'BTC-HIVE');
 

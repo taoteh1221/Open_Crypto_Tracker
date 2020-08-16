@@ -52,6 +52,12 @@ input[type=text]:read-only {
 }
 
 
+input[type=text]:disabled { 
+  background-color: #6f6e6e;
+  color: black;
+}
+
+
 a, .black, td.data span, .subsection_legend, .btc_worth, .btc_worth span, td.data div.btc_worth span {
 color: white;
 }
@@ -70,6 +76,12 @@ color: #bcbaba;
 /* //////////////////////////////
 CLASSES
 ////////////////////////////// */
+
+
+.custom-select:disabled { 
+  background-color: #6f6e6e !important;
+  color: black !important;
+}
 
 
 /* Dark theme drop-downs (in table data only) need dark background too */

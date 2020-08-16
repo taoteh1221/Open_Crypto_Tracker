@@ -80,7 +80,7 @@ FEATURES / STRUCTURING SECTION
 ///////////////////////////////////////////////////////
 
 
-Option to use new zip file encryption password feature to encrypt portfolio spreadsheet exports when downloading exported portfolio data.
+Option to use new zip file encryption password feature to encrypt portfolio spreadsheet exports when downloading exported portfolio data (with password entered in the UI, #NOT# $app_config['general']['backup_archive_password']).
 
 
 Give cron plugins a [plugin name]-config.php file for parameters like gui menus / content, mysql data table structure, etc. Also give cron plugins a dedicated admin page (if any are activated).

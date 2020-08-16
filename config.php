@@ -177,7 +177,7 @@ $app_config['general']['etherscanio_api_key'] = '';
 $app_config['general']['coinmarketcapcom_api_key'] = '';
 
 
-// Password protection / encryption security for backup archives (chart data archives, etc)
+// Password protection / encryption security for backup archives (REQUIRED for app config backup archives, NOT USED FOR CHART BACKUPS)
 $app_config['general']['backup_archive_password'] = ''; // LEAVE BLANK TO DISABLE
 
 
@@ -357,6 +357,14 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					'xmr-2' => 'bittrex||eth||none',
 					'xmr-4' => 'binance||btc||both',
 					'xmr-5' => 'binance||eth||none',
+					
+					
+					// DCR
+					'dcr' => 'bittrex||btc||chart',
+					'dcr-2' => 'bittrex||usdt||none',
+					'dcr-3' => 'binance||btc||both',
+					'dcr-4' => 'kucoin||btc||none',
+					'dcr-5' => 'kucoin||eth||none',
 					
 					
 					// MKR
@@ -658,6 +666,7 @@ $app_config['power_user']['mining_rewards'] = array(
 					'eth' => '2',
 					// WE DYNAMICALLY UPDATE THESE BELOW IN INIT.PHP
 					'xmr' => 'PLACEHOLDER',  
+					'dcr' => 'PLACEHOLDER',  
 					);
 
 
@@ -749,6 +758,12 @@ $app_config['power_user']['news_feeds'] = array(
         				array(
             			"title" => "Blog - BTCPay Server",
             			"url" => "https://blog.btcpayserver.org/feed/"
+        						),
+        
+        
+        				array(
+            			"title" => "Blog - Decred.org (high security hybrid POS/POW coin)",
+            			"url" => "https://blog.decred.org/index.xml"
         						),
         
         
@@ -2227,6 +2242,55 @@ $app_config['portfolio_assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
+                    // MISCASSETS 
+                    // (KEY PLACED HERE FOR ORDERING ONLY, DYNAMICALLY POPULATED BY THE APP AT RUNTIME)
+                    'MISCASSETS' => array(), 
+                    // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // DCR
+                    'DCR' => array(
+                        
+                        'asset_name' => 'Decred',
+                        'marketcap_website_slug' => 'decred',
+                        'market_pairing' => array(
+                        
+                                    'brl' => array(
+                                          'braziliex' => 'dcr_brl'
+                                                    ),
+                                                    
+                                    'btc' => array(
+                                        	'binance' => 'DCRBTC',
+                                          'bittrex' => 'BTC-DCR',
+                                       	'kucoin' => 'DCR-BTC',
+                                          'upbit' => 'BTC-DCR',
+                                          'okex' => 'DCR-BTC',
+                                          'gateio' => 'dcr_btc',
+                                          'braziliex' => 'dcr_btc',
+                                                    ),
+                                                    
+                                		'eth' => array(
+                                        	'kucoin' => 'DCR-ETH',
+                                                    ),
+                                                    
+                                    'usdt' => array(
+                                        	'binance' => 'DCRUSDT',
+                                          'bittrex' => 'USDT-DCR',
+                                          'okex' => 'DCR-USDT',
+                                          'gateio' => 'dcr_usdt',
+                                          			),
+                                          			
+                                        ) // market_pairing END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
                     // MKR
                     'MKR' => array(
                         
@@ -2276,73 +2340,6 @@ $app_config['portfolio_assets'] = array(
                                           			
                                         ) // market_pairing END
                         
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // MISCASSETS 
-                    // (KEY PLACED HERE FOR ORDERING ONLY, DYNAMICALLY POPULATED BY THE APP AT RUNTIME)
-                    'MISCASSETS' => array(), 
-                    // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // TUSD
-                    'TUSD' => array(
-                        
-                        'asset_name' => 'True USD',
-                        'marketcap_website_slug' => 'true-usd',
-                        'market_pairing' => array(
-                        
-                                    'btc' => array(
-                                        'bittrex' => 'BTC-TUSD',
-                                        'upbit' => 'BTC-TUSD',
-                                                    ),
-                                                    
-                                    'eth' => array(
-                                        'bittrex' => 'ETH-TUSD',
-                                        'upbit' => 'ETH-TUSD',
-                                                    ),
-                                                    
-                                    'usdt' => array(
-                                    	 'binance' => 'TUSDUSDT',
-                                        'bittrex' => 'USDT-TUSD',
-                                                    ),
-                                                    
-                                        ) // market_pairing END
-                                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // USDC
-                    'USDC' => array(
-                        
-                        'asset_name' => 'USD Coin',
-                        'marketcap_website_slug' => 'usd-coin',
-                        'market_pairing' => array(
-                        
-                                    'btc' => array(
-                                        'bittrex' => 'BTC-USDC',
-                                                    ),
-                                                    
-                                    'eth' => array(
-                                        'bittrex' => 'ETH-USDC',
-                                                    ),
-                                                    
-                                    'usdt' => array(
-                                    	 'binance' => 'USDCUSDT',
-                                        'bittrex' => 'USDT-USDC',
-                                                    ),
-                                                    
-                                        ) // market_pairing END
-                                        
                     ), // Asset END
                     
                     
@@ -2413,15 +2410,30 @@ $app_config['portfolio_assets'] = array(
                         'market_pairing' => array(
                         
                                     'btc' => array(
+                                        	'binance' => 'ANTBTC',
                                           'bittrex_global' => 'BTC-ANT',
+                                        	'okex' => 'ANT-BTC',
+                                          'huobi' => 'antbtc',
                                         	'ethfinex' => 'tANTBTC',
                                           'hitbtc' => 'ANTBTC',
                                         	'upbit' => 'BTC-ANT',
                                                     ),
                                                     
                                     'eth' => array(
+                                          'bittrex_global' => 'ETH-ANT',
+                                          'huobi' => 'anteth',
                                         	'ethfinex' => 'tANTETH',
                                           'upbit' => 'ETH-ANT',
+                                                    ),
+                                                    
+                                    'usd' => array(
+                                        	'bitfinex' => 'tANTUSD',
+                                                    ),
+                                                    
+                                    'usdt' => array(
+                                        	'binance' => 'ANTUSDT',
+                                        	'okex' => 'ANT-USDT',
+                                          'huobi' => 'antusdt',
                                                     ),
                                                     
                                         ) // market_pairing END

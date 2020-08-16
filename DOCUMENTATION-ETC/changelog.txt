@@ -3957,6 +3957,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Resource page revisions
 
+-Misc UX revisions
+
 -------------------------------------------------------------------
 
 

@@ -44,10 +44,10 @@ require("templates/interface/php/header.php");
 		<!-- set data-width="full", to have the tab width be 100% of the screen -->
 		<ul class="nav nav-tabs-vertical align_center" id="admin_tabs" role="tablist">
 		  <li class="nav-item">
-			<a class="nav-link admin_change_width" data-toggle="tab" data-width="fixed_max" href="#admin_general" role="tab" aria-controls="admin_general">General</a>
+			<a class="nav-link admin_change_width" data-toggle="tab" data-width="fixed_max" href="#admin_comms" role="tab" aria-controls="admin_comms">Communications</a>
 		  </li>
 		  <li class="nav-item">
-			<a class="nav-link admin_change_width" data-toggle="tab" data-width="fixed_max" href="#admin_comms" role="tab" aria-controls="admin_comms">Communications</a>
+			<a class="nav-link admin_change_width" data-toggle="tab" data-width="fixed_max" href="#admin_general" role="tab" aria-controls="admin_general">General</a>
 		  </li>
 		  <li class="nav-item">
 			<a class="nav-link admin_change_width" data-toggle="tab" data-width="fixed_max" href="#admin_portfolio_assets" role="tab" aria-controls="admin_portfolio_assets">Portfolio Assets</a>
@@ -92,13 +92,13 @@ require("templates/interface/php/header.php");
 		
 		
 		<div id='admin_tab_content' class="tab-content align_left">
-		  
-		  <div class="tab-pane" id="admin_general" role="tabpanel">
-			<?php require("templates/interface/php/admin/admin-sections/general.php"); ?>
-		  </div>
 		
 		  <div class="tab-pane" id="admin_comms" role="tabpanel">
 			<?php require("templates/interface/php/admin/admin-sections/communications.php"); ?>
+		  </div>
+		  
+		  <div class="tab-pane" id="admin_general" role="tabpanel">
+			<?php require("templates/interface/php/admin/admin-sections/general.php"); ?>
 		  </div>
 		  
 		  <div class="tab-pane" id="admin_portfolio_assets" role="tabpanel">
