@@ -762,7 +762,7 @@ $app_config['power_user']['news_feeds'] = array(
         
         
         				array(
-            			"title" => "Blog - Decred.org (high security hybrid POS/POW coin)",
+            			"title" => "Blog - Decred.org (community-governed high security hybrid POS/POW coin)",
             			"url" => "https://blog.decred.org/index.xml"
         						),
         
@@ -993,6 +993,12 @@ $app_config['power_user']['news_feeds'] = array(
             			"title" => "Podcast - Citizen Bitcoin",
             			"url" => "https://feeds.simplecast.com/620_gQYv"
         						),
+        
+        
+        				array(
+            			"title" => "Podcast - Decred In Depth",
+            			"url" => "https://decredindepth.libsyn.com/rss"
+        						),
     
     
         				array(
@@ -1016,6 +1022,12 @@ $app_config['power_user']['news_feeds'] = array(
         				array(
             			"title" => "Podcast - Proof of Talent",
             			"url" => "https://feedcdn21.podbean.com/cryptobob/feed.xml"
+        						),
+        
+        
+        				array(
+            			"title" => "Podcast - Rough Consensus",
+            			"url" => "https://roughconsensus.libsyn.com/rss"
         						),
     					
     					
@@ -1146,8 +1158,20 @@ $app_config['power_user']['news_feeds'] = array(
     
     
         				array(
+            			"title" => "Youtube - Decred (Official)",
+            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCJ2bYDaPYHpSmJPh_M5dNSg"
+        						),
+    
+    
+        				array(
             			"title" => "Youtube - Epicenter Podcast",
             			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCh-0T48JrvvmKDX41aWB_Vg"
+        						),
+    
+    
+        				array(
+            			"title" => "Youtube - Ethereum Foundation",
+            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCNOfzGXD_C9YMYmnefmPH0g"
         						),
     
     
@@ -2223,6 +2247,7 @@ $app_config['portfolio_assets'] = array(
                                                     ),
                                                     
                                     'usdt' => array(
+                                        	'binance' => 'XMRUSDT',
                                           'huobi' => 'xmrusdt',
                                           'bittrex' => 'USDT-XMR',
                                           'upbit' => 'USDT-XMR',

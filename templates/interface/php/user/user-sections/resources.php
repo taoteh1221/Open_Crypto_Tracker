@@ -150,9 +150,13 @@
 	    <ul>
 	        
 	        
-	        <li class='links_list'><a href='https://live.blockcypher.com/btc/' target='_blank'>Blockcypher Bitcoin Explorer</a></li>
+	        <li class='links_list'><a href='https://www.blockchain.com/explorer?view=btc' target='_blank'>Blockchain.com Bitcoin Explorer</a></li>
+	        
+	        <li class='links_list'><a href='https://explorer.dcrdata.org/' target='_blank'>DCRdata.org Decred Explorer</a></li>
 	        
 	        <li class='links_list'><a href='https://etherscan.io/' target='_blank'>Etherscan.io Ethereum Explorer</a></li>
+	        
+	        <li class='links_list'><a href='https://etherscan.io/' target='_blank'>Moneroblocks.info Monero Explorer</a></li>
 	        
 	        
 	        
@@ -273,6 +277,8 @@
 	        <li class='links_list'><a href='https://open.spotify.com/show/7n1EJmK1cP3IDTVqxC03UP' target='_blank'>Proof of Talent</a></li>
 	        
 	        <li class='links_list'><a href='https://open.spotify.com/show/3ObwKoyqttA1OLNhInnrbx' target='_blank'>Rekt</a></li>
+	        
+	        <li class='links_list'><a href='https://open.spotify.com/show/6PfNbDuN3Udz8R9YMFidEV' target='_blank'>Rough Consensus</a></li>
 	        
 	        <li class='links_list'><a href='https://open.spotify.com/show/3mFUF9kSYpvrCGWLbskRr8' target='_blank'>Stephan Livera</a></li>
 	        
