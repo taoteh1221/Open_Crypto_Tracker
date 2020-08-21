@@ -21,7 +21,7 @@ foreach( $secured_cache_files as $secured_file ) {
 			$app_config = $cached_app_config; // Use cached app_config if it exists, seems intact, and config.php hasn't been revised since last check
 			}
 			else {
-			app_logging('config_error', 'Cached app_config data appears corrupted (fetching within captcha library)');
+			app_logging('config_error', 'Cached app_config data appears corrupted (fetching within minimized-sub-init.php)');
 			}
 			
 	}
@@ -29,19 +29,8 @@ foreach( $secured_cache_files as $secured_file ) {
 	
 	// Stored admin login user / hashed password (for admin login authentication)
 	elseif ( preg_match("/admin_login_/i", $secured_file) ) {
-		
-		
-		// If we already loaded the newest modified file, delete any stale ones
-		if ( $newest_cached_admin_login == 1 ) {
-		unlink($base_dir . '/cache/secured/' . $secured_file);
-		}
-		else {
-		$newest_cached_admin_login = 1;
-		$active_admin_login_path = $base_dir . '/cache/secured/' . $secured_file; // To easily delete, if we are resetting the login
-		$stored_admin_login = explode("||", trim( file_get_contents($active_admin_login_path) ) );
-		}
-	
-	
+	$active_admin_login_path = $base_dir . '/cache/secured/' . $secured_file; // To easily delete, if we are resetting the login
+	$stored_admin_login = explode("||", trim( file_get_contents($active_admin_login_path) ) );
 	}
 	
 }
