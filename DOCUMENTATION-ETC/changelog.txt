@@ -3953,11 +3953,22 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.17.0:
 
+-Revised default config
+
+-Resource page revisions
+
+-Misc UX revisions
+
+-------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+4.18.0:
+
 -Support for new cookie stanard 'SameSite', explicitly set to strict for privacy
 
 -Refactored / cleaned javascript
-
--Revised default config 
 
 -Revised resources page
 
@@ -3966,6 +3977,10 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -Misc UX revisions
 
 -------------------------------------------------------------------
+
+
+
+
 
 
 
