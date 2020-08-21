@@ -301,8 +301,19 @@ return false;
 
 
 function store_cookie_contents($name, $value, $time) {
+	
+	if ( PHP_VERSION_ID >= 70300 ) {
+		
+	$result = setcookie($name, $value, [
+  								'samesite' => 'Strict', // Strict for high privacy
+  								'expires' => $time,
+								]);
+	
+	}
+	else {
+	$result = setcookie($name, $value, $time);
+	}
 
-$result = setcookie($name, $value, $time);
 	
 	
 	// Android / Safari maximum cookie size is 4093 bytes, Chrome / Firefox max is 4096

@@ -16,7 +16,7 @@ return ("0" + num).slice(-2);
 
 
 function delete_cookie( name ) {
-  document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+document.cookie = name + '=; SameSite=Strict; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }
 
 
@@ -24,10 +24,8 @@ function delete_cookie( name ) {
 
 
 function set_target_action(obj_id, set_target, set_action) {
-	
 document.getElementById(obj_id).target = set_target;
 document.getElementById(obj_id).action = set_action;
-	
 }
 
 
@@ -37,9 +35,9 @@ document.getElementById(obj_id).action = set_action;
 function refreshImage(imgElement, imgURL) {   
      
 // create a new timestamp, to force-refresh image
-var timestamp = new Date().getTime();        
-var el = document.getElementById(imgElement);        
-var queryString = "?t=" + timestamp;           
+timestamp = new Date().getTime();        
+el = document.getElementById(imgElement);        
+queryString = "?t=" + timestamp;           
 el.src = imgURL + queryString;    
  
 }    
@@ -54,8 +52,6 @@ function store_scroll_position() {
 // STORE the current scroll position before the page reload
 // WE ONLY CALL THIS FUNCTION ONCE PER PAGE UNLOAD (body => onbeforeunload)
 sessionStorage['scroll_position'] = window.scrollY;
-
-//console.log(' stored page scroll = ' + window.scrollY );
 
 }
 
@@ -96,11 +92,11 @@ function update_alert_percent() {
 function ajax_placeholder(px_size, align, message){
 
 	if ( message ) {
-	var img_height = px_size - 2;
+	img_height = px_size - 2;
 	return '<div class="align_' + align + '" style="white-space: nowrap; font-size: ' + px_size + 'px;"><img src="templates/interface/media/images/loader.gif" height="' + img_height + '" alt="" style="position: relative; vertical-align:middle;" /> ' + message + ' </div>';
 	}
 	else {
-	var img_height = px_size;
+	img_height = px_size;
 	return '<div class="align_' + align + '"><img src="templates/interface/media/images/loader.gif" height="' + img_height + '" alt="" /></div>';
 	}
 	
@@ -116,9 +112,7 @@ function app_reloading_placeholder() {
 $("#app_loading_span").html("Reloading...");
 
 // Transition effects
-
 $("#content_wrapper").hide(250, 'linear'); // 0.25 seconds
-
 $("#app_loading").show(250, 'linear'); // 0.25 seconds
 
 }
@@ -128,10 +122,10 @@ $("#app_loading").show(250, 'linear'); // 0.25 seconds
 
 
 function setCookie(cname, cvalue, exdays) {
-    var d = new Date();
-    d.setTime(d.getTime() + (exdays*24*60*60*1000));
-    var expires = "expires="+d.toUTCString();
-    document.cookie = cname + "=" + cvalue + "; " + expires;
+d = new Date();
+d.setTime(d.getTime() + (exdays*24*60*60*1000));
+expires = "expires="+d.toUTCString();
+document.cookie = cname + "=" + cvalue + "; SameSite=Strict; " + expires;
 }
 
 
@@ -139,14 +133,18 @@ function setCookie(cname, cvalue, exdays) {
 
 
 function getCookie(cname) {
-    var name = cname + "=";
-    var ca = document.cookie.split(';');
+	
+name = cname + "=";
+ca = document.cookie.split(';');
+
     for(var i=0; i<ca.length; i++) {
         var c = ca[i];
         while (c.charAt(0)==' ') c = c.substring(1);
         if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
     }
-    return "";
+    
+return "";
+
 }
 
 
@@ -156,7 +154,7 @@ function getCookie(cname) {
 var sort_extraction = function(node) {
 
 // Sort with the .app_sort_filter CSS class as the primary sorter
-var sort_target = $(node).find(".app_sort_filter").text();
+sort_target = $(node).find(".app_sort_filter").text();
 
 // Remove any commas from number sorting
 return sort_target.replace(/,/g, '');
@@ -169,10 +167,11 @@ return sort_target.replace(/,/g, '');
 
 function validateForm(form_id, field) {
 	
-  var x = document.forms[form_id][field].value;
+x = document.forms[form_id][field].value;
+
   if (x == "") {
-    alert(field + " must be populated.");
-    return false;
+  alert(field + " must be populated.");
+  return false;
   }
   else {
   $("#" + form_id).submit();
@@ -186,13 +185,13 @@ function validateForm(form_id, field) {
 
 function start_utc_time() {
 
-var today = new Date();
-var date = today.getUTCFullYear() + '-' + force_2_digits(today.getUTCMonth() + 1) + '-' + force_2_digits( today.getUTCDate() );
-var time = force_2_digits( today.getUTCHours() ) + ":" + force_2_digits( today.getUTCMinutes() ) + ":" + force_2_digits( today.getUTCSeconds() );
+today = new Date();
+date = today.getUTCFullYear() + '-' + force_2_digits(today.getUTCMonth() + 1) + '-' + force_2_digits( today.getUTCDate() );
+time = force_2_digits( today.getUTCHours() ) + ":" + force_2_digits( today.getUTCMinutes() ) + ":" + force_2_digits( today.getUTCSeconds() );
 
 $("span.utc_timestamp").text('[' + date + ' ' + time + ']');
 
-var utc_time = setTimeout(start_utc_time, 500);
+utc_time = setTimeout(start_utc_time, 500);
 
 }
 
@@ -201,6 +200,7 @@ var utc_time = setTimeout(start_utc_time, 500);
 
 
 function app_reload() {
+	
 // ADD ANY LOGIC HERE, TO RUN BEFORE THE APP RELOADS
 // Close any open modal windows
 $(".show_chart_settings").modaal("close");
@@ -208,8 +208,10 @@ $(".show_feed_settings").modaal("close");
 $(".show_system_charts").modaal("close");
 $(".show_visitor_stats").modaal("close");
 $(".show_logs").modaal("close");
+
 // Reload
 location.reload(true);
+
 }
 
 
@@ -288,14 +290,14 @@ function feeds_loading_check(feeds_loaded) {
 
 function chart_toggle(obj_var) {
   
-	var show_charts = $("#show_charts").val();
+var show_charts = $("#show_charts").val();
 	
-		if ( obj_var.checked == true ) {
-		$("#show_charts").val("[" + obj_var.value + "]" + "," + show_charts);
-		}
-		else {
-		$("#show_charts").val( show_charts.replace("[" + obj_var.value + "],", "") );
-		}
+	if ( obj_var.checked == true ) {
+	$("#show_charts").val("[" + obj_var.value + "]" + "," + show_charts);
+	}
+	else {
+	$("#show_charts").val( show_charts.replace("[" + obj_var.value + "],", "") );
+	}
 	
 }
 
@@ -305,14 +307,14 @@ function chart_toggle(obj_var) {
 
 function feed_toggle(obj_var) {
   
-	var show_feeds = $("#show_feeds").val();
+var show_feeds = $("#show_feeds").val();
 	
-		if ( obj_var.checked == true ) {
-		$("#show_feeds").val("[" + obj_var.value + "]" + "," + show_feeds);
-		}
-		else {
-		$("#show_feeds").val( show_feeds.replace("[" + obj_var.value + "],", "") );
-		}
+	if ( obj_var.checked == true ) {
+	$("#show_feeds").val("[" + obj_var.value + "]" + "," + show_feeds);
+	}
+	else {
+	$("#show_feeds").val( show_feeds.replace("[" + obj_var.value + "],", "") );
+	}
 	
 }
 
@@ -399,27 +401,27 @@ function selectAll(toggle, form_name) {
 
 function copy_text(elm_id, alert_id) {
 	
-  var elm = document.getElementById(elm_id);
-  // for Internet Explorer
+  elm = document.getElementById(elm_id);
 
+  // for Internet Explorer
   if(document.body.createTextRange) {
-    var range = document.body.createTextRange();
+    range = document.body.createTextRange();
     range.moveToElementText(elm);
     range.select();
     document.execCommand("Copy");
 	 document.getElementById(alert_id).innerHTML = 'Text copied to clipboard.';
   }
+  // other browsers
   else if(window.getSelection) {
-    // other browsers
-
-    var selection = window.getSelection();
-    var range = document.createRange();
+    selection = window.getSelection();
+    range = document.createRange();
     range.selectNodeContents(elm);
     selection.removeAllRanges();
     selection.addRange(range);
     document.execCommand("Copy");
 	 document.getElementById(alert_id).innerHTML = 'Text copied to clipboard.';
   }
+  
 }
 
 
@@ -430,7 +432,7 @@ function watch_toggle(obj_var) {
 	
 		if ( obj_var.checked == true ) {
 			
-			var num_value = $("#"+obj_var.value+"_amount").val();
+			num_value = $("#"+obj_var.value+"_amount").val();
 			num_value = num_value.replace(/,/g, '');
 			
 			if ( num_value >= 0.00000001 ) {
@@ -461,16 +463,16 @@ function watch_toggle(obj_var) {
 function is_msie() {
 
 // MSIE 10 AND UNDER
-var ua = window.navigator.userAgent;
-var msie = ua.indexOf('MSIE');
+ua = window.navigator.userAgent;
+msie = ua.indexOf('MSIE');
 
 	if (msie > 0) {
    return true;
    }
 
 // MSIE 11
-var ua = window.navigator.userAgent;
-var trident = ua.indexOf('Trident');
+ua = window.navigator.userAgent;
+trident = ua.indexOf('Trident');
 
 	if (trident > 0) {
    return true;
@@ -488,23 +490,26 @@ return false;
 function random_tips() {
 			
 //getting a new random number to attach to a quote and setting a limit
-var randomNumber= Math.floor(Math.random() * quoteSource.length);
+randomNumber= Math.floor(Math.random() * quoteSource.length);
 			
 //set a new quote
 
-var newQuoteText = quoteSource[randomNumber].quote;
-var newQuoteGenius = quoteSource[randomNumber].name;
+newQuoteText = quoteSource[randomNumber].quote;
+newQuoteGenius = quoteSource[randomNumber].name;
 			
-var quoteContainer = $('#quoteContainer');
+quoteContainer = $('#quoteContainer');
       
-        quoteContainer.html( ajax_placeholder(15, 'left') );
+quoteContainer.html( ajax_placeholder(15, 'left') );
 
-      //fade out animation with callback
-      quoteContainer.fadeOut(250, function(){
-				quoteContainer.html('<p>'+newQuoteText+'</p>'+'<p id="quoteGenius">'+'-								'+newQuoteGenius+'</p>');
-        //fadein animation.
-        quoteContainer.fadeIn(250);
-      });  
+	//fade out animation with callback
+   quoteContainer.fadeOut(250, function(){
+	
+	quoteContainer.html('<p>'+newQuoteText+'</p>'+'<p id="quoteGenius">'+'-								'+newQuoteGenius+'</p>');
+   
+   //fadein animation.
+   quoteContainer.fadeIn(250);
+        
+   });  
 
 
 }
@@ -517,17 +522,17 @@ function system_logs(elm_id) {
 
 $('#' + elm_id + '_alert').text('Refreshing, please wait...');
         	
-var log_area = $('#' + elm_id);
+log_area = $('#' + elm_id);
       
 // Blank out existing logs that are showing
 log_area.text('');
     
-var log_file = elm_id.replace(/_log/ig, '.log');
+log_file = elm_id.replace(/_log/ig, '.log');
         	
-var log_lines = $('#' + elm_id + '_lines').val();
+log_lines = $('#' + elm_id + '_lines').val();
 
+not_whole_num = (log_lines - Math.floor(log_lines)) !== 0;
 
-var not_whole_num = (log_lines - Math.floor(log_lines)) !== 0;
 
 	if ( not_whole_num ) {
 	set_lines = 100;
@@ -536,13 +541,13 @@ var not_whole_num = (log_lines - Math.floor(log_lines)) !== 0;
 	else {
 	set_lines = log_lines;
 	}
+    	  
     	  	
    // Get log data
 	$.getJSON("ajax.php?type=log&logfile=" + log_file + '&lines=' + set_lines, function( data ) {
       
-      
-   	var data_length = data.length;
-   	var loop = 0;
+   	data_length = data.length;
+   	loop = 0;
 		$.each( data, function(key, val) {
 			
    		if ( $('#' + elm_id + '_space').is(":checked") ) {
@@ -584,19 +589,21 @@ var not_whole_num = (log_lines - Math.floor(log_lines)) !== 0;
 
 function check_pass(doc_id_alert, doc_id_pass1, doc_id_pass2) {
 	
-var pass1 = document.getElementById(doc_id_pass1);
-var pass2 = document.getElementById(doc_id_pass2);
-var message = document.getElementById(doc_id_alert);
+pass1 = document.getElementById(doc_id_pass1);
+pass2 = document.getElementById(doc_id_pass2);
+message = document.getElementById(doc_id_alert);
 
 
-var regex_has_space = /\s/;
-var regex_has_number = /\d+/;
-var regex_has_lowercase = /[a-z]/;
-var regex_has_uppercase = /[A-Z]/;
-var regex_has_symbol = /[!@#$%^&*]/;
+regex_has_space = /\s/;
+regex_has_number = /\d+/;
+regex_has_lowercase = /[a-z]/;
+regex_has_uppercase = /[A-Z]/;
+regex_has_symbol = /[!@#$%^&*]/;
     
-var goodColor = "#10d602";
-var badColor = "#ff4747";
+    
+goodColor = "#10d602";
+badColor = "#ff4747";
+    
     
     // Check length / compare values
    if ( !pass1 ) {
@@ -663,14 +670,15 @@ var badColor = "#ff4747";
 
 function alphanumeric(doc_id_alert, elm_id, ui_name) { 
 
-var regex_is_lowercase_alphanumeric = /^[0-9a-z]+$/;
-var regex_starts_letter = /^[a-z]/;
+regex_is_lowercase_alphanumeric = /^[0-9a-z]+$/;
+regex_starts_letter = /^[a-z]/;
 
-var var1 = document.getElementById(elm_id);
-var message = document.getElementById(doc_id_alert);
+var1 = document.getElementById(elm_id);
+message = document.getElementById(doc_id_alert);
     
-var goodColor = "#10d602";
-var badColor = "#ff4747";
+goodColor = "#10d602";
+badColor = "#ff4747";
+
 
 	if ( !var1 ) {
    message.style.color = badColor;
@@ -710,9 +718,10 @@ var badColor = "#ff4747";
 
 function satoshi_value(sat_increase) {
 
-var to_trade_amount = Number(document.getElementById("to_trade_amount").value);
+to_trade_amount = Number(document.getElementById("to_trade_amount").value);
 
-var sat_target = Number(document.getElementById("sat_target").value);
+sat_target = Number(document.getElementById("sat_target").value);
+
 
 	if ( sat_increase == 'refresh' ) {
 	var num_total = (sat_target).toFixed(8);
@@ -726,22 +735,22 @@ var sat_target = Number(document.getElementById("sat_target").value);
 	}
 
 
-var target_primary_currency = ( num_total * btc_primary_currency_value );
+target_primary_currency = ( num_total * btc_primary_currency_value );
 
-var target_total_primary_currency = ( (to_trade_amount * num_total) * btc_primary_currency_value );
+target_total_primary_currency = ( (to_trade_amount * num_total) * btc_primary_currency_value );
 
 
-document.getElementById("target_primary_currency").innerHTML = target_primary_currency.toLocaleString(undefined, {
-  minimumFractionDigits: 8,
-  maximumFractionDigits: 8
-});
+	document.getElementById("target_primary_currency").innerHTML = target_primary_currency.toLocaleString(undefined, {
+   minimumFractionDigits: 8,
+   maximumFractionDigits: 8
+	});
 
 document.getElementById("target_btc").innerHTML = num_total;
 
-document.getElementById("target_total_primary_currency").innerHTML = target_total_primary_currency.toLocaleString(undefined, {
-  minimumFractionDigits: 2,
-  maximumFractionDigits: 2
-});
+	document.getElementById("target_total_primary_currency").innerHTML = target_total_primary_currency.toLocaleString(undefined, {
+   minimumFractionDigits: 2,
+   maximumFractionDigits: 2
+	});
 
 document.getElementById("target_total_btc").innerHTML = (to_trade_amount * num_total).toFixed(8);
 
@@ -755,10 +764,10 @@ function auto_reload() {
 
 
 	if ( window.reload_time ) {
-	var time = window.reload_time;
+	time = window.reload_time;
 	}
 	else if ( getCookie("coin_reload") ) {
-	var time = getCookie("coin_reload");
+	time = getCookie("coin_reload");
 	}
 	else {
 	return;
@@ -778,7 +787,7 @@ function auto_reload() {
 			
 			if ( document.getElementById("set_use_cookies").checked == false ) {
 				
-			var use_cookies = confirm(' You must enable "Use cookies to save data" on the "Settings" page before using this auto-refresh feature. \n \n Click OK below to enable "Use cookies to save data" automatically NOW, or click CANCEL to NOT enable cookie data storage for this app.');
+			use_cookies = confirm(' You must enable "Use cookies to save data" on the "Settings" page before using this auto-refresh feature. \n \n Click OK below to enable "Use cookies to save data" automatically NOW, or click CANCEL to NOT enable cookie data storage for this app.');
 			
 				if ( use_cookies == true ) {
 					
@@ -819,8 +828,8 @@ function auto_reload() {
                 
                 	if ( i >= 60 ) {
                 
-                	var round_min = Math.floor(i/60);
-                	var sec = ( i - (round_min*60) );
+                	round_min = Math.floor(i/60);
+                	sec = ( i - (round_min*60) );
                 
                	$("#reload_countdown").html("<b>(" + round_min + " minutes " + sec + " seconds)</b>"); // Portfolio page
                	$("span.countdown_notice").html("<b>(auto-reload in " + round_min + " minutes " + sec + " seconds)</b>"); // Secondary pages
@@ -872,24 +881,24 @@ function row_alert(tr_id, alert_type, color, theme) {
     	
       
 			if ( color == 'yellow' ) {
-			var zebra_odd_loss = ( theme == 'light' ? '#d3bb5b' : '#6d5a29' );
-			var zebra_even_loss = ( theme == 'light' ? '#efd362' : '#564a1e' );
+			zebra_odd_loss = ( theme == 'light' ? '#d3bb5b' : '#6d5a29' );
+			zebra_even_loss = ( theme == 'light' ? '#efd362' : '#564a1e' );
 			}
 			
 			if ( color == 'green' ) {
-			var zebra_odd_gain = ( theme == 'light' ? '#7dc67d' : '#3d603d' );
-			var zebra_even_gain = ( theme == 'light' ? '#93ea93' : '#2d492d' );
+			zebra_odd_gain = ( theme == 'light' ? '#7dc67d' : '#3d603d' );
+			zebra_even_gain = ( theme == 'light' ? '#93ea93' : '#2d492d' );
 			}
 					
 		 
 			if ( color != 'no_cmc' ) {
 			
-				if ( !window.alert_color_loss ) {
+				if ( color == 'yellow' && !window.alert_color_loss ) {
 				window.alert_color_loss = zebra_odd_loss;
 				}
 				
 				
-				if ( !window.alert_color_gain ) {
+				if ( color == 'green' && !window.alert_color_gain ) {
 				window.alert_color_gain = zebra_odd_gain;
 				}
 					
@@ -915,21 +924,27 @@ function row_alert(tr_id, alert_type, color, theme) {
 					
 					
 				// Zebra stripes
-				if ( window.alert_color_loss == zebra_odd_loss ) {
-				window.alert_color_loss = zebra_even_loss;
-				}
-				else if ( window.alert_color_loss == zebra_even_loss ) {
-				window.alert_color_loss = zebra_odd_loss;
-				}
+				if ( color == 'yellow' ) {
 				
+					if ( window.alert_color_loss == zebra_odd_loss ) {
+					window.alert_color_loss = zebra_even_loss;
+					}
+					else if ( window.alert_color_loss == zebra_even_loss ) {
+					window.alert_color_loss = zebra_odd_loss;
+					}
 				
-				if ( window.alert_color_gain == zebra_odd_gain ) {
-				window.alert_color_gain = zebra_even_gain;
 				}
-				else if ( window.alert_color_gain == zebra_even_gain ) {
-				window.alert_color_gain = zebra_odd_gain;
-				}
+				else if ( color == 'green' ) {
+				
+					if ( window.alert_color_gain == zebra_odd_gain ) {
+					window.alert_color_gain = zebra_even_gain;
+					}
+					else if ( window.alert_color_gain == zebra_even_gain ) {
+					window.alert_color_gain = zebra_odd_gain;
+					}
 					
+				}
+				
 			
 				// Audio, if chosen in settings
 				if ( !window.is_alerted && alert_type == 'visual_audio' ) {

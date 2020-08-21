@@ -79,6 +79,39 @@ $apache_modules = apache_get_modules();
 }
 
 
+// Cookie defaults (only used if cookies are set)
+$url_parts = pathinfo($_SERVER['REQUEST_URI']);
+if ( substr($url_parts['dirname'], -1) != '/' ) {
+$rel_http_path = $url_parts['dirname'] . '/';
+}
+else {
+$rel_http_path = $url_parts['dirname'];
+}
+
+if ( PHP_VERSION_ID >= 70300 ) {
+	
+	session_set_cookie_params([
+    'path' => $rel_http_path,
+    'secure' => true,
+    'samesite' => 'Strict'
+	]);
+
+}
+else {
+	
+	session_set_cookie_params([
+    'path' => $rel_http_path . ';SameSite=Strict',
+    'secure' => true,
+    'samesite' => 'Strict'
+	]);
+
+}
+
+
+// Session start
+session_start(); // New session start
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////// APP   I N I T   S E T T I N G S /////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -91,24 +124,17 @@ $app_version = '4.17.0';  // 2020/AUGUST/14TH
 $app_edition = 'server';  // server OR desktop edition
 
 
-// Load app functions
-require_once('app-lib/php/functions-loader.php');
-
-
-// Session start
-session_start(); // New session start
-
-
 // Register the base directory of this app (MUST BE SET BEFORE !ANY! Init logic)
 $base_dir = preg_replace("/\/app-lib(.*)/i", "", dirname(__FILE__) );
+
+
+// Load app functions
+require_once('app-lib/php/functions-loader.php');
 
 
 //////////////////////////////////////////////////////////////
 // Set global runtime app arrays / vars...
 //////////////////////////////////////////////////////////////
-
-
-// Session data
 
 
 // Nonce for secured login session logic

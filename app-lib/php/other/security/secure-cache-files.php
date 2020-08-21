@@ -226,8 +226,8 @@ foreach( $secured_cache_files as $secured_file ) {
 		}
 		else {
 		$newest_cached_admin_login = 1;
-		$stored_admin_login = explode("||", trim( file_get_contents($base_dir . '/cache/secured/' . $secured_file) ) );
 		$active_admin_login_path = $base_dir . '/cache/secured/' . $secured_file; // To easily delete, if we are resetting the login
+		$stored_admin_login = explode("||", trim( file_get_contents($active_admin_login_path) ) );
 		}
 	
 	

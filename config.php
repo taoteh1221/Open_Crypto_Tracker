@@ -834,6 +834,12 @@ $app_config['power_user']['news_feeds'] = array(
     
     
         				array(
+            			"title" => "Blog - Lightning Labs (Bitcoin Layer 2)",
+            			"url" => "https://lightninglabs.substack.com/feed"
+        						),
+    
+    
+        				array(
             			"title" => "Blog - Monero (community-driven privacy coin)",
             			"url" => "https://web.getmonero.org/feed.xml"
         						),
@@ -938,6 +944,12 @@ $app_config['power_user']['news_feeds'] = array(
         				array(
             			"title" => "News - Fork Log",
             			"url" => "https://forklog.media/feed/"
+        						),
+    
+    
+        				array(
+            			"title" => "News - Our Network",
+            			"url" => "https://ournetwork.substack.com/feed"
         						),
     
     
@@ -2353,6 +2365,7 @@ $app_config['portfolio_assets'] = array(
                                                     
                                     'usd' => array(
                                           'coinbase' => 'MKR-USD',
+                                          'binance_us' => 'MKRUSD',
                                           			),
                                                     
                                     'usdt' => array(
@@ -2402,6 +2415,7 @@ $app_config['portfolio_assets'] = array(
                                     'usd' => array(
                                     	 'coinbase' => 'DAI-USD',
                                     	 'kraken' => 'DAIUSD',
+                                        'binance_us' => 'DAIUSD',
                                     	 'bitfinex' => 'tDAIUSD',
                                         'bittrex' => 'USD-DAI',
                                         'gemini' => 'daiusd',

@@ -227,6 +227,8 @@
 	        
 	        <li class='links_list'><a href='https://www.getrevue.co/profile/nlw' target='_blank'>Long Reads Sunday</a></li>  
 	        
+	        <li class='links_list'><a href='https://ournetwork.substack.com/' target='_blank'>Our Network</a></li>  
+	        
 	        <li class='links_list'><a href='http://proofofwork.news/' target='_blank'>Proof Of Work</a></li>  
 	        
 	        <li class='links_list'><a href='https://sludgefeed.com/hashed/' target='_blank'>Sludgefeed's Hashed</a></li>
@@ -338,13 +340,17 @@
 
 
 
-	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Coin Mining</strong> </legend>
+	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Coin Mining / Staking</strong> </legend>
 	    <ul>
 	        
 	        
-	        <li class='links_list'><a href='https://simplemining.net/' target='_blank'>Simplemining.net</a></li>
+	        <li class='links_list'><a href='https://stakepool.dcrstats.com/' target='_blank'>DCRstats Decred Delegated Staking</a></li>
 	        
 	        <li class='links_list'><a href='https://www.reddit.com/r/gpumining/' target='_blank'>GPU Mining Subreddit</a></li>
+	        
+	        <li class='links_list'><a href='https://www.rocketpool.net/' target='_blank'>RocketPool Ethereum Staking</a></li>
+	        
+	        <li class='links_list'><a href='https://simplemining.net/' target='_blank'>Simplemining.net</a></li>
 	        
 	        <li class='links_list'><a href='https://whattomine.com/' target='_blank'>Whattomine.com</a> (profit calculations)</li>
 	        
