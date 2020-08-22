@@ -405,10 +405,11 @@ $rss_feed_cache_time = rand($news_feeds_cache_min_max[0], $news_feeds_cache_min_
 	} // END if updating feed
 		
 				
-// Get feed data (whether cached or re-caching live data), and format output (UNLESS WE ARE ONLY CACHING DATA)
+// Get feed data (whether cached or re-caching live data)
 $xmldata = @external_api_data('url', $url, $rss_feed_cache_time); 
 		
-		
+	
+	// Format output (UNLESS WE ARE ONLY CACHING DATA)
 	if ( !$cache_only ) {
 	
 		
