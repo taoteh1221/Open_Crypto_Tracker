@@ -26,13 +26,6 @@ foreach( $secured_cache_files as $secured_file ) {
 			
 	}
 	
-	
-	// Stored admin login user / hashed password (for admin login authentication)
-	elseif ( preg_match("/admin_login_/i", $secured_file) ) {
-	$active_admin_login_path = $base_dir . '/cache/secured/' . $secured_file; // To easily delete, if we are resetting the login
-	$stored_admin_login = explode("||", trim( file_get_contents($active_admin_login_path) ) );
-	}
-	
 }
 
 

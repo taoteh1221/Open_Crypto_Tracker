@@ -834,12 +834,6 @@ $app_config['power_user']['news_feeds'] = array(
     
     
         				array(
-            			"title" => "Blog - Lightning Labs (Bitcoin Layer 2)",
-            			"url" => "https://lightninglabs.substack.com/feed"
-        						),
-    
-    
-        				array(
             			"title" => "Blog - Monero (community-driven privacy coin)",
             			"url" => "https://web.getmonero.org/feed.xml"
         						),
@@ -860,12 +854,6 @@ $app_config['power_user']['news_feeds'] = array(
         				array(
             			"title" => "Blog - Raiden Network (Ethereum Layer 2)",
             			"url" => "https://medium.com/feed/raiden-network"
-        						),
-    
-    
-        				array(
-            			"title" => "Blog - Tari (Monero's mimblewimble sidechain)",
-            			"url" => "https://tari.substack.com/feed"
         						),
         
         
@@ -948,19 +936,37 @@ $app_config['power_user']['news_feeds'] = array(
     
     
         				array(
-            			"title" => "News - Our Network",
-            			"url" => "https://ournetwork.substack.com/feed"
-        						),
-    
-    
-        				array(
             			"title" => "News - The Block",
             			"url" => "https://www.theblockcrypto.com/rss.xml"
         						),
     
     
         				array(
-            			"title" => "News - The Daily Gwei",
+            			"title" => "Newsletter - EthHub",
+            			"url" => "https://ethhub.substack.com/feed"
+        						),
+    
+    
+        				array(
+            			"title" => "Newsletter - Lightning Labs (Bitcoin Layer 2)",
+            			"url" => "https://lightninglabs.substack.com/feed"
+        						),
+    
+    
+        				array(
+            			"title" => "Newsletter - Our Network",
+            			"url" => "https://ournetwork.substack.com/feed"
+        						),
+    
+    
+        				array(
+            			"title" => "Newsletter - Tari (Monero's mimblewimble sidechain)",
+            			"url" => "https://tari.substack.com/feed"
+        						),
+    
+    
+        				array(
+            			"title" => "Newsletter - The Daily Gwei",
             			"url" => "https://thedailygwei.substack.com/feed"
         						),
     

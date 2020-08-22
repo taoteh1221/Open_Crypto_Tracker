@@ -137,8 +137,8 @@ function getCookie(cname) {
 name = cname + "=";
 ca = document.cookie.split(';');
 
-    for(var i=0; i<ca.length; i++) {
-        var c = ca[i];
+    for(i=0; i<ca.length; i++) {
+        c = ca[i];
         while (c.charAt(0)==' ') c = c.substring(1);
         if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
     }
@@ -290,7 +290,7 @@ function feeds_loading_check(feeds_loaded) {
 
 function chart_toggle(obj_var) {
   
-var show_charts = $("#show_charts").val();
+show_charts = $("#show_charts").val();
 	
 	if ( obj_var.checked == true ) {
 	$("#show_charts").val("[" + obj_var.value + "]" + "," + show_charts);
@@ -307,7 +307,7 @@ var show_charts = $("#show_charts").val();
 
 function feed_toggle(obj_var) {
   
-var show_feeds = $("#show_feeds").val();
+show_feeds = $("#show_feeds").val();
 	
 	if ( obj_var.checked == true ) {
 	$("#show_feeds").val("[" + obj_var.value + "]" + "," + show_feeds);
@@ -724,12 +724,12 @@ sat_target = Number(document.getElementById("sat_target").value);
 
 
 	if ( sat_increase == 'refresh' ) {
-	var num_total = (sat_target).toFixed(8);
+	num_total = (sat_target).toFixed(8);
 	}
 	else {
 	sat_increase = Number(sat_increase);
 	
-	var num_total = (sat_increase + sat_target).toFixed(8);
+	num_total = (sat_increase + sat_target).toFixed(8);
 	
 	document.getElementById("sat_target").value = num_total;
 	}

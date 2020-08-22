@@ -58,6 +58,8 @@
 	        
 	        <li class='links_list'><a href='https://www.coingecko.com/' target='_blank'>Coingecko.com</a></li>
 	        
+	        <li class='links_list'><a href='https://studio.glassnode.com/' target='_blank'>GlassNode</a></li>
+	        
 	        <li class='links_list'><a href='https://messari.io/onchainfx' target='_blank'>OnChainFX</a></li>
 	        
 	        <li class='links_list'><a href='https://info.binance.com/' target='_blank'>info.binance.com</a></li>
@@ -224,6 +226,8 @@
 	        <li class='links_list'><a href='https://coinmarketcap.com/newsletter/' target='_blank'>Coinmarketcap Newsletter</a></li>
 	        
 	        <li class='links_list'><a href='https://ethhub.substack.com/' target='_blank'>EthHub Newsletter</a></li>
+	        
+	        <li class='links_list'><a href='https://lightninglabs.substack.com' target='_blank'>Lightning Labs</a></li>  
 	        
 	        <li class='links_list'><a href='https://www.getrevue.co/profile/nlw' target='_blank'>Long Reads Sunday</a></li>  
 	        
