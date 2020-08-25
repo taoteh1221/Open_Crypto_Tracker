@@ -453,6 +453,10 @@ global $selected_btc_primary_currency_value, $app_config;
       
       }
      
+     
+     usleep(55000); // Wait 0.055 seconds before fetching volume data
+     
+     
      // 24 HOUR VOLUME
      $json_string = 'https://api.bittrex.com/v3/markets/summaries';
      
