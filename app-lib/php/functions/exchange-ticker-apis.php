@@ -66,7 +66,7 @@ global $selected_btc_primary_currency_value, $app_config;
   elseif ( strtolower($chosen_exchange) == 'binance' ) {
      
      
-     $json_string = 'https://www.binance.com/api/v1/ticker/24hr';
+     $json_string = 'https://www.binance.com/api/v3/ticker/24hr';
      
      $jsondata = @external_api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
      
@@ -429,28 +429,45 @@ global $selected_btc_primary_currency_value, $app_config;
 
 
   elseif ( strtolower($chosen_exchange) == 'bittrex' || strtolower($chosen_exchange) == 'bittrex_global' ) {
+  
+  $result = array();
      
-     
-     $json_string = 'https://bittrex.com/api/v1.1/public/getmarketsummaries';
+     // LAST TRADE VALUE
+     $json_string = 'https://api.bittrex.com/v3/markets/tickers';
      
      $jsondata = @external_api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
      
      $data = json_decode($jsondata, true);
   
-  	  $data = $data['result'];
+      if (is_array($data) || is_object($data)) {
+  
+       foreach ($data as $key => $value) {
+         
+         if ( $value['symbol'] == $market_id ) {
+          
+         $result['last_trade'] = $value["lastTradeRate"];
+          
+         }
+     
+       }
+      
+      }
+     
+     // 24 HOUR VOLUME
+     $json_string = 'https://api.bittrex.com/v3/markets/summaries';
+     
+     $jsondata = @external_api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
+     
+     $data = json_decode($jsondata, true);
   
       if (is_array($data) || is_object($data)) {
   
        foreach ($data as $key => $value) {
          
-         if ( $value['MarketName'] == $market_id ) {
+         if ( $value['symbol'] == $market_id ) {
           
-         $result = array(
-    							'last_trade' => $value["Last"],
-    							// ARRAY KEY SEMANTICS BACKWARDS COMPARED TO OTHER EXCHANGES
-    							'24hr_asset_volume' => $value["Volume"],
-    							'24hr_pairing_volume' => $value["BaseVolume"]
-    						);
+         $result['24hr_asset_volume'] = $value["volume"];
+         $result['24hr_pairing_volume'] = $value["quoteVolume"];
           
          }
      
@@ -752,7 +769,7 @@ global $selected_btc_primary_currency_value, $app_config;
   elseif ( strtolower($chosen_exchange) == 'gateio' ) {
 
 
-     $json_string = 'https://data.gate.io/api2/1/tickers';
+     $json_string = 'https://api.gateio.ws/api/v4/spot/tickers';
      
      $jsondata = @external_api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
      
@@ -762,13 +779,12 @@ global $selected_btc_primary_currency_value, $app_config;
   
        foreach ($data as $key => $value) {
          
-         if ( $key == $market_id ) {
+         if ( $value["currency_pair"] == $market_id ) {
           
          $result = array(
     							'last_trade' => $value["last"],
-    							// ARRAY KEY SEMANTICS BACKWARDS COMPARED TO OTHER EXCHANGES
-    							'24hr_asset_volume' => $value["quoteVolume"],
-    							'24hr_pairing_volume' => $value["baseVolume"]
+    							'24hr_asset_volume' => $value["base_volume"],
+    							'24hr_pairing_volume' => $value["quote_volume"]
     						);
           
          }
@@ -850,7 +866,7 @@ global $selected_btc_primary_currency_value, $app_config;
   elseif ( strtolower($chosen_exchange) == 'hitbtc' ) {
 
 
-     $json_string = 'https://api.hitbtc.com/api/1/public/ticker';
+     $json_string = 'https://api.hitbtc.com/api/2/public/ticker';
      
      $jsondata = @external_api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
      
@@ -860,12 +876,12 @@ global $selected_btc_primary_currency_value, $app_config;
   
        foreach ($data as $key => $value) {
          
-         if ( $key == $market_id ) {
+         if ( $value["symbol"] == $market_id ) {
           
          $result = array(
     							'last_trade' => $value["last"],
     							'24hr_asset_volume' => $value["volume"],
-    							'24hr_pairing_volume' => $value["volume_quote"]
+    							'24hr_pairing_volume' => $value["volumeQuote"]
     						);
           
          }
@@ -1298,18 +1314,32 @@ global $selected_btc_primary_currency_value, $app_config;
   elseif ( strtolower($chosen_exchange) == 'okcoin' ) {
   
   
-    $json_string = 'https://www.okcoin.com/api/v1/ticker.do?symbol=' . $market_id;
+    $json_string = 'https://www.okcoin.com/api/spot/v3/instruments/ticker';
     
     $jsondata = @external_api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
     
     $data = json_decode($jsondata, true);
-    
-    $result = array(
-    					'last_trade' => number_format( $data['ticker']['last'], 2, '.', ''),
-    					'24hr_asset_volume' => $data['ticker']['vol'],
-    					'24hr_pairing_volume' => null // No pairing volume data for this API
-    					);
-    
+  
+      if (is_array($data) || is_object($data)) {
+  
+       foreach ($data as $key => $value) {
+       	
+         
+         if ( $value['instrument_id'] == $market_id ) {
+          
+         $result = array(
+    						'last_trade' => $value['last'],
+    						'24hr_asset_volume' => $value['base_volume_24h'],
+    						'24hr_pairing_volume' => $value['quote_volume_24h']
+    						);
+
+         }
+       
+     
+       }
+      
+      }
+  
     
   }
  
@@ -1339,7 +1369,7 @@ global $selected_btc_primary_currency_value, $app_config;
          $result = array(
     						'last_trade' => $value["last"],
     						'24hr_asset_volume' => $value["base_volume_24h"],
-    						'24hr_pairing_volume' => null // No pairing volume data for this API
+    						'24hr_pairing_volume' => $value['quote_volume_24h']
     						);
 
          }

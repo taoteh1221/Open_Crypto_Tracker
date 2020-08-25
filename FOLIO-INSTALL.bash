@@ -870,8 +870,19 @@ select opt in $OPTIONS; do
 				echo " "
 				echo "Installing DFD Cryptocoin Values (Server Edition)..."
   				
-  				# Copy over the upgrade install files to the install directory
+  				# Copy over the upgrade install files to the install directory, after cleaning up dev files
 				# No trailing forward slash here
+				
+				rm -rf ./.github
+				rm -rf ./.git
+
+				/bin/sleep 3
+				
+				rm ./.gitattributes
+				rm ./.gitignore
+				rm ./.travis.yml
+				rm ./CODEOWNERS
+				
 				\cp -r ./ $DOC_ROOT
 
 				/bin/sleep 3
@@ -879,14 +890,6 @@ select opt in $OPTIONS; do
 				cd ../
 				
 				rm -rf DFD-Cryptocoin-Values
-				rm -rf $DOC_ROOT/.github
-
-				/bin/sleep 3
-				
-				rm $DOC_ROOT/.gitattributes
-				rm $DOC_ROOT/.gitignore
-				rm $DOC_ROOT/.travis.yml
-				rm $DOC_ROOT/CODEOWNERS
 				
 				/bin/chmod 777 $DOC_ROOT/cache
 				/bin/chmod 755 $DOC_ROOT/cron.php

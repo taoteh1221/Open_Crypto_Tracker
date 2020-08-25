@@ -116,7 +116,7 @@ Admin import / export of settings (consider security implications CAREFULLY...ma
 When cached app config is independent of config.php updating-wise, use the show / hide link to have an optional email field on the admin registration page, and mention it enables password resetting via email.
 
 
-Add Uniswap API: https://thegraph.com/explorer/subgraph/graphprotocol/uniswap
+Add Uniswap API: https://thegraph.com/explorer/subgraph/graphprotocol/uniswap , OR https://github.com/Uniswap/uniswap-api
 
 
 Mail trading notes to admin email, only if user logged in as admin.

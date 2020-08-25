@@ -300,41 +300,6 @@ return false;
 ////////////////////////////////////////////////////////
 
 
-function store_cookie_contents($name, $value, $time) {
-	
-	if ( PHP_VERSION_ID >= 70300 ) {
-		
-	$result = setcookie($name, $value, [
-  								'samesite' => 'Strict', // Strict for high privacy
-  								'expires' => $time,
-								]);
-	
-	}
-	else {
-	$result = setcookie($name, $value, $time);
-	}
-
-	
-	
-	// Android / Safari maximum cookie size is 4093 bytes, Chrome / Firefox max is 4096
-	if ( strlen($value) > 4093 ) {  
-	app_logging('other_error', 'Cookie size is greater than 4093 bytes (' . strlen($value) . ' bytes). If saving portfolio as cookie data fails on your browser, try using CSV file import / export instead for large portfolios.');
-	}
-	
-	if ( $result == false ) {
-	app_logging('system_error', 'Cookie creation failed for cookie "' . $name . '"');
-	}
-	
-	
-return $result;
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
 function text_email($string) {
 
 global $app_config;
@@ -652,6 +617,41 @@ global $password_pepper;
 		}
 		
 	}
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function store_cookie_contents($name, $value, $time) {
+	
+	if ( PHP_VERSION_ID >= 70300 ) {
+		
+	$result = setcookie($name, $value, [
+  								'samesite' => 'Strict', // Strict for high privacy
+  								'expires' => $time,
+								]);
+	
+	}
+	else {
+	$result = setcookie($name, $value, $time);
+	}
+
+	
+	
+	// Android / Safari maximum cookie size is 4093 bytes, Chrome / Firefox max is 4096
+	if ( strlen($value) > 4093 ) {  
+	app_logging('other_error', 'Cookie size is greater than 4093 bytes (' . strlen($value) . ' bytes). If saving portfolio as cookie data fails on your browser, try using CSV file import / export instead for large portfolios.');
+	}
+	
+	if ( $result == false ) {
+	app_logging('system_error', 'Cookie creation failed for cookie "' . $name . '"');
+	}
+	
+	
+return $result;
 
 }
     
@@ -1163,46 +1163,6 @@ function csv_file_array($file) {
 unlink($file); // Delete temp file
 
 return $csv_rows;
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function chart_time_interval($file, $linecount, $length) {
-
-
-	$last_lines = get_last_lines($file, $linecount, $length);
-	foreach ( $last_lines as $line ) {
-	$data = explode("||", $line);
-	
-		if ( $data[0] != '' ) {
-		$timestamps[] = $data[0];
-		}
-	
-	}
-	
-	
-	$count = 0;
-	foreach ( $timestamps as $key => $value ) {
-		
-		if ( $timestamps[($key - 1)] != '' ) {
-		$count = $count + 1;
-		$total_minutes = $total_minutes + round( ( $timestamps[$key] - $timestamps[($key - 1)] ) / 60 );
-		}
-		
-	}
-
-
-$average_interval = round( $total_minutes / ( sizeof($timestamps) - 1 ) );
-
-
-// Only return average intervals if we have a minimum of 24 intervals to average out
-// (set to 1 until then, to keep chart buttons from acting weird until we have enough data)
-return ( $count >= 24 ? round( 60 / $average_interval ) : 1 );  
-
 
 }
 
@@ -1733,7 +1693,7 @@ $fn = fopen($file,"r");
             // Non-stablecoin crypto
             else {
             $data['spot'] .= $result[1] . ',';
-            $data['volume'] .= round($result[2], 3) . ',';
+            $data['volume'] .= round($result[2], $app_config['power_user']['charts_crypto_volume_decimals']) . ',';
             }
          
          }

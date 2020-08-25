@@ -504,7 +504,7 @@ quoteContainer.html( ajax_placeholder(15, 'left') );
 	//fade out animation with callback
    quoteContainer.fadeOut(250, function(){
 	
-	quoteContainer.html('<p>'+newQuoteText+'</p>'+'<p id="quoteGenius">'+'-								'+newQuoteGenius+'</p>');
+	quoteContainer.html('<p>'+newQuoteText+'</p>'+'<p id="quoteGenius">'+'- '+newQuoteGenius+'</p>');
    
    //fadein animation.
    quoteContainer.fadeIn(250);

@@ -1041,8 +1041,8 @@ $asset_pairing_value_raw = number_format( $asset_market_data['last_trade'] , 8, 
 // Round PRIMARY CURRENCY CONFIG volume to nullify insignificant decimal amounts / for prettier numbers UX, and to save on data set / storage size
 $volume_primary_currency_raw = ( isset($volume_primary_currency_raw) ? round($volume_primary_currency_raw) : null );		
 	
-// Round PAIRING volume to only keep 3 decimals max (for crypto volume etc), to save on data set / storage size
-$volume_pairing_raw = ( isset($volume_pairing_raw) ? round($volume_pairing_raw, ( $fiat_eqiv == 1 ? 0 : 3 ) ) : null );	
+// Round PAIRING volume to only keep $app_config['power_user']['charts_crypto_volume_decimals'] decimals max (for crypto volume etc), to save on data set / storage size
+$volume_pairing_raw = ( isset($volume_pairing_raw) ? round($volume_pairing_raw, ( $fiat_eqiv == 1 ? 0 : $app_config['power_user']['charts_crypto_volume_decimals'] ) ) : null );	
 	
 	
 // Round PRIMARY CURRENCY CONFIG asset price to only keep $app_config['general']['primary_currency_decimals_max'] decimals maximum 
