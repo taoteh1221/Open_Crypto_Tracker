@@ -873,15 +873,15 @@ select opt in $OPTIONS; do
   				# Copy over the upgrade install files to the install directory, after cleaning up dev files
 				# No trailing forward slash here
 				
-				rm -rf ./.github
-				rm -rf ./.git
+				rm -rf .github
+				rm -rf .git
 
 				/bin/sleep 3
 				
-				rm ./.gitattributes
-				rm ./.gitignore
-				rm ./.travis.yml
-				rm ./CODEOWNERS
+				rm .gitattributes
+				rm .gitignore
+				rm .travis.yml
+				rm CODEOWNERS
 				
 				\cp -r ./ $DOC_ROOT
 
