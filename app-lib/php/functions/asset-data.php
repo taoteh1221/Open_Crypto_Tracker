@@ -631,7 +631,7 @@ return $result;
 
 function pairing_market_value($pairing) {
 
-global $app_config, $btc_pairing_markets, $btc_pairing_markets_blacklist;
+global $app_config, $btc_pairing_markets, $btc_pairing_markets_excluded;
 
 $pairing = strtolower($pairing);
 
@@ -655,17 +655,17 @@ $pairing = strtolower($pairing);
 		}
 		// Preferred BITCOIN market(s) for getting a certain currency's value, if in config and more than one market exists
 		elseif ( sizeof($app_config['portfolio_assets'][strtoupper($pairing)]['market_pairing']['btc']) > 1 && array_key_exists($pairing, $app_config['power_user']['crypto_pairing_preferred_markets']) ) {
-		$whitelist = $app_config['power_user']['crypto_pairing_preferred_markets'][$pairing];
+		$market_override = $app_config['power_user']['crypto_pairing_preferred_markets'][$pairing];
 		}
 	
 	
-		// Loop until we find a whitelisted / non-blacklisted pairing market
+		// Loop until we find a market override / non-excluded pairing market
 		foreach ( $app_config['portfolio_assets'][strtoupper($pairing)]['market_pairing']['btc'] as $market_key => $market_value ) {
 					
 					
-			if ( isset($whitelist) && $whitelist == $market_key && !in_array($market_key, $btc_pairing_markets_blacklist[$pairing])
-			|| isset($whitelist) && $whitelist != $market_key && in_array($whitelist, $btc_pairing_markets_blacklist[$pairing]) && !in_array($market_key, $btc_pairing_markets_blacklist[$pairing])
-			|| !isset($whitelist) && !in_array($market_key, $btc_pairing_markets_blacklist[$pairing]) ) {
+			if ( isset($market_override) && $market_override == $market_key && !in_array($market_key, $btc_pairing_markets_excluded[$pairing])
+			|| isset($market_override) && $market_override != $market_key && in_array($market_override, $btc_pairing_markets_excluded[$pairing]) && !in_array($market_key, $btc_pairing_markets_excluded[$pairing])
+			|| !isset($market_override) && !in_array($market_key, $btc_pairing_markets_excluded[$pairing]) ) {
 				
    		$btc_pairing_markets[$pairing.'_btc'] = asset_market_data(strtoupper($pairing), $market_key, $market_value)['last_trade'];
    		
@@ -682,13 +682,13 @@ $pairing = strtolower($pairing);
    			}
    			// ONLY LOG AN ERROR IF ALL AVAILABLE MARKETS FAIL (AND RETURN NULL)
    			// We only want to loop a fallback for the amount of available markets
-   			elseif ( sizeof($btc_pairing_markets_blacklist[$pairing]) == sizeof($app_config['portfolio_assets'][strtoupper($pairing)]['market_pairing']['btc']) ) {
-   			app_logging('market_error', 'pairing_market_value() - market request failure (all '.sizeof($btc_pairing_markets_blacklist[$pairing]).' markets failed) for ' . $pairing . ' / btc (' . $market_key . ')', $pairing . '_blacklisted_count: ' . sizeof($btc_pairing_markets_blacklist[$pairing]) );
+   			elseif ( sizeof($btc_pairing_markets_excluded[$pairing]) == sizeof($app_config['portfolio_assets'][strtoupper($pairing)]['market_pairing']['btc']) ) {
+   			app_logging('market_error', 'pairing_market_value() - market request failure (all '.sizeof($btc_pairing_markets_excluded[$pairing]).' markets failed) for ' . $pairing . ' / btc (' . $market_key . ')', $pairing . '_markets_excluded_count: ' . sizeof($btc_pairing_markets_excluded[$pairing]) );
    			return null;
    			}
    			else {
    			$btc_pairing_markets[$pairing.'_btc'] = null; // Reset
-   			$btc_pairing_markets_blacklist[$pairing][] = $market_key; // Blacklist getting pairing data from this exchange IN ANY PAIRING, for this runtime only
+   			$btc_pairing_markets_excluded[$pairing][] = $market_key; // Market exclusion list, getting pairing data from this exchange IN ANY PAIRING, for this runtime only
    			return pairing_market_value($pairing);
    			}
    		
@@ -711,17 +711,17 @@ $pairing = strtolower($pairing);
 		}
 		// Preferred BITCOIN market(s) for getting a certain currency's value, if in config and more than one market exists
 		elseif ( sizeof($app_config['portfolio_assets']['BTC']['market_pairing'][$pairing]) > 1 && array_key_exists($pairing, $app_config['power_user']['bitcoin_preferred_currency_markets']) ) {
-		$whitelist = $app_config['power_user']['bitcoin_preferred_currency_markets'][$pairing];
+		$market_override = $app_config['power_user']['bitcoin_preferred_currency_markets'][$pairing];
 		}
 				
 				
-		// Loop until we find a whitelisted / non-blacklisted pairing market
+		// Loop until we find a market override / non-excluded pairing market
 		foreach ( $app_config['portfolio_assets']['BTC']['market_pairing'][$pairing] as $market_key => $market_value ) {
 					
 					
-			if ( isset($whitelist) && $whitelist == $market_key && !in_array($market_key, $btc_pairing_markets_blacklist[$pairing])
-			|| isset($whitelist) && $whitelist != $market_key && in_array($whitelist, $btc_pairing_markets_blacklist[$pairing]) && !in_array($market_key, $btc_pairing_markets_blacklist[$pairing])
-			|| !isset($whitelist) && !in_array($market_key, $btc_pairing_markets_blacklist[$pairing]) ) {
+			if ( isset($market_override) && $market_override == $market_key && !in_array($market_key, $btc_pairing_markets_excluded[$pairing])
+			|| isset($market_override) && $market_override != $market_key && in_array($market_override, $btc_pairing_markets_excluded[$pairing]) && !in_array($market_key, $btc_pairing_markets_excluded[$pairing])
+			|| !isset($market_override) && !in_array($market_key, $btc_pairing_markets_excluded[$pairing]) ) {
 						
    		$btc_pairing_markets[$pairing.'_btc'] = ( 1 / asset_market_data(strtoupper($pairing), $market_key, $market_value)['last_trade'] );
    					
@@ -738,13 +738,13 @@ $pairing = strtolower($pairing);
    			}
    			// ONLY LOG AN ERROR IF ALL AVAILABLE MARKETS FAIL (AND RETURN NULL)
    			// We only want to loop a fallback for the amount of available markets
-   			elseif ( sizeof($btc_pairing_markets_blacklist[$pairing]) >= sizeof($app_config['portfolio_assets']['BTC']['market_pairing'][$pairing]) ) {
-   			app_logging('market_error', 'pairing_market_value() - market request failure (all '.sizeof($btc_pairing_markets_blacklist[$pairing]).' markets failed) for btc / ' . $pairing . ' (' . $market_key . ')', $pairing . '_blacklisted_count: ' . sizeof($btc_pairing_markets_blacklist[$pairing]) );
+   			elseif ( sizeof($btc_pairing_markets_excluded[$pairing]) >= sizeof($app_config['portfolio_assets']['BTC']['market_pairing'][$pairing]) ) {
+   			app_logging('market_error', 'pairing_market_value() - market request failure (all '.sizeof($btc_pairing_markets_excluded[$pairing]).' markets failed) for btc / ' . $pairing . ' (' . $market_key . ')', $pairing . '_markets_excluded_count: ' . sizeof($btc_pairing_markets_excluded[$pairing]) );
    			return null;
    			}
    			else {
    			$btc_pairing_markets[$pairing.'_btc'] = null; // Reset	
-   			$btc_pairing_markets_blacklist[$pairing][] = $market_key; // Blacklist getting pairing data from this exchange IN ANY PAIRING, for this runtime only
+   			$btc_pairing_markets_excluded[$pairing][] = $market_key; // Market exclusion list, getting pairing data from this exchange IN ANY PAIRING, for this runtime only
    			return pairing_market_value($pairing);
    			}
    		

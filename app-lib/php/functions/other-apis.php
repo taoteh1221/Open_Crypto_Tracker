@@ -111,7 +111,7 @@ $max_fetch = 151; // So we can quickly adjust if they change API defaults again
 		while ( $loop < $calls ) {
 			
 			if ( $loop > 0 ) {
-			usleep(150000); // Wait 0.15 seconds between consecutive calls, to avoid blacklisting
+			usleep(150000); // Wait 0.15 seconds between consecutive calls, to avoid being blocked / throttled by external server
 			}
 		
 		$jsondata = @external_api_data('url', 'https://api.coingecko.com/api/v3/coins/markets?per_page='.$max_fetch.'&page='.($loop + 1).'&vs_currency='.$coingecko_primary_currency.'&price_change_percentage=1h,24h,7d,14d,30d,200d,1y', $app_config['power_user']['marketcap_cache_time']);

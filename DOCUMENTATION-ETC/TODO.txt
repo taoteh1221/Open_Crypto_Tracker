@@ -215,6 +215,9 @@ MAYBE SECTION
 ///////////////////////////////////////////////////////
 
 
+See if zingchart can do a moving average line?
+
+
 Alerts when RSS feeds have new entries?
 
 

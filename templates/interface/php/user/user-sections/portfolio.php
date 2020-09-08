@@ -46,7 +46,7 @@
 			
 			// Warning (minimal, just as link title on the 'refresh' link) if price data caching set too low
 			if ( $app_config['power_user']['last_trade_cache_time'] < 4 ) {
-			$refresh_link_title = 'Refreshing data too frequently may cause API request refusals, especially if request caching settings are too low. It is recommended to use this refresh feature sparingly with lower or disabled cache settings. The current real-time exchange data re-cache (refresh from live data instead of cached data) setting in config.php is set to '. $app_config['power_user']['last_trade_cache_time'] . ' minute(s). A setting of 4 or higher assists in avoiding temporary IP blacklisting by exchanges.';
+			$refresh_link_title = 'Refreshing data too frequently may cause API request refusals, especially if request caching settings are too low. It is recommended to use this refresh feature sparingly with lower or disabled cache settings. The current real-time exchange data re-cache (refresh from live data instead of cached data) setting in config.php is set to '. $app_config['power_user']['last_trade_cache_time'] . ' minute(s). A setting of 4 or higher assists in avoiding temporary IP blocking / throttling by exchanges.';
 			}
 			else {
 			$refresh_link_title = 'The current real-time exchange data re-cache (refresh from live data instead of cached data) setting in config.php is set to '. $app_config['power_user']['last_trade_cache_time'] . ' minute(s).';

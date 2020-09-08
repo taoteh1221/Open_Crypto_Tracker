@@ -1956,7 +1956,7 @@ app doing the data requests, not a malicious bot)
 
 -API support for btcmarkets.net, bitpanda.com, lakebtc.com, tidebit.com, huobi.pro, cex.io
 
--Throttling of limited APIs (to help avoid ip blacklisting by exchanges requiring a separate call for each coin)
+-Throttling of limited APIs (to help avoid ip blocking / throttling by exchanges requiring a separate call for each coin)
 
 -Consolidated multiple function calls into variables where possible, for less moving parts / increased runtime speed
 
@@ -3982,18 +3982,14 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 
 
+-------------------------------------------------------------------
+4.19.0:
 
+-Updated default config
 
+-Sementic revisions
 
-
-
-
-
-
-
-
-
-
+-------------------------------------------------------------------
 
 
 

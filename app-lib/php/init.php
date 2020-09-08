@@ -118,7 +118,7 @@ session_start(); // New session start
 
 
 // Application version
-$app_version = '4.18.0';  // 2020/AUGUST/21ST
+$app_version = '4.19.0';  // 2020/SEPTEMBER/8TH
 
 // Application edition
 $app_edition = 'server';  // server OR desktop edition
@@ -226,7 +226,7 @@ $btc_pairing_markets = array();
 
 $price_alerts_fixed_reset_array = array();
 
-$btc_pairing_markets_blacklist = array();
+$btc_pairing_markets_excluded = array();
 
 // Coinmarketcap supported currencies array
 require_once('app-lib/php/other/coinmarketcap-currencies.php');

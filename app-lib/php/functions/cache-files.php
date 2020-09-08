@@ -1200,7 +1200,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 		////////////START//////////////////////
 		
 		
-			// Sleep for 2 seconds before starting ANY consecutive message send, to help avoid being blacklisted
+			// Sleep for 2 seconds before starting ANY consecutive message send, to help avoid being blocked / throttled by external server
 			if ( $processed_messages['notifications_count'] > 0 ) {
 			sleep(2);
 			}
@@ -1248,7 +1248,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 			   
 			   $notifyme_params['notification'] = $message_data;
 			   
-				// Sleep for 1 second EXTRA on EACH consecutive notifyme message, to throttle MANY outgoing messages, to help avoid being blacklisted
+				// Sleep for 1 second EXTRA on EACH consecutive notifyme message, to throttle MANY outgoing messages, to help avoid being blocked / throttled by external server
 				$notifyme_sleep = 1 * $processed_messages['notifyme_count'];
 				sleep($notifyme_sleep);
 				
@@ -1285,7 +1285,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 			   
 			   $textbelt_params['message'] = $message_data;
 			   
-				// Sleep for 1 second EXTRA on EACH consecutive text message, to throttle MANY outgoing messages, to help avoid being blacklisted
+				// Sleep for 1 second EXTRA on EACH consecutive text message, to throttle MANY outgoing messages, to help avoid being blocked / throttled by external server
 				$text_sleep = 1 * $processed_messages['text_count'];
 				sleep($text_sleep);
 			   
@@ -1312,7 +1312,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 			   
 			   $textlocal_params['message'] = $message_data;
 			   
-				// Sleep for 1 second EXTRA on EACH consecutive text message, to throttle MANY outgoing messages, to help avoid being blacklisted
+				// Sleep for 1 second EXTRA on EACH consecutive text message, to throttle MANY outgoing messages, to help avoid being blocked / throttled by external server
 				$text_sleep = 1 * $processed_messages['text_count'];
 				sleep($text_sleep);
 			   
@@ -1335,7 +1335,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 			   // Telegram
 			   if ( $telegram_activated == 1 && preg_match("/telegram/i", $queued_cache_file) ) {  
 			   
-				// Sleep for 1 second EXTRA on EACH consecutive telegram message, to throttle MANY outgoing messages, to help avoid being blacklisted
+				// Sleep for 1 second EXTRA on EACH consecutive telegram message, to throttle MANY outgoing messages, to help avoid being blocked / throttled by external server
 				$telegram_sleep = 1 * $processed_messages['telegram_count'];
 				sleep($telegram_sleep);
 			   
@@ -1391,7 +1391,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 			   
 					if ( $textemail_array['subject'] != '' && $textemail_array['message'] != '' ) {
 						
-					// Sleep for 1 second EXTRA on EACH consecutive text message, to throttle MANY outgoing messages, to help avoid being blacklisted
+					// Sleep for 1 second EXTRA on EACH consecutive text message, to throttle MANY outgoing messages, to help avoid being blocked / throttled by external server
 					$text_sleep = 1 * $processed_messages['text_count'];
 					sleep($text_sleep);
 			   
@@ -1438,7 +1438,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 			   
 					if ( $email_array['subject'] != '' && $email_array['message'] != '' ) {
 			   
-					// Sleep for 1 second EXTRA on EACH consecutive email message, to throttle MANY outgoing messages, to help avoid being blacklisted
+					// Sleep for 1 second EXTRA on EACH consecutive email message, to throttle MANY outgoing messages, to help avoid being blocked / throttled by external server
 					$email_sleep = 1 * $processed_messages['email_count'];
 					sleep($email_sleep);
 			   
@@ -1639,7 +1639,7 @@ $endpoint_tld_or_ip = get_tld_or_ip($api_endpoint);
 	
 		// Throttled endpoints
 		// If this is an API service that requires multiple calls (for each market), 
-		// and a request to it has been made consecutively, we throttle it to avoid being blacklisted
+		// and a request to it has been made consecutively, we throttle it to avoid being blocked / throttled by external server
 		if ( in_array($endpoint_tld_or_ip, $app_config['developer']['limited_apis']) ) {
 		
 		$tld_session_prefix = preg_replace("/\./i", "_", $endpoint_tld_or_ip);

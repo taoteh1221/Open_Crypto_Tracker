@@ -37,9 +37,9 @@ $app_config['comms']['upgrade_alert'] = 'ui'; // 'off' (disabled) / 'all' / 'ui'
 $app_config['comms']['upgrade_alert_reminder'] = 7; // (only used if upgrade check is enabled above)
 
 
-// IF SMTP EMAIL SENDING --NOT-- USED, FROM email should be REAL address on the website domain, or risk having email blacklisted / sent to junk folder
+// IF SMTP EMAIL SENDING --NOT-- USED, FROM email should be REAL address on the website domain, or risk having email sent to junk folder
 // IF SMTP EMAIL SENDING --IS-- USED, FROM EMAIL MUST MATCH EMAIL ADDRESS associated with SMTP login (SMTP Email configuration is below this setting)
-$app_config['comms']['from_email'] = ''; // #SHOULD BE SET# to avoid email going to spam / junk / blacklist
+$app_config['comms']['from_email'] = ''; // #SHOULD BE SET# to avoid email going to spam / junk
 ////
 $app_config['comms']['to_email'] = ''; // #MUST BE SET# for price alerts and other email features
 
@@ -112,7 +112,7 @@ $app_config['comms']['telegram_bot_token'] = '';  // Your bot's access token
 // Price percent change to send alerts for (WITHOUT percent sign: 15.75 = 15.75%). Sends alerts when percent change reached (up or down)
 $app_config['comms']['price_alerts_threshold'] = 9.25; // CAN BE 0 TO DISABLE PRICE ALERTS
 ////
-// Re-allow SAME asset price alert(s) messages after X hours (per asset, set higher if issues with blacklisting...can be 0)
+// Re-allow SAME asset price alert(s) messages after X hours (per asset, set higher if issues with sent to junk folder / API blocking or throttling...can be 0)
 // Price alerts AUTOMATICALLY will send to all properly-configured communication channels, and automatically skip any not properly setup
 $app_config['comms']['price_alerts_freq_max'] = 2; 
 ////
@@ -236,7 +236,7 @@ $app_config['general']['margin_leverage_max'] = 150; // Maximum margin leverage 
 
 // If using proxies and login is required
 // Adding a user / pass here will automatically send login details for proxy connections
-// CAN BE BLANK. IF using ip address whitelisting instead, MUST BE LEFT BLANK
+// CAN BE BLANK. IF using ip address authentication instead, MUST BE LEFT BLANK
 $app_config['proxy']['proxy_login'] = ''; // Use format: 'username||password'
 ////
 // If using proxies, add the ip address / port number here for each one, like examples below (without the double slashes in front enables the code)
@@ -1382,7 +1382,7 @@ $app_config['developer']['captcha_permitted_chars'] = 'ACEFHMNPRTUWXY234567'; //
 							
 
 // TLD-only (Top Level Domain only, NO SUBDOMAINS) for each API service that requires multiple calls (for each market / data set)
-// Used to throttle these market calls a tiny bit (1.15 seconds), so we don't get easily blacklisted
+// Used to throttle these market calls a tiny bit (1.15 seconds), so we don't get easily blocked / throttled
 // (ANY EXCHANGES LISTED HERE ARE !NOT! RECOMMENDED TO BE USED AS THE PRIMARY CURRENCY MARKET IN THIS APP,
 // AS ON OCCASION THEY CAN BE !UNRELIABLE! IF HIT WITH TOO MANY SEPARATE API CALLS FOR DIFFERENT COINS / ASSETS)
 // !MUST BE LOWERCASE!
@@ -2333,6 +2333,7 @@ $app_config['portfolio_assets'] = array(
                                     'btc' => array(
                                         	'binance' => 'MKRBTC',
                                           'coinbase' => 'MKR-BTC',
+                                          'bittrex' => 'MKR-BTC',
                                        	'kucoin' => 'MKR-BTC',
                                           'okex' => 'MKR-BTC',
                                           'bitfinex' => 'tMKRBTC',
@@ -2346,6 +2347,7 @@ $app_config['portfolio_assets'] = array(
                                                     ),
                                                     
                                 		'eth' => array(
+                                          'bittrex' => 'MKR-ETH',
                                         	'kucoin' => 'MKR-ETH',
                                           'okex' => 'MKR-ETH',
                                           'bitfinex' => 'tMKRETH',
@@ -2365,6 +2367,7 @@ $app_config['portfolio_assets'] = array(
                                                     
                                     'usdt' => array(
                                         	'binance' => 'MKRUSDT',
+                                          'bittrex' => 'MKR-USDT',
                                           'okex' => 'MKR-USDT',
                                         	'hitbtc' => 'MKRUSDT',
                                           'gateio' => 'MKR_USDT',
