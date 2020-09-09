@@ -3987,9 +3987,23 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Updated default config
 
--Sementic revisions
+-Semantic revisions
 
 -------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------
+4.19.1:
+
+-Bug fix for market charts spot price tooltip, on mouse / touch hover
+
+-------------------------------------------------------------------
+
+
+
+
+
 
 
 

@@ -296,6 +296,7 @@ graphset:[
       text: "Spot Price: <?=$currency_symbol?>%v",
 	 	fontSize: "20",
       fontFamily: "Open Sans",
+    	"thousands-separator":",",
       <?=$force_decimals?>
       
       y:0,
@@ -336,11 +337,7 @@ graphset:[
     }
   },
   tooltip:{
-    text: "Spot Price: <?=$currency_symbol?>%v",
-    fontColor: "<?=$app_config['power_user']['charts_tooltip_text']?>",
-	 fontSize: "20",
-    backgroundColor: "<?=$app_config['power_user']['charts_tooltip_background']?>",
-    "thousands-separator":","
+        visible:false
   },
   scaleY: {
     "format":"<?=$currency_symbol?>%v",
