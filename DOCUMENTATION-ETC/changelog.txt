@@ -3998,6 +3998,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Bug fix for market charts spot price tooltip, on mouse / touch hover
 
+-Bug fix for 'watch only' toggle on Update page
+
 -------------------------------------------------------------------
 
 

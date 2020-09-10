@@ -430,10 +430,10 @@ function copy_text(elm_id, alert_id) {
 
 function watch_toggle(obj_var) {
 	
+num_value = $("#"+obj_var.value+"_amount").val();
+num_value = num_value.replace(/,/g, '');
+		
 		if ( obj_var.checked == true ) {
-			
-			num_value = $("#"+obj_var.value+"_amount").val();
-			num_value = num_value.replace(/,/g, '');
 			
 			if ( num_value >= 0.00000001 ) {
 			obj_var.checked = false;
