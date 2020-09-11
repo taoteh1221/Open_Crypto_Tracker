@@ -522,10 +522,10 @@ $app_config['power_user']['charts_tooltip_text'] = '#222222'; // (default: '#222
 							
 							
 
-// Activate support for ALTCOIN PAIRED MARKETS (like doge/eth, dai/eth, etc)
-// EACH ALTCOIN LISTED HERE !MUST HAVE! AN EXISTING 'btc' MARKET (within 'market_pairing') 
-// in it's $app_config['portfolio_assets'] listing (further down in this config file) TO PROPERLY ACTIVATE
-// TRY TO #NOT# ADD STABLECOINS HERE, ATTEMPT TO USE $app_config['power_user']['bitcoin_currency_markets'] INSTEAD (TO AUTO-CLIP UN-NEEDED DECIMAL POINTS IN THE UI)
+// Auto-activate support for ALTCOIN PAIRED MARKETS (like gnt/eth or mkr/eth, etc...markets where the base pairing is another altcoin)
+// EACH ALTCOIN LISTED HERE !MUST HAVE! AN EXISTING 'btc' MARKET (within 'market_pairing') in it's 
+// $app_config['portfolio_assets'] listing (further down in this config file) TO PROPERLY AUTO-ACTIVATE
+// TRY TO #NOT# ADD STABLECOINS HERE, ATTEMPT TO USE $app_config['power_user']['bitcoin_currency_markets'] INSTEAD (TO AUTO-CLIP UN-NEEDED DECIMAL POINTS)
 $app_config['power_user']['crypto_pairing'] = array(
 						//'lowercase_altcoin_abrv' => 'CRYPTO_SYMBOL',
 						'eth' => 'Ξ ',
@@ -546,10 +546,11 @@ $app_config['power_user']['crypto_pairing_preferred_markets'] = array(
 
 
 
-// Activate support for PRIMARY CURRENCY MARKETS (to use as your preferred local currency in the app)
-// EACH CURRENCY LISTED HERE !MUST HAVE! AN EXISTING BITCOIN ASSET MARKET (within 'market_pairing') 
-// in Bitcoin's $app_config['portfolio_assets'] listing (further down in this config file) TO PROPERLY ACTIVATE
-// (CAN BE A CRYPTO, !AS LONG AS THERE IS A PAIRING CONFIGURED WITHIN THE BITCOIN ASSET SETUP!)
+// Auto-activate support for PRIMARY CURRENCY MARKETS (to use as your preferred local currency in the app)
+// EACH CURRENCY LISTED HERE !MUST HAVE! AN EXISTING BITCOIN ASSET MARKET (within 'market_pairing') in 
+// Bitcoin's $app_config['portfolio_assets'] listing (further down in this config file) TO PROPERLY AUTO-ACTIVATE
+// #CAN# BE A CRYPTO / HAVE A DUPLICATE IN $app_config['power_user']['crypto_pairing'], 
+// !AS LONG AS THERE IS A PAIRING CONFIGURED WITHIN THE BITCOIN ASSET SETUP!
 $app_config['power_user']['bitcoin_currency_markets'] = array(
 						//'lowercase_btc_market_or_stablecoin_pairing' => 'CURRENCY_SYMBOL',
 						'aed' => 'د.إ',
@@ -658,7 +659,7 @@ $app_config['power_user']['bitcoin_preferred_currency_markets'] = array(
 $app_config['power_user']['mining_rewards'] = array(
 					'btc' => '6.25',
 					'eth' => '2',
-					// WE DYNAMICALLY UPDATE THESE BELOW IN INIT.PHP
+					// WE DYNAMICALLY UPDATE THESE BELOW IN INIT.PHP...
 					'xmr' => 'PLACEHOLDER',  
 					'dcr' => 'PLACEHOLDER',  
 					);
@@ -675,6 +676,8 @@ $app_config['power_user']['ethereum_subtoken_ico_values'] = array(
 						
 
 
+// HIVE INTEREST CALCULATOR SETTINGS
+////
 // Weeks to power down all HIVE Power holdings
 $app_config['power_user']['hive_powerdown_time'] = 13; 
 ////
@@ -683,6 +686,8 @@ $app_config['power_user']['hive_powerdown_time'] = 13;
 $app_config['power_user']['hivepower_yearly_interest'] = 1.2;
 
 
+// NEWS FEED (RSS) SETTINGS
+////
 // RSS feed entries to show per-feed on News page (without needing to click the "show more / less" link)
 $app_config['power_user']['news_feeds_entries_show'] = 5; // (default = 5)
 ////
@@ -1299,17 +1304,17 @@ $app_config['developer']['local_api_cache_time'] = 4; // (default = 4)
 
 
 // The maximum number of data points allowed in each lite chart (speeds up page / chart loading times SIGNIFICANTLY #WITH A NUMBER UNDER 500#)
-$app_config['developer']['lite_chart_data_points_max'] = '400'; // (default = '400'), ADJUST WITH CARE!
+$app_config['developer']['lite_chart_data_points_max'] = 400; // (default = 400), ADJUST WITH CARE!!!
 
 
 // Maximum number of batched news feed fetches / re-caches per ajax OR cron runtime 
 // (#TO HELP PREVENT RUNTIME CRASHES# ON LOW POWER DEVICES OR HIGH TRAFFIC INSTALLS, WITH A LOW NUMBER OF 25 OR LESS)
-$app_config['developer']['batched_news_feeds_max'] = 25; // (default = 25), ADJUST WITH CARE!
+$app_config['developer']['batched_news_feeds_max'] = 25; // (default = 25), ADJUST WITH CARE!!!
 ////
 // Minutes to cache RSS feeds for News page
 // Randomly cache each RSS feed between the minimum and maximum minutes set here (so they don't refresh all at once, for faster load times)
 // THE WIDER THE GAP BETWEEN THE NUMBERS, MORE SPLIT UP / FASTER THE FEEDS WILL LOAD IN THE INTERFACE
-$app_config['developer']['news_feeds_cache_min_max'] = '60,160'; // 'min,max' (default = '60,160'), ADJUST WITH CARE!
+$app_config['developer']['news_feeds_cache_min_max'] = '60,160'; // 'min,max' (default = '60,160'), ADJUST WITH CARE!!!
 
 
 // If you want to override the default user agent string (sent with API requests, etc)
@@ -1343,8 +1348,8 @@ $app_config['developer']['chmod_cache_files'] = '0666'; // (default = '0666')
 $app_config['developer']['chmod_index_security'] = '0664'; // (default = '0664')
 			
 									
-// !!!!! BE #VERY CAREFUL# LOWERING MAXIMUM EXECUTION TIMES BELOW, #OR YOU MAY CRASH THE RUNNING PROCESSES, 
-// AND CAUSE MEMORY LEAKS THAT ALSO CRASH YOUR !ENTIRE SYSTEM!#
+// !!!!! BE #VERY CAREFUL# LOWERING MAXIMUM EXECUTION TIMES BELOW, #OR YOU MAY CRASH THE RUNNING PROCESSES EARLY, 
+// OR CAUSE MEMORY LEAKS THAT ALSO CRASH YOUR !ENTIRE SYSTEM!#
 ////
 // Maximum execution time for interface runtime in seconds (how long it's allowed to run before automatically killing the process)
 // (ALL execution times are automatically 600 IN DEBUG MODE)
@@ -1382,9 +1387,9 @@ $app_config['developer']['captcha_permitted_chars'] = 'ACEFHMNPRTUWXY234567'; //
 							
 
 // TLD-only (Top Level Domain only, NO SUBDOMAINS) for each API service that requires multiple calls (for each market / data set)
-// Used to throttle these market calls a tiny bit (1.15 seconds), so we don't get easily blocked / throttled
+// Used to throttle these market calls a tiny bit (0.15 seconds), so we don't get easily blocked / throttled by external APIs etc
 // (ANY EXCHANGES LISTED HERE ARE !NOT! RECOMMENDED TO BE USED AS THE PRIMARY CURRENCY MARKET IN THIS APP,
-// AS ON OCCASION THEY CAN BE !UNRELIABLE! IF HIT WITH TOO MANY SEPARATE API CALLS FOR DIFFERENT COINS / ASSETS)
+// AS ON OCCASION THEY CAN BE !UNRELIABLE! IF HIT WITH TOO MANY SEPARATE API CALLS FOR MULTIPLE COINS / ASSETS)
 // !MUST BE LOWERCASE!
 $app_config['developer']['limited_apis'] = array(
 						'bit2c.co.il',
@@ -1421,7 +1426,6 @@ $app_config['developer']['top_level_domain_map'] = array(
 					'net',
 					'net.au',
 					'net.uk',
-					'network', // internal / intranet / etc
 					'one',
 					'org',
 					'org.au',
@@ -1429,6 +1433,9 @@ $app_config['developer']['top_level_domain_map'] = array(
 					'pro',
 					'us',
 					'xyz',
+					// internal / intranet / etc...
+					'local', 
+					'network', 
 					);
 				
 
@@ -1750,6 +1757,7 @@ $app_config['portfolio_assets'] = array(
                                                     ),
                                                     
                                     'dai' => array(
+                                        'binance' => 'BTCDAI',
                                         'hitbtc' => 'BTCDAI',
                                     	 'kraken' => 'XBTDAI',
                                         'okex' => 'BTC-DAI',
@@ -2112,6 +2120,7 @@ $app_config['portfolio_assets'] = array(
                                                     ),
                                                     
                                     'dai' => array(
+                                        	'binance' => 'ETHDAI',
                                           'coinbase' => 'ETH-DAI',
                                           'kraken' => 'ETHDAI',
                                         	'kucoin' => 'ETH-DAI',
@@ -2369,7 +2378,7 @@ $app_config['portfolio_assets'] = array(
                                         	'binance' => 'MKRUSDT',
                                           'bittrex' => 'MKR-USDT',
                                           'okex' => 'MKR-USDT',
-                                        	'hitbtc' => 'MKRUSDT',
+                                        	'hitbtc' => 'MKRUSD',
                                           'gateio' => 'MKR_USDT',
                                           'coinex' => 'MKRUSDT',
                                           			),
@@ -2390,7 +2399,6 @@ $app_config['portfolio_assets'] = array(
                         'market_pairing' => array(
                         
                                     'btc' => array(
-                                        'binance' => 'DAIBTC',
                                         'bittrex' => 'DAI-BTC',
                                         'upbit' => 'BTC-DAI',
                                         'bitfinex' => 'tDAIBTC',
@@ -2399,7 +2407,6 @@ $app_config['portfolio_assets'] = array(
                                     'eth' => array(
                                         'bittrex' => 'DAI-ETH',
                                     	 'bitfinex' => 'tDAIETH',
-                                        'gemini' => 'daieth',
                                                     ),
                                                     
                                     'eur' => array(
@@ -2426,7 +2433,6 @@ $app_config['portfolio_assets'] = array(
                                                     ),
                                                     
                                     'usdt' => array(
-                                        'binance' => 'DAIUSDT',
                                     	 'kraken' => 'DAIUSDT',
                                         'bittrex' => 'DAI-USDT',
                                         'okex' => 'DAI-USDT',
@@ -2503,7 +2509,6 @@ $app_config['portfolio_assets'] = array(
                                     'eth' => array(
                                         	'binance' => 'MANAETH',
                                           'bittrex' => 'MANA-ETH',
-                                        	'ethfinex' => 'tMNAETH',
                                           'hitbtc' => 'MANAETH',
                                           'kucoin' => 'MANA-ETH',
                                         	'upbit' => 'ETH-MANA',
@@ -2609,7 +2614,6 @@ $app_config['portfolio_assets'] = array(
                                                     
                                     'inr' => array(
                                           'bitbns' => 'GNT',
-                                          'buyucoin' => 'gnt_inr',
                                                     ),
                                                     
                                     'mxn' => array(

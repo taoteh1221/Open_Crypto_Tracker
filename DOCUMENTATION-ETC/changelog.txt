@@ -4009,7 +4009,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Bug fix for log viewing UI
 
--Removed / replaced stale HKD markets
+-Removed / replaced stale markets
 
 -------------------------------------------------------------------
 
