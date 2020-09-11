@@ -1462,45 +1462,6 @@ global $selected_btc_primary_currency_value, $app_config;
  
  
  ////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-  elseif ( strtolower($chosen_exchange) == 'tidebit' ) {
- 
-     
-     $json_string = 'https://www.tidebit.com/api/v2/tickers';
-     
-     $jsondata = @external_api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
-     
-     $data = json_decode($jsondata, true);
-     
-  
-      if (is_array($data) || is_object($data)) {
-  
-       foreach ($data as $key => $value) {
-         
-         
-         if ( $key == $market_id ) {
-          
-         $result = array(
-    						'last_trade' => $value["ticker"]["last"],
-    						'24hr_asset_volume' => $value["ticker"]["vol"],
-    						'24hr_pairing_volume' => null // No pairing volume data for this API
-    						);
-
-         }
-       
-     
-       }
-      
-      }
-  
-  
-  }
- 
- 
- 
- ////////////////////////////////////////////////////////////////////////////////////////////////
   
   
   

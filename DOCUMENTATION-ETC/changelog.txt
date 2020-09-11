@@ -4004,6 +4004,19 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 
 
+-------------------------------------------------------------------
+4.19.2:
+
+-Bug fix for log viewing UI
+
+-Removed / replaced stale HKD markets
+
+-------------------------------------------------------------------
+
+
+
+
+
 
 
 

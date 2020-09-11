@@ -337,7 +337,6 @@ var_dump($api_data_array);
         "okex",
         "poloniex",
         "southxchange",
-        "tidebit",
         "tradeogre",
         "upbit",
         "zebpay"

@@ -522,7 +522,7 @@ function system_logs(elm_id) {
 
 $('#' + elm_id + '_alert').text('Refreshing, please wait...');
         	
-log_area = $('#' + elm_id);
+var log_area = $('#' + elm_id); // Needs to be set as a global var, for the initial page load
       
 // Blank out existing logs that are showing
 log_area.text('');
@@ -547,6 +547,7 @@ not_whole_num = (log_lines - Math.floor(log_lines)) !== 0;
 	$.getJSON("ajax.php?type=log&logfile=" + log_file + '&lines=' + set_lines, function( data ) {
       
    	data_length = data.length;
+   	
    	loop = 0;
 		$.each( data, function(key, val) {
 			
@@ -556,6 +557,7 @@ not_whole_num = (log_lines - Math.floor(log_lines)) !== 0;
    		else {
       	log_area.append(val); // For raw log format
    		}
+   		
       
       loop = loop + 1;
       
@@ -578,8 +580,7 @@ not_whole_num = (log_lines - Math.floor(log_lines)) !== 0;
     		
       });
               
-	});     
-    		
+	});
 	
 }
 
