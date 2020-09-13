@@ -29,6 +29,9 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 Keep an eye on the Bitcoin "Unit Value" compared to the "Trade Value". They don't need to match perfectly, BUT they should ALWAYS be pretty close to the same.
 
 
+Look into adding https://1inch.exchange/#/ to DeFi APIs.
+
+
 Add BTSE API: https://api.btse.com/spot/api/v3.2/market_summary
 
 
