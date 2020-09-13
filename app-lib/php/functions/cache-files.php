@@ -1549,7 +1549,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 function external_api_data($mode, $request_params, $ttl, $api_server=null, $post_encoding=3, $test_proxy=null, $headers=null) { // Default to JSON encoding post requests (most used)
 
 // $app_config['general']['btc_primary_currency_pairing'] / $app_config['general']['btc_primary_exchange'] / $selected_btc_primary_currency_value USED FOR TRACE DEBUGGING (TRACING)
-global $base_dir, $proxy_checkup, $logs_array, $limited_api_calls, $app_config, $api_runtime_cache, $selected_btc_primary_currency_value, $user_agent, $base_url, $htaccess_username, $htaccess_password;
+global $base_dir, $proxy_checkup, $logs_array, $limited_api_calls, $app_config, $api_runtime_cache, $selected_btc_primary_currency_value, $user_agent, $base_url, $api_connections, $htaccess_username, $htaccess_password;
 
 
 $cookie_jar = tempnam('/tmp','cookie');
@@ -1561,6 +1561,8 @@ $hash_check = ( $mode == 'params' ? md5(serialize($request_params)) : md5($reque
 $api_endpoint = ( $mode == 'params' ? $api_server : $request_params );
 			
 $endpoint_tld_or_ip = get_tld_or_ip($api_endpoint);
+
+$tld_session_prefix = preg_replace("/\./i", "_", $endpoint_tld_or_ip);
 		
 	
 	// If we are encoding the url (not sure as useful / functional, for other than debugging?)
@@ -1640,6 +1642,19 @@ $endpoint_tld_or_ip = get_tld_or_ip($api_endpoint);
 	$api_time = $api_time[1] + $api_time[0];
 	$api_start_time = $api_time;
 		
+		
+	// Servers with high reconnect limits
+	$strict_reconnect_servers = array(
+											'defipulse.com',
+											);
+											
+		if ( in_array($endpoint_tld_or_ip, $strict_reconnect_servers) ) {
+		$api_connections[$tld_session_prefix] = $api_connections[$tld_session_prefix] + 1;
+			if ( $api_connections[$tld_session_prefix] > 1 ) {
+			usleep(1100000); // 1.1 seconds 
+			}
+		}
+		
 	
 	// Initiate the curl external data request
 	$ch = curl_init( ( $mode == 'params' ? $api_server : '' ) );
@@ -1649,8 +1664,6 @@ $endpoint_tld_or_ip = get_tld_or_ip($api_endpoint);
 		// If this is an API service that requires multiple calls (for each market), 
 		// and a request to it has been made consecutively, we throttle it to avoid being blocked / throttled by external server
 		if ( in_array($endpoint_tld_or_ip, $app_config['developer']['limited_apis']) ) {
-		
-		$tld_session_prefix = preg_replace("/\./i", "_", $endpoint_tld_or_ip);
 		
 			if ( !$limited_api_calls[$tld_session_prefix . '_calls'] ) {
 			$limited_api_calls[$tld_session_prefix . '_calls'] = 1;
@@ -1939,6 +1952,8 @@ $endpoint_tld_or_ip = get_tld_or_ip($api_endpoint);
 				if ( // Errors / unavailable / null / throttled / maintenance
 				preg_match("/cf-error/i", $data) // Cloudflare (DDOS protection service)
 				|| preg_match("/cf-browser/i", $data) // Cloudflare (DDOS protection service)
+				|| preg_match("/\"error\":\"Request failed/i", $data) // Defipulse.com / generic
+				|| preg_match("/\"error\":\"timeout/i", $data) // Defipulse.com / generic
 				|| preg_match("/\"result\":{}/i", $data) // Kraken.com / generic
 				|| preg_match("/\"result\":null/i", $data) // Bittrex.com / generic
 				|| preg_match("/\"data\":null/i", $data) // Bitflyer.com / generic

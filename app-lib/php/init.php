@@ -118,7 +118,7 @@ session_start(); // New session start
 
 
 // Application version
-$app_version = '4.20.0';  // 2020/SEPTEMBER/12TH
+$app_version = '4.20.1';  // 2020/SEPTEMBER/13TH
 
 // Application edition
 $app_edition = 'server';  // server OR desktop edition
@@ -211,6 +211,8 @@ $proxies_checked = array();
 $btc_worth_array = array();
 
 $coin_stats_array = array();
+
+$api_connections = array();
 
 $coingecko_api = array();
 

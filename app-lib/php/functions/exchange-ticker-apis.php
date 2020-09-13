@@ -769,7 +769,7 @@ global $selected_btc_primary_currency_value, $app_config;
  ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-  // https://docs.blocklytics.org/apis/pools-api
+  // https://docs.defipulse.com/api-docs-by-provider/pools.fyi/exchange
   elseif ( strtolower($chosen_exchange) == 'uniswap' 
   || strtolower($chosen_exchange) == 'uniswap-v2' 
   || strtolower($chosen_exchange) == 'balancer' 
