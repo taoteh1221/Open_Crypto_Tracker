@@ -2158,7 +2158,6 @@ $app_config['portfolio_assets'] = array(
                                         	'kucoin' => 'ETH-DAI',
                                           'hitbtc' => 'ETHDAI',
                                     	 	'uniswap' => 'ETH_ETH-DAI',
-                                    	 	'uniswap' => 'ETH_ETH-DAI',
                                     	 	'uniswap-v2' => 'WETH_WETH-DAI',
                                                     ),
                                                     
