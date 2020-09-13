@@ -185,12 +185,12 @@ USAGE (ADDING / UPDATING COINS)
 
 Support for over 80 trading pairs (country fiat currency or secondary crypto, contact me to request more): 
 
-AED / ARS / AUD / BAM / BDT / BOB / BRL / BTC / BWP / BYN / CAD / CHF / CLP / CNY / COP / CRC / CZK / DAI / DKK / DOP / EGP / ETH / EUR / GBP / GEL / GHS / GTQ / HKD / HUF / IDR / ILS / INR / IRR / JMD / JOD / JPY / KES / KRW / KWD / KZT / LKR / LTC / MAD / MUR / MWK / MXN / MYR / NGN / NIS / NOK / NZD / PAB / PEN / PHP / PKR / PLN / PYG / QAR / RON / RSD / RUB / RWF / SAR / SEK / SGD / THB / TRY / TUSD / TWD / TZS / UAH / UGX / USDC / USDT / UYU / VES / VND / XAF / XOF / ZAR / ZMW.
+AED / ARS / AUD / BAM / BDT / BOB / BRL / BTC / BWP / BYN / CAD / CHF / CLP / CNY / COP / CRC / CZK / DAI / DKK / DOP / EGP / ETH / EUR / GBP / GEL / GHS / GTQ / HKD / HUF / IDR / ILS / INR / IRR / JMD / JOD / JPY / KES / KRW / KWD / KZT / LKR / MAD / MUR / MWK / MXN / MYR / NGN / NIS / NOK / NZD / PAB / PEN / PHP / PKR / PLN / PYG / QAR / RON / RSD / RUB / RWF / SAR / SEK / SGD / THB / TRY / TUSD / TWD / TZS / UAH / UGX / USDC / USDT / UYU / VES / VND / XAF / XOF / ZAR / ZMW.
 
 
 Support for over 40 exchanges (contact me to request more): 
 
-bigone / binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitforex / bitmex / bitmex_u20 / bitmex_z20 / bitpanda / bitso / bitstamp / bittrex / bittrex_global / braziliex / btcmarkets / btcturk / buyucoin / cex / coinbase / coinex / cryptofresh / ethfinex / gateio / gemini / hitbtc / hotbit / huobi / idex / korbit / kraken / kucoin / liquid / livecoin / localbitcoins / luno / okcoin / okex / poloniex / southxchange / tradeogre / upbit / wazirx / zebpay.
+balancer / binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmex / bitmex_u20 / bitmex_z20 / bitpanda / bitso / bitstamp / bittrex / bittrex_global / braziliex / btcmarkets / btcturk / buyucoin / cex / coinbase / coinex / cryptofresh / curve / curve_compound / curve_iearn / ethfinex / gateio / gemini / hitbtc / hotbit / huobi / idex / korbit / kraken / kucoin / liquid / livecoin / localbitcoins / luno / okcoin / okex / poloniex / southxchange / uniswap / uniswap-v2 / upbit / wazirx / zebpay.
 
 
 Nearly Unlimited Assets Supported (whatever assets exist on supported exchanges).
@@ -220,6 +220,13 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in (values a
                                           'lowercase_exchange1' => 'MARKETIDHERE',
                                           'lowercase_exchange2' => 'eth/COINSYMBOLHERE',
                                           'lowercase_exchange3' => 'ETH-COINSYMBOLHERE',
+                                          'uniswap' => 'ETH_ETH-COINSYMBOLHERE',
+                                          'uniswap-v2' => 'WETH_WETH-COINSYMBOLHERE',
+                                          'balancer' => 'WETH_WETH-COINSYMBOLHERE',
+                                          'bancor' => 'ETH_ETH-COINSYMBOLHERE',
+                                          'curve' => 'ETH_ETH-COINSYMBOLHERE',
+                                          'curve_iearn' => 'ETH_ETH-COINSYMBOLHERE',
+                                          'curve_compound' => 'ETH_ETH-COINSYMBOLHERE',
                                           'eth_subtokens_ico' => 'ETHSUBTOKENNAME', // Must be defined in $app_config['power_user']['ethereum_subtoken_ico_values'] in config.php
                                                     ),
                                                     

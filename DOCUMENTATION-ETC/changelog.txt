@@ -4015,6 +4015,19 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 
 
+-------------------------------------------------------------------
+4.20.0:
+
+-Initial support for DeFi markets (uniswap, uniswap-v2, balancer, bancor, curve), via the defipulse.com API
+
+-------------------------------------------------------------------
+
+
+
+
+
+
+
 
 
 

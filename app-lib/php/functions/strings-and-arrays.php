@@ -279,11 +279,15 @@ $url = preg_replace("/:\/\//i", ") ", $url);
 
 	// Etherscan
 	if ( preg_match("/etherscan/i", $url) ) {
-	$url = str_replace($app_config['general']['etherscanio_api_key'], obfuscate_string($app_config['general']['etherscanio_api_key'], 2), $url); // Etherscan
+	$url = str_replace($app_config['general']['etherscanio_api_key'], obfuscate_string($app_config['general']['etherscanio_api_key'], 2), $url);
 	}
 	// Telegram
 	elseif ( preg_match("/telegram/i", $url) ) {
-	$url = str_replace($app_config['comms']['telegram_bot_token'], obfuscate_string($app_config['comms']['telegram_bot_token'], 2), $url); // Telegram
+	$url = str_replace($app_config['comms']['telegram_bot_token'], obfuscate_string($app_config['comms']['telegram_bot_token'], 2), $url); 
+	}
+	// Defipulse
+	elseif ( preg_match("/defipulse/i", $url) ) {
+	$url = str_replace($app_config['general']['defipulsecom_api_key'], obfuscate_string($app_config['general']['defipulsecom_api_key'], 2), $url); 
 	}
 
 // Keep our color-coded logs in the admin UI pretty, remove '//' and put in parenthesis
@@ -327,6 +331,8 @@ $pretty_string = preg_replace("/stamp/i", 'Stamp', $pretty_string);
 $pretty_string = preg_replace("/flyer/i", 'Flyer', $pretty_string);
 $pretty_string = preg_replace("/panda/i", 'Panda', $pretty_string);
 $pretty_string = preg_replace("/pay/i", 'Pay', $pretty_string);
+$pretty_string = preg_replace("/swap/i", 'Swap', $pretty_string);
+$pretty_string = preg_replace("/iearn/i", 'iEarn', $pretty_string);
 
 return trim($pretty_string);
 

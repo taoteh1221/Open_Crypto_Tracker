@@ -165,6 +165,10 @@ $app_config['general']['etherscanio_api_key'] = '';
 $app_config['general']['coinmarketcapcom_api_key'] = '';
 
 
+// API key for defipulse.com API (required unfortunately, but a FREE level is available): https://data.defipulse.com/
+$app_config['general']['defipulsecom_api_key'] = '';
+
+
 // Password protection / encryption security for backup archives (REQUIRED for app config backup archives, NOT USED FOR CHART BACKUPS)
 $app_config['general']['backup_archive_password'] = ''; // LEAVE BLANK TO DISABLE
 
@@ -177,10 +181,10 @@ $app_config['general']['asset_charts_toggle'] = 'on'; // 'on' / 'off'
 
 // Default BITCOIN market currencies (80+ currencies supported)
 // (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
-// aed / ars / aud / bam / bdt / bob / brl / bwp / byn / cad / chf / clp / cny / cop / crc / czk / dai / dkk / dop / egp / eth 
-// eur / gbp / gel / ghs / gtq / hkd / huf / idr / ils / inr / irr / jmd / jod / jpy / kes / krw / kwd / kzt / lkr / mad 
-// mur / mwk / mxn / myr / ngn / nis / nok / nzd / pab / pen / php / pkr / pln / pyg / qar / ron / rsd / rub / rwf / sar / sek 
-// sgd / thb / try / tusd / twd / tzs / uah / ugx / usdc / usdt / uyu / ves / vnd / xaf / xof / zar / zmw
+// aed / ars / aud / bam / bdt / bob / brl / bwp / byn / cad / chf / clp / cny / cop / crc / czk / dai / dkk / dop
+// egp / eth / eur / gbp / gel / ghs / gtq / hkd / huf / idr / ils / inr / irr / jmd / jod / jpy / kes / krw / kwd 
+// kzt / lkr / mad / mur / mwk / mxn / myr / ngn / nis / nok / nzd / pab / pen / php / pkr / pln / pyg / qar / ron 
+// rsd / rub / rwf / sar / sek / sgd / thb / try / tusd / twd / tzs / uah / ugx / usdc / usdt / uyu / ves / vnd / xaf / xof / zar / zmw
 // SEE THE $app_config['portfolio_assets'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
 // CURRENCY PAIRING VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (set in $app_config['general']['btc_primary_exchange'] directly below)
 $app_config['general']['btc_primary_currency_pairing'] = 'usd'; // PUT INSIDE SINGLE QUOTES ('selection')
@@ -188,9 +192,9 @@ $app_config['general']['btc_primary_currency_pairing'] = 'usd'; // PUT INSIDE SI
 
 // Default BITCOIN market exchanges (30+ bitcoin exchanges supported)
 // (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
-// binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmex / bitpanda / bitso / bitstamp / bittrex / bittrex_global 
-// braziliex / btcmarkets / btcturk / buyucoin / cex / coinbase / gemini / hitbtc / huobi / korbit / kraken / kucoin 
-// liquid / livecoin / localbitcoins / luno / okcoin / okex / southxchange / upbit / wazirx / zebpay
+// binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmex / bitpanda / bitso / bitstamp / bittrex 
+// bittrex_global / braziliex / btcmarkets / btcturk / buyucoin / cex / coinbase / gemini / hitbtc / huobi 
+// korbit / kraken / kucoin / liquid / livecoin / localbitcoins / luno / okcoin / okex / southxchange / upbit / wazirx
 // SEE THE $app_config['portfolio_assets'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
 // MARKET PAIRING VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (to populate $app_config['general']['btc_primary_currency_pairing'] directly above with)
 // SEE THE $app_config['developer']['limited_apis'] SETTING MUCH FURTHER DOWN, FOR EXCHANGES !NOT RECOMMENDED FOR USAGE HERE!
@@ -441,9 +445,20 @@ $app_config['power_user']['activate_cron_plugins'] = array(
 							);
 							
 
-// Minutes to cache real-time exchange price data...can be zero to skip cache, but set to at least 1 minute TO AVOID YOUR IP ADDRESS GETTING BLOCKED
+// MINUTES to cache real-time exchange price data...can be zero to skip cache, but set to at least 1 minute TO AVOID YOUR IP ADDRESS GETTING BLOCKED
 // SOME APIS PREFER THIS SET TO AT LEAST A FEW MINUTES, SO HIGHLY RECOMMENDED TO KEEP FAIRLY HIGH
 $app_config['power_user']['last_trade_cache_time'] = 4; // (default = 4)
+////
+// MINUTES to cache real-time DeFi pool info (pool eth address / name / volume / etc)
+// THIS SETTING DOES #NOT# AFFECT PRICE / TRADE VALUE REFRESHING, IT ONLY AFFECTS THE POOL'S TRADE VOLUME STATS / STORED ETH ADDRESS
+// TONS OF DATA, the higher number the better for fast page load times
+$app_config['power_user']['defi_pools_info_cache_time'] = 30; // (default = 30)
+////
+// Maximum number of DeFi pools to fetch per platform (uniswap, uniswap-v2, balancer, curve, etc), POOLS ARE SORTED BY HIGHEST TRADE VOLUME
+$app_config['power_user']['defi_pools_max_per_platform'] = 300; // (default = 300)
+////
+// Maximum number of trades to fetch per DeFi pool, TRADES ARE SORTED BY NEWEST FIRST
+$app_config['power_user']['defi_pools_max_trades'] = 100; // (default = 100)
 
 
 // Minutes to cache blockchain stats (for mining calculators). Set high initially, it can be strict
@@ -528,7 +543,10 @@ $app_config['power_user']['charts_tooltip_text'] = '#222222'; // (default: '#222
 // TRY TO #NOT# ADD STABLECOINS HERE, ATTEMPT TO USE $app_config['power_user']['bitcoin_currency_markets'] INSTEAD (TO AUTO-CLIP UN-NEEDED DECIMAL POINTS)
 $app_config['power_user']['crypto_pairing'] = array(
 						//'lowercase_altcoin_abrv' => 'CRYPTO_SYMBOL',
+						// Native chains...
 						'eth' => 'Ξ ',
+						// Liquidity pools on Ethereum...
+						//....
 							);
 
 
@@ -1403,6 +1421,7 @@ $app_config['developer']['limited_apis'] = array(
 						'coinbase.com',
 						'cryptofresh.com',
 						'dcrdata.org',
+						'defipulse.com',
 						'dogechain.info',
 						'etherscan.io',
 						'gemini.com',
@@ -2109,6 +2128,7 @@ $app_config['portfolio_assets'] = array(
                                           'zebpay' => 'ETH-BTC',
                                           'luno' => 'ETHXBT',
                                         	'wazirx' => 'ethbtc',
+                                    	 	'uniswap' => 'ETH_ETH-WBTC',
                                                     ),
                                                     
                                     'cad' => array(
@@ -2125,6 +2145,9 @@ $app_config['portfolio_assets'] = array(
                                           'kraken' => 'ETHDAI',
                                         	'kucoin' => 'ETH-DAI',
                                           'hitbtc' => 'ETHDAI',
+                                    	 	'uniswap' => 'ETH_ETH-DAI',
+                                    	 	'uniswap' => 'ETH_ETH-DAI',
+                                    	 	'uniswap-v2' => 'WETH_WETH-DAI',
                                                     ),
                                                     
                                     'eur' => array(
@@ -2353,6 +2376,7 @@ $app_config['portfolio_assets'] = array(
                                 		'dai' => array(
                                         	'kucoin' => 'MKR-DAI',
                                         	'hitbtc' => 'MKRDAI',
+                                    	 	'balancer' => 'MKR_MKR-DAI',
                                                     ),
                                                     
                                 		'eth' => array(
@@ -2363,6 +2387,7 @@ $app_config['portfolio_assets'] = array(
                                         	'hitbtc' => 'MKRETH',
                                           'gateio' => 'MKR_ETH',
                                           'idex' => 'ETH_MKR',
+                                    	 	'uniswap' => 'MKR_MKR-ETH',
                                                     ),
                                                     
                                 		'krw' => array(
@@ -2407,6 +2432,8 @@ $app_config['portfolio_assets'] = array(
                                     'eth' => array(
                                         'bittrex' => 'DAI-ETH',
                                     	 'bitfinex' => 'tDAIETH',
+                                    	 'uniswap' => 'DAI_DAI-ETH',
+                                    	 'uniswap-v2' => 'DAI_DAI-WETH',
                                                     ),
                                                     
                                     'eur' => array(
@@ -2430,12 +2457,16 @@ $app_config['portfolio_assets'] = array(
                                     'usdc' => array(
                                     	 'coinbase' => 'DAI-USDC',
                                         'hitbtc' => 'DAIUSDC',
+                                    	 'curve_iearn' => 'yDAI_USDC-DAI',
+                                    	 'curve_compound' => 'cDAI_USDC-DAI',
                                                     ),
                                                     
                                     'usdt' => array(
                                     	 'kraken' => 'DAIUSDT',
                                         'bittrex' => 'DAI-USDT',
                                         'okex' => 'DAI-USDT',
+                                    	 'uniswap-v2' => 'DAI_DAI-USDT',
+                                    	 'curve_iearn' => 'yDAI_USDT-DAI',
                                                     ),
                                                     
                                         ) // market_pairing END
@@ -2468,6 +2499,9 @@ $app_config['portfolio_assets'] = array(
                                           'huobi' => 'anteth',
                                         	'ethfinex' => 'tANTETH',
                                           'upbit' => 'ETH-ANT',
+                                    	 	'uniswap' => 'ANT_ANT-ETH',
+                                    	 	'uniswap-v2' => 'ANT_ANT-WETH',
+                                    	 	'balancer' => 'ANT_ANT-WETH',
                                                     ),
                                                     
                                     'usd' => array(

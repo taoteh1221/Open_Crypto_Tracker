@@ -769,6 +769,76 @@ global $selected_btc_primary_currency_value, $app_config;
  ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+  // https://docs.blocklytics.org/apis/pools-api
+  elseif ( strtolower($chosen_exchange) == 'uniswap' 
+  || strtolower($chosen_exchange) == 'uniswap-v2' 
+  || strtolower($chosen_exchange) == 'balancer' 
+  || strtolower($chosen_exchange) == 'bancor' 
+  || strtolower($chosen_exchange) == 'curve' 
+  || strtolower($chosen_exchange) == 'curve_iearn' 
+  || strtolower($chosen_exchange) == 'curve_compound' ) {
+  	
+  		
+  		if ( trim($app_config['general']['defipulsecom_api_key']) == null ) {
+  		app_logging('repeat_error', '"defipulsecom_api_key" (free API key) is not configured in config.php', false, 'defipulsecom_api_key');
+  		return false;
+  		}
+  		
+  	
+  	$exchange_data = explode('_', $chosen_exchange);
+  	$chosen_exchange = $exchange_data[0];
+  	
+  	$asset_data = explode('_', $market_id);
+  	
+  	$market_assets = explode('-', $asset_data[1]);
+  	
+  	$defi_pools_info = defi_pools_info($asset_data[0], $market_assets, $chosen_exchange);
+     
+  		
+  		if ( !$defi_pools_info['pool_address'] ) {
+  		app_logging('market_error', 'No liquidity pool exists for ' . $chosen_exchange . ' -> ' . $market_id);
+  		return false;
+  		}
+     
+     
+     $json_string = 'https://data-api.defipulse.com/api/v1/blocklytics/pools/v1/trades/' . $defi_pools_info['pool_address'] . '?limit=' . $app_config['power_user']['defi_pools_max_trades'] . '&direction=desc&platform=' . $chosen_exchange . '&api-key=' . $app_config['general']['defipulsecom_api_key'];
+     
+     $jsondata = @external_api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
+     
+     $data = json_decode($jsondata, true);
+     
+     $data = $data['results'];
+     
+  
+      if (is_array($data) || is_object($data)) {
+  
+       foreach ($data as $key => $value) {
+         
+         
+         if ( $value["toSymbol"] == $market_assets[0] && $value["fromSymbol"] == $market_assets[1] ) {
+          
+         $result = array(
+    						'last_trade' => $value["price"],
+    						'24hr_asset_volume' => null, // No asset volume data for this API
+    						'24hr_pairing_volume' => null, // No pairing volume data for this API
+    						'24hr_usd_volume' => $defi_pools_info['pool_usd_volume']
+    						);
+
+         }
+       
+     
+       }
+      
+      }
+  
+  
+  }
+ 
+ 
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 
   elseif ( strtolower($chosen_exchange) == 'gateio' ) {
 
@@ -1675,9 +1745,13 @@ global $selected_btc_primary_currency_value, $app_config;
 		if ( $pairing == $app_config['general']['btc_primary_currency_pairing'] ) {
 		$result['24hr_primary_currency_volume'] = number_to_string($result['24hr_pairing_volume']); // Save on runtime, if we don't need to compute the fiat value
 		}
+		elseif ( !$result['24hr_pairing_volume'] && $result['24hr_usd_volume'] ) {
+		$result['24hr_primary_currency_volume'] = number_to_string( primary_currency_trade_volume('BTC', 'usd', 1, $result['24hr_usd_volume']) );
+		}
 		else {
 		$result['24hr_primary_currency_volume'] = number_to_string( primary_currency_trade_volume($asset_symbol, $pairing, $result['last_trade'], $result['24hr_pairing_volume']) );
 		}
+		
 	
 	}
 

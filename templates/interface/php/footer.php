@@ -12,6 +12,10 @@
 	foreach ( $logs_array['cache_error'] as $error ) {
 	$bundle_error_logs .= $error;
 	}
+
+	foreach ( $logs_array['repeat_error'] as $error ) {
+	$bundle_error_logs .= $error;
+	}
 	
 	$bundle_error_logs .= $logs_array['system_error'];
 	
@@ -32,6 +36,10 @@
 	
 	
 		foreach ( $logs_array['cache_debugging'] as $error ) {
+		$bundle_error_logs .= $error;
+		}
+	
+		foreach ( $logs_array['repeat_debugging'] as $error ) {
 		$bundle_error_logs .= $error;
 		}
 	

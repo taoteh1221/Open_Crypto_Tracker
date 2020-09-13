@@ -420,6 +420,10 @@ $debugging_logs .= strip_tags($logs_array['other_debugging']); // Remove any HTM
 	$debugging_logs .= strip_tags($debugging); // Remove any HTML formatting used in UI alerts
 	}
 
+	foreach ( $logs_array['repeat_debugging'] as $debugging ) {
+	$debugging_logs .= strip_tags($debugging); // Remove any HTML formatting used in UI alerts
+	}
+
 
 	// If it's time to email debugging logs...
 	if ( $app_config['power_user']['email_logs'] > 0 && update_cache_file('cache/events/email-debugging-logs.dat', ( $app_config['power_user']['email_logs'] * 1440 ) ) == true ) {
@@ -507,6 +511,10 @@ $error_logs .= strip_tags($logs_array['other_error']); // Remove any HTML format
 
 
 	foreach ( $logs_array['cache_error'] as $error ) {
+	$error_logs .= strip_tags($error); // Remove any HTML formatting used in UI alerts
+	}
+	
+	foreach ( $logs_array['repeat_error'] as $error ) {
 	$error_logs .= strip_tags($error); // Remove any HTML formatting used in UI alerts
 	}
 

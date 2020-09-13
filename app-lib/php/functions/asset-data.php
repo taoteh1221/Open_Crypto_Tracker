@@ -4,7 +4,6 @@
  */
 
 
-
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
 
@@ -225,6 +224,72 @@ $result = array();
 	
 	}
 
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function defi_pools_info($symbol, $pairing_array, $exchange) {
+
+global $app_config;
+     
+     
+     $json_string = 'https://data-api.defipulse.com/api/v1/blocklytics/pools/v1/exchanges?limit=' . $app_config['power_user']['defi_pools_max_per_platform'] . '&orderBy=usdVolume&direction=desc&platform=' . $exchange . '&api-key=' . $app_config['general']['defipulsecom_api_key'];
+     
+     $jsondata = @external_api_data('url', $json_string, $app_config['power_user']['defi_pools_info_cache_time']); // Re-cache exchanges => addresses data, etc
+     
+     $data = json_decode($jsondata, true);
+     
+     $data = $data['results'];
+     
+     //var_dump($data);
+  
+      if (is_array($data) || is_object($data)) {
+  			
+       	foreach ($data as $key => $value) {
+       			
+         		foreach ( $value['assets'] as $asset ) {
+         			
+         			// Check for main asset
+         			if ( $symbol == $asset['symbol'] ) {
+         			$debug_asset = $asset['symbol'];
+         			$is_asset = true;
+         			}
+         			
+         			// Check for pairing asset
+         			if ( preg_match("/".$pairing_array[1]."/", $asset['symbol']) || preg_match("/([A-Za-z]{1})".$pairing_array[1]."/", $asset['symbol']) ) {
+         			$debug_pairing = $asset['symbol'];
+         			$is_pairing = true;
+         			}
+         			
+         			
+         			if ( !$done && $is_asset && $is_pairing || $done && $is_asset && $is_pairing && $result['pool_usd_volume'] < $value['usdVolume'] ) {
+         				
+         			$done = true;
+         			$result['pool_name'] = $value['poolName'];
+         			$result['pool_address'] = $value['exchange'];
+         			$result['pool_assets'] = $value['assets'];
+         			$result['pool_usd_volume'] = $value['usdVolume'];
+         			
+         				if ( $result['pool_usd_volume'] < 1 ) {
+  							app_logging('market_error', 'No 24 hour trade volume for liquidity pool at address ' . $result['pool_address'] . ', for ' . $exchange . ' -> ' . $symbol . '-' . $pairing_array[0] . '_' . $pairing_array[1]);
+         				}
+       			
+         			}
+         			
+         		}
+     		
+         $is_asset = false;
+         $is_pairing = false;
+       	}
+      
+      }
+ 
+ 
+ return $result;
+  
 }
 
 
