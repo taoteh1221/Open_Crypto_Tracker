@@ -102,7 +102,7 @@ Command to install / upgrade everything automatically on Ubuntu or Raspberry Pi 
 
 Recommended MINIMUM system specs: 1 Gigahertz CPU / 512 Megabytes RAM / HIGH QUALITY 32 Gigabyte MicroSD card (running Nginx or Apache headless with PHP v7.2+)
 
-wget -O FOLIO-INSTALL.bash https://git.io/JeWWE;chmod +x FOLIO-INSTALL.bash;sudo ./FOLIO-INSTALL.bash
+wget -O FOLIO-INSTALL.bash https://git.io/JU4gn;chmod +x FOLIO-INSTALL.bash;sudo ./FOLIO-INSTALL.bash
 
 Follow the prompts. This automated script gives you the options to: install / uninstall a PHP web server automatically, download / install / configure / uninstall the latest version of the DFD Cryptocoin Values app automatically, setup a cron job automatically (for price alerts / charts), and setup SSH (to update / install web site files remotely to the web server via SFTP) automatically. 
 
