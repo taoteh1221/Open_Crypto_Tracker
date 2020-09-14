@@ -4029,6 +4029,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -API fixes and optimizations (Optimized default results limits / Multiple-connection local auto-throttling / error fallback for Defipulse.com API connections)
 
+-Fix for missing pairing volume data in charts, and 'volume percent up/down' in price alerts, for DeFi markets
+
 -Misc UX
 
 -------------------------------------------------------------------

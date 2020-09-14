@@ -801,7 +801,7 @@ global $selected_btc_primary_currency_value, $app_config;
   		}
      
      
-     $json_string = 'https://data-api.defipulse.com/api/v1/blocklytics/pools/v1/trades/' . $defi_pools_info['pool_address'] . '?limit=' . $app_config['power_user']['defi_pools_max_trades'] . '&direction=desc&platform=' . $chosen_exchange . '&api-key=' . $app_config['general']['defipulsecom_api_key'];
+     $json_string = 'https://data-api.defipulse.com/api/v1/blocklytics/pools/v1/trades/' . $defi_pools_info['pool_address'] . '?limit=' . $app_config['power_user']['defi_pools_max_trades'] . '&orderBy=timestamp&direction=desc&platform=' . $chosen_exchange . '&api-key=' . $app_config['general']['defipulsecom_api_key'];
      
      $jsondata = @external_api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
      

@@ -477,6 +477,8 @@
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCxODjeUwZHk3p-7TU-IsDOA/featured' target='_blank'>Boxmining</a></li>
 	        
+	        <li class='links_list'><a href='https://www.youtube.com/c/BTCSessions/featured' target='_blank'>BTC Sessions</a></li>
+	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCofTOFX4QuhT8OY-3-fFRFw' target='_blank'>Coinbase</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/user/CoinDesk/featured' target='_blank'>CoinDesk</a></li>

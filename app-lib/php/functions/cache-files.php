@@ -1643,7 +1643,7 @@ $tld_session_prefix = preg_replace("/\./i", "_", $endpoint_tld_or_ip);
 	$api_start_time = $api_time;
 		
 		
-	// Servers with scrtict reconnect limits
+	// Servers with STRICT reconnect limits
 	$strict_reconnect_servers = array(
 											'defipulse.com',
 											);
@@ -1651,16 +1651,12 @@ $tld_session_prefix = preg_replace("/\./i", "_", $endpoint_tld_or_ip);
 		if ( in_array($endpoint_tld_or_ip, $strict_reconnect_servers) ) {
 		$api_connections[$tld_session_prefix] = $api_connections[$tld_session_prefix] + 1;
 			if ( $api_connections[$tld_session_prefix] > 1 ) {
-			usleep(550000); // 0.55 seconds 
+			usleep(110000); // Throttle 0.11 seconds
 			}
 		}
-		
-	
-	// Initiate the curl external data request
-	$ch = curl_init( ( $mode == 'params' ? $api_server : '' ) );
 	
 	
-		// Throttled endpoints
+		// Throttled endpoints in $app_config['developer']['limited_apis']
 		// If this is an API service that requires multiple calls (for each market), 
 		// and a request to it has been made consecutively, we throttle it to avoid being blocked / throttled by external server
 		if ( in_array($endpoint_tld_or_ip, $app_config['developer']['limited_apis']) ) {
@@ -1673,6 +1669,10 @@ $tld_session_prefix = preg_replace("/\./i", "_", $endpoint_tld_or_ip);
 			}
 
 		}
+		
+	
+	// Initiate the curl external data request
+	$ch = curl_init( ( $mode == 'params' ? $api_server : '' ) );
 		
 		
 		// If header data is being passed in

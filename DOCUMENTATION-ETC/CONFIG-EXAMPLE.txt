@@ -363,22 +363,22 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					// MKR
 					'mkr' => 'okex||btc||none',
 					'mkr-2' => 'kucoin||btc||none',
-					'mkr-3' => 'coinbase||btc||chart',
-					'mkr-4' => 'uniswap-v2||eth||both',
+					'mkr-3' => 'coinbase||btc||both',
+					'mkr-4' => 'uniswap-v2||eth||none',
 					
 					
 					//DAI
-					'dai' => 'coinbase||usdc||chart',
+					'dai' => 'coinbase||usdc||both',
 					'dai-2' => 'kraken||usd||none',
 					'dai-3' => 'bittrex||btc||none',
-					'dai-4' => 'uniswap-v2||eth||both',
+					'dai-4' => 'uniswap-v2||eth||none',
 					
 					
 					// ANT
-					'ant' => 'bittrex_global||btc||chart',
+					'ant' => 'bittrex_global||btc||both',
 					'ant-2' => 'hitbtc||btc||chart',
 					'ant-3' => 'ethfinex||btc||none',
-					'ant-4' => 'uniswap-v2||eth||both',
+					'ant-4' => 'uniswap-v2||eth||none',
 					
 					
 					// MANA
@@ -451,17 +451,6 @@ $app_config['power_user']['activate_cron_plugins'] = array(
 // MINUTES to cache real-time exchange price data...can be zero to skip cache, but set to at least 1 minute TO AVOID YOUR IP ADDRESS GETTING BLOCKED
 // SOME APIS PREFER THIS SET TO AT LEAST A FEW MINUTES, SO HIGHLY RECOMMENDED TO KEEP FAIRLY HIGH
 $app_config['power_user']['last_trade_cache_time'] = 4; // (default = 4)
-////
-// MINUTES to cache real-time DeFi pool info (pool eth address / name / volume / etc)
-// THIS SETTING DOES #NOT# AFFECT PRICE / TRADE VALUE REFRESHING, IT ONLY AFFECTS THE POOL'S TRADE VOLUME STATS / STORED ETH ADDRESS
-// TONS OF DATA, the higher number the better for fast page load times
-$app_config['power_user']['defi_pools_info_cache_time'] = 30; // (default = 30)
-////
-// Maximum number of DeFi pools to fetch per platform (uniswap, uniswap-v2, balancer, curve, etc), POOLS ARE SORTED BY HIGHEST TRADE VOLUME
-$app_config['power_user']['defi_pools_max_per_platform'] = 60; // (default = 60)
-////
-// Maximum number of trades to fetch per DeFi pool, TRADES ARE SORTED BY NEWEST FIRST
-$app_config['power_user']['defi_pools_max_trades'] = 30; // (default = 30)
 
 
 // Minutes to cache blockchain stats (for mining calculators). Set high initially, it can be strict
@@ -474,6 +463,20 @@ $app_config['power_user']['marketcap_cache_time'] = 50;  // (default = 50)
 // Number of marketcap rankings to request from API.
 // 300 rankings is a safe maximum to start with, to avoid getting your API requests throttled / blocked
 $app_config['power_user']['marketcap_ranks_max'] = 300; // (default = 300)
+
+
+// MINUTES to cache real-time DeFi pool info (pool eth address / name / volume / etc)
+// THIS SETTING DOES #NOT# AFFECT PRICE / TRADE VALUE REFRESHING, IT ONLY AFFECTS THE POOL'S TRADE VOLUME STATS / STORED ETH ADDRESS
+// LOTS OF DATA, the higher number the better for fast page load times
+$app_config['power_user']['defi_pools_info_cache_time'] = 20; // (default = 20)
+////
+// Maximum number of HIGHEST 24 HOUR TRADE VOLUME DeFi pools to fetch per platform (uniswap, uniswap-v2, balancer, curve, etc)
+// INCREASE IF YOUR POOL DOESN'T GET DETECTED, BUT YOU KNOW THE POOL EXISTS, AS POOLS ARE SORTED BY HIGHEST 24 HOUR TRADE VOLUME
+$app_config['power_user']['defi_pools_max_per_platform'] = 120; // (default = 120)
+////
+// Maximum number of MOST RECENT trades to fetch per DeFi pool
+// INCREASE IF TRADES FOR YOUR PAIRING DON'T GET DETECTED, AS TRADES ARE SORTED BY NEWEST FIRST
+$app_config['power_user']['defi_pools_max_trades'] = 60; // (default = 60)
 
 
 // Number of decimals for price chart CRYPTO 24 hour volumes (NOT USED FOR FIAT VOLUMES, 4 decimals example: 24 hr vol = 91.3874 BTC)
@@ -1168,6 +1171,12 @@ $app_config['power_user']['news_feeds'] = array(
         				array(
             			"title" => "Youtube - Andreas Antonopoulos",
             			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCJWCJCWOxBYSi5DhCieLOLQ"
+        						),
+    
+    
+        				array(
+            			"title" => "Youtube - BTC Sessions",
+            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UChzLnWVsl3puKQwc5PoO6Zg"
         						),
     
     
