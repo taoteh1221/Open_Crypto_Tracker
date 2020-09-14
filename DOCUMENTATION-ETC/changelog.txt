@@ -4027,7 +4027,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.20.1:
 
--API fix (Multiple-connection throttling / fallback for Defipulse.com API connections)
+-API fixes and optimizations (Optimized default results limits / Multiple-connection local auto-throttling / error fallback for Defipulse.com API connections)
 
 -Misc UX
 

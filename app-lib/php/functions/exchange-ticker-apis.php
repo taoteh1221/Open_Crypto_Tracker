@@ -796,7 +796,7 @@ global $selected_btc_primary_currency_value, $app_config;
      
   		
   		if ( !$defi_pools_info['pool_address'] ) {
-  		app_logging('market_error', 'No liquidity pool exists for ' . $chosen_exchange . ' -> ' . $market_id);
+  		app_logging('market_error', 'No liquidity pool found for ' . $chosen_exchange . ' -> ' . $market_id . ', try setting "defi_pools_max_per_platform" HIGHER in the POWER USER config (current setting is '.$app_config['power_user']['defi_pools_max_per_platform'].').');
   		return false;
   		}
      
@@ -828,6 +828,11 @@ global $selected_btc_primary_currency_value, $app_config;
        
      
        }
+      
+      
+      	if ( !$result ) {
+  			app_logging('market_error', 'No trades found for ' . $chosen_exchange . ' -> ' . $market_id . ', try setting "defi_pools_max_trades" HIGHER in the POWER USER config (current setting is '.$app_config['power_user']['defi_pools_max_trades'].').');
+      	}
       
       }
   
@@ -1746,7 +1751,22 @@ global $selected_btc_primary_currency_value, $app_config;
 		$result['24hr_primary_currency_volume'] = number_to_string($result['24hr_pairing_volume']); // Save on runtime, if we don't need to compute the fiat value
 		}
 		elseif ( !$result['24hr_pairing_volume'] && $result['24hr_usd_volume'] ) {
+			
+			// Fiat or equivalent pairing?
+			// #FOR CLEAN CODE#, RUN CHECK TO MAKE SURE IT'S NOT A CRYPTO AS WELL...WE HAVE A COUPLE SUPPORTED, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
+			if ( array_key_exists($pairing, $app_config['power_user']['bitcoin_currency_markets']) && !array_key_exists($pairing, $app_config['power_user']['crypto_pairing']) ) {
+			$fiat_eqiv = 1;
+			}
+		
+		$pairing_btc_value = pairing_market_value($pairing);
+		$usd_btc_value = pairing_market_value('usd');
+		
+		$vol_in_btc = $result['24hr_usd_volume'] * $usd_btc_value;
+		$vol_in_pairing = round( ($vol_in_btc / $pairing_btc_value) , ( $fiat_eqiv == 1 ? 0 : $app_config['power_user']['charts_crypto_volume_decimals'] ) );
+		
+		$result['24hr_pairing_volume'] = number_to_string($vol_in_pairing);
 		$result['24hr_primary_currency_volume'] = number_to_string( primary_currency_trade_volume('BTC', 'usd', 1, $result['24hr_usd_volume']) );
+		
 		}
 		else {
 		$result['24hr_primary_currency_volume'] = number_to_string( primary_currency_trade_volume($asset_symbol, $pairing, $result['last_trade'], $result['24hr_pairing_volume']) );

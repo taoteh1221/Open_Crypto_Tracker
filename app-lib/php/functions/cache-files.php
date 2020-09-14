@@ -1643,7 +1643,7 @@ $tld_session_prefix = preg_replace("/\./i", "_", $endpoint_tld_or_ip);
 	$api_start_time = $api_time;
 		
 		
-	// Servers with high reconnect limits
+	// Servers with scrtict reconnect limits
 	$strict_reconnect_servers = array(
 											'defipulse.com',
 											);
@@ -1651,7 +1651,7 @@ $tld_session_prefix = preg_replace("/\./i", "_", $endpoint_tld_or_ip);
 		if ( in_array($endpoint_tld_or_ip, $strict_reconnect_servers) ) {
 		$api_connections[$tld_session_prefix] = $api_connections[$tld_session_prefix] + 1;
 			if ( $api_connections[$tld_session_prefix] > 1 ) {
-			usleep(1100000); // 1.1 seconds 
+			usleep(550000); // 0.55 seconds 
 			}
 		}
 		

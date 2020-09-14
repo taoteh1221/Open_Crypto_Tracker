@@ -363,19 +363,22 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					// MKR
 					'mkr' => 'okex||btc||none',
 					'mkr-2' => 'kucoin||btc||none',
-					'mkr-3' => 'coinbase||btc||both',
+					'mkr-3' => 'coinbase||btc||chart',
+					'mkr-4' => 'uniswap-v2||eth||both',
 					
 					
 					//DAI
-					'dai' => 'coinbase||usdc||both',
+					'dai' => 'coinbase||usdc||chart',
 					'dai-2' => 'kraken||usd||none',
 					'dai-3' => 'bittrex||btc||none',
+					'dai-4' => 'uniswap-v2||eth||both',
 					
 					
 					// ANT
-					'ant' => 'bittrex_global||btc||both',
+					'ant' => 'bittrex_global||btc||chart',
 					'ant-2' => 'hitbtc||btc||chart',
 					'ant-3' => 'ethfinex||btc||none',
+					'ant-4' => 'uniswap-v2||eth||both',
 					
 					
 					// MANA
@@ -455,10 +458,10 @@ $app_config['power_user']['last_trade_cache_time'] = 4; // (default = 4)
 $app_config['power_user']['defi_pools_info_cache_time'] = 30; // (default = 30)
 ////
 // Maximum number of DeFi pools to fetch per platform (uniswap, uniswap-v2, balancer, curve, etc), POOLS ARE SORTED BY HIGHEST TRADE VOLUME
-$app_config['power_user']['defi_pools_max_per_platform'] = 300; // (default = 300)
+$app_config['power_user']['defi_pools_max_per_platform'] = 60; // (default = 60)
 ////
 // Maximum number of trades to fetch per DeFi pool, TRADES ARE SORTED BY NEWEST FIRST
-$app_config['power_user']['defi_pools_max_trades'] = 100; // (default = 100)
+$app_config['power_user']['defi_pools_max_trades'] = 30; // (default = 30)
 
 
 // Minutes to cache blockchain stats (for mining calculators). Set high initially, it can be strict
@@ -2387,6 +2390,7 @@ $app_config['portfolio_assets'] = array(
                                           'gateio' => 'MKR_ETH',
                                           'idex' => 'ETH_MKR',
                                     	 	'uniswap' => 'MKR_MKR-ETH',
+                                    	 	'uniswap-v2' => 'MKR_MKR-WETH',
                                                     ),
                                                     
                                 		'krw' => array(
