@@ -44,7 +44,7 @@ FEATURES
 
 -Automated and user-friendly installation / upgrade script for Ubuntu or Raspberry Pi app setup on your home / internal network or website.
 
--Support for over 40 exchanges, and over 80 market pairings (country fiat currency or secondary crypto).
+-Support for over 40 exchanges (including DeFi), and over 80 market pairings (country fiat currency or secondary crypto).
 
 -Secure HTTPS (SSL) and username / password protection in the portfolio interface, for privacy and security.
 
