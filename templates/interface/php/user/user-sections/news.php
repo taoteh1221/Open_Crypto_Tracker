@@ -37,7 +37,7 @@
 	
 	<p class='red'>*News feeds are not activated by default to increase page loading speed / responsiveness. It's recommended to avoid activating too many news feeds at the same time, to keep your page load times quick.</p>
 	
-	<p class='red'>Low memory devices (Raspberry Pi / Pine64 / etc) MAY CRASH #IF YOU ACTIVATE TOO MANY NEWS FEEDS#.
+	<p class='red'>Low memory devices (Raspberry Pi / Pine64 / etc) MAY CRASH #IF YOU SHOW TOO MANY NEWS FEEDS#.
 	     
 		<img id='news_raspi_crash' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative; left: -5px;' /> </p>
 		
@@ -153,43 +153,30 @@
 	
 	<?php
 	if ( $show_feeds[0] != '' ) {
-		
 	 
 	 $chosen_feeds = array_map('strip_brackets', $show_feeds);
 	 
 	 $batched_feeds_loops_max = ceil( sizeof($chosen_feeds) / $app_config['developer']['batched_news_feeds_max'] );
 	 
 	 // Defaults before looping
-	 
 	 $all_feeds_added = 0;
-	 
 	 $batched_feeds_added = 0;
-	 
 	 $batched_feeds_loops_added = 0;
-	 
 	 $batched_feeds_keys = null;
-    
-    
-    	// $app_config['power_user']['news_feeds'] was already alphabetically sorted in app init routines, so we loop with it to maintain alphabetical order
 
-    	foreach($app_config['power_user']['news_feeds'] as $feed) {
+    
+    	// Already alphabetically sorted and pruned of stale entries in app init routines, so we just loop without filters
+    	foreach($chosen_feeds as $chosen_feed_hash) {
     		
     		if ( $batched_feeds_loops_added < $batched_feeds_loops_max ) {
-    		
-    		
-			// We avoid using array keys for end user config editing UX, BUT STILL UNIQUELY IDENTIFY EACH FEED
-			$feed_id = get_digest($feed["title"], 10);
-		
-				if ( isset($feed["title"]) && in_array($feed_id, $chosen_feeds) ) {
 				
-				$batched_feeds_added = $batched_feeds_added + 1;
-				$batched_feeds_keys .= $feed_id . ',';
-				$all_feeds_added = $all_feeds_added + 1;
+			$batched_feeds_added = $batched_feeds_added + 1;
+			$batched_feeds_keys .= $chosen_feed_hash . ',';
+			$all_feeds_added = $all_feeds_added + 1;
 			
-					if ( $batched_feeds_added >= $app_config['developer']['batched_news_feeds_max'] || $all_feeds_added >= sizeof($chosen_feeds) ) {
-					$batched_feeds_keys = rtrim($batched_feeds_keys,',');
-					?>
-				
+				if ( $batched_feeds_added >= $app_config['developer']['batched_news_feeds_max'] || $all_feeds_added >= sizeof($chosen_feeds) ) {
+				$batched_feeds_keys = rtrim($batched_feeds_keys,',');
+				?>
 		
 					<div id='rss_feeds_<?=$batched_feeds_loops_added?>'>
 					
@@ -202,24 +189,23 @@
 					
 					</div>
 					
-						<script>
+					<script>
 	
 					// Load AFTER page load, for quick interface loading
 					$(document).ready(function(){
-		
 						
 						$("#rss_feeds_<?=$batched_feeds_loops_added?>").load("ajax.php?type=rss&feeds=<?=$batched_feeds_keys?>", function(responseTxt, statusTxt, xhr){
 							
 							if(statusTxt == "success") {
 								
-							<?php
-							$feeds_array = explode(',', $batched_feeds_keys);
-							foreach ($feeds_array as $feed_hash) {
-							?>
-							window.feeds_loaded.push("<?=$feed_hash?>");
-							<?php
-							}
-							?>
+								<?php
+								$feeds_array = explode(',', $batched_feeds_keys);
+								foreach ($feeds_array as $feed_hash) {
+								?>
+								window.feeds_loaded.push("<?=$feed_hash?>");
+								<?php
+								}
+								?>
 							 
 							feeds_loading_check(window.feeds_loaded);
 							
@@ -228,35 +214,31 @@
 								
 							$("#rss_feeds_<?=$batched_feeds_loops_added?>").html("<fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong class='bitcoin'>ERROR Batch-loading <?=$batched_feeds_added?> news feeds...</strong> </legend><span class='red'>" + xhr.status + ": " + xhr.statusText + "</span></fieldset>");
 								
-							<?php
-							$feeds_array = explode(',', $batched_feeds_keys);
-							foreach ($feeds_array as $feed_hash) {
-							?>
-							window.feeds_loaded.push("<?=$feed_hash?>");
-							<?php
-							}
-							?>
+								<?php
+								$feeds_array = explode(',', $batched_feeds_keys);
+								foreach ($feeds_array as $feed_hash) {
+								?>
+								window.feeds_loaded.push("<?=$feed_hash?>");
+								<?php
+								}
+								?>
 							 
 							feeds_loading_check(window.feeds_loaded);
 							
 							}
 						
-						
 						});
-	
 	
 					});
 						
-						</script>
+					</script>
 		
 		
-					<?php
-					// Reset
-					$batched_feeds_added = 0;
-					$batched_feeds_keys = null;
-					$batched_feeds_loops_added = $batched_feeds_loops_added + 1;
-					}
-				
+				<?php
+				// Reset
+				$batched_feeds_added = 0;
+				$batched_feeds_keys = null;
+				$batched_feeds_loops_added = $batched_feeds_loops_added + 1;
 				}
 
 

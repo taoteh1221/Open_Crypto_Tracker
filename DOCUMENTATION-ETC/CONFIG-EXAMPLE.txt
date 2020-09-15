@@ -1175,6 +1175,12 @@ $app_config['power_user']['news_feeds'] = array(
     
     
         				array(
+            			"title" => "Youtube - Anthony Pompliano",
+            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCevXpeL8cNyAnww-NqJ4m2w"
+        						),
+    
+    
+        				array(
             			"title" => "Youtube - BTC Sessions",
             			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UChzLnWVsl3puKQwc5PoO6Zg"
         						),

@@ -16,6 +16,29 @@ $app_config['general']['primary_marketcap_site'] = ( $alert_percent[0] != '' ? $
 
 $show_feeds = explode(',', rtrim( ( $_POST['show_feeds'] != '' ? $_POST['show_feeds'] : $_COOKIE['show_feeds'] ) , ',') );
 
+	// Alphabetically order AND remove stale feeds
+	// (since we already alphabetically ordered $app_config['power_user']['news_feeds'] in app-config-management.php BEFOREHAND)
+	$temp_show_feeds = array();
+	$scan_feeds = array_map('strip_brackets', $show_feeds);
+	foreach ($app_config['power_user']['news_feeds'] as $feed) {
+	$feed_id = get_digest($feed["title"], 10);
+		if ( in_array($feed_id, $scan_feeds) ) {
+		$temp_show_feeds[] = '[' . $feed_id . ']';
+		}
+	}
+	$show_feeds = $temp_show_feeds;
+	$implode_feeds = implode(',', $show_feeds) . ',';
+	
+	// Update POST and / or COOKIE data too
+	if( $_POST['show_feeds'] ) {
+	$_POST['show_feeds'] = $implode_feeds;
+	}
+	
+	if( $_COOKIE['show_feeds'] ) {
+	store_cookie_contents("show_feeds", $implode_feeds, mktime()+31536000);
+	}
+
+
 	// Only set from cookie / post values if charts are enabled
 	if ( $app_config['general']['asset_charts_toggle'] == 'on' ) {
 	$show_charts = explode(',', rtrim( ( $_POST['show_charts'] != '' ? $_POST['show_charts'] : $_COOKIE['show_charts'] ) , ',') );

@@ -28,23 +28,28 @@ require("config.php");
 // RSS feed retrieval
 if ( $_GET['type'] == 'rss' ) {
 	
-$feeds_array = explode(',', $_GET['feeds']);
+$batched_feed_hashes_array = explode(',', $_GET['feeds']);
+
+$all_feeds_array = array();
+    
+    
+    	foreach($app_config['power_user']['news_feeds'] as $feed) {
+    	$feed_id = get_digest($feed["title"], 10); // We avoid using array keys for end user config editing UX, BUT STILL UNIQUELY IDENTIFY EACH FEED
+    	$all_feeds_array[$feed_id] = $feed;
+    	}
+
 
 	// Mitigate DOS attack leverage, since we recieve extrenal calls in ajax.php
-	if ( sizeof($feeds_array) <= $app_config['developer']['batched_news_feeds_max'] ) {
+	if ( sizeof($batched_feed_hashes_array) <= $app_config['developer']['batched_news_feeds_max'] ) {
     	
 	// Reset feed fetch telemetry 
 	$_SESSION[$fetched_feeds] = false;
-    
-    	foreach($app_config['power_user']['news_feeds'] as $feed) {
-    
-			// We avoid using array keys for end user config editing UX, BUT STILL UNIQUELY IDENTIFY EACH FEED
-    		if ( isset($feed["title"]) && in_array( get_digest($feed["title"], 10) , $feeds_array ) ) {
-    		echo "<fieldset class='subsection_fieldset'><legend class='subsection_legend'> ".$feed["title"].'</legend>';
-    		echo get_rss_feed($feed["url"], $app_config['power_user']['news_feeds_entries_show']);
-    		echo "</fieldset>";    
-    		}
-    
+    	
+    	// We already alphabetically ordered / pruned before sending to ajax.php
+    	foreach($batched_feed_hashes_array as $chosen_feed_hash) {
+    	echo "<fieldset class='subsection_fieldset'><legend class='subsection_legend'> " .$all_feeds_array[$chosen_feed_hash]["title"]." </legend>";
+    	echo get_rss_feed($all_feeds_array[$chosen_feed_hash]["url"], $app_config['power_user']['news_feeds_entries_show']);
+    	echo "</fieldset>"; 
     	}
 	
 	}
