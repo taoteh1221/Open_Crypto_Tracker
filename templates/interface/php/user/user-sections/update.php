@@ -47,18 +47,18 @@
 
 	
 	
-			var portfolio_data_privacy = '<h5 align="center" class="bitcoin" style="position: relative; white-space: nowrap;">How is my portfolio data stored within this app?</h5>'
+			var portfolio_data_privacy = '<h5 align="center" class="bitcoin" style="position: relative; white-space: nowrap;">How is my portfolio data stored by this app?</h5>'
 			
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Portfolio data you enter into this app <i class="bitcoin"><u>by default</u> is NEVER stored or saved</i> within this app.</p>'
-			
-			
-			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><i class="bitcoin"><u>By default</u></i>, your portfolio data needs to be re-entered to calculate your portfolio value, <i class="bitcoin">every time you fully close / re-open your web browser</i> to use this app.</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><i class="bitcoin"><u>Your portfolio data is NEVER stored in the app</u></i>, it is ONLY stored on your computer in your web browser (either temporarily in the web browser temporary files cache, or semi-permanently in web browser cookies).</p>'
 			
 			
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><i class="bitcoin"><u>By default</u></i>, your portfolio data is only saved <i class="bitcoin">temporarily on your computer within your web browser</i> (a default behavior of all modern web browsers), for re-submitting / refreshing / reloading app price data <i class="bitcoin">until you fully close your web browser</i>.</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><i class="bitcoin"><u>By default</u></i>, your portfolio data needs to be re-entered to calculate your portfolio value, <i class="bitcoin">every time you close / re-open the app\'s tab in your web browser</i>.</p>'
+			
+			
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><i class="bitcoin"><u>By default</u></i>, your portfolio data is only saved <i class="bitcoin">temporarily on your computer within your web browser</i> (a default behavior of all modern web browsers), for re-submitting / refreshing / reloading app price data <i class="bitcoin">until you close the app\'s tab in your web browser</i>.</p>'
+			
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">If you prefer to store your portfolio data <i class="bitcoin">semi-permanently on your computer within your web browser as cookie data (to save between browser sessions)</i>, <i class="bitcoin"><u>you must manually enable</u></i> "Use cookies to save data" on the Settings page. </p>'
 			
@@ -162,7 +162,7 @@
 		</div>
 		
 		
-	<p style='margin-top: 10px;'><span style='font-weight: bold;' class='bitcoin'>How is my portfolio data stored within this app?</span> 
+	<p style='margin-top: 10px;'><span style='font-weight: bold;' class='bitcoin'>How is my portfolio data stored by this app?</span> 
 	     
 		<img id='portfolio_data_privacy' src='templates/interface/media/images/info-orange.png' alt='' width='30' style='position: relative; left: -5px;' /> </p>
 		
