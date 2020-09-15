@@ -465,6 +465,8 @@
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/user/aantonop/featured' target='_blank'>Andreas Antonopoulos</a></li>
 	        
+	        <li class='links_list'><a href='https://www.youtube.com/channel/UCevXpeL8cNyAnww-NqJ4m2w' target='_blank'>Anthony Pompliano</a></li>
+	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCfYw6dhiwGBJQY_-Jcs8ozw' target='_blank'>Binance</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCBAQgjMqCuXQXfmLhtZuIuA' target='_blank'>Bitcoin and Friends</a></li>
