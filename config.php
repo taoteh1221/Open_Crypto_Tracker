@@ -2059,6 +2059,7 @@ $app_config['portfolio_assets'] = array(
                                           'bitmex' => 'XBTUSD',
                                         	'bitmex_u20' => 'XBTU20',
                                         	'bitmex_z20' => 'XBTZ20',
+                                        	'bittrex' => 'BTC-USD',
                                           'localbitcoins' => 'USD',
                                           'bitfinex' => 'tBTCUSD',
                                           'bitflyer' => 'BTC_USD',
@@ -2242,6 +2243,7 @@ $app_config['portfolio_assets'] = array(
                                           'bitfinex' => 'tETHUSD',
                                           'bitmex' => 'ETHUSD',
                                         	'bitmex_u20' => 'ETHUSDU20',
+                                        	'bittrex' => 'ETH-USD',
                                           'okcoin' => 'ETH-USD',
                                           'cex' => 'ETH:USD',
                                                     ),
@@ -2368,6 +2370,10 @@ $app_config['portfolio_assets'] = array(
                                 		'eth' => array(
                                         	'kucoin' => 'DCR-ETH',
                                                     ),
+                                                    
+                                    'usd' => array(
+                                        	'bittrex' => 'DCR-USD',
+                                          			),
                                                     
                                     'usdt' => array(
                                         	'binance' => 'DCRUSDT',
@@ -2497,6 +2503,48 @@ $app_config['portfolio_assets'] = array(
                                         'okex' => 'DAI-USDT',
                                     	 'uniswap-v2' => 'DAI_DAI-USDT',
                                     	 'curve_iearn' => 'yDAI_USDT-DAI',
+                                                    ),
+                                                    
+                                        ) // market_pairing END
+                                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // UNI
+                    'UNI' => array(
+                        
+                        'asset_name' => 'Uniswap',
+                        'marketcap_website_slug' => 'uniswap',
+                        'market_pairing' => array(
+                                                    
+                                    'btc' => array(
+                                        'binance' => 'UNIBTC',
+                                                    ),
+                                                    
+                                    'dai' => array(
+                                    	 'uniswap-v2' => 'UNI_UNI-DAI',
+                                                    ),
+                                                    
+                                    'eth' => array(
+                                    	 'uniswap-v2' => 'UNI_UNI-WETH',
+                                                    ),
+                                                    
+                                    'usd' => array(
+                                        'coinbase' => 'UNI-USD',
+                                        'binance_us' => 'UNIUSD',
+                                                    ),
+                                                    
+                                    'usdc' => array(
+                                    	 'uniswap-v2' => 'UNI_UNI-USDC',
+                                                    ),
+                                                    
+                                    'usdt' => array(
+                                        'binance' => 'UNIUSDT',
+                                        'binance_us' => 'UNIUSDT',
+                                    	 'uniswap-v2' => 'UNI_UNI-USDT',
                                                     ),
                                                     
                                         ) // market_pairing END

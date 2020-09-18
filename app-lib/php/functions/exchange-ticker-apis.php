@@ -16,7 +16,7 @@
 function asset_market_data($asset_symbol, $chosen_exchange, $market_id, $pairing=false) { 
 
 
-global $selected_btc_primary_currency_value, $app_config;
+global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
   
  
  
@@ -793,9 +793,13 @@ global $selected_btc_primary_currency_value, $app_config;
   	$market_assets = explode('-', $asset_data[1]);
   	
   	$defi_pools_info = defi_pools_info($asset_data[0], $market_assets, $chosen_exchange);
-     
   		
-  		if ( !$defi_pools_info['pool_address'] ) {
+  		
+  		if ( $defipulse_api_limit == true ) {
+  		app_logging('repeat_error', 'DeFiPulse.com monthly API limit exceeded (check your account there)', false, 'defipulsecom_api_limit');
+  		return false;
+  		}
+      elseif ( !$defi_pools_info['pool_address'] ) {
   		app_logging('market_error', 'No liquidity pool found for ' . $chosen_exchange . ' -> ' . $market_id . ', try setting "defi_pools_max_per_platform" HIGHER in the POWER USER config (current setting is '.$app_config['power_user']['defi_pools_max_per_platform'].').');
   		return false;
   		}

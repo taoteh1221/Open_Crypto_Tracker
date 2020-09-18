@@ -328,7 +328,6 @@ var_dump($api_data_array);
         "korbit",
         "kraken",
         "kucoin",
-        "lakebtc",
         "livecoin",
         "localbitcoins",
         "luno",

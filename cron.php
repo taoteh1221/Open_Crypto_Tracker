@@ -45,7 +45,9 @@ $exchange = $value[0];
 $pairing = $value[1];
 $mode = $value[2];
 
-charts_and_price_alerts($key, $exchange, $pairing, $mode);
+	if ( $mode != 'none' ) {
+	charts_and_price_alerts($key, $exchange, $pairing, $mode);
+	}
 
 }
 

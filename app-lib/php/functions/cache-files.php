@@ -1549,7 +1549,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 function external_api_data($mode, $request_params, $ttl, $api_server=null, $post_encoding=3, $test_proxy=null, $headers=null) { // Default to JSON encoding post requests (most used)
 
 // $app_config['general']['btc_primary_currency_pairing'] / $app_config['general']['btc_primary_exchange'] / $selected_btc_primary_currency_value USED FOR TRACE DEBUGGING (TRACING)
-global $base_dir, $proxy_checkup, $logs_array, $limited_api_calls, $app_config, $api_runtime_cache, $selected_btc_primary_currency_value, $user_agent, $base_url, $api_connections, $htaccess_username, $htaccess_password;
+global $base_dir, $proxy_checkup, $logs_array, $limited_api_calls, $app_config, $api_runtime_cache, $selected_btc_primary_currency_value, $user_agent, $base_url, $api_connections, $defipulse_api_limit, $htaccess_username, $htaccess_password;
 
 
 $cookie_jar = tempnam('/tmp','cookie');
@@ -1805,7 +1805,7 @@ $tld_session_prefix = preg_replace("/\./i", "_", $endpoint_tld_or_ip);
 		// DEBUGGING FOR PROBLEM ENDPOINT (DEVELOPER ONLY, #DISABLE THIS SECTION# AFTER DEBUGGING)
 		// USAGE: $endpoint_tld_or_ip == 'domain.com' || preg_match("/domain\.com\/endpoint\/var/i", $api_endpoint)
 		/*
-		if ( $endpoint_tld_or_ip == 'lakebtc.com' ) {
+		if ( $endpoint_tld_or_ip == 'blablabla.com' ) {
 		$debug_problem_endpoint_data = 1;
 		curl_setopt($ch, CURLOPT_VERBOSE, 1);
 		curl_setopt($ch, CURLOPT_HEADER, 1);
@@ -1969,7 +1969,6 @@ $tld_session_prefix = preg_replace("/\./i", "_", $endpoint_tld_or_ip);
 				|| preg_match("/An error has occurred/i", $data) // Bitflyer.com / generic
 				|| preg_match("/too many requests/i", $data) // reddit.com / generic
 				// APIs famous for returning no data frequently
-				|| $endpoint_tld_or_ip == 'lakebtc.com' && !preg_match("/volume/i", $data)
 				|| $endpoint_tld_or_ip == 'localbitcoins.com' && !preg_match("/volume_btc/i", $data)
 				|| $endpoint_tld_or_ip == 'coinmarketcap.com' && !preg_match("/last_updated/i", $data) ) {
 				
@@ -2116,7 +2115,14 @@ $tld_session_prefix = preg_replace("/\./i", "_", $endpoint_tld_or_ip);
 	
 	}
 	
+
 	
+	// Defipulse API limit exceeded detection (FAILSAFE AT END OF FUNCTION before returning, whether live OR cache)
+	if ( $endpoint_tld_or_ip == 'defipulse.com' && trim($app_config['general']['defipulsecom_api_key']) != null && preg_match("/API limit exceeded/i", $data) ) {
+  	app_logging('repeat_error', 'DeFiPulse.com monthly API limit exceeded (check your account there)', false, 'defipulsecom_api_limit');
+  	$defipulse_api_limit = true;
+	}
+
 
 gc_collect_cycles(); // Clean memory cache
 return $data;

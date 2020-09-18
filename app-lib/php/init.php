@@ -254,8 +254,6 @@ $possible_http_users = array(
 
 // Initial strings
 
-$fetched_feeds = 'fetched_feeds_' . $runtime_mode; // Unique feed fetch telemetry SESSION KEY (so related runtime BROWSER SESSION logic never accidentally clashes)
-
 $cmc_notes = null;
 
 $config_upgraded = null;
@@ -264,9 +262,13 @@ $td_color_zebra = null;
 
 $cap_data_force_usd = null;
 
+$defipulse_api_limit = null;
+
 // htaccess login...SET BEFORE system checks
 $htaccess_username = $interface_login_array[0];
 $htaccess_password = $interface_login_array[1];
+
+$fetched_feeds = 'fetched_feeds_' . $runtime_mode; // Unique feed fetch telemetry SESSION KEY (so related runtime BROWSER SESSION logic never accidentally clashes)
 
 $remote_ip = ( isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'localhost' );
 
