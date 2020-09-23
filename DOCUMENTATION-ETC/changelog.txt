@@ -4048,6 +4048,21 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 
 
+-------------------------------------------------------------------
+4.21.1:
+
+-Bug fix for DeFi liquidity pool asset names support (lowercase prefixes)
+
+-Misc UX
+
+-------------------------------------------------------------------
+
+
+
+
+
+
+
 
 
 

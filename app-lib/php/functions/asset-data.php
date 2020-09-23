@@ -259,7 +259,7 @@ global $app_config;
          			}
          			
          			// Check for pairing asset
-         			if ( preg_match("/".$pairing_array[1]."/", $asset['symbol']) || preg_match("/([A-Za-z]{1})".$pairing_array[1]."/", $asset['symbol']) ) {
+         			if ( preg_match("/".$pairing_array[1]."/", $asset['symbol']) || preg_match("/([a-z])".$pairing_array[1]."/", $asset['symbol']) ) {
          			$debug_pairing = $asset['symbol'];
          			$is_pairing = true;
          			}
