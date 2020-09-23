@@ -139,6 +139,10 @@ var quoteSource=[
 	    {
 	    	quote:"A good cryptocoin ages like fine wine, while a <a href='https://twitter.com/hashtag/shitcoin?src=hash' target='_blank'>#shxtcoin</a> ages like milk.",
 	    	name:"Mike Kilday (creator of this app)"
+	    },
+	    {
+	    	quote:"The biggest investment you will EVER make (and NEVER regret) is ALWAYS value your health and happiness more than ALL THE MONEY IN THE WORLD. NEVER let chasing after ANY AMOUNT of wealth take that from you, EVER.",
+	    	name:"Mike Kilday (creator of this app)"
 	    }
 
 	];

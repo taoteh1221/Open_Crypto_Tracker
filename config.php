@@ -1452,10 +1452,8 @@ $app_config['developer']['limited_apis'] = array(
 						'cryptofresh.com',
 						'dcrdata.org',
 						'defipulse.com',
-						'dogechain.info',
 						'etherscan.io',
 						'gemini.com',
-						'litecoin.net',
 							);
 
 
