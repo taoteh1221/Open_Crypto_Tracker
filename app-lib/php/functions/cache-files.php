@@ -1952,22 +1952,23 @@ $tld_session_prefix = preg_replace("/\./i", "_", $endpoint_tld_or_ip);
 				if ( // Errors / unavailable / null / throttled / maintenance
 				preg_match("/cf-error/i", $data) // Cloudflare (DDOS protection service)
 				|| preg_match("/cf-browser/i", $data) // Cloudflare (DDOS protection service)
-				|| preg_match("/\"error\":\"Request failed/i", $data) // Defipulse.com / generic
-				|| preg_match("/\"error\":\"timeout/i", $data) // Defipulse.com / generic
+				|| preg_match("/scheduled maintenance/i", $data) // Bittrex.com / generic
+				|| preg_match("/Service Unavailable/i", $data) // Bittrex.com / generic
+				|| preg_match("/temporarily unavailable/i", $data) // Bitfinex.com / generic
+				|| preg_match("/Server Error/i", $data) // Kucoin.com / generic
+				|| preg_match("/site is down/i", $data) // Blockchain.info / generic
+				|| preg_match("/something went wrong/i", $data) // Bitbns.com / generic
+				|| preg_match("/An error has occurred/i", $data) // Bitflyer.com / generic
+				|| preg_match("/too many requests/i", $data) // reddit.com / generic
+				|| preg_match("/Request failed/i", $data) // Defipulse.com / generic
 				|| preg_match("/\"result\":{}/i", $data) // Kraken.com / generic
 				|| preg_match("/\"result\":null/i", $data) // Bittrex.com / generic
 				|| preg_match("/\"data\":null/i", $data) // Bitflyer.com / generic
 				|| preg_match("/\"success\":false/i", $data) // BTCturk.com / Bittrex.com / generic
+				|| preg_match("/\"error\":\"timeout/i", $data) // Defipulse.com / generic
+				|| preg_match("/\"reason\":\"Maintenance\"/i", $data) // Gemini.com / generic
 				|| preg_match("/EService:Unavailable/i", $data) // Kraken.com / generic
 				|| preg_match("/EService:Busy/i", $data) // Kraken.com / generic
-				|| preg_match("/temporarily unavailable/i", $data) // Bitfinex.com / generic
-				|| preg_match("/\"reason\":\"Maintenance\"/i", $data) // Gemini.com / generic
-				|| preg_match("/scheduled maintenance/i", $data) // Bittrex.com / generic
-				|| preg_match("/site is down/i", $data) // Blockchain.info / generic
-				|| preg_match("/something went wrong/i", $data) // Bitbns.com / generic
-				|| preg_match("/Server Error/i", $data) // Kucoin.com / generic
-				|| preg_match("/An error has occurred/i", $data) // Bitflyer.com / generic
-				|| preg_match("/too many requests/i", $data) // reddit.com / generic
 				// APIs famous for returning no data frequently
 				|| $endpoint_tld_or_ip == 'localbitcoins.com' && !preg_match("/volume_btc/i", $data)
 				|| $endpoint_tld_or_ip == 'coinmarketcap.com' && !preg_match("/last_updated/i", $data) ) {
