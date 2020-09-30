@@ -421,6 +421,8 @@
 	    <ul>
 	        
 	        
+	        <li class='links_list'><a href='https://bitcoinacks.com/' target='_blank'>BitcoinACKs.com</a></li>
+	        
 	        <li class='links_list'><a href='https://bitcoin-only.com/' target='_blank'>Bitcoin-Only.com</a></li>
 	        
 	        <li class='links_list'><a href='https://www.reddit.com/r/Bitcoin/' target='_blank'>Bitcoin Subreddit</a></li>
