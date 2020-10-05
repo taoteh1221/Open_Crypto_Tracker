@@ -4059,6 +4059,21 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 
 
+-------------------------------------------------------------------
+4.22.0:
+
+-Optimizations
+
+-UX
+
+-------------------------------------------------------------------
+
+
+
+
+
+
+
 
 
 

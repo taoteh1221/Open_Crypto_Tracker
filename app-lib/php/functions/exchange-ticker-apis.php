@@ -800,7 +800,7 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
   		return false;
   		}
       elseif ( !$defi_pools_info['pool_address'] ) {
-  		app_logging('market_error', 'No liquidity pool found for ' . $chosen_exchange . ' -> ' . $market_id . ', try setting "defi_pools_max_per_platform" HIGHER in the POWER USER config (current setting is '.$app_config['power_user']['defi_pools_max_per_platform'].').');
+  		app_logging('market_error', 'No liquidity pool found for ' . $chosen_exchange . ' -> ' . $market_id . ', try setting "defi_pools_max_per_platform" HIGHER in the POWER USER config (current setting is '.$app_config['power_user']['defi_pools_max_per_platform'].')');
   		return false;
   		}
      
@@ -815,11 +815,31 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
      
   
       if (is_array($data) || is_object($data)) {
+      
+       if ( preg_match("/curve/i", $chosen_exchange) ) {
+       $fromSymbol = $market_assets[0];
+       $toSymbol = $market_assets[1];
+       }
+       else {
+       $fromSymbol = $market_assets[1];
+       $toSymbol = $market_assets[0];
+       }
+       
   
        foreach ($data as $key => $value) {
+       	
+         // Check for main asset
+         if ( $value["fromSymbol"] == $fromSymbol || preg_match("/([a-z]{1})".$fromSymbol."/", $value["fromSymbol"]) ) {
+         $trade_asset = true;
+         }
+         			
+         // Check for pairing asset
+         if ( $value["toSymbol"] == $toSymbol || preg_match("/([a-z]{1})".$toSymbol."/", $value["toSymbol"]) ) {
+         $trade_pairing = true;
+         }
+         			
          
-         
-         if ( $value["toSymbol"] == $market_assets[0] && $value["fromSymbol"] == $market_assets[1] ) {
+         if ( $trade_asset && $trade_pairing ) {
           
          $result = array(
     						'last_trade' => $value["price"],
@@ -829,13 +849,16 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
     						);
 
          }
+         
+         
        
-     
+     	 $trade_asset = false;
+     	 $trade_pairing = false;
        }
       
       
       	if ( !$result ) {
-  			app_logging('market_error', 'No trades found for ' . $chosen_exchange . ' -> ' . $market_id . ', try setting "defi_pools_max_trades" HIGHER in the POWER USER config (current setting is '.$app_config['power_user']['defi_pools_max_trades'].').');
+  			app_logging('market_error', 'No trades found for ' . $chosen_exchange . ' -> ' . $market_id . ', try setting "defi_pools_max_trades" HIGHER in the POWER USER config (current setting is '.$app_config['power_user']['defi_pools_max_trades'].')');
       	}
       
       }

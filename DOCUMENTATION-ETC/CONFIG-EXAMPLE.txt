@@ -364,21 +364,21 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					'mkr' => 'okex||btc||none',
 					'mkr-2' => 'kucoin||btc||none',
 					'mkr-3' => 'coinbase||btc||both',
-					'mkr-4' => 'uniswap-v2||eth||none',
+					'mkr-4' => 'uniswap||eth||none',
 					
 					
 					//DAI
 					'dai' => 'coinbase||usdc||both',
 					'dai-2' => 'kraken||usd||none',
 					'dai-3' => 'bittrex||btc||none',
-					'dai-4' => 'uniswap-v2||eth||none',
+					'dai-4' => 'uniswap||eth||none',
 					
 					
 					// ANT
 					'ant' => 'bittrex_global||btc||both',
 					'ant-2' => 'hitbtc||btc||chart',
 					'ant-3' => 'ethfinex||btc||none',
-					'ant-4' => 'uniswap-v2||eth||none',
+					'ant-4' => 'uniswap||eth||none',
 					
 					
 					// MANA
@@ -468,15 +468,15 @@ $app_config['power_user']['marketcap_ranks_max'] = 300; // (default = 300)
 // MINUTES to cache real-time DeFi pool info (pool eth address / name / volume / etc)
 // THIS SETTING DOES #NOT# AFFECT PRICE / TRADE VALUE REFRESHING, IT ONLY AFFECTS THE POOL'S TRADE VOLUME STATS / STORED ETH ADDRESS
 // LOTS OF DATA, the higher number the better for fast page load times
-$app_config['power_user']['defi_pools_info_cache_time'] = 20; // (default = 20)
+$app_config['power_user']['defi_pools_info_cache_time'] = 25; // (default = 25)
 ////
 // Maximum number of HIGHEST 24 HOUR TRADE VOLUME DeFi pools to fetch per platform (uniswap, uniswap-v2, balancer, curve, etc)
 // INCREASE IF YOUR POOL DOESN'T GET DETECTED, BUT YOU KNOW THE POOL EXISTS, AS POOLS ARE SORTED BY HIGHEST 24 HOUR TRADE VOLUME
-$app_config['power_user']['defi_pools_max_per_platform'] = 120; // (default = 120)
+$app_config['power_user']['defi_pools_max_per_platform'] = 150; // (default = 150)
 ////
 // Maximum number of MOST RECENT trades to fetch per DeFi pool
 // INCREASE IF TRADES FOR YOUR PAIRING DON'T GET DETECTED, AS TRADES ARE SORTED BY NEWEST FIRST
-$app_config['power_user']['defi_pools_max_trades'] = 60; // (default = 60)
+$app_config['power_user']['defi_pools_max_trades'] = 75; // (default = 75)
 
 
 // Number of decimals for price chart CRYPTO 24 hour volumes (NOT USED FOR FIAT VOLUMES, 4 decimals example: 24 hr vol = 91.3874 BTC)
@@ -1797,6 +1797,7 @@ $app_config['portfolio_assets'] = array(
                                     	 'kraken' => 'XBTDAI',
                                         'okex' => 'BTC-DAI',
                                         'kucoin' => 'BTC-DAI',
+                                    	 'uniswap-v2' => 'WBTC_WBTC-DAI',
                                                     ),
                                                     
                                     'dkk' => array(
@@ -2163,7 +2164,6 @@ $app_config['portfolio_assets'] = array(
                                         	'kucoin' => 'ETH-DAI',
                                           'hitbtc' => 'ETHDAI',
                                     	 	'uniswap' => 'ETH_ETH-DAI',
-                                    	 	'uniswap-v2' => 'WETH_WETH-DAI',
                                                     ),
                                                     
                                     'eur' => array(
@@ -2248,6 +2248,7 @@ $app_config['portfolio_assets'] = array(
                                           'poloniex' => 'USDT_ETH',
                                           'bitbns' => 'ETHUSDT',
                                           'wazirx' => 'ethusdt',
+                                    	 	'uniswap-v2' => 'WETH_WETH-USDT',
                                                     ),
                                                     
                                     'usdc' => array(
@@ -2397,7 +2398,6 @@ $app_config['portfolio_assets'] = array(
                                 		'dai' => array(
                                         	'kucoin' => 'MKR-DAI',
                                         	'hitbtc' => 'MKRDAI',
-                                    	 	'balancer' => 'MKR_MKR-DAI',
                                                     ),
                                                     
                                 		'eth' => array(
@@ -2409,7 +2409,7 @@ $app_config['portfolio_assets'] = array(
                                           'gateio' => 'MKR_ETH',
                                           'idex' => 'ETH_MKR',
                                     	 	'uniswap' => 'MKR_MKR-ETH',
-                                    	 	'uniswap-v2' => 'MKR_MKR-WETH',
+                                    	 	'balancer' => 'MKR_MKR-WETH',
                                                     ),
                                                     
                                 		'krw' => array(
@@ -2449,13 +2449,13 @@ $app_config['portfolio_assets'] = array(
                                         'bittrex' => 'DAI-BTC',
                                         'upbit' => 'BTC-DAI',
                                         'bitfinex' => 'tDAIBTC',
+                                    	 'uniswap-v2' => 'DAI_DAI-WBTC',
                                                     ),
                                                     
                                     'eth' => array(
                                         'bittrex' => 'DAI-ETH',
                                     	 'bitfinex' => 'tDAIETH',
                                     	 'uniswap' => 'DAI_DAI-ETH',
-                                    	 'uniswap-v2' => 'DAI_DAI-WETH',
                                                     ),
                                                     
                                     'eur' => array(
@@ -2479,16 +2479,14 @@ $app_config['portfolio_assets'] = array(
                                     'usdc' => array(
                                     	 'coinbase' => 'DAI-USDC',
                                         'hitbtc' => 'DAIUSDC',
-                                    	 'curve_iearn' => 'yDAI_USDC-DAI',
-                                    	 'curve_compound' => 'cDAI_USDC-DAI',
+                                    	 'curve_iearn' => 'yDAI_DAI-USDC',
                                                     ),
                                                     
                                     'usdt' => array(
                                     	 'kraken' => 'DAIUSDT',
                                         'bittrex' => 'DAI-USDT',
                                         'okex' => 'DAI-USDT',
-                                    	 'uniswap-v2' => 'DAI_DAI-USDT',
-                                    	 'curve_iearn' => 'yDAI_USDT-DAI',
+                                    	 'curve_iearn' => 'yDAI_DAI-USDT',
                                                     ),
                                                     
                                         ) // market_pairing END
@@ -2510,21 +2508,13 @@ $app_config['portfolio_assets'] = array(
                                         'binance' => 'UNIBTC',
                                                     ),
                                                     
-                                    'dai' => array(
-                                    	 'uniswap-v2' => 'UNI_UNI-DAI',
-                                                    ),
-                                                    
                                     'eth' => array(
-                                    	 'uniswap-v2' => 'UNI_UNI-WETH',
+                                    	 'uniswap' => 'UNI_UNI-ETH',
                                                     ),
                                                     
                                     'usd' => array(
                                         'coinbase' => 'UNI-USD',
                                         'binance_us' => 'UNIUSD',
-                                                    ),
-                                                    
-                                    'usdc' => array(
-                                    	 'uniswap-v2' => 'UNI_UNI-USDC',
                                                     ),
                                                     
                                     'usdt' => array(
@@ -2564,7 +2554,6 @@ $app_config['portfolio_assets'] = array(
                                         	'ethfinex' => 'tANTETH',
                                           'upbit' => 'ETH-ANT',
                                     	 	'uniswap' => 'ANT_ANT-ETH',
-                                    	 	'uniswap-v2' => 'ANT_ANT-WETH',
                                     	 	'balancer' => 'ANT_ANT-WETH',
                                                     ),
                                                     

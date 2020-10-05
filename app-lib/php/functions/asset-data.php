@@ -243,8 +243,6 @@ global $app_config;
      $data = json_decode($jsondata, true);
      
      $data = $data['results'];
-     
-     //var_dump($data);
   
       if (is_array($data) || is_object($data)) {
   			
@@ -253,19 +251,18 @@ global $app_config;
          		foreach ( $value['assets'] as $asset ) {
          			
          			// Check for main asset
-         			if ( $symbol == $asset['symbol'] ) {
+         			if ( $symbol == $asset['symbol'] || preg_match("/([a-z]{1})".$symbol."/", $asset['symbol']) ) {
          			$debug_asset = $asset['symbol'];
          			$is_asset = true;
          			}
-         			
          			// Check for pairing asset
-         			if ( preg_match("/".$pairing_array[1]."/", $asset['symbol']) || preg_match("/([a-z])".$pairing_array[1]."/", $asset['symbol']) ) {
+         			elseif ( $pairing_array[1] == $asset['symbol'] || preg_match("/([a-z]{1})".$pairing_array[1]."/", $asset['symbol']) ) {
          			$debug_pairing = $asset['symbol'];
          			$is_pairing = true;
          			}
          			
          			
-         			if ( !$done && $is_asset && $is_pairing || $done && $is_asset && $is_pairing && $result['pool_usd_volume'] < $value['usdVolume'] ) {
+         			if ( !$done && $is_asset && $is_pairing ) {
          				
          			$done = true;
          			$result['pool_name'] = $value['poolName'];

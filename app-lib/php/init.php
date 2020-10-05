@@ -118,7 +118,7 @@ session_start(); // New session start
 
 
 // Application version
-$app_version = '4.21.1';  // 2020/SEPTEMBER/23RD
+$app_version = '4.22.0';  // 2020/OCTOBER/5TH
 
 // Application edition
 $app_edition = 'server';  // server OR desktop edition

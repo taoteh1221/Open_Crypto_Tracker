@@ -225,8 +225,8 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in (values a
                                           'balancer' => 'WETH_WETH-COINSYMBOLHERE',
                                           'bancor' => 'ETH_ETH-COINSYMBOLHERE',
                                           'curve' => 'ETH_ETH-COINSYMBOLHERE',
-                                          'curve_iearn' => 'ETH_ETH-COINSYMBOLHERE',
-                                          'curve_compound' => 'ETH_ETH-COINSYMBOLHERE',
+                                          'curve_iearn' => 'yETH_ETH-COINSYMBOLHERE',
+                                          'curve_compound' => 'cETH_ETH-COINSYMBOLHERE',
                                           'eth_subtokens_ico' => 'ETHSUBTOKENNAME', // Must be defined in $app_config['power_user']['ethereum_subtoken_ico_values'] in config.php
                                                     ),
                                                     
