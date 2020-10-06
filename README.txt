@@ -214,20 +214,27 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in (values a
                                           'lowercase_exchange1' => 'MARKETIDHERE',
                                           'lowercase_exchange2' => 'pairing/COINSYMBOLHERE',
                                           'lowercase_exchange3' => 'PAIRING-COINSYMBOLHERE',
+                                          'defi_generic' => 'ASSET/PAIRING', // DeFi Generic
+                                          // DeFi Specific
+                                          'defi_uniswap' => 'ASSET/PAIRING',
+                                          'defi_uniswap-v2' => 'ASSET/PAIRING',
+                                          'defi_curve' => 'ASSET/PAIRING',
+                                          'defi_bancor' => 'ASSET/PAIRING',
+                                          'defi_balancer' => 'ASSET/PAIRING',
                                                     ),
                                                     
                                     'eth' => array(
                                           'lowercase_exchange1' => 'MARKETIDHERE',
                                           'lowercase_exchange2' => 'eth/COINSYMBOLHERE',
                                           'lowercase_exchange3' => 'ETH-COINSYMBOLHERE',
-                                          'uniswap' => 'ETH_ETH-COINSYMBOLHERE',
-                                          'uniswap-v2' => 'WETH_WETH-COINSYMBOLHERE',
-                                          'balancer' => 'WETH_WETH-COINSYMBOLHERE',
-                                          'bancor' => 'ETH_ETH-COINSYMBOLHERE',
-                                          'curve' => 'ETH_ETH-COINSYMBOLHERE',
-                                          'curve_iearn' => 'yETH_ETH-COINSYMBOLHERE',
-                                          'curve_compound' => 'cETH_ETH-COINSYMBOLHERE',
                                           'eth_subtokens_ico' => 'ETHSUBTOKENNAME', // Must be defined in $app_config['power_user']['ethereum_subtoken_ico_values'] in config.php
+                                          'defi_generic' => 'ASSET/PAIRING', // DeFi Generic
+                                          // DeFi Specific
+                                          'defi_uniswap' => 'ASSET/PAIRING',
+                                          'defi_uniswap-v2' => 'ASSET/PAIRING',
+                                          'defi_curve' => 'ASSET/PAIRING',
+                                          'defi_bancor' => 'ASSET/PAIRING',
+                                          'defi_balancer' => 'ASSET/PAIRING',
                                                     ),
                                                     
                                           ) // market_pairing END

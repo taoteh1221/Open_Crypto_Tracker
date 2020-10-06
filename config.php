@@ -355,6 +355,7 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					'eth-12' => 'bittrex||usdt||none',
 					'eth-13' => 'bitbns||inr||none',
 					'eth-14' => 'bitmex||usd||both',
+					'eth-15' => 'defi_uniswap-v2||usdt||none',
 					
 					
 					// XMR
@@ -376,21 +377,26 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					'mkr' => 'okex||btc||none',
 					'mkr-2' => 'kucoin||btc||none',
 					'mkr-3' => 'coinbase||btc||both',
-					'mkr-4' => 'uniswap||eth||none',
+					'mkr-4' => 'defi_generic||eth||none',
 					
 					
 					//DAI
 					'dai' => 'coinbase||usdc||both',
 					'dai-2' => 'kraken||usd||none',
 					'dai-3' => 'bittrex||btc||none',
-					'dai-4' => 'uniswap||eth||none',
+					'dai-4' => 'defi_curve||usdc||none',
+					
+					
+					// UNI
+					'uni' => 'binance||btc||both',
+					'uni-2' => 'defi_generic||eth||none',
 					
 					
 					// ANT
 					'ant' => 'bittrex_global||btc||both',
 					'ant-2' => 'hitbtc||btc||chart',
 					'ant-3' => 'ethfinex||btc||none',
-					'ant-4' => 'uniswap||eth||none',
+					'ant-4' => 'defi_balancer||eth||none',
 					
 					
 					// MANA
@@ -484,7 +490,7 @@ $app_config['power_user']['defi_pools_info_cache_time'] = 25; // (default = 25)
 ////
 // Maximum number of HIGHEST 24 HOUR TRADE VOLUME DeFi pools to fetch per platform (uniswap, uniswap-v2, balancer, curve, etc)
 // INCREASE IF YOUR POOL DOESN'T GET DETECTED, BUT YOU KNOW THE POOL EXISTS, AS POOLS ARE SORTED BY HIGHEST 24 HOUR TRADE VOLUME
-$app_config['power_user']['defi_pools_max_per_platform'] = 150; // (default = 150)
+$app_config['power_user']['defi_pools_max_per_platform'] = 250; // (default = 250)
 ////
 // Maximum number of MOST RECENT trades to fetch per DeFi pool
 // INCREASE IF TRADES FOR YOUR PAIRING DON'T GET DETECTED, AS TRADES ARE SORTED BY NEWEST FIRST
@@ -1809,7 +1815,6 @@ $app_config['portfolio_assets'] = array(
                                     	 'kraken' => 'XBTDAI',
                                         'okex' => 'BTC-DAI',
                                         'kucoin' => 'BTC-DAI',
-                                    	 'uniswap-v2' => 'WBTC_WBTC-DAI',
                                                     ),
                                                     
                                     'dkk' => array(
@@ -2158,7 +2163,7 @@ $app_config['portfolio_assets'] = array(
                                           'zebpay' => 'ETH-BTC',
                                           'luno' => 'ETHXBT',
                                         	'wazirx' => 'ethbtc',
-                                    	 	'uniswap' => 'ETH_ETH-WBTC',
+                                    	 	'defi_generic' => 'WETH/WBTC',
                                                     ),
                                                     
                                     'cad' => array(
@@ -2175,7 +2180,7 @@ $app_config['portfolio_assets'] = array(
                                           'kraken' => 'ETHDAI',
                                         	'kucoin' => 'ETH-DAI',
                                           'hitbtc' => 'ETHDAI',
-                                    	 	'uniswap' => 'ETH_ETH-DAI',
+                                    	 	'defi_generic' => 'WETH/DAI',
                                                     ),
                                                     
                                     'eur' => array(
@@ -2260,7 +2265,7 @@ $app_config['portfolio_assets'] = array(
                                           'poloniex' => 'USDT_ETH',
                                           'bitbns' => 'ETHUSDT',
                                           'wazirx' => 'ethusdt',
-                                    	 	'uniswap-v2' => 'WETH_WETH-USDT',
+                                    	 	'defi_uniswap-v2' => 'WETH/USDT',
                                                     ),
                                                     
                                     'usdc' => array(
@@ -2420,8 +2425,7 @@ $app_config['portfolio_assets'] = array(
                                         	'hitbtc' => 'MKRETH',
                                           'gateio' => 'MKR_ETH',
                                           'idex' => 'ETH_MKR',
-                                    	 	'uniswap' => 'MKR_MKR-ETH',
-                                    	 	'balancer' => 'MKR_MKR-WETH',
+                                    	 	'defi_generic' => 'MKR/WETH',
                                                     ),
                                                     
                                 		'krw' => array(
@@ -2461,13 +2465,12 @@ $app_config['portfolio_assets'] = array(
                                         'bittrex' => 'DAI-BTC',
                                         'upbit' => 'BTC-DAI',
                                         'bitfinex' => 'tDAIBTC',
-                                    	 'uniswap-v2' => 'DAI_DAI-WBTC',
                                                     ),
                                                     
                                     'eth' => array(
                                         'bittrex' => 'DAI-ETH',
                                     	 'bitfinex' => 'tDAIETH',
-                                    	 'uniswap' => 'DAI_DAI-ETH',
+                                    	 	'defi_generic' => 'DAI/WETH',
                                                     ),
                                                     
                                     'eur' => array(
@@ -2491,14 +2494,14 @@ $app_config['portfolio_assets'] = array(
                                     'usdc' => array(
                                     	 'coinbase' => 'DAI-USDC',
                                         'hitbtc' => 'DAIUSDC',
-                                    	 'curve_iearn' => 'yDAI_DAI-USDC',
+                                    	 'defi_curve' => 'DAI/USDC',
                                                     ),
                                                     
                                     'usdt' => array(
                                     	 'kraken' => 'DAIUSDT',
                                         'bittrex' => 'DAI-USDT',
                                         'okex' => 'DAI-USDT',
-                                    	 'curve_iearn' => 'yDAI_DAI-USDT',
+                                    	 'defi_curve' => 'DAI/USDT',
                                                     ),
                                                     
                                         ) // market_pairing END
@@ -2521,7 +2524,7 @@ $app_config['portfolio_assets'] = array(
                                                     ),
                                                     
                                     'eth' => array(
-                                    	 'uniswap' => 'UNI_UNI-ETH',
+                                    	 'defi_generic' => 'UNI/WETH',
                                                     ),
                                                     
                                     'usd' => array(
@@ -2532,7 +2535,6 @@ $app_config['portfolio_assets'] = array(
                                     'usdt' => array(
                                         'binance' => 'UNIUSDT',
                                         'binance_us' => 'UNIUSDT',
-                                    	 'uniswap-v2' => 'UNI_UNI-USDT',
                                                     ),
                                                     
                                         ) // market_pairing END
@@ -2565,8 +2567,7 @@ $app_config['portfolio_assets'] = array(
                                           'huobi' => 'anteth',
                                         	'ethfinex' => 'tANTETH',
                                           'upbit' => 'ETH-ANT',
-                                    	 	'uniswap' => 'ANT_ANT-ETH',
-                                    	 	'balancer' => 'ANT_ANT-WETH',
+                                    	 	'defi_balancer' => 'ANT/WETH',
                                                     ),
                                                     
                                     'usd' => array(

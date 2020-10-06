@@ -4062,9 +4062,11 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.22.0:
 
+-Option to use a 'Generic' DeFi market (whatever has most USD volume on DeFiPulse.com API), or a specific platform (uniswap, uniswap-v2, balancer, curve, bancor)
+
 -Optimizations
 
--UX
+-Misc. UX
 
 -------------------------------------------------------------------
 

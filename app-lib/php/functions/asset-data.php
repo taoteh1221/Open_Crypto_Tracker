@@ -231,18 +231,24 @@ $result = array();
 ////////////////////////////////////////////////////////
 
 
-function defi_pools_info($symbol, $pairing_array, $exchange) {
+function defi_pools_info($pairing_array, $exchange) {
 
 global $app_config;
+
+
+	if ( $exchange != 'generic' ) {
+	$exchange_request = '&platform=' . $exchange;
+	}
      
      
-     $json_string = 'https://data-api.defipulse.com/api/v1/blocklytics/pools/v1/exchanges?limit=' . $app_config['power_user']['defi_pools_max_per_platform'] . '&orderBy=usdVolume&direction=desc&platform=' . $exchange . '&api-key=' . $app_config['general']['defipulsecom_api_key'];
+     $json_string = 'https://data-api.defipulse.com/api/v1/blocklytics/pools/v1/exchanges?limit=' . $app_config['power_user']['defi_pools_max_per_platform'] . '&orderBy=usdVolume&direction=desc&api-key=' . $app_config['general']['defipulsecom_api_key'] . $exchange_request;
      
      $jsondata = @external_api_data('url', $json_string, $app_config['power_user']['defi_pools_info_cache_time']); // Re-cache exchanges => addresses data, etc
      
      $data = json_decode($jsondata, true);
      
      $data = $data['results'];
+     
   
       if (is_array($data) || is_object($data)) {
   			
@@ -251,27 +257,28 @@ global $app_config;
          		foreach ( $value['assets'] as $asset ) {
          			
          			// Check for main asset
-         			if ( $symbol == $asset['symbol'] || preg_match("/([a-z]{1})".$symbol."/", $asset['symbol']) ) {
+         			if ( $asset['symbol'] == $pairing_array[0] || preg_match("/([a-z]{1})".$pairing_array[0]."/", $asset['symbol']) ) {
          			$debug_asset = $asset['symbol'];
          			$is_asset = true;
          			}
          			// Check for pairing asset
-         			elseif ( $pairing_array[1] == $asset['symbol'] || preg_match("/([a-z]{1})".$pairing_array[1]."/", $asset['symbol']) ) {
+         			elseif ( $asset['symbol'] == $pairing_array[1] || preg_match("/([a-z]{1})".$pairing_array[1]."/", $asset['symbol']) ) {
          			$debug_pairing = $asset['symbol'];
          			$is_pairing = true;
          			}
          			
          			
          			if ( !$done && $is_asset && $is_pairing ) {
-         				
+         			
          			$done = true;
+         			$result['platform'] = $value['platform'];
          			$result['pool_name'] = $value['poolName'];
          			$result['pool_address'] = $value['exchange'];
          			$result['pool_assets'] = $value['assets'];
          			$result['pool_usd_volume'] = $value['usdVolume'];
          			
          				if ( $result['pool_usd_volume'] < 1 ) {
-  							app_logging('market_error', 'No 24 hour trade volume for liquidity pool at address ' . $result['pool_address'] . ', for ' . $exchange . ' -> ' . $symbol . '-' . $pairing_array[0] . '_' . $pairing_array[1]);
+  							app_logging('market_error', 'No 24 hour trade volume for DeFi liquidity pool at address ' . $result['pool_address'] . ' (' . $pairing_array[0] . '/' . $pairing_array[1] . ')');
          				}
        			
          			}

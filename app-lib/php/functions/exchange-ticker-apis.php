@@ -770,13 +770,7 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
 
 
   // https://docs.defipulse.com/api-docs-by-provider/pools.fyi/exchange
-  elseif ( strtolower($chosen_exchange) == 'uniswap' 
-  || strtolower($chosen_exchange) == 'uniswap-v2' 
-  || strtolower($chosen_exchange) == 'balancer' 
-  || strtolower($chosen_exchange) == 'bancor' 
-  || strtolower($chosen_exchange) == 'curve' 
-  || strtolower($chosen_exchange) == 'curve_iearn' 
-  || strtolower($chosen_exchange) == 'curve_compound' ) {
+  elseif ( preg_match("/defi_([a-z])/i", strtolower($chosen_exchange)) ) {
   	
   		
   		if ( trim($app_config['general']['defipulsecom_api_key']) == null ) {
@@ -785,14 +779,11 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
   		}
   		
   	
-  	$exchange_data = explode('_', $chosen_exchange);
-  	$chosen_exchange = $exchange_data[0];
+  	$parse_exchange = explode('_', strtolower($chosen_exchange));
   	
-  	$asset_data = explode('_', $market_id);
+  	$asset_data = explode('/', $market_id);
   	
-  	$market_assets = explode('-', $asset_data[1]);
-  	
-  	$defi_pools_info = defi_pools_info($asset_data[0], $market_assets, $chosen_exchange);
+  	$defi_pools_info = defi_pools_info($asset_data, $parse_exchange[1]);
   		
   		
   		if ( $defipulse_api_limit == true ) {
@@ -800,12 +791,12 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
   		return false;
   		}
       elseif ( !$defi_pools_info['pool_address'] ) {
-  		app_logging('market_error', 'No liquidity pool found for ' . $chosen_exchange . ' -> ' . $market_id . ', try setting "defi_pools_max_per_platform" HIGHER in the POWER USER config (current setting is '.$app_config['power_user']['defi_pools_max_per_platform'].')');
+  		app_logging('market_error', 'No DeFi liquidity pool found for ' . $market_id . ', try setting "defi_pools_max_per_platform" HIGHER in the POWER USER config (current setting is '.$app_config['power_user']['defi_pools_max_per_platform'].', results are sorted by highest trade volume pools first)');
   		return false;
   		}
      
      
-     $json_string = 'https://data-api.defipulse.com/api/v1/blocklytics/pools/v1/trades/' . $defi_pools_info['pool_address'] . '?limit=' . $app_config['power_user']['defi_pools_max_trades'] . '&orderBy=timestamp&direction=desc&platform=' . $chosen_exchange . '&api-key=' . $app_config['general']['defipulsecom_api_key'];
+     $json_string = 'https://data-api.defipulse.com/api/v1/blocklytics/pools/v1/trades/' . $defi_pools_info['pool_address'] . '?limit=' . $app_config['power_user']['defi_pools_max_trades'] . '&orderBy=timestamp&direction=desc&api-key=' . $app_config['general']['defipulsecom_api_key'];
      
      $jsondata = @external_api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
      
@@ -816,13 +807,13 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
   
       if (is_array($data) || is_object($data)) {
       
-       if ( preg_match("/curve/i", $chosen_exchange) ) {
-       $fromSymbol = $market_assets[0];
-       $toSymbol = $market_assets[1];
+       if ( preg_match("/curve/i", $defi_pools_info['platform']) ) {
+       $fromSymbol = $asset_data[0];
+       $toSymbol = $asset_data[1];
        }
        else {
-       $fromSymbol = $market_assets[1];
-       $toSymbol = $market_assets[0];
+       $fromSymbol = $asset_data[1];
+       $toSymbol = $asset_data[0];
        }
        
   
@@ -858,7 +849,7 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
       
       
       	if ( !$result ) {
-  			app_logging('market_error', 'No trades found for ' . $chosen_exchange . ' -> ' . $market_id . ', try setting "defi_pools_max_trades" HIGHER in the POWER USER config (current setting is '.$app_config['power_user']['defi_pools_max_trades'].')');
+  			app_logging('market_error', 'No trades found for ' . $market_id . ', try setting "defi_pools_max_trades" HIGHER in the POWER USER config (current setting is '.$app_config['power_user']['defi_pools_max_trades'].')');
       	}
       
       }
