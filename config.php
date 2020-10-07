@@ -460,6 +460,7 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 // ADD ANY NEW CRON PLUGIN HERE BY USING THE FOLDER NAME THE NEW PLUGIN IS LOCATED IN
 // NEVER ADD A CRON PLUGIN SOMEBODY ELSE WROTE, UNLESS YOU OR SOMEONE YOU TRUST 
 // HAVE REVIEWED THE CODE AND ARE ABSOLUTELY SURE IT IS NOT MALICIOUS!!
+// CRON PLUGINS REQUIRE A CRON JOB RUNNING ON YOUR WEBSITE SERVER (see README.txt for cron job setup information) 
 $app_config['power_user']['activate_cron_plugins'] = array(
 						//'PLUGIN_FOLDER_NAME', // (your plugin folder in /cron-plugins/)
 						//'recurring-reminder',  // Recurring Reminder plugin (alert yourself every X days to do something)
