@@ -1432,14 +1432,13 @@ $notifyme_message = $email_message . ' Timestamp is ' . time_date_format($app_co
 // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
                     
 // Minimize function calls
-$encoded_text_message = content_data_encoding($text_message);
+$encoded_text_message = content_data_encoding($text_message); // Unicode support included for text messages (emojis / asian characters / etc )
                     
 $send_params = array(
 
                      'notifyme' => $notifyme_message,
                      'telegram' => $email_message,
                      'text' => array(
-                                     // Unicode support included for text messages (emojis / asian characters / etc )
                                      'message' => $encoded_text_message['content_output'],
                                      'charset' => $encoded_text_message['charset']
                                      ),

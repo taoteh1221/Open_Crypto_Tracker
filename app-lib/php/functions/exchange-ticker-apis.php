@@ -851,7 +851,7 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
       
       
       	if ( !$result ) {
-  			app_logging('market_error', 'No trades found for ' . $market_id . ', try setting "defi_pools_max_trades" HIGHER in the POWER USER config (current setting is '.$app_config['power_user']['defi_pools_max_trades'].')');
+  			app_logging('market_error', 'No trades found for ' . $market_id . ', try setting "defi_pools_max_trades" HIGHER in the POWER USER config (current setting is '.$app_config['power_user']['defi_pools_max_trades'].', results are sorted by most recent trades first)');
       	}
       
       }

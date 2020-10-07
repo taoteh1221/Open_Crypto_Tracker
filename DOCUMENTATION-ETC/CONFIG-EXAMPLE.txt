@@ -450,7 +450,8 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 // HAVE REVIEWED THE CODE AND ARE ABSOLUTELY SURE IT IS NOT MALICIOUS!!
 $app_config['power_user']['activate_cron_plugins'] = array(
 						//'PLUGIN_FOLDER_NAME', // (your plugin folder in /cron-plugins/)
-						//'recurring-reminder',  // Recurring Reminder example plugin (remind yourself every X days to do something)
+						//'recurring-reminder',  // Recurring Reminder plugin (alert yourself every X days to do something)
+						//'decred-proposals',  // Decred Proposals plugin (sends alerts whenever there is a new Decred proposal up for discussion / vote)
 							);
 							
 
@@ -474,15 +475,15 @@ $app_config['power_user']['marketcap_ranks_max'] = 300; // (default = 300)
 // MINUTES to cache real-time DeFi pool info (pool eth address / name / volume / etc)
 // THIS SETTING DOES #NOT# AFFECT PRICE / TRADE VALUE REFRESHING, IT ONLY AFFECTS THE POOL'S TRADE VOLUME STATS / STORED ETH ADDRESS
 // LOTS OF DATA, the higher number the better for fast page load times
-$app_config['power_user']['defi_pools_info_cache_time'] = 25; // (default = 25)
+$app_config['power_user']['defi_pools_info_cache_time'] = 30; // (default = 30)
 ////
 // Maximum number of HIGHEST 24 HOUR TRADE VOLUME DeFi pools to fetch per platform (uniswap, uniswap-v2, balancer, curve, etc)
 // INCREASE IF YOUR POOL DOESN'T GET DETECTED, BUT YOU KNOW THE POOL EXISTS, AS POOLS ARE SORTED BY HIGHEST 24 HOUR TRADE VOLUME
-$app_config['power_user']['defi_pools_max_per_platform'] = 250; // (default = 250)
+$app_config['power_user']['defi_pools_max_per_platform'] = 100; // (default = 100)
 ////
 // Maximum number of MOST RECENT trades to fetch per DeFi pool
 // INCREASE IF TRADES FOR YOUR PAIRING DON'T GET DETECTED, AS TRADES ARE SORTED BY NEWEST FIRST
-$app_config['power_user']['defi_pools_max_trades'] = 75; // (default = 75)
+$app_config['power_user']['defi_pools_max_trades'] = 30; // (default = 30)
 
 
 // Number of decimals for price chart CRYPTO 24 hour volumes (NOT USED FOR FIAT VOLUMES, 4 decimals example: 24 hr vol = 91.3874 BTC)

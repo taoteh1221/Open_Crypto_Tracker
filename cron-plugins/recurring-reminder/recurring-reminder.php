@@ -25,13 +25,12 @@ $reminder_message = "This is a recurring ~" . round($reminder_recur_days) . " da
   				// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
   				
   				// Minimize function calls
-  				$encoded_text_message = content_data_encoding($reminder_message);
+  				$encoded_text_message = content_data_encoding($reminder_message); // Unicode support included for text messages (emojis / asian characters / etc )
   				
           	$send_params = array(
           								'notifyme' => $reminder_message,
           								'telegram' => $reminder_message,
           								'text' => array(
-          														// Unicode support included for text messages (emojis / asian characters / etc )
           														'message' => $encoded_text_message['content_output'],
           														'charset' => $encoded_text_message['charset']
           														),

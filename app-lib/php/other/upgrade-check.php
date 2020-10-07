@@ -78,13 +78,12 @@
 					store_file_contents($base_dir . '/cache/events/ui_upgrade_alert.dat', json_encode($ui_upgrade_alert, JSON_PRETTY_PRINT) );
 					
 					// Minimize function calls
-					$encoded_text_alert = content_data_encoding($upgrade_check_message);
+					$encoded_text_alert = content_data_encoding($upgrade_check_message); // Unicode support included for text messages (emojis / asian characters / etc )
 						
 					$upgrade_check_send_params = array(
 											'notifyme' => $email_notifyme_message,
 											'telegram' => $email_notifyme_message,
 											'text' => array(
-																	// Unicode support included for text messages (emojis / asian characters / etc )
 																	'message' => $encoded_text_alert['content_output'],
 																	'charset' => $encoded_text_alert['charset']
 																	),
@@ -106,13 +105,11 @@
 					elseif ( $app_config['comms']['upgrade_alert'] == 'text' ) {
 					
 					// Minimize function calls
-					$encoded_text_alert = content_data_encoding($upgrade_check_message);
+					$encoded_text_alert = content_data_encoding($upgrade_check_message); // Unicode support included for text messages (emojis / asian characters / etc )
 					
 					$upgrade_check_send_params['text'] = array(
-														// Unicode support included for text messages (emojis / asian characters / etc )
 														'message' => $encoded_text_alert['content_output'],
 														'charset' => $encoded_text_alert['charset']
-														
 														);
 				
 					}

@@ -806,13 +806,12 @@ $cache_filename = preg_replace("/:/", "_", $cache_filename);
   				if ( $app_config['comms']['proxy_alerts'] == 'all' ) {
   				
   				// Minimize function calls
-  				$encoded_text_alert = content_data_encoding($text_alert);
+  				$encoded_text_alert = content_data_encoding($text_alert); // Unicode support included for text messages (emojis / asian characters / etc )
   					
           	$send_params = array(
           								'notifyme' => $notifyme_alert,
           								'telegram' => $email_alert,
           								'text' => array(
-          														// Unicode support included for text messages (emojis / asian characters / etc )
           														'message' => $encoded_text_alert['content_output'],
           														'charset' => $encoded_text_alert['charset']
           														),
@@ -834,13 +833,11 @@ $cache_filename = preg_replace("/:/", "_", $cache_filename);
   				elseif ( $app_config['comms']['proxy_alerts'] == 'text' ) {
   				
   				// Minimize function calls
-  				$encoded_text_alert = content_data_encoding($text_alert);
+  				$encoded_text_alert = content_data_encoding($text_alert); // Unicode support included for text messages (emojis / asian characters / etc )
   				
           	$send_params['text'] = array(
-          											// Unicode support included for text messages (emojis / asian characters / etc )
           											'message' => $encoded_text_alert['content_output'],
           											'charset' => $encoded_text_alert['charset']
-          											
           											);
           	
           	}

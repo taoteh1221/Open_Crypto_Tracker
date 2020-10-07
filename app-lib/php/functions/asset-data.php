@@ -1471,21 +1471,22 @@ $volume_pairing_raw = number_to_string($volume_pairing_raw);
               // Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
                     
               // Minimize function calls
-              $encoded_text_message = content_data_encoding($text_message);
+              $encoded_text_message = content_data_encoding($text_message); // Unicode support included for text messages (emojis / asian characters / etc )
                     
               $send_params = array(
-                                            'notifyme' => $notifyme_message,
-                                            'telegram' => ( $whale_alert == 1 ? '🐳 ' : '' ) . $email_message, // Add emoji here, so it's not sent with alexa / google home alerts
-                                            'text' => array(
-                                                                    // Unicode support included for text messages (emojis / asian characters / etc )
-                                                                    'message' => $encoded_text_message['content_output'],
-                                                                    'charset' => $encoded_text_message['charset']
-                                                                    ),
-                                            'email' => array(
-                                                                    'subject' => $asset . ' Asset Value '.ucfirst($increase_decrease).' Alert' . ( $whale_alert == 1 ? ' (🐳 WHALE ALERT)' : '' ),
-                                                                    'message' => ( $whale_alert == 1 ? '🐳 ' : '' ) . $email_message // Add emoji here, so it's not sent with alexa / google home alerts
-                                                                    )
-                                            );
+              
+                                   'notifyme' => $notifyme_message,
+                                   'telegram' => ( $whale_alert == 1 ? '🐳 ' : '' ) . $email_message, // Add emoji here, so it's not sent with alexa / google home alerts
+                                   'text' => array(
+                                                   'message' => $encoded_text_message['content_output'],
+                                                   'charset' => $encoded_text_message['charset']
+                                                   ),
+                                   'email' => array(
+                                                   'subject' => $asset . ' Asset Value '.ucfirst($increase_decrease).' Alert' . ( $whale_alert == 1 ? ' (🐳 WHALE ALERT)' : '' ),
+                                                   'message' => ( $whale_alert == 1 ? '🐳 ' : '' ) . $email_message // Add emoji here, so it's not sent with alexa / google home alerts
+                                                   )
+                                                   
+                                    );
                 
                 
                 

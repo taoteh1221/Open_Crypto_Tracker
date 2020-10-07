@@ -26,13 +26,13 @@ Add to /templates/interface/php/footer.php when testing unicode mobile text supp
   				// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
   				
   				// Minimize function calls
-  				//$encoded_text_message = content_data_encoding($test_phrase);
+  				//$encoded_text_message = content_data_encoding($test_phrase); // Unicode support included for text messages (emojis / asian characters / etc )
   				
   				/*
           	$send_params = array(
+          	
           								'telegram' => $encoded_text_message['content_output'],
           								'text' => array(
-          														// Unicode support included for text messages (emojis / asian characters / etc )
           														'message' => $encoded_text_message['content_output'],
           														'charset' => $encoded_text_message['charset']
           														),
@@ -41,6 +41,7 @@ Add to /templates/interface/php/footer.php when testing unicode mobile text supp
           														'message' => $encoded_text_message['content_output'],
           														'charset' => $encoded_text_message['charset'] 
           														)
+          														
           								);
           	
           	
