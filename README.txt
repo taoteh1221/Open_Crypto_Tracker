@@ -76,6 +76,8 @@ FEATURES
 
 -System stats in the interface and debug logs (uptime / load averages / temperature / free disk space / used system memory / portfolio cache size, if available on your device).
 
+-Cron job plugin system, to use built-in / your own custom plugins that run during cron jobs, for additional features.
+
 -Secure webhook capability, allowing other external apps to communicate in real-time safely (separate keys per service, without giving away the master webhook key).
 
 -Internal restful API built-in, to allow other external apps to query real-time market data in over 80 country fiat currencies / secondary crypto pairings (raw data also available).
