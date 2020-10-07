@@ -90,7 +90,7 @@ $new_proposals = array();
 
 $json_string = 'https://api.github.com/repos/decred-proposals/mainnet/commits';
 
-$jsondata = @external_api_data('url', $json_string, 60); // Re-cache every 60 minutes
+$jsondata = @external_api_data('url', $json_string, 360); // Re-cache every 6 hours (360 minutes)
      
 $data = json_decode($jsondata, true);
 
