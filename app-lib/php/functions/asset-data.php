@@ -2116,8 +2116,14 @@ $original_market = $selected_exchange;
 
 
 <td class='data border_lb'>
+
+	<?php
+	if ( $asset_market_data['defi_pool_name'] ) {
+	$defi_exchange_dropdown_title = "\n" . 'Currently selected defi pool: ' . $asset_market_data['defi_pool_name'] . ' (' . $asset_market_data['defi_platform'] . ')';
+	}
+	?>
  
-    <select class='browser-default custom-select' name='change_<?=strtolower($asset_symbol)?>_market' title='Choose which exchange you want.' onchange='
+    <select class='browser-default custom-select' name='change_<?=strtolower($asset_symbol)?>_market' title='Choose which exchange or defi pool you want.<?=htmlentities($defi_exchange_dropdown_title, ENT_QUOTES)?>' onchange='
     $("#<?=strtolower($asset_symbol)?>_market").val(this.value);
     $("#coin_amounts").submit();
     '>

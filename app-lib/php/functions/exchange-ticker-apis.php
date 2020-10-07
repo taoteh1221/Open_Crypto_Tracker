@@ -833,6 +833,8 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
          if ( $trade_asset && $trade_pairing ) {
           
          $result = array(
+    						'defi_pool_name' => $defi_pools_info['pool_name'],
+    						'defi_platform' => $defi_pools_info['platform'],
     						'last_trade' => $value["price"],
     						'24hr_asset_volume' => null, // No asset volume data for this API
     						'24hr_pairing_volume' => null, // No pairing volume data for this API
