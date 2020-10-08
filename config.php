@@ -961,12 +961,6 @@ $app_config['power_user']['news_feeds'] = array(
     
     
         				array(
-            			"title" => "News - Fork Log",
-            			"url" => "https://forklog.media/feed/"
-        						),
-    
-    
-        				array(
             			"title" => "News - The Block",
             			"url" => "https://www.theblockcrypto.com/rss.xml"
         						),
