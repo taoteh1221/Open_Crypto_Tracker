@@ -5,6 +5,9 @@ CREATING CUSTOM CRON PLUGINS
 ##########################################################################################
 
 
+IMPORTANT NOTICE: CRON PLUGINS REQUIRE A CRON JOB RUNNING ON YOUR WEB SERVER (see README.txt for cron job setup information)
+
+
 Take advantage of this app's built-in functions / classes, and your config settings (alert comm channels setup, etc) to create your own cron plugins WITH MINIMAL CODING REQUIRED. Your plugin will run during normally-scheduled cron job runtimes (after the charts / price alerts / everything else runs).
 
 

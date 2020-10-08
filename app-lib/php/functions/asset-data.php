@@ -231,17 +231,12 @@ $result = array();
 ////////////////////////////////////////////////////////
 
 
-function defi_pools_info($pairing_array, $exchange) {
+function defi_pools_info($pairing_array) {
 
 global $app_config;
 
-
-	if ( $exchange != 'generic' ) {
-	$exchange_request = '&platform=' . $exchange;
-	}
      
-     
-     $json_string = 'https://data-api.defipulse.com/api/v1/blocklytics/pools/v1/exchanges?limit=' . $app_config['power_user']['defi_pools_max_per_platform'] . '&orderBy=usdVolume&direction=desc&api-key=' . $app_config['general']['defipulsecom_api_key'] . $exchange_request;
+     $json_string = 'https://data-api.defipulse.com/api/v1/blocklytics/pools/v1/exchanges?limit=' . $app_config['power_user']['defi_pools_max_per_platform'] . '&orderBy=usdVolume&direction=desc&api-key=' . $app_config['general']['defipulsecom_api_key'];
      
      $jsondata = @external_api_data('url', $json_string, $app_config['power_user']['defi_pools_info_cache_time']); // Re-cache exchanges => addresses data, etc
      

@@ -333,6 +333,7 @@ $pretty_string = preg_replace("/panda/i", 'Panda', $pretty_string);
 $pretty_string = preg_replace("/pay/i", 'Pay', $pretty_string);
 $pretty_string = preg_replace("/swap/i", 'Swap', $pretty_string);
 $pretty_string = preg_replace("/iearn/i", 'iEarn', $pretty_string);
+$pretty_string = preg_replace("/pulse/i", 'Pulse', $pretty_string);
 $pretty_string = preg_replace("/defi/i", 'DeFi', $pretty_string);
 
 return trim($pretty_string);

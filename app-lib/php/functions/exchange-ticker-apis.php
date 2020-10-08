@@ -770,7 +770,7 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
 
 
   // https://docs.defipulse.com/api-docs-by-provider/pools.fyi/exchange
-  elseif ( preg_match("/defi_([a-z])/i", strtolower($chosen_exchange)) ) {
+  elseif ( strtolower($chosen_exchange) == 'defipulse' ) {
   	
   		
   		if ( trim($app_config['general']['defipulsecom_api_key']) == null ) {
@@ -779,11 +779,9 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
   		}
   		
   	
-  	$parse_exchange = explode('_', strtolower($chosen_exchange));
-  	
   	$asset_data = explode('/', $market_id);
   	
-  	$defi_pools_info = defi_pools_info($asset_data, $parse_exchange[1]);
+  	$defi_pools_info = defi_pools_info($asset_data);
   		
   		
   		if ( $defipulse_api_limit == true ) {

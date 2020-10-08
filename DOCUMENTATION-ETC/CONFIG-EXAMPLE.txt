@@ -107,7 +107,7 @@ $app_config['comms']['telegram_bot_name'] = ''; // Your bot's human-readable nam
 $app_config['comms']['telegram_bot_token'] = '';  // Your bot's access token
 
 
-// PRICE ALERTS SETUP REQUIRES A CRON JOB RUNNING ON YOUR WEBSITE SERVER (see README.txt for cron job setup information) 
+// PRICE ALERTS SETUP REQUIRES A CRON JOB RUNNING ON YOUR WEB SERVER (see README.txt for cron job setup information) 
 // Price alerts will send to all properly-configured communication channels, and automatically skip any not properly setup
 // Price percent change to send alerts for (WITHOUT percent sign: 15.75 = 15.75%). Sends alerts when percent change reached (up or down)
 $app_config['comms']['price_alerts_threshold'] = 9.25; // CAN BE 0 TO DISABLE PRICE ALERTS
@@ -261,7 +261,7 @@ $app_config['proxy']['proxy_list'] = array(
 ////////////////////////////////////////
 
 
-// CHARTS / PRICE ALERTS SETUP REQUIRES A CRON JOB RUNNING ON YOUR WEBSITE SERVER (see README.txt for cron job setup information) 
+// CHARTS / PRICE ALERTS SETUP REQUIRES A CRON JOB RUNNING ON YOUR WEB SERVER (see README.txt for cron job setup information) 
 
 // Asset price alert configuration
 // Only used if $app_config['charts_alerts']['tracked_markets'] is filled in properly below, AND a cron job is setup (see README.txt for cron job setup information) 
@@ -343,7 +343,7 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					'eth-12' => 'bittrex||usdt||none',
 					'eth-13' => 'bitbns||inr||none',
 					'eth-14' => 'bitmex||usd||both',
-					'eth-15' => 'defi_uniswap-v2||usdt||none',
+					'eth-15' => 'defipulse||usdt||none',
 					
 					
 					// XMR
@@ -365,26 +365,26 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					'mkr' => 'okex||btc||none',
 					'mkr-2' => 'kucoin||btc||none',
 					'mkr-3' => 'coinbase||btc||both',
-					'mkr-4' => 'defi_generic||eth||none',
+					'mkr-4' => 'defipulse||eth||none',
 					
 					
 					//DAI
 					'dai' => 'coinbase||usdc||both',
 					'dai-2' => 'kraken||usd||none',
 					'dai-3' => 'bittrex||btc||none',
-					'dai-4' => 'defi_curve||usdc||none',
+					'dai-4' => 'defipulse||usdc||none',
 					
 					
 					// UNI
 					'uni' => 'binance||btc||both',
-					'uni-2' => 'defi_generic||eth||none',
+					'uni-2' => 'defipulse||eth||none',
 					
 					
 					// ANT
 					'ant' => 'bittrex_global||btc||both',
 					'ant-2' => 'hitbtc||btc||chart',
 					'ant-3' => 'ethfinex||btc||none',
-					'ant-4' => 'defi_balancer||eth||none',
+					'ant-4' => 'defipulse||eth||none',
 					
 					
 					// MANA
@@ -447,7 +447,7 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 // ADD ANY NEW CRON PLUGIN HERE BY USING THE FOLDER NAME THE NEW PLUGIN IS LOCATED IN
 // !!NEVER ADD A CRON PLUGIN SOMEBODY ELSE WROTE, UNLESS YOU OR SOMEONE YOU TRUST 
 // HAVE REVIEWED THE CODE AND ARE ABSOLUTELY SURE IT IS NOT MALICIOUS!!
-// CRON PLUGINS REQUIRE A CRON JOB RUNNING ON YOUR WEBSITE SERVER (see README.txt for cron job setup information)
+// CRON PLUGINS REQUIRE A CRON JOB RUNNING ON YOUR WEB SERVER (see README.txt for cron job setup information)
 // CHANGE 'off' to 'on' FOR THE PLUGIN YOU WANT ACTIVATED 
 $app_config['power_user']['activate_cron_plugins'] = array(
 									//'PLUGIN_FOLDER_FILE_NAME' => 'off', // (your CASE-SENSITIVE plugin folder / file name in the folder: /cron-plugins/)
@@ -478,13 +478,13 @@ $app_config['power_user']['marketcap_ranks_max'] = 300; // (default = 300)
 // LOTS OF DATA, the higher number the better for fast page load times
 $app_config['power_user']['defi_pools_info_cache_time'] = 30; // (default = 30)
 ////
-// Maximum number of HIGHEST 24 HOUR TRADE VOLUME DeFi pools to fetch per platform (uniswap, uniswap-v2, balancer, curve, etc)
+// Maximum number of HIGHEST 24 HOUR TRADE VOLUME DeFi pools to fetch per platform (uniswap, balancer, curve, etc)
 // INCREASE IF YOUR POOL DOESN'T GET DETECTED, BUT YOU KNOW THE POOL EXISTS, AS POOLS ARE SORTED BY HIGHEST 24 HOUR TRADE VOLUME
-$app_config['power_user']['defi_pools_max_per_platform'] = 100; // (default = 100)
+$app_config['power_user']['defi_pools_max_per_platform'] = 500; // (default = 500)
 ////
 // Maximum number of MOST RECENT trades to fetch per DeFi pool
 // INCREASE IF TRADES FOR YOUR PAIRING DON'T GET DETECTED, AS TRADES ARE SORTED BY NEWEST FIRST
-$app_config['power_user']['defi_pools_max_trades'] = 30; // (default = 30)
+$app_config['power_user']['defi_pools_max_trades'] = 50; // (default = 50)
 
 
 // Number of decimals for price chart CRYPTO 24 hour volumes (NOT USED FOR FIAT VOLUMES, 4 decimals example: 24 hr vol = 91.3874 BTC)
@@ -2147,7 +2147,7 @@ $app_config['portfolio_assets'] = array(
                                           'zebpay' => 'ETH-BTC',
                                           'luno' => 'ETHXBT',
                                         	'wazirx' => 'ethbtc',
-                                    	 	'defi_generic' => 'WETH/WBTC',
+                                    	 	'defipulse' => 'WETH/WBTC',
                                                     ),
                                                     
                                     'cad' => array(
@@ -2164,7 +2164,7 @@ $app_config['portfolio_assets'] = array(
                                           'kraken' => 'ETHDAI',
                                         	'kucoin' => 'ETH-DAI',
                                           'hitbtc' => 'ETHDAI',
-                                    	 	'defi_generic' => 'WETH/DAI',
+                                    	 	'defipulse' => 'WETH/DAI',
                                                     ),
                                                     
                                     'eur' => array(
@@ -2249,7 +2249,7 @@ $app_config['portfolio_assets'] = array(
                                           'poloniex' => 'USDT_ETH',
                                           'bitbns' => 'ETHUSDT',
                                           'wazirx' => 'ethusdt',
-                                    	 	'defi_uniswap-v2' => 'WETH/USDT',
+                                    	 	'defipulse' => 'ETH/USDT',
                                                     ),
                                                     
                                     'usdc' => array(
@@ -2409,7 +2409,7 @@ $app_config['portfolio_assets'] = array(
                                         	'hitbtc' => 'MKRETH',
                                           'gateio' => 'MKR_ETH',
                                           'idex' => 'ETH_MKR',
-                                    	 	'defi_generic' => 'MKR/WETH',
+                                    	 	'defipulse' => 'MKR/WETH',
                                                     ),
                                                     
                                 		'krw' => array(
@@ -2454,7 +2454,7 @@ $app_config['portfolio_assets'] = array(
                                     'eth' => array(
                                         'bittrex' => 'DAI-ETH',
                                     	 'bitfinex' => 'tDAIETH',
-                                    	 	'defi_generic' => 'DAI/WETH',
+                                    	 'defipulse' => 'DAI/WETH',
                                                     ),
                                                     
                                     'eur' => array(
@@ -2478,14 +2478,14 @@ $app_config['portfolio_assets'] = array(
                                     'usdc' => array(
                                     	 'coinbase' => 'DAI-USDC',
                                         'hitbtc' => 'DAIUSDC',
-                                    	 'defi_curve' => 'DAI/USDC',
+                                    	 'defipulse' => 'DAI/USDC',
                                                     ),
                                                     
                                     'usdt' => array(
                                     	 'kraken' => 'DAIUSDT',
                                         'bittrex' => 'DAI-USDT',
                                         'okex' => 'DAI-USDT',
-                                    	 'defi_curve' => 'DAI/USDT',
+                                    	 'defipulse' => 'DAI/USDT',
                                                     ),
                                                     
                                         ) // market_pairing END
@@ -2508,7 +2508,7 @@ $app_config['portfolio_assets'] = array(
                                                     ),
                                                     
                                     'eth' => array(
-                                    	 'defi_generic' => 'UNI/WETH',
+                                    	 'defipulse' => 'UNI/WETH',
                                                     ),
                                                     
                                     'usd' => array(
@@ -2551,7 +2551,7 @@ $app_config['portfolio_assets'] = array(
                                           'huobi' => 'anteth',
                                         	'ethfinex' => 'tANTETH',
                                           'upbit' => 'ETH-ANT',
-                                    	 	'defi_balancer' => 'ANT/WETH',
+                                    	 	'defipulse' => 'ANT/WETH',
                                                     ),
                                                     
                                     'usd' => array(

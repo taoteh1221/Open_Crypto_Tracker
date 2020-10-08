@@ -192,7 +192,7 @@ AED / ARS / AUD / BAM / BDT / BOB / BRL / BTC / BWP / BYN / CAD / CHF / CLP / CN
 
 Support for over 40 exchanges (contact me to request more): 
 
-balancer / binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmex / bitmex_u20 / bitmex_z20 / bitpanda / bitso / bitstamp / bittrex / bittrex_global / braziliex / btcmarkets / btcturk / buyucoin / cex / coinbase / coinex / cryptofresh / curve / curve_compound / curve_iearn / ethfinex / gateio / gemini / hitbtc / hotbit / huobi / idex / korbit / kraken / kucoin / liquid / livecoin / localbitcoins / luno / okcoin / okex / poloniex / southxchange / uniswap / uniswap-v2 / upbit / wazirx / zebpay.
+balancer / binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmex / bitmex_u20 / bitmex_z20 / bitpanda / bitso / bitstamp / bittrex / bittrex_global / braziliex / btcmarkets / btcturk / buyucoin / cex / coinbase / coinex / cryptofresh / curve / curve_compound / curve_iearn / ethfinex / gateio / gemini / hitbtc / hotbit / huobi / idex / korbit / kraken / kucoin / liquid / livecoin / localbitcoins / luno / okcoin / okex / poloniex / southxchange / uniswap / upbit / wazirx / zebpay.
 
 
 Nearly Unlimited Assets Supported (whatever assets exist on supported exchanges).
@@ -218,13 +218,7 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in (values a
                                           'lowercase_exchange3' => 'ASSET-PAIRING',
                                           'lowercase_exchange4' => 'ASSET_PAIRING',
                                           'lowercase_exchange5' => 'ASSETPAIRING',
-                                          'defi_generic' => 'ASSET/PAIRING', // DeFi Generic
-                                          // DeFi Specific
-                                          'defi_uniswap' => 'ASSET/PAIRING',
-                                          'defi_uniswap-v2' => 'ASSET/PAIRING',
-                                          'defi_curve' => 'ASSET/PAIRING',
-                                          'defi_bancor' => 'ASSET/PAIRING',
-                                          'defi_balancer' => 'ASSET/PAIRING',
+                                          'defipulse' => 'ASSET/PAIRING', // DeFi Generic (sketchy API as of 10/8/2020, unable to reliably get platform-specific data)
                                                     ),
                                                     
                                     'eth' => array(
@@ -233,16 +227,8 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in (values a
                                           'lowercase_exchange3' => 'ASSET-ETH',
                                           'lowercase_exchange4' => 'ASSET_ETH',
                                           'lowercase_exchange5' => 'ASSETETH',
+                                          'defipulse' => 'ASSET/PAIRING', // DeFi Generic (sketchy API as of 10/8/2020, unable to reliably get platform-specific data)
                                           'eth_subtokens_ico' => 'ETHSUBTOKENNAME', // Must be defined in $app_config['power_user']['ethereum_subtoken_ico_values'] in config.php
-                                          // DeFi Generic 
-                                          // (exclusively using "DeFi Generic" instead of "DeFi Specific" platforms increases page load time / decreases defipulse API credit usage)
-                                          'defi_generic' => 'ASSET/PAIRING', 
-                                          // DeFi Specific
-                                          'defi_uniswap' => 'ASSET/PAIRING',
-                                          'defi_uniswap-v2' => 'ASSET/PAIRING',
-                                          'defi_curve' => 'ASSET/PAIRING',
-                                          'defi_bancor' => 'ASSET/PAIRING',
-                                          'defi_balancer' => 'ASSET/PAIRING',
                                                     ),
                                                     
                                           ) // market_pairing END
