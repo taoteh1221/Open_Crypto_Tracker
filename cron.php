@@ -211,24 +211,19 @@ debugging_logs();
 
 
 // Run any cron plugins activated in app_config
-if ( sizeof($app_config['power_user']['activate_cron_plugins']) > 0 ) {
-
-	foreach ( $app_config['power_user']['activate_cron_plugins'] as $cron_plugin ) {
-	$cron_plugin = trim($cron_plugin);
-	$cron_plugin_file = $base_dir . '/cron-plugins/' . $cron_plugin . '/' . $cron_plugin . '.php';
-	
-		if ( file_exists($cron_plugin_file) ) {
-		require_once($cron_plugin_file);
-		}
-	
+foreach ( $cron_plugin_apps as $key => $value ) {
+	if ( file_exists($value) ) {
+	$cron_plugin_name = $key;
+	require_once($value);
 	}
+}
+$cron_plugin_name = null;
 
 // Run again after cron plugins
 error_logs();
 debugging_logs();
 send_notifications();
 
-}
 
 gc_collect_cycles(); // Clean memory cache
 

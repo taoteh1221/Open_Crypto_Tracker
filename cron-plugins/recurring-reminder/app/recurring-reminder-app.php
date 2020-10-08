@@ -10,10 +10,10 @@
 
 
 // Remind yourself every X days (recurring)
-$reminder_recur_days = 30.4167; // Decimals supported (30.4167 days is average length of 1 month)
+$reminder_recur_days = $app_config['cron_plugins'][$cron_plugin_name]['reminder_recur_days']; 
 
 // Reminder message
-$reminder_message = "Review whether you should re-balance your portfolio (have individual assets take up a different precentage of your portfolio's total ".strtoupper($app_config['general']['btc_primary_currency_pairing'])." value).";
+$reminder_message = $app_config['cron_plugins'][$cron_plugin_name]['reminder_message'];
 
 
 /////////////////////////////////////////////////////////////////

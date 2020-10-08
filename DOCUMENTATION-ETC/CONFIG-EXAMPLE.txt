@@ -444,16 +444,16 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 
 // Activate any custom cron plugins you've created (that runs during cron jobs, from the /cron-plugins/ directory)
 // SEE /DOCUMENTATION-ETC/CRON-PLUGINS-README.txt for creating your own custom cron plugins
-// REMOVE ANY DOUBLE FORWARD SLASHES FROM IN FRONT OF THE PLUGIN YOU WANT ACTIVATED
 // ADD ANY NEW CRON PLUGIN HERE BY USING THE FOLDER NAME THE NEW PLUGIN IS LOCATED IN
-// NEVER ADD A CRON PLUGIN SOMEBODY ELSE WROTE, UNLESS YOU OR SOMEONE YOU TRUST 
+// !!NEVER ADD A CRON PLUGIN SOMEBODY ELSE WROTE, UNLESS YOU OR SOMEONE YOU TRUST 
 // HAVE REVIEWED THE CODE AND ARE ABSOLUTELY SURE IT IS NOT MALICIOUS!!
-// CRON PLUGINS REQUIRE A CRON JOB RUNNING ON YOUR WEBSITE SERVER (see README.txt for cron job setup information) 
+// CRON PLUGINS REQUIRE A CRON JOB RUNNING ON YOUR WEBSITE SERVER (see README.txt for cron job setup information)
+// CHANGE 'off' to 'on' FOR THE PLUGIN YOU WANT ACTIVATED 
 $app_config['power_user']['activate_cron_plugins'] = array(
-						//'PLUGIN_FOLDER_NAME', // (your plugin folder in /cron-plugins/)
-						//'recurring-reminder',  // Recurring Reminder plugin (alert yourself every X days to do something)
-						//'decred-proposals',  // Decred Proposals plugin (sends alerts whenever there is a new Decred proposal up for discussion / vote)
-							);
+									//'PLUGIN_FOLDER_FILE_NAME' => 'off', // (your CASE-SENSITIVE plugin folder / file name in the folder: /cron-plugins/)
+									'recurring-reminder' => 'off',  // Recurring Reminder plugin (alert yourself every X days to do something)
+									'decred-proposals' => 'off',  // Decred Proposals plugin (alerts when a new Decred proposal is up for discussion / vote)
+									);
 							
 
 // MINUTES to cache real-time exchange price data...can be zero to skip cache, but set to at least 1 minute TO AVOID YOUR IP ADDRESS GETTING BLOCKED
