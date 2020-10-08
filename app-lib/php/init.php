@@ -235,9 +235,6 @@ $btc_pairing_markets_excluded = array();
 // Coinmarketcap supported currencies array
 require_once('app-lib/php/other/coinmarketcap-currencies.php');
 
-// SET original app_config array BEFORE dynamic app config management
-$default_app_config = $app_config; 
-
 // Set as global, to update in / out of functions as needed
 $upgraded_app_config = array();
 
@@ -354,6 +351,9 @@ require_once('app-lib/php/other/debugging/system-checks.php');
 
 // Cron plugins config (MUST RUN AFTER system checks and BEFORE secure cache files)
 require_once('app-lib/php/other/cron-plugins-config.php');
+
+// SET original app_config array AFTER cron plugins config, BEFORE secure cache files, and BEFORE dynamic app config management
+$default_app_config = $app_config; 
 
 // SECURED cache files management (MUST RUN AFTER system checks and AFTER cron plugins config)
 require_once('app-lib/php/other/security/secure-cache-files.php');

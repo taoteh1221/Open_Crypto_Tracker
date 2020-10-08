@@ -4066,6 +4066,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Cron plugin available (DISABLED BY DEFAULT in power user config) for detecting new Decred proposals, and detecting when voting starts on them
 
+-Refactored cron plugin system
+
 -Optimizations
 
 -Misc. UX

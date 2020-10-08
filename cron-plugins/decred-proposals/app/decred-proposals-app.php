@@ -47,25 +47,25 @@ if ( sizeof($voting_proposals) > 0 ) {
 $voting_proposals_message = sizeof($voting_proposals) . " Decred proposal(s) are now being voted on...";
 
 	foreach ( $voting_proposals as $proposal ) {
-	$voting_proposal_urls .= 'https://proposals.decred.org/proposals/' . substr($proposal,0,7) . "\n\n";
+	$voting_proposal_urls .= 'https://proposals.decred.org/proposals/' . substr($proposal,0,7) . "\n";
 	}
 
 
   				// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
   				
   				// Minimize function calls
-  				$encoded_text_message = content_data_encoding($voting_proposals_message . "\n\n" . $voting_proposal_urls); // Unicode support included for text messages (emojis / asian characters / etc )
+  				$encoded_text_message = content_data_encoding($voting_proposals_message . "\n" . $voting_proposal_urls); // Unicode support included for text messages (emojis / asian characters / etc )
   				
           	$send_params = array(
           								'notifyme' => $voting_proposals_message,
-          								'telegram' => $voting_proposals_message . "\n\n" . $voting_proposal_urls,
+          								'telegram' => $voting_proposals_message . "\n" . $voting_proposal_urls,
           								'text' => array(
           														'message' => $encoded_text_message['content_output'],
           														'charset' => $encoded_text_message['charset']
           														),
           								'email' => array(
           														'subject' => $voting_proposals_message,
-          														'message' => $voting_proposals_message . "\n\n" . $voting_proposal_urls
+          														'message' => $voting_proposals_message . "\n" . $voting_proposal_urls
           														)
           								);
           	
@@ -124,25 +124,25 @@ $unvoted_proposals = array_merge($unvoted_proposals, $new_proposals);
 $new_proposals_message = sizeof($new_proposals) . " new Decred proposal(s) have been detected...";
 
 	foreach ( $new_proposals as $proposal ) {
-	$new_proposal_urls .= 'https://proposals.decred.org/proposals/' . substr($proposal,0,7) . "\n\n";
+	$new_proposal_urls .= 'https://proposals.decred.org/proposals/' . substr($proposal,0,7) . "\n";
 	}
 
 
   				// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
   				
   				// Minimize function calls
-  				$encoded_text_message = content_data_encoding($new_proposals_message . "\n\n" . $new_proposal_urls); // Unicode support included for text messages (emojis / asian characters / etc )
+  				$encoded_text_message = content_data_encoding($new_proposals_message . "\n" . $new_proposal_urls); // Unicode support included for text messages (emojis / asian characters / etc )
   				
           	$send_params = array(
           								'notifyme' => $new_proposals_message,
-          								'telegram' => $new_proposals_message . "\n\n" . $new_proposal_urls,
+          								'telegram' => $new_proposals_message . "\n" . $new_proposal_urls,
           								'text' => array(
           														'message' => $encoded_text_message['content_output'],
           														'charset' => $encoded_text_message['charset']
           														),
           								'email' => array(
           														'subject' => $new_proposals_message,
-          														'message' => $new_proposals_message . "\n\n" . $new_proposal_urls
+          														'message' => $new_proposals_message . "\n" . $new_proposal_urls
           														)
           								);
           	
