@@ -214,8 +214,10 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in (values a
                                     
                                     'lowercase_pairing_abrv' => array(
                                           'lowercase_exchange1' => 'MARKETIDHERE',
-                                          'lowercase_exchange2' => 'pairing/COINSYMBOLHERE',
-                                          'lowercase_exchange3' => 'PAIRING-COINSYMBOLHERE',
+                                          'lowercase_exchange2' => 'ASSET/PAIRING',
+                                          'lowercase_exchange3' => 'ASSET-PAIRING',
+                                          'lowercase_exchange4' => 'ASSET_PAIRING',
+                                          'lowercase_exchange5' => 'ASSETPAIRING',
                                           'defi_generic' => 'ASSET/PAIRING', // DeFi Generic
                                           // DeFi Specific
                                           'defi_uniswap' => 'ASSET/PAIRING',
@@ -227,10 +229,14 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in (values a
                                                     
                                     'eth' => array(
                                           'lowercase_exchange1' => 'MARKETIDHERE',
-                                          'lowercase_exchange2' => 'eth/COINSYMBOLHERE',
-                                          'lowercase_exchange3' => 'ETH-COINSYMBOLHERE',
+                                          'lowercase_exchange2' => 'ASSET/ETH',
+                                          'lowercase_exchange3' => 'ASSET-ETH',
+                                          'lowercase_exchange4' => 'ASSET_ETH',
+                                          'lowercase_exchange5' => 'ASSETETH',
                                           'eth_subtokens_ico' => 'ETHSUBTOKENNAME', // Must be defined in $app_config['power_user']['ethereum_subtoken_ico_values'] in config.php
-                                          'defi_generic' => 'ASSET/PAIRING', // DeFi Generic
+                                          // DeFi Generic 
+                                          // (exclusively using "DeFi Generic" instead of "DeFi Specific" platforms increases page load time / decreases defipulse API credit usage)
+                                          'defi_generic' => 'ASSET/PAIRING', 
                                           // DeFi Specific
                                           'defi_uniswap' => 'ASSET/PAIRING',
                                           'defi_uniswap-v2' => 'ASSET/PAIRING',

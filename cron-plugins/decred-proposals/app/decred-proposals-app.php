@@ -32,6 +32,9 @@ $jsondata = @external_api_data('url', $json_string, 360); // Re-cache every 6 ho
      
 $data = json_decode($jsondata, true);
 
+// Currently there is no API endpoint data to confirm abandoned proposals here (to purge them), 
+// maybe parse github repo commit notes instead (like we do to detect new proposals)??
+
 	if ( sizeof($data['time']) > 0 ) {
 	$voting_proposals[] = $value;
 	unset($unvoted_proposals[$key]);
@@ -103,6 +106,7 @@ if (is_array($data) || is_object($data)) {
 			
 		$parse_token = $value['commit']['message'];
 		$parse_token = preg_replace("/add record /i", "", $parse_token);
+		$parse_token = trim($parse_token);
 		
 			if ( !in_array($parse_token, $unvoted_proposals) ) {
 			$new_proposals[] = $parse_token;

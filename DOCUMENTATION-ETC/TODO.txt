@@ -83,19 +83,22 @@ FEATURES / STRUCTURING SECTION
 ///////////////////////////////////////////////////////
 
 
+Add unlimited (seperate) recurring reminders capability to reminder cron plugin.
+
+
 Option to use new zip file encryption password feature to encrypt portfolio spreadsheet exports when downloading exported portfolio data (with password entered in the UI, #NOT# $app_config['general']['backup_archive_password']).
 
 
-Give cron plugins a [plugin name]-config.php file for parameters like gui menus / content, mysql data table structure, etc. Also give cron plugins a dedicated admin page (if any are activated).
+Give cron plugins a dedicated admin page (if any are activated).
 
 
 Create a cron plugin to let you know when a raw market value has gone below / above a certain exact value at a specific exchange (good for knowing when / if your order fills).
 
 
-Have balance summary at bottom of portfolio page show percent of MISCASSETS too.
-
-
 Create "Export your feeds" link on News page, to XML / JSON format file download (like exporting portfolio logic).
+
+
+Build Decred staking calculator.
 
 
 For each category_key => category_value loop app config, to automate categorizing new admin settings tabs...selects for arrays, text fields for strings. Maybe certain key names get checkbox / radio button fields.
@@ -119,10 +122,7 @@ Admin import / export of settings (consider security implications CAREFULLY...ma
 When cached app config is independent of config.php updating-wise, use the show / hide link to have an optional email field on the admin registration page, and mention it enables password resetting via email.
 
 
-Add Uniswap API: https://thegraph.com/explorer/subgraph/graphprotocol/uniswap , OR https://github.com/Uniswap/uniswap-api
-
-
-Mail trading notes to admin email, only if user logged in as admin.
+Add admin settings feature to restore chart data from the zip archive backups (with admin authentication ONLY). Chart restore by prepending, so any existing data remains, BUT only if timestamp is newer than newest backups timestamp. Trigger restore from newest backups folder backup by placing a blank file named RESTORE_CHARTS in the queue directory.
 
 
 Add additional ability to do telegram webhooks, to query asset prices at different exchanges through telegram chat with the chat bot. Example: "/price ETH/USDT @ Binance"
@@ -134,19 +134,25 @@ Documentation for Webhook features
 Add webhook keys on admin page.
 
 
-In the "loading charts" logic, add a timer that logs the time it takes to load all Shown Charts, and prints results to the console log.
+Create a "Desktop Edition" using PHPDesktop (https://github.com/cztomczak/phpdesktop/wiki), so it can easily be downloaded / run locally as a native app...SUPER IMPORTANT FOR MASS USER ADOPTION!!!
+
+
+Stats in UI using chart data (if chart data is available), to show and compare spot / volume value and percent changes over an end-user-defined time period for a number of assets (example: BTC / DCR / ETH / XMR spot price value and percentage changes / 24hr volume value and percentage changes from April 6th 2019 to November 22nd 2019). Shows trends on which assets are performing better for a certain time period. HAVE ABILITY TO ALSO SHOW ALL CURRENT PORTFOLIO ASSET'S BTC / USD *SUBTOTAL HOLDINGS VALUE* OVER THIS TIME PERIOD TOO, TO AID IN VISUALIZING PROPER PORTFOLIO REBALANCING MANAGEMENT.
+
+
+Check out cryptocompare.com API.
+
+
+Mail trading notes to admin email, only if user logged in as admin.
+
+
+Store visitor access data in flat file / json format (so mulitiple values can be read back into the app before updating, then updated values saved back in json overwriting previously saved values). Last X unique ip addresses (as a power user config setting), showing ip address's last user agent / last visit time / total visits count. Drop any over X ip addresses off the list based on oldest timestamps. Store visitor ip address data (user agent, etc) in an array key based off ip address (json format). Add visitor stats for API and webhook visits (whenever the stats logic is built out for the interface).
 
 
 Add google home support via direct connect on same network, OR via IFTTT (whichever is most feasible).
 
 
 Add IFTTT support (alexa / google home / whatever supported devices).
-
-
-Add admin settings feature to restore chart data from the zip archive backups (with admin authentication ONLY). Chart restore by prepending, so any existing data remains, BUT only if timestamp is newer than newest backups timestamp. Trigger restore from newest backups folder backup by placing a blank file named RESTORE_CHARTS in the queue directory.
-
-
-Add setting to enable access stats modal, maybe include an optional password setting to require login to view it in the UI if password is set. Store access data in flat file / json format (so mulitiple values can be read back into the app before updating, then updated values saved back in json overwriting previously saved values). Last 50 unique ip addresses, showing ip address's last user agent / last visit time / total visits count. Drop any over 50 ip addresses off the list based on oldest timestamps. Store visitor ip address data (user agent, etc) in an array key based off ip address (json format). Add visitor stats for API and webhook visits (whenever the stats logic is built out for the interface).
 
 
 Look into an auto-update feature like WordPress has (downloads a zip file upgrade, and exctracts it overwriting the old app files).
@@ -158,7 +164,7 @@ Add Google and Microsoft translate API as options to translate the portfolio int
 Create github wiki with the current documentation for the portfolio app.
 
 
-Add localcryptos API support?
+Add localcryptos API support whenever their API is out of private testing.
 
 
 Wrap all interface English within a "placeholder" lang_translate() function call. Then from a developer perspective you can still fully see the interface logic, and build out translation logic over time later. 
@@ -177,21 +183,6 @@ Add drop-down menu feature next to "Save Updated Portfolio" buttons for "save as
 
 
 2-way encryption option (unlocked with 6 digit PIN) for storing coin amounts (IN COOKIES ONLY, NO DATABASE STORAGE !EVER!), with "quick lock" to quickly re-hide portfolio data (staying hidden persists on page load / reload as well with a cookie).
-
-
-Check out cryptocompare.com API.
-
-
-Build Decred staking calculator.
-
-
-Create a "Desktop Edition" using PHPDesktop (https://github.com/cztomczak/phpdesktop/wiki), call the hosted version "Server Edition".
-
-
-Use SQLite for any data storage that needs query capability (can also be used in PHPDesktop version, as it supports SQLite). 
-
-
-Stats in UI using chart data (if available), to show and compare spot / volume percent changes over an end-user-defined time period for a number of assets (example: BTC / LTC / ETH / XMR spot price percentage changes / 24hr volume percentage changes from April 6th 2019 to November 22nd 2019). Shows trends on which assets are performing better for a certain time period.
 
 
 Add chart sorting by crypto and usd price / volume percentage change over 1 hour / 1 day / 1 week / 1 month / 90 days / 6 months / 1 year.
@@ -216,6 +207,12 @@ Add a "calculate current portfolio's performance in BTC and [fiat currency] over
 ///////////////////////////////////////////////////////
 MAYBE SECTION
 ///////////////////////////////////////////////////////
+
+
+Use SQLite for any data storage that needs query capability (can also be used in PHPDesktop version, as it supports SQLite). 
+
+
+In the "loading charts" logic, add a timer that logs the time it takes to load all Shown Charts, and prints results to the console log.
 
 
 See if zingchart can do a moving average line?
