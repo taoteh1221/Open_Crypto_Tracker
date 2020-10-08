@@ -192,7 +192,7 @@ AED / ARS / AUD / BAM / BDT / BOB / BRL / BTC / BWP / BYN / CAD / CHF / CLP / CN
 
 Support for over 40 exchanges (contact me to request more): 
 
-balancer / binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmex / bitmex_u20 / bitmex_z20 / bitpanda / bitso / bitstamp / bittrex / bittrex_global / braziliex / btcmarkets / btcturk / buyucoin / cex / coinbase / coinex / cryptofresh / curve / curve_compound / curve_iearn / ethfinex / gateio / gemini / hitbtc / hotbit / huobi / idex / korbit / kraken / kucoin / liquid / livecoin / localbitcoins / luno / okcoin / okex / poloniex / southxchange / uniswap / upbit / wazirx / zebpay.
+binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmex / bitmex_u20 / bitmex_z20 / bitpanda / bitso / bitstamp / bittrex / bittrex_global / braziliex / btcmarkets / btcturk / buyucoin / cex / coinbase / coinex / cryptofresh / defipulse / ethfinex / gateio / gemini / hitbtc / hotbit / huobi / idex / korbit / kraken / kucoin / liquid / livecoin / localbitcoins / luno / okcoin / okex / poloniex / southxchange / upbit / wazirx / zebpay.
 
 
 Nearly Unlimited Assets Supported (whatever assets exist on supported exchanges).

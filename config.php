@@ -490,7 +490,7 @@ $app_config['power_user']['marketcap_ranks_max'] = 300; // (default = 300)
 // LOTS OF DATA, the higher number the better for fast page load times
 $app_config['power_user']['defi_pools_info_cache_time'] = 30; // (default = 30)
 ////
-// Maximum number of HIGHEST 24 HOUR TRADE VOLUME DeFi pools to fetch per platform (uniswap, balancer, curve, etc)
+// Maximum number of HIGHEST 24 HOUR TRADE VOLUME DeFi pools to fetch
 // INCREASE IF YOUR POOL DOESN'T GET DETECTED, BUT YOU KNOW THE POOL EXISTS, AS POOLS ARE SORTED BY HIGHEST 24 HOUR TRADE VOLUME
 $app_config['power_user']['defi_pools_max_per_platform'] = 500; // (default = 500)
 ////
