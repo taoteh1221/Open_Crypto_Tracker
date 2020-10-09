@@ -421,9 +421,11 @@
 	    <ul>
 	        
 	        
+	        <li class='links_list'><a href='https://bitcoin-only.com/' target='_blank'>Bitcoin-Only.com</a></li>
+	        
 	        <li class='links_list'><a href='https://bitcoinacks.com/' target='_blank'>BitcoinACKs.com</a></li>
 	        
-	        <li class='links_list'><a href='https://bitcoin-only.com/' target='_blank'>Bitcoin-Only.com</a></li>
+	        <li class='links_list'><a href='https://bitcointreasuries.org/' target='_blank'>BitcoinTreasuries.org</a></li>
 	        
 	        <li class='links_list'><a href='https://www.reddit.com/r/Bitcoin/' target='_blank'>Bitcoin Subreddit</a></li>
 	        
@@ -436,6 +438,8 @@
 	        <li class='links_list'><a href='https://coincenter.org/' target='_blank'>CoinCenter.org</a></li>
 	        
 	        <li class='links_list'><a href='https://twitter.com/hashtag/cryptotwitter?src=hash' target='_blank'>#CryptoTwitter</a></li>
+	        
+	        <li class='links_list'><a href='https://proposals.decred.org/' target='_blank'>Decred Governance Proposals</a></li>
 	        
 	        <li class='links_list'><a href='https://www.reddit.com/r/ethereum/' target='_blank'>Ethereum Subreddit</a></li>
 	        
