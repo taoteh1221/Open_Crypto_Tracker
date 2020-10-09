@@ -789,7 +789,7 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
   		return false;
   		}
       elseif ( !$defi_pools_info['pool_address'] ) {
-  		app_logging('market_error', 'No DeFi liquidity pool found for ' . $market_id . ', try setting "defi_pools_max_per_platform" HIGHER in the POWER USER config (current setting is '.$app_config['power_user']['defi_pools_max_per_platform'].', results are sorted by highest trade volume pools first)');
+  		app_logging('market_error', 'No DeFi liquidity pool found for ' . $market_id . ', try setting "defi_liquidity_pools_max" HIGHER in the POWER USER config (current setting is '.$app_config['power_user']['defi_liquidity_pools_max'].', results are sorted by highest trade volume pools first)');
   		return false;
   		}
      

@@ -450,7 +450,7 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 // CRON PLUGINS REQUIRE A CRON JOB RUNNING ON YOUR WEB SERVER (see README.txt for cron job setup information)
 // CHANGE 'off' to 'on' FOR THE PLUGIN YOU WANT ACTIVATED 
 $app_config['power_user']['activate_cron_plugins'] = array(
-									//'PLUGIN_FOLDER_FILE_NAME' => 'off', // (your CASE-SENSITIVE plugin folder / file name in the folder: /cron-plugins/)
+									//'PLUGIN_FOLDER_FILE_NAME' => 'on', // (your CASE-SENSITIVE plugin folder / file name in the folder: /cron-plugins/)
 									'recurring-reminder' => 'off',  // Recurring Reminder plugin (alert yourself every X days to do something)
 									'decred-proposals' => 'off',  // Decred Proposals plugin (alerts when a new Decred proposal is up for discussion / vote)
 									);
@@ -476,15 +476,15 @@ $app_config['power_user']['marketcap_ranks_max'] = 300; // (default = 300)
 // MINUTES to cache real-time DeFi pool info (pool eth address / name / volume / etc)
 // THIS SETTING DOES #NOT# AFFECT PRICE / TRADE VALUE REFRESHING, IT ONLY AFFECTS THE POOL'S TRADE VOLUME STATS / STORED ETH ADDRESS
 // LOTS OF DATA, the higher number the better for fast page load times
-$app_config['power_user']['defi_pools_info_cache_time'] = 30; // (default = 30)
+$app_config['power_user']['defi_pools_info_cache_time'] = 25; // (default = 25)
 ////
 // Maximum number of HIGHEST 24 HOUR TRADE VOLUME DeFi pools to fetch
 // INCREASE IF YOUR POOL DOESN'T GET DETECTED, BUT YOU KNOW THE POOL EXISTS, AS POOLS ARE SORTED BY HIGHEST 24 HOUR TRADE VOLUME
-$app_config['power_user']['defi_pools_max_per_platform'] = 500; // (default = 500)
+$app_config['power_user']['defi_liquidity_pools_max'] = 350; // (default = 350)
 ////
 // Maximum number of MOST RECENT trades to fetch per DeFi pool
 // INCREASE IF TRADES FOR YOUR PAIRING DON'T GET DETECTED, AS TRADES ARE SORTED BY NEWEST FIRST
-$app_config['power_user']['defi_pools_max_trades'] = 50; // (default = 50)
+$app_config['power_user']['defi_pools_max_trades'] = 60; // (default = 60)
 
 
 // Number of decimals for price chart CRYPTO 24 hour volumes (NOT USED FOR FIAT VOLUMES, 4 decimals example: 24 hr vol = 91.3874 BTC)
@@ -1794,11 +1794,12 @@ $app_config['portfolio_assets'] = array(
                                                     ),
                                                     
                                     'dai' => array(
-                                        'binance' => 'BTCDAI',
-                                        'hitbtc' => 'BTCDAI',
-                                    	 'kraken' => 'XBTDAI',
-                                        'okex' => 'BTC-DAI',
-                                        'kucoin' => 'BTC-DAI',
+                                        	'binance' => 'BTCDAI',
+                                        	'hitbtc' => 'BTCDAI',
+                                    	 	'kraken' => 'XBTDAI',
+                                        	'okex' => 'BTC-DAI',
+                                        	'kucoin' => 'BTC-DAI',
+                                    	 	'defipulse' => 'WBTC/DAI',
                                                     ),
                                                     
                                     'dkk' => array(
@@ -1815,6 +1816,7 @@ $app_config['portfolio_assets'] = array(
                                                     
                                     'eth' => array(
                                           'localbitcoins' => 'ETH',
+                                    	 	'defipulse' => 'WBTC/WETH',
                                                     ),
                                                     
                                     'eur' => array(

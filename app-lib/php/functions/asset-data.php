@@ -236,7 +236,7 @@ function defi_pools_info($pairing_array) {
 global $app_config;
 
      
-     $json_string = 'https://data-api.defipulse.com/api/v1/blocklytics/pools/v1/exchanges?limit=' . $app_config['power_user']['defi_pools_max_per_platform'] . '&orderBy=usdVolume&direction=desc&api-key=' . $app_config['general']['defipulsecom_api_key'];
+     $json_string = 'https://data-api.defipulse.com/api/v1/blocklytics/pools/v1/exchanges?limit=' . $app_config['power_user']['defi_liquidity_pools_max'] . '&orderBy=usdVolume&direction=desc&api-key=' . $app_config['general']['defipulsecom_api_key'];
      
      $jsondata = @external_api_data('url', $json_string, $app_config['power_user']['defi_pools_info_cache_time']); // Re-cache exchanges => addresses data, etc
      
@@ -2115,7 +2115,7 @@ $original_market = $selected_exchange;
 
 	<?php
 	if ( $asset_market_data['defi_pool_name'] ) {
-	$defi_exchange_dropdown_title = "\n" . 'Currently selected defi pool: ' . $asset_market_data['defi_pool_name'] . ' (' . $asset_market_data['defi_platform'] . ')';
+	$defi_exchange_dropdown_title = "\n" . 'Current DeFi Liquidity Pool: ' . $asset_market_data['defi_pool_name'] . ' (' . $asset_market_data['defi_platform'] . ')';
 	}
 	?>
  
