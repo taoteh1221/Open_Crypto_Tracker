@@ -28,7 +28,7 @@ foreach ($unvoted_proposals as $key => $value) {
 
 $json_string = 'https://explorer.dcrdata.org/api/proposal/' . $value;
 
-$jsondata = @external_api_data('url', $json_string, 360); // Re-cache every 6 hours (360 minutes)
+$jsondata = @external_api_data('url', $json_string, 150); // Re-cache every 2.5 hours (150 minutes)
      
 $data = json_decode($jsondata, true);
 
@@ -93,7 +93,7 @@ $new_proposals = array();
 
 $json_string = 'https://api.github.com/repos/decred-proposals/mainnet/commits';
 
-$jsondata = @external_api_data('url', $json_string, 360); // Re-cache every 6 hours (360 minutes)
+$jsondata = @external_api_data('url', $json_string, 150); // Re-cache every 2.5 hours (150 minutes)
      
 $data = json_decode($jsondata, true);
 
