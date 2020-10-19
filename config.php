@@ -913,14 +913,14 @@ $app_config['power_user']['news_feeds'] = array(
         
         
         				array(
-            			"title" => "News - Ethereum World News",
-            			"url" => "https://en.ethereumworldnews.com/feed"
+            			"title" => "News - Bitcoin Magazine",
+            			"url" => "https://bitcoinmagazine.com/feed"
         						),
         
         
         				array(
-            			"title" => "News - Bitcoin Magazine",
-            			"url" => "https://bitcoinmagazine.com/feed"
+            			"title" => "News - Bitcoinist",
+            			"url" => "https://bitcoinist.com/feed/"
         						),
     					
     					
@@ -957,6 +957,12 @@ $app_config['power_user']['news_feeds'] = array(
         				array(
             			"title" => "News - Crypto Mining Blog",
             			"url" => "https://cryptomining-blog.com/feed/"
+        						),
+        
+        
+        				array(
+            			"title" => "News - Ethereum World News",
+            			"url" => "https://en.ethereumworldnews.com/feed"
         						),
     
     
