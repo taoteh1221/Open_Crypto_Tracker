@@ -920,7 +920,7 @@ $app_config['power_user']['news_feeds'] = array(
         
         				array(
             			"title" => "News - BTC Manager",
-            			"url" => "https://btcmanager.com/feed/"
+            			"url" => "https://btcmanager.com/rssfeed/"
         						),
         
         
@@ -1333,7 +1333,7 @@ $app_config['developer']['remote_api_strict_ssl'] = 'off'; // (default = 'off')
 // Set too low you won't get ALL data (partial or zero bytes), set too high the interface can take a long time loading if an API server hangs up
 // RECOMMENDED MINIMUM OF 45 TO 60 FOR INSTALLS BEHIND #VERY LOW BANDWIDTH# NETWORKS 
 // (which may need an even higher timeout above 60 if data still isn't FULLY received from all APIs)
-$app_config['developer']['remote_api_timeout'] = 35; // (default = 35)
+$app_config['developer']['remote_api_timeout'] = 45; // (default = 45)
 
 
 // Local / internal API rate limit (maximum of once every X seconds, per ip address) for accepting remote requests
