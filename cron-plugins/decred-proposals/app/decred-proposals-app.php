@@ -42,6 +42,9 @@ $data = json_decode($jsondata, true);
 
 }
 
+// Reset array indexing (in case we unset any values above, so we never overwrite values transitioning to / from json flat file storage)
+$unvoted_proposals = array_values($unvoted_proposals); 
+
 
 // Updating / alerting
 
@@ -123,8 +126,6 @@ if (is_array($data) || is_object($data)) {
 
 if ( sizeof($new_proposals) > 0 ) {
 
-$unvoted_proposals = array_merge($unvoted_proposals, $new_proposals);
-
 $new_proposals_message = sizeof($new_proposals) . " new Decred proposal(s) have been detected...";
 
 	foreach ( $new_proposals as $proposal ) {
@@ -154,6 +155,9 @@ $new_proposals_message = sizeof($new_proposals) . " new Decred proposal(s) have 
           	
 // Send notifications
 @queue_notifications($send_params);
+
+// Merge new proposals array
+$unvoted_proposals = array_merge($unvoted_proposals, $new_proposals); 
 
 // Store new proposals
 store_file_contents($base_dir . '/cache/vars/decred-unvoted-proposals.dat', json_encode($unvoted_proposals, JSON_PRETTY_PRINT) );
