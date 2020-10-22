@@ -83,6 +83,9 @@ FEATURES / STRUCTURING SECTION
 ///////////////////////////////////////////////////////
 
 
+Add a "Reset lite charts" button on the admin 'Reset' page, to trigger rebuilding lite charts.
+
+
 Add unlimited (seperate) recurring reminders capability to reminder cron plugin.
 
 
