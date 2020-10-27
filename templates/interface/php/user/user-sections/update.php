@@ -50,6 +50,9 @@
 			var portfolio_data_privacy = '<h5 align="center" class="bitcoin" style="position: relative; white-space: nowrap;">How is my portfolio data stored by this app?</h5>'
 			
 			
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><i class="bitcoin">TLDR: <u>NOBODY EXCEPT YOU ON YOUR COMPUTER</u> CAN SEE THE INFORMATION YOU ENTER IN THIS APP (<u>NO DATA</u> IS STORED REMOTELY).</i></p>'
+			
+			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><i class="bitcoin"><u>Your portfolio data is NEVER stored in the app</u></i>, it is ONLY stored on your computer in your web browser (either temporarily in the web browser temporary files cache, or semi-permanently in web browser cookies).</p>'
 			
 			
