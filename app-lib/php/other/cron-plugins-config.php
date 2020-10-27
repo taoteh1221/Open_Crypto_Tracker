@@ -15,18 +15,18 @@ foreach ( $app_config['power_user']['activate_cron_plugins'] as $key => $value )
 		
 	$key = trim($key);
 	$cron_plugin_apps[$key] = $base_dir . '/cron-plugins/' . $key . '/app/' . $key . '-app.php'; // Loaded LATER at bottom of cron.php (if cron runtime)
-	$cron_plugin_config = $base_dir . '/cron-plugins/' . $key . '/config/' . $key . '-config.php'; // Loaded NOW to have ready for any cached app config resets (for ANY runtime)
+	$cron_plugin_config_file = $base_dir . '/cron-plugins/' . $key . '/config/' . $key . '-config.php'; // Loaded NOW to have ready for any cached app config resets (for ANY runtime)
 
-		if ( file_exists($cron_plugin_config) ) {
-		$cron_plugin_name = $key;
-		require_once($cron_plugin_config);
+		if ( file_exists($cron_plugin_config_file) ) {
+		require_once($cron_plugin_config_file);
+		$app_config['cron_plugins'][$key] = $cron_plugin_config;
+		$cron_plugin_config = null;
 		}
 	
+	$cron_plugin_config_file = null;
 	}
 
 }
-$cron_plugin_config = null;
-$cron_plugin_name = null;
 
 //////////////////////////////////////////////////////////////////
 // END CRON PLUGINS CONFIG

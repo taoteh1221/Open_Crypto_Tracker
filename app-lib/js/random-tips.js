@@ -77,7 +77,7 @@ var quoteSource=[
 	    	name:"Mike Kilday (creator of this app)"
 	    },
 	    {
-	    	quote:"For longer shot (#VERY# high risk) small marketcap assets, HIGHLY consider getting #NO MORE THAN# a 'moon bag' worth (#NO MORE THAN# between 1% and 5% of your portfolio PER-ASSET, AND A TOTAL OF #NO MORE THAN# 10% of your portfolio). If it goes down 50% and keeps going down, sell it and you don't lose much. If it goes up between 400% and 800% (4x to 8x original value) or higher, REBALANCE it to not be more than between 1% and 10% of your portfolio again (by selling a significant portion of it). CAREFULLY TRACK YOUR SUCCESS RATE. If you are no good at picking long shots, stick to the largest and oldest marketcaps instead.",
+	    	quote:"For longer shot (#VERY# high risk) small marketcap assets, HIGHLY consider getting #NO MORE THAN# a 'moon bag' worth (#NO MORE THAN# between 1% and 5% of your portfolio PER-ASSET, AND A TOTAL OF #NO MORE THAN# 10% of your portfolio). If it goes down 50% and keeps going down, sell it and you don't lose much. If it goes up between 400% and 800% (4x to 8x original value) or higher, REBALANCE it to not be more than between 1% and 10% of your portfolio again (by selling a significant portion of it). CAREFULLY TRACK YOUR SUCCESS RATE. If you are no good at picking long shots, stick to the <i>largest AND oldest</i> marketcaps instead.",
 	    	name:"Mike Kilday (creator of this app)"
 	    },
 	    {

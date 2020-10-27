@@ -31,7 +31,7 @@ IF YOUR APP DOES NOT NEED CONFIG SETTINGS FOR USER SETUP, YOU CAN SKIP CREATING 
 (lowercase: "my-cron-plugin/config/my-cron-plugin-config.php")
 
 
-5) All "my-cron-plugin/config/my-cron-plugin-config.php" PLUGIN CONFIG settings MUST BE INSIDE an array EXACTLY-NAMED: $app_config['cron_plugins'][$cron_plugin_name]
+5) All "my-cron-plugin/config/my-cron-plugin-config.php" PLUGIN CONFIG settings MUST BE INSIDE AN ARRAY EXACTLY-NAMED: $cron_plugin_config
 
 
 6) Inside THE MAIN config.php file (in the primary directory of this app), find the configuration section called "POWER USER SETTINGS"

@@ -9,34 +9,25 @@
 // ###########################################################################################
 
 
-// Remind yourself every X days (recurring)
-$reminder_recur_days = $app_config['cron_plugins'][$cron_plugin_name]['reminder_recur_days']; 
+if ( update_cache_file($base_dir . '/cache/events/recurring-reminder-alert.dat', round( number_to_string(1440 * $cron_plugin_config['reminder_recur_days']) ) ) == true ) {
 
-// Reminder message
-$reminder_message = $app_config['cron_plugins'][$cron_plugin_name]['reminder_message'];
-
-
-/////////////////////////////////////////////////////////////////
-
-if ( update_cache_file($base_dir . '/cache/events/recurring-reminder-alert.dat', round( number_to_string(1440 * $reminder_recur_days) ) ) == true ) {
-
-$reminder_message = "This is a recurring ~" . round($reminder_recur_days) . " day reminder: " . $reminder_message;
+$format_message = "This is a recurring ~" . round($cron_plugin_config['reminder_recur_days']) . " day reminder: " . $cron_plugin_config['reminder_message'];
 
   				// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
   				
   				// Minimize function calls
-  				$encoded_text_message = content_data_encoding($reminder_message); // Unicode support included for text messages (emojis / asian characters / etc )
+  				$encoded_text_message = content_data_encoding($format_message); // Unicode support included for text messages (emojis / asian characters / etc )
   				
           	$send_params = array(
-          								'notifyme' => $reminder_message,
-          								'telegram' => $reminder_message,
+          								'notifyme' => $format_message,
+          								'telegram' => $format_message,
           								'text' => array(
           														'message' => $encoded_text_message['content_output'],
           														'charset' => $encoded_text_message['charset']
           														),
           								'email' => array(
-          														'subject' => 'Your Recurring Reminder Message (sent every ~' . round($reminder_recur_days) . ' days)',
-          														'message' => $reminder_message
+          														'subject' => 'Your Recurring Reminder Message (sent every ~' . round($cron_plugin_config['reminder_recur_days']) . ' days)',
+          														'message' => $format_message
           														)
           								);
           	
@@ -49,6 +40,7 @@ $reminder_message = "This is a recurring ~" . round($reminder_recur_days) . " da
 store_file_contents($base_dir . '/cache/events/recurring-reminder-alert.dat', time_date_format(false, 'pretty_date_time') );
 
 }
+
 
 ?>
 

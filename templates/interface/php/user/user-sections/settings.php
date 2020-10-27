@@ -46,9 +46,9 @@
           	</p>      
           <?php
           }
-			if ( $app_config['power_user']['email_logs'] > 0 && trim($app_config['comms']['from_email']) != '' && trim($app_config['comms']['to_email']) != '' ) {
+			if ( $app_config['power_user']['logs_email'] > 0 && trim($app_config['comms']['from_email']) != '' && trim($app_config['comms']['to_email']) != '' ) {
           ?>
-          	<p class='settings_sections'><b>Emailing logs</b> is <i>enabled</i> in the configuration file (sent out every <?=$app_config['power_user']['email_logs']?> days, log files purged every <?=$app_config['power_user']['log_purge']?> days).
+          	<p class='settings_sections'><b>Emailing logs</b> is <i>enabled</i> in the configuration file (sent out every <?=$app_config['power_user']['logs_email']?> days, log files purged every <?=$app_config['power_user']['logs_purge']?> days).
           	
           	<br /><i>Enable <a href='README.txt' target='_blank'>a cron job on your web server</a>, or this feature will not work RELIABLY.</i> 
           	

@@ -72,7 +72,7 @@ $logs_cache_cleanup = array(
 									$base_dir . '/cache/logs/errors/external_api',
 									);
 									
-delete_old_files($logs_cache_cleanup, $app_config['power_user']['log_purge'], 'dat'); // Delete LOGS API cache files older than $app_config['power_user']['log_purge'] day(s)
+delete_old_files($logs_cache_cleanup, $app_config['power_user']['logs_purge'], 'dat'); // Delete LOGS API cache files older than $app_config['power_user']['logs_purge'] day(s)
 
 
 // Update the maintenance event tracking

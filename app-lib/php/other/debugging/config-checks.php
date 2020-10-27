@@ -333,7 +333,7 @@ $smtp_email_server_parse = explode(":", $app_config['comms']['smtp_server'] );
 
 
 // Email logs configs
-if ( $app_config['power_user']['email_logs'] > 0 && trim($app_config['comms']['from_email']) != '' && trim($app_config['comms']['to_email']) != '' ) {
+if ( $app_config['power_user']['logs_email'] > 0 && trim($app_config['comms']['from_email']) != '' && trim($app_config['comms']['to_email']) != '' ) {
 					
 	// Config error check(s)
    if ( $validate_from_email != 'valid' ) {

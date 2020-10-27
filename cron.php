@@ -212,12 +212,14 @@ debugging_logs();
 
 // Run any cron plugins activated in app_config
 foreach ( $cron_plugin_apps as $key => $value ) {
+	
 	if ( file_exists($value) ) {
-	$cron_plugin_name = $key;
+	$cron_plugin_config = $app_config['cron_plugins'][$key];
 	require_once($value);
+	$cron_plugin_config = null;
 	}
+	
 }
-$cron_plugin_name = null;
 
 // Run again after cron plugins
 error_logs();

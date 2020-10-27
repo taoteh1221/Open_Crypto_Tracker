@@ -312,7 +312,7 @@ $result = array();
 	
 	$request = "{$url}?{$qs}"; // create the request URL
 
-	$jsondata = @external_api_data('url', $request, $app_config['developer']['remote_api_timeout'], null, null, null, $headers);
+	$jsondata = @external_api_data('url', $request, $app_config['power_user']['remote_api_timeout'], null, null, null, $headers);
 	
 	$data = json_decode($jsondata, true);
         

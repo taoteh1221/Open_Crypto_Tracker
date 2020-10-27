@@ -353,14 +353,6 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					'xmr-5' => 'binance||eth||none',
 					
 					
-					// DCR
-					'dcr' => 'bittrex||btc||chart',
-					'dcr-2' => 'bittrex||usdt||none',
-					'dcr-3' => 'binance||btc||both',
-					'dcr-4' => 'kucoin||btc||none',
-					'dcr-5' => 'kucoin||eth||none',
-					
-					
 					// MKR
 					'mkr' => 'okex||btc||none',
 					'mkr-2' => 'kucoin||btc||none',
@@ -380,18 +372,18 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					'uni-2' => 'defipulse||eth||none',
 					
 					
-					// ANT
-					'ant' => 'bittrex_global||btc||both',
-					'ant-2' => 'hitbtc||btc||chart',
-					'ant-3' => 'ethfinex||btc||none',
-					'ant-4' => 'defipulse||eth||none',
-					
-					
 					// MANA
 					'mana' => 'bittrex||btc||chart',
 					'mana-2' => 'binance||btc||both',
 					'mana-3' => 'kucoin||btc||none',
 					'mana-4' => 'ethfinex||btc||none',
+					
+					
+					// ANT
+					'ant' => 'bittrex_global||btc||both',
+					'ant-2' => 'hitbtc||btc||chart',
+					'ant-3' => 'ethfinex||btc||none',
+					'ant-4' => 'defipulse||eth||none',
 					
 					
 					// ENJ
@@ -409,6 +401,14 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					// DATA
 					'data' => 'hitbtc||btc||chart',
 					'data-2' => 'binance||btc||chart',
+					
+					
+					// DCR
+					'dcr' => 'bittrex||btc||chart',
+					'dcr-2' => 'bittrex||usdt||none',
+					'dcr-3' => 'binance||btc||both',
+					'dcr-4' => 'kucoin||btc||none',
+					'dcr-5' => 'kucoin||eth||none',
 					
 					
 					// HIVE
@@ -455,6 +455,13 @@ $app_config['power_user']['activate_cron_plugins'] = array(
 									'decred-proposals' => 'off',  // Decred Proposals plugin (alerts when a new Decred proposal is up for discussion / vote)
 									);
 							
+							
+// Seconds to wait for response from REMOTE API endpoints (exchange data, etc). 
+// Set too low you won't get ALL data (partial or zero bytes), set too high the interface can take a long time loading if an API server hangs up
+// RECOMMENDED MINIMUM OF 60 FOR INSTALLS BEHIND #LOW BANDWIDTH# NETWORKS 
+// (which may need an even higher timeout above 60 if data still isn't FULLY received from all APIs)
+$app_config['power_user']['remote_api_timeout'] = 60; // (default = 60)
+
 
 // MINUTES to cache real-time exchange price data...can be zero to skip cache, but set to at least 1 minute TO AVOID YOUR IP ADDRESS GETTING BLOCKED
 // SOME APIS PREFER THIS SET TO AT LEAST A FEW MINUTES, SO HIGHLY RECOMMENDED TO KEEP FAIRLY HIGH
@@ -473,6 +480,25 @@ $app_config['power_user']['marketcap_cache_time'] = 50;  // (default = 50)
 $app_config['power_user']['marketcap_ranks_max'] = 300; // (default = 300)
 
 
+// Lite charts (load just as quickly for any time interval, 7 day / 30 day / 365 day / etc)
+// Structure of lite charts #IN DAYS# (X days time period charts)
+// Interface will auto-detect and display days as 365 = 1Y, 180 = 6M, 7 = 1W, etc
+// (LOWER TIME PERIODS [UNDER 180 DAYS] #SHOULD BE KEPT SOMEWHAT MINIMAL#, TO REDUCE RUNTIME LOAD / DISK WRITES DURING CRON JOBS)
+$app_config['power_user']['lite_chart_day_intervals'] = array(10, 30, 180, 365, 730, 1460); // (default = 10, 30, 180, 365, 730, 1460)
+////
+// The maximum number of data points allowed in each lite chart 
+// (saves on disk storage / speeds up chart loading times SIGNIFICANTLY #WITH A NUMBER OF 400 OR LESS#)
+$app_config['power_user']['lite_chart_data_points_max'] = 400; // (default = 400), ADJUST WITH CARE!!!
+
+
+// Number of decimals for price chart CRYPTO 24 hour volumes (NOT USED FOR FIAT VOLUMES, 4 decimals example: 24 hr vol = 91.3874 BTC)
+// KEEP THIS NUMBER AS LOW AS IS FEASIBLE, TO SAVE ON CHART DATA STORAGE SPACE / MAINTAIN QUICK CHART LOAD TIMES
+$app_config['power_user']['charts_crypto_volume_decimals'] = 4;  // (default = 4)
+////
+// Every X days backup chart data. 0 disables backups. Email to / from !MUST BE SET! (a download link is emailed to you of the chart data archive)
+$app_config['power_user']['charts_backup_freq'] = 1; 
+
+
 // MINUTES to cache real-time DeFi pool info (pool eth address / name / volume / etc)
 // THIS SETTING DOES #NOT# AFFECT PRICE / TRADE VALUE REFRESHING, IT ONLY AFFECTS THE POOL'S TRADE VOLUME STATS / STORED ETH ADDRESS
 // LOTS OF DATA, the higher number the better for fast page load times
@@ -487,31 +513,15 @@ $app_config['power_user']['defi_liquidity_pools_max'] = 350; // (default = 350)
 $app_config['power_user']['defi_pools_max_trades'] = 60; // (default = 60)
 
 
-// Number of decimals for price chart CRYPTO 24 hour volumes (NOT USED FOR FIAT VOLUMES, 4 decimals example: 24 hr vol = 91.3874 BTC)
-// KEEP THIS NUMBER AS LOW AS IS FEASIBLE, TO SAVE ON CHART DATA STORAGE SPACE / MAINTAIN QUICK CHART LOAD TIMES
-$app_config['power_user']['charts_crypto_volume_decimals'] = 4;  // (default = 4)
-
-
-// Lite charts (load just as quickly for any time interval, 7 day / 30 day / 365 day / etc)
-// Structure of lite charts #IN DAYS# (X days time period charts)
-// Interface will auto-detect and display days as 365 = 1Y, 180 = 6M, 7 = 1W, etc
-// (LOWER TIME PERIODS [UNDER 180 DAYS] #SHOULD BE KEPT SOMEWHAT MINIMAL#, TO REDUCE RUNTIME LOAD / DISK WRITES DURING CRON JOBS)
-$app_config['power_user']['lite_chart_day_intervals'] = array(10, 30, 180, 365, 730, 1460); // (default = 10, 30, 180, 365, 730, 1460)
+// Email logs every X days. 0 disables mailing logs. Email to / from !MUST BE SET!, MAY NOT SEND IN TIMELY FASHION WITHOUT A CRON JOB
+$app_config['power_user']['logs_email'] = 0; 
+////
+// Keep logs X days before purging (fully deletes logs every X days). Start low (especially when using proxies)
+$app_config['power_user']['logs_purge'] = 10; 
 		
 
 // Contrast of CAPTCHA IMAGE text against background...0 for default, positive for extra contrast, negative for less contrast (maximum of +-35)
 $app_config['power_user']['captcha_text_contrast'] = 0; // example: -5 or 5 (default = 0)
-
-
-// Email logs every X days. 0 disables mailing logs. Email to / from !MUST BE SET!, MAY NOT SEND IN TIMELY FASHION WITHOUT A CRON JOB
-$app_config['power_user']['email_logs'] = 0; 
-////
-// Keep logs X days before purging (fully deletes logs every X days). Start low (especially when using proxies)
-$app_config['power_user']['log_purge'] = 10; 
-
-
-// Every X days backup chart data. 0 disables backups. Email to / from !MUST BE SET! (a download link is emailed to you of the chart data archive)
-$app_config['power_user']['charts_backup_freq'] = 1; 
 
 
 // Days until old backup archives should be deleted (chart data archives, etc)
@@ -554,12 +564,12 @@ $app_config['power_user']['charts_tooltip_text'] = '#222222'; // (default: '#222
 // Auto-activate support for ALTCOIN PAIRED MARKETS (like gnt/eth or mkr/eth, etc...markets where the base pairing is another altcoin)
 // EACH ALTCOIN LISTED HERE !MUST HAVE! AN EXISTING 'btc' MARKET (within 'market_pairing') in it's 
 // $app_config['portfolio_assets'] listing (further down in this config file) TO PROPERLY AUTO-ACTIVATE
-// TRY TO #NOT# ADD STABLECOINS HERE, ATTEMPT TO USE $app_config['power_user']['bitcoin_currency_markets'] INSTEAD (TO AUTO-CLIP UN-NEEDED DECIMAL POINTS)
+// !!!!!TRY TO #NOT# ADD STABLECOINS HERE!!!!!, FIRST TRY $app_config['power_user']['bitcoin_currency_markets'] INSTEAD (TO AUTO-CLIP UN-NEEDED DECIMAL POINTS)
 $app_config['power_user']['crypto_pairing'] = array(
 						//'lowercase_altcoin_abrv' => 'CRYPTO_SYMBOL',
 						// Native chains...
 						'eth' => 'Ξ ',
-						// Liquidity pools on Ethereum...
+						// Liquidity pools on Ethereum, etc etc...
 						//....
 							);
 
@@ -1328,12 +1338,6 @@ $app_config['developer']['smtp_strict_ssl'] = 'off'; // (DEFAULT IS 'off', TO AS
 // 'on' verifies ALL REMOTE API server certificates for secure API connections, 'off' verifies NOTHING 
 // Set to 'off' if some exchange's API servers have invalid certificates (which stops price data retrieval...but you still want to get price data from them)
 $app_config['developer']['remote_api_strict_ssl'] = 'off'; // (default = 'off')
-////
-// Seconds to wait for response from REMOTE API endpoints (exchange data, etc). 
-// Set too low you won't get ALL data (partial or zero bytes), set too high the interface can take a long time loading if an API server hangs up
-// RECOMMENDED MINIMUM OF 45 TO 60 FOR INSTALLS BEHIND #VERY LOW BANDWIDTH# NETWORKS 
-// (which may need an even higher timeout above 60 if data still isn't FULLY received from all APIs)
-$app_config['developer']['remote_api_timeout'] = 45; // (default = 45)
 
 
 // Local / internal API rate limit (maximum of once every X seconds, per ip address) for accepting remote requests
@@ -1345,10 +1349,6 @@ $app_config['developer']['local_api_market_limit'] = 20; // (default = 20)
 ////
 // Local / internal API cache time (minutes that previous requests are cached for)
 $app_config['developer']['local_api_cache_time'] = 4; // (default = 4)
-
-
-// The maximum number of data points allowed in each lite chart (speeds up page / chart loading times SIGNIFICANTLY #WITH A NUMBER UNDER 500#)
-$app_config['developer']['lite_chart_data_points_max'] = 400; // (default = 400), ADJUST WITH CARE!!!
 
 
 // Maximum number of batched news feed fetches / re-caches per ajax OR cron runtime 
@@ -2342,50 +2342,6 @@ $app_config['portfolio_assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // DCR
-                    'DCR' => array(
-                        
-                        'asset_name' => 'Decred',
-                        'marketcap_website_slug' => 'decred',
-                        'market_pairing' => array(
-                        
-                                    'brl' => array(
-                                          'braziliex' => 'dcr_brl'
-                                                    ),
-                                                    
-                                    'btc' => array(
-                                        	'binance' => 'DCRBTC',
-                                          'bittrex' => 'DCR-BTC',
-                                       	'kucoin' => 'DCR-BTC',
-                                          'upbit' => 'BTC-DCR',
-                                          'okex' => 'DCR-BTC',
-                                          'gateio' => 'DCR_BTC',
-                                          'braziliex' => 'dcr_btc',
-                                                    ),
-                                                    
-                                		'eth' => array(
-                                        	'kucoin' => 'DCR-ETH',
-                                                    ),
-                                                    
-                                    'usd' => array(
-                                        	'bittrex' => 'DCR-USD',
-                                          			),
-                                                    
-                                    'usdt' => array(
-                                        	'binance' => 'DCRUSDT',
-                                          'bittrex' => 'DCR-USDT',
-                                          'okex' => 'DCR-USDT',
-                                          'gateio' => 'DCR_USDT',
-                                          			),
-                                          			
-                                        ) // market_pairing END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
                     // MKR
                     'MKR' => array(
                         
@@ -2537,49 +2493,6 @@ $app_config['portfolio_assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // ANT
-                    'ANT' => array(
-                        
-                        'asset_name' => 'Aragon',
-                        'marketcap_website_slug' => 'aragon',
-                        'market_pairing' => array(
-                        
-                                    'btc' => array(
-                                        	'binance' => 'ANTBTC',
-                                          'bittrex_global' => 'ANT-BTC',
-                                        	'okex' => 'ANT-BTC',
-                                          'huobi' => 'antbtc',
-                                        	'ethfinex' => 'tANTBTC',
-                                          'hitbtc' => 'ANTBTC',
-                                        	'upbit' => 'BTC-ANT',
-                                                    ),
-                                                    
-                                    'eth' => array(
-                                          'bittrex_global' => 'ANT-ETH',
-                                          'huobi' => 'anteth',
-                                        	'ethfinex' => 'tANTETH',
-                                          'upbit' => 'ETH-ANT',
-                                    	 	'defipulse' => 'ANT/WETH',
-                                                    ),
-                                                    
-                                    'usd' => array(
-                                        	'bitfinex' => 'tANTUSD',
-                                                    ),
-                                                    
-                                    'usdt' => array(
-                                        	'binance' => 'ANTUSDT',
-                                        	'okex' => 'ANT-USDT',
-                                          'huobi' => 'antusdt',
-                                                    ),
-                                                    
-                                        ) // market_pairing END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
                     // MANA
                     'MANA' => array(
                         
@@ -2618,6 +2531,49 @@ $app_config['portfolio_assets'] = array(
                                     'usdt' => array(
                                           'hitbtc' => 'MANAUSD',
                                           'okex' => 'MANA-USDT',
+                                                    ),
+                                                    
+                                        ) // market_pairing END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // ANT
+                    'ANT' => array(
+                        
+                        'asset_name' => 'Aragon',
+                        'marketcap_website_slug' => 'aragon',
+                        'market_pairing' => array(
+                        
+                                    'btc' => array(
+                                        	'binance' => 'ANTBTC',
+                                          'bittrex_global' => 'ANT-BTC',
+                                        	'okex' => 'ANT-BTC',
+                                          'huobi' => 'antbtc',
+                                        	'ethfinex' => 'tANTBTC',
+                                          'hitbtc' => 'ANTBTC',
+                                        	'upbit' => 'BTC-ANT',
+                                                    ),
+                                                    
+                                    'eth' => array(
+                                          'bittrex_global' => 'ANT-ETH',
+                                          'huobi' => 'anteth',
+                                        	'ethfinex' => 'tANTETH',
+                                          'upbit' => 'ETH-ANT',
+                                    	 	'defipulse' => 'ANT/WETH',
+                                                    ),
+                                                    
+                                    'usd' => array(
+                                        	'bitfinex' => 'tANTUSD',
+                                                    ),
+                                                    
+                                    'usdt' => array(
+                                        	'binance' => 'ANTUSDT',
+                                        	'okex' => 'ANT-USDT',
+                                          'huobi' => 'antusdt',
                                                     ),
                                                     
                                         ) // market_pairing END
@@ -2754,6 +2710,50 @@ $app_config['portfolio_assets'] = array(
                                          'gateio' => 'DATA_USDT',
                                                     ),
                                                     
+                                        ) // market_pairing END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // DCR
+                    'DCR' => array(
+                        
+                        'asset_name' => 'Decred',
+                        'marketcap_website_slug' => 'decred',
+                        'market_pairing' => array(
+                        
+                                    'brl' => array(
+                                          'braziliex' => 'dcr_brl'
+                                                    ),
+                                                    
+                                    'btc' => array(
+                                        	'binance' => 'DCRBTC',
+                                          'bittrex' => 'DCR-BTC',
+                                       	'kucoin' => 'DCR-BTC',
+                                          'upbit' => 'BTC-DCR',
+                                          'okex' => 'DCR-BTC',
+                                          'gateio' => 'DCR_BTC',
+                                          'braziliex' => 'dcr_btc',
+                                                    ),
+                                                    
+                                		'eth' => array(
+                                        	'kucoin' => 'DCR-ETH',
+                                                    ),
+                                                    
+                                    'usd' => array(
+                                        	'bittrex' => 'DCR-USD',
+                                          			),
+                                                    
+                                    'usdt' => array(
+                                        	'binance' => 'DCRUSDT',
+                                          'bittrex' => 'DCR-USDT',
+                                          'okex' => 'DCR-USDT',
+                                          'gateio' => 'DCR_USDT',
+                                          			),
+                                          			
                                         ) // market_pairing END
                         
                     ), // Asset END
