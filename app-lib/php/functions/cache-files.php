@@ -1865,10 +1865,10 @@ $tld_session_prefix = preg_replace("/\./i", "_", $endpoint_tld_or_ip);
 					
 			$data = trim( file_get_contents($base_dir . '/cache/secured/external_api/'.$hash_check.'.dat') );
 				
-				// Create a runtime cache from the file cache, for any additional requests during runtime for this data set
-				if ( $data != '' ) {
+				// IF REAL DATA EXISTS, create a runtime cache from the file cache, for any additional requests during runtime for this data set
+				if ( $data != '' && $data != 'none' ) {
 				$api_runtime_cache[$hash_check] = $data; 
-				$fallback_cache_data = 1;
+				$fallback_cache_data = 1; // DATA DID EXIST
 				}
 				// Create a BLANK runtime cache, for any additional requests during runtime for this data set 
 				// (SO WE DON'T HIT THE REMOTE ENDPOINT AGAIN AFTER THE FIRST FAILURE)
