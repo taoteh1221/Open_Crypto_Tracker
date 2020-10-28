@@ -4083,7 +4083,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Revised default config, including semantics for UX
 
--Misc. UX
+-Misc. UX / minor bugfixes
 
 -------------------------------------------------------------------
 

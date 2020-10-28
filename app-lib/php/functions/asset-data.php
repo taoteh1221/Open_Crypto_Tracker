@@ -1078,7 +1078,7 @@ $asset_pairing_value_raw = number_format( $asset_market_data['last_trade'] , 8, 
 	// Make sure we have basic values, otherwise log errors / return false
 	// Return false if we have no $default_btc_primary_currency_value
 	if ( !isset($default_btc_primary_currency_value) || $default_btc_primary_currency_value == 0 ) {
-	app_logging('market_error', 'charts_and_price_alerts() - No Bitcoin '.strtoupper($default_btc_primary_currency_pairing).' value ('.strtoupper($pairing).' pairing) for '.$mode.' "' . $asset_data . '"', $asset_data . ': ' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ';' );
+	app_logging('market_error', 'charts_and_price_alerts() - No Bitcoin '.strtoupper($default_btc_primary_currency_pairing).' value ('.strtoupper($pairing).' pairing) for "' . $asset_data . '"', $asset_data . ': ' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . ';' );
 	$set_return = 1;
 	}
 	
@@ -1088,7 +1088,7 @@ $asset_pairing_value_raw = number_format( $asset_market_data['last_trade'] , 8, 
 	// Continue
 	}
 	else {
-	app_logging('market_error', 'charts_and_price_alerts() - No '.strtoupper($default_btc_primary_currency_pairing).' conversion value ('.strtoupper($pairing).' pairing) for '.$mode.' "' . $asset_data . '"', $asset_data . ': ' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . '; pairing_id: ' . $app_config['portfolio_assets'][$asset]['market_pairing'][$pairing][$exchange] . ';' );
+	app_logging('market_error', 'charts_and_price_alerts() - No '.strtoupper($default_btc_primary_currency_pairing).' conversion value ('.strtoupper($pairing).' pairing) for "' . $asset_data . '"', $asset_data . ': ' . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange . '; pairing_id: ' . $app_config['portfolio_assets'][$asset]['market_pairing'][$pairing][$exchange] . ';' );
 	$set_return = 1;
 	}
 	

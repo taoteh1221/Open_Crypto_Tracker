@@ -1851,7 +1851,7 @@ $tld_session_prefix = preg_replace("/\./i", "_", $endpoint_tld_or_ip);
 		// No data error logging, ONLY IF THIS IS #NOT# A SELF SECURITY TEST
 		// NEW INSTALLS WILL RUN
 		// !!!!!!!!!!!!!!!!!NEVER RUN $data THROUGH trim() FOR CHECKS ETC, AS trim() CAN FLIP OUT AND RETURN NULL IF OBSCURE SYMBOLS ARE PRESENT!!!!!!!!!!!!!!!!!
-		if ( $data == '' && $is_self_security_test !=1 ) {
+		if ( $data == '' && $is_self_security_test != 1 ) {
 			
 			
 			// FALLBACK TO CACHE DATA, IF AVAILABLE (WE STILL LOG THE FAILURE, SO THIS OS OK)
@@ -1865,9 +1865,15 @@ $tld_session_prefix = preg_replace("/\./i", "_", $endpoint_tld_or_ip);
 					
 			$data = trim( file_get_contents($base_dir . '/cache/secured/external_api/'.$hash_check.'.dat') );
 				
-				if ( $data != '' && $data != 'none' ) {
-				$api_runtime_cache[$hash_check] = $data; // Create a runtime cache from the file cache, for any additional requests during runtime for this data set
+				// Create a runtime cache from the file cache, for any additional requests during runtime for this data set
+				if ( $data != '' ) {
+				$api_runtime_cache[$hash_check] = $data; 
 				$fallback_cache_data = 1;
+				}
+				// Create a BLANK runtime cache, for any additional requests during runtime for this data set 
+				// (SO WE DON'T HIT THE REMOTE ENDPOINT AGAIN AFTER THE FIRST FAILURE)
+				else {
+				$api_runtime_cache[$hash_check] = 'none'; 
 				}
 				
 			}
