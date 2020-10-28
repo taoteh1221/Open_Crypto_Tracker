@@ -5,7 +5,7 @@
 
 
 // ###########################################################################################
-// SEE /DOCUMENTATION-ETC/CRON-PLUGINS-README.txt FOR CREATING YOUR OWN CUSTOM PLUGINS
+// SEE /DOCUMENTATION-ETC/PLUGINS-README.txt FOR CREATING YOUR OWN CUSTOM PLUGINS
 // ###########################################################################################
 
 // Get current unvoted proposals

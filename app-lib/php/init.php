@@ -226,7 +226,7 @@ $processed_messages = array();
 
 $btc_pairing_markets = array();
 
-$cron_plugin_apps =  array();
+$plugin_apps =  array();
 
 $price_alerts_fixed_reset_array = array();
 
@@ -349,13 +349,13 @@ $base_url = trim( file_get_contents('cache/vars/base_url.dat') );
 // Basic system checks (before allowing app to run ANY FURTHER, MUST RUN AFTER directory creation check / http server user vars / user agent var)
 require_once('app-lib/php/other/debugging/system-checks.php');
 
-// Cron plugins config (MUST RUN AFTER system checks and BEFORE secure cache files)
-require_once('app-lib/php/other/cron-plugins-config.php');
+// Plugins config (MUST RUN AFTER system checks and BEFORE secure cache files)
+require_once('app-lib/php/other/plugins-config.php');
 
-// SET original app_config array AFTER cron plugins config, BEFORE secure cache files, and BEFORE dynamic app config management
+// SET original app_config array AFTER plugins config, BEFORE secure cache files, and BEFORE dynamic app config management
 $default_app_config = $app_config; 
 
-// SECURED cache files management (MUST RUN AFTER system checks and AFTER cron plugins config)
+// SECURED cache files management (MUST RUN AFTER system checks and AFTER plugins config)
 require_once('app-lib/php/other/security/secure-cache-files.php');
 
 // Dynamic app config management (MUST RUN AFTER secure cache files FOR CACHED / config.php app_config comparison)

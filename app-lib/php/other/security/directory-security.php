@@ -100,19 +100,19 @@ usleep(1000); // Wait 0.001 seconds after possible directory creation
     
     ///////////////////////////////////////////
     
-    // Recreate /cron-plugins/.htaccess to restrict web snooping of plugins contents, if the plugins directory was deleted / recreated
-    if ( !file_exists($base_dir . '/cron-plugins/.htaccess') ) {
-    store_file_contents($base_dir . '/cron-plugins/.htaccess', file_get_contents($base_dir . '/templates/back-end/deny-all-htaccess.template') ); 
+    // Recreate /plugins/.htaccess to restrict web snooping of plugins contents, if the plugins directory was deleted / recreated
+    if ( !file_exists($base_dir . '/plugins/.htaccess') ) {
+    store_file_contents($base_dir . '/plugins/.htaccess', file_get_contents($base_dir . '/templates/back-end/deny-all-htaccess.template') ); 
     }
     
-    // Recreate /cron-plugins/index.php to restrict web snooping of plugins contents, if the plugins directory was deleted / recreated
-    if ( !file_exists($base_dir . '/cron-plugins/index.php') ) {
-    store_file_contents($base_dir . '/cron-plugins/index.php', file_get_contents($base_dir . '/templates/back-end/403-directory-index.template')); 
+    // Recreate /plugins/index.php to restrict web snooping of plugins contents, if the plugins directory was deleted / recreated
+    if ( !file_exists($base_dir . '/plugins/index.php') ) {
+    store_file_contents($base_dir . '/plugins/index.php', file_get_contents($base_dir . '/templates/back-end/403-directory-index.template')); 
     }
     
-    // Recreate /cron-plugins/htaccess_security_check.dat to test htaccess activation, if the plugins directory was deleted / recreated
-    if ( !file_exists($base_dir . '/cron-plugins/htaccess_security_check.dat') ) {
-    store_file_contents($base_dir . '/cron-plugins/htaccess_security_check.dat', file_get_contents($base_dir . '/templates/back-end/access_test.template')); 
+    // Recreate /plugins/htaccess_security_check.dat to test htaccess activation, if the plugins directory was deleted / recreated
+    if ( !file_exists($base_dir . '/plugins/htaccess_security_check.dat') ) {
+    store_file_contents($base_dir . '/plugins/htaccess_security_check.dat', file_get_contents($base_dir . '/templates/back-end/access_test.template')); 
     }
     
     ///////////////////////////////////////////

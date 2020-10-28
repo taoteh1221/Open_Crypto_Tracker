@@ -2589,7 +2589,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Code and UX / UI cleanup and improvements
 
--Support for custom cron plugins (plugins that run during normally-scheduled cron jobs for charts / alerts)
+-Support for custom plugins (plugins that add features to the app)
 
 IMPORTANT NOTES: 
 
@@ -2777,7 +2777,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.08.6:
 
--More example cron plugins
+-More example plugins
 
 -Review / optimization of all CSS code
 
@@ -4079,7 +4079,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.23.0:
 
--Refactored cron plugin system
+-Refactored cron plugin system (you can safely delete the DEPRECIATED 'cron-plugins' folder, to remove unused clutter)
 
 -Revised default config, including semantics for UX
 

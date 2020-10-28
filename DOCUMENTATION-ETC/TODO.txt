@@ -95,7 +95,7 @@ Add a "calculate current portfolio's performance in BTC and [fiat currency] over
 Option to use new zip file encryption password feature to encrypt portfolio spreadsheet exports when downloading exported portfolio data (with password entered in the UI, #NOT# $app_config['general']['backup_archive_password']).
 
 
-Give cron plugins a dedicated admin page (if any are activated).
+Give plugins a dedicated admin page (if any are activated).
 
 
 Create a cron plugin to let you know when a raw market value has gone below / above a certain exact value at a specific exchange (good for knowing when / if your order fills).

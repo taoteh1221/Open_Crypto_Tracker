@@ -76,7 +76,7 @@ FEATURES
 
 -System stats in the interface and debug logs (uptime / load averages / temperature / free disk space / used system memory / portfolio cache size, if available on your device).
 
--Cron job plugin system, to use built-in / your own custom plugins that run during cron jobs, for additional features.
+-Plugin system, to use built-in / your own custom plugins for additional features.
 
 -Secure webhook capability, allowing other external apps to communicate in real-time safely (separate keys per service, without giving away the master webhook key).
 
@@ -143,7 +143,7 @@ If your system DOES NOT have the directory /etc/cron.d/ on it, then NEARLY the s
 */20 * * * * /usr/bin/php -q /var/www/html/cron.php > /dev/null 2>&1
 
 
-SEE /DOCUMENTATION-ETC/CRON-PLUGINS-README.txt for creating your own custom cron plugins (custom code that runs at the end of regularly-scheduled cron jobs)
+SEE /DOCUMENTATION-ETC/PLUGINS-README.txt for creating your own custom plugins (custom code that adds additional features)
 
 
 IMPORTANT CRON JOB NOTES: 

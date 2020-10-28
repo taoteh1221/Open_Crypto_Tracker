@@ -70,7 +70,7 @@ reset_price_alerts_notice();
 
 
 // Log errors, send notifications
-// RUN BEFORE cron plugins (in case custom plugin crashes)
+// RUN BEFORE plugins (in case custom plugin crashes)
 error_logs();
 send_notifications();
 
@@ -86,7 +86,7 @@ $total_runtime = round( ($time - $start_runtime) , 3);
 
 // SYSTEM STATS START
 // System stats, chart the 15 min load avg / temperature / free partition space / free memory [mb/percent] / portfolio cache size / runtime length
-// RUN BEFORE cron plugins (in case custom plugin crashes)
+// RUN BEFORE plugins (in case custom plugin crashes)
     			
 // System data
 $system_load = $system_info['system_load'];
@@ -187,7 +187,7 @@ app_logging('system_error', 'time() returned a corrupt value (from power outage 
 		
 
 // If debug mode is on
-// RUN BEFORE cron plugins (in case custom plugin crashes)
+// RUN BEFORE plugins (in case custom plugin crashes)
 if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'all_telemetry' || $app_config['developer']['debug_mode'] == 'stats' ) {
 		
 	foreach ( $system_info as $key => $value ) {
@@ -205,23 +205,23 @@ app_logging('system_debugging', strtoupper($runtime_mode).' runtime was ' . $tot
 
 
 // Process debugging logs 
-// RUN BEFORE cron plugins (in case custom plugin crashes)
+// RUN BEFORE plugins (in case custom plugin crashes)
 debugging_logs();
 
 
 
-// Run any cron plugins activated in app_config
-foreach ( $cron_plugin_apps as $key => $value ) {
+// Run any cron-designated plugins activated in app_config
+foreach ( $plugin_apps['cron'] as $key => $value ) {
 	
 	if ( file_exists($value) ) {
-	$cron_plugin_config = $app_config['cron_plugins'][$key];
+	$plugin_config = $app_config['plugin_config'][$key];
 	require_once($value);
-	$cron_plugin_config = null;
+	$plugin_config = null;
 	}
 	
 }
 
-// Run again after cron plugins
+// Run again after plugins
 error_logs();
 debugging_logs();
 send_notifications();

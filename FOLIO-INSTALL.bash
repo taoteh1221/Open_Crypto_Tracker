@@ -848,12 +848,14 @@ select opt in $OPTIONS; do
   				rm -rf $DOC_ROOT/misc-docs-etc
   				rm -rf $DOC_ROOT/templates
   				rm -rf $DOC_ROOT/ui-templates
+  				rm -rf $DOC_ROOT/cron-plugins
 
 				/bin/sleep 3
 				
   				# Files
 				rm $DOC_ROOT/DOCUMENTATION-ETC/CONFIG.EXAMPLE.txt # (Renamed /DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt)
 				rm $DOC_ROOT/DOCUMENTATION-ETC/CRON_PLUGINS_README.txt # (Renamed /DOCUMENTATION-ETC/CRON-PLUGINS-README.txt)
+				rm $DOC_ROOT/DOCUMENTATION-ETC/CRON-PLUGINS-README.txt # (Renamed /DOCUMENTATION-ETC/PLUGINS-README.txt)
 				rm $DOC_ROOT/CONFIG.EXAMPLE.txt
 				rm $DOC_ROOT/HELP-FAQ.txt
 				rm $DOC_ROOT/cache/vars/app_config_md5.dat

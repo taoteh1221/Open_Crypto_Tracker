@@ -5,13 +5,13 @@
 
 
 // ###########################################################################################
-// SEE /DOCUMENTATION-ETC/CRON-PLUGINS-README.txt FOR CREATING YOUR OWN CUSTOM PLUGINS
+// SEE /DOCUMENTATION-ETC/PLUGINS-README.txt FOR CREATING YOUR OWN CUSTOM PLUGINS
 // ###########################################################################################
 
 
-if ( update_cache_file($base_dir . '/cache/events/recurring-reminder-alert.dat', round( number_to_string(1440 * $cron_plugin_config['reminder_recur_days']) ) ) == true ) {
+if ( update_cache_file($base_dir . '/cache/events/recurring-reminder-alert.dat', round( number_to_string(1440 * $plugin_config['reminder_recur_days']) ) ) == true ) {
 
-$format_message = "This is a recurring ~" . round($cron_plugin_config['reminder_recur_days']) . " day reminder: " . $cron_plugin_config['reminder_message'];
+$format_message = "This is a recurring ~" . round($plugin_config['reminder_recur_days']) . " day reminder: " . $plugin_config['reminder_message'];
 
   				// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
   				
@@ -26,7 +26,7 @@ $format_message = "This is a recurring ~" . round($cron_plugin_config['reminder_
           														'charset' => $encoded_text_message['charset']
           														),
           								'email' => array(
-          														'subject' => 'Your Recurring Reminder Message (sent every ~' . round($cron_plugin_config['reminder_recur_days']) . ' days)',
+          														'subject' => 'Your Recurring Reminder Message (sent every ~' . round($plugin_config['reminder_recur_days']) . ' days)',
           														'message' => $format_message
           														)
           								);

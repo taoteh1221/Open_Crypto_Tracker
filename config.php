@@ -454,15 +454,15 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 /////////////////////////////////////////////////////////////////////////////
 
 
-// Activate any custom cron plugins you've created (that runs during cron jobs, from the /cron-plugins/ directory)
-// SEE /DOCUMENTATION-ETC/CRON-PLUGINS-README.txt for creating your own custom cron plugins
-// ADD ANY NEW CRON PLUGIN HERE BY USING THE FOLDER NAME THE NEW PLUGIN IS LOCATED IN
-// !!NEVER ADD A CRON PLUGIN SOMEBODY ELSE WROTE, UNLESS YOU OR SOMEONE YOU TRUST 
+// Activate any custom plugins you've created (that run from the /plugins/ directory)
+// SEE /DOCUMENTATION-ETC/PLUGINS-README.txt for creating your own custom plugins
+// ADD ANY NEW PLUGIN HERE BY USING THE FOLDER NAME THE NEW PLUGIN IS LOCATED IN
+// !!NEVER ADD A PLUGIN SOMEBODY ELSE WROTE, UNLESS YOU OR SOMEONE YOU TRUST 
 // HAVE REVIEWED THE CODE AND ARE ABSOLUTELY SURE IT IS NOT MALICIOUS!!
-// CRON PLUGINS REQUIRE A CRON JOB RUNNING ON YOUR WEB SERVER (see README.txt for cron job setup information)
+// PLUGINS *MAY REQUIRE* A CRON JOB RUNNING ON YOUR WEB SERVER (if they are configured to...see README.txt for cron job setup information)
 // CHANGE 'off' to 'on' FOR THE PLUGIN YOU WANT ACTIVATED 
-$app_config['power_user']['activate_cron_plugins'] = array(
-									//'PLUGIN_FOLDER_FILE_NAME' => 'on', // (your CASE-SENSITIVE plugin folder / file name in the folder: /cron-plugins/)
+$app_config['power_user']['activate_plugins'] = array(
+									//'plugin-folder-name' => 'on', // (disabled example...your LOWERCASE plugin folder name in the folder: /plugins/)
 									'recurring-reminder' => 'off',  // Recurring Reminder plugin (alert yourself every X days to do something)
 									'decred-proposals' => 'off',  // Decred Proposals plugin (alerts when a new Decred proposal is up for discussion / vote)
 									);

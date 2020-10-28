@@ -146,15 +146,15 @@ if ( update_cache_file($base_dir . '/cache/events/scan-htaccess-security.dat', 6
 
 	$htaccess_cache_test = trim( @external_api_data('url', $htaccess_cache_test_url, 0) ); 
 	
-	// cron-plugins check
-	$htaccess_plugins_test_url = $base_url . 'cron-plugins/htaccess_security_check.dat';
+	// plugins check
+	$htaccess_plugins_test_url = $base_url . 'plugins/htaccess_security_check.dat';
 
 	$htaccess_plugins_test = trim( @external_api_data('url', $htaccess_plugins_test_url, 0) ); 
 	
 	
 		if ( preg_match("/TEST_HTACCESS_SECURITY_123_TEST/i", $htaccess_cache_test)
 		|| preg_match("/TEST_HTACCESS_SECURITY_123_TEST/i", $htaccess_plugins_test) ) {
-		$system_error = "HTTP server 'htaccess' support has NOT been enabled on this web server for the 'cache' and 'cron-plugins' sub-directories. 'htaccess' support is required to SAFELY run this application (htaccess security checks are throttled to a maximum of once every hour). <br /><br />";
+		$system_error = "HTTP server 'htaccess' support has NOT been enabled on this web server for the 'cache' and 'plugins' sub-directories. 'htaccess' support is required to SAFELY run this application (htaccess security checks are throttled to a maximum of once every hour). <br /><br />";
 		app_logging('system_error', $system_error);
 		echo $system_error;
 		$force_exit = 1;
