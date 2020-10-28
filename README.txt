@@ -4,7 +4,7 @@
 DFD Cryptocoin Values - Developed by Michael Kilday <mike@dragonfrugal.com> (Copyright 2014-2020 GPLv3)
 
 
-Open source / free cryptocurrency investment portfolio tracker, with email / text / Alexa / Ghome / Telegram alerts, charts,  mining calculators, leverage / gain / loss / balance stats, news feeds and more. Privately track Bitcoin, Ethereum, and unlimited other cryptocurrencies. Customize assets list / alerts / charts / exchange pairings. Add as many assets / markets / alerts / charts as you want. 
+Open source / 100% free cryptocurrency investment portfolio tracker, with email / text / Alexa / Ghome / Telegram alerts, charts,  mining calculators, leverage / gain / loss / balance stats, news feeds and more. Privately track Bitcoin, Ethereum, and unlimited other cryptocurrencies. Customize assets list / alerts / charts / exchange pairings. Add as many assets / markets / alerts / charts as you want. 
 
 Web server setup / install is available for $30 hourly if needed (try the auto-install bash script first). PM me on Twitter / Skype @ taoteh1221, or get a hold of me using the below-listed contact methods.
 
