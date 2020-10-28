@@ -153,8 +153,8 @@ $backup_archive_password = false;
 }
 
 
-// Light chart config tracking / updating
-$config_lite_chart_structure = md5(serialize($app_config['power_user']['lite_chart_day_intervals']));
+// Light chart config tracking / updating (checking for changes to lite chart app config, to trigger lite chart rebuilds)
+$config_lite_chart_structure = md5( serialize($app_config['power_user']['lite_chart_day_intervals']) . $app_config['power_user']['lite_chart_data_points_max'] );
 
 if ( !file_exists($base_dir . '/cache/vars/lite_chart_structure.dat') ) {
 store_file_contents($base_dir . '/cache/vars/lite_chart_structure.dat', $config_lite_chart_structure);
