@@ -19,25 +19,28 @@ foreach ( $app_config['power_user']['activate_plugins'] as $key => $value ) {
 
 		if ( file_exists($plugin_config_file) ) {
 			
-		$plugin_config = array(); // Create the config array to be populated
+		$this_plugin = $key;
+		
+		$plugin_config[$this_plugin] = array();
+			
 		require_once($plugin_config_file);
 		
 			// Each plugin is allowed to run in more than one runtime, if configured for that (some plugins may run in the UI and cron runtimes, etc)
 		
 			// Add to activated cron plugins 
-			if ( $plugin_config['runtime_mode'] == 'cron' || $plugin_config['runtime_mode'] == 'all' ) {
+			if ( $plugin_config[$this_plugin]['runtime_mode'] == 'cron' || $plugin_config[$this_plugin]['runtime_mode'] == 'all' ) {
 			$plugin_apps['cron'][$key] = $base_dir . '/plugins/' . $key . '/plugin-lib/plugin-init.php'; // Loaded LATER at bottom of cron.php (if cron runtime)
 			}
 			
 			// Add to activated UI plugins
-			if ( $plugin_config['runtime_mode'] == 'ui' || $plugin_config['runtime_mode'] == 'all' ) {
+			if ( $plugin_config[$this_plugin]['runtime_mode'] == 'ui' || $plugin_config[$this_plugin]['runtime_mode'] == 'all' ) {
 			$plugin_apps['ui'][$key] = $base_dir . '/plugins/' . $key . '/plugin-lib/plugin-init.php'; // Loaded LATER at bottom of cron.php (if cron runtime)
 			}
 		
 		
-		$app_config['plugin_config'][$key] = $plugin_config;
+		$app_config['plugin_config'][$this_plugin] = $plugin_config[$this_plugin]; // Add each plugin's config into the global app config
 		
-		$plugin_config = null; // Reset
+		$this_plugin = null; // Reset
 		
 		}
 	

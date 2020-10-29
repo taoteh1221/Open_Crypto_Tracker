@@ -38,18 +38,18 @@ example: "/plugins/my-app-plugin/plugin-config.php" (must be lowercase)
 
 
 
-5) All "plugin-config.php" PLUGIN CONFIG settings MUST BE INSIDE THE "$plugin_config" ARRAY (sub-arrays are allowed).
+5) All "plugin-config.php" PLUGIN CONFIG settings MUST BE INSIDE THE "$plugin_config[$this_plugin]" ARRAY (sub-arrays are allowed).
 
-example: $plugin_config['SETTING_NAME_HERE'] = 'mysetting';
+example: $plugin_config[$this_plugin]['SETTING_NAME_HERE'] = 'mysetting';
 
-example: $plugin_config['SETTING_NAME_HERE'] = array('mysetting1', 'mysetting2');
+example: $plugin_config[$this_plugin]['SETTING_NAME_HERE'] = array('mysetting1', 'mysetting2');
 
 
 
 6) The "plugin-config.php" PLUGIN CONFIG setting 'runtime_mode' IS MANDATORY, to determine WHEN the plugin should run (during cron jobs / user interface loading / all runtimes / etc).
 
 // What runtime modes this plugin should run during (MANDATORY)
-example: $plugin_config['runtime_mode'] = 'cron'; // 'cron', 'ui', 'all' (only 'cron' supported as of 2020-10-29)
+example: $plugin_config[$this_plugin]['runtime_mode'] = 'cron'; // 'cron', 'ui', 'all' (only 'cron' supported as of 2020-10-29)
 
 
 7) We are now done setting up plugin files, now we need to activate the new plugin. IN THE MAIN APP "config.php" file (in the primary directory of this app), find the configuration section called "POWER USER SETTINGS". Locate the configuration variable within this section named: $app_config['power_user']['activate_plugins']

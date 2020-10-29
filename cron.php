@@ -214,9 +214,15 @@ debugging_logs();
 foreach ( $plugin_apps['cron'] as $key => $value ) {
 	
 	if ( file_exists($value) ) {
-	$plugin_config = $app_config['plugin_config'][$key];
+		
+	$this_plugin = $key;
+	
+	$plugin_config[$this_plugin] = $app_config['plugin_config'][$this_plugin]; // Import this plugin's config from the global app config
+	
 	require_once($value);
-	$plugin_config = null;
+	
+	$this_plugin = null; // Reset
+	
 	}
 	
 }
