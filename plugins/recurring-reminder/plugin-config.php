@@ -19,7 +19,7 @@
 
 
 // What runtime modes this plugin should run during (MANDATORY)
-$plugin_config['runtime_mode'] = 'cron'; // 'cron', 'ui', 'all'
+$plugin_config['runtime_mode'] = 'cron'; // 'cron', 'ui', 'all' (only 'cron' supported as of 2020-10-29)
 
 // Remind yourself every X days (recurring)
 $plugin_config['reminder_recur_days'] = 30.4167; // Decimals supported (30.4167 days is average length of 1 month)

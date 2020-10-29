@@ -19,7 +19,7 @@
 
 
 // What runtime modes this plugin should run during (MANDATORY)
-$plugin_config['runtime_mode'] = 'cron'; // 'cron', 'ui', 'all'
+$plugin_config['runtime_mode'] = 'cron'; // 'cron', 'ui', 'all' (only 'cron' supported as of 2020-10-29)
 
 
 ?>
