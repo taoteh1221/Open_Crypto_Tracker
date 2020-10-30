@@ -115,46 +115,56 @@
 						
 						<ul>
 						
-							<li class='red'>
+							<li class='red disclaimer'>
 								<i>NEVER</i> invest more than you can afford to lose.
 							</li>
 							
-							<li class='red'>
-								<i>ALWAYS <u>buy low</u> AND <u>sell high</u></i>. (NOT the other way around!)
+							<li class='red disclaimer'>
+								<i>ALWAYS <u>buy low</u> AND <u>sell high</u></i>. (NOT the other way around!), *UNLESS* you CAREFULLY decide you've accidentally bought an asset that will probably go nowhere in value long term, relative to other assets you are interested in.
 							</li>
 							
-							<li class='red'>
-								<i>ALWAYS</i> diversify / balance your portfolio with <i>mostly largest AND oldest marketcap</i> assets (which are <i>relatively</i> less volatile), for you <i>and yours safety and sanity</i>.
+							<li class='red disclaimer'>
+								<i>ALWAYS</i> diversify / balance your portfolio with <i>mostly largest AND oldest marketcaps / HIGHEST ON-CHAIN ACTIVITY</i> assets (which are <i>relatively</i> less volatile), for you <i>and yours safety and sanity</i>.
 							</li>
 							
-							<li class='red'>
+							<li class='red disclaimer'>
 								<i><u>ALWAYS AVOID</u></i> <a href='https://twitter.com/hashtag/pumpndump?src=hash' target='_blank'>#pumpndump</a> / <a href='https://twitter.com/hashtag/fomo?src=hash' target='_blank'>#fomo</a> / <a href='https://twitter.com/hashtag/shitcoin?src=hash' target='_blank'>#shxtcoin</a> trading.
 							</li>
 						
-							<li class='red'>
+							<li class='red disclaimer'>
 								<i>LITERALLY</i> nearly 99% of all tokens are either scams, garbage, or dead ends.
 							</li>
 						
-							<li class='red'>
+							<li class='red disclaimer'>
 								<i>NEVER</i> buy an asset because of somebody's opinion of it (only buy based on <i>YOUR</i> opinion of it).
 							</li>
 							
-							<li class='red'>
+							<li class='red disclaimer'>
 								<i>ALWAYS <u>fully research</u></i> your planned investment beforehand (fundamentals are just as important as long term chart TA, <i>and any short term chart TA is pure BS to be ignored</i>).
 							</li>
 							
-							 <li class='red'>
+							 <li class='red disclaimer'>
 								"Fully research" does NOT included listening to some CEO / founder / influencer sweet talk their own token, tell you how competing systems suck and their system is better, or explain how them owning over 50% of the total coin supply is not out of greed.
 							</li>
 							
-							<li class='red'>
+							<li class='red disclaimer'>
 								<i>Hang on tight</i> until you can't stand fully holding anymore / want to or must make a position exit percentage <i><u>OFFICIAL</u></i>. (YOU HAVEN'T "LOST" <i><u>OR</u></i> "MADE" <i><u>ANYTHING</u></i> UNTIL YOU SELL A PERCENTAGE OF IT!)
+							</li>
+							
+							<li class='red disclaimer'>
+								If you insist on buying LONG SHOT (#VERY# high risk) SMALL marketcap or NEWER assets, *HIGHLY* consider getting #NO MORE THAN# a 'moon bag' worth (#NO MORE THAN# between 1% and 5% of your portfolio PER-ASSET, AND A TOTAL OF #NO MORE THAN# 10% of your portfolio). If it goes down 50% in value and keeps going down, sell it and you don't lose much. If it goes up between 200% and 500% in value (3x to 6x original value) or higher, REBALANCE it to not be more than between 1% and 10% of your portfolio again (by selling a significant portion of it). CAREFULLY TRACK YOUR SUCCESS RATE. If you are no good at picking long shots, stick to the <i>largest AND oldest marketcaps / HIGHEST ON-CHAIN ACTIVITY</i> assets instead.
+							</li>
+							
+							<li class='red disclaimer'>
+								The biggest investment you will EVER make (and NEVER regret) is ALWAYS value your health and happiness more than ALL THE MONEY IN THE WORLD. NEVER let chasing after ANY AMOUNT of wealth take that from you, EVER.
+							</li>
+							
+							<li class='red disclaimer'>
+								Best of luck, be careful out there in this cryptoland frontier <i>full of dead-end coins, garbage coins, scam coins, and greedy <u>glorified</u> (and NOT so glorified) crooks</i> and their silver tongues (wolves in sheep's clothing)! 😮
 							</li>
 						
 						</ul>
 						
-						<span class='red'>Best of luck, be careful out there in this cryptoland frontier <i>full of garbage coins, scam coins, and greedy <u>glorified</u> (and NOT so glorified) crooks</i> and their silver tongues (wolves in sheep's clothing)! 😮</span>
-
 						
 						<br /><br /><a href="https://twitter.com/taoteh1221/status/1192997965952094208" target="_blank"><img src='templates/interface/media/images/twitter-1192997965952094208.jpg' width='425' class='image_border' alt='' /></a>
 						

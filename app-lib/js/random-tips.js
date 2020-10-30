@@ -77,7 +77,7 @@ var quoteSource=[
 	    	name:"Mike Kilday (creator of this app)"
 	    },
 	    {
-	    	quote:"For longer shot (#VERY# high risk) small marketcap assets, HIGHLY consider getting #NO MORE THAN# a 'moon bag' worth (#NO MORE THAN# between 1% and 5% of your portfolio PER-ASSET, AND A TOTAL OF #NO MORE THAN# 10% of your portfolio). If it goes down 50% and keeps going down, sell it and you don't lose much. If it goes up between 400% and 800% (4x to 8x original value) or higher, REBALANCE it to not be more than between 1% and 10% of your portfolio again (by selling a significant portion of it). CAREFULLY TRACK YOUR SUCCESS RATE. If you are no good at picking long shots, stick to the <i>largest AND oldest</i> marketcaps instead.",
+	    	quote:"If you insist on buying LONG SHOT (#VERY# high risk) SMALL marketcap or NEWER assets, *HIGHLY* consider getting #NO MORE THAN# a 'moon bag' worth (#NO MORE THAN# between 1% and 5% of your portfolio PER-ASSET, AND A TOTAL OF #NO MORE THAN# 10% of your portfolio). If it goes down 50% in value and keeps going down, sell it and you don't lose much. If it goes up between 200% and 500% in value (3x to 6x original value) or higher, REBALANCE it to not be more than between 1% and 10% of your portfolio again (by selling a significant portion of it). CAREFULLY TRACK YOUR SUCCESS RATE. If you are no good at picking long shots, stick to the <i>largest AND oldest marketcaps / HIGHEST ON-CHAIN ACTIVITY</i> assets instead.",
 	    	name:"Mike Kilday (creator of this app)"
 	    },
 	    {
@@ -89,11 +89,11 @@ var quoteSource=[
 	    	name:"Mike Kilday (creator of this app)"
 	    },
 	    {
-	    	quote:"<i>ALWAYS <u>buy low</u> AND <u>sell high</u></i>. (NOT the other way around!)",
+	    	quote:"<i>ALWAYS <u>buy low</u> AND <u>sell high</u></i>. (NOT the other way around!), *UNLESS* you CAREFULLY decide you've accidentally bought an asset that will probably go nowhere in value long term, relative to other assets you are interested in.",
 	    	name:"Mike Kilday (creator of this app)"
 	    },
 	    {
-	    	quote:"<i>ALWAYS</i> diversify / balance your portfolio with <i>mostly largest AND oldest marketcap</i> assets (which are <i>relatively</i> less volatile), for you <i>and yours</i> safety and sanity.",
+	    	quote:"<i>ALWAYS</i> diversify / balance your portfolio with <i>mostly largest AND oldest marketcaps / HIGHEST ON-CHAIN ACTIVITY</i> assets (which are <i>relatively</i> less volatile), for you <i>and yours</i> safety and sanity.",
 	    	name:"Mike Kilday (creator of this app)"
 	    },
 	    {
@@ -117,15 +117,11 @@ var quoteSource=[
 	    	name:"Mike Kilday (creator of this app)"
 	    },
 	    {
-	    	quote:"Be careful out there in this cryptoland frontier <i>full of garbage coins, scam coins, and greedy <u>glorified</u> (and NOT so glorified) crooks</i> and their silver tongues (wolves in sheep's clothing)! 😮",
+	    	quote:"Be careful out there in this cryptoland frontier <i>full of dead-end coins, garbage coins, scam coins, and greedy <u>glorified</u> (and NOT so glorified) crooks</i> and their silver tongues (wolves in sheep's clothing)! 😮",
 	    	name:"Mike Kilday (creator of this app)"
 	    },
 	    {
 	    	quote:"PATIENCE is key to trading. When you think an asset will rise in value, think in YEARS #NOT# DAYS. No matter who says it, guessing market values in days or weeks is a fools game (throwing darts at a bullseye blind-folded).",
-	    	name:"Mike Kilday (creator of this app)"
-	    },
-	    {
-	    	quote:"Coins that are mined into creation (via Proof-of-Work or Proof-of-Stake) are commodities from a LEGAL standpoint. Coins that are created without cost by network operators for sale to private OR public investors are securities from a LEGAL standpoint. A securities-class token MAY OVER TIME be deemed a commodities-class token by authorities of jusidictions, IF IT HAS ENOUGH UTILITY ON A FULLY FUNCTIONAL / ACTIVELY USED NETWORK. It's VERY IMPORTANT to know which class of tokens you are buying, becuase securities-class tokens are #HEAVILY REGULATED# and may NEVER get listed on highly-regulated exchanges.",
 	    	name:"Mike Kilday (creator of this app)"
 	    },
 	    {

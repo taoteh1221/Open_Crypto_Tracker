@@ -165,6 +165,12 @@ CLASSES
 ////////////////////////////// */
 
 
+.disclaimer {
+margin-top: 25px;
+margin-bottom: 25px;
+}
+
+
 .hide-x-scroll {
 overflow-x: hidden !important; /* Hide horizontal scrollbar */
 }
