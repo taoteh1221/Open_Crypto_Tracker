@@ -53,7 +53,7 @@
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><i class="bitcoin">TLDR: <u>NOBODY EXCEPT YOU ON YOUR COMPUTER</u> CAN SEE THE INFORMATION YOU ENTER IN THIS APP (<u>NO DATA</u> IS STORED REMOTELY).</i></p>'
 			
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><i class="bitcoin"><u>Your portfolio data is NEVER stored in the app</u></i>, it is ONLY stored on your computer in your web browser (either temporarily in the web browser temporary files cache, or semi-permanently in web browser cookies).</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><i class="bitcoin"><u>Your portfolio data is NEVER stored in the app</u></i>, it is ONLY stored on your computer in your web browser (either temporarily in the web browser temporary files cache, or semi-permanently in web browser cookies IF YOU MANUALLY ENABLE COOKIES ON THE SETTINGS PAGE).</p>'
 			
 			
 			
@@ -144,7 +144,7 @@
 							</li>
 							
 							 <li class='red disclaimer'>
-								"Fully research" does NOT included listening to some CEO / founder / influencer sweet talk their own token, tell you how competing systems suck and their system is better, or explain how them owning over 50% of the total coin supply is not out of greed.
+								"Fully research" does NOT include *BLINDLY* believing some CEO / founder / influencer sweet talking their own token, telling you how competing systems suck and their system is better, or explaining how them owning over 50% of the total coin supply is not out of greed.
 							</li>
 							
 							<li class='red disclaimer'>
@@ -230,7 +230,7 @@
 		 </script>
 			
 				
-	<p><a style='font-weight: bold;' href='README.txt' target='_blank'>Editing The Portfolio Assets List, and Enabling Email / Text / Alexa / Google Home Exchange Price Alerts (installation on Ubuntu / Raspberry Pi or website)</a></p>
+	<p><a style='font-weight: bold;' href='README.txt' target='_blank'>Editing The Portfolio Assets List, and Enabling Email / Text / Alexa / Google Home Price Alerts (installation on Ubuntu / Raspberry Pi or website)</a></p>
 	
 				
 			
