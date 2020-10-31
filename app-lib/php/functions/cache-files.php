@@ -1628,10 +1628,10 @@ $tld_session_prefix = preg_replace("/\./i", "_", $endpoint_tld_or_ip);
 	}
 	//////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////
-	// Live data retrieval 
+	// Live data retrieval (if no runtime cache exists yet)
 	//////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////
-	elseif ( update_cache_file($base_dir . '/cache/secured/external_api/'.$hash_check.'.dat', $ttl) == true || $ttl == 0 ) {
+	elseif ( !isset($api_runtime_cache[$hash_check]) && update_cache_file($base_dir . '/cache/secured/external_api/'.$hash_check.'.dat', $ttl) == true || $ttl == 0 ) {
 	
 	// Time the request
 	$api_time = microtime();
@@ -1854,29 +1854,19 @@ $tld_session_prefix = preg_replace("/\./i", "_", $endpoint_tld_or_ip);
 		if ( $data == '' && $is_self_security_test != 1 ) {
 			
 			
-			// FALLBACK TO CACHE DATA, IF AVAILABLE (WE STILL LOG THE FAILURE, SO THIS OS OK)
-			// Use runtime cache if it exists. Remember file cache doesn't update until session is nearly over because of file locking, so only reliable for persisting a cache long term
-			// Run from runtime cache if requested again (for runtime speed improvements)
-			if ( $api_runtime_cache[$hash_check] != '' && $api_runtime_cache[$hash_check] != 'none' ) {
-			$data = $api_runtime_cache[$hash_check];
-			$fallback_cache_data = 1;
-			}
-			else {
-					
-			$data = trim( file_get_contents($base_dir . '/cache/secured/external_api/'.$hash_check.'.dat') );
+		// FALLBACK TO FILE CACHE DATA, IF AVAILABLE (WE STILL LOG THE FAILURE, SO THIS OS OK)
+		// (NO LOGIC NEEDED TO CHECK RUNTIME CACHE, AS WE ONLY ARE HERE IF THERE IS NONE)
+			
+		$data = trim( file_get_contents($base_dir . '/cache/secured/external_api/'.$hash_check.'.dat') );
 				
-				// IF REAL DATA EXISTS, create a runtime cache from the file cache, for any additional requests during runtime for this data set
-				if ( $data != '' && $data != 'none' ) {
-				$api_runtime_cache[$hash_check] = $data; 
-				$fallback_cache_data = 1; // DATA DID EXIST
-				}
-				// Create a BLANK runtime cache, for any additional requests during runtime for this data set 
-				// (SO WE DON'T HIT THE REMOTE ENDPOINT AGAIN AFTER THE FIRST FAILURE)
-				else {
-				$api_runtime_cache[$hash_check] = 'none'; 
-				}
-				
+			// IF CACHE DATA EXISTS, flag fallback as succeeded
+			if ( $data == 'none' ) {
+			$fallback_cache_data = false; // DATA DID NOT EXIST
 			}
+			elseif ( $data != '' ) {
+			$fallback_cache_data = true; // DATA DID EXIST
+			}
+			
 			
 			if ( isset($fallback_cache_data) ) {
 			$log_append = ' (cache fallback SUCCEEDED)';
@@ -1978,20 +1968,11 @@ $tld_session_prefix = preg_replace("/\./i", "_", $endpoint_tld_or_ip);
 				|| $endpoint_tld_or_ip == 'localbitcoins.com' && !preg_match("/volume_btc/i", $data)
 				|| $endpoint_tld_or_ip == 'coinmarketcap.com' && !preg_match("/last_updated/i", $data) ) {
 				
-				
-					if ( $api_runtime_cache[$hash_check] != '' && $api_runtime_cache[$hash_check] != 'none' ) {
-					$data = $api_runtime_cache[$hash_check];
-					$fallback_cache_data = 1;
-					}
-					else {
 						
-					$data = trim( file_get_contents($base_dir . '/cache/secured/external_api/'.$hash_check.'.dat') );
+				$data = trim( file_get_contents($base_dir . '/cache/secured/external_api/'.$hash_check.'.dat') );
 					
-						if ( $data != '' && $data != 'none' ) {
-						$api_runtime_cache[$hash_check] = $data; // Create a runtime cache from the file cache, for any additional requests during runtime for this data set
-						$fallback_cache_data = 1;
-						}
-						
+					if ( $data != '' && $data != 'none' ) {
+					$fallback_cache_data = true;
 					}
 				
 				
@@ -2063,6 +2044,11 @@ $tld_session_prefix = preg_replace("/\./i", "_", $endpoint_tld_or_ip);
 		}
 		
 
+		// API timeout limit near / exceeded warning
+		if ( number_to_string($app_config['power_user']['remote_api_timeout'] - 1) <= number_to_string($api_total_time) ) {
+		app_logging('repeat_error', 'Remote API timeout near OR exceeded (' . $api_total_time . ' seconds) for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint) . ', set "remote_api_timeout" higher in POWER USER config if this persists frequently', 'remote_api_timeout: ' . $app_config['power_user']['remote_api_timeout'] . ' seconds; live_request_time: ' . $api_total_time . ' seconds;', $hash_check );
+		}
+	
 	
 	}
 	//////////////////////////////////////////////////////////////////////
@@ -2078,13 +2064,13 @@ $tld_session_prefix = preg_replace("/\./i", "_", $endpoint_tld_or_ip);
 		// Run from runtime cache if requested again (for runtime speed improvements)
 		if ( $api_runtime_cache[$hash_check] != '' && $api_runtime_cache[$hash_check] != 'none' ) {
 		$data = $api_runtime_cache[$hash_check];
-		$fallback_cache_data = 1;
+		$fallback_cache_data = true;
 		}
 		else {
 		$data = trim( file_get_contents($base_dir . '/cache/secured/external_api/'.$hash_check.'.dat') );
 			if ( $data != '' && $data != 'none' ) {
 			$api_runtime_cache[$hash_check] = $data; // Create a runtime cache from the file cache, for any additional requests during runtime for this data set
-			$fallback_cache_data = 1;
+			$fallback_cache_data = true;
 			}
 		}
 	
@@ -2128,13 +2114,6 @@ $tld_session_prefix = preg_replace("/\./i", "_", $endpoint_tld_or_ip);
   	app_logging('repeat_error', 'DeFiPulse.com monthly API limit exceeded (check your account there)', false, 'defipulsecom_api_limit');
   	$defipulse_api_limit = true;
 	}
-
-
-	// API timeout limit near / exceeded warning
-	if ( number_to_string($app_config['power_user']['remote_api_timeout'] - 1) <= number_to_string($api_total_time) ) {
-	app_logging('repeat_error', 'Remote API timeout near OR exceeded (' . $api_total_time . ' seconds) for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint) . ', set "remote_api_timeout" higher in POWER USER config if this persists frequently', 'remote_api_timeout: ' . $app_config['power_user']['remote_api_timeout'] . ' seconds; live_request_time: ' . $api_total_time . ' seconds;', $hash_check );
-	}
-
 
 
 gc_collect_cycles(); // Clean memory cache

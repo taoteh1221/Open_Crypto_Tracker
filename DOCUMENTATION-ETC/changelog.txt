@@ -4077,13 +4077,13 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 
 -------------------------------------------------------------------
-4.23.0:
+4.22.1:
 
 -Refactored cron plugin system (you can safely delete the DEPRECIATED 'cron-plugins' folder, to remove unused clutter)
 
 -Revised default config, including semantics for UX
 
--Misc. UX / minor bugfixes
+-Misc. UX / bugfixes
 
 -------------------------------------------------------------------
 
