@@ -1860,10 +1860,7 @@ $tld_session_prefix = preg_replace("/\./i", "_", $endpoint_tld_or_ip);
 		$data = trim( file_get_contents($base_dir . '/cache/secured/external_api/'.$hash_check.'.dat') );
 				
 			// IF CACHE DATA EXISTS, flag fallback as succeeded
-			if ( $data == 'none' ) {
-			$fallback_cache_data = false; // DATA DID NOT EXIST
-			}
-			elseif ( $data != '' ) {
+			if ( $data != '' && $data != 'none' ) {
 			$fallback_cache_data = true; // DATA DID EXIST
 			}
 			
