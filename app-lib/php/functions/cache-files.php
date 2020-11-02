@@ -1859,9 +1859,13 @@ $tld_session_prefix = preg_replace("/\./i", "_", $endpoint_tld_or_ip);
 			
 		$data = trim( file_get_contents($base_dir . '/cache/secured/external_api/'.$hash_check.'.dat') );
 				
-			// IF CACHE DATA EXISTS, flag fallback as succeeded
+			// IF CACHE DATA EXISTS, flag cache fallback as succeeded, and IMMEADIATELY add data set to runtime cache / update the file cache timestamp
+			// (so all following requests DURING THIS RUNTIME are run from cache ASAP, since we had a live request failure)
 			if ( $data != '' && $data != 'none' ) {
-			$fallback_cache_data = true; // DATA DID EXIST
+			$fallback_cache_data = true;
+			// IMMEADIATELY RUN THIS LOGIC NOW, EVEN THOUGH IT RUNS AT END OF STATEMENT TOO, SINCE WE HAD A LIVE REQUEST FAILURE
+			$api_runtime_cache[$hash_check] = $data;
+			touch($base_dir . '/cache/secured/external_api/'.$hash_check.'.dat'); // Update cache file time
 			}
 			
 			
