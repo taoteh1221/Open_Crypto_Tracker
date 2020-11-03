@@ -69,12 +69,6 @@ if ( $app_config['comms']['proxy_alerts'] != 'off' ) {
 reset_price_alerts_notice();
 
 
-// Log errors, send notifications
-// RUN BEFORE plugins (in case custom plugin crashes)
-error_logs();
-send_notifications();
-
-
 
 // Calculate script runtime length
 $time = microtime();
@@ -204,10 +198,17 @@ app_logging('system_debugging', strtoupper($runtime_mode).' runtime was ' . $tot
 
 
 
-// Process debugging logs 
-// RUN BEFORE plugins (in case custom plugin crashes)
+// Log errors / debugging, send notifications
+// RUN BEFORE any activated plugins (in case a custom plugin crashes)
+error_logs();
 debugging_logs();
+send_notifications();
 
+
+// If any plugins are activated, RESET $logs_array for plugin logging, SO WE DON'T GET DUPLICATE LOGGING
+if ( sizeof($plugin_apps['cron']) > 0 ) {
+$logs_array = array();
+}
 
 
 // Run any cron-designated plugins activated in app_config
@@ -227,10 +228,13 @@ foreach ( $plugin_apps['cron'] as $key => $value ) {
 	
 }
 
-// Run again after plugins
+
+// Log errors / debugging, send notifications (FOR PLUGINS ONLY)
+if ( sizeof($plugin_apps['cron']) > 0 ) {
 error_logs();
 debugging_logs();
 send_notifications();
+}
 
 
 gc_collect_cycles(); // Clean memory cache
