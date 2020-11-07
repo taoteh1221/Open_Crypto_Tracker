@@ -218,7 +218,7 @@ $app_config['general']['primary_marketcap_site'] = 'coingecko';
 
 // Your local time offset IN HOURS, COMPARED TO UTC TIME. Can be negative or positive.
 // (Used for user experience 'pretty' timestamping in interface logic ONLY, WILL NOT change or screw up UTC log times etc if you change this)
-$app_config['general']['local_time_offset'] = -4; // example: -5 or 5
+$app_config['general']['local_time_offset'] = -5; // example: -5 or 5
 
 
 // Configure which interface theme you want as the default theme (also can be manually switched later, on the settings page in the interface)
