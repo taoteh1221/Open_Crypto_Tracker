@@ -228,7 +228,7 @@ $btc_pairing_markets = array();
 
 $plugin_config =  array();
 
-$plugin_apps =  array();
+$activated_plugins =  array();
 
 $price_alerts_fixed_reset_array = array();
 

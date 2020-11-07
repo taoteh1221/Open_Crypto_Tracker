@@ -206,13 +206,13 @@ send_notifications();
 
 
 // If any plugins are activated, RESET $logs_array for plugin logging, SO WE DON'T GET DUPLICATE LOGGING
-if ( sizeof($plugin_apps['cron']) > 0 ) {
+if ( sizeof($activated_plugins['cron']) > 0 ) {
 $logs_array = array();
 }
 
 
 // Run any cron-designated plugins activated in app_config
-foreach ( $plugin_apps['cron'] as $key => $value ) {
+foreach ( $activated_plugins['cron'] as $key => $value ) {
 	
 	if ( file_exists($value) ) {
 		
@@ -230,7 +230,7 @@ foreach ( $plugin_apps['cron'] as $key => $value ) {
 
 
 // Log errors / debugging, send notifications (FOR PLUGINS ONLY)
-if ( sizeof($plugin_apps['cron']) > 0 ) {
+if ( sizeof($activated_plugins['cron']) > 0 ) {
 error_logs();
 debugging_logs();
 send_notifications();

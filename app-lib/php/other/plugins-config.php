@@ -29,12 +29,12 @@ foreach ( $app_config['power_user']['activate_plugins'] as $key => $value ) {
 		
 			// Add to activated cron plugins 
 			if ( $plugin_config[$this_plugin]['runtime_mode'] == 'cron' || $plugin_config[$this_plugin]['runtime_mode'] == 'all' ) {
-			$plugin_apps['cron'][$key] = $base_dir . '/plugins/' . $key . '/plugin-lib/plugin-init.php'; // Loaded LATER at bottom of cron.php (if cron runtime)
+			$activated_plugins['cron'][$key] = $base_dir . '/plugins/' . $key . '/plugin-lib/plugin-init.php'; // Loaded LATER at bottom of cron.php (if cron runtime)
 			}
 			
 			// Add to activated UI plugins
 			if ( $plugin_config[$this_plugin]['runtime_mode'] == 'ui' || $plugin_config[$this_plugin]['runtime_mode'] == 'all' ) {
-			$plugin_apps['ui'][$key] = $base_dir . '/plugins/' . $key . '/plugin-lib/plugin-init.php'; // Loaded LATER at bottom of cron.php (if cron runtime)
+			$activated_plugins['ui'][$key] = $base_dir . '/plugins/' . $key . '/plugin-lib/plugin-init.php'; // Loaded LATER at bottom of cron.php (if cron runtime)
 			}
 		
 		
