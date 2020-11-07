@@ -4079,7 +4079,11 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.22.1:
 
--Refactored cron plugin system (you can safely delete the DEPRECIATED 'cron-plugins' folder, to remove unused clutter)
+-Fixed error log duplicate entries
+
+-Refactored plugin system (you can safely delete the DEPRECIATED 'cron-plugins' folder, to remove unused clutter)
+
+-New reminder plugin functionality (unlimited reminders)
 
 -Revised default config, including semantics for UX
 

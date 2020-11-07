@@ -21,11 +21,26 @@
 // What runtime modes this plugin should run during (MANDATORY)
 $plugin_config[$this_plugin]['runtime_mode'] = 'cron'; // 'cron', 'ui', 'all' (only 'cron' supported as of 2020-10-29)
 
-// Remind yourself every X days (recurring)
-$plugin_config[$this_plugin]['reminder_recur_days'] = 30.4167; // Decimals supported (30.4167 days is average length of 1 month)
 
-// Reminder message
-$plugin_config[$this_plugin]['reminder_message'] = "Review whether you should re-balance your portfolio (have individual assets take up a different precentage of your portfolio's total " . strtoupper($app_config['general']['btc_primary_currency_pairing']) . " value).";
+// Reminders array (add unlimited reminders as new subarray objects)
+$plugin_config[$this_plugin]['reminders'] = array(
+																	
+																	
+																	// PORTFOLIO RE-BALANCE REVIEW REMINDER
+																	array(
+																			'days' => 30.4167, // Decimals supported (30.4167 days is average length of 1 month)
+																			'message' => "Review whether you should re-balance your portfolio (have individual assets take up a different precentage of your portfolio's total " . strtoupper($app_config['general']['btc_primary_currency_pairing']) . " value)." // Reminder message
+																			),
+																			
+																			
+																	// VITAMIN D / COVID-19 PREVENTION REMINDER
+																	array(
+																			'days' => 6, // Decimals supported
+																			'message' => "Take 2000 UI of Vitamin D, to help prevent Covid-19 infection." // Reminder message
+																			),
+																	
+																	
+																	); // END reminders array
 
 
 
