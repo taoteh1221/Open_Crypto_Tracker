@@ -11,7 +11,7 @@ $(document).ready(function(){
 
 // See if any alerts are present
 if ( $('#app_error_alert').html() == '' ) {
-$('#app_error_alert').html('No alerts yet.');
+$('#app_error_alert').html('No new alerts.');
 }
 else {
 $("#alert_bell_image").attr("src","templates/interface/media/images/notification-" + theme_selected + "-fill.png");
