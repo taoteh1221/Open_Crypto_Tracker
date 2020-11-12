@@ -103,13 +103,13 @@
 	     
 						<p class='red' style='font-weight: bold;'>
 						
-						Assets in the default examples / demo list DO NOT indicate ANY endorsement of these assets (AND removal indicates NO anti-endorsement). These crypto-assets are merely either interesting, historically popular, or (at time off addition) good ROI or returns for cryptocurrency mining / staking. They are only used as <i>examples for demoing feasibility of features</i> in this application, <a href='README.txt' target='_blank'>before you install it on your Ubuntu / Raspberry Pi device or website server, and change the list to your favorite assets</a>. 
+						Assets in the default examples / demo list DO NOT indicate ANY endorsement OR recommendation of these assets (AND removal indicates NO anti-endorsement / anti-recommendation). These crypto-assets are merely either unique, historically popular, or (at time off addition) good ROI for cryptocurrency mining / staking. They are only used as <i>examples for demoing feasibility of features</i> in this application, <a href='README.txt' target='_blank'>before you install it on your Ubuntu / Raspberry Pi device or website server, and change the list to your favorite assets</a>. 
 						
 						<br /><br />Always do your due diligence investigating whether you are engaging in trading within acceptable risk levels for your <i>NET</i> worth, and consider consulting a professional if you are unaware of what risks are present.
 						
 						</p>
 	
-						<div class='red' style='font-weight: bold;'>
+						<div class='red' style='padding-top: 8px; font-weight: bold;'>
 						
 						<i><u>Expanded-upon version of above IMPORTANT disclaimer / advisory</u>:</i> 
 						
@@ -118,25 +118,17 @@
 							<li class='red disclaimer'>
 								<i>NEVER</i> invest more than you can afford to lose.
 							</li>
+						
+							<li class='red disclaimer'>
+								<i>NEVER</i> buy an asset because of somebody's opinion of it (only buy based on <i>YOUR</i> opinion of it).
+							</li>
 							
 							<li class='red disclaimer'>
 								<i>ALWAYS <u>buy low</u> AND <u>sell high</u></i>. (NOT the other way around!), *UNLESS* you CAREFULLY decide you've accidentally bought an asset that will probably go nowhere in value long term, relative to other assets you are interested in.
 							</li>
 							
 							<li class='red disclaimer'>
-								<i>ALWAYS</i> diversify / balance your portfolio with <i>mostly largest AND oldest marketcaps / HIGHEST ON-CHAIN ACTIVITY</i> assets (which are <i>relatively</i> less volatile), for you <i>and yours safety and sanity</i>.
-							</li>
-							
-							<li class='red disclaimer'>
-								<i><u>ALWAYS AVOID</u></i> <a href='https://twitter.com/hashtag/pumpndump?src=hash' target='_blank'>#pumpndump</a> / <a href='https://twitter.com/hashtag/fomo?src=hash' target='_blank'>#fomo</a> / <a href='https://twitter.com/hashtag/shitcoin?src=hash' target='_blank'>#shxtcoin</a> trading.
-							</li>
-						
-							<li class='red disclaimer'>
-								<i>LITERALLY</i> nearly 99% of all tokens are either scams, garbage, or dead ends.
-							</li>
-						
-							<li class='red disclaimer'>
-								<i>NEVER</i> buy an asset because of somebody's opinion of it (only buy based on <i>YOUR</i> opinion of it).
+								<i>ALWAYS</i> diversify / balance your portfolio with <i>mostly largest AND oldest marketcaps (which are <i>relatively</i> less volatile) / HIGHEST ON-CHAIN ACTIVITY</i> assets, for you <i>and yours safety and sanity</i>.
 							</li>
 							
 							<li class='red disclaimer'>
@@ -146,13 +138,25 @@
 							 <li class='red disclaimer'>
 								"Fully research" does NOT include *BLINDLY* believing some CEO / founder / influencer sweet talking their own token, telling you how competing systems suck and their system is better, or explaining how them owning over 50% of the total coin supply is not out of greed.
 							</li>
+						
+							<li class='red disclaimer'>
+								<i>LITERALLY</i> nearly 99% of all tokens are either scams, garbage, or dead ends.
+							</li>
 							
 							<li class='red disclaimer'>
-								<i>Hang on tight</i> until you can't stand fully holding anymore / want to or must make a position exit percentage <i><u>OFFICIAL</u></i>. (YOU HAVEN'T "LOST" <i><u>OR</u></i> "MADE" <i><u>ANYTHING</u></i> UNTIL YOU SELL A PERCENTAGE OF IT!)
+								<i><u>ALWAYS AVOID</u></i> <a href='https://twitter.com/hashtag/pumpndump?src=hash' target='_blank'>#pumpndump</a> / <a href='https://twitter.com/hashtag/fomo?src=hash' target='_blank'>#fomo</a> / <a href='https://twitter.com/hashtag/shitcoin?src=hash' target='_blank'>#shxtcoin</a> trading.
+							</li>
+						
+							<li class='red disclaimer'>
+								<i><u>ALWAYS AVOID</u></i> copycat coins (that copy / mimick already-popular networks), coins with high inflation rates (creating too many new coins infinitely), and coins with very little on-chain transaction activity (indicating low <i>REAL WORLD</i> user adoption).
 							</li>
 							
 							<li class='red disclaimer'>
 								If you insist on buying LONG SHOT (#VERY# high risk) SMALL marketcap or NEWER assets, *HIGHLY* consider getting #NO MORE THAN# a 'moon bag' worth (#NO MORE THAN# between 1% and 5% of your portfolio PER-ASSET, AND A TOTAL OF #NO MORE THAN# 10% of your portfolio). If it goes down 50% in value and keeps going down, sell it and you don't lose much. If it goes up between 200% and 500% in value (3x to 6x original value) or higher, REBALANCE it to not be more than between 1% and 10% of your portfolio again (by selling a significant portion of it). CAREFULLY TRACK YOUR SUCCESS RATE. If you are no good at picking long shots, stick to the <i>largest AND oldest marketcaps / HIGHEST ON-CHAIN ACTIVITY</i> assets instead.
+							</li>
+							
+							<li class='red disclaimer'>
+								<i>Hang on tight</i> until you can't stand fully holding anymore / want to or must make a position exit percentage <i><u>OFFICIAL</u></i>. (YOU HAVEN'T "LOST" <i><u>OR</u></i> "MADE" <i><u>ANYTHING</u></i> UNTIL YOU SELL A PERCENTAGE OF IT!)
 							</li>
 							
 							<li class='red disclaimer'>

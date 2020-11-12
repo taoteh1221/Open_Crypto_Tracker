@@ -69,6 +69,10 @@ var quoteSource=[
 	    	name:"Lou Simpson"
 	    },
 	    {
+	    	quote:"<i><u>ALWAYS AVOID</u></i> copycat coins (that copy / mimick already-popular networks), coins with high inflation rates (creating too many new coins infinitely), and coins with very little on-chain transaction activity (indicating low <i>REAL WORLD</i> user adoption).",
+	    	name:"Mike Kilday (creator of this app)"
+	    },
+	    {
 	    	quote:"For privacy / security, ALWAYS round your STORED portfolio balances to as few decimal points as is feasible (AND preferably buy / transfer cryptocurrency in nice rounded amounts too). Then hackers / snoopers cannot as easily guess and potentially follow your transaction history in block explorers online.",
 	    	name:"Mike Kilday (creator of this app)"
 	    },
@@ -93,7 +97,7 @@ var quoteSource=[
 	    	name:"Mike Kilday (creator of this app)"
 	    },
 	    {
-	    	quote:"<i>ALWAYS</i> diversify / balance your portfolio with <i>mostly largest AND oldest marketcaps / HIGHEST ON-CHAIN ACTIVITY</i> assets (which are <i>relatively</i> less volatile), for you <i>and yours</i> safety and sanity.",
+	    	quote:"<i>ALWAYS</i> diversify / balance your portfolio with <i>mostly largest AND oldest marketcaps (which are <i>relatively</i> less volatile) / HIGHEST ON-CHAIN ACTIVITY</i> assets, for you <i>and yours</i> safety and sanity.",
 	    	name:"Mike Kilday (creator of this app)"
 	    },
 	    {

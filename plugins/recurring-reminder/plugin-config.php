@@ -35,7 +35,7 @@ $plugin_config[$this_plugin]['reminders'] = array(
 																			
 																	// VITAMIN D / COVID-19 PREVENTION REMINDER
 																	array(
-																			'days' => 6, // Decimals supported
+																			'days' => 4, // Decimals supported
 																			'message' => "Take 2000 UI of Vitamin D, to help prevent Covid-19 infection." // Reminder message
 																			),
 																	
