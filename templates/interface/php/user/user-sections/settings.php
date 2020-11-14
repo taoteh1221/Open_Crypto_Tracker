@@ -11,6 +11,7 @@
 			
 			<h4 style='display: inline;'>Settings</h4>
 				
+				
 				<span class='red countdown_notice'></span>
 			
 			
@@ -94,12 +95,18 @@
 			?>
 			
 			
-			    <p class='settings_sections'><b>Theme:</b> <select class='browser-default custom-select' onchange='
+			<p class='settings_sections'>
+			    
+			    <b>Theme:</b> 
+			    
+			    <select class='browser-default custom-select' onchange='
 			    $("#theme_selected").val(this.value);
 			    '>
 				<option value='dark' <?=( $theme_selected == 'dark' ? ' selected ' : '' )?>> Dark </option>
 				<option value='light' <?=( $theme_selected == 'light' ? ' selected ' : '' )?>> Light </option>
-			    </select></p>
+			    </select>
+			    
+			</p>
 			    
 			    
 			
@@ -107,7 +114,10 @@
 			if (is_array($app_config['portfolio_assets']) || is_object($app_config['portfolio_assets'])) {
 			    
 			    ?>
-			    <p class='settings_sections'><b>Primary Currency Market:</b> 
+			    
+			<p class='settings_sections'>
+			    
+			    <b>Primary Currency Market:</b> 
 			    
 
 					<select class='browser-default custom-select' onchange='
@@ -342,18 +352,21 @@
 		
 		
 		 </script>
-		 
 
 
-			    </p>
-			    <?php
-			
+			</p>
+			    
+			<?php
 			}
-			
 			?>
 			
 			
-			    <p class='settings_sections'><b>Sort Portfolio Data By:</b> <select class='browser-default custom-select' id='sorted_by_col' onchange='
+			
+			<p class='settings_sections'>
+			    
+			    <b>Sort Portfolio Data By:</b> 
+			    
+			    <select class='browser-default custom-select' id='sorted_by_col' onchange='
 			    $("#sort_by").val( this.value + "|" + $("#sorted_by_asc_desc").val() );
 			    '>
 				<option value='0' <?=( $sorted_by_col == 0 ? ' selected ' : '' )?>> Sort </option>
@@ -368,12 +381,16 @@
 				<option value='9' <?=( $sorted_by_col == 9 ? ' selected ' : '' )?>> Holdings Value </option>
 				<option value='10' <?=( $sorted_by_col == 10 ? ' selected ' : '' )?>> Subtotal </option>
 			    </select> 
+			    
 			     <select class='browser-default custom-select' id='sorted_by_asc_desc' onchange='
 			    $("#sort_by").val( $("#sorted_by_col").val() + "|" + this.value );
 			    '>
 				<option value='0' <?=( $sorted_by_asc_desc == 0 ? ' selected ' : '' )?>> Ascending </option>
 				<option value='1' <?=( $sorted_by_asc_desc == 1 ? ' selected ' : '' )?>> Decending </option>
-			    </select></p>
+			    </select>
+			    
+			</p>
+			    
 			    
 			    
 			<p class='settings_sections'>
@@ -454,7 +471,8 @@
 			
 			</p>
 			
-				    <div id='percent_change_alert_type_alert' class='bitcoin_dotted bitcoin'></div>
+			
+			<div id='percent_change_alert_type_alert' class='bitcoin_dotted bitcoin'></div>
 				    
 		 <script>
 
@@ -467,10 +485,108 @@
 				    $("#percent_change_alert_type_alert").hide(250, "linear"); // 0.25 seconds
 				    }
 		
-		
-		
 		 </script>
-				    
+				   
+			    
+			    
+			<p class='settings_sections'>
+				
+				<b>Show Crypto Value Of ENTIRE Portfolio In:</b> &nbsp;  
+			     
+			<?php
+			$loop = 0;
+			foreach ( $app_config['power_user']['crypto_pairing'] as $key => $unused ) {
+			?>
+			<?=( $loop > 0 ? ' &nbsp;/&nbsp; ' : '' )?> 
+			<input type='checkbox' value='<?=$key?>' onchange='crypto_value_toggle(this);' <?=( in_array("[".$key."]", $show_crypto_value) ? 'checked' : '' )?> /> <?=strtoupper($key)?> 
+			<?php
+			$loop = $loop + 1;
+			}
+			?> 
+			     <img id="setting_crypto_value" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
+         </p>
+			
+
+<script>
+
+
+		
+			var setting_crypto_value_content = '<h5 class="yellow tooltip_title">Show Crypto Value Of ENTIRE Portfolio In</h5>'
+			
+			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">Shows the value of your ENTIRE portfolio, in cryptocurrencies selected here, at the bottom of the portfolio page.</p>'
+			
+			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">You can edit this list (except for BTC) with the "crypto_pairing" setting, in the POWER USER section of the admin configuration.</p>'
+		
+			
+			+'<p class="coin_info yellow" style="max-width: 600px; white-space: normal;">*Consult a financial advisor and / or do <i>your own due diligence, to evaluate investment risk / reward</i> of ANY cryptocurrencies, based on THEIR / YOUR OWN determinations before buying. Even AFTER buying ANY cryptocurrency, ALWAYS CONTINUE to do your due diligence, investigating whether you are engaging in trading within acceptable risk levels for your <i>NET</i> worth. ALWAYS consult a financial advisor, if you are unaware of what risks are present. </p>';
+			
+		
+			$('#setting_crypto_value').balloon({
+			html: true,
+			position: "right",
+			contents: setting_crypto_value_content,
+			css: {
+					fontSize: ".8rem",
+					minWidth: ".8rem",
+					padding: ".3rem .7rem",
+					border: "2px solid rgba(212, 212, 212, .4)",
+					borderRadius: "6px",
+					boxShadow: "3px 3px 6px #555",
+					color: "#eee",
+					backgroundColor: "#111",
+					opacity: "0.99",
+					zIndex: "32767",
+					textAlign: "left"
+					}
+			});
+		
+
+
+</script>
+
+
+			
+			
+         <p class='settings_sections'>
+         
+         <b>Use cookies to save data:</b> <input type='checkbox' name='set_use_cookies' id='set_use_cookies' value='1' onchange='
+         if ( this.checked == true ) {
+			document.getElementById("use_cookies").value = "1";
+         }
+         else {
+			document.getElementById("use_cookies").value = "";
+			document.getElementById("use_notes").value = "";
+			document.getElementById("set_use_notes").checked = false;
+         }
+         ' <?php echo ( $_COOKIE['coin_amounts'] != '' ? 'checked' : ''); ?> /> <span class='bitcoin'>(un-checking this box <i>deletes ALL previously-saved cookie data <u>permanently</u></i>)</span>
+         
+         </p>
+			
+			
+			
+         <p class='settings_sections'>
+         
+         <b>Enable trading notes:</b> <input type='checkbox' name='set_use_notes' id='set_use_notes' value='1' onchange='
+         if ( this.checked == true ) {
+			document.getElementById("set_use_cookies").checked = true;
+			document.getElementById("use_cookies").value = "1";
+			document.getElementById("use_notes").value = "1";
+         }
+         else {
+			document.getElementById("use_notes").value = "";
+         }
+         ' <?php echo ( $_COOKIE['notes_reminders'] != '' ? 'checked' : ''); ?> /> <span class='bitcoin'>(requires cookies)</span>
+         
+         </p>
+			
+			
+			
+          <p class='settings_sections'>
+          <input type='button' value='Save Updated Settings' onclick='$("#coin_amounts").submit();' />
+          </p>
+                        
+                        
+                         
 			<?php
 			if ( sizeof($alert_percent) > 4 ) { // Backwards compatibility (reset if user data is not this many array values)
 			?>
@@ -481,48 +597,10 @@
 			}
 			</style>
 			
-			
-			
-			
 			<?php
 			}
 			?>
 
-			
-                        <p class='settings_sections'>
-                        <b>Use cookies to save data:</b> <input type='checkbox' name='set_use_cookies' id='set_use_cookies' value='1' onchange='
-                        if ( this.checked == true ) {
-								document.getElementById("use_cookies").value = "1";
-                        }
-                        else {
-								document.getElementById("use_cookies").value = "";
-								document.getElementById("use_notes").value = "";
-								document.getElementById("set_use_notes").checked = false;
-                        }
-                        ' <?php echo ( $_COOKIE['coin_amounts'] != '' ? 'checked' : ''); ?> /> <span class='bitcoin'>(un-checking this box <i>deletes ALL previously-saved cookie data <u>permanently</u></i>)</span>
-                        </p>
-			
-			
-                        <p class='settings_sections'>
-                        <b>Enable trading notes:</b> <input type='checkbox' name='set_use_notes' id='set_use_notes' value='1' onchange='
-                        if ( this.checked == true ) {
-								document.getElementById("set_use_cookies").checked = true;
-								document.getElementById("use_cookies").value = "1";
-								document.getElementById("use_notes").value = "1";
-                        }
-                        else {
-								document.getElementById("use_notes").value = "";
-                        }
-                        ' <?php echo ( $_COOKIE['notes_reminders'] != '' ? 'checked' : ''); ?> /> <span class='bitcoin'>(requires cookies)</span>
-                        </p>
-			
-			
-                        <p class='settings_sections'><input type='button' value='Save Updated Settings' onclick='
-                        $("#coin_amounts").submit();
-                        ' /></p>
-                        
-                        
-                        
                         
 		    
 		    

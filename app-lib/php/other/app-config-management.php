@@ -54,7 +54,7 @@ $app_config['mobile_network_text_gateways'] = $cleaned_mobile_networks;
 
 // Default BTC CRYPTO/CRYPTO market pairing support, BEFORE GENERATING MISCASSETS ARRAY
 // (so we activate it here instead of in config.php, for good UX adding ONLY altcoin markets dynamically there)
-$app_config['power_user']['crypto_pairing']['btc'] = 'Ƀ ';
+$app_config['power_user']['crypto_pairing'] = array('btc' => 'Ƀ ') + $app_config['power_user']['crypto_pairing']; // ADD TO #BEGINNING# OF ARRAY, FOR UX
 
 // Numericly sort lite chart intervals (in case end user didn't do them in order)
 // DO BEFORE ADDING 'all' BELOW

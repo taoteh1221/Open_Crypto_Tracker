@@ -573,16 +573,19 @@ $app_config['power_user']['charts_tooltip_text'] = '#222222'; // (default: '#222
 							
 							
 
-// Auto-activate support for ALTCOIN PAIRED MARKETS (like gnt/eth or mkr/eth, etc...markets where the base pairing is another altcoin)
+// Auto-activate support for ALTCOIN PAIRED MARKETS (like gnt/eth or mkr/eth, etc...markets where the base pairing is an altcoin)
 // EACH ALTCOIN LISTED HERE !MUST HAVE! AN EXISTING 'btc' MARKET (within 'market_pairing') in it's 
 // $app_config['portfolio_assets'] listing (further down in this config file) TO PROPERLY AUTO-ACTIVATE
-// !!!!!TRY TO #NOT# ADD STABLECOINS HERE!!!!!, FIRST TRY $app_config['power_user']['bitcoin_currency_markets'] INSTEAD (TO AUTO-CLIP UN-NEEDED DECIMAL POINTS)
+// THIS ALSO ADDS THESE ASSETS AS OPTIONS IN THE "Show Crypto Value Of ENTIRE Portfolio In" SETTING, ON THE SETTINGS PAGE
+// !!!!!TRY TO #NOT# ADD STABLECOINS HERE!!!!!, FIRST TRY $app_config['power_user']['bitcoin_currency_markets'] INSTEAD (TO AUTO-CLIP UN-NEEDED DECIMAL POINTS) 
+// !!!!!BTC IS ALREADY ADDED AUTOMATICALLY, NO NEED TO ADD IT HERE!!!!!
 $app_config['power_user']['crypto_pairing'] = array(
-						//'lowercase_altcoin_abrv' => 'CRYPTO_SYMBOL',
+						//'lowercase_altcoin_ticker' => 'UNICODE_SYMBOL', // Add whitespace after the symbol, if you prefer that
 						// Native chains...
 						'eth' => 'Ξ ',
 						'xmr' => 'ɱ ',
-						// Liquidity pools on Ethereum, etc etc...
+						// Liquidity pools / ERC-20 tokens on Ethereum, etc etc...
+						'mkr' => 'ℳ ',
 						//....
 							);
 
@@ -598,6 +601,7 @@ $app_config['power_user']['crypto_pairing_preferred_markets'] = array(
 						//'lowercase_btc_market_or_stablecoin_pairing' => 'PREFERRED_MARKET',
 							'eth' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							'xmr' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
+							'mkr' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							);
 
 

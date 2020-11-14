@@ -105,7 +105,7 @@
 						
 						Assets in the default examples / demo list DO NOT indicate ANY endorsement OR recommendation of these assets (AND removal indicates NO anti-endorsement / anti-recommendation). These crypto-assets are merely either unique, historically popular, or (at time off addition) good ROI for cryptocurrency mining / staking. They are only used as <i>examples for demoing feasibility of features</i> in this application, <a href='README.txt' target='_blank'>before you install it on your Ubuntu / Raspberry Pi device or website server, and change the list to your favorite assets</a>. 
 						
-						<br /><br />Always do your due diligence investigating whether you are engaging in trading within acceptable risk levels for your <i>NET</i> worth, and consider consulting a professional if you are unaware of what risks are present.
+						<br /><br />Consult a financial advisor and / or do <i>your own due diligence, to evaluate investment risk / reward</i> of ANY cryptocurrencies, based on THEIR / YOUR OWN determinations before buying. Even AFTER buying ANY cryptocurrency, ALWAYS CONTINUE to do your due diligence, investigating whether you are engaging in trading within acceptable risk levels for your <i>NET</i> worth. ALWAYS consult a financial advisor, if you are unaware of what risks are present. 
 						
 						</p>
 	
@@ -793,6 +793,8 @@
 	<input type='hidden' id='use_alert_percent' name='use_alert_percent' value='<?=( $_POST['use_alert_percent'] != '' ? $_POST['use_alert_percent'] : $_COOKIE['alert_percent'] )?>' />
 	
 	<input type='hidden' id='show_charts' name='show_charts' value='<?=( $_POST['show_charts'] != '' ? $_POST['show_charts'] : $_COOKIE['show_charts'] )?>' />
+	
+	<input type='hidden' id='show_crypto_value' name='show_crypto_value' value='<?=( $_POST['show_crypto_value'] != '' ? $_POST['show_crypto_value'] : $_COOKIE['show_crypto_value'] )?>' />
 	
 	<input type='hidden' id='show_feeds' name='show_feeds' value='<?=( $_POST['show_feeds'] != '' ? $_POST['show_feeds'] : $_COOKIE['show_feeds'] )?>' />
 	

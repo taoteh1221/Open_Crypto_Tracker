@@ -474,85 +474,80 @@ $altcoin_dominance = max_100($altcoin_dominance);
 	  $leverage_text2 = ( $purchase_price_added == 1 && $leverage_added == 1 && is_numeric($gain_loss_total) == TRUE ? ' <span class="red"> &nbsp;(includes adjusted short / long deposits, <i><u>not</u></i> leverage)</span>' : '' );
 
 
-		// BTC / PAIRING portfolio stats output
-		echo '<div class="portfolio_summary"><span class="black">Crypto Value:</span> <span class="bitcoin" title="Bitcoin (BTC)">Ƀ ' . $total_btc_worth . ' </span> &nbsp;/&nbsp; <span class="ethereum" title="Ethereum (ETH)">Ξ ' . round( ( $total_btc_worth / pairing_market_value('eth') ) , 3) . '</span> &nbsp;/&nbsp; <span class="monero" title="Monero (XMR)">ɱ ' . round( ( $total_btc_worth / pairing_market_value('xmr') ) , 3) . '</span>  <img id="crypto_value" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" /> ' . $leverage_text1 . '</div>';
+
+			// Crypto value(s) of portfolio
+			if ( $show_crypto_value[0] ) {
+			?>
+			<div class="portfolio_summary"><span class="black">Crypto Value:</span> 
+			<?php
+					
+			$scan_crypto_value = array_map('strip_brackets', $show_crypto_value); // Strip brackets
+				
+				// Control the ordering with corrisponding app config array (which is already ordered properly), for UX
+				$loop = 0;
+				foreach ( $app_config['power_user']['crypto_pairing'] as $key => $value ) {
+						
+						if ( in_array($key, $scan_crypto_value) ) {
+						
+						echo ( $loop > 0 ? ' &nbsp;/&nbsp; ' : '' );
+					
+							if ( $key == 'btc' ) {
+							echo '<span class="'.$key.'" title="'.strtoupper($key).'">'.$value.' ' . $total_btc_worth . '</span>';
+							}
+							else {
+							echo '<span class="'.$key.'" title="'.strtoupper($key).'">'.$value.' ' . number_format( ( $total_btc_worth / pairing_market_value($key) ) , 4) . '</span>';
+							}
+				
+						$loop = $loop + 1;
+						
+						}
+				
+				}
+				
+				// Delete any stale configs
+				if ( $loop < 1 ) {
+				?>
+				<script>
+				$("#show_crypto_value").val('');
+				delete_cookie("show_crypto_value");
+				</script>
+				<?php
+				}
+			
+			echo ' <img id="crypto_value" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" /> ' . $leverage_text1;
+			?>
+			</div>
+			<?php
+			}
+			
+			
 		
+		// Fiat value of portfolio
 		echo '<div class="portfolio_summary"><span class="black">'.strtoupper($app_config['general']['btc_primary_currency_pairing']).' Value:</span> ' . $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] . number_format($total_primary_currency_worth, 2, '.', ',') . $leverage_text2 . ' <img id="fiat_value" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" /> </div>';
 		
+		
+		
+		// If using margin leverege anywhere
 		echo ( $purchase_price_added == 1 && $leverage_added == 1 && is_numeric($gain_loss_total) == TRUE ? '<div class="portfolio_summary"><span class="black">Leverage Included: </span>' . ( $total_primary_currency_worth_inc_leverage >= 0 ? '<span class="green">' : '<span class="red">-' ) . $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] . $parsed_total_primary_currency_worth_inc_leverage . '</span>' . '</div>' : '' );
 	
+?>
+
+<script>
 
 
-
-		// Now that BTC / PAIRING summaries have margin leverage stats NEXT TO THEM (NOT in the actual BTC / PAIRING amounts, for UX's sake), 
-		// we move on to the gain / loss stats WHERE IT IS FEASIBLE ENOUGH TO INCLUDE !BASIC! MARGIN LEVERAGE DATA SUMMARY (where applicable)
-		if ( $purchase_price_added == 1 && is_numeric($gain_loss_total) == TRUE ) {
-			
-			
-     	// Gain / loss percent (!MUST BE! absolute value)
-      $percent_difference_total = abs( ($total_primary_currency_worth_if_purchase_price - $original_worth) / abs($original_worth) * 100 );
-          
-		
-		// Notice that we include margin leverage in gain / loss stats (for UX's sake, too confusing to included in anything other than gain / loss stats)
-		$leverage_text2 = ( $leverage_added == 1 ? ', includes leverage' : '' );
-		
-		
-		echo '<div class="portfolio_summary"><span class="black">' . ( $gain_loss_total >= 0 ? 'Gain:</span> <span class="green">+' . $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] : 'Loss:</span> <span class="red">' ) . $parsed_gain_loss_total . ' (' . ( $gain_loss_total >= 0 ? '+' : '-' ) . number_format($percent_difference_total, 2, '.', ',') . '%' . $leverage_text2 . ')</span>';
-		
-		?> 
-		
-		<img id='portfolio_gain_loss' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' /> </div>
-		
-		
-	 <script>
-	 
-		document.title = '<?=( $gain_loss_total >= 0 ? '+' . $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] : '' )?><?=$parsed_gain_loss_total?> (<?=( $gain_loss_total >= 0 ? '+' : '-' )?><?=number_format($percent_difference_total, 2, '.', ',')?>%)';
-	
-	
 		
 			var crypto_value_content = '<h5 class="yellow tooltip_title">Crypto Value</h5>'
 			
-			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">The value of your ENTIRE portfolio, in a few of the most popular grass roots cryptocurrencies. Consult your financial advisor and / or <i>your own due diligence, to evaluate investment risk / reward</i> of these cryptocurrencies, based on THEIR / YOUR OWN determinations, before considering investing in ANY of them.</p>';
+			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">The value of your ENTIRE portfolio, in the cryptocurrencies you selected in the "Show Crypto Value Of ENTIRE Portfolio In" setting, on the settings page.</p>'
+		
+			
+			+'<p class="coin_info yellow" style="max-width: 600px; white-space: normal;">*Consult a financial advisor and / or do <i>your own due diligence, to evaluate investment risk / reward</i> of ANY cryptocurrencies, based on THEIR / YOUR OWN determinations before buying. Even AFTER buying ANY cryptocurrency, ALWAYS CONTINUE to do your due diligence, investigating whether you are engaging in trading within acceptable risk levels for your <i>NET</i> worth. ALWAYS consult a financial advisor, if you are unaware of what risks are present. </p>';
 		
 	
 		
 			var fiat_value_content = '<h5 class="yellow tooltip_title"><?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?> Value</h5>'
 			
 			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">The value of your ENTIRE portfolio, in <?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?>.</p>';
-		
-		
-		
-		
-			var gain_loss_content = '<h5 class="yellow tooltip_title">Gain / Loss Stats</h5>'
-			
-			<?php
-					
-					// Sort descending gains
-					$columns_array = array_column($coin_stats_array, 'gain_loss_total');
-					array_multisort($columns_array, SORT_DESC, $coin_stats_array);
-					
-				foreach ( $coin_stats_array as $key => $value ) {
-					
-						$parsed_gain_loss = preg_replace("/-/", "-" . $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']], number_format( $value['gain_loss_total'], 2, '.', ',' ) );
-						
-						if ( $value['coin_leverage'] >= 2 ) {
-						$parsed_total_with_leverage = number_format( ( $value['coin_worth_total'] + $value['gain_loss_only_leverage'] ) , 2, '.', ',' );
-						}
-						
-					
-						if ( number_to_string($value['coin_paid']) >= 0.00000001 ) {
-							
-							
-				?>
-			+'<p class="coin_info"><span class="yellow"><?=$value['coin_symbol']?>:</span> <span class="<?=( $value['gain_loss_total'] >= 0 ? 'green_bright">+' . $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] : 'red_bright">' )?><?=$parsed_gain_loss?> (<?=( $value['gain_loss_total'] >= 0 ? '+' : '' )?><?=number_format($value['gain_loss_percent_total'], 2, '.', ',')?>%<?=( $value['coin_leverage'] >= 2 ? ', ' . $value['coin_leverage'] . 'x ' . $value['selected_margintype'] : '' )?>)</span></p>'
-			
-			<?php
-						}
-							
-				}
-			 ?>
-				
-			+'<p class="coin_info balloon_notation"><span class="yellow">*<?=( $leverage_added == 1 ? 'Leverage / ' : '' )?>Gain / Loss stats only include assets where you have set the<br />"Average Paid (per-token)" value on the Update page.</span></p>';
 		
 		
 		
@@ -597,7 +592,72 @@ $altcoin_dominance = max_100($altcoin_dominance);
 			});
 			
 		
+		
+		
+
+
+</script>
+
+
+<?php
+
+
+		// Now that BTC / PAIRING summaries have margin leverage stats NEXT TO THEM (NOT in the actual BTC / PAIRING amounts, for UX's sake), 
+		// we move on to the gain / loss stats WHERE IT IS FEASIBLE ENOUGH TO INCLUDE !BASIC! MARGIN LEVERAGE DATA SUMMARY (where applicable)
+		if ( $purchase_price_added == 1 && is_numeric($gain_loss_total) == TRUE ) {
 			
+			
+     	// Gain / loss percent (!MUST BE! absolute value)
+      $percent_difference_total = abs( ($total_primary_currency_worth_if_purchase_price - $original_worth) / abs($original_worth) * 100 );
+          
+		
+		// Notice that we include margin leverage in gain / loss stats (for UX's sake, too confusing to included in anything other than gain / loss stats)
+		$leverage_text2 = ( $leverage_added == 1 ? ', includes leverage' : '' );
+		
+		
+		echo '<div class="portfolio_summary"><span class="black">' . ( $gain_loss_total >= 0 ? 'Gain:</span> <span class="green">+' . $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] : 'Loss:</span> <span class="red">' ) . $parsed_gain_loss_total . ' (' . ( $gain_loss_total >= 0 ? '+' : '-' ) . number_format($percent_difference_total, 2, '.', ',') . '%' . $leverage_text2 . ')</span>';
+		
+		?> 
+		
+		<img id='portfolio_gain_loss' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' /> </div>
+		
+		
+	 <script>
+	 
+		document.title = '<?=( $gain_loss_total >= 0 ? '+' . $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] : '' )?><?=$parsed_gain_loss_total?> (<?=( $gain_loss_total >= 0 ? '+' : '-' )?><?=number_format($percent_difference_total, 2, '.', ',')?>%)';
+	
+		
+			var gain_loss_content = '<h5 class="yellow tooltip_title">Gain / Loss Stats</h5>'
+			
+			<?php
+					
+					// Sort descending gains
+					$columns_array = array_column($coin_stats_array, 'gain_loss_total');
+					array_multisort($columns_array, SORT_DESC, $coin_stats_array);
+					
+				foreach ( $coin_stats_array as $key => $value ) {
+					
+						$parsed_gain_loss = preg_replace("/-/", "-" . $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']], number_format( $value['gain_loss_total'], 2, '.', ',' ) );
+						
+						if ( $value['coin_leverage'] >= 2 ) {
+						$parsed_total_with_leverage = number_format( ( $value['coin_worth_total'] + $value['gain_loss_only_leverage'] ) , 2, '.', ',' );
+						}
+						
+					
+						if ( number_to_string($value['coin_paid']) >= 0.00000001 ) {
+							
+							
+				?>
+			+'<p class="coin_info"><span class="yellow"><?=$value['coin_symbol']?>:</span> <span class="<?=( $value['gain_loss_total'] >= 0 ? 'green_bright">+' . $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] : 'red_bright">' )?><?=$parsed_gain_loss?> (<?=( $value['gain_loss_total'] >= 0 ? '+' : '' )?><?=number_format($value['gain_loss_percent_total'], 2, '.', ',')?>%<?=( $value['coin_leverage'] >= 2 ? ', ' . $value['coin_leverage'] . 'x ' . $value['selected_margintype'] : '' )?>)</span></p>'
+			
+			<?php
+						}
+							
+				}
+			 ?>
+				
+			+'<p class="coin_info balloon_notation"><span class="yellow">*<?=( $leverage_added == 1 ? 'Leverage / ' : '' )?>Gain / Loss stats only include assets where you have set the<br />"Average Paid (per-token)" value on the Update page.</span></p>';
+		
 		
 			$('#portfolio_gain_loss').balloon({
 			html: true,
@@ -619,6 +679,7 @@ $altcoin_dominance = max_100($altcoin_dominance);
 			});
 		
 		 </script>
+		 
 		 
 		<?php
 		}

@@ -384,7 +384,7 @@ color: #ffb83f !important;
 }
 
 
-.bitcoin {
+.bitcoin, .btc {
 color: #dd7c0d !important;
 }
 
@@ -395,12 +395,12 @@ border: 2px dotted #dd7c0d !important;
 }
 
 
-.ethereum {
+.eth {
 color: #939cbc !important;
 }
 
 
-.monero {
+.xmr {
 color: #ED6305 !important;
 }
 

@@ -305,6 +305,23 @@ show_charts = $("#show_charts").val();
 /////////////////////////////////////////////////////////////
 
 
+function crypto_value_toggle(obj_var) {
+  
+show_crypto_value = $("#show_crypto_value").val();
+	
+	if ( obj_var.checked == true ) {
+	$("#show_crypto_value").val("[" + obj_var.value + "]" + "," + show_crypto_value);
+	}
+	else {
+	$("#show_crypto_value").val( show_crypto_value.replace("[" + obj_var.value + "],", "") );
+	}
+	
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function feed_toggle(obj_var) {
   
 show_feeds = $("#show_feeds").val();

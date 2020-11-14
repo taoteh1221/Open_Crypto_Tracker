@@ -14,12 +14,14 @@ $alert_percent = explode("|", ( $_POST['use_alert_percent'] != '' ? $_POST['use_
 
 $app_config['general']['primary_marketcap_site'] = ( $alert_percent[0] != '' ? $alert_percent[0] : $app_config['general']['primary_marketcap_site'] );
 
+$show_crypto_value = explode(',', rtrim( ( $_POST['show_crypto_value'] != '' ? $_POST['show_crypto_value'] : $_COOKIE['show_crypto_value'] ) , ',') );
+
 $show_feeds = explode(',', rtrim( ( $_POST['show_feeds'] != '' ? $_POST['show_feeds'] : $_COOKIE['show_feeds'] ) , ',') );
 
 	// Alphabetically order AND remove stale feeds
 	// (since we already alphabetically ordered $app_config['power_user']['news_feeds'] in app-config-management.php BEFOREHAND)
 	$temp_show_feeds = array();
-	$scan_feeds = array_map('strip_brackets', $show_feeds);
+	$scan_feeds = array_map('strip_brackets', $show_feeds); // Strip brackets
 	foreach ($app_config['power_user']['news_feeds'] as $feed) {
 	$feed_id = get_digest($feed["title"], 10);
 		if ( in_array($feed_id, $scan_feeds) ) {

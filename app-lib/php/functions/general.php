@@ -1294,7 +1294,8 @@ function delete_all_cookies() {
   store_cookie_contents("coin_reload", "", time()-3600);  
   store_cookie_contents("notes_reminders", "", time()-3600);   
   store_cookie_contents("show_charts", "", time()-3600);    
-  store_cookie_contents("show_feeds", "", time()-3600);  
+  store_cookie_contents("show_crypto_value", "", time()-3600); 
+  store_cookie_contents("show_feeds", "", time()-3600);   
   store_cookie_contents("theme_selected", "", time()-3600);  
   store_cookie_contents("sort_by", "", time()-3600);  
   store_cookie_contents("alert_percent", "", time()-3600); 
@@ -1317,6 +1318,7 @@ function delete_all_cookies() {
   unset($_COOKIE['coin_reload']);  
   unset($_COOKIE['notes_reminders']);
   unset($_COOKIE['show_charts']);  
+  unset($_COOKIE['show_crypto_value']);  
   unset($_COOKIE['show_feeds']);  
   unset($_COOKIE['theme_selected']);  
   unset($_COOKIE['sort_by']);  
@@ -1757,6 +1759,14 @@ function update_cookies($set_coin_values, $set_pairing_values, $set_market_value
                else {
                store_cookie_contents("show_charts", "", time()-3600);  // Delete any existing cookies
                unset($_COOKIE['show_charts']);  // Delete any existing cookies
+               }
+               
+               if ( $_POST['show_crypto_value'] != null ) {
+               store_cookie_contents("show_crypto_value", $_POST['show_crypto_value'], mktime()+31536000);
+               }
+               else {
+               store_cookie_contents("show_crypto_value", "", time()-3600);  // Delete any existing cookies
+               unset($_COOKIE['show_crypto_value']);  // Delete any existing cookies
                }
                
                if ( $_POST['show_feeds'] != null ) {
