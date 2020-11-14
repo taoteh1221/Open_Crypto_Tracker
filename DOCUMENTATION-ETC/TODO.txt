@@ -80,9 +80,6 @@ FEATURES / STRUCTURING SECTION
 ///////////////////////////////////////////////////////
 
 
-For the "Crypto Value" summary on the portfolio page, create a setting on the settings page to check / uncheck which crypto values to show / hide.
-
-
 Add a "Reset lite charts" button on the admin 'Reset' page, to trigger rebuilding lite charts.
 
 
