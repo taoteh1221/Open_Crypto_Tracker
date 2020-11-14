@@ -26,9 +26,6 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
-Keep an eye on the Bitcoin "Unit Value" compared to the "Trade Value". They don't need to match perfectly, BUT they should ALWAYS be pretty close to the same.
-
-
 Look into adding https://1inch.exchange/#/ to DeFi APIs.
 
 
@@ -81,6 +78,9 @@ Code review ALL functions / logic (especially loops, for efficiency).
 ///////////////////////////////////////////////////////
 FEATURES / STRUCTURING SECTION
 ///////////////////////////////////////////////////////
+
+
+For the "Crypto Value" summary on the portfolio page, create a setting on the settings page to check / uncheck which crypto values to show / hide.
 
 
 Add a "Reset lite charts" button on the admin 'Reset' page, to trigger rebuilding lite charts.
