@@ -4093,38 +4093,14 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 
 
+-------------------------------------------------------------------
+4.23.0:
 
+-"Crypto Value" of your entire portfolio in a few of the most popular grass roots cryptocurrencies
 
+-Misc. UX
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+-------------------------------------------------------------------
 
 
 

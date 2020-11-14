@@ -475,9 +475,9 @@ $altcoin_dominance = max_100($altcoin_dominance);
 
 
 		// BTC / PAIRING portfolio stats output
-		echo '<div class="portfolio_summary"><span class="black">BTC Value:</span> <span class="bitcoin">Ƀ ' . $total_btc_worth . '</span>' . $leverage_text1 . '</div>';
+		echo '<div class="portfolio_summary"><span class="black">Crypto Value:</span> <span class="bitcoin" title="Bitcoin (BTC)">Ƀ ' . $total_btc_worth . ' </span> &nbsp;/&nbsp; <span class="ethereum" title="Ethereum (ETH)">Ξ ' . round( ( $total_btc_worth / pairing_market_value('eth') ) , 3) . '</span> &nbsp;/&nbsp; <span class="monero" title="Monero (XMR)">ɱ ' . round( ( $total_btc_worth / pairing_market_value('xmr') ) , 3) . '</span>  <img id="crypto_value" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" /> ' . $leverage_text1 . '</div>';
 		
-		echo '<div class="portfolio_summary"><span class="black">'.strtoupper($app_config['general']['btc_primary_currency_pairing']).' Value:</span> ' . $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] . number_format($total_primary_currency_worth, 2, '.', ',') . $leverage_text2 . '</div>';
+		echo '<div class="portfolio_summary"><span class="black">'.strtoupper($app_config['general']['btc_primary_currency_pairing']).' Value:</span> ' . $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] . number_format($total_primary_currency_worth, 2, '.', ',') . $leverage_text2 . ' <img id="fiat_value" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" /> </div>';
 		
 		echo ( $purchase_price_added == 1 && $leverage_added == 1 && is_numeric($gain_loss_total) == TRUE ? '<div class="portfolio_summary"><span class="black">Leverage Included: </span>' . ( $total_primary_currency_worth_inc_leverage >= 0 ? '<span class="green">' : '<span class="red">-' ) . $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] . $parsed_total_primary_currency_worth_inc_leverage . '</span>' . '</div>' : '' );
 	
@@ -508,8 +508,22 @@ $altcoin_dominance = max_100($altcoin_dominance);
 	 
 		document.title = '<?=( $gain_loss_total >= 0 ? '+' . $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] : '' )?><?=$parsed_gain_loss_total?> (<?=( $gain_loss_total >= 0 ? '+' : '-' )?><?=number_format($percent_difference_total, 2, '.', ',')?>%)';
 	
+	
 		
-			var gain_loss_content = '<h5 class="yellow" style="position: relative; white-space: nowrap;">Gain / Loss Stats:</h5>'
+			var crypto_value_content = '<h5 class="yellow tooltip_title">Crypto Value</h5>'
+			
+			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">The value of your ENTIRE portfolio, in a few of the most popular grass roots cryptocurrencies. Consult your financial advisor and / or <i>your own due diligence, to evaluate investment risk / reward</i> of these cryptocurrencies, based on THEIR / YOUR OWN determinations, before considering investing in ANY of them.</p>';
+		
+	
+		
+			var fiat_value_content = '<h5 class="yellow tooltip_title"><?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?> Value</h5>'
+			
+			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">The value of your ENTIRE portfolio, in <?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?>.</p>';
+		
+		
+		
+		
+			var gain_loss_content = '<h5 class="yellow tooltip_title">Gain / Loss Stats</h5>'
 			
 			<?php
 					
@@ -541,6 +555,50 @@ $altcoin_dominance = max_100($altcoin_dominance);
 			+'<p class="coin_info balloon_notation"><span class="yellow">*<?=( $leverage_added == 1 ? 'Leverage / ' : '' )?>Gain / Loss stats only include assets where you have set the<br />"Average Paid (per-token)" value on the Update page.</span></p>';
 		
 		
+		
+			$('#crypto_value').balloon({
+			html: true,
+			position: "right",
+			contents: crypto_value_content,
+			css: {
+					fontSize: ".8rem",
+					minWidth: ".8rem",
+					padding: ".3rem .7rem",
+					border: "2px solid rgba(212, 212, 212, .4)",
+					borderRadius: "6px",
+					boxShadow: "3px 3px 6px #555",
+					color: "#eee",
+					backgroundColor: "#111",
+					opacity: "0.99",
+					zIndex: "32767",
+					textAlign: "left"
+					}
+			});
+		
+		
+		
+			$('#fiat_value').balloon({
+			html: true,
+			position: "right",
+			contents: fiat_value_content,
+			css: {
+					fontSize: ".8rem",
+					minWidth: ".8rem",
+					padding: ".3rem .7rem",
+					border: "2px solid rgba(212, 212, 212, .4)",
+					borderRadius: "6px",
+					boxShadow: "3px 3px 6px #555",
+					color: "#eee",
+					backgroundColor: "#111",
+					opacity: "0.99",
+					zIndex: "32767",
+					textAlign: "left"
+					}
+			});
+			
+		
+			
+		
 			$('#portfolio_gain_loss').balloon({
 			html: true,
 			position: "right",
@@ -570,17 +628,17 @@ $altcoin_dominance = max_100($altcoin_dominance);
 			
 			if ( number_to_string($bitcoin_dominance) >= 0.01 ) {
 			$bitcoin_dominance_text = number_format($bitcoin_dominance, 2, '.', ',') . '% BTC';
-			$seperator_btc = ( number_to_string($bitcoin_dominance) <= 99.99 ? ' / ' : '' );
+			$seperator_btc = ( number_to_string($bitcoin_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
 			}
 			
 			if ( number_to_string($ethereum_dominance) >= 0.01 ) {
 			$ethereum_dominance_text = number_format($ethereum_dominance, 2, '.', ',') . '% ETH';
-			$seperator_eth = ( number_to_string($bitcoin_dominance) + number_to_string($ethereum_dominance) <= 99.99 ? ' / ' : '' );
+			$seperator_eth = ( number_to_string($bitcoin_dominance) + number_to_string($ethereum_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
 			}
 			
 			if ( number_to_string($miscassets_dominance) >= 0.01 ) {
 			$miscassets_dominance_text = number_format($miscassets_dominance, 2, '.', ',') . '% <span class="btc_primary_currency_pairing">' . strtoupper($app_config['general']['btc_primary_currency_pairing']) . '</span>';
-			$seperator_miscassets = ( number_to_string($bitcoin_dominance) + number_to_string($ethereum_dominance) + number_to_string($miscassets_dominance) <= 99.99 ? ' / ' : '' );
+			$seperator_miscassets = ( number_to_string($bitcoin_dominance) + number_to_string($ethereum_dominance) + number_to_string($miscassets_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
 			}
 			
 			if ( number_to_string($altcoin_dominance) >= 0.01 ) {

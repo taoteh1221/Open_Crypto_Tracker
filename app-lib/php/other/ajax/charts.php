@@ -1092,7 +1092,7 @@ gui: {
 elseif ( $_GET['type'] == 'balance_stats' ) {
 ?>
 
- <h5 class="align_center yellow" style="position: relative; white-space: nowrap;">Portfolio Balance Stats:</h5>
+ <h5 class="yellow tooltip_title">Portfolio Balance Stats</h5>
  
   <div id='balance_chart' class='chart_wrapper' style='min-width: 700px; background: white; border: 2px solid #918e8e;'></div>
   

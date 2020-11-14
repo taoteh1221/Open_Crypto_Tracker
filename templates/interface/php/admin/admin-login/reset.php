@@ -102,7 +102,7 @@ require("templates/interface/php/header.php");
 <script>
 
 
-		var reset_notes = '<h5 align="center" class="red_bright" style="position: relative; white-space: nowrap;">Reset Admin Account By Username</h5>'
+		var reset_notes = '<h5 align="center" class="red_bright tooltip_title">Reset Admin Account By Username</h5>'
 			
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="red_bright">For security purposes you MUST know the admin username, and a VALID admin \'To\' Email MUST be set in the admin configuration already. Otherwise the password CANNOT be reset by interface form submission. Alternatively, you can MANUALLY delete the file \'/cache/secured/admin_login_XXXXXXXXXXXXX.dat\' in the app directory. This will prompt you to create a new admin login, the next time you use the app.<br /></span></p>'

@@ -284,7 +284,7 @@
 				    
  <script>
 	
-			var currency_content = '<h5 align="center" class="yellow" style="position: relative; white-space: nowrap;">Currency Market Setting:</h5>'
+			var currency_content = '<h5 align="center" class="yellow tooltip_title">Currency Market Setting</h5>'
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">The Currency Market setting allows you to change your default primary currency (conversion) for the portfolio interface (the charts / price alerts currency market <i>must be changed separately in config.php</i>).</p>'
 			

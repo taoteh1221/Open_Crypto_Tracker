@@ -581,6 +581,7 @@ $app_config['power_user']['crypto_pairing'] = array(
 						//'lowercase_altcoin_abrv' => 'CRYPTO_SYMBOL',
 						// Native chains...
 						'eth' => 'Ξ ',
+						'xmr' => 'ɱ ',
 						// Liquidity pools on Ethereum, etc etc...
 						//....
 							);
@@ -596,6 +597,7 @@ $app_config['power_user']['crypto_pairing'] = array(
 $app_config['power_user']['crypto_pairing_preferred_markets'] = array(
 						//'lowercase_btc_market_or_stablecoin_pairing' => 'PREFERRED_MARKET',
 							'eth' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
+							'xmr' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							);
 
 

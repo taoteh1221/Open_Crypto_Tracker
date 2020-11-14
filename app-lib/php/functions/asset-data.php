@@ -1856,7 +1856,7 @@ $original_market = $selected_exchange;
         		
         ?> 
     
-        var cmc_content = '<h5 class="yellow" style="position: relative; white-space: nowrap;"><?=ucfirst($app_config['general']['primary_marketcap_site'])?>.com Summary For <?=$asset_name?> (<?=$asset_symbol?>):</h5>'
+        var cmc_content = '<h5 class="yellow tooltip_title"><?=ucfirst($app_config['general']['primary_marketcap_site'])?>.com Summary For <?=$asset_name?> (<?=$asset_symbol?>)</h5>'
         
         		<?php
             if ( $marketcap_data['app_notice'] != '' ) {
@@ -2020,7 +2020,7 @@ $original_market = $selected_exchange;
 			if ( $asset_symbol == 'MISCASSETS' ) {
 			?>
 
-			var cmc_content = '<h5 class="yellow align_center" style="position: relative; white-space: nowrap;"><?=$asset_name?> (<?=$asset_symbol?>):</h5>'
+			var cmc_content = '<h5 class="yellow align_center tooltip_title"><?=$asset_name?> (<?=$asset_symbol?>)</h5>'
     
         +'<p class="coin_info" style="white-space: normal; max-width: 600px;"><span class="yellow">Miscellaneous <?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?> value can be included in you portfolio stats, by entering it under the "MISCASSETS" asset on the "Update" page.</span></p>'
         
@@ -2322,7 +2322,7 @@ echo '<span class="' . ( $purchase_price >= 0.00000001 && $leverage_level >= 2 &
 		<img id='<?=$rand_id?>_leverage' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' />
 	 <script>
 	
-			var leverage_content = '<h5 class="yellow" style="position: relative; white-space: nowrap;"><?=$leverage_level?>x <?=ucfirst($selected_margintype)?> For <?=$asset_name?> (<?=$asset_symbol?>):</h5>'
+			var leverage_content = '<h5 class="yellow tooltip_title"><?=$leverage_level?>x <?=ucfirst($selected_margintype)?> For <?=$asset_name?> (<?=$asset_symbol?>)</h5>'
 			
 			+'<p class="coin_info"><span class="yellow">Deposit (1x):</span> <span class="<?=$gain_loss_span_color?>"><?=$gain_loss_primary_currency?><?=$parsed_gain_loss?></span> (<?=$app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']]?><?=$pretty_coin_primary_currency_worth_raw?>)</p>'
 			
