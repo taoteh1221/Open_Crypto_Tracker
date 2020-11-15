@@ -495,7 +495,7 @@ $altcoin_dominance = max_100($altcoin_dominance);
 							echo '<span class="'.$key.'" title="'.strtoupper($key).'">'.$value.' ' . $total_btc_worth . '</span>';
 							}
 							else {
-							echo '<span class="'.$key.'" title="'.strtoupper($key).'">'.$value.' ' . number_format( ( $total_btc_worth / pairing_market_value($key) ) , 4) . '</span>';
+							echo '<span class="'.$key.'" title="'.strtoupper($key).'">'.$value.' ' . number_format( ( $total_btc_worth / pairing_btc_value($key) ) , 4) . '</span>';
 							}
 				
 						$loop = $loop + 1;

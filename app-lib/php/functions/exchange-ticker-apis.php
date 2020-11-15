@@ -1735,10 +1735,10 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
      // All other pairing
 	  else {
 	  
-	  $pairing_btc_value = pairing_market_value($market_id);
+	  $pairing_btc_value = pairing_btc_value($market_id);
 	
 			if ( $pairing_btc_value == null ) {
-			app_logging('market_error', 'pairing_market_value() returned null', 'market_id: ' . $market_id);
+			app_logging('market_error', 'pairing_btc_value() returned null', 'market_id: ' . $market_id);
 			}
 	
      $result = array(
@@ -1776,8 +1776,8 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
 			$fiat_eqiv = 1;
 			}
 		
-		$pairing_btc_value = pairing_market_value($pairing);
-		$usd_btc_value = pairing_market_value('usd');
+		$pairing_btc_value = pairing_btc_value($pairing);
+		$usd_btc_value = pairing_btc_value('usd');
 		
 		$vol_in_btc = $result['24hr_usd_volume'] * $usd_btc_value;
 		$vol_in_pairing = round( ($vol_in_btc / $pairing_btc_value) , ( $fiat_eqiv == 1 ? 0 : $app_config['power_user']['charts_crypto_volume_decimals'] ) );
