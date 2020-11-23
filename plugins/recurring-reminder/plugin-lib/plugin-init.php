@@ -11,8 +11,15 @@
 
 foreach ( $plugin_config[$this_plugin]['reminders'] as $key => $value ) {
 
+// Recurring reminder time in minutes
+$in_minutes = round( number_to_string(1440 * $value['days']) );
 
-	if ( update_cache_file($base_dir . '/cache/events/recurring-reminder-alert-' . $key . '.dat', round( number_to_string(1440 * $value['days']) ) ) == true ) {
+// Offset -1 anything 20 minutes or higher, so recurring reminder is triggered at same EXACT cron job interval consistently 
+// (example: every 2 days at 12:00pm...NOT same cron job interval + 1, like 12:20pm / 12:40pm / etc)
+$in_minutes_offset = ( $in_minutes >= 20 ? ($in_minutes - 1) : $in_minutes );
+
+
+	if ( update_cache_file($base_dir . '/cache/events/recurring-reminder-alert-' . $key . '.dat', $in_minutes_offset) == true ) {
 
 	$format_message = "This is a recurring ~" . round($value['days']) . " day reminder: " . $value['message'];
 
