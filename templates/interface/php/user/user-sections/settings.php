@@ -120,7 +120,7 @@
 			    <b>Primary Currency Market:</b> 
 			    
 
-					<select class='browser-default custom-select' onchange='
+					BTC / <select class='browser-default custom-select' onchange='
 					
 					 btc_primary_currency = this.value;
 					 primary_currency_market = $("#" + btc_primary_currency + "btc_currency_pairs").val();

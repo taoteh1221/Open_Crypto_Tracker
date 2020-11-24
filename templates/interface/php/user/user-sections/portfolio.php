@@ -547,7 +547,10 @@ $altcoin_dominance = max_100($altcoin_dominance);
 		
 			var fiat_value_content = '<h5 class="yellow tooltip_title"><?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?> Value</h5>'
 			
-			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">The value of your ENTIRE portfolio, in <?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?>.</p>';
+			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">The value of your ENTIRE portfolio, in <?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?>.</p>'
+			
+			+'<p class="coin_info yellow" style="max-width: 600px; white-space: normal;">Primary Currency Market: BTC / <?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?> @ <?=snake_case_to_name($app_config['general']['btc_primary_exchange'])?> (<?=$app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']]?><?=number_format( $selected_btc_primary_currency_value, 2, '.', ',')?>)</p>';
+		
 		
 		
 		
@@ -764,8 +767,6 @@ $altcoin_dominance = max_100($altcoin_dominance);
 		<?php
 		}
 	
-	echo '<div class="portfolio_summary"><span class="black">(Bitcoin is trading @ ' . $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] . number_format( $selected_btc_primary_currency_value, 2, '.', ',') . ' on ' . snake_case_to_name($app_config['general']['btc_primary_exchange']) . ')</span></div>';
-
 			
 		if ( $short_added == 1 ) {
 		?>	
