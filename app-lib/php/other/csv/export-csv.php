@@ -3,6 +3,7 @@
  * Copyright 2014-2020 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
  */
 
+$csv_download_array = array();
 
 // CSV header
 $csv_download_array[] = array(
@@ -70,7 +71,7 @@ $csv_download_array[] = array(
 	  	 
 	    
 	   	// Asset data to array for CSV export
-	      if ( remove_number_format($asset_amount_value) >= 0.00000001 ) {
+	      if ( trim($coin_array_key) != '' && remove_number_format($asset_amount_value) >= 0.00000001 ) {
 	        	
 	        $csv_download_array[] = array(
 	        											strtoupper($coin_array_key),

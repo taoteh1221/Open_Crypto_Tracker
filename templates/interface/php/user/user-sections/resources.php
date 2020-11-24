@@ -152,13 +152,15 @@
 	    <ul>
 	        
 	        
+	        <li class='links_list'><a href='https://beaconscan.com/' target='_blank'>BeaconScan.io Ethereum v2.0 Explorer</a></li>
+	        
 	        <li class='links_list'><a href='https://www.blockchain.com/explorer?view=btc' target='_blank'>Blockchain.com Bitcoin Explorer</a></li>
 	        
 	        <li class='links_list'><a href='https://explorer.dcrdata.org/' target='_blank'>DCRdata.org Decred Explorer</a></li>
 	        
-	        <li class='links_list'><a href='https://etherscan.io/' target='_blank'>Etherscan.io Ethereum Explorer</a></li>
+	        <li class='links_list'><a href='https://etherscan.io/' target='_blank'>EtherScan.io Ethereum v1.0 Explorer</a></li>
 	        
-	        <li class='links_list'><a href='https://etherscan.io/' target='_blank'>Moneroblocks.info Monero Explorer</a></li>
+	        <li class='links_list'><a href='https://etherscan.io/' target='_blank'>MoneroBlocks.info Monero Explorer</a></li>
 	        
 	        
 	        
@@ -436,6 +438,8 @@
 	        <li class='links_list'><a href='https://bitcoin.clarkmoody.com/dashboard/' target='_blank'>Clark Moody Bitcoin Dashboard</a></li>
 	        
 	        <li class='links_list'><a href='https://coincenter.org/' target='_blank'>CoinCenter.org</a></li>
+	        
+	        <li class='links_list'><a href='https://coinshares.com/' target='_blank'>CoinShares.com</a></li>
 	        
 	        <li class='links_list'><a href='https://twitter.com/hashtag/cryptotwitter?src=hash' target='_blank'>#CryptoTwitter</a></li>
 	        

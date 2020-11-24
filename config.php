@@ -398,21 +398,9 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					'ant-4' => 'defipulse||eth||none',
 					
 					
-					// ENJ
-					'enj' => 'bittrex||btc||none',
-					'enj-2' => 'binance||btc||both',
-					'enj-3' => 'kucoin||btc||none',
-					'enj-4' => 'bitfinex||usd||none',
-					
-					
 					// GNT
 					'gnt' => 'bittrex||btc||both',
 					'gnt-2' => 'ethfinex||btc||chart',
-					
-					
-					// DATA
-					'data' => 'hitbtc||btc||chart',
-					'data-2' => 'binance||btc||chart',
 					
 					
 					// DCR
@@ -427,16 +415,28 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					'hive' => 'bittrex||btc||both',
 					
 					
-					//MYST
-					'myst' => 'hitbtc||btc||both',
-					'myst-2' => 'hitbtc||eth||none',
-					'myst-3' => 'idex||eth||none',
-					
-					
 					// SXP
 					'sxp' => 'bittrex_global||btc||none',
 					'sxp-2' => 'kucoin||btc||both',
 					'sxp-3' => 'binance||btc||none',
+					
+					
+					// ENJ
+					'enj' => 'bittrex||btc||none',
+					'enj-2' => 'binance||btc||both',
+					'enj-3' => 'kucoin||btc||none',
+					'enj-4' => 'bitfinex||usd||none',
+					
+					
+					// DATA
+					'data' => 'hitbtc||btc||chart',
+					'data-2' => 'binance||btc||chart',
+					
+					
+					//MYST
+					'myst' => 'hitbtc||btc||both',
+					'myst-2' => 'hitbtc||eth||none',
+					'myst-3' => 'idex||eth||none',
 					
 					
 					);
@@ -585,7 +585,7 @@ $app_config['power_user']['crypto_pairing'] = array(
 						'eth' => 'Ξ ',
 						'xmr' => 'ɱ ',
 						// Liquidity pools / ERC-20 tokens on Ethereum, etc etc...
-						'mkr' => 'ℳ ',
+						'mkr' => '𐌼 ',
 						//....
 							);
 
@@ -629,7 +629,7 @@ $app_config['power_user']['bitcoin_currency_markets'] = array(
 						'cop' => 'Col$',
 						'crc' => '₡',
 						'czk' => 'Kč ',
-						'dai' => 'Đ ',
+						'dai' => '◈ ',
 						'dkk' => 'Kr. ',
 						'dop' => 'RD$',
 						'egp' => 'ج.م',
@@ -1742,7 +1742,7 @@ $app_config['portfolio_assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // BTC
+                    // BTC (!!!!*BTC MUST BE THE VERY FIRST* IN THIS ASSET LIST, DO NOT DELETE, BTC IS *REQUIRED* TO RUN THIS APP!!!!)
                     'BTC' => array(
                         
                         'asset_name' => 'Bitcoin',
@@ -2133,7 +2133,7 @@ $app_config['portfolio_assets'] = array(
                                                     
                                         ) // market_pairing END
                         
-                    ), // Asset END
+                    ), // Asset END (!!!!*BTC MUST BE THE VERY FIRST* IN THIS ASSET LIST, DO NOT DELETE, BTC IS *REQUIRED* TO RUN THIS APP!!!!)
                     
                     
                     ////////////////////////////////////////////////////////////////////
@@ -2602,57 +2602,6 @@ $app_config['portfolio_assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // ENJ
-                    'ENJ' => array(
-                        
-                        'asset_name' => 'Enjin Coin',
-                        'marketcap_website_slug' => 'enjin-coin',
-                        'market_pairing' => array(
-                        
-                                    'btc' => array(
-                                        	'binance' => 'ENJBTC',
-                                          'bittrex' => 'ENJ-BTC',
-                                          'hitbtc' => 'ENJBTC',
-                                          'kucoin' => 'ENJ-BTC',
-                                          'coinex' => 'ENJBTC',
-                                          'liquid' => 'ENJBTC',
-                                          'livecoin' => 'ENJ/BTC',
-                                        	'upbit' => 'BTC-ENJ',
-                                                    ),
-                                                    
-                                    'eth' => array(
-                                        	'binance' => 'ENJETH',
-                                          'bittrex' => 'ENJ-ETH',
-                                          'idex' => 'ETH_ENJ',
-                                          'hitbtc' => 'ENJETH',
-                                          'kucoin' => 'ENJ-ETH',
-                                                    ),
-                                                    
-                                    'krw' => array(
-                                        	'upbit' => 'KRW-ENJ',
-                                                    ),
-                                                    
-                                    'usd' => array(
-                                        	'binance_us' => 'ENJUSD',
-                                          'bittrex' => 'ENJ-USD',
-                                        	'bitfinex' => 'tENJUSD',
-                                                    ),
-                                                    
-                                    'usdt' => array(
-                                        	'binance' => 'ENJUSDT',
-                                          'bittrex' => 'ENJ-USDT',
-                                          'hitbtc' => 'ENJUSD',
-                                          'coinex' => 'ENJUSDT',
-                                                    ),
-                                                    
-                                        ) // market_pairing END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
                     // GNT
                     'GNT' => array(
                         
@@ -2692,40 +2641,6 @@ $app_config['portfolio_assets'] = array(
                                                     
                                     'usdt' => array(
                                         	'okex' => 'GNT-USDT',
-                                                    ),
-                                                    
-                                        ) // market_pairing END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // DATA
-                    'DATA' => array(
-                        
-                        'asset_name' => 'Streamr DATAcoin',
-                        'marketcap_website_slug' => 'streamr-datacoin',
-                        'market_pairing' => array(
-                        
-                                    'btc' => array(
-                                        'binance' => 'DATABTC',
-                                        'ethfinex' => 'tDATBTC',
-                                        'hitbtc' => 'DATABTC',
-                                                    ),
-                                                    
-                                    'eth' => array(
-                                        'binance' => 'DATAETH',
-                                        'ethfinex' => 'tDATETH',
-                                  		 'hitbtc' => 'DATAETH',
-                                        'gateio' => 'DATA_ETH',
-                                        'idex' => 'ETH_DATA',
-                                                    ),
-                                                    
-                                    'usdt' => array(
-                                         'hitbtc' => 'DATAUSD',
-                                         'gateio' => 'DATA_USDT',
                                                     ),
                                                     
                                         ) // market_pairing END
@@ -2808,30 +2723,6 @@ $app_config['portfolio_assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // MYST
-                    'MYST' => array(
-                        
-                        'asset_name' => 'Mysterium',
-                        'marketcap_website_slug' => 'mysterium',
-                        'market_pairing' => array(
-                        
-                                    'btc' => array(
-                                          'hitbtc' => 'MYSTBTC',
-                                                    ),
-                                                    
-                                    'eth' => array(
-                                          'hitbtc' => 'MYSTETH',
-                                          'idex' => 'ETH_MYST',
-                                                    ),
-                                                    
-                                        ) // market_pairing END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
                     // SXP
                     'SXP' => array(
                         
@@ -2851,6 +2742,115 @@ $app_config['portfolio_assets'] = array(
                                                     
                                     'usdt' => array(
                                           'kucoin' => 'SXP-USDT',
+                                                    ),
+                                                    
+                                        ) // market_pairing END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // ENJ
+                    'ENJ' => array(
+                        
+                        'asset_name' => 'Enjin Coin',
+                        'marketcap_website_slug' => 'enjin-coin',
+                        'market_pairing' => array(
+                        
+                                    'btc' => array(
+                                        	'binance' => 'ENJBTC',
+                                          'bittrex' => 'ENJ-BTC',
+                                          'hitbtc' => 'ENJBTC',
+                                          'kucoin' => 'ENJ-BTC',
+                                          'coinex' => 'ENJBTC',
+                                          'liquid' => 'ENJBTC',
+                                          'livecoin' => 'ENJ/BTC',
+                                        	'upbit' => 'BTC-ENJ',
+                                                    ),
+                                                    
+                                    'eth' => array(
+                                        	'binance' => 'ENJETH',
+                                          'bittrex' => 'ENJ-ETH',
+                                          'idex' => 'ETH_ENJ',
+                                          'hitbtc' => 'ENJETH',
+                                          'kucoin' => 'ENJ-ETH',
+                                                    ),
+                                                    
+                                    'krw' => array(
+                                        	'upbit' => 'KRW-ENJ',
+                                                    ),
+                                                    
+                                    'usd' => array(
+                                        	'binance_us' => 'ENJUSD',
+                                          'bittrex' => 'ENJ-USD',
+                                        	'bitfinex' => 'tENJUSD',
+                                                    ),
+                                                    
+                                    'usdt' => array(
+                                        	'binance' => 'ENJUSDT',
+                                          'bittrex' => 'ENJ-USDT',
+                                          'hitbtc' => 'ENJUSD',
+                                          'coinex' => 'ENJUSDT',
+                                                    ),
+                                                    
+                                        ) // market_pairing END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // DATA
+                    'DATA' => array(
+                        
+                        'asset_name' => 'Streamr DATAcoin',
+                        'marketcap_website_slug' => 'streamr-datacoin',
+                        'market_pairing' => array(
+                        
+                                    'btc' => array(
+                                        'binance' => 'DATABTC',
+                                        'ethfinex' => 'tDATBTC',
+                                        'hitbtc' => 'DATABTC',
+                                                    ),
+                                                    
+                                    'eth' => array(
+                                        'binance' => 'DATAETH',
+                                        'ethfinex' => 'tDATETH',
+                                  		 'hitbtc' => 'DATAETH',
+                                        'gateio' => 'DATA_ETH',
+                                        'idex' => 'ETH_DATA',
+                                                    ),
+                                                    
+                                    'usdt' => array(
+                                         'hitbtc' => 'DATAUSD',
+                                         'gateio' => 'DATA_USDT',
+                                                    ),
+                                                    
+                                        ) // market_pairing END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // MYST
+                    'MYST' => array(
+                        
+                        'asset_name' => 'Mysterium',
+                        'marketcap_website_slug' => 'mysterium',
+                        'market_pairing' => array(
+                        
+                                    'btc' => array(
+                                          'hitbtc' => 'MYSTBTC',
+                                                    ),
+                                                    
+                                    'eth' => array(
+                                          'hitbtc' => 'MYSTETH',
+                                          'idex' => 'ETH_MYST',
                                                     ),
                                                     
                                         ) // market_pairing END

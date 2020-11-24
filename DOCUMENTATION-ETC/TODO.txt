@@ -26,6 +26,9 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+Find out why export-csv.php is adding newlines at the top of the raw exported CSV spreadsheet data (in the downloaded file).
+
+
 Look into adding https://1inch.exchange/#/ to DeFi APIs.
 
 

@@ -143,9 +143,6 @@ If your system DOES NOT have the directory /etc/cron.d/ on it, then NEARLY the s
 */20 * * * * /usr/bin/php -q /var/www/html/cron.php > /dev/null 2>&1
 
 
-SEE /DOCUMENTATION-ETC/PLUGINS-README.txt for creating your own custom plugins (custom code that adds additional features)
-
-
 IMPORTANT CRON JOB NOTES: 
 
 MAKE SURE YOU ONLY USE EITHER /etc/cron.d/, or 'crontab -e', NOT BOTH...ANY OLD DUPLICATE CRONTAB ENTRIES WILL RUN YOUR CRON JOB TOO OFTEN. If everything is setup properly, and the cron job still does NOT run, your particular server may require the cron.php file permissions to be set as 'executable' ('755' chmod on unix / linux systems) to allow running it.
@@ -241,6 +238,9 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in (values a
  // SEE /DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt FOR A FULL EXAMPLE OF THE DEFAULT CONFIGURATION (ESPECIALLY IF YOU MESS UP config.php, lol)
 
 ################################################################################################################
+
+
+SEE /DOCUMENTATION-ETC/PLUGINS-README.txt for creating your own custom plugins (custom code that adds additional features)
 
 
 See /DOCUMENTATION-ETC/HELP-FAQ.txt for additional tips / troubleshooting FAQs.
