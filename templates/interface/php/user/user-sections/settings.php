@@ -107,6 +107,37 @@
 			    </select>
 			    
 			</p>
+			
+			
+			
+			<p class='settings_sections'>
+			    
+			    <b>Sort Portfolio Data By:</b> 
+			    
+			    <select class='browser-default custom-select' id='sorted_by_col' onchange='
+			    $("#sort_by").val( this.value + "|" + $("#sorted_by_asc_desc").val() );
+			    '>
+				<option value='0' <?=( $sorted_by_col == 0 ? ' selected ' : '' )?>> Sort </option>
+				<option value='1' <?=( $sorted_by_col == 1 ? ' selected ' : '' )?>> Asset Name </option>
+				<option value='2' <?=( $sorted_by_col == 2 ? ' selected ' : '' )?>> Unit Value </option>
+				<option value='3' <?=( $sorted_by_col == 3 ? ' selected ' : '' )?>> Exchange </option>
+				<option value='4' <?=( $sorted_by_col == 4 ? ' selected ' : '' )?>> Trade Value </option>
+				<option value='5' <?=( $sorted_by_col == 5 ? ' selected ' : '' )?>> Market </option>
+				<option value='6' <?=( $sorted_by_col == 6 ? ' selected ' : '' )?>> 24 Hour Volume </option>
+				<option value='7' <?=( $sorted_by_col == 7 ? ' selected ' : '' )?>> Holdings </option>
+				<option value='8' <?=( $sorted_by_col == 8 ? ' selected ' : '' )?>> Ticker </option>
+				<option value='9' <?=( $sorted_by_col == 9 ? ' selected ' : '' )?>> Holdings Value </option>
+				<option value='10' <?=( $sorted_by_col == 10 ? ' selected ' : '' )?>> Subtotal </option>
+			    </select> 
+			    
+			     <select class='browser-default custom-select' id='sorted_by_asc_desc' onchange='
+			    $("#sort_by").val( $("#sorted_by_col").val() + "|" + this.value );
+			    '>
+				<option value='0' <?=( $sorted_by_asc_desc == 0 ? ' selected ' : '' )?>> Ascending </option>
+				<option value='1' <?=( $sorted_by_asc_desc == 1 ? ' selected ' : '' )?>> Decending </option>
+			    </select>
+			    
+			</p>
 			    
 			    
 			
@@ -359,37 +390,6 @@
 			<?php
 			}
 			?>
-			
-			
-			
-			<p class='settings_sections'>
-			    
-			    <b>Sort Portfolio Data By:</b> 
-			    
-			    <select class='browser-default custom-select' id='sorted_by_col' onchange='
-			    $("#sort_by").val( this.value + "|" + $("#sorted_by_asc_desc").val() );
-			    '>
-				<option value='0' <?=( $sorted_by_col == 0 ? ' selected ' : '' )?>> Sort </option>
-				<option value='1' <?=( $sorted_by_col == 1 ? ' selected ' : '' )?>> Asset Name </option>
-				<option value='2' <?=( $sorted_by_col == 2 ? ' selected ' : '' )?>> Unit Value </option>
-				<option value='3' <?=( $sorted_by_col == 3 ? ' selected ' : '' )?>> Exchange </option>
-				<option value='4' <?=( $sorted_by_col == 4 ? ' selected ' : '' )?>> Trade Value </option>
-				<option value='5' <?=( $sorted_by_col == 5 ? ' selected ' : '' )?>> Market </option>
-				<option value='6' <?=( $sorted_by_col == 6 ? ' selected ' : '' )?>> 24 Hour Volume </option>
-				<option value='7' <?=( $sorted_by_col == 7 ? ' selected ' : '' )?>> Holdings </option>
-				<option value='8' <?=( $sorted_by_col == 8 ? ' selected ' : '' )?>> Ticker </option>
-				<option value='9' <?=( $sorted_by_col == 9 ? ' selected ' : '' )?>> Holdings Value </option>
-				<option value='10' <?=( $sorted_by_col == 10 ? ' selected ' : '' )?>> Subtotal </option>
-			    </select> 
-			    
-			     <select class='browser-default custom-select' id='sorted_by_asc_desc' onchange='
-			    $("#sort_by").val( $("#sorted_by_col").val() + "|" + this.value );
-			    '>
-				<option value='0' <?=( $sorted_by_asc_desc == 0 ? ' selected ' : '' )?>> Ascending </option>
-				<option value='1' <?=( $sorted_by_asc_desc == 1 ? ' selected ' : '' )?>> Decending </option>
-			    </select>
-			    
-			</p>
 			    
 			    
 			    
@@ -398,13 +398,15 @@
 				<b>Price Change Visual / Audio Alerts:</b>
 			     
 			    <select class='browser-default custom-select' name='alert_percent' id='alert_percent' onchange='
+			    
+			    update_alert_percent();
+			    
 			    if ( this.value == "yes" ) {
 			    document.getElementById("alert_source").style.display = "inline";
 			    document.getElementById("percent_change_amount").style.display = "inline";
 			    document.getElementById("percent_change_filter").style.display = "inline";
 			    document.getElementById("percent_change_time").style.display = "inline";
 			    document.getElementById("percent_change_alert_type").style.display = "inline";
-			    document.getElementById("use_alert_percent").value = document.getElementById("alert_source").value + "|" + document.getElementById("percent_change_amount").value + "|" + document.getElementById("percent_change_time").value + "|" + document.getElementById("percent_change_alert_type").value;
 			    }
 			    else {
 			    document.getElementById("alert_source").style.display = "none";
@@ -412,8 +414,8 @@
 			    document.getElementById("percent_change_filter").style.display = "none";
 			    document.getElementById("percent_change_time").style.display = "none";
 			    document.getElementById("percent_change_alert_type").style.display = "none";
-			    document.getElementById("use_alert_percent").value = "";
 			    }
+			    
 			    '>
 			    <option value='no' <?=( !$alert_percent ? ' selected ' : '' )?>> No </option>
 			    <option value='yes' <?=( sizeof($alert_percent) > 4 ? ' selected ' : '' )?>> Yes </option> <!-- Backwards compatibility (dynamic PHP reset, if user data is not the current feature set number of array values) -->

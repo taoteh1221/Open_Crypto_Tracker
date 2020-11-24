@@ -4094,11 +4094,13 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 
 -------------------------------------------------------------------
-4.23.0:
+4.22.2:
 
 -"Crypto Value" of your entire portfolio in selected cryptocurrencies (on settings page)
 
--Misc. UX
+-Code / documentation / content revisions and cleanup
+
+-Misc. UX / bug fixes
 
 -------------------------------------------------------------------
 
