@@ -977,7 +977,7 @@ global $_POST, $app_config;
 				</p>
 				
 				
-				<p><b>Block Reward:</b> <input type='text' value='<?=( $_POST['block_reward'] && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? $_POST['block_reward'] : $app_config['power_user']['mining_rewards'][$calculation_form_data[1]] )?>' name='block_reward' /> (may be static from config.php file, verify current block reward manually)</p>
+				<p><b>Block Reward:</b> <input type='text' value='<?=( $_POST['block_reward'] && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? $_POST['block_reward'] : $app_config['power_user']['mining_rewards'][$calculation_form_data[1]] )?>' name='block_reward' /> (may be static from Power User Config, verify current block reward manually)</p>
 				
 				
 				<p><b>Watts Used:</b> <input type='text' value='<?=( isset($_POST['watts_used']) && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? $_POST['watts_used'] : '300' )?>' name='watts_used' /></p>
@@ -1133,7 +1133,7 @@ $volume_pairing_raw = number_to_string($volume_pairing_raw);
 
 	// Charts (WE DON'T WANT TO STORE DATA WITH A CORRUPT TIMESTAMP)
 	/////////////////////////////////////////////////////////////////
-	// If the charts page is enabled in config.php, save latest chart data for assets with price alerts configured on them
+	// If the charts page is enabled in Admin Config, save latest chart data for assets with price alerts configured on them
 	if ( $mode == 'both' && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && $app_config['general']['asset_charts_toggle'] == 'on'
 	|| $mode == 'chart' && number_to_string($asset_primary_currency_value_raw) >= 0.00000001 && $app_config['general']['asset_charts_toggle'] == 'on' ) {
 	
@@ -1820,14 +1820,14 @@ $original_market = $selected_exchange;
 			if ( $app_config['general']['primary_marketcap_site'] == 'coinmarketcap' && trim($app_config['general']['coinmarketcapcom_api_key']) == null ) {
 			?>
 
-			var cmc_content = '<p class="coin_info"><span class="red_bright"><?=ucfirst($app_config['general']['primary_marketcap_site'])?> API key is required. <br />Configuration adjustments can be made in config.php.</span></p>';
+			var cmc_content = '<p class="coin_info"><span class="red_bright"><?=ucfirst($app_config['general']['primary_marketcap_site'])?> API key is required. <br />Configuration adjustments can be made in the Admin Config GENERAL section.</span></p>';
 	
 			<?php
 			}
 			else {
 			?>
 
-			var cmc_content = '<p class="coin_info"><span class="red_bright"><?=ucfirst($app_config['general']['primary_marketcap_site'])?> API may be offline / under heavy load, <br />marketcap range not set high enough (current range is top <?=$app_config['power_user']['marketcap_ranks_max']?> marketcaps), <br />or API timeout set too low (current timeout is <?=$app_config['power_user']['remote_api_timeout']?> seconds). <br /><br />Configuration adjustments can be made in config.php.</span></p>';
+			var cmc_content = '<p class="coin_info"><span class="red_bright"><?=ucfirst($app_config['general']['primary_marketcap_site'])?> API may be offline / under heavy load, <br />marketcap range not set high enough (current range is top <?=$app_config['power_user']['marketcap_ranks_max']?> marketcaps), <br />or API timeout set too low (current timeout is <?=$app_config['power_user']['remote_api_timeout']?> seconds). <br /><br />Configuration adjustments can be made in the Admin Config POWER USER section.</span></p>';
 	
 			<?php
 			}
@@ -1946,7 +1946,7 @@ $original_market = $selected_exchange;
         contents: cmc_content,
         css: {
                 fontSize: ".8rem",
-                minWidth: ".8rem",
+                minWidth: "450px",
                 padding: ".3rem .7rem",
                 border: "2px solid rgba(212, 212, 212, .4)",
                 borderRadius: "6px",
@@ -2033,7 +2033,7 @@ $original_market = $selected_exchange;
 ,
 			css: {
 					fontSize: ".8rem",
-					minWidth: ".8rem",
+					minWidth: "450px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
 					borderRadius: "6px",
@@ -2056,7 +2056,7 @@ $original_market = $selected_exchange;
   contents: cmc_content,
 			css: {
 					fontSize: ".8rem",
-					minWidth: ".8rem",
+					minWidth: "450px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
 					borderRadius: "6px",
@@ -2340,7 +2340,7 @@ echo '<span class="' . ( $purchase_price >= 0.00000001 && $leverage_level >= 2 &
 			contents: leverage_content,
 			css: {
 					fontSize: ".8rem",
-					minWidth: ".8rem",
+					minWidth: "450px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
 					borderRadius: "6px",

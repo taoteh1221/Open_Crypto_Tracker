@@ -41,7 +41,7 @@
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">To see your margin leverage stats after updating your portfolio, go to the bottom of the Portfolio page, where you\'ll find a summary section. Hovering over the "I" icon next to the Gain / Loss summary will display any margin leverage stats per-asset. There is also an "I" icon in the far right-side data table column (Subtotal), which you can hover over for margin leverage stats too.</p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="yellow">*Current maximum margin leverage setting of <?=$app_config['general']['margin_leverage_max']?>x can be adjusted in config.php.</span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="yellow">*Current maximum margin leverage setting of <?=$app_config['general']['margin_leverage_max']?>x can be adjusted in the Admin Config GENERAL section.</span></p>'
 			
 			+'<p class="coin_info"><span class="yellow"> </span></p>';
 
@@ -191,7 +191,7 @@
 			contents: portfolio_data_privacy,
 			css: {
 					fontSize: ".8rem",
-					minWidth: ".8rem",
+					minWidth: "450px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
 					borderRadius: "6px",
@@ -218,7 +218,7 @@
 			contents: random_tip_disclaimer,
 			css: {
 					fontSize: ".8rem",
-					minWidth: ".8rem",
+					minWidth: "450px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
 					borderRadius: "6px",
@@ -661,7 +661,7 @@
 			contents: average_paid_notes,
 			css: {
 					fontSize: ".8rem",
-					minWidth: ".8rem",
+					minWidth: "450px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
 					borderRadius: "6px",
@@ -732,7 +732,7 @@
 			contents: leverage_trading_notes,
 			css: {
 					fontSize: ".8rem",
-					minWidth: ".8rem",
+					minWidth: "450px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
 					borderRadius: "6px",

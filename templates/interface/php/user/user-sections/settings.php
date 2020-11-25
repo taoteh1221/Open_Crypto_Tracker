@@ -325,11 +325,11 @@
 				    
  <script>
 	
-			var currency_content = '<h5 align="center" class="yellow tooltip_title">Currency Market Setting</h5>'
+			var currency_content = '<h5 align="center" class="yellow tooltip_title">Primary Currency Market</h5>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">The Currency Market setting allows you to change your default primary currency (conversion) for the portfolio interface (the charts / price alerts currency market <i>must be changed separately in config.php</i>).</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">The Primary Currency Market setting allows you to change your default primary currency (conversion) for the portfolio interface (the charts / price alerts primary currency market <i>must be changed separately in the Admin Config GENERAL section</i>).</p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Additionally, if you check off "Stand-Alone Mode", your chosen Bitcoin market on the "Update" page <i>will NOT be automatically changed to match your chosen Currency Market on the "Settings" page</i>. This is useful if you\'d like to browse through different Bitcoin markets, BUT don\'t want your default primary currency to change in the app.</p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Additionally, if you check off "Stand-Alone Mode", your chosen Bitcoin market on the "Update" page <i>will NOT be automatically changed to match your chosen Primary Currency Market on this "Settings" page</i>. This is useful if you\'d like to browse through different Bitcoin markets, BUT don\'t want your default primary currency to change in the app.</p>'
 			
 			+'<p class="coin_info"><span class="yellow"> </span></p>';
 		
@@ -340,7 +340,7 @@
 			contents: currency_content,
 			css: {
 					fontSize: ".8rem",
-					minWidth: ".8rem",
+					minWidth: "450px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
 					borderRadius: "6px",
@@ -517,7 +517,7 @@
 			
 			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">Shows the value of your ENTIRE portfolio, in cryptocurrencies selected here, at the bottom of the portfolio page.</p>'
 			
-			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">You can edit this list (except for BTC) with the "crypto_pairing" setting, in the POWER USER section of the admin configuration.</p>'
+			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">You can edit this list (except for BTC) with the "crypto_pairing" setting, in the POWER USER section of the Admin Config.</p>'
 		
 			
 			+'<p class="coin_info yellow" style="max-width: 600px; white-space: normal;">*Consult a financial advisor and / or do <i>your own due diligence, to evaluate investment risk / reward</i> of ANY cryptocurrencies, based on THEIR / YOUR OWN determinations before buying. Even AFTER buying ANY cryptocurrency, ALWAYS CONTINUE to do your due diligence, investigating whether you are engaging in trading within acceptable risk levels for your <i>NET</i> worth. ALWAYS consult a financial advisor, if you are unaware of what risks are present. </p>';
@@ -529,7 +529,7 @@
 			contents: setting_crypto_value_content,
 			css: {
 					fontSize: ".8rem",
-					minWidth: ".8rem",
+					minWidth: "450px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
 					borderRadius: "6px",

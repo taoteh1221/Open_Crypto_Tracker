@@ -10,7 +10,7 @@
 
     
 
-// START CONFIG CLEANUP (auto-correct any basic end user data entry errors in config.php)
+// START CONFIG CLEANUP (auto-correct any basic end user data entry errors in possibly user-customized DEFAULTS in config.php)
 
 // Cleaning lowercase alphanumeric string values, and auto-correct minor errors
 $app_config['developer']['debug_mode'] = auto_correct_string($app_config['developer']['debug_mode'], 'lower');
@@ -53,14 +53,14 @@ $app_config['mobile_network_text_gateways'] = $cleaned_mobile_networks;
 
 
 // Default BTC CRYPTO/CRYPTO market pairing support, BEFORE GENERATING MISCASSETS ARRAY
-// (so we activate it here instead of in config.php, for good UX adding ONLY altcoin markets dynamically there)
+// (so we activate it here instead of in Admin Config, for good UX adding ONLY altcoin markets dynamically there)
 $app_config['power_user']['crypto_pairing'] = array('btc' => 'Ƀ ') + $app_config['power_user']['crypto_pairing']; // ADD TO #BEGINNING# OF ARRAY, FOR UX
 
 // Numericly sort lite chart intervals (in case end user didn't do them in order)
 // DO BEFORE ADDING 'all' BELOW
 sort($app_config['power_user']['lite_chart_day_intervals']);
 
-// Default lite chart mode 'all' (we activate it here instead of in config.php, for good UX adding ONLY day intervals there)
+// Default lite chart mode 'all' (we activate it here instead of in Admin Config, for good UX adding ONLY day intervals there)
 $app_config['power_user']['lite_chart_day_intervals'][] = 'all';
 
 

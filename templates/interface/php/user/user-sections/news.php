@@ -61,7 +61,7 @@
 			contents: news_raspi_crash,
 			css: {
 					fontSize: ".8rem",
-					minWidth: ".8rem",
+					minWidth: "450px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
 					borderRadius: "6px",

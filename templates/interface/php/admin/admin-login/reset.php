@@ -11,7 +11,7 @@ $reset_result = array();
 if ( !$_GET['new_reset_key'] && !$_POST['admin_submit_reset'] ) {
 	
 	if ( validate_email($app_config['comms']['to_email']) != 'valid'  ) {
-	$reset_result['error'][] = "A VALID admin's 'To' Email has NOT been properly set in the admin configuration yet, therefore the password CANNOT be reset by interface form submission. Alternatively, you can MANUALLY delete the file '/cache/secured/admin_login_XXXXXXXXXXXXX.dat' in the app directory. This will prompt you to create a new admin login, the next time you use the app.";
+	$reset_result['error'][] = "A VALID admin's 'To' Email has NOT been properly set in the Admin Config yet, therefore the password CANNOT be reset by interface form submission. Alternatively, you can MANUALLY delete the file '/cache/secured/admin_login_XXXXXXXXXXXXX.dat' in the app directory. This will prompt you to create a new admin login, the next time you use the app.";
 	$no_password_reset = 1;
 	}
 	
@@ -105,7 +105,7 @@ require("templates/interface/php/header.php");
 		var reset_notes = '<h5 align="center" class="red_bright tooltip_title">Reset Admin Account By Username</h5>'
 			
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="red_bright">For security purposes you MUST know the admin username, and a VALID admin \'To\' Email MUST be set in the admin configuration already. Otherwise the password CANNOT be reset by interface form submission. Alternatively, you can MANUALLY delete the file \'/cache/secured/admin_login_XXXXXXXXXXXXX.dat\' in the app directory. This will prompt you to create a new admin login, the next time you use the app.<br /></span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="red_bright">For security purposes you MUST know the admin username, and a VALID admin \'To\' Email MUST be set in the Admin Config already. Otherwise the password CANNOT be reset by interface form submission. Alternatively, you can MANUALLY delete the file \'/cache/secured/admin_login_XXXXXXXXXXXXX.dat\' in the app directory. This will prompt you to create a new admin login, the next time you use the app.<br /></span></p>'
 			
 			+'<p class="coin_info"><span class="yellow"> </span></p>';
 
@@ -159,7 +159,7 @@ if ( !$_POST['admin_submit_reset'] && !$no_password_reset || sizeof($reset_resul
 			contents: reset_notes,
 			css: {
 					fontSize: ".8rem",
-					minWidth: ".8rem",
+					minWidth: "450px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
 					borderRadius: "6px",
@@ -188,7 +188,7 @@ if ( !$_POST['admin_submit_reset'] && !$no_password_reset || sizeof($reset_resul
   	 
   	 <p><img id='captcha_image' src='templates/interface/media/images/captcha.php' alt='' class='image_border' />
   	 <br />
-  	 <a href='javascript: refreshImage("captcha_image", "templates/interface/media/images/captcha.php");' class='bitcoin' style='font-weight: bold;' title='CAPTCHA image text contrast can be adjusted in Admin Configuration, within the "Power User" section.'>Get A Different Image</a>
+  	 <a href='javascript: refreshImage("captcha_image", "templates/interface/media/images/captcha.php");' class='bitcoin' style='font-weight: bold;' title='CAPTCHA image text contrast can be adjusted in Admin Config, within the "Power User" section.'>Get A Different Image</a>
   	 </p>
   	 
   	 </div>

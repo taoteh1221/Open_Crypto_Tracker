@@ -477,14 +477,9 @@ function random_hash($num_bytes) {
 
 global $base_dir;
 
-	// PHP 4 
-	if ( PHP_VERSION_ID < 50000 ) {
-	app_logging('security_error', 'Upgrade to PHP v5 or later to support cryptographically secure pseudo-random bytes in this application, or your application may not function properly');
-	}
-	// PHP 5 (V6 RELEASE WAS SKIPPED)
-	elseif ( PHP_VERSION_ID < 60000 ) {
-	require_once($base_dir . '/app-lib/php/other/third-party/random-compat/lib/random.php');
-	$hash = random_bytes($num_bytes);
+	// Upgrade required
+	if ( PHP_VERSION_ID < 70000 ) {
+	app_logging('security_error', 'Upgrade to PHP v7 or later to support cryptographically secure pseudo-random bytes in this application, or your application may not function properly');
 	}
 	// >= PHP 7
 	elseif ( PHP_VERSION_ID >= 70000 ) {

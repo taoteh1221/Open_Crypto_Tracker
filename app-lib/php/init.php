@@ -21,7 +21,7 @@ $app_edition = 'server';  // 'server' OR 'desktop' edition (LOWERCASE)
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-// Set time as UTC for logs etc ($app_config['general']['local_time_offset'] in config.php can adjust UI / UX timestamps as needed)
+// Set time as UTC for logs etc ('local_time_offset' in Admin Config GENERAL section can adjust UI / UX timestamps as needed)
 date_default_timezone_set('UTC'); 
 
 

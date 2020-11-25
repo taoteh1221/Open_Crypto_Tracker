@@ -2243,9 +2243,9 @@ PERCENTAGES (BUT WILL BE ACCURATE AFTERWARDS).
 
 -Fixed secure SMTP email sending via TLS (secure / encrypted connection)
 
--Password storage and check functions (for upcoming easy-to-use admin configuration page)
+-Password storage and check functions (for upcoming easy-to-use Admin Config page)
 
--Secured password pepper (high security password encryption) caching / app_config caching support (for upcoming easy-to-use admin configuration page)
+-Secured password pepper (high security password encryption) caching / app_config caching support (for upcoming easy-to-use Admin Config page)
 
 -Unicode support for the mobile text message system (ONLY ACTIVATED WHEN emojis / asian characters / any other unicode characters are detected in text message data)
 
@@ -3119,7 +3119,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Misc. Optimizations / UX revisions / bug fixes
 
--Admin configuration interface, with login authentication
+-Admin Config interface, with login authentication
 
 -Initial API / Webhook support (see README.txt on usage)
 

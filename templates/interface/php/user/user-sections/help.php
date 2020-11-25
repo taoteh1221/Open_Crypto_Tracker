@@ -112,11 +112,11 @@
 	      <div class="card-body">
 	      
 	      
-	        If the portfolio assets settings are re-configured or re-ordered in config.php, reload / refresh the page before updating any coin values, or the submission form may not be configured properly and may not submit or display data correctly. Also, you may need to uncheck "Use cookies to save data" on the Settings page, to temporarily clear out old cookie data that may conflict with the new configuration...then you can re-enable cookies again afterwards. 
+	        If the portfolio assets settings are re-configured or re-ordered in Admin Config, reload / refresh the page before updating any coin values, or the submission form may not be configured properly and may not submit or display data correctly. Also, you may need to uncheck "Use cookies to save data" on the Settings page, to temporarily clear out old cookie data that may conflict with the new configuration...then you can re-enable cookies again afterwards. 
 	    <br /><br />
 	    If you recently upgraded to a newer version of this app, and layout or features don't work properly anymore, you may need to clear your browser cache (temporary files) and restart you browser / refresh the page afterwards. This will assure your browser is loading any newly-updated layout styling or javascript-based features.
 	    <br /><br />
-	    If your problems still persist even after clearing your browser cache (temporary files) and restarting your browser, your config.php setup may be corrupt OR an older format than the latest version requires. Try backing up you old config.php file, and replacing it with the default config.php file included with the latest release. This will ensure your configuration setup is not corrupt or outdated.
+	    If your problems still persist even after clearing your browser cache (temporary files) and restarting your browser, your config.php setup may be corrupt IF YOU EDITED IT BY HAND. If you did edit it by hand, try backing up you old config.php file, and replacing it with the default config.php file included with the latest release. This will ensure your configuration setup is not corrupt from messed up file formatting.
 	    <br /><br />
 	    If none of the above solutions work, your last resort (before contacting me for support) is to wipe out all data in your cache directory folder within the app. THIS WILL ERASE YOUR CHART DATA, SO YOU MAY WANT TO BE SURE YOU HAVE A BACKUP FIRST. After your chart data is backed up, delete the folder named 'cache' in the main directory of this app. Reloading the app web page should re-create the cache folder, with new / clean cache files.
 	    <br /><br />
@@ -153,7 +153,7 @@
 	        
 	        You can setup charts or price alerts in your app install. Price alerts can be sent to email, mobile phone text, Telegram, and Alexa / Google Home notifications. You will be alerted when the <?=strtoupper($default_btc_primary_currency_pairing)?> price of an asset goes up or down a certain percent or more (whatever percent you choose in the settings), for specific exchange / base pairing combinations for that asset. You can even setup alerts for multiple exchanges / base pairings for the same asset.
 	    <br /><br />
-	      Running charts or price alerts requires setting up a cron job on the Ubuntu / Raspberry Pi machine or website server (this is automated for Ubuntu / Raspberry Pi users who use the automated install script), otherwise charts / alerts will not work. See the required settings in config.php, and instructions on cron job setup in the <a href='README.txt' target='_blank'>README.txt file</a>. Once setup, there is no need to keep your PC / Laptop turned on. The charts and price alerts run automatically from your app server. If you encounter errors or the charts / alerts don't work during setup, check the error logs file at /cache/logs/errors.log for errors in your configuration setup. Basic checks are performed and errors are reported there, and on the Settings page. 
+	      Running charts or price alerts requires setting up a cron job on the Ubuntu / Raspberry Pi machine or website server (this is automated for Ubuntu / Raspberry Pi users who use the automated install script), otherwise charts / alerts will not work. See the required settings in Admin Config, and instructions on cron job setup in the <a href='README.txt' target='_blank'>README.txt file</a>. Once setup, there is no need to keep your PC / Laptop turned on. The charts and price alerts run automatically from your app server. If you encounter errors or the charts / alerts don't work during setup, check the error logs file at /cache/logs/errors.log for errors in your configuration setup. Basic checks are performed and errors are reported there, and on the Settings page. 
 	        
 	      </div>
 	    </div>
@@ -182,7 +182,7 @@
 	      <div class="card-body">
 	      
 	       
-	        If you have the Charts page enabled in config.php, and page load times are slow after activating your favorite charts, go to the Charts page and click the "Select Charts" button. Uncheck all charts, and click "Update Selected Charts". If the page load times are faster afterwards, the issue may have been that you were loading too many charts at once. Try loading only a few charts instead, this may help page load times. 
+	        If you have the Charts page enabled (in the Admin Config GENERAL section), and page load times are slow after activating your favorite charts, go to the Charts page and click the "Select Charts" button. Uncheck all charts, and click "Update Selected Charts". If the page load times are faster afterwards, the issue may have been that you were loading too many charts at once. Try loading only a few charts instead, this may help page load times. 
 	        
 	        
 	      </div>
@@ -212,7 +212,7 @@
 	      <div class="card-body">
 	      
 	       
-	        Either the asset has not been added to <a href='https://coinmarketcap.com' target='_blank'>coinmarketcap.com</a> yet, you forgot to add the URL slug in it's config section, or you need to increase the number of rankings to fetch in config.php in the settings section (200 rankings is the safe maximum to avoid getting your API requests throttled / blocked). 
+	        Either the asset has not been added to <a href='https://coinmarketcap.com' target='_blank'>coinmarketcap.com</a> yet, you forgot to add the URL slug in it's config section, or you need to increase the number of rankings to fetch in Admin Config in the POWER USER section (300 rankings is the safe maximum to avoid getting your API requests throttled / blocked). 
 	        
 	        
 	      </div>
@@ -242,7 +242,7 @@
 	      <div class="card-body">
 	      
 	       
-	        If you have enabled SMTP emailing (to send emails) but it doesn't work, check the error logs file at /cache/logs/errors.log for error responses from the SMTP server connection attempt(s). Alternatively try disabling SMTP email sending by blanking out your username and password in the config.php file, and see if PHP's built-in mail function sends emails OK (no setup required, other than SMTP settings must be blanked out). 
+	        If you have enabled SMTP emailing (to send emails) but it doesn't work, check the error logs file at /cache/logs/errors.log for error responses from the SMTP server connection attempt(s). Alternatively try disabling SMTP email sending by blanking out your username and password (in the Admin Config COMMUNICATIONS section), and see if PHP's built-in mail function sends emails OK (no setup required, other than SMTP settings must be blanked out). 
 	        
 	        
 	      </div>
@@ -272,7 +272,7 @@
 	      <div class="card-body">
 	      
 	         
-	        If page loads are sluggish or throw API connection errors without clearing up, and you have enabled proxy ip addresses, check the error logs file at /cache/logs/errors.log for error responses from the proxy server connection attempt(s). If there are no errors log entries related to the issue that help diagnose the problem, disable using proxies in config.php and try loading the web page again.
+	        If page loads are sluggish or throw API connection errors without clearing up, and you have enabled proxy ip addresses, check the error logs file at /cache/logs/errors.log for error responses from the proxy server connection attempt(s). If there are no errors log entries related to the issue that help diagnose the problem, disable using proxies (in the Admin Config PROXY section) and try loading the web page again.
 	    <br /><br />
 	      If it is a bad or misconfigured proxy setup causing the issue, and everything runs great after disabling proxies, you probably have either (a) a bad proxy or proxy configuration, or (b) an API server / endpoint address is not responding properly when routed through proxies (example: HTTP used instead of HTTPS can cause this error). <i>If you are absolutely sure your proxy setup is ok</i>, and that an API connection built-in to this app is the issue, please <a href='https://github.com/taoteh1221/DFD_Cryptocoin_Values/issues' target='_blank'>report it</a>. 
 	        
@@ -370,7 +370,7 @@ Running a google search for "set permanently ulimit -n linux", you'll find tons 
 	      <div class="card-body">
 	      
 	         
-	        If you installed this application on a device on your home network, or on any other network WITH A SLOW INTERNET CONNECTION, you may need to increase the default timeout for retrieving API data IF YOU RECEIVE PARTIAL OR NO API DATA IN THE APP FOR SOME API DATA SETS. To adjust the API timeout, open config.php and find the DEVELOPER SECTION. Adjust the 'remote_api_timeout' setting much higher, save the new config.php setup in the app, and run the app to see if this fixes the issue. Adjust higher again if the issue still occurs.
+	        If you installed this application on a device on your home network, or on any other network WITH A SLOW INTERNET CONNECTION, you may need to increase the default timeout for retrieving API data IF YOU RECEIVE PARTIAL OR NO API DATA IN THE APP FOR SOME API DATA SETS (the error logs will alert you if this is happening, so check there). To adjust the API timeout, go to the Admin Config POWER USER section. Adjust the 'remote_api_timeout' setting much higher, save the setup in the app, and run the app again to see if this fixes the issue. Adjust higher again if the issue still occurs frequently.
 	        
 	        
 	      </div>

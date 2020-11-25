@@ -81,7 +81,7 @@ if ( $_GET['new_reset_key'] ) {
 
 <h3 class='bitcoin'>Admin Login Reset</h3>
 
-<p class='red' style='font-size: 19px;'>Reset your username / password for the Admin Configuration area.</p>
+<p class='red' style='font-size: 19px;'>Reset your username / password for the Admin Config area.</p>
 
 <?php
 }
@@ -90,7 +90,7 @@ else {
 
 <h3 class='bitcoin'>Admin Login Creation</h3>
 
-<p class='red' style='font-size: 19px;'>Create a username / password to secure the Admin Configuration area.</p>
+<p class='red' style='font-size: 19px;'>Create a username / password to secure the Admin Config area.</p>
 
 <?php
 }
@@ -145,7 +145,7 @@ if ( !$_POST['submit_registration'] || sizeof($register_result['error']) > 0 ) {
 			contents: username_notes,
 			css: {
 					fontSize: ".8rem",
-					minWidth: ".8rem",
+					minWidth: "450px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
 					borderRadius: "6px",
@@ -179,7 +179,7 @@ if ( !$_POST['submit_registration'] || sizeof($register_result['error']) > 0 ) {
 			contents: password_notes,
 			css: {
 					fontSize: ".8rem",
-					minWidth: ".8rem",
+					minWidth: "450px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
 					borderRadius: "6px",
@@ -213,7 +213,7 @@ if ( !$_POST['submit_registration'] || sizeof($register_result['error']) > 0 ) {
   	 
   	 <p><img id='captcha_image' src='templates/interface/media/images/captcha.php' alt='' class='image_border' />
   	 <br />
-  	 <a href='javascript: refreshImage("captcha_image", "templates/interface/media/images/captcha.php");' class='bitcoin' style='font-weight: bold;' title='CAPTCHA image text contrast can be adjusted in Admin Configuration, within the "Power User" section.'>Get A Different Image</a>
+  	 <a href='javascript: refreshImage("captcha_image", "templates/interface/media/images/captcha.php");' class='bitcoin' style='font-weight: bold;' title='CAPTCHA image text contrast can be adjusted in Admin Config, within the "Power User" section.'>Get A Different Image</a>
   	 </p>
   	 
   	 </div>

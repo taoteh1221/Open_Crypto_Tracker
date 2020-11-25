@@ -137,7 +137,7 @@ if ( !isset( $app_config['portfolio_assets']['BTC']['market_pairing'][$default_b
 	$avialable_btc_pairings = trim($avialable_btc_pairings);
 	$avialable_btc_pairings = rtrim($avialable_btc_pairings,',');
 	
-$config_parse_error[] = 'Charts and price alerts cannot run properly, because the "btc_primary_currency_pairing" (default Bitcoin currency pairing) value \''.$app_config['general']['btc_primary_currency_pairing'].'\' in config.php is not a valid Bitcoin pairing option (valid Bitcoin pairing options are: '.$avialable_btc_pairings.')';
+$config_parse_error[] = 'Charts and price alerts cannot run properly, because the "btc_primary_currency_pairing" (default Bitcoin currency pairing) value \''.$app_config['general']['btc_primary_currency_pairing'].'\' (in Admin Config GENERAL section) is not a valid Bitcoin pairing option (valid Bitcoin pairing options are: '.$avialable_btc_pairings.')';
 
 }
 elseif ( !isset( $app_config['portfolio_assets']['BTC']['market_pairing'][$default_btc_primary_currency_pairing][$default_btc_primary_exchange] ) ) {
@@ -152,7 +152,7 @@ elseif ( !isset( $app_config['portfolio_assets']['BTC']['market_pairing'][$defau
 	$avialable_btc_primary_exchanges = trim($avialable_btc_primary_exchanges);
 	$avialable_btc_primary_exchanges = rtrim($avialable_btc_primary_exchanges,',');
 	
-$config_parse_error[] = 'Charts and price alerts cannot run properly, because the "btc_primary_exchange" (default Bitcoin exchange) value \''.$default_btc_primary_exchange.'\' in config.php is not a valid option for \''.$default_btc_primary_currency_pairing.'\' Bitcoin pairings (valid \''.$default_btc_primary_currency_pairing.'\' Bitcoin pairing options are: '.$avialable_btc_primary_exchanges.')';
+$config_parse_error[] = 'Charts and price alerts cannot run properly, because the "btc_primary_exchange" (default Bitcoin exchange) value \''.$default_btc_primary_exchange.'\' (in Admin Config GENERAL section) is not a valid option for \''.$default_btc_primary_currency_pairing.'\' Bitcoin pairings (valid \''.$default_btc_primary_currency_pairing.'\' Bitcoin pairing options are: '.$avialable_btc_primary_exchanges.')';
 
 }
 

@@ -9,7 +9,7 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 
 <head>
 
-	<title>DFD Cryptocoin Values - <?=( $is_admin ? 'Admin Configuration' : 'Portfolio Tracker' )?></title>
+	<title>DFD Cryptocoin Values - <?=( $is_admin ? 'Admin Config' : 'Portfolio' )?></title>
     
    <meta charset="<?=$app_config['developer']['charset_default']?>">
    
@@ -192,8 +192,8 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 				  <li class="nav-item dropdown align_center">
 					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src='templates/interface/media/images/login-<?=$theme_selected?>-theme.png' height='27' border='0' /></a>
 					<div class="dropdown-menu shadow-lg p-3 mb-5 bg-white rounded" aria-labelledby="navbarDropdown">
-					  <a class="dropdown-item<?=( $script_file_info['basename'] == 'admin.php' ? ' active' : '' )?>" href="admin.php">Admin Configuration</a>
-					  <a class="dropdown-item<?=( $script_file_info['basename'] == 'index.php' ? ' active' : '' )?>" href="index.php">Portfolio Tracker</a>
+					  <a class="dropdown-item<?=( $script_file_info['basename'] == 'admin.php' ? ' active' : '' )?>" href="admin.php">Admin Config</a>
+					  <a class="dropdown-item<?=( $script_file_info['basename'] == 'index.php' ? ' active' : '' )?>" href="index.php">Portfolio</a>
 					  <?php
 					  if ( sizeof($stored_admin_login) == 2 && isset($_SESSION['admin_logged_in']) ) {
 					  ?>
@@ -205,7 +205,7 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 				  </li>
 				</ul>
 				
-				<h2>DFD Cryptocoin Values - <?=( $is_admin ? 'Admin Configuration' : 'Portfolio Tracker' )?></h2>
+				<h2>DFD Cryptocoin Values - <?=( $is_admin ? 'Admin Config' : 'Portfolio' )?></h2>
 				
 				<div class="navbar-nav dropleft" style='left: 12px;'>
   <a class="nav-link" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img id='alert_bell_image' src='templates/interface/media/images/notification-<?=$theme_selected?>-line.png' height='30' border='0' /></a>

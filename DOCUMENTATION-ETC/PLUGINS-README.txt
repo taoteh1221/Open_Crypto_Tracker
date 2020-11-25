@@ -52,13 +52,12 @@ example: $plugin_config[$this_plugin]['SETTING_NAME_HERE'] = array('mysetting1',
 example: $plugin_config[$this_plugin]['runtime_mode'] = 'cron'; // 'cron', 'ui', 'all' (only 'cron' supported as of 2020-10-29)
 
 
-7) We are now done setting up plugin files, now we need to activate the new plugin. IN THE MAIN APP "config.php" file (in the primary directory of this app), find the configuration section called "POWER USER SETTINGS". Locate the configuration variable within this section named: $app_config['power_user']['activate_plugins']
+7) We are now done setting up plugin files, now we need to activate the new plugin. IN THE MAIN APP "Admin Config" POWER USER section. Locate the configuration variable named: 'activate_plugins'
 
 
-8) To add / activate your new plugin, add your plugin name (example: 'my-app-plugin') as a new array value within $app_config['power_user']['activate_plugins'], and set to 'on'.
+8) To add / activate your new plugin, add your plugin name (example: 'my-app-plugin') as a new value within 'activate_plugins', and set to 'on'.
 
-// ALWAYS INCLUDE A COMMA AT THE END
-example: 'my-app-plugin' => 'on', 
+example: 'my-app-plugin' => 'on' 
 
 
 

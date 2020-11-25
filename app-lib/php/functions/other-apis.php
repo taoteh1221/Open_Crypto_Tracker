@@ -5,7 +5,7 @@
 
 
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// !!!!!!! MAKE SURE API'S TLD HAS SUPPORT ADDED IN $app_config['developer']['top_level_domain_map'] @ config.php !!!!!!!
+// !!!!!!! MAKE SURE API'S TLD HAS SUPPORT ADDED IN 'top_level_domain_map' in Admin Config DEVELOPER section !!!!!!!
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
@@ -274,7 +274,7 @@ $result = array();
 
 
 	if ( trim($app_config['general']['coinmarketcapcom_api_key']) == null ) { 
-	app_logging('repeat_error', '"coinmarketcapcom_api_key" (free API key) is not configured in config.php', false, 'coinmarketcapcom_api_key');
+	app_logging('repeat_error', '"coinmarketcapcom_api_key" (free API key) is not configured in Admin Config GENERAL section', false, 'coinmarketcapcom_api_key');
 	return false;
 	}
 	

@@ -127,7 +127,8 @@ echo "A configuration file from a previous install of DFD Cryptocoin Values (Ser
 echo "During this upgrade / re-install, it will be backed up to:"
 echo "$DOC_ROOT/config.php.BACKUP.$DATE.[random string]"
 echo "This will save any custom settings within it."
-echo "You will need to manually move any custom settings in this backup file to the new config.php file with a text editor."
+echo "You will need to manually move any CUSTOMIZED DEFAULT settings in this backup file to the NEW config.php file with a text editor,"
+echo "otherwise you can just ignore or delete this backup file."
 echo " "
 echo "IMPORTANT UPGRADE NOTES: "
 echo " "
@@ -136,7 +137,7 @@ echo "You may need to delete you system stats lite chart directory to force a li
 echo "rebuild (from archival data) at: /cache/charts/system/lite/"
 echo " "
 echo "v4.14.6 AND HIGHER WILL #FORCEFULLY RECOMMEND# PHP-FPM (FastCGI) v7.2 OR HIGHER."
-echo "This warning can be disabled in the developer settings in config.php as of v4.14.7."
+echo "This warning can be disabled in the DEVELOPER section in Admin Config as of v4.14.7."
 echo "If you auto-installed, you can auto-upgrade if you FULLY re-install EVERYTHING with"
 echo "the latest auto-install script: https://git.io/JU4gn"
 echo " "
@@ -1131,7 +1132,7 @@ echo "DFD Cryptocoin Values is located at (and can be edited) inside this folder
 echo "$DOC_ROOT"
 echo " "
 
-echo "You may now optionally edit the configuration file (config.php)"
+echo "You may now optionally edit the APP DEFAULT CONFIG (configuration file config.php)"
 echo "remotely via SFTP, or by editing app files locally."
 echo " "
 
@@ -1141,7 +1142,8 @@ echo " "
     echo "The previously-installed configuration file"
     echo "$DOC_ROOT/config.php has been backed up to:"
     echo "$DOC_ROOT/config.php.BACKUP.$DATE.$RAND_STRING"
-    echo "You will need to manually move any custom settings in this backup file to the new config.php file with a text editor."
+	 echo "You will need to manually move any CUSTOMIZED DEFAULT settings in this backup file to the NEW config.php file with a text editor,"
+	 echo "otherwise you can just ignore or delete this backup file."
     echo " "
     
     fi

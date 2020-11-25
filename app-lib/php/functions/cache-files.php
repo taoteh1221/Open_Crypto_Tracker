@@ -596,7 +596,7 @@ global $app_config, $current_runtime_user, $possible_http_users, $http_runtime_u
 	
 		// API timeouts are a confirmed cause for write errors of 0 bytes, so we want to alert end users that they may need to adjust their API timeout settings to get associated API data
 		if ( preg_match("/cache\/secured\/apis/i", $file) ) {
-		app_logging('ext_api_error', 'POSSIBLE api timeout' . ( $app_config['developer']['remote_api_strict_ssl'] == 'on' ? ' or strict_ssl' : '' ) . ' issue for cache file "' . obfuscated_path_data($file) . '" (IF THIS ISSUE PERSISTS #LONG TERM#, TRY INCREASING "remote_api_timeout"' . ( $app_config['developer']['remote_api_strict_ssl'] == 'on' ? ' OR SETTING "remote_api_strict_ssl" to "off"' : '' ) . ' IN THE DEVELOPER SECTION in config.php)', 'remote_api_timeout: '.$app_config['power_user']['remote_api_timeout'].' seconds; remote_api_strict_ssl: ' . $app_config['developer']['remote_api_strict_ssl'] . ';');
+		app_logging('ext_api_error', 'POSSIBLE api timeout' . ( $app_config['developer']['remote_api_strict_ssl'] == 'on' ? ' or strict_ssl' : '' ) . ' issue for cache file "' . obfuscated_path_data($file) . '" (IF ISSUE PERSISTS, TRY INCREASING "remote_api_timeout" IN Admin Config POWER USER SECTION' . ( $app_config['developer']['remote_api_strict_ssl'] == 'on' ? ', OR SETTING "remote_api_strict_ssl" to "off" IN Admin Config DEVELOPER SECTION' : '' ) . ')', 'remote_api_timeout: '.$app_config['power_user']['remote_api_timeout'].' seconds; remote_api_strict_ssl: ' . $app_config['developer']['remote_api_strict_ssl'] . ';');
 		}
 	
 	return false;

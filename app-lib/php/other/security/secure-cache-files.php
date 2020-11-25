@@ -77,7 +77,7 @@ foreach( $secured_cache_files as $secured_file ) {
 			
 		
 			if ( $check_default_app_config == md5(serialize($default_app_config)) && $cached_app_config == true ) {
-			$app_config = $cached_app_config; // Use cached app_config if it exists, seems intact, and config.php hasn't been revised since last check
+			$app_config = $cached_app_config; // Use cached app_config if it exists, seems intact, and DEFAULT Admin Config (in config.php) hasn't been revised since last check
 			$is_cached_app_config = 1;
 			}
 			elseif ( $check_default_app_config != md5(serialize($default_app_config)) ) {
@@ -246,7 +246,7 @@ foreach( $secured_cache_files as $secured_file ) {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-// If no valid cached_app_config, or if config.php variables have been changed
+// If no valid cached_app_config, or if DEFAULT Admin Config (in config.php) variables have been changed
 if ( $refresh_cached_app_config == 1 || $is_cached_app_config != 1 ) {
 	
 $secure_128bit_hash = random_hash(16); // 128-bit (16-byte) hash converted to hexadecimal, used for suffix
@@ -279,7 +279,7 @@ $secure_128bit_hash = random_hash(16); // 128-bit (16-byte) hash converted to he
 		else {
 		$app_config = $upgraded_cached_app_config;
 		store_file_contents($base_dir . '/cache/secured/app_config_'.$secure_128bit_hash.'.dat', $store_cached_app_config);
-		store_file_contents($base_dir . '/cache/vars/default_app_config_md5.dat', md5(serialize($default_app_config))); // For checking later, if config.php values are updated we save to json again
+		store_file_contents($base_dir . '/cache/vars/default_app_config_md5.dat', md5(serialize($default_app_config))); // For checking later, if DEFAULT Admin Config (in config.php) values are updated we save to json again
 		}
 		
 	

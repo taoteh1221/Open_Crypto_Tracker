@@ -46,10 +46,10 @@
 			
 			// Warning (minimal, just as link title on the 'refresh' link) if price data caching set too low
 			if ( $app_config['power_user']['last_trade_cache_time'] < 4 ) {
-			$refresh_link_title = 'Refreshing data too frequently may cause API request refusals, especially if request caching settings are too low. It is recommended to use this refresh feature sparingly with lower or disabled cache settings. The current real-time exchange data re-cache (refresh from live data instead of cached data) setting in config.php is set to '. $app_config['power_user']['last_trade_cache_time'] . ' minute(s). A setting of 4 or higher assists in avoiding temporary IP blocking / throttling by exchanges.';
+			$refresh_link_title = 'Refreshing data too frequently may cause API request refusals, especially if request caching settings are too low. It is recommended to use this refresh feature sparingly with lower or disabled cache settings. The current real-time exchange data re-cache (refresh from live data instead of cached data) setting in the Admin Config GENERAL section is set to '. $app_config['power_user']['last_trade_cache_time'] . ' minute(s). A setting of 4 or higher assists in avoiding temporary IP blocking / throttling by exchanges.';
 			}
 			else {
-			$refresh_link_title = 'The current real-time exchange data re-cache (refresh from live data instead of cached data) setting in config.php is set to '. $app_config['power_user']['last_trade_cache_time'] . ' minute(s).';
+			$refresh_link_title = 'The current real-time exchange data re-cache (refresh from live data instead of cached data) setting in the Admin Config GENERAL section is set to '. $app_config['power_user']['last_trade_cache_time'] . ' minute(s).';
 			}
 			
 			?>  &nbsp; &nbsp; &nbsp; <a href='javascript:app_reloading_placeholder();app_reload();' style='font-weight: bold;' title='<?=$refresh_link_title?>'>Refresh</a>
@@ -545,11 +545,11 @@ $altcoin_dominance = max_100($altcoin_dominance);
 		
 	
 		
-			var fiat_value_content = '<h5 class="yellow tooltip_title"><?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?> Value</h5>'
+			var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?>) Value</h5>'
 			
-			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">The value of your ENTIRE portfolio, in <?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?>.</p>'
+			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">The value of your ENTIRE portfolio, based off your selected primary currency (<?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?>), in the "Primary Currency Market" setting, on the settings page.</p>'
 			
-			+'<p class="coin_info yellow" style="max-width: 600px; white-space: normal;">Primary Currency Market: BTC / <?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?> @ <?=snake_case_to_name($app_config['general']['btc_primary_exchange'])?> (<?=$app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']]?><?=number_format( $selected_btc_primary_currency_value, 2, '.', ',')?>)</p>';
+			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">Selected Primary Currency Market: <span class="yellow">BTC / <?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?> @ <?=snake_case_to_name($app_config['general']['btc_primary_exchange'])?> (<?=$app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']]?><?=number_format( $selected_btc_primary_currency_value, 2, '.', ',')?>)</span></p>';
 		
 		
 		
@@ -560,7 +560,7 @@ $altcoin_dominance = max_100($altcoin_dominance);
 			contents: crypto_value_content,
 			css: {
 					fontSize: ".8rem",
-					minWidth: ".8rem",
+					minWidth: "450px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
 					borderRadius: "6px",
@@ -581,7 +581,7 @@ $altcoin_dominance = max_100($altcoin_dominance);
 			contents: fiat_value_content,
 			css: {
 					fontSize: ".8rem",
-					minWidth: ".8rem",
+					minWidth: "450px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
 					borderRadius: "6px",
@@ -668,7 +668,7 @@ $altcoin_dominance = max_100($altcoin_dominance);
 			contents: gain_loss_content,
 			css: {
 					fontSize: ".8rem",
-					minWidth: ".8rem",
+					minWidth: "450px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
 					borderRadius: "6px",
@@ -749,7 +749,7 @@ $altcoin_dominance = max_100($altcoin_dominance);
   			url: 'ajax.php?type=balance_stats&leverage_added=<?=$leverage_added?>&short_added=<?=$short_added?><?=$balance_stats_encoded?>',
 			css: {
 					fontSize: ".8rem",
-					minWidth: ".8rem",
+					minWidth: "450px",
 					padding: ".3rem .7rem",
 					border: "2px solid rgba(212, 212, 212, .4)",
 					borderRadius: "6px",
@@ -925,7 +925,7 @@ $altcoin_dominance = max_100($altcoin_dominance);
 	
 		<form action='<?=start_page($_GET['start_page'])?>' method='post'>
 	
-		<b class='black'>Trading Notes / Reminders:</b><br />
+		<b class='black'>Trading Notes:</b><br />
 	
 		<textarea data-autoresize name='notes_reminders' id='notes_reminders' style='height: auto; width: 100%;'><?=$_COOKIE['notes_reminders']?></textarea><br />
 	

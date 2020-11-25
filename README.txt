@@ -176,6 +176,8 @@ For security, the API requires a key / token to access it. This key must be name
 Adding / editing / deleting assets and markets in the portfolio assets:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+IMPORTANT NOTE: IN THE UPCOMING v5 RELEASE (DUE OUT IN 2021 OR 2022), DOING THIS WON'T BE NECESSARY. YOU WILL BE ABLE TO DO IT IN THE "Admin Config" INTERFACE MUCH EASIER.
+
 Below is an example for editing your assets / markets into the portfolio assets in the file config.php (located in the primary directory of this app). It's very quick / easy to do (after you get the hang of it, lol). Also see the text file /DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt, for a pre-configured set of default settings and example assets / markets. Contact any supported exchange's help desk if you are unaware of the correct formatting of the trading pair naming you are adding in the configuration file (examples: Kraken has arbitrary Xs inserted in SOME older pair names, HitBTC sometimes has tether pairing without the "T" in the symbol name).
 
 
@@ -225,7 +227,7 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in (values a
                                           'lowercase_exchange4' => 'ASSET_ETH',
                                           'lowercase_exchange5' => 'ASSETETH',
                                           'defipulse' => 'ASSET/PAIRING', // DeFi Generic (sketchy API as of 10/8/2020, unable to reliably get platform-specific data)
-                                          'eth_subtokens_ico' => 'ETHSUBTOKENNAME', // Must be defined in $app_config['power_user']['ethereum_subtoken_ico_values'] in config.php
+                                          'eth_subtokens_ico' => 'ETHSUBTOKENNAME', // Must be defined in 'ethereum_subtoken_ico_values' setting, in the POWER USER section of Admin Config
                                                     ),
                                                     
                                           ) // market_pairing END
