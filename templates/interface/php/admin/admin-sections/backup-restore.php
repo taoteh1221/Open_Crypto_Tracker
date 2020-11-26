@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2020 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
+ * Copyright 2014-2021 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
  */
 
 
@@ -12,9 +12,6 @@
 				
 	
 	<p> Coming Soon&trade; </p>
-				
-	<p class='bitcoin'> Editing these settings is <i>currently only available manually</i>, by updating the file config.php (in this app's main directory) with a text editor.</p>
-				
 	
 			    
 			    
