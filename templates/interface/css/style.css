@@ -33,9 +33,10 @@ border-collapse: separate;
 
 td {
 margin: 0px;
-padding: 6px;
+padding: 4px;
 white-space: nowrap;
 vertical-align: middle !important;
+line-height: 1.15 !important;
 }
 
 th {
@@ -657,20 +658,23 @@ float: right;
 max-width: 30%;
 margin: 0px;
 margin-right: 5px;
-font-size: 11px;
+font-size: 13px;
 }
 
 
 #system_stats fieldset {
-padding: 8px;
-font-size: 11px;
+padding-top: 0px;
+padding-bottom: 12px;
+padding-left: 18px;
+padding-right: 18px;
+font-size: 13px;
 border: 1px solid #dd7c0d; 
 }
 
 
 #system_stats fieldset legend {
 padding: 4px;
-font-size: 11px;
+font-size: 13px;
 }
 
 
@@ -715,6 +719,8 @@ display: none;
 #topnav {
 display: inline-block;
 margin: auto;
+min-width: 1200px;
+max-width: 1200px;
 }
 
 
@@ -737,14 +743,17 @@ padding: 7px;
 }
 
 
+#navbarSupportedContent {
+max-width: 555px;
+margin: auto; 
+}
+
+
 #alert_bell_area {
-position:absolute;
-top: 46px;
-right: -260px;
-margin-left:auto;
-margin-right:auto;
-min-width: 1200px; 
-max-width: 1200px; 
+position:relative;
+left: 0px;
+min-width: 1150px; /* -50px of usual min/max width, for FF compatibility */
+max-width: 1150px; /* -50px of usual min/max width, for FF compatibility */
 min-height: 45px; 
 padding: 15px;
 font-weight: bold; 
@@ -752,7 +761,7 @@ line-height: 35px;
 white-space: normal;
 word-wrap: break-word;
 background: #ededa6 !important;
-border: 2px solid #dd7c0d !important;
+border: 2px solid #dd7c0d !important; 
 }
 
 

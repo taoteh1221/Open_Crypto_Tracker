@@ -789,9 +789,98 @@ $altcoin_dominance = max_100($altcoin_dominance);
     		if ( isset($_SESSION['admin_logged_in']) ) {
     ?>
 	
-		<fieldset><legend> <strong class="bitcoin">System Information</strong> </legend>
+		<fieldset><legend> <strong class="bitcoin">Admin Config - Quick Links</strong> </legend>
     		
-    <div id='portfolio_render_system_stats'><?php
+    		
+    		<b><a href="javascript: return false;" class="show_system_charts blue" title="View System Charts">System Charts</a></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    		
+
+    		<b><a href="javascript: return false;" class="show_visitor_stats blue" title="View Visitor Statistics">Visitor Stats</a></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    		
+
+    		<b><a href="javascript: return false;" class="show_logs blue" title="View Logs">App Logs</a></b>
+ 
+    		
+		</fieldset>
+		
+    		<?php
+    		}
+			?>
+
+
+	</div>
+<br class='clear_both' />
+
+
+	<?php	
+	// End outputting results
+	}
+	
+	if ( $assets_added || $assets_watched ) {
+	?>
+	
+	<style>
+	.show_coin_values, #system_stats, #coins_table {
+	display: block;
+	}
+	</style>
+	
+	<?php
+	}
+	else {
+	?>
+	
+	<div class='align_center' style='min-height: 100px;'>
+	
+		<p><img src='templates/interface/media/images/favicon.png' alt='' class='image_border' /></p>
+		<p class='red' style='font-weight: bold; position: relative; margin: 15px;'>No portfolio assets added yet (add them on the "Update" page).</p>
+	</div>
+	
+	<?php
+	}
+	
+	
+	if ( $_COOKIE['notes_reminders'] != '' ) {
+	?>
+	
+	<div style='margin-top: 10px; height: auto;'>
+	
+		<form action='<?=start_page($_GET['start_page'])?>' method='post'>
+	
+		<b class='black'>&nbsp;Trading Notes:</b><br />
+	
+		<textarea data-autoresize name='notes_reminders' id='notes_reminders' style='height: auto; width: 100%;'><?=$_COOKIE['notes_reminders']?></textarea><br />
+	
+		<input type='hidden' name='update_notes' id='update_notes' value='1' />
+		<input type='submit' value='Save Updated Notes' />
+	
+		</form>
+		
+	</div>
+	
+	<?php
+	}
+	?>
+   
+   
+	<?php
+		// If hardware / software stats are enabled, display the charts when designated link is clicked (in a modal)
+    	if ( isset($_SESSION['admin_logged_in']) ) {
+    ?>
+	
+	<div id="show_system_charts">
+	
+		
+		<h3 style='display: inline;'>System Charts</h3>
+	
+				<span style='z-index: 99999; margin-right: 55px;' class='red countdown_notice'></span>
+	
+	<br clear='all' />
+	<br clear='all' />
+	
+	<div id='portfolio_render_system_stats' style='margin-bottom: 30px;'>
+	
+	<?php
     			
     		// System data
     		$system_load = $system_info['system_load'];
@@ -864,106 +953,11 @@ $altcoin_dominance = max_100($altcoin_dominance);
     		}
     		
     		
-    		?></div>
+   ?>
     		
-    		<span class="bitcoin"><b>Other:</b></span>&nbsp; 
-    		
-    		<b><a href="javascript: return false;" class="show_system_charts blue" title="View System Charts">System Charts</a></b>&nbsp;&nbsp;&nbsp; 
-    		
-
-    		<b><a href="javascript: return false;" class="show_visitor_stats blue" title="View Visitor Statistics">Visitor Stats</a></b>&nbsp;&nbsp;&nbsp; 
-    		
-
-    		<b><a href="javascript: return false;" class="show_logs blue" title="View Logs">App Logs</a></b>
-    		
-    		<br /><br />
- 
-    		
-		</fieldset>
-		
-    		<?php
-    		}
-			?>
-
-
-	</div>
-<br class='clear_both' />
-
-
-	<?php	
-	// End outputting results
-	}
-	
-	if ( $assets_added || $assets_watched ) {
-	?>
-	
-	<style>
-	.show_coin_values, #system_stats, #coins_table {
-	display: block;
-	}
-	</style>
-	
-	<?php
-	}
-	else {
-	?>
-	
-	<div class='align_center' style='min-height: 100px;'>
-	
-		<p><img src='templates/interface/media/images/favicon.png' alt='' class='image_border' /></p>
-		<p class='red' style='font-weight: bold; position: relative; margin: 15px;'>No portfolio assets added yet (add them on the "Update" page).</p>
-	</div>
-	
-	<?php
-	}
-	
-	
-	if ( $_COOKIE['notes_reminders'] != '' ) {
-	?>
-	
-	<div style='margin-top: 10px; height: auto;'>
-	
-		<form action='<?=start_page($_GET['start_page'])?>' method='post'>
-	
-		<b class='black'>Trading Notes:</b><br />
-	
-		<textarea data-autoresize name='notes_reminders' id='notes_reminders' style='height: auto; width: 100%;'><?=$_COOKIE['notes_reminders']?></textarea><br />
-	
-		<input type='hidden' name='update_notes' id='update_notes' value='1' />
-		<input type='submit' value='Save Updated Notes' />
-	
-		</form>
-		
-	</div>
-	
-	<?php
-	}
-	?>
-   
-   
-	<?php
-		// If hardware / software stats are enabled, display the charts when designated link is clicked (in a modal)
-    	if ( isset($_SESSION['admin_logged_in']) ) {
-    ?>
-	
-	<div id="show_system_charts">
-	
-		
-		<h3 style='display: inline;'>System Charts</h3>
-	
-				<span style='z-index: 99999; margin-right: 55px;' class='red countdown_notice'></span>
-	
-	<br clear='all' />
-	<br clear='all' />
-	
-	<div id='portfolio_render_system_stats2' style='margin-bottom: 30px;'></div>
+   </div>
 	
 	<p class='bitcoin' style='font-weight: bold;'>Charts may take awhile to update with the latest data.</p>	
-	
-	<script>
-	// Mirror portfolio page system stats summary with javascript (without the wrapper that makes the text small)
-	$('#portfolio_render_system_stats2').html( $('#portfolio_render_system_stats').html() );
-	</script>
 	
 	<div class='red' id='system_charts_error'></div>
 	

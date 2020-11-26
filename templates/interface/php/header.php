@@ -180,43 +180,81 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 		<div class='align_center' id='body_top_nav' style='<?=( $login_template == 1 ? 'min-width: 720px; max-width: 800px;' : '' )?>'>
 		
 		
-				<!-- START #topnav-content -->
-			   <nav id='topnav' class="navbar navbar-expand align_center">
+			<!-- START #topnav-content -->
+			<nav id='topnav' class="navbar navbar-expand align_center">
+			   
 				<?php
 				// Filename info, to dynamically render active menu link displaying
 			   $script_file_info = pathinfo($_SERVER['SCRIPT_FILENAME']);
 				?>
-			  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+				
+			  	<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			  
-				<ul id='admin_nav' class="navbar-nav" style='right: 4px; bottom: 4px;'>
-				  <li class="nav-item dropdown align_center">
-					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src='templates/interface/media/images/login-<?=$theme_selected?>-theme.png' height='27' border='0' /></a>
-					<div class="dropdown-menu shadow-lg p-3 mb-5 bg-white rounded" aria-labelledby="navbarDropdown">
-					  <a class="dropdown-item<?=( $script_file_info['basename'] == 'admin.php' ? ' active' : '' )?>" href="admin.php">Admin Config</a>
-					  <a class="dropdown-item<?=( $script_file_info['basename'] == 'index.php' ? ' active' : '' )?>" href="index.php">Portfolio</a>
-					  <?php
-					  if ( sizeof($stored_admin_login) == 2 && isset($_SESSION['admin_logged_in']) ) {
-					  ?>
-					  <a class="dropdown-item" href="?logout=1&admin_hashed_nonce=<?=admin_hashed_nonce('logout')?>">Logout</a>
-					  <?php
-					  }
-					  ?>
-					</div>
-				  </li>
-				</ul>
+					<ul id='admin_nav' class="navbar-nav" style='right: 4px; bottom: 4px;'>
+					
+				  		<li class="nav-item dropdown align_center">
+					
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src='templates/interface/media/images/login-<?=$theme_selected?>-theme.png' height='27' border='0' /></a>
+					
+							<div class="dropdown-menu shadow-lg p-3 mb-5 bg-white rounded" aria-labelledby="navbarDropdown">
+							
+					  			<a class="dropdown-item<?=( $script_file_info['basename'] == 'admin.php' ? ' active' : '' )?>" href="admin.php">Admin Config</a>
+					  			
+					  			<a class="dropdown-item<?=( $script_file_info['basename'] == 'index.php' ? ' active' : '' )?>" href="index.php">Portfolio</a>
+					  			
+					  			<?php
+					  			if ( sizeof($stored_admin_login) == 2 && isset($_SESSION['admin_logged_in']) ) {
+					  			?>
+					  			<a class="dropdown-item" href="?logout=1&admin_hashed_nonce=<?=admin_hashed_nonce('logout')?>">Logout</a>
+					  			<?php
+					  			}
+					 			?>
+					  
+							</div>
+					
+				  		</li>
+				  		
+					</ul>
+				
 				
 				<h2>DFD Cryptocoin Values - <?=( $is_admin ? 'Admin Config' : 'Portfolio' )?></h2>
 				
-				<div class="navbar-nav dropleft" style='left: 12px;'>
-  <a class="nav-link" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img id='alert_bell_image' src='templates/interface/media/images/notification-<?=$theme_selected?>-line.png' height='30' border='0' /></a>
-  <div id='alert_bell_area' class="dropdown-menu red" aria-labelledby="navbarDropdown2">
- <!-- alerts output dynamically here -->
-  </div>
-				</div>
 				
-			  </div>
+					<div id="navbarDropdownBell" class="navbar-nav dropleft" style='left: 12px;'>
 				
-				</nav>
+  						<a class="nav-link" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img id='alert_bell_image' src='templates/interface/media/images/notification-<?=$theme_selected?>-line.png' height='30' border='0' /></a>
+  
+  						<!-- Alerts div centering wrapper -->
+  						<div id='alert_bell_wrapper' style='position:absolute; top: 46px; left: 50%;'>
+  
+  							<div id='alert_bell_area' class="dropdown-menu red" aria-labelledby="navbarDropdown2">
+ 							<!-- alerts output dynamically here -->
+  							</div>
+  	
+  						</div>
+  
+					</div>
+				
+			  	</div>
+				
+			</nav>
+  	
+  	
+  	<script>
+  	
+  	// Get how far from left edge of PARENT containers we are, on relevent containers
+  	var pos_topnav = document.getElementById('topnav').getBoundingClientRect();
+  	var pos_bell = document.getElementById('navbarDropdownBell').getBoundingClientRect();
+	
+	 // Amount left of #navbarDropdownBell from #topnav edge, MINUS amount left of #topnav from page edge
+	var alerts_window_to_left = Math.round(pos_bell.left - pos_topnav.left);
+	
+	// Dynamically move alerts window further left (using left position, MINUS left MORE)
+	$("#alert_bell_wrapper").css({ "left": '-' + alerts_window_to_left + 'px' });
+	
+  	</script>
+  	
+  	
 				<!-- END #topnav-content -->
 		
 		
