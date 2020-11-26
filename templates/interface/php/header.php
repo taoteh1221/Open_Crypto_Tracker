@@ -181,7 +181,7 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 		
 		
 			<!-- START #topnav-content -->
-			<nav id='topnav' class="navbar navbar-expand align_center">
+			<nav id='topnav' class="navbar navbar-expand align_center" style='<?=( $login_template == 1 ? 'min-width: 720px; max-width: 800px;' : '' )?>'>
 			   
 				<?php
 				// Filename info, to dynamically render active menu link displaying

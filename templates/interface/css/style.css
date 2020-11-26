@@ -496,7 +496,7 @@ white-space: nowrap;
 .gain, td.data span.gain, td.data div.gain span, .btc_worth, .btc_worth span, td.data div.btc_worth span {
 margin: 0px;
 padding: 0px;
-font-size: 12px !important;
+font-size: 11px !important;
 border: 0px;
 background: none;
 white-space: nowrap;
@@ -744,8 +744,7 @@ padding: 7px;
 
 
 #navbarSupportedContent {
-max-width: 555px;
-margin: auto; 
+display: inline-flex !important;
 }
 
 
