@@ -26,9 +26,6 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
-Find out why export-csv.php is adding newlines at the top of the raw exported CSV spreadsheet data (in the downloaded file). MAYBE 'left trim' portfolio export file data, before saving to the download temp file, to remove the extra line breaks at the top?
-
-
 Look into adding https://1inch.exchange/#/ to DeFi APIs.
 
 
@@ -83,13 +80,16 @@ FEATURES / STRUCTURING SECTION
 ///////////////////////////////////////////////////////
 
 
+Create a cron plugin to let you know when a raw market value has gone below / above a certain exact value at a specific exchange (good for knowing when / if your order fills). Allow unlimited assets (same logic type as the recurring reminders plugin).
+
+
 Add a "Reset lite charts" button on the admin 'Reset' page, to trigger rebuilding lite charts.
 
 
-Add unlimited (seperate) recurring reminders capability to reminder cron plugin.
-
-
 Add a "calculate current portfolio's performance in BTC and [fiat currency] over LITE CHART time periods" feature, which uses the currently-cached asset markets LITE CHARTS to create a chart showing what you current potfolio assets have been worth in BTC / Fiat over those time periods. This would help to more easily determine non-performant assets, and aid in more efficient portfolio rebalancing.
+
+
+Add "Save settings first?" to admin config pages, if switching tabs / exiting admin config area (like gmail does).
 
 
 Option to use new zip file encryption password feature to encrypt portfolio spreadsheet exports when downloading exported portfolio data (with password entered in the UI, #NOT# $app_config['general']['backup_archive_password']).
@@ -98,13 +98,7 @@ Option to use new zip file encryption password feature to encrypt portfolio spre
 Give plugins a dedicated admin page (if any are activated).
 
 
-Create a cron plugin to let you know when a raw market value has gone below / above a certain exact value at a specific exchange (good for knowing when / if your order fills).
-
-
 Create "Export your feeds" link on News page, to XML / JSON format file download (like exporting portfolio logic).
-
-
-Build Decred staking calculator.
 
 
 For each category_key => category_value loop app config, to automate categorizing new admin settings tabs...selects for arrays, text fields for strings. Maybe certain key names get checkbox / radio button fields.
@@ -203,6 +197,9 @@ Add market stats summaries from chart data, like pie charts for exchange volume 
 Simple trading bot, to run from cron / cli (with SQL-based admin authentication / web UI for configuration)
 
 
+Build Decred staking calculator.
+
+
 ///////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////
 
@@ -213,9 +210,6 @@ MAYBE SECTION
 
 
 Use SQLite for any data storage that needs query capability (can also be used in PHPDesktop version, as it supports SQLite). 
-
-
-In the "loading charts" logic, add a timer that logs the time it takes to load all Shown Charts, and prints results to the console log.
 
 
 See if zingchart can do a moving average line?

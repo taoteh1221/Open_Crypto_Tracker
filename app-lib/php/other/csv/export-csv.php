@@ -3,7 +3,12 @@
  * Copyright 2014-2021 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
  */
 
+
+require_once($base_dir . '/app-lib/php/other/sub-init/minimized-sub-init.php');
+
+
 $csv_download_array = array();
+
 
 // CSV header
 $csv_download_array[] = array(
@@ -92,12 +97,6 @@ $csv_download_array[] = array(
 	}
 	 
 
-
-
-// Log errors / debugging, send notifications
-error_logs();
-debugging_logs();
-send_notifications();
 
 // Run last, as it exits when completed
 create_csv_file('temp', 'Crypto_Portfolio.csv', $csv_download_array); 

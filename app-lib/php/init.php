@@ -156,7 +156,8 @@ exit;
 }
 
 
-// INCREASE CERTAIN RUNTIME SPEEDS (minimal inits included in libraries if needed)
+// INCREASE CERTAIN RUNTIME SPEEDS / REDUCE LOADING EXCESS LOGIC (minimal inits included in libraries if needed)
+
 // If we are just running a captcha image, ONLY run captcha library for runtime speed (exit after)
 if ( $runtime_mode == 'captcha' ) {
 require_once('app-lib/php/other/security/captcha-lib.php');
@@ -172,6 +173,26 @@ elseif ( $is_logs ) {
 require_once('app-lib/php/other/ajax/logs.php');
 exit;
 }
+// If we are just running CSV exporting, ONLY run csv export libraries for runtime speed / avoiding excess logic (exit after)
+elseif ( $is_csv_export ) {
+
+	// Example template download
+	if ( $_GET['example_template'] == 1 ) {
+	require_once('app-lib/php/other/csv/example-csv.php');
+	}
+	// Portfolio export download
+	elseif ( $_POST['submit_check'] == 1 && is_array($app_config['portfolio_assets']) 
+	|| $_POST['submit_check'] == 1 && is_object($app_config['portfolio_assets']) ) {
+	require_once('app-lib/php/other/csv/export-csv.php');
+	}
+
+exit;
+}
+
+
+
+
+
 
 
 // A bit of DOS attack mitigation for bogus / bot login attempts

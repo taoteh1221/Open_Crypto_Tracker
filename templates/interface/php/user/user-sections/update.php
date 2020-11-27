@@ -250,17 +250,22 @@
 		
 	    <input type="hidden" name="csv_check" value="1" />
 	    
-	    <span id='file_upload'><input style='margin-left: 75px;' name="csv_file" type="file" /></span>
+	    <span id='file_upload'><input style='margin-left: 85px;' name="csv_file" type="file" /></span>
 	    
 	    <input type="button" onclick='validateForm("csv_import", "csv_file");' value="Import Portfolio From CSV File" />
 	    
 		</form>
 		
-		<button style='margin-left: 75px;' class='force_button_style' onclick='
-		set_target_action("coin_amounts", "_blank", "download.php");
+		
+		<button style='margin-left: 40px;' class='force_button_style' onclick='
+		set_target_action("coin_amounts", "_blank", "download.php?csv_export=1");
 		document.coin_amounts.submit(); // USE NON-JQUERY METHOD SO "APP LOADING..." DOES #NOT# SHOW
 		set_target_action("coin_amounts", "_self", "<?=start_page($_GET['start_page'])?>");
 		'>Export Portfolio To CSV File</button>
+		
+		
+		<a style='margin-left: 40px; text-decoration: none;' class='force_button_style' href="download.php?csv_export=1&example_template=1" target="_blank">Example CSV File</a>
+		
 		
 	</div>
 	

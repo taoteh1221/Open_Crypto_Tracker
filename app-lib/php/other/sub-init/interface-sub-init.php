@@ -101,7 +101,7 @@ $sorted_by_asc_desc = $sort_settings[1];
    	
    	
 		if ( !$csv_import_fail && !is_array($csv_file_array) ) {
-   	$csv_import_fail = 'Your CSV import file does not appear to be formatted correctly. You can <a href="download.php?example_template=1" target="_blank">download this example template</a> to start over with correct formatting.' . $dismiss_alert;
+   	$csv_import_fail = 'Your CSV import file does not appear to be formatted correctly.' . $dismiss_alert;
    	}
 		elseif ( is_array($csv_file_array) ) {
    	$csv_import_succeed = 'Your CSV import succeeded.' . $dismiss_alert;

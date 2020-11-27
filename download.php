@@ -8,25 +8,22 @@ error_reporting(0); // Turn off all error reporting (0), or enable (1)
 
 $runtime_mode = 'download';
 
+// Flag as CSV export BEFORE config.php (to run minimized logic from init.php)
+if ( $_GET['csv_export'] == 1 ) {
+$is_csv_export = true;
+}
+
 require("config.php");
 
 
-// Example template download
-if ( $_GET['example_template'] == 1 ) {
-require_once( $base_dir . "/app-lib/php/other/csv/example-csv.php");
-}
-// Portfolio export download
-elseif ( $_POST['submit_check'] == 1 && is_array($app_config['portfolio_assets']) 
-|| $_POST['submit_check'] == 1 && is_object($app_config['portfolio_assets']) ) {
-require_once( $base_dir . "/app-lib/php/other/csv/export-csv.php");
-}
 // Backups download
-elseif ( $_GET['backup'] != NULL ) {
+if ( $_GET['backup'] != NULL ) {
 require_once( $base_dir . "/app-lib/php/other/backups.php");
 }
 
 
-// NO LOGS / DEBUGGING / MESSAGE SENDING AT RUNTIME END HERE (WE ALWAYS EXIT BEFORE HERE IN EACH REQUIRED FILE)
+// NO LOGS / DEBUGGING / MESSAGE SENDING AT RUNTIME END HERE 
+// (WE ALWAYS EXIT BEFORE HERE IN EACH REQUIRED FILE, OR WE SKIP IT FOR MINIMIZED RUNTIME LOGIC ETC)
 
 
 ?>

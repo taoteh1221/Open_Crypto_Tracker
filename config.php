@@ -99,6 +99,8 @@ $app_config['comms']['google_client_secret'] = '';
 
 // For notifyme / alexa notifications (sending Alexa devices notifications for free). 
 // CAN BE BLANK. Setup: http://www.thomptronics.com/notify-me
+// (NOTE: THIS APP'S BUILT-IN QUEUE SYSTEM THROTTLES / SENDS OUT 6 ALERTS EVERY 6 MINUTES MAXIMUM FOR NOTIFYME ALERTS,
+// TO STAY WITHIN NOTIFYME API MESSAGE LIMITS, SO YOU ALWAYS STILL GET ALL YOUR ALERTS, JUST SLIGHTLY DELAYED)
 $app_config['comms']['notifyme_accesscode'] = '';
 
 

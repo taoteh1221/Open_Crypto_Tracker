@@ -1,5 +1,5 @@
 "Asset Symbol",Holdings,"Average Paid (per-token)","Margin Leverage","Long or Short","Exchange ID","Market Pairing"
 BTC,0.00123,"11,500.25",0,long,1,usdt
 ETH,7.255,120.50,0,long,1,usdt
-MISCASSETS,80.15,0,0,long,1,btc
 XMR,45.755,65.25,0,long,3,btc
+MISCASSETS,80.15,,0,long,1,btc

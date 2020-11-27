@@ -4,6 +4,9 @@
  */
 
 
+require_once($base_dir . '/app-lib/php/other/sub-init/minimized-sub-init.php');
+
+
 // CSV header
 $example_download_array[] = array(
 	        							'Asset Symbol',
@@ -60,11 +63,6 @@ $example_download_array[] = array(
 	        							);							
 	        							
 
-
-// Log errors / debugging, send notifications
-error_logs();
-debugging_logs();
-send_notifications();
 
 // Run last, as it exits when completed
 create_csv_file('temp', 'Crypto_Portfolio_Example.csv', $example_download_array); 

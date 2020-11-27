@@ -4096,11 +4096,19 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.22.2:
 
--"Crypto Value" of your entire portfolio in selected cryptocurrencies (on settings page)
+-Bug fix for app error alerts drop-down window positioning
+
+-Bug fix for visual / audio alerts toggle (on settings page)
+
+-Bug fix for extra whitespace at beginning of CSV spreadsheet export files
+
+-"Crypto Value" of your entire portfolio in selected cryptocurrencies (on settings / portfolio pages)
+
+-Less-cluttered portfolio summary area (at bottom of portfolio page)
 
 -Code / documentation / content revisions and cleanup
 
--Misc. UX / bug fixes
+-Misc. UX improvements / bug fixes
 
 -------------------------------------------------------------------
 
