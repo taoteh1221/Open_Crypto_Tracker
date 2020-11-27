@@ -26,6 +26,9 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+Look into upbit API acting up.
+
+
 Look into adding https://1inch.exchange/#/ to DeFi APIs.
 
 

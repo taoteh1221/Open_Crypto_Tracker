@@ -80,7 +80,7 @@ Either the asset has not been added to coinmarketcap.com yet, you forgot to add 
   
 -----------------------------------------------------------------------------------------------------------------------------------------
 
-If you have enabled SMTP emailing (to send emails) but it doesn't work, check the error logs file at /cache/logs/errors.log for error responses from the SMTP server connection attempt(s). Alternatively try disabling SMTP email sending by blanking out your username and password (in the Admin Config COMMUNICATIONS section), and see if PHP's built-in mail function sends emails OK (no setup required, other than SMTP settings must be blanked out). 
+If you have enabled SMTP emailing (to send emails) but it doesn't work, check the error logs files at /cache/logs/errors.log and /cache/logs/smtp_errors.log for error responses from the SMTP server connection attempt(s). Alternatively try disabling SMTP email sending by blanking out your username and password (in the Admin Config COMMUNICATIONS section), and see if PHP's built-in mail function sends emails OK (no setup required, other than SMTP settings must be blanked out). 
 
 
 =========================================================================================================================================

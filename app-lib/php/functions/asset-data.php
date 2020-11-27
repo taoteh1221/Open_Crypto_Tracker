@@ -1933,7 +1933,7 @@ $original_market = $selected_exchange;
             }
             ?>
     
-        +'<p class="coin_info"><span class="yellow">*Current config setting retrieves the top <?=$app_config['power_user']['marketcap_ranks_max']?> rankings.</span></p>';
+        +'<p class="coin_info balloon_notation yellow">*Current config setting retrieves the top <?=$app_config['power_user']['marketcap_ranks_max']?> rankings.</p>';
     
         <?php
         

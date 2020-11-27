@@ -470,8 +470,8 @@ $altcoin_dominance = max_100($altcoin_dominance);
 	  
 	  // Notice that margin leverage is NOT included !!WITHIN!! BTC / PAIRING TOTALS EVER (for UX's sake, too confusing to included in anything other than gain / loss stats)
 	  // We only include data in parenthesis NEXT TO THE BTC / PAIRING PORTFOLIO SUMMARIES
-	  $leverage_text1 = ( $purchase_price_added == 1 && $leverage_added == 1 && is_numeric($gain_loss_total) == TRUE ? ' <span class="red"> &nbsp;(includes adjusted long deposits, <i><u>not</u></i> leverage)</span>' : '' );
-	  $leverage_text2 = ( $purchase_price_added == 1 && $leverage_added == 1 && is_numeric($gain_loss_total) == TRUE ? ' <span class="red"> &nbsp;(includes adjusted short / long deposits, <i><u>not</u></i> leverage)</span>' : '' );
+	  $leverage_text1 = ( $purchase_price_added == 1 && $leverage_added == 1 && is_numeric($gain_loss_total) == TRUE ? ' <p class="coin_info balloon_notation red" style="max-width: 600px; white-space: normal;"> *Includes adjusted long deposits, <i><u>not</u></i> leverage.</p>' : '' );
+	  $leverage_text2 = ( $purchase_price_added == 1 && $leverage_added == 1 && is_numeric($gain_loss_total) == TRUE ? ' <p class="coin_info balloon_notation red" style="max-width: 600px; white-space: normal;"> *Includes adjusted short / long deposits, <i><u>not</u></i> leverage.</p>' : '' );
 
 
 
@@ -513,17 +513,19 @@ $altcoin_dominance = max_100($altcoin_dominance);
 				</script>
 				<?php
 				}
+				?>
+				
+			<img id="crypto_value" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
 			
-			echo ' <img id="crypto_value" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" /> ' . $leverage_text1;
-			?>
 			</div>
+			
 			<?php
 			}
 			
 			
 		
 		// Fiat value of portfolio
-		echo '<div class="portfolio_summary"><span class="black">'.strtoupper($app_config['general']['btc_primary_currency_pairing']).' Value:</span> ' . $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] . number_format($total_primary_currency_worth, 2, '.', ',') . $leverage_text2 . ' <img id="fiat_value" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" /> </div>';
+		echo '<div class="portfolio_summary"><span class="black">'.strtoupper($app_config['general']['btc_primary_currency_pairing']).' Value:</span> ' . $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] . number_format($total_primary_currency_worth, 2, '.', ',') . ' <img id="fiat_value" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" /> </div>';
 		
 		
 		
@@ -540,8 +542,10 @@ $altcoin_dominance = max_100($altcoin_dominance);
 			
 			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">The value of your ENTIRE portfolio, in the cryptocurrencies you selected in the "Show Crypto Value Of ENTIRE Portfolio In" setting, on the settings page.</p>'
 		
+			+'<?=$leverage_text1?>'
+		
 			
-			+'<p class="coin_info yellow" style="max-width: 600px; white-space: normal;">*Consult a financial advisor and / or do <i>your own due diligence, to evaluate investment risk / reward</i> of ANY cryptocurrencies, based on THEIR / YOUR OWN determinations before buying. Even AFTER buying ANY cryptocurrency, ALWAYS CONTINUE to do your due diligence, investigating whether you are engaging in trading within acceptable risk levels for your <i>NET</i> worth. ALWAYS consult a financial advisor, if you are unaware of what risks are present. </p>';
+			+'<p class="coin_info balloon_notation yellow" style="max-width: 600px; white-space: normal;">*Consult a financial advisor and / or do <i>your own due diligence, to evaluate investment risk / reward</i> of ANY cryptocurrencies, based on THEIR / YOUR OWN determinations before buying. Even AFTER buying ANY cryptocurrency, ALWAYS CONTINUE to do your due diligence, investigating whether you are engaging in trading within acceptable risk levels for your <i>NET</i> worth. ALWAYS consult a financial advisor, if you are unaware of what risks are present. </p>';
 		
 	
 		
@@ -549,7 +553,9 @@ $altcoin_dominance = max_100($altcoin_dominance);
 			
 			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">The value of your ENTIRE portfolio, based off your selected primary currency (<?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?>), in the "Primary Currency Market" setting, on the settings page.</p>'
 			
-			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">Selected Primary Currency Market: <span class="yellow">BTC / <?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?> @ <?=snake_case_to_name($app_config['general']['btc_primary_exchange'])?> (<?=$app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']]?><?=number_format( $selected_btc_primary_currency_value, 2, '.', ',')?>)</span></p>';
+			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">Selected Primary Currency Market: <span class="yellow">BTC / <?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?> @ <?=snake_case_to_name($app_config['general']['btc_primary_exchange'])?> (<?=$app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']]?><?=number_format( $selected_btc_primary_currency_value, 2, '.', ',')?>)</span></p>'
+		
+			+'<?=$leverage_text2?>';
 		
 		
 		
@@ -615,10 +621,10 @@ $altcoin_dominance = max_100($altcoin_dominance);
           
 		
 		// Notice that we include margin leverage in gain / loss stats (for UX's sake, too confusing to included in anything other than gain / loss stats)
-		$leverage_text2 = ( $leverage_added == 1 ? ', includes leverage' : '' );
+		$leverage_text3 = ( $leverage_added == 1 ? '<p class="coin_info balloon_notation red" style="max-width: 600px; white-space: normal;"> *Includes leverage.</p>' : '' );
 		
 		
-		echo '<div class="portfolio_summary"><span class="black">' . ( $gain_loss_total >= 0 ? 'Gain:</span> <span class="green">+' . $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] : 'Loss:</span> <span class="red">' ) . $parsed_gain_loss_total . ' (' . ( $gain_loss_total >= 0 ? '+' : '-' ) . number_format($percent_difference_total, 2, '.', ',') . '%' . $leverage_text2 . ')</span>';
+		echo '<div class="portfolio_summary"><span class="black">' . ( $gain_loss_total >= 0 ? 'Gain:</span> <span class="green">+' . $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] : 'Loss:</span> <span class="red">' ) . $parsed_gain_loss_total . ' (' . ( $gain_loss_total >= 0 ? '+' : '-' ) . number_format($percent_difference_total, 2, '.', ',') . '%' . ')</span>';
 		
 		?> 
 		
@@ -658,6 +664,8 @@ $altcoin_dominance = max_100($altcoin_dominance);
 							
 				}
 			 ?>
+		
+			+'<?=$leverage_text3?>'
 				
 			+'<p class="coin_info balloon_notation"><span class="yellow">*<?=( $leverage_added == 1 ? 'Leverage / ' : '' )?>Gain / Loss stats only include assets where you have set the<br />"Average Paid (per-token)" value on the Update page.</span></p>';
 		

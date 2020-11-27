@@ -26,7 +26,7 @@
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="yellow">PRO TIP:</span> <br /> When buying / selling, keep quick and dirty (yet clear) textual records of... <br />a) How much you bought / sold of what<br />b) What you paid / received in <?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?> value<br />c) What / where you traded <br />d) Backup to USB Stick / NAS / DropBox / GoogleDrive / OneDrive / AmazonBucket <br />e) Now you\'re ready for tax season, to create spreadsheets from this data <br /><span class="yellow">There is also an <i>open source / free</i> app called <a href="https://rotki.com" target="_blank">Rotki</a> that can help you <i>PRIVATELY</i> track your tax data.</span></p>'
 			
-			+'<p class="coin_info"><span class="yellow"> </span></p>';
+			+'<p> </p>';
 
 	
 	
@@ -41,9 +41,9 @@
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">To see your margin leverage stats after updating your portfolio, go to the bottom of the Portfolio page, where you\'ll find a summary section. Hovering over the "I" icon next to the Gain / Loss summary will display any margin leverage stats per-asset. There is also an "I" icon in the far right-side data table column (Subtotal), which you can hover over for margin leverage stats too.</p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="yellow">*Current maximum margin leverage setting of <?=$app_config['general']['margin_leverage_max']?>x can be adjusted in the Admin Config GENERAL section.</span></p>'
+			+'<p class="coin_info balloon_notation extra_margins yellow" style="white-space: normal; max-width: 600px;">*Current maximum margin leverage setting of <?=$app_config['general']['margin_leverage_max']?>x can be adjusted in the Admin Config GENERAL section.</p>'
 			
-			+'<p class="coin_info"><span class="yellow"> </span></p>';
+			+'<p> </p>';
 
 	
 	
@@ -66,7 +66,7 @@
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">If you prefer to store your portfolio data <i class="bitcoin">semi-permanently on your computer within your web browser as cookie data (to save between browser sessions)</i>, <i class="bitcoin"><u>you must manually enable</u></i> "Use cookies to save data" on the Settings page. </p>'
 			
 			
-			+'<p class="coin_info"><span class="yellow"> </span></p>';
+			+'<p> </p>';
 
 	
 	
@@ -78,8 +78,7 @@
 			+'<p class="coin_info extra_margins bitcoin" style="white-space: normal; max-width: 600px;">"Random Tips" are only designed to provide VERY BASIC INSIGHT for people new to cryptocurrency, AND DOES NOT / CANNOT TAKE INTO ACCOUNT UNIQUE SITUATIONS INVESTORS MAY BE IN. ALWAYS CONSULT A FINANCIAL ADVISER IF YOU ARE UNAWARE OF ALL RISKS FOR YOUR PARTICULAR SITUATION!</p>'
 			
 			
-			
-			+'<p class="coin_info"><span class="yellow"> </span></p>';
+			+'<p> </p>';
 			
 			
 			

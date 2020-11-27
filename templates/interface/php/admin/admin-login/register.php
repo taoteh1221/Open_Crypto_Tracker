@@ -110,7 +110,7 @@ if ( !$_POST['submit_registration'] || sizeof($register_result['error']) > 0 ) {
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="red_bright">All lower case<br />Starts with a letter<br />Numbers allowed <br />No symbols <br />No spaces <br />Between 4 - 30 characters <br /></span></p>'
 			
-			+'<p class="coin_info"><span class="yellow"> </span></p>';
+			+'<p> </p>';
 
 
 
@@ -118,7 +118,7 @@ if ( !$_POST['submit_registration'] || sizeof($register_result['error']) > 0 ) {
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="red_bright">At least one upper case letter<br />At least one lower case letter<br />At least one number <br />At least one symbol <br />No spaces <br />Between 12 - 40 characters <br /></span></p>'
 			
-			+'<p class="coin_info"><span class="yellow"> </span></p>';
+			+'<p> </p>';
 
 
 </script>
