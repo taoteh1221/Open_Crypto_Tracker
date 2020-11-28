@@ -163,36 +163,6 @@
 	
 	
 	<?php
-	$accord_var = 4;
-	?>
-	
-	  <div class="card z-depth-0 bordered">
-	    <div class="card-header" id="heading_<?=$accord_var?>">
-	      <h5 class="mb-0">
-	        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse_<?=$accord_var?>"
-	          aria-expanded="false" aria-controls="collapse_<?=$accord_var?>">
-	          
-	          Page Loads Slowly With Charts Enabled
-	          
-	        </button>
-	      </h5>
-	    </div>
-	    <div id="collapse_<?=$accord_var?>" class="collapse" aria-labelledby="heading_<?=$accord_var?>"
-	      data-parent="#accordionHelp">
-	      <div class="card-body">
-	      
-	       
-	        If you have the Charts page enabled (in the Admin Config GENERAL section), and page load times are slow after activating your favorite charts, go to the Charts page and click the "Select Charts" button. Uncheck all charts, and click "Update Selected Charts". If the page load times are faster afterwards, the issue may have been that you were loading too many charts at once. Try loading only a few charts instead, this may help page load times. 
-	        
-	        
-	      </div>
-	    </div>
-	  </div>
-	  
-	  
-	
-	
-	<?php
 	$accord_var = 5;
 	?>
 	

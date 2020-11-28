@@ -58,15 +58,6 @@ Running charts or price alerts requires setting up a cron job on the Ubuntu / Ra
  
 =========================================================================================================================================
 
-  Page Loads Slowly With Charts Enabled
-  
------------------------------------------------------------------------------------------------------------------------------------------
-
-If you have the Charts page enabled (in the Admin Config GENERAL section), and page load times are slow after activating your favorite charts, go to the Charts page and click the "Select Charts" button. Uncheck all charts, and click "Update Selected Charts". If the page load times are faster afterwards, the issue may have been that you were loading too many charts at once. Try loading only a few charts instead, this may help page load times. 
-
-
-=========================================================================================================================================
-
   Coinmarketcap.com Data Not Available For An Asset
   
 -----------------------------------------------------------------------------------------------------------------------------------------
