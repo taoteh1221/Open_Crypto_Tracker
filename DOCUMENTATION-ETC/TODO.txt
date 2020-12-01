@@ -26,6 +26,9 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+Look into Coingecko cutting off the 99th marketcap's stats.
+
+
 Look into upbit API acting up.
 
 
