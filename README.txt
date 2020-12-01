@@ -66,7 +66,9 @@ FEATURES
 
 -External resources page, includes links to marketcap stats sites / news sites / wallets / exchanges / block explorers / developer resources / newsletters / podcasts / social media / etc.
 
--Detailed charts (base values in crypto and your local primary currency), with spot price / 24 hour volume, zooming, and crosshair hovering.
+-Detailed price charts (base values in crypto and your local primary currency), with spot price / 24 hour volume, zooming, and crosshair hovering.
+
+-Detailed portfolio statistics, including Asset Performance side-by-side comparision charts with user-defined time periods, and Portfolio Balance pie charts to get a better feel for your asset allocations.
 
 -Crypto tools (QR code generator, altcoin trade preview / marketcap calculator in BTC and your local primary currency, etc).
 
