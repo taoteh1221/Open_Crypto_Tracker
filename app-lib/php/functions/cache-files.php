@@ -2047,7 +2047,7 @@ $tld_session_prefix = preg_replace("/\./i", "_", $endpoint_tld_or_ip);
 
 		// API timeout limit near / exceeded warning
 		if ( number_to_string($app_config['power_user']['remote_api_timeout'] - 1) <= number_to_string($api_total_time) ) {
-		app_logging('repeat_error', 'Remote API timeout near OR exceeded (' . $api_total_time . ' seconds) for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint) . ', set "remote_api_timeout" higher in POWER USER config if this persists frequently', 'remote_api_timeout: ' . $app_config['power_user']['remote_api_timeout'] . ' seconds; live_request_time: ' . $api_total_time . ' seconds;', $hash_check );
+		app_logging('repeat_error', 'Remote API timeout near OR exceeded (' . $api_total_time . ' seconds) for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint) . ', set "remote_api_timeout" higher in POWER USER config if this persists, IF NOT A CONNECTION FAILURE', 'remote_api_timeout: ' . $app_config['power_user']['remote_api_timeout'] . ' seconds; live_request_time: ' . $api_total_time . ' seconds;', $hash_check );
 		}
 	
 	

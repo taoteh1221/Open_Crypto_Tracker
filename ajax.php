@@ -14,7 +14,7 @@ if ( $_GET['type'] == 'log' ) {
 $is_logs = true;
 }
 // Chart retrieval
-elseif ( $_GET['type'] == 'asset' || $_GET['type'] == 'system' || $_GET['type'] == 'balance_stats' ) {
+elseif ( $_GET['type'] == 'asset' || $_GET['type'] == 'system' || $_GET['type'] == 'asset_performance' ) {
 $is_charts = true;
 }
 

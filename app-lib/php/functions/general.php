@@ -150,6 +150,26 @@ $files = glob($dir . '/*'); // get all file names
 ////////////////////////////////////////////////////////
 
 
+ // https://thisinterestsme.com/random-rgb-hex-color-php/
+function randomColor() {
+    $result = array('rgb' => '', 'hex' => '');
+    foreach(array('r', 'b', 'g') as $col){
+        $rand = mt_rand(0, 235); // WE DON'T USE THE ENTIRE 255 RANGE, AS THE COLORS ARE TOO LIGHT THAT HIGH
+        $result['rgb'][$col] = $rand;
+        $dechex = dechex($rand);
+        if(strlen($dechex) < 2){
+            $dechex = '0' . $dechex;
+        }
+        $result['hex'] .= $dechex;
+    }
+    return $result;
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
 function get_lines($file) {
 
 $f = fopen($file, 'rb');
@@ -1642,17 +1662,27 @@ return $result;
 ////////////////////////////////////////////////////////
 
 
-function chart_data($file, $chart_format) {
+function chart_data($file, $chart_format, $start_timestamp=0) {
 
-global $app_config, $default_btc_primary_currency_pairing;
+global $app_config, $default_btc_primary_currency_pairing, $runtime_nonce, $runtime_data;
+
 
 
 	// #FOR CLEAN CODE#, RUN CHECK TO MAKE SURE IT'S NOT A CRYPTO AS WELL...WE HAVE A COUPLE SUPPORTED, BUT WE ONLY WANT DESIGNATED FIAT-EQIV HERE
 	if ( array_key_exists($chart_format, $app_config['power_user']['bitcoin_currency_markets']) && !array_key_exists($chart_format, $app_config['power_user']['crypto_pairing']) ) {
-	$fiat_formatting = 1;
+	$fiat_formatting = true;
 	}
 	elseif ( $chart_format == 'system' ) {
-	$system_statistics_chart = 1;
+	$system_statistics_chart = true;
+	}
+	elseif ( $chart_format == 'percent' ) {
+		
+	$asset_performance_chart = true;
+	
+	$asset = $file;
+	$asset = preg_replace("/(.*)_days\//i", "", $asset);
+	$asset = preg_replace("/\/(.*)/i", "", $asset);
+	
 	}
 
 
@@ -1663,12 +1693,12 @@ $fn = fopen($file,"r");
   	
 	$result = explode("||", fgets($fn) );
 	
-		if ( trim($result[0]) != '' ) {
+		if ( trim($result[0]) != '' && trim($result[0]) >= $start_timestamp ) {
 			
 		$data['time'] .= trim($result[0]) . '000,';  // Zingchart wants 3 more zeros with unix time (milliseconds)
 		
 		
-         if ( $system_statistics_chart == 1 ) {
+         if ( $system_statistics_chart ) {
          
          $data['temperature_celsius'] .= trim($result[2]) . ',';
          $data['used_memory_percentage'] .= trim($result[4]) . ',';
@@ -1679,10 +1709,25 @@ $fn = fopen($file,"r");
          $data['portfolio_cache_size_gigabytes'] .= trim($result[6]) . ',';
          
          }
+         elseif ( $asset_performance_chart ) {
+	
+				if ( !$runtime_data['performance_stats'][$asset]['start_value'] ) {
+				$runtime_data['performance_stats'][$asset]['start_value'] = $result[1];
+				$data['percent'] .= 0.00 . ',';
+				}
+				else {
+         	// PRIMARY CURRENCY CONFIG price percent change (!MUST BE! absolute value)
+    			$percent_change = abs( ($result[1] - $runtime_data['performance_stats'][$asset]['start_value']) / abs($runtime_data['performance_stats'][$asset]['start_value']) * 100 );
+    			$percent_change = number_to_string($percent_change); // Better decimal support
+    			$data['percent'] .= round($percent_change, 2) . ',';
+    			$data['combined'] .= '[' . trim($result[0]) . '000' . ', ' . round($percent_change, 2) . '],';
+				}
+         
+         }
          else {
          
             // Format or round primary currency price depending on value (non-stablecoin crypto values are already stored in the format we want for the interface)
-            if ( $fiat_formatting == 1 ) {
+            if ( $fiat_formatting ) {
             $data['spot'] .= ( number_to_string($result[1]) >= $app_config['general']['primary_currency_decimals_max_threshold'] ? number_format((float)$result[1], 2, '.', '')  :  round($result[1], $app_config['general']['primary_currency_decimals_max'])  ) . ',';
             $data['volume'] .= round($result[2]) . ',';
             }
@@ -1706,7 +1751,7 @@ gc_collect_cycles(); // Clean memory cache
 // Trim away extra commas
 $data['time'] = rtrim($data['time'],',');
 
-	if ( $system_statistics_chart == 1 ) {
+	if ( $system_statistics_chart ) {
 	$data['temperature_celsius'] = rtrim($data['temperature_celsius'],',');
 	$data['used_memory_percentage'] = rtrim($data['used_memory_percentage'],',');
 	$data['cron_runtime_seconds'] = rtrim($data['cron_runtime_seconds'],',');
@@ -1714,6 +1759,10 @@ $data['time'] = rtrim($data['time'],',');
 	$data['load_average_15_minutes'] = rtrim($data['load_average_15_minutes'],',');
 	$data['free_disk_space_terabtyes'] = rtrim($data['free_disk_space_terabtyes'],',');
 	$data['portfolio_cache_size_gigabytes'] = rtrim($data['portfolio_cache_size_gigabytes'],',');
+	}
+	elseif ( $asset_performance_chart ) {
+	$data['percent'] = rtrim($data['percent'],',');
+	$data['combined'] = rtrim($data['combined'],',');
 	}
 	else {
 	$data['spot'] = rtrim($data['spot'],',');

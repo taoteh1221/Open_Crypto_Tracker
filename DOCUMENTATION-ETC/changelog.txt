@@ -4114,6 +4114,16 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 
 
+-------------------------------------------------------------------
+4.23.0:
+
+-Asset Performance comparision chart, to catch the best trends ove a user-defined time period for all assets
+
+-------------------------------------------------------------------
+
+
+
+
 
 
 

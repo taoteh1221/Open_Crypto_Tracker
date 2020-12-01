@@ -23,6 +23,8 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 
 	<link rel="stylesheet" href="templates/interface/css/modaal.css" type="text/css" />
 	
+	<link  href="templates/interface/css/jquery-ui/jquery-ui.css" rel="stylesheet">
+	
 	<!-- Load theme styling last to over rule -->
 	<link rel="stylesheet" href="templates/interface/css/style.css" type="text/css" />
 	
@@ -56,6 +58,8 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 	<script src="app-lib/js/jquery/jquery.tablesorter.widgets.min.js"></script>
 
 	<script src="app-lib/js/jquery/jquery.balloon.min.js"></script>
+	
+	<script src="app-lib/js/jquery/jquery-ui/jquery-ui.js"></script>
 
 	<script src="app-lib/js/modaal.js"></script>
 

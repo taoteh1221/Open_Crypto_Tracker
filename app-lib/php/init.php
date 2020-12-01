@@ -10,7 +10,7 @@
 
 
 // Application version
-$app_version = '4.22.2';  // 2020/NOVEMBER/24TH
+$app_version = '4.23.0';  // 2020/DECEMBER/1ST
 
 // Application edition
 $app_edition = 'server';  // 'server' OR 'desktop' edition (LOWERCASE)
@@ -142,11 +142,13 @@ require_once('app-lib/php/functions-loader.php');
 //////////////////////////////////////////////////////////////
 
 
+// Nonce for unique runtime logic
+$runtime_nonce = random_hash(16); // 16 byte
+
 // Nonce for secured login session logic
 if ( !isset($_SESSION['nonce']) ) {
-$_SESSION['nonce'] = random_hash(32);
+$_SESSION['nonce'] = random_hash(32); // 32 byte
 }
-
 
 // If user is logging out (run immediately after setting session vars, for quick runtime)
 if ( $_GET['logout'] == 1 && admin_hashed_nonce('logout') != false && $_GET['admin_hashed_nonce'] == admin_hashed_nonce('logout') ) {
@@ -154,45 +156,6 @@ hardy_session_clearing(); // Try to avoid edge-case bug where sessions don't del
 header("Location: index.php");
 exit;
 }
-
-
-// INCREASE CERTAIN RUNTIME SPEEDS / REDUCE LOADING EXCESS LOGIC (minimal inits included in libraries if needed)
-
-// If we are just running a captcha image, ONLY run captcha library for runtime speed (exit after)
-if ( $runtime_mode == 'captcha' ) {
-require_once('app-lib/php/other/security/captcha-lib.php');
-exit;
-}
-// If we are just running chart retrieval, ONLY run charts library for runtime speed (exit after)
-elseif ( $is_charts ) {
-require_once('app-lib/php/other/ajax/charts.php');
-exit;
-}
-// If we are just running log retrieval, ONLY run logs library for runtime speed (exit after)
-elseif ( $is_logs ) {
-require_once('app-lib/php/other/ajax/logs.php');
-exit;
-}
-// If we are just running CSV exporting, ONLY run csv export libraries for runtime speed / avoiding excess logic (exit after)
-elseif ( $is_csv_export ) {
-
-	// Example template download
-	if ( $_GET['example_template'] == 1 ) {
-	require_once('app-lib/php/other/csv/example-csv.php');
-	}
-	// Portfolio export download
-	elseif ( $_POST['submit_check'] == 1 && is_array($app_config['portfolio_assets']) 
-	|| $_POST['submit_check'] == 1 && is_object($app_config['portfolio_assets']) ) {
-	require_once('app-lib/php/other/csv/export-csv.php');
-	}
-
-exit;
-}
-
-
-
-
-
 
 
 // A bit of DOS attack mitigation for bogus / bot login attempts
@@ -228,6 +191,8 @@ if ( $_POST['admin_submit_register'] || $_POST['admin_submit_login'] || $_POST['
 
 
 // Initial arrays
+$runtime_data = array();
+
 $logs_array = array();
 
 $proxy_checkup = array();
@@ -259,6 +224,8 @@ $activated_plugins =  array();
 $price_alerts_fixed_reset_array = array();
 
 $btc_pairing_markets_excluded = array();
+
+$runtime_data['performance_stats'] = array();
 
 // Coinmarketcap supported currencies array
 require_once('app-lib/php/other/coinmarketcap-currencies.php');
@@ -335,6 +302,42 @@ $user_agent = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; compatible;)';  //
 else {
 $user_agent = 'Curl/' .$curl_setup["version"]. ' ('.PHP_OS.'; ' . $_SERVER['SERVER_SOFTWARE'] . '; PHP/' .phpversion(). '; DFD_Cryptocoin_Values/' . $app_version . '; +https://github.com/taoteh1221/DFD_Cryptocoin_Values)';
 }
+
+
+
+// INCREASE CERTAIN RUNTIME SPEEDS / REDUCE LOADING EXCESS LOGIC (minimal inits included in libraries if needed)
+
+// If we are just running a captcha image, ONLY run captcha library for runtime speed (exit after)
+if ( $runtime_mode == 'captcha' ) {
+require_once('app-lib/php/other/security/captcha-lib.php');
+exit;
+}
+// If we are just running chart retrieval, ONLY run charts library for runtime speed (exit after)
+elseif ( $is_charts ) {
+require_once('app-lib/php/other/ajax/charts.php');
+exit;
+}
+// If we are just running log retrieval, ONLY run logs library for runtime speed (exit after)
+elseif ( $is_logs ) {
+require_once('app-lib/php/other/ajax/logs.php');
+exit;
+}
+// If we are just running CSV exporting, ONLY run csv export libraries for runtime speed / avoiding excess logic (exit after)
+elseif ( $is_csv_export ) {
+
+	// Example template download
+	if ( $_GET['example_template'] == 1 ) {
+	require_once('app-lib/php/other/csv/example-csv.php');
+	}
+	// Portfolio export download
+	elseif ( $_POST['submit_check'] == 1 && is_array($app_config['portfolio_assets']) 
+	|| $_POST['submit_check'] == 1 && is_object($app_config['portfolio_assets']) ) {
+	require_once('app-lib/php/other/csv/export-csv.php');
+	}
+
+exit;
+}
+
 
 
 //////////////////////////////////////////////////////////////

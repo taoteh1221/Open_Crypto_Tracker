@@ -3,7 +3,6 @@
 
 
 
-
 /////////////////////////////////////////////////////////////
 
 
@@ -27,6 +26,16 @@ function set_target_action(obj_id, set_target, set_action) {
 document.getElementById(obj_id).target = set_target;
 document.getElementById(obj_id).action = set_action;
 }
+
+
+/////////////////////////////////////////////////////////////
+
+
+function toTimestamp(year,month,day,hour,minute,second) {
+ var datum = new Date(Date.UTC(year,month-1,day,hour,minute,second));
+ return datum.getTime()/1000;
+}
+
 
 
 /////////////////////////////////////////////////////////////
@@ -205,6 +214,7 @@ function app_reload() {
 // Close any open modal windows
 $(".show_chart_settings").modaal("close");
 $(".show_feed_settings").modaal("close");
+$(".show_portfolio_stats").modaal("close");
 $(".show_system_charts").modaal("close");
 $(".show_visitor_stats").modaal("close");
 $(".show_logs").modaal("close");
