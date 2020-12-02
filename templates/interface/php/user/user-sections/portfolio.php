@@ -478,7 +478,11 @@ $altcoin_dominance = max_100($altcoin_dominance);
 			// Crypto value(s) of portfolio
 			if ( $show_crypto_value[0] ) {
 			?>
-			<div class="portfolio_summary"><span class="black">Crypto Value:</span> 
+			
+			<div class="portfolio_summary">
+			
+			<span class="black">Crypto Value:</span> 
+			
 			<?php
 					
 			$scan_crypto_value = array_map('strip_brackets', $show_crypto_value); // Strip brackets
@@ -517,26 +521,7 @@ $altcoin_dominance = max_100($altcoin_dominance);
 				
 			<img id="crypto_value" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
 			
-			</div>
-			
-			<?php
-			}
-			
-			
-		
-		// Fiat value of portfolio
-		echo '<div class="portfolio_summary"><span class="black">'.strtoupper($app_config['general']['btc_primary_currency_pairing']).' Value:</span> ' . $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] . number_format($total_primary_currency_worth, 2, '.', ',') . ' <img id="fiat_value" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" /> </div>';
-		
-		
-		
-		// If using margin leverege anywhere
-		echo ( $purchase_price_added == 1 && $leverage_added == 1 && is_numeric($gain_loss_total) == TRUE ? '<div class="portfolio_summary"><span class="black">Leverage Included: </span>' . ( $total_primary_currency_worth_inc_leverage >= 0 ? '<span class="green">' : '<span class="red">-' ) . $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] . $parsed_total_primary_currency_worth_inc_leverage . '</span>' . '</div>' : '' );
-	
-?>
-
 <script>
-
-
 		
 			var crypto_value_content = '<h5 class="yellow tooltip_title">Crypto Value</h5>'
 			
@@ -546,18 +531,6 @@ $altcoin_dominance = max_100($altcoin_dominance);
 		
 			
 			+'<p class="coin_info balloon_notation yellow" style="max-width: 600px; white-space: normal;">*Consult a financial advisor and / or do <i>your own due diligence, to evaluate investment risk / reward</i> of ANY cryptocurrencies, based on THEIR / YOUR OWN determinations before buying. Even AFTER buying ANY cryptocurrency, ALWAYS CONTINUE to do your due diligence, investigating whether you are engaging in trading within acceptable risk levels for your <i>NET</i> worth. ALWAYS consult a financial advisor, if you are unaware of what risks are present. </p>';
-		
-	
-		
-			var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?>) Value</h5>'
-			
-			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">The value of your ENTIRE portfolio, based off your selected primary currency (<?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?>), in the "Primary Currency Market" setting, on the settings page.</p>'
-			
-			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">Selected Primary Currency Market: <span class="yellow">BTC / <?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?> @ <?=snake_case_to_name($app_config['general']['btc_primary_exchange'])?> (<?=$app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']]?><?=number_format( $selected_btc_primary_currency_value, 2, '.', ',')?>)</span></p>'
-		
-			+'<?=$leverage_text2?>';
-		
-		
 		
 		
 			$('#crypto_value').balloon({
@@ -578,6 +551,39 @@ $altcoin_dominance = max_100($altcoin_dominance);
 					textAlign: "left"
 					}
 			});
+
+
+</script>
+			
+			</div>
+			
+			<?php
+			}
+			?>
+			
+			
+			<div class="portfolio_summary">
+			
+			<?php
+			
+		
+		// Fiat value of portfolio
+		echo '<span class="black">'.strtoupper($app_config['general']['btc_primary_currency_pairing']).' Value:</span> ' . $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] . number_format($total_primary_currency_worth, 2, '.', ',');
+		
+		?>
+		
+			<img id="fiat_value" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" /> 
+
+<script>
+
+
+var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?>) Value</h5>'
+			
+			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">The value of your ENTIRE portfolio, based off your selected primary currency (<?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?>), in the "Primary Currency Market" setting, on the settings page.</p>'
+			
+			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">Selected Primary Currency Market: <span class="yellow">BTC / <?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?> @ <?=snake_case_to_name($app_config['general']['btc_primary_exchange'])?> (<?=$app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']]?><?=number_format( $selected_btc_primary_currency_value, 2, '.', ',')?>)</span></p>'
+		
+			+'<?=$leverage_text2?>';
 		
 		
 		
@@ -606,10 +612,14 @@ $altcoin_dominance = max_100($altcoin_dominance);
 
 
 </script>
-
-
-<?php
-
+		
+			</div>
+		
+		<?php
+		
+		// If using margin leverege anywhere
+		echo ( $purchase_price_added == 1 && $leverage_added == 1 && is_numeric($gain_loss_total) == TRUE ? '<div class="portfolio_summary"><span class="black">Leverage Included: </span>' . ( $total_primary_currency_worth_inc_leverage >= 0 ? '<span class="green">' : '<span class="red">-' ) . $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] . $parsed_total_primary_currency_worth_inc_leverage . '</span></div>' : '' );
+	
 
 		// Now that BTC / PAIRING summaries have margin leverage stats NEXT TO THEM (NOT in the actual BTC / PAIRING amounts, for UX's sake), 
 		// we move on to the gain / loss stats WHERE IT IS FEASIBLE ENOUGH TO INCLUDE !BASIC! MARGIN LEVERAGE DATA SUMMARY (where applicable)
@@ -622,15 +632,19 @@ $altcoin_dominance = max_100($altcoin_dominance);
 		
 		// Notice that we include margin leverage in gain / loss stats (for UX's sake, too confusing to included in anything other than gain / loss stats)
 		$leverage_text3 = ( $leverage_added == 1 ? '<p class="coin_info balloon_notation red" style="max-width: 600px; white-space: normal;"> *Includes leverage.</p>' : '' );
+	
+	?>
+	
+			<div class="portfolio_summary">
+	
+	<?php
 		
-		
-		echo '<div class="portfolio_summary"><span class="black">' . ( $gain_loss_total >= 0 ? 'Gain:</span> <span class="green">+' . $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] : 'Loss:</span> <span class="red">' ) . $parsed_gain_loss_total . ' (' . ( $gain_loss_total >= 0 ? '+' : '-' ) . number_format($percent_difference_total, 2, '.', ',') . '%' . ')</span>';
+		echo '<span class="black">' . ( $gain_loss_total >= 0 ? 'Gain:</span> <span class="green">+' . $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] : 'Loss:</span> <span class="red">' ) . $parsed_gain_loss_total . ' (' . ( $gain_loss_total >= 0 ? '+' : '-' ) . number_format($percent_difference_total, 2, '.', ',') . '%' . ')</span>';
 		
 		?> 
 		
-		<img id='portfolio_gain_loss' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' /> </div>
-		
-		
+			<img id='portfolio_gain_loss' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' /> 
+			
 	 <script>
 	 
 		document.title = '<?=( $gain_loss_total >= 0 ? '+' . $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] : '' )?><?=$parsed_gain_loss_total?> (<?=( $gain_loss_total >= 0 ? '+' : '-' )?><?=number_format($percent_difference_total, 2, '.', ',')?>%)';
@@ -690,14 +704,14 @@ $altcoin_dominance = max_100($altcoin_dominance);
 			});
 		
 		 </script>
-		 
-		 <div class="portfolio_summary">
+			
+			</div>
 		 
 		<?php
 		}
 		
 		if ( number_to_string($bitcoin_dominance) >= 0.01 || number_to_string($ethereum_dominance) >= 0.01 || number_to_string($miscassets_dominance) >= 0.01 || number_to_string($altcoin_dominance) >= 0.01 ) {
-			
+
 			
 			if ( number_to_string($bitcoin_dominance) >= 0.01 ) {
 			$bitcoin_dominance_text = number_format($bitcoin_dominance, 2, '.', ',') . '% BTC';
@@ -717,16 +731,19 @@ $altcoin_dominance = max_100($altcoin_dominance);
 			if ( number_to_string($altcoin_dominance) >= 0.01 ) {
 			$altcoin_dominance_text = number_format($altcoin_dominance, 2, '.', ',') .'% Alt(s)';
 			}
-			
+		
+		?>
+		 
+		 	<div class="portfolio_summary">
+		
+		<?php
 			
 			echo '<span class="black">Balance:</span> ' . $bitcoin_dominance_text . $seperator_btc . $ethereum_dominance_text . $seperator_eth . $miscassets_dominance_text . $seperator_miscassets . $altcoin_dominance_text;
 			
 			
 		?>
 		
-		<img id='balance_stats' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' /> 
-		
-		</div>
+			<img id='balance_stats' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' /> 
 		
 	 <script>
 	
@@ -774,16 +791,18 @@ $altcoin_dominance = max_100($altcoin_dominance);
 			});
 	
 		 </script>
+		
+			</div>
 		 
 		
-<div class="portfolio_summary">
+			<div class="portfolio_summary">
 
-<b><a href="javascript: return false;" class="show_portfolio_stats blue" title="View More Portfolio Stats">View More Stats</a></b>
+			<b><a href="javascript: return false;" class="show_portfolio_stats blue" title="View More Portfolio Stats">View More Stats</a></b>
 
-</div>
+			</div>
 		
 
-	
+	<!-- START MORE PORTFOLIO STATS MODAL -->
 	<div id="show_portfolio_stats">
 	
 		
@@ -897,8 +916,8 @@ $.get( "ajax.php?type=chart&mode=asset_performance&start_time=0", function( json
   <p> &nbsp; </p>
   
 	
-	</div><!-- END PORTFOLIO STATS -->
-	
+	</div>
+	<!-- END MORE PORTFOLIO STATS MODAL -->
 	
 	<script>
 	$('.show_portfolio_stats').modaal({
@@ -956,7 +975,9 @@ END SAVED CODE -->
 			
 		if ( $short_added == 1 ) {
 		?>	
-		<div class="portfolio_summary" style='margin-top: 15px;'><span class="short">★ Adjusted short trade deposit(s) (leverage <u>not</u> included)</span></div>		
+		<div class="portfolio_summary" style='margin-top: 15px;'>
+		<span class="short">★ Adjusted short trade deposit(s) (leverage <u>not</u> included)</span>
+		</div>		
 		<?php
 		}
 		?>

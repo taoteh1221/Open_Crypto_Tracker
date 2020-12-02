@@ -25,6 +25,8 @@ Youtube channels on the resources page, that MAY BE DYING (keep an eye on them):
 OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
+See why "loading charts" shows until you visit the charts page.
+
 
 Look into adding https://1inch.exchange/#/ to DeFi APIs.
 

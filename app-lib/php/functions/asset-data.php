@@ -2030,20 +2030,7 @@ $original_market = $selected_exchange;
 			}
 			else {
 			?>
-,
-			css: {
-					fontSize: ".8rem",
-					minWidth: "450px",
-					padding: ".3rem .7rem",
-					border: "2px solid rgba(212, 212, 212, .4)",
-					borderRadius: "6px",
-					boxShadow: "3px 3px 6px #555",
-					color: "#eee",
-					backgroundColor: "#111",
-					opacity: "0.99",
-					zIndex: "32767",
-					textAlign: "left"
-					}
+			
 			var cmc_content = '<p class="coin_info"><span class="red_bright">No <?=ucfirst($app_config['general']['primary_marketcap_site'])?>.com data for <?=$asset_name?> (<?=$asset_symbol?>) has been configured yet.</span></p>';
 	
 			<?php
