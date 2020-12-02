@@ -354,7 +354,7 @@ gui: {
           text: 'Hide / Show',
     		 offsetX: -8,
     	    offsetY: -20,
-      	 fontColor: "black",
+      	 fontColor: "blue",
 	 		 fontSize: "20",
       	 fontFamily: "Open Sans",
         },

@@ -93,7 +93,7 @@ return $data[$request];
 
 function coingecko_api($force_primary_currency=null) {
 	
-global $app_config;
+global $base_dir, $app_config;
 
 $data = array();
 $sub_arrays = array();
@@ -102,19 +102,21 @@ $result = array();
 // Don't overwrite global
 $coingecko_primary_currency = ( $force_primary_currency != null ? strtolower($force_primary_currency) : strtolower($app_config['general']['btc_primary_currency_pairing']) );
 
-$max_fetch = 151; // So we can quickly adjust if they change API defaults again
+$max_fetch = 155; // So we can quickly adjust if they change API defaults again
 
 	if ( $app_config['power_user']['marketcap_ranks_max'] > $max_fetch ) {
 	
 		$loop = 0;
 		$calls = ceil($app_config['power_user']['marketcap_ranks_max'] / $max_fetch);
 		while ( $loop < $calls ) {
+		
+		$url = 'https://api.coingecko.com/api/v3/coins/markets?per_page='.$max_fetch.'&page='.($loop + 1).'&vs_currency='.$coingecko_primary_currency.'&price_change_percentage=1h,24h,7d,14d,30d,200d,1y';
 			
-			if ( $loop > 0 ) {
+			if ( $loop > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $app_config['power_user']['marketcap_cache_time']) == true ) {
 			usleep(150000); // Wait 0.15 seconds between consecutive calls, to avoid being blocked / throttled by external server
 			}
 		
-		$jsondata = @external_api_data('url', 'https://api.coingecko.com/api/v3/coins/markets?per_page='.$max_fetch.'&page='.($loop + 1).'&vs_currency='.$coingecko_primary_currency.'&price_change_percentage=1h,24h,7d,14d,30d,200d,1y', $app_config['power_user']['marketcap_cache_time']);
+		$jsondata = @external_api_data('url', $url, $app_config['power_user']['marketcap_cache_time']);
 
 		$sub_arrays[] = json_decode($jsondata, true);
 		$loop = $loop + 1;

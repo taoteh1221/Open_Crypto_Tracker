@@ -400,9 +400,9 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					'ant-4' => 'defipulse||eth||none',
 					
 					
-					// GNT
-					'gnt' => 'bittrex||btc||both',
-					'gnt-2' => 'ethfinex||btc||chart',
+					// GLM
+					'glm' => 'bittrex||btc||both',
+					'glm-2' => 'ethfinex||btc||chart',
 					
 					
 					// DCR
@@ -575,7 +575,7 @@ $app_config['power_user']['charts_tooltip_text'] = '#222222'; // (default: '#222
 							
 							
 
-// Auto-activate support for ALTCOIN PAIRED MARKETS (like gnt/eth or mkr/eth, etc...markets where the base pairing is an altcoin)
+// Auto-activate support for ALTCOIN PAIRED MARKETS (like glm/eth or mkr/eth, etc...markets where the base pairing is an altcoin)
 // EACH ALTCOIN LISTED HERE !MUST HAVE! AN EXISTING 'btc' MARKET (within 'market_pairing') in it's 
 // $app_config['portfolio_assets'] listing (further down in this config file) TO PROPERLY AUTO-ACTIVATE
 // THIS ALSO ADDS THESE ASSETS AS OPTIONS IN THE "Show Crypto Value Of ENTIRE Portfolio In" SETTING, ON THE SETTINGS PAGE
@@ -2314,7 +2314,6 @@ $app_config['portfolio_assets'] = array(
                                           'bitfinex' => 'tXMRBTC',
                                           'hitbtc' => 'XMRBTC',
                                           'kraken' => 'XXMRXXBT',
-                                        	'upbit' => 'BTC-XMR',
                                           'okex' => 'XMR-BTC',
                                           'poloniex' => 'BTC_XMR',
                                                     ),
@@ -2324,7 +2323,6 @@ $app_config['portfolio_assets'] = array(
                                           'huobi' => 'xmreth',
                                           'bittrex' => 'XMR-ETH',
                                           'hitbtc' => 'XMRETH',
-                                          'upbit' => 'ETH-XMR',
                                                     ),
                                                     
                                     'inr' => array(
@@ -2336,7 +2334,6 @@ $app_config['portfolio_assets'] = array(
                                         	'binance' => 'XMRUSDT',
                                           'huobi' => 'xmrusdt',
                                           'bittrex' => 'XMR-USDT',
-                                          'upbit' => 'USDT-XMR',
                                           'okex' => 'XMR-USDT',
                                           'poloniex' => 'USDT_XMR',
                                                     ),
@@ -2536,8 +2533,11 @@ $app_config['portfolio_assets'] = array(
                                           'bittrex' => 'MANA-ETH',
                                           'hitbtc' => 'MANAETH',
                                           'kucoin' => 'MANA-ETH',
-                                        	'upbit' => 'ETH-MANA',
                                           'okex' => 'MANA-ETH',
+                                                    ),
+                                                    
+                                    'krw' => array(
+                                        	'upbit' => 'KRW-MANA',
                                                     ),
                                                     
                                     'mxn' => array(
@@ -2582,7 +2582,6 @@ $app_config['portfolio_assets'] = array(
                                           'bittrex_global' => 'ANT-ETH',
                                           'huobi' => 'anteth',
                                         	'ethfinex' => 'tANTETH',
-                                          'upbit' => 'ETH-ANT',
                                     	 	'defipulse' => 'ANT/WETH',
                                                     ),
                                                     
@@ -2604,8 +2603,8 @@ $app_config['portfolio_assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // GNT
-                    'GNT' => array(
+                    // GLM
+                    'GLM' => array(
                         
                         'asset_name' => 'Golem',
                         'marketcap_website_slug' => 'golem-network-tokens',
@@ -2614,7 +2613,7 @@ $app_config['portfolio_assets'] = array(
                                     'btc' => array(
                                           'bittrex' => 'GNT-BTC',
                                         	'ethfinex' => 'tGNTBTC',
-                                        	'upbit' => 'BTC-GNT',
+                                        	'upbit' => 'BTC-GLM',
                                         	'livecoin' => 'GNT/BTC',
                                         	'okex' => 'GNT-BTC',
                                           'bitso' => 'gnt_btc',
@@ -2626,11 +2625,14 @@ $app_config['portfolio_assets'] = array(
                                     'eth' => array(
                                           'bittrex' => 'GNT-ETH',
                                         	'ethfinex' => 'tGNTETH',
-                                          'upbit' => 'ETH-GNT',
                                                     ),
                                                     
                                     'inr' => array(
                                           'bitbns' => 'GNT',
+                                                    ),
+                                                    
+                                    'krw' => array(
+                                        	'upbit' => 'KRW-GLM',
                                                     ),
                                                     
                                     'mxn' => array(

@@ -26,12 +26,6 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
-Look into Coingecko cutting off the 99th marketcap's stats.
-
-
-Look into upbit API acting up.
-
-
 Look into adding https://1inch.exchange/#/ to DeFi APIs.
 
 
@@ -86,13 +80,13 @@ FEATURES / STRUCTURING SECTION
 ///////////////////////////////////////////////////////
 
 
+Create github wiki with the current documentation for the portfolio app.
+
+
 Create a cron plugin to let you know when a raw market value has gone below / above a certain exact value at a specific exchange (good for knowing when / if your order fills). Allow unlimited assets (same logic type as the recurring reminders plugin).
 
 
 Add a "Reset lite charts" button on the admin 'Reset' page, to trigger rebuilding lite charts.
-
-
-Add a "calculate current portfolio's performance in BTC and [fiat currency] over LITE CHART time periods" feature, which uses the currently-cached asset markets LITE CHARTS to create a chart showing what you current potfolio assets have been worth in BTC / Fiat over those time periods. This would help to more easily determine non-performant assets, and aid in more efficient portfolio rebalancing.
 
 
 Add "Save settings first?" to admin config pages, if switching tabs / exiting admin config area (like gmail does).
@@ -143,9 +137,6 @@ Add webhook keys on admin page.
 Create a "Desktop Edition" using PHPDesktop (https://github.com/cztomczak/phpdesktop/wiki), so it can easily be downloaded / run locally as a native app...SUPER IMPORTANT FOR MASS USER ADOPTION!!!
 
 
-Stats in UI using chart data (if chart data is available), to show and compare spot / volume value and percent changes over an end-user-defined time period for a number of assets (example: BTC / DCR / ETH / XMR spot price value and percentage changes / 24hr volume value and percentage changes from April 6th 2019 to November 22nd 2019). Shows trends on which assets are performing better for a certain time period. HAVE ABILITY TO ALSO SHOW ALL CURRENT PORTFOLIO ASSET'S BTC / USD *SUBTOTAL HOLDINGS VALUE* OVER THIS TIME PERIOD TOO, TO AID IN VISUALIZING PROPER PORTFOLIO REBALANCING MANAGEMENT.
-
-
 Check out cryptocompare.com API.
 
 
@@ -165,9 +156,6 @@ Look into an auto-update feature like WordPress has (downloads a zip file upgrad
 
 
 Add Google and Microsoft translate API as options to translate the portfolio interface and price alerts.
-
-
-Create github wiki with the current documentation for the portfolio app.
 
 
 Add localcryptos API support whenever their API is out of private testing.

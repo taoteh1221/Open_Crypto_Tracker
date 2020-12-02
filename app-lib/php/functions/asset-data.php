@@ -1811,7 +1811,7 @@ $original_market = $selected_exchange;
  	
  		?>
  		
- <a title='' href='https://<?=$asset_pagebase?><?=$mkcap_render_data?>/' target='_blank' class='blue app_sort_filter'><?=$asset_name?></a> <img id='<?=$mkcap_render_data?>' src='templates/interface/media/images/<?=$info_icon?>' alt='' style='position: relative; vertical-align:middle; height: 30px; width: 30px;' /> 
+ <a href='https://<?=$asset_pagebase?><?=$mkcap_render_data?>/' target='_blank' class='blue app_sort_filter' title='View <?=ucfirst($app_config['general']['primary_marketcap_site'])?> Information Page For <?=$asset_symbol?>'><?=$asset_name?></a> <img id='<?=$mkcap_render_data?>' src='templates/interface/media/images/<?=$info_icon?>' alt='' style='position: relative; vertical-align:middle; height: 30px; width: 30px;' /> 
  <script>
 
 		<?php

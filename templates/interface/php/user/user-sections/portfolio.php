@@ -691,6 +691,7 @@ $altcoin_dominance = max_100($altcoin_dominance);
 		
 		 </script>
 		 
+		 <div class="portfolio_summary">
 		 
 		<?php
 		}
@@ -718,35 +719,89 @@ $altcoin_dominance = max_100($altcoin_dominance);
 			}
 			
 			
-			echo '<div class="portfolio_summary"><span class="black">Stats:</span> ' . $bitcoin_dominance_text . $seperator_btc . $ethereum_dominance_text . $seperator_eth . $miscassets_dominance_text . $seperator_miscassets . $altcoin_dominance_text;
+			echo '<span class="black">Balance:</span> ' . $bitcoin_dominance_text . $seperator_btc . $ethereum_dominance_text . $seperator_eth . $miscassets_dominance_text . $seperator_miscassets . $altcoin_dominance_text;
 			
 			
 		?>
 		
+		<img id='balance_stats' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' /> 
 		
+		</div>
+		
+	 <script>
+	
+			<?php
+					
+				// Sort by most dominant first
+				arsort($btc_worth_array);
+					
+				foreach ( $btc_worth_array as $key => $value ) {
+					
+					if ( $key == 'MISCASSETS' ) {
+					$key = 'Misc. ' . strtoupper($app_config['general']['btc_primary_currency_pairing']);
+					}
+					
+					// Remove any slight decimal over 100 (100.01 etc)
+					$balance_stats = max_100( ( $value / $total_btc_worth_raw ) * 100 );
+					
+						if ( $balance_stats >= 0.01 ) {
+						$balance_stats_encoded .= '&' . urlencode($key) . '=' . urlencode( number_format($balance_stats, 2, '.', ',') );
+						}
+							
+				}
+				
+			 ?>
+			
+		
+			$('#balance_stats').balloon({
+			html: true,
+			position: "right",
+			contents: ajax_placeholder(30, 'center', 'Loading Data...'),
+  			url: 'ajax.php?type=chart&mode=asset_balance&leverage_added=<?=$leverage_added?>&short_added=<?=$short_added?><?=$balance_stats_encoded?>',
+			css: {
+					fontSize: ".8rem",
+					minWidth: "450px",
+					padding: ".3rem .7rem",
+					border: "2px solid rgba(212, 212, 212, .4)",
+					borderRadius: "6px",
+					boxShadow: "3px 3px 6px #555",
+					color: "#eee",
+					backgroundColor: "#111",
+					opacity: "0.99",
+					zIndex: "999",
+					textAlign: "left"
+					}
+			});
+	
+		 </script>
+		 
+		
+<div class="portfolio_summary">
 
-&nbsp;<b><a href="javascript: return false;" class="show_portfolio_stats blue" title="View More Portfolio Stats">(More Stats)</a></b>
+<b><a href="javascript: return false;" class="show_portfolio_stats blue" title="View More Portfolio Stats">View More Stats</a></b>
 
+</div>
+		
 
 	
 	<div id="show_portfolio_stats">
 	
 		
-		<h3 style='display: inline;'>Portfolio Stats</h3>
+		<h3 style='display: inline;'>More Portfolio Stats</h3>
 	
 				<span style='z-index: 99999; margin-right: 55px;' class='red countdown_notice'></span>
 	
 	<br clear='all' />
 	
-	<p class='bitcoin' style='font-weight: bold;'>The Asset Performance chart <i>requires spot price / 24 hour volume charts to be enabled on the Charts page</i>.</p>	
-	
 	<br clear='all' />
+	
+	<p class='bitcoin' style='font-weight: bold;'>The Asset Performance Comparison chart <i>requires spot price / 24 hour volume charts to be enabled on the Charts page</i>.</p>	
   
     <p>
     
-    <input type="text" id='performance_date' name='performance_date' class="datepicker" value='' style='width: 250px; display: inline;' /> 
+    <input type="text" id='performance_date' name='performance_date' class="datepicker" value='' style='width: 150px; display: inline;' /> 
     
-    <input type='button' value='Change Asset Performance Start Date' onclick="
+    <input type='button' value='Change Comparision Start Date (0&#37; starting point)' onclick="
     
     
   // Reset any user-adjusted zoom
@@ -772,7 +827,7 @@ $altcoin_dominance = max_100($altcoin_dominance);
 	//console.log(date_timestamp);
   
   zingchart.exec('performance_chart', 'load', {
-  	dataurl: 'ajax.php?type=asset_performance&start_time=' + date_timestamp,
+  	dataurl: 'ajax.php?type=chart&mode=asset_performance&start_time=' + date_timestamp,
     cache: {
         data: true
     }
@@ -818,7 +873,7 @@ $("#performance_chart span").hide(); // Hide "Loading chart X..." after it loads
 
 zingchart.TOUCHZOOM = 'pinch'; /* mobile compatibility */
 
-$.get( "ajax.php?type=asset_performance&start_time=0", function( json_data ) {
+$.get( "ajax.php?type=chart&mode=asset_performance&start_time=0", function( json_data ) {
  
 
 	// Mark chart as loaded after it has rendered
@@ -837,161 +892,11 @@ $.get( "ajax.php?type=asset_performance&start_time=0", function( json_data ) {
 });
 
     
-
-
-
-
-
-  </script>
-  
-  
-  <p> &nbsp; </p>
-  
-  
-  <div id='balance_chart' class='chart_wrapper' style='width: 100%; height: 625px; background: white; border: 2px solid #918e8e;'></div>
-  
-  <script>
-    var balance_chart_config = {
-    "gui": {
-    	"behaviors": [
-    	],
-    	"contextMenu": {
-      	"customItems": [
-        	{
-          	"text": 'PRIVACY ALERT!',
-          	"function": 'zingAlert()',
-          	"id": 'showAlert'
-        	}
-      	],
-    	  "alpha": 0.9,
-    	  "button": {
-     	   "visible": true
-     	 },
-     	 "docked": true,
-     	 "item": {
-     	   "textAlpha": 1
-     	 },
-      	"position": 'left'
-    	},
-    	"behaviors": [
-     	 {
-        	"id": 'showAlert',
-        	"enabled": 'all'
-      	}
-    	]
-	},
-   "type": "pie",
-  		backgroundColor: "white",
-  		width: "100%",
-  		height: "625",
-      "plot": {
-        "tooltip": {
-          "text": "%t (%npv%)",
-          decimals: 2,
-          "font-color": "black",
-          "font-size": 20,
-          "text-alpha": 1,
-          "background-color": "white",
-          "alpha": 0.7,
-          "border-width": 1,
-          "border-color": "#cccccc",
-          "line-style": "dotted",
-          "border-radius": "10px",
-          "margin": "0%",
-          "padding": "5px",
-          "placement": "node:out" //"node:out" or "node:center"
-        },
-        "value-box": {
-          "text": "%t (%npv%)",
-          decimals: 2,
-      	 'font-size':20,
-      	 'font-weight': "normal",
-      	 placement: "out"
-        },
-        "border-width": 1,
-        "border-color": "#cccccc",
-        "line-style": "dotted"
-      },
-      "plotarea": {
-        "margin": "0%",
-        "padding": "0%"
-      },
-      "series": [
-      <?php
-					
-				// Sort by most dominant first
-				arsort($btc_worth_array);
-				
-      foreach ( $btc_worth_array as $key => $value ) {
-      	
-      	if ( $key == 'MISCASSETS' ) {
-      	$key = strtoupper($app_config['general']['btc_primary_currency_pairing']);
-      	}
-					
-					// Remove any slight decimal over 100 (100.01 etc)
-					$balance_stats = max_100( ( $value / $total_btc_worth_raw ) * 100 );
-      
-      	if ( $balance_stats >= 0.005 ) {
-      ?>
-        {
-          "values": [<?=number_format($balance_stats, 2, '.', ',')?>],
-          "text": "<?=strtoupper($key)?>"
-        },
-      <?php
-      	}
-      	
-      }
-      ?>
-      ]
-    };
- 
-    zingchart.render({
-      id: 'balance_chart',
-      data: balance_chart_config,
-      width: "100%",
-      height: 625
-    });
-    
-    
-    
-    
   </script>
   
   <p> &nbsp; </p>
   
 	
-			<?php
-					
-				// Sort by most dominant first
-				arsort($btc_worth_array);
-					
-				foreach ( $btc_worth_array as $key => $value ) {
-					
-					if ( $key == 'MISCASSETS' ) {
-					$key = strtoupper($app_config['general']['btc_primary_currency_pairing']);
-					}
-					
-					// Remove any slight decimal over 100 (100.01 etc)
-					$balance_stats = max_100( ( $value / $total_btc_worth_raw ) * 100 );
-					
-						if ( $balance_stats >= 0.005 ) {						
-						?>
-						<p class="coin_info" style='font-size: 17px !important;'><span class="yellow"><?=strtoupper($key)?>:</span> <?=number_format($balance_stats, 2, '.', ',')?>%</p>
-						<?php
-						}
-							
-				}
-				
-			 ?>
-  
-  
-  <p> &nbsp; </p>
-  
-  <p class="coin_info balloon_notation red"><?=( $_GET['leverage_added'] == 1 ? '*Does <u>not</u> adjust for any type of leverage' : '' )?><?=(  $_GET['short_added'] == 1 ? ', or short deposit(s) gain / loss' : '' )?><?=( $_GET['leverage_added'] == 1 ? '.' : '' )?></p>
-  
-  <p class="coin_info balloon_notation yellow">*All decimals are rounded to 2 places, and therefore may be slightly off up to 0.005%.</p>
-			 
-		
 	</div><!-- END PORTFOLIO STATS -->
 	
 	
@@ -1003,10 +908,9 @@ $.get( "ajax.php?type=asset_performance&start_time=0", function( json_data ) {
 	</script>
 	
 
-
- </div>
 		
 <!-- SAVE, THIS CODE IS PRETTY COOL...MAY USE IN THE FUTURE
+
 		<img id='portfolio_stats' src='templates/interface/media/images/info.png' alt='' width='30' title='Click to see portfolio stats.' style='cursor: pointer; position: relative; left: -5px;' />
 	 <script>
 			
@@ -1021,7 +925,7 @@ $.get( "ajax.php?type=asset_performance&start_time=0", function( json_data ) {
 			html: true,
 			position: "right",
 			contents: ajax_placeholder(30, 'center', 'Loading Data...'),
-  			url: 'ajax.php?type=portfolio_stats&leverage_added=<?=$leverage_added?>&short_added=<?=$short_added?><?=$balance_stats_encoded?>',
+  			url: 'ajax.php?type=chart&mode=portfolio_stats&leverage_added=<?=$leverage_added?>&short_added=<?=$short_added?><?=$balance_stats_encoded?>',
 			css: {
 					fontSize: ".8rem",
 					minWidth: "450px",

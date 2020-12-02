@@ -47,7 +47,7 @@ $("#system_stats_chart_<?=$chart_mode?> span").hide(); // Hide "Loading chart X.
 
 zingchart.TOUCHZOOM = 'pinch'; /* mobile compatibility */
 
-$.get( "ajax.php?type=system&key=<?=$chart_mode?>&days=<?=$first_lite_chart?>", function( json_data ) {
+$.get( "ajax.php?type=chart&mode=system&key=<?=$chart_mode?>&days=<?=$first_lite_chart?>", function( json_data ) {
  
 	zingchart.render({
   	id: 'system_stats_chart_<?=$chart_mode?>',
@@ -148,7 +148,7 @@ zingchart.bind('system_stats_chart_<?=$chart_mode?>', 'label_click', function(e)
 	});
   
   zingchart.exec('system_stats_chart_<?=$chart_mode?>', 'load', {
-  	dataurl: "ajax.php?type=system&key=<?=$chart_mode?>&days=" + days,
+  	dataurl: "ajax.php?type=chart&mode=system&key=<?=$chart_mode?>&days=" + days,
     cache: {
         data: true
     }

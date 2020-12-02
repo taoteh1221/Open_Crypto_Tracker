@@ -60,7 +60,7 @@ $("#<?=$key?>_<?=$charted_value?>_chart span").hide(); // Hide "Loading chart X.
 
 zingchart.TOUCHZOOM = 'pinch'; /* mobile compatibility */
 
-$.get( "ajax.php?type=asset&asset_data=<?=$key?>&charted_value=<?=$chart_mode?>&days=all", function( json_data ) {
+$.get( "ajax.php?type=chart&mode=asset_price&asset_data=<?=$key?>&charted_value=<?=$chart_mode?>&days=all", function( json_data ) {
  
 
 	// Mark chart as loaded after it has rendered
@@ -171,7 +171,7 @@ zingchart.bind('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'label_click',
 	});
   
   zingchart.exec('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'load', {
-  	dataurl: "ajax.php?type=asset&asset_data=<?=$key?>&charted_value=<?=$chart_mode?>&days=" + days,
+  	dataurl: "ajax.php?type=chart&mode=asset_price&asset_data=<?=$key?>&charted_value=<?=$chart_mode?>&days=" + days,
     cache: {
         data: true
     }

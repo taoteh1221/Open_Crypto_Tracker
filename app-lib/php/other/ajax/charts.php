@@ -14,17 +14,21 @@ $font_width = 9; // NOT MONOSPACE, SO WE GUESS AN AVERAGE
 $link_spacer = 75; // Space beetween lite chart links
 
 
-// ASSET CHARTS
-if ( $_GET['type'] == 'asset' ) {
-require_once($base_dir . '/app-lib/php/other/ajax/charts/asset.php');
+// ASSET PRICE CHARTS
+if ( $_GET['mode'] == 'asset_price' ) {
+require_once($base_dir . '/app-lib/php/other/ajax/charts/asset_price.php');
 }
-// SYSTEM CHARTS
-elseif ( $_GET['type'] == 'system' ) {
-require_once($base_dir . '/app-lib/php/other/ajax/charts/system.php');
+// ASSET BALANCE CHART
+elseif ( $_GET['mode'] == 'asset_balance' ) {
+require_once($base_dir . '/app-lib/php/other/ajax/charts/asset_balance.php');
 }
 // ASSET PERFORMANCE CHART
-elseif ( $_GET['type'] == 'asset_performance' ) {
+elseif ( $_GET['mode'] == 'asset_performance' ) {
 require_once($base_dir . '/app-lib/php/other/ajax/charts/asset_performance.php');
+}
+// SYSTEM CHARTS
+elseif ( $_GET['mode'] == 'system' ) {
+require_once($base_dir . '/app-lib/php/other/ajax/charts/system.php');
 }
 
 

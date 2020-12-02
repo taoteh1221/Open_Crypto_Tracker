@@ -154,7 +154,7 @@ $files = glob($dir . '/*'); // get all file names
 function randomColor() {
     $result = array('rgb' => '', 'hex' => '');
     foreach(array('r', 'b', 'g') as $col){
-        $rand = mt_rand(0, 235); // WE DON'T USE THE ENTIRE 255 RANGE, AS THE COLORS ARE TOO LIGHT THAT HIGH
+        $rand = mt_rand(45, 205); // WE DON'T USE THE ENTIRE 255 RANGE, AS SOME COLORS ARE TOO DARK / LIGHT AT FULL RANGES
         $result['rgb'][$col] = $rand;
         $dechex = dechex($rand);
         if(strlen($dechex) < 2){
@@ -1716,11 +1716,18 @@ $fn = fopen($file,"r");
 				$data['percent'] .= 0.00 . ',';
 				}
 				else {
+					
          	// PRIMARY CURRENCY CONFIG price percent change (!MUST BE! absolute value)
     			$percent_change = abs( ($result[1] - $runtime_data['performance_stats'][$asset]['start_value']) / abs($runtime_data['performance_stats'][$asset]['start_value']) * 100 );
-    			$percent_change = number_to_string($percent_change); // Better decimal support
-    			$data['percent'] .= round($percent_change, 2) . ',';
-    			$data['combined'] .= '[' . trim($result[0]) . '000' . ', ' . round($percent_change, 2) . '],';
+    			// Better decimal support
+    			$percent_change = number_to_string($percent_change); 
+    			// Negative or positive
+    			$percent_change = ( number_to_string($result[1]) < number_to_string($runtime_data['performance_stats'][$asset]['start_value']) ? '-' . round($percent_change, 2) : round($percent_change, 2) );
+    			
+    			
+    			$data['percent'] .= $percent_change . ',';
+    			$data['combined'] .= '[' . trim($result[0]) . '000' . ', ' . $percent_change . '],';
+    			
 				}
          
          }

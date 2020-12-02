@@ -268,23 +268,16 @@ var_dump($api_data_array);
 {
     "asset_list": [
         "ant",
-        "atom",
         "btc",
         "dai",
         "data",
         "dcr",
-        "doge",
         "eth",
-        "gnt",
-        "grin",
+        "glm",
         "hive",
-        "hns",
-        "kda",
-        "ltc",
         "mana",
         "mkr",
         "myst",
-        "tusd",
         "xmr"
     ],
     "minutes_cached": 4
