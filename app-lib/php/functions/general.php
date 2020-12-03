@@ -910,125 +910,6 @@ return $result;
 ////////////////////////////////////////////////////////
 
 
-function smtp_vars() {
-
-// To preserve SMTPMailer class upgrade structure, by creating a global var to be run in classes/smtp-mailer/conf/config_smtp.php
-
-global $app_version, $base_dir, $app_config;
-
-$vars = array();
-
-$log_file = $base_dir . "/cache/logs/smtp_errors.log";
-$log_file_debugging = $base_dir . "/cache/logs/smtp_debugging.log";
-
-// Don't overwrite globals
-$temp_smtp_email_login = explode("||", $app_config['comms']['smtp_login'] );
-$temp_smtp_email_server = explode(":", $app_config['comms']['smtp_server'] );
-
-// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-$smtp_user = trim($temp_smtp_email_login[0]);
-$smtp_password = $temp_smtp_email_login[1];
-
-$smtp_host = trim($temp_smtp_email_server[0]);
-$smtp_port = trim($temp_smtp_email_server[1]);
-
-
-	// Set encryption type based on port number
-	if ( $smtp_port == 25 ) {
-	$smtp_secure = 'off';
-	}
-	elseif ( $smtp_port == 465 ) {
-	$smtp_secure = 'ssl';
-	}
-	elseif ( $smtp_port == 587 ) {
-	$smtp_secure = 'tls';
-	}
-
-
-// Port vars over to class format (so it runs out-of-the-box as much as possible)
-$vars['cfg_log_file']   = $log_file;
-$vars['cfg_log_file_debugging']   = $log_file_debugging;
-$vars['cfg_server']   = $smtp_host;
-$vars['cfg_port']     =  $smtp_port;
-$vars['cfg_secure']   = $smtp_secure;
-$vars['cfg_username'] = $smtp_user;
-$vars['cfg_password'] = $smtp_password;
-$vars['cfg_debug_mode'] = $app_config['developer']['debug_mode']; // DFD Cryptocoin Values debug mode setting
-$vars['cfg_strict_ssl'] = $app_config['developer']['smtp_strict_ssl']; // DFD Cryptocoin Values strict SSL setting
-$vars['cfg_app_version'] = $app_version; // DFD Cryptocoin Values version
-
-return $vars;
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function prune_first_lines($filename, $num, $oldest_allowed_timestamp=false) {
-
-$result = array();
-$file = file($filename);
-$size = sizeof($file);
-$loop = 0;
-
-
-	if ( $oldest_allowed_timestamp == false ) {
-	
-		while ( $loop < $num && !$stop_loop ) {
-			
-			if ( isset($file[$loop]) ) {
-			unset($file[$loop]);
-			}
-			else {
-			$stop_loop = true;
-			}
-			
-		$loop = $loop + 1;
-		}
-	
-	}
-	else {
-	
-		while( $loop < $size && !$stop_loop ) {
-		
-			if ( isset($file[$loop]) ) {
-				
-			$line_array = explode("||", $file[$loop]);
-			$line_timestamp = $line_array[0];
-			
-				// If timestamp is older than allowed, we remove the line
-				if ( $line_timestamp < $oldest_allowed_timestamp ) {
-				unset($file[$loop]);
-				}
-				else {
-				$stop_loop = true;
-				}
-			
-			}
-			else {
-			$stop_loop = true;
-			}
-			
-		$loop = $loop + 1;
-		}
-	
-	}
-	
-	
-$result['lines_removed'] = $size - sizeof($file);
-$result['data'] = implode("", $file); // WITHOUT newline delimiting, since file() maintains those by default
-
-return $result;
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
 function base_url($atRoot=false, $atCore=false, $parse=false) {
 	
 // WARNING: THIS ONLY WORKS WELL FOR HTTP-BASED RUNTIME, ----NOT CLI---!
@@ -1285,6 +1166,125 @@ function getTextBetweenTags($tag, $html, $strict=0) {
     }
     /*** return the results ***/
     return $out;
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function smtp_vars() {
+
+// To preserve SMTPMailer class upgrade structure, by creating a global var to be run in classes/smtp-mailer/conf/config_smtp.php
+
+global $app_version, $base_dir, $app_config;
+
+$vars = array();
+
+$log_file = $base_dir . "/cache/logs/smtp_errors.log";
+$log_file_debugging = $base_dir . "/cache/logs/smtp_debugging.log";
+
+// Don't overwrite globals
+$temp_smtp_email_login = explode("||", $app_config['comms']['smtp_login'] );
+$temp_smtp_email_server = explode(":", $app_config['comms']['smtp_server'] );
+
+// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
+$smtp_user = trim($temp_smtp_email_login[0]);
+$smtp_password = $temp_smtp_email_login[1];
+
+$smtp_host = trim($temp_smtp_email_server[0]);
+$smtp_port = trim($temp_smtp_email_server[1]);
+
+
+	// Set encryption type based on port number
+	if ( $smtp_port == 25 ) {
+	$smtp_secure = 'off';
+	}
+	elseif ( $smtp_port == 465 ) {
+	$smtp_secure = 'ssl';
+	}
+	elseif ( $smtp_port == 587 ) {
+	$smtp_secure = 'tls';
+	}
+
+
+// Port vars over to class format (so it runs out-of-the-box as much as possible)
+$vars['cfg_log_file']   = $log_file;
+$vars['cfg_log_file_debugging']   = $log_file_debugging;
+$vars['cfg_server']   = $smtp_host;
+$vars['cfg_port']     =  $smtp_port;
+$vars['cfg_secure']   = $smtp_secure;
+$vars['cfg_username'] = $smtp_user;
+$vars['cfg_password'] = $smtp_password;
+$vars['cfg_debug_mode'] = $app_config['developer']['debug_mode']; // DFD Cryptocoin Values debug mode setting
+$vars['cfg_strict_ssl'] = $app_config['developer']['smtp_strict_ssl']; // DFD Cryptocoin Values strict SSL setting
+$vars['cfg_app_version'] = $app_version; // DFD Cryptocoin Values version
+
+return $vars;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function prune_first_lines($filename, $num, $oldest_allowed_timestamp=false) {
+
+$result = array();
+$file = file($filename);
+$size = sizeof($file);
+$loop = 0;
+
+
+	if ( $oldest_allowed_timestamp == false ) {
+	
+		while ( $loop < $num && !$stop_loop ) {
+			
+			if ( isset($file[$loop]) ) {
+			unset($file[$loop]);
+			}
+			else {
+			$stop_loop = true;
+			}
+			
+		$loop = $loop + 1;
+		}
+	
+	}
+	else {
+	
+		while( $loop < $size && !$stop_loop ) {
+		
+			if ( isset($file[$loop]) ) {
+				
+			$line_array = explode("||", $file[$loop]);
+			$line_timestamp = $line_array[0];
+			
+				// If timestamp is older than allowed, we remove the line
+				if ( $line_timestamp < $oldest_allowed_timestamp ) {
+				unset($file[$loop]);
+				}
+				else {
+				$stop_loop = true;
+				}
+			
+			}
+			else {
+			$stop_loop = true;
+			}
+			
+		$loop = $loop + 1;
+		}
+	
+	}
+	
+	
+$result['lines_removed'] = $size - sizeof($file);
+$result['data'] = implode("", $file); // WITHOUT newline delimiting, since file() maintains those by default
+
+return $result;
+
 }
 
 
@@ -1717,16 +1717,13 @@ $fn = fopen($file,"r");
 				}
 				else {
 					
-         	// PRIMARY CURRENCY CONFIG price percent change (!MUST BE! absolute value)
-    			$percent_change = abs( ($result[1] - $runtime_data['performance_stats'][$asset]['start_value']) / abs($runtime_data['performance_stats'][$asset]['start_value']) * 100 );
+         	// PRIMARY CURRENCY CONFIG price percent change (CAN BE NEGATIVE OR POSITIVE IN THIS INSTANCE)
+    			$percent_change = ($result[1] - $runtime_data['performance_stats'][$asset]['start_value']) / abs($runtime_data['performance_stats'][$asset]['start_value']) * 100;
     			// Better decimal support
     			$percent_change = number_to_string($percent_change); 
-    			// Negative or positive
-    			$percent_change = ( number_to_string($result[1]) < number_to_string($runtime_data['performance_stats'][$asset]['start_value']) ? '-' . round($percent_change, 2) : round($percent_change, 2) );
     			
-    			
-    			$data['percent'] .= $percent_change . ',';
-    			$data['combined'] .= '[' . trim($result[0]) . '000' . ', ' . $percent_change . '],';
+    			$data['percent'] .= round($percent_change, 2) . ',';
+    			$data['combined'] .= '[' . trim($result[0]) . '000' . ', ' . round($percent_change, 2) . '],';  // Zingchart wants 3 more zeros with unix time (milliseconds)
     			
 				}
          
