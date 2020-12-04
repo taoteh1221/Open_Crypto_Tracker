@@ -1675,14 +1675,11 @@ global $app_config, $default_btc_primary_currency_pairing, $runtime_nonce, $runt
 	elseif ( $chart_format == 'system' ) {
 	$system_statistics_chart = true;
 	}
-	elseif ( $chart_format == 'percent' ) {
-		
+	elseif ( $chart_format == 'performance' ) {
 	$asset_performance_chart = true;
-	
 	$asset = $file;
 	$asset = preg_replace("/(.*)_days\//i", "", $asset);
 	$asset = preg_replace("/\/(.*)/i", "", $asset);
-	
 	}
 
 

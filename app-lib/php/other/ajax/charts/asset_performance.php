@@ -22,7 +22,7 @@ $attributes = explode("||", $value);
 		//var_dump($chart_file);
 						
 			if ( file_exists($chart_file) ) {
-			$runtime_data['performance_stats'][strtoupper($asset)]['data'] = chart_data($chart_file, 'percent', $_GET['start_time']); // NO EARLIER THAN A CERTAIN TIMESTAMP
+			$runtime_data['performance_stats'][strtoupper($asset)]['data'] = chart_data($chart_file, 'performance', $_GET['start_time']); // NO EARLIER THAN A CERTAIN TIMESTAMP
 			}
 		
 		}
