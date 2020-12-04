@@ -32,8 +32,11 @@ foreach( $secured_cache_files as $secured_file ) {
 // Since we don't run the full init.php for speed, so load some additional required sub-inits...
 require_once('app-lib/php/other/app-config-management.php');
 
-// Primary Bitcoin markets (MUST RUN AFTER app config management)
+
+// Primary Bitcoin markets for charts (MUST RUN AFTER app config management)
+if ( $is_charts ) {
 require_once('app-lib/php/other/primary-bitcoin-markets.php');
+}
 
  
  ?>
