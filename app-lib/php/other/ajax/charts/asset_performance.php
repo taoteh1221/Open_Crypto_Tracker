@@ -17,7 +17,7 @@ $attributes = explode("||", $value);
 			
 		$analyzed_assets[$asset] = $key;
 		
-		$chart_file = $base_dir . '/cache/charts/spot_price_24hr_volume/lite/all_days/'.strtoupper($asset).'/'.$key.'_chart_'.$app_config['general']['btc_primary_currency_pairing'].'.dat';
+		$chart_file = $base_dir . '/cache/charts/spot_price_24hr_volume/lite/all_days/'.strtoupper($asset).'/'.$key.'_chart_'.$default_btc_primary_currency_pairing.'.dat';
 						
 		//var_dump($chart_file);
 						
@@ -114,7 +114,7 @@ gui: {
       borderRadius: '2px',
       borderWidth: '1px',
       title: {
-        text: "Asset Performance Comparison (<?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?> value percentage change)",
+        text: "Asset Performance Comparison (<?=strtoupper($default_btc_primary_currency_pairing)?> value percentage change)",
         adjustLayout: true,
     	  align: 'center',
     	  offsetX: 0,
@@ -184,7 +184,7 @@ gui: {
       	lineColor: "#444444"
         },
         label: {
-          text: "<?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?> Value Percentage Change"
+          text: "<?=strtoupper($default_btc_primary_currency_pairing)?> Value Percentage Change"
         },
     	zooming: true
       },

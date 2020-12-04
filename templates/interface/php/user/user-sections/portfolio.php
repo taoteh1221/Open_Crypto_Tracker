@@ -814,7 +814,7 @@ var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=
 	
 	<br clear='all' />
 	
-	<p class='bitcoin' style='font-weight: bold;'>The Asset Performance Comparison chart <i>requires spot price / 24 hour volume charts to be enabled on the Charts page</i>.</p>	
+	<p class='bitcoin' style='font-weight: bold;'>The Asset Performance Comparison chart <i>requires price charts to be enabled on the Charts page, and uses the price charts primary currency market</i> (<?=strtoupper($default_btc_primary_currency_pairing)?>) for value comparisons.</p>	
   
     <p>
     
