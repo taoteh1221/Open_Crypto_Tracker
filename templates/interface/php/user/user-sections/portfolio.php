@@ -527,10 +527,7 @@ $altcoin_dominance = max_100($altcoin_dominance);
 			
 			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">The value of your ENTIRE portfolio, in the cryptocurrencies you selected in the "Show Crypto Value Of ENTIRE Portfolio In" setting, on the settings page.</p>'
 		
-			+'<?=$leverage_text1?>'
-		
-			
-			+'<p class="coin_info balloon_notation yellow" style="max-width: 600px; white-space: normal;">*Consult a financial advisor and / or do <i>your own due diligence, to evaluate investment risk / reward</i> of ANY cryptocurrencies, based on THEIR / YOUR OWN determinations before buying. Even AFTER buying ANY cryptocurrency, ALWAYS CONTINUE to do your due diligence, investigating whether you are engaging in trading within acceptable risk levels for your <i>NET</i> worth. ALWAYS consult a financial advisor, if you are unaware of what risks are present. </p>';
+			+'<?=$leverage_text1?>';
 		
 		
 			$('#crypto_value').balloon({
@@ -815,7 +812,12 @@ var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=
 	<br clear='all' />
 	
 	<p class='bitcoin' style='font-weight: bold;'>The Asset Performance Comparison chart <i>requires price charts to be enabled on the Charts page, and uses the price charts primary currency market</i> (<?=strtoupper($default_btc_primary_currency_pairing)?>) for value comparisons.</p>	
-  
+	
+  	<?php
+  	// Performance chart START (requires price charts)
+	if ( $app_config['general']['asset_charts_toggle'] == 'on' ) {
+	?>
+			
     <p>
     
     <input type="text" id='performance_date' name='performance_date' class="datepicker" value='' style='width: 150px; display: inline;' /> 
@@ -912,6 +914,12 @@ $.get( "ajax.php?type=chart&mode=asset_performance&start_time=0", function( json
 
     
   </script>
+  
+  	<?php
+	}
+  	// Performance chart END
+	?>
+			
   
   <p> &nbsp; </p>
   

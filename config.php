@@ -438,7 +438,6 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					//MYST
 					'myst' => 'hitbtc||btc||both',
 					'myst-2' => 'hitbtc||eth||none',
-					'myst-3' => 'idex||eth||none',
 					
 					
 					);
@@ -1691,7 +1690,6 @@ $app_config['mobile_network_text_gateways'] = array(
                         'boost' => 'myboostmobile.com',
                         'cellcom' => 'cellcom.quiktxt.com',
                         'chariton_valley' => 'sms.cvalley.net',
-                        'clear_talk' => 'sms.cleartalk.us',
                         'cricket' => 'mms.cricketwireless.net',
                         'cspire' => 'cspire1.com',
                         'gci' => 'mobile.gci.net',
@@ -1825,7 +1823,6 @@ $app_config['portfolio_assets'] = array(
                                     	 	'kraken' => 'XBTDAI',
                                         	'okex' => 'BTC-DAI',
                                         	'kucoin' => 'BTC-DAI',
-                                    	 	'defipulse' => 'WBTC/DAI',
                                                     ),
                                                     
                                     'dkk' => array(
@@ -2389,7 +2386,6 @@ $app_config['portfolio_assets'] = array(
                                           'bitfinex' => 'tMKRETH',
                                         	'hitbtc' => 'MKRETH',
                                           'gateio' => 'MKR_ETH',
-                                          'idex' => 'ETH_MKR',
                                     	 	'defipulse' => 'MKR/WETH',
                                                     ),
                                                     
@@ -2614,10 +2610,8 @@ $app_config['portfolio_assets'] = array(
                                           'bittrex' => 'GNT-BTC',
                                         	'ethfinex' => 'tGNTBTC',
                                         	'upbit' => 'BTC-GLM',
-                                        	'livecoin' => 'GNT/BTC',
-                                        	'okex' => 'GNT-BTC',
                                           'bitso' => 'gnt_btc',
-                                          'poloniex' => 'BTC_GNT',
+                                          'poloniex' => 'BTC_GLM',
                                           'braziliex' => 'gnt_btc',
                                         	'wazirx' => 'gntbtc',
                                                     ),
@@ -2641,10 +2635,6 @@ $app_config['portfolio_assets'] = array(
                                                     
                                     'usdc' => array(
                                           'coinbase' => 'GNT-USDC',
-                                                    ),
-                                                    
-                                    'usdt' => array(
-                                        	'okex' => 'GNT-USDT',
                                                     ),
                                                     
                                         ) // market_pairing END
@@ -2740,10 +2730,6 @@ $app_config['portfolio_assets'] = array(
                                           'kucoin' => 'SXP-BTC',
                                                     ),
                                                     
-                                    'eth' => array(
-                                          'idex' => 'ETH_SXP',
-                                                    ),
-                                                    
                                     'usdt' => array(
                                           'kucoin' => 'SXP-USDT',
                                                     ),
@@ -2777,7 +2763,6 @@ $app_config['portfolio_assets'] = array(
                                     'eth' => array(
                                         	'binance' => 'ENJETH',
                                           'bittrex' => 'ENJ-ETH',
-                                          'idex' => 'ETH_ENJ',
                                           'hitbtc' => 'ENJETH',
                                           'kucoin' => 'ENJ-ETH',
                                                     ),
@@ -2822,10 +2807,8 @@ $app_config['portfolio_assets'] = array(
                                                     
                                     'eth' => array(
                                         'binance' => 'DATAETH',
-                                        'ethfinex' => 'tDATETH',
                                   		 'hitbtc' => 'DATAETH',
                                         'gateio' => 'DATA_ETH',
-                                        'idex' => 'ETH_DATA',
                                                     ),
                                                     
                                     'usdt' => array(
@@ -2854,7 +2837,6 @@ $app_config['portfolio_assets'] = array(
                                                     
                                     'eth' => array(
                                           'hitbtc' => 'MYSTETH',
-                                          'idex' => 'ETH_MYST',
                                                     ),
                                                     
                                         ) // market_pairing END
