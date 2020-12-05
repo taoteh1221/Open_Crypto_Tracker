@@ -4,8 +4,6 @@
  */
 
 
-require_once('app-lib/php/other/primary-bitcoin-markets.php');	
-	
 	// Have this script not load any code if asset charts are not turned on
 	if ( $app_config['general']['asset_charts_toggle'] != 'on' ) {
 	exit;
