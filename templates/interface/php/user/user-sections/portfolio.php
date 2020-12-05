@@ -872,7 +872,7 @@ var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=
 		
 			<img class="performance_chart_defaults" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" /> &nbsp; 
     
-    Start Date (0&#37; starting point): <input type="text" id='performance_date' name='performance_date' class="datepicker" value='' placeholder="MM/DD/YYYY" style='width: 150px; display: inline;' />  
+    Start Date (0&#37; starting point): <input type="text" id='performance_date' name='performance_date' class="datepicker" value='' placeholder="YYYY/MM/DD" style='width: 150px; display: inline;' />  
     
 			<img class="performance_chart_defaults" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" /> &nbsp;  
     
@@ -894,11 +894,11 @@ var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=
 	$('#performance_chart').css('height', document.getElementById('performance_chart_height').value + 'px');
 	});
 	
-	var to_timestamp = ( document.getElementById('performance_date').value ? document.getElementById('performance_date').value : '1/1/1970' );
+	var to_timestamp = ( document.getElementById('performance_date').value ? document.getElementById('performance_date').value : '1970/1/1' );
 	
 	date_array = to_timestamp.split('/');
 	
-	date_timestamp = toTimestamp(date_array[2],date_array[0],date_array[1],0,0,0);
+	date_timestamp = toTimestamp(date_array[0],date_array[1],date_array[2],0,0,0);
 	
 	//console.log(date_timestamp);
   
@@ -953,8 +953,7 @@ var performance_chart_defaults_content = '<h5 class="yellow tooltip_title">Setti
   
   <script>
 	$('.datepicker').datepicker({
-    format: 'yyyy/mm/dd',
-    startDate: '-30d'
+    dateFormat: 'yy/mm/dd'
 	});
   </script>
   
