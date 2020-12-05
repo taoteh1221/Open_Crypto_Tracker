@@ -500,6 +500,11 @@ $app_config['power_user']['charts_crypto_volume_decimals'] = 4;  // (default = 4
 $app_config['power_user']['charts_backup_freq'] = 1; 
 
 
+// Default settings for Asset Performance chart height / menu size (in the 'View More Stats' modal window, linked at bottom of Portfolio page)
+// CHART HEIGHT MIN/MAX = 400/900 (increments of 100), MENU SIZE MIN/MAX (increments of 1) = 7/16
+$app_config['power_user']['asset_performance_chart_defaults'] = '600||15'; // 'chart_height||menu_size' (default = '600||15')
+
+
 // MINUTES to cache real-time DeFi pool info (pool eth address / name / volume / etc)
 // THIS SETTING DOES #NOT# AFFECT PRICE / TRADE VALUE REFRESHING, IT ONLY AFFECTS THE POOL'S TRADE VOLUME STATS / STORED ETH ADDRESS
 // LOTS OF DATA, the higher number the better for fast page load times

@@ -816,33 +816,65 @@ var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=
 	if ( $app_config['general']['asset_charts_toggle'] == 'on' ) {
 	?>
 	
+<fieldset class='subsection_fieldset'>
+	<legend class='subsection_legend'> <b>Asset Performance Comparison Chart</b> </legend>
+		    
 	<p class='bitcoin' style='font-weight: bold;'>The Asset Performance Comparison chart <i>requires price charts to be enabled on the Charts page, and uses the price charts primary currency market</i> (<?=strtoupper($default_btc_primary_currency_pairing)?>) for value comparisons.</p>	
 			
     <p>
     
+    <?php
+    
+    $asset_performance_chart_defaults = explode("||", $app_config['power_user']['asset_performance_chart_defaults']);
+    
+    	// Fallbacks
+    	if ( $asset_performance_chart_defaults[0] >= 400 && $asset_performance_chart_defaults[0] <= 900 ) {
+		// DO NOTHING    	
+    	}
+    	else {
+    	$asset_performance_chart_defaults[0] = 600;
+    	}
+    	
+    	if ( $asset_performance_chart_defaults[1] >= 7 && $asset_performance_chart_defaults[1] <= 16 ) {
+		// DO NOTHING    	
+    	}
+    	else {
+    	$asset_performance_chart_defaults[1] = 15;
+    	}
+    
+    ?>
+    
     Chart Height: <select class='browser-default custom-select' id='performance_chart_height' name='performance_chart_height'>
-    <option value='400'> 400 </option>
-    <option value='500'> 500 </option>
-    <option value='600' selected> 600 </option>
-    <option value='700'> 700 </option>
-    <option value='800'> 800 </option>
-    <option value='900'> 900 </option>
-    </select> &nbsp; 
+    <?php
+    $count = 400;
+    while ( $count <= 900 ) {
+    ?>
+    <option value='<?=$count?>' <?=( $count == $asset_performance_chart_defaults[0] ? 'selected' : '' )?>> <?=$count?> </option>
+    <?php
+    $count = $count + 100;
+    }
+    ?>
+    </select> 
+		
+			<img class="performance_chart_defaults" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" /> &nbsp; 
     
     Menu Size: <select class='browser-default custom-select' id='performance_menu_size' name='performance_menu_size'>
-    <option value='7'> 7 </option>
-    <option value='8'> 8 </option>
-    <option value='9'> 9 </option>
-    <option value='10'> 10 </option>
-    <option value='11'> 11 </option>
-    <option value='12'> 12 </option>
-    <option value='13'> 13 </option>
-    <option value='14'> 14 </option>
-    <option value='15' selected> 15 </option>
-    <option value='16'> 16 </option>
-    </select> &nbsp; 
+    <?php
+    $count = 7;
+    while ( $count <= 16 ) {
+    ?>
+    <option value='<?=$count?>' <?=( $count == $asset_performance_chart_defaults[1] ? 'selected' : '' )?>> <?=$count?> </option>
+    <?php
+    $count = $count + 1;
+    }
+    ?>
+    </select> 
+		
+			<img class="performance_chart_defaults" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" /> &nbsp; 
     
-    Start Date (0&#37; starting point): <input type="text" id='performance_date' name='performance_date' class="datepicker" value='' placeholder="MM/DD/YYYY" style='width: 150px; display: inline;' />  &nbsp; 
+    Start Date (0&#37; starting point): <input type="text" id='performance_date' name='performance_date' class="datepicker" value='' placeholder="MM/DD/YYYY" style='width: 150px; display: inline;' />  
+    
+			<img class="performance_chart_defaults" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" /> &nbsp;  
     
     <input type='button' value='Update Asset Performance Chart' onclick="
     
@@ -878,6 +910,43 @@ var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=
   });
     
     " />
+    
+<script>
+
+
+var performance_chart_defaults_content = '<h5 class="yellow tooltip_title">Settings For Asset Performance Comparison Chart</h5>'
+			
+			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">Adjust the chart height and menu size, depending on your preferences. The defaults for these two settings can be changed in the Admin Config POWER USER section, under \'asset_performance_chart_defaults\'.</p>'
+			
+			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">The "Start Date" is the date in time the asset performance comparisions begin, starting at 0&#37; <?=strtoupper($default_btc_primary_currency_pairing)?> value increase / decrease. The Start Date can only go back in time as far back as you have <?=strtoupper($default_btc_primary_currency_pairing)?> Value price charts (for each asset).</p>';
+		
+		
+		
+			$('.performance_chart_defaults').balloon({
+			html: true,
+			position: "right",
+			contents: performance_chart_defaults_content,
+			css: {
+					fontSize: ".8rem",
+					minWidth: "450px",
+					padding: ".3rem .7rem",
+					border: "2px solid rgba(212, 212, 212, .4)",
+					borderRadius: "6px",
+					boxShadow: "3px 3px 6px #555",
+					color: "#eee",
+					backgroundColor: "#111",
+					opacity: "0.99",
+					zIndex: "32767",
+					textAlign: "left"
+					}
+			});
+			
+		
+		
+		
+
+
+</script> 
   
     </p>
     
@@ -917,13 +986,13 @@ $("#performance_chart span").hide(); // Hide "Loading chart X..." after it loads
 
 zingchart.TOUCHZOOM = 'pinch'; /* mobile compatibility */
 
-$.get( "ajax.php?type=chart&mode=asset_performance&start_time=0&chart_height=600&menu_size=15", function( json_data ) {
+$.get( "ajax.php?type=chart&mode=asset_performance&start_time=0&chart_height=<?=$asset_performance_chart_defaults[0]?>&menu_size=<?=$asset_performance_chart_defaults[1]?>", function( json_data ) {
  
 
 	// Mark chart as loaded after it has rendered
 	zingchart.bind('performance_chart', 'complete', function() {
 	$("#performance_chart span").hide(); // Hide "Loading chart X..." after it loads
-	$('#performance_chart').css('height', '600px');
+	$('#performance_chart').css('height', '<?=$asset_performance_chart_defaults[0]?>px');
 	});
 
 	zingchart.render({
@@ -939,6 +1008,9 @@ $.get( "ajax.php?type=chart&mode=asset_performance&start_time=0&chart_height=600
     
   </script>
   
+				
+</fieldset>
+
   	<?php
 	}
   	// Performance chart END
