@@ -61,7 +61,7 @@ ksort($sorted_by_last_chart_data);
 				 },
 			  legendItem: {
 				  fontColor: 'white',
-			   fontSize: 11,
+			   fontSize: ".$_GET['menu_size'].",
 			   fontFamily: 'Open Sans',
 				backgroundColor: '".$rand_color."',
 				borderRadius: '2px'
@@ -110,11 +110,12 @@ gui: {
    graphset: [
     {
       type: 'line',
+  		height: <?=($_GET['chart_height'] - 4)?>,
       borderColor: '#cccccc',
       borderRadius: '2px',
       borderWidth: '1px',
       title: {
-        text: "Asset Performance Comparison (<?=strtoupper($default_btc_primary_currency_pairing)?> value percentage change)",
+        text: "Asset Performance Comparison (<?=strtoupper($default_btc_primary_currency_pairing)?>)",
         adjustLayout: true,
     	  align: 'center',
     	  offsetX: 0,

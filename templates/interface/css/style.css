@@ -207,6 +207,12 @@ display: inline-block;
 }
 
 
+.chart_wrapper {
+position: relative;
+border-radius: 8px;
+}
+
+
 .chart_wrapper span.chart_loading {
 font-weight: bold;
 font-size: 18px;
@@ -241,13 +247,6 @@ border-radius: 8px;
 
 .image_border {
 border-radius: 15px;
-}
-
-
-.chart_wrapper span.loading {
-font-weight: bold;
-font-size: 18px;
-line-height: 26px;
 }
 
 
@@ -543,12 +542,6 @@ position: sticky;
 position: -webkit-sticky;
 border-radius: 5px;
 padding: 2px;
-}
-
-
-.chart_wrapper {
-position: relative;
-border-radius: 8px;
 }
 
 

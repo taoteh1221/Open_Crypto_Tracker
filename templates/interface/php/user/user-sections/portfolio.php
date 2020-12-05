@@ -811,18 +811,40 @@ var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=
 	
 	<br clear='all' />
 	
-	<p class='bitcoin' style='font-weight: bold;'>The Asset Performance Comparison chart <i>requires price charts to be enabled on the Charts page, and uses the price charts primary currency market</i> (<?=strtoupper($default_btc_primary_currency_pairing)?>) for value comparisons.</p>	
-	
   	<?php
   	// Performance chart START (requires price charts)
 	if ( $app_config['general']['asset_charts_toggle'] == 'on' ) {
 	?>
+	
+	<p class='bitcoin' style='font-weight: bold;'>The Asset Performance Comparison chart <i>requires price charts to be enabled on the Charts page, and uses the price charts primary currency market</i> (<?=strtoupper($default_btc_primary_currency_pairing)?>) for value comparisons.</p>	
 			
     <p>
     
-    <input type="text" id='performance_date' name='performance_date' class="datepicker" value='' style='width: 150px; display: inline;' /> 
+    Chart Height: <select class='browser-default custom-select' id='performance_chart_height' name='performance_chart_height'>
+    <option value='400'> 400 </option>
+    <option value='500'> 500 </option>
+    <option value='600' selected> 600 </option>
+    <option value='700'> 700 </option>
+    <option value='800'> 800 </option>
+    <option value='900'> 900 </option>
+    </select> &nbsp; 
     
-    <input type='button' value='Change Comparision Start Date (0&#37; starting point)' onclick="
+    Menu Size: <select class='browser-default custom-select' id='performance_menu_size' name='performance_menu_size'>
+    <option value='7'> 7 </option>
+    <option value='8'> 8 </option>
+    <option value='9'> 9 </option>
+    <option value='10'> 10 </option>
+    <option value='11'> 11 </option>
+    <option value='12'> 12 </option>
+    <option value='13'> 13 </option>
+    <option value='14'> 14 </option>
+    <option value='15' selected> 15 </option>
+    <option value='16'> 16 </option>
+    </select> &nbsp; 
+    
+    Start Date (0&#37; starting point): <input type="text" id='performance_date' name='performance_date' class="datepicker" value='' placeholder="MM/DD/YYYY" style='width: 150px; display: inline;' />  &nbsp; 
+    
+    <input type='button' value='Update Asset Performance Chart' onclick="
     
     
   // Reset any user-adjusted zoom
@@ -837,6 +859,7 @@ var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=
 	
   zingchart.bind('performance_chart', 'complete', function() {
 	$( '#performance_chart div.chart_reload' ).fadeOut(2500); // 2.5 seconds
+	$('#performance_chart').css('height', document.getElementById('performance_chart_height').value + 'px');
 	});
 	
 	var to_timestamp = ( document.getElementById('performance_date').value ? document.getElementById('performance_date').value : '1/1/1970' );
@@ -848,7 +871,7 @@ var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=
 	//console.log(date_timestamp);
   
   zingchart.exec('performance_chart', 'load', {
-  	dataurl: 'ajax.php?type=chart&mode=asset_performance&start_time=' + date_timestamp,
+  	dataurl: 'ajax.php?type=chart&mode=asset_performance&start_time=' + date_timestamp + '&chart_height=' + document.getElementById('performance_chart_height').value + '&menu_size=' + document.getElementById('performance_menu_size').value,
     cache: {
         data: true
     }
@@ -894,17 +917,18 @@ $("#performance_chart span").hide(); // Hide "Loading chart X..." after it loads
 
 zingchart.TOUCHZOOM = 'pinch'; /* mobile compatibility */
 
-$.get( "ajax.php?type=chart&mode=asset_performance&start_time=0", function( json_data ) {
+$.get( "ajax.php?type=chart&mode=asset_performance&start_time=0&chart_height=600&menu_size=15", function( json_data ) {
  
 
 	// Mark chart as loaded after it has rendered
 	zingchart.bind('performance_chart', 'complete', function() {
 	$("#performance_chart span").hide(); // Hide "Loading chart X..." after it loads
+	$('#performance_chart').css('height', '600px');
 	});
 
 	zingchart.render({
   	id: 'performance_chart',
-   height: 625,
+  	height: 900, // MAX HEIGHT (MUST BE SET MAX EVEN IF INITIAL RENDER IS SHORTER FOR SOME REASON, OR CHART IS CUT OFF)
   	width: '100%',
   	data: json_data
 	});
