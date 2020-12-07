@@ -394,6 +394,7 @@ gui: {
         zooming: true
       },
       scaleY: {
+      maxValue: <?=( $key == 1 ? $app_config['power_user']['system_stats_first_chart_highest_value'] : $app_config['power_user']['system_stats_second_chart_max_scale'] )?>,
         guide: {
       	visible: true,
      		lineStyle: 'solid',

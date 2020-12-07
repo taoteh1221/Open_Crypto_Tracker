@@ -4125,6 +4125,19 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 
 
+-------------------------------------------------------------------
+4.23.1:
+
+-Bug fix for new Asset Performance Comparision chart (same end/last values canceled each other out)
+
+-Better UX for system chart sensor anomalies (vertical axis scale kept in check / adjustable in Admin Config POWER USER section)
+
+-Misc UX
+
+-------------------------------------------------------------------
+
+
+
 
 
 

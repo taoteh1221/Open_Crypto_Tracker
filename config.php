@@ -517,6 +517,15 @@ $app_config['power_user']['charts_backup_freq'] = 1;
 $app_config['power_user']['asset_performance_chart_defaults'] = '600||15'; // 'chart_height||menu_size' (default = '600||15')
 
 
+// Highest numeric value sensor data to include, in the FIRST system information chart (out of two)
+// (higher sensor data is moved into the second chart, to keep ranges easily readable between both charts...only used IF CRON JOB IS SETUP)
+$app_config['power_user']['system_stats_first_chart_highest_value'] = 0.5; // (default = 0.5) 
+////
+// Highest allowed sensor value to scale vertical axis for, in the SECOND system information chart (out of two)
+// (to prevent anomaly results from scaling vertical axis too high to read LESSER-VALUE sensor data...only used IF CRON JOB IS SETUP)
+$app_config['power_user']['system_stats_second_chart_max_scale'] = 150; // (default = 150) 
+
+
 // MINUTES to cache real-time DeFi pool info (pool eth address / name / volume / etc)
 // THIS SETTING DOES #NOT# AFFECT PRICE / TRADE VALUE REFRESHING, IT ONLY AFFECTS THE POOL'S TRADE VOLUME STATS / STORED ETH ADDRESS
 // LOTS OF DATA, the higher number the better for fast page load times
@@ -544,11 +553,6 @@ $app_config['power_user']['captcha_text_contrast'] = 0; // example: -5 or 5 (def
 
 // Days until old backup archives should be deleted (chart data archives, etc)
 $app_config['power_user']['backup_archive_delete_old'] = 7; 
-
-
-// Highest numeric value sensor data to include in the FIRST system information chart (out of two)
-// (higher sensor data is moved into the second chart, to keep ranges easily readable between both charts...only used IF CRON JOB IS SETUP)
-$app_config['power_user']['system_stats_first_chart_highest_value'] = 3.5; // (default = 3.5) 
 
 																					
 // ASSET MARKETS chart colors (https://www.w3schools.com/colors/colors_picker.asp)

@@ -19,8 +19,6 @@ $attributes = explode("||", $value);
 		
 		$chart_file = $base_dir . '/cache/charts/spot_price_24hr_volume/lite/all_days/'.strtoupper($asset).'/'.$key.'_chart_'.$default_btc_primary_currency_pairing.'.dat';
 						
-		//var_dump($chart_file);
-						
 			if ( file_exists($chart_file) ) {
 			$runtime_data['performance_stats'][strtoupper($asset)]['data'] = chart_data($chart_file, 'performance', $_GET['start_time']); // NO EARLIER THAN A CERTAIN TIMESTAMP
 			}
@@ -31,15 +29,22 @@ $attributes = explode("||", $value);
 
 }
 
-//var_dump($analyzed_assets);
 
 
+$loop = 0;
 foreach ( $runtime_data['performance_stats'] as $chart_key => $chart_value ) {
   			
 $percent_sample_newest = number_to_string( delimited_string_sample($chart_value['data']['percent'], ',', 'last') );
-  		
-$sorted_by_last_chart_data[number_to_string($percent_sample_newest)] = array($chart_key, $chart_value);
-  			
+
+	// If percent value matches, and another (increasing) number to the end, to avoid overwriting keys (this data is only used as an array key anyway)
+	if ( !array_key_exists($percent_sample_newest, $sorted_by_last_chart_data) ) {
+	$sorted_by_last_chart_data[number_to_string($percent_sample_newest)] = array($chart_key, $chart_value);
+	}
+	else {
+	$sorted_by_last_chart_data[number_to_string($percent_sample_newest) . $loop] = array($chart_key, $chart_value);
+	$loop = $loop + 1;
+	}
+
 }
   		
   // Sort array keys by lowest numeric value to highest 
@@ -111,6 +116,7 @@ gui: {
     {
       type: 'line',
   		height: <?=($_GET['chart_height'] - 4)?>,
+  		width: '100%',
       borderColor: '#cccccc',
       borderRadius: '2px',
       borderWidth: '1px',

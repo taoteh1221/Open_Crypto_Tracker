@@ -1015,9 +1015,20 @@ $.get( "ajax.php?type=chart&mode=asset_performance&start_time=0&chart_height=<?=
   	// Performance chart END
 	?>
 			
-  
+	
   <p> &nbsp; </p>
   
+  
+  	<?php
+	if ( $app_config['general']['asset_charts_toggle'] != 'on' ) {
+	?>
+	<p class='yellow'>*Some stats are not available with price charts disabled.</p>
+	
+  <p> &nbsp; </p>
+  
+  	<?php
+	}
+	?>
 	
 	</div>
 	<!-- END MORE PORTFOLIO STATS MODAL -->
@@ -1267,7 +1278,7 @@ END SAVED CODE -->
     		
    </div>
 	
-	<p class='bitcoin' style='font-weight: bold;'>Charts may take awhile to update with the latest data.</p>	
+	<p class='bitcoin' style='font-weight: bold;'>Charts may take awhile to update with the latest data. See Admin Config POWER USER section, to adjust vertical axis scales.</p>	
 	
 	<div class='red' id='system_charts_error'></div>
 	
