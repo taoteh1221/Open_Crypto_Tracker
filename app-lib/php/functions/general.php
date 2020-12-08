@@ -1710,7 +1710,9 @@ $fn = fopen($file,"r");
 	
 				if ( !$runtime_data['performance_stats'][$asset]['start_value'] ) {
 				$runtime_data['performance_stats'][$asset]['start_value'] = $result[1];
-				$data['percent'] .= 0.00 . ',';
+    			
+    			$data['percent'] .= '0.00,';
+    			$data['combined'] .= '[' . trim($result[0]) . '000, 0.00],';  // Zingchart wants 3 more zeros with unix time (milliseconds)
 				}
 				else {
 					

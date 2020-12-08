@@ -878,6 +878,9 @@ var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=
     
     <input type='button' value='Update Asset Performance Chart' onclick="
     
+  
+  var performance_chart_width = document.getElementById('performance_chart').offsetWidth;
+  
     
   // Reset any user-adjusted zoom
   zingchart.exec('performance_chart', 'viewall', {
@@ -903,7 +906,7 @@ var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=
 	//console.log(date_timestamp);
   
   zingchart.exec('performance_chart', 'load', {
-  	dataurl: 'ajax.php?type=chart&mode=asset_performance&start_time=' + date_timestamp + '&chart_height=' + document.getElementById('performance_chart_height').value + '&menu_size=' + document.getElementById('performance_menu_size').value,
+  	dataurl: 'ajax.php?type=chart&mode=asset_performance&start_time=' + date_timestamp + '&chart_width=' + performance_chart_width + '&chart_height=' + document.getElementById('performance_chart_height').value + '&menu_size=' + document.getElementById('performance_menu_size').value,
     cache: {
         data: true
     }
@@ -964,7 +967,7 @@ var performance_chart_defaults_content = '<h5 class="yellow tooltip_title">Setti
  </style>
  
  
-  	<div style='min-width: 775px; background: #808080; border: 2px solid #918e8e; display: flex; flex-flow: column wrap; overflow: hidden;' class='chart_wrapper' id='performance_chart'>
+  	<div style='min-width: 775px; width: 100%; min-height: 1px; background: #808080; border: 2px solid #918e8e; display: flex; flex-flow: column wrap; overflow: hidden;' class='chart_wrapper' id='performance_chart'>
 	
 	<span class='chart_loading' style='color: <?=$app_config['power_user']['charts_text']?>;'> &nbsp; Loading Asset Performance Chart...</span>
 	
@@ -997,7 +1000,7 @@ $.get( "ajax.php?type=chart&mode=asset_performance&start_time=0&chart_height=<?=
 	zingchart.render({
   	id: 'performance_chart',
   	height: 900, // MAX HEIGHT (MUST BE SET MAX EVEN IF INITIAL RENDER IS SHORTER FOR SOME REASON, OR CHART IS CUT OFF)
-  	width: '100%',
+  	width: "100%",
   	data: json_data
 	});
 

@@ -116,7 +116,7 @@ gui: {
     {
       type: 'line',
   		height: <?=($_GET['chart_height'] - 4)?>,
-  		width: '100%',
+  		width: <?=( $_GET['chart_width'] ? ($_GET['chart_width'] - 4) : "'100%'" )?>,
       borderColor: '#cccccc',
       borderRadius: '2px',
       borderWidth: '1px',
