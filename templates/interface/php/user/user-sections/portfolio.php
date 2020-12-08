@@ -876,8 +876,12 @@ var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=
     
 			<img class="performance_chart_defaults" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" /> &nbsp;  
     
+
     <input type='button' value='Update Asset Performance Chart' onclick="
-    
+  
+  new_date = new Date();
+  
+  timestamp_offset = 60 * new_date.getTimezoneOffset(); // Local time offset (browser data), in seconds
   
   var performance_chart_width = document.getElementById('performance_chart').offsetWidth;
   
@@ -901,7 +905,7 @@ var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=
 	
 	date_array = to_timestamp.split('/');
 	
-	date_timestamp = toTimestamp(date_array[0],date_array[1],date_array[2],0,0,0);
+	date_timestamp = toTimestamp(date_array[0],date_array[1],date_array[2],0,0,0) + timestamp_offset;
 	
 	//console.log(date_timestamp);
   

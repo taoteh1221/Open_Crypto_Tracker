@@ -4130,7 +4130,11 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Bug fixes for new Asset Performance Comparision chart (same last values overwrite, 0.00% start, small screen compatibility)
 
--Better UX for system chart sensor anomalies (vertical axis scale kept in check / adjustable in Admin Config POWER USER section)
+-Better UX for new Asset Performance Comparision chart (start time offset, based on browser time zone)
+
+-Bug fix for System Stats chart (same last values overwrite)
+
+-Better UX for SUPER HIGH VALUE system chart sensor anomalies (vertical axis scale kept in check, now adjustable in Admin Config POWER USER section)
 
 -Misc UX
 

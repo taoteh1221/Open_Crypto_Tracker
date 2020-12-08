@@ -32,6 +32,9 @@ New screen shots for Asset Performance chart / new portfolio summary area.
 Make sure everything runs smoothly with the charts page turned off.
 
 
+Add power failure corruption checks (like chart price data has), to system charts and price alerts file cache data.
+
+
 Look into adding https://1inch.exchange/#/ to DeFi APIs.
 
 

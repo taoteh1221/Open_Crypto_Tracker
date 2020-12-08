@@ -38,10 +38,10 @@ $percent_sample_newest = number_to_string( delimited_string_sample($chart_value[
 
 	// If percent value matches, and another (increasing) number to the end, to avoid overwriting keys (this data is only used as an array key anyway)
 	if ( !array_key_exists($percent_sample_newest, $sorted_by_last_chart_data) ) {
-	$sorted_by_last_chart_data[number_to_string($percent_sample_newest)] = array($chart_key, $chart_value);
+	$sorted_by_last_chart_data[$percent_sample_newest] = array($chart_key, $chart_value);
 	}
 	else {
-	$sorted_by_last_chart_data[number_to_string($percent_sample_newest) . $loop] = array($chart_key, $chart_value);
+	$sorted_by_last_chart_data[$percent_sample_newest . $loop] = array($chart_key, $chart_value);
 	$loop = $loop + 1;
 	}
 
