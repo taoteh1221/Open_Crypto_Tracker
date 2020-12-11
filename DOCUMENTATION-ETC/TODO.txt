@@ -26,6 +26,12 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+Look into laptop pausing settimeout / setinterval javascript on Ubuntu 20.04 / Chrome, when tab is inactive (but is fine on Ubuntu 20.04 / Chrome on desktop).
+
+
+Look into laptop touchscreen zingchart js error on Ubuntu 20.04 / Chrome, when hiding / showing assets in performance chart (but is fine on Ubuntu 20.04 / Chrome on desktop).
+
+
 New screen shots for Asset Performance chart / new portfolio summary area.
 
 

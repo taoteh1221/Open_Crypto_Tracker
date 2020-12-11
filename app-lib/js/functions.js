@@ -200,7 +200,7 @@ time = force_2_digits( today.getUTCHours() ) + ":" + force_2_digits( today.getUT
 
 $("span.utc_timestamp").text('[' + date + ' ' + time + ']');
 
-utc_time = setTimeout(start_utc_time, 500);
+utc_time = setTimeout(start_utc_time, 1000);
 
 }
 
@@ -841,14 +841,14 @@ function auto_reload() {
 
             // If subsections are still loading, wait until they are finished
             if ( $("#loading_subsections").is(":visible") || window.charts_loaded.length < window.charts_num || window.feeds_loaded.length < window.feeds_num ) {
-            setTimeout(auto_reload, 700); // Wait 700 milliseconds then recheck
+            setTimeout(auto_reload, 1000); // Wait 1000 milliseconds then recheck
             return;
             }
             else {
                
            	setCookie("coin_reload", time, 365);
            	
-				i = time - 1; // Remove a second for the 700 millisecond (0.7 second) recheck interval
+				i = time - 1; // Remove a second for the 1000 millisecond (1 second) recheck interval
 
 			
             	window.reload_countdown = setInterval(function () {
@@ -1007,7 +1007,7 @@ audio_alert = document.getElementById('audio_alert');
 	
 	// If subsections are still loading, wait until they are finished
    if ( $("#loading_subsections").is(":visible") ) {
-   setTimeout(play_audio_alert, 700); // Wait 700 millisecnds then recheck
+   setTimeout(play_audio_alert, 1000); // Wait 1000 millisecnds then recheck
    return;
    }
    else {

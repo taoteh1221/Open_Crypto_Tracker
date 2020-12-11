@@ -76,6 +76,13 @@ $app_config['comms']['textbelt_apikey'] = '';
 $app_config['comms']['textlocal_account'] = ''; // This format MUST be used: 'username||hash_code'
 
 
+// For notifyme / alexa notifications (sending Alexa devices notifications for free). 
+// CAN BE BLANK. Setup: http://www.thomptronics.com/notify-me
+// (NOTE: THIS APP'S BUILT-IN QUEUE SYSTEM THROTTLES / SENDS OUT 6 ALERTS EVERY 6 MINUTES MAXIMUM FOR NOTIFYME ALERTS,
+// TO STAY WITHIN NOTIFYME API MESSAGE LIMITS, SO YOU ALWAYS STILL GET ALL YOUR ALERTS, JUST SLIGHTLY DELAYED)
+$app_config['comms']['notifyme_accesscode'] = '';
+
+
 // Google Home alert configuration (WORK IN PROGRESS, !!NOT FUNCTIONAL!!)
 // CAN BE BLANK. Setup: https://developers.google.com/assistant/engagement/notifications
 $app_config['comms']['google_application_name'] = '';
@@ -83,13 +90,6 @@ $app_config['comms']['google_application_name'] = '';
 $app_config['comms']['google_client_id'] = '';
 ////
 $app_config['comms']['google_client_secret'] = '';
-
-
-// For notifyme / alexa notifications (sending Alexa devices notifications for free). 
-// CAN BE BLANK. Setup: http://www.thomptronics.com/notify-me
-// (NOTE: THIS APP'S BUILT-IN QUEUE SYSTEM THROTTLES / SENDS OUT 6 ALERTS EVERY 6 MINUTES MAXIMUM FOR NOTIFYME ALERTS,
-// TO STAY WITHIN NOTIFYME API MESSAGE LIMITS, SO YOU ALWAYS STILL GET ALL YOUR ALERTS, JUST SLIGHTLY DELAYED)
-$app_config['comms']['notifyme_accesscode'] = '';
 
 
 // Sending alerts to your own telegram bot chatroom. 
@@ -159,6 +159,10 @@ $app_config['comms']['proxy_alerts_checkup_ok'] = 'include';
 $app_config['general']['interface_login'] = ''; // Leave blank to disable requiring an interface login. This format MUST be used: 'username||password'
 
 
+// Password protection / encryption security for backup archives (REQUIRED for app config backup archives, NOT USED FOR CHART BACKUPS)
+$app_config['general']['backup_archive_password'] = ''; // LEAVE BLANK TO DISABLE
+
+
 // API key for etherscan.io (required unfortunately, but a FREE level is available): https://etherscan.io/apis
 $app_config['general']['etherscanio_api_key'] = '';
 
@@ -169,16 +173,6 @@ $app_config['general']['coinmarketcapcom_api_key'] = '';
 
 // API key for defipulse.com API (required unfortunately, but a FREE level is available): https://data.defipulse.com/
 $app_config['general']['defipulsecom_api_key'] = '';
-
-
-// Password protection / encryption security for backup archives (REQUIRED for app config backup archives, NOT USED FOR CHART BACKUPS)
-$app_config['general']['backup_archive_password'] = ''; // LEAVE BLANK TO DISABLE
-
-
-// ENABLING CHARTS REQUIRES A CRON JOB SETUP (see README.txt for cron job setup information)
-// Enables a charts tab / page, and caches real-time updated historical chart data on your device's storage drive
-// Disabling will disable EVERYTHING related to the price charts (price charts tab / page, and price chart data caching)
-$app_config['general']['asset_charts_toggle'] = 'on'; // 'on' / 'off'
 
 
 // Default BITCOIN market currencies (80+ currencies supported)
@@ -214,8 +208,10 @@ $app_config['general']['primary_currency_decimals_max'] = 5; // Whole numbers on
 $app_config['general']['primary_currency_decimals_max_threshold'] = 0.70; // Can be decimals, NO SYMBOLS, NUMBERS ONLY
 
 
-// Default marketcap data source: 'coingecko', or 'coinmarketcap' (COINMARKETCAP REQUIRES A #FREE# API KEY, see $app_config['general']['coinmarketcapcom_api_key'] above)
-$app_config['general']['primary_marketcap_site'] = 'coingecko'; 
+// ENABLING CHARTS REQUIRES A CRON JOB SETUP (see README.txt for cron job setup information)
+// Enables a charts tab / page, and caches real-time updated historical chart data on your device's storage drive
+// Disabling will disable EVERYTHING related to the price charts (price charts tab / page, and price chart data caching)
+$app_config['general']['asset_charts_toggle'] = 'on'; // 'on' / 'off'
 
 
 // Your local time offset IN HOURS, COMPARED TO UTC TIME. Can be negative or positive.
@@ -225,6 +221,10 @@ $app_config['general']['local_time_offset'] = -5; // example: -5 or 5
 
 // Configure which interface theme you want as the default theme (also can be manually switched later, on the settings page in the interface)
 $app_config['general']['default_theme'] = 'dark'; // 'dark' or 'light'
+
+
+// Default marketcap data source: 'coingecko', or 'coinmarketcap' (COINMARKETCAP REQUIRES A #FREE# API KEY, see $app_config['general']['coinmarketcapcom_api_key'] above)
+$app_config['general']['primary_marketcap_site'] = 'coingecko'; 
 
 
 $app_config['general']['margin_leverage_max'] = 150; // Maximum margin leverage available in the user interface ('Update' page, etc)
@@ -276,7 +276,7 @@ $app_config['charts_alerts']['price_alerts_fixed_reset'] = 0; // (default = 0)
 // Format: 'max_days_to_24hr_average_over||min_price_percent_change_24hr_average||min_volume_percent_increase_24hr_average||min_volume_currency_increase_24hr_average'
 // ("min_price_percent_change_24hr_average" should be the same value or higher as $app_config['comms']['price_alerts_threshold'] to work properly)
 // Leave BLANK '' TO DISABLE. DECIMALS ARE SUPPORTED, USE NUMBERS ONLY (NO CURRENCY SYMBOLS / COMMAS, ETC)
-$app_config['charts_alerts']['price_alerts_whale_alert_threshold'] = '1.65||8.85||9.1||16000';
+$app_config['charts_alerts']['price_alerts_whale_alert_threshold'] = '1.65||8.85||9.1||16000'; // (default: '1.65||8.85||9.1||16000')
 ////
 // Markets you want charts or asset price change alerts for (alerts sent when default [primary currency] 
 // [$app_config['general']['btc_primary_currency_pairing'] at top of this config] value change is equal to or above / below $app_config['comms']['price_alerts_threshold']) 
@@ -535,7 +535,7 @@ $app_config['power_user']['logs_email'] = 0;
 $app_config['power_user']['logs_purge'] = 10; 
 		
 
-// Contrast of CAPTCHA IMAGE text against background...0 for default, positive for extra contrast, negative for less contrast (maximum of +-35)
+// Contrast of CAPTCHA IMAGE text against background (on login pages)...0 for default, positive for extra contrast, negative for less contrast (maximum of +-35)
 $app_config['power_user']['captcha_text_contrast'] = 0; // example: -5 or 5 (default = 0)
 
 
@@ -594,7 +594,7 @@ $app_config['power_user']['crypto_pairing'] = array(
 // AND !MUST HAVE! AN EXISTING 'btc' MARKET (within 'market_pairing') in it's 
 // $app_config['portfolio_assets'] listing (further down in this config file),
 // AND #THE EXCHANGE NAME MUST BE IN THAT 'btc' LIST#
-// #USE VERY LIBERALLY#, AS YOU WANT THE BEST PRICE DISCOVERY FOR THIS CRYPTO'S VALUE
+// #USE LIBERALLY#, AS YOU WANT THE BEST PRICE DISCOVERY FOR THIS CRYPTO'S VALUE
 $app_config['power_user']['crypto_pairing_preferred_markets'] = array(
 						//'lowercase_btc_market_or_stablecoin_pairing' => 'PREFERRED_MARKET',
 							'eth' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
@@ -698,7 +698,7 @@ $app_config['power_user']['bitcoin_currency_markets'] = array(
 // Preferred BITCOIN market(s) for getting a certain currency's value
 // (when other exchanges for this currency have poor api / volume / price discovery / etc)
 // EACH CURRENCY LISTED HERE MUST EXIST IN $app_config['power_user']['bitcoin_currency_markets'] ABOVE
-// #USE VERY CONSERVATIVELY#, AS YOU'LL BE RECOMMENDING IN THE INTERFACE TO END-USERS TO AVOID USING ANY OTHER MARKETS FOR THIS CURRENCY
+// #USE CONSERVATIVELY#, AS YOU'LL BE RECOMMENDING IN THE INTERFACE TO END-USERS TO AVOID USING ANY OTHER MARKETS FOR THIS CURRENCY
 $app_config['power_user']['bitcoin_preferred_currency_markets'] = array(
 						//'lowercase_btc_market_or_stablecoin_pairing' => 'PREFERRED_MARKET',
 							'chf' => 'kraken',  // WAY MORE reputable than ALL alternatives
@@ -735,7 +735,6 @@ $app_config['power_user']['ethereum_subtoken_ico_values'] = array(
 
 
 // HIVE INTEREST CALCULATOR SETTINGS
-////
 // Weeks to power down all HIVE Power holdings
 $app_config['power_user']['hive_powerdown_time'] = 13; 
 ////
@@ -745,7 +744,6 @@ $app_config['power_user']['hivepower_yearly_interest'] = 1.2;
 
 
 // NEWS FEED (RSS) SETTINGS
-////
 // RSS feed entries to show per-feed on News page (without needing to click the "show more / less" link)
 $app_config['power_user']['news_feeds_entries_show'] = 5; // (default = 5)
 ////
@@ -1446,7 +1444,7 @@ $app_config['developer']['captcha_chars_length'] = 6; // Number of characters in
 $app_config['developer']['captcha_permitted_chars'] = 'ACEFHMNPRTUWXY234567'; // Characters allowed for use in captcha image (default = 'ACEFHMNPRTUWXY234567')
 							
 
-// TLD-only (Top Level Domain only, NO SUBDOMAINS) for each API service that requires multiple calls (for each market / data set)
+// TLD-only (Top Level Domain only, NO SUBDOMAINS) for each API service that UN-EFFICIENTLY requires multiple calls (for each market / data set)
 // Used to throttle these market calls a tiny bit (0.15 seconds), so we don't get easily blocked / throttled by external APIs etc
 // (ANY EXCHANGES LISTED HERE ARE !NOT! RECOMMENDED TO BE USED AS THE PRIMARY CURRENCY MARKET IN THIS APP,
 // AS ON OCCASION THEY CAN BE !UNRELIABLE! IF HIT WITH TOO MANY SEPARATE API CALLS FOR MULTIPLE COINS / ASSETS)
@@ -1469,7 +1467,7 @@ $app_config['developer']['limited_apis'] = array(
 							);
 
 
-// TLD-extensions-only (Top Level Domain extensions only, supported in the get_tld_or_ip() function, which removes subdomains for tld checks)
+// TLD-extensions-only mapping (Top Level Domain extensions only, supported in the get_tld_or_ip() function, which removes subdomains for tld checks)
 // IF YOU ADD A NEW API, !MAKE SURE IT'S DOMAIN EXTENSION EXISTS HERE!
 // (NO LEADING DOTS, !MUST BE LOWERCASE!)
 $app_config['developer']['top_level_domain_map'] = array(
