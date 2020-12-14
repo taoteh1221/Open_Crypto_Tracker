@@ -117,9 +117,9 @@ gui: {
       type: 'line',
   		height: <?=($_GET['chart_height'] - 4)?>,
   		width: <?=( $_GET['chart_width'] ? ($_GET['chart_width'] - 4) : "'100%'" )?>,
-      borderColor: '#cccccc',
-      borderRadius: '2px',
-      borderWidth: '1px',
+      borderColor: '#f2f2f2',
+      borderRadius: '8px',
+      borderWidth: '2px',
       title: {
         text: "Asset Performance Comparison (<?=strtoupper($default_btc_primary_currency_pairing)?>)",
         adjustLayout: true,

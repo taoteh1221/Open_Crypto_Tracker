@@ -854,9 +854,7 @@ var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=
     $count = $count + 100;
     }
     ?>
-    </select> 
-		
-			<img class="performance_chart_defaults" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" /> &nbsp; 
+    </select>  &nbsp;&nbsp; 
     
     Menu Size: <select class='browser-default custom-select' id='performance_menu_size' name='performance_menu_size'>
     <?php
@@ -868,14 +866,11 @@ var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=
     $count = $count + 1;
     }
     ?>
-    </select> 
+    </select>  &nbsp;&nbsp; 
+    
+    Start Date (0&#37; starting point): <input type="text" id='performance_date' name='performance_date' class="datepicker" value='' placeholder="YYYY/MM/DD" style='width: 150px; display: inline;' /> 
 		
-			<img class="performance_chart_defaults" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" /> &nbsp; 
-    
-    Start Date (0&#37; starting point): <input type="text" id='performance_date' name='performance_date' class="datepicker" value='' placeholder="YYYY/MM/DD" style='width: 150px; display: inline;' />  
-    
-			<img class="performance_chart_defaults" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" /> &nbsp;  
-    
+			 &nbsp;&nbsp; 
 
     <input type='button' value='Update Asset Performance Chart' onclick="
   
@@ -899,6 +894,7 @@ var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=
   zingchart.bind('performance_chart', 'complete', function() {
 	$( '#performance_chart div.chart_reload' ).fadeOut(2500); // 2.5 seconds
 	$('#performance_chart').css('height', document.getElementById('performance_chart_height').value + 'px');
+	$('#performance_chart').css('background', '#f2f2f2');
 	});
 	
 	var to_timestamp = ( document.getElementById('performance_date').value ? document.getElementById('performance_date').value : '1970/1/1' );
@@ -916,7 +912,9 @@ var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=
     }
   });
     
-    " />
+    " /> 
+    
+    &nbsp; <img class="performance_chart_defaults" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
     
 <script>
 
