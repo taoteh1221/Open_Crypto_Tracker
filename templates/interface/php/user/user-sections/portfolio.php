@@ -844,6 +844,8 @@ var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=
     
     ?>
     
+    
+    
     Chart Height: <select class='browser-default custom-select' id='performance_chart_height' name='performance_chart_height'>
     <?php
     $count = 400;
@@ -868,7 +870,56 @@ var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=
     ?>
     </select>  &nbsp;&nbsp; 
     
-    Start Date (0&#37; starting point): <input type="text" id='performance_date' name='performance_date' class="datepicker" value='' placeholder="YYYY/MM/DD" style='width: 150px; display: inline;' /> 
+    
+    Time Period: <select class='browser-default custom-select' id='performance_chart_period' name='performance_chart_period'>
+	<?php
+	foreach ($app_config['power_user']['lite_chart_day_intervals'] as $lite_chart_days) {
+		
+		if ( $lite_chart_days == 'all' ) {
+		$time_period_text = ucfirst($lite_chart_days);
+		}
+		elseif ( $lite_chart_days == 7 ) {
+		$time_period_text = '1 Week';
+		}
+		elseif ( $lite_chart_days == 14 ) {
+		$time_period_text = '2 Weeks';
+		}
+		elseif ( $lite_chart_days == 30 ) {
+		$time_period_text = '1 Month';
+		}
+		elseif ( $lite_chart_days == 60 ) {
+		$time_period_text = '2 Months';
+		}
+		elseif ( $lite_chart_days == 90 ) {
+		$time_period_text = '3 Months';
+		}
+		elseif ( $lite_chart_days == 180 ) {
+		$time_period_text = '6 Months';
+		}
+		elseif ( $lite_chart_days == 365 ) {
+		$time_period_text = '1 Year';
+		}
+		elseif ( $lite_chart_days == 730 ) {
+		$time_period_text = '2 Years';
+		}
+		elseif ( $lite_chart_days == 1095 ) {
+		$time_period_text = '3 Years';
+		}
+		elseif ( $lite_chart_days == 1460 ) {
+		$time_period_text = '4 Years';
+		}
+		else {
+		$time_period_text = $lite_chart_days . ' Days';
+		}
+	?>
+    <option value='<?=$lite_chart_days?>' <?=( $lite_chart_days == 'all' ? 'selected' : '' )?>> <?=$time_period_text?> </option>
+	<?php
+	}
+	?>
+    </select>  &nbsp;&nbsp; 
+    
+    
+    Custom Start Date: <input type="text" id='performance_date' name='performance_date' class="datepicker" value='' placeholder="YYYY/MM/DD (optional)" style='width: 180px; display: inline;' /> 
 		
 			 &nbsp;&nbsp; 
 
@@ -906,7 +957,7 @@ var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=
 	//console.log(date_timestamp);
   
   zingchart.exec('performance_chart', 'load', {
-  	dataurl: 'ajax.php?type=chart&mode=asset_performance&start_time=' + date_timestamp + '&chart_width=' + performance_chart_width + '&chart_height=' + document.getElementById('performance_chart_height').value + '&menu_size=' + document.getElementById('performance_menu_size').value,
+  	dataurl: 'ajax.php?type=chart&mode=asset_performance&time_period=' + document.getElementById('performance_chart_period').value + '&start_time=' + date_timestamp + '&chart_width=' + performance_chart_width + '&chart_height=' + document.getElementById('performance_chart_height').value + '&menu_size=' + document.getElementById('performance_menu_size').value,
     cache: {
         data: true
     }
@@ -921,15 +972,17 @@ var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=
 
 var performance_chart_defaults_content = '<h5 class="yellow tooltip_title">Settings For Asset Performance Comparison Chart</h5>'
 			
-			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">Adjust the chart height and menu size, depending on your preferences. The defaults for these two settings can be changed in the Admin Config POWER USER section, under \'asset_performance_chart_defaults\'.</p>'
+			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;">Adjust the chart height and menu size, depending on your preferences. The defaults for these two settings can be changed in the Admin Config POWER USER section, under \'asset_performance_chart_defaults\'.</p>'
 			
-			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">The "Start Date" is the date in time the asset performance comparisions begin, starting at 0&#37; <?=strtoupper($default_btc_primary_currency_pairing)?> value increase / decrease. The Start Date can only go back in time as far back as you have <?=strtoupper($default_btc_primary_currency_pairing)?> Value price charts (for each asset).</p>';
+			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;">Select the Time Period, to get finer grain details for smaller time periods.</p>'
+			
+			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;">The "Custom Start Date" is OPTIONAL, for choosing a custom date in time the asset performance comparisions begin, starting at 0&#37; <?=strtoupper($default_btc_primary_currency_pairing)?> value increase / decrease. The Custom Start Date can only go back in time as far back as you have <?=strtoupper($default_btc_primary_currency_pairing)?> Value price charts (per asset) for the "All" chart, and only as far back as the beginning date of smaller time period charts.</p>';
 		
 		
 		
 			$('.performance_chart_defaults').balloon({
 			html: true,
-			position: "right",
+			position: "left",
 			contents: performance_chart_defaults_content,
 			css: {
 					fontSize: ".8rem",
@@ -990,7 +1043,7 @@ $("#performance_chart span").hide(); // Hide "Loading chart X..." after it loads
 
 zingchart.TOUCHZOOM = 'pinch'; /* mobile compatibility */
 
-$.get( "ajax.php?type=chart&mode=asset_performance&start_time=0&chart_height=<?=$asset_performance_chart_defaults[0]?>&menu_size=<?=$asset_performance_chart_defaults[1]?>", function( json_data ) {
+$.get( "ajax.php?type=chart&mode=asset_performance&time_period=all&start_time=0&chart_height=<?=$asset_performance_chart_defaults[0]?>&menu_size=<?=$asset_performance_chart_defaults[1]?>", function( json_data ) {
  
 
 	// Mark chart as loaded after it has rendered

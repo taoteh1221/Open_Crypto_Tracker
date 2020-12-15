@@ -17,7 +17,7 @@ $attributes = explode("||", $value);
 			
 		$analyzed_assets[$asset] = $key;
 		
-		$chart_file = $base_dir . '/cache/charts/spot_price_24hr_volume/lite/all_days/'.strtoupper($asset).'/'.$key.'_chart_'.$default_btc_primary_currency_pairing.'.dat';
+		$chart_file = $base_dir . '/cache/charts/spot_price_24hr_volume/lite/' . $_GET['time_period'] . '_days/'.strtoupper($asset).'/'.$key.'_chart_'.$default_btc_primary_currency_pairing.'.dat';
 						
 			if ( file_exists($chart_file) ) {
 			$runtime_data['performance_stats'][strtoupper($asset)]['data'] = chart_data($chart_file, 'performance', $_GET['start_time']); // NO EARLIER THAN A CERTAIN TIMESTAMP

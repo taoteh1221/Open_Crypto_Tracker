@@ -1868,9 +1868,13 @@ $original_market = $selected_exchange;
         
         +'<p class="coin_info"><span class="yellow">Marketcap Ranking:</span> #<?=$marketcap_data['rank']?></p>'
         +'<p class="coin_info"><span class="yellow">Marketcap Value:</span> <?=$cmc_primary_currency_symbol?><?=number_format($marketcap_data['market_cap'],0,".",",")?></p>'
-        +'<p class="coin_info"><span class="yellow">Available Supply:</span> <?=number_format($marketcap_data['circulating_supply'], 0, '.', ',')?></p>'
         
         <?php
+            if ( $marketcap_data['circulating_supply'] > 0 ) {
+            ?>
+        +'<p class="coin_info"><span class="yellow">Circulating Supply:</span> <?=number_format($marketcap_data['circulating_supply'], 0, '.', ',')?></p>'
+        <?php
+            }
             if ( $marketcap_data['total_supply'] > 0 ) {
             ?>
         +'<p class="coin_info"><span class="yellow">Total Supply:</span> <?=number_format($marketcap_data['total_supply'], 0, '.', ',')?></p>'

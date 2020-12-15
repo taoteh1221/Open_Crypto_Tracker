@@ -95,6 +95,9 @@ FEATURES / STRUCTURING SECTION
 ///////////////////////////////////////////////////////
 
 
+Replace the small "in parentheses BTC value" text for non-BTC markets in the Trading / Holdings Value data columns, with user-chosen crypto based of the same logic as the "Crypto Value" summary.
+
+
 Create github wiki with the current documentation for the portfolio app.
 
 
