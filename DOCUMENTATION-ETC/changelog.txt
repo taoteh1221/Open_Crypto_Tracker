@@ -4149,7 +4149,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Time period setting for the Asset Performance Comparision chart
 
--Misc. UX improvements
+-Misc. bug fixes and UX improvements
 
 -------------------------------------------------------------------
 

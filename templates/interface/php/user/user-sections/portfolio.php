@@ -846,31 +846,6 @@ var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=
     
     
     
-    Chart Height: <select class='browser-default custom-select' id='performance_chart_height' name='performance_chart_height'>
-    <?php
-    $count = 400;
-    while ( $count <= 900 ) {
-    ?>
-    <option value='<?=$count?>' <?=( $count == $asset_performance_chart_defaults[0] ? 'selected' : '' )?>> <?=$count?> </option>
-    <?php
-    $count = $count + 100;
-    }
-    ?>
-    </select>  &nbsp;&nbsp; 
-    
-    Menu Size: <select class='browser-default custom-select' id='performance_menu_size' name='performance_menu_size'>
-    <?php
-    $count = 7;
-    while ( $count <= 16 ) {
-    ?>
-    <option value='<?=$count?>' <?=( $count == $asset_performance_chart_defaults[1] ? 'selected' : '' )?>> <?=$count?> </option>
-    <?php
-    $count = $count + 1;
-    }
-    ?>
-    </select>  &nbsp;&nbsp; 
-    
-    
     Time Period: <select class='browser-default custom-select' id='performance_chart_period' name='performance_chart_period'>
 	<?php
 	foreach ($app_config['power_user']['lite_chart_day_intervals'] as $lite_chart_days) {
@@ -886,6 +861,33 @@ var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=
 		
 			 &nbsp;&nbsp; 
 
+    
+    Chart Height: <select class='browser-default custom-select' id='performance_chart_height' name='performance_chart_height'>
+    <?php
+    $count = 400;
+    while ( $count <= 900 ) {
+    ?>
+    <option value='<?=$count?>' <?=( $count == $asset_performance_chart_defaults[0] ? 'selected' : '' )?>> <?=$count?> </option>
+    <?php
+    $count = $count + 100;
+    }
+    ?>
+    </select>  &nbsp;&nbsp; 
+    
+    
+    Menu Size: <select class='browser-default custom-select' id='performance_menu_size' name='performance_menu_size'>
+    <?php
+    $count = 7;
+    while ( $count <= 16 ) {
+    ?>
+    <option value='<?=$count?>' <?=( $count == $asset_performance_chart_defaults[1] ? 'selected' : '' )?>> <?=$count?> </option>
+    <?php
+    $count = $count + 1;
+    }
+    ?>
+    </select>  &nbsp;&nbsp; 
+    
+    
     <input type='button' value='Update Asset Performance Chart' onclick="
   
   new_date = new Date();
@@ -906,9 +908,18 @@ var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=
 	$('#performance_chart div.chart_reload').fadeIn(100); // 0.1 seconds
 	
   zingchart.bind('performance_chart', 'complete', function() {
-	$( '#performance_chart div.chart_reload' ).fadeOut(2500); // 2.5 seconds
+  	
+	$('#performance_chart div.chart_reload' ).fadeOut(2500); // 2.5 seconds
 	$('#performance_chart').css('height', document.getElementById('performance_chart_height').value + 'px');
 	$('#performance_chart').css('background', '#f2f2f2');
+	
+		if ( document.getElementById('performance_chart_period').value == 'all' ) {
+		$('.datepicker').datepicker('option', 'defaultDate', -30 );
+		}
+		else {
+		$('.datepicker').datepicker('option', 'defaultDate', -document.getElementById('performance_chart_period').value );
+		}
+	
 	});
 	
 	var to_timestamp = ( document.getElementById('performance_date').value ? document.getElementById('performance_date').value : '1970/1/1' );
@@ -916,8 +927,6 @@ var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=
 	date_array = to_timestamp.split('/');
 	
 	date_timestamp = toTimestamp(date_array[0],date_array[1],date_array[2],0,0,0) + timestamp_offset;
-	
-	//console.log(date_timestamp);
   
   zingchart.exec('performance_chart', 'load', {
   	dataurl: 'ajax.php?type=chart&mode=asset_performance&time_period=' + document.getElementById('performance_chart_period').value + '&start_time=' + date_timestamp + '&chart_width=' + performance_chart_width + '&chart_height=' + document.getElementById('performance_chart_height').value + '&menu_size=' + document.getElementById('performance_menu_size').value,
@@ -974,7 +983,8 @@ var performance_chart_defaults_content = '<h5 class="yellow tooltip_title">Setti
   
   <script>
 	$('.datepicker').datepicker({
-    dateFormat: 'yy/mm/dd'
+    dateFormat: 'yy/mm/dd',
+    defaultDate: -30
 	});
   </script>
   
