@@ -678,7 +678,7 @@ var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=
 		
 			+'<?=$leverage_text3?>'
 				
-			+'<p class="coin_info balloon_notation"><span class="yellow">*<?=( $leverage_added == 1 ? 'Leverage / ' : '' )?>Gain / Loss stats only include assets where you have set the<br />"Average Paid (per-token)" value on the Update page.</span></p>';
+			+'<p class="coin_info balloon_notation yellow">*<?=( $leverage_added == 1 ? 'Leverage / ' : '' )?>Gain / Loss stats only include assets where you have set the<br />"Average Paid (per-token)" value on the Update page.</p>';
 		
 		
 			$('#portfolio_gain_loss').balloon({
@@ -874,45 +874,8 @@ var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=
     Time Period: <select class='browser-default custom-select' id='performance_chart_period' name='performance_chart_period'>
 	<?php
 	foreach ($app_config['power_user']['lite_chart_day_intervals'] as $lite_chart_days) {
-		
-		if ( $lite_chart_days == 'all' ) {
-		$time_period_text = ucfirst($lite_chart_days);
-		}
-		elseif ( $lite_chart_days == 7 ) {
-		$time_period_text = '1 Week';
-		}
-		elseif ( $lite_chart_days == 14 ) {
-		$time_period_text = '2 Weeks';
-		}
-		elseif ( $lite_chart_days == 30 ) {
-		$time_period_text = '1 Month';
-		}
-		elseif ( $lite_chart_days == 60 ) {
-		$time_period_text = '2 Months';
-		}
-		elseif ( $lite_chart_days == 90 ) {
-		$time_period_text = '3 Months';
-		}
-		elseif ( $lite_chart_days == 180 ) {
-		$time_period_text = '6 Months';
-		}
-		elseif ( $lite_chart_days == 365 ) {
-		$time_period_text = '1 Year';
-		}
-		elseif ( $lite_chart_days == 730 ) {
-		$time_period_text = '2 Years';
-		}
-		elseif ( $lite_chart_days == 1095 ) {
-		$time_period_text = '3 Years';
-		}
-		elseif ( $lite_chart_days == 1460 ) {
-		$time_period_text = '4 Years';
-		}
-		else {
-		$time_period_text = $lite_chart_days . ' Days';
-		}
 	?>
-    <option value='<?=$lite_chart_days?>' <?=( $lite_chart_days == 'all' ? 'selected' : '' )?>> <?=$time_period_text?> </option>
+    <option value='<?=$lite_chart_days?>' <?=( $lite_chart_days == 'all' ? 'selected' : '' )?>> <?=light_chart_time_period($lite_chart_days, 'long')?> </option>
 	<?php
 	}
 	?>

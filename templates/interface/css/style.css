@@ -284,7 +284,7 @@ white-space: nowrap;
 
 .balloon_notation {
 white-space: normal; 
-font-size: 13px; 
+font-size: 13px !important; 
 margin-top: 15px;
 }
 

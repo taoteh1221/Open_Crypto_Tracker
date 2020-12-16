@@ -117,43 +117,7 @@ gui: {
 	labels: [
 	<?php
 	foreach ($app_config['power_user']['lite_chart_day_intervals'] as $lite_chart_days) {
-		
-		if ( $lite_chart_days == 'all' ) {
-		$lite_chart_text = strtoupper($lite_chart_days);
-		}
-		elseif ( $lite_chart_days == 7 ) {
-		$lite_chart_text = '1W';
-		}
-		elseif ( $lite_chart_days == 14 ) {
-		$lite_chart_text = '2W';
-		}
-		elseif ( $lite_chart_days == 30 ) {
-		$lite_chart_text = '1M';
-		}
-		elseif ( $lite_chart_days == 60 ) {
-		$lite_chart_text = '2M';
-		}
-		elseif ( $lite_chart_days == 90 ) {
-		$lite_chart_text = '3M';
-		}
-		elseif ( $lite_chart_days == 180 ) {
-		$lite_chart_text = '6M';
-		}
-		elseif ( $lite_chart_days == 365 ) {
-		$lite_chart_text = '1Y';
-		}
-		elseif ( $lite_chart_days == 730 ) {
-		$lite_chart_text = '2Y';
-		}
-		elseif ( $lite_chart_days == 1095 ) {
-		$lite_chart_text = '3Y';
-		}
-		elseif ( $lite_chart_days == 1460 ) {
-		$lite_chart_text = '4Y';
-		}
-		else {
-		$lite_chart_text = $lite_chart_days . 'D';
-		}
+	$lite_chart_text = light_chart_time_period($lite_chart_days, 'short');
 	?>
 		{
 	    x: <?=$x_coord?>,
@@ -373,43 +337,7 @@ graphset:[
 	labels: [
 	<?php
 	foreach ($app_config['power_user']['lite_chart_day_intervals'] as $lite_chart_days) {
-		
-		if ( $lite_chart_days == 'all' ) {
-		$lite_chart_text = strtoupper($lite_chart_days);
-		}
-		elseif ( $lite_chart_days == 7 ) {
-		$lite_chart_text = '1W';
-		}
-		elseif ( $lite_chart_days == 14 ) {
-		$lite_chart_text = '2W';
-		}
-		elseif ( $lite_chart_days == 30 ) {
-		$lite_chart_text = '1M';
-		}
-		elseif ( $lite_chart_days == 60 ) {
-		$lite_chart_text = '2M';
-		}
-		elseif ( $lite_chart_days == 90 ) {
-		$lite_chart_text = '3M';
-		}
-		elseif ( $lite_chart_days == 180 ) {
-		$lite_chart_text = '6M';
-		}
-		elseif ( $lite_chart_days == 365 ) {
-		$lite_chart_text = '1Y';
-		}
-		elseif ( $lite_chart_days == 730 ) {
-		$lite_chart_text = '2Y';
-		}
-		elseif ( $lite_chart_days == 1095 ) {
-		$lite_chart_text = '3Y';
-		}
-		elseif ( $lite_chart_days == 1460 ) {
-		$lite_chart_text = '4Y';
-		}
-		else {
-		$lite_chart_text = $lite_chart_days . 'D';
-		}
+	$lite_chart_text = light_chart_time_period($lite_chart_days, 'short');
 	?>
 		{
 	    x: <?=$x_coord?>,
