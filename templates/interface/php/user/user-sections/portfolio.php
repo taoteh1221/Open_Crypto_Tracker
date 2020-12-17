@@ -828,6 +828,7 @@ var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=
     $asset_performance_chart_defaults = explode("||", $app_config['power_user']['asset_performance_chart_defaults']);
     
     	// Fallbacks
+    	
     	if ( $asset_performance_chart_defaults[0] >= 400 && $asset_performance_chart_defaults[0] <= 900 ) {
 		// DO NOTHING    	
     	}
@@ -943,12 +944,12 @@ var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=
 
 
 var performance_chart_defaults_content = '<h5 class="yellow tooltip_title">Settings For Asset Performance Comparison Chart</h5>'
-			
-			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;">Adjust the chart height and menu size, depending on your preferences. The defaults for these two settings can be changed in the Admin Config POWER USER section, under \'asset_performance_chart_defaults\'.</p>'
-			
+
 			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;">Select the Time Period, to get finer grain details for smaller time periods.</p>'
 			
-			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;">The "Custom Start Date" is OPTIONAL, for choosing a custom date in time the asset performance comparisions begin, starting at 0&#37; <?=strtoupper($default_btc_primary_currency_pairing)?> value increase / decrease. The Custom Start Date can only go back in time as far back as you have <?=strtoupper($default_btc_primary_currency_pairing)?> Value price charts (per asset) for the "All" chart, and only as far back as the beginning date of smaller time period charts.</p>';
+			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;">The "Custom Start Date" is OPTIONAL, for choosing a custom date in time the asset performance comparisions begin, starting at 0&#37; <?=strtoupper($default_btc_primary_currency_pairing)?> value increase / decrease. The Custom Start Date can only go back in time as far back as you have <?=strtoupper($default_btc_primary_currency_pairing)?> Value price charts (per asset) for the "All" chart, and only as far back as the beginning date of smaller time period charts.</p>'
+			
+			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;">Adjust the chart height and menu size, depending on your preferences. The defaults for these two settings can be changed in the Admin Config POWER USER section, under \'asset_performance_chart_defaults\'.</p>';
 		
 		
 		
