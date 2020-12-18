@@ -882,7 +882,8 @@ $lite_path = preg_replace("/archival/i", 'lite/' . $days_span . '_days', $archiv
 	// Hash of lite path, AND random X hours update threshold, to spread out and event-track 'all' chart rebuilding
 	if ( $days_span == 'all' ) {
 	$lite_path_hash = md5($lite_path);
-	$all_chart_rebuild_threshold = rand(6, 12); // Randomly between 6 and 12 hours (to spead the load across multiple runtimes)
+	$threshold_range = explode(',', $app_config['developer']['all_chart_rebuild_min_max']);
+	$all_chart_rebuild_threshold = rand($threshold_range[0], $threshold_range[1]); // Randomly within the min/max range, to spead the load across multiple runtimes
 	}
 
 

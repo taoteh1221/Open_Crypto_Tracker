@@ -4151,6 +4151,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Misc. bug fixes / UX improvements / optimizations
 
+-New developer settings in Admin Config
+
 -------------------------------------------------------------------
 
 

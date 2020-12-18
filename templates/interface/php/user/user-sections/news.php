@@ -156,7 +156,7 @@
 	 
 	 $chosen_feeds = array_map('strip_brackets', $show_feeds);
 	 
-	 $batched_feeds_loops_max = ceil( sizeof($chosen_feeds) / $app_config['developer']['batched_news_feeds_max'] );
+	 $batched_feeds_loops_max = ceil( sizeof($chosen_feeds) / $app_config['developer']['news_feeds_batched_max'] );
 	 
 	 // Defaults before looping
 	 $all_feeds_added = 0;
@@ -174,7 +174,7 @@
 			$batched_feeds_keys .= $chosen_feed_hash . ',';
 			$all_feeds_added = $all_feeds_added + 1;
 			
-				if ( $batched_feeds_added >= $app_config['developer']['batched_news_feeds_max'] || $all_feeds_added >= sizeof($chosen_feeds) ) {
+				if ( $batched_feeds_added >= $app_config['developer']['news_feeds_batched_max'] || $all_feeds_added >= sizeof($chosen_feeds) ) {
 				$batched_feeds_keys = rtrim($batched_feeds_keys,',');
 				?>
 		

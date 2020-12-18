@@ -1366,6 +1366,43 @@ $app_config['developer']['smtp_strict_ssl'] = 'off'; // (DEFAULT IS 'off', TO AS
 $app_config['developer']['remote_api_strict_ssl'] = 'off'; // (default = 'off')
 
 
+// Ignore warning to use PHP-FPM (#PHP-FPM HELPS PREVENT RUNTIME CRASHES# ON LOW POWER DEVICES OR HIGH TRAFFIC INSTALLS)
+$app_config['developer']['ignore_php_fpm_warning'] = 'no'; // (default = 'no', options are 'yes' / 'no')
+
+
+// Maximum number of BATCHED coingecko marketcap data results to fetch, per API call (during multiple / paginated calls) 
+$app_config['developer']['coingecko_api_batched_max'] = 100; // (default = 100), ADJUST WITH CARE!!!
+
+
+// Maximum number of BATCHED news feed fetches / re-caches per ajax OR cron runtime 
+// (#TO HELP PREVENT RUNTIME CRASHES# ON LOW POWER DEVICES OR HIGH TRAFFIC INSTALLS, WITH A LOW NUMBER OF 25 OR LESS)
+$app_config['developer']['news_feeds_batched_max'] = 25; // (default = 25), ADJUST WITH CARE!!!
+////
+// Minutes to cache RSS feeds for News page
+// Randomly cache each RSS feed between the minimum and maximum MINUTES set here (so they don't refresh all at once, for faster runtimes)
+// THE WIDER THE GAP BETWEEN THE NUMBERS, MORE SPLIT UP / FASTER THE FEEDS WILL LOAD IN THE INTERFACE
+$app_config['developer']['news_feeds_cache_min_max'] = '90,180'; // 'min,max' (default = '90,180'), ADJUST WITH CARE!!!
+
+
+// Randomly rebuild the 'ALL' chart between the minimum and maximum HOURS set here  (so they don't refresh all at once, for faster runtimes)
+$app_config['developer']['all_chart_rebuild_min_max'] = '4,12'; // 'min,max' (default = '4,12'), ADJUST WITH CARE!!!
+			
+			
+// Configuration for advanced CAPTCHA image settings on all admin login / reset pages
+$app_config['developer']['captcha_image_width'] = 430; // Image width (default = 430)
+////
+$app_config['developer']['captcha_image_height'] = 130; // Image height (default = 130)
+////
+$app_config['developer']['captcha_text_margin'] = 4; // MINIMUM margin of text from edge of image (approximate / average) (default = 4)
+////
+$app_config['developer']['captcha_text_size'] = 50; // Text size (default = 50)
+////
+$app_config['developer']['captcha_chars_length'] = 6; // Number of characters in captcha image (default = 6)
+////
+// ONLY MOST READABLE characters allowed for use in captcha image 
+$app_config['developer']['captcha_permitted_chars'] = 'ACEFHMNPRTUWXY234567'; // (default = 'ACEFHMNPRTUWXY234567')
+
+
 // Local / internal API rate limit (maximum of once every X seconds, per ip address) for accepting remote requests
 // Can be 0 to disable rate limiting (unlimited)
 $app_config['developer']['local_api_rate_limit'] = 5; // (default = 5)
@@ -1377,28 +1414,10 @@ $app_config['developer']['local_api_market_limit'] = 20; // (default = 20)
 $app_config['developer']['local_api_cache_time'] = 4; // (default = 4)
 
 
-// Maximum number of BATCHED coingecko marketcap data results to fetch, per API call (during multiple / paginated calls) 
-$app_config['developer']['batched_coingecko_api_call'] = 100; // (default = 100), ADJUST WITH CARE!!!
-
-
-// Maximum number of BATCHED news feed fetches / re-caches per ajax OR cron runtime 
-// (#TO HELP PREVENT RUNTIME CRASHES# ON LOW POWER DEVICES OR HIGH TRAFFIC INSTALLS, WITH A LOW NUMBER OF 25 OR LESS)
-$app_config['developer']['batched_news_feeds_max'] = 25; // (default = 25), ADJUST WITH CARE!!!
-////
-// Minutes to cache RSS feeds for News page
-// Randomly cache each RSS feed between the minimum and maximum minutes set here (so they don't refresh all at once, for faster load times)
-// THE WIDER THE GAP BETWEEN THE NUMBERS, MORE SPLIT UP / FASTER THE FEEDS WILL LOAD IN THE INTERFACE
-$app_config['developer']['news_feeds_cache_min_max'] = '60,160'; // 'min,max' (default = '60,160'), ADJUST WITH CARE!!!
-
-
 // If you want to override the default user agent string (sent with API requests, etc)
 // Adding a string here automatically enables that as the custom user agent
 // LEAVING BLANK '' USES THE DEFAULT USER AGENT LOGIC BUILT-IN TO THIS APP (INCLUDES BASIC SYSTEM CONFIGURATION STATS)
 $app_config['developer']['override_user_agent'] = ''; 
-
-
-// Ignore warning to use PHP-FPM (#PHP-FPM HELPS PREVENT RUNTIME CRASHES# ON LOW POWER DEVICES OR HIGH TRAFFIC INSTALLS)
-$app_config['developer']['ignore_php_fpm_warning'] = 'no'; // (default = 'no', options are 'yes' / 'no')
 
 
 // Default charset used
@@ -1444,20 +1463,6 @@ $app_config['developer']['int_api_max_execution_time'] = 90; // (default = 90)
 // Maximum execution time for webhook runtime in seconds (how long it's allowed to run before automatically killing the process)
 // (ALL execution times are automatically 600 IN DEBUG MODE)
 $app_config['developer']['webhook_max_execution_time'] = 90; // (default = 90)
-			
-			
-// Configuration for advanced CAPTCHA image settings on all admin login / reset pages
-$app_config['developer']['captcha_image_width'] = 430; // Image width (default = 430)
-////
-$app_config['developer']['captcha_image_height'] = 130; // Image height (default = 130)
-////
-$app_config['developer']['captcha_text_margin'] = 4; // MINIMUM margin of text from edge of image (approximate / average) (default = 4)
-////
-$app_config['developer']['captcha_text_size'] = 50; // Text size (default = 50)
-////
-$app_config['developer']['captcha_chars_length'] = 6; // Number of characters in captcha image (default = 6)
-////
-$app_config['developer']['captcha_permitted_chars'] = 'ACEFHMNPRTUWXY234567'; // Characters allowed for use in captcha image (default = 'ACEFHMNPRTUWXY234567')
 							
 
 // TLD-only (Top Level Domain only, NO SUBDOMAINS) for each API service that UN-EFFICIENTLY requires multiple calls (for each market / data set)

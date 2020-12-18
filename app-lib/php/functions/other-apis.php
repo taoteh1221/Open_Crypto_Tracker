@@ -106,14 +106,14 @@ $coingecko_primary_currency = ( $force_primary_currency != null ? strtolower($fo
 // DON'T ADD ANY ERROR CHECKS HERE, OR RUNTIME MAY SLOW SIGNIFICANTLY!!
 	
 
-	// Batched / multiple API calls, if 'marketcap_ranks_max' is greater than 'batched_coingecko_api_call'
-	if ( $app_config['power_user']['marketcap_ranks_max'] > $app_config['developer']['batched_coingecko_api_call'] ) {
+	// Batched / multiple API calls, if 'marketcap_ranks_max' is greater than 'coingecko_api_batched_max'
+	if ( $app_config['power_user']['marketcap_ranks_max'] > $app_config['developer']['coingecko_api_batched_max'] ) {
 	
 		$loop = 0;
-		$calls = ceil($app_config['power_user']['marketcap_ranks_max'] / $app_config['developer']['batched_coingecko_api_call']);
+		$calls = ceil($app_config['power_user']['marketcap_ranks_max'] / $app_config['developer']['coingecko_api_batched_max']);
 		while ( $loop < $calls ) {
 		
-		$url = 'https://api.coingecko.com/api/v3/coins/markets?per_page=' . $app_config['developer']['batched_coingecko_api_call'] . '&page=' . ($loop + 1) . '&vs_currency=' . $coingecko_primary_currency . '&price_change_percentage=1h,24h,7d,14d,30d,200d,1y';
+		$url = 'https://api.coingecko.com/api/v3/coins/markets?per_page=' . $app_config['developer']['coingecko_api_batched_max'] . '&page=' . ($loop + 1) . '&vs_currency=' . $coingecko_primary_currency . '&price_change_percentage=1h,24h,7d,14d,30d,200d,1y';
 			
 			if ( $loop > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $app_config['power_user']['marketcap_cache_time']) == true ) {
 			usleep(150000); // Wait 0.15 seconds between consecutive calls, to avoid being blocked / throttled by external server
@@ -358,9 +358,9 @@ global $app_config, $base_dir, $fetched_feeds;
 	if ( !isset($_SESSION[$fetched_feeds]['all']) ) {
 	$_SESSION[$fetched_feeds]['all'] = 0;
 	}
-	// Never re-cache FROM LIVE more than 'batched_news_feeds_max' (EXCEPT for cron runtimes pre-caching), 
+	// Never re-cache FROM LIVE more than 'news_feeds_batched_max' (EXCEPT for cron runtimes pre-caching), 
 	// to avoid overloading low resource devices (raspi / pine64 / etc) and creating long feed load times
-	elseif ( $_SESSION[$fetched_feeds]['all'] >= $app_config['developer']['batched_news_feeds_max'] && $cache_only == false ) {
+	elseif ( $_SESSION[$fetched_feeds]['all'] >= $app_config['developer']['news_feeds_batched_max'] && $cache_only == false ) {
 	return '<span class="red">Live data fetching limit reached (' . $_SESSION[$fetched_feeds]['all'] . ').</span>';
 	}
 	
