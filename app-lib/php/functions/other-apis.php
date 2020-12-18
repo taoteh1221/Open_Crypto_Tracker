@@ -102,15 +102,18 @@ $result = array();
 // Don't overwrite global
 $coingecko_primary_currency = ( $force_primary_currency != null ? strtolower($force_primary_currency) : strtolower($app_config['general']['btc_primary_currency_pairing']) );
 
-$max_fetch = 155; // So we can quickly adjust if they change API defaults again
+	   
+// DON'T ADD ANY ERROR CHECKS HERE, OR RUNTIME MAY SLOW SIGNIFICANTLY!!
+	
 
-	if ( $app_config['power_user']['marketcap_ranks_max'] > $max_fetch ) {
+	// Batched / multiple API calls, if 'marketcap_ranks_max' is greater than 'batched_coingecko_api_call'
+	if ( $app_config['power_user']['marketcap_ranks_max'] > $app_config['developer']['batched_coingecko_api_call'] ) {
 	
 		$loop = 0;
-		$calls = ceil($app_config['power_user']['marketcap_ranks_max'] / $max_fetch);
+		$calls = ceil($app_config['power_user']['marketcap_ranks_max'] / $app_config['developer']['batched_coingecko_api_call']);
 		while ( $loop < $calls ) {
 		
-		$url = 'https://api.coingecko.com/api/v3/coins/markets?per_page='.$max_fetch.'&page='.($loop + 1).'&vs_currency='.$coingecko_primary_currency.'&price_change_percentage=1h,24h,7d,14d,30d,200d,1y';
+		$url = 'https://api.coingecko.com/api/v3/coins/markets?per_page=' . $app_config['developer']['batched_coingecko_api_call'] . '&page=' . ($loop + 1) . '&vs_currency=' . $coingecko_primary_currency . '&price_change_percentage=1h,24h,7d,14d,30d,200d,1y';
 			
 			if ( $loop > 0 && update_cache_file($base_dir . '/cache/secured/external_api/' . md5($url) . '.dat', $app_config['power_user']['marketcap_cache_time']) == true ) {
 			usleep(150000); // Wait 0.15 seconds between consecutive calls, to avoid being blocked / throttled by external server
@@ -132,7 +135,7 @@ $max_fetch = 155; // So we can quickly adjust if they change API defaults again
 // DON'T ADD ANY ERROR CHECKS HERE, OR RUNTIME MAY SLOW SIGNIFICANTLY!!
 
 	
-	// Merge sub arrays
+	// Merge any sub arrays into one data set
 	foreach ( $sub_arrays as $sub ) {
 	$data = array_merge($data, $sub);
 	}
@@ -150,7 +153,9 @@ $max_fetch = 155; // So we can quickly adjust if they change API defaults again
   	  
   	}
 		  
+		  
 gc_collect_cycles(); // Clean memory cache
+
 return $result;
   
 }

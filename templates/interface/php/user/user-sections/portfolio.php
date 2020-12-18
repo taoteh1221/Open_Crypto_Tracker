@@ -54,7 +54,7 @@
 			
 			?>  &nbsp; &nbsp; &nbsp; <a href='javascript:app_reloading_placeholder();app_reload();' style='font-weight: bold;' title='<?=$refresh_link_title?>'>Refresh</a>
 			
-			 &nbsp;<select class='browser-default custom-select' name='select_auto_refresh' id='select_auto_refresh' onchange='
+			 &nbsp;<select title='Auto-Refresh MAY NOT WORK properly on mobile devices (phone / laptop / tablet / etc).' class='browser-default custom-select' name='select_auto_refresh' id='select_auto_refresh' onchange='
 			 window.reload_time = this.value;
 			 auto_reload();
 			 '>

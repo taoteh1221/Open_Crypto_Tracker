@@ -1365,7 +1365,11 @@ $app_config['developer']['local_api_market_limit'] = 20; // (default = 20)
 $app_config['developer']['local_api_cache_time'] = 4; // (default = 4)
 
 
-// Maximum number of batched news feed fetches / re-caches per ajax OR cron runtime 
+// Maximum number of BATCHED coingecko marketcap data results to fetch, per API call (during multiple / paginated calls) 
+$app_config['developer']['batched_coingecko_api_call'] = 100; // (default = 100), ADJUST WITH CARE!!!
+
+
+// Maximum number of BATCHED news feed fetches / re-caches per ajax OR cron runtime 
 // (#TO HELP PREVENT RUNTIME CRASHES# ON LOW POWER DEVICES OR HIGH TRAFFIC INSTALLS, WITH A LOW NUMBER OF 25 OR LESS)
 $app_config['developer']['batched_news_feeds_max'] = 25; // (default = 25), ADJUST WITH CARE!!!
 ////
