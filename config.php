@@ -514,12 +514,12 @@ $app_config['power_user']['charts_backup_freq'] = 1;
 
 // Default settings for Asset Performance chart height / menu size (in the 'View More Stats' modal window, linked at bottom of Portfolio page)
 // CHART HEIGHT MIN/MAX = 400/900 (increments of 100), MENU SIZE MIN/MAX (increments of 1) = 7/16
-$app_config['power_user']['asset_performance_chart_defaults'] = '600||15'; // 'chart_height||menu_size' (default = '600||15')
+$app_config['power_user']['asset_performance_chart_defaults'] = '600||14'; // 'chart_height||menu_size' (default = '600||15')
 
 
 // Highest numeric value sensor data to include, in the FIRST system information chart (out of two)
 // (higher sensor data is moved into the second chart, to keep ranges easily readable between both charts...only used IF CRON JOB IS SETUP)
-$app_config['power_user']['system_stats_first_chart_highest_value'] = 0.5; // (default = 0.5) 
+$app_config['power_user']['system_stats_first_chart_highest_value'] = 1; // (default = 1) 
 ////
 // Highest allowed sensor value to scale vertical axis for, in the SECOND system information chart (out of two)
 // (to prevent anomaly results from scaling vertical axis too high to read LESSER-VALUE sensor data...only used IF CRON JOB IS SETUP)

@@ -847,7 +847,16 @@ var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=
     
     
     
-    Time Period: <select class='browser-default custom-select' id='performance_chart_period' name='performance_chart_period'>
+    Time Period: <select class='browser-default custom-select' id='performance_chart_period' name='performance_chart_period' onchange="
+    
+		if ( this.value == 'all' ) {
+		$('.datepicker').datepicker('option', 'defaultDate', -30 );
+		}
+		else {
+		$('.datepicker').datepicker('option', 'defaultDate', -this.value );
+		}
+    
+    ">
 	<?php
 	foreach ($app_config['power_user']['lite_chart_day_intervals'] as $lite_chart_days) {
 	?>
@@ -929,6 +938,13 @@ var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=
 	
 	date_timestamp = toTimestamp(date_array[0],date_array[1],date_array[2],0,0,0) + timestamp_offset;
   
+  // 'resize' MUST run before 'load'
+  zingchart.exec('performance_chart', 'resize', {
+  width: '100%',
+  height: document.getElementById('performance_chart_height').value
+  });
+  
+  // 'load'
   zingchart.exec('performance_chart', 'load', {
   	dataurl: 'ajax.php?type=chart&mode=asset_performance&time_period=' + document.getElementById('performance_chart_period').value + '&start_time=' + date_timestamp + '&chart_width=' + performance_chart_width + '&chart_height=' + document.getElementById('performance_chart_height').value + '&menu_size=' + document.getElementById('performance_menu_size').value,
     cache: {
@@ -1028,7 +1044,7 @@ $.get( "ajax.php?type=chart&mode=asset_performance&time_period=all&start_time=0&
 
 	zingchart.render({
   	id: 'performance_chart',
-  	height: 900, // MAX HEIGHT (MUST BE SET MAX EVEN IF INITIAL RENDER IS SHORTER FOR SOME REASON, OR CHART IS CUT OFF)
+  	height: '<?=$asset_performance_chart_defaults[0]?>',
   	width: "100%",
   	data: json_data
 	});
@@ -1311,6 +1327,12 @@ END SAVED CODE -->
    </div>
 	
 	<p class='bitcoin' style='font-weight: bold;'>Charts may take awhile to update with the latest data. See Admin Config POWER USER section, to adjust vertical axis scales.</p>	
+	
+	<?php
+	$all_chart_rebuild_min_max = explode(',', $app_config['developer']['all_chart_rebuild_min_max']);
+	?>
+	
+	<p class='red' style='font-weight: bold;'>*The most recent days in the 'ALL' chart WILL ALWAYS show a spike on the cron runtime seconds (from re-building the 'ALL' chart every <?=$all_chart_rebuild_min_max[0]?> to <?=$all_chart_rebuild_min_max[1]?> hours), until the 'ALL' chart re-builds slowly average out only showing their own runtime data for older days.</p>	
 	
 	<div class='red' id='system_charts_error'></div>
 	

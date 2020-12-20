@@ -85,6 +85,12 @@
     		?></div>
 	
 	<p class='bitcoin' style='font-weight: bold;'>Charts may take awhile to update with the latest data. See Admin Config POWER USER section, to adjust vertical axis scales.</p>	
+	
+	<?php
+	$all_chart_rebuild_min_max = explode(',', $app_config['developer']['all_chart_rebuild_min_max']);
+	?>
+	
+	<p class='red' style='font-weight: bold;'>*The most recent days in the 'ALL' chart WILL ALWAYS show a spike on the cron runtime seconds (from re-building the 'ALL' chart every <?=$all_chart_rebuild_min_max[0]?> to <?=$all_chart_rebuild_min_max[1]?> hours), until the 'ALL' chart re-builds slowly average out only showing their own runtime data for older days.</p>		
     		
 	
 	<div class='red' id='system_charts_error'></div>

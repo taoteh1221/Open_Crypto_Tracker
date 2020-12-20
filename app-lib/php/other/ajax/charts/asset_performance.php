@@ -31,6 +31,76 @@ $attributes = explode("||", $value);
 
 
 
+
+// If no chart data available...
+
+if ( sizeof($runtime_data['performance_stats']) < 1 ) {
+?>
+			
+{
+
+gui: {
+    contextMenu: {
+      customItems: [
+        {
+          text: 'PRIVACY ALERT!',
+          function: 'zingAlert()',
+          id: 'showAlert'
+        }
+      ],
+      alpha: 0.9,
+      button: {
+        visible: true
+      },
+      docked: true,
+      item: {
+        textAlpha: 1
+      },
+      position: 'left'
+    },
+    behaviors: [
+      {
+        id: 'showAlert',
+        enabled: 'all'
+      }
+    ]
+},
+   type: "area",
+   noData: {
+     text: "No <?=$_GET['time_period']?> day chart data for any assets yet, please check back in awhile.",
+  	  fontColor: "black",
+     backgroundColor: "#808080",
+     fontSize: 20,
+     textAlpha: .9,
+     alpha: .6,
+     bold: true
+   },
+  	backgroundColor: "#f2f2f2",
+  	height: <?=($_GET['chart_height'] - 4)?>,
+  	width: <?=( $_GET['chart_width'] ? ($_GET['chart_width'] - 4) : "'100%'" )?>,
+  	x: 0, 
+  	y: 0,
+  	title: {
+        text: "Asset Performance Comparison (<?=strtoupper($default_btc_primary_currency_pairing)?>)",
+        adjustLayout: true,
+    	  align: 'center',
+    	  offsetX: 0,
+    	  offsetY: 9
+  	},
+   series: [{
+     values: []
+   }]
+        
+}
+			
+<?php
+exit;
+}
+		
+
+
+// If chart data exists...
+
 $loop = 0;
 foreach ( $runtime_data['performance_stats'] as $chart_key => $chart_value ) {
   			
