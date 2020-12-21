@@ -113,7 +113,7 @@ var quoteSource=[
 	    	name:"Mike Kilday (creator of this app)"
 	    },
 	    {
-	    	quote:"<i>LITERALLY nearly 99.99% of all tokens</i> listed on Coinmarketcap.com (OR any other site) are either scams, garbage, or dead ends. Tread VERY carefully when investing, and RESEARCH AT LENGTH BEFOREHAND (that does NOT include *BLINDLY* believing some CEO / founder / influencer sweet talking their own token, telling you how competing systems suck and their system is better, or explaining how them owning over 50% of the total coin supply is not out of greed). 😮",
+	    	quote:"<i>LITERALLY nearly 99.9% of all tokens</i> listed on Coinmarketcap.com (OR any other site) are either scams, garbage, or dead ends. Tread VERY carefully when investing, and RESEARCH AT LENGTH BEFOREHAND (that does NOT include *BLINDLY* believing some CEO / founder / influencer sweet talking their own token, telling you how competing systems suck and their system is better, or explaining how them owning over 50% of the total coin supply is not out of greed). 😮",
 	    	name:"Mike Kilday (creator of this app)"
 	    },
 	    {

@@ -139,7 +139,7 @@
 							</li>
 						
 							<li class='red disclaimer'>
-								<i>LITERALLY</i> nearly 99.99% of all tokens are either scams, garbage, or dead ends.
+								<i>LITERALLY</i> nearly 99.9% of all tokens are either scams, garbage, or dead ends.
 							</li>
 							
 							<li class='red disclaimer'>
