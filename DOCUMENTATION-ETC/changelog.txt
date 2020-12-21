@@ -4117,7 +4117,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.23.0:
 
--Asset Performance Comparision chart, to catch the best trends ove a user-defined time period for all assets
+-Asset Performance Comparison chart, to catch the best trends ove a user-defined time period for all assets
 
 -Revised default config
 
@@ -4128,9 +4128,9 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.23.1:
 
--Bug fixes for new Asset Performance Comparision chart (same last values overwrite, 0.00% start, small screen compatibility)
+-Bug fixes for new Asset Performance Comparison chart (same last values overwrite, 0.00% start, small screen compatibility)
 
--Better UX for new Asset Performance Comparision chart (start time offset, based on browser time zone)
+-Better UX for new Asset Performance Comparison chart (start time offset, based on browser time zone)
 
 -Bug fix for System Stats chart (same last values overwrite)
 
@@ -4145,9 +4145,9 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.23.2:
 
--Minor bug fixes for the Asset Performance Comparision chart rendering
+-Minor bug fixes for the Asset Performance Comparison chart rendering
 
--Time period setting for the Asset Performance Comparision chart
+-Time period setting for the Asset Performance Comparison chart
 
 -Misc. bug fixes / UX improvements / optimizations
 

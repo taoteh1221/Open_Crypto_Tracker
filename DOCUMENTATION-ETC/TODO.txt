@@ -95,6 +95,12 @@ FEATURES / STRUCTURING SECTION
 ///////////////////////////////////////////////////////
 
 
+Fully include all leverage in all portfolio summaries, with "(X% leverage)" next to each summary.
+
+
+On the "More Stats" page, add a bar chart with USD marketcap of each coin in the assets config, same sorted highest + hide / show format as the asset performance comparison chart. Have option to use coingecko or CMC for the data. NO MATTER WHAT PRIMARY CURRENCY MARKET IS SET, ALWAYS DO IN USD SINCE SOMETIMES CERTAIN FIAT CURRENCIES AREN'T AVAILABLE IN COINGECKO / CMC DATA.
+
+
 Replace the small "in parentheses BTC value" text for non-BTC markets in the Trading / Holdings Value data columns, with user-chosen crypto based of the same logic as the "Crypto Value" summary.
 
 
