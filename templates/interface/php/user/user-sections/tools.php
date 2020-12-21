@@ -104,15 +104,17 @@
 			<fieldset class='subsection_fieldset'>
 				<legend class='subsection_legend'> <b>External Tools</b> </legend>
     			<ul>
+        
+        			<li class='links_list'><a href='https://calendar.google.com/' target='_blank'>Google Calendar to Send Yourself Reminders For Important Crypto Times</a> ;-)</li>
+	        
+	        		<li class='links_list'><a href='https://github.com/iancoleman/bip39' target='_blank'>Hardware / Software Wallet 24 Word Recovery Seed Generator</a> (USE OFFLINE WITH NO INTERNET CONNECTION FOR SAFETY!!!)</li>
+	        
+	        		<li class='links_list'><a href='https://sourceforge.net/projects/dfd-crypto-ticker/' target='_blank'>Raspberry PI Real-Time / Multi-Crypto Slideshow Price Ticker</a> (a side project of mine)</li>
 		    
         			<li class='links_list'><a href='https://opentimestamps.org/' target='_blank'>Timestamp Proof-Of-Existence Of Files (FREE) With The Bitcoin Blockchain</a></li>
         			<!-- alternate if any issues occur: https://dgi.io/ots/#ots_stampverify -->
 		    
         			<li class='links_list'><a href='https://timestamp.decred.org/' target='_blank'>Timestamp Proof-Of-Existence Of Files (FREE) With The Decred Blockchain</a></li>
-        
-        			<li class='links_list'><a href='https://calendar.google.com/' target='_blank'>Google Calendar to Send Yourself Reminders For Important Crypto Times</a> ;-)</li>
-	        
-	        		<li class='links_list'><a href='https://sourceforge.net/projects/dfd-crypto-ticker/' target='_blank'>Raspberry PI Real-Time / Multi-Crypto Slideshow Price Ticker</a> (a side project of mine)</li>
 				
 				
     			</ul>
