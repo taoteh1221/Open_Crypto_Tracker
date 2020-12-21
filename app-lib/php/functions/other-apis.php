@@ -281,7 +281,7 @@ $result = array();
 
 
 	if ( trim($app_config['general']['coinmarketcapcom_api_key']) == null ) { 
-	app_logging('repeat_error', '"coinmarketcapcom_api_key" (free API key) is not configured in Admin Config GENERAL section', false, 'coinmarketcapcom_api_key');
+	app_logging('notify_error', '"coinmarketcapcom_api_key" (free API key) is not configured in Admin Config GENERAL section', false, 'coinmarketcapcom_api_key');
 	return false;
 	}
 	

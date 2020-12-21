@@ -13,7 +13,7 @@
 	$bundle_error_logs .= $error;
 	}
 
-	foreach ( $logs_array['repeat_error'] as $error ) {
+	foreach ( $logs_array['notify_error'] as $error ) {
 	$bundle_error_logs .= $error;
 	}
 	
@@ -39,7 +39,7 @@
 		$bundle_error_logs .= $error;
 		}
 	
-		foreach ( $logs_array['repeat_debugging'] as $error ) {
+		foreach ( $logs_array['notify_debugging'] as $error ) {
 		$bundle_error_logs .= $error;
 		}
 	

@@ -4157,6 +4157,17 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 
 
+-------------------------------------------------------------------
+4.24.0:
+
+-Error / debug logging semantics
+
+-Misc cleanup
+
+-------------------------------------------------------------------
+
+
+
 
 
 

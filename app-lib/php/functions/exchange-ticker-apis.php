@@ -774,7 +774,7 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
   	
   		
   		if ( trim($app_config['general']['defipulsecom_api_key']) == null ) {
-  		app_logging('repeat_error', '"defipulsecom_api_key" (free API key) is not configured in Admin Config GENERAL section', false, 'defipulsecom_api_key');
+  		app_logging('notify_error', '"defipulsecom_api_key" (free API key) is not configured in Admin Config GENERAL section', false, 'defipulsecom_api_key');
   		return false;
   		}
   		
@@ -785,7 +785,7 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
   		
   		
   		if ( $defipulse_api_limit == true ) {
-  		app_logging('repeat_error', 'DeFiPulse.com monthly API limit exceeded (check your account there)', false, 'defipulsecom_api_limit');
+  		app_logging('notify_error', 'DeFiPulse.com monthly API limit exceeded (check your account there)', false, 'defipulsecom_api_limit');
   		return false;
   		}
       elseif ( !$defi_pools_info['pool_address'] ) {

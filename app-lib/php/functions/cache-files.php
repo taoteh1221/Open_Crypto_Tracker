@@ -420,7 +420,7 @@ $debugging_logs .= strip_tags($logs_array['other_debugging']); // Remove any HTM
 	$debugging_logs .= strip_tags($debugging); // Remove any HTML formatting used in UI alerts
 	}
 
-	foreach ( $logs_array['repeat_debugging'] as $debugging ) {
+	foreach ( $logs_array['notify_debugging'] as $debugging ) {
 	$debugging_logs .= strip_tags($debugging); // Remove any HTML formatting used in UI alerts
 	}
 
@@ -514,7 +514,7 @@ $error_logs .= strip_tags($logs_array['other_error']); // Remove any HTML format
 	$error_logs .= strip_tags($error); // Remove any HTML formatting used in UI alerts
 	}
 	
-	foreach ( $logs_array['repeat_error'] as $error ) {
+	foreach ( $logs_array['notify_error'] as $error ) {
 	$error_logs .= strip_tags($error); // Remove any HTML formatting used in UI alerts
 	}
 
@@ -2048,7 +2048,7 @@ $tld_session_prefix = preg_replace("/\./i", "_", $endpoint_tld_or_ip);
 
 		// API timeout limit near / exceeded warning
 		if ( number_to_string($app_config['power_user']['remote_api_timeout'] - 1) <= number_to_string($api_total_time) ) {
-		app_logging('repeat_error', 'Remote API timeout near OR exceeded (' . $api_total_time . ' seconds) for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint) . ', set "remote_api_timeout" higher in POWER USER config if this persists, IF NOT A CONNECTION FAILURE', 'remote_api_timeout: ' . $app_config['power_user']['remote_api_timeout'] . ' seconds; live_request_time: ' . $api_total_time . ' seconds;', $hash_check );
+		app_logging('notify_error', 'Remote API timeout near OR exceeded (' . $api_total_time . ' seconds) for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint) . ', set "remote_api_timeout" higher in POWER USER config if this persists, IF NOT A CONNECTION FAILURE', 'remote_api_timeout: ' . $app_config['power_user']['remote_api_timeout'] . ' seconds; live_request_time: ' . $api_total_time . ' seconds;', $hash_check );
 		}
 	
 	
@@ -2113,7 +2113,7 @@ $tld_session_prefix = preg_replace("/\./i", "_", $endpoint_tld_or_ip);
 	
 	// Defipulse API limit exceeded detection (FAILSAFE AT END OF FUNCTION before returning, whether live OR cache)
 	if ( $endpoint_tld_or_ip == 'defipulse.com' && trim($app_config['general']['defipulsecom_api_key']) != null && preg_match("/API limit exceeded/i", $data) ) {
-  	app_logging('repeat_error', 'DeFiPulse.com monthly API limit exceeded (check your account there)', false, 'defipulsecom_api_limit');
+  	app_logging('notify_error', 'DeFiPulse.com monthly API limit exceeded (check your account there)', false, 'defipulsecom_api_limit');
   	$defipulse_api_limit = true;
 	}
 
