@@ -90,7 +90,7 @@ gui: {
 },
    type: "area",
    noData: {
-     text: "No data for the <?=$_GET['days']?> day chart yet, please check back in awhile.",
+     text: "No data for the '<?=ucfirst($_GET['days'])?> day(s)' lite chart yet, please check back in awhile.",
   	  fontColor: "<?=$app_config['power_user']['charts_text']?>",
      backgroundColor: "#808080",
      fontSize: 20,

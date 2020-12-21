@@ -4162,7 +4162,9 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Error / debug logging semantics
 
--Misc cleanup
+-Revised default config
+
+-Misc cleanup / UX
 
 -------------------------------------------------------------------
 

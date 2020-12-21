@@ -67,7 +67,7 @@ gui: {
 },
    type: "area",
    noData: {
-     text: "No <?=$_GET['time_period']?> day chart data for any assets yet, please check back in awhile.",
+     text: "No '<?=ucfirst($_GET['time_period'])?> day(s)' lite chart data for any assets yet, please check back in awhile.",
   	  fontColor: "black",
      backgroundColor: "#808080",
      fontSize: 20,
