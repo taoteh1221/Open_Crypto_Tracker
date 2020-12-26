@@ -296,7 +296,7 @@ global $app_config;
 ////////////////////////////////////////////////////////
 
 
-function marketcap_data($symbol) {
+function marketcap_data($symbol, $force_currency=null) {
 	
 global $app_config, $alert_percent, $coinmarketcap_currencies, $cap_data_force_usd, $cmc_notes, $coingecko_api, $coinmarketcap_api;
 
@@ -309,7 +309,19 @@ $data = array();
 	
 		
 		// Check for currency support, fallback to USD if needed
-		if ( !isset($coingecko_api['btc']['market_cap_rank']) && strtoupper($app_config['general']['btc_primary_currency_pairing']) != 'USD' ) {
+		if ( $force_currency != null ) {
+			
+		$app_notice = 'Forcing '.strtoupper($force_currency).' stats.';
+		
+		$coingecko_api_no_overwrite = coingecko_api($force_currency);
+			
+			// Overwrite previous app notice and unset force usd flag, if this appears to be a data error rather than an unsupported language
+			if ( !isset($coingecko_api_no_overwrite['btc']['market_cap_rank']) ) {
+			$app_notice = 'Coingecko.com API data error, check the error logs for more information.';
+			}
+		
+		}
+		elseif ( !isset($coingecko_api['btc']['market_cap_rank']) && strtoupper($app_config['general']['btc_primary_currency_pairing']) != 'USD' ) {
 			
 		$app_notice = 'Coingecko.com does not seem to support '.strtoupper($app_config['general']['btc_primary_currency_pairing']).' stats,<br />showing USD stats instead.';
 		
@@ -327,31 +339,35 @@ $data = array();
 		elseif ( $cap_data_force_usd == 1 ) {
 		$app_notice = 'Coingecko.com does not seem to support '.strtoupper($app_config['general']['btc_primary_currency_pairing']).' stats,<br />showing USD stats instead.';
 		}
-		
-		
-	$data['rank'] = $coingecko_api[$symbol]['market_cap_rank'];
-	$data['price'] = $coingecko_api[$symbol]['current_price'];
-	$data['market_cap'] = $coingecko_api[$symbol]['market_cap'];
-	$data['volume_24h'] = $coingecko_api[$symbol]['total_volume'];
 	
-	$data['percent_change_1h'] = number_format( $coingecko_api[$symbol]['price_change_percentage_1h_in_currency'] , 2, ".", ",");
-	$data['percent_change_24h'] = number_format( $coingecko_api[$symbol]['price_change_percentage_24h_in_currency'] , 2, ".", ",");
-	$data['percent_change_7d'] = number_format( $coingecko_api[$symbol]['price_change_percentage_7d_in_currency'] , 2, ".", ",");
 	
-	$data['circulating_supply'] = $coingecko_api[$symbol]['circulating_supply'];
-	$data['total_supply'] = $coingecko_api[$symbol]['total_supply'];
+	// Marketcap data
+	$marketcap_data = ( $coingecko_api_no_overwrite ? $coingecko_api_no_overwrite : $coingecko_api );
+	
+		
+	$data['rank'] = $marketcap_data[$symbol]['market_cap_rank'];
+	$data['price'] = $marketcap_data[$symbol]['current_price'];
+	$data['market_cap'] = $marketcap_data[$symbol]['market_cap'];
+	$data['volume_24h'] = $marketcap_data[$symbol]['total_volume'];
+	
+	$data['percent_change_1h'] = number_format( $marketcap_data[$symbol]['price_change_percentage_1h_in_currency'] , 2, ".", ",");
+	$data['percent_change_24h'] = number_format( $marketcap_data[$symbol]['price_change_percentage_24h_in_currency'] , 2, ".", ",");
+	$data['percent_change_7d'] = number_format( $marketcap_data[$symbol]['price_change_percentage_7d_in_currency'] , 2, ".", ",");
+	
+	$data['circulating_supply'] = $marketcap_data[$symbol]['circulating_supply'];
+	$data['total_supply'] = $marketcap_data[$symbol]['total_supply'];
 	$data['max_supply'] = null;
 	
-	$data['last_updated'] = strtotime( $coingecko_api[$symbol]['last_updated'] );
+	$data['last_updated'] = strtotime( $marketcap_data[$symbol]['last_updated'] );
 	
 	$data['app_notice'] = $app_notice;
 	
 	// Coingecko-only
-	$data['percent_change_14d'] = number_format( $coingecko_api[$symbol]['price_change_percentage_14d_in_currency'] , 2, ".", ",");
-	$data['percent_change_30d'] = number_format( $coingecko_api[$symbol]['price_change_percentage_30d_in_currency'] , 2, ".", ",");
-	$data['percent_change_60d'] = number_format( $coingecko_api[$symbol]['price_change_percentage_60d_in_currency'] , 2, ".", ",");
-	$data['percent_change_200d'] = number_format( $coingecko_api[$symbol]['price_change_percentage_200d_in_currency'] , 2, ".", ",");
-	$data['percent_change_1y'] = number_format( $coingecko_api[$symbol]['price_change_percentage_1y_in_currency'] , 2, ".", ",");
+	$data['percent_change_14d'] = number_format( $marketcap_data[$symbol]['price_change_percentage_14d_in_currency'] , 2, ".", ",");
+	$data['percent_change_30d'] = number_format( $marketcap_data[$symbol]['price_change_percentage_30d_in_currency'] , 2, ".", ",");
+	$data['percent_change_60d'] = number_format( $marketcap_data[$symbol]['price_change_percentage_60d_in_currency'] , 2, ".", ",");
+	$data['percent_change_200d'] = number_format( $marketcap_data[$symbol]['price_change_percentage_200d_in_currency'] , 2, ".", ",");
+	$data['percent_change_1y'] = number_format( $marketcap_data[$symbol]['price_change_percentage_1y_in_currency'] , 2, ".", ",");
 	
 	}
 	elseif ( $app_config['general']['primary_marketcap_site'] == 'coinmarketcap' ) {
@@ -361,30 +377,38 @@ $data = array();
 	
 	
 		// Default to USD, if selected primary currency is not supported
-		if ( isset($cap_data_force_usd) ) {
+		if ( $force_currency != null ) {
+		$app_notice .= ' Forcing '.strtoupper($force_currency).' stats. ';
+		$coinmarketcap_api_no_overwrite = coinmarketcap_api($force_currency);
+		}
+		elseif ( isset($cap_data_force_usd) ) {
 		$coinmarketcap_primary_currency = 'USD';
 		}
 		
 		
 		if ( isset($cmc_notes) ) {
-		$app_notice = $cmc_notes;
+		$app_notice .= $cmc_notes;
 		}
 		
+	
+	// Marketcap data
+	$marketcap_data = ( $coinmarketcap_api_no_overwrite ? $coinmarketcap_api_no_overwrite : $coinmarketcap_api );
 		
-	$data['rank'] = $coinmarketcap_api[$symbol]['cmc_rank'];
-	$data['price'] = $coinmarketcap_api[$symbol]['quote'][$coinmarketcap_primary_currency]['price'];
-	$data['market_cap'] = $coinmarketcap_api[$symbol]['quote'][$coinmarketcap_primary_currency]['market_cap'];
-	$data['volume_24h'] = $coinmarketcap_api[$symbol]['quote'][$coinmarketcap_primary_currency]['volume_24h'];
+		
+	$data['rank'] = $marketcap_data[$symbol]['cmc_rank'];
+	$data['price'] = $marketcap_data[$symbol]['quote'][$coinmarketcap_primary_currency]['price'];
+	$data['market_cap'] = $marketcap_data[$symbol]['quote'][$coinmarketcap_primary_currency]['market_cap'];
+	$data['volume_24h'] = $marketcap_data[$symbol]['quote'][$coinmarketcap_primary_currency]['volume_24h'];
 	
-	$data['percent_change_1h'] = number_format( $coinmarketcap_api[$symbol]['quote'][$coinmarketcap_primary_currency]['percent_change_1h'] , 2, ".", ",");
-	$data['percent_change_24h'] = number_format( $coinmarketcap_api[$symbol]['quote'][$coinmarketcap_primary_currency]['percent_change_24h'] , 2, ".", ",");
-	$data['percent_change_7d'] = number_format( $coinmarketcap_api[$symbol]['quote'][$coinmarketcap_primary_currency]['percent_change_7d'] , 2, ".", ",");
+	$data['percent_change_1h'] = number_format( $marketcap_data[$symbol]['quote'][$coinmarketcap_primary_currency]['percent_change_1h'] , 2, ".", ",");
+	$data['percent_change_24h'] = number_format( $marketcap_data[$symbol]['quote'][$coinmarketcap_primary_currency]['percent_change_24h'] , 2, ".", ",");
+	$data['percent_change_7d'] = number_format( $marketcap_data[$symbol]['quote'][$coinmarketcap_primary_currency]['percent_change_7d'] , 2, ".", ",");
 	
-	$data['circulating_supply'] = $coinmarketcap_api[$symbol]['circulating_supply'];
-	$data['total_supply'] = $coinmarketcap_api[$symbol]['total_supply'];
-	$data['max_supply'] = $coinmarketcap_api[$symbol]['max_supply'];
+	$data['circulating_supply'] = $marketcap_data[$symbol]['circulating_supply'];
+	$data['total_supply'] = $marketcap_data[$symbol]['total_supply'];
+	$data['max_supply'] = $marketcap_data[$symbol]['max_supply'];
 	
-	$data['last_updated'] = strtotime( $coinmarketcap_api[$symbol]['last_updated'] );
+	$data['last_updated'] = strtotime( $marketcap_data[$symbol]['last_updated'] );
 	
 	$data['app_notice'] = $app_notice;
 	

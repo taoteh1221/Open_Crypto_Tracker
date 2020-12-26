@@ -4160,6 +4160,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.24.0:
 
+-USD Marketcap Comparison chart, to visually see marketcap size differences.
+
 -Error / debug logging semantics
 
 -Revised default config

@@ -26,6 +26,10 @@ require_once($base_dir . '/app-lib/php/other/ajax/charts/asset_balance.php');
 elseif ( $_GET['mode'] == 'asset_performance' ) {
 require_once($base_dir . '/app-lib/php/other/ajax/charts/asset_performance.php');
 }
+// MARKETCAP DATA
+elseif ( $_GET['mode'] == 'marketcap_data' ) {
+require_once($base_dir . '/app-lib/php/other/ajax/charts/marketcap_data.php');
+}
 // SYSTEM CHARTS
 elseif ( $_GET['mode'] == 'system' ) {
 require_once($base_dir . '/app-lib/php/other/ajax/charts/system.php');

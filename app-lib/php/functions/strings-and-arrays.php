@@ -392,8 +392,6 @@ return $result;
 // Also removes any leading and trailing zeros for efficient storage / UX / etc
 function number_to_string($val) {
 
-global $app_config;
-
 // Trim any whitespace off the ends
 $val = trim($val);
 

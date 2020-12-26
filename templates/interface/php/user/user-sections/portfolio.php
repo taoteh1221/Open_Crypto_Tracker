@@ -1062,7 +1062,192 @@ $.get( "ajax.php?type=chart&mode=asset_performance&time_period=all&start_time=0&
 	}
   	// Performance chart END
 	?>
+	
+
+
+	
+<fieldset class='subsection_fieldset'>
+	<legend class='subsection_legend'> <b>USD Marketcap Comparison Chart</b> </legend>
+	
+    <p>
+    
+    <?php
+    
+    $asset_marketcap_chart_defaults = explode("||", $app_config['power_user']['asset_marketcap_chart_defaults']);
+    
+    	// Fallbacks
+    	
+    	if ( $asset_marketcap_chart_defaults[0] >= 400 && $asset_marketcap_chart_defaults[0] <= 900 ) {
+		// DO NOTHING    	
+    	}
+    	else {
+    	$asset_marketcap_chart_defaults[0] = 600;
+    	}
+    	
+    	if ( $asset_marketcap_chart_defaults[1] >= 7 && $asset_marketcap_chart_defaults[1] <= 16 ) {
+		// DO NOTHING    	
+    	}
+    	else {
+    	$asset_marketcap_chart_defaults[1] = 15;
+    	}
+    
+    ?>
+    
+    
+    Chart Height: <select class='browser-default custom-select' id='marketcap_data_height' name='marketcap_data_height'>
+    <?php
+    $count = 400;
+    while ( $count <= 900 ) {
+    ?>
+    <option value='<?=$count?>' <?=( $count == $asset_marketcap_chart_defaults[0] ? 'selected' : '' )?>> <?=$count?> </option>
+    <?php
+    $count = $count + 100;
+    }
+    ?>
+    </select>  &nbsp;&nbsp; 
+    
+    
+    Menu Size: <select class='browser-default custom-select' id='marketcap_menu_size' name='marketcap_menu_size'>
+    <?php
+    $count = 7;
+    while ( $count <= 16 ) {
+    ?>
+    <option value='<?=$count?>' <?=( $count == $asset_marketcap_chart_defaults[1] ? 'selected' : '' )?>> <?=$count?> </option>
+    <?php
+    $count = $count + 1;
+    }
+    ?>
+    </select>  &nbsp;&nbsp; 
+    
+    
+    <input type='button' value='Update Marketcap Comparison Chart' onclick="
+  
+  var marketcap_chart_width = document.getElementById('marketcap_chart').offsetWidth;
+  
+  // Reset any user-adjusted zoom
+  zingchart.exec('marketcap_chart', 'viewall', {
+    graphid: 0
+  });
+  
+  
+  $('#marketcap_chart div.chart_reload div').html('Loading Marketcap Comparison Chart...');
+  
+	$('#marketcap_chart div.chart_reload').fadeIn(100); // 0.1 seconds
+	
+  zingchart.bind('marketcap_chart', 'complete', function() {
+  	
+	$('#marketcap_chart div.chart_reload' ).fadeOut(2500); // 2.5 seconds
+	$('#marketcap_chart').css('height', document.getElementById('marketcap_data_height').value + 'px');
+	$('#marketcap_chart').css('background', '#f2f2f2');
+	
+	});
+	
+	
+  // 'resize' MUST run before 'load'
+  zingchart.exec('marketcap_chart', 'resize', {
+  width: '100%',
+  height: document.getElementById('marketcap_data_height').value
+  });
+  
+  // 'load'
+  zingchart.exec('marketcap_chart', 'load', {
+  	dataurl: 'ajax.php?type=chart&mode=marketcap_data&chart_width=' + marketcap_chart_width + '&chart_height=' + document.getElementById('marketcap_data_height').value + '&menu_size=' + document.getElementById('marketcap_menu_size').value + '&marketcap_site=<?=$app_config['general']['primary_marketcap_site']?>',
+    cache: {
+        data: true
+    }
+  });
+    
+    " /> 
+    
+    &nbsp; <img class="marketcap_chart_defaults" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
+    
+<script>
+
+
+var marketcap_chart_defaults_content = '<h5 class="yellow tooltip_title">Settings For USD Marketcap Comparison Chart</h5>'
+
+			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;">Adjust the chart height and menu size, depending on your preferences. The defaults for these two settings can be changed in the Admin Config POWER USER section, under \'asset_marketcap_chart_defaults\'.</p>';
+		
+		
+		
+			$('.marketcap_chart_defaults').balloon({
+			html: true,
+			position: "right",
+			contents: marketcap_chart_defaults_content,
+			css: {
+					fontSize: ".8rem",
+					minWidth: "450px",
+					padding: ".3rem .7rem",
+					border: "2px solid rgba(212, 212, 212, .4)",
+					borderRadius: "6px",
+					boxShadow: "3px 3px 6px #555",
+					color: "#eee",
+					backgroundColor: "#111",
+					opacity: "0.99",
+					zIndex: "32767",
+					textAlign: "left"
+					}
+			});
 			
+		
+		
+		
+
+
+</script> 
+  
+    </p>
+    
+  
+ 
+  	<div style='min-width: 775px; width: 100%; min-height: 1px; background: #808080; border: 2px solid #918e8e; display: flex; flex-flow: column wrap; overflow: hidden;' class='chart_wrapper' id='marketcap_chart'>
+	
+	<span class='chart_loading' style='color: <?=$app_config['power_user']['charts_text']?>;'> &nbsp; Loading Marketcap Comparison Chart...</span>
+	
+	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img src="templates/interface/media/images/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div style='display: inline;'></div></div>
+		
+	</div>
+	
+	
+  <script>
+
+$("#marketcap_chart span.chart_loading").html(' &nbsp; <img src="templates/interface/media/images/loader.gif" height="16" alt="" style="vertical-align: middle;" /> Loading Asset Performance Chart...');
+	
+  
+zingchart.bind('marketcap_chart', 'load', function() {
+$("#marketcap_chart span").hide(); // Hide "Loading chart X..." after it loads
+});
+  
+
+zingchart.TOUCHZOOM = 'pinch'; /* mobile compatibility */
+
+$.get( "ajax.php?type=chart&mode=marketcap_data&chart_height=<?=$asset_marketcap_chart_defaults[0]?>&menu_size=<?=$asset_marketcap_chart_defaults[1]?>&marketcap_site=<?=$app_config['general']['primary_marketcap_site']?>", function( json_data ) {
+ 
+
+	// Mark chart as loaded after it has rendered
+	zingchart.bind('marketcap_chart', 'complete', function() {
+	$("#marketcap_chart span").hide(); // Hide "Loading chart X..." after it loads
+	$('#marketcap_chart').css('height', '<?=$asset_marketcap_chart_defaults[0]?>px');
+	});
+
+	zingchart.render({
+  	id: 'marketcap_chart',
+  	height: '<?=$asset_marketcap_chart_defaults[0]?>',
+  	width: "100%",
+  	data: json_data
+	});
+
+ 
+});
+
+    
+  </script>
+  
+				
+</fieldset>
+
+
+		
 	
   <p> &nbsp; </p>
   

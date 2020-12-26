@@ -273,7 +273,7 @@ global $base_dir, $app_config;
 ////////////////////////////////////////////////////////
 
 
-function coinmarketcap_api() {
+function coinmarketcap_api($force_primary_currency=null) {
 	
 global $app_config, $coinmarketcap_currencies, $cap_data_force_usd, $cmc_notes;
 
@@ -290,7 +290,11 @@ $result = array();
 	$coinmarketcap_primary_currency = strtoupper($app_config['general']['btc_primary_currency_pairing']);
 	
 		
-		if ( in_array($coinmarketcap_primary_currency, $coinmarketcap_currencies) ) {
+		if ( $force_primary_currency != null ) {
+		$convert = strtoupper($force_primary_currency);
+		$cap_data_force_usd = null;
+		}
+		elseif ( in_array($coinmarketcap_primary_currency, $coinmarketcap_currencies) ) {
 		$convert = $coinmarketcap_primary_currency;
 		$cap_data_force_usd = null;
 		}
