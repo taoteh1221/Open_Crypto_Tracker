@@ -1181,7 +1181,7 @@ var marketcap_chart_defaults_content = '<h5 class="yellow tooltip_title">Setting
 		
 			$('.marketcap_chart_defaults').balloon({
 			html: true,
-			position: "right",
+			position: "left",
 			contents: marketcap_chart_defaults_content,
 			css: {
 					fontSize: ".8rem",
