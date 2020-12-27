@@ -1094,6 +1094,13 @@ $.get( "ajax.php?type=chart&mode=asset_performance&time_period=all&start_time=0&
     ?>
     
     
+    
+    Marketcap Type: <select class='browser-default custom-select' id='marketcap_type' name='marketcap_type'>
+    <option value='circulating'> Circulating </option>
+    <option value='total'> Total </option>
+    </select>  &nbsp;&nbsp; 
+    
+    
     Chart Height: <select class='browser-default custom-select' id='marketcap_data_height' name='marketcap_data_height'>
     <?php
     $count = 400;
@@ -1151,7 +1158,7 @@ $.get( "ajax.php?type=chart&mode=asset_performance&time_period=all&start_time=0&
   
   // 'load'
   zingchart.exec('marketcap_chart', 'load', {
-  	dataurl: 'ajax.php?type=chart&mode=marketcap_data&chart_width=' + marketcap_chart_width + '&chart_height=' + document.getElementById('marketcap_data_height').value + '&menu_size=' + document.getElementById('marketcap_menu_size').value + '&marketcap_site=<?=$app_config['general']['primary_marketcap_site']?>',
+  	dataurl: 'ajax.php?type=chart&mode=marketcap_data&marketcap_type=' + document.getElementById('marketcap_type').value + '&chart_width=' + marketcap_chart_width + '&chart_height=' + document.getElementById('marketcap_data_height').value + '&menu_size=' + document.getElementById('marketcap_menu_size').value + '&marketcap_site=<?=$app_config['general']['primary_marketcap_site']?>',
     cache: {
         data: true
     }
@@ -1165,6 +1172,8 @@ $.get( "ajax.php?type=chart&mode=asset_performance&time_period=all&start_time=0&
 
 
 var marketcap_chart_defaults_content = '<h5 class="yellow tooltip_title">Settings For USD Marketcap Comparison Chart</h5>'
+
+			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;">Marketcap Type: The \'circulating\' marketcap ONLY includes coins that are IN CIRCULATION (publicly available to transfer / trade), while the \'total\' marketcap includes ALL COINS (even those not mined yet / held by VIPs or Treasuries / etc).</p>'
 
 			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;">Adjust the chart height and menu size, depending on your preferences. The defaults for these two settings can be changed in the Admin Config POWER USER section, under \'asset_marketcap_chart_defaults\'.</p>';
 		
@@ -1221,7 +1230,7 @@ $("#marketcap_chart span").hide(); // Hide "Loading chart X..." after it loads
 
 zingchart.TOUCHZOOM = 'pinch'; /* mobile compatibility */
 
-$.get( "ajax.php?type=chart&mode=marketcap_data&chart_height=<?=$asset_marketcap_chart_defaults[0]?>&menu_size=<?=$asset_marketcap_chart_defaults[1]?>&marketcap_site=<?=$app_config['general']['primary_marketcap_site']?>", function( json_data ) {
+$.get( "ajax.php?type=chart&mode=marketcap_data&marketcap_type=circulating&chart_height=<?=$asset_marketcap_chart_defaults[0]?>&menu_size=<?=$asset_marketcap_chart_defaults[1]?>&marketcap_site=<?=$app_config['general']['primary_marketcap_site']?>", function( json_data ) {
  
 
 	// Mark chart as loaded after it has rendered

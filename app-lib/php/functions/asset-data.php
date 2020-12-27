@@ -347,7 +347,12 @@ $data = array();
 		
 	$data['rank'] = $marketcap_data[$symbol]['market_cap_rank'];
 	$data['price'] = $marketcap_data[$symbol]['current_price'];
-	$data['market_cap'] = $marketcap_data[$symbol]['market_cap'];
+	$data['market_cap'] = round( remove_number_format($marketcap_data[$symbol]['market_cap']) );
+	
+		if ( remove_number_format($marketcap_data[$symbol]['total_supply']) > remove_number_format($marketcap_data[$symbol]['circulating_supply']) ) {
+		$data['market_cap_total'] = round( remove_number_format($marketcap_data[$symbol]['current_price']) * remove_number_format($marketcap_data[$symbol]['total_supply']) );
+		}
+		
 	$data['volume_24h'] = $marketcap_data[$symbol]['total_volume'];
 	
 	$data['percent_change_1h'] = number_format( $marketcap_data[$symbol]['price_change_percentage_1h_in_currency'] , 2, ".", ",");
@@ -397,7 +402,12 @@ $data = array();
 		
 	$data['rank'] = $marketcap_data[$symbol]['cmc_rank'];
 	$data['price'] = $marketcap_data[$symbol]['quote'][$coinmarketcap_primary_currency]['price'];
-	$data['market_cap'] = $marketcap_data[$symbol]['quote'][$coinmarketcap_primary_currency]['market_cap'];
+	$data['market_cap'] = round( remove_number_format($marketcap_data[$symbol]['quote'][$coinmarketcap_primary_currency]['market_cap']) );
+	
+		if ( remove_number_format($marketcap_data[$symbol]['total_supply']) > remove_number_format($marketcap_data[$symbol]['circulating_supply']) ) {
+		$data['market_cap_total'] = round( remove_number_format($marketcap_data[$symbol]['quote'][$coinmarketcap_primary_currency]['price']) * remove_number_format($marketcap_data[$symbol]['total_supply']) );
+		}
+		
 	$data['volume_24h'] = $marketcap_data[$symbol]['quote'][$coinmarketcap_primary_currency]['volume_24h'];
 	
 	$data['percent_change_1h'] = number_format( $marketcap_data[$symbol]['quote'][$coinmarketcap_primary_currency]['percent_change_1h'] , 2, ".", ",");
@@ -1890,10 +1900,15 @@ $original_market = $selected_exchange;
             }
         		?>
         
-        +'<p class="coin_info"><span class="yellow">Marketcap Ranking:</span> #<?=$marketcap_data['rank']?></p>'
-        +'<p class="coin_info"><span class="yellow">Marketcap Value:</span> <?=$cmc_primary_currency_symbol?><?=number_format($marketcap_data['market_cap'],0,".",",")?></p>'
+        +'<p class="coin_info"><span class="yellow">Ranking:</span> #<?=$marketcap_data['rank']?></p>'
+        +'<p class="coin_info"><span class="yellow">Marketcap (circulating):</span> <?=$cmc_primary_currency_symbol?><?=number_format($marketcap_data['market_cap'],0,".",",")?></p>'
         
         <?php
+            if ( $marketcap_data['market_cap_total'] > 0 ) {
+            ?>
+        +'<p class="coin_info"><span class="yellow">Marketcap (total):</span> <?=$cmc_primary_currency_symbol?><?=number_format($marketcap_data['market_cap_total'],0,".",",")?></p>'
+        <?php
+            }
             if ( $marketcap_data['circulating_supply'] > 0 ) {
             ?>
         +'<p class="coin_info"><span class="yellow">Circulating Supply:</span> <?=number_format($marketcap_data['circulating_supply'], 0, '.', ',')?></p>'
@@ -1911,6 +1926,7 @@ $original_market = $selected_exchange;
             }
             ?>
         +'<p class="coin_info"><span class="yellow">Unit Value (global average):</span> <?=$cmc_primary_currency_symbol?><?=$marketcap_data['price']?></p>'
+        +'<p class="coin_info"><span class="yellow">24 Hour Volume (global):</span> <?=$cmc_primary_currency_symbol?><?=number_format($marketcap_data['volume_24h'],0,".",",")?></p>'
         <?php
             if ( $marketcap_data['percent_change_1h'] != null ) {
             ?>
@@ -1950,9 +1966,6 @@ $original_market = $selected_exchange;
         +'<p class="coin_info"><span class="yellow">1 Year Change:</span> <?=( stristr($marketcap_data['percent_change_1y'], '-') != false ? '<span class="red_bright">'.$marketcap_data['percent_change_1y'].'%</span>' : '<span class="green_bright">+'.$marketcap_data['percent_change_1y'].'%</span>' )?></p>'
         <?php
             }
-            ?>
-        +'<p class="coin_info"><span class="yellow">24 Hour Volume (global):</span> <?=$cmc_primary_currency_symbol?><?=number_format($marketcap_data['volume_24h'],0,".",",")?></p>'
-        <?php
             if ( $marketcap_data['last_updated'] != '' ) {
             ?>
         +'<p class="coin_info"><span class="yellow">Timestamp (UTC):</span> <?=gmdate("Y-M-d\ \\a\\t g:ia", $marketcap_data['last_updated'])?></p>'

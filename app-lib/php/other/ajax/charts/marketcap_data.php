@@ -10,8 +10,15 @@ $marketcap_data = marketcap_data($key, 'usd'); // For marketcap bar chart, we AL
 
 //var_dump($marketcap_data);
 		
-	if ( $marketcap_data['market_cap'] ) {
-	$runtime_data['marketcap_data'][$key] = remove_number_format($marketcap_data['market_cap']); 
+	if ( $_GET['marketcap_type'] == 'circulating' && $marketcap_data['market_cap'] ) {
+	$runtime_data['marketcap_data'][$key] = remove_number_format($marketcap_data['market_cap']);
+	}
+	elseif ( $_GET['marketcap_type'] == 'total' && $marketcap_data['market_cap_total'] ) {
+	$runtime_data['marketcap_data'][$key] = ( remove_number_format($marketcap_data['market_cap_total']) ); 
+	}
+	// If circulating / total are same
+	elseif ( $_GET['marketcap_type'] == 'total' && $marketcap_data['market_cap'] ) {
+	$runtime_data['marketcap_data'][$key] = ( remove_number_format($marketcap_data['market_cap']) ); 
 	}
 
 }
@@ -237,7 +244,7 @@ gui: {
       	 fontFamily: "Open Sans",
           borderRadius: '2px',
           borderWidth: '2px',
-      	 text: "%t Marketcap (USD): $%v",
+      	 text: "%t Marketcap (<?=$_GET['marketcap_type']?>): $%v",
     	 	 "thousands-separator":","
     		}
       },
