@@ -1293,42 +1293,6 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
 
 
 
-  elseif ( strtolower($chosen_exchange) == 'livecoin' ) {
-
-
-     $json_string = 'https://api.livecoin.net/exchange/ticker';
-     
-     $jsondata = @external_api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
-     
-     $data = json_decode($jsondata, true);
-  
-      if (is_array($data) || is_object($data)) {
-  
-       foreach ($data as $key => $value) {
-         
-         if ( $value['symbol'] == $market_id ) {
-          
-         $result = array(
-    							'last_trade' => $value["last"],
-    							'24hr_asset_volume' => $value["volume"],
-    							'24hr_pairing_volume' => null // No pairing volume data for this API
-    						);
-          
-         }
-     
-       }
-      
-      }
-  
-  
-  }
- 
- 
- 
- ////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
   elseif ( strtolower($chosen_exchange) == 'localbitcoins' ) {
      
      

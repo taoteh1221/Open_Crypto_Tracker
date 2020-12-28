@@ -190,7 +190,7 @@ $app_config['general']['btc_primary_currency_pairing'] = 'usd'; // PUT INSIDE SI
 // (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
 // binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmex / bitpanda / bitso / bitstamp / bittrex 
 // bittrex_global / braziliex / btcmarkets / btcturk / buyucoin / cex / coinbase / gemini / hitbtc / huobi 
-// korbit / kraken / kucoin / liquid / livecoin / localbitcoins / luno / okcoin / okex / southxchange / upbit / wazirx
+// korbit / kraken / kucoin / liquid / localbitcoins / luno / okcoin / okex / southxchange / upbit / wazirx
 // SEE THE $app_config['portfolio_assets'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
 // MARKET PAIRING VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (to populate $app_config['general']['btc_primary_currency_pairing'] directly above with)
 // SEE THE $app_config['developer']['limited_apis'] SETTING MUCH FURTHER DOWN, FOR EXCHANGES !NOT RECOMMENDED FOR USAGE HERE!
@@ -2087,7 +2087,6 @@ $app_config['portfolio_assets'] = array(
                                           'bitflyer' => 'BTC_USD',
                                           'hitbtc' => 'BTCUSD',
                                           'okcoin' => 'BTC-USD',
-                                          'livecoin' => 'BTC/USD',
                                           'cex' => 'BTC:USD',
                                           'southxchange' => 'BTC/USD',
                                                     ),
@@ -2095,7 +2094,6 @@ $app_config['portfolio_assets'] = array(
                                     'usdc' => array(
                                           'binance' => 'BTCUSDC',
                                           'kraken' => 'XBTUSDC',
-                                        	'korbit' => 'btc_usdc',
                                                     ),
                                                     
                                     'usdt' => array(
@@ -2173,7 +2171,6 @@ $app_config['portfolio_assets'] = array(
                                           'bitflyer' => 'ETH_BTC',
                                           'kucoin' => 'ETH-BTC',
                                           'okex' => 'ETH-BTC',
-                                          'livecoin' => 'ETH/BTC',
                                           'poloniex' => 'BTC_ETH',
                                           'cryptofresh' => 'OPEN.ETH',
                                           'bitso' => 'eth_btc',
@@ -2283,7 +2280,6 @@ $app_config['portfolio_assets'] = array(
                                           'poloniex' => 'USDT_ETH',
                                           'bitbns' => 'ETHUSDT',
                                           'wazirx' => 'ethusdt',
-                                    	 	'defipulse' => 'ETH/USDT',
                                                     ),
                                                     
                                     'usdc' => array(
@@ -2616,17 +2612,16 @@ $app_config['portfolio_assets'] = array(
                         'market_pairing' => array(
                         
                                     'btc' => array(
-                                          'bittrex' => 'GNT-BTC',
+                                          'bittrex' => 'GLM-BTC',
                                         	'ethfinex' => 'tGNTBTC',
                                         	'upbit' => 'BTC-GLM',
                                           'bitso' => 'gnt_btc',
                                           'poloniex' => 'BTC_GLM',
                                           'braziliex' => 'gnt_btc',
-                                        	'wazirx' => 'gntbtc',
                                                     ),
                                                     
                                     'eth' => array(
-                                          'bittrex' => 'GNT-ETH',
+                                          'bittrex' => 'GLM-ETH',
                                         	'ethfinex' => 'tGNTETH',
                                                     ),
                                                     
@@ -2765,7 +2760,6 @@ $app_config['portfolio_assets'] = array(
                                           'kucoin' => 'ENJ-BTC',
                                           'coinex' => 'ENJBTC',
                                           'liquid' => 'ENJBTC',
-                                          'livecoin' => 'ENJ/BTC',
                                         	'upbit' => 'BTC-ENJ',
                                                     ),
                                                     
