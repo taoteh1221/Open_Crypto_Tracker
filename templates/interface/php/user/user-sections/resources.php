@@ -192,8 +192,6 @@
 	        
 	        <li class='links_list'><a href='https://coldcardwallet.com/' target='_blank'>Coldcard</a> (open source Bitcoin hardware wallet)</li>
 	        
-	        <li class='links_list'><a href='https://greenaddress.it/' target='_blank'>Bitcoin GreenAddress Wallet</a> (Bitcoin software wallet with hardware wallet support)</li>
-	        
 	        <li class='links_list'><a href='https://bitcoin.org/en/choose-your-wallet' target='_blank'>Bitcoin Wallets</a> (Bitcoin hardware / software wallets)</li>
 	        
 	        <li class='links_list'><a href='https://github.com/gnosis/MultiSigWallet/releases' target='_blank'>Gnosis Multisig Wallet</a> (Ethereum software wallet with hardware wallet support)</li>
@@ -203,6 +201,8 @@
 	        <li class='links_list'><a href='https://mycrypto.com/' target='_blank'>Mycrypto.com</a> (Ethereum online wallet with hardware wallet support)</li>
 	        
 	        <li class='links_list'><a href='https://download.mycrypto.com/' target='_blank'>Mycrypto Desktop App</a> (Ethereum software wallet with hardware wallet support)</li>
+	        
+	        <li class='links_list'><a href='https://specter.solutions/' target='_blank'>Specter Desktop</a> (Bitcoin software with hardware wallet support)</li>
 	        
 	        <li class='links_list'><a href='https://zap.jackmallers.com/download' target='_blank'>Zap (Bitcoin Lightning network on multiple devices [WARNING: Lightning network is still VERY EXPERIMENTAL, AND MAY STILL HAVE SIGNIFICANT BUGS])</a></li>
 	        

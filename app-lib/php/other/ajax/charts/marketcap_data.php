@@ -227,8 +227,8 @@ gui: {
       },
       plot: {
         "alpha": 0.95,
-        "border-radius-top-left": 4,
-        "border-radius-top-right": 4,
+        "border-radius-top-left": 6,
+        "border-radius-top-right": 6,
     		'value-box': {
             text: '%t',
 	 		 	fontSize: "12",
