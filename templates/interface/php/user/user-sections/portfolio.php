@@ -1094,7 +1094,6 @@ $.get( "ajax.php?type=chart&mode=asset_performance&time_period=all&start_time=0&
     ?>
     
     
-    
     Marketcap Type: <select class='browser-default custom-select' id='marketcap_type' name='marketcap_type'>
     <option value='circulating'> Circulating </option>
     <option value='total'> Total </option>
@@ -1249,6 +1248,15 @@ $.get( "ajax.php?type=chart&mode=marketcap_data&marketcap_type=circulating&chart
  
 });
 
+
+// Reset user-adjusted zoom
+zingchart.bind('marketcap_chart', 'label_click', function(e){
+		
+  	zingchart.exec('marketcap_chart', 'viewall', {
+   graphid: 0
+  	});
+		
+});
     
   </script>
   

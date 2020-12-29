@@ -183,7 +183,7 @@ gui: {
       borderRadius: '8px',
       borderWidth: '2px',
       title: {
-        text: "USD Marketcap Comparison (<?=ucfirst($_GET['marketcap_site'])?>.com data)",
+        text: "USD <?=ucfirst($_GET['marketcap_type'])?> Marketcap Comparison (<?=ucfirst($_GET['marketcap_site'])?>.com)",
         adjustLayout: true,
     	  align: 'center',
     	  offsetX: 0,
@@ -192,7 +192,7 @@ gui: {
   		source: {
 	 		height: '13px',
   		   text: "Select height area to zoom in chart, to see smaller values better (only Y axis zooming supported).",
-    		fontColor:"black",
+    		fontColor:"#dd7c0d",
 	      fontSize: "15",
     		fontFamily: "Open Sans",
     		offsetX: 140,
@@ -265,7 +265,7 @@ gui: {
       	lineColor: "#444444"
         },
         label: {
-          text: "USD Marketcap"
+          text: "USD <?=ucfirst($_GET['marketcap_type'])?> Marketcap"
         },
     	zooming: true
       },
@@ -278,7 +278,21 @@ gui: {
   		backgroundColor: "#f2f2f2",
       series: [
         <?php echo $marketcap_config . "\n" ?>
-      ]
+      ],
+	labels: [
+			{
+	    x: 55,
+	    y: 6,
+	    id: 'reset',
+	    fontColor: "blue",
+	    fontSize: "22",
+	    fontFamily: "Open Sans",
+	    lineStyle: "solid",
+	    cursor: "hand",
+	    text: "Reset Zoom"
+	  		}
+		]
+		
     }
   ]
   
