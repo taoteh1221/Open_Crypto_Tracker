@@ -1136,7 +1136,7 @@ $.get( "ajax.php?type=chart&mode=asset_performance&time_period=all&start_time=0&
   });
   
   
-  $('#marketcap_chart div.chart_reload div').html('Loading Marketcap Comparison Chart...');
+  $('#marketcap_chart div.chart_reload div').html('Loading USD Marketcap Comparison Chart...');
   
 	$('#marketcap_chart div.chart_reload').fadeIn(100); // 0.1 seconds
 	
@@ -1210,7 +1210,7 @@ var marketcap_chart_defaults_content = '<h5 class="yellow tooltip_title">Setting
  
   	<div style='min-width: 775px; width: 100%; min-height: 1px; background: #808080; border: 2px solid #918e8e; display: flex; flex-flow: column wrap; overflow: hidden;' class='chart_wrapper' id='marketcap_chart'>
 	
-	<span class='chart_loading' style='color: <?=$app_config['power_user']['charts_text']?>;'> &nbsp; Loading Marketcap Comparison Chart...</span>
+	<span class='chart_loading' style='color: <?=$app_config['power_user']['charts_text']?>;'> &nbsp; Loading USD Marketcap Comparison Chart...</span>
 	
 	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img src="templates/interface/media/images/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div style='display: inline;'></div></div>
 		
@@ -1219,7 +1219,7 @@ var marketcap_chart_defaults_content = '<h5 class="yellow tooltip_title">Setting
 	
   <script>
 
-$("#marketcap_chart span.chart_loading").html(' &nbsp; <img src="templates/interface/media/images/loader.gif" height="16" alt="" style="vertical-align: middle;" /> Loading Asset Performance Chart...');
+$("#marketcap_chart span.chart_loading").html(' &nbsp; <img src="templates/interface/media/images/loader.gif" height="16" alt="" style="vertical-align: middle;" /> Loading USD Marketcap Comparison Chart...');
 	
   
 zingchart.bind('marketcap_chart', 'load', function() {

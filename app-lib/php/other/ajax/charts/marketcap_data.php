@@ -75,7 +75,7 @@ gui: {
   	x: 0, 
   	y: 0,
   	title: {
-        text: "Marketcap Comparison (USD)",
+        text: "USD <?=ucfirst($_GET['marketcap_type'])?> Marketcap Comparison (<?=ucfirst($_GET['marketcap_site'])?>.com)",
         adjustLayout: true,
     	  align: 'center',
     	  offsetX: 0,
