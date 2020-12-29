@@ -790,13 +790,60 @@ var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=
 		 </script>
 		
 			</div>
-		 
 		
-			<div class="portfolio_summary">
+<!-- SAVE, THIS CODE IS PRETTY COOL...MAY USE IN THE FUTURE
+
+		<img id='portfolio_stats' src='templates/interface/media/images/info.png' alt='' width='30' title='Click to see portfolio stats.' style='cursor: pointer; position: relative; left: -5px;' />
+	 <script>
+			
+			 // Info ballon only opens / closes when clicked (for interactive form submission UX)
+			
+			 var shown = false;
+			 
+          $("#portfolio_stats").on("click", function() {
+          	
+            shown ? $(this).hideBalloon() : $(this).showBalloon({
+            	
+			html: true,
+			position: "right",
+			contents: ajax_placeholder(30, 'center', 'Loading Data...'),
+  			url: 'ajax.php?type=chart&mode=portfolio_stats&leverage_added=<?=$leverage_added?>&short_added=<?=$short_added?><?=$balance_stats_encoded?>',
+			css: {
+					fontSize: ".8rem",
+					minWidth: "450px",
+					padding: ".3rem .7rem",
+					border: "2px solid rgba(212, 212, 212, .4)",
+					borderRadius: "6px",
+					boxShadow: "3px 3px 6px #555",
+					color: "#eee",
+					backgroundColor: "#111",
+					opacity: "0.99",
+					zIndex: "999",
+					textAlign: "left"
+					}
+					
+			 	});
+			 	
+            shown = !shown;
+            
+          }).hideBalloon();
+	
+		 </script>
+		 
+END SAVED CODE -->
+		 
+		<?php
+		}
+		?>
+		
+	
+<!-- START 'view more stats' -->
+
+	<div class="portfolio_summary">
 
 			<b><a href="javascript: return false;" class="show_portfolio_stats blue" title="View More Portfolio Stats">View More Stats</a></b>
 
-			</div>
+	</div>
 		
 
 	<!-- START MORE PORTFOLIO STATS MODAL -->
@@ -1290,53 +1337,11 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 	});
 	</script>
 	
-
+<!-- END 'view more stats' -->
 		
-<!-- SAVE, THIS CODE IS PRETTY COOL...MAY USE IN THE FUTURE
-
-		<img id='portfolio_stats' src='templates/interface/media/images/info.png' alt='' width='30' title='Click to see portfolio stats.' style='cursor: pointer; position: relative; left: -5px;' />
-	 <script>
-			
-			 // Info ballon only opens / closes when clicked (for interactive form submission UX)
-			
-			 var shown = false;
-			 
-          $("#portfolio_stats").on("click", function() {
-          	
-            shown ? $(this).hideBalloon() : $(this).showBalloon({
-            	
-			html: true,
-			position: "right",
-			contents: ajax_placeholder(30, 'center', 'Loading Data...'),
-  			url: 'ajax.php?type=chart&mode=portfolio_stats&leverage_added=<?=$leverage_added?>&short_added=<?=$short_added?><?=$balance_stats_encoded?>',
-			css: {
-					fontSize: ".8rem",
-					minWidth: "450px",
-					padding: ".3rem .7rem",
-					border: "2px solid rgba(212, 212, 212, .4)",
-					borderRadius: "6px",
-					boxShadow: "3px 3px 6px #555",
-					color: "#eee",
-					backgroundColor: "#111",
-					opacity: "0.99",
-					zIndex: "999",
-					textAlign: "left"
-					}
-					
-			 	});
-			 	
-            shown = !shown;
-            
-          }).hideBalloon();
-	
-		 </script>
-		 
-END SAVED CODE -->
-		 
+		
+		
 		<?php
-		}
-	
-			
 		if ( $short_added == 1 ) {
 		?>	
 		<div class="portfolio_summary" style='margin-top: 15px;'>
