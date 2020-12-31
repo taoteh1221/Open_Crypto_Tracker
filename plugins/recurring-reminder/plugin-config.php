@@ -36,7 +36,7 @@ $plugin_config[$this_plugin]['reminders'] = array(
 																	// VITAMIN D / COVID-19 PREVENTION REMINDER
 																	array(
 																			'days' => 4, // Decimals supported
-																			'message' => "Take 2000 UI of Vitamin D, to help prevent Covid-19 infection." // Reminder message
+																			'message' => "Take 2000 IU of Vitamin D and 1000 MG of Vitamin C every 4 days with food, to help prevent Covid-19 and other viral infections." // Reminder message
 																			),
 																	
 																	
