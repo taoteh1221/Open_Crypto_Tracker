@@ -1099,6 +1099,16 @@ $.get( "ajax.php?type=chart&mode=asset_performance&time_period=all&start_time=0&
  
 });
 
+
+// Reset user-adjusted zoom
+zingchart.bind('performance_chart', 'label_click', function(e){
+		
+  	zingchart.exec('performance_chart', 'viewall', {
+   graphid: 0
+  	});
+		
+});
+
     
   </script>
   

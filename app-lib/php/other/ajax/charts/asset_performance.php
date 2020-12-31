@@ -311,7 +311,21 @@ gui: {
   		backgroundColor: "#f2f2f2",
       series: [
         <?php echo $chart_config . "\n" ?>
-      ]
+      ],
+	labels: [
+			{
+	    x: 55,
+	    y: 6,
+	    id: 'reset',
+	    fontColor: "blue",
+	    fontSize: "22",
+	    fontFamily: "Open Sans",
+	    lineStyle: "solid",
+	    cursor: "hand",
+	    text: "Reset Zoom"
+	  		}
+		]
+		
     }
   ]
   
