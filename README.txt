@@ -34,8 +34,6 @@ PayPal:    https://www.paypal.me/dragonfrugal
 
 Coinbase:  https://commerce.coinbase.com/checkout/5e72fe35-752e-4a65-a4c3-2d49d73f2c36
 
-Monero (XMR): 47mWWjuwPFiPD6t2MaWcMEfejtQpMuz9oj5hJq18f7nvagcmoJwxudKHUppaWnTMPaMWshMWUTPAUX623KyEtukbSMdmpqu
-
 
 ############################################################################################################################
 

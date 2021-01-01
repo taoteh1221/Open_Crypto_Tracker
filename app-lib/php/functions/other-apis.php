@@ -13,31 +13,6 @@
 ////////////////////////////////////////////////////////
 
 
-function monero_api($request) {
- 
-global $app_config;
- 		
- 	$json_string = 'https://moneroblocks.info/api/get_stats';
- 	$jsondata = @external_api_data('url', $json_string, $app_config['power_user']['chainstats_cache_time']);
-  	
-  	$data = json_decode($jsondata, true);
-    
-		if ( !$data ) {
-		return;
-		}
-		else {
-		
-		return $data[$request];
-		  
-		}
-  
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
 function bitcoin_api($request) {
  
 global $app_config;
@@ -58,32 +33,6 @@ global $app_config;
     
   return (float)$data;
   
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-// https://github.com/decred/dcrdata#apis
-function decred_api($type, $request) {
- 
-global $app_config, $runtime_mode;
-
-
- 	if ( $type == 'block' ) {
- 	$json_string = 'https://explorer.dcrdata.org/api/block/best/verbose';
- 	}
-	elseif ( $type == 'subsidy' ) {
- 	$json_string = 'https://explorer.dcrdata.org/api/block/best/subsidy';
- 	}
-
- 		
-$jsondata = @external_api_data('url', $json_string, $app_config['power_user']['chainstats_cache_time']);
-  		
-$data = json_decode($jsondata, true);
-   	 
-return $data[$request];
-			  
 }
 
 

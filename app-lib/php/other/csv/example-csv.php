@@ -42,9 +42,9 @@ $example_download_array[] = array(
 	        
 // GRIN
 $example_download_array[] = array(
-	        							'XMR',
-	        							'45.755',
-	        							'65.25',
+	        							'UNI',
+	        							'67.843',
+	        							'4.80',
 	        							'0',
 	        							'long',
 	        							'3',

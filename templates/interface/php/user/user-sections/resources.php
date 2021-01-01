@@ -17,7 +17,7 @@
 	<p style='margin-top: 15px; margin-bottom: 15px;'><?=start_page_html('resources')?></p>		
 			
 	
-	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Coinmarketcap.com Stats</strong> </legend>
+	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Marketcap Stats</strong> </legend>
 	        
 			<p><a style='font-weight: bold;' class='red' href='javascript: show_more("newbiewarning");' title='Click to show newbie warning.'><b>Newbie Warning!</b></a></p>
 	    
@@ -37,17 +37,9 @@
 		
 	    <ul>
 	        
-	        <li class='links_list'><a href='http://coinmarketcap.com/' target='_blank'>Top Marketcaps</a></li>
+	        <li class='links_list'><a href='https://www.coingecko.com/' target='_blank'>Coingecko.com</a></li>
 	        
-	        <li class='links_list'><a href='http://coinmarketcap.com/currencies/volume/24-hour/' target='_blank'>Top 24 Hour Volumes</a></li>
-	        
-	        <li class='links_list'><a href='http://coinmarketcap.com/currencies/volume/monthly/' target='_blank'>Top Monthly Volumes</a></li>
-	        
-	        <li class='links_list'><a href='http://coinmarketcap.com/gainers-losers/' target='_blank'>Top Gainers and Losers</a></li>
-	        
-	        <li class='links_list'><a href='http://coinmarketcap.com/new/' target='_blank'>Newest Assets</a></li>
-	        
-	        <li class='links_list'><a href='http://coinmarketcap.com/charts/' target='_blank'>Global Market Caps</a></li>   
+	        <li class='links_list'><a href='http://coinmarketcap.com/' target='_blank'>Coinmarketcap.com</a></li>
 	        
 	    </ul>
 	    </fieldset>
@@ -56,18 +48,9 @@
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Other Stats</strong> </legend>
 	    <ul>
 	        
-	        <li class='links_list'><a href='https://www.coingecko.com/' target='_blank'>Coingecko.com</a></li>
-	        
 	        <li class='links_list'><a href='https://studio.glassnode.com/' target='_blank'>GlassNode</a></li>
 	        
 	        <li class='links_list'><a href='https://messari.io/onchainfx' target='_blank'>OnChainFX</a></li>
-	        
-	        <li class='links_list'><a href='https://info.binance.com/' target='_blank'>info.binance.com</a></li>
-	        
-	        <li class='links_list'><a href='http://coincap.io' target='_blank'>Coincap.io</a></li>
-	        
-	        <li class='links_list'><a href='https://www.altdex.co/' target='_blank'>AltDex 100 Cryptocurrency Index (ALT100)</a></li>
-	        
 	        
 	        
 	    </ul>
@@ -78,21 +61,15 @@
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Charts</strong> </legend>
 	    <ul>
 	        
-	        <li class='links_list'><a href='https://bitcoinwisdom.io' target='_blank'>Bitcoinwisdom.io</a></li>
+	        <li class='links_list'><a href='https://bitcoinwisdom.io' target='_blank'>Bitcoinwisdom.io Market Pairs</a></li>
 	        
-	        <li class='links_list'><a href='https://www.binance.com/en/trade/pro/BTC_USDT' target='_blank'>Binance - Bitcoin / USD</a></li>
-	        
-	        <li class='links_list'><a href='https://www.tradingview.com/symbols/BTCUSD/' target='_blank'>Tradingview - Bitcoin / USD</a></li>
-	        
-	        <li class='links_list'><a href='https://www.coinigy.com/' target='_blank'>Coinigy.com</a></li>
-	        
-	        <li class='links_list'><a href='https://www.blockchain.com/en/charts/mempool-size' target='_blank'>Bitcoin Mempool (queued unconfirmed transactions) Charts</a></li>
-	        
-	        <li class='links_list'><a href='https://www.blockchain.com/charts/n-transactions?timespan=all' target='_blank'>Bitcoin Confirmed Transactions Per Day Charts</a></li>
+	        <li class='links_list'><a href='https://www.blockchain.com/charts/n-transactions?timespan=all' target='_blank'>Bitcoin Transactions Per Day</a></li>
 	        
 	        <li class='links_list'><a href='https://www.blockchain.com/charts/hash-rate?timespan=all' target='_blank'>Bitcoin Hashrate (mining)</a></li>
 	        
-	        <li class='links_list'><a href='https://studio.glassnode.com/dashboards/eth-core-on-chain' target='_blank'>Ethereum On-Chain Stats</a></li>
+	        <li class='links_list'><a href='https://etherscan.io/chart/tx' target='_blank'>Ethereum Transactions Per Day</a></li>
+	        
+	        <li class='links_list'><a href='https://etherscan.io/chart/hashrate' target='_blank'>Ethereum Hashrate (mining)</a></li>
 	        
 	        
 	        
@@ -138,8 +115,6 @@
 	        
 	        <li class='links_list'><a href='https://hitbtc.com/' target='_blank'>Hitbtc.com</a></li>
 	        
-	        <li class='links_list'><a href='https://poloniex.com' target='_blank'>Poloniex.com</a></li>
-	        
 	        
 	        
 	        
@@ -156,11 +131,7 @@
 	        
 	        <li class='links_list'><a href='https://www.blockchain.com/explorer?view=btc' target='_blank'>Blockchain.com Bitcoin Explorer</a></li>
 	        
-	        <li class='links_list'><a href='https://explorer.dcrdata.org/' target='_blank'>DCRdata.org Decred Explorer</a></li>
-	        
 	        <li class='links_list'><a href='https://etherscan.io/' target='_blank'>EtherScan.io Ethereum v1.0 Explorer</a></li>
-	        
-	        <li class='links_list'><a href='https://etherscan.io/' target='_blank'>MoneroBlocks.info Monero Explorer</a></li>
 	        
 	        
 	        
@@ -192,8 +163,6 @@
 	        
 	        <li class='links_list'><a href='https://coldcardwallet.com/' target='_blank'>Coldcard</a> (open source Bitcoin hardware wallet)</li>
 	        
-	        <li class='links_list'><a href='https://bitcoin.org/en/choose-your-wallet' target='_blank'>Bitcoin Wallets</a> (Bitcoin hardware / software wallets)</li>
-	        
 	        <li class='links_list'><a href='https://github.com/gnosis/MultiSigWallet/releases' target='_blank'>Gnosis Multisig Wallet</a> (Ethereum software wallet with hardware wallet support)</li>
 	        
 	        <li class='links_list'><a href='https://metamask.io/' target='_blank'>Metamask</a> (Ethereum software wallet browser extension)</li>
@@ -221,8 +190,6 @@
 	        
 	        <li class='links_list'><a href='https://bncdaily.com/' target='_blank'>Brave New Coin Daily</a></li>
 	        
-	        <li class='links_list'><a href='https://research.circle.com/' target='_blank'>Circle Research</a></li>
-	        
 	        <li class='links_list'><a href='http://newsletter.coingecko.com/landing/subscribe' target='_blank'>Coingecko Newsletter</a></li>
 	        
 	        <li class='links_list'><a href='https://coinmarketcap.com/newsletter/' target='_blank'>Coinmarketcap Newsletter</a></li>
@@ -231,11 +198,7 @@
 	        
 	        <li class='links_list'><a href='https://lightninglabs.substack.com' target='_blank'>Lightning Labs</a></li>  
 	        
-	        <li class='links_list'><a href='https://www.getrevue.co/profile/nlw' target='_blank'>Long Reads Sunday</a></li>  
-	        
 	        <li class='links_list'><a href='https://ournetwork.substack.com/' target='_blank'>Our Network</a></li>  
-	        
-	        <li class='links_list'><a href='http://proofofwork.news/' target='_blank'>Proof Of Work</a></li>  
 	        
 	        <li class='links_list'><a href='https://sludgefeed.com/hashed/' target='_blank'>Sludgefeed's Hashed</a></li>
 	        
@@ -286,11 +249,7 @@
 	        
 	        <li class='links_list'><a href='https://open.spotify.com/show/3ObwKoyqttA1OLNhInnrbx' target='_blank'>Rekt</a></li>
 	        
-	        <li class='links_list'><a href='https://open.spotify.com/show/6PfNbDuN3Udz8R9YMFidEV' target='_blank'>Rough Consensus</a></li>
-	        
 	        <li class='links_list'><a href='https://open.spotify.com/show/3mFUF9kSYpvrCGWLbskRr8' target='_blank'>Stephan Livera</a></li>
-	        
-	        <li class='links_list'><a href='https://open.spotify.com/show/4kHwbXzP5RBOkroZ7a4RSl' target='_blank'>Swan Signal</a></li>
 	        
 	        <li class='links_list'><a href='https://open.spotify.com/show/0Vd8E5vWnCfB4xucu87WNZ' target='_blank'>Tales from the Crypt</a></li>
 	        
@@ -305,8 +264,6 @@
 	        <li class='links_list'><a href='https://open.spotify.com/show/7qwrgTJ5CYDXAaVILNZuEd' target='_blank'>The Scoop</a></li>
 	        
 	        <li class='links_list'><a href='https://open.spotify.com/show/1cJrrfGY1SKBIRn5noKSAf' target='_blank'>Unchained</a></li>
-	        
-	        <li class='links_list'><a href='https://open.spotify.com/show/2SyQeKusKdS0y4eOdowCMg' target='_blank'>Untold Stories With Charlie Shrem</a></li>
 	        
 	        <li class='links_list'><a href='https://open.spotify.com/show/0mWUJuONiilW5JSBBFZ0s7' target='_blank'>What Bitcoin Did</a></li>
 	        
@@ -349,12 +306,9 @@
 	    <fieldset class='subsection_fieldset'><legend class='subsection_legend'> <strong>Coin Mining / Staking</strong> </legend>
 	    <ul>
 	        
-	        
-	        <li class='links_list'><a href='https://stakepool.dcrstats.com/' target='_blank'>DCRstats Decred Delegated Staking</a></li>
-	        
 	        <li class='links_list'><a href='https://www.reddit.com/r/gpumining/' target='_blank'>GPU Mining Subreddit</a></li>
 	        
-	        <li class='links_list'><a href='https://www.rocketpool.net/' target='_blank'>RocketPool Ethereum Staking</a></li>
+	        <li class='links_list'><a href='https://www.rocketpool.net/' target='_blank'>RocketPool Ethereum v2 Staking</a></li>
 	        
 	        <li class='links_list'><a href='https://simplemining.net/' target='_blank'>Simplemining.net</a></li>
 	        
@@ -423,17 +377,9 @@
 	    <ul>
 	        
 	        
-	        <li class='links_list'><a href='https://bitcoin-only.com/' target='_blank'>Bitcoin-Only.com</a></li>
-	        
-	        <li class='links_list'><a href='https://bitcoinacks.com/' target='_blank'>BitcoinACKs.com</a></li>
-	        
-	        <li class='links_list'><a href='https://bitcointreasuries.org/' target='_blank'>BitcoinTreasuries.org</a></li>
-	        
 	        <li class='links_list'><a href='https://www.reddit.com/r/Bitcoin/' target='_blank'>Bitcoin Subreddit</a></li>
 	        
 	        <li class='links_list'><a href='https://blocktv.com/' target='_blank'>BlockTV</a></li>
-	        
-	        <li class='links_list'><a href='https://www.citadel21.com/' target='_blank'>Citadel21.com</a></li>
 	        
 	        <li class='links_list'><a href='https://bitcoin.clarkmoody.com/dashboard/' target='_blank'>Clark Moody Bitcoin Dashboard</a></li>
 	        
@@ -443,23 +389,13 @@
 	        
 	        <li class='links_list'><a href='https://twitter.com/hashtag/cryptotwitter?src=hash' target='_blank'>#CryptoTwitter</a></li>
 	        
-	        <li class='links_list'><a href='https://proposals.decred.org/' target='_blank'>Decred Governance Proposals</a></li>
-	        
 	        <li class='links_list'><a href='https://www.reddit.com/r/ethereum/' target='_blank'>Ethereum Subreddit</a></li>
-	        
-	        <li class='links_list'><a href='https://www.reddit.com/r/Monero/' target='_blank'>Monero Subreddit</a></li>
 	        
 	        <li class='links_list'><a href='https://nakamotoinstitute.org/' target='_blank'>Nakamotoinstitute.org</a></li>
 	        
 	        <li class='links_list'><a href='https://sourceforge.net/projects/dfd-crypto-ticker/' target='_blank'>Raspberry PI Real-Time / Multi-Crypto Slideshow Price Ticker</a> (a side project of mine)</li>
 	        
 	        <li class='links_list'><a href='https://www.sec.gov/ICO' target='_blank'>SEC.gov ICO Awareness Site</a></li>
-	        
-	        <li class='links_list'><a href='https://www.tari.com/#what-is-tari' target='_blank'>Tari</a> (Monero's mimblewimble sidechain)</li>
-	        
-	        <li class='links_list'><a href='https://www.omniexplorer.info/asset/31' target='_blank'>Tether (USDT) Supply On Bitcoin Network</a></li>
-	        
-	        <li class='links_list'><a href='https://etherscan.io/token/0xdac17f958d2ee523a2206206994597c13d831ec7' target='_blank'>Tether (USDT) Supply On Ethereum Network</a></li>
 	        
 	        <li class='links_list'><a href='https://txstreet.com/' target='_blank'>TxStreet.com</a> (Blockchain Transaction Visualizer)</li>
 	        
@@ -486,8 +422,6 @@
 	        <li class='links_list'><a href='https://www.youtube.com/user/BaltimoreHourly/featured' target='_blank'>BitcoinMeister</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/user/BitsBeTrippin' target='_blank'>Bits Be Trippin</a> (POW mining channel)</li>
-		    
-	        <li class='links_list'><a href='https://www.youtube.com/channel/UCZNt3fZazX9cwWcC9vjDJ4Q' target='_blank'>Blockstream</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCxODjeUwZHk3p-7TU-IsDOA/featured' target='_blank'>Boxmining</a></li>
 	        
@@ -527,17 +461,11 @@
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UC5rV0QEGbv0Y-umDwshs_HA/featured' target='_blank'>Kripto Sözlük (turkish)</a></li>
 	        
-	        <li class='links_list'><a href='https://www.youtube.com/channel/UCVVDsIYJBQ_C7Bh_aI3ZMxQ/featured' target='_blank'>Magical Crypto Friends</a></li>
-	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCSuHzQ3GrHSzoBbwrIq3LLA' target='_blank'>Naomi Brockwell</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/user/australiaalex/featured' target='_blank'>Nugget's News</a></li>
 	        
-	        <li class='links_list'><a href='https://www.youtube.com/channel/UCEFJVYNiPp8xeIUyfaPCPQw/featured' target='_blank'>Off Chain with Jimmy Song</a></li>
-	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCt_oM56Ui0BCCgi0Yc-Wh3Q/featured' target='_blank'>Proof of Talent</a></li>
-	        
-	        <li class='links_list'><a href='https://www.youtube.com/channel/UCbiWJYRg8luWHnmNkJRZEnw/featured' target='_blank'>Tone Vays</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCWiiMnsnw5Isc2PP1to9nNw/featured' target='_blank'>Unchained Podcast</a></li>
 	        

@@ -348,13 +348,6 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					'eth-15' => 'defipulse||usdt||none',
 					
 					
-					// XMR
-					'xmr' => 'bittrex||btc||chart',
-					'xmr-2' => 'bittrex||eth||none',
-					'xmr-4' => 'binance||btc||both',
-					'xmr-5' => 'binance||eth||none',
-					
-					
 					// MKR
 					'mkr' => 'okex||btc||none',
 					'mkr-2' => 'kucoin||btc||none',
@@ -393,14 +386,6 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					'glm-2' => 'ethfinex||btc||chart',
 					
 					
-					// DCR
-					'dcr' => 'bittrex||btc||chart',
-					'dcr-2' => 'bittrex||usdt||none',
-					'dcr-3' => 'binance||btc||both',
-					'dcr-4' => 'kucoin||btc||none',
-					'dcr-5' => 'kucoin||eth||none',
-					
-					
 					// HIVE
 					'hive' => 'bittrex||btc||both',
 					
@@ -423,7 +408,7 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					'data-2' => 'binance||btc||chart',
 					
 					
-					//MYST
+					// MYST
 					'myst' => 'hitbtc||btc||both',
 					'myst-2' => 'hitbtc||eth||none',
 					
@@ -453,7 +438,6 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 $app_config['power_user']['activate_plugins'] = array(
 									//'plugin-folder-name' => 'on', // (disabled example...your LOWERCASE plugin folder name in the folder: /plugins/)
 									'recurring-reminder' => 'off',  // Recurring Reminder plugin (alert yourself every X days to do something)
-									'decred-proposals' => 'off',  // Decred Proposals plugin (alerts when a new Decred proposal is up for discussion / vote)
 									);
 							
 							
@@ -586,7 +570,6 @@ $app_config['power_user']['crypto_pairing'] = array(
 						//'lowercase_altcoin_ticker' => 'UNICODE_SYMBOL', // Add whitespace after the symbol, if you prefer that
 						// Native chains...
 						'eth' => 'Ξ ',
-						'xmr' => 'ɱ ',
 						// Liquidity pools / ERC-20 tokens on Ethereum, etc etc...
 						'mkr' => '𐌼 ',
 						//....
@@ -603,7 +586,6 @@ $app_config['power_user']['crypto_pairing'] = array(
 $app_config['power_user']['crypto_pairing_preferred_markets'] = array(
 						//'lowercase_btc_market_or_stablecoin_pairing' => 'PREFERRED_MARKET',
 							'eth' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
-							'xmr' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							'mkr' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							);
 
@@ -722,9 +704,6 @@ $app_config['power_user']['bitcoin_preferred_currency_markets'] = array(
 $app_config['power_user']['mining_rewards'] = array(
 					'btc' => '6.25',
 					'eth' => '2',
-					// WE DYNAMICALLY UPDATE THESE BELOW IN INIT.PHP...
-					'xmr' => 'PLACEHOLDER',  
-					'dcr' => 'PLACEHOLDER',  
 					);
 
 
@@ -810,20 +789,8 @@ $app_config['power_user']['news_feeds'] = array(
         
         
         				array(
-            			"title" => "Blog - Blockstream Engineering",
-            			"url" => "https://medium.com/feed/blockstream"
-        						),
-        
-        
-        				array(
             			"title" => "Blog - BTCPay Server",
             			"url" => "https://blog.btcpayserver.org/feed/"
-        						),
-        
-        
-        				array(
-            			"title" => "Blog - Decred.org (community-governed high security hybrid POS/POW coin)",
-            			"url" => "https://blog.decred.org/index.xml"
         						),
         
         
@@ -890,12 +857,6 @@ $app_config['power_user']['news_feeds'] = array(
         				array(
             			"title" => "Blog - Kraken News",
             			"url" => "https://blog.kraken.com/post/category/kraken-news/feed/"
-        						),
-    
-    
-        				array(
-            			"title" => "Blog - Monero (community-driven privacy coin)",
-            			"url" => "https://web.getmonero.org/feed.xml"
         						),
     
     
@@ -1032,12 +993,6 @@ $app_config['power_user']['news_feeds'] = array(
     
     
         				array(
-            			"title" => "Newsletter - Tari (Monero's mimblewimble sidechain)",
-            			"url" => "https://tari.substack.com/feed"
-        						),
-    
-    
-        				array(
             			"title" => "Newsletter - The Daily Gwei",
             			"url" => "https://thedailygwei.substack.com/feed"
         						),
@@ -1065,12 +1020,6 @@ $app_config['power_user']['news_feeds'] = array(
             			"title" => "Podcast - Citizen Bitcoin",
             			"url" => "https://feeds.simplecast.com/620_gQYv"
         						),
-        
-        
-        				array(
-            			"title" => "Podcast - Decred In Depth",
-            			"url" => "https://decredindepth.libsyn.com/rss"
-        						),
     
     
         				array(
@@ -1095,23 +1044,11 @@ $app_config['power_user']['news_feeds'] = array(
             			"title" => "Podcast - Proof of Talent",
             			"url" => "https://feedcdn21.podbean.com/cryptobob/feed.xml"
         						),
-        
-        
-        				array(
-            			"title" => "Podcast - Rough Consensus",
-            			"url" => "https://roughconsensus.libsyn.com/rss"
-        						),
     					
     					
         				array(
             			"title" => "Podcast - Stephan Livera",
             			"url" => "https://anchor.fm/s/7d083a4/podcast/rss"
-        						),
-    					
-    					
-        				array(
-            			"title" => "Podcast - Swan Signal",
-            			"url" => "https://feeds.simplecast.com/Z1tu2Hds"
         						),
 
     					
@@ -1188,12 +1125,6 @@ $app_config['power_user']['news_feeds'] = array(
     
     
         				array(
-            			"title" => "Reddit - Monero (top)",
-            			"url" => "https://www.reddit.com/r/Monero/top/.rss?format=xml"
-        						),
-    
-    
-        				array(
             			"title" => "StackExchange - Bitcoin (hot)",
             			"url" => "https://bitcoin.stackexchange.com/feeds/hot"
         						),
@@ -1242,12 +1173,6 @@ $app_config['power_user']['news_feeds'] = array(
     
     
         				array(
-            			"title" => "Youtube - Decred (Official)",
-            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCJ2bYDaPYHpSmJPh_M5dNSg"
-        						),
-    
-    
-        				array(
             			"title" => "Youtube - Epicenter Podcast",
             			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCh-0T48JrvvmKDX41aWB_Vg"
         						),
@@ -1286,18 +1211,6 @@ $app_config['power_user']['news_feeds'] = array(
         				array(
             			"title" => "Youtube - Nugget's News",
             			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCLo66QVfEod0nNM_GzKNxmQ"
-        						),
-    
-    
-        				array(
-            			"title" => "Youtube - Off Chain with Jimmy Song",
-            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCEFJVYNiPp8xeIUyfaPCPQw"
-        						),
-    
-    
-        				array(
-            			"title" => "Youtube - Tone Vays",
-            			"url" => "https://www.youtube.com/feeds/videos.xml?channel_id=UCbiWJYRg8luWHnmNkJRZEnw"
         						),
     
     
@@ -1474,7 +1387,6 @@ $app_config['developer']['limited_apis'] = array(
 						'btcmarkets.net',
 						'coinbase.com',
 						'cryptofresh.com',
-						'dcrdata.org',
 						'defipulse.com',
 						'etherscan.io',
 						'gemini.com',
@@ -2302,56 +2214,6 @@ $app_config['portfolio_assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // XMR
-                    'XMR' => array(
-                        
-                        'asset_name' => 'Monero',
-                        'marketcap_website_slug' => 'monero',
-                        'market_pairing' => array(
-                        
-                                    'btc' => array(
-                                        	'binance' => 'XMRBTC',
-                                          'huobi' => 'xmrbtc',
-                                          'bittrex' => 'XMR-BTC',
-                                          'bitfinex' => 'tXMRBTC',
-                                          'hitbtc' => 'XMRBTC',
-                                          'kraken' => 'XXMRXXBT',
-                                          'okex' => 'XMR-BTC',
-                                          'poloniex' => 'BTC_XMR',
-                                                    ),
-                                                    
-                                    'eth' => array(
-                                        	'binance' => 'XMRETH',
-                                          'huobi' => 'xmreth',
-                                          'bittrex' => 'XMR-ETH',
-                                          'hitbtc' => 'XMRETH',
-                                                    ),
-                                                    
-                                    'inr' => array(
-                                          'bitbns' => 'XMR',
-                                          'buyucoin' => 'INR-XMR',
-                                                    ),
-                                                    
-                                    'usdt' => array(
-                                        	'binance' => 'XMRUSDT',
-                                          'huobi' => 'xmrusdt',
-                                          'bittrex' => 'XMR-USDT',
-                                          'okex' => 'XMR-USDT',
-                                          'poloniex' => 'USDT_XMR',
-                                                    ),
-                                                    
-                                    'usdc' => array(
-                                          'poloniex' => 'USDC_XMR',
-                                                    ),
-                                                    
-                                        ) // market_pairing END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
                     // MISCASSETS 
                     // (KEY PLACED HERE FOR ORDERING ONLY, DYNAMICALLY POPULATED BY THE APP AT RUNTIME)
                     'MISCASSETS' => array(), 
@@ -2641,50 +2503,6 @@ $app_config['portfolio_assets'] = array(
                                           'coinbase' => 'GNT-USDC',
                                                     ),
                                                     
-                                        ) // market_pairing END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // DCR
-                    'DCR' => array(
-                        
-                        'asset_name' => 'Decred',
-                        'marketcap_website_slug' => 'decred',
-                        'market_pairing' => array(
-                        
-                                    'brl' => array(
-                                          'braziliex' => 'dcr_brl'
-                                                    ),
-                                                    
-                                    'btc' => array(
-                                        	'binance' => 'DCRBTC',
-                                          'bittrex' => 'DCR-BTC',
-                                       	'kucoin' => 'DCR-BTC',
-                                          'upbit' => 'BTC-DCR',
-                                          'okex' => 'DCR-BTC',
-                                          'gateio' => 'DCR_BTC',
-                                          'braziliex' => 'dcr_btc',
-                                                    ),
-                                                    
-                                		'eth' => array(
-                                        	'kucoin' => 'DCR-ETH',
-                                                    ),
-                                                    
-                                    'usd' => array(
-                                        	'bittrex' => 'DCR-USD',
-                                          			),
-                                                    
-                                    'usdt' => array(
-                                        	'binance' => 'DCRUSDT',
-                                          'bittrex' => 'DCR-USDT',
-                                          'okex' => 'DCR-USDT',
-                                          'gateio' => 'DCR_USDT',
-                                          			),
-                                          			
                                         ) // market_pairing END
                         
                     ), // Asset END

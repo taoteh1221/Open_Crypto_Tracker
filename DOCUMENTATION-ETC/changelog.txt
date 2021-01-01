@@ -4177,7 +4177,13 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 
 -------------------------------------------------------------------
-4.24.0:
+4.23.4:
+
+-Bending the knee to "The Great Privacy Purge"
+
+-Bug fix for loading stale / removed price charts ('loading charts' now disappears properly)
+
+-Resources page / new feeds cleanup
 
 -Misc UX
 

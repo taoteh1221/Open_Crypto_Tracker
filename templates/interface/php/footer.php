@@ -82,10 +82,6 @@
             	
             	<br /><br /><b>Patreon:</b> <br /><a href='https://www.patreon.com/dragonfrugal' target='_blank'>https://www.patreon.com/dragonfrugal</a>
             	
-            	<br /><br /><b>Monero (XMR):</b> <br /><span class='align_center long_linebreak'>47mWWjuwPFiPD6t2MaWcMEfejtQpMuz9oj5hJq18f7nvagcmoJwxudKHUppaWnTMPaMWshMWUTPAUX623KyEtukbSMdmpqu</span>
-            	
-            	<br /><br /><b>Monero Address QR Code (for phones)</b><br /><img src='templates/interface/media/images/xmr-donations-qr-code.png' alt='' />
-            	
             	<br /><br />
             	</div>
      

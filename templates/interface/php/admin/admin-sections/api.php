@@ -271,14 +271,12 @@ var_dump($api_data_array);
         "btc",
         "dai",
         "data",
-        "dcr",
         "eth",
         "glm",
         "hive",
         "mana",
         "mkr",
-        "myst",
-        "xmr"
+        "myst"
     ],
     "minutes_cached": 4
 }
@@ -344,31 +342,15 @@ var_dump($api_data_array);
 {
     "market_list": {
         "binance": [
-            "binance-atom-btc",
-            "binance-atom-tusd",
-            "binance-atom-usdc",
-            "binance-btc-tusd",
             "binance-btc-usdc",
             "binance-btc-usdt",
             "binance-data-btc",
             "binance-data-eth",
-            "binance-dcr-btc",
-            "binance-doge-btc",
-            "binance-doge-usdt",
             "binance-eth-btc",
-            "binance-eth-tusd",
             "binance-eth-usdc",
             "binance-eth-usdt",
-            "binance-ltc-btc",
-            "binance-ltc-eth",
-            "binance-ltc-tusd",
-            "binance-ltc-usdc",
-            "binance-ltc-usdt",
             "binance-mana-btc",
-            "binance-mana-eth",
-            "binance-tusd-usdt",
-            "binance-xmr-btc",
-            "binance-xmr-eth"
+            "binance-mana-eth"
         ]
     },
     "minutes_cached": 4

@@ -26,6 +26,15 @@ return str_replace(array('[',']'),'',$string);
 ////////////////////////////////////////////////////////
 
 
+function strip_underscore_and_after($string) {
+return substr($string, 0, strpos($string, "_"));
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
 function substri_count($haystack, $needle) {
     return substr_count(strtoupper($haystack), strtoupper($needle));
 }

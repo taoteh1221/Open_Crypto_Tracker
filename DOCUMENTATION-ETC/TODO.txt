@@ -26,6 +26,9 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+Run 'show_crypto_value' though same logic structure as 'show_charts', to auto-remove stale entries (in sub-init logic).
+
+
 Look into laptop pausing settimeout / setinterval javascript on Ubuntu 20.04 / Chrome, when tab is inactive (but is fine on Ubuntu 20.04 / Chrome on desktop).
 
 
@@ -50,7 +53,10 @@ Add BTSE API: https://api.btse.com/spot/api/v3.2/market_summary
 Add bithumb API
 
 
-Store the php timeout as a cached var, and compare the CACHED app config to it at runtime. If they differ from each other, delete the root htaccess and user.ini files to trigger recreating them with an updated php timeout. Also make sure the php timeout setting and updating logic / functions are using the CACHED app config.
+Check out cryptocompare.com API.
+
+
+Add localcryptos API support whenever their API is out of private testing.
 
 
 Write debugging tests for rss feeds.
@@ -60,9 +66,6 @@ Use new internal api function calls as much as possible for the tests logic we h
 
 
 See if exchange API data arrays can be manipulated slightly to build a reusable module for every exchange's API calls.
-
-
-In debug mode, maybe add our new 'used ram' stat instead (that doesn't include buffers / cached ram).
 
 
 Check optimization by enabling "telemetry" debug mode, and reviewing debugging logs.
@@ -86,6 +89,9 @@ Test unicode mobile text message with no space in front of hex-encoded data (for
 Code review ALL functions / logic (especially loops, for efficiency).
 
 
+Create github wiki with the current documentation for the portfolio app.
+
+
 ///////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////
 
@@ -95,13 +101,22 @@ FEATURES / STRUCTURING SECTION
 ///////////////////////////////////////////////////////
 
 
+Do a gains pie chart and a separate losses pie chart for the gains / losses summary (tooltip, like balance stats chart).
+
+
+Add market stats summaries from chart data, like pie charts for exchange volume on certain pairs, etc (on 'view more stats' page).
+
+
+Look into X day moving average overlay for charts.
+
+
+Store the php timeout as a cached var, and compare the CACHED app config to it at runtime. If they differ from each other, delete the root htaccess and user.ini files to trigger recreating them with an updated php timeout. Also make sure the php timeout setting and updating logic / functions are using the CACHED app config.
+
+
 Fully include all leverage in all portfolio summaries, with "(X% leverage)" next to each summary.
 
 
 Replace the small "in parentheses BTC value" text for non-BTC markets in the Trading / Holdings Value data columns, with user-chosen crypto based of the same logic as the "Crypto Value" summary.
-
-
-Create github wiki with the current documentation for the portfolio app.
 
 
 Create a cron plugin to let you know when a raw market value has gone below / above a certain exact value at a specific exchange (good for knowing when / if your order fills). Allow unlimited assets (same logic type as the recurring reminders plugin).
@@ -158,9 +173,6 @@ Add webhook keys on admin page.
 Create a "Desktop Edition" using PHPDesktop (https://github.com/cztomczak/phpdesktop/wiki), so it can easily be downloaded / run locally as a native app...SUPER IMPORTANT FOR MASS USER ADOPTION!!!
 
 
-Check out cryptocompare.com API.
-
-
 Mail trading notes to admin email, only if user logged in as admin.
 
 
@@ -177,9 +189,6 @@ Look into an auto-update feature like WordPress has (downloads a zip file upgrad
 
 
 Add Google and Microsoft translate API as options to translate the portfolio interface and price alerts.
-
-
-Add localcryptos API support whenever their API is out of private testing.
 
 
 Wrap all interface English within a "placeholder" lang_translate() function call. Then from a developer perspective you can still fully see the interface logic, and build out translation logic over time later. 
@@ -200,19 +209,7 @@ Add drop-down menu feature next to "Save Updated Portfolio" buttons for "save as
 2-way encryption option (unlocked with 6 digit PIN) for storing coin amounts (IN COOKIES ONLY, NO DATABASE STORAGE !EVER!), with "quick lock" to quickly re-hide portfolio data (staying hidden persists on page load / reload as well with a cookie).
 
 
-Add chart sorting by crypto and usd price / volume percentage change over 1 hour / 1 day / 1 week / 1 month / 90 days / 6 months / 1 year.
-
-
-Look into X day moving average overlay for charts.
-
-
-Add market stats summaries from chart data, like pie charts for exchange volume on certain pairs, etc.
-
-
 Simple trading bot, to run from cron / cli (with SQL-based admin authentication / web UI for configuration)
-
-
-Build Decred staking calculator.
 
 
 ///////////////////////////////////////////////////////
@@ -224,10 +221,10 @@ MAYBE SECTION
 ///////////////////////////////////////////////////////
 
 
+In debug mode, maybe add our new 'used ram' stat instead (that doesn't include buffers / cached ram).
+
+
 Use SQLite for any data storage that needs query capability (can also be used in PHPDesktop version, as it supports SQLite). 
-
-
-See if zingchart can do a moving average line?
 
 
 Alerts when RSS feeds have new entries?
@@ -257,22 +254,13 @@ Convert all long hand javascript to jquery?
 Save trading notes via the new ajax.php logic (rather than reload the entire app)?
 
 
-Should GRIN mining difficulty be different for each cuckoo level in the mining calculator?
-
-
 Add memory limit to all runtimes?
-
-
-Maybe do a gains pie chart and a separate losses pie chart for the gains / losses summary?
 
 
 Comparison chart(s) showing historical asset price vs what you paid per-token?
 
 
-Add auto-install script option to install NGINX (https://www.raspberrypi.org/documentation/remote-access/web-server/nginx.md)?
-
-
-Maybe add feature to detect new / removed markets?
+Maybe add feature to auto-detect new / removed markets?
 
 
 Consider error log alerts if system load is over 2, or free memory goes under 25 megabytes?
