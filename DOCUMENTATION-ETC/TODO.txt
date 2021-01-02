@@ -26,9 +26,6 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
-Run 'show_crypto_value' though same logic structure as 'show_charts', to auto-remove stale entries (in sub-init logic).
-
-
 Look into laptop pausing settimeout / setinterval javascript on Ubuntu 20.04 / Chrome, when tab is inactive (but is fine on Ubuntu 20.04 / Chrome on desktop).
 
 
