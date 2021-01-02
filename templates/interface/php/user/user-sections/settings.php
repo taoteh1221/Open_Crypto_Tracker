@@ -549,7 +549,7 @@
 			    
 			<p class='settings_sections'>
 				
-				<b>Show Secondary Trade / Holdings Value:</b> &nbsp;  
+				<b>Show Secondary Trade / Holdings Values In:</b> &nbsp;  
 			
 			<select class='browser-default custom-select' onchange='
 			
@@ -575,9 +575,9 @@
 
 
 		
-			var setting_secondary_trade_value_content = '<h5 class="yellow tooltip_title">Show Secondary Trade / Holdings Value</h5>'
+			var setting_secondary_trade_value_content = '<h5 class="yellow tooltip_title">Show Secondary Trade / Holdings Values In</h5>'
 			
-			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">Shows a secondary trade / holdings value in another asset, see screenshot below:</p>'
+			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">Choose showing secondary trade / holdings values in another asset, see example screenshot below:</p>'
 			
 			+'<p class="coin_info" style="max-width: 600px; white-space: normal;"><img src="templates/interface/media/images/secondary-value-example.png" width="590" title="Secondary Trade / Holdings Value" /></p>'
 			
