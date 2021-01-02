@@ -16,6 +16,16 @@ $app_config['general']['primary_marketcap_site'] = ( $alert_percent[0] != '' ? $
 
 $show_crypto_value = explode(',', rtrim( ( $_POST['show_crypto_value'] != '' ? $_POST['show_crypto_value'] : $_COOKIE['show_crypto_value'] ) , ',') );
 
+$show_secondary_trade_value = ( $_POST['show_secondary_trade_value'] != '' ? $_POST['show_secondary_trade_value'] : $_COOKIE['show_secondary_trade_value'] );
+
+	// Remove any stale secondary trade value
+	if ( !array_key_exists($show_secondary_trade_value, $app_config['power_user']['crypto_pairing']) ) {
+	$show_secondary_trade_value = null;
+	$_POST['show_secondary_trade_value'] = null;  
+	store_cookie_contents("show_secondary_trade_value", "", time()-3600);  
+	unset($_COOKIE['show_secondary_trade_value']);  
+	}
+
 $show_feeds = explode(',', rtrim( ( $_POST['show_feeds'] != '' ? $_POST['show_feeds'] : $_COOKIE['show_feeds'] ) , ',') );
 
 	// Alphabetically order AND remove stale feeds

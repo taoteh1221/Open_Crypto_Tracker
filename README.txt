@@ -60,7 +60,7 @@ FEATURES
 
 -Import / export your portfolio in CSV (spreadsheet) file format.
 
--A news page with over 60 different cryptocurrency-related RSS feeds to select from, including company and organization blogs / news sites / podcasts / youtube channels / reddit and stackexchange forums.
+-A news page with over 70 different cryptocurrency-related RSS feeds to select from, including company and organization blogs / news sites / podcasts / youtube channels / reddit and stackexchange forums, with ability to add / remove feeds in the app configuration.
 
 -External resources page, includes links to marketcap stats sites / news sites / wallets / exchanges / block explorers / developer resources / newsletters / podcasts / social media / etc.
 

@@ -4179,13 +4179,15 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.23.4:
 
--Bending the knee to "The Great Privacy Purge"
-
 -Bug fix for loading stale / removed price charts ('loading charts' now disappears properly)
+
+-"Show Secondary Trade / Holdings Value" feature on Settings page
+
+-Bending the knee to "The Great Privacy Purge" (removed privacy coins in asset examples)
 
 -Resources page / new feeds cleanup
 
--Misc UX
+-Misc fixes / UX
 
 -------------------------------------------------------------------
 

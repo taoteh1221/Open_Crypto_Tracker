@@ -544,6 +544,70 @@
 </script>
 
 
+				   
+			    
+			    
+			<p class='settings_sections'>
+				
+				<b>Show Secondary Trade / Holdings Value:</b> &nbsp;  
+			
+			<select class='browser-default custom-select' onchange='
+			
+			 document.getElementById("show_secondary_trade_value").value = this.value;
+			
+			'>
+			<option value=''> None </option>
+			<?php
+			foreach ( $app_config['power_user']['crypto_pairing'] as $key => $unused ) {
+			?>
+			<option value='<?=$key?>' <?=( $show_secondary_trade_value == $key ? 'selected' : '' )?>> <?=strtoupper($key)?> </option>
+			<?php
+			}
+			?> 
+			</select>
+			
+			     <img id="setting_secondary_trade_value" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
+			     
+         </p>
+			
+
+<script>
+
+
+		
+			var setting_secondary_trade_value_content = '<h5 class="yellow tooltip_title">Show Secondary Trade / Holdings Value</h5>'
+			
+			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">Shows a secondary trade / holdings value in another asset, see screenshot below:</p>'
+			
+			+'<p class="coin_info" style="max-width: 600px; white-space: normal;"><img src="templates/interface/media/images/secondary-value-example.png" width="590" title="Secondary Trade / Holdings Value" /></p>'
+			
+			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">You can edit this list (except for BTC) with the "crypto_pairing" setting, in the POWER USER section of the Admin Config.</p>';
+			
+		
+			$('#setting_secondary_trade_value').balloon({
+			html: true,
+			position: "right",
+			contents: setting_secondary_trade_value_content,
+			css: {
+					fontSize: ".8rem",
+					minWidth: "450px",
+					padding: ".3rem .7rem",
+					border: "2px solid rgba(212, 212, 212, .4)",
+					borderRadius: "6px",
+					boxShadow: "3px 3px 6px #555",
+					color: "#eee",
+					backgroundColor: "#111",
+					opacity: "0.99",
+					zIndex: "32767",
+					textAlign: "left"
+					}
+			});
+		
+
+
+</script>
+
+
 			
 			
          <p class='settings_sections'>

@@ -27,6 +27,7 @@ $app_config['comms']['proxy_alerts'] = auto_correct_string($app_config['comms'][
 $app_config['comms']['proxy_alerts_runtime'] = auto_correct_string($app_config['comms']['proxy_alerts_runtime'], 'lower');
 $app_config['comms']['proxy_alerts_checkup_ok'] = auto_correct_string($app_config['comms']['proxy_alerts_checkup_ok'], 'lower');
 
+
 // Cleaning charts/alerts array
 $cleaned_charts_and_price_alerts = array();
 foreach ( $app_config['charts_alerts']['tracked_markets'] as $key => $value ) {
@@ -35,6 +36,7 @@ $cleaned_value = auto_correct_string($value, 'lower');
 $cleaned_charts_and_price_alerts[$cleaned_key] = $cleaned_value;
 }
 $app_config['charts_alerts']['tracked_markets'] = $cleaned_charts_and_price_alerts;
+
 
 // Cleaning mobile networks array
 $cleaned_mobile_networks = array();

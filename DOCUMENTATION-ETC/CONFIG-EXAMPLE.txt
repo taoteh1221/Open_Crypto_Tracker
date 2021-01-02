@@ -563,7 +563,8 @@ $app_config['power_user']['charts_tooltip_text'] = '#222222'; // (default: '#222
 // Auto-activate support for ALTCOIN PAIRED MARKETS (like glm/eth or mkr/eth, etc...markets where the base pairing is an altcoin)
 // EACH ALTCOIN LISTED HERE !MUST HAVE! AN EXISTING 'btc' MARKET (within 'market_pairing') in it's 
 // $app_config['portfolio_assets'] listing (further down in this config file) TO PROPERLY AUTO-ACTIVATE
-// THIS ALSO ADDS THESE ASSETS AS OPTIONS IN THE "Show Crypto Value Of ENTIRE Portfolio In" SETTING, ON THE SETTINGS PAGE
+// THIS ALSO ADDS THESE ASSETS AS OPTIONS IN THE "Show Crypto Value Of ENTIRE Portfolio In" SETTING, ON THE SETTINGS PAGE,
+// AND IN THE "Show Secondary Trade / Holdings Value" SETTING, ON THE SETTINGS PAGE TOO
 // !!!!!TRY TO #NOT# ADD STABLECOINS HERE!!!!!, FIRST TRY $app_config['power_user']['bitcoin_currency_markets'] INSTEAD (TO AUTO-CLIP UN-NEEDED DECIMAL POINTS) 
 // !!!!!BTC IS ALREADY ADDED AUTOMATICALLY, NO NEED TO ADD IT HERE!!!!!
 $app_config['power_user']['crypto_pairing'] = array(

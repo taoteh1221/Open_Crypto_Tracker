@@ -116,9 +116,6 @@ Store the php timeout as a cached var, and compare the CACHED app config to it a
 Fully include all leverage in all portfolio summaries, with "(X% leverage)" next to each summary.
 
 
-Replace the small "in parentheses BTC value" text for non-BTC markets in the Trading / Holdings Value data columns, with user-chosen crypto based of the same logic as the "Crypto Value" summary.
-
-
 Create a cron plugin to let you know when a raw market value has gone below / above a certain exact value at a specific exchange (good for knowing when / if your order fills). Allow unlimited assets (same logic type as the recurring reminders plugin).
 
 

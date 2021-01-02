@@ -800,6 +800,8 @@
 	
 	<input type='hidden' id='show_crypto_value' name='show_crypto_value' value='<?=( $_POST['show_crypto_value'] != '' ? $_POST['show_crypto_value'] : $_COOKIE['show_crypto_value'] )?>' />
 	
+	<input type='hidden' id='show_secondary_trade_value' name='show_secondary_trade_value' value='<?=( $_POST['show_secondary_trade_value'] != '' ? $_POST['show_secondary_trade_value'] : $_COOKIE['show_secondary_trade_value'] )?>' />
+	
 	<input type='hidden' id='show_feeds' name='show_feeds' value='<?=( $_POST['show_feeds'] != '' ? $_POST['show_feeds'] : $_COOKIE['show_feeds'] )?>' />
 	
 	<input type='hidden' id='primary_currency_market_standalone' name='primary_currency_market_standalone' value='<?=( $_POST['primary_currency_market_standalone'] != '' ? $_POST['primary_currency_market_standalone'] : $_COOKIE['primary_currency_market_standalone'] )?>' />

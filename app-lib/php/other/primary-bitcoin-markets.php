@@ -45,6 +45,9 @@ if ( $default_btc_primary_currency_pairing != trim( file_get_contents($base_dir 
 // Delete all alerts cache data
 delete_all_files($base_dir . '/cache/alerts'); 
 
+// Delete all lite charts SPOT PRICE data (automatically will trigger a lite chart rebuild)
+remove_directory($base_dir . '/cache/charts/spot_price_24hr_volume/lite');
+
 	// Delete show_charts cookie data
 	if ( isset($_COOKIE['show_charts']) ) {
 	store_cookie_contents("show_charts", "", time()-3600);  
