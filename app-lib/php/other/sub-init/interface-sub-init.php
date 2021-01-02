@@ -14,7 +14,39 @@ $alert_percent = explode("|", ( $_POST['use_alert_percent'] != '' ? $_POST['use_
 
 $app_config['general']['primary_marketcap_site'] = ( $alert_percent[0] != '' ? $alert_percent[0] : $app_config['general']['primary_marketcap_site'] );
 
+
+///////////////////////////////////////////////////////////////////////
+
+
 $show_crypto_value = explode(',', rtrim( ( $_POST['show_crypto_value'] != '' ? $_POST['show_crypto_value'] : $_COOKIE['show_crypto_value'] ) , ',') );
+
+		
+		// Remove any stale crypto value
+		$temp_show_crypto_value = array();
+		$scan_crypto_value = $show_crypto_value;
+		$scan_crypto_value = array_map('strip_brackets', $scan_crypto_value); // Strip brackets
+		$loop = 0;
+		foreach ($scan_crypto_value as $key) {
+			if ( array_key_exists($key, $app_config['power_user']['crypto_pairing']) ) {
+			$temp_show_crypto_value[$loop] = $show_crypto_value[$loop];
+			}
+		$loop = $loop + 1;
+		}
+		$show_crypto_value = $temp_show_crypto_value;
+		$implode_crypto_value = implode(',', $show_crypto_value) . ',';
+	
+		// Update POST and / or COOKIE data too
+		if( $_POST['show_crypto_value'] ) {
+		$_POST['show_crypto_value'] = $implode_crypto_value;
+		}
+	
+		if( $_COOKIE['show_crypto_value'] ) {
+		store_cookie_contents("show_crypto_value", $implode_crypto_value, mktime()+31536000);
+		}
+	
+
+///////////////////////////////////////////////////////////////////////
+
 
 $show_secondary_trade_value = ( $_POST['show_secondary_trade_value'] != '' ? $_POST['show_secondary_trade_value'] : $_COOKIE['show_secondary_trade_value'] );
 
@@ -25,6 +57,10 @@ $show_secondary_trade_value = ( $_POST['show_secondary_trade_value'] != '' ? $_P
 	store_cookie_contents("show_secondary_trade_value", "", time()-3600);  
 	unset($_COOKIE['show_secondary_trade_value']);  
 	}
+
+
+///////////////////////////////////////////////////////////////////////
+
 
 $show_feeds = explode(',', rtrim( ( $_POST['show_feeds'] != '' ? $_POST['show_feeds'] : $_COOKIE['show_feeds'] ) , ',') );
 
@@ -52,6 +88,9 @@ $show_feeds = explode(',', rtrim( ( $_POST['show_feeds'] != '' ? $_POST['show_fe
 	}
 
 
+///////////////////////////////////////////////////////////////////////
+
+
 	// Only set from cookie / post values if charts are enabled
 	if ( $app_config['general']['asset_charts_toggle'] == 'on' ) {
 		
@@ -72,19 +111,23 @@ $show_feeds = explode(',', rtrim( ( $_POST['show_feeds'] != '' ? $_POST['show_fe
 		$show_charts = $temp_show_charts;
 		$implode_charts = implode(',', $show_charts) . ',';
 	
-			// Update POST and / or COOKIE data too
-			if( $_POST['show_charts'] ) {
-			$_POST['show_charts'] = $implode_charts;
-			}
+		// Update POST and / or COOKIE data too
+		if( $_POST['show_charts'] ) {
+		$_POST['show_charts'] = $implode_charts;
+		}
 	
-			if( $_COOKIE['show_charts'] ) {
-			store_cookie_contents("show_charts", $implode_charts, mktime()+31536000);
-			}
+		if( $_COOKIE['show_charts'] ) {
+		store_cookie_contents("show_charts", $implode_charts, mktime()+31536000);
+		}
 	
 	}
 	else {
 	$show_charts = array();
 	}
+
+
+///////////////////////////////////////////////////////////////////////
+
 
 $sort_settings = ( $_COOKIE['sort_by'] ? $_COOKIE['sort_by'] : $_POST['sort_by'] );
 $sort_settings = explode("|",$sort_settings);

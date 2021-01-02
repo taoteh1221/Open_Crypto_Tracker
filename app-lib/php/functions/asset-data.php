@@ -1694,7 +1694,7 @@ $original_market = $selected_exchange;
     elseif ( $selected_pairing == 'eth' && $selected_exchange == 'eth_subtokens_ico' ) {
     $pairing_btc_value = pairing_btc_value($selected_pairing);
 		if ( $pairing_btc_value == null ) {
-		app_logging('market_error', 'pairing_btc_value() returned null in ui_coin_data_row()', 'pairing: ' . $selected_pairing);
+		app_logging('market_error', 'pairing_btc_value(\''.$selected_pairing.'\') returned null in ui_coin_data_row(), make sure "'.$selected_pairing.'" is added to "crypto_pairing" in POWER USER Admin Config');
 		}
     $coin_value_raw = get_sub_token_price($selected_exchange, $market_id);
     $btc_trade_eqiv = number_format( ($coin_value_raw * $pairing_btc_value), 8);
@@ -1706,7 +1706,7 @@ $original_market = $selected_exchange;
     else {
     $pairing_btc_value = pairing_btc_value($selected_pairing);
 		if ( $pairing_btc_value == null ) {
-		app_logging('market_error', 'pairing_btc_value() returned null in ui_coin_data_row()', 'pairing: ' . $selected_pairing);
+		app_logging('market_error', 'pairing_btc_value(\''.$selected_pairing.'\') returned null in ui_coin_data_row(), make sure "'.$selected_pairing.'" is added to "crypto_pairing" in POWER USER Admin Config');
 		}
     $coin_value_raw = $asset_market_data['last_trade'];
     $btc_trade_eqiv = ( strtolower($asset_name) == 'bitcoin' ? 1 : number_format( ($coin_value_raw * $pairing_btc_value), 8) );
