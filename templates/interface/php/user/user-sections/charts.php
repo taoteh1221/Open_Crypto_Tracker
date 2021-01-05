@@ -119,13 +119,13 @@
 	
 	<p class='bitcoin'>You can enable "Use cookies to save data" on the Settings page <i>before activating your charts</i>, if you want them to stay activated between browser sessions.</p>
 	
+	<p class='bitcoin'>If "loading charts" notice freezes, check / uncheck this box, then click "Update Selected Charts".</p>
+	
 	<!-- Submit button must be OUTSIDE form tags here, or it submits the target form improperly and loses data -->
 	<p><button class='force_button_style' onclick='
 	$(".show_chart_settings").modaal("close");
 	$("#coin_amounts").submit();
 	'>Update Selected Charts</button></p>
-	
-	<p class='bitcoin'>(if you see "chart data is no longer configured for" notices OR the "loading charts" notice freezes, check / uncheck this box, then click "Update Selected Charts")</p>
 	
 	<p><input type='checkbox' onclick='
 	

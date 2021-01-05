@@ -26,6 +26,12 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+Consolidate number_to_string() calls, to speed up runtime.
+
+
+Think over what others "faq" entries would be helpful.
+
+
 Look into laptop pausing settimeout / setinterval javascript on Ubuntu 20.04 / Chrome, when tab is inactive (but is fine on Ubuntu 20.04 / Chrome on desktop).
 
 

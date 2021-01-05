@@ -2213,7 +2213,7 @@ echo pretty_numbers($coin_value_raw, $coin_value_decimals);
 		}
 		
 		if ( $secondary_trade_value_result >= 0.00000001 ) {
-  		echo '<div class="btc_worth">(' . pretty_numbers($secondary_trade_value_result, $secondary_trade_value_decimals) . ' '.strtoupper($show_secondary_trade_value).')</div>';
+  		echo '<div class="crypto_worth">(' . pretty_numbers($secondary_trade_value_result, $secondary_trade_value_decimals) . ' '.strtoupper($show_secondary_trade_value).')</div>';
 		}
   
   }
@@ -2352,7 +2352,7 @@ echo ' <span class="blue"><span class="data app_sort_filter blue">' . $pretty_co
 		}
 		
 		if ( $secondary_holdings_value_result >= 0.00000001 ) {
-  		echo '<div class="btc_worth"><span>(' . pretty_numbers($secondary_holdings_value_result, $secondary_holdings_value_decimals) . ' '.strtoupper($show_secondary_trade_value).')</span></div>';
+  		echo '<div class="crypto_worth"><span>(' . pretty_numbers($secondary_holdings_value_result, $secondary_holdings_value_decimals) . ' '.strtoupper($show_secondary_trade_value).')</span></div>';
   		}
   		
   }

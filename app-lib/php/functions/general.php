@@ -1442,9 +1442,9 @@ ksort($price_alerts_fixed_reset_array);
 	}
 
 
-$text_message = strtoupper($default_btc_primary_currency_pairing) . ' Price Alert Fixed Reset(s) ['.$count.']: ' . $reset_list;
+$text_message = $count . ' ' . strtoupper($default_btc_primary_currency_pairing) . ' Price Alert Fixed Resets: ' . $reset_list;
 
-$email_message = 'The following ' . $count . ' ' . strtoupper($default_btc_primary_currency_pairing) . ' price alert fixed reset(s) have been processed, with the latest spot price data: ' . $reset_list;
+$email_message = 'The following ' . $count . ' ' . strtoupper($default_btc_primary_currency_pairing) . ' price alert fixed resets (run every ' . $app_config['charts_alerts']['price_alerts_fixed_reset'] . ' days) have been processed, with the latest spot price data: ' . $reset_list;
 
 $notifyme_message = $email_message . ' Timestamp is ' . time_date_format($app_config['general']['local_time_offset'], 'pretty_time') . '.';
 

@@ -47,7 +47,7 @@ $example_download_array[] = array(
 	        							'4.80',
 	        							'0',
 	        							'long',
-	        							'3',
+	        							'1',
 	        							'btc'
 	        							);	
 	        

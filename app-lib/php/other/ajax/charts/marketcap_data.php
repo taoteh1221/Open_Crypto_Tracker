@@ -191,7 +191,7 @@ gui: {
       },  
   		source: {
 	 		height: '13px',
-  		   text: "Select height area to zoom in chart, to see smaller values better (only Y axis zooming supported).",
+  		   text: "Select height area to zoom in chart, to see smaller values better (only vertical axis zooming supported).",
     		fontColor:"#dd7c0d",
 	      fontSize: "15",
     		fontFamily: "Open Sans",

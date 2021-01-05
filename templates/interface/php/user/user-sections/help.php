@@ -302,9 +302,9 @@
 	      <div class="card-body">
 	      
 	         
-	        If you have a lot of charts setup in your configuration file, and your are getting a message in the error logs like "file_write_error: File write failed for file X", and your website server is running a linux-based operating system, you may need to setup a higher "open files" limit for your website user account. 
+If you are getting a lot of messages in the error logs like "file_write_error: File write failed for file X", you may need to free up disk space quota on your device, OR change directory permissions on your /cache/ folder. Check to make sure you have not used up all your ALLOWED disk space quota, AND that your /cache/ folder permissions are readable / writable (777 on unix / linux systems).
 <br /><br />
-First, if you have shell access you can login and run this command to check your current limits:
+If you alreay have plenty of disk space quota freed up / your cache folder permissions are readable / writable, and you still have file write issues on linux-based operating systems, you MAY need to setup a higher "open files" limit for your website user account. If you have shell access you can login and run this command to check your current limits:
 <br /><br />
 ulimit -n
 <br /><br />

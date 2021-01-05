@@ -488,7 +488,7 @@ white-space: nowrap;
 }
 
 
-.gain, td.data span.gain, td.data div.gain span, .btc_worth, .btc_worth span, td.data div.btc_worth span {
+.gain, td.data span.gain, td.data div.gain span, .crypto_worth, .crypto_worth span, td.data div.crypto_worth span {
 margin: 0px;
 padding: 0px;
 font-size: 11px !important;

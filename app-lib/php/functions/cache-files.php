@@ -1853,7 +1853,8 @@ $tld_session_prefix = preg_replace("/\./i", "_", $endpoint_tld_or_ip);
 		// NEW INSTALLS WILL RUN
 		// !!!!!!!!!!!!!!!!!NEVER RUN $data THROUGH trim() FOR CHECKS ETC, AS trim() CAN FLIP OUT AND RETURN NULL IF OBSCURE SYMBOLS ARE PRESENT!!!!!!!!!!!!!!!!!
 		if ( $data == '' && $is_self_security_test != 1 ) {
-			
+		
+		$data_bytes = strlen($data); // CONFIRM how many bytes of data received, for error log data UX
 			
 		// FALLBACK TO FILE CACHE DATA, IF AVAILABLE (WE STILL LOG THE FAILURE, SO THIS OS OK)
 		// (NO LOGIC NEEDED TO CHECK RUNTIME CACHE, AS WE ONLY ARE HERE IF THERE IS NONE)
@@ -1879,7 +1880,7 @@ $tld_session_prefix = preg_replace("/\./i", "_", $endpoint_tld_or_ip);
 	
 		
 		// LOG-SAFE VERSION (no post data with API keys etc)
-		app_logging('ext_api_error', 'connection failed for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint) . $log_append, 'requested_from: server (' . $app_config['power_user']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . obfuscate_string($hash_check, 4) . ';' );
+		app_logging('ext_api_error', 'connection failed ('.$data_bytes.' bytes received) for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint) . $log_append, 'requested_from: server (' . $app_config['power_user']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . obfuscate_string($hash_check, 4) . ';' );
 		
 		
 			if ( sizeof($app_config['proxy']['proxy_list']) > 0 && $current_proxy != '' && $mode != 'proxy-check' ) { // Avoid infinite loops doing proxy checks

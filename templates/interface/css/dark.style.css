@@ -58,7 +58,7 @@ input[type=text]:disabled {
 }
 
 
-a, .black, td.data span, .subsection_legend, .btc_worth, .btc_worth span, td.data div.btc_worth span {
+a, .black, td.data span, .subsection_legend, .crypto_worth, .crypto_worth span, td.data div.crypto_worth span {
 color: white;
 }
 

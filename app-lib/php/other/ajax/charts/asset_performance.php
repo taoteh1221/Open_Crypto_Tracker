@@ -198,7 +198,7 @@ gui: {
     	  offsetY: 9
       },  
   		source: {
-  		   text: "Select area to zoom in chart, or use zoom grab bars in preview area (X and Y axis zooming supported).",
+  		   text: "Select area to zoom in chart, or use zoom grab bars in preview area (vertical / horizontal axis zooming supported).",
     		fontColor:"black",
 	      fontSize: "13",
     		fontFamily: "Open Sans",

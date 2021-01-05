@@ -271,6 +271,15 @@ graphset:[
     offsetX: -18,
     offsetY: 4
   },
+  source: {
+    text: "Select area to zoom in chart, or use zoom grab bars in preview area (only horizontal axis zooming supported).",
+    fontColor:"<?=$app_config['power_user']['charts_text']?>",
+	 fontSize: "13",
+    fontFamily: "Open Sans",
+    offsetX: 110,
+    offsetY: -48,
+    align: 'left'
+  },
   zoom: {
     shared: true
   },
