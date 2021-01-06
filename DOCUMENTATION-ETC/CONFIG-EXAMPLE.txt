@@ -269,6 +269,7 @@ $app_config['proxy']['proxy_list'] = array(
 // Only used if $app_config['charts_alerts']['tracked_markets'] is filled in properly below, AND a cron job is setup (see README.txt for cron job setup information) 
 ////
 // Fixed time interval RESET of cached comparison asset prices every X days (since last price reset / alert) with the current latest spot prices
+// Helpful if you only want price alerts for a certain time window. Resets also send alerts that reset occurred, with summary of price changes since last reset
 // Can be 0 to disable fixed time interval resetting (IN WHICH CASE RESETS WILL ONLY OCCUR DYNAMICALLY when the next price alert is triggered / sent out)
 $app_config['charts_alerts']['price_alerts_fixed_reset'] = 0; // (default = 0)
 ////
@@ -445,7 +446,7 @@ $app_config['power_user']['activate_plugins'] = array(
 // Set too low you won't get ALL data (partial or zero bytes), set too high the interface can take a long time loading if an API server hangs up
 // RECOMMENDED MINIMUM OF 60 FOR INSTALLS BEHIND #LOW BANDWIDTH# NETWORKS 
 // (which may need an even higher timeout above 60 if data still isn't FULLY received from all APIs)
-$app_config['power_user']['remote_api_timeout'] = 60; // (default = 60)
+$app_config['power_user']['remote_api_timeout'] = 30; // (default = 30)
 
 
 // MINUTES to cache real-time exchange price data...can be zero to skip cache, but set to at least 1 minute TO AVOID YOUR IP ADDRESS GETTING BLOCKED
