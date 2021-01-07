@@ -54,7 +54,7 @@ $("#<?=$key?>_<?=$charted_value?>_chart span.chart_loading").html(' &nbsp; <img 
 	
   
 zingchart.bind('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'load', function() {
-$("#<?=$key?>_<?=$charted_value?>_chart span").hide(); // Hide "Loading chart X..." after it loads
+$("#<?=$key?>_<?=$charted_value?>_chart span.chart_loading").hide(); // Hide "Loading chart X..." after it loads
 });
   
 
@@ -65,7 +65,7 @@ $.get( "ajax.php?type=chart&mode=asset_price&asset_data=<?=$key?>&charted_value=
 
 	// Mark chart as loaded after it has rendered
 	zingchart.bind('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'complete', function() {
-	$("#<?=$key?>_<?=$charted_value?>_chart span").hide(); // Hide "Loading chart X..." after it loads
+	$("#<?=$key?>_<?=$charted_value?>_chart span.chart_loading").hide(); // Hide "Loading chart X..." after it loads
 	window.charts_loaded.push("chart_<?=$js_key?>");
 	charts_loading_check(window.charts_loaded);
 	});
