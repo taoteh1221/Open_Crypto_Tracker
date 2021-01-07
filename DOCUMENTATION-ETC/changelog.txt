@@ -4194,7 +4194,11 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 
 -------------------------------------------------------------------
-4.24.0:
+4.23.5:
+
+-Bug fix for fiat-based conversion price charts
+
+-Bug fix for zingchart branding link
 
 -Misc UX
 

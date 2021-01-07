@@ -155,28 +155,19 @@
 	?>
 	
 		<div class='<?=$zebra_stripe?> long_list <?=( $last_rendered != $show_asset ? 'activate_chart_sections' : '' )?>'>
+				
+				<input type='checkbox' value='<?=$key?>_<?=$show_asset_params[1]?>' onchange='chart_toggle(this);' <?=( in_array("[".$key . '_' . $show_asset_params[1]."]", $show_charts) ? 'checked' : '' )?> /> <span class='blue'><?=$show_asset?></span> / <?=strtoupper($show_asset_params[1])?> @ <?=snake_case_to_name($show_asset_params[0])?>
 			
 				<?php
-				// Markets that are the same as PRIMARY CURRENCY CONFIG setting
-				if ( $show_asset_params[1] == $default_btc_primary_currency_pairing ) {
+				// Markets that are NOT the same as PRIMARY CURRENCY CONFIG get a secondary chart for PRIMARY CURRENCY CONFIG
+				if ( $show_asset_params[1] != $default_btc_primary_currency_pairing ) {
 				?>
-	
-			   <input type='checkbox' value='<?=$key?>_<?=$show_asset_params[1]?>' onchange='chart_toggle(this);' <?=( in_array("[".$key . '_' . $show_asset_params[1]."]", $show_charts) ? 'checked' : '' )?> /> <span class='blue'><?=$show_asset?></span> / <?=strtoupper($show_asset_params[1])?> @ <?=snake_case_to_name($show_asset_params[0])?>
-	
+				
+				 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <input type='checkbox' value='<?=$key?>_<?=$default_btc_primary_currency_pairing?>' onchange='chart_toggle(this);' <?=( in_array("[".$key . '_' . $default_btc_primary_currency_pairing."]", $show_charts) ? 'checked' : '' )?> /> <?=strtoupper($default_btc_primary_currency_pairing)?> Value
+				
 				<?php
 				}
-				// All other paired markets (WITH PRIMARY CURRENCY CONFIG EQUIV CHARTS INCLUDED)
-				else {
 				?>
-				
-				<input type='checkbox' value='<?=$key?>_<?=$show_asset_params[1]?>' onchange='chart_toggle(this);' <?=( in_array("[".$key . '_' . $show_asset_params[1]."]", $show_charts) ? 'checked' : '' )?> /> <span class='blue'><?=$show_asset?></span> / <?=strtoupper($show_asset_params[1])?> @ <?=snake_case_to_name($show_asset_params[0])?> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-					
-				<input type='checkbox' value='<?=$key?>' onchange='chart_toggle(this);' <?=( in_array("[".$key."]", $show_charts) ? 'checked' : '' )?> /> <?=strtoupper($default_btc_primary_currency_pairing)?> Value
-				
-			   
-	
-				<?php
-				}?>
 	
 			</div>
 				
@@ -231,6 +222,7 @@
 		$charts_available = 1;
 		$alerts_market_parse = explode("||", $value );	
 		
+		// Pairings chart
 		if ( in_array('['.$key.'_'.$alerts_market_parse[1].']', $show_charts) ) {
 		$charts_shown = 1;
 	?>
@@ -264,7 +256,8 @@
 	<?php
 		}
 		
-		if ( in_array('['.$key.']', $show_charts) ) {
+		// PRIMARY CURRENCY CONFIG chart
+		if ( $alerts_market_parse[1] != $default_btc_primary_currency_pairing && in_array('['.$key.'_'.$default_btc_primary_currency_pairing.']', $show_charts) ) {
 		$charts_shown = 1;
 	?>
 	
