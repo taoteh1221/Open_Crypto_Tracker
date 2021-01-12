@@ -26,6 +26,9 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+"Crypto Value:" breaks for altcoin values, with VERY LARGE Bitcoin amounts.
+
+
 Consolidate number_to_string() calls, to speed up runtime.
 
 
