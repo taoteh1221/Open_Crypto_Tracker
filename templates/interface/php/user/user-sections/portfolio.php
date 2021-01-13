@@ -499,7 +499,7 @@ $altcoin_dominance = max_100($altcoin_dominance);
 							echo '<span class="'.$key.'" title="'.strtoupper($key).'">'.$value.' ' . $total_btc_worth . '</span>';
 							}
 							else {
-							echo '<span class="'.$key.'" title="'.strtoupper($key).'">'.$value.' ' . number_format( ( $total_btc_worth / pairing_btc_value($key) ) , 4) . '</span>';
+							echo '<span class="'.$key.'" title="'.strtoupper($key).'">'.$value.' ' . number_format( ( $total_btc_worth_raw / pairing_btc_value($key) ) , 4) . '</span>';
 							}
 				
 						$loop = $loop + 1;
@@ -1509,7 +1509,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
     		}
     		
     		if ( isset($system_info['uptime']) ) {
-    		echo '<span class="bitcoin"><b>Uptime:</b></span> <span class="'.( preg_match("/0 days, 0 hours/i", $system_info['uptime']) ? 'red' : 'green' ).'"> '.$system_info['uptime'].'</span> <br />';
+    		echo '<span class="bitcoin"><b>Uptime:</b></span> <span class="'.( substr($system_info['uptime'], 0, 6) == '0 days' ? 'red' : 'green' ).'"> '.$system_info['uptime'].'</span> <br />';
     		}
     		
     		$system_load_redline = ( $system_info['cpu_threads'] > 1 ? ($system_info['cpu_threads'] * 2) : 2 );

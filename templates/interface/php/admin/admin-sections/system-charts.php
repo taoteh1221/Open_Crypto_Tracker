@@ -54,7 +54,7 @@
     		}
     		
     		if ( isset($system_info['uptime']) ) {
-    		echo '<span class="bitcoin"><b>Uptime:</b></span> <span class="'.( preg_match("/0 days, 0 hours/i", $system_info['uptime']) ? 'red' : 'green' ).'"> '.$system_info['uptime'].'</span> <br />';
+    		echo '<span class="bitcoin"><b>Uptime:</b></span> <span class="'.( substr($system_info['uptime'], 0, 6) == '0 days' ? 'red' : 'green' ).'"> '.$system_info['uptime'].'</span> <br />';
     		}
     		
     		if ( isset($system_info['system_load']) ) {

@@ -4206,6 +4206,17 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 
 
+-------------------------------------------------------------------
+4.23.6:
+
+-Bug fix for "Crypto Value" altcoin values
+
+-Misc fixes / UX
+
+-------------------------------------------------------------------
+
+
+
 
 
 
