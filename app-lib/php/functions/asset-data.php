@@ -1686,7 +1686,7 @@ $original_market = $selected_exchange;
     if ( $selected_pairing == 'btc' ) {
     $pairing_btc_value = pairing_btc_value($selected_pairing); // SUPPORTED even for BTC, since we ue this var for secondary trade / holdings values logic further down
     $coin_value_raw = $asset_market_data['last_trade'];
-    $btc_trade_eqiv = number_format($coin_value_raw, 8);
+    $btc_trade_eqiv_raw = number_format($coin_value_raw, 8, '.', '');
     $coin_value_total_raw = ($asset_amount * $coin_value_raw);
   	 $coin_primary_currency_worth_raw = $coin_value_total_raw * $selected_btc_primary_currency_value;
     $btc_worth_array[$asset_symbol] = $coin_value_total_raw;
@@ -1695,7 +1695,7 @@ $original_market = $selected_exchange;
     elseif ( $selected_pairing == 'eth' && $selected_exchange == 'eth_subtokens_ico' ) {
     $pairing_btc_value = pairing_btc_value($selected_pairing);
     $coin_value_raw = get_sub_token_price($selected_exchange, $market_id);
-    $btc_trade_eqiv = number_format( ($coin_value_raw * $pairing_btc_value), 8);
+    $btc_trade_eqiv_raw = number_format( ($coin_value_raw * $pairing_btc_value), 8, '.', '');
     $coin_value_total_raw = ($asset_amount * $coin_value_raw);
   	 $coin_primary_currency_worth_raw = ($coin_value_total_raw * $pairing_btc_value) * $selected_btc_primary_currency_value;
     $btc_worth_array[$asset_symbol] = number_to_string($coin_value_total_raw * $pairing_btc_value);  
@@ -1704,7 +1704,7 @@ $original_market = $selected_exchange;
     else {
     $pairing_btc_value = pairing_btc_value($selected_pairing);
     $coin_value_raw = $asset_market_data['last_trade'];
-    $btc_trade_eqiv = ( strtolower($asset_name) == 'bitcoin' ? 1 : number_format( ($coin_value_raw * $pairing_btc_value), 8) );
+    $btc_trade_eqiv_raw = ( strtolower($asset_name) == 'bitcoin' ? 1 : number_format( ($coin_value_raw * $pairing_btc_value), 8, '.', '') );
     $coin_value_total_raw = ($asset_amount * $coin_value_raw);
   	 $coin_primary_currency_worth_raw = ($coin_value_total_raw * $pairing_btc_value) * $selected_btc_primary_currency_value;
     $btc_worth_array[$asset_symbol] = ( strtolower($asset_name) == 'bitcoin' ? $asset_amount : number_to_string($coin_value_total_raw * $pairing_btc_value) );
@@ -2119,7 +2119,7 @@ $original_market = $selected_exchange;
 
 <?php
   
-  $coin_primary_currency_value = ( $selected_btc_primary_currency_value * $btc_trade_eqiv );
+  $coin_primary_currency_value = ( $selected_btc_primary_currency_value * $btc_trade_eqiv_raw );
 
   // UX on FIAT EQUIV number values
   $coin_primary_currency_value = ( number_to_string($coin_primary_currency_value) >= $app_config['general']['primary_currency_decimals_max_threshold'] ? pretty_numbers($coin_primary_currency_value, 2) : pretty_numbers($coin_primary_currency_value, $app_config['general']['primary_currency_decimals_max']) );
@@ -2202,12 +2202,12 @@ echo pretty_numbers($coin_value_raw, $coin_value_decimals);
   if ( $show_secondary_trade_value != null && $selected_pairing != $show_secondary_trade_value && strtolower($asset_symbol) != $show_secondary_trade_value ) {
   
 		if ( $show_secondary_trade_value == 'btc' ) {
-		$secondary_trade_value_result = number_to_string($btc_trade_eqiv);
+		$secondary_trade_value_result = number_to_string($btc_trade_eqiv_raw);
 		$secondary_trade_value_decimals = ( $secondary_trade_value_result >= 0.01 ? 6 : 8 );
 		$secondary_trade_value_decimals = ( $secondary_trade_value_result >= 1 ? 4 : $secondary_trade_value_decimals );
 		}
 		else {
-		$secondary_trade_value_result = number_to_string( $btc_trade_eqiv / pairing_btc_value($show_secondary_trade_value) );
+		$secondary_trade_value_result = number_to_string( $btc_trade_eqiv_raw / pairing_btc_value($show_secondary_trade_value) );
 		$secondary_trade_value_decimals = ( $secondary_trade_value_result >= 0.01 ? 4 : 8 );
 		$secondary_trade_value_decimals = ( $secondary_trade_value_result >= 1 ? 2 : $secondary_trade_value_decimals );
 		}
