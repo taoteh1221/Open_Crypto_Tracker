@@ -379,27 +379,29 @@
 	        
 	        <li class='links_list'><a href='https://www.reddit.com/r/Bitcoin/' target='_blank'>Bitcoin Subreddit</a></li>
 	        
-	        <li class='links_list'><a href='https://blocktv.com/' target='_blank'>BlockTV</a></li>
-	        
 	        <li class='links_list'><a href='https://bitcoin.clarkmoody.com/dashboard/' target='_blank'>Clark Moody Bitcoin Dashboard</a></li>
 	        
-	        <li class='links_list'><a href='https://coincenter.org/' target='_blank'>CoinCenter.org</a></li>
+	        <li class='links_list'><a href='https://coincenter.org/' target='_blank'>CoinCenter.org</a> <span class='yellow'>(non-profit cryptocurrency research and advocacy center)</span></li>
 	        
-	        <li class='links_list'><a href='https://coinshares.com/' target='_blank'>CoinShares.com</a></li>
+	        <li class='links_list'><a href='https://coinshares.com/' target='_blank'>CoinShares.com</a> <span class='yellow'>(professional cryptocurrency investing / advising)</span></li>
 	        
 	        <li class='links_list'><a href='https://twitter.com/hashtag/cryptotwitter?src=hash' target='_blank'>#CryptoTwitter</a></li>
 	        
 	        <li class='links_list'><a href='https://www.reddit.com/r/ethereum/' target='_blank'>Ethereum Subreddit</a></li>
 	        
-	        <li class='links_list'><a href='https://nakamotoinstitute.org/' target='_blank'>Nakamotoinstitute.org</a></li>
+	        <li class='links_list'><a href='https://HaveFunStayingBored.com/' target='_blank'>HaveFunStayingBored.com</a> <span class='yellow'>(DFD Cryptocoin Values website shortcut)</span></li>
 	        
-	        <li class='links_list'><a href='https://sourceforge.net/projects/dfd-crypto-ticker/' target='_blank'>Raspberry PI Real-Time / Multi-Crypto Slideshow Price Ticker</a> (a side project of mine)</li>
+	        <li class='links_list'><a href='https://nakamotoinstitute.org/' target='_blank'>Nakamotoinstitute.org</a> <span class='yellow'>(Bitcoin educational resources)</span></li>
+	        
+	        <li class='links_list'><a href='https://sourceforge.net/projects/dfd-crypto-ticker/' target='_blank'>Raspberry PI Real-Time / Multi-Crypto Slideshow Price Ticker</a> <span class='yellow'>(a side project of mine)</span></li>
 	        
 	        <li class='links_list'><a href='https://www.sec.gov/ICO' target='_blank'>SEC.gov ICO Awareness Site</a></li>
 	        
-	        <li class='links_list'><a href='https://txstreet.com/' target='_blank'>TxStreet.com</a> (Blockchain Transaction Visualizer)</li>
+	        <li class='links_list'><a href='https://txstreet.com/' target='_blank'>TxStreet.com</a> <span class='yellow'>(Blockchain Transaction Visualizer)</span></li>
 	        
-	        <li class='links_list'><a href='https://whale-alert.io/' target='_blank'>Whale Alert</a></li>
+	        <li class='links_list'><a href='https://usdsat.com/' target='_blank'>USDsat.com</a> <span class='yellow'>(US Dollar vs Bitcoin's smallest unit of measure)</span></li>
+	        
+	        <li class='links_list'><a href='https://whale-alert.io/' target='_blank'>Whale Alert</a> <span class='yellow'>(cryptocurrency transaction alerts)</span></li>
 	        
 	        
 	        

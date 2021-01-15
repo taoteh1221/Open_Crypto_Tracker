@@ -338,6 +338,11 @@ margin: 20px;
 }
 
 
+.links_list span {
+font-weight: normal;
+}
+
+
 .long_linebreak { 
 display: inline-block;
 max-width: 350px;
