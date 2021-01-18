@@ -69,7 +69,7 @@ var quoteSource=[
 	    	name:"Lou Simpson"
 	    },
 	    {
-	    	quote:"<i><u>ALWAYS AVOID</u></i> copycat coins (that copy / mimick already-popular networks), coins with high inflation rates (creating too many new coins infinitely), and coins with very little on-chain transaction activity (indicating low <i>REAL WORLD</i> user adoption).",
+	    	quote:"<i><u>ALWAYS AVOID</u></i> copycat coins (that copy / mimick already-popular networks), coins with high inflation rates (creating too many new coins infinitely), coins that are NOT on a fully decentralized network (small groups control everything), and coins with very little on-chain transaction activity (indicating low <i>REAL WORLD</i> user adoption).",
 	    	name:"Mike Kilday (creator of this app)"
 	    },
 	    {

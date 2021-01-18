@@ -32,6 +32,9 @@ Refactoring auto-install script to included changing / removing PHP-FPM versions
 Consolidate number_to_string() calls, to speed up runtime.
 
 
+Consider moving the error log alerts for "email not configured" under the new "notify" category (which avoids duplicate messages).
+
+
 Think over what others "faq" entries would be helpful.
 
 
