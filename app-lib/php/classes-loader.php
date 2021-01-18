@@ -12,7 +12,7 @@ if ( $app_config['comms']['smtp_login'] != '' && $app_config['comms']['smtp_serv
 
 require_once($base_dir . '/app-lib/php/classes/smtp-mailer/SMTPMailer.php');
 
-// Passing smtp server login vars to config file structure used by the 3rd party SMTP class, to maintain ease with any future upgrade compatibility
+// Passing smtp server login vars to config structure used by the 3rd party SMTP class, to maintain ease with any future upgrade compatibility
 // Must be loaded as a global var before class instance is created
 $smtp_vars = smtp_vars();
 global $smtp_vars; // Needed for class compatibility (along with second instance in the class config_smtp.php file)

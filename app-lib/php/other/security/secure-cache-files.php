@@ -101,7 +101,7 @@ foreach( $secured_cache_files as $secured_file ) {
 	// Telegram user data
 	elseif ( preg_match("/telegram_user_data_/i", $secured_file) ) {
 		
-		// If we already loaded the newest modified telegram config file
+		// If we already loaded the newest modified telegram SECURED CACHE config file
 		// DON'T WORRY ABOUT REFRESHING TELEGRAM DATA WHEN APP CONFIG IS REFRESHING, AS WE CAN'T DO THAT RELIABLY IN THIS LOOP
 		// AND IT'S DONE AFTER THE LOOP ANYWAY (WE JUST CLEANUP ANY STALE TELEGRAM CONFIGS IN THIS LOOP)
 		if ( $newest_cached_telegram_user_data == 1 ) {

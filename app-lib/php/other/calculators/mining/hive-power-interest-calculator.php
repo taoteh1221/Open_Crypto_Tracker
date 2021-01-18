@@ -21,7 +21,7 @@ $hive_market = asset_market_data('HIVE', 'bittrex', 'BTC-HIVE')['last_trade'];
         
         <p><b>Power Down Period:</b> <?=$app_config['power_user']['hive_powerdown_time']?> weeks</p>
 	
-        <p><b>HIVE Power Interest Rate:</b> <?=($app_config['power_user']['hivepower_yearly_interest'])?> percent annually (see config file for yearly adjustments)</p>
+        <p><b>HIVE Power Interest Rate:</b> <?=($app_config['power_user']['hivepower_yearly_interest'])?> percent annually (see Power User Config for yearly adjustments)</p>
 	
         <p><b>HIVE Power Purchased:</b> <input type='text' name='hp_purchased' value='<?=$_POST['hp_purchased']?>' placeholder="(from Bittrex trading etc)" size='45' /></p>
         

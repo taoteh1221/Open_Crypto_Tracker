@@ -1157,12 +1157,12 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
   elseif ( strtolower($chosen_exchange) == 'kraken' ) {
    	
    	
-   	$kraken_pairs = null; // In case user messes up the config file, this helps
+   	$kraken_pairs = null; // In case user messes up Admin Config, this helps
   		foreach ( $app_config['portfolio_assets'] as $markets ) {
   		
   			foreach ( $markets['market_pairing'] as $exchange_pairs ) {
   			
-  				if ( isset($exchange_pairs['kraken']) && $exchange_pairs['kraken'] != '' ) { // In case user messes up the config file, this helps
+  				if ( isset($exchange_pairs['kraken']) && $exchange_pairs['kraken'] != '' ) { // In case user messes up Admin Config, this helps
 				
 				$kraken_pairs .= $exchange_pairs['kraken'] . ',';
 				  				
@@ -1561,12 +1561,12 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
   elseif ( strtolower($chosen_exchange) == 'upbit' ) {
   	
   	
-  		$upbit_pairs = null; // In case user messes up the config file, this helps
+  		$upbit_pairs = null; // In case user messes up Admin Config, this helps
   		foreach ( $app_config['portfolio_assets'] as $markets ) {
   		
   			foreach ( $markets['market_pairing'] as $exchange_pairs ) {
   			
-  				if ( isset($exchange_pairs['upbit']) && $exchange_pairs['upbit'] != '' ) { // In case user messes up the config file, this helps
+  				if ( isset($exchange_pairs['upbit']) && $exchange_pairs['upbit'] != '' ) { // In case user messes up Admin Config, this helps
 				
 				$upbit_pairs .= $exchange_pairs['upbit'] . ',';
 				  				
