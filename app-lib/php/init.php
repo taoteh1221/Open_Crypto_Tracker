@@ -10,7 +10,7 @@
 
 
 // Application version
-$app_version = '4.23.6';  // 2021/JANUARY/13TH
+$app_version = '4.23.7';  // 2021/JANUARY/20TH
 
 // Application edition
 $app_edition = 'server';  // 'server' OR 'desktop' edition (LOWERCASE)
@@ -220,6 +220,8 @@ $btc_pairing_markets = array();
 $plugin_config =  array();
 
 $activated_plugins =  array();
+
+$asset_tracking =  array();
 
 $price_alerts_fixed_reset_array = array();
 

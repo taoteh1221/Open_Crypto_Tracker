@@ -120,8 +120,17 @@ $percent_sample_newest = number_to_string( delimited_string_sample($chart_value[
   // Sort array keys by lowest numeric value to highest 
 // (newest/last chart sensors data sorts lowest value to highest, for populating the 2 shared charts)
 ksort($sorted_by_last_chart_data);
+
+$plot_config = explode('|', $_GET['plot_config']);
   
 	foreach ( $sorted_by_last_chart_data as $chart_array ) {
+		
+		if ( in_array($chart_array[0], $plot_config) ) {
+		$show_plot = 'visible: true,';
+		}
+		else {
+		$show_plot = 'visible: false,';
+		}
 			
 	$rand_color = '#' . randomColor()['hex'];
 		
@@ -129,17 +138,18 @@ ksort($sorted_by_last_chart_data);
 				$chart_config = "{
 			  text: '".$chart_array[0]."',
 			  values: [".$chart_array[1]['data']['combined']."],
+			  ".$show_plot."
 			  lineColor: '".$rand_color."',
 				 marker: {
-			 backgroundColor: '".$rand_color."',
-			 borderColor: '".$rand_color."'
+			 		backgroundColor: '".$rand_color."',
+			 		borderColor: '".$rand_color."'
 				 },
 			  legendItem: {
-				  fontColor: 'white',
-			   fontSize: ".$_GET['menu_size'].",
-			   fontFamily: 'Open Sans',
-				backgroundColor: '".$rand_color."',
-				borderRadius: '2px'
+					fontColor: 'white',
+			  		fontSize: ".$_GET['menu_size'].",
+			  		fontFamily: 'Open Sans',
+					backgroundColor: '".$rand_color."',
+					borderRadius: '2px'
 			  }
 			},
 			" . $chart_config;

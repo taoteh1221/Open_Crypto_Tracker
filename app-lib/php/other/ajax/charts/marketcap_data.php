@@ -115,9 +115,18 @@ $marketcap_value = remove_number_format($marketcap_value);
 // (newest/last chart sensors data sorts lowest value to highest, for populating the 2 shared charts)
 ksort($sorted_by_marketcap_data);
 
+$plot_config = explode('|', $_GET['plot_config']);
+
 //var_dump($sorted_by_marketcap_data);
   
 	foreach ( $sorted_by_marketcap_data as $marketcap_array ) {
+		
+		if ( in_array($marketcap_array[0], $plot_config) ) {
+		$show_plot = 'visible: true,';
+		}
+		else {
+		$show_plot = 'visible: false,';
+		}
 			
 	$rand_color = '#' . randomColor()['hex'];
 		
@@ -126,12 +135,13 @@ ksort($sorted_by_marketcap_data);
 			  text: '".$marketcap_array[0]."',
 			  backgroundColor: '".$rand_color."',
 			  values: [".$marketcap_array[1]."],
+			  ".$show_plot."
 			  legendItem: {
-				  fontColor: 'white',
-			   fontSize: ".$_GET['menu_size'].",
-			   fontFamily: 'Open Sans',
-				backgroundColor: '".$rand_color."',
-				borderRadius: '2px'
+					fontColor: 'white',
+			  		fontSize: ".$_GET['menu_size'].",
+			  		fontFamily: 'Open Sans',
+					backgroundColor: '".$rand_color."',
+					borderRadius: '2px'
 			  }
 			},
 			" . $marketcap_config;

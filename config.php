@@ -387,13 +387,6 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					'mana-4' => 'ethfinex||btc||none',
 					
 					
-					// ANT
-					'ant' => 'bittrex_global||btc||both',
-					'ant-2' => 'hitbtc||btc||chart',
-					'ant-3' => 'ethfinex||btc||none',
-					'ant-4' => 'defipulse||eth||none',
-					
-					
 					// GLM
 					'glm' => 'bittrex||btc||both',
 					'glm-2' => 'ethfinex||btc||chart',
@@ -2428,48 +2421,6 @@ $app_config['portfolio_assets'] = array(
                                     'usdt' => array(
                                           'hitbtc' => 'MANAUSD',
                                           'okex' => 'MANA-USDT',
-                                                    ),
-                                                    
-                                        ) // market_pairing END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // ANT
-                    'ANT' => array(
-                        
-                        'asset_name' => 'Aragon',
-                        'marketcap_website_slug' => 'aragon',
-                        'market_pairing' => array(
-                        
-                                    'btc' => array(
-                                        	'binance' => 'ANTBTC',
-                                          'bittrex_global' => 'ANT-BTC',
-                                        	'okex' => 'ANT-BTC',
-                                          'huobi' => 'antbtc',
-                                        	'ethfinex' => 'tANTBTC',
-                                          'hitbtc' => 'ANTBTC',
-                                        	'upbit' => 'BTC-ANT',
-                                                    ),
-                                                    
-                                    'eth' => array(
-                                          'bittrex_global' => 'ANT-ETH',
-                                          'huobi' => 'anteth',
-                                        	'ethfinex' => 'tANTETH',
-                                    	 	'defipulse' => 'ANT/WETH',
-                                                    ),
-                                                    
-                                    'usd' => array(
-                                        	'bitfinex' => 'tANTUSD',
-                                                    ),
-                                                    
-                                    'usdt' => array(
-                                        	'binance' => 'ANTUSDT',
-                                        	'okex' => 'ANT-USDT',
-                                          'huobi' => 'antusdt',
                                                     ),
                                                     
                                         ) // market_pairing END

@@ -8,7 +8,7 @@
 
 <div class='full_width_wrapper'>
 	
-				<h3 class='align_center'>Visitor Stats</h3>
+				<h3 class='align_center'>Access Stats</h3>
 				
 	
 	<p> Coming Soon&trade; </p>

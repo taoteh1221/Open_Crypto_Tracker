@@ -142,9 +142,11 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 											$assets_watched = 1;
 											}
 										
+											if ( $held_amount > 0.00000000 ) {
+											$asset_tracking[] = $coin_symbol; // For only showing chosen assets in chart stats etc
+											}
 										
 										}
-									
 									
 									
 									}
@@ -228,6 +230,10 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 											}
 											elseif ( $held_amount > 0.00000000 ) { // Show even if decimal is off the map, just for UX purposes tracking token price only
 											$assets_watched = 1;
+											}
+										
+											if ( $held_amount > 0.00000000 ) {
+											$asset_tracking[] = $coin_symbol; // For only showing chosen assets in chart stats etc
 											}
 											
 										
@@ -390,16 +396,17 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 						elseif ( $held_amount > 0.00000000 ) { // Show even if decimal is off the map, just for UX purposes tracking token price only
 						$assets_watched = 1;
 						}
+										
 						
-						
+						if ( $held_amount > 0.00000000 ) {
+						$asset_tracking[] = $coin_symbol; // For only showing chosen assets in chart stats etc
+						}
 					
 	
 					}
 					
 					
 		}
-		
-		
 		
 	}
 
@@ -849,6 +856,15 @@ END SAVED CODE -->
 	<!-- START MORE PORTFOLIO STATS MODAL -->
 	<div id="show_portfolio_stats">
 	
+	<?php
+	
+	foreach ( $asset_tracking as $activated_plot ) {
+	$plot_config .= $activated_plot . '|';
+	}
+	
+	$plot_config = urlencode( rtrim($plot_config,'|') );
+	
+	?>
 		
 		<h3 style='display: inline;'>More Portfolio Stats</h3>
 	
@@ -993,7 +1009,7 @@ END SAVED CODE -->
   
   // 'load'
   zingchart.exec('performance_chart', 'load', {
-  	dataurl: 'ajax.php?type=chart&mode=asset_performance&time_period=' + document.getElementById('performance_chart_period').value + '&start_time=' + date_timestamp + '&chart_width=' + performance_chart_width + '&chart_height=' + document.getElementById('performance_chart_height').value + '&menu_size=' + document.getElementById('performance_menu_size').value,
+  	dataurl: 'ajax.php?type=chart&mode=asset_performance&time_period=' + document.getElementById('performance_chart_period').value + '&start_time=' + date_timestamp + '&chart_width=' + performance_chart_width + '&chart_height=' + document.getElementById('performance_chart_height').value + '&menu_size=' + document.getElementById('performance_menu_size').value + '&plot_config=<?=$plot_config?>',
     cache: {
         data: true
     }
@@ -1080,7 +1096,7 @@ $("#performance_chart span.chart_loading").hide(); // Hide "Loading chart X..." 
 
 zingchart.TOUCHZOOM = 'pinch'; /* mobile compatibility */
 
-$.get( "ajax.php?type=chart&mode=asset_performance&time_period=all&start_time=0&chart_height=<?=$asset_performance_chart_defaults[0]?>&menu_size=<?=$asset_performance_chart_defaults[1]?>", function( json_data ) {
+$.get( "ajax.php?type=chart&mode=asset_performance&time_period=all&start_time=0&chart_height=<?=$asset_performance_chart_defaults[0]?>&menu_size=<?=$asset_performance_chart_defaults[1]?>&plot_config=<?=$plot_config?>", function( json_data ) {
  
 
 	// Mark chart as loaded after it has rendered
@@ -1214,7 +1230,7 @@ zingchart.bind('performance_chart', 'label_click', function(e){
   
   // 'load'
   zingchart.exec('marketcap_chart', 'load', {
-  	dataurl: 'ajax.php?type=chart&mode=marketcap_data&marketcap_type=' + document.getElementById('marketcap_type').value + '&chart_width=' + marketcap_chart_width + '&chart_height=' + document.getElementById('marketcap_data_height').value + '&menu_size=' + document.getElementById('marketcap_menu_size').value + '&marketcap_site=<?=$app_config['general']['primary_marketcap_site']?>',
+  	dataurl: 'ajax.php?type=chart&mode=marketcap_data&marketcap_type=' + document.getElementById('marketcap_type').value + '&chart_width=' + marketcap_chart_width + '&chart_height=' + document.getElementById('marketcap_data_height').value + '&menu_size=' + document.getElementById('marketcap_menu_size').value + '&marketcap_site=<?=$app_config['general']['primary_marketcap_site']?> + '&plot_config=<?=$plot_config?>',
     cache: {
         data: true
     }
@@ -1286,7 +1302,7 @@ $("#marketcap_chart span.chart_loading").hide(); // Hide "Loading chart X..." af
 
 zingchart.TOUCHZOOM = 'pinch'; /* mobile compatibility */
 
-$.get( "ajax.php?type=chart&mode=marketcap_data&marketcap_type=circulating&chart_height=<?=$asset_marketcap_chart_defaults[0]?>&menu_size=<?=$asset_marketcap_chart_defaults[1]?>&marketcap_site=<?=$app_config['general']['primary_marketcap_site']?>", function( json_data ) {
+$.get( "ajax.php?type=chart&mode=marketcap_data&marketcap_type=circulating&chart_height=<?=$asset_marketcap_chart_defaults[0]?>&menu_size=<?=$asset_marketcap_chart_defaults[1]?>&marketcap_site=<?=$app_config['general']['primary_marketcap_site']?>&plot_config=<?=$plot_config?>", function( json_data ) {
  
 
 	// Mark chart as loaded after it has rendered
@@ -1381,7 +1397,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
     		<b><a href="javascript: return false;" class="show_system_charts blue" title="View System Charts">System Charts</a></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
     		
 
-    		<b><a href="javascript: return false;" class="show_visitor_stats blue" title="View Visitor Statistics">Visitor Stats</a></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    		<b><a href="javascript: return false;" class="show_access_stats blue" title="View Access Statistics">Access Stats</a></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
     		
 
     		<b><a href="javascript: return false;" class="show_logs blue" title="View Logs">App Logs</a></b>
@@ -1603,10 +1619,10 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 	</script>
 	
 	
-	<div id="show_visitor_stats">
+	<div id="show_access_stats">
 	
 		
-		<h3 style='display: inline;'>Visitor Stats</h3>
+		<h3 style='display: inline;'>Access Stats</h3>
 	
 				<span style='z-index: 99999; margin-right: 55px;' class='red countdown_notice'></span>
 	
@@ -1660,9 +1676,9 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 	
 	
 	<script>
-	$('.show_visitor_stats').modaal({
+	$('.show_access_stats').modaal({
 		fullscreen: true,
-		content_source: '#show_visitor_stats'
+		content_source: '#show_access_stats'
 	});
 	</script>
 	

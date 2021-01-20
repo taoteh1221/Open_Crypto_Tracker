@@ -4217,6 +4217,26 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 
 
+-------------------------------------------------------------------
+4.23.7:
+
+-Bug fix for large crypto value support in 'Secondary Trade / Holdings Values' feature
+
+-'More Stats' (bottom of portfolio page) now only shows user-selected assets by default
+
+-Revised default config
+
+-Misc UX
+
+-------------------------------------------------------------------
+
+
+
+
+
+
+
+
 
 
 

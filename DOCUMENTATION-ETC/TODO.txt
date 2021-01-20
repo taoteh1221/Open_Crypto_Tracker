@@ -110,6 +110,9 @@ FEATURES / STRUCTURING SECTION
 ///////////////////////////////////////////////////////
 
 
+Store visitor access data in A SEPERATE flat file / json format PER IP ADDRESS (so mulitiple values can be read back into the app before updating, then updated values saved back in json overwriting previously saved values, BUT AVOIDS MULTIPLE IP ADDRESES OVERWRITING SAME DATA). Last X unique ip addresses (as a power user config setting), showing ip address's last user agent / last visit time (AND HISTORY OF DIFFERENT USER AGENTS / LAST VISITS) / total visits count. Drop any over X ip addresses off the list based on oldest LAST VISIT timestamps. Store visitor data (user agent, etc) in a SECURED CACHE filename based off MD5 HASH of ip address. INITIAL BUILDOUT SHOULD ONLY BE FOR 'ui' RUNTIME DATA ONLY.
+
+
 Do a gains pie chart and a separate losses pie chart for the gains / losses summary (tooltip, like balance stats chart).
 
 
@@ -180,9 +183,6 @@ Create a "Desktop Edition" using PHPDesktop (https://github.com/cztomczak/phpdes
 
 
 Mail trading notes to admin email, only if user logged in as admin.
-
-
-Store visitor access data in flat file / json format (so mulitiple values can be read back into the app before updating, then updated values saved back in json overwriting previously saved values). Last X unique ip addresses (as a power user config setting), showing ip address's last user agent / last visit time / total visits count. Drop any over X ip addresses off the list based on oldest timestamps. Store visitor ip address data (user agent, etc) in an array key based off ip address (json format). Add visitor stats for API and webhook visits (whenever the stats logic is built out for the interface).
 
 
 Add google home support via direct connect on same network, OR via IFTTT (whichever is most feasible).

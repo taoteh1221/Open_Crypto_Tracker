@@ -77,7 +77,7 @@ require("templates/interface/php/header.php");
 			<a class="nav-link admin_change_width" data-toggle="tab" data-width="full" href="#system_charts" role="tab" aria-controls="system_charts">System Charts</a>
 		  </li>
 		  <li class="nav-item">
-			<a class="nav-link admin_change_width" data-toggle="tab" data-width="full" href="#visitor_stats" role="tab" aria-controls="visitor_stats">Visitor Stats</a>
+			<a class="nav-link admin_change_width" data-toggle="tab" data-width="full" href="#access_stats" role="tab" aria-controls="access_stats">Access Stats</a>
 		  </li>
 		  <li class="nav-item">
 			<a class="nav-link admin_change_width" data-toggle="tab" data-width="full" href="#admin_logs" role="tab" aria-controls="admin_logs">App Logs</a>
@@ -137,8 +137,8 @@ require("templates/interface/php/header.php");
 			<?php require("templates/interface/php/admin/admin-sections/system-charts.php"); ?>
 		  </div>
 		  
-		  <div class="tab-pane" id="visitor_stats" role="tabpanel">
-			<?php require("templates/interface/php/admin/admin-sections/visitor-stats.php"); ?>
+		  <div class="tab-pane" id="access_stats" role="tabpanel">
+			<?php require("templates/interface/php/admin/admin-sections/access-stats.php"); ?>
 		  </div>
 		  
 		  <div class="tab-pane" id="admin_logs" role="tabpanel">
