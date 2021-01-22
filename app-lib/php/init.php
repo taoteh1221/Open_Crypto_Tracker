@@ -223,6 +223,8 @@ $activated_plugins =  array();
 
 $asset_tracking =  array();
 
+$rand_color_ranged =  array();
+
 $price_alerts_fixed_reset_array = array();
 
 $btc_pairing_markets_excluded = array();

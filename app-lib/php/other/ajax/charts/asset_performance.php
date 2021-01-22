@@ -132,7 +132,7 @@ $plot_config = explode('|', $_GET['plot_config']);
 		$show_plot = 'visible: false,';
 		}
 			
-	$rand_color = '#' . randomColor()['hex'];
+	$rand_color = '#' . randomColor( sizeof($sorted_by_last_chart_data) )['hex'];
 		
 					
 				$chart_config = "{
