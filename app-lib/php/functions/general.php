@@ -216,7 +216,7 @@ $min_range = ( $min_range < 1 ? 1 : $min_range );
     		
     		// If the new random color is NOT out of range, use it / add it to list of any colors already generated
     		if ( !$range_too_close ) {
-    		$rand_color_ranged = $rgb;
+    		$rand_color_ranged[] = $rgb;
     		$result['hex'] = $hex;
     		$result['rgb'] = $rgb;
     		}
@@ -226,7 +226,7 @@ $min_range = ( $min_range < 1 ? 1 : $min_range );
     	// If this is the first random color generated
    	/////////////////////////////////
     	else {
-    	$rand_color_ranged = $rgb;
+    	$rand_color_ranged[] = $rgb;
     	$result['hex'] = $hex;
     	$result['rgb'] = $rgb;
     	}
