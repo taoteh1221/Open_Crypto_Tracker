@@ -1568,6 +1568,12 @@ global $_POST, $btc_worth_array, $coin_stats_array, $td_color_zebra, $cap_data_f
     
 $original_market = $selected_exchange;
 
+	
+	// If asset is no longer configured in app config, return false for UX / runtime speed
+	if ( !isset($app_config['portfolio_assets'][$asset_symbol]) ) {
+	return false;
+	}
+
 
   //  For faster runtimes, minimize runtime usage here to held / watched amount is > 0, OR we are setting end-user (interface) preferred Bitcoin market settings
   if ( number_to_string($asset_amount) > 0.00000000 || strtolower($asset_name) == 'bitcoin' ) {

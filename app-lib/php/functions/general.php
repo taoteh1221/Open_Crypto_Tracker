@@ -152,73 +152,88 @@ $files = glob($dir . '/*'); // get all file names
 
 
  // https://thisinterestsme.com/random-rgb-hex-color-php/ (MODIFIED)
+ // Human visual perception of different color mixes seems a tad beyond what an algo can distinguish based off AVERAGE range minimums,
+ // ESPECIALLY once a list of random-colored items get above a certain size in number (as this decreases your availiable range minimum)
+ // That said, auto-adjusting range minimums based off available RGB palette / list size IS feasible AND seems about as good as it can get
 function randomColor($list_size) {
 	
 global $rand_color_ranged;
 
 $result = array('rgb' => '', 'hex' => '');
 
+// WE DON'T USE THE ENTIRE 0-255 RANGES, AS SOME COLORS ARE TOO DARK / LIGHT AT FULL RANGES
+$darkest = 70;
+$lightest = 185;
+    
+// Minimum range threshold, based on USED RGB pallette AND number of colored items 
+// (useable average range minimum difference changes based on list size)
+$min_range = round( ( ($lightest * 3) - ($darkest * 3) ) / $list_size );
+// ABSOLUTE min (max auto-calculated within safe range)
+$min_range = ( $min_range < 1 ? 1 : $min_range );
+
+
+	// Generate random colors, WITH minimum (average) range differences
 	while ( $result['hex'] == '' ) {
-    
-    
-    // Randomly generate a color
-    foreach( array('r', 'b', 'g') as $col ) {
-    
-    $rand = mt_rand(70, 185); // WE DON'T USE THE ENTIRE 255 RANGE, AS SOME COLORS ARE TOO DARK / LIGHT AT FULL RANGES
-    $rgb[$col] = $rand;
-    $dechex = dechex($rand);
-        
-        if( strlen($dechex) < 2 ){
-        $dechex = '0' . $dechex;
-        }
-        
-    $hex .= $dechex;
-    
-    }
-    
-    
-    // Check to make sure new random color isn't within range (nearly same color codes) of any colors already generated
-    if( sizeof($rand_color_ranged) > 0 ) {
-    
-    // Scaled range threshold, based on number of colored items (MUST lower threshold for larger lists)
-    // (avoid scaled range being too small, BUT don't go too large...it MAY create like-colors more, via less randomness)
-    $scaled_range = round( 150 / ($list_size / 15) );
-    // ABSOLUTE min / max
-    $scaled_range = ( $scaled_range < 35 ? 35 : $scaled_range );
-    $scaled_range = ( $scaled_range > 200 ? 200 : $scaled_range );
-    
-    $close_range = false;
-    
-    	// Compare new random color's range to any colors already generated
-    	foreach( $rand_color_ranged as $used_range ) {
-    		
-    	$overall_range = abs($rgb['r'] - $used_range['r']) + abs($rgb['g'] - $used_range['g']) + abs($rgb['b'] - $used_range['b']);
-    		
-    		// If we are too close to a previously-generated random color's range, flag it
-    		if ( $overall_range < $scaled_range ) {
-    		$close_range = true;
-    		}
-    		
+   
+   $range_too_close = false;
+   
+   
+   	/////////////////////////////////
+    	// Randomly generate a color
+   	/////////////////////////////////
+    	foreach( array('r', 'b', 'g') as $col ) {
+    	
+    	$rand = mt_rand($darkest, $lightest); 
+    	$rgb[$col] = $rand;
+    	$dechex = dechex($rand);
+    	    
+    	    if( strlen($dechex) < 2 ){
+    	    $dechex = '0' . $dechex;
+    	    }
+    	    
+    	$hex .= $dechex;
+    	
     	}
     
     	
-    	// If the new random color is NOT out of range, use it / add it to list of any colors already generated
-    	if ( !$close_range ) {
+   	/////////////////////////////////
+    	// Check to make sure new random color isn't within range (nearly same color codes) of any colors already generated
+   	/////////////////////////////////
+    	if( sizeof($rand_color_ranged) > 0 ) {
+    	
+    		// Compare new random color's range to any colors already generated
+    		foreach( $rand_color_ranged as $used_range ) {
+    			
+    		$overall_range = abs($rgb['r'] - $used_range['r']) + abs($rgb['g'] - $used_range['g']) + abs($rgb['b'] - $used_range['b']);
+    			
+    			// If we are too close to a previously-generated random color's range, flag it
+    			if ( $overall_range < $min_range ) {
+    			$range_too_close = true;
+    			}
+    			
+    		}
+    	
+    		
+    		// If the new random color is NOT out of range, use it / add it to list of any colors already generated
+    		if ( !$range_too_close ) {
+    		$rand_color_ranged = $rgb;
+    		$result['hex'] = $hex;
+    		$result['rgb'] = $rgb;
+    		}
+    	
+    	}
+   	/////////////////////////////////
+    	// If this is the first random color generated
+   	/////////////////////////////////
+    	else {
     	$rand_color_ranged = $rgb;
     	$result['hex'] = $hex;
     	$result['rgb'] = $rgb;
     	}
     
-    }
-    // If this is the first random color generated
-    else {
-    $rand_color_ranged = $rgb;
-    $result['hex'] = $hex;
-    $result['rgb'] = $rgb;
-    }
-    
     
    }
+   
 
 return $result;
 

@@ -11,7 +11,8 @@ $asset = preg_replace("/-(.*)/i", "", $key);
 
 $attributes = explode("||", $value);
 
-	if ( !array_key_exists($asset, $analyzed_assets) ) {
+	// We also want to make sure this asset hasn't been removed from the 'portfolio_assets' app config, for UX
+	if ( !array_key_exists($asset, $analyzed_assets) && isset($app_config['portfolio_assets'][strtoupper($asset)]) ) {
 	
 		if ( $attributes[2] == 'chart' || $attributes[2] == 'both' ) {
 			

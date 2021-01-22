@@ -151,7 +151,9 @@
 		$show_asset_params = explode("||", $value);
 		
 				
-			if ( $show_asset_params[2] == 'chart' || $show_asset_params[2] == 'both' ) {
+			// We also want to make sure this asset hasn't been removed from the 'portfolio_assets' app config, for UX
+			if ( $show_asset_params[2] == 'chart' && isset($app_config['portfolio_assets'][strtoupper($show_asset)]) 
+			|| $show_asset_params[2] == 'both' && isset($app_config['portfolio_assets'][strtoupper($show_asset)]) ) {
 	?>
 	
 		<div class='<?=$zebra_stripe?> long_list <?=( $last_rendered != $show_asset ? 'activate_chart_sections' : '' )?>'>
@@ -214,13 +216,18 @@
 	
 	// Render the charts
 	foreach ( $app_config['charts_alerts']['tracked_markets'] as $key => $value ) {
+    
+	// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
+	$chart_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, mb_strpos($key, "-", 0, 'utf-8') ) );
+	$chart_asset = strtoupper($chart_asset);
 		
-		// Remove any duplicate asset array key formatting, which allows multiple alerts per asset with different exchanges / trading pairs (keyed like SYMB, SYMB-1, SYMB-2, etc)
-		$chart_asset = ( stristr($key, "-") == false ? $key : substr( $key, 0, mb_strpos($key, "-", 0, 'utf-8') ) );
-		$chart_asset = strtoupper($chart_asset);
+	$charts_available = 1;
+	$alerts_market_parse = explode("||", $value );	
 		
-		$charts_available = 1;
-		$alerts_market_parse = explode("||", $value );	
+		// We also want to make sure this asset hasn't been removed from the 'portfolio_assets' app config, for UX
+		if ( !isset($app_config['portfolio_assets'][strtoupper($chart_asset)]) ) {
+      continue;
+    	}
 		
 		// Pairings chart
 		if ( in_array('['.$key.'_'.$alerts_market_parse[1].']', $show_charts) ) {
