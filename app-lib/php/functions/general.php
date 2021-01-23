@@ -159,8 +159,6 @@ function randomColor($list_size) {
 	
 global $rand_color_ranged;
 
-$result = array('rgb' => '', 'hex' => '');
-
 // WE DON'T USE THE ENTIRE 0-255 RANGES, AS SOME COLORS ARE TOO DARK / LIGHT AT FULL RANGES
 $darkest = 70;
 $lightest = 185;
@@ -175,6 +173,8 @@ $min_range = ( $min_range < 1 ? 1 : $min_range );
 	// Generate random colors, WITH minimum (average) range differences
 	while ( $result['hex'] == '' ) {
    
+	$result = array('rgb' => '', 'hex' => '');
+   $hex = null;
    $range_too_close = false;
    
    

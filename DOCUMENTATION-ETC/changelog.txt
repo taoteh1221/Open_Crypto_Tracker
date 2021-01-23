@@ -4222,6 +4222,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Bug fix for large crypto value support in 'Secondary Trade / Holdings Values' feature
 
+-Bug fix for random colors in 'More Stats' charts not being auto-adjusted minimum range differences (too close to same colors, for items list size)
+
 -'More Stats' (bottom of portfolio page) now only shows user-selected assets by default
 
 -Revised default config
