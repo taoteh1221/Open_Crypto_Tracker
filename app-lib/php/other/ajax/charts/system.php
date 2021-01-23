@@ -112,19 +112,6 @@ exit;
 		
 $chart_data = chart_data('cache/charts/system/lite/' . $_GET['days'] . '_days/system_stats.dat', 'system');
 
-// Colors for different data in charts
-$color_array = array(
-							'blank',
-							'#29A2CC',
-							'#209910',
-							'#1d4ba5',
-							'#48ad9e',
-							'#D31E1E',
-							'#a73aad',
-							'#bc5210',
-							);
-
-
 
 // Determine how many data sensors to include in first chart
 $num_in_first_chart = 0;
@@ -182,20 +169,22 @@ if ( $key == 1 ) {
 				// If there are no data retrieval errors
 				// WE STILL COUNT THIS, SO LET COUNT RUN ABOVE
 				if ( !preg_match("/NO_DATA/i", $chart_value, $matches) ) {
+			
+				$rand_color = '#' . randomColor( sizeof($sorted_by_last_chart_data) )['hex'];
 					
 				$chart_config = "{
 			  text: '".snake_case_to_name($chart_key)."',
 			  values: [".$chart_value."],
-			  lineColor: '".$color_array[$counted]."',
+			  lineColor: '".$rand_color."',
 				 marker: {
-			 backgroundColor: '".$color_array[$counted]."',
-			 borderColor: '".$color_array[$counted]."'
+			 backgroundColor: '".$rand_color."',
+			 borderColor: '".$rand_color."'
 				 },
 			  legendItem: {
 				  fontColor: 'white',
 			   fontSize: 20,
 			   fontFamily: 'Open Sans',
-				backgroundColor: '".$color_array[$counted]."',
+				backgroundColor: '".$rand_color."',
 				borderRadius: '2px'
 			  }
 			},
@@ -225,20 +214,22 @@ elseif ( $key == 2 ) {
 				// If there are no data retrieval errors
 				// WE STILL COUNT THIS, SO LET COUNT RUN ABOVE
 				if ( !preg_match("/NO_DATA/i", $chart_value, $matches) ) {
-					
+			
+			$rand_color = '#' . randomColor( sizeof($sorted_by_last_chart_data) )['hex'];
+	
 			$chart_config = "{
 			  text: '".snake_case_to_name($chart_key)."',
 			  values: [".$chart_value."],
-			  lineColor: '".$color_array[$counted]."',
+			  lineColor: '".$rand_color."',
 				 marker: {
-			 backgroundColor: '".$color_array[$counted]."',
-			 borderColor: '".$color_array[$counted]."'
+			 backgroundColor: '".$rand_color."',
+			 borderColor: '".$rand_color."'
 				 },
 			  legendItem: {
 				  fontColor: 'white',
 			   fontSize: 20,
 			   fontFamily: 'Open Sans',
-				backgroundColor: '".$color_array[$counted]."',
+				backgroundColor: '".$rand_color."',
 				borderRadius: '2px'
 			  }
 			},
