@@ -1475,8 +1475,8 @@ $darkest = 70;
 $lightest = 185;
     
 // Minimum range threshold, based on USED RGB pallette AND number of colored items 
-// (useable average range minimum difference changes based on list size)
-$min_range = round( ( ($lightest * 3) - ($darkest * 3) ) / $list_size );
+// (range minimum based on list size, AND we only require 66% [2/3] of threshold to SAFELY avoid exhuasting random options)
+$min_range = round( ( ($lightest - $darkest) / $list_size ) * 0.66 );
 // ABSOLUTE min (max auto-calculated within safe range)
 $min_range = ( $min_range < 1 ? 1 : $min_range );
 
@@ -1518,9 +1518,21 @@ $min_range = ( $min_range < 1 ? 1 : $min_range );
     		$overall_range = abs($rgb['r'] - $used_range['r']) + abs($rgb['g'] - $used_range['g']) + abs($rgb['b'] - $used_range['b']);
     			
     			// If we are too close to a previously-generated random color's range, flag it
-    			if ( $overall_range < $min_range ) {
+    			// Overall
+    			if ( $overall_range < ($min_range * 3) ) {
     			$range_too_close = true;
     			}
+    			// Fine-grained
+    			elseif ( abs($rgb['r'] - $used_range['r']) < $min_range ) {
+    			$range_too_close = true;
+    			}
+    			elseif ( abs($rgb['g'] - $used_range['g']) < $min_range ) {
+    			$range_too_close = true;
+    			}
+    			elseif ( abs($rgb['b'] - $used_range['b']) < $min_range ) {
+    			$range_too_close = true;
+    			}
+    		
     			
     		}
     	
