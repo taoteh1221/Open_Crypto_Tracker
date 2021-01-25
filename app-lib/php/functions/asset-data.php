@@ -1718,7 +1718,7 @@ $original_market = $selected_exchange;
 	
   	 
 	 if ( $pairing_btc_value == null ) {
-	 app_logging('market_error', 'pairing_btc_value(\''.$selected_pairing.'\') returned null in ui_coin_data_row(), make sure "'.$selected_pairing.'" is added to "crypto_pairing" in POWER USER Admin Config');
+	 app_logging('market_error', 'pairing_btc_value(\''.$selected_pairing.'\') returned null in ui_coin_data_row(), likely from exchange API request failure');
 	 }
   	 
   	 
