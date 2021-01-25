@@ -976,7 +976,7 @@ END SAVED CODE -->
   });
   
   
-  $('#performance_chart div.chart_reload div').html('Loading Asset Performance Chart...');
+  $('#performance_chart div.chart_reload div.chart_reload_message').html('Loading Asset Performance Chart...');
   
 	$('#performance_chart div.chart_reload').fadeIn(100); // 0.1 seconds
 	
@@ -1079,7 +1079,7 @@ var performance_chart_defaults_content = '<h5 class="yellow tooltip_title">Setti
 	
 	<span class='chart_loading' style='color: <?=$app_config['power_user']['charts_text']?>;'> &nbsp; Loading Asset Performance Chart...</span>
 	
-	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img src="templates/interface/media/images/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div style='display: inline;'></div></div>
+	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img src="templates/interface/media/images/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div class='chart_reload_message'></div></div>
 		
 	</div>
 	
@@ -1209,7 +1209,7 @@ zingchart.bind('performance_chart', 'label_click', function(e){
   });
   
   
-  $('#marketcap_chart div.chart_reload div').html('Loading USD Marketcap Comparison Chart...');
+  $('#marketcap_chart div.chart_reload div.chart_reload_message').html('Loading USD Marketcap Comparison Chart...');
   
 	$('#marketcap_chart div.chart_reload').fadeIn(100); // 0.1 seconds
 	
@@ -1285,7 +1285,7 @@ var marketcap_chart_defaults_content = '<h5 class="yellow tooltip_title">Setting
 	
 	<span class='chart_loading' style='color: <?=$app_config['power_user']['charts_text']?>;'> &nbsp; Loading USD Marketcap Comparison Chart...</span>
 	
-	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img src="templates/interface/media/images/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div style='display: inline;'></div></div>
+	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img src="templates/interface/media/images/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div class='chart_reload_message'></div></div>
 		
 	</div>
 	
@@ -1574,7 +1574,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 	
 	<span class='chart_loading' style='color: <?=$app_config['power_user']['charts_text']?>;'> &nbsp; Loading chart #1 for system data...</span>
 	
-	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img src="templates/interface/media/images/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div style='display: inline;'></div></div>
+	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img src="templates/interface/media/images/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div class='chart_reload_message'></div></div>
 	
 	</div>
 	
@@ -1595,7 +1595,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 	
 	<span class='chart_loading' style='color: <?=$app_config['power_user']['charts_text']?>;'> &nbsp; Loading chart #2 for system data...</span>
 	
-	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img src="templates/interface/media/images/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div style='display: inline;'></div></div>
+	<div style='z-index: 99999; margin-top: 7px;' class='chart_reload align_center absolute_centered loading bitcoin'><img src="templates/interface/media/images/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <div class='chart_reload_message'></div></div>
 	
 	</div>
 	

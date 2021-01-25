@@ -166,6 +166,11 @@ CLASSES
 ////////////////////////////// */
 
 
+.chart_reload_message {
+display: inline;
+}
+
+
 .disclaimer {
 margin-top: 25px;
 margin-bottom: 25px;

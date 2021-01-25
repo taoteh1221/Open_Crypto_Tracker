@@ -140,7 +140,7 @@ zingchart.bind('system_stats_chart_<?=$chart_mode?>', 'label_click', function(e)
 		}
 		
   
-  $("#system_stats_chart_<?=$chart_mode?> div.chart_reload div").html("Loading " + lite_chart_text + " chart for System Chart #<?=$chart_mode?>...");
+  $("#system_stats_chart_<?=$chart_mode?> div.chart_reload div.chart_reload_message").html("Loading " + lite_chart_text + " chart for System Chart #<?=$chart_mode?>...");
 	$("#system_stats_chart_<?=$chart_mode?> div.chart_reload").fadeIn(100); // 0.1 seconds
 	
   zingchart.bind('system_stats_chart_<?=$chart_mode?>', 'complete', function() {

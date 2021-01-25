@@ -26,6 +26,9 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+New app config setting for defipulse integration: Switch sort between 'liquidity' and 'volume'. (currently volume is hard-coded sort method).
+
+
 Refactoring auto-install script to included changing / removing PHP-FPM versions
 
 
