@@ -1472,7 +1472,7 @@ global $rand_color_ranged;
 
 // WE DON'T USE THE ENTIRE 0-255 RANGES, AS SOME COLORS ARE TOO DARK / LIGHT AT FULL RANGES
 $darkest = 55;
-$lightest = 180;
+$lightest = 175;
     
 // Minimum range threshold, based on USED RGB pallette AND number of colored items 
 // (range minimum based on list size, AND we only require 66% [2/3] of threshold to SAFELY avoid exhuasting random options)
