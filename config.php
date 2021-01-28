@@ -361,6 +361,11 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					'eth-15' => 'defipulse||usdt||none',
 					
 					
+					// UNI
+					'uni' => 'binance||btc||both',
+					'uni-2' => 'defipulse||eth||none',
+					
+					
 					// MKR
 					'mkr' => 'okex||btc||none',
 					'mkr-2' => 'kucoin||btc||none',
@@ -373,11 +378,6 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					'dai-2' => 'kraken||usd||none',
 					'dai-3' => 'bittrex||btc||none',
 					'dai-4' => 'defipulse||usdc||none',
-					
-					
-					// UNI
-					'uni' => 'binance||btc||both',
-					'uni-2' => 'defipulse||eth||none',
 					
 					
 					// MANA
@@ -580,6 +580,7 @@ $app_config['power_user']['crypto_pairing'] = array(
 						'eth' => 'Ξ ',
 						// Liquidity pools / ERC-20 tokens on Ethereum, etc etc...
 						'mkr' => '𐌼 ',
+						'uni' => '🦄 ',
 						//....
 							);
 
@@ -595,6 +596,7 @@ $app_config['power_user']['crypto_pairing_preferred_markets'] = array(
 						//'lowercase_btc_market_or_stablecoin_pairing' => 'PREFERRED_MARKET',
 							'eth' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							'mkr' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
+							'uni' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							);
 
 
@@ -738,6 +740,9 @@ $app_config['power_user']['hivepower_yearly_interest'] = 1.2;
 // NEWS FEED (RSS) SETTINGS
 // RSS feed entries to show per-feed on News page (without needing to click the "show more / less" link)
 $app_config['power_user']['news_feeds_entries_show'] = 5; // (default = 5)
+////
+// RSS feed entries X days old or less are marked as 'new'
+$app_config['power_user']['news_feeds_entries_new'] = 2; // (default = 2)
 ////
 // RSS news feeds available on the News page
 $app_config['power_user']['news_feeds'] = array(
@@ -2231,6 +2236,39 @@ $app_config['portfolio_assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
+                    // UNI
+                    'UNI' => array(
+                        
+                        'asset_name' => 'Uniswap',
+                        'marketcap_website_slug' => 'uniswap',
+                        'market_pairing' => array(
+                                                    
+                                    'btc' => array(
+                                        'binance' => 'UNIBTC',
+                                                    ),
+                                                    
+                                    'eth' => array(
+                                    	 'defipulse' => 'UNI/WETH',
+                                                    ),
+                                                    
+                                    'usd' => array(
+                                        'coinbase' => 'UNI-USD',
+                                        'binance_us' => 'UNIUSD',
+                                                    ),
+                                                    
+                                    'usdt' => array(
+                                        'binance' => 'UNIUSDT',
+                                        'binance_us' => 'UNIUSDT',
+                                                    ),
+                                                    
+                                        ) // market_pairing END
+                                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
                     // MKR
                     'MKR' => array(
                         
@@ -2338,39 +2376,6 @@ $app_config['portfolio_assets'] = array(
                                         'bittrex' => 'DAI-USDT',
                                         'okex' => 'DAI-USDT',
                                     	 'defipulse' => 'DAI/USDT',
-                                                    ),
-                                                    
-                                        ) // market_pairing END
-                                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // UNI
-                    'UNI' => array(
-                        
-                        'asset_name' => 'Uniswap',
-                        'marketcap_website_slug' => 'uniswap',
-                        'market_pairing' => array(
-                                                    
-                                    'btc' => array(
-                                        'binance' => 'UNIBTC',
-                                                    ),
-                                                    
-                                    'eth' => array(
-                                    	 'defipulse' => 'UNI/WETH',
-                                                    ),
-                                                    
-                                    'usd' => array(
-                                        'coinbase' => 'UNI-USD',
-                                        'binance_us' => 'UNIUSD',
-                                                    ),
-                                                    
-                                    'usdt' => array(
-                                        'binance' => 'UNIUSDT',
-                                        'binance_us' => 'UNIUSDT',
                                                     ),
                                                     
                                         ) // market_pairing END

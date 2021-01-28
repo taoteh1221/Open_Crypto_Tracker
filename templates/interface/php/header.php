@@ -122,11 +122,15 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 	var sorted_by_asc_desc = <?=$sorted_by_asc_desc?>;
 	var theme_selected = '<?=$theme_selected?>';
 
-	// Preload ajax placeholder image
+	// Preload a few UI-related images
 	var loader_image = new Image();
 	loader_image.src = 'templates/interface/media/images/loader.gif';
+	
 	var loader_image_2 = new Image();
 	loader_image.src_2 = 'templates/interface/media/images/notification-' + theme_selected + '-fill.png';
+	
+	var loader_image_3 = new Image();
+	loader_image.src_3 = 'templates/interface/media/images/twotone_fiber_new_' + theme_selected + '_theme_48dp.png.png';
 	
 	
 	var charts_background = '<?=$app_config['power_user']['charts_background']?>';

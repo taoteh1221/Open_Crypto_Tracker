@@ -4237,7 +4237,11 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.24.0:
 
+-Newer news feed articles now marked as 'new', with days threshold adjustable in power config section
+
 -Improved / fine-tuned random color generation for multi-item charts
+
+-Revised default config
 
 -Code cleanup
 

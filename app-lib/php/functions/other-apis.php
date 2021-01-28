@@ -303,7 +303,7 @@ $result = array();
 
 
 // Credit: https://www.alexkras.com/simple-rss-reader-in-85-lines-of-php/
-function get_rss_feed($url, $feed_size, $cache_only=false){
+function get_rss_feed($url, $theme_selected, $feed_size, $cache_only=false){
 	
 global $app_config, $base_dir, $fetched_feeds;
 
@@ -384,10 +384,14 @@ $xmldata = @external_api_data('url', $url, $rss_feed_cache_time);
 						
 						
 	$html .= '<ul>';
+	
 	$html_hidden .= '<ul class="hidden" id="'.md5($url).'">';
+	
+	$mark_new = ' &nbsp; <img alt="" src="templates/interface/media/images/twotone_fiber_new_'.$theme_selected.'_theme_48dp.png" height="25" title="New Article" />';
 			 
+	$now_timestamp = time();
 			 
-		$count = 0;
+	$count = 0;
 			 
 		// Atom format
 		if ( sizeof($rss->entry) > 0 ) {
@@ -435,13 +439,19 @@ $xmldata = @external_api_data('url', $url, $rss_feed_cache_time);
 				$month_name = date("F", mktime(0, 0, 0, $date_array['month'], 10));
 					
 				$date_ui = $month_name . ' ' . ordinal($date_array['day']) . ', ' . $date_array['year'];
+				
+				$published_timestamp = strtotime($date_ui);
 					
+					// If publish date is OVER 'news_feeds_entries_new' days old, DONT mark as new
+					if ( number_to_string($now_timestamp) > number_to_string( $published_timestamp + ($app_config['power_user']['news_feeds_entries_new'] * 86400) ) ) { // 86400 seconds == 1 day
+					$mark_new = null;
+					}
 					
 					if ($count < $feed_size) {
-					$html .= '<li class="links_list"><a href="'.htmlspecialchars($item_link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a></li>';
+					$html .= '<li class="links_list"><a href="'.htmlspecialchars($item_link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a> '.$mark_new.'</li>';
 					}
 					else {
-					$html_hidden .= '<li class="links_list"><a href="'.htmlspecialchars($item_link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a></li>';
+					$html_hidden .= '<li class="links_list"><a href="'.htmlspecialchars($item_link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a> '.$mark_new.'</li>';
 					}
 							
 				$count++;     
@@ -497,15 +507,21 @@ $xmldata = @external_api_data('url', $url, $rss_feed_cache_time);
 				$month_name = date("F", mktime(0, 0, 0, $date_array['month'], 10));
 					
 				$date_ui = $month_name . ' ' . ordinal($date_array['day']) . ', ' . $date_array['year'];
+				
+				$published_timestamp = strtotime($date_ui);
 					
 				$item_link = preg_replace("/web\.bittrex\.com/i", "bittrex.com", $item_link); // Fix for bittrex blog links
 					
+					// If publish date is OVER 'news_feeds_entries_new' days old, DONT mark as new
+					if ( number_to_string($now_timestamp) > number_to_string( $published_timestamp + ($app_config['power_user']['news_feeds_entries_new'] * 86400) ) ) { // 86400 seconds == 1 day
+					$mark_new = null;
+					}
 					
 					if ($count < $feed_size) {
-					$html .= '<li class="links_list"><a href="'.htmlspecialchars($item_link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a></li>';
+					$html .= '<li class="links_list"><a href="'.htmlspecialchars($item_link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a> '.$mark_new.'</li>';
 					}
 					else {
-					$html_hidden .= '<li class="links_list"><a href="'.htmlspecialchars($item_link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a></li>';
+					$html_hidden .= '<li class="links_list"><a href="'.htmlspecialchars($item_link).'" target="_blank" title="'.htmlspecialchars($date_ui).'">'.htmlspecialchars($item->title).'</a> '.$mark_new.'</li>';
 					}
 							
 				$count++;     

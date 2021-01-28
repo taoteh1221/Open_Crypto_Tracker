@@ -194,7 +194,7 @@
 					// Load AFTER page load, for quick interface loading
 					$(document).ready(function(){
 						
-						$("#rss_feeds_<?=$batched_feeds_loops_added?>").load("ajax.php?type=rss&feeds=<?=$batched_feeds_keys?>", function(responseTxt, statusTxt, xhr){
+						$("#rss_feeds_<?=$batched_feeds_loops_added?>").load("ajax.php?type=rss&feeds=<?=$batched_feeds_keys?>&theme=<?=$theme_selected?>", function(responseTxt, statusTxt, xhr){
 							
 							if(statusTxt == "success") {
 								
