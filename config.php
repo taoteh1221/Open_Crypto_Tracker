@@ -417,6 +417,7 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					// MYST
 					'myst' => 'hitbtc||btc||both',
 					'myst-2' => 'hitbtc||eth||none',
+					'myst-3' => 'bittrex_global||btc||chart',
 					
 					
 					);
@@ -2619,10 +2620,15 @@ $app_config['portfolio_assets'] = array(
                         
                                     'btc' => array(
                                           'hitbtc' => 'MYSTBTC',
+                                        	'bittrex_global' => 'MYST-BTC',
                                                     ),
                                                     
                                     'eth' => array(
                                           'hitbtc' => 'MYSTETH',
+                                                    ),
+                                                    
+                                    'usdt' => array(
+                                        	'bittrex_global' => 'MYST-USDT',
                                                     ),
                                                     
                                         ) // market_pairing END
