@@ -387,7 +387,7 @@ $xmldata = @external_api_data('url', $url, $rss_feed_cache_time);
 	
 	$html_hidden .= '<ul class="hidden" id="'.md5($url).'">';
 	
-	$mark_new = ' &nbsp; <img alt="" src="templates/interface/media/images/twotone_fiber_new_'.$theme_selected.'_theme_48dp.png" height="25" title="New Article" />';
+	$mark_new = ' &nbsp; <img alt="" src="templates/interface/media/images/twotone_fiber_new_'.$theme_selected.'_theme_48dp.png" height="25" title="New Article (under '.$app_config['power_user']['news_feeds_entries_new'].' days old)" />';
 			 
 	$now_timestamp = time();
 			 
@@ -431,19 +431,15 @@ $xmldata = @external_api_data('url', $url, $rss_feed_cache_time);
 					elseif ( $item->link['href'] != '' ) {
 					$item_link = $item->link['href'];
 					}
-							
-				$item_date = preg_replace("/ 00\:(.*)/i", '', $item_date);
 					
 				$date_array = date_parse($item_date);
 					
 				$month_name = date("F", mktime(0, 0, 0, $date_array['month'], 10));
 					
-				$date_ui = $month_name . ' ' . ordinal($date_array['day']) . ', ' . $date_array['year'];
-				
-				$published_timestamp = strtotime($date_ui);
+				$date_ui = $month_name . ' ' . ordinal($date_array['day']) . ', ' . $date_array['year'] . ' @ ' . substr("0{$date_array['hour']}", -2) . ':' . substr("0{$date_array['minute']}", -2);
 					
 					// If publish date is OVER 'news_feeds_entries_new' days old, DONT mark as new
-					if ( number_to_string($now_timestamp) > number_to_string( $published_timestamp + ($app_config['power_user']['news_feeds_entries_new'] * 86400) ) ) { // 86400 seconds == 1 day
+					if ( number_to_string($now_timestamp) > number_to_string( strtotime($item_date) + ($app_config['power_user']['news_feeds_entries_new'] * 86400) ) ) { // 86400 seconds == 1 day
 					$mark_new = null;
 					}
 					
@@ -499,21 +495,17 @@ $xmldata = @external_api_data('url', $url, $rss_feed_cache_time);
 					elseif ( $item->link != '' ) {
 					$item_link = $item->link;
 					}
-							
-				$item_date = preg_replace("/00\:(.*)/i", '', $item_date);
 					
 				$date_array = date_parse($item_date);
 					
 				$month_name = date("F", mktime(0, 0, 0, $date_array['month'], 10));
 					
-				$date_ui = $month_name . ' ' . ordinal($date_array['day']) . ', ' . $date_array['year'];
-				
-				$published_timestamp = strtotime($date_ui);
+				$date_ui = $month_name . ' ' . ordinal($date_array['day']) . ', ' . $date_array['year'] . ' @ ' . substr("0{$date_array['hour']}", -2) . ':' . substr("0{$date_array['minute']}", -2);
 					
 				$item_link = preg_replace("/web\.bittrex\.com/i", "bittrex.com", $item_link); // Fix for bittrex blog links
 					
 					// If publish date is OVER 'news_feeds_entries_new' days old, DONT mark as new
-					if ( number_to_string($now_timestamp) > number_to_string( $published_timestamp + ($app_config['power_user']['news_feeds_entries_new'] * 86400) ) ) { // 86400 seconds == 1 day
+					if ( number_to_string($now_timestamp) > number_to_string( strtotime($item_date) + ($app_config['power_user']['news_feeds_entries_new'] * 86400) ) ) { // 86400 seconds == 1 day
 					$mark_new = null;
 					}
 					

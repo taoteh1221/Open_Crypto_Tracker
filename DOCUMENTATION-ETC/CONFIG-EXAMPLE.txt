@@ -567,8 +567,8 @@ $app_config['power_user']['crypto_pairing'] = array(
 						// Native chains...
 						'eth' => 'Ξ ',
 						// Liquidity pools / ERC-20 tokens on Ethereum, etc etc...
-						'mkr' => '𐌼 ',
 						'uni' => '🦄 ',
+						'mkr' => '𐌼 ',
 						//....
 							);
 
@@ -729,7 +729,7 @@ $app_config['power_user']['hivepower_yearly_interest'] = 1.2;
 // RSS feed entries to show per-feed on News page (without needing to click the "show more / less" link)
 $app_config['power_user']['news_feeds_entries_show'] = 5; // (default = 5)
 ////
-// RSS feed entries X days old or less are marked as 'new'
+// RSS feed entries under X days old are marked as 'new'
 $app_config['power_user']['news_feeds_entries_new'] = 2; // (default = 2)
 ////
 // RSS news feeds available on the News page
