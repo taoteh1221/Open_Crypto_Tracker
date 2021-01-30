@@ -9,15 +9,10 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 
 <head>
 
+
 	<title>DFD Cryptocoin Values - <?=( $is_admin ? 'Admin Config' : 'Portfolio' )?></title>
-	
-	<!-- Preload a few UI-related images -->
-	<link rel="preload" href="templates/interface/media/images/loader.gif" as="image">
-	
-	<link rel="preload" href="templates/interface/media/images/notification-<?=$theme_selected?>-fill.png" as="image">
-	
-	<link rel="preload" href="templates/interface/media/images/twotone_fiber_new_<?=$theme_selected?>_theme_48dp.png" as="image">
     
+
    <meta charset="<?=$app_config['developer']['charset_default']?>">
    
    <meta name="viewport" content="width=device-width"> <!-- Mobile compatibility -->
@@ -25,6 +20,30 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 	<meta name="robots" content="noindex,nofollow"> <!-- Keeps this URL private (search engines won't add this URL to their search indexes) -->
 	
 	<meta name="referrer" content="same-origin"> <!-- Keeps this URL private (referral data won't be sent when clicking external links) -->
+	
+	
+	<!-- Preload a few UI-related images -->
+	<link rel="preload" href="templates/interface/media/images/loader.gif" as="image">
+	
+	<link rel="preload" href="templates/interface/media/images/notification-<?=$theme_selected?>-fill.png" as="image">
+	
+	<link rel="preload" href="templates/interface/media/images/twotone_fiber_new_<?=$theme_selected?>_theme_48dp.png" as="image">
+	
+	
+	<script>
+	
+	// RE-Preload a few UI-related images VIA JAVASCRIPT TOO, FOR GOOD MEASURE
+	var loader_image = new Image();
+	loader_image.src = 'templates/interface/media/images/loader.gif';
+	
+	var loader_image_2 = new Image();
+	loader_image.src_2 = 'templates/interface/media/images/notification-<?=$theme_selected?>-fill.png';
+	
+	var loader_image_3 = new Image();
+	loader_image.src_3 = 'templates/interface/media/images/twotone_fiber_new_<?=$theme_selected?>_theme_48dp.png';
+	
+	</script>
+    
     
 	<link rel="stylesheet" href="templates/interface/css/bootstrap/bootstrap.min.css" type="text/css" />
 
@@ -115,7 +134,7 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
     async: true
 	});
 	
-	
+	// Main js vars
 	var theme_selected = '<?=$theme_selected?>';
 	
 	var feeds_num = <?=( $show_feeds[0] != '' ? sizeof($show_feeds) : 0 )?>;
@@ -123,9 +142,6 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 	
 	var charts_num = <?=( $show_charts[0] != '' ? sizeof($show_charts) : 0 )?>;
 	var charts_loaded = new Array();
-	
-	feeds_loading_check(window.feeds_loaded);
-	charts_loading_check(window.charts_loaded);
 	
 	var sorted_by_col = <?=$sorted_by_col?>;
 	var sorted_by_asc_desc = <?=$sorted_by_asc_desc?>;
@@ -135,6 +151,10 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 	
 	var btc_primary_currency_value = '<?=number_format( $selected_btc_primary_currency_value, 2, '.', '' )?>';
 	var btc_primary_currency_pairing = '<?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?>';
+	
+	// 'Loading X...' UI notices
+	feeds_loading_check(window.feeds_loaded);
+	charts_loading_check(window.charts_loaded);
 	
 	<?php
 	foreach ( $app_config['developer']['limited_apis'] as $api ) {
