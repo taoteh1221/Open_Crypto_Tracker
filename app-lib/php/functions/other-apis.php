@@ -524,10 +524,11 @@ $xmldata = @external_api_data('url', $url, $rss_feed_cache_time);
 			 
 		}
 			 
-						
+	
+	$rand_id = 'more_' . rand();
 	$html .= '</ul>';
 	$html_hidden .= '</ul>';
-	$show_more_less = "<p><a href='javascript: show_more(\"".md5($url)."\");' style='font-weight: bold;' title='Show more / less RSS feed entries.'>Show More</a></p>";
+	$show_more_less = "<p><a id='".$rand_id."' href='javascript: show_more(\"".md5($url)."\", \"".$rand_id."\");' style='font-weight: bold;' title='Show more / less RSS feed entries.'>Show More</a></p>";
 		
 	
 	}

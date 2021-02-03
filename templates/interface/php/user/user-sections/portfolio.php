@@ -526,7 +526,7 @@ $altcoin_dominance = max_100($altcoin_dominance);
 				}
 				?>
 				
-			<img id="crypto_value" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
+			<img id="crypto_value" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative;" />
 			
 <script>
 		
@@ -747,7 +747,7 @@ var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=
 			
 		?>
 		
-			<img id='balance_stats' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: -5px;' /> 
+			<img id='balance_stats' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative;' /> 
 		
 	 <script>
 	

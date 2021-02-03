@@ -19,11 +19,14 @@ Post on hive, telegram, discord, Twitter, Facebook (and r/CryptoMarkets and r/Cr
 
 ALWAYS do everything in the optimizations / bugs / tests / ux / qa / other section of this list FIRST, before adding ANY new features (find every flaming turd before we start a dumpster fire).
 
-Youtube channels on the resources page, that MAY BE DYING (keep an eye on them): IMineBlocks.
+Youtube channels on the resources page, that MAY BE DYING (keep an eye on them): (none right now)
 
 ///////////////////////////////////////////////////////
 OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
+
+
+Do an info bubble for import / export spreadsheets, include 'pro tip' of saving long / short term holdings to separate spreadsheets for separate tracking.
 
 
 New app config setting for defipulse integration: Switch sort between 'liquidity' and 'volume'. (currently volume is hard-coded sort method).
@@ -39,9 +42,6 @@ Consider moving the error log alerts for "email not configured" under the new "n
 
 
 Think over what others "faq" entries would be helpful.
-
-
-Look into laptop pausing settimeout / setinterval javascript on Ubuntu 20.04 / Chrome, when tab is inactive (but is fine on Ubuntu 20.04 / Chrome on desktop).
 
 
 Look into laptop touchscreen zingchart js error on Ubuntu 20.04 / Chrome, when hiding / showing assets in performance chart (but is fine on Ubuntu 20.04 / Chrome on desktop). IT DOESN'T SEEM TO BE MY CODE, SO REPORT IT TO THE ZINGCHART TEAM.
@@ -111,6 +111,9 @@ Create github wiki with the current documentation for the portfolio app.
 ///////////////////////////////////////////////////////
 FEATURES / STRUCTURING SECTION
 ///////////////////////////////////////////////////////
+
+
+On 'more stats' page, have an 'arbitrage chart' with default showing BTC / All pairing's markets, with USD conversion. Make it a bar chart, based off the marketcap chart template. Have 3 drop-down menus: Asset, Pairing (with an All option), Primary Currency (conversion). Looping through asset pairings / markets should be a straight forward algo that does the job.
 
 
 Store visitor access data in A SEPERATE flat file / json format PER IP ADDRESS (so mulitiple values can be read back into the app before updating, then updated values saved back in json overwriting previously saved values, BUT AVOIDS MULTIPLE IP ADDRESES OVERWRITING SAME DATA). Last X unique ip addresses (as a power user config setting), showing ip address's last user agent / last visit time (AND HISTORY OF DIFFERENT USER AGENTS / LAST VISITS) / total visits count. Drop any over X ip addresses off the list based on oldest LAST VISIT timestamps. Store visitor data (user agent, etc) in a SECURED CACHE filename based off MD5 HASH of ip address. INITIAL BUILDOUT SHOULD ONLY BE FOR 'ui' RUNTIME DATA ONLY.
@@ -233,10 +236,7 @@ MAYBE SECTION
 In debug mode, maybe add our new 'used ram' stat instead (that doesn't include buffers / cached ram).
 
 
-Use SQLite for any data storage that needs query capability (can also be used in PHPDesktop version, as it supports SQLite). 
-
-
-Alerts when RSS feeds have new entries?
+Use SQLite for any data storage that needs query capability (can also be used in PHPDesktop version, as it supports SQLite).
 
 
 Make default btc exchange in config.php optional, and auto-configure if invalid or left blank, based off the default primary currency setting (still log errors though). Additionally, consider defaulting to USD if the primary currency setting is invalid / blank as well (as long as we also error log any detected issues there too)??

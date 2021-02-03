@@ -403,9 +403,9 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					
 					
 					// MYST
-					'myst' => 'hitbtc||btc||both',
+					'myst' => 'hitbtc||btc||chart',
 					'myst-2' => 'hitbtc||eth||none',
-					'myst-3' => 'bittrex_global||btc||chart',
+					'myst-3' => 'bittrex_global||btc||both',
 					
 					
 					);

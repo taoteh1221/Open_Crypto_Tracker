@@ -1465,18 +1465,20 @@ $send_params = array(
  // https://thisinterestsme.com/random-rgb-hex-color-php/ (MODIFIED)
  // Human visual perception of different color mixes seems a tad beyond what an algo can distinguish based off AVERAGE range minimums,
  // ESPECIALLY once a list of random-colored items get above a certain size in number (as this decreases your availiable range minimum)
- // That said, auto-adjusting range minimums based off available RGB palette / list size IS feasible AND seems about as good as it can get
+ // That said, auto-adjusting range minimums based off available RGB palette / list size IS feasible AND seems about as good as it can get,
+ // AS LONG AS YOU DON'T OVER-MINIMIZE THE RANDOM OPTIONS / EXAUST ALL RANDOM OPTIONS (AND ENDLESSLY LOOP)
 function randomColor($list_size) {
 	
 global $rand_color_ranged;
 
 // WE DON'T USE THE ENTIRE 0-255 RANGES, AS SOME COLORS ARE TOO DARK / LIGHT AT FULL RANGES
-$darkest = 55;
-$lightest = 175;
+$darkest = 79;
+$lightest = 178;
+$threshold_min = 0.675; // (X.XXX) Only require X% of threshold, to avoid exhuasting decent amount / ALL of random options
     
 // Minimum range threshold, based on USED RGB pallette AND number of colored items 
-// (range minimum based on list size, AND we only require 66% [2/3] of threshold to SAFELY avoid exhuasting random options)
-$min_range = round( ( ($lightest - $darkest) / $list_size ) * 0.66 );
+// (range minimum based on list size, AND $threshold_min)
+$min_range = round( ( ($lightest - $darkest) / $list_size ) * $threshold_min );
 // ABSOLUTE min (max auto-calculated within safe range)
 $min_range = ( $min_range < 1 ? 1 : $min_range );
 
@@ -1518,21 +1520,9 @@ $min_range = ( $min_range < 1 ? 1 : $min_range );
     		$overall_range = abs($rgb['r'] - $used_range['r']) + abs($rgb['g'] - $used_range['g']) + abs($rgb['b'] - $used_range['b']);
     			
     			// If we are too close to a previously-generated random color's range, flag it
-    			// Overall
     			if ( $overall_range < ($min_range * 3) ) {
     			$range_too_close = true;
     			}
-    			// Fine-grained
-    			elseif ( abs($rgb['r'] - $used_range['r']) < $min_range ) {
-    			$range_too_close = true;
-    			}
-    			elseif ( abs($rgb['g'] - $used_range['g']) < $min_range ) {
-    			$range_too_close = true;
-    			}
-    			elseif ( abs($rgb['b'] - $used_range['b']) < $min_range ) {
-    			$range_too_close = true;
-    			}
-    		
     			
     		}
     	

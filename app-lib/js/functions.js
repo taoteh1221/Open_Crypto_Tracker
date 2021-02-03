@@ -68,13 +68,20 @@ sessionStorage['scroll_position'] = window.scrollY;
 /////////////////////////////////////////////////////////////
 
 
-function show_more(id) {
+function show_more(id, change_text = 0) {
 	
 	if ( $("#"+id).is(":visible") ) {
 	$("#"+id).hide(250, 'linear'); // 0.25 seconds
 	}
 	else {
 	$("#"+id).show(250, 'linear'); // 0.25 seconds
+	}
+	
+	if ( $("#" + change_text).text() == 'Show More' ) {
+	$("#" + change_text).text('Show Less');
+	}
+	else if (  $("#" + change_text).text() == 'Show Less' ) {
+	$("#" + change_text).text('Show More');
 	}
 
 }

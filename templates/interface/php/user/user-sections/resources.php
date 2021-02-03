@@ -109,12 +109,9 @@
 	        
 	        <li class='links_list'><a href='https://www.bitstamp.net/' target='_blank'>Bitstamp.net</a></li>
 	        
-	        <li class='links_list'><a href='https://shapeshift.io' target='_blank'>Shapeshift.io</a></li>
-	        
 	        <li class='links_list'><a href='https://www.bitfinex.com/' target='_blank'>Bitfinex.com</a></li>
 	        
-	        <li class='links_list'><a href='https://hitbtc.com/' target='_blank'>Hitbtc.com</a></li>
-	        
+	        <li class='links_list'><a href='https://uniswap.org/' target='_blank'>Uniswap.org</a>  <span class='yellow'>(NON-CUSTODIAL markets ANYBODY can trade)</span></li>
 	        
 	        
 	        
@@ -166,8 +163,6 @@
 	        <li class='links_list'><a href='https://github.com/gnosis/MultiSigWallet/releases' target='_blank'>Gnosis Multisig Wallet</a> (Ethereum software wallet with hardware wallet support)</li>
 	        
 	        <li class='links_list'><a href='https://metamask.io/' target='_blank'>Metamask</a> (Ethereum software wallet browser extension)</li>
-	        
-	        <li class='links_list'><a href='https://mycrypto.com/' target='_blank'>Mycrypto.com</a> (Ethereum online wallet with hardware wallet support)</li>
 	        
 	        <li class='links_list'><a href='https://download.mycrypto.com/' target='_blank'>Mycrypto Desktop App</a> (Ethereum software wallet with hardware wallet support)</li>
 	        
@@ -454,8 +449,6 @@
 	        <li class='links_list'><a href='https://www.youtube.com/user/epicenterbtc/featured' target='_blank'>Epicenter</a></li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/channel/UCNOfzGXD_C9YMYmnefmPH0g/featured' target='_blank'>Ethereum Foundation</a></li>
-	        
-	        <li class='links_list'><a href='https://www.youtube.com/channel/UCjYHcWGAjUVqU49D2JOKD3w/featured' target='_blank'>I Mine Blocks</a> (POW mining channel)</li>
 	        
 	        <li class='links_list'><a href='https://www.youtube.com/user/LiljeqvistIvan/featured' target='_blank'>Ivan on Tech</a></li>
 	        
