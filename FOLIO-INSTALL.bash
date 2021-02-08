@@ -256,6 +256,20 @@ echo "Please select a PHP-FPM version NUMBER from the list below..."
 echo "(PHP-FPM version 7.2 or greater is REQUIRED)"
 echo " "
 
+PHP_INSTALLED=$(/usr/bin/dpkg --get-selections | /usr/bin/grep -i php)
+
+FPM_INSTALLED=`expr match "$PHP_INSTALLED" '.*\(php[0-9][.][0-9]-fpm\)'`
+
+FPM_INSTALLED_VER=`expr match "$FPM_INSTALLED" '.*\([0-9][.][0-9]\)'`
+
+ if [ -z "$FPM_INSTALLED" ]; then
+ echo "NOTICE: No previous phpX.X-fpm package install detected."
+ else
+ echo "NOTICE: You already have $FPM_INSTALLED installed."
+ fi
+ 
+echo " "
+
 echo "$FPM_LIST"
 echo " "
 
@@ -305,7 +319,11 @@ select opt in $OPTIONS; do
 			#/usr/bin/apt-get install apache2 php php-mbstring php-xml php-curl php-gd php-zip libapache2-mod-php openssl ssl-cert avahi-daemon -y
 			
 			# CLEANLY remove regular mod_php if installed
-			/usr/bin/apt-get --purge remove libapache2-mod-php
+			/usr/bin/apt-get --purge remove libapache2-mod-php -y
+			
+        	MOD_PHP_VERSIONED="--purge remove libapache2-mod-php${PHP_FPM_VER} -y"
+        	
+        	/usr/bin/apt-get $MOD_PHP_VERSIONED
 				
 			/bin/sleep 3
         
