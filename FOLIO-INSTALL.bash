@@ -17,12 +17,24 @@ fi
 ######################################
 
 
+# Get logged-in username (if sudo, this works best with logname)
+USERNAME=$(/usr/bin/logname)
+
+
 # Get date
 DATE=$(date '+%Y-%m-%d')
 
 
 # Get the host ip address
 IP=`/bin/hostname -I` 
+
+
+# Get a list of PHP packages THAT ARE ALREADY INSTALLED
+PHP_INSTALLED=$(/usr/bin/dpkg --get-selections | /usr/bin/grep -i php)
+
+
+# Get a list of PHP-FPM packages THAT ARE AVAILABLE TO INSTALL
+PHP_FPM_LIST=$(/usr/bin/apt-cache search php-fpm)
 
 
 # Get the operating system and version
@@ -59,6 +71,29 @@ fi
 
 # For setting user agent header in curl, since some API servers !REQUIRE! a set user agent OR THEY BLOCK YOU
 CUSTOM_CURL_USER_AGENT_HEADER="User-Agent: Curl (${OS}/$VER; compatible;)"
+
+            
+######################################
+         
+
+# WE NEED TO SET THIS OUTSIDE OF / BEFORE ANY OTHER SETUP LOGIC, AS WE'RE SETTING THE SYSTEM USER VAR
+echo "We need to know the SYSTEM username you'll be logging in as on this machine to edit web files..."
+echo " "
+        
+echo "Enter the SYSTEM username to allow web server editing access for:"
+echo "(leave blank / hit enter for default username '${USERNAME}')"
+echo " "
+        
+read SYS_USER
+
+ if [ -z "$SYS_USER" ]; then
+ SYS_USER=${1:-$USERNAME}
+ echo "Using default username: $SYS_USER"
+ else
+ echo "Using username: $SYS_USER"
+ fi
+
+echo " "
 
 
 ######################################
@@ -197,7 +232,6 @@ done
 echo " "
 
 
-
 ######################################
 
 
@@ -219,61 +253,30 @@ echo "System update completed."
 /bin/sleep 3
 				
 echo " "
-
-            
-######################################
-         
-
-# WE NEED TO SET THIS OUTSIDE OF / BEFORE ANY OTHER SETUP LOGIC, 
-# AS WE'RE SETTING THE SYSTEM USER VAR
-echo "We need to know the SYSTEM username you'll be logging in as on this operating system..."
-echo " "
-        
-echo "Enter the SYSTEM username to allow web server editing access for:"
-echo "(leave blank / hit enter for default of username 'pi')"
-echo " "
-        
-read SYS_USER
-                
-echo " "
-
- if [ -z "$SYS_USER" ]; then
- SYS_USER=${1:-pi}
- echo "Using default username: $SYS_USER"
- else
- echo "Using username: $SYS_USER"
- fi
-
-echo " "
         
 
 ######################################
 
-FPM_LIST=$(/usr/bin/apt-cache search php-fpm)
 
 echo "We need to know which version of PHP-FPM (fcgi) to use."
 echo "Please select a PHP-FPM version NUMBER from the list below..."
 echo "(PHP-FPM version 7.2 or greater is REQUIRED)"
 echo " "
 
-PHP_INSTALLED=$(/usr/bin/dpkg --get-selections | /usr/bin/grep -i php)
+PHP_FPM_INSTALLED=`expr match "$PHP_INSTALLED" '.*\(php[0-9][.][0-9]-fpm\)'`
 
-FPM_INSTALLED=`expr match "$PHP_INSTALLED" '.*\(php[0-9][.][0-9]-fpm\)'`
-
-FPM_INSTALLED_VER=`expr match "$FPM_INSTALLED" '.*\([0-9][.][0-9]\)'`
-
- if [ -z "$FPM_INSTALLED" ]; then
- echo "NOTICE: No previous phpX.X-fpm package install detected."
+ if [ -z "$PHP_FPM_INSTALLED" ]; then
+ echo "NOTICE: No previous phpX.X-fpm install detected."
  else
- echo "NOTICE: You already have $FPM_INSTALLED installed."
+ echo "NOTICE: You already have $PHP_FPM_INSTALLED installed."
  fi
  
 echo " "
 
-echo "$FPM_LIST"
+echo "$PHP_FPM_LIST"
 echo " "
 
-FPM_PACKAGE=`expr match "$FPM_LIST" '.*\(php[0-9][.][0-9]-fpm\)'`
+FPM_PACKAGE=`expr match "$PHP_FPM_LIST" '.*\(php[0-9][.][0-9]-fpm\)'`
 
 FPM_PACKAGE_VER=`expr match "$FPM_PACKAGE" '.*\([0-9][.][0-9]\)'`
 
@@ -285,8 +288,6 @@ echo "(leave blank / hit enter for default of '$FPM_PACKAGE_VER')"
 echo " "
         
 read PHP_FPM_VER
-
-echo " "
                 
 	if [ -z "$PHP_FPM_VER" ]; then
  	PHP_FPM_VER=${1:-$FPM_PACKAGE_VER}
@@ -318,12 +319,28 @@ select opt in $OPTIONS; do
 			# DEPRECIATED legacy PHP Apache setup (NOT running fcgi)
 			#/usr/bin/apt-get install apache2 php php-mbstring php-xml php-curl php-gd php-zip libapache2-mod-php openssl ssl-cert avahi-daemon -y
 			
-			# CLEANLY remove regular mod_php if installed
+			# CLEANLY remove DEPRECIATED mod_php (if installed previously)
 			/usr/bin/apt-get --purge remove libapache2-mod-php -y
 			
-        	MOD_PHP_VERSIONED="--purge remove libapache2-mod-php${PHP_FPM_VER} -y"
+			# Check for versioned installed packages too
+			MOD_PHP_INSTALLED=`expr match "$PHP_INSTALLED" '.*\(libapache2-mod-php[0-9][.][0-9]\)'`
+
+ 				if [ -z "$MOD_PHP_INSTALLED" ]; then
+				echo " "
+ 				echo "NOTICE: No conflicting libapache2-mod-phpX.X install detected."
+				echo " "
+ 				else
+ 				
+				echo " "
+ 				echo "NOTICE: Removing conflicting $MOD_PHP_INSTALLED install (for system stability)..."
+				echo " "
+			
+        		MOD_PHP_REMOVE="--purge remove $MOD_PHP_INSTALLED -y"
         	
-        	/usr/bin/apt-get $MOD_PHP_VERSIONED
+        		/usr/bin/apt-get $MOD_PHP_REMOVE
+        	
+ 				fi
+ 
 				
 			/bin/sleep 3
         
@@ -385,6 +402,7 @@ select opt in $OPTIONS; do
 			# Suexec
 			/usr/sbin/a2enmod suexec
 			
+			# Not needed (for now)
 			#/usr/sbin/a2enmod actions
 			
 			/bin/sleep 1
@@ -638,21 +656,21 @@ EOF
         	/usr/sbin/usermod -a -G $CUSTOM_GROUP $SYS_USER
         
         	echo " "
-        	echo "Web server editing access for user name '$SYS_USER', in web server user group '$CUSTOM_GROUP', is completed."
+        	echo "Access for user '$SYS_USER' within group '$CUSTOM_GROUP' is completed."
 
 			/bin/sleep 1
         
         	/usr/sbin/usermod -a -G $SYS_USER $CUSTOM_GROUP
         	
         	echo " "
-        	echo "Web server editing access for web server user name '$CUSTOM_GROUP', in user group '$SYS_USER', is completed."
+        	echo "Access for user '$CUSTOM_GROUP' within group '$SYS_USER' is completed."
 
 			/bin/sleep 1
 			
         	/bin/chmod 775 $DOC_ROOT
 			
         	echo " "
-        	echo "Root web directory group permissions setup (chmod 775, owner/group set to username '$SYS_USER') is completed."
+        	echo "Document root access is completed (chmod 775, owner:group set to '$SYS_USER')."
 
 			/bin/sleep 1
         
