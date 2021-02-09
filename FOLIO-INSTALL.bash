@@ -617,21 +617,21 @@ EOF
         	/usr/sbin/usermod -a -G $CUSTOM_GROUP $SYS_USER
         
         	echo " "
-        	echo "Access for user '$SYS_USER' within group '$CUSTOM_GROUP' is completed."
+        	echo "Access for user '$SYS_USER' within group '$CUSTOM_GROUP' is completed, please wait..."
 
 			/bin/sleep 1
         
         	/usr/sbin/usermod -a -G $SYS_USER $CUSTOM_GROUP
         	
         	echo " "
-        	echo "Access for user '$CUSTOM_GROUP' within group '$SYS_USER' is completed."
+        	echo "Access for user '$CUSTOM_GROUP' within group '$SYS_USER' is completed, please wait..."
 
 			/bin/sleep 1
 			
         	/bin/chmod 775 $DOC_ROOT
 			
         	echo " "
-        	echo "Document root access is completed (chmod 775, owner:group set to '$SYS_USER')."
+        	echo "Document root access is completed (chmod 775, owner:group set to '$SYS_USER'), please wait..."
 
 			/bin/sleep 1
         
