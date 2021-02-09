@@ -122,7 +122,7 @@ if ( $runtime_mode == 'ui' ) {
 	
 	// Schedule app exit, if we are not on a secure connection
 	if ( $is_https_secure != true ) {
-	$system_error = "HTTP web server secure HTTPS (SSL) connection NOT detected. A secure HTTPS (SSL) connection is required to SAFELY run this application. <br /><br />";
+	$system_error = "A secure HTTPS (SSL) connection is required to SAFELY run this app. Try visiting https://YOUR_HOSTNAME to see if HTTPS is setup properly. <br /><br />";
 	app_logging('system_error', $system_error);
 	echo $system_error;
 	$force_exit = 1;

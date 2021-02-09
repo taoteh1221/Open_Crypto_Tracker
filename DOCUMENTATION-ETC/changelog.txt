@@ -4254,7 +4254,9 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.24.1:
 
--Bug fix for auto-install script removing any instances of (legacy) mod PHP, before the PHP-FPM install.
+-Bug fixes / UX for auto-install script
+
+-Misc UX
 
 -------------------------------------------------------------------
 
