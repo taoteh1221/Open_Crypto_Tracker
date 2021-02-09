@@ -187,7 +187,7 @@ echo "v4.08.4 AND HIGHER SWITCHED FROM 'FREE MEMORY' SYSTEM STATS, OVER TO 'MEMO
 echo "(WHICH #NOW# CORRECTLY DOES NOT INCLUDE MEMORY BUFFERS / CACHE). SYSTEM STATS CHARTS AFTER UPGRADE"
 echo "TO v4.09.0 OR HIGHER WILL STILL RETAIN OLD SYSTEM STATS DATA FOR MEMORY USAGE, BUT WILL BE LABELED"
 echo "DIFFERENTLY ('USED MEMORY' INSTEAD OF 'FREE MEMORY'). JUST IGNORE THE OLDER MEMORY DATA, OR RESET"
-echo "YOUR SYSTEM STATS CHARTS BY DELETING: /cache/charts/system/"
+echo "YOUR SYSTEM STATS CHARTS BY DELETING: /cache/charts/system/ (files/folders will be auto-re-created)"
 echo " "
 echo "v4.06.0 AND HIGHER HAS MAJOR DIRECTORY STRUCTURE CHANGES. FOR CLEAN UPGRADES, THIS AUTO-INSTALL SCRIPT"
 echo "WILL DELETE #EVERY PREVIOUSLY-USED SUB-DIRECTORY NAME# EXCEPT FOR THE 'CACHE' DIRECTORY BEFOREHAND."
@@ -263,16 +263,6 @@ echo "Please select a PHP-FPM version NUMBER from the list below..."
 echo "(PHP-FPM version 7.2 or greater is REQUIRED)"
 echo " "
 
-PHP_FPM_INSTALLED=`expr match "$PHP_INSTALLED" '.*\(php[0-9][.][0-9]-fpm\)'`
-
- if [ -z "$PHP_FPM_INSTALLED" ]; then
- echo "NOTICE: No previous phpX.X-fpm install detected."
- else
- echo "NOTICE: You already have $PHP_FPM_INSTALLED installed."
- fi
- 
-echo " "
-
 echo "$PHP_FPM_LIST"
 echo " "
 
@@ -280,7 +270,7 @@ FPM_PACKAGE=`expr match "$PHP_FPM_LIST" '.*\(php[0-9][.][0-9]-fpm\)'`
 
 FPM_PACKAGE_VER=`expr match "$FPM_PACKAGE" '.*\([0-9][.][0-9]\)'`
 
-echo "PHP-FPM package auto-detected: $FPM_PACKAGE"
+echo "#PREFERRED# PHP-FPM package auto-detected: $FPM_PACKAGE"
 echo " "
         
 echo "Enter the PHP-FPM version (numeric only) that you want to use:"
@@ -314,41 +304,12 @@ select opt in $OPTIONS; do
 			
 			echo "Proceeding with PHP web server installation..."
 			echo " "
-			
-			
-			# DEPRECIATED legacy PHP Apache setup (NOT running fcgi)
-			#/usr/bin/apt-get install apache2 php php-mbstring php-xml php-curl php-gd php-zip libapache2-mod-php openssl ssl-cert avahi-daemon -y
-			
-			# CLEANLY remove DEPRECIATED mod_php (if installed previously)
-			/usr/bin/apt-get --purge remove libapache2-mod-php -y
-			
-			# Check for versioned installed packages too
-			MOD_PHP_INSTALLED=`expr match "$PHP_INSTALLED" '.*\(libapache2-mod-php[0-9][.][0-9]\)'`
-
- 				if [ -z "$MOD_PHP_INSTALLED" ]; then
-				echo " "
- 				echo "NOTICE: No conflicting libapache2-mod-phpX.X install detected."
-				echo " "
- 				else
- 				
-				echo " "
- 				echo "NOTICE: Removing conflicting $MOD_PHP_INSTALLED install (for system stability)..."
-				echo " "
-			
-        		MOD_PHP_REMOVE="--purge remove $MOD_PHP_INSTALLED -y"
-        	
-        		/usr/bin/apt-get $MOD_PHP_REMOVE
-        	
- 				fi
- 
-				
-			/bin/sleep 3
         
+			# !!!RUN FIRST!!! PHP FPM (fcgi) version $PHP_FPM_VER, run SEPERATE in case it fails from package not found
         	INSTALL_FPM="install php${PHP_FPM_VER}-fpm -y"
         
-			# PHP FPM (fcgi) version $PHP_FPM_VER, run seperate in case it fails from package not found
         	/usr/bin/apt-get $INSTALL_FPM
-				
+        	
 			/bin/sleep 3
 			
 			# PHP FPM (fcgi), Apache, required modules, etc
@@ -696,17 +657,14 @@ EOF
         echo "Removing PHP web server..."
         echo " "
         
-		  # DEPRECIATED legacy PHP Apache setup (NOT running fcgi)
-        #/usr/bin/apt-get remove apache2 php php-mbstring php-curl php-gd php-zip libapache2-mod-php -y
-        
+		  # !!!RUN FIRST!!! PHP FPM (fcgi) version $PHP_FPM_VER, run SEPERATE in case it fails from package not found
         REMOVE_FPM="remove php${PHP_FPM_VER}-fpm -y"
         
-		  # PHP FPM (fcgi) version $PHP_FPM_VER, run seperate in case it fails from package not found
         /usr/bin/apt-get $REMOVE_FPM
         
 		  /bin/sleep 3
         
-        # Skip removing openssl / ssl-cert / avahi-daemon, in case they were already on the system
+        # SKIP removing openssl / ssl-cert / avahi-daemon, AS THIS WILL F!CK UP THE WHOLE SYSTEM, REMOVING ANY OTHER DEPENDANT PACKAGES TOO!!
 		  /usr/bin/apt-get remove apache2 php php-fpm php-mbstring php-xml php-curl php-gd php-zip libapache2-mod-fcgid apache2-suexec-pristine -y
         
 		  /bin/sleep 3
