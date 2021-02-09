@@ -387,6 +387,11 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					'mana-4' => 'ethfinex||btc||none',
 					
 					
+					// KEEP
+					'keep' => 'kraken||btc||both',
+					'keep-2' => 'hitbtc||btc||chart',
+					
+					
 					// GLM
 					'glm' => 'bittrex||btc||both',
 					'glm-2' => 'ethfinex||btc||chart',
@@ -698,6 +703,7 @@ $app_config['power_user']['bitcoin_currency_markets'] = array(
 // #USE CONSERVATIVELY#, AS YOU'LL BE RECOMMENDING IN THE INTERFACE TO END-USERS TO AVOID USING ANY OTHER MARKETS FOR THIS CURRENCY
 $app_config['power_user']['bitcoin_preferred_currency_markets'] = array(
 						//'lowercase_btc_market_or_stablecoin_pairing' => 'PREFERRED_MARKET',
+							'aud' => 'kraken',  // WAY BETTER api than ALL alternatives
 							'chf' => 'kraken',  // WAY MORE reputable than ALL alternatives
 							'dai' => 'kraken',  // WAY MORE reputable than ALL alternatives
 							'eur' => 'kraken',  // WAY BETTER api than ALL alternatives
@@ -1692,6 +1698,7 @@ $app_config['portfolio_assets'] = array(
                                                     ),
                         
                         				'aud' => array(
+                                    		'kraken' => 'XBTAUD',
                                     		'btcmarkets' => 'BTC/AUD',
                                           'localbitcoins' => 'AUD',
                                                     ),
@@ -2076,6 +2083,11 @@ $app_config['portfolio_assets'] = array(
                         'asset_name' => 'Ethereum',
                         'marketcap_website_slug' => 'ethereum',
                         'market_pairing' => array(
+                        
+                        				'aud' => array(
+                                    		'kraken' => 'ETHAUD',
+                                    		'btcmarkets' => 'ETH/AUD',
+                                                    ),
                                                     
                                     'brl' => array(
                                           'braziliex' => 'eth_brl',
@@ -2427,6 +2439,39 @@ $app_config['portfolio_assets'] = array(
                                     'usdt' => array(
                                           'hitbtc' => 'MANAUSD',
                                           'okex' => 'MANA-USDT',
+                                                    ),
+                                                    
+                                        ) // market_pairing END
+                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
+                    // KEEP
+                    'KEEP' => array(
+                        
+                        'asset_name' => 'Keep Network',
+                        'marketcap_website_slug' => 'keep-network',
+                        'market_pairing' => array(
+                        
+                                    'btc' => array(
+                                          'kraken' => 'KEEPXBT',
+                                          'hitbtc' => 'KEEPBTC',
+                                                    ),
+                                                    
+                                    'eth' => array(
+                                        	'kraken' => 'KEEPETH',
+                                    	 	'defipulse' => 'KEEP/ETH',
+                                                    ),
+                                                    
+                                    'eur' => array(
+                                        	'kraken' => 'KEEPEUR',
+                                                    ),
+                                                    
+                                    'usd' => array(
+                                        	'kraken' => 'KEEPUSD',
                                                     ),
                                                     
                                         ) // market_pairing END

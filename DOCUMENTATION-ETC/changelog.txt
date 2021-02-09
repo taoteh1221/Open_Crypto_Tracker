@@ -4256,6 +4256,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Bug fixes / UX for auto-install script
 
+-Revised default config
+
 -Misc UX
 
 -------------------------------------------------------------------
