@@ -119,7 +119,7 @@ fi
 echo " "
 
 if [ ! -d "$DOC_ROOT" ] && [ "$DOC_ROOT" != "/var/www/html" ]; then
-echo "The custom document root directory '$DOC_ROOT' does not exist yet."
+echo "The defined document root directory '$DOC_ROOT' does not exist yet."
 echo "Please create this directory structure before running this script."
 echo "Exiting..."
 exit
@@ -219,7 +219,7 @@ OPTIONS="continue quit"
 select opt in $OPTIONS; do
         if [ "$opt" = "continue" ]; then
         echo " "
-        echo "Continuing with setup..."
+        echo "Continuing with setup, please wait..."
         break
        elif [ "$opt" = "quit" ]; then
         echo " "
@@ -237,7 +237,7 @@ echo " "
 
 echo " "
 
-echo "Making sure your system is updated before installation..."
+echo "Making sure your system is updated before installation, please wait..."
 
 echo " "
 			
@@ -302,13 +302,13 @@ select opt in $OPTIONS; do
          
          echo " "
 			
-			echo "Proceeding with PHP web server installation..."
+			echo "Proceeding with PHP web server installation, please wait..."
 			echo " "
         
 			# !!!RUN FIRST!!! PHP FPM (fcgi) version $PHP_FPM_VER, run SEPERATE in case it fails from package not found
-        	INSTALL_FPM="install php${PHP_FPM_VER}-fpm -y"
+        	INSTALL_FPM_VER="install php${PHP_FPM_VER}-fpm -y"
         
-        	/usr/bin/apt-get $INSTALL_FPM
+        	/usr/bin/apt-get $INSTALL_FPM_VER
         	
 			/bin/sleep 3
 			
@@ -332,7 +332,7 @@ select opt in $OPTIONS; do
 			# Regenerate new self-signed SSL cert keys with ssl-cert (for secure HTTPS web pages)
 			/usr/sbin/make-ssl-cert generate-default-snakeoil --force-overwrite
 
-			echo "New SSL certificate keys self-generated..."
+			echo "New SSL certificate keys have been self-signed, please wait..."
 			echo " "
 
 			# Enable SSL (for secure HTTPS web pages)
@@ -353,10 +353,10 @@ select opt in $OPTIONS; do
 			
 			/bin/sleep 1
 			
-        	CONFIG_FPM="php${PHP_FPM_VER}-fpm"
+        	CONFIG_FPM_VER="php${PHP_FPM_VER}-fpm"
         	
 			# Config PHP FPM (fcgi) version $PHP_FPM_VER
-        	/usr/sbin/a2enconf $CONFIG_FPM
+        	/usr/sbin/a2enconf $CONFIG_FPM_VER
 			
 			/bin/sleep 1
 			
@@ -371,11 +371,11 @@ select opt in $OPTIONS; do
 			echo " "
 				
 				if [ -f /etc/init.d/apache2 ]; then
-				echo "New Apache modules have been enabled, restarting the Apache web server..."
+				echo "New Apache modules have been enabled, restarting the Apache web server, please wait..."
 				/etc/init.d/apache2 restart
 				echo " "
 				else
-				echo "New Apache modules have been enabled, you must restart the Apache web server for these to activate."
+				echo "New Apache modules have been enabled, YOU MUST RESTART the Apache web server for these to activate."
 				echo " "
 				fi
 
@@ -397,7 +397,7 @@ select opt in $OPTIONS; do
             read HTTP_CONFIG
                     
                 if [ ! -f $HTTP_CONFIG ] || [ -z "$HTTP_CONFIG" ]; then
-                echo "No HTTP config file detected, skipping Apache htaccess setup for port 80..."
+                echo "No HTTP config file detected, skipping Apache htaccess setup for port 80, please wait..."
                 SKIP_HTTP_HTACCESS=1
                 else
                 echo "Using Apache HTTP config file:"
@@ -419,7 +419,7 @@ select opt in $OPTIONS; do
             
             echo " "
             
-            echo "Enabling htaccess for HTTP (port 80)..."
+            echo "Enabling htaccess for HTTP (port 80), please wait..."
             echo " "
 
 
@@ -453,12 +453,12 @@ EOF
                 # Restart Apache
                 if [ -f /etc/init.d/apache2 ]; then
                 echo "Htaccess has been enabled for HTTP (port 80),"
-                echo "restarting the Apache web server..."
+                echo "restarting the Apache web server, please wait..."
                 /etc/init.d/apache2 restart
                 echo " "
                 else
                 echo "Htaccess has been enabled for HTTP (port 80)."
-                echo "You must restart the Apache web server for this to take affect."
+                echo "YOU MUST RESTART the Apache web server for this to take affect."
                 echo " "
                 fi
             
@@ -492,7 +492,7 @@ EOF
             read HTTPS_CONFIG
                     
                 if [ ! -f $HTTPS_CONFIG ] || [ -z "$HTTPS_CONFIG" ]; then
-                echo "No HTTPS config file detected, skipping Apache htaccess setup for port 443..."
+                echo "No HTTPS config file detected, skipping Apache htaccess setup for port 443, please wait..."
                 SKIP_HTTPS_HTACCESS=1
                 else
                 echo "Using Apache HTTPS config file:"
@@ -513,7 +513,7 @@ EOF
             if [ "$SKIP_HTTPS_HTACCESS" != "1" ] && [[ $CHECK_HTTPS != *"cryptocoin_htaccess_443"* ]]; then
             
             echo " "
-            echo "Enabling htaccess for HTTPS (port 443)..."
+            echo "Enabling htaccess for HTTPS (port 443), please wait..."
             echo " "
             
             
@@ -548,12 +548,12 @@ EOF
                 # Restart Apache
                 if [ -f /etc/init.d/apache2 ]; then
                 echo "Htaccess has been enabled for HTTPS (port 443),"
-                echo "restarting the Apache web server..."
+                echo "restarting the Apache web server, please wait..."
                 /etc/init.d/apache2 restart
                 echo " "
                 else
                 echo "Htaccess has been enabled for HTTPS (port 443)."
-                echo "You must restart the Apache web server for this to take affect."
+                echo "YOU MUST RESTART the Apache web server for this to take affect."
                 echo " "
                 fi
             
@@ -654,18 +654,18 @@ EOF
        elif [ "$opt" = "remove_webserver" ]; then
        
         echo " "
-        echo "Removing PHP web server..."
+        echo "Removing PHP web server, please wait..."
         echo " "
         
 		  # !!!RUN FIRST!!! PHP FPM (fcgi) version $PHP_FPM_VER, run SEPERATE in case it fails from package not found
-        REMOVE_FPM="remove php${PHP_FPM_VER}-fpm -y"
+        REMOVE_FPM_VER="--purge remove php${PHP_FPM_VER}-fpm -y"
         
-        /usr/bin/apt-get $REMOVE_FPM
+        /usr/bin/apt-get $REMOVE_FPM_VER
         
 		  /bin/sleep 3
         
         # SKIP removing openssl / ssl-cert / avahi-daemon, AS THIS WILL F!CK UP THE WHOLE SYSTEM, REMOVING ANY OTHER DEPENDANT PACKAGES TOO!!
-		  /usr/bin/apt-get remove apache2 php php-fpm php-mbstring php-xml php-curl php-gd php-zip libapache2-mod-fcgid apache2-suexec-pristine -y
+		  /usr/bin/apt-get --purge remove apache2 php php-fpm php-mbstring php-xml php-curl php-gd php-zip libapache2-mod-fcgid apache2-suexec-pristine -y
         
 		  /bin/sleep 3
 			
@@ -710,7 +710,7 @@ select opt in $OPTIONS; do
 				else
 				
 				echo " "
-				echo "Proceeding with required component installation..."
+				echo "Proceeding with required component installation, please wait..."
 				
 				echo " "
 				
@@ -740,7 +740,7 @@ select opt in $OPTIONS; do
 				echo "Required component installation completed."
 				
 				echo " "
-				echo "Downloading and installing the latest version of DFD Cryptocoin Values (Server Edition), from Github.com..."
+				echo "Downloading / installing the latest version of DFD Cryptocoin Values (Server Edition) from Github.com, please wait..."
             echo " "
 				
 				mkdir DFD-Cryptocoin-Values
@@ -757,7 +757,7 @@ select opt in $OPTIONS; do
 				/bin/sleep 2
 				
 				echo " "
-				echo "Extracting download archive..."
+				echo "Extracting download archive, please wait..."
 				echo " "
 				
 				/usr/bin/bsdtar --strip-components=1 -xvf DFD-Cryptocoin-Values.zip
@@ -809,7 +809,7 @@ select opt in $OPTIONS; do
   				
   				
 				echo " "
-				echo "Making sure any previous install's DEPRECIATED app structuring is cleaned up..."
+				echo "Making sure any previous install's DEPRECIATED directory structure is cleaned up, please wait..."
 				echo " "
 				
   				# Delete old directory / file structures (overhauled in v4.06.0 higher), for a clean upgrade
@@ -865,7 +865,7 @@ select opt in $OPTIONS; do
 				/bin/sleep 3
 				
 				echo " "
-				echo "Installing DFD Cryptocoin Values (Server Edition)..."
+				echo "Installing DFD Cryptocoin Values (Server Edition), please wait..."
   				
   				# Copy over the upgrade install files to the install directory, after cleaning up dev files
 				# No trailing forward slash here
@@ -935,7 +935,7 @@ select opt in $OPTIONS; do
                     
                     echo " "
                     echo "Enter the time interval in minutes to run this cron job:"
-                    echo "(must be 5, 10, 15, 20, or 30...leave blank / hit enter for default of 20)"
+                    echo "(#MUST BE# either 5, 10, 15, 20, or 30...leave blank / hit enter for default of 20)"
                     echo " "
                     echo "IT'S RECOMMENDED TO GO #NO LOWER THAN# EVERY 20 MINUTES FOR CHART DATA, OTHERWISE LITE CHART"
                     echo "DISK WRITES MAY BE EXCESSIVE FOR LOWER END HARDWARE (Raspberry PI MicroSD cards etc)."
@@ -1014,7 +1014,7 @@ select opt in $OPTIONS; do
        elif [ "$opt" = "remove_coin_app" ]; then
        
         echo " "
-        echo "Removing DFD Cryptocoin Values (Server Edition)..."
+        echo "Removing DFD Cryptocoin Values (Server Edition), please wait..."
         
         rm /etc/cron.d/cryptocoin
 		  
@@ -1072,13 +1072,13 @@ select opt in $OPTIONS; do
 
 				if [ -f "/usr/bin/raspi-config" ]; then
 				echo " "
-				echo "Initiating raspi-config..."
+				echo "Initiating raspi-config, please wait..."
 				# We need sudo here, or raspi-config fails in bash
 				/usr/bin/sudo /usr/bin/raspi-config
 				else
 				echo " "
 				
-				echo "Proceeding with openssh-server installation..."
+				echo "Proceeding with openssh-server installation, please wait..."
 				
 				echo " "
 				

@@ -217,7 +217,7 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in (values a
                                           'lowercase_exchange3' => 'ASSET-PAIRING',
                                           'lowercase_exchange4' => 'ASSET_PAIRING',
                                           'lowercase_exchange5' => 'ASSETPAIRING',
-                                          'defipulse' => 'ASSET/PAIRING', // DeFi Generic (sketchy API as of 10/8/2020, unable to reliably get platform-specific data)
+                                          'defipulse' => 'ASSET/PAIRING', // DeFi Generic
                                                     ),
                                                     
                                     'eth' => array(
@@ -226,8 +226,10 @@ Ethereum ICO subtoken support (pre-exchange listing) has been built in (values a
                                           'lowercase_exchange3' => 'ASSET-ETH',
                                           'lowercase_exchange4' => 'ASSET_ETH',
                                           'lowercase_exchange5' => 'ASSETETH',
-                                          'defipulse' => 'ASSET/PAIRING', // DeFi Generic (sketchy API as of 10/8/2020, unable to reliably get platform-specific data)
-                                          'eth_subtokens_ico' => 'ETHSUBTOKENNAME', // Must be defined in 'ethereum_subtoken_ico_values' setting, in the POWER USER section of Admin Config
+                                          // ETH ICOs...MUST be defined in 'ethereum_subtoken_ico_values', in Admin Config POWER USER section
+                                          'eth_subtokens_ico' => 'ETHSUBTOKENNAME', 
+                                          // INCLUDING #OPTIONAL# LIQUIDITY POOL ADDRESS, ASSURING #EXACT# MARKET DESIRED
+                                          'defipulse' => 'ASSET/PAIRING||OPTIONAL_LIQUIDITY_POOL_ADDRESS', // DeFi Generic
                                                     ),
                                                     
                                           ) // market_pairing END

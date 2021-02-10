@@ -26,13 +26,10 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+Add defipulse 'preferred platform' config in power user section, which falls back to ANY highest volume / liquidity platform's market if no market is found for the preferred platform.
+
+
 Do an info bubble for import / export spreadsheets, include 'pro tip' of saving long / short term holdings to separate spreadsheets for separate tracking.
-
-
-New app config setting for defipulse integration: Switch sort between 'liquidity' and 'volume'. (currently volume is hard-coded sort method).
-
-
-Refactoring auto-install script to included changing / removing PHP-FPM versions
 
 
 Consolidate number_to_string() calls, to speed up runtime.

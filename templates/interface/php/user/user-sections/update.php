@@ -207,8 +207,19 @@
 		 
 	    
 	
-	<!-- #DON'T# CONVERT TO JAVASCRIPT WITH 'NEXT TIP' LINK...I think tips will be better remembered if it just loads one tip per app runtime. -->
-	<div style='margin-top: 10px; max-width: 1200px;' class='bitcoin random_tip'><b>Random Tip:</b><img id='random_tip_disclaimer' src='templates/interface/media/images/info-orange.png' alt='' width='30' style='position: relative; padding: 0px; margin: 0px; vertical-align: middle;' />  <a href='javascript: random_tips();'>Show Another Tip</a> <div id='quoteContainer'></div></div>
+	<div style='margin-top: 10px; max-width: 1200px;' class='bitcoin random_tip'>
+	
+		<p>
+	
+			<b>Random Tip:</b><img id='random_tip_disclaimer' src='templates/interface/media/images/info-orange.png' alt='' width='30' style='position: relative; padding: 0px; margin: 0px; vertical-align: middle;' />  <a href='javascript: random_tips();'>Show Another Tip</a>
+	
+		</p>
+	
+		<p id='quoteContainer'></p>
+	
+	</div>
+	
+	
 	<script>
 		
 			$('#random_tip_disclaimer').balloon({

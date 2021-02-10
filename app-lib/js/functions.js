@@ -68,7 +68,7 @@ sessionStorage['scroll_position'] = window.scrollY;
 /////////////////////////////////////////////////////////////
 
 
-function show_more(id, change_text = 0) {
+function show_more(id, change_text=0) {
 	
 	if ( $("#"+id).is(":visible") ) {
 	$("#"+id).hide(250, 'linear'); // 0.25 seconds
@@ -538,7 +538,7 @@ quoteContainer.html( ajax_placeholder(15, 'left') );
 	//fade out animation with callback
    quoteContainer.fadeOut(250, function(){
 	
-	quoteContainer.html('<p>'+newQuoteText+'</p>'+'<p id="quoteGenius">'+'- '+newQuoteGenius+'</p>');
+	quoteContainer.html('<p>'+newQuoteText+'</p>'+'<p id="quoteGenius">'+'-'+newQuoteGenius+'</p>');
    
    //fadein animation.
    quoteContainer.fadeIn(250);

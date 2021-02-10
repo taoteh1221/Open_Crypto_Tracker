@@ -4254,7 +4254,9 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.24.1:
 
--Bug fixes / UX for auto-install script
+-Bug fixes / UX / code cleanup for auto-install script (try PHP web server un-install / re-install options if you have issues)
+
+-Optionally allow DeFi liquidity pools to be specified for defipulse markets (see README.txt for usage)
 
 -Revised default config
 

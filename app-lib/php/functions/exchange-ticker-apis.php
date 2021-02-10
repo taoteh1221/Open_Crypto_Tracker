@@ -779,9 +779,13 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
   		}
   		
   	
-  	$asset_data = explode('/', $market_id);
+  	$market_data = explode('||', $market_id);
   	
-  	$defi_pools_info = defi_pools_info($asset_data);
+  	$pairing_data = explode('/', $market_data[0]);
+  	
+  	$pool_data = $market_data[1];
+  	
+  	$defi_pools_info = defi_pools_info($pairing_data, $pool_data);
   		
   		
   		if ( $defipulse_api_limit == true ) {
@@ -806,12 +810,12 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
       if (is_array($data) || is_object($data)) {
       
        if ( preg_match("/curve/i", $defi_pools_info['platform']) ) {
-       $fromSymbol = $asset_data[0];
-       $toSymbol = $asset_data[1];
+       $fromSymbol = $pairing_data[0];
+       $toSymbol = $pairing_data[1];
        }
        else {
-       $fromSymbol = $asset_data[1];
-       $toSymbol = $asset_data[0];
+       $fromSymbol = $pairing_data[1];
+       $toSymbol = $pairing_data[0];
        }
        
   

@@ -222,19 +222,40 @@ $result = array();
 ////////////////////////////////////////////////////////
 
 
-function defi_pools_info($pairing_array) {
+function defi_pools_info($pairing_array, $pool_address=null) {
 
 global $app_config;
 
+
+	if ( $app_config['power_user']['defi_liquidity_pools_sort_by'] == 'volume' ) {
+	$sort_by = 'usdVolume';
+	}
+	elseif ( $app_config['power_user']['defi_liquidity_pools_sort_by'] == 'liquidity' ) {
+	$sort_by = 'usdLiquidity';
+	}
+
+   
+   if ( $pool_address ) {
+   $json_string = 'https://data-api.defipulse.com/api/v1/blocklytics/pools/v1/exchange/'.$pool_address.'?api-key=' . $app_config['general']['defipulsecom_api_key'];
+   }
+   else {
+   $json_string = 'https://data-api.defipulse.com/api/v1/blocklytics/pools/v1/exchanges?limit=' . $app_config['power_user']['defi_liquidity_pools_max'] . '&orderBy='.$sort_by.'&direction=desc&api-key=' . $app_config['general']['defipulsecom_api_key'];
+   }
+
+
+$jsondata = @external_api_data('url', $json_string, $app_config['power_user']['defi_pools_info_cache_time']); // Re-cache exchanges => addresses data, etc
      
-     $json_string = 'https://data-api.defipulse.com/api/v1/blocklytics/pools/v1/exchanges?limit=' . $app_config['power_user']['defi_liquidity_pools_max'] . '&orderBy=usdVolume&direction=desc&api-key=' . $app_config['general']['defipulsecom_api_key'];
-     
-     $jsondata = @external_api_data('url', $json_string, $app_config['power_user']['defi_pools_info_cache_time']); // Re-cache exchanges => addresses data, etc
-     
-     $data = json_decode($jsondata, true);
-     
-     $data = $data['results'];
-     
+$data = json_decode($jsondata, true);
+
+
+	if ( $pool_address ) {
+	$new_data = array($data);
+	$data = $new_data;
+	}
+	else {
+	$data = $data['results'];
+	}
+
   
       if (is_array($data) || is_object($data)) {
   			
@@ -277,8 +298,9 @@ global $app_config;
       
       }
  
+
  
- return $result;
+return $result;
   
 }
 
@@ -2142,7 +2164,7 @@ $original_market = $selected_exchange;
 
 	<?php
 	if ( $asset_market_data['defi_pool_name'] ) {
-	$defi_exchange_dropdown_title = "\n" . 'Current DeFi Liquidity Pool: ' . $asset_market_data['defi_pool_name'] . ' (' . $asset_market_data['defi_platform'] . ')';
+	$defi_exchange_dropdown_title = "\n\n" . 'Current DeFi Liquidity Pool: ' . $asset_market_data['defi_pool_name'] . ' (' . $asset_market_data['defi_platform'] . ')';
 	}
 	?>
  

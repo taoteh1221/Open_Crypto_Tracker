@@ -341,6 +341,7 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					'btc-26' => 'luno||zar||none',
 					'btc-27' => 'kraken||dai||none',
 					'btc-28' => 'bitmex||usd||both',
+					'btc-29' => 'defipulse||eth||none',
 					
 					
 					// ETH
@@ -358,7 +359,7 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					'eth-12' => 'bittrex||usdt||none',
 					'eth-13' => 'bitbns||inr||none',
 					'eth-14' => 'bitmex||usd||both',
-					'eth-15' => 'defipulse||usdt||none',
+					'eth-15' => 'defipulse||btc||none',
 					
 					
 					// UNI
@@ -390,6 +391,7 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					// KEEP
 					'keep' => 'kraken||btc||both',
 					'keep-2' => 'hitbtc||btc||chart',
+					'keep-3' => 'defipulse||eth||none',
 					
 					
 					// GLM
@@ -423,6 +425,7 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					'myst' => 'hitbtc||btc||chart',
 					'myst-2' => 'hitbtc||eth||none',
 					'myst-3' => 'bittrex_global||btc||both',
+					'myst-4' => 'defipulse||eth||none',
 					
 					
 					);
@@ -521,8 +524,11 @@ $app_config['power_user']['system_stats_second_chart_max_scale'] = 150; // (defa
 $app_config['power_user']['defi_pools_info_cache_time'] = 25; // (default = 25)
 ////
 // Maximum number of HIGHEST 24 HOUR TRADE VOLUME DeFi pools to fetch
-// INCREASE IF YOUR POOL DOESN'T GET DETECTED, BUT YOU KNOW THE POOL EXISTS, AS POOLS ARE SORTED BY HIGHEST 24 HOUR TRADE VOLUME
-$app_config['power_user']['defi_liquidity_pools_max'] = 350; // (default = 350)
+// INCREASE IF YOUR POOL DOESN'T GET DETECTED, BUT YOU KNOW THE POOL EXISTS, AS POOLS ARE SORTED BY LARGEST VOLUME OR LIQUIDITY
+$app_config['power_user']['defi_liquidity_pools_max'] = 1000; // (default = 1000)
+////
+// Sort DeFi pools by USD liquidity or volume (largest first)
+$app_config['power_user']['defi_liquidity_pools_sort_by'] = 'volume'; // 'volume' or 'liquidity' (default = 'volume')
 ////
 // Maximum number of MOST RECENT trades to fetch per DeFi pool
 // INCREASE IF TRADES FOR YOUR PAIRING DON'T GET DETECTED, AS TRADES ARE SORTED BY NEWEST FIRST
@@ -2422,6 +2428,7 @@ $app_config['portfolio_assets'] = array(
                                           'hitbtc' => 'MANAETH',
                                           'kucoin' => 'MANA-ETH',
                                           'okex' => 'MANA-ETH',
+                                    	 	'defipulse' => 'MANA/WETH',
                                                     ),
                                                     
                                     'krw' => array(
@@ -2463,7 +2470,7 @@ $app_config['portfolio_assets'] = array(
                                                     
                                     'eth' => array(
                                         	'kraken' => 'KEEPETH',
-                                    	 	'defipulse' => 'KEEP/ETH',
+                                    	 	'defipulse' => 'KEEP/WETH||0xe6f19dab7d43317344282f803f8e8d240708174a',
                                                     ),
                                                     
                                     'eur' => array(
@@ -2493,7 +2500,6 @@ $app_config['portfolio_assets'] = array(
                                           'bittrex' => 'GLM-BTC',
                                         	'ethfinex' => 'tGNTBTC',
                                         	'upbit' => 'BTC-GLM',
-                                          'bitso' => 'gnt_btc',
                                           'poloniex' => 'BTC_GLM',
                                           'braziliex' => 'gnt_btc',
                                                     ),
@@ -2509,10 +2515,6 @@ $app_config['portfolio_assets'] = array(
                                                     
                                     'krw' => array(
                                         	'upbit' => 'KRW-GLM',
-                                                    ),
-                                                    
-                                    'mxn' => array(
-                                          'bitso' => 'gnt_mxn',
                                                     ),
                                                     
                                     'usdc' => array(
@@ -2566,10 +2568,40 @@ $app_config['portfolio_assets'] = array(
                                         	'binance' => 'SXPBTC',
                                           'bittrex_global' => 'SXP-BTC',
                                           'kucoin' => 'SXP-BTC',
+                                        	'upbit' => 'BTC-SXP',
+                                          'hitbtc' => 'SXPBTC',
+                                                    ),
+                                                    
+                                    'eth' => array(
+                                          'gateio' => 'SXP_ETH',
+                                    	 	'defipulse' => 'SXP/WETH||0xac317d14738a454ff20b191ba3504aa97173045b',
+                                                    ),
+                        
+                                    'eur' => array(
+                                        	'binance' => 'SXPEUR',
+                                                    ),
+                        
+                                    'gbp' => array(
+                                        	'binance' => 'SXPGBP',
+                                                    ),
+                                                    
+                                    'inr' => array(
+                                        	'wazirx' => 'sxpinr',
+                                                    ),
+                                                    
+                                    'krw' => array(
+                                        	'upbit' => 'KRW-SXP',
+                                                    ),
+                        
+                                    'try' => array(
+                                        	'binance' => 'SXPTRY',
                                                     ),
                                                     
                                     'usdt' => array(
+                                        	'binance' => 'SXPUSDT',
                                           'kucoin' => 'SXP-USDT',
+                                          'hitbtc' => 'SXPUSD',
+                                        	'wazirx' => 'sxpusdt',
                                                     ),
                                                     
                                         ) // market_pairing END
@@ -2602,6 +2634,7 @@ $app_config['portfolio_assets'] = array(
                                           'bittrex' => 'ENJ-ETH',
                                           'hitbtc' => 'ENJETH',
                                           'kucoin' => 'ENJ-ETH',
+                                    	 	'defipulse' => 'ENJ/WETH',
                                                     ),
                                                     
                                     'krw' => array(
@@ -2675,6 +2708,7 @@ $app_config['portfolio_assets'] = array(
                                                     
                                     'eth' => array(
                                           'hitbtc' => 'MYSTETH',
+                                    	 	'defipulse' => 'MYST/WETH||0x5c56bf84dcbb1d3f9646528a68520b7e21791ddd',
                                                     ),
                                                     
                                     'usdt' => array(
