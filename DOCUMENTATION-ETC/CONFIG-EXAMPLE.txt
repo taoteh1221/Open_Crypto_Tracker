@@ -362,11 +362,16 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					'mkr-4' => 'defipulse||eth||none',
 					
 					
-					//DAI
+					// DAI
 					'dai' => 'coinbase||usdc||both',
 					'dai-2' => 'kraken||usd||none',
 					'dai-3' => 'bittrex||btc||none',
 					'dai-4' => 'defipulse||usdc||none',
+					
+					
+					// LRC
+					'lrc' => 'coinbase||btc||both',
+					'lrc-2' => 'binance||btc||chart',
 					
 					
 					// MANA
@@ -511,7 +516,7 @@ $app_config['power_user']['system_stats_second_chart_max_scale'] = 150; // (defa
 // LOTS OF DATA, the higher number the better for fast page load times
 $app_config['power_user']['defi_pools_info_cache_time'] = 25; // (default = 25)
 ////
-// Maximum number of HIGHEST 24 HOUR TRADE VOLUME DeFi pools to fetch
+// Maximum number of LARGEST LIQUIDITY OR 24 HOUR TRADE VOLUME DeFi pools to fetch
 // INCREASE IF YOUR POOL DOESN'T GET DETECTED, BUT YOU KNOW THE POOL EXISTS, AS POOLS ARE SORTED BY LARGEST VOLUME OR LIQUIDITY
 $app_config['power_user']['defi_liquidity_pools_max'] = 1000; // (default = 1000)
 ////
@@ -580,6 +585,7 @@ $app_config['power_user']['crypto_pairing'] = array(
 						// Liquidity pools / ERC-20 tokens on Ethereum, etc etc...
 						'uni' => '🦄 ',
 						'mkr' => '𐌼 ',
+						'lrc' => '➰ ',
 						//....
 							);
 
@@ -594,8 +600,9 @@ $app_config['power_user']['crypto_pairing'] = array(
 $app_config['power_user']['crypto_pairing_preferred_markets'] = array(
 						//'lowercase_btc_market_or_stablecoin_pairing' => 'PREFERRED_MARKET',
 							'eth' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
-							'mkr' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							'uni' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
+							'mkr' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
+							'lrc' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							);
 
 
@@ -2392,6 +2399,57 @@ $app_config['portfolio_assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
+                    // LRC
+                    'LRC' => array(
+                        
+                        'asset_name' => 'Loopring',
+                        'marketcap_website_slug' => 'loopring',
+                        'market_pairing' => array(
+                        
+                                    'btc' => array(
+                                        'binance' => 'LRCBTC',
+                                    	 'coinbase' => 'LRC-BTC',
+                                        'bittrex_global' => 'LRC-BTC',
+                                        'okex' => 'LRC-BTC',
+                                        'huobi' => 'lrcbtc',
+                                        'bitfinex' => 'tLRCBTC',
+                                        'hitbtc' => 'LRCBTC',
+                                        'gateio' => 'LRC_BTC',
+                                        'coinex' => 'LRCBTC',
+                                                    ),
+                                                    
+                                    'eth' => array(
+                                        'binance' => 'LRCETH',
+                                        'okex' => 'LRC-ETH',
+                                        'huobi' => 'lrceth',
+                                        'hitbtc' => 'LRCETH',
+                                        'gateio' => 'LRC_ETH',
+                                        'coinex' => 'LRCETH',
+                                    	 'defipulse' => 'LRC/WETH||0x8878df9e1a7c87dcbf6d3999d997f262c05d8c70',
+                                                    ),
+                                                    
+                                    'usd' => array(
+                                    	 'coinbase' => 'LRC-USD',
+                                    	 'bitfinex' => 'tLRCUSD',
+                                                    ),
+                                                    
+                                    'usdt' => array(
+                                        'binance' => 'LRCUSDT',
+                                        'okex' => 'LRC-USDT',
+                                        'huobi' => 'lrcusdt',
+                                        'kucoin' => 'LRC-USDT',
+                                        'gateio' => 'LRC_USDT',
+                                        'wazirx' => 'lrcusdt',
+                                                    ),
+                                                    
+                                        ) // market_pairing END
+                                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
                     // MANA
                     'MANA' => array(
                         
@@ -2416,7 +2474,7 @@ $app_config['portfolio_assets'] = array(
                                           'hitbtc' => 'MANAETH',
                                           'kucoin' => 'MANA-ETH',
                                           'okex' => 'MANA-ETH',
-                                    	 	'defipulse' => 'MANA/WETH',
+                                    	 	'defipulse' => 'MANA/WETH||0x11b1f53204d03e5529f09eb3091939e4fd8c9cf3',
                                                     ),
                                                     
                                     'krw' => array(
