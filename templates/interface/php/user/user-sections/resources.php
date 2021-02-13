@@ -52,6 +52,10 @@
 	        
 	        <li class='links_list'><a href='https://messari.io/onchainfx' target='_blank'>OnChainFX</a></li>
 	        
+	        <li class='links_list'><a href='https://bitcoinvisuals.com/lightning' target='_blank'>Lightning Network Stats</a> <span class='yellow'>(Bitcoin Layer 2 Network)</span></li>
+	        
+	        <li class='links_list'><a href='https://duneanalytics.com/Brecht/loopring' target='_blank'>LoopRing Network Stats</a> <span class='yellow'>(Ethereum Layer 2 Network)</span></li>
+	        
 	        
 	    </ul>
 	    </fieldset>
@@ -112,6 +116,8 @@
 	        <li class='links_list'><a href='https://www.bitfinex.com/' target='_blank'>Bitfinex.com</a></li>
 	        
 	        <li class='links_list'><a href='https://uniswap.org/' target='_blank'>Uniswap.org</a>  <span class='yellow'>(NON-CUSTODIAL markets ANYBODY can trade)</span></li>
+	        
+	        <li class='links_list'><a href='https://loopring.io/' target='_blank'>LoopRing.io</a>  <span class='yellow'>(#EARLY BETA TESTING# Layer 2 NON-CUSTODIAL markets ANYBODY can trade)</span></li>
 	        
 	        
 	        
@@ -389,7 +395,7 @@
 	        <li class='links_list'><a href='https://nakamotoinstitute.org/' target='_blank'>Nakamotoinstitute.org</a> <span class='yellow'>(Bitcoin educational resources)</span></li>
 	        
 	        <li class='links_list'><a href='https://sourceforge.net/projects/dfd-crypto-ticker/' target='_blank'>Raspberry PI Real-Time / Multi-Crypto Slideshow Price Ticker</a> <span class='yellow'>(a side project of mine)</span></li>
-	        
+	         <span class='yellow'>(DFD Cryptocoin Values website shortcut)</span>
 	        <li class='links_list'><a href='https://www.sec.gov/ICO' target='_blank'>SEC.gov ICO Awareness Site</a></li>
 	        
 	        <li class='links_list'><a href='https://txstreet.com/' target='_blank'>TxStreet.com</a> <span class='yellow'>(Blockchain Transaction Visualizer)</span></li>

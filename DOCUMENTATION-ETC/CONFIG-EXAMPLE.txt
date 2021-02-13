@@ -205,7 +205,7 @@ $app_config['general']['btc_primary_exchange'] = 'kraken';  // PUT INSIDE SINGLE
 $app_config['general']['primary_currency_decimals_max'] = 5; // Whole numbers only (represents number of decimals maximum to use)
 ////
 // Below what currency amount do we switch from 2 decimals, over to using the above 'primary_currency_decimals_max' setting
-$app_config['general']['primary_currency_decimals_max_threshold'] = 0.90; // Can be decimals, NO SYMBOLS, NUMBERS ONLY
+$app_config['general']['primary_currency_decimals_max_threshold'] = 1.00; // Can be decimals, NO SYMBOLS, NUMBERS ONLY
 
 
 // ENABLING CHARTS REQUIRES A CRON JOB SETUP (see README.txt for cron job setup information)
@@ -350,6 +350,13 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					'eth-15' => 'defipulse||btc||none',
 					
 					
+					// LRC
+					'lrc' => 'coinbase||usd||both',
+					'lrc-2' => 'binance||btc||chart',
+					'lrc-3' => 'binance||eth||none',
+					'lrc-4' => 'defipulse||eth||none',
+					
+					
 					// UNI
 					'uni' => 'binance||btc||both',
 					'uni-2' => 'defipulse||eth||none',
@@ -371,11 +378,10 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					'dai-4' => 'defipulse||usdc||none',
 					
 					
-					// LRC
-					'lrc' => 'coinbase||usd||both',
-					'lrc-2' => 'binance||btc||chart',
-					'lrc-3' => 'binance||eth||none',
-					'lrc-4' => 'defipulse||eth||none',
+					// KEEP
+					'keep' => 'kraken||btc||both',
+					'keep-2' => 'hitbtc||btc||chart',
+					'keep-3' => 'defipulse||eth||none',
 					
 					
 					// MANA
@@ -384,12 +390,6 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					'mana-3' => 'kucoin||btc||none',
 					'mana-4' => 'ethfinex||btc||none',
 					'mana-5' => 'binance||eth||none',
-					
-					
-					// KEEP
-					'keep' => 'kraken||btc||both',
-					'keep-2' => 'hitbtc||btc||chart',
-					'keep-3' => 'defipulse||eth||none',
 					
 					
 					// GLM
@@ -895,12 +895,6 @@ $app_config['power_user']['news_feeds'] = array(
             			"title" => "Blog - Open Node (Professional Bitcoin Ecommerce Merchant Services)",
             			"url" => "https://www.opennode.com/blog/feed/"
         						),
-    
-    
-        				array(
-            			"title" => "Blog - Raiden Network (Ethereum Layer 2)",
-            			"url" => "https://medium.com/feed/raiden-network"
-        						),
         
         
         				array(
@@ -1006,8 +1000,14 @@ $app_config['power_user']['news_feeds'] = array(
     
     
         				array(
-            			"title" => "Newsletter - Lightning Labs (Bitcoin Layer 2)",
+            			"title" => "Newsletter - Lightning Labs (Bitcoin Layer 2 Network)",
             			"url" => "https://lightninglabs.substack.com/feed"
+        						),
+    
+    
+        				array(
+            			"title" => "Newsletter - LoopRing (Ethereum Layer 2 Network)",
+            			"url" => "https://loopring.substack.com/feed"
         						),
     
     
@@ -2254,6 +2254,58 @@ $app_config['portfolio_assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
+                    // LRC
+                    'LRC' => array(
+                        
+                        'asset_name' => 'Loopring',
+                        'marketcap_website_slug' => 'loopring',
+                        'market_pairing' => array(
+                        
+                                    'btc' => array(
+                                        'binance' => 'LRCBTC',
+                                    	 'coinbase' => 'LRC-BTC',
+                                        'bittrex_global' => 'LRC-BTC',
+                                        'okex' => 'LRC-BTC',
+                                        'huobi' => 'lrcbtc',
+                                        'upbit' => 'BTC-LRC',
+                                        'bitfinex' => 'tLRCBTC',
+                                        'hitbtc' => 'LRCBTC',
+                                        'gateio' => 'LRC_BTC',
+                                        'coinex' => 'LRCBTC',
+                                                    ),
+                                                    
+                                    'eth' => array(
+                                        'binance' => 'LRCETH',
+                                        'okex' => 'LRC-ETH',
+                                        'huobi' => 'lrceth',
+                                        'hitbtc' => 'LRCETH',
+                                        'gateio' => 'LRC_ETH',
+                                        'coinex' => 'LRCETH',
+                                    	 'defipulse' => 'LRC/WETH||0x8878df9e1a7c87dcbf6d3999d997f262c05d8c70',
+                                                    ),
+                                                    
+                                    'usd' => array(
+                                    	 'coinbase' => 'LRC-USD',
+                                    	 'bitfinex' => 'tLRCUSD',
+                                                    ),
+                                                    
+                                    'usdt' => array(
+                                        'binance' => 'LRCUSDT',
+                                        'okex' => 'LRC-USDT',
+                                        'huobi' => 'lrcusdt',
+                                        'kucoin' => 'LRC-USDT',
+                                        'gateio' => 'LRC_USDT',
+                                        'wazirx' => 'lrcusdt',
+                                                    ),
+                                                    
+                                        ) // market_pairing END
+                                        
+                    ), // Asset END
+                    
+                    
+                    ////////////////////////////////////////////////////////////////////
+                    
+                    
                     // UNI
                     'UNI' => array(
                         
@@ -2404,52 +2456,33 @@ $app_config['portfolio_assets'] = array(
                     ////////////////////////////////////////////////////////////////////
                     
                     
-                    // LRC
-                    'LRC' => array(
+                    // KEEP
+                    'KEEP' => array(
                         
-                        'asset_name' => 'Loopring',
-                        'marketcap_website_slug' => 'loopring',
+                        'asset_name' => 'Keep Network',
+                        'marketcap_website_slug' => 'keep-network',
                         'market_pairing' => array(
                         
                                     'btc' => array(
-                                        'binance' => 'LRCBTC',
-                                    	 'coinbase' => 'LRC-BTC',
-                                        'bittrex_global' => 'LRC-BTC',
-                                        'okex' => 'LRC-BTC',
-                                        'huobi' => 'lrcbtc',
-                                        'upbit' => 'BTC-LRC',
-                                        'bitfinex' => 'tLRCBTC',
-                                        'hitbtc' => 'LRCBTC',
-                                        'gateio' => 'LRC_BTC',
-                                        'coinex' => 'LRCBTC',
+                                          'kraken' => 'KEEPXBT',
+                                          'hitbtc' => 'KEEPBTC',
                                                     ),
                                                     
                                     'eth' => array(
-                                        'binance' => 'LRCETH',
-                                        'okex' => 'LRC-ETH',
-                                        'huobi' => 'lrceth',
-                                        'hitbtc' => 'LRCETH',
-                                        'gateio' => 'LRC_ETH',
-                                        'coinex' => 'LRCETH',
-                                    	 'defipulse' => 'LRC/WETH||0x8878df9e1a7c87dcbf6d3999d997f262c05d8c70',
+                                        	'kraken' => 'KEEPETH',
+                                    	 	'defipulse' => 'KEEP/WETH||0xe6f19dab7d43317344282f803f8e8d240708174a',
+                                                    ),
+                                                    
+                                    'eur' => array(
+                                        	'kraken' => 'KEEPEUR',
                                                     ),
                                                     
                                     'usd' => array(
-                                    	 'coinbase' => 'LRC-USD',
-                                    	 'bitfinex' => 'tLRCUSD',
-                                                    ),
-                                                    
-                                    'usdt' => array(
-                                        'binance' => 'LRCUSDT',
-                                        'okex' => 'LRC-USDT',
-                                        'huobi' => 'lrcusdt',
-                                        'kucoin' => 'LRC-USDT',
-                                        'gateio' => 'LRC_USDT',
-                                        'wazirx' => 'lrcusdt',
+                                        	'kraken' => 'KEEPUSD',
                                                     ),
                                                     
                                         ) // market_pairing END
-                                        
+                        
                     ), // Asset END
                     
                     
@@ -2498,39 +2531,6 @@ $app_config['portfolio_assets'] = array(
                                     'usdt' => array(
                                           'hitbtc' => 'MANAUSD',
                                           'okex' => 'MANA-USDT',
-                                                    ),
-                                                    
-                                        ) // market_pairing END
-                        
-                    ), // Asset END
-                    
-                    
-                    ////////////////////////////////////////////////////////////////////
-                    
-                    
-                    // KEEP
-                    'KEEP' => array(
-                        
-                        'asset_name' => 'Keep Network',
-                        'marketcap_website_slug' => 'keep-network',
-                        'market_pairing' => array(
-                        
-                                    'btc' => array(
-                                          'kraken' => 'KEEPXBT',
-                                          'hitbtc' => 'KEEPBTC',
-                                                    ),
-                                                    
-                                    'eth' => array(
-                                        	'kraken' => 'KEEPETH',
-                                    	 	'defipulse' => 'KEEP/WETH||0xe6f19dab7d43317344282f803f8e8d240708174a',
-                                                    ),
-                                                    
-                                    'eur' => array(
-                                        	'kraken' => 'KEEPEUR',
-                                                    ),
-                                                    
-                                    'usd' => array(
-                                        	'kraken' => 'KEEPUSD',
                                                     ),
                                                     
                                         ) // market_pairing END
