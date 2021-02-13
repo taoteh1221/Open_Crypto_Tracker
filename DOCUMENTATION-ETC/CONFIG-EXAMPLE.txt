@@ -205,7 +205,7 @@ $app_config['general']['btc_primary_exchange'] = 'kraken';  // PUT INSIDE SINGLE
 $app_config['general']['primary_currency_decimals_max'] = 5; // Whole numbers only (represents number of decimals maximum to use)
 ////
 // Below what currency amount do we switch from 2 decimals, over to using the above 'primary_currency_decimals_max' setting
-$app_config['general']['primary_currency_decimals_max_threshold'] = 0.70; // Can be decimals, NO SYMBOLS, NUMBERS ONLY
+$app_config['general']['primary_currency_decimals_max_threshold'] = 0.90; // Can be decimals, NO SYMBOLS, NUMBERS ONLY
 
 
 // ENABLING CHARTS REQUIRES A CRON JOB SETUP (see README.txt for cron job setup information)
@@ -353,6 +353,8 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					// UNI
 					'uni' => 'binance||btc||both',
 					'uni-2' => 'defipulse||eth||none',
+					'uni-3' => 'binance||usdt||none',
+					'uni-4' => 'coinbase||usd||none',
 					
 					
 					// MKR
@@ -370,8 +372,10 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					
 					
 					// LRC
-					'lrc' => 'coinbase||btc||both',
+					'lrc' => 'coinbase||usd||both',
 					'lrc-2' => 'binance||btc||chart',
+					'lrc-3' => 'binance||eth||none',
+					'lrc-4' => 'defipulse||eth||none',
 					
 					
 					// MANA
@@ -379,6 +383,7 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 					'mana-2' => 'binance||btc||both',
 					'mana-3' => 'kucoin||btc||none',
 					'mana-4' => 'ethfinex||btc||none',
+					'mana-5' => 'binance||eth||none',
 					
 					
 					// KEEP
@@ -2412,6 +2417,7 @@ $app_config['portfolio_assets'] = array(
                                         'bittrex_global' => 'LRC-BTC',
                                         'okex' => 'LRC-BTC',
                                         'huobi' => 'lrcbtc',
+                                        'upbit' => 'BTC-LRC',
                                         'bitfinex' => 'tLRCBTC',
                                         'hitbtc' => 'LRCBTC',
                                         'gateio' => 'LRC_BTC',
