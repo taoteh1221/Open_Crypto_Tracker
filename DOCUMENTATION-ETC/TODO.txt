@@ -26,6 +26,9 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+Note in README and website in the raspi area, about it's the recommended way to use this app (on an internal / home network) for maximum privacy / cheap hosting.
+
+
 Add defipulse 'preferred platform' config in power user section, which falls back to ANY highest volume / liquidity platform's market if no market is found for the preferred platform.
 
 

@@ -4266,6 +4266,21 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 
 
+-------------------------------------------------------------------
+4.24.2:
+
+-Bug fix for purging stale price chart admin configurations from UI data
+
+-Revised default config
+
+-Misc UX
+
+-------------------------------------------------------------------
+
+
+
+
+
 
 
 

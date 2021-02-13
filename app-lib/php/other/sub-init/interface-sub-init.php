@@ -103,11 +103,23 @@ $show_feeds = explode(',', rtrim( ( $_POST['show_feeds'] != '' ? $_POST['show_fe
 		$scan_charts = array_map('strip_underscore_and_after', $scan_charts); // Strip underscore, and everything after
 		$loop = 0;
 		foreach ($scan_charts as $market_key) {
+			
 			// IF asset exists in charts app config, AND $show_charts UI key format is latest iteration (fiat conversion charts USED TO have no underscore)
 			if ( array_key_exists($market_key, $app_config['charts_alerts']['tracked_markets']) && stristr($show_charts[$loop], '_') ) {
-			$temp_show_charts[$loop] = $show_charts[$loop];
+				
+			$chart_params = explode('_', strip_brackets($show_charts[$loop]) );
+			
+			$chart_config_check = explode('||', $app_config['charts_alerts']['tracked_markets'][$market_key]);
+				
+				// If pairing properly matches OR it's a conversion chart, we're good to keep this $show_charts array value 
+				if ( $chart_params[1] == $chart_config_check[1] || $chart_params[1] == $app_config['general']['btc_primary_currency_pairing'] ) {
+				$temp_show_charts[$loop] = $show_charts[$loop];
+				}
+				
 			}
+			
 		$loop = $loop + 1;
+		
 		}
 		$show_charts = $temp_show_charts;
 		$implode_charts = implode(',', $show_charts) . ',';
