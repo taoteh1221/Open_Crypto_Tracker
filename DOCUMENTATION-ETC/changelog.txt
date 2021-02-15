@@ -4275,6 +4275,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Optimized / revised default config
 
+-Revised resources page content
+
 -Misc UX
 
 -------------------------------------------------------------------
