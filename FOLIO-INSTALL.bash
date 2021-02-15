@@ -689,7 +689,7 @@ echo " "
 
 
 echo "Do you want this script to automatically download the latest version of"
-echo "DFD Cryptocoin Values from Github.com, and install / configure it?"
+echo "DFD Cryptocoin Values (Server Edition) from Github.com, and install / configure it?"
 echo " "
 
 echo "Select 1, 2, or 3 to choose whether to auto-install / remove DFD Cryptocoin Values (Server Edition), or skip."
