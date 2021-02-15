@@ -1335,6 +1335,53 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
  ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+ // https://github.com/Loopring/protocols/wiki/Loopring-Exchange-Data-API
+ 
+  elseif ( strtolower($chosen_exchange) == 'loopring' ) {
+ 
+     
+     $json_string = 'https://api3.loopring.io/api/v3/allTickers';
+     
+     $jsondata = @external_api_data('url', $json_string, $app_config['power_user']['last_trade_cache_time']);
+     
+     $data = json_decode($jsondata, true);
+     
+     
+       	if ( substr($market_id, 0, 4) == "AMM-" ) {
+     		$data = $data['pools'];
+       	}
+       	else {
+     		$data = $data['markets'];
+       	}
+         
+  
+      if (is_array($data) || is_object($data)) {
+  
+       foreach ($data as $key => $value) {
+       	
+         if ( $key == $market_id ) {
+          
+         $result = array(
+    						'last_trade' => $value["last_price"],
+    						'24hr_asset_volume' => $value["base_volume"],
+    						'24hr_pairing_volume' => $value["quote_volume"]
+    						);
+
+         }
+       
+     
+       }
+      
+      }
+  
+  
+  }
+ 
+ 
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 
   elseif ( strtolower($chosen_exchange) == 'luno' ) {
      

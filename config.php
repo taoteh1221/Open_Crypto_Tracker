@@ -62,7 +62,8 @@ $app_config['comms']['to_email'] = ''; // #MUST BE SET# for price alerts and oth
 // CAN BE BLANK (PHP's built-in mail function will be automatically used to send email instead)
 $app_config['comms']['smtp_login'] = ''; //  CAN BE BLANK. This format MUST be used: 'username||password'
 ////
-// Examples: 'example.com:25' (non-encrypted), 'example.com:465' (ssl-encrypted), 'example.com:587' (tls-encrypted)
+// SMTP Server examples (protocol auto-detected / used based off port number): 
+// 'example.com:25' (non-encrypted), 'example.com:465' (ssl-encrypted), 'example.com:587' (tls-encrypted)
 $app_config['comms']['smtp_server'] = ''; // CAN BE BLANK. This format MUST be used: 'domain_or_ip:port_number' 
 
 
@@ -600,9 +601,9 @@ $app_config['power_user']['crypto_pairing'] = array(
 						// Native chains...
 						'eth' => 'Ξ ',
 						// Liquidity pools / ERC-20 tokens on Ethereum, etc etc...
+						'lrc' => '➰ ',
 						'uni' => '🦄 ',
 						'mkr' => '𐌼 ',
-						'lrc' => '➰ ',
 						//....
 							);
 
@@ -617,9 +618,9 @@ $app_config['power_user']['crypto_pairing'] = array(
 $app_config['power_user']['crypto_pairing_preferred_markets'] = array(
 						//'lowercase_btc_market_or_stablecoin_pairing' => 'PREFERRED_MARKET',
 							'eth' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
+							'lrc' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							'uni' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							'mkr' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
-							'lrc' => 'binance',  // WAY MORE volume , WAY BETTER price discovery than ALL alternatives
 							);
 
 
@@ -1798,6 +1799,7 @@ $app_config['portfolio_assets'] = array(
                                                     
                                     'eth' => array(
                                           'localbitcoins' => 'ETH',
+                                        	'loopring' => 'AMM-WBTC-ETH',
                                     	 	'defipulse' => 'WBTC/WETH',
                                                     ),
                                                     
@@ -2150,6 +2152,7 @@ $app_config['portfolio_assets'] = array(
                                           'kraken' => 'ETHDAI',
                                         	'kucoin' => 'ETH-DAI',
                                           'hitbtc' => 'ETHDAI',
+                                        	'loopring' => 'AMM-ETH-DAI',
                                     	 	'defipulse' => 'WETH/DAI',
                                                     ),
                                                     
@@ -2232,6 +2235,7 @@ $app_config['portfolio_assets'] = array(
                                           'upbit' => 'USDT-ETH',
                                        	'kucoin' => 'ETH-USDT',
                                           'okex' => 'ETH-USDT',
+                                          'loopring' => 'AMM-ETH-USDT',
                                           'poloniex' => 'USDT_ETH',
                                           'bitbns' => 'ETHUSDT',
                                           'wazirx' => 'ethusdt',
@@ -2242,6 +2246,7 @@ $app_config['portfolio_assets'] = array(
                                           'coinbase' => 'ETH-USDC',
                                           'kraken' => 'ETHUSDC',
                                           'kucoin' => 'ETH-USDC',
+                                          'loopring' => 'AMM-ETH-USDC',
                                           'poloniex' => 'USDC_ETH',
                                                     ),
                                                     
@@ -2281,6 +2286,7 @@ $app_config['portfolio_assets'] = array(
                                         'huobi' => 'lrcbtc',
                                         'upbit' => 'BTC-LRC',
                                         'bitfinex' => 'tLRCBTC',
+                                        'loopring' => 'AMM-LRC-WBTC',
                                         'hitbtc' => 'LRCBTC',
                                         'gateio' => 'LRC_BTC',
                                         'coinex' => 'LRCBTC',
@@ -2290,6 +2296,7 @@ $app_config['portfolio_assets'] = array(
                                         'binance' => 'LRCETH',
                                         'okex' => 'LRC-ETH',
                                         'huobi' => 'lrceth',
+                                        'loopring' => 'LRC-ETH',
                                         'hitbtc' => 'LRCETH',
                                         'gateio' => 'LRC_ETH',
                                         'coinex' => 'LRCETH',
@@ -2306,6 +2313,7 @@ $app_config['portfolio_assets'] = array(
                                         'okex' => 'LRC-USDT',
                                         'huobi' => 'lrcusdt',
                                         'kucoin' => 'LRC-USDT',
+                                        'loopring' => 'LRC-USDT',
                                         'gateio' => 'LRC_USDT',
                                         'wazirx' => 'lrcusdt',
                                                     ),
@@ -2330,6 +2338,7 @@ $app_config['portfolio_assets'] = array(
                                                     ),
                                                     
                                     'eth' => array(
+                                        'loopring' => 'AMM-UNI-ETH',
                                     	 'defipulse' => 'UNI/WETH',
                                                     ),
                                                     
@@ -2379,6 +2388,7 @@ $app_config['portfolio_assets'] = array(
                                         	'kucoin' => 'MKR-ETH',
                                           'okex' => 'MKR-ETH',
                                           'bitfinex' => 'tMKRETH',
+                                        	'loopring' => 'AMM-MKR-ETH',
                                         	'hitbtc' => 'MKRETH',
                                           'gateio' => 'MKR_ETH',
                                     	 	'defipulse' => 'MKR/WETH',
@@ -2457,6 +2467,7 @@ $app_config['portfolio_assets'] = array(
                                     	 'kraken' => 'DAIUSDT',
                                         'bittrex' => 'DAI-USDT',
                                         'okex' => 'DAI-USDT',
+                                        'loopring' => 'DAI-USDT',
                                     	 'defipulse' => 'DAI/USDT',
                                                     ),
                                                     
@@ -2482,6 +2493,7 @@ $app_config['portfolio_assets'] = array(
                                                     
                                     'eth' => array(
                                         	'kraken' => 'KEEPETH',
+                                        	'loopring' => 'AMM-KEEP-ETH',
                                     	 	'defipulse' => 'KEEP/WETH||0xe6f19dab7d43317344282f803f8e8d240708174a',
                                                     ),
                                                     
@@ -2698,6 +2710,7 @@ $app_config['portfolio_assets'] = array(
                                           'bittrex' => 'ENJ-ETH',
                                           'hitbtc' => 'ENJETH',
                                           'kucoin' => 'ENJ-ETH',
+                                        	'loopring' => 'AMM-ENJ-ETH',
                                     	 	'defipulse' => 'ENJ/WETH',
                                                     ),
                                                     

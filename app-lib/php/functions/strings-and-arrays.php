@@ -344,6 +344,7 @@ $pretty_string = preg_replace("/swap/i", 'Swap', $pretty_string);
 $pretty_string = preg_replace("/iearn/i", 'iEarn', $pretty_string);
 $pretty_string = preg_replace("/pulse/i", 'Pulse', $pretty_string);
 $pretty_string = preg_replace("/defi/i", 'DeFi', $pretty_string);
+$pretty_string = preg_replace("/ring/i", 'Ring', $pretty_string);
 
 return trim($pretty_string);
 

@@ -4271,7 +4271,9 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Bug fix for purging stale price chart admin configurations from UI data
 
--Revised default config
+-Added LoopRing exchange API support / demo markets
+
+-Optimized / revised default config
 
 -Misc UX
 
