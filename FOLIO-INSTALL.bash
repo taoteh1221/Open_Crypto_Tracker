@@ -657,6 +657,8 @@ EOF
         echo "Removing PHP web server, please wait..."
         echo " "
         
+        # WE USE --purge TO REMOVE ANY MISCONFIGURATIONS, IN CASE SOMEBODY IS TRYING A UN-INSTALL / RE-INSTALL TO FIX THINGS
+        
 		  # !!!RUN FIRST!!! PHP FPM (fcgi) version $PHP_FPM_VER, run SEPERATE in case it fails from package not found
         REMOVE_FPM_VER="--purge remove php${PHP_FPM_VER}-fpm -y"
         

@@ -26,13 +26,31 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+Run exchange / pairings list debug mode, to copy / paste into README and web page documentation.
+
+
+New screen shots for Asset Performance chart / new portfolio summary area.
+
+
 Note in README and website in the raspi area, about it's the recommended way to use this app (on an internal / home network) for maximum privacy / cheap hosting.
 
 
-Add defipulse 'preferred platform' config in power user section, which falls back to ANY highest volume / liquidity platform's market if no market is found for the preferred platform.
-
-
 Do an info bubble for import / export spreadsheets, include 'pro tip' of saving long / short term holdings to separate spreadsheets for separate tracking.
+
+
+Make sure all currency markets are added FOR ALL SUPPORTED EXCHANGES.
+
+
+Review Help FAQ, and config.php settings documentation.
+
+
+Think over what other "faq" entries would be helpful.
+
+
+Make sure everything runs smoothly with the charts page turned off.
+
+
+Write debugging tests for rss feeds.
 
 
 Consolidate number_to_string() calls, to speed up runtime.
@@ -41,55 +59,19 @@ Consolidate number_to_string() calls, to speed up runtime.
 Consider moving the error log alerts for "email not configured" under the new "notify" category (which avoids duplicate messages).
 
 
-Think over what others "faq" entries would be helpful.
+Add power failure corruption checks (like chart price data has), to system charts and price alerts file cache data.
 
 
 Look into laptop touchscreen zingchart js error on Ubuntu 20.04 / Chrome, when hiding / showing assets in performance chart (but is fine on Ubuntu 20.04 / Chrome on desktop). IT DOESN'T SEEM TO BE MY CODE, SO REPORT IT TO THE ZINGCHART TEAM.
 
 
-New screen shots for Asset Performance chart / new portfolio summary area.
-
-
-Make sure everything runs smoothly with the charts page turned off.
-
-
-Add power failure corruption checks (like chart price data has), to system charts and price alerts file cache data.
-
-
-Look into adding https://1inch.exchange/#/ to DeFi APIs.
-
-
-Add BTSE API: https://api.btse.com/spot/api/v3.2/market_summary
-
-
-Add bithumb API
-
-
-Check out cryptocompare.com API.
-
-
-Add localcryptos API support whenever their API is out of private testing.
-
-
-Write debugging tests for rss feeds.
-
-
 Use new internal api function calls as much as possible for the tests logic we had already built.
-
-
-See if exchange API data arrays can be manipulated slightly to build a reusable module for every exchange's API calls.
 
 
 Check optimization by enabling "telemetry" debug mode, and reviewing debugging logs.
 
 
 Check log formatting for every debug mode.
-
-
-Make sure all currency markets are added ONLY FOR MAJOR EXCHANGES (ALREADY DID THIS FOR KRAKEN).
-
-
-Review Help FAQ, and config.php settings documentation.
 
 
 Cross-browser test RTL (right to left) effects from middle eastern currency symbols being injected into the interface output for those currencies
@@ -113,49 +95,82 @@ FEATURES / STRUCTURING SECTION
 ///////////////////////////////////////////////////////
 
 
-On 'more stats' page, have an 'arbitrage chart' with default showing BTC / All pairing's markets, with USD conversion. Make it a bar chart, based off the marketcap chart template. Have 3 drop-down menus: Asset, Pairing (with an All option), Primary Currency (conversion). Looping through asset pairings / markets should be a straight forward algo that does the job.
+Look into adding https://1inch.exchange/#/ to DeFi APIs.
+
+
+Add BTSE API: https://api.btse.com/spot/api/v3.2/market_summary
+
+
+Add bithumb API
+
+
+Check out cryptocompare.com API.
+
+
+Add localcryptos API support whenever their API is out of private testing.
+
+
+Build tool that finds localbitcoins markets not added yet
+
+
+Add twilio.com and clicksend.com mobile text messaging support
+
+
+Add defipulse 'preferred platform' config in power user section, which falls back to ANY highest volume / liquidity platform's market if no market is found for the preferred platform.
+
+
+When any system stats on the system charts page are red-colored because they are 'redlined', have the "admin config - quick links" link be red with a red info icon / bubble next to it (explaining what's wrong, and to visit the system stats link for more information).
 
 
 Store visitor access data in A SEPERATE flat file / json format PER IP ADDRESS (so mulitiple values can be read back into the app before updating, then updated values saved back in json overwriting previously saved values, BUT AVOIDS MULTIPLE IP ADDRESES OVERWRITING SAME DATA). Last X unique ip addresses (as a power user config setting), showing ip address's last user agent / last visit time (AND HISTORY OF DIFFERENT USER AGENTS / LAST VISITS) / total visits count. Drop any over X ip addresses off the list based on oldest LAST VISIT timestamps. Store visitor data (user agent, etc) in a SECURED CACHE filename based off MD5 HASH of ip address. INITIAL BUILDOUT SHOULD ONLY BE FOR 'ui' RUNTIME DATA ONLY.
 
 
-Do a gains pie chart and a separate losses pie chart for the gains / losses summary (tooltip, like balance stats chart).
+Add a "Reset lite charts" button on the admin 'Reset' page, to trigger rebuilding lite charts.
 
 
-Add market stats summaries from chart data, like pie charts for exchange volume on certain pairs, etc (on 'view more stats' page).
-
-
-Look into X day moving average overlay for charts.
-
-
-Store the php timeout as a cached var, and compare the CACHED app config to it at runtime. If they differ from each other, delete the root htaccess and user.ini files to trigger recreating them with an updated php timeout. Also make sure the php timeout setting and updating logic / functions are using the CACHED app config.
+See if exchange API data arrays can be manipulated slightly to build a reusable module for every exchange's API calls.
 
 
 Fully include all leverage in all portfolio summaries, with "(X% leverage)" next to each summary.
 
 
-Create a cron plugin to let you know when a raw market value has gone below / above a certain exact value at a specific exchange (good for knowing when / if your order fills). Allow unlimited assets (same logic type as the recurring reminders plugin).
+Store the php timeout as a cached var, and compare the CACHED app config to it at runtime. If they differ from each other, delete the root htaccess and user.ini files to trigger recreating them with an updated php timeout. Also make sure the php timeout setting and updating logic / functions are using the CACHED app config.
 
 
-Add a "Reset lite charts" button on the admin 'Reset' page, to trigger rebuilding lite charts.
+Add google home support via direct connect on same network, OR via IFTTT (whichever is most feasible).
 
 
-Add "Save settings first?" to admin config pages, if switching tabs / exiting admin config area (like gmail does).
+Add IFTTT support (alexa / google home / whatever supported devices).
+
+
+On 'more stats' page, have a 'market comparison stats' chart for arbitrage on one asset (picked from dropdown menu), with default showing BTC / All pairing's markets, with USD conversion. Make it a bar chart, based off the marketcap chart template. Have 3 drop-down menus: Asset, Pairing (with an All option), Primary Currency (conversion). Looping through asset pairings / markets should be a straight forward algo that does the job.
+
+
+Do a gains / losses bar chart for the gains / losses summary (tooltip, like balance stats chart).
+
+
+Add market stats summaries from chart data, like bar charts for exchange volume on certain assets / pairs (on 'view more stats' page).
+
+
+Look into X day moving average overlay for price charts.
+
+
+2-way JAVASCRIPT encryption option (unlocked with 6 digit PIN) for showing holdings amounts IN THE GUI (IN COOKIES ONLY, NO DATABASE STORAGE !EVER!), with "quick lock" to quickly re-hide portfolio data (staying hidden persists on page load / reload as well with a cookie).
 
 
 Option to use new zip file encryption password feature to encrypt portfolio spreadsheet exports when downloading exported portfolio data (with password entered in the UI, #NOT# $app_config['general']['backup_archive_password']).
 
 
-Give plugins a dedicated admin page (if any are activated).
+Add Google and Microsoft translate API as options to translate the portfolio interface and price alerts.
 
 
-Create "Export your feeds" link on News page, to XML / JSON format file download (like exporting portfolio logic).
+Wrap all interface English within a "placeholder" lang_translate() function call. Then from a developer perspective you can still fully see the interface logic, and build out translation logic over time later. 
 
 
 For each category_key => category_value loop app config, to automate categorizing new admin settings tabs...selects for arrays, text fields for strings. Maybe certain key names get checkbox / radio button fields.
 
 
-On admin config tabs, add logic to have onchange update a tracking value FOR THAT TAB ONLY, so if a user changes a setting and DOESN'T SAVE IT AND CLICKS ANOTHER TAB / LINK they get an alert to confirm leaving the tab without saving their changes.
+On admin config tabs, add logic to have onchange update a tracking value FOR THAT TAB ONLY, so if a user changes a setting and DOESN'T SAVE IT AND CLICKS ANOTHER SECTION / TAB / LINK they get an alert to confirm leaving the tab without saving their changes. Include on exiting admin config area (returning to portfolio page / closing tab).
 
 
 Once an admin interface is fully built out, permanently switch out the app config upgrade logic for our new logic (already built, just enable in secured cache logic).
@@ -167,13 +182,22 @@ Add force reset logic for app config, if cached app version number is non-existe
 On admin config reset tab, have "reset app config to default settings" button (with js confirm alert when pushed) that refreshes ALL the cached app_config from config.php settings.
 
 
-Admin import / export of settings (consider security implications CAREFULLY...maybe include an optional checkbox to encrypt to zip file with our new zip encryption feature).
+Admin import / export of settings (consider security implications CAREFULLY...include an optional / mandatory checkbox to encrypt to zip file with our new zip encryption feature).
 
 
 When cached app config is independent of config.php updating-wise, use the show / hide link to have an optional email field on the admin registration page, and mention it enables password resetting via email.
 
 
 Add admin settings feature to restore chart data from the zip archive backups (with admin authentication ONLY). Chart restore by prepending, so any existing data remains, BUT only if timestamp is newer than newest backups timestamp. Trigger restore from newest backups folder backup by placing a blank file named RESTORE_CHARTS in the queue directory.
+
+
+Once the admin UI is complete, create a "Desktop Edition" using PHPDesktop (https://github.com/cztomczak/phpdesktop/wiki), so it can easily be downloaded / run locally as a native app...SUPER IMPORTANT FOR MASS USER ADOPTION!!!
+
+
+Create help page modal for explanations on all config.php settings. Then we can run this through the upcoming lang_translate() function.
+
+
+Look into an auto-update feature like WordPress has (downloads a zip file upgrade, and exctracts it overwriting the old app files).
 
 
 Add additional ability to do telegram webhooks, to query asset prices at different exchanges through telegram chat with the chat bot. Example: "/price ETH/USDT @ Binance"
@@ -185,43 +209,13 @@ Documentation for Webhook features
 Add webhook keys on admin page.
 
 
-Create a "Desktop Edition" using PHPDesktop (https://github.com/cztomczak/phpdesktop/wiki), so it can easily be downloaded / run locally as a native app...SUPER IMPORTANT FOR MASS USER ADOPTION!!!
+Give plugins a dedicated admin page (if any are activated), for UI settings etc.
 
 
-Mail trading notes to admin email, only if user logged in as admin.
+Create a cron plugin to let you know when a raw market value has gone below / above a certain exact value at a specific exchange (good for knowing when / if your order fills). Allow unlimited assets (same logic type as the recurring reminders plugin).
 
 
-Add google home support via direct connect on same network, OR via IFTTT (whichever is most feasible).
-
-
-Add IFTTT support (alexa / google home / whatever supported devices).
-
-
-Look into an auto-update feature like WordPress has (downloads a zip file upgrade, and exctracts it overwriting the old app files).
-
-
-Add Google and Microsoft translate API as options to translate the portfolio interface and price alerts.
-
-
-Wrap all interface English within a "placeholder" lang_translate() function call. Then from a developer perspective you can still fully see the interface logic, and build out translation logic over time later. 
-
-
-Create help page modal for explanations on all config.php settings. Then we can run this through the upcoming lang_translate() function.
-
-
-Build tool that finds localbitcoins markets not added yet
-
-
-Add twilio.com and clicksend.com mobile text messaging support
-
-
-Add drop-down menu feature next to "Save Updated Portfolio" buttons for "save as": cookie data | session data | only post data.
-
-
-2-way encryption option (unlocked with 6 digit PIN) for storing coin amounts (IN COOKIES ONLY, NO DATABASE STORAGE !EVER!), with "quick lock" to quickly re-hide portfolio data (staying hidden persists on page load / reload as well with a cookie).
-
-
-Simple trading bot, to run from cron / cli (with SQL-based admin authentication / web UI for configuration)
+Simple trading bot, to run as a cron plugin (with web UI for configuration / stats / etc)
 
 
 ///////////////////////////////////////////////////////
@@ -231,6 +225,15 @@ Simple trading bot, to run from cron / cli (with SQL-based admin authentication 
 ///////////////////////////////////////////////////////
 MAYBE SECTION
 ///////////////////////////////////////////////////////
+
+
+Add drop-down menu feature next to "Save Updated Portfolio" buttons for "save as": cookie data | only post data.
+
+
+Mail trading notes to admin email, only if user logged in as admin.
+
+
+Create "Export your feeds" link on News page, to XML / JSON format file download (like exporting portfolio logic).
 
 
 In debug mode, maybe add our new 'used ram' stat instead (that doesn't include buffers / cached ram).
