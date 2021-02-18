@@ -650,7 +650,7 @@ min-width: 1200px;
 }
 
 
-#system_stats {
+#admin_config_quick_links {
 display: none;
 position: relative;
 float: right;
@@ -661,7 +661,7 @@ font-size: 13px;
 }
 
 
-#system_stats fieldset {
+#admin_config_quick_links fieldset {
 padding-top: 0px;
 padding-bottom: 12px;
 padding-left: 18px;
@@ -671,7 +671,7 @@ border: 1px solid #dd7c0d;
 }
 
 
-#system_stats fieldset legend {
+#admin_config_quick_links fieldset legend {
 padding: 4px;
 font-size: 13px;
 }
@@ -710,7 +710,7 @@ padding: 6px;
 }
 
 
-#alert_source, #percent_change_amount, #percent_change_filter, #percent_change_time, #percent_change_alert_type, #show_chart_settings, #show_feed_settings, #show_portfolio_stats, #show_system_charts, #show_access_stats, #show_logs, #coins_table {
+#alert_source, #percent_change_amount, #percent_change_filter, #percent_change_time, #percent_change_alert_type, #show_chart_settings, #show_feed_settings, #show_portfolio_stats, #show_system_stats, #show_access_stats, #show_logs, #coins_table {
 display: none;
 }
 

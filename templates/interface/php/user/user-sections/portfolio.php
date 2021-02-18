@@ -1383,8 +1383,8 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 
 
 		
-	<!-- System stats (if enabled and logged in) -->
-	<div id='system_stats' class='align_left'>
+	<!-- Admin Config - Quick Links (if we are admin logged in) -->
+	<div id='admin_config_quick_links' class='align_left'>
 	
 	<?php
 			// If hardware / software stats are enabled, display the os / hardware / load avg / temperature / free partition space / free memory [mb/percent] / portfolio cache size / software stats
@@ -1394,13 +1394,13 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 		<fieldset><legend> <strong class="bitcoin">Admin Config - Quick Links</strong> </legend>
     		
     		
-    		<b><a href="javascript: return false;" class="show_system_charts blue" title="View System Charts">System Charts</a></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    		<b><a href="javascript: return false;" class="show_system_stats blue" title="View System Statistics">System Stats</a></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
     		
 
     		<b><a href="javascript: return false;" class="show_access_stats blue" title="View Access Statistics">Access Stats</a></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
     		
 
-    		<b><a href="javascript: return false;" class="show_logs blue" title="View Logs">App Logs</a></b>
+    		<b><a href="javascript: return false;" class="show_logs blue" title="View App Logs">App Logs</a></b>
  
     		
 		</fieldset>
@@ -1422,7 +1422,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 	?>
 	
 	<style>
-	.show_coin_values, #system_stats, #coins_table {
+	.show_coin_values, #admin_config_quick_links, #coins_table {
 	display: block;
 	}
 	</style>
@@ -1470,10 +1470,10 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
     	if ( isset($_SESSION['admin_logged_in']) ) {
     ?>
 	
-	<div id="show_system_charts">
+	<div id="show_system_stats">
 	
 		
-		<h3 style='display: inline;'>System Charts</h3>
+		<h3 style='display: inline;'>System Stats</h3>
 	
 				<span style='z-index: 99999; margin-right: 55px;' class='red countdown_notice'></span>
 	
@@ -1612,9 +1612,9 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 	
 	
 	<script>
-	$('.show_system_charts').modaal({
+	$('.show_system_stats').modaal({
 		fullscreen: true,
-		content_source: '#show_system_charts'
+		content_source: '#show_system_stats'
 	});
 	</script>
 	

@@ -222,7 +222,7 @@ function app_reload() {
 $(".show_chart_settings").modaal("close");
 $(".show_feed_settings").modaal("close");
 $(".show_portfolio_stats").modaal("close");
-$(".show_system_charts").modaal("close");
+$(".show_system_stats").modaal("close");
 $(".show_access_stats").modaal("close");
 $(".show_logs").modaal("close");
 

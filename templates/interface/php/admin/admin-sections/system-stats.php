@@ -8,7 +8,7 @@
 
 <div class='full_width_wrapper'>
 	
-				<h3 class='align_center'>System Charts</h3>
+				<h3 class='align_center'>System Stats</h3>
 				
 	
     <div style='margin-bottom: 30px;'><?php

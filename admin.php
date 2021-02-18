@@ -74,7 +74,7 @@ require("templates/interface/php/header.php");
 			<a class="nav-link admin_change_width" data-toggle="tab" data-width="fixed_max" href="#admin_webook" role="tab" aria-controls="admin_webook">Webhook</a>
 		  </li>
 		  <li class="nav-item">
-			<a class="nav-link admin_change_width" data-toggle="tab" data-width="full" href="#system_charts" role="tab" aria-controls="system_charts">System Charts</a>
+			<a class="nav-link admin_change_width" data-toggle="tab" data-width="full" href="#system_stats" role="tab" aria-controls="system_stats">System Stats</a>
 		  </li>
 		  <li class="nav-item">
 			<a class="nav-link admin_change_width" data-toggle="tab" data-width="full" href="#access_stats" role="tab" aria-controls="access_stats">Access Stats</a>
@@ -133,8 +133,8 @@ require("templates/interface/php/header.php");
 			<?php require("templates/interface/php/admin/admin-sections/webhook.php"); ?>
 		  </div>
 		  
-		  <div class="tab-pane" id="system_charts" role="tabpanel">
-			<?php require("templates/interface/php/admin/admin-sections/system-charts.php"); ?>
+		  <div class="tab-pane" id="system_stats" role="tabpanel">
+			<?php require("templates/interface/php/admin/admin-sections/system-stats.php"); ?>
 		  </div>
 		  
 		  <div class="tab-pane" id="access_stats" role="tabpanel">
