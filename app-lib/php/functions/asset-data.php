@@ -1316,21 +1316,21 @@ $volume_pairing_raw = number_to_string($volume_pairing_raw);
    	
       // Check for a file modified time !!!BEFORE ANY!!! file creation / updating happens (to calculate time elapsed between updates)
         
-      $last_check_days = ( time() - filemtime('cache/alerts/'.$asset_data.'.dat') ) / 86400;
-    	$last_check_days = number_to_string($last_check_days); // Better decimal support for whale alerts etc
+      $last_cached_days = ( time() - filemtime('cache/alerts/'.$asset_data.'.dat') ) / 86400;
+    	$last_cached_days = number_to_string($last_cached_days); // Better decimal support for whale alerts etc
        
        
-        		  if ( $last_check_days >= 365 ) {
-        		  $last_check_time = number_format( ($last_check_days / 365) , 2, '.', ',') . ' years';
+        		  if ( $last_cached_days >= 365 ) {
+        		  $last_cached_time = number_format( ($last_cached_days / 365) , 2, '.', ',') . ' years';
         		  }
-        		  elseif ( $last_check_days >= 30 ) {
-        		  $last_check_time = number_format( ($last_check_days / 30) , 2, '.', ',') . ' months';
+        		  elseif ( $last_cached_days >= 30 ) {
+        		  $last_cached_time = number_format( ($last_cached_days / 30) , 2, '.', ',') . ' months';
         		  }
-        		  elseif ( $last_check_days >= 7 ) {
-        		  $last_check_time = number_format( ($last_check_days / 7) , 2, '.', ',') . ' weeks';
+        		  elseif ( $last_cached_days >= 7 ) {
+        		  $last_cached_time = number_format( ($last_cached_days / 7) , 2, '.', ',') . ' weeks';
         		  }
         		  else {
-        		  $last_check_time = number_format($last_check_days, 2, '.', ',') . ' days';
+        		  $last_cached_time = number_format($last_cached_days, 2, '.', ',') . ' days';
         		  }
        
         
@@ -1376,10 +1376,10 @@ $volume_pairing_raw = number_to_string($volume_pairing_raw);
               
               
                 // WE ONLY WANT PRICE CHANGE PERCENT AS AN ABSOLUTE VALUE HERE, ALL OTHER VALUES SHOULD BE ALLOWED TO BE NEGATIVE IF THEY ARE NEGATIVE
-                if ( $last_check_days <= $whale_max_days_to_24hr_average_over 
-                && number_to_string($percent_change / $last_check_days) >= $whale_min_price_percent_change_24hr_average 
-                && number_to_string($volume_change_symbol . $volume_percent_change / $last_check_days) >= $whale_min_volume_percent_increase_24hr_average 
-                && number_to_string( ($volume_primary_currency_raw - $cached_primary_currency_volume) / $last_check_days ) >= $whale_min_volume_currency_increase_24hr_average ) {
+                if ( $last_cached_days <= $whale_max_days_to_24hr_average_over 
+                && number_to_string($percent_change / $last_cached_days) >= $whale_min_price_percent_change_24hr_average 
+                && number_to_string($volume_change_symbol . $volume_percent_change / $last_cached_days) >= $whale_min_volume_percent_increase_24hr_average 
+                && number_to_string( ($volume_primary_currency_raw - $cached_primary_currency_volume) / $last_cached_days ) >= $whale_min_volume_currency_increase_24hr_average ) {
                 $whale_alert = 1;
                 }
                 
@@ -1499,12 +1499,12 @@ $volume_pairing_raw = number_to_string($volume_pairing_raw);
                     
               // Build the different messages, configure comm methods, and send messages
                     
-              $email_message = ( $whale_alert == 1 ? 'WHALE ALERT: ' : '' ) . 'The ' . $asset . ' trade value in the ' . strtoupper($pairing) . ' market at the ' . $exchange_text . ' exchange has ' . $increase_decrease . ' ' . $change_symbol . $percent_change_text . '% in ' . strtoupper($default_btc_primary_currency_pairing) . ' value to ' . $app_config['power_user']['bitcoin_currency_markets'][$default_btc_primary_currency_pairing] . $asset_primary_currency_text . ' over the past ' . $last_check_time . ' since the last price ' . $desc_alert_type . '. ' . $email_volume_summary;
+              $email_message = ( $whale_alert == 1 ? 'WHALE ALERT: ' : '' ) . 'The ' . $asset . ' trade value in the ' . strtoupper($pairing) . ' market at the ' . $exchange_text . ' exchange has ' . $increase_decrease . ' ' . $change_symbol . $percent_change_text . '% in ' . strtoupper($default_btc_primary_currency_pairing) . ' value to ' . $app_config['power_user']['bitcoin_currency_markets'][$default_btc_primary_currency_pairing] . $asset_primary_currency_text . ' over the past ' . $last_cached_time . ' since the last price ' . $desc_alert_type . '. ' . $email_volume_summary;
                     
               // Were're just adding a human-readable timestamp to smart home (audio) alerts
               $notifyme_message = $email_message . ' Timestamp: ' . time_date_format($app_config['general']['local_time_offset'], 'pretty_time') . '.';
                     
-              $text_message = ( $whale_alert == 1 ? '🐳 ' : '' ) . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange_text . ' ' . $increase_decrease . ' ' . $change_symbol . $percent_change_text . '% in ' . strtoupper($default_btc_primary_currency_pairing) . ' value to ' . $app_config['power_user']['bitcoin_currency_markets'][$default_btc_primary_currency_pairing] . $asset_primary_currency_text . ' over ' . $last_check_time . '. 24 Hour ' . strtoupper($default_btc_primary_currency_pairing) . ' Volume: ' . $volume_primary_currency_text . ' ' . $volume_change_text_mobile;
+              $text_message = ( $whale_alert == 1 ? '🐳 ' : '' ) . $asset . ' / ' . strtoupper($pairing) . ' @ ' . $exchange_text . ' ' . $increase_decrease . ' ' . $change_symbol . $percent_change_text . '% in ' . strtoupper($default_btc_primary_currency_pairing) . ' value to ' . $app_config['power_user']['bitcoin_currency_markets'][$default_btc_primary_currency_pairing] . $asset_primary_currency_text . ' over ' . $last_cached_time . '. 24 Hour ' . strtoupper($default_btc_primary_currency_pairing) . ' Volume: ' . $volume_primary_currency_text . ' ' . $volume_change_text_mobile;
                     
                     
                     

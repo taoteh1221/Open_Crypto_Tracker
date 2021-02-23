@@ -77,14 +77,33 @@ $market_value = number_to_string( asset_market_data($market_asset, $market_excha
 	
 	// If price target met
 	if ( $market_value <= $target_value && $target_direction == 'decrease' || $market_value >= $target_value && $target_direction == 'increase' ) {
+		
+		
+   $last_cached_days = ( time() - filemtime($price_target_cache_file) ) / 86400;
+   $last_cached_days = number_to_string($last_cached_days); // Better decimal support
+       
+       
+   	if ( $last_cached_days >= 365 ) {
+      $last_cached_time = number_format( ($last_cached_days / 365) , 2, '.', ',') . ' years';
+      }
+      elseif ( $last_cached_days >= 30 ) {
+      $last_cached_time = number_format( ($last_cached_days / 30) , 2, '.', ',') . ' months';
+      }
+      elseif ( $last_cached_days >= 7 ) {
+      $last_cached_time = number_format( ($last_cached_days / 7) , 2, '.', ',') . ' weeks';
+      }
+      else {
+      $last_cached_time = number_format($last_cached_days, 2, '.', ',') . ' days';
+      }
+        
 
    $percent_change = ($market_value - $cached_market_value) / abs($cached_market_value) * 100;
    $percent_change = number_format( number_to_string($percent_change) , 2, '.', ','); // Better decimal support
    
 
-	$email_message = "The " . $market_asset . " price target of " . $target_value . " has been met at the " . snake_case_to_name($market_exchange) . " exchange, with a " . $percent_change . "% " . $target_direction . " in market value to " . $market_value . ".";
+	$email_message = "The " . $market_asset . " price target of " . $target_value . " has been met at the " . snake_case_to_name($market_exchange) . " exchange, with a " . $percent_change . "% " . $target_direction . " over the past " . $last_cached_time . " in market value to " . $market_value . ".";
 
-	$text_message = $market_asset . " " . $target_value . " price target met @ " . snake_case_to_name($market_exchange) . " (" . $percent_change . "% " . $target_direction . "): " . $market_value;
+	$text_message = $market_asset . " " . $target_value . " price target met @ " . snake_case_to_name($market_exchange) . " (" . $percent_change . "% " . $target_direction . " over " . $last_cached_time . "): " . $market_value;
 
 
   	// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
