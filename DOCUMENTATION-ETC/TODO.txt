@@ -26,6 +26,9 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+Create pow / pos mining calculator subarray structure in config.php.
+
+
 Run exchange / pairings list debug mode, to copy / paste into README and web page documentation.
 
 
