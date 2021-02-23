@@ -319,7 +319,7 @@
 	
 	<?php
 	
-	if (is_array($app_config['portfolio_assets']) || is_object($app_config['portfolio_assets'])) {
+	if ( is_array($app_config['portfolio_assets']) ) {
 
 	    
 	    $zebra_stripe = 'long_list_odd';
@@ -376,7 +376,7 @@
 	        
 	        $all_coin_pairings_cookie_array = explode("#", $_COOKIE['coin_pairings']);
 	        
-		if (is_array($all_coin_pairings_cookie_array) || is_object($all_coin_pairings_cookie_array)) {
+		if ( is_array($all_coin_pairings_cookie_array) ) {
 		    
 		    foreach ( $all_coin_pairings_cookie_array as $coin_pairings ) {
 		        
@@ -402,7 +402,7 @@
 	        
 	        $all_coin_markets_cookie_array = explode("#", $_COOKIE['coin_markets']);
 	        
-		if (is_array($all_coin_markets_cookie_array) || is_object($all_coin_markets_cookie_array)) {
+		if ( is_array($all_coin_markets_cookie_array) ) {
 		    
 		    foreach ( $all_coin_markets_cookie_array as $coin_markets ) {
 		        
@@ -428,7 +428,7 @@
 	        
 	        $all_coin_amounts_cookie_array = explode("#", $_COOKIE['coin_amounts']);
 	        
-		if (is_array($all_coin_amounts_cookie_array) || is_object($all_coin_amounts_cookie_array)) {
+		if ( is_array($all_coin_amounts_cookie_array) ) {
 		    
 		    foreach ( $all_coin_amounts_cookie_array as $asset_amounts ) {
 		        
@@ -454,7 +454,7 @@
 	        
 	        $all_coin_paid_cookie_array = explode("#", $_COOKIE['coin_paid']);
 	        
-		if (is_array($all_coin_paid_cookie_array) || is_object($all_coin_paid_cookie_array)) {
+		if ( is_array($all_coin_paid_cookie_array) ) {
 		    
 		    foreach ( $all_coin_paid_cookie_array as $coin_paid ) {
 		        
@@ -480,7 +480,7 @@
 	        
 	        $all_coin_leverage_cookie_array = explode("#", $_COOKIE['coin_leverage']);
 	        
-		if (is_array($all_coin_leverage_cookie_array) || is_object($all_coin_leverage_cookie_array)) {
+		if ( is_array($all_coin_leverage_cookie_array) ) {
 		    
 		    foreach ( $all_coin_leverage_cookie_array as $coin_leverage ) {
 		        
@@ -505,7 +505,7 @@
 	        
 	        $all_coin_margintype_cookie_array = explode("#", $_COOKIE['coin_margintype']);
 	        
-		if (is_array($all_coin_margintype_cookie_array) || is_object($all_coin_margintype_cookie_array)) {
+		if ( is_array($all_coin_margintype_cookie_array) ) {
 		    
 		    foreach ( $all_coin_margintype_cookie_array as $coin_margintype ) {
 		        

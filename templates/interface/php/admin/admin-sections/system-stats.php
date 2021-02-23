@@ -31,6 +31,79 @@
   			// Percent difference (!MUST BE! absolute value)
          $memory_percent_free = abs( ($system_memory_free_mb - $system_memory_total_mb) / abs($system_memory_total_mb) * 100 );
          $memory_percent_free = round( 100 - $memory_percent_free, 2);
+    		
+    		$system_load_redline = ( $system_info['cpu_threads'] > 1 ? ($system_info['cpu_threads'] * 2) : 2 );
+         
+         
+         if ( substr($system_info['uptime'], 0, 6) == '0 days' ) {
+         $system_alerts['uptime'] = 'Low uptime';
+         }
+	
+         if ( $system_load > $system_load_redline ) {
+         $system_alerts['system_load'] = 'High CPU load';
+         }
+	
+         if ( $system_temp > 79 ) {
+         $system_alerts['system_temp'] = 'High temperature';
+         }
+	
+         if ( $system_info['memory_used_percent'] > 91 ) {
+         $system_alerts['memory_used_megabytes'] = 'High memory usage';
+         }
+	
+         if ( $system_free_space_mb < 500 ) {
+         $system_alerts['free_partition_space'] = 'High disk storage usage';
+         }
+	
+         if ( $portfolio_cache_size_mb > 10000 ) {
+         $system_alerts['portfolio_cache'] = 'High app cache disk storage usage';
+         }
+         
+         
+         // Red UI nav, with info bubble too
+         if ( sizeof($system_alerts) > 0 ) {
+         ?>
+         <script>
+         
+         $('#system_stats_admin_link a').addClass("red_background");
+         document.getElementById('system_stats_admin_link_info').style.display = 'inline';
+
+			var system_stats_admin_link_info_content = '<h5 class="red_bright tooltip_title">System Stats Alerts</h5>'
+			
+			<?php
+			foreach ( $system_alerts as $alert_key => $alert_value ) {
+			?>
+			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;"><span class="red_bright"><?=snake_case_to_name($alert_key)?>:</span> <?=$alert_value?></p>'
+			<?php
+			}
+			?>
+			
+			+'';
+		
+		
+			$('#system_stats_admin_link_info').balloon({
+			html: true,
+			position: "right",
+			contents: system_stats_admin_link_info_content,
+			css: {
+					fontSize: ".8rem",
+					minWidth: "450px",
+					padding: ".3rem .7rem",
+					border: "2px solid rgba(212, 212, 212, .4)",
+					borderRadius: "6px",
+					boxShadow: "3px 3px 6px #555",
+					color: "#eee",
+					backgroundColor: "#111",
+					opacity: "0.99",
+					zIndex: "32767",
+					textAlign: "left"
+					}
+			});
+			
+  
+         </script>
+         <?php
+         }
 	
 	
     		// Output
@@ -50,31 +123,31 @@
     		}
     		
     		if ( isset($system_info['model_name']) ) {
-    		echo '<span class="bitcoin"><b>CPU:</b></span> <span class="blue"> '.$system_info['model_name'].'</span> <br />';
+    		echo '<span class="bitcoin"><b>CPU:</b></span> <span class="blue"> '.$system_info['model_name'].'</span> ' . ( $system_info['cpu_threads'] > 1 ? '(' . $system_info['cpu_threads'] . ' threads)' : '' ) . ' <br />';
     		}
     		
     		if ( isset($system_info['uptime']) ) {
-    		echo '<span class="bitcoin"><b>Uptime:</b></span> <span class="'.( substr($system_info['uptime'], 0, 6) == '0 days' ? 'red' : 'green' ).'"> '.$system_info['uptime'].'</span> <br />';
+    		echo '<span class="bitcoin"><b>Uptime:</b></span> <span class="'.( isset($system_alerts['uptime']) ? 'red' : 'green' ).'"> '.$system_info['uptime'].'</span> <br />';
     		}
     		
     		if ( isset($system_info['system_load']) ) {
-    		echo '<span class="bitcoin"><b>Load:</b></span> <span class="'.( $system_load > 2 ? 'red' : 'green' ).'"> '.$system_info['system_load'].'</span> <br />';
+    		echo '<span class="bitcoin"><b>Load:</b></span> <span class="'.( isset($system_alerts['system_load']) ? 'red' : 'green' ).'"> '.$system_info['system_load'].'</span> <br />';
     		}
     		
     		if ( isset($system_info['system_temp']) ) {
-    		echo '<span class="bitcoin"><b>Temperature:</b></span> <span class="'.( $system_temp > 79 ? 'red' : 'green' ).'"> '.$system_info['system_temp'].'</span> <br />';
+    		echo '<span class="bitcoin"><b>Temperature:</b></span> <span class="'.( isset($system_alerts['system_temp']) ? 'red' : 'green' ).'"> '.$system_info['system_temp'].'</span> <br />';
     		}
     		
     		if ( isset($system_info['memory_used_megabytes']) ) {
-    		echo '<span class="bitcoin"><b>Used Memory (*not* including buffers / cache):</b></span> <br /><span class="'.( $system_info['memory_used_percent'] > 91 ? 'red' : 'green' ).'"> '.round($system_info['memory_used_megabytes'] / 1000, 4).' Gigabytes <span class="black">('.number_format($system_info['memory_used_megabytes'], 2, '.', ',').' Megabytes / '.$system_info['memory_used_percent'].'%)</span></span> <br />';
+    		echo '<span class="bitcoin"><b>Used Memory (*not* including buffers / cache):</b></span> <br /><span class="'.( isset($system_alerts['memory_used_megabytes']) ? 'red' : 'green' ).'"> '.round($system_info['memory_used_megabytes'] / 1000, 4).' Gigabytes <span class="black">('.number_format($system_info['memory_used_megabytes'], 2, '.', ',').' Megabytes / '.$system_info['memory_used_percent'].'%)</span></span> <br />';
     		}
     		
     		if ( isset($system_info['free_partition_space']) ) {
-    		echo '<span class="bitcoin"><b>Free Disk Space:</b></span> <span class="'.( $system_free_space_mb < 500 ? 'red' : 'green' ).'"> '.round($system_free_space_mb / 1000000, 4).' Terabytes <span class="black">('.number_format($system_free_space_mb / 1000, 2, '.', ',').' Gigabytes)</span></span> <br />';
+    		echo '<span class="bitcoin"><b>Free Disk Space:</b></span> <span class="'.( isset($system_alerts['free_partition_space']) ? 'red' : 'green' ).'"> '.round($system_free_space_mb / 1000000, 4).' Terabytes <span class="black">('.number_format($system_free_space_mb / 1000, 2, '.', ',').' Gigabytes)</span></span> <br />';
     		}
     		
     		if ( isset($system_info['portfolio_cache']) ) {
-    		echo '<span class="bitcoin"><b>Portfolio Cache Size:</b></span> <span class="'.( $portfolio_cache_size_mb > 10000 ? 'red' : 'green' ).'"> '.round($portfolio_cache_size_mb / 1000, 4).' Gigabytes <span class="black">('.number_format($portfolio_cache_size_mb, 2, '.', ',').' Megabytes)</span></span> <br />';
+    		echo '<span class="bitcoin"><b>Portfolio Cache Size:</b></span> <span class="'.( isset($system_alerts['portfolio_cache']) ? 'red' : 'green' ).'"> '.round($portfolio_cache_size_mb / 1000, 4).' Gigabytes <span class="black">('.number_format($portfolio_cache_size_mb, 2, '.', ',').' Megabytes)</span></span> <br />';
     		}
     		
     		if ( isset($system_info['software']) ) {

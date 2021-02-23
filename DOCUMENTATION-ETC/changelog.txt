@@ -4286,6 +4286,14 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 -------------------------------------------------------------------
 4.25.0:
 
+-System stats alerts in interface, if any system resource parameters are redlined (memory / disk / cpu usage, uptime, etc)
+
+-New target price cron job plugin, to setup target price alerts for any markets (see plugin config file for adding markets)
+
+-Modularization of mining calculators, and a new power user setting 'mining_calculators', to semi-automatically add new ones
+
+-Code cleanup
+
 -Semantics
 
 -------------------------------------------------------------------

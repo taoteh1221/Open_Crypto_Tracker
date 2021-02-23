@@ -18,20 +18,16 @@ function bitcoin_api($request) {
 global $app_config;
  		
     
-		if ( $request == 'height' ) {
+	if ( $request == 'height' ) {
+	$string = 'https://blockchain.info/q/getblockcount';
+	}
+	elseif ( $request == 'difficulty' ) {
+	$string = 'https://blockchain.info/q/getdifficulty';
+	}
 		
-    	$string = 'https://blockchain.info/q/getblockcount';
-		  
-		}
-		elseif ( $request == 'difficulty' ) {
-		
-    	$string = 'https://blockchain.info/q/getdifficulty';
-		  
-		}
-		
-    $data = @external_api_data('url', $string, $app_config['power_user']['chainstats_cache_time']);
+$data = @external_api_data('url', $string, $app_config['power_user']['chainstats_cache_time']);
     
-  return (float)$data;
+return (float)$data;
   
 }
 
@@ -90,7 +86,7 @@ $coingecko_primary_currency = ( $force_primary_currency != null ? strtolower($fo
 	}
 	
 
-   if ( is_array($data) || is_object($data) ) {
+   if ( is_array($data) ) {
   		
   	 	foreach ($data as $key => $value) {
      	  	
@@ -280,7 +276,7 @@ $result = array();
         
 	
 
-    if ( is_array($data) || is_object($data) ) {
+    if ( is_array($data) ) {
   		
   	   	foreach ($data as $key => $value) {
      	  	

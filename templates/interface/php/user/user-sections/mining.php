@@ -20,28 +20,26 @@
 			<p class='bitcoin' style='font-weight: bold;'>Chain data (block height, difficulty, etc) is cached for <?=$app_config['power_user']['chainstats_cache_time']?> minute(s).</p>
 			
 			<p class='red'>Using these mining calculators <i><u>will set this page as the start page</u>, which you can reset afterwards at top left</i>. If you have portfolio data you don't want to lose, be sure you have enabled "Use cookies to save data" on the Settings page before using these mining calculators.</p>
-			  
+			 
+			 <?php
+			 foreach( $app_config['power_user']['mining_calculators'] as $pow_coin_data ) {
+			 ?>
 			<fieldset class='subsection_fieldset'>
-				<legend class='subsection_legend'> <b>Bitcoin Mining Calculator</b> </legend>
+				<legend class='subsection_legend'> <b><?=$pow_coin_data['name']?> Mining Calculator</b> </legend>
 		    
-				<?php require("app-lib/php/other/calculators/mining/bitcoin-mining-calculator.php"); ?>
+				<?php require("app-lib/php/other/calculators/mining/pow/render.php"); ?>
 				
 				
 			</fieldset>
-			
-			<fieldset class='subsection_fieldset'>
-				<legend class='subsection_legend'> <b>Ethereum Mining Calculator</b> </legend>
-		    
-				<?php require("app-lib/php/other/calculators/mining/ethereum-mining-calculator.php"); ?>
-				
-				
-			</fieldset>
+			 <?php
+			 }
+			 ?>
 			
 			
 			<fieldset class='subsection_fieldset'>
 				<legend class='subsection_legend'> <b>HIVE Power Interest Rate / Power Down Weekly Payout Calculator</b> </legend>
 				
-				<?php require("app-lib/php/other/calculators/mining/hive-power-interest-calculator.php"); ?>
+				<?php require("app-lib/php/other/calculators/mining/pos/hive-power-interest-calculator.php"); ?>
 				
 			</fieldset>
 		    

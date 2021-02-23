@@ -92,6 +92,9 @@ Create github wiki with the current documentation for the portfolio app.
 Look into X day moving average overlay for price charts.
 
 
+AFTER the admin config GUI has been built out, make sure plugin configs are re-loaded AFTER 'activate_plugins' in the power user section has been updated.
+
+
 ///////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////
 
@@ -122,6 +125,9 @@ Build tool that finds localbitcoins markets not added yet
 Add twilio.com and clicksend.com mobile text messaging support
 
 
+Look into adding Google Sheets API support for portfolio import / export: https://developers.google.com/sheets/api/samples/reading
+
+
 ///////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////
 
@@ -129,9 +135,6 @@ Add twilio.com and clicksend.com mobile text messaging support
 ///////////////////////////////////////////////////////
 FEATURES / STRUCTURING SECTION
 ///////////////////////////////////////////////////////
-
-
-When any stats on the system stats pages are red-colored because they are 'redlined', have the "admin config - quick links" link AND admin config area 'system stats' tab be red, maybe also with a red info icon / bubble next to it (explaining what's wrong, and to visit the system stats link for more information).
 
 
 Store visitor access data in A SEPERATE flat file / json format PER IP ADDRESS (so mulitiple values can be read back into the app before updating, then updated values saved back in json overwriting previously saved values, BUT AVOIDS MULTIPLE IP ADDRESES OVERWRITING SAME DATA). Last X unique ip addresses (as a power user config setting), showing ip address's last user agent / last visit time (AND HISTORY OF DIFFERENT USER AGENTS / LAST VISITS) / total visits count. Drop any over X ip addresses off the list based on oldest LAST VISIT timestamps. Store visitor data (user agent, etc) in a SECURED CACHE filename based off MD5 HASH of ip address. INITIAL BUILDOUT SHOULD ONLY BE FOR 'ui' RUNTIME DATA ONLY.
@@ -218,9 +221,6 @@ Documentation for Webhook features
 Add webhook keys on admin page.
 
 
-Create a cron plugin to let you know when a raw market value has gone below / above a certain exact value at a specific exchange (good for knowing when / if your order fills). Allow unlimited assets (same logic type as the recurring reminders plugin).
-
-
 Simple trading bot, to run as a cron plugin (with web UI for configuration / stats / etc)
 
 
@@ -285,9 +285,6 @@ Consider error log alerts if system load is over 2, or free memory goes under 25
 
 
 Alerts if NOT admin ip address visiting (admin ip stored in config setting)?
-
-
-See if at all feasible to fully modularize mining calculators to be added via config settings?
 
 
 

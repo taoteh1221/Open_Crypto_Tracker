@@ -75,7 +75,7 @@ $app_config['power_user']['captcha_text_contrast'] = 35;
 // Dynamically add MISCASSETS to $app_config['portfolio_assets'] BEFORE ALPHABETICAL SORTING
 // ONLY IF USER HASN'T MESSED UP $app_config['portfolio_assets'], AS WE DON'T WANT TO CANCEL OUT ANY
 // CONFIG CHECKS CREATING ERROR LOG ENTRIES / UI ALERTS INFORMING THEM OF THAT
-if (is_array($app_config['portfolio_assets']) || is_object($app_config['portfolio_assets'])) {
+if ( is_array($app_config['portfolio_assets']) ) {
     
     $app_config['portfolio_assets']['MISCASSETS'] = array(
                                         'asset_name' => 'Misc. '.strtoupper($app_config['general']['btc_primary_currency_pairing']).' Value',
@@ -100,9 +100,49 @@ if (is_array($app_config['portfolio_assets']) || is_object($app_config['portfoli
 }
 
 
+
+// Update dynamic mining data (UI only), since we are using the json config in the secured cache
+if ( $runtime_mode == 'ui' && is_array($app_config['power_user']['mining_calculators']) ) {
+	
+
+// BTC
+$app_config['power_user']['mining_calculators']['btc']['height'] = bitcoin_api('height');
+$app_config['power_user']['mining_calculators']['btc']['difficulty'] = bitcoin_api('difficulty');
+
+
+// ETH
+$app_config['power_user']['mining_calculators']['eth']['height'] = hexdec( etherscan_api('number') );      
+$app_config['power_user']['mining_calculators']['eth']['difficulty'] = hexdec( etherscan_api('difficulty') );
+$app_config['power_user']['mining_calculators']['eth']['other_network_data'] = '<p><b>Gas limit:</b> ' . number_format( hexdec( etherscan_api('gasLimit') ) ) . '</p>' . ( etherscan_api('number') == false ? '<p><a class="red" href="https://etherscan.io/apis/" target="_blank"><b>EtherScan.io (free) API key is required.</b></a></p>' : '' );
+
+	
+	// If a mining calculator is being used this runtime, include mining time formula calculations for that chain
+	if ( isset($_POST['pow_calc']) ) {
+				    
+	$_POST['network_measure'] = remove_number_format($_POST['network_measure']);
+				    
+	$_POST['your_hashrate'] = remove_number_format($_POST['your_hashrate']);
+		
+	$miner_hashrate = trim($_POST['your_hashrate']) * trim($_POST['hash_level']);
+	
+		// Mining time formulas can be different per network, unless they copy Bitcoin's formula
+		if ( $_POST['pow_calc'] == 'btc' ) {
+		// https://en.bitcoin.it/wiki/Difficulty (How soon might I expect to generate a block?)
+		$app_config['power_user']['mining_calculators']['btc']['mining_time_formula'] = trim($_POST['network_measure']) * pow(2, 32) / $miner_hashrate;
+		}
+		elseif ( $_POST['pow_calc'] == 'eth' ) {
+		$app_config['power_user']['mining_calculators']['eth']['mining_time_formula'] = trim($_POST['network_measure']) / $miner_hashrate;
+		}
+	
+	}
+	
+
+}
+
+
     
 // !!BEFORE MANIPULATING ANYTHING ELSE!!, alphabetically sort all exchanges / pairings for UX
-if (is_array($app_config['portfolio_assets']) || is_object($app_config['portfolio_assets'])) {
+if ( is_array($app_config['portfolio_assets']) ) {
     
     foreach ( $app_config['portfolio_assets'] as $symbol_key => $symbol_unused ) {
             

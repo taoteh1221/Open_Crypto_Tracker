@@ -452,6 +452,7 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 $app_config['power_user']['activate_plugins'] = array(
 									//'plugin-folder-name' => 'on', // (disabled example...your LOWERCASE plugin folder name in the folder: /plugins/)
 									'recurring-reminder' => 'off',  // Recurring Reminder plugin (alert yourself every X days to do something)
+									'price-target-alert' => 'off',  // Price target alert plugin (alert yourself when an asset's price target is reached)
 									);
 							
 							
@@ -723,14 +724,6 @@ $app_config['power_user']['bitcoin_preferred_currency_markets'] = array(
 
 
 
-// Mining rewards for different crypto networks (to prefill the editable mining calculator forms)
-$app_config['power_user']['mining_rewards'] = array(
-					'btc' => '6.25',
-					'eth' => '2',
-					);
-
-
-
 // Static values in ETH for Ethereum subtokens, like during crowdsale periods etc (before exchange listings)
 $app_config['power_user']['ethereum_subtoken_ico_values'] = array(
                         'ETHSUBTOKENNAME' => '0.15',
@@ -748,6 +741,50 @@ $app_config['power_user']['hive_powerdown_time'] = 13;
 // HIVE Power yearly interest rate START 11/29/2019 (1.2%, decreasing every year by roughly 0.075% until it hits a minimum of 0.075% and stays there)
 // 1.2 (DO NOT INCLUDE PERCENT SIGN) the first year at 11/29/2019 refactored rates, see above for manual yearly adjustment
 $app_config['power_user']['hivepower_yearly_interest'] = 1.2;
+
+
+
+// Mining calculator configs for different crypto networks (SEMI-AUTOMATICALLY adds mining calculators to the Mining page)
+// FOR #DYNAMIC# CHAIN STATS (height / difficuly / rewards / etc), API CALL FUNCTIONS NEED TO BE CUSTOM-WRITTEN FOR ANY #CUSTOM# ASSETS ADDED HERE,
+// AND CALLED WITHIN THE 'Update dynamic mining data' SECTION OF THE FILE: /app-lib/php/other/app-config-managment.php
+// 'mining_time_formula' ALSO NEEDS TO BE DYNAMICALLY ADDED IN THAT SAME SECTION, #OR YOUR CUSTOM CALCULATOR WILL NOT WORK AT ALL#
+$app_config['power_user']['mining_calculators'] = array(
+					
+					
+					// BTC START
+					'btc' => array(
+											'name' => 'Bitcoin', // Coin name
+											'symbol' => 'btc', // Coin symbol (lowercase)
+											'exchange_name' => 'binance', // Exchange name (for price data, lowercase)
+											'exchange_market' => 'BTCUSDT', // Market pair name (for price data)
+											'network_measure_semantic' => 'difficulty',  // (difficulty, nethashrate, etc)
+											'block_reward' => 6.25, // Mining block reward (can be made dynamic with code, like below)
+											// EVERYTHING BELOW #MUST BE# updated in /app-lib/php/other/app-config-managment.php, since we run a cached config)
+											'height' => 'PLACEHOLDER', // Block height
+											'difficulty' => 'PLACEHOLDER', // Mining network difficulty
+											'mining_time_formula' => 'PLACEHOLDER', // Mining time formula calculation (when calculator is in use)
+											'other_network_data' => '', // Leave blank to skip
+										),
+					
+					
+					// ETH START
+					'eth' => array(
+											'name' => 'Ethereum', // Coin name
+											'symbol' => 'eth', // Coin symbol (lowercase)
+											'exchange_name' => 'binance', // Exchange name (for price data, lowercase)
+											'exchange_market' => 'ETHBTC', // Market pair name (for price data)
+											'network_measure_semantic' => 'difficulty',  // (difficulty, nethashrate, etc)
+											'block_reward' => 2, // Mining block reward (can be made dynamic with code, like below)
+											// EVERYTHING BELOW #MUST BE# updated in /app-lib/php/other/app-config-managment.php, since we run a cached config)
+											'height' => 'PLACEHOLDER', // Block height
+											'difficulty' => 'PLACEHOLDER', // Mining network difficulty
+											'mining_time_formula' => 'PLACEHOLDER', // Mining time formula calculation (when calculator is in use)
+											'other_network_data' => 'PLACEHOLDER', // Leave blank to skip
+										),
+					
+					
+			); // MINING CALCULATORS END
+			
 
 
 // NEWS FEED (RSS) SETTINGS

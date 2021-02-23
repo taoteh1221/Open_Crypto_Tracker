@@ -35,7 +35,7 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
    
   	  $data = $data['data'];
   
-      if (is_array($data) || is_object($data)) {
+      if ( is_array($data) ) {
   
        foreach ($data as $key => $value) {
          
@@ -73,7 +73,7 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
      $data = json_decode($jsondata, true);
    
   
-      if (is_array($data) || is_object($data)) {
+      if ( is_array($data) ) {
   
        foreach ($data as $key => $value) {
          
@@ -112,7 +112,7 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
      $data = json_decode($jsondata, true);
    
   
-      if (is_array($data) || is_object($data)) {
+      if ( is_array($data) ) {
   
        foreach ($data as $key => $value) {
          
@@ -174,7 +174,7 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
      $data = json_decode($jsondata, true);
      
   
-      if (is_array($data) || is_object($data)) {
+      if ( is_array($data) ) {
   
        foreach ($data as $key => $value) {
          
@@ -212,7 +212,7 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
      
      $data = json_decode($jsondata, true);
   
-      if (is_array($data) || is_object($data)) {
+      if ( is_array($data) ) {
   
        foreach ( $data as $object ) {
          
@@ -297,7 +297,7 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
   $data = json_decode($jsondata, true);
    
   
-      if (is_array($data) || is_object($data)) {
+      if ( is_array($data) ) {
   
       	foreach ($data as $key => $value) {
          
@@ -351,7 +351,7 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
      $data = json_decode($jsondata, true);
    
   
-      if (is_array($data) || is_object($data)) {
+      if ( is_array($data) ) {
   
        foreach ($data as $key => $value) {
          
@@ -439,7 +439,7 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
      
      $data = json_decode($jsondata, true);
   
-      if (is_array($data) || is_object($data)) {
+      if ( is_array($data) ) {
   
        foreach ($data as $key => $value) {
          
@@ -464,7 +464,7 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
      
      $data = json_decode($jsondata, true);
   
-      if (is_array($data) || is_object($data)) {
+      if ( is_array($data) ) {
   
        foreach ($data as $key => $value) {
          
@@ -498,7 +498,7 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
      $data = json_decode($jsondata, true);
      
   
-      if (is_array($data) || is_object($data)) {
+      if ( is_array($data) ) {
   
        foreach ($data as $key => $value) {
          
@@ -560,7 +560,7 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
      $data = $data['data'];
      
   
-      if (is_array($data) || is_object($data)) {
+      if ( is_array($data) ) {
   
        foreach ($data as $key => $value) {
          
@@ -599,7 +599,7 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
      $data = $data['data'];
      
   
-      if (is_array($data) || is_object($data)) {
+      if ( is_array($data) ) {
   
        foreach ($data as $key => $value) {
          
@@ -638,7 +638,7 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
      $data = $data['data'];
      
   
-      if (is_array($data) || is_object($data)) {
+      if ( is_array($data) ) {
   
        foreach ($data as $key => $value) {
          
@@ -703,7 +703,7 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
      $data = $data['data']['ticker'];
      
   
-      if (is_array($data) || is_object($data)) {
+      if ( is_array($data) ) {
   
        foreach ($data as $key => $value) {
     // var_dump($value);
@@ -807,7 +807,7 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
      $data = $data['results'];
      
   
-      if (is_array($data) || is_object($data)) {
+      if ( is_array($data) ) {
       
        if ( preg_match("/curve/i", $defi_pools_info['platform']) ) {
        $fromSymbol = $pairing_data[0];
@@ -876,7 +876,7 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
      
      $data = json_decode($jsondata, true);
   
-      if (is_array($data) || is_object($data)) {
+      if ( is_array($data) ) {
   
        foreach ($data as $key => $value) {
          
@@ -936,7 +936,7 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
      
      $data = json_decode($jsondata, true);
   
-      if (is_array($data) || is_object($data)) {
+      if ( is_array($data) ) {
   
        foreach ($data as $key => $value) {
          
@@ -973,7 +973,7 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
      
      $data = json_decode($jsondata, true);
   
-      if (is_array($data) || is_object($data)) {
+      if ( is_array($data) ) {
   
        foreach ($data as $key => $value) {
          
@@ -1011,7 +1011,7 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
    
   		$data = $data['ticker'];
   
-      if (is_array($data) || is_object($data)) {
+      if ( is_array($data) ) {
   
        foreach ($data as $key => $value) {
          
@@ -1050,7 +1050,7 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
      $data = $data['data'];
      
   
-      if (is_array($data) || is_object($data)) {
+      if ( is_array($data) ) {
   
        foreach ($data as $key => $value) {
          
@@ -1090,7 +1090,7 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
      $data = json_decode($jsondata, true);
   
   
-      if (is_array($data) || is_object($data)) {
+      if ( is_array($data) ) {
   
        foreach ($data as $key => $value) {
          
@@ -1130,7 +1130,7 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
      $data = json_decode($jsondata, true);
   
   
-      if (is_array($data) || is_object($data)) {
+      if ( is_array($data) ) {
   
        foreach ($data as $key => $value) {
          
@@ -1185,7 +1185,7 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
   
   $data = json_decode($jsondata, true);
   
-      if (is_array($data) || is_object($data)) {
+      if ( is_array($data) ) {
   
        foreach ($data as $key => $value) {
          
@@ -1231,7 +1231,7 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
   
   		$data = $data['data']['ticker'];
   
-      if (is_array($data) || is_object($data)) {
+      if ( is_array($data) ) {
   
        foreach ($data as $key => $value) {
          
@@ -1268,7 +1268,7 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
      $data = json_decode($jsondata, true);
      
   
-      if (is_array($data) || is_object($data)) {
+      if ( is_array($data) ) {
   
        foreach ($data as $key => $value) {
          
@@ -1307,7 +1307,7 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
      $data = json_decode($jsondata, true);
      
   
-      if (is_array($data) || is_object($data)) {
+      if ( is_array($data) ) {
   
        foreach ($data as $key => $value) {
          
@@ -1355,7 +1355,7 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
        	}
          
   
-      if (is_array($data) || is_object($data)) {
+      if ( is_array($data) ) {
   
        foreach ($data as $key => $value) {
        	
@@ -1394,7 +1394,7 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
      
      $data = $data['tickers'];
   
-      if (is_array($data) || is_object($data)) {
+      if ( is_array($data) ) {
   
        foreach ($data as $key => $value) {
          
@@ -1432,7 +1432,7 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
     
     $data = json_decode($jsondata, true);
   
-      if (is_array($data) || is_object($data)) {
+      if ( is_array($data) ) {
   
        foreach ($data as $key => $value) {
        	
@@ -1471,7 +1471,7 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
   $data = json_decode($jsondata, true);
    
   
-      if (is_array($data) || is_object($data)) {
+      if ( is_array($data) ) {
   
        foreach ($data as $key => $value) {
        	
@@ -1509,7 +1509,7 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
      
      $data = json_decode($jsondata, true);
   
-      if (is_array($data) || is_object($data)) {
+      if ( is_array($data) ) {
   
        foreach ($data as $key => $value) {
          
@@ -1546,7 +1546,7 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
      
      $data = json_decode($jsondata, true);
   
-      if (is_array($data) || is_object($data)) {
+      if ( is_array($data) ) {
   
        foreach ($data as $key => $value) {
          
@@ -1582,7 +1582,7 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
      
      $data = json_decode($jsondata, true);
   
-      if (is_array($data) || is_object($data)) {
+      if ( is_array($data) ) {
   
        foreach ($data as $key => $value) {
          
@@ -1636,7 +1636,7 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
      
      $data = json_decode($jsondata, true);
   
-      if (is_array($data) || is_object($data)) {
+      if ( is_array($data) ) {
   
        foreach ( $data as $key => $value ) {
          
@@ -1672,7 +1672,7 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
      
      $data = json_decode($jsondata, true);
   
-      if (is_array($data) || is_object($data)) {
+      if ( is_array($data) ) {
   
        foreach ($data as $key => $value) {
          
@@ -1708,7 +1708,7 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
      
      $data = json_decode($jsondata, true);
   
-      if (is_array($data) || is_object($data)) {
+      if ( is_array($data) ) {
   
        foreach ($data as $key => $value) {
          

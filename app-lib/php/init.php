@@ -231,6 +231,8 @@ $btc_pairing_markets_excluded = array();
 
 $runtime_data['performance_stats'] = array();
 
+$system_alerts = array();
+
 // Coinmarketcap supported currencies array
 require_once('app-lib/php/other/coinmarketcap-currencies.php');
 
@@ -334,8 +336,7 @@ elseif ( $is_csv_export ) {
 	require_once('app-lib/php/other/csv/example-csv.php');
 	}
 	// Portfolio export download
-	elseif ( $_POST['submit_check'] == 1 && is_array($app_config['portfolio_assets']) 
-	|| $_POST['submit_check'] == 1 && is_object($app_config['portfolio_assets']) ) {
+	elseif ( $_POST['submit_check'] == 1 && is_array($app_config['portfolio_assets']) ) {
 	require_once('app-lib/php/other/csv/export-csv.php');
 	}
 

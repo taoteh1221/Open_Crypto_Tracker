@@ -257,7 +257,7 @@ $data = json_decode($jsondata, true);
 	}
 
   
-      if (is_array($data) || is_object($data)) {
+      if ( is_array($data) ) {
   			
        	foreach ($data as $key => $value) {
        			
@@ -984,7 +984,7 @@ global $_POST, $app_config;
 
 ?>
 
-				<form name='<?=$calculation_form_data[1]?>' action='<?=start_page('mining')?>' method='post'>
+				<form name='<?=$calculation_form_data['symbol']?>' action='<?=start_page('mining')?>' method='post'>
 				
 				
 				<p><b><?=ucfirst($network_measure)?>:</b> 
@@ -992,9 +992,7 @@ global $_POST, $app_config;
 				if ( $hash_unit == 'hash' ) {
 				?>
 				
-				<input type='text' value='<?=( $_POST['network_measure'] && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? number_format($_POST['network_measure']) : number_format($calculation_form_data[3]) )?>' name='network_measure' /> 
-				
-				(uses <a href='<?=$calculation_form_data[4]?>' target='_blank'><?=$calculation_form_data[5]?></a>)
+				<input type='text' value='<?=( $_POST['network_measure'] && $_POST[$calculation_form_data['symbol'].'_submitted'] == 1 ? number_format($_POST['network_measure']) : number_format($calculation_form_data['difficulty']) )?>' name='network_measure' /> 
 				
 				<?php
 				}
@@ -1003,7 +1001,7 @@ global $_POST, $app_config;
 				
 				
 				<p><b>Your Hashrate:</b>  
-				<input type='text' value='<?=( $_POST[$calculation_form_data[1].'_submitted'] == 1 ? $_POST['your_hashrate'] : '' )?>' name='your_hashrate' /> 
+				<input type='text' value='<?=( $_POST[$calculation_form_data['symbol'].'_submitted'] == 1 ? $_POST['your_hashrate'] : '' )?>' name='your_hashrate' /> 
 				
 				
 				
@@ -1011,13 +1009,13 @@ global $_POST, $app_config;
 				if ( $hash_unit == 'hash' ) {
 				?>
 				<select class='browser-default custom-select' name='hash_level'>
-				<option value='1' <?=( $_POST['hash_level'] == '1' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Hs (hashes per second) </option>
-				<option value='1000' <?=( $_POST['hash_level'] == '1000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Khs (thousand hashes per second) </option>
-				<option value='1000000' <?=( $_POST['hash_level'] == '1000000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Mhs (million hashes per second) </option>
-				<option value='1000000000' <?=( $_POST['hash_level'] == '1000000000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Ghs (billion hashes per second) </option>
-				<option value='1000000000000' <?=( $_POST['hash_level'] == '1000000000000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Ths (trillion hashes per second) </option>
-				<option value='1000000000000000' <?=( $_POST['hash_level'] == '1000000000000000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Phs (quadrillion hashes per second) </option>
-				<option value='1000000000000000000' <?=( $_POST['hash_level'] == '1000000000000000000' && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? 'selected' : '' )?>> Ehs (quintillion hashes per second) </option>
+				<option value='1' <?=( $_POST['hash_level'] == '1' && $_POST[$calculation_form_data['symbol'].'_submitted'] == 1 ? 'selected' : '' )?>> Hs (hashes per second) </option>
+				<option value='1000' <?=( $_POST['hash_level'] == '1000' && $_POST[$calculation_form_data['symbol'].'_submitted'] == 1 ? 'selected' : '' )?>> Khs (thousand hashes per second) </option>
+				<option value='1000000' <?=( $_POST['hash_level'] == '1000000' && $_POST[$calculation_form_data['symbol'].'_submitted'] == 1 ? 'selected' : '' )?>> Mhs (million hashes per second) </option>
+				<option value='1000000000' <?=( $_POST['hash_level'] == '1000000000' && $_POST[$calculation_form_data['symbol'].'_submitted'] == 1 ? 'selected' : '' )?>> Ghs (billion hashes per second) </option>
+				<option value='1000000000000' <?=( $_POST['hash_level'] == '1000000000000' && $_POST[$calculation_form_data['symbol'].'_submitted'] == 1 ? 'selected' : '' )?>> Ths (trillion hashes per second) </option>
+				<option value='1000000000000000' <?=( $_POST['hash_level'] == '1000000000000000' && $_POST[$calculation_form_data['symbol'].'_submitted'] == 1 ? 'selected' : '' )?>> Phs (quadrillion hashes per second) </option>
+				<option value='1000000000000000000' <?=( $_POST['hash_level'] == '1000000000000000000' && $_POST[$calculation_form_data['symbol'].'_submitted'] == 1 ? 'selected' : '' )?>> Ehs (quintillion hashes per second) </option>
 				</select>
 				
 				<?php
@@ -1028,21 +1026,23 @@ global $_POST, $app_config;
 				</p>
 				
 				
-				<p><b>Block Reward:</b> <input type='text' value='<?=( $_POST['block_reward'] && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? $_POST['block_reward'] : $app_config['power_user']['mining_rewards'][$calculation_form_data[1]] )?>' name='block_reward' /> (may be static from Power User Config, verify current block reward manually)</p>
+				<p><b>Block Reward:</b> <input type='text' value='<?=( $_POST['block_reward'] && $_POST[$calculation_form_data['symbol'].'_submitted'] == 1 ? $_POST['block_reward'] : $calculation_form_data['block_reward'] )?>' name='block_reward' /> (may be static from Power User Config, verify current block reward manually)</p>
 				
 				
-				<p><b>Watts Used:</b> <input type='text' value='<?=( isset($_POST['watts_used']) && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? $_POST['watts_used'] : '300' )?>' name='watts_used' /></p>
+				<p><b>Watts Used:</b> <input type='text' value='<?=( isset($_POST['watts_used']) && $_POST[$calculation_form_data['symbol'].'_submitted'] == 1 ? $_POST['watts_used'] : '300' )?>' name='watts_used' /></p>
 				
 				
-				<p><b>kWh Rate (<?=$app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']]?>/kWh):</b> <input type='text' value='<?=( isset($_POST['watts_rate']) && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? $_POST['watts_rate'] : '0.1000' )?>' name='watts_rate' /></p>
+				<p><b>kWh Rate (<?=$app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']]?>/kWh):</b> <input type='text' value='<?=( isset($_POST['watts_rate']) && $_POST[$calculation_form_data['symbol'].'_submitted'] == 1 ? $_POST['watts_rate'] : '0.1000' )?>' name='watts_rate' /></p>
 				
 				
-				<p><b>Pool Fee:</b> <input type='text' value='<?=( isset($_POST['pool_fee']) && $_POST[$calculation_form_data[1].'_submitted'] == 1 ? $_POST['pool_fee'] : '1' )?>' size='4' name='pool_fee' />%</p>
+				<p><b>Pool Fee:</b> <input type='text' value='<?=( isset($_POST['pool_fee']) && $_POST[$calculation_form_data['symbol'].'_submitted'] == 1 ? $_POST['pool_fee'] : '1' )?>' size='4' name='pool_fee' />%</p>
 				    
 				    
-			   <input type='hidden' value='1' name='<?=$calculation_form_data[1]?>_submitted' />
+			   <input type='hidden' value='1' name='<?=$calculation_form_data['symbol']?>_submitted' />
+				    
+			   <input type='hidden' value='<?=$calculation_form_data['symbol']?>' name='pow_calc' />
 				
-				<input type='submit' value='Calculate <?=strtoupper($calculation_form_data[1])?> Mining Profit' />
+				<input type='submit' value='Calculate <?=strtoupper($calculation_form_data['symbol'])?> Mining Profit' />
 	
 				</form>
 				
@@ -1616,7 +1616,7 @@ $original_market = $selected_exchange;
                 // Dynamically modify MISCASSETS in $app_config['portfolio_assets']
                 // ONLY IF USER HASN'T MESSED UP $app_config['portfolio_assets'], AS WE DON'T WANT TO CANCEL OUT ANY
                 // CONFIG CHECKS CREATING ERROR LOG ENTRIES / UI ALERTS INFORMING THEM OF THAT
-                if (is_array($app_config['portfolio_assets']) || is_object($app_config['portfolio_assets'])) {
+                if ( is_array($app_config['portfolio_assets']) ) {
                 $app_config['portfolio_assets']['MISCASSETS']['asset_name'] = 'Misc. '.strtoupper($selected_pairing).' Value';
                 }
     

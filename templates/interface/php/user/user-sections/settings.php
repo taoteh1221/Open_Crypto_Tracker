@@ -142,7 +142,7 @@
 			    
 			
 			<?php
-			if (is_array($app_config['portfolio_assets']) || is_object($app_config['portfolio_assets'])) {
+			if ( is_array($app_config['portfolio_assets']) ) {
 			    
 			    ?>
 			    

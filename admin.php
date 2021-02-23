@@ -73,8 +73,8 @@ require("templates/interface/php/header.php");
 		  <li class="nav-item">
 			<a class="nav-link admin_change_width" data-toggle="tab" data-width="fixed_max" href="#admin_webook" role="tab" aria-controls="admin_webook">Webhook</a>
 		  </li>
-		  <li class="nav-item">
-			<a class="nav-link admin_change_width" data-toggle="tab" data-width="full" href="#system_stats" role="tab" aria-controls="system_stats">System Stats</a>
+		  <li class="nav-item" id="system_stats_admin_link">
+			<a class="nav-link admin_change_width" data-toggle="tab" data-width="full" href="#system_stats" role="tab" aria-controls="system_stats">System Stats<img id='system_stats_admin_link_info' src='templates/interface/media/images/info-red.png' alt='' width='30' style='position: relative;' /></a>
 		  </li>
 		  <li class="nav-item">
 			<a class="nav-link admin_change_width" data-toggle="tab" data-width="full" href="#access_stats" role="tab" aria-controls="access_stats">Access Stats</a>

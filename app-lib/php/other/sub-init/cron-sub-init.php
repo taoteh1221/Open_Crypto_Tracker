@@ -40,6 +40,7 @@ bitcoin_api('difficulty');
 // Ethereum
 etherscan_api('number');
 etherscan_api('difficulty');
+etherscan_api('gasLimit');
 
 // Hive
 asset_market_data('HIVE', 'bittrex', 'BTC-HIVE');

@@ -155,22 +155,6 @@ background: #343f49;
 }
 
 
-.red, #app_error_alert {
-color: #ff4747 !important;
-}
-
-
-#charts_error, #system_charts_error {
-border: 4px dotted #ff4747;
-}
-
-
-.red_dotted {
-padding: 10px;
-border: 2px dotted #ff4747 !important;
-}
-
-
 .green {
 color: #10d602 !important;
 }
@@ -242,6 +226,27 @@ border: 2px solid #d4d8d3;
 
 .countdown_notice {
 background: #202020;
+}
+
+/* RED LAST, TO ALWAYS OVERIDE */
+
+.red_background {
+background-color: #ff4747 !important;
+}
+
+.red_dotted {
+padding: 10px;
+border: 2px dotted #ff4747 !important;
+}
+
+
+.red, #app_error_alert {
+color: #ff4747 !important;
+}
+
+
+#charts_error, #system_charts_error {
+border: 4px dotted #ff4747;
 }
 
 

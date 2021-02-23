@@ -11,7 +11,7 @@ $_POST = clean_array($_POST);
 }
 
 // Get HIVE value
-$hive_market = asset_market_data('HIVE', 'bittrex', 'BTC-HIVE')['last_trade'];
+$hive_market = asset_market_data('HIVE', 'bittrex', 'HIVE-BTC')['last_trade'];
 
 ?>
     

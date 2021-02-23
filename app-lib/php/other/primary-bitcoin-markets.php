@@ -106,7 +106,7 @@ else {
     $app_config['general']['btc_primary_currency_pairing'] = $primary_currency_market_standalone[0]; // MUST RUN !BEFORE! btc_market() CALL BELOW, OR INCORRECT VALUE DETERMINED FOR btc_market() CALL
     $app_config['general']['btc_primary_exchange'] = btc_market($primary_currency_market_standalone[1] - 1);
     
-        if (is_array($app_config['portfolio_assets']) || is_object($app_config['portfolio_assets'])) {
+        if ( is_array($app_config['portfolio_assets']) ) {
        $app_config['portfolio_assets']['MISCASSETS']['asset_name'] = 'Misc. '.strtoupper($app_config['general']['btc_primary_currency_pairing']).' Value';
        }
                 
