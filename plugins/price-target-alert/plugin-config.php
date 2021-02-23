@@ -32,7 +32,7 @@ $plugin_config[$this_plugin]['price_targets'] = array(
 																	'btc_usd_coinbase' => '55000',
 																	'eth_btc_binance' => '0.035',
 																	
-																	); // END reminders array
+																	); // END price targets array
 
 
 
