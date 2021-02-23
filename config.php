@@ -763,39 +763,54 @@ $app_config['power_user']['hivepower_yearly_interest'] = 1.2;
 $app_config['power_user']['mining_calculators'] = array(
 					
 					
-					// BTC START
+			// POW CALCULATORS
+			'pow' => array(
+					
+					
+					// BTC
 					'btc' => array(
 											'name' => 'Bitcoin', // Coin name
 											'symbol' => 'btc', // Coin symbol (lowercase)
 											'exchange_name' => 'binance', // Exchange name (for price data, lowercase)
 											'exchange_market' => 'BTCUSDT', // Market pair name (for price data)
 											'network_measure_semantic' => 'difficulty',  // (difficulty, nethashrate, etc)
-											'block_reward' => 6.25, // Mining block reward (can be made dynamic with code, like below)
+											'block_reward' => 6.25, // Mining block reward (OPTIONAL, can be made dynamic with code, like below)
 											// EVERYTHING BELOW #MUST BE# updated in /app-lib/php/other/app-config-managment.php, since we run a cached config)
-											'height' => 'PLACEHOLDER', // Block height
-											'difficulty' => 'PLACEHOLDER', // Mining network difficulty
-											'mining_time_formula' => 'PLACEHOLDER', // Mining time formula calculation (when calculator is in use)
-											'other_network_data' => '', // Leave blank to skip
+											'mining_time_formula' => 'PLACEHOLDER', // Mining time formula calculation (REQUIRED)
+											'height' => 'PLACEHOLDER', // Block height (OPTIONAL)
+											'difficulty' => 'PLACEHOLDER', // Mining network difficulty (OPTIONAL)
+											'other_network_data' => '', // Leave blank to skip (OPTIONAL)
 										),
 					
 					
-					// ETH START
+					// ETH
 					'eth' => array(
 											'name' => 'Ethereum', // Coin name
 											'symbol' => 'eth', // Coin symbol (lowercase)
 											'exchange_name' => 'binance', // Exchange name (for price data, lowercase)
 											'exchange_market' => 'ETHBTC', // Market pair name (for price data)
 											'network_measure_semantic' => 'difficulty',  // (difficulty, nethashrate, etc)
-											'block_reward' => 2, // Mining block reward (can be made dynamic with code, like below)
+											'block_reward' => 2, // Mining block reward (OPTIONAL, can be made dynamic with code, like below)
 											// EVERYTHING BELOW #MUST BE# updated in /app-lib/php/other/app-config-managment.php, since we run a cached config)
-											'height' => 'PLACEHOLDER', // Block height
-											'difficulty' => 'PLACEHOLDER', // Mining network difficulty
-											'mining_time_formula' => 'PLACEHOLDER', // Mining time formula calculation (when calculator is in use)
-											'other_network_data' => 'PLACEHOLDER', // Leave blank to skip
+											'mining_time_formula' => 'PLACEHOLDER', // Mining time formula calculation (REQUIRED)
+											'height' => 'PLACEHOLDER', // Block height (OPTIONAL)
+											'difficulty' => 'PLACEHOLDER', // Mining network difficulty (OPTIONAL)
+											'other_network_data' => 'PLACEHOLDER', // Leave blank to skip (OPTIONAL)
 										),
 					
 					
-			); // MINING CALCULATORS END
+			), // POW END
+					
+					
+			// POS CALCULATORS
+			'pos' => array(
+			
+			// CALCULATORS HERE
+			
+			), // POS END
+					
+			
+); // MINING CALCULATORS END
 			
 
 

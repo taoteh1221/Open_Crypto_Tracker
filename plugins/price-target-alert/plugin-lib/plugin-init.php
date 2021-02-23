@@ -11,6 +11,11 @@
 
 foreach ( $plugin_config[$this_plugin]['price_targets'] as $target_key => $target_value ) {
 
+
+$price_target_cache_file = $base_dir . '/cache/vars/price-target-alert-' . $target_key . '.dat';
+
+$target_value = number_to_string($target_value);
+
 $market_config = explode('_', $target_key);
 
 $market_asset = strtoupper($market_config[0]);
@@ -23,16 +28,35 @@ $market_id = $app_config['portfolio_assets'][$market_asset]['market_pairing'][$m
 
 $market_value = number_to_string( asset_market_data($market_asset, $market_exchange, $market_id)['last_trade'] );
 
-$target_value = number_to_string($target_value);
-
-$target_direction_file = $base_dir . '/cache/vars/price-target-direction-' . $target_key . '.dat';
-
 	
-	// Get target direction, or set it if not set yet
-	if ( file_exists($target_direction_file) ) {
-	$target_direction = trim( file_get_contents($target_direction_file) );
+	// Get cache data, and / or flag a cache reset
+	if ( file_exists($price_target_cache_file) ) {
+		
+	$price_target_cache_data = explode('|', trim( file_get_contents($price_target_cache_file) ) );
+	
+	$target_direction = $price_target_cache_data[0];
+	
+	$cached_target_value = number_to_string($price_target_cache_data[1]);
+	
+	$cached_market_value = number_to_string($price_target_cache_data[2]);
+	
+		// If user changed the target value in the config, flag a reset
+		if ( $target_value != $cached_target_value ) {
+		$cache_reset = true;
+		}
+	
 	}
 	else {
+	$cache_reset = true;
+	}
+	
+	
+	// If it's too early to re-send an alert again, skip the rest of this loop
+	if ( update_cache_file($price_target_cache_file, ($plugin_config[$this_plugin]['alerts_freq_max'] * 60) ) == false ) {
+	continue;
+	}
+	// If a cache reset was flagged
+	elseif ( $cache_reset ) {
 	
 		if ( $target_value >= $market_value ) {
 		$target_direction = 'increase';
@@ -40,28 +64,27 @@ $target_direction_file = $base_dir . '/cache/vars/price-target-direction-' . $ta
 		else {
 		$target_direction = 'decrease';
 		}
+		
+	$new_cache_data = $target_direction . '|' . $target_value . '|' . $market_value;
 	
-	store_file_contents($target_direction_file, $target_direction);
+	store_file_contents($price_target_cache_file, $new_cache_data);
 	
-	// Skip the rest of this loop, as this was the first run, just setting the target direction var
+	// Skip the rest of this loop, as this was setting / resetting target cache data
 	continue;
 	
-	}
-	
-	
-	// If it's too early to re-send an alert again, skip the rest of this loop
-	if ( update_cache_file($target_direction_file, ($plugin_config[$this_plugin]['alerts_freq_max'] * 60) ) == false ) {
-	continue;
 	}
 	
 	
 	// If price target met
 	if ( $market_value <= $target_value && $target_direction == 'decrease' || $market_value >= $target_value && $target_direction == 'increase' ) {
 
+   $percent_change = ($market_value - $cached_market_value) / abs($cached_market_value) * 100;
+   $percent_change = number_format( number_to_string($percent_change) , 2, '.', ','); // Better decimal support
+   
 
-	$email_message = "The price target for " . $market_asset . " set to " . $target_value . " has been met at the " . snake_case_to_name($market_exchange) . " exchange. The " . $target_direction . "d market value is: " . $market_value;
+	$email_message = "The " . $market_asset . " price target of " . $target_value . " has been met at the " . snake_case_to_name($market_exchange) . " exchange, with a " . $percent_change . "% " . $target_direction . " in market value to " . $market_value . ".";
 
-	$text_message = $market_asset . " " . $target_value . " price target met @ " . snake_case_to_name($market_exchange) . " (" . $target_direction . "d): " . $market_value;
+	$text_message = $market_asset . " " . $target_value . " price target met @ " . snake_case_to_name($market_exchange) . " (" . $percent_change . "% " . $target_direction . "): " . $market_value;
 
 
   	// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
@@ -88,15 +111,17 @@ $target_direction_file = $base_dir . '/cache/vars/price-target-direction-' . $ta
 	@queue_notifications($send_params);
 
 
-		// Update the target direction file, with the new direction
-		if ( $target_direction == 'decrease' ) {
+		// Reset the cache data, since we ran an alert
+		if ( $target_value >= $market_value ) {
 		$target_direction = 'increase';
 		}
 		else {
 		$target_direction = 'decrease';
 		}
 		
-	store_file_contents($target_direction_file, $target_direction);
+	$new_cache_data = $target_direction . '|' . $target_value . '|' . $market_value;
+		
+	store_file_contents($price_target_cache_file, $new_cache_data);
 
 	}
 

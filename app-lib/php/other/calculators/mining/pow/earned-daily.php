@@ -8,6 +8,7 @@
 				<br />
 				<br />
 				<b>Current <?=$pow_coin_data['name']?> Value Per Coin:</b> 
+				
 				<?php
 				$value_per_coin = round( $mined_coin_value * $selected_btc_primary_currency_value , 8);
 				
@@ -29,9 +30,7 @@
 				
 				
 				<?php
-
 				echo number_format( $daily_average , 8) . ' ' . strtoupper($pow_coin_data['symbol']);
-				
 				?>
 				
 				<br />
@@ -41,6 +40,7 @@
 				?>
 				
 				<b>Average BTC Value Earned Daily:</b> 
+				
 				<?php
 				$primary_currency_daily_average_raw = ( number_to_string($primary_currency_daily_average_raw) >= $app_config['general']['primary_currency_decimals_max_threshold'] ? round($primary_currency_daily_average_raw, 2) : round($primary_currency_daily_average_raw, $app_config['general']['primary_currency_decimals_max']) );
 				
@@ -51,17 +51,23 @@
 				<br />
 				
 				<span class='red'><b>Power Cost Daily:</b> 
+				
 				<?php
 				echo $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] . number_format($kwh_cost_daily, 2);
-				?></span> 
+				?>
+				
+				</span> 
 				
 				<br />
 				<br />
 				
 				<span class='red'><b>Pool Fee Daily:</b> 
+				
 				<?php
 				echo $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] . number_format($pool_fee_daily, 2);
-				?></span> 
+				?>
+				
+				</span> 
 				
 				<br />
 				<br />
@@ -80,6 +86,7 @@
 				?>
 				
 				<b><span class="<?=$mining_daily_profit_span?>">Daily Profit:</span></b> 
+				
 				<?php
 				echo '<span class="'.$mining_daily_profit_span.'">' . $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] . number_format($mining_daily_profit, 2) . '</span>';
 				?>
@@ -97,9 +104,7 @@
 				
 				
 				<?php
-
 				echo number_format( $daily_average * 7 , 8) . ' ' . strtoupper($pow_coin_data['symbol']);
-				
 				?>
 				
 				<br />
@@ -109,6 +114,7 @@
 				?>
 				
 				<b>Average BTC Value Earned Weekly:</b> 
+				
 				<?php
 				echo number_format( $btc_daily_average_raw * 7 , 8) . ' BTC (' . $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] . number_format( $primary_currency_daily_average_raw * 7 , 2) . ' '.strtoupper($app_config['general']['btc_primary_currency_pairing']).')';
 				?>
@@ -117,22 +123,29 @@
 				<br />
 				
 				<span class='red'><b>Power Cost Weekly:</b> 
+				
 				<?php
 				echo $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] . number_format($kwh_cost_daily * 7, 2);
-				?></span>
+				?>
+				
+				</span>
 				
 				<br />
 				<br />
 				
 				<span class='red'><b>Pool Fee Weekly:</b> 
+				
 				<?php
 				echo $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] . number_format($pool_fee_daily * 7, 2);
-				?></span>
+				?>
+				
+				</span>
 				
 				<br />
 				<br />
 				
 				<b><span class="<?=$mining_daily_profit_span?>">Weekly Profit:</span></b> 
+				
 				<?php
 				echo '<span class="'.$mining_daily_profit_span.'">' . $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] . number_format( ($mining_daily_profit * 7) , 2) . '</span>';
 				?>
@@ -143,7 +156,4 @@
 				<br />
 				<br />
 				
-		</p>
-		<!-- Green colored END -->
-		
 		
