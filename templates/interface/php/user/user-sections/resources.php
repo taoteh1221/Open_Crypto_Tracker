@@ -54,7 +54,7 @@
 	        
 	        <li class='links_list'><a href='https://bitcoinvisuals.com/lightning' target='_blank'>Lightning Network Stats</a> <span class='yellow'>(Bitcoin Layer 2 Network)</span></li>
 	        
-	        <li class='links_list'><a href='https://duneanalytics.com/Brecht/loopring' target='_blank'>LoopRing Network Stats</a> <span class='yellow'>(Ethereum Layer 2 Network)</span></li>
+	        <li class='links_list'><a href='https://duneanalytics.com/loopring' target='_blank'>LoopRing Network Stats</a> <span class='yellow'>(Ethereum Layer 2 Network)</span></li>
 	        
 	        
 	    </ul>

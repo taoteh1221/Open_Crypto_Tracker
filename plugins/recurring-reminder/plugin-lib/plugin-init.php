@@ -9,6 +9,11 @@
 // ###########################################################################################
 
 
+if ( dir_structure($base_dir . '/cache/events/recurring-reminder/') != true ) {
+app_logging('system_error', 'Could not create directory: /cache/events/recurring-reminder/');
+}
+
+
 foreach ( $plugin_config[$this_plugin]['reminders'] as $key => $value ) {
 
 // Recurring reminder time in minutes
@@ -19,7 +24,7 @@ $in_minutes = round( number_to_string(1440 * $value['days']) );
 $in_minutes_offset = ( $in_minutes >= 20 ? ($in_minutes - 1) : $in_minutes );
 
 
-	if ( update_cache_file($base_dir . '/cache/events/recurring-reminder-alert-' . $key . '.dat', $in_minutes_offset) == true ) {
+	if ( update_cache_file($base_dir . '/cache/events/recurring-reminder/alert-' . $key . '.dat', $in_minutes_offset) == true ) {
 
 	$format_message = "This is a recurring ~" . round($value['days']) . " day reminder: " . $value['message'];
 
@@ -47,7 +52,7 @@ $in_minutes_offset = ( $in_minutes >= 20 ? ($in_minutes - 1) : $in_minutes );
 	@queue_notifications($send_params);
 
 	// Update the event tracking for this alert
-	store_file_contents($base_dir . '/cache/events/recurring-reminder-alert-' . $key . '.dat', time_date_format(false, 'pretty_date_time') );
+	store_file_contents($base_dir . '/cache/events/recurring-reminder/alert-' . $key . '.dat', time_date_format(false, 'pretty_date_time') );
 
 	}
 

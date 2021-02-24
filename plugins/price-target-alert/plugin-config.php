@@ -27,10 +27,9 @@ $plugin_config[$this_plugin]['alerts_freq_max'] = 6;
 // Price targets array (add unlimited price targets as new array objects)
 $plugin_config[$this_plugin]['price_targets'] = array(
 																	
-																	// NO COMMAS ALLOWED, ONLY DECIMALS
-																	// 'asset_pairing_exchange' => '123.4567'
-																	'btc_usd_coinbase' => '55000',
-																	'eth_btc_binance' => '0.035',
+																	// 'asset-pairing-exchange' => '123.4567', // NO COMMAS ALLOWED IN PRICE, ONLY DECIMALS
+																	'btc-usd-coinbase' => '51000',
+																	'eth-btc-binance' => '0.034',
 																	
 																	); // END price targets array
 

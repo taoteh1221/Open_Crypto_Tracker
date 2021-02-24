@@ -9,14 +9,19 @@
 // ###########################################################################################
 
 
+if ( dir_structure($base_dir . '/cache/vars/price-target-alert/') != true ) {
+app_logging('system_error', 'Could not create directory: /cache/vars/price-target-alert/');
+}
+
+
 foreach ( $plugin_config[$this_plugin]['price_targets'] as $target_key => $target_value ) {
 
 
-$price_target_cache_file = $base_dir . '/cache/vars/price-target-alert-' . $target_key . '.dat';
+$price_target_cache_file = $base_dir . '/cache/vars/price-target-alert/' . $target_key . '.dat';
 
 $target_value = number_to_string($target_value);
 
-$market_config = explode('_', $target_key);
+$market_config = explode('-', $target_key);
 
 $market_asset = strtoupper($market_config[0]);
 
@@ -101,9 +106,9 @@ $market_value = number_to_string( asset_market_data($market_asset, $market_excha
    $percent_change = number_format( number_to_string($percent_change) , 2, '.', ','); // Better decimal support
    
 
-	$email_message = "The " . $market_asset . " price target of " . $target_value . " has been met at the " . snake_case_to_name($market_exchange) . " exchange, with a " . $percent_change . "% " . $target_direction . " over the past " . $last_cached_time . " in market value to " . $market_value . ".";
+	$email_message = "The " . $market_asset . " price target of " . $target_value . " " . strtoupper($market_pairing) . " has been met at the " . snake_case_to_name($market_exchange) . " exchange, with a " . $percent_change . "% " . $target_direction . " over the past " . $last_cached_time . " in market value to " . $market_value . " " . strtoupper($market_pairing) . ".";
 
-	$text_message = $market_asset . " " . $target_value . " price target met @ " . snake_case_to_name($market_exchange) . " (" . $percent_change . "% " . $target_direction . " over " . $last_cached_time . "): " . $market_value;
+	$text_message = $market_asset . " price target of " . $target_value . " " . strtoupper($market_pairing) . " met @ " . snake_case_to_name($market_exchange) . " (" . $percent_change . "% " . $target_direction . " over " . $last_cached_time . "): " . $market_value . " " . strtoupper($market_pairing);
 
 
   	// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
