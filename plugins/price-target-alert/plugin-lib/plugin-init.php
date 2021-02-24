@@ -124,7 +124,7 @@ $market_value = number_to_string( asset_market_data($market_asset, $market_excha
           										'charset' => $encoded_text_message['charset']
           											),
           					'email' => array(
-          											'subject' => $market_asset . ' Price Target Alert',
+          											'subject' => $market_asset . ' / ' . strtoupper($market_pairing) . ' Price Target Alert (' . $target_direction . ')',
           											'message' => $email_message
           											)
           					);
