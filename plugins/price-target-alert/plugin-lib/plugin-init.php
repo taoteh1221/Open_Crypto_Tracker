@@ -125,6 +125,9 @@ $market_value = number_to_string( asset_market_data($market_asset, $market_excha
 	$email_message = "The " . $market_asset . " price target of " . $target_value_text . " " . strtoupper($market_pairing) . " has been met at the " . snake_case_to_name($market_exchange) . " exchange, with a " . $percent_change . "% " . $target_direction . " over the past " . $last_cached_time . " in market value to " . $market_value_text . " " . strtoupper($market_pairing) . ".";
 
 	$text_message = $market_asset . " price target of " . $target_value_text . " " . strtoupper($market_pairing) . " met @ " . snake_case_to_name($market_exchange) . " (" . $percent_change . "% " . $target_direction . " over " . $last_cached_time . "): " . $market_value_text . " " . strtoupper($market_pairing);
+              
+   // Were're just adding a human-readable timestamp to smart home (audio) alerts
+   $notifyme_message = $email_message . ' Timestamp: ' . time_date_format($app_config['general']['local_time_offset'], 'pretty_time') . '.';
 
 
   	// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
@@ -133,7 +136,7 @@ $market_value = number_to_string( asset_market_data($market_asset, $market_excha
   	$encoded_text_message = content_data_encoding($text_message); // Unicode support included for text messages (emojis / asian characters / etc )
   				
    $send_params = array(
-          					'notifyme' => $email_message,
+          					'notifyme' => $notifyme_message,
           					'telegram' => $email_message,
           					'text' => array(
           										'message' => $encoded_text_message['content_output'],
