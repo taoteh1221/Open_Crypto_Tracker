@@ -1337,7 +1337,7 @@ global $selected_btc_primary_currency_value, $app_config, $defipulse_api_limit;
 
  // https://github.com/Loopring/protocols/wiki/Loopring-Exchange-Data-API
  
-  elseif ( strtolower($chosen_exchange) == 'loopring' ) {
+  elseif ( strtolower($chosen_exchange) == 'loopring' || strtolower($chosen_exchange) == 'loopring_amm' ) {
  
      
      $json_string = 'https://api3.loopring.io/api/v3/allTickers';

@@ -442,12 +442,13 @@ $app_config['charts_alerts']['tracked_markets'] = array(
 /////////////////////////////////////////////////////////////////////////////
 
 
-// Activate any custom plugins you've created (that run from the /plugins/ directory)
+// Activate any built-in included / custom plugins you've created (that run from the /plugins/ directory)
 // SEE /DOCUMENTATION-ETC/PLUGINS-README.txt for creating your own custom plugins
 // ADD ANY NEW PLUGIN HERE BY USING THE FOLDER NAME THE NEW PLUGIN IS LOCATED IN
 // !!NEVER ADD A PLUGIN SOMEBODY ELSE WROTE, UNLESS YOU OR SOMEONE YOU TRUST 
 // HAVE REVIEWED THE CODE AND ARE ABSOLUTELY SURE IT IS NOT MALICIOUS!!
-// PLUGINS *MAY REQUIRE* A CRON JOB RUNNING ON YOUR WEB SERVER (if they are configured to...see README.txt for cron job setup information)
+// PLUGINS *MAY REQUIRE* A CRON JOB RUNNING ON YOUR WEB SERVER (if built for cron jobs...see README.txt for cron job setup information)
+// PLUGIN CONFIGS are in the /plugins/ directory associated with that plugin
 // CHANGE 'off' to 'on' FOR THE PLUGIN YOU WANT ACTIVATED 
 $app_config['power_user']['activate_plugins'] = array(
 									//'plugin-folder-name' => 'on', // (disabled example...your LOWERCASE plugin folder name in the folder: /plugins/)
@@ -1839,7 +1840,7 @@ $app_config['portfolio_assets'] = array(
                                                     
                                     'eth' => array(
                                           'localbitcoins' => 'ETH',
-                                        	'loopring' => 'AMM-WBTC-ETH',
+                                        	'loopring_amm' => 'AMM-WBTC-ETH',
                                     	 	'defipulse' => 'WBTC/WETH',
                                                     ),
                                                     
@@ -2192,7 +2193,7 @@ $app_config['portfolio_assets'] = array(
                                           'kraken' => 'ETHDAI',
                                         	'kucoin' => 'ETH-DAI',
                                           'hitbtc' => 'ETHDAI',
-                                        	'loopring' => 'AMM-ETH-DAI',
+                                        	'loopring_amm' => 'AMM-ETH-DAI',
                                     	 	'defipulse' => 'WETH/DAI',
                                                     ),
                                                     
@@ -2275,7 +2276,7 @@ $app_config['portfolio_assets'] = array(
                                           'upbit' => 'USDT-ETH',
                                        	'kucoin' => 'ETH-USDT',
                                           'okex' => 'ETH-USDT',
-                                          'loopring' => 'AMM-ETH-USDT',
+                                          'loopring_amm' => 'AMM-ETH-USDT',
                                           'poloniex' => 'USDT_ETH',
                                           'bitbns' => 'ETHUSDT',
                                           'wazirx' => 'ethusdt',
@@ -2286,7 +2287,7 @@ $app_config['portfolio_assets'] = array(
                                           'coinbase' => 'ETH-USDC',
                                           'kraken' => 'ETHUSDC',
                                           'kucoin' => 'ETH-USDC',
-                                          'loopring' => 'AMM-ETH-USDC',
+                                          'loopring_amm' => 'AMM-ETH-USDC',
                                           'poloniex' => 'USDC_ETH',
                                                     ),
                                                     
@@ -2326,7 +2327,7 @@ $app_config['portfolio_assets'] = array(
                                         'huobi' => 'lrcbtc',
                                         'upbit' => 'BTC-LRC',
                                         'bitfinex' => 'tLRCBTC',
-                                        'loopring' => 'AMM-LRC-WBTC',
+                                        'loopring_amm' => 'AMM-LRC-WBTC',
                                         'hitbtc' => 'LRCBTC',
                                         'gateio' => 'LRC_BTC',
                                         'coinex' => 'LRCBTC',
@@ -2378,7 +2379,7 @@ $app_config['portfolio_assets'] = array(
                                                     ),
                                                     
                                     'eth' => array(
-                                        'loopring' => 'AMM-UNI-ETH',
+                                        'loopring_amm' => 'AMM-UNI-ETH',
                                     	 'defipulse' => 'UNI/WETH',
                                                     ),
                                                     
@@ -2428,7 +2429,7 @@ $app_config['portfolio_assets'] = array(
                                         	'kucoin' => 'MKR-ETH',
                                           'okex' => 'MKR-ETH',
                                           'bitfinex' => 'tMKRETH',
-                                        	'loopring' => 'AMM-MKR-ETH',
+                                        	'loopring_amm' => 'AMM-MKR-ETH',
                                         	'hitbtc' => 'MKRETH',
                                           'gateio' => 'MKR_ETH',
                                     	 	'defipulse' => 'MKR/WETH',
@@ -2533,7 +2534,7 @@ $app_config['portfolio_assets'] = array(
                                                     
                                     'eth' => array(
                                         	'kraken' => 'KEEPETH',
-                                        	'loopring' => 'AMM-KEEP-ETH',
+                                        	'loopring_amm' => 'AMM-KEEP-ETH',
                                     	 	'defipulse' => 'KEEP/WETH||0xe6f19dab7d43317344282f803f8e8d240708174a',
                                                     ),
                                                     
@@ -2750,7 +2751,7 @@ $app_config['portfolio_assets'] = array(
                                           'bittrex' => 'ENJ-ETH',
                                           'hitbtc' => 'ENJETH',
                                           'kucoin' => 'ENJ-ETH',
-                                        	'loopring' => 'AMM-ENJ-ETH',
+                                        	'loopring_amm' => 'AMM-ENJ-ETH',
                                     	 	'defipulse' => 'ENJ/WETH',
                                                     ),
                                                     

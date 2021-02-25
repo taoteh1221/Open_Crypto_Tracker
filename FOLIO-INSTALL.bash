@@ -208,7 +208,7 @@ echo "#WHEN YOU FIRST RUN THIS APP AFTER INSTALLATION#. IT'S #HIGHLY RECOMMENDED
 echo "ESPECIALLY ON PUBLIC FACING / KNOWN SERVERS, #OR SOMEBODY ELSE MAY BEAT YOU TO IT#."
 echo " "
 
-echo "Please report any issues here: https://github.com/taoteh1221/DFD_Cryptocoin_Values/issues"
+echo "PLEASE REPORT ANY ISSUES HERE: https://github.com/taoteh1221/DFD_Cryptocoin_Values/issues"
 echo " "
   				
 echo "Select 1 or 2 to choose whether to continue with installation, or quit."
@@ -1108,6 +1108,9 @@ echo " "
 
 ######################################
 
+# Return to user's home directory
+cd /home/$SYS_USER/
+
 
 echo " "
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
@@ -1239,12 +1242,56 @@ echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 echo " "
 echo "BE SURE TO SAVE ALL THE ACCESS DETAILS PRINTED OUT ABOVE, BEFORE YOU SIGN OFF FROM THIS TERMINAL SESSION."
 echo " "
-echo "See my other cryptocurrency-related free / private / open source software at:"
-echo "https://sourceforge.net/u/taoteh1221/profile"
-echo "https://github.com/taoteh1221"
+echo "Also check out my 100% FREE open source multi-crypto slideshow ticker for Raspberry Pi LCD screens:"
 echo " "
+echo "https://sourceforge.net/projects/dfd-crypto-ticker"
+echo " "
+echo "https://github.com/taoteh1221/DFD_Crypto_Ticker"
+echo " "
+
 
 
 ######################################
 
+
+
+echo "Would you like to ADDITIONALLY install DFD Crypto Ticker, multi-crypto slideshow ticker for Raspberry Pi LCD screens on this machine?"
+echo " "
+
+echo "Select 1 or 2 to choose whether to install the crypto ticker for Raspberry Pi LCD screens, or skip."
+echo " "
+
+OPTIONS="install_crypto_ticker skip"
+
+select opt in $OPTIONS; do
+        if [ "$opt" = "install_crypto_ticker" ]; then
+         
+			
+			echo " "
+			
+			echo "Proceeding with crypto ticker installation, please wait..."
+			
+			echo " "
+			
+			/usr/bin/wget -O TICKER-INSTALL.bash https://raw.githubusercontent.com/taoteh1221/DFD_Crypto_Ticker/main/TICKER-INSTALL.bash
+			
+			/bin/chmod +x TICKER-INSTALL.bash
+			
+			/bin/chown $SYS_USER:$SYS_USER TICKER-INSTALL.bash
+			
+			/usr/bin/sudo ./TICKER-INSTALL.bash
+			
+			
+        break
+       elif [ "$opt" = "skip" ]; then
+        echo " "
+        echo "Skipping crypto ticker install..."
+        break
+       fi
+done
+
+echo " "
+
+
+######################################
 

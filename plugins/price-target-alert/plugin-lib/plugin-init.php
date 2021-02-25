@@ -82,6 +82,10 @@ $market_value = number_to_string( asset_market_data($market_asset, $market_excha
 	
 	// If price target met
 	if ( $market_value <= $target_value && $target_direction == 'decrease' || $market_value >= $target_value && $target_direction == 'increase' ) {
+        
+
+   $percent_change = ($market_value - $cached_market_value) / abs($cached_market_value) * 100;
+   $percent_change = number_format( number_to_string($percent_change) , 2, '.', ','); // Better decimal support
 		
 		
    $last_cached_days = ( time() - filemtime($price_target_cache_file) ) / 86400;
@@ -100,15 +104,27 @@ $market_value = number_to_string( asset_market_data($market_asset, $market_excha
       else {
       $last_cached_time = number_format($last_cached_days, 2, '.', ',') . ' days';
       }
-        
-
-   $percent_change = ($market_value - $cached_market_value) / abs($cached_market_value) * 100;
-   $percent_change = number_format( number_to_string($percent_change) , 2, '.', ','); // Better decimal support
+   
+   
+   	// Pretty numbers UX on target / market values, for alert messages
+   	// Fiat-eqiv
+   	if ( array_key_exists($market_pairing, $app_config['power_user']['bitcoin_currency_markets']) && !array_key_exists($market_pairing, $app_config['power_user']['crypto_pairing']) ) {
+   		
+		$target_value_text = ( $target_value >= $app_config['general']['primary_currency_decimals_max_threshold'] ? pretty_numbers($target_value, 2) : pretty_numbers($target_value, $app_config['general']['primary_currency_decimals_max']) );
+		
+		$market_value_text = ( $market_value >= $app_config['general']['primary_currency_decimals_max_threshold'] ? pretty_numbers($market_value, 2) : pretty_numbers($market_value, $app_config['general']['primary_currency_decimals_max']) );
+		
+		}
+		// Crypto
+		else {
+		$target_value_text = pretty_numbers($target_value, 8);
+		$market_value_text = pretty_numbers($market_value, 8);
+		}
    
 
-	$email_message = "The " . $market_asset . " price target of " . $target_value . " " . strtoupper($market_pairing) . " has been met at the " . snake_case_to_name($market_exchange) . " exchange, with a " . $percent_change . "% " . $target_direction . " over the past " . $last_cached_time . " in market value to " . $market_value . " " . strtoupper($market_pairing) . ".";
+	$email_message = "The " . $market_asset . " price target of " . $target_value_text . " " . strtoupper($market_pairing) . " has been met at the " . snake_case_to_name($market_exchange) . " exchange, with a " . $percent_change . "% " . $target_direction . " over the past " . $last_cached_time . " in market value to " . $market_value_text . " " . strtoupper($market_pairing) . ".";
 
-	$text_message = $market_asset . " price target of " . $target_value . " " . strtoupper($market_pairing) . " met @ " . snake_case_to_name($market_exchange) . " (" . $percent_change . "% " . $target_direction . " over " . $last_cached_time . "): " . $market_value . " " . strtoupper($market_pairing);
+	$text_message = $market_asset . " price target of " . $target_value_text . " " . strtoupper($market_pairing) . " met @ " . snake_case_to_name($market_exchange) . " (" . $percent_change . "% " . $target_direction . " over " . $last_cached_time . "): " . $market_value_text . " " . strtoupper($market_pairing);
 
 
   	// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
