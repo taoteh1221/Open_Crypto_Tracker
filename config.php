@@ -803,7 +803,7 @@ $app_config['power_user']['mining_calculators'] = array(
 			), // POW END
 					
 					
-			// POS CALCULATORS
+			// POS CALCULATORS (#NOT FUNCTIONAL YET#)
 			'pos' => array(
 			
 			// CALCULATORS HERE
