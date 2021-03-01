@@ -26,7 +26,7 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
-Run exchange / pairings list debug mode, to copy / paste into README and web page documentation.
+Create better error checking / auto-correcting on all CSV spreadsheet import fields.
 
 
 New screen shots for Asset Performance chart / new portfolio summary area.
@@ -237,6 +237,9 @@ Turn string / array manipulations function file into a class.
 ///////////////////////////////////////////////////////
 MAYBE SECTION
 ///////////////////////////////////////////////////////
+
+
+Add human-readable INITIAL start date / time as an OPTIONAL extra config param in recurring reminder plugin?
 
 
 Add defipulse 'preferred platform' config in power user section, which falls back to ANY highest volume / liquidity platform's market if no market is found for the preferred platform.

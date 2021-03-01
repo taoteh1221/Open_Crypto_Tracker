@@ -115,9 +115,9 @@ $app_config['comms']['telegram_bot_token'] = '';  // Your bot's access token
 // Price percent change to send alerts for (WITHOUT percent sign: 15.75 = 15.75%). Sends alerts when percent change reached (up or down)
 $app_config['comms']['price_alerts_threshold'] = 9.25; // CAN BE 0 TO DISABLE PRICE ALERTS
 ////
-// Re-allow SAME asset price alert(s) messages after X hours (per asset, set higher if issues with sent to junk folder / API blocking or throttling...can be 0)
+// Re-allow SAME asset price alert(s) messages after X hours (per alert config, set higher if sent to junk folder / API blocking or throttling)
 // Price alerts AUTOMATICALLY will send to all properly-configured communication channels, and automatically skip any not properly setup
-$app_config['comms']['price_alerts_freq_max'] = 2; 
+$app_config['comms']['price_alerts_freq_max'] = 2; // Can be 0, to have no limits
 ////
 // Block an asset price alert if price retrieved, BUT failed retrieving pair volume (not even a zero was retrieved, nothing)
 // Good for blocking questionable exchanges bugging you with price alerts, especially when used in combination with the minimum volume filter
@@ -178,10 +178,11 @@ $app_config['general']['defipulsecom_api_key'] = '';
 
 // Default BITCOIN market currencies (80+ currencies supported)
 // (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
-// aed / ars / aud / bam / bdt / bob / brl / bwp / byn / cad / chf / clp / cny / cop / crc / czk / dai / dkk / dop
-// egp / eth / eur / gbp / gel / ghs / gtq / hkd / huf / idr / ils / inr / irr / jmd / jod / jpy / kes / krw / kwd 
-// kzt / lkr / mad / mur / mwk / mxn / myr / ngn / nis / nok / nzd / pab / pen / php / pkr / pln / pyg / qar / ron 
-// rsd / rub / rwf / sar / sek / sgd / thb / try / tusd / twd / tzs / uah / ugx / usdc / usdt / uyu / ves / vnd / xaf / xof / zar / zmw
+// aed / ars / aud / bam / bdt / bob / brl / bwp / byn / cad / chf / clp / cny / cop / crc / czk / 
+// dai / dkk / dop / egp / eth / eur / gbp / gel / ghs / gtq / hkd / huf / idr / ils / inr / irr / 
+// jmd / jod / jpy / kes / krw / kwd / kzt / lkr / mad / mur / mwk / mxn / myr / ngn / nis / nok / 
+// nzd / pab / pen / php / pkr / pln / pyg / qar / ron / rsd / rub / rwf / sar / sek / sgd / thb / 
+// try / tusd / twd / tzs / uah / ugx / usdc / usdt / uyu / ves / vnd / xaf / xof / zar / zmw
 // SEE THE $app_config['portfolio_assets'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
 // CURRENCY PAIRING VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (set in $app_config['general']['btc_primary_exchange'] directly below)
 $app_config['general']['btc_primary_currency_pairing'] = 'usd'; // PUT INSIDE SINGLE QUOTES ('selection')
@@ -189,9 +190,9 @@ $app_config['general']['btc_primary_currency_pairing'] = 'usd'; // PUT INSIDE SI
 
 // Default BITCOIN market exchanges (30+ bitcoin exchanges supported)
 // (set for default Bitcoin market, and charts / price alert primary-currency-equivalent value determination [example: usd value of btc/ltc market, etc])
-// binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmex / bitpanda / bitso / bitstamp / bittrex 
-// bittrex_global / braziliex / btcmarkets / btcturk / buyucoin / cex / coinbase / gemini / hitbtc / huobi 
-// korbit / kraken / kucoin / liquid / localbitcoins / luno / okcoin / okex / southxchange / upbit / wazirx
+// binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmex / bitpanda / bitso / bitstamp / bittrex / 
+// bittrex_global / braziliex / btcmarkets / btcturk / buyucoin / cex / coinbase / defipulse / gemini / hitbtc / 
+// huobi / korbit / kraken / kucoin / liquid / localbitcoins / loopring_amm / luno / okcoin / okex / southxchange / upbit / wazirx
 // SEE THE $app_config['portfolio_assets'] CONFIGURATION NEAR THE BOTTOM OF THIS CONFIG FILE, FOR THE PROPER (CORRESPONDING)
 // MARKET PAIRING VALUE NEEDED FOR YOUR CHOSEN 'BTC' EXCHANGE (to populate $app_config['general']['btc_primary_currency_pairing'] directly above with)
 // SEE THE $app_config['developer']['limited_apis'] SETTING MUCH FURTHER DOWN, FOR EXCHANGES !NOT RECOMMENDED FOR USAGE HERE!

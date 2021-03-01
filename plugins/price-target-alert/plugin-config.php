@@ -21,8 +21,8 @@
 // What runtime modes this plugin should run during (MANDATORY)
 $plugin_config[$this_plugin]['runtime_mode'] = 'cron'; // 'cron', 'ui', 'all' (only 'cron' supported as of 2020-10-29)
 
-// Re-allow SAME asset price target alert(s) messages after X hours
-$plugin_config[$this_plugin]['alerts_freq_max'] = 6;
+// Re-allow SAME asset price target alert(s) messages after X hours (per alert config)
+$plugin_config[$this_plugin]['alerts_freq_max'] = 6; // Can be 0, to have no limits
 
 // Price targets array (add unlimited price targets as new array objects)
 $plugin_config[$this_plugin]['price_targets'] = array(
