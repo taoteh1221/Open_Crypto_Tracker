@@ -234,6 +234,8 @@
 	        
 	        <li class='links_list'><a href='https://open.spotify.com/show/62PR1RigLG2YN5Pelq6UY9' target='_blank'>Chain Reaction</a></li>
 	        
+	        <li class='links_list'><a href='https://open.spotify.com/show/2KmZgeZUC1trxOvDvfQefy' target='_blank'>Citadel Dispatch</a></li>
+	        
 	        <li class='links_list'><a href='https://open.spotify.com/show/5pBuPJdMabzdDaZEyUZopi' target='_blank'>Epicenter Bitcoin</a></li>
 	        
 	        <li class='links_list'><a href='https://open.spotify.com/show/2CLetGT20MFsHqfeBN3fYl' target='_blank'>H4SHR8 Crypto Mining</a></li>

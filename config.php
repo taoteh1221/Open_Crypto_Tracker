@@ -1109,6 +1109,12 @@ $app_config['power_user']['news_feeds'] = array(
         
         
         				array(
+            			"title" => "Podcast - Citadel Dispatch",
+            			"url" => "https://anchor.fm/s/45563e80/podcast/rss"
+        						),
+        
+        
+        				array(
             			"title" => "Podcast - Citizen Bitcoin",
             			"url" => "https://feeds.simplecast.com/620_gQYv"
         						),
