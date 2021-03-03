@@ -336,7 +336,6 @@ $csv_row[6] = strtolower($csv_row[6]); // Pairing to lowercase
 	// Pairing auto-correction (if invalid pairing)
 	if ( !is_array($app_config['portfolio_assets'][$csv_row[0]]['market_pairing'][$csv_row[6]]) ) {
 		
-	$csv_row[2] = null; // We need to reset the paid amount to null, as the pairing was not found
 	$csv_row[5] = 1; // We need to reset the market id to 1 (it's ALWAYS 1 OR GREATER), as the pairing was not found
 	
 	// First key in $app_config['portfolio_assets'][$csv_row[0]]['market_pairing']
