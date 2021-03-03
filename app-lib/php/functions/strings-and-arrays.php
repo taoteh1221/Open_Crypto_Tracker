@@ -2,8 +2,8 @@
 /*
  * Copyright 2014-2021 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
  */
- 
- 
+
+
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
 
@@ -301,6 +301,52 @@ $url = preg_replace("/:\/\//i", ") ", $url);
 
 // Keep our color-coded logs in the admin UI pretty, remove '//' and put in parenthesis
 return '('.$url;
+
+}
+ 
+ 
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function validated_csv_import_row($csv_row) {
+	
+global $app_config;
+
+// WE AUTO-CORRECT AS MUCH AS IS FEASIBLE, IF THE USER-INPUT IS CORRUPT / INVALID
+	
+$csv_row[0] = strtoupper($csv_row[0]); // Asset to uppercase
+	    
+$csv_row[1] = remove_number_format($csv_row[1]); // Remove any number formatting in held amount
+
+// Remove any number formatting in paid amount, default paid amount to null if not a valid positive number
+$csv_row[2] = ( remove_number_format($csv_row[2]) >= 0 ? remove_number_format($csv_row[2]) : null ); 
+	
+// If leverage amount input is corrupt, default to 0 (ALSO simple auto-correct if negative)
+$csv_row[3] = ( whole_int($csv_row[3]) != false && $csv_row[3] >= 0 ? $csv_row[3] : 0 ); 
+
+// Default to 'long', if not 'short' (set to lowercase...simple auto-correct, if set to anything other than 'short')
+$csv_row[4] = ( strtolower($csv_row[4]) == 'short' ? strtolower($csv_row[4]) : 'long' ); 
+
+// If market ID input is corrupt, default to 1 (it's ALWAYS 1 OR GREATER)
+$csv_row[5] = ( whole_int($csv_row[5]) != false && $csv_row[5] >= 1 ? $csv_row[5] : 1 ); 
+	
+$csv_row[6] = strtolower($csv_row[6]); // Pairing to lowercase
+	
+	// Pairing auto-correction (if invalid pairing)
+	if ( !is_array($app_config['portfolio_assets'][$csv_row[0]]['market_pairing'][$csv_row[6]]) ) {
+	$csv_row[2] = null; // We need to reset the paid amount to null, as the pairing was not found
+	$csv_row[5] = 1; // We need to reset the market id to 1 (it's ALWAYS 1 OR GREATER), as the pairing was not found
+	$csv_row[6] = array_key_first($app_config['portfolio_assets'][$csv_row[0]]['market_pairing']); // First pairing in config
+	}
+	
+	// Return false if there is no valid held amount
+	if ( $csv_row[1] >= 0.00000001 )  {
+	return $csv_row;
+	}
+	else {
+	return false;
+	}
 
 }
 

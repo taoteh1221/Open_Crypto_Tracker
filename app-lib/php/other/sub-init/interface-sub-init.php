@@ -186,7 +186,7 @@ $sorted_by_asc_desc = $sort_settings[1];
 		
 		// Checks and importing
 		if ( $_FILES['csv_file']['tmp_name'] != NULL ) {
-		$csv_file_array = csv_file_array($_FILES['csv_file']['tmp_name']);
+		$csv_file_array = csv_import_array($_FILES['csv_file']['tmp_name']);
    	}
    	else {
    	$csv_import_fail = 'You forgot to select your CSV import file.' . $dismiss_alert;
@@ -200,7 +200,7 @@ $sorted_by_asc_desc = $sort_settings[1];
    	$csv_import_succeed = 'Your CSV import succeeded.' . $dismiss_alert;
    	}
    	
-   	if ( !$csv_import_fail && $_POST['csv_check'] == 1 ) {
+   	if ( !$csv_import_fail ) {
    	$run_csv_import = 1;
    	}
    

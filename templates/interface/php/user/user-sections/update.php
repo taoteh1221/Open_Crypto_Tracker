@@ -352,15 +352,13 @@
 	        		
 	        			if ( strtoupper($coin_array_key) == strtoupper($key) ) {
 	        			
-	        			$value[5] = ( whole_int($value[5]) != false ? $value[5] : 1 ); // If market ID input is corrupt, default to 1
-	        			$value[3] = ( whole_int($value[3]) != false ? $value[3] : 0 ); // If leverage amount input is corrupt, default to 0
-	        			
-	        		 	$coin_pairing_id = strtolower($value[6]);
-	        			$coin_market_id = $value[5];
-	        		 	$asset_amount_value = remove_number_format($value[1]);
-	       		 	$coin_paid_value = remove_number_format($value[2]);
+	        			// We already validated / auto-corrected $csv_file_array
+	        		 	$asset_amount_value = $value[1];
+	       		 	$coin_paid_value = $value[2];
 	       		 	$coin_leverage_value = $value[3];
-	        			$coin_margintype_value = strtolower($value[4]);
+	        			$coin_margintype_value = $value[4];
+	        			$coin_market_id = $value[5];
+	        		 	$coin_pairing_id = $value[6];
 	        			
 	       		 	}
 	        	

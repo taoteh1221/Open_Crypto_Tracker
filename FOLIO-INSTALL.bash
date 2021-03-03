@@ -139,7 +139,7 @@ echo "$OS v$VER"
 echo " "
 
 echo "Recommended MINIMUM system specs:"
-echo "1 Gigahertz CPU / 512 Megabytes RAM / HIGH QUALITY 32 Gigabyte MicroSD card (running Nginx or Apache headless with PHP v7.2+)"
+echo "1 Gigahertz CPU / 512 Megabytes RAM / HIGH QUALITY 32 Gigabyte MicroSD card (running Nginx or Apache headless with PHP v7.3+)"
 echo " "
 
 echo "If you already have unrelated web site files located at $DOC_ROOT on your system, they may be affected."
@@ -171,7 +171,7 @@ echo "v4.14.8 AND HIGHER FIXES SYSTEM STATS LITE CHARTS NOT UPDATING IN A TIMELY
 echo "You may need to delete you system stats lite chart directory to force a lite chart"
 echo "rebuild (from archival data) at: /cache/charts/system/lite/"
 echo " "
-echo "v4.14.6 AND HIGHER WILL #FORCEFULLY RECOMMEND# PHP-FPM (FastCGI) v7.2 OR HIGHER."
+echo "v4.14.6 AND HIGHER WILL #FORCEFULLY RECOMMEND# PHP-FPM (FastCGI) v7.3 OR HIGHER."
 echo "This warning can be disabled in the DEVELOPER section in Admin Config as of v4.14.7."
 echo "If you auto-installed, you can auto-upgrade if you FULLY re-install EVERYTHING with"
 echo "the latest auto-install script: https://git.io/JU4gn"
@@ -260,7 +260,7 @@ echo " "
 
 echo "We need to know which version of PHP-FPM (fcgi) to use."
 echo "Please select a PHP-FPM version NUMBER from the list below..."
-echo "(PHP-FPM version 7.2 or greater is REQUIRED)"
+echo "(PHP-FPM version 7.3 or greater is REQUIRED)"
 echo " "
 
 echo "$PHP_FPM_LIST"

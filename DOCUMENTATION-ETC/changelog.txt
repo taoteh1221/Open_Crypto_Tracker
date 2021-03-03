@@ -4302,6 +4302,18 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 
 
+-------------------------------------------------------------------
+4.26.0:
+
+-Better error-detection and auto-correcting for spreadsheet importing
+
+-------------------------------------------------------------------
+
+
+
+
+
+
 
 
 

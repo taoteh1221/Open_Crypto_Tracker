@@ -16,8 +16,8 @@ $force_exit = 1;
 
 
 // PHP v5.5 or higher required for this app
-if (PHP_VERSION_ID < 70200) {
-$system_error = 'PHP version 7.2 or higher is required. Please upgrade your PHP version to run this application. <br /><br />';
+if (PHP_VERSION_ID < 70300) {
+$system_error = 'PHP version 7.3 or higher is required. Please upgrade your PHP version to run this application. <br /><br />';
 app_logging('system_error', $system_error);
 echo $system_error;
 $force_exit = 1;
@@ -27,7 +27,7 @@ $force_exit = 1;
 
 // Make sure we are using FastCGI
 if ( $runtime_mode != 'cron' && !stristr( php_sapi_name() , 'fcgi') && $app_config['developer']['ignore_php_fpm_warning'] != 'yes' ) {
-$system_error = "{Set 'ignore_php_fpm_warning' to 'yes' in Admin Config DEVELOPER section to disable this warning} <br /><br /> PHP is currently running as '" . php_sapi_name() . "', PHP-FPM (fcgi) mode is not running. PHP-FPM v7.2 or higher is HIGHLY RECOMMENDED to avoid low power devices OR high traffic installs from crashing. If you auto-installed, you can auto-upgrade if you FULLY re-install EVERYTHING with the latest auto-install script: https://git.io/JU4gn <br /><br />";
+$system_error = "{Set 'ignore_php_fpm_warning' to 'yes' in Admin Config DEVELOPER section to disable this warning} <br /><br /> PHP is currently running as '" . php_sapi_name() . "', PHP-FPM (fcgi) mode is not running. PHP-FPM v7.3 or higher is HIGHLY RECOMMENDED to avoid low power devices OR high traffic installs from crashing. If you auto-installed, you can auto-upgrade if you FULLY re-install EVERYTHING with the latest auto-install script: https://git.io/JU4gn <br /><br />";
 app_logging('system_error', $system_error);
 echo $system_error;
 $force_exit = 1;

@@ -1004,7 +1004,9 @@ $type = pathinfo($save_as, PATHINFO_EXTENSION);
 ////////////////////////////////////////////////////////
 
 
-function csv_file_array($file) {
+function csv_import_array($file) {
+
+global $app_config;
 	
 	$row = 0;
 	if ( ( $handle = fopen($file, "r") ) != false ) {
@@ -1012,18 +1014,20 @@ function csv_file_array($file) {
 		while ( ( $data = fgetcsv($handle, 0, ",") ) != false ) {
 			
 		$num = count($data);
+		$asset = strtoupper($data[0]);
 		
-			if ( $data[0] != 'Asset Symbol' ) {  // Skip importing header
-			$asset = strtoupper($data[0]);
+			// ONLY importing if it exists in $app_config['portfolio_assets']
+			if ( is_array($app_config['portfolio_assets'][$asset]) ) {
 		
 				for ($c=0; $c < $num; $c++) {
-					
-					// Make sure asset symbol variable is alphanumeric, otherwise skip
-					// (this helps a lot detecting failed or successful importing)
-					if ( ctype_alnum($asset) ) { 
-					$csv_rows[$asset][] = $data[$c];
-					}
+				$check_csv_rows[$asset][] = $data[$c];
+				}
 				
+				// Validate / auto-correct the import data
+				$validated_csv_import_row = validated_csv_import_row($check_csv_rows[$asset]);
+				
+				if ( $validated_csv_import_row ) {
+				$csv_rows[$asset] = $validated_csv_import_row;
 				}
 			
 			}

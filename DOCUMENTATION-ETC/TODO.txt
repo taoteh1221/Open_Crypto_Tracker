@@ -26,9 +26,6 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
-Create better error checking / auto-correcting on all CSV spreadsheet import fields.
-
-
 New screen shots for Asset Performance chart / new portfolio summary area.
 
 
