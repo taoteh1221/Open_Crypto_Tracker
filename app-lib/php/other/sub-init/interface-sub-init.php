@@ -203,6 +203,7 @@ $sorted_by_asc_desc = $sort_settings[1];
    	if ( !$csv_import_fail ) {
    	$run_csv_import = 1;
    	}
+   	
    
 	}
 	

@@ -26,12 +26,6 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
-New screen shots for Asset Performance chart / new portfolio summary area.
-
-
-Note in README and website in the raspi area, about it's the recommended way to use this app (on an internal / home network) for maximum privacy / cheap hosting.
-
-
 Do an info bubble for import / export spreadsheets, include 'pro tip' of saving long / short term holdings to separate spreadsheets for separate tracking.
 
 
