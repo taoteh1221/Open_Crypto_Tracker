@@ -79,6 +79,20 @@
 			
 			
 			+'<p> </p>';
+
+	
+	
+			var spreadsheet_import_export = '<h5 align="center" class="yellow tooltip_title">Spreadsheet Import / Export</h5>'
+			
+			
+			+'<p class="coin_info" style="white-space: normal; max-width: 600px;">You can import / export your portfolio as a CSV spreadsheet saved on your computer, for portfolio backup / editing offline:</p>'
+			
+			+'<p class="coin_info" style="max-width: 600px; white-space: normal;"><img src="templates/interface/media/images/csv-spreadsheet-example.png" width="590" title="CSV Spreadsheet of Portfolio" /></p>'
+			
+			+'<p class="coin_info" style="max-width: 600px; white-space: normal;"><span class="yellow">PRO TIP:</span> <br /> To easily display different portfolio setups SEPERATELY in this app (long term holdings / short term holdings / etc), save each of your different portfolio setups to seperate spreadsheet backup files. Then import whichever spreadsheet you wish into this app for portfolio tracking.</p>'
+			
+			
+			+'<p> </p>';
 			
 			
 			
@@ -275,6 +289,31 @@
 		
 		
 		<a style='margin-left: 40px; text-decoration: none;' class='force_button_style' href="download.php?csv_export=1&example_template=1" target="_blank">Example CSV File</a>
+	     
+		<img id='spreadsheet_import_export' src='templates/interface/media/images/info.png' alt='' width='30' style='position: relative; left: 5px;' /> 
+		
+	 <script>
+		
+			$('#spreadsheet_import_export').balloon({
+			html: true,
+			position: "left",
+			contents: spreadsheet_import_export,
+			css: {
+					fontSize: ".8rem",
+					minWidth: "450px",
+					padding: ".3rem .7rem",
+					border: "2px solid rgba(212, 212, 212, .4)",
+					borderRadius: "6px",
+					boxShadow: "3px 3px 6px #555",
+					color: "#eee",
+					backgroundColor: "#111",
+					opacity: "0.99",
+					zIndex: "32767",
+					textAlign: "left"
+					}
+			});
+		
+		 </script>
 		
 		
 	</div>

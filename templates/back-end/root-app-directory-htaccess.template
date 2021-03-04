@@ -7,6 +7,7 @@
 
 ###########################################################
 # ENABLE FORCING SSL CONNECTIONS FOR ALL TRAFFIC 
+# ENABLE PRETTY LINKS (MOD REWRITE)
 #(IF THE PROPER APACHE MODULES EXIST)
 ###########################################################
 
@@ -51,16 +52,17 @@ RewriteRule api/([^\.]+)$ internal-api.php?data_set=$1 [NC,L]
 </IfModule>
 
 ###########################################################
-# END FORCE SSL
+# END FORCE SSL / PRETTY LINKS
 ###########################################################
 
 
 ###########################################################
 # START PHP INI SETTINGS
+#(IF THE PROPER APACHE MODULES EXIST)
 ###########################################################
 
-#PHP5
-<IfModule mod_php5.c>
+#PHP7
+<IfModule mod_php7.c>
 
 php_value memory_limit 128M
 
@@ -74,8 +76,8 @@ php_value max_execution_time [PHP_TIMEOUT]
 
 </IfModule>
 
-#PHP7
-<IfModule mod_php7.c>
+#PHP8
+<IfModule mod_php8.c>
 
 php_value memory_limit 128M
 

@@ -3,17 +3,14 @@
 ############################################################################################################################
 TO-DO NOTES
 ############################################################################################################################
-Try sticking with small infrastructure changes, and breaking up large changes into small milestones. 
-Then plenty of time is spent on UX / testing / logging / debugging.
-Always test in a WebKit-based browser [Epiphany|Safari], Firefox, and Chromium
-Password notes: https://www.php.net/manual/en/faq.passwords.php
-############################################################################################################################
-############################################################################################################################
-
 
 ///////////////////////////////////////////////////////
-"NEXT ON THE LIST" SUMMARY SECTION
+GENERAL NOTES SECTION
 ///////////////////////////////////////////////////////
+
+Try sticking with small infrastructure changes, and breaking up large changes into small milestones, then plenty of time is spent on UX / testing / logging / debugging.
+
+Always test in a WebKit-based browser [Epiphany|Safari], Firefox, and Chromium.
 
 Post on hive, telegram, discord, Twitter, Facebook (and r/CryptoMarkets and r/CryptoCurrency on MAJOR RELEASES) whenever there is a new release of the app.
 
@@ -21,12 +18,11 @@ ALWAYS do everything in the optimizations / bugs / tests / ux / qa / other secti
 
 Youtube channels on the resources page, that MAY BE DYING (keep an eye on them): (none right now)
 
+Don't require any higher than PHP v7.2 until 2023 or later, as Ubuntu 18 only packages PHP 7.2.x by default as of right now. We don't want to hold back some users capability to run the app easily.
+
 ///////////////////////////////////////////////////////
 OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
-
-
-Do an info bubble for import / export spreadsheets, include 'pro tip' of saving long / short term holdings to separate spreadsheets for separate tracking.
 
 
 Make sure all currency markets are added FOR ALL SUPPORTED EXCHANGES.
@@ -286,6 +282,9 @@ Alerts if NOT admin ip address visiting (admin ip stored in config setting)?
 
 
 
+
+############################################################################################################################
+############################################################################################################################
 
 
 
