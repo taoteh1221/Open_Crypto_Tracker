@@ -50,7 +50,7 @@ var lite_state_<?=$js_key?> = {
 };
  
 
-$("#<?=$key?>_<?=$charted_value?>_chart span.chart_loading").html(' &nbsp; <img src="templates/interface/media/images/loader.gif" height="16" alt="" style="vertical-align: middle;" /> Loading ALL chart for <?=$chart_asset?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=snake_case_to_name($alerts_market_parse[0])?><?=( $chart_mode != 'pairing' ? ' \(' . strtoupper($charted_value) . ' Value\)' : '' )?>...');
+$("#<?=$key?>_<?=$charted_value?>_chart span.chart_loading").html(' &nbsp; <img src="templates/interface/media/images/auto-preloaded/loader.gif" height="16" alt="" style="vertical-align: middle;" /> Loading ALL chart for <?=$chart_asset?> / <?=strtoupper($alerts_market_parse[1])?> @ <?=snake_case_to_name($alerts_market_parse[0])?><?=( $chart_mode != 'pairing' ? ' \(' . strtoupper($charted_value) . ' Value\)' : '' )?>...');
 	
   
 zingchart.bind('<?=strtolower($key)?>_<?=$charted_value?>_chart', 'load', function() {

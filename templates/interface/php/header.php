@@ -23,24 +23,30 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 	
 	
 	<!-- Preload a few UI-related images -->
-	<link rel="preload" href="templates/interface/media/images/loader.gif" as="image">
+	<link rel="preload" href="templates/interface/media/images/auto-preloaded/loader.gif" as="image">
 	
-	<link rel="preload" href="templates/interface/media/images/notification-<?=$theme_selected?>-fill.png" as="image">
-	
-	<link rel="preload" href="templates/interface/media/images/twotone_fiber_new_<?=$theme_selected?>_theme_48dp.png" as="image">
+	<link rel="preload" href="templates/interface/media/images/auto-preloaded/notification-<?=$theme_selected?>-fill.png" as="image">
 	
 	
 	<script>
 	
-	// RE-Preload a few UI-related images VIA JAVASCRIPT TOO, FOR GOOD MEASURE
-	var loader_image = new Image();
-	loader_image.src = 'templates/interface/media/images/loader.gif';
+	// Preload a few UI-related images VIA JAVASCRIPT TOO (WAY MORE RELIABLE THAN META TAG PRELOAD)
 	
-	var loader_image_2 = new Image();
-	loader_image.src_2 = 'templates/interface/media/images/notification-<?=$theme_selected?>-fill.png';
+	<?php
+	$preloaded_files_dir = 'templates/interface/media/images/auto-preloaded';
+	$preloaded_files = list_files($preloaded_files_dir);
 	
-	var loader_image_3 = new Image();
-	loader_image.src_3 = 'templates/interface/media/images/twotone_fiber_new_<?=$theme_selected?>_theme_48dp.png';
+	$loop = 0;
+	foreach ( $preloaded_files as $preload_file ) {
+	?>
+	
+	var loader_image_<?=$loop?> = new Image();
+	loader_image_<?=$loop?>.src = '<?=$preloaded_files_dir?>/<?=$preload_file?>';
+	
+	<?php
+	$loop = $loop + 1;
+	}
+	?>
 	
 	</script>
     
@@ -285,7 +291,7 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 		 
     
 	 	<div class='align_center loading bitcoin' id='app_loading'>
-	 	<img src="templates/interface/media/images/loader.gif" height='57' alt="" style='vertical-align: middle;' /> <span id='app_loading_span'>Loading...</span>
+	 	<img src="templates/interface/media/images/auto-preloaded/loader.gif" height='57' alt="" style='vertical-align: middle;' /> <span id='app_loading_span'>Loading...</span>
 	 	</div>
 	 
 		
@@ -319,7 +325,7 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 				}
 				?>
 		 
-				<div id='loading_subsections' class='align_center loading bitcoin'><img src="templates/interface/media/images/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <span id='loading_subsections_span'></span></div>
+				<div id='loading_subsections' class='align_center loading bitcoin'><img src="templates/interface/media/images/auto-preloaded/loader.gif" height='17' alt="" style='vertical-align: middle;' /> <span id='loading_subsections_span'></span></div>
 		
 					
 		<!-- header.php END -->

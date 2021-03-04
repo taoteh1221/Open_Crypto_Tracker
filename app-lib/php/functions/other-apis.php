@@ -383,7 +383,7 @@ $xmldata = @external_api_data('url', $url, $rss_feed_cache_time);
 	
 	$html_hidden .= '<ul class="hidden" id="'.md5($url).'">';
 	
-	$mark_new = ' &nbsp; <img alt="" src="templates/interface/media/images/twotone_fiber_new_'.$theme_selected.'_theme_48dp.png" height="25" title="New Article (under '.$app_config['power_user']['news_feeds_entries_new'].' days old)" />';
+	$mark_new = ' &nbsp; <img alt="" src="templates/interface/media/images/auto-preloaded/twotone_fiber_new_'.$theme_selected.'_theme_48dp.png" height="25" title="New Article (under '.$app_config['power_user']['news_feeds_entries_new'].' days old)" />';
 			 
 	$now_timestamp = time();
 			 

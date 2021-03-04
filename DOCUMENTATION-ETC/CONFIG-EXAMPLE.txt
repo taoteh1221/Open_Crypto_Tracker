@@ -44,9 +44,10 @@ $app_config['comms']['from_email'] = ''; // #SHOULD BE SET# to avoid email going
 $app_config['comms']['to_email'] = ''; // #MUST BE SET# for price alerts and other email features
 
 
-// OPTIONALLY use SMTP authentication TO SEND EMAIL, if you have no reverse lookup that matches domain name (on your home network etc)
-// !!USE A THROWAWAY ACCOUNT ONLY!! If web server is hacked, HACKER WOULD THEN HAVE ACCESS YOUR EMAIL LOGIN FROM THIS FILE!!
+// Use SMTP authentication TO SEND EMAIL, if your IP has no reverse lookup that matches the email domain name (on your home network etc)
+// #REQUIRED WHEN INSTALLED ON A HOME NETWORK#, OR ALL YOUR EMAIL ALERTS WILL BE BLACKHOLED / SEEN AS SPAM EMAIL BY EMAIL SERVERS
 // If SMTP credentials / configuration is filled in, BUT not setup properly, APP EMAILING WILL FAIL
+// !!USE A THROWAWAY ACCOUNT ONLY!! If web server is hacked, HACKER WOULD THEN HAVE ACCESS YOUR EMAIL LOGIN FROM THIS FILE!!
 // CAN BE BLANK (PHP's built-in mail function will be automatically used to send email instead)
 $app_config['comms']['smtp_login'] = ''; //  CAN BE BLANK. This format MUST be used: 'username||password'
 ////

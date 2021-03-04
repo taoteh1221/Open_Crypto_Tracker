@@ -4307,6 +4307,8 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Better error-detection and auto-correcting for spreadsheet importing
 
+-Misc UX
+
 -------------------------------------------------------------------
 
 

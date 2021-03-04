@@ -326,6 +326,28 @@ $network_name = trim( strtolower($string[1]) ); // Force lowercase lookups for r
 ////////////////////////////////////////////////////////
 
 
+function list_files($files_dir) {
+	
+$scan_array = scandir($files_dir);
+$files = array();
+  
+  foreach($scan_array as $filename) {
+    
+    if ( is_file($files_dir.'/'.$filename) ) {
+    $files[] = $filename;
+    }
+    
+  }
+
+return $files;
+  
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
 // hex2bin requires PHP >= 5.4.0.
 // If, for whatever reason, you are using a legacy version of PHP, you can implement hex2bin with this function:
  

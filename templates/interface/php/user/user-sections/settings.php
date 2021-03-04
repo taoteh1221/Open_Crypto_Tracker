@@ -579,7 +579,7 @@
 			
 			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">Choose showing secondary trade / holdings values in another asset, see example screenshot below:</p>'
 			
-			+'<p class="coin_info" style="max-width: 600px; white-space: normal;"><img src="templates/interface/media/images/secondary-value-example.png" width="590" title="Secondary Trade / Holdings Value" /></p>'
+			+'<p class="coin_info" style="max-width: 600px; white-space: normal;"><img src="templates/interface/media/images/auto-preloaded/secondary-value-example.png" width="590" title="Secondary Trade / Holdings Value" /></p>'
 			
 			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">You can edit this list (except for BTC) with the "crypto_pairing" setting, in the POWER USER section of the Admin Config.</p>';
 			

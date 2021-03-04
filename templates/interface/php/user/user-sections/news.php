@@ -184,7 +184,7 @@
 						<fieldset class='subsection_fieldset'>
 						
 						<legend class='subsection_legend'> <strong>Batch-loading <?=$batched_feeds_added?> news feeds...</strong> </legend>
-							<img src="templates/interface/media/images/loader.gif" height='50' alt="" style='vertical-align: middle;' />
+							<img src="templates/interface/media/images/auto-preloaded/loader.gif" height='50' alt="" style='vertical-align: middle;' />
 						</fieldset>
 					
 					</div>

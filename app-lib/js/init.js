@@ -14,7 +14,7 @@ if ( $('#app_error_alert').html() == '' ) {
 $('#app_error_alert').html('No new alerts.');
 }
 else {
-$("#alert_bell_image").attr("src","templates/interface/media/images/notification-" + theme_selected + "-fill.png");
+$("#alert_bell_image").attr("src","templates/interface/media/images/auto-preloaded/notification-" + theme_selected + "-fill.png");
 }
 
 // Mirror hidden errors output in the footer over to the alert bell area with javascript

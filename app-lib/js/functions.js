@@ -109,11 +109,11 @@ function ajax_placeholder(px_size, align, message){
 
 	if ( message ) {
 	img_height = px_size - 2;
-	return '<div class="align_' + align + '" style="white-space: nowrap; font-size: ' + px_size + 'px;"><img src="templates/interface/media/images/loader.gif" height="' + img_height + '" alt="" style="position: relative; vertical-align:middle;" /> ' + message + ' </div>';
+	return '<div class="align_' + align + '" style="white-space: nowrap; font-size: ' + px_size + 'px;"><img src="templates/interface/media/images/auto-preloaded/loader.gif" height="' + img_height + '" alt="" style="position: relative; vertical-align:middle;" /> ' + message + ' </div>';
 	}
 	else {
 	img_height = px_size;
-	return '<div class="align_' + align + '"><img src="templates/interface/media/images/loader.gif" height="' + img_height + '" alt="" /></div>';
+	return '<div class="align_' + align + '"><img src="templates/interface/media/images/auto-preloaded/loader.gif" height="' + img_height + '" alt="" /></div>';
 	}
 	
 
