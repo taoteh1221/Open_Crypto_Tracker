@@ -314,8 +314,10 @@ function validated_csv_import_row($csv_row) {
 global $app_config;
 
 // WE AUTO-CORRECT AS MUCH AS IS FEASIBLE, IF THE USER-INPUT IS CORRUPT / INVALID
+
+$csv_row = array_map('trim', $csv_row); // Trim entire array
 	
-$csv_row[0] = strtoupper($csv_row[0]); // Asset to uppercase
+$csv_row[0] = strtoupper($csv_row[0]); // Asset to uppercase (we already validate it's existance in csv_import_array())
 	    
 $csv_row[1] = remove_number_format($csv_row[1]); // Remove any number formatting in held amount
 
@@ -324,6 +326,9 @@ $csv_row[2] = ( remove_number_format($csv_row[2]) >= 0 ? remove_number_format($c
 	
 // If leverage amount input is corrupt, default to 0 (ALSO simple auto-correct if negative)
 $csv_row[3] = ( whole_int($csv_row[3]) != false && $csv_row[3] >= 0 ? $csv_row[3] : 0 ); 
+	
+// If leverage is ABOVE 'margin_leverage_max', default to 'margin_leverage_max'
+$csv_row[3] = ( $csv_row[3] <= $app_config['general']['margin_leverage_max'] ? $csv_row[3] : $app_config['general']['margin_leverage_max'] ); 
 
 // Default to 'long', if not 'short' (set to lowercase...simple auto-correct, if set to anything other than 'short')
 $csv_row[4] = ( strtolower($csv_row[4]) == 'short' ? strtolower($csv_row[4]) : 'long' ); 
@@ -334,7 +339,7 @@ $csv_row[5] = ( whole_int($csv_row[5]) != false && $csv_row[5] >= 1 ? $csv_row[5
 $csv_row[6] = strtolower($csv_row[6]); // Pairing to lowercase
 	
 	// Pairing auto-correction (if invalid pairing)
-	if ( !is_array($app_config['portfolio_assets'][$csv_row[0]]['market_pairing'][$csv_row[6]]) ) {
+	if ( $csv_row[6] == '' || !is_array($app_config['portfolio_assets'][$csv_row[0]]['market_pairing'][$csv_row[6]]) ) {
 		
 	$csv_row[5] = 1; // We need to reset the market id to 1 (it's ALWAYS 1 OR GREATER), as the pairing was not found
 	
@@ -342,6 +347,10 @@ $csv_row[6] = strtolower($csv_row[6]); // Pairing to lowercase
 	reset($app_config['portfolio_assets'][$csv_row[0]]['market_pairing']);
 	$csv_row[6] = key($app_config['portfolio_assets'][$csv_row[0]]['market_pairing']);
 	
+	}
+	// Market ID auto-correction (if invalid market ID)
+	elseif ( sizeof($app_config['portfolio_assets'][$csv_row[0]]['market_pairing'][$csv_row[6]]) < $csv_row[5] ) {
+	$csv_row[5] = 1; // We need to reset the market id to 1 (it's ALWAYS 1 OR GREATER), as the ID was higher than available markets count
 	}
 	
 	// Return false if there is no valid held amount

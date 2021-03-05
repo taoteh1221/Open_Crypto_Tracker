@@ -262,7 +262,7 @@
 	
 				
 			
-	<div class='align_left clear_both' style='margin-top: 30px; margin-bottom: 15px;'>
+	<div class='align_left clear_both' style='margin-top: 30px; margin-bottom: 15px; white-space: nowrap;'>
 	
 		
 		<!-- Submit button must be OUTSIDE form tags here, or it submits the target form improperly and loses data -->
@@ -756,12 +756,12 @@
 	     }
 	     alert(" " + this.value + "x (" + mode + " Mode) \n Leverage trading in crypto assets is \n EXTREMELY RISKY. NEVER put more \n than ~5% of your crypto investments \n in leveraged trades EVER, OR YOU \n ###COULD LOSE EVERYTHING###. ");
 	     ' <?=$disable_fields?> >
-	     <option value='0' <?=( $coin_leverage_value == 0 ? 'selected' : '' )?>> None </option>
+	     <option value='0' <?=( $coin_leverage_value == 0 || remove_number_format($coin_paid_value) < 0.00000001 ? 'selected' : '' )?>> None </option>
 	     <?php
 	     $leverage_count = 2;
 	     while ( $app_config['general']['margin_leverage_max'] > 1 && $leverage_count <= $app_config['general']['margin_leverage_max'] ) {
 	     ?>	     
-	     <option value='<?=$leverage_count?>' <?=( $coin_leverage_value == $leverage_count ? 'selected' : '' )?>> <?=$leverage_count?>x </option>
+	     <option value='<?=$leverage_count?>' <?=( $coin_leverage_value == $leverage_count && remove_number_format($coin_paid_value) >= 0.00000001 ? 'selected' : '' )?>> <?=$leverage_count?>x </option>
 	     <?php
 	     $leverage_count = $leverage_count + 1;
 	     }
