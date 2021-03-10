@@ -8,33 +8,49 @@ TO-DO NOTES
 GENERAL NOTES SECTION
 ///////////////////////////////////////////////////////
 
+
 Try sticking with small infrastructure changes, and breaking up large changes into small milestones, then plenty of time is spent on UX / testing / logging / debugging.
+
 
 Always test in a WebKit-based browser [Epiphany|Safari], Firefox, and Chromium.
 
+
 Post on hive, telegram, discord, Twitter, Facebook (and r/CryptoMarkets and r/CryptoCurrency on MAJOR RELEASES) whenever there is a new release of the app.
+
 
 ALWAYS do everything in the optimizations / bugs / tests / ux / qa / other section of this list FIRST, before adding ANY new features (find every flaming turd before we start a dumpster fire).
 
+
 Youtube channels on the resources page, that MAY BE DYING (keep an eye on them): (none right now)
 
+
 Don't require any higher than PHP v7.2 until 2023 or later, as Ubuntu 18 only packages PHP 7.2.x by default as of right now. We don't want to hold back some users capability to run the app easily.
+
+
+Use new internal api function calls as much as possible for the tests logic we had already built.
+
 
 ///////////////////////////////////////////////////////
 OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
-Make sure all currency markets are added FOR ALL SUPPORTED EXCHANGES (find some decent idex markets or remove support for it).
+Look into laptop touchscreen zingchart js error on Ubuntu 20.04 / Chrome, when hiding / showing assets in performance chart (but is fine on Ubuntu 20.04 / Chrome on desktop). IT DOESN'T SEEM TO BE MY CODE, SO REPORT IT TO THE ZINGCHART TEAM.
 
 
-Review Help FAQ, and config.php settings documentation.
+Make sure everything STILL runs smoothly with the charts page turned off.
 
 
-Think over what other "faq" entries would be helpful.
+Consider moving the error log alerts for "email not configured" under the new "notify" category (which avoids duplicate messages).
 
 
-Make sure everything runs smoothly with the charts page turned off.
+Add power failure corruption checks (like chart price data has), to system charts and price alerts file cache data.
+
+
+Check optimization by enabling "telemetry" debug mode, and reviewing debugging logs.
+
+
+Check log formatting for every debug mode.
 
 
 Write debugging tests for rss feeds.
@@ -46,37 +62,25 @@ Consolidate number_to_string() calls, to speed up runtime.
 See if exchange API data arrays can be manipulated slightly to build a reusable module for every exchange's API calls.
 
 
-Consider moving the error log alerts for "email not configured" under the new "notify" category (which avoids duplicate messages).
+Look into X day moving average overlay for price charts.
 
 
-Check optimization by enabling "telemetry" debug mode, and reviewing debugging logs.
+Make sure all currency markets are added FOR ALL SUPPORTED EXCHANGES (find some decent idex markets or remove support for it).
 
 
-Check log formatting for every debug mode.
+Review Help FAQ, and config.php settings documentation.
 
 
-Add power failure corruption checks (like chart price data has), to system charts and price alerts file cache data.
+Think over what other "faq" entries would be helpful.
 
 
-Look into laptop touchscreen zingchart js error on Ubuntu 20.04 / Chrome, when hiding / showing assets in performance chart (but is fine on Ubuntu 20.04 / Chrome on desktop). IT DOESN'T SEEM TO BE MY CODE, SO REPORT IT TO THE ZINGCHART TEAM.
-
-
-Use new internal api function calls as much as possible for the tests logic we had already built.
+Create github wiki with the current documentation for the portfolio app.
 
 
 Cross-browser test RTL (right to left) effects from middle eastern currency symbols being injected into the interface output for those currencies
 
 
 Test unicode mobile text message with no space in front of hex-encoded data (forgot to try that, coded and ready to go now...see content_data_encoding() and /DOCUMENTATION-ETC/Developing-maintaining/DEBUGGING.txt).
-
-
-Code review ALL functions / logic (especially loops, for efficiency).
-
-
-Create github wiki with the current documentation for the portfolio app.
-
-
-Look into X day moving average overlay for price charts.
 
 
 AFTER the admin config GUI has been built out, make sure plugin configs are re-loaded AFTER 'activate_plugins' in the power user section has been updated.
@@ -89,6 +93,9 @@ AFTER the admin config GUI has been built out, make sure plugin configs are re-l
 ///////////////////////////////////////////////////////
 API INTEGRATION SECTION
 ///////////////////////////////////////////////////////
+
+
+Look into adding Google Sheets API support for portfolio import / export: https://developers.google.com/sheets/api/samples/reading
 
 
 Look into adding https://1inch.exchange/#/ to DeFi APIs.
@@ -112,9 +119,6 @@ Build tool that finds localbitcoins markets not added yet
 Add twilio.com and clicksend.com mobile text messaging support
 
 
-Look into adding Google Sheets API support for portfolio import / export: https://developers.google.com/sheets/api/samples/reading
-
-
 https://zksync.io/api/v0.1.html
 
 
@@ -127,19 +131,31 @@ FEATURES / STRUCTURING SECTION
 ///////////////////////////////////////////////////////
 
 
-Store visitor access data in A SEPERATE flat file / json format PER IP ADDRESS (so mulitiple values can be read back into the app before updating, then updated values saved back in json overwriting previously saved values, BUT AVOIDS MULTIPLE IP ADDRESES OVERWRITING SAME DATA). Last X unique ip addresses (as a power user config setting), showing ip address's last user agent / last visit time (AND HISTORY OF DIFFERENT USER AGENTS / LAST VISITS) / total visits count. Drop any over X ip addresses off the list based on oldest LAST VISIT timestamps. Store visitor data (user agent, etc) in a SECURED CACHE filename based off MD5 HASH of ip address. INITIAL BUILDOUT SHOULD ONLY BE FOR 'ui' RUNTIME DATA ONLY.
-
-
 Add a "Reset lite charts" button on the admin 'Reset' page, to trigger rebuilding lite charts.
 
 
 Fully include all leverage in all portfolio summaries, with "(X% leverage)" next to each summary.
 
 
+Store the php timeout as a cached var, and compare the CACHED app config to it at runtime. If they differ from each other, delete the root htaccess and user.ini files to trigger recreating them with an updated php timeout. Also make sure the php timeout setting and updating logic / functions are using the CACHED app config.
+
+
+Store visitor access data in A SEPERATE flat file / json format PER IP ADDRESS (so mulitiple values can be read back into the app before updating, then updated values saved back in json overwriting previously saved values, BUT AVOIDS MULTIPLE IP ADDRESES OVERWRITING SAME DATA). Last X unique ip addresses (as a power user config setting), showing ip address's last user agent / last visit time (AND HISTORY OF DIFFERENT USER AGENTS / LAST VISITS) / total visits count. Drop any over X ip addresses off the list based on oldest LAST VISIT timestamps. Store visitor data (user agent, etc) in a SECURED CACHE filename based off MD5 HASH of ip address. INITIAL BUILDOUT SHOULD ONLY BE FOR 'ui' RUNTIME DATA ONLY.
+
+
 Add google home support via direct connect on same network, OR via IFTTT (whichever is most feasible).
 
 
 Add IFTTT support (alexa / google home / whatever supported devices).
+
+
+Add additional ability to do telegram webhooks, to query asset prices at different exchanges through telegram chat with the chat bot. Example: "/price ETH/USDT @ Binance"
+
+
+Documentation for Webhook features.
+
+
+Add webhook keys on admin page.
 
 
 Do a gains / losses bar chart for the gains / losses summary (tooltip, like balance stats chart).
@@ -149,9 +165,6 @@ On 'more stats' page, have a 'market comparison stats' chart for arbitrage on on
 
 
 Add market stats summaries from chart data, like bar charts for exchange volume on certain assets / pairs (on 'view more stats' page).
-
-
-Store the php timeout as a cached var, and compare the CACHED app config to it at runtime. If they differ from each other, delete the root htaccess and user.ini files to trigger recreating them with an updated php timeout. Also make sure the php timeout setting and updating logic / functions are using the CACHED app config.
 
 
 Auto-update feature like WordPress has (downloads a zip file upgrade from github, and exctracts it overwriting the old app files).
@@ -193,28 +206,16 @@ Give plugins a dedicated admin page (if any are activated), for UI settings etc.
 Once the admin UI is complete, create a "Desktop Edition" using PHPDesktop (https://github.com/cztomczak/phpdesktop/wiki), so it can easily be downloaded / run locally as a native app...SUPER IMPORTANT FOR MASS USER ADOPTION!!!
 
 
-Add Google and Microsoft translate API as options to translate the portfolio interface and price alerts.
+Create help page modal for explanations on all config.php settings, that we can link to / open specific sections from a click next to that setting in the admin GUI. Then we can run this through the upcoming lang_translate() function as well.
 
 
 Wrap all interface English within a "placeholder" lang_translate() function call. Then from a developer perspective you can still fully see the interface logic, and build out translation logic over time later. 
 
 
-Create help page modal for explanations on all config.php settings. Then we can run this through the upcoming lang_translate() function.
-
-
-Add additional ability to do telegram webhooks, to query asset prices at different exchanges through telegram chat with the chat bot. Example: "/price ETH/USDT @ Binance"
-
-
-Documentation for Webhook features
-
-
-Add webhook keys on admin page.
+Add Google and Microsoft translate API as options to translate the portfolio interface and price alerts.
 
 
 Simple trading bot, to run as a cron plugin (with web UI for configuration / stats / etc)
-
-
-Turn string / array manipulations function file into a class.
 
 
 ///////////////////////////////////////////////////////
@@ -224,6 +225,9 @@ Turn string / array manipulations function file into a class.
 ///////////////////////////////////////////////////////
 MAYBE SECTION
 ///////////////////////////////////////////////////////
+
+
+Turn function files into a classes, or at least rename functions to 'safe' function names that won't collide with any upcoming PHP version built-in functions (like wordpress does, with the 'wp_' prefix).
 
 
 Add human-readable INITIAL start date / time as an OPTIONAL extra config param in recurring reminder plugin?

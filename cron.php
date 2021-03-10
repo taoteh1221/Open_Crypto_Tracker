@@ -212,23 +212,15 @@ $logs_array = array();
 
 
 // Run any cron-designated plugins activated in app_config
+// ALWAYS KEEP PLUGIN RUNTIME LOGIC INLINE (NOT ISOLATED WITHIN A FUNCTION), 
+// SO WE DON'T NEED TO WORRY ABOUT IMPORTING GLOBALS!
 foreach ( $activated_plugins['cron'] as $key => $value ) {
 	
 	if ( file_exists($value) ) {
 		
 	$this_plugin = $key;
-
-		// This plugin's vars cache directory
-		if ( dir_structure($base_dir . '/cache/vars/'.$this_plugin.'/') != true ) {
-		app_logging('system_error', 'Could not create directory: /cache/vars/'.$this_plugin.'/');
-		}
-		
-		// This plugin's events cache directory
-		if ( dir_structure($base_dir . '/cache/events/'.$this_plugin.'/') != true ) {
-		app_logging('system_error', 'Could not create directory: /cache/events/'.$this_plugin.'/');
-		}
 	
-		// This plugin's functions
+		// This plugin's functions (only if the file exists)
 		if ( file_exists($base_dir . '/plugins/'.$this_plugin.'/plugin-lib/plugin-functions.php') ) {
 		require_once($base_dir . '/plugins/'.$this_plugin.'/plugin-lib/plugin-functions.php');
 		}
@@ -247,7 +239,8 @@ foreach ( $activated_plugins['cron'] as $key => $value ) {
 }
 
 
-// Log errors / debugging, send notifications (FOR PLUGINS ONLY)
+// Log errors / debugging, send notifications
+// (IF ANY PLUGINS ARE ACTIVATED, RAN AGAIN SEPERATELY FOR PLUGIN LOGGING / ALERTS ONLY)
 if ( sizeof($activated_plugins['cron']) > 0 ) {
 error_logs();
 debugging_logs();

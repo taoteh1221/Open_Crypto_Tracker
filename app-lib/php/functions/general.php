@@ -57,8 +57,13 @@ return $telegram_messaging->send->chat($chat_id)->text($message)->send();
 function plugin_vars_cache($file) {
 	
 global $base_dir, $this_plugin;
+
+	// This plugin's vars cache directory
+	if ( dir_structure($base_dir . '/cache/vars/plugin_vars/'.$this_plugin.'/') != true ) {
+	app_logging('system_error', 'Could not create directory: /cache/vars/plugin_vars/'.$this_plugin.'/');
+	}
 	
-return $base_dir . '/cache/vars/'.$this_plugin.'/' . $file;
+return $base_dir . '/cache/vars/plugin_vars/'.$this_plugin.'/' . $file;
 
 }
 
@@ -70,8 +75,13 @@ return $base_dir . '/cache/vars/'.$this_plugin.'/' . $file;
 function plugin_events_cache($file) {
 	
 global $base_dir, $this_plugin;
+		
+		// This plugin's events cache directory
+		if ( dir_structure($base_dir . '/cache/events/plugin_events/'.$this_plugin.'/') != true ) {
+		app_logging('system_error', 'Could not create directory: /cache/events/plugin_events/'.$this_plugin.'/');
+		}
 	
-return $base_dir . '/cache/events/'.$this_plugin.'/' . $file;
+return $base_dir . '/cache/events/plugin_events/'.$this_plugin.'/' . $file;
 
 }
 
