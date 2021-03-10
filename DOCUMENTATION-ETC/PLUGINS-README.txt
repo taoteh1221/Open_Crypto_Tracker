@@ -26,19 +26,25 @@ example: "/plugins/my-app-plugin/plugin-lib/" (must be lowercase)
 
 
 
-3) Create a blank INIT file inside the new "plugin-lib" directory created in step #2, with the name "plugin-init.php".
+3) Create a blank INIT file (plugin runtime starts here) inside the new "plugin-lib" directory created in step #2, with the name "plugin-init.php".
 
 example: "/plugins/my-app-plugin/plugin-lib/plugin-init.php" (must be lowercase)
 
 
 
-4) Create a blank CONFIG file inside the new plugin directory created in step #1, with the name "plugin-config.php".
+4) OPTIONALLY create a blank FUNCTIONS file (custom functions go here for auto-inclusion) inside the new "plugin-lib" directory created in step #2, with the name "plugin-functions.php".
+
+example: "/plugins/my-app-plugin/plugin-lib/plugin-functions.php" (must be lowercase)
+
+
+
+5) Create a blank CONFIG file (plugin configs go here) inside the new plugin directory created in step #1, with the name "plugin-config.php".
 
 example: "/plugins/my-app-plugin/plugin-config.php" (must be lowercase)
 
 
 
-5) All "plugin-config.php" PLUGIN CONFIG settings MUST BE INSIDE THE "$plugin_config[$this_plugin]" ARRAY (sub-arrays are allowed).
+6) All "plugin-config.php" PLUGIN CONFIG settings MUST BE INSIDE THE "$plugin_config[$this_plugin]" ARRAY (sub-arrays are allowed).
 
 example: $plugin_config[$this_plugin]['SETTING_NAME_HERE'] = 'mysetting';
 
@@ -46,16 +52,16 @@ example: $plugin_config[$this_plugin]['SETTING_NAME_HERE'] = array('mysetting1',
 
 
 
-6) The "plugin-config.php" PLUGIN CONFIG setting 'runtime_mode' IS MANDATORY, to determine WHEN the plugin should run (during cron jobs / user interface loading / all runtimes / etc).
+7) The "plugin-config.php" PLUGIN CONFIG setting 'runtime_mode' IS MANDATORY, to determine WHEN the plugin should run (during cron jobs / user interface loading / all runtimes / etc).
 
 // What runtime modes this plugin should run during (MANDATORY)
 example: $plugin_config[$this_plugin]['runtime_mode'] = 'cron'; // 'cron', 'ui', 'all' (only 'cron' supported as of 2020-10-29)
 
 
-7) We are now done setting up plugin files, now we need to activate the new plugin. IN THE MAIN APP "Admin Config" POWER USER section. Locate the configuration variable named: 'activate_plugins'
+8) We are now done setting up plugin files, now we need to activate the new plugin. IN THE MAIN APP "Admin Config" POWER USER section. Locate the configuration variable named: 'activate_plugins'
 
 
-8) To add / activate your new plugin, add your plugin name (example: 'my-app-plugin') as a new value within 'activate_plugins', and set to 'on'.
+9) To add / activate your new plugin, add your plugin name (example: 'my-app-plugin') as a new value within 'activate_plugins', and set to 'on'.
 
 example: 'my-app-plugin' => 'on' 
 

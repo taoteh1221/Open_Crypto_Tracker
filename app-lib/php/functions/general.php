@@ -5,6 +5,7 @@
 
 
 
+
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
 
@@ -45,6 +46,32 @@ function telegram_message($message, $chat_id) {
 global $telegram_messaging;
 
 return $telegram_messaging->send->chat($chat_id)->text($message)->send();
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function plugin_vars_cache($file) {
+	
+global $base_dir, $this_plugin;
+	
+return $base_dir . '/cache/vars/'.$this_plugin.'/' . $file;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function plugin_events_cache($file) {
+	
+global $base_dir, $this_plugin;
+	
+return $base_dir . '/cache/events/'.$this_plugin.'/' . $file;
 
 }
 

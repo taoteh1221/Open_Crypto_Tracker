@@ -68,6 +68,22 @@ sessionStorage['scroll_position'] = window.scrollY;
 /////////////////////////////////////////////////////////////
 
 
+function addCSSClassRecursively(topElement, CssClass) {
+
+$(topElement).addClass(CssClass);
+
+    $(topElement).children().each(
+            function() {
+                 $(this).addClass(CssClass);
+                 addCSSClassRecursively($(this), CssClass);
+            });
+            
+}
+
+
+/////////////////////////////////////////////////////////////
+
+
 function show_more(id, change_text=0) {
 	
 	if ( $("#"+id).is(":visible") ) {
@@ -443,7 +459,7 @@ function copy_text(elm_id, alert_id) {
     range.moveToElementText(elm);
     range.select();
     document.execCommand("Copy");
-	 document.getElementById(alert_id).innerHTML = 'Text copied to clipboard.';
+	 document.getElementById(alert_id).innerHTML = 'Copied to clipboard.';
   }
   // other browsers
   else if(window.getSelection) {
@@ -453,7 +469,7 @@ function copy_text(elm_id, alert_id) {
     selection.removeAllRanges();
     selection.addRange(range);
     document.execCommand("Copy");
-	 document.getElementById(alert_id).innerHTML = 'Text copied to clipboard.';
+	 document.getElementById(alert_id).innerHTML = 'Copied to clipboard.';
   }
   
 }

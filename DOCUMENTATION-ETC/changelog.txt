@@ -4313,6 +4313,21 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 
 
+-------------------------------------------------------------------
+4.27.0:
+
+-New 'address-balance-tracker' plugin, to track changes in address balances (see power user config)
+
+-Better plugin development UX
+
+-Code cleanup
+
+-------------------------------------------------------------------
+
+
+
+
+
 
 
 

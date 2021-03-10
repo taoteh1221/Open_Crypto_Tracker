@@ -325,7 +325,7 @@
 				    
  <script>
 	
-			var currency_content = '<h5 align="center" class="yellow tooltip_title">Primary Currency Market</h5>'
+			var currency_content = '<h5 class="align_center yellow tooltip_title">Primary Currency Market</h5>'
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">The Primary Currency Market setting allows you to change your default primary currency (conversion) for the portfolio interface (the charts / price alerts primary currency market <i>must be changed separately in the Admin Config GENERAL section</i>).</p>'
 			

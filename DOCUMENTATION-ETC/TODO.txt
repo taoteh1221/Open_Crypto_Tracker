@@ -117,17 +117,6 @@ Look into adding Google Sheets API support for portfolio import / export: https:
 
 https://zksync.io/api/v0.1.html
 
---FOR FUTURE TX alerts PLUGIN--
-
-https://www.blockchain.com/api/blockchain_api
-
-https://blockchain.info/rawaddr/ADDRESS-HERE (bitcoin)
-
-https://etherscan.io/apis#accounts
-
-https://api.etherscan.io/api?module=account&action=tokentx&address=0x4e83362442b8d1bec281594cea3050c8eb01311c&startblock=0&endblock=999999999&sort=asc&apikey=YourApiKeyToken
-
-https://api.etherscan.io/api?module=account&action=balance&address=0xddbd2b932c763ba5b1b7ae3b362eac3e8d40121a&tag=latest&apikey=YourApiKeyToken
 
 ///////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////
@@ -136,9 +125,6 @@ https://api.etherscan.io/api?module=account&action=balance&address=0xddbd2b932c7
 ///////////////////////////////////////////////////////
 FEATURES / STRUCTURING SECTION
 ///////////////////////////////////////////////////////
-
-
-Create plugin to do TX alerts on crypto addresses (Bitcoin and Ethereum).
 
 
 Store visitor access data in A SEPERATE flat file / json format PER IP ADDRESS (so mulitiple values can be read back into the app before updating, then updated values saved back in json overwriting previously saved values, BUT AVOIDS MULTIPLE IP ADDRESES OVERWRITING SAME DATA). Last X unique ip addresses (as a power user config setting), showing ip address's last user agent / last visit time (AND HISTORY OF DIFFERENT USER AGENTS / LAST VISITS) / total visits count. Drop any over X ip addresses off the list based on oldest LAST VISIT timestamps. Store visitor data (user agent, etc) in a SECURED CACHE filename based off MD5 HASH of ip address. INITIAL BUILDOUT SHOULD ONLY BE FOR 'ui' RUNTIME DATA ONLY.

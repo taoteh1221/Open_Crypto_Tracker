@@ -217,12 +217,30 @@ foreach ( $activated_plugins['cron'] as $key => $value ) {
 	if ( file_exists($value) ) {
 		
 	$this_plugin = $key;
+
+		// This plugin's vars cache directory
+		if ( dir_structure($base_dir . '/cache/vars/'.$this_plugin.'/') != true ) {
+		app_logging('system_error', 'Could not create directory: /cache/vars/'.$this_plugin.'/');
+		}
+		
+		// This plugin's events cache directory
+		if ( dir_structure($base_dir . '/cache/events/'.$this_plugin.'/') != true ) {
+		app_logging('system_error', 'Could not create directory: /cache/events/'.$this_plugin.'/');
+		}
 	
-	$plugin_config[$this_plugin] = $app_config['plugin_config'][$this_plugin]; // Import this plugin's config from the global app config
+		// This plugin's functions
+		if ( file_exists($base_dir . '/plugins/'.$this_plugin.'/plugin-lib/plugin-functions.php') ) {
+		require_once($base_dir . '/plugins/'.$this_plugin.'/plugin-lib/plugin-functions.php');
+		}
 	
+	// This plugin's config (from the global app config)
+	$plugin_config[$this_plugin] = $app_config['plugin_config'][$this_plugin]; 
+	
+	// This plugin's plugin-init.php file (runs the plugin)
 	require_once($value);
 	
-	$this_plugin = null; // Reset
+	// Reset $this_plugin at end of loop
+	$this_plugin = null; 
 	
 	}
 	

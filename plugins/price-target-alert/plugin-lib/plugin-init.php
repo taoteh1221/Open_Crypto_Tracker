@@ -9,15 +9,10 @@
 // ###########################################################################################
 
 
-if ( dir_structure($base_dir . '/cache/vars/'.$this_plugin.'/') != true ) {
-app_logging('system_error', 'Could not create directory: /cache/vars/'.$this_plugin.'/');
-}
-
-
 foreach ( $plugin_config[$this_plugin]['price_targets'] as $target_key => $target_value ) {
 
 
-$price_target_cache_file = $base_dir . '/cache/vars/'.$this_plugin.'/' . $target_key . '.dat';
+$price_target_cache_file = plugin_vars_cache($target_key . '.dat');
 
 $target_value = number_to_string($target_value);
 

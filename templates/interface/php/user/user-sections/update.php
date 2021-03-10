@@ -15,7 +15,7 @@
 
 
 
-		var average_paid_notes = '<h5 align="center" class="yellow tooltip_title">Calculating Average <?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?> Price Paid Per Token</h5>'
+		var average_paid_notes = '<h5 class="align_center yellow tooltip_title">Calculating Average <?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?> Price Paid Per Token</h5>'
 			
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="green_bright">Total <?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?> Paid For All Tokens</span> <span class="blue">&#247;</span> <span class="yellow">Total Tokens Purchased</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?> Price Paid Per Token</span></p>'
@@ -30,7 +30,7 @@
 
 	
 	
-			var leverage_trading_notes = '<h5 align="center" class="yellow tooltip_title">Tracking Long / Short Margin Leverage Trades</h5>'
+			var leverage_trading_notes = '<h5 class="align_center yellow tooltip_title">Tracking Long / Short Margin Leverage Trades</h5>'
 			
 			
 			+'<p class="coin_info extra_margins red_bright" style="white-space: normal; max-width: 600px;"><b>*Leverage trading is <u>EXTREMELY RISKY</u> (and even more so in crypto markets). Never put more than ~5% of your total investment worth into leverage trades, or you will <u>RISK LOSING EVERYTHING</u>!</b></p>'
@@ -47,7 +47,7 @@
 
 	
 	
-			var portfolio_data_privacy = '<h5 align="center" class="bitcoin tooltip_title">How is my portfolio data stored by this app?</h5>'
+			var portfolio_data_privacy = '<h5 class="align_center bitcoin tooltip_title">How is my portfolio data stored by this app?</h5>'
 			
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><i class="bitcoin">TLDR: <u>NOBODY EXCEPT YOU ON YOUR COMPUTER</u> CAN SEE THE INFORMATION YOU ENTER IN THIS APP (<u>NO DATA</u> IS STORED REMOTELY).</i></p>'
@@ -70,7 +70,7 @@
 
 	
 	
-			var random_tip_disclaimer = '<h5 align="center" class="bitcoin tooltip_title">Random Tips Disclaimer</h5>'
+			var random_tip_disclaimer = '<h5 class="align_center bitcoin tooltip_title">Random Tips Disclaimer</h5>'
 			
 			
 			+'<p class="coin_info extra_margins bitcoin" style="white-space: normal; max-width: 600px;">This "Random Tips" section SHOULD NEVER TAKE THE PLACE OF ADVICE FROM A PROFESSIONAL FINANCIAL ADVISER!</p>'
@@ -82,7 +82,7 @@
 
 	
 	
-			var spreadsheet_import_export = '<h5 align="center" class="yellow tooltip_title">Spreadsheet Import / Export</h5>'
+			var spreadsheet_import_export = '<h5 class="align_center yellow tooltip_title">Spreadsheet Import / Export</h5>'
 			
 			
 			+'<p class="coin_info" style="white-space: normal; max-width: 600px;">You can import / export your portfolio as a CSV spreadsheet saved on your computer, for portfolio backup / editing offline:</p>'

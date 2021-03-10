@@ -590,6 +590,12 @@ display: none;
 }
 
 
+.donate_crypto {
+text-decoration: underline;
+cursor: pointer;
+}
+
+
 /* //////////////////////////////
 IDs
 ////////////////////////////// */

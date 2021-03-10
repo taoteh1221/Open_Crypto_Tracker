@@ -82,7 +82,7 @@
 		
 	 <script>
 	 
-			var charts_raspi_crash = '<h5 align="center" class="red_bright tooltip_title">Low Memory Devices Crashing</h5>'
+			var charts_raspi_crash = '<h5 class="align_center red_bright tooltip_title">Low Memory Devices Crashing</h5>'
 			
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">If your low memory device (Raspberry PI / Pine64 / etc) crashes when you select too many news feeds OR charts, you may need to restart your device, and then delete all cookies in your browser related to the web domain you run the app from (before using the app again).</p>'
