@@ -137,7 +137,9 @@ $pretty_coin_amount = pretty_numbers($address_balance, 8);
           	
 	// Send notifications
 	@queue_notifications($send_params);
-		
+	
+	
+	// Cache new data
 	$new_cache_data = $address . '|' . $address_balance;
 	
 	store_file_contents($balance_tracking_cache_file, $new_cache_data);

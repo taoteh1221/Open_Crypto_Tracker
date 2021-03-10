@@ -152,14 +152,15 @@ $market_value = number_to_string( asset_market_data($market_asset, $market_excha
 	@queue_notifications($send_params);
 
 
-		// Reset the cache data, since we ran an alert
 		if ( $target_value >= $market_value ) {
 		$target_direction = 'increase';
 		}
 		else {
 		$target_direction = 'decrease';
 		}
-		
+	
+	
+	// Cache new data
 	$new_cache_data = $target_direction . '|' . $target_value . '|' . $market_value;
 		
 	store_file_contents($price_target_cache_file, $new_cache_data);

@@ -46,7 +46,7 @@ $plugin_config[$this_plugin]['tracking'] = array(
 																			),
 																	
 																	
-																	); // END reminders array
+																	); // END tracking array
 
 
 
