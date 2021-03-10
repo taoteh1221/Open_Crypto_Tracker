@@ -590,8 +590,13 @@ display: none;
 }
 
 
-.donate_crypto {
+.underline_pointer {
 text-decoration: underline;
+cursor: pointer;
+}
+
+
+.pointer {
 cursor: pointer;
 }
 
