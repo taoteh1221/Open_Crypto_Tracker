@@ -26,13 +26,15 @@ Private Contact: https://dragonfrugal.com/contact
 
 Donations support further development... 
 
+Bitcoin:  3Nw6cvSgnLEFmQ1V4e8RSBG23G7pDjF3hW
+
+Ethereum:  0x644343e8D0A4cF33eee3E54fE5d5B8BFD0285EF8
+
 Github Sponsors:  https://github.com/sponsors/taoteh1221
 
 Patreon:   https://www.patreon.com/dragonfrugal
 
 PayPal:    https://www.paypal.me/dragonfrugal
-
-Coinbase:  https://commerce.coinbase.com/checkout/5e72fe35-752e-4a65-a4c3-2d49d73f2c36
 
 
 ############################################################################################################################

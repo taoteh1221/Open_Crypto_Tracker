@@ -11,7 +11,15 @@
 
 foreach ( $plugin_config[$this_plugin]['tracking'] as $target_key => $target_value ) {
 	
+	
 $balance_tracking_cache_file = plugin_vars_cache($target_key . '.dat');
+
+
+	// If it's too early to re-send an alert again, skip this entry
+	if ( update_cache_file($balance_tracking_cache_file, $plugin_config[$this_plugin]['alerts_freq_max']) == false ) {
+	continue;
+	}
+
 
 $asset = strtolower($target_value['asset']);
 $address = $target_value['address'];
@@ -47,18 +55,14 @@ $label = $target_value['label'];
 	}
 	
 	
-	// If it's too early to re-send an alert again, skip the rest of this loop
-	if ( update_cache_file($balance_tracking_cache_file, $plugin_config[$this_plugin]['alerts_freq_max']) == false ) {
-	continue;
-	}
 	// If a cache reset was flagged
-	elseif ( $cache_reset ) {
+	if ( $cache_reset ) {
 		
 	$new_cache_data = $address . '|' . $address_balance;
 	
 	store_file_contents($balance_tracking_cache_file, $new_cache_data);
 	
-	// Skip the rest of this loop, as this was setting / resetting cache data
+	// Skip the rest, as this was setting / resetting cache data
 	continue;
 	
 	}

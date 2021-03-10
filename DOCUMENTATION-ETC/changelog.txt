@@ -4320,7 +4320,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Better plugin development UX
 
--Code cleanup
+-Code cleanup / optimizations
 
 -------------------------------------------------------------------
 

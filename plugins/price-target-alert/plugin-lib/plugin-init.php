@@ -14,6 +14,13 @@ foreach ( $plugin_config[$this_plugin]['price_targets'] as $target_key => $targe
 
 $price_target_cache_file = plugin_vars_cache($target_key . '.dat');
 
+
+	// If it's too early to re-send an alert again, skip this entry
+	if ( update_cache_file($price_target_cache_file, ($plugin_config[$this_plugin]['alerts_freq_max'] * 60) ) == false ) {
+	continue;
+	}
+	
+
 $target_value = number_to_string($target_value);
 
 $market_config = explode('-', $target_key);
@@ -51,12 +58,8 @@ $market_value = number_to_string( asset_market_data($market_asset, $market_excha
 	}
 	
 	
-	// If it's too early to re-send an alert again, skip the rest of this loop
-	if ( update_cache_file($price_target_cache_file, ($plugin_config[$this_plugin]['alerts_freq_max'] * 60) ) == false ) {
-	continue;
-	}
 	// If a cache reset was flagged
-	elseif ( $cache_reset ) {
+	if ( $cache_reset ) {
 	
 		if ( $target_value >= $market_value ) {
 		$target_direction = 'increase';
@@ -69,7 +72,7 @@ $market_value = number_to_string( asset_market_data($market_asset, $market_excha
 	
 	store_file_contents($price_target_cache_file, $new_cache_data);
 	
-	// Skip the rest of this loop, as this was setting / resetting target cache data
+	// Skip the rest, as this was setting / resetting cache data
 	continue;
 	
 	}
