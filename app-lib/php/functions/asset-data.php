@@ -1651,10 +1651,8 @@ $original_market = $selected_exchange;
     app_logging('market_error', 'ui_coin_data_row() Bitcoin primary currency value not properly set', 'exchange: ' . $app_config['general']['btc_primary_exchange'] . '; pairing_id: ' . $selected_btc_pairing_id . '; value: ' . $selected_btc_primary_currency_value );
     }
     
-    
 
   }
-  
   
   
 
@@ -1662,10 +1660,10 @@ $original_market = $selected_exchange;
   if ( number_to_string($asset_amount) > 0.00000000 ) { // Show even if decimal is off the map, just for UX purposes tracking token price only
   	
   		
-  		// For watch-only, we always want only zero to show here in the UI (with no decimals)
-  		if ( number_to_string($asset_amount) == 0.000000001 ) {
-  		$asset_amount = 0;
-  		}
+  	 // For watch-only, we always want only zero to show here in the UI (with no decimals)
+  	 if ( number_to_string($asset_amount) == 0.000000001 ) {
+  	 $asset_amount = 0;
+  	 }
   		
 
   $rand_id = rand(10000000,100000000);
@@ -1692,56 +1690,47 @@ $original_market = $selected_exchange;
     else {
     $td_color_zebra = '#d6d4d4';
     }
-
 	
   
-	 // Get coin values, including non-BTC pairings
+  // Get coin values, including non-BTC pairings
     
-    
-    // Consolidate function calls for runtime speed improvement
-    $asset_market_data = asset_market_data($asset_symbol, $selected_exchange, $market_id, $selected_pairing);
-	 
-	 ?>
-	 
-	 <script>
-	 // DEBUGGING ONLY
-	 //console.log("asset_symbol = <?=$asset_symbol?>; selected_pairing = <?=$selected_pairing?>; pairing_volume = <?=$asset_market_data['24hr_pairing_volume']?>; currency_volume = <?=$asset_market_data['24hr_primary_currency_volume']?>;");
-	 </script>
-	 
-	 <?php
-	 
-	 // BTC PAIRINGS
-    if ( $selected_pairing == 'btc' ) {
-    $pairing_btc_value = pairing_btc_value($selected_pairing); // SUPPORTED even for BTC, since we ue this var for secondary trade / holdings values logic further down
-    $coin_value_raw = $asset_market_data['last_trade'];
-    $btc_trade_eqiv_raw = number_format($coin_value_raw, 8, '.', '');
-    $coin_value_total_raw = ($asset_amount * $coin_value_raw);
-  	 $coin_primary_currency_worth_raw = $coin_value_total_raw * $selected_btc_primary_currency_value;
-    $btc_worth_array[$asset_symbol] = $coin_value_total_raw;
-    }
-    // ETH ICOS
-    elseif ( $selected_pairing == 'eth' && $selected_exchange == 'eth_subtokens_ico' ) {
-    $pairing_btc_value = pairing_btc_value($selected_pairing);
+  // Consolidate function calls for runtime speed improvement
+  $asset_market_data = asset_market_data($asset_symbol, $selected_exchange, $market_id, $selected_pairing);
+
+
+    // ETH ICOS (OVERWRITE W/ DIFF LOGIC)
+    if ( $selected_exchange == 'eth_subtokens_ico' ) {
     $coin_value_raw = get_sub_token_price($selected_exchange, $market_id);
-    $btc_trade_eqiv_raw = number_format( ($coin_value_raw * $pairing_btc_value), 8, '.', '');
-    $coin_value_total_raw = ($asset_amount * $coin_value_raw);
-  	 $coin_primary_currency_worth_raw = ($coin_value_total_raw * $pairing_btc_value) * $selected_btc_primary_currency_value;
-    $btc_worth_array[$asset_symbol] = number_to_string($coin_value_total_raw * $pairing_btc_value);  
     }
-    // OTHER PAIRINGS
     else {
-    $pairing_btc_value = pairing_btc_value($selected_pairing);
-    $coin_value_raw = $asset_market_data['last_trade'];
-    $btc_trade_eqiv_raw = ( strtolower($asset_name) == 'bitcoin' ? 1 : number_format( ($coin_value_raw * $pairing_btc_value), 8, '.', '') );
-    $coin_value_total_raw = ($asset_amount * $coin_value_raw);
-  	 $coin_primary_currency_worth_raw = ($coin_value_total_raw * $pairing_btc_value) * $selected_btc_primary_currency_value;
-    $btc_worth_array[$asset_symbol] = ( strtolower($asset_name) == 'bitcoin' ? $asset_amount : number_to_string($coin_value_total_raw * $pairing_btc_value) );
-  	 }
+  	 $coin_value_raw = $asset_market_data['last_trade'];
+    }
+
+
+  $coin_value_total_raw = number_to_string($asset_amount * $coin_value_raw);
 	
+  // SUPPORTED even for BTC ( pairing_btc_value('btc') ALWAYS = 1 ), 
+  // since we use this var for secondary trade / holdings values logic further down
+  $pairing_btc_value = pairing_btc_value($selected_pairing); 
+  	 
   	 
 	 if ( $pairing_btc_value == null ) {
 	 app_logging('market_error', 'pairing_btc_value(\''.$selected_pairing.'\') returned null in ui_coin_data_row(), likely from exchange API request failure');
 	 }
+	
+	
+  $coin_primary_currency_worth_raw = ($coin_value_total_raw * $pairing_btc_value) * $selected_btc_primary_currency_value;
+
+
+    // BITCOIN (OVERWRITE W/ DIFF LOGIC)
+    if ( strtolower($asset_name) == 'bitcoin' ) {
+    $btc_trade_eqiv_raw = 1;
+    $btc_worth_array[$asset_symbol] = $asset_amount;
+  	 }
+  	 else {
+  	 $btc_trade_eqiv_raw = number_format( ($coin_value_raw * $pairing_btc_value) , 8, '.', '');
+  	 $btc_worth_array[$asset_symbol] = number_to_string($coin_value_total_raw * $pairing_btc_value);
+  	 }
   	 
   	 
     // FLAG SELECTED PAIRING IF FIAT EQUIVALENT formatting should be used, AS SUCH
@@ -1749,8 +1738,6 @@ $original_market = $selected_exchange;
     if ( array_key_exists($selected_pairing, $app_config['power_user']['bitcoin_currency_markets']) && !array_key_exists($selected_pairing, $app_config['power_user']['crypto_pairing']) ) {
 	 $fiat_eqiv = 1;
     }
-    
-  
 	 
 	 
   	 // Calculate gain / loss if purchase price was populated, AND asset held is at least 1 satoshi
@@ -1798,8 +1785,6 @@ $original_market = $selected_exchange;
 	  
 	 
 	 
-	 
-	 
     $coin_stats_array[] = array(
     													'coin_symbol' => $asset_symbol, 
     													'coin_leverage' => $leverage_level,
@@ -1813,7 +1798,6 @@ $original_market = $selected_exchange;
     													'gain_loss_percent_total' => $inc_leverage_gain_loss_percent,
     													);
     										
-
 
 
 

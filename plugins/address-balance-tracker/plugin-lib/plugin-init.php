@@ -25,6 +25,15 @@ $asset = strtolower($target_value['asset']);
 $address = $target_value['address'];
 $label = $target_value['label'];
 
+// Only getting BTC value for non-bitcoin assets is supported
+
+$pairing_btc_value = pairing_btc_value($asset); 
+  	 
+  	 
+	if ( $pairing_btc_value == null ) {
+	app_logging('market_error', 'pairing_btc_value(\''.$asset.'\') returned null in the \''.$this_plugin.'\' plugin, likely from exchange API request failure');
+	}
+
 	
 	// Detect which chain the address is on, set CURRENT (not cached) address balance
 	if ( $asset == 'btc' ) {
@@ -33,6 +42,14 @@ $label = $target_value['label'];
 	elseif ( $asset == 'eth' ) {
 	$address_balance = eth_address_balance($address);
 	}
+	
+
+// Get primary currency value of the current address balance
+$coin_primary_currency_worth_raw = number_to_string( ($address_balance * $pairing_btc_value) * $selected_btc_primary_currency_value );
+
+$pretty_primary_currency_worth = pretty_numbers($coin_primary_currency_worth_raw, ( $coin_primary_currency_worth_raw >= 1.00 ? 2 : 5 ) );
+
+$pretty_coin_amount = pretty_numbers($address_balance, 8);
 
 	
 	// Get cache data, and / or flag a cache reset
@@ -78,12 +95,14 @@ $label = $target_value['label'];
 		$direction = 'decrease';
 		}
 
-	$email_message = "The " . $label . " address balance has " . $direction . "d to: " . $address_balance . " " . strtoupper($asset);
+	$base_message = "The " . $label . " address balance has " . $direction . "d to " . $pretty_coin_amount . " " . strtoupper($asset) . " (". $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] . $pretty_primary_currency_worth . ").";
 
-	$text_message = $label . " address balance " . $direction . ": " . $address_balance . " " . strtoupper($asset);
+	$email_message = $base_message . " https://www.blockchain.com/btc/address/" . $address;
+
+	$text_message = $label . " address balance " . $direction . ": " . $pretty_coin_amount . " " . strtoupper($asset) . " (". $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] . $pretty_primary_currency_worth . ").";
               
    // Were're just adding a human-readable timestamp to smart home (audio) alerts
-   $notifyme_message = $email_message . ' Timestamp: ' . time_date_format($app_config['general']['local_time_offset'], 'pretty_time') . '.';
+   $notifyme_message = $base_message . ' Timestamp: ' . time_date_format($app_config['general']['local_time_offset'], 'pretty_time') . '.';
 
 
   	// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
