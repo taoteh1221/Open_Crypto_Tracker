@@ -68,15 +68,15 @@
     <p class='align_center'><a href='https://taoteh1221.github.io' target='_blank' title='Check for upgrades to the latest version here.'>Running <?=ucfirst($app_edition)?> Edition v<?=$app_version?></a>
     
 
-    <p class='align_center'><a title='Click to show donation addresses.' href='javascript: show_more("donate");'>Donations Support Development</a></p>
+    <p class='align_center'><a title='Click to show / hide donation addresses.' href='javascript: show_more("donate");'>Donations Support Development</a></p>
     
             	<div style='display: none;' id='donate' class='align_center'>
             	
             	<span class='bitcoin' style='font-weight: bold;'>DFD Cryptocoin Values <i>WILL ALWAYS REMAIN 100% FREE / OPEN SOURCE SOFTWARE</i> (<a href='https://en.wikipedia.org/wiki/Free_and_open-source_software' target='_blank'>FOSS</a>),<br />so please consider donating any amount <i>large or small</i> to help support time spent on this project...</span>
             	
-            	<br /><br /><b>Bitcoin:</b> <br /><span class='underline_pointer' id='btc_donate' title='Click To Show / Hide Address Copying Details'>3Nw6cvSgnLEFmQ1V4e8RSBG23G7pDjF3hW</span>
+            	<br /><br /><b>Bitcoin:</b> <br /><span class='underline_pointer' id='btc_donate' title='Click to show / hide address copying details.'>3Nw6cvSgnLEFmQ1V4e8RSBG23G7pDjF3hW</span>
             	
-            	<br /><br /><b>Ethereum:</b> <br /><span class='underline_pointer' id='eth_donate' title='Click To Show / Hide Address Copying Details'>0x644343e8D0A4cF33eee3E54fE5d5B8BFD0285EF8</span>
+            	<br /><br /><b>Ethereum:</b> <br /><span class='underline_pointer' id='eth_donate' title='Click to show / hide address copying details.'>0x644343e8D0A4cF33eee3E54fE5d5B8BFD0285EF8</span>
             	
             	<br /><br /><b>Github:</b> <br /><a href='https://github.com/sponsors/taoteh1221' target='_blank'>https://github.com/sponsors/taoteh1221</a>
             	
