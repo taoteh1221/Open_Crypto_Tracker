@@ -26,7 +26,7 @@ $address = $target_value['address'];
 $label = $target_value['label'];
 
 // Only getting BTC value for non-bitcoin assets is supported
-
+// SUPPORTED even for BTC ( pairing_btc_value('btc') ALWAYS = 1 )
 $pairing_btc_value = pairing_btc_value($asset); 
   	 
   	 
@@ -88,6 +88,7 @@ $pretty_coin_amount = pretty_numbers($address_balance, 8);
 	// If address balance has changed
 	if ( $address_balance != $cached_address_balance ) {
 		
+		
 		if ( $address_balance > $cached_address_balance ) {
 		$direction = 'increase';
 		}
@@ -95,9 +96,18 @@ $pretty_coin_amount = pretty_numbers($address_balance, 8);
 		$direction = 'decrease';
 		}
 
+
 	$base_message = "The " . $label . " address balance has " . $direction . "d to " . $pretty_coin_amount . " " . strtoupper($asset) . " (". $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] . $pretty_primary_currency_worth . ").";
 
-	$email_message = $base_message . " https://www.blockchain.com/btc/address/" . $address;
+
+		// Add blockchain explorer link to email message
+		if ( $asset == 'btc' ) {
+		$email_message = $base_message . " https://www.blockchain.com/btc/address/" . $address;
+		}
+		elseif ( $asset == 'eth' ) {
+		$email_message = $base_message . " https://etherscan.io/address/" . $address;
+		}
+
 
 	$text_message = $label . " address balance " . $direction . ": " . $pretty_coin_amount . " " . strtoupper($asset) . " (". $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] . $pretty_primary_currency_worth . ").";
               
