@@ -1,7 +1,7 @@
 
 ############################################################################################################################
 
-DFD Cryptocoin Values - Developed by Michael Kilday <mike@dragonfrugal.com> (Copyright 2014-2021 GPLv3)
+Open Crypto Portfolio Tracker - Developed by Michael Kilday <mike@dragonfrugal.com> (Copyright 2014-2021 GPLv3)
 
 
 Open source / 100% free cryptocurrency investment portfolio tracker, with email / text / Alexa / Ghome / Telegram alerts, charts,  mining calculators, leverage / gain / loss / balance stats, news feeds and more. Privately track Bitcoin, Ethereum, and unlimited other cryptocurrencies. Customize assets list / alerts / charts / exchange pairings. Add as many assets / markets / alerts / charts as you want. 
@@ -13,9 +13,9 @@ Project Website: https://taoteh1221.github.io
 
 LIVE PUBLIC DEMO: https://dragonfrugal.com/coin-prices
 
-Download Latest Version: https://github.com/taoteh1221/DFD_Cryptocoin_Values/releases
+Download Latest Version: https://github.com/taoteh1221/Open_Crypto_Portfolio_Tracker/releases
 
-Issue Reporting (Features / Issues / Help): https://github.com/taoteh1221/DFD_Cryptocoin_Values/issues
+Issue Reporting (Features / Issues / Help): https://github.com/taoteh1221/Open_Crypto_Portfolio_Tracker/issues
 
 Discord Chat: https://discord.gg/WZVK2nm
 
@@ -106,9 +106,9 @@ Automatic Setup For Ubuntu or Raspberry Pi, On Home / Internal Network (THE RECO
 
 Recommended MINIMUM system specs: 1 Gigahertz CPU / 512 Megabytes RAM / HIGH QUALITY 32 Gigabyte MicroSD card (running Nginx or Apache headless with PHP v7.2+)
 
-wget -O FOLIO-INSTALL.bash https://git.io/JU4gn;chmod +x FOLIO-INSTALL.bash;sudo ./FOLIO-INSTALL.bash
+wget -O FOLIO-INSTALL.bash https://git.io/JqCvQ;chmod +x FOLIO-INSTALL.bash;sudo ./FOLIO-INSTALL.bash
 
-Follow the prompts. This automated script gives you the options to: install / uninstall a PHP web server automatically, download / install / configure / uninstall the latest version of the DFD Cryptocoin Values app automatically, setup a cron job automatically (for price alerts / charts), and setup SSH (to update / install web site files remotely to the web server via SFTP) automatically. 
+Follow the prompts. This automated script gives you the options to: install / uninstall a PHP web server automatically, download / install / configure / uninstall the latest version of the Open Crypto Portfolio Tracker app automatically, setup a cron job automatically (for price alerts / charts), and setup SSH (to update / install web site files remotely to the web server via SFTP) automatically. 
 
 When the auto-install is completed, it will display addresses / logins to access the app (write these down / save them for future use).
 

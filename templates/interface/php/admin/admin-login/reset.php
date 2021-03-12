@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2021 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
+ * Copyright 2014-2021 GPLv3, Open Crypto Portfolio Tracker by Mike Kilday: http://DragonFrugal.com
  */
  
 
@@ -56,7 +56,7 @@ if ( $_POST['admin_submit_reset'] ) {
 	
 	$message = "
 
-Please confirm your request to reset the admin password for username '".$stored_admin_login[0]."', in your DFD Cryptocoin Values application.
+Please confirm your request to reset the admin password for username '".$stored_admin_login[0]."', in your Open Crypto Portfolio Tracker application.
 
 To complete resetting your admin password, please visit this link below:
 ". $base_url . "password-reset.php?new_reset_key=".$new_reset_key."
@@ -70,7 +70,7 @@ If you did NOT request this password reset (originating from ip address ".$remot
   	// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
    $send_params = array(
           					'email' => array(
-          											'subject' => 'DFD Cryptocoin Values - Admin Password Reset',
+          											'subject' => 'Open Crypto Portfolio Tracker - Admin Password Reset',
      													'message' => $message
           											)
           					);

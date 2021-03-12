@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright 2014-2021 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
+ * Copyright 2014-2021 GPLv3, Open Crypto Portfolio Tracker by Mike Kilday: http://DragonFrugal.com
  */
 
 
@@ -41,7 +41,7 @@ $app_config = array(); // REQUIRED, DON'T DELETE BY ACCIDENT
 
 // Enable / disable daily upgrade checks / alerts (DEFAULT: WEB INTERFACE ONLY)
 // (Checks latest release version via github.com API endpoint value "tag_name" 
-// @ https://api.github.com/repos/taoteh1221/DFD_Cryptocoin_Values/releases/latest)
+// @ https://api.github.com/repos/taoteh1221/Open_Crypto_Portfolio_Tracker/releases/latest)
 // Choosing 'all' will send to all properly-configured communication channels, and automatically skip any not properly setup
 $app_config['comms']['upgrade_alert'] = 'ui'; // 'off' (disabled) / 'all' / 'ui' (web interface) / 'email' / 'text' / 'notifyme' / 'telegram'
 ////
@@ -1546,7 +1546,7 @@ add that EXACT name in this config file further above within the $app_config['co
 to enable email-to-text alerts to your network's mobile phone number.
 
 PLEASE REPORT ANY MISSING / INCORRECT / NON-FUNCTIONAL GATEWAYS HERE, AND I WILL FIX THEM:
-https://github.com/taoteh1221/DFD_Cryptocoin_Values/issues
+https://github.com/taoteh1221/Open_Crypto_Portfolio_Tracker/issues
 (or you can add / update it yourself right in this configuration, if you know the correct gateway domain name)
 
 */

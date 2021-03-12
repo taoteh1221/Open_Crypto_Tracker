@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2021 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
+ * Copyright 2014-2021 GPLv3, Open Crypto Portfolio Tracker by Mike Kilday: http://DragonFrugal.com
  */
 
 
@@ -11,7 +11,7 @@
 	if ( isset($app_config['comms']['upgrade_alert']) && $app_config['comms']['upgrade_alert'] != 'off' && update_cache_file($base_dir . '/cache/vars/upgrade_check_latest_version.dat', 1440) == true ) {
 	
 	
-	$upgrade_check_jsondata = @external_api_data('url', 'https://api.github.com/repos/taoteh1221/DFD_Cryptocoin_Values/releases/latest', 0); // Don't cache API data
+	$upgrade_check_jsondata = @external_api_data('url', 'https://api.github.com/repos/taoteh1221/Open_Crypto_Portfolio_Tracker/releases/latest', 0); // Don't cache API data
 	
 	$upgrade_check_data = json_decode($upgrade_check_jsondata, true);
 	
@@ -61,7 +61,7 @@
 				}
 				
 	
-			$upgrade_check_message = $another_reminder . 'An upgrade for DFD Cryptocoin Values to version ' . $upgrade_check_latest_version . ' is available. You are running version ' . $app_version . '.' . $bug_fix_message_extension;
+			$upgrade_check_message = $another_reminder . 'An upgrade for Open Crypto Portfolio Tracker to version ' . $upgrade_check_latest_version . ' is available. You are running version ' . $app_version . '.' . $bug_fix_message_extension;
 			
 			
 			$email_notifyme_message = $upgrade_check_message . ' (you have upgrade reminders triggered every '.$app_config['comms']['upgrade_alert_reminder'].' days in the configuration settings)';
@@ -88,7 +88,7 @@
 																	'charset' => $encoded_text_alert['charset']
 																	),
 											'email' => array(
-																	'subject' => $another_reminder . 'DFD Cryptocoin Values v'.$upgrade_check_latest_version.' Upgrade Available' . $bug_fix_subject_extension,
+																	'subject' => $another_reminder . 'Open Crypto Portfolio Tracker v'.$upgrade_check_latest_version.' Upgrade Available' . $bug_fix_subject_extension,
 																	'message' => $email_notifyme_message
 																	)
 											);
@@ -97,7 +97,7 @@
 					elseif ( $app_config['comms']['upgrade_alert'] == 'email' ) {
 						
 					$upgrade_check_send_params['email'] = array(
-														'subject' => $another_reminder . 'DFD Cryptocoin Values v'.$upgrade_check_latest_version.' Upgrade Available' . $bug_fix_subject_extension,
+														'subject' => $another_reminder . 'Open Crypto Portfolio Tracker v'.$upgrade_check_latest_version.' Upgrade Available' . $bug_fix_subject_extension,
 														'message' => $email_notifyme_message
 														);
 				

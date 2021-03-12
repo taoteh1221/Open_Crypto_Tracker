@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2020 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
+ * Copyright 2014-2020 GPLv3, Open Crypto Portfolio Tracker by Mike Kilday: http://DragonFrugal.com
  */
 				
 $mined_coin_value = asset_market_data(strtoupper($pow_coin_data['symbol']), $pow_coin_data['exchange_name'], $pow_coin_data['exchange_market'])['last_trade'];

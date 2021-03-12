@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright 2014-2021 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
+# Copyright 2014-2021 GPLv3, Open Crypto Portfolio Tracker by Mike Kilday: http://DragonFrugal.com
 
 
 ######################################
@@ -158,7 +158,7 @@ fi
 				
 				
 if [ -f $DOC_ROOT/config.php ]; then
-echo "A configuration file from a previous install of DFD Cryptocoin Values (Server Edition) has been detected on your system."
+echo "A configuration file from a previous install of Open Crypto Portfolio Tracker (Server Edition) has been detected on your system."
 echo "During this upgrade / re-install, it will be backed up to:"
 echo "$DOC_ROOT/config.php.BACKUP.$DATE.[random string]"
 echo "This will save any custom settings within it."
@@ -174,7 +174,7 @@ echo " "
 echo "v4.14.6 AND HIGHER WILL #FORCEFULLY RECOMMEND# PHP-FPM (FastCGI) v7.2 OR HIGHER."
 echo "This warning can be disabled in the DEVELOPER section in Admin Config as of v4.14.7."
 echo "If you auto-installed, you can auto-upgrade if you FULLY re-install EVERYTHING with"
-echo "the latest auto-install script: https://git.io/JU4gn"
+echo "the latest auto-install script: https://git.io/JqCvQ"
 echo " "
 echo "v4.14.3 HAS MAJOR OVERHAULS TO LITE CHART (1W / 1M / ETC) SCALING OPTIMIZATIONS, WHICH MAY SKEW A"
 echo "FEW (NOT MANY THOUGH) CHART TIME INTERVALS #INITIALLY IF YOU ARE UPGRADING FROM A PREVIOUS VERSION#"
@@ -212,7 +212,7 @@ echo "#WHEN YOU FIRST RUN THIS APP AFTER INSTALLATION#. IT'S #HIGHLY RECOMMENDED
 echo "ESPECIALLY ON PUBLIC FACING / KNOWN SERVERS, #OR SOMEBODY ELSE MAY BEAT YOU TO IT#."
 echo " "
 
-echo "PLEASE REPORT ANY ISSUES HERE: https://github.com/taoteh1221/DFD_Cryptocoin_Values/issues"
+echo "PLEASE REPORT ANY ISSUES HERE: https://github.com/taoteh1221/Open_Crypto_Portfolio_Tracker/issues"
 echo " "
   				
 echo "Select 1 or 2 to choose whether to continue with installation, or quit."
@@ -695,11 +695,11 @@ echo " "
 
 
 echo "Do you want this script to automatically download the latest version of"
-echo "DFD Cryptocoin Values (Server Edition) from Github.com, and install / configure it?"
+echo "Open Crypto Portfolio Tracker (Server Edition) from Github.com, and install / configure it?"
 echo " "
 
-echo "Select 1, 2, or 3 to choose whether to auto-install / remove DFD Cryptocoin Values (Server Edition), or skip."
-echo "(!WARNING!: REMOVING DFD Cryptocoin Values WILL DELETE *EVERYTHING* IN $DOC_ROOT !!)"
+echo "Select 1, 2, or 3 to choose whether to auto-install / remove Open Crypto Portfolio Tracker (Server Edition), or skip."
+echo "(!WARNING!: REMOVING Open Crypto Portfolio Tracker WILL DELETE *EVERYTHING* IN $DOC_ROOT !!)"
 echo " "
 
 OPTIONS="install_coin_app remove_coin_app skip"
@@ -711,8 +711,8 @@ select opt in $OPTIONS; do
         		
         		echo " "
 				
-				echo "Directory $DOC_ROOT DOES NOT exist, cannot install DFD Cryptocoin Values."
-				echo "Skipping auto-install of DFD Cryptocoin Values."
+				echo "Directory $DOC_ROOT DOES NOT exist, cannot install Open Crypto Portfolio Tracker."
+				echo "Skipping auto-install of Open Crypto Portfolio Tracker."
 				else
 				
 				echo " "
@@ -746,7 +746,7 @@ select opt in $OPTIONS; do
 				echo "Required component installation completed."
 				
 				echo " "
-				echo "Downloading / installing the latest version of DFD Cryptocoin Values (Server Edition) from Github.com, please wait..."
+				echo "Downloading / installing the latest version of Open Crypto Portfolio Tracker (Server Edition) from Github.com, please wait..."
             echo " "
 				
 				mkdir DFD-Cryptocoin-Values
@@ -756,7 +756,7 @@ select opt in $OPTIONS; do
 				# Set curl user agent, as the github API REQUIRES ONE
 				/usr/bin/curl -H "$CUSTOM_CURL_USER_AGENT_HEADER"
 				
-				ZIP_DL=$(/usr/bin/curl -s 'https://api.github.com/repos/taoteh1221/DFD_Cryptocoin_Values/releases/latest' | /usr/bin/jq -r '.zipball_url')
+				ZIP_DL=$(/usr/bin/curl -s 'https://api.github.com/repos/taoteh1221/Open_Crypto_Portfolio_Tracker/releases/latest' | /usr/bin/jq -r '.zipball_url')
 				
 				/usr/bin/wget -O DFD-Cryptocoin-Values.zip $ZIP_DL
 				
@@ -871,7 +871,7 @@ select opt in $OPTIONS; do
 				/bin/sleep 3
 				
 				echo " "
-				echo "Installing DFD Cryptocoin Values (Server Edition), please wait..."
+				echo "Installing Open Crypto Portfolio Tracker (Server Edition), please wait..."
   				
   				# Copy over the upgrade install files to the install directory, after cleaning up dev files
 				# No trailing forward slash here
@@ -905,7 +905,7 @@ select opt in $OPTIONS; do
 				/bin/sleep 3
 				
 				echo " "
-				echo "DFD Cryptocoin Values (Server Edition) has been installed."
+				echo "Open Crypto Portfolio Tracker (Server Edition) has been installed."
 				
 				
             ######################################
@@ -1010,7 +1010,7 @@ select opt in $OPTIONS; do
 
 				
 				echo " "
-				echo "DFD Cryptocoin Values (Server Edition) has been configured."
+				echo "Open Crypto Portfolio Tracker (Server Edition) has been configured."
 				
 	        	APP_SETUP=1
    	     	
@@ -1020,7 +1020,7 @@ select opt in $OPTIONS; do
        elif [ "$opt" = "remove_coin_app" ]; then
        
         echo " "
-        echo "Removing DFD Cryptocoin Values (Server Edition), please wait..."
+        echo "Removing Open Crypto Portfolio Tracker (Server Edition), please wait..."
         
         rm /etc/cron.d/cryptocoin
 		  
@@ -1031,13 +1031,13 @@ select opt in $OPTIONS; do
 		  /bin/sleep 3
         
 		  echo " "
-		  echo "DFD Cryptocoin Values (Server Edition) has been removed from the system."
+		  echo "Open Crypto Portfolio Tracker (Server Edition) has been removed from the system."
         
         break
        elif [ "$opt" = "skip" ]; then
        
         echo " "
-        echo "Skipping auto-install of DFD Cryptocoin Values (Server Edition)."
+        echo "Skipping auto-install of Open Crypto Portfolio Tracker (Server Edition)."
         
         break
        fi
@@ -1126,12 +1126,12 @@ echo " "
 
 if [ "$APP_SETUP" = "1" ]; then
 
-echo "Web server setup and installation / configuration of DFD Cryptocoin Values (Server Edition)"
+echo "Web server setup and installation / configuration of Open Crypto Portfolio Tracker (Server Edition)"
 echo "should now be complete (if you chose those options), unless you saw any"
 echo "errors on screen during setup."
 echo " "
 
-echo "DFD Cryptocoin Values is located at (and can be edited) inside this folder:"
+echo "Open Crypto Portfolio Tracker is located at (and can be edited) inside this folder:"
 echo "$DOC_ROOT"
 echo " "
 
@@ -1172,7 +1172,7 @@ echo "Web site app files must be placed inside this folder:"
 echo "$DOC_ROOT"
 echo " "
 
-echo "If web server setup has completed successfully, DFD Cryptocoin Values (Server Edition)"
+echo "If web server setup has completed successfully, Open Crypto Portfolio Tracker (Server Edition)"
 echo "can now be installed (if you haven't already) in $DOC_ROOT remotely via SFTP,"
 echo "or by copying over app files locally."
 echo " "

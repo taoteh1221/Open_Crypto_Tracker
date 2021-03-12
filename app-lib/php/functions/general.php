@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2021 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
+ * Copyright 2014-2021 GPLv3, Open Crypto Portfolio Tracker by Mike Kilday: http://DragonFrugal.com
  */
 
 
@@ -1260,9 +1260,9 @@ $vars['cfg_port']     =  $smtp_port;
 $vars['cfg_secure']   = $smtp_secure;
 $vars['cfg_username'] = $smtp_user;
 $vars['cfg_password'] = $smtp_password;
-$vars['cfg_debug_mode'] = $app_config['developer']['debug_mode']; // DFD Cryptocoin Values debug mode setting
-$vars['cfg_strict_ssl'] = $app_config['developer']['smtp_strict_ssl']; // DFD Cryptocoin Values strict SSL setting
-$vars['cfg_app_version'] = $app_version; // DFD Cryptocoin Values version
+$vars['cfg_debug_mode'] = $app_config['developer']['debug_mode']; // Open Crypto Portfolio Tracker debug mode setting
+$vars['cfg_strict_ssl'] = $app_config['developer']['smtp_strict_ssl']; // Open Crypto Portfolio Tracker strict SSL setting
+$vars['cfg_app_version'] = $app_version; // Open Crypto Portfolio Tracker version
 
 return $vars;
 
@@ -2322,7 +2322,7 @@ $to = trim($to);
 			
 			$headers = array(
 	    					'From' => $app_config['comms']['from_email'],
-	    					'X-Mailer' => 'DFD_Cryptocoin_Values/' . $app_version . ' - PHP/' . phpversion(),
+	    					'X-Mailer' => 'Open_Crypto_Portfolio_Tracker/' . $app_version . ' - PHP/' . phpversion(),
 	    					'Content-Type' => $content_type . '/plain; charset=' . $charset
 								);
 			
@@ -2330,7 +2330,7 @@ $to = trim($to);
 			else {
 			
 			$headers = array(
-	    					'X-Mailer' => 'DFD_Cryptocoin_Values/' . $app_version . ' - PHP/' . phpversion(),
+	    					'X-Mailer' => 'Open_Crypto_Portfolio_Tracker/' . $app_version . ' - PHP/' . phpversion(),
 	    					'Content-Type' => $content_type . '/plain; charset=' . $charset
 								);
 			
@@ -2343,13 +2343,13 @@ $to = trim($to);
 			if ( validate_email($app_config['comms']['from_email']) == 'valid' ) {
 			
 			$headers = 'From: ' . $app_config['comms']['from_email'] . "\r\n" .
-    	'X-Mailer: DFD_Cryptocoin_Values/' . $app_version . ' - PHP/' . phpversion() . "\r\n" .
+    	'X-Mailer: Open_Crypto_Portfolio_Tracker/' . $app_version . ' - PHP/' . phpversion() . "\r\n" .
     	'Content-Type: ' . $content_type . '/plain; charset=' . $charset;
     	
 			}
 			else {
 			
-			$headers = 'X-Mailer: DFD_Cryptocoin_Values/' . $app_version . ' - PHP/' . phpversion() . "\r\n" .
+			$headers = 'X-Mailer: Open_Crypto_Portfolio_Tracker/' . $app_version . ' - PHP/' . phpversion() . "\r\n" .
     	'Content-Type: ' . $content_type . '/plain; charset=' . $charset;
     	
 			}
@@ -2615,7 +2615,7 @@ $system['portfolio_cache'] = ( number_to_string($portfolio_cache) > 0 ? $portfol
 
 
 // Software
-$system['software'] = 'DFD_Cryptocoin_Values/' . $app_version . ' - PHP/' . phpversion();
+$system['software'] = 'Open_Crypto_Portfolio_Tracker/' . $app_version . ' - PHP/' . phpversion();
 
 
 

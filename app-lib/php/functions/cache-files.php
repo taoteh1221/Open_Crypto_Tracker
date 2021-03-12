@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2014-2021 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
+ * Copyright 2014-2021 GPLv3, Open Crypto Portfolio Tracker by Mike Kilday: http://DragonFrugal.com
  */
  
  
@@ -285,7 +285,7 @@ global $app_config, $base_dir, $base_url;
 				// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
 				$send_params = array(
 										'email' => array(
-															'subject' => 'DFD Cryptocoin Values - Backup Archive For: ' . $backup_prefix,
+															'subject' => 'Open Crypto Portfolio Tracker - Backup Archive For: ' . $backup_prefix,
 															'message' => $message
 															)
 										);
@@ -435,7 +435,7 @@ $debugging_logs .= strip_tags($logs_array['other_debugging']); // Remove any HTM
   	// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
    $send_params = array(
           					'email' => array(
-          											'subject' => 'DFD Cryptocoin Values - Debugging Logs Report',
+          											'subject' => 'Open Crypto Portfolio Tracker - Debugging Logs Report',
      													'message' => $message
           											)
           					);
@@ -529,7 +529,7 @@ $error_logs .= strip_tags($logs_array['other_error']); // Remove any HTML format
   	// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
    $send_params = array(
           					'email' => array(
-          											'subject' => 'DFD Cryptocoin Values - Error Logs Report',
+          											'subject' => 'Open Crypto Portfolio Tracker - Error Logs Report',
      													'message' => $message
           											)
           					);
@@ -1755,7 +1755,7 @@ $tld_session_prefix = preg_replace("/\./i", "_", $endpoint_tld_or_ip);
 											);
 		
 		if ( in_array($endpoint_tld_or_ip, $strict_feed_servers) ) {
-		curl_setopt($ch, CURLOPT_USERAGENT, 'Custom_Feed_Parser/1.0 (compatible; DFD_Cryptocoin_Values/' . $app_version . '; +https://github.com/taoteh1221/DFD_Cryptocoin_Values)');
+		curl_setopt($ch, CURLOPT_USERAGENT, 'Custom_Feed_Parser/1.0 (compatible; Open_Crypto_Portfolio_Tracker/' . $app_version . '; +https://github.com/taoteh1221/Open_Crypto_Portfolio_Tracker)');
 		}
 		else {
 		curl_setopt($ch, CURLOPT_USERAGENT, $user_agent);

@@ -4,13 +4,13 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 <html lang="en">
 
 <!-- /*
- * Copyright 2014-2021 GPLv3, DFD Cryptocoin Values by Mike Kilday: http://DragonFrugal.com
+ * Copyright 2014-2021 GPLv3, Open Crypto Portfolio Tracker by Mike Kilday: http://DragonFrugal.com
  */ -->
 
 <head>
 
 
-	<title>DFD Cryptocoin Values - <?=( $is_admin ? 'Admin Config' : 'Portfolio' )?></title>
+	<title>Open Crypto Portfolio Tracker - <?=( $is_admin ? 'Admin Config' : 'Portfolio' )?></title>
     
 
    <meta charset="<?=$app_config['developer']['charset_default']?>">
@@ -246,7 +246,7 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 					</ul>
 				
 				
-				<h2>DFD Cryptocoin Values - <?=( $is_admin ? 'Admin Config' : 'Portfolio' )?></h2>
+				<h2>Open Crypto Portfolio Tracker - <?=( $is_admin ? 'Admin Config' : 'Portfolio' )?></h2>
 				
 				
 					<div id="navbarDropdownBell" class="navbar-nav dropleft" style='left: 12px;'>
