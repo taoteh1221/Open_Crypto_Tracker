@@ -10,7 +10,7 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 <head>
 
 
-	<title>Open Crypto Portfolio Tracker - <?=( $is_admin ? 'Admin Config' : 'Portfolio' )?></title>
+	<title>Open Crypto Portfolio Tracker<?=( $is_admin ? ' - Admin Config' : '' )?></title>
     
 
    <meta charset="<?=$app_config['developer']['charset_default']?>">
@@ -246,7 +246,7 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 					</ul>
 				
 				
-				<h2>Open Crypto Portfolio Tracker - <?=( $is_admin ? 'Admin Config' : 'Portfolio' )?></h2>
+				<h2>Open Crypto Portfolio Tracker<?=( $is_admin ? ' - Admin Config' : '' )?></h2>
 				
 				
 					<div id="navbarDropdownBell" class="navbar-nav dropleft" style='left: 12px;'>
