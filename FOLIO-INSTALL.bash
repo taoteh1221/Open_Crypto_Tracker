@@ -1253,6 +1253,13 @@ echo " "
 echo "https://github.com/taoteh1221/DFD_Crypto_Ticker"
 echo " "
 
+echo "ANY DONATIONS (LARGE OR SMALL) HELP SUPPORT DEVELOPMENT OF MY APPS..."
+echo " "
+echo "Bitcoin: 3Nw6cvSgnLEFmQ1V4e8RSBG23G7pDjF3hW"
+echo " "
+echo "Ethereum: 0x644343e8D0A4cF33eee3E54fE5d5B8BFD0285EF8"
+echo " "
+
 
 
 ######################################

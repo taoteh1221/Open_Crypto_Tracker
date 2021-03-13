@@ -4330,6 +4330,21 @@ WILL AUTOMATICALLY PREFORM THE RESET (ALERTS / TRACKING WILL BE ACCURATE AFTERWA
 
 
 
+-------------------------------------------------------------------
+4.28.0:
+
+-Re-Branding app name to "Open Crypto Portfolio Tracker"
+
+-'address-balance-tracker' plugin alerts now include new transactions amount (besides the new total balance)
+
+v4.27.0 and higher of this app RESETS ALL PLUGIN CACHES (A DIRECTORY STRUCTURE UPGRADE), 
+SO ANY PLUGIN ALERTS / TRACKING WILL BE RESET. THE !FIRST! PLUGIN RUNTIMES AFTER UPGRADING
+WILL AUTOMATICALLY PREFORM THE RESET (ALERTS / TRACKING WILL BE ACCURATE AFTERWARDS).
+
+-------------------------------------------------------------------
+
+
+
 
 
 

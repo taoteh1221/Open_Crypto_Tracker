@@ -88,16 +88,20 @@ $pretty_coin_amount = pretty_numbers($address_balance, 8);
 	// If address balance has changed
 	if ( $address_balance != $cached_address_balance ) {
 		
+	// Balance change amount
+	$difference_amount = abs( number_to_string($cached_address_balance - $address_balance) );
 		
 		if ( $address_balance > $cached_address_balance ) {
 		$direction = 'increase';
+		$plus_minus = '+';
 		}
 		else {
 		$direction = 'decrease';
+		$plus_minus = '-';
 		}
 
 
-	$base_message = "The " . $label . " address balance has " . $direction . "d to " . $pretty_coin_amount . " " . strtoupper($asset) . " (". $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] . $pretty_primary_currency_worth . ").";
+	$base_message = "The " . $label . " address balance has " . $direction . "d (" . $plus_minus . $difference_amount . " " . strtoupper($asset) . "), to a new balance of " . $pretty_coin_amount . " " . strtoupper($asset) . " (". $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] . $pretty_primary_currency_worth . ").";
 
 
 		// Add blockchain explorer link to email message
@@ -109,7 +113,7 @@ $pretty_coin_amount = pretty_numbers($address_balance, 8);
 		}
 
 
-	$text_message = $label . " address balance " . $direction . ": " . $pretty_coin_amount . " " . strtoupper($asset) . " (". $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] . $pretty_primary_currency_worth . ").";
+	$text_message = $label . " address balance " . $direction . " (" . $plus_minus . $difference_amount . " " . strtoupper($asset) . "): " . $pretty_coin_amount . " " . strtoupper($asset) . " (". $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] . $pretty_primary_currency_worth . ").";
               
    // Were're just adding a human-readable timestamp to smart home (audio) alerts
    $notifyme_message = $base_message . ' Timestamp: ' . time_date_format($app_config['general']['local_time_offset'], 'pretty_time') . '.';

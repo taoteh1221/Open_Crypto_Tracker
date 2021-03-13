@@ -952,6 +952,12 @@ $app_config['power_user']['news_feeds'] = array(
             			"title" => "Blog - Kraken News",
             			"url" => "https://blog.kraken.com/post/category/kraken-news/feed/"
         						),
+        
+        
+        				array(
+            			"title" => "Blog - LoopRing (Ethereum Layer 2 Network)",
+            			"url" => "https://medium.com/feed/loopring-protocol"
+        						),
     
     
         				array(
