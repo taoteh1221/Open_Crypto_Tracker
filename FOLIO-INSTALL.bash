@@ -857,6 +857,8 @@ select opt in $OPTIONS; do
 				rm $DOC_ROOT/DOCUMENTATION-ETC/CONFIG.EXAMPLE.txt # (Renamed /DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt)
 				rm $DOC_ROOT/DOCUMENTATION-ETC/CRON_PLUGINS_README.txt # (Renamed /DOCUMENTATION-ETC/CRON-PLUGINS-README.txt)
 				rm $DOC_ROOT/DOCUMENTATION-ETC/CRON-PLUGINS-README.txt # (Renamed /DOCUMENTATION-ETC/PLUGINS-README.txt)
+				rm $DOC_ROOT/DOCUMENTATION-ETC/RASPBERRY-PI-HEADLESS-WIFI-SSH.txt # (moved to /DOCUMENTATION-ETC/RASPBERRY-PI/)
+				rm $DOC_ROOT/DOCUMENTATION-ETC/RASPBERRY-PI-SECURITY.txt # (moved to /DOCUMENTATION-ETC/RASPBERRY-PI/)
 				rm $DOC_ROOT/CONFIG.EXAMPLE.txt
 				rm $DOC_ROOT/HELP-FAQ.txt
 				rm $DOC_ROOT/cache/vars/app_config_md5.dat
@@ -1232,9 +1234,8 @@ echo "A #VERY HIGH# port number is recommended (FREE / AVAILABLE port range is 1
 echo "port scanning bots from detecting your machine (and then starting hack attempts on your bound port)."
 echo " "
 
-echo "SEE /DOCUMENTATION-ETC/RASPBERRY-PI-SECURITY.txt and"
-echo "/DOCUMENTATION-ETC/RASPBERRY-PI-HEADLESS-WIFI-SSH.txt for additional information on"
-echo "securing and setting up Raspberry Pi OS (disabling bluetooth, firewall setup, remote login, etc)."
+echo "SEE /DOCUMENTATION-ETC/RASPBERRY-PI/ for additional information on securing and"
+echo "setting up Raspberry Pi OS (disabling bluetooth, firewall setup, remote login, hostname, etc)."
 echo " "
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"

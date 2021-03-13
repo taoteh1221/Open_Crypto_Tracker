@@ -1,0 +1,64 @@
+
+
+=======================================================
+Setting Up SSH On Raspberry PI
+=======================================================
+
+
+1) Login to a terminal on the Pi
+
+
+2) Run this command to open Raspberry Pi Config: 
+
+sudo raspi-config
+
+
+3) Select "Interfacing Options"
+
+
+4) Select "SSH"
+
+
+5) Enable SSH
+
+
+6) Reboot the Pi:
+
+sudo reboot
+
+
+=======================================================
+Setting Up Custom Host Name On Raspberry PI
+=======================================================
+
+
+1) Login to a terminal on the Pi
+
+
+2) Run this command to open Raspberry Pi Config: 
+
+sudo raspi-config
+
+
+3) Select "Network Options"
+
+
+4) Select "Hostname"
+
+
+5) Change to your desired (alphanumeric) host name
+
+
+6) Reboot the Pi:
+
+sudo reboot
+
+
+7) You should now be able to easily visit your Raspberry Pi on your INTERNAL NETWORK as:
+
+YOUR_HOSTNAME.local
+
+
+=======================================================
+
+

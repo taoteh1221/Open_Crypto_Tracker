@@ -227,6 +227,9 @@ MAYBE SECTION
 ///////////////////////////////////////////////////////
 
 
+Add an OPTIONAL 'cron_plugins_runtime' stat in system charts (save as NO_DATA if non-existant to avoid UI rendering, like we do for temperature sensor). We'd need to append to the same line in the .dat file RIGHT AFTER THE CORE LOGIC HAS ALREADY WRITTEN TO IT. Not sure if this potentially could cause corruption issues in edge cases?
+
+
 Turn function files into a classes, or at least rename functions to 'safe' function names that won't collide with any upcoming PHP version built-in functions (like wordpress does, with the 'wp_' prefix).
 
 
