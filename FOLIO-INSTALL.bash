@@ -1251,7 +1251,7 @@ echo "Also check out my 100% FREE open source multi-crypto slideshow ticker for 
 echo " "
 echo "https://sourceforge.net/projects/dfd-crypto-ticker"
 echo " "
-echo "https://github.com/taoteh1221/DFD_Crypto_Ticker"
+echo "https://github.com/taoteh1221/Slideshow_Crypto_Ticker"
 echo " "
 
 echo "ANY DONATIONS (LARGE OR SMALL) HELP SUPPORT DEVELOPMENT OF MY APPS..."
@@ -1267,7 +1267,7 @@ echo " "
 
 
 
-echo "Would you like to ADDITIONALLY install DFD Crypto Ticker, multi-crypto slideshow ticker for Raspberry Pi LCD screens on this machine?"
+echo "Would you like to ADDITIONALLY install Slideshow Crypto Ticker, multi-crypto slideshow ticker for Raspberry Pi LCD screens on this machine?"
 echo " "
 
 echo "Select 1 or 2 to choose whether to install the crypto ticker for Raspberry Pi LCD screens, or skip."
@@ -1285,7 +1285,7 @@ select opt in $OPTIONS; do
 			
 			echo " "
 			
-			/usr/bin/wget -O TICKER-INSTALL.bash https://raw.githubusercontent.com/taoteh1221/DFD_Crypto_Ticker/main/TICKER-INSTALL.bash
+			/usr/bin/wget -O TICKER-INSTALL.bash https://raw.githubusercontent.com/taoteh1221/Slideshow_Crypto_Ticker/main/TICKER-INSTALL.bash
 			
 			/bin/chmod +x TICKER-INSTALL.bash
 			
