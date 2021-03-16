@@ -960,9 +960,6 @@ select opt in $OPTIONS; do
                     
                             
                     # Setup cron (to check logs after install: tail -f /var/log/syslog | grep cron -i)
-                            
-                    /usr/bin/touch /etc/cron.d/cryptocoin
-                    
                     
 						  PHP_CLI_PATH="/usr/bin/php${PHP_FPM_VER}"
          					

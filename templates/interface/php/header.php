@@ -96,6 +96,9 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 	<script src="app-lib/js/modaal.js"></script>
 
 	<script src="app-lib/js/autosize.min.js"></script>
+    
+   <!-- USAGE: http://underscorejs.org -->
+   <script src="app-lib/js/underscore-min.js"></script>
 
 	<script src="app-lib/js/functions.js"></script>
 	
