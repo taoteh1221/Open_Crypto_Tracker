@@ -25,7 +25,9 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 	<!-- Preload a few UI-related images -->
 	<link rel="preload" href="templates/interface/media/images/auto-preloaded/loader.gif" as="image">
 	
-	<link rel="preload" href="templates/interface/media/images/auto-preloaded/notification-<?=$theme_selected?>-fill.png" as="image">
+	<link rel="preload" href="templates/interface/media/images/auto-preloaded/login-<?=$theme_selected?>-theme.png" as="image">
+	
+	<link rel="preload" href="templates/interface/media/images/auto-preloaded/notification-<?=$theme_selected?>-line.png" as="image">
 	
 	
 	<script>
@@ -226,7 +228,7 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 					
 				  		<li class="nav-item dropdown align_center">
 					
-							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src='templates/interface/media/images/login-<?=$theme_selected?>-theme.png' height='27' border='0' /></a>
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src='templates/interface/media/images/auto-preloaded/login-<?=$theme_selected?>-theme.png' height='27' border='0' /></a>
 					
 							<div class="dropdown-menu shadow-lg p-3 mb-5 bg-white rounded" aria-labelledby="navbarDropdown">
 							
@@ -254,7 +256,7 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 				
 					<div id="navbarDropdownBell" class="navbar-nav dropleft" style='left: 12px;'>
 				
-  						<a class="nav-link" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img id='alert_bell_image' src='templates/interface/media/images/notification-<?=$theme_selected?>-line.png' height='30' border='0' /></a>
+  						<a class="nav-link" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img id='alert_bell_image' src='templates/interface/media/images/auto-preloaded/notification-<?=$theme_selected?>-line.png' height='30' border='0' /></a>
   
   						<!-- Alerts div centering wrapper -->
   						<div id='alert_bell_wrapper' style='position:absolute; top: 46px; left: 50%;'>
