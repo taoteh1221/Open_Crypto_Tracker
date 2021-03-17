@@ -69,6 +69,11 @@ else
 fi
 
 
+
+# Start in user home directory
+cd /home/$USERNAME
+
+
 # For setting user agent header in curl, since some API servers !REQUIRE! a set user agent OR THEY BLOCK YOU
 CUSTOM_CURL_USER_AGENT_HEADER="User-Agent: Curl (${OS}/$VER; compatible;)"
 
@@ -749,7 +754,7 @@ select opt in $OPTIONS; do
 				echo "Downloading / installing the latest version of Open Crypto Portfolio Tracker (Server Edition) from Github.com, please wait..."
             echo " "
 				
-				mkdir DFD-Cryptocoin-Values
+				/usr/bin/mkdir DFD-Cryptocoin-Values
 				
 				cd DFD-Cryptocoin-Values
 				
