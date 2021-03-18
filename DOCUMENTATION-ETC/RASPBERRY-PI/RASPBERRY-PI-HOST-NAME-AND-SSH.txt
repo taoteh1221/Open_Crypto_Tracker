@@ -43,7 +43,7 @@ Setting Up Custom Host Name On Raspberry PI
 sudo raspi-config
 
 
-3) Select "Network Options"
+3) Select "System Options"
 
 
 4) Select "Hostname"
