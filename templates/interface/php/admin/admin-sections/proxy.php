@@ -8,8 +8,6 @@
 
 <div class='max_1200px_wrapper'>
 	
-				<h3 class='align_center'>Proxy</h3>
-				
 	
 	
 	<p> Coming Soon&trade; </p>

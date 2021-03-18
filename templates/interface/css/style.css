@@ -116,6 +116,7 @@ input[type=submit], input[type=button], .force_button_style {
   color: white;
   padding: 5px 10px;
   text-align: center;
+  font-weight: bold;
   text-decoration: none;
   display: inline-block;
   cursor: pointer;
@@ -374,17 +375,22 @@ margin: 0px;
 }
 
 
+.long_list_start {
+margin-top: 10px;
+}
+
+
 .long_list_end {
 margin-bottom: 10px;
 }
 
 
-.green_bright {
+.green_bright, .balloon-tooltips .green {
 color: #10d602 !important;
 }
 
 
-.red_bright {
+.red_bright, .balloon-tooltips .red {
 color: #ff4747 !important;
 }
 
@@ -471,6 +477,7 @@ padding-left: 18px;
 padding-right: 18px;
 display: inline-block;
 text-decoration: none;
+font-weight: bold;
 }
 
 

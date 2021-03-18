@@ -7,7 +7,7 @@
 ?>
 
     
-			<h4 style='display: inline;'>Portfolio </h4><span class='bitcoin'><b>(<?=$app_config['power_user']['last_trade_cache_time']?> minute cache)</b></span>
+			<span class='bitcoin'><b>(<?=$app_config['power_user']['last_trade_cache_time']?> minute cache)</b></span>
 			<?php
 			if ( sizeof($alert_percent) > 4 ) { // Backwards compatibility (reset if user data is not this many array values)
 				
@@ -677,7 +677,7 @@ var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=
 							
 							
 				?>
-			+'<p class="coin_info"><span class="yellow"><?=$value['coin_symbol']?>:</span> <span class="<?=( $value['gain_loss_total'] >= 0 ? 'green_bright">+' . $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] : 'red_bright">' )?><?=$parsed_gain_loss?> (<?=( $value['gain_loss_total'] >= 0 ? '+' : '' )?><?=number_format($value['gain_loss_percent_total'], 2, '.', ',')?>%<?=( $value['coin_leverage'] >= 2 ? ', ' . $value['coin_leverage'] . 'x ' . $value['selected_margintype'] : '' )?>)</span></p>'
+			+'<p class="coin_info"><span class="yellow"><?=$value['coin_symbol']?>:</span> <span class="<?=( $value['gain_loss_total'] >= 0 ? 'green">+' . $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] : 'red">' )?><?=$parsed_gain_loss?> (<?=( $value['gain_loss_total'] >= 0 ? '+' : '' )?><?=number_format($value['gain_loss_percent_total'], 2, '.', ',')?>%<?=( $value['coin_leverage'] >= 2 ? ', ' . $value['coin_leverage'] . 'x ' . $value['selected_margintype'] : '' )?>)</span></p>'
 			
 			<?php
 						}
@@ -1505,12 +1505,12 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
          document.getElementById('system_stats_quick_link').classList.add("red");
          document.getElementById('system_stats_quick_link_info').style.display = 'inline';
 
-			var system_stats_quick_link_info_content = '<h5 class="red_bright tooltip_title">System Stats Alerts</h5>'
+			var system_stats_quick_link_info_content = '<h5 class="red tooltip_title">System Stats Alerts</h5>'
 			
 			<?php
 			foreach ( $system_alerts as $alert_key => $alert_value ) {
 			?>
-			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;"><span class="red_bright"><?=snake_case_to_name($alert_key)?>:</span> <?=$alert_value?></p>'
+			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;"><span class="red"><?=snake_case_to_name($alert_key)?>:</span> <?=$alert_value?></p>'
 			<?php
 			}
 			?>

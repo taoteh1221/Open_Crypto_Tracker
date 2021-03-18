@@ -6,6 +6,9 @@ Sometimes you may see a 'low voltage' warning in the corner of the screen attach
 As long as everything continues running well EVEN WITH THE WARNING PRESENT, you do have 3 more options (2 of them may not work): Disable the warning (will work), disable uneeded hardware (may work), or upgrade the firmware (may work).
 
 
+IMPORTANT NOTE: MAKE SURE THE PLUG ON BOTH ENDS IS NOT LOOSE BEFORE CONTINUING...SOMETIMES THIS ISSUE IS FIXED BY TIGHTENING THE MICROUSB CONNECTION.
+
+
 #########################################################################
 #### OPTION #1 (disable the warning) ####################################
 #########################################################################

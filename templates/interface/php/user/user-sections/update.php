@@ -18,13 +18,15 @@
 		var average_paid_notes = '<h5 class="align_center yellow tooltip_title">Calculating Average <?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?> Price Paid Per Token</h5>'
 			
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="green_bright">Total <?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?> Paid For All Tokens</span> <span class="blue">&#247;</span> <span class="yellow">Total Tokens Purchased</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?> Price Paid Per Token</span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="green">Total <?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?> Paid For All Tokens</span> <span class="blue">&#247;</span> <span class="yellow">Total Tokens Purchased</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?> Price Paid Per Token</span></p>'
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">The RESULT of the above calculation <i>remains the same even AFTER you sell ANY amount, ONLY if you don\'t buy more between sells</i>. Everytime you buy more <i>after selling some</i>, re-calculate your Average <?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?> Price Paid Per Token with this formula:</p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="green_bright">Total <?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?> Paid For All Tokens</span> <span class="blue">-</span> <span class="red_bright">Total <?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?> Received From All Sold Tokens</span> <span class="blue">&#247;</span> <span class="yellow">Total Remaining Tokens Still Held</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?> Price Paid Per Token</span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="green">Total <?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?> Paid For All Tokens</span> <span class="blue">-</span> <span class="red">Total <?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?> Received From All Sold Tokens</span> <span class="blue">&#247;</span> <span class="yellow">Total Remaining Tokens Still Held</span> <span class="blue">=</span> <span class="bitcoin">Average <?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?> Price Paid Per Token</span></p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="yellow">PRO TIP:</span> <br /> When buying / selling, keep quick and dirty (yet clear) textual records of... <br />a) How much you bought / sold of what<br />b) What you paid / received in <?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?> value<br />c) What / where you traded <br />d) Backup to USB Stick / NAS / DropBox / GoogleDrive / OneDrive / AmazonBucket <br />e) Now you\'re ready for tax season, to create spreadsheets from this data <br /><span class="yellow">There is also an <i>open source / free</i> app called <a href="https://rotki.com" target="_blank">Rotki</a> that can help you <i>PRIVATELY</i> track your tax data.</span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="yellow">PRO TIP:</span> <br /> When buying / selling, keep quick and dirty (yet clear) textual records of... <br />a) How much you bought / sold of what<br />b) What you paid / received in <?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?> value<br />c) What / where you traded <br />d) Backup to USB Stick / NAS / DropBox / GoogleDrive / OneDrive / AmazonBucket <br />e) Now you\'re ready for tax season, to create spreadsheets from this data</p>'
+			
+			+'<p class="coin_info extra_margins yellow" style="white-space: normal; max-width: 600px;">There is also an <i>open source / free</i> app called <a href="https://rotki.com" target="_blank">Rotki</a> that can help you <i>PRIVATELY</i> track your tax data.</p>'
 			
 			+'<p> </p>';
 
@@ -33,7 +35,7 @@
 			var leverage_trading_notes = '<h5 class="align_center yellow tooltip_title">Tracking Long / Short Margin Leverage Trades</h5>'
 			
 			
-			+'<p class="coin_info extra_margins red_bright" style="white-space: normal; max-width: 600px;"><b>*Leverage trading is <u>EXTREMELY RISKY</u> (and even more so in crypto markets). Never put more than ~5% of your total investment worth into leverage trades, or you will <u>RISK LOSING EVERYTHING</u>!</b></p>'
+			+'<p class="coin_info extra_margins red" style="white-space: normal; max-width: 600px;"><b>*Leverage trading is <u>EXTREMELY RISKY</u> (and even more so in crypto markets). Never put more than ~5% of your total investment worth into leverage trades, or you will <u>RISK LOSING EVERYTHING</u>!</b></p>'
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">Set the "Asset / Pairing @ Exchange" drop-down menus for the asset to any markets you prefer. It doesn\'t matter which ones you choose, as long as the price discovery closely matches the exchange where you are margin trading this asset.</p>'
 			
@@ -100,14 +102,12 @@
 <!--  !END! RE-USED INFO BUBBLE DATA  -->
 				
 				
-	
-				<h4 style='display: inline;'>Update</h4>
 				
 				
 				<span class='red countdown_notice'></span>
 				
 				
-	<p style='margin-top: 10px;'><a style='font-weight: bold;' class='red clear_both' href='javascript: show_more("disclaimer");' title='Click to show disclaimer.'>Disclaimer!</a></p>
+	<p style='margin-top: 20px;'><a style='font-weight: bold;' class='red clear_both' href='javascript: show_more("disclaimer");' title='Click to show disclaimer.'>Disclaimer!</a></p>
 	    
 	    
 	    
@@ -192,7 +192,7 @@
 		</div>
 		
 		
-	<p style='margin-top: 10px;'><span style='font-weight: bold;' class='bitcoin'>How is my portfolio data stored by this app?</span> 
+	<p style='margin-top: 20px;'><span style='font-weight: bold;' class='bitcoin'>How is my portfolio data stored by this app?</span> 
 	     
 		<img id='portfolio_data_privacy' src='templates/interface/media/images/info-orange.png' alt='' width='30' style='position: relative; left: -5px;' /> </p>
 		
@@ -222,7 +222,7 @@
 		 
 	    
 	
-	<div style='margin-top: 10px; max-width: 1200px;' class='bitcoin random_tip'>
+	<div style='margin-top: 20px; max-width: 1200px;' class='bitcoin random_tip'>
 	
 		<p>
 	
@@ -259,12 +259,14 @@
 		
 		 </script>
 			
-				
+	
+	<div> &nbsp; </div>
+	
 	<p><a style='font-weight: bold;' href='README.txt' target='_blank'>Editing The Portfolio Assets List, and Enabling Email / Text / Telegram / Alexa / Google Home Price Alerts (installation on Ubuntu, Raspberry Pi, or website)</a></p>
 	
 				
 			
-	<div class='align_left clear_both' style='margin-top: 30px; margin-bottom: 15px; white-space: nowrap;'>
+	<div class='align_left clear_both' style='margin-top: 40px; margin-bottom: 15px; white-space: nowrap;'>
 	
 		
 		<!-- Submit button must be OUTSIDE form tags here, or it submits the target form improperly and loses data -->
@@ -322,12 +324,14 @@
 	</div>
 	
 		
+	
+	<div> &nbsp; </div>
 		
 	<div style='display: inline-block; border: 2px dotted black; padding: 7px; margin-left: 0px; margin-top: 15px; margin-bottom: 15px;'>
 	
 		<div class='align_center' style='font-weight: bold;'>Watch Only</div>
 	
-		<div style='margin-left: 6px;'><input type='checkbox' onclick='selectAll(this, "coin_amounts");' /> Select / Unselect All <i><u>Unheld</u> Assets</i>	</div>
+		<div style='margin-left: 6px;'><input type='checkbox' onclick='selectAll(this, "coin_amounts");' /> <b>Select / Unselect All <i><u>Unheld</u> Assets</i></b>	</div>
 		
 	
 	</div>
@@ -358,6 +362,8 @@
 	
 	<form id='coin_amounts' name='coin_amounts' action='<?=start_page($_GET['start_page'])?>' method='post'>
 	
+		
+	<div class='long_list_start list_start_black'> &nbsp; </div>
 	
 	<?php
 	
@@ -834,7 +840,7 @@
 	}
 	?>
 	
-	<div class='long_list_end'> &nbsp; </div>
+	<div class='long_list_end list_end_black'> &nbsp; </div>
 	
 	
 	<input type='hidden' id='submit_check' name='submit_check' value='1' />

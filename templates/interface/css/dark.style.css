@@ -155,6 +155,16 @@ background: #343f49;
 }
 
 
+.list_start_black {
+border-bottom: 2px solid white;
+}
+
+
+.list_end_black {
+border-top: 2px solid white;
+}
+
+
 .green {
 color: #10d602 !important;
 }

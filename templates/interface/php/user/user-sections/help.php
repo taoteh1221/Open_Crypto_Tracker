@@ -7,8 +7,6 @@
 ?>
 
 <div class='max_1200px_wrapper'>
-	
-				<h4 style='display: inline;'>Help?</h4>
 				
 				<span class='red countdown_notice'></span>
 			
@@ -16,7 +14,7 @@
 	<p style='margin-top: 15px; margin-bottom: 15px;'><?=start_page_html('help')?></p>		
 			
 	
-	<div class="accordion" id="accordionHelp" style='margin: 20px;'> <!-- Accordion START -->
+	<div class="accordion" id="accordionHelp" style='margin: 20px; margin-top: 35px;'> <!-- Accordion START -->
 	
 	
 	

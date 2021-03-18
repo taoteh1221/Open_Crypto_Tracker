@@ -1859,14 +1859,14 @@ $original_market = $selected_exchange;
 			if ( $app_config['general']['primary_marketcap_site'] == 'coinmarketcap' && trim($app_config['general']['coinmarketcapcom_api_key']) == null ) {
 			?>
 
-			var cmc_content = '<p class="coin_info"><span class="red_bright"><?=ucfirst($app_config['general']['primary_marketcap_site'])?> API key is required. <br />Configuration adjustments can be made in the Admin Config GENERAL section.</span></p>';
+			var cmc_content = '<p class="coin_info"><span class="red"><?=ucfirst($app_config['general']['primary_marketcap_site'])?> API key is required. <br />Configuration adjustments can be made in the Admin Config GENERAL section.</span></p>';
 	
 			<?php
 			}
 			else {
 			?>
 
-			var cmc_content = '<p class="coin_info"><span class="red_bright"><?=ucfirst($app_config['general']['primary_marketcap_site'])?> API may be offline / under heavy load, <br />marketcap range not set high enough (current range is top <?=$app_config['power_user']['marketcap_ranks_max']?> marketcaps), <br />or API timeout set too low (current timeout is <?=$app_config['power_user']['remote_api_timeout']?> seconds). <br /><br />Configuration adjustments can be made in the Admin Config POWER USER section.</span></p>';
+			var cmc_content = '<p class="coin_info"><span class="red"><?=ucfirst($app_config['general']['primary_marketcap_site'])?> API may be offline / under heavy load, <br />marketcap range not set high enough (current range is top <?=$app_config['power_user']['marketcap_ranks_max']?> marketcaps), <br />or API timeout set too low (current timeout is <?=$app_config['power_user']['remote_api_timeout']?> seconds). <br /><br />Configuration adjustments can be made in the Admin Config POWER USER section.</span></p>';
 	
 			<?php
 			}
@@ -1900,7 +1900,7 @@ $original_market = $selected_exchange;
         		<?php
             if ( $marketcap_data['app_notice'] != '' ) {
         		?>
-        +'<p class="coin_info red_bright">Notice: <?=$marketcap_data['app_notice']?></p>'
+        +'<p class="coin_info red">Notice: <?=$marketcap_data['app_notice']?></p>'
         		<?php
             }
         		?>
@@ -1935,40 +1935,40 @@ $original_market = $selected_exchange;
         <?php
             if ( $marketcap_data['percent_change_1h'] != null ) {
             ?>
-        +'<p class="coin_info"><span class="yellow">1 Hour Change:</span> <?=( stristr($marketcap_data['percent_change_1h'], '-') != false ? '<span class="red_bright">'.$marketcap_data['percent_change_1h'].'%</span>' : '<span class="green_bright">+'.$marketcap_data['percent_change_1h'].'%</span>' )?></p>'
+        +'<p class="coin_info"><span class="yellow">1 Hour Change:</span> <?=( stristr($marketcap_data['percent_change_1h'], '-') != false ? '<span class="red">'.$marketcap_data['percent_change_1h'].'%</span>' : '<span class="green">+'.$marketcap_data['percent_change_1h'].'%</span>' )?></p>'
         <?php
             }
             ?>
-        +'<p class="coin_info"><span class="yellow">24 Hour Change:</span> <?=( stristr($marketcap_data['percent_change_24h'], '-') != false ? '<span class="red_bright">'.$marketcap_data['percent_change_24h'].'%</span>' : '<span class="green_bright">+'.$marketcap_data['percent_change_24h'].'%</span>' )?></p>'
+        +'<p class="coin_info"><span class="yellow">24 Hour Change:</span> <?=( stristr($marketcap_data['percent_change_24h'], '-') != false ? '<span class="red">'.$marketcap_data['percent_change_24h'].'%</span>' : '<span class="green">+'.$marketcap_data['percent_change_24h'].'%</span>' )?></p>'
         <?php
             if ( $marketcap_data['percent_change_7d'] != null ) {
             ?>
-        +'<p class="coin_info"><span class="yellow">7 Day Change:</span> <?=( stristr($marketcap_data['percent_change_7d'], '-') != false ? '<span class="red_bright">'.$marketcap_data['percent_change_7d'].'%</span>' : '<span class="green_bright">+'.$marketcap_data['percent_change_7d'].'%</span>' )?></p>'
+        +'<p class="coin_info"><span class="yellow">7 Day Change:</span> <?=( stristr($marketcap_data['percent_change_7d'], '-') != false ? '<span class="red">'.$marketcap_data['percent_change_7d'].'%</span>' : '<span class="green">+'.$marketcap_data['percent_change_7d'].'%</span>' )?></p>'
         <?php
             }
             if ( $marketcap_data['percent_change_14d'] != null ) {
             ?>
-        +'<p class="coin_info"><span class="yellow">14 Day Change:</span> <?=( stristr($marketcap_data['percent_change_14d'], '-') != false ? '<span class="red_bright">'.$marketcap_data['percent_change_14d'].'%</span>' : '<span class="green_bright">+'.$marketcap_data['percent_change_14d'].'%</span>' )?></p>'
+        +'<p class="coin_info"><span class="yellow">14 Day Change:</span> <?=( stristr($marketcap_data['percent_change_14d'], '-') != false ? '<span class="red">'.$marketcap_data['percent_change_14d'].'%</span>' : '<span class="green">+'.$marketcap_data['percent_change_14d'].'%</span>' )?></p>'
         <?php
             }
             if ( $marketcap_data['percent_change_30d'] != null ) {
             ?>
-        +'<p class="coin_info"><span class="yellow">30 Day Change:</span> <?=( stristr($marketcap_data['percent_change_30d'], '-') != false ? '<span class="red_bright">'.$marketcap_data['percent_change_30d'].'%</span>' : '<span class="green_bright">+'.$marketcap_data['percent_change_30d'].'%</span>' )?></p>'
+        +'<p class="coin_info"><span class="yellow">30 Day Change:</span> <?=( stristr($marketcap_data['percent_change_30d'], '-') != false ? '<span class="red">'.$marketcap_data['percent_change_30d'].'%</span>' : '<span class="green">+'.$marketcap_data['percent_change_30d'].'%</span>' )?></p>'
         <?php
             }
             if ( $marketcap_data['percent_change_90d'] != null ) {
             ?>
-        +'<p class="coin_info"><span class="yellow">90 Day Change:</span> <?=( stristr($marketcap_data['percent_change_90d'], '-') != false ? '<span class="red_bright">'.$marketcap_data['percent_change_90d'].'%</span>' : '<span class="green_bright">+'.$marketcap_data['percent_change_90d'].'%</span>' )?></p>'
+        +'<p class="coin_info"><span class="yellow">90 Day Change:</span> <?=( stristr($marketcap_data['percent_change_90d'], '-') != false ? '<span class="red">'.$marketcap_data['percent_change_90d'].'%</span>' : '<span class="green">+'.$marketcap_data['percent_change_90d'].'%</span>' )?></p>'
         <?php
             }
             if ( $marketcap_data['percent_change_200d'] != null ) {
             ?>
-        +'<p class="coin_info"><span class="yellow">200 Day Change:</span> <?=( stristr($marketcap_data['percent_change_200d'], '-') != false ? '<span class="red_bright">'.$marketcap_data['percent_change_200d'].'%</span>' : '<span class="green_bright">+'.$marketcap_data['percent_change_200d'].'%</span>' )?></p>'
+        +'<p class="coin_info"><span class="yellow">200 Day Change:</span> <?=( stristr($marketcap_data['percent_change_200d'], '-') != false ? '<span class="red">'.$marketcap_data['percent_change_200d'].'%</span>' : '<span class="green">+'.$marketcap_data['percent_change_200d'].'%</span>' )?></p>'
         <?php
             }
             if ( $marketcap_data['percent_change_1y'] != null ) {
             ?>
-        +'<p class="coin_info"><span class="yellow">1 Year Change:</span> <?=( stristr($marketcap_data['percent_change_1y'], '-') != false ? '<span class="red_bright">'.$marketcap_data['percent_change_1y'].'%</span>' : '<span class="green_bright">+'.$marketcap_data['percent_change_1y'].'%</span>' )?></p>'
+        +'<p class="coin_info"><span class="yellow">1 Year Change:</span> <?=( stristr($marketcap_data['percent_change_1y'], '-') != false ? '<span class="red">'.$marketcap_data['percent_change_1y'].'%</span>' : '<span class="green">+'.$marketcap_data['percent_change_1y'].'%</span>' )?></p>'
         <?php
             }
             if ( $marketcap_data['last_updated'] != '' ) {
@@ -2078,7 +2078,7 @@ $original_market = $selected_exchange;
 			else {
 			?>
 			
-			var cmc_content = '<p class="coin_info"><span class="red_bright">No <?=ucfirst($app_config['general']['primary_marketcap_site'])?>.com data for <?=$asset_name?> (<?=$asset_symbol?>) has been configured yet.</span></p>';
+			var cmc_content = '<p class="coin_info"><span class="red">No <?=ucfirst($app_config['general']['primary_marketcap_site'])?>.com data for <?=$asset_name?> (<?=$asset_symbol?>) has been configured yet.</span></p>';
 	
 			<?php
 			}
@@ -2412,7 +2412,7 @@ echo '<span class="' . ( $purchase_price >= 0.00000001 && $leverage_level >= 2 &
   
   
   		// Formatting
-  		$gain_loss_span_color = ( $gain_loss >= 0 ? 'green_bright' : 'red_bright' );
+  		$gain_loss_span_color = ( $gain_loss >= 0 ? 'green' : 'red' );
   		$gain_loss_primary_currency = ( $gain_loss >= 0 ? '+' . $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] : '' );
   		
 		?> 

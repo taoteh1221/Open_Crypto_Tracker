@@ -8,7 +8,6 @@
 
 <div class='full_width_wrapper'>
 	
-				<h3 class='align_center'>System Stats</h3>
 				
 	
     <div style='margin-bottom: 30px;'><?php
@@ -68,12 +67,12 @@
          $('#system_stats_admin_link a').addClass("red_background");
          document.getElementById('system_stats_admin_link_info').style.display = 'inline';
 
-			var system_stats_admin_link_info_content = '<h5 class="red_bright tooltip_title">System Stats Alerts</h5>'
+			var system_stats_admin_link_info_content = '<h5 class="red tooltip_title">System Stats Alerts</h5>'
 			
 			<?php
 			foreach ( $system_alerts as $alert_key => $alert_value ) {
 			?>
-			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;"><span class="red_bright"><?=snake_case_to_name($alert_key)?>:</span> <?=$alert_value?></p>'
+			+'<p class="coin_info extra_margins" style="max-width: 600px; white-space: normal;"><span class="red"><?=snake_case_to_name($alert_key)?>:</span> <?=$alert_value?></p>'
 			<?php
 			}
 			?>

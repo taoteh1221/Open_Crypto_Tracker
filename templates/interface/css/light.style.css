@@ -150,6 +150,16 @@ background: #d6d4d4;
 }
 
 
+.list_start_black {
+border-bottom: 2px solid black;
+}
+
+
+.list_end_black {
+border-top: 2px solid black;
+}
+
+
 .green {
 color: #066000 !important;
 }

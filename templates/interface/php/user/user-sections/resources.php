@@ -9,7 +9,6 @@
 <div class='max_1200px_wrapper'>
 	
 				
-				<h4 style='display: inline;'>Resources</h4>
 				
 				<span class='red countdown_notice'></span>
 			

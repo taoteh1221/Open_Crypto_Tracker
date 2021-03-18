@@ -7,15 +7,14 @@
 
 <div class='full_width_wrapper'>
 	
-	<h4 style='display: inline;'>Charts</h4>
-				
+	
 				<span class='red countdown_notice'></span>
 			
 	
 	<p style='margin-top: 15px; margin-bottom: 15px;'><?=start_page_html('charts')?></p>		
 			
 	  
-	<p style='margin-top: 10px;'><a style='font-weight: bold;' class='red' href='javascript: show_more("chartsnotice");' title='Click to show charts notice.'><b>Charts Notice / Information</b></a></p>
+	<p style='margin-top: 25px;'><a style='font-weight: bold;' class='red' href='javascript: show_more("chartsnotice");' title='Click to show charts notice.'><b>Charts Notice / Information</b></a></p>
 		
 		
 	<div id='chartsnotice' style='display: none;' class='align_left'>
@@ -57,9 +56,9 @@
 	</div>
 	
 	
-	<p class='bitcoin' style='font-weight: bold;'>If your web browser freezes on this page for a long time, try selecting fewer charts. Charts may take awhile to update with the latest data.</p>	
+	<p style='margin-top: 25px; font-weight: bold;' class='bitcoin'>If your web browser freezes on this page for a long time, try selecting fewer charts. Charts may take awhile to update with the latest data.</p>	
 				
-	<p><button class="show_chart_settings force_button_style">Select Charts</button></p>
+	<p style='margin-top: 25px;'><button class="show_chart_settings force_button_style">Select Charts</button></p>
 	
 	<br clear='all' />
 	
@@ -82,12 +81,12 @@
 		
 	 <script>
 	 
-			var charts_raspi_crash = '<h5 class="align_center red_bright tooltip_title">Low Memory Devices Crashing</h5>'
+			var charts_raspi_crash = '<h5 class="align_center red tooltip_title">Low Memory Devices Crashing</h5>'
 			
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">If your low memory device (Raspberry PI / Pine64 / etc) crashes when you select too many news feeds OR charts, you may need to restart your device, and then delete all cookies in your browser related to the web domain you run the app from (before using the app again).</p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">For the more technically-inclined, try decreasing "MaxRequestWorkers" in Apache\'s prefork configuration file (10 maximum is the best for low memory devices, AND "MaxSpareServers" above it MUST BE SET EXACTLY THE SAME #OR YOUR SYSTEM MAY STILL CRASH#), to help stop the web server from crashing under heavier loads. <span class="red_bright">ALWAYS BACKUP THE CURRENT SETTINGS FIRST, IN CASE IT DOESN\'T WORK.</span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">For the more technically-inclined, try decreasing "MaxRequestWorkers" in Apache\'s prefork configuration file (10 maximum is the best for low memory devices, AND "MaxSpareServers" above it MUST BE SET EXACTLY THE SAME #OR YOUR SYSTEM MAY STILL CRASH#), to help stop the web server from crashing under heavier loads. <span class="red">ALWAYS BACKUP THE CURRENT SETTINGS FIRST, IN CASE IT DOESN\'T WORK.</span></p>'
 			
 			
 			+'<p> </p>';
@@ -120,13 +119,16 @@
 	
 	<p class='bitcoin'>You can enable "Use cookies to save data" on the Settings page <i>before activating your charts</i>, if you want them to stay activated between browser sessions.</p>
 	
-	<p class='bitcoin'>If "loading charts" notice freezes, check / uncheck this box, then click "Update Selected Charts".</p>
+	
+	<div> &nbsp; </div>
 	
 	<!-- Submit button must be OUTSIDE form tags here, or it submits the target form improperly and loses data -->
 	<p><button class='force_button_style' onclick='
 	$(".show_chart_settings").modaal("close");
 	$("#coin_amounts").submit();
 	'>Update Selected Charts</button></p>
+	
+	<div> &nbsp; </div>
 	
 	<p><input type='checkbox' onclick='
 	
@@ -136,7 +138,9 @@
 		$("#show_charts").val("");
 		}
 		
-	' /> Select / Unselect All</p>
+	' /> <b>Select / Unselect All</b> &nbsp;&nbsp; <span class='bitcoin'>(if "loading charts" notice freezes, check / uncheck this box, then click "Update Selected Charts")</span></p>
+	
+	<div> &nbsp; </div>
 		
 		<form id='activate_charts' name='activate_charts'>
 		
@@ -189,7 +193,7 @@
 	}
 	    
 	?>
-	<div class='long_list_end' style='border-top: 2px solid white;'> &nbsp; </div>
+	<div class='long_list_end list_end_black'> &nbsp; </div>
 	
 		</form>
 	

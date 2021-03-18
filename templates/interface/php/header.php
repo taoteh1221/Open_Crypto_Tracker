@@ -19,20 +19,21 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
    
 	<meta name="robots" content="noindex,nofollow"> <!-- Keeps this URL private (search engines won't add this URL to their search indexes) -->
 	
-	<meta name="referrer" content="same-origin"> <!-- Keeps this URL private (referral data won't be sent when clicking external links) -->
+	<meta name="referrer" content="same-origin"> <!-- Keeps this URL private (BROWSER referral data won't be sent when clicking external links) -->
 	
 	
 	<!-- Preload a few UI-related images -->
-	<link rel="preload" href="templates/interface/media/images/auto-preloaded/loader.gif" as="image">
 	
 	<link rel="preload" href="templates/interface/media/images/auto-preloaded/login-<?=$theme_selected?>-theme.png" as="image">
 	
 	<link rel="preload" href="templates/interface/media/images/auto-preloaded/notification-<?=$theme_selected?>-line.png" as="image">
 	
+	<link rel="preload" href="templates/interface/media/images/auto-preloaded/loader.gif" as="image">
+	
 	
 	<script>
 	
-	// Preload a few UI-related images VIA JAVASCRIPT TOO (WAY MORE RELIABLE THAN META TAG PRELOAD)
+	// Preload /images/auto-preloaded/ images VIA JAVASCRIPT TOO (WAY MORE RELIABLE THAN META TAG PRELOAD)
 	
 	<?php
 	$preloaded_files_dir = 'templates/interface/media/images/auto-preloaded';
@@ -101,13 +102,13 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
     
    <!-- USAGE: http://underscorejs.org -->
    <script src="app-lib/js/underscore-min.js"></script>
+	
+	<script src="app-lib/js/zingchart.min.js"></script>
 
 	<script src="app-lib/js/functions.js"></script>
 	
-	<script src="app-lib/js/zingchart.min.js"></script>
-	
 	<?php
-	// MSIE doesn't like highlightjs
+	// MSIE doesn't like highlightjs (LOL)
 	if ( is_msie() == false ) {
 	?>
 	

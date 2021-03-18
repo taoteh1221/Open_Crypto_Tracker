@@ -8,8 +8,6 @@
 
 <div class='max_1200px_wrapper'>
 
-			
-			<h4 style='display: inline;'>News</h4>
 				
 				<span class='red countdown_notice'></span>
 			
@@ -18,11 +16,11 @@
 			<?php
 			$news_feeds_cache_min_max = explode(',', $app_config['developer']['news_feeds_cache_min_max']);
 			?>
-			<p class='bitcoin' style='font-weight: bold;'>RSS feed data is cached (randomly) between <?=$news_feeds_cache_min_max[0]?> / <?=$news_feeds_cache_min_max[1]?> minutes for quicker load times. Entries are sorted newest to oldest. To see the date an entry was published, hover over it.</p>
+			<p style='margin-top: 25px; font-weight: bold;' class='bitcoin'>RSS feed data is cached (randomly) between <?=$news_feeds_cache_min_max[0]?> / <?=$news_feeds_cache_min_max[1]?> minutes for quicker load times. Entries are sorted newest to oldest. To see the date an entry was published, hover over it.</p>
 			
 
 
-	<p><button class="show_feed_settings force_button_style">Select News Feeds</button></p>
+	<p style='margin-top: 25px;'><button class="show_feed_settings force_button_style">Select News Feeds</button></p>
 	
 	
 	<div id="show_feed_settings">
@@ -43,12 +41,12 @@
 		
 	 <script>
 	 
-			var news_raspi_crash = '<h5 class="align_center red_bright tooltip_title">Low Memory Devices Crashing</h5>'
+			var news_raspi_crash = '<h5 class="align_center red tooltip_title">Low Memory Devices Crashing</h5>'
 			
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">If your low memory device (Raspberry PI / Pine64 / etc) crashes when you select too many news feeds OR charts, you may need to restart your device, and then delete all cookies in your browser related to the web domain you run the app from (before using the app again).</p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">For the more technically-inclined, try decreasing "MaxRequestWorkers" in Apache\'s prefork configuration file (10 maximum is the best for low memory devices, AND "MaxSpareServers" above it MUST BE SET EXACTLY THE SAME #OR YOUR SYSTEM MAY STILL CRASH#), to help stop the web server from crashing under heavier loads. <span class="red_bright">ALWAYS BACKUP THE CURRENT SETTINGS FIRST, IN CASE IT DOESN\'T WORK.</span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">For the more technically-inclined, try decreasing "MaxRequestWorkers" in Apache\'s prefork configuration file (10 maximum is the best for low memory devices, AND "MaxSpareServers" above it MUST BE SET EXACTLY THE SAME #OR YOUR SYSTEM MAY STILL CRASH#), to help stop the web server from crashing under heavier loads. <span class="red">ALWAYS BACKUP THE CURRENT SETTINGS FIRST, IN CASE IT DOESN\'T WORK.</span></p>'
 			
 			
 			+'<p> </p>';
@@ -82,11 +80,15 @@
 	<p class='bitcoin'>You can enable "Use cookies to save data" on the Settings page <i>before activating your news feeds</i>, if you want them to stay activated between browser sessions.</p>
 	
 			
+	<div> &nbsp; </div>
+	
 	<!-- Submit button must be OUTSIDE form tags here, or it submits the target form improperly and loses data -->
 	<p><button class='force_button_style' onclick='
 	$(".show_feed_settings").modaal("close");
 	$("#coin_amounts").submit();
 	'>Update Selected News Feeds</button></p>
+	
+	<div> &nbsp; </div>
 	
 	<p><input type='checkbox' onclick='
 	
@@ -96,10 +98,11 @@
 		$("#show_feeds").val("");
 		}
 		
-	' /> Select / Unselect All &nbsp;&nbsp; <span class='bitcoin'>(if "loading news feeds" notice freezes, check / uncheck this box, then click "Update Selected News Feeds")</span></p>
+	' /> <b>Select / Unselect All</b> &nbsp;&nbsp; <span class='bitcoin'>(if "loading news feeds" notice freezes, check / uncheck this box, then click "Update Selected News Feeds")</span></p>
 		
 		<form id='activate_feeds' name='activate_feeds'>
 		
+	<div class='long_list_start list_start_black'> &nbsp; </div>
 	<?php
 	
 	$zebra_stripe = 'long_list_odd';
@@ -130,7 +133,7 @@
 	}
 	    
 	?>
-	<div class='long_list_end' style='border-top: 2px solid black;'> &nbsp; </div>
+	<div class='long_list_end list_end_black'> &nbsp; </div>
 	
 		</form>
 	

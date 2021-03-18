@@ -8,7 +8,6 @@
 
 <div class='max_1200px_wrapper'>
 	
-				<h3 class='align_center'>Reset</h3>
 
 
 	<!-- RESET API key START -->

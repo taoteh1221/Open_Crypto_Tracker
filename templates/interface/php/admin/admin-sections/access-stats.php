@@ -8,8 +8,6 @@
 
 <div class='full_width_wrapper'>
 	
-				<h3 class='align_center'>Access Stats</h3>
-				
 	
 	<p> Coming Soon&trade; </p>
 				

@@ -8,7 +8,6 @@
 
 <div class='max_1200px_wrapper'>
 	
-				<h3 class='align_center' style='margin-bottom: 0px;'>Developer Only</h3>
 				<div class='bitcoin align_center' style='margin-bottom: 20px;'>(advanced configuration, handle with care)</div>
 				
 	
