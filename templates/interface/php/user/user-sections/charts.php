@@ -97,6 +97,7 @@
 			$('#charts_raspi_crash').balloon({
 			html: true,
 			position: "left",
+  			classname: 'balloon-tooltips',
 			contents: charts_raspi_crash,
 			css: {
 					fontSize: ".8rem",

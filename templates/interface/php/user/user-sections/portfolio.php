@@ -540,6 +540,7 @@ $altcoin_dominance = max_100($altcoin_dominance);
 			$('#crypto_value').balloon({
 			html: true,
 			position: "right",
+  			classname: 'balloon-tooltips',
 			contents: crypto_value_content,
 			css: {
 					fontSize: ".8rem",
@@ -594,6 +595,7 @@ var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=
 			$('#fiat_value').balloon({
 			html: true,
 			position: "right",
+  			classname: 'balloon-tooltips',
 			contents: fiat_value_content,
 			css: {
 					fontSize: ".8rem",
@@ -691,6 +693,7 @@ var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=
 			$('#portfolio_gain_loss').balloon({
 			html: true,
 			position: "right",
+  			classname: 'balloon-tooltips',
 			contents: gain_loss_content,
 			css: {
 					fontSize: ".8rem",
@@ -777,6 +780,7 @@ var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=
 			$('#balance_stats').balloon({
 			html: true,
 			position: "right",
+  			classname: 'balloon-tooltips',
 			contents: ajax_placeholder(30, 'center', 'Loading Data...'),
   			url: 'ajax.php?type=chart&mode=asset_balance&leverage_added=<?=$leverage_added?>&short_added=<?=$short_added?><?=$balance_stats_encoded?>',
 			css: {
@@ -995,6 +999,7 @@ var performance_chart_defaults_content = '<h5 class="yellow tooltip_title">Setti
 			$('.performance_chart_defaults').balloon({
 			html: true,
 			position: "left",
+  			classname: 'balloon-tooltips',
 			contents: performance_chart_defaults_content,
 			css: {
 					fontSize: ".8rem",
@@ -1214,6 +1219,7 @@ var marketcap_chart_defaults_content = '<h5 class="yellow tooltip_title">Setting
 			$('.marketcap_chart_defaults').balloon({
 			html: true,
 			position: "left",
+  			classname: 'balloon-tooltips',
 			contents: marketcap_chart_defaults_content,
 			css: {
 					fontSize: ".8rem",
@@ -1515,6 +1521,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 			$('#system_stats_quick_link_info').balloon({
 			html: true,
 			position: "left",
+  			classname: 'balloon-tooltips',
 			contents: system_stats_quick_link_info_content,
 			css: {
 					fontSize: ".8rem",

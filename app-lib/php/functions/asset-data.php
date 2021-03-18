@@ -1989,6 +1989,7 @@ $original_market = $selected_exchange;
         $('#<?=$mkcap_render_data?>').balloon({
         html: true,
         position: "right",
+  		  classname: 'balloon-tooltips',
         contents: cmc_content,
         css: {
                 fontSize: ".8rem",
@@ -2086,6 +2087,7 @@ $original_market = $selected_exchange;
  $('#<?=$rand_id?>').balloon({
   html: true,
   position: "right",
+  classname: 'balloon-tooltips',
   contents: cmc_content,
 			css: {
 					fontSize: ".8rem",
@@ -2432,6 +2434,7 @@ echo '<span class="' . ( $purchase_price >= 0.00000001 && $leverage_level >= 2 &
 			$('#<?=$rand_id?>_leverage').balloon({
 			html: true,
 			position: "left",
+  			classname: 'balloon-tooltips',
 			contents: leverage_content,
 			css: {
 					fontSize: ".8rem",

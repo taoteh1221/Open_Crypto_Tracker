@@ -84,6 +84,7 @@
 			$('#system_stats_admin_link_info').balloon({
 			html: true,
 			position: "right",
+  			classname: 'balloon-tooltips',
 			contents: system_stats_admin_link_info_content,
 			css: {
 					fontSize: ".8rem",

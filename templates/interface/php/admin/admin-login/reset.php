@@ -156,6 +156,7 @@ if ( !$_POST['admin_submit_reset'] && !$no_password_reset || sizeof($reset_resul
 			$('#reset_notes').balloon({
 			html: true,
 			position: "left",
+  			classname: 'balloon-tooltips',
 			contents: reset_notes,
 			css: {
 					fontSize: ".8rem",

@@ -142,6 +142,7 @@ if ( !$_POST['submit_registration'] || sizeof($register_result['error']) > 0 ) {
 			$('#username_notes').balloon({
 			html: true,
 			position: "left",
+  			classname: 'balloon-tooltips',
 			contents: username_notes,
 			css: {
 					fontSize: ".8rem",
@@ -176,6 +177,7 @@ if ( !$_POST['submit_registration'] || sizeof($register_result['error']) > 0 ) {
 			$('#password_notes').balloon({
 			html: true,
 			position: "left",
+  			classname: 'balloon-tooltips',
 			contents: password_notes,
 			css: {
 					fontSize: ".8rem",

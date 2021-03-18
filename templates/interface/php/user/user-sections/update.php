@@ -201,6 +201,7 @@
 			$('#portfolio_data_privacy').balloon({
 			html: true,
 			position: "right",
+  			classname: 'balloon-tooltips',
 			contents: portfolio_data_privacy,
 			css: {
 					fontSize: ".8rem",
@@ -239,6 +240,7 @@
 			$('#random_tip_disclaimer').balloon({
 			html: true,
 			position: "right",
+  			classname: 'balloon-tooltips',
 			contents: random_tip_disclaimer,
 			css: {
 					fontSize: ".8rem",
@@ -297,6 +299,7 @@
 			$('#spreadsheet_import_export').balloon({
 			html: true,
 			position: "left",
+  			classname: 'balloon-tooltips',
 			contents: spreadsheet_import_export,
 			css: {
 					fontSize: ".8rem",
@@ -710,6 +713,7 @@
 			$('#average_paid_notes_<?=$rand_id?>').balloon({
 			html: true,
 			position: "left",
+  			classname: 'balloon-tooltips',
 			contents: average_paid_notes,
 			css: {
 					fontSize: ".8rem",
@@ -781,6 +785,7 @@
 			$('#leverage_trading_notes_<?=$rand_id?>').balloon({
 			html: true,
 			position: "left",
+  			classname: 'balloon-tooltips',
 			contents: leverage_trading_notes,
 			css: {
 					fontSize: ".8rem",

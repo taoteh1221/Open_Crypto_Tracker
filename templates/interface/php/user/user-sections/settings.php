@@ -337,6 +337,7 @@
 			$('#currency_info').balloon({
 			html: true,
 			position: "right",
+  			classname: 'balloon-tooltips',
 			contents: currency_content,
 			css: {
 					fontSize: ".8rem",
@@ -523,6 +524,7 @@
 			$('#setting_crypto_value').balloon({
 			html: true,
 			position: "right",
+  			classname: 'balloon-tooltips',
 			contents: setting_crypto_value_content,
 			css: {
 					fontSize: ".8rem",
@@ -587,6 +589,7 @@
 			$('#setting_secondary_trade_value').balloon({
 			html: true,
 			position: "right",
+  			classname: 'balloon-tooltips',
 			contents: setting_secondary_trade_value_content,
 			css: {
 					fontSize: ".8rem",

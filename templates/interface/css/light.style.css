@@ -223,6 +223,19 @@ border: 2px solid #606060;
 background: #f2f2f2;
 }
 
+
+/*  OVERRIDE BLACK IN BALLON TOOLTIPS ELEMENTS (WE NEED IT LIGHTER FOR GOOD UX) */
+.balloon-tooltips a, .balloon-tooltips .black {
+color: white !important;
+}
+
+
+/*  OVERRIDE BLUE IN BALLON TOOLTIPS ELEMENTS (WE NEED IT LIGHTER FOR GOOD UX) */
+.balloon-tooltips .blue {
+color: #28b2ed !important;
+}
+
+
 /* RED LAST, TO ALWAYS OVERIDE */
 
 .red_background {
