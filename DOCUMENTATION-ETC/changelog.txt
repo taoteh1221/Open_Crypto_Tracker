@@ -4348,6 +4348,8 @@ WILL AUTOMATICALLY PREFORM THE RESET (ALERTS / TRACKING WILL BE ACCURATE AFTERWA
 -------------------------------------------------------------------
 4.29.0:
 
+-Updated documentation
+
 -Misc UX revisions
 
 -Zingchart upgrade
