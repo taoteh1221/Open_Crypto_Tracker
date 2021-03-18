@@ -1,0 +1,135 @@
+
+
+Sometimes you may see a 'low voltage' warning in the corner of the screen attached to your Raspberry Pi. On some models, fixing this may not be possible without removing some software from running (older style microusb ports can only allow about ~1 AMP of juice maximum into devices, REGARDLESS of wall adaptor AMPS available). 
+
+
+As long as everything continues running well EVEN WITH THE WARNING PRESENT, you do have 3 more options (2 of them may not work): Disable the warning (will work), disable uneeded hardware (may work), or upgrade the firmware (may work).
+
+
+#########################################################################
+#### OPTION #1 (disable the warning) ####################################
+#########################################################################
+
+
+1) Open the 'Terminal' app from the menu, or login with a remote terminal (SSH).
+
+
+2) Run this command, to open the configuration file on the device:
+
+sudo nano /boot/config.txt
+
+
+3) Add a new line at the end of the file, and add this text:
+
+# Removes the warning overlay
+#avoid_warnings=1
+
+# Additionally allows turbo when low-voltage is present
+#avoid_warnings=2
+
+
+4) Remove the # symbol from in front of whichever option you prefer in #3 (ONLY REMOVE FROM ONE CHOICE, NOT BOTH).
+
+
+5) Hold down the Ctrl key and X key at the same time, choose Y, hit enter to save / exit editing the config.
+
+
+6) Reboot the device:
+
+sudo reboot
+
+
+The low voltage warning notice should be permanently gone now.
+
+
+#########################################################################
+#### OPTION #2 (disable uneeded hardware) ###############################
+#########################################################################
+
+
+1) Open the 'Terminal' app from the menu, or login with a remote terminal (SSH).
+
+
+2) Run this command, to open the configuration file on the device:
+
+sudo nano /boot/config.txt
+
+
+3) Find the audio section (should look similar to this):
+
+# Enable audio (loads snd_bcm2835)
+dtparam=audio=on
+
+
+4) Change 'on' to 'off' (or add these lines if you don't have the audio section mentioned in #3):
+
+# Enable audio (loads snd_bcm2835)
+dtparam=audio=off
+
+
+5) Now go to the bottom of that same file, add a new line at the end of the file, and add this text:
+
+# Disable on-board bluetooth
+dtoverlay=pi3-disable-bt
+
+
+6) Hold down the Ctrl key and X key at the same time, choose Y, hit enter to save / exit editing the config.
+
+
+7) Run the following commands to disable bluetooth services:
+
+sudo systemctl disable hciuart.service
+
+sudo systemctl disable bluealsa.service
+
+sudo systemctl disable bluetooth.service
+
+
+8) Reboot the device with this command:
+
+sudo reboot
+
+
+The audio and bluetooth chips should now be disabled from running at startup.
+
+
+#########################################################################
+#### OPTION #3 (upgrade the firmware) ###################################
+#########################################################################
+
+
+1) Make sure you are connected to the internet on the device.
+
+
+2) Open the 'Terminal' app from the menu, or login with a remote terminal (SSH).
+
+
+3) Run this command, to update the firmware:
+
+sudo rpi-update
+
+
+4) Follow the prompts, until the firmware upgrade is completed.
+
+
+5) Reboot the device with this command:
+
+sudo reboot
+
+
+Your device will now be running the latest firmware for it's chipset (which MAY be more efficient).
+
+
+#########################################################################
+
+
+
+
+
+
+
+
+
+
+
+

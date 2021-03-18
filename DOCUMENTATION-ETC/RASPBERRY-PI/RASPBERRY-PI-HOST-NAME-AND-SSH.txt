@@ -5,7 +5,7 @@ Setting Up SSH On Raspberry PI
 =======================================================
 
 
-1) Login to a terminal on the Pi
+1) Open the 'Terminal' app from the menu, or login with a remote terminal (SSH).
 
 
 2) Run this command to open Raspberry Pi Config: 
@@ -27,12 +27,15 @@ sudo raspi-config
 sudo reboot
 
 
+You should now be able to login remotely to your device via INTERNAL ip address / LOCAL domain name. Make sure any firewall setup on this device allows port 22 to be accessed.
+
+
 =======================================================
 Setting Up Custom Host Name On Raspberry PI
 =======================================================
 
 
-1) Login to a terminal on the Pi
+1) Open the 'Terminal' app from the menu, or login with a remote terminal (SSH).
 
 
 2) Run this command to open Raspberry Pi Config: 
@@ -54,7 +57,7 @@ sudo raspi-config
 sudo reboot
 
 
-7) You should now be able to easily visit your Raspberry Pi on your INTERNAL NETWORK as:
+You should now be able to easily visit your Raspberry Pi on your INTERNAL NETWORK as:
 
 YOUR_HOSTNAME.local
 
