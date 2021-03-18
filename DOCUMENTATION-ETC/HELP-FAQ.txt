@@ -2,7 +2,7 @@
 
 =========================================================================================================================================
 
-  Feature Requests and Reporting Issues
+  Feature Requests / Reporting Issues / Help
   
 -----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -18,14 +18,160 @@ Private Contact: https://dragonfrugal.com/contact/
 
 Web server setup / install is available for $30 hourly if needed. PM me on Twitter / Skype @ taoteh1221, or contact me using above contact links.
 
+
+Donations support further development... 
+
+Bitcoin:  3Nw6cvSgnLEFmQ1V4e8RSBG23G7pDjF3hW
+
+Ethereum:  0x644343e8D0A4cF33eee3E54fE5d5B8BFD0285EF8
+
+Github Sponsors:  https://github.com/sponsors/taoteh1221
+
+Patreon:   https://www.patreon.com/dragonfrugal
+
+PayPal:    https://www.paypal.me/dragonfrugal
+
 	    
 =========================================================================================================================================
 
-  Installing On Ubuntu / Raspberry Pi / Website, Adding Your Own Coins
+  Automatic Setup For Ubuntu or Raspberry Pi, On Home / Internal Network (THE RECOMMENDED WAY TO PRIVATELY / CHEAPLY USE THIS APP)
   
 -----------------------------------------------------------------------------------------------------------------------------------------
 
-If you install this application on Ubuntu / Raspberry Pi / or a website, you can add / delete / edit the portfolio assets list very easily. Instructions can be found in the README.txt file (an automatic install script is available for setup on Ubuntu and Raspberry Pi devices). 
+Recommended MINIMUM system specs: 1 Gigahertz CPU / 512 Megabytes RAM / HIGH QUALITY 32 Gigabyte MicroSD card (running Nginx or Apache headless with PHP v7.2+)
+
+To install / upgrade everything automatically on Ubuntu or Raspberry Pi (an affordable low power single board computer), copy / paste / run the command below in a terminal program (using the 'Terminal' app in the system menu, or over remote SSH), while logged in AS THE USER THAT WILL RUN THE APP (user must have sudo permissions):
+
+wget -O FOLIO-INSTALL.bash https://git.io/JqCvQ;chmod +x FOLIO-INSTALL.bash;sudo ./FOLIO-INSTALL.bash
+
+Follow the prompts. This automated script gives you the options to: install / uninstall a PHP web server automatically, download / install / configure / uninstall the latest version of the Open Crypto Portfolio Tracker app automatically, setup a cron job automatically (for price alerts / charts), and setup SSH (to update / install web site files remotely to the web server via SFTP) automatically. 
+
+When the auto-install is completed, it will display addresses / logins to access the app (write these down / save them for future use).
+
+SEE /DOCUMENTATION-ETC/RASPBERRY-PI/ for additional information on securing and setting up Raspberry Pi OS (disabling bluetooth, firewall setup, remote login, hostname, etc).
+
+	    
+=========================================================================================================================================
+
+  Installing On A Website / Manual Installation
+  
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+Just upload this app's files to your PHP-based web server (with an FTP client like FileZilla) and you should be all set, unless your host is a strict setup related to file writing permissions, in which case the 'cache' directory permissions should be set to '777' chmod on unix / linux systems (or 'readable / writable' on windows systems). 
+
+Your web host must have CURL modules activated on your HTTP server. Most web hosting companies provide this "out-of-the-box" already. This app will detect whether or not CURL is setup on your website server (and also alert you to any other missing required system components / configurations). 
+
+See "Setting Up Price Charts And Email / Text / Telegram / Alexa / Google Home Price Alerts", for how to setup a cron job for additional features. 
+	        
+	  
+=========================================================================================================================================
+
+  Setting Up Price Charts And Email / Text / Telegram / Alexa / Google Home Price Alerts
+  
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+You can setup price charts or price alerts in your app install. Price alerts can be sent to email, mobile phone text, Telegram, and Alexa / Google Home notifications. You will be alerted when the [configured default primary currency] price of an asset goes up or down a certain percent or more (whatever percent you choose in the settings), for specific exchange / base pairing combinations for that asset. You can even setup alerts and charts for multiple exchanges / base pairings for the same asset.
+	    
+Running price charts or price alerts requires setting up a cron job on the Ubuntu / Raspberry Pi machine or website server (this is automated for Ubuntu / Raspberry Pi users who use the automated install script), otherwise charts / alerts will not work. Also see the related settings in Admin Config for charts / alerts. 
+
+Once a cron job is setup, there is no need to keep your PC / Laptop turned on. The price charts and price alerts run automatically from your app server. If you encounter errors or the charts / alerts don't work during setup, check the error logs file at /cache/logs/errors.log for errors in your configuration setup. Basic checks are performed and errors are reported there, and on the Settings page. 
+
+If you want to take advantage of these cron job based features and more (chart data backups, daily or weekly error log emails / etc), then the file cron.php (located in the primary directory of this app) must be setup as a cron job on your Ubuntu / Raspberry Pi / website server device. 
+
+As mentioned previously, if you run the automated setup / install script for Ubuntu or Raspberry Pi devices on home / internal networks, automatic cron job setup is offered as an option during this process. If you are using a full stack website host for hosting a TLD website domain name remotely, consult your web server host's documentation or help desk for their particular method of setting up a cron job. 
+
+Note that you should have the cron job run every 5, 10, 15, 20, or 30 minutes 24/7, based on how often you want chart data points / alerts / any other cron based features to run. Setting up the cron job to run every 20 minutes is the RECOMMENDED lowest time interval. IF SET BELOW 20 MINUTES, lite chart disk writes may be excessive for lower end hardware (Raspberry PI MicroSD cards etc). IF SET #VERY LOW# (5 / 10 minutes), the free exchange APIs may throttle / block your data requests temporarily on occasion for requesting data too frequently (negatively affecting your alerts / charts). 
+
+Here is an example cron job command line for reference below (NOT including any cron parameters your host interface may require), to setup as the "command" within a cron job. Replace system paths in the example with the correct ones for your server (TIP - A very common path to PHP on a server is /usr/bin/php):
+
+/path/to/php -q /home/username/path/to/website/this_app/cron.php
+
+Here is another example of a COMPLETE cron command that can be added by creating the following file (you'll need sudo/root permissions): /etc/cron.d/cryptocoin on a linux-based machine with systemd (to run every 20 minutes 24/7)...play it safe and add a newline after it as well if you install examples like these:
+
+*/20 * * * * WEBSITE_USERNAME_GOES_HERE /usr/bin/php -q /var/www/html/cron.php > /dev/null 2>&1
+
+If your system DOES NOT have the directory /etc/cron.d/ on it, then NEARLY the same format (minus the username) can be installed via the legacy 'crontab -e' command (YOU MUST BE logged in as the user you want running the cron job):
+
+*/20 * * * * /usr/bin/php -q /var/www/html/cron.php > /dev/null 2>&1
+
+
+IMPORTANT CRON JOB NOTES: 
+
+MAKE SURE YOU ONLY USE EITHER /etc/cron.d/, or 'crontab -e', NOT BOTH...ANY OLD DUPLICATE CRONTAB ENTRIES WILL RUN YOUR CRON JOB TOO OFTEN. If everything is setup properly, and the cron job still does NOT run, your particular server may require the cron.php file permissions to be set as 'executable' ('755' chmod on unix / linux systems) to allow running it.
+ 
+
+	    
+=========================================================================================================================================
+
+  Adding Your Own Coins
+  
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+IMPORTANT NOTE: IN THE UPCOMING v5 RELEASE (DUE OUT IN 2021 OR 2022), DOING THIS MANUALLY IN A TEXT EDITOR WON'T BE NECESSARY. YOU WILL BE ABLE TO DO IT IN THE "Admin Config => Portfolio Assets" INTERFACE MUCH EASIER.
+
+Below is an example for editing your assets / markets into the portfolio assets in the file config.php (located in the primary directory of this app), in the PORTFOLIO ASSETS section. It's very quick / easy to do (after you get the hang of it, lol). Also see the text file /DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt, for a pre-configured set of default settings and example assets / markets. 
+
+Contact any supported exchange's help desk if you are unaware of the correct formatting of the trading pair naming you are adding in the configuration file (examples: Kraken has arbitrary Xs inserted in SOME older pair names, HitBTC sometimes has tether pairing without the "T" in the symbol name).
+
+
+Support for over 80 trading pairs (country fiat currency or secondary crypto, contact me to request more): 
+
+AED / ARS / AUD / BAM / BDT / BOB / BRL / BTC / BWP / BYN / CAD / CHF / CLP / CNY / COP / CRC / CZK / DAI / DKK / DOP / EGP / ETH / EUR / GBP / GEL / GHS / GTQ / HKD / HUF / IDR / ILS / INR / IRR / JMD / JOD / JPY / KES / KRW / KWD / KZT / LKR / LRC / MAD / MKR / MUR / MWK / MXN / MYR / NGN / NIS / NOK / NZD / PAB / PEN / PHP / PKR / PLN / PYG / QAR / RON / RSD / RUB / RWF / SAR / SEK / SGD / THB / TRY / TUSD / TWD / TZS / UAH / UGX / UNI / USDC / USDT / UYU / VES / VND / XAF / XOF / ZAR / ZMW
+
+
+Support for over 40 exchanges (contact me to request more): 
+
+binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmex / bitmex_u20 / bitmex_z20 / bitpanda / bitso / bitstamp / bittrex / bittrex_global / braziliex / btcmarkets / btcturk / buyucoin / cex / coinbase / coinex / cryptofresh / defipulse / ethfinex / gateio / gemini / hitbtc / hotbit / huobi / korbit / kraken / kucoin / liquid / localbitcoins / loopring / loopring_amm / luno / okcoin / okex / poloniex / southxchange / upbit / wazirx / zebpay
+
+
+Nearly Unlimited Assets Supported (whatever assets exist on supported exchanges).
+
+
+Ethereum ICO subtoken support (pre-exchange listing) has been built in (values are static ICO values in ETH).
+
+
+USAGE (ADDING / UPDATING COINS):
+ 
+ 
+ 
+                    // UPPERCASE_COIN_ABRV_HERE
+                    'UPPERCASE_COIN_ABRV_HERE' => array(
+                        
+                        'asset_name' => 'COIN_NAME_HERE',
+                        'marketcap_website_slug' => 'WEBSITE_SLUG_HERE', // Website slug (URL data) on coinmarketcap / coingecko, leave blank if not listed there
+                        'market_pairing' => array(
+                                    
+                                    // MARKET IDS ARE CASE-SENSITIVE!
+                                    
+                                    'lowercase_pairing_abrv' => array(
+                                          'lowercase_exchange1' => 'MARKETIDHERE',
+                                          'lowercase_exchange2' => 'ASSET/PAIRING',
+                                          'lowercase_exchange3' => 'ASSET-PAIRING',
+                                          'lowercase_exchange4' => 'ASSET_PAIRING',
+                                          'lowercase_exchange5' => 'ASSETPAIRING',
+                                          'defipulse' => 'ASSET/PAIRING', // DeFi Generic
+                                                    ),
+                                                    
+                                    'eth' => array(
+                                          'lowercase_exchange1' => 'MARKETIDHERE',
+                                          'lowercase_exchange2' => 'ASSET/ETH',
+                                          'lowercase_exchange3' => 'ASSET-ETH',
+                                          'lowercase_exchange4' => 'ASSET_ETH',
+                                          'lowercase_exchange5' => 'ASSETETH',
+                                          // ETH ICOs...MUST be defined in 'ethereum_subtoken_ico_values', in Admin Config POWER USER section
+                                          'eth_subtokens_ico' => 'ETHSUBTOKENNAME', 
+                                          // INCLUDING #OPTIONAL# LIQUIDITY POOL ADDRESS, ASSURING #EXACT# MARKET DESIRED
+                                          'defipulse' => 'ASSET/PAIRING||OPTIONAL_LIQUIDITY_POOL_ADDRESS', // DeFi Generic
+                                                    ),
+                                                    
+                                          ) // market_pairing END
+                        
+                    ), // Asset END
+                    
+      
+ 
+    
+ // SEE /DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt FOR A FULL EXAMPLE OF THE DEFAULT CONFIGURATION (ESPECIALLY IF YOU MESS UP config.php, lol) 
 
 
 =========================================================================================================================================
@@ -44,25 +190,14 @@ If your problems still persist even after clearing your browser cache (temporary
 If none of the above solutions work, your last resort (before contacting me for support) is to wipe out all data in your cache directory folder within the app. THIS WILL ERASE YOUR CHART DATA, SO YOU MAY WANT TO BE SURE YOU HAVE A BACKUP FIRST. After your chart data is backed up, delete the folder named 'cache' in the main directory of this app. Reloading the app web page should re-create the cache folder, with new / clean cache files.
 	    
 If you are still having issues after trying everything, file an issue here at the github project account, and I will help you troubleshoot the problems: https://github.com/taoteh1221/Open_Crypto_Portfolio_Tracker/issues
-	        
-	  
+
 =========================================================================================================================================
 
-  Setting Up Charts And Email / Text / Telegram / Alexa / Google Home Exchange Price Alerts
+  Coinmarketcap.com / Coingecko.com Data Not Available For An Asset
   
 -----------------------------------------------------------------------------------------------------------------------------------------
 
-You can setup charts or price alerts in your app install. Price alerts can be sent to email, mobile phone text, Telegram, and Alexa / Google Home notifications. You will be alerted when the [configured default primary currency] price of an asset goes up or down a certain percent or more (whatever percent you choose in the settings), for specific exchange / base pairing combinations for that asset. You can even setup alerts for multiple exchanges / base pairings for the same asset.
-	    
-Running charts or price alerts requires setting up a cron job on the Ubuntu / Raspberry Pi machine or website server (this is automated for Ubuntu / Raspberry Pi users who use the automated install script), otherwise charts / alerts will not work. See the required settings in Admin Config, and instructions on cron job setup in the README.txt file. Once setup, there is no need to keep your PC / Laptop turned on. The charts and price alerts run automatically from your app server. If you encounter errors or the charts / alerts don't work during setup, check the error logs file at /cache/logs/errors.log for errors in your configuration setup. Basic checks are performed and errors are reported there, and on the Settings page. 
- 
-=========================================================================================================================================
-
-  Coinmarketcap.com Data Not Available For An Asset
-  
------------------------------------------------------------------------------------------------------------------------------------------
-
-Either the asset has not been added to coinmarketcap.com yet, you forgot to add the URL slug in it's config section, or you need to increase the number of rankings to fetch in Admin Config in the POWER USER section (300 rankings is the safe maximum to avoid getting your API requests throttled / blocked). 
+Either the asset has not been added to Coinmarketcap.com or Coingecko.com yet, you forgot to add the URL slug in it's config section, or you need to increase the number of rankings to fetch in Admin Config in the POWER USER section (300 rankings is the safe maximum to avoid getting your API requests throttled / blocked). 
 
 
 =========================================================================================================================================
@@ -71,7 +206,12 @@ Either the asset has not been added to coinmarketcap.com yet, you forgot to add 
   
 -----------------------------------------------------------------------------------------------------------------------------------------
 
-If you have enabled SMTP emailing (to send emails) but it doesn't work, check the error logs files at /cache/logs/errors.log and /cache/logs/smtp_errors.log for error responses from the SMTP server connection attempt(s). Alternatively try disabling SMTP email sending by blanking out your username and password (in the Admin Config COMMUNICATIONS section), and see if PHP's built-in mail function sends emails OK (no setup required, other than SMTP settings must be blanked out). 
+If you have enabled SMTP emailing (to send emails) but it doesn't work, check the error logs files at /cache/logs/errors.log and /cache/logs/smtp_errors.log for error responses from the SMTP server connection attempt(s). 
+
+If you are sure your username / password / host:port setup are valid, try disabling SMTP email sending by blanking out your username / password / host:port (in the Admin Config COMMUNICATIONS section), and see if PHP's built-in mail function sends emails OK (no setup required, other than SMTP settings must be blanked out). 
+
+IMPORTANT NOTE:
+SMTP email sending is REQUIRED if you are running this app on a home network, or if reverse DNS hasn't been properly setup for the TLD domain hosted on this device (servers receiving email from this machine would likely blackhole it, or mark it as junk email).
 
 
 =========================================================================================================================================
@@ -91,9 +231,7 @@ If it is a bad or misconfigured proxy setup causing the issue, and everything ru
   
 -----------------------------------------------------------------------------------------------------------------------------------------
 
-If backup archives (for chart data etc) don't work properly, check the error logs file at /cache/logs/errors.log for error responses related to (a) "cryptographically secure pseudo-random bytes could not be generated" (which means your system is not properly setup to generate secure random characters, which are used for backup storage privacy via a random filename suffix), or (b) "Backup zip archive creation failed with no_extension" (which means your system does not have the libzip module for the PHP command-line version on your server). If you have either of these issues, the problem is related to your server not being setup properly to support this functionality. It's not a bug in this application. Contact your hosting provider or system administrator to have them fix your server setup to support these features.
-	    
-If you have none of these error log messages, your issue may be file / folder permissions. Make sure the /cache/secured/backups/ directory access permissions are set to readable and writable. This assures the ZIP archive has permission to be created in this directory.
+This app will automatically detect and alert you if your system doesn't support zip file creating or secure random number generation, which are both used in creating the zip archive backups. So if you have issues with your backup archives working, it's most likely related to file / folder permissions. Make sure the /cache/secured/backups/ directory access permissions are set to readable and writable. This assures the ZIP archive has permission to be created in this directory.
 
 
 =========================================================================================================================================
@@ -104,11 +242,11 @@ If you have none of these error log messages, your issue may be file / folder pe
 
 If you are getting a lot of messages in the error logs like "file_write_error: File write failed for file X", you may need to free up disk space quota on your device, OR change directory permissions on your /cache/ folder. Check to make sure you have not used up all your ALLOWED disk space quota, AND that your /cache/ folder permissions are readable / writable (777 on unix / linux systems).
 
-If you alreay have plenty of disk space quota freed up / your cache folder permissions are readable / writable, and you still have file write issues on linux-based operating systems, you MAY need to setup a higher "open files" limit for your website user account. If you have shell access you can login and run this command to check your current limits:
+If you already have plenty of disk space quota freed up / your cache folder permissions are readable / writable, and you still have file write issues on linux-based operating systems, you MAY need to setup a higher "open files" limit for your website user account. If you have shell access you can login and run this command to check your current limits:
 
 ulimit -n
 
-If it's a low number like 1024, this may be the cause of your file write error issue (especially if you run multiple web apps that write a lot of data on the same account). If you are running a dedicated or VPS server, you can easily change this limit. 
+If it's a low number like 1024, this MAY be the cause of your file write error issue (especially if you run multiple web apps that write a lot of data on the same account). If you are running a dedicated or VPS server, you can easily change this limit. 
 
 Running a google search for "set permanently ulimit -n linux", you'll find tons of articles on permanently upping your user's open files limit:
 
@@ -117,11 +255,13 @@ https://www.google.com/search?q=set+permanently+ulimit+-n+linux
 
 =========================================================================================================================================
 
-  Partial API Data Failure, When Installing Behind Slow Internet Connections
+  Partial API Data Failure, When Running Behind Slow Internet Connections
   
 -----------------------------------------------------------------------------------------------------------------------------------------
 
-If you installed this application on a device on your home network, or on any other network WITH A SLOW INTERNET CONNECTION, you may need to increase the default timeout for retrieving API data IF YOU RECEIVE PARTIAL OR NO API DATA IN THE APP FOR SOME API DATA SETS (the error logs will alert you if this is happening, so check there). To adjust the API timeout, go to the Admin Config POWER USER section. Adjust the 'remote_api_timeout' setting much higher, save the setup in the app, and run the app again to see if this fixes the issue. Adjust higher again if the issue still occurs frequently.
+If you installed this application on a device on your home network, or on any other network WITH A SLOW INTERNET CONNECTION, you may need to increase the default timeout for retrieving API data IF YOU RECEIVE PARTIAL OR NO API DATA IN THE APP FOR SOME API DATA SETS (the error logs will alert you if this is happening, so check there). 
+
+To adjust the API timeout, go to the Admin Config POWER USER section. Adjust the 'remote_api_timeout' setting much higher, save the setup in the app, and run the app again to see if this fixes the issue. Adjust higher again if the issue still occurs frequently.
 
 
 =========================================================================================================================================

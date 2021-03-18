@@ -17,9 +17,11 @@ Download Latest Version: https://github.com/taoteh1221/Open_Crypto_Portfolio_Tra
 
 Issue Reporting (Features / Issues / Help): https://github.com/taoteh1221/Open_Crypto_Portfolio_Tracker/issues
 
-Discord Chat: https://discord.gg/WZVK2nm
+Discord: https://discord.gg/WZVK2nm
 
-Telegram Chat: https://t.me/joinchat/Oo2XZRS2HsOXSMGejgSO0A
+Telegram: https://t.me/joinchat/Oo2XZRS2HsOXSMGejgSO0A
+
+Twitter: https://twitter.com/taoteh1221
 
 Private Contact: https://dragonfrugal.com/contact
 
@@ -106,11 +108,11 @@ Recommended MINIMUM system specs: 1 Gigahertz CPU / 512 Megabytes RAM / HIGH QUA
 Automatic Setup For Ubuntu or Raspberry Pi, On Home / Internal Network (THE RECOMMENDED WAY TO PRIVATELY / CHEAPLY USE THIS APP)...
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To install / upgrade everything automatically on Ubuntu or Raspberry Pi (an affordable low power single board computer), copy / paste / run the command below in a terminal program while logged in:
+To install / upgrade everything automatically on Ubuntu or Raspberry Pi (an affordable low power single board computer), copy / paste / run the command below in a terminal program (using the 'Terminal' app in the system menu, or over remote SSH), while logged in AS THE USER THAT WILL RUN THE APP (user must have sudo permissions):
 
 wget -O FOLIO-INSTALL.bash https://git.io/JqCvQ;chmod +x FOLIO-INSTALL.bash;sudo ./FOLIO-INSTALL.bash
 
-Follow the prompts. This automated script gives you the options to: install / uninstall a PHP web server automatically, download / install / configure / uninstall the latest version of the Open Crypto Portfolio Tracker app automatically, setup a cron job automatically (for price alerts / charts), and setup SSH (to update / install web site files remotely to the web server via SFTP) automatically. 
+Follow the prompts. This automated script gives you the options to: install / uninstall a PHP web server automatically, download / install / configure / uninstall the latest version of the Open Crypto Portfolio Tracker app automatically, setup a cron job automatically (for price alerts / price charts), and setup SSH (to update / install web site files remotely to the web server via SFTP) automatically. 
 
 When the auto-install is completed, it will display addresses / logins to access the app (write these down / save them for future use).
 
@@ -120,7 +122,9 @@ SEE /DOCUMENTATION-ETC/RASPBERRY-PI/ for additional information on securing and 
 Manual Installation:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Just upload this app's files to your PHP-based web server (with an FTP client like FileZilla) and you should be all set, unless your host is a strict setup related to file writing permissions, in which case the 'cache' directory permissions should be set to '777' chmod on unix / linux systems (or 'readable / writable' on windows systems). Your web host must have CURL modules activated on your HTTP server. Most web hosting companies provide this "out-of-the-box" already. This app will detect whether or not CURL is setup on your website server (and also alert you to any other missing required system components / configurations). 
+Just upload this app's files to your PHP-based web server (with an FTP client like FileZilla) and you should be all set, unless your host is a strict setup related to file writing permissions, in which case the 'cache' directory permissions should be set to '777' chmod on unix / linux systems (or 'readable / writable' on windows systems). 
+
+Your web host must have CURL modules activated on your HTTP server. Most web hosting companies provide this "out-of-the-box" already. This app will detect whether or not CURL is setup on your website server (and also alert you to any other missing required system components / configurations). 
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -128,9 +132,15 @@ Setting up a cron job for charts and price alerts by email / mobile phone text /
 (get notifications sent to you, even when your PC / Laptop is offline): 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you want to take advantage of cron job based features like charts, chart data backups, price alerts, daily or weekly error log emails / etc, then the file cron.php (located in the primary directory of this app) must be setup as a cron job on your Ubuntu / Raspberry Pi / website server device. 
+You can setup price charts or price alerts in your app install. Price alerts can be sent to email, mobile phone text, Telegram, and Alexa / Google Home notifications. You will be alerted when the [configured default primary currency] price of an asset goes up or down a certain percent or more (whatever percent you choose in the settings), for specific exchange / base pairing combinations for that asset. You can even setup alerts and charts for multiple exchanges / base pairings for the same asset.
+	    
+Running price charts or price alerts requires setting up a cron job on the Ubuntu / Raspberry Pi machine or website server (this is automated for Ubuntu / Raspberry Pi users who use the automated install script), otherwise charts / alerts will not work. Also see the related settings in Admin Config for charts / alerts. 
 
-If you run the automated setup / install script for Ubuntu or Raspberry Pi (an affordable low power single board computer) devices on home / internal networks, automatic cron job setup is offered as an option during this process. If you are using a full stack website host for hosting a TLD website domain name remotely, consult your web server host's documentation or help desk for their particular method of setting up a cron job. 
+Once a cron job is setup, there is no need to keep your PC / Laptop turned on. The price charts and price alerts run automatically from your app server. If you encounter errors or the charts / alerts don't work during setup, check the error logs file at /cache/logs/errors.log for errors in your configuration setup. Basic checks are performed and errors are reported there, and on the Settings page. 
+
+If you want to take advantage of these cron job based features and more (chart data backups, daily or weekly error log emails / etc), then the file cron.php (located in the primary directory of this app) must be setup as a cron job on your Ubuntu / Raspberry Pi / website server device. 
+
+As mentioned previously, if you run the automated setup / install script for Ubuntu or Raspberry Pi devices on home / internal networks, automatic cron job setup is offered as an option during this process. If you are using a full stack website host for hosting a TLD website domain name remotely, consult your web server host's documentation or help desk for their particular method of setting up a cron job.
 
 Note that you should have the cron job run every 5, 10, 15, 20, or 30 minutes 24/7, based on how often you want chart data points / alerts / any other cron based features to run. Setting up the cron job to run every 20 minutes is the RECOMMENDED lowest time interval. IF SET BELOW 20 MINUTES, lite chart disk writes may be excessive for lower end hardware (Raspberry PI MicroSD cards etc). IF SET #VERY LOW# (5 / 10 minutes), the free exchange APIs may throttle / block your data requests temporarily on occasion for requesting data too frequently (negatively affecting your alerts / charts). 
 
@@ -180,40 +190,42 @@ For security, the API requires a key / token to access it. This key must be name
 Adding / editing / deleting assets and markets in the portfolio assets:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-IMPORTANT NOTE: IN THE UPCOMING v5 RELEASE (DUE OUT IN 2021 OR 2022), DOING THIS WON'T BE NECESSARY. YOU WILL BE ABLE TO DO IT IN THE "Admin Config => Portfolio Assets" INTERFACE MUCH EASIER.
+IMPORTANT NOTE: IN THE UPCOMING v5 RELEASE (DUE OUT IN 2021 OR 2022), DOING THIS MANUALLY IN A TEXT EDITOR WON'T BE NECESSARY. YOU WILL BE ABLE TO DO IT IN THE "Admin Config => Portfolio Assets" INTERFACE MUCH EASIER.
 
-Below is an example for editing your assets / markets into the portfolio assets in the file config.php (located in the primary directory of this app), in the PORTFOLIO ASSETS section. It's very quick / easy to do (after you get the hang of it, lol). Also see the text file /DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt, for a pre-configured set of default settings and example assets / markets. Contact any supported exchange's help desk if you are unaware of the correct formatting of the trading pair naming you are adding in the configuration file (examples: Kraken has arbitrary Xs inserted in SOME older pair names, HitBTC sometimes has tether pairing without the "T" in the symbol name).
+Below is an example for editing your assets / markets into the portfolio assets in the file config.php (located in the primary directory of this app), in the PORTFOLIO ASSETS section. It's very quick / easy to do (after you get the hang of it, lol). Also see the text file /DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt, for a pre-configured set of default settings and example assets / markets. 
 
-
-USAGE (ADDING / UPDATING COINS)
+Contact any supported exchange's help desk if you are unaware of the correct formatting of the trading pair naming you are adding in the configuration file (examples: Kraken has arbitrary Xs inserted in SOME older pair names, HitBTC sometimes has tether pairing without the "T" in the symbol name).
 
 
 Support for over 80 trading pairs (country fiat currency or secondary crypto, contact me to request more): 
 
-AED / ARS / AUD / BAM / BDT / BOB / BRL / BTC / BWP / BYN / CAD / CHF / CLP / CNY / COP / CRC / CZK / DAI / DKK / DOP / EGP / ETH / EUR / GBP / GEL / GHS / GTQ / HKD / HUF / IDR / ILS / INR / IRR / JMD / JOD / JPY / KES / KRW / KWD / KZT / LKR / LRC / MAD / MKR / MUR / MWK / MXN / MYR / NGN / NIS / NOK / NZD / PAB / PEN / PHP / PKR / PLN / PYG / QAR / RON / RSD / RUB / RWF / SAR / SEK / SGD / THB / TRY / TUSD / TWD / TZS / UAH / UGX / UNI / USDC / USDT / UYU / VES / VND / XAF / XOF / ZAR / ZMW.
+AED / ARS / AUD / BAM / BDT / BOB / BRL / BTC / BWP / BYN / CAD / CHF / CLP / CNY / COP / CRC / CZK / DAI / DKK / DOP / EGP / ETH / EUR / GBP / GEL / GHS / GTQ / HKD / HUF / IDR / ILS / INR / IRR / JMD / JOD / JPY / KES / KRW / KWD / KZT / LKR / LRC / MAD / MKR / MUR / MWK / MXN / MYR / NGN / NIS / NOK / NZD / PAB / PEN / PHP / PKR / PLN / PYG / QAR / RON / RSD / RUB / RWF / SAR / SEK / SGD / THB / TRY / TUSD / TWD / TZS / UAH / UGX / UNI / USDC / USDT / UYU / VES / VND / XAF / XOF / ZAR / ZMW
 
 
 Support for over 40 exchanges (contact me to request more): 
 
-binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmex / bitmex_u20 / bitmex_z20 / bitpanda / bitso / bitstamp / bittrex / bittrex_global / braziliex / btcmarkets / btcturk / buyucoin / cex / coinbase / coinex / cryptofresh / defipulse / ethfinex / gateio / gemini / hitbtc / hotbit / huobi / korbit / kraken / kucoin / liquid / localbitcoins / loopring / loopring_amm / luno / okcoin / okex / poloniex / southxchange / upbit / wazirx / zebpay.
+binance / binance_us / bit2c / bitbns / bitfinex / bitflyer / bitmex / bitmex_u20 / bitmex_z20 / bitpanda / bitso / bitstamp / bittrex / bittrex_global / braziliex / btcmarkets / btcturk / buyucoin / cex / coinbase / coinex / cryptofresh / defipulse / ethfinex / gateio / gemini / hitbtc / hotbit / huobi / korbit / kraken / kucoin / liquid / localbitcoins / loopring / loopring_amm / luno / okcoin / okex / poloniex / southxchange / upbit / wazirx / zebpay
 
 
 Nearly Unlimited Assets Supported (whatever assets exist on supported exchanges).
 
 
 Ethereum ICO subtoken support (pre-exchange listing) has been built in (values are static ICO values in ETH).
- 
- 
+
+
+USAGE (ADDING / UPDATING COINS):
+
  
  
                     // UPPERCASE_COIN_ABRV_HERE
                     'UPPERCASE_COIN_ABRV_HERE' => array(
                         
                         'asset_name' => 'COIN_NAME_HERE',
-                        'marketcap_website_slug' => 'WEBSITE_SLUG_HERE', // Website slug (URL data) on coinmarketcap / coingecko, leave blank if not listed there
+                        // Website slug (URL data) on coinmarketcap / coingecko, leave blank if not listed there
+                        'marketcap_website_slug' => 'WEBSITE_SLUG_HERE', 
                         'market_pairing' => array(
                                     
-                                    // MARKET IDS / PAIRING NAMES ARE CASE-SENSITIVE!
+                                    // MARKET IDS ARE CASE-SENSITIVE!
                                     
                                     'lowercase_pairing_abrv' => array(
                                           'lowercase_exchange1' => 'MARKETIDHERE',
