@@ -17,8 +17,16 @@ fi
 ######################################
 
 
+# EXPLICITLY set paths 
+#PATH=/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin:/usr/local/sbin:$PATH
+
+
+# Bash's FULL PATH
+BASH_PATH=$(which bash)
+
+
 # Get logged-in username (if sudo, this works best with logname)
-USERNAME=$(/usr/bin/logname)
+TERMINAL_USERNAME=$(logname)
 
 
 # Get date
@@ -26,15 +34,15 @@ DATE=$(date '+%Y-%m-%d')
 
 
 # Get the host ip address
-IP=`/bin/hostname -I` 
+IP=`hostname -I` 
 
 
 # Get a list of PHP packages THAT ARE ALREADY INSTALLED
-PHP_INSTALLED=$(/usr/bin/dpkg --get-selections | /usr/bin/grep -i php)
+PHP_INSTALLED=$(dpkg --get-selections | grep -i php)
 
 
 # Get a list of PHP-FPM packages THAT ARE AVAILABLE TO INSTALL
-PHP_FPM_LIST=$(/usr/bin/apt-cache search php-fpm)
+PHP_FPM_LIST=$(apt-cache search php-fpm)
 
 
 # Get the operating system and version
@@ -71,7 +79,7 @@ fi
 
 
 # Start in user home directory
-cd /home/$USERNAME
+cd /home/$TERMINAL_USERNAME
 
 
 # For setting user agent header in curl, since some API servers !REQUIRE! a set user agent OR THEY BLOCK YOU
@@ -86,16 +94,16 @@ echo "We need to know the SYSTEM username you'll be logging in as on this machin
 echo " "
         
 echo "Enter the SYSTEM username to allow web server editing access for:"
-echo "(leave blank / hit enter for default username '${USERNAME}')"
+echo "(leave blank / hit enter for default username '${TERMINAL_USERNAME}')"
 echo " "
         
-read SYS_USER
+read APP_USER
 
- if [ -z "$SYS_USER" ]; then
- SYS_USER=${1:-$USERNAME}
- echo "Using default username: $SYS_USER"
+ if [ -z "$APP_USER" ]; then
+ APP_USER=${1:-$TERMINAL_USERNAME}
+ echo "Using default username: $APP_USER"
  else
- echo "Using username: $SYS_USER"
+ echo "Using username: $APP_USER"
  fi
 
 echo " "
@@ -140,10 +148,12 @@ echo "work on other Debian-based systems (but it has not been tested for that pu
 echo " "
 
 echo "Your operating system has been detected as:"
+echo " "
 echo "$OS v$VER"
 echo " "
 
 echo "Recommended MINIMUM system specs:"
+echo " "
 echo "1 Gigahertz CPU / 512 Megabytes RAM / HIGH QUALITY 32 Gigabyte MicroSD card (running Nginx or Apache headless with PHP v7.2+)"
 echo " "
 
@@ -153,10 +163,12 @@ echo " "
 
 if [ -f "/etc/debian_version" ]; then
 echo "Your system has been detected as Debian-based, which is compatible with this automated installation script."
+echo " "
 echo "Continuing..."
 echo " "
 else
 echo "Your system has been detected as NOT BEING Debian-based. Your system is NOT compatible with this automated installation script."
+echo " "
 echo "Exiting..."
 exit
 fi
@@ -250,16 +262,16 @@ echo "Making sure your system is updated before installation, please wait..."
 
 echo " "
 			
-/usr/bin/sudo /usr/bin/apt-get update
+apt-get update
 
 #DO NOT RUN dist-upgrade, bad things can happen, lol
-/usr/bin/sudo /usr/bin/apt-get upgrade -y
+apt-get upgrade -y
 
 echo " "
 				
 echo "System update completed."
 				
-/bin/sleep 3
+sleep 3
 				
 echo " "
         
@@ -317,14 +329,14 @@ select opt in $OPTIONS; do
 			# !!!RUN FIRST!!! PHP FPM (fcgi) version $PHP_FPM_VER, run SEPERATE in case it fails from package not found
         	INSTALL_FPM_VER="install php${PHP_FPM_VER}-fpm -y"
         
-        	/usr/bin/apt-get $INSTALL_FPM_VER
+        	apt-get $INSTALL_FPM_VER
         	
-			/bin/sleep 3
+			sleep 3
 			
 			# PHP FPM (fcgi), Apache, required modules, etc
-			/usr/bin/apt-get install apache2 php php-fpm php-mbstring php-xml php-curl php-gd php-zip libapache2-mod-fcgid apache2-suexec-pristine openssl ssl-cert avahi-daemon -y
+			apt-get install apache2 php php-fpm php-mbstring php-xml php-curl php-gd php-zip libapache2-mod-fcgid apache2-suexec-pristine openssl ssl-cert avahi-daemon -y
 			
-			/bin/sleep 3
+			sleep 3
 			
 			echo " "
 			
@@ -339,43 +351,43 @@ select opt in $OPTIONS; do
 			echo " "
 			
 			# Regenerate new self-signed SSL cert keys with ssl-cert (for secure HTTPS web pages)
-			/usr/sbin/make-ssl-cert generate-default-snakeoil --force-overwrite
+			make-ssl-cert generate-default-snakeoil --force-overwrite
 
 			echo "New SSL certificate keys have been self-signed, please wait..."
 			echo " "
 
 			# Enable SSL (for secure HTTPS web pages)
-			/usr/sbin/a2enmod ssl
-			/usr/sbin/a2ensite default-ssl
+			a2enmod ssl
+			a2ensite default-ssl
 
-			/bin/sleep 1
+			sleep 1
 			
 			echo " "
 
 			# Enable mod-rewrite, for upcoming REST API features
-			/usr/sbin/a2enmod rewrite	
+			a2enmod rewrite	
 
-			/bin/sleep 1
+			sleep 1
 			
 			# PHP FCGI Proxy
-			/usr/sbin/a2enmod proxy_fcgi
+			a2enmod proxy_fcgi
 			
-			/bin/sleep 1
+			sleep 1
 			
         	CONFIG_FPM_VER="php${PHP_FPM_VER}-fpm"
         	
 			# Config PHP FPM (fcgi) version $PHP_FPM_VER
-        	/usr/sbin/a2enconf $CONFIG_FPM_VER
+        	a2enconf $CONFIG_FPM_VER
 			
-			/bin/sleep 1
+			sleep 1
 			
 			# Suexec
-			/usr/sbin/a2enmod suexec
+			a2enmod suexec
 			
 			# Not needed (for now)
-			#/usr/sbin/a2enmod actions
+			#a2enmod actions
 			
-			/bin/sleep 1
+			sleep 1
 			
 			echo " "
 				
@@ -393,7 +405,7 @@ select opt in $OPTIONS; do
 			
        
          # Enable HTTP (port 80) htaccess
-         #/usr/sbin/a2ensite 000-default
+         #a2ensite 000-default
           
          HTTP_CONFIG="/etc/apache2/sites-available/000-default.conf"
             
@@ -450,13 +462,13 @@ EOF
             
             
             # Create the new HTTP config
-            NEW_HTTP_CONFIG=$(echo -e "$HTACCESS_HTTP" | /bin/sed '/:80>/r /dev/stdin' $HTTP_CONFIG)
+            NEW_HTTP_CONFIG=$(echo -e "$HTACCESS_HTTP" | sed '/:80>/r /dev/stdin' $HTTP_CONFIG)
             
             
             # Install the new HTTP config
             echo -e "$NEW_HTTP_CONFIG" > $HTTP_CONFIG
 
-				/bin/sleep 1
+				sleep 1
                             
                             
                 # Restart Apache
@@ -481,13 +493,13 @@ EOF
             fi
             
 
-			/bin/sleep 2
+			sleep 2
             
          ######################################
                         
                                                 
          # Enable HTTPS (port 443) htaccess
-         #/usr/sbin/a2ensite default-ssl
+         #a2ensite default-ssl
          
          
          HTTPS_CONFIG="/etc/apache2/sites-available/default-ssl.conf"
@@ -545,13 +557,13 @@ EOF
             
             
             # Create the new HTTPS config
-            NEW_HTTPS_CONFIG=$(echo -e "$HTACCESS_HTTPS" | /bin/sed '/:443>/r /dev/stdin' $HTTPS_CONFIG)
+            NEW_HTTPS_CONFIG=$(echo -e "$HTACCESS_HTTPS" | sed '/:443>/r /dev/stdin' $HTTPS_CONFIG)
             
             
             # Install the new HTTPS config
             echo -e "$NEW_HTTPS_CONFIG" > $HTTPS_CONFIG
 
-				/bin/sleep 1
+				sleep 1
                             
                             
                 # Restart Apache
@@ -576,7 +588,7 @@ EOF
             fi
 
 
-			/bin/sleep 2
+			sleep 2
 
 			######################################
 			
@@ -593,10 +605,10 @@ EOF
          echo "Attempting to auto-detect the web server's user group, please wait..."
          echo " "
          
-         /bin/sleep 3
+         sleep 3
            
-         #WWW_GROUP=$(/bin/ps -ef | /bin/egrep '(httpd|httpd2|apache|apache2)' | /bin/grep -v `whoami` | /bin/grep -v root | /usr/bin/head -n1 | /usr/bin/awk '{print $1}')
-         WWW_GROUP=$(/bin/ps axo user,group,comm | /bin/egrep '(httpd|httpd2|apache|apache2)' | /bin/grep -v ^root | /usr/bin/cut -d\  -f 2 | /usr/bin/uniq)
+         #WWW_GROUP=$(ps -ef | egrep '(httpd|httpd2|apache|apache2)' | grep -v `whoami` | grep -v root | head -n1 | awk '{print $1}')
+         WWW_GROUP=$(ps axo user,group,comm | egrep '(httpd|httpd2|apache|apache2)' | grep -v ^root | cut -d\  -f 2 | uniq)
             
          echo "The web server's user group has been detected as:"
             
@@ -623,35 +635,35 @@ EOF
             
          echo " "
         
-        	/usr/sbin/usermod -a -G $CUSTOM_GROUP $SYS_USER
+        	usermod -a -G $CUSTOM_GROUP $APP_USER
         
         	echo " "
-        	echo "Access for user '$SYS_USER' within group '$CUSTOM_GROUP' is completed, please wait..."
+        	echo "Access for user '$APP_USER' within group '$CUSTOM_GROUP' is completed, please wait..."
 
-			/bin/sleep 1
+			sleep 1
         
-        	/usr/sbin/usermod -a -G $SYS_USER $CUSTOM_GROUP
+        	usermod -a -G $APP_USER $CUSTOM_GROUP
         	
         	echo " "
-        	echo "Access for user '$CUSTOM_GROUP' within group '$SYS_USER' is completed, please wait..."
+        	echo "Access for user '$CUSTOM_GROUP' within group '$APP_USER' is completed, please wait..."
 
-			/bin/sleep 1
+			sleep 1
 			
-        	/bin/chmod 775 $DOC_ROOT
+        	chmod 775 $DOC_ROOT
 			
         	echo " "
-        	echo "Document root access is completed (chmod 775, owner:group set to '$SYS_USER'), please wait..."
+        	echo "Document root access is completed (chmod 775, owner:group set to '$APP_USER'), please wait..."
 
-			/bin/sleep 1
+			sleep 1
         
         	BASE_HTDOC="$(dirname $DOC_ROOT)"
         
-        	RECURSIVE_CHOWN="-R ${SYS_USER}:$SYS_USER ${BASE_HTDOC}/*"
+        	RECURSIVE_CHOWN="-R ${APP_USER}:$APP_USER ${BASE_HTDOC}/*"
         
         	#$RECURSIVE_CHOWN must be in double quotes to escape the asterisk at the end
-        	/bin/chown $RECURSIVE_CHOWN
+        	chown $RECURSIVE_CHOWN
 
-			/bin/sleep 3
+			sleep 3
         
 			echo " "
 			echo "PHP web server configuration is complete."
@@ -671,14 +683,14 @@ EOF
 		  # !!!RUN FIRST!!! PHP FPM (fcgi) version $PHP_FPM_VER, run SEPERATE in case it fails from package not found
         REMOVE_FPM_VER="--purge remove php${PHP_FPM_VER}-fpm -y"
         
-        /usr/bin/apt-get $REMOVE_FPM_VER
+        apt-get $REMOVE_FPM_VER
         
-		  /bin/sleep 3
+		  sleep 3
         
         # SKIP removing openssl / ssl-cert / avahi-daemon, AS THIS WILL F!CK UP THE WHOLE SYSTEM, REMOVING ANY OTHER DEPENDANT PACKAGES TOO!!
-		  /usr/bin/apt-get --purge remove apache2 php php-fpm php-mbstring php-xml php-curl php-gd php-zip libapache2-mod-fcgid apache2-suexec-pristine -y
+		  apt-get --purge remove apache2 php php-fpm php-mbstring php-xml php-curl php-gd php-zip libapache2-mod-fcgid apache2-suexec-pristine -y
         
-		  /bin/sleep 3
+		  sleep 3
 			
 		  echo " "
 		  echo "PHP web server has been removed from the system."
@@ -699,8 +711,8 @@ echo " "
 ######################################
 
 
-echo "Do you want this script to automatically download the latest version of"
-echo "Open Crypto Portfolio Tracker (Server Edition) from Github.com, and install / configure it?"
+echo "Do you want this script to automatically download the latest version of Open Crypto Portfolio Tracker"
+echo "(Server Edition) from Github.com, and install / configure it?"
 echo " "
 
 echo "Select 1, 2, or 3 to choose whether to auto-install / remove Open Crypto Portfolio Tracker (Server Edition), or skip."
@@ -733,19 +745,19 @@ select opt in $OPTIONS; do
 				echo " "
 				
 				# Ubuntu 16.x, and other debian-based systems
-				/usr/bin/apt-get install bsdtar -y
+				apt-get install bsdtar -y
 				
-				/bin/sleep 3
+				sleep 3
 				
 				# Ubuntu 18.x and higher
-				/usr/bin/apt-get install libarchive-tools -y
+				apt-get install libarchive-tools -y
 				
-				/bin/sleep 3
+				sleep 3
 				
 				# Safely install other packages seperately, so they aren't cancelled by 'package missing' errors
-				/usr/bin/apt-get install curl jq pwgen openssl -y
+				apt-get install curl jq pwgen openssl wget -y
 
-				/bin/sleep 3
+				sleep 3
 				
 				echo " "
 				echo "Required component installation completed."
@@ -754,26 +766,26 @@ select opt in $OPTIONS; do
 				echo "Downloading / installing the latest version of Open Crypto Portfolio Tracker (Server Edition) from Github.com, please wait..."
             echo " "
 				
-				/usr/bin/mkdir DFD-Cryptocoin-Values
+				mkdir DFD-Cryptocoin-Values
 				
 				cd DFD-Cryptocoin-Values
 				
 				# Set curl user agent, as the github API REQUIRES ONE
-				/usr/bin/curl -H "$CUSTOM_CURL_USER_AGENT_HEADER"
+				curl -H "$CUSTOM_CURL_USER_AGENT_HEADER"
 				
-				ZIP_DL=$(/usr/bin/curl -s 'https://api.github.com/repos/taoteh1221/Open_Crypto_Portfolio_Tracker/releases/latest' | /usr/bin/jq -r '.zipball_url')
+				ZIP_DL=$(curl -s 'https://api.github.com/repos/taoteh1221/Open_Crypto_Portfolio_Tracker/releases/latest' | jq -r '.zipball_url')
 				
-				/usr/bin/wget -O DFD-Cryptocoin-Values.zip $ZIP_DL
+				wget -O DFD-Cryptocoin-Values.zip $ZIP_DL
 				
-				/bin/sleep 2
+				sleep 2
 				
 				echo " "
 				echo "Extracting download archive, please wait..."
 				echo " "
 				
-				/usr/bin/bsdtar --strip-components=1 -xvf DFD-Cryptocoin-Values.zip
+				bsdtar --strip-components=1 -xvf DFD-Cryptocoin-Values.zip
 
-				/bin/sleep 3
+				sleep 3
 				
 				rm DFD-Cryptocoin-Values.zip
 				
@@ -781,12 +793,12 @@ select opt in $OPTIONS; do
 					if [ -f $DOC_ROOT/config.php ]; then
 					
 					# Generate random string 16 characters long
-					RAND_STRING=$(/usr/bin/pwgen -s 16 1)
+					RAND_STRING=$(pwgen -s 16 1)
 					
 					
 						# If pwgen fails, use openssl
 						if [ -z "$RAND_STRING" ]; then
-  						RAND_STRING=$(/usr/bin/openssl rand -hex 12)
+  						RAND_STRING=$(openssl rand -hex 12)
 						fi
 				
 						# If openssl fails, create manually
@@ -805,7 +817,7 @@ select opt in $OPTIONS; do
   							
 						cp $DOC_ROOT/config.php $DOC_ROOT/config.php.BACKUP.$DATE.$RAND_STRING
 						
-						/bin/chown $SYS_USER:$SYS_USER $DOC_ROOT/config.php.BACKUP.$DATE.$RAND_STRING
+						chown $APP_USER:$APP_USER $DOC_ROOT/config.php.BACKUP.$DATE.$RAND_STRING
 						
 						CONFIG_BACKUP=1
 						
@@ -856,7 +868,7 @@ select opt in $OPTIONS; do
   				rm -rf $DOC_ROOT/ui-templates
   				rm -rf $DOC_ROOT/cron-plugins
 
-				/bin/sleep 3
+				sleep 3
 				
   				# Files
 				rm $DOC_ROOT/DOCUMENTATION-ETC/CONFIG.EXAMPLE.txt # (Renamed /DOCUMENTATION-ETC/CONFIG-EXAMPLE.txt)
@@ -875,7 +887,7 @@ select opt in $OPTIONS; do
 				rm $DOC_ROOT/.htaccess # Force-resets script timeout from config.php (automatically / dynamically re-created by app)
 				rm $DOC_ROOT/.user.ini # Force-resets script timeout from config.php (automatically / dynamically re-created by app)
 
-				/bin/sleep 3
+				sleep 3
 				
 				echo " "
 				echo "Installing Open Crypto Portfolio Tracker (Server Edition), please wait..."
@@ -886,7 +898,7 @@ select opt in $OPTIONS; do
 				rm -rf .github
 				rm -rf .git
 
-				/bin/sleep 3
+				sleep 3
 				
 				rm .gitattributes
 				rm .gitignore
@@ -895,21 +907,21 @@ select opt in $OPTIONS; do
 				
 				\cp -r ./ $DOC_ROOT
 
-				/bin/sleep 3
+				sleep 3
 				
 				cd ../
 				
 				rm -rf DFD-Cryptocoin-Values
 				
-				/bin/chmod 777 $DOC_ROOT/cache
-				/bin/chmod 755 $DOC_ROOT/cron.php
+				chmod 777 $DOC_ROOT/cache
+				chmod 755 $DOC_ROOT/cron.php
 
-				/bin/sleep 1
+				sleep 1
 				
 				# No trailing forward slash here
-				/bin/chown -R $SYS_USER:$SYS_USER $DOC_ROOT
+				chown -R $APP_USER:$APP_USER $DOC_ROOT
 
-				/bin/sleep 3
+				sleep 3
 				
 				echo " "
 				echo "Open Crypto Portfolio Tracker (Server Edition) has been installed."
@@ -935,15 +947,15 @@ select opt in $OPTIONS; do
                     echo "(leave blank / hit enter for default of $DOC_ROOT/cron.php)"
                     echo " "
                     
-                    read PATH
+                    read SYS_PATH
                     
-                        if [ -z "$PATH" ]; then
-                        PATH=${1:-$DOC_ROOT/cron.php}
+                        if [ -z "$SYS_PATH" ]; then
+                        SYS_PATH=${1:-$DOC_ROOT/cron.php}
                     echo "Using default system path to cron.php:"
-                    echo "$PATH"
+                    echo "$SYS_PATH"
                         else
                     echo "System path set to cron.php:"
-                    echo "$PATH"
+                    echo "$SYS_PATH"
                         fi
                     
                     echo " "
@@ -966,32 +978,35 @@ select opt in $OPTIONS; do
                             
                     # Setup cron (to check logs after install: tail -f /var/log/syslog | grep cron -i)
                     
-						  PHP_CLI_PATH="/usr/bin/php${PHP_FPM_VER}"
+                    
+						  # PHP FULL PATHS
+						  PHP_FPM_PATH=$(which php${PHP_FPM_VER})
+						  PHP_PATH=$(which php)
          					
-         					# If PHP $PHP_FPM_VER specific CLI binary not found, use the most common standard path
-						  		if [ -f $PHP_CLI_PATH ]; then
-						  		CRONJOB="*/$INTERVAL * * * * $SYS_USER $PHP_CLI_PATH -q $PATH > /dev/null 2>&1"
+         					# If PHP $PHP_FPM_VER specific CLI binary not found, use the standard path
+						  		if [ -f $PHP_FPM_PATH ]; then
+						  		CRONJOB="*/$INTERVAL * * * * $APP_USER $PHP_FPM_PATH -q $SYS_PATH > /dev/null 2>&1"
 						  		else
-						  		CRONJOB="*/$INTERVAL * * * * $SYS_USER /usr/bin/php -q $PATH > /dev/null 2>&1"
+						  		CRONJOB="*/$INTERVAL * * * * $APP_USER $PHP_PATH -q $SYS_PATH > /dev/null 2>&1"
 						  		fi
             
             
                     # Play it safe and be sure their is a newline after this job entry
                     echo -e "$CRONJOB\n" > /etc/cron.d/cryptocoin
 
-						  /bin/sleep 1
+						  sleep 1
                       
                     # cron.d entries must be a permission of 644
-                    /bin/chmod 644 /etc/cron.d/cryptocoin
+                    chmod 644 /etc/cron.d/cryptocoin
 
-						  /bin/sleep 1
+						  sleep 1
                       
                     # cron.d entries MUST BE OWNED BY ROOT, OR THEY CRASH!
-                    /bin/chown root:root /etc/cron.d/cryptocoin
+                    chown root:root /etc/cron.d/cryptocoin
                       
                     
                     echo " "
-                    echo "A cron job has been setup for user '$SYS_USER',"
+                    echo "A cron job has been setup for user '$APP_USER',"
                     echo "as a command in /etc/cron.d/cryptocoin:"
                     echo "$CRONJOB"
                     echo " "
@@ -1032,7 +1047,7 @@ select opt in $OPTIONS; do
         
         rm -rf $DOC_ROOT/*
 
-		  /bin/sleep 3
+		  sleep 3
         
 		  echo " "
 		  echo "Open Crypto Portfolio Tracker (Server Edition) has been removed from the system."
@@ -1062,7 +1077,7 @@ echo "If you choose to NOT enable SSH on your system, you'll need to install / u
 echo "web site files directly on the device itself (not recommended)."
 echo " "
 
-echo "If you do use SSH, ---make sure the password for username '$SYS_USER' is strong---,"
+echo "If you do use SSH, ---make sure the password for username '$APP_USER' is strong---,"
 echo "because anybody on your home / internal network will have access if they know the username/password!"
 echo " "
 
@@ -1083,8 +1098,8 @@ select opt in $OPTIONS; do
 				if [ -f "/usr/bin/raspi-config" ]; then
 				echo " "
 				echo "Initiating raspi-config, please wait..."
-				# We need sudo here, or raspi-config fails in bash
-				/usr/bin/sudo /usr/bin/raspi-config
+				# WE NEED SUDO HERE, or raspi-config fails in bash
+				sudo raspi-config
 				else
 				echo " "
 				
@@ -1092,9 +1107,9 @@ select opt in $OPTIONS; do
 				
 				echo " "
 				
-				/usr/bin/apt-get install openssh-server -y
+				apt-get install openssh-server -y
 				
-				/bin/sleep 3
+				sleep 3
 				
 				echo " "
 				
@@ -1117,7 +1132,7 @@ echo " "
 ######################################
 
 # Return to user's home directory
-cd /home/$SYS_USER/
+cd /home/$APP_USER/
 
 
 echo " "
@@ -1131,11 +1146,11 @@ echo " "
 if [ "$APP_SETUP" = "1" ]; then
 
 echo "Web server setup and installation / configuration of Open Crypto Portfolio Tracker (Server Edition)"
-echo "should now be complete (if you chose those options), unless you saw any"
-echo "errors on screen during setup."
+echo "should now be complete (if you chose those options), unless you saw any errors on screen during setup."
 echo " "
 
 echo "Open Crypto Portfolio Tracker is located at (and can be edited) inside this folder:"
+echo " "
 echo "$DOC_ROOT"
 echo " "
 
@@ -1146,9 +1161,10 @@ echo " "
 
     if [ "$CONFIG_BACKUP" = "1" ]; then
     
-    echo "The previously-installed configuration file"
-    echo "$DOC_ROOT/config.php has been backed up to:"
+    echo "The previously-installed configuration file $DOC_ROOT/config.php has been backed up to:"
+	 echo " "
     echo "$DOC_ROOT/config.php.BACKUP.$DATE.$RAND_STRING"
+	 echo " "
 	 echo "You will need to manually move any CUSTOMIZED DEFAULT settings in this backup file to the NEW config.php file with a text editor,"
 	 echo "otherwise you can just ignore or delete this backup file."
     echo " "
@@ -1158,8 +1174,8 @@ echo " "
     
     if [ "$CRON_SETUP" = "1" ]; then
     
-    echo "A cron job has been setup for user '$SYS_USER',"
-    echo "as a command in /etc/cron.d/cryptocoin:"
+    echo "A cron job has been setup for user '$APP_USER', as a command in /etc/cron.d/cryptocoin:"
+	 echo " "
     echo "$CRONJOB"
     echo " "
     
@@ -1173,12 +1189,12 @@ echo "unless you saw any errors on screen during setup."
 echo " "
 
 echo "Web site app files must be placed inside this folder:"
+echo " "
 echo "$DOC_ROOT"
 echo " "
 
 echo "If web server setup has completed successfully, Open Crypto Portfolio Tracker (Server Edition)"
-echo "can now be installed (if you haven't already) in $DOC_ROOT remotely via SFTP,"
-echo "or by copying over app files locally."
+echo "can now be installed (if you haven't already) in $DOC_ROOT remotely via SFTP, or by copying over app files locally."
 echo " "
 
 fi
@@ -1191,14 +1207,17 @@ echo "SFTP login details are..."
 echo " "
 
 echo "INTERNAL NETWORK SFTP host (port 22, on home / internal network):"
+echo " "
 echo "$IP"
 echo " "
 
-echo "SFTP username: $SYS_USER"
-echo "SFTP password: (password for system user $SYS_USER)"
+echo "SFTP username: $APP_USER"
+echo " "
+echo "SFTP password: (password for system user $APP_USER)"
 echo " "
 
 echo "SFTP remote working directory (where web site files should be placed on web server):"
+echo " "
 echo "$DOC_ROOT"
 echo " "
 
@@ -1208,9 +1227,11 @@ fi
 
 echo "#INTERNAL# NETWORK SSL / HTTPS (secure / private SSL connection) web addresses are..."
 echo "IP ADDRESS (may change, unless set as static for this device within the router):"
+echo " "
 echo "https://$IP"
 echo " "
-echo "HOST ADDRESS (ONLY works on linux / mac / windows, NOT android):"
+echo "HOST ADDRESS (ONLY works on linux / mac / windows, NOT android as of 2020):"
+echo " "
 echo "https://${HOSTNAME}.local"
 echo " "
 
@@ -1287,13 +1308,13 @@ select opt in $OPTIONS; do
 			
 			echo " "
 			
-			/usr/bin/wget -O TICKER-INSTALL.bash https://raw.githubusercontent.com/taoteh1221/Slideshow_Crypto_Ticker/main/TICKER-INSTALL.bash
+			wget -O TICKER-INSTALL.bash https://raw.githubusercontent.com/taoteh1221/Slideshow_Crypto_Ticker/main/TICKER-INSTALL.bash
 			
-			/bin/chmod +x TICKER-INSTALL.bash
+			chmod +x TICKER-INSTALL.bash
 			
-			/bin/chown $SYS_USER:$SYS_USER TICKER-INSTALL.bash
+			chown $APP_USER:$APP_USER TICKER-INSTALL.bash
 			
-			/usr/bin/sudo ./TICKER-INSTALL.bash
+			./TICKER-INSTALL.bash
 			
 			
         break
