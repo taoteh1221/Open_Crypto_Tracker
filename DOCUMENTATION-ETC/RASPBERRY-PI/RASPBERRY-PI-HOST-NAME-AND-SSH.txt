@@ -38,28 +38,33 @@ Setting Up Custom Host Name On Raspberry PI
 1) Open the 'Terminal' app from the menu, or login with a remote terminal (SSH).
 
 
-2) Run this command to open Raspberry Pi Config: 
+2) Run this command to assure you can access your device remotely (over your INTERNAL network), with YOUR_HOSTNAME.local names:
+
+sudo apt-get install avahi-daemon -y
+
+
+3) After step #2 completes, run this command to open Raspberry Pi Config: 
 
 sudo raspi-config
 
 
-3) Select "System Options"
+4) Select "System Options"
 
 
-4) Select "Hostname"
+5) Select "Hostname"
 
 
-5) Change to your desired (alphanumeric) host name
+6) Change to your desired (alphanumeric) host name
 
 
-6) Reboot the Pi:
+7) Reboot the Pi:
 
 sudo reboot
 
 
-You should now be able to easily visit your Raspberry Pi on your INTERNAL NETWORK as:
+You should now be able to easily access your device remotely (over your INTERNAL network), in this format:
 
-YOUR_HOSTNAME.local
+[http|https|ssh|ftp|smb|etc|etc]://YOUR_HOSTNAME.local
 
 
 =======================================================

@@ -521,7 +521,7 @@
 		
 			$('#setting_crypto_value').balloon({
 			html: true,
-			position: "right",
+			position: "top",
   			classname: 'balloon-tooltips',
 			contents: setting_crypto_value_content,
 			css: {

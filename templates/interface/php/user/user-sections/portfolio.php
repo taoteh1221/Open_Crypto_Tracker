@@ -539,7 +539,7 @@ $altcoin_dominance = max_100($altcoin_dominance);
 		
 			$('#crypto_value').balloon({
 			html: true,
-			position: "right",
+			position: "top",
   			classname: 'balloon-tooltips',
 			contents: crypto_value_content,
 			css: {

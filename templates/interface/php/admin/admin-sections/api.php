@@ -265,12 +265,11 @@ var_dump($api_data_array);
 <pre class='rounded'><code class='hide-x-scroll json' style='width: auto; height: auto;'>
 {
     "asset_list": [
-        "ant",
         "btc",
         "dai",
         "data",
         "eth",
-        "glm",
+        "gnt",
         "hive",
         "mana",
         "mkr",
@@ -320,7 +319,6 @@ var_dump($api_data_array);
         "livecoin",
         "localbitcoins",
         "luno",
-        "namebase",
         "okcoin",
         "okex",
         "poloniex",
@@ -401,7 +399,6 @@ var_dump($api_data_array);
         "kwd",
         "kzt",
         "lkr",
-        "ltc",
         "mad",
         "mur",
         "mwk",

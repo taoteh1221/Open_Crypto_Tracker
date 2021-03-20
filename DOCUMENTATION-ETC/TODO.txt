@@ -35,6 +35,12 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+Make sure ALL MARKETS are added FOR ALL SUPPORTED EXCHANGES (EVERY EXCHANGE IN exchange-ticker-apis.php), then re-run the exchange summaries printout (in debug mode), for updating documentation on the web page / README / in config.php.
+
+
+Take new screenshots with the new branding.
+
+
 Re-proof read new documentation a few times more.
 
 
@@ -66,9 +72,6 @@ See if exchange API data arrays can be manipulated slightly to build a reusable 
 
 
 Look into X day moving average overlay for price charts.
-
-
-Make sure all currency markets are added FOR ALL SUPPORTED EXCHANGES (find some decent idex markets or remove support for it).
 
 
 Review Help FAQ, and config.php settings documentation.
@@ -132,6 +135,9 @@ https://zksync.io/api/v0.1.html
 ///////////////////////////////////////////////////////
 FEATURES / STRUCTURING SECTION
 ///////////////////////////////////////////////////////
+
+
+Create a power user config option to toggle between plain text and HTML email. We can have the queue_notifications() function detect if HTML email is enabled, and run email messages through PHP's built-in nl2br() function if so, which converts newlines to <br /> tags.
 
 
 Add a "Reset lite charts" button on the admin 'Reset' page, to trigger rebuilding lite charts.
