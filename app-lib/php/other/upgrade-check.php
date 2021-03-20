@@ -66,13 +66,15 @@
 			
 			$email_notifyme_message = $upgrade_check_message . ' (you have upgrade reminders triggered every '.$app_config['comms']['upgrade_alert_reminder'].' days in the configuration settings)';
 			
+			$email_only_with_upgrade_command = $email_notifyme_message . "\n\n" . 'Quick / easy upgrading can be done by copying / pasting / running this command, using the "Terminal" app in your Ubuntu / Raspberry Pi system menu, or logging in remotely from another device via SSH (user must have sudo privileges):' . "\n" . 'wget -O FOLIO-INSTALL.bash https://git.io/JqCvQ;chmod +x FOLIO-INSTALL.bash;sudo ./FOLIO-INSTALL.bash';
+			
 						
 					// Message parameter added for desired comm methods (leave any comm method blank to skip sending via that method)
 					if ( $app_config['comms']['upgrade_alert'] == 'all' ) {
 						
 					$ui_upgrade_alert = array(
 														'run' => 'yes',
-														'message' => $email_notifyme_message
+														'message' => nl2br($email_only_with_upgrade_command)
 														);
 						
 					store_file_contents($base_dir . '/cache/events/ui_upgrade_alert.dat', json_encode($ui_upgrade_alert, JSON_PRETTY_PRINT) );
@@ -82,14 +84,14 @@
 						
 					$upgrade_check_send_params = array(
 											'notifyme' => $email_notifyme_message,
-											'telegram' => $email_notifyme_message,
+											'telegram' => $email_only_with_upgrade_command,
 											'text' => array(
 																	'message' => $encoded_text_alert['content_output'],
 																	'charset' => $encoded_text_alert['charset']
 																	),
 											'email' => array(
 																	'subject' => $another_reminder . 'Open Crypto Portfolio Tracker v'.$upgrade_check_latest_version.' Upgrade Available' . $bug_fix_subject_extension,
-																	'message' => $email_notifyme_message
+																	'message' => $email_only_with_upgrade_command
 																	)
 											);
 				
@@ -98,7 +100,7 @@
 						
 					$upgrade_check_send_params['email'] = array(
 														'subject' => $another_reminder . 'Open Crypto Portfolio Tracker v'.$upgrade_check_latest_version.' Upgrade Available' . $bug_fix_subject_extension,
-														'message' => $email_notifyme_message
+														'message' => $email_only_with_upgrade_command
 														);
 				
 					}
@@ -117,13 +119,13 @@
 					$upgrade_check_send_params['notifyme'] = $email_notifyme_message;
 					}
 					elseif ( $app_config['comms']['upgrade_alert'] == 'telegram' ) {
-					$upgrade_check_send_params['telegram'] = $email_notifyme_message;
+					$upgrade_check_send_params['telegram'] = $email_only_with_upgrade_command;
 					}
 					elseif ( $app_config['comms']['upgrade_alert'] == 'ui' ) {
 						
 					$ui_upgrade_alert = array(
 														'run' => 'yes',
-														'message' => $email_notifyme_message
+														'message' => nl2br($email_only_with_upgrade_command)
 														);
 						
 					store_file_contents($base_dir . '/cache/events/ui_upgrade_alert.dat', json_encode($ui_upgrade_alert, JSON_PRETTY_PRINT) );
