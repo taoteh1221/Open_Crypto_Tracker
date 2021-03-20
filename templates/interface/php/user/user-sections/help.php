@@ -111,7 +111,7 @@
     
 	    <br /><br />
 	      
-	       To install / upgrade everything automatically on <a href='https://ubuntu.com/#download' target='_blank' title='Download Ubuntu operating system for your PC.'>Ubuntu</a> or <a href='https://www.raspberrypi.org/products/' target='_blank' title='View Raspberry Pi hardware products.'>Raspberry Pi</a> (an affordable low power single board computer), copy / paste / run the command below in a terminal program (using the 'Terminal' app in the system menu, or over remote SSH), while logged in AS THE USER THAT WILL RUN THE APP (user must have sudo permissions):
+	       To install / upgrade everything automatically on <a href='https://ubuntu.com/#download' target='_blank' title='Download Ubuntu operating system for your PC.'>Ubuntu</a> or <a href='https://www.raspberrypi.org/products/' target='_blank' title='View Raspberry Pi hardware products.'>Raspberry Pi</a> (an affordable low power single board computer), copy / paste / run the command below in a terminal program (using the 'Terminal' app in the system menu, or over remote SSH), while logged in AS THE USER THAT WILL RUN THE APP (user must have sudo privileges):
 	       
 
 	    <br /><br />
@@ -157,7 +157,7 @@ SEE <a href='https://github.com/taoteh1221/Open_Crypto_Portfolio_Tracker/tree/ma
 	      
 	      
 	        
-	        Just upload this app's files to your PHP-based web server (with an FTP client like FileZilla) and you should be all set, unless your host is a strict setup related to file writing permissions, in which case the 'cache' directory permissions should be set to '777' chmod on unix / linux systems (or 'readable / writable' on windows systems). 
+	        Just upload this app's files to your PHP-based web server (with an FTP client like <a href='https://filezilla-project.org/download.php?type=client' target='_blank'>FileZilla</a>) and you should be all set, unless your host is a strict setup related to file writing permissions, in which case the 'cache' directory permissions should be set to '777' chmod on unix / linux systems (or 'readable / writable' on windows systems). 
 	    <br /><br />
 	        
 	        Your web host must have CURL modules activated on your HTTP server. Most web hosting companies provide this "out-of-the-box" already. This app will detect whether or not CURL is setup on your website server (and also alert you to any other missing required system components / configurations). 
@@ -588,7 +588,7 @@ Running a google search for "set permanently ulimit -n linux", you'll find tons 
 	        If you installed this application on a device on your home network, or on any other network WITH A SLOW INTERNET CONNECTION, you may need to increase the default timeout for retrieving API data IF YOU RECEIVE PARTIAL OR NO API DATA IN THE APP FOR SOME API DATA SETS (the error logs will alert you if this is happening, so check there). 
 <br /><br />
 	        
-	        To adjust the API timeout, go to the Admin Config POWER USER section. Adjust the 'remote_api_timeout' setting much higher, save the setup in the app, and run the app again to see if this fixes the issue. Adjust higher again if the issue still occurs frequently.
+	        To adjust the API timeout, go to the Admin Config POWER USER section. Adjust the 'remote_api_timeout' setting much higher, save the setup in the app, and run the app again to see if this fixes the issue. Adjust higher again if the issue still occurs frequently. DON'T SET 'remote_api_timeout' TOO HIGH though, or any unresponsive connections may cause the app to take a very long time to load / reload.
 	        
 	        
 	      </div>

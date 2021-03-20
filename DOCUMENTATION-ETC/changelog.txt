@@ -4348,7 +4348,7 @@ WILL AUTOMATICALLY PREFORM THE RESET (ALERTS / TRACKING WILL BE ACCURATE AFTERWA
 -------------------------------------------------------------------
 4.29.0:
 
--Updated documentation
+-Updated / new documentation, including the README and Help / FAQ section.
 
 -Misc UX revisions
 

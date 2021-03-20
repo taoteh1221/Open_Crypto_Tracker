@@ -19,7 +19,7 @@
 
 // See /DOCUMENTATION-ETC/HELP-FAQ.txt for tips / troubleshooting FAQs.
 
-// TYPOS LIKE MISSED COMMAS / MISSED QUOTES / ETC !!!!WILL BREAK THE APP!!!!, BE CAREFUL EDITING THIS CONFIG FILE
+// TYPOS LIKE MISSED COMMAS / MISSED QUOTES / ETC !!!!WILL BREAK THE APP!!!!, BE CAREFUL EDITING THIS CONFIG FILE!
 
 
 ////////////////////////////////////////
@@ -219,7 +219,7 @@ $app_config['general']['asset_charts_toggle'] = 'on'; // 'on' / 'off'
 
 // Your local time offset IN HOURS, COMPARED TO UTC TIME. Can be negative or positive.
 // (Used for user experience 'pretty' timestamping in interface logic ONLY, WILL NOT change or screw up UTC log times etc if you change this)
-$app_config['general']['local_time_offset'] = -5; // example: -5 or 5
+$app_config['general']['local_time_offset'] = -4; // example: -5 or 5
 
 
 // Configure which interface theme you want as the default theme (also can be manually switched later, on the settings page in the interface)
@@ -1554,7 +1554,7 @@ https://github.com/taoteh1221/Open_Crypto_Portfolio_Tracker/issues
 
 // See /DOCUMENTATION-ETC/HELP-FAQ.txt for tips / troubleshooting FAQs.
 
-// TYPOS LIKE MISSED COMMAS / MISSED QUOTES / ETC !!!!WILL BREAK THE APP!!!!, BE CAREFUL EDITING THIS CONFIG FILE
+// TYPOS LIKE MISSED COMMAS / MISSED QUOTES / ETC !!!!WILL BREAK THE APP!!!!, BE CAREFUL EDITING THIS CONFIG FILE!
 
 // DUPLICATE NETWORK NAME KEYS --WILL CANCEL EACH OTHER OUT--, !!USE A UNIQUE NAME FOR EACH KEY!!
 
@@ -1748,7 +1748,7 @@ $app_config['mobile_network_text_gateways'] = array(
 
 // See /DOCUMENTATION-ETC/HELP-FAQ.txt for tips / troubleshooting FAQs.
 
-// TYPOS LIKE MISSED COMMAS / MISSED QUOTES / ETC !!!!WILL BREAK THE APP!!!!, BE CAREFUL EDITING THIS CONFIG FILE
+// TYPOS LIKE MISSED COMMAS / MISSED QUOTES / ETC !!!!WILL BREAK THE APP!!!!, BE CAREFUL EDITING THIS CONFIG FILE!
 
 
 $app_config['portfolio_assets'] = array(
