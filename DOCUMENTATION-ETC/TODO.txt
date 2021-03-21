@@ -35,6 +35,13 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+Change the api key format to GET instead of POST on my portfolio app's internal REST API, so browser-based javascript implementations can work cross-site retrieving data.
+
+
+Rename functions to 'safe' function names USING A PREFIX, so they won't collide with any upcoming PHP version built-in functions (like wordpress does, with the 'wp_' prefix). 
+CONSIDER USING THE PREFIX: 'pt_' (for [p]ortfolio [t]racker)
+
+
 Make sure ALL MARKETS are added FOR ALL SUPPORTED EXCHANGES (EVERY EXCHANGE IN exchange-ticker-apis.php), then re-run the exchange summaries printout (in debug mode), for updating documentation on the web page / README / in config.php.
 
 
@@ -234,9 +241,6 @@ MAYBE SECTION
 
 
 Add an OPTIONAL 'cron_plugins_runtime' stat in system charts (save as NO_DATA if non-existant to avoid UI rendering, like we do for temperature sensor). We'd need to append to the same line in the .dat file RIGHT AFTER THE CORE LOGIC HAS ALREADY WRITTEN TO IT. Not sure if this potentially could cause corruption issues in edge cases?
-
-
-Turn function files into a classes, or at least rename functions to 'safe' function names that won't collide with any upcoming PHP version built-in functions (like wordpress does, with the 'wp_' prefix).
 
 
 Add human-readable INITIAL start date / time as an OPTIONAL extra config param in recurring reminder plugin?
