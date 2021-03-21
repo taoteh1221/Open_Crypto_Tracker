@@ -143,8 +143,8 @@ fi
 
 
 echo "TECHNICAL NOTE:"
-echo "This script was designed to install / setup on Ubuntu or Raspberry Pi OS, and MAY also"
-echo "work on other Debian-based systems (but it has not been tested for that purpose)."
+echo "This script was designed to install / setup on Ubuntu or Raspberry Pi OS, and MAY also work on other"
+echo "Debian-based systems (but it has not been tested for that purpose)."
 echo " "
 
 echo "Your operating system has been detected as:"
@@ -176,9 +176,13 @@ fi
 				
 if [ -f $DOC_ROOT/config.php ]; then
 echo "A configuration file from a previous install of Open Crypto Portfolio Tracker (Server Edition) has been detected on your system."
+echo " "
 echo "During this upgrade / re-install, it will be backed up to:"
+echo " "
 echo "$DOC_ROOT/config.php.BACKUP.$DATE.[random string]"
+echo " "
 echo "This will save any custom settings within it."
+echo " "
 echo "You will need to manually move any CUSTOMIZED DEFAULT settings in this backup file to the NEW config.php file with a text editor,"
 echo "otherwise you can just ignore or delete this backup file."
 echo " "
