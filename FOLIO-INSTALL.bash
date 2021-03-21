@@ -955,28 +955,32 @@ select opt in $OPTIONS; do
                     
                         if [ -z "$SYS_PATH" ]; then
                         SYS_PATH=${1:-$DOC_ROOT/cron.php}
-                    echo "Using default system path to cron.php:"
-                    echo "$SYS_PATH"
+                    		echo "Using default system path to cron.php:"
+                    		echo " "
+                    		echo "$SYS_PATH"
                         else
-                    echo "System path set to cron.php:"
-                    echo "$SYS_PATH"
+                    		echo "System path set to cron.php:"
+                    		echo " "
+                    		echo "$SYS_PATH"
                         fi
                     
                     echo " "
-                    echo "Enter the time interval in minutes to run this cron job:"
-                    echo "(#MUST BE# either 5, 10, 15, 20, or 30...leave blank / hit enter for default of 20)"
+                    echo "Options for choosing a time interval to run the background task (cron job)..."
                     echo " "
                     echo "IT'S RECOMMENDED TO GO #NO LOWER THAN# EVERY 20 MINUTES FOR CHART DATA, OTHERWISE LITE CHART"
                     echo "DISK WRITES MAY BE EXCESSIVE FOR LOWER END HARDWARE (Raspberry PI MicroSD cards etc)."
+                    echo " "
+                    echo "Enter the time interval in minutes to run this cron job:"
+                    echo "(#MUST BE# either 5, 10, 15, 20, or 30...leave blank / hit enter for default of 20)"
                     echo " "
                     
                     read INTERVAL
                     
                         if [ -z "$INTERVAL" ]; then
                         INTERVAL=${2:-20}
-                    echo "Using default time interval of $INTERVAL minutes."
+                    		echo "Using default time interval of $INTERVAL minutes."
                         else
-                    echo "Time interval set to $INTERVAL minutes."
+                    		echo "Time interval set to $INTERVAL minutes."
                         fi
                     
                             
@@ -1012,6 +1016,7 @@ select opt in $OPTIONS; do
                     echo " "
                     echo "A cron job has been setup for user '$APP_USER',"
                     echo "as a command in /etc/cron.d/cryptocoin:"
+                    echo " "
                     echo "$CRONJOB"
                     echo " "
                     
@@ -1158,8 +1163,8 @@ echo " "
 echo "$DOC_ROOT"
 echo " "
 
-echo "You may now optionally edit the APP DEFAULT CONFIG (configuration file config.php)"
-echo "remotely via SFTP, or by editing app files locally."
+echo "You may now optionally edit the APP DEFAULT CONFIG (configuration file config.php) remotely via SFTP,"
+echo "or by editing app files locally."
 echo " "
 
 
@@ -1169,8 +1174,8 @@ echo " "
 	 echo " "
     echo "$DOC_ROOT/config.php.BACKUP.$DATE.$RAND_STRING"
 	 echo " "
-	 echo "You will need to manually move any CUSTOMIZED DEFAULT settings in this backup file to the NEW config.php file with a text editor,"
-	 echo "otherwise you can just ignore or delete this backup file."
+	 echo "You will need to manually move any CUSTOMIZED DEFAULT settings in this backup file to the NEW config.php"
+	 echo "file with a text editor, otherwise you can just ignore or delete this backup file."
     echo " "
     
     fi

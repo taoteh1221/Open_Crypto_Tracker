@@ -1734,7 +1734,9 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 			
 	
 	
-		<p>Error / debugging logs will automatically display here, if they exist (primary error log always shows, even if empty). <span class='bitcoin'>All log timestamps are UTC time</span> (Coordinated Universal Time). </p>
+		<p>Error / debugging logs will automatically display here, if they exist (primary error log always shows, even if empty).</p>
+		
+		<p><span class='bitcoin'>All log timestamps are UTC time</span> (Coordinated Universal Time). </p>
 		
 		<p><span class='bitcoin'>Current UTC time:</span> <span class='utc_timestamp red'></span></p>
 		

@@ -16,7 +16,10 @@
 			<?php
 			$news_feeds_cache_min_max = explode(',', $app_config['developer']['news_feeds_cache_min_max']);
 			?>
-			<p style='margin-top: 25px; font-weight: bold;' class='bitcoin'>RSS feed data is cached (randomly) between <?=$news_feeds_cache_min_max[0]?> / <?=$news_feeds_cache_min_max[1]?> minutes for quicker load times. Entries are sorted newest to oldest. To see the date an entry was published, hover over it.</p>
+			
+			<p style='margin-top: 25px; font-weight: bold;' class='bitcoin'>RSS feed data is cached (randomly) between <?=$news_feeds_cache_min_max[0]?> / <?=$news_feeds_cache_min_max[1]?> minutes for quicker load times.</p>
+			
+			<p style='margin-top: 25px; font-weight: bold;' class='bitcoin'>Entries are sorted newest to oldest. To see the date an entry was published, hover over it.</p>
 			
 
 

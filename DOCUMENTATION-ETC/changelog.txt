@@ -4364,6 +4364,23 @@ WILL AUTOMATICALLY PREFORM THE RESET (ALERTS / TRACKING WILL BE ACCURATE AFTERWA
 
 
 
+-------------------------------------------------------------------
+4.29.1:
+
+-Significant bug fixes / UX revisions for auto-install script
+
+-Minor documentation / app UX revisions
+
+v4.27.0 and higher of this app RESETS ALL PLUGIN CACHES (A DIRECTORY STRUCTURE UPGRADE), 
+SO ANY PLUGIN ALERTS / TRACKING WILL BE RESET. THE !FIRST! PLUGIN RUNTIMES AFTER UPGRADING
+WILL AUTOMATICALLY PREFORM THE RESET (ALERTS / TRACKING WILL BE ACCURATE AFTERWARDS).
+
+-------------------------------------------------------------------
+
+
+
+
+
 
 
 
