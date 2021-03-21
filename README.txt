@@ -110,7 +110,7 @@ Automatic Setup For Ubuntu or Raspberry Pi, On Home / Internal Network (THE RECO
 
 To install / upgrade everything automatically on Ubuntu or Raspberry Pi (an affordable low power single board computer), copy / paste / run the command below in a terminal program (using the 'Terminal' app in the system menu, or over remote SSH), while logged in AS THE USER THAT WILL RUN THE APP (user must have sudo privileges):
 
-wget -O FOLIO-INSTALL.bash https://git.io/JqCvQ;chmod +x FOLIO-INSTALL.bash;sudo ./FOLIO-INSTALL.bash
+wget --no-cache -O FOLIO-INSTALL.bash https://git.io/JqCvQ;chmod +x FOLIO-INSTALL.bash;sudo ./FOLIO-INSTALL.bash
 
 Follow the prompts. This automated script gives you the options to: install / uninstall a PHP web server automatically, download / install / configure / uninstall the latest version of the Open Crypto Portfolio Tracker app automatically, setup a cron job automatically (for price alerts / price charts), and setup SSH (to update / install web site files remotely to the web server via SFTP) automatically. 
 

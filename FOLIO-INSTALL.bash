@@ -1308,7 +1308,7 @@ select opt in $OPTIONS; do
 			
 			echo " "
 			
-			wget -O TICKER-INSTALL.bash https://raw.githubusercontent.com/taoteh1221/Slideshow_Crypto_Ticker/main/TICKER-INSTALL.bash
+			wget --no-cache -O TICKER-INSTALL.bash https://raw.githubusercontent.com/taoteh1221/Slideshow_Crypto_Ticker/main/TICKER-INSTALL.bash
 			
 			chmod +x TICKER-INSTALL.bash
 			
