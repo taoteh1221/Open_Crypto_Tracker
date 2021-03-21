@@ -1188,8 +1188,7 @@ echo " "
 
 else
 
-echo "Web server setup should now be complete (if you chose that option),"
-echo "unless you saw any errors on screen during setup."
+echo "Web server setup should now be complete (if you chose that option), unless you saw any errors on screen during setup."
 echo " "
 
 echo "Web site app files must be placed inside this folder:"
@@ -1197,8 +1196,8 @@ echo " "
 echo "$DOC_ROOT"
 echo " "
 
-echo "If web server setup has completed successfully, Open Crypto Portfolio Tracker (Server Edition)"
-echo "can now be installed (if you haven't already) in $DOC_ROOT remotely via SFTP, or by copying over app files locally."
+echo "If web server setup has completed successfully, Open Crypto Portfolio Tracker (Server Edition) can now be"
+echo "installed (if you haven't already) in $DOC_ROOT remotely via SFTP, or by copying over app files locally."
 echo " "
 
 fi
@@ -1230,6 +1229,7 @@ fi
 
 
 echo "#INTERNAL# NETWORK SSL / HTTPS (secure / private SSL connection) web addresses are..."
+echo " "
 echo "IP ADDRESS (may change, unless set as static for this device within the router):"
 echo " "
 echo "https://$IP"
