@@ -157,7 +157,10 @@
     		
     		?></div>
 	
-	<p class='bitcoin' style='font-weight: bold;'>Charts may take awhile to update with the latest data. See Admin Config POWER USER section, to adjust vertical axis scales.</p>	
+	<p class='bitcoin' style='font-weight: bold;'>See Admin Config POWER USER section, to adjust vertical axis scales.</p>	
+	
+	<p class='bitcoin' style='font-weight: bold;'>Charts may take awhile to update with the latest data.</p>	
+	
 	
 	<?php
 	$all_chart_rebuild_min_max = explode(',', $app_config['developer']['all_chart_rebuild_min_max']);
