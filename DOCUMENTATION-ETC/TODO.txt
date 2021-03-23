@@ -35,6 +35,9 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
+Add a base url var and check for admin login, so multiple installs on the same server have seperate logins (right now we just store a session var indicating login, WITHOUT INDICATING AT WHAT URL ON THE SERVER).
+
+
 Add "do not disturb - start" and "do not disturb - end" configuration settings to the recurring reminder plugin.
 
 
@@ -142,6 +145,9 @@ https://zksync.io/api/v0.1.html
 ///////////////////////////////////////////////////////
 FEATURES / STRUCTURING SECTION
 ///////////////////////////////////////////////////////
+
+
+Add logic to offer securing the computer in the auto-install. Add subsections "Requiring Password For Sudo (Admin)" / "Disabling Bluetooth" / "Enabling firewall" inside a main prompt "Would you like to secure your computer against hacks?" For the bluetooth disabling section, include a commented section so we know if we've already APPENDED (>> IN BASH, NOT >) to boot/config.txt (like we do for htaccess). For firewall setup add a loop that you add new ports to open and quit the loop when finished...AND AUTOMATICALLY OPEN PORTS 80 / 443 FOR THIS APP, AND SSH STUFF TOO IF DETECTED AS INSTALLED ON THE SYSTEM!
 
 
 Create a power user config option to toggle between plain text and HTML email. We can have the queue_notifications() function detect if HTML email is enabled, and run email messages through PHP's built-in nl2br() function if so, which converts newlines to <br /> tags.

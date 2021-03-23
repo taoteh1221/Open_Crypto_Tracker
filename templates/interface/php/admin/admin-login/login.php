@@ -82,7 +82,7 @@ if ( !$_POST['submit_login'] || sizeof($login_result['error']) > 0 ) {
   
   	 <div class='align_center' style='display: inline-block;'>
   	 
-  	 <p><img id='captcha_image' src='templates/interface/media/images/captcha.php' alt='' class='image_border' />
+  	 <p><img id='captcha_image' src='templates/interface/media/images/captcha.php' alt='' title='CAPTCHA image text contrast can be adjusted in Admin Config, within the "Power User" section.' class='image_border' />
   	 <br />
   	 <a href='javascript: refreshImage("captcha_image", "templates/interface/media/images/captcha.php");' class='bitcoin' style='font-weight: bold;' title='CAPTCHA image text contrast can be adjusted in Admin Config, within the "Power User" section.'>Get A Different Image</a>
   	 </p>

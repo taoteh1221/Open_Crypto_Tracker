@@ -43,7 +43,7 @@
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;">To see your margin leverage stats after updating your portfolio, go to the bottom of the Portfolio page, where you\'ll find a summary section. Hovering over the "I" icon next to the Gain / Loss summary will display any margin leverage stats per-asset. There is also an "I" icon in the far right-side data table column (Subtotal), which you can hover over for margin leverage stats too.</p>'
 			
-			+'<p class="coin_info balloon_notation extra_margins yellow" style="white-space: normal; max-width: 600px;">*Current maximum margin leverage setting of <?=$app_config['general']['margin_leverage_max']?>x can be adjusted in the Admin Config GENERAL section.</p>'
+			+'<p class="coin_info balloon_notation extra_margins yellow" style="white-space: normal; max-width: 600px;">*Current maximum margin leverage setting of <?=$app_config['power_user']['margin_leverage_max']?>x can be adjusted in the Admin Config POWER USER section.</p>'
 			
 			+'<p> </p>';
 
@@ -769,7 +769,7 @@
 	     <option value='0' <?=( $coin_leverage_value == 0 || remove_number_format($coin_paid_value) < 0.00000001 ? 'selected' : '' )?>> None </option>
 	     <?php
 	     $leverage_count = 2;
-	     while ( $app_config['general']['margin_leverage_max'] > 1 && $leverage_count <= $app_config['general']['margin_leverage_max'] ) {
+	     while ( $app_config['power_user']['margin_leverage_max'] > 1 && $leverage_count <= $app_config['power_user']['margin_leverage_max'] ) {
 	     ?>	     
 	     <option value='<?=$leverage_count?>' <?=( $coin_leverage_value == $leverage_count && remove_number_format($coin_paid_value) >= 0.00000001 ? 'selected' : '' )?>> <?=$leverage_count?>x </option>
 	     <?php

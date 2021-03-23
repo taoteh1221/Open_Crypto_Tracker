@@ -181,12 +181,16 @@ $app_config['general']['backup_archive_password'] = ''; // LEAVE BLANK TO DISABL
 $app_config['general']['etherscanio_api_key'] = '';
 
 
+// API key for defipulse.com API (required unfortunately, but a FREE level is available): https://data.defipulse.com/
+$app_config['general']['defipulsecom_api_key'] = '';
+
+
 // API key for coinmarketcap.com Pro API (required unfortunately, but a FREE level is available): https://coinmarketcap.com/api
 $app_config['general']['coinmarketcapcom_api_key'] = '';
 
 
-// API key for defipulse.com API (required unfortunately, but a FREE level is available): https://data.defipulse.com/
-$app_config['general']['defipulsecom_api_key'] = '';
+// Default marketcap data source: 'coingecko', or 'coinmarketcap' (COINMARKETCAP REQUIRES A #FREE# API KEY, see $app_config['general']['coinmarketcapcom_api_key'] above)
+$app_config['general']['primary_marketcap_site'] = 'coingecko'; 
 
 
 // Default BITCOIN market currencies (80+ currencies supported)
@@ -223,12 +227,6 @@ $app_config['general']['primary_currency_decimals_max'] = 5; // Whole numbers on
 $app_config['general']['primary_currency_decimals_max_threshold'] = 1.00; // Can be decimals, NO SYMBOLS, NUMBERS ONLY
 
 
-// ENABLING CHARTS REQUIRES A CRON JOB SETUP (see README.txt for cron job setup information)
-// Enables a charts tab / page, and caches real-time updated historical chart data on your device's storage drive
-// Disabling will disable EVERYTHING related to the price charts (price charts tab / page, and price chart data caching)
-$app_config['general']['asset_charts_toggle'] = 'on'; // 'on' / 'off'
-
-
 // Your local time offset IN HOURS, COMPARED TO UTC TIME. Can be negative or positive.
 // (Used for user experience 'pretty' timestamping in interface logic ONLY, WILL NOT change or screw up UTC log times etc if you change this)
 $app_config['general']['local_time_offset'] = -4; // example: -5 or 5
@@ -238,11 +236,10 @@ $app_config['general']['local_time_offset'] = -4; // example: -5 or 5
 $app_config['general']['default_theme'] = 'dark'; // 'dark' or 'light'
 
 
-// Default marketcap data source: 'coingecko', or 'coinmarketcap' (COINMARKETCAP REQUIRES A #FREE# API KEY, see $app_config['general']['coinmarketcapcom_api_key'] above)
-$app_config['general']['primary_marketcap_site'] = 'coingecko'; 
-
-
-$app_config['general']['margin_leverage_max'] = 150; // Maximum margin leverage available in the user interface ('Update' page, etc)
+// ENABLING CHARTS REQUIRES A CRON JOB SETUP (see README.txt for cron job setup information)
+// Enables a charts tab / page, and caches real-time updated historical chart data on your device's storage drive
+// Disabling will disable EVERYTHING related to the price charts (price charts tab / page, and price chart data caching)
+$app_config['general']['asset_charts_toggle'] = 'on'; // 'on' / 'off'
 
 
 ////////////////////////////////////////
@@ -476,7 +473,7 @@ $app_config['power_user']['activate_plugins'] = array(
 // Set too low you won't get ALL data (partial or zero bytes), set too high the interface can take a long time loading if an API server hangs up
 // RECOMMENDED MINIMUM OF 60 FOR INSTALLS BEHIND #LOW BANDWIDTH# NETWORKS 
 // (which may need an even higher timeout above 60 if data still isn't FULLY received from all APIs)
-$app_config['power_user']['remote_api_timeout'] = 30; // (default = 30)
+$app_config['power_user']['remote_api_timeout'] = 35; // (default = 35)
 
 
 // MINUTES to cache real-time exchange price data...can be zero to skip cache, but set to at least 1 minute TO AVOID YOUR IP ADDRESS GETTING BLOCKED
@@ -494,6 +491,10 @@ $app_config['power_user']['marketcap_cache_time'] = 50;  // (default = 50)
 // Number of marketcap rankings to request from API.
 // 300 rankings is a safe maximum to start with, to avoid getting your API requests throttled / blocked
 $app_config['power_user']['marketcap_ranks_max'] = 300; // (default = 300)
+
+
+// Maximum margin leverage available in the user interface ('Update' page, etc)
+$app_config['power_user']['margin_leverage_max'] = 150; 
 
 
 // Lite charts (load just as quickly for any time interval, 7 day / 30 day / 365 day / etc)
@@ -558,8 +559,12 @@ $app_config['power_user']['logs_email'] = 0;
 $app_config['power_user']['logs_purge'] = 10; 
 		
 
-// Contrast of CAPTCHA IMAGE text against background (on login pages)...0 for default, positive for extra contrast, negative for less contrast (maximum of +-35)
-$app_config['power_user']['captcha_text_contrast'] = 0; // example: -5 or 5 (default = 0)
+// CONTRAST of CAPTCHA IMAGE text against background (on login pages)
+// 0 for neutral contrast, positive for more contrast, negative for less contrast (MAXIMUM OF +-35)
+$app_config['power_user']['captcha_text_contrast'] = -9; // example: -5 or 5 (default = -9)
+////
+// MAX OFF-ANGLE DEGREES (tilted backward / forward) of CAPTCHA IMAGE text characters (MAXIMUM OF 35)
+$app_config['power_user']['captcha_text_angle'] = 35; // (default = 35)
 
 
 // Days until old backup archives should be deleted (chart data archives, etc)

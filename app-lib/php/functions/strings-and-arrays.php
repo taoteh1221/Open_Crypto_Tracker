@@ -328,7 +328,7 @@ $csv_row[2] = ( remove_number_format($csv_row[2]) >= 0 ? remove_number_format($c
 $csv_row[3] = ( whole_int($csv_row[3]) != false && $csv_row[3] >= 0 ? $csv_row[3] : 0 ); 
 	
 // If leverage is ABOVE 'margin_leverage_max', default to 'margin_leverage_max'
-$csv_row[3] = ( $csv_row[3] <= $app_config['general']['margin_leverage_max'] ? $csv_row[3] : $app_config['general']['margin_leverage_max'] ); 
+$csv_row[3] = ( $csv_row[3] <= $app_config['power_user']['margin_leverage_max'] ? $csv_row[3] : $app_config['power_user']['margin_leverage_max'] ); 
 
 // Default to 'long', if not 'short' (set to lowercase...simple auto-correct, if set to anything other than 'short')
 $csv_row[4] = ( strtolower($csv_row[4]) == 'short' ? strtolower($csv_row[4]) : 'long' ); 
