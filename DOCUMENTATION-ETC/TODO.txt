@@ -35,9 +35,6 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
-Add a base url var and check for admin login, so multiple installs on the same server have seperate logins (right now we just store a session var indicating login, WITHOUT INDICATING AT WHAT URL ON THE SERVER).
-
-
 Add "do not disturb - start" and "do not disturb - end" configuration settings to the recurring reminder plugin.
 
 

@@ -429,7 +429,7 @@ if ( $password_reset_approved || sizeof($stored_admin_login) != 2 ) {
 		
 		
 		// If the admin login update was a success, delete old data file / login / redirect
-		if ( $admin_login_updated ) {
+		if ( trim($base_url) != '' && $admin_login_updated ) {
 		
 			// Delete any previous active admin login data file
 			if ( $active_admin_login_path ) {
@@ -443,7 +443,8 @@ if ( $password_reset_approved || sizeof($stored_admin_login) != 2 ) {
 			
 	
 		// Login now, before redirect
-		$_SESSION['admin_logged_in'] = $stored_admin_login;
+		// COMPATIBLE WITH MULTIPLE INSTALLS ON SAME SERVER
+		$_SESSION['admin_logged_in'][md5($base_url)] = $stored_admin_login;
 		
 		// Redirect to avoid quirky page reloads later on, AND preset the admin login page for good UX
 		header("Location: admin.php");

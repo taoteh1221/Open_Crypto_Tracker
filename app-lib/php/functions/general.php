@@ -273,15 +273,15 @@ return("".round($bytes, $round)." ".$type[$index]."bytes");
 // To keep admin nonce key a secret, and make CSRF attacks harder with a different key per submission item
 function admin_hashed_nonce($key) {
 	
-	if ( !isset($_SESSION['admin_logged_in']) ) {
-	return false;
-	}
+global $base_url;
 	
-	if ( !isset($_SESSION['nonce']) ) {
+	// Run fairly strict checks
+	if ( !isset( $_SESSION['admin_logged_in'][md5($base_url)] )
+	|| !isset( $_SESSION['nonce'][md5($base_url)] ) ) {
 	return false;
 	}
 	else {
-	return get_digest($key . $_SESSION['nonce']);
+	return get_digest( $key . $_SESSION['nonce'][md5($base_url)] );
 	}
 	
 }
@@ -653,10 +653,14 @@ return strtolower( trim($host) );
 
 function check_pepper_hashed_password($input_password, $stored_hashed_password) {
 
-global $password_pepper;
+global $password_pepper, $stored_admin_login;
 
 	if ( !$password_pepper ) {
 	app_logging('config_error', '$password_pepper not set properly');
+	return false;
+	}
+	elseif ( sizeof($stored_admin_login) != 2 ) {
+	app_logging('config_error', 'No admin login set yet to check against');
 	return false;
 	}
 	else {
@@ -2502,7 +2506,10 @@ $system['operating_system'] = php_uname();
 		$system['model_name'] = $cpu['cpu_info']['model_name'];
 		}
 	
-		if ( $cpu['cpu_info']['siblings'] ) {
+		if ( $cpu['cpu_info']['processor'] ) {
+		$system['cpu_threads'] = $cpu['cpu_info']['processor'] + 1;
+		}
+		elseif ( $cpu['cpu_info']['siblings'] ) {
 		$system['cpu_threads'] = $cpu['cpu_info']['siblings'];
 		}
 	

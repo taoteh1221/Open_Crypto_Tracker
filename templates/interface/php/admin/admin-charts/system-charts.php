@@ -5,7 +5,7 @@
 
 
 // Don't load any data if admin isn't logged in
-if ( isset($_SESSION['admin_logged_in']) ) {
+if ( isset( $_SESSION['admin_logged_in'][md5($base_url)] ) ) {
 
 
 

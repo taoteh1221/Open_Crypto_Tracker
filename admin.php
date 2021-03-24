@@ -25,12 +25,12 @@ require("templates/interface/php/admin/admin-login/register.php");
 exit;
 }
 // If not logged in
-elseif ( sizeof($stored_admin_login) == 2 && !isset($_SESSION['admin_logged_in']) ) {
+elseif ( !isset( $_SESSION['admin_logged_in'][md5($base_url)] ) ) {
 require("templates/interface/php/admin/admin-login/login.php");
 exit;
 }
 // If logged in
-elseif ( sizeof($stored_admin_login) == 2 && isset($_SESSION['admin_logged_in']) ) {
+else {
 require("templates/interface/php/header.php");
 }
 

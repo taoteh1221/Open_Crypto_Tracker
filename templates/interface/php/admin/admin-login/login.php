@@ -15,11 +15,16 @@ if ( $_POST['admin_submit_login'] ) {
 	else {
 				
 				// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-				if ( sizeof($stored_admin_login) == 2 && trim($_POST['admin_username']) != '' && $_POST['admin_password'] != '' 
+				if ( trim($base_url) != '' && trim($_POST['admin_username']) != '' && $_POST['admin_password'] != '' 
 				&& $_POST['admin_username'] == $stored_admin_login[0] && check_pepper_hashed_password($_POST['admin_password'], $stored_admin_login[1]) == true ) {
-				$_SESSION['admin_logged_in'] = $stored_admin_login;
+				
+				// Login now, before redirect
+				// COMPATIBLE WITH MULTIPLE INSTALLS ON SAME SERVER
+				$_SESSION['admin_logged_in'][md5($base_url)] = $stored_admin_login;
+				
 				header("Location: admin.php");
 				exit;
+				
 				}
 				else {
 				$login_result['error'][] = "Wrong username / password.";

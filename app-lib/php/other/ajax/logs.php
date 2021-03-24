@@ -6,7 +6,7 @@
 
 // Logs library
 
-if ( !isset($_SESSION['admin_logged_in']) ) {
+if ( !isset( $_SESSION['admin_logged_in'][md5($base_url)] ) ) {
 exit;
 }
 

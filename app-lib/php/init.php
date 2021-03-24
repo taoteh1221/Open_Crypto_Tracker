@@ -10,7 +10,7 @@
 
 
 // Application version
-$app_version = '4.30.0';  // 2021/MARCH/23RD
+$app_version = '4.29.2';  // 2021/MARCH/24TH
 
 // Application edition
 $app_edition = 'server';  // 'server' OR 'desktop' edition (LOWERCASE)
@@ -123,7 +123,6 @@ else {
 // Session start
 session_start(); // New session start
 
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////// APP   I N I T   S E T T I N G S /////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -137,6 +136,25 @@ $base_dir = preg_replace("/\/app-lib(.*)/i", "", dirname(__FILE__) );
 require_once('app-lib/php/functions-loader.php');
 
 
+//!!!!!!!!!! IMPORTANT, ALWAYS LEAVE THIS HERE !!!!!!!!!!!!!!!
+// FOR #UI LOGIN / LOGOUT SECURITY#, WE NEED THIS SET #VERY EARLY# IN INIT TOO,
+// EVEN THOUGH WE RUN LOGIC AGAIN FURTHER DOWN IN INIT TO SET THIS UNDER
+// ALL CONDITIONS (EVEN CRON RUNTIMES), AND REFRESH VAR CACHE FOR CRON LOGIC
+if ( $runtime_mode == 'ui' || $runtime_mode == 'ajax' ) {
+$base_url = base_url();
+}
+
+
+// Current runtime user
+$current_runtime_user = posix_getpwuid(posix_geteuid())['name'];
+
+
+// Get WEBSERVER runtime user (from cache if currently running from CLI)
+// MUST BE SET BEFORE CACHE STRUCTURE CREATION, TO RUN IN COMPATIBILITY MODE (IF NEEDED) FOR THIS PARTICULAR SERVER'S SETUP
+// WE HAVE FALLBACKS IF THIS IS NULL IN store_file_contents() WHEN WE STORE CACHE FILES, SO A BRAND NEW INTALL RUN FIRST VIA CRON IS #OK#
+$http_runtime_user = ( $runtime_mode == 'ui' ? $current_runtime_user : trim( file_get_contents('cache/vars/http_runtime_user.dat') ) );
+
+
 //////////////////////////////////////////////////////////////
 // Set global runtime app arrays / vars...
 //////////////////////////////////////////////////////////////
@@ -145,10 +163,14 @@ require_once('app-lib/php/functions-loader.php');
 // Nonce for unique runtime logic
 $runtime_nonce = random_hash(16); // 16 byte
 
-// Nonce for secured login session logic
-if ( !isset($_SESSION['nonce']) ) {
-$_SESSION['nonce'] = random_hash(32); // 32 byte
+
+// Nonce for secured login session logic in UI
+// COMPATIBLE WITH MULTIPLE INSTALLS ON SAME SERVER
+if ( $runtime_mode == 'ui' && !isset( $_SESSION['nonce'][md5($base_url)] )
+|| $runtime_mode == 'ajax' && !isset( $_SESSION['nonce'][md5($base_url)] ) ) {
+$_SESSION['nonce'][md5($base_url)] = random_hash(32); // 32 byte
 }
+
 
 // If user is logging out (run immediately after setting session vars, for quick runtime)
 if ( $_GET['logout'] == 1 && admin_hashed_nonce('logout') != false && $_GET['admin_hashed_nonce'] == admin_hashed_nonce('logout') ) {
@@ -275,13 +297,6 @@ $remote_ip = ( isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'local
 // Get system info for debugging / stats
 $system_info = system_info(); // MUST RUN AFTER SETTING $base_dir
 
-// Current runtime user
-$current_runtime_user = posix_getpwuid(posix_geteuid())['name'];
-
-// Get WEBSERVER runtime user (from cache if currently running from CLI)
-// MUST BE SET BEFORE CACHE STRUCTURE CREATION, TO RUN IN COMPATIBILITY MODE (IF NEEDED) FOR THIS PARTICULAR SERVER'S SETUP
-$http_runtime_user = ( $runtime_mode == 'ui' ? posix_getpwuid(posix_geteuid())['name'] : trim( file_get_contents('cache/vars/http_runtime_user.dat') ) );
-
 // If upgrade check enabled / cached var set, set the runtime var for any configured alerts
 $upgrade_check_latest_version = trim( file_get_contents('cache/vars/upgrade_check_latest_version.dat') );
 
@@ -361,13 +376,13 @@ require_once('app-lib/php/other/security/directory-security.php');
 // UI-CACHED VARS THAT !MUST! BE AVAILABLE BEFORE SYSTEM CHECKS, #BUT# MUST RUN AFTER DIRECTORY CREATION
 if ( $runtime_mode == 'ui' ) {
 	
-	// Have UI / HTTP runtime mode cache the runtime_user data every 24 hours, since CLI runtime cannot determine the UI / HTTP runtime_user 
+	// Have UI / HTTP runtime mode RE-CACHE the runtime_user data every 24 hours, since CLI runtime cannot determine the UI / HTTP runtime_user 
 	if ( update_cache_file('cache/vars/http_runtime_user.dat', (60 * 24) ) == true ) {
 	store_file_contents('cache/vars/http_runtime_user.dat', $http_runtime_user); // ALREADY SET FURTHER UP IN INIT.PHP
 	}
 
 
-	// Have UI runtime mode cache the app URL data every 24 hours, since CLI runtime cannot determine the app URL (for sending backup link emails during backups, etc)
+	// Have UI runtime mode RE-CACHE the app URL data every 24 hours, since CLI runtime cannot determine the app URL (for sending backup link emails during backups, etc)
 	if ( update_cache_file('cache/vars/base_url.dat', (60 * 24) ) == true ) {
 	$base_url = base_url();
 	store_file_contents('cache/vars/base_url.dat', $base_url);

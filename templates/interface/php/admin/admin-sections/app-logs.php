@@ -10,14 +10,18 @@
 <div class='full_width_wrapper'>
 	
 	
+   <ul>
 	
-		<p>Error / debugging logs will automatically display here, if they exist (primary error log always shows, even if empty).</p>
+	<li class='bitcoin' style='font-weight: bold;'>Error / debugging logs will automatically display here, if they exist (primary error log always shows, even if empty).</li>	
+	
+	<li class='bitcoin' style='font-weight: bold;'>All log timestamps are UTC time (Coordinated Universal Time).</li>	
+	
+	<li class='bitcoin' style='font-weight: bold;'>Current UTC time: <span class='utc_timestamp red'></span></li>	
+   
+   </ul>
+	
 		
-		<p><span class='bitcoin'>All log timestamps are UTC time</span> (Coordinated Universal Time). </p>
-		
-		<p><span class='bitcoin'>Current UTC time:</span> <span class='utc_timestamp red'></span></p>
-		
-		<p class='bitcoin'>Log format: </p>
+		<p class='red' style='font-weight: bold;'>*Log format: </p>
 		
 	   <!-- Looks good highlighted as: less, yaml  -->
 	   <pre class='rounded' style='display: inline-block;<?=( is_msie() == false ? ' padding-top: 1em !important;' : '' )?>'><code class='hide-x-scroll less' style='white-space: nowrap; width: auto; display: inline-block;'>[UTC timestamp] runtime_mode => error_type: error_message; [ (tracing if log verbosity set to verbose) ]</code></pre>

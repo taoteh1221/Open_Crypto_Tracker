@@ -4380,7 +4380,11 @@ WILL AUTOMATICALLY PREFORM THE RESET (ALERTS / TRACKING WILL BE ACCURATE AFTERWA
 
 
 -------------------------------------------------------------------
-4.30.0:
+4.29.2:
+
+-Bug fix for login authentication WITH MULTIPLE INSTALLS ON THE #SAME# MACHINE / SERVER (logged into both instances, with only one login)
+
+-Bug fix for system stats correctly detecting the number of CPU threads / cores (affected system load alerts)
 
 -Improved login captcha image security
 

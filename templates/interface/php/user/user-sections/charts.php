@@ -55,10 +55,15 @@
 	
 	</div>
 	
+    		
+   <ul style='margin-top: 25px; font-weight: bold;'>
 	
-	<p style='margin-top: 25px; font-weight: bold;' class='bitcoin'>If your web browser freezes on this page for a long time, try selecting fewer charts.</p>	
+	<li class='bitcoin' style='font-weight: bold;'>If your web browser freezes on this page for a long time, try selecting fewer charts.</li>	
 	
-	<p style='margin-top: 25px; font-weight: bold;' class='bitcoin'>Charts may take awhile to update with the latest data.</p>	
+	<li class='bitcoin' style='font-weight: bold;'>Charts may take awhile to update with the latest data.</li>	
+   
+   </ul>
+   
 				
 	<p style='margin-top: 25px;'><button class="show_chart_settings force_button_style">Select Charts</button></p>
 	

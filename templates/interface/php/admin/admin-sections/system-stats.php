@@ -108,65 +108,72 @@
 	
     		// Output
     		if ( isset($system_info['operating_system']) ) {
-    		echo '<span class="bitcoin"><b>Operating System:</b></span> <br /><span class="blue"> '.$system_info['operating_system'].'</span> <br />';
+    		echo '<div class="sys_stats"><span class="bitcoin"><b>Operating System:</b></span> <span class="blue"> '.$system_info['operating_system'].'</span> </div>';
     		}
     		
     		if ( isset($system_info['model']) || isset($system_info['hardware']) ) {
     			
     			if ( isset($system_info['model']) ) {
-    			echo '<span class="bitcoin"><b>Model:</b></span> <span class="blue"> '.$system_info['model'].( isset($system_info['hardware']) ? ' ('.$system_info['hardware'].')' : '' ).'</span> <br />';
+    			echo '<div class="sys_stats"><span class="bitcoin"><b>Model:</b></span> <span class="blue"> '.$system_info['model'].( isset($system_info['hardware']) ? ' ('.$system_info['hardware'].')' : '' ).'</span> </div>';
     			}
     			else {
-    			echo '<span class="bitcoin"><b>Hardware:</b></span> <span class="blue"> '.$system_info['hardware'].'</span> <br />';
+    			echo '<div class="sys_stats"><span class="bitcoin"><b>Hardware:</b></span> <span class="blue"> '.$system_info['hardware'].'</span> </div>';
     			}
     		
     		}
     		
     		if ( isset($system_info['model_name']) ) {
-    		echo '<span class="bitcoin"><b>CPU:</b></span> <span class="blue"> '.$system_info['model_name'].'</span> ' . ( $system_info['cpu_threads'] > 1 ? '(' . $system_info['cpu_threads'] . ' threads)' : '' ) . ' <br />';
+    		echo '<div class="sys_stats"><span class="bitcoin"><b>CPU:</b></span> <span class="blue"> '.$system_info['model_name'].'</span> ' . ( $system_info['cpu_threads'] > 1 ? '(' . $system_info['cpu_threads'] . ' threads)' : '' ) . ' </div>';
     		}
     		
     		if ( isset($system_info['uptime']) ) {
-    		echo '<span class="bitcoin"><b>Uptime:</b></span> <span class="'.( isset($system_alerts['uptime']) ? 'red' : 'green' ).'"> '.$system_info['uptime'].'</span> <br />';
+    		echo '<div class="sys_stats"><span class="bitcoin"><b>Uptime:</b></span> <span class="'.( isset($system_alerts['uptime']) ? 'red' : 'green' ).'"> '.$system_info['uptime'].'</span> </div>';
     		}
     		
     		if ( isset($system_info['system_load']) ) {
-    		echo '<span class="bitcoin"><b>Load:</b></span> <span class="'.( isset($system_alerts['system_load']) ? 'red' : 'green' ).'"> '.$system_info['system_load'].'</span> <br />';
+    		echo '<div class="sys_stats"><span class="bitcoin"><b>Load:</b></span> <span class="'.( isset($system_alerts['system_load']) ? 'red' : 'green' ).'"> '.$system_info['system_load'].'</span> </div>';
     		}
     		
     		if ( isset($system_info['system_temp']) ) {
-    		echo '<span class="bitcoin"><b>Temperature:</b></span> <span class="'.( isset($system_alerts['system_temp']) ? 'red' : 'green' ).'"> '.$system_info['system_temp'].'</span> <br />';
+    		echo '<div class="sys_stats"><span class="bitcoin"><b>Temperature:</b></span> <span class="'.( isset($system_alerts['system_temp']) ? 'red' : 'green' ).'"> '.$system_info['system_temp'].'</span> </div>';
     		}
     		
     		if ( isset($system_info['memory_used_megabytes']) ) {
-    		echo '<span class="bitcoin"><b>Used Memory (*not* including buffers / cache):</b></span> <br /><span class="'.( isset($system_alerts['memory_used_megabytes']) ? 'red' : 'green' ).'"> '.round($system_info['memory_used_megabytes'] / 1000, 4).' Gigabytes <span class="black">('.number_format($system_info['memory_used_megabytes'], 2, '.', ',').' Megabytes / '.$system_info['memory_used_percent'].'%)</span></span> <br />';
+    		echo '<div class="sys_stats"><span class="bitcoin"><b>Used Memory (*not* including buffers / cache):</b></span> <span class="'.( isset($system_alerts['memory_used_megabytes']) ? 'red' : 'green' ).'"> '.round($system_info['memory_used_megabytes'] / 1000, 4).' Gigabytes <span class="black">('.number_format($system_info['memory_used_megabytes'], 2, '.', ',').' Megabytes / '.$system_info['memory_used_percent'].'%)</span></span> </div>';
     		}
     		
     		if ( isset($system_info['free_partition_space']) ) {
-    		echo '<span class="bitcoin"><b>Free Disk Space:</b></span> <span class="'.( isset($system_alerts['free_partition_space']) ? 'red' : 'green' ).'"> '.round($system_free_space_mb / 1000000, 4).' Terabytes <span class="black">('.number_format($system_free_space_mb / 1000, 2, '.', ',').' Gigabytes)</span></span> <br />';
+    		echo '<div class="sys_stats"><span class="bitcoin"><b>Free Disk Space:</b></span> <span class="'.( isset($system_alerts['free_partition_space']) ? 'red' : 'green' ).'"> '.round($system_free_space_mb / 1000000, 4).' Terabytes <span class="black">('.number_format($system_free_space_mb / 1000, 2, '.', ',').' Gigabytes)</span></span> </div>';
     		}
     		
     		if ( isset($system_info['portfolio_cache']) ) {
-    		echo '<span class="bitcoin"><b>Portfolio Cache Size:</b></span> <span class="'.( isset($system_alerts['portfolio_cache']) ? 'red' : 'green' ).'"> '.round($portfolio_cache_size_mb / 1000, 4).' Gigabytes <span class="black">('.number_format($portfolio_cache_size_mb, 2, '.', ',').' Megabytes)</span></span> <br />';
+    		echo '<div class="sys_stats"><span class="bitcoin"><b>Portfolio Cache Size:</b></span> <span class="'.( isset($system_alerts['portfolio_cache']) ? 'red' : 'green' ).'"> '.round($portfolio_cache_size_mb / 1000, 4).' Gigabytes <span class="black">('.number_format($portfolio_cache_size_mb, 2, '.', ',').' Megabytes)</span></span> </div>';
     		}
     		
     		if ( isset($system_info['software']) ) {
-    		echo '<span class="bitcoin"><b>Software:</b></span> <span class="blue"> '.$system_info['software'].'</span> <br />';
+    		echo '<div class="sys_stats"><span class="bitcoin"><b>Software:</b></span> <span class="blue"> '.$system_info['software'].'</span> </div>';
     		}
     		
     		
     		?></div>
+    		
+    		
+   <ul>
 	
-	<p class='bitcoin' style='font-weight: bold;'>See Admin Config POWER USER section, to adjust vertical axis scales.</p>	
+	<li class='bitcoin' style='font-weight: bold;'>System load is always MULTIPLIED by the number of threads.</li>	
 	
-	<p class='bitcoin' style='font-weight: bold;'>Charts may take awhile to update with the latest data.</p>	
+	<li class='bitcoin' style='font-weight: bold;'>See Admin Config POWER USER section, to adjust vertical axis scales.</li>	
+	
+	<li class='bitcoin' style='font-weight: bold;'>Charts may take awhile to update with the latest data.</li>	
+   
+   </ul>
 	
 	
 	<?php
 	$all_chart_rebuild_min_max = explode(',', $app_config['developer']['all_chart_rebuild_min_max']);
 	?>
 	
-	<p class='red' style='font-weight: bold;'>*The most recent days in the 'ALL' chart WILL ALWAYS show a spike on the cron runtime seconds (from re-building the 'ALL' chart every <?=$all_chart_rebuild_min_max[0]?> to <?=$all_chart_rebuild_min_max[1]?> hours), until the 'ALL' chart re-builds slowly average out only showing their own runtime data for older days.</p>		
+	<p class='sys_stats red' style='font-weight: bold;'>*The most recent days in the 'ALL' chart MAY ALWAYS show a spike on the cron runtime seconds (ON SLOWER MACHINES, from re-building the 'ALL' chart every <?=$all_chart_rebuild_min_max[0]?> to <?=$all_chart_rebuild_min_max[1]?> hours), until the 'ALL' chart re-builds slowly average out only showing their own runtime data for older days.</p>		
     		
 	
 	<div class='red' id='system_charts_error'></div>
