@@ -72,7 +72,7 @@ $app_config['power_user']['captcha_text_contrast'] = 35;
 }
 
 // Idiot-proof maximum of 35 degrees on captcha text angle-offset
-if ( abs($app_config['power_user']['captcha_text_angle']) > 35 ) {
+if ( abs($app_config['power_user']['captcha_text_angle']) > 35 || $app_config['power_user']['captcha_text_angle'] < 0 ) {
 $app_config['power_user']['captcha_text_angle'] = 35;
 }
 

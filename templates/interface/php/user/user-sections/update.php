@@ -127,6 +127,14 @@
 						<i><u>Expanded-upon version of above IMPORTANT disclaimer / advisory</u>:</i> 
 						
 						<ul>
+							
+							<li class='bitcoin disclaimer'>
+								The biggest investment you will EVER make (and NEVER regret) is ALWAYS value your health and happiness more than ALL THE MONEY IN THE WORLD. NEVER let chasing after ANY AMOUNT of wealth take that from you, EVER.
+							</li>
+							
+							<li class='bitcoin disclaimer'>
+								The "grass on the other side looks greener" MORE OFTEN THAN NOT will always be in your head, when you see other assets performing better than the ones you currently are holding. That's why it's SO IMPORTANT TO DO YOUR REASEARCH FULLY! If you KNOW you didn't buy garbage, AND you didn't over-extend your position (you CAN afford to hold it for a few years without selling any), just RELAX AND DON'T BE GREEDY...otherwise you are living for money (not ENJOYING life itself) AND YOU WILL END UP FLIPPING YOURSELF OUT, WHICH IS A CRAPPY WAY TO LIVE!
+							</li>
 						
 							<li class='bitcoin disclaimer'>
 								<i>NEVER</i> invest more than you can afford to lose.
@@ -170,10 +178,6 @@
 							
 							<li class='bitcoin disclaimer'>
 								<i>Hang on tight</i> until you can't stand fully holding anymore / want to or must make a position exit percentage <i><u>OFFICIAL</u></i>. (YOU HAVEN'T "LOST" <i><u>OR</u></i> "MADE" <i><u>ANYTHING</u></i> UNTIL YOU SELL A PERCENTAGE OF IT!)
-							</li>
-							
-							<li class='bitcoin disclaimer'>
-								The biggest investment you will EVER make (and NEVER regret) is ALWAYS value your health and happiness more than ALL THE MONEY IN THE WORLD. NEVER let chasing after ANY AMOUNT of wealth take that from you, EVER.
 							</li>
 							
 							<li class='bitcoin disclaimer'>

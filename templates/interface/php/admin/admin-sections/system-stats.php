@@ -160,7 +160,7 @@
     		
    <ul>
 	
-	<li class='bitcoin' style='font-weight: bold;'>System load is always MULTIPLIED by the number of threads.</li>	
+	<li class='bitcoin' style='font-weight: bold;'>System load is always (roughly) MULTIPLIED by the number of threads.</li>	
 	
 	<li class='bitcoin' style='font-weight: bold;'>See Admin Config POWER USER section, to adjust vertical axis scales.</li>	
 	

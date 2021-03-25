@@ -146,7 +146,7 @@ $base_url = base_url();
 
 
 // Give our session a unique name (from an install ID hash, created from the base URL)
-// MUST BE SET AFTER $base_url
+// MUST BE SET AFTER $base_url / $base_dir
 session_name( pt_id() );
 
 

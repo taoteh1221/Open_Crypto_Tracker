@@ -147,6 +147,10 @@ var quoteSource=[
 	    {
 	    	quote:"Investing versus speculating: One is a LONG TERM commitment you believe has high quality fundamentals that will preserve and grow value, and the other is a SHORT TERM commitment you believe is currently lacking accurate price discovery. For each asset you buy, it's important to CONSCIOUSLY know whether you are investing, or merely speculating.",
 	    	name:"taoteh1221 (creator of this app)"
+	    },
+	    {
+	    	quote:"The \"grass on the other side looks greener\" MORE OFTEN THAN NOT will always be in your head, when you see other assets performing better than the ones you currently are holding. That's why it's SO IMPORTANT TO DO YOUR REASEARCH FULLY! If you KNOW you didn't buy garbage, AND you didn't over-extend your position (you CAN afford to hold it for a few years without selling any), just RELAX AND DON'T BE GREEDY...otherwise you are living for money (not ENJOYING life itself) AND YOU WILL END UP FLIPPING YOURSELF OUT, WHICH IS A CRAPPY WAY TO LIVE!",
+	    	name:"taoteh1221 (creator of this app)"
 	    }
 
 	];

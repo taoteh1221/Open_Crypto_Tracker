@@ -21,11 +21,15 @@ return strcmp( strtolower($a["title"]) , strtolower($b["title"]) ); // Case-inse
 // Install id (10 character hash, based off base url)
 function pt_id() {
 	
-global $base_url;
+global $base_url, $base_dir;
 
+	// UI
 	if ( trim($base_url) != '' ) {
-	$result = md5($base_url);
-	return substr($result, 0, 10); // First 10 characters
+	return substr( md5($base_url) , 0, 10); // First 10 characters
+	}
+	// CRON
+	elseif ( trim($base_dir) != '' ) {
+	return substr( md5($base_dir) , 0, 10); // First 10 characters
 	}
 	else {
 	return false;
