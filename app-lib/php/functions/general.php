@@ -2103,7 +2103,7 @@ function update_cookies($set_coin_values, $set_pairing_values, $set_market_value
            if ( $_POST['submit_check'] == 1 ) {
            	
                
-               if ( $_POST['show_charts'] != null ) {
+               if ( isset($_POST['show_charts']) ) {
                store_cookie_contents("show_charts", $_POST['show_charts'], mktime()+31536000);
                }
                else {
@@ -2111,7 +2111,7 @@ function update_cookies($set_coin_values, $set_pairing_values, $set_market_value
                unset($_COOKIE['show_charts']);  // Delete any existing cookies
                }
                
-               if ( $_POST['show_crypto_value'] != null ) {
+               if ( isset($_POST['show_crypto_value']) ) {
                store_cookie_contents("show_crypto_value", $_POST['show_crypto_value'], mktime()+31536000);
                }
                else {
@@ -2119,7 +2119,7 @@ function update_cookies($set_coin_values, $set_pairing_values, $set_market_value
                unset($_COOKIE['show_crypto_value']);  // Delete any existing cookies
                }
                
-               if ( $_POST['show_secondary_trade_value'] != null ) {
+               if ( isset($_POST['show_secondary_trade_value']) ) {
                store_cookie_contents("show_secondary_trade_value", $_POST['show_secondary_trade_value'], mktime()+31536000);
                }
                else {
@@ -2127,7 +2127,7 @@ function update_cookies($set_coin_values, $set_pairing_values, $set_market_value
                unset($_COOKIE['show_secondary_trade_value']);  // Delete any existing cookies
                }
                
-               if ( $_POST['show_feeds'] != null ) {
+               if ( isset($_POST['show_feeds']) ) {
                store_cookie_contents("show_feeds", $_POST['show_feeds'], mktime()+31536000);
                }
                else {
@@ -2135,7 +2135,7 @@ function update_cookies($set_coin_values, $set_pairing_values, $set_market_value
                unset($_COOKIE['show_feeds']);  // Delete any existing cookies
                }
               
-               if ( $_POST['theme_selected'] != null ) {
+               if ( isset($_POST['theme_selected']) ) {
                store_cookie_contents("theme_selected", $_POST['theme_selected'], mktime()+31536000);
                }
                else {
@@ -2143,7 +2143,7 @@ function update_cookies($set_coin_values, $set_pairing_values, $set_market_value
                unset($_COOKIE['theme_selected']);  // Delete any existing cookies
                }
                
-               if ( $_POST['sort_by'] != null ) {
+               if ( isset($_POST['sort_by']) ) {
                store_cookie_contents("sort_by", $_POST['sort_by'], mktime()+31536000);
                }
                else {
@@ -2151,7 +2151,7 @@ function update_cookies($set_coin_values, $set_pairing_values, $set_market_value
                unset($_COOKIE['sort_by']);  // Delete any existing cookies
                }
               
-               if ( $_POST['use_alert_percent'] != null ) {
+               if ( isset($_POST['use_alert_percent']) ) {
                store_cookie_contents("alert_percent", $_POST['use_alert_percent'], mktime()+31536000);
                }
                else {
@@ -2159,7 +2159,7 @@ function update_cookies($set_coin_values, $set_pairing_values, $set_market_value
                unset($_COOKIE['alert_percent']);  // Delete any existing cookies
                }
               
-               if ( $_POST['primary_currency_market_standalone'] != null ) {
+               if ( isset($_POST['primary_currency_market_standalone']) ) {
                store_cookie_contents("primary_currency_market_standalone", $_POST['primary_currency_market_standalone'], mktime()+31536000);
                }
                else {
