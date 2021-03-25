@@ -57,13 +57,13 @@ return $string;
 ////////////////////////////////////////////////////////
 
 
-function strip_formatting($price) {
+function strip_formatting($string) {
 
-$price = preg_replace("/ /", "", $price); // Space
-$price = preg_replace("/,/", "", $price); // Comma
-$price = preg_replace("/  /", "", $price); // Tab
+$string = preg_replace("/ /", "", $string); // Space
+$string = preg_replace("/,/", "", $string); // Comma
+$string = preg_replace("/  /", "", $string); // Tab
 
-return $price;
+return $string;
 
 }
 
@@ -79,22 +79,6 @@ function clean_array($data) {
    }
         
 return $data;
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function remove_number_format($text) {
-
-$text = str_replace("    ", '', $text);
-$text = str_replace(" ", '', $text);
-$text = str_replace(",", "", $text);
-$text = trim($text);
-
-return number_to_string($text);
 
 }
 
@@ -115,31 +99,14 @@ return $array[$rand];
 ////////////////////////////////////////////////////////
 
 
-function text_number($string) {
+function remove_number_format($string) {
 
-$string = explode("||",$string);
+$string = str_replace("    ", '', $string);
+$string = str_replace(" ", '', $string);
+$string = str_replace(",", "", $string);
+$string = trim($string);
 
-$number = trim($string[0]);
-
-return $number;
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function get_digest($string, $max_length=false) {
-
-	if ( $max_length > 0 ) {
-	$result = substr( hash('ripemd160', $string) , 0, $max_length);
-	}
-	else {
-	$result = hash('ripemd160', $string);
-	}
-	
-return $result;
+return number_to_string($string);
 
 }
 
@@ -158,23 +125,6 @@ function strip_non_alpha($string, $case=false) {
 	}
 	
 return $result;
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function regex_compat_url($url) {
-	
-$regex_url = trim($url);
-
-$regex_url = preg_replace("/(http|https|ftp|tcp|ssl):\/\//i", "", $regex_url);
-
-$regex_url = preg_replace("/\//i", "\/", $regex_url);
-
-return $regex_url;
 
 }
 
@@ -238,177 +188,6 @@ $len = strlen($str);
    return substr($str, 0, $show) . str_repeat('*', $len - (2*$show) ) . substr($str, $len - $show, $show);
 	}
 	
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function obfuscated_path_data($path) {
-	
-global $app_config;
-
-	// Secured cache data
-	if ( preg_match("/cache\/secured/i", $path) ) {
-		
-	$subpath = preg_replace("/(.*)cache\/secured\//i", "", $path);
-	
-	$subpath_array = explode("/", $subpath);
-		
-		// Subdirectories of /secured/
-		if ( sizeof($subpath_array) > 1 ) {
-		$path = str_replace($subpath_array[0], obfuscate_string($subpath_array[0], 1), $path);
-		$path = str_replace($subpath_array[1], obfuscate_string($subpath_array[1], 5), $path);
-		}
-		// Files directly in /secured/
-		else {
-		$path = str_replace($subpath, obfuscate_string($subpath, 5), $path);
-		}
-			
-	//$path = str_replace('cache/secured', obfuscate_string('cache', 0) . '/' . obfuscate_string('secured', 0), $path);
-	
-	}
-
-return $path;
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function obfuscated_url_data($url) {
-	
-global $app_config;
-
-// Keep our color-coded logs in the admin UI pretty, remove '//' and put in parenthesis
-$url = preg_replace("/:\/\//i", ") ", $url);
-
-	// Etherscan
-	if ( preg_match("/etherscan/i", $url) ) {
-	$url = str_replace($app_config['general']['etherscanio_api_key'], obfuscate_string($app_config['general']['etherscanio_api_key'], 2), $url);
-	}
-	// Telegram
-	elseif ( preg_match("/telegram/i", $url) ) {
-	$url = str_replace($app_config['comms']['telegram_bot_token'], obfuscate_string($app_config['comms']['telegram_bot_token'], 2), $url); 
-	}
-	// Defipulse
-	elseif ( preg_match("/defipulse/i", $url) ) {
-	$url = str_replace($app_config['general']['defipulsecom_api_key'], obfuscate_string($app_config['general']['defipulsecom_api_key'], 2), $url); 
-	}
-
-// Keep our color-coded logs in the admin UI pretty, remove '//' and put in parenthesis
-return '('.$url;
-
-}
- 
- 
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function validated_csv_import_row($csv_row) {
-	
-global $app_config;
-
-// WE AUTO-CORRECT AS MUCH AS IS FEASIBLE, IF THE USER-INPUT IS CORRUPT / INVALID
-
-$csv_row = array_map('trim', $csv_row); // Trim entire array
-	
-$csv_row[0] = strtoupper($csv_row[0]); // Asset to uppercase (we already validate it's existance in csv_import_array())
-	    
-$csv_row[1] = remove_number_format($csv_row[1]); // Remove any number formatting in held amount
-
-// Remove any number formatting in paid amount, default paid amount to null if not a valid positive number
-$csv_row[2] = ( remove_number_format($csv_row[2]) >= 0 ? remove_number_format($csv_row[2]) : null ); 
-	
-// If leverage amount input is corrupt, default to 0 (ALSO simple auto-correct if negative)
-$csv_row[3] = ( whole_int($csv_row[3]) != false && $csv_row[3] >= 0 ? $csv_row[3] : 0 ); 
-	
-// If leverage is ABOVE 'margin_leverage_max', default to 'margin_leverage_max'
-$csv_row[3] = ( $csv_row[3] <= $app_config['power_user']['margin_leverage_max'] ? $csv_row[3] : $app_config['power_user']['margin_leverage_max'] ); 
-
-// Default to 'long', if not 'short' (set to lowercase...simple auto-correct, if set to anything other than 'short')
-$csv_row[4] = ( strtolower($csv_row[4]) == 'short' ? strtolower($csv_row[4]) : 'long' ); 
-
-// If market ID input is corrupt, default to 1 (it's ALWAYS 1 OR GREATER)
-$csv_row[5] = ( whole_int($csv_row[5]) != false && $csv_row[5] >= 1 ? $csv_row[5] : 1 ); 
-	
-$csv_row[6] = strtolower($csv_row[6]); // Pairing to lowercase
-	
-	// Pairing auto-correction (if invalid pairing)
-	if ( $csv_row[6] == '' || !is_array($app_config['portfolio_assets'][$csv_row[0]]['market_pairing'][$csv_row[6]]) ) {
-		
-	$csv_row[5] = 1; // We need to reset the market id to 1 (it's ALWAYS 1 OR GREATER), as the pairing was not found
-	
-	// First key in $app_config['portfolio_assets'][$csv_row[0]]['market_pairing']
-	reset($app_config['portfolio_assets'][$csv_row[0]]['market_pairing']);
-	$csv_row[6] = key($app_config['portfolio_assets'][$csv_row[0]]['market_pairing']);
-	
-	}
-	// Market ID auto-correction (if invalid market ID)
-	elseif ( sizeof($app_config['portfolio_assets'][$csv_row[0]]['market_pairing'][$csv_row[6]]) < $csv_row[5] ) {
-	$csv_row[5] = 1; // We need to reset the market id to 1 (it's ALWAYS 1 OR GREATER), as the ID was higher than available markets count
-	}
-	
-	// Return false if there is no valid held amount
-	if ( $csv_row[1] >= 0.00000001 )  {
-	return $csv_row;
-	}
-	else {
-	return false;
-	}
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function snake_case_to_name($string) {
-
-
-// Uppercase every word, and remove underscore between them
-$string = ucwords(preg_replace("/_/i", " ", $string));
-
-
-// Pretty up the individual words as needed
-$words = explode(" ",$string);
-
-	foreach($words as $key => $value) {
-	
-		if ( $value == 'Us' ) {
-		$words[$key] = strtoupper($value); // All uppercase US
-		}
-	
-	$pretty_string .= $words[$key] . ' ';
-	}
-
-$pretty_string = preg_replace("/btc/i", 'BTC', $pretty_string);
-$pretty_string = preg_replace("/coin/i", 'Coin', $pretty_string);
-$pretty_string = preg_replace("/bitcoin/i", 'Bitcoin', $pretty_string);
-$pretty_string = preg_replace("/exchange/i", 'Exchange', $pretty_string);
-$pretty_string = preg_replace("/market/i", 'Market', $pretty_string);
-$pretty_string = preg_replace("/base/i", 'Base', $pretty_string);
-$pretty_string = preg_replace("/forex/i", 'Forex', $pretty_string);
-$pretty_string = preg_replace("/finex/i", 'Finex', $pretty_string);
-$pretty_string = preg_replace("/stamp/i", 'Stamp', $pretty_string);
-$pretty_string = preg_replace("/flyer/i", 'Flyer', $pretty_string);
-$pretty_string = preg_replace("/panda/i", 'Panda', $pretty_string);
-$pretty_string = preg_replace("/pay/i", 'Pay', $pretty_string);
-$pretty_string = preg_replace("/swap/i", 'Swap', $pretty_string);
-$pretty_string = preg_replace("/iearn/i", 'iEarn', $pretty_string);
-$pretty_string = preg_replace("/pulse/i", 'Pulse', $pretty_string);
-$pretty_string = preg_replace("/defi/i", 'DeFi', $pretty_string);
-$pretty_string = preg_replace("/ring/i", 'Ring', $pretty_string);
-$pretty_string = preg_replace("/amm/i", 'AMM', $pretty_string);
-
-return trim($pretty_string);
-
-
 }
 
 

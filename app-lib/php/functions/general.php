@@ -18,30 +18,6 @@ return strcmp( strtolower($a["title"]) , strtolower($b["title"]) ); // Case-inse
 ////////////////////////////////////////////////////////
 
 
-// Install id (10 character hash, based off base url)
-function pt_id() {
-	
-global $base_url, $base_dir;
-
-	// UI
-	if ( trim($base_url) != '' ) {
-	return substr( md5($base_url) , 0, 10); // First 10 characters
-	}
-	// CRON
-	elseif ( trim($base_dir) != '' ) {
-	return substr( md5($base_dir) , 0, 10); // First 10 characters
-	}
-	else {
-	return false;
-	}
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
 function test_ipv4($str) {
 $ret = filter_var($str, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
 return $ret;
@@ -77,51 +53,13 @@ return $telegram_messaging->send->chat($chat_id)->text($message)->send();
 ////////////////////////////////////////////////////////
 
 
-function plugin_vars_cache($file) {
-	
-global $base_dir, $this_plugin;
+function text_number($string) {
 
-	// This plugin's vars cache directory
-	if ( dir_structure($base_dir . '/cache/vars/plugin_vars/'.$this_plugin.'/') != true ) {
-	app_logging('system_error', 'Could not create directory: /cache/vars/plugin_vars/'.$this_plugin.'/');
-	}
-	
-return $base_dir . '/cache/vars/plugin_vars/'.$this_plugin.'/' . $file;
+$string = explode("||",$string);
 
-}
+$number = trim($string[0]);
 
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function plugin_events_cache($file) {
-	
-global $base_dir, $this_plugin;
-		
-		// This plugin's events cache directory
-		if ( dir_structure($base_dir . '/cache/events/plugin_events/'.$this_plugin.'/') != true ) {
-		app_logging('system_error', 'Could not create directory: /cache/events/plugin_events/'.$this_plugin.'/');
-		}
-	
-return $base_dir . '/cache/events/plugin_events/'.$this_plugin.'/' . $file;
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function directory_size($dir) {
-
-$size = 0;
-
-	foreach ( glob(rtrim($dir, '/').'/*', GLOB_NOSORT) as $each ) {
-   $size += ( is_file($each) ? filesize($each) : directory_size($each) );
-   }
-    
-return $size;
+return $number;
 
 }
 
@@ -151,6 +89,76 @@ function is_msie() {
 	else {
 	return false;
 	}
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function plugin_vars_cache($file) {
+	
+global $base_dir, $this_plugin;
+
+	// This plugin's vars cache directory
+	if ( dir_structure($base_dir . '/cache/vars/plugin_vars/'.$this_plugin.'/') != true ) {
+	app_logging('system_error', 'Could not create directory: /cache/vars/plugin_vars/'.$this_plugin.'/');
+	}
+	
+return $base_dir . '/cache/vars/plugin_vars/'.$this_plugin.'/' . $file;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function directory_size($dir) {
+
+$size = 0;
+
+	foreach ( glob(rtrim($dir, '/').'/*', GLOB_NOSORT) as $each ) {
+   $size += ( is_file($each) ? filesize($each) : directory_size($each) );
+   }
+    
+return $size;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function regex_compat_url($url) {
+	
+$regex_url = trim($url);
+
+$regex_url = preg_replace("/(http|https|ftp|tcp|ssl):\/\//i", "", $regex_url);
+
+$regex_url = preg_replace("/\//i", "\/", $regex_url);
+
+return $regex_url;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function plugin_events_cache($file) {
+	
+global $base_dir, $this_plugin;
+		
+		// This plugin's events cache directory
+		if ( dir_structure($base_dir . '/cache/events/plugin_events/'.$this_plugin.'/') != true ) {
+		app_logging('system_error', 'Could not create directory: /cache/events/plugin_events/'.$this_plugin.'/');
+		}
+	
+return $base_dir . '/cache/events/plugin_events/'.$this_plugin.'/' . $file;
 
 }
 
@@ -192,6 +200,43 @@ $total = count($chunks);
 ////////////////////////////////////////////////////////
 
 
+function pt_digest($string, $max_length=false) {
+
+	if ( $max_length > 0 ) {
+	$result = substr( hash('ripemd160', $string) , 0, $max_length);
+	}
+	else {
+	$result = hash('ripemd160', $string);
+	}
+	
+return $result;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function pt_nonce_digest($data, $custom_nonce=false) {
+	
+	if ( isset($data) && $custom_nonce != false ) {
+	return pt_digest( $data . $custom_nonce );
+	}
+	elseif ( isset($data) && isset($_SESSION['nonce']) ) {
+	return pt_digest( $data . $_SESSION['nonce'] );
+	}
+	else {
+	return false;
+	}
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
 function admin_logged_in() {
 	
 	// IF REQUIRED DATA NOT SET, REFUSE ADMIN AUTHORIZATION
@@ -201,7 +246,7 @@ function admin_logged_in() {
 	return false;
 	}
 	// WE SPLIT THE LOGIN AUTH BETWEEN COOKIE AND SESSION DATA (TO BETTER SECURE LOGIN AUTHORIZATION)
-	elseif ( get_digest( $_COOKIE['admin_auth_' . pt_id()] . $_SESSION['nonce'] ) == $_SESSION['admin_logged_in']['auth_hash'] ) {
+	elseif ( pt_nonce_digest( $_COOKIE['admin_auth_' . pt_id()] ) == $_SESSION['admin_logged_in']['auth_hash'] ) {
 	return true;
 	}
 
@@ -224,6 +269,43 @@ $files = glob($dir . '/*'); // get all file names
   		
 	}
 
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function convert_bytes($bytes, $round) {
+
+$type = array("", "Kilo", "Mega", "Giga", "Tera", "Peta", "Exa", "Zetta", "Yotta");
+
+  $index = 0;
+  while( $bytes >= 1000 ) { // new standard (not 1024 anymore)
+  $bytes/=1000; // new standard (not 1024 anymore)
+  $index++;
+  }
+  
+return("".round($bytes, $round)." ".$type[$index]."bytes");
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+// To keep admin nonce key a secret, and make CSRF attacks harder with a different key per submission item
+function admin_hashed_nonce($key, $force=false) {
+	
+	// WE NEED A SEPERATE FUNCTION pt_nonce_digest(), SO WE DON'T #ENDLESSLY LOOP# FROM OUR
+	// admin_logged_in() CALL (WHICH ALSO USES pt_nonce_digest() INSTEAD OF admin_hashed_nonce())
+	if ( admin_logged_in() || $force ) {
+	return pt_nonce_digest($key);
+	}
+	else {
+	return false;
+	}
+	
 }
 
 
@@ -297,41 +379,6 @@ session_regenerate_id(true);
 ////////////////////////////////////////////////////////
 
 
-function convert_bytes($bytes, $round) {
-
-$type = array("", "Kilo", "Mega", "Giga", "Tera", "Peta", "Exa", "Zetta", "Yotta");
-
-  $index = 0;
-  while( $bytes >= 1000 ) { // new standard (not 1024 anymore)
-  $bytes/=1000; // new standard (not 1024 anymore)
-  $index++;
-  }
-  
-return("".round($bytes, $round)." ".$type[$index]."bytes");
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-// To keep admin nonce key a secret, and make CSRF attacks harder with a different key per submission item
-function admin_hashed_nonce($key, $force=false) {
-	
-	if ( admin_logged_in() || $force ) {
-	return get_digest( $key . $_SESSION['nonce'] );
-	}
-	else {
-	return false;
-	}
-	
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
 function create_csv_file($file, $save_as, $array) {
 
 	if ( $file == 'temp' ) {
@@ -346,6 +393,28 @@ $fp = fopen($file, 'w');
 
 file_download($file, $save_as); // Download file (by default deletes after download, then exits)
 
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function list_files($files_dir) {
+	
+$scan_array = scandir($files_dir);
+$files = array();
+  
+  foreach($scan_array as $filename) {
+    
+    if ( is_file($files_dir.'/'.$filename) ) {
+    $files[] = $filename;
+    }
+    
+  }
+
+return $files;
+  
 }
 
 
@@ -379,6 +448,30 @@ return false;
 ////////////////////////////////////////////////////////
 
 
+// Install id (10 character hash, based off base url)
+function pt_id() {
+	
+global $base_url, $base_dir;
+
+	// UI
+	if ( trim($base_url) != '' ) {
+	return substr( md5($base_url) , 0, 10); // First 10 characters
+	}
+	// CRON
+	elseif ( trim($base_dir) != '' ) {
+	return substr( md5($base_dir) , 0, 10); // First 10 characters
+	}
+	else {
+	return false;
+	}
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
 function text_email($string) {
 
 global $app_config;
@@ -397,61 +490,6 @@ $network_name = trim( strtolower($string[1]) ); // Force lowercase lookups for r
 	}
 
 
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function list_files($files_dir) {
-	
-$scan_array = scandir($files_dir);
-$files = array();
-  
-  foreach($scan_array as $filename) {
-    
-    if ( is_file($files_dir.'/'.$filename) ) {
-    $files[] = $filename;
-    }
-    
-  }
-
-return $files;
-  
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-// hex2bin requires PHP >= 5.4.0.
-// If, for whatever reason, you are using a legacy version of PHP, you can implement hex2bin with this function:
- 
-if ( !function_exists('hex2bin') ) {
-	
-    function hex2bin($hexstr) {
-    	
-        $n = strlen($hexstr);
-        $sbin = "";
-        $i = 0;
-        
-        while ($i < $n) {
-            $a = substr($hexstr, $i, 2);
-            $c = pack("H*", $a);
-            if ($i == 0) {
-                $sbin = $c;
-            } else {
-               $sbin .= $c;
-            }
-            $i += 2;
-         }
-         
-         return $sbin;
-         
-    }
-    
 }
 
 
@@ -478,6 +516,33 @@ function start_page($page, $href_link=false) {
 	
 	
 return $url;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function random_hash($num_bytes) {
+
+global $base_dir;
+
+	// Upgrade required
+	if ( PHP_VERSION_ID < 70000 ) {
+	app_logging('security_error', 'Upgrade to PHP v7 or later to support cryptographically secure pseudo-random bytes in this application, or your application may not function properly');
+	}
+	// >= PHP 7
+	elseif ( PHP_VERSION_ID >= 70000 ) {
+	$hash = random_bytes($num_bytes);
+	}
+
+	if ( strlen($hash) == $num_bytes ) {
+	return bin2hex($hash);
+	}
+	else {
+	return false;
+	}
 
 }
 
@@ -574,33 +639,6 @@ return $files;
 ////////////////////////////////////////////////////////
 
 
-function random_hash($num_bytes) {
-
-global $base_dir;
-
-	// Upgrade required
-	if ( PHP_VERSION_ID < 70000 ) {
-	app_logging('security_error', 'Upgrade to PHP v7 or later to support cryptographically secure pseudo-random bytes in this application, or your application may not function properly');
-	}
-	// >= PHP 7
-	elseif ( PHP_VERSION_ID >= 70000 ) {
-	$hash = random_bytes($num_bytes);
-	}
-
-	if ( strlen($hash) == $num_bytes ) {
-	return bin2hex($hash);
-	}
-	else {
-	return false;
-	}
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
 function dir_structure($path) {
 
 global $app_config, $possible_http_users, $http_runtime_user;
@@ -651,6 +689,70 @@ global $password_pepper;
 		}
 	
 	}
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function obfuscated_path_data($path) {
+	
+global $app_config;
+
+	// Secured cache data
+	if ( preg_match("/cache\/secured/i", $path) ) {
+		
+	$subpath = preg_replace("/(.*)cache\/secured\//i", "", $path);
+	
+	$subpath_array = explode("/", $subpath);
+		
+		// Subdirectories of /secured/
+		if ( sizeof($subpath_array) > 1 ) {
+		$path = str_replace($subpath_array[0], obfuscate_string($subpath_array[0], 1), $path);
+		$path = str_replace($subpath_array[1], obfuscate_string($subpath_array[1], 5), $path);
+		}
+		// Files directly in /secured/
+		else {
+		$path = str_replace($subpath, obfuscate_string($subpath, 5), $path);
+		}
+			
+	//$path = str_replace('cache/secured', obfuscate_string('cache', 0) . '/' . obfuscate_string('secured', 0), $path);
+	
+	}
+
+return $path;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function obfuscated_url_data($url) {
+	
+global $app_config;
+
+// Keep our color-coded logs in the admin UI pretty, remove '//' and put in parenthesis
+$url = preg_replace("/:\/\//i", ") ", $url);
+
+	// Etherscan
+	if ( preg_match("/etherscan/i", $url) ) {
+	$url = str_replace($app_config['general']['etherscanio_api_key'], obfuscate_string($app_config['general']['etherscanio_api_key'], 2), $url);
+	}
+	// Telegram
+	elseif ( preg_match("/telegram/i", $url) ) {
+	$url = str_replace($app_config['comms']['telegram_bot_token'], obfuscate_string($app_config['comms']['telegram_bot_token'], 2), $url); 
+	}
+	// Defipulse
+	elseif ( preg_match("/defipulse/i", $url) ) {
+	$url = str_replace($app_config['general']['defipulsecom_api_key'], obfuscate_string($app_config['general']['defipulsecom_api_key'], 2), $url); 
+	}
+
+// Keep our color-coded logs in the admin UI pretty, remove '//' and put in parenthesis
+return '('.$url;
 
 }
 
@@ -753,6 +855,81 @@ function store_cookie_contents($name, $value, $time) {
 	
 return $result;
 
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function valid_username($username) {
+
+global $app_config;
+
+    if ( mb_strlen($username, $app_config['developer']['charset_default']) < 4 ) {
+    $error .= "requires 4 minimum characters; ";
+    }
+    
+    if ( mb_strlen($username, $app_config['developer']['charset_default']) > 30 ) {
+    $error .= "requires 30 maximum characters; ";
+    }
+    
+	 if ( !preg_match("/^[a-z]([a-z0-9]+)$/", $username) ) {
+    $error .= "lowercase letters and numbers only (lowercase letters first, then optionally numbers, no spaces); ";
+	 }
+	 
+	 if ( preg_match('/\s/',$username) ) {
+    $error .= "no spaces allowed; ";
+	 }
+
+
+    if( $error ){
+    return 'valid_username_error: ' . $error;
+    }
+    else {
+    return 'valid';
+    }
+
+
+}
+ 
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+ 
+ // For captcha image
+ // Credit to: https://code.tutsplus.com/tutorials/build-your-own-captcha-and-contact-form-in-php--net-5362
+function captcha_string($input, $strength=10) {
+	
+    $input_length = strlen($input);
+    $random_string = '';
+    
+    	
+        
+        $count = 0;
+        	while ( $count < $strength ) {
+        			
+        			$rand_case = rand(1, 2);
+        		   if( $rand_case % 2 == 0 ){ 
+        			// Even number  
+        			$random_character = strtoupper( $input[mt_rand(0, $input_length - 1)] );
+    				} 
+    				else { 
+        			// Odd number
+        			$random_character = strtolower( $input[mt_rand(0, $input_length - 1)] );
+    				} 
+        	
+        		if ( stristr($random_string, $random_character) == false ) {
+        		//echo $random_character . ' -- ';
+        		$random_string .= $random_character;
+            $count = $count + 1;
+        		}
+        	
+        	}
+        
+  
+    return $random_string;
 }
     
 
@@ -875,78 +1052,51 @@ $category = preg_replace("/_debugging/i", "", $category);
 
 
 }
- 
+
 
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
 
- 
- // For captcha image
- // Credit to: https://code.tutsplus.com/tutorials/build-your-own-captcha-and-contact-form-in-php--net-5362
-function captcha_string($input, $strength=10) {
+
+function snake_case_to_name($string) {
+
+
+// Uppercase every word, and remove underscore between them
+$string = ucwords(preg_replace("/_/i", " ", $string));
+
+
+// Pretty up the individual words as needed
+$words = explode(" ",$string);
+
+	foreach($words as $key => $value) {
 	
-    $input_length = strlen($input);
-    $random_string = '';
-    
-    	
-        
-        $count = 0;
-        	while ( $count < $strength ) {
-        			
-        			$rand_case = rand(1, 2);
-        		   if( $rand_case % 2 == 0 ){ 
-        			// Even number  
-        			$random_character = strtoupper( $input[mt_rand(0, $input_length - 1)] );
-    				} 
-    				else { 
-        			// Odd number
-        			$random_character = strtolower( $input[mt_rand(0, $input_length - 1)] );
-    				} 
-        	
-        		if ( stristr($random_string, $random_character) == false ) {
-        		//echo $random_character . ' -- ';
-        		$random_string .= $random_character;
-            $count = $count + 1;
-        		}
-        	
-        	}
-        
-  
-    return $random_string;
-}
+		if ( $value == 'Us' ) {
+		$words[$key] = strtoupper($value); // All uppercase US
+		}
+	
+	$pretty_string .= $words[$key] . ' ';
+	}
 
+$pretty_string = preg_replace("/btc/i", 'BTC', $pretty_string);
+$pretty_string = preg_replace("/coin/i", 'Coin', $pretty_string);
+$pretty_string = preg_replace("/bitcoin/i", 'Bitcoin', $pretty_string);
+$pretty_string = preg_replace("/exchange/i", 'Exchange', $pretty_string);
+$pretty_string = preg_replace("/market/i", 'Market', $pretty_string);
+$pretty_string = preg_replace("/base/i", 'Base', $pretty_string);
+$pretty_string = preg_replace("/forex/i", 'Forex', $pretty_string);
+$pretty_string = preg_replace("/finex/i", 'Finex', $pretty_string);
+$pretty_string = preg_replace("/stamp/i", 'Stamp', $pretty_string);
+$pretty_string = preg_replace("/flyer/i", 'Flyer', $pretty_string);
+$pretty_string = preg_replace("/panda/i", 'Panda', $pretty_string);
+$pretty_string = preg_replace("/pay/i", 'Pay', $pretty_string);
+$pretty_string = preg_replace("/swap/i", 'Swap', $pretty_string);
+$pretty_string = preg_replace("/iearn/i", 'iEarn', $pretty_string);
+$pretty_string = preg_replace("/pulse/i", 'Pulse', $pretty_string);
+$pretty_string = preg_replace("/defi/i", 'DeFi', $pretty_string);
+$pretty_string = preg_replace("/ring/i", 'Ring', $pretty_string);
+$pretty_string = preg_replace("/amm/i", 'AMM', $pretty_string);
 
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function valid_username($username) {
-
-global $app_config;
-
-    if ( mb_strlen($username, $app_config['developer']['charset_default']) < 4 ) {
-    $error .= "requires 4 minimum characters; ";
-    }
-    
-    if ( mb_strlen($username, $app_config['developer']['charset_default']) > 30 ) {
-    $error .= "requires 30 maximum characters; ";
-    }
-    
-	 if ( !preg_match("/^[a-z]([a-z0-9]+)$/", $username) ) {
-    $error .= "lowercase letters and numbers only (lowercase letters first, then optionally numbers, no spaces); ";
-	 }
-	 
-	 if ( preg_match('/\s/',$username) ) {
-    $error .= "no spaces allowed; ";
-	 }
-
-
-    if( $error ){
-    return 'valid_username_error: ' . $error;
-    }
-    else {
-    return 'valid';
-    }
+return trim($pretty_string);
 
 
 }
@@ -1310,6 +1460,65 @@ $vars['cfg_strict_ssl'] = $app_config['developer']['smtp_strict_ssl']; // Open C
 $vars['cfg_app_version'] = $app_version; // Open Crypto Portfolio Tracker version
 
 return $vars;
+
+}
+ 
+ 
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+function validated_csv_import_row($csv_row) {
+	
+global $app_config;
+
+// WE AUTO-CORRECT AS MUCH AS IS FEASIBLE, IF THE USER-INPUT IS CORRUPT / INVALID
+
+$csv_row = array_map('trim', $csv_row); // Trim entire array
+	
+$csv_row[0] = strtoupper($csv_row[0]); // Asset to uppercase (we already validate it's existance in csv_import_array())
+	    
+$csv_row[1] = remove_number_format($csv_row[1]); // Remove any number formatting in held amount
+
+// Remove any number formatting in paid amount, default paid amount to null if not a valid positive number
+$csv_row[2] = ( remove_number_format($csv_row[2]) >= 0 ? remove_number_format($csv_row[2]) : null ); 
+	
+// If leverage amount input is corrupt, default to 0 (ALSO simple auto-correct if negative)
+$csv_row[3] = ( whole_int($csv_row[3]) != false && $csv_row[3] >= 0 ? $csv_row[3] : 0 ); 
+	
+// If leverage is ABOVE 'margin_leverage_max', default to 'margin_leverage_max'
+$csv_row[3] = ( $csv_row[3] <= $app_config['power_user']['margin_leverage_max'] ? $csv_row[3] : $app_config['power_user']['margin_leverage_max'] ); 
+
+// Default to 'long', if not 'short' (set to lowercase...simple auto-correct, if set to anything other than 'short')
+$csv_row[4] = ( strtolower($csv_row[4]) == 'short' ? strtolower($csv_row[4]) : 'long' ); 
+
+// If market ID input is corrupt, default to 1 (it's ALWAYS 1 OR GREATER)
+$csv_row[5] = ( whole_int($csv_row[5]) != false && $csv_row[5] >= 1 ? $csv_row[5] : 1 ); 
+	
+$csv_row[6] = strtolower($csv_row[6]); // Pairing to lowercase
+	
+	// Pairing auto-correction (if invalid pairing)
+	if ( $csv_row[6] == '' || !is_array($app_config['portfolio_assets'][$csv_row[0]]['market_pairing'][$csv_row[6]]) ) {
+		
+	$csv_row[5] = 1; // We need to reset the market id to 1 (it's ALWAYS 1 OR GREATER), as the pairing was not found
+	
+	// First key in $app_config['portfolio_assets'][$csv_row[0]]['market_pairing']
+	reset($app_config['portfolio_assets'][$csv_row[0]]['market_pairing']);
+	$csv_row[6] = key($app_config['portfolio_assets'][$csv_row[0]]['market_pairing']);
+	
+	}
+	// Market ID auto-correction (if invalid market ID)
+	elseif ( sizeof($app_config['portfolio_assets'][$csv_row[0]]['market_pairing'][$csv_row[6]]) < $csv_row[5] ) {
+	$csv_row[5] = 1; // We need to reset the market id to 1 (it's ALWAYS 1 OR GREATER), as the ID was higher than available markets count
+	}
+	
+	// Return false if there is no valid held amount
+	if ( $csv_row[1] >= 0.00000001 )  {
+	return $csv_row;
+	}
+	else {
+	return false;
+	}
 
 }
 

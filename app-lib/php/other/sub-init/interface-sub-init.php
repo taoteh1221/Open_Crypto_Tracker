@@ -70,7 +70,7 @@ $show_feeds = explode(',', rtrim( ( $_POST['show_feeds'] != '' ? $_POST['show_fe
 	$scan_feeds = $show_feeds;
 	$scan_feeds = array_map('strip_brackets', $scan_feeds); // Strip brackets
 	foreach ($app_config['power_user']['news_feeds'] as $feed) {
-	$feed_id = get_digest($feed["title"], 10);
+	$feed_id = pt_digest($feed["title"], 10);
 		if ( in_array($feed_id, $scan_feeds) ) {
 		$temp_show_feeds[] = '[' . $feed_id . ']';
 		}

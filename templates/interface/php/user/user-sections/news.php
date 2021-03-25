@@ -119,7 +119,7 @@
 	foreach ( $app_config['power_user']['news_feeds'] as $feed ) {
 	
 	// We avoid using array keys for end user config editing UX, BUT STILL UNIQUELY IDENTIFY EACH FEED
-	$feed_id = get_digest($feed['title'], 10);
+	$feed_id = pt_digest($feed['title'], 10);
 				
 	?>
 	

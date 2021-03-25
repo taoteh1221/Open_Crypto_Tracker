@@ -34,7 +34,7 @@ $all_feeds_array = array();
     
     
     	foreach($app_config['power_user']['news_feeds'] as $feed) {
-    	$feed_id = get_digest($feed["title"], 10); // We avoid using array keys for end user config editing UX, BUT STILL UNIQUELY IDENTIFY EACH FEED
+    	$feed_id = pt_digest($feed["title"], 10); // We avoid using array keys for end user config editing UX, BUT STILL UNIQUELY IDENTIFY EACH FEED
     	$all_feeds_array[$feed_id] = $feed;
     	}
 
