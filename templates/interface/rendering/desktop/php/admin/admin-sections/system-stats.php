@@ -123,7 +123,7 @@
     		}
     		
     		if ( isset($system_info['model_name']) ) {
-    		echo '<div class="sys_stats"><span class="bitcoin"><b>CPU:</b></span> <span class="blue"> '.$system_info['model_name'].'</span> ' . ( $system_info['cpu_threads'] > 1 ? '(' . $system_info['cpu_threads'] . ' threads)' : '' ) . ' </div>';
+    		echo '<div class="sys_stats"><span class="bitcoin"><b>CPU:</b></span> <span class="blue"> '.$system_info['model_name'].'</span> ' . ( $system_info['cpu_threads'] > 0 ? '(' . $system_info['cpu_threads'] . ' threads)' : '' ) . ' </div>';
     		}
     		
     		if ( isset($system_info['uptime']) ) {
@@ -191,7 +191,7 @@
 	
 	<?php
 	$chart_mode = 1;
-	include('templates/interface/php/admin/admin-charts/system-charts.php');
+	include('templates/interface/rendering/desktop/php/admin/admin-elements/system-charts.php');
 	?>
 	
 	</script>
@@ -212,7 +212,7 @@
 	
 	<?php
 	$chart_mode = 2;
-	include('templates/interface/php/admin/admin-charts/system-charts.php');
+	include('templates/interface/rendering/desktop/php/admin/admin-elements/system-charts.php');
 	?>
 	
 	</script>

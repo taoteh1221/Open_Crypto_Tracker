@@ -54,30 +54,30 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 	</script>
     
     
-	<link rel="stylesheet" href="templates/interface/css/bootstrap/bootstrap.min.css" type="text/css" />
+	<link rel="stylesheet" href="templates/interface/rendering/desktop/css/bootstrap/bootstrap.min.css" type="text/css" />
 
-	<link rel="stylesheet" href="templates/interface/css/modaal.css" type="text/css" />
+	<link rel="stylesheet" href="templates/interface/rendering/desktop/css/modaal.css" type="text/css" />
 	
-	<link  href="templates/interface/css/jquery-ui/jquery-ui.css" rel="stylesheet">
+	<link  href="templates/interface/rendering/desktop/css/jquery-ui/jquery-ui.css" rel="stylesheet">
 	
 	<!-- Load theme styling last to over rule -->
-	<link rel="stylesheet" href="templates/interface/css/style.css" type="text/css" />
+	<link rel="stylesheet" href="templates/interface/rendering/desktop/css/style.css" type="text/css" />
 	
-	<link rel="stylesheet" href="templates/interface/css/<?=$theme_selected?>.style.css" type="text/css" />
+	<link rel="stylesheet" href="templates/interface/rendering/desktop/css/<?=$theme_selected?>.style.css" type="text/css" />
 	
 	<?php
 	if ( $is_admin ) {
 	?>
-	<link rel="stylesheet" href="templates/interface/css/admin.css" type="text/css" />
+	<link rel="stylesheet" href="templates/interface/rendering/desktop/css/admin.css" type="text/css" />
 	
-	<link rel="stylesheet" href="templates/interface/css/<?=$theme_selected?>.admin.css" type="text/css" />
+	<link rel="stylesheet" href="templates/interface/rendering/desktop/css/<?=$theme_selected?>.admin.css" type="text/css" />
 	<?php
 	}
 	?>
 	
 	<style>
 
-	@import "templates/interface/css/tablesorter/theme.<?=$theme_selected?>.css";
+	@import "templates/interface/rendering/desktop/css/tablesorter/theme.<?=$theme_selected?>.css";
 	
 	.tablesorter-<?=$theme_selected?> .header, .tablesorter-<?=$theme_selected?> .tablesorter-header {
     white-space: nowrap;
@@ -112,7 +112,7 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 	if ( is_msie() == false ) {
 	?>
 	
-	<link rel="stylesheet" href="templates/interface/css/highlightjs.min.css" type="text/css" />
+	<link rel="stylesheet" href="templates/interface/rendering/desktop/css/highlightjs.min.css" type="text/css" />
 	
 	<script src="app-lib/js/highlight.min.js"></script>
 	

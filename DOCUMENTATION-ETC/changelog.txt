@@ -4384,9 +4384,11 @@ WILL AUTOMATICALLY PREFORM THE RESET (ALERTS / TRACKING WILL BE ACCURATE AFTERWA
 
 -Bug fix for login authentication WITH MULTIPLE INSTALLS ON THE #SAME# MACHINE / SERVER (logged into both instances, with only one login)
 
--Bug fix for system stats correctly detecting the number of CPU threads / cores (affected system load alerts)
+-Bug fix for system stats correctly detecting the number of CPU threads / cores (affected system load alerts incorrectly)
 
--Hardened login authorization (half stored in cookie / half stored in session, BOTH required to login)
+-Hardened login authorization (half stored in cookie [with adjustable expiration] / half stored in app server session, BOTH required to login)
+
+-Templates structure overhaul, for future mobile support
 
 -Improved login captcha image security
 

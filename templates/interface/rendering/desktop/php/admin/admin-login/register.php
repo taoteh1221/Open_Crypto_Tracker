@@ -54,7 +54,7 @@ if ( $_POST['admin_submit_register'] ) {
 
 
 $login_template = 1;
-require("templates/interface/php/header.php");
+require("templates/interface/rendering/desktop/php/header.php");
 
 ?>
 
@@ -74,7 +74,7 @@ require("templates/interface/php/header.php");
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="bitcoin">REGARDLESS as to whether your particular app server automatically clears it\'s temporary session data or not, whenever you logout the 32-byte key in your browser is deleted, along with all the session data on the app server.</span></p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="bitcoin">If your app server DOES automatically clears session data often, you will also be logged out AUTOMATICALLY at that time. ADDITIONALLY, the 32-byte random key that is saved inside a cookie in your web browser EXPIRES (automatically deletes itself) AFTER <?=$app_config['power_user']['admin_cookie_expire']?> HOURS.</span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="bitcoin">If your app server DOES automatically clears session data often, you will also be logged out AUTOMATICALLY at that time. ADDITIONALLY, the 32-byte random key that is saved inside a cookie in your web browser EXPIRES (automatically deletes itself) AFTER <?=$app_config['power_user']['admin_cookie_expire']?> HOURS (you can adjust this time period in the Admin Config POWER USER section).</span></p>'
 			
 			
 			+'<p> </p>';
@@ -121,6 +121,21 @@ if ( $_GET['new_reset_key'] ) {
 
 <h3 class='bitcoin'>Admin Login Reset</h3>
 
+<p class='red' style='font-size: 19px; font-weight: bold;'>Reset your username / password for the Admin Config area.</p>
+
+<?php
+}
+else {
+?>
+
+<h3 class='bitcoin'>Admin Login Creation</h3>
+
+<p class='red' style='font-size: 19px; font-weight: bold;'>Create a username / password to secure the Admin Config area.</p>
+
+<?php
+}
+?>
+
 <p class='bitcoin' style='font-size: 19px; font-weight: bold;'>Cookies MUST be enabled in your browser to login.
 	 <img id='admin_cookies' src='templates/interface/media/images/info-orange.png' alt='' width='30' style='position: relative;' /> 
 	 </p>
@@ -149,20 +164,6 @@ if ( $_GET['new_reset_key'] ) {
 		
 		 </script>
 		 
-<p class='red' style='font-size: 19px;'>Reset your username / password for the Admin Config area.</p>
-
-<?php
-}
-else {
-?>
-
-<h3 class='bitcoin'>Admin Login Creation</h3>
-
-<p class='red' style='font-size: 19px;'>Create a username / password to secure the Admin Config area.</p>
-
-<?php
-}
-?>
 
 
 <?php
@@ -338,9 +339,12 @@ var badColor = "#ff4747";
 ?>
 
 
+<p style='font-weight: bold;'> <a href='<?=$base_url?>'>Return To The Portfolio Main Page</a> </p>
+
+
 </div>
 
 
 <?php
-require("templates/interface/php/footer.php");
+require("templates/interface/rendering/desktop/php/footer.php");
 ?>

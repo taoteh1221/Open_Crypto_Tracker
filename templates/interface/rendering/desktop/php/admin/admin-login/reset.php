@@ -61,7 +61,7 @@ Please confirm your request to reset the admin password for username '".$stored_
 To complete resetting your admin password, please visit this link below:
 ". $base_url . "password-reset.php?new_reset_key=".$new_reset_key."
 
-This link expires in 1 day.
+This link expires in 1 day, or after you use it successfully (whichever comes first).
 
 If you did NOT request this password reset (originating from ip address ".$remote_ip."), you can ignore this message, and the account WILL NOT BE RESET.
 
@@ -95,7 +95,7 @@ If you did NOT request this password reset (originating from ip address ".$remot
 
 
 $login_template = 1;
-require("templates/interface/php/header.php");
+require("templates/interface/rendering/desktop/php/header.php");
 
 ?>
 
@@ -114,7 +114,7 @@ require("templates/interface/php/header.php");
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="bitcoin">REGARDLESS as to whether your particular app server automatically clears it\'s temporary session data or not, whenever you logout the 32-byte key in your browser is deleted, along with all the session data on the app server.</span></p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="bitcoin">If your app server DOES automatically clears session data often, you will also be logged out AUTOMATICALLY at that time. ADDITIONALLY, the 32-byte random key that is saved inside a cookie in your web browser EXPIRES (automatically deletes itself) AFTER <?=$app_config['power_user']['admin_cookie_expire']?> HOURS.</span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="bitcoin">If your app server DOES automatically clears session data often, you will also be logged out AUTOMATICALLY at that time. ADDITIONALLY, the 32-byte random key that is saved inside a cookie in your web browser EXPIRES (automatically deletes itself) AFTER <?=$app_config['power_user']['admin_cookie_expire']?> HOURS (you can adjust this time period in the Admin Config POWER USER section).</span></p>'
 			
 			
 			+'<p> </p>';
@@ -165,6 +165,7 @@ require("templates/interface/php/header.php");
 
 	<div style='font-weight: bold;' id='login_alert'>
 <?php
+
 	foreach ( $reset_result['error'] as $error ) {
 	echo "<br clear='all' /><div class='red' style='display: inline-block;  font-weight: bold; padding: 15px; margin: 15px; font-size: 21px; border: 4px dotted #ff4747;'> $error </div>";
 	}
@@ -173,9 +174,6 @@ require("templates/interface/php/header.php");
 	echo "<br clear='all' /><div class='green_bright' style='display: inline-block;  font-weight: bold; padding: 15px; margin: 15px; font-size: 21px; border: 4px dotted #10d602;'> $success </div>";
 	}
 	
-	if ( sizeof($reset_result['success']) > 0 ) {
-	echo "<p> <a href='".$base_url."'>Return To The Portfolio Main Page</a> </p>";
-	}
 ?>
 	</div>
 
@@ -263,9 +261,15 @@ if ( !$_POST['admin_submit_reset'] && !$no_password_reset || sizeof($reset_resul
 <?php
 }
 ?>
+
+
+
+<p style='font-weight: bold;'> <a href='<?=$base_url?>'>Return To The Portfolio Main Page</a> </p>
+
+
 </div>			
 
 
 <?php
-require("templates/interface/php/footer.php");
+require("templates/interface/rendering/desktop/php/footer.php");
 ?>

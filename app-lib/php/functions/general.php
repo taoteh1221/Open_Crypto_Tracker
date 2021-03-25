@@ -2757,10 +2757,13 @@ $system['operating_system'] = php_uname();
 		}
 	
 		if ( $cpu['cpu_info']['processor'] ) {
-		$system['cpu_threads'] = $cpu['cpu_info']['processor'] + 1;
+		$system['cpu_threads'] = $cpu['cpu_info']['processor'] + 1; // (overwritten until last in loop, starts at 0)
 		}
 		elseif ( $cpu['cpu_info']['siblings'] ) {
 		$system['cpu_threads'] = $cpu['cpu_info']['siblings'];
+		}
+		else {
+		$system['cpu_threads'] = 1; // Presume only one, if nothing parsed
 		}
 	
 	}

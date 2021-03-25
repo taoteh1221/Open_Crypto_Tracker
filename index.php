@@ -20,11 +20,11 @@ require("config.php");
 
 // If an activated password reset is in progress or no admin login has been set yet, prompt user to create an admin user / pass
 if ( $password_reset_approved || sizeof($stored_admin_login) != 2 ) {
-require("templates/interface/php/admin/admin-login/register.php");
+require("templates/interface/rendering/desktop/php/admin/admin-login/register.php");
 exit;
 }
 else {
-require("templates/interface/php/header.php");
+require("templates/interface/rendering/desktop/php/header.php");
 }
 
 ?>
@@ -50,7 +50,7 @@ require("templates/interface/php/header.php");
 		
 		
 		<div id='portfolio' class='tabdiv'>
-			<?php require("templates/interface/php/user/user-sections/portfolio.php"); ?>
+			<?php require("templates/interface/rendering/desktop/php/user/user-sections/portfolio.php"); ?>
 		</div>
 		
 		<script>
@@ -58,7 +58,7 @@ require("templates/interface/php/header.php");
 		</script>
 		
 		<div id='update' class='tabdiv'>
-			<?php require("templates/interface/php/user/user-sections/update.php"); ?>
+			<?php require("templates/interface/rendering/desktop/php/user/user-sections/update.php"); ?>
 		</div>
 		
 		<script>
@@ -66,7 +66,7 @@ require("templates/interface/php/header.php");
 		</script>
 		
 		<div id='settings' class='tabdiv'>
-			<?php require("templates/interface/php/user/user-sections/settings.php"); ?>
+			<?php require("templates/interface/rendering/desktop/php/user/user-sections/settings.php"); ?>
 		</div>
 		
 		<script>
@@ -74,7 +74,7 @@ require("templates/interface/php/header.php");
 		</script>
 		
 		<div id='news' class='tabdiv'>
-			<?php require("templates/interface/php/user/user-sections/news.php"); ?>
+			<?php require("templates/interface/rendering/desktop/php/user/user-sections/news.php"); ?>
 		</div>
 		
 		<script>
@@ -82,7 +82,7 @@ require("templates/interface/php/header.php");
 		</script>
 		
 		<div id='resources' class='tabdiv'>
-			<?php require("templates/interface/php/user/user-sections/resources.php"); ?>
+			<?php require("templates/interface/rendering/desktop/php/user/user-sections/resources.php"); ?>
 		</div>
 		
 		<script>
@@ -93,7 +93,7 @@ require("templates/interface/php/header.php");
 			if ( $app_config['general']['asset_charts_toggle'] == 'on' ) {
 			?>
 		<div id='charts' class='tabdiv container-fluid'>
-			<?php require("templates/interface/php/user/user-sections/charts.php"); ?>
+			<?php require("templates/interface/rendering/desktop/php/user/user-sections/charts.php"); ?>
 		</div>
 		
 		<script>
@@ -104,7 +104,7 @@ require("templates/interface/php/header.php");
 			?>
 			
 		<div id='tools' class='tabdiv'>
-			<?php require("templates/interface/php/user/user-sections/tools.php"); ?>
+			<?php require("templates/interface/rendering/desktop/php/user/user-sections/tools.php"); ?>
 		</div>
 		
 		<script>
@@ -112,7 +112,7 @@ require("templates/interface/php/header.php");
 		</script>
 		
 		<div id='mining' class='tabdiv'>
-			<?php require("templates/interface/php/user/user-sections/mining.php"); ?>
+			<?php require("templates/interface/rendering/desktop/php/user/user-sections/mining.php"); ?>
 		</div>
 		
 		<script>
@@ -120,7 +120,7 @@ require("templates/interface/php/header.php");
 		</script>
 		
 		<div id='help' class='tabdiv'>
-			<?php require("templates/interface/php/user/user-sections/help.php"); ?>
+			<?php require("templates/interface/rendering/desktop/php/user/user-sections/help.php"); ?>
 		</div>
 		
 		<script>
@@ -129,6 +129,6 @@ require("templates/interface/php/header.php");
 
 
 <?php
-require("templates/interface/php/footer.php");
+require("templates/interface/rendering/desktop/php/footer.php");
 ?>
 

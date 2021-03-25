@@ -168,6 +168,9 @@ Add google home support via direct connect on same network, OR via IFTTT (whiche
 Add IFTTT support (alexa / google home / whatever supported devices).
 
 
+Create mobile devices templates, have the portfolio data rows show each piece of data on its own line the entire width of the screen (like android asset trackers do). We may need to create header / footer for mobile as well.
+
+
 Add additional ability to do telegram webhooks, to query asset prices at different exchanges through telegram chat with the chat bot. Example: "/price ETH/USDT @ Binance"
 
 

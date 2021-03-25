@@ -262,7 +262,7 @@
 		
 	<?php
 	$chart_mode = 'pairing';
-	include('templates/interface/php/user/user-charts/asset-charts.php');
+	include('templates/interface/rendering/desktop/php/user/user-elements/asset-charts.php');
 	?>
 	
 	});
@@ -293,7 +293,7 @@
 	
 	<?php
 	$chart_mode = strtolower($default_btc_primary_currency_pairing);
-	include('templates/interface/php/user/user-charts/asset-charts.php');
+	include('templates/interface/rendering/desktop/php/user/user-elements/asset-charts.php');
 	?>
 	
 	</script>

@@ -45,7 +45,7 @@ if ( $_POST['admin_submit_login'] ) {
 
 
 $login_template = 1;
-require("templates/interface/php/header.php");
+require("templates/interface/rendering/desktop/php/header.php");
 
 ?>
 
@@ -64,7 +64,7 @@ require("templates/interface/php/header.php");
 			
 			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="bitcoin">REGARDLESS as to whether your particular app server automatically clears it\'s temporary session data or not, whenever you logout the 32-byte key in your browser is deleted, along with all the session data on the app server.</span></p>'
 			
-			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="bitcoin">If your app server DOES automatically clears session data often, you will also be logged out AUTOMATICALLY at that time. ADDITIONALLY, the 32-byte random key that is saved inside a cookie in your web browser EXPIRES (automatically deletes itself) AFTER <?=$app_config['power_user']['admin_cookie_expire']?> HOURS.</span></p>'
+			+'<p class="coin_info extra_margins" style="white-space: normal; max-width: 600px;"><span class="bitcoin">If your app server DOES automatically clears session data often, you will also be logged out AUTOMATICALLY at that time. ADDITIONALLY, the 32-byte random key that is saved inside a cookie in your web browser EXPIRES (automatically deletes itself) AFTER <?=$app_config['power_user']['admin_cookie_expire']?> HOURS (you can adjust this time period in the Admin Config POWER USER section).</span></p>'
 			
 			
 			+'<p> </p>';
@@ -107,17 +107,10 @@ require("templates/interface/php/header.php");
 	<div style='font-weight: bold;' id='login_alert'>
 <?php
 	foreach ( $login_result['error'] as $error ) {
-	echo "<br clear='all' /><div class='red_bright' style='display: inline-block;  font-weight: bold; padding: 15px; margin: 15px; font-size: 21px; border: 4px dotted #ff4747;'> $error </div>";
+	echo "<br clear='all' /><div class='red' style='display: inline-block;  font-weight: bold; padding: 15px; margin: 15px; font-size: 21px; border: 4px dotted #ff4747;'> $error </div>";
 	}
 ?>
 	</div>
-
-
-    <div class='align_center'>
-
-	<p style='padding: 10px;'><a href='password-reset.php' class='red_bright'><b>Forgot Your Password?</b></a></p>
-
-    </div>
   	 
   	 
   	 <br clear='all' />
@@ -179,11 +172,16 @@ if ( !$_POST['submit_login'] || sizeof($login_result['error']) > 0 ) {
 
 ?>
 
-<p> <a href='<?=$base_url?>'>Return To The Portfolio Main Page</a> </p>
+
+<p><a style='font-size: 22px; !important' href='password-reset.php' class='red' title='Reset you password here.'><b>Forgot Your Password?</b></a></p>
+
+<p> &nbsp; </p>
+
+<p style='font-weight: bold;'> <a href='<?=$base_url?>'>Return To The Portfolio Main Page</a> </p>
 
 </div>
 
 
 <?php
-require("templates/interface/php/footer.php");
+require("templates/interface/rendering/desktop/php/footer.php");
 ?>

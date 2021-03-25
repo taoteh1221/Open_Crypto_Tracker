@@ -145,7 +145,8 @@ $base_url = base_url();
 }
 
 
-// Give our session a unique name (from an install ID hash, created from the base URL)
+// Give our session a unique name 
+// (from an install ID hash, created from the base URL or base dir [if cron])
 // MUST BE SET AFTER $base_url / $base_dir
 session_name( pt_id() );
 
@@ -209,17 +210,17 @@ if ( $_POST['admin_submit_register'] || $_POST['admin_submit_login'] || $_POST['
 	
 		if ( $_POST['admin_submit_register'] ) {
 		$theme_selected = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $app_config['general']['default_theme'] );
-		require("templates/interface/php/admin/admin-login/register.php");
+		require("templates/interface/rendering/desktop/php/admin/admin-login/register.php");
 		exit;
 		}
 		elseif ( $_POST['admin_submit_login'] ) {
 		$theme_selected = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $app_config['general']['default_theme'] );
-		require("templates/interface/php/admin/admin-login/login.php");
+		require("templates/interface/rendering/desktop/php/admin/admin-login/login.php");
 		exit;
 		}
 		elseif ( $_POST['admin_submit_reset'] ) {
 		$theme_selected = ( $_COOKIE['theme_selected'] ? $_COOKIE['theme_selected'] : $app_config['general']['default_theme'] );
-		require("templates/interface/php/admin/admin-login/reset.php");
+		require("templates/interface/rendering/desktop/php/admin/admin-login/reset.php");
 		exit;
 		}
 	
