@@ -462,6 +462,12 @@ $app_config['power_user']['activate_plugins'] = array(
 // RECOMMENDED MINIMUM OF 60 FOR INSTALLS BEHIND #LOW BANDWIDTH# NETWORKS 
 // (which may need an even higher timeout above 60 if data still isn't FULLY received from all APIs)
 $app_config['power_user']['remote_api_timeout'] = 35; // (default = 35)
+							
+							
+// HOURS until admin login cookie expires (requiring you to login again)
+// The lower number the better for higher security, epecially if the app server temporary session data 
+// doesn't auto-clear too often (that also logs you off automatically, REGARDLESS of this setting's attribute)
+$app_config['power_user']['admin_cookie_expire'] = 6; // (default = 6)
 
 
 // MINUTES to cache real-time exchange price data...can be zero to skip cache, but set to at least 1 minute TO AVOID YOUR IP ADDRESS GETTING BLOCKED

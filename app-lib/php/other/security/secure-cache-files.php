@@ -448,7 +448,7 @@ if ( $password_reset_approved || sizeof($stored_admin_login) != 2 ) {
 				
 		$cookie_nonce = random_hash(32); // 32 byte
 		
-		store_cookie_contents('admin_auth_' . pt_id(), $cookie_nonce, mktime()+31536000); // Good for a year
+		store_cookie_contents('admin_auth_' . pt_id(), $cookie_nonce, mktime() + ($app_config['power_user']['admin_cookie_expire'] * 3600) );
 				
 		$_SESSION['admin_logged_in']['auth_hash'] = admin_hashed_nonce($cookie_nonce, 'force'); // Force set, as we're not logged in fully yet
 				
