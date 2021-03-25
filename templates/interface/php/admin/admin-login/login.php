@@ -15,12 +15,18 @@ if ( $_POST['admin_submit_login'] ) {
 	else {
 				
 				// To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
-				if ( trim($base_url) != '' && trim($_POST['admin_username']) != '' && $_POST['admin_password'] != '' 
+				if ( pt_id() != false && isset($_SESSION['nonce']) && trim($_POST['admin_username']) != '' && $_POST['admin_password'] != '' 
 				&& $_POST['admin_username'] == $stored_admin_login[0] && check_pepper_hashed_password($_POST['admin_password'], $stored_admin_login[1]) == true ) {
+					
+				// Login now (set admin security cookie / 'auth_hash' session var), before redirect
 				
-				// Login now, before redirect
-				// COMPATIBLE WITH MULTIPLE INSTALLS ON SAME SERVER
-				$_SESSION['admin_logged_in'][md5($base_url)] = $stored_admin_login;
+				// WE SPLIT THE LOGIN AUTH BETWEEN COOKIE AND SESSION DATA (TO BETTER SECURE LOGIN AUTHORIZATION)
+				
+				$cookie_nonce = random_hash(32); // 32 byte
+		
+				store_cookie_contents('admin_auth_' . pt_id(), $cookie_nonce, mktime()+31536000); // Good for a year
+				
+				$_SESSION['admin_logged_in']['auth_hash'] = admin_hashed_nonce($cookie_nonce, 'force'); // Force set, as we're not logged in fully yet
 				
 				header("Location: admin.php");
 				exit;
@@ -28,6 +34,8 @@ if ( $_POST['admin_submit_login'] ) {
 				}
 				else {
 				$login_result['error'][] = "Wrong username / password.";
+				$_POST['admin_username'] = '';
+				$_POST['admin_password'] = '';
 				}
 			
 

@@ -5,13 +5,32 @@
 
 
 
-
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
 
 
 function titles_usort_alpha($a, $b) {
 return strcmp( strtolower($a["title"]) , strtolower($b["title"]) ); // Case-insensitive equivelent comparision via strtolower()
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+// Install id (10 character hash, based off base url)
+function pt_id() {
+	
+global $base_url;
+
+	if ( trim($base_url) != '' ) {
+	$result = md5($base_url);
+	return substr($result, 0, 10); // First 10 characters
+	}
+	else {
+	return false;
+	}
+
 }
 
 
@@ -169,6 +188,26 @@ $total = count($chunks);
 ////////////////////////////////////////////////////////
 
 
+function admin_logged_in() {
+	
+	// IF REQUIRED DATA NOT SET, REFUSE ADMIN AUTHORIZATION
+	if ( !isset( $_COOKIE['admin_auth_' . pt_id()] )
+	|| !isset( $_SESSION['nonce'] )
+	|| !isset( $_SESSION['admin_logged_in']['auth_hash'] ) ) {
+	return false;
+	}
+	// WE SPLIT THE LOGIN AUTH BETWEEN COOKIE AND SESSION DATA (TO BETTER SECURE LOGIN AUTHORIZATION)
+	elseif ( get_digest( $_COOKIE['admin_auth_' . pt_id()] . $_SESSION['nonce'] ) == $_SESSION['admin_logged_in']['auth_hash'] ) {
+	return true;
+	}
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
 function delete_all_files($dir) {
 
 $files = glob($dir . '/*'); // get all file names
@@ -239,10 +278,12 @@ function hardy_session_clearing() {
 // Deleting all session data can fail on occasion, and wreak havoc.
 // This helps according to one programmer on php.net
 session_start();
+session_name( pt_id() );
+$_SESSION = array();
 session_unset();
 session_destroy();
 session_write_close();
-setcookie(session_name(),'',0,'/');
+setcookie(session_name( pt_id() ),'',0,'/');
 session_regenerate_id(true);
 
 }
@@ -271,17 +312,13 @@ return("".round($bytes, $round)." ".$type[$index]."bytes");
 ////////////////////////////////////////////////////////
 
 // To keep admin nonce key a secret, and make CSRF attacks harder with a different key per submission item
-function admin_hashed_nonce($key) {
+function admin_hashed_nonce($key, $force=false) {
 	
-global $base_url;
-	
-	// Run fairly strict checks
-	if ( !isset( $_SESSION['admin_logged_in'][md5($base_url)] )
-	|| !isset( $_SESSION['nonce'][md5($base_url)] ) ) {
-	return false;
+	if ( admin_logged_in() || $force ) {
+	return get_digest( $key . $_SESSION['nonce'] );
 	}
 	else {
-	return get_digest( $key . $_SESSION['nonce'][md5($base_url)] );
+	return false;
 	}
 	
 }

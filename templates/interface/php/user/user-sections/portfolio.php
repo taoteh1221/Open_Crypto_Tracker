@@ -1354,7 +1354,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
 	
 	<?php
 			// If hardware / software stats are enabled, display the os / hardware / load avg / temperature / free partition space / free memory [mb/percent] / portfolio cache size / software stats
-    		if ( isset( $_SESSION['admin_logged_in'][md5($base_url)] ) ) {
+    		if ( admin_logged_in() ) {
     ?>
 	
 		<fieldset><legend> <strong class="bitcoin">Admin Config - Quick Links</strong> </legend>
@@ -1433,7 +1433,7 @@ zingchart.bind('marketcap_chart', 'label_click', function(e){
    
 	<?php
 		// If hardware / software stats are enabled, display the charts when designated link is clicked (in a modal)
-    	if ( isset( $_SESSION['admin_logged_in'][md5($base_url)] ) ) {
+    	if ( admin_logged_in() ) {
     ?>
 	
 	<div id="show_system_stats">

@@ -24,14 +24,14 @@ if ( $password_reset_approved || sizeof($stored_admin_login) != 2 ) {
 require("templates/interface/php/admin/admin-login/register.php");
 exit;
 }
-// If not logged in
-elseif ( !isset( $_SESSION['admin_logged_in'][md5($base_url)] ) ) {
+// If logged in
+elseif ( admin_logged_in() ) {
+require("templates/interface/php/header.php");
+}
+// If NOT logged in
+else {
 require("templates/interface/php/admin/admin-login/login.php");
 exit;
-}
-// If logged in
-else {
-require("templates/interface/php/header.php");
 }
 
 

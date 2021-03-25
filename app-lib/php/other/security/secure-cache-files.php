@@ -429,7 +429,7 @@ if ( $password_reset_approved || sizeof($stored_admin_login) != 2 ) {
 		
 		
 		// If the admin login update was a success, delete old data file / login / redirect
-		if ( trim($base_url) != '' && $admin_login_updated ) {
+		if ( pt_id() != false && isset($_SESSION['nonce']) && $admin_login_updated ) {
 		
 			// Delete any previous active admin login data file
 			if ( $active_admin_login_path ) {
@@ -441,11 +441,17 @@ if ( $password_reset_approved || sizeof($stored_admin_login) != 2 ) {
 			unlink($stored_reset_key_path);
 			}
 			
-	
-		// Login now, before redirect
-		// COMPATIBLE WITH MULTIPLE INSTALLS ON SAME SERVER
-		$_SESSION['admin_logged_in'][md5($base_url)] = $stored_admin_login;
 		
+		// Login now (set admin security cookie / 'auth_hash' session var), before redirect
+				
+		// WE SPLIT THE LOGIN AUTH BETWEEN COOKIE AND SESSION DATA (TO BETTER SECURE LOGIN AUTHORIZATION)
+				
+		$cookie_nonce = random_hash(32); // 32 byte
+		
+		store_cookie_contents('admin_auth_' . pt_id(), $cookie_nonce, mktime()+31536000); // Good for a year
+				
+		$_SESSION['admin_logged_in']['auth_hash'] = admin_hashed_nonce($cookie_nonce, 'force'); // Force set, as we're not logged in fully yet
+				
 		// Redirect to avoid quirky page reloads later on, AND preset the admin login page for good UX
 		header("Location: admin.php");
 		exit;

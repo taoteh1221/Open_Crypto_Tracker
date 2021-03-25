@@ -22,7 +22,7 @@ if ( !$_GET['new_reset_key'] && !$_POST['admin_submit_reset'] ) {
 	
 }
 elseif ( $password_reset_denied ) {
-$reset_result['error'][] = "Password reset key does not match.";
+$reset_result['error'][] = "Password reset key does not match or exist.";
 $no_password_reset = 1;
 }
 

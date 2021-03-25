@@ -238,7 +238,7 @@ header('Content-type: text/html; charset=' . $app_config['developer']['charset_d
 					  			<a class="dropdown-item<?=( $script_file_info['basename'] == 'index.php' ? ' active' : '' )?>" href="index.php">Portfolio</a>
 					  			
 					  			<?php
-					  			if ( isset( $_SESSION['admin_logged_in'][md5($base_url)] ) ) {
+					  			if ( admin_logged_in() ) {
 					  			?>
 					  			<a class="dropdown-item" href="?logout=1&admin_hashed_nonce=<?=admin_hashed_nonce('logout')?>">Logout</a>
 					  			<?php

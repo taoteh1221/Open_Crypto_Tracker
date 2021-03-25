@@ -321,4 +321,11 @@ gc_collect_cycles(); // Clean memory cache
  * Copyright 2014-2021 GPLv3, Open Crypto Portfolio Tracker by Mike Kilday: http://DragonFrugal.com
  */ -->
  
+ <?php
+ // In case we are redirected to a login template, we include this exit...
+ // IN #ANY# CASE, WE SHOULD BE COMPLETELY DONE RENDERING AT THIS POINT
+ exit;
+ ?>
+ 
+ 
  

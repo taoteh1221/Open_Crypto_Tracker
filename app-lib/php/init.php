@@ -145,6 +145,11 @@ $base_url = base_url();
 }
 
 
+// Give our session a unique name (from an install ID hash, created from the base URL)
+// MUST BE SET AFTER $base_url
+session_name( pt_id() );
+
+
 // Current runtime user
 $current_runtime_user = posix_getpwuid(posix_geteuid())['name'];
 
@@ -164,19 +169,32 @@ $http_runtime_user = ( $runtime_mode == 'ui' ? $current_runtime_user : trim( fil
 $runtime_nonce = random_hash(16); // 16 byte
 
 
+// Session array
+if ( !isset( $_SESSION ) ) {
+$_SESSION = array();
+}
+
+
 // Nonce for secured login session logic in UI
-// COMPATIBLE WITH MULTIPLE INSTALLS ON SAME SERVER
-if ( $runtime_mode == 'ui' && !isset( $_SESSION['nonce'][md5($base_url)] )
-|| $runtime_mode == 'ajax' && !isset( $_SESSION['nonce'][md5($base_url)] ) ) {
-$_SESSION['nonce'][md5($base_url)] = random_hash(32); // 32 byte
+if ( $runtime_mode == 'ui' && !isset( $_SESSION['nonce'] )
+|| $runtime_mode == 'ajax' && !isset( $_SESSION['nonce'] ) ) {
+$_SESSION['nonce'] = random_hash(32); // 32 byte
 }
 
 
 // If user is logging out (run immediately after setting session vars, for quick runtime)
 if ( $_GET['logout'] == 1 && admin_hashed_nonce('logout') != false && $_GET['admin_hashed_nonce'] == admin_hashed_nonce('logout') ) {
-hardy_session_clearing(); // Try to avoid edge-case bug where sessions don't delete, using our hardened function logic
+	
+// Try to avoid edge-case bug where sessions don't delete, using our hardened function logic
+hardy_session_clearing(); 
+
+// Delete admin login cookie
+store_cookie_contents('admin_auth_' . pt_id(), "", time()-3600);  
+unset($_COOKIE['admin_auth_' . pt_id()]); 
+
 header("Location: index.php");
 exit;
+
 }
 
 
