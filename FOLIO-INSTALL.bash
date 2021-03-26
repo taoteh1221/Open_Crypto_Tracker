@@ -239,6 +239,12 @@ echo " "
 
 echo "PLEASE REPORT ANY ISSUES HERE: https://github.com/taoteh1221/Open_Crypto_Portfolio_Tracker/issues"
 echo " "
+
+echo "!!IMPORTANT NOTICE!!: This auto-install script is ONLY FOR SELF-HOSTED ENVIRONMENTS, THAT #DO NOT#"
+echo "ALREADY HAVE A WEB SERVER OR CONTROL PANEL INSTALLED ON THE SYSTEM. If this is a managed hosting"
+echo "environment that a service provider has already provisioned, please quit this auto-install session,"
+echo "and refer to the \"Manual Install\" section of the README.txt file documentation."
+echo " "
   				
 echo "Select 1 or 2 to choose whether to continue with installation, or quit."
 echo " "

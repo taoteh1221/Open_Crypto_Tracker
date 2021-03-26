@@ -10,7 +10,7 @@
 
 
 // Application version
-$app_version = '4.29.2';  // 2021/MARCH/24TH
+$app_version = '4.30.0';  // 2021/MARCH/26TH
 
 // Application edition
 $app_edition = 'server';  // 'server' OR 'desktop' edition (LOWERCASE)
@@ -128,26 +128,32 @@ session_start(); // New session start
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-// Register the base directory of this app (MUST BE SET BEFORE !ANY! Init logic)
-$base_dir = preg_replace("/\/app-lib(.*)/i", "", dirname(__FILE__) );
-
-
 // Load app functions
 require_once('app-lib/php/functions-loader.php');
+
+
+// Register the base directory of this app (MUST BE SET BEFORE !ANY! Init logic)
+$base_dir = preg_replace("/\/app-lib(.*)/i", "", dirname(__FILE__) );
 
 
 //!!!!!!!!!! IMPORTANT, ALWAYS LEAVE THIS HERE !!!!!!!!!!!!!!!
 // FOR #UI LOGIN / LOGOUT SECURITY#, WE NEED THIS SET #VERY EARLY# IN INIT TOO,
 // EVEN THOUGH WE RUN LOGIC AGAIN FURTHER DOWN IN INIT TO SET THIS UNDER
 // ALL CONDITIONS (EVEN CRON RUNTIMES), AND REFRESH VAR CACHE FOR CRON LOGIC
-if ( $runtime_mode == 'ui' || $runtime_mode == 'ajax' ) {
+if ( $runtime_mode != 'cron' ) {
 $base_url = base_url();
 }
 
 
+// Set $pt_id as a global (MUST BE SET AFTER $base_url / $base_dir)
+// (a 10 character install ID hash, created from the base URL or base dir [if cron])
+// AFTER THIS IS SET, WE CAN USE EITHER $pt_id OR pt_id() RELIABLY / EFFICIENTLY ANYWHERE
+// pt_id() can then be used in functions WITHOUT NEEDING ANY $pt_id GLOBAL DECLARED.
+$pt_id = pt_id();
+
+
 // Give our session a unique name 
-// (from an install ID hash, created from the base URL or base dir [if cron])
-// MUST BE SET AFTER $base_url / $base_dir
+// MUST BE SET AFTER $pt_id / first pt_id() call
 session_name( pt_id() );
 
 

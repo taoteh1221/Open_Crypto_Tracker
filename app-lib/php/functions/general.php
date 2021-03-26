@@ -448,30 +448,6 @@ return false;
 ////////////////////////////////////////////////////////
 
 
-// Install id (10 character hash, based off base url)
-function pt_id() {
-	
-global $base_url, $base_dir;
-
-	// UI
-	if ( trim($base_url) != '' ) {
-	return substr( md5($base_url) , 0, 10); // First 10 characters
-	}
-	// CRON
-	elseif ( trim($base_dir) != '' ) {
-	return substr( md5($base_dir) , 0, 10); // First 10 characters
-	}
-	else {
-	return false;
-	}
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
 function text_email($string) {
 
 global $app_config;
@@ -598,6 +574,35 @@ $char = '&#' . $pre . $char . ';';
 $result = html_entity_decode($char, ENT_COMPAT, 'UTF-8');
 
 return $result;
+
+}
+
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+// Install id (10 character hash, based off base url)
+function pt_id() {
+	
+global $base_url, $base_dir, $pt_id;
+
+	// ALREADY SET
+	if ( isset($pt_id) ) {
+	return $pt_id;
+	}
+	// NOT CRON
+	elseif ( $runtime_mode != 'cron' && trim($base_url) != '' ) {
+	return substr( md5($base_url) , 0, 10); // First 10 characters
+	}
+	// CRON
+	elseif ( $runtime_mode == 'cron' && trim($base_dir) != '' ) {
+	return substr( md5($base_dir) , 0, 10); // First 10 characters
+	}
+	// SET FAILED
+	else {
+	return false;
+	}
 
 }
 

@@ -35,7 +35,7 @@ OPTIMIZATIONS / BUGS / TESTS / UX / QA / OTHER SECTION
 ///////////////////////////////////////////////////////
 
 
-FIAT-EQUIVELENT price charts are busted AGAIN (lol), fix them.
+FIAT-EQUIVELENT price charts displaying / being checked off as selected seems to be acting up again? KEEP AN EYE ON IT.
 
 
 Add "do not disturb - start" and "do not disturb - end" configuration settings to the recurring reminder plugin.
