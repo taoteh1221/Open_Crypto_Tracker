@@ -6,6 +6,10 @@
   
 -----------------------------------------------------------------------------------------------------------------------------------------
 
+
+Web server setup / install is available for $30 hourly if needed (see 'Manual Install' section for remotely-hosted, or try the auto-install bash script for self-hosted). PM me on Twitter / Skype @ taoteh1221, or get a hold of me using the below-listed contact methods.
+
+
 Have a question, feature you'd like to see added, or an issue to report? You can do that at the following URLs...
 
 Issue Reporting (Features / Issues / Help): https://github.com/taoteh1221/Open_Crypto_Portfolio_Tracker/issues
@@ -15,8 +19,6 @@ Discord Chat: https://discord.gg/WZVK2nm
 Telegram Chat: https://t.me/joinchat/Oo2XZRS2HsOXSMGejgSO0A
 
 Private Contact: https://dragonfrugal.com/contact
-
-Web server setup / install is available for $30 hourly if needed. PM me on Twitter / Skype @ taoteh1221, or contact me using above contact links.
 
 
 Donations support further development... 

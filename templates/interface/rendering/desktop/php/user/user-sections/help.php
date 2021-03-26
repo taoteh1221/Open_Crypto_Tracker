@@ -36,6 +36,8 @@
 	    <div id="collapse_<?=$accord_var?>" class="collapse show" aria-labelledby="heading_<?=$accord_var?>"
 	      data-parent="#accordionHelp">
 	      <div class="card-body">
+	        
+			  Web server setup / install is available for $30 hourly if needed (see 'Manual Install' section for remotely-hosted, or try the auto-install bash script for self-hosted). PM me on Twitter / Skype @ taoteh1221, or get a hold of me using the below-listed contact methods.<br /><br />
 	      
 	      
 	        <span class='blue'>Have a question, feature you'd like to see added, or an issue to report? You can do that at the following URLs...</span><br /><br />
@@ -48,9 +50,7 @@
 	        
 	        <span class='bitcoin'>Twitter:</span> <a href='https://twitter.com/taoteh1221' target='_blank'>https://twitter.com/taoteh1221</a><br /><br />
 	        
-	        <span class='bitcoin'>Private Contact:</span> <a href='https://dragonfrugal.com/contact' target='_blank'>https://dragonfrugal.com/contact</a><br /><br />
-	        
-			  Web server setup / install is available for $30 hourly if needed (try the auto-install bash script first). PM me on Twitter / Skype @ taoteh1221, or contact me using above contact links.
+	        <span class='bitcoin'>Private Contact:</span> <a href='https://dragonfrugal.com/contact' target='_blank'>https://dragonfrugal.com/contact</a>
 												
 <br /><br />
 

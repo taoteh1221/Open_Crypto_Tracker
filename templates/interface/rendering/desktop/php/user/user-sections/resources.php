@@ -116,7 +116,7 @@
 	        
 	        <li class='links_list'><a href='https://uniswap.org/' target='_blank'>Uniswap.org</a>  <span class='yellow'>(NON-CUSTODIAL markets ANYBODY can trade)</span></li>
 	        
-	        <li class='links_list'><a href='https://loopring.io/' target='_blank'>LoopRing.io</a>  <span class='yellow'>(#EARLY BETA TESTING# Layer 2 NON-CUSTODIAL markets ANYBODY can trade)</span></li>
+	        <li class='links_list'><a href='https://loopring.io/' target='_blank'>LoopRing.io</a>  <span class='yellow'>(#EARLY BETA TESTING# Layer 2 [low TX fee] NON-CUSTODIAL markets ANYBODY can trade)</span></li>
 	        
 	        
 	        
@@ -152,28 +152,31 @@
 	     
 						<p class='red'>ALWAYS <a href='https://en.wikipedia.org/wiki/Cut,_copy,_and_paste' target='_blank'>copy / paste</a> wallet addresses, NEVER type them by hand, or you risk losing coins! 😮 If you are looking to copy a wallet address to somebody's phone, try the QR Code Generator on the Tools page. ALWAYS verify your wallet address copies over correctly, for ANY method you use.</p>
 	     
-						<p class='red'>ALWAYS backup your HD wallet recovery seed, NEVER store it in plain text (unencrypted) on a computer or the cloud, AND NEVER ENTER IT INTO ANY WEBPAGE OR UNVERIFIED WALLET! If you use Bitcoin Core, always backup your wallet.dat file after every transaction. If you use a paper wallet ALWAYS transfer the ENTIRE amount out in the first transaction out. Otherwise you will lose your coins! 😮</p>
+						<p class='red'>ALWAYS backup your HD wallet recovery seed (<a href='https://github.com/iancoleman/bip39' target='_blank'>24 word seed generators</a> are the most secure [only use them OFFLINE!]), NEVER store it in plain text (unencrypted) on a computer or the cloud (BUT use an encryption password YOU WON'T FORGET!!), AND NEVER ENTER IT INTO ANY WEBPAGE OR UNVERIFIED WALLET!!, AND ALWAYS VERIFY YOUR BACKUP WITH A TEST RESTORE!!</p>
+	
+	     
+						<p class='red'>If you use the native Bitcoin Core wallet (NOT recommended), always backup your wallet.dat file after EVERY transaction, OR YOU WILL LOSE ALL YOUR COINS (becuase if it's UTXO logic)! If you use a BITCOIN paper wallet, ALWAYS transfer the ENTIRE amount out in the FIRST TRANSACTION OUT, OR YOU WILL LOSE ALL YOUR COINS (becuase if it's UTXO logic)! 😮</p>
 	
 		
 		</div>
 		
 	    <ul>
 	        
-	        <li class='links_list'><a href='https://www.ledger.com/' target='_blank'>Ledger</a> (proprietary multi-coin hardware wallet, with isolated bank grade security chip)</li>
+	        <li class='links_list'><a href='https://www.ledger.com/' target='_blank'>Ledger</a>   <span class='yellow'>(proprietary multi-coin hardware wallet, with isolated bank grade security chip)</span></li>
 	        
-	        <li class='links_list'><a href='https://trezor.io/' target='_blank'>Trezor</a> (open source multi-coin hardware wallet)</li>
+	        <li class='links_list'><a href='https://trezor.io/' target='_blank'>Trezor</a>   <span class='yellow'>(open source multi-coin hardware wallet)</span></li>
 	        
-	        <li class='links_list'><a href='https://coldcardwallet.com/' target='_blank'>Coldcard</a> (open source Bitcoin hardware wallet)</li>
+	        <li class='links_list'><a href='https://coldcardwallet.com/' target='_blank'>Coldcard</a>   <span class='yellow'>(open source Bitcoin hardware wallet [uses fork of trezor software interface])</span></li>
 	        
-	        <li class='links_list'><a href='https://github.com/gnosis/MultiSigWallet/releases' target='_blank'>Gnosis Multisig Wallet</a> (Ethereum software wallet with hardware wallet support)</li>
+	        <li class='links_list'><a href='https://github.com/gnosis/MultiSigWallet/releases' target='_blank'>Gnosis Multisig Wallet</a>   <span class='yellow'>(Ethereum software wallet, with hardware wallet support)</span></li>
 	        
-	        <li class='links_list'><a href='https://metamask.io/' target='_blank'>Metamask</a> (Ethereum software wallet browser extension)</li>
+	        <li class='links_list'><a href='https://metamask.io/' target='_blank'>Metamask</a>   <span class='yellow'>(Ethereum software wallet browser extension, with hardware wallet support)</span></li>
 	        
-	        <li class='links_list'><a href='https://download.mycrypto.com/' target='_blank'>Mycrypto Desktop App</a> (Ethereum software wallet with hardware wallet support)</li>
+	        <li class='links_list'><a href='https://download.mycrypto.com/' target='_blank'>Mycrypto Desktop App</a>   <span class='yellow'>(Ethereum software wallet, with hardware wallet support)</span></li>
 	        
-	        <li class='links_list'><a href='https://specter.solutions/' target='_blank'>Specter Desktop</a> (Bitcoin software with hardware wallet support)</li>
+	        <li class='links_list'><a href='https://specter.solutions/' target='_blank'>Specter Desktop</a>   <span class='yellow'>(Bitcoin software for hardware wallets)</span></li>
 	        
-	        <li class='links_list'><a href='https://zap.jackmallers.com/download' target='_blank'>Zap (Bitcoin Lightning network on multiple devices [WARNING: Lightning network is still VERY EXPERIMENTAL, AND MAY STILL HAVE SIGNIFICANT BUGS])</a></li>
+	        <li class='links_list'><a href='https://zap.jackmallers.com/download' target='_blank'>Zap</a>  <span class='yellow'>(Bitcoin Lightning network on multiple devices [WARNING: Lightning network is still VERY EXPERIMENTAL, AND MAY STILL HAVE SIGNIFICANT BUGS])</span></li>
 	        
 	        
 	        
@@ -314,7 +317,7 @@
 	        
 	        <li class='links_list'><a href='https://simplemining.net/' target='_blank'>Simplemining.net</a></li>
 	        
-	        <li class='links_list'><a href='https://whattomine.com/' target='_blank'>Whattomine.com</a> (profit calculations)</li>
+	        <li class='links_list'><a href='https://whattomine.com/' target='_blank'>Whattomine.com</a>  <span class='yellow'>(profit calculations)</span></li>
 	        
 	        
 	        
@@ -341,7 +344,7 @@
 	        
 	        <li class='links_list'><a href='https://ethereum.stackexchange.com/' target='_blank'>StackExchange - Ethereum</a></li>
 	        
-	        <li class='links_list'><a href='https://thegraph.com/' target='_blank'>The Graph</a> (multiple GraphQL APIs)</li>
+	        <li class='links_list'><a href='https://thegraph.com/' target='_blank'>The Graph</a>    <span class='yellow'>(multiple GraphQL APIs)</span></li>
 	        
 	        <li class='links_list'><a href='https://notes.ethereum.org/c/Sk8Zs--CQ' target='_blank'>What’s new in ETH 2.0</a></li>
 	        
@@ -356,17 +359,17 @@
 	    <ul>
 	        
 	        
-	        <li class='links_list'><a href='https://btcpayserver.org/' target='_blank'>BTCPay Server (Self-hosted Bitcoin payment processor)</a></li>
+	        <li class='links_list'><a href='https://btcpayserver.org/' target='_blank'>BTCPay Server</a>    <span class='yellow'>(Self-hosted Bitcoin payment processor)</span></li>
 	        
-	        <li class='links_list'><a href='https://grid.ethereum.org/' target='_blank'>Grid (Ethereum node implementations and tools)</a></li>
+	        <li class='links_list'><a href='https://grid.ethereum.org/' target='_blank'>Grid</a>    <span class='yellow'>(Ethereum node implementations and tools)</span></li>
 	        
-	        <li class='links_list'><a href='https://mynodebtc.com/' target='_blank'>MyNode (Bitcoin / Lightning nodes and tools)</a></li>
+	        <li class='links_list'><a href='https://mynodebtc.com/' target='_blank'>MyNode</a>    <span class='yellow'>(Bitcoin / Lightning nodes and tools)</span></li>
 	        
-	        <li class='links_list'><a href='https://www.opennode.com/' target='_blank'>OpenNode (Bitcoin / Lightning ecommerce gateway services)</a></li>
+	        <li class='links_list'><a href='https://www.opennode.com/' target='_blank'>OpenNode</a>    <span class='yellow'>(Bitcoin / Lightning ecommerce gateway services)</span></li>
 	        
-	        <li class='links_list'><a href='https://github.com/rootzoll/raspiblitz' target='_blank'>RaspiBlitz (Bitcoin Lightning node on a Raspberry Pi w/LCD screen)</a></li>
+	        <li class='links_list'><a href='https://github.com/rootzoll/raspiblitz' target='_blank'>RaspiBlitz</a>    <span class='yellow'>(Bitcoin Lightning node on a Raspberry Pi w/LCD screen)</li>
 	        
-	        <li class='links_list'><a href='https://zap.jackmallers.com/download' target='_blank'>Zap (Bitcoin Lightning node on multiple devices)</a></li>
+	        <li class='links_list'><a href='https://zap.jackmallers.com/download' target='_blank'>Zap</a>    <span class='yellow'>(Bitcoin Lightning node on multiple devices)</span></li>
 	      
 	        
 	        
