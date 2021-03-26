@@ -367,7 +367,7 @@
 	        
 	        <li class='links_list'><a href='https://www.opennode.com/' target='_blank'>OpenNode</a>    <span class='yellow'>(Bitcoin / Lightning ecommerce gateway services)</span></li>
 	        
-	        <li class='links_list'><a href='https://github.com/rootzoll/raspiblitz' target='_blank'>RaspiBlitz</a>    <span class='yellow'>(Bitcoin Lightning node on a Raspberry Pi w/LCD screen)</li>
+	        <li class='links_list'><a href='https://github.com/rootzoll/raspiblitz' target='_blank'>RaspiBlitz</a>    <span class='yellow'>(Bitcoin Lightning node on a Raspberry Pi w/LCD screen)</span></li>
 	        
 	        <li class='links_list'><a href='https://zap.jackmallers.com/download' target='_blank'>Zap</a>    <span class='yellow'>(Bitcoin Lightning node on multiple devices)</span></li>
 	      
