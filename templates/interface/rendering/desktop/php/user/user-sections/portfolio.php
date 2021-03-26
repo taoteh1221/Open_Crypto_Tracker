@@ -532,7 +532,7 @@ $altcoin_dominance = max_100($altcoin_dominance);
 		
 			var crypto_value_content = '<h5 class="yellow tooltip_title">Crypto Value</h5>'
 			
-			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">The value of your ENTIRE portfolio, in the cryptocurrencies you selected in the "Show Crypto Value Of ENTIRE Portfolio In" setting, on the settings page.</p>'
+			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">The value of your ENTIRE portfolio, in the cryptocurrencies you selected in the "Show Crypto Value Of ENTIRE Portfolio In" setting, on the Settings page.</p>'
 		
 			+'<?=$leverage_text1?>';
 		
@@ -584,7 +584,7 @@ $altcoin_dominance = max_100($altcoin_dominance);
 
 var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?>) Value</h5>'
 			
-			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">The value of your ENTIRE portfolio, based off your selected primary currency (<?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?>), in the "Primary Currency Market" setting, on the settings page.</p>'
+			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">The value of your ENTIRE portfolio, based off your selected primary currency (<?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?>), in the "Primary Currency Market" setting, on the Settings page.</p>'
 			
 			+'<p class="coin_info" style="max-width: 600px; white-space: normal;">Selected Primary Currency Market: <span class="yellow">BTC / <?=strtoupper($app_config['general']['btc_primary_currency_pairing'])?> @ <?=snake_case_to_name($app_config['general']['btc_primary_exchange'])?> (<?=$app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']]?><?=number_format( $selected_btc_primary_currency_value, 2, '.', ',')?>)</span></p>'
 		
