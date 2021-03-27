@@ -873,6 +873,8 @@ var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=
     ?>
     
     
+	<div class='align_left clear_both' style='white-space: nowrap;'>
+	
     
     Time Period: <select class='browser-default custom-select' id='performance_chart_period' name='performance_chart_period' onchange="
     
@@ -894,7 +896,7 @@ var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=
     </select>  &nbsp;&nbsp; 
     
     
-    Custom Start Date: <input type="text" id='performance_date' name='performance_date' class="datepicker" value='' placeholder="YYYY/MM/DD (optional)" style='width: 180px; display: inline;' /> 
+    Custom Start Date: <input type="text" id='performance_date' name='performance_date' class="datepicker" value='' placeholder="yyyy/mm/dd (optional)" style='width: 155px; display: inline;' /> 
 		
 			 &nbsp;&nbsp; 
 
@@ -982,6 +984,10 @@ var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=
     " /> 
     
     &nbsp; <img class="performance_chart_defaults" src="templates/interface/media/images/info.png" alt="" width="30" style="position: relative; left: -5px;" />
+    
+    
+    </div>
+    
     
 <script>
 

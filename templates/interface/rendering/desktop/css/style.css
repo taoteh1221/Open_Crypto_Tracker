@@ -613,6 +613,11 @@ margin-top: 5px;
 }
 
 
+div.modaal-wrapper.modaal-fullscreen div.modaal-content-container fieldset.subsection_fieldset {
+min-width: 1150px !important;
+}
+
+
 /* //////////////////////////////
 IDs
 ////////////////////////////// */
@@ -793,8 +798,8 @@ table-layout:fixed;
 }
 
 
-#coins_table thead, #coins_table tbody {
-min-width: 1200px;
+#coins_table thead, #coins_table tbody, div.modaal-wrapper.modaal-fullscreen div.modaal-content-container {
+min-width: 1200px !important;
 }
 
 
