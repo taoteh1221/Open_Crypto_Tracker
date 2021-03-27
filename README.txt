@@ -61,7 +61,7 @@ FEATURES
 
 -Add / edit / delete your own portfolio assets list, with your favorite exchanges / market pairings.
 
--Add / edit / delete your own price alerts and charts for assets / exchanges / market pairings (supports multiple exchanges / market pairings per asset).
+-Add / edit / delete your own price alerts and price charts for assets / exchanges / market pairings (supports multiple exchanges / market pairings per asset).
 
 -Import / export your portfolio in CSV (spreadsheet) file format.
 
