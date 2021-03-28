@@ -128,12 +128,12 @@ session_start(); // New session start
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-// Load app functions
+// Load app functions / classes
 require_once('app-lib/php/functions-loader.php');
 require_once('app-lib/php/core-classes-loader.php');
 
 
-// Register the base directory of this app (MUST BE SET BEFORE !ANY! Init logic)
+// Register the base directory of this app (MUST BE SET BEFORE !ANY! init logic calls)
 $base_dir = preg_replace("/\/app-lib(.*)/i", "", dirname(__FILE__) );
 
 
@@ -196,7 +196,6 @@ if ( $_GET['logout'] == 1 && admin_hashed_nonce('logout') != false && $_GET['adm
 hardy_session_clearing(); 
 
 // Delete admin login cookie
-$pt_general->store_cookie_contents('admin_auth_' . pt_app_id(), "", time()-3600);  
 unset($_COOKIE['admin_auth_' . pt_app_id()]); 
 
 header("Location: index.php");
@@ -443,7 +442,7 @@ require_once('app-lib/php/other/security/secure-cache-files.php');
 // Dynamic app config management (MUST RUN AFTER secure cache files FOR CACHED / config.php app_config comparison)
 require_once('app-lib/php/other/app-config-management.php');
 
-// Load any activated classes (MUST RUN AS EARLY AS POSSIBLE #AFTER SECURE CACHE FILES / APP CONFIG MANAGEMENT#)
+// Load any activated 3RD PARTY classes (MUST RUN AS EARLY AS POSSIBLE #AFTER SECURE CACHE FILES / APP CONFIG MANAGEMENT#)
 require_once('app-lib/php/3rd-party-classes-loader.php');
 
 // Chart sub-directory creation (if needed...MUST RUN AFTER app config management)

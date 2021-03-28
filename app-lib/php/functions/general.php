@@ -1563,8 +1563,6 @@ return $result;
 
 
 function delete_all_cookies() {
-	
-global $pt_general;
   
   // Portfolio
   unset($_COOKIE['coin_amounts']); 
