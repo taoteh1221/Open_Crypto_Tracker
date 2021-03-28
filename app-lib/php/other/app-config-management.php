@@ -13,26 +13,26 @@
 // START CONFIG CLEANUP (auto-correct any basic end user data entry errors in possibly user-customized DEFAULTS in config.php)
 
 // Cleaning lowercase alphanumeric string values, and auto-correct minor errors
-$app_config['developer']['debug_mode'] = auto_correct_string($app_config['developer']['debug_mode'], 'lower');
-$app_config['comms']['upgrade_alert'] = auto_correct_string($app_config['comms']['upgrade_alert'], 'lower');
-$app_config['general']['btc_primary_currency_pairing'] = auto_correct_string($app_config['general']['btc_primary_currency_pairing'], 'lower');
-$app_config['general']['btc_primary_exchange'] = auto_correct_string($app_config['general']['btc_primary_exchange'], 'lower');
-$app_config['developer']['log_verbosity'] = auto_correct_string($app_config['developer']['log_verbosity'], 'lower');
-$app_config['general']['default_theme'] = auto_correct_string($app_config['general']['default_theme'], 'lower');
-$app_config['general']['primary_marketcap_site'] = auto_correct_string($app_config['general']['primary_marketcap_site'], 'lower');
-$app_config['comms']['price_alerts_block_volume_error'] = auto_correct_string($app_config['comms']['price_alerts_block_volume_error'], 'lower');
-$app_config['developer']['remote_api_strict_ssl'] = auto_correct_string($app_config['developer']['remote_api_strict_ssl'], 'lower');
-$app_config['general']['asset_charts_toggle'] = auto_correct_string($app_config['general']['asset_charts_toggle'], 'lower');
-$app_config['comms']['proxy_alerts'] = auto_correct_string($app_config['comms']['proxy_alerts'], 'lower');
-$app_config['comms']['proxy_alerts_runtime'] = auto_correct_string($app_config['comms']['proxy_alerts_runtime'], 'lower');
-$app_config['comms']['proxy_alerts_checkup_ok'] = auto_correct_string($app_config['comms']['proxy_alerts_checkup_ok'], 'lower');
+$app_config['developer']['debug_mode'] = $pt_vars->auto_correct_str($app_config['developer']['debug_mode'], 'lower');
+$app_config['comms']['upgrade_alert'] = $pt_vars->auto_correct_str($app_config['comms']['upgrade_alert'], 'lower');
+$app_config['general']['btc_primary_currency_pairing'] = $pt_vars->auto_correct_str($app_config['general']['btc_primary_currency_pairing'], 'lower');
+$app_config['general']['btc_primary_exchange'] = $pt_vars->auto_correct_str($app_config['general']['btc_primary_exchange'], 'lower');
+$app_config['developer']['log_verbosity'] = $pt_vars->auto_correct_str($app_config['developer']['log_verbosity'], 'lower');
+$app_config['general']['default_theme'] = $pt_vars->auto_correct_str($app_config['general']['default_theme'], 'lower');
+$app_config['general']['primary_marketcap_site'] = $pt_vars->auto_correct_str($app_config['general']['primary_marketcap_site'], 'lower');
+$app_config['comms']['price_alerts_block_volume_error'] = $pt_vars->auto_correct_str($app_config['comms']['price_alerts_block_volume_error'], 'lower');
+$app_config['developer']['remote_api_strict_ssl'] = $pt_vars->auto_correct_str($app_config['developer']['remote_api_strict_ssl'], 'lower');
+$app_config['general']['asset_charts_toggle'] = $pt_vars->auto_correct_str($app_config['general']['asset_charts_toggle'], 'lower');
+$app_config['comms']['proxy_alerts'] = $pt_vars->auto_correct_str($app_config['comms']['proxy_alerts'], 'lower');
+$app_config['comms']['proxy_alerts_runtime'] = $pt_vars->auto_correct_str($app_config['comms']['proxy_alerts_runtime'], 'lower');
+$app_config['comms']['proxy_alerts_checkup_ok'] = $pt_vars->auto_correct_str($app_config['comms']['proxy_alerts_checkup_ok'], 'lower');
 
 
 // Cleaning charts/alerts array
 $cleaned_charts_and_price_alerts = array();
 foreach ( $app_config['charts_alerts']['tracked_markets'] as $key => $value ) {
-$cleaned_key = auto_correct_string($key, 'lower');
-$cleaned_value = auto_correct_string($value, 'lower');
+$cleaned_key = $pt_vars->auto_correct_str($key, 'lower');
+$cleaned_value = $pt_vars->auto_correct_str($value, 'lower');
 $cleaned_charts_and_price_alerts[$cleaned_key] = $cleaned_value;
 }
 $app_config['charts_alerts']['tracked_markets'] = $cleaned_charts_and_price_alerts;
@@ -41,8 +41,8 @@ $app_config['charts_alerts']['tracked_markets'] = $cleaned_charts_and_price_aler
 // Cleaning mobile networks array
 $cleaned_mobile_networks = array();
 foreach ( $app_config['mobile_network_text_gateways'] as $key => $value ) {
-$cleaned_key = auto_correct_string($key, 'lower');
-$cleaned_value = auto_correct_string($value, 'lower');
+$cleaned_key = $pt_vars->auto_correct_str($key, 'lower');
+$cleaned_value = $pt_vars->auto_correct_str($value, 'lower');
 $cleaned_mobile_networks[$cleaned_key] = $cleaned_value;
 }
 $app_config['mobile_network_text_gateways'] = $cleaned_mobile_networks;
@@ -106,7 +106,7 @@ if ( is_array($app_config['portfolio_assets']) ) {
 
 
 
-// Update dynamic mining data (UI only), since we are using the json config in the secured cache
+// Update dynamic mining data (DURING 'ui' ONLY), since we are using the json config in the secured cache
 if ( $runtime_mode == 'ui' && is_array($app_config['power_user']['mining_calculators']) ) {
 	
 
@@ -124,9 +124,9 @@ $app_config['power_user']['mining_calculators']['pow']['eth']['other_network_dat
 	// If a mining calculator is being used this runtime, include mining time formula calculations for that chain
 	if ( isset($_POST['pow_calc']) ) {
 				    
-	$_POST['network_measure'] = remove_number_format($_POST['network_measure']);
+	$_POST['network_measure'] = $pt_vars->rem_num_format($_POST['network_measure']);
 				    
-	$_POST['your_hashrate'] = remove_number_format($_POST['your_hashrate']);
+	$_POST['your_hashrate'] = $pt_vars->rem_num_format($_POST['your_hashrate']);
 		
 	$miner_hashrate = trim($_POST['your_hashrate']) * trim($_POST['hash_level']);
 	
@@ -177,10 +177,10 @@ app_logging( 'other_error', 'RSS feeds failed to sort alphabetically');
 
 
 // Better decimal support for these vars...
-$app_config['power_user']['system_stats_first_chart_highest_value'] = number_to_string($app_config['power_user']['system_stats_first_chart_highest_value']); 
-$app_config['general']['primary_currency_decimals_max_threshold'] = number_to_string($app_config['general']['primary_currency_decimals_max_threshold']); 
-$app_config['comms']['price_alerts_threshold'] = number_to_string($app_config['comms']['price_alerts_threshold']); 
-$app_config['power_user']['hivepower_yearly_interest'] = number_to_string($app_config['power_user']['hivepower_yearly_interest']); 
+$app_config['power_user']['system_stats_first_chart_highest_value'] = $pt_vars->num_to_str($app_config['power_user']['system_stats_first_chart_highest_value']); 
+$app_config['general']['primary_currency_decimals_max_threshold'] = $pt_vars->num_to_str($app_config['general']['primary_currency_decimals_max_threshold']); 
+$app_config['comms']['price_alerts_threshold'] = $pt_vars->num_to_str($app_config['comms']['price_alerts_threshold']); 
+$app_config['power_user']['hivepower_yearly_interest'] = $pt_vars->num_to_str($app_config['power_user']['hivepower_yearly_interest']); 
 
 
 // Backup archive password protection / encryption

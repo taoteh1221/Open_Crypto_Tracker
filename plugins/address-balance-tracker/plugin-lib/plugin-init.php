@@ -45,11 +45,11 @@ $pairing_btc_value = pairing_btc_value($asset);
 	
 
 // Get primary currency value of the current address balance
-$coin_primary_currency_worth_raw = number_to_string( ($address_balance * $pairing_btc_value) * $selected_btc_primary_currency_value );
+$coin_primary_currency_worth_raw = $pt_vars->num_to_str( ($address_balance * $pairing_btc_value) * $selected_btc_primary_currency_value );
 
-$pretty_primary_currency_worth = pretty_numbers($coin_primary_currency_worth_raw, ( $coin_primary_currency_worth_raw >= 1.00 ? 2 : 5 ) );
+$pretty_primary_currency_worth = $pt_vars->num_pretty($coin_primary_currency_worth_raw, ( $coin_primary_currency_worth_raw >= 1.00 ? 2 : 5 ) );
 
-$pretty_coin_amount = pretty_numbers($address_balance, 8);
+$pretty_coin_amount = $pt_vars->num_pretty($address_balance, 8);
 
 	
 	// Get cache data, and / or flag a cache reset
@@ -59,7 +59,7 @@ $pretty_coin_amount = pretty_numbers($address_balance, 8);
 	
 	$cached_address = $balance_tracking_cache_data[0];
 	
-	$cached_address_balance = number_to_string($balance_tracking_cache_data[1]);
+	$cached_address_balance = $pt_vars->num_to_str($balance_tracking_cache_data[1]);
 	
 		// If user changed the address in the config, flag a reset
 		if ( $address != $cached_address ) {
@@ -89,7 +89,7 @@ $pretty_coin_amount = pretty_numbers($address_balance, 8);
 	if ( $address_balance != $cached_address_balance ) {
 		
 	// Balance change amount
-	$difference_amount = abs( number_to_string($cached_address_balance - $address_balance) );
+	$difference_amount = abs( $pt_vars->num_to_str($cached_address_balance - $address_balance) );
 		
 		if ( $address_balance > $cached_address_balance ) {
 		$direction = 'increase';

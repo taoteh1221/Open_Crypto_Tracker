@@ -11,14 +11,14 @@ $marketcap_data = marketcap_data($key, 'usd'); // For marketcap bar chart, we AL
 //var_dump($marketcap_data);
 		
 	if ( $_GET['marketcap_type'] == 'circulating' && $marketcap_data['market_cap'] ) {
-	$runtime_data['marketcap_data'][$key] = remove_number_format($marketcap_data['market_cap']);
+	$runtime_data['marketcap_data'][$key] = $pt_vars->rem_num_format($marketcap_data['market_cap']);
 	}
 	elseif ( $_GET['marketcap_type'] == 'total' && $marketcap_data['market_cap_total'] ) {
-	$runtime_data['marketcap_data'][$key] = ( remove_number_format($marketcap_data['market_cap_total']) ); 
+	$runtime_data['marketcap_data'][$key] = ( $pt_vars->rem_num_format($marketcap_data['market_cap_total']) ); 
 	}
 	// If circulating / total are same
 	elseif ( $_GET['marketcap_type'] == 'total' && $marketcap_data['market_cap'] ) {
-	$runtime_data['marketcap_data'][$key] = ( remove_number_format($marketcap_data['market_cap']) ); 
+	$runtime_data['marketcap_data'][$key] = ( $pt_vars->rem_num_format($marketcap_data['market_cap']) ); 
 	}
 
 }
@@ -98,7 +98,7 @@ exit;
 $loop = 0;
 foreach ( $runtime_data['marketcap_data'] as $marketcap_key => $marketcap_value ) {
   			
-$marketcap_value = remove_number_format($marketcap_value);
+$marketcap_value = $pt_vars->rem_num_format($marketcap_value);
 
 	// If percent value matches, and another (increasing) number to the end, to avoid overwriting keys (this data is only used as an array key anyway)
 	if ( !array_key_exists($marketcap_value, $sorted_by_marketcap_data) ) {

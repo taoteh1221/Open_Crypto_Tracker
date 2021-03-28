@@ -37,7 +37,7 @@ $activation_files = sort_files($base_dir . '/cache/secured/activation', 'dat', '
 	
 	// If reset security key checks pass and a valid admin 'to' email exists, flag as an activated reset in progress (to trigger logic later in runtime)
 	
-	$app_config['comms']['to_email'] = auto_correct_string($app_config['comms']['to_email'], 'lower'); // Clean / auto-correct
+	$app_config['comms']['to_email'] = $pt_vars->auto_correct_str($app_config['comms']['to_email'], 'lower'); // Clean / auto-correct
 	
 	if ( $_GET['new_reset_key'] == $stored_reset_key && validate_email($app_config['comms']['to_email']) == 'valid' ) {
 	$password_reset_approved = 1;
@@ -429,7 +429,7 @@ if ( $password_reset_approved || sizeof($stored_admin_login) != 2 ) {
 		
 		
 		// If the admin login update was a success, delete old data file / login / redirect
-		if ( pt_id() != false && isset($_SESSION['nonce']) && $admin_login_updated ) {
+		if ( pt_app_id() != false && isset($_SESSION['nonce']) && $admin_login_updated ) {
 		
 			// Delete any previous active admin login data file
 			if ( $active_admin_login_path ) {
@@ -448,7 +448,7 @@ if ( $password_reset_approved || sizeof($stored_admin_login) != 2 ) {
 				
 		$cookie_nonce = random_hash(32); // 32 byte
 		
-		store_cookie_contents('admin_auth_' . pt_id(), $cookie_nonce, mktime() + ($app_config['power_user']['admin_cookie_expire'] * 3600) );
+		$pt_general->store_cookie_contents('admin_auth_' . pt_app_id(), $cookie_nonce, mktime() + ($app_config['power_user']['admin_cookie_expire'] * 3600) );
 				
 		$_SESSION['admin_logged_in']['auth_hash'] = admin_hashed_nonce($cookie_nonce, 'force'); // Force set, as we're not logged in fully yet
 				

@@ -12,7 +12,7 @@
 				<?php
 				$value_per_coin = round( $mined_coin_value * $selected_btc_primary_currency_value , 8);
 				
-				$value_per_coin = ( number_to_string($value_per_coin) >= $app_config['general']['primary_currency_decimals_max_threshold'] ? round($value_per_coin, 2) : round($value_per_coin, $app_config['general']['primary_currency_decimals_max']) );
+				$value_per_coin = ( $pt_vars->num_to_str($value_per_coin) >= $app_config['general']['primary_currency_decimals_max_threshold'] ? round($value_per_coin, 2) : round($value_per_coin, $app_config['general']['primary_currency_decimals_max']) );
 				
 				echo ( $pow_coin_data['symbol'] == 'btc' ? number_format($selected_btc_primary_currency_value, 2) . ' ' . strtoupper($app_config['general']['btc_primary_currency_pairing']) : number_format($mined_coin_value, 8) . ' BTC (' . $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] . $value_per_coin . ' '.strtoupper($app_config['general']['btc_primary_currency_pairing']).')' );
 				?>
@@ -42,7 +42,7 @@
 				<b>Average BTC Value Earned Daily:</b> 
 				
 				<?php
-				$primary_currency_daily_average_raw = ( number_to_string($primary_currency_daily_average_raw) >= $app_config['general']['primary_currency_decimals_max_threshold'] ? round($primary_currency_daily_average_raw, 2) : round($primary_currency_daily_average_raw, $app_config['general']['primary_currency_decimals_max']) );
+				$primary_currency_daily_average_raw = ( $pt_vars->num_to_str($primary_currency_daily_average_raw) >= $app_config['general']['primary_currency_decimals_max_threshold'] ? round($primary_currency_daily_average_raw, 2) : round($primary_currency_daily_average_raw, $app_config['general']['primary_currency_decimals_max']) );
 				
 				echo number_format( $btc_daily_average_raw, 8 ) . ' BTC (' . $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] . $primary_currency_daily_average_raw . ' '.strtoupper($app_config['general']['btc_primary_currency_pairing']).')';
 				?>
@@ -74,7 +74,7 @@
 				
 				<?php
 				
-				$mining_daily_profit = number_to_string($primary_currency_daily_average_raw - $kwh_cost_daily - $pool_fee_daily); // Better decimal support
+				$mining_daily_profit = $pt_vars->num_to_str($primary_currency_daily_average_raw - $kwh_cost_daily - $pool_fee_daily); // Better decimal support
 				
 				if ( $mining_daily_profit >= 0 ) {
 				$mining_daily_profit_span = 'green';

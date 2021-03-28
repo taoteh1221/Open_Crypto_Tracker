@@ -15,7 +15,7 @@
 
 function bitcoin_api($request) {
  
-global $app_config;
+global $app_config, $pt_cache;
  		
     
 	if ( $request == 'height' ) {
@@ -25,7 +25,7 @@ global $app_config;
 	$string = 'https://blockchain.info/q/getdifficulty';
 	}
 		
-$data = @external_api_data('url', $string, $app_config['power_user']['chainstats_cache_time']);
+$data = @$pt_cache->ext_apis('url', $string, $app_config['power_user']['chainstats_cache_time']);
     
 return (float)$data;
   
@@ -38,7 +38,7 @@ return (float)$data;
 
 function coingecko_api($force_primary_currency=null) {
 	
-global $base_dir, $app_config;
+global $base_dir, $app_config, $pt_cache;
 
 $data = array();
 $sub_arrays = array();
@@ -64,7 +64,7 @@ $coingecko_primary_currency = ( $force_primary_currency != null ? strtolower($fo
 			usleep(150000); // Wait 0.15 seconds between consecutive calls, to avoid being blocked / throttled by external server
 			}
 		
-		$jsondata = @external_api_data('url', $url, $app_config['power_user']['marketcap_cache_time']);
+		$jsondata = @$pt_cache->ext_apis('url', $url, $app_config['power_user']['marketcap_cache_time']);
 
 		$sub_arrays[] = json_decode($jsondata, true);
 		$loop = $loop + 1;
@@ -72,7 +72,7 @@ $coingecko_primary_currency = ( $force_primary_currency != null ? strtolower($fo
 	
 	}
 	else {
-	$jsondata = @external_api_data('url', 'https://api.coingecko.com/api/v3/coins/markets?per_page='.$app_config['power_user']['marketcap_ranks_max'].'&page=1&vs_currency='.$coingecko_primary_currency.'&price_change_percentage=1h,24h,7d,14d,30d,200d,1y', $app_config['power_user']['marketcap_cache_time']);
+	$jsondata = @$pt_cache->ext_apis('url', 'https://api.coingecko.com/api/v3/coins/markets?per_page='.$app_config['power_user']['marketcap_ranks_max'].'&page=1&vs_currency='.$coingecko_primary_currency.'&price_change_percentage=1h,24h,7d,14d,30d,200d,1y', $app_config['power_user']['marketcap_cache_time']);
 	$sub_arrays[] = json_decode($jsondata, true);
 	}
 	   
@@ -122,12 +122,12 @@ return $result;
 
 function telegram_user_data($mode) {
 	
-global $app_config;
+global $app_config, $pt_cache;
 
 	if ( $mode == 'updates' ) {
 	
 	// Don't cache data, we are storing it as a specific (secured) cache var instead
-	$get_telegram_chatroom_data = @external_api_data('url', 'https://api.telegram.org/bot'.$app_config['comms']['telegram_bot_token'].'/getUpdates', 0);
+	$get_telegram_chatroom_data = @$pt_cache->ext_apis('url', 'https://api.telegram.org/bot'.$app_config['comms']['telegram_bot_token'].'/getUpdates', 0);
 		
 	$telegram_chatroom = json_decode($get_telegram_chatroom_data, true);
 
@@ -148,7 +148,7 @@ global $app_config;
 	elseif ( $mode == 'webhook' ) {
 		
 	// Don't cache data, we are storing it as a specific (secured) cache var instead
-	$get_telegram_webhook_data = @external_api_data('url', 'https://api.telegram.org/bot'.$app_config['comms']['telegram_bot_token'].'/getWebhookInfo', 0);
+	$get_telegram_webhook_data = @$pt_cache->ext_apis('url', 'https://api.telegram.org/bot'.$app_config['comms']['telegram_bot_token'].'/getWebhookInfo', 0);
 		
 	$telegram_webhook = json_decode($get_telegram_webhook_data, true);
 	
@@ -166,7 +166,7 @@ global $app_config;
 
 function etherscan_api($block_info) {
  
-global $base_dir, $app_config;
+global $base_dir, $app_config, $pt_cache;
 
 
 	if ( $app_config['general']['etherscanio_api_key'] == '' ) {
@@ -175,7 +175,7 @@ global $base_dir, $app_config;
 
 
   $json_string = 'https://api.etherscan.io/api?module=proxy&action=eth_blockNumber&apikey=' . $app_config['general']['etherscanio_api_key'];
-  $jsondata = @external_api_data('url', $json_string, $app_config['power_user']['chainstats_cache_time']);
+  $jsondata = @$pt_cache->ext_apis('url', $json_string, $app_config['power_user']['chainstats_cache_time']);
     
   $data = json_decode($jsondata, true);
   
@@ -190,7 +190,7 @@ global $base_dir, $app_config;
     		if ( update_cache_file('cache/secured/external_api/eth-stats.dat', $app_config['power_user']['chainstats_cache_time'] ) == true ) {
 			
   			$json_string = 'https://api.etherscan.io/api?module=proxy&action=eth_getBlockByNumber&tag='.$block_number.'&boolean=true&apikey=' . $app_config['general']['etherscanio_api_key'];
-  			$jsondata = @external_api_data('url', $json_string, 0); // ZERO TO NOT CACHE DATA (WOULD CREATE CACHE BLOAT)
+  			$jsondata = @$pt_cache->ext_apis('url', $json_string, 0); // ZERO TO NOT CACHE DATA (WOULD CREATE CACHE BLOAT)
     		
     		store_file_contents($base_dir . '/cache/secured/external_api/eth-stats.dat', $jsondata);
     		
@@ -220,7 +220,7 @@ global $base_dir, $app_config;
 
 function coinmarketcap_api($force_primary_currency=null) {
 	
-global $app_config, $coinmarketcap_currencies, $cap_data_force_usd, $cmc_notes;
+global $app_config, $pt_cache, $coinmarketcap_currencies, $cap_data_force_usd, $cmc_notes;
 
 $result = array();
 
@@ -268,7 +268,7 @@ $result = array();
 	
 	$request = "{$url}?{$qs}"; // create the request URL
 
-	$jsondata = @external_api_data('url', $request, $app_config['power_user']['remote_api_timeout'], null, null, null, $headers);
+	$jsondata = @$pt_cache->ext_apis('url', $request, $app_config['power_user']['remote_api_timeout'], null, null, null, $headers);
 	
 	$data = json_decode($jsondata, true);
         
@@ -301,7 +301,7 @@ $result = array();
 // Credit: https://www.alexkras.com/simple-rss-reader-in-85-lines-of-php/
 function get_rss_feed($url, $theme_selected, $feed_size, $cache_only=false){
 	
-global $app_config, $base_dir, $fetched_feeds;
+global $app_config, $base_dir, $pt_vars, $pt_cache, $fetched_feeds;
 
 
 	if ( !isset($_SESSION[$fetched_feeds]['all']) ) {
@@ -362,7 +362,7 @@ $rss_feed_cache_time = rand($news_feeds_cache_min_max[0], $news_feeds_cache_min_
 		
 				
 // Get feed data (whether cached or re-caching live data)
-$xmldata = @external_api_data('url', $url, $rss_feed_cache_time); 
+$xmldata = @$pt_cache->ext_apis('url', $url, $rss_feed_cache_time); 
 		
 	
 	// Format output (UNLESS WE ARE ONLY CACHING DATA)
@@ -435,7 +435,7 @@ $xmldata = @external_api_data('url', $url, $rss_feed_cache_time);
 				$date_ui = $month_name . ' ' . ordinal($date_array['day']) . ', ' . $date_array['year'] . ' @ ' . substr("0{$date_array['hour']}", -2) . ':' . substr("0{$date_array['minute']}", -2);
 					
 					// If publish date is OVER 'news_feeds_entries_new' days old, DONT mark as new
-					if ( number_to_string($now_timestamp) > number_to_string( strtotime($item_date) + ($app_config['power_user']['news_feeds_entries_new'] * 86400) ) ) { // 86400 seconds == 1 day
+					if ( $pt_vars->num_to_str($now_timestamp) > $pt_vars->num_to_str( strtotime($item_date) + ($app_config['power_user']['news_feeds_entries_new'] * 86400) ) ) { // 86400 seconds == 1 day
 					$mark_new = null;
 					}
 					
@@ -501,7 +501,7 @@ $xmldata = @external_api_data('url', $url, $rss_feed_cache_time);
 				$item_link = preg_replace("/web\.bittrex\.com/i", "bittrex.com", $item_link); // Fix for bittrex blog links
 					
 					// If publish date is OVER 'news_feeds_entries_new' days old, DONT mark as new
-					if ( number_to_string($now_timestamp) > number_to_string( strtotime($item_date) + ($app_config['power_user']['news_feeds_entries_new'] * 86400) ) ) { // 86400 seconds == 1 day
+					if ( $pt_vars->num_to_str($now_timestamp) > $pt_vars->num_to_str( strtotime($item_date) + ($app_config['power_user']['news_feeds_entries_new'] * 86400) ) ) { // 86400 seconds == 1 day
 					$mark_new = null;
 					}
 					

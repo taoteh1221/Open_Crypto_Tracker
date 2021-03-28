@@ -43,7 +43,7 @@ etherscan_api('difficulty');
 etherscan_api('gasLimit');
 
 // Hive
-asset_market_data('HIVE', 'bittrex', 'BTC-HIVE');
+$pt_exchanges->market('HIVE', 'bittrex', 'BTC-HIVE');
 
 // Chain data END
 

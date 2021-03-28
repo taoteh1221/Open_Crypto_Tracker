@@ -104,18 +104,18 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 								
 										if ( preg_match("/_amount/i", $key) ) {
 										
-										$held_amount = remove_number_format($value);
+										$held_amount = $pt_vars->rem_num_format($value);
 										$coin_symbol = strtoupper(preg_replace("/_amount/i", "", $key));
 										$selected_pairing = ($_POST[strtolower($coin_symbol).'_pairing']);
 										// Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
 										$selected_market = ($_POST[strtolower($coin_symbol).'_market'] - 1); 
-										$purchase_price = remove_number_format($_POST[strtolower($coin_symbol).'_paid']);
+										$purchase_price = $pt_vars->rem_num_format($_POST[strtolower($coin_symbol).'_paid']);
 										$leverage_level = $_POST[strtolower($coin_symbol).'_leverage'];
 										$selected_margintype = $_POST[strtolower($coin_symbol).'_margintype'];
 												
 						
 										// Render the row of coin data in the UI
-										ui_coin_data_row($app_config['portfolio_assets'][$coin_symbol]['asset_name'], $coin_symbol, $held_amount, $app_config['portfolio_assets'][$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price, $leverage_level, $selected_margintype);
+										$pt_assets->ui_coin_row($app_config['portfolio_assets'][$coin_symbol]['asset_name'], $coin_symbol, $held_amount, $app_config['portfolio_assets'][$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price, $leverage_level, $selected_margintype);
 										
 										
 										
@@ -165,17 +165,17 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 									$run_csv_import = 1;
 	        
 	        		
-	        			if ( remove_number_format($value[1]) > 0.00000000 ) {  // Show even if decimal is off the map, just for UX purposes tracking token price only
+	        			if ( $pt_vars->rem_num_format($value[1]) > 0.00000000 ) {  // Show even if decimal is off the map, just for UX purposes tracking token price only
 	        			
 	        			$value[5] = ( whole_int( trim($value[5]) ) != false ? trim($value[5]) : 1 ); // If market ID input is corrupt, default to 1
 	        			$value[3] = ( whole_int( trim($value[3]) ) != false ? trim($value[3]) : 0 ); // If leverage amount input is corrupt, default to 0
 	        			
-										$held_amount = remove_number_format( trim($value[1]) );
+										$held_amount = $pt_vars->rem_num_format( trim($value[1]) );
 										$coin_symbol = strtoupper( trim($value[0]) );
 										$selected_pairing = strtolower( trim($value[6]) );
 										// Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
 										$selected_market = ( $value[5] != NULL ? $value[5] - 1 : 1 ); 
-										$purchase_price = remove_number_format($value[2]);
+										$purchase_price = $pt_vars->rem_num_format($value[2]);
 										$leverage_level = $value[3];
 										$selected_margintype = strtolower( trim($value[4]) );
 										
@@ -205,7 +205,7 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 						
 						
 										// Render the row of coin data in the UI
-										ui_coin_data_row($app_config['portfolio_assets'][$coin_symbol]['asset_name'], $coin_symbol, $held_amount, $app_config['portfolio_assets'][$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price, $leverage_level, $selected_margintype);
+										$pt_assets->ui_coin_row($app_config['portfolio_assets'][$coin_symbol]['asset_name'], $coin_symbol, $held_amount, $app_config['portfolio_assets'][$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price, $leverage_level, $selected_margintype);
 										
 										
 										
@@ -359,18 +359,18 @@ if ( $_POST['submit_check'] == 1 || !$csv_import_fail && $_POST['csv_check'] == 
 					
 					
 					// Bundle all required cookie data in this final cookies parsing loop for each coin, and render the coin's data
-					// We don't need remove_number_format() for cookie data, because it was already done creating the cookies
-					$held_amount = number_to_string($all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_amount']);
+					// We don't need $pt_vars->rem_num_format() for cookie data, because it was already done creating the cookies
+					$held_amount = $pt_vars->num_to_str($all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_amount']);
 					$selected_pairing = $all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_pairing'];
 					// Avoided possible null equivelent issue by upping post value +1 in case zero, so -1 here
 					$selected_market = ($all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_market'] -1);
-					$purchase_price = number_to_string($all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_paid']);
+					$purchase_price = $pt_vars->num_to_str($all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_paid']);
 					$leverage_level = $all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_leverage'];
 					$selected_margintype = $all_cookies_data_array[$coin_symbol.'_data'][$coin_symbol.'_margintype'];
 					
 					
 					// Render the row of coin data in the UI
-					ui_coin_data_row($app_config['portfolio_assets'][$coin_symbol]['asset_name'], $coin_symbol, $held_amount, $app_config['portfolio_assets'][$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price, $leverage_level, $selected_margintype);
+					$pt_assets->ui_coin_row($app_config['portfolio_assets'][$coin_symbol]['asset_name'], $coin_symbol, $held_amount, $app_config['portfolio_assets'][$coin_symbol]['market_pairing'][$selected_pairing], $selected_pairing, $selected_market, $purchase_price, $leverage_level, $selected_margintype);
 					
 					
 						
@@ -426,23 +426,23 @@ $total_btc_worth_raw = number_format(bitcoin_total(), 8, '.', '');
 
 // FOR UX-SAKE, WE CUT OFF EXTRA RIGHT SIDE ZERO DECIMALS IF VALUE IS AT LEAST A SATOSHI OR HIGHER (O.00000001),
 // #BUT# IF VALUE IS LITERALLY ZERO (WATCH-ONLY, ETC), WE WANT TO SHOW THAT #CLEARLY# TO THE END USER WITH 0.00000000
-$total_btc_worth = ( $total_btc_worth_raw >= 0.00000001 ? pretty_numbers($total_btc_worth_raw, 8) : '0.00000000' );
+$total_btc_worth = ( $total_btc_worth_raw >= 0.00000001 ? $pt_vars->num_pretty($total_btc_worth_raw, 8) : '0.00000000' );
 
 $total_primary_currency_worth = coin_stats_data('coin_worth_total');
 
-$bitcoin_dominance = number_to_string( ( $btc_worth_array['BTC'] / $total_btc_worth_raw ) * 100 );
+$bitcoin_dominance = $pt_vars->num_to_str( ( $btc_worth_array['BTC'] / $total_btc_worth_raw ) * 100 );
 
-$ethereum_dominance = number_to_string( ( $btc_worth_array['ETH'] / $total_btc_worth_raw ) * 100 );
+$ethereum_dominance = $pt_vars->num_to_str( ( $btc_worth_array['ETH'] / $total_btc_worth_raw ) * 100 );
 
-$miscassets_dominance = number_to_string( ( $btc_worth_array['MISCASSETS'] / $total_btc_worth_raw ) * 100 );
+$miscassets_dominance = $pt_vars->num_to_str( ( $btc_worth_array['MISCASSETS'] / $total_btc_worth_raw ) * 100 );
 
-$altcoin_dominance = ( $total_btc_worth_raw >= 0.00000001 ? number_to_string( 100 - $bitcoin_dominance - $ethereum_dominance - $miscassets_dominance ) : 0.00 );
+$altcoin_dominance = ( $total_btc_worth_raw >= 0.00000001 ? $pt_vars->num_to_str( 100 - $bitcoin_dominance - $ethereum_dominance - $miscassets_dominance ) : 0.00 );
 
 // Remove any slight decimal over 100 (100.01 etc)
-$bitcoin_dominance = max_100($bitcoin_dominance);
-$ethereum_dominance = max_100($ethereum_dominance);
-$miscassets_dominance = max_100($miscassets_dominance);
-$altcoin_dominance = max_100($altcoin_dominance);
+$bitcoin_dominance = $pt_vars->max_100($bitcoin_dominance);
+$ethereum_dominance = $pt_vars->max_100($ethereum_dominance);
+$miscassets_dominance = $pt_vars->max_100($miscassets_dominance);
+$altcoin_dominance = $pt_vars->max_100($altcoin_dominance);
 	
 		
 ?>
@@ -492,7 +492,7 @@ $altcoin_dominance = max_100($altcoin_dominance);
 			
 			<?php
 					
-			$scan_crypto_value = array_map('strip_brackets', $show_crypto_value); // Strip brackets
+			$scan_crypto_value = array_map( array($pt_vars, 'strip_brackets') , $show_crypto_value); // Strip brackets
 				
 				// Control the ordering with corrisponding app config array (which is already ordered properly), for UX
 				$loop = 0;
@@ -673,7 +673,7 @@ var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=
 						}
 						
 					
-						if ( number_to_string($value['coin_paid']) >= 0.00000001 ) {
+						if ( $pt_vars->num_to_str($value['coin_paid']) >= 0.00000001 ) {
 							
 							
 				?>
@@ -717,25 +717,25 @@ var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=
 		<?php
 		}
 		
-		if ( number_to_string($bitcoin_dominance) >= 0.01 || number_to_string($ethereum_dominance) >= 0.01 || number_to_string($miscassets_dominance) >= 0.01 || number_to_string($altcoin_dominance) >= 0.01 ) {
+		if ( $pt_vars->num_to_str($bitcoin_dominance) >= 0.01 || $pt_vars->num_to_str($ethereum_dominance) >= 0.01 || $pt_vars->num_to_str($miscassets_dominance) >= 0.01 || $pt_vars->num_to_str($altcoin_dominance) >= 0.01 ) {
 
 			
-			if ( number_to_string($bitcoin_dominance) >= 0.01 ) {
+			if ( $pt_vars->num_to_str($bitcoin_dominance) >= 0.01 ) {
 			$bitcoin_dominance_text = number_format($bitcoin_dominance, 2, '.', ',') . '% BTC';
-			$seperator_btc = ( number_to_string($bitcoin_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
+			$seperator_btc = ( $pt_vars->num_to_str($bitcoin_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
 			}
 			
-			if ( number_to_string($ethereum_dominance) >= 0.01 ) {
+			if ( $pt_vars->num_to_str($ethereum_dominance) >= 0.01 ) {
 			$ethereum_dominance_text = number_format($ethereum_dominance, 2, '.', ',') . '% ETH';
-			$seperator_eth = ( number_to_string($bitcoin_dominance) + number_to_string($ethereum_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
+			$seperator_eth = ( $pt_vars->num_to_str($bitcoin_dominance) + $pt_vars->num_to_str($ethereum_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
 			}
 			
-			if ( number_to_string($miscassets_dominance) >= 0.01 ) {
+			if ( $pt_vars->num_to_str($miscassets_dominance) >= 0.01 ) {
 			$miscassets_dominance_text = number_format($miscassets_dominance, 2, '.', ',') . '% <span class="btc_primary_currency_pairing">' . strtoupper($app_config['general']['btc_primary_currency_pairing']) . '</span>';
-			$seperator_miscassets = ( number_to_string($bitcoin_dominance) + number_to_string($ethereum_dominance) + number_to_string($miscassets_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
+			$seperator_miscassets = ( $pt_vars->num_to_str($bitcoin_dominance) + $pt_vars->num_to_str($ethereum_dominance) + $pt_vars->num_to_str($miscassets_dominance) <= 99.99 ? ' &nbsp;/&nbsp; ' : '' );
 			}
 			
-			if ( number_to_string($altcoin_dominance) >= 0.01 ) {
+			if ( $pt_vars->num_to_str($altcoin_dominance) >= 0.01 ) {
 			$altcoin_dominance_text = number_format($altcoin_dominance, 2, '.', ',') .'% Alt(s)';
 			}
 		
@@ -766,7 +766,7 @@ var fiat_value_content = '<h5 class="yellow tooltip_title">Primary Currency (<?=
 					}
 					
 					// Remove any slight decimal over 100 (100.01 etc)
-					$balance_stats = max_100( ( $value / $total_btc_worth_raw ) * 100 );
+					$balance_stats = $pt_vars->max_100( ( $value / $total_btc_worth_raw ) * 100 );
 					
 						if ( $balance_stats >= 0.01 ) {
 						$balance_stats_encoded .= '&' . urlencode($key) . '=' . urlencode( number_format($balance_stats, 2, '.', ',') );

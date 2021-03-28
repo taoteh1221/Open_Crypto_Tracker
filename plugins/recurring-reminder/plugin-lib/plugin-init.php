@@ -12,7 +12,7 @@
 foreach ( $plugin_config[$this_plugin]['reminders'] as $key => $value ) {
 
 // Recurring reminder time in minutes
-$in_minutes = round( number_to_string(1440 * $value['days']) );
+$in_minutes = round( $pt_vars->num_to_str(1440 * $value['days']) );
 
 // Offset -1 anything 20 minutes or higher, so recurring reminder is triggered at same EXACT cron job interval consistently 
 // (example: every 2 days at 12:00pm...NOT same cron job interval + 1, like 12:20pm / 12:40pm / etc)

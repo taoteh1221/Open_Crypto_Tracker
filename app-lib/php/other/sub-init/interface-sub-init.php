@@ -5,9 +5,9 @@
 
 
 //////////////////////////////////////////////////////////////////
-// Only need below logic during UI runtime
+// Only need below logic IF NOT RUNNING AS CRON
 //////////////////////////////////////////////////////////////////
-if ( $runtime_mode == 'ui' ) {
+if ( $runtime_mode != 'cron' ) {
 	
 
 $alert_percent = explode("|", ( $_POST['use_alert_percent'] != '' ? $_POST['use_alert_percent'] : $_COOKIE['alert_percent'] ) );
@@ -24,7 +24,7 @@ $show_crypto_value = explode(',', rtrim( ( $_POST['show_crypto_value'] != '' ? $
 		// Remove any stale crypto value
 		$temp_show_crypto_value = array();
 		$scan_crypto_value = $show_crypto_value;
-		$scan_crypto_value = array_map('strip_brackets', $scan_crypto_value); // Strip brackets
+		$scan_crypto_value = array_map( array($pt_vars, 'strip_brackets') , $scan_crypto_value); // Strip brackets
 		$loop = 0;
 		foreach ($scan_crypto_value as $key) {
 			if ( array_key_exists($key, $app_config['power_user']['crypto_pairing']) ) {
@@ -41,9 +41,8 @@ $show_crypto_value = explode(',', rtrim( ( $_POST['show_crypto_value'] != '' ? $
 		}
 	
 		if( $_COOKIE['show_crypto_value'] ) {
-		store_cookie_contents("show_crypto_value", $implode_crypto_value, mktime()+31536000);
+		$pt_general->store_cookie_contents("show_crypto_value", $implode_crypto_value, mktime()+31536000);
 		}
-	
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -54,7 +53,7 @@ $show_secondary_trade_value = ( $_POST['show_secondary_trade_value'] != '' ? $_P
 	if ( !array_key_exists($show_secondary_trade_value, $app_config['power_user']['crypto_pairing']) ) {
 	$show_secondary_trade_value = null;
 	$_POST['show_secondary_trade_value'] = null;  
-	store_cookie_contents("show_secondary_trade_value", "", time()-3600);  
+	$pt_general->store_cookie_contents("show_secondary_trade_value", "", time()-3600);  
 	unset($_COOKIE['show_secondary_trade_value']);  
 	}
 
@@ -68,7 +67,7 @@ $show_feeds = explode(',', rtrim( ( $_POST['show_feeds'] != '' ? $_POST['show_fe
 	// (since we already alphabetically ordered $app_config['power_user']['news_feeds'] in app-config-management.php BEFOREHAND)
 	$temp_show_feeds = array();
 	$scan_feeds = $show_feeds;
-	$scan_feeds = array_map('strip_brackets', $scan_feeds); // Strip brackets
+	$scan_feeds = array_map( array($pt_vars, 'strip_brackets') , $scan_feeds); // Strip brackets
 	foreach ($app_config['power_user']['news_feeds'] as $feed) {
 	$feed_id = pt_digest($feed["title"], 10);
 		if ( in_array($feed_id, $scan_feeds) ) {
@@ -84,7 +83,7 @@ $show_feeds = explode(',', rtrim( ( $_POST['show_feeds'] != '' ? $_POST['show_fe
 	}
 	
 	if( $_COOKIE['show_feeds'] ) {
-	store_cookie_contents("show_feeds", $implode_feeds, mktime()+31536000);
+	$pt_general->store_cookie_contents("show_feeds", $implode_feeds, mktime()+31536000);
 	}
 
 
@@ -99,15 +98,15 @@ $show_feeds = explode(',', rtrim( ( $_POST['show_feeds'] != '' ? $_POST['show_fe
 		// Remove stale charts
 		$temp_show_charts = array();
 		$scan_charts = $show_charts;
-		$scan_charts = array_map('strip_brackets', $scan_charts); // Strip brackets
-		$scan_charts = array_map('strip_underscore_and_after', $scan_charts); // Strip underscore, and everything after
+		$scan_charts = array_map( array($pt_vars, 'strip_brackets') , $scan_charts); // Strip brackets
+		$scan_charts = array_map( array($pt_vars, 'strip_underscore_and_after') , $scan_charts); // Strip underscore, and everything after
 		$loop = 0;
 		foreach ($scan_charts as $market_key) {
 			
 			// IF asset exists in charts app config, AND $show_charts UI key format is latest iteration (fiat conversion charts USED TO have no underscore)
 			if ( array_key_exists($market_key, $app_config['charts_alerts']['tracked_markets']) && stristr($show_charts[$loop], '_') ) {
 				
-			$chart_params = explode('_', strip_brackets($show_charts[$loop]) );
+			$chart_params = explode('_', $pt_vars->strip_brackets($show_charts[$loop]) );
 			
 			$chart_config_check = explode('||', $app_config['charts_alerts']['tracked_markets'][$market_key]);
 				
@@ -130,7 +129,7 @@ $show_feeds = explode(',', rtrim( ( $_POST['show_feeds'] != '' ? $_POST['show_fe
 		}
 	
 		if( $_COOKIE['show_charts'] ) {
-		store_cookie_contents("show_charts", $implode_charts, mktime()+31536000);
+		$pt_general->store_cookie_contents("show_charts", $implode_charts, mktime()+31536000);
 		}
 	
 	}

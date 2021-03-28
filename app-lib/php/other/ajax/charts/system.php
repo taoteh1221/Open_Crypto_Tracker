@@ -119,15 +119,15 @@ $loop = 0;
 foreach ( $chart_data as $chart_key => $chart_value ) {
 
 // Average for first / last value
-//$check_chart_value = number_to_string( delimited_string_sample($chart_value, ',', 'first') + delimited_string_sample($chart_value, ',', 'last') / 2 );
+//$check_chart_value = $pt_vars->num_to_str( $pt_vars->delimited_str_sample($chart_value, ',', 'first') + $pt_vars->delimited_str_sample($chart_value, ',', 'last') / 2 );
 // Just last value
-$check_chart_value = number_to_string( delimited_string_sample($chart_value, ',', 'last') );
+$check_chart_value = $pt_vars->num_to_str( $pt_vars->delimited_str_sample($chart_value, ',', 'last') );
 	
 	// Include load average no matter what (it can be zero on a low-load setup, and should be supported by nearly every linux system?)
 	// Also always include free disk space (WE WANT TO KNOW IF IT'S ZERO)
 	if ( $chart_key != 'time' && $check_chart_value != 'NO_DATA' && $check_chart_value > 0.000000 || $chart_key == 'load_average_15_minutes' || $chart_key == 'free_disk_space_terabtyes' ) {
 		
-	$check_chart_value_key = number_to_string($check_chart_value * 100000000); // To RELIABLY sort integers AND decimals, via ksort()
+	$check_chart_value_key = $pt_vars->num_to_str($check_chart_value * 100000000); // To RELIABLY sort integers AND decimals, via ksort()
 	
 		// If value matches, and another (increasing) number to the end, to avoid overwriting keys (this data is only used as an array key anyway)
 		if ( !array_key_exists($check_chart_value_key, $sorted_by_last_chart_data) ) {
@@ -138,7 +138,7 @@ $check_chart_value = number_to_string( delimited_string_sample($chart_value, ','
 		$loop = $loop + 1;
 		}
 		
-		if ( $check_chart_value <= number_to_string($app_config['power_user']['system_stats_first_chart_highest_value']) ) {
+		if ( $check_chart_value <= $pt_vars->num_to_str($app_config['power_user']['system_stats_first_chart_highest_value']) ) {
 		$num_in_first_chart = $num_in_first_chart + 1;
 		//echo $check_chart_value . ' --- '; // DEBUGGING ONLY
 		}

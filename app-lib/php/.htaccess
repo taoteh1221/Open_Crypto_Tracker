@@ -4,7 +4,7 @@ deny from all
 # Add no directory listing logic too (if ever used)
 <IfModule mod_rewrite.c>
 
-#SetEnvIf Request_URI "(.*)app-lib/php/classes/TEST-ONLY78528/(.*)" allowed_uri
+#SetEnvIf Request_URI "(.*)app-lib/php/classes/core/TEST-ONLY78528/(.*)" allowed_uri
 
 #Allow from env=allowed_uri
 

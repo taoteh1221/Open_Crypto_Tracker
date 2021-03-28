@@ -51,9 +51,6 @@ CONSIDER USING THE PREFIX: 'pt_' (for [p]ortfolio [t]racker)
 Make sure ALL MARKETS are added FOR ALL SUPPORTED EXCHANGES (EVERY EXCHANGE IN exchange-ticker-apis.php), then re-run the exchange summaries printout (in debug mode), for updating documentation on the web page / README / in config.php.
 
 
-Take new screenshots with the new branding.
-
-
 Look into laptop touchscreen zingchart js error on Ubuntu 20.04 / Chrome, when hiding / showing assets in performance chart (but is fine on Ubuntu 20.04 / Chrome on desktop). IT DOESN'T SEEM TO BE MY CODE, SO REPORT IT TO THE ZINGCHART TEAM.
 
 

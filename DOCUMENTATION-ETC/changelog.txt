@@ -2679,7 +2679,7 @@ MAJOR IMPROVEMENTS TO THE USER EXPERIENCE HAVE BEEN MADE, WHICH ARE !NOT! BACKWA
 
 -Optimizations
 
--Better debug tracing on external_api_data() function
+-Better debug tracing on $pt_cache->ext_apis() function
 
 -Bug fix for reliable coingecko API data retrieval
 
@@ -4404,6 +4404,8 @@ WILL AUTOMATICALLY PREFORM THE RESET (ALERTS / TRACKING WILL BE ACCURATE AFTERWA
 
 -------------------------------------------------------------------
 4.30.0:
+
+-Started converting all app functions over to classes (for unit testing ability / PHP compatibility / composibility / upgradability)
 
 -Revised documentation / content
 

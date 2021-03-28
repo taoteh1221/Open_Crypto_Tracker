@@ -11,7 +11,7 @@
 	if ( isset($app_config['comms']['upgrade_alert']) && $app_config['comms']['upgrade_alert'] != 'off' && update_cache_file($base_dir . '/cache/vars/upgrade_check_latest_version.dat', 1440) == true ) {
 	
 	
-	$upgrade_check_jsondata = @external_api_data('url', 'https://api.github.com/repos/taoteh1221/Open_Crypto_Portfolio_Tracker/releases/latest', 0); // Don't cache API data
+	$upgrade_check_jsondata = @$pt_cache->ext_apis('url', 'https://api.github.com/repos/taoteh1221/Open_Crypto_Portfolio_Tracker/releases/latest', 0); // Don't cache API data
 	
 	$upgrade_check_data = json_decode($upgrade_check_jsondata, true);
 	

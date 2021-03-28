@@ -21,7 +21,7 @@ $price_target_cache_file = plugin_vars_cache($target_key . '.dat');
 	}
 	
 
-$target_value = number_to_string($target_value);
+$target_value = $pt_vars->num_to_str($target_value);
 
 $market_config = explode('-', $target_key);
 
@@ -33,7 +33,7 @@ $market_exchange = strtolower($market_config[2]);
 
 $market_id = $app_config['portfolio_assets'][$market_asset]['market_pairing'][$market_pairing][$market_exchange];
 
-$market_value = number_to_string( asset_market_data($market_asset, $market_exchange, $market_id)['last_trade'] );
+$market_value = $pt_vars->num_to_str( $pt_exchanges->market($market_asset, $market_exchange, $market_id)['last_trade'] );
 
 	
 	// Get cache data, and / or flag a cache reset
@@ -43,9 +43,9 @@ $market_value = number_to_string( asset_market_data($market_asset, $market_excha
 	
 	$target_direction = $price_target_cache_data[0];
 	
-	$cached_target_value = number_to_string($price_target_cache_data[1]);
+	$cached_target_value = $pt_vars->num_to_str($price_target_cache_data[1]);
 	
-	$cached_market_value = number_to_string($price_target_cache_data[2]);
+	$cached_market_value = $pt_vars->num_to_str($price_target_cache_data[2]);
 	
 		// If user changed the target value in the config, flag a reset
 		if ( $target_value != $cached_target_value ) {
@@ -83,11 +83,11 @@ $market_value = number_to_string( asset_market_data($market_asset, $market_excha
         
 
    $percent_change = ($market_value - $cached_market_value) / abs($cached_market_value) * 100;
-   $percent_change = number_format( number_to_string($percent_change) , 2, '.', ','); // Better decimal support
+   $percent_change = number_format( $pt_vars->num_to_str($percent_change) , 2, '.', ','); // Better decimal support
 		
 		
    $last_cached_days = ( time() - filemtime($price_target_cache_file) ) / 86400;
-   $last_cached_days = number_to_string($last_cached_days); // Better decimal support
+   $last_cached_days = $pt_vars->num_to_str($last_cached_days); // Better decimal support
        
        
    	if ( $last_cached_days >= 365 ) {
@@ -108,15 +108,15 @@ $market_value = number_to_string( asset_market_data($market_asset, $market_excha
    	// Fiat-eqiv
    	if ( array_key_exists($market_pairing, $app_config['power_user']['bitcoin_currency_markets']) && !array_key_exists($market_pairing, $app_config['power_user']['crypto_pairing']) ) {
    		
-		$target_value_text = ( $target_value >= $app_config['general']['primary_currency_decimals_max_threshold'] ? pretty_numbers($target_value, 2) : pretty_numbers($target_value, $app_config['general']['primary_currency_decimals_max']) );
+		$target_value_text = ( $target_value >= $app_config['general']['primary_currency_decimals_max_threshold'] ? $pt_vars->num_pretty($target_value, 2) : $pt_vars->num_pretty($target_value, $app_config['general']['primary_currency_decimals_max']) );
 		
-		$market_value_text = ( $market_value >= $app_config['general']['primary_currency_decimals_max_threshold'] ? pretty_numbers($market_value, 2) : pretty_numbers($market_value, $app_config['general']['primary_currency_decimals_max']) );
+		$market_value_text = ( $market_value >= $app_config['general']['primary_currency_decimals_max_threshold'] ? $pt_vars->num_pretty($market_value, 2) : $pt_vars->num_pretty($market_value, $app_config['general']['primary_currency_decimals_max']) );
 		
 		}
 		// Crypto
 		else {
-		$target_value_text = pretty_numbers($target_value, 8);
-		$market_value_text = pretty_numbers($market_value, 8);
+		$target_value_text = $pt_vars->num_pretty($target_value, 8);
+		$market_value_text = $pt_vars->num_pretty($market_value, 8);
 		}
    
 

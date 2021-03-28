@@ -168,7 +168,7 @@
 	<?php
 	if ( $show_feeds[0] != '' ) {
 	 
-	 $chosen_feeds = array_map('strip_brackets', $show_feeds);
+	 $chosen_feeds = array_map( array($pt_vars, 'strip_brackets') , $show_feeds);
 	 
 	 $batched_feeds_loops_max = ceil( sizeof($chosen_feeds) / $app_config['developer']['news_feeds_batched_max'] );
 	 

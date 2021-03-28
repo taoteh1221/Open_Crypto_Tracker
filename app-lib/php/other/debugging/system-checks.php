@@ -105,8 +105,8 @@ $force_exit = 1;
 
 
 
-// IF WE ARE RUNNING THE INTERFACE, detect if we are running on a secure HTTPS (SSL) connection
-if ( $runtime_mode == 'ui' ) {
+// IF WE ARE NOT RUNNING AS CRON, detect if we are running on a secure HTTPS (SSL) connection
+if ( $runtime_mode != 'cron' ) {
 	
 	// Apache / etc
 	if ( isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ) {
@@ -144,12 +144,12 @@ if ( update_cache_file($base_dir . '/cache/events/scan-htaccess-security.dat', 6
 	// cache check
 	$htaccess_cache_test_url = $base_url . 'cache/htaccess_security_check.dat';
 
-	$htaccess_cache_test = trim( @external_api_data('url', $htaccess_cache_test_url, 0) ); 
+	$htaccess_cache_test = trim( @$pt_cache->ext_apis('url', $htaccess_cache_test_url, 0) ); 
 	
 	// plugins check
 	$htaccess_plugins_test_url = $base_url . 'plugins/htaccess_security_check.dat';
 
-	$htaccess_plugins_test = trim( @external_api_data('url', $htaccess_plugins_test_url, 0) ); 
+	$htaccess_plugins_test = trim( @$pt_cache->ext_apis('url', $htaccess_plugins_test_url, 0) ); 
 	
 	
 		if ( preg_match("/TEST_HTACCESS_SECURITY_123_TEST/i", $htaccess_cache_test)

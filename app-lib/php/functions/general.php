@@ -240,13 +240,13 @@ function pt_nonce_digest($data, $custom_nonce=false) {
 function admin_logged_in() {
 	
 	// IF REQUIRED DATA NOT SET, REFUSE ADMIN AUTHORIZATION
-	if ( !isset( $_COOKIE['admin_auth_' . pt_id()] )
+	if ( !isset( $_COOKIE['admin_auth_' . pt_app_id()] )
 	|| !isset( $_SESSION['nonce'] )
 	|| !isset( $_SESSION['admin_logged_in']['auth_hash'] ) ) {
 	return false;
 	}
 	// WE SPLIT THE LOGIN AUTH BETWEEN COOKIE AND SESSION DATA (TO BETTER SECURE LOGIN AUTHORIZATION)
-	elseif ( pt_nonce_digest( $_COOKIE['admin_auth_' . pt_id()] ) == $_SESSION['admin_logged_in']['auth_hash'] ) {
+	elseif ( pt_nonce_digest( $_COOKIE['admin_auth_' . pt_app_id()] ) == $_SESSION['admin_logged_in']['auth_hash'] ) {
 	return true;
 	}
 
@@ -364,12 +364,12 @@ function hardy_session_clearing() {
 // Deleting all session data can fail on occasion, and wreak havoc.
 // This helps according to one programmer on php.net
 session_start();
-session_name( pt_id() );
+session_name( pt_app_id() );
 $_SESSION = array();
 session_unset();
 session_destroy();
 session_write_close();
-setcookie(session_name( pt_id() ),'',0,'/');
+setcookie(session_name( pt_app_id() ),'',0,'/');
 session_regenerate_id(true);
 
 }
@@ -528,6 +528,8 @@ global $base_dir;
 
 
 function validate_email($email) {
+	
+global $pt_vars;
 
 // Trim whitespace off ends, since we do this before attempting to send anyways in our safe_mail function
 $email = trim($email);
@@ -541,7 +543,7 @@ $email = trim($email);
 	return "Please enter a valid email address.";
 	}
 	elseif ( function_exists("getmxrr") && !getmxrr($domain, $mxrecords) ) {
-	return "No mail server records found for domain '" . obfuscate_string($domain) . "' [obfuscated]";
+	return "No mail server records found for domain '" . $pt_vars->obfuscate_str($domain) . "' [obfuscated]";
 	}
 	else {
 	return "valid";
@@ -583,13 +585,13 @@ return $result;
 
 
 // Install id (10 character hash, based off base url)
-function pt_id() {
+function pt_app_id() {
 	
-global $base_url, $base_dir, $pt_id;
+global $base_url, $base_dir, $pt_app_id;
 
 	// ALREADY SET
-	if ( isset($pt_id) ) {
-	return $pt_id;
+	if ( isset($pt_app_id) ) {
+	return $pt_app_id;
 	}
 	// NOT CRON
 	elseif ( $runtime_mode != 'cron' && trim($base_url) != '' ) {
@@ -704,7 +706,7 @@ global $password_pepper;
 
 function obfuscated_path_data($path) {
 	
-global $app_config;
+global $app_config, $pt_vars;
 
 	// Secured cache data
 	if ( preg_match("/cache\/secured/i", $path) ) {
@@ -715,15 +717,15 @@ global $app_config;
 		
 		// Subdirectories of /secured/
 		if ( sizeof($subpath_array) > 1 ) {
-		$path = str_replace($subpath_array[0], obfuscate_string($subpath_array[0], 1), $path);
-		$path = str_replace($subpath_array[1], obfuscate_string($subpath_array[1], 5), $path);
+		$path = str_replace($subpath_array[0], $pt_vars->obfuscate_str($subpath_array[0], 1), $path);
+		$path = str_replace($subpath_array[1], $pt_vars->obfuscate_str($subpath_array[1], 5), $path);
 		}
 		// Files directly in /secured/
 		else {
-		$path = str_replace($subpath, obfuscate_string($subpath, 5), $path);
+		$path = str_replace($subpath, $pt_vars->obfuscate_str($subpath, 5), $path);
 		}
 			
-	//$path = str_replace('cache/secured', obfuscate_string('cache', 0) . '/' . obfuscate_string('secured', 0), $path);
+	//$path = str_replace('cache/secured', $pt_vars->obfuscate_str('cache', 0) . '/' . $pt_vars->obfuscate_str('secured', 0), $path);
 	
 	}
 
@@ -738,22 +740,22 @@ return $path;
 
 function obfuscated_url_data($url) {
 	
-global $app_config;
+global $app_config, $pt_vars;
 
 // Keep our color-coded logs in the admin UI pretty, remove '//' and put in parenthesis
 $url = preg_replace("/:\/\//i", ") ", $url);
 
 	// Etherscan
 	if ( preg_match("/etherscan/i", $url) ) {
-	$url = str_replace($app_config['general']['etherscanio_api_key'], obfuscate_string($app_config['general']['etherscanio_api_key'], 2), $url);
+	$url = str_replace($app_config['general']['etherscanio_api_key'], $pt_vars->obfuscate_str($app_config['general']['etherscanio_api_key'], 2), $url);
 	}
 	// Telegram
 	elseif ( preg_match("/telegram/i", $url) ) {
-	$url = str_replace($app_config['comms']['telegram_bot_token'], obfuscate_string($app_config['comms']['telegram_bot_token'], 2), $url); 
+	$url = str_replace($app_config['comms']['telegram_bot_token'], $pt_vars->obfuscate_str($app_config['comms']['telegram_bot_token'], 2), $url); 
 	}
 	// Defipulse
 	elseif ( preg_match("/defipulse/i", $url) ) {
-	$url = str_replace($app_config['general']['defipulsecom_api_key'], obfuscate_string($app_config['general']['defipulsecom_api_key'], 2), $url); 
+	$url = str_replace($app_config['general']['defipulsecom_api_key'], $pt_vars->obfuscate_str($app_config['general']['defipulsecom_api_key'], 2), $url); 
 	}
 
 // Keep our color-coded logs in the admin UI pretty, remove '//' and put in parenthesis
@@ -824,41 +826,6 @@ global $password_pepper, $stored_admin_login;
 		}
 		
 	}
-
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function store_cookie_contents($name, $value, $time) {
-	
-	if ( PHP_VERSION_ID >= 70300 ) {
-		
-	$result = setcookie($name, $value, [
-  								'samesite' => 'Strict', // Strict for high privacy
-  								'expires' => $time,
-								]);
-	
-	}
-	else {
-	$result = setcookie($name, $value, $time);
-	}
-
-	
-	
-	// Android / Safari maximum cookie size is 4093 bytes, Chrome / Firefox max is 4096
-	if ( strlen($value) > 4093 ) {  
-	app_logging('other_error', 'Cookie size is greater than 4093 bytes (' . strlen($value) . ' bytes). If saving portfolio as cookie data fails on your browser, try using CSV file import / export instead for large portfolios.');
-	}
-	
-	if ( $result == false ) {
-	app_logging('system_error', 'Cookie creation failed for cookie "' . $name . '"');
-	}
-	
-	
-return $result;
 
 }
 
@@ -1475,7 +1442,7 @@ return $vars;
 
 function validated_csv_import_row($csv_row) {
 	
-global $app_config;
+global $app_config, $pt_vars;
 
 // WE AUTO-CORRECT AS MUCH AS IS FEASIBLE, IF THE USER-INPUT IS CORRUPT / INVALID
 
@@ -1483,10 +1450,10 @@ $csv_row = array_map('trim', $csv_row); // Trim entire array
 	
 $csv_row[0] = strtoupper($csv_row[0]); // Asset to uppercase (we already validate it's existance in csv_import_array())
 	    
-$csv_row[1] = remove_number_format($csv_row[1]); // Remove any number formatting in held amount
+$csv_row[1] = $pt_vars->rem_num_format($csv_row[1]); // Remove any number formatting in held amount
 
 // Remove any number formatting in paid amount, default paid amount to null if not a valid positive number
-$csv_row[2] = ( remove_number_format($csv_row[2]) >= 0 ? remove_number_format($csv_row[2]) : null ); 
+$csv_row[2] = ( $pt_vars->rem_num_format($csv_row[2]) >= 0 ? $pt_vars->rem_num_format($csv_row[2]) : null ); 
 	
 // If leverage amount input is corrupt, default to 0 (ALSO simple auto-correct if negative)
 $csv_row[3] = ( whole_int($csv_row[3]) != false && $csv_row[3] >= 0 ? $csv_row[3] : 0 ); 
@@ -1596,33 +1563,8 @@ return $result;
 
 
 function delete_all_cookies() {
-
-// To be safe, delete cookies using 2 methods
-  
-  // Portfolio
-  store_cookie_contents("coin_amounts", "", time()-3600);  
-  store_cookie_contents("coin_pairings", "", time()-3600);  
-  store_cookie_contents("coin_markets", "", time()-3600);   
-  store_cookie_contents("coin_paid", "", time()-3600);    
-  store_cookie_contents("coin_leverage", "", time()-3600);  
-  store_cookie_contents("coin_margintype", "", time()-3600);  
-  
-  
-  // Settings
-  store_cookie_contents("coin_reload", "", time()-3600);  
-  store_cookie_contents("notes_reminders", "", time()-3600);   
-  store_cookie_contents("show_charts", "", time()-3600);    
-  store_cookie_contents("show_crypto_value", "", time()-3600); 
-  store_cookie_contents("show_secondary_trade_value", "", time()-3600);    
-  store_cookie_contents("show_feeds", "", time()-3600);   
-  store_cookie_contents("theme_selected", "", time()-3600);  
-  store_cookie_contents("sort_by", "", time()-3600);  
-  store_cookie_contents("alert_percent", "", time()-3600); 
-  store_cookie_contents("primary_currency_market_standalone", "", time()-3600); 
-  
-  
-  // --------------------------
-  
+	
+global $pt_general;
   
   // Portfolio
   unset($_COOKIE['coin_amounts']); 
@@ -2181,7 +2123,7 @@ return $time_period_text;
 
 function chart_data($file, $chart_format, $start_timestamp=0) {
 
-global $app_config, $default_btc_primary_currency_pairing, $runtime_nonce, $runtime_data;
+global $app_config, $pt_vars, $default_btc_primary_currency_pairing, $runtime_nonce, $runtime_data;
 
 
 
@@ -2236,7 +2178,7 @@ $fn = fopen($file,"r");
          	// PRIMARY CURRENCY CONFIG price percent change (CAN BE NEGATIVE OR POSITIVE IN THIS INSTANCE)
     			$percent_change = ($result[1] - $runtime_data['performance_stats'][$asset]['start_value']) / abs($runtime_data['performance_stats'][$asset]['start_value']) * 100;
     			// Better decimal support
-    			$percent_change = number_to_string($percent_change); 
+    			$percent_change = $pt_vars->num_to_str($percent_change); 
     			
     			$data['percent'] .= round($percent_change, 2) . ',';
     			$data['combined'] .= '[' . trim($result[0]) . '000' . ', ' . round($percent_change, 2) . '],';  // Zingchart wants 3 more zeros with unix time (milliseconds)
@@ -2248,7 +2190,7 @@ $fn = fopen($file,"r");
          
             // Format or round primary currency price depending on value (non-stablecoin crypto values are already stored in the format we want for the interface)
             if ( $fiat_formatting ) {
-            $data['spot'] .= ( number_to_string($result[1]) >= $app_config['general']['primary_currency_decimals_max_threshold'] ? number_format((float)$result[1], 2, '.', '')  :  round($result[1], $app_config['general']['primary_currency_decimals_max'])  ) . ',';
+            $data['spot'] .= ( $pt_vars->num_to_str($result[1]) >= $app_config['general']['primary_currency_decimals_max_threshold'] ? number_format((float)$result[1], 2, '.', '')  :  round($result[1], $app_config['general']['primary_currency_decimals_max'])  ) . ',';
             $data['volume'] .= round($result[2]) . ',';
             }
             // Non-stablecoin crypto
@@ -2291,110 +2233,6 @@ $data['time'] = rtrim($data['time'],',');
 
 return $data;
 
-}
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
-
-
-function update_cookies($set_coin_values, $set_pairing_values, $set_market_values, $set_paid_values, $set_leverage_values, $set_margintype_values) {
-
-           
-           // Cookies expire in 1 year (31536000 seconds)
-           
-           // Portfolio data
-           store_cookie_contents("coin_amounts", $set_coin_values, mktime()+31536000);
-           store_cookie_contents("coin_pairings", $set_pairing_values, mktime()+31536000);
-           store_cookie_contents("coin_markets", $set_market_values, mktime()+31536000);
-           store_cookie_contents("coin_paid", $set_paid_values, mktime()+31536000);
-           store_cookie_contents("coin_leverage", $set_leverage_values, mktime()+31536000);
-           store_cookie_contents("coin_margintype", $set_margintype_values, mktime()+31536000);
-           
-           
-
-           // UI settings (not included in any portfolio data)
-           if ( $_POST['submit_check'] == 1 ) {
-           	
-               
-               if ( isset($_POST['show_charts']) ) {
-               store_cookie_contents("show_charts", $_POST['show_charts'], mktime()+31536000);
-               }
-               else {
-               store_cookie_contents("show_charts", "", time()-3600);  // Delete any existing cookies
-               unset($_COOKIE['show_charts']);  // Delete any existing cookies
-               }
-               
-               if ( isset($_POST['show_crypto_value']) ) {
-               store_cookie_contents("show_crypto_value", $_POST['show_crypto_value'], mktime()+31536000);
-               }
-               else {
-               store_cookie_contents("show_crypto_value", "", time()-3600);  // Delete any existing cookies
-               unset($_COOKIE['show_crypto_value']);  // Delete any existing cookies
-               }
-               
-               if ( isset($_POST['show_secondary_trade_value']) ) {
-               store_cookie_contents("show_secondary_trade_value", $_POST['show_secondary_trade_value'], mktime()+31536000);
-               }
-               else {
-               store_cookie_contents("show_secondary_trade_value", "", time()-3600);  // Delete any existing cookies
-               unset($_COOKIE['show_secondary_trade_value']);  // Delete any existing cookies
-               }
-               
-               if ( isset($_POST['show_feeds']) ) {
-               store_cookie_contents("show_feeds", $_POST['show_feeds'], mktime()+31536000);
-               }
-               else {
-               store_cookie_contents("show_feeds", "", time()-3600);  // Delete any existing cookies
-               unset($_COOKIE['show_feeds']);  // Delete any existing cookies
-               }
-              
-               if ( isset($_POST['theme_selected']) ) {
-               store_cookie_contents("theme_selected", $_POST['theme_selected'], mktime()+31536000);
-               }
-               else {
-               store_cookie_contents("theme_selected", "", time()-3600);  // Delete any existing cookies
-               unset($_COOKIE['theme_selected']);  // Delete any existing cookies
-               }
-               
-               if ( isset($_POST['sort_by']) ) {
-               store_cookie_contents("sort_by", $_POST['sort_by'], mktime()+31536000);
-               }
-               else {
-               store_cookie_contents("sort_by", "", time()-3600);  // Delete any existing cookies
-               unset($_COOKIE['sort_by']);  // Delete any existing cookies
-               }
-              
-               if ( isset($_POST['use_alert_percent']) ) {
-               store_cookie_contents("alert_percent", $_POST['use_alert_percent'], mktime()+31536000);
-               }
-               else {
-               store_cookie_contents("alert_percent", "", time()-3600);  // Delete any existing cookies
-               unset($_COOKIE['alert_percent']);  // Delete any existing cookies
-               }
-              
-               if ( isset($_POST['primary_currency_market_standalone']) ) {
-               store_cookie_contents("primary_currency_market_standalone", $_POST['primary_currency_market_standalone'], mktime()+31536000);
-               }
-               else {
-               store_cookie_contents("primary_currency_market_standalone", "", time()-3600);  // Delete any existing cookies
-               unset($_COOKIE['primary_currency_market_standalone']);  // Delete any existing cookies
-               }
-              
-           	
-               // Notes (only creation / deletion here, update logic is in cookies.php)
-               if ( $_POST['use_notes'] == 1 && !$_COOKIE['notes_reminders'] ) {
-               store_cookie_contents("notes_reminders", " ", mktime()+31536000); // Initialized with some whitespace when blank
-               }
-               elseif ( $_POST['use_notes'] != 1 ) {
-               store_cookie_contents("notes_reminders", "", time()-3600);  // Delete any existing cookies
-               unset($_COOKIE['notes_reminders']);  // Delete any existing cookies
-               }
-           
-           
-           }
-           
- 
 }
 
 
@@ -2713,7 +2551,7 @@ gc_collect_cycles(); // Clean memory cache
 
 function system_info() {
 
-global $runtime_mode, $app_version, $base_dir;
+global $runtime_mode, $app_version, $base_dir, $pt_vars;
 	
 
 
@@ -2875,7 +2713,7 @@ $system['free_partition_space'] = convert_bytes( disk_free_space($base_dir) , 3)
 
 // Portfolio cache size (cached for efficiency)
 $portfolio_cache = trim( file_get_contents($base_dir . '/cache/vars/cache_size.dat') );
-$system['portfolio_cache'] = ( number_to_string($portfolio_cache) > 0 ? $portfolio_cache : 0 );
+$system['portfolio_cache'] = ( $pt_vars->num_to_str($portfolio_cache) > 0 ? $portfolio_cache : 0 );
 	
 
 

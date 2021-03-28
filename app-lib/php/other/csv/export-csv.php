@@ -70,13 +70,13 @@ $csv_download_array[] = array(
 	    	$asset_amount_decimals = 8;
 	    	}
 	    
-	  	 $asset_amount_value = pretty_numbers($asset_amount_value, $asset_amount_decimals);
+	  	 $asset_amount_value = $pt_vars->num_pretty($asset_amount_value, $asset_amount_decimals);
 	    
-	    $coin_paid_value = ( number_to_string($coin_paid_value) >= $app_config['general']['primary_currency_decimals_max_threshold'] ? pretty_numbers($coin_paid_value, 2) : pretty_numbers($coin_paid_value, $app_config['general']['primary_currency_decimals_max']) );
+	    $coin_paid_value = ( $pt_vars->num_to_str($coin_paid_value) >= $app_config['general']['primary_currency_decimals_max_threshold'] ? $pt_vars->num_pretty($coin_paid_value, 2) : $pt_vars->num_pretty($coin_paid_value, $app_config['general']['primary_currency_decimals_max']) );
 	  	 
 	    
 	   	// Asset data to array for CSV export
-	      if ( trim($coin_array_key) != '' && remove_number_format($asset_amount_value) >= 0.00000001 ) {
+	      if ( trim($coin_array_key) != '' && $pt_vars->rem_num_format($asset_amount_value) >= 0.00000001 ) {
 	        	
 	        $csv_download_array[] = array(
 	        											strtoupper($coin_array_key),

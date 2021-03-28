@@ -396,8 +396,8 @@
 	        if ( $_POST['submit_check'] == 1 ) {
 	        $coin_pairing_id = $_POST[$field_var_pairing];
 	        $coin_market_id = $_POST[$field_var_market];
-	        $asset_amount_value = remove_number_format($_POST[$field_var_amount]);
-	        $coin_paid_value = remove_number_format($_POST[$field_var_paid]);
+	        $asset_amount_value = $pt_vars->rem_num_format($_POST[$field_var_amount]);
+	        $coin_paid_value = $pt_vars->rem_num_format($_POST[$field_var_paid]);
 	        $coin_leverage_value = $_POST[$field_var_leverage];
 	        $coin_margintype_value = $_POST[$field_var_margintype];
 	        }
@@ -490,9 +490,9 @@
 		    
 		    $coin_symbol = strtoupper(preg_replace("/_amount/i", "", $single_coin_amounts_cookie_array[0]));  
 		    
-		    		// We don't need remove_number_format() for cookie data, because it was already done creating the cookies
+		    		// We don't need $pt_vars->rem_num_format() for cookie data, because it was already done creating the cookies
 					if ( $coin_symbol == strtoupper($coin_array_key) ) {
-					$asset_amount_value = number_to_string($single_coin_amounts_cookie_array[1]);
+					$asset_amount_value = $pt_vars->num_to_str($single_coin_amounts_cookie_array[1]);
 					}
 		    
 		    
@@ -516,9 +516,9 @@
 		    
 		    $coin_symbol = strtoupper(preg_replace("/_paid/i", "", $single_coin_paid_cookie_array[0]));  
 		    		
-		    		// We don't need remove_number_format() for cookie data, because it was already done creating the cookies
+		    		// We don't need $pt_vars->rem_num_format() for cookie data, because it was already done creating the cookies
 					if ( $coin_symbol == strtoupper($coin_array_key) ) {
-					$coin_paid_value = number_to_string($single_coin_paid_cookie_array[1]);
+					$coin_paid_value = $pt_vars->num_to_str($single_coin_paid_cookie_array[1]);
 					}
 		    
 		    
@@ -592,17 +592,17 @@
 	    	}
 	    
 	    
-	  	 $asset_amount_value = pretty_numbers($asset_amount_value, $asset_amount_decimals, TRUE); // TRUE = Show even if low value is off the map, just for UX purposes tracking token price only, etc
+	  	 $asset_amount_value = $pt_vars->num_pretty($asset_amount_value, $asset_amount_decimals, TRUE); // TRUE = Show even if low value is off the map, just for UX purposes tracking token price only, etc
 	    
 	    // Set any previously-used additional feilds to default, if 'watch only' now (no amount held)
-	    if ( remove_number_format($asset_amount_value) < 0.00000001 ) {
+	    if ( $pt_vars->rem_num_format($asset_amount_value) < 0.00000001 ) {
 	    $coin_paid_value = 0;
 	    $coin_leverage_value = 0;
 	    $coin_margintype_value = 'long';
 	    
 	    }
 	    else {
-	    $coin_paid_value = ( number_to_string($coin_paid_value) >= $app_config['general']['primary_currency_decimals_max_threshold'] ? pretty_numbers($coin_paid_value, 2) : pretty_numbers($coin_paid_value, $app_config['general']['primary_currency_decimals_max']) );
+	    $coin_paid_value = ( $pt_vars->num_to_str($coin_paid_value) >= $app_config['general']['primary_currency_decimals_max_threshold'] ? $pt_vars->num_pretty($coin_paid_value, 2) : $pt_vars->num_pretty($coin_paid_value, $app_config['general']['primary_currency_decimals_max']) );
 	    }
 	    
 	    
@@ -613,7 +613,7 @@
 	    <div class='<?=$zebra_stripe?> long_list_taller' style='white-space: nowrap;'> 
 	       
 	       
-	       <input type='checkbox' value='<?=strtolower($coin_array_key)?>' id='<?=$field_var_watchonly?>' onchange='watch_toggle(this);' <?=( remove_number_format($asset_amount_value) > 0 && remove_number_format($asset_amount_value) <= '0.000000001' ? 'checked' : '' )?> /> &nbsp;
+	       <input type='checkbox' value='<?=strtolower($coin_array_key)?>' id='<?=$field_var_watchonly?>' onchange='watch_toggle(this);' <?=( $pt_vars->rem_num_format($asset_amount_value) > 0 && $pt_vars->rem_num_format($asset_amount_value) <= '0.000000001' ? 'checked' : '' )?> /> &nbsp;
 				    
 				    
 			<b class='blue'><?=$coin_array_value['asset_name']?> (<?=strtoupper($coin_array_key)?>)</b> /  
@@ -715,7 +715,7 @@
 	     
 	     $("#<?=strtolower($coin_array_key)?>_restore").val( $("#<?=strtolower($coin_array_key)?>_amount").val() );
 	     
-	     ' <?=( remove_number_format($asset_amount_value) > 0 && remove_number_format($asset_amount_value) <= '0.000000001' ? 'readonly' : '' )?> /> <span class='blue'><?=strtoupper($coin_array_key)?></span>  &nbsp;  &nbsp; 
+	     ' <?=( $pt_vars->rem_num_format($asset_amount_value) > 0 && $pt_vars->rem_num_format($asset_amount_value) <= '0.000000001' ? 'readonly' : '' )?> /> <span class='blue'><?=strtoupper($coin_array_key)?></span>  &nbsp;  &nbsp; 
 			    
 			
 	     <b>Average Paid (per-token):</b> <?=$app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']]?><input type='text' size='10' id='<?=$field_var_paid?>' name='<?=$field_var_paid?>' value='<?=$coin_paid_value?>' <?=$disable_fields?> /> 
@@ -774,12 +774,12 @@
 	     }
 	     alert(" " + this.value + "x (" + mode + " Mode) \n Leverage trading in crypto assets is \n EXTREMELY RISKY. NEVER put more \n than ~5% of your crypto investments \n in leveraged trades EVER, OR YOU \n ###COULD LOSE EVERYTHING###. ");
 	     ' <?=$disable_fields?> >
-	     <option value='0' <?=( $coin_leverage_value == 0 || remove_number_format($coin_paid_value) < 0.00000001 ? 'selected' : '' )?>> None </option>
+	     <option value='0' <?=( $coin_leverage_value == 0 || $pt_vars->rem_num_format($coin_paid_value) < 0.00000001 ? 'selected' : '' )?>> None </option>
 	     <?php
 	     $leverage_count = 2;
 	     while ( $app_config['power_user']['margin_leverage_max'] > 1 && $leverage_count <= $app_config['power_user']['margin_leverage_max'] ) {
 	     ?>	     
-	     <option value='<?=$leverage_count?>' <?=( $coin_leverage_value == $leverage_count && remove_number_format($coin_paid_value) >= 0.00000001 ? 'selected' : '' )?>> <?=$leverage_count?>x </option>
+	     <option value='<?=$leverage_count?>' <?=( $coin_leverage_value == $leverage_count && $pt_vars->rem_num_format($coin_paid_value) >= 0.00000001 ? 'selected' : '' )?>> <?=$leverage_count?>x </option>
 	     <?php
 	     $leverage_count = $leverage_count + 1;
 	     }
@@ -820,7 +820,7 @@
 		 
 	     
 	     
-	     <input type='hidden' id='<?=$field_var_restore?>' name='<?=$field_var_restore?>' value='<?=( remove_number_format($asset_amount_value) > 0 && remove_number_format($asset_amount_value) <= '0.000000001' ? '' : $asset_amount_value )?>' />
+	     <input type='hidden' id='<?=$field_var_restore?>' name='<?=$field_var_restore?>' value='<?=( $pt_vars->rem_num_format($asset_amount_value) > 0 && $pt_vars->rem_num_format($asset_amount_value) <= '0.000000001' ? '' : $asset_amount_value )?>' />
 				
 				
 	    </div>

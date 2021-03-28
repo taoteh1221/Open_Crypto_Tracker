@@ -4,7 +4,7 @@
  */
 
 
-// REMEMBER WE HAVE #GLOBALS# TO WORRY ABOUT ADDING IN ui_coin_data_row(), AS THAT'S WHERE THIS CODE IS RAN!
+// REMEMBER WE HAVE #GLOBALS# TO WORRY ABOUT ADDING IN $pt_assets->ui_coin_row(), AS THAT'S WHERE THIS CODE IS RAN!
 
  ?>
  
@@ -336,7 +336,7 @@
   $coin_primary_currency_value = ( $selected_btc_primary_currency_value * $btc_trade_eqiv_raw );
 
   // UX on FIAT EQUIV number values
-  $coin_primary_currency_value = ( number_to_string($coin_primary_currency_value) >= $app_config['general']['primary_currency_decimals_max_threshold'] ? pretty_numbers($coin_primary_currency_value, 2) : pretty_numbers($coin_primary_currency_value, $app_config['general']['primary_currency_decimals_max']) );
+  $coin_primary_currency_value = ( $pt_vars->num_to_str($coin_primary_currency_value) >= $app_config['general']['primary_currency_decimals_max_threshold'] ? $pt_vars->num_pretty($coin_primary_currency_value, 2) : $pt_vars->num_pretty($coin_primary_currency_value, $app_config['general']['primary_currency_decimals_max']) );
 	
   echo "<span class='white'>" . $app_config['power_user']['bitcoin_currency_markets'][$app_config['general']['btc_primary_currency_pairing']] . "</span>" . "<span class='app_sort_filter'>" . $coin_primary_currency_value . "</span>";
 
@@ -386,7 +386,7 @@
 
 <?php 
 
-$coin_value_raw = number_to_string($coin_value_raw);
+$coin_value_raw = $pt_vars->num_to_str($coin_value_raw);
 
 	// UX on FIAT EQUIV number values
 	if ( $fiat_eqiv == 1 ) {
@@ -406,7 +406,7 @@ $coin_value_raw = number_to_string($coin_value_raw);
 	}
   
   
-echo pretty_numbers($coin_value_raw, $coin_value_decimals); 
+echo $pt_vars->num_pretty($coin_value_raw, $coin_value_decimals); 
 
 
 ?>
@@ -418,18 +418,18 @@ echo pretty_numbers($coin_value_raw, $coin_value_decimals);
   if ( $show_secondary_trade_value != null && $selected_pairing != $show_secondary_trade_value && strtolower($asset_symbol) != $show_secondary_trade_value ) {
   
 		if ( $show_secondary_trade_value == 'btc' ) {
-		$secondary_trade_value_result = number_to_string($btc_trade_eqiv_raw);
+		$secondary_trade_value_result = $pt_vars->num_to_str($btc_trade_eqiv_raw);
 		$secondary_trade_value_decimals = ( $secondary_trade_value_result >= 0.01 ? 6 : 8 );
 		$secondary_trade_value_decimals = ( $secondary_trade_value_result >= 1 ? 4 : $secondary_trade_value_decimals );
 		}
 		else {
-		$secondary_trade_value_result = number_to_string( $btc_trade_eqiv_raw / pairing_btc_value($show_secondary_trade_value) );
+		$secondary_trade_value_result = $pt_vars->num_to_str( $btc_trade_eqiv_raw / pairing_btc_value($show_secondary_trade_value) );
 		$secondary_trade_value_decimals = ( $secondary_trade_value_result >= 0.01 ? 4 : 8 );
 		$secondary_trade_value_decimals = ( $secondary_trade_value_result >= 1 ? 2 : $secondary_trade_value_decimals );
 		}
 		
 		if ( $secondary_trade_value_result >= 0.00000001 ) {
-  		echo '<div class="crypto_worth">(' . pretty_numbers($secondary_trade_value_result, $secondary_trade_value_decimals) . ' '.strtoupper($show_secondary_trade_value).')</div>';
+  		echo '<div class="crypto_worth">(' . $pt_vars->num_pretty($secondary_trade_value_result, $secondary_trade_value_decimals) . ' '.strtoupper($show_secondary_trade_value).')</div>';
 		}
   
   }
@@ -509,7 +509,7 @@ echo pretty_numbers($coin_value_raw, $coin_value_decimals);
 	$asset_amount_decimals = 8;
 	}
 	
-$pretty_coin_amount = pretty_numbers($asset_amount, $asset_amount_decimals);
+$pretty_coin_amount = $pt_vars->num_pretty($asset_amount, $asset_amount_decimals);
 
 echo "<span class='app_sort_filter blue'>" . ( $pretty_coin_amount != null ? $pretty_coin_amount : 0 ) . "</span>";
 
@@ -533,7 +533,7 @@ echo "<span class='app_sort_filter blue'>" . ( $pretty_coin_amount != null ? $pr
 
 <?php
 
-$coin_value_total_raw = number_to_string($coin_value_total_raw);
+$coin_value_total_raw = $pt_vars->num_to_str($coin_value_total_raw);
 
 	// UX on FIAT EQUIV number values
 	if ( $fiat_eqiv == 1 ) {
@@ -553,7 +553,7 @@ $coin_value_total_raw = number_to_string($coin_value_total_raw);
 	}
   
   
-$pretty_coin_value_total_raw = pretty_numbers($coin_value_total_raw, $coin_value_total_decimals); 
+$pretty_coin_value_total_raw = $pt_vars->num_pretty($coin_value_total_raw, $coin_value_total_decimals); 
 
 
 echo ' <span class="blue"><span class="data app_sort_filter blue">' . $pretty_coin_value_total_raw . '</span> ' . strtoupper($selected_pairing) . '</span>';
@@ -562,18 +562,18 @@ echo ' <span class="blue"><span class="data app_sort_filter blue">' . $pretty_co
   if ( $show_secondary_trade_value != null && $selected_pairing != $show_secondary_trade_value && strtolower($asset_symbol) != $show_secondary_trade_value ) {
   
 		if ( $show_secondary_trade_value == 'btc' ) {
-		$secondary_holdings_value_result = number_to_string($coin_value_total_raw * $pairing_btc_value);
+		$secondary_holdings_value_result = $pt_vars->num_to_str($coin_value_total_raw * $pairing_btc_value);
 		$secondary_holdings_value_decimals = ( $secondary_holdings_value_result >= 0.01 ? 6 : 8 );
 		$secondary_holdings_value_decimals = ( $secondary_holdings_value_result >= 1 ? 4 : $secondary_holdings_value_decimals );
 		}
 		else {
-		$secondary_holdings_value_result = number_to_string( ($coin_value_total_raw * $pairing_btc_value) / pairing_btc_value($show_secondary_trade_value) );
+		$secondary_holdings_value_result = $pt_vars->num_to_str( ($coin_value_total_raw * $pairing_btc_value) / pairing_btc_value($show_secondary_trade_value) );
 		$secondary_holdings_value_decimals = ( $secondary_holdings_value_result >= 0.01 ? 4 : 8 );
 		$secondary_holdings_value_decimals = ( $secondary_holdings_value_result >= 1 ? 2 : $secondary_holdings_value_decimals );
 		}
 		
 		if ( $secondary_holdings_value_result >= 0.00000001 ) {
-  		echo '<div class="crypto_worth"><span>(' . pretty_numbers($secondary_holdings_value_result, $secondary_holdings_value_decimals) . ' '.strtoupper($show_secondary_trade_value).')</span></div>';
+  		echo '<div class="crypto_worth"><span>(' . $pt_vars->num_pretty($secondary_holdings_value_result, $secondary_holdings_value_decimals) . ' '.strtoupper($show_secondary_trade_value).')</span></div>';
   		}
   		
   }

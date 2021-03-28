@@ -157,9 +157,9 @@ gui: {
 		$chart_data = chart_data('cache/charts/spot_price_24hr_volume/lite/' . $_GET['days'] . '_days/'.$chart_asset.'/'.$key.'_chart_'.$charted_value.'.dat', $market_parse[1]);
 		
 		
-		$price_sample_oldest = number_to_string( delimited_string_sample($chart_data['spot'], ',', 'first') );
+		$price_sample_oldest = $pt_vars->num_to_str( $pt_vars->delimited_str_sample($chart_data['spot'], ',', 'first') );
 		
-		$price_sample_newest = number_to_string( delimited_string_sample($chart_data['spot'], ',', 'last') );
+		$price_sample_newest = $pt_vars->num_to_str( $pt_vars->delimited_str_sample($chart_data['spot'], ',', 'last') );
 		
 		$price_sample_average = ( $price_sample_oldest + $price_sample_newest ) / 2;
 		
@@ -168,10 +168,10 @@ gui: {
 		
 			
 			// Force decimals under certain conditions
-			if ( number_to_string($price_sample_average) >= $app_config['general']['primary_currency_decimals_max_threshold'] ) {
+			if ( $pt_vars->num_to_str($price_sample_average) >= $app_config['general']['primary_currency_decimals_max_threshold'] ) {
 			$force_decimals = 'decimals: ' . 2 . ',';
 			}
-			elseif ( number_to_string($price_sample_average) < $app_config['general']['primary_currency_decimals_max_threshold'] ) {
+			elseif ( $pt_vars->num_to_str($price_sample_average) < $app_config['general']['primary_currency_decimals_max_threshold'] ) {
 			$force_decimals = 'decimals: ' . $spot_price_decimals . ',';
 			}
 		

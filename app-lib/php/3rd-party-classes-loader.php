@@ -10,7 +10,7 @@
 // To be safe, don't use trim() on certain strings with arbitrary non-alphanumeric characters here
 if ( $app_config['comms']['smtp_login'] != '' && $app_config['comms']['smtp_server'] != '' ) {
 
-require_once($base_dir . '/app-lib/php/classes/smtp-mailer/SMTPMailer.php');
+require_once($base_dir . '/app-lib/php/classes/3rd-party/smtp-mailer/SMTPMailer.php');
 
 // Passing smtp server login vars to config structure used by the 3rd party SMTP class, to maintain ease with any future upgrade compatibility
 // Must be loaded as a global var before class instance is created
@@ -42,7 +42,7 @@ $smtp = new SMTPMailer();
 if ( $telegram_activated == 1 ) {
 
 // Load class files
-require_once($base_dir . '/app-lib/php/classes/telegram-php/src/Autoloader.php');
+require_once($base_dir . '/app-lib/php/classes/3rd-party/telegram-php/src/Autoloader.php');
 
 // Initiate the bot for this chatroom
 $telegram_bot = new Telegram\Bot($app_config['comms']['telegram_bot_token'], $app_config['comms']['telegram_bot_username'], $app_config['comms']['telegram_bot_name']);
@@ -60,7 +60,7 @@ if ( $app_config['comms']['google_application_name'] != '' && $app_config['comms
 // Based off: https://www.phpflow.com/php/php-web-application-authentication-using-google-oauth-2-0/
 
 // Load class files
-require_once($base_dir . '/app-lib/php/classes/google-api/vendor/autoload.php');
+require_once($base_dir . '/app-lib/php/classes/3rd-party/google-api/vendor/autoload.php');
  
 // GOOGLE HOME
 //Create and Request to access Google API 

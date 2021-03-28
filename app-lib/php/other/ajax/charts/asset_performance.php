@@ -105,7 +105,7 @@ exit;
 $loop = 0;
 foreach ( $runtime_data['performance_stats'] as $chart_key => $chart_value ) {
   			
-$percent_sample_newest = number_to_string( delimited_string_sample($chart_value['data']['percent'], ',', 'last') );
+$percent_sample_newest = $pt_vars->num_to_str( $pt_vars->delimited_str_sample($chart_value['data']['percent'], ',', 'last') );
 
 	// If percent value matches, and another (increasing) number to the end, to avoid overwriting keys (this data is only used as an array key anyway)
 	if ( !array_key_exists($percent_sample_newest, $sorted_by_last_chart_data) ) {

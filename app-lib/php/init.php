@@ -130,6 +130,7 @@ session_start(); // New session start
 
 // Load app functions
 require_once('app-lib/php/functions-loader.php');
+require_once('app-lib/php/core-classes-loader.php');
 
 
 // Register the base directory of this app (MUST BE SET BEFORE !ANY! Init logic)
@@ -145,16 +146,16 @@ $base_url = base_url();
 }
 
 
-// Set $pt_id as a global (MUST BE SET AFTER $base_url / $base_dir)
+// Set $pt_app_id as a global (MUST BE SET AFTER $base_url / $base_dir)
 // (a 10 character install ID hash, created from the base URL or base dir [if cron])
-// AFTER THIS IS SET, WE CAN USE EITHER $pt_id OR pt_id() RELIABLY / EFFICIENTLY ANYWHERE
-// pt_id() can then be used in functions WITHOUT NEEDING ANY $pt_id GLOBAL DECLARED.
-$pt_id = pt_id();
+// AFTER THIS IS SET, WE CAN USE EITHER $pt_app_id OR pt_app_id() RELIABLY / EFFICIENTLY ANYWHERE
+// pt_app_id() can then be used in functions WITHOUT NEEDING ANY $pt_app_id GLOBAL DECLARED.
+$pt_app_id = pt_app_id();
 
 
 // Give our session a unique name 
-// MUST BE SET AFTER $pt_id / first pt_id() call
-session_name( pt_id() );
+// MUST BE SET AFTER $pt_app_id / first pt_app_id() call
+session_name( pt_app_id() );
 
 
 // Current runtime user
@@ -164,7 +165,7 @@ $current_runtime_user = posix_getpwuid(posix_geteuid())['name'];
 // Get WEBSERVER runtime user (from cache if currently running from CLI)
 // MUST BE SET BEFORE CACHE STRUCTURE CREATION, TO RUN IN COMPATIBILITY MODE (IF NEEDED) FOR THIS PARTICULAR SERVER'S SETUP
 // WE HAVE FALLBACKS IF THIS IS NULL IN store_file_contents() WHEN WE STORE CACHE FILES, SO A BRAND NEW INTALL RUN FIRST VIA CRON IS #OK#
-$http_runtime_user = ( $runtime_mode == 'ui' ? $current_runtime_user : trim( file_get_contents('cache/vars/http_runtime_user.dat') ) );
+$http_runtime_user = ( $runtime_mode != 'cron' ? $current_runtime_user : trim( file_get_contents('cache/vars/http_runtime_user.dat') ) );
 
 
 //////////////////////////////////////////////////////////////
@@ -182,9 +183,8 @@ $_SESSION = array();
 }
 
 
-// Nonce for secured login session logic in UI
-if ( $runtime_mode == 'ui' && !isset( $_SESSION['nonce'] )
-|| $runtime_mode == 'ajax' && !isset( $_SESSION['nonce'] ) ) {
+// Nonce for secured login session logic WHEN NOT RUNNING AS CRON
+if ( $runtime_mode != 'cron' && !isset( $_SESSION['nonce'] ) ) {
 $_SESSION['nonce'] = random_hash(32); // 32 byte
 }
 
@@ -196,8 +196,8 @@ if ( $_GET['logout'] == 1 && admin_hashed_nonce('logout') != false && $_GET['adm
 hardy_session_clearing(); 
 
 // Delete admin login cookie
-store_cookie_contents('admin_auth_' . pt_id(), "", time()-3600);  
-unset($_COOKIE['admin_auth_' . pt_id()]); 
+$pt_general->store_cookie_contents('admin_auth_' . pt_app_id(), "", time()-3600);  
+unset($_COOKIE['admin_auth_' . pt_app_id()]); 
 
 header("Location: index.php");
 exit;
@@ -235,6 +235,8 @@ if ( $_POST['admin_submit_register'] || $_POST['admin_submit_login'] || $_POST['
 	
 
 }
+
+
 
 
 // Initial arrays
@@ -319,14 +321,17 @@ $fetched_feeds = 'fetched_feeds_' . $runtime_mode; // Unique feed fetch telemetr
 
 $remote_ip = ( isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'localhost' );
 
+
 // Get system info for debugging / stats
 $system_info = system_info(); // MUST RUN AFTER SETTING $base_dir
+
 
 // If upgrade check enabled / cached var set, set the runtime var for any configured alerts
 $upgrade_check_latest_version = trim( file_get_contents('cache/vars/upgrade_check_latest_version.dat') );
 
 // If we are queued to run a UI alert that an upgrade is available
 $ui_upgrade_alert = json_decode( trim( file_get_contents($base_dir . '/cache/events/ui_upgrade_alert.dat') ) , TRUE);
+
 
 // Raspberry Pi device? (run after system info var)
 if ( preg_match("/raspberry/i", $system_info['model']) ) {
@@ -399,6 +404,7 @@ require_once('app-lib/php/other/security/directory-security.php');
 
 
 // UI-CACHED VARS THAT !MUST! BE AVAILABLE BEFORE SYSTEM CHECKS, #BUT# MUST RUN AFTER DIRECTORY CREATION
+// RUN DURING 'ui' ONLY
 if ( $runtime_mode == 'ui' ) {
 	
 	// Have UI / HTTP runtime mode RE-CACHE the runtime_user data every 24 hours, since CLI runtime cannot determine the UI / HTTP runtime_user 
@@ -438,7 +444,7 @@ require_once('app-lib/php/other/security/secure-cache-files.php');
 require_once('app-lib/php/other/app-config-management.php');
 
 // Load any activated classes (MUST RUN AS EARLY AS POSSIBLE #AFTER SECURE CACHE FILES / APP CONFIG MANAGEMENT#)
-require_once('app-lib/php/classes-loader.php');
+require_once('app-lib/php/3rd-party-classes-loader.php');
 
 // Chart sub-directory creation (if needed...MUST RUN AFTER app config management)
 require_once('app-lib/php/other/directory-creation/chart-directories.php');
