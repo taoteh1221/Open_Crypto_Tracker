@@ -11,7 +11,7 @@ $_POST = $pt_vars->clean_array($_POST);
 }
 
 // Get HIVE value
-$hive_market = $pt_exchanges->market('HIVE', 'bittrex', 'HIVE-BTC')['last_trade'];
+$hive_market = $pt_apis->market('HIVE', 'bittrex', 'HIVE-BTC')['last_trade'];
 
 ?>
     

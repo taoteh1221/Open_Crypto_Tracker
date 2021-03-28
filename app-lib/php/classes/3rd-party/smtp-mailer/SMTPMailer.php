@@ -292,7 +292,7 @@ Class SMTPMailer {
         fclose($this->sock);
 		  gc_collect_cycles(); // Clean memory cache
 				
-				if ( $this->debug_mode == 'on' || $this->debug_mode == 'smtp' ) {
+				if ( $this->debug_mode == 'on' || $this->debug_mode == 'smtp_telemetry' ) {
         		
 				$this->debug[] = "\n\n SMTP Server response (debugging mode [".$this->debug_mode."]): \n";
 				

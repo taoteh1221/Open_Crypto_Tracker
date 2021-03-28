@@ -41,7 +41,7 @@ $show_crypto_value = explode(',', rtrim( ( $_POST['show_crypto_value'] != '' ? $
 		}
 	
 		if( $_COOKIE['show_crypto_value'] ) {
-		$pt_general->store_cookie_contents("show_crypto_value", $implode_crypto_value, mktime()+31536000);
+		$pt_gen->store_cookie("show_crypto_value", $implode_crypto_value, mktime()+31536000);
 		}
 
 ///////////////////////////////////////////////////////////////////////
@@ -53,7 +53,7 @@ $show_secondary_trade_value = ( $_POST['show_secondary_trade_value'] != '' ? $_P
 	if ( !array_key_exists($show_secondary_trade_value, $app_config['power_user']['crypto_pairing']) ) {
 	$show_secondary_trade_value = null;
 	$_POST['show_secondary_trade_value'] = null;  
-	$pt_general->store_cookie_contents("show_secondary_trade_value", "", time()-3600);  
+	$pt_gen->store_cookie("show_secondary_trade_value", "", time()-3600);  
 	unset($_COOKIE['show_secondary_trade_value']);  
 	}
 
@@ -83,7 +83,7 @@ $show_feeds = explode(',', rtrim( ( $_POST['show_feeds'] != '' ? $_POST['show_fe
 	}
 	
 	if( $_COOKIE['show_feeds'] ) {
-	$pt_general->store_cookie_contents("show_feeds", $implode_feeds, mktime()+31536000);
+	$pt_gen->store_cookie("show_feeds", $implode_feeds, mktime()+31536000);
 	}
 
 
@@ -129,7 +129,7 @@ $show_feeds = explode(',', rtrim( ( $_POST['show_feeds'] != '' ? $_POST['show_fe
 		}
 	
 		if( $_COOKIE['show_charts'] ) {
-		$pt_general->store_cookie_contents("show_charts", $implode_charts, mktime()+31536000);
+		$pt_gen->store_cookie("show_charts", $implode_charts, mktime()+31536000);
 		}
 	
 	}

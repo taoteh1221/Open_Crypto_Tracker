@@ -15,7 +15,6 @@ require_once($base_dir . '/app-lib/php/classes/3rd-party/smtp-mailer/SMTPMailer.
 // Passing smtp server login vars to config structure used by the 3rd party SMTP class, to maintain ease with any future upgrade compatibility
 // Must be loaded as a global var before class instance is created
 $smtp_vars = smtp_vars();
-global $smtp_vars; // Needed for class compatibility (along with second instance in the class config_smtp.php file)
 
 // Initiation of the 3rd party SMTP class
 $smtp = new SMTPMailer();

@@ -16,34 +16,34 @@ $_SESSION[$fetched_feeds] = false;
 	// Re-cache RSS feeds for faster UI runtimes later
 	foreach($app_config['power_user']['news_feeds'] as $cached_feed_key => $feed_unused) {
 		if ( trim($news_feeds[$cached_feed_key]["url"]) != '' ) {
-	 	get_rss_feed($news_feeds[$feed_key]["url"], 'no_theme', 0, 1);
+	 	$pt_apis->rss($news_feeds[$feed_key]["url"], 'no_theme', 0, 1);
 	 	}
 	}
 
 
 	// If coinmarketcap API key is added, cache data for faster UI runtimes later
 	if ( trim($app_config['general']['coinmarketcapcom_api_key']) != null ) {
-	$coinmarketcap_api = coinmarketcap_api();
+	$coinmarketcap_api = $pt_apis->coinmarketcap();
 	}
 	 
 
 // Re-cache marketcap data for faster UI runtimes later
-$coingecko_api = coingecko_api();
+$coingecko_api = $pt_apis->coingecko_api();
 	 
 	 
 // Re-cache chain data for faster UI runtimes later
 
 // Bitcoin
-bitcoin_api('height');
-bitcoin_api('difficulty');
+$pt_apis->bitcoin('height');
+$pt_apis->bitcoin('difficulty');
 
 // Ethereum
-etherscan_api('number');
-etherscan_api('difficulty');
-etherscan_api('gasLimit');
+$pt_apis->etherscan('number');
+$pt_apis->etherscan('difficulty');
+$pt_apis->etherscan('gasLimit');
 
 // Hive
-$pt_exchanges->market('HIVE', 'bittrex', 'BTC-HIVE');
+$pt_apis->market('HIVE', 'bittrex', 'BTC-HIVE');
 
 // Chain data END
 

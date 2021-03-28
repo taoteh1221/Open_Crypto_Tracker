@@ -48,7 +48,7 @@ $all_feeds_array = array();
     	// We already alphabetically ordered / pruned before sending to ajax.php
     	foreach($batched_feed_hashes_array as $chosen_feed_hash) {
     	echo "<fieldset class='subsection_fieldset'><legend class='subsection_legend'> " .$all_feeds_array[$chosen_feed_hash]["title"]." </legend>";
-    	echo get_rss_feed($all_feeds_array[$chosen_feed_hash]["url"], $_GET['theme'], $app_config['power_user']['news_feeds_entries_show']);
+    	echo $pt_apis->rss($all_feeds_array[$chosen_feed_hash]["url"], $_GET['theme'], $app_config['power_user']['news_feeds_entries_show']);
     	echo "</fieldset>"; 
     	}
 	

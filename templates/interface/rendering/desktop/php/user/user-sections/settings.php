@@ -639,7 +639,7 @@
          else {
 			document.getElementById("use_notes").value = "";
          }
-         ' <?php echo ( $_COOKIE['notes_reminders'] != '' ? 'checked' : ''); ?> /> <span class='bitcoin'>(requires cookies)</span>
+         ' <?php echo ( $_COOKIE['notes'] != '' ? 'checked' : ''); ?> /> <span class='bitcoin'>(requires cookies)</span>
          
          </p>
 			

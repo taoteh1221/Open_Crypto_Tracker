@@ -119,6 +119,24 @@ var $pt_array1 = array();
    return $this->num_to_str($string);
    
    }
+
+
+	////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////
+	
+	
+	function strip_non_alpha($string, $case=false) {
+	
+		if ( $case == 'lower' ) {
+		$result = strtolower(preg_replace('/[^\w\d]+/','', $string));
+		}
+		else {
+		$result = preg_replace('/[^\w\d]+/','', $string);
+		}
+		
+	return $result;
+	
+	}
    
    
    ////////////////////////////////////////////////////////

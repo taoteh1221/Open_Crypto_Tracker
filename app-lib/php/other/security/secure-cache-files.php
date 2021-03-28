@@ -308,7 +308,7 @@ $secure_128bit_hash = random_hash(16); // 128-bit (16-byte) hash converted to he
 	}
 	else {
 	
-	$telegram_user_data = telegram_user_data('updates');
+	$telegram_user_data = $pt_apis->telegram('updates');
 		
 	$store_cached_telegram_user_data = json_encode($telegram_user_data, JSON_PRETTY_PRINT);
 		
@@ -448,7 +448,7 @@ if ( $password_reset_approved || sizeof($stored_admin_login) != 2 ) {
 				
 		$cookie_nonce = random_hash(32); // 32 byte
 		
-		$pt_general->store_cookie_contents('admin_auth_' . pt_app_id(), $cookie_nonce, mktime() + ($app_config['power_user']['admin_cookie_expire'] * 3600) );
+		$pt_gen->store_cookie('admin_auth_' . pt_app_id(), $cookie_nonce, mktime() + ($app_config['power_user']['admin_cookie_expire'] * 3600) );
 				
 		$_SESSION['admin_logged_in']['auth_hash'] = admin_hashed_nonce($cookie_nonce, 'force'); // Force set, as we're not logged in fully yet
 				

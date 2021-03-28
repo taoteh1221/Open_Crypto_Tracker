@@ -50,7 +50,7 @@ remove_directory($base_dir . '/cache/charts/spot_price_24hr_volume/lite');
 
 	// Delete show_charts cookie data
 	if ( isset($_COOKIE['show_charts']) ) {
-	$pt_general->store_cookie_contents("show_charts", "", time()-3600);  
+	$pt_gen->store_cookie("show_charts", "", time()-3600);  
 	unset($_COOKIE['show_charts']);  
 	}
 
@@ -72,7 +72,7 @@ if ( $runtime_mode == 'cron' || $runtime_mode == 'int_api' || $runtime_mode == '
 
     // MUST be called FIRST at runtime by the default bitcoin market, to set this var for reuse later in runtime
     $default_btc_pairing_id = $app_config['portfolio_assets']['BTC']['market_pairing'][$default_btc_primary_currency_pairing][$default_btc_primary_exchange];
-    $default_btc_primary_currency_value = $pt_exchanges->market('BTC', $default_btc_primary_exchange, $default_btc_pairing_id)['last_trade'];
+    $default_btc_primary_currency_value = $pt_apis->market('BTC', $default_btc_primary_exchange, $default_btc_pairing_id)['last_trade'];
     
     
     // Log any charts/alerts Bitcoin market errors
@@ -116,7 +116,7 @@ else {
     
     // MUST be called FIRST at runtime by the default bitcoin market, to set this var for reuse later in runtime
     $selected_btc_pairing_id = $app_config['portfolio_assets']['BTC']['market_pairing'][$app_config['general']['btc_primary_currency_pairing']][$app_config['general']['btc_primary_exchange']];
-    $selected_btc_primary_currency_value = $pt_exchanges->market('BTC', $app_config['general']['btc_primary_exchange'], $selected_btc_pairing_id)['last_trade'];
+    $selected_btc_primary_currency_value = $pt_apis->market('BTC', $app_config['general']['btc_primary_exchange'], $selected_btc_pairing_id)['last_trade'];
     
     
     // Log any Bitcoin market errors

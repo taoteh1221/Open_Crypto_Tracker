@@ -1342,18 +1342,35 @@ $app_config['power_user']['news_feeds'] = array(
 // errors detected are error-logged and printed as alerts in footer
 // It also logs ui / cron runtime telemetry to /cache/logs/debugging.log, AND /cache/logs/debugging/
 ////////////////////////////////////////////////////////////////////////////////////////////
-// 'off' (disables), 'all' (all debugging), 'charts' (chart/price alert checks),
-// 'api_live_only' (log only live API requests, not cache requests),
-// 'api_cache_only' (log only cache requests for API data, not live API requests),
-// 'all_telemetry' (logs ALL in-app telemetries), 'stats' (basic hardware / software / runtime stats),
-// 'comms_telemetry' (logs communications API responses to /cache/logs/debugging/external_api/last-response-[service].log),
-// 'smtp' (smtp email server response logging, if smtp emailing is enabled),
-// 'all_markets_config' (the current markets configuration),
-// 'texts' (mobile gateway checks), 'markets' (coin market checks),
-// 'lite_chart' (lite chart caching routines),
-// 'memory' (script memory usage data)
+////
+// ### GENERAL ###
+////
+// 'off' (disables), 
+// 'all' (all debugging), 
+////
+// ### TELEMETRY ###
+////
+// 'all_telemetry' (ALL in-app telemetry), 
+// 'lite_chart_telemetry' (lite chart caching),
+// 'memory_usage_telemetry' (PHP system memory usage),
+// 'ext_api_live_telemetry' (external API requests from server),
+// 'ext_api_cache_telemetry' (external API requests from cache),
+// 'smtp_telemetry' (smtp server responses to: /cache/logs/smtp_debugging.log),
+// 'api_comms_telemetry' (API comms responses to: /cache/logs/debugging/external_api/last-response-[service].log),
+////
+// ### CHECKS ###
+////
+// 'markets' (asset market checks),
+// 'texts' (mobile texting gateway checks), 
+// 'alerts_charts' (price chart / price alert checks),
+////
+// ### SUMMARIES ###
+////
+// 'stats' (hardware / software / runtime summary),
+// 'markets_config' (outputs a markets configuration summary),
+////
 ////////////////////////////////////////////////////////////////////////////////////////////
-// UNIT TESTS WILL ONLY RUN DURING WEB PAGE LOAD. MAY REQUIRE SETTING MAXIMUM ALLOWED 
+// UNIT TESTS ('CHECKS' SECTION) WILL ONLY RUN DURING WEB PAGE LOAD. MAY REQUIRE SETTING MAXIMUM ALLOWED 
 // PHP EXECUTION TIME TO 120 SECONDS TEMPORARILY, FOR ALL UNIT TESTS TO FULLY COMPLETE RUNNING, 
 // IF YOU GET AN ERROR 500. OPTIONALLY, TRY RUNNING ONE TEST PER PAGE LOAD, TO AVOID THIS.
 // DON'T LEAVE DEBUGGING ENABLED AFTER USING IT, THE /cache/logs/debugging.log AND /cache/logs/debugging/

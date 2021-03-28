@@ -111,14 +111,14 @@ if ( $runtime_mode == 'ui' && is_array($app_config['power_user']['mining_calcula
 	
 
 // BTC
-$app_config['power_user']['mining_calculators']['pow']['btc']['height'] = bitcoin_api('height');
-$app_config['power_user']['mining_calculators']['pow']['btc']['difficulty'] = bitcoin_api('difficulty');
+$app_config['power_user']['mining_calculators']['pow']['btc']['height'] = $pt_apis->bitcoin('height');
+$app_config['power_user']['mining_calculators']['pow']['btc']['difficulty'] = $pt_apis->bitcoin('difficulty');
 
 
 // ETH
-$app_config['power_user']['mining_calculators']['pow']['eth']['height'] = hexdec( etherscan_api('number') );      
-$app_config['power_user']['mining_calculators']['pow']['eth']['difficulty'] = hexdec( etherscan_api('difficulty') );
-$app_config['power_user']['mining_calculators']['pow']['eth']['other_network_data'] = '<p><b>Gas limit:</b> ' . number_format( hexdec( etherscan_api('gasLimit') ) ) . '</p>' . ( etherscan_api('number') == false ? '<p><a class="red" href="https://etherscan.io/apis/" target="_blank"><b>EtherScan.io (free) API key is required.</b></a></p>' : '' );
+$app_config['power_user']['mining_calculators']['pow']['eth']['height'] = hexdec( $pt_apis->etherscan('number') );      
+$app_config['power_user']['mining_calculators']['pow']['eth']['difficulty'] = hexdec( $pt_apis->etherscan('difficulty') );
+$app_config['power_user']['mining_calculators']['pow']['eth']['other_network_data'] = '<p><b>Gas limit:</b> ' . number_format( hexdec( $pt_apis->etherscan('gasLimit') ) ) . '</p>' . ( $pt_apis->etherscan('number') == false ? '<p><a class="red" href="https://etherscan.io/apis/" target="_blank"><b>EtherScan.io (free) API key is required.</b></a></p>' : '' );
 
 	
 	// If a mining calculator is being used this runtime, include mining time formula calculations for that chain

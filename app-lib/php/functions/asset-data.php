@@ -311,7 +311,7 @@ return $result;
 
 function marketcap_data($symbol, $force_currency=null) {
 	
-global $app_config, $pt_vars, $alert_percent, $coinmarketcap_currencies, $cap_data_force_usd, $cmc_notes, $coingecko_api, $coinmarketcap_api;
+global $app_config, $pt_vars, $pt_apis, $alert_percent, $coinmarketcap_currencies, $cap_data_force_usd, $cmc_notes, $coingecko_api, $coinmarketcap_api;
 
 $symbol = strtolower($symbol);
 
@@ -326,7 +326,7 @@ $data = array();
 			
 		$app_notice = 'Forcing '.strtoupper($force_currency).' stats.';
 		
-		$coingecko_api_no_overwrite = coingecko_api($force_currency);
+		$coingecko_api_no_overwrite = $pt_apis->coingecko_api($force_currency);
 			
 			// Overwrite previous app notice and unset force usd flag, if this appears to be a data error rather than an unsupported language
 			if ( !isset($coingecko_api_no_overwrite['btc']['market_cap_rank']) ) {
@@ -340,7 +340,7 @@ $data = array();
 		
 		$cap_data_force_usd = 1;
 		
-		$coingecko_api = coingecko_api('usd');
+		$coingecko_api = $pt_apis->coingecko_api('usd');
 			
 			// Overwrite previous app notice and unset force usd flag, if this appears to be a data error rather than an unsupported language
 			if ( !isset($coingecko_api['btc']['market_cap_rank']) ) {
@@ -397,7 +397,7 @@ $data = array();
 		// Default to USD, if selected primary currency is not supported
 		if ( $force_currency != null ) {
 		$app_notice .= ' Forcing '.strtoupper($force_currency).' stats. ';
-		$coinmarketcap_api_no_overwrite = coinmarketcap_api($force_currency);
+		$coinmarketcap_api_no_overwrite = $pt_apis->coinmarketcap($force_currency);
 		}
 		elseif ( isset($cap_data_force_usd) ) {
 		$coinmarketcap_primary_currency = 'USD';
@@ -454,7 +454,7 @@ return ( $data['rank'] != NULL ? $data : NULL );
 
 function primary_currency_trade_volume($asset_symbol, $pairing, $last_trade, $vol_in_pairing) {
 
-global $app_config, $pt_exchanges, $selected_btc_primary_currency_value;
+global $app_config, $selected_btc_primary_currency_value;
 	
 	
 	// Return negative number, if no volume data detected (so we know when data errors happen)
@@ -467,8 +467,8 @@ global $app_config, $pt_exchanges, $selected_btc_primary_currency_value;
 	}
 
 
-	// WE NEED TO SET THIS (ONLY IF NOT SET ALREADY) for $pt_exchanges->market() calls, 
-	// because it is not set as a global THE FIRST RUNTIME CALL TO $pt_exchanges->market()
+	// WE NEED TO SET THIS (ONLY IF NOT SET ALREADY) for $pt_apis->market() calls, 
+	// because it is not set as a global THE FIRST RUNTIME CALL TO $pt_apis->market()
 	if ( strtoupper($asset_symbol) == 'BTC' && !$selected_btc_primary_currency_value ) {
 	$temp_btc_primary_currency_value = $last_trade; // Don't overwrite global
 	}
@@ -511,7 +511,7 @@ return $volume_primary_currency_raw;
 
 function market_conversion_internal_api($market_conversion, $all_markets_data_array) {
 
-global $app_config, $pt_vars, $pt_exchanges, $remote_ip, $selected_btc_primary_currency_value;
+global $app_config, $pt_vars, $pt_apis, $remote_ip, $selected_btc_primary_currency_value;
 
 $result = array();
 
@@ -600,7 +600,7 @@ $possible_dos_attack = 0;
                 
               $btc_pairing_id = $app_config['portfolio_assets']['BTC']['market_pairing'][$market_conversion][$btc_exchange];
               
-              $market_conversion_btc_value = $pt_exchanges->market('BTC', $btc_exchange, $btc_pairing_id)['last_trade'];
+              $market_conversion_btc_value = $pt_apis->market('BTC', $btc_exchange, $btc_pairing_id)['last_trade'];
               
               		  
               		  // FAILSAFE: If the exchange market is DOES NOT RETURN a value, 
@@ -616,7 +616,7 @@ $possible_dos_attack = 0;
               		  		
               		  		$btc_pairing_id = $app_config['portfolio_assets']['BTC']['market_pairing'][$market_conversion][$btc_exchange];
               
-              		  		$market_conversion_btc_value = $pt_exchanges->market('BTC', $btc_exchange, $btc_pairing_id)['last_trade'];
+              		  		$market_conversion_btc_value = $pt_apis->market('BTC', $btc_exchange, $btc_pairing_id)['last_trade'];
               		  
               		  		}
               
@@ -634,7 +634,7 @@ $possible_dos_attack = 0;
               
                 
                 
-        $asset_market_data = $pt_exchanges->market(strtoupper($asset), $exchange, $pairing_id, $market_pairing);
+        $asset_market_data = $pt_apis->market(strtoupper($asset), $exchange, $pairing_id, $market_pairing);
         
         $coin_value_raw = $asset_market_data['last_trade'];
         
@@ -742,7 +742,7 @@ return $result;
 
 function pairing_btc_value($pairing) {
 
-global $app_config, $pt_vars, $pt_exchanges, $btc_pairing_markets, $btc_pairing_markets_excluded;
+global $app_config, $pt_vars, $pt_apis, $btc_pairing_markets, $btc_pairing_markets_excluded;
 
 $pairing = strtolower($pairing);
 
@@ -782,7 +782,7 @@ $pairing = strtolower($pairing);
 			|| isset($market_override) && $market_override != $market_key && in_array($market_override, $btc_pairing_markets_excluded[$pairing]) && !in_array($market_key, $btc_pairing_markets_excluded[$pairing])
 			|| !isset($market_override) && !in_array($market_key, $btc_pairing_markets_excluded[$pairing]) ) {
 				
-   		$btc_pairing_markets[$pairing.'_btc'] = $pt_exchanges->market(strtoupper($pairing), $market_key, $market_value)['last_trade'];
+   		$btc_pairing_markets[$pairing.'_btc'] = $pt_apis->market(strtoupper($pairing), $market_key, $market_value)['last_trade'];
    		
    			// Fallback support IF THIS IS A FUTURES MARKET (we want a normal / current value), OR no data returned
    			if ( stristr($market_key, 'bitmex_') == false && $pt_vars->num_to_str($btc_pairing_markets[$pairing.'_btc']) >= 0.00000001 ) {
@@ -838,7 +838,7 @@ $pairing = strtolower($pairing);
 			|| isset($market_override) && $market_override != $market_key && in_array($market_override, $btc_pairing_markets_excluded[$pairing]) && !in_array($market_key, $btc_pairing_markets_excluded[$pairing])
 			|| !isset($market_override) && !in_array($market_key, $btc_pairing_markets_excluded[$pairing]) ) {
 						
-   		$btc_pairing_markets[$pairing.'_btc'] = ( 1 / $pt_exchanges->market(strtoupper($pairing), $market_key, $market_value)['last_trade'] );
+   		$btc_pairing_markets[$pairing.'_btc'] = ( 1 / $pt_apis->market(strtoupper($pairing), $market_key, $market_value)['last_trade'] );
    					
    			// Fallback support IF THIS IS A FUTURES MARKET (we want a normal / current value), OR no data returned
    			if ( stristr($market_key, 'bitmex_') == false && $pt_vars->num_to_str($btc_pairing_markets[$pairing.'_btc']) >= 0.0000000000000000000000001 ) { // FUTURE-PROOF FIAT ROUNDING WITH 25 DECIMALS, IN CASE BITCOIN MOONS HARD

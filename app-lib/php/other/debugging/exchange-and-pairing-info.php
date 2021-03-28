@@ -12,7 +12,7 @@ $exchange_count = 0;
 $currency_count = 0;
 
 	// Print out all market configurations
-	if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'all_markets_config' ) {
+	if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'markets_config' ) {
 		
 		
 		foreach ( $app_config['power_user']['bitcoin_currency_markets'] as $key => $unused ) {

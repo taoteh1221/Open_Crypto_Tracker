@@ -24,7 +24,7 @@ if ( $_POST['admin_submit_login'] ) {
 				
 				$cookie_nonce = random_hash(32); // 32 byte
 		
-				$pt_general->store_cookie_contents('admin_auth_' . pt_app_id(), $cookie_nonce, mktime() + ($app_config['power_user']['admin_cookie_expire'] * 3600) );
+				$pt_gen->store_cookie('admin_auth_' . pt_app_id(), $cookie_nonce, mktime() + ($app_config['power_user']['admin_cookie_expire'] * 3600) );
 				
 				$_SESSION['admin_logged_in']['auth_hash'] = admin_hashed_nonce($cookie_nonce, 'force'); // Force set, as we're not logged in fully yet
 				

@@ -450,23 +450,18 @@ $debugging_logs .= strip_tags($logs_array['other_debugging']); // Remove any HTM
 	
 	// Log debugging...Purge old logs before storing new logs, if it's time to...otherwise just append.
 	if ( update_cache_file('cache/events/purge-debugging-logs.dat', ( $app_config['power_user']['logs_purge'] * 1440 ) ) == true ) {
-		
-	store_file_contents($base_dir . '/cache/logs/smtp_debugging.log', null);
+	
+	unlink($base_dir . '/cache/logs/smtp_debugging.log');
+	unlink($base_dir . '/cache/logs/debugging.log');
 	
 	store_file_contents('cache/events/purge-debugging-logs.dat', date('Y-m-d H:i:s'));
 	
-	$store_file_contents = store_file_contents($base_dir . '/cache/logs/debugging.log', $debugging_logs); // NULL if no new debugging, but that's OK because we are purging any old entries 
-		
-			if ( $store_file_contents != true ) {
-			return 'Debugging logs write error for "' . $base_dir . '/cache/logs/debugging.log" (MAKE SURE YOUR DISK ISN\'T FULL), data_size_bytes: ' . strlen($debugging_logs) . ' bytes';
-			}
-			// DEBUGGING ONLY (rules out issues other than full disk)
-			elseif ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'all_telemetry' ) {
-			return 'Debugging logs write success for "' . $base_dir . '/cache/logs/debugging.log", data_size_bytes: ' . strlen($debugging_logs) . ' bytes';
-			}
+	sleep(1);
 	
 	}
-	elseif ( $debugging_logs != null ) {
+	
+	
+	if ( $debugging_logs != null ) {
 		
 	$store_file_contents = store_file_contents($base_dir . '/cache/logs/debugging.log', $debugging_logs, "append");
 		
@@ -544,23 +539,18 @@ $error_logs .= strip_tags($logs_array['other_error']); // Remove any HTML format
 	
 	// Log errors...Purge old logs before storing new logs, if it's time to...otherwise just append.
 	if ( update_cache_file('cache/events/purge-error-logs.dat', ( $app_config['power_user']['logs_purge'] * 1440 ) ) == true ) {
-		
-	store_file_contents($base_dir . '/cache/logs/smtp_errors.log', null);
+	
+	unlink($base_dir . '/cache/logs/smtp_errors.log');
+	unlink($base_dir . '/cache/logs/errors.log');
 	
 	store_file_contents('cache/events/purge-error-logs.dat', date('Y-m-d H:i:s'));
 	
-	$store_file_contents = store_file_contents($base_dir . '/cache/logs/errors.log', $error_logs); // NULL if no new errors, but that's OK because we are purging any old entries 
-		
-			if ( $store_file_contents != true ) {
-			return 'Error logs write error for "' . $base_dir . '/cache/logs/errors.log" (MAKE SURE YOUR DISK ISN\'T FULL), data_size_bytes: ' . strlen($error_logs) . ' bytes';
-			}
-			// DEBUGGING ONLY (rules out issues other than full disk)
-			elseif ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'all_telemetry' ) {
-			return 'Error logs write success for "' . $base_dir . '/cache/logs/errors.log", data_size_bytes: ' . strlen($error_logs) . ' bytes';
-			}
+	sleep(1);
 	
 	}
-	elseif ( $error_logs != null ) {
+	
+	
+	if ( $error_logs != null ) {
 		
 	$store_file_contents = store_file_contents($base_dir . '/cache/logs/errors.log', $error_logs, "append");
 		
@@ -1111,11 +1101,11 @@ $lite_data_update_threshold = $pt_vars->num_to_str($lite_data_update_threshold);
 		
 	$_SESSION['lite_charts_updated'] = $_SESSION['lite_charts_updated'] + 1;
 			
-		if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'all_telemetry' || $app_config['developer']['debug_mode'] == 'lite_chart' ) {
+		if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'all_telemetry' || $app_config['developer']['debug_mode'] == 'lite_chart_telemetry' ) {
 		app_logging( 'cache_debugging', 'Lite chart ' . $lite_mode_logging . ' COMPLETED ('.$_SESSION['lite_charts_updated'].') for ' . $lite_path);
 		}
 			
-		if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'all_telemetry' || $app_config['developer']['debug_mode'] == 'memory' ) {
+		if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'all_telemetry' || $app_config['developer']['debug_mode'] == 'memory_usage_telemetry' ) {
 		app_logging('system_debugging', $_SESSION['lite_charts_updated'] . ' lite charts updated, CURRENT script memory usage is ' . convert_bytes(memory_get_usage(), 1) . ', PEAK script memory usage is ' . convert_bytes(memory_get_peak_usage(), 1) . ', php_sapi_name is "' . php_sapi_name() . '"' );
 		}
 			
@@ -1270,7 +1260,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 					
 					store_file_contents($base_dir . '/cache/events/throttling/notifyme-alerts-sent.dat', $processed_messages['notifyme_count']); 
 					
-						if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'all_telemetry' || $app_config['developer']['debug_mode'] == 'comms_telemetry' ) {
+						if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'all_telemetry' || $app_config['developer']['debug_mode'] == 'api_comms_telemetry' ) {
 						store_file_contents($base_dir . '/cache/logs/debugging/external_api/last-response-notifyme.log', $notifyme_response);
 						}
 					
@@ -1301,7 +1291,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 				
 				$message_sent = 1;
 			   
-			   	if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'all_telemetry' || $app_config['developer']['debug_mode'] == 'comms_telemetry' ) {
+			   	if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'all_telemetry' || $app_config['developer']['debug_mode'] == 'api_comms_telemetry' ) {
 					store_file_contents($base_dir . '/cache/logs/debugging/external_api/last-response-textbelt.log', $textbelt_response);
 					}
 				
@@ -1328,7 +1318,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 				
 				$message_sent = 1;
 			   
-			   	if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'all_telemetry' || $app_config['developer']['debug_mode'] == 'comms_telemetry' ) {
+			   	if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'all_telemetry' || $app_config['developer']['debug_mode'] == 'api_comms_telemetry' ) {
 					store_file_contents($base_dir . '/cache/logs/debugging/external_api/last-response-textlocal.log', $textlocal_response);
 					}
 				
@@ -1363,7 +1353,7 @@ $messages_queue = sort_files($base_dir . '/cache/secured/messages', 'queue', 'as
 			   	}
 			   		
 			   
-			   	if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'all_telemetry' || $app_config['developer']['debug_mode'] == 'comms_telemetry' ) {
+			   	if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'all_telemetry' || $app_config['developer']['debug_mode'] == 'api_comms_telemetry' ) {
 					store_file_contents($base_dir . '/cache/logs/debugging/external_api/last-response-telegram.log', $telegram_response);
 					}
 				

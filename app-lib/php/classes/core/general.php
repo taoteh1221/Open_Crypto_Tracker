@@ -5,7 +5,7 @@
 
 
 
-class pt_general {
+class pt_gen {
 	
 // Class variables / arrays
 var $pt_var1;
@@ -697,7 +697,7 @@ var $pt_array1 = array();
       $password_pepper_hashed = hash_hmac("sha256", $password, $password_pepper);
       
          if ( $password_pepper_hashed == false ) {
-         $this->app_logging('config_error', 'hash_hmac() returned false in the $pt_general->pepper_hashed_password() function');
+         $this->app_logging('config_error', 'hash_hmac() returned false in the $pt_gen->pepper_hashed_password() function');
          return false;
          }
          else {
@@ -791,7 +791,7 @@ var $pt_array1 = array();
      
      // Settings
      unset($_COOKIE['coin_reload']);  
-     unset($_COOKIE['notes_reminders']);
+     unset($_COOKIE['notes']);
      unset($_COOKIE['show_charts']);  
      unset($_COOKIE['show_crypto_value']);  
      unset($_COOKIE['show_secondary_trade_value']);  
@@ -859,7 +859,7 @@ var $pt_array1 = array();
       $input_password_pepper_hashed = hash_hmac("sha256", $input_password, $password_pepper);
       
          if ( $input_password_pepper_hashed == false ) {
-         $this->app_logging('config_error', 'hash_hmac() returned false in the $pt_general->check_pepper_hashed_password() function');
+         $this->app_logging('config_error', 'hash_hmac() returned false in the $pt_gen->check_pepper_hashed_password() function');
          return false;
          }
          else {
@@ -875,7 +875,7 @@ var $pt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function store_cookie_contents($name, $value, $time) {
+   function store_cookie($name, $value, $time) {
       
       if ( PHP_VERSION_ID >= 70300 ) {
          
@@ -2289,12 +2289,12 @@ var $pt_array1 = array();
               // Cookies expire in 1 year (31536000 seconds)
               
               // Portfolio data
-              $this->store_cookie_contents("coin_amounts", $set_coin_values, mktime()+31536000);
-              $this->store_cookie_contents("coin_pairings", $set_pairing_values, mktime()+31536000);
-              $this->store_cookie_contents("coin_markets", $set_market_values, mktime()+31536000);
-              $this->store_cookie_contents("coin_paid", $set_paid_values, mktime()+31536000);
-              $this->store_cookie_contents("coin_leverage", $set_leverage_values, mktime()+31536000);
-              $this->store_cookie_contents("coin_margintype", $set_margintype_values, mktime()+31536000);
+              $this->store_cookie("coin_amounts", $set_coin_values, mktime()+31536000);
+              $this->store_cookie("coin_pairings", $set_pairing_values, mktime()+31536000);
+              $this->store_cookie("coin_markets", $set_market_values, mktime()+31536000);
+              $this->store_cookie("coin_paid", $set_paid_values, mktime()+31536000);
+              $this->store_cookie("coin_leverage", $set_leverage_values, mktime()+31536000);
+              $this->store_cookie("coin_margintype", $set_margintype_values, mktime()+31536000);
               
               
    
@@ -2303,77 +2303,68 @@ var $pt_array1 = array();
                
                   
                   if ( isset($_POST['show_charts']) ) {
-                  $this->store_cookie_contents("show_charts", $_POST['show_charts'], mktime()+31536000);
+                  $this->store_cookie("show_charts", $_POST['show_charts'], mktime()+31536000);
                   }
                   else {
-                  $this->store_cookie_contents("show_charts", "", time()-3600);  // Delete any existing cookies
                   unset($_COOKIE['show_charts']);  // Delete any existing cookies
                   }
                   
                   if ( isset($_POST['show_crypto_value']) ) {
-                  $this->store_cookie_contents("show_crypto_value", $_POST['show_crypto_value'], mktime()+31536000);
+                  $this->store_cookie("show_crypto_value", $_POST['show_crypto_value'], mktime()+31536000);
                   }
                   else {
-                  $this->store_cookie_contents("show_crypto_value", "", time()-3600);  // Delete any existing cookies
                   unset($_COOKIE['show_crypto_value']);  // Delete any existing cookies
                   }
                   
                   if ( isset($_POST['show_secondary_trade_value']) ) {
-                  $this->store_cookie_contents("show_secondary_trade_value", $_POST['show_secondary_trade_value'], mktime()+31536000);
+                  $this->store_cookie("show_secondary_trade_value", $_POST['show_secondary_trade_value'], mktime()+31536000);
                   }
                   else {
-                  $this->store_cookie_contents("show_secondary_trade_value", "", time()-3600);  // Delete any existing cookies
                   unset($_COOKIE['show_secondary_trade_value']);  // Delete any existing cookies
                   }
                   
                   if ( isset($_POST['show_feeds']) ) {
-                  $this->store_cookie_contents("show_feeds", $_POST['show_feeds'], mktime()+31536000);
+                  $this->store_cookie("show_feeds", $_POST['show_feeds'], mktime()+31536000);
                   }
                   else {
-                  $this->store_cookie_contents("show_feeds", "", time()-3600);  // Delete any existing cookies
                   unset($_COOKIE['show_feeds']);  // Delete any existing cookies
                   }
                  
                   if ( isset($_POST['theme_selected']) ) {
-                  $this->store_cookie_contents("theme_selected", $_POST['theme_selected'], mktime()+31536000);
+                  $this->store_cookie("theme_selected", $_POST['theme_selected'], mktime()+31536000);
                   }
                   else {
-                  $this->store_cookie_contents("theme_selected", "", time()-3600);  // Delete any existing cookies
                   unset($_COOKIE['theme_selected']);  // Delete any existing cookies
                   }
                   
                   if ( isset($_POST['sort_by']) ) {
-                  $this->store_cookie_contents("sort_by", $_POST['sort_by'], mktime()+31536000);
+                  $this->store_cookie("sort_by", $_POST['sort_by'], mktime()+31536000);
                   }
                   else {
-                  $this->store_cookie_contents("sort_by", "", time()-3600);  // Delete any existing cookies
                   unset($_COOKIE['sort_by']);  // Delete any existing cookies
                   }
                  
                   if ( isset($_POST['use_alert_percent']) ) {
-                  $this->store_cookie_contents("alert_percent", $_POST['use_alert_percent'], mktime()+31536000);
+                  $this->store_cookie("alert_percent", $_POST['use_alert_percent'], mktime()+31536000);
                   }
                   else {
-                  $this->store_cookie_contents("alert_percent", "", time()-3600);  // Delete any existing cookies
                   unset($_COOKIE['alert_percent']);  // Delete any existing cookies
                   }
                  
                   if ( isset($_POST['primary_currency_market_standalone']) ) {
-                  $this->store_cookie_contents("primary_currency_market_standalone", $_POST['primary_currency_market_standalone'], mktime()+31536000);
+                  $this->store_cookie("primary_currency_market_standalone", $_POST['primary_currency_market_standalone'], mktime()+31536000);
                   }
                   else {
-                  $this->store_cookie_contents("primary_currency_market_standalone", "", time()-3600);  // Delete any existing cookies
                   unset($_COOKIE['primary_currency_market_standalone']);  // Delete any existing cookies
                   }
                  
                
                   // Notes (only creation / deletion here, update logic is in cookies.php)
-                  if ( $_POST['use_notes'] == 1 && !$_COOKIE['notes_reminders'] ) {
-                  $this->store_cookie_contents("notes_reminders", " ", mktime()+31536000); // Initialized with some whitespace when blank
+                  if ( $_POST['use_notes'] == 1 && !$_COOKIE['notes'] ) {
+                  $this->store_cookie("notes", " ", mktime()+31536000); // Initialized with some whitespace when blank
                   }
                   elseif ( $_POST['use_notes'] != 1 ) {
-                  $this->store_cookie_contents("notes_reminders", "", time()-3600);  // Delete any existing cookies
-                  unset($_COOKIE['notes_reminders']);  // Delete any existing cookies
+                  unset($_COOKIE['notes']);  // Delete any existing cookies
                   }
               
               

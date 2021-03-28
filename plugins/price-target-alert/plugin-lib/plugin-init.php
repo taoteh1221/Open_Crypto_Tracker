@@ -33,7 +33,7 @@ $market_exchange = strtolower($market_config[2]);
 
 $market_id = $app_config['portfolio_assets'][$market_asset]['market_pairing'][$market_pairing][$market_exchange];
 
-$market_value = $pt_vars->num_to_str( $pt_exchanges->market($market_asset, $market_exchange, $market_id)['last_trade'] );
+$market_value = $pt_vars->num_to_str( $pt_apis->market($market_asset, $market_exchange, $market_id)['last_trade'] );
 
 	
 	// Get cache data, and / or flag a cache reset

@@ -16,7 +16,7 @@ if ( $runtime_mode == 'ui' ) {
 
 
 	// Check configured charts and price alerts
-	if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'charts' ) {
+	if ( $app_config['developer']['debug_mode'] == 'all' || $app_config['developer']['debug_mode'] == 'alerts_charts' ) {
 		
 		foreach ( $app_config['charts_alerts']['tracked_markets'] as $key => $value ) {
 				
@@ -29,7 +29,7 @@ if ( $runtime_mode == 'ui' ) {
 		$check_pairing_name = $app_config['portfolio_assets'][$check_asset]['market_pairing'][$check_asset_params[1]][$check_asset_params[0]];
 		
 		// Consolidate function calls for runtime speed improvement
-		$charts_test_data = $pt_exchanges->market($check_asset, $check_asset_params[0], $check_pairing_name, $check_asset_params[1]);
+		$charts_test_data = $pt_apis->market($check_asset, $check_asset_params[0], $check_pairing_name, $check_asset_params[1]);
 		
 			if ( $charts_test_data['last_trade'] == NULL ) {
 			app_logging('market_error', 'No chart / alert price data available', 'chart_key: ' . $key . '; market: ' . $check_asset . ' / ' . strtoupper($check_asset_params[1]) . ' @ ' . ucfirst($check_asset_params[0]) );
@@ -83,7 +83,7 @@ if ( $runtime_mode == 'ui' ) {
 					if ( $key != 'misc_assets' ) {
 					
 					// Consolidate function calls for runtime speed improvement
-					$markets_test_data = $pt_exchanges->market( strtoupper($coin_key) , $key, $value, $pairing_key);
+					$markets_test_data = $pt_apis->market( strtoupper($coin_key) , $key, $value, $pairing_key);
 				
 						if ( $markets_test_data['last_trade'] == NULL ) {
 						app_logging('market_error', 'No market price data available for ' . strtoupper($coin_key) . ' / ' . strtoupper($pairing_key) . ' @ ' . snake_case_to_name($key) );

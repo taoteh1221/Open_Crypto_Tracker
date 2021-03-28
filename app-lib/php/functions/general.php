@@ -1575,7 +1575,7 @@ function delete_all_cookies() {
   
   // Settings
   unset($_COOKIE['coin_reload']);  
-  unset($_COOKIE['notes_reminders']);
+  unset($_COOKIE['notes']);
   unset($_COOKIE['show_charts']);  
   unset($_COOKIE['show_crypto_value']);  
   unset($_COOKIE['show_secondary_trade_value']);  
@@ -2388,8 +2388,9 @@ global $app_version, $app_config;
 	}
 
 // Stop injection vulnerability
-$app_config['comms']['from_email'] = str_replace("\r\n", "", $app_config['comms']['from_email']); // windows -> unix
-$app_config['comms']['from_email'] = str_replace("\r", "", $app_config['comms']['from_email']);   // remaining -> unix
+$app_config['comms']['from_email'] = str_replace("\r\n", "", $app_config['comms']['from_email']);
+$app_config['comms']['from_email'] = str_replace("\r", "", $app_config['comms']['from_email']);
+$app_config['comms']['from_email'] = str_replace("\n", "", $app_config['comms']['from_email']);
 
 // Trim any (remaining) whitespace off ends
 $app_config['comms']['from_email'] = trim($app_config['comms']['from_email']);
