@@ -28,7 +28,7 @@ $_SESSION[$fetched_feeds] = false;
 	 
 
 // Re-cache marketcap data for faster UI runtimes later
-$coingecko_api = $pt_apis->coingecko_api();
+$coingecko_api = $pt_apis->coingecko();
 	 
 	 
 // Re-cache chain data for faster UI runtimes later

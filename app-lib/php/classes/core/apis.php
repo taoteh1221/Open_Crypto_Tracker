@@ -48,7 +48,7 @@ var $pt_array1 = array();
    ////////////////////////////////////////////////////////
    
    
-   function coingecko_api($force_primary_currency=null) {
+   function coingecko($force_primary_currency=null) {
       
    global $base_dir, $app_config, $pt_cache;
    

@@ -326,7 +326,7 @@ $data = array();
 			
 		$app_notice = 'Forcing '.strtoupper($force_currency).' stats.';
 		
-		$coingecko_api_no_overwrite = $pt_apis->coingecko_api($force_currency);
+		$coingecko_api_no_overwrite = $pt_apis->coingecko($force_currency);
 			
 			// Overwrite previous app notice and unset force usd flag, if this appears to be a data error rather than an unsupported language
 			if ( !isset($coingecko_api_no_overwrite['btc']['market_cap_rank']) ) {
@@ -340,7 +340,7 @@ $data = array();
 		
 		$cap_data_force_usd = 1;
 		
-		$coingecko_api = $pt_apis->coingecko_api('usd');
+		$coingecko_api = $pt_apis->coingecko('usd');
 			
 			// Overwrite previous app notice and unset force usd flag, if this appears to be a data error rather than an unsupported language
 			if ( !isset($coingecko_api['btc']['market_cap_rank']) ) {

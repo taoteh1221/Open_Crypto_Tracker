@@ -336,7 +336,7 @@ var $pt_array1 = array();
          
        $app_notice = 'Forcing '.strtoupper($force_currency).' stats.';
        
-       $coingecko_api_no_overwrite = $pt_apis->coingecko_api($force_currency);
+       $coingecko_api_no_overwrite = $pt_apis->coingecko($force_currency);
          
          // Overwrite previous app notice and unset force usd flag, if this appears to be a data error rather than an unsupported language
          if ( !isset($coingecko_api_no_overwrite['btc']['market_cap_rank']) ) {
@@ -350,7 +350,7 @@ var $pt_array1 = array();
        
        $cap_data_force_usd = 1;
        
-       $coingecko_api = $pt_apis->coingecko_api('usd');
+       $coingecko_api = $pt_apis->coingecko('usd');
          
          // Overwrite previous app notice and unset force usd flag, if this appears to be a data error rather than an unsupported language
          if ( !isset($coingecko_api['btc']['market_cap_rank']) ) {
@@ -1161,7 +1161,7 @@ var $pt_array1 = array();
       // Consolidate function calls for runtime speed improvement
       // (called here so first runtime with NO SELECTED ASSETS RUNS SIGNIFICANTLY QUICKER)
       if ( $app_config['general']['primary_marketcap_site'] == 'coingecko' && sizeof($coingecko_api) < 1 ) {
-      $coingecko_api = $pt_apis->coingecko_api();
+      $coingecko_api = $pt_apis->coingecko();
       }
       elseif ( $app_config['general']['primary_marketcap_site'] == 'coinmarketcap' && sizeof($coinmarketcap_api) < 1 ) {
       $coinmarketcap_api = $pt_apis->coinmarketcap();
