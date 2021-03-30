@@ -43,6 +43,11 @@ $pairing_btc_value = pairing_btc_value($asset);
 	$address_balance = $plug_class[$this_plug]->eth_addr_bal($address);
 	}
 	
+	
+	if ( !$address_balance ) {
+    app_logging('ext_data_error', strtoupper($asset) . ' address balance retrieval failed in the "' . $this_plug . '" plugin, no API data received');
+	}
+	
 
 // Get primary currency value of the current address balance
 $coin_prim_curr_worth_raw = $ocpt_var->num_to_str( ($address_balance * $pairing_btc_value) * $sel_btc_prim_curr_value );

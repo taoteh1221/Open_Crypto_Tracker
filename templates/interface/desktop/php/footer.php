@@ -23,7 +23,7 @@
 	
 	$bundle_error_logs .= $logs_array['security_error'];
 	
-	$bundle_error_logs .= $logs_array['ext_api_error'];
+	$bundle_error_logs .= $logs_array['ext_data_error'];
 	
 	$bundle_error_logs .= $logs_array['int_api_error'];
 	
@@ -49,7 +49,7 @@
 	
 	$bundle_error_logs .= $logs_array['security_debugging'];
 	
-	$bundle_error_logs .= $logs_array['ext_api_debugging'];
+	$bundle_error_logs .= $logs_array['ext_data_debugging'];
 	
 	$bundle_error_logs .= $logs_array['int_api_debugging'];
 	

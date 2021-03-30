@@ -220,16 +220,16 @@ foreach ( $activated_plugins['cron'] as $plugin_key => $plugin_value ) {
 		
 	$this_plug = $plugin_key;
 	
+		// This plugin's functions (only if the file exists)
+		if ( file_exists($base_dir . '/plugins/'.$this_plug.'/plug-lib/plug-class.php') ) {
+      include($base_dir . 'plugins/'.$this_plug.'/plug-lib/plug-class.php');
+		}
+	
 	// This plugin's config (from the global app config)
 	$plug_conf[$this_plug] = $ocpt_conf['plugin_config'][$this_plug]; 
 	
-		// This plugin's functions (only if the file exists)
-		if ( file_exists($base_dir . '/plugins/'.$this_plug.'/plug-lib/plug-class.php') ) {
-      require($base_dir . 'plugins/'.$this_plug.'/plug-lib/plug-class.php');
-		}
-	
 	// This plugin's plug-init.php file (runs the plugin)
-	require($plugin_value);
+	include($plugin_value);
 	
 	// Reset $this_plug at end of loop
 	$this_plug = null; 

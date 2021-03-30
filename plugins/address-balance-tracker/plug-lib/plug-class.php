@@ -37,7 +37,14 @@ var $ocpt_array1 = array();
 			 
 	$data = json_decode($jsondata, true);
 		   
-	return $ocpt_var->num_to_str( $data['final_balance'] / 100000000 ); // Convert sats to BTC
+		   
+		if ( isset($data['final_balance']) ) {
+		return $ocpt_var->num_to_str( $data['final_balance'] / 100000000 ); // Convert sats to BTC
+		}
+		else {
+		return false;
+		}
+		
 		
 	}
 		
@@ -59,7 +66,14 @@ var $ocpt_array1 = array();
 			 
 	$data = json_decode($jsondata, true);
 		   
-	return $ocpt_var->num_to_str( $data['result'] / 1000000000000000000 ); // Convert wei to ETH
+		   
+		if ( isset($data['result']) ) {
+		return $ocpt_var->num_to_str( $data['result'] / 1000000000000000000 ); // Convert wei to ETH
+		}
+		else {
+		return false;
+		}
+		
 		
 	}
 		

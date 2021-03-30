@@ -327,7 +327,7 @@ $debugging_logs .= strip_tags($logs_array['config_debugging']); // Remove any HT
 
 $debugging_logs .= strip_tags($logs_array['security_debugging']); // Remove any HTML formatting used in UI alerts
 
-$debugging_logs .= strip_tags($logs_array['ext_api_debugging']); // Remove any HTML formatting used in UI alerts
+$debugging_logs .= strip_tags($logs_array['ext_data_debugging']); // Remove any HTML formatting used in UI alerts
 
 $debugging_logs .= strip_tags($logs_array['int_api_debugging']); // Remove any HTML formatting used in UI alerts
 
@@ -416,7 +416,7 @@ $error_logs .= strip_tags($logs_array['config_error']); // Remove any HTML forma
 
 $error_logs .= strip_tags($logs_array['security_error']); // Remove any HTML formatting used in UI alerts
 
-$error_logs .= strip_tags($logs_array['ext_api_error']); // Remove any HTML formatting used in UI alerts
+$error_logs .= strip_tags($logs_array['ext_data_error']); // Remove any HTML formatting used in UI alerts
 
 $error_logs .= strip_tags($logs_array['int_api_error']); // Remove any HTML formatting used in UI alerts
 
@@ -516,7 +516,7 @@ $port = $ip_port[1];
 
 	// If no ip/port detected in data string, cancel and continue runtime
 	if ( !$ip || !$port ) {
-	app_logging('ext_api_error', 'proxy '.$problem_proxy.' is not a valid format');
+	app_logging('ext_data_error', 'proxy '.$problem_proxy.' is not a valid format');
 	return false;
 	}
 
@@ -583,7 +583,7 @@ $cache_filename = preg_replace("/:/", "_", $cache_filename);
 		
 		// Log to error logs
 		if ( $misconfigured == 1 ) {
-		app_logging('ext_api_error', 'proxy '.$problem_proxy.' connection failed', $cached_logs);
+		app_logging('ext_data_error', 'proxy '.$problem_proxy.' connection failed', $cached_logs);
 		}
 	
 

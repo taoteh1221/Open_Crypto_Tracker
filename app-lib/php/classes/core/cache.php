@@ -418,7 +418,7 @@ var $ocpt_array1 = array();
   
   $debugging_logs .= strip_tags($logs_array['security_debugging']); // Remove any HTML formatting used in UI alerts
   
-  $debugging_logs .= strip_tags($logs_array['ext_api_debugging']); // Remove any HTML formatting used in UI alerts
+  $debugging_logs .= strip_tags($logs_array['ext_data_debugging']); // Remove any HTML formatting used in UI alerts
   
   $debugging_logs .= strip_tags($logs_array['int_api_debugging']); // Remove any HTML formatting used in UI alerts
   
@@ -507,7 +507,7 @@ var $ocpt_array1 = array();
   
   $error_logs .= strip_tags($logs_array['security_error']); // Remove any HTML formatting used in UI alerts
   
-  $error_logs .= strip_tags($logs_array['ext_api_error']); // Remove any HTML formatting used in UI alerts
+  $error_logs .= strip_tags($logs_array['ext_data_error']); // Remove any HTML formatting used in UI alerts
   
   $error_logs .= strip_tags($logs_array['int_api_error']); // Remove any HTML formatting used in UI alerts
   
@@ -597,7 +597,7 @@ var $ocpt_array1 = array();
    
     // API timeouts are a confirmed cause for write errors of 0 bytes, so we want to alert end users that they may need to adjust their API timeout settings to get associated API data
     if ( preg_match("/cache\/secured\/apis/i", $file) ) {
-    app_logging('ext_api_error', 'POSSIBLE api timeout' . ( $ocpt_conf['dev']['remote_api_strict_ssl'] == 'on' ? ' or strict_ssl' : '' ) . ' issue for cache file "' . obfuscated_path_data($file) . '" (IF ISSUE PERSISTS, TRY INCREASING "remote_api_timeout" IN Admin Config POWER USER SECTION' . ( $ocpt_conf['dev']['remote_api_strict_ssl'] == 'on' ? ', OR SETTING "remote_api_strict_ssl" to "off" IN Admin Config DEVELOPER SECTION' : '' ) . ')', 'remote_api_timeout: '.$ocpt_conf['power']['remote_api_timeout'].' seconds; remote_api_strict_ssl: ' . $ocpt_conf['dev']['remote_api_strict_ssl'] . ';');
+    app_logging('ext_data_error', 'POSSIBLE api timeout' . ( $ocpt_conf['dev']['remote_api_strict_ssl'] == 'on' ? ' or strict_ssl' : '' ) . ' issue for cache file "' . obfuscated_path_data($file) . '" (IF ISSUE PERSISTS, TRY INCREASING "remote_api_timeout" IN Admin Config POWER USER SECTION' . ( $ocpt_conf['dev']['remote_api_strict_ssl'] == 'on' ? ', OR SETTING "remote_api_strict_ssl" to "off" IN Admin Config DEVELOPER SECTION' : '' ) . ')', 'remote_api_timeout: '.$ocpt_conf['power']['remote_api_timeout'].' seconds; remote_api_strict_ssl: ' . $ocpt_conf['dev']['remote_api_strict_ssl'] . ';');
     }
    
    return false;
@@ -721,7 +721,7 @@ var $ocpt_array1 = array();
   
    // If no ip/port detected in data string, cancel and continue runtime
    if ( !$ip || !$port ) {
-   app_logging('ext_api_error', 'proxy '.$problem_proxy.' is not a valid format');
+   app_logging('ext_data_error', 'proxy '.$problem_proxy.' is not a valid format');
    return false;
    }
   
@@ -788,7 +788,7 @@ var $ocpt_array1 = array();
     
     // Log to error logs
     if ( $misconfigured == 1 ) {
-    app_logging('ext_api_error', 'proxy '.$problem_proxy.' connection failed', $cached_logs);
+    app_logging('ext_data_error', 'proxy '.$problem_proxy.' connection failed', $cached_logs);
     }
    
   
@@ -1615,7 +1615,7 @@ var $ocpt_array1 = array();
     app_logging( 'cache_error', 'no RUNTIME CACHE data from failure with ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint), 'requested_from: cache ('.$logs_array['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ocpt_var->obfuscate_str($hash_check, 4) . ';', $hash_check );
      
     }
-    elseif ( $ocpt_conf['dev']['debug'] == 'all' || $ocpt_conf['dev']['debug'] == 'all_telemetry' || $ocpt_conf['dev']['debug'] == 'ext_api_cache_telemetry' ) {
+    elseif ( $ocpt_conf['dev']['debug'] == 'all' || $ocpt_conf['dev']['debug'] == 'all_telemetry' || $ocpt_conf['dev']['debug'] == 'ext_data_cache_telemetry' ) {
     
      if ( !$logs_array['debugging_duplicates'][$hash_check] ) {
      $logs_array['debugging_duplicates'][$hash_check] = 1; 
@@ -1697,7 +1697,7 @@ var $ocpt_array1 = array();
   
      // If no ip/port detected in data string, cancel and continue runtime
      if ( !$ip || !$port ) {
-     app_logging('ext_api_error', 'proxy '.$current_proxy.' is not a valid format');
+     app_logging('ext_data_error', 'proxy '.$current_proxy.' is not a valid format');
      return false;
      }
   
@@ -1887,7 +1887,7 @@ var $ocpt_array1 = array();
    
     
     // LOG-SAFE VERSION (no post data with API keys etc)
-    app_logging('ext_api_error', 'connection failed ('.$data_bytes_ux.' received) for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint) . $log_append, 'requested_from: server (' . $ocpt_conf['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ocpt_var->obfuscate_str($hash_check, 4) . ';' );
+    app_logging('ext_data_error', 'connection failed ('.$data_bytes_ux.' received) for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint) . $log_append, 'requested_from: server (' . $ocpt_conf['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ocpt_var->obfuscate_str($hash_check, 4) . ';' );
     
     
      if ( sizeof($ocpt_conf['proxy']['proxy_list']) > 0 && $current_proxy != '' && $mode != 'proxy-check' ) { // Avoid infinite loops doing proxy checks
@@ -1931,7 +1931,7 @@ var $ocpt_array1 = array();
       $error_response_log = '/cache/logs/errors/external_api/error-response-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-hash-'.$hash_check.'-timestamp-'.time().'.log';
       
       // LOG-SAFE VERSION (no post data with API keys etc)
-       app_logging('ext_api_error', 'POSSIBLE error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint), 'requested_from: server (' . $ocpt_conf['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; debug_file: ' . $error_response_log . '; btc_prim_curr_pairing: ' . $ocpt_conf['gen']['btc_prim_curr_pairing'] . '; btc_prim_exchange: ' . $ocpt_conf['gen']['btc_prim_exchange'] . '; btc_prim_curr_value: ' . $ocpt_var->num_to_str($sel_btc_prim_curr_value) . '; hash_check: ' . $ocpt_var->obfuscate_str($hash_check, 4) . ';' );
+       app_logging('ext_data_error', 'POSSIBLE error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint), 'requested_from: server (' . $ocpt_conf['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; debug_file: ' . $error_response_log . '; btc_prim_curr_pairing: ' . $ocpt_conf['gen']['btc_prim_curr_pairing'] . '; btc_prim_exchange: ' . $ocpt_conf['gen']['btc_prim_exchange'] . '; btc_prim_curr_value: ' . $ocpt_var->num_to_str($sel_btc_prim_curr_value) . '; hash_check: ' . $ocpt_var->obfuscate_str($hash_check, 4) . ';' );
       
       // Log this error response from this data request
       $this->save_file($base_dir . $error_response_log, $data);
@@ -1995,7 +1995,7 @@ var $ocpt_array1 = array();
        
        
       // LOG-SAFE VERSION (no post data with API keys etc)
-      app_logging('ext_api_error', 'CONFIRMED error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint) . $log_append, 'requested_from: server (' . $ocpt_conf['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; btc_prim_curr_pairing: ' . $ocpt_conf['gen']['btc_prim_curr_pairing'] . '; btc_prim_exchange: ' . $ocpt_conf['gen']['btc_prim_exchange'] . '; btc_prim_curr_value: ' . $ocpt_var->num_to_str($sel_btc_prim_curr_value) . '; hash_check: ' . $ocpt_var->obfuscate_str($hash_check, 4) . ';' );
+      app_logging('ext_data_error', 'CONFIRMED error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint) . $log_append, 'requested_from: server (' . $ocpt_conf['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; btc_prim_curr_pairing: ' . $ocpt_conf['gen']['btc_prim_curr_pairing'] . '; btc_prim_exchange: ' . $ocpt_conf['gen']['btc_prim_exchange'] . '; btc_prim_curr_value: ' . $ocpt_var->num_to_str($sel_btc_prim_curr_value) . '; hash_check: ' . $ocpt_var->obfuscate_str($hash_check, 4) . ';' );
        
      
       }
@@ -2008,10 +2008,10 @@ var $ocpt_array1 = array();
     
     
      // Data debugging telemetry
-     if ( $ocpt_conf['dev']['debug'] == 'all' || $ocpt_conf['dev']['debug'] == 'all_telemetry' || $ocpt_conf['dev']['debug'] == 'ext_api_live_telemetry' ) {
+     if ( $ocpt_conf['dev']['debug'] == 'all' || $ocpt_conf['dev']['debug'] == 'all_telemetry' || $ocpt_conf['dev']['debug'] == 'ext_data_live_telemetry' ) {
       
      // LOG-SAFE VERSION (no post data with API keys etc)
-     app_logging('ext_api_debugging', 'LIVE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint), 'requested_from: server (' . $ocpt_conf['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ocpt_var->obfuscate_str($hash_check, 4) . ';' );
+     app_logging('ext_data_debugging', 'LIVE request for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint), 'requested_from: server (' . $ocpt_conf['power']['remote_api_timeout'] . ' second timeout); live_request_time: ' . $api_total_time . ' seconds; mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ocpt_var->obfuscate_str($hash_check, 4) . ';' );
      
      // Log this as the latest response from this data request
      $this->save_file($base_dir . '/cache/logs/debugging/external_api/last-response-'.preg_replace("/\./", "_", $endpoint_tld_or_ip).'-'.$hash_check.'.log', $data);
@@ -2041,10 +2041,10 @@ var $ocpt_array1 = array();
      
     
      if ( $store_file_contents == false && isset($fallback_cache_data) ) {
-     app_logging('ext_api_error', 'Cache file touch() error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint), 'data_size_bytes: ' . strlen($api_runtime_cache[$hash_check]) . ' bytes');
+     app_logging('ext_data_error', 'Cache file touch() error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint), 'data_size_bytes: ' . strlen($api_runtime_cache[$hash_check]) . ' bytes');
      }
      elseif ( $store_file_contents == false && !isset($fallback_cache_data) ) {
-     app_logging('ext_api_error', 'Cache file write error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint), 'data_size_bytes: ' . strlen($api_runtime_cache[$hash_check]) . ' bytes');
+     app_logging('ext_data_error', 'Cache file write error for ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint), 'data_size_bytes: ' . strlen($api_runtime_cache[$hash_check]) . ' bytes');
      }
     
     }
@@ -2103,7 +2103,7 @@ var $ocpt_array1 = array();
     app_logging('cache_error', 'no FILE CACHE data from failure with ' . ( $mode == 'params' ? 'server at ' : 'endpoint at ' ) . obfuscated_url_data($api_endpoint), 'requested_from: cache ('.$logs_array['error_duplicates'][$hash_check].' runtime instances); mode: ' . $mode . '; received: ' . $data_bytes_ux . '; proxy: ' .( $current_proxy ? $current_proxy : 'none' ) . '; hash_check: ' . $ocpt_var->obfuscate_str($hash_check, 4) . ';', $hash_check );
      
     }
-    elseif ( $ocpt_conf['dev']['debug'] == 'all' || $ocpt_conf['dev']['debug'] == 'all_telemetry' || $ocpt_conf['dev']['debug'] == 'ext_api_cache_telemetry' ) {
+    elseif ( $ocpt_conf['dev']['debug'] == 'all' || $ocpt_conf['dev']['debug'] == 'all_telemetry' || $ocpt_conf['dev']['debug'] == 'ext_data_cache_telemetry' ) {
     
      if ( !$logs_array['debugging_duplicates'][$hash_check] ) {
      $logs_array['debugging_duplicates'][$hash_check] = 1; 

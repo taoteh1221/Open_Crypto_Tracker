@@ -41,6 +41,9 @@ Double-check that the internal API (AND EVERYTHING ELSE) still works, after all 
 FIAT-EQUIVELENT price charts displaying / being checked off as selected seems to be acting up again? KEEP AN EYE ON IT.
 
 
+See if there are anymore decent open source / lightweight (small file size) .ttf font files out there, to add a bit more entropy to the captcha image letters / numbers, for higher security.
+
+
 Add "do not disturb - start" and "do not disturb - end" configuration settings to the recurring reminder plugin.
 
 
